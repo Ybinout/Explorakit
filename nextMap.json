@@ -1,0 +1,38 @@
+{
+    "maps": [
+        {
+            "mapName": "pk1",
+            "mapchange": [
+                {
+                    "valX": 0,
+                    "valY": null,
+                    "goto": "pk2",
+                    "nexX": 10,
+                    "nexY": 10
+                },
+                {
+                    "valX": null,
+                    "valY": 0,
+                    "goto": "pk2",
+                    "nexY": 608
+                }
+            ],
+            "wildpokemon": [1 ,2 ,3 ,4]
+        },
+        {
+            "mapName": "pk2",
+            "mapchange": [
+                {
+                    "valX": null,
+                    "valY": 19,
+                    "goto": "pk1",
+                    "nexY": 32
+                }
+            ]
+        },
+        {
+            "mapName": "pk3",
+            "mapchange": []
+        }
+    ]
+}
