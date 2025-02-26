@@ -6,7 +6,8 @@ class Equipe {
     ajouterPokemon(pokemon) {
         if (this.pokemons.length < 6) {
             this.pokemons.push(pokemon);
-            console.log(`${pokemon.nom} a été ajouté à l'équipe !`);
+            // console.log(`${pokemon.truename} a été ajouté à l'équipe !`);
+            // console.log(pokemon);
         } else {
             console.log("L'équipe est pleine !");
         }

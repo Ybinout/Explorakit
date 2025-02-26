@@ -1,0 +1,79 @@
+import Pokemon from "./pokemon"
+
+BDD:
+insérer dans la base la team ////////////////////////////////////////
+edit la team supprimer lors de doublon  
+charger la team 
+ajouter coordonée / map 
+
+
+SKIN:
+faire animation du joueur //////////////////////////////////////////
+faire les annimation des autres joueurs
+ajouter des skins personalisable
+
+
+MENU:
+Creation du menu avec son
+Creation menu team
+Creation menu map
+Creation menu Option
+Creation menu pokedex
+Creation menu save
+Creation menu bag
+
+DIALOG:
+creer transition game / dialog
+Ajouter un modul de dialog Image ////////////
+Ajouter du son ////////////////
+integrer le module avec le server 
+ajouter systeme de repose OUI / NON
+
+INTERACT:
+creer interact (interaction user png ... ) les hitbox activable via bouton espace ////////////////////////////////////////////////
+trigger interact avec les dialogue /////////////////////////////////////////////////////////////////////////
+start/link combat avec interact
+
+COMBATPNJ:
+Creer json team pnj
+Build pnj team
+pnjbattle.js
+
+
+MAP:
+Creer les map de jeu 
+Creer les arenes 
+Creer le centre Pokemon
+Creer le Shop 
+Creer les interieurs
+
+PHOTO:
+Générer mounir ///////////////////////
+Générer raph ///////////////////////
+Générer hoze ///////////////////////
+Générer prof 1 et 2 ///////////////////////
+Générer ana ///////////////////////
+Générer wanda ///////////////////////
+Générer soeur 
+Générer mere ///////////////////////
+Générer boy ///////////////////////
+Générer lady
+Générer Gary ///////////////////////
+Générer Dame 
+Générer Monsieur
+Générer cynthia
+
+Musique:
+musique menu /////////////////////////
+musique mounir 
+musique raph 
+musique hoze 
+musique prof 
+musique ana 
+musique wanda 
+musique soeur 
+musique combat base /////////////////////////
+musique pnj
+musique ambiance de base /////////////////////
+musique cynthia
+musique centre

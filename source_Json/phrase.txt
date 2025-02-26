@@ -1,0 +1,52 @@
+
+
+Hoze, Champion d'Arène :
+Avant le combat :
+Hoze : "On m'a dit que tu étais un nouveau Dresseur en quête d’aventure. Ici, ce n’est pas l'endroit pour ceux qui hésitent.
+Tu crois avoir ce qu’il faut pour me battre ? Montre-moi ce que tu as dans le ventre, ou bien retourne t’entraîner !"
+
+Après le combat :
+Hoze : "Je n’avais pas vu un tel potentiel depuis un moment. Bien joué ! Si tu cherches des réponses à tes questions, va parler à Raphael.
+C’est un type un peu étrange, mais il a l’air de tout savoir ce qui se passe par ici. Je suis sûr qu'il pourrait t’aider... si tu parviens à le convaincre."
+
+
+
+
+Raphael, Champion d'Arène :
+Avant le combat :
+Raphael : "Oh, alors tu es celui dont tout le monde parle... Tu cherches des réponses, n’est-ce pas ?
+La vérité est parfois bien plus proche qu'on ne le pense. Mais avant que je t'en dise plus, il va falloir que tu me montres ta force. Si tu n'es pas capable de me battre, 
+tu n'es pas prêt pour ce qui t'attend."
+Après le combat :
+
+Raphael : "Tu as prouvé ta valeur... mais la vérité est complexe. L’Aube Obscure... Clara... 
+Continue ta quête, trouve Ana. Parfois, la vérité doit être découverte par soi-même."
+
+
+
+
+
+Ana, Championne d'Arène :
+Avant le combat :
+Ana : "Alors, tu es celui qui cherche désespérément des réponses ? Hm, tout le monde semble penser que je pourrais t'aider. 
+Mais tu n’obtiendras rien sans prouver que tu es digne de ces informations. On va régler ça de la manière la plus simple : un combat. Si tu gagnes, je te dirai ce que je sais."
+Après le combat :
+
+Ana : "Tu es bien plus persévérant que je ne le pensais. Très bien, voici ce que je sais. Clara… elle s’est retrouvée mêlée à une organisation dangereuse. Ils se font appeler l’Aube Obscure. 
+Je ne sais pas exactement ce qu’ils lui veulent, mais si tu veux la retrouver, tu dois poursuivre ta quête. Va dans la ville voisine. Tu y trouveras ma soeur qui pourra t’orienter davantage. mais attention ..."
+
+
+
+Wanda, Championne d'Arène (arrogante) :
+Avant le combat :
+
+Wanda : "Toi ? Tu veux te mesurer à moi ? Ha ! Tu crois vraiment que tu peux me battre ? Je suis d’un autre niveau, rien à voir avec les champions faibles que tu as déjà vaincus.
+ Mais bon, si tu veux tant que ça te ridiculiser, je te laisse une chance. Ne te fais pas d’illusions, ce combat ne durera pas longtemps."
+Après le combat :
+
+Wanda : "Impressionnant. une seul autre personne à déjà reussi à me battre , je dois reconnaître que tu es plus coriace que je ne l’aurais imaginé. 
+Très bien, je vais t’expliquer. 
+L’Aube Obscure... ce n’est pas une simple rumeur, c’est une organisation bien réelle... je l'ai fondée avec une vision : celle de sauver ce monde en le rééquilibrant avec la nature. 
+Mais leurs méthodes sont devenues bien trop extrêmes. Ils sont prêts à tout sacrifier, peu importe les vies qu'ils détruisent sur leur passage. J’ai quitté l'organisation quand j’ai vu à quel point ils avaient dévié de notre objectif initial..
+Ils se prétendent les sauveurs de ce monde, mais leurs méthodes sont radicales. 
+Ils veulent tout sacrifier pour restaurer un équilibre avec la nature, sans se soucier des vies qu'ils brisent. et Ta sœur... pourrait être en grand danger. Si tu tiens à savoir ce qui l’attend, rends-toi dans la prochaine ville. "

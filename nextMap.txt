@@ -1,0 +1,1 @@
+nextmap fonctionne avec le nombre de case par rapport a tiled , de 0 a 27 largeur ou 0 à 19 en hauteur

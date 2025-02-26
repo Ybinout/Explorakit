@@ -1,22 +1,22 @@
 const typeEffectiveness = {
-    normal: { ghost: 0 },
-    fire: { fire: 0.5, water: 0.5, grass: 2, ice: 2, bug: 2, rock: 0.5, steel: 2 },
-    water: { fire: 2, water: 0.5, grass: 0.5, ground: 2, rock: 2 },
-    electric: { water: 2, electric: 0.5, ground: 0, flying: 2 },
-    grass: { fire: 0.5, water: 2, grass: 0.5, poison: 0.5, ground: 2, rock: 2, bug: 0.5 },
-    ice: { fire: 0.5, water: 0.5, grass: 2, ice: 0.5, ground: 2, flying: 2, dragon: 2 },
-    fighting: { normal: 2, ice: 2, rock: 2, dark: 2, steel: 2, fairy: 0.5, flying: 0.5, psychic: 0.5, bug: 0.5, poison: 0.5 },
-    poison: { grass: 2, fairy: 2, poison: 0.5, ground: 0.5, rock: 0.5, ghost: 0.5, steel: 0 },
-    ground: { fire: 2, electric: 2, poison: 2, rock: 2, steel: 2, grass: 0.5, ice: 0.5, bug: 0.5 },
-    flying: { grass: 2, fighting: 2, bug: 2, electric: 0.5, rock: 0.5, steel: 0.5 },
-    psychic: { fighting: 2, poison: 2, psychic: 0.5, dark: 0, steel: 0.5 },
-    bug: { grass: 2, psychic: 2, dark: 2, fire: 0.5, fighting: 0.5, poison: 0.5, flying: 0.5, ghost: 0.5, steel: 0.5 },
-    rock: { fire: 2, ice: 2, flying: 2, bug: 2, steel: 0.5, fighting: 0.5, ground: 0.5 },
-    ghost: { psychic: 2, ghost: 2, dark: 0.5, normal: 0 },
-    dragon: { dragon: 2, steel: 0.5, fairy: 0 },
-    dark: { psychic: 2, ghost: 2, fighting: 0.5, dark: 0.5, fairy: 0.5 },
-    steel: { ice: 2, rock: 2, fairy: 2, fire: 0.5, water: 0.5, electric: 0.5, steel: 0.5 },
-    fairy: { fighting: 2, dragon: 2, dark: 2, poison: 0.5, steel: 0.5 }
+    Normal: { Ghost: 0 },
+    Fire: { Fire: 0.5, Water: 0.5, Grass: 2, Ice: 2, Bug: 2, Rock: 0.5, Steel: 2 },
+    Water: { Fire: 2, Water: 0.5, Grass: 0.5, Ground: 2, Rock: 2 },
+    Electric: { Water: 2, Electric: 0.5, Ground: 0, Flying: 2 },
+    Grass: { Fire: 0.5, Water: 2, Grass: 0.5, Poison: 0.5, Ground: 2, Rock: 2, Bug: 0.5 },
+    Ice: { Fire: 0.5, Water: 0.5, Grass: 2, Ice: 0.5, Ground: 2, Flying: 2, Dragon: 2 },
+    Fighting: { Normal: 2, Ice: 2, Rock: 2, Dark: 2, Steel: 2, Fairy: 0.5, Flying: 0.5, Psychic: 0.5, Bug: 0.5, Poison: 0.5 },
+    Poison: { Grass: 2, Fairy: 2, Poison: 0.5, Ground: 0.5, Rock: 0.5, Ghost: 0.5, Steel: 0 },
+    Ground: { Fire: 2, Electric: 2, Poison: 2, Rock: 2, Steel: 2, Grass: 0.5, Ice: 0.5, Bug: 0.5 },
+    Flying: { Grass: 2, Fighting: 2, Bug: 2, Electric: 0.5, Rock: 0.5, Steel: 0.5 },
+    Psychic: { Fighting: 2, Poison: 2, Psychic: 0.5, Dark: 0, Steel: 0.5 },
+    Bug: { Grass: 2, Psychic: 2, Dark: 2, Fire: 0.5, Fighting: 0.5, Poison: 0.5, Flying: 0.5, Ghost: 0.5, Steel: 0.5 },
+    Rock: { Fire: 2, Ice: 2, Flying: 2, Bug: 2, Steel: 0.5, Fighting: 0.5, Ground: 0.5 },
+    Ghost: { Psychic: 2, Ghost: 2, Dark: 0.5, Normal: 0 },
+    Dragon: { Dragon: 2, Steel: 0.5, Fairy: 0 },
+    Dark: { Psychic: 2, Ghost: 2, Fighting: 0.5, Dark: 0.5, Fairy: 0.5 },
+    Steel: { Ice: 2, Rock: 2, Fairy: 2, Fire: 0.5, Water: 0.5, Electric: 0.5, Steel: 0.5 },
+    Fairy: { Fighting: 2, Dragon: 2, Dark: 2, Poison: 0.5, Steel: 0.5 }
 };
 
 function getEffectiveness(attackingType, defendingType) {
@@ -24,11 +24,12 @@ function getEffectiveness(attackingType, defendingType) {
 }
 
 function calculateDamage(pokemonATK, PokemonDFS, ATK) {
-    let Efficacite = getEffectiveness(ATK.type, PokemonDFS.type[0]) * getEffectiveness(ATK.type, PokemonDFS.type[1]);
+    // console.log(ATK ,'dada');
+    let Efficacite = getEffectiveness(ATK.type, PokemonDFS.type1) * getEffectiveness(ATK.type, PokemonDFS.type2);
     NivATKan = pokemonATK.level
     Puissanceatk = ATK.power
     STAB = 1;
-    if (ATK.type == pokemonATK.type[0] || ATK.type == pokemonATK.type[1]) {
+    if (ATK.type == pokemonATK.type1 || ATK.type == pokemonATK.type2) {
         STAB = 1.5;
     }
     if (ATK.category == 'phy') {
@@ -39,6 +40,7 @@ function calculateDamage(pokemonATK, PokemonDFS, ATK) {
         DefenseDFS = PokemonDFS.currentSpecialDefense
     }
     let damage = ((((((2 * NivATKan / 5) + 2) * AttaqueATKan * Puissanceatk) / DefenseDFS) / 50) + 2) * STAB * Efficacite;
+    // console.log('les dgts',damage);
     return Math.round(damage);
 }
 
@@ -53,11 +55,58 @@ function poisonDamage(pokemon) {
 }
 
 
-function upStat(pokemon , stat){
+function upStat(pokemon, stat) {
 
 }
 
 
-function downStat(pokemon , stat){
+function downStat(pokemon, stat) {
 
 }
+
+function useattack(attaque, pokemon1, pokemon2) {
+    
+    const fs = require('fs');
+
+    // Charger les données depuis le fichier
+    const loadData = () => {
+        console.log("DATA NNNNN");
+        
+        const data = fs.readFileSync('source_Json/moves.json', 'utf8');
+        return JSON.parse(data);
+    };
+
+    const findAttack = (attaque) => {
+        console.log("sofiane .......3");
+        
+        const moves = loadData();
+    
+        console.log(moves , "asasasassas");
+        
+        for (let move of moves) {
+            console.log(move.ename);
+            
+            if (move.ename === attaque) {
+                return move;
+            }
+        }
+    
+        return null;
+    };
+    
+    const correspondingMove = findAttack(attaque);
+
+    // console.log('correspjndingt move',correspondingMove);
+    //gerer le si attaque est spe ou dmg
+
+
+    //gerer burn elec glace para
+
+    //inflige dmg , creer putdmg dans pokemon
+
+   
+    
+    pokemon2.putdmg(calculateDamage(pokemon1, pokemon2, correspondingMove))
+}
+
+module.exports = useattack; 

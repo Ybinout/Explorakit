@@ -24,7 +24,7 @@ function choisirPokemonSauvagePourUneMap(mapName, jsonData) {
 async function CreatePokemon(mapName) {
     try {
         // Lire le fichier JSON
-        const data = await fs.readFile('nextMap.json', 'utf8');
+        const data = await fs.readFile('./source_Json/nextMap.json', 'utf8');
         
         // Parser le contenu JSON
         const jsonData = JSON.parse(data);
@@ -35,7 +35,9 @@ async function CreatePokemon(mapName) {
         if (chosenPokemon !== null) {
             // console.log(`Pour la carte ${mapName}, le Pokémon sauvage choisi est le numéro ${chosenPokemon}`);
 
-            const poke = new Pokemon(chosenPokemon, "test", 0, 0, null, "Timid", null);
+            const poke = new Pokemon(chosenPokemon, "test", 0, 500000, null, "Timid", null);
+            console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaa ' ,poke);
+            
             // console.log('le pokemon créé ?', poke);
             return poke;
         } else {

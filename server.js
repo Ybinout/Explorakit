@@ -1,7 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const userRoutes = require('./routes/userRoutes');
 const http = require('http');
+// const userRoutes = require('./routes/userRoutes');
+const userRoutes = require('./routes/allRoute');
 const path = require('path');
 const { Server } = require('socket.io');
 const app = express();
@@ -17,7 +18,7 @@ const socketHandler = require('./socketHandler');
 // Servez les fichiers statiques de votre application Vue
 app.use(express.static(path.join(__dirname, './dist')));
 
-app.use('/api/users', userRoutes);
+app.use('/api', userRoutes);
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, './dist', 'index.html'));

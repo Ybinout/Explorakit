@@ -1,83 +1,144 @@
 
 // player composé de son equipe
+const useattack = require('./calculateInteraction.js');
+const { editEquipe } = require('./actionequipe.js');
 
-function startBattle(player, wildPokemon , io) {
+async function startBattle(player, wildPokemon, io, id, equipe) {
+    console.log('tototot ');
+
     // console.log('la battle se start avec les deux : ',player);
-    displayIntroAnimation(player, wildPokemon , io); //envoi par socket un trigger qui affiche le pokemon WEBSOCKET //////////////////////////////////////////////
-    //tant que le pokemon et le wildpokemon ont des hp
+    displayIntroAnimation(player, wildPokemon, io); //envoi par socket un trigger qui affiche le pokemon WEBSOCKET //////////////////////////////////////////////
+
     let tours = 0
     let actionPlayer = null
     let actionWildpokemon = null
+
+    //tant que  le wildpokemon a des hp
     while (wildPokemon.currentHp > 0) {
-        //permettre au joueur  de changer de pokemon
-        if (player.pokemon.currentHp < 0)
-            player = playerChangePokemon(player)
+        // console.log('c est le tour numero :', tours);
 
-
-        actionPlayer = playerTurn(player, wildPokemon);
-        actionWildpokemon = wildPokemonTurn(player, wildPokemon);
-
-        //controle de speed du pokemon
-        if (player.pokemon.speed > wildPokemon.speed) {
-            performAttack(player, wildPokemon, actionPlayer);
-            // il transmet par web socket les info et l animation
-
-            //si un joueur et mort endbattle
-            if (wildPokemon.currentHp <= 0 || player.pokemon.currentHp <= 0) {
-                endBattle(player, wildPokemon)
-                break;
-            }
-            performAttack(wildPokemon, player, actionWildpokemon);
-
-            if (player.pokemon.currentHp < 0)
-                player = playerChangePokemon(player)
-        } else {
-            performAttack(wildPokemon, player, actionWildpokemon);
-            // il transmet par web socket les info et l animation
-
-            //si un joueur et mort endbattle
-            if (wildPokemon.currentHp <= 0 || player.pokemon.currentHp <= 0) {
-                endBattle(player, wildPokemon)
-                break;
-            }
-
-            performAttack(player, wildPokemon, actionPlayer);
-
-            if (player.pokemon.currentHp <= 0)
-                player = playerChangePokemon(player)
+        if (player.equipe.pokemons[0].currentHp < 0) {
+            player = playerChangePokemon(player);
         }
 
-        actionTerrain(terrain, wildPokemon, player)
-        tours++;
+        try {
+            let response = await playerTurn(player, io);
 
+            // Traitez la réponse ici
+            let actionPlayer = response.action;
+            // console.log('la reponse ,est ', response.action);
+
+            if (actionPlayer == 'flee') {
+                io.to(player.id).emit('endbattle');
+                break; // Sortez de la boucle
+            } else if (actionPlayer == 'attack') {
+                console.log('erreru');
+                
+                if (player.equipe.pokemons[0].speed > wildPokemon.speed) {
+                    performAttack(player.equipe.pokemons[0], wildPokemon, response.number);
+                    displayIntroAnimation(player, wildPokemon, io);
+
+                    if (wildPokemon.currentHp <= 0 || player.equipe.pokemons[0].currentHp <= 0) {
+                        endBattle(player, io);
+                        await editEquipe(id, equipe);
+                        return true; // Sortez de la boucle
+                    }
+
+                    performAttack(wildPokemon, player.equipe.pokemons[0], getRandomNumber());
+                    displayIntroAnimation(player, wildPokemon, io);
+
+                    if (wildPokemon.currentHp <= 0 || player.equipe.pokemons[0].currentHp <= 0) {
+                        endBattle(player, io);
+                        await editEquipe(id, equipe);
+                        return true; // Sortez de la boucle
+                    }
+
+                } else {
+                    performAttack(wildPokemon, player.equipe.pokemons[0], getRandomNumber());
+                    displayIntroAnimation(player, wildPokemon, io);
+
+                    if (wildPokemon.currentHp <= 0 || player.equipe.pokemons[0].currentHp <= 0) {
+                        endBattle(player, io);
+                        await editEquipe(id, equipe);
+                        return true; // Sortez de la boucle
+                    }
+
+                    performAttack(player.equipe.pokemons[0], wildPokemon, response.number);
+                    displayIntroAnimation(player, wildPokemon, io);
+
+                    if (wildPokemon.currentHp <= 0 || player.equipe.pokemons[0].currentHp <= 0) {
+                        endBattle(player, io);
+                        await editEquipe(id, equipe);
+                        return true; // Sortez de la boucle
+                    }
+                }
+            }
+        } catch (error) {
+            // Traitez l'erreur ici
+            // console.log('erreur : ', error);
+        }
+
+        // console.log('on s en sort ??');
+        // actionTerrain(terrain, wildPokemon, player)
+        tours++;
     }
-    endBattle(player.pokemon, wildPokemon); //donner les golds / et XP
+
+
+    // endBattle(player.pokemon, wildPokemon); //donner les golds / et XP
+}
+function getRandomNumber() {
+    return Math.floor(Math.random() * 4);
 }
 
-
-function playerTurn(player, wildPokemon) {
-    //envoi par socket un trigger qui affiche les attaque et possibilité WEBSOCKET ///////////////////////////////////////////////////////////////////////////////
-    io.to(player.id).emit('requestAction', { message: 'Quelle est votre prochaine action ?' }, (response) => {
-        console.log('l emit a été lancé');
-        console.log(response);
-        switch (response.action) {
-            case "attack":
-                return response;
-                break;
-            case "flee":
-                handleFleeAttempt(player);
-                break;
-            // Ajoutez d'autres cas en fonction des actions possibles
-            default:
-                console.error("Action inconnue reçue du client:", response.action);
+function playerTurn(player, io) {
+    return new Promise((resolve, reject) => {
+        // Récupérez la socket pour ce joueur en particulier
+        const playerSocket = io.sockets.sockets.get(player.id);
+        if (!playerSocket) {
+            return reject(new Error("Socket non trouvée pour le joueur: " + player.id));
         }
+
+        // Émettez l'événement pour demander une action au joueur
+        playerSocket.emit('requestAction', { message: 'Quelle est votre prochaine action ?' });
+
+        // Écoutez la réponse du joueur
+        const responseListener = (response) => {
+            // Retirez le listener pour ne pas accumuler de listeners inutiles
+            playerSocket.off('actionResponse', responseListener);
+            console.log(response.action);
+            // Gérez la réponse
+            switch (response.action) {
+                case "attack":
+                    resolve(response);
+                    break;
+                case "flee":
+                    resolve(response);
+                    break;
+                default:
+                    reject(new Error("Action inconnue reçue du client: " + response.action));
+            }
+        };
+
+        playerSocket.on('actionResponse', responseListener);
+
+        // Gérez le délai d'attente avec setTimeout
+        setTimeout(() => {
+            // Retirez le listener pour éviter de recevoir une réponse après le délai d'attente
+            playerSocket.off('actionResponse', responseListener);
+            reject(new Error("Erreur : Délai d'attente dépassé en attendant la réponse du joueur"));
+        }, 30000); // Ici, nous attendons 30 secondes avant d'expirer
     });
 }
 
-function endBattle(player, wildPokemon) {
+
+
+
+
+
+function endBattle(player, io) {
     //gain d experinece 
     // envoi un signale qui vide la battle scene et la cache
-    io.to(player.id).emit('endBattle', { message: 'Fin du combat' });
+    io.to(player.id).emit('endbattle', { message: 'Fin du combat' });
 }
 
 function wildPokemonTurn(player, wildPokemon) {
@@ -86,8 +147,7 @@ function wildPokemonTurn(player, wildPokemon) {
 
 }
 
-function displayIntroAnimation(player, wildPokemon , io) {
-    console.log('je suis la ,,,');
+function displayIntroAnimation(player, wildPokemon, io) {
     io.to(player.id).emit('introAnimation', { player: player, wildPokemon: wildPokemon });
 }
 
@@ -100,12 +160,12 @@ function playerChangePokemon(player) {
 
 
 function actionTerrain(terrain, pokemonWild, player) {
-
+    // console.log('laction du terrain');
 }
 
 function performAttack(pokemon1, pokemon2, atk) {
-    //faire intervenir les attaque et leur effet
-    // calculateDamage(wildPokemon, player.pokemon, move);
+
+    useattack(pokemon1.getAtkName(atk), pokemon1, pokemon2)
 }
 
 // const player = [{

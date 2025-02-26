@@ -1,5 +1,6 @@
 const fs = require('fs');
-const pokemonData = JSON.parse(fs.readFileSync('./pokemon/pokedex.json', 'utf8'));
+const { v4: uuidv4 } = require('uuid');
+const pokemonData = JSON.parse(fs.readFileSync('./source_Json/pokedex.json', 'utf8'));
 
 const perfectIVs = {
     attack: 31,
@@ -38,17 +39,15 @@ const NATURES = {
     "Serious": { increase: "speed", decrease: "speed" },
     "Timid": { increase: "speed", decrease: "attack" }
 };
-
-
 class Pokemon {
-    constructor(id, name, level, experience, givenIv, nature = "Bashful", k = null) { // Added nature parameter with a default value of "Bashful"
+    constructor(id, name, level, experience, givenIv, nature = "Bashful", k = null) {
         const data = pokemonData.find(p => p.id === id);
         if (!data) {
             throw new Error("No Pokémon found with the given ID!");
         }
-        this.data = data
+        this.uuid = uuidv4();
+        this.data = data;
         this.name = name;
-        this.level = level || 1;
         this.status = "normal";
         this.dodge = 0;
         this.accuracy = 100;
@@ -69,9 +68,40 @@ class Pokemon {
         };
         this.truename = data.name.french;
 
-        // Applying the new formulas with nature multiplier
-        this.recalculateStats();
         this.determineExpGroup(data);
+        this.level = this.calculateLevelFromExperience(this.experience); // Calculer le niveau basé sur l'expérience
+
+        // Recalculer les stats après avoir déterminé le niveau correct
+        this.recalculateStats();
+    }
+
+    calculateLevelFromExperience(experience) {
+        let level = 1;
+        while (experience >= this.getNextLevelExpForLevel(level)) {
+            level++;
+        }
+        return level;
+    }
+
+    getNextLevelExpForLevel(level) {
+        let nextLevelExp;
+        switch (this.expGroup) {
+            case "Fast":
+                nextLevelExp = Math.floor((4 * Math.pow(level, 3)) / 5);
+                break;
+            case "MediumFast":
+                nextLevelExp = Math.pow(level, 3);
+                break;
+            case "MediumSlow":
+                nextLevelExp = Math.floor(((6 / 5) * Math.pow(level, 3)) - 15 * Math.pow(level, 2) + 100 * level - 140);
+                break;
+            case "Slow":
+                nextLevelExp = Math.floor((5 * Math.pow(level, 3)) / 4);
+                break;
+            default:
+                throw new Error("Unknown experience group");
+        }
+        return nextLevelExp;
     }
 
     calculateStat(base, iv, statType) {
@@ -90,16 +120,16 @@ class Pokemon {
         return Math.floor(Math.random() * 32);
     }
 
-    addAbility(abilityId) {
+    addAbility(abilityName) {
         if (this.abilities.length < 4) {
-            this.abilities.push(abilityId);
+            this.abilities.push(abilityName);
         } else {
             console.error("Maximum of 4 abilities reached!");
         }
     }
 
     randomK() {
-        const randomValue = Math.random() * 100;  // Generate a random value between 0 and 100
+        const randomValue = Math.random() * 100;
         if (randomValue < 0.2) return 4;
         if (randomValue < 2) return 3;
         if (randomValue < 20) return 2;
@@ -129,9 +159,9 @@ class Pokemon {
             default:
                 throw new Error("Unknown max experience value");
         }
-        this.expGroup = expGroup;  // Assigning the determined exp group to the Pokemon
-
+        this.expGroup = expGroup;
     }
+
     recalculateStats() {
         this.attack = this.calculateStat(this.data.base.Attack, this.iv.attack, "attack");
         this.specialAttack = this.calculateStat(this.data.base["Sp. Attack"], this.iv.specialAttack, "specialAttack");
@@ -139,7 +169,7 @@ class Pokemon {
         this.specialDefense = this.calculateStat(this.data.base["Sp. Defense"], this.iv.specialDefense, "specialDefense");
         this.speed = this.calculateStat(this.data.base.Speed, this.iv.speed, "speed");
         this.maxHp = Math.floor((((2 * this.data.base.HP + this.iv.hp) * this.level) / 100 + this.level + 10));
-        this.currentHp = this.maxHp;  // Optional, based on your game logic
+        this.currentHp = this.maxHp;
         this.currentAttack = this.attack;
         this.currentSpecialAttack = this.specialAttack;
         this.currentDefense = this.defense;
@@ -147,30 +177,17 @@ class Pokemon {
         this.currentSpeed = this.speed;
     }
 
+    putdmg(nbr) {
+        this.currentHp -= nbr;
+    }
+
+    getAtkName(nbr) {
+        return this.abilities[nbr];
+    }
 
     getNextLevelExp() {
-        const expGroup = this.expGroup;  // Utilisation de this.expGroup
         const nextLevel = this.level + 1;
-        let nextLevelExp;
-        switch (expGroup) {
-            case "Fast":
-                nextLevelExp = Math.floor((4 * Math.pow(nextLevel, 3)) / 5);
-                break;
-            case "MediumFast":
-                nextLevelExp = Math.pow(nextLevel, 3);
-                break;
-            case "MediumSlow":
-                nextLevelExp = Math.floor(((6 / 5) * Math.pow(nextLevel, 3)) - 15 * Math.pow(nextLevel, 2) + 100 * nextLevel - 140);
-                // console.log(nextLevelExp);
-                break;
-            case "Slow":
-                nextLevelExp = Math.floor((5 * Math.pow(nextLevel, 3)) / 4);
-                break;
-            default:
-                throw new Error("Unknown experience group");
-        }
-
-        return nextLevelExp
+        return this.getNextLevelExpForLevel(nextLevel);
     }
 
     gainExperience(expGained) {
@@ -198,31 +215,15 @@ class Pokemon {
     }
 
     updatePokemon(newId) {
-        // console.log('EVOLUTION REUSSI A VOIR :');
         const newPokemon = new Pokemon(newId, this.name, this.level, this.experience, this.iv, this.nature, this.k);
-        // Maintenant, copiez toutes les propriétés sauf iv, k, level, experience, et nature
         Object.keys(newPokemon).forEach(key => {
-            if (!['iv', 'k', 'level', 'experience', 'nature'].includes(key)) {
+            if (!['iv', 'k', 'level', 'experience', 'nature', 'abilities'].includes(key)) {
                 this[key] = newPokemon[key];
             }
         });
-        // Mettez à jour data, id, et d'autres propriétés spécifiques ici si nécessaire
         this.data = newPokemon.data;
         this.recalculateStats();
-        // ... et ainsi de suite pour d'autres propriétés
     }
 }
-
-
-
-// Example usage:
-// const test = new Pokemon(1, "test", 0, 0, null, "Timid", null);
-// test.addAbility(1);
-// test.addAbility(2);
-// test.addAbility(3);
-// test.addAbility(4);
-// console.log(test);
-// test.gainExperience(80000);
-// console.log(test);
 
 module.exports = Pokemon;

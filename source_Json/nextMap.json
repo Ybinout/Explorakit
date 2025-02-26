@@ -1,0 +1,207 @@
+{
+    "maps": [
+        {
+            "mapName": "etage",
+            "mapchange": [
+                {
+                    "valY": 16,
+                    "goto": "maison",
+                    "nexY": 192,
+                    "nexX": 256
+                }
+            ],
+            "wildpokemon": [120 ,125 ,258 ,95 ,190,210,15,45,350]
+        },
+        {
+            "mapName": "etage2",
+            "mapchange": [
+                {
+                    "valY": 16,
+                    "goto": "maison2",
+                    "nexY": 192,
+                    "nexX": 256
+                }
+            ],
+            "wildpokemon": [120 ,125 ,258 ,95 ,190,210,15,45,350]
+        },
+        {
+            "mapName": "maison",
+            "mapchange": [
+                {
+                    "valY": 15,
+                    "goto": "start",
+                    "nexY": 224,
+                    "nexX": 32
+                },
+                {
+                    "valY": 5,
+                    "goto": "etage",
+                    "nexY": 512,
+                    "nexX": 256
+                }
+            ],
+            "wildpokemon": [120 ,125 ,258 ,95 ,190,210,15,45,350]
+        }, {
+            "mapName": "maison2",
+            "mapchange": [
+                {
+                    "valY": 15,
+                    "goto": "start",
+                    "nexY": 224,
+                    "nexX": 224
+                },
+                {
+                    "valY": 5,
+                    "goto": "etage2",
+                    "nexY": 512,
+                    "nexX": 256
+                }
+            ],
+            "wildpokemon": [120 ,125 ,258 ,95 ,190,210,15,45,350]
+        },
+        {
+            "mapName": "start",
+            "mapchange": [
+                {
+                    "valX": 1,
+                    "goto": "maison",
+                    "nexY": 478,
+                    "nexX": 256
+                },
+                {
+                    "valX": null,
+                    "valY": 0,
+                    "goto": "route1",
+                    "nexY": 608
+                },
+                {
+                    "valX": 7,
+                    "goto": "maison2",
+                    "nexY": 478,
+                    "nexX": 256
+                },
+                {
+                    "valX": 13,
+                    "goto": "maison2",
+                    "nexY": 478,
+                    "nexX": 256
+                }
+            ],
+            "wildpokemon": [120 ,125 ,258 ,95 ,190,210,15,45,350]
+        },
+        {
+            "mapName": "pk2",
+            "mapchange": [
+                {
+                    "valX": null,
+                    "valY": 19,
+                    "goto": "start",
+                    "nexY": 32,
+                    "nexX": 608
+                }
+            ],
+            "wildpokemon": [55,67,132]
+            
+        },
+        {
+            "mapName": "route1",
+            "mapchange": [
+                {
+                    "valX": null,
+                    "valY": 19,
+                    "goto": "start",
+                    "nexY": 32,
+                    "nexX": 608
+                }
+                ,
+                {
+                    "valX": null,
+                    "valY": 0,
+                    "goto": "route2",
+                    "nexY": 632
+                    
+                }
+            ],
+            "wildpokemon": [5,2, 1] 
+        },
+        {
+            "mapName": "route2",
+            "mapchange": [
+                {
+                    "valX": null,
+                    "valY": 19,
+                    "goto": "route1",
+                    "nexY": 32
+                },
+                {
+                    "valX": 27,
+                    "valY": null,
+                    "goto": "ville1",
+                    "nexX": 32,
+                    "nexY": 192
+                }
+            ],
+            "wildpokemon": [5,2, 1]
+        },
+        {
+            "mapName": "ville1",
+            "mapchange": [
+                {
+                    "valX": 0,
+                    "valY": null,
+                    "goto": "route2",
+                    "nexX": 864,
+                    "nexY": 192
+                },
+                {
+                    "valX": 27,
+                    "valY": null,
+                    "goto": "route3",
+                    "nexX": 32,
+                    "nexY": 544
+                }
+            ],
+            
+            "wildpokemon": [120 ,125 ,258 ,95 ,190,210,15,45,350]
+        },
+        {
+            "mapName": "route3",
+            "mapchange": [
+                {
+                    "valX": null,
+                    "valY": 2,
+                    "goto": "cave1",
+                    "nexX": 448,
+                    "nexY": 608
+                },
+                {
+                    "valX": 0,
+                    "valY": null,
+                    "goto": "ville1",
+                    "nexX": 832,
+                    "nexY": 544
+                }
+            ],
+            
+            "wildpokemon": [120 ,125 ,258 ,95 ,190,210,15,45,350]
+        },{
+            "mapName": "cave1",
+            "mapchange": [
+                {
+                    "valX": null,
+                    "valY": 19,
+                    "goto": "route3",
+                    "nexX": 672,
+                    "nexY": 96
+                }
+               
+            ],
+            
+            "wildpokemon": [120 ,125 ,258 ,95 ,190,210,15,45,350]
+        },
+        {
+            "mapName": "pk3 896 * 640 la taille de la map",
+            "mapchange": []
+        }
+    ]
+}

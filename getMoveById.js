@@ -10,7 +10,7 @@ const interval = setInterval(() => {
 }, 2000);
 
 async function fetchdata(id) {
-    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
+    const response = await fetch(`https://pokeapi.co/api/v2/source_json/${id}/`);
     const data = await response.json();
     const moves = data.moves.map(move => move.move.name);
     const result = {
