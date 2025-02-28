@@ -23,7 +23,6 @@ function loadCollisionData(mapName) {
 
 
 function changeMapData(mapName) {
-    console.log("toto ?");
     let rawData = fs.readFileSync(`./map/${mapName}.json`);
     let mapData = JSON.parse(rawData);
     let collLayer = mapData.layers.find(layer => layer.name === 'change');
@@ -43,7 +42,6 @@ function changeMapData(mapName) {
 
 
 function InteractMapData(mapName) {
-    console.log("toto ?");
     let rawData = fs.readFileSync(`./map/${mapName}.json`);
     let mapData = JSON.parse(rawData);
     let collLayer = mapData.layers.find(layer => layer.name === 'int');
@@ -62,7 +60,6 @@ function InteractMapData(mapName) {
 }
 
 function battleMapData(mapName) {
-    // console.log("toto ?");
     let rawData = fs.readFileSync(`./map/${mapName}.json`);
     let mapData = JSON.parse(rawData);
     let collLayer = mapData.layers.find(layer => layer.name === 'battle');

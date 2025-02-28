@@ -36,7 +36,7 @@ async function CreatePokemon(mapName) {
             // console.log(`Pour la carte ${mapName}, le Pokémon sauvage choisi est le numéro ${chosenPokemon}`);
 
             const poke = new Pokemon(chosenPokemon, "test", 0, 500000, null, "Timid", null);
-            console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaa ' ,poke);
+            // console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaa ' ,poke);
             
             // console.log('le pokemon créé ?', poke);
             return poke;

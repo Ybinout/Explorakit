@@ -1,6 +1,7 @@
 [
     {
-        "map" : "random",
+        "name": "dia0",
+        "map": "random",
         "x": 18,
         "sentences": [
             {
@@ -14,14 +15,16 @@
         ]
     },
     {
-        "map" : "start",
+        "name": "dia1",
+        "map": "start",
         "x": 18,
         "sentences": [
             {
                 "text": "Eh, attends une seconde ! Tu veux vraiment quitter le village maintenant ? Je dois te prévenir, au bout de cette route, juste avant d'arriver à la première ville, il y a Garry... C'est un grand gaillard, super fort ! Il attend toujours ici, prêt à lancer un duel contre quiconque essaie de passer. Il ne m'a pas laissé passer... Je suis coincé ici à cause de lui.Mais avant que tu t'aventures là-bas, je veux voir de quoi tu es capable ! Si tu ne peux même pas me battre, tu n'as aucune chance contre Garry. Allez, montre-moi ce que tu sais faire ! Prépare-toi à te battre !",
                 "imageName": "a.png"
             }
-        ]
+        ],
+        "end": "battle",
+        "team": "timmy"
     }
-    
 ]

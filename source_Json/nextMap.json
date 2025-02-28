@@ -184,8 +184,30 @@
             ],
             
             "wildpokemon": [120 ,125 ,258 ,95 ,190,210,15,45,350]
-        },{
+        },
+        {
             "mapName": "cave1",
+            "mapchange": [
+                {
+                    "valX": null,
+                    "valY": 19,
+                    "goto": "route3",
+                    "nexX": 672,
+                    "nexY": 96
+                },
+                {
+                    "valX": 27,
+                    "valY": null,
+                    "goto": "cave2",
+                    "nexX": 32
+                }
+               
+            ],
+            
+            "wildpokemon": [120 ,125 ,258 ,95 ,190,210,15,45,350]
+        },
+        {
+            "mapName": "cave2",
             "mapchange": [
                 {
                     "valX": null,

@@ -6,7 +6,7 @@
                 {
                     "pokemonId": 1,
                     "name": "Bulbasaur",
-                    "experience": 1000,
+                    "experience": 300000,
                     "nature": "Timid",
                     "givenIv": {
                         "attack": 31,
@@ -19,13 +19,15 @@
                     "k": 1,
                     "abilities": [
                         "Tackle",
-                        "Growl"
+                        "Growl",
+                        "Tackle",
+                        "Tackle"
                     ]
                 },
                 {
                     "pokemonId": 4,
                     "name": "Charmander",
-                    "experience": 2000,
+                    "experience": 300000,
                     "nature": "Brave",
                     "givenIv": {
                         "attack": 31,
@@ -37,6 +39,8 @@
                     },
                     "k": 1,
                     "abilities": [
+                        "Scratch",
+                        "Ember",
                         "Scratch",
                         "Ember"
                     ]

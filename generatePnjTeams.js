@@ -38,11 +38,11 @@ function getPnjTeam(pnjName) {
 }
 
 // Exemple d'utilisation
-const timmyTeam = getPnjTeam('garry');
-if (timmyTeam) {
-    console.log(`Equipe de garry :`);
-    timmyTeam.afficherEquipe();
-}
+// const timmyTeam = getPnjTeam('garry');
+// if (timmyTeam) {
+//     console.log(`Equipe de garry :`);
+//     timmyTeam.afficherEquipe();
+// }
 
 module.exports = {
     pnjTeams: pnjTeamsCache,

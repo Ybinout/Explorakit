@@ -1,6 +1,6 @@
 const axios = require('axios');
-const Equipe = require('./equipe.js'); // Remplacez par le bon chemin vers votre classe Equipe
-const Pokemon = require('./pokemon.js'); // Remplacez par le bon chemin vers votre classe Pokemon
+const Equipe = require('./equipe.js'); 
+const Pokemon = require('./pokemon.js');
 
 const API_BASE_URL = 'http://localhost:3000/api';
 
@@ -11,7 +11,7 @@ async function editEquipe(userId, equipe) {
         // Tenter de récupérer l'équipe de l'utilisateur
         const response = await axios.get(`${API_BASE_URL}/users/${userId}/team`);
         console.log('Statut de la réponse:', response.status);
-        console.log('Réponse de l\'API pour l\'équipe:', response.data);  // Log de la réponse complète
+        console.log('Réponse de l\'API pour l\'équipe:', response.data);  
 
         let teamId;
         if (response.status === 200) {

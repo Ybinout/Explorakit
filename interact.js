@@ -11,22 +11,41 @@ function loadInteractions() {
     }
 }
 
-// Charger les interactions lors du démarrage
 const interactions = loadInteractions();
 
-// Étape 2 : Fonction pour obtenir la sentence
+//chercher la phrase
 function getSentenceForMapAndPosition(map, x) {
-    // Chercher le bon objet de dialogue correspondant à la map et à la position x
     const dialogueEntry = interactions.find(entry => entry.map === map && entry.x === x);
-
     if (dialogueEntry && dialogueEntry.sentences.length > 0) {
-        // Si une entrée est trouvée, retourne la première sentence (ou une autre logique pour en sélectionner une)
-        return dialogueEntry.sentences; // Change `0` si tu veux une autre sentence
+        return [dialogueEntry.sentences, dialogueEntry.name];
     } else {
-        return null; // Retourne null si aucun dialogue n'est trouvé
+        return null;
     }
 }
 
+// chercher si il y a une battle à la fin du dialogue
+function getEndSentenceInformation(name) {
+    const dialogueEntry = interactions.find(entry => entry.name === name);
+
+    if (dialogueEntry) {
+        return dialogueEntry.end
+    } else {
+        return null;
+    }
+}
+
+//chercher la team
+function getTeamInformation(name) {
+    const dialogueEntry = interactions.find(entry => entry.name === name);
+
+    if (dialogueEntry) {
+        return dialogueEntry.team
+    } else {
+        return null;
+    }
+}
+
+
 module.exports = {
-    getSentenceForMapAndPosition,
+    getSentenceForMapAndPosition, getEndSentenceInformation, getTeamInformation
 };

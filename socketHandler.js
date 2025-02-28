@@ -6,7 +6,9 @@ const Equipe = require('./equipe.js');
 const Pokemon = require('./pokemon.js');
 const CreatePokemon = require('./createwild.js');
 const startBattle = require('./wildBattle.js');
-const {  getSentenceForMapAndPosition } = require('./interact.js');
+const startTeamBattle = require('./equipeBattle.js');
+const { getSentenceForMapAndPosition, getEndSentenceInformation, getTeamInformation } = require('./interact.js');
+const { getPnjTeam } = require('./generatePnjTeams.js');
 const axios = require('axios');
 let players = {};
 
@@ -44,7 +46,7 @@ const socketHandler = (io) => {
         // editEquipe(userId ,equipe)
         // const toto =  loadEquipe(userId)
         const equipe = await loadEquipe(userId);
-        console.log(equipe);
+        // console.log(equipe);
 
         // axios.put(`http://localhost:3000/api/users/user/${userId}/equipe`, dataToSend)
         // .then(response => {
@@ -95,8 +97,58 @@ const socketHandler = (io) => {
 
         let interactmap = InteractMapData(currentmap);
 
-        socket.on('Space', (action) => {
-            console.log('Space');
+        socket.on('onEndDialogue', (data) => {
+            const player = players[socket.id];
+
+            const toto = getEndSentenceInformation(data)
+            if (toto == "battle") {
+                //lancer le combat
+
+                //ici call la team 
+                const getFightTeamName = getTeamInformation(data)
+                const enemyteam = getPnjTeam(getFightTeamName)
+                // enemyteam.afficherEquipe();
+                console.log(enemyteam);
+                
+
+                socket.emit('battletrigger', { message: 'Vous avez déclenché la condition!' });
+                startTeamBattle(player,enemyteam, io, userId )
+                
+                // startBattle
+
+            //     async function utiliserCreatePokemon() {
+            //         try {
+            //             const pokemonsauvage = await CreatePokemon(currentmap);
+            //             pokemonsauvage.addAbility("Pound");
+            //             pokemonsauvage.addAbility("Pound");
+            //             pokemonsauvage.addAbility("Pound");
+            //             pokemonsauvage.addAbility("Pound");
+            //             pokemonsauvage.gainExperience(5000);
+            //             return pokemonsauvage;
+            //         } catch (erreur) {
+            //             console.error(erreur);
+            //         }
+            //     }
+
+            //     utiliserCreatePokemon()
+            //         .then((pokemonsauvage) => {
+            //             // Votre code ici après que utiliserCreatePokemon soit terminée
+            //             //appelle de la battle pokemon
+            //             startBattle(player, pokemonsauvage, io, userId, equipe)
+
+            //             // editEquipe(userId, equipe)
+
+            //             // console.log('Pokémon créé:', pokemonsauvage);
+            //         })
+            //         .catch((erreur) => {
+            //             console.error(erreur);
+            //         });
+            }
+
+        });
+
+
+        socket.on('Space', () => {
 
             const player = players[socket.id];
 
@@ -120,15 +172,9 @@ const socketHandler = (io) => {
                 if (pos.x >= 0 && pos.x < interactmap[0].length && pos.y >= 0 && pos.y < interactmap.length) {
                     if (interactmap[pos.y][pos.x] !== 0) {
                         interactionDetected = true;
-                        console.log(`Interaction detected at position (${pos.x}, ${pos.y}) , ${currentmap}`);
-                        
-                        // Appel de la fonction pour obtenir la sentence
                         const sentence = getSentenceForMapAndPosition(currentmap, pos.x);
 
-
                         if (sentence) {
-                            console.log(`Dialogue: ${sentence}`);
-                            // Ici, tu peux gérer l'affichage de la sentence
                             io.to(socket.id).emit('dialogue', sentence);
                         } else {
                             console.log('No dialogue found for this position.');
@@ -223,7 +269,6 @@ const socketHandler = (io) => {
                 }
             }
             if (changemap2D[matrixY] && changemap2D[matrixY][matrixX] != 0) {
-                console.log('toto ?');
 
                 let nextMapData = getNextMap(currentmap, matrixX, matrixY);
                 if (nextMapData) {
