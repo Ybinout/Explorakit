@@ -42,22 +42,36 @@ function changeMapData(mapName) {
 
 
 function InteractMapData(mapName) {
-    let rawData = fs.readFileSync(`./map/${mapName}.json`);
-    let mapData = JSON.parse(rawData);
-    let collLayer = mapData.layers.find(layer => layer.name === 'int');
-    let collisionData1D = collLayer ? collLayer.data : [];
-    let width = collLayer.width;
-    let height = collLayer.height;
-    let InteractMap = [];
-    for (let y = 0; y < height; y++) {
-        let row = [];
-        for (let x = 0; x < width; x++) {
-            row.push(collisionData1D[y * width + x]);
+    try {
+        let rawData = fs.readFileSync(`./map/${mapName}.json`);
+        let mapData = JSON.parse(rawData);
+        if (!mapData.layers || !Array.isArray(mapData.layers)) {
+            // console.error(`Erreur : Pas de layers trouvés dans ${mapName}.json`);
+            return [];
         }
-        InteractMap.push(row);
+        let collLayer = mapData.layers.find(layer => layer.name === 'int');
+        if (!collLayer || !collLayer.data || !Array.isArray(collLayer.data) || !collLayer.width || !collLayer.height) {
+            // console.warn(`Avertissement : Pas de couche 'int' valide trouvée dans ${mapName}.json`);
+            return [];
+        }
+        let collisionData1D = collLayer.data;
+        let width = collLayer.width;
+        let height = collLayer.height;
+        let InteractMap = [];
+        for (let y = 0; y < height; y++) {
+            let row = [];
+            for (let x = 0; x < width; x++) {
+                row.push(collisionData1D[y * width + x] || 0);
+            }
+            InteractMap.push(row);
+        }
+        return InteractMap;
+    } catch (error) {
+        // console.error(`Erreur lors du chargement de la carte ${mapName}:`, error.message);
+        return [];
     }
-    return InteractMap;
 }
+
 
 function battleMapData(mapName) {
     let rawData = fs.readFileSync(`./map/${mapName}.json`);

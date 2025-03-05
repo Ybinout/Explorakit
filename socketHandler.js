@@ -2,7 +2,7 @@
 // socketHandler.js
 const { loadCollisionData, changeMapData, getNextMap, battleMapData, InteractMapData } = require('./mapdata.js');
 const { editEquipe, loadEquipe } = require('./actionequipe.js');
-const Equipe = require('./equipe.js');
+// const  healEquipe = require('./equipe.js');
 const Pokemon = require('./pokemon.js');
 const CreatePokemon = require('./createwild.js');
 const startBattle = require('./wildBattle.js');
@@ -16,7 +16,7 @@ const socketHandler = (io) => {
     io.on('connection', async (socket) => {
         const userId = socket.handshake.query.userId;
 
-        console.log('le user ==', userId);
+        // console.log('le user ==', userId);
 
         // const equipe = new Equipe();
 
@@ -63,7 +63,7 @@ const socketHandler = (io) => {
         let collisionData2D = loadCollisionData(currentmap);
         let changemap2D = changeMapData(currentmap);
         let battlemap2D = battleMapData(currentmap);
-
+        let interactmap = InteractMapData(currentmap);
         // Ajoutez le nouveau joueur à la liste 896 * 640
         players[socket.id] = {
             id: socket.id,
@@ -95,7 +95,7 @@ const socketHandler = (io) => {
         const moveDelay = 180;
         let canMove = true;
 
-        let interactmap = InteractMapData(currentmap);
+        
 
         socket.on('onEndDialogue', (data) => {
             const player = players[socket.id];
@@ -108,48 +108,29 @@ const socketHandler = (io) => {
                 const getFightTeamName = getTeamInformation(data)
                 const enemyteam = getPnjTeam(getFightTeamName)
                 // enemyteam.afficherEquipe();
-                console.log(enemyteam);
-                
+                // console.log(enemyteam);
+
 
                 socket.emit('battletrigger', { message: 'Vous avez déclenché la condition!' });
-                startTeamBattle(player,enemyteam, io, userId )
-                
-                // startBattle
+                startTeamBattle(player, enemyteam, io, userId)
 
-            //     async function utiliserCreatePokemon() {
-            //         try {
-            //             const pokemonsauvage = await CreatePokemon(currentmap);
-            //             pokemonsauvage.addAbility("Pound");
-            //             pokemonsauvage.addAbility("Pound");
-            //             pokemonsauvage.addAbility("Pound");
-            //             pokemonsauvage.addAbility("Pound");
-            //             pokemonsauvage.gainExperience(5000);
-            //             return pokemonsauvage;
-            //         } catch (erreur) {
-            //             console.error(erreur);
-            //         }
-            //     }
+            }
+            else if (toto == "heal") {
+                // healEquipe(player)
+                player.equipe.pokemons.forEach(pokemon => {
+                    pokemon.currentHp = pokemon.maxHp; // Restaure les PV au maximum
+                });
 
-            //     utiliserCreatePokemon()
-            //         .then((pokemonsauvage) => {
-            //             // Votre code ici après que utiliserCreatePokemon soit terminée
-            //             //appelle de la battle pokemon
-            //             startBattle(player, pokemonsauvage, io, userId, equipe)
+                console.log("Tous les Pokémon de l'équipe ont été soignés !");
 
-            //             // editEquipe(userId, equipe)
 
-            //             // console.log('Pokémon créé:', pokemonsauvage);
-            //         })
-            //         .catch((erreur) => {
-            //             console.error(erreur);
-            //         });
             }
 
         });
 
 
         socket.on('Space', () => {
-
+            
             const player = players[socket.id];
 
             let newPlayerX = player.x;
@@ -158,6 +139,7 @@ const socketHandler = (io) => {
             // Convertir les coordonnées du joueur en indices de matrice
             const matrixX = Math.floor(newPlayerX / tileWidth);
             const matrixY = Math.floor(newPlayerY / tileHeight);
+            // console.log('matrice du joueur ', matrixX, matrixY);
 
             const adjacentPositions = [
                 { x: matrixX, y: matrixY - 1 },  // Au-dessus
@@ -169,18 +151,27 @@ const socketHandler = (io) => {
             let interactionDetected = false;
 
             adjacentPositions.forEach(pos => {
-                if (pos.x >= 0 && pos.x < interactmap[0].length && pos.y >= 0 && pos.y < interactmap.length) {
-                    if (interactmap[pos.y][pos.x] !== 0) {
-                        interactionDetected = true;
-                        const sentence = getSentenceForMapAndPosition(currentmap, pos.x);
-
-                        if (sentence) {
-                            io.to(socket.id).emit('dialogue', sentence);
-                        } else {
-                            console.log('No dialogue found for this position.');
+                if (Array.isArray(interactmap) && interactmap.length > 0 && Array.isArray(interactmap[0])) {
+                    if (pos.x >= 0 && pos.x < interactmap[0].length && pos.y >= 0 && pos.y < interactmap.length) {
+                        // console.log('La current map :', currentmap);
+                        // console.log('La zone de la map ? La case dans la matrice :', interactmap[pos.y][pos.x]);
+                
+                        if (interactmap[pos.y][pos.x] !== 0) {
+                            interactionDetected = true;
+                            const sentence = getSentenceForMapAndPosition(currentmap, pos.x);
+                
+                            if (sentence) {
+                                io.to(socket.id).emit('dialogue', sentence);
+                            } else {
+                                console.log('No dialogue found for this position.');
+                            }
                         }
+                    } else {
+                        console.log('Position en dehors des limites de la carte.');
                     }
-                }
+                } else {
+                    console.log('No dialogue found (interactmap invalide ou vide).');
+                }                
             });
 
             if (!interactionDetected) {
@@ -274,6 +265,7 @@ const socketHandler = (io) => {
                 if (nextMapData) {
                     const oldMap = currentmap;
                     currentmap = nextMapData.nextMap;
+                    interactmap = InteractMapData(currentmap);
                     player.x = nextMapData.nextX;
                     player.y = nextMapData.nextY;
                     player.currentmap = currentmap;

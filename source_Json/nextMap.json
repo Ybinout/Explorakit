@@ -87,7 +87,7 @@
                     "nexX": 256
                 }
             ],
-            "wildpokemon": [120 ,125 ,258 ,95 ,190,210,15,45,350]
+            "wildpokemon": [25 ,88 ,74 ,95 ,237]
         },
         {
             "mapName": "pk2",
@@ -159,10 +159,28 @@
                     "goto": "route3",
                     "nexX": 32,
                     "nexY": 544
+                },
+                {
+                    "valY": 8,
+                    "goto": "centre",
+                    "nexX": 416,
+                    "nexY": 512
                 }
             ],
             
             "wildpokemon": [120 ,125 ,258 ,95 ,190,210,15,45,350]
+        },
+        {
+            "mapName": "centre",
+            "mapchange": [
+                {
+                    "valY": 15,
+                    "goto": "ville1",
+                    "nexY": 288,
+                    "nexX": 480
+                }
+            ],
+            "wildpokemon": []
         },
         {
             "mapName": "route3",

@@ -4,10 +4,10 @@
             "name": "timmy",
             "team": [
                 {
-                    "pokemonId": 1,
-                    "name": "Bulbasaur",
+                    "pokemonId": 254,
+                    "name": "Sceptile",
                     "experience": 300000,
-                    "nature": "Timid",
+                    "nature": "Jolly",
                     "givenIv": {
                         "attack": 31,
                         "defense": 31,
@@ -16,18 +16,18 @@
                         "speed": 31,
                         "specialAttack": 31
                     },
-                    "k": 1,
+                    "k": 4,
                     "abilities": [
-                        "Tackle",
-                        "Growl",
-                        "Tackle",
-                        "Tackle"
+                        "Leaf Blade",
+                        "Dragon Claw",
+                        "Detect",
+                        "Agility"
                     ]
                 },
                 {
                     "pokemonId": 4,
                     "name": "Charmander",
-                    "experience": 300000,
+                    "experience": 600000,
                     "nature": "Brave",
                     "givenIv": {
                         "attack": 31,
@@ -39,10 +39,10 @@
                     },
                     "k": 1,
                     "abilities": [
-                        "Scratch",
+                        "Bite",
                         "Ember",
                         "Scratch",
-                        "Ember"
+                        "Fire Punch"
                     ]
                 }
             ]

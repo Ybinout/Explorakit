@@ -1,15 +1,26 @@
-const useattack = require('./calculateInteraction.js');
+const { useattack, getEffectiveness } = require('./calculateInteraction.js');
 const { editEquipe } = require('./actionequipe.js');
+
 
 async function startTeamBattle(player, enemyTeam, io, id) {
     // enemyTeam : { pokemons: [Pokemon1, Pokemon2, ...] }
     // equipe    : { pokemons: [Pokemon1, Pokemon2, ...] } (équipe du joueur)
     // player    : contient notamment player.id pour la socket
+    let usedPokemons = [];
+    // console.log('Démarrage du combat d\'équipe.');
+    const fs = require('fs');
+    const loadData = () => {
+        // console.log("DATA NNNNN");
 
-    console.log('Démarrage du combat d\'équipe.');
+        const data = fs.readFileSync('source_Json/moves.json', 'utf8');
+        return JSON.parse(data);
+    };
+
+    const moves = loadData();
 
     let currentEnemyIndex = 0;
     let currentEnemy = enemyTeam.pokemons[currentEnemyIndex];
+    console.log("le current enemi est : ", currentEnemy);
 
     displayIntroAnimation(player, currentEnemy, io);
 
@@ -36,17 +47,20 @@ async function startTeamBattle(player, enemyTeam, io, id) {
 
         // Vérifie si le Pokémon actif côté ennemi est KO
         if (currentEnemy.currentHp <= 0) {
+            const xpWin = currentEnemy.experience * 0.1
+            player.equipe.pokemons[0].gainExperience(xpWin)
+            console.log("'j'ai win  :", xpWin);
             currentEnemyIndex++;
-            if (currentEnemyIndex >= enemyTeam.pokemons.length) {
-                // L'équipe ennemie n'a plus de Pokémon valide
+            if (!hasAlivePokemon(enemyTeam.pokemons)) {
                 endBattle(player, io, true);
                 await editEquipe(id, player.equipe);
-                return true;
+                return true; // Fin du combat
             }
-            // Sélection du prochain Pokémon
             currentEnemy = enemyTeam.pokemons[currentEnemyIndex];
             displayIntroAnimation(player, currentEnemy, io);
+            continue;
         }
+
 
         try {
             // Tour du joueur
@@ -58,31 +72,141 @@ async function startTeamBattle(player, enemyTeam, io, id) {
                 io.to(player.id).emit('endbattle');
                 break;
             } else if (actionPlayer === 'attack') {
+
+                // const haveToSwap = determineIfSwap(currentEnemy, enemyTeam, player.equipe.pokemons[0])
+                // console.log('le swapping est utile ??? :::', haveToSwap);
+
                 // Compare la vitesse pour déterminer qui attaque en premier
                 if (player.equipe.pokemons[0].speed >= currentEnemy.speed) {
+
+                    const haveToSwap = determineIfSwap(currentEnemy, enemyTeam, player.equipe.pokemons[0]);
+
+                    if (haveToSwap !== false) {
+                        enemySwapPokemon(enemyTeam, haveToSwap, usedPokemons);
+                        currentEnemy = enemyTeam.pokemons[0]; // Met à jour l'ennemi après le swap
+                        displayIntroAnimation(player, currentEnemy, io);
+                        console.log('Les Pokémon ont été swap');
+                    }
+
+                    displayIntroAnimation(player, currentEnemy, io);
+                    console.log('les pokemon sont swappppppppppppp');
+
                     // Attaque du joueur
                     performAttack(player.equipe.pokemons[0], currentEnemy, response.number);
                     displayIntroAnimation(player, currentEnemy, io);
 
-                    if (currentEnemy.currentHp <= 0) continue;
+                    if (currentEnemy.currentHp <= 0) {
+                        const xpWin = currentEnemy.experience * 0.1
+                        player.equipe.pokemons[0].gainExperience(xpWin)
+                        console.log("'j'ai win  :", xpWin);
+                        currentEnemyIndex++;
+                        if (!hasAlivePokemon(enemyTeam.pokemons)) {
+                            endBattle(player, io, true);
+                            await editEquipe(id, player.equipe);
+                            return true; // Fin du combat
+                        }
+                        currentEnemy = enemyTeam.pokemons[currentEnemyIndex];
+                        displayIntroAnimation(player, currentEnemy, io);
+                        continue;
+                    }
                     if (player.equipe.pokemons[0].currentHp <= 0) continue;
+
 
                     // Attaque de l’ennemi
-                    performAttack(currentEnemy, player.equipe.pokemons[0], getRandomNumber());
-                    displayIntroAnimation(player, currentEnemy, io);
+                    if (haveToSwap == false) {
+                        let bestAttack = getBestAttack(player.equipe.pokemons[0], currentEnemy, moves)
+                        performAttack(currentEnemy, player.equipe.pokemons[0], bestAttack);
+                        displayIntroAnimation(player, currentEnemy, io);
+                    }
 
-                } 
+                }
                 else {
                     // Attaque de l’ennemi d'abord
-                    performAttack(currentEnemy, player.equipe.pokemons[0], getRandomNumber());
+                    let bestAttack = getBestAttack(player.equipe.pokemons[0], currentEnemy, moves)
+                    const attaqueName = currentEnemy.getAtkName(bestAttack)
+                    const dmgatk = findDmgAtk(moves, attaqueName, currentEnemy, player.equipe.pokemons[0])
+                    const haveToSwap = determineIfSwap(currentEnemy, enemyTeam, player.equipe.pokemons[0]);
+
+                    if (haveToSwap !== false) {
+                        console.log('il doit swap');
+
+                        if (dmgatk >= player.equipe.pokemons[0].currentHp) {
+                            console.log('il doit swap mais il a plus de degat');
+
+                            performAttack(currentEnemy, player.equipe.pokemons[0], bestAttack);
+                            displayIntroAnimation(player, currentEnemy, io);
+                            console.log('ici');
+                            if (player.equipe.pokemons[0].currentHp <= 0) {
+                                playerChangePokemon(player.equipe, io, player.id);
+                                if (!hasAlivePokemon(player.equipe.pokemons)) {
+                                    endBattle(player, io, false);
+                                    await editEquipe(id, player.equipe);
+                                    return false; // Fin du combat
+                                }
+                                displayIntroAnimation(player, currentEnemy, io);
+                                continue; // Passe à l'itération suivante
+                            }
+
+                            if (currentEnemy.currentHp <= 0) {
+                                const xpWin = currentEnemy.experience * 0.1
+                                player.equipe.pokemons[0].gainExperience(xpWin)
+                                console.log("'j'ai win  :", xpWin);
+                                currentEnemyIndex++;
+                                if (!hasAlivePokemon(enemyTeam.pokemons)) {
+                                    endBattle(player, io, true);
+                                    await editEquipe(id, player.equipe);
+                                    return true; // Fin du combat
+                                }
+                                currentEnemy = enemyTeam.pokemons[currentEnemyIndex];
+                                displayIntroAnimation(player, currentEnemy, io);
+                                continue;
+                            }
+                            // Attaque du joueur
+                            performAttack(player.equipe.pokemons[0], currentEnemy, response.number);
+                            displayIntroAnimation(player, currentEnemy, io);
+                            console.log('fin de performence');
+                        } else {
+                            console.log(' il doit swap il a pas de degat');
+                            enemySwapPokemon(enemyTeam, haveToSwap, usedPokemons);
+                            currentEnemy = enemyTeam.pokemons[0]; // Met à jour l'ennemi après le swap
+                            displayIntroAnimation(player, currentEnemy, io);
+                            console.log('Les Pokémon ont été swap');
+                            // Attaque du joueur
+                            performAttack(player.equipe.pokemons[0], currentEnemy, response.number);
+                            displayIntroAnimation(player, currentEnemy, io);
+                        }
+                    }
+                    else {
+
+                        console.log(' ne doit pas swap');
+                        performAttack(currentEnemy, player.equipe.pokemons[0], bestAttack);
+                        displayIntroAnimation(player, currentEnemy, io);
+                        if (player.equipe.pokemons[0].currentHp <= 0) continue;
+                        if (currentEnemy.currentHp <= 0) {
+                            const xpWin = currentEnemy.experience * 0.1
+                            player.equipe.pokemons[0].gainExperience(xpWin)
+                            console.log("'j'ai win  :", xpWin);
+
+                            currentEnemyIndex++;
+                            if (!hasAlivePokemon(enemyTeam.pokemons)) {
+                                endBattle(player, io, true);
+                                await editEquipe(id, player.equipe);
+                                return true; // Fin du combat
+                            }
+                            currentEnemy = enemyTeam.pokemons[currentEnemyIndex];
+                            displayIntroAnimation(player, currentEnemy, io);
+                            continue;
+                        }
+                        // Attaque du joueur
+                        performAttack(player.equipe.pokemons[0], currentEnemy, response.number);
+                        displayIntroAnimation(player, currentEnemy, io);
+                    }
+                    console.log('je display ?');
+
                     displayIntroAnimation(player, currentEnemy, io);
 
-                    if (player.equipe.pokemons[0].currentHp <= 0) continue;
-                    if (currentEnemy.currentHp <= 0) continue;
 
-                    // Attaque du joueur
-                    performAttack(player.equipe.pokemons[0], currentEnemy, response.number);
-                    displayIntroAnimation(player, currentEnemy, io);
+
                 }
             } else if (actionPlayer === 'change') {
                 playerChangePokemonByIndex(player.equipe, response.number, io, player.id);
@@ -105,6 +229,7 @@ async function startTeamBattle(player, enemyTeam, io, id) {
 
     if (!enemyHasPokemonAlive) {
         endBattle(player, io, true);
+
     } else if (!playerHasPokemonAlive) {
         endBattle(player, io, false);
     } else {
@@ -120,6 +245,82 @@ async function startTeamBattle(player, enemyTeam, io, id) {
 // Vérifie si au moins un Pokémon du tableau est vivant
 function hasAlivePokemon(pokemons) {
     return pokemons.some(p => p.currentHp > 0);
+}
+
+function determineIfSwap(currentEnemy, enemyTeam, player) {
+    let currentEffectiveness = getEffectiveness(player.type1, currentEnemy.type1) * (currentEnemy.type2 ? getEffectiveness(player.type1, currentEnemy.type2) : 1);
+    if (player.type2) {
+        currentEffectiveness *= getEffectiveness(player.type2, currentEnemy.type1) * (currentEnemy.type2 ? getEffectiveness(player.type2, currentEnemy.type2) : 1);
+    }
+
+    let bestSwap = false;
+    let bestEffectiveness = currentEffectiveness;
+
+    enemyTeam.pokemons.forEach((pokemon, index) => {
+        if (pokemon.uuid === currentEnemy.uuid || pokemon.currentHp <= 0) return; // Ne pas swap avec soi-même ou un Pokémon KO
+
+        let swapEffectiveness = getEffectiveness(player.type1, pokemon.type1) * (pokemon.type2 ? getEffectiveness(player.type1, pokemon.type2) : 1);
+        if (player.type2) {
+            swapEffectiveness *= getEffectiveness(player.type2, pokemon.type1) * (pokemon.type2 ? getEffectiveness(player.type2, pokemon.type2) : 1);
+        }
+
+        if (swapEffectiveness < bestEffectiveness) {
+            bestEffectiveness = swapEffectiveness;
+            bestSwap = index;
+        }
+    });
+
+    return bestSwap !== false && bestEffectiveness < currentEffectiveness ? bestSwap : false;
+}
+
+
+function enemySwapPokemon(enemyTeam, index, usedPokemons) {
+    if (index < 0 || index >= enemyTeam.pokemons.length) return; // Vérifie que l'index est valide
+    if (enemyTeam.pokemons[index].currentHp <= 0) return; // Vérifie que le Pokémon n'est pas KO
+
+    // Échanger le Pokémon actuel avec celui à l'index donné
+    [enemyTeam.pokemons[0], enemyTeam.pokemons[index]] = [enemyTeam.pokemons[index], enemyTeam.pokemons[0]];
+
+    // Mettre à jour la liste des Pokémon utilisés
+    if (!usedPokemons.includes(enemyTeam.pokemons[0].uuid)) {
+        usedPokemons.push(enemyTeam.pokemons[0].uuid);
+    }
+}
+
+
+
+
+
+//find la meilleur atk
+function getBestAttack(me, enemy, moves) {
+    console.log("enemy.abilities:", enemy.abilities);
+
+    return enemy.abilities
+        .map((ability, index) => {
+            const move = moves.find(m => m.ename === ability);
+            if (!move) {
+                // console.log(`⚠️ ${ability} n'a pas été trouvé dans moves.json`);
+                return { index, score: -Infinity };
+            }
+
+            // console.log(`✅ ${ability} trouvé avec power: ${move.power}`);
+
+            const stab = (move.type === enemy.type1 || (enemy.type2 && move.type === enemy.type2)) ? 1.5 : 1;
+            const effectiveness1 = getEffectiveness(move.type, me.type1) || 1;
+            const effectiveness2 = me.type2 ? (getEffectiveness(move.type, me.type2) || 1) : 1;
+            const totalEffectiveness = effectiveness1 * effectiveness2;
+            const score = move.power * totalEffectiveness * stab;
+
+            // console.log(`⚡ Score de ${ability} :`, score);
+
+            return { index, score };
+        })
+        .reduce((best, move) => {
+            // console.log(`Comparaison : ${best.index} (${best.score}) vs ${move.index} (${move.score})`);
+            return (move.score > best.score ? move : best);
+        }, { index: -1, score: -Infinity })
+        .index;
+
 }
 
 function getRandomNumber() {
@@ -162,7 +363,7 @@ function playerTurn(player, io) {
 
         const responseListener = (response) => {
             playerSocket.off('actionResponse', responseListener);
-            console.log(response.action);
+            // console.log(response.action);
             switch (response.action) {
                 case "attack":
                     resolve(response);
@@ -183,7 +384,7 @@ function playerTurn(player, io) {
         setTimeout(() => {
             playerSocket.off('actionResponse', responseListener);
             reject(new Error("Erreur : Délai d'attente dépassé en attendant la réponse du joueur"));
-        }, 60000);
+        }, 120000);
     });
 }
 
@@ -193,7 +394,7 @@ function performAttack(attacker, defender, moveIndex) {
 
 
 function displayIntroAnimation(player, wildPokemon, io) {
-    
+
     io.to(player.id).emit('introAnimation', { player: player, wildPokemon: wildPokemon });
 }
 
@@ -221,11 +422,52 @@ function playerChangePokemon(equipe, io, playerId) {
     }
 }
 
+
+function findDmgAtk(moves, attaque, pokemon1, pokemon2) {
+    const findAttack = (attaque) => {
+        for (let move of moves) {
+            if (move.ename === attaque) {
+                return move;
+            }
+        }
+        return null;
+    };
+
+    const correspondingMove = findAttack(attaque);
+    return calculateDamage(pokemon1, pokemon2, correspondingMove)
+}
+
+function calculateDamage(pokemonATK, PokemonDFS, ATK) {
+    // console.log(ATK ,'dada');
+    let Efficacite = getEffectiveness(ATK.type, PokemonDFS.type1) * getEffectiveness(ATK.type, PokemonDFS.type2);
+    NivATKan = pokemonATK.level
+    Puissanceatk = ATK.power
+    STAB = 1;
+    if (ATK.type == pokemonATK.type1 || ATK.type == pokemonATK.type2) {
+        STAB = 1.5;
+    }
+    if (ATK.category == 'phy') {
+        AttaqueATKan = pokemonATK.currentAttack
+        DefenseDFS = PokemonDFS.currentDefense
+    } else if (ATK.category == 'spe') {
+        AttaqueATKan = pokemonATK.currentSpecialAttack
+        DefenseDFS = PokemonDFS.currentSpecialDefense
+    }
+    let damage = ((((((2 * NivATKan / 5) + 2) * AttaqueATKan * Puissanceatk) / DefenseDFS) / 50) + 2) * STAB * Efficacite;
+    // console.log('les dgts',damage);
+    return Math.round(damage);
+}
+
 function endBattle(player, io, playerWon) {
     io.to(player.id).emit('endbattle', {
         message: 'Fin du combat',
         playerWon
     });
+    console.log('endBattle le player a win ? ', playerWon);
+    if (playerWon) {
+        // player.equipe.pokemons[0].gainExperience(500000)
+    }
+
     // ICI : Ajouter toute la logique de gains d’XP, gold, etc.
 }
 

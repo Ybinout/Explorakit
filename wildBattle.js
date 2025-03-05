@@ -1,10 +1,9 @@
 
 // player composé de son equipe
-const useattack = require('./calculateInteraction.js');
+const {useattack} = require('./calculateInteraction.js');
 const { editEquipe } = require('./actionequipe.js');
 
 async function startBattle(player, wildPokemon, io, id, equipe) {
-    console.log('tototot ');
 
     // console.log('la battle se start avec les deux : ',player);
     displayIntroAnimation(player, wildPokemon, io); //envoi par socket un trigger qui affiche le pokemon WEBSOCKET //////////////////////////////////////////////
@@ -32,7 +31,7 @@ async function startBattle(player, wildPokemon, io, id, equipe) {
                 io.to(player.id).emit('endbattle');
                 break; // Sortez de la boucle
             } else if (actionPlayer == 'attack') {
-                console.log('erreru');
+                console.log('errer');
                 
                 if (player.equipe.pokemons[0].speed > wildPokemon.speed) {
                     performAttack(player.equipe.pokemons[0], wildPokemon, response.number);
@@ -105,7 +104,7 @@ function playerTurn(player, io) {
         const responseListener = (response) => {
             // Retirez le listener pour ne pas accumuler de listeners inutiles
             playerSocket.off('actionResponse', responseListener);
-            console.log(response.action);
+            // console.log(response.action);
             // Gérez la réponse
             switch (response.action) {
                 case "attack":

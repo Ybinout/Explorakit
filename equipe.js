@@ -34,4 +34,13 @@ class Equipe {
 
 }
 
+// function healEquipe(player) {
+//     player.equipe.pokemons.forEach(pokemon => {
+//         pokemon.currentHp = pokemon.maxHp; // Restaure les PV au maximum
+//     });
+
+//     console.log("Tous les Pokémon de l'équipe ont été soignés !");
+// }
+
 module.exports = Equipe;
+// module.exports = healEquipe;

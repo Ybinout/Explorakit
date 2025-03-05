@@ -165,12 +165,12 @@ router.post('/pokemons', async (req, res) => {
         const connection = await mysql.createConnection(dbConfig);
         
         // Log avant insertion pour vérifier les données
-        console.log('Insertion du Pokémon avec les données suivantes:', {
-            uuid, team_id, pokemon_id, name, level, experience, iv_attack, iv_defense, iv_hp, 
-            iv_special_attack, iv_special_defense, iv_speed, nature, k, current_hp, current_attack, 
-            current_defense, current_special_attack, current_special_defense, current_speed, 
-            ability1, ability2, ability3, ability4, position
-        });
+        // console.log('Insertion du Pokémon avec les données suivantes:', {
+        //     uuid, team_id, pokemon_id, name, level, experience, iv_attack, iv_defense, iv_hp, 
+        //     iv_special_attack, iv_special_defense, iv_speed, nature, k, current_hp, current_attack, 
+        //     current_defense, current_special_attack, current_special_defense, current_speed, 
+        //     ability1, ability2, ability3, ability4, position
+        // });
 
         await connection.execute(
             `INSERT INTO pokemons 
@@ -324,7 +324,7 @@ router.get('/pokemons/:uuid', async (req, res) => {
 
 // Récupérer l'équipe d'un utilisateur (avec les Pokémon)
 router.get('/users/:id/team', async (req, res) => {
-    console.log('Requête reçue pour l\'utilisateur ID:', req.params.id);
+    // console.log('Requête reçue pour l\'utilisateur ID:', req.params.id);
     
     const { id } = req.params;
 
@@ -335,7 +335,7 @@ router.get('/users/:id/team', async (req, res) => {
         );
 
         if (teamRows.length === 0) {
-            console.log('Aucune équipe trouvée, création d\'une nouvelle équipe.');
+            // console.log('Aucune équipe trouvée, création d\'une nouvelle équipe.');
 
             // Créer une nouvelle équipe
             const [createResult] = await connection.execute(

@@ -67,25 +67,18 @@ function downStat(pokemon, stat) {
 function useattack(attaque, pokemon1, pokemon2) {
     
     const fs = require('fs');
-
-    // Charger les données depuis le fichier
     const loadData = () => {
-        console.log("DATA NNNNN");
-        
+
         const data = fs.readFileSync('source_Json/moves.json', 'utf8');
         return JSON.parse(data);
     };
 
     const findAttack = (attaque) => {
-        console.log("sofiane .......3");
-        
+
         const moves = loadData();
-    
-        console.log(moves , "asasasassas");
         
         for (let move of moves) {
-            console.log(move.ename);
-            
+
             if (move.ename === attaque) {
                 return move;
             }
@@ -109,4 +102,7 @@ function useattack(attaque, pokemon1, pokemon2) {
     pokemon2.putdmg(calculateDamage(pokemon1, pokemon2, correspondingMove))
 }
 
-module.exports = useattack; 
+module.exports = {
+    getEffectiveness,
+    useattack
+};
