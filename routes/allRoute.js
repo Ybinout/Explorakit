@@ -3,7 +3,6 @@ const router = express.Router();
 const mysql = require('mysql2/promise');
 const { v4: uuidv4 } = require('uuid');
 // const Pokemon = require('./path/to/pokemon/class'); // Assurez-vous de remplacer par le bon chemin vers votre classe Pokemon
-const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const Equipe = require('../equipe.js');
@@ -165,15 +164,6 @@ router.post('/pokemons', async (req, res) => {
         const connection = await mysql.createConnection(dbConfig);
         
         // Log avant insertion pour vérifier les données
-        // console.log('Insertion du Pokémon avec les données suivantes:', {
-        //     uuid, team_id, pokemon_id, name, level, experience, iv_attack, iv_defense, iv_hp, 
-        //     iv_special_attack, iv_special_defense, iv_speed, nature, k, current_hp, current_attack, 
-        //     current_defense, current_special_attack, current_special_defense, current_speed, 
-        //     ability1, ability2, ability3, ability4, position
-        // });
-
-        await connection.execute(
-            `INSERT INTO pokemons 
             (uuid, team_id, position, pokemon_id, name, level, experience, iv_attack, iv_defense, iv_hp, 
              iv_special_attack, iv_special_defense, iv_speed, nature, k, current_hp, current_attack, 
              current_defense, current_special_attack, current_special_defense, current_speed, ability1, 
@@ -324,7 +314,6 @@ router.get('/pokemons/:uuid', async (req, res) => {
 
 // Récupérer l'équipe d'un utilisateur (avec les Pokémon)
 router.get('/users/:id/team', async (req, res) => {
-    // console.log('Requête reçue pour l\'utilisateur ID:', req.params.id);
     
     const { id } = req.params;
 
@@ -335,7 +324,6 @@ router.get('/users/:id/team', async (req, res) => {
         );
 
         if (teamRows.length === 0) {
-            // console.log('Aucune équipe trouvée, création d\'une nouvelle équipe.');
 
             // Créer une nouvelle équipe
             const [createResult] = await connection.execute(

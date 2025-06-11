@@ -5,18 +5,14 @@ const Pokemon = require('./pokemon.js');
 const API_BASE_URL = 'http://localhost:3000/api';
 
 async function editEquipe(userId, equipe) {
-    // console.log('Modification de l\'équipe', equipe);
 
     try {
         // Tenter de récupérer l'équipe de l'utilisateur
         const response = await axios.get(`${API_BASE_URL}/users/${userId}/team`);
-        // console.log('Statut de la réponse:', response.status);
-        // console.log('Réponse de l\'API pour l\'équipe:', response.data);  
 
         let teamId;
         if (response.status === 200) {
             teamId = response.data.id;
-            // console.log('Équipe existante trouvée, teamId:', teamId);
             // Mettre à jour l'équipe existante
             await axios.put(`${API_BASE_URL}/teams/${teamId}`, {
                 team_name: 'Updated Team Name' // Modifiez selon vos besoins
@@ -24,7 +20,6 @@ async function editEquipe(userId, equipe) {
         } else if (response.status === 201) {
             // Si une nouvelle équipe a été créée
             teamId = response.data.id;
-            // console.log('Nouvelle équipe créée, teamId:', teamId);
         } else {
             console.error('Erreur inattendue, statut de la réponse:', response.status);
         }
@@ -35,9 +30,7 @@ async function editEquipe(userId, equipe) {
         }
 
         // Suppression des Pokémon existants associés à l'équipe
-        // console.log(`Suppression des Pokémon existants pour l'équipe ${teamId}`);
         await axios.delete(`${API_BASE_URL}/pokemonsequipe/${teamId}`);
-        // console.log('Pokémon existants supprimés.');
 
         // Gérer chaque Pokémon dans l'équipe
         for (const [index, pokemon] of equipe.pokemons.entries()) {
@@ -73,7 +66,6 @@ async function editEquipe(userId, equipe) {
             try {
                 // Vérifier si le Pokémon existe déjà
                 const pokemonResponse = await axios.get(`${API_BASE_URL}/pokemons/${pokemon.uuid}`);
-                // console.log("Réponse du Pokémon:", pokemonResponse);
 
                 if (pokemonResponse.status === 200) {
                     // Mettre à jour le Pokémon existant
@@ -81,12 +73,10 @@ async function editEquipe(userId, equipe) {
                 }
             } catch (pokemonError) {
                 if (pokemonError.response && pokemonError.response.status === 404) {
-                    // console.log(`Pokémon non trouvé, création d'un nouveau Pokémon pour la position ${position}`);
                     try {
                         const createPokemonResponse = await axios.post(`${API_BASE_URL}/pokemons`, {
                             ...pokemonData // Envoyer les données pour créer le Pokémon
                         });
-                        // console.log('Nouveau Pokémon créé:', createPokemonResponse.data);
                     } catch (creationError) {
                         console.error(`Erreur lors de la création du Pokémon à la position ${position}:`, creationError.response?.data || creationError.message);
                     }

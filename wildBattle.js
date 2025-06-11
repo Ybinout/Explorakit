@@ -5,7 +5,6 @@ const { editEquipe } = require('./actionequipe.js');
 
 async function startBattle(player, wildPokemon, io, id, equipe) {
 
-    // console.log('la battle se start avec les deux : ',player);
     displayIntroAnimation(player, wildPokemon, io); //envoi par socket un trigger qui affiche le pokemon WEBSOCKET //////////////////////////////////////////////
 
     let tours = 0
@@ -14,7 +13,6 @@ async function startBattle(player, wildPokemon, io, id, equipe) {
 
     //tant que  le wildpokemon a des hp
     while (wildPokemon.currentHp > 0) {
-        // console.log('c est le tour numero :', tours);
 
         if (player.equipe.pokemons[0].currentHp < 0) {
             player = playerChangePokemon(player);
@@ -25,7 +23,6 @@ async function startBattle(player, wildPokemon, io, id, equipe) {
 
             // Traitez la réponse ici
             let actionPlayer = response.action;
-            // console.log('la reponse ,est ', response.action);
 
             if (actionPlayer == 'flee') {
                 io.to(player.id).emit('endbattle');
@@ -74,11 +71,8 @@ async function startBattle(player, wildPokemon, io, id, equipe) {
             }
         } catch (error) {
             // Traitez l'erreur ici
-            // console.log('erreur : ', error);
         }
 
-        // console.log('on s en sort ??');
-        // actionTerrain(terrain, wildPokemon, player)
         tours++;
     }
 
@@ -104,7 +98,6 @@ function playerTurn(player, io) {
         const responseListener = (response) => {
             // Retirez le listener pour ne pas accumuler de listeners inutiles
             playerSocket.off('actionResponse', responseListener);
-            // console.log(response.action);
             // Gérez la réponse
             switch (response.action) {
                 case "attack":
@@ -159,7 +152,6 @@ function playerChangePokemon(player) {
 
 
 function actionTerrain(terrain, pokemonWild, player) {
-    // console.log('laction du terrain');
 }
 
 function performAttack(pokemon1, pokemon2, atk) {
@@ -167,16 +159,4 @@ function performAttack(pokemon1, pokemon2, atk) {
     useattack(pokemon1.getAtkName(atk), pokemon1, pokemon2)
 }
 
-// const player = [{
-//     client: clients[clientId],
-//     equipe: {
-//         pokemon1,
-//         pokemon2,
-//         pokemon3,
-//         pokemon4,
-//         pokemon5,
-//     }
-// }]
-
-
-module.exports = startBattle; 
+module.exports = startBattle;

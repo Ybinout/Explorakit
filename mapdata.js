@@ -95,7 +95,6 @@ function battleMapData(mapName) {
 
 function getNextMap(currentMap, posX, posY) {
     // Lire le fichier
-    // console.log('test next map poxX', posX, posY);
     const mapDataRaw = fs.readFileSync('./source_Json/nextMap.json', 'utf8');
     const mapData = JSON.parse(mapDataRaw);
 
@@ -112,7 +111,6 @@ function getNextMap(currentMap, posX, posY) {
                     };
                 } else if (change.valY !== null && change.valY === posY) {
                     // Si valY est défini et correspond à posY
-                    // console.log(posX, 'la pos x');
                     return {
                         nextMap: change.goto,
                         nextX: change.nexX + 16 || posX * 16 * 2 + 16,

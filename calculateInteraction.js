@@ -24,7 +24,6 @@ function getEffectiveness(attackingType, defendingType) {
 }
 
 function calculateDamage(pokemonATK, PokemonDFS, ATK) {
-    // console.log(ATK ,'dada');
     let Efficacite = getEffectiveness(ATK.type, PokemonDFS.type1) * getEffectiveness(ATK.type, PokemonDFS.type2);
     NivATKan = pokemonATK.level
     Puissanceatk = ATK.power
@@ -40,7 +39,6 @@ function calculateDamage(pokemonATK, PokemonDFS, ATK) {
         DefenseDFS = PokemonDFS.currentSpecialDefense
     }
     let damage = ((((((2 * NivATKan / 5) + 2) * AttaqueATKan * Puissanceatk) / DefenseDFS) / 50) + 2) * STAB * Efficacite;
-    // console.log('les dgts',damage);
     return Math.round(damage);
 }
 
@@ -89,7 +87,6 @@ function useattack(attaque, pokemon1, pokemon2) {
     
     const correspondingMove = findAttack(attaque);
 
-    // console.log('correspjndingt move',correspondingMove);
     //gerer le si attaque est spe ou dmg
 
 
