@@ -2,7 +2,6 @@
 // socketHandler.js
 const { loadCollisionData, changeMapData, getNextMap, battleMapData, InteractMapData } = require('./mapdata.js');
 const { editEquipe, loadEquipe } = require('./actionequipe.js');
-// const  healEquipe = require('./equipe.js');
 const Pokemon = require('./pokemon.js');
 const CreatePokemon = require('./createwild.js');
 const startBattle = require('./wildBattle.js');
@@ -15,46 +14,7 @@ let players = {};
 const socketHandler = (io) => {
     io.on('connection', async (socket) => {
         const userId = socket.handshake.query.userId;
-
-        // console.log('le user ==', userId);
-
-        // const equipe = new Equipe();
-
-        // //ici faire les requette necessaire pour récupérer les données de l equipe
-        // const test = new Pokemon(269, "test", 0, 0, {
-        //     attack: 31,
-        //     defense: 31,
-        //     hp: 31,
-        //     specialDefense: 31,
-        //     speed: 31,
-        //     specialAttack: 31
-        // }, "Timid", 1);
-
-        // test.addAbility("Frenzy Plant");
-        // test.addAbility("Pound");
-        // test.addAbility("Pound");
-        // test.addAbility("Pound");
-        // test.gainExperience(2000000);
-        // equipe.ajouterPokemon(test);
-        // equipe.ajouterPokemon(test);
-
-        // const dataToSend = {
-        //     data: equipe
-        // };
-
-
-        // editEquipe(userId ,equipe)
-        // const toto =  loadEquipe(userId)
         const equipe = await loadEquipe(userId);
-        // console.log(equipe);
-
-        // axios.put(`http://localhost:3000/api/users/user/${userId}/equipe`, dataToSend)
-        // .then(response => {
-        //     // console.log('Equipe ajoutée avec succès. ID:', response.data.equipeId);
-        // })
-        // .catch(error => {
-        //     console.error('Erreur lors de lajout de léquipe:', error);
-        // });
 
 
 
@@ -107,8 +67,6 @@ const socketHandler = (io) => {
                 //ici call la team 
                 const getFightTeamName = getTeamInformation(data)
                 const enemyteam = getPnjTeam(getFightTeamName)
-                // enemyteam.afficherEquipe();
-                // console.log(enemyteam);
 
 
                 socket.emit('battletrigger', { message: 'Vous avez déclenché la condition!' });
@@ -116,7 +74,6 @@ const socketHandler = (io) => {
 
             }
             else if (toto == "heal") {
-                // healEquipe(player)
                 player.equipe.pokemons.forEach(pokemon => {
                     pokemon.currentHp = pokemon.maxHp; // Restaure les PV au maximum
                 });
@@ -139,7 +96,6 @@ const socketHandler = (io) => {
             // Convertir les coordonnées du joueur en indices de matrice
             const matrixX = Math.floor(newPlayerX / tileWidth);
             const matrixY = Math.floor(newPlayerY / tileHeight);
-            // console.log('matrice du joueur ', matrixX, matrixY);
 
             const adjacentPositions = [
                 { x: matrixX, y: matrixY - 1 },  // Au-dessus
@@ -153,8 +109,6 @@ const socketHandler = (io) => {
             adjacentPositions.forEach(pos => {
                 if (Array.isArray(interactmap) && interactmap.length > 0 && Array.isArray(interactmap[0])) {
                     if (pos.x >= 0 && pos.x < interactmap[0].length && pos.y >= 0 && pos.y < interactmap.length) {
-                        // console.log('La current map :', currentmap);
-                        // console.log('La zone de la map ? La case dans la matrice :', interactmap[pos.y][pos.x]);
                 
                         if (interactmap[pos.y][pos.x] !== 0) {
                             interactionDetected = true;
@@ -235,7 +189,6 @@ const socketHandler = (io) => {
                             pokemonsauvage.addAbility("Pound");
                             pokemonsauvage.addAbility("Pound");
                             pokemonsauvage.gainExperience(5000);
-                            // console.log('laaaaaaaaaaaaaaaaaa', pokemonsauvage);
                             return pokemonsauvage;
                         } catch (erreur) {
                             console.error(erreur);
@@ -248,9 +201,7 @@ const socketHandler = (io) => {
                             //appelle de la battle pokemon
                             startBattle(player, pokemonsauvage, io, userId, equipe)
 
-                            // editEquipe(userId, equipe)
 
-                            // console.log('Pokémon créé:', pokemonsauvage);
                         })
                         .catch((erreur) => {
                             console.error(erreur);
@@ -290,11 +241,9 @@ const socketHandler = (io) => {
                     }
 
                     const sameMapPlayers = getPlayersInMap(currentmap);
-                    // console.log(sameMapPlayers);
                     socket.emit('playersList', sameMapPlayers);
 
 
-                    // console.log('ça va emit');
                     // Emit the updated players list to the current player
                     // socket.emit('playersList', sameMapPlayers);
                     for (const id in players) {

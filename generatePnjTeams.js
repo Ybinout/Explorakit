@@ -37,12 +37,6 @@ function getPnjTeam(pnjName) {
     return pnjTeamsCache[pnjName];
 }
 
-// Exemple d'utilisation
-// const timmyTeam = getPnjTeam('garry');
-// if (timmyTeam) {
-//     console.log(`Equipe de garry :`);
-//     timmyTeam.afficherEquipe();
-// }
 
 module.exports = {
     pnjTeams: pnjTeamsCache,
