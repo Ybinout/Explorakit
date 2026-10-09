@@ -1,0 +1,516 @@
+{
+  "maps": [
+    {
+      "mapName": "gen_route1",
+      "mapchange": [
+        {
+          "valX": 0,
+          "valY": null,
+          "goto": "route3",
+          "nexX": 832,
+          "nexY": 544
+        },
+        {
+          "valX": 27,
+          "valY": null,
+          "goto": "gen_ville1",
+          "nexX": 32,
+          "nexY": 384
+        }
+      ],
+      "wildpokemon": [
+        120,
+        125,
+        258,
+        95,
+        190,
+        210,
+        15,
+        45,
+        350
+      ],
+      "level": {
+        "min": 24,
+        "max": 28
+      }
+    },
+    {
+      "mapName": "gen_ville1",
+      "wildpokemon": [],
+      "level": {
+        "min": 24,
+        "max": 44
+      },
+      "mapchange": [
+        {
+          "valX": 0,
+          "valY": null,
+          "goto": "gen_route1",
+          "nexX": 832,
+          "nexY": 352
+        },
+        {
+          "valX": 27,
+          "valY": null,
+          "goto": "gen_route2",
+          "nexX": 32,
+          "nexY": 352
+        },
+        {
+          "valX": 21,
+          "valY": null,
+          "goto": "gen_arene1",
+          "nexX": 416,
+          "nexY": 544
+        }
+      ]
+    },
+    {
+      "mapName": "gen_route2",
+      "mapchange": [
+        {
+          "valX": 0,
+          "valY": null,
+          "goto": "gen_ville1",
+          "nexX": 832,
+          "nexY": 384
+        },
+        {
+          "valX": 27,
+          "valY": null,
+          "goto": "gen_route3",
+          "nexX": 32,
+          "nexY": 352
+        }
+      ],
+      "wildpokemon": [
+        120,
+        125,
+        258,
+        95,
+        190,
+        210,
+        15,
+        45,
+        350
+      ],
+      "level": {
+        "min": 26,
+        "max": 30
+      }
+    },
+    {
+      "mapName": "gen_route3",
+      "mapchange": [
+        {
+          "valX": 0,
+          "valY": null,
+          "goto": "gen_route2",
+          "nexX": 832,
+          "nexY": 352
+        },
+        {
+          "valX": 27,
+          "valY": null,
+          "goto": "gen_ville2",
+          "nexX": 32,
+          "nexY": 384
+        }
+      ],
+      "wildpokemon": [
+        120,
+        125,
+        258,
+        95,
+        190,
+        210,
+        15,
+        45,
+        350
+      ],
+      "level": {
+        "min": 28,
+        "max": 32
+      }
+    },
+    {
+      "mapName": "gen_ville2",
+      "wildpokemon": [],
+      "level": {
+        "min": 24,
+        "max": 44
+      },
+      "mapchange": [
+        {
+          "valX": 0,
+          "valY": null,
+          "goto": "gen_route3",
+          "nexX": 832,
+          "nexY": 352
+        },
+        {
+          "valX": 27,
+          "valY": null,
+          "goto": "gen_route4",
+          "nexX": 32,
+          "nexY": 352
+        },
+        {
+          "valX": 21,
+          "valY": null,
+          "goto": "gen_arene2",
+          "nexX": 416,
+          "nexY": 544
+        }
+      ]
+    },
+    {
+      "mapName": "gen_route4",
+      "mapchange": [
+        {
+          "valX": 0,
+          "valY": null,
+          "goto": "gen_ville2",
+          "nexX": 832,
+          "nexY": 384
+        },
+        {
+          "valX": 27,
+          "valY": null,
+          "goto": "gen_ville3",
+          "nexX": 32,
+          "nexY": 384
+        }
+      ],
+      "wildpokemon": [
+        120,
+        125,
+        258,
+        95,
+        190,
+        210,
+        15,
+        45,
+        350
+      ],
+      "level": {
+        "min": 30,
+        "max": 34
+      }
+    },
+    {
+      "mapName": "gen_ville3",
+      "wildpokemon": [],
+      "level": {
+        "min": 24,
+        "max": 44
+      },
+      "mapchange": [
+        {
+          "valX": 0,
+          "valY": null,
+          "goto": "gen_route4",
+          "nexX": 832,
+          "nexY": 352
+        },
+        {
+          "valX": 27,
+          "valY": null,
+          "goto": "gen_route5",
+          "nexX": 32,
+          "nexY": 352
+        },
+        {
+          "valX": 4,
+          "valY": null,
+          "goto": "gen_arene3",
+          "nexX": 416,
+          "nexY": 544
+        }
+      ]
+    },
+    {
+      "mapName": "gen_route5",
+      "mapchange": [
+        {
+          "valX": 0,
+          "valY": null,
+          "goto": "gen_ville3",
+          "nexX": 832,
+          "nexY": 384
+        },
+        {
+          "valX": 27,
+          "valY": null,
+          "goto": "gen_route6",
+          "nexX": 32,
+          "nexY": 352
+        }
+      ],
+      "wildpokemon": [
+        120,
+        125,
+        258,
+        95,
+        190,
+        210,
+        15,
+        45,
+        350
+      ],
+      "level": {
+        "min": 32,
+        "max": 36
+      }
+    },
+    {
+      "mapName": "gen_route6",
+      "mapchange": [
+        {
+          "valX": 0,
+          "valY": null,
+          "goto": "gen_route5",
+          "nexX": 832,
+          "nexY": 352
+        },
+        {
+          "valX": 27,
+          "valY": null,
+          "goto": "gen_ville4",
+          "nexX": 32,
+          "nexY": 384
+        }
+      ],
+      "wildpokemon": [
+        120,
+        125,
+        258,
+        95,
+        190,
+        210,
+        15,
+        45,
+        350
+      ],
+      "level": {
+        "min": 34,
+        "max": 38
+      }
+    },
+    {
+      "mapName": "gen_ville4",
+      "wildpokemon": [],
+      "level": {
+        "min": 24,
+        "max": 44
+      },
+      "mapchange": [
+        {
+          "valX": 0,
+          "valY": null,
+          "goto": "gen_route6",
+          "nexX": 832,
+          "nexY": 352
+        },
+        {
+          "valX": 27,
+          "valY": null,
+          "goto": "gen_route7",
+          "nexX": 32,
+          "nexY": 352
+        },
+        {
+          "valX": 5,
+          "valY": null,
+          "goto": "gen_arene4",
+          "nexX": 416,
+          "nexY": 544
+        }
+      ]
+    },
+    {
+      "mapName": "gen_route7",
+      "mapchange": [
+        {
+          "valX": 0,
+          "valY": null,
+          "goto": "gen_ville4",
+          "nexX": 832,
+          "nexY": 384
+        },
+        {
+          "valX": 27,
+          "valY": null,
+          "goto": "gen_ville5",
+          "nexX": 32,
+          "nexY": 384
+        }
+      ],
+      "wildpokemon": [
+        120,
+        125,
+        258,
+        95,
+        190,
+        210,
+        15,
+        45,
+        350
+      ],
+      "level": {
+        "min": 36,
+        "max": 40
+      }
+    },
+    {
+      "mapName": "gen_ville5",
+      "wildpokemon": [],
+      "level": {
+        "min": 24,
+        "max": 44
+      },
+      "mapchange": [
+        {
+          "valX": 0,
+          "valY": null,
+          "goto": "gen_route7",
+          "nexX": 832,
+          "nexY": 352
+        },
+        {
+          "valX": 27,
+          "valY": null,
+          "goto": "gen_route8",
+          "nexX": 32,
+          "nexY": 352
+        },
+        {
+          "valX": 21,
+          "valY": null,
+          "goto": "gen_arene5",
+          "nexX": 416,
+          "nexY": 544
+        }
+      ]
+    },
+    {
+      "mapName": "gen_route8",
+      "mapchange": [
+        {
+          "valX": 0,
+          "valY": null,
+          "goto": "gen_ville5",
+          "nexX": 832,
+          "nexY": 384
+        },
+        {
+          "valX": 27,
+          "valY": null,
+          "goto": "route4",
+          "nexX": 608,
+          "nexY": 608
+        }
+      ],
+      "wildpokemon": [
+        120,
+        125,
+        258,
+        95,
+        190,
+        210,
+        15,
+        45,
+        350
+      ],
+      "level": {
+        "min": 38,
+        "max": 44
+      }
+    },
+    {
+      "mapName": "gen_arene1",
+      "mapchange": [
+        {
+          "valX": null,
+          "valY": 17,
+          "goto": "gen_ville1",
+          "nexX": 672,
+          "nexY": 352
+        }
+      ],
+      "wildpokemon": [],
+      "level": {
+        "min": 24,
+        "max": 44
+      }
+    },
+    {
+      "mapName": "gen_arene2",
+      "mapchange": [
+        {
+          "valX": null,
+          "valY": 17,
+          "goto": "gen_ville2",
+          "nexX": 672,
+          "nexY": 512
+        }
+      ],
+      "wildpokemon": [],
+      "level": {
+        "min": 24,
+        "max": 44
+      }
+    },
+    {
+      "mapName": "gen_arene3",
+      "mapchange": [
+        {
+          "valX": null,
+          "valY": 17,
+          "goto": "gen_ville3",
+          "nexX": 128,
+          "nexY": 384
+        }
+      ],
+      "wildpokemon": [],
+      "level": {
+        "min": 24,
+        "max": 44
+      }
+    },
+    {
+      "mapName": "gen_arene4",
+      "mapchange": [
+        {
+          "valX": null,
+          "valY": 17,
+          "goto": "gen_ville4",
+          "nexX": 160,
+          "nexY": 512
+        }
+      ],
+      "wildpokemon": [],
+      "level": {
+        "min": 24,
+        "max": 44
+      }
+    },
+    {
+      "mapName": "gen_arene5",
+      "mapchange": [
+        {
+          "valX": null,
+          "valY": 17,
+          "goto": "gen_ville5",
+          "nexX": 672,
+          "nexY": 384
+        }
+      ],
+      "wildpokemon": [],
+      "level": {
+        "min": 24,
+        "max": 44
+      }
+    }
+  ]
+}

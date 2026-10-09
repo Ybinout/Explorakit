@@ -1,0 +1,690 @@
+{
+  "maps": [
+    {
+      "map": "gen_ville1",
+      "walkable": 279,
+      "transition_tiles": 7,
+      "objects": [
+        {
+          "kind": "gym",
+          "x": 18,
+          "y": 1,
+          "width": 7,
+          "height": 9
+        },
+        {
+          "kind": "thatched",
+          "x": 2,
+          "y": 2,
+          "width": 5,
+          "height": 7
+        },
+        {
+          "kind": "thatched",
+          "x": 9,
+          "y": 11,
+          "width": 5,
+          "height": 7
+        },
+        {
+          "kind": "etang",
+          "x": 14,
+          "y": 14,
+          "width": 8,
+          "height": 5
+        },
+        {
+          "kind": "arbre entier",
+          "x": 8,
+          "y": 1,
+          "width": 4,
+          "height": 5
+        },
+        {
+          "kind": "arbre entier",
+          "x": 2,
+          "y": 12,
+          "width": 4,
+          "height": 5
+        },
+        {
+          "kind": "arbre entier",
+          "x": 23,
+          "y": 13,
+          "width": 4,
+          "height": 5
+        }
+      ],
+      "wild_battles": false
+    },
+    {
+      "map": "gen_arene1",
+      "walkable": 230,
+      "transition_tiles": 2,
+      "objects": [
+        {
+          "kind": "rocher",
+          "x": 5,
+          "y": 5,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "rocher",
+          "x": 21,
+          "y": 5,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "rocher",
+          "x": 5,
+          "y": 9,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "rocher",
+          "x": 21,
+          "y": 9,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "rocher",
+          "x": 5,
+          "y": 13,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "rocher",
+          "x": 16,
+          "y": 12,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "rocher",
+          "x": 21,
+          "y": 13,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "rocher",
+          "x": 12,
+          "y": 10,
+          "width": 2,
+          "height": 2
+        }
+      ],
+      "wild_battles": false
+    },
+    {
+      "map": "gen_ville2",
+      "walkable": 242,
+      "transition_tiles": 7,
+      "objects": [
+        {
+          "kind": "gym",
+          "x": 18,
+          "y": 6,
+          "width": 8,
+          "height": 9
+        },
+        {
+          "kind": "blue",
+          "x": 2,
+          "y": 1,
+          "width": 5,
+          "height": 7
+        },
+        {
+          "kind": "orange",
+          "x": 2,
+          "y": 11,
+          "width": 5,
+          "height": 7
+        },
+        {
+          "kind": "boutique decorative",
+          "x": 19,
+          "y": 1,
+          "width": 4,
+          "height": 4
+        },
+        {
+          "kind": "etang",
+          "x": 9,
+          "y": 1,
+          "width": 8,
+          "height": 9
+        },
+        {
+          "kind": "rocher entier",
+          "x": 12,
+          "y": 16,
+          "width": 2,
+          "height": 2
+        }
+      ],
+      "wild_battles": false
+    },
+    {
+      "map": "gen_arene2",
+      "walkable": 194,
+      "transition_tiles": 2,
+      "objects": [
+        {
+          "kind": "bassin",
+          "x": 4,
+          "y": 5,
+          "width": 6,
+          "height": 5
+        },
+        {
+          "kind": "bassin",
+          "x": 18,
+          "y": 5,
+          "width": 6,
+          "height": 5
+        },
+        {
+          "kind": "rocher",
+          "x": 5,
+          "y": 12,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "rocher",
+          "x": 21,
+          "y": 12,
+          "width": 2,
+          "height": 2
+        }
+      ],
+      "wild_battles": false
+    },
+    {
+      "map": "gen_ville3",
+      "walkable": 225,
+      "transition_tiles": 7,
+      "objects": [
+        {
+          "kind": "gym",
+          "x": 2,
+          "y": 1,
+          "width": 9,
+          "height": 10
+        },
+        {
+          "kind": "orange",
+          "x": 12,
+          "y": 1,
+          "width": 5,
+          "height": 7
+        },
+        {
+          "kind": "blue",
+          "x": 14,
+          "y": 11,
+          "width": 5,
+          "height": 7
+        },
+        {
+          "kind": "centre decoratif",
+          "x": 19,
+          "y": 3,
+          "width": 5,
+          "height": 6
+        },
+        {
+          "kind": "rocher entier",
+          "x": 24,
+          "y": 12,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "rocher entier",
+          "x": 24,
+          "y": 16,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "relief",
+          "x": 2,
+          "y": 13,
+          "width": 3,
+          "height": 5
+        },
+        {
+          "kind": "relief",
+          "x": 9,
+          "y": 13,
+          "width": 3,
+          "height": 5
+        },
+        {
+          "kind": "relief",
+          "x": 20,
+          "y": 13,
+          "width": 3,
+          "height": 5
+        },
+        {
+          "kind": "lampadaire",
+          "x": 1,
+          "y": 6,
+          "width": 1,
+          "height": 3
+        },
+        {
+          "kind": "lampadaire",
+          "x": 8,
+          "y": 14,
+          "width": 1,
+          "height": 3
+        }
+      ],
+      "wild_battles": false
+    },
+    {
+      "map": "gen_arene3",
+      "walkable": 186,
+      "transition_tiles": 2,
+      "objects": [
+        {
+          "kind": "rocher",
+          "x": 4,
+          "y": 6,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "rocher",
+          "x": 6,
+          "y": 6,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "rocher",
+          "x": 8,
+          "y": 6,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "rocher",
+          "x": 18,
+          "y": 6,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "rocher",
+          "x": 22,
+          "y": 6,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "rocher",
+          "x": 10,
+          "y": 10,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "rocher",
+          "x": 12,
+          "y": 10,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "rocher",
+          "x": 14,
+          "y": 10,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "rocher",
+          "x": 16,
+          "y": 10,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "rocher",
+          "x": 18,
+          "y": 10,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "rocher",
+          "x": 20,
+          "y": 10,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "rocher",
+          "x": 22,
+          "y": 10,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "rocher",
+          "x": 4,
+          "y": 14,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "rocher",
+          "x": 6,
+          "y": 14,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "rocher",
+          "x": 8,
+          "y": 14,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "rocher",
+          "x": 10,
+          "y": 14,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "rocher",
+          "x": 12,
+          "y": 14,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "rocher",
+          "x": 14,
+          "y": 14,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "rocher",
+          "x": 16,
+          "y": 14,
+          "width": 2,
+          "height": 2
+        }
+      ],
+      "wild_battles": false
+    },
+    {
+      "map": "gen_ville4",
+      "walkable": 266,
+      "transition_tiles": 7,
+      "objects": [
+        {
+          "kind": "gym",
+          "x": 2,
+          "y": 5,
+          "width": 7,
+          "height": 10
+        },
+        {
+          "kind": "green",
+          "x": 12,
+          "y": 1,
+          "width": 5,
+          "height": 7
+        },
+        {
+          "kind": "green",
+          "x": 21,
+          "y": 1,
+          "width": 5,
+          "height": 7
+        },
+        {
+          "kind": "centre decoratif",
+          "x": 22,
+          "y": 13,
+          "width": 5,
+          "height": 6
+        },
+        {
+          "kind": "etang",
+          "x": 13,
+          "y": 10,
+          "width": 8,
+          "height": 5
+        },
+        {
+          "kind": "lampadaire",
+          "x": 1,
+          "y": 6,
+          "width": 1,
+          "height": 3
+        }
+      ],
+      "wild_battles": false
+    },
+    {
+      "map": "gen_arene4",
+      "walkable": 214,
+      "transition_tiles": 2,
+      "objects": [
+        {
+          "kind": "rocher",
+          "x": 5,
+          "y": 5,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "rocher",
+          "x": 21,
+          "y": 5,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "rocher",
+          "x": 12,
+          "y": 12,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "rocher",
+          "x": 5,
+          "y": 12,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "rocher",
+          "x": 15,
+          "y": 12,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "rocher",
+          "x": 21,
+          "y": 12,
+          "width": 2,
+          "height": 2
+        }
+      ],
+      "wild_battles": false
+    },
+    {
+      "map": "gen_ville5",
+      "walkable": 258,
+      "transition_tiles": 7,
+      "objects": [
+        {
+          "kind": "gym",
+          "x": 18,
+          "y": 1,
+          "width": 8,
+          "height": 10
+        },
+        {
+          "kind": "orange",
+          "x": 2,
+          "y": 1,
+          "width": 5,
+          "height": 7
+        },
+        {
+          "kind": "thatched",
+          "x": 8,
+          "y": 11,
+          "width": 5,
+          "height": 7
+        },
+        {
+          "kind": "centre decoratif",
+          "x": 2,
+          "y": 13,
+          "width": 5,
+          "height": 6
+        },
+        {
+          "kind": "boutique decorative",
+          "x": 11,
+          "y": 1,
+          "width": 4,
+          "height": 4
+        },
+        {
+          "kind": "rocher entier",
+          "x": 21,
+          "y": 14,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "rocher entier",
+          "x": 24,
+          "y": 16,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "relief",
+          "x": 14,
+          "y": 13,
+          "width": 3,
+          "height": 5
+        }
+      ],
+      "wild_battles": false
+    },
+    {
+      "map": "gen_arene5",
+      "walkable": 226,
+      "transition_tiles": 2,
+      "objects": [
+        {
+          "kind": "rocher",
+          "x": 5,
+          "y": 4,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "rocher",
+          "x": 21,
+          "y": 4,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "rocher",
+          "x": 12,
+          "y": 7,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "rocher",
+          "x": 16,
+          "y": 7,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "rocher",
+          "x": 5,
+          "y": 10,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "rocher",
+          "x": 12,
+          "y": 11,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "rocher",
+          "x": 16,
+          "y": 11,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "rocher",
+          "x": 21,
+          "y": 13,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "kind": "rocher",
+          "x": 5,
+          "y": 14,
+          "width": 2,
+          "height": 2
+        }
+      ],
+      "wild_battles": false
+    }
+  ],
+  "connected_chain": [
+    "gen_route1",
+    "gen_ville1",
+    "gen_route2",
+    "gen_route3",
+    "gen_ville2",
+    "gen_route4",
+    "gen_ville3",
+    "gen_route5",
+    "gen_route6",
+    "gen_ville4",
+    "gen_route7",
+    "gen_ville5",
+    "gen_route8"
+  ],
+  "portal_rules": 36,
+  "game_test": false,
+  "champions": "a configurer"
+}

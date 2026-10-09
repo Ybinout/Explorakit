@@ -1,0 +1,160 @@
+[
+    {
+        "name": "dia0",
+        "map": "random",
+        "x": 18,
+        "sentences": [
+            {
+                "text": "Bonjour mon chéri, je voulais te parler... Le monde est vaste et rempli de mystères. Ta sœur est partie pour l'aventure il y a plusieurs mois, mais nous n'avons plus de nouvelles d'elle depuis. Je sais que cela t'inquiète, mais je suis sûre qu'elle est en sécurité. Cependant, je pense qu'il est temps pour toi de partir à sa recherche. Tu es prêt, n'est-ce pas ? Avant que tu partes, tu devrais aller voir le Professeur Chêne. Il pourra t'aider à te préparer pour ton voyage. Prends soin de toi, mon chéri.",
+                "imageName": "mom.png"
+            },
+            {
+                "text": "Ah, te voilà ! Ta mère m'a parlé de ta décision. C'est une grande responsabilité que tu assumes, mais je suis sûr que tu es prêt.Avant que tu ne partes, je veux te donner un Pokémon. Ce sera ton premier compagnon d'aventure. Choisis bien, car il sera à tes côtés tout au long de ton voyage. Ces trois Pokémon sont tous spéciaux à leur manière. Prends ton temps pour faire ton choix. Je suis là pour répondre à tes questions. Une fois que tu auras choisi, ton aventure commencera officiellement. N'oublie pas, c'est dangereux de partir seul. Bonne chance, jeune dresseur !",
+                "imageName": "prof.png"
+            }
+        ]
+    },
+    {
+        "name": "dia1",
+        "map": "start",
+        "x": 18,
+        "sentences": [
+            {
+                "text": "Eh, attends une seconde ! Tu veux vraiment quitter le village maintenant ? Je dois te prévenir, au bout de cette route, juste avant d'arriver à la première ville, il y a Garry... C'est un grand gaillard, super fort ! Il attend toujours ici, prêt à lancer un duel contre quiconque essaie de passer. Il ne m'a pas laissé passer... Je suis coincé ici à cause de lui.Mais avant que tu t'aventures là-bas, je veux voir de quoi tu es capable ! Si tu ne peux même pas me battre, tu n'as aucune chance contre Garry. Allez, montre-moi ce que tu sais faire ! Prépare-toi à te battre !",
+                "imageName": "a.png"
+            }
+        ],
+        "end": "battle",
+        "team": "moonpunch"
+    },
+    {
+        "name": "centre",
+        "map": "centre",
+        "x": 9,
+        "sentences": [
+            {
+                "text": "Tes Pokémon ont donné le meilleur d'eux-mêmes ! Je vais les soigner en un instant... Voilà, ils sont en pleine forme ! Prends soin d'eux et bonne chance pour tes prochaines aventures ",
+                "imageName": "inf.png"
+            }
+        ],
+        "end": "heal",
+        "team": ""
+    },
+    {
+        "name": "moon",
+        "map": null,
+        "x": null,
+        "sentences": [
+            {
+                "text": "Issou",
+                "imageName": "moonpunch.png"
+            }
+        ],
+        "end": "battle",
+        "team": "moonpunch"
+    },
+    {
+        "name": "route_guide_1",
+        "sentences": [{ "text": "La route à l'est mène à Clairbois. Les hautes herbes deviennent plus dangereuses à mesure que tu t'éloignes du village.", "imageName": "village.png" }]
+    },
+    {
+        "name": "route_guide_2",
+        "sentences": [{ "text": "Entre Clairbois et Rivazur, garde toujours quelques Balls et des objets de soin. Le chemin est long.", "imageName": "sana.png" }]
+    },
+    {
+        "name": "route_guide_3",
+        "sentences": [{ "text": "Les Pokémon de cette région réagissent aux changements de terrain. Observe-les avant de choisir ton attaque.", "imageName": "prof2.png" }]
+    },
+    {
+        "name": "route_guide_4",
+        "sentences": [{ "text": "Rochebourg est derrière nous. Plus loin, les dresseurs commencent à utiliser de vraies stratégies d'équipe.", "imageName": "hoze.png" }]
+    },
+    {
+        "name": "route_guide_5",
+        "sentences": [{ "text": "Floraville entretient ses jardins sans repousser les Pokémon sauvages. C'est ce qui rend la route si vivante.", "imageName": "wanda.png" }]
+    },
+    {
+        "name": "route_guide_6",
+        "sentences": [{ "text": "On raconte que l'Aube Obscure a traversé cette route. Si tu cherches Clara, ouvre l'œil.", "imageName": "raph.png" }]
+    },
+    {
+        "name": "route_guide_7",
+        "sentences": [{ "text": "Ocreville n'est plus très loin. Son arène est la dernière de cette partie de la région.", "imageName": "ana.png" }]
+    },
+    {
+        "name": "route_guide_8",
+        "sentences": [{ "text": "Cette route rejoint l'ancien réseau près de la route 4. Tu peux donc revenir au village sans faire demi-tour.", "imageName": "7ps.png" }]
+    },
+    {
+        "name": "city_guide_1",
+        "sentences": [{ "text": "Bienvenue à Clairbois. L'arène Sylve se trouve au nord-est, dans le grand bâtiment de bois.", "imageName": "village.png" }]
+    },
+    {
+        "name": "city_guide_2",
+        "sentences": [{ "text": "Bienvenue à Rivazur. Le dôme bleu et rouge abrite l'arène Marée.", "imageName": "sana.png" }]
+    },
+    {
+        "name": "city_guide_3",
+        "sentences": [{ "text": "Bienvenue à Rochebourg. L'arène Minerai occupe le grand hall métallique à l'ouest.", "imageName": "hoze.png" }]
+    },
+    {
+        "name": "city_guide_4",
+        "sentences": [{ "text": "Bienvenue à Floraville. Le bâtiment rouge sur la gauche est l'arène Floraison.", "imageName": "wanda.png" }]
+    },
+    {
+        "name": "city_guide_5",
+        "sentences": [{ "text": "Bienvenue à Ocreville. L'arène Dune domine la partie nord-est de la ville.", "imageName": "ana.png" }]
+    },
+    {
+        "name": "gym_forest",
+        "sentences": [{ "text": "Je suis Églantine, championne de Clairbois. Dans mon bosquet, la patience compte autant que la force. Relèves-tu le défi du Badge Sylve ?", "imageName": "sana.png" }],
+        "end": "battle",
+        "team": "champion_sylve"
+    },
+    {
+        "name": "gym_tide",
+        "sentences": [{ "text": "Je suis Nérée, champion de Rivazur. Une équipe doit savoir s'adapter comme l'eau. Montre-moi la tienne !", "imageName": "raph.png" }],
+        "end": "battle",
+        "team": "champion_maree"
+    },
+    {
+        "name": "gym_ore",
+        "sentences": [{ "text": "Je suis Hépha, champion de Rochebourg. Ici, seules les équipes solides atteignent le bout du parcours.", "imageName": "hoze.png" }],
+        "end": "battle",
+        "team": "champion_minerai"
+    },
+    {
+        "name": "gym_bloom",
+        "sentences": [{ "text": "Je suis Flora, championne de Floraville. Une graine bien préparée finit toujours par percer la pierre.", "imageName": "wanda.png" }],
+        "end": "battle",
+        "team": "champion_floraison"
+    },
+    {
+        "name": "gym_dune",
+        "sentences": [{ "text": "Je suis Gaïa, championne d'Ocreville. Tu as traversé toute la région ; voyons si tu peux résister à la tempête.", "imageName": "cynthia.png" }],
+        "end": "battle",
+        "team": "champion_dune"
+    },
+    {
+        "name": "home_resident_1",
+        "sentences": [{ "text": "Clairbois est paisible, mais l'arène attire de plus en plus de dresseurs. Entre donc te reposer un instant.", "imageName": "mom.png" }]
+    },
+    {
+        "name": "home_resident_2",
+        "sentences": [{ "text": "Les bassins de Rivazur alimentent toute la ville. Nérée connaît chaque courant par cœur.", "imageName": "prof2.png" }]
+    },
+    {
+        "name": "home_resident_3",
+        "sentences": [{ "text": "Je collectionne les pierres rapportées des routes voisines. Certaines réagissent étrangement depuis le passage de l'Aube Obscure.", "imageName": "hoze.png" }]
+    },
+    {
+        "name": "shop_keeper_ville1",
+        "sentences": [{ "text": "Bienvenue ! Poké Balls, Baies et objets tenus sont disponibles au comptoir.", "imageName": "inf.png" }],
+        "end": "shop"
+    },
+    {
+        "name": "shop_keeper_1",
+        "sentences": [{ "text": "Bienvenue dans la boutique d'Ocreville. Poké Balls, Baies et objets tenus sont disponibles au comptoir.", "imageName": "inf.png" }],
+        "end": "shop"
+    }
+]

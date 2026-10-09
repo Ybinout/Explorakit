@@ -1,0 +1,612 @@
+{
+  "maps": [
+    {
+      "map": "gen_route1",
+      "landscape": "Hameau de l’étang",
+      "walkable": 339,
+      "battle": 28,
+      "transitions": 6,
+      "whole_objects": [
+        {
+          "name": "arbre entier",
+          "x": 1,
+          "y": 1,
+          "width": 4,
+          "height": 5
+        },
+        {
+          "name": "arbre entier",
+          "x": 5,
+          "y": 1,
+          "width": 4,
+          "height": 5
+        },
+        {
+          "name": "arbre entier",
+          "x": 1,
+          "y": 8,
+          "width": 4,
+          "height": 5
+        },
+        {
+          "name": "arbre entier",
+          "x": 23,
+          "y": 1,
+          "width": 4,
+          "height": 5
+        },
+        {
+          "name": "maison forestiere",
+          "x": 9,
+          "y": 2,
+          "width": 5,
+          "height": 6
+        },
+        {
+          "name": "maison forestiere est",
+          "x": 18,
+          "y": 2,
+          "width": 5,
+          "height": 6
+        },
+        {
+          "name": "relief rocheux",
+          "x": 14,
+          "y": 1,
+          "width": 3,
+          "height": 5
+        },
+        {
+          "name": "etang",
+          "x": 17,
+          "y": 14,
+          "width": 8,
+          "height": 5
+        },
+        {
+          "name": "buisson rond",
+          "x": 8,
+          "y": 17,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "name": "buisson rond est",
+          "x": 14,
+          "y": 13,
+          "width": 2,
+          "height": 2
+        }
+      ],
+      "checks": "accessibilite, calques, sorties, collisions, combat et foreground valides"
+    },
+    {
+      "map": "gen_route2",
+      "landscape": "Sous-bois",
+      "walkable": 393,
+      "battle": 57,
+      "transitions": 6,
+      "whole_objects": [
+        {
+          "name": "conifere entier",
+          "x": 1,
+          "y": 1,
+          "width": 4,
+          "height": 5
+        },
+        {
+          "name": "conifere entier",
+          "x": 5,
+          "y": 1,
+          "width": 4,
+          "height": 5
+        },
+        {
+          "name": "conifere entier",
+          "x": 10,
+          "y": 1,
+          "width": 4,
+          "height": 5
+        },
+        {
+          "name": "conifere entier",
+          "x": 18,
+          "y": 1,
+          "width": 4,
+          "height": 5
+        },
+        {
+          "name": "conifere entier",
+          "x": 23,
+          "y": 1,
+          "width": 4,
+          "height": 5
+        },
+        {
+          "name": "conifere entier",
+          "x": 2,
+          "y": 14,
+          "width": 4,
+          "height": 5
+        },
+        {
+          "name": "conifere entier",
+          "x": 6,
+          "y": 14,
+          "width": 4,
+          "height": 5
+        },
+        {
+          "name": "conifere entier",
+          "x": 18,
+          "y": 14,
+          "width": 4,
+          "height": 5
+        },
+        {
+          "name": "conifere entier",
+          "x": 23,
+          "y": 14,
+          "width": 4,
+          "height": 5
+        },
+        {
+          "name": "etang",
+          "x": 10,
+          "y": 14,
+          "width": 8,
+          "height": 5
+        },
+        {
+          "name": "buisson rond",
+          "x": 13,
+          "y": 11,
+          "width": 2,
+          "height": 2
+        }
+      ],
+      "checks": "accessibilite, calques, sorties, collisions, combat et foreground valides"
+    },
+    {
+      "map": "gen_route3",
+      "landscape": "Étangs forestiers",
+      "walkable": 420,
+      "battle": 74,
+      "transitions": 6,
+      "whole_objects": [
+        {
+          "name": "conifere entier",
+          "x": 13,
+          "y": 1,
+          "width": 4,
+          "height": 5
+        },
+        {
+          "name": "conifere entier",
+          "x": 23,
+          "y": 1,
+          "width": 4,
+          "height": 5
+        },
+        {
+          "name": "conifere entier",
+          "x": 1,
+          "y": 14,
+          "width": 4,
+          "height": 5
+        },
+        {
+          "name": "conifere entier",
+          "x": 5,
+          "y": 14,
+          "width": 4,
+          "height": 5
+        },
+        {
+          "name": "arbre rond entier",
+          "x": 18,
+          "y": 1,
+          "width": 3,
+          "height": 3
+        },
+        {
+          "name": "arbre rond entier",
+          "x": 10,
+          "y": 14,
+          "width": 3,
+          "height": 3
+        },
+        {
+          "name": "etang",
+          "x": 2,
+          "y": 1,
+          "width": 8,
+          "height": 5
+        },
+        {
+          "name": "etang",
+          "x": 18,
+          "y": 14,
+          "width": 8,
+          "height": 5
+        },
+        {
+          "name": "buisson rond",
+          "x": 14,
+          "y": 15,
+          "width": 2,
+          "height": 2
+        }
+      ],
+      "checks": "accessibilite, calques, sorties, collisions, combat et foreground valides"
+    },
+    {
+      "map": "gen_route4",
+      "landscape": "Rives rocheuses",
+      "walkable": 416,
+      "battle": 82,
+      "transitions": 6,
+      "whole_objects": [
+        {
+          "name": "conifere entier",
+          "x": 1,
+          "y": 1,
+          "width": 4,
+          "height": 5
+        },
+        {
+          "name": "conifere entier",
+          "x": 5,
+          "y": 1,
+          "width": 4,
+          "height": 5
+        },
+        {
+          "name": "conifere entier",
+          "x": 22,
+          "y": 14,
+          "width": 4,
+          "height": 5
+        },
+        {
+          "name": "etang",
+          "x": 1,
+          "y": 14,
+          "width": 8,
+          "height": 5
+        },
+        {
+          "name": "relief",
+          "x": 14,
+          "y": 1,
+          "width": 3,
+          "height": 5
+        },
+        {
+          "name": "rocher entier",
+          "x": 10,
+          "y": 14,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "name": "rocher entier",
+          "x": 18,
+          "y": 3,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "name": "rocher entier",
+          "x": 23,
+          "y": 3,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "name": "buisson rond",
+          "x": 13,
+          "y": 16,
+          "width": 2,
+          "height": 2
+        }
+      ],
+      "checks": "accessibilite, calques, sorties, collisions, combat et foreground valides"
+    },
+    {
+      "map": "gen_route5",
+      "landscape": "Premiers coteaux",
+      "walkable": 400,
+      "battle": 44,
+      "transitions": 6,
+      "whole_objects": [
+        {
+          "name": "conifere entier",
+          "x": 9,
+          "y": 1,
+          "width": 4,
+          "height": 5
+        },
+        {
+          "name": "conifere entier",
+          "x": 23,
+          "y": 1,
+          "width": 4,
+          "height": 5
+        },
+        {
+          "name": "relief",
+          "x": 2,
+          "y": 1,
+          "width": 3,
+          "height": 5
+        },
+        {
+          "name": "relief",
+          "x": 18,
+          "y": 13,
+          "width": 3,
+          "height": 5
+        },
+        {
+          "name": "rocher entier",
+          "x": 15,
+          "y": 2,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "name": "rocher entier",
+          "x": 23,
+          "y": 14,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "name": "rocher entier",
+          "x": 10,
+          "y": 14,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "name": "buisson rond",
+          "x": 14,
+          "y": 16,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "name": "refuge",
+          "x": 3,
+          "y": 13,
+          "width": 5,
+          "height": 6
+        }
+      ],
+      "checks": "accessibilite, calques, sorties, collisions, combat et foreground valides"
+    },
+    {
+      "map": "gen_route6",
+      "landscape": "Hauts plateaux",
+      "walkable": 405,
+      "battle": 41,
+      "transitions": 6,
+      "whole_objects": [
+        {
+          "name": "conifere entier",
+          "x": 6,
+          "y": 1,
+          "width": 4,
+          "height": 5
+        },
+        {
+          "name": "conifere entier",
+          "x": 1,
+          "y": 14,
+          "width": 4,
+          "height": 5
+        },
+        {
+          "name": "relief",
+          "x": 1,
+          "y": 1,
+          "width": 3,
+          "height": 5
+        },
+        {
+          "name": "relief",
+          "x": 13,
+          "y": 1,
+          "width": 3,
+          "height": 5
+        },
+        {
+          "name": "relief",
+          "x": 21,
+          "y": 13,
+          "width": 3,
+          "height": 5
+        },
+        {
+          "name": "rocher entier",
+          "x": 19,
+          "y": 2,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "name": "rocher entier",
+          "x": 24,
+          "y": 2,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "name": "rocher entier",
+          "x": 10,
+          "y": 15,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "name": "rocher entier",
+          "x": 14,
+          "y": 15,
+          "width": 2,
+          "height": 2
+        }
+      ],
+      "checks": "accessibilite, calques, sorties, collisions, combat et foreground valides"
+    },
+    {
+      "map": "gen_route7",
+      "landscape": "Landes sèches",
+      "walkable": 422,
+      "battle": 16,
+      "transitions": 6,
+      "whole_objects": [
+        {
+          "name": "conifere entier",
+          "x": 2,
+          "y": 1,
+          "width": 4,
+          "height": 5
+        },
+        {
+          "name": "relief",
+          "x": 2,
+          "y": 13,
+          "width": 3,
+          "height": 5
+        },
+        {
+          "name": "relief",
+          "x": 19,
+          "y": 1,
+          "width": 3,
+          "height": 5
+        },
+        {
+          "name": "rocher entier",
+          "x": 9,
+          "y": 2,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "name": "rocher entier",
+          "x": 13,
+          "y": 3,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "name": "rocher entier",
+          "x": 24,
+          "y": 14,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "name": "rocher entier",
+          "x": 14,
+          "y": 15,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "name": "rocher entier",
+          "x": 8,
+          "y": 15,
+          "width": 2,
+          "height": 2
+        }
+      ],
+      "checks": "accessibilite, calques, sorties, collisions, combat et foreground valides"
+    },
+    {
+      "map": "gen_route8",
+      "landscape": "Col de pierre",
+      "walkable": 405,
+      "battle": 13,
+      "transitions": 6,
+      "whole_objects": [
+        {
+          "name": "conifere entier",
+          "x": 23,
+          "y": 1,
+          "width": 4,
+          "height": 5
+        },
+        {
+          "name": "relief",
+          "x": 1,
+          "y": 1,
+          "width": 3,
+          "height": 5
+        },
+        {
+          "name": "relief",
+          "x": 15,
+          "y": 1,
+          "width": 3,
+          "height": 5
+        },
+        {
+          "name": "relief",
+          "x": 22,
+          "y": 13,
+          "width": 3,
+          "height": 5
+        },
+        {
+          "name": "rocher entier",
+          "x": 6,
+          "y": 2,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "name": "rocher entier",
+          "x": 10,
+          "y": 2,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "name": "rocher entier",
+          "x": 2,
+          "y": 14,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "name": "rocher entier",
+          "x": 7,
+          "y": 15,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "name": "rocher entier",
+          "x": 12,
+          "y": 14,
+          "width": 2,
+          "height": 2
+        },
+        {
+          "name": "rocher entier",
+          "x": 18,
+          "y": 14,
+          "width": 2,
+          "height": 2
+        }
+      ],
+      "checks": "accessibilite, calques, sorties, collisions, combat et foreground valides"
+    }
+  ],
+  "generated_rules": 16,
+  "connected_chain": true,
+  "game_test": false
+}

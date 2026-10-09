@@ -1,0 +1,26 @@
+[
+  {
+    "map": "gen_maison1",
+    "accessible": 158,
+    "sortie": true,
+    "mobilier": 5
+  },
+  {
+    "map": "gen_maison2",
+    "accessible": 164,
+    "sortie": true,
+    "mobilier": 5
+  },
+  {
+    "map": "gen_maison3",
+    "accessible": 158,
+    "sortie": true,
+    "mobilier": 6
+  },
+  {
+    "map": "gen_shop1",
+    "accessible": 196,
+    "sortie": true,
+    "mobilier": 11
+  }
+]

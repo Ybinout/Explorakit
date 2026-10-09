@@ -1,0 +1,8 @@
+ALTER TABLE pokemons
+    ADD COLUMN passive_ability VARCHAR(50) NULL AFTER status,
+    ADD COLUMN held_item VARCHAR(50) NULL AFTER passive_ability,
+    ADD COLUMN move1_pp SMALLINT UNSIGNED NULL AFTER ability4,
+    ADD COLUMN move2_pp SMALLINT UNSIGNED NULL AFTER move1_pp,
+    ADD COLUMN move3_pp SMALLINT UNSIGNED NULL AFTER move2_pp,
+    ADD COLUMN move4_pp SMALLINT UNSIGNED NULL AFTER move3_pp;
+

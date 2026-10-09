@@ -1,0 +1,1139 @@
+{
+  "generation": 7,
+  "source": "Pokemon Showdown via @pkmn/dex",
+  "moves": {
+    "Pound": {
+      "contact": true
+    },
+    "Karate Chop": {
+      "contact": true
+    },
+    "Double Slap": {
+      "contact": true
+    },
+    "Comet Punch": {
+      "contact": true,
+      "punch": true
+    },
+    "Mega Punch": {
+      "contact": true,
+      "punch": true
+    },
+    "Fire Punch": {
+      "contact": true,
+      "punch": true,
+      "secondary": true
+    },
+    "Ice Punch": {
+      "contact": true,
+      "punch": true,
+      "secondary": true
+    },
+    "Thunder Punch": {
+      "contact": true,
+      "punch": true,
+      "secondary": true
+    },
+    "Scratch": {
+      "contact": true
+    },
+    "Vise Grip": {
+      "contact": true
+    },
+    "Guillotine": {
+      "contact": true
+    },
+    "Cut": {
+      "contact": true
+    },
+    "Wing Attack": {
+      "contact": true
+    },
+    "Fly": {
+      "contact": true
+    },
+    "Bind": {
+      "contact": true
+    },
+    "Slam": {
+      "contact": true
+    },
+    "Vine Whip": {
+      "contact": true
+    },
+    "Stomp": {
+      "contact": true,
+      "secondary": true
+    },
+    "Double Kick": {
+      "contact": true
+    },
+    "Mega Kick": {
+      "contact": true
+    },
+    "Jump Kick": {
+      "contact": true
+    },
+    "Rolling Kick": {
+      "contact": true,
+      "secondary": true
+    },
+    "Headbutt": {
+      "contact": true,
+      "secondary": true
+    },
+    "Horn Attack": {
+      "contact": true
+    },
+    "Fury Attack": {
+      "contact": true
+    },
+    "Horn Drill": {
+      "contact": true
+    },
+    "Tackle": {
+      "contact": true
+    },
+    "Body Slam": {
+      "contact": true,
+      "secondary": true
+    },
+    "Wrap": {
+      "contact": true
+    },
+    "Take Down": {
+      "contact": true,
+      "recoil": [
+        1,
+        4
+      ]
+    },
+    "Thrash": {
+      "contact": true
+    },
+    "Double-Edge": {
+      "contact": true,
+      "recoil": [
+        33,
+        100
+      ]
+    },
+    "Poison Sting": {
+      "secondary": true
+    },
+    "Twineedle": {
+      "secondary": true
+    },
+    "Bite": {
+      "contact": true,
+      "bite": true,
+      "secondary": true
+    },
+    "Growl": {
+      "sound": true
+    },
+    "Roar": {
+      "sound": true
+    },
+    "Sing": {
+      "sound": true
+    },
+    "Supersonic": {
+      "sound": true
+    },
+    "Acid": {
+      "secondary": true
+    },
+    "Ember": {
+      "secondary": true
+    },
+    "Flamethrower": {
+      "secondary": true
+    },
+    "Ice Beam": {
+      "secondary": true
+    },
+    "Blizzard": {
+      "secondary": true
+    },
+    "Psybeam": {
+      "secondary": true
+    },
+    "Bubble Beam": {
+      "secondary": true
+    },
+    "Aurora Beam": {
+      "secondary": true
+    },
+    "Peck": {
+      "contact": true
+    },
+    "Drill Peck": {
+      "contact": true
+    },
+    "Submission": {
+      "contact": true,
+      "recoil": [
+        1,
+        4
+      ]
+    },
+    "Low Kick": {
+      "contact": true
+    },
+    "Counter": {
+      "contact": true
+    },
+    "Seismic Toss": {
+      "contact": true
+    },
+    "Strength": {
+      "contact": true
+    },
+    "Absorb": {
+      "heal": true
+    },
+    "Mega Drain": {
+      "heal": true
+    },
+    "Poison Powder": {
+      "powder": true
+    },
+    "Stun Spore": {
+      "powder": true
+    },
+    "Sleep Powder": {
+      "powder": true
+    },
+    "Petal Dance": {
+      "contact": true
+    },
+    "Thunder Shock": {
+      "secondary": true
+    },
+    "Thunderbolt": {
+      "secondary": true
+    },
+    "Thunder": {
+      "secondary": true
+    },
+    "Dig": {
+      "contact": true
+    },
+    "Confusion": {
+      "secondary": true
+    },
+    "Psychic": {
+      "secondary": true
+    },
+    "Quick Attack": {
+      "contact": true
+    },
+    "Rage": {
+      "contact": true
+    },
+    "Screech": {
+      "sound": true
+    },
+    "Recover": {
+      "heal": true
+    },
+    "Bide": {
+      "contact": true
+    },
+    "Egg Bomb": {
+      "bullet": true
+    },
+    "Lick": {
+      "contact": true,
+      "secondary": true
+    },
+    "Smog": {
+      "secondary": true
+    },
+    "Sludge": {
+      "secondary": true
+    },
+    "Bone Club": {
+      "secondary": true
+    },
+    "Fire Blast": {
+      "secondary": true
+    },
+    "Waterfall": {
+      "contact": true,
+      "secondary": true
+    },
+    "Clamp": {
+      "contact": true
+    },
+    "Skull Bash": {
+      "contact": true
+    },
+    "Constrict": {
+      "contact": true,
+      "secondary": true
+    },
+    "Soft-Boiled": {
+      "heal": true
+    },
+    "High Jump Kick": {
+      "contact": true
+    },
+    "Dream Eater": {
+      "heal": true
+    },
+    "Barrage": {
+      "bullet": true
+    },
+    "Leech Life": {
+      "contact": true,
+      "heal": true
+    },
+    "Sky Attack": {
+      "secondary": true
+    },
+    "Bubble": {
+      "secondary": true
+    },
+    "Dizzy Punch": {
+      "contact": true,
+      "punch": true,
+      "secondary": true
+    },
+    "Spore": {
+      "powder": true
+    },
+    "Crabhammer": {
+      "contact": true
+    },
+    "Fury Swipes": {
+      "contact": true
+    },
+    "Rest": {
+      "heal": true
+    },
+    "Rock Slide": {
+      "secondary": true
+    },
+    "Hyper Fang": {
+      "contact": true,
+      "bite": true,
+      "secondary": true
+    },
+    "Tri Attack": {
+      "secondary": true
+    },
+    "Super Fang": {
+      "contact": true
+    },
+    "Slash": {
+      "contact": true
+    },
+    "Struggle": {
+      "contact": true
+    },
+    "Triple Kick": {
+      "contact": true
+    },
+    "Thief": {
+      "contact": true
+    },
+    "Flame Wheel": {
+      "contact": true,
+      "secondary": true
+    },
+    "Snore": {
+      "sound": true,
+      "secondary": true
+    },
+    "Flail": {
+      "contact": true
+    },
+    "Cotton Spore": {
+      "powder": true
+    },
+    "Reversal": {
+      "contact": true
+    },
+    "Powder Snow": {
+      "secondary": true
+    },
+    "Mach Punch": {
+      "contact": true,
+      "punch": true
+    },
+    "Feint Attack": {
+      "contact": true
+    },
+    "Sludge Bomb": {
+      "bullet": true,
+      "secondary": true
+    },
+    "Mud-Slap": {
+      "secondary": true
+    },
+    "Octazooka": {
+      "bullet": true,
+      "secondary": true
+    },
+    "Zap Cannon": {
+      "bullet": true,
+      "secondary": true
+    },
+    "Perish Song": {
+      "sound": true
+    },
+    "Icy Wind": {
+      "secondary": true
+    },
+    "Outrage": {
+      "contact": true
+    },
+    "Giga Drain": {
+      "heal": true
+    },
+    "Rollout": {
+      "contact": true
+    },
+    "False Swipe": {
+      "contact": true
+    },
+    "Milk Drink": {
+      "heal": true
+    },
+    "Spark": {
+      "contact": true,
+      "secondary": true
+    },
+    "Fury Cutter": {
+      "contact": true
+    },
+    "Steel Wing": {
+      "contact": true,
+      "secondary": true
+    },
+    "Heal Bell": {
+      "sound": true
+    },
+    "Return": {
+      "contact": true
+    },
+    "Frustration": {
+      "contact": true
+    },
+    "Sacred Fire": {
+      "secondary": true
+    },
+    "Dynamic Punch": {
+      "contact": true,
+      "punch": true,
+      "secondary": true
+    },
+    "Megahorn": {
+      "contact": true
+    },
+    "Dragon Breath": {
+      "secondary": true
+    },
+    "Pursuit": {
+      "contact": true
+    },
+    "Rapid Spin": {
+      "contact": true,
+      "secondary": true
+    },
+    "Iron Tail": {
+      "contact": true,
+      "secondary": true
+    },
+    "Metal Claw": {
+      "contact": true,
+      "secondary": true
+    },
+    "Vital Throw": {
+      "contact": true
+    },
+    "Morning Sun": {
+      "heal": true
+    },
+    "Synthesis": {
+      "heal": true
+    },
+    "Moonlight": {
+      "heal": true
+    },
+    "Cross Chop": {
+      "contact": true
+    },
+    "Twister": {
+      "secondary": true
+    },
+    "Crunch": {
+      "contact": true,
+      "bite": true,
+      "secondary": true
+    },
+    "Extreme Speed": {
+      "contact": true
+    },
+    "Ancient Power": {
+      "secondary": true
+    },
+    "Shadow Ball": {
+      "bullet": true,
+      "secondary": true
+    },
+    "Rock Smash": {
+      "contact": true,
+      "secondary": true
+    },
+    "Fake Out": {
+      "contact": true,
+      "secondary": true
+    },
+    "Uproar": {
+      "sound": true
+    },
+    "Swallow": {
+      "heal": true
+    },
+    "Heat Wave": {
+      "secondary": true
+    },
+    "Facade": {
+      "contact": true
+    },
+    "Focus Punch": {
+      "contact": true,
+      "punch": true
+    },
+    "Smelling Salts": {
+      "contact": true
+    },
+    "Wish": {
+      "heal": true
+    },
+    "Superpower": {
+      "contact": true
+    },
+    "Revenge": {
+      "contact": true
+    },
+    "Brick Break": {
+      "contact": true
+    },
+    "Knock Off": {
+      "contact": true
+    },
+    "Endeavor": {
+      "contact": true
+    },
+    "Secret Power": {
+      "secondary": true
+    },
+    "Dive": {
+      "contact": true
+    },
+    "Arm Thrust": {
+      "contact": true
+    },
+    "Luster Purge": {
+      "secondary": true
+    },
+    "Mist Ball": {
+      "bullet": true,
+      "secondary": true
+    },
+    "Blaze Kick": {
+      "contact": true,
+      "secondary": true
+    },
+    "Ice Ball": {
+      "contact": true,
+      "bullet": true
+    },
+    "Needle Arm": {
+      "contact": true,
+      "secondary": true
+    },
+    "Slack Off": {
+      "heal": true
+    },
+    "Hyper Voice": {
+      "sound": true
+    },
+    "Poison Fang": {
+      "contact": true,
+      "bite": true,
+      "secondary": true
+    },
+    "Crush Claw": {
+      "contact": true,
+      "secondary": true
+    },
+    "Meteor Mash": {
+      "contact": true,
+      "punch": true,
+      "secondary": true
+    },
+    "Astonish": {
+      "contact": true,
+      "secondary": true
+    },
+    "Weather Ball": {
+      "bullet": true
+    },
+    "Rock Tomb": {
+      "secondary": true
+    },
+    "Silver Wind": {
+      "secondary": true
+    },
+    "Metal Sound": {
+      "sound": true
+    },
+    "Grass Whistle": {
+      "sound": true
+    },
+    "Signal Beam": {
+      "secondary": true
+    },
+    "Shadow Punch": {
+      "contact": true,
+      "punch": true
+    },
+    "Extrasensory": {
+      "secondary": true
+    },
+    "Sky Uppercut": {
+      "contact": true,
+      "punch": true
+    },
+    "Muddy Water": {
+      "secondary": true
+    },
+    "Bullet Seed": {
+      "bullet": true
+    },
+    "Aerial Ace": {
+      "contact": true
+    },
+    "Dragon Claw": {
+      "contact": true
+    },
+    "Bounce": {
+      "contact": true,
+      "secondary": true
+    },
+    "Mud Shot": {
+      "secondary": true
+    },
+    "Poison Tail": {
+      "contact": true,
+      "secondary": true
+    },
+    "Covet": {
+      "contact": true
+    },
+    "Volt Tackle": {
+      "contact": true,
+      "recoil": [
+        33,
+        100
+      ],
+      "secondary": true
+    },
+    "Leaf Blade": {
+      "contact": true
+    },
+    "Rock Blast": {
+      "bullet": true
+    },
+    "Water Pulse": {
+      "pulse": true,
+      "secondary": true
+    },
+    "Roost": {
+      "heal": true
+    },
+    "Wake-Up Slap": {
+      "contact": true
+    },
+    "Hammer Arm": {
+      "contact": true,
+      "punch": true
+    },
+    "Gyro Ball": {
+      "contact": true,
+      "bullet": true
+    },
+    "Healing Wish": {
+      "heal": true
+    },
+    "Pluck": {
+      "contact": true
+    },
+    "U-turn": {
+      "contact": true
+    },
+    "Close Combat": {
+      "contact": true
+    },
+    "Payback": {
+      "contact": true
+    },
+    "Assurance": {
+      "contact": true
+    },
+    "Trump Card": {
+      "contact": true
+    },
+    "Wring Out": {
+      "contact": true
+    },
+    "Punishment": {
+      "contact": true
+    },
+    "Last Resort": {
+      "contact": true
+    },
+    "Sucker Punch": {
+      "contact": true
+    },
+    "Flare Blitz": {
+      "contact": true,
+      "recoil": [
+        33,
+        100
+      ],
+      "secondary": true
+    },
+    "Force Palm": {
+      "contact": true,
+      "secondary": true
+    },
+    "Aura Sphere": {
+      "bullet": true,
+      "pulse": true
+    },
+    "Poison Jab": {
+      "contact": true,
+      "secondary": true
+    },
+    "Dark Pulse": {
+      "pulse": true,
+      "secondary": true
+    },
+    "Night Slash": {
+      "contact": true
+    },
+    "Aqua Tail": {
+      "contact": true
+    },
+    "Seed Bomb": {
+      "bullet": true
+    },
+    "Air Slash": {
+      "secondary": true
+    },
+    "X-Scissor": {
+      "contact": true
+    },
+    "Bug Buzz": {
+      "sound": true,
+      "secondary": true
+    },
+    "Dragon Pulse": {
+      "pulse": true
+    },
+    "Dragon Rush": {
+      "contact": true,
+      "secondary": true
+    },
+    "Drain Punch": {
+      "contact": true,
+      "punch": true,
+      "heal": true
+    },
+    "Focus Blast": {
+      "bullet": true,
+      "secondary": true
+    },
+    "Energy Ball": {
+      "bullet": true,
+      "secondary": true
+    },
+    "Brave Bird": {
+      "contact": true,
+      "recoil": [
+        33,
+        100
+      ]
+    },
+    "Earth Power": {
+      "secondary": true
+    },
+    "Giga Impact": {
+      "contact": true
+    },
+    "Bullet Punch": {
+      "contact": true,
+      "punch": true
+    },
+    "Avalanche": {
+      "contact": true
+    },
+    "Shadow Claw": {
+      "contact": true
+    },
+    "Thunder Fang": {
+      "contact": true,
+      "bite": true,
+      "secondary": true
+    },
+    "Ice Fang": {
+      "contact": true,
+      "bite": true,
+      "secondary": true
+    },
+    "Fire Fang": {
+      "contact": true,
+      "bite": true,
+      "secondary": true
+    },
+    "Shadow Sneak": {
+      "contact": true
+    },
+    "Mud Bomb": {
+      "bullet": true,
+      "secondary": true
+    },
+    "Zen Headbutt": {
+      "contact": true,
+      "secondary": true
+    },
+    "Mirror Shot": {
+      "secondary": true
+    },
+    "Flash Cannon": {
+      "secondary": true
+    },
+    "Rock Climb": {
+      "contact": true,
+      "secondary": true
+    },
+    "Discharge": {
+      "secondary": true
+    },
+    "Lava Plume": {
+      "secondary": true
+    },
+    "Power Whip": {
+      "contact": true
+    },
+    "Rock Wrecker": {
+      "bullet": true
+    },
+    "Cross Poison": {
+      "contact": true,
+      "secondary": true
+    },
+    "Gunk Shot": {
+      "secondary": true
+    },
+    "Iron Head": {
+      "contact": true,
+      "secondary": true
+    },
+    "Magnet Bomb": {
+      "bullet": true
+    },
+    "Grass Knot": {
+      "contact": true
+    },
+    "Chatter": {
+      "sound": true,
+      "secondary": true
+    },
+    "Bug Bite": {
+      "contact": true
+    },
+    "Charge Beam": {
+      "secondary": true
+    },
+    "Wood Hammer": {
+      "contact": true,
+      "recoil": [
+        33,
+        100
+      ]
+    },
+    "Aqua Jet": {
+      "contact": true
+    },
+    "Heal Order": {
+      "heal": true
+    },
+    "Head Smash": {
+      "contact": true,
+      "recoil": [
+        1,
+        2
+      ]
+    },
+    "Double Hit": {
+      "contact": true
+    },
+    "Lunar Dance": {
+      "heal": true
+    },
+    "Crush Grip": {
+      "contact": true
+    },
+    "Seed Flare": {
+      "secondary": true
+    },
+    "Ominous Wind": {
+      "secondary": true
+    },
+    "Shadow Force": {
+      "contact": true
+    },
+    "Rage Powder": {
+      "powder": true
+    },
+    "Storm Throw": {
+      "contact": true
+    },
+    "Sludge Wave": {
+      "secondary": true
+    },
+    "Heavy Slam": {
+      "contact": true
+    },
+    "Electro Ball": {
+      "bullet": true
+    },
+    "Flame Charge": {
+      "contact": true,
+      "secondary": true
+    },
+    "Low Sweep": {
+      "contact": true,
+      "secondary": true
+    },
+    "Acid Spray": {
+      "bullet": true,
+      "secondary": true
+    },
+    "Foul Play": {
+      "contact": true
+    },
+    "Round": {
+      "sound": true
+    },
+    "Echoed Voice": {
+      "sound": true
+    },
+    "Chip Away": {
+      "contact": true
+    },
+    "Scald": {
+      "secondary": true
+    },
+    "Heal Pulse": {
+      "pulse": true,
+      "heal": true
+    },
+    "Sky Drop": {
+      "contact": true
+    },
+    "Circle Throw": {
+      "contact": true
+    },
+    "Acrobatics": {
+      "contact": true
+    },
+    "Retaliate": {
+      "contact": true
+    },
+    "Inferno": {
+      "secondary": true
+    },
+    "Struggle Bug": {
+      "secondary": true
+    },
+    "Bulldoze": {
+      "secondary": true
+    },
+    "Dragon Tail": {
+      "contact": true
+    },
+    "Electroweb": {
+      "secondary": true
+    },
+    "Wild Charge": {
+      "contact": true,
+      "recoil": [
+        1,
+        4
+      ]
+    },
+    "Drill Run": {
+      "contact": true
+    },
+    "Dual Chop": {
+      "contact": true
+    },
+    "Heart Stamp": {
+      "contact": true,
+      "secondary": true
+    },
+    "Horn Leech": {
+      "contact": true,
+      "heal": true
+    },
+    "Sacred Sword": {
+      "contact": true
+    },
+    "Razor Shell": {
+      "contact": true,
+      "secondary": true
+    },
+    "Heat Crash": {
+      "contact": true
+    },
+    "Leaf Tornado": {
+      "secondary": true
+    },
+    "Steamroller": {
+      "contact": true,
+      "secondary": true
+    },
+    "Night Daze": {
+      "secondary": true
+    },
+    "Tail Slap": {
+      "contact": true
+    },
+    "Hurricane": {
+      "secondary": true
+    },
+    "Head Charge": {
+      "contact": true,
+      "recoil": [
+        1,
+        4
+      ]
+    },
+    "Gear Grind": {
+      "contact": true
+    },
+    "Searing Shot": {
+      "bullet": true,
+      "secondary": true
+    },
+    "Relic Song": {
+      "sound": true,
+      "secondary": true
+    },
+    "Glaciate": {
+      "secondary": true
+    },
+    "Bolt Strike": {
+      "contact": true,
+      "secondary": true
+    },
+    "Blue Flare": {
+      "secondary": true
+    },
+    "Fiery Dance": {
+      "secondary": true
+    },
+    "Freeze Shock": {
+      "secondary": true
+    },
+    "Ice Burn": {
+      "secondary": true
+    },
+    "Snarl": {
+      "sound": true,
+      "secondary": true
+    },
+    "Icicle Crash": {
+      "secondary": true
+    },
+    "V-create": {
+      "contact": true
+    },
+    "Flying Press": {
+      "contact": true
+    },
+    "Fell Stinger": {
+      "contact": true
+    },
+    "Phantom Force": {
+      "contact": true
+    },
+    "Noble Roar": {
+      "sound": true
+    },
+    "Parabolic Charge": {
+      "heal": true
+    },
+    "Freeze-Dry": {
+      "secondary": true
+    },
+    "Disarming Voice": {
+      "sound": true
+    },
+    "Parting Shot": {
+      "sound": true
+    },
+    "Draining Kiss": {
+      "contact": true,
+      "heal": true
+    },
+    "Play Rough": {
+      "contact": true,
+      "secondary": true
+    },
+    "Moonblast": {
+      "secondary": true
+    },
+    "Boomburst": {
+      "sound": true
+    },
+    "Confide": {
+      "sound": true
+    },
+    "Mystical Fire": {
+      "secondary": true
+    },
+    "Powder": {
+      "powder": true
+    },
+    "Nuzzle": {
+      "contact": true,
+      "secondary": true
+    },
+    "Infestation": {
+      "contact": true
+    },
+    "Power-Up Punch": {
+      "contact": true,
+      "punch": true,
+      "secondary": true
+    },
+    "Oblivion Wing": {
+      "heal": true
+    },
+    "Diamond Storm": {
+      "secondary": true
+    },
+    "Steam Eruption": {
+      "secondary": true
+    }
+  }
+}

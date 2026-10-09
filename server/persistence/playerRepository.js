@@ -1,0 +1,108 @@
+const { dbPool } = require('../config/database');
+
+const DEFAULT_SPRITE = 'sprite.png';
+
+function sanitizeSpriteName(spriteName) {
+    if (typeof spriteName !== 'string') {
+        return DEFAULT_SPRITE;
+    }
+
+    const normalized = spriteName.trim().toLowerCase();
+    if (!/^sprite\d*\.png$/.test(normalized)) {
+        return DEFAULT_SPRITE;
+    }
+
+    return normalized;
+}
+
+async function loadUserPosition(userId) {
+    let rows;
+    try {
+        [rows] = await dbPool.execute(
+            `SELECT x, y, map, sprite,
+                    respawn_x, respawn_y, respawn_map
+             FROM users WHERE id = ? LIMIT 1`,
+            [userId]
+        );
+    } catch (error) {
+        if (error && error.code === 'ER_BAD_FIELD_ERROR') {
+            [rows] = await dbPool.execute(
+                'SELECT x, y, map FROM users WHERE id = ? LIMIT 1',
+                [userId]
+            );
+        } else {
+            throw error;
+        }
+    }
+
+    if (!rows.length) {
+        return null;
+    }
+
+    const row = rows[0];
+    const hasRespawnPoint = typeof row.respawn_map === 'string'
+        && row.respawn_map.trim()
+        && Number.isFinite(Number(row.respawn_x))
+        && Number.isFinite(Number(row.respawn_y));
+
+    return {
+        ...row,
+        sprite: sanitizeSpriteName(row.sprite),
+        respawnPoint: hasRespawnPoint
+            ? { map: row.respawn_map, x: Number(row.respawn_x), y: Number(row.respawn_y) }
+            : null
+    };
+}
+
+async function saveUserPosition(userId, { x, y, map }) {
+    await dbPool.execute(
+        `UPDATE users
+         SET x = ?, y = ?, map = ?
+         WHERE id = ?
+         AND (
+             x IS NULL OR y IS NULL OR map IS NULL
+             OR x <> ? OR y <> ? OR map <> ?
+         )`,
+        [x, y, map, userId, x, y, map]
+    );
+}
+
+async function saveUserSprite(userId, spriteName) {
+    const safeSprite = sanitizeSpriteName(spriteName);
+
+    try {
+        await dbPool.execute(
+            `UPDATE users
+             SET sprite = ?
+             WHERE id = ?
+             AND (
+                 sprite IS NULL OR sprite <> ?
+             )`,
+            [safeSprite, userId, safeSprite]
+        );
+    } catch (error) {
+        if (error && error.code === 'ER_BAD_FIELD_ERROR') {
+            return safeSprite;
+        }
+        throw error;
+    }
+
+    return safeSprite;
+}
+
+async function saveUserRespawnPoint(userId, { x, y, map }) {
+    await dbPool.execute(
+        `UPDATE users
+         SET respawn_x = ?, respawn_y = ?, respawn_map = ?
+         WHERE id = ?`,
+        [x, y, map, userId]
+    );
+}
+
+module.exports = {
+    loadUserPosition,
+    saveUserPosition,
+    saveUserRespawnPoint,
+    saveUserSprite,
+    sanitizeSpriteName
+};

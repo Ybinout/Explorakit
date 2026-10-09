@@ -1,0 +1,178 @@
+const fs = require('fs');
+const path = require('path');
+const { GAME_DATA_DIR, MAPS_DIR } = require('../../config/paths');
+
+const NEXT_MAP_PATH = path.join(GAME_DATA_DIR, 'nextMap.json');
+const MAP_ALIASES_PATH = path.join(GAME_DATA_DIR, 'mapAliases.json');
+const mapCache = new Map();
+let nextMapConfig = null;
+let mapAliases = null;
+
+function loadMapAliases() {
+    if (!mapAliases) {
+        const config = JSON.parse(fs.readFileSync(MAP_ALIASES_PATH, 'utf8'));
+        mapAliases = config?.aliases && typeof config.aliases === 'object' ? config.aliases : {};
+    }
+    return mapAliases;
+}
+
+function resolveMapSourceName(mapName) {
+    const safeMapName = path.basename(String(mapName || ''));
+    if (!safeMapName) {
+        throw new Error('Nom de carte invalide');
+    }
+
+    const sourceName = loadMapAliases()[safeMapName] || safeMapName;
+    const safeSourceName = path.basename(String(sourceName || ''));
+    if (!safeSourceName) {
+        throw new Error('Source de carte invalide');
+    }
+    return safeSourceName;
+}
+
+function readMap(mapName) {
+    const safeMapName = resolveMapSourceName(mapName);
+
+    if (!mapCache.has(safeMapName)) {
+        mapCache.set(
+            safeMapName,
+            JSON.parse(fs.readFileSync(path.join(MAPS_DIR, `${safeMapName}.json`), 'utf8'))
+        );
+    }
+    return mapCache.get(safeMapName);
+}
+
+function loadCollisionData(mapName) {
+    const mapData = readMap(mapName);
+    let collLayer = mapData.layers.find(layer => layer.name === 'coll');
+    let collisionData1D = collLayer ? collLayer.data : [];
+    let width = collLayer.width;
+    let height = collLayer.height;
+    let collisionData2D = [];
+
+    for (let y = 0; y < height; y++) {
+        let row = [];
+        for (let x = 0; x < width; x++) {
+            row.push(collisionData1D[y * width + x]);
+        }
+        collisionData2D.push(row);
+    }
+    return collisionData2D;
+}
+
+
+function changeMapData(mapName) {
+    const mapData = readMap(mapName);
+    let collLayer = mapData.layers.find(layer => layer.name === 'change');
+    let collisionData1D = collLayer ? collLayer.data : [];
+    let width = collLayer.width;
+    let height = collLayer.height;
+    let collisionData2D = [];
+    for (let y = 0; y < height; y++) {
+        let row = [];
+        for (let x = 0; x < width; x++) {
+            row.push(collisionData1D[y * width + x]);
+        }
+        collisionData2D.push(row);
+    }
+    return collisionData2D;
+}
+
+
+function InteractMapData(mapName) {
+    try {
+        const mapData = readMap(mapName);
+        if (!mapData.layers || !Array.isArray(mapData.layers)) {
+            // console.error(`Erreur : Pas de layers trouvés dans ${mapName}.json`);
+            return [];
+        }
+        let collLayer = mapData.layers.find(layer => layer.name === 'int');
+        if (!collLayer || !collLayer.data || !Array.isArray(collLayer.data) || !collLayer.width || !collLayer.height) {
+            // console.warn(`Avertissement : Pas de couche 'int' valide trouvée dans ${mapName}.json`);
+            return [];
+        }
+        let collisionData1D = collLayer.data;
+        let width = collLayer.width;
+        let height = collLayer.height;
+        let InteractMap = [];
+        for (let y = 0; y < height; y++) {
+            let row = [];
+            for (let x = 0; x < width; x++) {
+                row.push(collisionData1D[y * width + x] || 0);
+            }
+            InteractMap.push(row);
+        }
+        return InteractMap;
+    } catch (error) {
+        // console.error(`Erreur lors du chargement de la carte ${mapName}:`, error.message);
+        return [];
+    }
+}
+
+
+function battleMapData(mapName) {
+    const mapData = readMap(mapName);
+    let collLayer = mapData.layers.find(layer => layer.name === 'battle');
+    let collisionData1D = collLayer ? collLayer.data : [];
+    let width = collLayer.width;
+    let height = collLayer.height;
+    let collisionData2D = [];
+    for (let y = 0; y < height; y++) {
+        let row = [];
+        for (let x = 0; x < width; x++) {
+            row.push(collisionData1D[y * width + x]);
+        }
+        collisionData2D.push(row);
+    }
+    return collisionData2D;
+}
+
+
+
+function getNextMap(currentMap, posX, posY) {
+    // Lire le fichier
+    // console.log('test next map poxX', posX, posY);
+    if (!nextMapConfig) {
+        nextMapConfig = JSON.parse(fs.readFileSync(NEXT_MAP_PATH, 'utf8'));
+    }
+    const mapData = nextMapConfig;
+
+    // Chercher la carte actuelle dans les données
+    for (let map of mapData.maps) {
+        if (map.mapName === currentMap) {
+            for (let change of map.mapchange) {
+                const hasX = Number.isInteger(change.valX);
+                const hasY = Number.isInteger(change.valY);
+                const matchesX = !hasX || change.valX === posX;
+                const matchesY = !hasY || change.valY === posY;
+                if ((hasX || hasY) && matchesX && matchesY) {
+                    // Si valX est défini et correspond à posX
+                    return {
+                        nextMap: change.goto,
+                        nextX: Number.isFinite(change.nexX) ? change.nexX + 16 : posX * 32 + 16,
+                        nextY: Number.isFinite(change.nexY) ? change.nexY - 16 : posY * 32 + 16
+                    };
+                } else if (!hasX && hasY && change.valY === posY) {
+                    // Si valY est défini et correspond à posY
+                    // console.log(posX, 'la pos x');
+                    return {
+                        nextMap: change.goto,
+                        nextX: change.nexX + 16 || posX * 16 * 2 + 16,
+                        nextY: change.nexY - 16 || posY - 16
+                    };
+                }
+            }
+        }
+    }
+    return null;
+}
+
+
+module.exports = {
+    loadCollisionData,
+    changeMapData,
+    getNextMap,
+    battleMapData,
+    InteractMapData,
+    resolveMapSourceName
+};

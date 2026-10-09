@@ -1,0 +1,68 @@
+VILLES GÉNÉRÉES — Explorakit
+
+RÉVISION 2 : cinq plans distincts, au lieu d'un même boulevard répété.
+Clairbois : petites maisons au toit de chaume, conifères et sentiers de terre.
+Rivazur : grand lac central, chemins sableux, arène sur la rive sud-est.
+Rochebourg : quartiers décalés, reliefs en terrasses et rues minérales.
+Floraville : jardin central, promenades dorées et arène au sud-ouest.
+Ocreville : fond sableux, grande place centrale et maisons dispersées.
+Les positions des portes d'arène et leurs retours ont été recalculés.
+
+RÉVISION 3 : un bâtiment d'arène différent dans chaque ville.
+Clairbois : arène en bois.
+Rivazur : dôme bleu.
+Rochebourg : grand hall métallique.
+Floraville : arène au toit rouge.
+Ocreville : arène à colonnes turquoise.
+Dimensions, collisions, portes et retours sont adaptés à chaque bâtiment.
+
+gen_ville1 : Clairbois (ville boisée)
+gen_ville2 : Rivazur (ville d'eau)
+gen_ville3 : Rochebourg (bourg rocheux)
+gen_ville4 : Floraville (ville fleurie)
+gen_ville5 : Ocreville (ville sèche)
+
+Chaque ville possède un bâtiment d'arène et un intérieur distinct :
+gen_arene1, gen_arene2, gen_arene3, gen_arene4 et gen_arene5.
+Les entrées et les retours sont configurés dans la proposition de raccords.
+Les champions, équipes, dialogues et badges restent à définir. La position
+prévue du champion est indiquée dans les propriétés de chaque arène : (13,5).
+Les autres maisons, centres et boutiques sont des éléments de décor.
+Les calques battle et int sont présents mais vides : pas de rencontre sauvage
+ou d'interaction non configurée en ville ou dans les arènes.
+
+INSTALLATION
+data/maps/gen_ville1.json ... gen_ville5.json et TMX correspondants.
+data/maps/gen_arene1.json ... gen_arene5.json et TMX correspondants.
+vue-explorakit/src/assets/ : 10 images de décor et leurs 10 foregrounds.
+docs/gen_villes/ : aperçus, rapport et vérification reproductible.
+
+RACCORDS À INTÉGRER
+data/game/gen_villes_nextMap.entries.json contient les 18 entrées de cartes
+de la proposition : les 8 routes générées, les 5 villes et les 5 arènes.
+Il remplace les entrées de cartes de même nom dans une future fusion.
+Ne pas simplement ajouter des doublons aux anciennes entrées gen_routeX.
+gen_villes_nextMap.proposition.json est un exemple de configuration complète.
+Le nextMap.json actif et les cartes existantes n'ont pas été modifiés.
+
+Chaîne proposée :
+route3 -> gen_route1 -> gen_ville1 -> gen_route2 -> gen_route3 -> gen_ville2
+-> gen_route4 -> gen_ville3 -> gen_route5 -> gen_route6 -> gen_ville4
+-> gen_route7 -> gen_ville5 -> gen_route8 -> route4.
+Tous les passages sont réversibles. Les villes ont deux sorties extérieures.
+Le raccord est de route3 reste à appliquer selon les fichiers déjà préparés
+dans docs/gen_routes. Le passage sud de route4 existe déjà.
+La difficulté de route4 (100–110) reste celle du projet, à rééquilibrer ensuite.
+Après fusion : redémarrer le serveur et reconstruire le frontend.
+
+TILED
+Les villes utilisent teset2.tsx. Les arènes utilisent également le tileset
+intérieur ddzim2k-19608fbc-12c0-48b2-a7e9-298ce07db9de.tsx, déjà présent
+chez l'utilisateur et utilisé par centre.json. Les chemins sont préparés.
+Dimensions identiques à ville1 : 28 x 20 tuiles de 16 px ; PNG 448 x 320 px.
+
+CONTRÔLES
+python docs/gen_villes/validate_generated_cities.py
+Vérifie les 10 cartes, les calques, TMX/JSON, tilesets, PNG, collisions,
+accessibilité, un bâtiment d'arène par ville et chaque passage de la chaîne.
+Le test en jeu reste à faire après l'intégration.

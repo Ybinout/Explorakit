@@ -1,0 +1,51 @@
+8 ROUTES GÉNÉRÉES — Explorakit
+
+gen_route1 : Hameau de l'étang
+gen_route2 : Sous-bois
+gen_route3 : Étangs forestiers
+gen_route4 : Rives rocheuses
+gen_route5 : Premiers coteaux
+gen_route6 : Hauts plateaux
+gen_route7 : Landes sèches
+gen_route8 : Col de pierre
+
+Les huit cartes utilisent teset2.tsx, 28 x 20 cases de 16 px.
+Chacune possède coll, change, battle, foreground et int.
+int reste vide : aucun PNJ ou dialogue. Les maisons sont décoratives.
+Les PNG de décor et de foreground font 448 x 320 px, comme route3.
+Toutes les cartes ont deux passages, avec possibilité de revenir en arrière.
+L'ouest de gen_route1 est aux lignes 15–17 ; tous les autres passages sont
+aux lignes 9–11, ce qui aligne les routes générées entre elles.
+
+INSTALLATION PRÉPARÉE DANS LE JEU
+data/maps/gen_route1.json ... gen_route8.json : cartes pour le serveur.
+data/maps/gen_route1.tmx ... gen_route8.tmx : cartes à ouvrir dans Tiled.
+vue-explorakit/src/assets/gen_route1.png ... gen_route8.png : décor.
+vue-explorakit/src/assets/gen_route1_f.png ... gen_route8_f.png : foreground.
+data/game/gen_nextMap.entries.json : 8 entrées à fusionner dans nextMap.json.
+data/game/gen_nextMap.proposition.json : exemple complet de configuration.
+docs/gen_routes/ : raccord proposé de route3, aperçu, rapport et validateur.
+
+INTÉGRATION ULTÉRIEURE
+Le nextMap.json actif et les anciennes cartes restent inchangés.
+Les huit nouvelles cartes ne deviennent donc pas accessibles automatiquement.
+Chaîne proposée : route3 -> gen_route1 -> ... -> gen_route8 -> route4.
+Le retour est prévu pour chaque passage.
+Pour route3 : appliquer le raccord est proposé (JSON et images) conservé
+dans docs/gen_routes, puis fusionner sa règle de sortie vers gen_route1.
+Pour route4 : son passage sud existe déjà ; ajouter la règle de retour vers
+gen_route8 à valY=19. Les fichiers de route4 n'ont pas besoin d'être remplacés.
+Fusionner les entrées, plutôt que remplacer une configuration qui aurait évolué.
+Les niveaux augmentent de 24–28 à 38–44 dans les routes générées.
+La route4 existante garde ses niveaux 100–110 : équilibrage à décider ensuite.
+Redémarrer le serveur après intégration des règles (cache cartes/configuration).
+Reconstruire le frontend après ajout des PNG si le jeu utilise dist.
+
+VÉRIFICATIONS
+Dimensions et longueur des calques, équivalence TMX/JSON, validité des GID,
+présence des PNG, sources TSX, accessibilité de toutes les cases praticables,
+absence de combat ou portail sur collision, deux passages par carte,
+destinations et cases d'arrivée libres, aucune arrivée sur un portail.
+Le test dans une partie réelle reste à effectuer après l'intégration.
+Contrôle reproductible : python docs/gen_routes/validate_generated_maps.py
+depuis la racine du jeu, avec un Python standard (aucune dépendance).

@@ -1,0 +1,30 @@
+const { spawnSync } = require('child_process');
+const path = require('path');
+
+const testDatabaseName = process.env.DB_TEST_NAME || `${process.env.DB_NAME || 'pokemon_game'}_test`;
+
+if (!/test/i.test(testDatabaseName)) {
+    console.error('Définissez DB_TEST_NAME avec un nom contenant « test » avant de lancer les tests MySQL.');
+    process.exit(1);
+}
+
+const result = spawnSync(
+    process.execPath,
+    [
+        '--test',
+        path.resolve(__dirname, '..', 'tests', 'mysql-integration.test.js'),
+        path.resolve(__dirname, '..', 'tests', 'battle-runtime-integration.test.js')
+    ],
+    {
+        stdio: 'inherit',
+        env: {
+            ...process.env,
+            RUN_MYSQL_TESTS: '1',
+            NODE_ENV: 'test',
+            BATTLE_DELAY_SCALE: '0',
+            DB_NAME: testDatabaseName,
+            DB_TEST_NAME: testDatabaseName
+        }
+    }
+);
+process.exit(result.status ?? 1);

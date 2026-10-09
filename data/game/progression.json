@@ -1,0 +1,95 @@
+{
+  "quests": [
+    {
+      "key": "main_sister_search",
+      "title": "À la recherche de Clara",
+      "description": "Retrouver ta sœur disparue et découvrir ce que prépare l'Aube Obscure.",
+      "defaultStatus": "active",
+      "target": 5
+    },
+    {
+      "key": "first_challenge",
+      "title": "Prouver sa valeur",
+      "description": "Remporter le combat qui bloque la sortie du village.",
+      "defaultStatus": "active",
+      "target": 1
+    }
+  ],
+  "badges": [
+    { "key": "forest_badge", "name": "Badge Sylve", "order": 1 },
+    { "key": "tide_badge", "name": "Badge Marée", "order": 2 },
+    { "key": "ore_badge", "name": "Badge Minerai", "order": 3 },
+    { "key": "bloom_badge", "name": "Badge Floraison", "order": 4 },
+    { "key": "dune_badge", "name": "Badge Dune", "order": 5 }
+  ],
+  "npcBattles": {
+    "dia1": {
+      "battleKey": "village_route_guard",
+      "once": true,
+      "reward": {
+        "money": 600,
+        "flags": { "route_guard_defeated": "true" },
+        "quests": [{ "key": "first_challenge", "status": "completed", "progress": 1 }]
+      }
+    },
+    "moon": {
+      "battleKey": "moonpunch_ville1",
+      "once": true,
+      "reward": {
+        "money": 1200,
+        "flags": { "moonpunch_defeated": "true", "sister_clue_1": "unlocked" },
+        "quests": [{ "key": "main_sister_search", "status": "active", "progress": 1 }]
+      }
+    },
+    "gym_forest": {
+      "battleKey": "gym_clairbois_champion",
+      "once": true,
+      "reward": {
+        "money": 1800,
+        "badges": ["forest_badge"],
+        "flags": { "gym_forest_defeated": "true", "sister_clue_2": "unlocked" },
+        "quests": [{ "key": "main_sister_search", "status": "active", "progress": 1 }]
+      }
+    },
+    "gym_tide": {
+      "battleKey": "gym_rivazur_champion",
+      "once": true,
+      "reward": {
+        "money": 2400,
+        "badges": ["tide_badge"],
+        "flags": { "gym_tide_defeated": "true", "sister_clue_3": "unlocked" },
+        "quests": [{ "key": "main_sister_search", "status": "active", "progress": 2 }]
+      }
+    },
+    "gym_ore": {
+      "battleKey": "gym_rochebourg_champion",
+      "once": true,
+      "reward": {
+        "money": 3000,
+        "badges": ["ore_badge"],
+        "flags": { "gym_ore_defeated": "true", "sister_clue_4": "unlocked" },
+        "quests": [{ "key": "main_sister_search", "status": "active", "progress": 3 }]
+      }
+    },
+    "gym_bloom": {
+      "battleKey": "gym_floraville_champion",
+      "once": true,
+      "reward": {
+        "money": 3600,
+        "badges": ["bloom_badge"],
+        "flags": { "gym_bloom_defeated": "true", "sister_clue_5": "unlocked" },
+        "quests": [{ "key": "main_sister_search", "status": "active", "progress": 4 }]
+      }
+    },
+    "gym_dune": {
+      "battleKey": "gym_ocreville_champion",
+      "once": true,
+      "reward": {
+        "money": 4500,
+        "badges": ["dune_badge"],
+        "flags": { "gym_dune_defeated": "true", "generated_region_complete": "true" },
+        "quests": [{ "key": "main_sister_search", "status": "completed", "progress": 5 }]
+      }
+    }
+  }
+}
