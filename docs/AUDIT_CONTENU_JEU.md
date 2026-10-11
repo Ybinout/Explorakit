@@ -1,6 +1,6 @@
 # Audit du contenu du jeu
 
-Dernière mise à jour : 3 octobre 2026.
+Dernière confrontation au code et aux contrôles : 11 octobre 2026.
 
 Ce document distingue le contenu installé, le contenu raccordé dans la configuration et le contenu réellement jouable. Les chiffres se reproduisent avec `npm run audit:content`.
 
@@ -23,7 +23,13 @@ Les huit routes générées, les cinq villes, les cinq arènes et les douze int�
 
 Les raccords vers les dix maisons et deux boutiques générées sont déclarés dans `nextMap.json` à partir des coordonnées produites et validées par l’agent cartes. `ville1` utilise en plus deux portes existantes pour une arène et une boutique indépendantes, via des alias de rendu qui ne modifient aucun JSON/TMX/PNG de carte.
 
-Les cinq champions sont placés, combattables une seule fois et donnent chacun leur badge et une récompense transactionnelle. La boucle d’exploration reste incomplète narrativement : les indices sur Clara et l’Aube Obscure n’ont pas encore leurs scènes, et il n’existe ni combat final, ni épilogue, ni crédits.
+Le chapitre I est raccordé : Mounir (identifiant `moonpunch`), puis les champions d’origine Hoze → Raphael → Ana → Wanda, puis la lettre de Clara aux archives de Clairbois. Douze dresseurs de ville proposent des combats facultatifs uniques. Les scènes évoluent avec les victoires persistantes. La recherche de Clara se poursuit au-delà de ce chapitre : aucun sauvetage final, épilogue global ni crédits ne sont déclarés livrés.
+
+### Défauts confirmés lors de la revue du 11 octobre
+
+- **Rendu corrigé :** huit intérieurs possédaient leurs données et PNG, mais le contexte Webpack du client excluait leurs noms. Le filtre client a été corrigé sans modifier les cartes ; les 46 lieux actifs et leurs premiers plans disponibles sont chargés et décodés par le test Chromium.
+- **Progression corrigée :** les numéros de badges ne fixent plus la progression. Six étapes ordonnées terminent uniquement le chapitre I, après la lecture de la lettre. Prérequis vérifiés au dialogue, au lancement du combat et dans la transaction de récompense ; les anciennes récompenses restent acquises, les anciens statuts erronés sont recalculés à la lecture.
+- **Ancienne alerte résolue :** `route4` est déjà à 42–48, et non 100–110. La descente des niveaux dans la région générée a été corrigée dans la passe d’équilibrage du 11 octobre : elle monte désormais de 38–41 à 57–60 dans le sens réel du parcours.
 
 ## État mesuré
 
@@ -33,10 +39,11 @@ Les cinq champions sont placés, combattables une seule fois et donnent chacun l
 | Lieux actifs | 46 | 44 cartes actives et 2 alias d'intérieur ; `pk2` reste active uniquement pour compatibilité |
 | Lieux atteignables depuis `start` | 45 | tous les lieux actifs sauf `pk2` |
 | Parcours généré actif | 30/30 | 8 routes, 5 villes, 5 arènes, 10 maisons et 2 boutiques |
-| PNJ placés | 24 | Moonpunch est dans l'arène de `ville1` et une vendeuse occupe sa boutique ; huit nouveaux intérieurs restent sans PNJ dédié |
-| Équipes de dresseurs | 8 | 5 champions, plus Timmy, Garry et Moonpunch |
-| Combats narratifs persistants | 7 | tous couverts par une récompense idempotente |
-| Quêtes / badges | 2 / 5 | les cinq badges sont attribuables ; la conclusion scénaristique manque |
+| PNJ placés | 37 | 12 dresseurs de ville et la mère au village ajoutés ; Éloi remplace le champion de Clairbois |
+| Équipes de dresseurs | 24 | 18 utilisées ; Garry et les 5 anciennes équipes générées restent archivés, sans PNJ actif |
+| Combats persistants | 18 | Timmy, Mounir, 4 champions et 12 habitants ; récompenses uniques |
+| Quêtes / distinctions | 2 / 5 | 4 badges de champions + Sceau Sylve des archives ; clés historiques préservées |
+| Dialogues | 63 (114 phrases) | avant défi, prérequis manquants, victoire, lettre et relecture |
 | Objets | 7 | 3 Balls et 4 objets tenus ; soins, rappels et objets clés manquent |
 
 ## Parcours des cartes
@@ -57,11 +64,32 @@ Les évolutions de gameplay doivent désormais se limiter à la configuration, a
 
 ## PNJ, champions et progression
 
-Le parcours actif contient huit voyageurs, cinq guides et cinq champions. Les champions Sylve, Marée, Minerai, Floraison et Dune donnent les cinq badges existants. Chaque victoire est enregistrée dans `user_npc_battles`, ne peut récompenser le joueur qu’une fois et fait progresser les indices de la quête principale.
+Le parcours approuvé suit Ocreville → Floraville → Rochebourg → Rivazur → Clairbois. Les quatre champions originaux remplacent les identités générées ; leurs portraits et sprites correspondent enfin à leurs noms. Les voyageurs et guides utilisent des apparences distinctes des quatre champions.
 
-Trois habitants et deux vendeuses sont déjà décrits dans les données. Les huit intérieurs supplémentaires livrés par l’agent cartes n’ont pas encore de PNJ ni de contenu propre.
+| Personnage | Lieu / case (x, y) | Équipe et niveaux | Récompense |
+|---|---|---|---|
+| Timmy | Interaction existante du village `start`, x=18 | Rattata 5 | 600 pièces, quête d’entraînement |
+| Mounir / Moonpunch | `ville1_arene` (13, 5) | Machoc 18, Onix 19, Carabaffe 20 | 1 200 pièces, piste vers Hoze |
+| Hoze | Ocreville, `gen_arene5` (13, 5) | Sablaireau 40, Camérupt 41, Hippodocus 43 | 1 800 pièces, Badge Dune |
+| Raphael | Floraville, `gen_arene4` (13, 5) | Cotovol 44, Roserade 45, Alakazam 46 | 2 400 pièces, Badge Floraison |
+| Ana | Rochebourg, `gen_arene3` (13, 5) | Archéodong 48, Steelix 49, Pingoléon 50 | 3 000 pièces, Badge Minerai |
+| Wanda | Rivazur, `gen_arene2` (13, 5) | Bekipan 52, Ludicolo 52, Léviator 53, Milobellus 54 | 3 600 pièces, Badge Marée |
+| Éloi | Clairbois, `gen_arene1` (13, 5) | Lecture de la lettre, sans combat | Sceau Sylve, fin du chapitre I |
 
-Les 24 PNJ ne réutilisent plus deux personnages génériques. Douze planches transparentes distinctes, dérivées des portraits de dialogue, sont installées dans `vue-explorakit/src/assets/pnj`. Chaque planche mesure 256×256 px et suit le format du moteur : quatre colonnes d’animation et quatre directions (`bas`, `gauche`, `droite`, `haut`) composées de cellules de 64×64 px.
+Les niveaux explicites de `pnj_teams.json` sont convertis avec la courbe d’expérience de chaque espèce. Les anciennes définitions par XP restent acceptées. Les nouveaux partenaires ont des IV fixes et `k=1`, sauf les derniers Pokémon des champions et de Mounir (`k=2`). Tous leurs talents sont déjà gérés par le moteur ; objets et capacités appartiennent aux catalogues du jeu. Cette configuration est une première base d’équilibrage à éprouver en partie normale.
+
+| Ville | Dresseurs facultatifs | Niveaux | Récompenses |
+|---|---|---|---|
+| Ville du Lac | Lina, Bastien | 12 ; 13–14 | 150 ; 200 |
+| Ocreville | Nadir, Salomé | 36–37 ; 38 | 350 ; 380 |
+| Floraville | Iris, Noé | 40–41 ; 42 | 400 ; 420 |
+| Rochebourg | Malo, Maëlle | 44–45 ; 46 | 450 ; 480 |
+| Rivazur | Louis, Inès | 48–49 ; 50 | 500 ; 520 |
+| Clairbois | Robin, Célia | 54–55 ; 56 | 550 ; 580 |
+
+Chaque habitant annonce ses niveaux avant le combat, puis donne un conseil ou un témoignage. Les récompenses ne sont versées qu’une fois ; après victoire, le dialogue remplace le défi, y compris après reconnexion. Une fuite ou défaite laisse le défi disponible. Les dialogues de victoire apparaissent automatiquement après le combat et restent consultables en reparlant au personnage.
+
+La mère, placée dans `start` (6, 8), introduit la disparition de Clara et dirige vers Mounir. Les huit intérieurs supplémentaires restent sans PNJ dédié. Les 12 planches 4×4 existantes sont réutilisées ; aucun asset de carte ni JSON/TMX de carte n’a changé. Les tests tiennent compte des **deux cases** occupées par chaque PNJ, des portes et de toutes les arrivées dans les villes.
 
 ## Langues
 
@@ -73,11 +101,52 @@ Les dialogues narratifs et les messages produits par le serveur restent principa
 
 ## Histoire et économie
 
-Le début existant reste la source du scénario : la mère envoie le personnage chercher sa sœur Clara, puis Moonpunch ouvre une première piste. Les cinq champions font progresser les drapeaux `sister_clue_2` à `sister_clue_5`, mais ces indices n’ont pas encore de scènes dédiées.
+### Champions du scénario d'origine retrouvés — 11 octobre 2026
+
+`data/game/phrase.txt` contient les dialogues avant/après combat de **Hoze → Raphael → Ana → Wanda**. Hoze recommande Raphael ; Raphael dirige vers Ana ; Ana envoie vers sa sœur dans la ville voisine, puis le document enchaîne sur Wanda. Wanda se présente comme une fondatrice ayant quitté l'Aube Obscure. Ces textes sont déjà présents dans le commit `54915cb` du 26 février 2025, sous `source_Json/phrase.txt`, puis conservés dans le dossier actuel.
+
+Ce contenu a été adapté dans `interact.json` le 11 octobre. `phrase.txt` reste la source historique conservée ; il n’est pas chargé directement par le runtime. Dans les versions des fichiers d'équipes/dialogues des références Git locales inspectées, aucune équipe dédiée à ces quatre noms n'a été retrouvée, ni emplacement d'arène original explicite. Les équipes `champion_sylve`, `champion_maree`, `champion_minerai`, `champion_floraison`, `champion_dune` sont désormais inactives et conservées comme archives.
+
+Les portraits `hoze.png`, `raph.png`, `ana.png`, `wanda.png` et leurs sprites sont maintenant raccordés aux quatre personnages. Le choix des villes a été explicitement approuvé par le créateur. Les nouvelles équipes, témoignages d’habitants et lettre sont des ajouts de cette passe ; le rôle de Wanda comme fondatrice ayant quitté l’organisation et le lien de fratrie avec Ana viennent du scénario retrouvé.
+
+Les notes historiques mentionnent Mounir sans formaliser son lien à `moonpunch`. L’adaptation emploie « Mounir, surnommé Moonpunch », en conservant l’identifiant et sa victoire historique pour les sauvegardes. Aucun autre rôle de champion n’est attribué à Cynthia.
 
 Les boutiques accessibles vendent les trois Balls et les quatre objets tenus. Le serveur contrôle la présence du joueur dans une boutique et effectue débit du solde et ajout au sac dans une transaction MySQL. La revente, les objets de soin utilisables et les objets clés restent à construire.
 
+## Équilibrage XP et niveaux — 11 octobre 2026
+
+Les niveaux sauvages sont configurés dans `nextMap.json`. Seuls les champs `level` ont été modifiés : espèces, transitions, cartes Tiled et assets restent identiques. Les villes et intérieurs n’ont toujours aucun combat sauvage. Les niveaux des cinq arènes sont conservés, puisqu’ils suivent déjà la nouvelle difficulté des routes précédentes ; les deux habitants de Clairbois sont adaptés à la fin du parcours.
+
+| Zone sauvage, dans l’ordre réel | Niveaux |
+|---|---|
+| Village de départ | 5–7 |
+| Route 1 | 8–11 |
+| Route 2 | 12–16 |
+| Route 3, après Mounir (18–20) | 21–25 |
+| Grotte 1 / Grotte 2 | 26–30 / 31–35 |
+| Route 4 d’origine | 35–38 |
+| Route générée 8, vers Hoze | 38–41 |
+| Route générée 7, vers Raphael | 42–45 |
+| Routes générées 6 puis 5, vers Ana | 45–47 / 47–49 |
+| Route générée 4, vers Wanda | 50–52 |
+| Routes générées 3 puis 2, vers Clairbois | 53–55 / 55–57 |
+| Route générée 1, dernier sentier | 57–60 |
+
+Le retour final vers l’ancienne route 3 revient volontairement dans une région plus facile ; le voyageur du dernier sentier l’annonce. `pk2`, isolée et conservée pour compatibilité, garde ses niveaux 10–14.
+
+`experience_balance.json` configure les multiplicateurs **sauvage ×1, dresseur ×1,5, arène ×2** et le parcours de référence contrôlé par les tests. La base reste `(12 + 0,9 × niveau²) × (0,9 + 0,1 × k)`. Elle est multipliée par un facteur d’écart de niveau `(niveau adverse / niveau receveur)^1,25`, borné entre 0,25 et 1,5 : une équipe très au-dessus de la zone reçoit moins, un partenaire en retard reçoit davantage. La courbe d’expérience cumulée, les niveaux acquis et le potentiel `k` des joueurs ne sont pas modifiés ; aucun plafond de niveau n’est ajouté. Le Pokémon actif conscient reçoit l’XP, sans nouveau partage automatique d’équipe.
+
+Au niveau 40, contre un adversaire `k=1` de même niveau : 1 452 XP sauvages, 2 178 XP de dresseur, 2 904 XP d’arène. Le passage 40 → 41 coûte 4 681 XP pour la croissance standard ; cible théorique d’environ 3 à 4 victoires sauvages par niveau pour cette croissance. Les espèces à croissance différente gardent leur rythme propre. Ce calcul ne constitue pas une recette humaine du temps de jeu.
+
+**Correctif moteur associé :** la boucle dresseur pouvait sortir avant d’attribuer l’XP du dernier adversaire. Les K.O. sont désormais comptabilisés par instance, y compris à la sortie de boucle et après un changement adverse, sans double attribution. La différence arène/dresseur vient de la définition serveur du combat ; le navigateur ne choisit pas son multiplicateur. Fuite sans K.O. : aucune XP. Pas de nouvelle prime d’XP globale de victoire qui ferait doublon.
+
+Vérifications : `npm run audit:balance` donne les niveaux/XP par zone et les récompenses théoriques des arènes ; `tests/experience-balance.test.js` contrôle le parcours, les bornes réellement générées, les écarts, les facteurs d’XP et le rythme sans plafond. Le test MySQL du dernier K.O. échouait avant correction. Les tests d’arène couvrent chaque K.O., la fuite et la persistance exacte ; le parcours Socket contrôle le bonus d’XP des cinq arènes jusque dans MySQL.
+
 ## Vérifications
+
+Rejoués le 11 octobre après équilibrage : 80 tests standards réussis / 15 tests MySQL ignorés dans `npm test` ; 15/15 MySQL, dont parcours Socket réel (refus avant prérequis, fuite, cinq victoires, scènes automatiques, lettre, reconnexion et dresseur facultatif). Les comptes et équipes renforcées de test sont créés uniquement dans la base dédiée et supprimés ensuite. Ces tests ne mesurent pas la difficulté humaine.
+
+Contrôles dédiés : `node --test tests/story-content.test.js`, `npm run test:mysql`, `node --env-file-if-exists=.env scripts/validateStoryViewports.js`. Le test navigateur utilise les dialogues réellement reçus du serveur, les quatre formats 1440×900, 390×844, 320×568 et 844×390, le portrait, la commande tactile et les PNJ d’Ocreville. Captures dans `/tmp/explorakit-story-validation`.
 
 - `npm run audit:content` : 47 cartes installées, 46 lieux actifs avec les alias, 45 atteignables, aucune carte générée inactive ni destination inconnue ;
 - `python docs/correctif_villes/validate_access.py` : 12 portes, retours, foregrounds et synchronisation TMX/JSON validés par l’agent cartes ;
@@ -88,9 +157,8 @@ Les boutiques accessibles vendent les trois Balls et les quatre objets tenus. Le
 
 ## Priorités suivantes
 
-1. Recette manuelle du parcours actif : routes, villes, arènes, douze intérieurs et cinq combats de champion.
-2. Ajouter des PNJ et du contenu aux huit intérieurs encore vides, sans modifier leurs cartes.
-3. Ajouter les dialogues conditionnels et les scènes de Clara/Aube Obscure.
-4. Ajouter les soins utilisables, les objets clés et éventuellement la revente en boutique.
-5. Finaliser l’anglais côté serveur et sur les écrans d’authentification.
-6. Créer la condition de victoire, le combat final et l’épilogue.
+1. Recette humaine du chapitre I et ajustement des niveaux/équipes. La courbe sauvage et les bonus d’XP ont été redistribués ; vérifier en partie réelle le rythme d’entraînement de plusieurs Pokémon et les retours au Centre.
+2. Vérifier sur téléphone physique les dialogues, les combats et les déplacements ; compléter le PVP à deux navigateurs.
+3. Ajouter du contenu aux huit intérieurs vides et prévoir de nouveaux lieux de soins avec le responsable cartes, sans fabriquer de portes hors de ce lot.
+4. Développer la suite Clara/Aube Obscure après la lettre, puis la résolution, le combat final et l’épilogue.
+5. Ajouter les soins utilisables et les objets clés, puis l’anglais des dialogues et écrans restants.

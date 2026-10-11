@@ -1,3 +1,5 @@
+const { getPokemonCenterEntryReturn, getPokemonCenterExit } = require('../game/world/pokemonCenterTravel');
+const { startPnjMovement } = require('../game/world/pnjMovement');
 const { loadCollisionData, changeMapData, getNextMap, battleMapData, InteractMapData } = require('../game/world/mapRepository');
 const { loadEquipe, editEquipe } = require('../persistence/teamRepository');
 const CreatePokemon = require('../game/world/wildPokemonFactory');
@@ -13,6 +15,7 @@ const {
 } = require('../persistence/playerRepository');
 const { getPnjsForMap, getPnjAtTile, isPnjBlockingTile } = require('../game/world/pnjStore');
 const { startPvpBattle, hasAlivePokemon } = require('../game/battle/pvpBattle');
+const { emitPvpBattleEnd } = require('../game/battle/battleOutcome');
 const {
     createDialogueAuthorization,
     isDialogueCompletionAllowed
@@ -44,12 +47,15 @@ const { registerChatHandlers } = require('./handlers/chatHandlers');
 const { registerShopHandlers } = require('./handlers/shopHandlers');
 const {
     completeNpcBattle,
+    completeStoryEvent,
     getNpcBattleDefinition,
     isNpcBattleCompleted,
     loadPokedex,
     loadProgressState,
     synchronizeCaughtPokemon
 } = require('../persistence/progressionRepository');
+
+const { meetsRequirements } = require('../game/world/storyProgression');
 
 const MOVE_DELAY = 130;
 const POSITION_SAVE_DELAY_MS = 4000;
@@ -106,6 +112,7 @@ function findNearbyInteractablePlayer(sourceSocketId) {
 }
 
 const socketHandler = (io) => {
+    startPnjMovement(io, () => players);
     const clearPendingRequest = (requestId, reason = 'cancelled', { notify = false } = {}) => {
         const request = pendingInteractionRequests.get(requestId);
         if (!request) return null;
@@ -190,18 +197,7 @@ const socketHandler = (io) => {
                 await startPvpBattle(playerA, playerB, io);
             } catch (error) {
                 console.error('Erreur pendant le combat PVP:', error?.message || error);
-                io.to(socketIdA).emit('endbattle', {
-                    message: 'Fin du combat',
-                    playerWon: false,
-                    battleType: 'pvp',
-                    reason: 'error'
-                });
-                io.to(socketIdB).emit('endbattle', {
-                    message: 'Fin du combat',
-                    playerWon: false,
-                    battleType: 'pvp',
-                    reason: 'error'
-                });
+                emitPvpBattleEnd(io, playerA, playerB, null, 'error');
             } finally {
                 const recoveryTasks = [];
                 if (players[socketIdA] && !hasConsciousPokemon(players[socketIdA].equipe)) {
@@ -291,19 +287,35 @@ const socketHandler = (io) => {
             currentmap,
             equipe,
             respawnPoint: savedPosition?.respawnPoint || null,
+            centerReturnPoint: savedPosition?.centerReturnPoint || null,
             inbattle: false
         };
 
         let canMove = true;
+        let transitionBusy = false;
         let saveTimer = null;
         let activePositionSave = null;
         let savePending = false;
         let pendingDialogue = null;
+        let interactionBusy = false;
+        const guardInteraction = (handler) => async (data) => {
+            if (interactionBusy) return;
+            interactionBusy = true;
+            try {
+                await handler(data);
+            } catch (error) {
+                console.error('Erreur interaction:', error?.message || error);
+                socket.emit('interactionRejected', { reason: 'interaction_unavailable' });
+            } finally {
+                interactionBusy = false;
+            }
+        };
         let lastSavedPosition = savedPosition
             ? {
                 x: Number(savedPosition.x),
                 y: Number(savedPosition.y),
-                map: savedPosition.map
+                map: savedPosition.map,
+                centerReturnPoint: savedPosition.centerReturnPoint || null
             }
             : null;
 
@@ -317,38 +329,29 @@ const socketHandler = (io) => {
         }
 
         const flushPositionSave = async () => {
-            if (activePositionSave) {
-                const saveSucceeded = await activePositionSave;
-                if (saveSucceeded && savePending) return flushPositionSave();
-                return saveSucceeded;
-            }
+            if (activePositionSave) return activePositionSave;
             if (!savePending) return true;
-
-            const player = players[socket.id];
-            if (!player) return false;
-
-            const positionToSave = buildPositionSnapshot(player);
-            if (positionsAreEqual(positionToSave, lastSavedPosition)) {
-                savePending = false;
-                return true;
-            }
 
             activePositionSave = (async () => {
                 try {
-                    await saveUserPosition(userId, positionToSave);
-                    lastSavedPosition = { ...positionToSave };
-                    savePending = false;
+                    // Drain newer snapshots queued while MySQL is writing the previous one.
+                    while (savePending) {
+                        const player = players[socket.id];
+                        if (!player) return false;
+                        const positionToSave = buildPositionSnapshot(player);
+                        if (!positionsAreEqual(positionToSave, lastSavedPosition)) {
+                            await saveUserPosition(userId, positionToSave);
+                            lastSavedPosition = positionToSave;
+                        }
+                        savePending = !positionsAreEqual(buildPositionSnapshot(player), lastSavedPosition);
+                    }
                     return true;
                 } catch (error) {
                     console.error(`Erreur de sauvegarde position user ${userId}:`, error.message);
                     return false;
                 }
-            })();
-            try {
-                return await activePositionSave;
-            } finally {
-                activePositionSave = null;
-            }
+            })().finally(() => { activePositionSave = null; });
+            return activePositionSave;
         };
 
         const schedulePositionSave = ({ immediate = false } = {}) => {
@@ -764,7 +767,7 @@ const socketHandler = (io) => {
             closeChatSessionForSocket
         });
 
-        socket.on('onEndDialogue', async (data) => {
+        socket.on('onEndDialogue', guardInteraction(async (data) => {
             const player = players[socket.id];
             if (!player) return;
             if (player.inbattle) return;
@@ -782,11 +785,18 @@ const socketHandler = (io) => {
                 socket.emit('interactionRejected', { reason: 'invalid_or_expired_dialogue' });
                 return;
             }
+            const authorization = pendingDialogue;
             pendingDialogue = null;
 
             const dialogueAction = getEndSentenceInformation(dialogueName);
             if (dialogueAction === 'battle') {
                 const battleDefinition = getNpcBattleDefinition(dialogueName);
+                const progress = await loadProgressState(userId);
+                if (!players[socket.id] || player.inbattle) return;
+                if (!meetsRequirements(battleDefinition, progress)) {
+                    socket.emit('interactionRejected', { reason: 'story_requirements_not_met' });
+                    return;
+                }
                 if (battleDefinition?.once && await isNpcBattleCompleted(userId, dialogueName)) {
                     socket.emit('progressionNotice', {
                         type: 'already_completed',
@@ -802,18 +812,21 @@ const socketHandler = (io) => {
                     return;
                 }
 
+                let victoryProgress = null;
                 player.inbattle = true;
-                socket.emit('battletrigger', { message: 'Vous avez déclenché la condition!' });
+                socket.emit('battletrigger', { message: 'Le duel commence !', battleType: battleDefinition?.experienceKind || 'trainer' });
                 startTeamBattle(player, enemyteam, io, userId, {
                     grantBaseMoney: !battleDefinition,
+                    experienceKind: battleDefinition?.experienceKind || 'trainer',
                     onVictory: battleDefinition
                         ? async () => {
                             const completion = await completeNpcBattle(userId, dialogueName);
+                            if (completion.granted) victoryProgress = completion.progress;
                             socket.emit('progressionState', completion.progress);
                             socket.emit('progressionNotice', {
                                 type: completion.granted ? 'reward' : 'already_completed',
                                 message: completion.granted
-                                    ? 'Progression enregistrée et récompense obtenue.'
+                                    ? 'Victoire enregistrée et récompense obtenue.'
                                     : 'Cette récompense avait déjà été récupérée.'
                             });
                             return completion;
@@ -833,6 +846,19 @@ const socketHandler = (io) => {
                                 reason: 'trainer_battle_end',
                                 equipe: players[socket.id].equipe
                             });
+                            const tile = getPlayerTilePosition(players[socket.id]);
+                            // Une nouvelle scène peut suivre un combat plus long que le TTL du dialogue initial.
+                            const followUpAuthorization = createDialogueAuthorization(authorization);
+                            if (victoryProgress && isDialogueCompletionAllowed(followUpAuthorization, {
+                                name: dialogueName, map: players[socket.id].currentmap,
+                                playerX: tile.x, playerY: tile.y
+                            })) {
+                                const sentence = getSentenceForName(dialogueName, victoryProgress);
+                                if (sentence && sentence[1] !== dialogueName) {
+                                    pendingDialogue = createDialogueAuthorization({ ...authorization, name: sentence[1] });
+                                    socket.emit('dialogue', sentence);
+                                }
+                            }
                         }
                     });
             } else if (dialogueAction === 'heal') {
@@ -857,12 +883,18 @@ const socketHandler = (io) => {
                 });
 
                 console.log("Tous les Pokémon de l'équipe ont été soignés !");
+            } else if (dialogueAction === 'story') {
+                const completion = await completeStoryEvent(userId, dialogueName);
+                socket.emit('progressionState', completion.progress);
+                if (completion.granted) socket.emit('progressionNotice', {
+                    type: 'reward', message: 'Chapitre I terminé : la lettre de Clara t’attend aux archives de Clairbois.'
+                });
             } else if (dialogueAction === 'shop') {
                 await shopHandlers.openShop();
             }
-        });
+        }));
 
-        socket.on('Space', () => {
+        socket.on('Space', guardInteraction(async () => {
             const player = players[socket.id];
             if (!player) return;
             if (player.inbattle) return;
@@ -882,6 +914,8 @@ const socketHandler = (io) => {
                 }
             }
 
+            const progress = await loadProgressState(userId);
+            if (!players[socket.id] || player.inbattle) return;
             const matrixX = Math.floor(player.x / TILE_SIZE);
             const matrixY = Math.floor(player.y / TILE_SIZE);
 
@@ -898,7 +932,7 @@ const socketHandler = (io) => {
                 const pnj = getPnjAtTile(currentmap, pos.x, pos.y);
                 if (pnj) {
                     interactionDetected = true;
-                    const sentence = getSentenceForName(pnj.interactionName || pnj.name);
+                    const sentence = getSentenceForName(pnj.interactionName || pnj.name, progress);
                     if (sentence) {
                         pendingDialogue = createDialogueAuthorization({
                             name: sentence[1],
@@ -917,7 +951,7 @@ const socketHandler = (io) => {
                     if (pos.x >= 0 && pos.x < interactmap[0].length && pos.y >= 0 && pos.y < interactmap.length) {
                         if (interactmap[pos.y][pos.x] !== 0) {
                             interactionDetected = true;
-                            const sentence = getSentenceForMapAndPosition(currentmap, pos.x, pos.y);
+                            const sentence = getSentenceForMapAndPosition(currentmap, pos.x, pos.y, progress);
 
                             if (sentence) {
                                 pendingDialogue = createDialogueAuthorization({
@@ -943,10 +977,10 @@ const socketHandler = (io) => {
             if (!interactionDetected) {
                 console.log('No interaction detected near the player.');
             }
-        });
+        }));
 
         socket.on('playerAction', async (action) => {
-            if (!canMove) return;
+            if (!canMove || interactionBusy || transitionBusy) return;
             const player = players[socket.id];
             if (!player) return;
             if (player.inbattle) return;
@@ -982,6 +1016,7 @@ const socketHandler = (io) => {
             const matrixX = Math.floor(newPlayerX / TILE_SIZE);
             const matrixY = Math.floor(newPlayerY / TILE_SIZE);
 
+            const previousPosition = { x: player.x, y: player.y };
             const blockedByPnj = isPnjBlockingTile(currentmap, matrixX, matrixY);
             if (collisionData2D[matrixY] && collisionData2D[matrixY][matrixX] === 0 && !blockedByPnj) {
                 player.x = newPlayerX;
@@ -999,13 +1034,16 @@ const socketHandler = (io) => {
                 setTimeout(() => {
                     canMove = true;
                 }, MOVE_DELAY);
+            } else {
+                player.isMoving = false;
+                return;
             }
 
             if (battlemap2D[matrixY] && battlemap2D[matrixY][matrixX] != 0 && !player.inbattle) {
                 const randomNumber = Math.floor(Math.random() * 15);
                 if (randomNumber === 0) {
                     player.inbattle = true;
-                    socket.emit('battletrigger', { message: 'Vous avez declenche la condition!' });
+                    socket.emit('battletrigger', { message: 'Un Pokémon sauvage apparaît !', battleType: 'wild' });
 
                     async function utiliserCreatePokemon() {
                         try {
@@ -1057,14 +1095,18 @@ const socketHandler = (io) => {
             if (changemap2D[matrixY] && changemap2D[matrixY][matrixX] != 0) {
                 const nextMapData = getNextMap(currentmap, matrixX, matrixY);
                 if (nextMapData) {
-                    await relocatePlayer(
-                        {
-                            map: nextMapData.nextMap,
-                            x: nextMapData.nextX,
-                            y: nextMapData.nextY
-                        },
-                        { reason: 'map_transition', saveCheckpoint: true }
-                    );
+                    let destination = { map: nextMapData.nextMap, x: nextMapData.nextX, y: nextMapData.nextY };
+                    if (currentmap === 'centre') {
+                        destination = getPokemonCenterExit(player.centerReturnPoint);
+                    } else if (destination.map === 'centre') {
+                        player.centerReturnPoint = getPokemonCenterEntryReturn(currentmap, matrixX, matrixY, previousPosition);
+                    }
+                    transitionBusy = true;
+                    try {
+                        await relocatePlayer(destination, { reason: 'map_transition', saveCheckpoint: true });
+                    } finally {
+                        transitionBusy = false;
+                    }
                 }
             }
         });

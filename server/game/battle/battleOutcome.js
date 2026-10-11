@@ -15,6 +15,7 @@ function clearBattleTransientState(team) {
                 delete pokemon.__moveAndStatOverrides;
             }
             delete pokemon.__battle;
+            pokemon.resetCombatStats?.();
         }
     }
 }
@@ -27,6 +28,69 @@ function resolveSoloReason(playerWon, extra = {}) {
     return playerWon ? 'victory' : 'defeat';
 }
 
+function describePokemon(pokemon) {
+    if (!pokemon) return null;
+    return {
+        uuid: pokemon.uuid || null,
+        pokemonId: Number(pokemon.data?.id) || null,
+        name: pokemon.truename || pokemon.name || 'Pokémon',
+        level: Number(pokemon.level) || 1
+    };
+}
+
+function resolveOutcome(payload) {
+    const reason = payload.reason;
+    if (payload.captured || reason === 'captured') return 'captured';
+    if (payload.interrupted || ['timer', 'closed', 'error', 'interrupted', 'action_timeout', 'timeout',
+        'socket_missing', 'player_disconnected', 'disconnect', 'both_disconnected',
+        'invalid_team', 'invalid_players'].includes(reason)) return 'interrupted';
+    if (payload.playerWon) return 'victory';
+    if (payload.draw || reason === 'draw' || reason === 'both_fled') return 'draw';
+    if (payload.fled || reason === 'fled') return 'fled';
+    return 'defeat';
+}
+
+function buildBattleSummary(payload, details = {}) {
+    return {
+        outcome: resolveOutcome(payload),
+        mode: details.mode === 'drift' ? 'drift' : 'adventure',
+        experience: details.experience || [],
+        money: Number(details.money) || 0,
+        loot: details.loot || [],
+        capturedPokemon: details.capturedPokemon || null,
+        lostPokemon: details.lostPokemon || []
+    };
+}
+
+// Keep references to the starting team: switches must not duplicate XP, and
+// Drift removes defeated Pokémon before the result is sent to the client.
+function createBattleSummaryTracker(team = [], mode = 'adventure') {
+    const initial = team.map(pokemon => ({
+        pokemon,
+        experience: Number(pokemon.experience) || 0,
+        level: Number(pokemon.level) || 1
+    }));
+    return {
+        money: 0,
+        loot: [],
+        snapshot(currentTeam = team, capturedPokemon = null) {
+            return {
+                mode,
+                experience: initial.flatMap(({ pokemon, experience, level }) => {
+                    const xpGained = Math.max(0, (Number(pokemon.experience) || 0) - experience);
+                    return xpGained ? [{ ...describePokemon(pokemon), xpGained, previousLevel: level }] : [];
+                }),
+                money: this.money,
+                loot: [...this.loot],
+                capturedPokemon: describePokemon(capturedPokemon),
+                lostPokemon: mode === 'drift'
+                    ? initial.filter(({ pokemon }) => !currentTeam.includes(pokemon)).map(({ pokemon }) => describePokemon(pokemon))
+                    : []
+            };
+        }
+    };
+}
+
 function emitSoloBattleEnd(player, io, playerWon = false, extra = {}, battleType = 'wild') {
     clearBattleTransientState(player?.equipe?.pokemons);
     const payload = {
@@ -36,6 +100,7 @@ function emitSoloBattleEnd(player, io, playerWon = false, extra = {}, battleType
         reason: resolveSoloReason(playerWon, extra),
         ...extra
     };
+    payload.summary = buildBattleSummary(payload, extra.summary);
     io.to(player.id).emit('endbattle', payload);
     return payload;
 }
@@ -55,6 +120,8 @@ function emitPvpBattleEnd(io, playerA, playerB, winnerId = null, reason = 'finis
         ...payloadA,
         playerWon: !draw && winnerId === playerB.id
     };
+    payloadA.summary = buildBattleSummary(payloadA);
+    payloadB.summary = buildBattleSummary(payloadB);
     io.to(playerA.id).emit('endbattle', payloadA);
     io.to(playerB.id).emit('endbattle', payloadB);
     return [payloadA, payloadB];
@@ -62,6 +129,8 @@ function emitPvpBattleEnd(io, playerA, playerB, winnerId = null, reason = 'finis
 
 module.exports = {
     clearBattleTransientState,
+    buildBattleSummary,
+    createBattleSummaryTracker,
     emitPvpBattleEnd,
     emitSoloBattleEnd,
     resolveSoloReason

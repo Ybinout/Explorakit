@@ -81,4 +81,4 @@ Il n'est pas nécessaire de créer 612 animations uniques. Une bibliothèque de 
 
 ## Critère de clôture
 
-La passe est validée techniquement : les trois types de combat, les branches prioritaires, le ciblage dynamique, l'overlay extrait et les deux formats d'affichage passent leurs contrôles reproductibles. La progression narrative étant désormais persistante, la prochaine étape recommandée est la première tranche verticale `gen_route1` + `gen_ville1` + `gen_arene1` décrite dans `docs/AUDIT_CONTENU_JEU.md`.
+La passe est validée techniquement : les trois types de combat, les branches prioritaires, le ciblage dynamique, l'overlay extrait et les deux formats d'affichage passent leurs contrôles reproductibles. Mise à jour du 11 octobre : cette tranche verticale et les 30 cartes générées sont déjà raccordées, de même que les boutiques et les champions. La priorité courante est la cohérence des quêtes dans l'ordre réel des champions, puis la recette du parcours ; voir section 7 de `AUDIT_PROJET.md`. Les résultats visuels ci-dessus restent ceux de la passe datée du 3 octobre.

@@ -16,7 +16,7 @@ Avant toute modification du projet, lire `docs/AUDIT_PROJET.md`. Ce fichier est 
 
 ## Résumé du projet
 
-Explorakit est un fan game web multijoueur privé : frontend Vue 2/canvas, backend Node.js/Express/Socket.IO, persistance MySQL, cartes Tiled et combats inspirés de Pokémon. Le serveur est autoritaire pour les déplacements et les combats, mais l'authentification et plusieurs validations restent à sécuriser.
+Explorakit est un fan game web multijoueur privé : frontend Vue 2/canvas, backend Node.js/Express/Socket.IO, persistance MySQL, cartes Tiled et combats inspirés de Pokémon. Le serveur est autoritaire pour les déplacements et les combats. L'authentification JWT HTTP/Socket et les contrôles de propriétaire sont livrés ; la validation métier globale reste à compléter.
 
 ## Commandes de vérification actuelles
 
@@ -31,4 +31,6 @@ Explorakit est un fan game web multijoueur privé : frontend Vue 2/canvas, backe
 
 ## Priorité actuelle
 
-Les correctifs P0, la création de partie, la progression sans plafond, la récupération après défaite totale et la passe combat complète sont appliqués. L'audit automatique couvre 612 capacités et les talents Gen 7 des 809 Pokémon. Les quatre premières familles de talents (immunités/absorptions, entrée-sortie, dégâts/statistiques, météo/terrains) sont raccordées ; les familles réactives, objets/PP, K.O./fin de tour et doubles/formes restent volontairement ultérieures. Le moteur possède les primitives doubles mais aucun mode double n'est encore exposé. La priorité est le test manuel du prologue et des trois combats, puis le découpage de `battleEngine.js`, `UserMap.vue` et `socketHandler.js`, avant l'audit complet du contenu.
+État réconcilié le 11 octobre 2026 : les P0, l'onboarding, les trois orchestrateurs de combat, la sauvegarde transactionnelle, les boutiques, les quêtes/badges persistants, les 30 cartes générées et le Pokédex responsive sont livrés. `BattleOverlay.vue` est déjà extrait. Les audits reconnaissent 612 capacités et les talents des 809 Pokémon ; 125 talents sont pris en charge, 98 restent pour les familles ultérieures, et aucun mode double n'est exposé.
+
+Le chargement des huit décors d’intérieurs exclus du build est corrigé. Le chapitre I est désormais intégré : Mounir → Hoze (Ocreville) → Raphael (Floraville) → Ana (Rochebourg) → Wanda (Rivazur) → lettre aux archives de Clairbois, avec 12 dresseurs facultatifs en ville. Les prérequis et récompenses sont persistants ; l’ancien défaut d’achèvement/réouverture de quête est corrigé. Les zones sauvages suivent maintenant des paliers 5–60 ; XP sauvage ×1, dresseur ×1,5, arène ×2, ajustée au niveau du receveur ; dernier K.O. de dresseur corrigé (`npm run audit:balance`). Priorité : recette humaine du chapitre, ajustements fins d’équilibrage et validation sur téléphone physique, puis découpage de `UserMap.vue`, `socketHandler.js` et `battleEngine.js`. Suivre la section 7 de `docs/AUDIT_PROJET.md` et `docs/AUDIT_CONTENU_JEU.md` ; ne pas refaire les lots livrés.

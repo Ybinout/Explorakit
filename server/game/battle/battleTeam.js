@@ -26,6 +26,7 @@ function clearSwitchOutState(pokemon) {
     if (Object.prototype.hasOwnProperty.call(pokemon, '__moveAndStatOverrides')) {
         Object.assign(pokemon, pokemon.__moveAndStatOverrides);
         delete pokemon.__moveAndStatOverrides;
+        pokemon.resetCombatStats?.();
     }
     delete pokemon.__battle;
 }

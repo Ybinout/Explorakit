@@ -17,6 +17,7 @@ const POKEMON_COLUMNS = [
     'iv_speed', 'nature', 'k', 'current_hp', 'status', 'passive_ability', 'held_item', 'current_attack', 'current_defense',
     'current_special_attack', 'current_special_defense', 'current_speed',
     'ability1', 'ability2', 'ability3', 'ability4',
+    'ev_hp', 'ev_attack', 'ev_defense', 'ev_special_attack', 'ev_special_defense', 'ev_speed',
     'move1_pp', 'move2_pp', 'move3_pp', 'move4_pp'
 ];
 
@@ -36,7 +37,7 @@ function pokemonToRow(pokemon, teamId, position) {
         pokemon.iv.speed, pokemon.nature, pokemon.k, pokemon.currentHp, normalizePokemonStatus(pokemon.status),
         pokemon.passiveAbility || null, pokemon.heldItem || null,
         pokemon.currentAttack, pokemon.currentDefense, pokemon.currentSpecialAttack,
-        pokemon.currentSpecialDefense, pokemon.currentSpeed, ...abilities, ...movePp
+        pokemon.currentSpecialDefense, pokemon.currentSpeed, ...abilities, pokemon.ev.hp, pokemon.ev.attack, pokemon.ev.defense, pokemon.ev.specialAttack, pokemon.ev.specialDefense, pokemon.ev.speed, ...movePp
     ];
 }
 
@@ -48,7 +49,7 @@ function rowToPokemon(row) {
             specialAttack: row.iv_special_attack,
             specialDefense: row.iv_special_defense, speed: row.iv_speed
         },
-        row.nature, row.k
+        row.nature, row.k, { hp: row.ev_hp, attack: row.ev_attack, defense: row.ev_defense, specialAttack: row.ev_special_attack, specialDefense: row.ev_special_defense, speed: row.ev_speed }
     );
     pokemon.uuid = row.uuid;
     pokemon.currentHp = row.current_hp;
@@ -59,11 +60,8 @@ function rowToPokemon(row) {
         createDeterministicRandom(row.uuid)
     );
     pokemon.heldItem = row.held_item || null;
-    pokemon.currentAttack = row.current_attack;
-    pokemon.currentDefense = row.current_defense;
-    pokemon.currentSpecialAttack = row.current_special_attack;
-    pokemon.currentSpecialDefense = row.current_special_defense;
-    pokemon.currentSpeed = row.current_speed;
+    // Reconstruct permanent stats from nature/IV/EV, never stale battle overrides.
+    pokemon.resetCombatStats();
     pokemon.abilities = [row.ability1, row.ability2, row.ability3, row.ability4].filter(Boolean);
     pokemon.movePp = [row.move1_pp, row.move2_pp, row.move3_pp, row.move4_pp]
         .slice(0, pokemon.abilities.length);

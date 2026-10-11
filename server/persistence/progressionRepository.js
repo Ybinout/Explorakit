@@ -1,6 +1,7 @@
 const progressionCatalog = require('../../data/game/progression.json');
 const pokedexCatalog = require('../../data/game/pokedex.json');
 const { dbPool, withTransaction } = require('../config/database');
+const { meetsRequirements, deriveStoryQuest } = require('../game/world/storyProgression');
 
 const QUEST_STATUSES = new Set(['active', 'completed']);
 const questDefinitions = new Map((progressionCatalog.quests || []).map((quest) => [quest.key, quest]));
@@ -49,6 +50,8 @@ async function loadProgressState(userId) {
         dbPool.execute('SELECT money FROM users WHERE id = ? LIMIT 1', [id])
     ]);
 
+    const flags = Object.fromEntries(flagRows.map((row) => [row.flag_key, row.flag_value]));
+    const storyQuest = deriveStoryQuest({ flags });
     const storedQuests = new Map(questRows.map((row) => [row.quest_key, row]));
     const storedBadges = new Map(badgeRows.map((row) => [row.badge_key, row]));
     const quests = (progressionCatalog.quests || []).map((definition) => {
@@ -58,7 +61,12 @@ async function loadProgressState(userId) {
             status: stored?.status || definition.defaultStatus || 'active',
             progress: Number(stored?.progress) || 0,
             completedAt: stored?.completed_at || null,
-            updatedAt: stored?.updated_at || null
+            updatedAt: stored?.updated_at || null,
+            ...(definition.key === 'main_sister_search' ? {
+                ...storyQuest,
+                completedAt: storyQuest.status === 'completed'
+                    ? stored?.completed_at || null : null
+            } : {})
         };
     });
     const badges = (progressionCatalog.badges || [])
@@ -70,7 +78,7 @@ async function loadProgressState(userId) {
         .sort((left, right) => Number(left.order) - Number(right.order));
 
     return {
-        flags: Object.fromEntries(flagRows.map((row) => [row.flag_key, row.flag_value])),
+        flags,
         quests,
         badges,
         completedNpcBattles: battleRows.map((row) => ({
@@ -181,61 +189,95 @@ async function isNpcBattleCompleted(userId, dialogueName) {
     return rows.length > 0;
 }
 
+async function loadStoryFlags(id, connection) {
+    const [rows] = await connection.execute(
+        'SELECT flag_key, flag_value FROM player_story_flags WHERE user_id = ?', [id]
+    );
+    return Object.fromEntries(rows.map((row) => [row.flag_key, row.flag_value]));
+}
+
+async function grantReward(id, reward, connection) {
+    const money = Math.max(0, Math.floor(Number(reward.money) || 0));
+    if (money > 0) await connection.execute('UPDATE users SET money = money + ? WHERE id = ?', [money, id]);
+    for (const [key, value] of Object.entries(reward.flags || {})) {
+        await connection.execute(
+            `INSERT INTO player_story_flags (user_id, flag_key, flag_value) VALUES (?, ?, ?)
+             ON DUPLICATE KEY UPDATE flag_value = VALUES(flag_value)`, [id, key, String(value)]
+        );
+    }
+    for (const update of reward.quests || []) {
+        if (!questDefinitions.has(update.key) || update.key === 'main_sister_search') continue;
+        const status = QUEST_STATUSES.has(update.status) ? update.status : 'active';
+        const progress = Math.max(0, Math.floor(Number(update.progress) || 0));
+        await connection.execute(
+            `INSERT INTO player_quests (user_id, quest_key, status, progress, completed_at)
+             VALUES (?, ?, ?, ?, IF(? = 'completed', CURRENT_TIMESTAMP, NULL))
+             ON DUPLICATE KEY UPDATE
+                status = IF(status = 'completed', status, VALUES(status)),
+                progress = GREATEST(progress, VALUES(progress)),
+                completed_at = IF(VALUES(status) = 'completed', COALESCE(completed_at, CURRENT_TIMESTAMP), completed_at)`,
+            [id, update.key, status, progress, status]
+        );
+    }
+    for (const key of reward.badges || []) {
+        if (badgeDefinitions.has(key)) await connection.execute(
+            'INSERT IGNORE INTO player_badges (user_id, badge_key) VALUES (?, ?)', [id, key]
+        );
+    }
+    const quest = deriveStoryQuest({ flags: await loadStoryFlags(id, connection) });
+    await connection.execute(
+        `INSERT INTO player_quests (user_id, quest_key, status, progress, completed_at)
+         VALUES (?, 'main_sister_search', ?, ?, IF(? = 'completed', CURRENT_TIMESTAMP, NULL))
+         ON DUPLICATE KEY UPDATE status = VALUES(status), progress = VALUES(progress),
+            completed_at = IF(VALUES(status) = 'completed', COALESCE(completed_at, CURRENT_TIMESTAMP), NULL)`,
+        [id, quest.status, quest.progress, quest.status]
+    );
+    return money;
+}
+
 async function completeNpcBattle(userId, dialogueName) {
     const id = normalizeUserId(userId);
     const definition = getNpcBattleDefinition(dialogueName);
     if (!definition) return { granted: false, reason: 'unknown_battle', progress: await loadProgressState(id) };
     const reward = definition.reward || {};
     const result = await withTransaction(async (connection) => {
+        // Une victoire et une scène simultanées ne doivent pas contourner les prérequis.
+        await connection.execute('SELECT id FROM users WHERE id = ? FOR UPDATE', [id]);
+        if (!meetsRequirements(definition, { flags: await loadStoryFlags(id, connection) })) {
+            return { granted: false, reason: 'requirements_not_met' };
+        }
         const [battleResult] = await connection.execute(
-            `INSERT IGNORE INTO user_npc_battles
-                (user_id, battle_key, dialogue_name, reward_json)
-             VALUES (?, ?, ?, ?)`,
-            [id, definition.battleKey, dialogueName, JSON.stringify(reward)]
+            `INSERT IGNORE INTO user_npc_battles (user_id, battle_key, dialogue_name, reward_json)
+             VALUES (?, ?, ?, ?)`, [id, definition.battleKey, dialogueName, JSON.stringify(reward)]
         );
         if (!battleResult.affectedRows) return { granted: false, reason: 'already_completed' };
-
-        const money = Math.max(0, Math.floor(Number(reward.money) || 0));
-        if (money > 0) {
-            await connection.execute('UPDATE users SET money = money + ? WHERE id = ?', [money, id]);
-        }
-        for (const [flagKey, flagValue] of Object.entries(reward.flags || {})) {
-            if (!flagKey) continue;
-            await connection.execute(
-                `INSERT INTO player_story_flags (user_id, flag_key, flag_value) VALUES (?, ?, ?)
-                 ON DUPLICATE KEY UPDATE flag_value = VALUES(flag_value)`,
-                [id, flagKey, String(flagValue)]
-            );
-        }
-        for (const questUpdate of reward.quests || []) {
-            if (!questDefinitions.has(questUpdate.key)) continue;
-            const status = QUEST_STATUSES.has(questUpdate.status) ? questUpdate.status : 'active';
-            const progress = Math.max(0, Math.floor(Number(questUpdate.progress) || 0));
-            await connection.execute(
-                `INSERT INTO player_quests
-                    (user_id, quest_key, status, progress, completed_at)
-                 VALUES (?, ?, ?, ?, IF(? = 'completed', CURRENT_TIMESTAMP, NULL))
-                 ON DUPLICATE KEY UPDATE
-                    status = VALUES(status),
-                    progress = GREATEST(progress, VALUES(progress)),
-                    completed_at = IF(VALUES(status) = 'completed', COALESCE(completed_at, CURRENT_TIMESTAMP), completed_at)`,
-                [id, questUpdate.key, status, progress, status]
-            );
-        }
-        for (const badgeKey of reward.badges || []) {
-            if (!badgeDefinitions.has(badgeKey)) continue;
-            await connection.execute(
-                'INSERT IGNORE INTO player_badges (user_id, badge_key) VALUES (?, ?)',
-                [id, badgeKey]
-            );
-        }
+        const money = await grantReward(id, reward, connection);
         return { granted: true, money, battleKey: definition.battleKey };
+    });
+    return { ...result, progress: await loadProgressState(id) };
+}
+
+async function completeStoryEvent(userId, dialogueName) {
+    const id = normalizeUserId(userId);
+    const definition = progressionCatalog.storyEvents?.[dialogueName];
+    if (!definition) return { granted: false, reason: 'unknown_story_event', progress: await loadProgressState(id) };
+    const result = await withTransaction(async (connection) => {
+        await connection.execute('SELECT id FROM users WHERE id = ? FOR UPDATE', [id]);
+        const flags = await loadStoryFlags(id, connection);
+        if (!meetsRequirements(definition, { flags })) return { granted: false, reason: 'requirements_not_met' };
+        if (flags[definition.completionFlag] === 'true') return { granted: false, reason: 'already_completed' };
+        const money = await grantReward(id, {
+            ...definition.reward,
+            flags: { ...definition.reward?.flags, [definition.completionFlag]: 'true' }
+        }, connection);
+        return { granted: true, money };
     });
     return { ...result, progress: await loadProgressState(id) };
 }
 
 module.exports = {
     completeNpcBattle,
+    completeStoryEvent,
     ensureInitialProgress,
     getNpcBattleDefinition,
     isNpcBattleCompleted,

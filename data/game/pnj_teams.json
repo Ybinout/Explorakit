@@ -1,212 +1,1256 @@
 {
-    "pnjs": [
+  "pnjs": [
+    {
+      "name": "timmy",
+      "team": [
         {
-            "name": "timmy",
-            "team": [
-                {
-                    "pokemonId": 254,
-                    "name": "Sceptile",
-                    "experience": 300000,
-                    "nature": "Jolly",
-                    "givenIv": {
-                        "attack": 31,
-                        "defense": 31,
-                        "hp": 31,
-                        "specialDefense": 31,
-                        "speed": 31,
-                        "specialAttack": 31
-                    },
-                    "k": 4,
-                    "passiveAbility": "Overgrow",
-                    "heldItem": "sitrus_berry",
-                    "abilities": [
-                        "Leaf Blade",
-                        "Dragon Claw",
-                        "Detect",
-                        "Agility"
-                    ]
-                },
-                {
-                    "pokemonId": 4,
-                    "name": "Charmander",
-                    "experience": 600000,
-                    "nature": "Brave",
-                    "givenIv": {
-                        "attack": 31,
-                        "defense": 31,
-                        "hp": 31,
-                        "specialDefense": 31,
-                        "speed": 31,
-                        "specialAttack": 31
-                    },
-                    "k": 1,
-                    "passiveAbility": "Blaze",
-                    "abilities": [
-                        "Bite",
-                        "Ember",
-                        "Scratch",
-                        "Fire Punch"
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "garry",
-            "team": [
-                {
-                    "pokemonId": 37,
-                    "name": "Vulpix",
-                    "experience": 30000,
-                    "nature": "Calm",
-                    "givenIv": {
-                        "attack": 31,
-                        "defense": 31,
-                        "hp": 31,
-                        "specialDefense": 31,
-                        "speed": 31,
-                        "specialAttack": 31
-                    },
-                    "k": 1,
-                    "heldItem": "oran_berry",
-                    "abilities": [
-                        "Tackle",
-                        "Water Gun"
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "moonpunch",
-            "team": [
-                {
-                    "pokemonId": 63,
-                    "name": "Abra",
-                    "experience": 300000,
-                    "nature": "Timid",
-                    "givenIv": {
-                        "attack": 31,
-                        "defense": 31,
-                        "hp": 31,
-                        "specialDefense": 31,
-                        "speed": 31,
-                        "specialAttack": 31
-                    },
-                    "k": 1,
-                    "abilities": [
-                        "Psychic",
-                        "Shadow Ball",
-                        "Dazzling Gleam",
-                        "Recover"
-                    ]
-                },
-                {
-                    "pokemonId": 208,
-                    "name": "Steelix",
-                    "experience": 320000,
-                    "nature": "Impish",
-                    "givenIv": {
-                        "attack": 31,
-                        "defense": 31,
-                        "hp": 31,
-                        "specialDefense": 31,
-                        "speed": 31,
-                        "specialAttack": 31
-                    },
-                    "k": 1,
-                    "passiveAbility": "Sturdy",
-                    "heldItem": "leftovers",
-                    "abilities": [
-                        "Earthquake",
-                        "Iron Tail",
-                        "Rock Slide",
-                        "Crunch"
-                    ]
-                },
-                {
-                    "pokemonId": 351,
-                    "name": "Castform",
-                    "experience": 300000,
-                    "nature": "Modest",
-                    "givenIv": {
-                        "attack": 31,
-                        "defense": 31,
-                        "hp": 31,
-                        "specialDefense": 31,
-                        "speed": 31,
-                        "specialAttack": 31
-                    },
-                    "k": 1,
-                    "abilities": [
-                        "Weather Ball",
-                        "Flamethrower",
-                        "Thunderbolt",
-                        "Ice Beam"
-                    ]
-                },
-                {
-                    "pokemonId": 9,
-                    "name": "Blastoise",
-                    "experience": 340000,
-                    "nature": "Modest",
-                    "givenIv": {
-                        "attack": 31,
-                        "defense": 31,
-                        "hp": 31,
-                        "specialDefense": 31,
-                        "speed": 31,
-                        "specialAttack": 31
-                    },
-                    "k": 1,
-                    "passiveAbility": "Torrent",
-                    "heldItem": "sitrus_berry",
-                    "abilities": [
-                        "Hydro Pump",
-                        "Ice Beam",
-                        "Dark Pulse",
-                        "Aura Sphere"
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "champion_sylve",
-            "team": [
-                { "pokemonId": 388, "name": "Boskara", "experience": 21000, "nature": "Impish", "k": 2, "passiveAbility": "Overgrow", "heldItem": "oran_berry", "abilities": ["Razor Leaf", "Bite", "Curse", "Synthesis"] },
-                { "pokemonId": 315, "name": "Rosélia", "experience": 23000, "nature": "Timid", "k": 1, "passiveAbility": "Natural Cure", "abilities": ["Mega Drain", "Poison Sting", "Leech Seed", "Stun Spore"] },
-                { "pokemonId": 470, "name": "Phyllali", "experience": 24500, "nature": "Jolly", "k": 2, "passiveAbility": "Leaf Guard", "heldItem": "sitrus_berry", "abilities": ["Leaf Blade", "Quick Attack", "Swords Dance", "Synthesis"] }
-            ]
-        },
-        {
-            "name": "champion_maree",
-            "team": [
-                { "pokemonId": 419, "name": "Mustéflott", "experience": 30000, "nature": "Jolly", "k": 2, "passiveAbility": "Swift Swim", "abilities": ["Aqua Jet", "Crunch", "Ice Fang", "Swift"] },
-                { "pokemonId": 423, "name": "Tritosor", "experience": 32000, "nature": "Calm", "k": 2, "passiveAbility": "Storm Drain", "heldItem": "leftovers", "abilities": ["Water Pulse", "Mud Bomb", "Recover", "Body Slam"] },
-                { "pokemonId": 395, "name": "Pingoléon", "experience": 34000, "nature": "Modest", "k": 2, "passiveAbility": "Torrent", "heldItem": "sitrus_berry", "abilities": ["Bubble Beam", "Metal Claw", "Peck", "Swords Dance"] }
-            ]
-        },
-        {
-            "name": "champion_minerai",
-            "team": [
-                { "pokemonId": 409, "name": "Charkos", "experience": 39000, "nature": "Adamant", "k": 2, "passiveAbility": "Mold Breaker", "abilities": ["Rock Slide", "Zen Headbutt", "Crunch", "Screech"] },
-                { "pokemonId": 411, "name": "Bastiodon", "experience": 41000, "nature": "Impish", "k": 2, "passiveAbility": "Sturdy", "heldItem": "leftovers", "abilities": ["Rock Tomb", "Iron Head", "Protect", "Metal Sound"] },
-                { "pokemonId": 448, "name": "Lucario", "experience": 43000, "nature": "Jolly", "k": 3, "passiveAbility": "Inner Focus", "heldItem": "sitrus_berry", "abilities": ["Force Palm", "Metal Claw", "Bone Rush", "Swords Dance"] }
-            ]
-        },
-        {
-            "name": "champion_floraison",
-            "team": [
-                { "pokemonId": 407, "name": "Roserade", "experience": 51000, "nature": "Timid", "k": 2, "passiveAbility": "Natural Cure", "abilities": ["Giga Drain", "Sludge Bomb", "Stun Spore", "Leech Seed"] },
-                { "pokemonId": 421, "name": "Ceriflor", "experience": 53000, "nature": "Modest", "k": 2, "passiveAbility": "Flower Gift", "abilities": ["Petal Dance", "Sunny Day", "Growth", "Leech Seed"] },
-                { "pokemonId": 465, "name": "Bouldeneu", "experience": 55000, "nature": "Relaxed", "k": 3, "passiveAbility": "Regenerator", "heldItem": "leftovers", "abilities": ["Power Whip", "Ancient Power", "Sleep Powder", "Synthesis"] }
-            ]
-        },
-        {
-            "name": "champion_dune",
-            "team": [
-                { "pokemonId": 450, "name": "Hippodocus", "experience": 69000, "nature": "Impish", "k": 2, "passiveAbility": "Sand Stream", "heldItem": "leftovers", "abilities": ["Earthquake", "Crunch", "Rock Slide", "Sand Attack"] },
-                { "pokemonId": 445, "name": "Carchacrok", "experience": 72000, "nature": "Jolly", "k": 3, "passiveAbility": "Sand Veil", "heldItem": "sitrus_berry", "abilities": ["Dragon Claw", "Dig", "Crunch", "Sandstorm"] },
-                { "pokemonId": 472, "name": "Scorvol", "experience": 75000, "nature": "Adamant", "k": 3, "passiveAbility": "Hyper Cutter", "abilities": ["Earthquake", "Aerial Ace", "Knock Off", "Swords Dance"] }
-            ]
+          "pokemonId": 19,
+          "name": "Rattata",
+          "level": 5,
+          "abilities": [
+            "Tackle",
+            "Tail Whip"
+          ],
+          "passiveAbility": "Guts",
+          "heldItem": null,
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 10,
+            "attack": 10,
+            "defense": 10,
+            "specialAttack": 10,
+            "specialDefense": 10,
+            "speed": 10
+          }
         }
-    ]
+      ]
+    },
+    {
+      "name": "garry",
+      "team": [
+        {
+          "pokemonId": 37,
+          "name": "Vulpix",
+          "experience": 30000,
+          "nature": "Calm",
+          "givenIv": {
+            "attack": 31,
+            "defense": 31,
+            "hp": 31,
+            "specialDefense": 31,
+            "speed": 31,
+            "specialAttack": 31
+          },
+          "k": 1,
+          "heldItem": "oran_berry",
+          "abilities": [
+            "Tackle",
+            "Water Gun"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "moonpunch",
+      "team": [
+        {
+          "pokemonId": 66,
+          "name": "Machoc",
+          "level": 18,
+          "abilities": [
+            "Karate Chop",
+            "Leer",
+            "Rock Tomb"
+          ],
+          "passiveAbility": "Guts",
+          "heldItem": null,
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          }
+        },
+        {
+          "pokemonId": 95,
+          "name": "Onix",
+          "level": 19,
+          "abilities": [
+            "Rock Throw",
+            "Bind",
+            "Screech"
+          ],
+          "passiveAbility": "Rock Head",
+          "heldItem": null,
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          }
+        },
+        {
+          "pokemonId": 8,
+          "name": "Carabaffe",
+          "level": 20,
+          "abilities": [
+            "Water Gun",
+            "Bite",
+            "Withdraw",
+            "Rapid Spin"
+          ],
+          "passiveAbility": "Torrent",
+          "heldItem": "oran_berry",
+          "k": 2,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          }
+        }
+      ]
+    },
+    {
+      "name": "champion_sylve",
+      "team": [
+        {
+          "pokemonId": 388,
+          "name": "Boskara",
+          "experience": 21000,
+          "nature": "Impish",
+          "k": 2,
+          "passiveAbility": "Overgrow",
+          "heldItem": "oran_berry",
+          "abilities": [
+            "Razor Leaf",
+            "Bite",
+            "Curse",
+            "Synthesis"
+          ]
+        },
+        {
+          "pokemonId": 315,
+          "name": "Rosélia",
+          "experience": 23000,
+          "nature": "Timid",
+          "k": 1,
+          "passiveAbility": "Natural Cure",
+          "abilities": [
+            "Mega Drain",
+            "Poison Sting",
+            "Leech Seed",
+            "Stun Spore"
+          ]
+        },
+        {
+          "pokemonId": 470,
+          "name": "Phyllali",
+          "experience": 24500,
+          "nature": "Jolly",
+          "k": 2,
+          "passiveAbility": "Leaf Guard",
+          "heldItem": "sitrus_berry",
+          "abilities": [
+            "Leaf Blade",
+            "Quick Attack",
+            "Swords Dance",
+            "Synthesis"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "champion_maree",
+      "team": [
+        {
+          "pokemonId": 419,
+          "name": "Mustéflott",
+          "experience": 30000,
+          "nature": "Jolly",
+          "k": 2,
+          "passiveAbility": "Swift Swim",
+          "abilities": [
+            "Aqua Jet",
+            "Crunch",
+            "Ice Fang",
+            "Swift"
+          ]
+        },
+        {
+          "pokemonId": 423,
+          "name": "Tritosor",
+          "experience": 32000,
+          "nature": "Calm",
+          "k": 2,
+          "passiveAbility": "Storm Drain",
+          "heldItem": "leftovers",
+          "abilities": [
+            "Water Pulse",
+            "Mud Bomb",
+            "Recover",
+            "Body Slam"
+          ]
+        },
+        {
+          "pokemonId": 395,
+          "name": "Pingoléon",
+          "experience": 34000,
+          "nature": "Modest",
+          "k": 2,
+          "passiveAbility": "Torrent",
+          "heldItem": "sitrus_berry",
+          "abilities": [
+            "Bubble Beam",
+            "Metal Claw",
+            "Peck",
+            "Swords Dance"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "champion_minerai",
+      "team": [
+        {
+          "pokemonId": 409,
+          "name": "Charkos",
+          "experience": 39000,
+          "nature": "Adamant",
+          "k": 2,
+          "passiveAbility": "Mold Breaker",
+          "abilities": [
+            "Rock Slide",
+            "Zen Headbutt",
+            "Crunch",
+            "Screech"
+          ]
+        },
+        {
+          "pokemonId": 411,
+          "name": "Bastiodon",
+          "experience": 41000,
+          "nature": "Impish",
+          "k": 2,
+          "passiveAbility": "Sturdy",
+          "heldItem": "leftovers",
+          "abilities": [
+            "Rock Tomb",
+            "Iron Head",
+            "Protect",
+            "Metal Sound"
+          ]
+        },
+        {
+          "pokemonId": 448,
+          "name": "Lucario",
+          "experience": 43000,
+          "nature": "Jolly",
+          "k": 3,
+          "passiveAbility": "Inner Focus",
+          "heldItem": "sitrus_berry",
+          "abilities": [
+            "Force Palm",
+            "Metal Claw",
+            "Bone Rush",
+            "Swords Dance"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "champion_floraison",
+      "team": [
+        {
+          "pokemonId": 407,
+          "name": "Roserade",
+          "experience": 51000,
+          "nature": "Timid",
+          "k": 2,
+          "passiveAbility": "Natural Cure",
+          "abilities": [
+            "Giga Drain",
+            "Sludge Bomb",
+            "Stun Spore",
+            "Leech Seed"
+          ]
+        },
+        {
+          "pokemonId": 421,
+          "name": "Ceriflor",
+          "experience": 53000,
+          "nature": "Modest",
+          "k": 2,
+          "passiveAbility": "Flower Gift",
+          "abilities": [
+            "Petal Dance",
+            "Sunny Day",
+            "Growth",
+            "Leech Seed"
+          ]
+        },
+        {
+          "pokemonId": 465,
+          "name": "Bouldeneu",
+          "experience": 55000,
+          "nature": "Relaxed",
+          "k": 3,
+          "passiveAbility": "Regenerator",
+          "heldItem": "leftovers",
+          "abilities": [
+            "Power Whip",
+            "Ancient Power",
+            "Sleep Powder",
+            "Synthesis"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "champion_dune",
+      "team": [
+        {
+          "pokemonId": 450,
+          "name": "Hippodocus",
+          "experience": 69000,
+          "nature": "Impish",
+          "k": 2,
+          "passiveAbility": "Sand Stream",
+          "heldItem": "leftovers",
+          "abilities": [
+            "Earthquake",
+            "Crunch",
+            "Rock Slide",
+            "Sand Attack"
+          ]
+        },
+        {
+          "pokemonId": 445,
+          "name": "Carchacrok",
+          "experience": 72000,
+          "nature": "Jolly",
+          "k": 3,
+          "passiveAbility": "Sand Veil",
+          "heldItem": "sitrus_berry",
+          "abilities": [
+            "Dragon Claw",
+            "Dig",
+            "Crunch",
+            "Sandstorm"
+          ]
+        },
+        {
+          "pokemonId": 472,
+          "name": "Scorvol",
+          "experience": 75000,
+          "nature": "Adamant",
+          "k": 3,
+          "passiveAbility": "Hyper Cutter",
+          "abilities": [
+            "Earthquake",
+            "Aerial Ace",
+            "Knock Off",
+            "Swords Dance"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "hoze",
+      "team": [
+        {
+          "pokemonId": 28,
+          "name": "Sablaireau",
+          "level": 40,
+          "abilities": [
+            "Dig",
+            "Rock Tomb",
+            "Slash",
+            "Sand Attack"
+          ],
+          "passiveAbility": "Sand Veil",
+          "heldItem": null,
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          }
+        },
+        {
+          "pokemonId": 323,
+          "name": "Camérupt",
+          "level": 41,
+          "abilities": [
+            "Flamethrower",
+            "Earth Power",
+            "Rock Slide",
+            "Amnesia"
+          ],
+          "passiveAbility": "Solid Rock",
+          "heldItem": null,
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          }
+        },
+        {
+          "pokemonId": 450,
+          "name": "Hippodocus",
+          "level": 43,
+          "abilities": [
+            "Earthquake",
+            "Crunch",
+            "Yawn",
+            "Slack Off"
+          ],
+          "passiveAbility": "Sand Stream",
+          "heldItem": "sitrus_berry",
+          "k": 2,
+          "nature": "Impish",
+          "givenIv": {
+            "hp": 22,
+            "attack": 22,
+            "defense": 22,
+            "specialAttack": 22,
+            "specialDefense": 22,
+            "speed": 22
+          }
+        }
+      ]
+    },
+    {
+      "name": "raphael",
+      "team": [
+        {
+          "pokemonId": 189,
+          "name": "Cotovol",
+          "level": 44,
+          "abilities": [
+            "Giga Drain",
+            "Acrobatics",
+            "Stun Spore",
+            "Leech Seed"
+          ],
+          "passiveAbility": "Chlorophyll",
+          "heldItem": null,
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          }
+        },
+        {
+          "pokemonId": 407,
+          "name": "Roserade",
+          "level": 45,
+          "abilities": [
+            "Giga Drain",
+            "Sludge Bomb",
+            "Toxic",
+            "Synthesis"
+          ],
+          "passiveAbility": "Natural Cure",
+          "heldItem": null,
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          }
+        },
+        {
+          "pokemonId": 65,
+          "name": "Alakazam",
+          "level": 46,
+          "abilities": [
+            "Psychic",
+            "Shadow Ball",
+            "Reflect",
+            "Recover"
+          ],
+          "passiveAbility": "Magic Guard",
+          "heldItem": "sitrus_berry",
+          "k": 2,
+          "nature": "Modest",
+          "givenIv": {
+            "hp": 22,
+            "attack": 22,
+            "defense": 22,
+            "specialAttack": 22,
+            "specialDefense": 22,
+            "speed": 22
+          }
+        }
+      ]
+    },
+    {
+      "name": "ana",
+      "team": [
+        {
+          "pokemonId": 437,
+          "name": "Archéodong",
+          "level": 48,
+          "abilities": [
+            "Extrasensory",
+            "Gyro Ball",
+            "Reflect",
+            "Hypnosis"
+          ],
+          "passiveAbility": "Levitate",
+          "heldItem": null,
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          }
+        },
+        {
+          "pokemonId": 208,
+          "name": "Steelix",
+          "level": 49,
+          "abilities": [
+            "Iron Tail",
+            "Earthquake",
+            "Rock Slide",
+            "Screech"
+          ],
+          "passiveAbility": "Sturdy",
+          "heldItem": null,
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          }
+        },
+        {
+          "pokemonId": 395,
+          "name": "Pingoléon",
+          "level": 50,
+          "abilities": [
+            "Surf",
+            "Flash Cannon",
+            "Ice Beam",
+            "Grass Knot"
+          ],
+          "passiveAbility": "Torrent",
+          "heldItem": "sitrus_berry",
+          "k": 2,
+          "nature": "Modest",
+          "givenIv": {
+            "hp": 22,
+            "attack": 22,
+            "defense": 22,
+            "specialAttack": 22,
+            "specialDefense": 22,
+            "speed": 22
+          }
+        }
+      ]
+    },
+    {
+      "name": "wanda",
+      "team": [
+        {
+          "pokemonId": 279,
+          "name": "Bekipan",
+          "level": 52,
+          "abilities": [
+            "Surf",
+            "Air Slash",
+            "Rain Dance",
+            "Roost"
+          ],
+          "passiveAbility": "Keen Eye",
+          "heldItem": null,
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          }
+        },
+        {
+          "pokemonId": 272,
+          "name": "Ludicolo",
+          "level": 52,
+          "abilities": [
+            "Surf",
+            "Giga Drain",
+            "Ice Beam",
+            "Fake Out"
+          ],
+          "passiveAbility": "Swift Swim",
+          "heldItem": null,
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          }
+        },
+        {
+          "pokemonId": 130,
+          "name": "Léviator",
+          "level": 53,
+          "abilities": [
+            "Waterfall",
+            "Ice Fang",
+            "Crunch",
+            "Dragon Dance"
+          ],
+          "passiveAbility": "Intimidate",
+          "heldItem": null,
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          }
+        },
+        {
+          "pokemonId": 350,
+          "name": "Milobellus",
+          "level": 54,
+          "abilities": [
+            "Surf",
+            "Ice Beam",
+            "Recover",
+            "Toxic"
+          ],
+          "passiveAbility": "Marvel Scale",
+          "heldItem": "sitrus_berry",
+          "k": 2,
+          "nature": "Bold",
+          "givenIv": {
+            "hp": 22,
+            "attack": 22,
+            "defense": 22,
+            "specialAttack": 22,
+            "specialDefense": 22,
+            "speed": 22
+          }
+        }
+      ]
+    },
+    {
+      "name": "town_lina",
+      "team": [
+        {
+          "pokemonId": 16,
+          "name": "Roucool",
+          "level": 12,
+          "abilities": [
+            "Gust",
+            "Quick Attack",
+            "Sand Attack"
+          ],
+          "passiveAbility": "Keen Eye",
+          "heldItem": null,
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 12,
+            "attack": 12,
+            "defense": 12,
+            "specialAttack": 12,
+            "specialDefense": 12,
+            "speed": 12
+          }
+        }
+      ]
+    },
+    {
+      "name": "town_bastien",
+      "team": [
+        {
+          "pokemonId": 54,
+          "name": "Psykokwak",
+          "level": 13,
+          "abilities": [
+            "Water Gun",
+            "Confusion",
+            "Tail Whip"
+          ],
+          "passiveAbility": "Cloud Nine",
+          "heldItem": null,
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 12,
+            "attack": 12,
+            "defense": 12,
+            "specialAttack": 12,
+            "specialDefense": 12,
+            "speed": 12
+          }
+        },
+        {
+          "pokemonId": 25,
+          "name": "Pikachu",
+          "level": 14,
+          "abilities": [
+            "Thunder Shock",
+            "Quick Attack",
+            "Growl"
+          ],
+          "passiveAbility": "Lightning Rod",
+          "heldItem": null,
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 12,
+            "attack": 12,
+            "defense": 12,
+            "specialAttack": 12,
+            "specialDefense": 12,
+            "speed": 12
+          }
+        }
+      ]
+    },
+    {
+      "name": "town_nadir",
+      "team": [
+        {
+          "pokemonId": 331,
+          "name": "Cacnea",
+          "level": 36,
+          "abilities": [
+            "Needle Arm",
+            "Feint Attack",
+            "Leech Seed"
+          ],
+          "passiveAbility": "Sand Veil",
+          "heldItem": null,
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          }
+        },
+        {
+          "pokemonId": 207,
+          "name": "Scorplane",
+          "level": 37,
+          "abilities": [
+            "Aerial Ace",
+            "Dig",
+            "Quick Attack"
+          ],
+          "passiveAbility": "Hyper Cutter",
+          "heldItem": null,
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          }
+        }
+      ]
+    },
+    {
+      "name": "town_salome",
+      "team": [
+        {
+          "pokemonId": 324,
+          "name": "Chartor",
+          "level": 38,
+          "abilities": [
+            "Flamethrower",
+            "Body Slam",
+            "Protect"
+          ],
+          "passiveAbility": "White Smoke",
+          "heldItem": null,
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          }
+        },
+        {
+          "pokemonId": 332,
+          "name": "Cacturne",
+          "level": 38,
+          "abilities": [
+            "Needle Arm",
+            "Feint Attack",
+            "Leech Seed"
+          ],
+          "passiveAbility": "Sand Veil",
+          "heldItem": null,
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          }
+        }
+      ]
+    },
+    {
+      "name": "town_iris",
+      "team": [
+        {
+          "pokemonId": 315,
+          "name": "Rosélia",
+          "level": 40,
+          "abilities": [
+            "Giga Drain",
+            "Sludge Bomb",
+            "Stun Spore"
+          ],
+          "passiveAbility": "Natural Cure",
+          "heldItem": null,
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          }
+        },
+        {
+          "pokemonId": 267,
+          "name": "Charmillon",
+          "level": 41,
+          "abilities": [
+            "Air Cutter",
+            "Giga Drain",
+            "Stun Spore"
+          ],
+          "passiveAbility": "Swarm",
+          "heldItem": null,
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          }
+        }
+      ]
+    },
+    {
+      "name": "town_noe",
+      "team": [
+        {
+          "pokemonId": 192,
+          "name": "Héliatronc",
+          "level": 42,
+          "abilities": [
+            "Giga Drain",
+            "Petal Dance",
+            "Sunny Day"
+          ],
+          "passiveAbility": "Chlorophyll",
+          "heldItem": null,
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          }
+        },
+        {
+          "pokemonId": 301,
+          "name": "Delcatty",
+          "level": 42,
+          "abilities": [
+            "Fake Out",
+            "Slash",
+            "Feint Attack"
+          ],
+          "passiveAbility": "Normalize",
+          "heldItem": null,
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          }
+        }
+      ]
+    },
+    {
+      "name": "town_malo",
+      "team": [
+        {
+          "pokemonId": 75,
+          "name": "Gravalanch",
+          "level": 44,
+          "abilities": [
+            "Rock Slide",
+            "Bulldoze",
+            "Defense Curl"
+          ],
+          "passiveAbility": "Sturdy",
+          "heldItem": null,
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          }
+        },
+        {
+          "pokemonId": 67,
+          "name": "Machopeur",
+          "level": 45,
+          "abilities": [
+            "Brick Break",
+            "Rock Tomb",
+            "Leer"
+          ],
+          "passiveAbility": "Guts",
+          "heldItem": null,
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          }
+        }
+      ]
+    },
+    {
+      "name": "town_maelle",
+      "team": [
+        {
+          "pokemonId": 82,
+          "name": "Magnéton",
+          "level": 46,
+          "abilities": [
+            "Discharge",
+            "Mirror Shot",
+            "Thunder Wave"
+          ],
+          "passiveAbility": "Sturdy",
+          "heldItem": null,
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          }
+        },
+        {
+          "pokemonId": 305,
+          "name": "Galegon",
+          "level": 46,
+          "abilities": [
+            "Iron Head",
+            "Rock Slide",
+            "Protect"
+          ],
+          "passiveAbility": "Rock Head",
+          "heldItem": null,
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          }
+        }
+      ]
+    },
+    {
+      "name": "town_louis",
+      "team": [
+        {
+          "pokemonId": 419,
+          "name": "Mustéflott",
+          "level": 48,
+          "abilities": [
+            "Waterfall",
+            "Ice Fang",
+            "Aqua Jet"
+          ],
+          "passiveAbility": "Swift Swim",
+          "heldItem": null,
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          }
+        },
+        {
+          "pokemonId": 279,
+          "name": "Bekipan",
+          "level": 49,
+          "abilities": [
+            "Surf",
+            "Air Slash",
+            "Roost"
+          ],
+          "passiveAbility": "Keen Eye",
+          "heldItem": null,
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          }
+        }
+      ]
+    },
+    {
+      "name": "town_ines",
+      "team": [
+        {
+          "pokemonId": 423,
+          "name": "Tritosor",
+          "level": 50,
+          "abilities": [
+            "Muddy Water",
+            "Earth Power",
+            "Recover"
+          ],
+          "passiveAbility": "Storm Drain",
+          "heldItem": null,
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          }
+        },
+        {
+          "pokemonId": 171,
+          "name": "Lanturn",
+          "level": 50,
+          "abilities": [
+            "Surf",
+            "Discharge",
+            "Confuse Ray"
+          ],
+          "passiveAbility": "Volt Absorb",
+          "heldItem": null,
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          }
+        }
+      ]
+    },
+    {
+      "name": "town_robin",
+      "team": [
+        {
+          "pokemonId": 164,
+          "name": "Noarfang",
+          "level": 54,
+          "abilities": [
+            "Air Slash",
+            "Extrasensory",
+            "Reflect"
+          ],
+          "passiveAbility": "Insomnia",
+          "heldItem": null,
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          }
+        },
+        {
+          "pokemonId": 470,
+          "name": "Phyllali",
+          "level": 55,
+          "abilities": [
+            "Leaf Blade",
+            "Quick Attack",
+            "Synthesis"
+          ],
+          "passiveAbility": "Leaf Guard",
+          "heldItem": null,
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          }
+        }
+      ]
+    },
+    {
+      "name": "town_celia",
+      "team": [
+        {
+          "pokemonId": 282,
+          "name": "Gardevoir",
+          "level": 56,
+          "abilities": [
+            "Psychic",
+            "Moonblast",
+            "Magical Leaf"
+          ],
+          "passiveAbility": "Trace",
+          "heldItem": null,
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          }
+        },
+        {
+          "pokemonId": 334,
+          "name": "Altaria",
+          "level": 56,
+          "abilities": [
+            "Dragon Pulse",
+            "Fly",
+            "Roost"
+          ],
+          "passiveAbility": "Natural Cure",
+          "heldItem": null,
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          }
+        }
+      ]
+    }
+  ]
 }

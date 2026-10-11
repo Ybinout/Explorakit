@@ -1,0 +1,1041 @@
+{
+  "version": 1,
+  "source": {
+    "path": "vue-explorakit/catalogue_drifts_pokemon.xlsx",
+    "sha256": "5a37aa14278275e00c0cbd52c69728fedc1672a8871ca78cd920b9ab973a7fb6"
+  },
+  "rarities": [
+    {
+      "key": "common",
+      "name": "Commun",
+      "proposedDropPercent": 55,
+      "weight": 5500,
+      "colorName": "Gris",
+      "description": "Effets de base"
+    },
+    {
+      "key": "rare",
+      "name": "Rare",
+      "proposedDropPercent": 27,
+      "weight": 2700,
+      "colorName": "Vert",
+      "description": "Bonus modéré"
+    },
+    {
+      "key": "epic",
+      "name": "Épique",
+      "proposedDropPercent": 12,
+      "weight": 1200,
+      "colorName": "Violet",
+      "description": "Bonus significatif"
+    },
+    {
+      "key": "legendary",
+      "name": "Légendaire",
+      "proposedDropPercent": 5,
+      "weight": 500,
+      "colorName": "Or",
+      "description": "Effets puissants et spéciaux"
+    },
+    {
+      "key": "mythic",
+      "name": "Mythique",
+      "proposedDropPercent": 1,
+      "weight": 100,
+      "colorName": "Rose",
+      "description": "Effets de fin de partie / build"
+    }
+  ],
+  "definitions": [
+    {
+      "id": "DRF-001",
+      "category": "Offensif",
+      "name": "Fureur élémentaire",
+      "description": "Dégâts supplémentaires des attaques d'un type choisi",
+      "stat": "Bonus dégâts",
+      "unit": "%",
+      "values": {
+        "common": 5,
+        "rare": 10,
+        "epic": 15,
+        "legendary": 22,
+        "mythic": 30
+      },
+      "rule": "Type fixé à l'obtention"
+    },
+    {
+      "id": "DRF-002",
+      "category": "Offensif",
+      "name": "Perce-armure",
+      "description": "Ignore une partie des défenses adverses",
+      "stat": "Défense ignorée",
+      "unit": "%",
+      "values": {
+        "common": 5,
+        "rare": 10,
+        "epic": 15,
+        "legendary": 22,
+        "mythic": 30
+      },
+      "rule": "Ne traverse pas les immunités"
+    },
+    {
+      "id": "DRF-003",
+      "category": "Offensif",
+      "name": "Frappe prioritaire",
+      "description": "Chance de gagner +1 en priorité pour une attaque",
+      "stat": "Probabilité",
+      "unit": "%",
+      "values": {
+        "common": 3,
+        "rare": 5,
+        "epic": 8,
+        "legendary": 12,
+        "mythic": 18
+      },
+      "rule": "Attaques offensives uniquement"
+    },
+    {
+      "id": "DRF-004",
+      "category": "Offensif",
+      "name": "Double impact",
+      "description": "Chance d'infliger un second coup à 30 % de puissance",
+      "stat": "Probabilité",
+      "unit": "%",
+      "values": {
+        "common": 4,
+        "rare": 7,
+        "epic": 10,
+        "legendary": 15,
+        "mythic": 20
+      },
+      "rule": "Second coup sans déclenchement de Drift"
+    },
+    {
+      "id": "DRF-005",
+      "category": "Offensif",
+      "name": "Vampirisme",
+      "description": "Restaure les PV selon les dégâts directs infligés",
+      "stat": "Vol de vie",
+      "unit": "%",
+      "values": {
+        "common": 3,
+        "rare": 5,
+        "epic": 8,
+        "legendary": 12,
+        "mythic": 17
+      },
+      "rule": "Hors dégâts résiduels"
+    },
+    {
+      "id": "DRF-006",
+      "category": "Offensif",
+      "name": "Exécution",
+      "description": "Bonus dégâts sur cible sous 30 % PV",
+      "stat": "Bonus dégâts",
+      "unit": "%",
+      "values": {
+        "common": 8,
+        "rare": 12,
+        "epic": 18,
+        "legendary": 25,
+        "mythic": 35
+      },
+      "rule": ""
+    },
+    {
+      "id": "DRF-007",
+      "category": "Offensif",
+      "name": "Premier sang",
+      "description": "Bonus sur la première attaque offensive du combat",
+      "stat": "Bonus dégâts",
+      "unit": "%",
+      "values": {
+        "common": 10,
+        "rare": 15,
+        "epic": 22,
+        "legendary": 32,
+        "mythic": 45
+      },
+      "rule": "Une fois par combat"
+    },
+    {
+      "id": "DRF-008",
+      "category": "Offensif",
+      "name": "Acharnement",
+      "description": "Bonus par attaque consécutive réussie",
+      "stat": "Bonus / cumul",
+      "unit": "%",
+      "values": {
+        "common": 2,
+        "rare": 3,
+        "epic": 4,
+        "legendary": 5,
+        "mythic": 7
+      },
+      "rule": "5 cumuls max; échec remet à zéro"
+    },
+    {
+      "id": "DRF-009",
+      "category": "Offensif",
+      "name": "Vengeance",
+      "description": "Bonus à la prochaine attaque après avoir subi des dégâts",
+      "stat": "Bonus dégâts",
+      "unit": "%",
+      "values": {
+        "common": 5,
+        "rare": 10,
+        "epic": 15,
+        "legendary": 22,
+        "mythic": 30
+      },
+      "rule": "Non cumulable"
+    },
+    {
+      "id": "DRF-010",
+      "category": "Offensif",
+      "name": "Maître du critique",
+      "description": "Augmente les dégâts des coups critiques",
+      "stat": "Bonus dégâts critiques",
+      "unit": "%",
+      "values": {
+        "common": 8,
+        "rare": 15,
+        "epic": 22,
+        "legendary": 32,
+        "mythic": 45
+      },
+      "rule": ""
+    },
+    {
+      "id": "DRF-011",
+      "category": "Offensif",
+      "name": "Instinct du chasseur",
+      "description": "Dégâts bonus contre cible au-dessus de 70 % PV",
+      "stat": "Bonus dégâts",
+      "unit": "%",
+      "values": {
+        "common": 5,
+        "rare": 8,
+        "epic": 12,
+        "legendary": 17,
+        "mythic": 25
+      },
+      "rule": ""
+    },
+    {
+      "id": "DRF-012",
+      "category": "Offensif",
+      "name": "Briseur de bouclier",
+      "description": "Dégâts bonus sur cible ayant un boost défensif",
+      "stat": "Bonus dégâts",
+      "unit": "%",
+      "values": {
+        "common": 8,
+        "rare": 12,
+        "epic": 18,
+        "legendary": 25,
+        "mythic": 35
+      },
+      "rule": ""
+    },
+    {
+      "id": "DRF-013",
+      "category": "Défensif",
+      "name": "Peau de fer",
+      "description": "Réduit les dégâts directs subis",
+      "stat": "Réduction",
+      "unit": "%",
+      "values": {
+        "common": 3,
+        "rare": 5,
+        "epic": 7,
+        "legendary": 10,
+        "mythic": 13
+      },
+      "rule": ""
+    },
+    {
+      "id": "DRF-014",
+      "category": "Défensif",
+      "name": "Résistance élémentaire",
+      "description": "Réduit les dégâts d'un type choisi",
+      "stat": "Réduction",
+      "unit": "%",
+      "values": {
+        "common": 8,
+        "rare": 12,
+        "epic": 18,
+        "legendary": 25,
+        "mythic": 35
+      },
+      "rule": "Type fixé à l'obtention"
+    },
+    {
+      "id": "DRF-015",
+      "category": "Défensif",
+      "name": "Seconde chance",
+      "description": "Chance de survivre à un coup fatal avec 1 PV",
+      "stat": "Probabilité",
+      "unit": "%",
+      "values": {
+        "common": 3,
+        "rare": 5,
+        "epic": 8,
+        "legendary": 12,
+        "mythic": 18
+      },
+      "rule": "Une fois par combat"
+    },
+    {
+      "id": "DRF-016",
+      "category": "Défensif",
+      "name": "Régénération",
+      "description": "Restaure des PV chaque fin de tour actif",
+      "stat": "PV max / tour",
+      "unit": "%",
+      "values": {
+        "common": 0.5,
+        "rare": 1,
+        "epic": 1.5,
+        "legendary": 2,
+        "mythic": 3
+      },
+      "rule": ""
+    },
+    {
+      "id": "DRF-017",
+      "category": "Défensif",
+      "name": "Armure réactive",
+      "description": "Réduit les dégâts du prochain coup après avoir reçu un critique",
+      "stat": "Réduction",
+      "unit": "%",
+      "values": {
+        "common": 10,
+        "rare": 15,
+        "epic": 22,
+        "legendary": 30,
+        "mythic": 40
+      },
+      "rule": "Une charge maximum"
+    },
+    {
+      "id": "DRF-018",
+      "category": "Défensif",
+      "name": "Résilience",
+      "description": "Réduit les dégâts lorsque les PV sont sous 30 %",
+      "stat": "Réduction",
+      "unit": "%",
+      "values": {
+        "common": 5,
+        "rare": 8,
+        "epic": 12,
+        "legendary": 17,
+        "mythic": 25
+      },
+      "rule": ""
+    },
+    {
+      "id": "DRF-019",
+      "category": "Défensif",
+      "name": "Écailles réfléchissantes",
+      "description": "Renvoie une partie des dégâts directs reçus",
+      "stat": "Dégâts renvoyés",
+      "unit": "%",
+      "values": {
+        "common": 3,
+        "rare": 5,
+        "epic": 8,
+        "legendary": 12,
+        "mythic": 18
+      },
+      "rule": "Ne peut pas déclencher autre reflet"
+    },
+    {
+      "id": "DRF-020",
+      "category": "Défensif",
+      "name": "Défense progressive",
+      "description": "Augmente les défenses par tour sur le terrain",
+      "stat": "Bonus / cumul",
+      "unit": "%",
+      "values": {
+        "common": 2,
+        "rare": 3,
+        "epic": 4,
+        "legendary": 5,
+        "mythic": 7
+      },
+      "rule": "Max 5 cumuls"
+    },
+    {
+      "id": "DRF-021",
+      "category": "Défensif",
+      "name": "Rempart du dernier souffle",
+      "description": "Bouclier au premier passage sous 25 % PV",
+      "stat": "Bouclier (PV max)",
+      "unit": "%",
+      "values": {
+        "common": 5,
+        "rare": 8,
+        "epic": 12,
+        "legendary": 17,
+        "mythic": 25
+      },
+      "rule": "Une fois par combat"
+    },
+    {
+      "id": "DRF-022",
+      "category": "Défensif",
+      "name": "Esprit pur",
+      "description": "Chance d'éviter une altération de statut",
+      "stat": "Probabilité",
+      "unit": "%",
+      "values": {
+        "common": 8,
+        "rare": 12,
+        "epic": 18,
+        "legendary": 25,
+        "mythic": 35
+      },
+      "rule": ""
+    },
+    {
+      "id": "DRF-023",
+      "category": "Contre / perturbation",
+      "name": "Punition maladroite",
+      "description": "L'adversaire perd des PV s'il rate une attaque",
+      "stat": "PV max adverses",
+      "unit": "%",
+      "values": {
+        "common": 3,
+        "rare": 5,
+        "epic": 8,
+        "legendary": 12,
+        "mythic": 18
+      },
+      "rule": "Hors attaques impossibles"
+    },
+    {
+      "id": "DRF-024",
+      "category": "Contre / perturbation",
+      "name": "Contre parfait",
+      "description": "Après une esquive, prochaine attaque renforcée",
+      "stat": "Bonus dégâts",
+      "unit": "%",
+      "values": {
+        "common": 10,
+        "rare": 15,
+        "epic": 22,
+        "legendary": 32,
+        "mythic": 45
+      },
+      "rule": ""
+    },
+    {
+      "id": "DRF-025",
+      "category": "Contre / perturbation",
+      "name": "Opportuniste",
+      "description": "Soigne le Pokémon lorsque l'adversaire rate une attaque",
+      "stat": "PV max soignés",
+      "unit": "%",
+      "values": {
+        "common": 3,
+        "rare": 5,
+        "epic": 8,
+        "legendary": 12,
+        "mythic": 18
+      },
+      "rule": ""
+    },
+    {
+      "id": "DRF-026",
+      "category": "Contre / perturbation",
+      "name": "Épine empoisonnée",
+      "description": "Chance d'empoisonner en recevant un coup de contact",
+      "stat": "Probabilité",
+      "unit": "%",
+      "values": {
+        "common": 5,
+        "rare": 8,
+        "epic": 12,
+        "legendary": 18,
+        "mythic": 25
+      },
+      "rule": ""
+    },
+    {
+      "id": "DRF-027",
+      "category": "Contre / perturbation",
+      "name": "Riposte glaciale",
+      "description": "Chance de baisser la Vitesse adverse après un coup reçu",
+      "stat": "Probabilité",
+      "unit": "%",
+      "values": {
+        "common": 4,
+        "rare": 7,
+        "epic": 10,
+        "legendary": 15,
+        "mythic": 20
+      },
+      "rule": "Un niveau de Vitesse"
+    },
+    {
+      "id": "DRF-028",
+      "category": "Contre / perturbation",
+      "name": "Effet miroir",
+      "description": "Chance de renvoyer une altération de statut",
+      "stat": "Probabilité",
+      "unit": "%",
+      "values": {
+        "common": 5,
+        "rare": 8,
+        "epic": 12,
+        "legendary": 18,
+        "mythic": 25
+      },
+      "rule": ""
+    },
+    {
+      "id": "DRF-029",
+      "category": "Contre / perturbation",
+      "name": "Provocation naturelle",
+      "description": "Chance de baisser la Précision adverse après un coup super efficace",
+      "stat": "Probabilité",
+      "unit": "%",
+      "values": {
+        "common": 5,
+        "rare": 8,
+        "epic": 12,
+        "legendary": 18,
+        "mythic": 25
+      },
+      "rule": "Un niveau de Précision"
+    },
+    {
+      "id": "DRF-030",
+      "category": "Contre / perturbation",
+      "name": "Parasite",
+      "description": "Chance de poser un drain pendant 3 tours",
+      "stat": "Probabilité",
+      "unit": "%",
+      "values": {
+        "common": 4,
+        "rare": 7,
+        "epic": 10,
+        "legendary": 15,
+        "mythic": 20
+      },
+      "rule": "Drain de 3 % des PV max par tour"
+    },
+    {
+      "id": "DRF-031",
+      "category": "Contre / perturbation",
+      "name": "Brise-concentration",
+      "description": "Chance de retirer un boost de statistique adverse",
+      "stat": "Probabilité",
+      "unit": "%",
+      "values": {
+        "common": 5,
+        "rare": 8,
+        "epic": 12,
+        "legendary": 18,
+        "mythic": 25
+      },
+      "rule": "Retire 1 niveau d'un bonus aléatoire"
+    },
+    {
+      "id": "DRF-032",
+      "category": "Contre / perturbation",
+      "name": "Retour de flamme",
+      "description": "Après avoir subi un coup super efficace, attaque suivante renforcée",
+      "stat": "Bonus dégâts",
+      "unit": "%",
+      "values": {
+        "common": 10,
+        "rare": 15,
+        "epic": 20,
+        "legendary": 30,
+        "mythic": 40
+      },
+      "rule": ""
+    },
+    {
+      "id": "DRF-033",
+      "category": "Tactique",
+      "name": "Élan collectif",
+      "description": "Premier coup après un switch plus puissant",
+      "stat": "Bonus dégâts",
+      "unit": "%",
+      "values": {
+        "common": 5,
+        "rare": 8,
+        "epic": 12,
+        "legendary": 18,
+        "mythic": 25
+      },
+      "rule": ""
+    },
+    {
+      "id": "DRF-034",
+      "category": "Tactique",
+      "name": "Relais vital",
+      "description": "Le Pokémon entrant est soigné lors d'un switch",
+      "stat": "PV max soignés",
+      "unit": "%",
+      "values": {
+        "common": 2,
+        "rare": 3,
+        "epic": 5,
+        "legendary": 7,
+        "mythic": 10
+      },
+      "rule": "Uniquement switch manuel"
+    },
+    {
+      "id": "DRF-035",
+      "category": "Tactique",
+      "name": "Diversité élémentaire",
+      "description": "Bonus selon les types différents de l'équipe vivante",
+      "stat": "Bonus / type",
+      "unit": "%",
+      "values": {
+        "common": 1,
+        "rare": 1.5,
+        "epic": 2,
+        "legendary": 3,
+        "mythic": 4
+      },
+      "rule": "6 types comptabilisés max"
+    },
+    {
+      "id": "DRF-036",
+      "category": "Tactique",
+      "name": "Esprit de meute",
+      "description": "Bonus de dégâts selon les alliés KO",
+      "stat": "Bonus / allié KO",
+      "unit": "%",
+      "values": {
+        "common": 3,
+        "rare": 5,
+        "epic": 7,
+        "legendary": 10,
+        "mythic": 14
+      },
+      "rule": "3 alliés maximum"
+    },
+    {
+      "id": "DRF-037",
+      "category": "Tactique",
+      "name": "Adaptation",
+      "description": "Réduit les dégâts suivants du type qui vient de toucher",
+      "stat": "Réduction",
+      "unit": "%",
+      "values": {
+        "common": 5,
+        "rare": 8,
+        "epic": 12,
+        "legendary": 18,
+        "mythic": 25
+      },
+      "rule": "Un type actif à la fois"
+    },
+    {
+      "id": "DRF-038",
+      "category": "Tactique",
+      "name": "Spécialiste",
+      "description": "Troisième attaque de type différent consécutive renforcée",
+      "stat": "Bonus dégâts",
+      "unit": "%",
+      "values": {
+        "common": 10,
+        "rare": 15,
+        "epic": 22,
+        "legendary": 30,
+        "mythic": 40
+      },
+      "rule": "Séquence remise à zéro ensuite"
+    },
+    {
+      "id": "DRF-039",
+      "category": "Tactique",
+      "name": "Dernier survivant",
+      "description": "Bonus offensif si un seul Pokémon vivant",
+      "stat": "Bonus dégâts",
+      "unit": "%",
+      "values": {
+        "common": 5,
+        "rare": 8,
+        "epic": 12,
+        "legendary": 18,
+        "mythic": 25
+      },
+      "rule": ""
+    },
+    {
+      "id": "DRF-040",
+      "category": "Tactique",
+      "name": "Précision chirurgicale",
+      "description": "Améliore la précision des attaques",
+      "stat": "Points de précision",
+      "unit": "pts",
+      "values": {
+        "common": 3,
+        "rare": 5,
+        "epic": 8,
+        "legendary": 12,
+        "mythic": 18
+      },
+      "rule": "Maximum 100 %"
+    },
+    {
+      "id": "DRF-041",
+      "category": "Tactique",
+      "name": "Réserve d'énergie",
+      "description": "Après un tour sans dégâts infligés, prochaine attaque renforcée",
+      "stat": "Bonus dégâts",
+      "unit": "%",
+      "values": {
+        "common": 8,
+        "rare": 12,
+        "epic": 18,
+        "legendary": 25,
+        "mythic": 35
+      },
+      "rule": "Non cumulable"
+    },
+    {
+      "id": "DRF-042",
+      "category": "Tactique",
+      "name": "Prédateur de statut",
+      "description": "Dégâts bonus sur adversaire affecté par un statut",
+      "stat": "Bonus dégâts",
+      "unit": "%",
+      "values": {
+        "common": 5,
+        "rare": 10,
+        "epic": 15,
+        "legendary": 22,
+        "mythic": 30
+      },
+      "rule": ""
+    },
+    {
+      "id": "DRF-043",
+      "category": "Progression",
+      "name": "Apprentissage accéléré",
+      "description": "Augmente l'XP remportée",
+      "stat": "Bonus XP",
+      "unit": "%",
+      "values": {
+        "common": 5,
+        "rare": 10,
+        "epic": 18,
+        "legendary": 28,
+        "mythic": 40
+      },
+      "rule": "PvE uniquement"
+    },
+    {
+      "id": "DRF-044",
+      "category": "Progression",
+      "name": "Chance du collectionneur",
+      "description": "Augmente les chances d'obtenir un Drift",
+      "stat": "Bonus relatif de drop",
+      "unit": "%",
+      "values": {
+        "common": 5,
+        "rare": 10,
+        "epic": 15,
+        "legendary": 25,
+        "mythic": 40
+      },
+      "rule": "N'affecte pas la rareté obtenue"
+    },
+    {
+      "id": "DRF-045",
+      "category": "Progression",
+      "name": "Chasseur de trésors",
+      "description": "Augmente les chances de loot d'objets",
+      "stat": "Bonus relatif de drop",
+      "unit": "%",
+      "values": {
+        "common": 5,
+        "rare": 10,
+        "epic": 18,
+        "legendary": 28,
+        "mythic": 40
+      },
+      "rule": ""
+    },
+    {
+      "id": "DRF-046",
+      "category": "Progression",
+      "name": "Fortune",
+      "description": "Augmente la monnaie gagnée contre les dresseurs",
+      "stat": "Bonus monnaie",
+      "unit": "%",
+      "values": {
+        "common": 8,
+        "rare": 15,
+        "epic": 25,
+        "legendary": 40,
+        "mythic": 60
+      },
+      "rule": ""
+    },
+    {
+      "id": "DRF-047",
+      "category": "Progression",
+      "name": "Instinct de capture",
+      "description": "Améliore le taux de capture des sauvages",
+      "stat": "Bonus relatif capture",
+      "unit": "%",
+      "values": {
+        "common": 5,
+        "rare": 10,
+        "epic": 15,
+        "legendary": 22,
+        "mythic": 30
+      },
+      "rule": ""
+    },
+    {
+      "id": "DRF-048",
+      "category": "Progression",
+      "name": "Explorateur aguerri",
+      "description": "Réduit les dégâts des Pokémon sauvages",
+      "stat": "Réduction",
+      "unit": "%",
+      "values": {
+        "common": 4,
+        "rare": 7,
+        "epic": 10,
+        "legendary": 15,
+        "mythic": 20
+      },
+      "rule": "PvE uniquement"
+    },
+    {
+      "id": "DRF-049",
+      "category": "Progression",
+      "name": "Soigneur nomade",
+      "description": "Soigne les Pokémon vivants après une victoire",
+      "stat": "PV max soignés",
+      "unit": "%",
+      "values": {
+        "common": 2,
+        "rare": 3,
+        "epic": 5,
+        "legendary": 7,
+        "mythic": 10
+      },
+      "rule": "Hors tournoi"
+    },
+    {
+      "id": "DRF-050",
+      "category": "Progression",
+      "name": "Entraînement collectif",
+      "description": "XP accordée à chaque Pokémon en réserve vivant",
+      "stat": "Part XP active",
+      "unit": "%",
+      "values": {
+        "common": 5,
+        "rare": 10,
+        "epic": 15,
+        "legendary": 25,
+        "mythic": 35
+      },
+      "rule": ""
+    },
+    {
+      "id": "DRF-051",
+      "category": "Progression",
+      "name": "Chasseur d'élite",
+      "description": "Bonus XP contre un adversaire de niveau supérieur",
+      "stat": "Bonus XP",
+      "unit": "%",
+      "values": {
+        "common": 10,
+        "rare": 18,
+        "epic": 28,
+        "legendary": 40,
+        "mythic": 60
+      },
+      "rule": ""
+    },
+    {
+      "id": "DRF-052",
+      "category": "Progression",
+      "name": "Économie de soins",
+      "description": "Chance de conserver un consommable de soin hors combat",
+      "stat": "Probabilité",
+      "unit": "%",
+      "values": {
+        "common": 5,
+        "rare": 10,
+        "epic": 15,
+        "legendary": 22,
+        "mythic": 30
+      },
+      "rule": ""
+    },
+    {
+      "id": "DRF-053",
+      "category": "Progression",
+      "name": "Œil du marchand",
+      "description": "Augmente les prix de revente",
+      "stat": "Bonus revente",
+      "unit": "%",
+      "values": {
+        "common": 5,
+        "rare": 10,
+        "epic": 15,
+        "legendary": 22,
+        "mythic": 30
+      },
+      "rule": ""
+    },
+    {
+      "id": "DRF-054",
+      "category": "Progression",
+      "name": "Recherche rare",
+      "description": "Augmente les rencontres sauvages rares",
+      "stat": "Bonus relatif rencontre",
+      "unit": "%",
+      "values": {
+        "common": 5,
+        "rare": 10,
+        "epic": 18,
+        "legendary": 30,
+        "mythic": 45
+      },
+      "rule": "Sans légendaires"
+    },
+    {
+      "id": "DRF-055",
+      "category": "Spécial",
+      "name": "Phénix éternel",
+      "description": "Survit à un coup fatal et conserve 20 % PV",
+      "stat": "Probabilité",
+      "unit": "%",
+      "values": {
+        "common": null,
+        "rare": null,
+        "epic": null,
+        "legendary": 10,
+        "mythic": 15
+      },
+      "rule": "Une fois par combat"
+    },
+    {
+      "id": "DRF-056",
+      "category": "Spécial",
+      "name": "Pacte du néant",
+      "description": "Dégâts bonus au prix de 4 % PV max perdus par tour",
+      "stat": "Bonus dégâts",
+      "unit": "%",
+      "values": {
+        "common": null,
+        "rare": null,
+        "epic": null,
+        "legendary": 25,
+        "mythic": 35
+      },
+      "rule": "Le coût peut provoquer un KO définitif"
+    },
+    {
+      "id": "DRF-057",
+      "category": "Spécial",
+      "name": "Distorsion temporelle",
+      "description": "Priorité +1 pour la première attaque offensive du combat",
+      "stat": "Probabilité",
+      "unit": "%",
+      "values": {
+        "common": null,
+        "rare": null,
+        "epic": null,
+        "legendary": 70,
+        "mythic": 100
+      },
+      "rule": "Une fois par combat"
+    },
+    {
+      "id": "DRF-058",
+      "category": "Spécial",
+      "name": "Réaction en chaîne",
+      "description": "Bonus par KO infligé, jusqu'à 5 cumuls",
+      "stat": "Bonus / KO",
+      "unit": "%",
+      "values": {
+        "common": null,
+        "rare": null,
+        "epic": null,
+        "legendary": 6,
+        "mythic": 8
+      },
+      "rule": "Reset au tournoi; perte à KO allié"
+    },
+    {
+      "id": "DRF-059",
+      "category": "Spécial",
+      "name": "Symbiose absolue",
+      "description": "Redistribue une portion du soin effectif aux alliés vivants",
+      "stat": "Soin partagé",
+      "unit": "%",
+      "values": {
+        "common": null,
+        "rare": null,
+        "epic": null,
+        "legendary": 12,
+        "mythic": 20
+      },
+      "rule": "Réparti entre autres alliés"
+    }
+  ],
+  "workbookRules": [
+    {
+      "A": "Paramètre",
+      "B": "Proposition"
+    },
+    {
+      "A": "Slots de Drift équipés",
+      "B": "5"
+    },
+    {
+      "A": "Durée de partie",
+      "B": "20 / 30 / 60 min"
+    },
+    {
+      "A": "Taille lobby",
+      "B": "2 / 4 / 8 / 16 joueurs"
+    },
+    {
+      "A": "Mort permanente",
+      "B": "Oui, dans la partie Drift"
+    },
+    {
+      "A": "Note équilibrage",
+      "B": "Valeurs proposées à tester en jeu"
+    },
+    {
+      "A": "Règle",
+      "B": "Détail"
+    },
+    {
+      "A": "Drop relatif",
+      "B": "Un bonus de +20 % sur un drop de 5 % donne 6 %, pas 25 %."
+    },
+    {
+      "A": "Sources de drop",
+      "B": "Combats sauvages, dresseurs, événements et coffres éventuels."
+    },
+    {
+      "A": "Cumul",
+      "B": "Interdire les doublons identiques équipés; plafonner les synergies extrêmes."
+    },
+    {
+      "A": "PvP",
+      "B": "Drifts économiques/XP inactifs pendant le tournoi final."
+    }
+  ]
+}

@@ -9,7 +9,7 @@ const testDatabaseName = process.env.DB_TEST_NAME || `${process.env.DB_NAME || '
 const serverPort = Number(process.env.VISUAL_TEST_SERVER_PORT || 31235);
 const debugPort = Number(process.env.VISUAL_TEST_DEBUG_PORT || 31236);
 const baseUrl = `http://127.0.0.1:${serverPort}`;
-const outputDirectory = path.resolve(projectRoot, 'docs', 'validation');
+const outputDirectory = path.resolve(process.env.BATTLE_SCREENSHOT_DIR || path.join(projectRoot, 'docs', 'validation'));
 
 if (!/test/i.test(testDatabaseName)) {
     console.error('Le test visuel refuse une base dont le nom ne contient pas « test ».');

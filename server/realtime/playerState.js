@@ -34,11 +34,16 @@ function getDirectionFromAction(action) {
 }
 
 function buildPositionSnapshot(player) {
-    return { x: Math.round(player.x), y: Math.round(player.y), map: player.currentmap };
+    return {
+        x: Math.round(player.x), y: Math.round(player.y), map: player.currentmap,
+        centerReturnPoint: player.centerReturnPoint ? { ...player.centerReturnPoint } : null
+    };
 }
 
 function positionsAreEqual(posA, posB) {
-    return Boolean(posA && posB && posA.x === posB.x && posA.y === posB.y && posA.map === posB.map);
+    const a = posA?.centerReturnPoint, b = posB?.centerReturnPoint;
+    return Boolean(posA && posB && posA.x === posB.x && posA.y === posB.y && posA.map === posB.map
+        && a?.map === b?.map && a?.x === b?.x && a?.y === b?.y);
 }
 
 function toPublicPlayer(player) {

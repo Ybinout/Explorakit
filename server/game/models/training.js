@@ -1,0 +1,21 @@
+const { yields } = require('../../../data/game/effort_yields.json');
+
+const STAT_KEYS = ['hp', 'attack', 'defense', 'specialAttack', 'specialDefense', 'speed'];
+function normalizeEffort(input = {}) {
+    let remaining = 510;
+    return Object.fromEntries(STAT_KEYS.map((key) => {
+        const value = Math.min(252, remaining, Math.max(0, Math.floor(Number(input?.[key]) || 0)));
+        remaining -= value;
+        return [key, value];
+    }));
+}
+
+function rewardTraining(pokemon, defeated, xp, io, playerId) {
+    const previousLevel = pokemon.level;
+    const previousExperience = pokemon.experience;
+    const effortGained = pokemon.gainEffort(yields[defeated?.data?.id] || {});
+    pokemon.gainExperience(xp);
+    io.to(playerId).emit('battleExperience', { pokemon, xpGained: xp, previousLevel, previousExperience, effortGained });
+}
+
+module.exports = { STAT_KEYS, normalizeEffort, rewardTraining };

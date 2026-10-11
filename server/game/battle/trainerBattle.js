@@ -1,3 +1,4 @@
+const { rewardTraining } = require('../models/training');
 const {
     useattack,
     getEffectiveness,
@@ -10,8 +11,8 @@ const {
     canSwitchOut
 } = require('./battleEngine');
 const { getUsableMoveIndexes } = require('./battleResources');
-const { calculateBattleExperience } = require('../models/progression');
-const { emitSoloBattleEnd } = require('./battleOutcome');
+const { calculateBattleExperience, BATTLE_EXPERIENCE_MULTIPLIERS } = require('../models/progression');
+const { emitSoloBattleEnd, createBattleSummaryTracker } = require('./battleOutcome');
 const { emitFieldState, emitSoloMoveResult } = require('./battleEvents');
 const {
     autoSwitchPokemon,
@@ -245,9 +246,6 @@ function playerTurn(player, io) {
     });
 }
 
-function endBattle(player, io, playerWon, extra = {}) {
-    return emitSoloBattleEnd(player, io, playerWon, extra, 'trainer');
-}
 
 function determineIfSwap(currentEnemy, enemyTeam, playerPokemon) {
     let currentEffectiveness = getEffectiveness(playerPokemon.type1, currentEnemy.type1) *
@@ -325,6 +323,10 @@ function findDmgAtk(attackName, pokemon1, pokemon2) {
 }
 
 async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
+    const resultTracker = createBattleSummaryTracker(player?.equipe?.pokemons);
+    const endBattle = (playerWon = false, extra = {}) => emitSoloBattleEnd(player, io, playerWon, {
+        ...extra, summary: resultTracker.snapshot(player.equipe.pokemons)
+    }, 'trainer');
     let victoryFinalized = false;
     const finalizeVictory = async () => {
         if (victoryFinalized) return null;
@@ -335,6 +337,7 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
             try {
                 progressionReward = await options.onVictory();
                 if (progressionReward?.granted && progressionReward.money > 0) {
+                    resultTracker.money += progressionReward.money;
                     await narrate(player, io, `Tu reçois ${progressionReward.money} Pokédollars !`, 900);
                 }
             } catch (error) {
@@ -354,7 +357,7 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
         await narrate(player, io, "Le dresseur n'a aucun Pokemon valide.");
         await narrate(player, io, 'Victoire !', 700);
         await finalizeVictory();
-        endBattle(player, io, true);
+        endBattle(true);
         await editEquipe(userId, player.equipe);
         return true;
     }
@@ -375,6 +378,7 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
         const reward = Math.max(1, Math.floor(baseMoneyReward * Number(playerSide.rewardMultiplier || 1)));
         moneyRewardGranted = true;
         await awardUserMoney(userId, reward);
+        resultTracker.money += reward;
         await narrate(player, io, `Tu remportes ${reward} Pokédollars !`, 900);
         return reward;
     };
@@ -390,7 +394,7 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
     if (initialEnemyIndex === -1) {
         await narrate(player, io, 'Victoire !', 700);
         await finalizeVictory();
-        endBattle(player, io, true);
+        endBattle(true);
         await editEquipe(userId, player.equipe);
         return true;
     }
@@ -400,12 +404,28 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
     }
 
     let currentEnemy = enemyTeam.pokemons[0];
+    const rewardedEnemies = new Set(enemyTeam.pokemons.filter((pokemon) => pokemon.currentHp <= 0));
+    const experienceMultiplier = options.experienceKind === 'arena'
+        ? BATTLE_EXPERIENCE_MULTIPLIERS.arena : BATTLE_EXPERIENCE_MULTIPLIERS.trainer;
+    const grantDefeatedExperience = async () => {
+        const recipient = player.equipe.pokemons[0];
+        if (!recipient || recipient.currentHp <= 0 || typeof recipient.gainExperience !== 'function') return;
+        // Inclut le dernier K.O. et ceux survenus lors d'un changement forcé.
+        // Les instances sont suivies même si leur ordre dans l'équipe change.
+        for (const defeated of enemyTeam.pokemons) {
+            if (defeated.currentHp > 0 || rewardedEnemies.has(defeated)) continue;
+            rewardedEnemies.add(defeated);
+            const xp = calculateBattleExperience(defeated, experienceMultiplier, recipient);
+            rewardTraining(recipient, defeated, xp, io, player.id);
+            await narrate(player, io, `${getPokemonDisplayName(recipient)} gagne ${xp} XP !`, 900);
+        }
+    };
 
     const handleForcedPlayerSwitch = async () => {
         const switched = playerChangePokemon(player.equipe);
         if (!switched || !hasAlivePokemon(player.equipe.pokemons)) {
             await narrate(player, io, 'Tu as perdu le combat...');
-            endBattle(player, io, false);
+            endBattle(false);
             await editEquipe(userId, player.equipe);
             return false;
         }
@@ -432,6 +452,7 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
 
     while (hasAlivePokemon(enemyTeam.pokemons) && hasAlivePokemon(player.equipe.pokemons)) {
         currentEnemy = enemyTeam.pokemons[0];
+        await grantDefeatedExperience();
 
         if (player.equipe.pokemons[0].currentHp <= 0) {
             const canContinue = await handleForcedPlayerSwitch();
@@ -439,18 +460,12 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
         }
 
         if (currentEnemy.currentHp <= 0) {
-            const xpWin = calculateBattleExperience(currentEnemy, 1.25);
-            if (player.equipe.pokemons[0] && typeof player.equipe.pokemons[0].gainExperience === 'function') {
-                player.equipe.pokemons[0].gainExperience(xpWin);
-                await narrate(player, io, `${getPokemonDisplayName(player.equipe.pokemons[0])} gagne ${Math.max(1, Math.round(xpWin))} XP !`, 900);
-            }
-
             const nextEnemyIndex = enemyTeam.pokemons.findIndex((pokemon) => pokemon.currentHp > 0);
             if (nextEnemyIndex === -1) {
                 await narrate(player, io, 'Victoire !');
                 await grantMoneyReward();
                 await finalizeVictory();
-                endBattle(player, io, true);
+                endBattle(true);
                 await editEquipe(userId, player.equipe);
                 return true;
             }
@@ -477,7 +492,7 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
         const actionPlayer = response.action;
 
         if (actionPlayer === 'disconnect' || actionPlayer === 'timeout') {
-            endBattle(player, io, false, {
+            endBattle(false, {
                 interrupted: true,
                 reason: response.reason || actionPlayer
             });
@@ -494,7 +509,7 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
             }
 
             await narrate(player, io, 'Tu prends la fuite !', 800);
-            endBattle(player, io, false, { fled: true });
+            endBattle(false, { fled: true });
             await editEquipe(userId, player.equipe);
             return true;
         }
@@ -670,6 +685,7 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
         }
     }
 
+    await grantDefeatedExperience();
     const playerHasPokemonAlive = hasAlivePokemon(player.equipe.pokemons);
     const enemyHasPokemonAlive = hasAlivePokemon(enemyTeam.pokemons);
 
@@ -677,12 +693,12 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
         await narrate(player, io, 'Victoire !');
         await grantMoneyReward();
         await finalizeVictory();
-        endBattle(player, io, true);
+        endBattle(true);
     } else if (!playerHasPokemonAlive) {
         await narrate(player, io, 'Tu as perdu le combat...');
-        endBattle(player, io, false);
+        endBattle(false);
     } else {
-        endBattle(player, io, false, { interrupted: true });
+        endBattle(false, { interrupted: true });
     }
 
     await editEquipe(userId, player.equipe);

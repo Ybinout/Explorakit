@@ -2,6 +2,8 @@ const fs = require('fs');
 const path = require('node:path');
 const Pokemon = require('../models/Pokemon');
 const Equipe = require('../models/Team');
+const { getExperienceRate, getTotalExperienceForLevel } = require('../models/progression');
+const pokedex = require('../../../data/game/pokedex.json');
 
 const PNJ_TEAMS_PATH = path.resolve(__dirname, '..', '..', '..', 'data', 'game', 'pnj_teams.json');
 const pnjTeamsData = JSON.parse(fs.readFileSync(PNJ_TEAMS_PATH, 'utf8'));
@@ -22,11 +24,15 @@ function getPnjTeam(pnjName) {
     const equipe = new Equipe();
 
     pnjData.team.forEach(pokemonData => {
+        const species = pokedex.find((entry) => entry.id === pokemonData.pokemonId);
+        const experience = Number.isInteger(pokemonData.level) && pokemonData.level > 0
+            ? getTotalExperienceForLevel(pokemonData.level, getExperienceRate(species?.exp))
+            : pokemonData.experience;
         const pokemon = new Pokemon(
             pokemonData.pokemonId,
             pokemonData.name,
-            null, // Le niveau est calculé automatiquement à partir de l'expérience
-            pokemonData.experience, // On utilise l'expérience définie dans le JSON
+            null,
+            experience, // Niveau explicite pour le contenu ; XP historiques toujours acceptées.
             pokemonData.givenIv,
             pokemonData.nature,
             pokemonData.k

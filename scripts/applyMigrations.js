@@ -9,7 +9,11 @@ const migrationFiles = [
     '004_persistent_pokemon_status.sql',
     '005_battle_resources.sql',
     '006_battle_economy.sql',
-    '007_player_progression.sql'
+    '007_player_progression.sql',
+    '008_effort_values.sql',
+    '009_pokemon_center_return.sql',
+    '010_rift_accounts.sql',
+    '011_rift_reward_duration.sql'
 ];
 
 async function applyMigrations() {

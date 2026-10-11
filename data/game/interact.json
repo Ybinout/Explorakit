@@ -1,160 +1,1244 @@
 [
-    {
-        "name": "dia0",
-        "map": "random",
-        "x": 18,
-        "sentences": [
-            {
-                "text": "Bonjour mon chéri, je voulais te parler... Le monde est vaste et rempli de mystères. Ta sœur est partie pour l'aventure il y a plusieurs mois, mais nous n'avons plus de nouvelles d'elle depuis. Je sais que cela t'inquiète, mais je suis sûre qu'elle est en sécurité. Cependant, je pense qu'il est temps pour toi de partir à sa recherche. Tu es prêt, n'est-ce pas ? Avant que tu partes, tu devrais aller voir le Professeur Chêne. Il pourra t'aider à te préparer pour ton voyage. Prends soin de toi, mon chéri.",
-                "imageName": "mom.png"
-            },
-            {
-                "text": "Ah, te voilà ! Ta mère m'a parlé de ta décision. C'est une grande responsabilité que tu assumes, mais je suis sûr que tu es prêt.Avant que tu ne partes, je veux te donner un Pokémon. Ce sera ton premier compagnon d'aventure. Choisis bien, car il sera à tes côtés tout au long de ton voyage. Ces trois Pokémon sont tous spéciaux à leur manière. Prends ton temps pour faire ton choix. Je suis là pour répondre à tes questions. Une fois que tu auras choisi, ton aventure commencera officiellement. N'oublie pas, c'est dangereux de partir seul. Bonne chance, jeune dresseur !",
-                "imageName": "prof.png"
-            }
-        ]
-    },
-    {
-        "name": "dia1",
-        "map": "start",
-        "x": 18,
-        "sentences": [
-            {
-                "text": "Eh, attends une seconde ! Tu veux vraiment quitter le village maintenant ? Je dois te prévenir, au bout de cette route, juste avant d'arriver à la première ville, il y a Garry... C'est un grand gaillard, super fort ! Il attend toujours ici, prêt à lancer un duel contre quiconque essaie de passer. Il ne m'a pas laissé passer... Je suis coincé ici à cause de lui.Mais avant que tu t'aventures là-bas, je veux voir de quoi tu es capable ! Si tu ne peux même pas me battre, tu n'as aucune chance contre Garry. Allez, montre-moi ce que tu sais faire ! Prépare-toi à te battre !",
-                "imageName": "a.png"
-            }
-        ],
-        "end": "battle",
-        "team": "moonpunch"
-    },
-    {
-        "name": "centre",
-        "map": "centre",
-        "x": 9,
-        "sentences": [
-            {
-                "text": "Tes Pokémon ont donné le meilleur d'eux-mêmes ! Je vais les soigner en un instant... Voilà, ils sont en pleine forme ! Prends soin d'eux et bonne chance pour tes prochaines aventures ",
-                "imageName": "inf.png"
-            }
-        ],
-        "end": "heal",
-        "team": ""
-    },
-    {
-        "name": "moon",
-        "map": null,
-        "x": null,
-        "sentences": [
-            {
-                "text": "Issou",
-                "imageName": "moonpunch.png"
-            }
-        ],
-        "end": "battle",
-        "team": "moonpunch"
-    },
-    {
-        "name": "route_guide_1",
-        "sentences": [{ "text": "La route à l'est mène à Clairbois. Les hautes herbes deviennent plus dangereuses à mesure que tu t'éloignes du village.", "imageName": "village.png" }]
-    },
-    {
-        "name": "route_guide_2",
-        "sentences": [{ "text": "Entre Clairbois et Rivazur, garde toujours quelques Balls et des objets de soin. Le chemin est long.", "imageName": "sana.png" }]
-    },
-    {
-        "name": "route_guide_3",
-        "sentences": [{ "text": "Les Pokémon de cette région réagissent aux changements de terrain. Observe-les avant de choisir ton attaque.", "imageName": "prof2.png" }]
-    },
-    {
-        "name": "route_guide_4",
-        "sentences": [{ "text": "Rochebourg est derrière nous. Plus loin, les dresseurs commencent à utiliser de vraies stratégies d'équipe.", "imageName": "hoze.png" }]
-    },
-    {
-        "name": "route_guide_5",
-        "sentences": [{ "text": "Floraville entretient ses jardins sans repousser les Pokémon sauvages. C'est ce qui rend la route si vivante.", "imageName": "wanda.png" }]
-    },
-    {
-        "name": "route_guide_6",
-        "sentences": [{ "text": "On raconte que l'Aube Obscure a traversé cette route. Si tu cherches Clara, ouvre l'œil.", "imageName": "raph.png" }]
-    },
-    {
-        "name": "route_guide_7",
-        "sentences": [{ "text": "Ocreville n'est plus très loin. Son arène est la dernière de cette partie de la région.", "imageName": "ana.png" }]
-    },
-    {
-        "name": "route_guide_8",
-        "sentences": [{ "text": "Cette route rejoint l'ancien réseau près de la route 4. Tu peux donc revenir au village sans faire demi-tour.", "imageName": "7ps.png" }]
-    },
-    {
-        "name": "city_guide_1",
-        "sentences": [{ "text": "Bienvenue à Clairbois. L'arène Sylve se trouve au nord-est, dans le grand bâtiment de bois.", "imageName": "village.png" }]
-    },
-    {
-        "name": "city_guide_2",
-        "sentences": [{ "text": "Bienvenue à Rivazur. Le dôme bleu et rouge abrite l'arène Marée.", "imageName": "sana.png" }]
-    },
-    {
-        "name": "city_guide_3",
-        "sentences": [{ "text": "Bienvenue à Rochebourg. L'arène Minerai occupe le grand hall métallique à l'ouest.", "imageName": "hoze.png" }]
-    },
-    {
-        "name": "city_guide_4",
-        "sentences": [{ "text": "Bienvenue à Floraville. Le bâtiment rouge sur la gauche est l'arène Floraison.", "imageName": "wanda.png" }]
-    },
-    {
-        "name": "city_guide_5",
-        "sentences": [{ "text": "Bienvenue à Ocreville. L'arène Dune domine la partie nord-est de la ville.", "imageName": "ana.png" }]
-    },
-    {
-        "name": "gym_forest",
-        "sentences": [{ "text": "Je suis Églantine, championne de Clairbois. Dans mon bosquet, la patience compte autant que la force. Relèves-tu le défi du Badge Sylve ?", "imageName": "sana.png" }],
-        "end": "battle",
-        "team": "champion_sylve"
-    },
-    {
-        "name": "gym_tide",
-        "sentences": [{ "text": "Je suis Nérée, champion de Rivazur. Une équipe doit savoir s'adapter comme l'eau. Montre-moi la tienne !", "imageName": "raph.png" }],
-        "end": "battle",
-        "team": "champion_maree"
-    },
-    {
-        "name": "gym_ore",
-        "sentences": [{ "text": "Je suis Hépha, champion de Rochebourg. Ici, seules les équipes solides atteignent le bout du parcours.", "imageName": "hoze.png" }],
-        "end": "battle",
-        "team": "champion_minerai"
-    },
-    {
-        "name": "gym_bloom",
-        "sentences": [{ "text": "Je suis Flora, championne de Floraville. Une graine bien préparée finit toujours par percer la pierre.", "imageName": "wanda.png" }],
-        "end": "battle",
-        "team": "champion_floraison"
-    },
-    {
-        "name": "gym_dune",
-        "sentences": [{ "text": "Je suis Gaïa, championne d'Ocreville. Tu as traversé toute la région ; voyons si tu peux résister à la tempête.", "imageName": "cynthia.png" }],
-        "end": "battle",
-        "team": "champion_dune"
-    },
-    {
-        "name": "home_resident_1",
-        "sentences": [{ "text": "Clairbois est paisible, mais l'arène attire de plus en plus de dresseurs. Entre donc te reposer un instant.", "imageName": "mom.png" }]
-    },
-    {
-        "name": "home_resident_2",
-        "sentences": [{ "text": "Les bassins de Rivazur alimentent toute la ville. Nérée connaît chaque courant par cœur.", "imageName": "prof2.png" }]
-    },
-    {
-        "name": "home_resident_3",
-        "sentences": [{ "text": "Je collectionne les pierres rapportées des routes voisines. Certaines réagissent étrangement depuis le passage de l'Aube Obscure.", "imageName": "hoze.png" }]
-    },
-    {
-        "name": "shop_keeper_ville1",
-        "sentences": [{ "text": "Bienvenue ! Poké Balls, Baies et objets tenus sont disponibles au comptoir.", "imageName": "inf.png" }],
-        "end": "shop"
-    },
-    {
-        "name": "shop_keeper_1",
-        "sentences": [{ "text": "Bienvenue dans la boutique d'Ocreville. Poké Balls, Baies et objets tenus sont disponibles au comptoir.", "imageName": "inf.png" }],
-        "end": "shop"
-    }
+  {
+    "name": "dia0",
+    "sentences": [
+      {
+        "text": "Ta sœur Clara nous écrivait de chaque ville. Sa dernière lettre parlait d’un groupe qui protégeait les Pokémon : l’Aube Obscure. Puis, plus rien.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 31
+        }
+      },
+      {
+        "text": "Ton compagnon est prêt. À la Ville du Lac, cherche Mounir ; on le surnomme Moonpunch. Clara s’entraînait avec lui avant son départ.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 31
+        }
+      },
+      {
+        "text": "Ne pars pas seul contre le monde. Écoute les habitants, entraîne ton équipe et reviens nous donner des nouvelles.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 31
+        }
+      }
+    ]
+  },
+  {
+    "name": "dia1",
+    "map": "start",
+    "x": 18,
+    "sentences": [
+      {
+        "text": "Timmy : Tu pars retrouver Clara ? Je me souviens de ses conseils. Avant la route, faisons un petit duel pour préparer ton compagnon.",
+        "imageName": "a.png"
+      },
+      {
+        "text": "Timmy : Mon Rattata est niveau 5. Ce combat d’entraînement n’a lieu qu’une fois ; soigne ton équipe avant de me parler si nécessaire. Allons-y !",
+        "imageName": "a.png"
+      }
+    ],
+    "end": "battle",
+    "team": "timmy",
+    "after": "dia1_after"
+  },
+  {
+    "name": "centre",
+    "map": "centre",
+    "x": 9,
+    "sentences": [
+      {
+        "text": "Tes Pokémon ont donné le meilleur d'eux-mêmes ! Je vais les soigner en un instant... Voilà, ils sont en pleine forme ! Prends soin d'eux et bonne chance pour tes prochaines aventures ",
+        "imageName": "inf.png"
+      }
+    ],
+    "end": "heal",
+    "team": ""
+  },
+  {
+    "name": "moon",
+    "map": null,
+    "x": null,
+    "sentences": [
+      {
+        "text": "Mounir : Ici, on m’appelle Moonpunch. Clara venait souvent s’entraîner. Elle est partie vers Ocreville après avoir parlé à un membre de l’Aube Obscure.",
+        "imageName": "moonpunch.png"
+      },
+      {
+        "text": "Mounir : Je refuse de te laisser suivre cette piste sans préparation. Mes trois Pokémon sont niveaux 18 à 20. Montre-moi comment tu prends soin de ton équipe !",
+        "imageName": "moonpunch.png"
+      }
+    ],
+    "end": "battle",
+    "team": "moonpunch",
+    "after": "moon_after"
+  },
+  {
+    "name": "route_guide_1",
+    "sentences": [
+      {
+        "text": "Au-delà de Clairbois, ce chemin permet de revenir vers l’ancienne route 3. Éloi conserve les témoignages des voyageurs aux archives de l’ancienne arène.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 1
+        }
+      },
+      {
+        "imageName": "townspeople.png",
+        "text": "Dans les herbes de ce dernier sentier, les Pokémon atteignent les niveaux 57 à 60. Le passage vers l’ancienne route 3 te ramène ensuite dans une zone plus tranquille.",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 1
+        }
+      }
+    ]
+  },
+  {
+    "name": "route_guide_2",
+    "sentences": [
+      {
+        "text": "Entre Rivazur et Clairbois, des voyageurs ont vu Clara porter un carnet. Aux archives, Éloi conserve ce qu’elle lui a confié.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 2
+        }
+      }
+    ]
+  },
+  {
+    "name": "route_guide_3",
+    "sentences": [
+      {
+        "text": "Les habitants de Rivazur surveillent le lac. Certains craignent que l’Aube Obscure ne revienne y mener ses opérations.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 3
+        }
+      }
+    ]
+  },
+  {
+    "name": "route_guide_4",
+    "sentences": [
+      {
+        "text": "Cette route relie Rochebourg à Rivazur. Ana et Wanda sont sœurs ; elles se parlent peu depuis les événements liés à l’Aube Obscure.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 4
+        }
+      }
+    ]
+  },
+  {
+    "name": "route_guide_5",
+    "sentences": [
+      {
+        "text": "Les jardins de Floraville abritent aussi les Pokémon sauvages. Protéger la nature commence parfois par lui laisser une place.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 5
+        }
+      }
+    ]
+  },
+  {
+    "name": "route_guide_6",
+    "sentences": [
+      {
+        "text": "Des convois de l’Aube Obscure ont emprunté cette route. À Rochebourg, Ana a posé des questions sur leur destination.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 6
+        }
+      }
+    ]
+  },
+  {
+    "name": "route_guide_7",
+    "sentences": [
+      {
+        "text": "Cette route relie Ocreville à Floraville. Hoze connaît Raphael ; tous deux ont rencontré Clara avant sa disparition.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 7
+        }
+      }
+    ]
+  },
+  {
+    "name": "route_guide_8",
+    "sentences": [
+      {
+        "text": "Depuis l’ancienne route 4, ce chemin mène à Ocreville. Hoze y attend les dresseurs envoyés par Mounir.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 8
+        }
+      }
+    ]
+  },
+  {
+    "name": "city_guide_1",
+    "sentences": [
+      {
+        "text": "Bienvenue à Clairbois. Les archives d’Éloi occupent l’ancienne arène Sylve, dans le grand bâtiment de bois. Les dresseurs des rues proposent des duels facultatifs.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 9
+        }
+      }
+    ]
+  },
+  {
+    "name": "city_guide_2",
+    "sentences": [
+      {
+        "text": "Bienvenue à Rivazur. Wanda vous attend dans l’arène Marée, sous le dôme bleu et rouge. Elle reçoit les voyageurs qu’Ana lui recommande.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 10
+        }
+      }
+    ]
+  },
+  {
+    "name": "city_guide_3",
+    "sentences": [
+      {
+        "text": "Bienvenue à Rochebourg. Ana dirige l’arène Minerai, dans le hall métallique à l’ouest. Elle aide aussi les ouvriers de la carrière.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 11
+        }
+      }
+    ]
+  },
+  {
+    "name": "city_guide_4",
+    "sentences": [
+      {
+        "text": "Bienvenue à Floraville. Raphael vous attend dans l’arène Floraison, au toit rouge. Hoze saura vous présenter à lui.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 12
+        }
+      }
+    ]
+  },
+  {
+    "name": "city_guide_5",
+    "sentences": [
+      {
+        "text": "Bienvenue à Ocreville. Hoze tient l’arène Dune au nord-est. Si vous cherchez Clara, c’est ici que commence la piste après Mounir.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 13
+        }
+      }
+    ]
+  },
+  {
+    "name": "home_resident_1",
+    "sentences": [
+      {
+        "text": "Clara s’est reposée ici avant de remettre une lettre aux archives. Elle semblait inquiète, mais décidée à découvrir la vérité.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 15
+        }
+      }
+    ]
+  },
+  {
+    "name": "home_resident_2",
+    "sentences": [
+      {
+        "text": "Wanda défendait autrefois les idées de l’Aube Obscure. La voir prendre ses distances a surpris tout Rivazur.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 16
+        }
+      }
+    ]
+  },
+  {
+    "name": "home_resident_3",
+    "sentences": [
+      {
+        "text": "Ana inspecte chaque convoi suspect. Elle ne veut pas que les habitants paient le prix des promesses de l’Aube Obscure.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 17
+        }
+      }
+    ]
+  },
+  {
+    "name": "shop_keeper_ville1",
+    "sentences": [
+      {
+        "text": "Bienvenue ! Poké Balls, Baies et objets tenus sont disponibles au comptoir.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 0
+        }
+      }
+    ],
+    "end": "shop"
+  },
+  {
+    "name": "shop_keeper_1",
+    "sentences": [
+      {
+        "text": "Bienvenue dans la boutique d'Ocreville. Poké Balls, Baies et objets tenus sont disponibles au comptoir.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 18
+        }
+      }
+    ],
+    "end": "shop"
+  },
+  {
+    "name": "dia1_after",
+    "sentences": [
+      {
+        "text": "Timmy : Bien joué ! Garde ces 600 pièces pour ton voyage. Ton Pokémon et toi commencez à vous comprendre.",
+        "imageName": "a.png"
+      },
+      {
+        "text": "Timmy : À la Ville du Lac, le Centre soigne gratuitement ton équipe. Mounir t’attend dans l’arène. Les dresseurs en ville proposent aussi des duels facultatifs.",
+        "imageName": "a.png"
+      }
+    ]
+  },
+  {
+    "name": "moon_after",
+    "sentences": [
+      {
+        "text": "Mounir : Tu as gagné. Clara avait la même détermination. Hoze l’a vue à Ocreville ; il saura t’en dire plus.",
+        "imageName": "moonpunch.png"
+      },
+      {
+        "text": "Mounir : Continue jusqu’à la route 4, puis prends le passage vers la route 8. Ocreville vient ensuite. Profite du trajet pour renforcer ton équipe : Hoze combat avec des niveaux 40 à 43.",
+        "imageName": "moonpunch.png"
+      }
+    ]
+  },
+  {
+    "name": "champion_hoze",
+    "sentences": [
+      {
+        "text": "Hoze : Mounir m’a parlé de toi. Tu cherches Clara ? Elle est passée ici, mais cette piste n’est pas faite pour ceux qui hésitent.",
+        "imageName": "hoze.png"
+      },
+      {
+        "text": "Hoze : Dans mon arène, le sol lui-même est une épreuve. Trois Pokémon, niveaux 40 à 43. Montre-moi ce que tu as dans le ventre !",
+        "imageName": "hoze.png"
+      }
+    ],
+    "end": "battle",
+    "team": "hoze",
+    "after": "champion_hoze_after",
+    "locked": "champion_hoze_locked"
+  },
+  {
+    "name": "champion_hoze_after",
+    "sentences": [
+      {
+        "text": "Hoze : Je n’avais pas vu un tel potentiel depuis un moment. Le Badge Dune est à toi.",
+        "imageName": "hoze.png"
+      },
+      {
+        "text": "Hoze : Clara accompagnait des gens de l’Aube Obscure. Elle posait trop de questions pour une simple recrue. Va parler à Raphael, à Floraville.",
+        "imageName": "hoze.png"
+      },
+      {
+        "text": "Hoze : Il paraît étrange, mais rien ne lui échappe. La route 7 relie nos deux villes. Ses Pokémon sont niveaux 44 à 46.",
+        "imageName": "hoze.png"
+      }
+    ]
+  },
+  {
+    "name": "champion_hoze_locked",
+    "sentences": [
+      {
+        "text": "Hoze : Tu viens au sujet de Clara ? Parle d’abord à Mounir dans l’arène de la Ville du Lac. J’ai besoin de savoir que tu es prêt à suivre sa piste.",
+        "imageName": "hoze.png"
+      }
+    ]
+  },
+  {
+    "name": "champion_raphael",
+    "sentences": [
+      {
+        "text": "Raphael : Hoze t’envoie… Tu cherches des réponses, n’est-ce pas ? La vérité se cache parfois au milieu de ce qu’on croit déjà savoir.",
+        "imageName": "raph.png"
+      },
+      {
+        "text": "Raphael : Observe mes Pokémon, pas seulement leurs types. Mes trois partenaires sont niveaux 44 à 46. Voyons si tu sais regarder au-delà des apparences.",
+        "imageName": "raph.png"
+      }
+    ],
+    "end": "battle",
+    "team": "raphael",
+    "after": "champion_raphael_after",
+    "locked": "champion_raphael_locked"
+  },
+  {
+    "name": "champion_raphael_after",
+    "sentences": [
+      {
+        "text": "Raphael : Tu as prouvé ta valeur. Voici le Badge Floraison. Quant à Clara… elle voulait comprendre pourquoi des Pokémon quittaient leur habitat.",
+        "imageName": "raph.png"
+      },
+      {
+        "text": "Raphael : L’Aube Obscure promettait de les protéger. Clara a commencé à douter de leurs méthodes, puis elle est partie interroger Ana.",
+        "imageName": "raph.png"
+      },
+      {
+        "text": "Raphael : Trouve-la à Rochebourg, après les routes 6 et 5. Ses Pokémon sont niveaux 48 à 50. Ne confonds jamais une promesse avec une preuve.",
+        "imageName": "raph.png"
+      }
+    ]
+  },
+  {
+    "name": "champion_raphael_locked",
+    "sentences": [
+      {
+        "text": "Raphael : Les rumeurs vont vite. Pour parler de Clara, commence par Hoze à Ocreville. Sans son témoignage, tu n’aurais qu’une moitié de l’histoire.",
+        "imageName": "raph.png"
+      }
+    ]
+  },
+  {
+    "name": "champion_ana",
+    "sentences": [
+      {
+        "text": "Ana : Alors, c’est toi qui cherches Clara. Raphael a dû te prévenir : ce que je sais touche aussi à ma famille.",
+        "imageName": "ana.png"
+      },
+      {
+        "text": "Ana : Je veux être sûre que tu tiendras bon. Trois partenaires, niveaux 48 à 50. Si tu gagnes, je te dirai ce que je sais.",
+        "imageName": "ana.png"
+      }
+    ],
+    "end": "battle",
+    "team": "ana",
+    "after": "champion_ana_after",
+    "locked": "champion_ana_locked"
+  },
+  {
+    "name": "champion_ana_after",
+    "sentences": [
+      {
+        "text": "Ana : Tu es plus persévérant que je ne le pensais. Tu mérites le Badge Minerai. Clara s’est retrouvée mêlée à une organisation dangereuse : l’Aube Obscure.",
+        "imageName": "ana.png"
+      },
+      {
+        "text": "Ana : Elle a compris que leurs opérations mettaient des Pokémon et des habitants en danger. Depuis qu’elle a voulu en savoir plus, personne ici ne l’a revue.",
+        "imageName": "ana.png"
+      },
+      {
+        "text": "Ana : Ma sœur Wanda vit à Rivazur. Elle connaît cette organisation de l’intérieur. Suis la route 4 ; son équipe est niveaux 52 à 54. Écoute-la, même si elle te provoque.",
+        "imageName": "ana.png"
+      }
+    ]
+  },
+  {
+    "name": "champion_ana_locked",
+    "sentences": [
+      {
+        "text": "Ana : Je ne parlerai pas sur la foi d’une rumeur. Va voir Raphael à Floraville ; il a entendu Clara expliquer ce qu’elle cherchait.",
+        "imageName": "ana.png"
+      }
+    ]
+  },
+  {
+    "name": "champion_wanda",
+    "sentences": [
+      {
+        "text": "Wanda : Ana t’envoie ? Toi, contre moi ? Tu as peut-être battu les autres, mais je suis d’un autre niveau.",
+        "imageName": "wanda.png"
+      },
+      {
+        "text": "Wanda : Quatre Pokémon, niveaux 52 à 54. Si tu tiens tant à me prouver ta valeur, ne compte pas sur ma clémence.",
+        "imageName": "wanda.png"
+      }
+    ],
+    "end": "battle",
+    "team": "wanda",
+    "after": "champion_wanda_after",
+    "locked": "champion_wanda_locked"
+  },
+  {
+    "name": "champion_wanda_after",
+    "sentences": [
+      {
+        "text": "Wanda : Impressionnant. Une seule autre personne m’avait déjà battue. Prends le Badge Marée… et écoute bien.",
+        "imageName": "wanda.png"
+      },
+      {
+        "text": "Wanda : J’ai fondé l’Aube Obscure pour rétablir un équilibre entre les humains et la nature. Puis ils ont commencé à décider quelles vies pouvaient être sacrifiées.",
+        "imageName": "wanda.png"
+      },
+      {
+        "text": "Wanda : J’ai quitté l’organisation. Cela n’efface pas ma responsabilité. Clara a découvert ce qu’ils faisaient ; elle pourrait être en grand danger.",
+        "imageName": "wanda.png"
+      },
+      {
+        "text": "Wanda : Elle a confié une lettre à Éloi, aux archives de Clairbois. Passe par les routes 3 et 2. Dis-lui que je t’envoie. Cette fois, je ne détournerai pas les yeux.",
+        "imageName": "wanda.png"
+      }
+    ]
+  },
+  {
+    "name": "champion_wanda_locked",
+    "sentences": [
+      {
+        "text": "Wanda : Tu veux des réponses sur Clara ? Commence par écouter Ana à Rochebourg. Ma sœur mérite que tu entendes son histoire avant la mienne.",
+        "imageName": "wanda.png"
+      }
+    ]
+  },
+  {
+    "name": "clara_letter",
+    "sentences": [
+      {
+        "text": "Éloi : Wanda t’envoie ? Alors tu dois être de la famille de Clara. Elle m’a confié cette lettre, avec ordre de la garder loin de l’Aube Obscure.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 14
+        }
+      },
+      {
+        "text": "Clara : « Si tu lis ceci, tu as dû suivre ma trace. Je croyais aider les Pokémon. J’ai découvert des opérations dont même les nouvelles recrues ne savent rien. »",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 14
+        }
+      },
+      {
+        "text": "Clara : « Je vais chercher des preuves. Ne fais confiance à personne sur la seule foi de son emblème. Souviens-toi : protéger un Pokémon ne donne pas le droit de choisir sa vie. »",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 14
+        }
+      },
+      {
+        "text": "Éloi : La lettre s’arrête là. Je la conserverai ici pour que tu puisses la relire. Ce Sceau Sylve atteste ton passage aux archives.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 14
+        }
+      },
+      {
+        "text": "Éloi : Tu sais désormais pourquoi Clara a disparu. Ce premier chapitre s’achève ; sa recherche, elle, continue. Reviens aux archives quand tu voudras relire sa lettre.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 14
+        }
+      }
+    ],
+    "end": "story",
+    "after": "clara_letter_after",
+    "locked": "clara_letter_locked"
+  },
+  {
+    "name": "clara_letter_locked",
+    "sentences": [
+      {
+        "text": "Éloi : Ces archives abritent des témoignages sensibles. Je garde une lettre pour la famille de Clara, mais je dois d’abord savoir à qui je peux la confier.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 14
+        }
+      },
+      {
+        "text": "Éloi : Wanda, à Rivazur, connaît les circonstances de sa disparition. Suis la piste depuis Mounir et les champions ; reviens lorsqu’elle t’aura accordé sa confiance.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 14
+        }
+      }
+    ]
+  },
+  {
+    "name": "clara_letter_after",
+    "sentences": [
+      {
+        "text": "Éloi : La lettre de Clara est toujours à l’abri. Elle enquêtait sur l’Aube Obscure et cherchait des preuves de ses opérations.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 14
+        }
+      },
+      {
+        "text": "Clara : « Ne fais confiance à personne sur la seule foi de son emblème. Protéger un Pokémon ne donne pas le droit de choisir sa vie. »",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 14
+        }
+      },
+      {
+        "text": "Éloi : Le chapitre I est terminé. Tu peux continuer à explorer et à entraîner ton équipe ; la suite de sa recherche reste à venir.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 14
+        }
+      }
+    ]
+  },
+  {
+    "name": "town_lina",
+    "sentences": [
+      {
+        "text": "Lina : Je m’entraîne avant de défier Mounir. Mon Roucool est niveau 12. Un duel amical ?",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 19
+        }
+      },
+      {
+        "text": "Ce duel est facultatif et sa récompense unique. Termine ce dialogue pour commencer le combat.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 19
+        }
+      }
+    ],
+    "end": "battle",
+    "team": "town_lina",
+    "after": "town_lina_after"
+  },
+  {
+    "name": "town_lina_after",
+    "sentences": [
+      {
+        "text": "Lina : Bien joué ! Voilà 150 pièces pour ton voyage.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 19
+        }
+      },
+      {
+        "text": "Lina : Je surveille mieux les types maintenant. Le Centre est juste au nord : soigne ton équipe avant l’arène.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 19
+        }
+      }
+    ]
+  },
+  {
+    "name": "town_bastien",
+    "sentences": [
+      {
+        "text": "Bastien : Clara m’a appris à varier mon équipe. Deux partenaires, niveaux 13 et 14 : à toi de jouer !",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 20
+        }
+      },
+      {
+        "text": "Ce duel est facultatif et sa récompense unique. Termine ce dialogue pour commencer le combat.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 20
+        }
+      }
+    ],
+    "end": "battle",
+    "team": "town_bastien",
+    "after": "town_bastien_after"
+  },
+  {
+    "name": "town_bastien_after",
+    "sentences": [
+      {
+        "text": "Bastien : Bien joué ! Voilà 200 pièces pour ton voyage.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 20
+        }
+      },
+      {
+        "text": "Bastien : Mounir garde un souvenir ému de Clara. Va lui parler dans l’arène ; il ne le montrera pas, mais tu lui feras plaisir.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 20
+        }
+      }
+    ]
+  },
+  {
+    "name": "town_nadir",
+    "sentences": [
+      {
+        "text": "Nadir : Je livre de l’eau aux voyageurs. Deux Pokémon niveaux 36 et 37 : un duel, avant ma prochaine tournée ?",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 21
+        }
+      },
+      {
+        "text": "Ce duel est facultatif et sa récompense unique. Termine ce dialogue pour commencer le combat.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 21
+        }
+      }
+    ],
+    "end": "battle",
+    "team": "town_nadir",
+    "after": "town_nadir_after"
+  },
+  {
+    "name": "town_nadir_after",
+    "sentences": [
+      {
+        "text": "Nadir : Bien joué ! Voilà 350 pièces pour ton voyage.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 21
+        }
+      },
+      {
+        "text": "Nadir : Des gens de l’Aube Obscure demandaient quels convois passaient ici. Hoze les surveillait déjà.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 21
+        }
+      }
+    ]
+  },
+  {
+    "name": "town_salome",
+    "sentences": [
+      {
+        "text": "Salomé : J’ai préparé mon équipe pour la chaleur. Mes deux partenaires sont niveau 38. Voyons si la tienne tient la route !",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 22
+        }
+      },
+      {
+        "text": "Ce duel est facultatif et sa récompense unique. Termine ce dialogue pour commencer le combat.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 22
+        }
+      }
+    ],
+    "end": "battle",
+    "team": "town_salome",
+    "after": "town_salome_after"
+  },
+  {
+    "name": "town_salome_after",
+    "sentences": [
+      {
+        "text": "Salomé : Bien joué ! Voilà 380 pièces pour ton voyage.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 22
+        }
+      },
+      {
+        "text": "Salomé : Hoze utilise le sable à son avantage. Observe aussi les talents : ils peuvent faire basculer un combat.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 22
+        }
+      }
+    ]
+  },
+  {
+    "name": "town_iris",
+    "sentences": [
+      {
+        "text": "Iris : Je laisse une place aux Pokémon dans chaque jardin. Mes deux compagnons sont niveaux 40 et 41. On s’entraîne ?",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 23
+        }
+      },
+      {
+        "text": "Ce duel est facultatif et sa récompense unique. Termine ce dialogue pour commencer le combat.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 23
+        }
+      }
+    ],
+    "end": "battle",
+    "team": "town_iris",
+    "after": "town_iris_after"
+  },
+  {
+    "name": "town_iris_after",
+    "sentences": [
+      {
+        "text": "Iris : Bien joué ! Voilà 400 pièces pour ton voyage.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 23
+        }
+      },
+      {
+        "text": "Iris : Clara prenait des notes sur les fleurs désertées par les Pokémon. Raphael lui a prêté ses relevés.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 23
+        }
+      }
+    ]
+  },
+  {
+    "name": "town_noe",
+    "sentences": [
+      {
+        "text": "Noé : Je travaille mon rythme de combat. Deux partenaires niveau 42, tu me donnes la réplique ?",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 24
+        }
+      },
+      {
+        "text": "Ce duel est facultatif et sa récompense unique. Termine ce dialogue pour commencer le combat.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 24
+        }
+      }
+    ],
+    "end": "battle",
+    "team": "town_noe",
+    "after": "town_noe_after"
+  },
+  {
+    "name": "town_noe_after",
+    "sentences": [
+      {
+        "text": "Noé : Bien joué ! Voilà 420 pièces pour ton voyage.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 24
+        }
+      },
+      {
+        "text": "Noé : Raphael parle par énigmes, mais il écoute tout. Son dernier partenaire aime les attaques spéciales.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 24
+        }
+      }
+    ]
+  },
+  {
+    "name": "town_malo",
+    "sentences": [
+      {
+        "text": "Malo : La carrière m’apprend la patience. Mes deux Pokémon sont niveaux 44 et 45. Faisons un duel loin des machines !",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 25
+        }
+      },
+      {
+        "text": "Ce duel est facultatif et sa récompense unique. Termine ce dialogue pour commencer le combat.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 25
+        }
+      }
+    ],
+    "end": "battle",
+    "team": "town_malo",
+    "after": "town_malo_after"
+  },
+  {
+    "name": "town_malo_after",
+    "sentences": [
+      {
+        "text": "Malo : Bien joué ! Voilà 450 pièces pour ton voyage.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 25
+        }
+      },
+      {
+        "text": "Malo : Ana veille sur les ouvriers autant que sur son arène. Elle se méfie des gens qui promettent des solutions miracles.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 25
+        }
+      }
+    ]
+  },
+  {
+    "name": "town_maelle",
+    "sentences": [
+      {
+        "text": "Maëlle : Métal, précision et entraînement : voilà ma méthode. Deux Pokémon niveau 46. Prêt à la mettre à l’épreuve ?",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 26
+        }
+      },
+      {
+        "text": "Ce duel est facultatif et sa récompense unique. Termine ce dialogue pour commencer le combat.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 26
+        }
+      }
+    ],
+    "end": "battle",
+    "team": "town_maelle",
+    "after": "town_maelle_after"
+  },
+  {
+    "name": "town_maelle_after",
+    "sentences": [
+      {
+        "text": "Maëlle : Bien joué ! Voilà 480 pièces pour ton voyage.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 26
+        }
+      },
+      {
+        "text": "Maëlle : Clara a interrogé les ouvriers après le passage d’un convoi. Ana a reconnu le signe de l’Aube Obscure sur leurs caisses.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 26
+        }
+      }
+    ]
+  },
+  {
+    "name": "town_louis",
+    "sentences": [
+      {
+        "text": "Louis : Quand le lac est calme, je m’entraîne sur la rive. Deux partenaires niveaux 48 et 49 : un petit match ?",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 27
+        }
+      },
+      {
+        "text": "Ce duel est facultatif et sa récompense unique. Termine ce dialogue pour commencer le combat.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 27
+        }
+      }
+    ],
+    "end": "battle",
+    "team": "town_louis",
+    "after": "town_louis_after"
+  },
+  {
+    "name": "town_louis_after",
+    "sentences": [
+      {
+        "text": "Louis : Bien joué ! Voilà 500 pièces pour ton voyage.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 27
+        }
+      },
+      {
+        "text": "Louis : Sous la pluie, certaines équipes gagnent en vitesse. Wanda attend toujours le bon moment pour accélérer.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 27
+        }
+      }
+    ]
+  },
+  {
+    "name": "town_ines",
+    "sentences": [
+      {
+        "text": "Inès : Je préfère tenir bon plutôt que frapper au hasard. Mes deux compagnons sont niveau 50. Voyons ta stratégie !",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 28
+        }
+      },
+      {
+        "text": "Ce duel est facultatif et sa récompense unique. Termine ce dialogue pour commencer le combat.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 28
+        }
+      }
+    ],
+    "end": "battle",
+    "team": "town_ines",
+    "after": "town_ines_after"
+  },
+  {
+    "name": "town_ines_after",
+    "sentences": [
+      {
+        "text": "Inès : Bien joué ! Voilà 520 pièces pour ton voyage.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 28
+        }
+      },
+      {
+        "text": "Inès : Wanda a changé depuis sa dispute avec l’Aube Obscure. Elle n’en parle qu’aux personnes en qui elle a confiance.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 28
+        }
+      }
+    ]
+  },
+  {
+    "name": "town_robin",
+    "sentences": [
+      {
+        "text": "Robin : Je protège les sentiers près des archives. Deux Pokémon niveaux 54 et 55 : on compare nos progrès ?",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 29
+        }
+      },
+      {
+        "text": "Ce duel est facultatif et sa récompense unique. Termine ce dialogue pour commencer le combat.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 29
+        }
+      }
+    ],
+    "end": "battle",
+    "team": "town_robin",
+    "after": "town_robin_after"
+  },
+  {
+    "name": "town_robin_after",
+    "sentences": [
+      {
+        "text": "Robin : Bien joué ! Voilà 550 pièces pour ton voyage.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 29
+        }
+      },
+      {
+        "text": "Robin : Éloi garde les lettres des voyageurs dans l’ancienne arène Sylve. Ici, on conserve les histoires au lieu de les laisser disparaître.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 29
+        }
+      }
+    ]
+  },
+  {
+    "name": "town_celia",
+    "sentences": [
+      {
+        "text": "Célia : Un dernier entraînement avant de reprendre la route ? Mes deux partenaires sont niveau 56.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 30
+        }
+      },
+      {
+        "text": "Ce duel est facultatif et sa récompense unique. Termine ce dialogue pour commencer le combat.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 30
+        }
+      }
+    ],
+    "end": "battle",
+    "team": "town_celia",
+    "after": "town_celia_after"
+  },
+  {
+    "name": "town_celia_after",
+    "sentences": [
+      {
+        "text": "Célia : Bien joué ! Voilà 580 pièces pour ton voyage.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 30
+        }
+      },
+      {
+        "text": "Célia : Tu as fait du chemin. Prends le temps de lire la lettre de Clara aux archives ; gagner n’est pas toujours la seule façon d’avancer.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 30
+        }
+      }
+    ]
+  }
 ]

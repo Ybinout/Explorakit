@@ -1,0 +1,2523 @@
+{
+  "source": "https://raw.githubusercontent.com/PokeAPI/pokeapi/master/data/v2/csv/pokemon_stats.csv",
+  "retrieved": "2026-10-11",
+  "yields": {
+    "1": {
+      "specialAttack": 1
+    },
+    "2": {
+      "specialAttack": 1,
+      "specialDefense": 1
+    },
+    "3": {
+      "specialAttack": 2,
+      "specialDefense": 1
+    },
+    "4": {
+      "speed": 1
+    },
+    "5": {
+      "specialAttack": 1,
+      "speed": 1
+    },
+    "6": {
+      "specialAttack": 3
+    },
+    "7": {
+      "defense": 1
+    },
+    "8": {
+      "defense": 1,
+      "specialDefense": 1
+    },
+    "9": {
+      "specialDefense": 3
+    },
+    "10": {
+      "hp": 1
+    },
+    "11": {
+      "defense": 2
+    },
+    "12": {
+      "specialAttack": 2,
+      "specialDefense": 1
+    },
+    "13": {
+      "speed": 1
+    },
+    "14": {
+      "defense": 2
+    },
+    "15": {
+      "attack": 2,
+      "specialDefense": 1
+    },
+    "16": {
+      "speed": 1
+    },
+    "17": {
+      "speed": 2
+    },
+    "18": {
+      "speed": 3
+    },
+    "19": {
+      "speed": 1
+    },
+    "20": {
+      "speed": 2
+    },
+    "21": {
+      "speed": 1
+    },
+    "22": {
+      "speed": 2
+    },
+    "23": {
+      "attack": 1
+    },
+    "24": {
+      "attack": 2
+    },
+    "25": {
+      "speed": 2
+    },
+    "26": {
+      "speed": 3
+    },
+    "27": {
+      "defense": 1
+    },
+    "28": {
+      "defense": 2
+    },
+    "29": {
+      "hp": 1
+    },
+    "30": {
+      "hp": 2
+    },
+    "31": {
+      "hp": 3
+    },
+    "32": {
+      "attack": 1
+    },
+    "33": {
+      "attack": 2
+    },
+    "34": {
+      "attack": 3
+    },
+    "35": {
+      "hp": 2
+    },
+    "36": {
+      "hp": 3
+    },
+    "37": {
+      "speed": 1
+    },
+    "38": {
+      "specialDefense": 1,
+      "speed": 1
+    },
+    "39": {
+      "hp": 2
+    },
+    "40": {
+      "hp": 3
+    },
+    "41": {
+      "speed": 1
+    },
+    "42": {
+      "speed": 2
+    },
+    "43": {
+      "specialAttack": 1
+    },
+    "44": {
+      "specialAttack": 2
+    },
+    "45": {
+      "specialAttack": 3
+    },
+    "46": {
+      "attack": 1
+    },
+    "47": {
+      "attack": 2,
+      "defense": 1
+    },
+    "48": {
+      "specialDefense": 1
+    },
+    "49": {
+      "specialAttack": 1,
+      "speed": 1
+    },
+    "50": {
+      "speed": 1
+    },
+    "51": {
+      "speed": 2
+    },
+    "52": {
+      "speed": 1
+    },
+    "53": {
+      "speed": 2
+    },
+    "54": {
+      "specialAttack": 1
+    },
+    "55": {
+      "specialAttack": 2
+    },
+    "56": {
+      "attack": 1
+    },
+    "57": {
+      "attack": 2
+    },
+    "58": {
+      "attack": 1
+    },
+    "59": {
+      "attack": 2
+    },
+    "60": {
+      "speed": 1
+    },
+    "61": {
+      "speed": 2
+    },
+    "62": {
+      "defense": 3
+    },
+    "63": {
+      "specialAttack": 1
+    },
+    "64": {
+      "specialAttack": 2
+    },
+    "65": {
+      "specialAttack": 3
+    },
+    "66": {
+      "attack": 1
+    },
+    "67": {
+      "attack": 2
+    },
+    "68": {
+      "attack": 3
+    },
+    "69": {
+      "attack": 1
+    },
+    "70": {
+      "attack": 2
+    },
+    "71": {
+      "attack": 3
+    },
+    "72": {
+      "specialDefense": 1
+    },
+    "73": {
+      "specialDefense": 2
+    },
+    "74": {
+      "defense": 1
+    },
+    "75": {
+      "defense": 2
+    },
+    "76": {
+      "defense": 3
+    },
+    "77": {
+      "speed": 1
+    },
+    "78": {
+      "speed": 2
+    },
+    "79": {
+      "hp": 1
+    },
+    "80": {
+      "defense": 2
+    },
+    "81": {
+      "specialAttack": 1
+    },
+    "82": {
+      "specialAttack": 2
+    },
+    "83": {
+      "attack": 1
+    },
+    "84": {
+      "attack": 1
+    },
+    "85": {
+      "attack": 2
+    },
+    "86": {
+      "specialDefense": 1
+    },
+    "87": {
+      "specialDefense": 2
+    },
+    "88": {
+      "hp": 1
+    },
+    "89": {
+      "hp": 1,
+      "attack": 1
+    },
+    "90": {
+      "defense": 1
+    },
+    "91": {
+      "defense": 2
+    },
+    "92": {
+      "specialAttack": 1
+    },
+    "93": {
+      "specialAttack": 2
+    },
+    "94": {
+      "specialAttack": 3
+    },
+    "95": {
+      "defense": 1
+    },
+    "96": {
+      "specialDefense": 1
+    },
+    "97": {
+      "specialDefense": 2
+    },
+    "98": {
+      "attack": 1
+    },
+    "99": {
+      "attack": 2
+    },
+    "100": {
+      "speed": 1
+    },
+    "101": {
+      "speed": 2
+    },
+    "102": {
+      "defense": 1
+    },
+    "103": {
+      "specialAttack": 2
+    },
+    "104": {
+      "defense": 1
+    },
+    "105": {
+      "defense": 2
+    },
+    "106": {
+      "attack": 2
+    },
+    "107": {
+      "specialDefense": 2
+    },
+    "108": {
+      "hp": 2
+    },
+    "109": {
+      "defense": 1
+    },
+    "110": {
+      "defense": 2
+    },
+    "111": {
+      "defense": 1
+    },
+    "112": {
+      "attack": 2
+    },
+    "113": {
+      "hp": 2
+    },
+    "114": {
+      "defense": 1
+    },
+    "115": {
+      "hp": 2
+    },
+    "116": {
+      "specialAttack": 1
+    },
+    "117": {
+      "defense": 1,
+      "specialAttack": 1
+    },
+    "118": {
+      "attack": 1
+    },
+    "119": {
+      "attack": 2
+    },
+    "120": {
+      "speed": 1
+    },
+    "121": {
+      "speed": 2
+    },
+    "122": {
+      "specialDefense": 2
+    },
+    "123": {
+      "attack": 1
+    },
+    "124": {
+      "specialAttack": 2
+    },
+    "125": {
+      "speed": 2
+    },
+    "126": {
+      "specialAttack": 2
+    },
+    "127": {
+      "attack": 2
+    },
+    "128": {
+      "attack": 1,
+      "speed": 1
+    },
+    "129": {
+      "speed": 1
+    },
+    "130": {
+      "attack": 2
+    },
+    "131": {
+      "hp": 2
+    },
+    "132": {
+      "hp": 1
+    },
+    "133": {
+      "specialDefense": 1
+    },
+    "134": {
+      "hp": 2
+    },
+    "135": {
+      "speed": 2
+    },
+    "136": {
+      "attack": 2
+    },
+    "137": {
+      "specialAttack": 1
+    },
+    "138": {
+      "defense": 1
+    },
+    "139": {
+      "defense": 2
+    },
+    "140": {
+      "defense": 1
+    },
+    "141": {
+      "attack": 2
+    },
+    "142": {
+      "speed": 2
+    },
+    "143": {
+      "hp": 2
+    },
+    "144": {
+      "specialDefense": 3
+    },
+    "145": {
+      "specialAttack": 3
+    },
+    "146": {
+      "specialAttack": 3
+    },
+    "147": {
+      "attack": 1
+    },
+    "148": {
+      "attack": 2
+    },
+    "149": {
+      "attack": 3
+    },
+    "150": {
+      "specialAttack": 3
+    },
+    "151": {
+      "hp": 3
+    },
+    "152": {
+      "specialDefense": 1
+    },
+    "153": {
+      "defense": 1,
+      "specialDefense": 1
+    },
+    "154": {
+      "defense": 1,
+      "specialDefense": 2
+    },
+    "155": {
+      "speed": 1
+    },
+    "156": {
+      "specialAttack": 1,
+      "speed": 1
+    },
+    "157": {
+      "specialAttack": 3
+    },
+    "158": {
+      "attack": 1
+    },
+    "159": {
+      "attack": 1,
+      "defense": 1
+    },
+    "160": {
+      "attack": 2,
+      "defense": 1
+    },
+    "161": {
+      "attack": 1
+    },
+    "162": {
+      "speed": 2
+    },
+    "163": {
+      "hp": 1
+    },
+    "164": {
+      "hp": 2
+    },
+    "165": {
+      "specialDefense": 1
+    },
+    "166": {
+      "specialDefense": 2
+    },
+    "167": {
+      "attack": 1
+    },
+    "168": {
+      "attack": 2
+    },
+    "169": {
+      "speed": 3
+    },
+    "170": {
+      "hp": 1
+    },
+    "171": {
+      "hp": 2
+    },
+    "172": {
+      "speed": 1
+    },
+    "173": {
+      "specialDefense": 1
+    },
+    "174": {
+      "hp": 1
+    },
+    "175": {
+      "specialDefense": 1
+    },
+    "176": {
+      "specialDefense": 2
+    },
+    "177": {
+      "specialAttack": 1
+    },
+    "178": {
+      "specialAttack": 1,
+      "speed": 1
+    },
+    "179": {
+      "specialAttack": 1
+    },
+    "180": {
+      "specialAttack": 2
+    },
+    "181": {
+      "specialAttack": 3
+    },
+    "182": {
+      "specialDefense": 3
+    },
+    "183": {
+      "hp": 2
+    },
+    "184": {
+      "hp": 3
+    },
+    "185": {
+      "defense": 2
+    },
+    "186": {
+      "specialDefense": 3
+    },
+    "187": {
+      "specialDefense": 1
+    },
+    "188": {
+      "speed": 2
+    },
+    "189": {
+      "speed": 3
+    },
+    "190": {
+      "speed": 1
+    },
+    "191": {
+      "specialAttack": 1
+    },
+    "192": {
+      "specialAttack": 2
+    },
+    "193": {
+      "speed": 1
+    },
+    "194": {
+      "hp": 1
+    },
+    "195": {
+      "hp": 2
+    },
+    "196": {
+      "specialAttack": 2
+    },
+    "197": {
+      "specialDefense": 2
+    },
+    "198": {
+      "speed": 1
+    },
+    "199": {
+      "specialDefense": 2
+    },
+    "200": {
+      "specialDefense": 1
+    },
+    "201": {
+      "attack": 1,
+      "specialAttack": 1
+    },
+    "202": {
+      "hp": 2
+    },
+    "203": {
+      "specialAttack": 2
+    },
+    "204": {
+      "defense": 1
+    },
+    "205": {
+      "defense": 2
+    },
+    "206": {
+      "hp": 1
+    },
+    "207": {
+      "defense": 1
+    },
+    "208": {
+      "defense": 2
+    },
+    "209": {
+      "attack": 1
+    },
+    "210": {
+      "attack": 2
+    },
+    "211": {
+      "attack": 1
+    },
+    "212": {
+      "attack": 2
+    },
+    "213": {
+      "defense": 1,
+      "specialDefense": 1
+    },
+    "214": {
+      "attack": 2
+    },
+    "215": {
+      "speed": 1
+    },
+    "216": {
+      "attack": 1
+    },
+    "217": {
+      "attack": 2
+    },
+    "218": {
+      "specialAttack": 1
+    },
+    "219": {
+      "defense": 2
+    },
+    "220": {
+      "attack": 1
+    },
+    "221": {
+      "hp": 1,
+      "attack": 1
+    },
+    "222": {
+      "defense": 1,
+      "specialDefense": 1
+    },
+    "223": {
+      "specialAttack": 1
+    },
+    "224": {
+      "attack": 1,
+      "specialAttack": 1
+    },
+    "225": {
+      "speed": 1
+    },
+    "226": {
+      "specialDefense": 2
+    },
+    "227": {
+      "defense": 2
+    },
+    "228": {
+      "specialAttack": 1
+    },
+    "229": {
+      "specialAttack": 2
+    },
+    "230": {
+      "attack": 1,
+      "specialAttack": 1,
+      "specialDefense": 1
+    },
+    "231": {
+      "hp": 1
+    },
+    "232": {
+      "attack": 1,
+      "defense": 1
+    },
+    "233": {
+      "specialAttack": 2
+    },
+    "234": {
+      "attack": 1
+    },
+    "235": {
+      "speed": 1
+    },
+    "236": {
+      "attack": 1
+    },
+    "237": {
+      "specialDefense": 2
+    },
+    "238": {
+      "specialAttack": 1
+    },
+    "239": {
+      "speed": 1
+    },
+    "240": {
+      "speed": 1
+    },
+    "241": {
+      "defense": 2
+    },
+    "242": {
+      "hp": 3
+    },
+    "243": {
+      "specialAttack": 1,
+      "speed": 2
+    },
+    "244": {
+      "hp": 1,
+      "attack": 2
+    },
+    "245": {
+      "defense": 1,
+      "specialDefense": 2
+    },
+    "246": {
+      "attack": 1
+    },
+    "247": {
+      "attack": 2
+    },
+    "248": {
+      "attack": 3
+    },
+    "249": {
+      "specialDefense": 3
+    },
+    "250": {
+      "specialDefense": 3
+    },
+    "251": {
+      "hp": 3
+    },
+    "252": {
+      "speed": 1
+    },
+    "253": {
+      "speed": 2
+    },
+    "254": {
+      "speed": 3
+    },
+    "255": {
+      "specialAttack": 1
+    },
+    "256": {
+      "attack": 1,
+      "specialAttack": 1
+    },
+    "257": {
+      "attack": 3
+    },
+    "258": {
+      "attack": 1
+    },
+    "259": {
+      "attack": 2
+    },
+    "260": {
+      "attack": 3
+    },
+    "261": {
+      "attack": 1
+    },
+    "262": {
+      "attack": 2
+    },
+    "263": {
+      "speed": 1
+    },
+    "264": {
+      "speed": 2
+    },
+    "265": {
+      "hp": 1
+    },
+    "266": {
+      "defense": 2
+    },
+    "267": {
+      "specialAttack": 3
+    },
+    "268": {
+      "defense": 2
+    },
+    "269": {
+      "specialDefense": 3
+    },
+    "270": {
+      "specialDefense": 1
+    },
+    "271": {
+      "specialDefense": 2
+    },
+    "272": {
+      "specialDefense": 3
+    },
+    "273": {
+      "defense": 1
+    },
+    "274": {
+      "attack": 2
+    },
+    "275": {
+      "attack": 3
+    },
+    "276": {
+      "speed": 1
+    },
+    "277": {
+      "speed": 2
+    },
+    "278": {
+      "speed": 1
+    },
+    "279": {
+      "defense": 2
+    },
+    "280": {
+      "specialAttack": 1
+    },
+    "281": {
+      "specialAttack": 2
+    },
+    "282": {
+      "specialAttack": 3
+    },
+    "283": {
+      "speed": 1
+    },
+    "284": {
+      "specialAttack": 1,
+      "specialDefense": 1
+    },
+    "285": {
+      "hp": 1
+    },
+    "286": {
+      "attack": 2
+    },
+    "287": {
+      "hp": 1
+    },
+    "288": {
+      "speed": 2
+    },
+    "289": {
+      "hp": 3
+    },
+    "290": {
+      "defense": 1
+    },
+    "291": {
+      "speed": 2
+    },
+    "292": {
+      "hp": 2
+    },
+    "293": {
+      "hp": 1
+    },
+    "294": {
+      "hp": 2
+    },
+    "295": {
+      "hp": 3
+    },
+    "296": {
+      "hp": 1
+    },
+    "297": {
+      "hp": 2
+    },
+    "298": {
+      "hp": 1
+    },
+    "299": {
+      "defense": 1
+    },
+    "300": {
+      "speed": 1
+    },
+    "301": {
+      "hp": 1,
+      "speed": 1
+    },
+    "302": {
+      "attack": 1,
+      "defense": 1
+    },
+    "303": {
+      "attack": 1,
+      "defense": 1
+    },
+    "304": {
+      "defense": 1
+    },
+    "305": {
+      "defense": 2
+    },
+    "306": {
+      "defense": 3
+    },
+    "307": {
+      "speed": 1
+    },
+    "308": {
+      "speed": 2
+    },
+    "309": {
+      "speed": 1
+    },
+    "310": {
+      "speed": 2
+    },
+    "311": {
+      "speed": 1
+    },
+    "312": {
+      "speed": 1
+    },
+    "313": {
+      "speed": 1
+    },
+    "314": {
+      "speed": 1
+    },
+    "315": {
+      "specialAttack": 2
+    },
+    "316": {
+      "hp": 1
+    },
+    "317": {
+      "hp": 2
+    },
+    "318": {
+      "attack": 1
+    },
+    "319": {
+      "attack": 2
+    },
+    "320": {
+      "hp": 1
+    },
+    "321": {
+      "hp": 2
+    },
+    "322": {
+      "specialAttack": 1
+    },
+    "323": {
+      "attack": 1,
+      "specialAttack": 1
+    },
+    "324": {
+      "defense": 2
+    },
+    "325": {
+      "specialDefense": 1
+    },
+    "326": {
+      "specialDefense": 2
+    },
+    "327": {
+      "specialAttack": 1
+    },
+    "328": {
+      "attack": 1
+    },
+    "329": {
+      "attack": 1,
+      "speed": 1
+    },
+    "330": {
+      "attack": 1,
+      "speed": 2
+    },
+    "331": {
+      "specialAttack": 1
+    },
+    "332": {
+      "attack": 1,
+      "specialAttack": 1
+    },
+    "333": {
+      "specialDefense": 1
+    },
+    "334": {
+      "specialDefense": 2
+    },
+    "335": {
+      "attack": 2
+    },
+    "336": {
+      "attack": 1,
+      "specialAttack": 1
+    },
+    "337": {
+      "specialAttack": 2
+    },
+    "338": {
+      "attack": 2
+    },
+    "339": {
+      "hp": 1
+    },
+    "340": {
+      "hp": 2
+    },
+    "341": {
+      "attack": 1
+    },
+    "342": {
+      "attack": 2
+    },
+    "343": {
+      "specialDefense": 1
+    },
+    "344": {
+      "specialDefense": 2
+    },
+    "345": {
+      "specialDefense": 1
+    },
+    "346": {
+      "specialDefense": 2
+    },
+    "347": {
+      "attack": 1
+    },
+    "348": {
+      "attack": 2
+    },
+    "349": {
+      "speed": 1
+    },
+    "350": {
+      "specialDefense": 2
+    },
+    "351": {
+      "hp": 1
+    },
+    "352": {
+      "specialDefense": 1
+    },
+    "353": {
+      "attack": 1
+    },
+    "354": {
+      "attack": 2
+    },
+    "355": {
+      "specialDefense": 1
+    },
+    "356": {
+      "defense": 1,
+      "specialDefense": 1
+    },
+    "357": {
+      "hp": 2
+    },
+    "358": {
+      "specialAttack": 1,
+      "specialDefense": 1
+    },
+    "359": {
+      "attack": 2
+    },
+    "360": {
+      "hp": 1
+    },
+    "361": {
+      "hp": 1
+    },
+    "362": {
+      "hp": 2
+    },
+    "363": {
+      "hp": 1
+    },
+    "364": {
+      "hp": 2
+    },
+    "365": {
+      "hp": 3
+    },
+    "366": {
+      "defense": 1
+    },
+    "367": {
+      "attack": 1,
+      "defense": 1
+    },
+    "368": {
+      "specialAttack": 2
+    },
+    "369": {
+      "hp": 1,
+      "defense": 1
+    },
+    "370": {
+      "speed": 1
+    },
+    "371": {
+      "attack": 1
+    },
+    "372": {
+      "defense": 2
+    },
+    "373": {
+      "attack": 3
+    },
+    "374": {
+      "defense": 1
+    },
+    "375": {
+      "defense": 2
+    },
+    "376": {
+      "defense": 3
+    },
+    "377": {
+      "defense": 3
+    },
+    "378": {
+      "specialDefense": 3
+    },
+    "379": {
+      "defense": 2,
+      "specialDefense": 1
+    },
+    "380": {
+      "specialDefense": 3
+    },
+    "381": {
+      "specialAttack": 3
+    },
+    "382": {
+      "specialAttack": 3
+    },
+    "383": {
+      "attack": 3
+    },
+    "384": {
+      "attack": 2,
+      "specialAttack": 1
+    },
+    "385": {
+      "hp": 3
+    },
+    "386": {
+      "attack": 1,
+      "specialAttack": 1,
+      "speed": 1
+    },
+    "387": {
+      "attack": 1
+    },
+    "388": {
+      "attack": 1,
+      "defense": 1
+    },
+    "389": {
+      "attack": 2,
+      "defense": 1
+    },
+    "390": {
+      "speed": 1
+    },
+    "391": {
+      "specialAttack": 1,
+      "speed": 1
+    },
+    "392": {
+      "attack": 1,
+      "specialAttack": 1,
+      "speed": 1
+    },
+    "393": {
+      "specialAttack": 1
+    },
+    "394": {
+      "specialAttack": 2
+    },
+    "395": {
+      "specialAttack": 3
+    },
+    "396": {
+      "speed": 1
+    },
+    "397": {
+      "speed": 2
+    },
+    "398": {
+      "attack": 3
+    },
+    "399": {
+      "hp": 1
+    },
+    "400": {
+      "attack": 2
+    },
+    "401": {
+      "defense": 1
+    },
+    "402": {
+      "attack": 2
+    },
+    "403": {
+      "attack": 1
+    },
+    "404": {
+      "attack": 2
+    },
+    "405": {
+      "attack": 3
+    },
+    "406": {
+      "specialAttack": 1
+    },
+    "407": {
+      "specialAttack": 3
+    },
+    "408": {
+      "attack": 1
+    },
+    "409": {
+      "attack": 2
+    },
+    "410": {
+      "defense": 1
+    },
+    "411": {
+      "defense": 2
+    },
+    "412": {
+      "specialDefense": 1
+    },
+    "413": {
+      "specialDefense": 2
+    },
+    "414": {
+      "attack": 1,
+      "specialAttack": 1
+    },
+    "415": {
+      "speed": 1
+    },
+    "416": {
+      "defense": 1,
+      "specialDefense": 1
+    },
+    "417": {
+      "speed": 1
+    },
+    "418": {
+      "speed": 1
+    },
+    "419": {
+      "speed": 2
+    },
+    "420": {
+      "specialAttack": 1
+    },
+    "421": {
+      "specialAttack": 2
+    },
+    "422": {
+      "hp": 1
+    },
+    "423": {
+      "hp": 2
+    },
+    "424": {
+      "speed": 2
+    },
+    "425": {
+      "hp": 1
+    },
+    "426": {
+      "hp": 2
+    },
+    "427": {
+      "speed": 1
+    },
+    "428": {
+      "speed": 2
+    },
+    "429": {
+      "specialAttack": 1,
+      "specialDefense": 1
+    },
+    "430": {
+      "attack": 2
+    },
+    "431": {
+      "speed": 1
+    },
+    "432": {
+      "speed": 2
+    },
+    "433": {
+      "specialAttack": 1
+    },
+    "434": {
+      "speed": 1
+    },
+    "435": {
+      "hp": 2
+    },
+    "436": {
+      "defense": 1
+    },
+    "437": {
+      "defense": 1,
+      "specialDefense": 1
+    },
+    "438": {
+      "defense": 1
+    },
+    "439": {
+      "specialDefense": 1
+    },
+    "440": {
+      "hp": 1
+    },
+    "441": {
+      "attack": 1
+    },
+    "442": {
+      "defense": 1,
+      "specialDefense": 1
+    },
+    "443": {
+      "attack": 1
+    },
+    "444": {
+      "attack": 2
+    },
+    "445": {
+      "attack": 3
+    },
+    "446": {
+      "hp": 1
+    },
+    "447": {
+      "attack": 1
+    },
+    "448": {
+      "attack": 1,
+      "specialAttack": 1
+    },
+    "449": {
+      "defense": 1
+    },
+    "450": {
+      "defense": 2
+    },
+    "451": {
+      "defense": 1
+    },
+    "452": {
+      "defense": 2
+    },
+    "453": {
+      "attack": 1
+    },
+    "454": {
+      "attack": 2
+    },
+    "455": {
+      "attack": 2
+    },
+    "456": {
+      "speed": 1
+    },
+    "457": {
+      "speed": 2
+    },
+    "458": {
+      "specialDefense": 1
+    },
+    "459": {
+      "attack": 1
+    },
+    "460": {
+      "attack": 1,
+      "specialAttack": 1
+    },
+    "461": {
+      "attack": 1,
+      "speed": 1
+    },
+    "462": {
+      "specialAttack": 3
+    },
+    "463": {
+      "hp": 3
+    },
+    "464": {
+      "attack": 3
+    },
+    "465": {
+      "defense": 2
+    },
+    "466": {
+      "attack": 3
+    },
+    "467": {
+      "specialAttack": 3
+    },
+    "468": {
+      "specialAttack": 2,
+      "specialDefense": 1
+    },
+    "469": {
+      "attack": 2
+    },
+    "470": {
+      "defense": 2
+    },
+    "471": {
+      "specialAttack": 2
+    },
+    "472": {
+      "defense": 2
+    },
+    "473": {
+      "attack": 3
+    },
+    "474": {
+      "specialAttack": 3
+    },
+    "475": {
+      "attack": 3
+    },
+    "476": {
+      "defense": 1,
+      "specialDefense": 2
+    },
+    "477": {
+      "defense": 1,
+      "specialDefense": 2
+    },
+    "478": {
+      "speed": 2
+    },
+    "479": {
+      "specialAttack": 1,
+      "speed": 1
+    },
+    "480": {
+      "defense": 2,
+      "specialDefense": 1
+    },
+    "481": {
+      "attack": 1,
+      "specialAttack": 1,
+      "specialDefense": 1
+    },
+    "482": {
+      "attack": 2,
+      "specialAttack": 1
+    },
+    "483": {
+      "specialAttack": 3
+    },
+    "484": {
+      "specialAttack": 3
+    },
+    "485": {
+      "specialAttack": 3
+    },
+    "486": {
+      "attack": 3
+    },
+    "487": {
+      "hp": 3
+    },
+    "488": {
+      "specialDefense": 3
+    },
+    "489": {
+      "hp": 1
+    },
+    "490": {
+      "hp": 3
+    },
+    "491": {
+      "specialAttack": 2,
+      "speed": 1
+    },
+    "492": {
+      "hp": 3
+    },
+    "493": {
+      "hp": 3
+    },
+    "494": {
+      "hp": 3
+    },
+    "495": {
+      "speed": 1
+    },
+    "496": {
+      "speed": 2
+    },
+    "497": {
+      "speed": 3
+    },
+    "498": {
+      "hp": 1
+    },
+    "499": {
+      "attack": 2
+    },
+    "500": {
+      "attack": 3
+    },
+    "501": {
+      "specialAttack": 1
+    },
+    "502": {
+      "specialAttack": 2
+    },
+    "503": {
+      "specialAttack": 3
+    },
+    "504": {
+      "attack": 1
+    },
+    "505": {
+      "attack": 2
+    },
+    "506": {
+      "attack": 1
+    },
+    "507": {
+      "attack": 2
+    },
+    "508": {
+      "attack": 3
+    },
+    "509": {
+      "speed": 1
+    },
+    "510": {
+      "speed": 2
+    },
+    "511": {
+      "speed": 1
+    },
+    "512": {
+      "speed": 2
+    },
+    "513": {
+      "speed": 1
+    },
+    "514": {
+      "speed": 2
+    },
+    "515": {
+      "speed": 1
+    },
+    "516": {
+      "speed": 2
+    },
+    "517": {
+      "hp": 1
+    },
+    "518": {
+      "hp": 2
+    },
+    "519": {
+      "attack": 1
+    },
+    "520": {
+      "attack": 2
+    },
+    "521": {
+      "attack": 3
+    },
+    "522": {
+      "speed": 1
+    },
+    "523": {
+      "speed": 2
+    },
+    "524": {
+      "defense": 1
+    },
+    "525": {
+      "attack": 1,
+      "defense": 1
+    },
+    "526": {
+      "attack": 3
+    },
+    "527": {
+      "speed": 1
+    },
+    "528": {
+      "speed": 2
+    },
+    "529": {
+      "attack": 1
+    },
+    "530": {
+      "attack": 2
+    },
+    "531": {
+      "hp": 2
+    },
+    "532": {
+      "attack": 1
+    },
+    "533": {
+      "attack": 2
+    },
+    "534": {
+      "attack": 3
+    },
+    "535": {
+      "speed": 1
+    },
+    "536": {
+      "hp": 2
+    },
+    "537": {
+      "hp": 3
+    },
+    "538": {
+      "hp": 2
+    },
+    "539": {
+      "attack": 2
+    },
+    "540": {
+      "defense": 1
+    },
+    "541": {
+      "defense": 2
+    },
+    "542": {
+      "attack": 3
+    },
+    "543": {
+      "defense": 1
+    },
+    "544": {
+      "defense": 2
+    },
+    "545": {
+      "speed": 3
+    },
+    "546": {
+      "speed": 1
+    },
+    "547": {
+      "speed": 2
+    },
+    "548": {
+      "specialAttack": 1
+    },
+    "549": {
+      "specialAttack": 2
+    },
+    "550": {
+      "speed": 2
+    },
+    "551": {
+      "attack": 1
+    },
+    "552": {
+      "attack": 2
+    },
+    "553": {
+      "attack": 3
+    },
+    "554": {
+      "attack": 1
+    },
+    "555": {
+      "attack": 2
+    },
+    "556": {
+      "specialAttack": 2
+    },
+    "557": {
+      "defense": 1
+    },
+    "558": {
+      "defense": 2
+    },
+    "559": {
+      "attack": 1
+    },
+    "560": {
+      "defense": 1,
+      "specialDefense": 1
+    },
+    "561": {
+      "specialAttack": 2
+    },
+    "562": {
+      "defense": 1
+    },
+    "563": {
+      "defense": 2
+    },
+    "564": {
+      "defense": 1
+    },
+    "565": {
+      "defense": 2
+    },
+    "566": {
+      "attack": 1
+    },
+    "567": {
+      "attack": 2
+    },
+    "568": {
+      "speed": 1
+    },
+    "569": {
+      "attack": 2
+    },
+    "570": {
+      "specialAttack": 1
+    },
+    "571": {
+      "specialAttack": 2
+    },
+    "572": {
+      "speed": 1
+    },
+    "573": {
+      "speed": 2
+    },
+    "574": {
+      "specialDefense": 1
+    },
+    "575": {
+      "specialDefense": 2
+    },
+    "576": {
+      "specialDefense": 3
+    },
+    "577": {
+      "specialAttack": 1
+    },
+    "578": {
+      "specialAttack": 2
+    },
+    "579": {
+      "specialAttack": 3
+    },
+    "580": {
+      "hp": 1
+    },
+    "581": {
+      "speed": 2
+    },
+    "582": {
+      "specialAttack": 1
+    },
+    "583": {
+      "specialAttack": 2
+    },
+    "584": {
+      "specialAttack": 3
+    },
+    "585": {
+      "speed": 1
+    },
+    "586": {
+      "attack": 2
+    },
+    "587": {
+      "speed": 2
+    },
+    "588": {
+      "attack": 1
+    },
+    "589": {
+      "attack": 2
+    },
+    "590": {
+      "hp": 1
+    },
+    "591": {
+      "hp": 2
+    },
+    "592": {
+      "specialDefense": 1
+    },
+    "593": {
+      "specialDefense": 2
+    },
+    "594": {
+      "hp": 2
+    },
+    "595": {
+      "speed": 1
+    },
+    "596": {
+      "speed": 2
+    },
+    "597": {
+      "defense": 1
+    },
+    "598": {
+      "defense": 2
+    },
+    "599": {
+      "defense": 1
+    },
+    "600": {
+      "defense": 2
+    },
+    "601": {
+      "defense": 3
+    },
+    "602": {
+      "speed": 1
+    },
+    "603": {
+      "attack": 2
+    },
+    "604": {
+      "attack": 3
+    },
+    "605": {
+      "specialAttack": 1
+    },
+    "606": {
+      "specialAttack": 2
+    },
+    "607": {
+      "specialAttack": 1
+    },
+    "608": {
+      "specialAttack": 2
+    },
+    "609": {
+      "specialAttack": 3
+    },
+    "610": {
+      "attack": 1
+    },
+    "611": {
+      "attack": 2
+    },
+    "612": {
+      "attack": 3
+    },
+    "613": {
+      "attack": 1
+    },
+    "614": {
+      "attack": 2
+    },
+    "615": {
+      "specialDefense": 2
+    },
+    "616": {
+      "defense": 1
+    },
+    "617": {
+      "speed": 2
+    },
+    "618": {
+      "hp": 2
+    },
+    "619": {
+      "attack": 1
+    },
+    "620": {
+      "attack": 2
+    },
+    "621": {
+      "attack": 2
+    },
+    "622": {
+      "attack": 1
+    },
+    "623": {
+      "attack": 2
+    },
+    "624": {
+      "attack": 1
+    },
+    "625": {
+      "attack": 2
+    },
+    "626": {
+      "attack": 2
+    },
+    "627": {
+      "attack": 1
+    },
+    "628": {
+      "attack": 2
+    },
+    "629": {
+      "defense": 1
+    },
+    "630": {
+      "specialAttack": 2
+    },
+    "631": {
+      "specialAttack": 2
+    },
+    "632": {
+      "defense": 2
+    },
+    "633": {
+      "attack": 1
+    },
+    "634": {
+      "attack": 2
+    },
+    "635": {
+      "specialAttack": 3
+    },
+    "636": {
+      "attack": 1
+    },
+    "637": {
+      "specialAttack": 3
+    },
+    "638": {
+      "defense": 3
+    },
+    "639": {
+      "attack": 3
+    },
+    "640": {
+      "specialDefense": 3
+    },
+    "641": {
+      "attack": 3
+    },
+    "642": {
+      "attack": 3
+    },
+    "643": {
+      "specialAttack": 3
+    },
+    "644": {
+      "attack": 3
+    },
+    "645": {
+      "specialAttack": 3
+    },
+    "646": {
+      "hp": 1,
+      "attack": 1,
+      "specialAttack": 1
+    },
+    "647": {
+      "specialAttack": 3
+    },
+    "648": {
+      "specialAttack": 1,
+      "specialDefense": 1,
+      "speed": 1
+    },
+    "649": {
+      "attack": 1,
+      "specialAttack": 1,
+      "speed": 1
+    },
+    "650": {
+      "defense": 1
+    },
+    "651": {
+      "defense": 2
+    },
+    "652": {
+      "defense": 3
+    },
+    "653": {
+      "specialAttack": 1
+    },
+    "654": {
+      "specialAttack": 2
+    },
+    "655": {
+      "specialAttack": 3
+    },
+    "656": {
+      "speed": 1
+    },
+    "657": {
+      "speed": 2
+    },
+    "658": {
+      "speed": 3
+    },
+    "659": {
+      "speed": 1
+    },
+    "660": {
+      "hp": 2
+    },
+    "661": {
+      "speed": 1
+    },
+    "662": {
+      "speed": 2
+    },
+    "663": {
+      "speed": 3
+    },
+    "664": {
+      "defense": 1
+    },
+    "665": {
+      "defense": 2
+    },
+    "666": {
+      "hp": 1,
+      "specialAttack": 1,
+      "speed": 1
+    },
+    "667": {
+      "specialAttack": 1
+    },
+    "668": {
+      "specialAttack": 2
+    },
+    "669": {
+      "specialDefense": 1
+    },
+    "670": {
+      "specialDefense": 2
+    },
+    "671": {
+      "specialDefense": 3
+    },
+    "672": {
+      "hp": 1
+    },
+    "673": {
+      "hp": 2
+    },
+    "674": {
+      "attack": 1
+    },
+    "675": {
+      "attack": 2
+    },
+    "676": {
+      "speed": 1
+    },
+    "677": {
+      "speed": 1
+    },
+    "678": {
+      "speed": 2
+    },
+    "679": {
+      "defense": 1
+    },
+    "680": {
+      "defense": 2
+    },
+    "681": {
+      "defense": 2,
+      "specialDefense": 1
+    },
+    "682": {
+      "hp": 1
+    },
+    "683": {
+      "hp": 2
+    },
+    "684": {
+      "defense": 1
+    },
+    "685": {
+      "defense": 2
+    },
+    "686": {
+      "attack": 1
+    },
+    "687": {
+      "attack": 2
+    },
+    "688": {
+      "attack": 1
+    },
+    "689": {
+      "attack": 2
+    },
+    "690": {
+      "specialDefense": 1
+    },
+    "691": {
+      "specialDefense": 2
+    },
+    "692": {
+      "specialAttack": 1
+    },
+    "693": {
+      "specialAttack": 2
+    },
+    "694": {
+      "speed": 1
+    },
+    "695": {
+      "specialAttack": 1,
+      "speed": 1
+    },
+    "696": {
+      "attack": 1
+    },
+    "697": {
+      "attack": 2
+    },
+    "698": {
+      "hp": 1
+    },
+    "699": {
+      "hp": 2
+    },
+    "700": {
+      "specialDefense": 2
+    },
+    "701": {
+      "attack": 2
+    },
+    "702": {
+      "speed": 2
+    },
+    "703": {
+      "defense": 1,
+      "specialDefense": 1
+    },
+    "704": {
+      "specialDefense": 1
+    },
+    "705": {
+      "specialDefense": 2
+    },
+    "706": {
+      "specialDefense": 3
+    },
+    "707": {
+      "defense": 1
+    },
+    "708": {
+      "attack": 1
+    },
+    "709": {
+      "attack": 2
+    },
+    "710": {
+      "defense": 1
+    },
+    "711": {
+      "defense": 2
+    },
+    "712": {
+      "defense": 1
+    },
+    "713": {
+      "defense": 2
+    },
+    "714": {
+      "speed": 1
+    },
+    "715": {
+      "speed": 2
+    },
+    "716": {
+      "hp": 3
+    },
+    "717": {
+      "hp": 3
+    },
+    "718": {
+      "hp": 3
+    },
+    "719": {
+      "defense": 1,
+      "specialDefense": 2
+    },
+    "720": {
+      "specialAttack": 3
+    },
+    "721": {
+      "specialAttack": 3
+    },
+    "722": {
+      "hp": 1
+    },
+    "723": {
+      "hp": 2
+    },
+    "724": {
+      "attack": 3
+    },
+    "725": {
+      "speed": 1
+    },
+    "726": {
+      "speed": 2
+    },
+    "727": {
+      "attack": 3
+    },
+    "728": {
+      "specialAttack": 1
+    },
+    "729": {
+      "specialAttack": 2
+    },
+    "730": {
+      "specialAttack": 3
+    },
+    "731": {
+      "attack": 1
+    },
+    "732": {
+      "attack": 2
+    },
+    "733": {
+      "attack": 3
+    },
+    "734": {
+      "attack": 1
+    },
+    "735": {
+      "attack": 2
+    },
+    "736": {
+      "attack": 1
+    },
+    "737": {
+      "defense": 2
+    },
+    "738": {
+      "specialAttack": 3
+    },
+    "739": {
+      "attack": 1
+    },
+    "740": {
+      "attack": 2
+    },
+    "741": {
+      "specialAttack": 2
+    },
+    "742": {
+      "speed": 1
+    },
+    "743": {
+      "speed": 2
+    },
+    "744": {
+      "attack": 1
+    },
+    "745": {
+      "attack": 2
+    },
+    "746": {
+      "hp": 1
+    },
+    "747": {
+      "defense": 1
+    },
+    "748": {
+      "defense": 2
+    },
+    "749": {
+      "attack": 1
+    },
+    "750": {
+      "attack": 2
+    },
+    "751": {
+      "specialDefense": 1
+    },
+    "752": {
+      "specialDefense": 2
+    },
+    "753": {
+      "attack": 1
+    },
+    "754": {
+      "attack": 2
+    },
+    "755": {
+      "specialDefense": 1
+    },
+    "756": {
+      "specialDefense": 2
+    },
+    "757": {
+      "speed": 1
+    },
+    "758": {
+      "speed": 2
+    },
+    "759": {
+      "attack": 1
+    },
+    "760": {
+      "attack": 2
+    },
+    "761": {
+      "hp": 1
+    },
+    "762": {
+      "speed": 2
+    },
+    "763": {
+      "attack": 3
+    },
+    "764": {
+      "specialDefense": 2
+    },
+    "765": {
+      "specialDefense": 2
+    },
+    "766": {
+      "attack": 2
+    },
+    "767": {
+      "speed": 1
+    },
+    "768": {
+      "defense": 2
+    },
+    "769": {
+      "defense": 1
+    },
+    "770": {
+      "defense": 2
+    },
+    "771": {
+      "specialDefense": 2
+    },
+    "772": {
+      "hp": 2
+    },
+    "773": {
+      "hp": 3
+    },
+    "774": {
+      "defense": 1,
+      "specialDefense": 1
+    },
+    "775": {
+      "attack": 2
+    },
+    "776": {
+      "defense": 2
+    },
+    "777": {
+      "attack": 2
+    },
+    "778": {
+      "specialDefense": 2
+    },
+    "779": {
+      "attack": 2
+    },
+    "780": {
+      "specialAttack": 2
+    },
+    "781": {
+      "attack": 2
+    },
+    "782": {
+      "defense": 1
+    },
+    "783": {
+      "defense": 2
+    },
+    "784": {
+      "defense": 3
+    },
+    "785": {
+      "speed": 3
+    },
+    "786": {
+      "specialAttack": 3
+    },
+    "787": {
+      "attack": 3
+    },
+    "788": {
+      "specialDefense": 3
+    },
+    "789": {
+      "hp": 1
+    },
+    "790": {
+      "defense": 1,
+      "specialDefense": 1
+    },
+    "791": {
+      "attack": 3
+    },
+    "792": {
+      "specialAttack": 3
+    },
+    "793": {
+      "specialDefense": 3
+    },
+    "794": {
+      "attack": 1,
+      "defense": 2
+    },
+    "795": {
+      "speed": 3
+    },
+    "796": {
+      "specialAttack": 3
+    },
+    "797": {
+      "attack": 1,
+      "defense": 1,
+      "specialAttack": 1
+    },
+    "798": {
+      "attack": 3
+    },
+    "799": {
+      "hp": 3
+    },
+    "800": {
+      "attack": 1,
+      "specialAttack": 2
+    },
+    "801": {
+      "specialAttack": 3
+    },
+    "802": {
+      "attack": 2,
+      "speed": 1
+    },
+    "803": {
+      "speed": 1
+    },
+    "804": {
+      "specialAttack": 3
+    },
+    "805": {
+      "defense": 3
+    },
+    "806": {
+      "specialAttack": 3
+    },
+    "807": {
+      "speed": 3
+    },
+    "808": {
+      "attack": 1
+    },
+    "809": {
+      "attack": 3
+    }
+  }
+}

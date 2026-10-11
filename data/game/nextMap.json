@@ -81,7 +81,7 @@
       ],
       "level": {
         "min": 5,
-        "max": 8
+        "max": 7
       }
     },
     {
@@ -113,7 +113,7 @@
       ],
       "level": {
         "min": 5,
-        "max": 8
+        "max": 7
       }
     },
     {
@@ -153,7 +153,7 @@
       ],
       "level": {
         "min": 5,
-        "max": 8
+        "max": 7
       }
     },
     {
@@ -201,7 +201,7 @@
       ],
       "level": {
         "min": 8,
-        "max": 12
+        "max": 11
       }
     },
     {
@@ -283,7 +283,7 @@
       ],
       "level": {
         "min": 16,
-        "max": 22
+        "max": 19
       }
     },
     {
@@ -299,7 +299,7 @@
       "wildpokemon": [],
       "level": {
         "min": 16,
-        "max": 22
+        "max": 19
       }
     },
     {
@@ -315,7 +315,7 @@
       "wildpokemon": [],
       "level": {
         "min": 16,
-        "max": 22
+        "max": 19
       }
     },
     {
@@ -331,7 +331,7 @@
       "wildpokemon": [],
       "level": {
         "min": 16,
-        "max": 22
+        "max": 19
       }
     },
     {
@@ -364,8 +364,8 @@
         350
       ],
       "level": {
-        "min": 22,
-        "max": 30
+        "min": 21,
+        "max": 25
       }
     },
     {
@@ -397,8 +397,8 @@
         350
       ],
       "level": {
-        "min": 28,
-        "max": 36
+        "min": 26,
+        "max": 30
       }
     },
     {
@@ -431,8 +431,8 @@
         350
       ],
       "level": {
-        "min": 34,
-        "max": 44
+        "min": 31,
+        "max": 35
       }
     },
     {
@@ -472,8 +472,8 @@
         350
       ],
       "level": {
-        "min": 42,
-        "max": 48
+        "min": 35,
+        "max": 38
       }
     },
     {
@@ -506,16 +506,16 @@
         350
       ],
       "level": {
-        "min": 24,
-        "max": 28
+        "min": 57,
+        "max": 60
       }
     },
     {
       "mapName": "gen_ville1",
       "wildpokemon": [],
       "level": {
-        "min": 24,
-        "max": 28
+        "min": 55,
+        "max": 57
       },
       "mapchange": [
         {
@@ -585,8 +585,8 @@
         350
       ],
       "level": {
-        "min": 26,
-        "max": 30
+        "min": 55,
+        "max": 57
       }
     },
     {
@@ -619,16 +619,16 @@
         350
       ],
       "level": {
-        "min": 28,
-        "max": 32
+        "min": 53,
+        "max": 55
       }
     },
     {
       "mapName": "gen_ville2",
       "wildpokemon": [],
       "level": {
-        "min": 28,
-        "max": 32
+        "min": 50,
+        "max": 52
       },
       "mapchange": [
         {
@@ -705,16 +705,16 @@
         350
       ],
       "level": {
-        "min": 30,
-        "max": 34
+        "min": 50,
+        "max": 52
       }
     },
     {
       "mapName": "gen_ville3",
       "wildpokemon": [],
       "level": {
-        "min": 30,
-        "max": 36
+        "min": 47,
+        "max": 49
       },
       "mapchange": [
         {
@@ -784,8 +784,8 @@
         350
       ],
       "level": {
-        "min": 32,
-        "max": 36
+        "min": 47,
+        "max": 49
       }
     },
     {
@@ -818,16 +818,16 @@
         350
       ],
       "level": {
-        "min": 34,
-        "max": 38
+        "min": 45,
+        "max": 47
       }
     },
     {
       "mapName": "gen_ville4",
       "wildpokemon": [],
       "level": {
-        "min": 34,
-        "max": 40
+        "min": 42,
+        "max": 45
       },
       "mapchange": [
         {
@@ -897,8 +897,8 @@
         350
       ],
       "level": {
-        "min": 36,
-        "max": 40
+        "min": 42,
+        "max": 45
       }
     },
     {
@@ -906,7 +906,7 @@
       "wildpokemon": [],
       "level": {
         "min": 38,
-        "max": 44
+        "max": 41
       },
       "mapchange": [
         {
@@ -984,7 +984,7 @@
       ],
       "level": {
         "min": 38,
-        "max": 44
+        "max": 41
       }
     },
     {
@@ -1000,8 +1000,8 @@
       ],
       "wildpokemon": [],
       "level": {
-        "min": 24,
-        "max": 28
+        "min": 55,
+        "max": 57
       }
     },
     {
@@ -1017,8 +1017,8 @@
       ],
       "wildpokemon": [],
       "level": {
-        "min": 28,
-        "max": 32
+        "min": 50,
+        "max": 52
       }
     },
     {
@@ -1034,8 +1034,8 @@
       ],
       "wildpokemon": [],
       "level": {
-        "min": 30,
-        "max": 36
+        "min": 47,
+        "max": 49
       }
     },
     {
@@ -1051,8 +1051,8 @@
       ],
       "wildpokemon": [],
       "level": {
-        "min": 34,
-        "max": 40
+        "min": 42,
+        "max": 45
       }
     },
     {
@@ -1069,7 +1069,7 @@
       "wildpokemon": [],
       "level": {
         "min": 38,
-        "max": 44
+        "max": 41
       }
     },
     {
@@ -1085,8 +1085,8 @@
       ],
       "wildpokemon": [],
       "level": {
-        "min": 24,
-        "max": 28
+        "min": 55,
+        "max": 57
       }
     },
     {
@@ -1102,8 +1102,8 @@
       ],
       "wildpokemon": [],
       "level": {
-        "min": 24,
-        "max": 28
+        "min": 55,
+        "max": 57
       }
     },
     {
@@ -1119,8 +1119,8 @@
       ],
       "wildpokemon": [],
       "level": {
-        "min": 28,
-        "max": 32
+        "min": 50,
+        "max": 52
       }
     },
     {
@@ -1136,8 +1136,8 @@
       ],
       "wildpokemon": [],
       "level": {
-        "min": 28,
-        "max": 32
+        "min": 50,
+        "max": 52
       }
     },
     {
@@ -1153,8 +1153,8 @@
       ],
       "wildpokemon": [],
       "level": {
-        "min": 28,
-        "max": 32
+        "min": 50,
+        "max": 52
       }
     },
     {
@@ -1170,8 +1170,8 @@
       ],
       "wildpokemon": [],
       "level": {
-        "min": 30,
-        "max": 36
+        "min": 47,
+        "max": 49
       }
     },
     {
@@ -1187,8 +1187,8 @@
       ],
       "wildpokemon": [],
       "level": {
-        "min": 30,
-        "max": 36
+        "min": 47,
+        "max": 49
       }
     },
     {
@@ -1204,8 +1204,8 @@
       ],
       "wildpokemon": [],
       "level": {
-        "min": 34,
-        "max": 40
+        "min": 42,
+        "max": 45
       }
     },
     {
@@ -1221,8 +1221,8 @@
       ],
       "wildpokemon": [],
       "level": {
-        "min": 34,
-        "max": 40
+        "min": 42,
+        "max": 45
       }
     },
     {
@@ -1239,7 +1239,7 @@
       "wildpokemon": [],
       "level": {
         "min": 38,
-        "max": 44
+        "max": 41
       }
     },
     {
@@ -1256,7 +1256,7 @@
       "wildpokemon": [],
       "level": {
         "min": 38,
-        "max": 44
+        "max": 41
       }
     },
     {
@@ -1273,7 +1273,7 @@
       "wildpokemon": [],
       "level": {
         "min": 38,
-        "max": 44
+        "max": 41
       }
     }
   ]

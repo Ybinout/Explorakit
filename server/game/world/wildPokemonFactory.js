@@ -296,7 +296,7 @@ async function CreatePokemon(mapName) {
             return null;
         }
 
-        const poke = new Pokemon(wildSelection.pokemonId, 'test', 0, 0, null, 'Timid', null);
+        const poke = new Pokemon(wildSelection.pokemonId, 'test', 0, 0, null, Pokemon.randomNature(), null);
         const zoneLevel = chooseLevelForZone(wildSelection.mapConfig);
 
         if (zoneLevel !== null) {

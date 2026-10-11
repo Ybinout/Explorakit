@@ -138,6 +138,12 @@ test('combat sauvage réel : capture, objet consommé et équipe persistée', { 
         assert.equal(result, true);
         assert.equal(io.lastEvent(player.id, 'captureAnimation')?.payload.success, true);
         assert.equal(io.lastEvent(player.id, 'endbattle')?.payload.reason, 'captured');
+        const summary = io.lastEvent(player.id, 'endbattle').payload.summary;
+        assert.equal(summary.outcome, 'captured');
+        assert.equal(summary.mode, 'adventure');
+        assert.equal(summary.capturedPokemon.uuid, wildPokemon.uuid);
+        assert.equal(summary.capturedPokemon.pokemonId, 19);
+        assert.deepEqual(summary.experience, []);
         assert.equal((await loadEquipe(userId)).pokemons.length, 2);
         const hyperBall = (await loadUserItems(userId)).find((item) => item.key === 'hyperball');
         assert.equal(hyperBall.quantity, 1);
@@ -172,6 +178,10 @@ test('combat sauvage réel : attaque, victoire, expérience et PP persistés', {
         assert.ok(io.events.some((event) => event.eventName === 'battleMoveAnimation'));
         assert.ok(persistedPokemon.experience > initialExperience);
         assert.equal(persistedPokemon.movePp[0], initialPp - 1);
+        const summary = io.lastEvent(player.id, 'endbattle').payload.summary;
+        assert.equal(summary.outcome, 'victory');
+        assert.equal(summary.experience[0].xpGained, persistedPokemon.experience - initialExperience);
+        assert.equal(summary.money, 0);
     } finally {
         if (userId) await pool.execute('DELETE FROM users WHERE id = ?', [userId]);
         await pool.end();
@@ -208,6 +218,10 @@ test('combat sauvage réel : K.O., changement forcé puis fuite', { skip: !shoul
         assert.equal(player.equipe.pokemons[0].uuid, replacement.uuid);
         assert.equal(io.lastEvent(player.id, 'endbattle')?.payload.reason, 'fled');
         assert.equal((await loadEquipe(userId)).pokemons[0].uuid, replacement.uuid);
+        const summary = io.lastEvent(player.id, 'endbattle').payload.summary;
+        assert.equal(summary.outcome, 'fled');
+        assert.deepEqual(summary.lostPokemon, [], 'Le K.O. Aventure reste temporaire');
+        assert.deepEqual(summary.experience, []);
     } finally {
         if (userId) await pool.execute('DELETE FROM users WHERE id = ?', [userId]);
         await pool.end();
@@ -236,6 +250,11 @@ test('combat sauvage réel : défaite terminale persistée', { skip: !shouldRun 
         assert.equal(result, false);
         assert.equal(io.lastEvent(player.id, 'endbattle')?.payload.reason, 'defeat');
         assert.equal((await loadEquipe(userId)).pokemons[0].currentHp, 0);
+        const summary = io.lastEvent(player.id, 'endbattle').payload.summary;
+        assert.equal(summary.outcome, 'defeat');
+        assert.deepEqual(summary.lostPokemon, []);
+        assert.deepEqual(summary.loot, []);
+        assert.equal(summary.money, 0);
     } finally {
         if (userId) await pool.execute('DELETE FROM users WHERE id = ?', [userId]);
         await pool.end();
@@ -335,3 +354,72 @@ test('combat PVP réel : abandon simultané produit un match nul explicite', { s
     assert.equal(io.lastEvent(playerB.id, 'endbattle')?.payload.draw, true);
 });
 
+
+
+test('dresseur : le dernier Pokémon rapporte son XP, une seule fois et jusque dans la sauvegarde', { skip: !shouldRun }, async () => {
+    const pool = createTestPool();
+    let userId;
+    try {
+        const { user, player } = await createPlayer(1);
+        userId = user.id;
+        const active = player.equipe.pokemons[0];
+        active.currentAttack = 999;
+        active.currentSpeed = 999;
+        const before = active.experience;
+        const enemy = createPokemon(19, 'Rattata');
+        enemy.currentHp = 1;
+        enemy.passiveAbility = 'Run Away';
+        const { calculateBattleExperience, BATTLE_EXPERIENCE_MULTIPLIERS } = require('../server/game/models/progression');
+        const expectedXp = calculateBattleExperience(enemy, BATTLE_EXPERIENCE_MULTIPLIERS.trainer, active);
+        const socket = new ScriptedSocket([{ action: 'attack', number: 0 }]);
+        const io = new RecordingIo({ [player.id]: socket });
+        await withFixedRandom(0.5, () => startTrainerBattle(player, createTeam(enemy), io, userId));
+        const saved = (await loadEquipe(userId)).pokemons[0];
+        assert.ok(saved.experience > before, 'La dernière victoire de dresseur doit donner de l’XP');
+        assert.equal(saved.experience, active.experience);
+        assert.equal(saved.experience - before, expectedXp);
+        assert.equal(saved.ev.speed, 1, 'Rattata rapporte un EV vitesse');
+        const updates = io.events.filter(event => event.eventName === 'battleExperience');
+        assert.equal(updates.length, 1);
+        assert.equal(updates[0].targetId, player.id);
+        assert.equal(updates[0].payload.xpGained, expectedXp);
+        assert.equal(updates[0].payload.pokemon.uuid, saved.uuid);
+        const summary = io.lastEvent(player.id, 'endbattle').payload.summary;
+        assert.equal(summary.outcome, 'victory');
+        assert.equal(summary.experience[0].xpGained, expectedXp);
+        assert.equal(summary.experience[0].uuid, saved.uuid);
+        assert.equal(summary.money, enemy.level * 20);
+    } finally {
+        if (userId) await pool.execute('DELETE FROM users WHERE id = ?', [userId]);
+        await pool.end();
+    }
+});
+
+
+test('arène : tous les K.O. donnent le bonus prévu, fuite sans K.O. sans XP', { skip: !shouldRun }, async () => {
+    const pool = createTestPool();
+    let userId;
+    try {
+        const { user, player } = await createPlayer(7);
+        userId = user.id;
+        const active = player.equipe.pokemons[0];
+        active.experience = active.getNextLevelExpForLevel(100);
+        active.level = 100;
+        active.recalculateStats();
+        const before = active.experience;
+        const first = createPokemon(19, 'Premier');
+        const last = createPokemon(16, 'Dernier');
+        for (const enemy of [first, last]) { enemy.currentHp = 1; enemy.passiveAbility = null; }
+        const { calculateBattleExperience, BATTLE_EXPERIENCE_MULTIPLIERS } = require('../server/game/models/progression');
+        const expected = [first, last].reduce((sum, enemy) => sum + calculateBattleExperience(enemy, BATTLE_EXPERIENCE_MULTIPLIERS.arena, active), 0);
+        const socket = new ScriptedSocket([{ action: 'attack', number: 0 }, { action: 'attack', number: 0 }]);
+        await withFixedRandom(0.5, () => startTrainerBattle(player, createTeam(first, last), new RecordingIo({ [player.id]: socket }), userId, { experienceKind: 'arena' }));
+        assert.equal((await loadEquipe(userId)).pokemons[0].experience, before + expected);
+        const fleeSocket = new ScriptedSocket([{ action: 'flee' }]);
+        await withFixedRandom(0.5, () => startTrainerBattle(player, createTeam(createPokemon(19, 'Intact')), new RecordingIo({ [player.id]: fleeSocket }), userId, { experienceKind: 'arena' }));
+        assert.equal((await loadEquipe(userId)).pokemons[0].experience, before + expected);
+    } finally {
+        if (userId) await pool.execute('DELETE FROM users WHERE id = ?', [userId]);
+        await pool.end();
+    }
+});

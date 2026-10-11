@@ -2,6 +2,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const test = require('node:test');
+const vm = require('node:vm');
 
 const { getNextMap, loadCollisionData, resolveMapSourceName } = require('../server/game/world/mapRepository');
 const { getSentenceForName, getEndSentenceInformation, getTeamInformation } = require('../server/game/world/interactionRepository');
@@ -13,6 +14,30 @@ const root = path.resolve(__dirname, '..');
 const readJson = (...parts) => JSON.parse(fs.readFileSync(path.join(root, ...parts), 'utf8'));
 const worldConfig = readJson('data', 'game', 'nextMap.json').maps;
 const generatedEntries = worldConfig.filter((entry) => entry.mapName.startsWith('gen_'));
+
+test('les décors de chaque lieu actif sont inclus dans le contexte Webpack du client', () => {
+    const source = fs.readFileSync(path.join(root, 'vue-explorakit/src/components/UserMap.vue'), 'utf8');
+    const declaration = source.match(/const mapAssetContext = require\.context\([\s\S]*?\n\);/);
+    assert.ok(declaration, 'Le contexte des décors doit être identifiable');
+    let assetPattern;
+    vm.runInNewContext(declaration[0], {
+        require: { context(directory, recursive, pattern) {
+            assert.equal(directory, '@/assets');
+            assert.equal(recursive, false);
+            assetPattern = pattern;
+        } }
+    });
+    for (const { mapName } of worldConfig) {
+        const sourceName = resolveMapSourceName(mapName);
+        for (const suffix of ['', '_f']) {
+            const filename = `${sourceName}${suffix}.png`;
+            const exists = fs.existsSync(path.join(root, 'vue-explorakit/src/assets', filename));
+            if (suffix && !exists) continue; // Les premiers plans sont optionnels.
+            assert.ok(exists, `${mapName} : décor ${filename} absent`);
+            assert.ok(assetPattern.test(`./${filename}`), `${mapName} : ${filename} exclu du build client`);
+        }
+    }
+});
 
 function technicalLayers(map) {
     return Object.fromEntries(map.layers.map((layer) => [layer.name, layer.data]));
@@ -95,7 +120,7 @@ test('les raccords vers les intérieurs livrés par l’agent cartes sont exacts
 
 test('chaque nouveau PNJ est posé sur une case libre et possède un dialogue exploitable', () => {
     const pnjs = readJson('data', 'game', 'pnjs.jsonc').pnjs.filter((pnj) => pnj.map.startsWith('gen_'));
-    assert.equal(pnjs.length, 22);
+    assert.equal(pnjs.length, 32);
     for (const pnj of pnjs) {
         const map = readJson('data', 'maps', `${pnj.map}.json`);
         const layers = technicalLayers(map);
@@ -112,19 +137,34 @@ test('chaque nouveau PNJ est posé sur une case libre et possède un dialogue ex
     }
 });
 
-test('les PNJ utilisent les planches 4x4 correspondant à leurs portraits', () => {
+test('les champions conservent leurs planches et chaque civil a son propre sprite et portrait', () => {
     const pnjs = readJson('data', 'game', 'pnjs.jsonc').pnjs;
-    const expectedSprites = [
-        '7ps.png', 'ana.png', 'cynthia.png', 'hoze.png', 'inf.png', 'mom.png',
-        'moonpunch.png', 'prof2.png', 'raph.png', 'sana.png', 'village.png', 'wanda.png'
-    ];
+    const expectedSprites = ['ana.png', 'hoze.png', 'moonpunch.png', 'raph.png', 'townspeople.png', 'wanda.png'];
     const usedSprites = [...new Set(pnjs.map((pnj) => pnj.sprite))].sort();
     assert.deepEqual(usedSprites, expectedSprites);
 
+    const civilians = pnjs.filter(pnj => pnj.spriteFrame);
+    assert.equal(civilians.length, 32);
+    assert.equal(new Set(civilians.map(pnj => pnj.spriteFrame.index)).size, 32);
+    const dialogues = readJson('data', 'game', 'interact.json');
+    for (const pnj of civilians) {
+        const dialogue = dialogues.find(entry => entry.name === pnj.interactionName);
+        for (const sentence of dialogue.sentences) {
+            assert.equal(sentence.imageName, 'townspeople.png');
+            assert.deepEqual(sentence.portraitFrame, pnj.spriteFrame);
+        }
+    }
+    for (const directory of ['pnj', 'image']) {
+        const png = fs.readFileSync(path.join(root, 'vue-explorakit', 'src', 'assets', directory, 'townspeople.png'));
+        assert.equal(png.readUInt32BE(16) / 8, png.readUInt32BE(20) / 4, 'les cases de l’atlas doivent être carrées');
+        assert.ok(png.readUInt32BE(16) / 8 >= 128);
+        assert.equal(png[25], 6);
+    }
     for (const spriteName of expectedSprites) {
         const spritePath = path.join(root, 'vue-explorakit', 'src', 'assets', 'pnj', spriteName);
         const png = fs.readFileSync(spritePath);
         assert.equal(png.toString('ascii', 1, 4), 'PNG', `${spriteName} doit être un PNG`);
+        if (spriteName === 'townspeople.png') continue;
         assert.equal(png.readUInt32BE(16), 256, `${spriteName} doit contenir quatre colonnes de 64 px`);
         assert.equal(png.readUInt32BE(20), 256, `${spriteName} doit contenir quatre lignes de 64 px`);
         assert.equal(png[25], 6, `${spriteName} doit conserver un canal alpha transparent`);

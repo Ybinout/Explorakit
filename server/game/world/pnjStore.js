@@ -29,6 +29,10 @@ function normalizePnjEntry(entry) {
         map,
         x,
         y,
+        anchorX: x,
+        anchorY: y,
+        roamRadius: Math.min(2, Math.max(0, toInt(entry.roamRadius) || 0)),
+        spriteFrame: entry.spriteFrame || null,
         sprite: typeof entry.sprite === 'string' && entry.sprite.trim()
             ? entry.sprite.trim()
             : 'perso1.png',
@@ -61,54 +65,75 @@ function getOccupiedTileKeysForPnj(pnj) {
     return keys;
 }
 
-const allPnjs = loadPnjConfig();
-const pnjByMap = new Map();
-const pnjTileIndex = new Map();
+function createPnjStore() {
+    const allPnjs = loadPnjConfig();
+    const pnjByMap = new Map();
+    const pnjTileIndex = new Map();
 
-for (const pnj of allPnjs) {
-    const currentList = pnjByMap.get(pnj.map) || [];
-    currentList.push(pnj);
-    pnjByMap.set(pnj.map, currentList);
+    for (const pnj of allPnjs) {
+        const currentList = pnjByMap.get(pnj.map) || [];
+        currentList.push(pnj);
+        pnjByMap.set(pnj.map, currentList);
 
-    const tileMap = pnjTileIndex.get(pnj.map) || new Map();
-    const occupiedTileKeys = getOccupiedTileKeysForPnj(pnj);
+        const tileMap = pnjTileIndex.get(pnj.map) || new Map();
+        const occupiedTileKeys = getOccupiedTileKeysForPnj(pnj);
 
-    occupiedTileKeys.forEach((tileKey) => {
-        const tilePnjs = tileMap.get(tileKey) || [];
-        tilePnjs.push(pnj);
-        tileMap.set(tileKey, tilePnjs);
-    });
+        occupiedTileKeys.forEach((tileKey) => {
+            const tilePnjs = tileMap.get(tileKey) || [];
+            tilePnjs.push(pnj);
+            tileMap.set(tileKey, tilePnjs);
+        });
 
-    pnjTileIndex.set(pnj.map, tileMap);
+        pnjTileIndex.set(pnj.map, tileMap);
+    }
+
+    function getPnjsForMap(mapName) {
+        const pnjs = pnjByMap.get(mapName) || [];
+        return pnjs.map((pnj) => ({ ...pnj }));
+    }
+
+    function getPnjAtTile(mapName, x, y) {
+        const tileMap = pnjTileIndex.get(mapName);
+        if (!tileMap) return null;
+
+        const pnjsOnTile = tileMap.get(`${x}:${y}`);
+        if (!Array.isArray(pnjsOnTile) || pnjsOnTile.length === 0) return null;
+
+        return pnjsOnTile[0];
+    }
+
+    function isPnjBlockingTile(mapName, x, y) {
+        const tileMap = pnjTileIndex.get(mapName);
+        if (!tileMap) return false;
+
+        const pnjsOnTile = tileMap.get(`${x}:${y}`);
+        if (!Array.isArray(pnjsOnTile) || pnjsOnTile.length === 0) return false;
+
+        return pnjsOnTile.some((pnj) => pnj.block !== false);
+    }
+
+    function movePnj(name, mapName, x, y) {
+        const pnj = (pnjByMap.get(mapName) || []).find(entry => entry.name === name);
+        if (!pnj) return false;
+        const tileMap = pnjTileIndex.get(mapName);
+        for (const key of getOccupiedTileKeysForPnj(pnj)) {
+            tileMap.set(key, (tileMap.get(key) || []).filter(entry => entry !== pnj));
+        }
+        pnj.x = x;
+        pnj.y = y;
+        for (const key of getOccupiedTileKeysForPnj(pnj)) {
+            tileMap.set(key, [...(tileMap.get(key) || []), pnj]);
+        }
+        return true;
+    }
+
+    return {
+        getPnjsForMap,
+        getPnjAtTile,
+        movePnj,
+        isPnjBlockingTile
+    };
+
 }
 
-function getPnjsForMap(mapName) {
-    const pnjs = pnjByMap.get(mapName) || [];
-    return pnjs.map((pnj) => ({ ...pnj }));
-}
-
-function getPnjAtTile(mapName, x, y) {
-    const tileMap = pnjTileIndex.get(mapName);
-    if (!tileMap) return null;
-
-    const pnjsOnTile = tileMap.get(`${x}:${y}`);
-    if (!Array.isArray(pnjsOnTile) || pnjsOnTile.length === 0) return null;
-
-    return pnjsOnTile[0];
-}
-
-function isPnjBlockingTile(mapName, x, y) {
-    const tileMap = pnjTileIndex.get(mapName);
-    if (!tileMap) return false;
-
-    const pnjsOnTile = tileMap.get(`${x}:${y}`);
-    if (!Array.isArray(pnjsOnTile) || pnjsOnTile.length === 0) return false;
-
-    return pnjsOnTile.some((pnj) => pnj.block !== false);
-}
-
-module.exports = {
-    getPnjsForMap,
-    getPnjAtTile,
-    isPnjBlockingTile
-};
+module.exports = { ...createPnjStore(), createPnjStore };

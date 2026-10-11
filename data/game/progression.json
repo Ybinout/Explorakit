@@ -2,25 +2,45 @@
   "quests": [
     {
       "key": "main_sister_search",
-      "title": "À la recherche de Clara",
-      "description": "Retrouver ta sœur disparue et découvrir ce que prépare l'Aube Obscure.",
+      "title": "Clara — chapitre I : les premières traces",
+      "description": "Suivre la piste de Clara, de Mounir jusqu’à Clairbois.",
       "defaultStatus": "active",
-      "target": 5
+      "target": 6
     },
     {
       "key": "first_challenge",
       "title": "Prouver sa valeur",
-      "description": "Remporter le combat qui bloque la sortie du village.",
+      "description": "Gagner le duel d’entraînement de Timmy au village de départ.",
       "defaultStatus": "active",
       "target": 1
     }
   ],
   "badges": [
-    { "key": "forest_badge", "name": "Badge Sylve", "order": 1 },
-    { "key": "tide_badge", "name": "Badge Marée", "order": 2 },
-    { "key": "ore_badge", "name": "Badge Minerai", "order": 3 },
-    { "key": "bloom_badge", "name": "Badge Floraison", "order": 4 },
-    { "key": "dune_badge", "name": "Badge Dune", "order": 5 }
+    {
+      "key": "dune_badge",
+      "name": "Badge Dune",
+      "order": 1
+    },
+    {
+      "key": "bloom_badge",
+      "name": "Badge Floraison",
+      "order": 2
+    },
+    {
+      "key": "ore_badge",
+      "name": "Badge Minerai",
+      "order": 3
+    },
+    {
+      "key": "tide_badge",
+      "name": "Badge Marée",
+      "order": 4
+    },
+    {
+      "key": "forest_badge",
+      "name": "Sceau Sylve",
+      "order": 5
+    }
   ],
   "npcBattles": {
     "dia1": {
@@ -28,67 +48,237 @@
       "once": true,
       "reward": {
         "money": 600,
-        "flags": { "route_guard_defeated": "true" },
-        "quests": [{ "key": "first_challenge", "status": "completed", "progress": 1 }]
-      }
+        "flags": {
+          "route_guard_defeated": "true"
+        },
+        "quests": [
+          {
+            "key": "first_challenge",
+            "status": "completed",
+            "progress": 1
+          }
+        ]
+      },
+      "experienceKind": "trainer"
     },
     "moon": {
       "battleKey": "moonpunch_ville1",
       "once": true,
       "reward": {
         "money": 1200,
-        "flags": { "moonpunch_defeated": "true", "sister_clue_1": "unlocked" },
-        "quests": [{ "key": "main_sister_search", "status": "active", "progress": 1 }]
-      }
+        "flags": {
+          "moonpunch_defeated": "true",
+          "sister_clue_1": "unlocked"
+        }
+      },
+      "experienceKind": "arena"
     },
-    "gym_forest": {
-      "battleKey": "gym_clairbois_champion",
+    "champion_hoze": {
+      "battleKey": "story_champion_hoze",
       "once": true,
+      "requiresFlags": [
+        "moonpunch_defeated"
+      ],
       "reward": {
         "money": 1800,
-        "badges": ["forest_badge"],
-        "flags": { "gym_forest_defeated": "true", "sister_clue_2": "unlocked" },
-        "quests": [{ "key": "main_sister_search", "status": "active", "progress": 1 }]
-      }
+        "badges": [
+          "dune_badge"
+        ],
+        "flags": {
+          "hoze_defeated": "true"
+        }
+      },
+      "experienceKind": "arena"
     },
-    "gym_tide": {
-      "battleKey": "gym_rivazur_champion",
+    "champion_raphael": {
+      "battleKey": "story_champion_raphael",
       "once": true,
+      "requiresFlags": [
+        "hoze_defeated"
+      ],
       "reward": {
         "money": 2400,
-        "badges": ["tide_badge"],
-        "flags": { "gym_tide_defeated": "true", "sister_clue_3": "unlocked" },
-        "quests": [{ "key": "main_sister_search", "status": "active", "progress": 2 }]
-      }
+        "badges": [
+          "bloom_badge"
+        ],
+        "flags": {
+          "raphael_defeated": "true"
+        }
+      },
+      "experienceKind": "arena"
     },
-    "gym_ore": {
-      "battleKey": "gym_rochebourg_champion",
+    "champion_ana": {
+      "battleKey": "story_champion_ana",
       "once": true,
+      "requiresFlags": [
+        "raphael_defeated"
+      ],
       "reward": {
         "money": 3000,
-        "badges": ["ore_badge"],
-        "flags": { "gym_ore_defeated": "true", "sister_clue_4": "unlocked" },
-        "quests": [{ "key": "main_sister_search", "status": "active", "progress": 3 }]
-      }
+        "badges": [
+          "ore_badge"
+        ],
+        "flags": {
+          "ana_defeated": "true"
+        }
+      },
+      "experienceKind": "arena"
     },
-    "gym_bloom": {
-      "battleKey": "gym_floraville_champion",
+    "champion_wanda": {
+      "battleKey": "story_champion_wanda",
       "once": true,
+      "requiresFlags": [
+        "ana_defeated"
+      ],
       "reward": {
         "money": 3600,
-        "badges": ["bloom_badge"],
-        "flags": { "gym_bloom_defeated": "true", "sister_clue_5": "unlocked" },
-        "quests": [{ "key": "main_sister_search", "status": "active", "progress": 4 }]
-      }
+        "badges": [
+          "tide_badge"
+        ],
+        "flags": {
+          "wanda_defeated": "true"
+        }
+      },
+      "experienceKind": "arena"
     },
-    "gym_dune": {
-      "battleKey": "gym_ocreville_champion",
+    "town_lina": {
+      "battleKey": "town_lina",
       "once": true,
       "reward": {
-        "money": 4500,
-        "badges": ["dune_badge"],
-        "flags": { "gym_dune_defeated": "true", "generated_region_complete": "true" },
-        "quests": [{ "key": "main_sister_search", "status": "completed", "progress": 5 }]
+        "money": 150
+      },
+      "experienceKind": "trainer"
+    },
+    "town_bastien": {
+      "battleKey": "town_bastien",
+      "once": true,
+      "reward": {
+        "money": 200
+      },
+      "experienceKind": "trainer"
+    },
+    "town_nadir": {
+      "battleKey": "town_nadir",
+      "once": true,
+      "reward": {
+        "money": 350
+      },
+      "experienceKind": "trainer"
+    },
+    "town_salome": {
+      "battleKey": "town_salome",
+      "once": true,
+      "reward": {
+        "money": 380
+      },
+      "experienceKind": "trainer"
+    },
+    "town_iris": {
+      "battleKey": "town_iris",
+      "once": true,
+      "reward": {
+        "money": 400
+      },
+      "experienceKind": "trainer"
+    },
+    "town_noe": {
+      "battleKey": "town_noe",
+      "once": true,
+      "reward": {
+        "money": 420
+      },
+      "experienceKind": "trainer"
+    },
+    "town_malo": {
+      "battleKey": "town_malo",
+      "once": true,
+      "reward": {
+        "money": 450
+      },
+      "experienceKind": "trainer"
+    },
+    "town_maelle": {
+      "battleKey": "town_maelle",
+      "once": true,
+      "reward": {
+        "money": 480
+      },
+      "experienceKind": "trainer"
+    },
+    "town_louis": {
+      "battleKey": "town_louis",
+      "once": true,
+      "reward": {
+        "money": 500
+      },
+      "experienceKind": "trainer"
+    },
+    "town_ines": {
+      "battleKey": "town_ines",
+      "once": true,
+      "reward": {
+        "money": 520
+      },
+      "experienceKind": "trainer"
+    },
+    "town_robin": {
+      "battleKey": "town_robin",
+      "once": true,
+      "reward": {
+        "money": 550
+      },
+      "experienceKind": "trainer"
+    },
+    "town_celia": {
+      "battleKey": "town_celia",
+      "once": true,
+      "reward": {
+        "money": 580
+      },
+      "experienceKind": "trainer"
+    }
+  },
+  "storySteps": [
+    {
+      "flag": "moonpunch_defeated",
+      "objective": "Retrouve Mounir (Moonpunch) dans l’arène de la Ville du Lac. Il a connu Clara."
+    },
+    {
+      "flag": "hoze_defeated",
+      "objective": "Rejoins Hoze dans l’arène Dune à Ocreville, par la route 4 puis la route 8."
+    },
+    {
+      "flag": "raphael_defeated",
+      "objective": "Hoze t’envoie vers Raphael, dans l’arène Floraison de Floraville, après la route 7."
+    },
+    {
+      "flag": "ana_defeated",
+      "objective": "Retrouve Ana à l’arène Minerai de Rochebourg, au-delà des routes 6 et 5."
+    },
+    {
+      "flag": "wanda_defeated",
+      "objective": "Ana te confie à sa sœur Wanda. Rejoins l’arène Marée de Rivazur par la route 4."
+    },
+    {
+      "flag": "chapter1_complete",
+      "objective": "Wanda te confie une piste : parle à Éloi, aux archives de l’ancienne arène Sylve à Clairbois, au-delà des routes 3 et 2."
+    }
+  ],
+  "chapterConclusion": "La lettre de Clara est en sécurité aux archives de Clairbois. Elle enquêtait sur les méthodes de l’Aube Obscure. Fin du chapitre I ; sa recherche continue.",
+  "storyEvents": {
+    "clara_letter": {
+      "requiresFlags": [
+        "moonpunch_defeated",
+        "hoze_defeated",
+        "raphael_defeated",
+        "ana_defeated",
+        "wanda_defeated"
+      ],
+      "completionFlag": "chapter1_complete",
+      "reward": {
+        "badges": [
+          "forest_badge"
+        ]
       }
     }
   }

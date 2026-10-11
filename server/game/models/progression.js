@@ -1,4 +1,6 @@
 const DEFAULT_EXPERIENCE_RATE = 1;
+const EXPERIENCE_BALANCE = require('../../../data/game/experience_balance.json');
+const BATTLE_EXPERIENCE_MULTIPLIERS = Object.freeze({ ...EXPERIENCE_BALANCE.multipliers });
 
 const K_TIERS = Object.freeze([
     { k: 4, probability: 0.002, label: 'Exceptionnel' },
@@ -48,15 +50,21 @@ function normalizeK(value) {
     return Number.isInteger(parsed) && parsed >= 1 && parsed <= 4 ? parsed : null;
 }
 
-function calculateBattleExperience(defeatedPokemon, multiplier = 1) {
+function calculateBattleExperience(defeatedPokemon, multiplier = 1, recipient = null) {
     const level = Math.max(1, Math.floor(Number(defeatedPokemon?.level) || 1));
     const k = normalizeK(defeatedPokemon?.k) || 1;
-    const normalizedMultiplier = Math.max(0, Number(multiplier) || 0);
+    const normalizedMultiplier = Number.isFinite(Number(multiplier)) ? Math.max(0, Number(multiplier)) : 1;
     const potentialBonus = 0.9 + (k * 0.1);
-    return Math.max(1, Math.round((12 + 0.9 * Math.pow(level, 2)) * potentialBonus * normalizedMultiplier));
+    const recipientLevel = Number(recipient?.level);
+    const scaling = EXPERIENCE_BALANCE.levelScaling;
+    const levelFactor = Number.isFinite(recipientLevel) && recipientLevel > 0
+        ? Math.max(scaling.minimum, Math.min(scaling.maximum, Math.pow(level / recipientLevel, scaling.exponent)))
+        : 1;
+    return Math.max(1, Math.round((12 + 0.9 * Math.pow(level, 2)) * potentialBonus * normalizedMultiplier * levelFactor));
 }
 
 module.exports = {
+    BATTLE_EXPERIENCE_MULTIPLIERS,
     DEFAULT_EXPERIENCE_RATE,
     K_TIERS,
     calculateBattleExperience,

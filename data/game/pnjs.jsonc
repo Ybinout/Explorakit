@@ -1,32 +1,529 @@
 {
   "pnjs": [
-    { "name": "moonpunch", "interactionName": "moon", "map": "ville1_arene", "x": 13, "y": 5, "sprite": "moonpunch.png", "block": true },
-    { "name": "vendeuse_ville_du_lac", "interactionName": "shop_keeper_ville1", "map": "ville1_shop", "x": 13, "y": 6, "sprite": "inf.png", "block": true },
-
-    { "name": "eclaireur_route1", "interactionName": "route_guide_1", "map": "gen_route1", "x": 8, "y": 8, "sprite": "village.png", "block": true },
-    { "name": "randonneuse_route2", "interactionName": "route_guide_2", "map": "gen_route2", "x": 10, "y": 8, "sprite": "sana.png", "block": true },
-    { "name": "naturaliste_route3", "interactionName": "route_guide_3", "map": "gen_route3", "x": 13, "y": 8, "sprite": "prof2.png", "block": true },
-    { "name": "mineur_route4", "interactionName": "route_guide_4", "map": "gen_route4", "x": 16, "y": 8, "sprite": "hoze.png", "block": true },
-    { "name": "jardiniere_route5", "interactionName": "route_guide_5", "map": "gen_route5", "x": 19, "y": 8, "sprite": "wanda.png", "block": true },
-    { "name": "voyageur_route6", "interactionName": "route_guide_6", "map": "gen_route6", "x": 8, "y": 12, "sprite": "raph.png", "block": true },
-    { "name": "dresseuse_route7", "interactionName": "route_guide_7", "map": "gen_route7", "x": 13, "y": 12, "sprite": "ana.png", "block": true },
-    { "name": "cartographe_route8", "interactionName": "route_guide_8", "map": "gen_route8", "x": 19, "y": 12, "sprite": "7ps.png", "block": true },
-
-    { "name": "guide_clairbois", "interactionName": "city_guide_1", "map": "gen_ville1", "x": 14, "y": 11, "sprite": "village.png", "block": true },
-    { "name": "guide_rivazur", "interactionName": "city_guide_2", "map": "gen_ville2", "x": 10, "y": 11, "sprite": "sana.png", "block": true },
-    { "name": "guide_rochebourg", "interactionName": "city_guide_3", "map": "gen_ville3", "x": 13, "y": 11, "sprite": "hoze.png", "block": true },
-    { "name": "guide_floraville", "interactionName": "city_guide_4", "map": "gen_ville4", "x": 14, "y": 17, "sprite": "wanda.png", "block": true },
-    { "name": "guide_ocreville", "interactionName": "city_guide_5", "map": "gen_ville5", "x": 13, "y": 11, "sprite": "ana.png", "block": true },
-
-    { "name": "champion_sylve", "interactionName": "gym_forest", "map": "gen_arene1", "x": 13, "y": 5, "sprite": "sana.png", "block": true },
-    { "name": "champion_maree", "interactionName": "gym_tide", "map": "gen_arene2", "x": 13, "y": 5, "sprite": "raph.png", "block": true },
-    { "name": "champion_minerai", "interactionName": "gym_ore", "map": "gen_arene3", "x": 13, "y": 5, "sprite": "hoze.png", "block": true },
-    { "name": "champion_floraison", "interactionName": "gym_bloom", "map": "gen_arene4", "x": 13, "y": 5, "sprite": "wanda.png", "block": true },
-    { "name": "champion_dune", "interactionName": "gym_dune", "map": "gen_arene5", "x": 13, "y": 5, "sprite": "cynthia.png", "block": true },
-
-    { "name": "habitante_clairbois", "interactionName": "home_resident_1", "map": "gen_maison1", "x": 13, "y": 8, "sprite": "mom.png", "block": true },
-    { "name": "habitant_rivazur", "interactionName": "home_resident_2", "map": "gen_maison2", "x": 13, "y": 6, "sprite": "prof2.png", "block": true },
-    { "name": "collectionneur_rochebourg", "interactionName": "home_resident_3", "map": "gen_maison3", "x": 13, "y": 6, "sprite": "hoze.png", "block": true },
-    { "name": "vendeuse_ocreville", "interactionName": "shop_keeper_1", "map": "gen_shop1", "x": 13, "y": 6, "sprite": "inf.png", "block": true }
+    {
+      "name": "moonpunch",
+      "interactionName": "moon",
+      "map": "ville1_arene",
+      "x": 13,
+      "y": 5,
+      "sprite": "moonpunch.png",
+      "block": true
+    },
+    {
+      "name": "vendeuse_ville_du_lac",
+      "interactionName": "shop_keeper_ville1",
+      "map": "ville1_shop",
+      "x": 13,
+      "y": 6,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 0
+      },
+      "roamRadius": 0
+    },
+    {
+      "name": "eclaireur_route1",
+      "interactionName": "route_guide_1",
+      "map": "gen_route1",
+      "x": 8,
+      "y": 8,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 1
+      },
+      "roamRadius": 2
+    },
+    {
+      "name": "randonneuse_route2",
+      "interactionName": "route_guide_2",
+      "map": "gen_route2",
+      "x": 10,
+      "y": 8,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 2
+      },
+      "roamRadius": 2
+    },
+    {
+      "name": "naturaliste_route3",
+      "interactionName": "route_guide_3",
+      "map": "gen_route3",
+      "x": 13,
+      "y": 8,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 3
+      },
+      "roamRadius": 2
+    },
+    {
+      "name": "mineur_route4",
+      "interactionName": "route_guide_4",
+      "map": "gen_route4",
+      "x": 16,
+      "y": 8,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 4
+      },
+      "roamRadius": 2
+    },
+    {
+      "name": "jardiniere_route5",
+      "interactionName": "route_guide_5",
+      "map": "gen_route5",
+      "x": 19,
+      "y": 8,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 5
+      },
+      "roamRadius": 2
+    },
+    {
+      "name": "voyageur_route6",
+      "interactionName": "route_guide_6",
+      "map": "gen_route6",
+      "x": 8,
+      "y": 12,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 6
+      },
+      "roamRadius": 2
+    },
+    {
+      "name": "dresseuse_route7",
+      "interactionName": "route_guide_7",
+      "map": "gen_route7",
+      "x": 13,
+      "y": 12,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 7
+      },
+      "roamRadius": 2
+    },
+    {
+      "name": "cartographe_route8",
+      "interactionName": "route_guide_8",
+      "map": "gen_route8",
+      "x": 19,
+      "y": 12,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 8
+      },
+      "roamRadius": 2
+    },
+    {
+      "name": "guide_clairbois",
+      "interactionName": "city_guide_1",
+      "map": "gen_ville1",
+      "x": 14,
+      "y": 11,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 9
+      },
+      "roamRadius": 2
+    },
+    {
+      "name": "guide_rivazur",
+      "interactionName": "city_guide_2",
+      "map": "gen_ville2",
+      "x": 10,
+      "y": 11,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 10
+      },
+      "roamRadius": 2
+    },
+    {
+      "name": "guide_rochebourg",
+      "interactionName": "city_guide_3",
+      "map": "gen_ville3",
+      "x": 13,
+      "y": 11,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 11
+      },
+      "roamRadius": 2
+    },
+    {
+      "name": "guide_floraville",
+      "interactionName": "city_guide_4",
+      "map": "gen_ville4",
+      "x": 14,
+      "y": 17,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 12
+      },
+      "roamRadius": 2
+    },
+    {
+      "name": "guide_ocreville",
+      "interactionName": "city_guide_5",
+      "map": "gen_ville5",
+      "x": 13,
+      "y": 11,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 13
+      },
+      "roamRadius": 2
+    },
+    {
+      "name": "archiviste_eloi",
+      "interactionName": "clara_letter",
+      "map": "gen_arene1",
+      "x": 13,
+      "y": 5,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 14
+      },
+      "roamRadius": 0
+    },
+    {
+      "name": "wanda",
+      "interactionName": "champion_wanda",
+      "map": "gen_arene2",
+      "x": 13,
+      "y": 5,
+      "sprite": "wanda.png",
+      "block": true
+    },
+    {
+      "name": "ana",
+      "interactionName": "champion_ana",
+      "map": "gen_arene3",
+      "x": 13,
+      "y": 5,
+      "sprite": "ana.png",
+      "block": true
+    },
+    {
+      "name": "raphael",
+      "interactionName": "champion_raphael",
+      "map": "gen_arene4",
+      "x": 13,
+      "y": 5,
+      "sprite": "raph.png",
+      "block": true
+    },
+    {
+      "name": "hoze",
+      "interactionName": "champion_hoze",
+      "map": "gen_arene5",
+      "x": 13,
+      "y": 5,
+      "sprite": "hoze.png",
+      "block": true
+    },
+    {
+      "name": "habitante_clairbois",
+      "interactionName": "home_resident_1",
+      "map": "gen_maison1",
+      "x": 13,
+      "y": 8,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 15
+      },
+      "roamRadius": 1
+    },
+    {
+      "name": "habitant_rivazur",
+      "interactionName": "home_resident_2",
+      "map": "gen_maison2",
+      "x": 13,
+      "y": 6,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 16
+      },
+      "roamRadius": 1
+    },
+    {
+      "name": "collectionneur_rochebourg",
+      "interactionName": "home_resident_3",
+      "map": "gen_maison3",
+      "x": 13,
+      "y": 6,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 17
+      },
+      "roamRadius": 1
+    },
+    {
+      "name": "vendeuse_ocreville",
+      "interactionName": "shop_keeper_1",
+      "map": "gen_shop1",
+      "x": 13,
+      "y": 6,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 18
+      },
+      "roamRadius": 0
+    },
+    {
+      "name": "town_lina",
+      "interactionName": "town_lina",
+      "map": "ville1",
+      "x": 11,
+      "y": 10,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 19
+      },
+      "roamRadius": 2
+    },
+    {
+      "name": "town_bastien",
+      "interactionName": "town_bastien",
+      "map": "ville1",
+      "x": 21,
+      "y": 12,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 20
+      },
+      "roamRadius": 2
+    },
+    {
+      "name": "town_nadir",
+      "interactionName": "town_nadir",
+      "map": "gen_ville5",
+      "x": 8,
+      "y": 10,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 21
+      },
+      "roamRadius": 2
+    },
+    {
+      "name": "town_salome",
+      "interactionName": "town_salome",
+      "map": "gen_ville5",
+      "x": 18,
+      "y": 12,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 22
+      },
+      "roamRadius": 2
+    },
+    {
+      "name": "town_iris",
+      "interactionName": "town_iris",
+      "map": "gen_ville4",
+      "x": 9,
+      "y": 10,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 23
+      },
+      "roamRadius": 2
+    },
+    {
+      "name": "town_noe",
+      "interactionName": "town_noe",
+      "map": "gen_ville4",
+      "x": 23,
+      "y": 10,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 24
+      },
+      "roamRadius": 2
+    },
+    {
+      "name": "town_malo",
+      "interactionName": "town_malo",
+      "map": "gen_ville3",
+      "x": 11,
+      "y": 11,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 25
+      },
+      "roamRadius": 2
+    },
+    {
+      "name": "town_maelle",
+      "interactionName": "town_maelle",
+      "map": "gen_ville3",
+      "x": 18,
+      "y": 10,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 26
+      },
+      "roamRadius": 2
+    },
+    {
+      "name": "town_louis",
+      "interactionName": "town_louis",
+      "map": "gen_ville2",
+      "x": 6,
+      "y": 11,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 27
+      },
+      "roamRadius": 2
+    },
+    {
+      "name": "town_ines",
+      "interactionName": "town_ines",
+      "map": "gen_ville2",
+      "x": 17,
+      "y": 10,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 28
+      },
+      "roamRadius": 2
+    },
+    {
+      "name": "town_robin",
+      "interactionName": "town_robin",
+      "map": "gen_ville1",
+      "x": 8,
+      "y": 11,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 29
+      },
+      "roamRadius": 2
+    },
+    {
+      "name": "town_celia",
+      "interactionName": "town_celia",
+      "map": "gen_ville1",
+      "x": 23,
+      "y": 12,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 30
+      },
+      "roamRadius": 2
+    },
+    {
+      "name": "mere_clara",
+      "interactionName": "dia0",
+      "map": "start",
+      "x": 6,
+      "y": 8,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 31
+      },
+      "roamRadius": 1
+    }
   ]
 }

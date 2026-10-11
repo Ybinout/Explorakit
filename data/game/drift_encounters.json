@@ -1,0 +1,6 @@
+{
+  "description": "Poids exclusifs à Drift, au sein des espèces déjà présentes sur chaque carte. Les niveaux et les cartes restent ceux du monde existant. Recherche rare augmente seulement le poids des espèces explicitement classées rares ; aucune rareté déduite de la puissance statistique.",
+  "commonWeight": 100,
+  "rareWeight": 25,
+  "rareSpecies": [1, 25, 125, 132, 237, 258, 350]
+}

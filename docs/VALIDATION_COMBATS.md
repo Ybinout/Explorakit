@@ -1,6 +1,6 @@
 # Validation de stabilité des combats
 
-Date : 3 octobre 2026  
+Passe initiale : 3 octobre 2026 ; notes de suivi réconciliées le 11 octobre 2026.
 Périmètre : moteur commun, combats sauvage/dresseur/PVP, persistance MySQL, contrat Socket.IO et affichage ordinateur/mobile.  
 Verdict : **validation technique réussie**. Le système de combat peut être considéré stable pour les scénarios listés ci-dessous.
 
@@ -56,10 +56,10 @@ Le test visuel est reproductible par `npm run test:visual`. Il crée un compte t
 
 - Le PVP est validé au niveau de l'orchestrateur avec deux sockets conformes au contrat, tandis que l'authentification et le transport Socket.IO sont validés séparément par le smoke test. Une session humaine à deux navigateurs reste utile pour le ressenti réseau.
 - Le portrait mobile est validé par un vrai moteur Chromium et des métriques tactiles ; un appareil physique et le paysage restent conseillés pour la recette ergonomique finale.
-- La météo, les terrains et les sons n'ont pas encore de présentation dédiée. Cela ne remet pas en cause leur résolution métier.
+- La météo, les terrains et les sons ont depuis été intégrés dans `BattleOverlay.vue` ; voir `AUDIT_ANIMATIONS_COMBAT.md`.
 - Le mode double n'est pas exposé par l'interface ; ses primitives moteur ne constituent pas un combat double jouable.
 
 ## Suite recommandée
 
-La priorité technique suivante n'est plus la stabilité des règles de combat. Il faut maintenant extraire `BattleOverlay.vue`, puis découper `UserMap.vue`, `socketHandler.js` et `battleEngine.js`. Côté contenu, l'audit histoire/cartes/quêtes peut commencer en parallèle.
+L'extraction de `BattleOverlay.vue` et l'audit de contenu sont déjà livrés. Le 11 octobre, les 11 tests MySQL/orchestrateurs et le smoke HTTP/Socket ont été rejoués avec succès ; les captures de combat restent celles de la passe initiale et n'ont pas été régénérées. La prochaine priorité est le défaut de progression des champions décrit dans `AUDIT_PROJET.md`, puis la recette réelle du parcours et le découpage progressif des gros fichiers.
 

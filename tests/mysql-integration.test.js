@@ -171,12 +171,15 @@ test('le parcours réel crée, authentifie et sauvegarde un nouveau dresseur', {
         team.pokemons[0].passiveAbility = 'Blaze';
         team.pokemons[0].heldItem = 'oran_berry';
         team.pokemons[0].movePp[0] -= 1;
+        team.pokemons[0].gainEffort({ attack: 252, speed: 252, hp: 6 });
         const expectedHp = team.pokemons[0].currentHp;
         const expectedPp = team.pokemons[0].movePp[0];
         await editEquipe(userId, team);
         const reloadedTeam = await loadEquipe(userId);
         assert.equal(reloadedTeam.pokemons[0].uuid, originalUuid);
         assert.equal(reloadedTeam.pokemons[0].currentHp, expectedHp);
+        assert.deepEqual(reloadedTeam.pokemons[0].ev, team.pokemons[0].ev);
+        assert.equal(Object.values(reloadedTeam.pokemons[0].ev).reduce((a, b) => a + b, 0), 510);
         assert.equal(reloadedTeam.pokemons[0].status, 'burn');
         assert.equal(reloadedTeam.pokemons[0].passiveAbility, 'Blaze');
         assert.equal(reloadedTeam.pokemons[0].heldItem, 'oran_berry');
@@ -186,6 +189,66 @@ test('le parcours réel crée, authentifie et sauvegarde un nouveau dresseur', {
         await saveUserRespawnPoint(userId, centerCheckpoint);
         const savedPosition = await loadUserPosition(userId);
         assert.deepEqual(savedPosition.respawnPoint, centerCheckpoint);
+    } finally {
+        if (userId) await pool.execute('DELETE FROM users WHERE id = ?', [userId]);
+        await pool.end();
+    }
+});
+
+test('le chapitre suit les victoires, résiste aux doublons et reprend les anciennes sauvegardes', { skip: !shouldRun }, async () => {
+    const { createUserWithStarter } = require('../server/persistence/userRepository');
+    const { completeNpcBattle, completeStoryEvent, loadProgressState } = require('../server/persistence/progressionRepository');
+    const { getSentenceForName } = require('../server/game/world/interactionRepository');
+    const pool = createTestPool();
+    let userId;
+    const main = (state) => state.quests.find((quest) => quest.key === 'main_sister_search');
+    try {
+        userId = (await createUserWithStarter(`story_${Date.now()}`, 'mot-de-passe-test', { starterId: 7 })).id;
+        // Reproduire une sauvegarde issue de l'ancien bug Dune -> quête terminée avec un seul badge.
+        await pool.execute("UPDATE player_quests SET status = 'completed', progress = 5, completed_at = CURRENT_TIMESTAMP WHERE user_id = ? AND quest_key = 'main_sister_search'", [userId]);
+        await pool.execute("INSERT INTO player_badges (user_id, badge_key) VALUES (?, 'dune_badge')", [userId]);
+        await pool.execute("INSERT INTO user_npc_battles (user_id, battle_key, dialogue_name, reward_json) VALUES (?, 'gym_ocreville_champion', 'gym_dune', '{}')", [userId]);
+        const legacy = await loadProgressState(userId);
+        assert.equal(main(legacy).status, 'active');
+        assert.equal(main(legacy).progress, 0);
+        assert.equal(main(legacy).completedAt, null);
+        assert.equal(legacy.badges.find((badge) => badge.key === 'dune_badge').earned, true);
+        assert.equal((await completeNpcBattle(userId, 'champion_wanda')).reason, 'requirements_not_met');
+        assert.equal((await completeStoryEvent(userId, 'clara_letter')).reason, 'requirements_not_met');
+        assert.equal((await completeNpcBattle(userId, 'gym_dune')).reason, 'unknown_battle');
+        const town = await completeNpcBattle(userId, 'town_lina');
+        assert.equal(town.granted, true);
+        assert.equal(main(town.progress).progress, 0);
+        let expectedMoney = 150;
+        for (const [index, name] of ['moon', 'champion_hoze', 'champion_raphael', 'champion_ana', 'champion_wanda'].entries()) {
+            const before = await loadProgressState(userId);
+            assert.equal(getSentenceForName(name, before)[1], name);
+            // Deux demandes concurrentes ne produisent qu'une seule récompense.
+            const results = await Promise.all([completeNpcBattle(userId, name), completeNpcBattle(userId, name)]);
+            assert.equal(results.filter((result) => result.granted).length, 1);
+            expectedMoney += results.find((result) => result.granted).money;
+            const reloaded = await loadProgressState(userId);
+            assert.equal(main(reloaded).progress, index + 1);
+            assert.equal(main(reloaded).status, 'active');
+            assert.equal(reloaded.money, expectedMoney);
+            assert.equal(getSentenceForName(name, reloaded)[1], `${name}_after`);
+            if (index < 4) assert.equal((await completeStoryEvent(userId, 'clara_letter')).granted, false);
+        }
+        const endings = await Promise.all([completeStoryEvent(userId, 'clara_letter'), completeStoryEvent(userId, 'clara_letter')]);
+        assert.equal(endings.filter((result) => result.granted).length, 1);
+        await completeNpcBattle(userId, 'dia1'); // Une victoire annexe tardive ne rouvre pas la quête.
+        expectedMoney += 600;
+        await completeNpcBattle(userId, 'town_lina');
+        const final = await loadProgressState(userId);
+        assert.equal(main(final).status, 'completed');
+        assert.equal(main(final).progress, 6);
+        assert.ok(main(final).completedAt);
+        assert.equal(final.badges.filter((badge) => badge.earned).length, 5);
+        assert.equal(final.money, expectedMoney);
+        assert.equal(getSentenceForName('clara_letter', final)[1], 'clara_letter_after');
+        const [[stored]] = await pool.execute("SELECT status, progress FROM player_quests WHERE user_id = ? AND quest_key = 'main_sister_search'", [userId]);
+        assert.equal(stored.status, 'completed');
+        assert.equal(stored.progress, 6);
     } finally {
         if (userId) await pool.execute('DELETE FROM users WHERE id = ?', [userId]);
         await pool.end();

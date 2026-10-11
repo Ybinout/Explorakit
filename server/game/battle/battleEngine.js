@@ -1,3 +1,4 @@
+const drift = require('../drift/driftEffects');
 const {
     consumeMovePp,
     getItemDefinition,
@@ -378,6 +379,7 @@ function setPokemonHp(pokemon, nextHp) {
     const hpMax = Math.max(1, safeNumber(pokemon.maxHp, 1));
     const clampedHp = clamp(Math.round(nextHp), 0, hpMax);
     pokemon.currentHp = clampedHp;
+    drift.markHp(pokemon, clampedHp);
     return clampedHp;
 }
 
@@ -407,6 +409,7 @@ function getEffectiveStatValue(pokemon, statName, battleState = null, opponent =
         value *= 0.5;
     }
     value *= getAbilityStatMultiplier(pokemon, statName, battleState, opponent);
+    value = drift.defense(pokemon, statName, value);
     return Math.max(1, Math.round(value));
 }
 
@@ -461,17 +464,20 @@ function applyDamage(target, damage, options = {}) {
         result.endured = true;
     }
 
+    finalDamage = drift.directDamage(target, finalDamage, options.attacker);
     setPokemonHp(target, hpBefore - finalDamage);
+    drift.afterDamage(target, hpBefore, options.attacker);
     result.damageToHp = finalDamage;
     return result;
 }
 
 function healPokemon(target, healAmount) {
     const resolvedHeal = Math.max(0, Math.floor(safeNumber(healAmount, 0)));
-    if (resolvedHeal <= 0) return 0;
+    if (resolvedHeal <= 0 || (drift.states.has(target) && drift.isDead(target))) return 0;
 
     const hpBefore = safeNumber(target.currentHp, 0);
     const hpAfter = setPokemonHp(target, hpBefore + resolvedHeal);
+    drift.shareHeal(target, Math.max(0, hpAfter - hpBefore));
     return Math.max(0, hpAfter - hpBefore);
 }
 function canApplyStatus(target, status, targetSide, options = {}) {
@@ -518,6 +524,8 @@ function applyStatus(target, status, targetSide, messages, options = {}) {
         return false;
     }
 
+    if (drift.statusGuard(target, status, options.attacker, options.driftReflected ? null : (source, reflectedStatus) =>
+        applyStatus(source, reflectedStatus, null, messages, { ...options, attacker: target, driftReflected: true }))) return false;
     const targetData = ensureBattleData(target);
     const targetName = getPokemonDisplayName(target);
 
@@ -604,8 +612,8 @@ function orderBattleActions(actions, battleState, random = Math.random) {
         const afterYouB = actionB?.side?.afterYouPokemonId === pokemonB?.uuid;
         if (afterYouA !== afterYouB) return afterYouA ? -1 : 1;
 
-        const priorityA = getMovePriority(actionA?.moveName, pokemonA);
-        const priorityB = getMovePriority(actionB?.moveName, pokemonB);
+        const priorityA = getMovePriority(actionA?.moveName, pokemonA) + safeNumber(actionA?.driftPriority, 0);
+        const priorityB = getMovePriority(actionB?.moveName, pokemonB) + safeNumber(actionB?.driftPriority, 0);
         if (priorityA !== priorityB) return priorityB - priorityA;
 
         const speedA = getBattleSpeed(pokemonA, actionA?.side, battleState, pokemonB);
@@ -656,6 +664,7 @@ function calculateDamageDetailed(attacker, defender, move, context = {}) {
         defenseStat = Math.max(1, getEffectiveStatValue(defender, swappedDefense, battleState, attacker));
     }
 
+    defenseStat = Math.max(1, drift.pierce(attacker, defenseStat));
     let baseDamage = (((((2 * level) / 5) + 2) * attackStat * power) / defenseStat) / 50 + 2;
     let modifier = 1;
 
@@ -746,6 +755,7 @@ function calculateDamageDetailed(attacker, defender, move, context = {}) {
         abilityPowerMultiplier: context.abilityPowerMultiplier
     });
 
+    modifier *= drift.multiplier(attacker, defender, move, critical);
     let damage = Math.floor(baseDamage * modifier);
     if (effectiveness <= 0) {
         damage = 0;
@@ -2609,7 +2619,7 @@ function useattack(attackName, attacker, defender, options = {}) {
             const abilityAccuracy = getAbilityAccuracyMultiplier(attacker, defender, move, battleState);
             const chance = abilityAccuracy === Infinity
                 ? 1
-                : clamp(baseAccuracy * getAccuracyModifier(attacker, defender) * abilityAccuracy, 0, 1);
+                : clamp(baseAccuracy * getAccuracyModifier(attacker, defender) * abilityAccuracy + drift.accuracy(attacker), 0, 1);
             attackHits = Math.random() < chance;
         }
     }
@@ -2655,11 +2665,12 @@ function useattack(attackName, attacker, defender, options = {}) {
                 moveResult.messages.push(`${getPokemonDisplayName(defender)} resiste grace a Fermete.`);
             } else {
                 const hpBefore = safeNumber(defender.currentHp, 0);
-                setPokemonHp(defender, 0);
+                const fatal = drift.states.has(defender) ? applyDamage(defender, hpBefore, { attacker, allowEndure: true }) : { damageToHp: hpBefore };
+                if (!drift.states.has(defender)) setPokemonHp(defender, 0);
                 moveResult.success = true;
-                moveResult.damage = hpBefore;
+                moveResult.damage = fatal.damageToHp;
                 moveResult.hits = 1;
-                moveResult.messages.push(`Coup fatal ! ${getPokemonDisplayName(defender)} est K.O.`);
+                moveResult.messages.push(defender.currentHp > 0 ? `${getPokemonDisplayName(defender)} survit au coup fatal !` : `Coup fatal ! ${getPokemonDisplayName(defender)} est K.O.`);
             }
         } else if (specialResolution?.failMessage) {
             moveResult.messages.push(specialResolution.failMessage);
@@ -2822,6 +2833,8 @@ function useattack(attackName, attacker, defender, options = {}) {
 
 module.exports = {
     PARTIAL_EFFECT_KINDS,
+    applyStatus,
+    applyStageChange,
     getEffectiveness,
     getBattleSpeed,
     getMoveByName,

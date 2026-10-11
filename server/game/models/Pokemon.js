@@ -49,8 +49,13 @@
         "Serious": { increase: "speed", decrease: "speed" },
         "Timid": { increase: "speed", decrease: "attack" }
     };
+    const { normalizeEffort } = require('./training');
     class Pokemon {
-        constructor(id, name, level, experience, givenIv, nature = "Bashful", k = null) {
+        static randomNature(random = Math.random) {
+            const names = Object.keys(NATURES);
+            return names[Math.min(names.length - 1, Math.floor(random() * names.length))];
+        }
+        constructor(id, name, level, experience, givenIv, nature = "Bashful", k = null, ev = {}) {
             const data = pokemonData.find(p => p.id === id);
             if (!data) {
                 throw new Error("No Pokémon found with the given ID!");
@@ -69,7 +74,8 @@
             this.type1 = data.type[0];
             this.type2 = data.type[1];
             this.k = normalizeK(k) || this.randomK();
-            this.nature = nature;
+            this.nature = NATURES[nature] ? nature : "Bashful";
+            this.ev = normalizeEffort(ev);
             
             this.iv = givenIv || {
                 attack: this.randomIV(),
@@ -99,13 +105,13 @@
         calculateStat(base, iv, statType) {
             let natureMultiplier = 1.0;
 
-            if (NATURES[this.nature].increase === statType) {
+            if (NATURES[this.nature].increase !== NATURES[this.nature].decrease && NATURES[this.nature].increase === statType) {
                 natureMultiplier = 1.1;
-            } else if (NATURES[this.nature].decrease === statType) {
+            } else if (NATURES[this.nature].increase !== NATURES[this.nature].decrease && NATURES[this.nature].decrease === statType) {
                 natureMultiplier = 0.9;
             }
 
-            return Math.floor((((2 * base + (this.k * iv)) * this.level) / 100 + 5) * natureMultiplier);
+            return Math.floor((((2 * base + (this.k * iv) + Math.floor(this.ev[statType] / 4)) * this.level) / 100 + 5) * natureMultiplier);
         }
 
         randomIV() {
@@ -154,19 +160,52 @@
             this.experienceRate = getExperienceRate(expMax);
         }
 
-        recalculateStats() {
+        recalculateStats(preserveCombat = false) {
+            const previousHp = this.currentHp;
+            const previousMax = this.maxHp;
+            const ratios = {};
+            for (const stat of ['Attack', 'Defense', 'SpecialAttack', 'SpecialDefense', 'Speed']) {
+                const base = stat[0].toLowerCase() + stat.slice(1);
+                ratios[stat] = this[base] ? this['current' + stat] / this[base] : 1;
+            }
             this.attack = this.calculateStat(this.data.base.Attack, this.iv.attack, "attack");
             this.specialAttack = this.calculateStat(this.data.base["Sp. Attack"], this.iv.specialAttack, "specialAttack");
             this.defense = this.calculateStat(this.data.base.Defense, this.iv.defense, "defense");
             this.specialDefense = this.calculateStat(this.data.base["Sp. Defense"], this.iv.specialDefense, "specialDefense");
             this.speed = this.calculateStat(this.data.base.Speed, this.iv.speed, "speed");
-            this.maxHp = Math.floor((((2 * this.data.base.HP + (this.k * this.iv.hp)) * this.level) / 100 + this.level + 10));
+            this.maxHp = Math.floor((((2 * this.data.base.HP + (this.k * this.iv.hp) + Math.floor(this.ev.hp / 4)) * this.level) / 100 + this.level + 10));
             this.currentHp = this.maxHp;
             this.currentAttack = this.attack;
             this.currentSpecialAttack = this.specialAttack;
             this.currentDefense = this.defense;
             this.currentSpecialDefense = this.specialDefense;
             this.currentSpeed = this.speed;
+            if (preserveCombat && Number.isFinite(previousHp)) {
+                this.currentHp = previousHp <= 0 ? 0 : Math.min(this.maxHp, previousHp + this.maxHp - previousMax);
+                for (const stat of Object.keys(ratios)) {
+                    const base = stat[0].toLowerCase() + stat.slice(1);
+                    this['current' + stat] = Math.max(1, Math.floor(this[base] * ratios[stat] + 1e-9));
+                }
+            }
+        }
+
+        resetCombatStats() {
+            for (const stat of ['Attack', 'Defense', 'SpecialAttack', 'SpecialDefense', 'Speed']) {
+                this['current' + stat] = this[stat[0].toLowerCase() + stat.slice(1)];
+            }
+        }
+
+        gainEffort(yieldStats) {
+            const before = this.ev;
+            this.ev = { ...before };
+            let remaining = 510 - Object.values(before).reduce((sum, value) => sum + value, 0);
+            for (const key of Object.keys(before)) {
+                const gain = Math.min(252 - before[key], remaining, Math.max(0, Math.floor(Number(yieldStats[key]) || 0)));
+                this.ev[key] += gain;
+                remaining -= gain;
+            }
+            this.recalculateStats(true);
+            return Object.fromEntries(Object.keys(before).map(key => [key, this.ev[key] - before[key]]));
         }
 
         putdmg(nbr) {
@@ -187,7 +226,7 @@
             const targetLevel = this.calculateLevelFromExperience(this.experience);
             if (targetLevel > this.level) {
                 this.level = targetLevel;
-                this.recalculateStats();
+                this.recalculateStats(true);
                 this.checkEvolution();
             }
         }
@@ -209,15 +248,13 @@
 
         updatePokemon(newId) {
             const evolvedAbility = evolveSpeciesAbility(this.data.id, newId, this.passiveAbility);
-            const newPokemon = new Pokemon(newId, this.name, this.level, this.experience, this.iv, this.nature, this.k);
-            Object.keys(newPokemon).forEach(key => {
-                if (!['iv', 'k', 'level', 'experience', 'nature', 'abilities'].includes(key)) {
-                    this[key] = newPokemon[key];
-                }
-            });
-            this.data = newPokemon.data;
+            this.data = pokemonData.find(p => p.id === newId);
+            this.type1 = this.data.type[0];
+            this.type2 = this.data.type[1];
+            this.truename = this.data.name.french;
+            this.determineExpGroup(this.data);
             this.passiveAbility = evolvedAbility;
-            this.recalculateStats();
+            this.recalculateStats(true);
         }
     }
 

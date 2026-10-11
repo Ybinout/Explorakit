@@ -3,9 +3,10 @@ const { dbPool, withTransaction } = require('../config/database');
 const { signAccessToken } = require('../config/auth');
 const { authenticateHttp } = require('./authMiddleware');
 const { authenticateUser, createUserWithStarter } = require('../persistence/userRepository');
-const { getTeamPokemons, getTeamRecord } = require('../persistence/teamRepository');
+const { getTeamPokemons, getTeamRecord, rowToPokemon } = require('../persistence/teamRepository');
 const { equipHeldItem, loadUserItems } = require('../persistence/itemRepository');
 const { loadPokedex, loadProgressState } = require('../persistence/progressionRepository');
+const { getProfile: getRiftProfile } = require('../persistence/riftAccountRepository');
 
 const router = express.Router();
 
@@ -62,6 +63,17 @@ router.post('/login', async (req, res) => {
 
 router.use(authenticateHttp);
 
+router.get('/rift/profile', async (req, res) => {
+    try {
+        res.set('Cache-Control', 'no-store');
+        return res.send(await getRiftProfile(req.user.id));
+    } catch (error) {
+        if (error.statusCode) return res.status(error.statusCode).send({ message: error.message });
+        console.error('Erreur profil RiftMon:', error.message);
+        return res.status(503).send({ message: 'Le profil RiftMon est momentanément indisponible.' });
+    }
+});
+
 router.get('/users/:id/items', async (req, res) => {
     if (!ownsRequestedUser(req)) return res.status(403).send({ message: 'Accès interdit.' });
     try {
@@ -78,7 +90,7 @@ router.get('/users/:id/team', async (req, res) => {
         const team = await getTeamRecord(req.user.id);
         if (!team) return res.status(404).send({ message: 'Équipe introuvable.' });
         const pokemons = await getTeamPokemons(team.id);
-        return res.send({ ...team, pokemons });
+        return res.send({ ...team, pokemons: pokemons.map(row => ({ ...row, ...rowToPokemon(row) })) });
     } catch (error) {
         console.error('Erreur équipe:', error.message);
         return res.status(500).send({ message: "Impossible de charger l'équipe." });

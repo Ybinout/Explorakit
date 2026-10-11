@@ -1,5 +1,7 @@
 const fs = require('fs');
 const path = require('node:path');
+const catalog = require('../../../data/game/progression.json');
+const { meetsRequirements, hasCompletedBattle } = require('./storyProgression');
 
 const INTERACTIONS_PATH = path.resolve(__dirname, '..', '..', '..', 'data', 'game', 'interact.json');
 
@@ -20,7 +22,7 @@ function getDialogueEntryByName(name) {
     return interactions.find((entry) => entry.name === name) || null;
 }
 
-function getSentenceForMapAndPosition(map, x, y = null) {
+function getSentenceForMapAndPosition(map, x, y = null, state = null) {
     const dialogueEntry = interactions.find((entry) => {
         if (entry.map !== map || entry.x !== x) return false;
         if (y === null || y === undefined) return true;
@@ -29,14 +31,23 @@ function getSentenceForMapAndPosition(map, x, y = null) {
     });
 
     if (dialogueEntry && Array.isArray(dialogueEntry.sentences) && dialogueEntry.sentences.length > 0) {
-        return [dialogueEntry.sentences, dialogueEntry.name];
+        return getSentenceForName(dialogueEntry.name, state);
     }
 
     return null;
 }
 
-function getSentenceForName(name) {
-    const dialogueEntry = getDialogueEntryByName(name);
+function getSentenceForName(name, state = null) {
+    let dialogueEntry = getDialogueEntryByName(name);
+    if (dialogueEntry && state) {
+        const definition = catalog.npcBattles?.[name] || catalog.storyEvents?.[name];
+        const completed = hasCompletedBattle(catalog.npcBattles?.[name], state)
+            || (definition?.completionFlag && state.flags?.[definition.completionFlag] === 'true');
+        if (completed && dialogueEntry.after) dialogueEntry = getDialogueEntryByName(dialogueEntry.after);
+        else if (!meetsRequirements(definition, state) && dialogueEntry.locked) {
+            dialogueEntry = getDialogueEntryByName(dialogueEntry.locked);
+        }
+    }
     if (dialogueEntry && Array.isArray(dialogueEntry.sentences) && dialogueEntry.sentences.length > 0) {
         return [dialogueEntry.sentences, dialogueEntry.name];
     }
