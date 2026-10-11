@@ -28,6 +28,6 @@ socketHandler(io);
 registerDriftLobbies(io, { accountRepository: riftAccountRepository });
 
 const PORT = Number(process.env.PORT || 3000);
-server.listen(PORT, () => {
+server.listen(PORT, process.env.HOST || '127.0.0.1', () => {
     console.log(`Server is running on port ${PORT}`);
 });

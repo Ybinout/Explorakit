@@ -5,3 +5,6 @@ dist/
 .DS_Store
 Thumbs.db
 backups/
+
+# Snapshot complet du vhost existant, uniquement local
+deploy/nginx-taskflow.conf

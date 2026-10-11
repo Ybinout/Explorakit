@@ -72,7 +72,7 @@ async function verifyMigration() {
                 .every(([name, type]) => riftColumns.some((column) =>
                     column.TABLE_NAME === 'rift_runs' && column.COLUMN_NAME === name
                     && type.test(column.COLUMN_TYPE) && column.IS_NULLABLE === 'YES'
-                    && column.COLUMN_DEFAULT === null))
+                    && (column.COLUMN_DEFAULT === null || column.COLUMN_DEFAULT === 'NULL')))
             && respawnColumns.length === 7
             && respawnColumns.some((column) => column.COLUMN_NAME === 'money')
             && columns.some((column) => column.COLUMN_NAME === 'status')

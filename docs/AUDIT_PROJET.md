@@ -866,3 +866,19 @@ npm run test:http
 ```
 
 Pour utiliser `npm start` ou `npm run launch` en terminal, arrêter d'abord `explorakit.service` afin de libérer le port 3000. Le service référence Node 22.16.0 dans le dossier NVM de l'utilisateur ; adapter `ExecStart` si cette version est supprimée. Les 11 tests MySQL et le smoke HTTP/Socket passent avec cette installation ; les comptes temporaires de test sont nettoyés par les scripts.
+
+### Déploiement VPS isolé — 11 octobre 2026
+
+Préparation de `https://app.binout.fr/explorakit/` depuis `master` et le sous-module épinglé `96bfccf`. Client compilé avec `VUE_APP_PUBLIC_PATH=/explorakit/`, base du routeur, API, chemins de sprites et transport Socket.IO adaptés au préfixe ; namespaces de jeu et Drift conservés. Session navigateur sous `explorakit.user`. Backend lié à 127.0.0.1:3340, unité `deploy/explorakit.service` et bloc Nginx dédié. Aucun remplacement des applications existantes. Base SQL et compte dédiés ; secret JWT local ignoré par Git. Publication vérifiée sur HTTPS : 204 tests unitaires réussis (25 tests SQL séparés), 25/25 tests MySQL, smoke HTTP complet réussi et schéma valide. Chromium : accueil et sprites, connexion via le formulaire, canvas Aventure, camp Drift mobile, aucun échec de ressource ni erreur JavaScript. Les namespaces Aventure et Drift ont été authentifiés via WebSocket derrière Nginx. Compte temporaire supprimé. HTML du projet existant strictement identique avant/après ; API existante HTTP 200.
+
+MariaDB installé après autorisation explicite, écoute sur 127.0.0.1:3306 seulement. Bases `explorakit` et `explorakit_test`, droits limités à ces bases ; aucune donnée d'exemple en production. Le schéma neuf contient déjà les onze migrations : elles sont enregistrées dans le registre sans réapplication ; le vérificateur accepte la représentation MariaDB `COLUMN_DEFAULT = 'NULL'`. Services `explorakit` et `mariadb` activés au démarrage. Sauvegarde Nginx : `/home/ubuntu/dev/backups/explorakit-deploy-20261011T142608Z/nginx-taskflow.conf`.
+
+### Simplification du camp — 11 octobre 2026
+
+Accueil recentré sur une seule action : onglets Rejoindre / Créer sur desktop et mobile. En-tête compact, un seul compagnon, formulaire de code avec les parties disponibles. Palmarès, récompenses et guide repliables ; boutique inactive retirée ; solo placé immédiatement après le panneau de jeu. Catalogue et historique conservés sous forme de lignes discrètes. Styles limités au composant DriftLobby, adaptations du sous-répertoire préservées. Vérification : compilation puis parcours Chromium desktop/mobile, création/quitter un salon, accès solo et panneaux secondaires.
+
+Résultat : build réussi ; Chromium valide les deux onglets (un seul panneau visible), création privée à deux joueurs puis sortie, ouverture du palmarès, accès solo avec canvas, sessions WebSocket Aventure/Drift, et largeurs 390/320 px sans débordement. Aucune erreur JavaScript ni ressource en échec. Captures desktop et mobile inspectées. Compte de recette nettoyé.
+
+### Accès Aventure mis en avant — 11 octobre 2026
+
+Bouton « Jouer une aventure en solo » déplacé directement sous l’en-tête, avant les actions RiftMon, dans une carte contrastée. Description : progression à son rythme dans un monde partagé, multijoueur facultatif. Le parcours Aventure et les interactions multijoueurs restent inchangés. Vérification : build et contrôle Chromium du bouton sur desktop/mobile et de son accès au canvas du jeu.
