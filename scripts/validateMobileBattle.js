@@ -76,7 +76,10 @@ async function validateMobileBattle(page, output, fit) {
         }
         for (const button of await page.locator('.battle-main-btn, .battle-sound-toggle').all()) {
             const r = await button.boundingBox();
-            assert(r.width >= 44 && r.height >= 44, 'Combat touch target too small');
+            const layout = await button.evaluate(el => ({ width: el.offsetWidth, height: el.offsetHeight }));
+            // A fractional hover translation can report 43.999984 px for a 44 px button.
+            assert(layout.width >= 44 && layout.height >= 44 && r.width >= 43.99 && r.height >= 43.99,
+                `${width}x${height}: combat target ${await button.getAttribute('class')} measures ${r.width}x${r.height}`);
         }
         await page.screenshot({ path: path.join(output, `battle-mobile-${width}x${height}.png`) });
         await page.locator('.action-attack').tap();

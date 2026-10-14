@@ -12,6 +12,8 @@ Vérification reproductible : compiler le client en production avec `VUE_APP_PUB
 
 Livraison : lint, build temporaire de production et recette navigateur complète réussis. Le build a été installé sous `/explorakit/` après sauvegarde, sans redémarrage du serveur de jeu ; les anciens fichiers hachés restent disponibles aux onglets ouverts. La recette tactile du monde et du combat a également réussi sur le site HTTPS public, sans erreur JavaScript ou ressource manquante, puis le compte temporaire a été supprimé. Les deux autres projets conservent leurs réponses HTTP 200 et leurs empreintes HTML.
 
+La mesure des boutons conserve un minimum de 44 px de mise en page, avec 0,01 px de tolérance sur le rectangle transformé : Chromium peut renvoyer 43,999984 px pendant la translation de survol. Ce cas a été reproduit isolément ; aucun bouton n’a été réduit et aucune animation n’a été désactivée pour faire passer le contrôle.
+
 ### Vue mobile et objectif à la demande — 14 octobre 2026
 
 Le monde mobile occupe désormais la hauteur disponible du navigateur (`100dvh`, zones sûres comprises). La barre Menu/lieu reste compacte ; les commandes de 44 px minimum occupent un bandeau de 160 px sous la carte en portrait et une colonne de 168 px en paysage. Une caméra suit le joueur et se bloque aux limites de la carte, avec une échelle uniforme qui conserve des sprites lisibles. Le canvas s’adapte aux changements de taille et d’orientation via `ResizeObserver`, avec une densité plafonnée à 2. Le bureau conserve la carte complète. Les coordonnées serveur, collisions, PNG/Tiled et règles de déplacement sont inchangés.
