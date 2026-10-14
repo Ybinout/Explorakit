@@ -19,6 +19,16 @@ const ROSTERS = [
     [149, 248, 376, 445, 448, 373]
 ];
 const TITLES = ['Aspirant', 'Challenger', 'Vétéran', 'Maître', 'Champion'];
+// Distinct types and generations, with modest base stats before evolved teams.
+// The same wave is identical for everyone; reconnecting never rerolls an opponent.
+const OPENING_TEAMS = [
+    [163, 263],
+    [179, 270],
+    [66, 285],
+    [58, 54],
+    [33, 180, 70],
+    [17, 61, 404]
+];
 
 function waveInfo(wave) {
     const level = Math.min(100, 10 + (wave - 1) * 3);
@@ -33,7 +43,8 @@ function waveInfo(wave) {
 function opponent(wave) {
     const info = waveInfo(wave), pool = ROSTERS[Math.min(4, Math.floor((wave - 1) / 6))];
     const pokemons = Array.from({ length: info.size }, (_, index) => {
-        const pokemon = factory.create(pool[(index + wave - 1) % pool.length], info.level, true);
+        const id = OPENING_TEAMS[wave - 1]?.[index] ?? pool[(index + wave - 1) % pool.length];
+        const pokemon = factory.create(id, info.level, true);
         pokemon.k = info.potential;
         pokemon.recalculateStats();
         pokemon.currentHp = pokemon.maxHp;

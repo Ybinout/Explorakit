@@ -1,0 +1,67 @@
+const test = require('node:test');
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const { maps } = require('../data/game/nextMap.json');
+const { battleMapData } = require('../server/game/world/mapRepository');
+const factory = require('../server/game/drift/pokemonFactory');
+const colosseum = require('../server/game/drift/colosseum');
+const dex = require('../data/game/pokedex.json');
+const zones = maps.filter(m => battleMapData(m.mapName).flat().some(Boolean));
+const bst = species => Object.values(species.base).reduce((sum, value) => sum + value, 0);
+
+test('each encounter zone has a distinct, diverse pool with shipped sprites and level-appropriate species', () => {
+    const signatures = new Set();
+    for (const zone of zones) {
+        const ids = zone.wildpokemon;
+        assert(ids.length >= 10, zone.mapName);
+        assert.equal(new Set(ids).size, ids.length, 'Duplicated IDs distort encounter odds');
+        const signature = [...ids].sort((a,b) => a-b).join(',');
+        assert(!signatures.has(signature), 'Routes must not all reuse the same pool');signatures.add(signature);
+        const types = new Set();
+        for (const id of ids) {
+            const species = dex.find(p => p.id === id);
+            assert(species && !factory.legendary.has(id), `${zone.mapName}: unavailable or legendary ${id}`);
+            species.type.forEach(type => types.add(type));
+            const cap = zone.level.min < 12 ? 350 : zone.level.min < 20 ? 400 : zone.level.min < 26 ? 460 : zone.level.min < 35 ? 500 : zone.level.min < 55 ? 550 : 600;
+            assert(bst(species) <= cap, `${zone.mapName}: species ${id} is too strong for this stage`);
+            for (const dir of ['dp2', 'back']) assert(fs.existsSync(path.join(__dirname, '../vue-explorakit/src/assets', dir, `${id}.png`)), `${id}: missing ${dir}`);
+            const pokemon = factory.create(id, zone.level.min);
+            assert(pokemon.currentHp > 0 && pokemon.abilities.length > 0);
+        }
+        assert(types.size >= 5, `${zone.mapName}: too little type variety`);
+    }
+});
+
+test('Rift and Colosseum sample the expanded pools within the existing level ranges', () => {
+    for (const zone of zones) {
+        const seen = new Set();
+        for (let i = 0; i < 200; i++) {
+            const pokemon = factory.wild(zone.mapName, {}, () => (i + .5) / 200);
+            assert(zone.wildpokemon.includes(pokemon.data.id));
+            assert(pokemon.level >= zone.level.min && pokemon.level <= zone.level.max);
+            seen.add(pokemon.data.id);
+        }
+        assert.equal(seen.size, zone.wildpokemon.length, `${zone.mapName}: unreachable species`);
+    }
+});
+
+test('opening Colosseum waves vary types and species while keeping fair, increasing challenges', () => {
+    const seen = new Set(), types = new Set();let previousStrength = 0;
+    for (let wave = 1; wave <= 6; wave++) {
+        const team = colosseum.opponent(wave).equipe.pokemons;
+        const repeated = colosseum.opponent(wave).equipe.pokemons;
+        assert.deepEqual(team.map(p=>p.data.id), repeated.map(p=>p.data.id));
+        assert.deepEqual(team.map(p=>p.abilities), repeated.map(p=>p.abilities));
+        const strength = team.reduce((sum,p)=>sum+bst(p.data)*p.level,0);
+        assert(strength > previousStrength);previousStrength = strength;
+        for (const p of team) {
+            assert(!seen.has(p.data.id), 'Early waves should introduce new species');seen.add(p.data.id);
+            p.data.type.forEach(t=>types.add(t));
+            assert(bst(p.data) <= (wave < 3 ? 300 : wave < 5 ? 350 : 400));
+            assert.equal(p.k, 2);assert.equal(p.level, 10 + (wave - 1) * 3);
+        }
+    }
+    assert(seen.size >= 14);assert(types.size >= 8);
+    assert.equal(colosseum.waveInfo(1).points, 300);
+});

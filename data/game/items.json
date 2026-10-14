@@ -34,7 +34,10 @@
       "trigger_hp_ratio": 0.5,
       "fling_power": 10,
       "natural_gift_power": 80,
-      "description": "Tenue, elle restaure 10 PV sous la moitié des PV."
+      "description": "Tenue, elle restaure 10 PV sous la moitié des PV. Peut aussi être consommée depuis le sac hors combat.",
+      "fieldUse": {
+        "heal": 10
+      }
     },
     {
       "key": "sitrus_berry",
@@ -46,7 +49,10 @@
       "trigger_hp_ratio": 0.5,
       "fling_power": 10,
       "natural_gift_power": 80,
-      "description": "Tenue, elle restaure un quart des PV sous la moitié des PV."
+      "description": "Tenue, elle restaure un quart des PV sous la moitié des PV. Peut aussi être consommée depuis le sac hors combat.",
+      "fieldUse": {
+        "healFraction": 0.25
+      }
     },
     {
       "key": "lum_berry",
@@ -56,7 +62,17 @@
       "battle_effect": "cure_status",
       "fling_power": 10,
       "natural_gift_power": 80,
-      "description": "Tenue, elle soigne automatiquement un problème de statut."
+      "description": "Tenue, elle soigne automatiquement un problème de statut. Peut aussi être consommée depuis le sac hors combat.",
+      "fieldUse": {
+        "cure": [
+          "poison",
+          "badly_poison",
+          "burn",
+          "paralyze",
+          "sleep",
+          "freeze"
+        ]
+      }
     },
     {
       "key": "leftovers",

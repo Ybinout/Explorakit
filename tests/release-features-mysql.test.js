@@ -106,6 +106,14 @@ test('medicine no-effect and ownership failures do not consume inventory', { ski
         await assert.rejects(() => medicine.useMedicine(u.id, p, 'potion'), /plus dans/);
         const stored = await teams.loadEquipe(u.id);
         assert.equal(stored.pokemons[0].currentHp, healed.currentHp);
+        const { loadUserItems } = require('../server/persistence/itemRepository');
+        const berry = (await loadUserItems(u.id)).find(i => i.key === 'oran_berry');
+        assert.equal(berry.fieldUse.heal, 10);
+        p.currentHp = 1;await teams.editEquipe(u.id, team);
+        const berryResult = await medicine.useMedicine(u.id, p, 'oran_berry');
+        assert.equal(berryResult.currentHp, 11);
+        assert.equal((await loadUserItems(u.id)).find(i=>i.key==='oran_berry').quantity, berry.quantity - 1);
+        assert.equal((await teams.loadEquipe(u.id)).pokemons[0].currentHp, 11);
     } finally {
         await db.execute('DELETE FROM users WHERE id IN (?,?)', [u.id, v.id]);
     }

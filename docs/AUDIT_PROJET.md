@@ -1,5 +1,19 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Rencontres variées et soins depuis le sac — 14 octobre 2026
+
+Les 16 zones comportant des rencontres sauvages disposent chacune de 12 espèces, soit 187 espèces distinctes. `nextMap.json` conserve ses niveaux et transitions ; seules les listes `wildpokemon` changent. Les premières zones proposent des espèces modestes, puis des évolutions adaptées au niveau et des groupes propres aux routes, berges et grottes. Aucun légendaire n’est ajouté. Aventure, Rift et Colosseum utilisent ces mêmes listes ; `drift_encounters.json` garde des poids rares explicites et le bonus Recherche rare. Les sprites avant/arrière et les attaques générées sont vérifiés.
+
+Les six premiers défis du Colosseum présentent 14 espèces distinctes et huit types, avec des équipes fixes identiques pour tous les joueurs. Niveaux, effectifs, potentiel, points, formats 30/60 et progression après ces défis sont conservés. Les Pokémon déjà engagés dans un combat sont préservés lors d’une reprise. Cette variété ne prétend pas remplacer une recette humaine de l’équilibrage.
+
+Le sac propose un choix de Pokémon puis un bouton **Utiliser**, avec PV/statut, confirmation et explication quand le soin est inutile. Les potions Rift, les médicaments de boutique et les baies Oran/Sitrus/Prine fonctionnent hors combat. Le sac avait masqué les soins en Rift/Colosseum et le serveur de ces modes ne reconnaissait que les deux potions propres au Rift ; les médicaments achetés dans la boutique commune sont maintenant pris en charge. Les descriptions et effets publics sont transmis par l’inventaire Aventure. Les baies restent également équipables ; consommer un exemplaire du sac ne retire pas une baie déjà tenue.
+
+Les effets communs sont dans `server/game/items/medicineEffects.js` ; Aventure conserve sa transaction SQL, Rift son inventaire isolé et son checkpoint avant acquittement. Aucun objet n’est dépensé sans effet, sur une cible étrangère, pendant un combat ou sur un Pokémon perdu. Les Rappels restent réservés à l’Aventure et ne sont plus vendus en Rift/Colosseum. Les soins automatiques entre défis et les effets des Drifts de soin sont conservés.
+
+Vérifications reproductibles : `VUE_APP_PUBLIC_PATH=/explorakit/ RELEASE_DIST_DIR=BUILD_OUTPUT npm run verify:release -- --mysql` (238 tests actifs, 32 tests SQL, audits, HTTP/reprise, lint et compilation). `test:colosseum-browser` inclut désormais les soins réels depuis le sac sur les formats 320/393/844 px : ciblage, potions des deux catalogues, baie, antidote à PV complets, quantité, état et cibles tactiles de 44 px. `test:release-browser` vérifie le bouton Utiliser en Aventure et sa persistance SQL. `tests/consumable-socket.test.js` couvre les trois formats de jeu, les doublons, les refus, le checkpoint et la reconnexion ; `tests/encounter-variety.test.js` couvre diversité, ressources, plafonds de puissance et progression des premiers défis.
+
+Livraison : sources et build précédents sauvegardés, aucun Rift actif au précontrôle. Serveur rechargé et build validé installé sous `/explorakit/`, en conservant les anciennes ressources des onglets ouverts. La recette HTTPS publique a confirmé consommation d’une baie et d’une potion, antidote à PV complets, persistance SQL, commandes du sac Colosseum et absence de débordement à 320 px. Compte temporaire supprimé ; autres projets inchangés. Aucun changement de schéma SQL. Client publié dans son dépôt puis référencé par le serveur.
+
 ## Sortie de la deuxième maison du village de départ — 14 octobre 2026
 
 Dans `maison2`, les deux cases de sortie `(8,15)` et `(9,15)` avaient une collision de mur malgré leur transition existante vers `start`. Le serveur refusait donc le déplacement avant de traiter le changement de carte. Ces deux collisions passent à zéro ; les murs voisins, les transitions, les décors et les données des joueurs sont conservés.
@@ -838,6 +852,7 @@ Le socle pourra être considéré stable lorsque :
 
 | Date | Intervention | Vérifications | État restant |
 | --- | --- | --- | --- |
+| 2026-10-14 | 12 espèces par zone sauvage, premiers défis Colosseum variés, potions/médicaments/baies utilisables depuis le sac dans les trois modes | 238 tests actifs, 32 SQL, audits et compilation ; parcours navigateur de soin et contrôles Socket de consommation/reprise | Ressenti et équilibrage sur des parties humaines |
 | 2026-10-14 | Sortie de `maison2` débloquée : deux collisions de porte corrigées | Portes configurées, aller-retour Rift/Colosseum 30/60, Aventure HTTPS avec reconnexion/sauvegarde ; 231 tests et audit contenu réussis ; partie active préservée | Aucun blocage restant sur cette porte |
 | 2026-10-14 | PWA installable et cache hors ligne isolé ; salon/partie PvP papier-sauge ; format Colosseum 30 min et classements par durée | 227 tests actifs, 32 SQL ; audits, HTTP/reprise, lint/build ; trois recettes navigateur et installabilité Chromium | Installation et zones sûres sur téléphone physique, équilibrage des deux formats |
 | 2026-10-14 | Sélection du texte désactivée dans l’interface de jeu, exceptions pour la saisie et le copier/coller | Lint/build et contrôle navigateur tactile de sélection/saisie | Confirmer le ressenti sur Safari/iPhone physique |

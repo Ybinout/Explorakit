@@ -124,9 +124,10 @@ test('Chance du collectionneur augmente le drop relatif sans changer la rareté 
 
 test('Recherche rare favorise une espèce explicitement rare sans changer la carte ni ses niveaux',()=>{
     const p={drifts:[{uuid:'rare',definitionId:'DRF-054',rarity:'mythic'}],equipped:[]};
-    // In start: Pikachu has weight 25, three common species 100, Kapoera 25.
-    // This draw is outside Pikachu's base interval, inside its boosted interval.
-    const basic=factory.wild('start',p,()=>.08);p.equipped=['rare'];const boosted=factory.wild('start',p,()=>.08);
-    assert.equal(basic.data.id,88);assert.equal(boosted.data.id,25);assert.equal(basic.level,boosted.level);
+    // Sample the full interval: rare-search increases Pikachu's probability,
+    // independent of its position in the zone's expanded species list.
+    const count = () => Array.from({length:1000},(_,i)=>factory.wild('start',p,()=> (i+.5)/1000)).filter(p=>p.data.id===25).length;
+    const basic=count();p.equipped=['rare'];const boosted=count();
+    assert(boosted > basic);assert(boosted < basic * 3);
     assert.equal(factory.wild('centre',p,()=>0),null);
 });

@@ -17,7 +17,11 @@ function hydrateItems(rows) {
             description: itemFromCatalog.description || null,
             catch_multiplier: itemFromCatalog.catch_multiplier || null,
             buyPrice: Number(itemFromCatalog.buy_price) || null,
-            quantity: Number(row.quantity) || 0
+            quantity: Number(row.quantity) || 0,
+            heal: itemFromCatalog.heal || null,
+            cure: itemFromCatalog.cure || null,
+            revive: Boolean(itemFromCatalog.revive),
+            fieldUse: itemFromCatalog.fieldUse || null
         };
     });
 }

@@ -276,6 +276,7 @@ async function fit(page, selector, width, height) {
         await medicine.waitFor();
         const uuid = await medicine.locator('option').nth(1).getAttribute('value');
         await medicine.selectOption(uuid);
+        await page.locator('[data-item-key="potion"] .bag-use-button').click();
         await page.waitForFunction(
             () => document.querySelector('[data-item-key="potion"] .bag-item-qty')?.textContent === 'x1'
         );

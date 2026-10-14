@@ -58,6 +58,32 @@ async function checkWidth() { assert(await page.evaluate(()=>document.documentEl
         const starter=p.equipe.pokemons[0].uuid,ends=p.run.endsAt;
         await page.reload({waitUntil:'networkidle'});await page.locator('.drift-hud').waitFor();
         assert.equal(p.equipe.pokemons[0].uuid,starter);assert.equal(p.run.endsAt,ends);
+        // Use actual controls against the test server's expedition inventory.
+        const companion = factory.create(7,30);p.equipe.pokemons.push(companion);
+        p.equipe.pokemons[0].currentHp = 1;companion.currentHp = 1;
+        Object.assign(p.items,{potion:2,oran_berry:1,antidote:1,lum_berry:1});cleanup.runtime.send(p);
+        await page.locator('.menu-toggle-btn').click();await page.locator('[data-menu-action="bag"]').click();
+        const useBagItem = async (key,uuid) => {
+            const row=page.locator(`[data-item-key="${key}"]`);
+            await row.locator('select').selectOption(uuid);await row.locator('.bag-use-button').click();
+            await page.getByRole('status').filter({hasText:'Soin sauvegardé.'}).waitFor();
+        };
+        await useBagItem('drift_potion',starter);assert.equal(p.items.drift_potion,2);
+        assert.equal(p.equipe.pokemons[0].currentHp,p.equipe.pokemons[0].maxHp);
+        assert.equal(companion.currentHp,1,'Healing must affect the selected target');
+        await useBagItem('potion',companion.uuid);assert.equal(companion.currentHp,21);assert.equal(p.items.potion,1);
+        await useBagItem('oran_berry',companion.uuid);assert.equal(companion.currentHp,31);assert.equal(p.items.oran_berry,0);
+        companion.currentHp=companion.maxHp;companion.status='poison';cleanup.runtime.send(p);
+        await useBagItem('antidote',companion.uuid);assert.equal(companion.status,'normal');
+        assert(await page.locator('[data-item-key="potion"] .bag-use-button').isDisabled());
+        for(const [width,height] of [[320,568],[393,852],[844,390]]) {
+            await page.setViewportSize({width,height});await checkWidth();
+            const size=await page.locator('[data-item-key="potion"] .bag-use-button').boundingBox();assert(size.height>=44);
+            await page.screenshot({path:path.join(output,`colosseum-bag-${width}.png`)});
+        }
+        await page.locator('.bag-panel .panel-close').click();
+        p.equipe.pokemons=p.equipe.pokemons.filter(poke=>poke.uuid===starter);cleanup.runtime.send(p);
+        await page.setViewportSize({width:393,height:852});
         await page.locator('.drift-hud-toggle').click();await page.locator('[data-drift-tab="tournament"]').click();
         await page.getByText('30 minutes pour tout préparer',{exact:true}).waitFor();
         await page.screenshot({path:path.join(output,'colosseum-exploration.png')});

@@ -4,6 +4,7 @@ const { value, heal, attach, detach } = require('./driftEffects');
 const { isShopMap, getShopCatalog } = require('../world/shopCatalog');
 const { items: baseItems } = require('../../../data/game/items.json');
 const { LobbyError } = require('./lobbyStore');
+const { medicineResult } = require('../items/medicineEffects');
 const report = require('./runReport');
 const SLOT_LIMIT = 5;
 const prices = { common: 50, rare: 120, epic: 300, legendary: 800, mythic: 2000 };
@@ -12,7 +13,7 @@ const potions = [{ key: 'drift_potion', name: 'Potion', category: 'heal', price:
     { key: 'drift_super_potion', name: 'Super Potion', category: 'heal', price: 300, amount: 60, description: 'Soigne 60 PV hors combat.' }];
 const fail = message => { throw new LobbyError('drift_invalid', message); };
 function bag(p) { return [...baseItems, ...potions].filter(i => p.items[i.key] > 0).map(i => ({ ...i, quantity: p.items[i.key] })); }
-function shop(p) { return { success: true, catalog: [...getShopCatalog(), ...potions], items: bag(p), money: p.money }; }
+function shop(p) { return { success: true, catalog: [...getShopCatalog().filter(i => i.key !== 'revive'), ...potions], items: bag(p), money: p.money }; }
 function requireMutable(p) { if (!p.alive || p.inbattle || p.run.phase === 'results') fail('Action indisponible maintenant.'); }
 function equip(p, uuid, enabled) {
     requireMutable(p);
@@ -47,12 +48,20 @@ function buy(p, key, quantity) {
 }
 function usePotion(p, key, uuid, random = Math.random) {
     requireMutable(p); if (p.run.phase !== 'exploration') fail('Soins automatiques entre les rounds.');
-    const item = potions.find(i => i.key === key), pokemon = p.equipe.pokemons.find(a => a.uuid === uuid);
-    if (!item || !pokemon || pokemon.currentHp <= 0 || !(p.items[key] > 0) || pokemon.currentHp >= pokemon.maxHp) fail('Ce soin est inutilisable.');
+    const item = [...potions, ...baseItems].find(i => i.key === key), pokemon = p.equipe.pokemons.find(a => a.uuid === uuid);
+    if (!item || item.revive || !pokemon || pokemon.currentHp <= 0 || !(p.items[key] > 0)) fail('Ce soin est inutilisable.');
+    let result;
+    if (item.category === 'heal') {
+        if (pokemon.currentHp >= pokemon.maxHp) fail('Cet objet n’aurait aucun effet.');
+        result = { currentHp: Math.min(pokemon.maxHp, pokemon.currentHp + item.amount), status: pokemon.status };
+    } else {
+        try { result = medicineResult(pokemon, key); } catch (error) { fail(error.message); }
+    }
     attach(p.equipe.pokemons, p, false, random);
-    try { heal(pokemon, item.amount); } finally { detach(p.equipe.pokemons); }
+    try { heal(pokemon, result.currentHp - pokemon.currentHp); pokemon.status = result.status; } finally { detach(p.equipe.pokemons); }
     if (random() >= value(p, 52) / 100) p.items[key]--;
     report.increment(p,'potionsUsed');report.event(p,'heal',`${item.name} utilisée sur ${pokemon.truename || pokemon.name}.`);
+    return { success: true, items: bag(p), equipe: p.equipe };
 }
 function drop(p, source, random = Math.random) {
     const chance = { wild: .15, capture: .15, trainer: .5, arena: 1 }[source] || 0;

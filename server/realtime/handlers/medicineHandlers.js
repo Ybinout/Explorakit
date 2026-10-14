@@ -14,7 +14,7 @@ function registerMedicineHandlers({ socket, userId, getPlayer, canUse = () => tr
             socket.emit('teamStateChanged', { equipe: p.equipe, reason: 'medicine' });
             const items = await loadUserItems(userId);
             socket.emit('bagUpdated', { items });
-            reply({ success: true, items });
+            reply({ success: true, items, equipe: p.equipe });
         } catch (e) {
             if (e.code) console.error('Soin impossible:', e.message);
             reply({ success: false, message: e.code ? 'Le soin est temporairement indisponible.' : e.message });
