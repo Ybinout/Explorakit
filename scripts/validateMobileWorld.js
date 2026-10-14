@@ -1,5 +1,6 @@
 const assert = require('node:assert/strict');
 const path = require('node:path');
+const { validateMobileBattle } = require('./validateMobileBattle');
 
 async function validateMobileWorld({ loginContext, fixture, base, output, fit }) {
     const { context, page } = await loginContext(fixture, { width: 393, height: 852 }, {
@@ -99,8 +100,9 @@ async function validateMobileWorld({ loginContext, fixture, base, output, fit })
     await page.reload({ waitUntil: 'networkidle' });
     await page.locator('.mobile-dpad').waitFor();
     assert.equal(await page.locator('.adventure-guide').count(), 0, 'Reload reopens objective');
+    const battle = await validateMobileBattle(page, output, fit);
     await context.close();
-    return { touchEmulation: true, formats: formats.length, serverMovement: true, objectiveOnlyInMenu: true };
+    return { touchEmulation: true, formats: formats.length, serverMovement: true, objectiveOnlyInMenu: true, battle };
 }
 
 module.exports = { validateMobileWorld };
