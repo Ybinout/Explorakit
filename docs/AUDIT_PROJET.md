@@ -1,6 +1,13 @@
 # Audit technique et mémoire du projet Explorakit
 
 
+
+### Sélection tactile désactivée — 14 octobre 2026
+
+La racine du client applique `user-select: none`, son préfixe WebKit et `-webkit-touch-callout: none` aux interfaces de jeu : menus, exploration, combats et salons. Les champs `input`, `textarea` et les zones éditables rétablissent la sélection de texte et le menu de copier/coller. Le code de salon ne force plus la sélection ; son bouton de copie reste disponible. Le défilement, les gestes tactiles et le zoom ne sont pas bloqués par cette règle.
+
+Vérification reproductible : build production temporaire, puis contrôle Chromium tactile des styles calculés et d’une sélection par glissement dans l’interface ; saisie et sélection dans un champ restent possibles. Lint et build du client requis. Contrôle également réussi sur le site HTTPS public. Client déployé avec sauvegarde du précédent build, sans redémarrage du serveur ni migration SQL.
+
 ## Rift Colosseum et accueil à trois modes — 14 octobre 2026
 
 L’accueil propose désormais trois entrées distinctes : **Jouer une aventure solo**, **Rift multijoueur** et **Rift Colosseum**, dans les couleurs papier/sauge du Pokédex. Les routes existantes `/game` et `/drift` restent disponibles ; `/colosseum` contient les règles et le classement, `/colosseum/game` réutilise le monde et les combats mobiles. L’authentification conserve la destination choisie.
@@ -802,6 +809,7 @@ Le socle pourra être considéré stable lorsque :
 
 | Date | Intervention | Vérifications | État restant |
 | --- | --- | --- | --- |
+| 2026-10-14 | Sélection du texte désactivée dans l’interface de jeu, exceptions pour la saisie et le copier/coller | Lint/build et contrôle navigateur tactile de sélection/saisie | Confirmer le ressenti sur Safari/iPhone physique |
 | 2026-10-14 | Rift Colosseum solo, heure fixe, K.O. définitifs, défis progressifs, classement SQL et accueil à trois modes | Tests moteur/Socket, SQL concurrent/reprise et parcours navigateur responsive ; régressions Aventure/Rift/mobile | Équilibrage humain sur une heure et téléphone physique |
 | 2026-10-14 | Combat mobile : cadrage des deux Pokémon, indicateur de tour dans les commandes, grille adaptative et zones sûres | Recette tactile sur sept formats ; visibilité des pixels des sprites, aucun recouvrement, menus et ciblage attaque/capture | Confirmer le confort sur téléphone physique |
 | 2026-10-14 | Vue mobile : caméra suivant le joueur, carte pleine hauteur disponible, commandes compactes adaptées à l’orientation ; objectif uniquement dans le menu | Trois tests caméra ; recette navigateur tactile sur sept formats, déplacement serveur, annulation du toucher et menus ; recette Rift jusqu’à 740×320 | Ressenti et zones sûres à confirmer sur téléphone physique |
