@@ -4,6 +4,18 @@ Dernière confrontation audit/code/tests : **14 octobre 2026** (audit initial : 
 État actuel : socle technique, progression, combats et RiftMon livrés. Mise à jour du **14 octobre** : checkpoints SQL avec reprise, objectifs guidés, chapitre II, huit intérieurs peuplés, médicaments, boutique cosmétique et rapports synchronisés. Contrôles de publication locaux et workflow GitHub ajoutés. La section suivante détaille les six axes, leurs preuves et leurs limites.
 Portée : revue des fonctionnalités livrées, des preuves automatisées et des priorités restantes ; ce n'est pas une nouvelle recette humaine exhaustive ni un audit de sécurité complet.
 
+### Direction artistique partagée avec le Pokédex — 14 octobre 2026
+
+Le Pokédex devient la référence des interfaces du monde : fond papier clair, vert sauge, texte sombre, bordures fines, angles arrondis et police Arial. Les variables communes sont définies dans `vue-explorakit/src/styles/field-journal.css`, importées au démarrage et réutilisées par le Pokédex. `adventure.css` remplace l’ancien habillage des menus ; les composants conservent leur logique de jeu.
+
+La barre du monde regroupe Menu et localisation. Les menus, sac, équipe/fiches, apparence, objectifs, quêtes/badges, sauvegarde, options, boutique, dialogues et interactions sociales reprennent cette base ; les icônes de menu sont des SVG locaux. La barre d’expédition Rift utilise les mêmes couleurs. Le camp RiftMon et les couleurs fonctionnelles des commandes de combat ne font pas partie de cette refonte. Aucune carte, règle serveur ou migration SQL n’est modifiée.
+
+Les commandes tactiles se masquent lorsqu’un panneau est ouvert ; le clavier ne déplace plus le joueur derrière le menu, le sac ou l’apparence. Les panneaux Sac et Apparence ont une fermeture visible et les commandes principales gardent des cibles d’au moins 44 px. Les noms de lieux longs peuvent revenir à la ligne sur petit écran.
+
+Vérification reproductible : compiler en production avec `VUE_APP_PUBLIC_PATH=/explorakit/` dans un dossier temporaire, puis `RELEASE_DIST_DIR=<dossier> npm run test:release-browser`. Ce scénario inclut `scripts/validateJournalUi.js` : sept entrées du menu, recherche Pokédex, fiches/onglets, langue, fermetures, défilement, cohérence des couleurs/polices et noms longs aux formats 1365×900, 390×844, 320×568 et 844×390. Boutique et dialogue utilisent des données visuelles injectées uniquement dans le navigateur de test ; ils ne certifient pas un achat ou un parcours narratif. La barre Rift est vérifiée dans une vraie expédition à deux comptes temporaires. Les achats cosmétiques et le soin SQL restent couverts par le scénario existant. Captures sous `/tmp/explorakit-journal-browser` lors de cette livraison ; navigateur Chromium, pas de téléphone physique.
+
+Mise en ligne : build validé installé dans `/explorakit/`, anciens fichiers hachés conservés pour les onglets ouverts et copie du build précédent dans le dossier privé de sauvegarde. Service de jeu conservé sans redémarrage. Contrôle HTTPS sur quatre formats : connexion, accès solo, nouveau menu et recherche Pokédex ; aucune erreur de ressource ou JavaScript. Les deux autres projets répondent toujours HTTP 200 avec un HTML strictement identique.
+
 ## Livraison des six axes — 14 octobre 2026
 
 Cette section remplace les limites du 11 octobre concernant les parties en RAM, la boutique « bientôt », les huit intérieurs vides et l’absence de suite à la lettre. Les entrées datées du journal conservent leur contexte historique.
@@ -806,6 +818,8 @@ Le socle pourra être considéré stable lorsque :
 | 2026-10-14 | Six axes : reprise Rift durable, guide Aventure, chapitre II et refuges, huit intérieurs peuplés, quatre médicaments, boutique cosmétique et archives serveur, modules/validation/CI | 210 tests unitaires et 28 tests MySQL ; SIGKILL/reprise réelle ; chapitres I et II par Socket ; 360 combats simulés ; recette navigateur quatre formats, achats/équipement/historique sur navigateur vierge et soin sauvegardé. Deux régressions trouvées puis corrigées : conflit SQL d’achats simultanés et liste de cibles vide au premier accès au sac | Migration 012 additive ; aucun fichier de carte modifié. Retour au dernier checkpoint, architecture mono-instance, anciens souvenirs locaux conservés. Tests humains longs et téléphone physique non réalisés. |
 
 | 2026-10-14 | Contrôle GitHub et fenêtre crash/règlement : compilation explicitement production, captures d’échec, résultat SQL prioritaire sur un checkpoint antérieur | Échec CI reproduit avec NODE_ENV=test puis parcours complet réussi après correction ; 28/28 MySQL et test de crash avec checkpoint ancien, rapport identique et une seule victoire | Les mêmes règles et le même client sont conservés. La reprise ne rejoue jamais une partie dont le règlement SQL est terminé. |
+
+| 2026-10-14 | DA du Pokédex partagée : variables papier/sauge, menus et localisation, panneaux du monde, fiches, dialogues et barre Rift ; commandes tactiles masquées sous les panneaux | Lint/build production et recette Chromium sur quatre formats, sept menus, recherche, fermeture, langue, boutique/dialogue visuels, vraie expédition Rift et soin SQL ; captures inspectées | Camp et combat conservent leurs styles propres. Aucune carte, règle serveur ou migration modifiée ; validation physique mobile restante. |
 
 ## 12. Notes pour les prochaines interventions
 

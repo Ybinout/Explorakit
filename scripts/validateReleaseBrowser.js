@@ -5,6 +5,7 @@ const { randomUUID } = require('node:crypto');
 const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
+const { validateJournalUi, viewports } = require('./validateJournalUi');
 const mysql = require('mysql2/promise');
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const httpProxy = require('../vue-explorakit/node_modules/http-proxy');
@@ -20,7 +21,7 @@ fs.mkdirSync(output, { recursive: true });
 const fixtures = [],
     sockets = [],
     errors = [];
-let child, proxy, proxyServer, browser, db, runId;
+let child, proxy, proxyServer, browser, db, runId, journalRunId;
 let successful = false;
 async function request(route, token, body) {
     const response = await fetch(base + '/api' + route, {
@@ -259,6 +260,31 @@ async function fit(page, selector, width, height) {
         const [[healed]] = await db.execute('SELECT current_hp FROM pokemons WHERE uuid=?', [uuid]);
         assert(healed.current_hp > 1, 'Le soin doit être sauvegardé');
         await page.screenshot({ path: path.join(output, 'medicine-mobile.png') });
+        const journal = await validateJournalUi(page, output, fit);
+        // The shared world toolbar must also fit an actual two-player Rift.
+        const journalHost = await connect(host), journalGuest = await connect(guest);
+        const journalRoom = await command(journalHost, 'drift:create', { capacity: 2, durationMinutes: 20, visibility: 'private' });
+        await command(journalGuest, 'drift:join', { code: journalRoom.lobby.code });
+        await command(journalHost, 'drift:ready', { ready: true });
+        await command(journalGuest, 'drift:ready', { ready: true });
+        await command(journalHost, 'drift:start');
+        journalRunId = (await command(journalHost, 'drift:enter')).state.id;
+        await command(journalGuest, 'drift:enter');
+        journalHost.disconnect();
+        await page.goto(base + '/drift/game', { waitUntil: 'networkidle' });
+        await page.locator('.game-root.is-drift .drift-hud').waitFor();
+        for (const [width, height] of viewports) {
+            await page.setViewportSize({ width, height });
+            await fit(page, '.world-toolbar', width, height);
+            await fit(page, '.location-banner', width, height);
+            await fit(page, '.drift-hud-toggle', width, height);
+            await page.locator('.menu-toggle-btn').click();
+            await fit(page, '.menu-dropdown', width, height);
+            assert.equal(await page.locator('[data-menu-action="pokedex"]').count(), 0);
+            await page.screenshot({ path: path.join(output, `journal-rift-${width}.png`) });
+            await page.keyboard.press('Escape');
+        }
+        await command(journalGuest, 'drift:abandon');
         assert.deepEqual(errors, []);
         console.log(
             JSON.stringify({
@@ -270,6 +296,8 @@ async function fit(page, selector, width, height) {
                 persistedCosmetics: true,
                 objectiveAndHelp: true,
                 medicine: true,
+                journal,
+                riftToolbar: true,
                 errors,
                 output,
             })
@@ -297,6 +325,7 @@ async function fit(page, selector, width, height) {
         }
         if (db) {
             if (runId) await db.execute('DELETE FROM rift_runs WHERE id=?', [runId]);
+            if (journalRunId) await db.execute('DELETE FROM rift_runs WHERE id=?', [journalRunId]);
             for (const fixture of fixtures)
                 await db.execute('DELETE FROM users WHERE id=?', [fixture.user.id]);
             await db.end();
