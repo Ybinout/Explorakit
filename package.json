@@ -30,7 +30,8 @@
     "verify:release": "node --env-file-if-exists=.env scripts/verifyRelease.js",
     "test:release-browser": "node --env-file-if-exists=.env scripts/validateReleaseBrowser.js",
     "test:colosseum-browser": "node --env-file-if-exists=.env scripts/validateColosseumBrowser.js",
-    "test:pwa-browser": "node scripts/validatePwaBrowser.js"
+    "test:pwa-browser": "node scripts/validatePwaBrowser.js",
+    "test:community-browser": "node --env-file-if-exists=.env scripts/validateCommunityBrowser.js"
   },
   "keywords": [],
   "author": "",

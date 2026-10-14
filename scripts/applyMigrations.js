@@ -16,7 +16,8 @@ const migrationFiles = [
     '011_rift_reward_duration.sql',
     '012_rift_durability_cosmetics.sql',
     '013_colosseum.sql',
-    '014_colosseum_formats.sql'
+    '014_colosseum_formats.sql',
+    '015_ranks_friends.sql'
 ];
 
 async function applyMigrations() {

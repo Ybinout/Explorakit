@@ -1,3 +1,4 @@
+const { colosseumRank } = require('../game/social/ranks');
 const { durationMinutes } = require('../game/drift/colosseum');
 const { dbPool, withTransaction } = require('../config/database');
 
@@ -64,7 +65,7 @@ async function leaderboard(userId, format = 60) {
       ) ranked JOIN users u ON u.id=ranked.user_id JOIN colosseum_runs r ON r.id=ranked.run_id
       WHERE ranked.position<=50 OR ranked.user_id=? ORDER BY ranked.position`, [minutes,userId]);
     const entries = rows.map(row => ({ rank: Number(row.position), userId: Number(row.user_id), username: row.username,
-        score: Number(row.score), wins: Number(row.wins), finishedAt: new Date(row.finished_at).getTime(),
+        score: Number(row.score), wins: Number(row.wins), league: colosseumRank(Number(row.score), Number(row.wins)), finishedAt: new Date(row.finished_at).getTime(),
         team: (JSON.parse(row.report_json).colosseum.lastTeam || []).map(p => ({ pokemonId:p.pokemonId,name:p.name,level:p.level,knockedOut:p.currentHp<=0 })) }));
     return { durationMinutes: minutes, entries: entries.filter(row=>row.rank<=50), personal: entries.find(row=>row.userId===userId) || null };
 }

@@ -60,7 +60,8 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
                 connected:Boolean(a.socketId&&playerFor({id:a.userId})===a),inBattle:Boolean(a.inbattle),reason:a.eliminationReason||null})),
             matches:run.matches.map(m=>({id:m.id,round:m.round,players:m.players,status:m.status,winnerId:m.winnerId})),
             ...(run.settlement?{settlement:{status:run.settlement.status,coinsAwarded:run.settlement.coinsAwarded||0,
-                ...(run.settlement.reward?{reward:run.settlement.reward}:{})}}:{}),
+                ...(run.settlement.reward?{reward:run.settlement.reward}:{}),
+                ...(run.settlement.ratings?{ratings:run.settlement.ratings}:{})}}:{}),
             ...(run.phase==='results'&&run.report?{report:run.report}:{}) };
     }
     function send(p) { emit(p,'drift:state',state(p)); }
@@ -95,7 +96,8 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
             players: [...run.players.values()].map(p => ({ id: p.userId, username: p.username })),
             winnerId: run.winnerId, finishedAt: run.finishedAt, explorationMs: run.explorationMs, report: run.report })).then(result => {
             run.settlement = { status: 'complete', coinsAwarded: result.coinsAwarded || 0,
-                ...(result.reward ? { reward: result.reward } : {}) };
+                ...(result.reward ? { reward: result.reward } : {}), ...(result.ratings ? { ratings: result.ratings } : {}) };
+            if (result.ratings && run.report) run.report = { ...run.report, ratingChanges: result.ratings };
             publish(run);
         }).catch(error => {
             run.settleAfter = now() + 5000;
@@ -458,7 +460,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
                 purge(player, previous?.reason || (player.userId === receipt.winnerId ? 'winner' : 'finished'));
             }
             run.report = receipt.report;
-            run.settlement = { status: 'complete', coinsAwarded: receipt.coinsAwarded, reward: receipt.reward };
+            run.settlement = { status: 'complete', coinsAwarded: receipt.coinsAwarded, reward: receipt.reward, ...(receipt.ratings ? {ratings:receipt.ratings} : {}) };
         }
     }
     function restore(saved, savedAt) {

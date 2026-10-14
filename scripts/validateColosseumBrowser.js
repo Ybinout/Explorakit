@@ -117,6 +117,7 @@ async function checkWidth() { assert(await page.evaluate(()=>document.documentEl
         await page.locator('.drift-hud').waitFor();const classic=cleanup.runtime.playerFor({id:userId});
         assert.equal(classic.run.endsAt-classic.run.startedAt,3600000);
         // Server-side fixture only: exercise the expert threshold through the actual UI.
+        await waitFor(()=>Boolean(classic.socketId) && classic.disconnectedAt===null,'Classic run not connected before clock advance');
         classic.run.colosseum.wins=50;offset+=3600000;cleanup.runtime.tick();
         await page.locator('[data-colosseum-difficulty]').filter({hasText:'Expert'}).waitFor();
         await page.setViewportSize({width:320,height:568});await checkWidth();

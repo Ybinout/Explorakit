@@ -11,7 +11,7 @@ async function verifyMigration() {
                  'users', 'teams', 'pokemons', 'user_items', 'player_story_flags',
                  'player_quests', 'player_badges', 'user_pokedex', 'user_npc_battles',
                  'rift_profiles', 'rift_runs', 'rift_run_entries',
-                 'rift_checkpoints', 'rift_reports', 'rift_cosmetics', 'rift_appearance', 'colosseum_runs', 'colosseum_bests'
+                 'rift_checkpoints', 'rift_reports', 'rift_cosmetics', 'rift_appearance', 'colosseum_runs', 'colosseum_bests', 'rift_ratings', 'rift_rating_results', 'trainer_friendships'
                )
              ORDER BY TABLE_NAME`
         );
@@ -40,7 +40,8 @@ async function verifyMigration() {
                AND CONSTRAINT_NAME IN (
                  'uniq_team_user', 'uniq_team_position', 'fk_teams_user',
                  'fk_pokemons_team', 'fk_user_items_user',
-                 'fk_rift_profiles_user', 'fk_rift_entries_user', 'fk_rift_entries_run'
+                 'fk_rift_profiles_user', 'fk_rift_entries_user', 'fk_rift_entries_run',
+                 'fk_rating_user', 'fk_rating_result_run', 'fk_rating_result_user', 'fk_friends_low', 'fk_friends_high', 'fk_friends_requester'
                )
              ORDER BY CONSTRAINT_NAME`
         );
@@ -52,7 +53,7 @@ async function verifyMigration() {
              FROM information_schema.COLUMNS
              WHERE TABLE_SCHEMA = DATABASE()
                AND TABLE_NAME IN ('rift_profiles', 'rift_runs', 'rift_run_entries',
-                 'rift_checkpoints', 'rift_reports', 'rift_cosmetics', 'rift_appearance', 'colosseum_runs', 'colosseum_bests')
+                 'rift_checkpoints', 'rift_reports', 'rift_cosmetics', 'rift_appearance', 'colosseum_runs', 'colosseum_bests', 'rift_ratings', 'rift_rating_results', 'trainer_friendships')
              ORDER BY TABLE_NAME, ORDINAL_POSITION`
         );
         const [entryKey] = await connection.query(
@@ -65,14 +66,16 @@ async function verifyMigration() {
              WHERE CONSTRAINT_SCHEMA=DATABASE() AND TABLE_NAME='colosseum_bests'
                AND CONSTRAINT_NAME='PRIMARY' ORDER BY ORDINAL_POSITION`
         );
-        const valid = tables.length === 18
+        const valid = tables.length === 21
             && tables.every((table) => table.ENGINE === 'InnoDB')
-            && constraints.length === 8
+            && constraints.length === 14
             && migrations.some((migration) => migration.name === '010_rift_accounts.sql')
             && migrations.some((migration) => migration.name === '011_rift_reward_duration.sql')
             && migrations.some((migration) => migration.name === '012_rift_durability_cosmetics.sql')
             && migrations.some((migration) => migration.name === '013_colosseum.sql')
             && migrations.some(migration => migration.name === '014_colosseum_formats.sql')
+            && migrations.some(migration => migration.name === '015_ranks_friends.sql')
+            && ['rating','games'].every(name => riftColumns.some(c => c.TABLE_NAME === 'rift_ratings' && c.COLUMN_NAME === name && c.IS_NULLABLE === 'NO'))
             && colosseumKey.map(column => column.COLUMN_NAME).join(',') === 'user_id,duration_minutes'
             && ['colosseum_runs', 'colosseum_bests'].every(table => riftColumns.some(column => column.TABLE_NAME === table && column.COLUMN_NAME === 'duration_minutes' && column.IS_NULLABLE === 'NO'))
             && entryKey.map((column) => column.COLUMN_NAME).join(',') === 'run_id,user_id'

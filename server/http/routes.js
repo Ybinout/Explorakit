@@ -65,6 +65,7 @@ router.post('/login', async (req, res) => {
 });
 
 router.use(authenticateHttp);
+router.use('/community',require('./trainerRoutes'));
 router.use('/rift',rateLimit({limit:90}),require('./riftRoutes'));
 
 

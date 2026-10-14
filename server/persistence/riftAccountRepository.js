@@ -1,3 +1,4 @@
+const ratingRepository = require('./riftRatingRepository');
 const { createHash } = require('node:crypto');
 const { dbPool, withTransaction } = require('../config/database');
 const { calculateAccountReward } = require('../game/drift/accountReward');
@@ -117,11 +118,16 @@ async function recordRunFinished(run) {
                     coinsAwarded: result.coinsAwarded
                 };
             }
+            const ratings = await ratingRepository.load(connection, id);
+            if (ratings.length) result.ratings = ratings;
             return result;
         }
         if (winnerId != null && !entries.some((entry) => Number(entry.user_id) === winnerId)) {
             throw new Error('Le vainqueur ne fait pas partie de cette expédition RiftMon.');
         }
+        const ratings = await ratingRepository.settle(connection, run, entries);
+        if (ratings.length && run.report) await connection.execute(
+            'UPDATE rift_reports SET report_json=? WHERE run_id=?', [JSON.stringify({ ...run.report, ratingChanges: ratings }),id]);
         const reward = calculateAccountReward(Number(stored.participant_count), run.explorationMs, winnerId != null);
         for (const entry of entries) {
             const won = Number(entry.user_id) === winnerId;
@@ -138,7 +144,7 @@ async function recordRunFinished(run) {
             `UPDATE rift_runs SET finished_at = ?, winner_id = ?, reward_exploration_ms = ?, reward_version = ?
              WHERE id = ?`, [finishedAt, winnerId, reward.explorationMs, reward.version, id]
         );
-        return { recorded: true, winnerId, coinsAwarded: reward.coinsAwarded, reward };
+        return { recorded: true, winnerId, coinsAwarded: reward.coinsAwarded, reward, ...(ratings.length ? { ratings } : {}) };
     });
 }
 
@@ -159,6 +165,7 @@ async function getFinishedRuns(runIds) {
             if (!row.report_json) throw new Error('Rapport final manquant pour une expédition sauvegardée.');
             receipts.push({ id: row.id, winnerId: row.winner_id == null ? null : Number(row.winner_id),
                 finishedAt: new Date(row.finished_at).getTime(), report: JSON.parse(row.report_json),
+                ratings: await ratingRepository.load(dbPool, row.id),
                 coinsAwarded: Number(row.coins_earned), reward: {
                     version: Number(row.reward_version), participantCount: Number(row.participant_count),
                     explorationMs: Number(row.reward_exploration_ms), coinsPerPlayerMinute: 2.5,

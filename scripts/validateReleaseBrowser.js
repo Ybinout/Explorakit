@@ -238,6 +238,8 @@ async function fit(page, selector, width, height) {
         await fresh.page.locator('[data-drift-history-toggle]').click();
         await fresh.page.locator(`[data-drift-history-run="${runId}"]`).click();
         await fresh.page.locator('[data-drift-report]').waitFor();
+        assert.match(await fresh.page.locator('[data-report-rating]').innerText(), /1000 → 1024/);
+        assert.match(await fresh.page.locator('[data-rift-rank-summary]').innerText(), /Bronze/);
         await fresh.page.screenshot({ path: path.join(output, 'history-fresh-browser.png'), fullPage: true });
         assert.equal(
             await fresh.page.evaluate(() =>
