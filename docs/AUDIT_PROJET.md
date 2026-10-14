@@ -1,5 +1,13 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Sortie de la deuxième maison du village de départ — 14 octobre 2026
+
+Dans `maison2`, les deux cases de sortie `(8,15)` et `(9,15)` avaient une collision de mur malgré leur transition existante vers `start`. Le serveur refusait donc le déplacement avant de traiter le changement de carte. Ces deux collisions passent à zéro ; les murs voisins, les transitions, les décors et les données des joueurs sont conservés.
+
+Vérification reproductible : `node --test tests/house-exits.test.js tests/world-content.test.js` (13 tests). Le nouveau contrôle parcourt toutes les portes configurées et détecte une case de transition bloquée. Les parcours Rift et Colosseum 30/60 min empruntent réellement les deux côtés de la porte, sortent, rentrent et vérifient le mur adjacent. Les quatre nouveaux tests échouaient avant correction. `npm test` : 231 tests réussis, 32 tests MySQL réservés à leur commande dédiée ; `npm run audit:content` réussi.
+
+Livraison : carte sauvegardée puis serveur rechargé pour renouveler son cache. La partie Colosseum active a été conservée par checkpoint. Sur le site public, un compte temporaire Aventure a vérifié les deux sorties, une reconnexion depuis l’intérieur et la sauvegarde de sa position extérieure ; compte supprimé ensuite. Les deux autres projets conservent leurs HTTP 200 et leurs empreintes HTML. Aucun build client ni migration SQL nécessaire.
+
 ## PWA, DA Rift multijoueur et Colosseum 30 min — 14 octobre 2026
 
 L’accueil propose **Installer le jeu** : invitation native lorsqu’elle est disponible, instructions Safari/iOS et menu du navigateur sinon. Le manifeste relatif, les icônes PNG 192/512 (maskable) et Apple 180, les métadonnées et le service worker sont limités à `/explorakit/`. Le mode `standalone` retire la barre d’adresse quand le jeu est lancé depuis son icône installée. Un onglet normal conserve les contrôles du navigateur ; le code ne force ni plein écran ni orientation. Les écrans d’accueil respectent les zones sûres. L’installation ne supprime pas le besoin de connexion du jeu.
@@ -830,6 +838,7 @@ Le socle pourra être considéré stable lorsque :
 
 | Date | Intervention | Vérifications | État restant |
 | --- | --- | --- | --- |
+| 2026-10-14 | Sortie de `maison2` débloquée : deux collisions de porte corrigées | Portes configurées, aller-retour Rift/Colosseum 30/60, Aventure HTTPS avec reconnexion/sauvegarde ; 231 tests et audit contenu réussis ; partie active préservée | Aucun blocage restant sur cette porte |
 | 2026-10-14 | PWA installable et cache hors ligne isolé ; salon/partie PvP papier-sauge ; format Colosseum 30 min et classements par durée | 227 tests actifs, 32 SQL ; audits, HTTP/reprise, lint/build ; trois recettes navigateur et installabilité Chromium | Installation et zones sûres sur téléphone physique, équilibrage des deux formats |
 | 2026-10-14 | Sélection du texte désactivée dans l’interface de jeu, exceptions pour la saisie et le copier/coller | Lint/build et contrôle navigateur tactile de sélection/saisie | Confirmer le ressenti sur Safari/iPhone physique |
 | 2026-10-14 | Rift Colosseum solo, heure fixe, K.O. définitifs, défis progressifs, classement SQL et accueil à trois modes | Tests moteur/Socket, SQL concurrent/reprise et parcours navigateur responsive ; régressions Aventure/Rift/mobile | Équilibrage humain sur une heure et téléphone physique |
