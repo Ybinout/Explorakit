@@ -114,9 +114,7 @@ async function validateJournalUi(page, output, fit) {
         await capture('shop', width);
         await page.locator('.shop-close').click();
         assert(await page.locator('.location-name').evaluate((el) => el.scrollWidth <= el.clientWidth + 1), 'Location name is truncated');
-        const location = await page.locator('.location-banner').boundingBox();
-        const guide = await page.locator('.adventure-guide').boundingBox();
-        assert(location.y + location.height <= guide.y, 'Long location name covers the guide');
+        assert.equal(await page.locator('.adventure-guide').count(), 0, 'Objective must stay inside the menu');
         await capture('location', width);
         await page.evaluate(() => {
             const vm = window.journalTestVm;

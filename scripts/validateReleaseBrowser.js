@@ -6,6 +6,7 @@ const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
 const { validateJournalUi, viewports } = require('./validateJournalUi');
+const { validateMobileWorld } = require('./validateMobileWorld');
 const mysql = require('mysql2/promise');
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const httpProxy = require('../vue-explorakit/node_modules/http-proxy');
@@ -66,8 +67,8 @@ async function connect(fixture) {
     });
     return socket;
 }
-async function loginContext(fixture, viewport) {
-    const context = await browser.newContext({ viewport });
+async function loginContext(fixture, viewport, options = {}) {
+    const context = await browser.newContext({ viewport, ...options });
     await context.addInitScript(
         (session) => localStorage.setItem('explorakit.user', JSON.stringify(session)),
         { ...fixture.user, token: fixture.token }
@@ -225,8 +226,11 @@ async function fit(page, selector, width, height) {
         );
         await fresh.context.close();
         await page.locator('[data-rift-solo]').click();
+        await page.locator('.world-viewport canvas').waitFor();
+        assert.equal(await page.locator('.adventure-guide').count(), 0);
+        await page.locator('.menu-toggle-btn').click();
+        await page.locator('[data-menu-action="progress"]').click();
         await page.locator('.adventure-guide').waitFor();
-        await page.locator('.adventure-guide > details > summary').click();
         assert.match(await page.locator('.destination').innerText(), /Ville du Lac/);
         await page.locator('.help > summary').click();
         for (const [width, height] of [
@@ -236,14 +240,11 @@ async function fit(page, selector, width, height) {
             [844, 390],
         ]) {
             await page.setViewportSize({ width, height });
-            await fit(page, '.adventure-guide', width, height);
-            if (width < 600) {
-                const place = await page.locator('.location-banner').boundingBox(),
-                    guide = await page.locator('.adventure-guide').boundingBox();
-                assert(place.y + place.height <= guide.y, 'Le nom du lieu recouvre le guide');
-            }
+            await fit(page, '.info-panel', width, height);
             await page.screenshot({ path: path.join(output, `guide-${width}.png`) });
         }
+        await page.locator('.info-panel .close-button').click();
+        assert.equal(await page.locator('.adventure-guide').count(), 0);
         await page.setViewportSize({ width: 390, height: 844 });
         await page.locator('.menu-toggle-btn').click();
         await page
@@ -261,6 +262,8 @@ async function fit(page, selector, width, height) {
         assert(healed.current_hp > 1, 'Le soin doit être sauvegardé');
         await page.screenshot({ path: path.join(output, 'medicine-mobile.png') });
         const journal = await validateJournalUi(page, output, fit);
+        await page.goto(base + '/drift', { waitUntil: 'networkidle' });
+        const mobile = await validateMobileWorld({ loginContext, fixture: host, base, output, fit });
         // The shared world toolbar must also fit an actual two-player Rift.
         const journalHost = await connect(host), journalGuest = await connect(guest);
         const journalRoom = await command(journalHost, 'drift:create', { capacity: 2, durationMinutes: 20, visibility: 'private' });
@@ -273,7 +276,7 @@ async function fit(page, selector, width, height) {
         journalHost.disconnect();
         await page.goto(base + '/drift/game', { waitUntil: 'networkidle' });
         await page.locator('.game-root.is-drift .drift-hud').waitFor();
-        for (const [width, height] of viewports) {
+        for (const [width, height] of [...viewports, [740, 320]]) {
             await page.setViewportSize({ width, height });
             await fit(page, '.world-toolbar', width, height);
             await fit(page, '.location-banner', width, height);
@@ -283,6 +286,10 @@ async function fit(page, selector, width, height) {
             assert.equal(await page.locator('[data-menu-action="pokedex"]').count(), 0);
             await page.screenshot({ path: path.join(output, `journal-rift-${width}.png`) });
             await page.keyboard.press('Escape');
+            if (width <= 920) {
+                await fit(page, '.mobile-dpad', width, height);
+                await fit(page, '.mobile-action-a', width, height);
+            }
         }
         await command(journalGuest, 'drift:abandon');
         assert.deepEqual(errors, []);
@@ -297,6 +304,7 @@ async function fit(page, selector, width, height) {
                 objectiveAndHelp: true,
                 medicine: true,
                 journal,
+                mobile,
                 riftToolbar: true,
                 errors,
                 output,
