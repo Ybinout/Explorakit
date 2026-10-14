@@ -14,6 +14,8 @@ Vérification reproductible : `node --test tests/world-camera.test.js` contrôle
 
 Livraison : lint, build de production, trois tests caméra et scénario navigateur complet réussis. Build installé sous `/explorakit/` avec sauvegarde du précédent, sans redémarrer le serveur de jeu. Le même parcours tactile sur sept formats a réussi sur le site HTTPS public, sans erreur JavaScript ni ressource manquante ; compte temporaire supprimé. Les deux autres projets conservent leurs HTTP 200 et empreintes HTML. Un onglet qui a déjà chargé l’ancien client doit être rechargé pour recevoir cette version ; les anciennes ressources hachées sont conservées pour ces onglets.
 
+Le harnais du test de reconnexion camp → solo exécute le hook Vue hors navigateur : il importe désormais les dimensions du monde et simule `ResizeObserver`/`$nextTick`, introduits par le canvas adaptatif. Le test conserve sa vraie connexion Socket.IO et toutes ses assertions d’authentification/reconnexion ; le rendu reste couvert par les tests navigateur.
+
 ### Direction artistique partagée avec le Pokédex — 14 octobre 2026
 
 Le Pokédex devient la référence des interfaces du monde : fond papier clair, vert sauge, texte sombre, bordures fines, angles arrondis et police Arial. Les variables communes sont définies dans `vue-explorakit/src/styles/field-journal.css`, importées au démarrage et réutilisées par le Pokédex. `adventure.css` remplace l’ancien habillage des menus ; les composants conservent leur logique de jeu.

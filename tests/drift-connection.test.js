@@ -9,17 +9,19 @@ const { Server } = require('socket.io');
 const { signAccessToken } = require('../server/config/auth');
 const { authenticateSocket } = require('../server/http/authMiddleware');
 
-function loadWorldMount(createGameSocket, createDriftSocket) {
+async function loadWorldMount(createGameSocket, createDriftSocket) {
     // Execute the actual Vue lifecycle hook; only canvas/DOM rendering is stubbed.
+    const { WORLD_WIDTH, WORLD_HEIGHT } = await import('../vue-explorakit/src/services/worldCamera.js');
     const source = fs.readFileSync(path.resolve(__dirname, '../vue-explorakit/src/components/UserMap.vue'), 'utf8');
     const script = require('../vue-explorakit/node_modules/vue-template-compiler').parseComponent(source).script.content;
     const ast = require('../vue-explorakit/node_modules/@babel/parser').parse(script, { sourceType: 'module' });
     const component = ast.program.body.find(node => node.type === 'ExportDefaultDeclaration').declaration;
     const mounted = component.properties.find(node => node.key.name === 'mounted');
-    return new Function('createGameSocket', 'createDriftSocket', 'document', 'window', 'console',
+    return new Function('createGameSocket', 'createDriftSocket', 'document', 'window', 'console', 'WORLD_WIDTH', 'WORLD_HEIGHT', 'ResizeObserver',
         `return ({${script.slice(mounted.start, mounted.end)}}).mounted;`)(
         createGameSocket, createDriftSocket, { body: { classList: { add() {} } } },
-        { addEventListener() {} }, { log() {}, error() {} }
+        { addEventListener() {} }, { log() {}, error() {} }, WORLD_WIDTH, WORLD_HEIGHT,
+        class { observe(element) { assert(element, 'The world viewport must be mounted'); } }
     );
 }
 
@@ -88,14 +90,15 @@ test('Connexion au camp : distinguer un ancien serveur, une session refusée et 
         await t.test('le bouton solo ouvre le monde Aventure après un camp ayant désactivé autoConnect', async () => {
             io.use(authenticateSocket).on('connection', client => client.emit('adventure:ready', { userId: client.data.user.id }));
             const instance = {
-                isDrift: false, saveState: { lastSyncedAt: null }, $refs: { monCanvas: {} },
+                isDrift: false, saveState: { lastSyncedAt: null }, $refs: { monCanvas: {}, worldViewport: {} },
+                $nextTick: callback => callback(),
                 getStoredUserId: () => 73, getStoredUsername: () => 'Dresseur', getStoredToken: () => token,
                 ensureSpriteSheet: () => ({ complete: true })
             };
             for (const name of ['loadMapImage', 'loadForegroundImage', 'loadAvailableSprites', 'loadPnjSpriteSources',
                 'handleKeydown', 'handleKeyup', 'handleOutsideMenuClick', 'updateMobileControlsVisibility',
-                'releaseAllMovementKeys', 'startGameLoop', 'startMovementLoop']) instance[name] = () => {};
-            loadWorldMount(createGameSocket, createDriftSocket).call(instance);
+                'releaseAllMovementKeys', 'startGameLoop', 'startMovementLoop', 'resizeWorldViewport']) instance[name] = () => {};
+            (await loadWorldMount(createGameSocket, createDriftSocket)).call(instance);
             const socket = instance.socket;
             sockets.push(socket);
             socket.io.reconnection(false);
