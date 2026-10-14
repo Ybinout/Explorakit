@@ -21,7 +21,7 @@
         }
       },
       {
-        "text": "Ne pars pas seul contre le monde. Écoute les habitants, entraîne ton équipe et reviens nous donner des nouvelles.",
+        "text": "Laisse-moi soigner tes Pokémon... Voilà, toute ton équipe est en pleine forme ! Reviens me voir dès que vous avez besoin de repos.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -29,7 +29,8 @@
           "index": 31
         }
       }
-    ]
+    ],
+    "end": "heal"
   },
   {
     "name": "dia1",

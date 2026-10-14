@@ -16,6 +16,14 @@ Vérification reproductible : compiler en production avec `VUE_APP_PUBLIC_PATH=/
 
 Mise en ligne : build validé installé dans `/explorakit/`, anciens fichiers hachés conservés pour les onglets ouverts et copie du build précédent dans le dossier privé de sauvegarde. Service de jeu conservé sans redémarrage. Contrôle HTTPS sur quatre formats : connexion, accès solo, nouveau menu et recherche Pokédex ; aucune erreur de ressource ou JavaScript. Les deux autres projets répondent toujours HTTP 200 avec un HTML strictement identique.
 
+### Soin par la mère — 14 octobre 2026
+
+Le dialogue `dia0`, utilisé par `mere_clara` dans le village de départ, conserve l’introduction de Clara et annonce désormais un soin complet. Son action finale `heal` réutilise le circuit serveur du Centre : restauration de tous les PV/PP et des statuts, puis sauvegarde SQL et événement `teamStateChanged`. Le soin est gratuit et répétable ; une conversation réelle et proche reste obligatoire. `savePokemonCenterCheckpoint` ignore déjà les cartes autres que `centre` : le dernier point de retour est préservé.
+
+Le même dialogue soigne l’équipe restante en Rift, sans recréer de Pokémon définitivement perdu. Le rapport nomme Maman et ne l’assimile pas au compteur des soins au Centre. Aucune modification client, carte ou migration SQL.
+
+Vérifications : deux tests en échec avant modification puis réussis ; `npm test` : 212 réussis, 28 MySQL réservés ; `npm run test:mysql` : 28/28, dont une conversation Socket réelle avec deux Pokémon blessés/K.O., PP épuisés et statuts, répétition, refus des fins de dialogue falsifiées ou rejouées, sauvegarde/reconnexion et point de retour intact. Le test de chapitre continue ensuite les deux arcs jusqu’à leur conclusion. `audit:content`, syntaxe et diff valides. Déployé après sauvegarde des sources et vérification qu’aucune expédition Rift n’était active. Parcours HTTPS réel réussi : conversation avec la mère, soin complet et SQL relu ; compte de recette supprimé. Les autres projets conservent leurs réponses HTTP/HTML.
+
 ## Livraison des six axes — 14 octobre 2026
 
 Cette section remplace les limites du 11 octobre concernant les parties en RAM, la boutique « bientôt », les huit intérieurs vides et l’absence de suite à la lettre. Les entrées datées du journal conservent leur contexte historique.
@@ -820,6 +828,8 @@ Le socle pourra être considéré stable lorsque :
 | 2026-10-14 | Contrôle GitHub et fenêtre crash/règlement : compilation explicitement production, captures d’échec, résultat SQL prioritaire sur un checkpoint antérieur | Échec CI reproduit avec NODE_ENV=test puis parcours complet réussi après correction ; 28/28 MySQL et test de crash avec checkpoint ancien, rapport identique et une seule victoire | Les mêmes règles et le même client sont conservés. La reprise ne rejoue jamais une partie dont le règlement SQL est terminé. |
 
 | 2026-10-14 | DA du Pokédex partagée : variables papier/sauge, menus et localisation, panneaux du monde, fiches, dialogues et barre Rift ; commandes tactiles masquées sous les panneaux | Lint/build production et recette Chromium sur quatre formats, sept menus, recherche, fermeture, langue, boutique/dialogue visuels, vraie expédition Rift et soin SQL ; captures inspectées | Camp et combat conservent leurs styles propres. Aucune carte, règle serveur ou migration modifiée ; validation physique mobile restante. |
+
+| 2026-10-14 | Soin complet et répétable à la fin du dialogue de la mère, message explicite et journal Rift exact | 212 tests unitaires, 28/28 MySQL, conversation autorisée, PV/PP/statuts/K.O., sauvegarde et reconnexion, refus de rejeu, point de retour préservé ; audit contenu et syntaxe | Aucun changement client, carte ou schéma. Les pertes définitives Rift restent définitives. |
 
 ## 12. Notes pour les prochaines interventions
 

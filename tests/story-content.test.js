@@ -19,6 +19,15 @@ const world = require('../data/game/nextMap.json').maps;
 
 const chain = ['moon', 'champion_hoze', 'champion_raphael', 'champion_ana', 'champion_wanda'];
 
+test('la mère soigne à chaque conversation et conserve son introduction à Clara', () => {
+    const mother = pnjs.find(pnj => pnj.name === 'mere_clara');
+    assert(mother);
+    const [sentences, name] = getSentenceForName(mother.interactionName, { flags: { chapter2_complete: 'true' } });
+    assert.equal(getEndSentenceInformation(name), 'heal');
+    assert(sentences.some(sentence => sentence.text.includes('Clara')));
+    assert(sentences.some(sentence => /soign/i.test(sentence.text)));
+});
+
 test('les champions originaux suivent le parcours approuvé et remplacent les anciens', () => {
     for (const [name, city] of [['hoze', 5], ['raphael', 4], ['ana', 3], ['wanda', 2]]) {
         const pnj = pnjs.find((entry) => entry.name === name);

@@ -80,8 +80,56 @@ test('Socket réel : chapitres I et II, prérequis, combats, scènes et récompe
         const registration = await response.json();
         userId = registration.user.id;
         token = registration.token;
+        // Mother: a real authorised conversation heals every slot, including a K.O.
+        // A fabricated/replayed completion must never trigger healing from a distance.
+        const { getMaxMovePp } = require('../server/game/battle/battleResources');
+        const healingTeam = await loadEquipe(userId);
+        healingTeam.ajouterPokemon(require('../server/game/drift/pokemonFactory').create(1, 5));
+        healingTeam.pokemons.forEach((p, index) => {
+            p.currentHp = index === 0 ? 1 : 0;
+            p.status = index === 0 ? 'poison' : 'sleep';
+            p.movePp = p.abilities.map(() => 0);
+        });
+        await editEquipe(userId, healingTeam);
+        await dbPool.execute("UPDATE users SET respawn_map='centre',respawn_x=304,respawn_y=432,center_return_map='route4',center_return_x=720,center_return_y=144 WHERE id=?", [userId]);
+        const checkpoint = async () => (await dbPool.execute('SELECT respawn_map,respawn_x,respawn_y,center_return_map,center_return_x,center_return_y FROM users WHERE id=?', [userId]))[0][0];
+        const savedCheckpoint = await checkpoint();
+        await at('start', 6, 9);
+        let refused = event(socket, 'interactionRejected');
+        socket.emit('onEndDialogue', 'dia0');
+        assert.equal((await refused).reason, 'invalid_or_expired_dialogue');
+        assert.deepEqual((await loadEquipe(userId)).pokemons.map(p => p.currentHp), [1, 0]);
+        const expectHealthy = team => {
+            assert.equal(team.pokemons.length, 2);
+            for (const p of team.pokemons) {
+                assert.equal(p.currentHp, p.maxHp);
+                assert.equal(p.status, 'normal');
+                assert.deepEqual(p.movePp, p.abilities.map(getMaxMovePp));
+            }
+        };
+        for (let visit = 0; visit < 2; visit++) {
+            await speak('dia0');
+            const healed = event(socket, 'teamStateChanged', payload => payload.reason === 'heal');
+            socket.emit('onEndDialogue', 'dia0');
+            expectHealthy((await healed).equipe);
+            expectHealthy(await loadEquipe(userId));
+            assert.deepEqual(await checkpoint(), savedCheckpoint, 'Maman ne remplace pas le dernier Centre');
+        }
+        refused = event(socket, 'interactionRejected');
+        socket.emit('onEndDialogue', 'dia0');
+        assert.equal((await refused).reason, 'invalid_or_expired_dialogue');
+        await at('start', 6, 9);
+        expectHealthy(await loadEquipe(userId));
+        // Finish the connection's saves before preparing the independent story fixture.
+        await new Promise((resolve, reject) => socket.timeout(5000).emit('requestGameSave', (error, result) => {
+            if (error || !result?.success) reject(error || new Error('Sauvegarde refusée'));
+            else resolve();
+        }));
+        socket.disconnect();
+        socket = null;
         // Fixture puissante : ce test vérifie les contrats réseau, pas la difficulté humaine.
         const team = await loadEquipe(userId);
+        team.pokemons.splice(1);
         const pokemon = team.pokemons[0];
         pokemon.experience = pokemon.getNextLevelExpForLevel(200);
         pokemon.level = pokemon.calculateLevelFromExperience(pokemon.experience);

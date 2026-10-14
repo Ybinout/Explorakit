@@ -35,6 +35,27 @@ function addDrift(p,number,rarity='mythic') {
     p.drifts.push(d);return d;
 }
 
+test('la mère soigne aussi l’équipe Rift et le rapport distingue ce soin du Centre', () => {
+    const f = fixture(), p = f.run.players.get(1);
+    const mother = f.run.pnjs.getPnjsForMap('start').find(npc => npc.name === 'mere_clara');
+    p.x = mother.x * 32 + 16;
+    p.y = (mother.y + 1) * 32 + 16;
+    const pokemon = p.equipe.pokemons[0];
+    pokemon.currentHp = 1;
+    pokemon.status = 'poison';
+    pokemon.movePp = pokemon.abilities.map(() => 0);
+    f.runtime.interact(p);
+    assert.equal(p.dialogue.name, 'dia0');
+    f.runtime.endDialogue(p, 'dia0');
+    assert.equal(pokemon.currentHp, pokemon.maxHp);
+    assert.equal(pokemon.status, 'normal');
+    const { getMaxMovePp } = require('../server/game/battle/battleResources');
+    assert.deepEqual(pokemon.movePp, pokemon.abilities.map(getMaxMovePp));
+    assert.equal(p.runReport.stats.centerHeals, 0);
+    assert(p.runReport.events.some(entry => entry.type === 'heal' && entry.text.includes('Maman')));
+    assert.throws(() => f.runtime.endDialogue(p, 'dia0'), /Dialogue expiré/);
+});
+
 test('Drift démarre avec un seul petit compagnon, reprend sa session et conserve les limites du salon',()=>{
     const f=fixture(4),p=f.run.players.get(1);
     assert.equal(f.run.endsAt-f.now(),1200000);

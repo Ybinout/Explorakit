@@ -295,7 +295,12 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
     function endDialogue(p,name) {
         if(p.run.phase!=='exploration'||!isDialogueCompletionAllowed(p.dialogue,{name,map:p.currentmap,playerX:Math.floor(p.x/32),playerY:Math.floor(p.y/32)},now()))economy.fail('Dialogue expiré.');
         p.dialogue=null;const end=getEndSentenceInformation(name);
-        if(end==='heal'){healTeam(p.equipe);report.increment(p,'centerHeals');report.event(p,'heal','L’équipe est soignée au Centre Pokémon.');send(p);emit(p,'teamStateChanged',{equipe:p.equipe,reason:'heal'});}
+        if(end==='heal'){
+            healTeam(p.equipe);
+            if(p.currentmap==='centre')report.increment(p,'centerHeals');
+            report.event(p,'heal',name==='dia0'?'Maman a soigné toute l’équipe.':'L’équipe est soignée au Centre Pokémon.');
+            send(p);emit(p,'teamStateChanged',{equipe:p.equipe,reason:'heal'});
+        }
         if(end==='shop'&&isShopMap(p.currentmap))emit(p,'shopOpened',economy.shop(p));
         if(end==='battle') {
             if(p.defeated.has(name)) {emit(p,'progressionNotice',{message:'Ce dresseur a déjà été vaincu dans cette expédition.'});return;}
