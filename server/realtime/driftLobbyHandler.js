@@ -8,10 +8,10 @@ const checkpointCodec = require('../game/drift/checkpointCodec');
 const catalogue = require('../../data/game/drifts.json');
 
 // Separate namespace: never loads or writes Adventure teams, inventory or positions.
-function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, runtimeOptions = {}, accountRepository = null, checkpointRepository = null, initialCheckpoint = null } = {}) {
+function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, runtimeOptions = {}, accountRepository = null, colosseumRepository = null, checkpointRepository = null, initialCheckpoint = null } = {}) {
     const namespace = io.of('/drift');
     namespace.use(authenticateSocket);
-    const runtime = createRunManager({ ...runtimeOptions, store, namespace, accountRepository });
+    const runtime = createRunManager({ ...runtimeOptions, store, namespace, accountRepository, colosseumRepository });
     if (initialCheckpoint) {
         const saved=checkpointCodec.decode(initialCheckpoint);
         store.restoreLobbies(saved.lobbies); runtime.restore(saved.runs,saved.savedAt);
@@ -61,7 +61,8 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
             'drift:configure': payload => store.configure(user, payload),
             'drift:ready': payload => store.ready(user, payload?.ready),
             'drift:leave': () => { runtime.abandon(runtime.playerFor(user)); return store.leave(user); },
-            'drift:start': () => runtime.start(user)
+            'drift:start': () => runtime.start(user),
+            'colosseum:start': () => runtime.startColosseum(user)
         })) {
             socket.on(event, async (payload, acknowledge) => {
                 const reply = typeof acknowledge === 'function' ? acknowledge : () => {};

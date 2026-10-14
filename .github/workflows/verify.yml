@@ -49,6 +49,7 @@ jobs:
       - run: npm run verify:release -- --mysql
       - run: npx playwright install --with-deps chromium
       - run: npm run test:release-browser
+      - run: npm run test:colosseum-browser
       - uses: actions/upload-artifact@v4
         if: always()
         with:

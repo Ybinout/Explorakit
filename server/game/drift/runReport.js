@@ -190,6 +190,7 @@ function finish(run, at) {
     });
     // No live model, socket, inventory, auth or game-action references can escape into the souvenir.
     run.report = freeze(copy({ version: 1, runId: run.id, startedAt: run.startedAt, finishedAt: at,
+        mode: run.mode || 'rift', ...(run.colosseum ? { colosseum: run.colosseum } : {}),
         durationMs: Math.max(0, at - run.startedAt), rules: { ...run.lobby.rules }, winnerId: run.winnerId, players,
         ...(run.accountReward ? { accountReward: run.accountReward } : {}),
         matches: run.matches.map(match => ({ id: match.id, round: match.round, players: [...match.players], status: match.status,

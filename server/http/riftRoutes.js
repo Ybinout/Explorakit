@@ -1,5 +1,6 @@
 const express = require('express');
 const collection = require('../persistence/riftCollectionRepository');
+const colosseum = require('../persistence/colosseumRepository');
 const router = express.Router();
 const route = (handler) => async (req, res) => {
     try {
@@ -28,4 +29,5 @@ router.get(
     '/history',
     route(async (req) => ({ reports: await collection.history(req.user.id) }))
 );
+router.get('/colosseum/leaderboard', route(req => colosseum.leaderboard(req.user.id)));
 module.exports = router;

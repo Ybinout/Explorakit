@@ -17,7 +17,8 @@ const result = spawnSync(
         path.resolve(__dirname, '..', 'tests', 'story-socket-integration.test.js'),
         path.resolve(__dirname, '..', 'tests', 'pokemon-center-socket-integration.test.js'),
         path.resolve(__dirname, '..', 'tests', 'rift-account-mysql.test.js'),
-        path.resolve(__dirname, '..', 'tests', 'release-features-mysql.test.js')
+        path.resolve(__dirname, '..', 'tests', 'release-features-mysql.test.js'),
+        path.resolve(__dirname, '..', 'tests', 'colosseum-mysql.test.js')
     ],
     {
         stdio: 'inherit',

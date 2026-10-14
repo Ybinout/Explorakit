@@ -14,7 +14,8 @@ const migrationFiles = [
     '009_pokemon_center_return.sql',
     '010_rift_accounts.sql',
     '011_rift_reward_duration.sql',
-    '012_rift_durability_cosmetics.sql'
+    '012_rift_durability_cosmetics.sql',
+    '013_colosseum.sql'
 ];
 
 async function applyMigrations() {

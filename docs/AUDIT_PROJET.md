@@ -1,5 +1,28 @@
 # Audit technique et mémoire du projet Explorakit
 
+
+## Rift Colosseum et accueil à trois modes — 14 octobre 2026
+
+L’accueil propose désormais trois entrées distinctes : **Jouer une aventure solo**, **Rift multijoueur** et **Rift Colosseum**, dans les couleurs papier/sauge du Pokédex. Les routes existantes `/game` et `/drift` restent disponibles ; `/colosseum` contient les règles et le classement, `/colosseum/game` réutilise le monde et les combats mobiles. L’authentification conserve la destination choisie.
+
+Le Colosseum est une expédition solo privée : starter aléatoire parmi les 49 Pokémon de base non légendaires du Rift, niveau 5, mêmes cartes/captures/boutiques/Drifts et cinq emplacements. Le serveur impose **3 600 000 ms** d’exploration ; aucun paramètre client ne change cette durée, le nombre de joueurs ou le score. À l’échéance, le combat en cours est interrompu sans victoire ni score et les survivants rejoignent l’arène existante `ville1_arene`, affichée « Colosseum ». Aucune carte ni transition n’a été modifiée. Les K.O. sont supprimés avant tout soin, pendant les deux phases.
+
+Dans l’arène, un bouton lance chaque défi après réorganisation de l’équipe et des Drifts. Les survivants récupèrent PV, PP et statuts entre deux combats. Les dresseurs commencent avec deux Pokémon niveau 10 ; leur niveau augmente de 3 par défi jusqu’à 100, leur effectif de un tous les quatre défis jusqu’à six, et les espèces évoluent par paliers. Après le défi 31, leur potentiel augmente à chaque défi. Chaque victoire rapporte `100 × numéro du défi + 10 × niveau adverse × effectif adverse`. La perte du dernier Pokémon, la fuite dans l’arène ou l’abandon termine la tentative ; aucun score n’est accordé pour une défaite, un double K.O. ou l’exploration. La fermeture du navigateur ne suspend pas le temps : reconnexion dans les 90 secondes, selon la règle Rift existante. Seuls les arrêts serveur et incidents de stockage suspendent les horloges ; checkpoints et reprise des combats sont partagés avec Rift.
+
+Le classement garde **le meilleur score par joueur**, dès une victoire, avec les Pokémon du dernier combat de ce record (K.O. signalés). Les 50 premiers et le record personnel sont retournés ; les égalités sont ordonnées par ancienneté du résultat. Le dépôt SQL séparé rend les règlements immuables et idempotents, y compris après un crash entre écriture SQL et checkpoint. Les données publiques n’incluent ni UUID, ni IV, ni inventaire. Aucune prime, défaite ou partie Colosseum n’altère le palmarès/monnaie Rift multijoueur ou la sauvegarde Aventure.
+
+Migration additive **013_colosseum.sql** : `colosseum_runs` et `colosseum_bests`, clés étrangères avec suppression des données d’un compte supprimé. `db:verify` attend maintenant 18 tables et 13 migrations. Sauvegarder la base avant `db:migrate` ; ne jamais appliquer `schema.sql` à la production. Un serveur doit être migré avant de publier ce client.
+
+Vérifications reproductibles :
+
+- `node --test tests/colosseum.test.js` : règles fixes, starter/reprise sans nouveau tirage, isolation des salons, heure exacte en combat, butin, soins sans résurrection, victoire unique, fuite, double K.O., déconnexion, checkpoint d’un combat et commandes Socket falsifiées.
+- `npm run test:mysql` inclut `colosseum-mysql.test.js` : règlements concurrents/rejoués, meilleur score et égalités, propriétaire, données publiques, neutralité Aventure/Rift et récupération d’un résultat SQL plus récent que le checkpoint.
+- `VUE_APP_PUBLIC_PATH=/explorakit/ RELEASE_DIST_DIR=/tmp/explorakit-colosseum-dist npm run verify:release -- --mysql`, puis `RELEASE_DIST_DIR=/tmp/explorakit-colosseum-dist npm run test:release-browser` et `npm run test:colosseum-browser` avec la même variable. Le dernier scénario utilise des comptes SQL temporaires et une horloge injectée au serveur de test, sans endpoint de triche en production : quatre formats, trois modes, lancement réel, reconnexion, arène, perte, soin, score, bilan et relecture du classement. Les captures sont enregistrées sous `/tmp` et les comptes nettoyés. La CI exécute les deux recettes navigateur.
+
+Livraison : migration 013 appliquée après sauvegarde SQL et précontrôle compatible ; 18 tables InnoDB et 13 migrations vérifiées. Build production installé sous `/explorakit/`, service de jeu redémarré avec checkpoints, ancien build et sources conservés en sauvegarde privée. La recette HTTPS réelle confirme les trois modes, le départ solo d’une heure, la reconnexion au même défi, le règlement d’un abandon et l’accès au classement, sans erreur JavaScript ni ressource manquante. Le client est publié dans son dépôt puis référencé par le dépôt serveur.
+
+Limites : l’équilibrage de cette première courbe reste à éprouver sur des parties humaines d’une heure ; les tests accélèrent le chronomètre. Chromium tactile couvre la mise en page, pas un téléphone physique. L’exploitation reste mono-instance comme Rift. Les records sont persistés en fin de tentative ; le score en cours est conservé dans le checkpoint.
+
 Dernière confrontation audit/code/tests : **14 octobre 2026** (audit initial : 3 octobre).
 État actuel : socle technique, progression, combats et RiftMon livrés. Mise à jour du **14 octobre** : checkpoints SQL avec reprise, objectifs guidés, chapitre II, huit intérieurs peuplés, médicaments, boutique cosmétique et rapports synchronisés. Contrôles de publication locaux et workflow GitHub ajoutés. La section suivante détaille les six axes, leurs preuves et leurs limites.
 Portée : revue des fonctionnalités livrées, des preuves automatisées et des priorités restantes ; ce n'est pas une nouvelle recette humaine exhaustive ni un audit de sécurité complet.
@@ -779,6 +802,7 @@ Le socle pourra être considéré stable lorsque :
 
 | Date | Intervention | Vérifications | État restant |
 | --- | --- | --- | --- |
+| 2026-10-14 | Rift Colosseum solo, heure fixe, K.O. définitifs, défis progressifs, classement SQL et accueil à trois modes | Tests moteur/Socket, SQL concurrent/reprise et parcours navigateur responsive ; régressions Aventure/Rift/mobile | Équilibrage humain sur une heure et téléphone physique |
 | 2026-10-14 | Combat mobile : cadrage des deux Pokémon, indicateur de tour dans les commandes, grille adaptative et zones sûres | Recette tactile sur sept formats ; visibilité des pixels des sprites, aucun recouvrement, menus et ciblage attaque/capture | Confirmer le confort sur téléphone physique |
 | 2026-10-14 | Vue mobile : caméra suivant le joueur, carte pleine hauteur disponible, commandes compactes adaptées à l’orientation ; objectif uniquement dans le menu | Trois tests caméra ; recette navigateur tactile sur sept formats, déplacement serveur, annulation du toucher et menus ; recette Rift jusqu’à 740×320 | Ressenti et zones sûres à confirmer sur téléphone physique |
 | 2026-10-03 | Audit initial, cartographie, analyse statique, validation des données et création de la mémoire projet | Syntaxe OK, build OK avec avertissements, lint en échec sur 1 erreur, aucun test existant | Lots 0 à 5 à planifier et exécuter |

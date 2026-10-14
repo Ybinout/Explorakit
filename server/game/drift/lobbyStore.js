@@ -25,6 +25,7 @@ function createLobbyStore({ now = Date.now, codeGenerator = () => randomBytes(4)
         return lobby;
     }
     function validateRules(rules) {
+        if (rules?.mode === 'colosseum') return { mode: 'colosseum', capacity: 1, durationMinutes: 60, visibility: 'private' };
         if (!rules || !CAPACITIES.includes(rules.capacity) || !DURATIONS.includes(rules.durationMinutes)) {
             fail('invalid_rules', 'Choisis de 2 à 16 joueurs et une durée de 20, 30, 40 minutes, 1 h, 1 h 30, 2 h ou 5 h.');
         }
@@ -155,6 +156,7 @@ function createLobbyStore({ now = Date.now, codeGenerator = () => randomBytes(4)
         },
         configure(user, rules) {
             const lobby = requireLobby(user);
+            if (lobby.rules.mode === 'colosseum' || rules?.mode === 'colosseum') fail('invalid_rules', 'Le Colosseum se joue seul, pendant une heure. Ses règles sont fixes.');
             if (lobby.hostId !== user.id) fail('host_only', 'Seul le créateur du salon peut modifier les règles.');
             if (lobby.run) fail('already_started', 'Les règles sont verrouillées.');
             if (lobby.starting) fail('starting', 'La partie est en cours de lancement.');

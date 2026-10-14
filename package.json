@@ -28,7 +28,8 @@
     "test:recovery": "node --env-file-if-exists=.env scripts/validateReleaseJourneys.js",
     "audit:simulation": "node scripts/simulateBalance.js",
     "verify:release": "node --env-file-if-exists=.env scripts/verifyRelease.js",
-    "test:release-browser": "node --env-file-if-exists=.env scripts/validateReleaseBrowser.js"
+    "test:release-browser": "node --env-file-if-exists=.env scripts/validateReleaseBrowser.js",
+    "test:colosseum-browser": "node --env-file-if-exists=.env scripts/validateColosseumBrowser.js"
   },
   "keywords": [],
   "author": "",

@@ -33,7 +33,7 @@ let drift;
 async function start() {
     const durable=process.env.NODE_ENV!=='test' || process.env.RIFT_DURABILITY==='1';
     const initialCheckpoint=durable?await checkpointRepository.load():null;
-    drift=registerDriftLobbies(io, { accountRepository: riftAccountRepository, checkpointRepository:durable?checkpointRepository:null, initialCheckpoint });
+    drift=registerDriftLobbies(io, { accountRepository: riftAccountRepository, colosseumRepository: require('./persistence/colosseumRepository'), checkpointRepository:durable?checkpointRepository:null, initialCheckpoint });
     await drift.runtime.reconcileSettlements();
     server.listen(PORT, process.env.HOST || '127.0.0.1', () => console.log(`Server is running on port ${PORT}`));
 }
