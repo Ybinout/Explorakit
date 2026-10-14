@@ -738,7 +738,7 @@ function calculateDamageDetailed(attacker, defender, move, context = {}) {
     const criticalBlocked = battleState?.field?.luckyChantTurns > 0
         || context.defenderSide?.screens?.luckyChantTurns > 0
         || criticalAbility.blocked;
-    const critical = !criticalBlocked
+    const critical = !context.preview && !criticalBlocked
         && (criticalAbility.alwaysCritical || Math.random() < getCriticalChance(critStage));
     if (critical) {
         modifier *= 1.5;
@@ -772,6 +772,13 @@ function calculateDamageDetailed(attacker, defender, move, context = {}) {
 
 function calculateDamage(attacker, defender, move) {
     return calculateDamageDetailed(attacker, defender, move).damage;
+}
+
+// Read-only, non-critical estimate. Never consumes flags, PP, items or battle RNG.
+// Callers can supply an inferred opponent instead of exposing hidden information.
+function estimateDamage(attacker, defender, move, context = {}) {
+    return calculateDamageDetailed(structuredClone(attacker), structuredClone(defender), move,
+        { ...structuredClone(context), preview: true }).damage;
 }
 
 function resolveEffectTarget(effect, attacker, defender, context, move) {
@@ -2648,6 +2655,7 @@ function useattack(attackName, attacker, defender, options = {}) {
         });
         if (blockedByAbility) {
             moveResult.blocked = true;
+            moveResult.abilityBlocked = true;
             attackerData.lastMoveUsed = move.ename;
             return moveResult;
         }
@@ -2842,6 +2850,7 @@ module.exports = {
     orderBattleActions,
     resolveRedirectedTarget,
     calculateDamage,
+    estimateDamage,
     getSpecialMoveResolution,
     createBattleState,
     createSideState,

@@ -50,6 +50,8 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
     }
     function state(p) {
         const run=p.run;
+        if (run.colosseum?.next && !run.colosseum.next.difficulty)
+            run.colosseum.next = colosseum.waveInfo(run.colosseum.next.wave);
         return { id:run.id, mode:run.mode || 'rift', durationMinutes:run.lobby.rules.durationMinutes, colosseum:run.colosseum || null, phase:run.phase, serverNow:now(), endsAt:run.endsAt, preparationEndsAt:run.preparationEndsAt,
             alive:p.alive, winnerId:run.winnerId, reason:p.eliminationReason, currentRound:run.round, ready:p.ready,spectatingAvailable:run.mode !== 'colosseum',
             storagePaused:storagePausedAt !== null, recoveredAt:run.recoveredAt || null, recoveryWaiting:Boolean(run.recoveryWaiting), slot:p.slot, slotLimit:economy.SLOT_LIMIT, money:p.money, drifts:p.drifts, equipped:p.equipped,

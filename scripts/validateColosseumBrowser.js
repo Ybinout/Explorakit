@@ -86,6 +86,7 @@ async function checkWidth() { assert(await page.evaluate(()=>document.documentEl
         await page.setViewportSize({width:393,height:852});
         await page.locator('.drift-hud-toggle').click();await page.locator('[data-drift-tab="tournament"]').click();
         await page.getByText('30 minutes pour tout préparer',{exact:true}).waitFor();
+        await page.locator('[data-colosseum-difficulty]').filter({hasText:'Novice'}).waitFor();
         await page.screenshot({path:path.join(output,'colosseum-exploration.png')});
         // Set up a second survivor to verify the irreversible loss in the actual UI.
         p.equipe.pokemons.push(factory.create(9,25));offset+=1800000;cleanup.runtime.tick();
@@ -114,7 +115,17 @@ async function checkWidth() { assert(await page.evaluate(()=>document.documentEl
         await page.getByText('La première place t’attend.',{exact:true}).waitFor();
         await page.locator('[data-colosseum-format="60"]').click();await page.locator('[data-colosseum-start]').click();
         await page.locator('.drift-hud').waitFor();const classic=cleanup.runtime.playerFor({id:userId});
-        assert.equal(classic.run.endsAt-classic.run.startedAt,3600000);cleanup.runtime.abandon(classic);await classic.run.settling;
+        assert.equal(classic.run.endsAt-classic.run.startedAt,3600000);
+        // Server-side fixture only: exercise the expert threshold through the actual UI.
+        classic.run.colosseum.wins=50;offset+=3600000;cleanup.runtime.tick();
+        await page.locator('[data-colosseum-difficulty]').filter({hasText:'Expert'}).waitFor();
+        await page.setViewportSize({width:320,height:568});await checkWidth();
+        await page.screenshot({path:path.join(output,'colosseum-expert-mobile.png')});
+        await page.locator('[data-colosseum-ready]').click();await waitFor(()=>Boolean(classic.battle),'Expert battle missing');
+        assert.equal(classic.battle.b.colosseumWave,51);
+        assert(classic.battle.b.equipe.pokemons.every(p=>p.heldItem==='leftovers'));
+        assert(classic.battle.pending.has(classic.battle.b),'The expert commits before the player acts');
+        cleanup.runtime.abandon(classic);await classic.run.settling;
         assert.deepEqual(errors,[]);success=true;
         console.log(JSON.stringify({colosseum:true,viewports:4,fixedThirtyMinutes:true,reconnect:true,arena:true,permadeath:true,healing:true,score:300,leaderboard:true,adventureUnchanged:true,errors,output}));
     }finally{

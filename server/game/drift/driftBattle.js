@@ -10,12 +10,14 @@ const { calculateBattleExperience } = require('../models/progression');
 const { yields } = require('../../../data/game/effort_yields.json');
 const economy = require('./economy');
 const report = require('./runReport');
+const colosseumAI = require('./colosseumAI');
 
 class DriftBattle {
     constructor(a, b, { type = 'wild', emit, now = Date.now, random = Math.random, onFinish, onUpdate, npcKey = null, paceMs = 1800 }) {
         this.id = randomUUID(); this.a = a; this.b = b; this.type = type; this.emit = emit; this.now = now;
         this.random = random; this.onFinish = onFinish; this.onUpdate = onUpdate; this.npcKey = npcKey; this.paceMs = paceMs;
         this.publicLog = [];
+        this.aiMemory = { seen: {}, lastSwitchRound: -10 };
         this.state = engine.createBattleState(); this.sides = [this.state.sides.player, this.state.sides.enemy];
         this.pending = new Map(); this.round = 0; this.finished = false; this.rewarded = new Set(); this.awaiting = false;
         this.originals = [...a.equipe.pokemons, ...b.equipe.pokemons];
@@ -66,6 +68,14 @@ class DriftBattle {
         if (!initial) effects.switched(p, manual);
     }
     defaultAction(p) {
+        const wave = p === this.b && p.npc && this.type === 'arena' && this.npcKey?.startsWith('colosseum_')
+            ? p.colosseumWave || this.a.run?.colosseum?.wave : null;
+        if (wave) {
+            this.aiMemory ||= { seen: {}, lastSwitchRound: -10 };
+            const decision = colosseumAI.chooseAction({ team:p.equipe.pokemons, opponent:this.active(0),
+                field:this.state, ownSide:this.sides[1], enemySide:this.sides[0], wave, memory:this.aiMemory, round:this.round });
+            if (decision) return decision;
+        }
         const active = p.equipe.pokemons[0];
         const usable = active ? getUsableMoveIndexes(active) : [];
         const damaging = usable.filter(i => engine.getMoveByName(active.abilities[i])?.power > 0);
@@ -146,6 +156,7 @@ class DriftBattle {
         for (const [i,p] of actors.entries()) {
             const action = this.pending.get(p);
             if (action?.action === 'change' && engine.canSwitchOut(this.active(i))) {
+                if (p === this.b && p.npc && this.aiMemory) this.aiMemory.lastSwitchRound = this.round;
                 switchPokemonByIndex(p.equipe, action.number); this.enter(i,true); this.prune(); if(this.checkEnd()) return;
             }
             if (action?.action === 'bag') {
@@ -170,6 +181,10 @@ class DriftBattle {
             const defender = this.active(1-index); if (!defender) break;
             for (const [view,viewer] of actors.entries()) if (!viewer.npc) this.emit(viewer,'battleMoveAnimation',{ actor:view===index?'player':'opponent',moveName:name,moveType:engine.getMoveByName(name)?.type });
             const result = engine.useattack(name,pokemon,defender,{ battleState:this.state, attackerSide:this.sides[index],defenderSide:this.sides[1-index],attackerTeam:p.equipe.pokemons,defenderTeam:actors[1-index].equipe.pokemons });
+            if (this.aiMemory && this.b.npc && this.npcKey?.startsWith('colosseum_')) {
+                if (p === this.a) colosseumAI.observe(this.aiMemory,pokemon,name);
+                else colosseumAI.observe(this.aiMemory,defender,name,result);
+            }
             effects.afterMove(pokemon,defender,result,{ contact: Boolean(getMoveFlags(result.move).contact),
                 status:(target,status,source)=>engine.applyStatus(target,status,target===pokemon?this.sides[index]:this.sides[1-index],result.messages,{attacker:source,battleState:this.state}),
                 stage:(target,stat,delta)=>engine.applyStageChange(target,stat,delta,result.messages) });

@@ -1,5 +1,6 @@
 const factory = require('./pokemonFactory');
 const { pokemonSnapshot } = require('./runReport');
+const ai = require('./colosseumAI');
 
 const EXPLORATION_MS = 60 * 60 * 1000;
 function durationMinutes(value = 60) {
@@ -36,7 +37,7 @@ function waveInfo(wave) {
     const tier = Math.min(4, Math.floor((wave - 1) / 6));
     // Past level 100, increase the existing Pokémon potential by one each wave.
     const potential = 2 + Math.max(0, wave - 31);
-    return { wave, level, size, potential, title: `${TITLES[tier]} du Colosseum · ${wave}`,
+    return { wave, level, size, potential, difficulty: ai.difficulty(wave), title: `${TITLES[tier]} du Colosseum · ${wave}`,
         points: 100 * wave + 10 * level * size };
 }
 
@@ -48,9 +49,10 @@ function opponent(wave) {
         pokemon.k = info.potential;
         pokemon.recalculateStats();
         pokemon.currentHp = pokemon.maxHp;
+        ai.preparePokemon(pokemon, wave, index);
         return pokemon;
     });
-    return { npc: true, username: info.title, equipe: { pokemons }, drifts: [], equipped: [], chain: 0 };
+    return { npc: true, colosseumWave: wave, username: info.title, equipe: { pokemons }, drifts: [], equipped: [], chain: 0 };
 }
 
 const snapshotTeam = pokemons => pokemons.map(p => pokemonSnapshot(p));
