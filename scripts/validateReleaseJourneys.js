@@ -121,6 +121,7 @@ const command = (s, event, payload = {}) =>
         await command(b, 'drift:enter');
         runId = before.id;
         await pause(1600);
+        const [[olderCheckpoint]]=await db.execute('SELECT payload FROM rift_checkpoints WHERE id=1');
         await stop('SIGKILL');
         sockets.forEach((s) => s.disconnect());
         await start();
@@ -139,7 +140,15 @@ const command = (s, event, payload = {}) =>
         const outsider = await request('/rift/history', fixtures[2].token);
         assert.equal(outsider.reports.length, 0);
         await stop();
+        // Simulate SQL settlement committing just before the final checkpoint write.
+        await db.execute('UPDATE rift_checkpoints SET payload=? WHERE id=1',[olderCheckpoint.payload]);
         await start();
+        const settled = await connect(fixtures[0]);
+        const finalState=(await command(settled,'drift:enter')).state;
+        assert.equal(finalState.phase,'results');
+        assert.equal(finalState.winnerId,fixtures[0].user.id);
+        assert.deepEqual(finalState.report,reports.reports[0]);
+        assert.equal((await request('/rift/profile',fixtures[0].token)).wins,1);
         const again = await request('/rift/history', fixtures[0].token);
         assert.equal(again.reports[0].runId, runId);
         console.log(
@@ -150,6 +159,7 @@ const command = (s, event, payload = {}) =>
                 reportSaved: true,
                 reportPrivate: true,
                 secondRestart: true,
+                olderCheckpointReconciled: true,
             })
         );
     } finally {

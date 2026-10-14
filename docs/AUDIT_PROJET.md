@@ -805,6 +805,8 @@ Le socle pourra être considéré stable lorsque :
 
 | 2026-10-14 | Six axes : reprise Rift durable, guide Aventure, chapitre II et refuges, huit intérieurs peuplés, quatre médicaments, boutique cosmétique et archives serveur, modules/validation/CI | 210 tests unitaires et 28 tests MySQL ; SIGKILL/reprise réelle ; chapitres I et II par Socket ; 360 combats simulés ; recette navigateur quatre formats, achats/équipement/historique sur navigateur vierge et soin sauvegardé. Deux régressions trouvées puis corrigées : conflit SQL d’achats simultanés et liste de cibles vide au premier accès au sac | Migration 012 additive ; aucun fichier de carte modifié. Retour au dernier checkpoint, architecture mono-instance, anciens souvenirs locaux conservés. Tests humains longs et téléphone physique non réalisés. |
 
+| 2026-10-14 | Contrôle GitHub et fenêtre crash/règlement : compilation explicitement production, captures d’échec, résultat SQL prioritaire sur un checkpoint antérieur | Échec CI reproduit avec NODE_ENV=test puis parcours complet réussi après correction ; 28/28 MySQL et test de crash avec checkpoint ancien, rapport identique et une seule victoire | Les mêmes règles et le même client sont conservés. La reprise ne rejoue jamais une partie dont le règlement SQL est terminé. |
+
 ## 12. Notes pour les prochaines interventions
 
 Avant de corriger un point :
@@ -910,3 +912,9 @@ Bouton « Jouer une aventure en solo » déplacé directement sous l’en-tête,
 ### Mise en ligne des six axes — 14 octobre 2026
 
 Migration 012 appliquée après sauvegarde SQL et préflight réussi ; vérification des 16 tables et 12 migrations conforme. Aucune expédition n’était active lors du remplacement de l’ancienne version. Build temporaire testé puis installé, anciens fichiers hachés conservés pour les onglets déjà ouverts ; sauvegarde de l’ancien build dans le dossier privé de déploiement. Service `explorakit.service` relancé, checkpoint SQL écrit chaque seconde et port de diagnostic fermé. Parcours HTTPS : inscription/connexion, namespaces Aventure et Drift derrière Nginx, accès solo et canvas, camp mobile et absence d’erreur navigateur. Comptes temporaires supprimés. Les réponses HTML de `app.binout.fr/` et `api-test.binout.fr/` ont exactement la même empreinte avant/après.
+
+### Validation GitHub en environnement neuf — 14 octobre 2026
+
+La première exécution GitHub a validé le socle et révélé un défaut de configuration de compilation : `NODE_ENV=test` transmis par le job produisait un client impropre au navigateur. Le problème a été reproduit localement ; `verify:release` force désormais `NODE_ENV=production` et `BABEL_ENV=production` pour la seule compilation, en conservant l’isolation test du backend. Le scénario navigateur conserve une capture et ses erreurs en cas d’échec. Aucune règle de jeu modifiée ; la correction de compilation concerne uniquement les contrôles de publication.
+
+La reprise confronte aussi le checkpoint au règlement SQL : si le serveur est tombé après avoir crédité la victoire mais avant d’avoir enregistré le dernier checkpoint, le résultat SQL et son rapport sont restaurés au lieu de rejouer la fin. `test:recovery` simule cet ordre avec un ancien checkpoint réinjecté après le règlement, et vérifie le bilan identique et une seule victoire.

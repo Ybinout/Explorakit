@@ -21,6 +21,7 @@ const fixtures = [],
     sockets = [],
     errors = [];
 let child, proxy, proxyServer, browser, db, runId;
+let successful = false;
 async function request(route, token, body) {
     const response = await fetch(base + '/api' + route, {
         method: body ? 'POST' : 'GET',
@@ -235,12 +236,19 @@ async function fit(page, selector, width, height) {
         ]) {
             await page.setViewportSize({ width, height });
             await fit(page, '.adventure-guide', width, height);
-            if(width < 600){const place=await page.locator('.location-banner').boundingBox(), guide=await page.locator('.adventure-guide').boundingBox();assert(place.y+place.height<=guide.y, 'Le nom du lieu recouvre le guide');}
+            if (width < 600) {
+                const place = await page.locator('.location-banner').boundingBox(),
+                    guide = await page.locator('.adventure-guide').boundingBox();
+                assert(place.y + place.height <= guide.y, 'Le nom du lieu recouvre le guide');
+            }
             await page.screenshot({ path: path.join(output, `guide-${width}.png`) });
         }
         await page.setViewportSize({ width: 390, height: 844 });
         await page.locator('.menu-toggle-btn').click();
-        await page.locator('.menu-dropdown-item').filter({ hasText: /^\s*Sac\s*$/ }).click();
+        await page
+            .locator('.menu-dropdown-item')
+            .filter({ hasText: /^\s*Sac\s*$/ })
+            .click();
         const medicine = page.locator('[data-item-key="potion"] select');
         await medicine.waitFor();
         const uuid = await medicine.locator('option').nth(1).getAttribute('value');
@@ -266,7 +274,18 @@ async function fit(page, selector, width, height) {
                 output,
             })
         );
+        successful = true;
     } finally {
+        if (!successful && browser) {
+            console.error('Browser errors:', JSON.stringify(errors));
+            for (const context of browser.contexts())
+                for (const [index, page] of context.pages().entries()) {
+                    console.error('Failed page:', page.url());
+                    await page
+                        .screenshot({ path: path.join(output, `failure-${index}.png`), fullPage: true })
+                        .catch(() => {});
+                }
+        }
         sockets.forEach((socket) => socket.disconnect());
         await browser?.close();
         proxy?.close();

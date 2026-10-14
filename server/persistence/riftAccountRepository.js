@@ -142,4 +142,31 @@ async function recordRunFinished(run) {
     });
 }
 
-module.exports = { getProfile, recordRunStarted, recordRunFinished };
+// The SQL settlement is authoritative even if a crash preceded the next checkpoint.
+async function getFinishedRuns(runIds) {
+    const receipts = [];
+    const ids = [...runIds];
+    for (let offset = 0; offset < ids.length; offset += 100) {
+        const batch = ids.slice(offset, offset + 100);
+        const [rows] = await dbPool.execute(
+            `SELECT r.*, a.report_json, COALESCE(e.coins_earned, 0) AS coins_earned
+             FROM rift_runs r
+             LEFT JOIN rift_reports a ON a.run_id = r.id
+             LEFT JOIN rift_run_entries e ON e.run_id = r.id AND e.user_id = r.winner_id
+             WHERE r.id IN (${batch.map(() => '?').join(',')}) AND r.finished_at IS NOT NULL`, batch
+        );
+        for (const row of rows) {
+            if (!row.report_json) throw new Error('Rapport final manquant pour une expédition sauvegardée.');
+            receipts.push({ id: row.id, winnerId: row.winner_id == null ? null : Number(row.winner_id),
+                finishedAt: new Date(row.finished_at).getTime(), report: JSON.parse(row.report_json),
+                coinsAwarded: Number(row.coins_earned), reward: {
+                    version: Number(row.reward_version), participantCount: Number(row.participant_count),
+                    explorationMs: Number(row.reward_exploration_ms), coinsPerPlayerMinute: 2.5,
+                    coinsAwarded: Number(row.coins_earned)
+                } });
+        }
+    }
+    return receipts;
+}
+
+module.exports = { getProfile, recordRunStarted, recordRunFinished, getFinishedRuns };

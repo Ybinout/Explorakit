@@ -367,6 +367,26 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
             if (!run.lastPublished || now()-run.lastPublished>=1000) {run.lastPublished=now();publish(run);}
         }
     }
+    async function reconcileSettlements() {
+        if (!accountRepository?.getFinishedRuns || !runs.size) return;
+        const receipts = await accountRepository.getFinishedRuns(runs.keys());
+        for (const receipt of receipts) {
+            const run = runs.get(receipt.id);
+            if (!run) continue;
+            run.phase = 'results'; run.recoveryWaiting = false;
+            run.winnerId = receipt.winnerId; run.finishedAt = receipt.finishedAt;
+            run.closedAt = now() + 120000; run.explorationMs = receipt.reward.explorationMs;
+            for (const battle of run.battles) { battle.finished = true; battle.awaiting = false; }
+            run.battles.clear();
+            for (const player of run.players.values()) {
+                player.inbattle = false; player.battle = null;
+                const previous = receipt.report.players.find(entry => entry.id === player.userId);
+                purge(player, previous?.reason || (player.userId === receipt.winnerId ? 'winner' : 'finished'));
+            }
+            run.report = receipt.report;
+            run.settlement = { status: 'complete', coinsAwarded: receipt.coinsAwarded, reward: receipt.reward };
+        }
+    }
     function restore(saved, savedAt) {
         const downtime = Math.max(0, now() - savedAt);
         for (const run of saved.values()) {
@@ -387,7 +407,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
             runs.set(run.id,run);
         }
     }
-    return {setStorageAvailable,restore,start,enter,guard,move,interact,endDialogue,ready,abandon,tick,send,publish,state,playerFor,battle,beginTournament,runs,spectate,stopSpectating,
+    return {reconcileSettlements,setStorageAvailable,restore,start,enter,guard,move,interact,endDialogue,ready,abandon,tick,send,publish,state,playerFor,battle,beginTournament,runs,spectate,stopSpectating,
         disconnect(user,socket){const p=playerFor(user);if(p?.socketId===socket.id){stopSpectating(p,'disconnected');p.socketId=null;p.disconnectedAt=now();world(p.run);}}};
 }
 module.exports={createRunManager};
