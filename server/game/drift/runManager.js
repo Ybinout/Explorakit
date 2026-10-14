@@ -50,7 +50,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
     }
     function state(p) {
         const run=p.run;
-        return { id:run.id, mode:run.mode || 'rift', colosseum:run.colosseum || null, phase:run.phase, serverNow:now(), endsAt:run.endsAt, preparationEndsAt:run.preparationEndsAt,
+        return { id:run.id, mode:run.mode || 'rift', durationMinutes:run.lobby.rules.durationMinutes, colosseum:run.colosseum || null, phase:run.phase, serverNow:now(), endsAt:run.endsAt, preparationEndsAt:run.preparationEndsAt,
             alive:p.alive, winnerId:run.winnerId, reason:p.eliminationReason, currentRound:run.round, ready:p.ready,spectatingAvailable:run.mode !== 'colosseum',
             storagePaused:storagePausedAt !== null, recoveredAt:run.recoveredAt || null, recoveryWaiting:Boolean(run.recoveryWaiting), slot:p.slot, slotLimit:economy.SLOT_LIMIT, money:p.money, drifts:p.drifts, equipped:p.equipped,
             team:p.equipe.pokemons, items:economy.bag(p),
@@ -255,12 +255,13 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         report.event(p, 'colosseum', `Colosseum : ${run.colosseum.score} points. Les survivants sont soignés.`);
         publish(run);
     }
-    function startColosseum(user) {
+    function startColosseum(user, options = {}) {
+        const minutes = colosseum.durationMinutes(options?.durationMinutes);
         const existing = store.getLobby(user);
         if (existing && existing.rules.mode !== 'colosseum') economy.fail('Quitte ton salon Rift avant de lancer le Colosseum.');
         if (existing?.run && existing.run.phase !== 'results') return store.snapshot(user);
         if (existing?.run) store.leave(user);
-        if (!store.getLobby(user)) store.create(user, { mode: 'colosseum' });
+        if (!store.getLobby(user)) store.create(user, { mode: 'colosseum', durationMinutes: minutes });
         store.ready(user, true);
         return start(user);
     }
@@ -269,7 +270,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         const roster=[...lobby.players.keys()].sort((a,b)=>a-b).join(',');
         const retryId=lobby.pendingStartRoster===roster?lobby.pendingStartId:null;
         const mode = lobby.rules.mode === 'colosseum' ? 'colosseum' : 'rift';
-        const explorationDuration = mode === 'colosseum' ? colosseum.EXPLORATION_MS : (durationMs ?? lobby.rules.durationMinutes*60000);
+        const explorationDuration = mode === 'colosseum' ? colosseum.durationMinutes(lobby.rules.durationMinutes)*60000 : (durationMs ?? lobby.rules.durationMinutes*60000);
         const run={id:retryId||randomUUID(),mode,...(mode==='colosseum'?{colosseum:colosseum.initialState()}:{}),startedAt:now(),phase:'exploration',endsAt:now()+explorationDuration,participantCount:lobby.players.size,players:new Map(),matches:[],round:0,battles:new Set(),winnerId:null,lobby,pnjs:createPnjStore(),pnjDeadlines:new Map()};
         for(const member of lobby.players.values()) {
             const p={userId:member.id,username:member.username,run,alive:true,ready:false,equipe:{pokemons:[factory.starter(random)]},
@@ -288,7 +289,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         const repository = repositoryFor(run);
         if (!repository) return activate();
         lobby.starting=true;lobby.pendingStartId=run.id;lobby.pendingStartRoster=roster;
-        return Promise.resolve().then(() => repository.recordRunStarted({ id: run.id,
+        return Promise.resolve().then(() => repository.recordRunStarted({ id: run.id, durationMinutes: lobby.rules.durationMinutes,
             players: [...run.players.values()].map(p => ({ id: p.userId, username: p.username })) }))
             .then(activate).catch(error => { lobby.starting=false;throw error; });
     }
@@ -445,7 +446,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
             if (!run) continue;
             run.phase = 'results'; run.recoveryWaiting = false;
             run.winnerId = receipt.winnerId; run.finishedAt = receipt.finishedAt;
-            run.closedAt = now() + 120000; run.explorationMs = receipt.reward?.explorationMs ?? colosseum.EXPLORATION_MS;
+            run.closedAt = now() + 120000; run.explorationMs = receipt.reward?.explorationMs ?? (receipt.report.rules?.durationMinutes ?? 60)*60000;
             if (receipt.report.colosseum) run.colosseum = receipt.report.colosseum;
             for (const battle of run.battles) { battle.finished = true; battle.awaiting = false; }
             run.battles.clear();

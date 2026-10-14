@@ -50,18 +50,19 @@ async function checkWidth() { assert(await page.evaluate(()=>document.documentEl
             await page.locator('[data-mode="colosseum"]').click();await page.locator('[data-colosseum-start]:enabled').waitFor();await checkWidth();
             await page.screenshot({path:path.join(output,`colosseum-lobby-${width}.png`),fullPage:true});
         }
-        await page.setViewportSize({width:393,height:852});await page.locator('[data-colosseum-start]').click();
+        await page.setViewportSize({width:393,height:852});await page.locator('[data-colosseum-format="30"]').click();
+        await page.locator('[data-colosseum-start]').click();
         await page.locator('.drift-hud').waitFor();
         const p=cleanup.runtime.playerFor({id:userId});assert(p);assert.equal(p.run.mode,'colosseum');
-        assert.equal(p.run.endsAt-p.run.startedAt,3600000);assert.equal(p.equipe.pokemons.length,1);
+        assert.equal(p.run.endsAt-p.run.startedAt,1800000);assert.equal(p.equipe.pokemons.length,1);
         const starter=p.equipe.pokemons[0].uuid,ends=p.run.endsAt;
         await page.reload({waitUntil:'networkidle'});await page.locator('.drift-hud').waitFor();
         assert.equal(p.equipe.pokemons[0].uuid,starter);assert.equal(p.run.endsAt,ends);
         await page.locator('.drift-hud-toggle').click();await page.locator('[data-drift-tab="tournament"]').click();
-        await page.getByText('Une heure pour tout préparer',{exact:true}).waitFor();
+        await page.getByText('30 minutes pour tout préparer',{exact:true}).waitFor();
         await page.screenshot({path:path.join(output,'colosseum-exploration.png')});
         // Set up a second survivor to verify the irreversible loss in the actual UI.
-        p.equipe.pokemons.push(factory.create(9,25));offset+=3600000;cleanup.runtime.tick();
+        p.equipe.pokemons.push(factory.create(9,25));offset+=1800000;cleanup.runtime.tick();
         await page.locator('[data-colosseum-ready]').waitFor();assert.equal(p.currentmap,'ville1_arene');
         await page.screenshot({path:path.join(output,'colosseum-ready-mobile.png')});
         await page.locator('[data-colosseum-ready]').click();await waitFor(()=>Boolean(p.battle),'Battle missing');
@@ -76,14 +77,20 @@ async function checkWidth() { assert(await page.evaluate(()=>document.documentEl
         await dismissBattle();await page.getByText('Ton passage au Colosseum',{exact:true}).waitFor();
         await p.run.settling;assert.equal(p.run.settlement.status,'complete');
         await page.screenshot({path:path.join(output,'colosseum-results-mobile.png')});
-        await page.locator('[data-drift-action="exit"]').click();await page.locator('[data-colosseum-personal]').waitFor();
+        await page.locator('[data-drift-action="exit"]').click();
+        await page.locator('[data-colosseum-ranking-format="30"]').click();await page.locator('[data-colosseum-personal]').waitFor();
         assert.match(await page.locator('[data-colosseum-personal]').innerText(),/300/);
         assert.equal(await page.locator('.rank-list li').count(),1);
         await page.screenshot({path:path.join(output,'colosseum-record-mobile.png'),fullPage:true});
         const [[adventureAfter]]=await dbPool.execute('SELECT p.uuid,p.current_hp,p.experience FROM pokemons p JOIN teams t ON t.id=p.team_id WHERE t.user_id=?',[userId]);
         assert.deepEqual(adventureAfter,adventureBefore);
+        await page.locator('[data-colosseum-ranking-format="60"]').click();
+        await page.getByText('La première place t’attend.',{exact:true}).waitFor();
+        await page.locator('[data-colosseum-format="60"]').click();await page.locator('[data-colosseum-start]').click();
+        await page.locator('.drift-hud').waitFor();const classic=cleanup.runtime.playerFor({id:userId});
+        assert.equal(classic.run.endsAt-classic.run.startedAt,3600000);cleanup.runtime.abandon(classic);await classic.run.settling;
         assert.deepEqual(errors,[]);success=true;
-        console.log(JSON.stringify({colosseum:true,viewports:4,fixedHour:true,reconnect:true,arena:true,permadeath:true,healing:true,score:300,leaderboard:true,adventureUnchanged:true,errors,output}));
+        console.log(JSON.stringify({colosseum:true,viewports:4,fixedThirtyMinutes:true,reconnect:true,arena:true,permadeath:true,healing:true,score:300,leaderboard:true,adventureUnchanged:true,errors,output}));
     }finally{
         if(!success&&page){console.error('Browser errors:',errors);await page.screenshot({path:path.join(output,'colosseum-failure.png'),fullPage:true}).catch(()=>{});}
         await browser?.close();cleanup();await new Promise(resolve=>io.close(resolve));

@@ -29,5 +29,5 @@ router.get(
     '/history',
     route(async (req) => ({ reports: await collection.history(req.user.id) }))
 );
-router.get('/colosseum/leaderboard', route(req => colosseum.leaderboard(req.user.id)));
+router.get('/colosseum/leaderboard', route(req => colosseum.leaderboard(req.user.id, req.query.durationMinutes === undefined ? 60 : Number(req.query.durationMinutes))));
 module.exports = router;

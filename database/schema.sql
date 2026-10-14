@@ -1,15 +1,10 @@
+DROP TABLE IF EXISTS colosseum_bests;
+DROP TABLE IF EXISTS colosseum_runs;
 DROP TABLE IF EXISTS rift_reports;
 DROP TABLE IF EXISTS rift_cosmetics;
 DROP TABLE IF EXISTS rift_appearance;
 DROP TABLE IF EXISTS rift_checkpoints;
--- phpMyAdmin SQL Dump
--- version 5.1.1
--- https://www.phpmyadmin.net/
---
--- Hôte : 127.0.0.1:3306
--- Généré le : dim. 02 mars 2025 à 12:29
--- Version du serveur : 5.7.36
--- Version de PHP : 7.4.26
+-- Empty development/test schema. Never apply to an existing production database.
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET FOREIGN_KEY_CHECKS = 0;
@@ -87,15 +82,7 @@ CREATE TABLE IF NOT EXISTS `pokemons` (
   UNIQUE KEY `uuid` (`uuid`),
   UNIQUE KEY `uniq_team_position` (`team_id`,`position`),
   KEY `team_id` (`team_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=295 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Déchargement des données de la table `pokemons`
---
-
-INSERT INTO `pokemons` (`id`, `uuid`, `team_id`, `position`, `pokemon_id`, `name`, `level`, `experience`, `iv_attack`, `iv_defense`, `iv_hp`, `iv_special_attack`, `iv_special_defense`, `iv_speed`, `nature`, `k`, `current_hp`, `status`, `passive_ability`, `held_item`, `current_attack`, `current_defense`, `current_special_attack`, `current_special_defense`, `current_speed`, `ability1`, `ability2`, `ability3`, `ability4`, `move1_pp`, `move2_pp`, `move3_pp`, `move4_pp`, `created_at`) VALUES
-(294, '2e57be6e-da5d-4695-b9c3-a4e04be3f5f9', 1, 2, 269, 'toto', 132, 2500000, 31, 31, 31, 31, 31, 31, 'Timid', 1, 338, 'normal', NULL, NULL, 158, 229, 176, 281, 237, 'Frenzy Plant', 'Pound', 'Pound', 'Pound', 5, 35, 35, 35, '2025-03-01 15:23:20'),
-(293, '0f2570de-6e62-4e97-be6e-836918e319db', 1, 1, 269, 'tata', 140, 3000000, 31, 31, 31, 31, 31, 31, 'Timid', 1, 358, 'normal', NULL, NULL, 168, 242, 187, 298, 251, 'Frenzy Plant', 'Pound', 'Pound', 'Pound', 5, 35, 35, 35, '2025-03-01 15:23:20');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -111,14 +98,7 @@ CREATE TABLE IF NOT EXISTS `teams` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uniq_team_user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Déchargement des données de la table `teams`
---
-
-INSERT INTO `teams` (`id`, `user_id`, `team_name`, `created_at`) VALUES
-(1, 1, 'Updated Team Name', '2024-08-24 13:50:32');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -147,14 +127,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Déchargement des données de la table `users`
---
-
-INSERT INTO `users` (`id`, `username`, `email`, `password_hash`, `created_at`, `x`, `y`, `map`, `respawn_x`, `respawn_y`, `respawn_map`, `sprite`, `money`) VALUES
-(1, 'aa', NULL, 'aa', '2024-08-19 12:16:40', 80, 208, 'start', NULL, NULL, NULL, 'sprite.png', 0);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -178,12 +151,6 @@ CREATE TABLE IF NOT EXISTS `user_items` (
 --
 -- Exemple d'inventaire de base pour un joueur
 --
-
-INSERT INTO `user_items` (`user_id`, `item_key`, `quantity`) VALUES
-(1, 'pokeball', 10),
-(1, 'superball', 5),
-(1, 'hyperball', 2),
-(1, 'oran_berry', 2);
 
 CREATE TABLE IF NOT EXISTS `player_story_flags` (
   `user_id` int(11) NOT NULL,
@@ -229,14 +196,6 @@ CREATE TABLE IF NOT EXISTS `user_npc_battles` (
   `reward_json` text NULL,
   PRIMARY KEY (`user_id`,`battle_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-INSERT INTO `player_story_flags` (`user_id`, `flag_key`, `flag_value`) VALUES
-(1, 'starter_chosen', 'true');
-INSERT INTO `player_quests` (`user_id`, `quest_key`, `status`, `progress`) VALUES
-(1, 'main_sister_search', 'active', 0),
-(1, 'first_challenge', 'active', 0);
-INSERT INTO `user_pokedex` (`user_id`, `pokemon_id`, `seen_count`, `caught_count`, `first_seen_at`, `first_caught_at`) VALUES
-(1, 269, 2, 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 ALTER TABLE `teams`
   ADD CONSTRAINT `fk_teams_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
@@ -326,6 +285,7 @@ CREATE TABLE IF NOT EXISTS rift_appearance (
 CREATE TABLE IF NOT EXISTS colosseum_runs (
  id VARCHAR(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL PRIMARY KEY,
  user_id INT NOT NULL,
+ duration_minutes SMALLINT UNSIGNED NOT NULL DEFAULT 60,
  score BIGINT UNSIGNED NOT NULL DEFAULT 0,
  wins INT UNSIGNED NOT NULL DEFAULT 0,
  report_json MEDIUMTEXT NULL,
@@ -334,7 +294,9 @@ CREATE TABLE IF NOT EXISTS colosseum_runs (
  CONSTRAINT fk_colosseum_run_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 CREATE TABLE IF NOT EXISTS colosseum_bests (
- user_id INT NOT NULL PRIMARY KEY,
+ user_id INT NOT NULL,
+ duration_minutes SMALLINT UNSIGNED NOT NULL DEFAULT 60,
+ PRIMARY KEY (user_id,duration_minutes),
  run_id VARCHAR(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL UNIQUE,
  CONSTRAINT fk_colosseum_best_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
  CONSTRAINT fk_colosseum_best_run FOREIGN KEY (run_id) REFERENCES colosseum_runs(id) ON DELETE CASCADE

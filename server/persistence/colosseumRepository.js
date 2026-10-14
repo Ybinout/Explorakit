@@ -1,3 +1,4 @@
+const { durationMinutes } = require('../game/drift/colosseum');
 const { dbPool, withTransaction } = require('../config/database');
 
 function identity(run) {
@@ -14,10 +15,12 @@ async function transact(work) {
 }
 async function recordRunStarted(run) {
     const { id, userId } = identity(run);
+    const minutes = durationMinutes(run.durationMinutes);
     return transact(async connection => {
-        const [insert] = await connection.execute('INSERT IGNORE INTO colosseum_runs (id,user_id) VALUES (?,?)', [id,userId]);
-        const [[stored]] = await connection.execute('SELECT user_id FROM colosseum_runs WHERE id=? FOR UPDATE', [id]);
+        const [insert] = await connection.execute('INSERT IGNORE INTO colosseum_runs (id,user_id,duration_minutes) VALUES (?,?,?)', [id,userId,minutes]);
+        const [[stored]] = await connection.execute('SELECT user_id,duration_minutes FROM colosseum_runs WHERE id=? FOR UPDATE', [id]);
         if (Number(stored.user_id) !== userId) throw Error('Cette tentative appartient à un autre dresseur.');
+        if (Number(stored.duration_minutes) !== minutes) throw Error('Le format de cette tentative est déjà fixé.');
         return { recorded: Boolean(insert.affectedRows) };
     });
 }
@@ -30,15 +33,15 @@ async function recordRunFinished(run) {
     return transact(async connection => {
         // Serialize one user's records, including simultaneous settlements of two runs.
         await connection.execute('SELECT id FROM users WHERE id=? FOR UPDATE', [userId]);
-        const [[stored]] = await connection.execute('SELECT user_id,finished_at FROM colosseum_runs WHERE id=? FOR UPDATE', [id]);
+        const [[stored]] = await connection.execute('SELECT user_id,finished_at,duration_minutes FROM colosseum_runs WHERE id=? FOR UPDATE', [id]);
         if (!stored || Number(stored.user_id) !== userId) throw Error('Tentative Colosseum non enregistrée.');
         if (stored.finished_at) return { recorded: false };
         await connection.execute('UPDATE colosseum_runs SET score=?,wins=?,report_json=?,finished_at=? WHERE id=?',
             [score,wins,JSON.stringify(run.report),finishedAt,id]);
         if (wins > 0) {
-            const [[best]] = await connection.execute('SELECT r.score,r.wins FROM colosseum_bests b JOIN colosseum_runs r ON r.id=b.run_id WHERE b.user_id=?', [userId]);
+            const [[best]] = await connection.execute('SELECT r.score,r.wins FROM colosseum_bests b JOIN colosseum_runs r ON r.id=b.run_id WHERE b.user_id=? AND b.duration_minutes=?', [userId,stored.duration_minutes]);
             if (!best || score > Number(best.score) || (score === Number(best.score) && wins > Number(best.wins)))
-                await connection.execute('INSERT INTO colosseum_bests (user_id,run_id) VALUES (?,?) ON DUPLICATE KEY UPDATE run_id=VALUES(run_id)', [userId,id]);
+                await connection.execute('INSERT INTO colosseum_bests (user_id,duration_minutes,run_id) VALUES (?,?,?) ON DUPLICATE KEY UPDATE run_id=VALUES(run_id)', [userId,stored.duration_minutes,id]);
         }
         return { recorded: true };
     });
@@ -52,16 +55,17 @@ async function getFinishedRuns(ids) {
     }
     return receipts;
 }
-async function leaderboard(userId) {
+async function leaderboard(userId, format = 60) {
+    const minutes = durationMinutes(format);
     const [rows] = await dbPool.execute(`SELECT ranked.*,u.username,r.report_json FROM (
         SELECT b.user_id,b.run_id,r.score,r.wins,r.finished_at,
           ROW_NUMBER() OVER (ORDER BY r.score DESC,r.wins DESC,r.finished_at ASC,r.id ASC) AS position
-        FROM colosseum_bests b JOIN colosseum_runs r ON r.id=b.run_id
+        FROM colosseum_bests b JOIN colosseum_runs r ON r.id=b.run_id WHERE b.duration_minutes=?
       ) ranked JOIN users u ON u.id=ranked.user_id JOIN colosseum_runs r ON r.id=ranked.run_id
-      WHERE ranked.position<=50 OR ranked.user_id=? ORDER BY ranked.position`, [userId]);
+      WHERE ranked.position<=50 OR ranked.user_id=? ORDER BY ranked.position`, [minutes,userId]);
     const entries = rows.map(row => ({ rank: Number(row.position), userId: Number(row.user_id), username: row.username,
         score: Number(row.score), wins: Number(row.wins), finishedAt: new Date(row.finished_at).getTime(),
         team: (JSON.parse(row.report_json).colosseum.lastTeam || []).map(p => ({ pokemonId:p.pokemonId,name:p.name,level:p.level,knockedOut:p.currentHp<=0 })) }));
-    return { entries: entries.filter(row=>row.rank<=50), personal: entries.find(row=>row.userId===userId) || null };
+    return { durationMinutes: minutes, entries: entries.filter(row=>row.rank<=50), personal: entries.find(row=>row.userId===userId) || null };
 }
 module.exports = { recordRunStarted, recordRunFinished, getFinishedRuns, leaderboard };

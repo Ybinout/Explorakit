@@ -2,6 +2,14 @@ const factory = require('./pokemonFactory');
 const { pokemonSnapshot } = require('./runReport');
 
 const EXPLORATION_MS = 60 * 60 * 1000;
+function durationMinutes(value = 60) {
+    if (![30, 60].includes(value)) {
+        const { LobbyError } = require('./lobbyStore');
+        const error = new LobbyError('invalid_rules', 'Choisis un format Colosseum de 30 minutes ou 1 heure.');
+        error.statusCode = 400; throw error;
+    }
+    return value;
+}
 // Fixed opposition, independent of the player's team: scores are comparable.
 const ROSTERS = [
     [19, 16, 10, 13, 43, 60],
@@ -37,4 +45,4 @@ function opponent(wave) {
 const snapshotTeam = pokemons => pokemons.map(p => pokemonSnapshot(p));
 function initialState() { return { score: 0, wins: 0, wave: 0, lastTeam: [], next: waveInfo(1) }; }
 
-module.exports = { EXPLORATION_MS, waveInfo, opponent, snapshotTeam, initialState };
+module.exports = { EXPLORATION_MS, durationMinutes, waveInfo, opponent, snapshotTeam, initialState };

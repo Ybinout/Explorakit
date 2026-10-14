@@ -144,8 +144,9 @@ test('Socket Colosseum ignores forged mode settings, points, user identity and e
             sockets.push(s);const ready=once(s,'drift:bootstrap');s.connect();await ready;
         }
         const [a,b]=sockets;
-        const started=await command(a,'colosseum:start',{userId:92,durationMinutes:0,capacity:16,score:99999});
-        assert.equal(started.lobby.hostId,91);assert.equal(started.lobby.durationMinutes,60);assert.equal(started.lobby.capacity,1);
+        assert.equal((await command(a,'colosseum:start',{durationMinutes:0})).ok,false);
+        const started=await command(a,'colosseum:start',{userId:92,durationMinutes:30,capacity:16,score:99999});
+        assert.equal(started.lobby.hostId,91);assert.equal(started.lobby.durationMinutes,30);assert.equal(started.lobby.capacity,1);
         const entered=await command(a,'drift:enter');assert.equal(entered.state.colosseum.score,0);
         assert.equal((await command(a,'drift:roundReady',{score:99999})).success,false);
         assert.equal((await command(b,'drift:enter',{userId:91})).success,false);
@@ -155,4 +156,22 @@ test('Socket Colosseum ignores forged mode settings, points, user identity and e
         assert.equal((await command(a,'drift:refresh')).success,true);
         await command(a,'drift:abandon');assert.equal(cleanup.runtime.playerFor({id:91}).run.phase,'results');
     }finally{sockets.forEach(s=>s.disconnect());cleanup();await new Promise(resolve=>io.close(resolve));}
+});
+
+test('30-minute format is exact, immutable on resume and durable in checkpoints', async () => {
+    const f=setup({durationMs:1});
+    await f.runtime.startColosseum(f.user,{durationMinutes:30});f.runtime.enter(f.user,f.socket);
+    const p=f.runtime.playerFor(f.user),end=p.run.endsAt;
+    assert.equal(end-p.run.startedAt,1800000);
+    assert.equal(f.runtime.enter(f.user,f.socket).durationMinutes,30);
+    await f.runtime.startColosseum(f.user,{durationMinutes:60});assert.equal(p.run.endsAt,end);
+    const saved=decode(encode({savedAt:f.now(),lobbies:f.store.exportLobbies(),runs:f.runtime.runs}));
+    assert.equal([...saved.runs.values()][0].lobby.rules.durationMinutes,30);
+    f.advance(1799999);assert.equal(p.run.phase,'exploration');f.advance(1);assert.equal(p.run.phase,'colosseum_ready');
+});
+test('only 30 and 60 are valid Colosseum durations; legacy start defaults to 60', () => {
+    for(const value of [0,20,90,1800000,'30',null,{},NaN]){
+        const f=setup();assert.throws(()=>f.runtime.startColosseum(f.user,{durationMinutes:value}),/30 minutes ou 1 heure/);
+        assert.equal(f.store.getLobby(f.user),undefined);
+    }
 });

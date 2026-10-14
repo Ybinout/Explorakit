@@ -184,6 +184,27 @@ async function fit(page, selector, width, height) {
         const { page } = await loginContext(host, { width: 1365, height: 900 });
         await page.goto(base + '/drift', { waitUntil: 'networkidle' });
         await page.locator('[data-rift-hub]').waitFor();
+        // Browse/create remain a single clear action on both desktop and mobile.
+        for (const [width,height] of [[1365,900],[390,844],[320,568],[844,390]]) {
+            await page.setViewportSize({width,height});
+            await page.locator('[data-rift-browse-tab]').click();
+            await page.locator('[data-rift-browser]').waitFor();
+            assert.equal(await page.locator('[data-rift-create]').isVisible(),false);
+            await page.screenshot({path:path.join(output,`rift-browse-${width}.png`),fullPage:true});
+            await page.locator('[data-rift-create-tab]').click();
+            await page.locator('[data-rift-create]:enabled').waitFor();
+            assert.equal(await page.locator('[data-rift-browser]').isVisible(),false);
+            assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
+            await page.screenshot({path:path.join(output,`rift-create-${width}.png`),fullPage:true});
+        }
+        await page.locator('[data-rift-capacity]').selectOption('16');
+        await page.locator('[data-rift-create]').click();await page.locator('.invite').waitFor();
+        await page.setViewportSize({width:390,height:844});
+        assert.equal(await page.locator('.trainer-seat').count(),16);
+        await page.screenshot({path:path.join(output,'rift-lobby-mobile.png'),fullPage:true});
+        await page.getByRole('button',{name:'Quitter',exact:true}).click();
+        await page.locator('[data-rift-create-tab]').waitFor();
+        await page.setViewportSize({width:1365,height:900});
         await page.locator('.collection > summary').click();
         const title = page.locator('.collection article').filter({ hasText: 'Éclaireur des Rifts' });
         await title.getByRole('button', { name: /Acheter/ }).click();

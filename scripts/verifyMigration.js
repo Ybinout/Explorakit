@@ -60,6 +60,11 @@ async function verifyMigration() {
              WHERE CONSTRAINT_SCHEMA = DATABASE() AND TABLE_NAME = 'rift_run_entries'
                AND CONSTRAINT_NAME = 'PRIMARY' ORDER BY ORDINAL_POSITION`
         );
+        const [colosseumKey] = await connection.query(
+            `SELECT COLUMN_NAME FROM information_schema.KEY_COLUMN_USAGE
+             WHERE CONSTRAINT_SCHEMA=DATABASE() AND TABLE_NAME='colosseum_bests'
+               AND CONSTRAINT_NAME='PRIMARY' ORDER BY ORDINAL_POSITION`
+        );
         const valid = tables.length === 18
             && tables.every((table) => table.ENGINE === 'InnoDB')
             && constraints.length === 8
@@ -67,6 +72,9 @@ async function verifyMigration() {
             && migrations.some((migration) => migration.name === '011_rift_reward_duration.sql')
             && migrations.some((migration) => migration.name === '012_rift_durability_cosmetics.sql')
             && migrations.some((migration) => migration.name === '013_colosseum.sql')
+            && migrations.some(migration => migration.name === '014_colosseum_formats.sql')
+            && colosseumKey.map(column => column.COLUMN_NAME).join(',') === 'user_id,duration_minutes'
+            && ['colosseum_runs', 'colosseum_bests'].every(table => riftColumns.some(column => column.TABLE_NAME === table && column.COLUMN_NAME === 'duration_minutes' && column.IS_NULLABLE === 'NO'))
             && entryKey.map((column) => column.COLUMN_NAME).join(',') === 'run_id,user_id'
             && ['wins', 'losses', 'games_started', 'coins'].every((name) => riftColumns.some((column) =>
                 column.TABLE_NAME === 'rift_profiles' && column.COLUMN_NAME === name

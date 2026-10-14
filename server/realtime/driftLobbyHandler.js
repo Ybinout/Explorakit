@@ -62,7 +62,7 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
             'drift:ready': payload => store.ready(user, payload?.ready),
             'drift:leave': () => { runtime.abandon(runtime.playerFor(user)); return store.leave(user); },
             'drift:start': () => runtime.start(user),
-            'colosseum:start': () => runtime.startColosseum(user)
+            'colosseum:start': payload => runtime.startColosseum(user, payload)
         })) {
             socket.on(event, async (payload, acknowledge) => {
                 const reply = typeof acknowledge === 'function' ? acknowledge : () => {};

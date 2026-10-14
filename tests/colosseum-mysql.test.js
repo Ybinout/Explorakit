@@ -17,8 +17,8 @@ async function fixture() {
         const [r]=await dbPool.execute('INSERT INTO users(username,password_hash,money) VALUES (?, ?, 321)',[username,'unused']);
         users.push({id:r.insertId,username});
     }
-    return {users, async run(index,score,wins,finishedAt=Date.now()) {
-        const id=randomUUID(),run={id,players:[users[index]],finishedAt};
+    return {users, async run(index,score,wins,finishedAt=Date.now(),durationMinutes=60) {
+        const id=randomUUID(),run={id,players:[users[index]],finishedAt,durationMinutes};
         run.report={runId:id,mode:'colosseum',players:[],colosseum:{score,wins,wave:wins+1,lastTeam:[{uuid:'private-uuid',pokemonId:7,name:'Carapuce',level:20,currentHp:0,ivs:{hp:31}}]}};
         await repository.recordRunStarted(run);return run;
     },async cleanup(){for(const user of users)await dbPool.execute('DELETE FROM users WHERE id=?',[user.id]);}};
@@ -70,5 +70,23 @@ test('Colosseum SQL: committed receipt wins over an old running checkpoint', {sk
         const restored=next.playerFor(user);assert.equal(restored.run.phase,'results');assert.equal(restored.alive,false);
         assert.equal(restored.run.settlement.status,'complete');assert.equal(restored.run.recoveryWaiting,false);
         assert.equal((await repository.leaderboard(user.id)).personal,null);
+    }finally{await f.cleanup();}
+});
+
+test('Colosseum SQL: independent records and ranks per format; launch format cannot change', {skip:!enabled}, async()=>{
+    const f=await fixture();
+    try{
+        const express=await f.run(0,300,1,Date.now(),30),classic=await f.run(0,760,2);
+        await assert.rejects(()=>repository.recordRunStarted({...express,durationMinutes:60}),/format.*fixé/);
+        // Ranking uses the immutable launch format, not report metadata.
+        express.report.rules={durationMinutes:60};
+        await Promise.all([repository.recordRunFinished(express),repository.recordRunFinished(classic)]);
+        assert.equal((await repository.leaderboard(f.users[0].id,30)).personal.score,300);
+        assert.equal((await repository.leaderboard(f.users[0].id,60)).personal.score,760);
+        assert.equal((await repository.leaderboard(f.users[0].id)).personal.score,760);
+        const other=await f.run(1,760,2,Date.now(),30);await repository.recordRunFinished(other);
+        assert((await repository.leaderboard(f.users[1].id,30)).personal.rank < (await repository.leaderboard(f.users[0].id,30)).personal.rank);
+        assert.equal((await repository.leaderboard(f.users[1].id,60)).personal,null);
+        await assert.rejects(()=>repository.leaderboard(f.users[0].id,45),/30 minutes ou 1 heure/);
     }finally{await f.cleanup();}
 });
