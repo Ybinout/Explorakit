@@ -1,0 +1,8 @@
+[
+ {"key":"title_scout","type":"title","name":"Éclaireur des Rifts","price":100,"description":"Un titre pour ceux qui ouvrent la voie."},
+ {"key":"title_keeper","type":"title","name":"Gardien du camp","price":250,"description":"Un titre pour les compagnons sur qui compter."},
+ {"key":"title_star","type":"title","name":"Sous une bonne étoile","price":500,"description":"Un titre pour raconter tes plus belles expéditions."},
+ {"key":"frame_forest","type":"frame","name":"Cadre Forêt","price":100,"color":"#8bc7a1","description":"Un cadre vert pour ton carnet de dresseur."},
+ {"key":"frame_sunset","type":"frame","name":"Cadre Crépuscule","price":250,"color":"#e7ad83","description":"Un cadre cuivré pour ton carnet de dresseur."},
+ {"key":"frame_aurora","type":"frame","name":"Cadre Aurore","price":500,"color":"#b4a0e8","description":"Un cadre violet pour ton carnet de dresseur."}
+]

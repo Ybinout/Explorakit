@@ -64,32 +64,32 @@ function buildBattleSummary(payload, details = {}) {
 
 // Keep references to the starting team: switches must not duplicate XP, and
 // Drift removes defeated Pokémon before the result is sent to the client.
-function createBattleSummaryTracker(team = [], mode = 'adventure') {
-    const initial = team.map(pokemon => ({
+class BattleSummaryTracker {
+    constructor(team = [], mode = 'adventure') {
+    this.mode=mode; this.team=team; this.initial = team.map(pokemon => ({
         pokemon,
         experience: Number(pokemon.experience) || 0,
         level: Number(pokemon.level) || 1
     }));
-    return {
-        money: 0,
-        loot: [],
-        snapshot(currentTeam = team, capturedPokemon = null) {
+    this.money=0; this.loot=[];
+    }
+    snapshot(currentTeam = this.team, capturedPokemon = null) {
             return {
-                mode,
-                experience: initial.flatMap(({ pokemon, experience, level }) => {
+                mode: this.mode,
+                experience: this.initial.flatMap(({ pokemon, experience, level }) => {
                     const xpGained = Math.max(0, (Number(pokemon.experience) || 0) - experience);
                     return xpGained ? [{ ...describePokemon(pokemon), xpGained, previousLevel: level }] : [];
                 }),
                 money: this.money,
                 loot: [...this.loot],
                 capturedPokemon: describePokemon(capturedPokemon),
-                lostPokemon: mode === 'drift'
-                    ? initial.filter(({ pokemon }) => !currentTeam.includes(pokemon)).map(({ pokemon }) => describePokemon(pokemon))
+                lostPokemon: this.mode === 'drift'
+                    ? this.initial.filter(({ pokemon }) => !currentTeam.includes(pokemon)).map(({ pokemon }) => describePokemon(pokemon))
                     : []
             };
-        }
-    };
+    }
 }
+function createBattleSummaryTracker(team,mode) { return new BattleSummaryTracker(team,mode); }
 
 function emitSoloBattleEnd(player, io, playerWon = false, extra = {}, battleType = 'wild') {
     clearBattleTransientState(player?.equipe?.pokemons);
@@ -128,6 +128,7 @@ function emitPvpBattleEnd(io, playerA, playerB, winnerId = null, reason = 'finis
 }
 
 module.exports = {
+    BattleSummaryTracker,
     clearBattleTransientState,
     buildBattleSummary,
     createBattleSummaryTracker,

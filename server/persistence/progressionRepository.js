@@ -1,7 +1,7 @@
 const progressionCatalog = require('../../data/game/progression.json');
 const pokedexCatalog = require('../../data/game/pokedex.json');
 const { dbPool, withTransaction } = require('../config/database');
-const { meetsRequirements, deriveStoryQuest } = require('../game/world/storyProgression');
+const { meetsRequirements, deriveStoryQuest, deriveChapter2 } = require('../game/world/storyProgression');
 
 const QUEST_STATUSES = new Set(['active', 'completed']);
 const questDefinitions = new Map((progressionCatalog.quests || []).map((quest) => [quest.key, quest]));
@@ -54,7 +54,7 @@ async function loadProgressState(userId) {
     const storyQuest = deriveStoryQuest({ flags });
     const storedQuests = new Map(questRows.map((row) => [row.quest_key, row]));
     const storedBadges = new Map(badgeRows.map((row) => [row.badge_key, row]));
-    const quests = (progressionCatalog.quests || []).map((definition) => {
+    const quests = (progressionCatalog.quests || []).filter(definition=>meetsRequirements(definition,{flags})).map((definition) => {
         const stored = storedQuests.get(definition.key);
         return {
             ...definition,
@@ -62,6 +62,8 @@ async function loadProgressState(userId) {
             progress: Number(stored?.progress) || 0,
             completedAt: stored?.completed_at || null,
             updatedAt: stored?.updated_at || null,
+            ...(definition.key === 'clara_chapter2' ? deriveChapter2({flags}) : {}),
+            ...(definition.key === 'refuges' ? {progress:['refuge_lyse_met','refuge_abel_met'].filter(k=>flags[k]==='true').length,status:['refuge_lyse_met','refuge_abel_met'].every(k=>flags[k]==='true')?'completed':'active'} : {}),
             ...(definition.key === 'main_sister_search' ? {
                 ...storyQuest,
                 completedAt: storyQuest.status === 'completed'
@@ -77,7 +79,9 @@ async function loadProgressState(userId) {
         }))
         .sort((left, right) => Number(left.order) - Number(right.order));
 
+    const objective=quests.find(q=>q.key==='main_sister_search'&&q.status==='active')||quests.find(q=>q.key==='clara_chapter2'&&q.status==='active');
     return {
+        objective:objective?{title:objective.title,text:objective.description,destination:objective.destination||null,map:objective.map||null}:null,
         flags,
         quests,
         badges,
@@ -199,6 +203,10 @@ async function loadStoryFlags(id, connection) {
 async function grantReward(id, reward, connection) {
     const money = Math.max(0, Math.floor(Number(reward.money) || 0));
     if (money > 0) await connection.execute('UPDATE users SET money = money + ? WHERE id = ?', [money, id]);
+    for(const [key,count]of Object.entries(reward.items||{})) {
+        if(!Number.isSafeInteger(count)||count<1||count>99)throw Error('Récompense objet invalide.');
+        await connection.execute('INSERT INTO user_items(user_id,item_key,quantity) VALUES (?,?,?) ON DUPLICATE KEY UPDATE quantity=quantity+VALUES(quantity)',[id,key,count]);
+    }
     for (const [key, value] of Object.entries(reward.flags || {})) {
         await connection.execute(
             `INSERT INTO player_story_flags (user_id, flag_key, flag_value) VALUES (?, ?, ?)

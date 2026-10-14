@@ -23,7 +23,7 @@ function event(socket, name, predicate = () => true) {
     });
 }
 
-test('Socket réel : prérequis, fuite, cinq victoires, scènes automatiques et lettre après reconnexion', { skip: !shouldRun, timeout: 60000 }, async () => {
+test('Socket réel : chapitres I et II, prérequis, combats, scènes et récompenses après reconnexion', { skip: !shouldRun, timeout: 60000 }, async () => {
     assert.match(testDatabaseName, /test/i);
     assert.equal(process.env.DB_NAME, testDatabaseName, 'Utiliser npm run test:mysql pour isoler les données');
     const { io } = require(path.resolve(__dirname, '../vue-explorakit/node_modules/socket.io-client'));
@@ -152,6 +152,41 @@ test('Socket réel : prérequis, fuite, cinq victoires, scènes automatiques et 
         await speak('town_lina_after');
         assert.equal(main(state).status, 'completed');
         assert.equal(state.money, 12150);
+
+        // The second chapter is played through real authorised conversations and a battle.
+        const pnjs = JSON.parse(require('node:fs').readFileSync(path.resolve(__dirname, '../data/game/pnjs.jsonc'), 'utf8')).pnjs;
+        const visit = async name => {
+            const npc = pnjs.find(p => p.name === name);
+            assert(npc, name);
+            await at(npc.map, npc.x, npc.y + 1);
+        };
+        await visit('town_ch2_nora');
+        await speak('ch2_nora_locked');
+        for (const [npc, dialogue, flag] of [
+            ['town_ch2_iris', 'ch2_iris', 'ch2_registry'],
+            ['town_ch2_nora', 'ch2_nora', 'ch2_witness']
+        ]) {
+            await visit(npc);
+            await speak(dialogue);
+            const updated = event(socket, 'progressionState', progress => progress.flags[flag] === 'true');
+            socket.emit('onEndDialogue', dialogue);
+            await updated;
+        }
+        await visit('town_ch2_soren');
+        await speak('ch2_soren');
+        socket.on('requestAction', () => socket.emit('actionResponse', { action: 'attack', number: 0 }));
+        const defeated = event(socket, 'dialogue', payload => payload[1] === 'ch2_soren_after');
+        socket.emit('onEndDialogue', 'ch2_soren');
+        await defeated;
+        await visit('town_ch2_clara');
+        await speak('ch2_clara');
+        const reunion = event(socket, 'progressionState', progress => progress.flags.chapter2_complete === 'true');
+        socket.emit('onEndDialogue', 'ch2_clara');
+        assert.equal((await reunion).quests.find(q => q.key === 'clara_chapter2').status, 'completed');
+        await visit('town_ch2_clara');
+        await speak('ch2_clara_after');
+        assert.equal((await loadProgressState(userId)).money, 15150);
+
     } finally {
         socket?.disconnect();
         if (child.exitCode === null) {

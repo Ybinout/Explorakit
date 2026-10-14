@@ -9,6 +9,9 @@ const { loadPokedex, loadProgressState } = require('../persistence/progressionRe
 const { getProfile: getRiftProfile } = require('../persistence/riftAccountRepository');
 
 const router = express.Router();
+const {rateLimit}=require('./rateLimit');
+router.use(['/users','/login'], (req,res,next)=>req.method==='POST'?authLimit(req,res,next):next());
+const authLimit=rateLimit({limit:20});
 
 function parsePositiveId(value) {
     const id = Number.parseInt(value, 10);
@@ -62,6 +65,8 @@ router.post('/login', async (req, res) => {
 });
 
 router.use(authenticateHttp);
+router.use('/rift',rateLimit({limit:90}),require('./riftRoutes'));
+
 
 router.get('/rift/profile', async (req, res) => {
     try {

@@ -132,6 +132,7 @@ async function run() {
             ...process.env,
             PORT: String(port),
             DB_NAME: testDatabaseName,
+            NODE_ENV: 'test',
             JWT_SECRET: 'integration-http-secret-not-for-production'
         },
         stdio: ['ignore', 'pipe', 'pipe']
@@ -167,7 +168,7 @@ async function run() {
 
         if (team.payload.pokemons?.[0]?.pokemon_id !== 7) throw new Error('Le starter HTTP attendu est absent.');
         if (items.payload.items?.length !== 4) throw new Error("L'inventaire HTTP est incomplet.");
-        if (progress.payload.quests?.length !== 2) throw new Error('Les quêtes initiales sont absentes.');
+        if (!['main_sister_search','first_challenge','refuges'].every(key => progress.payload.quests?.some(quest => quest.key === key))) throw new Error('Les quêtes initiales sont absentes.');
         if (pokedex.payload.caught !== 1 || !pokedex.payload.entries?.find((entry) => entry.id === 7)?.caught) {
             throw new Error("Le starter n'est pas enregistré dans le Pokédex.");
         }
@@ -219,7 +220,7 @@ async function run() {
         if (socketResult.relocatedMap !== 'maison' || savedMap !== 'maison' || healedPokemonCount < 1) {
             throw new Error('La recuperation apres defaite totale a echoue.');
         }
-        if (!socketResult.saveResult?.success || socketResult.progressionState?.quests?.length !== 2) {
+        if (!socketResult.saveResult?.success || !socketResult.progressionState?.quests?.some(quest => quest.key === 'main_sister_search')) {
             throw new Error('La synchronisation explicite ou la reprise de progression a échoué.');
         }
 

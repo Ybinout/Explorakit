@@ -1,8 +1,30 @@
 # Audit technique et mémoire du projet Explorakit
 
-Dernière confrontation audit/code/tests : **11 octobre 2026** (audit initial : 3 octobre).
-État actuel : socle technique, trois orchestrateurs de combat, progression persistante, boutiques et 30 cartes générées livrés ; Pokédex responsive livré le 10 octobre ; huit décors d'intérieurs réintégrés au build le 11 octobre. **Mode Drift jouable livré le 11 octobre : expéditions isolées, 59 Drifts et tournoi à élimination simple. Accueil RiftMon, groupes de 2 à 16 jusqu’à 5 h, spectateur et profil SQL ajoutés le même jour.** **Chapitre I intégré et équilibré le 11 octobre. Direction artistique console portable, 32 visuels de civils, promenades de PNJ, musiques de combat, jauge d’XP et fiche Pokémon avec IV/EV livrés le même jour.**
+Dernière confrontation audit/code/tests : **14 octobre 2026** (audit initial : 3 octobre).
+État actuel : socle technique, progression, combats et RiftMon livrés. Mise à jour du **14 octobre** : checkpoints SQL avec reprise, objectifs guidés, chapitre II, huit intérieurs peuplés, médicaments, boutique cosmétique et rapports synchronisés. Contrôles de publication locaux et workflow GitHub ajoutés. La section suivante détaille les six axes, leurs preuves et leurs limites.
 Portée : revue des fonctionnalités livrées, des preuves automatisées et des priorités restantes ; ce n'est pas une nouvelle recette humaine exhaustive ni un audit de sécurité complet.
+
+## Livraison des six axes — 14 octobre 2026
+
+Cette section remplace les limites du 11 octobre concernant les parties en RAM, la boutique « bientôt », les huit intérieurs vides et l’absence de suite à la lettre. Les entrées datées du journal conservent leur contexte historique.
+
+| Axe demandé | Livraison | Vérification / limite |
+| --- | --- | --- |
+| Reprise RiftMon | Checkpoint SQL compressé chaque seconde et avant acquittement des commandes majeures ; salons, Pokémon, combats, effets à usage unique, règlement et rapports restaurés. Attente des joueurs jusqu’à cinq minutes après redémarrage ; horloges suspendues. Pause automatique en cas d’échec du stockage. | `test:recovery` tue réellement le processus par SIGKILL puis redémarre deux fois. Test unitaire de reprise d’un combat jusqu’à son résultat. Derniers déplacements ou progression automatique depuis le dernier checkpoint (normalement ≤ 1 s) peuvent être rejoués. Un seul processus de jeu écrit ce checkpoint ; aucun déploiement multi-instance. |
+| Orientation Aventure | Composant `AdventureGuide` avec objectif courant, destination des deux chapitres et aide clavier/tactile repliable ; accès solo proéminent conservé. | Objectif dérivé des drapeaux persistants, jamais du client. Contrôle navigateur des formats 1365×900, 390×844, 320×568 et 844×390. |
+| Contenu solo | Chapitre II Iris → Nora → Soren (56–58) → Clara, deux visites de refuge, huit intérieurs peuplés et deux objets clés. Potions, Super Potions, Antidotes et Rappels achetables et utilisables hors combat. | Parcours Socket réel des deux chapitres, prérequis et récompenses uniques ; achats/soins transactionnels et propriétaires contrôlés. Cartes JSON/TMX, PNG et transitions inchangés. Conclusion de cet arc de Clara ; aucun épilogue global ni nouveau monde annoncé. |
+| Recette et mesures | Mesure reproductible de 360 combats via le moteur, tests de crash, parcours SQL/Socket et recette navigateur avec quatre formats. | Bots avec attaques légales aléatoires, IV fixes, sans objets/Drifts : duels miroirs 14–16 victoires par côté sur 30 ; forte influence attendue des types. Aucune modification arbitraire des coefficients sur ces seuls résultats. Partie humaine longue, deux humains en PVP et Safari/iPhone physique restent à réaliser. |
+| Compte RiftMon | Six cosmétiques (trois titres, trois cadres), achat en pièces Rift avec débit unique, équipement lié au compte. Vingt derniers rapports serveur privés aux participants, fusion avec les archives locales. | Deux achats concurrents ne débitent qu’une fois ; refus de solde insuffisant et d’équipement non possédé. Relecture dans un navigateur vierge. Anciennes archives locales non téléversées automatiquement. |
+| Maintenabilité / publication | Modules dédiés au codec, au dépôt de checkpoint, à la collection, aux médicaments et à leurs handlers, au contrôle de débit HTTP/Socket ; résolution des décors extraite de `UserMap`. Commande `verify:release` et workflow GitHub avec sous-module récursif, MySQL, lint, build et recette navigateur. | Découpage progressif, pas de réécriture globale du moteur. 98 talents et doubles toujours hors de cette livraison. Le workflow vérifie ; il ne déploie pas automatiquement le VPS. |
+
+### Validation et exploitation
+
+- `npm run verify:release -- --mysql` vérifie la syntaxe, les tests unitaires, MySQL, HTTP, la reprise, les catalogues, les mesures, le lint et un build temporaire. La base `DB_TEST_NAME` doit déjà être préparée et porter un nom contenant `test`. Cette commande ne réinitialise aucune base.
+- `npm run test:release-browser` utilise Playwright Chromium, une base de test et deux ports locaux 31491/31492. Compiler avec `VUE_APP_PUBLIC_PATH=/explorakit/` et définir `RELEASE_DIST_DIR` vers le build temporaire. `npx playwright install chromium` prépare le navigateur si nécessaire. Capture et logs vont dans `/tmp` ; les comptes temporaires sont nettoyés.
+- La migration additive `012_rift_durability_cosmetics.sql` ajoute quatre tables ; `db:verify` contrôle désormais 16 tables et 12 migrations. Sauvegarder avant `db:migrate`. Le schéma neuf sert uniquement à `db:test:setup`, jamais à une base de production existante.
+- Démarrage refusé si le checkpoint est corrompu ; aucune remise à zéro silencieuse. Conserver une copie de la ligne SQL, restaurer une sauvegarde connue et investiguer. Le format est versionné ; une future modification incompatible du moteur exige une migration du codec.
+- Les checkpoints en base assurent la reprise du processus, pas la survie à la perte du disque. Le service est mono-instance. Les sauvegardes SQL locales existantes restent nécessaires ; sauvegarde externe et exercice de restauration complet à planifier séparément.
+- Déploiement VPS dans `/explorakit/` uniquement, services existants préservés. `explorakit.service` est l’unité système de ce VPS ; les anciennes notes `systemctl --user` concernent l’ancien poste Linux du 10 octobre.
 
 ## 1. Objet de ce document
 
@@ -24,9 +46,9 @@ Explorakit est un fan game web multijoueur privé composé de :
 
 Le cœur est déjà en place : déplacements validés par le serveur, collisions, changement de carte, sauvegarde différée de position, inventaire, capture, états de combat, météo/terrain, animations et synchronisation PVP sont présents. Les travaux restants portent surtout sur la cohérence du parcours narratif, la recette de bout en bout et le découpage des gros fichiers.
 
-### État de référence au 11 octobre 2026
+### État historique de référence au 11 octobre 2026
 
-Cette synthèse et la section 7 remplacent les anciennes recommandations contradictoires. Les constats initiaux et le journal restent conservés pour expliquer les corrections.
+Ce tableau conserve la référence du 11 octobre. La livraison des six axes du 14 octobre et la section 7 définissent désormais les priorités ; le journal explique les corrections.
 
 | Domaine | État vérifié | Preuve / limite |
 | --- | --- | --- |
@@ -410,7 +432,7 @@ Explorakit/
 
 Les dossiers `server/`, `data/`, `database/`, `docs/` et `tests/` existent déjà. La structure ci-dessus est une possibilité ultérieure, pas une migration à lancer maintenant.
 
-## 7. Plan d'action retenu — 11 octobre 2026
+## 7. Plan d'action retenu — réconcilié le 14 octobre 2026
 
 ### Lot A — état réel et blocage de rendu — terminé
 
@@ -444,7 +466,7 @@ Sur téléphone : vérifier les contrôles tactiles, dialogues et menus Équipe/
 
 ### Lot D — découpage et contenu manquant
 
-Après les blocages fonctionnels : extraire progressivement contrôles/canvas de `UserMap.vue`, handlers monde de `socketHandler.js`, puis familles du moteur de combat. Poursuivre ensuite Clara/Aube Obscure après la lettre, les habitants des huit intérieurs vides, soins utilisables/objets clés, traductions restantes et conclusion globale. Les 98 talents des familles ultérieures et le mode double restent des extensions distinctes.
+Les premiers modules du lot du 14 octobre sont livrés (guide, décors, soins, collection, reprise). Continuer à extraire progressivement contrôles/canvas de `UserMap.vue`, handlers monde de `socketHandler.js`, puis familles du moteur de combat. Le chapitre II, les huit intérieurs peuplés et les soins/objets clés sont maintenant livrés. Restent les traductions, les futurs chapitres et la conclusion globale. Les 98 talents des familles ultérieures et le mode double restent des extensions distinctes.
 
 Ne pas rouvrir comme travaux neufs : authentification, onboarding, persistance des badges, boutiques transactionnelles, extraction `BattleOverlay`, activation des 30 cartes générées, suppression des artefacts Git ou correction des niveaux de `route4`.
 
@@ -781,6 +803,8 @@ Le socle pourra être considéré stable lorsque :
 
 | 2026-10-11 | Publication Git demandée : regrouper les lots Aventure, interface console portable et RiftMon, ses sept durées et sa prime variable ; conserver le catalogue source, les migrations, les tests et les preuves visuelles ; référencer le commit client depuis le dépôt principal | Deux branches `master` synchronisées avec leurs origines avant publication, diffs sans erreur ; dernière recette : 204 tests actifs, 25/25 MySQL, lint/build et navigateur quatre formats réussis. Publication via le compte GitHub `Ybinout` : client `ExplorakitVue` (`96bfccf`), puis `Explorakit` avec son pointeur de sous-module exact ; empreintes des arbres locaux/distants comparées | `.env`, sauvegardes privées, dépendances et `dist/` restent ignorés. Aucun redémarrage serveur ni changement de base dans cette opération. |
 
+| 2026-10-14 | Six axes : reprise Rift durable, guide Aventure, chapitre II et refuges, huit intérieurs peuplés, quatre médicaments, boutique cosmétique et archives serveur, modules/validation/CI | 210 tests unitaires et 28 tests MySQL ; SIGKILL/reprise réelle ; chapitres I et II par Socket ; 360 combats simulés ; recette navigateur quatre formats, achats/équipement/historique sur navigateur vierge et soin sauvegardé. Deux régressions trouvées puis corrigées : conflit SQL d’achats simultanés et liste de cibles vide au premier accès au sac | Migration 012 additive ; aucun fichier de carte modifié. Retour au dernier checkpoint, architecture mono-instance, anciens souvenirs locaux conservés. Tests humains longs et téléphone physique non réalisés. |
+
 ## 12. Notes pour les prochaines interventions
 
 Avant de corriger un point :
@@ -882,3 +906,7 @@ Résultat : build réussi ; Chromium valide les deux onglets (un seul panneau vi
 ### Accès Aventure mis en avant — 11 octobre 2026
 
 Bouton « Jouer une aventure en solo » déplacé directement sous l’en-tête, avant les actions RiftMon, dans une carte contrastée. Description : progression à son rythme dans un monde partagé, multijoueur facultatif. Le parcours Aventure et les interactions multijoueurs restent inchangés. Vérification : build et contrôle Chromium du bouton sur desktop/mobile et de son accès au canvas du jeu.
+
+### Mise en ligne des six axes — 14 octobre 2026
+
+Migration 012 appliquée après sauvegarde SQL et préflight réussi ; vérification des 16 tables et 12 migrations conforme. Aucune expédition n’était active lors du remplacement de l’ancienne version. Build temporaire testé puis installé, anciens fichiers hachés conservés pour les onglets déjà ouverts ; sauvegarde de l’ancien build dans le dossier privé de déploiement. Service `explorakit.service` relancé, checkpoint SQL écrit chaque seconde et port de diagnostic fermé. Parcours HTTPS : inscription/connexion, namespaces Aventure et Drift derrière Nginx, accès solo et canvas, camp mobile et absence d’erreur navigateur. Comptes temporaires supprimés. Les réponses HTML de `app.binout.fr/` et `api-test.binout.fr/` ont exactement la même empreinte avant/après.

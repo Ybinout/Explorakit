@@ -28,7 +28,7 @@ function registerPlayerProfileHandlers({ socket, io, players, userId }) {
     socket.on('equipHeldItem', async (payload = {}, acknowledge = () => {}) => {
         const reply = typeof acknowledge === 'function' ? acknowledge : () => {};
         const player = players[socket.id];
-        if (!player || player.inbattle) {
+        if (!player || player.inbattle || player.inventoryBusy) {
             reply({ success: false, message: 'Objet non modifiable pendant un combat.' });
             return;
         }
@@ -36,6 +36,7 @@ function registerPlayerProfileHandlers({ socket, io, players, userId }) {
         const teamId = Number.parseInt(payload.teamId, 10);
         const pokemonUuid = typeof payload.pokemonUuid === 'string' ? payload.pokemonUuid : '';
         const itemKey = payload.itemKey || null;
+        player.inventoryBusy = true;
         try {
             const heldItem = await equipHeldItem(userId, teamId, pokemonUuid, itemKey);
             const pokemon = player.equipe?.pokemons?.find((candidate) => candidate.uuid === pokemonUuid);
@@ -43,6 +44,8 @@ function registerPlayerProfileHandlers({ socket, io, players, userId }) {
             reply({ success: true, heldItem, items: await loadUserItems(userId) });
         } catch (error) {
             reply({ success: false, message: error.message || "Impossible d'equiper cet objet." });
+        } finally {
+            player.inventoryBusy = false;
         }
     });
 }

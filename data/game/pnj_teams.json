@@ -1251,6 +1251,80 @@
           }
         }
       ]
+    },
+    {
+      "name": "soren",
+      "team": [
+        {
+          "pokemonId": 279,
+          "name": "Bekipan",
+          "level": 56,
+          "abilities": [
+            "Surf",
+            "Air Slash",
+            "Rain Dance",
+            "Roost"
+          ],
+          "passiveAbility": "Keen Eye",
+          "heldItem": null,
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          }
+        },
+        {
+          "pokemonId": 272,
+          "name": "Ludicolo",
+          "level": 57,
+          "abilities": [
+            "Surf",
+            "Giga Drain",
+            "Ice Beam",
+            "Fake Out"
+          ],
+          "passiveAbility": "Swift Swim",
+          "heldItem": null,
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          }
+        },
+        {
+          "pokemonId": 130,
+          "name": "Léviator",
+          "level": 58,
+          "abilities": [
+            "Waterfall",
+            "Ice Fang",
+            "Crunch",
+            "Dragon Dance"
+          ],
+          "passiveAbility": "Intimidate",
+          "heldItem": null,
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          }
+        }
+      ]
     }
   ]
 }

@@ -10,7 +10,8 @@ async function verifyMigration() {
                AND TABLE_NAME IN (
                  'users', 'teams', 'pokemons', 'user_items', 'player_story_flags',
                  'player_quests', 'player_badges', 'user_pokedex', 'user_npc_battles',
-                 'rift_profiles', 'rift_runs', 'rift_run_entries'
+                 'rift_profiles', 'rift_runs', 'rift_run_entries',
+                 'rift_checkpoints', 'rift_reports', 'rift_cosmetics', 'rift_appearance'
                )
              ORDER BY TABLE_NAME`
         );
@@ -50,7 +51,8 @@ async function verifyMigration() {
             `SELECT TABLE_NAME, COLUMN_NAME, COLUMN_TYPE, IS_NULLABLE, COLUMN_DEFAULT
              FROM information_schema.COLUMNS
              WHERE TABLE_SCHEMA = DATABASE()
-               AND TABLE_NAME IN ('rift_profiles', 'rift_runs', 'rift_run_entries')
+               AND TABLE_NAME IN ('rift_profiles', 'rift_runs', 'rift_run_entries',
+                 'rift_checkpoints', 'rift_reports', 'rift_cosmetics', 'rift_appearance')
              ORDER BY TABLE_NAME, ORDINAL_POSITION`
         );
         const [entryKey] = await connection.query(
@@ -58,11 +60,12 @@ async function verifyMigration() {
              WHERE CONSTRAINT_SCHEMA = DATABASE() AND TABLE_NAME = 'rift_run_entries'
                AND CONSTRAINT_NAME = 'PRIMARY' ORDER BY ORDINAL_POSITION`
         );
-        const valid = tables.length === 12
+        const valid = tables.length === 16
             && tables.every((table) => table.ENGINE === 'InnoDB')
             && constraints.length === 8
             && migrations.some((migration) => migration.name === '010_rift_accounts.sql')
             && migrations.some((migration) => migration.name === '011_rift_reward_duration.sql')
+            && migrations.some((migration) => migration.name === '012_rift_durability_cosmetics.sql')
             && entryKey.map((column) => column.COLUMN_NAME).join(',') === 'run_id,user_id'
             && ['wins', 'losses', 'games_started', 'coins'].every((name) => riftColumns.some((column) =>
                 column.TABLE_NAME === 'rift_profiles' && column.COLUMN_NAME === name

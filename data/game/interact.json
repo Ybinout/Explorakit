@@ -643,7 +643,7 @@
         }
       },
       {
-        "text": "Éloi : Le chapitre I est terminé. Tu peux continuer à explorer et à entraîner ton équipe ; la suite de sa recherche reste à venir.",
+        "text": "Éloi : Iris, dans la maison de Clairbois, a gardé un registre lié à cette lettre. Va la voir : la piste de Clara continue.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1240,5 +1240,369 @@
         }
       }
     ]
+  },
+  {
+    "name": "ch2_iris",
+    "sentences": [
+      {
+        "text": "Iris : La lettre de Clara parle de registres falsifiés. J’ai conservé le double d’une livraison : des Pokémon transportés sous couvert de soins.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 15
+        }
+      },
+      {
+        "text": "Iris : Nora, dans la maison de Rivazur, a vu le convoi. Montre-lui ce registre ; elle saura que tu viens de ma part.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 15
+        }
+      }
+    ],
+    "end": "story",
+    "after": "ch2_iris_after",
+    "locked": "ch2_iris_locked"
+  },
+  {
+    "name": "ch2_iris_locked",
+    "sentences": [
+      {
+        "text": "Iris : Nous parlerons de cette piste quand tu auras suivi les indices précédents de ton carnet.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 15
+        }
+      }
+    ]
+  },
+  {
+    "name": "ch2_iris_after",
+    "sentences": [
+      {
+        "text": "Iris : Nora, dans la maison de Rivazur, a vu le convoi. Montre-lui ce registre ; elle saura que tu viens de ma part.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 15
+        }
+      }
+    ]
+  },
+  {
+    "name": "ch2_nora",
+    "sentences": [
+      {
+        "text": "Nora : J’ai guidé Clara jusqu’à Rochebourg. Elle a découvert que l’Aube Obscure revendait les Pokémon confiés à son refuge.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 16
+        }
+      },
+      {
+        "text": "Nora : Soren garde les preuves dans une maison de Rochebourg. Il ne les donnera pas facilement. Prépare une équipe autour du niveau 58.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 16
+        }
+      }
+    ],
+    "end": "story",
+    "after": "ch2_nora_after",
+    "locked": "ch2_nora_locked"
+  },
+  {
+    "name": "ch2_nora_locked",
+    "sentences": [
+      {
+        "text": "Nora : Nous parlerons de cette piste quand tu auras suivi les indices précédents de ton carnet.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 16
+        }
+      }
+    ]
+  },
+  {
+    "name": "ch2_nora_after",
+    "sentences": [
+      {
+        "text": "Nora : Soren garde les preuves dans une maison de Rochebourg. Il ne les donnera pas facilement. Prépare une équipe autour du niveau 58.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 16
+        }
+      }
+    ]
+  },
+  {
+    "name": "ch2_soren",
+    "sentences": [
+      {
+        "text": "Soren : Clara voulait prévenir les habitants. Je pensais protéger le refuge en gardant le silence… mais ses registres disent vrai.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 17
+        }
+      },
+      {
+        "text": "Soren : Prouve-moi que tu sauras la protéger. Mes trois partenaires sont niveaux 56 à 58. Après notre duel, je te dirai où elle attend.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 17
+        }
+      }
+    ],
+    "end": "battle",
+    "team": "soren",
+    "after": "ch2_soren_after",
+    "locked": "ch2_soren_locked"
+  },
+  {
+    "name": "ch2_soren_locked",
+    "sentences": [
+      {
+        "text": "Soren : Nous parlerons de cette piste quand tu auras suivi les indices précédents de ton carnet.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 17
+        }
+      }
+    ]
+  },
+  {
+    "name": "ch2_soren_after",
+    "sentences": [
+      {
+        "text": "Soren : Clara est à l’abri dans une maison de Floraville. Dis-lui que les preuves sont entre de bonnes mains.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 17
+        }
+      }
+    ]
+  },
+  {
+    "name": "ch2_clara",
+    "sentences": [
+      {
+        "text": "Clara : Tu m’as retrouvée ! Je suis restée ici pour mettre les Pokémon à l’abri. Je ne voulais pas vous entraîner dans cette histoire.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 18
+        }
+      },
+      {
+        "text": "Clara : Avec le registre et le témoignage de Soren, les habitants peuvent reprendre le refuge. Cette fois, nous agirons ensemble.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 18
+        }
+      },
+      {
+        "text": "Clara : Rentrons rassurer maman. Garde cette lettre : tu as gagné la confiance des refuges, et une nouvelle aventure reste possible.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 18
+        }
+      }
+    ],
+    "end": "story",
+    "after": "ch2_clara_after",
+    "locked": "ch2_clara_locked"
+  },
+  {
+    "name": "ch2_clara_locked",
+    "sentences": [
+      {
+        "text": "Clara : Nous parlerons de cette piste quand tu auras suivi les indices précédents de ton carnet.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 18
+        }
+      }
+    ]
+  },
+  {
+    "name": "ch2_clara_after",
+    "sentences": [
+      {
+        "text": "Clara : Le chapitre II est terminé. Merci de m’avoir retrouvée. Retourne au village quand tu le souhaites ; les refuges gardent leurs portes ouvertes.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 18
+        }
+      }
+    ]
+  },
+  {
+    "name": "refuge_lyse",
+    "sentences": [
+      {
+        "text": "Lyse : Nous accueillons les Pokémon blessés de passage. Les soins du Centre sont gratuits ; les Potions servent entre deux combats.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 19
+        }
+      },
+      {
+        "text": "Lyse : Merci d’avoir pris le temps de venir. Emporte ces deux Potions et parle aussi à Abel dans la maison d’Ocreville.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 19
+        }
+      }
+    ],
+    "end": "story",
+    "after": "refuge_lyse_after",
+    "locked": "refuge_lyse_locked"
+  },
+  {
+    "name": "refuge_lyse_locked",
+    "sentences": [
+      {
+        "text": "Lyse : Nous parlerons de cette piste quand tu auras suivi les indices précédents de ton carnet.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 19
+        }
+      }
+    ]
+  },
+  {
+    "name": "refuge_lyse_after",
+    "sentences": [
+      {
+        "text": "Lyse : Les portes du refuge restent ouvertes. Prends soin de ton équipe !",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 19
+        }
+      }
+    ]
+  },
+  {
+    "name": "refuge_abel",
+    "sentences": [
+      {
+        "text": "Abel : Un refuge se juge à la liberté de ses pensionnaires. Aider n’est jamais posséder.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 20
+        }
+      },
+      {
+        "text": "Abel : Voici deux Potions pour ta route. Lyse tient la maison d’accueil de Floraville : passe lui rendre visite.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 20
+        }
+      }
+    ],
+    "end": "story",
+    "after": "refuge_abel_after",
+    "locked": "refuge_abel_locked"
+  },
+  {
+    "name": "refuge_abel_locked",
+    "sentences": [
+      {
+        "text": "Abel : Nous parlerons de cette piste quand tu auras suivi les indices précédents de ton carnet.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 20
+        }
+      }
+    ]
+  },
+  {
+    "name": "refuge_abel_after",
+    "sentences": [
+      {
+        "text": "Abel : Les portes du refuge restent ouvertes. Prends soin de ton équipe !",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 20
+        }
+      }
+    ]
+  },
+  {
+    "name": "shop_rivazur",
+    "sentences": [
+      {
+        "text": "Mila : Bienvenue à Rivazur ! Balls, objets tenus et soins pour la route : regarde notre sélection.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 21
+        }
+      }
+    ],
+    "end": "shop"
+  },
+  {
+    "name": "shop_ocreville",
+    "sentences": [
+      {
+        "text": "Eden : Bienvenue à Ocreville. Prépare ton sac avant de rejoindre les routes et les arènes.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 22
+        }
+      }
+    ],
+    "end": "shop"
   }
 ]

@@ -524,6 +524,118 @@
         "index": 31
       },
       "roamRadius": 1
+    },
+    {
+      "name": "town_ch2_iris",
+      "interactionName": "ch2_iris",
+      "map": "gen_maison_ville1_2",
+      "x": 10,
+      "y": 7,
+      "sprite": "townspeople.png",
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 15
+      },
+      "block": true
+    },
+    {
+      "name": "town_ch2_nora",
+      "interactionName": "ch2_nora",
+      "map": "gen_maison_ville2_1",
+      "x": 10,
+      "y": 7,
+      "sprite": "townspeople.png",
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 16
+      },
+      "block": true
+    },
+    {
+      "name": "town_ch2_soren",
+      "interactionName": "ch2_soren",
+      "map": "gen_maison_ville3_1",
+      "x": 10,
+      "y": 5,
+      "sprite": "townspeople.png",
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 17
+      },
+      "block": true
+    },
+    {
+      "name": "town_ch2_clara",
+      "interactionName": "ch2_clara",
+      "map": "gen_maison_ville4_1",
+      "x": 9,
+      "y": 7,
+      "sprite": "townspeople.png",
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 18
+      },
+      "block": true
+    },
+    {
+      "name": "town_refuge_lyse",
+      "interactionName": "refuge_lyse",
+      "map": "gen_maison_ville4_2",
+      "x": 10,
+      "y": 7,
+      "sprite": "townspeople.png",
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 19
+      },
+      "block": true
+    },
+    {
+      "name": "town_refuge_abel",
+      "interactionName": "refuge_abel",
+      "map": "gen_maison_ville5_1",
+      "x": 10,
+      "y": 7,
+      "sprite": "townspeople.png",
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 20
+      },
+      "block": true
+    },
+    {
+      "name": "town_shop_rivazur",
+      "interactionName": "shop_rivazur",
+      "map": "gen_shop_ville2_1",
+      "x": 11,
+      "y": 5,
+      "sprite": "townspeople.png",
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 21
+      },
+      "block": true
+    },
+    {
+      "name": "town_shop_ocreville",
+      "interactionName": "shop_ocreville",
+      "map": "gen_shop_ville5_1",
+      "x": 11,
+      "y": 5,
+      "sprite": "townspeople.png",
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 22
+      },
+      "block": true
     }
   ]
 }

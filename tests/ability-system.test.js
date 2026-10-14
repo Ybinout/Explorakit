@@ -82,7 +82,8 @@ test('les 809 Pokemon ont leurs vrais slots de talents Gen 7', () => {
     assert.notEqual(chooseSpeciesAbility(658, () => 0.99), 'Battle Bond');
     assert.equal(evolveSpeciesAbility(1, 2, 'Overgrow', () => 0.99), 'Overgrow');
     assert.equal(evolveSpeciesAbility(1, 2, 'Chlorophyll', () => 0.99), 'Chlorophyll');
-    assert.ok(getSpeciesAbilitySlots(25).some((slot) => slot.name === new Pokemon(25, 'Pika', 1, 0).passiveAbility));
+    const pikachu = new Pokemon(25, 'Pika', 1, 0);
+    assert.ok(getSpeciesAbilitySlots(25).some((slot) => slot.name === pikachu.passiveAbility));
 });
 
 test('les quatre familles de talents sont declarees et auditees separement', () => {

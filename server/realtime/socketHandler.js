@@ -44,6 +44,7 @@ const {
 } = require('./playerState');
 const { DEFAULT_SPRITE, registerPlayerProfileHandlers } = require('./handlers/playerProfileHandlers');
 const { registerChatHandlers } = require('./handlers/chatHandlers');
+const {registerMedicineHandlers}=require('./handlers/medicineHandlers');
 const { registerShopHandlers } = require('./handlers/shopHandlers');
 const {
     completeNpcBattle,
@@ -503,6 +504,7 @@ const socketHandler = (io) => {
         }
 
         registerPlayerProfileHandlers({ socket, io, players, userId });
+        registerMedicineHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!interactionBusy&&!transitionBusy});
         const shopHandlers = registerShopHandlers({
             socket,
             userId,
@@ -516,11 +518,12 @@ const socketHandler = (io) => {
                 reply({ success: false, message: 'Joueur introuvable.' });
                 return;
             }
-            if (player.inbattle) {
+            if (player.inbattle || player.inventoryBusy) {
                 reply({ success: false, message: 'La sauvegarde manuelle est indisponible pendant un combat.' });
                 return;
             }
 
+            player.inventoryBusy = true;
             try {
                 if (saveTimer) {
                     clearTimeout(saveTimer);
@@ -538,13 +541,15 @@ const socketHandler = (io) => {
                 console.error(`Erreur sauvegarde manuelle user ${userId}:`, error.message);
                 socket.emit('saveSyncState', { status: 'error', message: 'Échec de la synchronisation.' });
                 reply({ success: false, message: 'Échec de la synchronisation.' });
+            } finally {
+                player.inventoryBusy = false;
             }
         });
 
         socket.on('playerInteractionChoice', (payload = {}) => {
             const player = players[socket.id];
             if (!player) return;
-            if (player.inbattle) {
+            if (player.inbattle || player.inventoryBusy) {
                 socket.emit('interactionRequestFailed', { reason: 'already_in_battle' });
                 return;
             }
@@ -693,7 +698,7 @@ const socketHandler = (io) => {
                 return;
             }
 
-            if (sourcePlayer.inbattle || targetPlayer.inbattle) {
+            if (sourcePlayer.inbattle || targetPlayer.inbattle || sourcePlayer.inventoryBusy || targetPlayer.inventoryBusy) {
                 io.to(request.fromId).emit('interactionRequestFailed', { reason: 'already_in_battle' });
                 io.to(request.toId).emit('interactionRequestFailed', { reason: 'already_in_battle' });
                 return;
@@ -770,7 +775,7 @@ const socketHandler = (io) => {
         socket.on('onEndDialogue', guardInteraction(async (data) => {
             const player = players[socket.id];
             if (!player) return;
-            if (player.inbattle) return;
+            if (player.inbattle || player.inventoryBusy) return;
 
             const dialogueName = typeof data === 'string' ? data : '';
             const playerTile = getPlayerTilePosition(player);
@@ -792,7 +797,7 @@ const socketHandler = (io) => {
             if (dialogueAction === 'battle') {
                 const battleDefinition = getNpcBattleDefinition(dialogueName);
                 const progress = await loadProgressState(userId);
-                if (!players[socket.id] || player.inbattle) return;
+                if (!players[socket.id] || player.inbattle || player.inventoryBusy) return;
                 if (!meetsRequirements(battleDefinition, progress)) {
                     socket.emit('interactionRejected', { reason: 'story_requirements_not_met' });
                     return;
@@ -887,7 +892,7 @@ const socketHandler = (io) => {
                 const completion = await completeStoryEvent(userId, dialogueName);
                 socket.emit('progressionState', completion.progress);
                 if (completion.granted) socket.emit('progressionNotice', {
-                    type: 'reward', message: 'Chapitre I terminé : la lettre de Clara t’attend aux archives de Clairbois.'
+                    type: 'reward', message: completion.progress.objective?.text || 'Ton carnet de quêtes a été mis à jour.'
                 });
             } else if (dialogueAction === 'shop') {
                 await shopHandlers.openShop();
@@ -897,7 +902,7 @@ const socketHandler = (io) => {
         socket.on('Space', guardInteraction(async () => {
             const player = players[socket.id];
             if (!player) return;
-            if (player.inbattle) return;
+            if (player.inbattle || player.inventoryBusy) return;
 
             if (!socketToChatSession.has(socket.id) && !hasPendingRequestForSocket(socket.id)) {
                 const nearbyPlayer = findNearbyInteractablePlayer(socket.id);
@@ -915,7 +920,7 @@ const socketHandler = (io) => {
             }
 
             const progress = await loadProgressState(userId);
-            if (!players[socket.id] || player.inbattle) return;
+            if (!players[socket.id] || player.inbattle || player.inventoryBusy) return;
             const matrixX = Math.floor(player.x / TILE_SIZE);
             const matrixY = Math.floor(player.y / TILE_SIZE);
 
@@ -983,7 +988,7 @@ const socketHandler = (io) => {
             if (!canMove || interactionBusy || transitionBusy) return;
             const player = players[socket.id];
             if (!player) return;
-            if (player.inbattle) return;
+            if (player.inbattle || player.inventoryBusy) return;
             const direction = getDirectionFromAction(action);
             if (!direction) return;
 

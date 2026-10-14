@@ -1,6 +1,6 @@
 # Audit du contenu du jeu
 
-Dernière confrontation au code et aux contrôles : 11 octobre 2026.
+Dernière confrontation au code et aux contrôles : 14 octobre 2026.
 
 Ce document distingue le contenu installé, le contenu raccordé dans la configuration et le contenu réellement jouable. Les chiffres se reproduisent avec `npm run audit:content`.
 
@@ -23,7 +23,7 @@ Les huit routes générées, les cinq villes, les cinq arènes et les douze int�
 
 Les raccords vers les dix maisons et deux boutiques générées sont déclarés dans `nextMap.json` à partir des coordonnées produites et validées par l’agent cartes. `ville1` utilise en plus deux portes existantes pour une arène et une boutique indépendantes, via des alias de rendu qui ne modifient aucun JSON/TMX/PNG de carte.
 
-Le chapitre I est raccordé : Mounir (identifiant `moonpunch`), puis les champions d’origine Hoze → Raphael → Ana → Wanda, puis la lettre de Clara aux archives de Clairbois. Douze dresseurs de ville proposent des combats facultatifs uniques. Les scènes évoluent avec les victoires persistantes. La recherche de Clara se poursuit au-delà de ce chapitre : aucun sauvetage final, épilogue global ni crédits ne sont déclarés livrés.
+Le chapitre I est raccordé : Mounir (identifiant `moonpunch`), puis les champions d’origine Hoze → Raphael → Ana → Wanda, puis la lettre de Clara aux archives de Clairbois. Douze dresseurs de ville proposent des combats facultatifs uniques. Les scènes évoluent avec les victoires persistantes. Le chapitre II prolonge désormais la lettre : Iris à Clairbois remet un registre, Nora à Rivazur témoigne, Soren est affronté à Rochebourg (56–58), puis Clara est retrouvée à Floraville. Cet arc est conclu ; aucun épilogue global ni crédits ne sont déclarés livrés.
 
 ### Défauts confirmés lors de la revue du 11 octobre
 
@@ -39,12 +39,12 @@ Le chapitre I est raccordé : Mounir (identifiant `moonpunch`), puis les champio
 | Lieux actifs | 46 | 44 cartes actives et 2 alias d'intérieur ; `pk2` reste active uniquement pour compatibilité |
 | Lieux atteignables depuis `start` | 45 | tous les lieux actifs sauf `pk2` |
 | Parcours généré actif | 30/30 | 8 routes, 5 villes, 5 arènes, 10 maisons et 2 boutiques |
-| PNJ placés | 37 | 12 dresseurs de ville et la mère au village ajoutés ; Éloi remplace le champion de Clairbois |
-| Équipes de dresseurs | 24 | 18 utilisées ; Garry et les 5 anciennes équipes générées restent archivés, sans PNJ actif |
-| Combats persistants | 18 | Timmy, Mounir, 4 champions et 12 habitants ; récompenses uniques |
-| Quêtes / distinctions | 2 / 5 | 4 badges de champions + Sceau Sylve des archives ; clés historiques préservées |
-| Dialogues | 63 (114 phrases) | avant défi, prérequis manquants, victoire, lettre et relecture |
-| Objets | 7 | 3 Balls et 4 objets tenus ; soins, rappels et objets clés manquent |
+| PNJ placés | 45 | 8 nouveaux occupants d’intérieurs : 4 pour Clara, 2 refuges et 2 vendeurs ; atlas existant réutilisé |
+| Équipes de dresseurs | 25 | 19 utilisées ; Garry et les 5 anciennes équipes générées restent archivés, sans PNJ actif |
+| Combats persistants | 19 | Timmy, Mounir, 4 champions, 12 habitants et Soren ; récompenses uniques |
+| Quêtes / distinctions | 4 / 5 | 4 badges de champions + Sceau Sylve des archives ; clés historiques préservées |
+| Dialogues | 83 (141 phrases) | Deux chapitres, prérequis, victoires, retrouvailles, refuges et boutiques |
+| Objets | 13 | 3 Balls, 4 objets tenus, 4 médicaments et 2 objets clés ; utilisation hors combat des médicaments |
 
 ## Parcours des cartes
 
@@ -89,7 +89,7 @@ Les niveaux explicites de `pnj_teams.json` sont convertis avec la courbe d’exp
 
 Chaque habitant annonce ses niveaux avant le combat, puis donne un conseil ou un témoignage. Les récompenses ne sont versées qu’une fois ; après victoire, le dialogue remplace le défi, y compris après reconnexion. Une fuite ou défaite laisse le défi disponible. Les dialogues de victoire apparaissent automatiquement après le combat et restent consultables en reparlant au personnage.
 
-La mère, placée dans `start` (6, 8), introduit la disparition de Clara et dirige vers Mounir. Les huit intérieurs supplémentaires restent sans PNJ dédié. Les 12 planches 4×4 existantes sont réutilisées ; aucun asset de carte ni JSON/TMX de carte n’a changé. Les tests tiennent compte des **deux cases** occupées par chaque PNJ, des portes et de toutes les arrivées dans les villes.
+La mère, placée dans `start` (6, 8), introduit la disparition de Clara et dirige vers Mounir. Les huit intérieurs supplémentaires ont désormais un PNJ : Iris, Nora, Soren, Clara, Lyse, Abel et les deux vendeurs. Aucun emplacement de carte n’a été modifié. Les 12 planches 4×4 existantes sont réutilisées ; aucun asset de carte ni JSON/TMX de carte n’a changé. Les tests tiennent compte des **deux cases** occupées par chaque PNJ, des portes et de toutes les arrivées dans les villes.
 
 ## Langues
 
@@ -162,3 +162,11 @@ Contrôles dédiés : `node --test tests/story-content.test.js`, `npm run test:m
 3. Ajouter du contenu aux huit intérieurs vides et prévoir de nouveaux lieux de soins avec le responsable cartes, sans fabriquer de portes hors de ce lot.
 4. Développer la suite Clara/Aube Obscure après la lettre, puis la résolution, le combat final et l’épilogue.
 5. Ajouter les soins utilisables et les objets clés, puis l’anglais des dialogues et écrans restants.
+
+## Ajouts du 14 octobre 2026
+
+Les refuges de Lyse (Floraville) et Abel (Ocreville) composent une quête annexe de deux visites, avec deux Potions offertes par personne, une seule fois. Le chapitre II se déverrouille après la lettre du chapitre I. Iris remet le registre ; Nora révèle le contact ; Soren donne 1 800 pièces après victoire ; Clara donne une lettre et 1 200 pièces lors des retrouvailles. Les récompenses sont sérialisées par compte et les drapeaux sont conservés après reconnexion.
+
+Les boutiques proposent Potion (20 PV, 200), Super Potion (50 PV, 700), Antidote (poison simple/sévère, 100) et Rappel (moitié des PV, 1 500). Un objet sans effet ou une cible non possédée n’entraîne aucun débit. Les prix sont en monnaie Aventure, distincte des pièces RiftMon.
+
+Le camp dispose de trois titres et trois cadres à 100/250/500 pièces RiftMon, sans avantage en combat. Les vingt derniers rapports serveur sont visibles aux participants uniquement. Les captures navigateur se reproduisent avec `test:release-browser` ; les 360 combats de `audit:simulation` sont une mesure de bots, pas une validation de difficulté humaine.

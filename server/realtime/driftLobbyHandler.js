@@ -1,15 +1,42 @@
 const { authenticateSocket } = require('../http/authMiddleware');
 const { createLobbyStore, LobbyError, CAPACITIES, DURATIONS } = require('../game/drift/lobbyStore');
 const { createRunManager } = require('../game/drift/runManager');
+const { createSocketRateLimit } = require('./socketRateLimit');
 const economy = require('../game/drift/economy');
 const { isShopMap } = require('../game/world/shopCatalog');
+const checkpointCodec = require('../game/drift/checkpointCodec');
 const catalogue = require('../../data/game/drifts.json');
 
 // Separate namespace: never loads or writes Adventure teams, inventory or positions.
-function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, runtimeOptions = {}, accountRepository = null } = {}) {
+function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, runtimeOptions = {}, accountRepository = null, checkpointRepository = null, initialCheckpoint = null } = {}) {
     const namespace = io.of('/drift');
     namespace.use(authenticateSocket);
     const runtime = createRunManager({ ...runtimeOptions, store, namespace, accountRepository });
+    if (initialCheckpoint) {
+        const saved=checkpointCodec.decode(initialCheckpoint);
+        store.restoreLobbies(saved.lobbies); runtime.restore(saved.runs,saved.savedAt);
+    }
+    const limitSocket = createSocketRateLimit();
+    let writing=Promise.resolve(), checkpointError=null, stopped=false;
+    const checkpoint = () => {
+        if (!checkpointRepository) return Promise.resolve();
+        const payload=checkpointCodec.encode({savedAt:Date.now(),lobbies:store.exportLobbies(),runs:runtime.runs});
+        const task=writing.catch(()=>{}).then(()=>checkpointRepository.save(payload));
+        writing=task.then(()=>{
+            checkpointError=null; runtime.setStorageAvailable(true);
+        },error=>{
+            checkpointError=error; runtime.setStorageAvailable(false);
+            for (const run of runtime.runs.values()) runtime.publish(run);
+            throw error;
+        });
+        return writing;
+    };
+    let checkpointBusy=false;
+    const checkpointTimer=setInterval(()=>{
+        if(checkpointBusy || !checkpointRepository)return;
+        checkpointBusy=true; checkpoint().catch(e=>console.error('Sauvegarde RiftMon:',e.message)).finally(()=>{checkpointBusy=false;});
+    },1000);
+    checkpointTimer.unref();
     const publish = () => {
         for (const socket of namespace.sockets.values()) {
             socket.emit('drift:lobby', store.snapshot(socket.data.user));
@@ -21,6 +48,7 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
     runtimeTimer.unref();
     timer.unref();
     namespace.on('connection', socket => {
+        limitSocket(socket);
         const user = socket.data.user;
         store.connect(user, socket.id);
         socket.emit('drift:bootstrap', { capacities: CAPACITIES, durations: DURATIONS, catalogue, launchAvailable: true });
@@ -41,7 +69,9 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
                 if (++requests > 30) { reply({ ok: false, code: 'rate_limit', message: 'Un instant entre chaque action, dresseur.' }); return; }
                 try {
                     store.sweep();
+                    if(stopped || checkpointError)throw new LobbyError('storage_unavailable','Sauvegarde temporairement indisponible. Réessaie dans un instant.');
                     const lobby = await operation(payload);
+                    await checkpoint();
                     publish();
                     reply(event === 'drift:list' ? { ok: true, lobbies: lobby } : { ok: true, lobby });
                 } catch (error) {
@@ -51,12 +81,14 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
                 }
             });
         }
-        const gameCommand = (name, handler, mutable = true) => socket.on(name, (payload, acknowledge) => {
+        const gameCommand = (name, handler, mutable = true) => socket.on(name, async (payload, acknowledge) => {
             if (typeof payload === 'function') { acknowledge = payload; payload = undefined; }
             const reply = typeof acknowledge === 'function' ? acknowledge : () => {};
             try {
+                if(stopped || checkpointError)throw new LobbyError('storage_unavailable','Sauvegarde temporairement indisponible. Réessaie dans un instant.');
                 const p = runtime.guard(user, socket, mutable);
                 const result = handler(p, payload);
+                if(name!=='playerAction' && name!=='drift:refresh' && !name.includes('Spectat') && name!=='drift:spectate') await checkpoint();
                 runtime.send(p);
                 reply(result || { success: true });
             } catch (error) {
@@ -67,7 +99,7 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
             }
         });
         socket.on('drift:enter', (payload, acknowledge) => {
-            try { const state = runtime.enter(user, socket); if (typeof acknowledge === 'function') acknowledge({ success: true, state }); }
+            try { if(stopped)throw new LobbyError('restarting','Le serveur redémarre.'); const state = runtime.enter(user, socket); if (typeof acknowledge === 'function') acknowledge({ success: true, state }); }
             catch (error) { if (typeof acknowledge === 'function') acknowledge({ success: false, message: error.message }); }
         });
         gameCommand('drift:refresh', () => ({ success: true }), false);
@@ -108,7 +140,8 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
         });
         socket.on('disconnect', () => { runtime.disconnect(user, socket); store.disconnect(user, socket.id); publish(); });
     });
-    const cleanup = () => { clearInterval(timer); clearInterval(runtimeTimer); };
+    const cleanup = () => { stopped=true; clearInterval(timer); clearInterval(runtimeTimer); clearInterval(checkpointTimer); };
+    cleanup.checkpoint=checkpoint;
     cleanup.runtime = runtime;
     return cleanup;
 }

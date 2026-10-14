@@ -16,7 +16,7 @@ const worldConfig = readJson('data', 'game', 'nextMap.json').maps;
 const generatedEntries = worldConfig.filter((entry) => entry.mapName.startsWith('gen_'));
 
 test('les décors de chaque lieu actif sont inclus dans le contexte Webpack du client', () => {
-    const source = fs.readFileSync(path.join(root, 'vue-explorakit/src/components/UserMap.vue'), 'utf8');
+    const source = fs.readFileSync(path.join(root, 'vue-explorakit/src/services/mapAssets.js'), 'utf8');
     const declaration = source.match(/const mapAssetContext = require\.context\([\s\S]*?\n\);/);
     assert.ok(declaration, 'Le contexte des décors doit être identifiable');
     let assetPattern;
@@ -120,7 +120,7 @@ test('les raccords vers les intérieurs livrés par l’agent cartes sont exacts
 
 test('chaque nouveau PNJ est posé sur une case libre et possède un dialogue exploitable', () => {
     const pnjs = readJson('data', 'game', 'pnjs.jsonc').pnjs.filter((pnj) => pnj.map.startsWith('gen_'));
-    assert.equal(pnjs.length, 32);
+    assert.equal(pnjs.length, 40);
     for (const pnj of pnjs) {
         const map = readJson('data', 'maps', `${pnj.map}.json`);
         const layers = technicalLayers(map);
@@ -137,14 +137,14 @@ test('chaque nouveau PNJ est posé sur une case libre et possède un dialogue ex
     }
 });
 
-test('les champions conservent leurs planches et chaque civil a son propre sprite et portrait', () => {
+test('les champions conservent leurs planches et les civils utilisent les portraits cohérents de l’atlas', () => {
     const pnjs = readJson('data', 'game', 'pnjs.jsonc').pnjs;
     const expectedSprites = ['ana.png', 'hoze.png', 'moonpunch.png', 'raph.png', 'townspeople.png', 'wanda.png'];
     const usedSprites = [...new Set(pnjs.map((pnj) => pnj.sprite))].sort();
     assert.deepEqual(usedSprites, expectedSprites);
 
     const civilians = pnjs.filter(pnj => pnj.spriteFrame);
-    assert.equal(civilians.length, 32);
+    assert.equal(civilians.length, 40);
     assert.equal(new Set(civilians.map(pnj => pnj.spriteFrame.index)).size, 32);
     const dialogues = readJson('data', 'game', 'interact.json');
     for (const pnj of civilians) {

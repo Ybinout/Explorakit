@@ -96,6 +96,8 @@ async function recordRunFinished(run) {
         const [entries] = await connection.execute(
             'SELECT user_id, coins_earned FROM rift_run_entries WHERE run_id = ? ORDER BY user_id FOR UPDATE', [id]
         );
+        if (run.report) await connection.execute(
+            'INSERT IGNORE INTO rift_reports (run_id,report_json) VALUES (?,?)',[id,JSON.stringify(run.report)]);
         if (stored.finished_at) {
             const storedWinnerId = stored.winner_id == null ? null : Number(stored.winner_id);
             const winnerEntry = entries.find((entry) => Number(entry.user_id) === storedWinnerId);

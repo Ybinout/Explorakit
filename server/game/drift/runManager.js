@@ -22,6 +22,22 @@ const ROOM = 'ville1_arene';
 
 function createRunManager({ store, namespace, now = Date.now, random = Math.random, paceMs = 1800, durationMs = null, accountRepository = null }) {
     const runs = new Map();
+    let storagePausedAt = null;
+    function setStorageAvailable(available) {
+        if (!available && storagePausedAt === null) storagePausedAt = now();
+        if (available && storagePausedAt !== null) {
+            const pause = now() - storagePausedAt;
+            for (const run of runs.values()) {
+                for (const key of ['startedAt', 'endsAt', 'preparationEndsAt', 'closedAt', 'recoveredAt'])
+                    if (Number.isFinite(run[key])) run[key] += pause;
+                for (const player of run.players.values())
+                    if (Number.isFinite(player.disconnectedAt)) player.disconnectedAt += pause;
+                for (const battle of run.battles) for (const key of ['deadline', 'nextRoundAt'])
+                    if (Number.isFinite(battle[key])) battle[key] += pause;
+            }
+            storagePausedAt = null;
+        }
+    }
     const playerFor = user => store.getLobby(user)?.run?.players.get(user.id);
     const emit = (p,event,payload) => {
         if(p.socketId && playerFor({id:p.userId})===p) namespace.to(p.socketId).emit(event,payload);
@@ -34,7 +50,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         const run=p.run;
         return { id:run.id, phase:run.phase, serverNow:now(), endsAt:run.endsAt, preparationEndsAt:run.preparationEndsAt,
             alive:p.alive, winnerId:run.winnerId, reason:p.eliminationReason, currentRound:run.round, ready:p.ready,spectatingAvailable:true,
-            slot:p.slot, slotLimit:economy.SLOT_LIMIT, money:p.money, drifts:p.drifts, equipped:p.equipped,
+            storagePaused:storagePausedAt !== null, recoveredAt:run.recoveredAt || null, recoveryWaiting:Boolean(run.recoveryWaiting), slot:p.slot, slotLimit:economy.SLOT_LIMIT, money:p.money, drifts:p.drifts, equipped:p.equipped,
             team:p.equipe.pokemons, items:economy.bag(p),
             players:[...run.players.values()].map(a=>({id:a.userId,username:a.username,alive:a.alive,ready:a.ready,
                 connected:Boolean(a.socketId&&playerFor({id:a.userId})===a),inBattle:Boolean(a.inbattle),reason:a.eliminationReason||null})),
@@ -72,7 +88,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         run.settlement = { status: 'pending', coinsAwarded: 0 };
         run.settling = Promise.resolve().then(() => accountRepository.recordRunFinished({ id: run.id,
             players: [...run.players.values()].map(p => ({ id: p.userId, username: p.username })),
-            winnerId: run.winnerId, finishedAt: run.finishedAt, explorationMs: run.explorationMs })).then(result => {
+            winnerId: run.winnerId, finishedAt: run.finishedAt, explorationMs: run.explorationMs, report: run.report })).then(result => {
             run.settlement = { status: 'complete', coinsAwarded: result.coinsAwarded || 0,
                 ...(result.reward ? { reward: result.reward } : {}) };
             publish(run);
@@ -212,7 +228,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
             run.players.set(p.userId,p);
         }
         const activate = () => {
-            run.startedAt=now();run.endsAt=now()+(durationMs ?? lobby.rules.durationMinutes*60000);
+            run.startedAt=now();run.endsAt=run.startedAt+(durationMs ?? lobby.rules.durationMinutes*60000);
             for(const p of run.players.values()) {p.disconnectedAt=now();report.init(p,now);}
             lobby.run=run;lobby.starting=false;delete lobby.pendingStartId;delete lobby.pendingStartRoster;runs.set(run.id,run);
             // Lobby sockets receive the phase and navigate to the existing world renderer.
@@ -239,6 +255,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
     function guard(user,socket,mutable=true) {
         const p=playerFor(user);
         if(!p || p.socketId!==socket.id) economy.fail('Cette expédition est ouverte dans un autre onglet.');
+        if(p.run.recoveryWaiting)economy.fail('Reprise en attente des autres joueurs (5 minutes maximum).');
         if(p.run.phase==='exploration'&&now()>=p.run.endsAt) beginTournament(p.run);
         if(['preparation','tournament'].includes(p.run.phase)&&now()>=p.run.preparationEndsAt)tick();
         if(mutable) economy.requireMutable(p);
@@ -305,7 +322,15 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         publish(run);world(run);
     }
     function tick() {
+        if (storagePausedAt !== null) return;
         for(const run of [...runs.values()]) {
+            if(run.recoveryWaiting) {
+                if(now()-run.recoveredAt<300000 && [...run.players.values()].some(p=>p.alive&&!p.socketId))continue;
+                const wait=now()-run.recoveredAt;
+                for(const key of ['startedAt','endsAt','preparationEndsAt'])if(Number.isFinite(run[key]))run[key]+=wait;
+                for(const b of run.battles)for(const key of ['deadline','nextRoundAt'])if(Number.isFinite(b[key]))b[key]+=wait;
+                run.recoveryWaiting=false;
+            }
             if(run.phase==='results') {
                 settle(run);
                 if(now()>=run.closedAt){
@@ -342,7 +367,27 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
             if (!run.lastPublished || now()-run.lastPublished>=1000) {run.lastPublished=now();publish(run);}
         }
     }
-    return {start,enter,guard,move,interact,endDialogue,ready,abandon,tick,send,publish,state,playerFor,battle,beginTournament,runs,spectate,stopSpectating,
+    function restore(saved, savedAt) {
+        const downtime = Math.max(0, now() - savedAt);
+        for (const run of saved.values()) {
+            for (const key of ['startedAt','endsAt','preparationEndsAt','closedAt']) if (Number.isFinite(run[key])) run[key]+=downtime;
+            run.pnjs=createPnjStore(); run.pnjDeadlines=new Map(); run.settling=null; run.settleAfter=0;
+            run.recoveredAt=now(); run.recoveryWaiting=run.phase!=='results';
+            for (const p of run.players.values()) {
+                p.socketId=null; p.disconnectedAt=now()+210000; p.dialogue=null; p.watchingMatchId=null;
+                if (p.runReport) p.runReport.now=now;
+            }
+            for (const b of run.battles) {
+                b.emit=emit; b.now=now; b.random=random;
+                const match=run.matches.find(m=>m.id===b.matchId);
+                b.onUpdate=battle=>publishSpectators(run,match,battle);
+                b.onFinish=(...args)=>finishBattle(run,...args,match);
+                for (const key of ['deadline','nextRoundAt']) if (Number.isFinite(b[key])) b[key]+=downtime+30000;
+            }
+            runs.set(run.id,run);
+        }
+    }
+    return {setStorageAvailable,restore,start,enter,guard,move,interact,endDialogue,ready,abandon,tick,send,publish,state,playerFor,battle,beginTournament,runs,spectate,stopSpectating,
         disconnect(user,socket){const p=playerFor(user);if(p?.socketId===socket.id){stopSpectating(p,'disconnected');p.socketId=null;p.disconnectedAt=now();world(p.run);}}};
 }
 module.exports={createRunManager};

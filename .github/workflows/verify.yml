@@ -1,0 +1,57 @@
+name: Vérification Explorakit
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: ci-local-password
+          MYSQL_DATABASE: explorakit_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost -pci-local-password"
+          --health-interval=10s --health-timeout=5s --health-retries=12
+    env:
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: ci-local-password
+      DB_NAME: explorakit_test
+      DB_TEST_NAME: explorakit_test
+      JWT_SECRET: ci-only-never-production
+      NODE_ENV: test
+      RELEASE_DIST_DIR: /tmp/explorakit-release-dist
+      VUE_APP_PUBLIC_PATH: /explorakit/
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            vue-explorakit/package-lock.json
+      - run: npm ci
+      - run: npm --prefix vue-explorakit ci
+      - run: npm run db:test:setup
+      - run: npm run verify:release -- --mysql
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:release-browser
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: captures-recette
+          path: /tmp/explorakit-six-browser
+          if-no-files-found: ignore

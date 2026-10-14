@@ -80,6 +80,15 @@ function createLobbyStore({ now = Date.now, codeGenerator = () => randomBytes(4)
     }
     return {
         snapshot, sweep, getLobby: lobbyFor,
+        exportLobbies: () => [...lobbies.values()],
+        restoreLobbies(saved) {
+            lobbies.clear(); memberships.clear(); connections.clear();
+            for (const lobby of saved) {
+                lobby.starting=false; lobby.touchedAt=now();
+                for (const p of lobby.players.values()) { p.disconnectedAt=now()+210000; p.ready=false; memberships.set(p.id,lobby.code); }
+                lobbies.set(lobby.code,lobby);
+            }
+        },
         listOpen(user) {
             identity(user);
             sweep();

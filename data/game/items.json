@@ -5,7 +5,7 @@
       "name": "Pokeball",
       "category": "ball",
       "buy_price": 200,
-      "catch_multiplier": 1.0,
+      "catch_multiplier": 1,
       "description": "A standard Pokeball."
     },
     {
@@ -21,7 +21,7 @@
       "name": "Hyperball",
       "category": "ball",
       "buy_price": 1200,
-      "catch_multiplier": 2.0,
+      "catch_multiplier": 2,
       "description": "A high-performance ball with a strong catch rate."
     },
     {
@@ -67,6 +67,53 @@
       "fraction": 0.0625,
       "fling_power": 10,
       "description": "Tenus, ils restaurent un seizième des PV à chaque tour."
+    },
+    {
+      "key": "potion",
+      "name": "Potion",
+      "category": "medicine",
+      "buy_price": 200,
+      "heal": 20,
+      "description": "Restaure 20 PV à un Pokémon vivant, hors combat."
+    },
+    {
+      "key": "super_potion",
+      "name": "Super Potion",
+      "category": "medicine",
+      "buy_price": 700,
+      "heal": 50,
+      "description": "Restaure 50 PV à un Pokémon vivant, hors combat."
+    },
+    {
+      "key": "antidote",
+      "name": "Antidote",
+      "category": "medicine",
+      "buy_price": 100,
+      "cure": [
+        "poison",
+        "badly_poison"
+      ],
+      "description": "Soigne le poison hors combat."
+    },
+    {
+      "key": "revive",
+      "name": "Rappel",
+      "category": "medicine",
+      "buy_price": 1500,
+      "revive": true,
+      "description": "Ranime un Pokémon K.O. avec la moitié de ses PV, hors combat en Aventure."
+    },
+    {
+      "key": "clara_registry",
+      "name": "Registre des refuges",
+      "category": "key",
+      "description": "La preuve confiée par Iris pour retrouver Clara."
+    },
+    {
+      "key": "clara_reunion_letter",
+      "name": "Lettre de retrouvailles",
+      "category": "key",
+      "description": "Un souvenir de Clara après les événements des refuges."
     }
   ]
 }

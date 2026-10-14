@@ -24,7 +24,11 @@
     "audit:content": "node scripts/auditGameContent.js",
     "generate:i18n": "node scripts/generateFrenchGameNames.js",
     "db:backfill:abilities": "node --env-file-if-exists=.env scripts/backfillPokemonAbilities.js",
-    "audit:balance": "node scripts/auditExperienceBalance.js"
+    "audit:balance": "node scripts/auditExperienceBalance.js",
+    "test:recovery": "node --env-file-if-exists=.env scripts/validateReleaseJourneys.js",
+    "audit:simulation": "node scripts/simulateBalance.js",
+    "verify:release": "node --env-file-if-exists=.env scripts/verifyRelease.js",
+    "test:release-browser": "node --env-file-if-exists=.env scripts/validateReleaseBrowser.js"
   },
   "keywords": [],
   "author": "",
@@ -37,5 +41,8 @@
     "mysql2": "^3.6.1",
     "socket.io": "^4.7.2",
     "uuid": "^10.0.0"
+  },
+  "devDependencies": {
+    "playwright": "1.63.0"
   }
 }

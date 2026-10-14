@@ -1,0 +1,289 @@
+const assert = require('node:assert/strict');
+const { spawn } = require('node:child_process');
+const { once } = require('node:events');
+const { randomUUID } = require('node:crypto');
+const http = require('node:http');
+const fs = require('node:fs');
+const path = require('node:path');
+const mysql = require('mysql2/promise');
+const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
+const httpProxy = require('../vue-explorakit/node_modules/http-proxy');
+const { io } = require('../vue-explorakit/node_modules/socket.io-client');
+const database = process.env.DB_TEST_NAME;
+if (!/test/i.test(database || '')) throw Error('Base de test dédiée requise.');
+const root = path.resolve(__dirname, '..');
+const port = Number(process.env.RELEASE_BROWSER_PORT || 31491);
+const origin = `http://127.0.0.1:${port + 1}`,
+    base = origin + '/explorakit';
+const output = process.env.RELEASE_SCREENSHOTS || '/tmp/explorakit-six-browser';
+fs.mkdirSync(output, { recursive: true });
+const fixtures = [],
+    sockets = [],
+    errors = [];
+let child, proxy, proxyServer, browser, db, runId;
+async function request(route, token, body) {
+    const response = await fetch(base + '/api' + route, {
+        method: body ? 'POST' : 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            ...(token ? { Authorization: 'Bearer ' + token } : {}),
+        },
+        ...(body ? { body: JSON.stringify(body) } : {}),
+    });
+    assert(response.ok, `HTTP ${response.status}: ${route}`);
+    return response.json();
+}
+const command = (socket, name, payload = {}) =>
+    new Promise((resolve, reject) =>
+        socket
+            .timeout(8000)
+            .emit(name, payload, (error, result) =>
+                error
+                    ? reject(error)
+                    : result?.ok === false || result?.success === false
+                    ? reject(Error(result.message))
+                    : resolve(result)
+            )
+    );
+async function connect(fixture) {
+    const socket = io(origin + '/drift', {
+        path: '/explorakit/socket.io',
+        auth: { token: fixture.token },
+        transports: ['websocket'],
+        autoConnect: false,
+    });
+    sockets.push(socket);
+    await new Promise((resolve, reject) => {
+        const timeout = setTimeout(() => reject(Error('Socket timeout')), 10000);
+        socket.once('drift:bootstrap', () => {
+            clearTimeout(timeout);
+            resolve();
+        });
+        socket.once('connect_error', reject);
+        socket.connect();
+    });
+    return socket;
+}
+async function loginContext(fixture, viewport) {
+    const context = await browser.newContext({ viewport });
+    await context.addInitScript(
+        (session) => localStorage.setItem('explorakit.user', JSON.stringify(session)),
+        { ...fixture.user, token: fixture.token }
+    );
+    const page = await context.newPage();
+    page.on('pageerror', (error) => errors.push(error.message));
+    page.on('response', (response) => {
+        if (response.url().startsWith(base) && response.status() >= 400)
+            errors.push(`${response.status()} ${response.url()}`);
+    });
+    return { context, page };
+}
+async function fit(page, selector, width, height) {
+    const bounds = await page.locator(selector).boundingBox();
+    assert(
+        bounds && bounds.width > 0 && bounds.x >= -1 && bounds.x + bounds.width <= width + 1,
+        selector + ' déborde'
+    );
+    assert(bounds.y >= -1 && bounds.y + bounds.height <= height + 1, selector + ' déborde verticalement');
+    assert(
+        await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1),
+        'Page trop large'
+    );
+}
+(async () => {
+    try {
+        db = await mysql.createConnection({
+            host: process.env.DB_HOST,
+            port: Number(process.env.DB_PORT || 3306),
+            user: process.env.DB_USER,
+            password: process.env.DB_PASSWORD,
+            database,
+        });
+        child = spawn(process.execPath, ['server/index.js'], {
+            cwd: root,
+            env: {
+                ...process.env,
+                DB_NAME: database,
+                NODE_ENV: 'test',
+                RIFT_DURABILITY: '0',
+                PORT: String(port),
+                CLIENT_DIST_DIR: process.env.RELEASE_DIST_DIR || '/tmp/explorakit-six-dist',
+            },
+            stdio: ['ignore', 'pipe', 'pipe'],
+        });
+        await new Promise((resolve, reject) => {
+            const timeout = setTimeout(() => reject(Error('Startup timeout')), 12000);
+            child.stdout.on('data', (data) => {
+                if (String(data).includes('Server is running')) {
+                    clearTimeout(timeout);
+                    resolve();
+                }
+            });
+            child.stderr.on('data', (data) => process.stderr.write(data));
+            child.once('exit', (code) => {
+                clearTimeout(timeout);
+                reject(Error('Server exited ' + code));
+            });
+        });
+        proxy = httpProxy.createProxyServer({ target: `http://127.0.0.1:${port}`, ws: true });
+        proxy.on('error', (_error, _request, response) => {
+            if (response?.writeHead) response.writeHead(502).end();
+        });
+        const rewrite = (request) => {
+            request.url = request.url.replace(/^\/explorakit(?=\/|$)/, '') || '/';
+        };
+        proxyServer = http.createServer((request, response) => {
+            rewrite(request);
+            proxy.web(request, response);
+        });
+        proxyServer.on('upgrade', (request, socket, head) => {
+            rewrite(request);
+            proxy.ws(request, socket, head);
+        });
+        proxyServer.listen(port + 1, '127.0.0.1');
+        await once(proxyServer, 'listening');
+        for (let index = 0; index < 2; index++)
+            fixtures.push(
+                await request('/users', null, {
+                    username: 'browser_' + randomUUID(),
+                    password: 'Browser-test-password',
+                    starterId: 7,
+                })
+            );
+        const [host, guest] = fixtures;
+        await db.execute('INSERT INTO rift_profiles (user_id,coins) VALUES (?,1000)', [host.user.id]);
+        await db.execute("INSERT INTO user_items(user_id,item_key,quantity) VALUES (?,'potion',2)", [
+            host.user.id,
+        ]);
+        await db.execute(
+            'UPDATE pokemons p JOIN teams t ON t.id=p.team_id SET p.current_hp=1 WHERE t.user_id=?',
+            [host.user.id]
+        );
+        // Create a real report; a clean browser context must retrieve it without localStorage archives.
+        const a = await connect(host),
+            b = await connect(guest);
+        const room = await command(a, 'drift:create', {
+            capacity: 2,
+            durationMinutes: 20,
+            visibility: 'private',
+        });
+        await command(b, 'drift:join', { code: room.lobby.code });
+        await command(a, 'drift:ready', { ready: true });
+        await command(b, 'drift:ready', { ready: true });
+        await command(a, 'drift:start');
+        runId = (await command(a, 'drift:enter')).state.id;
+        await command(b, 'drift:enter');
+        await command(b, 'drift:abandon');
+        await command(a, 'drift:exit');
+        await command(b, 'drift:exit');
+        sockets.forEach((socket) => socket.disconnect());
+        browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
+        const { page } = await loginContext(host, { width: 1365, height: 900 });
+        await page.goto(base + '/drift', { waitUntil: 'networkidle' });
+        await page.locator('[data-rift-hub]').waitFor();
+        await page.locator('.collection > summary').click();
+        const title = page.locator('.collection article').filter({ hasText: 'Éclaireur des Rifts' });
+        await title.getByRole('button', { name: /Acheter/ }).click();
+        await title.getByRole('button', { name: 'Équiper', exact: true }).click();
+        const frame = page.locator('.collection article').filter({ hasText: 'Cadre Forêt' });
+        await frame.getByRole('button', { name: /Acheter/ }).click();
+        await frame.getByRole('button', { name: 'Équiper', exact: true }).click();
+        await page.locator('.profile-details > summary').click();
+        await page.waitForFunction(
+            () => document.querySelector('[data-rift-coins]')?.textContent.trim() === '800'
+        );
+        assert.match(await page.locator('.profile-title').innerText(), /Éclaireur/);
+        assert.equal(
+            await page.locator('[data-rift-profile]').evaluate((node) => getComputedStyle(node).borderColor),
+            'rgb(139, 199, 161)'
+        );
+        for (const [width, height] of [
+            [1365, 900],
+            [390, 844],
+            [320, 568],
+            [844, 390],
+        ]) {
+            await page.setViewportSize({ width, height });
+            assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+            await page.screenshot({ path: path.join(output, `collection-${width}.png`), fullPage: true });
+        }
+        const fresh = await loginContext(host, { width: 390, height: 844 });
+        await fresh.page.goto(base + '/drift', { waitUntil: 'networkidle' });
+        await fresh.page.locator('.profile-details > summary').click();
+        assert.match(await fresh.page.locator('.profile-title').innerText(), /Éclaireur/);
+        await fresh.page.locator('[data-drift-history-toggle]').click();
+        await fresh.page.locator(`[data-drift-history-run="${runId}"]`).click();
+        await fresh.page.locator('[data-drift-report]').waitFor();
+        await fresh.page.screenshot({ path: path.join(output, 'history-fresh-browser.png'), fullPage: true });
+        assert.equal(
+            await fresh.page.evaluate(() =>
+                Object.keys(localStorage).some((key) => key.startsWith('explorakit:drift-reports:'))
+            ),
+            false
+        );
+        await fresh.context.close();
+        await page.locator('[data-rift-solo]').click();
+        await page.locator('.adventure-guide').waitFor();
+        await page.locator('.adventure-guide > details > summary').click();
+        assert.match(await page.locator('.destination').innerText(), /Ville du Lac/);
+        await page.locator('.help > summary').click();
+        for (const [width, height] of [
+            [1365, 900],
+            [390, 844],
+            [320, 568],
+            [844, 390],
+        ]) {
+            await page.setViewportSize({ width, height });
+            await fit(page, '.adventure-guide', width, height);
+            if(width < 600){const place=await page.locator('.location-banner').boundingBox(), guide=await page.locator('.adventure-guide').boundingBox();assert(place.y+place.height<=guide.y, 'Le nom du lieu recouvre le guide');}
+            await page.screenshot({ path: path.join(output, `guide-${width}.png`) });
+        }
+        await page.setViewportSize({ width: 390, height: 844 });
+        await page.locator('.menu-toggle-btn').click();
+        await page.locator('.menu-dropdown-item').filter({ hasText: /^\s*Sac\s*$/ }).click();
+        const medicine = page.locator('[data-item-key="potion"] select');
+        await medicine.waitFor();
+        const uuid = await medicine.locator('option').nth(1).getAttribute('value');
+        await medicine.selectOption(uuid);
+        await page.waitForFunction(
+            () => document.querySelector('[data-item-key="potion"] .bag-item-qty')?.textContent === 'x1'
+        );
+        const [[healed]] = await db.execute('SELECT current_hp FROM pokemons WHERE uuid=?', [uuid]);
+        assert(healed.current_hp > 1, 'Le soin doit être sauvegardé');
+        await page.screenshot({ path: path.join(output, 'medicine-mobile.png') });
+        assert.deepEqual(errors, []);
+        console.log(
+            JSON.stringify({
+                subdirectory: true,
+                viewports: 4,
+                purchaseAndEquip: true,
+                balance: 800,
+                freshBrowserHistory: true,
+                persistedCosmetics: true,
+                objectiveAndHelp: true,
+                medicine: true,
+                errors,
+                output,
+            })
+        );
+    } finally {
+        sockets.forEach((socket) => socket.disconnect());
+        await browser?.close();
+        proxy?.close();
+        proxyServer?.close();
+        if (child && child.exitCode === null) {
+            const stopped = once(child, 'exit');
+            child.kill('SIGTERM');
+            await stopped;
+        }
+        if (db) {
+            if (runId) await db.execute('DELETE FROM rift_runs WHERE id=?', [runId]);
+            for (const fixture of fixtures)
+                await db.execute('DELETE FROM users WHERE id=?', [fixture.user.id]);
+            await db.end();
+        }
+    }
+})().catch((error) => {
+    console.error(error);
+    process.exitCode = 1;
+});
