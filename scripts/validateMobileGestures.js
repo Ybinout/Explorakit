@@ -27,7 +27,9 @@ async function validateMobileGestures(page, context, output) {
             await page.waitForFunction(key => window.mobileTestVm.keysPressed[key], key);
         }
         await touch('touchCancel');
-        assert.deepEqual(await page.evaluate(() => window.mobileTestVm.gestureCommands.slice(0, 4)), ['move_d', 'move_s', 'move_q', 'move_z']);
+        assert.deepEqual(await page.evaluate(() => window.mobileTestVm.gestureCommands
+            .filter((command, index, commands) => command !== commands[index - 1])),
+        ['move_d', 'move_s', 'move_q', 'move_z'], 'Direction changes stay ordered even when a held finger repeats steps');
         assert.equal(await page.evaluate(() => Object.values(window.mobileTestVm.keysPressed).some(Boolean)), false);
         const map = await page.locator('.world-viewport').boundingBox();
         const origin = { x: map.x + map.width / 2, y: map.y + map.height / 2 };
