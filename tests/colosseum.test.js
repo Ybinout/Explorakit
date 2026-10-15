@@ -22,6 +22,38 @@ function defeatEnemies(battle) {
     battle.prune(); battle.checkEnd();
 }
 
+for (const durationMinutes of [30, 60]) test(`Colosseum ${durationMinutes}min: boosted XP and reserve learning persist without duplicate rewards`, async () => {
+    const f = setup();
+    await f.runtime.startColosseum(f.user, { durationMinutes });
+    f.runtime.enter(f.user, f.socket);
+    const p = f.runtime.playerFor(f.user);
+    const active = factory.create(1, 5), reserve = factory.create(25, 5), lost = factory.create(4, 5);
+    p.equipe.pokemons = [active, reserve, lost];
+    const before = [active.experience, reserve.experience, lost.experience];
+    const enemy = factory.create(19, 14);
+    enemy.k = 1;
+    const expected = 6 * require('../server/game/models/progression').calculateBattleExperience(enemy, 1, active);
+    const battle = f.runtime.battle(p, { npc:true, equipe:{ pokemons:[enemy] }, drifts:[], equipped:[] }, 'wild');
+    lost.currentHp = 0;
+    defeatEnemies(battle);
+    assert.equal(active.experience - before[0], expected);
+    assert.equal(reserve.experience - before[1], Math.floor(expected * 30 / 100));
+    assert.equal(lost.experience, before[2]);
+    assert(!p.equipe.pokemons.includes(lost));
+    assert(reserve.level > 5);
+    assert(reserve.pendingMoves.length > 0, 'Reserve levels must offer new moves too');
+    // Exercise the durable battle guard and Pokémon prototypes, not just JSON values.
+    const saved = decode(encode({ savedAt:f.now(), lobbies:f.store.exportLobbies(), runs:f.runtime.runs, battle }));
+    const restored = setup();
+    restored.store.restoreLobbies(saved.lobbies); restored.runtime.restore(saved.runs, saved.savedAt);
+    const q = restored.runtime.playerFor(f.user);
+    saved.battle.reward(saved.battle.originals.find(poke => poke.uuid === enemy.uuid));
+    assert.deepEqual(q.equipe.pokemons.map(poke => poke.experience), [active.experience, reserve.experience]);
+    assert.deepEqual(q.equipe.pokemons[1].pendingMoves, reserve.pendingMoves);
+    assert.equal(q.equipe.pokemons[1].gainExperience, reserve.gainExperience);
+    assert.equal(q.run.lobby.rules.durationMinutes, durationMinutes);
+});
+
 test('six guardians have deterministic, honest previews and shipped sprites; scoring stays stable', () => {
     const fs = require('node:fs'), names = new Set();
     for (let wave = 1; wave <= 120; wave++) {

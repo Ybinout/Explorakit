@@ -53,6 +53,8 @@ async function betweenBattles(selector) {
             assert.equal(await page.locator('[data-mode]').count(),3);await checkWidth();
             await page.screenshot({path:path.join(output,`modes-${width}.png`),fullPage:true});
             await page.locator('[data-mode="colosseum"]').click();await page.locator('[data-colosseum-start]:enabled').waitFor();await checkWidth();
+            assert.match(await page.locator('.start-card').innerText(),/XP de combat ×6/);
+            assert.match(await page.locator('.start-card').innerText(),/30 % du gain du combattant/);
             await page.screenshot({path:path.join(output,`colosseum-lobby-${width}.png`),fullPage:true});
         }
         await page.setViewportSize({width:393,height:852});await page.locator('[data-colosseum-format="30"]').click();
@@ -87,6 +89,22 @@ async function betweenBattles(selector) {
             await page.screenshot({path:path.join(output,`colosseum-bag-${width}.png`)});
         }
         await page.locator('.bag-panel .panel-close').click();
+        // XP is credited by the real server and shown for both active and reserve Pokémon.
+        const fighter=p.equipe.pokemons[0], target=factory.create(19,5);
+        const beforeXp=[fighter.experience,companion.experience];
+        const expectedXp=6*require('../server/game/models/progression').calculateBattleExperience(target,1,fighter);
+        const xpBattle=cleanup.runtime.battle(p,{npc:true,equipe:{pokemons:[target]},drifts:[],equipped:[]},'wild');
+        await page.locator('.battle-scene').waitFor();
+        target.currentHp=0;xpBattle.prune();xpBattle.checkEnd();
+        const expectedGains=[expectedXp,Math.floor(expectedXp*30/100)];
+        assert.deepEqual([fighter.experience-beforeXp[0],companion.experience-beforeXp[1]],expectedGains);
+        await page.locator('[data-battle-result] .experience-value').first().waitFor();
+        assert.deepEqual((await page.locator('[data-battle-result] .experience-value').allTextContents()).map(s=>Number(s.replace(/\D/g,''))),expectedGains);
+        await page.screenshot({path:path.join(output,'colosseum-shared-xp.png')});
+        const awardedXp=[fighter.experience,companion.experience];
+        await dismissBattle();await betweenBattles('.drift-hud');
+        await page.reload({waitUntil:'networkidle'});await betweenBattles('.drift-hud');
+        assert.deepEqual(p.equipe.pokemons.map(poke=>poke.experience),awardedXp,'Reconnect must retain XP without replaying it');
         // A real capture through the mobile controls must pay the wallet and show the same gain.
         const moneyBeforeCapture = p.money;
         cleanup.runtime.battle(p,{npc:true,equipe:{pokemons:[factory.create(19,5)]},drifts:[],equipped:[]},'wild');
@@ -112,7 +130,7 @@ async function betweenBattles(selector) {
         await page.locator('[data-colosseum-ready]').click();await waitFor(()=>Boolean(p.battle),'Battle missing');
         const battle=p.battle,lost=p.equipe.pokemons[0];lost.currentHp=0;battle.prune();
         for(const enemy of battle.b.equipe.pokemons)enemy.currentHp=0;battle.prune();battle.checkEnd();
-        await dismissBattle();await page.locator('[data-colosseum-ready]').waitFor();
+        await dismissBattle();await betweenBattles('[data-colosseum-ready]');
         assert.equal(p.equipe.pokemons.length,1);assert.equal(p.equipe.pokemons[0].currentHp,p.equipe.pokemons[0].maxHp);
         assert.equal(p.run.colosseum.score,300);await checkWidth();
         await page.screenshot({path:path.join(output,'colosseum-victory-mobile.png')});
@@ -177,7 +195,7 @@ async function betweenBattles(selector) {
         assert(classic.battle.pending.has(classic.battle.b),'The expert commits before the player acts');
         cleanup.runtime.abandon(classic);await classic.run.settling;
         assert.deepEqual(errors,[]);success=true;
-        console.log(JSON.stringify({colosseum:true,viewports:4,fixedThirtyMinutes:true,reconnect:true,arena:true,permadeath:true,healing:true,score:300,leaderboard:true,adventureUnchanged:true,errors,output}));
+        console.log(JSON.stringify({colosseum:true,viewports:4,fixedThirtyMinutes:true,reconnect:true,sharedExperience:true,arena:true,permadeath:true,healing:true,score:300,leaderboard:true,adventureUnchanged:true,errors,output}));
     }finally{
         if(!success&&page){console.error('Browser errors:',errors);await page.screenshot({path:path.join(output,'colosseum-failure.png'),fullPage:true}).catch(()=>{});}
         await browser?.close();cleanup();await new Promise(resolve=>io.close(resolve));

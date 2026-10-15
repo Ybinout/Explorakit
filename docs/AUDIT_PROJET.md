@@ -1,5 +1,15 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Colosseum : XP augmentée de 200 % et partage de réserve — 15 octobre 2026
+
+Les formats **30 et 60 minutes** accordent **+200 % par rapport au gain Colosseum précédent**, soit trois fois ce gain : le multiplicateur de mode passe de ×2 à **×6**. La règle vaut pour les prochaines récompenses de combat, en exploration et dans l’arène, y compris dans les expéditions déjà engagées. Le type de combat, l’ajustement au niveau et les bonus d’XP des Drifts restent appliqués avant ce multiplicateur. Le Rift conserve ×2 et l’Aventure son gain ordinaire ; aucune XP rétroactive ni changement du score/classement.
+
+Chaque Pokémon **vivant en réserve** reçoit **30 % du gain du combattant**, arrondi à l’entier inférieur, sans retrancher d’XP à celui-ci et sans division par le nombre de réservistes. Le pourcentage du Drift **Entraînement collectif** s’ajoute aux 30 % (exemple : rare +10 % = 40 % par réserviste). Un K.O. est récompensé une seule fois, les compagnons perdus sont exclus, et les montées de niveau/apprentissages de la réserve passent par la progression existante. Les gains et offres d’apprentissage restent dans le checkpoint. La page Colosseum explique les nouveaux taux ; le bilan existant affiche les gains individuels. Les captures gardent leurs récompenses actuelles.
+
+Vérifications reproductibles : `node --test tests/rift-experience.test.js tests/colosseum.test.js` couvre les trois types de combat, les deux formats avec/sans Drifts, plusieurs réservistes, K.O., doublons, progression/apprentissages et reprise de checkpoint. Les fixtures utilisent le vrai mode `colosseum` et une durée séparée, au lieu d’anciens noms fictifs `colosseum-30/60`. Exécuter ensuite `VUE_APP_PUBLIC_PATH=/explorakit/ RELEASE_DIST_DIR=BUILD_OUTPUT npm run verify:release -- --mysql`, puis `test:release-browser` et `test:colosseum-browser` avec ce build. La recette Colosseum vérifie aussi les deux gains affichés et leur conservation à la reconnexion. Pas de migration SQL ni modification des cartes.
+
+Validation locale : **300 tests applicatifs actifs, 37 tests SQL**, audits, reprise, lint et build réussis. Les recettes navigateur de publication et Colosseum passent ; le bilan montre les gains individuels exacts et la reconnexion les conserve. Sources, build précédent et checkpoint sauvegardés avant publication ; aucun Rift actif au précontrôle.
+
 ## Colosseum : gardiens, choix de palier et arène mobile — 15 octobre 2026
 
 Les nouvelles expéditions utilisent les règles Colosseum **version 2**. Les formats 30/60 minutes, starters, XP, K.O. définitifs, soins des survivants, niveaux, potentiel, six paliers d’IA et formule de points sont conservés. Six gardiens reviennent aux défis 10/20/30/40/50/60 puis cyclent : Rempart (Roche/Sol/Acier), Canopée (Plante/Poison), Courant (Eau/Électrik), Fournaise (Feu/Vol), Mirage (Psy/Spectre), Couronne (Dragon/Acier). Leurs espèces sont fixes, sans adaptation à l’équipe du joueur ; pas de météo ni de bonus caché ajouté. À partir du défi 25, les défis ordinaires tournent sur 18 espèces d’élite au lieu des mêmes six. Les six premières équipes restent inchangées.
@@ -946,6 +956,7 @@ Le socle pourra être considéré stable lorsque :
 
 | Date | Intervention | Vérifications | État restant |
 | --- | --- | --- | --- |
+| 2026-10-15 | Colosseum : gains d’XP précédents triplés (×6 Aventure), 30 % supplémentaires à chaque réserviste vivant, cumul avec Entraînement collectif | Calculs avec/sans Drifts, deux formats, K.O., apprentissages/checkpoint ; bilan et reconnexion navigateur | Équilibrage des parcours après accélération de la progression |
 | 2026-10-15 | Colosseum v2 : six gardiens, 18 espèces d’élite, choix de Drift par palier, aperçu tactique et nouveau décor portrait | Tests des offres, répétitions, checkpoints et règles v1 ; recette navigateur gardien/récompense/reconnexion et cadrage tactile | Équilibrage de parcours longs et ressenti sur téléphone physique |
 | 2026-10-15 | Critiques/efficacité au-dessus des sprites ; sons d’attaque et catégorie Rift ; transitions à décors complets et glissement tactile carte/pavé | Tests des gestes, des couches décodées, de la catégorie d’attaque et du cycle audio ; recettes navigateur mobiles/bureau, chargement retardé et signal audio réel | Écoute et ressenti sur téléphone physique |
 | 2026-10-15 | Petite prime par victoire/capture sauvage dans les trois modes ; Poké Ball ×1,15 ; niveaux des cartes et PNJ resserrés de 10 % au-dessus de 5 | 281 tests actifs, 37 SQL, audit des paliers et des rencontres ; capture effective, portefeuille, répétition et reprise | Ressenti de la progression et économie à confirmer sur des parties humaines |
