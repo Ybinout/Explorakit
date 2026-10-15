@@ -118,3 +118,30 @@ test('medicine no-effect and ownership failures do not consume inventory', { ski
         await db.execute('DELETE FROM users WHERE id IN (?,?)', [u.id, v.id]);
     }
 });
+
+test('level-up choices persist and are owned, atomic, replay-safe and blocked during battle', { skip: !enabled }, async () => {
+    const { learnMove } = require('../server/persistence/moveLearningRepository');
+    const { registerMoveLearningHandlers } = require('../server/realtime/handlers/moveLearningHandlers');
+    const factory = require('../server/game/drift/pokemonFactory');
+    const u = await fixture(), v = await fixture();
+    try {
+        const pokemon = factory.create(1,5);
+        pokemon.gainExperience(pokemon.getNextLevelExpForLevel(14)-pokemon.experience);
+        pokemon.movePp=[1,2,3,4];await teams.editEquipe(u.id,{pokemons:[pokemon]});
+        const loaded=(await teams.loadEquipe(u.id)).pokemons[0];assert.deepEqual(loaded.pendingMoves,pokemon.pendingMoves);
+        const choice={pokemonUuid:loaded.uuid,choiceId:loaded.pendingMoves[0].id,slot:0};
+        await assert.rejects(()=>learnMove(v.id,loaded.uuid,choice),/appartient/);
+        const p={equipe:{pokemons:[loaded]},inbattle:true}, handlers={};
+        registerMoveLearningHandlers({socket:{on:(name,fn)=>handlers[name]=fn,emit(){}},userId:u.id,getPlayer:()=>p});
+        const command=data=>new Promise(resolve=>handlers.learnMove(data,resolve));
+        assert.equal((await command(choice)).success,false);p.inbattle=false;
+        const answers=await Promise.all([command(choice),command(choice)]);assert.equal(answers.filter(a=>a.success).length,1);
+        const fresh=(await teams.loadEquipe(u.id)).pokemons[0];
+        assert.equal(fresh.abilities[0],'Leech Seed');assert.deepEqual(fresh.movePp.slice(1),[2,3,4]);assert.equal(fresh.pendingMoves.length,2);
+        await assert.rejects(()=>learnMove(u.id,loaded.uuid,choice),/plus disponible/);
+        const next={choiceId:fresh.pendingMoves[0].id,slot:null};
+        const concurrent=await Promise.allSettled([learnMove(u.id,loaded.uuid,next),learnMove(u.id,loaded.uuid,next)]);
+        assert.equal(concurrent.filter(r=>r.status==='fulfilled').length,1);
+        assert.equal((await teams.loadEquipe(u.id)).pokemons[0].pendingMoves[0].move,'Sleep Powder');
+    } finally { await db.execute('DELETE FROM users WHERE id IN (?,?)',[u.id,v.id]); }
+});

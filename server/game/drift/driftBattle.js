@@ -132,7 +132,7 @@ class DriftBattle {
         if (this.rewarded.has(defeated.uuid)) return; this.rewarded.add(defeated.uuid);
         const active = this.a.equipe.pokemons.find(p=>!effects.isDead(p)); if (!active) return;
         const bonus = effects.value(this.a,43) + (defeated.level > active.level ? effects.value(this.a,51) : 0);
-        const xp = Math.max(1,Math.floor(calculateBattleExperience(defeated, this.type === 'arena' ? 2 : this.type === 'trainer' ? 1.5 : 1, active) * (1 + bonus/100)));
+        const xp = 2 * Math.max(1,Math.floor(calculateBattleExperience(defeated, this.type === 'arena' ? 2 : this.type === 'trainer' ? 1.5 : 1, active) * (1 + bonus/100)));
         const previousLevel = active.level, previousExperience = active.experience;
         active.gainEffort(yields[defeated.data.id] || {}); active.gainExperience(xp);
         for (const reserve of this.a.equipe.pokemons) if (reserve !== active && !effects.isDead(reserve)) reserve.gainExperience(Math.floor(xp * effects.value(this.a,50)/100));

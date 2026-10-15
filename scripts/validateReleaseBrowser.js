@@ -288,6 +288,15 @@ async function fit(page, selector, width, height) {
         const journal = await validateJournalUi(page, output, fit);
         await page.goto(base + '/drift', { waitUntil: 'networkidle' });
         const mobile = await validateMobileWorld({ loginContext, fixture: host, base, output, fit });
+        const learner = await request('/users', null, { username:'learn_'+randomUUID(),password:'Learning-browser-2026',starterId:1 });
+        fixtures.push(learner);
+        const specimen = require('../server/game/drift/pokemonFactory').create(1,5);
+        specimen.gainExperience(specimen.getNextLevelExpForLevel(14)-specimen.experience);
+        await db.execute('UPDATE pokemons p JOIN teams t ON t.id=p.team_id SET p.level=?,p.experience=?,p.pending_moves=?,p.ability1=?,p.ability2=?,p.ability3=?,p.ability4=? WHERE t.user_id=?',
+            [specimen.level,specimen.experience,JSON.stringify(specimen.pendingMoves),...specimen.abilities,learner.user.id]);
+        const learningContext = await loginContext(learner,{width:393,height:852},{isMobile:true,hasTouch:true});
+        const learning = await require('./validateExperienceUi').validateLearningUi({page:learningContext.page,base,output,fit,db,userId:learner.user.id});
+        await learningContext.context.close();
         // The shared world toolbar must also fit an actual two-player Rift.
         const journalHost = await connect(host), journalGuest = await connect(guest);
         const journalRoom = await command(journalHost, 'drift:create', { capacity: 2, durationMinutes: 20, visibility: 'private' });
@@ -329,6 +338,7 @@ async function fit(page, selector, width, height) {
                 medicine: true,
                 journal,
                 mobile,
+                learning,
                 riftToolbar: true,
                 errors,
                 output,

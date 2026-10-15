@@ -117,12 +117,13 @@ async function validateMobileBattle(page, output, fit) {
     assert(Math.abs(ball.x + ball.width / 2 - target.x) < 3 && Math.abs(ball.y + ball.height / 2 - target.y) < 3,
         'Capture ball misses the visible Pokémon');
     await page.screenshot({ path: path.join(output, 'battle-mobile-capture.png') });
+    const experience = await require('./validateExperienceUi').validateExperienceUi(page, output);
     await page.evaluate(() => {
         window.battleTestVm.battle = false;
         delete window.battleTestVm;
     });
     await page.locator('.mobile-dpad').waitFor();
-    return { formats: formats.length, spritesUnobstructed: true, menus: true, attackAndCaptureTargets: true };
+    return { experience, formats: formats.length, spritesUnobstructed: true, menus: true, attackAndCaptureTargets: true };
 }
 
 module.exports = { validateMobileBattle };

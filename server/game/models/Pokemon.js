@@ -69,6 +69,7 @@
             this.experience = Math.max(0, Math.floor(Number(experience) || 0));
             this.abilities = [];
             this.movePp = [];
+            this.pendingMoves = [];
             this.passiveAbility = chooseSpeciesAbility(id);
             this.heldItem = null;
             this.type1 = data.type[0];
@@ -225,7 +226,9 @@
             this.experience += Math.max(0, Math.floor(Number(expGained) || 0));
             const targetLevel = this.calculateLevelFromExperience(this.experience);
             if (targetLevel > this.level) {
+                const previousLevel = this.level;
                 this.level = targetLevel;
+                require('./moveLearning').queueLevelMoves(this, previousLevel);
                 this.recalculateStats(true);
                 this.checkEvolution();
             }
@@ -255,6 +258,7 @@
             this.determineExpGroup(this.data);
             this.passiveAbility = evolvedAbility;
             this.recalculateStats(true);
+            require('./moveLearning').queueLevelMoves(this, this.level, true);
         }
     }
 

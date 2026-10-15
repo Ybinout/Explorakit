@@ -80,6 +80,7 @@ CREATE TABLE IF NOT EXISTS `pokemons` (
   `move2_pp` smallint unsigned DEFAULT NULL,
   `move3_pp` smallint unsigned DEFAULT NULL,
   `move4_pp` smallint unsigned DEFAULT NULL,
+  `pending_moves` JSON DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uuid` (`uuid`),

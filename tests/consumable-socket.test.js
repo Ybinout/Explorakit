@@ -58,10 +58,28 @@ for (const mode of ['rift', 'colosseum-30', 'colosseum-60']) {
             pokemon.currentHp = 1;p.inbattle = true;
             assert.equal((await use('potion')).success, false);assert.equal(p.items.potion, 2);p.inbattle = false;
             p.run.phase = 'colosseum_ready';assert.equal((await use('potion')).success, false);p.run.phase = 'exploration';
+            // Level-up decisions use the same owned, checkpointed command channel in all three formats.
+            const learner = factory.create(1, 5);
+            learner.gainExperience(learner.getNextLevelExpForLevel(14) - learner.experience);
+            p.equipe.pokemons.push(learner);
+            const learn = (data) => command(socket, 'drift:learnMove', data);
+            const choice = { pokemonUuid: learner.uuid, choiceId: learner.pendingMoves[0].id, slot: 0 };
+            assert.equal((await learn({ ...choice, pokemonUuid: 'foreign' })).success, false);
+            p.inbattle = true;assert.equal((await learn(choice)).success, false);p.inbattle = false;
+            p.run.phase = 'colosseum_ready';
+            const replies = await Promise.all([learn(choice), learn(choice)]);
+            assert.equal(replies.filter(r=>r.success).length, 1);
+            assert.equal(learner.abilities[0], 'Leech Seed');assert.equal(learner.abilities.length, 4);
+            const learned = decode(checkpoint).runs.get(p.run.id).players.get(users[0].id).equipe.pokemons[1];
+            assert.deepEqual(learned.pendingMoves, learner.pendingMoves);assert.equal(learned.abilities[0], 'Leech Seed');
+            assert.equal((await learn({pokemonUuid:learner.uuid,choiceId:learner.pendingMoves[0].id,slot:null})).success,true);
+            p.run.phase = 'exploration';
+
             assert(!economy.shop(p).catalog.some(i => i.key === 'revive'));
             assert.equal((await use('potion')).success, true);
             socket.disconnect();const ready = once(socket, 'drift:bootstrap');socket.connect();await ready;
             const restored = await command(socket, 'drift:enter');
+            assert.equal(restored.state.team[1].pendingMoves[0].move, 'Sleep Powder');assert.equal(restored.state.team[1].abilities[0], 'Leech Seed');
             assert.equal(restored.state.team[0].currentHp, 21);assert.equal(restored.state.items.find(i=>i.key==='potion').quantity, 1);
         } finally {
             sockets.forEach(s=>s.disconnect());cleanup();await new Promise(resolve=>io.close(resolve));

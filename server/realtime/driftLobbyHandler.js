@@ -6,6 +6,7 @@ const economy = require('../game/drift/economy');
 const { isShopMap } = require('../game/world/shopCatalog');
 const checkpointCodec = require('../game/drift/checkpointCodec');
 const catalogue = require('../../data/game/drifts.json');
+const { resolveMoveChoice } = require('../game/models/moveLearning');
 
 // Separate namespace: never loads or writes Adventure teams, inventory or positions.
 function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, runtimeOptions = {}, accountRepository = null, colosseumRepository = null, checkpointRepository = null, initialCheckpoint = null } = {}) {
@@ -116,6 +117,12 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
         gameCommand('drift:discard', (p, data) => economy.remove(p, data?.uuid));
         gameCommand('drift:sell', (p, data) => economy.remove(p, data?.uuid, true));
         gameCommand('drift:heal', (p, data) => economy.usePotion(p, data?.itemKey, data?.pokemonUuid));
+        gameCommand('drift:learnMove', (p, data) => {
+            const pokemon = p.equipe.pokemons.find(poke => poke.uuid === data?.pokemonUuid);
+            try { Object.assign(pokemon, resolveMoveChoice(pokemon, data)); }
+            catch (error) { economy.fail(error.message); }
+            p.ready = false;
+        });
         gameCommand('drift:roundReady', p => runtime.ready(p));
         gameCommand('drift:exit', p => { runtime.abandon(p); store.leave(user); }, false);
         gameCommand('drift:abandon', p => runtime.abandon(p), false);
