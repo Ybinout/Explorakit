@@ -82,6 +82,18 @@ async function checkWidth() { assert(await page.evaluate(()=>document.documentEl
             await page.screenshot({path:path.join(output,`colosseum-bag-${width}.png`)});
         }
         await page.locator('.bag-panel .panel-close').click();
+        // A real capture through the mobile controls must pay the wallet and show the same gain.
+        const moneyBeforeCapture = p.money;
+        cleanup.runtime.battle(p,{npc:true,equipe:{pokemons:[factory.create(19,5)]},drifts:[],equipped:[]},'wild');
+        await page.locator('.action-bag:enabled').click();
+        await page.locator('.battle-choice-btn-bag').first().click();
+        await page.locator('[data-battle-result] .result-money').waitFor();
+        assert.match(await page.locator('[data-battle-result] .result-money').innerText(),/30/);
+        assert.equal(p.money,moneyBeforeCapture+30);
+        await page.screenshot({path:path.join(output,'colosseum-capture-reward.png')});
+        await dismissBattle();
+        await page.reload({waitUntil:'networkidle'});await page.locator('.drift-hud').waitFor();
+        assert.equal(p.money,moneyBeforeCapture+30,'Reconnecting must not award the capture again');
         p.equipe.pokemons=p.equipe.pokemons.filter(poke=>poke.uuid===starter);cleanup.runtime.send(p);
         await page.setViewportSize({width:393,height:852});
         await page.locator('.drift-hud-toggle').click();await page.locator('[data-drift-tab="tournament"]').click();

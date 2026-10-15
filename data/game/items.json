@@ -5,7 +5,7 @@
       "name": "Pokeball",
       "category": "ball",
       "buy_price": 200,
-      "catch_multiplier": 1,
+      "catch_multiplier": 1.15,
       "description": "A standard Pokeball."
     },
     {

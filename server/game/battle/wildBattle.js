@@ -19,6 +19,8 @@ const {
     switchPokemonByIndex: playerSwitchByIndex
 } = require('./battleTeam');
 const { editEquipe } = require('../../persistence/teamRepository');
+const { awardUserMoney } = require('../../persistence/userRepository');
+const { wildMoneyReward } = require('./wildReward');
 const { loadUserItems, consumeUserItem } = require('../../persistence/itemRepository');
 const { markPokemonCaught, markPokemonSeen } = require('../../persistence/progressionRepository');
 const itemsCatalog = require('../../../data/game/items.json');
@@ -26,7 +28,7 @@ const itemsCatalog = require('../../../data/game/items.json');
 const CAPTURE_ANIMATION_DURATION_MS = 2800;
 const TEXT_DELAY_MS = 1400;
 const SHORT_DELAY_MS = 500;
-const DEFAULT_CATCH_MULTIPLIER = 1;
+const DEFAULT_CATCH_MULTIPLIER = itemsCatalog.items.find(item => item.key === 'pokeball').catch_multiplier;
 
 const ballItemsByKey = (itemsCatalog.items || []).reduce((accumulator, item) => {
     if (!item || item.category !== 'ball' || !item.key) return accumulator;
@@ -420,10 +422,18 @@ function playerTurn(player, io) {
 
 async function startBattle(player, wildPokemon, io, userId) {
     const resultTracker = createBattleSummaryTracker(player?.equipe?.pokemons);
-    const endBattle = (playerWon = false, extra = {}) => emitSoloBattleEnd(player, io, playerWon, {
-        ...extra,
-        summary: resultTracker.snapshot(player.equipe.pokemons, extra.captured ? wildPokemon : null)
-    }, 'wild');
+    let wildMoneyGranted = false;
+    const endBattle = async (playerWon = false, extra = {}) => {
+        if (playerWon && (extra.captured || wildPokemon.currentHp <= 0) && !wildMoneyGranted) {
+            const money = await awardUserMoney(userId, wildMoneyReward(wildPokemon, playerSide.rewardMultiplier));
+            wildMoneyGranted = true;
+            resultTracker.money += money;
+        }
+        return emitSoloBattleEnd(player, io, playerWon, {
+            ...extra,
+            summary: resultTracker.snapshot(player.equipe.pokemons, extra.captured ? wildPokemon : null)
+        }, 'wild');
+    };
     let wildXpGranted = false;
     const battleState = createBattleState();
     const playerSide = battleState.sides.player;
@@ -461,7 +471,7 @@ async function startBattle(player, wildPokemon, io, userId) {
         const switched = autoSwitchPokemon(player.equipe);
         if (!switched) {
             await narrate(player, io, 'Tu as perdu le combat...');
-            endBattle(false);
+            await endBattle(false);
             await editEquipe(userId, player.equipe);
             return false;
         }
@@ -480,7 +490,7 @@ async function startBattle(player, wildPokemon, io, userId) {
 
         if (player.equipe.pokemons[0].currentHp <= 0 && !hasAlivePokemon(player.equipe.pokemons)) {
             await narrate(player, io, 'Tu as perdu le combat...');
-            endBattle(false);
+            await endBattle(false);
             await editEquipe(userId, player.equipe);
             return false;
         }
@@ -513,7 +523,7 @@ async function startBattle(player, wildPokemon, io, userId) {
     while (wildPokemon.currentHp > 0) {
         if (!hasAlivePokemon(player.equipe.pokemons)) {
             await narrate(player, io, 'Tu as perdu le combat...');
-            endBattle(false);
+            await endBattle(false);
             await editEquipe(userId, player.equipe);
             return false;
         }
@@ -530,7 +540,7 @@ async function startBattle(player, wildPokemon, io, userId) {
             const actionPlayer = response.action;
 
             if (actionPlayer === 'disconnect' || actionPlayer === 'timeout') {
-                endBattle(false, {
+                await endBattle(false, {
                     interrupted: true,
                     reason: response.reason || actionPlayer
                 });
@@ -547,7 +557,7 @@ async function startBattle(player, wildPokemon, io, userId) {
                 }
 
                 await narrate(player, io, 'Tu prends la fuite !');
-                endBattle(false, { fled: true });
+                await endBattle(false, { fled: true });
                 await editEquipe(userId, player.equipe);
                 return true;
             }
@@ -557,7 +567,7 @@ async function startBattle(player, wildPokemon, io, userId) {
 
                 if (bagResult.caught) {
                     await narrate(player, io, 'Victoire !');
-                    endBattle(true, { captured: true });
+                    await endBattle(true, { captured: true });
                     await editEquipe(userId, player.equipe);
                     return true;
                 }
@@ -589,7 +599,7 @@ async function startBattle(player, wildPokemon, io, userId) {
                     if (roundResult === 'wild_ko') {
                         await grantWildXp();
                         await narrate(player, io, 'Victoire !');
-                        endBattle(true);
+                        await endBattle(true);
                         await editEquipe(userId, player.equipe);
                         return true;
                     }
@@ -657,7 +667,7 @@ async function startBattle(player, wildPokemon, io, userId) {
                     if (roundResult === 'wild_ko') {
                         await grantWildXp();
                         await narrate(player, io, 'Victoire !');
-                        endBattle(true);
+                        await endBattle(true);
                         await editEquipe(userId, player.equipe);
                         return true;
                     }
@@ -677,7 +687,7 @@ async function startBattle(player, wildPokemon, io, userId) {
                 if (attackResult === 'wild_ko') {
                     await grantWildXp();
                     await narrate(player, io, 'Victoire !');
-                    endBattle(true);
+                    await endBattle(true);
                     await editEquipe(userId, player.equipe);
                     return true;
                 }
@@ -694,7 +704,7 @@ async function startBattle(player, wildPokemon, io, userId) {
 
     await grantWildXp();
     await narrate(player, io, 'Victoire !');
-    endBattle(true);
+    await endBattle(true);
     await editEquipe(userId, player.equipe);
     return true;
 }

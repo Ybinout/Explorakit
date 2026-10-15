@@ -296,7 +296,8 @@ async function run(){
   const capturedPokemon=await evaluate(client,`${gameVm}.battleResult.capturedPokemon`);
   const captureSummary=await evaluate(client,`${gameVm}.battleResult`);
   assert.equal(captureSummary.loot.length,1,'une capture réussie peut rapporter un Drift');
-  assert.deepEqual(captureSummary.experience,[]);assert.equal(captureSummary.money,0);
+  assert.deepEqual(captureSummary.experience,[]);
+  assert.equal(captureSummary.money,Math.min(120,20+2*capturedPokemon.level));
   await waitForExpression(client,`${gameVm}.driftState.drifts.length===7`);
   await acknowledgeBattleResult('captured','battle-captured');
   await control('normalRandom');
@@ -353,7 +354,7 @@ async function run(){
   assert.equal(hostReport.stats.captureAttempts,2);
   assert.equal(hostReport.stats.captures,1);
   assert.ok(hostReport.pokemon.some(pokemon=>pokemon.uuid===capturedPokemon.uuid&&pokemon.source==='capture'),'le compagnon réellement capturé rejoint les archives');
-  assert.equal(hostReport.stats.moneyEarned,trainerSummary.money,'monnaie du rapport égale au gain réellement accordé');
+  assert.equal(hostReport.stats.moneyEarned,captureSummary.money+trainerSummary.money,'monnaie du rapport égale aux gains réellement accordés');
   assert.ok(hostReport.stats.xpGained>=trainerSummary.experience.reduce((total,pokemon)=>total+pokemon.xpGained,0),'XP réelle incluse au rapport');
   assert.equal(hostReport.stats.driftsFound,2,'les drops de capture et de champion comptent, pas les fixtures');
   assert.equal(hostReport.drifts.filter(drift=>drift.source==='capture').length,1,'le butin de capture conserve sa provenance au bilan');

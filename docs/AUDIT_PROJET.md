@@ -1,5 +1,19 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Récompenses sauvages, capture et progression — 15 octobre 2026
+
+Un Pokémon sauvage vaincu ou effectivement capturé rapporte maintenant **20 + 2 × son niveau**, plafonné à **120 Pokédollars hors bonus** : 30 au niveau 5, 50 au niveau 15. La règle commune est dans `wildReward.js`, appliquée en Aventure, Rift et exploration Colosseum 30/60. Le bilan montre la somme réellement créditée ; les rapports Rift la comptabilisent. Les bonus de récompense existants restent applicables, dont Fortune. Fuite, défaite, interruption, capture ratée ou relâchée faute de place ne rapportent rien. Les dresseurs gardent leur récompense de victoire ; les duels PvP et les pièces du compte restent indépendants.
+
+En Aventure, le crédit SQL atomique du portefeuille est attendu avant l’émission du bilan, puis l’équipe est sauvegardée comme auparavant. En Rift, la garde de fin de combat évite un second crédit et le portefeuille fait partie du checkpoint existant. Pas de migration SQL ni de modification des équipes possédées.
+
+La **Poké Ball** passe de 1 à **1,15** dans le catalogue partagé des objets : +15 % de chances relatives, pas +15 points garantis. Exemple sans bonus : 16 % → 18,4 % sur une cible de même niveau à pleine vie ; 48 % → 55,2 % à mi-vie. Super/Hyper Ball et plafond de 95 % inchangés.
+
+Les niveaux configurés dans `nextMap.json` et `pnj_teams.json` suivent désormais `arrondi(5 + (niveau − 5) × 0,9)` au-dessus du niveau 5. Départ 5–7, Route 1 8–10, Route 2 11–15, dernière route 52–55 ; la progression sauvage totale passe de 5–60 à 5–55. Les dresseurs des cartes suivent la même réduction pour conserver leur cohérence avec les zones. Les vagues et paliers d’intelligence du Colosseum restent indépendants. Les Pokémon déjà possédés ou engagés dans un combat sauvegardé gardent leur niveau. Une comparaison structurée confirme que seules les valeurs de niveau changent : espèces, transitions, dialogues, capacités et cartes Tiled conservés.
+
+Vérifications reproductibles : `node --test tests/exploration-balance.test.js tests/experience-balance.test.js tests/encounter-variety.test.js tests/drift-runtime.test.js tests/drift-report.test.js` (62 tests), puis `VUE_APP_PUBLIC_PATH=/explorakit/ RELEASE_DIST_DIR=BUILD_OUTPUT npm run verify:release -- --mysql` (281 tests actifs, 37 SQL, audits, HTTP, reprise, lint et build). Les captures effectives, le seuil amélioré, les gains persistés, échecs et équipe pleine sont couverts en SQL ; Rift/Colosseum couvrent victoire, capture, répétition et reprise de checkpoint sans double crédit. `test:colosseum-browser` utilise les vrais boutons mobiles pour capturer et vérifie la récompense affichée, le portefeuille et la reconnexion. Le scénario historique `validateDriftRun.js` attend maintenant la somme des gains de capture et de dresseur dans le rapport.
+
+Livraison : les recettes navigateur de publication et Colosseum passent, dont la capture mobile affichant 30 Pokédollars. Sources précédentes, SQL et checkpoint sauvegardés ; aucun Rift actif au précontrôle. Serveur rechargé sans migration ni changement du client. Sur le site HTTPS, un compte temporaire a capturé un sauvage niveau 15 (+50) puis vaincu un niveau 14 (+48) sur la Route 2 ; total de 98 conservé après reconnexion, équipe capturée persistée, compte ensuite supprimé. Les autres projets conservent leurs réponses et empreintes HTML. Les choix d’équilibrage restent à éprouver sur des parties humaines.
+
 ## XP accélérée et apprentissage des attaques — 15 octobre 2026
 
 Les gains d’XP du Rift et des deux formats Colosseum sont **doublés** après application du type de combat, de l’ajustement de niveau et des bonus de Drifts. Le partage d’expérience reçoit le même bonus ; un K.O. ne crédite toujours qu’une seule récompense et les Pokémon perdus ne reçoivent rien. L’Aventure conserve son multiplicateur ; les duels PvP ne créent pas de nouvelle source d’XP.
@@ -902,6 +916,7 @@ Le socle pourra être considéré stable lorsque :
 
 | Date | Intervention | Vérifications | État restant |
 | --- | --- | --- | --- |
+| 2026-10-15 | Petite prime par victoire/capture sauvage dans les trois modes ; Poké Ball ×1,15 ; niveaux des cartes et PNJ resserrés de 10 % au-dessus de 5 | 281 tests actifs, 37 SQL, audit des paliers et des rencontres ; capture effective, portefeuille, répétition et reprise | Ressenti de la progression et économie à confirmer sur des parties humaines |
 | 2026-10-15 | XP ×2 Rift/Colosseum, barre avant bilan, apprentissage avec remplacement/refus et sauvegarde des choix dans les trois modes | 269 tests actifs, 36 SQL ; quatre recettes navigateur, XP avant bilan et carnet sur trois formats ; migration et recette HTTPS réussies | Équilibrage et recette sur téléphone physique |
 | 2026-10-14 | Elo Rift Bronze–Diamant, rangs Colosseum 30/60, profils, recherche, classements et demandes d’amis | 252 tests actifs, 35 SQL ; concurrence/reprise et confidentialité ; parcours social sur quatre formats et delta réel Socket | Équilibrage des seuils sur des parties humaines ; pas de détection de collusion ni de présence en ligne |
 | 2026-10-14 | IA Colosseum progressive tous les dix combats, Expert dès le défi 51, capacités/objets adaptés et palier visible | 249 tests actifs, 32 SQL, 91 combats simulés, informations cachées et reprise contrôlées ; recettes navigateur/mobile et compilation | Équilibrage humain ; anticipation bornée, pas de garantie d’optimalité |

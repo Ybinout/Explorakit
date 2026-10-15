@@ -10,7 +10,7 @@ const CreatePokemon = require('../server/game/world/wildPokemonFactory');
 const byName = new Map(world.map((entry) => [entry.mapName, entry]));
 const wildStages = balance.chapterPath.filter((name) => battleMapData(name).flat().some(Boolean));
 
-test('les rencontres progressent le long du parcours réellement raccordé, du niveau 5 au niveau 60', () => {
+test('les rencontres progressent le long du parcours réellement raccordé, du niveau 5 au niveau 55', () => {
     for (let index = 1; index < balance.chapterPath.length; index++) {
         const before = byName.get(balance.chapterPath[index - 1]);
         assert.ok(before.mapchange.some((link) => link.goto === balance.chapterPath[index]), `${before.mapName} : chemin narratif interrompu`);
@@ -19,14 +19,14 @@ test('les rencontres progressent le long du parcours réellement raccordé, du n
         const previous = byName.get(wildStages[index - 1]).level;
         const current = byName.get(wildStages[index]).level;
         assert.ok(current.min > previous.min && current.max > previous.max, wildStages[index]);
-        // Mounir (18–20) fait le pont entre la route 2 et la route 3.
+        // Mounir (17–19) fait le pont entre la route 2 et la route 3.
         const previousChallenge = wildStages[index] === 'route3'
             ? Math.max(...getPnjTeam('moonpunch').pokemons.map((pokemon) => pokemon.level)) : previous.max;
         assert.ok(current.min - previousChallenge <= 2, `${wildStages[index]} : saut brutal`);
         assert.ok(current.max - current.min <= 4, `${wildStages[index]} : fourchette trop dispersée`);
     }
     assert.equal(byName.get(wildStages[0]).level.min, 5);
-    assert.equal(byName.get(wildStages.at(-1)).level.max, 60);
+    assert.equal(byName.get(wildStages.at(-1)).level.max, 55);
 });
 
 test('les Pokémon sauvages effectivement générés respectent les nouvelles bornes', async () => {

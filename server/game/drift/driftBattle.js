@@ -11,6 +11,7 @@ const { yields } = require('../../../data/game/effort_yields.json');
 const economy = require('./economy');
 const report = require('./runReport');
 const colosseumAI = require('./colosseumAI');
+const { wildMoneyReward } = require('../battle/wildReward');
 
 class DriftBattle {
     constructor(a, b, { type = 'wild', emit, now = Date.now, random = Math.random, onFinish, onUpdate, npcKey = null, paceMs = 1800 }) {
@@ -208,6 +209,14 @@ class DriftBattle {
         if(this.finished) return; this.finished=true; this.awaiting=false;
         clearBattleTransientState(this.originals);
         for (const p of [this.a,this.b]) { p.inbattle=false; p.battle=null; }
+        if (winner === this.a && this.type === 'wild' && ['captured', 'finished'].includes(reason)) {
+            const target = this.capturedPokemon || this.originals.find(p => this.rewarded.has(p.uuid));
+            if (target) {
+                const money = wildMoneyReward(target, 1 + effects.value(this.a,46) / 100);
+                this.a.money += money;
+                this.resultTrackers.get(this.a).money += money;
+            }
+        }
         if (winner === this.a && reason === 'captured' && this.type === 'wild') this.grantLoot('capture');
         if(winner===this.a && !['captured','timer','fled'].includes(reason) && this.type!=='pvp') {
             const first = !this.npcKey || !this.a.defeated.has(this.npcKey);

@@ -23,7 +23,7 @@ test('each encounter zone has a distinct, diverse pool with shipped sprites and 
             const species = dex.find(p => p.id === id);
             assert(species && !factory.legendary.has(id), `${zone.mapName}: unavailable or legendary ${id}`);
             species.type.forEach(type => types.add(type));
-            const cap = zone.level.min < 12 ? 350 : zone.level.min < 20 ? 400 : zone.level.min < 26 ? 460 : zone.level.min < 35 ? 500 : zone.level.min < 55 ? 550 : 600;
+            const cap = zone.level.min < 11 ? 350 : zone.level.min < 19 ? 400 : zone.level.min < 24 ? 460 : zone.level.min < 32 ? 500 : zone.level.min < 50 ? 550 : 600;
             assert(bst(species) <= cap, `${zone.mapName}: species ${id} is too strong for this stage`);
             for (const dir of ['dp2', 'back']) assert(fs.existsSync(path.join(__dirname, '../vue-explorakit/src/assets', dir, `${id}.png`)), `${id}: missing ${dir}`);
             const pokemon = factory.create(id, zone.level.min);

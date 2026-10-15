@@ -143,6 +143,9 @@ test('combat sauvage réel : capture, objet consommé et équipe persistée', { 
         assert.equal(summary.mode, 'adventure');
         assert.equal(summary.capturedPokemon.uuid, wildPokemon.uuid);
         assert.equal(summary.capturedPokemon.pokemonId, 19);
+        assert.equal(summary.money, 20 + wildPokemon.level * 2);
+        const [[wallet]] = await pool.execute('SELECT money FROM users WHERE id=?',[userId]);
+        assert.equal(wallet.money, summary.money);
         assert.deepEqual(summary.experience, []);
         assert.equal((await loadEquipe(userId)).pokemons.length, 2);
         const hyperBall = (await loadUserItems(userId)).find((item) => item.key === 'hyperball');
@@ -181,7 +184,9 @@ test('combat sauvage réel : attaque, victoire, expérience et PP persistés', {
         const summary = io.lastEvent(player.id, 'endbattle').payload.summary;
         assert.equal(summary.outcome, 'victory');
         assert.equal(summary.experience[0].xpGained, persistedPokemon.experience - initialExperience);
-        assert.equal(summary.money, 0);
+        assert.equal(summary.money, 20 + wildPokemon.level * 2);
+        const [[wallet]] = await pool.execute('SELECT money FROM users WHERE id=?',[userId]);
+        assert.equal(wallet.money, summary.money);
     } finally {
         if (userId) await pool.execute('DELETE FROM users WHERE id = ?', [userId]);
         await pool.end();
@@ -422,4 +427,22 @@ test('arène : tous les K.O. donnent le bonus prévu, fuite sans K.O. sans XP', 
         if (userId) await pool.execute('DELETE FROM users WHERE id = ?', [userId]);
         await pool.end();
     }
+});
+
+test('wild failed capture or full team gives no money; standard Poké Ball reaches its improved threshold', {skip:!shouldRun},async()=>{
+ const pool=createTestPool();let userId;
+ try{
+  const {user,player}=await createPlayer(1);userId=user.id;
+  const run=async(random)=>{
+   const target=createPokemon(19,'Rattata',['Growl']);target.currentHp=target.maxHp;
+   const io=new RecordingIo({[player.id]:new ScriptedSocket([{action:'bag',itemKey:'pokeball'},{action:'flee'}])});
+   await withFixedRandom(random,()=>startWildBattle(player,target,io,userId));return io;
+  };
+  let io=await run(.99);assert.equal(io.lastEvent(player.id,'endbattle').payload.summary.money,0);
+  let [[wallet]]=await pool.execute('SELECT money FROM users WHERE id=?',[userId]);assert.equal(wallet.money,0);
+  io=await run(.17);assert.equal(io.lastEvent(player.id,'endbattle').payload.summary.outcome,'captured');assert.equal(io.lastEvent(player.id,'endbattle').payload.summary.money,30);
+  while(player.equipe.pokemons.length<6)player.equipe.pokemons.push(createPokemon(7,'Full team'));
+  io=await run(0);assert.equal(io.lastEvent(player.id,'endbattle').payload.summary.money,0);
+  [[wallet]]=await pool.execute('SELECT money FROM users WHERE id=?',[userId]);assert.equal(wallet.money,30);
+ }finally{if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
 });
