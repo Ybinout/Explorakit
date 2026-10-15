@@ -1,6 +1,7 @@
 const assert = require('node:assert/strict');
 const path = require('node:path');
 const { validateMobileBattle } = require('./validateMobileBattle');
+const { validateMobileGestures, validateMapLoading } = require('./validateMobileGestures');
 
 async function validateMobileWorld({ loginContext, fixture, base, output, fit }) {
     const { context, page } = await loginContext(fixture, { width: 393, height: 852 }, {
@@ -97,12 +98,14 @@ async function validateMobileWorld({ loginContext, fixture, base, output, fit })
     });
     assert(!after.moving, 'Touch cancellation leaves movement pressed');
     assert(before.x !== after.x || before.y !== after.y, 'Touch did not move the player');
+    const gestures = await validateMobileGestures(page, context, output);
+    const travel = await validateMapLoading(page, output);
     await page.reload({ waitUntil: 'networkidle' });
     await page.locator('.mobile-dpad').waitFor();
     assert.equal(await page.locator('.adventure-guide').count(), 0, 'Reload reopens objective');
     const battle = await validateMobileBattle(page, output, fit);
     await context.close();
-    return { touchEmulation: true, formats: formats.length, serverMovement: true, objectiveOnlyInMenu: true, battle };
+    return { touchEmulation: true, formats: formats.length, serverMovement: true, objectiveOnlyInMenu: true, gestures, travel, battle };
 }
 
 module.exports = { validateMobileWorld };

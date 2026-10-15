@@ -180,7 +180,11 @@ class DriftBattle {
             const { p, index, pokemon, name } = action;
             if (this.pending.get(p)?.action !== 'attack' || this.active(index) !== pokemon || effects.isDead(pokemon)) continue;
             const defender = this.active(1-index); if (!defender) break;
-            for (const [view,viewer] of actors.entries()) if (!viewer.npc) this.emit(viewer,'battleMoveAnimation',{ actor:view===index?'player':'opponent',moveName:name,moveType:engine.getMoveByName(name)?.type });
+            const move = engine.getMoveByName(name);
+            for (const [view,viewer] of actors.entries()) if (!viewer.npc) this.emit(viewer,'battleMoveAnimation',{
+                actor:view===index?'player':'opponent', moveName:name, moveType:move?.type || 'Normal',
+                damageClass:move?.combat?.damage_class || (move?.category === 'phy' ? 'physical' : move?.category === 'spe' ? 'special' : 'status')
+            });
             const result = engine.useattack(name,pokemon,defender,{ battleState:this.state, attackerSide:this.sides[index],defenderSide:this.sides[1-index],attackerTeam:p.equipe.pokemons,defenderTeam:actors[1-index].equipe.pokemons });
             if (this.aiMemory && this.b.npc && this.npcKey?.startsWith('colosseum_')) {
                 if (p === this.a) colosseumAI.observe(this.aiMemory,pokemon,name);

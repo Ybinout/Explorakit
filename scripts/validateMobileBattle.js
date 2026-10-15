@@ -1,5 +1,6 @@
 const assert = require('node:assert/strict');
 const path = require('node:path');
+const { validateBattleLabels, validateBattleAudio } = require('./validateBattleFeedback');
 
 // Browser-only battle fixture: no combat command or reward is sent to the server.
 async function validateMobileBattle(page, output, fit) {
@@ -82,6 +83,7 @@ async function validateMobileBattle(page, output, fit) {
                 `${width}x${height}: combat target ${await button.getAttribute('class')} measures ${r.width}x${r.height}`);
         }
         await page.screenshot({ path: path.join(output, `battle-mobile-${width}x${height}.png`) });
+        await validateBattleLabels(page, width, height, output);
         await page.locator('.action-attack').tap();
         assert.equal(await page.locator('.battle-grid-attacks .battle-choice-btn').count(), 4);
         await fit(page, '.battle-grid-attacks', width, height);
@@ -95,6 +97,11 @@ async function validateMobileBattle(page, output, fit) {
         await fit(page, '.battle-grid-bag', width, height);
         await page.evaluate(() => window.battleTestVm.$refs.battleOverlay.requestAction('Quelle est votre prochaine action ?'));
     }
+    const audio = await validateBattleAudio(page);
+    // Also check the shared effects on the desktop layout.
+    await page.setViewportSize({ width: 1365, height: 900 });
+    await page.evaluate(() => { window.battleTestVm.showMobileControls = false; });
+    await validateBattleLabels(page, 1365, 900, output);
     // Browser chrome changes the available height; safe-area padding must leave controls reachable.
     await page.setViewportSize({ width: 393, height: 700 });
     await page.locator('.battle').evaluate(el => { el.style.padding = '24px 0 34px'; });
@@ -123,7 +130,7 @@ async function validateMobileBattle(page, output, fit) {
         delete window.battleTestVm;
     });
     await page.locator('.mobile-dpad').waitFor();
-    return { experience, formats: formats.length, spritesUnobstructed: true, menus: true, attackAndCaptureTargets: true };
+    return { experience, audio, resultLabels: true, formats: formats.length, spritesUnobstructed: true, menus: true, attackAndCaptureTargets: true };
 }
 
 module.exports = { validateMobileBattle };

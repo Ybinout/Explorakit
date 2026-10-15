@@ -19,7 +19,7 @@ async function loadWorldMount(createGameSocket, createDriftSocket) {
     const mounted = component.properties.find(node => node.key.name === 'mounted');
     return new Function('createGameSocket', 'createDriftSocket', 'document', 'window', 'console', 'WORLD_WIDTH', 'WORLD_HEIGHT', 'ResizeObserver',
         `return ({${script.slice(mounted.start, mounted.end)}}).mounted;`)(
-        createGameSocket, createDriftSocket, { body: { classList: { add() {} } } },
+        createGameSocket, createDriftSocket, { body: { classList: { add() {} } }, addEventListener() {} },
         { addEventListener() {} }, { log() {}, error() {} }, WORLD_WIDTH, WORLD_HEIGHT,
         class { observe(element) { assert(element, 'The world viewport must be mounted'); } }
     );

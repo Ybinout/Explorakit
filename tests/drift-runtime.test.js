@@ -35,6 +35,22 @@ function addDrift(p,number,rarity='mythic') {
     p.drifts.push(d);return d;
 }
 
+test('Rift battle animation identifies physical, special and status moves for visuals and sounds', () => {
+    for (const [name, damageClass] of [['Tackle','physical'],['Water Gun','special'],['Growl','status']]) {
+        const f=fixture(), p=f.run.players.get(1);
+        p.equipe.pokemons=[factory.create(7,5)];
+        p.equipe.pokemons[0].abilities=[name];p.equipe.pokemons[0].movePp=[30];
+        const enemy={npc:true,equipe:{pokemons:[factory.create(1,50)]},drifts:[],equipped:[]};
+        enemy.equipe.pokemons[0].abilities=['Growl'];enemy.equipe.pokemons[0].movePp=[40];
+        const battle=new DriftBattle(p,enemy,{emit:(_,event,payload)=>f.messages.push({event,payload}),random:()=>.5,paceMs:0});
+        battle.action(p,{action:'attack',number:0,turnId:battle.token});
+        const animation=f.messages.find(m=>m.event==='battleMoveAnimation'&&m.payload.actor==='player');
+        assert.equal(animation.payload.damageClass,damageClass);
+        assert.equal(animation.payload.moveName,name);
+        assert(animation.payload.moveType);
+    }
+});
+
 test('la mère soigne aussi l’équipe Rift et le rapport distingue ce soin du Centre', () => {
     const f = fixture(), p = f.run.players.get(1);
     const mother = f.run.pnjs.getPnjsForMap('start').find(npc => npc.name === 'mere_clara');
