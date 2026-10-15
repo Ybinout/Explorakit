@@ -31,6 +31,11 @@ async function dismissBattle() {
     await button.first().click();
 }
 async function checkWidth() { assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'Horizontal overflow'); }
+async function betweenBattles(selector) {
+    await page.locator(`.learning-sheet, ${selector}`).first().waitFor();
+    if (await page.locator('.learning-sheet').isVisible()) await page.getByRole('button',{name:'Plus tard',exact:true}).click();
+    await page.locator(selector).waitFor();
+}
 (async()=>{
     try{
         server.listen(0,'127.0.0.1');await once(server,'listening');
@@ -39,7 +44,7 @@ async function checkWidth() { assert(await page.evaluate(()=>document.documentEl
         assert(created.ok);const fixture=await created.json();userId=fixture.user.id;
         const [[adventureBefore]]=await dbPool.execute('SELECT p.uuid,p.current_hp,p.experience FROM pokemons p JOIN teams t ON t.id=p.team_id WHERE t.user_id=?',[userId]);
         browser=await chromium.launch({headless:true,args:['--no-sandbox']});
-        const context=await browser.newContext({viewport:{width:1365,height:900},hasTouch:true});
+        const context=await browser.newContext({viewport:{width:1365,height:900},isMobile:true,hasTouch:true});
         await context.addInitScript(session=>localStorage.setItem('explorakit.user',JSON.stringify(session)),{...fixture.user,token:fixture.token});
         page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
         page.on('response',r=>{if(r.url().startsWith(base)&&r.status()>=400)errors.push(r.status()+' '+r.url());});
@@ -128,9 +133,41 @@ async function checkWidth() { assert(await page.evaluate(()=>document.documentEl
         await page.locator('[data-colosseum-format="60"]').click();await page.locator('[data-colosseum-start]').click();
         await page.locator('.drift-hud').waitFor();const classic=cleanup.runtime.playerFor({id:userId});
         assert.equal(classic.run.endsAt-classic.run.startedAt,3600000);
+        // Client-only visual fixture while the authoritative expedition keeps exploring.
+        const fit = async (page, selector, width, height) => {
+            const r = await page.locator(selector).boundingBox();
+            assert(r && r.x >= -1 && r.y >= -1 && r.x+r.width <= width+1 && r.y+r.height <= height+1, `${selector} outside ${width}x${height}`);
+        };
+        await require('./validateMobileBattle').validateMobileBattle(page, output, fit, { colosseum: true });
+        // Reach a guardian with the test clock, win, reconnect, choose a real reward and resume.
+        await waitFor(()=>Boolean(classic.socketId) && classic.disconnectedAt===null,'Run not connected');
+        classic.run.colosseum.wins=9;offset+=3600000;cleanup.runtime.tick();
+        await page.locator('[data-colosseum-preview]').filter({hasText:'Le Rempart'}).waitFor();
+        assert.equal(await page.locator('[data-colosseum-preview] .pokemon-portrait').count(),4);
+        await page.screenshot({path:path.join(output,'colosseum-guardian-preview.png')});
+        await page.locator('[data-colosseum-ready]').click();await waitFor(()=>Boolean(classic.battle),'Guardian battle missing');
+        await page.locator('[data-battle-challenge]').filter({hasText:'Le Rempart'}).waitFor();
+        const guardian = classic.battle;
+        for(const enemy of guardian.b.equipe.pokemons)enemy.currentHp=0;guardian.prune();guardian.checkEnd();
+        await dismissBattle();await betweenBattles('[data-colosseum-reward]');
+        const offer=classic.run.colosseum.reward, count=classic.drifts.length;
+        await page.reload({waitUntil:'networkidle'});await betweenBattles('[data-colosseum-reward]');
+        assert.equal(classic.run.colosseum.reward.id,offer.id);
+        for(const [width,height] of [[320,568],[393,852],[844,390]]) {
+            await page.setViewportSize({width,height});await checkWidth();
+            const buttons=page.locator('[data-colosseum-reward-option]');assert.equal(await buttons.count(),3);
+            for(const button of await buttons.all()){await button.scrollIntoViewIfNeeded();const r=await button.boundingBox();assert(r.height>=44);}
+            await page.screenshot({path:path.join(output,`colosseum-rewards-${width}.png`)});
+        }
+        await page.locator('[data-colosseum-reward-option]').first().click();
+        await page.locator('[data-colosseum-ready]').waitFor();assert.equal(classic.drifts.length,count+1);
+        assert.equal(classic.drifts.at(-1).rarity,'epic');assert.equal(classic.run.colosseum.reward,null);
+        await page.reload({waitUntil:'networkidle'});await betweenBattles('[data-colosseum-ready]');
+        assert.equal(classic.drifts.length,count+1,'Reward replay after reconnect');
         // Server-side fixture only: exercise the expert threshold through the actual UI.
         await waitFor(()=>Boolean(classic.socketId) && classic.disconnectedAt===null,'Classic run not connected before clock advance');
-        classic.run.colosseum.wins=50;offset+=3600000;cleanup.runtime.tick();
+        classic.run.colosseum.wins=50;
+        classic.run.colosseum.next=require('../server/game/drift/colosseum').waveInfo(51);cleanup.runtime.send(classic);
         await page.locator('[data-colosseum-difficulty]').filter({hasText:'Expert'}).waitFor();
         await page.setViewportSize({width:320,height:568});await checkWidth();
         await page.screenshot({path:path.join(output,'colosseum-expert-mobile.png')});

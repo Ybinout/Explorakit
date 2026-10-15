@@ -50,8 +50,8 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
     }
     function state(p) {
         const run=p.run;
-        if (run.colosseum?.next && !run.colosseum.next.difficulty)
-            run.colosseum.next = colosseum.waveInfo(run.colosseum.next.wave);
+        if (run.colosseum?.next && !run.colosseum.next.preview)
+            run.colosseum.next = colosseum.waveInfo(run.colosseum.next.wave, run.colosseum.version || 1);
         return { id:run.id, mode:run.mode || 'rift', durationMinutes:run.lobby.rules.durationMinutes, colosseum:run.colosseum || null, phase:run.phase, serverNow:now(), endsAt:run.endsAt, preparationEndsAt:run.preparationEndsAt,
             alive:p.alive, winnerId:run.winnerId, reason:p.eliminationReason, currentRound:run.round, ready:p.ready,spectatingAvailable:run.mode !== 'colosseum',
             storagePaused:storagePausedAt !== null, recoveredAt:run.recoveredAt || null, recoveryWaiting:Boolean(run.recoveryWaiting), slot:p.slot, slotLimit:economy.SLOT_LIMIT, money:p.money, drifts:p.drifts, equipped:p.equipped,
@@ -163,6 +163,8 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
             if (winner === p && reason === 'finished' && p.equipe.pokemons.length) {
                 run.colosseum.wins++;
                 run.colosseum.score += colosseum.waveInfo(run.colosseum.wave).points;
+                if (run.colosseum.version >= 2 && run.colosseum.wins % 10 === 0)
+                    run.colosseum.reward = colosseum.rewardOffer(run.colosseum.wins);
                 prepareColosseum(run, p);
             } else {
                 purge(p, ['fled', 'forfeit'].includes(reason) ? 'forfeit' : 'defeated');
@@ -248,7 +250,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         healTeam(p.equipe);
         p.ready = false;
         run.phase = 'colosseum_ready';
-        run.colosseum.next = colosseum.waveInfo(run.colosseum.wins + 1);
+        run.colosseum.next = colosseum.waveInfo(run.colosseum.wins + 1, run.colosseum.version || 1);
         p.slot = safeSlots(1)[0];
         if (run.colosseum.wave === 0) {
             run.colosseum.lastTeam = colosseum.snapshotTeam(p.equipe.pokemons);
@@ -370,10 +372,11 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         if (p.run.mode === 'colosseum') {
             if (p.run.phase !== 'colosseum_ready' || p.inbattle || !p.alive) economy.fail('Aucun défi du Colosseum en préparation.');
             const run = p.run;
+            if (run.colosseum.reward) economy.fail('Choisis ta récompense de palier avant le prochain défi.');
             run.colosseum.wave = run.colosseum.wins + 1;
             run.colosseum.lastTeam = colosseum.snapshotTeam(p.equipe.pokemons);
             run.phase = 'colosseum_battle';
-            battle(p, colosseum.opponent(run.colosseum.wave), 'arena', `colosseum_${run.colosseum.wave}`);
+            battle(p, colosseum.opponent(run.colosseum.wave, run.colosseum.version || 1), 'arena', `colosseum_${run.colosseum.wave}`);
             return;
         }
         if(!['preparation','tournament'].includes(p.run.phase))economy.fail('Aucun round en préparation.');

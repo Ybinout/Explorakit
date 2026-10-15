@@ -3,8 +3,9 @@ const path = require('node:path');
 const { validateBattleLabels, validateBattleAudio } = require('./validateBattleFeedback');
 
 // Browser-only battle fixture: no combat command or reward is sent to the server.
-async function validateMobileBattle(page, output, fit) {
-    await page.evaluate(async () => {
+async function validateMobileBattle(page, output, fit, { colosseum = false } = {}) {
+    const touch = await page.context().newCDPSession(page);
+    await page.evaluate(async colosseum => {
         let node = document.querySelector('.game-stage');
         while (node && !node.__vue__) node = node.parentElement;
         const vm = node.__vue__;
@@ -22,7 +23,8 @@ async function validateMobileBattle(page, output, fit) {
             wildPokemon: { ...pokemon, uuid: 'mobile-battle-wild', name: 'Reptincel', truename: 'Reptincel', level: 12, currentHp: 36, maxHp: 36, data: { id: 5 } },
         });
         overlay.requestAction('Quelle est votre prochaine action ?');
-    });
+        if (colosseum) overlay.challenge = { wave: 10, guardian: { name: 'Le Rempart' }, difficulty: { label: 'Novice' } };
+    }, colosseum);
     await page.waitForFunction(() => {
         const images = [...document.querySelectorAll('.battle-sprite')];
         return images.length === 2 && images.every(img => img.complete && img.naturalWidth > 0
@@ -52,18 +54,28 @@ async function validateMobileBattle(page, output, fit) {
         });
         return {
             scene: rect(document.querySelector('.battle-scene')), sprites,
-            obstacles: [...document.querySelectorAll('.battle-status, .battle-action-shell')].map(rect),
+            obstacles: [...document.querySelectorAll('.battle-status, .battle-action-shell, .battle-challenge')].map(rect),
             documentHeight: document.documentElement.scrollHeight,
         };
     });
     const formats = [[393, 852], [320, 568], [320, 480], [844, 390], [740, 320], [1024, 768], [393, 700]];
     for (const [width, height] of formats) {
         await page.setViewportSize({ width, height });
+        await touch.send('Emulation.setTouchEmulationEnabled', { enabled: true, maxTouchPoints: 1 });
+        // Let resize handlers and Vue commit the responsive class before measuring.
+        await page.evaluate(async () => {
+            window.battleTestVm.updateMobileControlsVisibility();
+            await window.battleTestVm.$nextTick();
+        });
         await page.locator('.battle').evaluate(el => { el.style.padding = ''; });
         for (const selector of ['.battle', '.battle-scene', '.battle-action-shell', '.battle-status-wild', '.battle-status-player', '.battle-turn-indicator', '.battle-sound-toggle']) {
             await fit(page, selector, width, height);
         }
         const layout = await measure();
+        if (colosseum) {
+            assert(await page.locator('.battle-colosseum-background').evaluate(img => img.complete && img.naturalWidth > 0));
+            await fit(page, '.battle-challenge', width, height);
+        }
         assert(layout.documentHeight <= height + 1, 'Combat makes the page scroll');
         for (const sprite of layout.sprites) {
             assert(sprite.x >= layout.scene.x && sprite.y >= layout.scene.y
@@ -97,6 +109,26 @@ async function validateMobileBattle(page, output, fit) {
         await fit(page, '.battle-grid-bag', width, height);
         await page.evaluate(() => window.battleTestVm.$refs.battleOverlay.requestAction('Quelle est votre prochaine action ?'));
     }
+    if (colosseum) {
+        for (const [playerId, enemyId] of [[130, 95], [3, 149], [25, 208], [1, 5]]) {
+            await page.setViewportSize({ width: 320, height: 480 });
+            await touch.send('Emulation.setTouchEmulationEnabled', { enabled: true, maxTouchPoints: 1 });
+            await page.evaluate(([playerId, enemyId]) => {
+                const overlay = window.battleTestVm.$refs.battleOverlay;
+                const pokemons = overlay.battleTeam.map((p, i) => i ? p : { ...p, uuid: 'shape-' + playerId, data: { id: playerId } });
+                overlay.updateBattleState({ player: { equipe: { pokemons } }, wildPokemon: { ...overlay.opponent, uuid: 'shape-' + enemyId, data: { id: enemyId } } });
+            }, [playerId, enemyId]);
+            await page.waitForFunction(() => [...document.querySelectorAll('.battle-sprite')].every(img => img.complete && img.naturalWidth > 0 && img.classList.contains('battle-sprite-ready') && img.getAnimations().every(a => a.playState === 'finished')));
+            await page.locator('.action-attack').tap();
+            const layout = await measure();
+            for (const sprite of layout.sprites) {
+                assert(sprite.x >= layout.scene.x && sprite.y >= layout.scene.y && sprite.right <= layout.scene.right && sprite.bottom <= layout.scene.bottom - 8, `Silhouette clipped: ${playerId}/${enemyId}`);
+                for (const obstacle of layout.obstacles) assert(!(sprite.x < obstacle.right && sprite.right > obstacle.x && sprite.y < obstacle.bottom && sprite.bottom > obstacle.y), `Silhouette covered: ${playerId}/${enemyId}`);
+            }
+            await page.screenshot({ path: path.join(output, `colosseum-sprites-${playerId}-${enemyId}.png`) });
+            await page.evaluate(() => window.battleTestVm.$refs.battleOverlay.requestAction('Quelle est votre prochaine action ?'));
+        }
+    }
     const audio = await validateBattleAudio(page);
     // Also check the shared effects on the desktop layout.
     await page.setViewportSize({ width: 1365, height: 900 });
@@ -104,6 +136,8 @@ async function validateMobileBattle(page, output, fit) {
     await validateBattleLabels(page, 1365, 900, output);
     // Browser chrome changes the available height; safe-area padding must leave controls reachable.
     await page.setViewportSize({ width: 393, height: 700 });
+    await touch.send('Emulation.setTouchEmulationEnabled', { enabled: true, maxTouchPoints: 1 });
+    await page.evaluate(async () => { window.battleTestVm.updateMobileControlsVisibility(); await window.battleTestVm.$nextTick(); });
     await page.locator('.battle').evaluate(el => { el.style.padding = '24px 0 34px'; });
     await fit(page, '.battle-action-shell', 393, 666);
     const geometry = await measure();
@@ -130,6 +164,7 @@ async function validateMobileBattle(page, output, fit) {
         delete window.battleTestVm;
     });
     await page.locator('.mobile-dpad').waitFor();
+    await touch.detach();
     return { experience, audio, resultLabels: true, formats: formats.length, spritesUnobstructed: true, menus: true, attackAndCaptureTargets: true };
 }
 

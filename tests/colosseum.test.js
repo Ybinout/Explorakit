@@ -22,6 +22,76 @@ function defeatEnemies(battle) {
     battle.prune(); battle.checkEnd();
 }
 
+test('six guardians have deterministic, honest previews and shipped sprites; scoring stays stable', () => {
+    const fs = require('node:fs'), names = new Set();
+    for (let wave = 1; wave <= 120; wave++) {
+        const info = colosseum.waveInfo(wave), team = colosseum.opponent(wave).equipe.pokemons;
+        assert.deepEqual(info.preview.map(p => p.id), team.map(p => p.data.id));
+        assert.equal(info.points, colosseum.waveInfo(wave, 1).points);
+        assert.equal(Boolean(info.guardian), wave % 10 === 0);
+        assert.equal(info.nextGuardian.wave, Math.ceil(wave / 10) * 10);
+        if (info.guardian) {
+            names.add(info.guardian.name);
+            for (const p of team) {
+                assert(!factory.legendary.has(p.data.id));
+                for (const folder of ['dp2', 'back']) assert(fs.existsSync(require('node:path').join(__dirname, `../vue-explorakit/src/assets/${folder}/${p.data.id}.png`)), `Missing ${folder}/${p.data.id}`);
+            }
+        }
+    }
+    assert.equal(names.size, 6);
+});
+
+test('guardian reward is one authoritative choice, cannot be forged, replayed or auto-equipped', async () => {
+    const f = setup(), p = await f.start();
+    assert.throws(() => colosseum.chooseReward(p, {}), /plus disponible/);
+    p.run.colosseum.wins = 9; f.advance(3600000); f.runtime.ready(p);
+    assert.equal(p.battle.b.username, 'Le Rempart · 10');
+    const battle = p.battle; defeatEnemies(battle);
+    const offer = p.run.colosseum.reward, before = p.drifts.length;
+    assert.equal(offer.wave, 10); assert.equal(offer.options.length, 3);
+    assert(offer.options.every(o => o.rarity === 'epic'));
+    assert.throws(() => f.runtime.ready(p), /récompense de palier/);
+    assert.throws(() => colosseum.chooseReward(p, { offerId: 'forged', definitionId: offer.options[0].definitionId }), /plus disponible/);
+    assert.throws(() => colosseum.chooseReward(p, { offerId: offer.id, definitionId: 'DRF-059' }), /trois Drifts/);
+    const choice = { offerId: offer.id, definitionId: offer.options[0].definitionId, rarity: 'mythic', score: 999999 };
+    const score = p.run.colosseum.score;
+    colosseum.chooseReward(p, choice);
+    assert.equal(p.drifts.length, before + 1); assert.equal(p.drifts.at(-1).rarity, 'epic');
+    assert.equal(p.equipped.length, 0); assert.equal(p.run.colosseum.score, score);
+    assert.throws(() => colosseum.chooseReward(p, choice), /plus disponible/);
+    battle.finish(p, 'finished'); assert.equal(p.run.colosseum.reward, null);
+    f.runtime.ready(p); assert.equal(p.run.colosseum.wave, 11);
+});
+
+test('pending guardian reward and claimed choice survive checkpoints without a second grant', async () => {
+    const f = setup(), p = await f.start();
+    p.run.colosseum.wins = 29; f.advance(3600000); f.runtime.ready(p); defeatEnemies(p.battle);
+    const offer = p.run.colosseum.reward;
+    assert(offer.options.every(o => o.rarity === 'legendary'));
+    const saved = decode(encode({ savedAt: f.now(), lobbies: f.store.exportLobbies(), runs: f.runtime.runs }));
+    const restored = setup(); restored.store.restoreLobbies(saved.lobbies); restored.runtime.restore(saved.runs, saved.savedAt);
+    const q = restored.runtime.playerFor(f.user);
+    assert.deepEqual(q.run.colosseum.reward, offer);
+    const choice = { offerId: offer.id, definitionId: offer.options[1].definitionId };
+    colosseum.chooseReward(q, choice);
+    const again = decode(encode({ lobbies: restored.store.exportLobbies(), runs: restored.runtime.runs }));
+    const same = [...again.runs.values()][0].players.get(f.user.id);
+    assert.equal(same.run.colosseum.reward, null);
+    assert.equal(same.drifts.filter(d => d.uuid === q.drifts.at(-1).uuid).length, 1);
+    assert.throws(() => colosseum.chooseReward(same, choice), /plus disponible/);
+});
+
+test('legacy expeditions keep original opponents and no new rewards; a lost guardian grants nothing', async () => {
+    const legacy = setup(), p = await legacy.start(); delete p.run.colosseum.version;
+    p.run.colosseum.wins = 9; legacy.advance(3600000); legacy.runtime.ready(p);
+    assert.deepEqual(p.battle.b.equipe.pokemons.map(p => p.data.id), colosseum.opponent(10, 1).equipe.pokemons.map(p => p.data.id));
+    defeatEnemies(p.battle); assert.equal(p.run.colosseum.reward, null);
+    const f = setup(), q = await f.start(); q.run.colosseum.wins = 9;
+    f.advance(3600000); f.runtime.ready(q); const battle = q.battle;
+    q.equipe.pokemons[0].currentHp = 0; battle.prune(); battle.checkEnd();
+    assert.equal(q.run.phase, 'results'); assert.equal(q.run.colosseum.reward, null);
+});
+
 test('solo rules are immutable; starter, duration and repeat start cannot be tampered with', async () => {
     const f = setup({ durationMs: 10 }), p = await f.start();
     assert.equal(p.run.endsAt - p.run.startedAt, 3600000);
@@ -150,6 +220,8 @@ test('Socket Colosseum ignores forged mode settings, points, user identity and e
         const entered=await command(a,'drift:enter');assert.equal(entered.state.colosseum.score,0);
         assert.equal((await command(a,'drift:roundReady',{score:99999})).success,false);
         assert.equal((await command(b,'drift:enter',{userId:91})).success,false);
+        assert.equal((await command(b,'colosseum:reward',{userId:91,offerId:'fake',definitionId:'DRF-059'})).success,false);
+        assert.equal((await command(a,'colosseum:reward',{offerId:'fake',definitionId:'DRF-059'})).success,false);
         assert.equal((await command(b,'drift:join',{code:started.lobby.code})).ok,false);
         assert.deepEqual((await command(b,'drift:list')).lobbies,[]);
         const again=await command(a,'colosseum:start');assert.equal(again.lobby.code,started.lobby.code);

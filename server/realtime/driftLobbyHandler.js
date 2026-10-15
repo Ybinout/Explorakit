@@ -124,6 +124,7 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
             p.ready = false;
         });
         gameCommand('drift:roundReady', p => runtime.ready(p));
+        gameCommand('colosseum:reward', (p, data) => require('../game/drift/colosseum').chooseReward(p, data));
         gameCommand('drift:exit', p => { runtime.abandon(p); store.leave(user); }, false);
         gameCommand('drift:abandon', p => runtime.abandon(p), false);
         gameCommand('drift:reorder', (p, data) => {
