@@ -67,7 +67,7 @@ test('Centre partagé : deux joueurs, reconnexion, redémarrage, nouvelle entré
     }
     async function save(account) {
         await new Promise((resolve, reject) => account.socket.timeout(5000).emit('requestGameSave', (error, result) => {
-            if (error || !result?.success) reject(error || new Error('Sauvegarde refusée'));
+            if (error || !result?.success) reject(error || new Error(`Sauvegarde refusée : ${result?.message || result?.code || 'sans motif'}\n${logs}`));
             else resolve();
         }));
     }

@@ -40,12 +40,14 @@ test('Socket réel : chapitres I et II, prérequis, combats, scènes et récompe
     let userId;
     let socket;
     let token;
+    let serverErrors = '';
+    child.stderr.on('data', chunk => { serverErrors = (serverErrors + String(chunk)).slice(-8000); });
     const main = (state) => state.quests.find((quest) => quest.key === 'main_sister_search');
     const at = async (map, x, y) => {
         if (socket) {
             // Une sauvegarde explicitement acquittée évite une écriture de position tardive.
             await new Promise((resolve, reject) => socket.timeout(5000).emit('requestGameSave', (error, result) => {
-                if (error || !result?.success) reject(error || new Error('Sauvegarde refusée'));
+                if (error || !result?.success) reject(error || new Error(`Sauvegarde avant ${map} refusée : ${result?.message || result?.code || 'sans motif'}\n${serverErrors}`));
                 else resolve();
             }));
             socket.disconnect();
@@ -122,7 +124,7 @@ test('Socket réel : chapitres I et II, prérequis, combats, scènes et récompe
         expectHealthy(await loadEquipe(userId));
         // Finish the connection's saves before preparing the independent story fixture.
         await new Promise((resolve, reject) => socket.timeout(5000).emit('requestGameSave', (error, result) => {
-            if (error || !result?.success) reject(error || new Error('Sauvegarde refusée'));
+            if (error || !result?.success) reject(error || new Error(`Sauvegarde après soin refusée : ${result?.message || result?.code || 'sans motif'}\n${serverErrors}`));
             else resolve();
         }));
         socket.disconnect();
