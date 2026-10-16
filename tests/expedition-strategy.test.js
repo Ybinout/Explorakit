@@ -31,6 +31,19 @@ test('selection timeout and restart retain the same offer and do not spend explo
  assert.deepEqual(saved.runs.get(p.run.id).players.get(1).starterChoices.map(x=>x.uuid),ids);
  f.advance(45000);assert.equal(p.run.phase,'exploration');assert.equal(p.equipe.pokemons[0].uuid,ids[0]);assert.equal(p.run.endsAt-f.now(),1800000);
 });
+for(const [mode,minutes] of [['rift',30],['colosseum',30],['colosseum',60]])test(`${mode} ${minutes}: discounted Balls charge the displayed price and persist inventory`,()=>{
+ const f=setup(mode,minutes),p=f.choose();p.currentmap='ville1_shop';p.money=4500;
+ for(const [key,price] of [['pokeball',150],['superball',450],['hyperball',900]]){
+  assert.equal(economy.shop(p).catalog.find(i=>i.key===key).price,price);
+  const beforeMoney=p.money,beforeCount=p.items[key]||0;
+  const purchased=economy.buy(p,key,2);
+  assert.equal(purchased.money,beforeMoney-price*2);assert.equal(p.items[key],beforeCount+2);
+ }
+ const restored=decode(encode(p));assert.equal(restored.money,1500);assert.deepEqual(restored.items,p.items);
+ const before={money:p.money,items:{...p.items}};
+ assert.throws(()=>economy.buy(p,'hyperball',2),/Monnaie insuffisante/);
+ assert.equal(p.money,before.money);assert.deepEqual(p.items,before.items);
+});
 test('merchant has stable finite per-player stock, cannot buy twice or forge price; trades consume exactly three',()=>{
  const f=setup('rift'),p=f.choose(),q=f.runtime.playerFor(f.other);p.currentmap=q.currentmap='ville1_shop';p.money=q.money=10000;
  const stock=merchant.view(p);assert.equal(stock.offers.length,6);assert.deepEqual(merchant.view(q),stock);

@@ -53,8 +53,8 @@ async function betweenBattles(selector) {
             assert.equal(await page.locator('[data-mode]').count(),3);await checkWidth();
             await page.screenshot({path:path.join(output,`modes-${width}.png`),fullPage:true});
             await page.locator('[data-mode="colosseum"]').click();await page.locator('[data-colosseum-start]:enabled').waitFor();await checkWidth();
-            assert.match(await page.locator('.start-card').innerText(),/XP de combat ×6/);
-            assert.match(await page.locator('.start-card').innerText(),/30 % du gain du combattant/);
+            assert.match(await page.locator('.start-card').innerText(),/XP de combat ×4,8/);
+            assert.match(await page.locator('.start-card').innerText(),/40 % du gain du combattant/);
             await page.screenshot({path:path.join(output,`colosseum-lobby-${width}.png`),fullPage:true});
         }
         await page.setViewportSize({width:393,height:852});await page.locator('[data-colosseum-format="30"]').click();
@@ -92,11 +92,11 @@ async function betweenBattles(selector) {
         // XP is credited by the real server and shown for both active and reserve Pokémon.
         const fighter=p.equipe.pokemons[0], target=factory.create(19,5);
         const beforeXp=[fighter.experience,companion.experience];
-        const expectedXp=6*require('../server/game/models/progression').calculateBattleExperience(target,1,fighter);
+        const expectedXp=Math.floor(6*require('../server/game/models/progression').calculateBattleExperience(target,1,fighter)*4/5);
         const xpBattle=cleanup.runtime.battle(p,{npc:true,equipe:{pokemons:[target]},drifts:[],equipped:[]},'wild');
         await page.locator('.battle-scene').waitFor();
         target.currentHp=0;xpBattle.prune();xpBattle.checkEnd();
-        const expectedGains=[expectedXp,Math.floor(expectedXp*30/100)];
+        const expectedGains=[expectedXp,Math.floor(expectedXp*40/100)];
         assert.deepEqual([fighter.experience-beforeXp[0],companion.experience-beforeXp[1]],expectedGains);
         await page.locator('[data-battle-result] .experience-value').first().waitFor();
         assert.deepEqual((await page.locator('[data-battle-result] .experience-value').allTextContents()).map(s=>Number(s.replace(/\D/g,''))),expectedGains);

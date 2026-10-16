@@ -143,10 +143,11 @@ class DriftBattle {
         const active = this.a.equipe.pokemons.find(p=>!effects.isDead(p)); if (!active) return;
         const bonus = effects.value(this.a,43) + (defeated.level > active.level ? effects.value(this.a,51) : 0);
         const isColosseum = this.a.run?.mode === 'colosseum';
-        // Colosseum gains +200% on its previous x2 award; Rift keeps x2.
-        const xp = (isColosseum ? 6 : 2) * Math.max(1,Math.floor(calculateBattleExperience(defeated, this.type === 'arena' ? 2 : this.type === 'trainer' ? 1.5 : 1, active) * (1 + bonus/100)));
+        const baseXp = Math.max(1,Math.floor(calculateBattleExperience(defeated, this.type === 'arena' ? 2 : this.type === 'trainer' ? 1.5 : 1, active) * (1 + bonus/100)));
+        // Colosseum: previous x6 award reduced by 20%, rounded down; Rift keeps x2.
+        const xp = isColosseum ? Math.floor(baseXp * 48 / 10) : baseXp * 2;
         // Sharing grants extra XP to each living reserve, without reducing the active award.
-        const reserveXp = Math.floor(xp * ((isColosseum ? 30 : 0) + effects.value(this.a,50))/100);
+        const reserveXp = Math.floor(xp * ((isColosseum ? 40 : 0) + effects.value(this.a,50))/100);
         const previousLevel = active.level, previousExperience = active.experience;
         active.gainEffort(yields[defeated.data.id] || {}); active.gainExperience(xp);
         for (const reserve of this.a.equipe.pokemons) if (reserve !== active && !effects.isDead(reserve)) reserve.gainExperience(reserveXp);

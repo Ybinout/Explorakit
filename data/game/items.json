@@ -4,7 +4,7 @@
       "key": "pokeball",
       "name": "Pokeball",
       "category": "ball",
-      "buy_price": 200,
+      "buy_price": 150,
       "catch_multiplier": 1.15,
       "description": "A standard Pokeball."
     },
@@ -12,7 +12,7 @@
       "key": "superball",
       "name": "Superball",
       "category": "ball",
-      "buy_price": 600,
+      "buy_price": 450,
       "catch_multiplier": 1.5,
       "description": "A better ball with an improved catch rate."
     },
@@ -20,7 +20,7 @@
       "key": "hyperball",
       "name": "Hyperball",
       "category": "ball",
-      "buy_price": 1200,
+      "buy_price": 900,
       "catch_multiplier": 2,
       "description": "A high-performance ball with a strong catch rate."
     },

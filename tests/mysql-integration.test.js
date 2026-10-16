@@ -155,14 +155,14 @@ test('le parcours réel crée, authentifie et sauvegarde un nouveau dresseur', {
 
         const purchase = await purchaseUserItem(userId, 'pokeball', 2);
         assert.equal(purchase.success, true);
-        assert.equal(purchase.totalPrice, 400);
-        assert.equal(purchase.money, 450);
+        assert.equal(purchase.totalPrice, 300);
+        assert.equal(purchase.money, 550);
         assert.equal(purchase.items.find((item) => item.key === 'pokeball')?.quantity, 12);
         const refusedPurchase = await purchaseUserItem(userId, 'hyperball', 1);
         assert.equal(refusedPurchase.success, false);
         assert.equal(refusedPurchase.reason, 'insufficient_funds');
         const [[moneyAfterPurchase]] = await pool.execute('SELECT money FROM users WHERE id = ?', [userId]);
-        assert.equal(Number(moneyAfterPurchase.money), 450);
+        assert.equal(Number(moneyAfterPurchase.money), 550);
 
         const team = await loadEquipe(userId);
         const originalUuid = team.pokemons[0].uuid;

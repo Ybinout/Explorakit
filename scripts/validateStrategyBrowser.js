@@ -25,7 +25,14 @@ async function deferLearning(){if(await page.locator('.learning-sheet').isVisibl
  // Give this isolated test expedition resources to exercise the real merchant controls.
  p.money=20000;p.currentmap='ville1_shop';p.equipe.pokemons=[factory.create(25,12,true),factory.create(1,12,true)];
  for(const rarity of ['common','rare','epic'])p.drifts.push(merchant.rollDrift(rarity,()=>.2));
- await page.reload({waitUntil:'networkidle'});await page.locator('.location-shop-btn').click();await page.locator('[data-shop-tab="drifts"]').click();await page.locator('[data-merchant-offer]').first().waitFor();
+ await page.reload({waitUntil:'networkidle'});await page.locator('.location-shop-btn').click();
+ for(const [key,name,price]of [['pokeball','Pokeball',150],['superball','Superball',450],['hyperball','Hyperball',900]]){
+  const item=page.locator('.shop-item').filter({has:page.getByText(name,{exact:true})}),beforeMoney=p.money,beforeCount=p.items[key]||0;
+  await item.getByRole('button',{name:price+' ₽',exact:true}).click();
+  await item.getByText('Possédé : '+(beforeCount+1),{exact:true}).waitFor();
+  assert.equal(p.money,beforeMoney-price);assert.equal(p.items[key],beforeCount+1);
+ }
+ await page.locator('[data-shop-tab="drifts"]').click();await page.locator('[data-merchant-offer]').first().waitFor();
  const offer=p.run.merchant.offers[0],before=p.money;await page.locator(`[data-merchant-offer="${offer.id}"] button`).click();await page.getByRole('button',{name:'Épuisé',exact:true}).waitFor();assert.equal(p.money,before-offer.price);
  for(const box of (await page.locator('.merchant-owned input').all()).slice(0,3))await box.check();await page.locator('[data-merchant-exchange]').click();await page.locator('[data-merchant-confirm]').click();await page.waitForFunction(()=>document.querySelectorAll('.merchant-owned input').length===2);assert.equal(p.drifts.length,2);
  await page.locator('.merchant-owned article button').first().click();await page.locator('[data-merchant-confirm]').click();await page.waitForFunction(()=>document.querySelectorAll('.merchant-owned input').length===1);
@@ -50,5 +57,5 @@ async function deferLearning(){if(await page.locator('.learning-sheet').isVisibl
  await page.locator('.menu-toggle-btn').click();await page.locator('[data-menu-action="bag"]').click();const potion=page.locator('[data-item-key="drift_potion"]');await potion.locator('select').selectOption(pika.uuid);await potion.locator('.bag-use-button').click();await page.getByRole('status').filter({hasText:'Soin sauvegardé'}).waitFor();assert.equal(pika.currentHp,20);assert(!pika.riftFainted);
  await page.reload({waitUntil:'networkidle'});await deferLearning();assert.equal(p.equipe.pokemons.find(x=>x.uuid===pika.uuid).currentHp,20);assert(p.merchantBought.includes(offer.id));
  const saved=require('../server/game/drift/checkpointCodec').decode(checkpoint).runs.get(p.run.id).players.get(userId);assert.equal(saved.equipe.pokemons.find(x=>x.uuid===pika.uuid).data.id,26);assert(saved.merchantBought.includes(offer.id));
- assert.deepEqual(errors,[]);success=true;console.log(JSON.stringify({starterChoices:true,privateDurableStock:true,buyExchangeSell:true,stoneEvolution:true,protectedKOAndHeal:true,orderedAttacks:true,viewports:4,checkpoint:true,errors,output}));
+ assert.deepEqual(errors,[]);success=true;console.log(JSON.stringify({starterChoices:true,discountedBalls:true,privateDurableStock:true,buyExchangeSell:true,stoneEvolution:true,protectedKOAndHeal:true,orderedAttacks:true,viewports:4,checkpoint:true,errors,output}));
 }finally{if(!success&&page)await page.screenshot({path:path.join(output,'strategy-failure.png'),fullPage:true}).catch(()=>{});await browser?.close();cleanup();await new Promise(r=>io.close(r));if(userId)await dbPool.execute('DELETE FROM users WHERE id=?',[userId]);await dbPool.end();}})().catch(e=>{console.error(e);process.exitCode=1});
