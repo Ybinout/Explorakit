@@ -45,47 +45,51 @@ const GUARDIANS = [
     { name: 'La Couronne', specialty: 'Dragon · Acier', hint: 'Une équipe d’élite avec des résistances complémentaires. Alterne tes réponses Glace, Combat et Sol.', team: [230, 212, 330, 376, 448, 445] }
 ];
 const REWARD_SETS = [['DRF-002', 'DRF-013', 'DRF-040'], ['DRF-004', 'DRF-022', 'DRF-033'], ['DRF-010', 'DRF-018', 'DRF-035']];
-function guardianAt(wave) { return GUARDIANS[(Math.ceil(wave / 10) - 1) % GUARDIANS.length]; }
-function roster(wave, version = 2) {
+function milestoneSize(version = 3) { return version >= 3 ? 5 : 10; }
+function guardianAt(wave, version) { return GUARDIANS[(Math.ceil(wave / milestoneSize(version)) - 1) % GUARDIANS.length]; }
+function roster(wave, version = 3) {
     const size = Math.min(6, 2 + Math.floor((wave - 1) / 4));
-    if (version >= 2 && wave % 10 === 0) return guardianAt(wave).team.slice(0, size);
+    if (version >= 2 && wave % milestoneSize(version) === 0) return guardianAt(wave, version).team.slice(0, size);
     const elite = version >= 2 && wave >= 25;
     const pool = elite ? ELITE_ROSTER : ROSTERS[Math.min(4, Math.floor((wave - 1) / 6))];
     const offset = (wave - 1) * (elite ? 5 : 1);
     return Array.from({ length: size }, (_, i) => OPENING_TEAMS[wave - 1]?.[i] ?? pool[(i + offset) % pool.length]);
 }
 
-function waveInfo(wave, version = 2) {
+function waveInfo(wave, version = 3) {
     const level = Math.min(100, 10 + (wave - 1) * 3);
     const size = Math.min(6, 2 + Math.floor((wave - 1) / 4));
     const tier = Math.min(4, Math.floor((wave - 1) / 6));
     // Past level 100, increase the existing Pokémon potential by one each wave.
     const potential = 2 + Math.max(0, wave - 31);
-    const guardian = version >= 2 && wave % 10 === 0 ? guardianAt(wave) : null;
-    const preview = roster(wave, version).map(id => ({ id, name: dex.get(id).name.french || dex.get(id).name.english, types: dex.get(id).type }));
-    return { wave, level, size, potential, difficulty: ai.difficulty(wave),
+    const interval = milestoneSize(version);
+    const guardian = version >= 2 && wave % interval === 0 ? guardianAt(wave, version) : null;
+    const preview = roster(wave, version).map((id, index) => ({ id, name: dex.get(id).name.french || dex.get(id).name.english, types: dex.get(id).type,
+        ...(version >= 3 ? require('./colosseumSets').preview(id, wave, index) : {}) }));
+    return { wave, level, size, potential, milestoneSize: interval, difficulty: ai.difficulty(wave, version),
         guardian: guardian ? { name: guardian.name, specialty: guardian.specialty, hint: guardian.hint } : null,
-        nextGuardian: version >= 2 ? { wave: Math.ceil(wave / 10) * 10, name: guardianAt(wave).name, specialty: guardianAt(wave).specialty } : null,
+        nextGuardian: version >= 2 ? { wave: Math.ceil(wave / interval) * interval, name: guardianAt(wave, version).name, specialty: guardianAt(wave, version).specialty } : null,
         preview, title: `${guardian ? guardian.name : TITLES[tier] + ' du Colosseum'} · ${wave}`,
         points: 100 * wave + 10 * level * size };
 }
 
-function opponent(wave, version = 2) {
+function opponent(wave, version = 3) {
     const info = waveInfo(wave, version);
     const pokemons = roster(wave, version).map((id, index) => {
         const pokemon = factory.create(id, info.level, true);
         pokemon.k = info.potential;
         pokemon.recalculateStats();
         pokemon.currentHp = pokemon.maxHp;
-        ai.preparePokemon(pokemon, wave, index);
+        ai.preparePokemon(pokemon, wave, index, version);
         return pokemon;
     });
-    return { npc: true, colosseumWave: wave, username: info.title, equipe: { pokemons }, drifts: [], equipped: [], chain: 0 };
+    return { npc: true, colosseumWave: wave, colosseumVersion: version, username: info.title, equipe: { pokemons }, drifts: [], equipped: [], chain: 0 };
 }
 
-function rewardOffer(wave) {
-    const rarity = wave >= 30 ? 'legendary' : 'epic';
-    return { id: randomUUID(), wave, options: REWARD_SETS[(wave / 10 - 1) % REWARD_SETS.length].map(id => {
+function rewardOffer(wave, version = 3) {
+    const interval = milestoneSize(version);
+    const rarity = wave >= interval * 3 ? 'legendary' : 'epic';
+    return { id: randomUUID(), wave, options: REWARD_SETS[(wave / interval - 1) % REWARD_SETS.length].map(id => {
         const d = catalogue.definitions.find(d => d.id === id);
         return { definitionId: id, rarity, name: d.name, description: d.description, value: d.values[rarity], unit: d.unit };
     }) };
@@ -109,6 +113,6 @@ function chooseReward(p, data) {
 }
 
 const snapshotTeam = pokemons => pokemons.map(p => pokemonSnapshot(p));
-function initialState() { return { version: 2, score: 0, wins: 0, wave: 0, lastTeam: [], reward: null, lastReward: null, next: waveInfo(1) }; }
+function initialState() { return { version: 3, score: 0, wins: 0, wave: 0, lastTeam: [], reward: null, lastReward: null, next: waveInfo(1) }; }
 
-module.exports = { EXPLORATION_MS, durationMinutes, waveInfo, opponent, snapshotTeam, initialState, rewardOffer, chooseReward };
+module.exports = { EXPLORATION_MS, durationMinutes, milestoneSize, waveInfo, opponent, snapshotTeam, initialState, rewardOffer, chooseReward };

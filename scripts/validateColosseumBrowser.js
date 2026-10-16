@@ -121,7 +121,15 @@ async function betweenBattles(selector) {
         await page.setViewportSize({width:393,height:852});
         await page.locator('.drift-hud-toggle').click();await page.locator('[data-drift-tab="tournament"]').click();
         await page.getByText('30 minutes pour tout préparer',{exact:true}).waitFor();
-        await page.locator('[data-colosseum-difficulty]').filter({hasText:'Novice'}).waitFor();
+        await page.locator('[data-colosseum-difficulty]').filter({hasText:'Tacticien'}).waitFor();
+        assert.equal(await page.locator('.milestone-track .steps i').count(),5);
+        assert.deepEqual(await page.locator('[data-colosseum-item]').allTextContents(),p.run.colosseum.next.preview.map(p=>p.itemName));
+        await page.locator('.loadouts summary').click();
+        for(const [width,height] of [[320,568],[393,852],[844,390]]) {
+            await page.setViewportSize({width,height});await checkWidth();
+            await page.screenshot({path:path.join(output,`colosseum-loadouts-${width}.png`)});
+        }
+        await page.setViewportSize({width:393,height:852});
         await page.screenshot({path:path.join(output,'colosseum-exploration.png')});
         // Set up a second survivor to verify the irreversible loss in the actual UI.
         p.equipe.pokemons.push(factory.create(9,25));offset+=1800000;cleanup.runtime.tick();
@@ -159,13 +167,15 @@ async function betweenBattles(selector) {
         await require('./validateMobileBattle').validateMobileBattle(page, output, fit, { colosseum: true });
         // Reach a guardian with the test clock, win, reconnect, choose a real reward and resume.
         await waitFor(()=>Boolean(classic.socketId) && classic.disconnectedAt===null,'Run not connected');
-        classic.run.colosseum.wins=9;offset+=3600000;cleanup.runtime.tick();
+        classic.run.colosseum.wins=4;offset+=3600000;cleanup.runtime.tick();
         await page.locator('[data-colosseum-preview]').filter({hasText:'Le Rempart'}).waitFor();
-        assert.equal(await page.locator('[data-colosseum-preview] .pokemon-portrait').count(),4);
+        assert.equal(await page.locator('[data-colosseum-preview] .pokemon-portrait').count(),3);
         await page.screenshot({path:path.join(output,'colosseum-guardian-preview.png')});
         await page.locator('[data-colosseum-ready]').click();await waitFor(()=>Boolean(classic.battle),'Guardian battle missing');
         await page.locator('[data-battle-challenge]').filter({hasText:'Le Rempart'}).waitFor();
         const guardian = classic.battle;
+        assert.equal(guardian.b.colosseumWave,5);
+        assert.deepEqual(guardian.b.equipe.pokemons.map(p=>p.heldItem),require('../server/game/drift/colosseum').waveInfo(5).preview.map(p=>p.heldItem));
         for(const enemy of guardian.b.equipe.pokemons)enemy.currentHp=0;guardian.prune();guardian.checkEnd();
         await dismissBattle();await betweenBattles('[data-colosseum-reward]');
         const offer=classic.run.colosseum.reward, count=classic.drifts.length;
@@ -184,14 +194,15 @@ async function betweenBattles(selector) {
         assert.equal(classic.drifts.length,count+1,'Reward replay after reconnect');
         // Server-side fixture only: exercise the expert threshold through the actual UI.
         await waitFor(()=>Boolean(classic.socketId) && classic.disconnectedAt===null,'Classic run not connected before clock advance');
-        classic.run.colosseum.wins=50;
-        classic.run.colosseum.next=require('../server/game/drift/colosseum').waveInfo(51);cleanup.runtime.send(classic);
+        classic.run.colosseum.wins=15;
+        classic.run.colosseum.next=require('../server/game/drift/colosseum').waveInfo(16);cleanup.runtime.send(classic);
         await page.locator('[data-colosseum-difficulty]').filter({hasText:'Expert'}).waitFor();
+        assert.equal(classic.run.colosseum.next.difficulty.totalTiers,4);
         await page.setViewportSize({width:320,height:568});await checkWidth();
         await page.screenshot({path:path.join(output,'colosseum-expert-mobile.png')});
         await page.locator('[data-colosseum-ready]').click();await waitFor(()=>Boolean(classic.battle),'Expert battle missing');
-        assert.equal(classic.battle.b.colosseumWave,51);
-        assert(classic.battle.b.equipe.pokemons.every(p=>p.heldItem==='leftovers'));
+        assert.equal(classic.battle.b.colosseumWave,16);
+        assert(classic.battle.b.equipe.pokemons.every(p=>p.heldItem));
         assert(classic.battle.pending.has(classic.battle.b),'The expert commits before the player acts');
         cleanup.runtime.abandon(classic);await classic.run.settling;
         assert.deepEqual(errors,[]);success=true;

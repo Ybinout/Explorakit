@@ -54,11 +54,14 @@ test('opening Colosseum waves vary types and species while keeping fair, increas
         assert.deepEqual(team.map(p=>p.data.id), repeated.map(p=>p.data.id));
         assert.deepEqual(team.map(p=>p.abilities), repeated.map(p=>p.abilities));
         const strength = team.reduce((sum,p)=>sum+bst(p.data)*p.level,0);
-        assert(strength > previousStrength);previousStrength = strength;
+        assert(strength > previousStrength);
+        if (!colosseum.waveInfo(wave).guardian) previousStrength = strength;
         for (const p of team) {
             assert(!seen.has(p.data.id), 'Early waves should introduce new species');seen.add(p.data.id);
             p.data.type.forEach(t=>types.add(t));
-            assert(bst(p.data) <= (wave < 3 ? 300 : wave < 5 ? 350 : 400));
+            // The first guardian now arrives at five, with its announced evolved
+            // defensive team; ordinary opening trainers keep their modest stats.
+            assert(bst(p.data) <= (colosseum.waveInfo(wave).guardian ? 510 : wave < 3 ? 300 : wave < 5 ? 350 : 400));
             assert.equal(p.k, 2);assert.equal(p.level, 10 + (wave - 1) * 3);
         }
     }

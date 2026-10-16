@@ -60,8 +60,8 @@ test('six guardians have deterministic, honest previews and shipped sprites; sco
         const info = colosseum.waveInfo(wave), team = colosseum.opponent(wave).equipe.pokemons;
         assert.deepEqual(info.preview.map(p => p.id), team.map(p => p.data.id));
         assert.equal(info.points, colosseum.waveInfo(wave, 1).points);
-        assert.equal(Boolean(info.guardian), wave % 10 === 0);
-        assert.equal(info.nextGuardian.wave, Math.ceil(wave / 10) * 10);
+        assert.equal(Boolean(info.guardian), wave % 5 === 0);
+        assert.equal(info.nextGuardian.wave, Math.ceil(wave / 5) * 5);
         if (info.guardian) {
             names.add(info.guardian.name);
             for (const p of team) {
@@ -76,11 +76,11 @@ test('six guardians have deterministic, honest previews and shipped sprites; sco
 test('guardian reward is one authoritative choice, cannot be forged, replayed or auto-equipped', async () => {
     const f = setup(), p = await f.start();
     assert.throws(() => colosseum.chooseReward(p, {}), /plus disponible/);
-    p.run.colosseum.wins = 9; f.advance(3600000); f.runtime.ready(p);
-    assert.equal(p.battle.b.username, 'Le Rempart · 10');
+    p.run.colosseum.wins = 4; f.advance(3600000); f.runtime.ready(p);
+    assert.equal(p.battle.b.username, 'Le Rempart · 5');
     const battle = p.battle; defeatEnemies(battle);
     const offer = p.run.colosseum.reward, before = p.drifts.length;
-    assert.equal(offer.wave, 10); assert.equal(offer.options.length, 3);
+    assert.equal(offer.wave, 5); assert.equal(offer.options.length, 3);
     assert(offer.options.every(o => o.rarity === 'epic'));
     assert.throws(() => f.runtime.ready(p), /récompense de palier/);
     assert.throws(() => colosseum.chooseReward(p, { offerId: 'forged', definitionId: offer.options[0].definitionId }), /plus disponible/);
@@ -92,12 +92,12 @@ test('guardian reward is one authoritative choice, cannot be forged, replayed or
     assert.equal(p.equipped.length, 0); assert.equal(p.run.colosseum.score, score);
     assert.throws(() => colosseum.chooseReward(p, choice), /plus disponible/);
     battle.finish(p, 'finished'); assert.equal(p.run.colosseum.reward, null);
-    f.runtime.ready(p); assert.equal(p.run.colosseum.wave, 11);
+    f.runtime.ready(p); assert.equal(p.run.colosseum.wave, 6);
 });
 
 test('pending guardian reward and claimed choice survive checkpoints without a second grant', async () => {
     const f = setup(), p = await f.start();
-    p.run.colosseum.wins = 29; f.advance(3600000); f.runtime.ready(p); defeatEnemies(p.battle);
+    p.run.colosseum.wins = 14; f.advance(3600000); f.runtime.ready(p); defeatEnemies(p.battle);
     const offer = p.run.colosseum.reward;
     assert(offer.options.every(o => o.rarity === 'legendary'));
     const saved = decode(encode({ savedAt: f.now(), lobbies: f.store.exportLobbies(), runs: f.runtime.runs }));
@@ -122,6 +122,19 @@ test('legacy expeditions keep original opponents and no new rewards; a lost guar
     f.advance(3600000); f.runtime.ready(q); const battle = q.battle;
     q.equipe.pokemons[0].currentHp = 0; battle.prune(); battle.checkEnd();
     assert.equal(q.run.phase, 'results'); assert.equal(q.run.colosseum.reward, null);
+});
+
+test('version 2 checkpoints retain ten-combat guardians, novice AI and old sets after restart',async()=>{
+    const f=setup(),p=await f.start();p.run.colosseum.version=2;p.run.colosseum.wins=4;
+    const saved=decode(encode({savedAt:f.now(),lobbies:f.store.exportLobbies(),runs:f.runtime.runs}));
+    const restored=setup();restored.store.restoreLobbies(saved.lobbies);restored.runtime.restore(saved.runs,saved.savedAt);
+    const q=restored.runtime.playerFor(f.user);restored.store.connect(f.user,f.socket.id);restored.runtime.enter(f.user,f.socket);restored.runtime.tick();restored.advance(3600000);restored.runtime.ready(q);
+    assert.equal(q.battle.b.colosseumVersion,2);assert.equal(q.battle.b.colosseumWave,5);
+    assert(q.battle.b.equipe.pokemons.every(p=>!p.heldItem));
+    defeatEnemies(q.battle);assert.equal(q.run.colosseum.reward,null);
+    assert.equal(q.run.colosseum.next.nextGuardian.wave,10);assert.equal(q.run.colosseum.next.difficulty.label,'Novice');
+    q.run.colosseum.wins=9;q.run.colosseum.next=colosseum.waveInfo(10,2);restored.runtime.ready(q);defeatEnemies(q.battle);
+    assert.equal(q.run.colosseum.reward.wave,10);assert(q.run.colosseum.reward.options.every(o=>o.rarity==='epic'));
 });
 
 test('solo rules are immutable; starter, duration and repeat start cannot be tampered with', async () => {

@@ -17,13 +17,76 @@ function pokemon(id, moves, level=50) {
 function decision(team,opponent,wave=51,extra={}) {
     const field=engine.createBattleState();
     return ai.chooseAction({team,opponent,wave,field,ownSide:field.sides.enemy,enemySide:field.sides.player,
-        memory:{seen:{}},round:5,...extra});
+        memory:{seen:{}},round:5,version:2,...extra});
 }
-test('intelligence increases exactly after every ten victories and stats continue after expert',()=>{
-    for(const [wave,tier] of [[1,1],[10,1],[11,2],[20,2],[21,3],[30,3],[31,4],[40,4],[41,5],[50,5],[51,6],[100,6]]) {
-        assert.equal(ai.difficulty(wave).tier,tier);assert.equal(colosseum.waveInfo(wave).difficulty.tier,tier);
+test('new Colosseum starts tactically, advances every five wins and reaches Expert at challenge 16',()=>{
+    for(const [wave,tier,label] of [[1,1,'Tacticien'],[5,1,'Tacticien'],[6,2,'Stratège'],[10,2,'Stratège'],[11,3,'Maître'],[15,3,'Maître'],[16,4,'Expert'],[80,4,'Expert']]) {
+        const info=colosseum.waveInfo(wave);
+        assert.equal(info.difficulty.tier,tier);assert.equal(info.difficulty.label,label);
+        assert.equal(info.difficulty.totalTiers,4);
+        assert.equal(info.difficulty.nextWave,tier<4?tier*5+1:null);
     }
-    assert.equal(ai.difficulty(51).nextWave,null);
+    const a=pokemon(25,['Thunderbolt','Iron Tail']),b=pokemon(112);
+    assert.equal(decision([a],b,1,{version:3}).number,1,'avoid Ground immunity from the first challenge');
+    const attacker=pokemon(6,['Fire Blast','Flamethrower']),target=pokemon(3);target.currentHp=1;
+    assert.equal(decision([attacker],target,1,{version:3}).number,1,'prefer the accurate finishing move immediately');
+    const wall=pokemon(112,['Rock Slide']),reserve=pokemon(3,['Razor Leaf']),water=pokemon(9);
+    const memory={seen:{[water.uuid]:{moves:['Surf'],immuneMoves:[]}}};
+    assert.equal(decision([wall,reserve],water,5,{version:3,memory}).action,'attack');
+    assert.deepEqual(decision([wall,reserve],water,6,{version:3,memory}),{action:'change',number:1});
+    const healer=pokemon(9,['Tackle','Recover']);healer.currentHp=60;
+    assert.equal(decision([healer],water,11,{version:3,memory:{seen:{[water.uuid]:{moves:['Tackle']}}}}).number,1);
+});
+
+test('announced items match deterministic legal sets and their Pokemon roles, from the opening onward',()=>{
+    const legal=require('../data/game/pokemonData.json'),items=require('../server/game/items/heldItems');
+    const evolvable=new Set(require('../data/game/stone_evolutions.json').evolvable),types=new Set();
+    for(let wave=1;wave<=60;wave++) {
+        const preview=colosseum.waveInfo(wave).preview,team=colosseum.opponent(wave).equipe.pokemons;
+        assert.deepEqual(team.map(p=>p.heldItem),preview.map(p=>p.heldItem));
+        assert.deepEqual(team.map(p=>[p.passiveAbility,p.gender,p.heldItem,p.abilities]),colosseum.opponent(wave).equipe.pokemons.map(p=>[p.passiveAbility,p.gender,p.heldItem,p.abilities]));
+        for(const p of team) {
+            const moves=p.abilities.map(engine.getMoveByName),damaging=moves.filter(m=>m.power>0);
+            assert(items.enabled(p,engine.createBattleState()));types.add(p.heldItem);
+            assert(damaging.length>=2);assert(p.abilities.length<=4);
+            for(const name of p.abilities)assert(legal[p.data.id].includes(name.toLowerCase().replace(/[^a-z0-9]+/g,'-')),`${p.data.id}: ${name}`);
+            if(p.heldItem==='eviolite')assert(evolvable.has(p.data.id));
+            if(p.heldItem==='choice_band')assert(damaging.filter(m=>m.combat.damage_class==='physical').length>=3);
+            if(p.heldItem==='choice_specs')assert(damaging.filter(m=>m.combat.damage_class==='special').length>=3);
+            if(p.heldItem.startsWith('choice_')||p.heldItem==='assault_vest')assert.equal(damaging.length,moves.length,'no unusable support move');
+            if(p.heldItem==='expert_belt')assert(new Set(damaging.map(m=>m.type)).size>=3);
+        }
+    }
+    assert(types.size>=8,'roles should not all receive the same berry');
+    const random=Math.random;Math.random=()=>{throw Error('Preview consumed battle RNG');};
+    try { assert(colosseum.waveInfo(121).preview.every(p=>p.itemName&&p.itemReason)); } finally {Math.random=random;}
+});
+
+test('generated held items affect real damage and consume berries; item restrictions guide the AI',()=>{
+    const field=engine.createBattleState(),opening=colosseum.opponent(1).equipe.pokemons[0],foe=pokemon(7);
+    opening.currentHp=1;
+    engine.processEndOfRound(opening,foe,field.sides.player,field.sides.enemy,field);
+    assert.equal(opening.currentHp,11);assert.equal(opening.heldItem,null,'Oran berry was really consumed');
+    const armored=colosseum.opponent(3).equipe.pokemons[0],attack=engine.getMoveByName('Tackle');
+    const protectedDamage=engine.estimateDamage(foe,armored,attack,{battleState:field});
+    armored.heldItem=null;assert(engine.estimateDamage(foe,armored,attack,{battleState:field})>protectedDamage);
+    const choice=colosseum.opponent(10).equipe.pokemons.find(p=>p.heldItem==='choice_specs');
+    const move=engine.getMoveByName(choice.abilities[0]),item=choice.heldItem;
+    const boosted=engine.estimateDamage(choice,foe,move,{battleState:field});
+    choice.heldItem=null;assert(boosted>engine.estimateDamage(choice,foe,move,{battleState:field}));choice.heldItem=item;
+    choice.__battle={choiceMove:choice.abilities[1]};
+    assert.deepEqual(ai.legalIndexes(choice,field),[1]);
+    assert.equal(decision([choice],foe,16,{version:3,field}).number,1);
+    field.field.magicRoomTurns=3;
+    assert.equal(ai.legalIndexes(choice,field).length,choice.abilities.length,'Magic Room really suspends Choice restriction');
+    choice.movePp.fill(0);assert.deepEqual(decision([choice],foe,16,{version:3,field}),{action:'attack',number:-1});
+});
+
+test('legacy intelligence increases exactly after every ten victories and stats continue after expert',()=>{
+    for(const [wave,tier] of [[1,1],[10,1],[11,2],[20,2],[21,3],[30,3],[31,4],[40,4],[41,5],[50,5],[51,6],[100,6]]) {
+        assert.equal(ai.difficulty(wave,2).tier,tier);assert.equal(colosseum.waveInfo(wave,2).difficulty.tier,tier);
+    }
+    assert.equal(ai.difficulty(51,2).nextWave,null);
     assert(colosseum.waveInfo(61).potential>colosseum.waveInfo(51).potential);
     assert.equal(colosseum.waveInfo(1).points,300);
 });
@@ -85,8 +148,8 @@ test('expert sets are legal, reproducible and carry useful moves and items',()=>
     const legal=require('../data/game/pokemonData.json');
     const signature=p=>({id:p.data.id,moves:p.abilities,ability:p.passiveAbility,item:p.heldItem,hp:p.maxHp});
     for(const wave of [21,31,41,51,61]) {
-        const team=colosseum.opponent(wave).equipe.pokemons;
-        assert.deepEqual(team.map(signature),colosseum.opponent(wave).equipe.pokemons.map(signature));
+        const team=colosseum.opponent(wave,2).equipe.pokemons;
+        assert.deepEqual(team.map(signature),colosseum.opponent(wave,2).equipe.pokemons.map(signature));
         for(const p of team) {
             assert.equal(new Set(p.abilities).size,p.abilities.length);
             assert(p.abilities.length>=3 && p.abilities.length<=4);
@@ -112,30 +175,49 @@ test('expert evaluation stays bounded for a full team',()=>{
     assert(performance.now()-start<2000,'Expert evaluation blocks the game loop');
 });
 
+test('modern generated opponents finish real battles across guardians and every intelligence boundary',()=>{
+    const original=Math.random;
+    try {
+        for(const wave of [1,5,6,10,11,15,16,20,31]) {
+            let seed=wave*7919;Math.random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
+            const b=colosseum.opponent(wave),level=colosseum.waveInfo(wave).level;
+            const a={userId:1,equipe:{pokemons:[pokemon(9,null,level),pokemon(3,null,level),pokemon(6,null,level)]},drifts:[],equipped:[],items:{},defeated:new Set(),chain:0,money:0};
+            const battle=new DriftBattle(a,b,{type:'arena',npcKey:`colosseum_${wave}`,emit(){},now:()=>0,random:Math.random,paceMs:0});
+            const saved=codec.decode(codec.encode({battle})).battle;
+            assert.equal(saved.b.colosseumVersion,3);
+            assert.deepEqual(saved.pending.get(saved.b),battle.pending.get(b));
+            for(let turn=0;turn<600&&!battle.finished;turn++){battle.action(a,{...battle.defaultAction(a),turnId:battle.token});battle.tick();}
+            assert(battle.finished,`Modern battle stalled at wave ${wave}`);
+            for(const p of battle.originals)assert(Number.isFinite(p.currentHp)&&p.currentHp<=p.maxHp);
+        }
+    } finally {Math.random=original;}
+});
+
 test('real battles finish at every intelligence boundary, and expert choices outperform random attacks on fixed matchups',()=>{
     const original=Math.random;
     const seeded=seed=>()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
-    const wins={novice:0,expert:0};let completed=0;
+    const wins={novice:0,tactician:0,expert:0};let completed=0;
     try {
         for(const wave of [10,11,20,21,30,31,40,41,50,51,61]) {
             Math.random=seeded(wave);
             const a={userId:1,equipe:{pokemons:[pokemon(9),pokemon(3),pokemon(6)]},drifts:[],equipped:[],items:{},defeated:new Set(),chain:0,money:0};
-            const b={npc:true,colosseumWave:wave,equipe:{pokemons:[pokemon(149),pokemon(248),pokemon(376)]},drifts:[],equipped:[]};
-            b.equipe.pokemons.forEach((p,index)=>ai.preparePokemon(p,wave,index));
+            const b={npc:true,colosseumWave:wave,colosseumVersion:2,equipe:{pokemons:[pokemon(149),pokemon(248),pokemon(376)]},drifts:[],equipped:[]};
+            b.equipe.pokemons.forEach((p,index)=>ai.preparePokemon(p,wave,index,2));
             const battle=new DriftBattle(a,b,{type:'arena',npcKey:`colosseum_${wave}`,emit(){},now:()=>0,random:Math.random,paceMs:0});
             for(let turn=0;turn<600&&!battle.finished;turn++) {battle.action(a,{...battle.defaultAction(a),turnId:battle.token});battle.tick();}
             assert(battle.finished,`Battle stalled at wave ${wave}`);completed++;
             for(const p of battle.originals)assert(Number.isFinite(p.currentHp)&&p.currentHp<=p.maxHp);
         }
-        for(const enemy of [3,9,112,130,242])for(let seed=1;seed<=8;seed++)for(const [policy,wave] of [['novice',1],['expert',51]]) {
+        for(const enemy of [3,9,112,130,242])for(let seed=1;seed<=8;seed++)for(const [policy,wave,version] of [['novice',1,2],['tactician',1,3],['expert',16,3]]) {
             Math.random=seeded(seed*971+enemy);
             const a={userId:1,equipe:{pokemons:[pokemon(enemy,['Tackle','Body Slam'])]},drifts:[],equipped:[],items:{},defeated:new Set(),chain:0,money:0};
-            const b={npc:true,colosseumWave:wave,equipe:{pokemons:[pokemon(25,['Thunderbolt','Iron Tail','Brick Break','Quick Attack'])]},drifts:[],equipped:[]};
+            const b={npc:true,colosseumWave:wave,colosseumVersion:version,equipe:{pokemons:[pokemon(25,['Thunderbolt','Iron Tail','Brick Break','Quick Attack'])]},drifts:[],equipped:[]};
             const battle=new DriftBattle(a,b,{type:'arena',npcKey:`colosseum_${wave}`,emit(){},now:()=>0,random:Math.random,paceMs:0,onFinish:(_b,winner)=>{if(winner===b)wins[policy]++;}});
             for(let turn=0;turn<200&&!battle.finished;turn++){battle.action(a,{...battle.defaultAction(a),turnId:battle.token});battle.tick();}
             assert(battle.finished);completed++;
         }
-        assert(wins.expert>wins.novice,JSON.stringify(wins));
+        assert(wins.tactician>wins.novice,JSON.stringify(wins));
+        assert(wins.expert>=wins.tactician,JSON.stringify(wins));
         console.log(JSON.stringify({colosseumAIBattles:completed,wins,policyComparisonMatches:40}));
     } finally {Math.random=original;}
 });

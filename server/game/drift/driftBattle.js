@@ -77,7 +77,8 @@ class DriftBattle {
         if (wave) {
             this.aiMemory ||= { seen: {}, lastSwitchRound: -10 };
             const decision = colosseumAI.chooseAction({ team:p.equipe.pokemons, opponent:this.active(0),
-                field:this.state, ownSide:this.sides[1], enemySide:this.sides[0], wave, memory:this.aiMemory, round:this.round });
+                field:this.state, ownSide:this.sides[1], enemySide:this.sides[0], wave, memory:this.aiMemory, round:this.round,
+                version:p.colosseumVersion ?? (this.a.run ? this.a.run.colosseum?.version || 1 : 3) });
             if (decision) return decision;
         }
         const active = p.equipe.pokemons[0];

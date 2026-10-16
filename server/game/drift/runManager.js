@@ -165,9 +165,9 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
             run.colosseum.lastTeam = colosseum.snapshotTeam(battle.originalTeams.get(p) || p.equipe.pokemons);
             if (winner === p && reason === 'finished' && p.equipe.pokemons.length) {
                 run.colosseum.wins++;
-                run.colosseum.score += colosseum.waveInfo(run.colosseum.wave).points;
-                if (run.colosseum.version >= 2 && run.colosseum.wins % 10 === 0)
-                    run.colosseum.reward = colosseum.rewardOffer(run.colosseum.wins);
+                run.colosseum.score += colosseum.waveInfo(run.colosseum.wave, run.colosseum.version || 1).points;
+                if (run.colosseum.version >= 2 && run.colosseum.wins % colosseum.milestoneSize(run.colosseum.version) === 0)
+                    run.colosseum.reward = colosseum.rewardOffer(run.colosseum.wins, run.colosseum.version);
                 prepareColosseum(run, p);
             } else {
                 purge(p, ['fled', 'forfeit'].includes(reason) ? 'forfeit' : 'defeated');

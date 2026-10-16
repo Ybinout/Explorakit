@@ -21,13 +21,16 @@ const accuracy = (move, a, b) => Math.min(1, (Number(move.accuracy) || 100) / 10
     * stageFactor(a.__battle?.statStages?.accuracy || 0) / stageFactor(b.__battle?.statStages?.evasion || 0));
 const slug = name => name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
 
-function difficulty(wave) {
-    const tier = Math.min(6, 1 + Math.floor((Math.max(1, Number(wave) || 1) - 1) / 10));
-    return { tier, label: TIERS[tier - 1][0], description: TIERS[tier - 1][1], nextWave: tier < 6 ? tier * 10 + 1 : null };
+function difficulty(wave, version = 3) {
+    const modern = version >= 3, totalTiers = modern ? 4 : 6, interval = modern ? 5 : 10;
+    const tier = Math.min(totalTiers, 1 + Math.floor((Math.max(1, Number(wave) || 1) - 1) / interval));
+    const policy = tier + (modern ? 2 : 0);
+    return { tier, totalTiers, label: TIERS[policy - 1][0], description: TIERS[policy - 1][1], nextWave: tier < totalTiers ? tier * interval + 1 : null };
 }
 
-function preparePokemon(pokemon, wave, index) {
-    const { tier } = difficulty(wave);
+function preparePokemon(pokemon, wave, index, version = 3) {
+    if (version >= 3) return require('./colosseumSets').prepare(pokemon, wave, index);
+    const { tier } = difficulty(wave, version);
     // A given challenge has identical abilities and sets for every player.
     pokemon.passiveAbility = chooseSpeciesAbility(pokemon.data.id, createDeterministicRandom(`colosseum:${wave}:${index}`), 0);
     if (tier < 3) return;
@@ -62,7 +65,7 @@ function preparePokemon(pokemon, wave, index) {
 function ownView(p) {
     return {
         uuid: p.uuid, level: p.level, maxHp: p.maxHp, currentHp: p.currentHp, status: p.status,
-        type1: p.type1, type2: p.type2, data: { type: types(p) },
+        type1: p.type1, type2: p.type2, data: { id: p.data.id, type: types(p) },
         attack: p.currentAttack, defense: p.currentDefense, specialAttack: p.currentSpecialAttack,
         specialDefense: p.currentSpecialDefense, speed: p.currentSpeed,
         passiveAbility: p.passiveAbility, heldItem: p.heldItem,
@@ -91,7 +94,7 @@ function observedView(p) {
 function legalIndexes(p, field) {
     const state = p.__battle || {};
     return p.abilities.map((name,i) => ({ name, i, move: engine.getMoveByName(name) })).filter(({name,i,move}) =>
-        move && require('../items/heldItems').allowsMove(p,name,{field}) && (p.movePp?.[i] ?? getMaxMovePp(name)) > 0
+        move && require('../items/heldItems').allowsMove(p,name,field) && (p.movePp?.[i] ?? getMaxMovePp(name)) > 0
         && !(state.tauntTurns > 0 && move.combat?.damage_class === 'status')
         && !(state.disableTurns > 0 && state.disabledMove === name)
         && !(state.encoreTurns > 0 && state.encoreMove && state.encoreMove !== name)).map(entry => entry.i);
@@ -167,7 +170,9 @@ function project(a,b,move,reply,ctx) {
     if (remaining <= 0) return score-a.maxHp*.5;
     const nextA={...a,currentHp:remaining},nextB={...b,currentHp:Math.max(0,b.currentHp-own)};
     if (nextB.currentHp > 0) {
-        const followup = ctx.attacks.filter(next=>next.ename!==move.ename || ctx.remainingPp[move.ename]>1).map(next => {
+        const locked = { ...nextA, __battle: { ...nextA.__battle, choiceMove: move.ename } };
+        const followup = ctx.attacks.filter(next=>(next.ename!==move.ename || ctx.remainingPp[move.ename]>1)
+            && require('../items/heldItems').allowsMove(locked,next.ename,ctx.field)).map(next => {
             const hit=damage(nextA,nextB,next,ctx.enemySide,ctx.field), actsFirst=before(nextA,next,nextB,reply,ctx);
             if (!actsFirst && enemy >= remaining) return -remaining;
             return Math.min(nextB.currentHp,hit)*accuracy(next,nextA,nextB) - (actsFirst && hit>=nextB.currentHp ? 0 : enemy*.8);
@@ -177,8 +182,8 @@ function project(a,b,move,reply,ctx) {
     return score;
 }
 
-function chooseAction({ team, opponent, field, ownSide, enemySide, wave, memory, round }) {
-    const { tier } = difficulty(wave), active = team[0];
+function chooseAction({ team, opponent, field, ownSide, enemySide, wave, memory, round, version = 3 }) {
+    const tier = difficulty(wave, version).tier + (version >= 3 ? 2 : 0), active = team[0];
     if (tier === 1 || !active || !opponent) return null;
     const a=ownView(active), b=observedView(opponent), observed=memory.seen?.[b.uuid];
     const indexes=legalIndexes(active,field);if (!indexes.length) return {action:'attack',number:-1};

@@ -1,5 +1,9 @@
 # Contexte permanent — Explorakit
 
+## Colosseum v3 — 16 octobre 2026
+
+Les nouvelles tentatives ont quatre paliers tactiques aux défis 1/6/11/16, un gardien/récompense tous les cinq combats et des objets adaptés dès le premier défi (`colosseumSets.js`). Les tentatives v1/v2 restent versionnées, y compris IA, équipements et récompenses. L’aperçu expose les objets réels ; ne pas réintroduire de base aléatoire ni de seuil 10/51 dans les règles actuelles. Lire la section correspondante en tête d’audit.
+
 ## Contrats et début d’expédition — 16 octobre 2026
 
 Les nouvelles parties Rift/Colosseum ont trois contrats facultatifs privés (`contracts.js`), quatre PNJ propres aux expéditions et un filtre d’attaques sauvages de début de partie (`openingBalance.js`). Les Drifts s’équipent directement ; `drift:replace` remplace un emplacement de façon atomique. Lire la section correspondante en tête d’audit. Recettes : `test:contracts-browser`, `tests/expedition-contracts.test.js` et `scripts/auditExpeditionOpening.js`. Ne pas réintroduire la navigation sélection/fiche/retour ni d’objectif permanent sur la carte.
