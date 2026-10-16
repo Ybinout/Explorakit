@@ -3,7 +3,7 @@ const engine = require('../battle/battleEngine');
 const effects = require('./driftEffects');
 const { getUsableMoveIndexes, getItemDefinition } = require('../battle/battleResources');
 const { clearBattleTransientState, buildBattleSummary, createBattleSummaryTracker } = require('../battle/battleOutcome');
-const { switchPokemonByIndex, resolveMoveSwitches } = require('../battle/battleTeam');
+const { switchPokemonByIndex, resolveMoveSwitches, autoSwitchPokemon, hasAlivePokemon } = require('../battle/battleTeam');
 const { serializeMoveResult, serializeFieldState } = require('../battle/battleEvents');
 const { getMoveFlags } = require('../abilities/abilityEngine');
 const { calculateBattleExperience } = require('../models/progression');
@@ -27,6 +27,7 @@ class DriftBattle {
             .map(p => [p, createBattleSummaryTracker(p.equipe.pokemons, 'drift')]));
         for (const [index, p] of [a,b].entries()) {
             if (!p.npc) report.battleStarted(p,this);
+            autoSwitchPokemon(p.equipe);
             p.inbattle = true; p.battle = this;
             effects.attach(p.equipe.pokemons, p, type === 'pvp', random);
             p.equipe.pokemons.forEach(poke => { effects.states.get(poke).wild = index === 0 && type === 'wild'; });
@@ -57,14 +58,14 @@ class DriftBattle {
     }
     sync() {
         for (const [index,p] of [this.a,this.b].entries()) if (!p.npc) {
-            this.emit(p, 'introAnimation', { player: { id: p.socketId, userId: p.userId, equipe: p.equipe }, wildPokemon: this.active(1-index) || null, battleType: this.type === 'arena' ? 'trainer' : this.type });
+            this.emit(p, 'introAnimation', { player: { id: p.socketId, userId: p.userId, equipe: p.equipe }, wildPokemon: this.active(1-index) || null, battleType: this.type === 'arena' ? 'trainer' : this.type, usableMoveIndexes: getUsableMoveIndexes(this.active(index), this.state) });
             this.emit(p, 'battleFieldState', serializeFieldState(this.state));
             this.emit(p, 'bagUpdated', { items: economy.bag(p) });
         }
         this.onUpdate?.(this);
     }
     enter(i, manual = false, initial = false) {
-        const p = this.active(i); if (!p || !this.active(1-i)) return;
+        const p = this.active(i); if (!p || effects.isDead(p) || !this.active(1-i) || effects.isDead(this.active(1-i))) return;
         engine.applySwitchInEffects(p, this.sides[i], this.sides[1-i], this.state, this.active(1-i)).forEach(m=>this.say(m));
         if (!initial) effects.switched(p, manual);
     }
@@ -78,7 +79,7 @@ class DriftBattle {
             if (decision) return decision;
         }
         const active = p.equipe.pokemons[0];
-        const usable = active ? getUsableMoveIndexes(active) : [];
+        const usable = active ? getUsableMoveIndexes(active, this.state) : [];
         const damaging = usable.filter(i => engine.getMoveByName(active.abilities[i])?.power > 0);
         const pool = damaging.length ? damaging : usable;
         return { action: 'attack', number: pool.length ? pool[Math.floor(this.random()*pool.length)] : -1 };
@@ -99,8 +100,8 @@ class DriftBattle {
         const active = p.equipe.pokemons[0];
         const kind = payload.action;
         if (!['attack','change','bag','flee'].includes(kind)) return false;
-        if (kind === 'change' && (!Number.isInteger(payload.number) || payload.number <= 0 || !p.equipe.pokemons[payload.number] || !engine.canSwitchOut(active))) return false;
-        if (kind === 'attack' && !(getUsableMoveIndexes(active).includes(payload.number) || !getUsableMoveIndexes(active).length)) return false;
+        if (kind === 'change' && (!Number.isInteger(payload.number) || payload.number <= 0 || !p.equipe.pokemons[payload.number] || effects.isDead(p.equipe.pokemons[payload.number]) || !engine.canSwitchOut(active))) return false;
+        if (kind === 'attack' && !(getUsableMoveIndexes(active, this.state).includes(payload.number) || !getUsableMoveIndexes(active, this.state).length)) return false;
         if (kind === 'bag' && (this.type !== 'wild' || p !== this.a || p.equipe.pokemons.length >= 6 || !(p.items[payload.itemKey] > 0) || getItemDefinition(payload.itemKey)?.category !== 'ball')) return false;
         this.pending.set(p, { action: kind, number: payload.number, itemKey: payload.itemKey });
         if (this.pending.size === 2) this.resolve();
@@ -115,19 +116,25 @@ class DriftBattle {
         }
     }
     prune() {
-        // Removal happens before any reward or heal; a dead instance can never re-enter the team.
         for (const [index,p] of [this.a,this.b].entries()) {
             const old = this.active(index);
-            const dead = p.equipe.pokemons.filter(poke => effects.isDead(poke));
-            if (!p.npc) dead.forEach(poke => report.lost(p,poke));
-            dead.forEach(poke => effects.fainted(poke));
-            p.equipe.pokemons = p.equipe.pokemons.filter(poke => !effects.isDead(poke));
-            if (p === this.b && this.type !== 'pvp') for (const defeated of dead) this.reward(defeated);
-            if (this.type === 'pvp' && dead.length) [this.a,this.b][1-index].chain = Math.min(5, ([this.a,this.b][1-index].chain || 0) + dead.length);
+            const fainted = p.equipe.pokemons.filter(poke => effects.isDead(poke) && !poke.riftFainted);
+            for (const poke of fainted) {
+                const protectedKO = !p.npc && require('../items/heldItems').effect(poke, this.state) === 'rift_protection';
+                if (protectedKO) {
+                    poke.heldItem = null; poke.currentHp = 0; poke.riftFainted = true;
+                    this.say(`${poke.truename || poke.name} est sauvé par son talisman ! Il reste K.O. jusqu’à un soin hors combat.`);
+                    report.event(p,'protection',`Talisman consommé : ${poke.truename || poke.name} reste dans l’équipe à 0 PV.`);
+                } else if (!p.npc) report.lost(p,poke);
+                effects.fainted(poke);
+            }
+            p.equipe.pokemons = p.equipe.pokemons.filter(poke => !effects.isDead(poke) || poke.riftFainted);
+            if (p === this.b && this.type !== 'pvp') for (const defeated of fainted) this.reward(defeated);
+            if (this.type === 'pvp' && fainted.length) [this.a,this.b][1-index].chain = Math.min(5, ([this.a,this.b][1-index].chain || 0) + fainted.length);
+            autoSwitchPokemon(p.equipe);
             if (old !== this.active(index) && this.active(index)) this.enter(index);
         }
-        // Hazards on an automatic replacement can kill too; drain the finite team.
-        if ([this.a,this.b].some(p=>p.equipe.pokemons.some(poke=>effects.isDead(poke)))) this.prune();
+        if ([this.a,this.b].some(p=>p.equipe.pokemons.some(poke=>effects.isDead(poke) && !poke.riftFainted))) this.prune();
     }
     reward(defeated) {
         if (this.rewarded.has(defeated.uuid)) return; this.rewarded.add(defeated.uuid);
@@ -145,7 +152,7 @@ class DriftBattle {
         this.a.chain = Math.min(5,(this.a.chain || 0)+1);
     }
     checkEnd() {
-        const aliveA = this.a.equipe.pokemons.length > 0, aliveB = this.b.equipe.pokemons.length > 0;
+        const aliveA = hasAlivePokemon(this.a.equipe), aliveB = hasAlivePokemon(this.b.equipe);
         if (aliveA && aliveB) return false;
         this.finish(aliveA ? this.a : aliveB ? this.b : null, 'finished'); return true;
     }
@@ -177,7 +184,7 @@ class DriftBattle {
         }
         const ordered = engine.orderBattleActions(actors.map((p,index) => {
             const action = this.pending.get(p), pokemon = this.active(index);
-            const name = pokemon.abilities[action?.number] || 'Struggle';
+            const name = getUsableMoveIndexes(pokemon, this.state).length ? pokemon.abilities[action?.number] || 'Struggle' : 'Struggle';
             return { p, index, pokemon, name, moveName: name, side: this.sides[index], driftPriority: action?.action === 'attack' ? effects.priority(pokemon,engine.getMoveByName(name)) : 0 };
         }), this.state, this.random);
         for (const action of ordered) {
@@ -201,7 +208,7 @@ class DriftBattle {
             for (const [view,viewer] of actors.entries()) if(!viewer.npc) this.emit(viewer,'battleMoveResult',serializeMoveResult(view===index?'player':'opponent',result));
             const switched = resolveMoveSwitches(result,p.equipe,actors[1-index].equipe);
             if(switched.attacker) this.enter(index); if(switched.defender) this.enter(1-index);
-            this.prune(); if(this.checkEnd()) return;
+            this.prune(); this.sync(); if(this.checkEnd()) return;
             if(result.escape && this.type!=='pvp') {this.finish(null,'fled'); return;}
         }
         engine.processEndOfRound(this.active(0),this.active(1),this.sides[0],this.sides[1],this.state).forEach(m=>this.say(m));

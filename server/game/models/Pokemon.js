@@ -235,13 +235,13 @@
         }
 
         checkEvolution() {
-            if (this.level >= 30 && this.data.evo2) {
+            if (this.level >= 30 && this.data.evo2 && !(this.stoneEvolutions && require('../items/stoneEvolution').requiresStone(this.data.id, this.data.evo2))) {
                 const chance = Math.random();
                 if (chance < 0.08) {
                     this.updatePokemon(this.data.evo2);
                 }
             }
-            if (this.level >= 55 && this.data.evo3) {
+            if (this.level >= 55 && this.data.evo3 && !(this.stoneEvolutions && require('../items/stoneEvolution').requiresStone(this.data.id, this.data.evo3))) {
                 const chance = Math.random();
                 if (chance < 0.04) {
                     this.updatePokemon(this.data.evo3);

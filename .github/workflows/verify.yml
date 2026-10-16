@@ -49,6 +49,7 @@ jobs:
       - run: npm run verify:release -- --mysql
       - run: npx playwright install --with-deps chromium
       - run: npm run test:release-browser
+      - run: npm run test:strategy-browser
       - run: npm run test:colosseum-browser
       - run: npm run test:community-browser
       - run: npm run test:pwa-browser

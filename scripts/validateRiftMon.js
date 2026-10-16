@@ -27,7 +27,7 @@ require('./server/realtime/socketHandler')(io);
 let offset=0;const now=()=>Date.now()+offset;
 const store=require('./server/game/drift/lobbyStore').createLobbyStore({now});
 const accountRepository=require('./server/persistence/riftAccountRepository');
-const cleanup=require('./server/realtime/driftLobbyHandler').registerDriftLobbies(io,{store,accountRepository,runtimeOptions:{now,random:()=>.999,paceMs:0}});
+const cleanup=require('./server/realtime/driftLobbyHandler').registerDriftLobbies(io,{store,accountRepository,runtimeOptions:{starterChoiceMs:0,now,random:()=>.999,paceMs:0}});
 const factory=require('./server/game/drift/pokemonFactory');
 process.on('message',async message=>{
  try {

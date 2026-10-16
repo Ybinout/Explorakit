@@ -23,6 +23,7 @@ function healTeam(team) {
         const maxHp = Math.max(1, Math.floor(Number(pokemon?.maxHp) || 1));
         pokemon.currentHp = maxHp;
         pokemon.status = 'normal';
+        delete pokemon.riftFainted;
         restoreMovePp(pokemon);
         delete pokemon.__battle;
     });

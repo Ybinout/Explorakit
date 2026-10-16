@@ -116,6 +116,10 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
         gameCommand('drift:equip', (p, data) => economy.equip(p, data?.uuid, data?.enabled));
         gameCommand('drift:discard', (p, data) => economy.remove(p, data?.uuid));
         gameCommand('drift:sell', (p, data) => economy.remove(p, data?.uuid, true));
+        gameCommand('drift:merchantBuy', (p,data)=>require('../game/drift/merchant').buy(p,data?.offerId));
+        gameCommand('drift:exchange', (p,data)=>require('../game/drift/merchant').exchange(p,data?.uuids));
+        gameCommand('drift:evolve', (p,data)=>economy.evolve(p,data?.itemKey,data?.pokemonUuid));
+        gameCommand('drift:chooseStarter', (p,data)=>runtime.chooseStarter(p,data?.pokemonUuid), false);
         gameCommand('drift:heal', (p, data) => economy.usePotion(p, data?.itemKey, data?.pokemonUuid));
         gameCommand('drift:learnMove', (p, data) => {
             const pokemon = p.equipe.pokemons.find(poke => poke.uuid === data?.pokemonUuid);
@@ -139,6 +143,7 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
         });
         gameCommand('buyShopItem', (p, data) => economy.buy(p, data?.itemKey, data?.quantity));
         gameCommand('equipHeldItem', (p, data) => {
+            economy.requireMutable(p);
             const poke = p.equipe.pokemons.find(poke => poke.uuid === data?.pokemonUuid);
             const key = data?.itemKey || null;
             if (!poke || (key && !economy.bag(p).some(item => item.key === key && item.category === 'held'))) economy.fail('Objet indisponible.');

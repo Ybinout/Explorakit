@@ -84,10 +84,10 @@ function observedView(p) {
         __battle: { statStages: { ...p.__battle?.statStages }, foresight: Boolean(p.__battle?.foresight), miracleEye: Boolean(p.__battle?.miracleEye) } };
 }
 
-function legalIndexes(p) {
+function legalIndexes(p, field) {
     const state = p.__battle || {};
     return p.abilities.map((name,i) => ({ name, i, move: engine.getMoveByName(name) })).filter(({name,i,move}) =>
-        move && (p.movePp?.[i] ?? getMaxMovePp(name)) > 0
+        move && require('../items/heldItems').allowsMove(p,name,{field}) && (p.movePp?.[i] ?? getMaxMovePp(name)) > 0
         && !(state.tauntTurns > 0 && move.combat?.damage_class === 'status')
         && !(state.disableTurns > 0 && state.disabledMove === name)
         && !(state.encoreTurns > 0 && state.encoreMove && state.encoreMove !== name)).map(entry => entry.i);
@@ -177,7 +177,7 @@ function chooseAction({ team, opponent, field, ownSide, enemySide, wave, memory,
     const { tier } = difficulty(wave), active = team[0];
     if (tier === 1 || !active || !opponent) return null;
     const a=ownView(active), b=observedView(opponent), observed=memory.seen?.[b.uuid];
-    const indexes=legalIndexes(active);if (!indexes.length) return {action:'attack',number:-1};
+    const indexes=legalIndexes(active,field);if (!indexes.length) return {action:'attack',number:-1};
     const replies=threats(b,observed);
     const attacks=indexes.map(i=>engine.getMoveByName(active.abilities[i])).filter(m=>m.power>0 && !observed?.immuneMoves?.includes(m.ename));
     const ctx={field,ownSide,enemySide,attacks,replies,
@@ -213,7 +213,7 @@ function chooseAction({ team, opponent, field, ownSide, enemySide, wave, memory,
             const candidate=ownView(reserve);candidate.__battle={statStages:{}};
             const cost=entryDamage(candidate,ownSide,field), threat=pressure(candidate);
             if (candidate.currentHp<=cost+threat) continue;
-            const offense=Math.max(0,...legalIndexes(reserve).map(i=>damage(candidate,b,engine.getMoveByName(reserve.abilities[i]),enemySide,field)));
+            const offense=Math.max(0,...legalIndexes(reserve,field).map(i=>damage(candidate,b,engine.getMoveByName(reserve.abilities[i]),enemySide,field)));
             const gain=(incoming/a.maxHp-(threat+cost)/candidate.maxHp)*100
                 +(offense-currentOffense)/b.maxHp*35-15;
             if ((incoming>=a.currentHp*.6 || currentOffense<b.maxHp*.12) && gain>Math.max(18,improvement)) {

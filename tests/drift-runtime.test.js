@@ -12,7 +12,7 @@ function fixture(size = 2, random = () => .2) {
     const messages=[];
     const store=createLobbyStore({now:()=>time});
     const namespace={to:id=>({emit:(event,payload)=>messages.push({id,event,payload:JSON.parse(JSON.stringify(payload))})})};
-    const runtime=createRunManager({store,namespace,now:()=>time,random,paceMs:0});
+    const runtime=createRunManager({ starterChoiceMs:0,store,namespace,now:()=>time,random,paceMs:0});
     const users=Array.from({length:size},(_,i)=>({id:i+1,username:`Dresseur ${i+1}`}));
     const sockets=users.map(u=>({id:`s${u.id}`}));
     users.forEach((u,i)=>store.connect(u,sockets[i].id));

@@ -12,7 +12,7 @@ function setup(options = {}) {
     let time = 100000;
     const user = { id: 1, username: 'Solo' }, socket = { id: 'solo' };
     const store = createLobbyStore({ now: () => time });
-    const runtime = createRunManager({ store, namespace: { to: () => ({ emit() {} }) }, now: () => time, random: () => .1, paceMs: 0, ...options });
+    const runtime = createRunManager({ starterChoiceMs:0, store, namespace: { to: () => ({ emit() {} }) }, now: () => time, random: () => .1, paceMs: 0, ...options });
     store.connect(user, socket.id);
     return { store, runtime, user, socket, now: () => time, advance(ms) { time += ms; runtime.tick(); },
         async start() { await runtime.startColosseum(user);runtime.enter(user,socket);return runtime.playerFor(user); } };
@@ -236,7 +236,7 @@ test('Socket Colosseum ignores forged mode settings, points, user identity and e
     const {io:client}=require('../vue-explorakit/node_modules/socket.io-client');
     const {signAccessToken}=require('../server/config/auth');
     const {registerDriftLobbies}=require('../server/realtime/driftLobbyHandler');
-    const server=http.createServer(),io=new Server(server),cleanup=registerDriftLobbies(io);
+    const server=http.createServer(),io=new Server(server),cleanup=registerDriftLobbies(io,{runtimeOptions:{starterChoiceMs:0}});
     server.listen(0,'127.0.0.1');await once(server,'listening');
     const sockets=[];
     const command=(s,n,p={})=>new Promise((resolve,reject)=>s.timeout(3000).emit(n,p,(e,r)=>e?reject(e):resolve(r)));

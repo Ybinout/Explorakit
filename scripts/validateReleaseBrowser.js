@@ -176,6 +176,7 @@ async function fit(page, selector, width, height) {
         await command(a, 'drift:start');
         runId = (await command(a, 'drift:enter')).state.id;
         await command(b, 'drift:enter');
+        for(const socket of [a,b]){const state=(await command(socket,'drift:enter')).state;await command(socket,'drift:chooseStarter',{pokemonUuid:state.starterChoices[0].uuid});}
         await command(b, 'drift:abandon');
         await command(a, 'drift:exit');
         await command(b, 'drift:exit');
@@ -306,6 +307,7 @@ async function fit(page, selector, width, height) {
         await command(journalHost, 'drift:start');
         journalRunId = (await command(journalHost, 'drift:enter')).state.id;
         await command(journalGuest, 'drift:enter');
+        for(const socket of [journalHost,journalGuest]){const state=(await command(socket,'drift:enter')).state;await command(socket,'drift:chooseStarter',{pokemonUuid:state.starterChoices[0].uuid});}
         journalHost.disconnect();
         await page.goto(base + '/drift/game', { waitUntil: 'networkidle' });
         await page.locator('.game-root.is-drift .drift-hud').waitFor();

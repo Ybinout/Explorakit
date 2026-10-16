@@ -1,3 +1,4 @@
+const heldItems = require('../items/heldItems');
 const drift = require('../drift/driftEffects');
 const {
     consumeMovePp,
@@ -259,15 +260,19 @@ function hasPassiveAbility(pokemon, abilityName) {
 }
 
 function isHeldItemEnabled(pokemon, battleState) {
-    if (!pokemon?.heldItem) return false;
-    if (ensureBattleData(pokemon).embargoTurns > 0) return false;
-    return !(battleState?.field?.magicRoomTurns > 0);
+    return heldItems.enabled(pokemon, battleState);
 }
+
+function itemOwner(pokemon, key, value) { Object.defineProperty(pokemon, key, {value,writable:true,configurable:true,enumerable:false}); }
 
 function consumeHeldItem(pokemon) {
     if (!pokemon?.heldItem) return null;
     const battleData = ensureBattleData(pokemon);
     const itemKey = pokemon.heldItem;
+    const origin = pokemon.__heldItemOrigin || pokemon;
+    if (Object.hasOwn(origin, '__heldItemBeforeExchange')) origin.__heldItemBeforeExchange = null;
+    itemOwner(pokemon, '__consumedHeldItemOrigin', origin);
+    itemOwner(pokemon, '__heldItemOrigin', null);
     pokemon.heldItem = null;
     battleData.consumedHeldItem = itemKey;
     return itemKey;
@@ -275,6 +280,7 @@ function consumeHeldItem(pokemon) {
 
 function snapshotHeldItemForExchange(pokemon) {
     if (!pokemon || Object.prototype.hasOwnProperty.call(pokemon, '__heldItemBeforeExchange')) return;
+    if (!Object.hasOwn(pokemon, '__heldItemOrigin')) itemOwner(pokemon, '__heldItemOrigin', pokemon.heldItem ? pokemon : null);
     Object.defineProperty(pokemon, '__heldItemBeforeExchange', {
         value: pokemon.heldItem || null,
         writable: true,
@@ -409,6 +415,7 @@ function getEffectiveStatValue(pokemon, statName, battleState = null, opponent =
         value *= 0.5;
     }
     value *= getAbilityStatMultiplier(pokemon, statName, battleState, opponent);
+    value *= heldItems.statMultiplier(pokemon, statName, battleState);
     value = drift.defense(pokemon, statName, value);
     return Math.max(1, Math.round(value));
 }
@@ -464,6 +471,10 @@ function applyDamage(target, damage, options = {}) {
         result.endured = true;
     }
 
+    if (options.attacker && finalDamage >= hpBefore && hpBefore === target.maxHp
+        && heldItems.effect(target, options.battleState) === 'focus_sash') {
+        finalDamage = hpBefore - 1; consumeHeldItem(target); result.endured = true; result.enduredBy = 'sa Ceinture Force';
+    }
     finalDamage = drift.directDamage(target, finalDamage, options.attacker);
     setPokemonHp(target, hpBefore - finalDamage);
     drift.afterDamage(target, hpBefore, options.attacker);
@@ -755,6 +766,7 @@ function calculateDamageDetailed(attacker, defender, move, context = {}) {
         abilityPowerMultiplier: context.abilityPowerMultiplier
     });
 
+    modifier *= heldItems.damageMultiplier(attacker, effectiveness, battleState);
     modifier *= drift.multiplier(attacker, defender, move, critical);
     let damage = Math.floor(baseDamage * modifier);
     if (effectiveness <= 0) {
@@ -1650,16 +1662,19 @@ function applyEffect(effect, context, moveResult) {
             return;
 
         case 'swap_item': {
+            if ([context.attacker,context.defender].some(p=>p.heldItem==='rift_talisman')) { moveResult.messages.push('Le talisman ne peut pas être échangé en combat.'); break; }
             snapshotHeldItemForExchange(context.attacker);
             snapshotHeldItemForExchange(context.defender);
             const heldItem = context.attacker.heldItem || null;
             context.attacker.heldItem = context.defender.heldItem || null;
             context.defender.heldItem = heldItem;
+            [context.attacker.__heldItemOrigin,context.defender.__heldItemOrigin] = [context.defender.__heldItemOrigin,context.attacker.__heldItemOrigin];
             messages.push(`Les objets tenus sont echanges.`);
             return;
         }
 
         case 'bestow_item':
+            if (context.attacker.heldItem==='rift_talisman') { moveResult.messages.push('Le talisman ne peut pas être donné en combat.'); break; }
             if (!context.attacker.heldItem || context.defender.heldItem) {
                 messages.push(`Le don d'objet echoue.`);
                 return;
@@ -1667,6 +1682,8 @@ function applyEffect(effect, context, moveResult) {
             snapshotHeldItemForExchange(context.attacker);
             snapshotHeldItemForExchange(context.defender);
             context.defender.heldItem = context.attacker.heldItem;
+            context.defender.__heldItemOrigin = context.attacker.__heldItemOrigin;
+            context.attacker.__heldItemOrigin = null;
             context.attacker.heldItem = null;
             messages.push(`${getPokemonDisplayName(context.attacker)} transmet son objet tenu.`);
             return;
@@ -1677,6 +1694,11 @@ function applyEffect(effect, context, moveResult) {
                 return;
             }
             context.attacker.heldItem = attackerData.consumedHeldItem;
+            if (context.attacker.__consumedHeldItemOrigin) {
+                const origin = context.attacker.__consumedHeldItemOrigin;
+                itemOwner(context.attacker, '__heldItemOrigin', origin);
+                if (Object.hasOwn(origin, '__heldItemBeforeExchange')) origin.__heldItemBeforeExchange = attackerData.consumedHeldItem;
+            }
             attackerData.consumedHeldItem = null;
             messages.push(`${getPokemonDisplayName(context.attacker)} recupere son objet consomme.`);
             return;
@@ -2445,6 +2467,7 @@ function useattack(attackName, attacker, defender, options = {}) {
         moveName: attackName || 'attaque',
         move: null,
         damage: 0,
+        substituteDamage: 0,
         hits: 0,
         critical: false,
         effectiveness: 1,
@@ -2480,6 +2503,10 @@ function useattack(attackName, attacker, defender, options = {}) {
     const movedLastThisTurn = defenderData.lastActionTurn === safeNumber(battleState.turn, 1);
     attackerData.lastActionTurn = safeNumber(battleState.turn, 1);
 
+    if (!calledDepth && !heldItems.allowsMove(attacker, move.ename, battleState)) {
+        moveResult.blocked = true; moveResult.messages.push('Cette capacité est bloquée par l’objet tenu.'); return moveResult;
+    }
+
     if (defenderData.imprison && Array.isArray(defender.abilities) && defender.abilities.includes(move.ename)) {
         moveResult.blocked = true;
         moveResult.messages.push(`${move.ename} est scelle par Possessif.`);
@@ -2489,7 +2516,7 @@ function useattack(attackName, attacker, defender, options = {}) {
     if (options.consumePp !== false) {
         const ppState = getMovePp(attacker, move.ename);
         if (ppState && ppState.current <= 0) {
-            if (getUsableMoveIndexes(attacker).length === 0 && move.ename !== 'Struggle') {
+            if (getUsableMoveIndexes(attacker, battleState).length === 0 && move.ename !== 'Struggle') {
                 const struggleResult = useattack('Struggle', attacker, defender, {
                     ...options,
                     battleState,
@@ -2534,6 +2561,7 @@ function useattack(attackName, attacker, defender, options = {}) {
         attackerData.lastMoveUsed = move.ename;
         return moveResult;
     }
+    if (!calledDepth) heldItems.lockMove(attacker, move.ename, battleState);
 
     if (move.combat?.power_type === 'charge') {
         if (attackerData.chargeTurns <= 0 || attackerData.chargeMove !== move.ename) {
@@ -2673,7 +2701,7 @@ function useattack(attackName, attacker, defender, options = {}) {
                 moveResult.messages.push(`${getPokemonDisplayName(defender)} resiste grace a Fermete.`);
             } else {
                 const hpBefore = safeNumber(defender.currentHp, 0);
-                const fatal = drift.states.has(defender) ? applyDamage(defender, hpBefore, { attacker, allowEndure: true }) : { damageToHp: hpBefore };
+                const fatal = drift.states.has(defender) ? applyDamage(defender, hpBefore, { attacker, allowEndure: true, battleState }) : { damageToHp: hpBefore };
                 if (!drift.states.has(defender)) setPokemonHp(defender, 0);
                 moveResult.success = true;
                 moveResult.damage = fatal.damageToHp;
@@ -2693,7 +2721,7 @@ function useattack(attackName, attacker, defender, options = {}) {
                 moveResult.effectiveness = 0;
                 moveResult.messages.push(`Ca n'affecte pas ${getPokemonDisplayName(defender)}.`);
             } else {
-                const dmgResult = applyDamage(defender, specialResolution.fixedDamage, { allowEndure: true, attacker });
+                const dmgResult = applyDamage(defender, specialResolution.fixedDamage, { allowEndure: true, attacker, battleState });
                 moveResult.success = true;
                 moveResult.damage = dmgResult.damageToHp;
                 moveResult.hits = 1;
@@ -2714,7 +2742,7 @@ function useattack(attackName, attacker, defender, options = {}) {
             let effectiveness = 1;
 
             for (let hitIndex = 0; hitIndex < hits; hitIndex++) {
-                if (safeNumber(defender.currentHp, 0) <= 0) break;
+                if (safeNumber(defender.currentHp, 0) <= 0 || safeNumber(attacker.currentHp, 0) <= 0) break;
 
                 const damageInfo = calculateDamageDetailed(attacker, defender, resolvedMove, {
                     battleState,
@@ -2724,14 +2752,19 @@ function useattack(attackName, attacker, defender, options = {}) {
                     abilityPowerMultiplier
                 });
 
-                const dmgResult = applyDamage(defender, damageInfo.damage, { allowEndure: true, attacker });
+                const dmgResult = applyDamage(defender, damageInfo.damage, { allowEndure: true, attacker, battleState });
+                if (dmgResult.damageToHp > 0 && getMoveFlags(resolvedMove).contact && heldItems.effect(defender, battleState) === 'rocky_helmet' && !hasPassiveAbility(attacker, 'Magic Guard')) {
+                    const recoil = applyDamage(attacker, Math.max(1, Math.floor(attacker.maxHp / 6)), { allowEndure:false });
+                    moveResult.messages.push(`${getPokemonDisplayName(attacker)} perd ${recoil.damageToHp} PV contre le Casque Brut.`);
+                }
                 totalDamage += dmgResult.damageToHp;
+                moveResult.substituteDamage += dmgResult.damageToSubstitute;
                 hitCount += 1;
                 effectiveness = damageInfo.effectiveness;
                 criticalHit = criticalHit || damageInfo.critical;
 
                 if (dmgResult.endured) {
-                    moveResult.messages.push(`${getPokemonDisplayName(defender)} tient grace a Endure !`);
+                    moveResult.messages.push(`${getPokemonDisplayName(defender)} résiste grâce à ${dmgResult.enduredBy || 'Endure'} !`);
                 }
                 if (dmgResult.damageToSubstitute > 0) {
                     moveResult.messages.push(`Le clone de ${getPokemonDisplayName(defender)} encaisse ${dmgResult.damageToSubstitute} degats.`);
@@ -2830,6 +2863,18 @@ function useattack(attackName, attacker, defender, options = {}) {
         moveResult.messages.push(`${getPokemonDisplayName(attacker)} subit ${recoilResult.damageToHp} PV de contrecoup.`);
     }
 
+    const itemDamage = moveResult.damage + moveResult.substituteDamage;
+    if (itemDamage > 0 && attacker.currentHp > 0) {
+        const itemEffect = heldItems.effect(attacker, battleState);
+        if (itemEffect === 'life_orb' && !sheerForce && !hasPassiveAbility(attacker, 'Magic Guard')) {
+            const recoil = applyDamage(attacker, Math.max(1, Math.floor(attacker.maxHp / 10)), { allowEndure:false });
+            moveResult.messages.push(`L’Orbe Vie coûte ${recoil.damageToHp} PV à ${getPokemonDisplayName(attacker)}.`);
+        }
+        if (itemEffect === 'shell_bell') {
+            const healed = healPokemon(attacker, Math.max(1, Math.floor(itemDamage / 8)));
+            if (healed) moveResult.messages.push(`Le Grelot Coque restaure ${healed} PV.`);
+        }
+    }
     activateHeldItem(attacker, battleState, moveResult.messages, 'immediate');
     activateHeldItem(defender, battleState, moveResult.messages, 'immediate');
 

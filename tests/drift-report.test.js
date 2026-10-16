@@ -11,7 +11,7 @@ function fixture(size = 2, random = () => 0) {
     let time = 1000;
     const store = createLobbyStore({ now: () => time });
     const messages = [];
-    const runtime = createRunManager({ store, namespace: { to: id => ({ emit: (event, payload) => messages.push({ id, event, payload }) }) }, now: () => time, random, paceMs: 0 });
+    const runtime = createRunManager({ starterChoiceMs:0, store, namespace: { to: id => ({ emit: (event, payload) => messages.push({ id, event, payload }) }) }, now: () => time, random, paceMs: 0 });
     const users = Array.from({ length: size }, (_, i) => ({ id: i + 1, username: `Joueur ${i + 1}` }));
     users.forEach(user => store.connect(user, `s${user.id}`));
     const { code } = store.create(users[0], { capacity: size, durationMinutes: 20 });

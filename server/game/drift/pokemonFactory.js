@@ -13,6 +13,8 @@ function create(id, level = 5, starter = false) {
     const species = dex.find(p => p.id === id);
     const p = new Pokemon(id, species.name.french || species.name.english, level, getTotalExperienceForLevel(level, getExperienceRate(species.exp)),
         starter ? { attack: 15, defense: 15, hp: 15, specialAttack: 15, specialDefense: 15, speed: 15 } : null, starter ? 'Bashful' : Pokemon.randomNature(), starter ? 2 : null);
+    p.stoneEvolutions = true;
+    p.gender = require('../items/stoneEvolution').gender(p);
     const slugs = new Set(pools[id] || []);
     const possible = moves.filter(m => slugs.has(m.ename.toLowerCase().replace(/[^a-z0-9]+/g, '-')) && m.power > 0 && m.power <= Math.min(100, 45 + level) && m.combat?.power_type === 'standard');
     possible.sort((a,b) => Number(species.type.includes(b.type)) - Number(species.type.includes(a.type)) || b.power - a.power);
@@ -21,6 +23,11 @@ function create(id, level = 5, starter = false) {
     for (const name of chosen) p.addAbility(name);
     p.addAbility('Growl');
     return p;
+}
+function starterChoices(random = Math.random) {
+    const pool=[...STARTERS], choices=[];
+    for(let i=0;i<3;i++) { const index=Math.min(pool.length-1,Math.floor(random()*pool.length)); choices.push(create(pool.splice(index,1)[0],5,true)); }
+    return choices;
 }
 function starter(random = Math.random) { return create(STARTERS[Math.floor(random() * STARTERS.length)], 5, true); }
 function wild(map, player, random = Math.random) {
@@ -34,4 +41,4 @@ function wild(map, player, random = Math.random) {
     const min = zone.level?.min || 5, max = zone.level?.max || min;
     return create(ids[index], min + Math.floor(random() * (max - min + 1)));
 }
-module.exports = { STARTERS, legendary, create, starter, wild };
+module.exports = { STARTERS, legendary, create, starter, starterChoices, wild };

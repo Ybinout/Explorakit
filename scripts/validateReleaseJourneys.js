@@ -117,8 +117,8 @@ const command = (s, event, payload = {}) =>
         await command(a, 'drift:ready', { ready: true });
         await command(b, 'drift:ready', { ready: true });
         await command(a, 'drift:start');
+        for (const socket of [a,b]) { const state=(await command(socket,'drift:enter')).state; assert.equal(state.starterChoices.length,3); assert.equal((await command(socket,'drift:chooseStarter',{pokemonUuid:state.starterChoices[1].uuid})).success,true); }
         const before = (await command(a, 'drift:enter')).state;
-        await command(b, 'drift:enter');
         runId = before.id;
         await pause(1600);
         const [[olderCheckpoint]]=await db.execute('SELECT payload FROM rift_checkpoints WHERE id=1');

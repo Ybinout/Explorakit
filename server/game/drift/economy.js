@@ -6,15 +6,17 @@ const { items: baseItems } = require('../../../data/game/items.json');
 const { LobbyError } = require('./lobbyStore');
 const { medicineResult } = require('../items/medicineEffects');
 const report = require('./runReport');
+const stones = require('../items/stoneEvolution');
+const merchant = require('./merchant');
 const SLOT_LIMIT = 5;
 const prices = { common: 50, rare: 120, epic: 300, legendary: 800, mythic: 2000 };
 const types = ['Normal','Fire','Water','Electric','Grass','Ice','Fighting','Poison','Ground','Flying','Psychic','Bug','Rock','Ghost','Dragon','Dark','Steel','Fairy'];
 const potions = [{ key: 'drift_potion', name: 'Potion', category: 'heal', price: 100, amount: 20, description: 'Soigne 20 PV hors combat, uniquement un survivant.' },
     { key: 'drift_super_potion', name: 'Super Potion', category: 'heal', price: 300, amount: 60, description: 'Soigne 60 PV hors combat.' }];
 const fail = message => { throw new LobbyError('drift_invalid', message); };
-function bag(p) { return [...baseItems, ...potions].filter(i => p.items[i.key] > 0).map(i => ({ ...i, quantity: p.items[i.key] })); }
-function shop(p) { return { success: true, catalog: [...getShopCatalog().filter(i => i.key !== 'revive'), ...potions], items: bag(p), money: p.money }; }
-function requireMutable(p) { if (!p.alive || p.inbattle || p.run.phase === 'results') fail('Action indisponible maintenant.'); }
+function bag(p) { return [...baseItems, ...potions].filter(i => p.items[i.key] > 0).map(i => ({ ...i, quantity: p.items[i.key], ...(i.category==='evolution'?{evolutions:Object.fromEntries(p.equipe.pokemons.map(poke=>[poke.uuid,stones.target(poke,i.key)]).filter(([,target])=>target))}:{}) })); }
+function shop(p) { return { success: true, catalog: [...getShopCatalog({expedition:true}).filter(i => i.key !== 'revive'), ...potions], items: bag(p), money: p.money, merchant:merchant.view(p) }; }
+function requireMutable(p) { if (!p.alive || p.inbattle || ['results','selection'].includes(p.run.phase)) fail('Action indisponible maintenant.'); }
 function equip(p, uuid, enabled) {
     requireMutable(p);
     if (typeof enabled !== 'boolean') fail('Choix d’équipement invalide.');
@@ -49,9 +51,15 @@ function buy(p, key, quantity) {
 function usePotion(p, key, uuid, random = Math.random) {
     requireMutable(p); if (p.run.phase !== 'exploration') fail('Soins automatiques entre les rounds.');
     const item = [...potions, ...baseItems].find(i => i.key === key), pokemon = p.equipe.pokemons.find(a => a.uuid === uuid);
-    if (!item || item.revive || !pokemon || pokemon.currentHp <= 0 || !(p.items[key] > 0)) fail('Ce soin est inutilisable.');
+    if (!item || item.revive || !pokemon || (pokemon.currentHp <= 0 && !pokemon.riftFainted) || !(p.items[key] > 0)) fail('Ce soin est inutilisable.');
     let result;
-    if (item.category === 'heal') {
+    if (pokemon.riftFainted && pokemon.currentHp <= 0) {
+        const effect=item.fieldUse || item;
+        const amount=effect.amount || effect.heal || Math.floor(pokemon.maxHp*(effect.healFraction || 0));
+        if (!(amount>0)) fail('Il faut un soin de PV pour réveiller ce Pokémon.');
+        pokemon.currentHp=Math.min(pokemon.maxHp,amount); pokemon.status='normal'; delete pokemon.riftFainted;
+        result={currentHp:pokemon.currentHp,status:'normal'};
+    } else if (item.category === 'heal') {
         if (pokemon.currentHp >= pokemon.maxHp) fail('Cet objet n’aurait aucun effet.');
         result = { currentHp: Math.min(pokemon.maxHp, pokemon.currentHp + item.amount), status: pokemon.status };
     } else {
@@ -81,6 +89,19 @@ function drop(p, source, random = Math.random) {
         const key = random() < .5 ? 'pokeball' : 'drift_potion'; p.items[key] = (p.items[key] || 0) + 1; loot.push(key === 'pokeball' ? 'Poké Ball' : 'Potion');
         report.event(p,'item',`Objet trouvé : ${key==='pokeball'?'Poké Ball':'Potion'}.`);
     }
+    if (source === 'wild' && random() < Math.min(1, .12 * (1 + value(p,45)/100))) {
+        const pool=baseItems.filter(i=>i.category==='held' && i.key!=='rift_talisman');
+        const item=pool[Math.floor(random()*pool.length)];p.items[item.key]=(p.items[item.key]||0)+1;
+        loot.push(item.name);report.event(p,'item',`Objet stratégique trouvé : ${item.name}.`);
+    }
     return loot;
 }
-module.exports = { SLOT_LIMIT, prices, bag, shop, equip, remove, buy, usePotion, drop, requireMutable, fail };
+function evolve(p,key,uuid) {
+    requireMutable(p);
+    if (!['exploration','preparation','tournament','colosseum_ready'].includes(p.run.phase)) fail('Évolution indisponible maintenant.');
+    const item=baseItems.find(i=>i.key===key && i.category==='evolution'),pokemon=p.equipe.pokemons.find(poke=>poke.uuid===uuid);
+    if (!item || !(p.items[key]>0) || !stones.target(pokemon,key)) fail('Cette pierre ne convient pas à ce Pokémon.');
+    const evolution=stones.evolve(pokemon,key);p.items[key]--;p.ready=false;report.syncTeam(p);
+    return {success:true,evolution,equipe:p.equipe,items:bag(p)};
+}
+module.exports = { evolve, SLOT_LIMIT, prices, bag, shop, equip, remove, buy, usePotion, drop, requireMutable, fail };

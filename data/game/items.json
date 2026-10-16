@@ -130,6 +130,185 @@
       "name": "Lettre de retrouvailles",
       "category": "key",
       "description": "Un souvenir de Clara après les événements des refuges."
+    },
+    {
+      "key": "life_orb",
+      "name": "Orbe Vie",
+      "category": "held",
+      "buy_price": 2500,
+      "battle_effect": "life_orb",
+      "riftOnly": true,
+      "description": "Augmente les dégâts de 30 %, mais coûte 10 % des PV max après une attaque qui inflige des dégâts."
+    },
+    {
+      "key": "choice_band",
+      "name": "Bandeau Choix",
+      "category": "held",
+      "buy_price": 2200,
+      "battle_effect": "choice_attack",
+      "riftOnly": true,
+      "description": "Attaque ×1,5 ; bloque sur la première capacité utilisée jusqu’au changement de Pokémon."
+    },
+    {
+      "key": "choice_specs",
+      "name": "Lunettes Choix",
+      "category": "held",
+      "buy_price": 2200,
+      "battle_effect": "choice_specialAttack",
+      "riftOnly": true,
+      "description": "Attaque spéciale ×1,5 ; bloque sur la première capacité utilisée jusqu’au changement de Pokémon."
+    },
+    {
+      "key": "choice_scarf",
+      "name": "Mouchoir Choix",
+      "category": "held",
+      "buy_price": 2200,
+      "battle_effect": "choice_speed",
+      "riftOnly": true,
+      "description": "Vitesse ×1,5 ; bloque sur la première capacité utilisée jusqu’au changement de Pokémon."
+    },
+    {
+      "key": "focus_sash",
+      "name": "Ceinture Force",
+      "category": "held",
+      "buy_price": 1500,
+      "battle_effect": "focus_sash",
+      "riftOnly": true,
+      "description": "À pleine vie, survit à une attaque fatale avec 1 PV. Consommée après activation."
+    },
+    {
+      "key": "assault_vest",
+      "name": "Veste de Combat",
+      "category": "held",
+      "buy_price": 2000,
+      "battle_effect": "assault_vest",
+      "riftOnly": true,
+      "description": "Défense spéciale ×1,5, mais interdit les capacités de statut."
+    },
+    {
+      "key": "eviolite",
+      "name": "Évoluroc",
+      "category": "held",
+      "buy_price": 2000,
+      "battle_effect": "eviolite",
+      "riftOnly": true,
+      "description": "Défense et Défense spéciale ×1,5 tant que le Pokémon peut encore évoluer."
+    },
+    {
+      "key": "expert_belt",
+      "name": "Ceinture Pro",
+      "category": "held",
+      "buy_price": 1800,
+      "battle_effect": "expert_belt",
+      "riftOnly": true,
+      "description": "Augmente de 20 % les dégâts des attaques super efficaces."
+    },
+    {
+      "key": "shell_bell",
+      "name": "Grelot Coque",
+      "category": "held",
+      "buy_price": 1600,
+      "battle_effect": "shell_bell",
+      "riftOnly": true,
+      "description": "Restaure un huitième des dégâts infligés après une attaque."
+    },
+    {
+      "key": "rocky_helmet",
+      "name": "Casque Brut",
+      "category": "held",
+      "buy_price": 2000,
+      "battle_effect": "rocky_helmet",
+      "riftOnly": true,
+      "description": "Un adversaire qui frappe au contact perd un sixième de ses PV max par coup."
+    },
+    {
+      "key": "rift_talisman",
+      "name": "Talisman de sauvegarde",
+      "category": "held",
+      "buy_price": 1200,
+      "battle_effect": "rift_protection",
+      "riftOnly": true,
+      "description": "Évite une perte définitive une fois. Consommé au K.O. : le Pokémon reste à 0 PV, indisponible jusqu’à un soin hors combat ou entre deux rounds."
+    },
+    {
+      "key": "fire_stone",
+      "name": "Pierre Feu",
+      "category": "evolution",
+      "buy_price": 800,
+      "riftOnly": true,
+      "description": "Fait évoluer une espèce compatible hors combat. Consommée uniquement si l’évolution réussit."
+    },
+    {
+      "key": "water_stone",
+      "name": "Pierre Eau",
+      "category": "evolution",
+      "buy_price": 800,
+      "riftOnly": true,
+      "description": "Fait évoluer une espèce compatible hors combat. Consommée uniquement si l’évolution réussit."
+    },
+    {
+      "key": "thunder_stone",
+      "name": "Pierre Foudre",
+      "category": "evolution",
+      "buy_price": 800,
+      "riftOnly": true,
+      "description": "Fait évoluer une espèce compatible hors combat. Consommée uniquement si l’évolution réussit."
+    },
+    {
+      "key": "leaf_stone",
+      "name": "Pierre Plante",
+      "category": "evolution",
+      "buy_price": 800,
+      "riftOnly": true,
+      "description": "Fait évoluer une espèce compatible hors combat. Consommée uniquement si l’évolution réussit."
+    },
+    {
+      "key": "moon_stone",
+      "name": "Pierre Lune",
+      "category": "evolution",
+      "buy_price": 800,
+      "riftOnly": true,
+      "description": "Fait évoluer une espèce compatible hors combat. Consommée uniquement si l’évolution réussit."
+    },
+    {
+      "key": "sun_stone",
+      "name": "Pierre Soleil",
+      "category": "evolution",
+      "buy_price": 800,
+      "riftOnly": true,
+      "description": "Fait évoluer une espèce compatible hors combat. Consommée uniquement si l’évolution réussit."
+    },
+    {
+      "key": "shiny_stone",
+      "name": "Pierre Éclat",
+      "category": "evolution",
+      "buy_price": 800,
+      "riftOnly": true,
+      "description": "Fait évoluer une espèce compatible hors combat. Consommée uniquement si l’évolution réussit."
+    },
+    {
+      "key": "dusk_stone",
+      "name": "Pierre Nuit",
+      "category": "evolution",
+      "buy_price": 800,
+      "riftOnly": true,
+      "description": "Fait évoluer une espèce compatible hors combat. Consommée uniquement si l’évolution réussit."
+    },
+    {
+      "key": "dawn_stone",
+      "name": "Pierre Aube",
+      "category": "evolution",
+      "buy_price": 800,
+      "riftOnly": true,
+      "description": "Fait évoluer une espèce compatible hors combat. Consommée uniquement si l’évolution réussit."
+    },
+    {
+      "key": "ice_stone",
+      "name": "Pierre Glace",
+      "category": "evolution",
+      "buy_price": 800,
+      "riftOnly": true,
+      "description": "Fait évoluer une espèce compatible hors combat. Consommée uniquement si l’évolution réussit."
     }
   ]
 }

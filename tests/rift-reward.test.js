@@ -7,7 +7,7 @@ const { createRunManager } = require('../server/game/drift/runManager');
 async function fixture(count = 2, durationMinutes = 20, accountRepository = null) {
     let clock = 1000;
     const store = createLobbyStore({ now: () => clock });
-    const runtime = createRunManager({ store, namespace: { to: () => ({ emit() {} }) },
+    const runtime = createRunManager({ starterChoiceMs:0, store, namespace: { to: () => ({ emit() {} }) },
         now: () => clock, random: () => .2, paceMs: 0, accountRepository });
     const users = Array.from({ length: count }, (_, index) => ({ id: index + 1, username: `Joueur ${index + 1}` }));
     for (const user of users) store.connect(user, `s${user.id}`);

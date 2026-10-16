@@ -22,7 +22,7 @@ const app = express(), server = http.createServer(app), io = new Server(server,{
 app.use(express.json());app.use('/explorakit/api',require('../server/http/routes'));
 app.use('/explorakit',express.static(dist));app.get('*',(_req,res)=>res.sendFile(path.join(dist,'index.html')));
 let offset=0;
-const cleanup=registerDriftLobbies(io,{colosseumRepository:repository,runtimeOptions:{now:()=>Date.now()+offset,random:()=>.1,paceMs:0}});
+const cleanup=registerDriftLobbies(io,{colosseumRepository:repository,runtimeOptions:{starterChoiceMs:0,now:()=>Date.now()+offset,random:()=>.1,paceMs:0}});
 let browser,userId,page,success=false;
 const errors=[];
 async function waitFor(condition,message) { const end=Date.now()+8000;while(!condition()){if(Date.now()>end)throw Error(message);await new Promise(r=>setTimeout(r,40));} }

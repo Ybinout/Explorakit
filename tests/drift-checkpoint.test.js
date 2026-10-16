@@ -8,7 +8,7 @@ const Pokemon = require('../server/game/models/Pokemon');
 const factory = require('../server/game/drift/pokemonFactory');
 function setup(clock) {
     const store = createLobbyStore({ now: () => clock.time });
-    const runtime = createRunManager({
+    const runtime = createRunManager({ starterChoiceMs:0,
         store,
         namespace: { to: () => ({ emit() {} }) },
         now: () => clock.time,

@@ -92,10 +92,11 @@ function restoreMovePp(pokemon, moveName = null) {
     return true;
 }
 
-function getUsableMoveIndexes(pokemon) {
+function getUsableMoveIndexes(pokemon, battleState = null) {
+    if (!Array.isArray(pokemon?.abilities)) return [];
     normalizeMovePp(pokemon);
     return pokemon.abilities
-        .map((moveName, index) => (moveName && pokemon.movePp[index] > 0 ? index : -1))
+        .map((moveName, index) => (moveName && pokemon.movePp[index] > 0 && require('../items/heldItems').allowsMove(pokemon, moveName, battleState) ? index : -1))
         .filter((index) => index >= 0);
 }
 

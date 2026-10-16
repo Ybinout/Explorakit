@@ -24,7 +24,7 @@ function command(socket, name, payload = {}) {
 test('RiftMon Socket : liste publique, trois joueurs, exemption spectatrice, confidentialité et fin réelle du duel', { timeout: 15000 }, async () => {
     const store = createLobbyStore();
     const server = http.createServer(), io = new Server(server);
-    const cleanup = registerDriftLobbies(io, { store, sweepMs: 60000, runtimeOptions: { random: () => .2, paceMs: 0 } });
+    const cleanup = registerDriftLobbies(io, { store, sweepMs: 60000, runtimeOptions: { starterChoiceMs:0, random: () => .2, paceMs: 0 } });
     server.listen(0, '127.0.0.1'); await once(server, 'listening');
     const url = `http://127.0.0.1:${server.address().port}/drift`;
     const sockets = [], users = Array.from({ length: 4 }, (_, i) => ({ id: 601 + i, username: `Rift ${i}` }));
@@ -118,7 +118,7 @@ test('comptage RiftMon : lancement verrouillé, panne sans départ, retry idempo
         }
     };
     const store = createLobbyStore({ now: () => clock });
-    const runtime = createRunManager({ store, namespace: { to: () => ({ emit() {} }) }, now: () => clock, accountRepository });
+    const runtime = createRunManager({ starterChoiceMs:0, store, namespace: { to: () => ({ emit() {} }) }, now: () => clock, accountRepository });
     const users = [{ id: 1, username: 'Un' }, { id: 2, username: 'Deux' }];
     for (const user of users) store.connect(user, `s${user.id}`);
     const { code } = store.create(users[0], { capacity: 2, durationMinutes: 120 }); store.join(users[1], code);

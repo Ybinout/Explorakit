@@ -13,7 +13,7 @@ const {Server}=require('socket.io'); const app=express(), server=http.createServ
 app.use(express.json());app.use('/api',require('./server/http/routes'));app.use(express.static(path.resolve('dist')));app.get('*',(req,res)=>res.sendFile(path.resolve('dist/index.html')));
 let offset=0, randomRoll=.99;
 const {createLobbyStore}=require('./server/game/drift/lobbyStore');const store=createLobbyStore({now:()=>Date.now()+offset});
-const cleanup=require('./server/realtime/driftLobbyHandler').registerDriftLobbies(io,{store,runtimeOptions:{now:()=>Date.now()+offset,random:()=>randomRoll,paceMs:0}});
+const cleanup=require('./server/realtime/driftLobbyHandler').registerDriftLobbies(io,{store,runtimeOptions:{starterChoiceMs:0,now:()=>Date.now()+offset,random:()=>randomRoll,paceMs:0}});
 const factory=require('./server/game/drift/pokemonFactory');
 process.on('message', message=>{
  try{

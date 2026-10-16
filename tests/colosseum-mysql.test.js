@@ -61,11 +61,11 @@ test('Colosseum SQL: committed receipt wins over an old running checkpoint', {sk
         const {createLobbyStore}=require('../server/game/drift/lobbyStore');
         const {createRunManager}=require('../server/game/drift/runManager');
         const {encode,decode}=require('../server/game/drift/checkpointCodec');
-        const store=createLobbyStore(),runtime=createRunManager({store,namespace:{to:()=>({emit(){}})},colosseumRepository:repository});
+        const store=createLobbyStore(),runtime=createRunManager({ starterChoiceMs:0,store,namespace:{to:()=>({emit(){}})},colosseumRepository:repository});
         const user=f.users[0];store.connect(user,'test');await runtime.startColosseum(user);runtime.enter(user,{id:'test'});
         const before=encode({savedAt:Date.now(),lobbies:store.exportLobbies(),runs:runtime.runs});
         const p=runtime.playerFor(user);runtime.abandon(p);await p.run.settling;
-        const saved=decode(before),nextStore=createLobbyStore(),next=createRunManager({store:nextStore,namespace:{to:()=>({emit(){}})},colosseumRepository:repository});
+        const saved=decode(before),nextStore=createLobbyStore(),next=createRunManager({ starterChoiceMs:0,store:nextStore,namespace:{to:()=>({emit(){}})},colosseumRepository:repository});
         nextStore.restoreLobbies(saved.lobbies);next.restore(saved.runs,saved.savedAt);await next.reconcileSettlements();
         const restored=next.playerFor(user);assert.equal(restored.run.phase,'results');assert.equal(restored.alive,false);
         assert.equal(restored.run.settlement.status,'complete');assert.equal(restored.run.recoveryWaiting,false);

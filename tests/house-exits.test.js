@@ -21,7 +21,7 @@ for (const mode of ['rift', 'colosseum-30', 'colosseum-60']) {
     test(`${mode}: enter the second starting house, exit both sides of its door and re-enter`, async () => {
         let now = 1000;
         const store = createLobbyStore({ now: () => now });
-        const runtime = createRunManager({ store, namespace: { to: () => ({ emit() {} }) }, now: () => now, random: () => .5 });
+        const runtime = createRunManager({ starterChoiceMs:0, store, namespace: { to: () => ({ emit() {} }) }, now: () => now, random: () => .5 });
         const host = { id: 1, username: 'Door tester' }, guest = { id: 2, username: 'Rival' };
         store.connect(host, 'host');
         if (mode === 'rift') {

@@ -14,6 +14,8 @@ function clearBattleTransientState(team) {
                 Object.assign(pokemon, pokemon.__moveAndStatOverrides);
                 delete pokemon.__moveAndStatOverrides;
             }
+            delete pokemon.__heldItemOrigin;
+            delete pokemon.__consumedHeldItemOrigin;
             delete pokemon.__battle;
             pokemon.resetCombatStats?.();
         }
