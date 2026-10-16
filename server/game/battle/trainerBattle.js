@@ -365,6 +365,8 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
     const moves = loadMovesData();
     const usedPokemons = [];
     const battleState = createBattleState();
+    require('../abilities/abilityForms').attachTeam(player.equipe.pokemons);
+    require('../abilities/abilityForms').attachTeam(enemyTeam.pokemons);
     const playerSide = battleState.sides.player;
     const enemySide = battleState.sides.enemy;
     const baseMoneyReward = enemyTeam.pokemons.reduce(
@@ -503,7 +505,7 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
         const playerPokemon = player.equipe.pokemons[0];
 
         if (actionPlayer === 'flee') {
-            if (!canSwitchOut(playerPokemon)) {
+            if (!canSwitchOut(playerPokemon, enemyTeam.pokemons[0], battleState, {escape:actionPlayer==='flee'})) {
                 await narrate(player, io, `${getPokemonDisplayName(playerPokemon)} est piege et ne peut pas fuir.`);
                 continue;
             }
@@ -520,7 +522,7 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
         }
 
         if (actionPlayer === 'change') {
-            if (!canSwitchOut(playerPokemon)) {
+            if (!canSwitchOut(playerPokemon, enemyTeam.pokemons[0], battleState, {escape:actionPlayer==='flee'})) {
                 await narrate(player, io, `${getPokemonDisplayName(playerPokemon)} est piege et ne peut pas changer.`);
                 continue;
             }

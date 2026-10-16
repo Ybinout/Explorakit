@@ -1,5 +1,9 @@
 # Contexte permanent — Explorakit
 
+## Mise à jour du 16 octobre 2026
+
+Les évolutions par espèce et adaptations solo sont livrées dans les trois modes (migration 017, conditions/choix dans la fiche). Le correctif des talents complète le moteur partagé : 213 talents avec règles en 1v1, huit effets réservés aux doubles, deux effets hors combat encore indisponibles. Les formes temporaires et réactions sont séparées dans `abilityForms.js` et `abilityReactions.js`. Lire les sections correspondantes en tête de l’audit ; les chiffres 125/98 ci-dessous sont historiques. Recettes supplémentaires : `test:evolution-browser` et `test:abilities-browser` sur base dédiée. Le sprite mobile du joueur est désormais aligné sur le bas du terrain ; ne pas réintroduire la marge sous sa base opaque.
+
 Avant toute modification du projet, lire `docs/AUDIT_PROJET.md`. Ce fichier est la référence technique et fonctionnelle du dépôt.
 
 ## Règles de travail

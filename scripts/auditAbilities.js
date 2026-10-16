@@ -3,6 +3,7 @@ const pokemonAbilities = require('../data/game/pokemon_abilities.gen7.json');
 const pokedex = require('../data/game/pokedex.json');
 const pnjTeams = require('../data/game/pnj_teams.json');
 const { FAMILY_ABILITIES, SUPPORTED_ABILITIES } = require('../server/game/abilities/abilityEngine');
+const coverage=require('../server/game/abilities/abilityCoverage');
 
 const errors = [];
 const abilityNames = new Set(abilities.abilities.map((ability) => ability.name));
@@ -49,7 +50,8 @@ const usedAbilities = new Set();
 for (const mapping of Object.values(pokemonAbilities.pokemon)) {
     for (const slot of mapping.abilities) usedAbilities.add(slot.name);
 }
-const unsupported = [...usedAbilities].filter((name) => !SUPPORTED_ABILITIES.has(name)).sort();
+const unsupported = [...usedAbilities].filter((name) => coverage.status(name)==='missing').sort();
+for(const name of unsupported)errors.push(`Talent non classé: ${name}.`);
 const specialSlots = Object.values(pokemonAbilities.pokemon)
     .flatMap((mapping) => mapping.abilities)
     .filter((slot) => slot.special);
@@ -62,6 +64,9 @@ const report = {
     specialEventSlotsExcludedFromRandomRolls: specialSlots.length,
     implementedInFamilies1To4: [...SUPPORTED_ABILITIES].filter((name) => usedAbilities.has(name)).length,
     remainingForLaterFamilies: unsupported.length,
+    implementedSingleBattleAbilities: [...usedAbilities].filter(name=>coverage.status(name)==='single_battle').length,
+    doublesOnly: [...coverage.doublesOnly].sort(),
+    overworldPending: [...coverage.overworldPending].sort(),
     errors
 };
 

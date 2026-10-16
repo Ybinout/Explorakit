@@ -336,7 +336,7 @@
         "jname": "かぜおこし",
         "power": 40,
         "pp": 35,
-        "type": "Fighting",
+        "type": "Flying",
         "combat": {
             "damage_class": "special",
             "power_type": "standard",
@@ -355,7 +355,7 @@
         "jname": "つばさでうつ",
         "power": 60,
         "pp": 35,
-        "type": "Fighting",
+        "type": "Flying",
         "combat": {
             "damage_class": "physical",
             "power_type": "standard",
@@ -398,7 +398,7 @@
         "jname": "そらをとぶ",
         "power": 90,
         "pp": 15,
-        "type": "Fighting",
+        "type": "Flying",
         "combat": {
             "damage_class": "physical",
             "power_type": "standard",
@@ -1336,7 +1336,7 @@
         "jname": "つつく",
         "power": 35,
         "pp": 35,
-        "type": "Fighting",
+        "type": "Flying",
         "combat": {
             "damage_class": "physical",
             "power_type": "standard",
@@ -1355,7 +1355,7 @@
         "jname": "ドリルくちばし",
         "power": 80,
         "pp": 20,
-        "type": "Fighting",
+        "type": "Flying",
         "combat": {
             "damage_class": "physical",
             "power_type": "standard",
@@ -2588,7 +2588,7 @@
         "jname": "オウムがえし",
         "power": null,
         "pp": 20,
-        "type": "Fighting",
+        "type": "Flying",
         "combat": {
             "damage_class": "status",
             "power_type": "status",
@@ -3105,7 +3105,7 @@
         "jname": "ゴッドバード",
         "power": 140,
         "pp": 5,
-        "type": "Fighting",
+        "type": "Flying",
         "combat": {
             "damage_class": "physical",
             "power_type": "charge",
@@ -3844,7 +3844,7 @@
         "jname": "エアロブラスト",
         "power": 100,
         "pp": 5,
-        "type": "Fighting",
+        "type": "Flying",
         "combat": {
             "damage_class": "special",
             "power_type": "standard",
@@ -6489,7 +6489,7 @@
         "jname": "フェザーダンス",
         "power": null,
         "pp": 15,
-        "type": "Fighting",
+        "type": "Flying",
         "combat": {
             "damage_class": "status",
             "power_type": "status",
@@ -6850,7 +6850,7 @@
         "jname": "エアカッター",
         "power": 60,
         "pp": 25,
-        "type": "Fighting",
+        "type": "Flying",
         "combat": {
             "damage_class": "special",
             "power_type": "standard",
@@ -7243,7 +7243,7 @@
         "power": 60,
         "pp": 20,
         "tm": 40,
-        "type": "Fighting",
+        "type": "Flying",
         "combat": {
             "damage_class": "physical",
             "power_type": "standard",
@@ -7429,7 +7429,7 @@
         "jname": "とびはねる",
         "power": 85,
         "pp": 5,
-        "type": "Fighting",
+        "type": "Flying",
         "combat": {
             "damage_class": "physical",
             "power_type": "standard",
@@ -7748,7 +7748,7 @@
         "power": null,
         "pp": 10,
         "tm": 19,
-        "type": "Fighting",
+        "type": "Flying",
         "combat": {
             "damage_class": "status",
             "power_type": "status",
@@ -7960,7 +7960,7 @@
         "jname": "ついばむ",
         "power": 60,
         "pp": 20,
-        "type": "Fighting",
+        "type": "Flying",
         "combat": {
             "damage_class": "physical",
             "power_type": "standard",
@@ -7979,7 +7979,7 @@
         "jname": "おいかぜ",
         "power": null,
         "pp": 30,
-        "type": "Fighting",
+        "type": "Flying",
         "combat": {
             "damage_class": "status",
             "power_type": "status",
@@ -8784,7 +8784,7 @@
         "jname": "エアスラッシュ",
         "power": 75,
         "pp": 15,
-        "type": "Fighting",
+        "type": "Flying",
         "combat": {
             "damage_class": "special",
             "power_type": "standard",
@@ -8977,7 +8977,7 @@
         "jname": "ブレイブバード",
         "power": 120,
         "pp": 15,
-        "type": "Fighting",
+        "type": "Flying",
         "combat": {
             "damage_class": "physical",
             "power_type": "standard",
@@ -9352,7 +9352,7 @@
         "jname": "きりばらい",
         "power": null,
         "pp": 15,
-        "type": "Fighting",
+        "type": "Flying",
         "combat": {
             "damage_class": "status",
             "power_type": "status",
@@ -9681,7 +9681,7 @@
         "jname": "おしゃべり",
         "power": 60,
         "pp": 20,
-        "type": "Fighting",
+        "type": "Flying",
         "combat": {
             "damage_class": "special",
             "power_type": "standard",
@@ -11005,7 +11005,7 @@
         "power": 60,
         "pp": 10,
         "tm": 58,
-        "type": "Fighting",
+        "type": "Flying",
         "combat": {
             "damage_class": "physical",
             "power_type": "standard",
@@ -11120,7 +11120,7 @@
         "power": 55,
         "pp": 15,
         "tm": 62,
-        "type": "Fighting",
+        "type": "Flying",
         "combat": {
             "damage_class": "physical",
             "power_type": "standard",
@@ -11725,7 +11725,7 @@
         "jname": "ぼうふう",
         "power": 120,
         "pp": 10,
-        "type": "Fighting",
+        "type": "Flying",
         "combat": {
             "damage_class": "special",
             "power_type": "standard",
@@ -13193,7 +13193,7 @@
         "jname": "デスウイング",
         "power": 80,
         "pp": 10,
-        "type": "Fighting",
+        "type": "Flying",
         "combat": {
             "damage_class": "special",
             "power_type": "standard",

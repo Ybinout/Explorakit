@@ -1,4 +1,6 @@
 const heldItems = require('../items/heldItems');
+const reactions = require('../abilities/abilityReactions');
+const abilityForms = require('../abilities/abilityForms');
 const drift = require('../drift/driftEffects');
 const {
     consumeMovePp,
@@ -242,6 +244,7 @@ function getPokemonTypes(pokemon) {
     if (battleData.tempTypes.length > 0) {
         return battleData.tempTypes.filter(Boolean);
     }
+    if (battleData.formTypes?.length) return battleData.formTypes;
 
     return [pokemon.type1, pokemon.type2].filter(Boolean);
 }
@@ -265,7 +268,7 @@ function isHeldItemEnabled(pokemon, battleState) {
 
 function itemOwner(pokemon, key, value) { Object.defineProperty(pokemon, key, {value,writable:true,configurable:true,enumerable:false}); }
 
-function consumeHeldItem(pokemon) {
+function consumeHeldItem(pokemon, battleState = null) {
     if (!pokemon?.heldItem) return null;
     const battleData = ensureBattleData(pokemon);
     const itemKey = pokemon.heldItem;
@@ -274,7 +277,9 @@ function consumeHeldItem(pokemon) {
     itemOwner(pokemon, '__consumedHeldItemOrigin', origin);
     itemOwner(pokemon, '__heldItemOrigin', null);
     pokemon.heldItem = null;
+    if (hasPassiveAbility(pokemon, 'Unburden')) battleData.unburden = true;
     battleData.consumedHeldItem = itemKey;
+    battleData.consumedHeldItemTurn=battleState?.turn;
     return itemKey;
 }
 
@@ -317,30 +322,40 @@ function snapshotMoveAndStatOverrides(pokemon) {
     });
 }
 
-function activateHeldItem(pokemon, battleState, messages, trigger = 'immediate') {
+function activateHeldItem(pokemon, battleState, messages, trigger = 'immediate', opponent = null) {
     if (!isHeldItemEnabled(pokemon, battleState) || safeNumber(pokemon.currentHp, 0) <= 0) return false;
     const item = getItemDefinition(pokemon.heldItem);
     if (!item || item.category !== 'held') return false;
     const pokemonName = getPokemonDisplayName(pokemon);
     const maxHp = Math.max(1, safeNumber(pokemon.maxHp, 1));
+    const berry = pokemon.heldItem.endsWith('_berry');
+    if (berry && opponent?.currentHp > 0 && hasPassiveAbility(opponent,'Unnerve')) return false;
+    const consume = () => {
+        consumeHeldItem(pokemon,battleState);
+        if (berry && hasPassiveAbility(pokemon,'Cheek Pouch') && !(pokemon.__battle.healBlockTurns > 0)) {
+            const healed=healPokemon(pokemon,Math.max(1,Math.floor(maxHp/3)));
+            if(healed)messages.push(`${pokemonName} récupère ${healed} PV avec Bajoues.`);
+        }
+    };
 
     if (trigger === 'immediate' && item.battle_effect === 'cure_status' && pokemon.status !== 'normal') {
         const itemName = item.name;
         clearStatus(pokemon, messages);
-        consumeHeldItem(pokemon);
+        consume();
         messages.push(`${pokemonName} consomme ${itemName}.`);
         return true;
     }
 
     const hpRatio = safeNumber(pokemon.currentHp, 0) / maxHp;
-    if (trigger === 'immediate' && hpRatio <= safeNumber(item.trigger_hp_ratio, 0)) {
+    const threshold=berry && hasPassiveAbility(pokemon,'Gluttony') && item.trigger_hp_ratio===.25 ? .5 : safeNumber(item.trigger_hp_ratio,0);
+    if (trigger === 'immediate' && hpRatio <= threshold && !(pokemon.__battle?.healBlockTurns > 0)) {
         let amount = 0;
         if (item.battle_effect === 'heal_flat') amount = safeNumber(item.amount, 0);
         if (item.battle_effect === 'heal_fraction') amount = Math.floor(maxHp * safeNumber(item.fraction, 0));
         if (amount > 0) {
             const healed = healPokemon(pokemon, amount);
             const itemName = item.name;
-            consumeHeldItem(pokemon);
+            consume();
             messages.push(`${pokemonName} consomme ${itemName} et recupere ${healed} PV.`);
             return true;
         }
@@ -390,6 +405,8 @@ function setPokemonHp(pokemon, nextHp) {
 }
 
 function getBaseStatValue(pokemon, statName) {
+    const formStat=abilityForms.stat(pokemon,statName);
+    if(formStat!=null)return formStat;
     switch (statName) {
         case 'attack':
             return safeNumber(pokemon.currentAttack, safeNumber(pokemon.attack, 1));
@@ -406,15 +423,15 @@ function getBaseStatValue(pokemon, statName) {
     }
 }
 
-function getEffectiveStatValue(pokemon, statName, battleState = null, opponent = null) {
+function getEffectiveStatValue(pokemon, statName, battleState = null, opponent = null, ignoreStages = false, ignoreAbility = false) {
     const base = Math.max(1, getBaseStatValue(pokemon, statName));
     const battleData = ensureBattleData(pokemon);
-    const stage = battleData.statStages[statName] || 0;
+    const stage = ignoreStages ? 0 : battleData.statStages[statName] || 0;
     let value = base * stageMultiplier(stage);
-    if (statName === 'speed' && pokemon.status === 'paralyze') {
+    if (statName === 'speed' && pokemon.status === 'paralyze' && !hasPassiveAbility(pokemon,'Quick Feet')) {
         value *= 0.5;
     }
-    value *= getAbilityStatMultiplier(pokemon, statName, battleState, opponent);
+    if (!ignoreAbility) value *= getAbilityStatMultiplier(pokemon, statName, battleState, opponent);
     value *= heldItems.statMultiplier(pokemon, statName, battleState);
     value = drift.defense(pokemon, statName, value);
     return Math.max(1, Math.round(value));
@@ -424,8 +441,8 @@ function getAccuracyModifier(attacker, defender) {
     const attackerData = ensureBattleData(attacker);
     const defenderData = ensureBattleData(defender);
 
-    const accuracyMultiplier = stageMultiplier(attackerData.statStages.accuracy || 0);
-    const evasionMultiplier = stageMultiplier(defenderData.statStages.evasion || 0);
+    const accuracyMultiplier = stageMultiplier(!ignoresDefenderAbility(attacker,defender)&&hasPassiveAbility(defender,'Unaware') ? 0 : attackerData.statStages.accuracy || 0);
+    const evasionMultiplier = stageMultiplier(hasPassiveAbility(attacker,'Unaware') ? 0 : hasPassiveAbility(attacker,'Keen Eye') ? Math.min(0,defenderData.statStages.evasion||0) : defenderData.statStages.evasion || 0);
     return accuracyMultiplier / evasionMultiplier;
 }
 
@@ -452,16 +469,19 @@ function applyDamage(target, damage, options = {}) {
         return result;
     }
 
-    if (targetData.substituteHp > 0) {
+    if (targetData.substituteHp > 0 && options.attacker && !options.bypassSubstitute) {
         const subBefore = targetData.substituteHp;
         targetData.substituteHp = Math.max(0, subBefore - resolvedDamage);
         result.damageToSubstitute = Math.min(subBefore, resolvedDamage);
         result.substituteBroken = targetData.substituteHp === 0;
         return result;
     }
+    if(options.attacker && abilityForms.intercept(target,options.attacker,resolvedDamage)) {
+        result.disguiseBroken=true;return result;
+    }
 
     let finalDamage = Math.min(hpBefore, resolvedDamage);
-    if (!ignoresDefenderAbility(options.attacker, target) && hasPassiveAbility(target, 'Sturdy')
+    if (options.attacker && !ignoresDefenderAbility(options.attacker, target) && hasPassiveAbility(target, 'Sturdy')
         && hpBefore === safeNumber(target.maxHp, hpBefore) && finalDamage >= hpBefore) {
         finalDamage = Math.max(0, hpBefore - 1);
         result.endured = true;
@@ -473,7 +493,7 @@ function applyDamage(target, damage, options = {}) {
 
     if (options.attacker && finalDamage >= hpBefore && hpBefore === target.maxHp
         && heldItems.effect(target, options.battleState) === 'focus_sash') {
-        finalDamage = hpBefore - 1; consumeHeldItem(target); result.endured = true; result.enduredBy = 'sa Ceinture Force';
+        finalDamage = hpBefore - 1; consumeHeldItem(target,options.battleState); result.endured = true; result.enduredBy = 'sa Ceinture Force';
     }
     finalDamage = drift.directDamage(target, finalDamage, options.attacker);
     setPokemonHp(target, hpBefore - finalDamage);
@@ -484,7 +504,7 @@ function applyDamage(target, damage, options = {}) {
 
 function healPokemon(target, healAmount) {
     const resolvedHeal = Math.max(0, Math.floor(safeNumber(healAmount, 0)));
-    if (resolvedHeal <= 0 || (drift.states.has(target) && drift.isDead(target))) return 0;
+    if (resolvedHeal <= 0 || target.currentHp <= 0 || target.__battle?.healBlockTurns>0 || (drift.states.has(target) && drift.isDead(target))) return 0;
 
     const hpBefore = safeNumber(target.currentHp, 0);
     const hpAfter = setPokemonHp(target, hpBefore + resolvedHeal);
@@ -508,15 +528,18 @@ function canApplyStatus(target, status, targetSide, options = {}) {
         return false;
     }
 
-    if (isNonVolatile && !options.ignoreSafeguard && targetSide?.screens?.safeguardTurns > 0) {
+    if (isNonVolatile && !options.ignoreSafeguard && !hasPassiveAbility(options.attacker,'Infiltrator') && targetSide?.screens?.safeguardTurns > 0) {
         return false;
     }
 
     if (status === 'burn' && hasType(target, 'Fire')) return false;
-    if ((status === 'poison' || status === 'badly_poison') && (hasType(target, 'Poison') || hasType(target, 'Steel'))) return false;
+    if (NON_VOLATILE_STATUSES.has(status) && target.data?.id===774 && hasPassiveAbility(target,'Shields Down')
+        && target.__battle?.abilityForm==='Minior-Meteor')return false;
+    if ((status === 'poison' || status === 'badly_poison') && (hasType(target, 'Poison') || hasType(target, 'Steel')) && !hasPassiveAbility(options.attacker,'Corrosion')) return false;
     if (status === 'freeze' && hasType(target, 'Ice')) return false;
     if (status === 'paralyze' && hasType(target, 'Electric')) return false;
-    if (!ignoresDefenderAbility(options.attacker, target) && canAbilityBlockStatus(target, status, options.battleState)) return false;
+    const abilityState=isWeatherSuppressed(target,options.attacker)?{...options.battleState,weather:null}:options.battleState;
+    if (!ignoresDefenderAbility(options.attacker, target) && canAbilityBlockStatus(target, status, abilityState)) return false;
 
     const battleState = options.battleState;
     if (isNonVolatile && isGrounded(target, battleState)) {
@@ -566,6 +589,11 @@ function applyStatus(target, status, targetSide, messages, options = {}) {
     }
 
     messages.push(`${targetName} est touche par ${getStatusLabel(status)}.`);
+    if (!options.synchronized && options.attacker && options.attacker!==target && hasPassiveAbility(target,'Synchronize')
+        && ['burn','poison','badly_poison','paralyze'].includes(status)) {
+        applyStatus(options.attacker,status==='badly_poison'?'poison':status,options.sourceSide,messages,
+            {...options,attacker:target,synchronized:true});
+    }
     return true;
 }
 
@@ -626,6 +654,7 @@ function orderBattleActions(actions, battleState, random = Math.random) {
         const priorityA = getMovePriority(actionA?.moveName, pokemonA) + safeNumber(actionA?.driftPriority, 0);
         const priorityB = getMovePriority(actionB?.moveName, pokemonB) + safeNumber(actionB?.driftPriority, 0);
         if (priorityA !== priorityB) return priorityB - priorityA;
+        if (hasPassiveAbility(pokemonA,'Stall') !== hasPassiveAbility(pokemonB,'Stall')) return hasPassiveAbility(pokemonA,'Stall') ? 1 : -1;
 
         const speedA = getBattleSpeed(pokemonA, actionA?.side, battleState, pokemonB);
         const speedB = getBattleSpeed(pokemonB, actionB?.side, battleState, pokemonA);
@@ -668,11 +697,12 @@ function calculateDamageDetailed(attacker, defender, move, context = {}) {
     const attackStatName = damageClass === 'physical' ? 'attack' : 'specialAttack';
     const defenseStatName = damageClass === 'physical' ? 'defense' : 'specialDefense';
     const battleState = context.battleState;
-    const attackStat = Math.max(1, getEffectiveStatValue(attacker, attackStatName, battleState, defender));
-    let defenseStat = Math.max(1, getEffectiveStatValue(defender, defenseStatName, battleState, attacker));
+    const bypass=ignoresDefenderAbility(attacker,defender);
+    const attackStat = Math.max(1, getEffectiveStatValue(attacker, attackStatName, battleState, defender, !bypass&&hasPassiveAbility(defender,'Unaware')));
+    let defenseStat = Math.max(1, getEffectiveStatValue(defender, defenseStatName, battleState, attacker, hasPassiveAbility(attacker,'Unaware'),bypass));
     if (battleState?.field?.wonderRoomTurns > 0) {
         const swappedDefense = damageClass === 'physical' ? 'specialDefense' : 'defense';
-        defenseStat = Math.max(1, getEffectiveStatValue(defender, swappedDefense, battleState, attacker));
+        defenseStat = Math.max(1, getEffectiveStatValue(defender, swappedDefense, battleState, attacker, hasPassiveAbility(attacker,'Unaware'),bypass));
     }
 
     defenseStat = Math.max(1, drift.pierce(attacker, defenseStat));
@@ -690,7 +720,7 @@ function calculateDamageDetailed(attacker, defender, move, context = {}) {
     const defenderData = ensureBattleData(defender);
     for (const type of defenderTypes) {
         let typeModifier = getEffectiveness(move.type, type);
-        if (typeModifier === 0 && type === 'Ghost' && defenderData.foresight && ['Normal', 'Fighting'].includes(move.type)) {
+        if (typeModifier === 0 && type === 'Ghost' && (defenderData.foresight || hasPassiveAbility(attacker,'Scrappy')) && ['Normal', 'Fighting'].includes(move.type)) {
             typeModifier = 1;
         }
         if (typeModifier === 0 && type === 'Dark' && defenderData.miracleEye && move.type === 'Psychic') {
@@ -725,10 +755,10 @@ function calculateDamageDetailed(attacker, defender, move, context = {}) {
         modifier *= 0.5;
     }
 
-    if (damageClass === 'physical' && context.defenderSide?.screens?.reflectTurns > 0) {
+    if (damageClass === 'physical' && context.defenderSide?.screens?.reflectTurns > 0 && !hasPassiveAbility(attacker,'Infiltrator')) {
         modifier *= 0.5;
     }
-    if (damageClass === 'special' && context.defenderSide?.screens?.lightScreenTurns > 0) {
+    if (damageClass === 'special' && context.defenderSide?.screens?.lightScreenTurns > 0 && !hasPassiveAbility(attacker,'Infiltrator')) {
         modifier *= 0.5;
     }
 
@@ -879,16 +909,27 @@ function applyStageChange(target, stat, stages, messages, source = null) {
 
     if (applied !== 0) {
         messages.push(`${getPokemonDisplayName(target)}: ${describeStageDelta(stat, applied)}`);
+        if(applied<0 && source!==target && source) {
+            if(hasPassiveAbility(target,'Defiant'))applyStageChange(target,'attack',2,messages,target);
+            if(hasPassiveAbility(target,'Competitive'))applyStageChange(target,'specialAttack',2,messages,target);
+        }
     } else {
         messages.push(`${getPokemonDisplayName(target)}: la statistique ${stat} ne peut plus changer.`);
     }
 }
 
-function canSwitchOut(pokemon) {
+function canSwitchOut(pokemon, opponent = null, battleState = null, { escape = false } = {}) {
     if (!pokemon || safeNumber(pokemon.currentHp, 0) <= 0) return false;
     const battleData = ensureBattleData(pokemon);
+    if (escape && hasPassiveAbility(pokemon,'Run Away')) return true;
+    if (hasType(pokemon,'Ghost')) return true;
     if (battleData.trappedTurns > 0) return false;
     if (battleData.ingrain) return false;
+    if(opponent?.currentHp>0) {
+        if(hasPassiveAbility(opponent,'Shadow Tag') && !hasPassiveAbility(pokemon,'Shadow Tag'))return false;
+        if(hasPassiveAbility(opponent,'Magnet Pull') && hasType(pokemon,'Steel'))return false;
+        if(hasPassiveAbility(opponent,'Arena Trap') && isGrounded(pokemon,battleState))return false;
+    }
     return true;
 }
 
@@ -904,13 +945,17 @@ function isMoveBlockedByProtect(defender, defenderSide, move) {
     return false;
 }
 
-function resolveHitCount(move) {
-    if (move?.combat?.power_type !== 'multi_hit') {
+function resolveHitCount(move, attacker) {
+    if(move.ename==='Water Shuriken' && attacker.__battle?.abilityForm==='Greninja-Ash')return 3;
+    const canonical=reactions.traits.moves[move.ename]?.multihit;
+    if (Number.isInteger(canonical)) return canonical;
+    if (move?.combat?.power_type !== 'multi_hit' && !Array.isArray(canonical)) {
         return 1;
     }
 
-    const minHits = Math.max(2, safeNumber(move?.combat?.multi_hit?.min, 2));
-    const maxHits = Math.max(minHits, safeNumber(move?.combat?.multi_hit?.max, 5));
+    const minHits = canonical?.[0] || Math.max(2, safeNumber(move?.combat?.multi_hit?.min, 2));
+    const maxHits = canonical?.[1] || Math.max(minHits, safeNumber(move?.combat?.multi_hit?.max, 5));
+    if(hasPassiveAbility(attacker,'Skill Link'))return maxHits;
     return Math.floor(Math.random() * (maxHits - minHits + 1)) + minHits;
 }
 
@@ -981,6 +1026,13 @@ function applyEffect(effect, context, moveResult) {
 
     const attackerData = ensureBattleData(context.attacker);
     const targetData = ensureBattleData(effectTargetPokemon);
+    if (effectTargetPokemon !== context.attacker && !ignoresDefenderAbility(context.attacker,effectTargetPokemon)) {
+        if (hasPassiveAbility(effectTargetPokemon,'Aroma Veil') && ['taunt','disable_last_move','encore','torment','heal_block'].includes(effect.kind)) {
+            messages.push(`${getPokemonDisplayName(effectTargetPokemon)} est protégé par Aroma-Voile.`); return;
+        }
+        if (effect.kind==='taunt' && hasPassiveAbility(effectTargetPokemon,'Oblivious')) return;
+        if (effect.kind==='swap_item' && hasPassiveAbility(effectTargetPokemon,'Sticky Hold')) { messages.push('Glue empêche le transfert d’objet.'); return; }
+    }
     const calledDepth = Math.max(0, safeNumber(context.calledDepth, 0));
     const executeCalledMove = (calledMoveName, { ignoreSleep = false } = {}) => {
         if (!calledMoveName || calledDepth >= 2 || calledMoveName === context.move?.ename) {
@@ -1032,6 +1084,7 @@ function applyEffect(effect, context, moveResult) {
                     battleState: context.battleState,
                     move: context.move,
                     turns: effect.turns,
+                    sourceSide: context.attackerSide,
                     attacker: context.attacker
                 });
             } else {
@@ -1047,6 +1100,7 @@ function applyEffect(effect, context, moveResult) {
                     battleState: context.battleState,
                     move: context.move,
                     turns: effect.turns,
+                    sourceSide: context.attackerSide,
                     attacker: context.attacker
                 });
             }
@@ -1704,6 +1758,7 @@ function applyEffect(effect, context, moveResult) {
             return;
 
         case 'set_ability':
+            if(reactions.UNCHANGEABLE.has(getAbilityName(effectTargetPokemon)))return;
             snapshotPassiveAbility(effectTargetPokemon);
             effectTargetPokemon.passiveAbility = effect.ability || null;
             targetData.abilitySuppressed = false;
@@ -1711,7 +1766,8 @@ function applyEffect(effect, context, moveResult) {
             return;
 
         case 'copy_ability':
-            if (!getPassiveAbility(context.defender)) {
+            if (!getPassiveAbility(context.defender) || reactions.UNCHANGEABLE.has(getAbilityName(context.defender))
+                || reactions.UNCHANGEABLE.has(getAbilityName(context.attacker))) {
                 messages.push(`Aucun talent ne peut etre copie.`);
                 return;
             }
@@ -1722,6 +1778,7 @@ function applyEffect(effect, context, moveResult) {
             return;
 
         case 'swap_ability': {
+            if([context.attacker,context.defender].some(p=>reactions.UNCHANGEABLE.has(getAbilityName(p))))return;
             snapshotPassiveAbility(context.attacker);
             snapshotPassiveAbility(context.defender);
             const attackerAbility = context.attacker.passiveAbility || null;
@@ -1734,12 +1791,13 @@ function applyEffect(effect, context, moveResult) {
         }
 
         case 'suppress_ability':
+            if(reactions.UNCHANGEABLE.has(getAbilityName(effectTargetPokemon)))return;
             targetData.abilitySuppressed = true;
             messages.push(`Le talent de ${getPokemonDisplayName(effectTargetPokemon)} est neutralise.`);
             return;
 
         case 'entrainment':
-            if (!getPassiveAbility(context.attacker)) {
+            if (!getPassiveAbility(context.attacker) || [context.attacker,context.defender].some(p=>reactions.UNCHANGEABLE.has(getAbilityName(p)))) {
                 messages.push(`Aucun talent ne peut etre transmis.`);
                 return;
             }
@@ -1845,6 +1903,14 @@ function processTurnStart(pokemon, options = {}) {
     const move = options.move || null;
     const pokemonData = ensureBattleData(pokemon);
     const pokemonName = getPokemonDisplayName(pokemon);
+    if(hasPassiveAbility(pokemon,'Truant')) {
+        pokemonData.loafing=!pokemonData.loafing;
+        if(!pokemonData.loafing){messages.push(`${pokemonName} paresse ce tour-ci (Absentéisme).`);return {canAct:false,messages};}
+    }
+    if(pokemonData.flinch) {
+        pokemonData.flinch=false;
+        if(!hasPassiveAbility(pokemon,'Inner Focus')) {messages.push(`${pokemonName} est apeuré.`);return {canAct:false,messages};}
+    }
 
     if (pokemonData.healBlockTurns > 0 && Array.isArray(move?.combat?.effects)
         && move.combat.effects.some((effect) => effect.kind === 'heal')) {
@@ -1902,7 +1968,7 @@ function processTurnStart(pokemon, options = {}) {
             pokemon.status = 'normal';
             messages.push(`${pokemonName} se reveille !`);
         } else {
-            pokemonData.sleepTurns -= 1;
+            pokemonData.sleepTurns -= hasPassiveAbility(pokemon,'Early Bird') ? 2 : 1;
             if (pokemonData.sleepTurns > 0) {
                 messages.push(`${pokemonName} dort.`);
                 return { canAct: false, messages };
@@ -1990,7 +2056,12 @@ function processPokemonEndTurn(pokemon, enemyPokemon, ownSide, battleState) {
         }
     }
 
-    if (pokemon.status === 'poison' && !indirectDamageBlocked) {
+    const poisonHeal=hasPassiveAbility(pokemon,'Poison Heal') && ['poison','badly_poison'].includes(pokemon.status);
+    if(poisonHeal && !(pokemonData.healBlockTurns>0)) {
+        const healed=healPokemon(pokemon,Math.max(1,Math.floor(maxHp/8)));
+        if(healed)messages.push(`${pokemonName} récupère ${healed} PV avec Soin Poison.`);
+    }
+    if (pokemon.status === 'poison' && !indirectDamageBlocked && !poisonHeal) {
         const damage = Math.max(1, Math.floor(maxHp / 8));
         const dmgResult = applyDamage(pokemon, damage, { allowEndure: false });
         if (dmgResult.damageToHp > 0) {
@@ -1998,7 +2069,7 @@ function processPokemonEndTurn(pokemon, enemyPokemon, ownSide, battleState) {
         }
     }
 
-    if (pokemon.status === 'badly_poison' && !indirectDamageBlocked) {
+    if (pokemon.status === 'badly_poison' && !indirectDamageBlocked && !poisonHeal) {
         const toxicCounter = Math.max(1, safeNumber(pokemonData.toxicCounter, 1));
         const damage = Math.max(1, Math.floor((maxHp / 16) * toxicCounter));
         const dmgResult = applyDamage(pokemon, damage, { allowEndure: false });
@@ -2013,7 +2084,9 @@ function processPokemonEndTurn(pokemon, enemyPokemon, ownSide, battleState) {
         const source = pokemonData.leechSeedSource;
         const dmgResult = applyDamage(pokemon, drain, { allowEndure: false });
         if (dmgResult.damageToHp > 0 && source && safeNumber(source.currentHp, 0) > 0) {
-            const healed = healPokemon(source, dmgResult.damageToHp);
+            const ooze=hasPassiveAbility(pokemon,'Liquid Ooze');
+            if(ooze && !hasPassiveAbility(source,'Magic Guard'))applyDamage(source,dmgResult.damageToHp,{allowEndure:false});
+            const healed = ooze || source.__battle?.healBlockTurns>0 ? 0 : healPokemon(source, dmgResult.damageToHp);
             messages.push(`${pokemonName} perd ${dmgResult.damageToHp} PV a cause de Vampigraine.`);
             if (healed > 0) {
                 messages.push(`${getPokemonDisplayName(source)} recupere ${healed} PV avec Vampigraine.`);
@@ -2066,7 +2139,7 @@ function processPokemonEndTurn(pokemon, enemyPokemon, ownSide, battleState) {
     }
 
     const weatherDamage = resolveWeatherDamage(pokemon, battleState, enemyPokemon);
-    if (weatherDamage > 0 && safeNumber(pokemon.currentHp, 0) > 0) {
+    if (weatherDamage > 0 && !indirectDamageBlocked && safeNumber(pokemon.currentHp, 0) > 0) {
         const dmgResult = applyDamage(pokemon, weatherDamage, { allowEndure: false });
         if (dmgResult.damageToHp > 0) {
             messages.push(`${pokemonName} est touche par la meteo (${dmgResult.damageToHp} PV).`);
@@ -2079,7 +2152,7 @@ function processPokemonEndTurn(pokemon, enemyPokemon, ownSide, battleState) {
     }
 
     if (healingAllowed && safeNumber(pokemon.currentHp, 0) > 0) {
-        activateHeldItem(pokemon, battleState, messages, 'end_turn');
+        activateHeldItem(pokemon, battleState, messages, 'end_turn',enemyPokemon);
     }
 
     messages.push(...applyWeatherAbilityEndTurn(pokemon, enemyPokemon, battleState, {
@@ -2088,6 +2161,9 @@ function processPokemonEndTurn(pokemon, enemyPokemon, ownSide, battleState) {
             ? { damageToHp: 0 }
             : applyDamage(target, amount, { allowEndure: false })
     }));
+    reactions.endTurn(pokemon,enemyPokemon,battleState,reactionHelpers(),messages);
+    abilityForms.sync(pokemon,'end',messages);
+    activateHeldItem(pokemon,battleState,messages,'immediate',enemyPokemon);
 
     if (pokemonData.perishSongTurns > 0 && safeNumber(pokemon.currentHp, 0) > 0) {
         pokemonData.perishSongTurns -= 1;
@@ -2146,6 +2222,7 @@ function processPokemonEndTurn(pokemon, enemyPokemon, ownSide, battleState) {
     pokemonData.magicCoat = false;
     pokemonData.snatch = false;
     pokemonData.quashed = false;
+    pokemonData.flinch = false;
 
     if (ownSide?.wish) {
         ownSide.wish.turns -= 1;
@@ -2216,8 +2293,12 @@ function advanceBattleState(battleState) {
 
 function processEndOfRound(playerPokemon, enemyPokemon, playerSide, enemySide, battleState) {
     const messages = [];
+    const before=[playerPokemon?.currentHp,enemyPokemon?.currentHp];
     messages.push(...processPokemonEndTurn(playerPokemon, enemyPokemon, playerSide, battleState));
     messages.push(...processPokemonEndTurn(enemyPokemon, playerPokemon, enemySide, battleState));
+    for(const [p,other,hp]of [[playerPokemon,enemyPokemon,before[1]],[enemyPokemon,playerPokemon,before[0]]]) {
+        if(p?.currentHp>0 && hp>0 && other?.currentHp<=0 && hasPassiveAbility(p,'Soul-Heart'))applyStageChange(p,'specialAttack',1,messages,p);
+    }
     messages.push(...advanceBattleState(battleState));
     return messages;
 }
@@ -2279,6 +2360,10 @@ function applySwitchInEffects(pokemon, ownSide, enemySide, battleState, enemyPok
     }
 
     const battleData = ensureBattleData(pokemon);
+    battleData.switchedInTurn=ownSide.abilityEntries>0?battleState?.turn:0;
+    ownSide.abilityEntries=(ownSide.abilityEntries||0)+1;
+    battleData.activeTurns=0;
+    abilityForms.sync(pokemon,'entry',messages);
     battleData.protect = false;
     battleData.endure = false;
 
@@ -2301,11 +2386,12 @@ function applySwitchInEffects(pokemon, ownSide, enemySide, battleState, enemyPok
 
 function getPokemonMassProxy(pokemon) {
     const base = pokemon?.data?.base || {};
-    return Math.max(1,
+    const mass=reactions.traits.weights[pokemon?.data?.id] || Math.max(1,
         safeNumber(base.HP, 50)
         + safeNumber(base.Defense, 50)
         + safeNumber(base['Sp. Defense'], 50)
     );
+    return mass*(hasPassiveAbility(pokemon,'Heavy Metal')?2:hasPassiveAbility(pokemon,'Light Metal')?.5:1);
 }
 
 function getLowHpPower(pokemon) {
@@ -2454,6 +2540,12 @@ function applyImplicitMoveEffect(move, context, moveResult) {
     }
 }
 
+function reactionHelpers() {
+    return {damage:applyDamage,heal:healPokemon,status:applyStatus,clearStatus,stage:applyStageChange,
+        types:getPokemonTypes,base:getBaseStatValue,snapshotAbility:snapshotPassiveAbility,snapshotItem:snapshotHeldItemForExchange,
+        recycle:(p,messages)=>applyEffect({kind:'recycle'},{attacker:p,defender:p,move:{}},{messages})};
+}
+
 function useattack(attackName, attacker, defender, options = {}) {
     const battleState = options.battleState || createBattleState();
     const attackerSide = options.attackerSide || createSideState('attacker');
@@ -2500,8 +2592,17 @@ function useattack(attackName, attacker, defender, options = {}) {
 
     const attackerData = ensureBattleData(attacker);
     const defenderData = ensureBattleData(defender);
+    const hpBeforeMove=defender.currentHp;
+    const helper=reactionHelpers();
+    const hit=(amount,critical=false) => {
+        const result=applyDamage(defender,amount,{allowEndure:true,attacker,battleState,
+            bypassSubstitute:hasPassiveAbility(attacker,'Infiltrator')||getMoveFlags(move).sound});
+        reactions.afterHit({attacker,defender,move,damage:result.damageToHp,critical,battleState,attackerSide,defenderSide},helper,moveResult.messages);
+        activateHeldItem(defender,battleState,moveResult.messages,'immediate',attacker);
+        return result;
+    };
     const movedLastThisTurn = defenderData.lastActionTurn === safeNumber(battleState.turn, 1);
-    attackerData.lastActionTurn = safeNumber(battleState.turn, 1);
+    if(!options.skipTurnStart)attackerData.lastActionTurn = safeNumber(battleState.turn, 1);
 
     if (!calledDepth && !heldItems.allowsMove(attacker, move.ename, battleState)) {
         moveResult.blocked = true; moveResult.messages.push('Cette capacité est bloquée par l’objet tenu.'); return moveResult;
@@ -2533,8 +2634,6 @@ function useattack(attackName, attacker, defender, options = {}) {
             moveResult.messages.push(`${move.ename} n'a plus de PP.`);
             return moveResult;
         }
-        const consumed = consumeMovePp(attacker, move.ename);
-        if (consumed.consumed) attackerData.lastMoveSlot = consumed.slot;
     }
 
     if (attackerData.electrified) {
@@ -2561,6 +2660,14 @@ function useattack(attackName, attacker, defender, options = {}) {
         attackerData.lastMoveUsed = move.ename;
         return moveResult;
     }
+    if(options.consumePp!==false) {
+        const consumed=consumeMovePp(attacker,move.ename);
+        if(consumed.consumed) {
+            attackerData.lastMoveSlot=consumed.slot;
+            if(hasPassiveAbility(defender,'Pressure') && !['self','self_side','field','ally','self_or_ally'].includes(move.combat?.target))reduceMovePp(attacker,move.ename,1);
+        }
+    }
+    abilityForms.sync(attacker,'move',moveResult.messages,move);
     if (!calledDepth) heldItems.lockMove(attacker, move.ename, battleState);
 
     if (move.combat?.power_type === 'charge') {
@@ -2588,10 +2695,12 @@ function useattack(attackName, attacker, defender, options = {}) {
         'grass_grounded_allies'
     ].includes(moveTarget);
 
-    if (damageClass === 'status' && moveTargetsOpponent && defenderData.magicCoat && !options.reflected) {
-        defenderData.magicCoat = false;
+    const magicBounce=hasPassiveAbility(defender,'Magic Bounce') && !ignoresDefenderAbility(attacker,defender)
+        && reactions.traits.moves[move.ename]?.reflectable;
+    if (damageClass === 'status' && moveTargetsOpponent && (defenderData.magicCoat || magicBounce) && !options.reflected) {
+        if(!magicBounce)defenderData.magicCoat = false;
         moveResult.success = true;
-        moveResult.messages.push(`${getPokemonDisplayName(defender)} renvoie ${move.ename} avec Reflet Magik.`);
+        moveResult.messages.push(`${getPokemonDisplayName(defender)} renvoie ${move.ename} avec ${magicBounce?'Miroir Magik':'Reflet Magik'}.`);
         const reflectedResult = useattack(move.ename, defender, attacker, {
             battleState,
             attackerSide: defenderSide,
@@ -2630,7 +2739,7 @@ function useattack(attackName, attacker, defender, options = {}) {
     if (moveTargetsOpponent && isMoveBlockedByProtect(defender, defenderSide, move)) {
         moveResult.blocked = true;
         moveResult.messages.push(`${getPokemonDisplayName(defender)} bloque l'attaque.`);
-        if (safeNumber(defenderData.contactDamageFraction, 0) > 0 && damageClass !== 'status') {
+        if (safeNumber(defenderData.contactDamageFraction, 0) > 0 && damageClass !== 'status' && reactions.contact(attacker,move) && !hasPassiveAbility(attacker,'Magic Guard')) {
             const recoil = Math.max(1, Math.floor(safeNumber(attacker.maxHp, 1) * defenderData.contactDamageFraction));
             const recoilResult = applyDamage(attacker, recoil, { allowEndure: false });
             if (recoilResult.damageToHp > 0) {
@@ -2701,8 +2810,7 @@ function useattack(attackName, attacker, defender, options = {}) {
                 moveResult.messages.push(`${getPokemonDisplayName(defender)} resiste grace a Fermete.`);
             } else {
                 const hpBefore = safeNumber(defender.currentHp, 0);
-                const fatal = drift.states.has(defender) ? applyDamage(defender, hpBefore, { attacker, allowEndure: true, battleState }) : { damageToHp: hpBefore };
-                if (!drift.states.has(defender)) setPokemonHp(defender, 0);
+                const fatal = hit(hpBefore);
                 moveResult.success = true;
                 moveResult.damage = fatal.damageToHp;
                 moveResult.hits = 1;
@@ -2721,7 +2829,7 @@ function useattack(attackName, attacker, defender, options = {}) {
                 moveResult.effectiveness = 0;
                 moveResult.messages.push(`Ca n'affecte pas ${getPokemonDisplayName(defender)}.`);
             } else {
-                const dmgResult = applyDamage(defender, specialResolution.fixedDamage, { allowEndure: true, attacker, battleState });
+                const dmgResult = hit(specialResolution.fixedDamage);
                 moveResult.success = true;
                 moveResult.damage = dmgResult.damageToHp;
                 moveResult.hits = 1;
@@ -2732,10 +2840,10 @@ function useattack(attackName, attacker, defender, options = {}) {
             }
             if (specialResolution.selfFaint) setPokemonHp(attacker, 0);
         } else {
-            const resolvedMove = Number.isFinite(specialResolution?.power)
+            const resolvedMove = move.ename==='Water Shuriken' && attacker.__battle?.abilityForm==='Greninja-Ash' ? {...move,power:20} : Number.isFinite(specialResolution?.power)
                 ? { ...move, power: specialResolution.power }
                 : move;
-            const hits = resolveHitCount(resolvedMove);
+            const hits = resolveHitCount(resolvedMove,attacker);
             let totalDamage = 0;
             let hitCount = 0;
             let criticalHit = false;
@@ -2752,8 +2860,8 @@ function useattack(attackName, attacker, defender, options = {}) {
                     abilityPowerMultiplier
                 });
 
-                const dmgResult = applyDamage(defender, damageInfo.damage, { allowEndure: true, attacker, battleState });
-                if (dmgResult.damageToHp > 0 && getMoveFlags(resolvedMove).contact && heldItems.effect(defender, battleState) === 'rocky_helmet' && !hasPassiveAbility(attacker, 'Magic Guard')) {
+                const dmgResult = hit(damageInfo.damage,damageInfo.critical);
+                if (dmgResult.damageToHp > 0 && reactions.contact(attacker,resolvedMove) && heldItems.effect(defender, battleState) === 'rocky_helmet' && !hasPassiveAbility(attacker, 'Magic Guard')) {
                     const recoil = applyDamage(attacker, Math.max(1, Math.floor(attacker.maxHp / 6)), { allowEndure:false });
                     moveResult.messages.push(`${getPokemonDisplayName(attacker)} perd ${recoil.damageToHp} PV contre le Casque Brut.`);
                 }
@@ -2766,6 +2874,7 @@ function useattack(attackName, attacker, defender, options = {}) {
                 if (dmgResult.endured) {
                     moveResult.messages.push(`${getPokemonDisplayName(defender)} résiste grâce à ${dmgResult.enduredBy || 'Endure'} !`);
                 }
+                if(dmgResult.disguiseBroken)moveResult.messages.push(`${getPokemonDisplayName(defender)} encaisse le coup avec Fantômasque !`);
                 if (dmgResult.damageToSubstitute > 0) {
                     moveResult.messages.push(`Le clone de ${getPokemonDisplayName(defender)} encaisse ${dmgResult.damageToSubstitute} degats.`);
                     if (dmgResult.substituteBroken) {
@@ -2820,7 +2929,7 @@ function useattack(attackName, attacker, defender, options = {}) {
     }
 
     if (specialResolution?.consumeHeldItem && moveResult.success) {
-        const consumedItem = consumeHeldItem(attacker);
+        const consumedItem = consumeHeldItem(attacker,battleState);
         if (consumedItem) moveResult.messages.push(`${getPokemonDisplayName(attacker)} consomme son objet avec ${move.ename}.`);
     }
 
@@ -2843,13 +2952,25 @@ function useattack(attackName, attacker, defender, options = {}) {
         ? move.combat.effects.filter((effect) => !sheerForce || !['status_chance', 'flinch'].includes(effect.kind))
         : [];
     for (const effect of effects) {
-        applyEffect(effect, effectContext, moveResult);
+        const targetsEnemy=!['self','self_side'].includes(effect.target||moveTarget);
+        if(targetsEnemy && damageClass!=='status' && !moveResult.damage)continue;
+        if(targetsEnemy && (defenderData.substituteHp>0 || moveResult.substituteDamage>0)
+            && !hasPassiveAbility(attacker,'Infiltrator') && !getMoveFlags(move).sound)continue;
+        if(targetsEnemy && hasPassiveAbility(attacker,'Infiltrator'))effectContext.ignoreSafeguard=true;
+        if(targetsEnemy && damageClass!=='status' && effect.chance!=null && !ignoresDefenderAbility(attacker,defender) && hasPassiveAbility(defender,'Shield Dust'))continue;
+        const resolved=damageClass!=='status' && effect.chance!=null && hasPassiveAbility(attacker,'Serene Grace') ? {...effect,chance:Math.min(1,effect.chance*2)} : effect;
+        applyEffect(resolved, effectContext, moveResult);
     }
     applyImplicitMoveEffect(move, effectContext, moveResult);
+    const reactionContext={...effectContext,result:moveResult,hpBefore:hpBeforeMove};
+    if(!effects.some(e=>['status_chance','flinch'].includes(e.kind)))reactions.secondaryEffects(reactionContext,helper,moveResult.messages);
+    reactions.afterMove(reactionContext,helper,moveResult.messages);
+    if(defender.currentHp<=0 && hpBeforeMove>0)abilityForms.sync(attacker,'ko',moveResult.messages);
+    if(defender.currentHp<=0 && attacker.currentHp>0 && hpBeforeMove>0 && hasPassiveAbility(attacker,'Soul-Heart'))applyStageChange(attacker,'specialAttack',1,moveResult.messages,attacker);
 
     const moveRecoil = getMoveFlags(move).recoil;
     if (moveResult.damage > 0 && Array.isArray(moveRecoil) && moveRecoil.length === 2
-        && !hasPassiveAbility(attacker, 'Rock Head') && safeNumber(attacker.currentHp, 0) > 0) {
+        && !hasPassiveAbility(attacker, 'Rock Head') && !hasPassiveAbility(attacker,'Magic Guard') && safeNumber(attacker.currentHp, 0) > 0) {
         const recoil = Math.max(1, Math.floor(moveResult.damage * safeNumber(moveRecoil[0], 0) / Math.max(1, safeNumber(moveRecoil[1], 1))));
         const recoilResult = applyDamage(attacker, recoil, { allowEndure: false });
         if (recoilResult.damageToHp > 0) {
@@ -2875,8 +2996,13 @@ function useattack(attackName, attacker, defender, options = {}) {
             if (healed) moveResult.messages.push(`Le Grelot Coque restaure ${healed} PV.`);
         }
     }
-    activateHeldItem(attacker, battleState, moveResult.messages, 'immediate');
-    activateHeldItem(defender, battleState, moveResult.messages, 'immediate');
+    activateHeldItem(attacker, battleState, moveResult.messages, 'immediate',defender);
+    activateHeldItem(defender, battleState, moveResult.messages, 'immediate',attacker);
+    if(moveResult.success && reactions.traits.moves[move.ename]?.dance && !options.danced && defender.currentHp>0 && hasPassiveAbility(defender,'Dancer')) {
+        const copied=useattack(move.ename,defender,attacker,{battleState,attackerSide:defenderSide,defenderSide:attackerSide,
+            attackerTeam:defenderTeam,defenderTeam:attackerTeam,consumePp:false,skipTurnStart:true,danced:true});
+        moveResult.messages.push(`${getPokemonDisplayName(defender)} copie la danse avec Danseuse.`,...copied.messages);
+    }
 
     attackerData.lastMoveUsed = move.ename;
     defenderData.lastMoveUsed = defenderData.lastMoveUsed || null;

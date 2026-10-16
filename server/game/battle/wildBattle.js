@@ -436,6 +436,7 @@ async function startBattle(player, wildPokemon, io, userId) {
     };
     let wildXpGranted = false;
     const battleState = createBattleState();
+    require('../abilities/abilityForms').attachTeam(player.equipe.pokemons);
     const playerSide = battleState.sides.player;
     const enemySide = battleState.sides.enemy;
 
@@ -551,7 +552,7 @@ async function startBattle(player, wildPokemon, io, userId) {
             const currentPokemon = player.equipe.pokemons[0];
 
             if (actionPlayer === 'flee') {
-                if (!canSwitchOut(currentPokemon)) {
+                if (!canSwitchOut(currentPokemon, wildPokemon, battleState, { escape: actionPlayer === 'flee' })) {
                     await narrate(player, io, `${getPokemonDisplayName(currentPokemon)} est piege et ne peut pas fuir.`);
                     continue;
                 }
@@ -613,7 +614,7 @@ async function startBattle(player, wildPokemon, io, userId) {
             }
 
             if (actionPlayer === 'change') {
-                if (!canSwitchOut(currentPokemon)) {
+                if (!canSwitchOut(currentPokemon, wildPokemon, battleState, { escape: actionPlayer === 'flee' })) {
                     await narrate(player, io, `${getPokemonDisplayName(currentPokemon)} est piege et ne peut pas changer.`);
                     continue;
                 }

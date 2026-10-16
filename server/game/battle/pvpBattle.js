@@ -412,6 +412,8 @@ async function startPvpBattle(playerA, playerB, io) {
     }
 
     const battleState = createBattleState();
+    require('../abilities/abilityForms').attachTeam(teamA);
+    require('../abilities/abilityForms').attachTeam(teamB);
     const sideA = battleState.sides.player;
     const sideB = battleState.sides.enemy;
 
@@ -551,7 +553,7 @@ async function startPvpBattle(playerA, playerB, io) {
 
         let canSwitchA = false;
         if (actionA.action === 'change') {
-            if (!canSwitchOut(activeA)) {
+            if (!canSwitchOut(activeA, activeB, battleState)) {
                 await narrateToPlayer(io, playerA, `${getPokemonDisplayName(activeA)} est piege et ne peut pas changer.`);
                 actionA = { action: 'attack', moveIndex: getRandomMoveIndex(activeA) };
             } else if (!Number.isInteger(actionA.index) || actionA.index <= 0 || actionA.index >= teamA.length) {
@@ -567,7 +569,7 @@ async function startPvpBattle(playerA, playerB, io) {
 
         let canSwitchB = false;
         if (actionB.action === 'change') {
-            if (!canSwitchOut(activeB)) {
+            if (!canSwitchOut(activeB, activeA, battleState)) {
                 await narrateToPlayer(io, playerB, `${getPokemonDisplayName(activeB)} est piege et ne peut pas changer.`);
                 actionB = { action: 'attack', moveIndex: getRandomMoveIndex(activeB) };
             } else if (!Number.isInteger(actionB.index) || actionB.index <= 0 || actionB.index >= teamB.length) {

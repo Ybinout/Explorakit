@@ -2,6 +2,7 @@ function clearBattleTransientState(team) {
     if (!Array.isArray(team)) return;
     for (const pokemon of team) {
         if (pokemon && typeof pokemon === 'object') {
+            require('../abilities/abilityForms').clear(pokemon);
             if (Object.prototype.hasOwnProperty.call(pokemon, '__heldItemBeforeExchange')) {
                 pokemon.heldItem = pokemon.__heldItemBeforeExchange;
                 delete pokemon.__heldItemBeforeExchange;

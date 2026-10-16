@@ -1,0 +1,2940 @@
+{
+  "generation": 7,
+  "source": "@pkmn/dex@0.10.11 (Pokemon Showdown), mod gen7",
+  "moves": {
+    "Pound": {},
+    "Karate Chop": {},
+    "Double Slap": {
+      "multihit": [
+        2,
+        5
+      ]
+    },
+    "Comet Punch": {
+      "multihit": [
+        2,
+        5
+      ]
+    },
+    "Mega Punch": {},
+    "Pay Day": {},
+    "Fire Punch": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "status": "brn"
+        }
+      ]
+    },
+    "Ice Punch": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "status": "frz"
+        }
+      ]
+    },
+    "Thunder Punch": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "status": "par"
+        }
+      ]
+    },
+    "Scratch": {},
+    "Vise Grip": {},
+    "Guillotine": {},
+    "Razor Wind": {},
+    "Swords Dance": {
+      "dance": true
+    },
+    "Cut": {},
+    "Gust": {},
+    "Wing Attack": {},
+    "Whirlwind": {
+      "reflectable": true
+    },
+    "Fly": {},
+    "Bind": {},
+    "Slam": {},
+    "Vine Whip": {},
+    "Stomp": {
+      "secondaries": [
+        {
+          "chance": 30,
+          "volatileStatus": "flinch"
+        }
+      ]
+    },
+    "Double Kick": {
+      "multihit": 2
+    },
+    "Mega Kick": {},
+    "Jump Kick": {},
+    "Rolling Kick": {
+      "secondaries": [
+        {
+          "chance": 30,
+          "volatileStatus": "flinch"
+        }
+      ]
+    },
+    "Sand Attack": {
+      "reflectable": true
+    },
+    "Headbutt": {
+      "secondaries": [
+        {
+          "chance": 30,
+          "volatileStatus": "flinch"
+        }
+      ]
+    },
+    "Horn Attack": {},
+    "Fury Attack": {
+      "multihit": [
+        2,
+        5
+      ]
+    },
+    "Horn Drill": {},
+    "Tackle": {},
+    "Body Slam": {
+      "secondaries": [
+        {
+          "chance": 30,
+          "status": "par"
+        }
+      ]
+    },
+    "Wrap": {},
+    "Take Down": {},
+    "Thrash": {},
+    "Double-Edge": {},
+    "Tail Whip": {
+      "reflectable": true
+    },
+    "Poison Sting": {
+      "secondaries": [
+        {
+          "chance": 30,
+          "status": "psn"
+        }
+      ]
+    },
+    "Twineedle": {
+      "secondaries": [
+        {
+          "chance": 20,
+          "status": "psn"
+        }
+      ],
+      "multihit": 2
+    },
+    "Pin Missile": {
+      "multihit": [
+        2,
+        5
+      ]
+    },
+    "Leer": {
+      "reflectable": true
+    },
+    "Bite": {
+      "secondaries": [
+        {
+          "chance": 30,
+          "volatileStatus": "flinch"
+        }
+      ]
+    },
+    "Growl": {
+      "reflectable": true
+    },
+    "Roar": {
+      "reflectable": true
+    },
+    "Sing": {
+      "reflectable": true
+    },
+    "Supersonic": {
+      "reflectable": true
+    },
+    "Sonic Boom": {},
+    "Disable": {
+      "reflectable": true
+    },
+    "Acid": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "boosts": {
+            "spd": -1
+          }
+        }
+      ]
+    },
+    "Ember": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "status": "brn"
+        }
+      ]
+    },
+    "Flamethrower": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "status": "brn"
+        }
+      ]
+    },
+    "Mist": {},
+    "Water Gun": {},
+    "Hydro Pump": {},
+    "Surf": {},
+    "Ice Beam": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "status": "frz"
+        }
+      ]
+    },
+    "Blizzard": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "status": "frz"
+        }
+      ]
+    },
+    "Psybeam": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "volatileStatus": "confusion"
+        }
+      ]
+    },
+    "Bubble Beam": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "boosts": {
+            "spe": -1
+          }
+        }
+      ]
+    },
+    "Aurora Beam": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "boosts": {
+            "atk": -1
+          }
+        }
+      ]
+    },
+    "Hyper Beam": {},
+    "Peck": {},
+    "Drill Peck": {},
+    "Submission": {},
+    "Low Kick": {},
+    "Counter": {},
+    "Seismic Toss": {},
+    "Strength": {},
+    "Absorb": {
+      "drain": [
+        1,
+        2
+      ]
+    },
+    "Mega Drain": {
+      "drain": [
+        1,
+        2
+      ]
+    },
+    "Leech Seed": {
+      "reflectable": true
+    },
+    "Growth": {},
+    "Razor Leaf": {},
+    "Solar Beam": {},
+    "Poison Powder": {
+      "reflectable": true
+    },
+    "Stun Spore": {
+      "reflectable": true
+    },
+    "Sleep Powder": {
+      "reflectable": true
+    },
+    "Petal Dance": {
+      "dance": true
+    },
+    "String Shot": {
+      "reflectable": true
+    },
+    "Dragon Rage": {},
+    "Fire Spin": {},
+    "Thunder Shock": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "status": "par"
+        }
+      ]
+    },
+    "Thunderbolt": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "status": "par"
+        }
+      ]
+    },
+    "Thunder Wave": {
+      "reflectable": true
+    },
+    "Thunder": {
+      "secondaries": [
+        {
+          "chance": 30,
+          "status": "par"
+        }
+      ]
+    },
+    "Rock Throw": {},
+    "Earthquake": {},
+    "Fissure": {},
+    "Dig": {},
+    "Toxic": {
+      "reflectable": true
+    },
+    "Confusion": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "volatileStatus": "confusion"
+        }
+      ]
+    },
+    "Psychic": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "boosts": {
+            "spd": -1
+          }
+        }
+      ]
+    },
+    "Hypnosis": {
+      "reflectable": true
+    },
+    "Meditate": {},
+    "Agility": {},
+    "Quick Attack": {},
+    "Rage": {},
+    "Teleport": {},
+    "Night Shade": {},
+    "Mimic": {},
+    "Screech": {
+      "reflectable": true
+    },
+    "Double Team": {},
+    "Recover": {},
+    "Harden": {},
+    "Minimize": {},
+    "Smokescreen": {
+      "reflectable": true
+    },
+    "Confuse Ray": {
+      "reflectable": true
+    },
+    "Withdraw": {},
+    "Defense Curl": {},
+    "Barrier": {},
+    "Light Screen": {},
+    "Haze": {},
+    "Reflect": {},
+    "Focus Energy": {},
+    "Bide": {},
+    "Metronome": {},
+    "Mirror Move": {},
+    "Self-Destruct": {},
+    "Egg Bomb": {},
+    "Lick": {
+      "secondaries": [
+        {
+          "chance": 30,
+          "status": "par"
+        }
+      ]
+    },
+    "Smog": {
+      "secondaries": [
+        {
+          "chance": 40,
+          "status": "psn"
+        }
+      ]
+    },
+    "Sludge": {
+      "secondaries": [
+        {
+          "chance": 30,
+          "status": "psn"
+        }
+      ]
+    },
+    "Bone Club": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "volatileStatus": "flinch"
+        }
+      ]
+    },
+    "Fire Blast": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "status": "brn"
+        }
+      ]
+    },
+    "Waterfall": {
+      "secondaries": [
+        {
+          "chance": 20,
+          "volatileStatus": "flinch"
+        }
+      ]
+    },
+    "Clamp": {},
+    "Swift": {},
+    "Skull Bash": {},
+    "Spike Cannon": {
+      "multihit": [
+        2,
+        5
+      ]
+    },
+    "Constrict": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "boosts": {
+            "spe": -1
+          }
+        }
+      ]
+    },
+    "Amnesia": {},
+    "Kinesis": {
+      "reflectable": true
+    },
+    "Soft-Boiled": {},
+    "High Jump Kick": {},
+    "Glare": {
+      "reflectable": true
+    },
+    "Dream Eater": {
+      "drain": [
+        1,
+        2
+      ]
+    },
+    "Poison Gas": {
+      "reflectable": true
+    },
+    "Barrage": {
+      "multihit": [
+        2,
+        5
+      ]
+    },
+    "Leech Life": {
+      "drain": [
+        1,
+        2
+      ]
+    },
+    "Lovely Kiss": {
+      "reflectable": true
+    },
+    "Sky Attack": {
+      "secondaries": [
+        {
+          "chance": 30,
+          "volatileStatus": "flinch"
+        }
+      ]
+    },
+    "Transform": {},
+    "Bubble": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "boosts": {
+            "spe": -1
+          }
+        }
+      ]
+    },
+    "Dizzy Punch": {
+      "secondaries": [
+        {
+          "chance": 20,
+          "volatileStatus": "confusion"
+        }
+      ]
+    },
+    "Spore": {
+      "reflectable": true
+    },
+    "Flash": {
+      "reflectable": true
+    },
+    "Psywave": {},
+    "Splash": {},
+    "Acid Armor": {},
+    "Crabhammer": {},
+    "Explosion": {},
+    "Fury Swipes": {
+      "multihit": [
+        2,
+        5
+      ]
+    },
+    "Bonemerang": {
+      "multihit": 2
+    },
+    "Rest": {},
+    "Rock Slide": {
+      "secondaries": [
+        {
+          "chance": 30,
+          "volatileStatus": "flinch"
+        }
+      ]
+    },
+    "Hyper Fang": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "volatileStatus": "flinch"
+        }
+      ]
+    },
+    "Sharpen": {},
+    "Conversion": {},
+    "Tri Attack": {
+      "secondaries": [
+        {
+          "chance": 20
+        }
+      ]
+    },
+    "Super Fang": {},
+    "Slash": {},
+    "Substitute": {},
+    "Struggle": {},
+    "Sketch": {},
+    "Triple Kick": {
+      "multihit": 3
+    },
+    "Thief": {},
+    "Spider Web": {
+      "reflectable": true
+    },
+    "Mind Reader": {},
+    "Nightmare": {},
+    "Flame Wheel": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "status": "brn"
+        }
+      ]
+    },
+    "Snore": {
+      "secondaries": [
+        {
+          "chance": 30,
+          "volatileStatus": "flinch"
+        }
+      ]
+    },
+    "Curse": {},
+    "Flail": {},
+    "Conversion 2": {},
+    "Aeroblast": {},
+    "Cotton Spore": {
+      "reflectable": true
+    },
+    "Reversal": {},
+    "Spite": {
+      "reflectable": true
+    },
+    "Powder Snow": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "status": "frz"
+        }
+      ]
+    },
+    "Protect": {},
+    "Mach Punch": {},
+    "Scary Face": {
+      "reflectable": true
+    },
+    "Feint Attack": {},
+    "Sweet Kiss": {
+      "reflectable": true
+    },
+    "Belly Drum": {},
+    "Sludge Bomb": {
+      "secondaries": [
+        {
+          "chance": 30,
+          "status": "psn"
+        }
+      ]
+    },
+    "Mud-Slap": {
+      "secondaries": [
+        {
+          "chance": 100,
+          "boosts": {
+            "accuracy": -1
+          }
+        }
+      ]
+    },
+    "Octazooka": {
+      "secondaries": [
+        {
+          "chance": 50,
+          "boosts": {
+            "accuracy": -1
+          }
+        }
+      ]
+    },
+    "Spikes": {
+      "reflectable": true
+    },
+    "Zap Cannon": {
+      "secondaries": [
+        {
+          "chance": 100,
+          "status": "par"
+        }
+      ]
+    },
+    "Foresight": {
+      "reflectable": true
+    },
+    "Destiny Bond": {},
+    "Perish Song": {},
+    "Icy Wind": {
+      "secondaries": [
+        {
+          "chance": 100,
+          "boosts": {
+            "spe": -1
+          }
+        }
+      ]
+    },
+    "Detect": {},
+    "Bone Rush": {
+      "multihit": [
+        2,
+        5
+      ]
+    },
+    "Lock-On": {},
+    "Outrage": {},
+    "Sandstorm": {},
+    "Giga Drain": {
+      "drain": [
+        1,
+        2
+      ]
+    },
+    "Endure": {},
+    "Charm": {
+      "reflectable": true
+    },
+    "Rollout": {},
+    "False Swipe": {},
+    "Swagger": {
+      "reflectable": true
+    },
+    "Milk Drink": {},
+    "Spark": {
+      "secondaries": [
+        {
+          "chance": 30,
+          "status": "par"
+        }
+      ]
+    },
+    "Fury Cutter": {},
+    "Steel Wing": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "self": {
+            "boosts": {
+              "def": 1
+            }
+          }
+        }
+      ]
+    },
+    "Mean Look": {
+      "reflectable": true
+    },
+    "Attract": {
+      "reflectable": true
+    },
+    "Sleep Talk": {},
+    "Heal Bell": {},
+    "Return": {},
+    "Present": {},
+    "Frustration": {},
+    "Safeguard": {},
+    "Pain Split": {},
+    "Sacred Fire": {
+      "secondaries": [
+        {
+          "chance": 50,
+          "status": "brn"
+        }
+      ]
+    },
+    "Magnitude": {},
+    "Dynamic Punch": {
+      "secondaries": [
+        {
+          "chance": 100,
+          "volatileStatus": "confusion"
+        }
+      ]
+    },
+    "Megahorn": {},
+    "Dragon Breath": {
+      "secondaries": [
+        {
+          "chance": 30,
+          "status": "par"
+        }
+      ]
+    },
+    "Baton Pass": {},
+    "Encore": {
+      "reflectable": true
+    },
+    "Pursuit": {},
+    "Rapid Spin": {
+      "secondaries": [
+        {
+          "chance": 100,
+          "self": {
+            "boosts": {
+              "spe": 1
+            }
+          }
+        }
+      ]
+    },
+    "Sweet Scent": {
+      "reflectable": true
+    },
+    "Iron Tail": {
+      "secondaries": [
+        {
+          "chance": 30,
+          "boosts": {
+            "def": -1
+          }
+        }
+      ]
+    },
+    "Metal Claw": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "self": {
+            "boosts": {
+              "atk": 1
+            }
+          }
+        }
+      ]
+    },
+    "Vital Throw": {},
+    "Morning Sun": {},
+    "Synthesis": {},
+    "Moonlight": {},
+    "Hidden Power": {},
+    "Cross Chop": {},
+    "Twister": {
+      "secondaries": [
+        {
+          "chance": 20,
+          "volatileStatus": "flinch"
+        }
+      ]
+    },
+    "Rain Dance": {},
+    "Sunny Day": {},
+    "Crunch": {
+      "secondaries": [
+        {
+          "chance": 20,
+          "boosts": {
+            "def": -1
+          }
+        }
+      ]
+    },
+    "Mirror Coat": {},
+    "Psych Up": {},
+    "Extreme Speed": {},
+    "Ancient Power": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "self": {
+            "boosts": {
+              "atk": 1,
+              "def": 1,
+              "spa": 1,
+              "spd": 1,
+              "spe": 1
+            }
+          }
+        }
+      ]
+    },
+    "Shadow Ball": {
+      "secondaries": [
+        {
+          "chance": 20,
+          "boosts": {
+            "spd": -1
+          }
+        }
+      ]
+    },
+    "Future Sight": {},
+    "Rock Smash": {
+      "secondaries": [
+        {
+          "chance": 50,
+          "boosts": {
+            "def": -1
+          }
+        }
+      ]
+    },
+    "Whirlpool": {},
+    "Beat Up": {},
+    "Fake Out": {
+      "secondaries": [
+        {
+          "chance": 100,
+          "volatileStatus": "flinch"
+        }
+      ]
+    },
+    "Uproar": {},
+    "Stockpile": {},
+    "Spit Up": {},
+    "Swallow": {},
+    "Heat Wave": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "status": "brn"
+        }
+      ]
+    },
+    "Hail": {},
+    "Torment": {
+      "reflectable": true
+    },
+    "Flatter": {
+      "reflectable": true
+    },
+    "Will-O-Wisp": {
+      "reflectable": true
+    },
+    "Memento": {},
+    "Facade": {},
+    "Focus Punch": {},
+    "Smelling Salts": {},
+    "Follow Me": {},
+    "Nature Power": {},
+    "Charge": {},
+    "Taunt": {
+      "reflectable": true
+    },
+    "Helping Hand": {},
+    "Trick": {},
+    "Role Play": {},
+    "Wish": {},
+    "Assist": {},
+    "Ingrain": {},
+    "Superpower": {},
+    "Magic Coat": {},
+    "Recycle": {},
+    "Revenge": {},
+    "Brick Break": {},
+    "Yawn": {
+      "reflectable": true
+    },
+    "Knock Off": {},
+    "Endeavor": {},
+    "Eruption": {},
+    "Skill Swap": {},
+    "Imprison": {},
+    "Refresh": {},
+    "Grudge": {},
+    "Snatch": {},
+    "Secret Power": {
+      "secondaries": [
+        {
+          "chance": 30,
+          "status": "par"
+        }
+      ]
+    },
+    "Dive": {},
+    "Arm Thrust": {
+      "multihit": [
+        2,
+        5
+      ]
+    },
+    "Camouflage": {},
+    "Tail Glow": {},
+    "Luster Purge": {
+      "secondaries": [
+        {
+          "chance": 50,
+          "boosts": {
+            "spd": -1
+          }
+        }
+      ]
+    },
+    "Mist Ball": {
+      "secondaries": [
+        {
+          "chance": 50,
+          "boosts": {
+            "spa": -1
+          }
+        }
+      ]
+    },
+    "Feather Dance": {
+      "reflectable": true,
+      "dance": true
+    },
+    "Teeter Dance": {
+      "dance": true
+    },
+    "Blaze Kick": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "status": "brn"
+        }
+      ]
+    },
+    "Mud Sport": {},
+    "Ice Ball": {},
+    "Needle Arm": {
+      "secondaries": [
+        {
+          "chance": 30,
+          "volatileStatus": "flinch"
+        }
+      ]
+    },
+    "Slack Off": {},
+    "Hyper Voice": {},
+    "Poison Fang": {
+      "secondaries": [
+        {
+          "chance": 50,
+          "status": "tox"
+        }
+      ]
+    },
+    "Crush Claw": {
+      "secondaries": [
+        {
+          "chance": 50,
+          "boosts": {
+            "def": -1
+          }
+        }
+      ]
+    },
+    "Blast Burn": {},
+    "Hydro Cannon": {},
+    "Meteor Mash": {
+      "secondaries": [
+        {
+          "chance": 20,
+          "self": {
+            "boosts": {
+              "atk": 1
+            }
+          }
+        }
+      ]
+    },
+    "Astonish": {
+      "secondaries": [
+        {
+          "chance": 30,
+          "volatileStatus": "flinch"
+        }
+      ]
+    },
+    "Weather Ball": {},
+    "Aromatherapy": {},
+    "Fake Tears": {
+      "reflectable": true
+    },
+    "Air Cutter": {},
+    "Overheat": {},
+    "Odor Sleuth": {
+      "reflectable": true
+    },
+    "Rock Tomb": {
+      "secondaries": [
+        {
+          "chance": 100,
+          "boosts": {
+            "spe": -1
+          }
+        }
+      ]
+    },
+    "Silver Wind": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "self": {
+            "boosts": {
+              "atk": 1,
+              "def": 1,
+              "spa": 1,
+              "spd": 1,
+              "spe": 1
+            }
+          }
+        }
+      ]
+    },
+    "Metal Sound": {
+      "reflectable": true
+    },
+    "Grass Whistle": {
+      "reflectable": true
+    },
+    "Tickle": {
+      "reflectable": true
+    },
+    "Cosmic Power": {},
+    "Water Spout": {},
+    "Signal Beam": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "volatileStatus": "confusion"
+        }
+      ]
+    },
+    "Shadow Punch": {},
+    "Extrasensory": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "volatileStatus": "flinch"
+        }
+      ]
+    },
+    "Sky Uppercut": {},
+    "Sand Tomb": {},
+    "Sheer Cold": {},
+    "Muddy Water": {
+      "secondaries": [
+        {
+          "chance": 30,
+          "boosts": {
+            "accuracy": -1
+          }
+        }
+      ]
+    },
+    "Bullet Seed": {
+      "multihit": [
+        2,
+        5
+      ]
+    },
+    "Aerial Ace": {},
+    "Icicle Spear": {
+      "multihit": [
+        2,
+        5
+      ]
+    },
+    "Iron Defense": {},
+    "Block": {
+      "reflectable": true
+    },
+    "Howl": {},
+    "Dragon Claw": {},
+    "Frenzy Plant": {},
+    "Bulk Up": {},
+    "Bounce": {
+      "secondaries": [
+        {
+          "chance": 30,
+          "status": "par"
+        }
+      ]
+    },
+    "Mud Shot": {
+      "secondaries": [
+        {
+          "chance": 100,
+          "boosts": {
+            "spe": -1
+          }
+        }
+      ]
+    },
+    "Poison Tail": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "status": "psn"
+        }
+      ]
+    },
+    "Covet": {},
+    "Volt Tackle": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "status": "par"
+        }
+      ]
+    },
+    "Magical Leaf": {},
+    "Water Sport": {},
+    "Calm Mind": {},
+    "Leaf Blade": {},
+    "Dragon Dance": {
+      "dance": true
+    },
+    "Rock Blast": {
+      "multihit": [
+        2,
+        5
+      ]
+    },
+    "Shock Wave": {},
+    "Water Pulse": {
+      "secondaries": [
+        {
+          "chance": 20,
+          "volatileStatus": "confusion"
+        }
+      ]
+    },
+    "Doom Desire": {},
+    "Psycho Boost": {},
+    "Roost": {},
+    "Gravity": {},
+    "Miracle Eye": {
+      "reflectable": true
+    },
+    "Wake-Up Slap": {},
+    "Hammer Arm": {},
+    "Gyro Ball": {},
+    "Healing Wish": {},
+    "Brine": {},
+    "Natural Gift": {},
+    "Feint": {},
+    "Pluck": {},
+    "Tailwind": {},
+    "Acupressure": {},
+    "Metal Burst": {},
+    "U-turn": {},
+    "Close Combat": {},
+    "Payback": {},
+    "Assurance": {},
+    "Embargo": {
+      "reflectable": true
+    },
+    "Fling": {},
+    "Psycho Shift": {},
+    "Trump Card": {},
+    "Heal Block": {
+      "reflectable": true
+    },
+    "Wring Out": {},
+    "Power Trick": {},
+    "Gastro Acid": {
+      "reflectable": true
+    },
+    "Lucky Chant": {},
+    "Me First": {},
+    "Copycat": {},
+    "Power Swap": {},
+    "Guard Swap": {},
+    "Punishment": {},
+    "Last Resort": {},
+    "Worry Seed": {
+      "reflectable": true
+    },
+    "Sucker Punch": {},
+    "Toxic Spikes": {
+      "reflectable": true
+    },
+    "Heart Swap": {},
+    "Aqua Ring": {},
+    "Magnet Rise": {},
+    "Flare Blitz": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "status": "brn"
+        }
+      ]
+    },
+    "Force Palm": {
+      "secondaries": [
+        {
+          "chance": 30,
+          "status": "par"
+        }
+      ]
+    },
+    "Aura Sphere": {},
+    "Rock Polish": {},
+    "Poison Jab": {
+      "secondaries": [
+        {
+          "chance": 30,
+          "status": "psn"
+        }
+      ]
+    },
+    "Dark Pulse": {
+      "secondaries": [
+        {
+          "chance": 20,
+          "volatileStatus": "flinch"
+        }
+      ]
+    },
+    "Night Slash": {},
+    "Aqua Tail": {},
+    "Seed Bomb": {},
+    "Air Slash": {
+      "secondaries": [
+        {
+          "chance": 30,
+          "volatileStatus": "flinch"
+        }
+      ]
+    },
+    "X-Scissor": {},
+    "Bug Buzz": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "boosts": {
+            "spd": -1
+          }
+        }
+      ]
+    },
+    "Dragon Pulse": {},
+    "Dragon Rush": {
+      "secondaries": [
+        {
+          "chance": 20,
+          "volatileStatus": "flinch"
+        }
+      ]
+    },
+    "Power Gem": {},
+    "Drain Punch": {
+      "drain": [
+        1,
+        2
+      ]
+    },
+    "Vacuum Wave": {},
+    "Focus Blast": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "boosts": {
+            "spd": -1
+          }
+        }
+      ]
+    },
+    "Energy Ball": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "boosts": {
+            "spd": -1
+          }
+        }
+      ]
+    },
+    "Brave Bird": {},
+    "Earth Power": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "boosts": {
+            "spd": -1
+          }
+        }
+      ]
+    },
+    "Switcheroo": {},
+    "Giga Impact": {},
+    "Nasty Plot": {},
+    "Bullet Punch": {},
+    "Avalanche": {},
+    "Ice Shard": {},
+    "Shadow Claw": {},
+    "Thunder Fang": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "status": "par"
+        },
+        {
+          "chance": 10,
+          "volatileStatus": "flinch"
+        }
+      ]
+    },
+    "Ice Fang": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "status": "frz"
+        },
+        {
+          "chance": 10,
+          "volatileStatus": "flinch"
+        }
+      ]
+    },
+    "Fire Fang": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "status": "brn"
+        },
+        {
+          "chance": 10,
+          "volatileStatus": "flinch"
+        }
+      ]
+    },
+    "Shadow Sneak": {},
+    "Mud Bomb": {
+      "secondaries": [
+        {
+          "chance": 30,
+          "boosts": {
+            "accuracy": -1
+          }
+        }
+      ]
+    },
+    "Psycho Cut": {},
+    "Zen Headbutt": {
+      "secondaries": [
+        {
+          "chance": 20,
+          "volatileStatus": "flinch"
+        }
+      ]
+    },
+    "Mirror Shot": {
+      "secondaries": [
+        {
+          "chance": 30,
+          "boosts": {
+            "accuracy": -1
+          }
+        }
+      ]
+    },
+    "Flash Cannon": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "boosts": {
+            "spd": -1
+          }
+        }
+      ]
+    },
+    "Rock Climb": {
+      "secondaries": [
+        {
+          "chance": 20,
+          "volatileStatus": "confusion"
+        }
+      ]
+    },
+    "Defog": {
+      "reflectable": true
+    },
+    "Trick Room": {},
+    "Draco Meteor": {},
+    "Discharge": {
+      "secondaries": [
+        {
+          "chance": 30,
+          "status": "par"
+        }
+      ]
+    },
+    "Lava Plume": {
+      "secondaries": [
+        {
+          "chance": 30,
+          "status": "brn"
+        }
+      ]
+    },
+    "Leaf Storm": {},
+    "Power Whip": {},
+    "Rock Wrecker": {},
+    "Cross Poison": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "status": "psn"
+        }
+      ]
+    },
+    "Gunk Shot": {
+      "secondaries": [
+        {
+          "chance": 30,
+          "status": "psn"
+        }
+      ]
+    },
+    "Iron Head": {
+      "secondaries": [
+        {
+          "chance": 30,
+          "volatileStatus": "flinch"
+        }
+      ]
+    },
+    "Magnet Bomb": {},
+    "Stone Edge": {},
+    "Captivate": {
+      "reflectable": true
+    },
+    "Stealth Rock": {
+      "reflectable": true
+    },
+    "Grass Knot": {},
+    "Chatter": {
+      "secondaries": [
+        {
+          "chance": 100,
+          "volatileStatus": "confusion"
+        }
+      ]
+    },
+    "Judgment": {},
+    "Bug Bite": {},
+    "Charge Beam": {
+      "secondaries": [
+        {
+          "chance": 70,
+          "self": {
+            "boosts": {
+              "spa": 1
+            }
+          }
+        }
+      ]
+    },
+    "Wood Hammer": {},
+    "Aqua Jet": {},
+    "Attack Order": {},
+    "Defend Order": {},
+    "Heal Order": {},
+    "Head Smash": {},
+    "Double Hit": {
+      "multihit": 2
+    },
+    "Roar of Time": {},
+    "Spacial Rend": {},
+    "Lunar Dance": {
+      "dance": true
+    },
+    "Crush Grip": {},
+    "Magma Storm": {},
+    "Dark Void": {
+      "reflectable": true
+    },
+    "Seed Flare": {
+      "secondaries": [
+        {
+          "chance": 40,
+          "boosts": {
+            "spd": -2
+          }
+        }
+      ]
+    },
+    "Ominous Wind": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "self": {
+            "boosts": {
+              "atk": 1,
+              "def": 1,
+              "spa": 1,
+              "spd": 1,
+              "spe": 1
+            }
+          }
+        }
+      ]
+    },
+    "Shadow Force": {},
+    "Hone Claws": {},
+    "Wide Guard": {},
+    "Guard Split": {},
+    "Power Split": {},
+    "Wonder Room": {},
+    "Psyshock": {},
+    "Venoshock": {},
+    "Autotomize": {},
+    "Rage Powder": {},
+    "Telekinesis": {
+      "reflectable": true
+    },
+    "Magic Room": {},
+    "Smack Down": {},
+    "Storm Throw": {},
+    "Flame Burst": {},
+    "Sludge Wave": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "status": "psn"
+        }
+      ]
+    },
+    "Quiver Dance": {
+      "dance": true
+    },
+    "Heavy Slam": {},
+    "Synchronoise": {},
+    "Electro Ball": {},
+    "Soak": {
+      "reflectable": true
+    },
+    "Flame Charge": {
+      "secondaries": [
+        {
+          "chance": 100,
+          "self": {
+            "boosts": {
+              "spe": 1
+            }
+          }
+        }
+      ]
+    },
+    "Coil": {},
+    "Low Sweep": {
+      "secondaries": [
+        {
+          "chance": 100,
+          "boosts": {
+            "spe": -1
+          }
+        }
+      ]
+    },
+    "Acid Spray": {
+      "secondaries": [
+        {
+          "chance": 100,
+          "boosts": {
+            "spd": -2
+          }
+        }
+      ]
+    },
+    "Foul Play": {},
+    "Simple Beam": {
+      "reflectable": true
+    },
+    "Entrainment": {
+      "reflectable": true
+    },
+    "After You": {},
+    "Round": {},
+    "Echoed Voice": {},
+    "Chip Away": {},
+    "Clear Smog": {},
+    "Stored Power": {},
+    "Quick Guard": {},
+    "Ally Switch": {},
+    "Scald": {
+      "secondaries": [
+        {
+          "chance": 30,
+          "status": "brn"
+        }
+      ]
+    },
+    "Shell Smash": {},
+    "Heal Pulse": {
+      "reflectable": true
+    },
+    "Hex": {},
+    "Sky Drop": {},
+    "Shift Gear": {},
+    "Circle Throw": {},
+    "Incinerate": {},
+    "Quash": {},
+    "Acrobatics": {},
+    "Reflect Type": {},
+    "Retaliate": {},
+    "Final Gambit": {},
+    "Bestow": {},
+    "Inferno": {
+      "secondaries": [
+        {
+          "chance": 100,
+          "status": "brn"
+        }
+      ]
+    },
+    "Water Pledge": {},
+    "Fire Pledge": {},
+    "Grass Pledge": {},
+    "Volt Switch": {},
+    "Struggle Bug": {
+      "secondaries": [
+        {
+          "chance": 100,
+          "boosts": {
+            "spa": -1
+          }
+        }
+      ]
+    },
+    "Bulldoze": {
+      "secondaries": [
+        {
+          "chance": 100,
+          "boosts": {
+            "spe": -1
+          }
+        }
+      ]
+    },
+    "Frost Breath": {},
+    "Dragon Tail": {},
+    "Work Up": {},
+    "Electroweb": {
+      "secondaries": [
+        {
+          "chance": 100,
+          "boosts": {
+            "spe": -1
+          }
+        }
+      ]
+    },
+    "Wild Charge": {},
+    "Drill Run": {},
+    "Dual Chop": {
+      "multihit": 2
+    },
+    "Heart Stamp": {
+      "secondaries": [
+        {
+          "chance": 30,
+          "volatileStatus": "flinch"
+        }
+      ]
+    },
+    "Horn Leech": {
+      "drain": [
+        1,
+        2
+      ]
+    },
+    "Sacred Sword": {},
+    "Razor Shell": {
+      "secondaries": [
+        {
+          "chance": 50,
+          "boosts": {
+            "def": -1
+          }
+        }
+      ]
+    },
+    "Heat Crash": {},
+    "Leaf Tornado": {
+      "secondaries": [
+        {
+          "chance": 50,
+          "boosts": {
+            "accuracy": -1
+          }
+        }
+      ]
+    },
+    "Steamroller": {
+      "secondaries": [
+        {
+          "chance": 30,
+          "volatileStatus": "flinch"
+        }
+      ]
+    },
+    "Cotton Guard": {},
+    "Night Daze": {
+      "secondaries": [
+        {
+          "chance": 40,
+          "boosts": {
+            "accuracy": -1
+          }
+        }
+      ]
+    },
+    "Psystrike": {},
+    "Tail Slap": {
+      "multihit": [
+        2,
+        5
+      ]
+    },
+    "Hurricane": {
+      "secondaries": [
+        {
+          "chance": 30,
+          "volatileStatus": "confusion"
+        }
+      ]
+    },
+    "Head Charge": {},
+    "Gear Grind": {
+      "multihit": 2
+    },
+    "Searing Shot": {
+      "secondaries": [
+        {
+          "chance": 30,
+          "status": "brn"
+        }
+      ]
+    },
+    "Techno Blast": {},
+    "Relic Song": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "status": "slp"
+        }
+      ]
+    },
+    "Secret Sword": {},
+    "Glaciate": {
+      "secondaries": [
+        {
+          "chance": 100,
+          "boosts": {
+            "spe": -1
+          }
+        }
+      ]
+    },
+    "Bolt Strike": {
+      "secondaries": [
+        {
+          "chance": 20,
+          "status": "par"
+        }
+      ]
+    },
+    "Blue Flare": {
+      "secondaries": [
+        {
+          "chance": 20,
+          "status": "brn"
+        }
+      ]
+    },
+    "Fiery Dance": {
+      "secondaries": [
+        {
+          "chance": 50,
+          "self": {
+            "boosts": {
+              "spa": 1
+            }
+          }
+        }
+      ],
+      "dance": true
+    },
+    "Freeze Shock": {
+      "secondaries": [
+        {
+          "chance": 30,
+          "status": "par"
+        }
+      ]
+    },
+    "Ice Burn": {
+      "secondaries": [
+        {
+          "chance": 30,
+          "status": "brn"
+        }
+      ]
+    },
+    "Snarl": {
+      "secondaries": [
+        {
+          "chance": 100,
+          "boosts": {
+            "spa": -1
+          }
+        }
+      ]
+    },
+    "Icicle Crash": {
+      "secondaries": [
+        {
+          "chance": 30,
+          "volatileStatus": "flinch"
+        }
+      ]
+    },
+    "V-create": {},
+    "Fusion Flare": {},
+    "Fusion Bolt": {},
+    "Flying Press": {},
+    "Mat Block": {},
+    "Belch": {},
+    "Rototiller": {},
+    "Sticky Web": {
+      "reflectable": true
+    },
+    "Fell Stinger": {},
+    "Phantom Force": {},
+    "Trick-or-Treat": {
+      "reflectable": true
+    },
+    "Noble Roar": {
+      "reflectable": true
+    },
+    "Ion Deluge": {},
+    "Parabolic Charge": {
+      "drain": [
+        1,
+        2
+      ]
+    },
+    "Forest's Curse": {
+      "reflectable": true
+    },
+    "Petal Blizzard": {},
+    "Freeze-Dry": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "status": "frz"
+        }
+      ]
+    },
+    "Disarming Voice": {},
+    "Parting Shot": {
+      "reflectable": true
+    },
+    "Topsy-Turvy": {
+      "reflectable": true
+    },
+    "Draining Kiss": {
+      "drain": [
+        3,
+        4
+      ]
+    },
+    "Crafty Shield": {},
+    "Flower Shield": {},
+    "Grassy Terrain": {},
+    "Misty Terrain": {},
+    "Electrify": {},
+    "Play Rough": {
+      "secondaries": [
+        {
+          "chance": 10,
+          "boosts": {
+            "atk": -1
+          }
+        }
+      ]
+    },
+    "Fairy Wind": {},
+    "Moonblast": {
+      "secondaries": [
+        {
+          "chance": 30,
+          "boosts": {
+            "spa": -1
+          }
+        }
+      ]
+    },
+    "Boomburst": {},
+    "Fairy Lock": {},
+    "King's Shield": {},
+    "Play Nice": {
+      "reflectable": true
+    },
+    "Confide": {
+      "reflectable": true
+    },
+    "Water Shuriken": {
+      "multihit": [
+        2,
+        5
+      ]
+    },
+    "Mystical Fire": {
+      "secondaries": [
+        {
+          "chance": 100,
+          "boosts": {
+            "spa": -1
+          }
+        }
+      ]
+    },
+    "Spiky Shield": {},
+    "Aromatic Mist": {},
+    "Eerie Impulse": {
+      "reflectable": true
+    },
+    "Venom Drench": {
+      "reflectable": true
+    },
+    "Powder": {
+      "reflectable": true
+    },
+    "Geomancy": {},
+    "Magnetic Flux": {},
+    "Happy Hour": {},
+    "Electric Terrain": {},
+    "Dazzling Gleam": {},
+    "Baby-Doll Eyes": {
+      "reflectable": true
+    },
+    "Nuzzle": {
+      "secondaries": [
+        {
+          "chance": 100,
+          "status": "par"
+        }
+      ]
+    },
+    "Infestation": {},
+    "Power-Up Punch": {
+      "secondaries": [
+        {
+          "chance": 100,
+          "self": {
+            "boosts": {
+              "atk": 1
+            }
+          }
+        }
+      ]
+    },
+    "Oblivion Wing": {
+      "drain": [
+        3,
+        4
+      ]
+    },
+    "Land's Wrath": {},
+    "Diamond Storm": {
+      "secondaries": [
+        {}
+      ]
+    },
+    "Hyperspace Hole": {},
+    "Steam Eruption": {
+      "secondaries": [
+        {
+          "chance": 30,
+          "status": "brn"
+        }
+      ]
+    }
+  },
+  "weights": {
+    "1": 6.9,
+    "2": 13,
+    "3": 100,
+    "4": 8.5,
+    "5": 19,
+    "6": 90.5,
+    "7": 9,
+    "8": 22.5,
+    "9": 85.5,
+    "10": 2.9,
+    "11": 9.9,
+    "12": 32,
+    "13": 3.2,
+    "14": 10,
+    "15": 29.5,
+    "16": 1.8,
+    "17": 30,
+    "18": 39.5,
+    "19": 3.5,
+    "20": 18.5,
+    "21": 2,
+    "22": 38,
+    "23": 6.9,
+    "24": 65,
+    "25": 6,
+    "26": 30,
+    "27": 12,
+    "28": 29.5,
+    "29": 7,
+    "30": 20,
+    "31": 60,
+    "32": 9,
+    "33": 19.5,
+    "34": 62,
+    "35": 7.5,
+    "36": 40,
+    "37": 9.9,
+    "38": 19.9,
+    "39": 5.5,
+    "40": 12,
+    "41": 7.5,
+    "42": 55,
+    "43": 5.4,
+    "44": 8.6,
+    "45": 18.6,
+    "46": 5.4,
+    "47": 29.5,
+    "48": 30,
+    "49": 12.5,
+    "50": 0.8,
+    "51": 33.3,
+    "52": 4.2,
+    "53": 32,
+    "54": 19.6,
+    "55": 76.6,
+    "56": 28,
+    "57": 32,
+    "58": 19,
+    "59": 155,
+    "60": 12.4,
+    "61": 20,
+    "62": 54,
+    "63": 19.5,
+    "64": 56.5,
+    "65": 48,
+    "66": 19.5,
+    "67": 70.5,
+    "68": 130,
+    "69": 4,
+    "70": 6.4,
+    "71": 15.5,
+    "72": 45.5,
+    "73": 55,
+    "74": 20,
+    "75": 105,
+    "76": 300,
+    "77": 30,
+    "78": 95,
+    "79": 36,
+    "80": 78.5,
+    "81": 6,
+    "82": 60,
+    "83": 15,
+    "84": 39.2,
+    "85": 85.2,
+    "86": 90,
+    "87": 120,
+    "88": 30,
+    "89": 30,
+    "90": 4,
+    "91": 132.5,
+    "92": 0.1,
+    "93": 0.1,
+    "94": 40.5,
+    "95": 210,
+    "96": 32.4,
+    "97": 75.6,
+    "98": 6.5,
+    "99": 60,
+    "100": 10.4,
+    "101": 66.6,
+    "102": 2.5,
+    "103": 120,
+    "104": 6.5,
+    "105": 45,
+    "106": 49.8,
+    "107": 50.2,
+    "108": 65.5,
+    "109": 1,
+    "110": 9.5,
+    "111": 115,
+    "112": 120,
+    "113": 34.6,
+    "114": 35,
+    "115": 80,
+    "116": 8,
+    "117": 25,
+    "118": 15,
+    "119": 39,
+    "120": 34.5,
+    "121": 80,
+    "122": 54.5,
+    "123": 56,
+    "124": 40.6,
+    "125": 30,
+    "126": 44.5,
+    "127": 55,
+    "128": 88.4,
+    "129": 10,
+    "130": 235,
+    "131": 220,
+    "132": 4,
+    "133": 6.5,
+    "134": 29,
+    "135": 24.5,
+    "136": 25,
+    "137": 36.5,
+    "138": 7.5,
+    "139": 35,
+    "140": 11.5,
+    "141": 40.5,
+    "142": 59,
+    "143": 460,
+    "144": 55.4,
+    "145": 52.6,
+    "146": 60,
+    "147": 3.3,
+    "148": 16.5,
+    "149": 210,
+    "150": 122,
+    "151": 4,
+    "152": 6.4,
+    "153": 15.8,
+    "154": 100.5,
+    "155": 7.9,
+    "156": 19,
+    "157": 79.5,
+    "158": 9.5,
+    "159": 25,
+    "160": 88.8,
+    "161": 6,
+    "162": 32.5,
+    "163": 21.2,
+    "164": 40.8,
+    "165": 10.8,
+    "166": 35.6,
+    "167": 8.5,
+    "168": 33.5,
+    "169": 75,
+    "170": 12,
+    "171": 22.5,
+    "172": 2,
+    "173": 3,
+    "174": 1,
+    "175": 1.5,
+    "176": 3.2,
+    "177": 2,
+    "178": 15,
+    "179": 7.8,
+    "180": 13.3,
+    "181": 61.5,
+    "182": 5.8,
+    "183": 8.5,
+    "184": 28.5,
+    "185": 38,
+    "186": 33.9,
+    "187": 0.5,
+    "188": 1,
+    "189": 3,
+    "190": 11.5,
+    "191": 1.8,
+    "192": 8.5,
+    "193": 38,
+    "194": 8.5,
+    "195": 75,
+    "196": 26.5,
+    "197": 27,
+    "198": 2.1,
+    "199": 79.5,
+    "200": 1,
+    "201": 5,
+    "202": 28.5,
+    "203": 41.5,
+    "204": 7.2,
+    "205": 125.8,
+    "206": 14,
+    "207": 64.8,
+    "208": 400,
+    "209": 7.8,
+    "210": 48.7,
+    "211": 3.9,
+    "212": 118,
+    "213": 20.5,
+    "214": 54,
+    "215": 28,
+    "216": 8.8,
+    "217": 125.8,
+    "218": 35,
+    "219": 55,
+    "220": 6.5,
+    "221": 55.8,
+    "222": 5,
+    "223": 12,
+    "224": 28.5,
+    "225": 16,
+    "226": 220,
+    "227": 50.5,
+    "228": 10.8,
+    "229": 35,
+    "230": 152,
+    "231": 33.5,
+    "232": 120,
+    "233": 32.5,
+    "234": 71.2,
+    "235": 58,
+    "236": 21,
+    "237": 48,
+    "238": 6,
+    "239": 23.5,
+    "240": 21.4,
+    "241": 75.5,
+    "242": 46.8,
+    "243": 178,
+    "244": 198,
+    "245": 187,
+    "246": 72,
+    "247": 152,
+    "248": 202,
+    "249": 216,
+    "250": 199,
+    "251": 5,
+    "252": 5,
+    "253": 21.6,
+    "254": 52.2,
+    "255": 2.5,
+    "256": 19.5,
+    "257": 52,
+    "258": 7.6,
+    "259": 28,
+    "260": 81.9,
+    "261": 13.6,
+    "262": 37,
+    "263": 17.5,
+    "264": 32.5,
+    "265": 3.6,
+    "266": 10,
+    "267": 28.4,
+    "268": 11.5,
+    "269": 31.6,
+    "270": 2.6,
+    "271": 32.5,
+    "272": 55,
+    "273": 4,
+    "274": 28,
+    "275": 59.6,
+    "276": 2.3,
+    "277": 19.8,
+    "278": 9.5,
+    "279": 28,
+    "280": 6.6,
+    "281": 20.2,
+    "282": 48.4,
+    "283": 1.7,
+    "284": 3.6,
+    "285": 4.5,
+    "286": 39.2,
+    "287": 24,
+    "288": 46.5,
+    "289": 130.5,
+    "290": 5.5,
+    "291": 12,
+    "292": 1.2,
+    "293": 16.3,
+    "294": 40.5,
+    "295": 84,
+    "296": 86.4,
+    "297": 253.8,
+    "298": 2,
+    "299": 97,
+    "300": 11,
+    "301": 32.6,
+    "302": 11,
+    "303": 11.5,
+    "304": 60,
+    "305": 120,
+    "306": 360,
+    "307": 11.2,
+    "308": 31.5,
+    "309": 15.2,
+    "310": 40.2,
+    "311": 4.2,
+    "312": 4.2,
+    "313": 17.7,
+    "314": 17.7,
+    "315": 2,
+    "316": 10.3,
+    "317": 80,
+    "318": 20.8,
+    "319": 88.8,
+    "320": 130,
+    "321": 398,
+    "322": 24,
+    "323": 220,
+    "324": 80.4,
+    "325": 30.6,
+    "326": 71.5,
+    "327": 5,
+    "328": 15,
+    "329": 15.3,
+    "330": 82,
+    "331": 51.3,
+    "332": 77.4,
+    "333": 1.2,
+    "334": 20.6,
+    "335": 40.3,
+    "336": 52.5,
+    "337": 168,
+    "338": 154,
+    "339": 1.9,
+    "340": 23.6,
+    "341": 11.5,
+    "342": 32.8,
+    "343": 21.5,
+    "344": 108,
+    "345": 23.8,
+    "346": 60.4,
+    "347": 12.5,
+    "348": 68.2,
+    "349": 7.4,
+    "350": 162,
+    "351": 0.8,
+    "352": 22,
+    "353": 2.3,
+    "354": 12.5,
+    "355": 15,
+    "356": 30.6,
+    "357": 100,
+    "358": 1,
+    "359": 47,
+    "360": 14,
+    "361": 16.8,
+    "362": 256.5,
+    "363": 39.5,
+    "364": 87.6,
+    "365": 150.6,
+    "366": 52.5,
+    "367": 27,
+    "368": 22.6,
+    "369": 23.4,
+    "370": 8.7,
+    "371": 42.1,
+    "372": 110.5,
+    "373": 102.6,
+    "374": 95.2,
+    "375": 202.5,
+    "376": 550,
+    "377": 230,
+    "378": 175,
+    "379": 205,
+    "380": 40,
+    "381": 60,
+    "382": 352,
+    "383": 950,
+    "384": 206.5,
+    "385": 1.1,
+    "386": 60.8,
+    "387": 10.2,
+    "388": 97,
+    "389": 310,
+    "390": 6.2,
+    "391": 22,
+    "392": 55,
+    "393": 5.2,
+    "394": 23,
+    "395": 84.5,
+    "396": 2,
+    "397": 15.5,
+    "398": 24.9,
+    "399": 20,
+    "400": 31.5,
+    "401": 2.2,
+    "402": 25.5,
+    "403": 9.5,
+    "404": 30.5,
+    "405": 42,
+    "406": 1.2,
+    "407": 14.5,
+    "408": 31.5,
+    "409": 102.5,
+    "410": 57,
+    "411": 149.5,
+    "412": 3.4,
+    "413": 6.5,
+    "414": 23.3,
+    "415": 5.5,
+    "416": 38.5,
+    "417": 3.9,
+    "418": 29.5,
+    "419": 33.5,
+    "420": 3.3,
+    "421": 9.3,
+    "422": 6.3,
+    "423": 29.9,
+    "424": 20.3,
+    "425": 1.2,
+    "426": 15,
+    "427": 5.5,
+    "428": 33.3,
+    "429": 4.4,
+    "430": 27.3,
+    "431": 3.9,
+    "432": 43.8,
+    "433": 0.6,
+    "434": 19.2,
+    "435": 38,
+    "436": 60.5,
+    "437": 187,
+    "438": 15,
+    "439": 13,
+    "440": 24.4,
+    "441": 1.9,
+    "442": 108,
+    "443": 20.5,
+    "444": 56,
+    "445": 95,
+    "446": 105,
+    "447": 20.2,
+    "448": 54,
+    "449": 49.5,
+    "450": 300,
+    "451": 12,
+    "452": 61.5,
+    "453": 23,
+    "454": 44.4,
+    "455": 27,
+    "456": 7,
+    "457": 24,
+    "458": 65,
+    "459": 50.5,
+    "460": 135.5,
+    "461": 34,
+    "462": 180,
+    "463": 140,
+    "464": 282.8,
+    "465": 128.6,
+    "466": 138.6,
+    "467": 68,
+    "468": 38,
+    "469": 51.5,
+    "470": 25.5,
+    "471": 25.9,
+    "472": 42.5,
+    "473": 291,
+    "474": 34,
+    "475": 52,
+    "476": 340,
+    "477": 106.6,
+    "478": 26.6,
+    "479": 0.3,
+    "480": 0.3,
+    "481": 0.3,
+    "482": 0.3,
+    "483": 683,
+    "484": 336,
+    "485": 430,
+    "486": 420,
+    "487": 750,
+    "488": 85.6,
+    "489": 3.1,
+    "490": 1.4,
+    "491": 50.5,
+    "492": 2.1,
+    "493": 320,
+    "494": 4,
+    "495": 8.1,
+    "496": 16,
+    "497": 63,
+    "498": 9.9,
+    "499": 55.5,
+    "500": 150,
+    "501": 5.9,
+    "502": 24.5,
+    "503": 94.6,
+    "504": 11.6,
+    "505": 27,
+    "506": 4.1,
+    "507": 14.7,
+    "508": 61,
+    "509": 10.1,
+    "510": 37.5,
+    "511": 10.5,
+    "512": 30.5,
+    "513": 11,
+    "514": 28,
+    "515": 13.5,
+    "516": 29,
+    "517": 23.3,
+    "518": 60.5,
+    "519": 2.1,
+    "520": 15,
+    "521": 29,
+    "522": 29.8,
+    "523": 79.5,
+    "524": 18,
+    "525": 102,
+    "526": 260,
+    "527": 2.1,
+    "528": 10.5,
+    "529": 8.5,
+    "530": 40.4,
+    "531": 31,
+    "532": 12.5,
+    "533": 40,
+    "534": 87,
+    "535": 4.5,
+    "536": 17,
+    "537": 62,
+    "538": 55.5,
+    "539": 51,
+    "540": 2.5,
+    "541": 7.3,
+    "542": 20.5,
+    "543": 5.3,
+    "544": 58.5,
+    "545": 200.5,
+    "546": 0.6,
+    "547": 6.6,
+    "548": 6.6,
+    "549": 16.3,
+    "550": 18,
+    "551": 15.2,
+    "552": 33.4,
+    "553": 96.3,
+    "554": 37.5,
+    "555": 92.9,
+    "556": 28,
+    "557": 14.5,
+    "558": 200,
+    "559": 11.8,
+    "560": 30,
+    "561": 14,
+    "562": 1.5,
+    "563": 76.5,
+    "564": 16.5,
+    "565": 81,
+    "566": 9.5,
+    "567": 32,
+    "568": 31,
+    "569": 107.3,
+    "570": 12.5,
+    "571": 81.1,
+    "572": 5.8,
+    "573": 7.5,
+    "574": 5.8,
+    "575": 18,
+    "576": 44,
+    "577": 1,
+    "578": 8,
+    "579": 20.1,
+    "580": 5.5,
+    "581": 24.2,
+    "582": 5.7,
+    "583": 41,
+    "584": 57.5,
+    "585": 19.5,
+    "586": 92.5,
+    "587": 5,
+    "588": 5.9,
+    "589": 33,
+    "590": 1,
+    "591": 10.5,
+    "592": 33,
+    "593": 135,
+    "594": 31.6,
+    "595": 0.6,
+    "596": 14.3,
+    "597": 18.8,
+    "598": 110,
+    "599": 21,
+    "600": 51,
+    "601": 81,
+    "602": 0.3,
+    "603": 22,
+    "604": 80.5,
+    "605": 9,
+    "606": 34.5,
+    "607": 3.1,
+    "608": 13,
+    "609": 34.3,
+    "610": 18,
+    "611": 36,
+    "612": 105.5,
+    "613": 8.5,
+    "614": 260,
+    "615": 148,
+    "616": 7.7,
+    "617": 25.3,
+    "618": 11,
+    "619": 20,
+    "620": 35.5,
+    "621": 139,
+    "622": 92,
+    "623": 330,
+    "624": 10.2,
+    "625": 70,
+    "626": 94.6,
+    "627": 10.5,
+    "628": 41,
+    "629": 9,
+    "630": 39.5,
+    "631": 58,
+    "632": 33,
+    "633": 17.3,
+    "634": 50,
+    "635": 160,
+    "636": 28.8,
+    "637": 46,
+    "638": 250,
+    "639": 260,
+    "640": 200,
+    "641": 63,
+    "642": 61,
+    "643": 330,
+    "644": 345,
+    "645": 68,
+    "646": 325,
+    "647": 48.5,
+    "648": 6.5,
+    "649": 82.5,
+    "650": 9,
+    "651": 29,
+    "652": 90,
+    "653": 9.4,
+    "654": 14.5,
+    "655": 39,
+    "656": 7,
+    "657": 10.9,
+    "658": 40,
+    "659": 5,
+    "660": 42.4,
+    "661": 1.7,
+    "662": 16,
+    "663": 24.5,
+    "664": 2.5,
+    "665": 8.4,
+    "666": 17,
+    "667": 13.5,
+    "668": 81.5,
+    "669": 0.1,
+    "670": 0.9,
+    "671": 10,
+    "672": 31,
+    "673": 91,
+    "674": 8,
+    "675": 136,
+    "676": 28,
+    "677": 3.5,
+    "678": 8.5,
+    "679": 2,
+    "680": 4.5,
+    "681": 53,
+    "682": 0.5,
+    "683": 15.5,
+    "684": 3.5,
+    "685": 5,
+    "686": 3.5,
+    "687": 47,
+    "688": 31,
+    "689": 96,
+    "690": 7.3,
+    "691": 81.5,
+    "692": 8.3,
+    "693": 35.3,
+    "694": 6,
+    "695": 21,
+    "696": 26,
+    "697": 270,
+    "698": 25.2,
+    "699": 225,
+    "700": 23.5,
+    "701": 21.5,
+    "702": 2.2,
+    "703": 5.7,
+    "704": 2.8,
+    "705": 17.5,
+    "706": 150.5,
+    "707": 3,
+    "708": 7,
+    "709": 71,
+    "710": 5,
+    "711": 12.5,
+    "712": 99.5,
+    "713": 505,
+    "714": 8,
+    "715": 85,
+    "716": 215,
+    "717": 203,
+    "718": 305,
+    "719": 8.8,
+    "720": 9,
+    "721": 195,
+    "722": 1.5,
+    "723": 16,
+    "724": 36.6,
+    "725": 4.3,
+    "726": 25,
+    "727": 83,
+    "728": 7.5,
+    "729": 17.5,
+    "730": 44,
+    "731": 1.2,
+    "732": 14.8,
+    "733": 26,
+    "734": 6,
+    "735": 14.2,
+    "736": 4.4,
+    "737": 10.5,
+    "738": 45,
+    "739": 7,
+    "740": 180,
+    "741": 3.4,
+    "742": 0.2,
+    "743": 0.5,
+    "744": 9.2,
+    "745": 25,
+    "746": 0.3,
+    "747": 8,
+    "748": 14.5,
+    "749": 110,
+    "750": 920,
+    "751": 4,
+    "752": 82,
+    "753": 1.5,
+    "754": 18.5,
+    "755": 1.5,
+    "756": 11.5,
+    "757": 4.8,
+    "758": 22.2,
+    "759": 6.8,
+    "760": 135,
+    "761": 3.2,
+    "762": 8.2,
+    "763": 21.4,
+    "764": 0.3,
+    "765": 76,
+    "766": 82.8,
+    "767": 12,
+    "768": 108,
+    "769": 70,
+    "770": 250,
+    "771": 1.2,
+    "772": 120.5,
+    "773": 100.5,
+    "774": 0.3,
+    "775": 19.9,
+    "776": 212,
+    "777": 3.3,
+    "778": 0.7,
+    "779": 19,
+    "780": 185,
+    "781": 210,
+    "782": 29.7,
+    "783": 47,
+    "784": 78.2,
+    "785": 20.5,
+    "786": 18.6,
+    "787": 45.5,
+    "788": 21.2,
+    "789": 0.1,
+    "790": 999.9,
+    "791": 230,
+    "792": 120,
+    "793": 55.5,
+    "794": 333.6,
+    "795": 25,
+    "796": 100,
+    "797": 999.9,
+    "798": 0.1,
+    "799": 888,
+    "800": 230,
+    "801": 80.5,
+    "802": 22.2,
+    "803": 1.8,
+    "804": 150,
+    "805": 820,
+    "806": 13,
+    "807": 44.5,
+    "808": 8,
+    "809": 800
+  },
+  "forms": {
+    "Darmanitan-Zen": {
+      "stats": {
+        "hp": 105,
+        "atk": 30,
+        "def": 105,
+        "spa": 140,
+        "spd": 105,
+        "spe": 55
+      },
+      "types": [
+        "Fire",
+        "Psychic"
+      ]
+    },
+    "Aegislash-Blade": {
+      "stats": {
+        "hp": 60,
+        "atk": 150,
+        "def": 50,
+        "spa": 150,
+        "spd": 50,
+        "spe": 60
+      },
+      "types": [
+        "Steel",
+        "Ghost"
+      ]
+    },
+    "Wishiwashi-School": {
+      "stats": {
+        "hp": 45,
+        "atk": 140,
+        "def": 130,
+        "spa": 140,
+        "spd": 135,
+        "spe": 30
+      },
+      "types": [
+        "Water"
+      ]
+    },
+    "Minior": {
+      "stats": {
+        "hp": 60,
+        "atk": 100,
+        "def": 60,
+        "spa": 100,
+        "spd": 60,
+        "spe": 120
+      },
+      "types": [
+        "Rock",
+        "Flying"
+      ]
+    },
+    "Minior-Meteor": {
+      "stats": {
+        "hp": 60,
+        "atk": 60,
+        "def": 100,
+        "spa": 60,
+        "spd": 100,
+        "spe": 60
+      },
+      "types": [
+        "Rock",
+        "Flying"
+      ]
+    },
+    "Zygarde-Complete": {
+      "stats": {
+        "hp": 216,
+        "atk": 100,
+        "def": 121,
+        "spa": 91,
+        "spd": 95,
+        "spe": 85
+      },
+      "types": [
+        "Dragon",
+        "Ground"
+      ]
+    },
+    "Greninja-Ash": {
+      "stats": {
+        "hp": 72,
+        "atk": 145,
+        "def": 67,
+        "spa": 153,
+        "spd": 71,
+        "spe": 132
+      },
+      "types": [
+        "Water",
+        "Dark"
+      ]
+    }
+  }
+}

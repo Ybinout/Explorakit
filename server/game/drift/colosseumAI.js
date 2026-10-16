@@ -14,7 +14,7 @@ const TIERS = [
     ['Expert', 'Anticipe deux tours à partir des attaques déjà observées.']
 ];
 const stageFactor = n => n >= 0 ? (2 + n) / 2 : 2 / (2 - n);
-const types = p => [...new Set([p.type1, p.type2].filter(Boolean))];
+const types = p => [...new Set((p.__battle?.tempTypes?.length ? p.__battle.tempTypes : p.__battle?.formTypes?.length ? p.__battle.formTypes : [p.type1, p.type2]).filter(Boolean))];
 const effectiveness = (move, p) => types(p).reduce((value, type) => value * engine.getEffectiveness(move.type, type), 1);
 const physical = move => move.combat?.damage_class === 'physical';
 const accuracy = (move, a, b) => Math.min(1, (Number(move.accuracy) || 100) / 100
@@ -73,12 +73,16 @@ function ownView(p) {
 // Explicit observation boundary: no reserve, IV/EV, held item, ability, move list,
 // remaining PP or pending action is read from the human player's Pokémon.
 function observedView(p) {
-    const level = p.level, base = p.data.base;
+    const disguise=p.__battle?.illusion?.id;
+    const visible=disguise?require('../../../data/game/pokedex.json').find(entry=>entry.id===disguise):null;
+    const form=!disguise && require('../../../data/game/ability_move_traits.gen7.json').forms[p.__battle?.abilityForm];
+    const base=visible?.base || (form?{HP:form.stats.hp,Attack:form.stats.atk,Defense:form.stats.def,'Sp. Attack':form.stats.spa,'Sp. Defense':form.stats.spd,Speed:form.stats.spe}:p.data.base);
+    const visibleTypes=visible?.type || types(p),level=p.level;
     const guessedHp = (2 * base.HP + 30) * level / 100 + level + 10;
     const scaling = Math.max(.5, Math.min(4, p.maxHp / guessedHp));
     const estimate = key => Math.max(1, Math.floor(((2 * base[key] + 30) * level / 100 + 5) * scaling));
     return { uuid: p.uuid, level, currentHp: p.currentHp, maxHp: p.maxHp, status: p.status,
-        type1: p.type1, type2: p.type2, data: { type: types(p) },
+        type1: visibleTypes[0], type2: visibleTypes[1], data: { type: visibleTypes },
         attack: estimate('Attack'), defense: estimate('Defense'), specialAttack: estimate('Sp. Attack'),
         specialDefense: estimate('Sp. Defense'), speed: estimate('Speed'),
         __battle: { statStages: { ...p.__battle?.statStages }, foresight: Boolean(p.__battle?.foresight), miracleEye: Boolean(p.__battle?.miracleEye) } };

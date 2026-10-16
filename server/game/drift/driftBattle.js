@@ -28,6 +28,7 @@ class DriftBattle {
         for (const [index, p] of [a,b].entries()) {
             if (!p.npc) report.battleStarted(p,this);
             autoSwitchPokemon(p.equipe);
+            require('../abilities/abilityForms').attachTeam(p.equipe.pokemons);
             p.inbattle = true; p.battle = this;
             effects.attach(p.equipe.pokemons, p, type === 'pvp', random);
             p.equipe.pokemons.forEach(poke => { effects.states.get(poke).wild = index === 0 && type === 'wild'; });
@@ -100,7 +101,8 @@ class DriftBattle {
         const active = p.equipe.pokemons[0];
         const kind = payload.action;
         if (!['attack','change','bag','flee'].includes(kind)) return false;
-        if (kind === 'change' && (!Number.isInteger(payload.number) || payload.number <= 0 || !p.equipe.pokemons[payload.number] || effects.isDead(p.equipe.pokemons[payload.number]) || !engine.canSwitchOut(active))) return false;
+        if (kind === 'change' && (!Number.isInteger(payload.number) || payload.number <= 0 || !p.equipe.pokemons[payload.number] || effects.isDead(p.equipe.pokemons[payload.number]) || !engine.canSwitchOut(active, this.active(p === this.a ? 1 : 0), this.state))) return false;
+        if (kind === 'flee' && this.type === 'wild' && !engine.canSwitchOut(active, this.active(p === this.a ? 1 : 0), this.state, {escape:true})) return false;
         if (kind === 'attack' && !(getUsableMoveIndexes(active, this.state).includes(payload.number) || !getUsableMoveIndexes(active, this.state).length)) return false;
         if (kind === 'bag' && (this.type !== 'wild' || p !== this.a || p.equipe.pokemons.length >= 6 || !(p.items[payload.itemKey] > 0) || getItemDefinition(payload.itemKey)?.category !== 'ball')) return false;
         this.pending.set(p, { action: kind, number: payload.number, itemKey: payload.itemKey });
@@ -167,7 +169,7 @@ class DriftBattle {
         }
         for (const [i,p] of actors.entries()) {
             const action = this.pending.get(p);
-            if (action?.action === 'change' && engine.canSwitchOut(this.active(i))) {
+            if (action?.action === 'change' && engine.canSwitchOut(this.active(i), this.active(1-i), this.state)) {
                 if (p === this.b && p.npc && this.aiMemory) this.aiMemory.lastSwitchRound = this.round;
                 switchPokemonByIndex(p.equipe, action.number); this.enter(i,true); this.prune(); if(this.checkEnd()) return;
             }

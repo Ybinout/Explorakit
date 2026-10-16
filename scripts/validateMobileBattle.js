@@ -79,12 +79,14 @@ async function validateMobileBattle(page, output, fit, { colosseum = false } = {
         assert(layout.documentHeight <= height + 1, 'Combat makes the page scroll');
         for (const sprite of layout.sprites) {
             assert(sprite.x >= layout.scene.x && sprite.y >= layout.scene.y
-                && sprite.right <= layout.scene.right && sprite.bottom <= layout.scene.bottom - 8,
+                && sprite.right <= layout.scene.right && sprite.bottom <= layout.scene.bottom + 0.5,
             `${width}x${height}: ${sprite.side} is clipped by the scene`);
+            if (sprite.side === 'player') assert(Math.abs(sprite.bottom-layout.scene.bottom)<1, 'Player silhouette must meet the arena bottom');
             for (const obstacle of layout.obstacles) {
-                const overlaps = sprite.x < obstacle.right && sprite.right > obstacle.x
-                    && sprite.y < obstacle.bottom && sprite.bottom > obstacle.y;
-                assert(!overlaps, `${width}x${height}: ${sprite.side} is covered by the interface`);
+                // The player's opaque baseline touches the controls; allow subpixel rounding at that seam.
+                const overlaps = sprite.x < obstacle.right - .05 && sprite.right > obstacle.x + .05
+                    && sprite.y < obstacle.bottom - .05 && sprite.bottom > obstacle.y + .05;
+                assert(!overlaps, `${width}x${height}: ${sprite.side} is covered by the interface ${JSON.stringify({sprite,obstacle})}`);
             }
         }
         for (const button of await page.locator('.battle-main-btn, .battle-sound-toggle').all()) {
@@ -109,8 +111,8 @@ async function validateMobileBattle(page, output, fit, { colosseum = false } = {
         await fit(page, '.battle-grid-bag', width, height);
         await page.evaluate(() => window.battleTestVm.$refs.battleOverlay.requestAction('Quelle est votre prochaine action ?'));
     }
-    if (colosseum) {
-        for (const [playerId, enemyId] of [[130, 95], [3, 149], [25, 208], [1, 5]]) {
+    {
+        for (const [playerId, enemyId] of [[92, 263], [130, 95], [3, 149], [25, 208], [1, 5]]) {
             await page.setViewportSize({ width: 320, height: 480 });
             await touch.send('Emulation.setTouchEmulationEnabled', { enabled: true, maxTouchPoints: 1 });
             await page.evaluate(([playerId, enemyId]) => {
@@ -122,10 +124,11 @@ async function validateMobileBattle(page, output, fit, { colosseum = false } = {
             await page.locator('.action-attack').tap();
             const layout = await measure();
             for (const sprite of layout.sprites) {
-                assert(sprite.x >= layout.scene.x && sprite.y >= layout.scene.y && sprite.right <= layout.scene.right && sprite.bottom <= layout.scene.bottom - 8, `Silhouette clipped: ${playerId}/${enemyId}`);
-                for (const obstacle of layout.obstacles) assert(!(sprite.x < obstacle.right && sprite.right > obstacle.x && sprite.y < obstacle.bottom && sprite.bottom > obstacle.y), `Silhouette covered: ${playerId}/${enemyId}`);
+                assert(sprite.x >= layout.scene.x && sprite.y >= layout.scene.y && sprite.right <= layout.scene.right && sprite.bottom <= layout.scene.bottom + 0.5, `Silhouette clipped: ${playerId}/${enemyId}`);
+                if (sprite.side === 'player') assert(Math.abs(sprite.bottom-layout.scene.bottom)<1, `Floating silhouette: ${playerId}`);
+                for (const obstacle of layout.obstacles) assert(!(sprite.x < obstacle.right-.05 && sprite.right > obstacle.x+.05 && sprite.y < obstacle.bottom-.05 && sprite.bottom > obstacle.y+.05), `Silhouette covered: ${playerId}/${enemyId}`);
             }
-            await page.screenshot({ path: path.join(output, `colosseum-sprites-${playerId}-${enemyId}.png`) });
+            await page.screenshot({ path: path.join(output, `${colosseum ? 'colosseum' : 'mobile'}-sprites-${playerId}-${enemyId}.png`) });
             await page.evaluate(() => window.battleTestVm.$refs.battleOverlay.requestAction('Quelle est votre prochaine action ?'));
         }
     }

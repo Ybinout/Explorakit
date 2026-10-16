@@ -89,7 +89,7 @@ function getMoveFlags(move) {
 }
 
 function isWeatherSuppressed(...pokemons) {
-    return pokemons.some((pokemon) => WEATHER_SUPPRESSORS.has(getAbilityName(pokemon)));
+    return pokemons.some((pokemon) => pokemon?.currentHp > 0 && WEATHER_SUPPRESSORS.has(getAbilityName(pokemon)));
 }
 
 function canAbilityBlockStatus(target, status, battleState) {
@@ -103,6 +103,7 @@ function canAbilityBlockStatus(target, status, battleState) {
     if (status === 'freeze' && ability === 'Magma Armor') return true;
     if (status === 'confusion' && ability === 'Own Tempo') return true;
     if (status === 'infatuation' && ability === 'Oblivious') return true;
+    if (status === 'infatuation' && ability === 'Aroma Veil') return true;
     if (ability === 'Leaf Guard' && battleState?.weather?.kind === 'sun') return true;
     if (ability === 'Flower Veil' && [target.type1, target.type2].includes('Grass')) return true;
     return false;
@@ -155,13 +156,14 @@ function resolveMoveAbilityImmunity(context) {
         attacker, defender, move, battleState, movePriority = 0,
         effectiveness = 1, isAllyHit = false, heal, changeStage, messages = []
     } = context;
-    if (!defender || ignoresDefenderAbility(attacker, defender)) return false;
+    if (!defender) return false;
 
-    const ability = getAbilityName(defender);
+    const ability = ignoresDefenderAbility(attacker,defender) ? null : getAbilityName(defender);
     const flags = getMoveFlags(move);
     let reason = null;
 
-    if (ability === 'Levitate' && move.type === 'Ground' && battleState?.field?.gravityTurns <= 0) reason = 'Levitate';
+    if (ability === 'Levitate' && move.type === 'Ground' && !(battleState?.field?.gravityTurns > 0)
+        && !(defender.__battle?.ingrain || defender.__battle?.grounded)) reason = 'Levitate';
     if (ability === 'Soundproof' && SOUND_MOVES.has(move.ename)) reason = 'Soundproof';
     if (ability === 'Bulletproof' && BULLET_MOVES.has(move.ename)) reason = 'Bulletproof';
     if ((ability === 'Damp' || hasAbility(attacker, 'Damp')) && EXPLOSIVE_MOVES.has(move.ename)) reason = 'Damp';
@@ -171,7 +173,9 @@ function resolveMoveAbilityImmunity(context) {
     if (ability === 'Wonder Guard' && move?.combat?.damage_class !== 'status' && effectiveness <= 1) reason = 'Wonder Guard';
     const defenderFlying = [defender.type1, defender.type2].includes('Flying') || hasAbility(defender, 'Levitate');
     if (battleState?.terrain?.kind === 'psychic_terrain' && movePriority > 0
-        && !defenderFlying && battleState?.field?.gravityTurns <= 0) reason = 'Psychic Terrain';
+        && (!defenderFlying || battleState?.field?.gravityTurns > 0)) reason = 'Psychic Terrain';
+    if (hasAbility(attacker, 'Prankster') && move?.combat?.damage_class === 'status'
+        && [defender.type1, defender.type2].includes('Dark')) reason = 'son type Ténèbres';
 
     const absorption = TYPE_ABSORPTIONS[ability];
     if (!reason && absorption?.type === move.type) {
@@ -210,8 +214,9 @@ function getAbilityAccuracyMultiplier(attacker, defender, move, battleState) {
     if (hasAbility(attacker, 'Victory Star')) multiplier *= 1.1;
     if (hasAbility(attacker, 'Hustle') && move?.combat?.damage_class === 'physical') multiplier *= 0.8;
     if (!ignoresDefenderAbility(attacker, defender)) {
-        if (hasAbility(defender, 'Sand Veil') && battleState?.weather?.kind === 'sandstorm') multiplier *= 0.8;
-        if (hasAbility(defender, 'Snow Cloak') && battleState?.weather?.kind === 'hail') multiplier *= 0.8;
+        if (!isWeatherSuppressed(attacker, defender) && hasAbility(defender, 'Sand Veil') && battleState?.weather?.kind === 'sandstorm') multiplier *= 0.8;
+        if (!isWeatherSuppressed(attacker, defender) && hasAbility(defender, 'Snow Cloak') && battleState?.weather?.kind === 'hail') multiplier *= 0.8;
+        if (hasAbility(defender, 'Tangled Feet') && defender.__battle?.confusionTurns > 0) multiplier *= 0.5;
         if (hasAbility(defender, 'Wonder Skin') && move?.combat?.damage_class === 'status') multiplier *= 0.5;
     }
     return multiplier;
@@ -220,6 +225,9 @@ function getAbilityAccuracyMultiplier(attacker, defender, move, battleState) {
 function getAbilitySpeedMultiplier(pokemon, battleState, opponent = null) {
     const ability = getAbilityName(pokemon);
     const weather = isWeatherSuppressed(pokemon, opponent) ? null : battleState?.weather?.kind;
+    if (ability === 'Quick Feet' && pokemon.status && pokemon.status !== 'normal') return 1.5;
+    if (ability === 'Unburden' && pokemon.__battle?.unburden && !pokemon.heldItem) return 2;
+    if (ability === 'Slow Start' && (pokemon.__battle?.activeTurns || 0) < 5) return 0.5;
     if ((ability === 'Chlorophyll' && weather === 'sun')
         || (ability === 'Swift Swim' && weather === 'rain')
         || (ability === 'Sand Rush' && weather === 'sandstorm')
@@ -236,6 +244,7 @@ function getAbilityStatMultiplier(pokemon, statName, battleState, opponent = nul
     if (['attack', 'specialAttack'].includes(statName) && ability === 'Defeatist' && hpRatio <= 0.5) multiplier *= 0.5;
     if (statName === 'attack' && ['Huge Power', 'Pure Power'].includes(ability)) multiplier *= 2;
     if (statName === 'attack' && ability === 'Hustle') multiplier *= 1.5;
+    if (statName === 'attack' && ability === 'Slow Start' && (pokemon.__battle?.activeTurns || 0) < 5) multiplier *= 0.5;
     if (statName === 'attack' && ability === 'Guts' && pokemon.status !== 'normal') multiplier *= 1.5;
     if (statName === 'attack' && ability === 'Flower Gift' && weather === 'sun') multiplier *= 1.5;
     if (statName === 'specialAttack' && ability === 'Flare Boost' && pokemon.status === 'burn') multiplier *= 1.5;
@@ -272,10 +281,20 @@ function getAbilityDamageMultiplier(context) {
     if (attackerAbility === 'Toxic Boost' && ['poison', 'badly_poison'].includes(attacker.status)
         && move?.combat?.damage_class === 'physical') multiplier *= 1.5;
     if (attackerAbility === 'Sniper' && context.critical) multiplier *= 1.5;
+    if (attackerAbility === 'Stakeout' && defender.__battle?.switchedInTurn === battleState?.turn) multiplier *= 2;
+    if (attackerAbility === 'Rivalry') {
+        const gender = require('../items/stoneEvolution').gender;
+        const a = gender(attacker), d = gender(defender);
+        if (['male','female'].includes(a) && ['male','female'].includes(d)) multiplier *= a === d ? 1.25 : 0.75;
+    }
+    if ((move.type === 'Dark' && [attackerAbility, getAbilityName(defender)].includes('Dark Aura'))
+        || (move.type === 'Fairy' && [attackerAbility, getAbilityName(defender)].includes('Fairy Aura'))) {
+        multiplier *= [attackerAbility, getAbilityName(defender)].includes('Aura Break') ? 0.75 : 4 / 3;
+    }
     if (attacker.__battle?.flashFireBoost && move.type === 'Fire') multiplier *= 1.5;
 
     if (defenderAbility === 'Fluffy') {
-        if (flags.contact) multiplier *= 0.5;
+        if (flags.contact && attackerAbility !== 'Long Reach') multiplier *= 0.5;
         if (move.type === 'Fire') multiplier *= 2;
     }
     if (defenderAbility === 'Heatproof' && move.type === 'Fire') multiplier *= 0.5;
@@ -335,10 +354,12 @@ function applySwitchInAbility(pokemon, opponent, ownSide, enemySide, battleState
         const specialDefense = safeNumber(opponent.currentSpecialDefense, opponent.specialDefense);
         changeStage(pokemon, defense < specialDefense ? 'attack' : 'specialAttack', 1, messages, pokemon);
     }
-    if (ability === 'Trace' && opponent && getAbilityName(opponent) && typeof helpers.snapshotAbility === 'function') {
+    const uncopyable = new Set(['Trace','Imposter','Illusion','Multitype','RKS System','Schooling','Shields Down','Stance Change','Disguise','Comatose','Power Construct','Battle Bond']);
+    if (ability === 'Trace' && opponent && getAbilityName(opponent) && !uncopyable.has(getAbilityName(opponent)) && typeof helpers.snapshotAbility === 'function') {
         helpers.snapshotAbility(pokemon);
         pokemon.passiveAbility = getAbilityName(opponent);
         messages.push(`${name} copie ${getAbilityName(opponent)} avec Trace.`);
+        messages.push(...applySwitchInAbility(pokemon,opponent,ownSide,enemySide,battleState,helpers));
     }
     if (ability === 'Frisk' && opponent?.heldItem) {
         messages.push(`${name} detecte l'objet ${opponent.heldItem} de ${enemyName}.`);
@@ -361,11 +382,12 @@ function applySwitchInAbility(pokemon, opponent, ownSide, enemySide, battleState
         }
         if (!pokemon.__battle) pokemon.__battle = {};
         pokemon.__battle.tempTypes = [opponent.type1, opponent.type2].filter(Boolean);
+        if(typeof helpers.snapshotAbility==='function') {helpers.snapshotAbility(pokemon);pokemon.passiveAbility=getAbilityName(opponent);}
         messages.push(`${name} prend l'apparence et les aptitudes de ${enemyName} avec Imposter.`);
     }
     if (ability === 'Forecast') {
         if (!pokemon.__battle) pokemon.__battle = {};
-        const weather = battleState?.weather?.kind;
+        const weather = isWeatherSuppressed(pokemon,opponent)?null:battleState?.weather?.kind;
         pokemon.__battle.tempTypes = weather === 'sun' ? ['Fire']
             : weather === 'rain' ? ['Water']
                 : weather === 'hail' ? ['Ice'] : [];
@@ -378,7 +400,7 @@ function applySwitchOutAbility(pokemon) {
     if (!pokemon) return messages;
     const ability = getAbilityName(pokemon);
     const name = pokemon.truename || pokemon.name || 'Pokemon';
-    if (ability === 'Natural Cure' && pokemon.status && pokemon.status !== 'normal') {
+    if (ability === 'Natural Cure' && pokemon.currentHp > 0 && pokemon.status && pokemon.status !== 'normal') {
         pokemon.status = 'normal';
         messages.push(`${name} est soigne par Medic Nature.`);
     }
@@ -392,9 +414,9 @@ function applySwitchOutAbility(pokemon) {
 
 function applyWeatherAbilityEndTurn(pokemon, opponent, battleState, helpers = {}) {
     const messages = [];
-    if (!pokemon || safeNumber(pokemon.currentHp, 0) <= 0 || isWeatherSuppressed(pokemon, opponent)) return messages;
+    if (!pokemon || safeNumber(pokemon.currentHp, 0) <= 0) return messages;
     const ability = getAbilityName(pokemon);
-    const weather = battleState?.weather?.kind;
+    const weather = isWeatherSuppressed(pokemon,opponent)?null:battleState?.weather?.kind;
     const maxHp = Math.max(1, safeNumber(pokemon.maxHp, 1));
     const name = pokemon.truename || pokemon.name || 'Pokemon';
     const canHeal = pokemon.__battle?.healBlockTurns <= 0;
