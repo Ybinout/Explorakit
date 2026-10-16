@@ -75,6 +75,18 @@ for (const mode of ['rift', 'colosseum-30', 'colosseum-60']) {
             assert.equal((await learn({pokemonUuid:learner.uuid,choiceId:learner.pendingMoves[0].id,slot:null})).success,true);
             p.run.phase = 'exploration';
 
+            const branch = factory.create(133,30);p.equipe.pokemons.push(branch);
+            const details = await command(socket,'getPokemonEvolutions',{pokemonUuid:branch.uuid});
+            assert(details.options.find(o=>o.targetId===196).ready);
+            assert.equal((await command(other,'getPokemonEvolutions',{pokemonUuid:branch.uuid})).success,false);
+            const evolutionChoice={pokemonUuid:branch.uuid,fromSpeciesId:133,targetId:196};
+            assert.equal((await command(socket,'evolvePokemon',{...evolutionChoice,targetId:150})).success,false);
+            p.inbattle=true;assert.equal((await command(socket,'evolvePokemon',evolutionChoice)).success,false);p.inbattle=false;
+            const evolutions=await Promise.all([command(socket,'evolvePokemon',evolutionChoice),command(socket,'evolvePokemon',evolutionChoice)]);
+            assert.equal(evolutions.filter(r=>r.success).length,1);assert.equal(branch.data.id,196);
+            const evolved=decode(checkpoint).runs.get(p.run.id).players.get(users[0].id).equipe.pokemons[2];
+            assert.equal(evolved.data.id,196);assert.equal(evolved.uuid,branch.uuid);
+
             assert(!economy.shop(p).catalog.some(i => i.key === 'revive'));
             assert.equal((await use('potion')).success, true);
             socket.disconnect();const ready = once(socket, 'drift:bootstrap');socket.connect();await ready;

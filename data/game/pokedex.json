@@ -575,25 +575,24 @@
     "exp": 1000000
   },
   {
-    "id": 25,
+    "id": 27,
     "name": {
-      "english": "Pikachu",
-      "japanese": "ピカチュウ",
-      "chinese": "皮卡丘",
-      "french": "Pikachu"
+      "english": "Sandshrew",
+      "japanese": "サンド",
+      "chinese": "穿山鼠",
+      "french": "Sabelette"
     },
     "type": [
-      "Electric"
+      "Ground"
     ],
     "base": {
-      "HP": 35,
-      "Attack": 55,
-      "Defense": 40,
-      "Sp. Attack": 50,
-      "Sp. Defense": 50,
-      "Speed": 90
+      "HP": 50,
+      "Attack": 75,
+      "Defense": 85,
+      "Sp. Attack": 20,
+      "Sp. Defense": 30,
+      "Speed": 40
     },
-    "evo3": 26,
     "exp": 1000000
   },
   {

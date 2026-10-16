@@ -18,7 +18,7 @@ const POKEMON_COLUMNS = [
     'current_special_attack', 'current_special_defense', 'current_speed',
     'ability1', 'ability2', 'ability3', 'ability4',
     'ev_hp', 'ev_attack', 'ev_defense', 'ev_special_attack', 'ev_special_defense', 'ev_speed',
-    'move1_pp', 'move2_pp', 'move3_pp', 'move4_pp', 'pending_moves'
+    'move1_pp', 'move2_pp', 'move3_pp', 'move4_pp', 'pending_moves', 'experience_rate'
 ];
 
 function pokemonToRow(pokemon, teamId, position) {
@@ -37,7 +37,7 @@ function pokemonToRow(pokemon, teamId, position) {
         pokemon.iv.speed, pokemon.nature, pokemon.k, pokemon.currentHp, normalizePokemonStatus(pokemon.status),
         pokemon.passiveAbility || null, pokemon.heldItem || null,
         pokemon.currentAttack, pokemon.currentDefense, pokemon.currentSpecialAttack,
-        pokemon.currentSpecialDefense, pokemon.currentSpeed, ...abilities, pokemon.ev.hp, pokemon.ev.attack, pokemon.ev.defense, pokemon.ev.specialAttack, pokemon.ev.specialDefense, pokemon.ev.speed, ...movePp, JSON.stringify(pokemon.pendingMoves || [])
+        pokemon.currentSpecialDefense, pokemon.currentSpeed, ...abilities, pokemon.ev.hp, pokemon.ev.attack, pokemon.ev.defense, pokemon.ev.specialAttack, pokemon.ev.specialDefense, pokemon.ev.speed, ...movePp, JSON.stringify(pokemon.pendingMoves || []), pokemon.experienceRate
     ];
 }
 
@@ -49,7 +49,7 @@ function rowToPokemon(row) {
             specialAttack: row.iv_special_attack,
             specialDefense: row.iv_special_defense, speed: row.iv_speed
         },
-        row.nature, row.k, { hp: row.ev_hp, attack: row.ev_attack, defense: row.ev_defense, specialAttack: row.ev_special_attack, specialDefense: row.ev_special_defense, speed: row.ev_speed }
+        row.nature, row.k, { hp: row.ev_hp, attack: row.ev_attack, defense: row.ev_defense, specialAttack: row.ev_special_attack, specialDefense: row.ev_special_defense, speed: row.ev_speed }, row.experience_rate
     );
     pokemon.uuid = row.uuid;
     pokemon.currentHp = row.current_hp;

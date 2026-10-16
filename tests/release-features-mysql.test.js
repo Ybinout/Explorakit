@@ -145,3 +145,34 @@ test('level-up choices persist and are owned, atomic, replay-safe and blocked du
         assert.equal((await teams.loadEquipe(u.id)).pokemons[0].pendingMoves[0].move,'Sleep Powder');
     } finally { await db.execute('DELETE FROM users WHERE id IN (?,?)',[u.id,v.id]); }
 });
+
+
+test('evolution choices are owned, atomic and persistent, including legacy XP curves and Pokedex', {skip:!enabled}, async()=>{
+    const a=await fixture(),b=await fixture();
+    const factory=require('../server/game/drift/pokemonFactory');
+    const {evolvePokemon}=require('../server/persistence/evolutionRepository');
+    try {
+        const eevee=factory.create(133,30);eevee.name='Compagnon';eevee.currentHp-=8;eevee.heldItem='leftovers';eevee.movePp[0]=1;
+        await teams.editEquipe(a.id,{pokemons:[eevee]});const choice={fromSpeciesId:133,targetId:196};
+        await assert.rejects(()=>evolvePokemon(b.id,eevee.uuid,choice),/appartient/);
+        await assert.rejects(()=>evolvePokemon(a.id,eevee.uuid,{...choice,targetId:150}),/conditions/);
+        const outcomes=await Promise.allSettled([evolvePokemon(a.id,eevee.uuid,choice),evolvePokemon(a.id,eevee.uuid,{...choice,targetId:197})]);
+        assert.equal(outcomes.filter(r=>r.status==='fulfilled').length,1);
+        const restored=(await teams.loadEquipe(a.id)).pokemons[0];assert([196,197].includes(restored.data.id));assert.equal(restored.uuid,eevee.uuid);assert.equal(restored.experience,eevee.experience);assert.equal(restored.level,30);assert.equal(restored.maxHp-restored.currentHp,8);assert.equal(restored.name,'Compagnon');assert.equal(restored.heldItem,'leftovers');assert.equal(restored.movePp[0],1);
+        await assert.rejects(()=>evolvePokemon(a.id,eevee.uuid,choice),/plus disponible/);
+        assert((await progress.loadPokedex(a.id)).entries.find(p=>p.id===restored.data.id).caught);
+        for(const [id,to,level] of [[183,184,18],[316,317,26],[318,319,30]]) {
+            const p=factory.create(id,level);await teams.editEquipe(a.id,{pokemons:[p]});
+            // A pre-patch row has no curve override; migration leaves its old level intact.
+            await db.execute('UPDATE pokemons SET experience_rate=NULL WHERE uuid=?',[p.uuid]);
+            const legacy=(await teams.loadEquipe(a.id)).pokemons[0];assert.equal(legacy.level,level);
+            await evolvePokemon(a.id,p.uuid,{fromSpeciesId:id,targetId:to});
+            const saved=(await teams.loadEquipe(a.id)).pokemons[0];assert.equal(saved.level,level);assert.equal(saved.experience,p.experience);assert.equal(saved.experienceRate,p.experienceRate);
+        }
+        const salamander=factory.create(4,15);salamander.gainExperience(salamander.getNextLevelExpForLevel(36)-salamander.experience);assert.equal(salamander.data.id,6);
+        await teams.editEquipe(a.id,{pokemons:[salamander]});assert.equal((await teams.loadEquipe(a.id)).pokemons[0].data.id,6);
+        salamander.currentHp=0;salamander.updatePokemon(4);await teams.editEquipe(a.id,{pokemons:[salamander]});
+        await assert.rejects(()=>evolvePokemon(a.id,salamander.uuid,{fromSpeciesId:4,targetId:5}),/conditions/);
+        assert.equal((await teams.loadEquipe(b.id)).pokemons[0].data.id,7);
+    } finally {await db.execute('DELETE FROM users WHERE id IN (?,?)',[a.id,b.id]);}
+});

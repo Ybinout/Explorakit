@@ -63,7 +63,7 @@ async function betweenBattles(selector) {
         const p=cleanup.runtime.playerFor({id:userId});assert(p);assert.equal(p.run.mode,'colosseum');
         assert.equal(p.run.endsAt-p.run.startedAt,1800000);assert.equal(p.equipe.pokemons.length,1);
         const starter=p.equipe.pokemons[0].uuid,ends=p.run.endsAt;
-        await page.reload({waitUntil:'networkidle'});await page.locator('.drift-hud').waitFor();
+        await page.reload({waitUntil:'networkidle'});await betweenBattles('.drift-hud');
         assert.equal(p.equipe.pokemons[0].uuid,starter);assert.equal(p.run.endsAt,ends);
         // Use actual controls against the test server's expedition inventory.
         const companion = factory.create(7,30);p.equipe.pokemons.push(companion);
@@ -115,7 +115,7 @@ async function betweenBattles(selector) {
         assert.equal(p.money,moneyBeforeCapture+30);
         await page.screenshot({path:path.join(output,'colosseum-capture-reward.png')});
         await dismissBattle();
-        await page.reload({waitUntil:'networkidle'});await page.locator('.drift-hud').waitFor();
+        await page.reload({waitUntil:'networkidle'});await betweenBattles('.drift-hud');
         assert.equal(p.money,moneyBeforeCapture+30,'Reconnecting must not award the capture again');
         p.equipe.pokemons=p.equipe.pokemons.filter(poke=>poke.uuid===starter);cleanup.runtime.send(p);
         await page.setViewportSize({width:393,height:852});

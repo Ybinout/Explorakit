@@ -1,0 +1,1804 @@
+{
+  "version": 1,
+  "source": "https://raw.githubusercontent.com/PokeAPI/pokeapi/81d20919845b6a445969b9265aab5cec6b04cece/data/v2/csv/",
+  "scope": "Base forms, species 1–809. Species levels and supported move/gender/stat conditions; explicit solo adaptations. Stone branches remain separate.",
+  "rules": [
+    {
+      "from": 1,
+      "to": 2,
+      "level": 16
+    },
+    {
+      "from": 2,
+      "to": 3,
+      "level": 32
+    },
+    {
+      "from": 4,
+      "to": 5,
+      "level": 16
+    },
+    {
+      "from": 5,
+      "to": 6,
+      "level": 36
+    },
+    {
+      "from": 7,
+      "to": 8,
+      "level": 16
+    },
+    {
+      "from": 8,
+      "to": 9,
+      "level": 36
+    },
+    {
+      "from": 10,
+      "to": 11,
+      "level": 7
+    },
+    {
+      "from": 11,
+      "to": 12,
+      "level": 10
+    },
+    {
+      "from": 13,
+      "to": 14,
+      "level": 7
+    },
+    {
+      "from": 14,
+      "to": 15,
+      "level": 10
+    },
+    {
+      "from": 16,
+      "to": 17,
+      "level": 18
+    },
+    {
+      "from": 17,
+      "to": 18,
+      "level": 36
+    },
+    {
+      "from": 19,
+      "to": 20,
+      "level": 20
+    },
+    {
+      "from": 21,
+      "to": 22,
+      "level": 20
+    },
+    {
+      "from": 23,
+      "to": 24,
+      "level": 22
+    },
+    {
+      "from": 27,
+      "to": 28,
+      "level": 22
+    },
+    {
+      "from": 29,
+      "to": 30,
+      "level": 16
+    },
+    {
+      "from": 32,
+      "to": 33,
+      "level": 16
+    },
+    {
+      "from": 41,
+      "to": 42,
+      "level": 22
+    },
+    {
+      "from": 42,
+      "to": 169,
+      "level": 32,
+      "adaptation": "Bonheur ou affection remplacés par un seuil de niveau."
+    },
+    {
+      "from": 43,
+      "to": 44,
+      "level": 21
+    },
+    {
+      "from": 46,
+      "to": 47,
+      "level": 24
+    },
+    {
+      "from": 48,
+      "to": 49,
+      "level": 31
+    },
+    {
+      "from": 50,
+      "to": 51,
+      "level": 26
+    },
+    {
+      "from": 52,
+      "to": 53,
+      "level": 28
+    },
+    {
+      "from": 54,
+      "to": 55,
+      "level": 33
+    },
+    {
+      "from": 56,
+      "to": 57,
+      "level": 28
+    },
+    {
+      "from": 60,
+      "to": 61,
+      "level": 25
+    },
+    {
+      "from": 61,
+      "to": 186,
+      "level": 40,
+      "adaptation": "Échange remplacé par un niveau, sans objet à fournir."
+    },
+    {
+      "from": 63,
+      "to": 64,
+      "level": 16
+    },
+    {
+      "from": 64,
+      "to": 65,
+      "level": 36,
+      "adaptation": "Échange remplacé par un niveau, sans objet à fournir."
+    },
+    {
+      "from": 66,
+      "to": 67,
+      "level": 28
+    },
+    {
+      "from": 67,
+      "to": 68,
+      "level": 38,
+      "adaptation": "Échange remplacé par un niveau, sans objet à fournir."
+    },
+    {
+      "from": 69,
+      "to": 70,
+      "level": 21
+    },
+    {
+      "from": 72,
+      "to": 73,
+      "level": 30
+    },
+    {
+      "from": 74,
+      "to": 75,
+      "level": 25
+    },
+    {
+      "from": 75,
+      "to": 76,
+      "level": 36,
+      "adaptation": "Échange remplacé par un niveau, sans objet à fournir."
+    },
+    {
+      "from": 77,
+      "to": 78,
+      "level": 40
+    },
+    {
+      "from": 79,
+      "to": 80,
+      "level": 37
+    },
+    {
+      "from": 79,
+      "to": 199,
+      "level": 40,
+      "adaptation": "Échange remplacé par un niveau, sans objet à fournir."
+    },
+    {
+      "from": 81,
+      "to": 82,
+      "level": 30
+    },
+    {
+      "from": 84,
+      "to": 85,
+      "level": 31
+    },
+    {
+      "from": 86,
+      "to": 87,
+      "level": 34
+    },
+    {
+      "from": 88,
+      "to": 89,
+      "level": 38
+    },
+    {
+      "from": 92,
+      "to": 93,
+      "level": 25
+    },
+    {
+      "from": 93,
+      "to": 94,
+      "level": 36,
+      "adaptation": "Échange remplacé par un niveau, sans objet à fournir."
+    },
+    {
+      "from": 95,
+      "to": 208,
+      "level": 40,
+      "adaptation": "Échange remplacé par un niveau, sans objet à fournir."
+    },
+    {
+      "from": 96,
+      "to": 97,
+      "level": 26
+    },
+    {
+      "from": 98,
+      "to": 99,
+      "level": 28
+    },
+    {
+      "from": 100,
+      "to": 101,
+      "level": 30
+    },
+    {
+      "from": 104,
+      "to": 105,
+      "level": 28
+    },
+    {
+      "from": 108,
+      "to": 463,
+      "level": 1,
+      "move": "Rollout",
+      "moveName": "Roulade"
+    },
+    {
+      "from": 109,
+      "to": 110,
+      "level": 35
+    },
+    {
+      "from": 111,
+      "to": 112,
+      "level": 42
+    },
+    {
+      "from": 112,
+      "to": 464,
+      "level": 52,
+      "adaptation": "Échange remplacé par un niveau, sans objet à fournir."
+    },
+    {
+      "from": 113,
+      "to": 242,
+      "level": 30,
+      "adaptation": "Bonheur ou affection remplacés par un seuil de niveau."
+    },
+    {
+      "from": 114,
+      "to": 465,
+      "level": 1,
+      "move": "Ancient Power",
+      "moveName": "Pouvoir Antique"
+    },
+    {
+      "from": 116,
+      "to": 117,
+      "level": 32
+    },
+    {
+      "from": 117,
+      "to": 230,
+      "level": 42,
+      "adaptation": "Échange remplacé par un niveau, sans objet à fournir."
+    },
+    {
+      "from": 118,
+      "to": 119,
+      "level": 33
+    },
+    {
+      "from": 123,
+      "to": 212,
+      "level": 40,
+      "adaptation": "Échange remplacé par un niveau, sans objet à fournir."
+    },
+    {
+      "from": 125,
+      "to": 466,
+      "level": 40,
+      "adaptation": "Échange remplacé par un niveau, sans objet à fournir."
+    },
+    {
+      "from": 126,
+      "to": 467,
+      "level": 40,
+      "adaptation": "Échange remplacé par un niveau, sans objet à fournir."
+    },
+    {
+      "from": 129,
+      "to": 130,
+      "level": 20
+    },
+    {
+      "from": 133,
+      "to": 196,
+      "level": 20,
+      "adaptation": "Bonheur ou affection remplacés par un seuil de niveau. Accessible à toute heure."
+    },
+    {
+      "from": 133,
+      "to": 197,
+      "level": 20,
+      "adaptation": "Bonheur ou affection remplacés par un seuil de niveau. Accessible à toute heure."
+    },
+    {
+      "from": 133,
+      "to": 700,
+      "level": 20,
+      "moveType": "Fairy",
+      "adaptation": "Bonheur ou affection remplacés par un seuil de niveau."
+    },
+    {
+      "from": 137,
+      "to": 233,
+      "level": 40,
+      "adaptation": "Échange remplacé par un niveau, sans objet à fournir."
+    },
+    {
+      "from": 138,
+      "to": 139,
+      "level": 40
+    },
+    {
+      "from": 140,
+      "to": 141,
+      "level": 40
+    },
+    {
+      "from": 147,
+      "to": 148,
+      "level": 30
+    },
+    {
+      "from": 148,
+      "to": 149,
+      "level": 55
+    },
+    {
+      "from": 152,
+      "to": 153,
+      "level": 16
+    },
+    {
+      "from": 153,
+      "to": 154,
+      "level": 32
+    },
+    {
+      "from": 155,
+      "to": 156,
+      "level": 14
+    },
+    {
+      "from": 156,
+      "to": 157,
+      "level": 36
+    },
+    {
+      "from": 158,
+      "to": 159,
+      "level": 18
+    },
+    {
+      "from": 159,
+      "to": 160,
+      "level": 30
+    },
+    {
+      "from": 161,
+      "to": 162,
+      "level": 15
+    },
+    {
+      "from": 163,
+      "to": 164,
+      "level": 20
+    },
+    {
+      "from": 165,
+      "to": 166,
+      "level": 18
+    },
+    {
+      "from": 167,
+      "to": 168,
+      "level": 22
+    },
+    {
+      "from": 170,
+      "to": 171,
+      "level": 27
+    },
+    {
+      "from": 172,
+      "to": 25,
+      "level": 20,
+      "adaptation": "Bonheur ou affection remplacés par un seuil de niveau."
+    },
+    {
+      "from": 173,
+      "to": 35,
+      "level": 20,
+      "adaptation": "Bonheur ou affection remplacés par un seuil de niveau."
+    },
+    {
+      "from": 174,
+      "to": 39,
+      "level": 20,
+      "adaptation": "Bonheur ou affection remplacés par un seuil de niveau."
+    },
+    {
+      "from": 175,
+      "to": 176,
+      "level": 20,
+      "adaptation": "Bonheur ou affection remplacés par un seuil de niveau."
+    },
+    {
+      "from": 177,
+      "to": 178,
+      "level": 25
+    },
+    {
+      "from": 179,
+      "to": 180,
+      "level": 15
+    },
+    {
+      "from": 180,
+      "to": 181,
+      "level": 30
+    },
+    {
+      "from": 183,
+      "to": 184,
+      "level": 18
+    },
+    {
+      "from": 187,
+      "to": 188,
+      "level": 18
+    },
+    {
+      "from": 188,
+      "to": 189,
+      "level": 27
+    },
+    {
+      "from": 190,
+      "to": 424,
+      "level": 1,
+      "move": "Double Hit",
+      "moveName": "Coup Double"
+    },
+    {
+      "from": 193,
+      "to": 469,
+      "level": 1,
+      "move": "Ancient Power",
+      "moveName": "Pouvoir Antique"
+    },
+    {
+      "from": 194,
+      "to": 195,
+      "level": 20
+    },
+    {
+      "from": 204,
+      "to": 205,
+      "level": 31
+    },
+    {
+      "from": 207,
+      "to": 472,
+      "level": 40,
+      "adaptation": "Objet spécial remplacé par un niveau, sans consommation. Accessible à toute heure."
+    },
+    {
+      "from": 209,
+      "to": 210,
+      "level": 23
+    },
+    {
+      "from": 215,
+      "to": 461,
+      "level": 40,
+      "adaptation": "Objet spécial remplacé par un niveau, sans consommation. Accessible à toute heure."
+    },
+    {
+      "from": 216,
+      "to": 217,
+      "level": 30
+    },
+    {
+      "from": 218,
+      "to": 219,
+      "level": 38
+    },
+    {
+      "from": 220,
+      "to": 221,
+      "level": 33
+    },
+    {
+      "from": 221,
+      "to": 473,
+      "level": 1,
+      "move": "Ancient Power",
+      "moveName": "Pouvoir Antique"
+    },
+    {
+      "from": 223,
+      "to": 224,
+      "level": 25
+    },
+    {
+      "from": 228,
+      "to": 229,
+      "level": 24
+    },
+    {
+      "from": 231,
+      "to": 232,
+      "level": 25
+    },
+    {
+      "from": 233,
+      "to": 474,
+      "level": 50,
+      "adaptation": "Échange remplacé par un niveau, sans objet à fournir."
+    },
+    {
+      "from": 236,
+      "to": 106,
+      "level": 20,
+      "relativeStats": 1
+    },
+    {
+      "from": 236,
+      "to": 107,
+      "level": 20,
+      "relativeStats": -1
+    },
+    {
+      "from": 236,
+      "to": 237,
+      "level": 20,
+      "relativeStats": 0
+    },
+    {
+      "from": 238,
+      "to": 124,
+      "level": 30
+    },
+    {
+      "from": 239,
+      "to": 125,
+      "level": 30
+    },
+    {
+      "from": 240,
+      "to": 126,
+      "level": 30
+    },
+    {
+      "from": 246,
+      "to": 247,
+      "level": 30
+    },
+    {
+      "from": 247,
+      "to": 248,
+      "level": 55
+    },
+    {
+      "from": 252,
+      "to": 253,
+      "level": 16
+    },
+    {
+      "from": 253,
+      "to": 254,
+      "level": 36
+    },
+    {
+      "from": 255,
+      "to": 256,
+      "level": 16
+    },
+    {
+      "from": 256,
+      "to": 257,
+      "level": 36
+    },
+    {
+      "from": 258,
+      "to": 259,
+      "level": 16
+    },
+    {
+      "from": 259,
+      "to": 260,
+      "level": 36
+    },
+    {
+      "from": 261,
+      "to": 262,
+      "level": 18
+    },
+    {
+      "from": 263,
+      "to": 264,
+      "level": 20
+    },
+    {
+      "from": 265,
+      "to": 266,
+      "level": 7,
+      "personalityBranch": 0
+    },
+    {
+      "from": 265,
+      "to": 268,
+      "level": 7,
+      "personalityBranch": 1
+    },
+    {
+      "from": 266,
+      "to": 267,
+      "level": 10
+    },
+    {
+      "from": 268,
+      "to": 269,
+      "level": 10
+    },
+    {
+      "from": 270,
+      "to": 271,
+      "level": 14
+    },
+    {
+      "from": 273,
+      "to": 274,
+      "level": 14
+    },
+    {
+      "from": 276,
+      "to": 277,
+      "level": 22
+    },
+    {
+      "from": 278,
+      "to": 279,
+      "level": 25
+    },
+    {
+      "from": 280,
+      "to": 281,
+      "level": 20
+    },
+    {
+      "from": 281,
+      "to": 282,
+      "level": 30
+    },
+    {
+      "from": 283,
+      "to": 284,
+      "level": 22
+    },
+    {
+      "from": 285,
+      "to": 286,
+      "level": 23
+    },
+    {
+      "from": 287,
+      "to": 288,
+      "level": 18
+    },
+    {
+      "from": 288,
+      "to": 289,
+      "level": 36
+    },
+    {
+      "from": 290,
+      "to": 291,
+      "level": 20
+    },
+    {
+      "from": 290,
+      "to": 292,
+      "level": 20,
+      "adaptation": "Choix alternatif à Ninjask ; ne crée pas un second Pokémon."
+    },
+    {
+      "from": 293,
+      "to": 294,
+      "level": 20
+    },
+    {
+      "from": 294,
+      "to": 295,
+      "level": 40
+    },
+    {
+      "from": 296,
+      "to": 297,
+      "level": 24
+    },
+    {
+      "from": 298,
+      "to": 183,
+      "level": 12,
+      "adaptation": "Bonheur ou affection remplacés par un seuil de niveau."
+    },
+    {
+      "from": 304,
+      "to": 305,
+      "level": 32
+    },
+    {
+      "from": 305,
+      "to": 306,
+      "level": 42
+    },
+    {
+      "from": 307,
+      "to": 308,
+      "level": 37
+    },
+    {
+      "from": 309,
+      "to": 310,
+      "level": 26
+    },
+    {
+      "from": 316,
+      "to": 317,
+      "level": 26
+    },
+    {
+      "from": 318,
+      "to": 319,
+      "level": 30
+    },
+    {
+      "from": 320,
+      "to": 321,
+      "level": 40
+    },
+    {
+      "from": 322,
+      "to": 323,
+      "level": 33
+    },
+    {
+      "from": 325,
+      "to": 326,
+      "level": 32
+    },
+    {
+      "from": 328,
+      "to": 329,
+      "level": 35
+    },
+    {
+      "from": 329,
+      "to": 330,
+      "level": 45
+    },
+    {
+      "from": 331,
+      "to": 332,
+      "level": 32
+    },
+    {
+      "from": 333,
+      "to": 334,
+      "level": 35
+    },
+    {
+      "from": 339,
+      "to": 340,
+      "level": 30
+    },
+    {
+      "from": 341,
+      "to": 342,
+      "level": 30
+    },
+    {
+      "from": 343,
+      "to": 344,
+      "level": 36
+    },
+    {
+      "from": 345,
+      "to": 346,
+      "level": 40
+    },
+    {
+      "from": 347,
+      "to": 348,
+      "level": 40
+    },
+    {
+      "from": 349,
+      "to": 350,
+      "level": 30,
+      "adaptation": "Beauté remplacée par le niveau 30."
+    },
+    {
+      "from": 353,
+      "to": 354,
+      "level": 37
+    },
+    {
+      "from": 355,
+      "to": 356,
+      "level": 37
+    },
+    {
+      "from": 356,
+      "to": 477,
+      "level": 47,
+      "adaptation": "Échange remplacé par un niveau, sans objet à fournir."
+    },
+    {
+      "from": 360,
+      "to": 202,
+      "level": 15
+    },
+    {
+      "from": 361,
+      "to": 362,
+      "level": 42
+    },
+    {
+      "from": 363,
+      "to": 364,
+      "level": 32
+    },
+    {
+      "from": 364,
+      "to": 365,
+      "level": 44
+    },
+    {
+      "from": 366,
+      "to": 367,
+      "level": 40,
+      "adaptation": "Échange remplacé par un niveau, sans objet à fournir."
+    },
+    {
+      "from": 366,
+      "to": 368,
+      "level": 40,
+      "adaptation": "Échange remplacé par un niveau, sans objet à fournir."
+    },
+    {
+      "from": 371,
+      "to": 372,
+      "level": 30
+    },
+    {
+      "from": 372,
+      "to": 373,
+      "level": 50
+    },
+    {
+      "from": 374,
+      "to": 375,
+      "level": 20
+    },
+    {
+      "from": 375,
+      "to": 376,
+      "level": 45
+    },
+    {
+      "from": 387,
+      "to": 388,
+      "level": 18
+    },
+    {
+      "from": 388,
+      "to": 389,
+      "level": 32
+    },
+    {
+      "from": 390,
+      "to": 391,
+      "level": 14
+    },
+    {
+      "from": 391,
+      "to": 392,
+      "level": 36
+    },
+    {
+      "from": 393,
+      "to": 394,
+      "level": 16
+    },
+    {
+      "from": 394,
+      "to": 395,
+      "level": 36
+    },
+    {
+      "from": 396,
+      "to": 397,
+      "level": 14
+    },
+    {
+      "from": 397,
+      "to": 398,
+      "level": 34
+    },
+    {
+      "from": 399,
+      "to": 400,
+      "level": 15
+    },
+    {
+      "from": 401,
+      "to": 402,
+      "level": 10
+    },
+    {
+      "from": 403,
+      "to": 404,
+      "level": 15
+    },
+    {
+      "from": 404,
+      "to": 405,
+      "level": 30
+    },
+    {
+      "from": 406,
+      "to": 315,
+      "level": 20,
+      "adaptation": "Bonheur ou affection remplacés par un seuil de niveau. Accessible à toute heure."
+    },
+    {
+      "from": 408,
+      "to": 409,
+      "level": 30
+    },
+    {
+      "from": 410,
+      "to": 411,
+      "level": 30
+    },
+    {
+      "from": 412,
+      "to": 413,
+      "level": 20,
+      "gender": "female"
+    },
+    {
+      "from": 412,
+      "to": 414,
+      "level": 20,
+      "gender": "male"
+    },
+    {
+      "from": 415,
+      "to": 416,
+      "level": 21,
+      "gender": "female"
+    },
+    {
+      "from": 418,
+      "to": 419,
+      "level": 26
+    },
+    {
+      "from": 420,
+      "to": 421,
+      "level": 25
+    },
+    {
+      "from": 422,
+      "to": 423,
+      "level": 30
+    },
+    {
+      "from": 425,
+      "to": 426,
+      "level": 28
+    },
+    {
+      "from": 427,
+      "to": 428,
+      "level": 20,
+      "adaptation": "Bonheur ou affection remplacés par un seuil de niveau."
+    },
+    {
+      "from": 431,
+      "to": 432,
+      "level": 38
+    },
+    {
+      "from": 433,
+      "to": 358,
+      "level": 20,
+      "adaptation": "Bonheur ou affection remplacés par un seuil de niveau. Accessible à toute heure."
+    },
+    {
+      "from": 434,
+      "to": 435,
+      "level": 34
+    },
+    {
+      "from": 436,
+      "to": 437,
+      "level": 33
+    },
+    {
+      "from": 438,
+      "to": 185,
+      "level": 1,
+      "move": "Mimic",
+      "moveName": "Copie"
+    },
+    {
+      "from": 439,
+      "to": 122,
+      "level": 1,
+      "move": "Mimic",
+      "moveName": "Copie"
+    },
+    {
+      "from": 440,
+      "to": 113,
+      "level": 20,
+      "adaptation": "Objet spécial remplacé par un niveau, sans consommation. Accessible à toute heure."
+    },
+    {
+      "from": 443,
+      "to": 444,
+      "level": 24
+    },
+    {
+      "from": 444,
+      "to": 445,
+      "level": 48
+    },
+    {
+      "from": 446,
+      "to": 143,
+      "level": 20,
+      "adaptation": "Bonheur ou affection remplacés par un seuil de niveau."
+    },
+    {
+      "from": 447,
+      "to": 448,
+      "level": 20,
+      "adaptation": "Bonheur ou affection remplacés par un seuil de niveau. Accessible à toute heure."
+    },
+    {
+      "from": 449,
+      "to": 450,
+      "level": 34
+    },
+    {
+      "from": 451,
+      "to": 452,
+      "level": 40
+    },
+    {
+      "from": 453,
+      "to": 454,
+      "level": 37
+    },
+    {
+      "from": 456,
+      "to": 457,
+      "level": 31
+    },
+    {
+      "from": 458,
+      "to": 226,
+      "level": 32,
+      "adaptation": "Condition d’équipe remplacée par le niveau 32."
+    },
+    {
+      "from": 459,
+      "to": 460,
+      "level": 40
+    },
+    {
+      "from": 495,
+      "to": 496,
+      "level": 17
+    },
+    {
+      "from": 496,
+      "to": 497,
+      "level": 36
+    },
+    {
+      "from": 498,
+      "to": 499,
+      "level": 17
+    },
+    {
+      "from": 499,
+      "to": 500,
+      "level": 36
+    },
+    {
+      "from": 501,
+      "to": 502,
+      "level": 17
+    },
+    {
+      "from": 502,
+      "to": 503,
+      "level": 36
+    },
+    {
+      "from": 504,
+      "to": 505,
+      "level": 20
+    },
+    {
+      "from": 506,
+      "to": 507,
+      "level": 16
+    },
+    {
+      "from": 507,
+      "to": 508,
+      "level": 32
+    },
+    {
+      "from": 509,
+      "to": 510,
+      "level": 20
+    },
+    {
+      "from": 519,
+      "to": 520,
+      "level": 21
+    },
+    {
+      "from": 520,
+      "to": 521,
+      "level": 32
+    },
+    {
+      "from": 522,
+      "to": 523,
+      "level": 27
+    },
+    {
+      "from": 524,
+      "to": 525,
+      "level": 25
+    },
+    {
+      "from": 525,
+      "to": 526,
+      "level": 36,
+      "adaptation": "Échange remplacé par un niveau, sans objet à fournir."
+    },
+    {
+      "from": 527,
+      "to": 528,
+      "level": 20,
+      "adaptation": "Bonheur ou affection remplacés par un seuil de niveau."
+    },
+    {
+      "from": 529,
+      "to": 530,
+      "level": 31
+    },
+    {
+      "from": 532,
+      "to": 533,
+      "level": 25
+    },
+    {
+      "from": 533,
+      "to": 534,
+      "level": 36,
+      "adaptation": "Échange remplacé par un niveau, sans objet à fournir."
+    },
+    {
+      "from": 535,
+      "to": 536,
+      "level": 25
+    },
+    {
+      "from": 536,
+      "to": 537,
+      "level": 36
+    },
+    {
+      "from": 540,
+      "to": 541,
+      "level": 20
+    },
+    {
+      "from": 541,
+      "to": 542,
+      "level": 30,
+      "adaptation": "Bonheur ou affection remplacés par un seuil de niveau."
+    },
+    {
+      "from": 543,
+      "to": 544,
+      "level": 22
+    },
+    {
+      "from": 544,
+      "to": 545,
+      "level": 30
+    },
+    {
+      "from": 551,
+      "to": 552,
+      "level": 29
+    },
+    {
+      "from": 552,
+      "to": 553,
+      "level": 40
+    },
+    {
+      "from": 554,
+      "to": 555,
+      "level": 35
+    },
+    {
+      "from": 557,
+      "to": 558,
+      "level": 34
+    },
+    {
+      "from": 559,
+      "to": 560,
+      "level": 39
+    },
+    {
+      "from": 562,
+      "to": 563,
+      "level": 34
+    },
+    {
+      "from": 564,
+      "to": 565,
+      "level": 37
+    },
+    {
+      "from": 566,
+      "to": 567,
+      "level": 37
+    },
+    {
+      "from": 568,
+      "to": 569,
+      "level": 36
+    },
+    {
+      "from": 570,
+      "to": 571,
+      "level": 30
+    },
+    {
+      "from": 574,
+      "to": 575,
+      "level": 32
+    },
+    {
+      "from": 575,
+      "to": 576,
+      "level": 41
+    },
+    {
+      "from": 577,
+      "to": 578,
+      "level": 32
+    },
+    {
+      "from": 578,
+      "to": 579,
+      "level": 41
+    },
+    {
+      "from": 580,
+      "to": 581,
+      "level": 35
+    },
+    {
+      "from": 582,
+      "to": 583,
+      "level": 35
+    },
+    {
+      "from": 583,
+      "to": 584,
+      "level": 47
+    },
+    {
+      "from": 585,
+      "to": 586,
+      "level": 34
+    },
+    {
+      "from": 588,
+      "to": 589,
+      "level": 40,
+      "adaptation": "Échange remplacé par un niveau, sans objet à fournir."
+    },
+    {
+      "from": 590,
+      "to": 591,
+      "level": 39
+    },
+    {
+      "from": 592,
+      "to": 593,
+      "level": 40
+    },
+    {
+      "from": 595,
+      "to": 596,
+      "level": 36
+    },
+    {
+      "from": 597,
+      "to": 598,
+      "level": 40
+    },
+    {
+      "from": 599,
+      "to": 600,
+      "level": 38
+    },
+    {
+      "from": 600,
+      "to": 601,
+      "level": 49
+    },
+    {
+      "from": 602,
+      "to": 603,
+      "level": 39
+    },
+    {
+      "from": 605,
+      "to": 606,
+      "level": 42
+    },
+    {
+      "from": 607,
+      "to": 608,
+      "level": 41
+    },
+    {
+      "from": 610,
+      "to": 611,
+      "level": 38
+    },
+    {
+      "from": 611,
+      "to": 612,
+      "level": 48
+    },
+    {
+      "from": 613,
+      "to": 614,
+      "level": 37
+    },
+    {
+      "from": 616,
+      "to": 617,
+      "level": 40,
+      "adaptation": "Échange remplacé par un niveau, sans objet à fournir."
+    },
+    {
+      "from": 619,
+      "to": 620,
+      "level": 50
+    },
+    {
+      "from": 622,
+      "to": 623,
+      "level": 43
+    },
+    {
+      "from": 624,
+      "to": 625,
+      "level": 52
+    },
+    {
+      "from": 627,
+      "to": 628,
+      "level": 54
+    },
+    {
+      "from": 629,
+      "to": 630,
+      "level": 54
+    },
+    {
+      "from": 633,
+      "to": 634,
+      "level": 50
+    },
+    {
+      "from": 634,
+      "to": 635,
+      "level": 64
+    },
+    {
+      "from": 636,
+      "to": 637,
+      "level": 59
+    },
+    {
+      "from": 650,
+      "to": 651,
+      "level": 16
+    },
+    {
+      "from": 651,
+      "to": 652,
+      "level": 36
+    },
+    {
+      "from": 653,
+      "to": 654,
+      "level": 16
+    },
+    {
+      "from": 654,
+      "to": 655,
+      "level": 36
+    },
+    {
+      "from": 656,
+      "to": 657,
+      "level": 16
+    },
+    {
+      "from": 657,
+      "to": 658,
+      "level": 36
+    },
+    {
+      "from": 659,
+      "to": 660,
+      "level": 20
+    },
+    {
+      "from": 661,
+      "to": 662,
+      "level": 17
+    },
+    {
+      "from": 662,
+      "to": 663,
+      "level": 35
+    },
+    {
+      "from": 664,
+      "to": 665,
+      "level": 9
+    },
+    {
+      "from": 667,
+      "to": 668,
+      "level": 35
+    },
+    {
+      "from": 669,
+      "to": 670,
+      "level": 19
+    },
+    {
+      "from": 672,
+      "to": 673,
+      "level": 32
+    },
+    {
+      "from": 674,
+      "to": 675,
+      "level": 32,
+      "adaptation": "Condition d’équipe remplacée par le niveau 32."
+    },
+    {
+      "from": 677,
+      "to": 678,
+      "level": 25,
+      "adaptation": "Les deux sexes évoluent en Mistigrix, dans la forme visuelle disponible."
+    },
+    {
+      "from": 679,
+      "to": 680,
+      "level": 35
+    },
+    {
+      "from": 682,
+      "to": 683,
+      "level": 40,
+      "adaptation": "Échange remplacé par un niveau, sans objet à fournir."
+    },
+    {
+      "from": 684,
+      "to": 685,
+      "level": 40,
+      "adaptation": "Échange remplacé par un niveau, sans objet à fournir."
+    },
+    {
+      "from": 686,
+      "to": 687,
+      "level": 30,
+      "adaptation": "Aucun geste avec le téléphone n’est nécessaire."
+    },
+    {
+      "from": 688,
+      "to": 689,
+      "level": 39
+    },
+    {
+      "from": 690,
+      "to": 691,
+      "level": 48
+    },
+    {
+      "from": 692,
+      "to": 693,
+      "level": 37
+    },
+    {
+      "from": 696,
+      "to": 697,
+      "level": 39,
+      "adaptation": "Accessible à toute heure."
+    },
+    {
+      "from": 698,
+      "to": 699,
+      "level": 39,
+      "adaptation": "Accessible à toute heure."
+    },
+    {
+      "from": 704,
+      "to": 705,
+      "level": 40
+    },
+    {
+      "from": 705,
+      "to": 706,
+      "level": 50,
+      "adaptation": "La pluie n’est pas nécessaire dans RiftMon."
+    },
+    {
+      "from": 708,
+      "to": 709,
+      "level": 36,
+      "adaptation": "Échange remplacé par un niveau, sans objet à fournir."
+    },
+    {
+      "from": 710,
+      "to": 711,
+      "level": 36,
+      "adaptation": "Échange remplacé par un niveau, sans objet à fournir."
+    },
+    {
+      "from": 712,
+      "to": 713,
+      "level": 37
+    },
+    {
+      "from": 714,
+      "to": 715,
+      "level": 48
+    },
+    {
+      "from": 722,
+      "to": 723,
+      "level": 17
+    },
+    {
+      "from": 723,
+      "to": 724,
+      "level": 34
+    },
+    {
+      "from": 725,
+      "to": 726,
+      "level": 17
+    },
+    {
+      "from": 726,
+      "to": 727,
+      "level": 34
+    },
+    {
+      "from": 728,
+      "to": 729,
+      "level": 17
+    },
+    {
+      "from": 729,
+      "to": 730,
+      "level": 34
+    },
+    {
+      "from": 731,
+      "to": 732,
+      "level": 14
+    },
+    {
+      "from": 732,
+      "to": 733,
+      "level": 28
+    },
+    {
+      "from": 734,
+      "to": 735,
+      "level": 20,
+      "adaptation": "Accessible à toute heure."
+    },
+    {
+      "from": 736,
+      "to": 737,
+      "level": 20
+    },
+    {
+      "from": 742,
+      "to": 743,
+      "level": 25
+    },
+    {
+      "from": 744,
+      "to": 745,
+      "level": 25,
+      "adaptation": "Accessible à toute heure."
+    },
+    {
+      "from": 747,
+      "to": 748,
+      "level": 38
+    },
+    {
+      "from": 749,
+      "to": 750,
+      "level": 30
+    },
+    {
+      "from": 751,
+      "to": 752,
+      "level": 22
+    },
+    {
+      "from": 753,
+      "to": 754,
+      "level": 34,
+      "adaptation": "Accessible à toute heure."
+    },
+    {
+      "from": 755,
+      "to": 756,
+      "level": 24
+    },
+    {
+      "from": 757,
+      "to": 758,
+      "level": 33,
+      "gender": "female"
+    },
+    {
+      "from": 759,
+      "to": 760,
+      "level": 27
+    },
+    {
+      "from": 761,
+      "to": 762,
+      "level": 18
+    },
+    {
+      "from": 762,
+      "to": 763,
+      "level": 1,
+      "move": "Stomp",
+      "moveName": "Écrasement"
+    },
+    {
+      "from": 767,
+      "to": 768,
+      "level": 30
+    },
+    {
+      "from": 769,
+      "to": 770,
+      "level": 42
+    },
+    {
+      "from": 772,
+      "to": 773,
+      "level": 40,
+      "adaptation": "Bonheur ou affection remplacés par un seuil de niveau."
+    },
+    {
+      "from": 782,
+      "to": 783,
+      "level": 35
+    },
+    {
+      "from": 783,
+      "to": 784,
+      "level": 45
+    },
+    {
+      "from": 789,
+      "to": 790,
+      "level": 43
+    },
+    {
+      "from": 790,
+      "to": 791,
+      "level": 53
+    },
+    {
+      "from": 790,
+      "to": 792,
+      "level": 53
+    },
+    {
+      "from": 803,
+      "to": 804,
+      "level": 1,
+      "move": "Dragon Pulse",
+      "moveName": "Draco-Choc"
+    },
+    {
+      "from": 808,
+      "to": 809,
+      "level": 40,
+      "adaptation": "Bonbons spéciaux remplacés par le niveau 40."
+    }
+  ]
+}

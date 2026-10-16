@@ -55,7 +55,7 @@
             const names = Object.keys(NATURES);
             return names[Math.min(names.length - 1, Math.floor(random() * names.length))];
         }
-        constructor(id, name, level, experience, givenIv, nature = "Bashful", k = null, ev = {}) {
+        constructor(id, name, level, experience, givenIv, nature = "Bashful", k = null, ev = {}, savedExperienceRate = null) {
             const data = pokemonData.find(p => p.id === id);
             if (!data) {
                 throw new Error("No Pokémon found with the given ID!");
@@ -89,6 +89,7 @@
             this.truename = data.name.french;
 
             this.determineExpGroup(data);
+            if (Number.isFinite(Number(savedExperienceRate)) && Number(savedExperienceRate) > 0) this.experienceRate = Number(savedExperienceRate);
             this.level = this.calculateLevelFromExperience(this.experience); // Calculer le niveau basé sur l'expérience
 
             // Recalculer les stats après avoir déterminé le niveau correct
@@ -182,7 +183,7 @@
             this.currentSpecialDefense = this.specialDefense;
             this.currentSpeed = this.speed;
             if (preserveCombat && Number.isFinite(previousHp)) {
-                this.currentHp = previousHp <= 0 ? 0 : Math.min(this.maxHp, previousHp + this.maxHp - previousMax);
+                this.currentHp = previousHp <= 0 ? 0 : Math.max(1, Math.min(this.maxHp, previousHp + this.maxHp - previousMax));
                 for (const stat of Object.keys(ratios)) {
                     const base = stat[0].toLowerCase() + stat.slice(1);
                     this['current' + stat] = Math.max(1, Math.floor(this[base] * ratios[stat] + 1e-9));
@@ -223,39 +224,50 @@
         }
 
         gainExperience(expGained) {
-            this.experience += Math.max(0, Math.floor(Number(expGained) || 0));
+            const gain = Number.isFinite(Number(expGained)) ? Math.max(0, Math.floor(Number(expGained))) : 0;
+            this.experience += gain;
             const targetLevel = this.calculateLevelFromExperience(this.experience);
+            // Resolve each crossed level in order so intermediate species learn their own moves.
+            // Levels above 100 have no new species thresholds or learnset entries.
+            while (this.level < Math.min(targetLevel, 100)) {
+                const previousLevel = this.level++;
+                require('./moveLearning').queueLevelMoves(this, previousLevel);
+                this.recalculateStats(true);
+                this.checkEvolution();
+            }
             if (targetLevel > this.level) {
                 const previousLevel = this.level;
                 this.level = targetLevel;
                 require('./moveLearning').queueLevelMoves(this, previousLevel);
                 this.recalculateStats(true);
-                this.checkEvolution();
             }
+            if (gain > 0) this.checkEvolution();
         }
 
         checkEvolution() {
-            if (this.level >= 30 && this.data.evo2 && !(this.stoneEvolutions && require('../items/stoneEvolution').requiresStone(this.data.id, this.data.evo2))) {
-                const chance = Math.random();
-                if (chance < 0.08) {
-                    this.updatePokemon(this.data.evo2);
-                }
-            }
-            if (this.level >= 55 && this.data.evo3 && !(this.stoneEvolutions && require('../items/stoneEvolution').requiresStone(this.data.id, this.data.evo3))) {
-                const chance = Math.random();
-                if (chance < 0.04) {
-                    this.updatePokemon(this.data.evo3);
-                }
+            const evolution = require('./evolution');
+            // Also catches up old companions already above a threshold. Branch choices
+            // remain available in the companion sheet, never selected by iteration order.
+            for (let step = 0; step < 4; step++) {
+                const rule = evolution.automatic(this);
+                if (!rule) break;
+                evolution.apply(this, rule);
             }
         }
 
         updatePokemon(newId) {
-            const evolvedAbility = evolveSpeciesAbility(this.data.id, newId, this.passiveAbility);
+            const oldName = this.truename;
+            const rate = this.experienceRate;
+            const baseAbility = Object.hasOwn(this, '__passiveAbilityBeforeBattle') ? this.__passiveAbilityBeforeBattle : this.passiveAbility;
+            const evolvedAbility = evolveSpeciesAbility(this.data.id, newId, baseAbility);
             this.data = pokemonData.find(p => p.id === newId);
             this.type1 = this.data.type[0];
             this.type2 = this.data.type[1];
             this.truename = this.data.name.french;
+            if (this.name === oldName || this.name === pokemonData.find(p => p.name.french === oldName)?.name.english) this.name = this.truename;
             this.determineExpGroup(this.data);
+            this.experienceRate = rate; // Evolution must not change earned XP or level.
+            if (Object.hasOwn(this, '__passiveAbilityBeforeBattle')) this.__passiveAbilityBeforeBattle = evolvedAbility;
             this.passiveAbility = evolvedAbility;
             this.recalculateStats(true);
             require('./moveLearning').queueLevelMoves(this, this.level, true);

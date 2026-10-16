@@ -45,6 +45,7 @@ const {
 const { DEFAULT_SPRITE, registerPlayerProfileHandlers } = require('./handlers/playerProfileHandlers');
 const { registerChatHandlers } = require('./handlers/chatHandlers');
 const {registerMedicineHandlers}=require('./handlers/medicineHandlers');
+const { registerEvolutionHandlers } = require('./handlers/evolutionHandlers');
 const { registerMoveLearningHandlers } = require('./handlers/moveLearningHandlers');
 const { registerShopHandlers } = require('./handlers/shopHandlers');
 const {
@@ -507,6 +508,7 @@ const socketHandler = (io) => {
         registerPlayerProfileHandlers({ socket, io, players, userId });
         registerMedicineHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!interactionBusy&&!transitionBusy});
         registerMoveLearningHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!interactionBusy&&!transitionBusy});
+        registerEvolutionHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!interactionBusy&&!transitionBusy});
         const shopHandlers = registerShopHandlers({
             socket,
             userId,

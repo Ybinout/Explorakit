@@ -90,7 +90,7 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
                 if(stopped || checkpointError)throw new LobbyError('storage_unavailable','Sauvegarde temporairement indisponible. Réessaie dans un instant.');
                 const p = runtime.guard(user, socket, mutable);
                 const result = handler(p, payload);
-                if(name!=='playerAction' && name!=='drift:refresh' && !name.includes('Spectat') && name!=='drift:spectate') await checkpoint();
+                if(name!=='getPokemonEvolutions' && name!=='playerAction' && name!=='drift:refresh' && !name.includes('Spectat') && name!=='drift:spectate') await checkpoint();
                 runtime.send(p);
                 reply(result || { success: true });
             } catch (error) {
@@ -120,6 +120,21 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
         gameCommand('drift:exchange', (p,data)=>require('../game/drift/merchant').exchange(p,data?.uuids));
         gameCommand('drift:evolve', (p,data)=>economy.evolve(p,data?.itemKey,data?.pokemonUuid));
         gameCommand('drift:chooseStarter', (p,data)=>runtime.chooseStarter(p,data?.pokemonUuid), false);
+        gameCommand('getPokemonEvolutions', (p, data) => {
+            const pokemon = p.equipe.pokemons.find(poke => poke.uuid === data?.pokemonUuid);
+            if (!pokemon) economy.fail('Ce Pokémon ne t’appartient pas.');
+            return { success: true, options: require('../game/models/evolution').options(pokemon) };
+        }, false);
+        gameCommand('evolvePokemon', (p, data) => {
+            if (!['exploration','preparation','tournament','colosseum_ready'].includes(p.run.phase)) economy.fail('Évolution indisponible maintenant.');
+            const pokemon = p.equipe.pokemons.find(poke => poke.uuid === data?.pokemonUuid);
+            let result;
+            try { result = require('../game/models/evolution').evolve(pokemon, data); }
+            catch (error) { economy.fail(error.message); }
+            p.ready = false;
+            require('../game/drift/runReport').syncTeam(p);
+            return { success: true, equipe: p.equipe, evolution: result };
+        });
         gameCommand('drift:heal', (p, data) => economy.usePotion(p, data?.itemKey, data?.pokemonUuid));
         gameCommand('drift:learnMove', (p, data) => {
             const pokemon = p.equipe.pokemons.find(poke => poke.uuid === data?.pokemonUuid);

@@ -22,7 +22,7 @@ async function verifyMigration() {
                AND COLUMN_NAME IN (
                  'level', 'experience', 'uuid', 'team_id', 'position', 'status',
                  'ev_hp', 'ev_attack', 'ev_defense', 'ev_special_attack', 'ev_special_defense', 'ev_speed',
-                 'passive_ability', 'held_item', 'move1_pp', 'move2_pp', 'move3_pp', 'move4_pp', 'pending_moves'
+                 'passive_ability', 'held_item', 'move1_pp', 'move2_pp', 'move3_pp', 'move4_pp', 'pending_moves', 'experience_rate'
                )
              ORDER BY COLUMN_NAME`
         );
@@ -77,6 +77,8 @@ async function verifyMigration() {
             && migrations.some(migration => migration.name === '015_ranks_friends.sql')
             && migrations.some(migration => migration.name === '016_move_learning.sql')
             && columns.some(column => column.COLUMN_NAME === 'pending_moves')
+            && migrations.some(migration => migration.name === '017_evolution_experience.sql')
+            && columns.some(column => column.COLUMN_NAME === 'experience_rate')
             && ['rating','games'].every(name => riftColumns.some(c => c.TABLE_NAME === 'rift_ratings' && c.COLUMN_NAME === name && c.IS_NULLABLE === 'NO'))
             && colosseumKey.map(column => column.COLUMN_NAME).join(',') === 'user_id,duration_minutes'
             && ['colosseum_runs', 'colosseum_bests'].every(table => riftColumns.some(column => column.TABLE_NAME === table && column.COLUMN_NAME === 'duration_minutes' && column.IS_NULLABLE === 'NO'))

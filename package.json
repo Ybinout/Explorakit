@@ -29,6 +29,7 @@
     "audit:simulation": "node scripts/simulateBalance.js",
     "verify:release": "node --env-file-if-exists=.env scripts/verifyRelease.js",
     "test:release-browser": "node --env-file-if-exists=.env scripts/validateReleaseBrowser.js",
+    "test:evolution-browser": "node --env-file-if-exists=.env scripts/validateEvolutionBrowser.js",
     "test:strategy-browser": "node --env-file-if-exists=.env scripts/validateStrategyBrowser.js",
     "test:colosseum-browser": "node --env-file-if-exists=.env scripts/validateColosseumBrowser.js",
     "test:pwa-browser": "node scripts/validatePwaBrowser.js",
