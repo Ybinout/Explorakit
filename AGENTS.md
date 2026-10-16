@@ -1,5 +1,9 @@
 # Contexte permanent — Explorakit
 
+## Contrats et début d’expédition — 16 octobre 2026
+
+Les nouvelles parties Rift/Colosseum ont trois contrats facultatifs privés (`contracts.js`), quatre PNJ propres aux expéditions et un filtre d’attaques sauvages de début de partie (`openingBalance.js`). Les Drifts s’équipent directement ; `drift:replace` remplace un emplacement de façon atomique. Lire la section correspondante en tête d’audit. Recettes : `test:contracts-browser`, `tests/expedition-contracts.test.js` et `scripts/auditExpeditionOpening.js`. Ne pas réintroduire la navigation sélection/fiche/retour ni d’objectif permanent sur la carte.
+
 ## Mise à jour du 16 octobre 2026
 
 Les évolutions par espèce et adaptations solo sont livrées dans les trois modes (migration 017, conditions/choix dans la fiche). Le correctif des talents complète le moteur partagé : 213 talents avec règles en 1v1, huit effets réservés aux doubles, deux effets hors combat encore indisponibles. Les formes temporaires et réactions sont séparées dans `abilityForms.js` et `abilityReactions.js`. Lire les sections correspondantes en tête de l’audit ; les chiffres 125/98 ci-dessous sont historiques. Recettes supplémentaires : `test:evolution-browser` et `test:abilities-browser` sur base dédiée. Le sprite mobile du joueur est désormais aligné sur le bas du terrain ; ne pas réintroduire la marge sous sa base opaque.

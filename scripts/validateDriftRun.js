@@ -225,10 +225,8 @@ async function run(){
   async function inventoryLayout({label,width,height}){
    await returnToInventory();
    await evaluate(client,"document.querySelector('.run-content').scrollTop=0;true;");
-   const slots=await evaluate(client,"Array.from(document.querySelectorAll('[data-drift-slot]')).map(node=>{const r=node.getBoundingClientRect();return {left:r.left,right:r.right,top:r.top,height:r.height};})");
-   assert.equal(slots.length,5,label+' : cinq emplacements');
-   for(const slot of slots){assert.ok(slot.left>=0&&slot.right<=width+1&&slot.top>=0&&slot.top+slot.height<=height+1,label+' : emplacement hors écran');assert.ok(slot.height>=44,label+' : cible tactile de slot');}
-   assert.ok(slots.every(slot=>Math.abs(slot.top-slots[0].top)<1),label+' : cinq slots sur une ligne');
+   assert.ok(await evaluate(client,"document.querySelector('.loadout-summary').textContent.includes('/ 5')"),label+' : limite de cinq bonus affichée');
+   const card=await evaluate(client,"document.querySelector('.drift-card button').getBoundingClientRect().height");assert.ok(card>=44,label+' : action tactile directe');
    assert.ok(await evaluate(client,"document.querySelector('.drift-search').getBoundingClientRect().width>0"),label+' : recherche visible');
   }
   await capture('inventory',inventoryLayout);
@@ -238,16 +236,15 @@ async function run(){
   await evaluate(client,"const input=document.querySelector('.drift-search');input.value='';input.dispatchEvent(new Event('input',{bubbles:true}));true;");
   await waitForExpression(client,"document.querySelectorAll('[data-drift-id]').length===6");
   for(let i=0;i<5;i++){
-   await returnToInventory();await click(`[data-drift-id="fixture-${host.user.id}-${i}"]`);
-   await waitForExpression(client,"Boolean(document.querySelector('.drift-detail [data-drift-action=\"equip\"]'))");
-   await click('.drift-detail [data-drift-action="equip"]');
+   await click(`[data-drift-id="fixture-${host.user.id}-${i}"] [data-drift-action="equip"]`);
    await waitForExpression(client,`${gameVm}.driftState.equipped.length===${i+1}`);
   }
   await returnToInventory();await capture('equipped',inventoryLayout);
-  await click(`[data-drift-id="fixture-${host.user.id}-5"]`);
-  assert.equal(await evaluate(client,"document.querySelector('.drift-detail [data-drift-action=\"equip\"]').disabled"),true,'sixième équipement bloqué visuellement');
+  await click(`[data-drift-id="fixture-${host.user.id}-5"] [data-drift-action="equip"]`);
+  assert.equal(await evaluate(client,"document.querySelectorAll('[data-replace-drift]').length"),5,'choix de remplacement direct');
   await capture('detail');
-  await click('.drift-detail [data-drift-action="discard"]');
+  await click(`[data-drift-id="fixture-${host.user.id}-5"] summary`);
+  await click(`[data-drift-id="fixture-${host.user.id}-5"] [data-drift-action="discard"]`);
   await waitForExpression(client,"Boolean(document.querySelector('.confirm[role=\"alertdialog\"]'))");
   assert.equal(await evaluate(client,"document.querySelector('.confirm').contains(document.activeElement)"),true,'la confirmation contient le focus');
   await press('Escape');
@@ -267,7 +264,7 @@ async function run(){
   await press('Tab','Tab',8);
   assert.equal(await evaluate(client,"document.activeElement===document.querySelector('.run-footer button')"),true,'Maj+Tab revient à la dernière commande');
   // This intentional rejected command can leave the server's limit notice in
-  // subsequent captures; normal interaction cannot activate the disabled button.
+  // subsequent captures; the interface offers replacement instead of a sixth slot.
   assert.equal(await evaluate(client,`${gameVm}.driftCommand({name:'drift:equip',data:{uuid:'fixture-${host.user.id}-5',enabled:true}})`),false,'sixième équipement refusé par le serveur');
   await press('Escape');
   await waitForExpression(client,"!document.querySelector('.run-panel')");

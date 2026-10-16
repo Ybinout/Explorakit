@@ -114,6 +114,8 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
             if (!p.battle?.action(p, action)) { p.battle?.resume(p); throw new LobbyError('invalid_action', 'Choisis une action disponible.'); }
         }, false);
         gameCommand('drift:equip', (p, data) => economy.equip(p, data?.uuid, data?.enabled));
+        gameCommand('drift:replace', (p, data) => economy.replace(p, data?.uuid, data?.replaceUuid));
+        gameCommand('drift:contractClaim', (p,data)=>require('../game/drift/contracts').claim(p,data));
         gameCommand('drift:discard', (p, data) => economy.remove(p, data?.uuid));
         gameCommand('drift:sell', (p, data) => economy.remove(p, data?.uuid, true));
         gameCommand('drift:merchantBuy', (p,data)=>require('../game/drift/merchant').buy(p,data?.offerId));

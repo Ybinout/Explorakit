@@ -36,6 +36,7 @@ function normalizePnjEntry(entry) {
         sprite: typeof entry.sprite === 'string' && entry.sprite.trim()
             ? entry.sprite.trim()
             : 'perso1.png',
+        ...(Number.isInteger(entry.challengeLevel) ? { challengeLevel: entry.challengeLevel } : {}),
         block: entry.block !== false
     };
 }
@@ -65,8 +66,8 @@ function getOccupiedTileKeysForPnj(pnj) {
     return keys;
 }
 
-function createPnjStore() {
-    const allPnjs = loadPnjConfig();
+function createPnjStore(extraEntries = []) {
+    const allPnjs = [...loadPnjConfig(), ...extraEntries.map(normalizePnjEntry).filter(Boolean)];
     const pnjByMap = new Map();
     const pnjTileIndex = new Map();
 

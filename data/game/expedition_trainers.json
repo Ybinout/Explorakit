@@ -1,0 +1,6 @@
+[
+  {"id":"expedition_lina","name":"Lina, éclaireuse","map":"start","place":"Village de départ","x":18,"y":8,"level":5,"team":[161],"spriteFrame":{"columns":8,"rows":4,"index":6}},
+  {"id":"expedition_noe","name":"Noé, ornithologue","map":"route1","place":"Route 1","x":5,"y":7,"level":8,"team":[163,179],"spriteFrame":{"columns":8,"rows":4,"index":10}},
+  {"id":"expedition_ines","name":"Inès, randonneuse","map":"route2","place":"Route 2","x":12,"y":5,"level":12,"team":[270,66],"spriteFrame":{"columns":8,"rows":4,"index":7}},
+  {"id":"expedition_malo","name":"Malo, tacticien","map":"ville1","place":"Ville du Lac","x":10,"y":8,"level":15,"team":[403,285],"spriteFrame":{"columns":8,"rows":4,"index":14}}
+]

@@ -38,7 +38,9 @@ function wild(map, player, random = Math.random) {
         ? encounterRarity.rareWeight * (1 + value(player, 54) / 100) : encounterRarity.commonWeight);
     let draw = random() * weights.reduce((s,n)=>s+n,0), index = 0;
     for (; index < weights.length - 1; index++) { draw -= weights[index]; if (draw < 0) break; }
-    const min = zone.level?.min || 5, max = zone.level?.max || min;
-    return create(ids[index], min + Math.floor(random() * (max - min + 1)));
+    const opening = require('./openingBalance');
+    const bounds = opening.levels[map] || zone.level;
+    const min = bounds?.min || 5, max = bounds?.max || min;
+    return opening.tuneWildMoves(create(ids[index], min + Math.floor(random() * (max - min + 1))));
 }
 module.exports = { STARTERS, legendary, create, starter, starterChoices, wild };

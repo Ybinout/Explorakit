@@ -18,6 +18,7 @@ class DriftBattle {
         this.id = randomUUID(); this.a = a; this.b = b; this.type = type; this.emit = emit; this.now = now;
         this.random = random; this.onFinish = onFinish; this.onUpdate = onUpdate; this.npcKey = npcKey; this.paceMs = paceMs;
         this.publicLog = [];
+        this.contractContributors = new Set();
         this.aiMemory = { seen: {}, lastSwitchRound: -10 };
         this.state = engine.createBattleState(); this.sides = [this.state.sides.player, this.state.sides.enemy];
         this.pending = new Map(); this.round = 0; this.finished = false; this.rewarded = new Set(); this.awaiting = false;
@@ -200,6 +201,7 @@ class DriftBattle {
                 damageClass:move?.combat?.damage_class || (move?.category === 'phy' ? 'physical' : move?.category === 'spe' ? 'special' : 'status')
             });
             const result = engine.useattack(name,pokemon,defender,{ battleState:this.state, attackerSide:this.sides[index],defenderSide:this.sides[1-index],attackerTeam:p.equipe.pokemons,defenderTeam:actors[1-index].equipe.pokemons });
+            if(p===this.a&&result.damage>0)(this.contractContributors ||= new Set()).add(pokemon.uuid);
             if (this.aiMemory && this.b.npc && this.npcKey?.startsWith('colosseum_')) {
                 if (p === this.a) colosseumAI.observe(this.aiMemory,pokemon,name);
                 else colosseumAI.observe(this.aiMemory,defender,name,result);
@@ -249,6 +251,7 @@ class DriftBattle {
             }
             for(const p of this.a.equipe.pokemons) effects.heal(p,p.maxHp*effects.value(this.a,49)/100);
         }
+        require('./contracts').record(this.a,this,winner,reason);
         effects.detach(this.originals);
         for(const p of [this.a,this.b]) if(!p.npc) {
             const payload = {

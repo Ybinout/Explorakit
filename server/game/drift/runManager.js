@@ -5,6 +5,8 @@ const effects = require('./driftEffects');
 const economy = require('./economy');
 const report = require('./runReport');
 const colosseum = require('./colosseum');
+const contracts = require('./contracts');
+const trainers = require('./trainers');
 const { calculateAccountReward, MAX_EXPLORATION_MS } = require('./accountReward');
 const { healTeam } = require('../world/playerRecovery');
 const { clearBattleTransientState } = require('../battle/battleOutcome');
@@ -55,7 +57,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         return { id:run.id, mode:run.mode || 'rift', durationMinutes:run.lobby.rules.durationMinutes, colosseum:run.colosseum || null, phase:run.phase, starterChoices:p.starterChoices || [], selectionEndsAt:run.selectionEndsAt || null, serverNow:now(), endsAt:run.endsAt, preparationEndsAt:run.preparationEndsAt,
             alive:p.alive, winnerId:run.winnerId, reason:p.eliminationReason, currentRound:run.round, ready:p.ready,spectatingAvailable:run.mode !== 'colosseum',
             storagePaused:storagePausedAt !== null, recoveredAt:run.recoveredAt || null, recoveryWaiting:Boolean(run.recoveryWaiting), slot:p.slot, slotLimit:economy.SLOT_LIMIT, money:p.money, drifts:p.drifts, equipped:p.equipped,
-            team:p.equipe.pokemons, items:economy.bag(p), merchant:isShopMap(p.currentmap)&&run.phase==='exploration'?require('./merchant').view(p):null,
+            team:p.equipe.pokemons, contracts:contracts.view(p), trainers:trainers.list(p), items:economy.bag(p), merchant:isShopMap(p.currentmap)&&run.phase==='exploration'?require('./merchant').view(p):null,
             players:[...run.players.values()].map(a=>({id:a.userId,username:a.username,alive:a.alive,ready:a.ready,
                 connected:Boolean(a.socketId&&playerFor({id:a.userId})===a),inBattle:Boolean(a.inbattle),reason:a.eliminationReason||null})),
             matches:run.matches.map(m=>({id:m.id,round:m.round,players:m.players,status:m.status,winnerId:m.winnerId})),
@@ -296,10 +298,10 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         const retryId=lobby.pendingStartRoster===roster?lobby.pendingStartId:null;
         const mode = lobby.rules.mode === 'colosseum' ? 'colosseum' : 'rift';
         const explorationDuration = mode === 'colosseum' ? colosseum.durationMinutes(lobby.rules.durationMinutes)*60000 : (durationMs ?? lobby.rules.durationMinutes*60000);
-        const run={id:retryId||randomUUID(),mode,...(mode==='colosseum'?{colosseum:colosseum.initialState()}:{}),merchant:require('./merchant').createStock(random),explorationDuration,selectionEndsAt:starterChoiceMs>0?now()+starterChoiceMs:null,startedAt:now(),phase:starterChoiceMs>0?'selection':'exploration',endsAt:now()+explorationDuration,participantCount:lobby.players.size,players:new Map(),matches:[],round:0,battles:new Set(),winnerId:null,lobby,pnjs:createPnjStore(),pnjDeadlines:new Map()};
+        const run={id:retryId||randomUUID(),mode,...(mode==='colosseum'?{colosseum:colosseum.initialState()}:{}),merchant:require('./merchant').createStock(random),explorationDuration,selectionEndsAt:starterChoiceMs>0?now()+starterChoiceMs:null,startedAt:now(),phase:starterChoiceMs>0?'selection':'exploration',endsAt:now()+explorationDuration,participantCount:lobby.players.size,players:new Map(),matches:[],round:0,battles:new Set(),winnerId:null,lobby,pnjs:createPnjStore(trainers.entries),pnjDeadlines:new Map()};
         for(const member of lobby.players.values()) {
             const choices=starterChoiceMs>0?factory.starterChoices(random):[];
-            const p={starterChoices:choices,userId:member.id,username:member.username,run,alive:true,ready:false,equipe:{pokemons:choices.length?[]:[factory.starter(random)]},
+            const p={contracts:contracts.create(),starterChoices:choices,userId:member.id,username:member.username,run,alive:true,ready:false,equipe:{pokemons:choices.length?[]:[factory.starter(random)]},
                 currentmap:'start',x:80,y:208,sprite:'sprite.png',direction:'down',animationFrame:0,inbattle:false,battle:null,
                 drifts:[],equipped:[],items:{pokeball:10,drift_potion:3},money:500,defeated:new Set(),chain:0,dialogue:null,lastMove:0,
                 socketId:null,disconnectedAt:now()};
@@ -369,13 +371,17 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         const x=Math.floor(p.x/32),y=Math.floor(p.y/32);
         for(const [dx,dy] of [[0,-1],[0,1],[-1,0],[1,0]]) {
             const tx=x+dx,ty=y+dy,pnj=p.run.pnjs.getPnjAtTile(p.currentmap,tx,ty);
+            const trainer=pnj&&trainers.find(pnj.interactionName);
+            if(trainer){p.dialogue=createDialogueAuthorization({name:trainer.id,map:p.currentmap,x:tx,y:ty},now());emit(p,'expedition:trainerOffer',trainers.view(trainer,p));return;}
             const sentence=pnj?getSentenceForName(pnj.interactionName||pnj.name):InteractMapData(p.currentmap)[ty]?.[tx]?getSentenceForMapAndPosition(p.currentmap,tx,ty):null;
             if(sentence){p.dialogue=createDialogueAuthorization({name:sentence[1],map:p.currentmap,x:tx,y:ty},now());emit(p,'dialogue',sentence);return;}
         }
     }
     function endDialogue(p,name) {
         if(p.run.phase!=='exploration'||!isDialogueCompletionAllowed(p.dialogue,{name,map:p.currentmap,playerX:Math.floor(p.x/32),playerY:Math.floor(p.y/32)},now()))economy.fail('Dialogue expiré.');
-        p.dialogue=null;const end=getEndSentenceInformation(name);
+        p.dialogue=null;const trainer=trainers.find(name);
+        if(trainer){if(p.defeated.has(name))economy.fail('Ce dresseur a déjà été vaincu dans cette expédition.');battle(p,trainers.opponent(trainer),'trainer',name);return;}
+        const end=getEndSentenceInformation(name);
         if(end==='heal'){
             healTeam(p.equipe);
             if(p.currentmap==='centre')report.increment(p,'centerHeals');
@@ -493,7 +499,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         const downtime = Math.max(0, now() - savedAt);
         for (const run of saved.values()) {
             for (const key of ['startedAt','endsAt','selectionEndsAt','preparationEndsAt','closedAt']) if (Number.isFinite(run[key])) run[key]+=downtime;
-            run.pnjs=createPnjStore(); run.pnjDeadlines=new Map(); run.settling=null; run.settleAfter=0;
+            run.pnjs=createPnjStore(trainers.entries); run.pnjDeadlines=new Map(); run.settling=null; run.settleAfter=0;
             run.recoveredAt=now(); run.recoveryWaiting=run.phase!=='results';
             for (const p of run.players.values()) {
                 p.socketId=null; p.disconnectedAt=now()+210000; p.dialogue=null; p.watchingMatchId=null;

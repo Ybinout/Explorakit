@@ -33,13 +33,13 @@ test('each encounter zone has a distinct, diverse pool with shipped sprites and 
     }
 });
 
-test('Rift and Colosseum sample the expanded pools within the existing level ranges', () => {
+test('Rift and Colosseum sample the expanded pools within the expedition level ranges', () => {
     for (const zone of zones) {
         const seen = new Set();
         for (let i = 0; i < 200; i++) {
             const pokemon = factory.wild(zone.mapName, {}, () => (i + .5) / 200);
             assert(zone.wildpokemon.includes(pokemon.data.id));
-            assert(pokemon.level >= zone.level.min && pokemon.level <= zone.level.max);
+            assert(pokemon.level >= (require('../server/game/drift/openingBalance').levels[zone.mapName]||zone.level).min && pokemon.level <= (require('../server/game/drift/openingBalance').levels[zone.mapName]||zone.level).max);
             seen.add(pokemon.data.id);
         }
         assert.equal(seen.size, zone.wildpokemon.length, `${zone.mapName}: unreachable species`);

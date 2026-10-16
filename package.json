@@ -34,7 +34,8 @@
     "test:strategy-browser": "node --env-file-if-exists=.env scripts/validateStrategyBrowser.js",
     "test:colosseum-browser": "node --env-file-if-exists=.env scripts/validateColosseumBrowser.js",
     "test:pwa-browser": "node scripts/validatePwaBrowser.js",
-    "test:community-browser": "node --env-file-if-exists=.env scripts/validateCommunityBrowser.js"
+    "test:community-browser": "node --env-file-if-exists=.env scripts/validateCommunityBrowser.js",
+    "test:contracts-browser": "node --env-file-if-exists=.env scripts/validateContractsBrowser.js"
   },
   "keywords": [],
   "author": "",

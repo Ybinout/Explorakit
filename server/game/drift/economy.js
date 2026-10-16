@@ -28,6 +28,15 @@ function equip(p, uuid, enabled) {
     p.equipped.push(uuid); p.ready = false;
     report.syncDrifts(p);
 }
+function replace(p, uuid, replaceUuid) {
+    requireMutable(p);
+    const incoming=p.drifts.find(d=>d.uuid===uuid);
+    if(!incoming || p.equipped.includes(uuid) || !p.equipped.includes(replaceUuid))fail('Choisis un Drift de ton sac et un emplacement équipé.');
+    const next=p.equipped.map(id=>id===replaceUuid?uuid:id);
+    const families=next.map(id=>p.drifts.find(d=>d.uuid===id)?.definitionId);
+    if(new Set(families).size!==families.length)fail('Un Drift de cette famille est déjà équipé.');
+    p.equipped=next;p.ready=false;report.syncDrifts(p);
+}
 function remove(p, uuid, sell = false) {
     requireMutable(p);
     if (p.equipped.includes(uuid)) fail('Retire ce Drift avant de le supprimer ou le vendre.');
@@ -104,4 +113,4 @@ function evolve(p,key,uuid) {
     const evolution=stones.evolve(pokemon,key);p.items[key]--;p.ready=false;report.syncTeam(p);
     return {success:true,evolution,equipe:p.equipe,items:bag(p)};
 }
-module.exports = { evolve, SLOT_LIMIT, prices, bag, shop, equip, remove, buy, usePotion, drop, requireMutable, fail };
+module.exports = { replace, evolve, SLOT_LIMIT, prices, bag, shop, equip, remove, buy, usePotion, drop, requireMutable, fail };
