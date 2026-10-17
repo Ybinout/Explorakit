@@ -32,12 +32,12 @@ for (const durationMinutes of [30, 60]) test(`Colosseum ${durationMinutes}min: b
     const before = [active.experience, reserve.experience, lost.experience];
     const enemy = factory.create(19, 14);
     enemy.k = 1;
-    const expected = Math.floor(6 * require('../server/game/models/progression').calculateBattleExperience(enemy, 1, active) * 4 / 5);
+    const sharingBase = Math.floor(6 * require('../server/game/models/progression').calculateBattleExperience(enemy, 1, active) * 4 / 5);
     const battle = f.runtime.battle(p, { npc:true, equipe:{ pokemons:[enemy] }, drifts:[], equipped:[] }, 'wild');
     lost.currentHp = 0;
     defeatEnemies(battle);
-    assert.equal(active.experience - before[0], expected);
-    assert.equal(reserve.experience - before[1], Math.floor(expected * 40 / 100));
+    assert.equal(active.experience - before[0], Math.floor(sharingBase * 9 / 10));
+    assert.equal(reserve.experience - before[1], Math.floor(sharingBase * 40 / 100));
     assert.equal(lost.experience, before[2]);
     assert(!p.equipe.pokemons.includes(lost));
     assert(reserve.level > 5);

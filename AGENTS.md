@@ -1,5 +1,9 @@
 # Contexte permanent — Explorakit
 
+## Progression des expéditions — 17 octobre 2026
+
+Lire la section correspondante en tête de l’audit. Le combattant Colosseum gagne 90 % de l’ancienne base ×4,8 ; les réserves conservent leur gain basé sur ×4,8. Les Drifts identiques fusionnent par deux via `fusion.js`, après détachement des effets de combat, en conservant le slot équipé. Les contrats se renouvellent après récompense et progressent en palier ; préserver leur identifiant pour l’anti-rejeu et les récompenses en attente. Recettes : tests de fusion/contrats/XP et `test:contracts-browser`.
+
 ## Colosseum v3 — 16 octobre 2026
 
 Les nouvelles tentatives ont quatre paliers tactiques aux défis 1/6/11/16, un gardien/récompense tous les cinq combats et des objets adaptés dès le premier défi (`colosseumSets.js`). Les tentatives v1/v2 restent versionnées, y compris IA, équipements et récompenses. L’aperçu expose les objets réels ; ne pas réintroduire de base aléatoire ni de seuil 10/51 dans les règles actuelles. Lire la section correspondante en tête d’audit.

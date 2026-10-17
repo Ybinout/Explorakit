@@ -104,8 +104,7 @@ function chooseReward(p, data) {
     const option = state.reward.options.find(o => o.definitionId === data?.definitionId);
     if (!option) fail('Choisis l’un des trois Drifts proposés.');
     const drift = { uuid: randomUUID(), definitionId: option.definitionId, rarity: option.rarity, element: null };
-    p.drifts.push(drift);
-    require('./runReport').driftFound(p, drift, 'colosseum');
+    require('./fusion').acquire(p, drift, 'colosseum');
     state.lastReward = { wave: state.reward.wave, name: option.name, rarity: option.rarity };
     state.reward = null;
     // The five-slot limit and duplicate-definition rule still apply: no auto-equip.

@@ -91,8 +91,7 @@ function drop(p, source, random = Math.random) {
         const candidates = catalogue.definitions.filter(d => d.values[rarity] !== null);
         const definition = candidates[Math.floor(random() * candidates.length)];
         const drift = { uuid: randomUUID(), definitionId: definition.id, rarity, element: ['DRF-001', 'DRF-014'].includes(definition.id) ? types[Math.floor(random() * types.length)] : null };
-        p.drifts.push(drift); loot.push(definition.name);
-        report.driftFound(p,drift,source);
+        require('./fusion').acquire(p,drift,source); loot.push(definition.name);
     }
     if (source !== 'capture' && random() < Math.min(1, .2 * (1 + value(p, 45) / 100))) {
         const key = random() < .5 ? 'pokeball' : 'drift_potion'; p.items[key] = (p.items[key] || 0) + 1; loot.push(key === 'pokeball' ? 'Poké Ball' : 'Potion');

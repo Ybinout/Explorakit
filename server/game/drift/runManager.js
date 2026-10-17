@@ -56,7 +56,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
             run.colosseum.next = colosseum.waveInfo(run.colosseum.next.wave, run.colosseum.version || 1);
         return { id:run.id, mode:run.mode || 'rift', durationMinutes:run.lobby.rules.durationMinutes, colosseum:run.colosseum || null, phase:run.phase, starterChoices:p.starterChoices || [], selectionEndsAt:run.selectionEndsAt || null, serverNow:now(), endsAt:run.endsAt, preparationEndsAt:run.preparationEndsAt,
             alive:p.alive, winnerId:run.winnerId, reason:p.eliminationReason, currentRound:run.round, ready:p.ready,spectatingAvailable:run.mode !== 'colosseum',
-            storagePaused:storagePausedAt !== null, recoveredAt:run.recoveredAt || null, recoveryWaiting:Boolean(run.recoveryWaiting), slot:p.slot, slotLimit:economy.SLOT_LIMIT, money:p.money, drifts:p.drifts, equipped:p.equipped,
+            storagePaused:storagePausedAt !== null, recoveredAt:run.recoveredAt || null, recoveryWaiting:Boolean(run.recoveryWaiting), slot:p.slot, slotLimit:economy.SLOT_LIMIT, money:p.money, drifts:p.drifts, equipped:p.equipped, lastDriftFusion:p.lastDriftFusion || null,
             team:p.equipe.pokemons, contracts:contracts.view(p), trainers:trainers.list(p), items:economy.bag(p), merchant:isShopMap(p.currentmap)&&run.phase==='exploration'?require('./merchant').view(p):null,
             players:[...run.players.values()].map(a=>({id:a.userId,username:a.username,alive:a.alive,ready:a.ready,
                 connected:Boolean(a.socketId&&playerFor({id:a.userId})===a),inBattle:Boolean(a.inbattle),reason:a.eliminationReason||null})),
@@ -327,6 +327,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         stopSpectating(p,'replaced');
         if(p.socketId && p.socketId!==socket.id) namespace.to(p.socketId).emit('drift:replaced',{});
         p.socketId=socket.id;p.disconnectedAt=null;
+        contracts.migrate(p);require('./fusion').consolidate(p);
         if(p.alive) {
             emit(p,'playersList',publicPlayers(p.run,p.currentmap));
             emit(p,'pnjsList',{mapname:p.currentmap,pnjs:p.run.phase==='exploration'?p.run.pnjs.getPnjsForMap(p.currentmap):[]});
@@ -504,6 +505,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
             for (const p of run.players.values()) {
                 p.socketId=null; p.disconnectedAt=now()+210000; p.dialogue=null; p.watchingMatchId=null;
                 if (p.runReport) p.runReport.now=now;
+                contracts.migrate(p);require('./fusion').consolidate(p);
             }
             for (const b of run.battles) {
                 b.emit=emit; b.now=now; b.random=random;

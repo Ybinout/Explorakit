@@ -10,7 +10,7 @@ const MAX_COLLECTION = 1000;
 const STAT_KEYS = ['hp', 'attack', 'defense', 'specialAttack', 'specialDefense', 'speed'];
 const COUNTERS = ['battles', 'wildWins', 'trainerWins', 'arenaWins', 'pvpWins', 'defeats', 'draws', 'interrupted',
     'fled', 'captures', 'captureAttempts', 'pokemonLost', 'xpGained', 'levelsGained', 'moneyEarned', 'moneySpent',
-    'driftsFound', 'driftsSold', 'driftsDiscarded', 'potionsUsed', 'centerHeals', 'steps', 'evolutions'];
+    'driftsFound', 'driftsFused', 'driftsSold', 'driftsDiscarded', 'potionsUsed', 'centerHeals', 'steps', 'evolutions'];
 const copy = value => JSON.parse(JSON.stringify(value));
 const finite = value => Number.isFinite(Number(value)) ? Number(value) : 0;
 function timestamp(p) { return p.runReport?.now() ?? Date.now(); }
@@ -120,11 +120,11 @@ function battleFinished(p, battle, summary) {
 }
 function driftSnapshot(p, drift, previous = {}) {
     const definition = definitions.get(drift.definitionId);
-    return { uuid: drift.uuid, definitionId: drift.definitionId, rarity: drift.rarity, element: drift.element || null,
+    return { ...previous, uuid: drift.uuid, definitionId: drift.definitionId, rarity: drift.rarity, element: drift.element || null,
         name: definition?.name || drift.definitionId, description: definition?.description || '', category: definition?.category || '',
         value: finite(definition?.values[drift.rarity]), unit: definition?.unit || '',
         obtainedAt: previous.obtainedAt ?? timestamp(p), source: previous.source || null,
-        status: p.equipped.includes(drift.uuid) ? 'equipped' : 'stored', ...previous };
+        status: p.equipped.includes(drift.uuid) ? 'equipped' : 'stored' };
 }
 function syncDrifts(p) {
     if (!p.runReport) return;
@@ -147,6 +147,14 @@ function driftFound(p, drift, source) {
     if (p.runReport.drifts.size < MAX_COLLECTION) p.runReport.drifts.set(drift.uuid, driftSnapshot(p, drift, { source }));
     else p.runReport.driftsOmitted++;
     event(p, 'drift', `Drift obtenu : ${definitions.get(drift.definitionId)?.name || drift.definitionId} (${catalogue.rarities.find(r => r.key === drift.rarity)?.name || drift.rarity}).`);
+}
+function driftFused(p, kept, consumed, from) {
+    if (!p.runReport) return;
+    const snapshot = p.runReport.drifts.get(consumed.uuid);
+    if (snapshot) { snapshot.status = 'fused'; snapshot.removedAt = timestamp(p); snapshot.fusedInto = kept.uuid; }
+    increment(p, 'driftsFused');
+    const rarity = key => catalogue.rarities.find(r => r.key === key)?.name || key;
+    event(p, 'fusion', `Fusion : 2 ${definitions.get(kept.definitionId)?.name || kept.definitionId} (${rarity(from)}) → ${rarity(kept.rarity)}.`);
 }
 function driftRemoved(p, drift, sell, money = 0) {
     if (!p.runReport) return;
@@ -199,4 +207,4 @@ function finish(run, at) {
     return run.report;
 }
 module.exports = { MAX_EVENTS, MAX_COLLECTION, init, increment, event, syncTeam, visit, battleStarted, battleFinished,
-    lost, capture, syncDrifts, driftFound, driftRemoved, tournament, endPlayer, finish, pokemonSnapshot };
+    lost, capture, syncDrifts, driftFound, driftFused, driftRemoved, tournament, endPlayer, finish, pokemonSnapshot };

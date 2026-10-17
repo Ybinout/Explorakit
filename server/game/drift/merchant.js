@@ -32,8 +32,8 @@ function buy(p, offerId) {
     if (!offer || p.merchantBought?.includes(offerId)) fail('Cette offre n’est plus disponible.');
     if (p.money<offer.price) fail('Monnaie insuffisante.');
     const drift={...offer.drift,uuid:randomUUID()};
-    p.money-=offer.price; (p.merchantBought ||= []).push(offerId);p.drifts.push(drift);p.ready=false;
-    report.increment(p,'moneySpent',offer.price);report.driftFound(p,drift,'merchant');
+    p.money-=offer.price; (p.merchantBought ||= []).push(offerId);p.ready=false;
+    report.increment(p,'moneySpent',offer.price);require('./fusion').acquire(p,drift,'merchant');
     report.event(p,'purchase',`Drift acheté chez le marchand · −${offer.price} ₽.`);
     return { success:true, drift };
 }
@@ -45,9 +45,9 @@ function exchange(p, uuids, random = Math.random) {
     const floor=Math.min(...selected.map(d=>rarities.indexOf(d.rarity)));
     if (floor<0) fail('Rareté invalide.');
     const rarity=rarities[Math.min(4,floor+(random()<.2?1:0))],drift=rollDrift(rarity,random);
-    p.drifts=p.drifts.filter(d=>!uuids.includes(d.uuid));p.drifts.push(drift);p.ready=false;
+    p.drifts=p.drifts.filter(d=>!uuids.includes(d.uuid));p.ready=false;
     for(const d of selected)report.driftRemoved(p,d,false,0);
-    report.driftFound(p,drift,'exchange');report.event(p,'exchange','Trois Drifts échangés contre un nouveau Drift.');
+    require('./fusion').acquire(p,drift,'exchange');report.event(p,'exchange','Trois Drifts échangés contre un nouveau Drift.');
     return { success:true, drift };
 }
 module.exports={createStock,view,buy,exchange,rollDrift};

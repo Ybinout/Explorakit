@@ -13,12 +13,13 @@ for(const {mode,durationMinutes} of modes) for(const withDrifts of [false,true])
         const before=active.experience, beforeReserve=reserve.experience, beforeDead=dead.experience, beforeSecond=secondReserve.experience;
         const bonus=effects.value(p,43)+effects.value(p,51);
         const baseXp=Math.max(1,Math.floor(calculateBattleExperience(enemy,multiplier,active)*(1+bonus/100)));
-        const expected=mode === 'colosseum' ? Math.floor((6*baseXp)*4/5) : 2*baseXp;
+        const oldAward=mode === 'colosseum' ? Math.floor((6*baseXp)*4/5) : 2*baseXp;
+        const expected=mode === 'colosseum' ? Math.max(1,Math.floor(oldAward*9/10)) : oldAward;
         const events=[];
         const battle=Object.assign(Object.create(DriftBattle.prototype),{type,a:p,rewarded:new Set(),emit:(_,event,payload)=>events.push({event,payload})});
         battle.reward(enemy);battle.reward(enemy);
         assert.equal(active.experience-before,expected);
-        const shared=Math.floor(expected*((mode === 'colosseum' ? 40 : 0)+effects.value(p,50))/100);
+        const shared=Math.floor(oldAward*((mode === 'colosseum' ? 40 : 0)+effects.value(p,50))/100);
         assert.equal(reserve.experience-beforeReserve,shared);
         assert.equal(secondReserve.experience-beforeSecond,shared,'Each reserve gets the full share, regardless of its level');
         assert.equal(dead.experience,beforeDead);assert.equal(events.length,1);

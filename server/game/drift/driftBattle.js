@@ -146,10 +146,10 @@ class DriftBattle {
         const bonus = effects.value(this.a,43) + (defeated.level > active.level ? effects.value(this.a,51) : 0);
         const isColosseum = this.a.run?.mode === 'colosseum';
         const baseXp = Math.max(1,Math.floor(calculateBattleExperience(defeated, this.type === 'arena' ? 2 : this.type === 'trainer' ? 1.5 : 1, active) * (1 + bonus/100)));
-        // Colosseum: previous x6 award reduced by 20%, rounded down; Rift keeps x2.
-        const xp = isColosseum ? Math.floor(baseXp * 48 / 10) : baseXp * 2;
-        // Sharing grants extra XP to each living reserve, without reducing the active award.
-        const reserveXp = Math.floor(xp * ((isColosseum ? 40 : 0) + effects.value(this.a,50))/100);
+        const sharingBase = isColosseum ? Math.floor(baseXp * 48 / 10) : baseXp * 2;
+        // Only the Colosseum fighter loses 10%; reserves retain their previous award.
+        const xp = isColosseum ? Math.max(1, Math.floor(sharingBase * 9 / 10)) : sharingBase;
+        const reserveXp = Math.floor(sharingBase * ((isColosseum ? 40 : 0) + effects.value(this.a,50))/100);
         const previousLevel = active.level, previousExperience = active.experience;
         active.gainEffort(yields[defeated.data.id] || {}); active.gainExperience(xp);
         for (const reserve of this.a.equipe.pokemons) if (reserve !== active && !effects.isDead(reserve)) reserve.gainExperience(reserveXp);
@@ -255,6 +255,7 @@ class DriftBattle {
         require('./contracts').record(this.a,this,winner,reason);
         effects.detach(this.originals);
         for(const p of [this.a,this.b]) if(!p.npc) {
+            require('./fusion').consolidate(p);
             const payload = {
                 playerWon: p === winner,
                 battleType: this.type === 'arena' ? 'trainer' : this.type,

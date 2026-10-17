@@ -76,8 +76,9 @@ test('captures, pertes, XP partagée, monnaie et objets du bilan proviennent des
     const levels = p.equipe.pokemons.reduce((sum, pokemon) => sum + pokemon.level, 0) - startingLevels;
     battle.finish(p, 'finished');
     const earned = p.money - 500;
-    assert.equal(p.drifts.length, 2);
-    const drift = p.drifts.find(drift => p.runReport.drifts.get(drift.uuid).source === 'arena');
+    assert.equal(p.drifts.length, 1);
+    const drift = p.drifts[0];
+    assert.equal(drift.uuid, captureDrift.uuid);assert.equal(drift.rarity, 'rare');assert.equal(p.runReport.stats.driftsFused, 1);
     economy.equip(p, drift.uuid, true); economy.equip(p, drift.uuid, false);
     p.currentmap = 'ville1_shop'; economy.remove(p, drift.uuid, true);
     economy.buy(p, 'drift_potion', 1);
@@ -91,9 +92,9 @@ test('captures, pertes, XP partagée, monnaie et objets du bilan proviennent des
     assert.equal(archived.stats.moneySpent, 100); assert.equal(archived.stats.potionsUsed, 1);
     assert.equal(archived.stats.driftsFound, 2); assert.equal(archived.stats.driftsSold, 1);
     assert.equal(archived.drifts.find(d => d.uuid === drift.uuid).status, 'sold');
-    assert.equal(archived.drifts.find(d => d.uuid === drift.uuid).source, 'arena');
+    assert.equal(archived.drifts.find(d => d.source === 'arena').status, 'fused');
     assert.equal(archived.drifts.find(d => d.uuid === captureDrift.uuid).source, 'capture');
-    assert.equal(archived.drifts.find(d => d.uuid === captureDrift.uuid).status, 'stored');
+    assert.equal(archived.drifts.find(d => d.uuid === captureDrift.uuid).status, 'sold');
     assert.equal(archived.equippedDrifts.length, 0);
     assert.equal(archived.pokemon.find(pokemon => pokemon.uuid === captured.uuid).source, 'capture');
     assert.equal(archived.reason, 'forfeit'); assert.equal(archived.team.length, 2);
