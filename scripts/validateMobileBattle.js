@@ -54,10 +54,26 @@ async function validateMobileBattle(page, output, fit, { colosseum = false } = {
         });
         return {
             scene: rect(document.querySelector('.battle-scene')), sprites,
+            platforms: [...document.querySelectorAll('[data-battle-platform]')].map(el => {
+                const image = el.querySelector('img'), r = rect(image);
+                return { side: el.dataset.battlePlatform, x: r.x + r.width / 2, surfaceTop: r.y + r.height * .25, surfaceBottom: r.y + r.height * .76,
+                    loaded: image.complete && image.naturalWidth > 0, z: Number(getComputedStyle(el).zIndex),
+                    passive: getComputedStyle(el).pointerEvents === 'none' };
+            }),
             obstacles: [...document.querySelectorAll('.battle-status, .battle-action-shell, .battle-challenge')].map(rect),
             documentHeight: document.documentElement.scrollHeight,
         };
     });
+    const checkPlatforms = layout => {
+        assert.equal(layout.platforms.length, colosseum ? 2 : 0);
+        for (const platform of layout.platforms) {
+            const sprite = layout.sprites.find(s => s.side === platform.side);
+            assert(platform.loaded && platform.passive && platform.z < 55, 'Platform must load behind the fighter without blocking input');
+            assert(Math.abs(platform.x - (sprite.x + sprite.right) / 2) < 1
+                && sprite.bottom >= platform.surfaceTop && sprite.bottom <= platform.surfaceBottom,
+                'Fighter’s ground contact must sit on the platform surface');
+        }
+    };
     const formats = [[393, 852], [320, 568], [320, 480], [844, 390], [740, 320], [1024, 768], [393, 700]];
     for (const [width, height] of formats) {
         await page.setViewportSize({ width, height });
@@ -72,6 +88,7 @@ async function validateMobileBattle(page, output, fit, { colosseum = false } = {
             await fit(page, selector, width, height);
         }
         const layout = await measure();
+        checkPlatforms(layout);
         if (colosseum) {
             assert(await page.locator('.battle-colosseum-background').evaluate(img => img.complete && img.naturalWidth > 0));
             await fit(page, '.battle-challenge', width, height);
@@ -135,8 +152,10 @@ async function validateMobileBattle(page, output, fit, { colosseum = false } = {
     const audio = await validateBattleAudio(page);
     // Also check the shared effects on the desktop layout.
     await page.setViewportSize({ width: 1365, height: 900 });
-    await page.evaluate(() => { window.battleTestVm.showMobileControls = false; });
+    await page.evaluate(async () => { window.battleTestVm.showMobileControls = false; await window.battleTestVm.$nextTick(); });
     await validateBattleLabels(page, 1365, 900, output);
+    checkPlatforms(await measure());
+    await page.screenshot({ path: path.join(output, `${colosseum ? 'colosseum' : 'mobile'}-battle-desktop.png`) });
     // Browser chrome changes the available height; safe-area padding must leave controls reachable.
     await page.setViewportSize({ width: 393, height: 700 });
     await touch.send('Emulation.setTouchEmulationEnabled', { enabled: true, maxTouchPoints: 1 });
