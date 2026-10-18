@@ -33,7 +33,7 @@ async function profile(viewer, target) {
         colosseum: [30,60].map(minutes => {
             const record = records.find(r => Number(r.duration_minutes) === minutes);
             const score = Number(record?.score) || 0, wins = Number(record?.wins) || 0;
-            const team = record ? JSON.parse(record.report_json)?.colosseum?.lastTeam || [] : [];
+            const team = record ? require('../game/drift/colosseum').recordTeam(JSON.parse(record.report_json)) : [];
             return { durationMinutes: minutes, score, wins, rank: colosseumRank(score,wins),
                 team: team.slice(0,6).map(p => ({ pokemonId:p.pokemonId,name:p.name,level:p.level,knockedOut:p.currentHp<=0 })) };
         }) };

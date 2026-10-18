@@ -112,6 +112,12 @@ function chooseReward(p, data) {
 }
 
 const snapshotTeam = pokemons => pokemons.map(p => pokemonSnapshot(p));
+// The entry snapshot survives losses, later evolution and restored/archived runs.
+// Older reports without it keep their last known team rather than inventing one.
+function recordTeam(report) {
+    const entry = report?.players?.[0]?.tournamentTeam;
+    return (entry?.length ? entry : report?.colosseum?.lastTeam || []).slice(0, 6);
+}
 function initialState() { return { version: 3, score: 0, wins: 0, wave: 0, lastTeam: [], reward: null, lastReward: null, next: waveInfo(1) }; }
 
-module.exports = { EXPLORATION_MS, durationMinutes, milestoneSize, waveInfo, opponent, snapshotTeam, initialState, rewardOffer, chooseReward };
+module.exports = { EXPLORATION_MS, durationMinutes, milestoneSize, waveInfo, opponent, snapshotTeam, recordTeam, initialState, rewardOffer, chooseReward };

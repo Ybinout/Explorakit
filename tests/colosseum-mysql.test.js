@@ -73,6 +73,27 @@ test('Colosseum SQL: committed receipt wins over an old running checkpoint', {sk
     }finally{await f.cleanup();}
 });
 
+test('Colosseum SQL: records and profiles show the full entry team from existing reports', {skip:!enabled}, async()=>{
+    const f = await fixture();
+    try {
+        for (const minutes of [30, 60]) {
+            const run = await f.run(0, 300, 1, Date.now(), minutes);
+            const team = [1, 4, 7, 25, 133, 16].map((pokemonId, index) => ({
+                uuid:`private-${index}`, pokemonId, name:`Compagnon ${index}`, level:20+index,
+                currentHp:50, ivs:{ hp:31 }, moves:['Tackle']
+            }));
+            run.report.players = [{ id:f.users[0].id, tournamentTeam:team }];
+            await repository.recordRunFinished(run);
+            const expected = team.map(p => ({ pokemonId:p.pokemonId, name:p.name, level:p.level, knockedOut:false }));
+            assert.deepEqual((await repository.leaderboard(f.users[0].id, minutes)).personal.team, expected);
+            const profile = await require('../server/persistence/trainerRepository').profile(f.users[1].id, f.users[0].id);
+            assert.deepEqual(profile.colosseum.find(record => record.durationMinutes === minutes).team, expected);
+            const [receipt] = await repository.getFinishedRuns([run.id]);
+            assert.deepEqual(receipt.report, run.report, 'Reading an entry roster must not rewrite its archived report');
+        }
+    } finally { await f.cleanup(); }
+});
+
 test('Colosseum SQL: independent records and ranks per format; launch format cannot change', {skip:!enabled}, async()=>{
     const f=await fixture();
     try{

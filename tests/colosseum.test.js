@@ -22,6 +22,33 @@ function defeatEnemies(battle) {
     battle.prune(); battle.checkEnd();
 }
 
+for (const durationMinutes of [30, 60]) test(`Colosseum ${durationMinutes}min: result preserves all six entrants across losses and recovery`, async () => {
+    const f = setup();
+    await f.runtime.startColosseum(f.user, { durationMinutes });
+    f.runtime.enter(f.user, f.socket);
+    const p = f.runtime.playerFor(f.user);
+    p.equipe.pokemons = [1, 4, 7, 25, 133, 16].map(id => factory.create(id, 20));
+    f.advance(durationMinutes * 60000);
+    const entry = structuredClone(p.runReport.tournamentTeam);
+    f.runtime.ready(p);
+    for (const pokemon of p.equipe.pokemons.slice(0, 5)) pokemon.currentHp = 0;
+    defeatEnemies(p.battle);
+    assert.equal(p.equipe.pokemons.length, 1);
+    const saved = decode(encode({ savedAt:f.now(), lobbies:f.store.exportLobbies(), runs:f.runtime.runs }));
+    const restored = setup();
+    restored.store.restoreLobbies(saved.lobbies); restored.runtime.restore(saved.runs, saved.savedAt);
+    restored.store.connect(f.user, 'restored'); restored.runtime.enter(f.user, { id:'restored' });
+    const q = restored.runtime.playerFor(f.user);
+    restored.runtime.ready(q);
+    q.equipe.pokemons[0].currentHp = 0;
+    q.battle.prune(); q.battle.checkEnd();
+    assert.equal(q.run.phase, 'results');
+    assert.equal(q.run.report.colosseum.lastTeam.length, 1);
+    assert.deepEqual(colosseum.recordTeam(q.run.report), entry);
+    assert.deepEqual(restored.runtime.state(q).report.players[0].tournamentTeam, entry);
+    assert(entry.every(pokemon => pokemon.currentHp > 0 && pokemon.level === 20));
+});
+
 for (const durationMinutes of [30, 60]) test(`Colosseum ${durationMinutes}min: boosted XP and reserve learning persist without duplicate rewards`, async () => {
     const f = setup();
     await f.runtime.startColosseum(f.user, { durationMinutes });

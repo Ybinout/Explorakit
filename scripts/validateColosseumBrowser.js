@@ -131,12 +131,17 @@ async function betweenBattles(selector) {
         }
         await page.setViewportSize({width:393,height:852});
         await page.screenshot({path:path.join(output,'colosseum-exploration.png')});
-        // Set up a second survivor to verify the irreversible loss in the actual UI.
-        p.equipe.pokemons.push(factory.create(9,25));offset+=1800000;cleanup.runtime.tick();
+        // Six entrants, five early losses, then the last survivor: every entrant
+        // must remain in the result and record at its original level.
+        p.equipe.pokemons.push(...[4,7,25,133,9].map(id=>factory.create(id,25)));
+        offset+=1800000;cleanup.runtime.tick();
+        const entryTeam = structuredClone(p.runReport.tournamentTeam);
         await page.locator('[data-colosseum-ready]').waitFor();assert.equal(p.currentmap,'ville1_arene');
         await page.screenshot({path:path.join(output,'colosseum-ready-mobile.png')});
         await page.locator('[data-colosseum-ready]').click();await waitFor(()=>Boolean(p.battle),'Battle missing');
-        const battle=p.battle,lost=p.equipe.pokemons[0];lost.currentHp=0;battle.prune();
+        const battle=p.battle;
+        for(const pokemon of p.equipe.pokemons.slice(0,5))pokemon.currentHp=0;
+        battle.prune();
         for(const enemy of battle.b.equipe.pokemons)enemy.currentHp=0;battle.prune();battle.checkEnd();
         await dismissBattle();await betweenBattles('[data-colosseum-ready]');
         assert.equal(p.equipe.pokemons.length,1);assert.equal(p.equipe.pokemons[0].currentHp,p.equipe.pokemons[0].maxHp);
@@ -146,11 +151,24 @@ async function betweenBattles(selector) {
         const finalBattle=p.battle;p.equipe.pokemons[0].currentHp=0;finalBattle.prune();finalBattle.checkEnd();
         await dismissBattle();await page.getByText('Ton passage au Colosseum',{exact:true}).waitFor();
         await p.run.settling;assert.equal(p.run.settlement.status,'complete');
-        await page.screenshot({path:path.join(output,'colosseum-results-mobile.png')});
+        assert.equal(p.run.report.colosseum.lastTeam.length,1);
+        for(const [width,height] of [[320,568],[393,852],[1365,900]]) {
+            await page.setViewportSize({width,height});
+            await page.reload({waitUntil:'networkidle'});
+            await page.locator('[data-colosseum-result-team]').waitFor();
+            assert.deepEqual(await page.locator('[data-colosseum-result-team] strong').allTextContents(),entryTeam.map(p=>p.name));
+            assert.deepEqual(await page.locator('[data-colosseum-result-team] > div > span:last-child').allTextContents(),entryTeam.map(p=>`N. ${p.level}`));
+            await checkWidth();
+            await page.screenshot({path:path.join(output,`colosseum-results-${width}.png`)});
+        }
+        await page.setViewportSize({width:393,height:852});
         await page.locator('[data-drift-action="exit"]').click();
         await page.locator('[data-colosseum-ranking-format="30"]').click();await page.locator('[data-colosseum-personal]').waitFor();
         assert.match(await page.locator('[data-colosseum-personal]').innerText(),/300/);
         assert.equal(await page.locator('.rank-list li').count(),1);
+        assert.equal(await page.locator('.record-team img').count(),6);
+        const profile = await require('../server/persistence/trainerRepository').profile(userId,userId);
+        assert.deepEqual(profile.colosseum.find(r=>r.durationMinutes===30).team.map(p=>p.pokemonId),entryTeam.map(p=>p.pokemonId));
         await page.screenshot({path:path.join(output,'colosseum-record-mobile.png'),fullPage:true});
         const [[adventureAfter]]=await dbPool.execute('SELECT p.uuid,p.current_hp,p.experience FROM pokemons p JOIN teams t ON t.id=p.team_id WHERE t.user_id=?',[userId]);
         assert.deepEqual(adventureAfter,adventureBefore);
