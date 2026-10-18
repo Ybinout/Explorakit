@@ -1,5 +1,9 @@
 # Contexte permanent — Explorakit
 
+## Ordre des combats — 18 octobre 2026
+
+Lire la section correspondante en tête d’audit. Les promesses de capture et d’XP doivent être attendues par la file ; régler les PV avant le K.O. et publier l’entrant avant ses effets. Ne pas envoyer le Pokémon du joueur comme adversaire après un pivot. Un changement volontaire de dresseur consomme son action. Conserver les gardes d’identité qui empêchent un remplaçant de reprendre l’action du mort. Recettes : `tests/battle-order.test.js`, tests SQL de pivots et `test:combat-browser` (inclut `validateBattleTimeline.js`).
+
 ## Lisibilité et préparation — 18 octobre 2026
 
 Lire la section correspondante en tête d’audit. Le combattant Colosseum reçoit 80 % du gain précédent (environ ×3,456 Aventure), réserves toujours basées sur ×4,8. Les primes de combat Aventure augmentent de 50 %. Les Drifts d’une même définition/élément fusionnent toutes raretés confondues via des essences ; le bonus interpolé vient de `driftStrength.js`, plafonné au Mythique, et le surplus conserve sa valeur de vente. Préserver les UUID équipés et la consolidation hors combat. `presentationState.js` distingue rappel/K.O. ; `driftSignals.js` ne collecte que les effets réellement résolus. La file visuelle précède le résultat, la piste de musique ne redémarre pas sur chaque état. Recette dédiée : `test:combat-browser`.

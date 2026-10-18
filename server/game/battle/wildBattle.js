@@ -159,6 +159,7 @@ async function applySwitchInNarration(player, wildPokemon, io, switchedPokemon, 
     const enemyPokemon = switchedPokemon === wildPokemon
         ? player?.equipe?.pokemons?.[0]
         : wildPokemon;
+    displayIntroAnimation(player, wildPokemon, io);
     const switchMessages = applySwitchInEffects(switchedPokemon, ownSide, enemySide, battleState, enemyPokemon);
     emitFieldState(io, player?.id, battleState);
     if (switchMessages.length === 0) return;

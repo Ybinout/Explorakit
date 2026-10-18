@@ -67,3 +67,24 @@ test('stat Drift signals follow real stage changes, including caps and Contrary'
  a.__battle.statStages.speed=-6;assert.deepEqual(after(),[]);
  a.passiveAbility='Contrary';assert(after().some(e=>e.detail.includes('augmentée')));effects.detach(p.equipe.pokemons);
 });
+
+test('expedition KO is published before XP and replacement, which never inherits the dead action',()=>{
+ const p=owner(),q={npc:true,equipe:{pokemons:[mon(19),mon(25)]},drifts:[],equipped:[]},events=[];
+ p.equipe.pokemons[0].currentSpeed=999;p.equipe.pokemons[0].currentAttack=999;q.equipe.pokemons[0].currentHp=1;
+ q.equipe.pokemons.forEach(m=>{m.currentSpeed=1;m.abilities=['Tackle'];});
+ const b=new DriftBattle(p,q,{emit:(_,name,payload)=>events.push({name,payload:JSON.parse(JSON.stringify(payload))}),random:()=>.9,paceMs:0});
+ const dead=q.equipe.pokemons[0].uuid,live=q.equipe.pokemons[1].uuid;
+ b.action(p,{action:'attack',number:0,turnId:b.token});
+ const ko=events.findIndex(e=>e.name==='introAnimation'&&e.payload.transitions.some(t=>t.kind==='faint'&&t.uuid===dead));
+ const xp=events.findIndex(e=>e.name==='battleExperience');const enter=events.findIndex(e=>e.name==='introAnimation'&&e.payload.transitions.some(t=>t.kind==='enter'&&t.uuid===live));
+ assert(ko>=0&&xp>ko&&enter>xp);assert.equal(events.filter(e=>e.name==='battleMoveAnimation').length,1);b.finish(null,'fled');
+});
+test('expedition entrants appear before hazards and an entry KO is not mistaken for recall',()=>{
+ const p=owner(),q={npc:true,equipe:{pokemons:[mon(19)]},drifts:[],equipped:[]},events=[];
+ const b=new DriftBattle(p,q,{emit:(_,name,payload)=>events.push({name,payload:JSON.parse(JSON.stringify(payload))}),random:()=>.9,paceMs:0});
+ const incoming=p.equipe.pokemons[1];incoming.currentHp=1;b.sides[0].hazards={stealthRock:true};
+ b.action(p,{action:'change',number:1,turnId:b.token});
+ const entry=events.findIndex(e=>e.name==='introAnimation'&&e.payload.transitions.some(t=>t.kind==='enter'&&t.uuid===incoming.uuid));
+ const faint=events.findIndex(e=>e.name==='introAnimation'&&e.payload.transitions.some(t=>t.kind==='faint'&&t.uuid===incoming.uuid));
+ assert(entry>=0&&faint>entry);assert.equal(events[entry].payload.player.equipe.pokemons[0].currentHp,1);b.finish(null,'fled');
+});

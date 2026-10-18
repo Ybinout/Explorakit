@@ -153,9 +153,12 @@ async function validateMobileBattle(page, output, fit, { colosseum = false } = {
         return { x: scene.x + overlay.movePath.targetX, y: scene.y + overlay.movePath.targetY };
     });
     assert(Math.abs(move.x - target.x) < 2 && Math.abs(move.y - target.y) < 2, 'Attack misses the visible Pokémon');
-    await page.evaluate(() => window.battleTestVm.$refs.battleOverlay.playCaptureAnimation({
-        itemKey: 'superball', itemName: 'Super Ball', success: true, shakes: 3, wildPokemonName: 'Reptincel',
-    }));
+    // Start without awaiting completion so the intermediate ball position is observable.
+    await page.evaluate(() => {
+        window.battleTestVm.$refs.battleOverlay.playCaptureAnimation({
+            itemKey: 'superball', itemName: 'Super Ball', success: true, shakes: 3, wildPokemonName: 'Reptincel',
+        });
+    });
     await page.waitForFunction(() => window.battleTestVm.$refs.battleOverlay.captureFx.state === 'absorb');
     const ball = await page.locator('.capture-fx-ball').boundingBox();
     assert(Math.abs(ball.x + ball.width / 2 - target.x) < 3 && Math.abs(ball.y + ball.height / 2 - target.y) < 3,

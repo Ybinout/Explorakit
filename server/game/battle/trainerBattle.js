@@ -113,11 +113,14 @@ async function performAttackWithNarration(attacker, defender, moveIndex, player,
         battleContext?.defenderTeam
     );
     result.switches = switches;
+    const opponentTeam = attacker === player.equipe.pokemons[0] || battleContext.attackerTeam === player.equipe.pokemons
+        ? battleContext.defenderTeam : battleContext.attackerTeam;
+    currentEnemy = opponentTeam?.[0] || currentEnemy;
 
     if (switches.defender?.incoming) {
         await narrate(player, io, `${getPokemonDisplayName(switches.defender.incoming)} est force d'entrer en combat !`, 900);
         await applySwitchInNarration(
-            player, switches.defender.incoming, io, switches.defender.incoming,
+            player, currentEnemy, io, switches.defender.incoming,
             battleContext.defenderSide, battleContext.attackerSide, battleContext.battleState
         );
     }
@@ -125,7 +128,7 @@ async function performAttackWithNarration(attacker, defender, moveIndex, player,
     if (switches.attacker?.incoming) {
         await narrate(player, io, `${getPokemonDisplayName(switches.attacker.incoming)} prend le relais !`, 900);
         await applySwitchInNarration(
-            player, switches.attacker.incoming, io, switches.attacker.incoming,
+            player, currentEnemy, io, switches.attacker.incoming,
             battleContext.attackerSide, battleContext.defenderSide, battleContext.battleState
         );
     }
@@ -145,6 +148,7 @@ async function applySwitchInNarration(player, currentEnemy, io, switchedPokemon,
     const enemyPokemon = switchedPokemon === currentEnemy
         ? player?.equipe?.pokemons?.[0]
         : currentEnemy;
+    displayIntroAnimation(player, currentEnemy, io);
     const switchMessages = applySwitchInEffects(switchedPokemon, ownSide, enemySide, battleState, enemyPokemon);
     emitFieldState(io, player?.id, battleState);
     if (switchMessages.length === 0) return;
@@ -284,7 +288,7 @@ function enemySwapPokemon(enemyTeam, index, usedPokemons) {
     if (index < 0 || index >= enemyTeam.pokemons.length) return false;
     if (enemyTeam.pokemons[index].currentHp <= 0) return false;
 
-    [enemyTeam.pokemons[0], enemyTeam.pokemons[index]] = [enemyTeam.pokemons[index], enemyTeam.pokemons[0]];
+    switchPokemonByIndex(enemyTeam, index);
 
     if (!usedPokemons.includes(enemyTeam.pokemons[0].uuid)) {
         usedPokemons.push(enemyTeam.pokemons[0].uuid);
@@ -582,10 +586,12 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
         const haveToSwap = determineIfSwap(currentEnemy, enemyTeam, playerPokemon);
         const enemyDamagePreview = findDmgAtk(enemyMoveName, currentEnemy, playerPokemon);
 
+        let enemySwitched = false;
         if (haveToSwap !== false && enemyDamagePreview < playerPokemon.currentHp) {
             const previousEnemyName = getPokemonDisplayName(currentEnemy);
             const swapped = enemySwapPokemon(enemyTeam, haveToSwap, usedPokemons);
             if (swapped) {
+                enemySwitched = true;
                 currentEnemy = enemyTeam.pokemons[0];
                 displayIntroAnimation(player, currentEnemy, io);
                 await narrate(
@@ -600,7 +606,8 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
             }
         }
 
-        const playerActsFirst = decideMoveOrder(playerPokemon, playerMoveName, currentEnemy, enemyMoveName, battleState);
+        if (currentEnemy.currentHp <= 0 || playerPokemon.currentHp <= 0) continue;
+        const playerActsFirst = enemySwitched || decideMoveOrder(playerPokemon, playerMoveName, currentEnemy, enemyMoveName, battleState);
 
         if (playerActsFirst) {
             const playerResult = await performAttackWithNarration(
@@ -620,7 +627,7 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
             );
             currentEnemy = enemyTeam.pokemons[0];
 
-            if (!playerResult?.switches?.defender
+            if (!enemySwitched && !playerResult?.switches?.defender
                 && currentEnemy.currentHp > 0
                 && player.equipe.pokemons[0].currentHp > 0) {
                 await performAttackWithNarration(

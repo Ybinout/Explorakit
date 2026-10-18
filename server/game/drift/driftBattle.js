@@ -76,6 +76,7 @@ class DriftBattle {
     }
     enter(i, manual = false, initial = false) {
         const p = this.active(i); if (!p || effects.isDead(p) || !this.active(1-i) || effects.isDead(this.active(1-i))) return;
+        if (!initial) this.sync(); // Publish the entrant before hazards, abilities or healing.
         engine.applySwitchInEffects(p, this.sides[i], this.sides[1-i], this.state, this.active(1-i)).forEach(m=>this.say(m));
         if (!initial)this.withDriftSignals(()=>effects.switched(p,manual));
     }
@@ -128,6 +129,7 @@ class DriftBattle {
         }
     }
     prune() {
+        if ([0,1].some(i=>this.active(i) && effects.isDead(this.active(i)))) this.sync();
         for (const [index,p] of [this.a,this.b].entries()) {
             const old = this.active(index);
             const fainted = p.equipe.pokemons.filter(poke => effects.isDead(poke) && !poke.riftFainted);
@@ -220,6 +222,7 @@ class DriftBattle {
                 stage:(target,stat,delta)=>engine.applyStageChange(target,stat,delta,result.messages) }));
             result.messages.forEach(m=>this.say(m));
             for (const [view,viewer] of actors.entries()) if(!viewer.npc) this.emit(viewer,'battleMoveResult',serializeMoveResult(view===index?'player':'opponent',result));
+            this.sync(); // Damage and K.O. belong to the outgoing sprites, before XP or replacement.
             const switched = resolveMoveSwitches(result,p.equipe,actors[1-index].equipe);
             if(switched.attacker) this.enter(index); if(switched.defender) this.enter(1-index);
             this.prune(); this.sync(); if(this.checkEnd()) return;

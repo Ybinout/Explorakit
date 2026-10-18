@@ -446,3 +446,36 @@ test('wild failed capture or full team gives no money; standard Poké Ball reach
   [[wallet]]=await pool.execute('SELECT money FROM users WHERE id=?',[userId]);assert.equal(wallet.money,45);
  }finally{if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
 });
+
+for (const mode of ['wild','trainer']) test(`${mode}: pivot publishes the right entrant before the opponent attacks`, {skip:!shouldRun}, async()=>{
+    const pool=createTestPool();let userId;
+    try {
+        const fixture=await createPlayer(1);userId=fixture.user.id;const {player}=fixture;
+        const first=player.equipe.pokemons[0],replacement=createPokemon(7,'Relay');
+        first.abilities=['U-turn'];first.movePp=[20];first.currentSpeed=999;first.passiveAbility=null;
+        replacement.passiveAbility=null;replacement.maxHp=replacement.currentHp=500;player.equipe.ajouterPokemon(replacement);
+        const enemy=createPokemon(19,'Opponent');enemy.passiveAbility=null;enemy.currentSpeed=1;enemy.maxHp=enemy.currentHp=500;
+        const socket=new ScriptedSocket([{action:'attack',number:0},{action:'flee'}]);
+        const io=new RecordingIo({[player.id]:socket});io.to=targetId=>({emit:(eventName,payload)=>io.events.push({targetId,eventName,payload:JSON.parse(JSON.stringify(payload))})});
+        await withFixedRandom(.5,()=>mode==='wild'?startWildBattle(player,enemy,io,userId):startTrainerBattle(player,createTeam(enemy),io,userId));
+        const attack=io.events.findIndex(e=>e.eventName==='battleMoveAnimation'&&e.payload.actor==='opponent');assert(attack>0);
+        const before=io.events.slice(0,attack).filter(e=>e.eventName==='introAnimation');
+        assert.equal(before.at(-1).payload.player.equipe.pokemons[0].uuid,replacement.uuid);
+        assert(before.some(e=>e.payload.transitions.some(t=>t.kind==='enter'&&t.uuid===replacement.uuid)));
+        assert(before.every(e=>e.payload.wildPokemon.uuid===enemy.uuid),'Player must never appear on the enemy side');
+        assert(replacement.currentHp<500,'Enemy attacks the entrant, not the outgoing Pokémon');
+    } finally {if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
+});
+test('Adventure trainer voluntary switch consumes its action instead of granting an extra attack', {skip:!shouldRun}, async()=>{
+    const pool=createTestPool();let userId;
+    try {
+        const fixture=await createPlayer(1);userId=fixture.user.id;const {player}=fixture;
+        const lead=player.equipe.pokemons[0];lead.passiveAbility=null;lead.maxHp=lead.currentHp=500;lead.abilities=['Growl'];lead.movePp=[40];
+        const enemy=createPokemon(7,'Water'),replacement=createPokemon(4,'Fire');enemy.passiveAbility=replacement.passiveAbility=null;
+        const socket=new ScriptedSocket([{action:'attack',number:0},{action:'flee'}]);const io=new RecordingIo({[player.id]:socket});
+        await withFixedRandom(.5,()=>startTrainerBattle(player,createTeam(enemy,replacement),io,userId));
+        assert(io.events.some(e=>e.eventName==='introAnimation'&&e.payload.transitions.some(t=>t.kind==='recall'&&t.side==='opponent')));
+        const attacks=io.events.filter(e=>e.eventName==='battleMoveAnimation');assert.deepEqual(attacks.map(e=>e.payload.actor),['player']);
+        assert.equal(lead.currentHp,500);assert.equal(replacement.movePp[0],35);
+    } finally {if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
+});
