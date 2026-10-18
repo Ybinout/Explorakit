@@ -1,3 +1,4 @@
+const presentation = require('./presentationState');
 const { rewardTraining } = require('../models/training');
 const {
     useattack,
@@ -69,7 +70,7 @@ async function narrateMessages(player, io, messages = [], delayMs = TEXT_DELAY_M
 }
 
 function displayIntroAnimation(player, currentEnemy, io) {
-    io.to(player.id).emit('introAnimation', { player, wildPokemon: currentEnemy });
+    io.to(player.id).emit('introAnimation', { player, wildPokemon: currentEnemy, transitions:presentation.transitions(player,player.equipe.pokemons[0],currentEnemy) });
 }
 
 function displayMoveAnimation(player, attacker, moveName, io) {
@@ -323,6 +324,7 @@ function findDmgAtk(attackName, pokemon1, pokemon2) {
 }
 
 async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
+    presentation.reset(player);
     const resultTracker = createBattleSummaryTracker(player?.equipe?.pokemons);
     const endBattle = (playerWon = false, extra = {}) => emitSoloBattleEnd(player, io, playerWon, {
         ...extra, summary: resultTracker.snapshot(player.equipe.pokemons)
@@ -377,7 +379,7 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
     const grantMoneyReward = async () => {
         if (options.grantBaseMoney === false) return 0;
         if (moneyRewardGranted || baseMoneyReward <= 0) return 0;
-        const reward = Math.max(1, Math.floor(baseMoneyReward * Number(playerSide.rewardMultiplier || 1)));
+        const reward = Math.max(1, Math.floor(baseMoneyReward * 1.5 * Number(playerSide.rewardMultiplier || 1)));
         moneyRewardGranted = true;
         await awardUserMoney(userId, reward);
         resultTracker.money += reward;

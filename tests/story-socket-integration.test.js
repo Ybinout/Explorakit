@@ -201,7 +201,7 @@ test('Socket réel : chapitres I et II, prérequis, combats, scènes et récompe
         const state = await at('ville1', 11, 11);
         await speak('town_lina_after');
         assert.equal(main(state).status, 'completed');
-        assert.equal(state.money, 12150);
+        assert.equal(state.money, 18225);
 
         // The second chapter is played through real authorised conversations and a battle.
         const pnjs = JSON.parse(require('node:fs').readFileSync(path.resolve(__dirname, '../data/game/pnjs.jsonc'), 'utf8')).pnjs;
@@ -235,7 +235,7 @@ test('Socket réel : chapitres I et II, prérequis, combats, scènes et récompe
         assert.equal((await reunion).quests.find(q => q.key === 'clara_chapter2').status, 'completed');
         await visit('town_ch2_clara');
         await speak('ch2_clara_after');
-        assert.equal((await loadProgressState(userId)).money, 15150);
+        assert.equal((await loadProgressState(userId)).money, 22125);
 
     } finally {
         socket?.disconnect();

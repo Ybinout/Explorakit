@@ -1,3 +1,4 @@
+const presentation = require('./presentationState');
 const {
     useattack,
     getMoveByName,
@@ -84,6 +85,7 @@ function emitBattleStateForBoth(io, playerA, playerB) {
 
     io.to(playerA.id).emit('introAnimation', {
         player: playerA,
+        transitions:presentation.transitions(playerA,playerA.equipe.pokemons[0],playerB.equipe.pokemons[0]),
         wildPokemon: playerB?.equipe?.pokemons?.[0] || null,
         battleType: 'pvp',
         enemyPlayer: {
@@ -94,6 +96,7 @@ function emitBattleStateForBoth(io, playerA, playerB) {
 
     io.to(playerB.id).emit('introAnimation', {
         player: playerB,
+        transitions:presentation.transitions(playerB,playerB.equipe.pokemons[0],playerA.equipe.pokemons[0]),
         wildPokemon: playerA?.equipe?.pokemons?.[0] || null,
         battleType: 'pvp',
         enemyPlayer: {
@@ -376,6 +379,7 @@ function emitBattleEnd(io, playerA, playerB, winnerId = null, reason = 'finished
 }
 
 async function startPvpBattle(playerA, playerB, io) {
+    presentation.reset(playerA);presentation.reset(playerB);
     if (!playerA || !playerB) {
         return {
             winnerId: null,

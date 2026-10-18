@@ -10,3 +10,9 @@ test('disconnect/reset cancels pending visuals and unblocks the end panel; hidde
  q.push(()=>events.push('first'),10000);q.push(()=>events.push('stale'));await Promise.resolve();q.cancel();q.push(()=>events.push('fresh'));await q.drain();assert.deepEqual(events,['first','fresh']);
  q.push(()=>events.push('hidden'),10000);await Promise.resolve();q.skipWait();await q.drain();assert.equal(events.at(-1),'hidden');
 });
+test('switch playback finishes before the following attack and reset cannot schedule a stale delay',async()=>{
+ const {createBattlePresentation}=await import('../vue-explorakit/src/services/battlePresentation.js');const q=createBattlePresentation(),events=[];let finish;
+ q.push(async()=>{events.push('recall');await new Promise(r=>{finish=r;});events.push('entry');},10);q.push(()=>events.push('attack'));
+ await Promise.resolve();assert.deepEqual(events,['recall']);finish();await q.drain();assert.deepEqual(events,['recall','entry','attack']);
+ let release;q.push(async()=>{await new Promise(r=>{release=r;});},10000);await Promise.resolve();q.cancel();release();q.push(()=>events.push('fresh'));await q.drain();assert.equal(events.at(-1),'fresh');
+});

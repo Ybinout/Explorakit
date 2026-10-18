@@ -36,7 +36,7 @@ for (const durationMinutes of [30, 60]) test(`Colosseum ${durationMinutes}min: b
     const battle = f.runtime.battle(p, { npc:true, equipe:{ pokemons:[enemy] }, drifts:[], equipped:[] }, 'wild');
     lost.currentHp = 0;
     defeatEnemies(battle);
-    assert.equal(active.experience - before[0], Math.floor(sharingBase * 9 / 10));
+    assert.equal(active.experience - before[0], Math.floor(Math.floor(sharingBase * 9 / 10)*4/5));
     assert.equal(reserve.experience - before[1], Math.floor(sharingBase * 40 / 100));
     assert.equal(lost.experience, before[2]);
     assert(!p.equipe.pokemons.includes(lost));

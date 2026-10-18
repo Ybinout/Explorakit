@@ -14,7 +14,7 @@ for(const {mode,durationMinutes} of modes) for(const withDrifts of [false,true])
         const bonus=effects.value(p,43)+effects.value(p,51);
         const baseXp=Math.max(1,Math.floor(calculateBattleExperience(enemy,multiplier,active)*(1+bonus/100)));
         const oldAward=mode === 'colosseum' ? Math.floor((6*baseXp)*4/5) : 2*baseXp;
-        const expected=mode === 'colosseum' ? Math.max(1,Math.floor(oldAward*9/10)) : oldAward;
+        const expected=mode === 'colosseum' ? Math.max(1,Math.floor(Math.floor(oldAward*9/10)*4/5)) : oldAward;
         const events=[];
         const battle=Object.assign(Object.create(DriftBattle.prototype),{type,a:p,rewarded:new Set(),emit:(_,event,payload)=>events.push({event,payload})});
         battle.reward(enemy);battle.reward(enemy);

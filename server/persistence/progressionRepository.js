@@ -247,7 +247,7 @@ async function completeNpcBattle(userId, dialogueName) {
     const id = normalizeUserId(userId);
     const definition = getNpcBattleDefinition(dialogueName);
     if (!definition) return { granted: false, reason: 'unknown_battle', progress: await loadProgressState(id) };
-    const reward = definition.reward || {};
+    const reward = {...(definition.reward || {}), money:Math.floor(Math.max(0,Number(definition.reward?.money)||0)*1.5)};
     const result = await withTransaction(async (connection) => {
         // Une victoire et une scène simultanées ne doivent pas contourner les prérequis.
         await connection.execute('SELECT id FROM users WHERE id = ? FOR UPDATE', [id]);

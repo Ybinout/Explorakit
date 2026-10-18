@@ -22,9 +22,9 @@ test('cascade upgrades equipped Drift in place, keeps five families and exact re
     assert.equal(p.runReport.stats.driftsFused,2);assert.equal(p.runReport.stats.driftsFound,0);assert.equal(p.runReport.stats.driftsDiscarded,0);
     const restored=decode(encode(p));assert.deepEqual(fusion.consolidate(restored),[]);assert.equal(restored.runReport.stats.driftsFused,2);assert.deepEqual(restored.equipped,p.equipped);
 });
-test('distinct elements/families/rarities never mix; mythics and unsupported definitions remain intact',()=>{
+test('families merge across rarities, elements stay distinct, mythic power is capped and excess keeps sale value',()=>{
     const p=player();p.drifts=[drift('fire','rare','DRF-001','Fire'),drift('water','rare','DRF-001','Water'),drift('rarity','epic','DRF-001','Fire'),drift('m1','mythic'),drift('m2','mythic'),drift('invalid1','common','DRF-059'),drift('invalid2','common','DRF-059')];
-    const before=JSON.stringify(p.drifts);assert.deepEqual(fusion.consolidate(p),[]);assert.equal(JSON.stringify(p.drifts),before);
+    assert.equal(fusion.consolidate(p).length,2);assert.equal(p.drifts.find(d=>d.uuid==='fire').fusionPoints,6);assert.equal(p.drifts.find(d=>d.uuid==='m1').fusionPoints,32);assert.equal(require('../server/game/drift/economy').salePrice(p.drifts.find(d=>d.uuid==='m1')),4000);assert.equal(require('../server/game/drift/driftStrength').value(p.drifts.find(d=>d.uuid==='m1')),require('../data/game/drifts.json').definitions.find(d=>d.id==='DRF-002').values.mythic);assert(p.drifts.some(d=>d.uuid==='invalid1'));assert(p.drifts.some(d=>d.uuid==='invalid2'));
     fusion.acquire(p,drift('fire2','rare','DRF-001','Fire'),'wild');assert.equal(p.drifts.find(d=>d.uuid==='fire').rarity,'legendary');assert(p.drifts.some(d=>d.uuid==='water'));
 });
 test('loot during settlement waits for detach, then applies upgraded bonuses only in next battle',()=>{

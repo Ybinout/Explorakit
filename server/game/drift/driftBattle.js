@@ -1,3 +1,4 @@
+const presentation = require('../battle/presentationState');
 const { randomUUID } = require('node:crypto');
 const engine = require('../battle/battleEngine');
 const effects = require('./driftEffects');
@@ -15,6 +16,7 @@ const { wildMoneyReward } = require('../battle/wildReward');
 
 class DriftBattle {
     constructor(a, b, { type = 'wild', emit, now = Date.now, random = Math.random, onFinish, onUpdate, npcKey = null, paceMs = 1800 }) {
+        presentation.reset(a);presentation.reset(b);
         this.id = randomUUID(); this.a = a; this.b = b; this.type = type; this.emit = emit; this.now = now;
         this.random = random; this.onFinish = onFinish; this.onUpdate = onUpdate; this.npcKey = npcKey; this.paceMs = paceMs;
         this.publicLog = [];
@@ -33,7 +35,7 @@ class DriftBattle {
             p.inbattle = true; p.battle = this;
             effects.attach(p.equipe.pokemons, p, type === 'pvp', random);
             p.equipe.pokemons.forEach(poke => { effects.states.get(poke).wild = index === 0 && type === 'wild'; });
-            if (!p.npc) emit(p, 'battletrigger', { battleType: type === 'arena' ? 'trainer' : type, message: type === 'pvp' ? 'Duel du tournoi Drift !' : 'Un combat Drift commence !' });
+            if (!p.npc) emit(p, 'battletrigger', { musicKind:this.musicKind(), battleType: type === 'arena' ? 'trainer' : type, message: type === 'pvp' ? 'Duel du tournoi Drift !' : 'Un combat Drift commence !' });
         }
         for (const index of [0,1]) this.enter(index, false, true);
         this.prune();
@@ -58,9 +60,15 @@ class DriftBattle {
             } : null };
         }) };
     }
+    withDriftSignals(action) {
+        const captured=require('./driftSignals').capture(action);
+        if(captured.effects.length)for(const viewer of [this.a,this.b])if(!viewer.npc)this.emit(viewer,'battleDriftEffects',{effects:captured.effects.map(({owner,...effect})=>({...effect,side:owner===viewer?'player':'opponent'}))});
+        return captured.result;
+    }
+    musicKind() { return this.a.run?.mode==='colosseum' && this.npcKey?.startsWith('colosseum_') ? 'colosseum' : this.type; }
     sync() {
         for (const [index,p] of [this.a,this.b].entries()) if (!p.npc) {
-            this.emit(p, 'introAnimation', { player: { id: p.socketId, userId: p.userId, equipe: p.equipe }, wildPokemon: this.active(1-index) || null, battleType: this.type === 'arena' ? 'trainer' : this.type, usableMoveIndexes: getUsableMoveIndexes(this.active(index), this.state) });
+            this.emit(p, 'introAnimation', { musicKind:this.musicKind(), transitions:presentation.transitions(p,this.active(index),this.active(1-index)), player: { id: p.socketId, userId: p.userId, equipe: p.equipe }, wildPokemon: this.active(1-index) || null, battleType: this.type === 'arena' ? 'trainer' : this.type, usableMoveIndexes: getUsableMoveIndexes(this.active(index), this.state) });
             this.emit(p, 'battleFieldState', serializeFieldState(this.state));
             this.emit(p, 'bagUpdated', { items: economy.bag(p) });
         }
@@ -69,7 +77,7 @@ class DriftBattle {
     enter(i, manual = false, initial = false) {
         const p = this.active(i); if (!p || effects.isDead(p) || !this.active(1-i) || effects.isDead(this.active(1-i))) return;
         engine.applySwitchInEffects(p, this.sides[i], this.sides[1-i], this.state, this.active(1-i)).forEach(m=>this.say(m));
-        if (!initial) effects.switched(p, manual);
+        if (!initial)this.withDriftSignals(()=>effects.switched(p,manual));
     }
     defaultAction(p) {
         const wave = p === this.b && p.npc && this.type === 'arena' && this.npcKey?.startsWith('colosseum_')
@@ -147,8 +155,8 @@ class DriftBattle {
         const isColosseum = this.a.run?.mode === 'colosseum';
         const baseXp = Math.max(1,Math.floor(calculateBattleExperience(defeated, this.type === 'arena' ? 2 : this.type === 'trainer' ? 1.5 : 1, active) * (1 + bonus/100)));
         const sharingBase = isColosseum ? Math.floor(baseXp * 48 / 10) : baseXp * 2;
-        // Only the Colosseum fighter loses 10%; reserves retain their previous award.
-        const xp = isColosseum ? Math.max(1, Math.floor(sharingBase * 9 / 10)) : sharingBase;
+        // The Colosseum fighter gets 80% of the previous award; reserve sharing remains unchanged.
+        const xp = isColosseum ? Math.max(1, Math.floor(Math.floor(sharingBase * 9 / 10) * 4 / 5)) : sharingBase;
         const reserveXp = Math.floor(sharingBase * ((isColosseum ? 40 : 0) + effects.value(this.a,50))/100);
         const previousLevel = active.level, previousExperience = active.experience;
         active.gainEffort(yields[defeated.data.id] || {}); active.gainExperience(xp);
@@ -174,7 +182,7 @@ class DriftBattle {
             const action = this.pending.get(p);
             if (action?.action === 'change' && engine.canSwitchOut(this.active(i), this.active(1-i), this.state)) {
                 if (p === this.b && p.npc && this.aiMemory) this.aiMemory.lastSwitchRound = this.round;
-                switchPokemonByIndex(p.equipe, action.number); this.enter(i,true); this.prune(); if(this.checkEnd()) return;
+                switchPokemonByIndex(p.equipe, action.number); this.enter(i,true); this.prune(); this.sync(); if(this.checkEnd()) return;
             }
             if (action?.action === 'bag') {
                 p.items[action.itemKey]--;
@@ -190,7 +198,7 @@ class DriftBattle {
         const ordered = engine.orderBattleActions(actors.map((p,index) => {
             const action = this.pending.get(p), pokemon = this.active(index);
             const name = getUsableMoveIndexes(pokemon, this.state).length ? pokemon.abilities[action?.number] || 'Struggle' : 'Struggle';
-            return { p, index, pokemon, name, moveName: name, side: this.sides[index], driftPriority: action?.action === 'attack' ? effects.priority(pokemon,engine.getMoveByName(name)) : 0 };
+            return { p, index, pokemon, name, moveName: name, side: this.sides[index], driftPriority: action?.action === 'attack' ? this.withDriftSignals(()=>effects.priority(pokemon,engine.getMoveByName(name))) : 0 };
         }), this.state, this.random);
         for (const action of ordered) {
             const { p, index, pokemon, name } = action;
@@ -201,15 +209,15 @@ class DriftBattle {
                 actor:view===index?'player':'opponent', moveName:name, moveType:move?.type || 'Normal',
                 damageClass:move?.combat?.damage_class || (move?.category === 'phy' ? 'physical' : move?.category === 'spe' ? 'special' : 'status')
             });
-            const result = engine.useattack(name,pokemon,defender,{ battleState:this.state, attackerSide:this.sides[index],defenderSide:this.sides[1-index],attackerTeam:p.equipe.pokemons,defenderTeam:actors[1-index].equipe.pokemons });
+            const result = this.withDriftSignals(()=>engine.useattack(name,pokemon,defender,{ battleState:this.state, attackerSide:this.sides[index],defenderSide:this.sides[1-index],attackerTeam:p.equipe.pokemons,defenderTeam:actors[1-index].equipe.pokemons }));
             if(p===this.a&&result.damage>0)(this.contractContributors ||= new Set()).add(pokemon.uuid);
             if (this.aiMemory && this.b.npc && this.npcKey?.startsWith('colosseum_')) {
                 if (p === this.a) colosseumAI.observe(this.aiMemory,pokemon,name);
                 else colosseumAI.observe(this.aiMemory,defender,name,result);
             }
-            effects.afterMove(pokemon,defender,result,{ contact: Boolean(getMoveFlags(result.move).contact),
+            this.withDriftSignals(()=>effects.afterMove(pokemon,defender,result,{ contact: Boolean(getMoveFlags(result.move).contact),
                 status:(target,status,source)=>engine.applyStatus(target,status,target===pokemon?this.sides[index]:this.sides[1-index],result.messages,{attacker:source,battleState:this.state}),
-                stage:(target,stat,delta)=>engine.applyStageChange(target,stat,delta,result.messages) });
+                stage:(target,stat,delta)=>engine.applyStageChange(target,stat,delta,result.messages) }));
             result.messages.forEach(m=>this.say(m));
             for (const [view,viewer] of actors.entries()) if(!viewer.npc) this.emit(viewer,'battleMoveResult',serializeMoveResult(view===index?'player':'opponent',result));
             const switched = resolveMoveSwitches(result,p.equipe,actors[1-index].equipe);
@@ -217,8 +225,8 @@ class DriftBattle {
             this.prune(); this.sync(); if(this.checkEnd()) return;
             if(result.escape && this.type!=='pvp') {this.finish(null,'fled'); return;}
         }
-        engine.processEndOfRound(this.active(0),this.active(1),this.sides[0],this.sides[1],this.state).forEach(m=>this.say(m));
-        effects.endTurn(this.active(0)); effects.endTurn(this.active(1)); this.prune();
+        this.withDriftSignals(()=>engine.processEndOfRound(this.active(0),this.active(1),this.sides[0],this.sides[1],this.state)).forEach(m=>this.say(m));
+        this.withDriftSignals(()=>{effects.endTurn(this.active(0));effects.endTurn(this.active(1));});this.prune();
         if (!this.checkEnd()) { this.sync(); this.nextRoundAt = this.now() + this.paceMs; }
     }
     grantLoot(source) {
@@ -228,6 +236,7 @@ class DriftBattle {
     }
     finish(winner = null, reason = 'timer') {
         if(this.finished) return; this.finished=true; this.awaiting=false;
+        if(reason==='finished')this.sync();
         clearBattleTransientState(this.originals);
         for (const p of [this.a,this.b]) { p.inbattle=false; p.battle=null; }
         if (winner === this.a && this.type === 'wild' && ['captured', 'finished'].includes(reason)) {

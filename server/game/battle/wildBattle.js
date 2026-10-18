@@ -1,3 +1,4 @@
+const presentation = require('./presentationState');
 const { rewardTraining } = require('../models/training');
 const {
     useattack,
@@ -20,7 +21,7 @@ const {
 } = require('./battleTeam');
 const { editEquipe } = require('../../persistence/teamRepository');
 const { awardUserMoney } = require('../../persistence/userRepository');
-const { wildMoneyReward } = require('./wildReward');
+const { adventureMoneyReward } = require('./wildReward');
 const { loadUserItems, consumeUserItem } = require('../../persistence/itemRepository');
 const { markPokemonCaught, markPokemonSeen } = require('../../persistence/progressionRepository');
 const itemsCatalog = require('../../../data/game/items.json');
@@ -75,7 +76,7 @@ async function narrate(player, io, message, delayMs = TEXT_DELAY_MS) {
 }
 
 function displayIntroAnimation(player, wildPokemon, io) {
-    io.to(player.id).emit('introAnimation', { player, wildPokemon });
+    io.to(player.id).emit('introAnimation', { player, wildPokemon, transitions:presentation.transitions(player,player.equipe.pokemons[0],wildPokemon) });
 }
 
 function displayMoveAnimation(player, attacker, moveName, io) {
@@ -421,11 +422,12 @@ function playerTurn(player, io) {
 }
 
 async function startBattle(player, wildPokemon, io, userId) {
+    presentation.reset(player);
     const resultTracker = createBattleSummaryTracker(player?.equipe?.pokemons);
     let wildMoneyGranted = false;
     const endBattle = async (playerWon = false, extra = {}) => {
         if (playerWon && (extra.captured || wildPokemon.currentHp <= 0) && !wildMoneyGranted) {
-            const money = await awardUserMoney(userId, wildMoneyReward(wildPokemon, playerSide.rewardMultiplier));
+            const money = await awardUserMoney(userId, adventureMoneyReward(wildPokemon, playerSide.rewardMultiplier));
             wildMoneyGranted = true;
             resultTracker.money += money;
         }

@@ -143,7 +143,7 @@ test('combat sauvage réel : capture, objet consommé et équipe persistée', { 
         assert.equal(summary.mode, 'adventure');
         assert.equal(summary.capturedPokemon.uuid, wildPokemon.uuid);
         assert.equal(summary.capturedPokemon.pokemonId, 19);
-        assert.equal(summary.money, 20 + wildPokemon.level * 2);
+        assert.equal(summary.money, Math.floor((20 + wildPokemon.level * 2) * 1.5));
         const [[wallet]] = await pool.execute('SELECT money FROM users WHERE id=?',[userId]);
         assert.equal(wallet.money, summary.money);
         assert.deepEqual(summary.experience, []);
@@ -184,7 +184,7 @@ test('combat sauvage réel : attaque, victoire, expérience et PP persistés', {
         const summary = io.lastEvent(player.id, 'endbattle').payload.summary;
         assert.equal(summary.outcome, 'victory');
         assert.equal(summary.experience[0].xpGained, persistedPokemon.experience - initialExperience);
-        assert.equal(summary.money, 20 + wildPokemon.level * 2);
+        assert.equal(summary.money, Math.floor((20 + wildPokemon.level * 2) * 1.5));
         const [[wallet]] = await pool.execute('SELECT money FROM users WHERE id=?',[userId]);
         assert.equal(wallet.money, summary.money);
     } finally {
@@ -393,7 +393,7 @@ test('dresseur : le dernier Pokémon rapporte son XP, une seule fois et jusque d
         assert.equal(summary.outcome, 'victory');
         assert.equal(summary.experience[0].xpGained, expectedXp);
         assert.equal(summary.experience[0].uuid, saved.uuid);
-        assert.equal(summary.money, enemy.level * 20);
+        assert.equal(summary.money, enemy.level * 30);
     } finally {
         if (userId) await pool.execute('DELETE FROM users WHERE id = ?', [userId]);
         await pool.end();
@@ -440,9 +440,9 @@ test('wild failed capture or full team gives no money; standard Poké Ball reach
   };
   let io=await run(.99);assert.equal(io.lastEvent(player.id,'endbattle').payload.summary.money,0);
   let [[wallet]]=await pool.execute('SELECT money FROM users WHERE id=?',[userId]);assert.equal(wallet.money,0);
-  io=await run(.17);assert.equal(io.lastEvent(player.id,'endbattle').payload.summary.outcome,'captured');assert.equal(io.lastEvent(player.id,'endbattle').payload.summary.money,30);
+  io=await run(.17);assert.equal(io.lastEvent(player.id,'endbattle').payload.summary.outcome,'captured');assert.equal(io.lastEvent(player.id,'endbattle').payload.summary.money,45);
   while(player.equipe.pokemons.length<6)player.equipe.pokemons.push(createPokemon(7,'Full team'));
   io=await run(0);assert.equal(io.lastEvent(player.id,'endbattle').payload.summary.money,0);
-  [[wallet]]=await pool.execute('SELECT money FROM users WHERE id=?',[userId]);assert.equal(wallet.money,30);
+  [[wallet]]=await pool.execute('SELECT money FROM users WHERE id=?',[userId]);assert.equal(wallet.money,45);
  }finally{if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
 });

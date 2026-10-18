@@ -122,7 +122,7 @@ function driftSnapshot(p, drift, previous = {}) {
     const definition = definitions.get(drift.definitionId);
     return { ...previous, uuid: drift.uuid, definitionId: drift.definitionId, rarity: drift.rarity, element: drift.element || null,
         name: definition?.name || drift.definitionId, description: definition?.description || '', category: definition?.category || '',
-        value: finite(definition?.values[drift.rarity]), unit: definition?.unit || '',
+        value: require('./driftStrength').value(drift), fusionPoints: require('./driftStrength').points(drift), unit: definition?.unit || '',
         obtainedAt: previous.obtainedAt ?? timestamp(p), source: previous.source || null,
         status: p.equipped.includes(drift.uuid) ? 'equipped' : 'stored' };
 }
@@ -154,7 +154,7 @@ function driftFused(p, kept, consumed, from) {
     if (snapshot) { snapshot.status = 'fused'; snapshot.removedAt = timestamp(p); snapshot.fusedInto = kept.uuid; }
     increment(p, 'driftsFused');
     const rarity = key => catalogue.rarities.find(r => r.key === key)?.name || key;
-    event(p, 'fusion', `Fusion : 2 ${definitions.get(kept.definitionId)?.name || kept.definitionId} (${rarity(from)}) → ${rarity(kept.rarity)}.`);
+    event(p, 'fusion', `Fusion : ${definitions.get(kept.definitionId)?.name || kept.definitionId} (${rarity(from)} + ${rarity(consumed.rarity)}) → ${rarity(kept.rarity)} · ${require('./driftStrength').value(kept)}${definitions.get(kept.definitionId)?.unit || ''}.`);
 }
 function driftRemoved(p, drift, sell, money = 0) {
     if (!p.runReport) return;

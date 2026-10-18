@@ -24,7 +24,7 @@ async function deferLearning(){if(await page.locator('.learning-sheet').isVisibl
  await page.reload({waitUntil:'networkidle'});assert.deepEqual(p.starterChoices.map(x=>x.uuid),offered);await page.locator(`[data-starter-choice="${offered[1]}"]`).click();await page.locator('.starter-backdrop').waitFor({state:'hidden'});assert.equal(p.equipe.pokemons[0].uuid,offered[1]);assert.equal(p.run.endsAt-p.run.startedAt,1800000);
  // Give this isolated test expedition resources to exercise the real merchant controls.
  p.money=20000;p.currentmap='ville1_shop';p.equipe.pokemons=[factory.create(25,12,true),factory.create(1,12,true)];
- for(const rarity of ['common','rare','epic'])p.drifts.push(merchant.rollDrift(rarity,()=>.2));
+ for(const rarity of ['common','rare','epic'])p.drifts.push(merchant.rollDrift(rarity,()=>.2,[...p.run.merchant.offers.map(o=>o.drift.definitionId),...p.drifts.map(d=>d.definitionId)]));
  await page.reload({waitUntil:'networkidle'});await page.locator('.location-shop-btn').click();
  for(const [key,name,price]of [['pokeball','Pokeball',150],['superball','Superball',450],['hyperball','Hyperball',900]]){
   const item=page.locator('.shop-item').filter({has:page.getByText(name,{exact:true})}),beforeMoney=p.money,beforeCount=p.items[key]||0;
@@ -34,7 +34,7 @@ async function deferLearning(){if(await page.locator('.learning-sheet').isVisibl
  }
  await page.locator('[data-shop-tab="drifts"]').click();await page.locator('[data-merchant-offer]').first().waitFor();
  const offer=p.run.merchant.offers[0],before=p.money;await page.locator(`[data-merchant-offer="${offer.id}"] button`).click();await page.getByRole('button',{name:'Épuisé',exact:true}).waitFor();assert.equal(p.money,before-offer.price);
- for(const box of (await page.locator('.merchant-owned input').all()).slice(0,3))await box.check();await page.locator('[data-merchant-exchange]').click();await page.locator('[data-merchant-confirm]').click();await page.waitForFunction(()=>document.querySelectorAll('.merchant-owned input').length===2);assert.equal(p.drifts.length,2);
+ const boxes=await page.locator('.merchant-owned input').all();assert.equal(boxes.length,4);for(const index of [0,1,3])await boxes[index].check();await page.locator('[data-merchant-exchange]').click();await page.locator('[data-merchant-confirm]').click();await page.waitForFunction(()=>document.querySelectorAll('.merchant-owned input').length===2);assert.equal(p.drifts.length,2);
  await page.locator('.merchant-owned article button').first().click();await page.locator('[data-merchant-confirm]').click();await page.waitForFunction(()=>document.querySelectorAll('.merchant-owned input').length===1);
  for(const [w,h]of [[320,568],[393,852],[844,390]]){await page.setViewportSize({width:w,height:h});await width();await page.screenshot({path:path.join(output,`strategy-merchant-${w}.png`)});}
  await page.locator('[data-shop-tab="held"]').click();await page.locator('.shop-item').filter({hasText:'Talisman de sauvegarde'}).locator('.shop-buy-controls button').click();

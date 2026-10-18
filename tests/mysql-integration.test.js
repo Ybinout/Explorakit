@@ -145,24 +145,24 @@ test('le parcours réel crée, authentifie et sauvegarde un nouveau dresseur', {
         const firstReward = await completeNpcBattle(userId, 'dia1');
         const duplicateReward = await completeNpcBattle(userId, 'dia1');
         assert.equal(firstReward.granted, true);
-        assert.equal(firstReward.money, 600);
+        assert.equal(firstReward.money, 900);
         assert.equal(duplicateReward.granted, false);
         assert.equal(duplicateReward.reason, 'already_completed');
         assert.equal(firstReward.progress.quests.find((quest) => quest.key === 'first_challenge')?.status, 'completed');
 
         const [[rewardMoneyRow]] = await pool.execute('SELECT money FROM users WHERE id = ?', [userId]);
-        assert.equal(Number(rewardMoneyRow.money), 850);
+        assert.equal(Number(rewardMoneyRow.money), 1150);
 
         const purchase = await purchaseUserItem(userId, 'pokeball', 2);
         assert.equal(purchase.success, true);
         assert.equal(purchase.totalPrice, 300);
-        assert.equal(purchase.money, 550);
+        assert.equal(purchase.money, 850);
         assert.equal(purchase.items.find((item) => item.key === 'pokeball')?.quantity, 12);
         const refusedPurchase = await purchaseUserItem(userId, 'hyperball', 1);
         assert.equal(refusedPurchase.success, false);
         assert.equal(refusedPurchase.reason, 'insufficient_funds');
         const [[moneyAfterPurchase]] = await pool.execute('SELECT money FROM users WHERE id = ?', [userId]);
-        assert.equal(Number(moneyAfterPurchase.money), 550);
+        assert.equal(Number(moneyAfterPurchase.money), 850);
 
         const team = await loadEquipe(userId);
         const originalUuid = team.pokemons[0].uuid;
@@ -219,7 +219,7 @@ test('le chapitre suit les victoires, résiste aux doublons et reprend les ancie
         const town = await completeNpcBattle(userId, 'town_lina');
         assert.equal(town.granted, true);
         assert.equal(main(town.progress).progress, 0);
-        let expectedMoney = 150;
+        let expectedMoney = 225;
         for (const [index, name] of ['moon', 'champion_hoze', 'champion_raphael', 'champion_ana', 'champion_wanda'].entries()) {
             const before = await loadProgressState(userId);
             assert.equal(getSentenceForName(name, before)[1], name);
@@ -237,7 +237,7 @@ test('le chapitre suit les victoires, résiste aux doublons et reprend les ancie
         const endings = await Promise.all([completeStoryEvent(userId, 'clara_letter'), completeStoryEvent(userId, 'clara_letter')]);
         assert.equal(endings.filter((result) => result.granted).length, 1);
         await completeNpcBattle(userId, 'dia1'); // Une victoire annexe tardive ne rouvre pas la quête.
-        expectedMoney += 600;
+        expectedMoney += 900;
         await completeNpcBattle(userId, 'town_lina');
         const final = await loadProgressState(userId);
         assert.equal(main(final).status, 'completed');

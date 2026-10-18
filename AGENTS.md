@@ -1,5 +1,9 @@
 # Contexte permanent — Explorakit
 
+## Lisibilité et préparation — 18 octobre 2026
+
+Lire la section correspondante en tête d’audit. Le combattant Colosseum reçoit 80 % du gain précédent (environ ×3,456 Aventure), réserves toujours basées sur ×4,8. Les primes de combat Aventure augmentent de 50 %. Les Drifts d’une même définition/élément fusionnent toutes raretés confondues via des essences ; le bonus interpolé vient de `driftStrength.js`, plafonné au Mythique, et le surplus conserve sa valeur de vente. Préserver les UUID équipés et la consolidation hors combat. `presentationState.js` distingue rappel/K.O. ; `driftSignals.js` ne collecte que les effets réellement résolus. La file visuelle précède le résultat, la piste de musique ne redémarre pas sur chaque état. Recette dédiée : `test:combat-browser`.
+
 ## Progression des expéditions — 17 octobre 2026
 
 Lire la section correspondante en tête de l’audit. Le combattant Colosseum gagne 90 % de l’ancienne base ×4,8 ; les réserves conservent leur gain basé sur ×4,8. Les Drifts identiques fusionnent par deux via `fusion.js`, après détachement des effets de combat, en conservant le slot équipé. Les contrats se renouvellent après récompense et progressent en palier ; préserver leur identifiant pour l’anti-rejeu et les récompenses en attente. Recettes : tests de fusion/contrats/XP et `test:contracts-browser`.

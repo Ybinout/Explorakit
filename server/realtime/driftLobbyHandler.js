@@ -153,6 +153,7 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
             const ids = data?.orderedUuids;
             if (!Array.isArray(ids) || ids.length !== p.equipe.pokemons.length || new Set(ids).size !== ids.length || ids.some(id => !p.equipe.pokemons.some(poke => poke.uuid === id))) economy.fail('Ordre invalide.');
             p.equipe.pokemons = ids.map(id => p.equipe.pokemons.find(poke => poke.uuid === id)); p.ready = false;
+            require('../game/drift/runReport').syncTeam(p);
         });
         gameCommand('requestShop', p => {
             if (!isShopMap(p.currentmap) || p.run.phase !== 'exploration') economy.fail('Rejoins une boutique.');

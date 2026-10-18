@@ -37,13 +37,15 @@ function replace(p, uuid, replaceUuid) {
     if(new Set(families).size!==families.length)fail('Un Drift de cette famille est déjà équipé.');
     p.equipped=next;p.ready=false;report.syncDrifts(p);
 }
+function salePrice(d) { const strength=require('./driftStrength');return Math.floor(prices[d.rarity]*strength.points(d)/strength.weights[d.rarity]); }
 function remove(p, uuid, sell = false) {
     requireMutable(p);
-    if (p.equipped.includes(uuid)) fail('Retire ce Drift avant de le supprimer ou le vendre.');
+    if (sell && p.equipped.includes(uuid)) fail('Retire ce Drift avant de le vendre.');
     if (sell && (p.run.phase !== 'exploration' || !isShopMap(p.currentmap))) fail('La revente se fait dans une boutique, pendant l’exploration.');
     const index = p.drifts.findIndex(d => d.uuid === uuid); if (index < 0) fail('Drift introuvable.');
-    const earned = sell ? Math.floor(prices[p.drifts[index].rarity] * (1 + value(p, 53) / 100)) : 0;
+    const earned = sell ? Math.floor(salePrice(p.drifts[index]) * (1 + value(p, 53) / 100)) : 0;
     if (sell) p.money += earned;
+    p.equipped=p.equipped.filter(id=>id!==uuid);
     report.driftRemoved(p,p.drifts[index],sell,earned);
     p.drifts.splice(index, 1); p.ready = false;
 }
@@ -112,4 +114,4 @@ function evolve(p,key,uuid) {
     const evolution=stones.evolve(pokemon,key);p.items[key]--;p.ready=false;report.syncTeam(p);
     return {success:true,evolution,equipe:p.equipe,items:bag(p)};
 }
-module.exports = { replace, evolve, SLOT_LIMIT, prices, bag, shop, equip, remove, buy, usePotion, drop, requireMutable, fail };
+module.exports = { salePrice, replace, evolve, SLOT_LIMIT, prices, bag, shop, equip, remove, buy, usePotion, drop, requireMutable, fail };

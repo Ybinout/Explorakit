@@ -53,7 +53,7 @@ async function betweenBattles(selector) {
             assert.equal(await page.locator('[data-mode]').count(),3);await checkWidth();
             await page.screenshot({path:path.join(output,`modes-${width}.png`),fullPage:true});
             await page.locator('[data-mode="colosseum"]').click();await page.locator('[data-colosseum-start]:enabled').waitFor();await checkWidth();
-            assert.match(await page.locator('.start-card').innerText(),/XP du combattant ×4,32/);
+            assert.match(await page.locator('.start-card').innerText(),/XP du combattant ×3,456/);
             assert.match(await page.locator('.start-card').innerText(),/40 % de la base ×4,8/);
             await page.screenshot({path:path.join(output,`colosseum-lobby-${width}.png`),fullPage:true});
         }
@@ -96,7 +96,7 @@ async function betweenBattles(selector) {
         const xpBattle=cleanup.runtime.battle(p,{npc:true,equipe:{pokemons:[target]},drifts:[],equipped:[]},'wild');
         await page.locator('.battle-scene').waitFor();
         target.currentHp=0;xpBattle.prune();xpBattle.checkEnd();
-        const expectedGains=[Math.floor(sharingBase*9/10),Math.floor(sharingBase*40/100)];
+        const expectedGains=[Math.floor(Math.floor(sharingBase*9/10)*4/5),Math.floor(sharingBase*40/100)];
         assert.deepEqual([fighter.experience-beforeXp[0],companion.experience-beforeXp[1]],expectedGains);
         await page.locator('[data-battle-result] .experience-value').first().waitFor();
         assert.deepEqual((await page.locator('[data-battle-result] .experience-value').allTextContents()).map(s=>Number(s.replace(/\D/g,''))),expectedGains);
