@@ -5,16 +5,25 @@ const names = ['Bronze', 'Argent', 'Or', 'Platine', 'Diamant'];
 const keys = ['bronze', 'silver', 'gold', 'platinum', 'diamond'];
 const eloThresholds = [0, 1200, 1400, 1600, 1800];
 const scoreAt = wins => Array.from({ length: wins }, (_, i) => waveInfo(i + 1).points).reduce((a, b) => a + b, 0);
-const colosseumThresholds = [0, 10, 20, 30, 40].map(scoreAt);
-function rank(value, thresholds, played = true) {
-    if (!played) return { key: 'unranked', name: 'Non classé', minimum: 0, next: { name: 'Bronze', minimum: thresholds[0] }, progress: 0 };
+// Colosseum leagues follow the current five-fight guardian cadence.
+const colosseumThresholds = [0, 5, 10, 15, 20].map(scoreAt);
+const colosseumCeiling = scoreAt(25);
+const divisions = ['IV', 'III', 'II', 'I'];
+function rank(value, thresholds, ceiling, played = true) {
+    if (!played) return { key: 'unranked', name: 'Non classé', label: 'Non classé', division: null, lp: 0, minimum: 0, next: { name: 'Bronze IV', minimum: thresholds[0] }, progress: 0 };
     const index = thresholds.reduce((last, threshold, i) => value >= threshold ? i : last, 0);
-    const next = index < names.length - 1 ? { name: names[index + 1], minimum: thresholds[index + 1] } : null;
-    return { key: keys[index], name: names[index], minimum: thresholds[index], next,
-        progress: next ? Math.max(0, Math.min(100, Math.floor(100 * (value - thresholds[index]) / (next.minimum - thresholds[index])))) : 100 };
+    const low = thresholds[index], high = thresholds[index + 1] ?? ceiling;
+    const bounds = Array.from({length:5},(_,i)=>low+Math.ceil((high-low)*i/4));
+    const division = Math.min(3,bounds.reduce((last,bound,i)=>value>=bound?i:last,0));
+    const minimum = bounds[division], maximum = bounds[division+1];
+    const next = division < 3 ? { name: `${names[index]} ${divisions[division+1]}`, minimum:maximum }
+        : index < names.length-1 ? { name:`${names[index+1]} IV`, minimum:high } : null;
+    const lp = Math.max(0,Math.min(100,Math.floor(100*(value-minimum)/(maximum-minimum))));
+    return { key:keys[index],name:names[index],label:`${names[index]} ${divisions[division]}`,
+        division:divisions[division],lp,minimum,maximum,next,progress:lp };
 }
-const riftRank = (rating = INITIAL_RATING, games = 0) => rank(rating, eloThresholds, games > 0);
-const colosseumRank = (score = 0, wins = 0) => rank(score, colosseumThresholds, wins > 0);
+const riftRank = (rating = INITIAL_RATING, games = 0) => rank(rating, eloThresholds, 2000, games > 0);
+const colosseumRank = (score = 0, wins = 0) => rank(score, colosseumThresholds, colosseumCeiling, wins > 0);
 
 // Elimination rounds define shared places. Time spent hiding in exploration
 // and the order of simultaneous eliminations never break a tie.

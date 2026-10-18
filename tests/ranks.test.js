@@ -10,7 +10,28 @@ test('ranks: Bronze to Diamond boundaries and separate Colosseum score progressi
         if(i){assert.equal(ranks.riftRank(ranks.eloThresholds[i]-1,1).key,keys[i-1]);assert.equal(ranks.colosseumRank(ranks.colosseumThresholds[i]-1,1).key,keys[i-1]);}
     }
     assert.equal(ranks.colosseumRank().key,'unranked');
-    assert.equal(ranks.riftRank(1900,2).progress,100);
+    assert.equal(ranks.riftRank(1900,2).label,'Diamant II');
+    assert.equal(ranks.riftRank(2000,2).progress,100);
+});
+test('league divisions promote at their exact threshold and LP stay between 0 and 100',()=>{
+    for(const [getRank,start,end] of [[value=>ranks.riftRank(value,1),0,2200],
+        [value=>ranks.colosseumRank(value,1),0,ranks.colosseumThresholds[4]*2]]){
+        let previous;
+        for(let value=start;value<=end;value++){
+            const current=getRank(value);
+            assert(Number.isInteger(current.lp)&&current.lp>=0&&current.lp<=100);
+            assert.equal(current.lp,current.progress);
+            if(previous?.next?.minimum===value){assert.equal(current.label,previous.next.name);assert.equal(current.lp,0);}
+            if(current.next)assert(current.next.minimum>value);
+            previous=current;
+        }
+    }
+    assert.equal(ranks.riftRank(1199,1).label,'Bronze I');
+    assert.equal(ranks.riftRank(1200,1).label,'Argent IV');
+    assert.equal(ranks.riftRank(1249,1).lp,98);
+    assert.equal(ranks.riftRank(1250,1).label,'Argent III');
+    assert.equal(ranks.riftRank(1240,1).label,'Argent IV');
+    assert.equal(ranks.colosseumRank(999999,0).key,'unranked');
 });
 test('Elo: equal duels transfer 24, upsets pay more, ties and sixteen players stay bounded',()=>{
     const make=(ratings,places)=>ratings.map((rating,i)=>({userId:i+1,rating,place:places[i]}));

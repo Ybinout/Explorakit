@@ -90,3 +90,26 @@ test('Colosseum SQL: independent records and ranks per format; launch format can
         await assert.rejects(()=>repository.leaderboard(f.users[0].id,45),/30 minutes ou 1 heure/);
     }finally{await f.cleanup();}
 });
+
+test('Colosseum record reset cannot resurrect finished results and preserves Rift ratings', {skip:!enabled}, async()=>{
+    const f=await fixture();
+    try {
+        const user=f.users[0];
+        await dbPool.execute('INSERT INTO rift_ratings(user_id,rating,games) VALUES (?,1424,12)',[user.id]);
+        const first=await f.run(0,300,1,Date.now(),30),classic=await f.run(0,760,2);
+        await repository.recordRunFinished(first);await repository.recordRunFinished(classic);
+        // Same operation as the deployment reset, scoped to this test account.
+        await dbPool.execute('DELETE FROM colosseum_bests WHERE user_id=?',[user.id]);
+        assert.equal((await repository.leaderboard(user.id,30)).personal,null);
+        assert.equal((await repository.leaderboard(user.id,60)).personal,null);
+        await repository.recordRunFinished(first);await repository.recordRunFinished(classic);
+        assert.equal((await repository.leaderboard(user.id,30)).personal,null);
+        assert.equal((await repository.getFinishedRuns([first.id,classic.id])).length,2,'Recovery receipts must remain available');
+        const profile=await require('../server/persistence/trainerRepository').profile(user.id,user.id);
+        assert.equal(profile.rift.rating,1424);assert.equal(profile.rift.rank.label,'Or IV');assert.equal(profile.rift.rank.lp,48);
+        assert(profile.colosseum.every(record=>record.rank.key==='unranked'&&record.team.length===0));
+        const fresh=await f.run(0,300,1,Date.now(),30);await repository.recordRunFinished(fresh);
+        assert.equal((await repository.leaderboard(user.id,30)).personal.league.label,'Bronze IV');
+        assert.equal((await repository.leaderboard(user.id,60)).personal,null);
+    } finally {await f.cleanup();}
+});

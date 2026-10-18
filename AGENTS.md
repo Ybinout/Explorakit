@@ -1,5 +1,9 @@
 # Contexte permanent — Explorakit
 
+## Ligues et remise à zéro Colosseum — 18 octobre 2026
+
+Lire la section correspondante en tête d’audit. Les cinq ligues ont quatre divisions IV→I et 0–100 PL, calculés à partir de l’Elo Rift existant ou du meilleur score Colosseum par format. Les nouveaux seuils Colosseum correspondent aux défis 5/10/15/20 ; les seuils et règlements Elo restent inchangés. La route `/classements` expose Rift/30/60, rang personnel et équipes des records. La remise à zéro autorisée ne supprime que `colosseum_bests` : conserver les reçus `colosseum_runs` pour empêcher un ancien résultat de recréer un record au rejeu. Ne pas réinitialiser les cotes Rift. Recettes : `tests/ranks.test.js`, `tests/colosseum-mysql.test.js`, `test:community-browser`.
+
 ## Ordre des combats — 18 octobre 2026
 
 Lire la section correspondante en tête d’audit. Les promesses de capture et d’XP doivent être attendues par la file ; régler les PV avant le K.O. et publier l’entrant avant ses effets. Ne pas envoyer le Pokémon du joueur comme adversaire après un pivot. Un changement volontaire de dresseur consomme son action. Conserver les gardes d’identité qui empêchent un remplaçant de reprendre l’action du mort. Recettes : `tests/battle-order.test.js`, tests SQL de pivots et `test:combat-browser` (inclut `validateBattleTimeline.js`).
