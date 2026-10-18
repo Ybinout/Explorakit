@@ -66,7 +66,7 @@ async function run() {
         }
         // Passer réellement au texte suivant via la commande tactile existante.
         const actionButton = await evaluate(client, `(() => {
-            const rect = document.querySelector('.mobile-dialogue-action-top').getBoundingClientRect();
+            const rect = document.querySelector('.mobile-action-a').getBoundingClientRect();
             return { x: rect.x + rect.width / 2, y: rect.y + rect.height / 2 };
         })()`);
         await client.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [actionButton] });

@@ -48,13 +48,24 @@ test('un meilleur k augmente toutes les statistiques, y compris les PV', () => {
     assert.ok(exceptional.maxHp > common.maxHp);
 });
 
-test('les trois starters sont autorisés et commencent équitablement au niveau 5', () => {
+test('les trois starters sont autorisés et commencent au niveau 5 avec un potentiel tiré au sort', () => {
     for (const id of [1, 4, 7]) {
         const starter = createStarterPokemon(id);
         assert.equal(starter.data.id, id);
         assert.equal(starter.level, 5);
-        assert.equal(starter.k, 2);
+        assert([1,2,3,4].includes(starter.k));
         assert.equal(starter.abilities.length, 4);
     }
     assert.throws(() => createStarterPokemon(150), /Starter invalide/);
+});
+
+test('starter traits roll six independent IVs, a nature and the established K rarity', () => {
+    for (const [roll,k] of [[0,4],[.002,3],[.02,2],[.2,1]]) {
+        const values=[0,.1,.3,.5,.75,.999,.6,roll];
+        const starter=createStarterPokemon(7,()=>values.shift());
+        assert.deepEqual(Object.values(starter.iv),[0,3,9,16,24,31]);
+        assert.equal(starter.nature,'Modest');assert.equal(starter.k,k);
+        assert.equal(starter.currentHp,starter.maxHp);assert.equal(starter.level,5);
+        assert.equal(values.length,0);
+    }
 });

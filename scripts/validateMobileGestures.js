@@ -34,6 +34,23 @@ async function validateMobileGestures(page, context, output) {
         const map = await page.locator('.world-viewport').boundingBox();
         const origin = { x: map.x + map.width / 2, y: map.y + map.height / 2 };
         await touch('touchStart', origin);
+        await touch('touchMove', { x: origin.x + 120, y: origin.y });
+        await page.waitForFunction(() => window.mobileTestVm.keysPressed.d);
+        await touch('touchMove', { x: origin.x + 88, y: origin.y });
+        await page.waitForFunction(() => window.mobileTestVm.keysPressed.q);
+        // Browser chrome changes height without ending the active finger.
+        const viewport=page.viewportSize();
+        await page.setViewportSize({width:viewport.width,height:viewport.height-32});
+        assert(await page.evaluate(()=>!!window.mobileTestVm._touchGesture && window.mobileTestVm.keysPressed.q));
+        // A held finger pauses while the next map decodes, then resumes once.
+        await page.evaluate(async()=>{window.mobileTestVm.mapLoading=true;await window.mobileTestVm.$nextTick();});
+        assert(await page.evaluate(()=>!!window.mobileTestVm._touchGesture && !Object.values(window.mobileTestVm.keysPressed).some(Boolean)));
+        await touch('touchMove', { x: origin.x + 88, y: origin.y + 40 });
+        await page.evaluate(async()=>{window.mobileTestVm.mapLoading=false;await window.mobileTestVm.$nextTick();});
+        await page.waitForFunction(()=>window.mobileTestVm.keysPressed.s);
+        await touch('touchEnd');
+        await page.setViewportSize(viewport);
+        await touch('touchStart', origin);
         await touch('touchMove', { x: origin.x, y: origin.y + 48 });
         await page.waitForFunction(() => window.mobileTestVm.keysPressed.s);
         await page.screenshot({ path: path.join(output, 'mobile-swipe-down.png') });
@@ -51,10 +68,11 @@ async function validateMobileGestures(page, context, output) {
         });
         await client.detach();
     }
-    return { padSliding: true, mapSwiping: true, cancelAndMenuStop: true };
+    return { padSliding: true, mapSwiping: true, longSwipeReversal:true, browserChromeResize:true, heldTouchAfterMapLoading:true, cancelAndMenuStop: true };
 }
 
 async function validateMapLoading(page, output) {
+    const client=await page.context().newCDPSession(page);
     let release;
     const delayed = new Promise(resolve => { release = resolve; });
     let heldRequests = 0;
@@ -63,15 +81,26 @@ async function validateMapLoading(page, output) {
     await page.evaluate(() => {
         const vm = window.mobileTestVm;
         vm.releaseAllMovementKeys();
+        vm._travelEmit=vm.socket.emit;
+        vm.socket.emit=function(name,...args){if(name==='playerAction')return this;return vm._travelEmit.call(this,name,...args);};
         vm._travelFixture = { map: vm.map, players: JSON.parse(JSON.stringify(vm.players)), pnjs: vm.pnjs };
         vm._mapScenes.clear();
         vm._travelFrame = vm.$refs.monCanvas.toDataURL();
+    });
+    const bounds=await page.locator('.world-viewport').boundingBox(),origin={x:bounds.x+bounds.width/2,y:bounds.y+bounds.height/2};
+    await client.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[origin]});
+    await client.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:origin.x,y:origin.y+30}]});
+    await page.evaluate(() => {
+        const vm=window.mobileTestVm;
+        vm._travelFrame=vm.$refs.monCanvas.toDataURL();
         const player = { ...vm.players[vm.socket.id], x: 144, y: 208, currentmap: 'maison2' };
         vm.socket.onevent({ data: ['newmap', { mapname: 'maison2', playersList: { [vm.socket.id]: player } }] });
         vm.drawPlayers();
     });
     try {
         await page.waitForFunction(() => window.mobileTestVm.mapLoading);
+        await page.waitForTimeout(200); // Cross at least one movement repeat while decoding.
+        assert(await page.evaluate(()=>!!window.mobileTestVm._touchGesture && !Object.values(window.mobileTestVm.keysPressed).some(Boolean)),'Map loading must pause, not lose, the held finger');
         assert.equal(await page.evaluate(() => {
             const vm = window.mobileTestVm;
             return vm.$refs.monCanvas.toDataURL() === vm._travelFrame;
@@ -85,6 +114,7 @@ async function validateMapLoading(page, output) {
             vm.socket.onevent({ data: ['newmap', { mapname: 'route2', playersList: { [vm.socket.id]: player } }] });
         });
         await page.waitForFunction(() => window.mobileTestVm.renderedMap === 'route2' && !window.mobileTestVm.mapLoading);
+        await page.waitForFunction(()=>window.mobileTestVm.keysPressed.s);
         release();
         await page.evaluate(() => window.mobileTestVm._mapScenes.load('maison2'));
         assert.equal(await page.evaluate(() => window.mobileTestVm.renderedMap), 'route2');
@@ -95,14 +125,16 @@ async function validateMapLoading(page, output) {
         assert.equal(alpha, 255);
         await page.screenshot({ path: path.join(output, 'mobile-map-arrival.png') });
     } finally {
+        await client.send('Input.dispatchTouchEvent',{type:'touchCancel',touchPoints:[]});await client.detach();
         release(); await page.unroute('**/img/maison2*.png', delayHouse);
         await page.evaluate(() => {
             const vm = window.mobileTestVm, original = vm._travelFixture;
+            vm.socket.emit=vm._travelEmit;vm.releaseAllMovementKeys();
             vm.socket.onevent({ data: ['newmap', { mapname: original.map, playersList: original.players }] });
             vm.pnjs = original.pnjs;
         });
         await page.waitForFunction(() => !window.mobileTestVm.mapLoading);
     }
-    return { heldFrame: true, decodedLayers: true, latestDestinationWins: true };
+    return { heldFrame: true, decodedLayers: true, latestDestinationWins: true, heldSwipeResumes:true };
 }
 module.exports = { validateMobileGestures, validateMapLoading };

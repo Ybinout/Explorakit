@@ -28,11 +28,12 @@ const STARTERS = Object.freeze({
     7: { name: 'Carapuce', passiveAbility: 'Torrent', abilities: ['Tackle', 'Tail Whip', 'Water Gun', 'Withdraw'] }
 });
 
-function createStarterPokemon(starterId = 1) {
+function createStarterPokemon(starterId = 1, random = Math.random) {
     const normalizedStarterId = Number.parseInt(starterId, 10);
     const definition = STARTERS[normalizedStarterId];
     if (!definition) throw new Error('Starter invalide.');
-    const starter = new Pokemon(normalizedStarterId, definition.name, 5, 64, null, 'Bashful', 2);
+    const traits = Pokemon.randomTraits(random);
+    const starter = new Pokemon(normalizedStarterId, definition.name, 5, 64, traits.iv, traits.nature, traits.k);
     definition.abilities.forEach((moveName) => starter.addAbility(moveName));
     starter.passiveAbility = definition.passiveAbility;
     return starter;

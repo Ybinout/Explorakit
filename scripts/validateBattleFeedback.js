@@ -6,8 +6,16 @@ async function validateBattleLabels(page, width, height, output) {
         await page.evaluate(async actor => {
             const overlay = window.battleTestVm.$refs.battleOverlay;
             overlay.playMoveResult({ actor, critical: true, effectiveness: 2 });
+            clearTimeout(overlay.resultTimer);
+            for(const side of ['wild','player'])overlay.attackFx[side].visible=false;
+            Object.assign(overlay.attackFx[actor==='player'?'wild':'player'],{visible:true,amount:123,kind:'damage'});
+            overlay.transitionLabel='Carapuce entre en combat.';
+            overlay.driftNotices=[{side:'player',text:'Élan du voyageur : priorité · Force élémentaire : dégâts augmentés · Bouclier de survie : protection active'},{side:'opponent',text:'Régénération : soin de 12 PV'}];
+            overlay.fieldState.weather='rain';overlay.fieldState.terrain='grassy_terrain';
+            window.battleTestVm.interactionNotice='Cette action est indisponible pendant la résolution du tour.';
             await overlay.$nextTick();
-            for (const el of document.querySelectorAll('.battle-result-chip')) {
+            await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+            for (const el of document.querySelectorAll('.battle-result-chip, .battle-damage-text')) {
                 for (const animation of el.getAnimations()) { animation.pause(); animation.currentTime = 300; }
             }
         }, actor);
@@ -21,9 +29,18 @@ async function validateBattleLabels(page, width, height, output) {
             visible: [...document.querySelectorAll('.battle-result-chip')].every(el => Number(getComputedStyle(el).opacity) === 1),
         }));
         assert(layers.visible && layers.others.every(z => z < layers.result), 'Critical/effectiveness must paint above sprites and cards');
+        const textLayout=await page.evaluate(()=>{
+            const rect=el=>{const r=el.getBoundingClientRect();return {label:el.textContent.trim(),x:r.x,y:r.y,right:r.right,bottom:r.bottom};};
+            return {feedback:[...document.querySelectorAll('.battle-result-chip,.battle-damage-text')].map(rect),cards:[...document.querySelectorAll('.battle-status')].map(rect),messages:[...document.querySelectorAll('.battle-announcements p,.battle-text-box')].map(rect)};
+        });
+        const overlaps=(a,b)=>a.x<b.right-.5&&a.right>b.x+.5&&a.y<b.bottom-.5&&a.bottom>b.y+.5;
+        for(const [i,a]of textLayout.feedback.entries()){
+            for(const b of [...textLayout.feedback.slice(i+1),...textLayout.cards])assert(!overlaps(a,b),`${width}x${height}: combat texts overlap ${JSON.stringify({a,b})}`);
+        }
+        for(const [i,a]of textLayout.messages.entries())for(const b of textLayout.messages.slice(i+1))assert(!overlaps(a,b),'Announcements overlap the battle message');
         if (width === 393 || width === 320 || width === 1365) await page.screenshot({ path: path.join(output, `battle-labels-${width}x${height}-${actor}.png`) });
     }
-    await page.evaluate(() => { window.battleTestVm.$refs.battleOverlay.resultFx.visible = false; });
+    await page.evaluate(() => { const o=window.battleTestVm.$refs.battleOverlay;o.resultFx.visible=false;o.attackFx.player.visible=false;o.attackFx.wild.visible=false;o.transitionLabel='';o.driftNotices=[];o.fieldState.weather=null;o.fieldState.terrain=null;window.battleTestVm.interactionNotice=''; });
 }
 
 async function validateBattleAudio(page) {

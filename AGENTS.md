@@ -1,5 +1,9 @@
 # Contexte permanent — Explorakit
 
+## Commandes tactiles et starters — 18 octobre 2026
+
+Lire la section correspondante en tête d’audit. Le glissement sur carte suit une origine mobile bornée ; conserver le doigt lors d’un changement de hauteur du navigateur ou du décodage d’une carte, mais l’annuler sur menu, dialogue, combat, déconnexion ou masquage. Un seul bouton A reste dans le dock ; les dialogues partagent le contexte de superposition du `game-stage`. Les nouveaux starters des trois modes tirent IV/nature/K, avec les probabilités K existantes, une seule fois ; ne pas retirer la base calibrée des PNJ (`factory.create(..., true)`). Les annonces de combat sont dans le flux du panneau de messages ; dégâts/critique partagent une pile mesurée à côté des cartes de PV. Le menu indique les contrats terminés à récupérer, uniquement en exploration. Recettes : `test:release-browser`, `test:contracts-browser`, `test:colosseum-browser`, `test:combat-browser`.
+
 ## Ligues et remise à zéro Colosseum — 18 octobre 2026
 
 Lire la section correspondante en tête d’audit. Les cinq ligues ont quatre divisions IV→I et 0–100 PL, calculés à partir de l’Elo Rift existant ou du meilleur score Colosseum par format. Les nouveaux seuils Colosseum correspondent aux défis 5/10/15/20 ; les seuils et règlements Elo restent inchangés. La route `/classements` expose Rift/30/60, rang personnel et équipes des records. La remise à zéro autorisée ne supprime que `colosseum_bests` : conserver les reçus `colosseum_runs` pour empêcher un ancien résultat de recréer un record au rejeu. Ne pas réinitialiser les cotes Rift. Recettes : `tests/ranks.test.js`, `tests/colosseum-mysql.test.js`, `test:community-browser`.

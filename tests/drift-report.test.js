@@ -42,7 +42,7 @@ test('bilan final conserve les deux équipes avant purge et leurs stats, reste p
     assert.equal(result.players.length, 2);
     const winner = result.players.find(p => p.id === f.a.userId), loser = result.players.find(p => p.id === f.b.userId);
     assert.equal(winner.team[0].uuid, initial.uuid); assert.equal(winner.starter.level, 5);
-    assert.deepEqual(winner.team[0].ivs, initialIv); assert.equal(winner.team[0].potential, 2);
+    assert.deepEqual(winner.team[0].ivs, initialIv); assert.equal(winner.team[0].potential, initial.k);
     assert.equal(winner.team[0].stats.hp, initial.maxHp); assert.equal(winner.team[0].moves.length, initial.abilities.length);
     assert.equal(winner.tournamentTeam[0].lostAt, null);
     assert.equal(loser.team[0].uuid, loserUuid); assert.equal(loser.team[0].lostAt, 1000);

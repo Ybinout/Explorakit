@@ -35,11 +35,16 @@ async function deferLearning(){if(await page.locator('.learning-sheet').isVisibl
  const rejected=await request('drift:contractClaim',{contractId:p.contracts[0].id,reward:'supplies',progress:99});assert.equal(rejected.success,false);
  for(const attacker of team){p.equipe.pokemons=[attacker,...p.equipe.pokemons.filter(v=>v!==attacker)];const target=factory.create(19,1,true);target.currentHp=1;target.passiveAbility=null;target.abilities=['Growl'];target.movePp=[40];cleanup.runtime.battle(p,{npc:true,equipe:{pokemons:[target]},drifts:[],equipped:[]},'wild');await attack();}
  assert.equal(p.contracts[0].progress.length,2);
+ await page.locator('[data-contract-alert]').waitFor();assert.equal(await page.locator('[data-contract-alert]').innerText(),'1');
+ await page.reload({waitUntil:'networkidle'});await deferLearning();await page.locator('[data-contract-alert]').waitFor();
+ await page.emulateMedia({reducedMotion:'reduce'});assert.equal(await page.locator('[data-contract-alert]').evaluate(el=>getComputedStyle(el).animationName),'none');await page.emulateMedia({reducedMotion:'no-preference'});
+ await page.screenshot({path:path.join(output,'contracts-menu-reward.png')});
  await openContracts();await page.locator('[data-contract="rotation"] .choose-reward').click();
  for(const [w,h]of [[320,568],[393,852],[844,390],[1365,900]]){await page.setViewportSize({width:w,height:h});await width();const button=page.locator('[data-contract="rotation"] [data-contract-reward="training"]');await button.scrollIntoViewIfNeeded();assert((await button.boundingBox()).height>=44);await page.screenshot({path:path.join(output,`contracts-rewards-${w}.png`)});}
  const reserve=p.equipe.pokemons[1],beforeLevel=reserve.level,claimedId=p.contracts[0].id;
  await page.locator('[data-contract="rotation"] [data-contract-reward="training"]').click();await page.waitForFunction(()=>document.querySelector('.learning-sheet')||document.querySelector('[data-contract="rotation"][data-contract-stage="2"]'));await deferLearning();await page.locator('[data-contract="rotation"][data-contract-stage="2"]').waitFor();assert.equal(reserve.level,beforeLevel+1);
  const repeated=await request('drift:contractClaim',{contractId:claimedId,reward:'training'});assert.equal(repeated.success,false);assert.equal(reserve.level,beforeLevel+1);
+ assert.equal(await page.locator('[data-contract-alert]').count(),0);
  await closePanel();await deferLearning();await page.reload({waitUntil:'networkidle'});await deferLearning();await openContracts();assert.match(await page.locator('[data-contract="rotation"]').innerText(),/Palier 2/);await closePanel();
  for(const id of [16,19]){const target=factory.create(id,1,true);target.currentHp=1;cleanup.runtime.battle(p,{npc:true,equipe:{pokemons:[target]},drifts:[],equipped:[]},'wild');await page.locator('.action-bag:enabled').click();await page.locator('.battle-choice-btn-bag').first().click();await page.locator('[data-battle-result-continue]').waitFor();await finish();}
  await openContracts();const beforeBalls=p.items.pokeball;await page.locator('[data-contract="capture"] .choose-reward').click();await page.locator('[data-contract="capture"] [data-contract-reward="supplies"]').click();await page.locator('[data-contract="capture"][data-contract-stage="2"]').waitFor();assert.equal(p.items.pokeball,beforeBalls+3);await closePanel();

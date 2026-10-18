@@ -70,6 +70,17 @@ async function validateMobileWorld({ loginContext, fixture, base, output, fit })
             assert(bounds.width >= 44 && bounds.height >= 44, 'Touch target too small');
         }
         await page.screenshot({ path: path.join(output, `mobile-world-${width}x${height}.png`) });
+        const actionBefore=await page.locator('.mobile-action-a').boundingBox();
+        await page.evaluate(()=>{const vm=window.mobileTestVm;window.stableActionButton=document.querySelector('.mobile-action-a');vm.textImageSequence=[{text:'Bonjour, ton équipe se porte bien.',image:vm.availableSprites[0].src},{text:'Bonne route !',image:vm.availableSprites[0].src}];});
+        await page.locator('.dialogue-layer .text').waitFor();
+        const actionDuring=await page.locator('.mobile-action-a').boundingBox();
+        for(const axis of ['x','y','width','height'])assert(Math.abs(actionBefore[axis]-actionDuring[axis])<1,`Dialogue moves A (${width}x${height}, ${axis})`);
+        assert(await page.evaluate(()=>document.querySelector('.mobile-action-a')===window.stableActionButton),'Keep the same button across dialogue');
+        await page.locator('.mobile-action-a').tap();assert.match(await page.locator('.dialogue-layer .text').innerText(),/Bonne route/);
+        await page.screenshot({path:path.join(output,`mobile-dialogue-stable-${width}x${height}.png`)});
+        await page.locator('.mobile-action-a').tap();await page.locator('.dialogue-layer').waitFor({state:'hidden'});
+        const actionAfter=await page.locator('.mobile-action-a').boundingBox();
+        for(const axis of ['x','y','width','height'])assert(Math.abs(actionBefore[axis]-actionAfter[axis])<1,'Closing dialogue moves A');
         await page.locator('.menu-toggle-btn').tap();
         assert.equal(await page.locator('.adventure-guide').count(), 0);
         await page.locator('[data-menu-action="progress"]').tap();
@@ -105,7 +116,7 @@ async function validateMobileWorld({ loginContext, fixture, base, output, fit })
     assert.equal(await page.locator('.adventure-guide').count(), 0, 'Reload reopens objective');
     const battle = await validateMobileBattle(page, output, fit);
     await context.close();
-    return { touchEmulation: true, formats: formats.length, serverMovement: true, objectiveOnlyInMenu: true, gestures, travel, battle };
+    return { touchEmulation: true, formats: formats.length, serverMovement: true, stableDialogueAction:true, objectiveOnlyInMenu: true, gestures, travel, battle };
 }
 
 module.exports = { validateMobileWorld };

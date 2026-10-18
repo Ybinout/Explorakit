@@ -29,7 +29,19 @@ for(const [mode,minutes] of [['rift',30],['colosseum',30],['colosseum',60]])test
 test('selection timeout and restart retain the same offer and do not spend exploration time',()=>{
  const f=setup(),p=f.p,ids=p.starterChoices.map(x=>x.uuid);const saved=decode(encode({runs:f.runtime.runs,lobbies:f.store.exportLobbies(),savedAt:f.now()}));
  assert.deepEqual(saved.runs.get(p.run.id).players.get(1).starterChoices.map(x=>x.uuid),ids);
+ const traits=p.starterChoices.map(x=>({iv:x.iv,k:x.k,nature:x.nature,attack:x.attack,maxHp:x.maxHp}));
+ assert.deepEqual(saved.runs.get(p.run.id).players.get(1).starterChoices.map(x=>({iv:x.iv,k:x.k,nature:x.nature,attack:x.attack,maxHp:x.maxHp})),traits);
  f.advance(45000);assert.equal(p.run.phase,'exploration');assert.equal(p.equipe.pokemons[0].uuid,ids[0]);assert.equal(p.run.endsAt-f.now(),1800000);
+ assert.deepEqual(p.equipe.pokemons[0].iv,traits[0].iv);assert.equal(p.equipe.pokemons[0].k,traits[0].k);
+});
+test('expedition starters roll their traits once, without changing calibrated trainer baselines',()=>{
+ const draws=[.1,0,.1,.3,.5,.75,.999,.6,0, .2,.9,.8,.7,.6,.5,.4,.2,.01, .3,.2,.3,.4,.5,.6,.7,.8,.8];
+ const choices=factory.starterChoices(()=>draws.shift());
+ assert.equal(draws.length,0);assert.equal(new Set(choices.map(p=>p.data.id)).size,3);
+ assert.deepEqual(choices.map(p=>p.k),[4,3,1]);assert.deepEqual(Object.values(choices[0].iv),[0,3,9,16,24,31]);
+ assert(new Set(choices.map(p=>p.nature)).size>1);assert(choices.every(p=>p.level===5&&p.currentHp===p.maxHp));
+ const single=factory.starter(()=>.9);assert.equal(single.k,1);assert(Object.values(single.iv).every(n=>n===28));
+ const trainer=factory.create(7,5,true);assert.equal(trainer.k,2);assert(Object.values(trainer.iv).every(n=>n===15));
 });
 for(const [mode,minutes] of [['rift',30],['colosseum',30],['colosseum',60]])test(`${mode} ${minutes}: discounted Balls charge the displayed price and persist inventory`,()=>{
  const f=setup(mode,minutes),p=f.choose();p.currentmap='ville1_shop';p.money=4500;

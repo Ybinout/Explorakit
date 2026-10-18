@@ -12,6 +12,20 @@ test('touch movement: dead zone, four directions, reversal and diagonal stabilit
     assert.equal(direction(1, 2, 's'), null);
 });
 
+test('map swipes turn after a long drag without retracing the initial touch; the pad keeps its center', async () => {
+    const { moveTouchGesture } = await import('../vue-explorakit/src/services/touchMovement.js');
+    const gesture={surface:'map',x:100,y:100,direction:null};
+    const move=(x,y)=>gesture.direction=moveTouchGesture(gesture,x,y);
+    assert.equal(move(103,102),null);
+    assert.equal(move(300,100),'d');
+    assert.equal(move(270,100),'q');
+    assert.equal(move(270,140),'s');
+    assert.equal(move(270,110),'z');
+    const pad={surface:'pad',x:100,y:100,direction:null};
+    assert.equal(moveTouchGesture(pad,145,100),'d');assert.equal(pad.x,100);
+    assert.equal(moveTouchGesture(pad,100,100),null);
+});
+
 test('map loading: both layers decode before publication; absent foreground and failed requests are retryable', async () => {
     const { createMapSceneLoader } = await import('../vue-explorakit/src/services/mapScene.js');
     const images = [];

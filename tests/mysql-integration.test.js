@@ -123,7 +123,7 @@ test('le parcours réel crée, authentifie et sauvegarde un nouveau dresseur', {
         assert.equal(pokemonRows[0].pokemon_id, 4);
         assert.equal(pokemonRows[0].level, 5);
         assert.equal(pokemonRows[0].experience, 64);
-        assert.equal(pokemonRows[0].k, 2);
+        assert([1,2,3,4].includes(pokemonRows[0].k));
 
         const items = await loadUserItems(userId);
         assert.deepEqual(items.map((item) => [item.key, item.quantity]), [
