@@ -153,16 +153,22 @@ class DriftBattle {
     reward(defeated) {
         if (this.rewarded.has(defeated.uuid)) return; this.rewarded.add(defeated.uuid);
         const active = this.a.equipe.pokemons.find(p=>!effects.isDead(p)); if (!active) return;
-        const bonus = effects.value(this.a,43) + (defeated.level > active.level ? effects.value(this.a,51) : 0);
         const isColosseum = this.a.run?.mode === 'colosseum';
-        const baseXp = Math.max(1,Math.floor(calculateBattleExperience(defeated, this.type === 'arena' ? 2 : this.type === 'trainer' ? 1.5 : 1, active) * (1 + bonus/100)));
-        const sharingBase = isColosseum ? Math.floor(baseXp * 48 / 10) : baseXp * 2;
-        // The Colosseum fighter gets 80% of the previous award; reserve sharing remains unchanged.
+        const sharingBaseFor = recipient => {
+            const bonus = effects.value(this.a,43) + (defeated.level > recipient.level ? effects.value(this.a,51) : 0);
+            const baseXp = Math.max(1,Math.floor(calculateBattleExperience(defeated, this.type === 'arena' ? 2 : this.type === 'trainer' ? 1.5 : 1, recipient) * (1 + bonus/100)));
+            return isColosseum ? Math.floor(baseXp * 48 / 10) : baseXp * 2;
+        };
+        // Evaluate each recipient before levelling anyone up; low-level reserves
+        // catch up, while a high-level reserve cannot bypass the overlevel rule.
+        const reserveAwards = this.a.equipe.pokemons.filter(p=>p!==active && !effects.isDead(p)).map(p=>[p,
+            Math.floor(sharingBaseFor(p) * ((isColosseum ? 40 : 0) + effects.value(this.a,50))/100)]);
+        const sharingBase = sharingBaseFor(active);
+        // Keep the Colosseum fighter multiplier and the existing reserve sharing rates.
         const xp = isColosseum ? Math.max(1, Math.floor(Math.floor(sharingBase * 9 / 10) * 4 / 5)) : sharingBase;
-        const reserveXp = Math.floor(sharingBase * ((isColosseum ? 40 : 0) + effects.value(this.a,50))/100);
         const previousLevel = active.level, previousExperience = active.experience;
         active.gainEffort(yields[defeated.data.id] || {}); active.gainExperience(xp);
-        for (const reserve of this.a.equipe.pokemons) if (reserve !== active && !effects.isDead(reserve)) reserve.gainExperience(reserveXp);
+        for (const [reserve, reserveXp] of reserveAwards) reserve.gainExperience(reserveXp);
         this.emit(this.a,'battleExperience',{ pokemon: active, xpGained: xp, previousLevel, previousExperience });
         this.a.chain = Math.min(5,(this.a.chain || 0)+1);
     }

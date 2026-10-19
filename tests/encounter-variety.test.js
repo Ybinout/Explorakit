@@ -62,7 +62,7 @@ test('opening Colosseum waves vary types and species while keeping fair, increas
             // The first guardian now arrives at five, with its announced evolved
             // defensive team; ordinary opening trainers keep their modest stats.
             assert(bst(p.data) <= (colosseum.waveInfo(wave).guardian ? 510 : wave < 3 ? 300 : wave < 5 ? 350 : 400));
-            assert.equal(p.k, 2);assert.equal(p.level, 10 + (wave - 1) * 3);
+            assert.equal(p.k, 2);assert.equal(p.level, 10 + (wave - 1) * 3 + (wave === 5 ? 1 : 0));
         }
     }
     assert(seen.size >= 14);assert(types.size >= 8);

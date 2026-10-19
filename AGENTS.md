@@ -1,5 +1,9 @@
 # Contexte permanent — Explorakit
 
+## Ascension Colosseum et lisibilité — 19 octobre 2026
+
+Lire la section correspondante en tête d’audit. Les nouveaux Colosseum sont v4 : gardiens +1 à +3 niveaux (plafond 100), 1 à 3 Drifts déterministes et annoncés ; points et v1/v2/v3 conservés. L’XP commune ajoute une pénalité de sur-niveau au-delà de max(5, 10 % du niveau adverse), calculée par receveur, y compris les réserves et Chasseur d’élite. Ne pas baser le partage sur le niveau du meneur. `DriftPassives` montre seulement les bonus équipés et leurs conditions/valeurs fusionnées. Les attaques du composant commun affichent type/couleur ; critique réel lié à l’identité ciblée, sans fuite au switch ni déplacement des actions mobiles. Recettes : `colosseum-ascension`, XP, Colosseum, publication et combat navigateur.
+
 ## Panthéon et effets de combat — 19 octobre 2026
 
 Lire la section correspondante en tête d’audit. `recordTeam` conserve les UUID/ordre d’entrée mais utilise les derniers snapshots permanents, y compris les perdus : ne pas revenir au seul snapshot d’entrée ou aux survivants. L’adversaire final conserve son équipement initial et les K.O. finaux ; les lectures publiques restent en liste autorisée. Les 32 cadres PNJ sont irréguliers : utiliser `npcFrames.js` sur carte et portrait, sans redécouper en cellules 32×32. Les indicateurs/effets lisent les états réels à identité constante ; préserver la file visuelle, l’annulation et les contrôles mobiles fixes. Recettes : Colosseum/SQL, `battle-conditions`, publication mobile (inclut 32 cadres PNJ) et combat.

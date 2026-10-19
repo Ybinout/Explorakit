@@ -50,6 +50,16 @@ function normalizeK(value) {
     return Number.isInteger(parsed) && parsed >= 1 && parsed <= 4 ? parsed : null;
 }
 
+// A small lead stays on the ordinary curve. Farming far below one's level
+// progressively reduces future awards, without taking away accumulated XP.
+function overlevelExperienceFactor(opponentLevel, recipientLevel) {
+    if (!Number.isFinite(recipientLevel) || recipientLevel <= 0) return 1;
+    const rule = EXPERIENCE_BALANCE.overlevelPenalty;
+    const grace = Math.max(rule.graceLevels, Math.ceil(opponentLevel * rule.graceRatio));
+    const excess = Math.max(0, recipientLevel - opponentLevel - grace);
+    return Math.max(rule.minimum, 1 / (1 + Math.pow(excess / rule.scale, 2)));
+}
+
 function calculateBattleExperience(defeatedPokemon, multiplier = 1, recipient = null) {
     const level = Math.max(1, Math.floor(Number(defeatedPokemon?.level) || 1));
     const k = normalizeK(defeatedPokemon?.k) || 1;
@@ -60,7 +70,7 @@ function calculateBattleExperience(defeatedPokemon, multiplier = 1, recipient = 
     const levelFactor = Number.isFinite(recipientLevel) && recipientLevel > 0
         ? Math.max(scaling.minimum, Math.min(scaling.maximum, Math.pow(level / recipientLevel, scaling.exponent)))
         : 1;
-    return Math.max(1, Math.round((12 + 0.9 * Math.pow(level, 2)) * potentialBonus * normalizedMultiplier * levelFactor));
+    return Math.max(1, Math.round((12 + 0.9 * Math.pow(level, 2)) * potentialBonus * normalizedMultiplier * levelFactor * overlevelExperienceFactor(level, recipientLevel)));
 }
 
 module.exports = {
@@ -68,6 +78,7 @@ module.exports = {
     DEFAULT_EXPERIENCE_RATE,
     K_TIERS,
     calculateBattleExperience,
+    overlevelExperienceFactor,
     getExperienceRate,
     getLevelFromExperience,
     getTotalExperienceForLevel,

@@ -118,6 +118,11 @@ async function validateMobileBattle(page, output, fit, { colosseum = false } = {
         await page.locator('.action-attack').tap();
         assert.equal(await page.locator('.battle-grid-attacks .battle-choice-btn').count(), 4);
         await fit(page, '.battle-grid-attacks', width, height);
+        const types=await page.locator('.battle-move-choice').evaluateAll(buttons=>buttons.map(b=>({type:b.dataset.moveType,color:getComputedStyle(b).borderLeftColor,text:b.querySelector('.move-type-label').textContent,height:b.offsetHeight})));
+        assert.deepEqual(types.map(t=>t.type),['Normal','Normal','Grass','Normal']);
+        assert.equal(types[2].text,'Plante');assert.notEqual(types[0].color,types[2].color);
+        assert(types.every(t=>t.height>=44));
+        if(width===393||width===320)await page.screenshot({path:path.join(output,`attack-types-${width}x${height}.png`)});
         await page.locator('.action-pokemon').tap();
         const last = page.locator('.battle-pokemon-choice').last();
         await last.scrollIntoViewIfNeeded();

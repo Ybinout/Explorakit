@@ -19,7 +19,7 @@ async function validateBattleTimeline(page, output) {
             await play('updateBattleState',state());
             const trace=[];
             const original=b.playMoveAnimation;
-            b.playMoveAnimation=function(payload){trace.push({name:payload.moveName,at:performance.now(),lead:this.currentPokemon?.uuid,opponent:this.opponent?.uuid,capture:this.captureFx.visible,xp:this.experienceBusy,transition:Object.values(this.transitionFx).some(Boolean),conditions:Object.values(this.conditionFx).some(e=>e.length)});return original.call(this,payload);};
+            b.playMoveAnimation=function(payload){trace.push({name:payload.moveName,at:performance.now(),lead:this.currentPokemon?.uuid,opponent:this.opponent?.uuid,capture:this.captureFx.visible,xp:this.experienceBusy,transition:Object.values(this.transitionFx).some(Boolean),conditions:Object.values(this.conditionFx).some(e=>e.length),critical:Boolean(this.criticalFx.side)});return original.call(this,payload);};
             try {
                 const started=performance.now();
                 play('playCaptureAnimation',{success:false,shakes:1});
@@ -43,6 +43,19 @@ async function validateBattleTimeline(page, output) {
                 play('playMoveAnimation',{actor:'opponent',damageClass:'physical',moveName:'after-boost'});
                 await b._presentation.drain();
                 if(trace.at(-1).conditions)throw Error('Next attack overlaps stat effects');
+                await play('playMoveResult',{actor:'player',critical:true,damage:30,effectiveness:1});
+                play('updateBattleState',state({...reserve,level:21}, {...next,currentHp:50}));
+                play('playMoveAnimation',{actor:'opponent',damageClass:'physical',moveName:'after-critical'});
+                await b._presentation.drain();
+                if(trace.at(-1).critical||!b.attackFx.wild.critical||b.attackFx.wild.amount!==30)throw Error('Critical impact or damage timing is wrong');
+                await play('updateBattleState',state(reserve,{...next,currentHp:45}));
+                if(b.attackFx.wild.critical)throw Error('An ordinary later hit inherited the critical');
+                b.playMoveResult({actor:'player',critical:true,damage:0,missed:true});
+                if(b.criticalFx.side||b.pendingCritical||b.resultFx.labels.some(l=>l.key==='critical'))throw Error('Miss displayed a critical');
+                b.playMoveResult({actor:'player',critical:true,damage:10});
+                b.updateBattleState(state(reserve,{...enemy,currentHp:70}));
+                if(b.pendingCritical||b.criticalFx.side||b.attackFx.wild.critical&&b.attackFx.wild.visible)throw Error('Replacement inherited critical damage');
+                await b._presentation.drain();
                 // Cancel an in-flight capture, not just a queue that has not started yet.
                 play('playCaptureAnimation',{success:true,shakes:3});
                 play('playMoveAnimation',{actor:'player',damageClass:'physical',moveName:'stale'});
@@ -52,7 +65,7 @@ async function validateBattleTimeline(page, output) {
                 await play('updateBattleState',state());
                 await b._presentation.drain();
                 if(trace.some(e=>e.name==='stale')||b.captureFx.visible)throw Error('Cancelled animation leaked into next battle');
-                return {width:innerWidth,capture:!capture.capture,switch:!switched.transition,koBeforeXpAndEntry:!afterKO.xp,cancellation:true,conditionOrder:true};
+                return {width:innerWidth,capture:!capture.capture,switch:!switched.transition,koBeforeXpAndEntry:!afterKO.xp,cancellation:true,conditionOrder:true,criticalOrder:true};
             } finally {b.playMoveAnimation=original;b.resetBattleUi();}
         }));
         await page.screenshot({path:path.join(output,`timeline-${width}.png`)});
@@ -62,8 +75,9 @@ async function validateBattleTimeline(page, output) {
         const b=window.combatVm.$refs.battleOverlay;
         b.presentEvent('playCaptureAnimation',{success:true,shakes:3});
         b.presentEvent('playMoveAnimation',{actor:'player',damageClass:'physical'});
+        b.presentEvent('playMoveResult',{actor:'player',critical:true,damage:20});
         await b._presentation.drain();
-        if(b.captureFx.visible||b.battleMoveFx.visible)throw Error('Reduced motion still plays capture or attack');
+        if(b.captureFx.visible||b.battleMoveFx.visible||b.criticalFx.side)throw Error('Reduced motion still plays capture or attack');
         b.resetBattleUi();window.combatVm.battle=false;
     });
     await page.emulateMedia({reducedMotion:'no-preference'});

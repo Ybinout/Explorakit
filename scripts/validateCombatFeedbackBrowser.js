@@ -27,9 +27,17 @@ async function closePanel(){await page.getByRole('button',{name:'Fermer le carne
  for(const [w,h]of [[320,568],[393,852],[844,390],[1365,900]]){await page.setViewportSize({width:w,height:h});assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));const button=page.locator('[data-team-position="1"] [data-team-order="up"]');await button.scrollIntoViewIfNeeded();assert((await button.boundingBox()).height>=44);await page.screenshot({path:path.join(output,`team-order-${w}.png`)});}
  await page.locator('[data-team-position="1"] [data-team-order="up"]').click();await page.waitForFunction(()=>window.combatVm.driftState.team[0].data.id===4);assert.deepEqual(p.equipe.pokemons.map(x=>x.uuid),[before[1],before[0],before[2]]);
  assert.equal((await request('drift:reorder',{orderedUuids:[before[0],before[0],before[2]]})).success,false);await closePanel();await page.reload({waitUntil:'networkidle'});await vm();assert.equal(p.equipe.pokemons[0].uuid,before[1]);
+ await page.setViewportSize({width:393,height:852});
  // Fractional family strength, equipped deletion confirmation and persisted ownership checks.
  p.drifts=[{uuid:'power',definitionId:'DRF-002',rarity:'rare'},{uuid:'minor',definitionId:'DRF-002',rarity:'common'}];p.equipped=['power'];require('../server/game/drift/fusion').consolidate(p);cleanup.runtime.send(p);
  await openPanel();await page.locator('[data-drift-tab="drifts"]').click();const card=page.locator('[data-drift-id="power"]');assert.equal(await page.locator('[data-drift-id]').count(),1);assert.match(await card.innerText(),/3 \/ 4 essences/);
+ const recap=page.locator('[data-drift-recap]');assert.match(await recap.innerText(),/Perce-armure/);assert.match(await recap.innerText(),/12,?\.?5%/);assert.equal(await recap.locator('[data-passive-id]').count(),1);
+ for(const width of [320,393]) {
+  await page.setViewportSize({width,height:852});await recap.scrollIntoViewIfNeeded();
+  const bounds=await recap.boundingBox();assert(bounds.x>=0&&bounds.x+bounds.width<=width+1);
+  assert(await recap.locator('[data-passive-id="DRF-002"]').isVisible());
+  await page.screenshot({path:path.join(output,`passives-fused-${width}.png`)});
+ }
  await card.locator('[data-drift-action="discard"]').click();assert.match(await page.locator('[role="alertdialog"]').innerText(),/bonus équipé sera aussi retiré/);await page.locator('[data-drift-action="cancel"]').click();assert.equal(p.drifts.length,1);
  await card.locator('[data-drift-action="discard"]').click();await page.locator('[data-drift-action="confirm"]').click();await page.waitForFunction(()=>window.combatVm.driftState.drifts.length===0);assert.deepEqual(p.equipped,[]);await closePanel();
  p.drifts=[{uuid:'pierce',definitionId:'DRF-002',rarity:'mythic'},{uuid:'drain',definitionId:'DRF-005',rarity:'mythic'}];p.equipped=p.drifts.map(d=>d.uuid);p.equipe.pokemons[0].currentHp-=10;p.run.phase='colosseum_battle';p.run.colosseum.wave=1;

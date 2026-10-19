@@ -93,10 +93,11 @@ async function betweenBattles(selector) {
         const fighter=p.equipe.pokemons[0], target=factory.create(19,5);
         const beforeXp=[fighter.experience,companion.experience];
         const sharingBase=Math.floor(6*require('../server/game/models/progression').calculateBattleExperience(target,1,fighter)*4/5);
+        const reserveBase=Math.floor(6*require('../server/game/models/progression').calculateBattleExperience(target,1,companion)*4/5);
         const xpBattle=cleanup.runtime.battle(p,{npc:true,equipe:{pokemons:[target]},drifts:[],equipped:[]},'wild');
         await page.locator('.battle-scene').waitFor();
         target.currentHp=0;xpBattle.prune();xpBattle.checkEnd();
-        const expectedGains=[Math.floor(Math.floor(sharingBase*9/10)*4/5),Math.floor(sharingBase*40/100)];
+        const expectedGains=[Math.floor(Math.floor(sharingBase*9/10)*4/5),Math.floor(reserveBase*40/100)];
         assert.deepEqual([fighter.experience-beforeXp[0],companion.experience-beforeXp[1]],expectedGains);
         await page.locator('[data-battle-result] .experience-value').first().waitFor();
         assert.deepEqual((await page.locator('[data-battle-result] .experience-value').allTextContents()).map(s=>Number(s.replace(/\D/g,''))),expectedGains);
@@ -194,11 +195,13 @@ async function betweenBattles(selector) {
         classic.run.colosseum.wins=4;offset+=3600000;cleanup.runtime.tick();
         await page.locator('[data-colosseum-preview]').filter({hasText:'Le Rempart'}).waitFor();
         assert.equal(await page.locator('[data-colosseum-preview] .pokemon-portrait').count(),3);
+        assert.match(await page.locator('[data-colosseum-preview] [data-drift-recap]').innerText(),/Peau de fer/);
+        assert.match(await page.locator('[data-colosseum-preview] [data-drift-recap]').innerText(),/3%/);
         await page.screenshot({path:path.join(output,'colosseum-guardian-preview.png')});
         await page.locator('[data-colosseum-ready]').click();await waitFor(()=>Boolean(classic.battle),'Guardian battle missing');
         await page.locator('[data-battle-challenge]').filter({hasText:'Le Rempart'}).waitFor();
         const guardian = classic.battle;
-        assert.equal(guardian.b.colosseumWave,5);
+        assert.equal(guardian.b.colosseumWave,5);assert.equal(guardian.b.colosseumVersion,4);assert.equal(guardian.b.drifts.length,1);assert.equal(guardian.b.equipe.pokemons[0].level,23);
         assert.deepEqual(guardian.b.equipe.pokemons.map(p=>p.heldItem),require('../server/game/drift/colosseum').waveInfo(5).preview.map(p=>p.heldItem));
         for(const enemy of guardian.b.equipe.pokemons)enemy.currentHp=0;guardian.prune();guardian.checkEnd();
         await dismissBattle();await betweenBattles('[data-colosseum-reward]');

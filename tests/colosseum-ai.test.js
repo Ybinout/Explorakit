@@ -184,7 +184,7 @@ test('modern generated opponents finish real battles across guardians and every 
             const a={userId:1,equipe:{pokemons:[pokemon(9,null,level),pokemon(3,null,level),pokemon(6,null,level)]},drifts:[],equipped:[],items:{},defeated:new Set(),chain:0,money:0};
             const battle=new DriftBattle(a,b,{type:'arena',npcKey:`colosseum_${wave}`,emit(){},now:()=>0,random:Math.random,paceMs:0});
             const saved=codec.decode(codec.encode({battle})).battle;
-            assert.equal(saved.b.colosseumVersion,3);
+            assert.equal(saved.b.colosseumVersion,4);
             assert.deepEqual(saved.pending.get(saved.b),battle.pending.get(b));
             for(let turn=0;turn<600&&!battle.finished;turn++){battle.action(a,{...battle.defaultAction(a),turnId:battle.token});battle.tick();}
             assert(battle.finished,`Modern battle stalled at wave ${wave}`);

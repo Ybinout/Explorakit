@@ -7,17 +7,17 @@ async function validateBattleLabels(page, width, height, output) {
     for (const actor of ['player', 'opponent']) {
         await page.evaluate(async actor => {
             const overlay = window.battleTestVm.$refs.battleOverlay;
-            overlay.playMoveResult({ actor, critical: true, effectiveness: 2, hits: 5 });
-            clearTimeout(overlay.resultTimer);
+            overlay.playMoveResult({ actor, critical: true, damage: 123, effectiveness: 2, hits: 5 });
+            clearTimeout(overlay.resultTimer);clearTimeout(overlay.criticalTimer);
             for(const side of ['wild','player'])overlay.attackFx[side].visible=false;
-            Object.assign(overlay.attackFx[actor==='player'?'wild':'player'],{visible:true,amount:123,kind:'damage'});
+            overlay.triggerHealthFx(actor==='player'?'wild':'player',-123,10);overlay.clearHealthTimers();
             overlay.transitionLabel='Carapuce entre en combat.';
             overlay.driftNotices=[{side:'player',text:'Élan du voyageur : priorité · Force élémentaire : dégâts augmentés · Bouclier de survie : protection active'},{side:'opponent',text:'Régénération : soin de 12 PV'}];
             overlay.fieldState.weather='rain';overlay.fieldState.terrain='grassy_terrain';
             window.battleTestVm.interactionNotice='Cette action est indisponible pendant la résolution du tour.';
             await overlay.$nextTick();
             await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
-            for (const el of document.querySelectorAll('.battle-result-chip, .battle-damage-text')) {
+            for (const el of document.querySelectorAll('.battle-result-chip, .battle-damage-text, .battle-critical-burst')) {
                 for (const animation of el.getAnimations()) { animation.pause(); animation.currentTime = 300; }
             }
         }, actor);
@@ -28,6 +28,8 @@ async function validateBattleLabels(page, width, height, output) {
             assert((await notices.boundingBox()).height <= 44);
             await notices.evaluate(el => { el.scrollTop = el.scrollHeight; });
         }
+        assert.equal(await page.locator('[data-critical-side]').getAttribute('data-critical-side'), actor === 'player' ? 'wild' : 'player');
+        assert(await page.locator('.battle-damage-text.is-critical').isVisible());
         const box = await page.locator('.battle-result-fx').boundingBox();
         const scene = await page.locator('.battle-scene').boundingBox();
         assert(box.x >= scene.x && box.y >= scene.y && box.x + box.width <= scene.x + scene.width + 1
@@ -49,7 +51,7 @@ async function validateBattleLabels(page, width, height, output) {
         for(const [i,a]of textLayout.messages.entries())for(const b of textLayout.messages.slice(i+1))assert(!overlaps(a,b),'Announcements overlap the battle message');
         if (width === 393 || width === 320 || width === 1365) await page.screenshot({ path: path.join(output, `battle-labels-${width}x${height}-${actor}.png`) });
     }
-    await page.evaluate(() => { const o=window.battleTestVm.$refs.battleOverlay;o.resultFx.visible=false;o.attackFx.player.visible=false;o.attackFx.wild.visible=false;o.transitionLabel='';o.driftNotices=[];o.fieldState.weather=null;o.fieldState.terrain=null;window.battleTestVm.interactionNotice=''; });
+    await page.evaluate(() => { const o=window.battleTestVm.$refs.battleOverlay;o.resultFx.visible=false;o.criticalFx.side=null;o.pendingCritical=null;o.attackFx.player.visible=false;o.attackFx.wild.visible=false;o.transitionLabel='';o.driftNotices=[];o.fieldState.weather=null;o.fieldState.terrain=null;window.battleTestVm.interactionNotice=''; });
 }
 
 async function validateBattleAudio(page) {
