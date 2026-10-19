@@ -88,3 +88,14 @@ test('expedition entrants appear before hazards and an entry KO is not mistaken 
  const faint=events.findIndex(e=>e.name==='introAnimation'&&e.payload.transitions.some(t=>t.kind==='faint'&&t.uuid===incoming.uuid));
  assert(entry>=0&&faint>entry);assert.equal(events[entry].payload.player.equipe.pokemons[0].currentHp,1);b.finish(null,'fled');
 });
+
+test('Rift PvP status animations identify self versus opponent for both viewers',()=>{
+ const p=owner(),q=owner();q.userId=2;p.run.mode=q.run.mode='rift';
+ p.equipe.pokemons[0].abilities=['Swords Dance'];p.equipe.pokemons[0].movePp=[20];
+ q.equipe.pokemons[0].abilities=['Growl'];q.equipe.pokemons[0].movePp=[40];
+ const events=[],b=new DriftBattle(p,q,{type:'pvp',emit:(viewer,name,payload)=>events.push({viewer:viewer.userId,name,payload:JSON.parse(JSON.stringify(payload))}),random:()=>.9,paceMs:0});
+ b.action(p,{action:'attack',number:0,turnId:b.token});b.action(q,{action:'attack',number:0,turnId:b.token});
+ const moves=events.filter(e=>e.name==='battleMoveAnimation');assert.equal(moves.length,4);
+ for(const viewer of [1,2]){const own=moves.find(e=>e.viewer===viewer&&e.payload.moveName==='Swords Dance'),other=moves.find(e=>e.viewer===viewer&&e.payload.moveName==='Growl');assert.equal(own.payload.moveTarget,'self');assert.equal(other.payload.moveTarget,'opponent');assert.notEqual(own.payload.actor,other.payload.actor);}
+ assert.equal(p.equipe.pokemons[0].__battle.statStages.attack,1);b.finish(null,'fled');
+});

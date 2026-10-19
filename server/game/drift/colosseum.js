@@ -112,12 +112,28 @@ function chooseReward(p, data) {
 }
 
 const snapshotTeam = pokemons => pokemons.map(p => pokemonSnapshot(p));
-// The entry snapshot survives losses, later evolution and restored/archived runs.
-// Older reports without it keep their last known team rather than inventing one.
+// Keep the entrants' identities/order, but use each companion's latest permanent
+// form and maximum attained level, including those lost before the final battle.
 function recordTeam(report) {
-    const entry = report?.players?.[0]?.tournamentTeam;
-    return (entry?.length ? entry : report?.colosseum?.lastTeam || []).slice(0, 6);
+    const player = report?.players?.[0];
+    const entry = player?.tournamentTeam;
+    const latest = new Map((player?.pokemon || []).map(p => [p.uuid, p]));
+    const roster = entry?.length ? entry : report?.colosseum?.lastTeam || player?.team || [];
+    return roster.slice(0, 6).map(p => {
+        const final = p.uuid ? latest.get(p.uuid) : null;
+        return final && final.level >= p.level ? final : p;
+    });
+}
+function recordDefeat(report) {
+    const player = report?.players?.[0], battle = player?.lastBattle;
+    if (!battle || player?.reason !== 'defeated' || !['defeat','draw'].includes(battle.outcome)) return null;
+    return { name: battle.name, type: battle.type, wave: battle.wave || null, turns: battle.turns || 0,
+        outcome: battle.outcome, team: (battle.team || []).slice(0,6).map(p => ({
+            pokemonId:p.pokemonId, name:p.name, level:p.level, knockedOut:p.currentHp <= 0,
+            heldItem:p.heldItem, passiveAbility:p.passiveAbility, moves:(p.moves || []).slice(0,4),
+            moveNames:(p.moveNames || p.moves || []).slice(0,4)
+        })) };
 }
 function initialState() { return { version: 3, score: 0, wins: 0, wave: 0, lastTeam: [], reward: null, lastReward: null, next: waveInfo(1) }; }
 
-module.exports = { EXPLORATION_MS, durationMinutes, milestoneSize, waveInfo, opponent, snapshotTeam, recordTeam, initialState, rewardOffer, chooseReward };
+module.exports = { EXPLORATION_MS, durationMinutes, milestoneSize, waveInfo, opponent, snapshotTeam, recordTeam, recordDefeat, initialState, rewardOffer, chooseReward };

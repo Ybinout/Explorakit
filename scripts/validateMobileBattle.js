@@ -149,6 +149,7 @@ async function validateMobileBattle(page, output, fit, { colosseum = false } = {
             await page.evaluate(() => window.battleTestVm.$refs.battleOverlay.requestAction('Quelle est votre prochaine action ?'));
         }
     }
+    const conditions = await require("./validateBattleConditions").validateBattleConditions(page,output);
     const audio = await validateBattleAudio(page);
     // Also check the shared effects on the desktop layout.
     await page.setViewportSize({ width: 1365, height: 900 });
@@ -190,7 +191,7 @@ async function validateMobileBattle(page, output, fit, { colosseum = false } = {
     });
     await page.locator('.mobile-dpad').waitFor();
     await touch.detach();
-    return { experience, audio, resultLabels: true, formats: formats.length, spritesUnobstructed: true, menus: true, attackAndCaptureTargets: true };
+    return { conditions, experience, audio, resultLabels: true, formats: formats.length, spritesUnobstructed: true, menus: true, attackAndCaptureTargets: true };
 }
 
 module.exports = { validateMobileBattle };

@@ -38,6 +38,7 @@ async function closePanel(){await page.getByRole('button',{name:'Fermer le carne
  await page.locator('.action-attack:enabled').click();await page.locator('.battle-grid-attacks .battle-choice-btn:enabled').first().click();
  await page.locator('[data-battle-drift-effects]').waitFor();assert.match(await page.locator('[data-battle-drift-effects]').innerText(),/Perce-armure|Vampirisme/);await page.screenshot({path:path.join(output,'drift-trigger-mobile.png')});
  await page.waitForFunction(()=>{const b=window.combatVm.$refs.battleOverlay;return b.musicKind==='colosseum'&&b.music.readyState>=2&&!b.music.paused&&b.music.currentTime>0;});
+ await page.locator('.battle-status-player .battle-conditions').waitFor();assert.match(await page.locator('.battle-status-player .battle-conditions').innerText(),/ATQ -1/);
  await page.locator('.action-pokemon:enabled').click();await page.locator('.battle-pokemon-choice:enabled').first().click();
  await page.locator('.battle-transition-recall').waitFor();assert.match(await page.locator('[data-battle-transition]').innerText(),/rappelé/);await page.screenshot({path:path.join(output,'recall-mobile.png')});
  await page.waitForFunction(()=>window.combatTransitions.some(e=>e.kind==='enter'&&e.label.includes('entre en combat')));await page.locator('.action-attack:enabled').waitFor();

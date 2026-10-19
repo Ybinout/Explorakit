@@ -208,7 +208,7 @@ class DriftBattle {
             const defender = this.active(1-index); if (!defender) break;
             const move = engine.getMoveByName(name);
             for (const [view,viewer] of actors.entries()) if (!viewer.npc) this.emit(viewer,'battleMoveAnimation',{
-                actor:view===index?'player':'opponent', moveName:name, moveType:move?.type || 'Normal',
+                actor:view===index?'player':'opponent', moveTarget:move?.combat?.target || 'opponent', moveName:name, moveType:move?.type || 'Normal',
                 damageClass:move?.combat?.damage_class || (move?.category === 'phy' ? 'physical' : move?.category === 'spe' ? 'special' : 'status')
             });
             const result = this.withDriftSignals(()=>engine.useattack(name,pokemon,defender,{ battleState:this.state, attackerSide:this.sides[index],defenderSide:this.sides[1-index],attackerTeam:p.equipe.pokemons,defenderTeam:actors[1-index].equipe.pokemons }));

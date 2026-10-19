@@ -82,7 +82,10 @@ function battleStarted(p, battle) {
     syncTeam(p);
     increment(p, 'battles');
     const other = battle.a === p ? battle.b : battle.a;
-    const npcName = npcNames.get(battle.npcKey) || (battle.type === 'arena' ? 'un champion' : 'un dresseur');
+    const npcName = other.username || npcNames.get(battle.npcKey) || (battle.type === 'arena' ? 'un champion' : 'un dresseur');
+    p.runReport.lastBattle = { type: battle.type, name: battle.type === 'wild' ? (other.equipe.pokemons[0]?.truename || 'Pokémon sauvage') : npcName,
+        wave: battle.npcKey?.startsWith('colosseum_') ? p.run.colosseum?.wave : null,
+        team: other.equipe.pokemons.map(pokemon => pokemonSnapshot(pokemon)), startedAt: timestamp(p), outcome: null, turns: 0 };
     event(p, 'battle', `Combat ${battle.type === 'pvp' ? `contre ${other.username}` : battle.type === 'arena' ? `d’arène contre ${npcName}` : battle.type === 'trainer' ? `contre ${npcName}` : `sauvage : ${other.equipe.pokemons[0]?.truename || 'Pokémon'}`}.`);
 }
 function lost(p, pokemon) {
@@ -100,6 +103,13 @@ function capture(p, pokemon) {
 }
 function battleFinished(p, battle, summary) {
     if (!p.runReport) return;
+    if (p.runReport.lastBattle) {
+        const last = p.runReport.lastBattle;
+        last.outcome = summary.outcome; last.turns = battle.round; last.finishedAt = timestamp(p);
+        // Keep initial loadouts, including consumed items, and mark final knockouts.
+        const originals = new Map(battle.originals.map(pokemon => [pokemon.uuid, pokemon]));
+        last.team = last.team.map(pokemon => ({ ...pokemon, currentHp: originals.get(pokemon.uuid)?.currentHp ?? pokemon.currentHp }));
+    }
     // Final snapshots are taken after the engine restores temporary transformations.
     for (const pokemon of battle.originalTeams.get(p) || []) rememberPokemon(p, pokemon);
     syncTeam(p, p.equipe.pokemons.length > 0 && p.runReport.endedAt === null);
@@ -190,7 +200,7 @@ function finish(run, at) {
         const r = p.runReport;
         const drifts = [...r.drifts.values()];
         return { id: p.userId, username: p.username, reason: r.reason, endedAt: r.endedAt,
-            survivedMs: Math.max(0, (r.endedAt ?? at) - run.startedAt), starter: r.starter,
+            survivedMs: Math.max(0, (r.endedAt ?? at) - run.startedAt), starter: r.starter, lastBattle: r.lastBattle || null,
             pokemon: [...r.pokemon.values()], team: r.team.map(id => r.pokemon.get(id)).filter(Boolean), tournamentTeam: r.tournamentTeam,
             equippedDrifts: r.equipped.map(id => r.drifts.get(id)).filter(Boolean), drifts,
             stats: r.stats, visitedMaps: r.visitedMaps, events: r.events, eventsOmitted: r.eventsOmitted,

@@ -73,7 +73,7 @@ test('Colosseum SQL: committed receipt wins over an old running checkpoint', {sk
     }finally{await f.cleanup();}
 });
 
-test('Colosseum SQL: records and profiles show the full entry team from existing reports', {skip:!enabled}, async()=>{
+test('Colosseum SQL: records and profiles show the peak full team and defeat details without rewriting archived reports', {skip:!enabled}, async()=>{
     const f = await fixture();
     try {
         for (const minutes of [30, 60]) {
@@ -82,12 +82,16 @@ test('Colosseum SQL: records and profiles show the full entry team from existing
                 uuid:`private-${index}`, pokemonId, name:`Compagnon ${index}`, level:20+index,
                 currentHp:50, ivs:{ hp:31 }, moves:['Tackle']
             }));
-            run.report.players = [{ id:f.users[0].id, tournamentTeam:team }];
+            const peak=team.map((p,i)=>({...p,level:p.level+10,pokemonId:i===0?3:p.pokemonId,currentHp:0}));
+            run.report.players = [{ id:f.users[0].id, reason:'defeated',tournamentTeam:team,pokemon:peak,lastBattle:{name:'Le Rempart',type:'arena',wave:5,turns:8,outcome:'defeat',team} }];
             await repository.recordRunFinished(run);
-            const expected = team.map(p => ({ pokemonId:p.pokemonId, name:p.name, level:p.level, knockedOut:false }));
-            assert.deepEqual((await repository.leaderboard(f.users[0].id, minutes)).personal.team, expected);
+            const expected = peak.map(p => ({ pokemonId:p.pokemonId, name:p.name, level:p.level, knockedOut:true }));
+            const personal=(await repository.leaderboard(f.users[0].id, minutes)).personal;
+            assert.deepEqual(personal.team,expected);assert.equal(personal.defeat.name,'Le Rempart');
+            assert.equal(personal.defeat.team.length,6);assert(personal.defeat.team.every(p=>!('uuid' in p)&&!('ivs' in p)));
             const profile = await require('../server/persistence/trainerRepository').profile(f.users[1].id, f.users[0].id);
             assert.deepEqual(profile.colosseum.find(record => record.durationMinutes === minutes).team, expected);
+            assert.deepEqual(profile.colosseum.find(record=>record.durationMinutes===minutes).defeat,personal.defeat);
             const [receipt] = await repository.getFinishedRuns([run.id]);
             assert.deepEqual(receipt.report, run.report, 'Reading an entry roster must not rewrite its archived report');
         }

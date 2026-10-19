@@ -18,14 +18,14 @@ let server,browser,runId;const fixtures=[],errors=[];const password='Community-b
     const run={id:runId,players:fixtures.map(f=>f.user),winnerId:a.user.id,finishedAt:Date.now(),explorationMs:1200000};run.report={runId,mode:'rift',players:run.players,matches:[]};
     await account.recordRunStarted(run);await account.recordRunFinished(run);
     const colo=require('../server/persistence/colosseumRepository'),scores=require('../server/game/social/ranks').colosseumThresholds;
-    for(const minutes of [30,60]){const r={id:randomUUID(),players:[a.user],durationMinutes:minutes,finishedAt:Date.now()};r.report={runId:r.id,colosseum:{score:scores[minutes===30?4:2],wins:minutes===30?20:10,lastTeam:[{pokemonId:7,name:'Carapuce',level:60,currentHp:100},{pokemonId:133,name:'Évoli',level:58,currentHp:0}]}};await colo.recordRunStarted(r);await colo.recordRunFinished(r);}
+    for(const minutes of [30,60]){const r={id:randomUUID(),players:[a.user],durationMinutes:minutes,finishedAt:Date.now()};r.report={runId:r.id,colosseum:{score:scores[minutes===30?4:2],wins:minutes===30?20:10,lastTeam:[{pokemonId:7,name:'Carapuce',level:60,currentHp:100},{pokemonId:133,name:'Évoli',level:58,currentHp:0}]}};r.report.players=[{id:a.user.id,reason:'defeated',lastBattle:{name:'Le Rempart',wave:5,type:'arena',turns:12,outcome:'defeat',team:[1,4,7,25,133,16].map(pokemonId=>({pokemonId,name:'Adversaire '+pokemonId,level:60,currentHp:50,heldItem:'leftovers',passiveAbility:'Sturdy',moves:['Tackle'],moveNames:['Charge']}))}}];await colo.recordRunStarted(r);await colo.recordRunFinished(r);}
     browser=await chromium.launch({headless:true,args:['--no-sandbox']});
     async function pageFor(f){const context=await browser.newContext({viewport:{width:393,height:852},hasTouch:true});await context.addInitScript(session=>localStorage.setItem('explorakit.user',JSON.stringify(session)),{...f.user,token:f.token});const p=await context.newPage();p.on('pageerror',e=>errors.push(e.message));p.on('response',r=>{if(r.url().startsWith(base)&&r.status()>=400)errors.push(r.status()+' '+r.url());});return p;}
     const pa=await pageFor(a),pb=await pageFor(b);
     const widthOK=async p=>assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'Horizontal overflow');
     for(const [width,height] of [[1365,900],[393,852],[320,568],[844,390]]){
         await pa.setViewportSize({width,height});await pa.goto(base+'/profil/'+a.user.id,{waitUntil:'networkidle'});await pa.locator('[data-trainer-profile]').waitFor();
-        assert.match(await pa.locator('.rift-card').innerText(),/1.024 Elo/);assert.match(await pa.locator('.rift-card').innerText(),/Bronze I/);assert.equal(await pa.locator('.rift-card [data-league-points]').innerText(),'41 / 100 PL');assert.equal(await pa.locator('[data-rank-badge].diamond').count(),1);await widthOK(pa);await pa.screenshot({path:path.join(output,`trainer-profile-${width}.png`),fullPage:true});
+        assert.match(await pa.locator('.rift-card').innerText(),/1.024 Elo/);assert.match(await pa.locator('.rift-card').innerText(),/Bronze I/);assert.equal(await pa.locator('.rift-card [data-league-points]').innerText(),'41 / 100 PL');assert.equal(await pa.locator('[data-rank-badge].diamond').count(),1);await pa.locator('[data-colosseum-defeat] summary').first().click();assert.match(await pa.locator('[data-colosseum-defeat]').first().innerText(),/12 tours/);assert.equal(await pa.locator('[data-colosseum-defeat]').first().locator('.defeat-roster article').count(),6);await widthOK(pa);await pa.screenshot({path:path.join(output,`trainer-profile-${width}.png`),fullPage:true});
     }
     await pa.setViewportSize({width:320,height:568});await pa.getByRole('link',{name:'Rechercher',exact:true}).click();await pa.locator('#trainer-search').fill(b.user.username);await pa.getByRole('button',{name:'Rechercher',exact:true}).click();
     await pa.locator(`[data-trainer-id="${b.user.id}"] a`).click();await pa.locator('[data-friend-action="request"]').click();await pa.locator('[data-friend-action="cancel"]').waitFor();
@@ -38,7 +38,7 @@ let server,browser,runId;const fixtures=[],errors=[];const password='Community-b
         assert(pa.url().endsWith('/classements?mode='+mode));
         await pa.reload({waitUntil:'networkidle'});await pa.locator('[data-personal-rank]').waitFor();
         assert.equal(await pa.locator(`[data-ranking-mode="${mode}"]`).getAttribute('aria-pressed'),'true');
-        if(mode!=='rift')assert(await pa.locator('.ranking-team img').count()>=2);
+        if(mode!=='rift'){assert(await pa.locator('.ranking-team img').count()>=2);const detail=pa.locator(`[data-trainer-id="${a.user.id}"] [data-colosseum-defeat]`);await detail.locator('summary').click();assert.match(await detail.innerText(),/Restes/);assert.equal(await detail.locator('.defeat-roster article').count(),6);}
         for(const [width,height] of [[320,568],[393,852],[844,390],[1365,900]]){
             await pa.setViewportSize({width,height});await widthOK(pa);
             const buttons=await pa.locator('[data-ranking-mode]').all();for(const button of buttons)assert((await button.boundingBox()).height>=44);

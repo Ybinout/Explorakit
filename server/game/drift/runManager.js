@@ -54,7 +54,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         const run=p.run;
         if (run.colosseum?.next && !run.colosseum.next.preview)
             run.colosseum.next = colosseum.waveInfo(run.colosseum.next.wave, run.colosseum.version || 1);
-        return { id:run.id, mode:run.mode || 'rift', durationMinutes:run.lobby.rules.durationMinutes, colosseum:run.colosseum || null, phase:run.phase, starterChoices:p.starterChoices || [], selectionEndsAt:run.selectionEndsAt || null, serverNow:now(), endsAt:run.endsAt, preparationEndsAt:run.preparationEndsAt,
+        return { id:run.id, mode:run.mode || 'rift', durationMinutes:run.lobby.rules.durationMinutes, colosseum:run.colosseum ? { ...run.colosseum, ...(run.report ? { resultTeam:colosseum.recordTeam(run.report), defeat:colosseum.recordDefeat(run.report) } : {}) } : null, phase:run.phase, starterChoices:p.starterChoices || [], selectionEndsAt:run.selectionEndsAt || null, serverNow:now(), endsAt:run.endsAt, preparationEndsAt:run.preparationEndsAt,
             alive:p.alive, winnerId:run.winnerId, reason:p.eliminationReason, currentRound:run.round, ready:p.ready,spectatingAvailable:run.mode !== 'colosseum',
             storagePaused:storagePausedAt !== null, recoveredAt:run.recoveredAt || null, recoveryWaiting:Boolean(run.recoveryWaiting), slot:p.slot, slotLimit:economy.SLOT_LIMIT, money:p.money, drifts:p.drifts.map(d=>({...d,...require('./driftStrength').summary(d),salePrice:economy.salePrice(d)})), equipped:p.equipped, lastDriftFusion:p.lastDriftFusion || null,
             team:p.equipe.pokemons, contracts:contracts.view(p), trainers:trainers.list(p), items:economy.bag(p), merchant:isShopMap(p.currentmap)&&run.phase==='exploration'?require('./merchant').view(p):null,

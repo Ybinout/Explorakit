@@ -19,7 +19,7 @@ async function validateBattleTimeline(page, output) {
             await play('updateBattleState',state());
             const trace=[];
             const original=b.playMoveAnimation;
-            b.playMoveAnimation=function(payload){trace.push({name:payload.moveName,at:performance.now(),lead:this.currentPokemon?.uuid,opponent:this.opponent?.uuid,capture:this.captureFx.visible,xp:this.experienceBusy,transition:Object.values(this.transitionFx).some(Boolean)});return original.call(this,payload);};
+            b.playMoveAnimation=function(payload){trace.push({name:payload.moveName,at:performance.now(),lead:this.currentPokemon?.uuid,opponent:this.opponent?.uuid,capture:this.captureFx.visible,xp:this.experienceBusy,transition:Object.values(this.transitionFx).some(Boolean),conditions:Object.values(this.conditionFx).some(e=>e.length)});return original.call(this,payload);};
             try {
                 const started=performance.now();
                 play('playCaptureAnimation',{success:false,shakes:1});
@@ -39,6 +39,10 @@ async function validateBattleTimeline(page, output) {
                 await b._presentation.drain();
                 const afterKO=trace.at(-1);
                 if(afterKO.opponent!==next.uuid||afterKO.xp||afterKO.transition)throw Error('Replacement overlapped KO/XP');
+                play('updateBattleState',state({...reserve,level:21,__battle:{statStages:{speed:2}}},next));
+                play('playMoveAnimation',{actor:'opponent',damageClass:'physical',moveName:'after-boost'});
+                await b._presentation.drain();
+                if(trace.at(-1).conditions)throw Error('Next attack overlaps stat effects');
                 // Cancel an in-flight capture, not just a queue that has not started yet.
                 play('playCaptureAnimation',{success:true,shakes:3});
                 play('playMoveAnimation',{actor:'player',damageClass:'physical',moveName:'stale'});
@@ -48,7 +52,7 @@ async function validateBattleTimeline(page, output) {
                 await play('updateBattleState',state());
                 await b._presentation.drain();
                 if(trace.some(e=>e.name==='stale')||b.captureFx.visible)throw Error('Cancelled animation leaked into next battle');
-                return {width:innerWidth,capture:!capture.capture,switch:!switched.transition,koBeforeXpAndEntry:!afterKO.xp,cancellation:true};
+                return {width:innerWidth,capture:!capture.capture,switch:!switched.transition,koBeforeXpAndEntry:!afterKO.xp,cancellation:true,conditionOrder:true};
             } finally {b.playMoveAnimation=original;b.resetBattleUi();}
         }));
         await page.screenshot({path:path.join(output,`timeline-${width}.png`)});

@@ -132,14 +132,15 @@ async function betweenBattles(selector) {
         await page.setViewportSize({width:393,height:852});
         await page.screenshot({path:path.join(output,'colosseum-exploration.png')});
         // Six entrants, five early losses, then the last survivor: every entrant
-        // must remain in the result and record at its original level.
+        // must remain in the result at their last evolution and best attained level.
         p.equipe.pokemons.push(...[4,7,25,133,9].map(id=>factory.create(id,25)));
         offset+=1800000;cleanup.runtime.tick();
-        const entryTeam = structuredClone(p.runReport.tournamentTeam);
+        assert.equal(p.runReport.tournamentTeam.length,6);
         await page.locator('[data-colosseum-ready]').waitFor();assert.equal(p.currentmap,'ville1_arene');
         await page.screenshot({path:path.join(output,'colosseum-ready-mobile.png')});
         await page.locator('[data-colosseum-ready]').click();await waitFor(()=>Boolean(p.battle),'Battle missing');
         const battle=p.battle;
+        p.equipe.pokemons[1].level=38;p.equipe.pokemons[1].updatePokemon(6);
         for(const pokemon of p.equipe.pokemons.slice(0,5))pokemon.currentHp=0;
         battle.prune();
         for(const enemy of battle.b.equipe.pokemons)enemy.currentHp=0;battle.prune();battle.checkEnd();
@@ -148,16 +149,21 @@ async function betweenBattles(selector) {
         assert.equal(p.run.colosseum.score,300);await checkWidth();
         await page.screenshot({path:path.join(output,'colosseum-victory-mobile.png')});
         await page.locator('[data-colosseum-ready]').click();await waitFor(()=>Boolean(p.battle),'Second battle missing');
-        const finalBattle=p.battle;p.equipe.pokemons[0].currentHp=0;finalBattle.prune();finalBattle.checkEnd();
+        const finalBattle=p.battle;p.equipe.pokemons[0].level=42;finalBattle.round=9;p.equipe.pokemons[0].currentHp=0;finalBattle.prune();finalBattle.checkEnd();
         await dismissBattle();await page.getByText('Ton passage au Colosseum',{exact:true}).waitFor();
         await p.run.settling;assert.equal(p.run.settlement.status,'complete');
         assert.equal(p.run.report.colosseum.lastTeam.length,1);
+        const peakTeam=require('../server/game/drift/colosseum').recordTeam(p.run.report);
+        assert.equal(peakTeam[1].pokemonId,6);assert.equal(peakTeam[1].level,38);assert.equal(peakTeam[5].level,42);
         for(const [width,height] of [[320,568],[393,852],[1365,900]]) {
             await page.setViewportSize({width,height});
             await page.reload({waitUntil:'networkidle'});
             await page.locator('[data-colosseum-result-team]').waitFor();
-            assert.deepEqual(await page.locator('[data-colosseum-result-team] strong').allTextContents(),entryTeam.map(p=>p.name));
-            assert.deepEqual(await page.locator('[data-colosseum-result-team] > div > span:last-child').allTextContents(),entryTeam.map(p=>`N. ${p.level}`));
+            assert.deepEqual(await page.locator('[data-colosseum-result-team] strong').allTextContents(),peakTeam.map(p=>p.name));
+            assert.deepEqual(await page.locator('[data-colosseum-result-team] > div > strong + span').allTextContents(),peakTeam.map(p=>`N. ${p.level} · K.O.`));
+            await page.locator('[data-colosseum-defeat] summary').click();
+            assert.match(await page.locator('[data-colosseum-defeat]').innerText(),/Défi 2.*|9 tours/);
+            assert.equal(await page.locator('.defeat-roster article').count(),p.run.report.players[0].lastBattle.team.length);
             await checkWidth();
             await page.screenshot({path:path.join(output,`colosseum-results-${width}.png`)});
         }
@@ -168,7 +174,7 @@ async function betweenBattles(selector) {
         assert.equal(await page.locator('.rank-list li').count(),1);
         assert.equal(await page.locator('.record-team img').count(),6);
         const profile = await require('../server/persistence/trainerRepository').profile(userId,userId);
-        assert.deepEqual(profile.colosseum.find(r=>r.durationMinutes===30).team.map(p=>p.pokemonId),entryTeam.map(p=>p.pokemonId));
+        assert.deepEqual(profile.colosseum.find(r=>r.durationMinutes===30).team.map(p=>p.pokemonId),peakTeam.map(p=>p.pokemonId));
         await page.screenshot({path:path.join(output,'colosseum-record-mobile.png'),fullPage:true});
         const [[adventureAfter]]=await dbPool.execute('SELECT p.uuid,p.current_hp,p.experience FROM pokemons p JOIN teams t ON t.id=p.team_id WHERE t.user_id=?',[userId]);
         assert.deepEqual(adventureAfter,adventureBefore);

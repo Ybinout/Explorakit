@@ -35,6 +35,7 @@ async function profile(viewer, target) {
             const score = Number(record?.score) || 0, wins = Number(record?.wins) || 0;
             const team = record ? require('../game/drift/colosseum').recordTeam(JSON.parse(record.report_json)) : [];
             return { durationMinutes: minutes, score, wins, rank: colosseumRank(score,wins),
+                defeat: record ? require('../game/drift/colosseum').recordDefeat(JSON.parse(record.report_json)) : null,
                 team: team.slice(0,6).map(p => ({ pokemonId:p.pokemonId,name:p.name,level:p.level,knockedOut:p.currentHp<=0 })) };
         }) };
 }

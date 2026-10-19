@@ -22,7 +22,7 @@ function defeatEnemies(battle) {
     battle.prune(); battle.checkEnd();
 }
 
-for (const durationMinutes of [30, 60]) test(`Colosseum ${durationMinutes}min: result preserves all six entrants across losses and recovery`, async () => {
+for (const durationMinutes of [30, 60]) test(`Colosseum ${durationMinutes}min: result keeps all six companions at their peak across evolution, losses and recovery`, async () => {
     const f = setup();
     await f.runtime.startColosseum(f.user, { durationMinutes });
     f.runtime.enter(f.user, f.socket);
@@ -31,6 +31,8 @@ for (const durationMinutes of [30, 60]) test(`Colosseum ${durationMinutes}min: r
     f.advance(durationMinutes * 60000);
     const entry = structuredClone(p.runReport.tournamentTeam);
     f.runtime.ready(p);
+    p.equipe.pokemons[0].level=36;p.equipe.pokemons[0].updatePokemon(3);
+    p.equipe.pokemons[0].abilities=['Solar Beam','Sleep Powder'];
     for (const pokemon of p.equipe.pokemons.slice(0, 5)) pokemon.currentHp = 0;
     defeatEnemies(p.battle);
     assert.equal(p.equipe.pokemons.length, 1);
@@ -40,11 +42,26 @@ for (const durationMinutes of [30, 60]) test(`Colosseum ${durationMinutes}min: r
     restored.store.connect(f.user, 'restored'); restored.runtime.enter(f.user, { id:'restored' });
     const q = restored.runtime.playerFor(f.user);
     restored.runtime.ready(q);
+    q.equipe.pokemons[0].level=40;q.equipe.pokemons[0].updatePokemon(18);
+    const enemyTeam=structuredClone(q.runReport.lastBattle.team);
+    q.battle.round=7;
+    q.battle.b.equipe.pokemons[0].heldItem=null; // A consumed item remains visible in the initial loadout.
     q.equipe.pokemons[0].currentHp = 0;
     q.battle.prune(); q.battle.checkEnd();
     assert.equal(q.run.phase, 'results');
     assert.equal(q.run.report.colosseum.lastTeam.length, 1);
-    assert.deepEqual(colosseum.recordTeam(q.run.report), entry);
+    const peak=colosseum.recordTeam(q.run.report);
+    assert.deepEqual(peak.map(p=>p.uuid),entry.map(p=>p.uuid));
+    assert.equal(peak[0].pokemonId,3);assert.equal(peak[0].level,36);
+    assert.deepEqual(peak[0].moves,['Solar Beam','Sleep Powder']);
+    assert.equal(peak[5].pokemonId,18);assert.equal(peak[5].level,40);
+    assert(peak.every(p=>p.currentHp===0&&p.lostAt!==null));
+    assert.deepEqual(restored.runtime.state(q).colosseum.resultTeam,peak);
+    const defeat=colosseum.recordDefeat(q.run.report);
+    assert.equal(defeat.wave,2);assert.equal(defeat.turns,7);assert.equal(defeat.outcome,'defeat');
+    assert.deepEqual(defeat.team.map(p=>p.pokemonId),enemyTeam.map(p=>p.pokemonId));
+    assert.deepEqual(defeat.team.map(p=>p.heldItem),enemyTeam.map(p=>p.heldItem));
+    assert(defeat.team.every(p=>!('uuid' in p)&&!('ivs' in p)));
     assert.deepEqual(restored.runtime.state(q).report.players[0].tournamentTeam, entry);
     assert(entry.every(pokemon => pokemon.currentHp > 0 && pokemon.level === 20));
 });
@@ -319,3 +336,10 @@ test('only 30 and 60 are valid Colosseum durations; legacy start defaults to 60'
         assert.equal(f.store.getLobby(f.user),undefined);
     }
 });
+
+ test('legacy Panthéon records fall back safely and an abandonment is not a defeat',()=>{
+ const entry=[{uuid:'a',level:30,pokemonId:3},{uuid:'b',level:20,pokemonId:7}];
+ const legacy={players:[{tournamentTeam:entry}]};assert.deepEqual(colosseum.recordTeam(legacy),entry);assert.equal(colosseum.recordDefeat(legacy),null);
+ legacy.players[0].pokemon=[{uuid:'a',level:29,pokemonId:1}];assert.deepEqual(colosseum.recordTeam(legacy),entry);
+ legacy.players[0].reason='forfeit';legacy.players[0].lastBattle={outcome:'defeat',team:[]};assert.equal(colosseum.recordDefeat(legacy),null);
+ });

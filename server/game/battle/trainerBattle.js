@@ -79,6 +79,7 @@ function displayMoveAnimation(player, attacker, moveName, io) {
         actor: attacker === player?.equipe?.pokemons?.[0] ? 'player' : 'opponent',
         moveName,
         moveType: move?.type || 'Normal',
+        moveTarget: move?.combat?.target || 'opponent',
         damageClass: move?.combat?.damage_class || 'status'
     });
 }

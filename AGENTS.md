@@ -1,5 +1,9 @@
 # Contexte permanent — Explorakit
 
+## Panthéon et effets de combat — 19 octobre 2026
+
+Lire la section correspondante en tête d’audit. `recordTeam` conserve les UUID/ordre d’entrée mais utilise les derniers snapshots permanents, y compris les perdus : ne pas revenir au seul snapshot d’entrée ou aux survivants. L’adversaire final conserve son équipement initial et les K.O. finaux ; les lectures publiques restent en liste autorisée. Les 32 cadres PNJ sont irréguliers : utiliser `npcFrames.js` sur carte et portrait, sans redécouper en cellules 32×32. Les indicateurs/effets lisent les états réels à identité constante ; préserver la file visuelle, l’annulation et les contrôles mobiles fixes. Recettes : Colosseum/SQL, `battle-conditions`, publication mobile (inclut 32 cadres PNJ) et combat.
+
 ## Expéditions et combat mobile — 19 octobre 2026
 
 Lire la section correspondante de l’audit. Le Colosseum neuf a des IV 10–31, les autres modes gardent 0–31 ; ne pas retirer les offres existantes au sort. Les pages de modes permettent reprendre/abandonner. Les annonces mobiles ont une ligne réservée et ne doivent pas déplacer les actions. Les plateformes mobiles partagent les ancres des sprites ; conserver la base du joueur au bas du terrain. Le dock participe aux gestes, le texte des dialogues avance comme A. Les attaques multiples exposent `hits`, Triple Pied et les secondaires se résolvent par coup, PP/Orbe Vie par capacité. Les priorités sont alignées Gen 7. Recettes : tests multi-hit, stratégie, publication mobile et combat.

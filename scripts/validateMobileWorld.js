@@ -109,6 +109,7 @@ async function validateMobileWorld({ loginContext, fixture, base, output, fit })
     });
     assert(!after.moving, 'Touch cancellation leaves movement pressed');
     assert(before.x !== after.x || before.y !== after.y, 'Touch did not move the player');
+    const npcSprites = await require("./validateNpcSprites").validateNpcSprites(page,output);
     const gestures = await validateMobileGestures(page, context, output);
     const travel = await validateMapLoading(page, output);
     await page.reload({ waitUntil: 'networkidle' });
@@ -116,7 +117,7 @@ async function validateMobileWorld({ loginContext, fixture, base, output, fit })
     assert.equal(await page.locator('.adventure-guide').count(), 0, 'Reload reopens objective');
     const battle = await validateMobileBattle(page, output, fit);
     await context.close();
-    return { touchEmulation: true, formats: formats.length, serverMovement: true, stableDialogueAction:true, objectiveOnlyInMenu: true, gestures, travel, battle };
+    return { npcSprites, touchEmulation: true, formats: formats.length, serverMovement: true, stableDialogueAction:true, objectiveOnlyInMenu: true, gestures, travel, battle };
 }
 
 module.exports = { validateMobileWorld };

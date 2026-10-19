@@ -111,6 +111,7 @@ function emitMoveAnimationForBoth(io, attackerPlayer, defenderPlayer, moveName) 
     const movePayload = {
         moveName,
         moveType: move?.type || 'Normal',
+        moveTarget: move?.combat?.target || 'opponent',
         damageClass: move?.combat?.damage_class || 'status'
     };
 
