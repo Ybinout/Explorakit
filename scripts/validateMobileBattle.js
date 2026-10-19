@@ -53,11 +53,11 @@ async function validateMobileBattle(page, output, fit, { colosseum = false } = {
                 right: r.x + x1 * scale, bottom: r.y + y1 * scale };
         });
         return {
-            scene: rect(document.querySelector('.battle-scene')), sprites,
+            mobile: window.battleTestVm.$refs.battleOverlay.mobile, scene: rect(document.querySelector('.battle-scene')), sprites,
             platforms: [...document.querySelectorAll('[data-battle-platform]')].map(el => {
-                const image = el.querySelector('img'), r = rect(image);
-                return { side: el.dataset.battlePlatform, x: r.x + r.width / 2, surfaceTop: r.y + r.height * .25, surfaceBottom: r.y + r.height * .76,
-                    loaded: image.complete && image.naturalWidth > 0, z: Number(getComputedStyle(el).zIndex),
+                const image = el.querySelector('img'), disc = el.querySelector('.battle-ground-disc'), r = rect(image || disc);
+                return { side: el.dataset.battlePlatform, x: r.x + r.width / 2, surfaceTop: r.y + r.height * .25, surfaceBottom: r.y + r.height * (disc ? .9 : .76),
+                    loaded: Boolean(disc) || image.complete && image.naturalWidth > 0, z: Number(getComputedStyle(el).zIndex),
                     passive: getComputedStyle(el).pointerEvents === 'none' };
             }),
             obstacles: [...document.querySelectorAll('.battle-status, .battle-action-shell, .battle-challenge')].map(rect),
@@ -65,7 +65,7 @@ async function validateMobileBattle(page, output, fit, { colosseum = false } = {
         };
     });
     const checkPlatforms = layout => {
-        assert.equal(layout.platforms.length, colosseum ? 2 : 0);
+        assert.equal(layout.platforms.length, colosseum || layout.mobile ? 2 : 0);
         for (const platform of layout.platforms) {
             const sprite = layout.sprites.find(s => s.side === platform.side);
             assert(platform.loaded && platform.passive && platform.z < 55, 'Platform must load behind the fighter without blocking input');

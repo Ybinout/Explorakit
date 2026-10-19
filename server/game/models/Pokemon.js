@@ -51,9 +51,10 @@
     };
     const { normalizeEffort } = require('./training');
     class Pokemon {
-        static randomTraits(random = Math.random) {
+        static randomTraits(random = Math.random, minimumIv = 0) {
+            const floor = Math.max(0, Math.min(31, Math.floor(minimumIv)));
             const iv = Object.fromEntries(['attack', 'defense', 'hp', 'specialDefense', 'speed', 'specialAttack']
-                .map(stat => [stat, Math.min(31, Math.max(0, Math.floor(random() * 32)))]));
+                .map(stat => [stat, Math.min(31, Math.max(0, floor + Math.floor(random() * (32 - floor))))]));
             return { iv, nature: Pokemon.randomNature(random), k: rollK(random) };
         }
         static randomNature(random = Math.random) {

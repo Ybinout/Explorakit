@@ -19,6 +19,7 @@ function serializeMoveResult(actor, result = {}) {
         moveName: result.moveName || result.move?.ename || null,
         success: Boolean(result.success),
         damage: Math.max(0, Number(result.damage) || 0),
+        hits: Math.max(0, Math.min(10, Math.floor(Number(result.hits) || 0))),
         missed: Boolean(result.missed),
         blocked: Boolean(result.blocked),
         immune: Number.isFinite(effectiveness) && effectiveness === 0,

@@ -300,8 +300,8 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         const explorationDuration = mode === 'colosseum' ? colosseum.durationMinutes(lobby.rules.durationMinutes)*60000 : (durationMs ?? lobby.rules.durationMinutes*60000);
         const run={id:retryId||randomUUID(),mode,...(mode==='colosseum'?{colosseum:colosseum.initialState()}:{}),merchant:require('./merchant').createStock(random),explorationDuration,selectionEndsAt:starterChoiceMs>0?now()+starterChoiceMs:null,startedAt:now(),phase:starterChoiceMs>0?'selection':'exploration',endsAt:now()+explorationDuration,participantCount:lobby.players.size,players:new Map(),matches:[],round:0,battles:new Set(),winnerId:null,lobby,pnjs:createPnjStore(trainers.entries),pnjDeadlines:new Map()};
         for(const member of lobby.players.values()) {
-            const choices=starterChoiceMs>0?factory.starterChoices(random):[];
-            const p={contracts:contracts.create(),starterChoices:choices,userId:member.id,username:member.username,run,alive:true,ready:false,equipe:{pokemons:choices.length?[]:[factory.starter(random)]},
+            const choices=starterChoiceMs>0?factory.starterChoices(random, mode === 'colosseum' ? 10 : 0):[];
+            const p={contracts:contracts.create(),starterChoices:choices,userId:member.id,username:member.username,run,alive:true,ready:false,equipe:{pokemons:choices.length?[]:[factory.starter(random, mode === 'colosseum' ? 10 : 0)]},
                 currentmap:'start',x:80,y:208,sprite:'sprite.png',direction:'down',animationFrame:0,inbattle:false,battle:null,
                 drifts:[],equipped:[],items:{pokeball:10,drift_potion:3},money:500,defeated:new Set(),chain:0,dialogue:null,lastMove:0,
                 socketId:null,disconnectedAt:now()};

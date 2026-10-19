@@ -9,10 +9,10 @@ const encounterRarity = require('../../../data/game/drift_encounters.json');
 // Explicit base species with both front and back sprites shipped by this client.
 const STARTERS = [1,4,7,10,13,16,19,32,43,60,66,69,74,92,152,155,158,161,163,165,167,179,187,191,252,255,258,261,263,265,270,273,276,280,283,285,287,293,304,387,390,393,396,399,401,403,406,418,420];
 const legendary = new Set([144,145,146,150,151,243,244,245,249,250,251,377,378,379,380,381,382,383,384,385,386,480,481,482,483,484,485,486,487,488,489,490,491,492,493,494,638,639,640,641,642,643,644,645,646,647,648,649,716,717,718,719,720,721,772,773,785,786,787,788,789,790,791,792,793,794,795,796,797,798,799,800,801,802,803,804,805,806,807,808,809]);
-function create(id, level = 5, balanced = false, random = Math.random) {
+function create(id, level = 5, balanced = false, random = Math.random, minimumIv = 0) {
     const species = dex.find(p => p.id === id);
     // Trainer fixtures keep their calibrated baseline; player starters roll once.
-    const traits = balanced ? { iv: { attack: 15, defense: 15, hp: 15, specialAttack: 15, specialDefense: 15, speed: 15 }, nature: 'Bashful', k: 2 } : Pokemon.randomTraits(random);
+    const traits = balanced ? { iv: { attack: 15, defense: 15, hp: 15, specialAttack: 15, specialDefense: 15, speed: 15 }, nature: 'Bashful', k: 2 } : Pokemon.randomTraits(random, minimumIv);
     const p = new Pokemon(id, species.name.french || species.name.english, level, getTotalExperienceForLevel(level, getExperienceRate(species.exp)),
         traits.iv, traits.nature, traits.k);
     p.stoneEvolutions = true;
@@ -26,12 +26,12 @@ function create(id, level = 5, balanced = false, random = Math.random) {
     p.addAbility('Growl');
     return p;
 }
-function starterChoices(random = Math.random) {
+function starterChoices(random = Math.random, minimumIv = 0) {
     const pool=[...STARTERS], choices=[];
-    for(let i=0;i<3;i++) { const index=Math.min(pool.length-1,Math.floor(random()*pool.length)); choices.push(create(pool.splice(index,1)[0],5,false,random)); }
+    for(let i=0;i<3;i++) { const index=Math.min(pool.length-1,Math.floor(random()*pool.length)); choices.push(create(pool.splice(index,1)[0],5,false,random,minimumIv)); }
     return choices;
 }
-function starter(random = Math.random) { return create(STARTERS[Math.min(STARTERS.length-1,Math.floor(random() * STARTERS.length))], 5, false, random); }
+function starter(random = Math.random, minimumIv = 0) { return create(STARTERS[Math.min(STARTERS.length-1,Math.floor(random() * STARTERS.length))], 5, false, random, minimumIv); }
 function wild(map, player, random = Math.random) {
     const zone = maps.find(m => m.mapName === map);
     const ids = zone?.wildpokemon?.filter(id => !legendary.has(id) && dex.some(p => p.id === id));

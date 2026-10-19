@@ -548,7 +548,8 @@
     "Struggle": {},
     "Sketch": {},
     "Triple Kick": {
-      "multihit": 3
+      "multihit": 3,
+      "multiaccuracy": true
     },
     "Thief": {},
     "Spider Web": {

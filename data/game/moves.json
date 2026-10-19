@@ -378,7 +378,7 @@
         "combat": {
             "damage_class": "status",
             "power_type": "status",
-            "priority": 0,
+            "priority": -6,
             "crit_stage": 0,
             "target": "opponent",
             "effects": [
@@ -964,7 +964,7 @@
         "combat": {
             "damage_class": "status",
             "power_type": "status",
-            "priority": 0,
+            "priority": -6,
             "crit_stage": 0,
             "target": "opponent",
             "effects": [
@@ -1416,7 +1416,7 @@
         "combat": {
             "damage_class": "physical",
             "power_type": "special_case",
-            "priority": 0,
+            "priority": -5,
             "crit_stage": 0,
             "target": "single",
             "effects": []
@@ -2084,7 +2084,7 @@
         "combat": {
             "damage_class": "physical",
             "power_type": "standard",
-            "priority": 0,
+            "priority": 1,
             "crit_stage": 0,
             "target": "single",
             "effects": []
@@ -2550,7 +2550,7 @@
         "combat": {
             "damage_class": "physical",
             "power_type": "special_case",
-            "priority": 0,
+            "priority": 1,
             "crit_stage": 0,
             "target": "single",
             "effects": []
@@ -3980,7 +3980,7 @@
         "combat": {
             "damage_class": "physical",
             "power_type": "standard",
-            "priority": 0,
+            "priority": 1,
             "crit_stage": 0,
             "target": "single",
             "effects": []
@@ -5072,7 +5072,7 @@
         "combat": {
             "damage_class": "physical",
             "power_type": "standard",
-            "priority": 0,
+            "priority": -1,
             "crit_stage": 0,
             "target": "single",
             "effects": []
@@ -5298,7 +5298,7 @@
         "combat": {
             "damage_class": "special",
             "power_type": "special_case",
-            "priority": 0,
+            "priority": -5,
             "crit_stage": 0,
             "target": "single",
             "effects": []
@@ -5341,7 +5341,7 @@
         "combat": {
             "damage_class": "physical",
             "power_type": "standard",
-            "priority": 0,
+            "priority": 2,
             "crit_stage": 0,
             "target": "single",
             "effects": []
@@ -5476,7 +5476,7 @@
         "combat": {
             "damage_class": "physical",
             "power_type": "standard",
-            "priority": 0,
+            "priority": 3,
             "crit_stage": 0,
             "target": "single",
             "effects": []
@@ -5762,7 +5762,7 @@
         "combat": {
             "damage_class": "physical",
             "power_type": "standard",
-            "priority": 0,
+            "priority": -3,
             "crit_stage": 0,
             "target": "single",
             "effects": []
@@ -6107,7 +6107,7 @@
         "combat": {
             "damage_class": "physical",
             "power_type": "standard",
-            "priority": 0,
+            "priority": -4,
             "crit_stage": 0,
             "target": "single",
             "effects": []
@@ -7945,7 +7945,7 @@
         "combat": {
             "damage_class": "physical",
             "power_type": "standard",
-            "priority": 0,
+            "priority": 2,
             "crit_stage": 0,
             "target": "single",
             "effects": []
@@ -8494,7 +8494,7 @@
         "combat": {
             "damage_class": "physical",
             "power_type": "standard",
-            "priority": 0,
+            "priority": 1,
             "crit_stage": 0,
             "target": "single",
             "effects": []
@@ -8922,7 +8922,7 @@
         "combat": {
             "damage_class": "special",
             "power_type": "standard",
-            "priority": 0,
+            "priority": 1,
             "crit_stage": 0,
             "target": "single",
             "effects": []
@@ -9088,7 +9088,7 @@
         "combat": {
             "damage_class": "physical",
             "power_type": "standard",
-            "priority": 0,
+            "priority": 1,
             "crit_stage": 0,
             "target": "single",
             "effects": []
@@ -9107,7 +9107,7 @@
         "combat": {
             "damage_class": "physical",
             "power_type": "standard",
-            "priority": 0,
+            "priority": -4,
             "crit_stage": 0,
             "target": "single",
             "effects": []
@@ -9126,7 +9126,7 @@
         "combat": {
             "damage_class": "physical",
             "power_type": "standard",
-            "priority": 0,
+            "priority": 1,
             "crit_stage": 0,
             "target": "single",
             "effects": []
@@ -9222,7 +9222,7 @@
         "combat": {
             "damage_class": "physical",
             "power_type": "standard",
-            "priority": 0,
+            "priority": 1,
             "crit_stage": 0,
             "target": "single",
             "effects": []
@@ -9781,7 +9781,7 @@
         "combat": {
             "damage_class": "physical",
             "power_type": "standard",
-            "priority": 0,
+            "priority": 1,
             "crit_stage": 0,
             "target": "single",
             "effects": []
@@ -11060,7 +11060,7 @@
         "combat": {
             "damage_class": "physical",
             "power_type": "standard",
-            "priority": 0,
+            "priority": -6,
             "crit_stage": 0,
             "target": "single",
             "effects": []
@@ -11385,7 +11385,7 @@
         "combat": {
             "damage_class": "physical",
             "power_type": "standard",
-            "priority": 0,
+            "priority": -6,
             "crit_stage": 0,
             "target": "single",
             "effects": []
@@ -12091,7 +12091,7 @@
         "combat": {
             "damage_class": "status",
             "power_type": "status",
-            "priority": 4,
+            "priority": 0,
             "crit_stage": 0,
             "target": "self_side",
             "effects": [
@@ -12155,7 +12155,7 @@
     },
     {
         "accuracy": null,
-        "category": "phy",
+        "category": "sta",
         "cname": "粘网",
         "ename": "Sticky Web",
         "id": 564,
@@ -12164,7 +12164,7 @@
         "pp": 20,
         "type": "Bug",
         "combat": {
-            "damage_class": "physical",
+            "damage_class": "status",
             "power_type": "special_case",
             "priority": 0,
             "crit_stage": 0,
@@ -12279,7 +12279,7 @@
         "combat": {
             "damage_class": "status",
             "power_type": "status",
-            "priority": 0,
+            "priority": 1,
             "crit_stage": 0,
             "target": "field",
             "effects": [
@@ -12776,7 +12776,7 @@
     },
     {
         "accuracy": 100,
-        "category": "phy",
+        "category": "spe",
         "cname": "水之手里剑",
         "ename": "Water Shuriken",
         "id": 594,
@@ -12785,9 +12785,9 @@
         "pp": 20,
         "type": "Water",
         "combat": {
-            "damage_class": "physical",
+            "damage_class": "special",
             "power_type": "standard",
-            "priority": 0,
+            "priority": 1,
             "crit_stage": 0,
             "target": "single",
             "effects": []
@@ -12894,7 +12894,7 @@
     },
     {
         "accuracy": 100,
-        "category": "phy",
+        "category": "sta",
         "cname": "毒液陷阱",
         "ename": "Venom Drench",
         "id": 599,
@@ -12903,7 +12903,7 @@
         "pp": 20,
         "type": "Poison",
         "combat": {
-            "damage_class": "physical",
+            "damage_class": "status",
             "power_type": "special_case",
             "priority": 0,
             "crit_stage": 0,
@@ -12924,7 +12924,7 @@
         "combat": {
             "damage_class": "status",
             "power_type": "status",
-            "priority": 0,
+            "priority": 1,
             "crit_stage": 0,
             "target": "opponent",
             "effects": [

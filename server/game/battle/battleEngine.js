@@ -956,6 +956,10 @@ function resolveHitCount(move, attacker) {
     const minHits = canonical?.[0] || Math.max(2, safeNumber(move?.combat?.multi_hit?.min, 2));
     const maxHits = canonical?.[1] || Math.max(minHits, safeNumber(move?.combat?.multi_hit?.max, 5));
     if(hasPassiveAbility(attacker,'Skill Link'))return maxHits;
+    if (minHits === 2 && maxHits === 5) {
+        const roll = Math.random();
+        return roll < .35 ? 2 : roll < .7 ? 3 : roll < .85 ? 4 : 5;
+    }
     return Math.floor(Math.random() * (maxHits - minHits + 1)) + minHits;
 }
 
@@ -2752,6 +2756,8 @@ function useattack(attackName, attacker, defender, options = {}) {
 
     const accuracy = safeNumber(move.accuracy, -1);
     let attackHits = true;
+    let hitChance = 1;
+    let perHitSecondaries = false;
     if (accuracy > 0) {
         const lockOnActive = attackerData.lockOnTurns > 0 && attackerData.lockOnTargetId && attackerData.lockOnTargetId === (defender.uuid || getPokemonDisplayName(defender));
         if (!lockOnActive) {
@@ -2764,7 +2770,8 @@ function useattack(attackName, attacker, defender, options = {}) {
             const chance = abilityAccuracy === Infinity
                 ? 1
                 : clamp(baseAccuracy * getAccuracyModifier(attacker, defender) * abilityAccuracy + drift.accuracy(attacker), 0, 1);
-            attackHits = Math.random() < chance;
+            hitChance = chance;
+            attackHits = Math.random() < hitChance;
         }
     }
 
@@ -2844,6 +2851,8 @@ function useattack(attackName, attacker, defender, options = {}) {
                 ? { ...move, power: specialResolution.power }
                 : move;
             const hits = resolveHitCount(resolvedMove,attacker);
+            perHitSecondaries = Boolean(reactions.traits.moves[move.ename]?.multihit);
+            const repeatAccuracy = reactions.traits.moves[move.ename]?.multiaccuracy && !hasPassiveAbility(attacker, 'Skill Link');
             let totalDamage = 0;
             let hitCount = 0;
             let criticalHit = false;
@@ -2852,7 +2861,9 @@ function useattack(attackName, attacker, defender, options = {}) {
             for (let hitIndex = 0; hitIndex < hits; hitIndex++) {
                 if (safeNumber(defender.currentHp, 0) <= 0 || safeNumber(attacker.currentHp, 0) <= 0) break;
 
-                const damageInfo = calculateDamageDetailed(attacker, defender, resolvedMove, {
+                if (hitIndex > 0 && repeatAccuracy && Math.random() >= hitChance) break;
+                const hitMove = move.ename === 'Triple Kick' ? { ...resolvedMove, power: 10 * (hitIndex + 1) } : resolvedMove;
+                const damageInfo = calculateDamageDetailed(attacker, defender, hitMove, {
                     battleState,
                     attackerSide,
                     defenderSide,
@@ -2860,7 +2871,11 @@ function useattack(attackName, attacker, defender, options = {}) {
                     abilityPowerMultiplier
                 });
 
+                effectiveness = damageInfo.effectiveness;
+                if (effectiveness === 0) break;
                 const dmgResult = hit(damageInfo.damage,damageInfo.critical);
+                if (perHitSecondaries) reactions.secondaryEffects({ attacker, defender, move: hitMove,
+                    result: { damage: dmgResult.damageToHp }, battleState, attackerSide, defenderSide }, helper, moveResult.messages);
                 if (dmgResult.damageToHp > 0 && reactions.contact(attacker,resolvedMove) && heldItems.effect(defender, battleState) === 'rocky_helmet' && !hasPassiveAbility(attacker, 'Magic Guard')) {
                     const recoil = applyDamage(attacker, Math.max(1, Math.floor(attacker.maxHp / 6)), { allowEndure:false });
                     moveResult.messages.push(`${getPokemonDisplayName(attacker)} perd ${recoil.damageToHp} PV contre le Casque Brut.`);
@@ -2963,7 +2978,7 @@ function useattack(attackName, attacker, defender, options = {}) {
     }
     applyImplicitMoveEffect(move, effectContext, moveResult);
     const reactionContext={...effectContext,result:moveResult,hpBefore:hpBeforeMove};
-    if(!effects.some(e=>['status_chance','flinch'].includes(e.kind)))reactions.secondaryEffects(reactionContext,helper,moveResult.messages);
+    if(!perHitSecondaries && !effects.some(e=>['status_chance','flinch'].includes(e.kind)))reactions.secondaryEffects(reactionContext,helper,moveResult.messages);
     reactions.afterMove(reactionContext,helper,moveResult.messages);
     if(defender.currentHp<=0 && hpBeforeMove>0)abilityForms.sync(attacker,'ko',moveResult.messages);
     if(defender.currentHp<=0 && attacker.currentHp>0 && hpBeforeMove>0 && hasPassiveAbility(attacker,'Soul-Heart'))applyStageChange(attacker,'specialAttack',1,moveResult.messages,attacker);

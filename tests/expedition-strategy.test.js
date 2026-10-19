@@ -167,3 +167,16 @@ test('client held item labels match the authoritative catalogue',()=>{
  const client=require('../vue-explorakit/src/data/heldItems.json');
  for(const item of require('../data/game/items.json').items.filter(i=>i.category==='held'))assert.deepEqual(client[item.key],{name:item.name,description:item.description});
 });
+test('Colosseum starters have at least 10 IV per stat, retain random range; Rift keeps full range',()=>{
+ for(const roll of [0,.1,.5,.999]){const choices=factory.starterChoices(()=>roll,10);assert(choices.every(p=>Object.values(p.iv).every(n=>n===10+Math.floor(roll*22))));}
+ const c=setup('colosseum'),r=setup('rift');assert(c.p.starterChoices.every(p=>Object.values(p.iv).every(n=>n===18)));assert(r.p.starterChoices.every(p=>Object.values(p.iv).every(n=>n===12)));
+});
+for(const phase of ['selection','exploration'])test(`abandon ${phase}: leaves no resumable solo run and permits a fresh attempt`,()=>{
+ const f=setup();if(phase==='exploration')f.choose();const old=f.p.run.id;
+ f.runtime.abandon(f.p);f.store.leave(f.user);assert(!f.store.snapshot(f.user));assert(!f.runtime.playerFor(f.user));
+ f.runtime.startColosseum(f.user,{durationMinutes:30});assert.notEqual(f.runtime.playerFor(f.user).run.id,old);
+});
+test('leaving a two-player Rift awards the remaining player their result',()=>{
+ const f=setup('rift'),p=f.choose(),other=f.runtime.playerFor(f.other);
+ f.runtime.abandon(p);f.store.leave(f.user);assert(!f.runtime.playerFor(f.user));assert.equal(f.runtime.playerFor(f.other),other);assert.equal(other.run.winnerId,other.userId);assert.equal(other.run.phase,'results');
+});

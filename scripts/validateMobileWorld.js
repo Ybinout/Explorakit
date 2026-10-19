@@ -78,7 +78,7 @@ async function validateMobileWorld({ loginContext, fixture, base, output, fit })
         assert(await page.evaluate(()=>document.querySelector('.mobile-action-a')===window.stableActionButton),'Keep the same button across dialogue');
         await page.locator('.mobile-action-a').tap();assert.match(await page.locator('.dialogue-layer .text').innerText(),/Bonne route/);
         await page.screenshot({path:path.join(output,`mobile-dialogue-stable-${width}x${height}.png`)});
-        await page.locator('.mobile-action-a').tap();await page.locator('.dialogue-layer').waitFor({state:'hidden'});
+        await page.locator('.dialogue-layer .text').tap();await page.locator('.dialogue-layer').waitFor({state:'hidden'});
         const actionAfter=await page.locator('.mobile-action-a').boundingBox();
         for(const axis of ['x','y','width','height'])assert(Math.abs(actionBefore[axis]-actionAfter[axis])<1,'Closing dialogue moves A');
         await page.locator('.menu-toggle-btn').tap();

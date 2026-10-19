@@ -26,6 +26,7 @@ test('serializeMoveResult expose les evenements visuels importants', () => {
         moveName: 'Thunderbolt',
         success: true,
         damage: 42,
+        hits: 1,
         critical: true,
         effectiveness: 2
     }), {
@@ -33,6 +34,7 @@ test('serializeMoveResult expose les evenements visuels importants', () => {
         moveName: 'Thunderbolt',
         success: true,
         damage: 42,
+        hits: 1,
         missed: false,
         blocked: false,
         immune: false,

@@ -11,6 +11,7 @@ for (const entry of require('../data/game/moves.json')) {
         ...(move.secondaries?.length ? { secondaries: move.secondaries } : {}),
         ...(move.drain ? { drain: move.drain } : {}),
         ...(move.multihit ? { multihit: move.multihit } : {}),
+        ...(move.multiaccuracy ? { multiaccuracy: true } : {}),
         ...(move.flags.reflectable ? { reflectable: true } : {}),
         ...(move.flags.dance ? { dance: true } : {})
     };

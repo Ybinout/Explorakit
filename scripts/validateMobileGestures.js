@@ -31,6 +31,15 @@ async function validateMobileGestures(page, context, output) {
             .filter((command, index, commands) => command !== commands[index - 1])),
         ['move_d', 'move_s', 'move_q', 'move_z'], 'Direction changes stay ordered even when a held finger repeats steps');
         assert.equal(await page.evaluate(() => Object.values(window.mobileTestVm.keysPressed).some(Boolean)), false);
+        const dock = await page.locator('.mobile-control-dock').boundingBox();
+        const footer = { x: dock.x + dock.width / 2, y: dock.y + 10 };
+        await touch('touchStart', footer);
+        await touch('touchMove', { x: footer.x, y: footer.y - 45 });
+        await page.waitForFunction(() => window.mobileTestVm.keysPressed.z);
+        await touch('touchMove', { x: footer.x + 40, y: footer.y - 45 });
+        await page.waitForFunction(() => window.mobileTestVm.keysPressed.d);
+        await touch('touchEnd');
+        assert(!await page.evaluate(() => Object.values(window.mobileTestVm.keysPressed).some(Boolean)));
         const map = await page.locator('.world-viewport').boundingBox();
         const origin = { x: map.x + map.width / 2, y: map.y + map.height / 2 };
         await touch('touchStart', origin);
@@ -68,7 +77,7 @@ async function validateMobileGestures(page, context, output) {
         });
         await client.detach();
     }
-    return { padSliding: true, mapSwiping: true, longSwipeReversal:true, browserChromeResize:true, heldTouchAfterMapLoading:true, cancelAndMenuStop: true };
+    return { padSliding: true, mapSwiping: true, footerSwipingAndBoundaryCrossing:true, longSwipeReversal:true, browserChromeResize:true, heldTouchAfterMapLoading:true, cancelAndMenuStop: true };
 }
 
 async function validateMapLoading(page, output) {

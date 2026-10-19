@@ -1,5 +1,9 @@
 # Contexte permanent — Explorakit
 
+## Expéditions et combat mobile — 19 octobre 2026
+
+Lire la section correspondante de l’audit. Le Colosseum neuf a des IV 10–31, les autres modes gardent 0–31 ; ne pas retirer les offres existantes au sort. Les pages de modes permettent reprendre/abandonner. Les annonces mobiles ont une ligne réservée et ne doivent pas déplacer les actions. Les plateformes mobiles partagent les ancres des sprites ; conserver la base du joueur au bas du terrain. Le dock participe aux gestes, le texte des dialogues avance comme A. Les attaques multiples exposent `hits`, Triple Pied et les secondaires se résolvent par coup, PP/Orbe Vie par capacité. Les priorités sont alignées Gen 7. Recettes : tests multi-hit, stratégie, publication mobile et combat.
+
 ## Commandes tactiles et starters — 18 octobre 2026
 
 Lire la section correspondante en tête d’audit. Le glissement sur carte suit une origine mobile bornée ; conserver le doigt lors d’un changement de hauteur du navigateur ou du décodage d’une carte, mais l’annuler sur menu, dialogue, combat, déconnexion ou masquage. Un seul bouton A reste dans le dock ; les dialogues partagent le contexte de superposition du `game-stage`. Les nouveaux starters des trois modes tirent IV/nature/K, avec les probabilités K existantes, une seule fois ; ne pas retirer la base calibrée des PNJ (`factory.create(..., true)`). Les annonces de combat sont dans le flux du panneau de messages ; dégâts/critique partagent une pile mesurée à côté des cartes de PV. Le menu indique les contrats terminés à récupérer, uniquement en exploration. Recettes : `test:release-browser`, `test:contracts-browser`, `test:colosseum-browser`, `test:combat-browser`.

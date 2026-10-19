@@ -2,10 +2,12 @@ const assert = require('node:assert/strict');
 const path = require('node:path');
 
 async function validateBattleLabels(page, width, height, output) {
+    const mobile = await page.locator('.game-root.is-mobile').count();
+    const buttonsBefore = mobile ? await page.locator('.battle-main-actions').boundingBox() : null;
     for (const actor of ['player', 'opponent']) {
         await page.evaluate(async actor => {
             const overlay = window.battleTestVm.$refs.battleOverlay;
-            overlay.playMoveResult({ actor, critical: true, effectiveness: 2 });
+            overlay.playMoveResult({ actor, critical: true, effectiveness: 2, hits: 5 });
             clearTimeout(overlay.resultTimer);
             for(const side of ['wild','player'])overlay.attackFx[side].visible=false;
             Object.assign(overlay.attackFx[actor==='player'?'wild':'player'],{visible:true,amount:123,kind:'damage'});
@@ -19,6 +21,13 @@ async function validateBattleLabels(page, width, height, output) {
                 for (const animation of el.getAnimations()) { animation.pause(); animation.currentTime = 300; }
             }
         }, actor);
+        if (mobile) {
+            const after = await page.locator('.battle-main-actions').boundingBox();
+            for (const axis of ['x','y','width','height']) assert(Math.abs(after[axis]-buttonsBefore[axis])<1, `Notices must not move mobile actions: ${axis}`);
+            const notices = page.locator('.battle-mobile-announcements');
+            assert((await notices.boundingBox()).height <= 44);
+            await notices.evaluate(el => { el.scrollTop = el.scrollHeight; });
+        }
         const box = await page.locator('.battle-result-fx').boundingBox();
         const scene = await page.locator('.battle-scene').boundingBox();
         assert(box.x >= scene.x && box.y >= scene.y && box.x + box.width <= scene.x + scene.width + 1
@@ -31,7 +40,7 @@ async function validateBattleLabels(page, width, height, output) {
         assert(layers.visible && layers.others.every(z => z < layers.result), 'Critical/effectiveness must paint above sprites and cards');
         const textLayout=await page.evaluate(()=>{
             const rect=el=>{const r=el.getBoundingClientRect();return {label:el.textContent.trim(),x:r.x,y:r.y,right:r.right,bottom:r.bottom};};
-            return {feedback:[...document.querySelectorAll('.battle-result-chip,.battle-damage-text')].map(rect),cards:[...document.querySelectorAll('.battle-status')].map(rect),messages:[...document.querySelectorAll('.battle-announcements p,.battle-text-box')].map(rect)};
+            return {feedback:[...document.querySelectorAll('.battle-result-chip,.battle-damage-text')].map(rect),cards:[...document.querySelectorAll('.battle-status')].map(rect),messages:[...document.querySelectorAll('.battle-announcements p,.battle-text-box')].map(el=>{const r=rect(el),parent=el.closest('.battle-announcements');if(parent){const p=rect(parent);r.y=Math.max(r.y,p.y);r.bottom=Math.min(r.bottom,p.bottom);}return r;}).filter(r=>r.bottom>r.y)};
         });
         const overlaps=(a,b)=>a.x<b.right-.5&&a.right>b.x+.5&&a.y<b.bottom-.5&&a.bottom>b.y+.5;
         for(const [i,a]of textLayout.feedback.entries()){
