@@ -281,6 +281,8 @@ async function fit(page, selector, width, height) {
             .locator('.menu-dropdown-item')
             .filter({ hasText: /^\s*Sac\s*$/ })
             .click();
+        await page.locator('[data-bag-pocket="medicine"]').click();
+        await page.locator('[data-item-key="potion"] .bag-item-select').click();
         const medicine = page.locator('[data-item-key="potion"] select');
         await medicine.waitFor();
         const uuid = await medicine.locator('option').nth(1).getAttribute('value');

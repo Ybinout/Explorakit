@@ -86,6 +86,7 @@ async function run(){
   await click(`.menu-dropdown-item:nth-child(${index+1})`);
   await waitForExpression(client,`Boolean(document.querySelector('.bag-panel')) && !${gameVm}.bagLoading`);
   assert.equal(await evaluate(client,`${gameVm}.bagItems.find(item=>item.key==='pokeball')?.quantity`),quantity,'le stock réel de Balls reste dans le sac');
+  await click('[data-bag-pocket=\"balls\"]');
   assert.equal(await evaluate(client,"document.querySelector('.bag-panel [data-item-key=\"pokeball\"] .bag-item-qty')?.textContent.trim()"),'x'+quantity,'quantité réelle affichée dans le sac');
   assert.equal(await evaluate(client,"Boolean(document.querySelector('.bag-panel .bag-state'))"),false,'le sac ne dit pas vide pendant une expédition active');
  }

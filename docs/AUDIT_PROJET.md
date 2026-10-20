@@ -1,5 +1,21 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Sac de voyage à compartiments — 20 octobre 2026
+
+L’ancienne liste mélangeait tous les objets dans un petit panneau. Le sac hors combat partagé Aventure/Rift/Colosseum devient une fenêtre de voyage avec silhouette de sac à dos, anse, sangles, rabat, boucle, coutures et poche zippée en SVG natif. Six poches illustrées et comptées : Soins, Balls, Baies, Objets tenus, Évolution et Objets clés. Les baies sont séparées visuellement des autres objets tenus, sans changer leur catégorie serveur ; les potions `heal` des expéditions rejoignent les médicaments `medicine` de l’Aventure dans Soins ; une poche Autres récupère les catégories inconnues. Quantités positives uniquement, stock mis à jour depuis les mêmes données autoritaires, aucun duplicata entre poches. Un objet ouvert à la fois pour limiter le bruit visuel ; description, soin/évolution et cible au même endroit. Raccourci vers l’équipe pour faire tenir, indication d’usage des Balls et objets clés, poche vide explicite et information de provenance Aventure/expédition.
+
+`BagPanel.vue`, `BagItemIcon.vue` et `bagPockets.js` extraient la seule présentation. Chargement, contrôles métier, transactions, Pokémon compatibles et mutations restent dans `UserMap`/serveur. Aucun changement SQL, d’inventaire permanent, de carte ou de règle ; sac de capture en combat préservé. La fenêtre reprend les quatre thèmes et le nocturne, avec défilement interne, panneau borné à l’écran, cibles tactiles de 44 px minimum, onglets/flèches/Début/Fin, focus retenu, Échap et retour au bouton Menu. Le clic extérieur tient compte du nouveau ref de composant `$el`.
+
+Recette dédiée intégrée à `validateJournalUi` : sept catégories (y compris inconnue), absence de doublon/stock nul, quantités et épuisement de l’objet sélectionné, maintien de la fiche suivante, poche vide, quatre tailles et clair/nocturne, clavier/focus. Les recettes existantes de soin réel, évolution par pierre et protection/soin d’expédition ouvrent explicitement la poche. Pas de test unitaire répétant ce classement visuel ; contrôles dans le vrai client avec les opérations serveur existantes.
+
+Validation : lint et build passent à 0. La recette générale navigateur complète passe à 0 : vrai soin sauvegardé, sept catégories visuelles, quantités/épuisement/vide, clavier/focus, quatre tailles, deux modes de thème pour les poches et huit combinaisons globales, menus/ordre/apprentissage/déplacement/combat préservés. La recette stratégie a révélé la catégorie spécifique `heal` des potions d’expédition : correspondance ajoutée et fixture dédiée enrichie ; elle repasse à 0 avec vraie évolution Pikachu → Raichu, consommation de pierre, talisman, soin du protégé et checkpoint/rechargement. Le contrôle public a aussi conduit à restaurer le focus après le prochain rendu Vue, en écartant `body`/`html` comme anciennes cibles. Les captures 320×480, 393×852 et bureau ont été inspectées.
+
+Note d’exploitation : une invocation intermédiaire du build sans `--dest` a écrit dans le dist local. L’index et les ressources de la distribution Morphéo ont été restaurés et contrôlés immédiatement en HTTPS (200, index exact), ainsi que les anciens bundles conservés. Les builds suivants ciblent exclusivement `/tmp` et leur publication utilise la copie atomique de l’index ; aucune mutation de base ou de processus liée à cet incident. Une première recette a été interrompue par SIGTERM ; sa relance isolée a terminé à 0, log `/tmp/explorakit-bag-final-browser.log` et résultat `status:0`.
+
+Build final `/tmp/explorakit-bag-dist`, hash `8906d2c21d7dd730` ; client `8788056b19aef1327408f28821ee2bec1e2f5f9a`. Publication finale le **20/10/2026 à 19 h 09 (Paris)**, statique uniquement, sans redémarrage du serveur. Sauvegarde sources/dist/SQL/checkpoint : `/home/ubuntu/dev/backups/explorakit-bag-2026-10-20T16-58-43-472Z`.
+
+Contrôle HTTPS final terminé à 0 sur un compte temporaire : six poches, vrais stocks complets (y compris Balls déjà offertes au compte), quatre tailles dont 320×480, clair/nocturne et cibles ≥44 px ; soin 1 → 21 PV réellement sauvegardé, Potion 2 → 1, baie équipée et stock 2 → 1, passage au menu équipe, Échap et focus Menu restauré. Index conforme, aucune erreur, compte supprimé, Know et api-test inchangés. Service actif, processus inchangé et zéro redémarrage automatique. Logs/captures `/tmp/explorakit-bag-*`. Aucune CI distante ni validation sur téléphone physique revendiquée.
+
 ## Morphéo : formes et météo réellement raccordées — 20 octobre 2026
 
 Morphéo ne changeait qu’un type temporaire à certains instants ; formes/sprites absents, Ball’Météo toujours Normal/50. Le moteur partagé gère maintenant Forecast sur l’espèce 351 avec formes Solaire/Feu, Eau de Pluie/Eau et Blizzard/Glace ; Normal sans météo, sous sable ou quand Ciel Gris/Air Lock neutralise les effets. Synchronisation des deux actifs dès l’entrée, après les capacités (y compris météo ou suppression du talent), K.O. du neutraliseur et expiration en fin de tour. Annonces seulement aux vrais changements, aura visuelle commune, six sprites originaux face/dos et reprise checkpoint/rechargement. Aucune modification permanente d’espèce, statistiques, types ou XP ; anciennes valeurs temporaires Forecast nettoyées une fois. Détrempage est conservé jusqu’au vrai changement de forme ; son effet de type est corrigé pour viser la cible, sans casser Conversion sur soi. Forecast n’est plus copiable via Calque.
@@ -1582,6 +1598,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **20 octobre 2026 — Sac de voyage :** présentation de sac à dos, six poches et fallback inconnu, fiches/action et équipement, thèmes/mobile/clavier, recettes des vrais soins et évolutions préservées.
 
 - **20 octobre 2026 — Morphéo :** formes, types, sprites et Ball’Météo météo partagés ; neutralisation/expiration/reprise, Détrempage ciblé et contrôles moteur/SQL/navigateur.
 

@@ -83,6 +83,7 @@ async function validateJournalUi(page, output, fit) {
                 await page.waitForFunction(()=>document.querySelectorAll('[data-badge-earned="true"]').length===2);
                 assert.equal(await panel.locator('[role="progressbar"]').getAttribute('aria-valuenow'),'2');
             }
+            if(key==='bag')await require('./validateBagUi').validateBagUi(page,output,width);
             await capture(key, width);
             if(key==='badges')await page.evaluate(()=>{const v=window.journalTestVm;v.progressionState={...v.progressionState,badges:window.journalOriginalBadges};delete window.journalOriginalBadges;});
             if (key === 'pokemon') {
@@ -100,6 +101,7 @@ async function validateJournalUi(page, output, fit) {
             }
             await panel.locator(closeSelector).click();
             assert.equal(await panel.count(), 0, `${key} did not close`);
+            if(key==='bag')assert(await page.locator('.menu-toggle-btn').evaluate(n=>n===document.activeElement));
         }
         // Exercise a long city/shop label and a populated shop without moving a real player.
         await page.evaluate(() => {

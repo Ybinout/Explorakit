@@ -1,5 +1,11 @@
 # Contexte permanent — Explorakit
 
+## Sac à poches — 20 octobre 2026
+
+Le sac hors combat commun aux trois modes est `menu/BagPanel.vue` ; `bagPockets.js` classe les stocks réels positifs en Soins, Balls, Baies (`held` + suffixe `_berry`), Objets tenus, Évolution et Objets clés. Les potions d’expédition `category:heal` appartiennent aussi à Soins. Une poche Autres apparaît pour une catégorie inconnue, sans masquer de stock. Les baies restent des objets tenus au serveur : ne pas modifier le catalogue pour ce rangement visuel. Une fiche à la fois par poche, réconciliation après consommation, compteurs en quantités et poche vide explicite. Illustration native SVG, thèmes et nocturne communs, zones tactiles ≥44 px, fermeture/focus/clavier et défilement interne.
+
+`UserMap` garde le chargement, les cibles, la validation et les commandes de soin/évolution ; le composant expose seulement le slot actions et le raccourci vers l’équipe pour faire tenir. Les événements, la sauvegarde et le sac de capture en combat restent compatibles. Le ref `bagPanel` est désormais un composant : prendre son `$el` pour les clics extérieurs. Recettes : `validateBagUi` dans publication (catégories, vide/inconnu, épuisement, clavier, quatre tailles et deux thèmes), vrai soin SQL/navigateur et stratégie (évolution, talisman/soin). Les recettes doivent sélectionner la poche avant un objet.
+
 ## Morphéo et Ball’Météo — 20 octobre 2026
 
 `abilityForms.syncWeatherForms` gère Morphéo (351) avec Météo/Forecast : Solaire 10013/Feu, Eau de Pluie 10014/Eau, Blizzard 10015/Glace, Normal sans météo/sable ou sous Ciel Gris/Air Lock. Synchroniser les deux actifs dès l’entrée, après chaque capacité/talent et après expiration météo ; les K.O. ne suppriment plus la météo par leur talent. Ne jamais réécrire l’espèce, les types permanents, statistiques ou XP. Les anciens types temporaires Forecast sont nettoyés une seule fois ; Détrempage conserve son effet jusqu’au vrai changement de forme. `set_type` utilise sa cible résolue (Détrempage adverse, Conversion soi).
