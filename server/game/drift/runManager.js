@@ -1,3 +1,4 @@
+const { getMapWeather } = require('../world/mapWeather');
 const { randomUUID } = require('node:crypto');
 const { DriftBattle } = require('./driftBattle');
 const factory = require('./pokemonFactory');
@@ -113,6 +114,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         if(p.currentmap!==map) report.visit(p,map);
         const safe=sanitizeSpawnPosition(x,y,loadCollisionData(map),map); p.currentmap=map;p.x=safe.x;p.y=safe.y;p.dialogue=null;
         emit(p,'newmap',{mapname:map,playersList:publicPlayers(p.run,map),reason:'drift'});
+        emit(p,'mapWeatherState',getMapWeather(map));
         emit(p,'pnjsList',{mapname:map,pnjs:p.run.phase==='exploration'?p.run.pnjs.getPnjsForMap(map):[]});
         world(p.run);
     }
@@ -330,8 +332,9 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         contracts.migrate(p);require('./fusion').consolidate(p);
         if(p.alive) {
             emit(p,'playersList',publicPlayers(p.run,p.currentmap));
+            emit(p,'mapWeatherState',getMapWeather(p.currentmap));
             emit(p,'pnjsList',{mapname:p.currentmap,pnjs:p.run.phase==='exploration'?p.run.pnjs.getPnjsForMap(p.currentmap):[]});
-            if(p.inbattle) {emit(p,'battletrigger',{battleType:p.battle.type,musicKind:p.battle.musicKind()});p.battle.resume(p);}
+            if(p.inbattle) {emit(p,'battletrigger',{battleType:p.battle.type,musicKind:p.battle.musicKind(),field:require('../battle/battleEvents').serializeFieldState(p.battle.state)});p.battle.resume(p);}
         }
         send(p);world(p.run);return state(p);
     }

@@ -3,7 +3,8 @@ function serializeFieldState(battleState = {}) {
         turn: Number(battleState.turn) || 1,
         weather: {
             kind: battleState.weather?.kind || null,
-            turns: Math.max(0, Number(battleState.weather?.turns) || 0)
+            turns: Math.max(0, Number(battleState.weather?.turns) || 0),
+            ...(battleState.weather?.persistent ? { persistent: true, source: 'map' } : {})
         },
         terrain: {
             kind: battleState.terrain?.kind || null,

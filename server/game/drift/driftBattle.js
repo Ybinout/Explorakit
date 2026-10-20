@@ -22,7 +22,7 @@ class DriftBattle {
         this.publicLog = [];
         this.contractContributors = new Set();
         this.aiMemory = { seen: {}, lastSwitchRound: -10 };
-        this.state = engine.createBattleState(); this.sides = [this.state.sides.player, this.state.sides.enemy];
+        this.state = engine.createBattleState({ mapName: a.currentmap, opponentMap: b.npc ? a.currentmap : b.currentmap ?? null }); this.sides = [this.state.sides.player, this.state.sides.enemy];
         this.pending = new Map(); this.round = 0; this.finished = false; this.rewarded = new Set(); this.awaiting = false;
         this.originals = [...a.equipe.pokemons, ...b.equipe.pokemons];
         this.originalTeams = new Map([a,b].filter(p=>!p.npc).map(p=>[p,[...p.equipe.pokemons]]));
@@ -35,7 +35,7 @@ class DriftBattle {
             p.inbattle = true; p.battle = this;
             effects.attach(p.equipe.pokemons, p, type === 'pvp', random);
             p.equipe.pokemons.forEach(poke => { effects.states.get(poke).wild = index === 0 && type === 'wild'; });
-            if (!p.npc) emit(p, 'battletrigger', { musicKind:this.musicKind(), battleType: type === 'arena' ? 'trainer' : type, message: type === 'pvp' ? 'Duel du tournoi Drift !' : 'Un combat Drift commence !' });
+            if (!p.npc) emit(p, 'battletrigger', { field:serializeFieldState(this.state), musicKind:this.musicKind(), battleType: type === 'arena' ? 'trainer' : type, message: type === 'pvp' ? 'Duel du tournoi Drift !' : 'Un combat Drift commence !' });
         }
         for (const index of [0,1]) this.enter(index, false, true);
         this.prune();

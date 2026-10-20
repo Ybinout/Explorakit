@@ -127,6 +127,7 @@ test('combat sauvage réel : capture, objet consommé et équipe persistée', { 
         const fixture = await createPlayer(1);
         userId = fixture.user.id;
         const { player } = fixture;
+        player.currentmap = 'start';
         const wildPokemon = createPokemon(19, 'Rattata');
         wildPokemon.maxHp = 100;
         wildPokemon.currentHp = 1;
@@ -135,6 +136,7 @@ test('combat sauvage réel : capture, objet consommé et équipe persistée', { 
         const io = new RecordingIo({ [player.id]: socket });
         const result = await withFixedRandom(0, () => startWildBattle(player, wildPokemon, io, userId));
 
+        assert.equal(io.events.find(e => e.eventName === 'battleFieldState').payload.weather.kind, 'rain');
         assert.equal(result, true);
         assert.equal(io.lastEvent(player.id, 'captureAnimation')?.payload.success, true);
         assert.equal(io.lastEvent(player.id, 'endbattle')?.payload.reason, 'captured');
@@ -273,6 +275,7 @@ test('combat dresseur réel : victoire, récompense et sauvegarde', { skip: !sho
         const fixture = await createPlayer(1);
         userId = fixture.user.id;
         const { player } = fixture;
+        player.currentmap = 'start';
         player.equipe.pokemons[0].currentAttack = 999;
         player.equipe.pokemons[0].currentSpeed = 999;
         const enemy = createPokemon(19, 'Adversaire');
@@ -282,6 +285,7 @@ test('combat dresseur réel : victoire, récompense et sauvegarde', { skip: !sho
         const io = new RecordingIo({ [player.id]: socket });
 
         const result = await withFixedRandom(0.5, () => startTrainerBattle(player, enemyTeam, io, userId));
+        assert.equal(io.events.find(e => e.eventName === 'battleFieldState').payload.weather.kind, 'rain');
         const [[userRow]] = await pool.execute('SELECT money FROM users WHERE id = ?', [userId]);
 
         assert.equal(result, true);
@@ -329,8 +333,8 @@ test('combat PVP réel : attaques synchronisées et victoire du bon joueur', { s
     pokemonA.currentSpeed = 999;
     const pokemonB = createPokemon(19, 'B');
     pokemonB.currentHp = 1;
-    const playerA = { id: 'pvp-a', username: 'Alice', equipe: createTeam(pokemonA) };
-    const playerB = { id: 'pvp-b', username: 'Bob', equipe: createTeam(pokemonB) };
+    const playerA = { id: 'pvp-a', currentmap: 'start', username: 'Alice', equipe: createTeam(pokemonA) };
+    const playerB = { id: 'pvp-b', currentmap: 'start', username: 'Bob', equipe: createTeam(pokemonB) };
     const io = new RecordingIo({
         [playerA.id]: new ScriptedSocket([{ action: 'attack', number: 0 }]),
         [playerB.id]: new ScriptedSocket([{ action: 'attack', number: 0 }])
@@ -338,6 +342,8 @@ test('combat PVP réel : attaques synchronisées et victoire du bon joueur', { s
 
     const result = await withFixedRandom(0.5, () => startPvpBattle(playerA, playerB, io));
 
+    assert.equal(io.events.find(e => e.targetId === playerA.id && e.eventName === 'battleFieldState').payload.weather.kind, 'rain');
+    assert.equal(io.events.find(e => e.targetId === playerB.id && e.eventName === 'battleFieldState').payload.weather.kind, 'rain');
     assert.deepEqual(result, { winnerId: playerA.id, reason: 'finished' });
     assert.equal(io.lastEvent(playerA.id, 'endbattle')?.payload.playerWon, true);
     assert.equal(io.lastEvent(playerB.id, 'endbattle')?.payload.playerWon, false);

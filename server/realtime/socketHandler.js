@@ -1,3 +1,4 @@
+const { getMapWeather, battleWeatherForMap } = require('../game/world/mapWeather');
 const { getPokemonCenterEntryReturn, getPokemonCenterExit } = require('../game/world/pokemonCenterTravel');
 const { startPnjMovement } = require('../game/world/pnjMovement');
 const { loadCollisionData, changeMapData, getNextMap, battleMapData, InteractMapData } = require('../game/world/mapRepository');
@@ -192,8 +193,9 @@ const socketHandler = (io) => {
         closeChatSessionForSocket(socketIdA, 'battle_started');
         closeChatSessionForSocket(socketIdB, 'battle_started');
 
-        io.to(socketIdA).emit('battletrigger', { message: 'Combat PVP lance !', battleType: 'pvp' });
-        io.to(socketIdB).emit('battletrigger', { message: 'Combat PVP lance !', battleType: 'pvp' });
+        const field = { weather: battleWeatherForMap(playerA.currentmap, playerB.currentmap ?? null) };
+        io.to(socketIdA).emit('battletrigger', { message: 'Combat PVP lance !', battleType: 'pvp', field });
+        io.to(socketIdB).emit('battletrigger', { message: 'Combat PVP lance !', battleType: 'pvp', field });
 
         (async () => {
             try {
@@ -445,6 +447,7 @@ const socketHandler = (io) => {
 
             const sameMapPlayers = getPlayersInMap(players, currentmap);
             socket.emit('newmap', { mapname: currentmap, playersList: sameMapPlayers, reason });
+            socket.emit('mapWeatherState', getMapWeather(currentmap));
             socket.emit('pnjsList', { mapname: currentmap, pnjs: currentPnjs });
             schedulePositionSave({ immediate: true });
 
@@ -494,6 +497,7 @@ const socketHandler = (io) => {
 
         const sameMapPlayers = getPlayersInMap(players, currentmap);
         socket.emit('playersList', sameMapPlayers);
+        socket.emit('mapWeatherState', getMapWeather(currentmap));
         socket.emit('pnjsList', { mapname: currentmap, pnjs: currentPnjs });
         emitProgressionSnapshot().catch((error) => {
             console.error(`Erreur chargement progression user ${userId}:`, error.message);
@@ -823,7 +827,7 @@ const socketHandler = (io) => {
 
                 let victoryProgress = null;
                 player.inbattle = true;
-                socket.emit('battletrigger', { message: 'Le duel commence !', battleType: battleDefinition?.experienceKind || 'trainer' });
+                socket.emit('battletrigger', { message: 'Le duel commence !', battleType: battleDefinition?.experienceKind || 'trainer', field: { weather: battleWeatherForMap(player.currentmap) } });
                 startTeamBattle(player, enemyteam, io, userId, {
                     grantBaseMoney: !battleDefinition,
                     experienceKind: battleDefinition?.experienceKind || 'trainer',
@@ -1074,7 +1078,7 @@ const socketHandler = (io) => {
                                 }
                                 return;
                             }
-                            socket.emit('battletrigger', { message: 'Un Pokémon sauvage apparaît !', battleType: 'wild' });
+                            socket.emit('battletrigger', { message: 'Un Pokémon sauvage apparaît !', battleType: 'wild', field: { weather: battleWeatherForMap(player.currentmap) } });
                             return startBattle(player, pokemonsauvage, io, userId, equipe)
                                 .catch((erreur) => {
                                     console.error(erreur);

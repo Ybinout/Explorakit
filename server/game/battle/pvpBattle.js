@@ -416,7 +416,7 @@ async function startPvpBattle(playerA, playerB, io) {
         console.error('Erreur Pokédex combat PVP:', error.message);
     }
 
-    const battleState = createBattleState();
+    const battleState = createBattleState({ mapName: playerA.currentmap, opponentMap: playerB.currentmap ?? null });
     require('../abilities/abilityForms').attachTeam(teamA);
     require('../abilities/abilityForms').attachTeam(teamB);
     const sideA = battleState.sides.player;
@@ -464,6 +464,7 @@ async function startPvpBattle(playerA, playerB, io) {
     }
 
     emitBattleStateForBoth(io, playerA, playerB);
+    emitFieldState(io, [playerA.id, playerB.id], battleState);
     await narrateToBoth(io, playerA, playerB, `${getTrainerName(playerA)} defie ${getTrainerName(playerB)} !`, 900);
     await applySwitchInNarration(io, playerA, playerB, teamA[0], sideA, sideB, battleState);
     await applySwitchInNarration(io, playerB, playerA, teamB[0], sideB, sideA, battleState);

@@ -439,7 +439,7 @@ async function startBattle(player, wildPokemon, io, userId) {
         }, 'wild');
     };
     let wildXpGranted = false;
-    const battleState = createBattleState();
+    const battleState = createBattleState({ mapName: player.currentmap });
     require('../abilities/abilityForms').attachTeam(player.equipe.pokemons);
     const playerSide = battleState.sides.player;
     const enemySide = battleState.sides.enemy;
@@ -504,6 +504,7 @@ async function startBattle(player, wildPokemon, io, userId) {
     };
 
     displayIntroAnimation(player, wildPokemon, io);
+    emitFieldState(io, player.id, battleState);
     await emitBagUpdate(player, io, userId);
     await narrate(player, io, `Un ${getPokemonDisplayName(wildPokemon)} sauvage apparait !`);
     await applySwitchInNarration(

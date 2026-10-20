@@ -371,7 +371,7 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
 
     const moves = loadMovesData();
     const usedPokemons = [];
-    const battleState = createBattleState();
+    const battleState = createBattleState({ mapName: player.currentmap });
     require('../abilities/abilityForms').attachTeam(player.equipe.pokemons);
     require('../abilities/abilityForms').attachTeam(enemyTeam.pokemons);
     const playerSide = battleState.sides.player;
@@ -455,6 +455,7 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
     };
 
     displayIntroAnimation(player, currentEnemy, io);
+    emitFieldState(io, player.id, battleState);
     await narrate(player, io, `Le dresseur envoie ${getPokemonDisplayName(currentEnemy)} !`, 900);
     await applySwitchInNarration(player, currentEnemy, io, player.equipe.pokemons[0], playerSide, enemySide, battleState);
     await applySwitchInNarration(player, currentEnemy, io, currentEnemy, enemySide, playerSide, battleState);

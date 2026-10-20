@@ -1,5 +1,20 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Pluie de carte transmise aux combats — 20 octobre 2026
+
+À la demande du créateur, il s’agit d’une vraie pluie : dégâts Eau renforcés, Feu réduits et talents météo actifs dès le premier tour. La configuration serveur `map_weather.json` définit actuellement la pluie extérieure de `start`. Les quatre orchestrateurs (sauvage, dresseur/arène, PvP Aventure et `DriftBattle`) capturent la carte serveur au lancement. Les intérieurs et l’arène du tournoi/Colosseum restent secs, sauf météo créée en combat. Les deux adversaires partagent le même champ ; les niveaux d’animation locaux ne peuvent pas modifier les règles. Le menu le précise et renomme l’arrêt visuel de pluie « Masquée ».
+
+Le climat de carte est persistant jusqu’à son remplacement. Danse Pluie/Zénith ou un talent d’entrée remplacent cet état par leur durée normale ; à leur expiration, le terrain redevient sans météo, sans restauration automatique du climat. Les effets existants de suppression météo continuent d’agir. Les checkpoints et reprises conservent exactement le champ courant et ne réinjectent pas la pluie initiale sur une météo déjà remplacée.
+
+`battletrigger.field` applique le champ avant le premier affichage et les événements `battleFieldState` continuent de suivre la file visuelle. `mapWeatherState` annonce le climat réel au chargement et aux transitions dans les deux namespaces. Le client normalise aussi correctement les objets `{kind:null}` pour enlever l’effet météo après dissipation/fin. Aucun schéma SQL, carte, image, seuil de classement ni structure de sauvegarde d’équipe modifiée.
+
+Recettes : six tests `map-weather.test.js` (zones autorisées, effets Eau/Feu, Glissade/Cuvette et Ciel Gris, persistance/remplacement, deux perspectives, checkpoints, nettoyage client), fixtures SQL réelles des trois orchestrateurs Aventure et recette météo navigateur (pluie même si masquée, premier affichage, Zénith puis reconnexion sans retour de pluie, intérieur sec, quatre tailles).
+
+Validation : **475 tests applicatifs actifs et 43 SQL**, `verify:release -- --mysql`, audits, HTTP/reprise, lint/build et recettes navigateur météo, publication et combat réussis sans erreur. Le contrôle météo vérifie le champ serveur et le champ client dès `battletrigger`, la météo masquée localement, quatre tailles, Zénith et sa reprise exacte puis un intérieur sec. Les recettes générales couvrent aussi les gestes, voyages, dialogues, carnet/menus, sprites PNJ, XP/audio/apprentissage et la chronologie capture/switch/K.O./critique. Captures de pluie mobile inspectées. Build `/tmp/explorakit-battle-weather-dist`, hash `d6527b75fee18e64`.
+
+Publication le **20/10/2026 à 11 h 37 (Paris)** après sauvegarde sources/dist/SQL/checkpoint dans `/home/ubuntu/dev/backups/explorakit-battle-weather-2026-10-20T09-32-31-626Z`, checkpoint rafraîchi et zéro tentative active au contrôle. Seul `explorakit.service` redémarré, service actif sans boucle. Le contrôle HTTPS crée deux comptes temporaires adjacents et lance un vrai duel Aventure entre eux : les deux reçoivent la pluie persistante, et le client l’applique dès le déclenchement. Captures aux quatre tailles, abandon simultané sans récompense, effet nettoyé après combat, index identique au build et voisins Know/api-test inchangés ; aucune erreur et comptes supprimés. Client publié `fb59bdd86d92316af2b4527673206ea1c6e68039`. Logs/captures `/tmp/explorakit-battle-weather-*`. Aucune CI distante revendiquée ; une partie longue et le contrôle sur téléphone physique restent humains.
+
+
 ## Correction du masque des feuilles et pluie adoucie — 20 octobre 2026
 
 Le premier essai de feuillage déplaçait des rectangles comprenant aussi des ombres, créant des raccords carrés visibles. Il est remplacé par un masque suivant seulement les pixels verts opaques des deux couronnes. Le motif des feuilles ondule dans son contour ; aucun autre pixel du premier plan, y compris les ombres, bâtiments, branches et transparences, ne doit changer. Aucune image de carte modifiée. La surface native 448×320 est réutilisée à 30 Hz, avec libération des buffers et repli sur l’image originale en cas de lecture canvas impossible, vent nul ou mouvement réduit.
@@ -1300,6 +1315,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **20/10/2026 — Pluie en combat** : climat serveur de la carte capturé dès l’ouverture des quatre types de combats, effets réels et météo partagée ; intérieurs secs, remplacements et reprises conservés. Voir la section du jour.
 
 - **20/10/2026 — Masque des feuilles / pluie** : suppression des découpes rectangulaires et du déplacement des ombres ; seuls les motifs des feuilles ondulent. Pluie moins dense, plus lente et ambiance légèrement plus sombre. Voir la section du jour.
 

@@ -1,3 +1,4 @@
+const { battleWeatherForMap } = require('../world/mapWeather');
 const heldItems = require('../items/heldItems');
 const reactions = require('../abilities/abilityReactions');
 const abilityForms = require('../abilities/abilityForms');
@@ -121,13 +122,10 @@ function createSideState(name = 'side') {
     };
 }
 
-function createBattleState() {
+function createBattleState(options = {}) {
     return {
         turn: 1,
-        weather: {
-            kind: null,
-            turns: 0
-        },
+        weather: battleWeatherForMap(options?.mapName, options?.opponentMap),
         terrain: {
             kind: null,
             turns: 0
@@ -970,8 +968,7 @@ function applyFieldEffect(effect, context, messages) {
     const turns = Math.max(1, safeNumber(effect.turns, 5));
 
     if (WEATHER_FIELDS.has(fieldName)) {
-        context.battleState.weather.kind = fieldName;
-        context.battleState.weather.turns = turns;
+        context.battleState.weather = { kind: fieldName, turns };
         messages.push(`La meteo change: ${fieldName} (${turns} tours).`);
         return;
     }
@@ -2251,7 +2248,7 @@ function advanceBattleState(battleState) {
 
     battleState.turn = Math.max(1, safeNumber(battleState.turn, 1) + 1);
 
-    if (battleState.weather?.kind) {
+    if (battleState.weather?.kind && !battleState.weather.persistent) {
         battleState.weather.turns -= 1;
         if (battleState.weather.turns <= 0) {
             messages.push(`La meteo ${battleState.weather.kind} se dissipe.`);
