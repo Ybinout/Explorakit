@@ -220,35 +220,28 @@ test('le chapitre suit les victoires, résiste aux doublons et reprend les ancie
         assert.equal(town.granted, true);
         assert.equal(main(town.progress).progress, 0);
         let expectedMoney = 225;
-        for (const [index, name] of ['moon', 'champion_hoze', 'champion_raphael', 'champion_ana', 'champion_wanda'].entries()) {
+        const chain = ['dia1','aspha_route2','moon','champion_hoze'];
+        for (const [index,name] of chain.entries()) {
             const before = await loadProgressState(userId);
-            assert.equal(getSentenceForName(name, before)[1], name);
-            // Deux demandes concurrentes ne produisent qu'une seule récompense.
-            const results = await Promise.all([completeNpcBattle(userId, name), completeNpcBattle(userId, name)]);
-            assert.equal(results.filter((result) => result.granted).length, 1);
-            expectedMoney += results.find((result) => result.granted).money;
+            assert.equal(getSentenceForName(name,before)[1],name);
+            const results = await Promise.all([completeNpcBattle(userId,name),completeNpcBattle(userId,name)]);
+            assert.equal(results.filter(result=>result.granted).length,1);
+            expectedMoney += results.find(result=>result.granted).money;
             const reloaded = await loadProgressState(userId);
-            assert.equal(main(reloaded).progress, index + 1);
-            assert.equal(main(reloaded).status, 'active');
-            assert.equal(reloaded.money, expectedMoney);
-            assert.equal(getSentenceForName(name, reloaded)[1], `${name}_after`);
-            if (index < 4) assert.equal((await completeStoryEvent(userId, 'clara_letter')).granted, false);
+            assert.equal(main(reloaded).progress,index+1);
+            assert.equal(main(reloaded).status,index===3?'completed':'active');
+            assert.equal(reloaded.money,expectedMoney);
+            assert.equal(getSentenceForName(name,reloaded)[1],`${name}_after`);
+            assert.equal((await completeStoryEvent(userId,'clara_letter')).granted,false);
         }
-        const endings = await Promise.all([completeStoryEvent(userId, 'clara_letter'), completeStoryEvent(userId, 'clara_letter')]);
-        assert.equal(endings.filter((result) => result.granted).length, 1);
-        await completeNpcBattle(userId, 'dia1'); // Une victoire annexe tardive ne rouvre pas la quête.
-        expectedMoney += 900;
-        await completeNpcBattle(userId, 'town_lina');
+        await completeNpcBattle(userId,'town_lina');
         const final = await loadProgressState(userId);
-        assert.equal(main(final).status, 'completed');
-        assert.equal(main(final).progress, 6);
-        assert.ok(main(final).completedAt);
-        assert.equal(final.badges.filter((badge) => badge.earned).length, 5);
-        assert.equal(final.money, expectedMoney);
-        assert.equal(getSentenceForName('clara_letter', final)[1], 'clara_letter_after');
-        const [[stored]] = await pool.execute("SELECT status, progress FROM player_quests WHERE user_id = ? AND quest_key = 'main_sister_search'", [userId]);
-        assert.equal(stored.status, 'completed');
-        assert.equal(stored.progress, 6);
+        assert.equal(main(final).status,'completed');assert.equal(main(final).progress,4);assert.ok(main(final).completedAt);
+        assert.equal(final.badges.filter(b=>b.earned).length,1);assert.equal(final.money,expectedMoney);
+        assert.equal(final.quests.some(q=>['clara_chapter2','refuges','valpierre_passage'].includes(q.key)),false);
+        assert.equal((await completeNpcBattle(userId,'champion_raphael')).reason,'requirements_not_met');
+        const [[stored]] = await pool.execute("SELECT status, progress FROM player_quests WHERE user_id = ? AND quest_key = 'main_sister_search'",[userId]);
+        assert.equal(stored.status,'completed');assert.equal(stored.progress,4);
     } finally {
         if (userId) await pool.execute('DELETE FROM users WHERE id = ?', [userId]);
         await pool.end();

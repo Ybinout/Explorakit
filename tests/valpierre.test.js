@@ -30,9 +30,16 @@ test('every Valpierre door, resident and return is reachable without crossing wa
  const residents=JSON.parse(fs.readFileSync(require('node:path').join(__dirname,'../data/game/pnjs.jsonc'))).pnjs.filter(p=>p.name.startsWith('valpierre_'));
  for(const p of residents){const coll=maps.loadCollisionData(p.map);assert.equal(coll[p.y][p.x],0,p.name+' feet');assert.equal(coll[p.y-1][p.x],0,p.name+' head');const entry=city.mapchange.find(c=>c.goto===p.map);const start=entry?maps.getNextMap('ville_safe1',entry.valX,entry.valY):{nextX:48,nextY:144};const access=reachable(p.map,[Math.floor(start.nextX/32),Math.floor(start.nextY/32)]);assert([[1,0],[-1,0],[0,1],[0,-1]].some(([dx,dy])=>access.has(`${p.x+dx}:${p.y+dy}`)),p.name+' cannot speak');}
 });
-test('Valpierre is an optional, once-only story challenge, without changing either main chapter',()=>{
- const {getSentenceForName}=require('../server/game/world/interactionRepository');assert.equal(getSentenceForName('valpierre_gardien',{flags:{}})[1],'valpierre_gardien_locked');assert.equal(getSentenceForName('valpierre_gardien',{flags:{moonpunch_defeated:'true'}})[1],'valpierre_gardien');
- const state={flags:{moonpunch_defeated:'true',valpierre_gardien_defeated:'true'},completedNpcBattles:[{battleKey:'valpierre_gardien'}]};assert.equal(getSentenceForName('valpierre_gardien',state)[1],'valpierre_gardien_after');assert.equal(catalog.storySteps.length,6);assert.equal(catalog.chapter2Steps.length,4);assert(catalog.npcBattles.valpierre_gardien.once);assert.equal(require('../server/game/world/shopCatalog').isShopMap('ville_safe1_shop'),true);
+test('Hoze is the once-only main gym in Valpierre and the old optional guardian stays archived',()=>{
+ const {getSentenceForName}=require('../server/game/world/interactionRepository');
+ assert.equal(getSentenceForName('champion_hoze',{flags:{}})[1],'champion_hoze_locked');
+ assert.equal(getSentenceForName('champion_hoze',{flags:{moonpunch_defeated:'true'}})[1],'champion_hoze');
+ assert.equal(getSentenceForName('valpierre_gardien',{flags:{moonpunch_defeated:'true'}})[1],'valpierre_gardien_locked');
+ const residents=JSON.parse(fs.readFileSync(require('node:path').join(__dirname,'../data/game/pnjs.jsonc'))).pnjs;
+ assert.equal(residents.find(p=>p.name==='hoze').map,'ville_safe1_arene');
+ assert.equal(residents.some(p=>p.name==='valpierre_gardien'),false);
+ assert.equal(catalog.storySteps.length,4);assert(catalog.npcBattles.champion_hoze.once);assert.equal(catalog.npcBattles.valpierre_gardien.enabled,false);
+ assert.equal(require('../server/game/world/shopCatalog').isShopMap('ville_safe1_shop'),true);
 });
 test('cave scenery covers Adventure and expedition caves, but Colosseum always keeps its arena',async()=>{
  const {battleEnvironment}=await import('../vue-explorakit/src/services/battleEnvironment.js');for(const name of ['cave1','cave2','cave_ice'])assert.equal(battleEnvironment(name),'cave');for(const name of ['route4','ville_safe1',null,'gen_arene1'])assert.equal(battleEnvironment(name),'grass');assert.equal(battleEnvironment('cave1',true),'colosseum');

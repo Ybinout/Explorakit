@@ -1,7 +1,7 @@
 const progressionCatalog = require('../../data/game/progression.json');
 const pokedexCatalog = require('../../data/game/pokedex.json');
 const { dbPool, withTransaction } = require('../config/database');
-const { meetsRequirements, deriveStoryQuest, deriveChapter2 } = require('../game/world/storyProgression');
+const { meetsRequirements, hasCompletedBattle, effectiveStoryFlags, deriveStoryQuest, deriveChapter2 } = require('../game/world/storyProgression');
 
 const QUEST_STATUSES = new Set(['active', 'completed']);
 const questDefinitions = new Map((progressionCatalog.quests || []).map((quest) => [quest.key, quest]));
@@ -30,7 +30,7 @@ async function ensureInitialProgress(userId, executor = dbPool) {
         [id]
     );
     for (const quest of progressionCatalog.quests || []) {
-        if (quest.defaultStatus !== 'active') continue;
+        if (quest.defaultStatus !== 'active' || quest.enabled === false) continue;
         await executor.execute(
             `INSERT IGNORE INTO player_quests (user_id, quest_key, status, progress)
              VALUES (?, ?, 'active', 0)`,
@@ -52,6 +52,7 @@ async function loadProgressState(userId) {
 
     const flags = Object.fromEntries(flagRows.map((row) => [row.flag_key, row.flag_value]));
     const storyQuest = deriveStoryQuest({ flags });
+    const effectiveFlags = effectiveStoryFlags({ flags });
     const storedQuests = new Map(questRows.map((row) => [row.quest_key, row]));
     const storedBadges = new Map(badgeRows.map((row) => [row.badge_key, row]));
     const quests = (progressionCatalog.quests || []).filter(definition=>meetsRequirements(definition,{flags})).map((definition) => {
@@ -62,6 +63,7 @@ async function loadProgressState(userId) {
             progress: Number(stored?.progress) || 0,
             completedAt: stored?.completed_at || null,
             updatedAt: stored?.updated_at || null,
+            ...(definition.key === 'first_challenge' && effectiveFlags.route_guard_defeated === 'true' ? { status:'completed', progress:1 } : {}),
             ...(definition.key === 'clara_chapter2' ? deriveChapter2({flags}) : {}),
             ...(definition.key === 'refuges' ? {progress:['refuge_lyse_met','refuge_abel_met'].filter(k=>flags[k]==='true').length,status:['refuge_lyse_met','refuge_abel_met'].every(k=>flags[k]==='true')?'completed':'active'} : {}),
             ...(definition.key === 'main_sister_search' ? {
@@ -186,6 +188,7 @@ function getNpcBattleDefinition(dialogueName) {
 async function isNpcBattleCompleted(userId, dialogueName) {
     const definition = getNpcBattleDefinition(dialogueName);
     if (!definition?.once) return false;
+    if (hasCompletedBattle(definition, { flags: await loadStoryFlags(normalizeUserId(userId), dbPool) })) return true;
     const [rows] = await dbPool.execute(
         'SELECT battle_key FROM user_npc_battles WHERE user_id = ? AND battle_key = ? LIMIT 1',
         [normalizeUserId(userId), definition.battleKey]
@@ -251,9 +254,11 @@ async function completeNpcBattle(userId, dialogueName) {
     const result = await withTransaction(async (connection) => {
         // Une victoire et une scène simultanées ne doivent pas contourner les prérequis.
         await connection.execute('SELECT id FROM users WHERE id = ? FOR UPDATE', [id]);
-        if (!meetsRequirements(definition, { flags: await loadStoryFlags(id, connection) })) {
+        const flags = await loadStoryFlags(id, connection);
+        if (!meetsRequirements(definition, { flags })) {
             return { granted: false, reason: 'requirements_not_met' };
         }
+        if (hasCompletedBattle(definition, { flags })) return { granted: false, reason: 'already_completed' };
         const [battleResult] = await connection.execute(
             `INSERT IGNORE INTO user_npc_battles (user_id, battle_key, dialogue_name, reward_json)
              VALUES (?, ?, ?, ?)`, [id, definition.battleKey, dialogueName, JSON.stringify(reward)]

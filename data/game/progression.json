@@ -2,10 +2,10 @@
   "quests": [
     {
       "key": "main_sister_search",
-      "title": "Aspha — chapitre I : les premières traces",
-      "description": "Suivre la piste d’Aspha, de Mounir jusqu’à Clairbois.",
+      "title": "À la recherche de Lucie — premières pistes",
+      "description": "Retrouver la piste de Lucie, de Timmy jusqu’à Hoze à Valpierre.",
       "defaultStatus": "active",
-      "target": 6
+      "target": 4
     },
     {
       "key": "first_challenge",
@@ -16,19 +16,21 @@
     },
     {
       "key": "clara_chapter2",
-      "title": "Aspha — chapitre II : les refuges de l’Aube",
-      "description": "Retrouver Aspha et dévoiler le trafic de l’Aube Obscure.",
+      "title": "Lucie — chapitre II : les refuges de l’Aube",
+      "description": "Retrouver Lucie et dévoiler le trafic de l’Aube Obscure.",
       "requiresFlags": [
         "chapter1_complete"
       ],
-      "target": 4
+      "target": 4,
+      "enabled": false
     },
     {
       "key": "refuges",
       "title": "Les maisons d’accueil",
       "description": "Rencontrer Lyse à Floraville et Abel à Ocreville.",
       "defaultStatus": "active",
-      "target": 2
+      "target": 2,
+      "enabled": false
     },
     {
       "key": "valpierre_passage",
@@ -38,7 +40,8 @@
         "moonpunch_defeated"
       ],
       "defaultStatus": "active",
-      "target": 1
+      "target": 1,
+      "enabled": false
     }
   ],
   "badges": [
@@ -102,7 +105,11 @@
           "sister_clue_1": "unlocked"
         }
       },
-      "experienceKind": "arena"
+      "experienceKind": "arena",
+      "requiresFlags": [
+        "route_guard_defeated",
+        "aspha_route2_defeated"
+      ]
     },
     "champion_hoze": {
       "battleKey": "story_champion_hoze",
@@ -136,7 +143,8 @@
           "raphael_defeated": "true"
         }
       },
-      "experienceKind": "arena"
+      "experienceKind": "arena",
+      "enabled": false
     },
     "champion_ana": {
       "battleKey": "story_champion_ana",
@@ -153,7 +161,8 @@
           "ana_defeated": "true"
         }
       },
-      "experienceKind": "arena"
+      "experienceKind": "arena",
+      "enabled": false
     },
     "champion_wanda": {
       "battleKey": "story_champion_wanda",
@@ -170,7 +179,8 @@
           "wanda_defeated": "true"
         }
       },
-      "experienceKind": "arena"
+      "experienceKind": "arena",
+      "enabled": false
     },
     "town_lina": {
       "battleKey": "town_lina",
@@ -280,7 +290,8 @@
         "flags": {
           "ch2_soren_defeated": "true"
         }
-      }
+      },
+      "enabled": false
     },
     "valpierre_gardien": {
       "battleKey": "valpierre_gardien",
@@ -304,48 +315,56 @@
             "progress": 1
           }
         ]
-      }
+      },
+      "enabled": false
+    },
+    "aspha_route2": {
+      "battleKey": "story_aspha_route2",
+      "once": true,
+      "requiresFlags": [
+        "route_guard_defeated"
+      ],
+      "completionFlag": "aspha_route2_defeated",
+      "legacyCompletionFlags": [
+        "moonpunch_defeated",
+        "hoze_defeated"
+      ],
+      "reward": {
+        "money": 800,
+        "flags": {
+          "aspha_route2_defeated": "true"
+        }
+      },
+      "experienceKind": "trainer"
     }
   },
   "storySteps": [
     {
+      "flag": "route_guard_defeated",
+      "objective": "Parle à Timmy près de la sortie du village et bats-le pour obtenir une première piste sur ta sœur Lucie.",
+      "map": "start",
+      "destination": "Timmy · Village de départ"
+    },
+    {
+      "flag": "aspha_route2_defeated",
+      "objective": "Retrouve Aspha, le dresseur à la fin de la Route 2, juste avant la Ville du Lac, et gagne son duel.",
+      "map": "route2",
+      "destination": "Aspha · Fin de la Route 2"
+    },
+    {
       "flag": "moonpunch_defeated",
-      "objective": "Retrouve Mounir (Moonpunch) dans l’arène de la Ville du Lac. Il a connu Aspha.",
+      "objective": "Aspha te dirige vers Mounir, surnommé Moonpunch. Affronte-le dans l’arène de la Ville du Lac.",
       "map": "ville1_arene",
-      "destination": "Arène de la Ville du Lac"
+      "destination": "Mounir · Arène de la Ville du Lac"
     },
     {
       "flag": "hoze_defeated",
-      "objective": "Rejoins Hoze dans l’arène Dune à Ocreville, par la route 4 puis la route 8.",
-      "map": "gen_arene5",
-      "destination": "Arène Dune · Ocreville"
-    },
-    {
-      "flag": "raphael_defeated",
-      "objective": "Hoze t’envoie vers Raphael, dans l’arène Floraison de Floraville, après la route 7.",
-      "map": "gen_arene4",
-      "destination": "Arène Floraison · Floraville"
-    },
-    {
-      "flag": "ana_defeated",
-      "objective": "Retrouve Ana à l’arène Minerai de Rochebourg, au-delà des routes 6 et 5.",
-      "map": "gen_arene3",
-      "destination": "Arène Minerai · Rochebourg"
-    },
-    {
-      "flag": "wanda_defeated",
-      "objective": "Ana te confie à sa sœur Wanda. Rejoins l’arène Marée de Rivazur par la route 4.",
-      "map": "gen_arene2",
-      "destination": "Arène Marée · Rivazur"
-    },
-    {
-      "flag": "chapter1_complete",
-      "objective": "Wanda te confie une piste : parle à Éloi, aux archives de l’ancienne arène Sylve à Clairbois, au-delà des routes 3 et 2.",
-      "map": "gen_arene1",
-      "destination": "Archives Sylve · Clairbois"
+      "objective": "Mounir te conseille Hoze à Valpierre. Traverse la Route 3 et les deux grottes, puis prends la Route 4 vers l’est et défie le champion.",
+      "map": "ville_safe1_arene",
+      "destination": "Hoze · Arène de Valpierre"
     }
   ],
-  "chapterConclusion": "Le chapitre I est terminé. Sofiane t’attend dans la maison de Clairbois pour poursuivre la piste d’Aspha.",
+  "chapterConclusion": "Hoze t’a confié une nouvelle piste : Raphael. La recherche de Lucie continue ; la suite du récit sera disponible plus tard.",
   "storyEvents": {
     "clara_letter": {
       "requiresFlags": [
@@ -360,7 +379,8 @@
         "badges": [
           "forest_badge"
         ]
-      }
+      },
+      "enabled": false
     },
     "ch2_iris": {
       "requiresFlags": [
@@ -371,13 +391,15 @@
         "items": {
           "clara_registry": 1
         }
-      }
+      },
+      "enabled": false
     },
     "ch2_nora": {
       "requiresFlags": [
         "ch2_registry"
       ],
-      "completionFlag": "ch2_witness"
+      "completionFlag": "ch2_witness",
+      "enabled": false
     },
     "ch2_clara": {
       "requiresFlags": [
@@ -389,7 +411,8 @@
         "items": {
           "clara_reunion_letter": 1
         }
-      }
+      },
+      "enabled": false
     },
     "refuge_lyse": {
       "completionFlag": "refuge_lyse_met",
@@ -397,7 +420,8 @@
         "items": {
           "potion": 2
         }
-      }
+      },
+      "enabled": false
     },
     "refuge_abel": {
       "completionFlag": "refuge_abel_met",
@@ -405,7 +429,8 @@
         "items": {
           "potion": 2
         }
-      }
+      },
+      "enabled": false
     }
   },
   "chapter2Steps": [
@@ -429,9 +454,35 @@
     },
     {
       "flag": "chapter2_complete",
-      "objective": "Retrouve Aspha dans la première maison de Floraville.",
+      "objective": "Retrouve Lucie dans la première maison de Floraville.",
       "map": "gen_maison_ville4_1",
       "destination": "Maison de Floraville"
+    }
+  ],
+  "futureStorySteps": [
+    {
+      "flag": "raphael_defeated",
+      "objective": "Hoze t’envoie vers Raphael, dans l’arène Floraison de Floraville, après la route 7.",
+      "map": "gen_arene4",
+      "destination": "Arène Floraison · Floraville"
+    },
+    {
+      "flag": "ana_defeated",
+      "objective": "Retrouve Ana à l’arène Minerai de Rochebourg, au-delà des routes 6 et 5.",
+      "map": "gen_arene3",
+      "destination": "Arène Minerai · Rochebourg"
+    },
+    {
+      "flag": "wanda_defeated",
+      "objective": "Ana te confie à sa sœur Wanda. Rejoins l’arène Marée de Rivazur par la route 4.",
+      "map": "gen_arene2",
+      "destination": "Arène Marée · Rivazur"
+    },
+    {
+      "flag": "chapter1_complete",
+      "objective": "Wanda te confie une piste : parle à Éloi, aux archives de l’ancienne arène Sylve à Clairbois, au-delà des routes 3 et 2.",
+      "map": "gen_arene1",
+      "destination": "Archives Sylve · Clairbois"
     }
   ]
 }

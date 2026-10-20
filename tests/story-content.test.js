@@ -17,21 +17,21 @@ const moves = new Set(require('../data/game/moves.json').map((move) => move.enam
 const items = new Set(require('../data/game/items.json').items.map((item) => item.key));
 const world = require('../data/game/nextMap.json').maps;
 
-const chain = ['moon', 'champion_hoze', 'champion_raphael', 'champion_ana', 'champion_wanda'];
+const chain = ['dia1', 'aspha_route2', 'moon', 'champion_hoze'];
 
-test('la mère soigne à chaque conversation et conserve son introduction à Aspha', () => {
+test('la mère soigne à chaque conversation et conserve son introduction à Lucie', () => {
     const mother = pnjs.find(pnj => pnj.name === 'mere_clara');
     assert(mother);
     const [sentences, name] = getSentenceForName(mother.interactionName, { flags: { chapter2_complete: 'true' } });
     assert.equal(getEndSentenceInformation(name), 'heal');
-    assert(sentences.some(sentence => sentence.text.includes('Aspha')));
+    assert(sentences.some(sentence => sentence.text.includes('Lucie')));
     assert(sentences.some(sentence => /soign/i.test(sentence.text)));
 });
 
 test('les champions originaux suivent le parcours approuvé et remplacent les anciens', () => {
-    for (const [name, city] of [['hoze', 5], ['raphael', 4], ['ana', 3], ['wanda', 2]]) {
+    for (const [name, city] of [['hoze', 'ville_safe1_arene'], ['raphael', 'gen_arene4'], ['ana', 'gen_arene3'], ['wanda', 'gen_arene2']]) {
         const pnj = pnjs.find((entry) => entry.name === name);
-        assert.equal(pnj.map, `gen_arene${city}`);
+        assert.equal(pnj.map, city);
         assert.equal(pnj.interactionName, `champion_${name}`);
     }
     assert.equal(pnjs.some((pnj) => pnj.interactionName.startsWith('gym_')), false);
@@ -41,24 +41,38 @@ test('les champions originaux suivent le parcours approuvé et remplacent les an
     }
 });
 
-test('les scènes suivent les victoires réelles ; la lettre seule conclut le chapitre', () => {
+test('les quatre victoires ouvrent leurs indices dans l’ordre et la version s’arrête à Hoze', () => {
     const state = { flags: {}, completedNpcBattles: [] };
-    assert.equal(getSentenceForName('champion_wanda', state)[1], 'champion_wanda_locked');
-    assert.notEqual(getEndSentenceInformation('champion_wanda_locked'), 'battle');
-    assert.equal(deriveStoryQuest({ flags: { gym_dune_defeated: 'true', generated_region_complete: 'true' } }).progress, 0);
-    for (const [index, name] of chain.entries()) {
-        assert.equal(getSentenceForName(name, state)[1], name);
-        const definition = catalog.npcBattles[name];
-        Object.assign(state.flags, definition.reward.flags);
-        state.completedNpcBattles.push({ battleKey: definition.battleKey });
-        assert.equal(getSentenceForName(name, state)[1], `${name}_after`);
-        assert.equal(deriveStoryQuest(state).progress, index + 1);
-        assert.equal(deriveStoryQuest(state).status, 'active');
+    for (const name of chain.slice(1)) {
+        assert.equal(getSentenceForName(name,state)[1],`${name}_locked`);
+        assert.notEqual(getEndSentenceInformation(`${name}_locked`),'battle');
     }
-    assert.equal(getSentenceForName('clara_letter', state)[1], 'clara_letter');
-    state.flags.chapter1_complete = 'true';
-    assert.equal(deriveStoryQuest(state).status, 'completed');
-    assert.equal(getSentenceForName('clara_letter', state)[1], 'clara_letter_after');
+    assert.equal(deriveStoryQuest({ flags: { gym_dune_defeated:'true',generated_region_complete:'true' } }).progress,0);
+    for (const [index,name] of chain.entries()) {
+        assert.equal(getSentenceForName(name,state)[1],name);
+        const definition=catalog.npcBattles[name];
+        Object.assign(state.flags,definition.reward.flags);
+        state.completedNpcBattles.push({battleKey:definition.battleKey});
+        assert.equal(getSentenceForName(name,state)[1],`${name}_after`);
+        assert.equal(deriveStoryQuest(state).progress,index+1);
+        assert.equal(deriveStoryQuest(state).status,index===3?'completed':'active');
+    }
+    assert.match(deriveStoryQuest(state).description,/Lucie/);
+    assert.match(deriveStoryQuest(state).description,/plus tard/);
+    for(const name of ['champion_raphael','champion_ana','champion_wanda','clara_letter','ch2_iris','valpierre_gardien']) {
+        assert.equal(getSentenceForName(name,state)[1],`${name}_locked`);
+        assert.equal(getSentenceForName(name)[1],`${name}_locked`);
+    }
+});
+test('les anciennes victoires restent acquises sans payer le nouveau duel ni réécrire les drapeaux', () => {
+    const {meetsRequirements,hasCompletedBattle}=require('../server/game/world/storyProgression');
+    const state={flags:{moonpunch_defeated:'true'}};
+    assert.equal(deriveStoryQuest(state).progress,3);
+    assert.equal(getSentenceForName('aspha_route2',state)[1],'aspha_route2_after');
+    assert(hasCompletedBattle(catalog.npcBattles.aspha_route2,state));
+    assert(meetsRequirements(catalog.npcBattles.champion_hoze,state));
+    assert.deepEqual(state.flags,{moonpunch_defeated:'true'});
+    assert.equal(deriveStoryQuest({flags:{hoze_defeated:'true'}}).status,'completed');
 });
 
 test('les dialogues, portraits, récompenses et équipes actives sont raccordés et cohérents', () => {
@@ -102,7 +116,7 @@ function reachable(collision, blocked, origin) {
 }
 
 test('les nouveaux habitants sont accessibles et ne coupent aucun passage existant', () => {
-    const additions = pnjs.filter((pnj) => pnj.name.startsWith('town_') || pnj.name === 'mere_clara');
+    const additions = pnjs.filter((pnj) => pnj.name.startsWith('town_') || ['mere_clara','aspha_route2'].includes(pnj.name));
     for (const map of new Set(additions.map((pnj) => pnj.map))) {
         const collision = loadCollisionData(map);
         const changes = changeMapData(map);

@@ -1399,6 +1399,55 @@
           }
         }
       ]
+    },
+    {
+      "name": "aspha_route2",
+      "team": [
+        {
+          "pokemonId": 209,
+          "name": "Snubbull",
+          "level": 13,
+          "abilities": [
+            "Tackle",
+            "Bite",
+            "Tail Whip"
+          ],
+          "passiveAbility": "Intimidate",
+          "heldItem": "oran_berry",
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 12,
+            "attack": 12,
+            "defense": 12,
+            "specialAttack": 12,
+            "specialDefense": 12,
+            "speed": 12
+          }
+        },
+        {
+          "pokemonId": 270,
+          "name": "Nénupiot",
+          "level": 14,
+          "abilities": [
+            "Absorb",
+            "Water Gun",
+            "Growl"
+          ],
+          "passiveAbility": "Swift Swim",
+          "heldItem": null,
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 12,
+            "attack": 12,
+            "defense": 12,
+            "specialAttack": 12,
+            "specialDefense": 12,
+            "speed": 12
+          }
+        }
+      ]
     }
   ]
 }

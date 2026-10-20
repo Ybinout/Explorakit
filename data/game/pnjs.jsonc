@@ -264,7 +264,7 @@
     {
       "name": "hoze",
       "interactionName": "champion_hoze",
-      "map": "gen_arene5",
+      "map": "ville_safe1_arene",
       "x": 13,
       "y": 5,
       "sprite": "hoze.png",
@@ -652,20 +652,6 @@
       "block": true
     },
     {
-      "name": "valpierre_gardien",
-      "interactionName": "valpierre_gardien",
-      "map": "ville_safe1_arene",
-      "x": 13,
-      "y": 5,
-      "sprite": "townspeople.png",
-      "spriteFrame": {
-        "columns": 8,
-        "rows": 4,
-        "index": 17
-      },
-      "block": true
-    },
-    {
       "name": "valpierre_refuge",
       "interactionName": "valpierre_refuge",
       "map": "ville_safe1_maison1",
@@ -692,6 +678,21 @@
         "index": 30
       },
       "block": true
+    },
+    {
+      "name": "aspha_route2",
+      "interactionName": "aspha_route2",
+      "map": "route2",
+      "x": 25,
+      "y": 5,
+      "sprite": "townspeople.png",
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 25
+      },
+      "block": true,
+      "roamRadius": 0
     }
   ]
 }

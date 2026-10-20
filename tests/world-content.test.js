@@ -120,7 +120,7 @@ test('les raccords vers les intérieurs livrés par l’agent cartes sont exacts
 
 test('chaque nouveau PNJ est posé sur une case libre et possède un dialogue exploitable', () => {
     const pnjs = readJson('data', 'game', 'pnjs.jsonc').pnjs.filter((pnj) => pnj.map.startsWith('gen_'));
-    assert.equal(pnjs.length, 40);
+    assert.equal(pnjs.length, 39); // Hoze now lives in Valpierre, outside the generated region.
     for (const pnj of pnjs) {
         const map = readJson('data', 'maps', `${pnj.map}.json`);
         const layers = technicalLayers(map);

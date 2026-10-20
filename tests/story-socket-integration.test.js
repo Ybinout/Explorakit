@@ -23,7 +23,7 @@ function event(socket, name, predicate = () => true) {
     });
 }
 
-test('Socket réel : chapitres I et II, prérequis, combats, scènes et récompenses après reconnexion', { skip: !shouldRun, timeout: 60000 }, async () => {
+test('Socket réel : Lucie, Timmy → Aspha → Mounir → Hoze, refus/fuite/reprise et arrêt à Valpierre', { skip: !shouldRun, timeout: 60000 }, async () => {
     assert.match(testDatabaseName, /test/i);
     assert.equal(process.env.DB_NAME, testDatabaseName, 'Utiliser npm run test:mysql pour isoler les données');
     const { io } = require(path.resolve(__dirname, '../vue-explorakit/node_modules/socket.io-client'));
@@ -141,122 +141,46 @@ test('Socket réel : chapitres I et II, prérequis, combats, scènes et récompe
         pokemon.addAbility('Surf');
         pokemon.addAbility('Ice Beam');
         await editEquipe(userId, team);
-        await at('gen_arene5', 13, 6);
+        await at('ville_safe1_arene',13,6);
         await speak('champion_hoze_locked');
-        const rejection = event(socket, 'interactionRejected');
-        socket.emit('onEndDialogue', 'champion_hoze');
-        assert.equal((await rejection).reason, 'invalid_or_expired_dialogue');
-        assert.equal((await loadProgressState(userId)).completedNpcBattles.length, 0);
-
-        await at('ville1_arene', 13, 6);
-        await speak('moon');
-        socket.once('requestAction', () => socket.emit('actionResponse', { action: 'flee' }));
-        const escaped = event(socket, 'teamStateChanged', (payload) => payload.reason === 'trainer_battle_end');
-        socket.emit('onEndDialogue', 'moon');
-        await escaped;
-        assert.equal(main(await loadProgressState(userId)).progress, 0);
-        let attacks = 0;
-        let expectedExperience = pokemon.experience;
-        const { calculateBattleExperience, BATTLE_EXPERIENCE_MULTIPLIERS } = require('../server/game/models/progression');
-        const { getPnjTeam } = require('../server/game/world/pnjTeamFactory');
-        const dialogues = require('../data/game/interact.json');
-        const battles = [['moon', 'ville1_arene'], ['champion_hoze', 'gen_arene5'], ['champion_raphael', 'gen_arene4'], ['champion_ana', 'gen_arene3'], ['champion_wanda', 'gen_arene2']];
-        for (const [index, [name, map]] of battles.entries()) {
-            await at(map, 13, 6);
-            await speak(name);
-            const moneyBefore = (await loadProgressState(userId)).money;
-            socket.on('requestAction', () => socket.emit('actionResponse', { action: 'attack', number: attacks++ % 2 }));
-            const victoryScene = event(socket, 'dialogue', (payload) => payload[1] === `${name}_after`);
-            const battleResult = event(socket, 'endbattle');
-            socket.emit('onEndDialogue', name);
-            const scene = await victoryScene;
-            const summary = (await battleResult).summary;
-            const trainerTeam = getPnjTeam(dialogues.find((entry) => entry.name === name).team);
-            expectedExperience += trainerTeam.pokemons.reduce((sum, opponent) => sum + calculateBattleExperience(opponent, BATTLE_EXPERIENCE_MULTIPLIERS.arena, pokemon), 0);
-            assert.equal((await loadEquipe(userId)).pokemons[0].experience, expectedExperience, `${name} : bonus XP arène transmis et sauvegardé`);
-            assert.ok(scene[0].length >= 2);
-            const progress = await loadProgressState(userId);
-            assert.equal(summary.outcome, 'victory');
-            assert.equal(summary.money, progress.money - moneyBefore, `${name} : le bilan reflète la récompense de chapitre attribuée`);
-            assert.ok(summary.experience[0].xpGained > 0);
-            assert.equal(main(progress).progress, index + 1);
-            assert.equal(main(progress).status, 'active');
-            socket.emit('onEndDialogue', `${name}_after`);
+        const rejection=event(socket,'interactionRejected');socket.emit('onEndDialogue','champion_hoze');
+        assert.equal((await rejection).reason,'invalid_or_expired_dialogue');
+        await at('route2',25,6);await speak('aspha_route2_locked');
+        assert.equal((await loadProgressState(userId)).completedNpcBattles.length,0);
+        let attacks=0,expectedExperience=pokemon.experience;
+        const {calculateBattleExperience,BATTLE_EXPERIENCE_MULTIPLIERS}=require('../server/game/models/progression');
+        const {getPnjTeam}=require('../server/game/world/pnjTeamFactory');
+        const catalog=require('../data/game/progression.json'),dialogues=require('../data/game/interact.json');
+        const battles=[['dia1','start',18,3],['aspha_route2','route2',25,6],['moon','ville1_arene',13,6],['champion_hoze','ville_safe1_arene',13,6]];
+        for(const [index,[name,map,x,y]] of battles.entries()) {
+            await at(map,x,y);await speak(name);
+            if(name==='aspha_route2') {
+                socket.once('requestAction',()=>socket.emit('actionResponse',{action:'flee'}));
+                const escaped=event(socket,'teamStateChanged',p=>p.reason==='trainer_battle_end');socket.emit('onEndDialogue',name);await escaped;
+                assert.equal(main(await loadProgressState(userId)).progress,1);
+                await at(map,x,y);await speak(name);
+            }
+            const before=await loadProgressState(userId);
+            socket.on('requestAction',()=>socket.emit('actionResponse',{action:'attack',number:attacks++%2}));
+            const victoryScene=event(socket,'dialogue',p=>p[1]===`${name}_after`),battleResult=event(socket,'endbattle');
+            socket.emit('onEndDialogue',name);const scene=await victoryScene,summary=(await battleResult).summary;
+            const trainerTeam=getPnjTeam(dialogues.find(e=>e.name===name).team),kind=catalog.npcBattles[name].experienceKind;
+            expectedExperience+=trainerTeam.pokemons.reduce((sum,opponent)=>sum+calculateBattleExperience(opponent,BATTLE_EXPERIENCE_MULTIPLIERS[kind],pokemon),0);
+            assert.equal((await loadEquipe(userId)).pokemons[0].experience,expectedExperience,`${name}: XP sauvegardée`);
+            assert(scene[0].length>=2);const progress=await loadProgressState(userId);
+            assert.equal(summary.outcome,'victory');assert.equal(summary.money,progress.money-before.money);assert(summary.experience[0].xpGained>0);
+            assert.equal(main(progress).progress,index+1);assert.equal(main(progress).status,index===3?'completed':'active');
+            assert(scene[0].some(line=>line.text.includes(name==='dia1'?'Aspha':name==='aspha_route2'?'Mounir':name==='moon'?'Hoze':'Raphael')));
+            socket.emit('onEndDialogue',`${name}_after`);
         }
-        await at('gen_arene1', 13, 6);
-        await speak('clara_letter');
-        const ending = event(socket, 'progressionState', (state) => main(state).status === 'completed');
-        socket.emit('onEndDialogue', 'clara_letter');
-        assert.equal(main(await ending).progress, 6);
-        const reconnect = await at('gen_arene1', 13, 6);
-        assert.equal(main(reconnect).status, 'completed');
-        await speak('clara_letter_after');
-        // Un dresseur de ville fonctionne aussi, sans modifier le chapitre terminé.
-        await at('ville1', 11, 11);
-        await speak('town_lina');
-        socket.on('requestAction', () => socket.emit('actionResponse', { action: 'attack', number: 0 }));
-        const townWin = event(socket, 'dialogue', (payload) => payload[1] === 'town_lina_after');
-        socket.emit('onEndDialogue', 'town_lina');
-        await townWin;
-        const state = await at('ville1', 11, 11);
-        await speak('town_lina_after');
-        assert.equal(main(state).status, 'completed');
-        assert.equal(state.money, 18225);
-
-        // The second chapter is played through real authorised conversations and a battle.
-        const pnjs = JSON.parse(require('node:fs').readFileSync(path.resolve(__dirname, '../data/game/pnjs.jsonc'), 'utf8')).pnjs;
-        const visit = async name => {
-            const npc = pnjs.find(p => p.name === name);
-            assert(npc, name);
-            await at(npc.map, npc.x, npc.y + 1);
-        };
-        await visit('town_ch2_nora');
-        await speak('ch2_nora_locked');
-        for (const [npc, dialogue, flag] of [
-            ['town_ch2_iris', 'ch2_iris', 'ch2_registry'],
-            ['town_ch2_nora', 'ch2_nora', 'ch2_witness']
-        ]) {
-            await visit(npc);
-            await speak(dialogue);
-            const updated = event(socket, 'progressionState', progress => progress.flags[flag] === 'true');
-            socket.emit('onEndDialogue', dialogue);
-            await updated;
-        }
-        await visit('town_ch2_soren');
-        await speak('ch2_soren');
-        socket.on('requestAction', () => socket.emit('actionResponse', { action: 'attack', number: 0 }));
-        const defeated = event(socket, 'dialogue', payload => payload[1] === 'ch2_soren_after');
-        socket.emit('onEndDialogue', 'ch2_soren');
-        await defeated;
-        await visit('town_ch2_clara');
-        await speak('ch2_clara');
-        const reunion = event(socket, 'progressionState', progress => progress.flags.chapter2_complete === 'true');
-        socket.emit('onEndDialogue', 'ch2_clara');
-        assert.equal((await reunion).quests.find(q => q.key === 'clara_chapter2').status, 'completed');
-        await visit('town_ch2_clara');
-        await speak('ch2_clara_after');
-        assert.equal((await loadProgressState(userId)).money, 22125);
-        // Refill PP through an actual authorised heal before the extra gym.
-        await at('start', 6, 9);await speak('dia0');
-        const refill = event(socket, 'teamStateChanged', p => p.reason === 'heal');
-        socket.emit('onEndDialogue', 'dia0');await refill;
-        // The new eastern gym is optional and does not reopen either chapter.
-        await visit('valpierre_gardien');
-        await speak('valpierre_gardien');
-        socket.on('requestAction', () => socket.emit('actionResponse', { action: 'attack', number: 0 }));
-        const crystal = event(socket, 'dialogue', payload => payload[1] === 'valpierre_gardien_after');
-        socket.emit('onEndDialogue', 'valpierre_gardien');
-        await crystal.catch(error => { throw new Error(`Arène de Valpierre: ${error.message} ${serverErrors}`); });
-        const expanded = await loadProgressState(userId);
-        assert.equal(expanded.quests.find(q => q.key === 'valpierre_passage').status, 'completed');
-        assert(expanded.badges.some(b => b.key === 'crystal_badge' && b.earned));
-        assert.equal(main(expanded).status, 'completed');
-        assert.equal(expanded.quests.find(q => q.key === 'clara_chapter2').status, 'completed');
-        const afterCrystal = expanded.money;
-        await visit('valpierre_gardien');await speak('valpierre_gardien_after');
-        assert.equal((await loadProgressState(userId)).money, afterCrystal);
-
-
+        const final=await at('ville_safe1_arene',13,6);await speak('champion_hoze_after');
+        assert.equal(main(final).progress,4);assert.equal(main(final).status,'completed');
+        assert(final.badges.some(b=>b.key==='dune_badge'&&b.earned));
+        assert.equal(final.quests.some(q=>q.key==='clara_chapter2'),false);
+        const money=final.money;
+        await at('gen_arene4',13,6);await speak('champion_raphael_locked');
+        const blocked=event(socket,'interactionRejected');socket.emit('onEndDialogue','champion_raphael');
+        assert.equal((await blocked).reason,'invalid_or_expired_dialogue');assert.equal((await loadProgressState(userId)).money,money);
     } finally {
         socket?.disconnect();
         if (child.exitCode === null) {

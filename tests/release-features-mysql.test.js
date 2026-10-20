@@ -23,46 +23,33 @@ async function fixture() {
     });
 }
 test(
-    'chapter II prerequisite, complete path, side quest and concurrent rewards',
+    'opening prerequisites, archived continuation and concurrent rewards remain safe for legacy saves',
     { skip: !enabled },
     async () => {
-        const u = await fixture();
+        const u = await fixture(), legacy = await fixture();
         try {
-            assert.equal((await progress.completeStoryEvent(u.id, 'ch2_clara')).granted, false);
-            assert.equal(
-                (await progress.loadProgressState(u.id)).quests.some((q) => q.key === 'clara_chapter2'),
-                false
-            );
-            await db.execute(
-                "INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES (?,'chapter1_complete','true')",
-                [u.id]
-            );
-            assert.equal((await progress.completeStoryEvent(u.id, 'ch2_nora')).granted, false);
-            assert.equal((await progress.completeStoryEvent(u.id, 'ch2_iris')).granted, true);
-            assert.equal((await progress.completeStoryEvent(u.id, 'ch2_nora')).granted, true);
-            assert.equal((await progress.completeNpcBattle(u.id, 'ch2_soren')).granted, true);
-            const money = (await progress.loadProgressState(u.id)).money;
-            const results = await Promise.all([
-                progress.completeStoryEvent(u.id, 'ch2_clara'),
-                progress.completeStoryEvent(u.id, 'ch2_clara'),
-            ]);
-            assert.equal(results.filter((r) => r.granted).length, 1);
-            const done = await progress.loadProgressState(u.id);
-            assert.equal(done.money, money + 1200);
-            assert.equal(done.quests.find((q) => q.key === 'clara_chapter2').status, 'completed');
-            await progress.completeStoryEvent(u.id, 'refuge_lyse');
-            await progress.completeStoryEvent(u.id, 'refuge_abel');
-            assert.equal(
-                (await progress.loadProgressState(u.id)).quests.find((q) => q.key === 'refuges').status,
-                'completed'
-            );
-            const [[items]] = await db.execute(
-                "SELECT quantity FROM user_items WHERE user_id=? AND item_key='potion'",
-                [u.id]
-            );
-            assert.equal(items.quantity, 4);
+            assert.equal((await progress.completeNpcBattle(u.id,'aspha_route2')).reason,'requirements_not_met');
+            await progress.completeNpcBattle(u.id,'dia1');
+            const before=await progress.loadProgressState(u.id);
+            const results=await Promise.all([progress.completeNpcBattle(u.id,'aspha_route2'),progress.completeNpcBattle(u.id,'aspha_route2')]);
+            assert.equal(results.filter(r=>r.granted).length,1);
+            const done=await progress.loadProgressState(u.id);assert.equal(done.money,before.money+1200);
+            assert.equal(done.quests.find(q=>q.key==='main_sister_search').progress,2);
+            await db.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES (?,'chapter1_complete','true')",[u.id]);
+            for(const name of ['ch2_iris','ch2_nora','ch2_clara','refuge_lyse','refuge_abel']) assert.equal((await progress.completeStoryEvent(u.id,name)).granted,false);
+            assert.equal((await progress.loadProgressState(u.id)).quests.some(q=>q.key==='clara_chapter2'),false);
+            // Old Mounir wins imply the missing early encounter, with no new reward/receipt or loss of badges.
+            await db.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES (?,'moonpunch_defeated','true')",[legacy.id]);
+            await db.execute("INSERT INTO player_badges(user_id,badge_key) VALUES (?,'crystal_badge')",[legacy.id]);
+            const old=await progress.loadProgressState(legacy.id);
+            assert.equal(old.quests.find(q=>q.key==='main_sister_search').progress,3);
+            assert.equal(old.quests.find(q=>q.key==='first_challenge').status,'completed');
+            assert.equal(await progress.isNpcBattleCompleted(legacy.id,'aspha_route2'),true);
+            assert.equal((await progress.completeNpcBattle(legacy.id,'aspha_route2')).reason,'already_completed');
+            const retained=await progress.loadProgressState(legacy.id);assert.equal(retained.money,old.money);assert(retained.badges.find(b=>b.key==='crystal_badge').earned);
+            assert.equal(retained.completedNpcBattles.length,0);assert.equal(retained.flags.aspha_route2_defeated,undefined);
         } finally {
-            await db.execute('DELETE FROM users WHERE id=?', [u.id]);
+            for(const u_ of [u,legacy]) await db.execute('DELETE FROM users WHERE id=?',[u_.id]);
         }
     }
 );

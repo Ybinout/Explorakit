@@ -1,5 +1,23 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Début du récit de Lucie — 20 octobre 2026
+
+Le créateur fixe le début jouable : on recherche sa sœur **Lucie**, on doit battre Timmy pour obtenir le nom d’**Aspha**, dresseur distinct à la fin de la Route 2. Aspha exige un duel puis dirige vers Mounir. Vaincu, Mounir explique qu’il ne sait rien et recommande Hoze, qui a des contacts à Valpierre, après la Route 3 et les deux grottes puis la Route 4 vers l’est. Hoze devient le champion de cette ville. Son dialogue de victoire reprend la piste originale vers Raphael, puis annonce la pause de cette version ; aucune quête n’envoie dans les cartes inachevées.
+
+Aspha est un PNJ immobile en (25,5) de `route2`, accessible et laissant le passage vers la Ville du Lac. Deux Pokémon : Snubbull niveau 13 et Nénupiot niveau 14, talents canoniques, capacités/PP et Baie Oran. Mounir conserve ses trois Pokémon 17–19 et Hoze ses trois Pokémon 37–39 ; leurs annonces sont corrigées. Hoze quitte l’ancienne arène générée et remplace le gardien de `ville_safe1_arene`. Son portrait PNG correspond au WebP du créateur : chauve, lunettes et même pose ; les assets ne sont pas retouchés. Badge Dune conservé, lieu affiché Valpierre. Les cartes JSON/TMX/PNG et leurs transitions restent inchangées.
+
+Le catalogue a quatre étapes ordonnées avec objectifs explicites. Les indices suivent les victoires réelles et les conditions sont revérifiées au dialogue, au lancement Socket et au paiement transactionnel. Fuite/défaite ne valident pas l’indice. La suite existante reste dans les fichiers mais ses définitions portent `enabled:false` : ni quête active, ni scène/duel ou récompense future ; l’ancien défi du gardien est lui aussi archivé. `phrase.txt`, auteur original, reste intact ; les textes de jeu et objets narratifs utilisent Lucie, sans renommer les clés `clara_*`.
+
+Compatibilité : les anciennes victoires Mounir/Hoze impliquent les étapes d’ouverture manquantes lors de la lecture, sans modifier les anciens drapeaux/reçus, retirer de badge ou payer le nouveau duel Aspha. Ce duel n’est pas rejouable pour obtenir une prime rétroactive. L’ancien chapitre II n’est pas réactivé par un drapeau ancien. Pas de migration SQL. Les expéditions gardent les duels indépendants de l’Aventure et sa persistance n’est pas modifiée par ces modes.
+
+Vérifications : tests de contenu/cadrage/accès, nouveau parcours SQL et Socket avec refus des sauts/faux callbacks, fuite puis reprise, XP et gains sauvegardés, nouvelles conversations après victoire, reconnexion et archives fermées. SQL vérifie aussi les doublons concurrents, acquis anciens et absence de prime rétroactive. Recette `test:story-browser` sur les quatre dialogues réels et quatre tailles, portraits et objectifs en ordre puis carnet sans suite active. La conclusion reste visible dans la carte de quête terminée du carnet. La quête de Timmy est également interprétée comme acquise pour les anciennes sauvegardes avancées, sans prime ou écriture supplémentaire.
+
+Validation : `verify:release -- --mysql` termine à 0 avec **495 tests applicatifs et 44 SQL**, audits, HTTP/reprise, lint et build. La recette dédiée histoire termine à 0 et sans erreur : quatre rencontres réelles × quatre tailles, portraits illustrés dont Hoze conforme, objectifs ordonnés et carnet final arrêté après Hoze. Captures Aspha et Hoze sur mobile inspectées. Les tests HTTP attendent désormais les deux quêtes initiales actives et vérifient l’absence des quêtes archivées.
+
+Build `/tmp/explorakit-lucie-story-dist`, hash `5960fdf3b31e2707` ; client `a25eb8dd59f1292ef1ecd329a8e96108aa3b7eb1`. La recette générale de publication navigateur passe à 0 et sans erreur : nouveau premier objectif Timmy/Lucie, menus/thèmes/ordre automatique, portraits, déplacements/voyages, combats/XP/audio, apprentissage et Rift. Les anciens attendus de scénario des contrôles HTTP/navigateur ont été adaptés au nouveau parcours.
+
+Publication le **20/10/2026 à 17 h 39 (Paris)**, avec redémarrage contrôlé du seul service Explorakit pour charger le nouveau catalogue et les PNJ. Checkpoint sauvegardé avant redémarrage ; **zéro expédition active** au contrôle préalable, schéma SQL inchangé. Sauvegarde sources/dist/SQL/checkpoint : `/home/ubuntu/dev/backups/explorakit-lucie-story-2026-10-20T15-27-53-847Z`. Contrôle HTTPS terminé à 0 sur un compte temporaire : mère parlant de Lucie, Aspha en fin de Route 2, Hoze à Valpierre avec le portrait illustré attendu, progression 0/1/3 puis arrêt à quatre étapes, dialogues aux quatre tailles, conclusion consultable, index conforme et aucune erreur. Compte temporaire supprimé ; Know et api-test inchangés. Service actif avec zéro redémarrage automatique. Logs/captures `/tmp/explorakit-lucie-story-*`. Aucune CI distante ni validation sur téléphone physique revendiquée.
+
 ## Eau animée de la Route 3 — 20 octobre 2026
 
 L’étang au sud-est de `route3` bénéficie du même courant discret d’un pixel source et des légers reflets que le village de départ. Profil indépendant dans `villageWater.js`, limité aux pixels intérieurs de la palette d’eau, avec marge fixe autour des berges/rochers/reflets/plantes. Aucun PNG, premier plan, collision, passage ni climat modifié ; rendu partagé par les trois modes et indépendant de la pluie.
@@ -1486,6 +1504,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **20 octobre 2026 — Récit de Lucie :** Timmy → Aspha Route 2 → Mounir → Hoze à Valpierre ; parcours borné à quatre victoires, suite conservée en archives, protections de progression/récompenses et anciennes sauvegardes, recettes SQL/Socket et navigateur dédiées.
 
 - **20 octobre 2026 — Route 3 :** profil d’eau discret propre à l’étang sud-est, sources et décor préservés ; recette sur vrais pixels et quatre tailles ajoutée à la validation météo.
 

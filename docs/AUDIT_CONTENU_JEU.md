@@ -1,5 +1,10 @@
 # Audit du contenu du jeu
 
+## Parcours jouable actuel — 20 octobre 2026
+
+**Lucie** est la sœur disparue. **Aspha** est un dresseur distinct, ajouté à la fin de Route 2. Le parcours courant remplace les descriptions historiques plus bas : Timmy (niveau 5, village) → Aspha (13/14, Route 2) → Mounir (17–19, Ville du Lac) → Hoze (37–39, Valpierre après les grottes et Route 4). Chaque victoire révèle le contact suivant. Quatre étapes au carnet ; après Hoze, la piste Raphael est annoncée mais la suite attend les nouvelles cartes du créateur. Les anciens chapitres, équipes et dialogues restent archivés/désactivés, tout comme le gardien facultatif de Valpierre remplacé par Hoze. Aucune source de carte ni transition modifiée. Portrait/sprite Hoze existants confirmés conformes au WebP fourni. Détails, compatibilité et validation dans la section du jour de `AUDIT_PROJET.md`.
+
+
 ## Extension Valpierre — 20 octobre 2026
 
 Mise à jour : le JSON officiel fourni ensuite par le créateur remplace les collisions déduites des images. Ses dix couches sont conservées intégralement, avec un TMX miroir ; les six portes et le passage ouest correspondent aux raccordements existants.

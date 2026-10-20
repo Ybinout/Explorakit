@@ -123,13 +123,13 @@
       "key": "clara_registry",
       "name": "Registre des refuges",
       "category": "key",
-      "description": "La preuve confiée par Sofiane pour retrouver Aspha."
+      "description": "La preuve confiée par Sofiane pour retrouver Lucie."
     },
     {
       "key": "clara_reunion_letter",
       "name": "Lettre de retrouvailles",
       "category": "key",
-      "description": "Un souvenir d’Aspha après les événements des refuges."
+      "description": "Un souvenir d’Lucie après les événements des refuges."
     },
     {
       "key": "life_orb",

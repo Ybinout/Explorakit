@@ -1,5 +1,13 @@
 # Contexte permanent — Explorakit
 
+## Début du récit — Lucie et Valpierre — 20 octobre 2026
+
+La sœur disparue est **Lucie** ; **Aspha** est le dresseur masculin de fin de Route 2, distinct. Parcours actif Aventure : Timmy (`dia1`) → Aspha (`aspha_route2`, 25,5, immobile, niveaux 13/14) → Mounir (`moon`, niveaux 17–19) → Hoze (`champion_hoze`, arène `ville_safe1_arene`, niveaux 37–39). Indices seulement après victoire, verrouillage au dialogue, au lancement et dans la transaction de récompense. Le carnet a quatre étapes et s’arrête après Hoze ; l’indice Raphael est conservé, sans nouvelle destination active vers les cartes inachevées.
+
+`enabled:false` archive les anciens combats/scènes/quêtes après Hoze ainsi que l’ancien gardien facultatif de Valpierre ; données, reçus, badges et drapeaux existants sont préservés. `phrase.txt` reste intact. Ne pas réactiver la suite sans instruction du créateur. Hoze a quitté `gen_arene5`, remplace le gardien et garde son Badge Dune/reçu `story_champion_hoze`, son sprite `pnj/hoze.png` et son illustration `image/hoze.png` (bien le personnage chauve à lunettes du WebP fourni). Ne pas placer deux champions au même endroit.
+
+`effectiveStoryFlags` interprète les anciennes victoires Mounir/Hoze pour ne pas imposer le nouveau début aux anciens joueurs ; aucune écriture automatique de reçus/drapeaux, aucun cadeau nouveau. Le nouveau duel Aspha est considéré acquis sur ces sauvegardes et ne peut pas verser une récompense rétroactive. Garder les identifiants techniques historiques `clara_*` malgré le nom affiché Lucie. Les expéditions conservent leurs combats sans prérequis de sauvegarde Aventure ; elles n’écrivent pas sa progression. Recettes : histoire/contenu/Valpierre, intégration SQL quatre combats + fuite/refus/reconnexion/doublons/archives/anciennes sauvegardes, `test:story-browser` (quatre rencontres × quatre tailles, portraits et carnet final), publication navigateur.
+
 ## Eau de la Route 3 — 20 octobre 2026
 
 `villageWater.js` possède aussi un profil `route3` limité à l’étang au sud-est (palette et rectangle propres). Conserver berges/rochers/reflets/plantes fixes et PNG/foreground inchangés. Même courant discret d’un pixel source, 15 Hz et garde-fous que les deux lacs précédents, sans ajout de pluie. `validateLakeWaterUi(page, output, map)` couvre `ville1` et `route3` sur leurs vraies images et aux quatre tailles ; recette météo et contrôle HTTPS.
@@ -66,11 +74,11 @@ Le JSON déposé ensuite par le créateur dans `/home/ubuntu/dev/pourtoi/ville_s
 
 ## Valpierre et combats en grotte — 20 octobre 2026
 
-Le créateur a explicitement autorisé l’intégration des deux PNG de `/home/ubuntu/dev/pourtoi` : copies exactes `ville_safe1.png`/`_f.png`, nouvelle carte technique JSON/TMX et six intérieurs indépendants via alias. Ne pas retoucher son artwork ni les autres villes qu’il prépare. L’est de route4 mène à Valpierre ; la porte du Centre est exactement (22,3), pas toute la rangée 3. Les anciens retours de Centre (848,112) se normalisent vers son vrai parvis (720,144). Conserver l’échelle praticable devant la boutique, les six sorties et les PNJ à deux cases. Arène facultative niveau 35–37, Badge Cristal/récompense uniques ; ne pas modifier les six/quatre étapes des chapitres I/II. `BattleOverlay` capture la carte au début du combat : grotte avant/arrière dédiée, socles rocheux sur les mêmes ancres que les sprites, priorité au Colosseum. Recettes : `valpierre.test.js`, Centre, histoire Socket et `test:valpierre-browser`. Les suites SQL partagent une base et tournent séquentiellement.
+Le créateur a explicitement autorisé l’intégration des deux PNG de `/home/ubuntu/dev/pourtoi` : copies exactes `ville_safe1.png`/`_f.png`, nouvelle carte technique JSON/TMX et six intérieurs indépendants via alias. Ne pas retoucher son artwork ni les autres villes qu’il prépare. L’est de route4 mène à Valpierre ; la porte du Centre est exactement (22,3), pas toute la rangée 3. Les anciens retours de Centre (848,112) se normalisent vers son vrai parvis (720,144). Conserver l’échelle praticable devant la boutique, les six sorties et les PNJ à deux cases. L’ancien gardien facultatif niveau 35–37/Badge Cristal est désormais archivé ; Hoze et le nouveau parcours de quatre étapes le remplacent (voir début du récit ci-dessus). Les anciens acquis restent conservés. `BattleOverlay` capture la carte au début du combat : grotte avant/arrière dédiée, socles rocheux sur les mêmes ancres que les sprites, priorité au Colosseum. Recettes : `valpierre.test.js`, Centre, histoire Socket et `test:valpierre-browser`. Les suites SQL partagent une base et tournent séquentiellement.
 
 ## Noms du récit — 20 octobre 2026
 
-Iris → Sofiane, Nora → Noz, Soren → Thibaut, Clara → Aspha dans les textes affichés. Conserver les identifiants historiques minuscules (`ch2_iris`, `chapter2_soren`, `clara_chapter2`, objets et drapeaux) pour les sauvegardes ; ne pas renommer les cartes en cours de création par le propriétaire.
+Iris → Sofiane, Nora → Noz, Soren → Thibaut, Clara → Lucie dans les textes affichés ; Aspha désigne désormais le dresseur distinct de la Route 2. Conserver les identifiants historiques minuscules (`ch2_iris`, `chapter2_soren`, `clara_chapter2`, objets et drapeaux) pour les sauvegardes ; ne pas renommer les cartes en cours de création par le propriétaire.
 
 ## Présentation des évolutions — 20 octobre 2026
 

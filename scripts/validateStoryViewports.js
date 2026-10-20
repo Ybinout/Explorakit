@@ -27,7 +27,7 @@ async function run() {
         const fixture = await registerFixture();
         userId = fixture.user.id;
         connection = await mysql.createConnection(getDatabaseConfig());
-        await connection.execute('UPDATE users SET map = ?, x = ?, y = ? WHERE id = ?', ['gen_arene5', 13 * 32 + 16, 6 * 32 + 16, userId]);
+        await connection.execute('UPDATE users SET map = ?, x = ?, y = ? WHERE id = ?', ['ville_safe1_arene', 13 * 32 + 16, 6 * 32 + 16, userId]);
         await connection.execute("INSERT INTO player_story_flags (user_id, flag_key, flag_value) VALUES (?, 'moonpunch_defeated', 'true')", [userId]);
         browser = spawn(executable, ['--headless=new', '--no-sandbox', '--disable-gpu', '--no-first-run',
             `--remote-debugging-port=${debugPort}`, `--user-data-dir=${profile}`, `${baseUrl}/connexion`], { stdio: 'ignore' });

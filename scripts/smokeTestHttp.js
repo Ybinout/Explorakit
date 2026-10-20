@@ -168,7 +168,8 @@ async function run() {
 
         if (team.payload.pokemons?.[0]?.pokemon_id !== 7) throw new Error('Le starter HTTP attendu est absent.');
         if (items.payload.items?.length !== 4) throw new Error("L'inventaire HTTP est incomplet.");
-        if (!['main_sister_search','first_challenge','refuges'].every(key => progress.payload.quests?.some(quest => quest.key === key))) throw new Error('Les quêtes initiales sont absentes.');
+        if (!['main_sister_search','first_challenge'].every(key => progress.payload.quests?.some(quest => quest.key === key))) throw new Error('Les quêtes initiales sont absentes.');
+        if (progress.payload.quests.some(quest => ['clara_chapter2','refuges','valpierre_passage'].includes(quest.key))) throw new Error('Une quête de la suite archivée est visible.');
         if (pokedex.payload.caught !== 1 || !pokedex.payload.entries?.find((entry) => entry.id === 7)?.caught) {
             throw new Error("Le starter n'est pas enregistré dans le Pokédex.");
         }

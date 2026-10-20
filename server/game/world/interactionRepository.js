@@ -39,8 +39,10 @@ function getSentenceForMapAndPosition(map, x, y = null, state = null) {
 
 function getSentenceForName(name, state = null) {
     let dialogueEntry = getDialogueEntryByName(name);
-    if (dialogueEntry && state) {
-        const definition = catalog.npcBattles?.[name] || catalog.storyEvents?.[name];
+    const definition = catalog.npcBattles?.[name] || catalog.storyEvents?.[name];
+    if (definition?.enabled === false && dialogueEntry?.locked) {
+        dialogueEntry = getDialogueEntryByName(dialogueEntry.locked);
+    } else if (dialogueEntry && state) {
         const completed = hasCompletedBattle(catalog.npcBattles?.[name], state)
             || (definition?.completionFlag && state.flags?.[definition.completionFlag] === 'true');
         if (completed && dialogueEntry.after) dialogueEntry = getDialogueEntryByName(dialogueEntry.after);

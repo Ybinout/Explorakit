@@ -3,7 +3,7 @@
     "name": "dia0",
     "sentences": [
       {
-        "text": "Ta sœur Aspha nous écrivait de chaque ville. Sa dernière lettre parlait d’un groupe qui protégeait les Pokémon : l’Aube Obscure. Puis, plus rien.",
+        "text": "Ta sœur Lucie nous écrivait de chaque ville. Sa dernière lettre parlait d’un groupe qui protégeait les Pokémon : l’Aube Obscure. Puis, plus rien.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -12,7 +12,7 @@
         }
       },
       {
-        "text": "Ton compagnon est prêt. À la Ville du Lac, cherche Mounir ; on le surnomme Moonpunch. Aspha s’entraînait avec lui avant son départ.",
+        "text": "Si tu veux partir à sa recherche, commence par parler à Timmy, près de la sortie du village. Il connaît les dresseurs des premières routes.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -38,11 +38,11 @@
     "x": 18,
     "sentences": [
       {
-        "text": "Timmy : Tu pars retrouver Aspha ? Je me souviens de ses conseils. Avant la route, faisons un petit duel pour préparer ton compagnon.",
+        "text": "Timmy : Tu cherches ta sœur Lucie ? J’ai peut-être une piste, mais je refuse de t’aider tant que tu ne m’as pas battu.",
         "imageName": "a.png"
       },
       {
-        "text": "Timmy : Mon Rattata est niveau 5. Ce combat d’entraînement n’a lieu qu’une fois ; soigne ton équipe avant de me parler si nécessaire. Allons-y !",
+        "text": "Timmy : Mon Rattata est niveau 5. Prépare ton compagnon : si tu gagnes, je te dirai à qui parler !",
         "imageName": "a.png"
       }
     ],
@@ -69,17 +69,18 @@
     "x": null,
     "sentences": [
       {
-        "text": "Mounir : Ici, on m’appelle Moonpunch. Aspha venait souvent s’entraîner. Elle est partie vers Ocreville après avoir parlé à un membre de l’Aube Obscure.",
+        "text": "Mounir : Aspha, le dresseur de la Route 2, t’envoie ? Ici, on m’appelle Moonpunch. Tu cherches ta sœur Lucie...",
         "imageName": "moonpunch.png"
       },
       {
-        "text": "Mounir : Je refuse de te laisser suivre cette piste sans préparation. Mes trois Pokémon sont niveaux 18 à 20. Montre-moi comment tu prends soin de ton équipe !",
+        "text": "Mounir : Avant de poursuivre, montre-moi que tu peux protéger ton équipe. Mes trois Pokémon sont niveaux 17 à 19. Après le combat, nous parlerons.",
         "imageName": "moonpunch.png"
       }
     ],
     "end": "battle",
     "team": "moonpunch",
-    "after": "moon_after"
+    "after": "moon_after",
+    "locked": "moon_locked"
   },
   {
     "name": "route_guide_1",
@@ -108,7 +109,7 @@
     "name": "route_guide_2",
     "sentences": [
       {
-        "text": "Entre Rivazur et Clairbois, des voyageurs ont vu Aspha porter un carnet. Aux archives, Éloi conserve ce qu’elle lui a confié.",
+        "text": "Entre Rivazur et Clairbois, des voyageurs ont vu Lucie porter un carnet. Aux archives, Éloi conserve ce qu’elle lui a confié.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -178,7 +179,7 @@
     "name": "route_guide_7",
     "sentences": [
       {
-        "text": "Cette route relie Ocreville à Floraville. Hoze connaît Raphael ; tous deux ont rencontré Aspha avant sa disparition.",
+        "text": "Cette route relie Ocreville à Floraville. Hoze connaît Raphael ; tous deux ont rencontré Lucie avant sa disparition.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -262,7 +263,7 @@
     "name": "city_guide_5",
     "sentences": [
       {
-        "text": "Bienvenue à Ocreville. Hoze tient l’arène Dune au nord-est. Si vous cherchez Aspha, c’est ici que commence la piste après Mounir.",
+        "text": "Bienvenue à Ocreville. Hoze tient l’arène Dune au nord-est. Si vous cherchez Lucie, c’est ici que commence la piste après Mounir.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -276,7 +277,7 @@
     "name": "home_resident_1",
     "sentences": [
       {
-        "text": "Aspha s’est reposée ici avant de remettre une lettre aux archives. Elle semblait inquiète, mais décidée à découvrir la vérité.",
+        "text": "Lucie s’est reposée ici avant de remettre une lettre aux archives. Elle semblait inquiète, mais décidée à découvrir la vérité.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -348,11 +349,11 @@
     "name": "dia1_after",
     "sentences": [
       {
-        "text": "Timmy : Bien joué ! Garde ces 600 pièces pour ton voyage. Ton Pokémon et toi commencez à vous comprendre.",
+        "text": "Timmy : Bien joué ! Tu as tenu parole. Garde ces pièces pour ton voyage.",
         "imageName": "a.png"
       },
       {
-        "text": "Timmy : À la Ville du Lac, le Centre soigne gratuitement ton équipe. Mounir t’attend dans l’arène. Les dresseurs en ville proposent aussi des duels facultatifs.",
+        "text": "Timmy : Aspha pourra peut-être t’en dire plus sur Lucie. C’est un dresseur que tu trouveras à la fin de la Route 2, juste avant la Ville du Lac.",
         "imageName": "a.png"
       }
     ]
@@ -361,11 +362,15 @@
     "name": "moon_after",
     "sentences": [
       {
-        "text": "Mounir : Tu as gagné. Aspha avait la même détermination. Hoze l’a vue à Ocreville ; il saura t’en dire plus.",
+        "text": "Mounir : Tu as gagné. Je vais être franc : je ne sais pas où est Lucie, ni ce qui lui est arrivé.",
         "imageName": "moonpunch.png"
       },
       {
-        "text": "Mounir : Continue jusqu’à la route 4, puis prends le passage vers la route 8. Ocreville vient ensuite. Profite du trajet pour renforcer ton équipe : Hoze combat avec des niveaux 40 à 43.",
+        "text": "Mounir : Hoze, le champion de Valpierre, a des contacts. Il aura peut-être une idée. Pour le rejoindre, prends la Route 3, traverse les deux grottes, puis suis la Route 4 vers l’est.",
+        "imageName": "moonpunch.png"
+      },
+      {
+        "text": "Mounir : Ce trajet n’est pas simple. Prépare des soins et entraîne ton équipe avant les grottes. Hoze t’attend dans l’arène de Valpierre avec des Pokémon niveaux 37 à 39.",
         "imageName": "moonpunch.png"
       }
     ]
@@ -374,11 +379,11 @@
     "name": "champion_hoze",
     "sentences": [
       {
-        "text": "Hoze : Mounir m’a parlé de toi. Tu cherches Aspha ? Elle est passée ici, mais cette piste n’est pas faite pour ceux qui hésitent.",
+        "text": "Hoze : Mounir m’a parlé de toi. Tu es ce nouveau Dresseur qui cherche sa sœur Lucie ? Ici, ce n’est pas l’endroit pour ceux qui hésitent.",
         "imageName": "hoze.png"
       },
       {
-        "text": "Hoze : Dans mon arène, le sol lui-même est une épreuve. Trois Pokémon, niveaux 40 à 43. Montre-moi ce que tu as dans le ventre !",
+        "text": "Hoze : Tu crois avoir ce qu’il faut pour me battre ? Trois Pokémon, niveaux 37 à 39. Montre-moi ce que tu as dans le ventre, ou retourne t’entraîner !",
         "imageName": "hoze.png"
       }
     ],
@@ -391,15 +396,15 @@
     "name": "champion_hoze_after",
     "sentences": [
       {
-        "text": "Hoze : Je n’avais pas vu un tel potentiel depuis un moment. Le Badge Dune est à toi.",
+        "text": "Hoze : Je n’avais pas vu un tel potentiel depuis un moment. Bien joué ! Tu as mérité le Badge Dune de l’arène de Valpierre.",
         "imageName": "hoze.png"
       },
       {
-        "text": "Hoze : Aspha accompagnait des gens de l’Aube Obscure. Elle posait trop de questions pour une simple recrue. Va parler à Raphael, à Floraville.",
+        "text": "Hoze : Si tu cherches des réponses sur Lucie, va parler à Raphael. C’est un type un peu étrange, mais il a l’air de tout savoir sur ce qui se passe par ici.",
         "imageName": "hoze.png"
       },
       {
-        "text": "Hoze : Il paraît étrange, mais rien ne lui échappe. La route 7 relie nos deux villes. Ses Pokémon sont niveaux 44 à 46.",
+        "text": "Hoze : Je suis sûr qu’il pourrait t’aider... si tu parviens à le convaincre. Pour l’instant, repose ton équipe : cette première piste s’arrête ici. La suite de ton aventure viendra plus tard.",
         "imageName": "hoze.png"
       }
     ]
@@ -408,7 +413,7 @@
     "name": "champion_hoze_locked",
     "sentences": [
       {
-        "text": "Hoze : Tu viens au sujet d’Aspha ? Parle d’abord à Mounir dans l’arène de la Ville du Lac. J’ai besoin de savoir que tu es prêt à suivre sa piste.",
+        "text": "Hoze : Mounir doit d’abord éprouver ta détermination dans l’arène de la Ville du Lac. Reviens me voir à Valpierre après l’avoir battu.",
         "imageName": "hoze.png"
       }
     ]
@@ -434,11 +439,11 @@
     "name": "champion_raphael_after",
     "sentences": [
       {
-        "text": "Raphael : Tu as prouvé ta valeur. Voici le Badge Floraison. Quant à Aspha… elle voulait comprendre pourquoi des Pokémon quittaient leur habitat.",
+        "text": "Raphael : Tu as prouvé ta valeur. Voici le Badge Floraison. Quant à Lucie… elle voulait comprendre pourquoi des Pokémon quittaient leur habitat.",
         "imageName": "raph.png"
       },
       {
-        "text": "Raphael : L’Aube Obscure promettait de les protéger. Aspha a commencé à douter de leurs méthodes, puis elle est partie interroger Ana.",
+        "text": "Raphael : L’Aube Obscure promettait de les protéger. Lucie a commencé à douter de leurs méthodes, puis elle est partie interroger Ana.",
         "imageName": "raph.png"
       },
       {
@@ -451,7 +456,7 @@
     "name": "champion_raphael_locked",
     "sentences": [
       {
-        "text": "Raphael : Les rumeurs vont vite. Pour parler d’Aspha, commence par Hoze à Ocreville. Sans son témoignage, tu n’aurais qu’une moitié de l’histoire.",
+        "text": "La suite de cette piste n’est pas encore disponible. Ton enquête sur Lucie se poursuit pour le moment jusqu’à Hoze, à Valpierre.",
         "imageName": "raph.png"
       }
     ]
@@ -460,7 +465,7 @@
     "name": "champion_ana",
     "sentences": [
       {
-        "text": "Ana : Alors, c’est toi qui cherches Aspha. Raphael a dû te prévenir : ce que je sais touche aussi à ma famille.",
+        "text": "Ana : Alors, c’est toi qui cherches Lucie. Raphael a dû te prévenir : ce que je sais touche aussi à ma famille.",
         "imageName": "ana.png"
       },
       {
@@ -477,7 +482,7 @@
     "name": "champion_ana_after",
     "sentences": [
       {
-        "text": "Ana : Tu es plus persévérant que je ne le pensais. Tu mérites le Badge Minerai. Aspha s’est retrouvée mêlée à une organisation dangereuse : l’Aube Obscure.",
+        "text": "Ana : Tu es plus persévérant que je ne le pensais. Tu mérites le Badge Minerai. Lucie s’est retrouvée mêlée à une organisation dangereuse : l’Aube Obscure.",
         "imageName": "ana.png"
       },
       {
@@ -494,7 +499,7 @@
     "name": "champion_ana_locked",
     "sentences": [
       {
-        "text": "Ana : Je ne parlerai pas sur la foi d’une rumeur. Va voir Raphael à Floraville ; il a entendu Aspha expliquer ce qu’elle cherchait.",
+        "text": "La suite de cette piste n’est pas encore disponible. Ton enquête sur Lucie se poursuit pour le moment jusqu’à Hoze, à Valpierre.",
         "imageName": "ana.png"
       }
     ]
@@ -528,7 +533,7 @@
         "imageName": "wanda.png"
       },
       {
-        "text": "Wanda : J’ai quitté l’organisation. Cela n’efface pas ma responsabilité. Aspha a découvert ce qu’ils faisaient ; elle pourrait être en grand danger.",
+        "text": "Wanda : J’ai quitté l’organisation. Cela n’efface pas ma responsabilité. Lucie a découvert ce qu’ils faisaient ; elle pourrait être en grand danger.",
         "imageName": "wanda.png"
       },
       {
@@ -541,7 +546,7 @@
     "name": "champion_wanda_locked",
     "sentences": [
       {
-        "text": "Wanda : Tu veux des réponses sur Aspha ? Commence par écouter Ana à Rochebourg. Ma sœur mérite que tu entendes son histoire avant la mienne.",
+        "text": "La suite de cette piste n’est pas encore disponible. Ton enquête sur Lucie se poursuit pour le moment jusqu’à Hoze, à Valpierre.",
         "imageName": "wanda.png"
       }
     ]
@@ -550,7 +555,7 @@
     "name": "clara_letter",
     "sentences": [
       {
-        "text": "Éloi : Wanda t’envoie ? Alors tu dois être de la famille d’Aspha. Elle m’a confié cette lettre, avec ordre de la garder loin de l’Aube Obscure.",
+        "text": "Éloi : Wanda t’envoie ? Alors tu dois être de la famille d’Lucie. Elle m’a confié cette lettre, avec ordre de la garder loin de l’Aube Obscure.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -559,7 +564,7 @@
         }
       },
       {
-        "text": "Aspha : « Si tu lis ceci, tu as dû suivre ma trace. Je croyais aider les Pokémon. J’ai découvert des opérations dont même les nouvelles recrues ne savent rien. »",
+        "text": "Lucie : « Si tu lis ceci, tu as dû suivre ma trace. Je croyais aider les Pokémon. J’ai découvert des opérations dont même les nouvelles recrues ne savent rien. »",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -568,7 +573,7 @@
         }
       },
       {
-        "text": "Aspha : « Je vais chercher des preuves. Ne fais confiance à personne sur la seule foi de son emblème. Souviens-toi : protéger un Pokémon ne donne pas le droit de choisir sa vie. »",
+        "text": "Lucie : « Je vais chercher des preuves. Ne fais confiance à personne sur la seule foi de son emblème. Souviens-toi : protéger un Pokémon ne donne pas le droit de choisir sa vie. »",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -586,7 +591,7 @@
         }
       },
       {
-        "text": "Éloi : Tu sais désormais pourquoi Aspha a disparu. Ce premier chapitre s’achève ; sa recherche, elle, continue. Reviens aux archives quand tu voudras relire sa lettre.",
+        "text": "Éloi : Tu sais désormais pourquoi Lucie a disparu. Ce premier chapitre s’achève ; sa recherche, elle, continue. Reviens aux archives quand tu voudras relire sa lettre.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -603,16 +608,7 @@
     "name": "clara_letter_locked",
     "sentences": [
       {
-        "text": "Éloi : Ces archives abritent des témoignages sensibles. Je garde une lettre pour la famille d’Aspha, mais je dois d’abord savoir à qui je peux la confier.",
-        "imageName": "townspeople.png",
-        "portraitFrame": {
-          "columns": 8,
-          "rows": 4,
-          "index": 14
-        }
-      },
-      {
-        "text": "Éloi : Wanda, à Rivazur, connaît les circonstances de sa disparition. Suis la piste depuis Mounir et les champions ; reviens lorsqu’elle t’aura accordé sa confiance.",
+        "text": "La suite de cette piste n’est pas encore disponible. Ton enquête sur Lucie se poursuit pour le moment jusqu’à Hoze, à Valpierre.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -626,7 +622,7 @@
     "name": "clara_letter_after",
     "sentences": [
       {
-        "text": "Éloi : La lettre d’Aspha est toujours à l’abri. Elle enquêtait sur l’Aube Obscure et cherchait des preuves de ses opérations.",
+        "text": "Éloi : La lettre d’Lucie est toujours à l’abri. Elle enquêtait sur l’Aube Obscure et cherchait des preuves de ses opérations.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -635,7 +631,7 @@
         }
       },
       {
-        "text": "Aspha : « Ne fais confiance à personne sur la seule foi de son emblème. Protéger un Pokémon ne donne pas le droit de choisir sa vie. »",
+        "text": "Lucie : « Ne fais confiance à personne sur la seule foi de son emblème. Protéger un Pokémon ne donne pas le droit de choisir sa vie. »",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -644,7 +640,7 @@
         }
       },
       {
-        "text": "Éloi : Sofiane, dans la maison de Clairbois, a gardé un registre lié à cette lettre. Va le voir : la piste d’Aspha continue.",
+        "text": "Éloi : Sofiane, dans la maison de Clairbois, a gardé un registre lié à cette lettre. Va le voir : la piste d’Lucie continue.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -707,7 +703,7 @@
     "name": "town_bastien",
     "sentences": [
       {
-        "text": "Bastien : Aspha m’a appris à varier mon équipe. Deux partenaires, niveaux 13 et 14 : à toi de jouer !",
+        "text": "Bastien : Lucie m’a appris à varier mon équipe. Deux partenaires, niveaux 13 et 14 : à toi de jouer !",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -742,7 +738,7 @@
         }
       },
       {
-        "text": "Bastien : Mounir garde un souvenir ému d’Aspha. Va lui parler dans l’arène ; il ne le montrera pas, mais tu lui feras plaisir.",
+        "text": "Bastien : Mounir garde un souvenir ému d’Lucie. Va lui parler dans l’arène ; il ne le montrera pas, mais tu lui feras plaisir.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -889,7 +885,7 @@
         }
       },
       {
-        "text": "Sofiane : Aspha prenait des notes sur les fleurs désertées par les Pokémon. Raphael lui a prêté ses relevés.",
+        "text": "Sofiane : Lucie prenait des notes sur les fleurs désertées par les Pokémon. Raphael lui a prêté ses relevés.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1036,7 +1032,7 @@
         }
       },
       {
-        "text": "Maëlle : Aspha a interrogé les ouvriers après le passage d’un convoi. Ana a reconnu le signe de l’Aube Obscure sur leurs caisses.",
+        "text": "Maëlle : Lucie a interrogé les ouvriers après le passage d’un convoi. Ana a reconnu le signe de l’Aube Obscure sur leurs caisses.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1232,7 +1228,7 @@
         }
       },
       {
-        "text": "Célia : Tu as fait du chemin. Prends le temps de lire la lettre d’Aspha aux archives ; gagner n’est pas toujours la seule façon d’avancer.",
+        "text": "Célia : Tu as fait du chemin. Prends le temps de lire la lettre d’Lucie aux archives ; gagner n’est pas toujours la seule façon d’avancer.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1246,7 +1242,7 @@
     "name": "ch2_iris",
     "sentences": [
       {
-        "text": "Sofiane : La lettre d’Aspha parle de registres falsifiés. J’ai conservé le double d’une livraison : des Pokémon transportés sous couvert de soins.",
+        "text": "Sofiane : La lettre d’Lucie parle de registres falsifiés. J’ai conservé le double d’une livraison : des Pokémon transportés sous couvert de soins.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1272,7 +1268,7 @@
     "name": "ch2_iris_locked",
     "sentences": [
       {
-        "text": "Sofiane : Nous parlerons de cette piste quand tu auras suivi les indices précédents de ton carnet.",
+        "text": "La suite de cette piste n’est pas encore disponible. Ton enquête sur Lucie se poursuit pour le moment jusqu’à Hoze, à Valpierre.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1300,7 +1296,7 @@
     "name": "ch2_nora",
     "sentences": [
       {
-        "text": "Noz : J’ai guidé Aspha jusqu’à Rochebourg. Elle a découvert que l’Aube Obscure revendait les Pokémon confiés à son refuge.",
+        "text": "Noz : J’ai guidé Lucie jusqu’à Rochebourg. Elle a découvert que l’Aube Obscure revendait les Pokémon confiés à son refuge.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1326,7 +1322,7 @@
     "name": "ch2_nora_locked",
     "sentences": [
       {
-        "text": "Noz : Nous parlerons de cette piste quand tu auras suivi les indices précédents de ton carnet.",
+        "text": "La suite de cette piste n’est pas encore disponible. Ton enquête sur Lucie se poursuit pour le moment jusqu’à Hoze, à Valpierre.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1354,7 +1350,7 @@
     "name": "ch2_soren",
     "sentences": [
       {
-        "text": "Thibaut : Aspha voulait prévenir les habitants. Je pensais protéger le refuge en gardant le silence… mais ses registres disent vrai.",
+        "text": "Thibaut : Lucie voulait prévenir les habitants. Je pensais protéger le refuge en gardant le silence… mais ses registres disent vrai.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1381,7 +1377,7 @@
     "name": "ch2_soren_locked",
     "sentences": [
       {
-        "text": "Thibaut : Nous parlerons de cette piste quand tu auras suivi les indices précédents de ton carnet.",
+        "text": "La suite de cette piste n’est pas encore disponible. Ton enquête sur Lucie se poursuit pour le moment jusqu’à Hoze, à Valpierre.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1395,7 +1391,7 @@
     "name": "ch2_soren_after",
     "sentences": [
       {
-        "text": "Thibaut : Aspha est à l’abri dans une maison de Floraville. Dis-lui que les preuves sont entre de bonnes mains.",
+        "text": "Thibaut : Lucie est à l’abri dans une maison de Floraville. Dis-lui que les preuves sont entre de bonnes mains.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1409,7 +1405,7 @@
     "name": "ch2_clara",
     "sentences": [
       {
-        "text": "Aspha : Tu m’as retrouvée ! Je suis restée ici pour mettre les Pokémon à l’abri. Je ne voulais pas vous entraîner dans cette histoire.",
+        "text": "Lucie : Tu m’as retrouvée ! Je suis restée ici pour mettre les Pokémon à l’abri. Je ne voulais pas vous entraîner dans cette histoire.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1418,7 +1414,7 @@
         }
       },
       {
-        "text": "Aspha : Avec le registre et le témoignage de Thibaut, les habitants peuvent reprendre le refuge. Cette fois, nous agirons ensemble.",
+        "text": "Lucie : Avec le registre et le témoignage de Thibaut, les habitants peuvent reprendre le refuge. Cette fois, nous agirons ensemble.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1427,7 +1423,7 @@
         }
       },
       {
-        "text": "Aspha : Rentrons rassurer maman. Garde cette lettre : tu as gagné la confiance des refuges, et une nouvelle aventure reste possible.",
+        "text": "Lucie : Rentrons rassurer maman. Garde cette lettre : tu as gagné la confiance des refuges, et une nouvelle aventure reste possible.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1444,7 +1440,7 @@
     "name": "ch2_clara_locked",
     "sentences": [
       {
-        "text": "Aspha : Nous parlerons de cette piste quand tu auras suivi les indices précédents de ton carnet.",
+        "text": "La suite de cette piste n’est pas encore disponible. Ton enquête sur Lucie se poursuit pour le moment jusqu’à Hoze, à Valpierre.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1458,7 +1454,7 @@
     "name": "ch2_clara_after",
     "sentences": [
       {
-        "text": "Aspha : Le chapitre II est terminé. Merci de m’avoir retrouvée. Retourne au village quand tu le souhaites ; les refuges gardent leurs portes ouvertes.",
+        "text": "Lucie : Le chapitre II est terminé. Merci de m’avoir retrouvée. Retourne au village quand tu le souhaites ; les refuges gardent leurs portes ouvertes.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1498,7 +1494,7 @@
     "name": "refuge_lyse_locked",
     "sentences": [
       {
-        "text": "Lyse : Nous parlerons de cette piste quand tu auras suivi les indices précédents de ton carnet.",
+        "text": "La suite de cette piste n’est pas encore disponible. Ton enquête sur Lucie se poursuit pour le moment jusqu’à Hoze, à Valpierre.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1552,7 +1548,7 @@
     "name": "refuge_abel_locked",
     "sentences": [
       {
-        "text": "Abel : Nous parlerons de cette piste quand tu auras suivi les indices précédents de ton carnet.",
+        "text": "La suite de cette piste n’est pas encore disponible. Ton enquête sur Lucie se poursuit pour le moment jusqu’à Hoze, à Valpierre.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1612,7 +1608,7 @@
     "x": null,
     "sentences": [
       {
-        "text": "Bienvenue à Valpierre ! La route 4 est à l’ouest. Le grand bâtiment à la Pokéball abrite notre arène du passage. La boutique est à l’est ; les maisons sont au nord.",
+        "text": "Bienvenue à Valpierre ! Tu arrives par la Route 4, à l’ouest. Le grand bâtiment à la Pokéball abrite l’arène de Hoze. La boutique est à l’est ; les maisons sont au nord.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1621,7 +1617,7 @@
         }
       },
       {
-        "text": "Aspha est passée par notre relais. Le gardien de l’arène conserve le registre des voyageurs. Son défi est facultatif : trois Pokémon, niveaux 35 à 37.",
+        "text": "Tu recherches Lucie ? Si Mounir t’envoie, va voir Hoze. Notre champion a beaucoup de contacts, mais il te demandera de prouver ta valeur : niveaux 37 à 39.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1638,7 +1634,7 @@
     "x": null,
     "sentences": [
       {
-        "text": "Gardien : Aspha nous a mis en garde contre des convois de l’Aube Obscure. Ici, nous apprenons à protéger les voyageurs et leurs Pokémon.",
+        "text": "Gardien : Lucie nous a mis en garde contre des convois de l’Aube Obscure. Ici, nous apprenons à protéger les voyageurs et leurs Pokémon.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1665,7 +1661,7 @@
     "name": "valpierre_gardien_after",
     "sentences": [
       {
-        "text": "Gardien : Bien joué ! Voici 1 500 pièces et le Badge Cristal. Aspha figure dans nos registres. Hoze, à Ocreville, connaît la suite de sa piste ; cette arène reste un détour facultatif.",
+        "text": "Gardien : Bien joué ! Voici 1 500 pièces et le Badge Cristal. Lucie figure dans nos registres. Hoze, à Ocreville, connaît la suite de sa piste ; cette arène reste un détour facultatif.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1680,7 +1676,7 @@
     "name": "valpierre_gardien_locked",
     "sentences": [
       {
-        "text": "Gardien : Affronte d’abord Mounir dans l’arène de la Ville du Lac. Tu pourras ensuite revenir relever mon défi ; Valpierre reste ouverte à tous.",
+        "text": "La suite de cette piste n’est pas encore disponible. Ton enquête sur Lucie se poursuit pour le moment jusqu’à Hoze, à Valpierre.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1697,7 +1693,7 @@
     "x": null,
     "sentences": [
       {
-        "text": "Prends le temps de souffler. Notre relais accueille les compagnons des voyageurs, comme Aspha nous l’a appris. Je vais soigner ton équipe.",
+        "text": "Prends le temps de souffler. Notre relais accueille les compagnons des voyageurs, comme Lucie nous l’a appris. Je vais soigner ton équipe.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1724,5 +1720,78 @@
       }
     ],
     "end": null
+  },
+  {
+    "name": "aspha_route2",
+    "sentences": [
+      {
+        "text": "Aspha : Timmy t’envoie à la recherche de Lucie ? Avant de te donner ma piste, je veux voir comment tu te débrouilles en combat.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 25
+        }
+      },
+      {
+        "text": "Aspha : J’ai deux compagnons, Snubbull niveau 13 et Nénupiot niveau 14. Bats-moi et je te dirai à qui parler.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 25
+        }
+      }
+    ],
+    "end": "battle",
+    "team": "aspha_route2",
+    "after": "aspha_route2_after",
+    "locked": "aspha_route2_locked"
+  },
+  {
+    "name": "aspha_route2_after",
+    "sentences": [
+      {
+        "text": "Aspha : Beau combat ! Pour retrouver Lucie, va voir Mounir. On le surnomme Moonpunch ; il reçoit les dresseurs dans l’arène de la Ville du Lac.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 25
+        }
+      },
+      {
+        "text": "Aspha : La ville est juste au bout de cette route, à l’est. Passe au Centre pour soigner ton équipe avant de le défier.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 25
+        }
+      }
+    ]
+  },
+  {
+    "name": "aspha_route2_locked",
+    "sentences": [
+      {
+        "text": "Aspha : Tu recherches ta sœur Lucie ? Va d’abord parler à Timmy au village de départ. Gagne son duel, puis reviens me voir ici.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 25
+        }
+      }
+    ]
+  },
+  {
+    "name": "moon_locked",
+    "sentences": [
+      {
+        "text": "Mounir : Tu recherches Lucie ? Commence par retrouver Aspha, le dresseur à la fin de la Route 2. Gagne son duel, puis reviens me voir.",
+        "imageName": "moonpunch.png"
+      }
+    ]
   }
 ]
