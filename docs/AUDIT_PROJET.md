@@ -1,5 +1,17 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Refonte du bilan de combat — 20 octobre 2026
+
+Le bilan de fin de combat adopte la DA bleu pâle commune au Pokédex : typographie Arial, bordure simple, titre compact, petit pictogramme d’issue et bouton Continuer pleine largeur. Suppression du médaillon, des dorures, du titre serif, du flou de fond et des phrases décoratives. Une fuite ou un match nul sans gains ne crée plus de corps vide ; les explications restent affichées pour une interruption, un forfait ou une défaite.
+
+Les gains réellement reçus, niveaux, capture, objets, compagnons perdus et récupération restent disponibles dans une zone défilante. Le message de récupération peut toujours arriver après l’ouverture du bilan. Le contexte distingue Aventure, Rift et Colosseum ; l’avertissement de temps n’apparaît qu’en exploration. Même composant dans les trois modes, aucune règle, donnée de combat, carte ou attribution modifiée. Conservation des hooks existants, du focus initial et piégé, Échap/Entrée/Espace, de la confirmation explicite et de la file combat/XP → bilan → évolution/apprentissage.
+
+Recette dédiée intégrée à `test:release-browser` : six issues aux quatre tailles (24 présentations), résultats compacts, gains exacts, six compagnons/longs noms, défilement, bouton tactile, descriptions accessibles, focus et récupération tardive. Contrôle du contexte sur un vrai Rift ; `test:combat-browser` vérifie le bilan Colosseum après la fin des animations de K.O., sans avertissement de temps en circuit.
+
+Validation : `verify:release -- --mysql`, `test:release-browser` et `test:combat-browser` terminent tous avec code 0, sans erreur applicative : **482 tests actifs et 43 SQL**, audits, HTTP/reprise, lint/build ; 24 présentations de bilan, récupération tardive, clavier/tactile, menus et parcours mobiles, XP avant bilan, évolution/apprentissage et chronologie réelle des combats. Captures fuite, victoire 320 px/paysage et capture inspectées. Build `/tmp/explorakit-result-menu-dist`, hash `2086b28c7f465965`. Client publié `a9100e5a81e2bea4fd890f4be147ae54f61aa734`. Logs/captures `/tmp/explorakit-result-menu-*`.
+
+Publication statique le **20/10/2026 à 13 h 01 (Paris)**, sans redémarrage ni changement de processus serveur. Sauvegarde sources/dist/SQL/checkpoint : `/home/ubuntu/dev/backups/explorakit-result-menu-2026-10-20T10-56-59-310Z`. Contrôle HTTPS terminé à 0 sur un vrai duel entre deux comptes temporaires : match nul sans gains, panneau compact bleu pâle aux quatre tailles, focus et cible tactile, fermeture/reprise, index identique au build, aucune erreur. Know et api-test inchangés ; comptes temporaires supprimés. Service actif, aucun redémarrage en boucle. Aucune CI distante ni validation sur téléphone physique revendiquée.
+
 ## Palette des menus bleu très pâle — 20 octobre 2026
 
 À la demande du créateur, les surfaces blanches de la DA commune prennent une légère teinte bleu ciel : fond `#edf5fc`, cartes `#f4f9fe`, surfaces secondaires `#e2eef8`, sélection `#d6e7f5`. Bordures et accents sont harmonisés en bleu doux, textes conservés foncés. Les anciennes surfaces neutres codées en dur du Pokédex et les détails neutres de l’étui sont raccordés à cette palette, pour éviter des îlots blancs/sauge.
@@ -1392,6 +1404,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **20/10/2026 — Bilan de combat** : panneau bleu pâle compact, sans dorures ni phrases décoratives ; gains et récupération préservés, contextes Aventure/Rift/Colosseum, six issues aux quatre tailles. Voir la section du jour.
 
 - **20/10/2026 — Bleu pâle** : surfaces communes légèrement bleutées et éléments neutres du Pokédex/étui harmonisés, couleurs sémantiques conservées. Voir la section du jour.
 

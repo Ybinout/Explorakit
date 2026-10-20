@@ -6,6 +6,7 @@ const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
 const { validateJournalUi, viewports } = require('./validateJournalUi');
+const { validateBattleResultUi, assertResultMode } = require('./validateBattleResultUi');
 const { validateMobileWorld } = require('./validateMobileWorld');
 const mysql = require('mysql2/promise');
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -287,6 +288,7 @@ async function fit(page, selector, width, height) {
         assert(healed.current_hp > 1, 'Le soin doit être sauvegardé');
         await page.screenshot({ path: path.join(output, 'medicine-mobile.png') });
         const journal = await validateJournalUi(page, output, fit);
+        const battleResults = await validateBattleResultUi(page, output, fit);
         await page.goto(base + '/drift', { waitUntil: 'networkidle' });
         const mobile = await validateMobileWorld({ loginContext, fixture: host, base, output, fit });
         const learner = await request('/users', null, { username:'learn_'+randomUUID(),password:'Learning-browser-2026',starterId:1 });
@@ -311,6 +313,7 @@ async function fit(page, selector, width, height) {
         journalHost.disconnect();
         await page.goto(base + '/drift/game', { waitUntil: 'networkidle' });
         await page.locator('.game-root.is-drift .drift-hud').waitFor();
+        await assertResultMode(page, 'Rift', true);
         for (const [width, height] of [...viewports, [740, 320]]) {
             await page.setViewportSize({ width, height });
             await fit(page, '.world-toolbar', width, height);
@@ -339,6 +342,7 @@ async function fit(page, selector, width, height) {
                 objectiveAndHelp: true,
                 medicine: true,
                 journal,
+                battleResults,
                 mobile,
                 learning,
                 riftToolbar: true,

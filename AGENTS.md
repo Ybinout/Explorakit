@@ -1,5 +1,9 @@
 # Contexte permanent — Explorakit
 
+## Bilan de combat sobre — 20 octobre 2026
+
+`BattleResultPanel` utilise les variables communes bleu pâle, Arial, un petit pictogramme et les seules informations réelles. Ne pas réintroduire le médaillon doré, le titre serif, les phrases décoratives ou un bloc vide après fuite/match nul. Les six issues restent explicites, sans fermeture automatique ; conserver focus/Tab/Échap, résultat après la file combat/XP, message de récupération tardif et restitution vers évolution/apprentissage. `UserMap` fournit le libellé Aventure/Rift/Colosseum et l’avertissement de temps uniquement en exploration. Recettes : `validateBattleResultUi` dans publication (six issues × quatre tailles, gains, défilement, focus et récupération tardive), vrai Rift et combat Colosseum.
+
 ## Menus bleu très pâle — 20 octobre 2026
 
 La palette commune `field-journal.css` remplace le papier blanc/sauge par un bleu très pâle (`paper #edf5fc`, `card #f4f9fe`, `soft #e2eef8`). Pokédex, badges, menus, sac, équipe, dialogues et carnets utilisant ces tokens restent cohérents ; surfaces neutres du Pokédex raccordées aux variables. Conserver les couleurs sémantiques des types, attaques, PV, emblèmes et récompenses. Aucun changement de géométrie, météo ni règle. Recette de publication : huit panneaux aux quatre tailles, comparaison des surfaces et captures ; garder des textes foncés lisibles.
