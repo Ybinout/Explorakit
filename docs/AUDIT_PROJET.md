@@ -1,5 +1,18 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Essai météo animé au village — 20 octobre 2026
+
+Premier prototype visuel sur la carte `start`, partagé par l’Aventure et l’exploration Rift/Colosseum. Menu → **Météo du village** propose séparément arrêt/léger/soutenu/fort pour le vent et arrêt/pluie fine/modérée/averse pour la pluie, avec réinitialisation. Les choix sont conservés sur l’appareil ; léger/fine par défaut. Feuilles et rafales animées, pluie inclinée selon le vent, éclaboussures et léger voile pluvieux. Aucun effet sur les règles de combat, rencontres, déplacements, cartes ou données serveur. Neige et sable restent à réaliser après ce premier essai.
+
+Le rendu suit la caméra et passe après le premier plan. Surface hors écran fixe 896×640, cache à 30 Hz dans la boucle du monde existante, maximum 210 éléments ; pas de minuterie ni de requête supplémentaires. Libération de la surface hors village, au chargement, en combat et à l’onglet masqué. Le mouvement réduit système et le réglage d’animations du jeu donnent une ambiance fixe. Panneau avec commandes tactiles d’au moins 44 px, radios natives, focus contenu, Échap et suspension des déplacements ; pas de nouvelle surimpression permanente sur la carte.
+
+Les tests génériques de rencontres et de portes tiennent maintenant compte des particularités intentionnelles du JSON officiel de Valpierre : pool vide malgré une case herbe, et dernière case de falaise ouest bloquée. Aucun fichier de carte ni pool modifié. La connexion au monde reste compatible avec l’absence de `matchMedia` dans un environnement sans cette API.
+
+Validation : **466 tests applicatifs actifs et 43 tests SQL**, audits, HTTP/reprise, lint et build réussis. `test:weather-browser` vérifie les 16 combinaisons sur quatre tailles (320×480, 393×852, 844×390, 1365×900), la conservation des choix, clavier/focus, suspension du déplacement, les deux réglages de mouvement réduit, masquage/chargement/combat, l’entrée et la sortie réelles de maison2 ainsi que l’exploration des trois modes. Aucune erreur navigateur ; cache observé à 12 images recalculées sur environ 503 ms dans le test. Captures mobile, paysage et grand écran inspectées. Build final `/tmp/explorakit-weather-dist`, hash `d3f06de8801a252c`.
+
+La recette `test:release-browser` passe également : menus/carnet, sprites PNJ, sept formats de jeu mobile, gestes carte/dock, dialogues, voyages, combat/XP/audio et apprentissage, barre Rift ; aucune erreur navigateur. Publication le **20/10/2026 à 10 h 56 (Paris)** : remplacement atomique de l’index statique, PID et date de démarrage conservés, service actif sans redémarrage ni boucle. Sauvegarde des sources précédentes, dist, SQL et checkpoint dans `/home/ubuntu/dev/backups/explorakit-weather-2026-10-20T08-54-32-095Z`. Le contrôle HTTPS vérifie la météo réellement servie, les réglages/persistance, le mouvement réduit et quatre tailles ; index identique au build, empreintes Know et api-test inchangées, compte temporaire supprimé. Client publié au commit `26e346e44cd144d31df141bd5d3f86b10b1697f2`. Logs et captures `/tmp/explorakit-weather-*`. Aucune CI distante revendiquée ; fluidité sur téléphone physique et retour artistique du créateur restent à éprouver.
+
+
 ## Carte officielle de Valpierre — 20 octobre 2026
 
 Le créateur a ensuite fourni son véritable `ville_safe1.json` dans `/home/ubuntu/dev/pourtoi`. Le fichier est copié **octet pour octet** dans `data/maps/ville_safe1.json` (SHA-256 `da1241c5bcef04418d7ebac4eb38c542bd859e7ac816ca39da86ac49b1546e56`). Les dix couches, les 147 collisions, les dix cases de passage, la case de combat et les références aux tilesets sont conservées. Le TMX est régénéré en miroir de toutes les couches du JSON, sans retouche des images ni de la géométrie fournie. Les collisions reconstruites lors de la passe précédente sont ainsi remplacées ; cette ancienne section reste un historique.
@@ -1257,6 +1270,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **20/10/2026 — Essai météo** : vent et pluie animés à quatre niveaux dans le village de départ, réglages locaux via le menu, rendu borné et mouvement réduit. Voir la section du jour.
 
 - **20/10/2026 — JSON officiel Valpierre** : remplacement intégral des collisions déduites par le fichier du créateur, miroir TMX, contrôle des portes et prévention du combat vide sur une zone sans pool sauvage. Voir la section du jour.
 

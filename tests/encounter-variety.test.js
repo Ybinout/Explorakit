@@ -7,10 +7,12 @@ const { battleMapData } = require('../server/game/world/mapRepository');
 const factory = require('../server/game/drift/pokemonFactory');
 const colosseum = require('../server/game/drift/colosseum');
 const dex = require('../data/game/pokedex.json');
-const zones = maps.filter(m => battleMapData(m.mapName).flat().some(Boolean));
+const zones = maps.filter(m => m.wildpokemon.length && battleMapData(m.mapName).flat().some(Boolean));
 const bst = species => Object.values(species.base).reduce((sum, value) => sum + value, 0);
 
 test('each encounter zone has a distinct, diverse pool with shipped sprites and level-appropriate species', () => {
+    // Author maps may contain grass markers without an encounter pool (towns).
+    for (const town of maps.filter(m => !m.wildpokemon.length)) assert.equal(factory.wild(town.mapName), null);
     const signatures = new Set();
     for (const zone of zones) {
         const ids = zone.wildpokemon;

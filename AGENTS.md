@@ -1,5 +1,9 @@
 # Contexte permanent — Explorakit
 
+## Essai météo du village — 20 octobre 2026
+
+`worldWeather.js` dessine une ambiance locale uniquement sur `start`, après le premier plan et avec la même transformation caméra. Vent/pluie indépendants 0–3, réglables via Menu → Météo du village et conservés localement ; défaut léger/fine. Pas de météo de combat ni de mutation serveur. Conserver le budget borné (210 éléments maximum), une surface 896×640 réutilisée à 30 Hz sans seconde boucle, la libération hors carte/chargement/combat/onglet masqué et à la destruction. Mouvement réduit système ou animations désactivées : image fixe. Le panneau suspend les déplacements, contient le focus et n’ajoute aucun HUD permanent. Recettes : `world-weather.test.js` et `test:weather-browser`. Les villes à pool sauvage vide et la falaise ouest (0,6) du JSON officiel Valpierre sont intentionnels ; ne pas altérer les cartes pour satisfaire les anciens tests génériques.
+
 ## JSON officiel de Valpierre — 20 octobre 2026
 
 Le JSON déposé ensuite par le créateur dans `/home/ubuntu/dev/pourtoi/ville_safe1.json` remplace intégralement la carte déduite du dessin. Copie exacte (SHA-256 `da1241c5bcef04418d7ebac4eb38c542bd859e7ac816ca39da86ac49b1546e56`), dix couches conservées ; TMX miroir des mêmes données. Ne pas reconstruire les collisions ni effacer sa case `battle`. Les six portes et le raccord ouest existants conviennent. La case (0,6) porte aussi un marqueur change mais reste bloquée par la collision de la falaise ; conserver cette priorité, les passages utiles sont (0,3–5). Une zone sans pool sauvage ne doit pas ouvrir de combat vide : le serveur émet `battletrigger` seulement après création effective du sauvage. Recettes : `valpierre.test.js`, `test:valpierre-browser` (mur, passage libre, tirage sauvage forcé sur base isolée).
