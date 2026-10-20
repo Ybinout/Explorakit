@@ -2,6 +2,15 @@ const test=require('node:test'),assert=require('node:assert/strict'),fs=require(
 const world=require('../data/game/nextMap.json').maps,catalog=require('../data/game/progression.json');
 const maps=require('../server/game/world/mapRepository'),{isPnjBlockingTile}=require('../server/game/world/pnjStore');
 function reachable(map,start){const coll=maps.loadCollisionData(map),changes=maps.changeMapData(map),seen=new Set(),q=[start];while(q.length){const [x,y]=q.shift(),key=`${x}:${y}`;if(seen.has(key)||coll[y]?.[x]!==0||isPnjBlockingTile(map,x,y))continue;seen.add(key);if(changes[y]?.[x])continue;for(const [dx,dy]of [[1,0],[-1,0],[0,1],[0,-1]])q.push([x+dx,y+dy]);}return seen;}
+test('Valpierre uses the exact author export and mirrors every layer in TMX',()=>{
+ const path=require('node:path'),crypto=require('node:crypto'),bytes=fs.readFileSync(path.join(__dirname,'../data/maps/ville_safe1.json'));
+ assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),'da1241c5bcef04418d7ebac4eb38c542bd859e7ac816ca39da86ac49b1546e56');
+ const map=JSON.parse(bytes),tmx=fs.readFileSync(path.join(__dirname,'../data/maps/ville_safe1.tmx'),'utf8');
+ for(const layer of map.layers){const csv=tmx.match(new RegExp('<layer[^>]*name="'+layer.name+'"[^>]*>[\\s\\S]*?<data[^>]*>([\\s\\S]*?)</data>'));assert(csv,layer.name);assert.deepEqual(csv[1].trim().split(/[,\s]+/).map(Number),layer.data,layer.name);}
+ assert.equal(map.layers.find(l=>l.name==='coll').data.filter(Boolean).length,147);
+ assert(maps.changeMapData('ville_safe1')[6][0]);assert.notEqual(maps.loadCollisionData('ville_safe1')[6][0],0); // The author cliff remains solid despite its change marker.
+ assert.equal(maps.loadCollisionData('ville_safe1')[7][5],0);assert.notEqual(maps.loadCollisionData('ville_safe1')[8][5],0);
+});
 test('east route 4 and Valpierre west connect both ways, with safe non-transition arrivals',()=>{
  for(const [map,x,y,target]of [['route4',27,3,'ville_safe1'],['route4',27,6,'ville_safe1'],['ville_safe1',0,4,'route4']]){
   assert(maps.changeMapData(map)[y][x]);const exit=maps.getNextMap(map,x,y);assert.equal(exit.nextMap,target);const tx=Math.floor(exit.nextX/32),ty=Math.floor(exit.nextY/32);assert.equal(maps.loadCollisionData(target)[ty][tx],0);assert.equal(maps.changeMapData(target)[ty][tx],0);

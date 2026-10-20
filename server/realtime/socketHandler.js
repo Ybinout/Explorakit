@@ -1052,7 +1052,6 @@ const socketHandler = (io) => {
                 const randomNumber = Math.floor(Math.random() * 15);
                 if (randomNumber === 0) {
                     player.inbattle = true;
-                    socket.emit('battletrigger', { message: 'Un Pokémon sauvage apparaît !', battleType: 'wild' });
 
                     async function utiliserCreatePokemon() {
                         try {
@@ -1075,6 +1074,7 @@ const socketHandler = (io) => {
                                 }
                                 return;
                             }
+                            socket.emit('battletrigger', { message: 'Un Pokémon sauvage apparaît !', battleType: 'wild' });
                             return startBattle(player, pokemonsauvage, io, userId, equipe)
                                 .catch((erreur) => {
                                     console.error(erreur);

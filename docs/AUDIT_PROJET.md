@@ -1,5 +1,17 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Carte officielle de Valpierre — 20 octobre 2026
+
+Le créateur a ensuite fourni son véritable `ville_safe1.json` dans `/home/ubuntu/dev/pourtoi`. Le fichier est copié **octet pour octet** dans `data/maps/ville_safe1.json` (SHA-256 `da1241c5bcef04418d7ebac4eb38c542bd859e7ac816ca39da86ac49b1546e56`). Les dix couches, les 147 collisions, les dix cases de passage, la case de combat et les références aux tilesets sont conservées. Le TMX est régénéré en miroir de toutes les couches du JSON, sans retouche des images ni de la géométrie fournie. Les collisions reconstruites lors de la passe précédente sont ainsi remplacées ; cette ancienne section reste un historique.
+
+Les six portes et leurs retours existants correspondent au fichier officiel ; les passages ouest utiles restent (0,3–5). Le créateur marque aussi (0,6) comme changement mais y place un collideur de falaise : cette case reste donc bloquée, sans modifier aucune couche. Aucun raccord, PNJ, chapitre, récompense ou identifiant de sauvegarde n’a besoin d’être déplacé. Les tests parcourent les portes et vérifient les PNJ contre ces nouvelles collisions, ainsi qu’un mur de façade et le passage derrière le toit auparavant bloqué à tort.
+
+Le fichier marque une case `battle` à (16,14), mais la ville n’a pas de pool sauvage. La couche est conservée : le serveur Aventure émet désormais `battletrigger` après création effective d’un sauvage, évitant un écran de combat vide si le tirage survient dans une zone sans rencontres. La réservation serveur durant la création et l’ordre déclenchement → introduction des vrais combats restent conservés. Le moteur d’expédition vérifiait déjà ce cas.
+
+Recettes : contrôle de l’empreinte officielle et correspondance de chaque couche JSON/TMX, accessibilité des portes/PNJ, déplacements réels dans la recette Valpierre, tirage d’apparition forcé exclusivement dans le serveur de test isolé. Validation : **23 tests ciblés, 15 tests SQL réels** (combats et deux chapitres), audit de contenu et recette navigateur Valpierre réussis, sans erreur navigateur. Le format et les fins de ligne du JSON officiel sont volontairement conservés avec son empreinte ; le contrôle des espaces Git exclut ce seul export importé.
+
+Publication le **20/10/2026 à 10 h 36 (Paris)**, sans reconstruction du client. Sauvegarde des sources précédentes, dist, SQL et checkpoint dans `/home/ubuntu/dev/backups/explorakit-author-map-2026-10-20T08-35-12-841Z`, checkpoint rafraîchi avant redémarrage du seul `explorakit.service` ; zéro tentative active au contrôle, service actif sans boucle. Le contrôle HTTPS utilise les vrais déplacements du serveur : passage auparavant bloqué désormais libre, façade et falaise correctement bloquées, sortie ouest (rangée 5) fonctionnelle. L’empreinte du JSON installé correspond exactement à celle du créateur ; Know et api-test conservent leurs réponses et empreintes. Comptes temporaires supprimés. Logs `/tmp/explorakit-author-map-*`. Les décors et le sous-module client restent à leur version publiée précédente.
+
 ## Valpierre et décors de grotte — 20 octobre 2026
 
 Le créateur fournit `ville_safe1.png` et `ville_safe1_f.png` dans `/home/ubuntu/dev/pourtoi` et autorise leur intégration. Les deux images 448×320 sont copiées à l’identique ; les collisions, transitions et le fichier technique Tiled JSON/TMX sont définis séparément. Nom affiché : **Valpierre**. L’ouverture est existante de route4 (27,3–6) rejoint le passage ouest de la ville, avec arrivée libre et retour sans boucle. La transition trop large du Centre (`valY:3` sans X) interceptait aussi cet accès : elle cible désormais sa vraie porte (22,3). Les retours historiques de Centre sur le chemin est (848,112) sont remappés au vrai parvis (720,144), sans migration ni retour arbitraire à la Ville du Lac. Le passage sud préexistant reste praticable.
@@ -1245,6 +1257,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **20/10/2026 — JSON officiel Valpierre** : remplacement intégral des collisions déduites par le fichier du créateur, miroir TMX, contrôle des portes et prévention du combat vide sur une zone sans pool sauvage. Voir la section du jour.
 
 - **20/10/2026 — Valpierre et grottes** : images du créateur intégrées, ville/arène facultative à l’est de route4, six intérieurs, retour Centre historique corrigé, décors de combat grotte portrait/panoramique et socles alignés. Voir la section du jour.
 

@@ -1,5 +1,9 @@
 # Contexte permanent — Explorakit
 
+## JSON officiel de Valpierre — 20 octobre 2026
+
+Le JSON déposé ensuite par le créateur dans `/home/ubuntu/dev/pourtoi/ville_safe1.json` remplace intégralement la carte déduite du dessin. Copie exacte (SHA-256 `da1241c5bcef04418d7ebac4eb38c542bd859e7ac816ca39da86ac49b1546e56`), dix couches conservées ; TMX miroir des mêmes données. Ne pas reconstruire les collisions ni effacer sa case `battle`. Les six portes et le raccord ouest existants conviennent. La case (0,6) porte aussi un marqueur change mais reste bloquée par la collision de la falaise ; conserver cette priorité, les passages utiles sont (0,3–5). Une zone sans pool sauvage ne doit pas ouvrir de combat vide : le serveur émet `battletrigger` seulement après création effective du sauvage. Recettes : `valpierre.test.js`, `test:valpierre-browser` (mur, passage libre, tirage sauvage forcé sur base isolée).
+
 ## Valpierre et combats en grotte — 20 octobre 2026
 
 Le créateur a explicitement autorisé l’intégration des deux PNG de `/home/ubuntu/dev/pourtoi` : copies exactes `ville_safe1.png`/`_f.png`, nouvelle carte technique JSON/TMX et six intérieurs indépendants via alias. Ne pas retoucher son artwork ni les autres villes qu’il prépare. L’est de route4 mène à Valpierre ; la porte du Centre est exactement (22,3), pas toute la rangée 3. Les anciens retours de Centre (848,112) se normalisent vers son vrai parvis (720,144). Conserver l’échelle praticable devant la boutique, les six sorties et les PNJ à deux cases. Arène facultative niveau 35–37, Badge Cristal/récompense uniques ; ne pas modifier les six/quatre étapes des chapitres I/II. `BattleOverlay` capture la carte au début du combat : grotte avant/arrière dédiée, socles rocheux sur les mêmes ancres que les sprites, priorité au Colosseum. Recettes : `valpierre.test.js`, Centre, histoire Socket et `test:valpierre-browser`. Les suites SQL partagent une base et tournent séquentiellement.
