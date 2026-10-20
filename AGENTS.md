@@ -1,5 +1,9 @@
 # Contexte permanent — Explorakit
 
+## Retour aux PNJ compacts — 20 octobre 2026
+
+Le créateur trouve l’agrandissement trop gros et préfère l’ancien rendu : cette consigne remplace la taille ×2 décrite plus bas. Pour l’atlas des habitants uniquement, `drawNpcFrame` revient au repère 48 px, facteur 1,5, décalage +8/+4 et base de pieds y de case ×32 +26. Conserver les 32 rectangles exacts de `npcFrames.js`, les positions arrondies pendant la marche, les portraits HD indépendants et les sprites de combat inchangés. Ne pas rétablir 64 px pour ces PNJ sans nouvelle demande. `validateNpcSprites` vérifie la taille/position précédentes et les découpes/portraits ; aucun changement de carte ni de serveur.
+
 ## Sac à poches — 20 octobre 2026
 
 Le sac hors combat commun aux trois modes est `menu/BagPanel.vue` ; `bagPockets.js` classe les stocks réels positifs en Soins, Balls, Baies (`held` + suffixe `_berry`), Objets tenus, Évolution et Objets clés. Les potions d’expédition `category:heal` appartiennent aussi à Soins. Une poche Autres apparaît pour une catégorie inconnue, sans masquer de stock. Les baies restent des objets tenus au serveur : ne pas modifier le catalogue pour ce rangement visuel. Une fiche à la fois par poche, réconciliation après consommation, compteurs en quantités et poche vide explicite. Illustration native SVG, thèmes et nocturne communs, zones tactiles ≥44 px, fermeture/focus/clavier et défilement interne.

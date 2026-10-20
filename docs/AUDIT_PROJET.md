@@ -1,5 +1,15 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Retour à la taille précédente des habitants — 20 octobre 2026
+
+Le créateur trouve les sprites agrandis trop gros et préfère le rendu précédent. Les 32 habitants de l’atlas `townspeople-pixel-v2` reviennent au repère 48 px, facteur 1,5, décalage +8/+4 par rapport au repère de dessin : silhouette 25 % plus petite que le repère 64 px. Bastien retrouve 30×42 pixels du monde au lieu de 40×56. Taille et placement antérieurs rétablis, centrage conservé, marche arrondie au pixel. Cette préférence remplace l’interdiction historique de revenir à 48 px dans la section d’agrandissement.
+
+Les découpes corrigées restent intactes : aucun pied voisin, aucune nouvelle image, pas de modification des portraits illustrés, des sprites Pokémon, du joueur ou des autres atlas. Présentation commune aux trois modes, sans changement de carte, collision, dialogue, interaction, état serveur ou base. La recette `validateNpcSprites` contrôle les 32 cadrages, la taille/position rétablies et les 32 portraits distincts ; contrôle visuel près de Bastien aux quatre tailles.
+
+Validation : lint/build passent à 0 ; contrôle HTTPS ciblé terminé à 0 sur un compte temporaire dans la Ville du Lac. Les 32 cadres et 32 portraits illustrés sont vérifiés dans le client compilé, séparation des atlas et nettoyage des portraits préservés. Bastien : source 20×28 → rendu 30×42, centre et base antérieurs exacts, aucun lissage, quatre tailles sans débordement, index conforme et aucune erreur. Compte supprimé ; Know et api-test inchangés. Captures mobile et bureau inspectées. Aucun nouveau test unitaire ni nouvelle recette générale pour cette correction visuelle réversible.
+
+Build `/tmp/explorakit-npc-compact-dist`, hash `42a9e8dd0932ed00` ; client `200f6289b7cf80e29993297f5e2f914a1cfb3b33`. Publication statique le **20/10/2026 à 19 h 13 (Paris)**, processus serveur inchangé et zéro redémarrage automatique. Sauvegarde sources/dist/SQL/checkpoint : `/home/ubuntu/dev/backups/explorakit-npc-compact-2026-10-20T17-12-31-578Z`. Logs/captures `/tmp/explorakit-npc-compact-*`. Aucune validation sur téléphone physique ni CI distante revendiquée.
+
 ## Sac de voyage à compartiments — 20 octobre 2026
 
 L’ancienne liste mélangeait tous les objets dans un petit panneau. Le sac hors combat partagé Aventure/Rift/Colosseum devient une fenêtre de voyage avec silhouette de sac à dos, anse, sangles, rabat, boucle, coutures et poche zippée en SVG natif. Six poches illustrées et comptées : Soins, Balls, Baies, Objets tenus, Évolution et Objets clés. Les baies sont séparées visuellement des autres objets tenus, sans changer leur catégorie serveur ; les potions `heal` des expéditions rejoignent les médicaments `medicine` de l’Aventure dans Soins ; une poche Autres récupère les catégories inconnues. Quantités positives uniquement, stock mis à jour depuis les mêmes données autoritaires, aucun duplicata entre poches. Un objet ouvert à la fois pour limiter le bruit visuel ; description, soin/évolution et cible au même endroit. Raccourci vers l’équipe pour faire tenir, indication d’usage des Balls et objets clés, poche vide explicite et information de provenance Aventure/expédition.
@@ -1598,6 +1608,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **20 octobre 2026 — PNJ compacts :** retour demandé à la taille et au placement antérieurs des habitants, avec découpes et illustrations préservées ; recette adaptée.
 
 - **20 octobre 2026 — Sac de voyage :** présentation de sac à dos, six poches et fallback inconnu, fiches/action et équipement, thèmes/mobile/clavier, recettes des vrais soins et évolutions préservées.
 

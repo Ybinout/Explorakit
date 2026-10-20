@@ -19,8 +19,8 @@ async function validateNpcSprites(page,output){
   try{vm.pnjs=atlas.frames.map((_,index)=>({sprite:'townspeople.png',spriteFrame:{columns:8,rows:4,index},x:index%8,y:Math.floor(index/8),movedAt:0}));vm.drawPnjs(ctx);}finally{vm.pnjs=previous;ctx.drawImage=draw;}
   for(let i=0;i<32;i++){
    const b=atlas.frames[i],args=calls[i];if(JSON.stringify(args.slice(0,4))!==JSON.stringify([b.x,b.y,b.w,b.h]))throw Error('World uses an incorrect crop '+i);
-   const [x,y,w,h]=args.slice(4);if(w!==b.w*2||h!==b.h*2||![x,y,w,h].every(Number.isInteger))throw Error('NPC pixels are not rendered at a crisp integer scale '+i);
-   if(x+w/2!==(i%8)*32+16||y+h!==Math.floor(i/8)*32+34)throw Error('NPC feet do not share the player ground anchor '+i);
+   const [x,y,w,h]=args.slice(4);if(w!==b.w*1.5||h!==b.h*1.5)throw Error('NPC did not return to its previous compact size '+i);
+   if(x+w/2!==(i%8)*32+16||y+h!==Math.floor(i/8)*32+26)throw Error('NPC did not keep its previous position '+i);
   }
   vm.updateTextImageSequence([{text:'Bonjour !',imageName:'townspeople.png',portraitFrame:{columns:8,rows:4,index:0}}]);await vm.$nextTick();
   const portrait=document.querySelector('canvas.portrait-atlas').__vue__,illustration=new Image();illustration.src=vm.textImageSequence[0].image;await illustration.decode();
@@ -40,7 +40,7 @@ async function validateNpcSprites(page,output){
   vm.textImageSequence[0].image='';await vm.$nextTick();await portrait.renderPortrait();
   if(portrait.ready||portrait.$refs.portrait.getContext('2d').getImageData(0,0,384,384).data.some(Boolean))throw Error('Previous portrait survives a missing illustration');
   vm.textImageSequence=[];sheet.style.cssText='position:fixed;inset:0;z-index:999999;background:#294550;width:min(1024px,100vw);height:auto;image-rendering:auto';document.body.append(sheet);
-  return{integerWorldScale:2,feetAligned:true,worldFrames:calls.length,portraitFrames:32,illustratedPortraits:true,separateAtlases:true,connectedCharacters:components.length};
+  return{worldScale:1.5,previousSizeRestored:true,feetAnchor:26,worldFrames:calls.length,portraitFrames:32,illustratedPortraits:true,separateAtlases:true,connectedCharacters:components.length};
  },atlas);
  assert.equal(result.worldFrames,32);await page.locator('#npc-crop-review').screenshot({path:path.join(output,'npc-crop-all-32.png')});await page.locator('#npc-crop-review').evaluate(el=>el.remove());return result;
 }
