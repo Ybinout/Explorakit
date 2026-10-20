@@ -29,6 +29,7 @@ async function waitFor(condition,message) { const end=Date.now()+8000;while(!con
 async function dismissBattle() {
     const button=page.getByRole('button',{name:/Continuer|Reprendre|Retour à l’exploration/}).filter({visible:true});
     await button.first().click();
+    while (await page.locator('.evolution-sheet').isVisible()) { await page.locator('[data-evolution-continue]').click(); }
 }
 async function checkWidth() { assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'Horizontal overflow'); }
 async function betweenBattles(selector) {

@@ -51,7 +51,7 @@ async function deferLearning(){if(await page.locator('.learning-sheet').isVisibl
  await page.waitForFunction(()=>[...document.querySelectorAll('.shop-item')].some(e=>e.textContent.includes('Pierre Foudre')&&e.textContent.includes('Possédé : 1')));
  await page.locator('.shop-close').click();await page.setViewportSize({width:393,height:852});await page.locator('.menu-toggle-btn').click();await page.locator('[data-menu-action="bag"]').click();
  const pika=p.equipe.pokemons[0],stone=page.locator('[data-item-key="thunder_stone"]');await stone.locator('select').selectOption(pika.uuid);await stone.locator('.bag-use-button').click();
- await page.getByRole('status').filter({hasText:'a évolué en Raichu'}).waitFor();assert.equal(pika.data.id,26);assert.equal(p.items.thunder_stone,0);await page.screenshot({path:path.join(output,'strategy-evolution.png')});
+ await page.locator('.evolution-sheet.revealed').waitFor();await page.locator('[data-evolution-continue]').click();await page.getByRole('status').filter({hasText:'a évolué en Raichu'}).waitFor();assert.equal(pika.data.id,26);assert.equal(p.items.thunder_stone,0);await page.screenshot({path:path.join(output,'strategy-evolution.png')});
  await page.locator('.bag-panel .panel-close').click();await deferLearning();await page.locator('.menu-toggle-btn').click();await page.locator('[data-menu-action="pokemon"]').click();
  await page.locator('.team-row').filter({hasText:'Raichu'}).locator('.team-held-item-select').selectOption('rift_talisman');
  await page.waitForFunction(()=>[...document.querySelectorAll('.team-held-item-select')].some(e=>e.value==='rift_talisman'));assert.equal(pika.heldItem,'rift_talisman');await page.locator('.team-close').click();

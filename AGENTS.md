@@ -1,5 +1,9 @@
 # Contexte permanent — Explorakit
 
+## Présentation des évolutions — 20 octobre 2026
+
+Les conditions restent côté serveur. `evolutionPresentation.js` observe les changements permanents d’espèce des seuls compagnons connus (UUID), via `applyTeamPokemons`. Le graphe client couvre exactement les règles automatiques et pierres ; le régénérer avec `node scripts/generateEvolutionPresentation.js` si elles changent. Premier chargement/capture/reconnexion ne doivent pas rejouer une évolution ; les formes temporaires et snapshots inverses ne sont pas des évolutions. Préserver la file combat/XP → résultat → évolutions successives/réserves → apprentissage, les gardes de déplacement, le focus et le mouvement réduit. Recettes : `evolution-presentation.test.js`, `test:evolution-browser`, `test:strategy-browser` et recettes publication/Colosseum/combat.
+
 ## Variété du circuit Colosseum — 20 octobre 2026
 
 Les nouvelles tentatives sont v5 : `colosseumVariety.js` fixe les compositions et rôles, `colosseumTactics.js` évalue météo/protections/annulation des boosts. Même circuit pour tous, aucun tirage à la reconnexion ni contre-équipe calculée sur le joueur. Les v1–v4 conservent leurs compositions/sets/points (empreintes historiques dans `colosseum-variety.test.js`). Un seul spécialiste de soutien par équipe ; ses capacités restent légales et l’objet compatible. Préserver les aperçus de styles/capacités, les paliers de puissance, les points et le frein d’XP v4. Buée Noire remet à zéro les deux combattants ; les effets de terrain traversent un clone. Recettes : tests variété/IA/ordre et publication, Colosseum et combat navigateur.

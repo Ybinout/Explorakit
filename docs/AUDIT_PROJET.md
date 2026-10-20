@@ -1,5 +1,18 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Animation des évolutions — 20 octobre 2026
+
+Les trois modes partagent une présentation des évolutions permanentes : halo et illumination de l’ancienne forme, révélation de la nouvelle, noms français puis bouton Continuer. L’animation peut être passée ; le réglage du jeu et la préférence système de mouvement réduit donnent directement la révélation. Les boutons restent accessibles au clavier et au toucher, avec focus contenu dans le dialogue et mise en page adaptée aux écrans courts/paysage. Un sprite manquant donne une présentation textuelle sans bloquer la poursuite.
+
+Le serveur conserve les conditions et toutes les mutations. Le client observe les UUID déjà présents dans les snapshots d’équipe ; les nouvelles captures, le premier chargement, les formes temporaires, le réordonnancement et les états inverses ne créent pas d’annonce. Le graphe des 387 transitions autorisées combine les règles d’espèce et les pierres, vérifié contre les données serveur et régénérable avec `node scripts/generateEvolutionPresentation.js`. Une montée de plusieurs stades annonce chaque étape ; les réserves ont leur propre annonce. La file est conservée dans le composant pendant une reconnexion, mais une page rechargée ne rejoue pas les évolutions déjà acquises.
+
+L’annonce attend la file visuelle et le résultat de combat, ainsi que la fin d’un dialogue ou d’une transaction d’objet/évolution/apprentissage. Elle précède les propositions d’attaques, suspend les commandes locales et masque temporairement fiche/carnet sans perdre leur état. Le temps d’expédition continue selon les règles existantes. Aucune modification des gains, conditions d’évolution, cartes, sprites, records ni schéma SQL. Les tests navigateur existants qui enchaînent immédiatement après une évolution attendent maintenant ce dialogue.
+
+Recettes : `tests/evolution-presentation.test.js` (couverture du graphe, chaînes/réserves, SQL/pierres/branches, absence de répétition/faux positifs), `test:evolution-browser` (Aventure, Colosseum, Rift, chaînes, réserves, rechargement, clavier, passage, mouvement réduit et quatre tailles), `test:strategy-browser` (pierre via achat et sac), puis publication/Colosseum/combat. Validation réussie : **456 tests applicatifs actifs et 43 tests SQL**, `verify:release -- --mysql`, lint/build et les cinq recettes navigateur évolution, stratégie, publication, Colosseum et combat. Elles passent sans erreur navigateur ; les captures mobile 320×480 et 393×852 ont été inspectées. Le test de pierre a révélé une fermeture du sac par le clic extérieur pendant la présentation : la superposition arrête désormais ces événements et le sac reste ouvert après validation.
+
+Publication le **20/10/2026 à 9 h 10 (Paris)** : build `/tmp/explorakit-evolution-fx-dist`, hash `f24e5127dea6391b`, servi à l’identique sur HTTPS. Publication statique avec index remplacé atomiquement, aucun redémarrage ; PID/date de démarrage inchangés, service actif et sans boucle. Sauvegarde des sources précédentes, dist, SQL et checkpoint dans `/home/ubuntu/dev/backups/explorakit-evolution-fx-2026-10-20T07-06-23-423Z`. Le contrôle public confirme une vraie évolution Évoli → Noctali persistée puis un rechargement sans répétition, les deux formats Colosseum, leurs reprises, les traits Aventure conservés, trois tailles et les empreintes de Know/api-test inchangées. Comptes temporaires supprimés. Client publié au commit `b2dc0a99f91a10cf807b582b5608f62d184cc46d`. Logs/captures sous `/tmp/explorakit-evolution-fx-*`. Aucune CI distante revendiquée ; la vérification sur téléphone physique reste humaine.
+
+
 ## Circuit Colosseum varié — 20 octobre 2026
 
 Les nouvelles tentatives sont **v5**. `colosseumVariety.js` définit huit styles principaux (vitesse, contrôle de vitesse, défense, pluie, soleil, interruption des boosts, préparation et usure), plus une introduction physique au défi 2. Les huit premiers dresseurs ordinaires ont des compositions modestes ; les climats et l’interruption arrivent à partir du défi 11. Les pools intermédiaires puis évolués élargissent le circuit à plus de 100 espèces sur les 70 premiers défis. Les équipes ordinaires complètes ne se répètent pas sur les 40 premiers défis. Un seul spécialiste de soutien par équipe évite les successions de soins/statuts ; ses partenaires gardent des attaques de couverture. Chaque capacité est issue du learnset existant, les plafonds offensifs 60/80/100/120 restent en vigueur, et talents/objets sont coordonnés avec les capacités réellement retenues. Les huit styles reviennent dans un ordre fixe avec des compositions/positions différentes ; il ne s’agit pas d’un tirage propre à chaque tentative.
@@ -1214,6 +1227,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **20/10/2026 — Animation des évolutions** : présentation commune aux trois modes, chaînes/réserves/pierres, file après résultat de combat, mouvement réduit et commandes mobiles protégées. Recettes et publication dans la section du jour.
 
 - **20/10/2026 — Circuit varié** : nouvelles équipes et huit styles principaux, soutien réellement utilisé, aperçu des capacités et conseils, corrections Buée Noire/effets de terrain. Versions historiques conservées ; règles et preuves en tête d’audit.
 
