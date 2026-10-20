@@ -1,5 +1,20 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Correction du masque des feuilles et pluie adoucie — 20 octobre 2026
+
+Le premier essai de feuillage déplaçait des rectangles comprenant aussi des ombres, créant des raccords carrés visibles. Il est remplacé par un masque suivant seulement les pixels verts opaques des deux couronnes. Le motif des feuilles ondule dans son contour ; aucun autre pixel du premier plan, y compris les ombres, bâtiments, branches et transparences, ne doit changer. Aucune image de carte modifiée. La surface native 448×320 est réutilisée à 30 Hz, avec libération des buffers et repli sur l’image originale en cas de lecture canvas impossible, vent nul ou mouvement réduit.
+
+La pluie baisse d’environ 20 % en densité (36/76/128 gouttes) et de 20 % en vitesse verticale/horizontale, avec inclinaison conservée. Le voile pluvieux assombrit légèrement plus la carte (4,5/9/13,5 % selon l’intensité), uniquement quand il pleut. Les préférences locales et le vent restent identiques. Les trois modes partagent ce rendu au village de départ.
+
+Les tests de masque excluent explicitement les ombres translucides, troncs et éléments extérieurs. La recette météo compare les pixels de l’image réelle sur deux instants : feuilles en mouvement, chaque pixel hors masque et toute transparence identiques à l’original. Ce contrôle remplace celui du seul toit qui n’avait pas détecté les anciens raccords.
+
+Validation : **469 tests applicatifs actifs et 43 tests SQL**, audits, HTTP/reprise et lint/build réussis. La recette météo passe aux 16 combinaisons, quatre tailles et trois modes : 3 178 pixels source identifiés comme feuilles, 7 536 pixels du rendu bougent entre les deux instants, zéro pixel hors feuilles altéré et zéro modification d’alpha ; toit également identique. Captures mobile et grand écran inspectées. Build `/tmp/explorakit-leaf-mask-dist`, hash `4f37d43c050d2d4a`.
+
+La recette `test:release-browser` passe également sans erreur : carnet/menus, sprites PNJ, sept formats mobiles, glissements carte/dock, voyages, dialogues, combats/XP/audio, apprentissage et barre Rift.
+
+Publication statique le **20/10/2026 à 11 h 20 (Paris)**, sans redémarrage ni changement de PID ; service actif sans boucle. Sauvegarde `/home/ubuntu/dev/backups/explorakit-leaf-mask-2026-10-20T09-17-57-295Z`. Le contrôle HTTPS vérifie le masque effectivement servi (aucune modification hors feuilles), ses animations/mouvement réduit, la densité de pluie de 128 gouttes au maximum, l’index identique au build et quatre tailles. Know/api-test inchangés, aucune erreur et compte temporaire supprimé. Client `1ca25a324be1baa415f75d813b8b819be984a688`. Logs/captures `/tmp/explorakit-leaf-mask-*`. Aucune CI distante revendiquée ; appréciation visuelle et fluidité sur téléphone physique restent humaines.
+
+
 ## Feuillages du premier plan animés — 20 octobre 2026
 
 Le premier plan du village de départ suit maintenant le vent : les feuilles en surplomb ondulent doucement, et les deux couronnes d’arbres se balancent autour d’un pied fixe, avec des phases distinctes. L’intensité dépend du niveau de vent ; le toit est extrait dans une couche fixe. Les images sources, cartes et collisions sont conservées. Aventure et explorations Rift/Colosseum utilisent le même rendu.
@@ -1285,6 +1300,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **20/10/2026 — Masque des feuilles / pluie** : suppression des découpes rectangulaires et du déplacement des ombres ; seuls les motifs des feuilles ondulent. Pluie moins dense, plus lente et ambiance légèrement plus sombre. Voir la section du jour.
 
 - **20/10/2026 — Feuillage au vent** : canopée et couronnes du premier plan animées selon le vent, pied des arbres et toit stables, contrôles de pixels et mouvement réduit. Voir la section du jour.
 
