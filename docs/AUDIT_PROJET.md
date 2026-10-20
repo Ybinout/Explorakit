@@ -1,5 +1,19 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Palette des menus bleu très pâle — 20 octobre 2026
+
+À la demande du créateur, les surfaces blanches de la DA commune prennent une légère teinte bleu ciel : fond `#edf5fc`, cartes `#f4f9fe`, surfaces secondaires `#e2eef8`, sélection `#d6e7f5`. Bordures et accents sont harmonisés en bleu doux, textes conservés foncés. Les anciennes surfaces neutres codées en dur du Pokédex et les détails neutres de l’étui sont raccordés à cette palette, pour éviter des îlots blancs/sauge.
+
+Les composants utilisant les variables communes (menus, badges, Pokédex, équipe, sac, dialogues, carnets et panneaux d’expédition) profitent du changement. Les couleurs des types, capacités, PV, emblèmes et autres informations sémantiques sont conservées. Aucune géométrie, commande, donnée, règle de combat, météo ni image de carte modifiée.
+
+Vérification : lint/build, contrôle des contrastes de la palette et recette navigateur de publication (huit panneaux, quatre tailles, cohérence avec le Pokédex, focus/menus et contrôles mobiles). Pas de nouveau test unitaire pour ce changement de couleurs réversible.
+
+Validation : `verify:release -- --mysql` termine à 0 : **482 tests applicatifs actifs et 43 SQL**, audits, HTTP/reprise, lint et build. Pour les seize associations des textes de palette (principal, titres, secondaire, accent) et surfaces (fond, carte, doux, sélection), le contraste calculé minimal est **4,64:1** ; blanc sur bouton d’accent **5,87:1**. Build `/tmp/explorakit-pale-blue-dist`, hash `4045d4a10da2208b`.
+
+`test:release-browser` termine également à 0, sans erreur : huit panneaux aux quatre tailles, cohérence des surfaces/typos, badges et focus, gestes/voyages, dialogues, combat/XP/audio et apprentissage. Captures du Pokédex sur PC et de l’étui mobile inspectées. Client `e23c92cc4c0ce1e7167ccd8d4214994c69eced19`. Logs/captures `/tmp/explorakit-pale-blue-*`.
+
+Publication statique le **20/10/2026 à 12 h 49 (Paris)**, sans redémarrage ni changement de processus serveur. Sauvegarde sources/dist/SQL/checkpoint : `/home/ubuntu/dev/backups/explorakit-pale-blue-2026-10-20T10-45-27-203Z`. Le contrôle HTTPS termine à 0 : fond réel de l’étui `rgb(237,245,252)`, quatre tailles, menu/focus, météo partagée et index identique au build. Aucune erreur ; voisins Know/api-test inchangés, compte temporaire supprimé. Service actif sans boucle. Aucune CI distante revendiquée ; contrôle sur téléphone physique toujours humain.
+
 ## Météo partagée et nouveau menu de badges — 20 octobre 2026
 
 Le menu et le panneau « Météo du village » sont supprimés, avec leur état local, commandes et fonctions de lecture/écriture du stockage. `start` annonce désormais explicitement `{wind:3,rain:3}` ; les routes 1 et 2 restent à `{wind:1,rain:1}`. Le client ne calcule l’ambiance que depuis l’état serveur correspondant à la carte courante. Les anciennes clés de préférence météo n’ont plus aucun effet. Les trois modes reçoivent le même climat et les mêmes intensités ; mouvement réduit et désactivation des animations ne modifient que le mouvement des effets, sans changer la météo réelle ni ses règles de combat.
@@ -1378,6 +1392,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **20/10/2026 — Bleu pâle** : surfaces communes légèrement bleutées et éléments neutres du Pokédex/étui harmonisés, couleurs sémantiques conservées. Voir la section du jour.
 
 - **20/10/2026 — Météo commune / badges** : retrait du choix météo et des anciennes préférences, profil uniquement serveur ; étui de badges dédié, séparé des objectifs/quêtes et adapté au mobile. Voir la section du jour.
 

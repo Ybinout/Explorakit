@@ -1,5 +1,9 @@
 # Contexte permanent — Explorakit
 
+## Menus bleu très pâle — 20 octobre 2026
+
+La palette commune `field-journal.css` remplace le papier blanc/sauge par un bleu très pâle (`paper #edf5fc`, `card #f4f9fe`, `soft #e2eef8`). Pokédex, badges, menus, sac, équipe, dialogues et carnets utilisant ces tokens restent cohérents ; surfaces neutres du Pokédex raccordées aux variables. Conserver les couleurs sémantiques des types, attaques, PV, emblèmes et récompenses. Aucun changement de géométrie, météo ni règle. Recette de publication : huit panneaux aux quatre tailles, comparaison des surfaces et captures ; garder des textes foncés lisibles.
+
 ## Météo commune et étui de badges — 20 octobre 2026
 
 La météo et ses intensités viennent uniquement de `mapWeatherState.ambience` : village 3/3, routes 1/2 1/1. Ancien panneau, action et stockage de préférence météo supprimés ; ne pas réintroduire de choix joueur. Mouvement réduit système/jeu reste une adaptation d’animation, sans changement du climat/profil serveur. `BadgesPanel` a sa propre entrée Aventure, après Objectifs et quêtes ; les expéditions n’affichent pas les badges de la sauvegarde Aventure. `GameInfoPanels` ne montre plus les badges dans le panneau de quêtes. Étui avec six SVG natifs, états obtenus/grisés, lieux, compteur/barre ; données depuis le même endpoint de progression, sans mutation ni attribution. Conserver focus, Échap, Tab dans le panneau et défilement mobile. Recettes : météo (anciennes clés locales ignorées/menu absent) et publication navigateur (huit panneaux, badges aux quatre tailles, focus et données serveur).
