@@ -3,7 +3,8 @@ const weather=()=>import('../vue-explorakit/src/services/worldWeather.js');
 function surface(){const calls=[],ctx={};for(const name of ['clearRect','fillRect','beginPath','moveTo','lineTo','stroke','ellipse','save','translate','rotate','fill','restore','bezierCurveTo'])ctx[name]=(...args)=>{assert(args.every(n=>typeof n!=='number'||Number.isFinite(n)),name+' non-finite geometry');calls.push([name,...args]);};const canvas={width:0,height:0,getContext:()=>ctx};return {canvas,ctx,calls};}
 test('weather preferences are bounded, durable and tolerate corrupt or unavailable storage',async()=>{
  const w=await weather(),memory=new Map(),storage={getItem:key=>memory.get(key),setItem:(key,value)=>memory.set(key,value)};
- assert.deepEqual(w.loadWorldWeather(storage),{wind:1,rain:1});
+ memory.set('riftmon.worldWeatherPreview',JSON.stringify({wind:1,rain:1}));
+ assert.deepEqual(w.loadWorldWeather(storage),{wind:3,rain:3});
  assert.deepEqual(w.saveWorldWeather({wind:99,rain:'2',extra:true},storage),{wind:3,rain:2});assert.deepEqual(w.loadWorldWeather(storage),{wind:3,rain:2});
  memory.set(w.WORLD_WEATHER_KEY,'broken');assert.deepEqual(w.loadWorldWeather(storage),w.DEFAULT_WORLD_WEATHER);
  const denied={getItem(){throw Error('denied');},setItem(){throw Error('denied');}};assert.deepEqual(w.loadWorldWeather(denied),w.DEFAULT_WORLD_WEATHER);assert.deepEqual(w.saveWorldWeather({wind:2,rain:0},denied),{wind:2,rain:0});
