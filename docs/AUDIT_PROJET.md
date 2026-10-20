@@ -1,5 +1,18 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Feuillages du premier plan animés — 20 octobre 2026
+
+Le premier plan du village de départ suit maintenant le vent : les feuilles en surplomb ondulent doucement, et les deux couronnes d’arbres se balancent autour d’un pied fixe, avec des phases distinctes. L’intensité dépend du niveau de vent ; le toit est extrait dans une couche fixe. Les images sources, cartes et collisions sont conservées. Aventure et explorations Rift/Colosseum utilisent le même rendu.
+
+`foregroundWind.js` sépare les zones une fois en mémoire pour l’image courante, puis réutilise une composition 896×640 plafonnée à 30 Hz dans la boucle existante. Les déplacements restent en coordonnées du monde et suivent la caméra. Vent nul, animations désactivées ou mouvement réduit système : premier plan original sans transformation. Hors village, chargement, combat, masquage ou destruction : libération des surfaces, partagée avec les gardes météo.
+
+Vérifications reproductibles : `tests/foreground-wind.test.js` (amplitude bornée, phases, pieds fixes, cache/fréquence, toit hors transformation, libération et repli sans canvas), `test:weather-browser` (comparaison de deux instants sur l’art réel : 148 691 pixels de feuillage changés, les 19 476 pixels opaques du toit restent identiques ; vent nul, mouvement réduit, transitions et trois modes sur quatre tailles). Captures mobile inspectées ; aucune erreur navigateur.
+
+`verify:release -- --mysql` réussit : **469 tests applicatifs actifs et 43 tests SQL**, audits, HTTP/reprise, lint/build. Build de publication `/tmp/explorakit-foliage-dist`, hash `f20823cd3d164bba`.
+
+`test:release-browser` passe aussi : gestes carte/dock, voyages, dialogues, carnet/menus, 32 sprites PNJ, combats/XP/audio, apprentissage et barre Rift ; aucune erreur. Publication statique le **20/10/2026 à 11 h 10 (Paris)**, sans redémarrage ni changement de PID. Sauvegarde sources/dist/SQL/checkpoint dans `/home/ubuntu/dev/backups/explorakit-foliage-2026-10-20T09-06-55-391Z`. Contrôle HTTPS du mouvement réel des feuillages, mouvement réduit, météo maximale et index identique au build sur quatre tailles ; Know/api-test inchangés, compte temporaire supprimé. Client `9221e33157ae8f4dbec8a2c9d7252ab4bb1cc357`. Image `start_f.png` inchangée (SHA-256 `f4b983aeb3de02d9660839027ed1ab26daec9dbc01e3ab74ee2a0a877f0f2f3f`). Logs/captures `/tmp/explorakit-foliage-*`. Pas de CI distante revendiquée ; appréciation du mouvement et fluidité sur téléphone physique restent humaines.
+
+
 ## Essai météo animé au village — 20 octobre 2026
 
 **Ajustement demandé : vent fort et averse au maximum (3/3).** La révision locale v2 démarre au maximum même si l’ancien aperçu léger était mémorisé, puis conserve normalement les changements suivants. Les autres préférences/sauvegardes restent identiques. Cinq tests météo, lint/build et recette navigateur complète de météo réussis (trois modes, quatre tailles, 16 combinaisons, ancienne préférence ignorée et nouveaux choix persistés). Publication statique le **20/10/2026 à 11 h 00 (Paris)**, sans redémarrage ; build `/tmp/explorakit-weather-max-dist`, hash `07ad3862f37345ac`, index HTTPS identique, météo maximale et mouvement réduit vérifiés sur quatre tailles, aucune erreur, voisins Know/api-test inchangés et compte temporaire supprimé. Sauvegarde `/home/ubuntu/dev/backups/explorakit-weather-max-2026-10-20T08-59-25-001Z`. Client `4af2eec8a0b01eaefa639c919221e3e471a23fa2`. Logs `/tmp/explorakit-weather-max-*`.
@@ -1272,6 +1285,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **20/10/2026 — Feuillage au vent** : canopée et couronnes du premier plan animées selon le vent, pied des arbres et toit stables, contrôles de pixels et mouvement réduit. Voir la section du jour.
 
 - **20/10/2026 — Essai météo** : vent et pluie animés à quatre niveaux dans le village de départ, réglages locaux via le menu, rendu borné et mouvement réduit. Voir la section du jour.
 

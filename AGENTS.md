@@ -2,6 +2,8 @@
 
 ## Essai météo du village — 20 octobre 2026
 
+`foregroundWind.js` anime seulement le premier plan de `start` : canopée en translation douce, deux couronnes autour de leur pied, toit séparé et fixe ; aucune image modifiée. Extraction en mémoire une fois par image, composition à 30 Hz, cache libéré avec la météo ; vent nul/mouvement réduit : dessin original exact. Recettes : `foreground-wind.test.js` et comparaison de pixels dans `test:weather-browser`.
+
 `worldWeather.js` dessine une ambiance locale uniquement sur `start`, après le premier plan et avec la même transformation caméra. Vent/pluie indépendants 0–3, réglables via Menu → Météo du village et conservés localement ; défaut fort/averse (révision locale v2 demandée pour observer le maximum, puis choix de nouveau mémorisés). Pas de météo de combat ni de mutation serveur. Conserver le budget borné (210 éléments maximum), une surface 896×640 réutilisée à 30 Hz sans seconde boucle, la libération hors carte/chargement/combat/onglet masqué et à la destruction. Mouvement réduit système ou animations désactivées : image fixe. Le panneau suspend les déplacements, contient le focus et n’ajoute aucun HUD permanent. Recettes : `world-weather.test.js` et `test:weather-browser`. Les villes à pool sauvage vide et la falaise ouest (0,6) du JSON officiel Valpierre sont intentionnels ; ne pas altérer les cartes pour satisfaire les anciens tests génériques.
 
 ## JSON officiel de Valpierre — 20 octobre 2026
