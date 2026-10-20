@@ -15,7 +15,7 @@ async function showResult(page, result) {
 
 async function assertResultMode(page, mode, explorationActive) {
     await showResult(page, { outcome: 'fled', mode: mode === 'Aventure' ? 'adventure' : 'drift' });
-    assert.match(await page.locator('.result-kicker').innerText(), new RegExp(mode));
+    assert.match(await page.locator('.result-kicker').textContent(), new RegExp(mode));
     assert.equal(await page.locator('.result-timer').count(), explorationActive ? 1 : 0);
     await page.locator('[data-battle-result-continue]').click();
     await page.locator('[data-battle-result]').waitFor({ state: 'hidden' });
@@ -55,7 +55,7 @@ async function validateBattleResultUi(page, output, fit) {
             assert.equal(await panel.locator('.experience-value').count(), result.experience?.length || 0);
             assert.equal(await panel.locator('.result-money').count(), result.money ? 1 : 0);
             if (result.outcome === 'fled') {
-                assert((await panel.boundingBox()).height < 200, 'Empty summary stays compact');
+                assert((await panel.boundingBox()).height < 260, 'Empty summary stays compact');
                 // A late blackout message must still appear after the panel was mounted empty.
                 await page.evaluate(() => {
                     const vm = document.querySelector('.game-root').__vue__;
@@ -86,7 +86,29 @@ async function validateBattleResultUi(page, output, fit) {
             await panel.waitFor({ state: 'hidden' });
         }
     }
-    return { outcomes: scenarios.length, viewports: viewports.length, compactEmptySummary: true, rewards: true, focus: true, lateRecovery: true, sharedPalette: true };
+    for (const color of ['blue', 'sage', 'lavender', 'sand']) for (const mode of ['light', 'dark']) {
+        await page.setViewportSize({ width: 393, height: 852 });
+        await page.evaluate(({color,mode})=>{const vm=document.querySelector('.game-root').__vue__;vm.updatePreferences({...vm.preferences,themeColor:color,themeMode:mode});},{color,mode});
+        await showResult(page,{outcome:'fled',mode:'adventure'});
+        await fit(page,'[data-battle-result]',393,852);
+        const style=await page.locator('[data-battle-result]').evaluate(el=>{
+            const header=el.querySelector('.result-heading'),button=el.querySelector('[data-battle-result-continue]');
+            const contrast=(ink,paper)=>{
+                const lum=rgb=>rgb.match(/[\d.]+/g).slice(0,3).map(Number).map(v=>v/255).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4).reduce((sum,v,i)=>sum+v*[.2126,.7152,.0722][i],0);
+                const a=lum(ink),b=lum(paper);return (Math.max(a,b)+.05)/(Math.min(a,b)+.05);
+            };
+            const h=getComputedStyle(header),b=getComputedStyle(button);
+            return {titleFont:getComputedStyle(el.querySelector('h2')).fontFamily,frame:getComputedStyle(el).borderTopWidth,headerContrast:contrast(h.color,h.backgroundColor),buttonContrast:contrast(b.color,b.backgroundColor),headerBackground:h.backgroundColor};
+        });
+        assert.match(style.titleFont,/Georgia/);assert.equal(style.frame,'2px');
+        assert(style.headerContrast>=4.5 && style.buttonContrast>=4.5,JSON.stringify(style));
+        if(mode==='dark')assert.notEqual(style.headerBackground,'rgb(241, 247, 252)');
+        await page.screenshot({path:path.join(output,`battle-result-character-${color}-${mode}-393.png`)});
+        await page.locator('[data-battle-result-continue]').click();
+        await page.locator('[data-battle-result]').waitFor({state:'hidden'});
+    }
+    await page.evaluate(()=>{const vm=document.querySelector('.game-root').__vue__;vm.updatePreferences({...vm.preferences,themeColor:'blue',themeMode:'light'});});
+    return { themes:8, expressiveFrame:true, outcomes: scenarios.length, viewports: viewports.length, compactEmptySummary: true, rewards: true, focus: true, lateRecovery: true, sharedPalette: true };
 }
 
 module.exports = { validateBattleResultUi, assertResultMode };

@@ -1,5 +1,19 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Bilan de combat avec davantage de caractère — 20 octobre 2026
+
+Le créateur préfère finalement le caractère de l’ancien bilan illustré dans sa capture au panneau très sobre livré précédemment. Retour d’un bandeau contrasté, d’un emblème circulaire, du titre Georgia, d’un cadre à liseré doré et de coins asymétriques, avec un bouton Continuer plus marqué. Cette demande remplace l’ancienne interdiction d’emblème/titre serif dans les consignes du bilan ; elle ne concerne pas la typographie des autres menus.
+
+La palette choisie continue de teinter le corps et le bandeau ; en mode nocturne, le bandeau utilise une surface sombre et son texte clair. Les six issues, gains, capture, pertes et récupération tardive restent les informations réelles existantes. Les phrases décoratives et le corps vide restent supprimés. Défilement interne et confirmation explicite préservés ; aucun changement de règle, d’événement, de données, d’entrée en combat ou d’ordre Pokémon.
+
+Recette existante étendue : six issues aux quatre tailles (24 présentations, détails longs et focus), puis les huit palettes/modes avec contrôle de contraste réel du bandeau et du bouton. Un bilan sans gains garde une hauteur bornée tout en offrant l’encadrement demandé. Aucun nouveau test unitaire pour cette évolution visuelle réversible.
+
+Validation technique : `verify:release -- --mysql` termine à 0 avec **491 tests applicatifs et 44 SQL**, audits, HTTP/reprise, lint et build. Les 24 présentations de résultat (six issues, quatre tailles) et les huit variantes de thème passent les contrôles de géométrie, focus, gains, récupération tardive, titre et cadre, ainsi que de contraste du bandeau/bouton (au moins 4,5:1). Captures fuite/victoire sur petit mobile et lavande nocturne inspectées. Les tests de contexte lisent le texte source, car le bandeau est désormais affiché en majuscules par CSS. Build `/tmp/explorakit-result-character-dist`, hash `451d8c2accf22ce6`. Client `7488e834bb91ec7d1b01000816a92e46ff0ce176`. Logs/captures `/tmp/explorakit-result-character-*`.
+
+La recette de publication navigateur complète termine à **0**, sans erreur, avec les six bilans, huit thèmes, menus, ordre automatique, déplacements/voyages, XP, audio, apprentissage et vrai contexte Rift. Publication statique le **20/10/2026 à 16 h 10 (Paris)** sans redémarrage ni changement de processus serveur. Sauvegarde sources/dist/SQL/checkpoint : `/home/ubuntu/dev/backups/explorakit-result-character-2026-10-20T14-02-09-622Z`.
+
+Contrôle HTTPS terminé à 0 sur un vrai duel de deux comptes temporaires : titre serif, bandeau, cadre, taille bornée et bouton tactile aux quatre tailles, focus, reprise, index conforme au build, aucune erreur. Comptes temporaires supprimés, Know/api-test inchangés. Service actif avec zéro redémarrage automatique. Aucune CI distante ni validation sur téléphone physique revendiquée.
+
 ## Palettes, mode nocturne et ordre automatique — 20 octobre 2026
 
 Les options proposent quatre couleurs d’interface (bleu, sauge, lavande, sable) et deux affichages (clair, nocturne). Choix immédiat et mémorisé dans les préférences locales existantes ; valeurs normalisées et défaut bleu/clair pour les anciens appareils. `main.js` applique le thème avant le montage pour conserver le mode nocturne au rechargement. Les variables partagées couvrent menus, Pokédex, sac, équipe/fiches, badges, dialogues, carnets Rift/Colosseum et bilans ; les cartes/sprites, météo et couleurs sémantiques des types, PV ou raretés restent des informations du jeu. Les cartes de PV adoptent aussi une surface nocturne. Les boutons ont un texte d’accent inverse dédié ; palettes ajustées pour une lecture contrastée, sans filtre global d’image. Radios étiquetés, focus visible et cibles tactiles.
@@ -1434,6 +1448,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **20/10/2026 — Caractère du bilan** : retour du bandeau sombre, emblème, titre serif et liseré demandés ; thèmes/nocturne, six issues, détails réels et interactions préservés. Voir la section du jour.
 
 - **20/10/2026 — Thèmes / équipe** : quatre palettes clair/nocturne mémorisées et menus raccordés ; ordre Pokémon automatiquement enregistré, équipe vivante et base synchronisées, gestion d’échec et contrôles de contraste. Voir la section du jour.
 
