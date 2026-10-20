@@ -1,14 +1,10 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 const weather=()=>import('../vue-explorakit/src/services/worldWeather.js');
 function surface(){const calls=[],ctx={};for(const name of ['clearRect','fillRect','beginPath','moveTo','lineTo','stroke','ellipse','save','translate','rotate','fill','restore','bezierCurveTo'])ctx[name]=(...args)=>{assert(args.every(n=>typeof n!=='number'||Number.isFinite(n)),name+' non-finite geometry');calls.push([name,...args]);};const canvas={width:0,height:0,getContext:()=>ctx};return {canvas,ctx,calls};}
-test('weather preferences are bounded, durable and tolerate corrupt or unavailable storage',async()=>{
- const w=await weather(),memory=new Map(),storage={getItem:key=>memory.get(key),setItem:(key,value)=>memory.set(key,value)};
- memory.set('riftmon.worldWeatherPreview',JSON.stringify({wind:1,rain:1}));
- assert.deepEqual(w.loadWorldWeather(storage),{wind:3,rain:3});
- assert.deepEqual(w.saveWorldWeather({wind:99,rain:'2',extra:true},storage),{wind:3,rain:2});assert.deepEqual(w.loadWorldWeather(storage),{wind:3,rain:2});
- memory.set(w.WORLD_WEATHER_KEY,'broken');assert.deepEqual(w.loadWorldWeather(storage),w.DEFAULT_WORLD_WEATHER);
- const denied={getItem(){throw Error('denied');},setItem(){throw Error('denied');}};assert.deepEqual(w.loadWorldWeather(denied),w.DEFAULT_WORLD_WEATHER);assert.deepEqual(w.saveWorldWeather({wind:2,rain:0},denied),{wind:2,rain:0});
- assert.deepEqual(w.normalizeWorldWeather({wind:Infinity,rain:-2}),{wind:0,rain:0});assert.deepEqual(w.normalizeWorldWeather(null),{wind:0,rain:0});
+test('weather intensity is authoritative for every map and accepts only bounded display levels',async()=>{
+ const w=await weather(),{getMapWeather}=require('../server/game/world/mapWeather');
+ for(const map of ['start','route1','route2']){const climate=getMapWeather(map);assert.deepEqual(w.mapWorldWeather(map,climate),map==='start'?{wind:3,rain:3}:{wind:1,rain:1});}
+ assert.deepEqual(w.normalizeWorldWeather({wind:99,rain:'2',extra:true}),{wind:3,rain:2});assert.deepEqual(w.normalizeWorldWeather({wind:Infinity,rain:-2}),{wind:0,rain:0});assert.deepEqual(w.normalizeWorldWeather(null),{wind:0,rain:0});
 });
 test('weather covers the village and the two rainy routes, never interiors, battles, loading or hidden tabs',async()=>{
  const {worldWeatherEnabled:enabled}=await weather();for(const map of ['start','route1','route2'])assert(enabled(map));
@@ -34,9 +30,9 @@ test('reduced motion renders a stable frame and does not accumulate paint work o
  renderer.draw(target,1e6+1,{wind:2,rain:1},false);assert.equal(renderer.frames,2);renderer.draw(target,1e6+40,{wind:2,rain:1},true);assert.equal(renderer.frames,3);
 });
 
-test('route ambience follows its server climate, independently from the village preview and with no stale-map leakage',async()=>{
- const {mapWorldWeather:settings}=await weather();for(const map of ['route1','route2']){const climate=require('../server/game/world/mapWeather').getMapWeather(map);assert.deepEqual(settings(map,{wind:3,rain:3},climate),{wind:1,rain:1});assert.deepEqual(settings(map,{wind:0,rain:0},climate),{wind:1,rain:1});assert.deepEqual(settings(map,{wind:3,rain:3},{...climate,map:'start'}),{wind:0,rain:0});}
- assert.deepEqual(settings('start',{wind:2,rain:0},null),{wind:2,rain:0});assert.deepEqual(settings('maison2',{wind:3,rain:3},null),{wind:0,rain:0});
+test('map ambience follows its server climate without stale-map leakage',async()=>{
+ const {mapWorldWeather:settings}=await weather();for(const map of ['route1','route2']){const climate=require('../server/game/world/mapWeather').getMapWeather(map);assert.deepEqual(settings(map,climate),{wind:1,rain:1});assert.deepEqual(settings(map,{...climate,map:'start'}),{wind:0,rain:0});}
+ assert.deepEqual(settings('start',null),{wind:0,rain:0});assert.deepEqual(settings('maison2',null),{wind:0,rain:0});
 });
 test('map impacts stay on authoritative uncovered ground, bounded within their tile, below actors and absent in reduced motion',async()=>{
  const {worldRainImpacts,WorldWeatherRenderer}=await weather();let total=0;

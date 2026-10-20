@@ -1,5 +1,19 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Météo partagée et nouveau menu de badges — 20 octobre 2026
+
+Le menu et le panneau « Météo du village » sont supprimés, avec leur état local, commandes et fonctions de lecture/écriture du stockage. `start` annonce désormais explicitement `{wind:3,rain:3}` ; les routes 1 et 2 restent à `{wind:1,rain:1}`. Le client ne calcule l’ambiance que depuis l’état serveur correspondant à la carte courante. Les anciennes clés de préférence météo n’ont plus aucun effet. Les trois modes reçoivent le même climat et les mêmes intensités ; mouvement réduit et désactivation des animations ne modifient que le mouvement des effets, sans changer la météo réelle ni ses règles de combat.
+
+Les badges sont retirés d’« Objectifs et quêtes » et disposent d’une entrée dédiée « Badges » en Aventure. Le nouvel étui reprend le papier clair, les teintes sauge et la typographie du Pokédex : six emblèmes SVG distincts, cartes obtenues/colorées ou à obtenir/grisées, villes associées, compteur et barre de collection. Le Sceau Sylve reste présenté comme une étape du récit, les autres comme des défis d’arène. Les badges, leur ordre et leur attribution restent les données de progression serveur existantes ; aucun badge ni récompense attribué ou supprimé. L’interface suit automatiquement la taille du catalogue reçu.
+
+Le panneau affiche chargement/état vide, défile dans le viewport et passe sur deux colonnes sur téléphone. Focus sur fermer à l’ouverture, Tab contenu entre fermeture et collection défilante, Échap, fermeture tactile et retour au bouton Menu ; mouvements du joueur suspendus. La collection Aventure reste masquée dans les expéditions Rift/Colosseum. Les fichiers graphiques des cartes restent inchangés.
+
+Recettes : `world-weather.test.js` (profils serveur, bornes, absence de fuite entre cartes), `test:weather-browser` (anciennes clés locales à zéro ignorées, absence du sélecteur aux quatre tailles, mouvement réduit, météo réelle des trois modes et combats), `test:release-browser` / `validateJournalUi` (huit panneaux, badges séparés des quêtes, six cartes, quatre tailles, style commun au Pokédex et focus clavier).
+
+Validation : **482 tests applicatifs actifs et 43 SQL**, audits, HTTP/reprise, lint et build terminent normalement avec code 0 (`verify:release -- --mysql`). La recette météo termine à 0 : anciennes préférences à zéro ignorées, sélecteur absent, profil commun et météo réelle conservée dans les trois modes, ainsi que mouvement réduit et cycles de vie. La recette générale produit le bilan complet sans erreur : huit panneaux, six cartes de badges aux quatre tailles, états obtenus/grisés, compteur mis à jour, focus/clavier, gestes/voyages, combats/XP/audio et apprentissage ; comme lors de la livraison précédente, son lanceur npm remonte 143 en fin d’exécution malgré ce bilan. Ne pas présenter cette sortie de lanceur comme un code 0. Captures de l’étui mobile/320 px/PC inspectées. Build `/tmp/explorakit-menu-badges-dist`, hash `e65b3ea19065fc92`. Client `cfa8c4a7f33e648ab505058781a5ef7e2a3c0698`. Logs/captures `/tmp/explorakit-menu-badges-*`.
+
+Publication le **20/10/2026 à 12 h 41 (Paris)** après sauvegarde sources/dist/SQL/checkpoint dans `/home/ubuntu/dev/backups/explorakit-menu-badges-2026-10-20T10-36-58-970Z`, zéro tentative active. Seul `explorakit.service` redémarré pour le profil explicite du village ; service actif sans boucle. Le contrôle HTTPS termine à 0 avec un compte temporaire : ancien choix local zéro ignoré, même intensité serveur sur les trois cartes, menu météo absent, étui avec les six badges réels, séparation des quêtes, quatre tailles, Tab/Échap/focus et mouvement réduit. Index identique au build, voisins Know/api-test inchangés, aucune erreur et compte supprimé. Aucune CI distante revendiquée ; appréciation et fluidité sur téléphone physique restent humaines.
+
 ## Impacts de pluie sur les cartes et routes légèrement pluvieuses — 20 octobre 2026
 
 Les petits impacts sont plus lisibles : anneaux courts et aplatis, avec de minuscules projections, qui apparaissent en des points variés puis s’effacent. Leur masque est dérivé des cases libres, sans passage/interaction ni couche classique de premier plan ; chaque impact et son rayon restent dans sa case. Les impacts sont dessinés après le fond mais avant PNJ, joueurs et premier plan, évitant les projections sur les toits, arbres et sprites. La couche `leaf` de `start` référence une image entière dont les cases transparentes ont aussi des GID : elle ne sert pas de masque d’occupation ; ses pixels visibles restent naturellement devant les impacts. Les tests exigent des impacts non nuls séparément sur chaque carte, y compris le village. Les cartes et leurs images restent inchangées. `scripts/generateWorldRainGround.js` régénère uniquement le petit module client de masques à partir des trois JSON Tiled.
@@ -1364,6 +1378,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **20/10/2026 — Météo commune / badges** : retrait du choix météo et des anciennes préférences, profil uniquement serveur ; étui de badges dédié, séparé des objectifs/quêtes et adapté au mobile. Voir la section du jour.
 
 - **20/10/2026 — Pluie des routes / impacts** : impacts visibles sur les cases au sol, sous les personnages et le premier plan ; routes 1/2 légèrement pluvieuses et venteuses, climat réel partagé avec les combats. Voir la section du jour.
 

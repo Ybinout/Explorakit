@@ -1,5 +1,5 @@
 {
-  "start": { "kind": "rain" },
+  "start": { "kind": "rain", "ambience": { "wind": 3, "rain": 3 } },
   "route1": { "kind": "rain", "ambience": { "wind": 1, "rain": 1 } },
   "route2": { "kind": "rain", "ambience": { "wind": 1, "rain": 1 } }
 }

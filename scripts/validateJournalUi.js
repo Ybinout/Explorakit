@@ -35,6 +35,7 @@ async function validateJournalUi(page, output, fit) {
         await page.locator('.menu-toggle-btn').click();
         await fit(page, '.menu-dropdown', width, height);
         assert.equal(await page.locator('.menu-toggle-btn').getAttribute('aria-expanded'), 'true');
+        assert.equal(await page.locator('[data-menu-action="weather"]').count(),0);
         // The last item remains reachable even on a short landscape screen.
         await page.locator('[data-menu-action="options"]').scrollIntoViewIfNeeded();
         await page.locator('[data-menu-action="pokedex"]').scrollIntoViewIfNeeded();
@@ -62,6 +63,7 @@ async function validateJournalUi(page, output, fit) {
             ['appearance', '.appearance-panel', '.panel-close'],
             ['pokemon', '.team-panel', '.team-close'],
             ['progress', '.info-panel', '.close-button'],
+            ['badges', '.badge-case', '.badge-case-close'],
             ['save', '.info-panel', '.close-button'],
             ['options', '.info-panel', '.close-button'],
         ]) {
@@ -74,7 +76,15 @@ async function validateJournalUi(page, output, fit) {
             })), reference, 'Panel must share the Pokédex surface and typography');
             assert.equal(await page.locator('.mobile-controls-shell').count(), 0);
             assert(await panel.evaluate((el) => el.scrollWidth <= el.clientWidth + 1), `${key} overflows`);
+            if(key==='progress')assert.equal(await panel.locator('.badge-grid, [data-badge-key]').count(),0);
+            if(key==='badges'){await page.waitForFunction(()=>document.querySelectorAll('[data-badge-key]').length===6);assert.equal(await panel.locator('[data-badge-key]').count(),6);await page.keyboard.press('Tab');assert.equal(await page.locator('.badge-case-scroll').evaluate(el=>el===document.activeElement),true);await page.keyboard.press('Tab');assert.equal(await page.locator('.badge-case-close').evaluate(el=>el===document.activeElement),true);}
+            if(key==='badges'){
+                await page.evaluate(()=>{const v=window.journalTestVm;window.journalOriginalBadges=v.progressionState.badges;v.progressionState={...v.progressionState,badges:v.progressionState.badges.map((b,i)=>({...b,earned:i<2}))};});
+                await page.waitForFunction(()=>document.querySelectorAll('[data-badge-earned="true"]').length===2);
+                assert.equal(await panel.locator('[role="progressbar"]').getAttribute('aria-valuenow'),'2');
+            }
             await capture(key, width);
+            if(key==='badges')await page.evaluate(()=>{const v=window.journalTestVm;v.progressionState={...v.progressionState,badges:window.journalOriginalBadges};delete window.journalOriginalBadges;});
             if (key === 'pokemon') {
                 await page.locator('.team-row-visual').first().click();
                 await fit(page, '.companion-sheet', width, height);
@@ -130,7 +140,7 @@ async function validateJournalUi(page, output, fit) {
     }
     await close();
     await page.evaluate(() => { delete window.journalTestVm; });
-    return { panels: 7, viewports: viewports.length, shopAndDialogue: true, consistentTheme: true };
+    return { panels: 8, badgesSeparated: true, badgesFocus: true, viewports: viewports.length, shopAndDialogue: true, consistentTheme: true };
 }
 
 module.exports = { validateJournalUi, viewports };
