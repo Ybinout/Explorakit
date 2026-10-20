@@ -1,5 +1,14 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Pluie de combat et petits impacts au sol — 20 octobre 2026
+
+Les larges bandes diagonales répétées sont supprimées. Le composant commun `BattleRain` dessine des gouttes fines et courtes, légèrement inclinées, à des positions et vitesses variées. Chaque goutte termine sa chute sur le terrain puis produit un petit anneau aplati et deux projections discrètes, qui disparaissent en 220 ms. La perspective réduit la taille des impacts éloignés. Les impacts sont limités à la partie au sol de la scène ; le rendu reste sous les Pokémon et cartes de PV, sans intercepter les touches ni déplacer les actions.
+
+Une seule surface à la taille de la scène, DPR plafonné à 1,5 ; budget maximal 128 particules et peinture plafonnée à 30 Hz. La taille suit le téléphone et ses orientations via ResizeObserver. Mouvement réduit système/jeu : ambiance fixe sans impacts animés et sans boucle ; onglet masqué : boucle annulée et surface libérée. Disparition de la pluie/fin de combat : annulation de la boucle, écouteurs retirés et renderer détruit. Les autres météos et les règles serveur de pluie restent identiques ; les trois modes profitent du même composant.
+
+Recettes reproductibles : `battle-rain.test.js` (taille des gouttes/impacts, sol des trois décors, budget, cadence, mouvement réduit, destruction) et `test:weather-browser` complété avec impacts observés, DPR/tailles, arrêt système/jeu, masquage/reprise et destruction lors du remplacement par Zénith.
+
+
 ## Pluie de carte transmise aux combats — 20 octobre 2026
 
 À la demande du créateur, il s’agit d’une vraie pluie : dégâts Eau renforcés, Feu réduits et talents météo actifs dès le premier tour. La configuration serveur `map_weather.json` définit actuellement la pluie extérieure de `start`. Les quatre orchestrateurs (sauvage, dresseur/arène, PvP Aventure et `DriftBattle`) capturent la carte serveur au lancement. Les intérieurs et l’arène du tournoi/Colosseum restent secs, sauf météo créée en combat. Les deux adversaires partagent le même champ ; les niveaux d’animation locaux ne peuvent pas modifier les règles. Le menu le précise et renomme l’arrêt visuel de pluie « Masquée ».
@@ -1315,6 +1324,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **20/10/2026 — Animation de pluie en combat** : bandes remplacées par gouttes fines et micro-impacts synchronisés au sol, composant responsive partagé avec cycle de vie et mouvement réduit vérifiés. Voir la section du jour.
 
 - **20/10/2026 — Pluie en combat** : climat serveur de la carte capturé dès l’ouverture des quatre types de combats, effets réels et météo partagée ; intérieurs secs, remplacements et reprises conservés. Voir la section du jour.
 

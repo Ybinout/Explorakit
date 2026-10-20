@@ -1,5 +1,9 @@
 # Contexte permanent — Explorakit
 
+## Pluie fine et impacts en combat — 20 octobre 2026
+
+`BattleRain.vue` remplace la pluie CSS à bandes de `BattleOverlay`. `battleRain.js` fait tomber des gouttes courtes jusqu’au terrain puis dessine de petits anneaux/apports d’eau au point d’arrivée ; aucun impact au-dessus du sol. Composant partagé par les trois modes, sous les sprites/cartes de PV et sans interception tactile. Conserver le plafond 128 particules, 30 Hz, DPR 1,5, taille liée à la scène, aucun impact animé en mouvement réduit. Onglet masqué : boucle annulée et canvas libéré ; changement de météo/fin de combat : composant, boucle et écouteurs détruits. Ne pas changer la météo réelle serveur pour un ajustement graphique. Recettes : `battle-rain.test.js`, `test:weather-browser` (impacts, resize/DPR, mouvement réduit, masquage, destruction au Zénith) et recette de publication mobile.
+
 ## Pluie de carte héritée en combat — 20 octobre 2026
 
 `data/game/map_weather.json` est la météo réelle partagée, lue par `world/mapWeather.js`. `start` est pluvieux ; intérieurs et arène Colosseum sont secs. Les réglages locaux n’ajustent que l’affichage (pluie « Masquée »), jamais les règles ni les conditions de l’adversaire. `mapWeatherState` synchronise le climat au chargement/voyage ; le champ initial accompagne `battletrigger` pour être visible dès l’ouverture. Les quatre orchestrateurs initialisent `createBattleState({mapName,opponentMap})` depuis leurs positions serveur. La météo de carte porte `persistent:true, source:'map'`, ne décrémente pas ; capacités et talents la remplacent par leur durée habituelle, sans restauration automatique du climat à leur expiration. Ne jamais réinitialiser la météo à la reconnexion/checkpoint. Conserver l’affichage sec quand le serveur envoie `{kind:null}`. Recettes : `map-weather.test.js`, combats SQL sauvage/dresseur/PvP et `test:weather-browser` (pluie masquée, Zénith/reconnexion, intérieur).
