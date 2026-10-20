@@ -201,7 +201,7 @@ async function betweenBattles(selector) {
         await page.locator('[data-colosseum-ready]').click();await waitFor(()=>Boolean(classic.battle),'Guardian battle missing');
         await page.locator('[data-battle-challenge]').filter({hasText:'Le Rempart'}).waitFor();
         const guardian = classic.battle;
-        assert.equal(guardian.b.colosseumWave,5);assert.equal(guardian.b.colosseumVersion,4);assert.equal(guardian.b.drifts.length,1);assert.equal(guardian.b.equipe.pokemons[0].level,23);
+        assert.equal(guardian.b.colosseumWave,5);assert.equal(guardian.b.colosseumVersion,5);assert.equal(guardian.b.drifts.length,1);assert.equal(guardian.b.equipe.pokemons[0].level,23);
         assert.deepEqual(guardian.b.equipe.pokemons.map(p=>p.heldItem),require('../server/game/drift/colosseum').waveInfo(5).preview.map(p=>p.heldItem));
         for(const enemy of guardian.b.equipe.pokemons)enemy.currentHp=0;guardian.prune();guardian.checkEnd();
         await dismissBattle();await betweenBattles('[data-colosseum-reward]');
@@ -219,6 +219,25 @@ async function betweenBattles(selector) {
         assert.equal(classic.drifts.at(-1).rarity,'epic');assert.equal(classic.run.colosseum.reward,null);
         await page.reload({waitUntil:'networkidle'});await betweenBattles('[data-colosseum-ready]');
         assert.equal(classic.drifts.length,count+1,'Reward replay after reconnect');
+        // Fixed server fixtures: different real strategies, honest move previews,
+        // touch-sized disclosure and persisted matchup on reload.
+        for(const [wave,label] of [[6,'Contrôle de la vitesse'],[11,'Équipe de pluie'],[12,'Équipe de soleil'],[13,'Briseurs de préparation']]) {
+            classic.run.colosseum.wins=wave-1;classic.run.colosseum.next=require('../server/game/drift/colosseum').waveInfo(wave);cleanup.runtime.send(classic);
+            await page.locator('[data-colosseum-strategy]').filter({hasText:label}).waitFor();
+            for(const [width,height] of [[320,568],[393,852],[1365,900]]) {
+                await page.setViewportSize({width,height});await checkWidth();
+                await page.locator('[data-colosseum-strategy]').scrollIntoViewIfNeeded();
+                await page.locator('.challenger .loadouts summary').click();
+                assert.equal(await page.locator('[data-colosseum-moves]').count(),classic.run.colosseum.next.size);
+                for(const [index,preview] of classic.run.colosseum.next.preview.entries())assert.equal((await page.locator('[data-colosseum-moves]').nth(index).innerText()).split(' · ').length,preview.moves.length);
+                await page.screenshot({path:path.join(output,`colosseum-style-${wave}-${width}.png`)});
+                await page.locator('.challenger .loadouts summary').click();
+            }
+            if(wave===13) {
+                const expected=classic.run.colosseum.next;await page.reload({waitUntil:'networkidle'});await betweenBattles('[data-colosseum-ready]');
+                assert.deepEqual(classic.run.colosseum.next,expected);assert.match(await page.locator('[data-colosseum-strategy]').innerText(),/Briseurs/);
+            }
+        }
         // Server-side fixture only: exercise the expert threshold through the actual UI.
         await waitFor(()=>Boolean(classic.socketId) && classic.disconnectedAt===null,'Classic run not connected before clock advance');
         classic.run.colosseum.wins=15;

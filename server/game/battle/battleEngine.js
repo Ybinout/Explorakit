@@ -1314,12 +1314,13 @@ function applyEffect(effect, context, moveResult) {
         }
 
         case 'reset_stat_stages': {
-            const resetTarget = effect.target === 'self' ? context.attacker : effectTargetPokemon;
-            const resetData = ensureBattleData(resetTarget);
-            for (const stat of Object.keys(resetData.statStages)) {
-                resetData.statStages[stat] = 0;
+            const resetTargets = effect.target === 'all' ? [context.attacker, context.defender]
+                : [effect.target === 'self' ? context.attacker : effectTargetPokemon];
+            for (const resetTarget of resetTargets) {
+                const resetData = ensureBattleData(resetTarget);
+                for (const stat of Object.keys(resetData.statStages)) resetData.statStages[stat] = 0;
+                messages.push(`Les changements de statistiques de ${getPokemonDisplayName(resetTarget)} sont annules.`);
             }
-            messages.push(`Les changements de statistiques de ${getPokemonDisplayName(resetTarget)} sont annules.`);
             return;
         }
 
@@ -2967,7 +2968,7 @@ function useattack(attackName, attacker, defender, options = {}) {
         ? move.combat.effects.filter((effect) => !sheerForce || !['status_chance', 'flinch'].includes(effect.kind))
         : [];
     for (const effect of effects) {
-        const targetsEnemy=!['self','self_side'].includes(effect.target||moveTarget);
+        const targetsEnemy=!['self','self_side','field','all'].includes(effect.target||moveTarget);
         if(targetsEnemy && damageClass!=='status' && !moveResult.damage)continue;
         if(targetsEnemy && (defenderData.substituteHp>0 || moveResult.substituteDamage>0)
             && !hasPassiveAbility(attacker,'Infiltrator') && !getMoveFlags(move).sound)continue;

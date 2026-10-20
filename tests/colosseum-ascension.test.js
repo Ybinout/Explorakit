@@ -36,7 +36,6 @@ for(const mode of ['rift','colosseum'])test(`${mode}: an overlevel lead does not
 });
 
 test('v4 guardians gain at most three levels, capped at 100; points, ordinary waves and legacy loadouts are stable',()=>{
-    assert.equal(colosseum.initialState().version,4);
     for(let wave=1;wave<=65;wave++) {
         const modern=colosseum.waveInfo(wave,4),legacy=colosseum.waveInfo(wave,3);
         assert.deepEqual(modern.preview,legacy.preview);assert.deepEqual(modern.difficulty,legacy.difficulty);

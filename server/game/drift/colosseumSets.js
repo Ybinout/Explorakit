@@ -45,11 +45,12 @@ function itemFor(species, selected, ability, wave, index) {
     return ['sitrus_berry', 'Endurance', 'Récupère des PV quand le combat se prolonge.'];
 }
 
-function plan(id, wave, index) {
-    const key = `${id}:${wave}:${index}`;
+function plan(id, wave, index, tactic = null) {
+    const key = `${id}:${wave}:${index}:${tactic?.key || 'legacy'}`;
     if (cache.has(key)) return cache.get(key);
     const species = dex.get(id), base = species.base, legal = new Set(learnsets[id] || []);
     let ability = chooseSpeciesAbility(id, createDeterministicRandom(`colosseum:${wave}:${index}`), 0);
+    if (tactic?.abilities.length) ability = tactic.abilities.find(name=>getSpeciesAbilitySlots(id).some(a=>a.name===name&&!a.hidden&&!a.special)) || ability;
     if (ability === 'Klutz') ability = getSpeciesAbilitySlots(id).find(a => !a.hidden && !a.special && a.name !== 'Klutz')?.name || ability;
     const available = moves.filter(m => legal.has(slug(m.ename))).map(m => engine.getMoveByName(m.ename));
     const cap = wave <= 5 ? 60 : wave <= 10 ? 80 : wave <= 15 ? 100 : 120;
@@ -59,19 +60,25 @@ function plan(id, wave, index) {
         && !traits[m.ename]?.charge && !traits[m.ename]?.recharge
         && !['Future Sight', 'Doom Desire', 'Fly', 'Dig', 'Dive', 'Bounce', 'Sky Attack', 'Solar Beam', 'Solar Blade', 'Skull Bash', 'Razor Wind', 'Phantom Force'].includes(m.ename));
     const selected = [];
-    const preferredClass = base.Attack >= base['Sp. Attack'] ? 'physical' : 'special';
+    const effectiveAttack=base.Attack*(tactic&&['Huge Power','Pure Power'].includes(ability)?2:1);
+    const preferredClass = effectiveAttack >= base['Sp. Attack'] ? 'physical' : 'special';
     const score = m => m.power * (Number(m.accuracy) || 100) / 100
-        * (physical(m) ? base.Attack : base['Sp. Attack'])
+        * (physical(m) ? effectiveAttack : base['Sp. Attack'])
         * (species.type.includes(m.type) ? 1.5 : 1)
         * (selected.some(other => other.type === m.type) ? .35 : 1)
-        * (m.combat.damage_class === preferredClass ? 1 : .65);
+        * (m.combat.damage_class === preferredClass ? 1 : .65)
+        * (tactic?.attacks.includes(m.ename) ? 1.9 : 1);
     while (selected.length < 4) {
         const next = attacks.filter(m => !selected.includes(m)).sort((a,b) => score(b)-score(a) || a.id-b.id)[0];
         if (!next) break;
         selected.push(next);
     }
     if (!selected.length) throw Error(`No supported offensive Colosseum set for ${id}`);
-    if (wave >= 11) {
+    if (tactic) {
+        const preferred=tactic.support.filter(name=>!(['Swords Dance','Dragon Dance','Bulk Up'].includes(name)&&preferredClass!=='physical')&&!(['Calm Mind','Nasty Plot'].includes(name)&&preferredClass!=='special'));
+        const support=preferred.map(name=>available.find(m=>m.ename===name)).find(Boolean);
+        if(support) {selected.length=Math.min(3,selected.length);selected.push(support);}
+    } else if (wave >= 11) {
         const boosts = preferredClass === 'physical' ? ['Dragon Dance', 'Swords Dance', 'Bulk Up'] : ['Calm Mind', 'Nasty Plot'];
         const groups = [['Recover', 'Roost', 'Synthesis', 'Slack Off', 'Soft-Boiled'], boosts, ['Will-O-Wisp', 'Thunder Wave', 'Toxic']];
         // Give each team complementary jobs. An attacker without a suitable
@@ -86,16 +93,16 @@ function plan(id, wave, index) {
     return result;
 }
 
-function prepare(pokemon, wave, index) {
-    const set = plan(pokemon.data.id, wave, index);
+function prepare(pokemon, wave, index, tactic = null) {
+    const set = plan(pokemon.data.id, wave, index, tactic);
     pokemon.passiveAbility = set.ability;
     pokemon.gender = require('../items/stoneEvolution').gender({ data: pokemon.data, uuid: `colosseum:${wave}:${index}:${pokemon.data.id}` });
     pokemon.heldItem = set.item;
     pokemon.abilities = []; pokemon.movePp = [];
     set.moves.forEach(name => pokemon.addAbility(name));
 }
-function preview(id, wave, index) {
-    const set = plan(id, wave, index), item = getItemDefinition(set.item);
-    return { heldItem: set.item, itemName: item.name, itemDescription: item.description, role: set.role, itemReason: set.reason };
+function preview(id, wave, index, tactic = null) {
+    const set = plan(id, wave, index, tactic), item = getItemDefinition(set.item);
+    return { heldItem: set.item, itemName: item.name, itemDescription: item.description, role: set.role, itemReason: set.reason, ...(tactic ? {tacticalRole:tactic.role,moves:[...set.moves],moveNames:set.moves.map(name=>moves.find(m=>m.ename===name)?.fname || name)} : {}) };
 }
 module.exports = { prepare, preview, plan };

@@ -45,9 +45,10 @@ const GUARDIANS = [
     { name: 'La Couronne', specialty: 'Dragon · Acier', hint: 'Une équipe d’élite avec des résistances complémentaires. Alterne tes réponses Glace, Combat et Sol.', team: [230, 212, 330, 376, 448, 445] }
 ];
 const REWARD_SETS = [['DRF-002', 'DRF-013', 'DRF-040'], ['DRF-004', 'DRF-022', 'DRF-033'], ['DRF-010', 'DRF-018', 'DRF-035']];
-function milestoneSize(version = 4) { return version >= 3 ? 5 : 10; }
+function milestoneSize(version = 5) { return version >= 3 ? 5 : 10; }
 function guardianAt(wave, version) { return GUARDIANS[(Math.ceil(wave / milestoneSize(version)) - 1) % GUARDIANS.length]; }
-function roster(wave, version = 4) {
+function roster(wave, version = 5) {
+    if (version >= 5) return require('./colosseumVariety').encounter(wave).slots.map(s=>s.id);
     const size = Math.min(6, 2 + Math.floor((wave - 1) / 4));
     if (version >= 2 && wave % milestoneSize(version) === 0) return guardianAt(wave, version).team.slice(0, size);
     const elite = version >= 2 && wave >= 25;
@@ -71,7 +72,7 @@ function guardianDrifts(wave, version) {
     });
 }
 
-function waveInfo(wave, version = 4) {
+function waveInfo(wave, version = 5) {
     const baseLevel = Math.min(100, 10 + (wave - 1) * 3);
     const size = Math.min(6, 2 + Math.floor((wave - 1) / 4));
     const tier = Math.min(4, Math.floor((wave - 1) / 6));
@@ -80,16 +81,18 @@ function waveInfo(wave, version = 4) {
     const interval = milestoneSize(version);
     const guardian = version >= 2 && wave % interval === 0 ? guardianAt(wave, version) : null;
     const level = Math.min(100, baseLevel + (version >= 4 && guardian ? Math.min(3, Math.ceil(wave / 10)) : 0));
+    const encounter = version >= 5 ? require('./colosseumVariety').encounter(wave) : null;
     const preview = roster(wave, version).map((id, index) => ({ id, name: dex.get(id).name.french || dex.get(id).name.english, types: dex.get(id).type,
-        ...(version >= 3 ? require('./colosseumSets').preview(id, wave, index) : {}) }));
+        ...(version >= 3 ? require('./colosseumSets').preview(id, wave, index, encounter?.slots[index]) : {}) }));
     return { wave, level, size, potential, milestoneSize: interval, difficulty: ai.difficulty(wave, version),
         guardian: guardian ? { name: guardian.name, specialty: guardian.specialty, hint: guardian.hint } : null,
         nextGuardian: version >= 2 ? { wave: Math.ceil(wave / interval) * interval, name: guardianAt(wave, version).name, specialty: guardianAt(wave, version).specialty } : null,
+        ...(encounter ? {strategy:encounter.strategy} : {}),
         drifts: guardianDrifts(wave, version), preview, title: `${guardian ? guardian.name : TITLES[tier] + ' du Colosseum'} · ${wave}`,
         points: 100 * wave + 10 * baseLevel * size };
 }
 
-function opponent(wave, version = 4) {
+function opponent(wave, version = 5) {
     const info = waveInfo(wave, version);
     const pokemons = roster(wave, version).map((id, index) => {
         const pokemon = factory.create(id, info.level, true);
@@ -102,7 +105,7 @@ function opponent(wave, version = 4) {
     return { npc: true, colosseumWave: wave, colosseumVersion: version, username: info.title, equipe: { pokemons }, drifts: info.drifts, equipped: info.drifts.map(d=>d.uuid), chain: 0 };
 }
 
-function rewardOffer(wave, version = 4) {
+function rewardOffer(wave, version = 5) {
     const interval = milestoneSize(version);
     const rarity = wave >= interval * 3 ? 'legendary' : 'epic';
     return { id: randomUUID(), wave, options: REWARD_SETS[(wave / interval - 1) % REWARD_SETS.length].map(id => {
@@ -150,6 +153,6 @@ function recordDefeat(report) {
             moveNames:(p.moveNames || p.moves || []).slice(0,4)
         })) };
 }
-function initialState() { return { version: 4, score: 0, wins: 0, wave: 0, lastTeam: [], reward: null, lastReward: null, next: waveInfo(1) }; }
+function initialState() { return { version: 5, score: 0, wins: 0, wave: 0, lastTeam: [], reward: null, lastReward: null, next: waveInfo(1) }; }
 
 module.exports = { EXPLORATION_MS, durationMinutes, milestoneSize, waveInfo, opponent, snapshotTeam, recordTeam, recordDefeat, initialState, rewardOffer, chooseReward };

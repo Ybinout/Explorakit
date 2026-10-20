@@ -1,5 +1,9 @@
 # Contexte permanent — Explorakit
 
+## Variété du circuit Colosseum — 20 octobre 2026
+
+Les nouvelles tentatives sont v5 : `colosseumVariety.js` fixe les compositions et rôles, `colosseumTactics.js` évalue météo/protections/annulation des boosts. Même circuit pour tous, aucun tirage à la reconnexion ni contre-équipe calculée sur le joueur. Les v1–v4 conservent leurs compositions/sets/points (empreintes historiques dans `colosseum-variety.test.js`). Un seul spécialiste de soutien par équipe ; ses capacités restent légales et l’objet compatible. Préserver les aperçus de styles/capacités, les paliers de puissance, les points et le frein d’XP v4. Buée Noire remet à zéro les deux combattants ; les effets de terrain traversent un clone. Recettes : tests variété/IA/ordre et publication, Colosseum et combat navigateur.
+
 ## Ascension Colosseum et lisibilité — 19 octobre 2026
 
 Lire la section correspondante en tête d’audit. Les nouveaux Colosseum sont v4 : gardiens +1 à +3 niveaux (plafond 100), 1 à 3 Drifts déterministes et annoncés ; points et v1/v2/v3 conservés. L’XP commune ajoute une pénalité de sur-niveau au-delà de max(5, 10 % du niveau adverse), calculée par receveur, y compris les réserves et Chasseur d’élite. Ne pas baser le partage sur le niveau du meneur. `DriftPassives` montre seulement les bonus équipés et leurs conditions/valeurs fusionnées. Les attaques du composant commun affichent type/couleur ; critique réel lié à l’identité ciblée, sans fuite au switch ni déplacement des actions mobiles. Recettes : `colosseum-ascension`, XP, Colosseum, publication et combat navigateur.

@@ -70,7 +70,7 @@ test('generated held items affect real damage and consume berries; item restrict
     const armored=colosseum.opponent(3).equipe.pokemons[0],attack=engine.getMoveByName('Tackle');
     const protectedDamage=engine.estimateDamage(foe,armored,attack,{battleState:field});
     armored.heldItem=null;assert(engine.estimateDamage(foe,armored,attack,{battleState:field})>protectedDamage);
-    const choice=colosseum.opponent(10).equipe.pokemons.find(p=>p.heldItem==='choice_specs');
+    const choice=colosseum.opponent(10,4).equipe.pokemons.find(p=>p.heldItem==='choice_specs');
     const move=engine.getMoveByName(choice.abilities[0]),item=choice.heldItem;
     const boosted=engine.estimateDamage(choice,foe,move,{battleState:field});
     choice.heldItem=null;assert(boosted>engine.estimateDamage(choice,foe,move,{battleState:field}));choice.heldItem=item;
@@ -178,13 +178,13 @@ test('expert evaluation stays bounded for a full team',()=>{
 test('modern generated opponents finish real battles across guardians and every intelligence boundary',()=>{
     const original=Math.random;
     try {
-        for(const wave of [1,5,6,10,11,15,16,20,31]) {
+        for(const wave of [1,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,23,25,30,31,51]) {
             let seed=wave*7919;Math.random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
             const b=colosseum.opponent(wave),level=colosseum.waveInfo(wave).level;
             const a={userId:1,equipe:{pokemons:[pokemon(9,null,level),pokemon(3,null,level),pokemon(6,null,level)]},drifts:[],equipped:[],items:{},defeated:new Set(),chain:0,money:0};
             const battle=new DriftBattle(a,b,{type:'arena',npcKey:`colosseum_${wave}`,emit(){},now:()=>0,random:Math.random,paceMs:0});
             const saved=codec.decode(codec.encode({battle})).battle;
-            assert.equal(saved.b.colosseumVersion,4);
+            assert.equal(saved.b.colosseumVersion,5);
             assert.deepEqual(saved.pending.get(saved.b),battle.pending.get(b));
             for(let turn=0;turn<600&&!battle.finished;turn++){battle.action(a,{...battle.defaultAction(a),turnId:battle.token});battle.tick();}
             assert(battle.finished,`Modern battle stalled at wave ${wave}`);

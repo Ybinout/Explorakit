@@ -29,6 +29,7 @@ function difficulty(wave, version = 3) {
 }
 
 function preparePokemon(pokemon, wave, index, version = 3) {
+    if (version >= 5) return require('./colosseumSets').prepare(pokemon,wave,index,require('./colosseumVariety').encounter(wave).slots[index]);
     if (version >= 3) return require('./colosseumSets').prepare(pokemon, wave, index);
     const { tier } = difficulty(wave, version);
     // A given challenge has identical abilities and sets for every player.
@@ -88,7 +89,7 @@ function observedView(p) {
         type1: visibleTypes[0], type2: visibleTypes[1], data: { type: visibleTypes },
         attack: estimate('Attack'), defense: estimate('Defense'), specialAttack: estimate('Sp. Attack'),
         specialDefense: estimate('Sp. Defense'), speed: estimate('Speed'),
-        __battle: { statStages: { ...p.__battle?.statStages }, foresight: Boolean(p.__battle?.foresight), miracleEye: Boolean(p.__battle?.miracleEye) } };
+        __battle: { statStages: { ...p.__battle?.statStages }, leechSeedSource:Boolean(p.__battle?.leechSeedSource), tauntTurns:p.__battle?.tauntTurns || 0, foresight: Boolean(p.__battle?.foresight), miracleEye: Boolean(p.__battle?.miracleEye) } };
 }
 
 function legalIndexes(p, field) {
@@ -189,7 +190,8 @@ function chooseAction({ team, opponent, field, ownSide, enemySide, wave, memory,
     const indexes=legalIndexes(active,field);if (!indexes.length) return {action:'attack',number:-1};
     const replies=threats(b,observed);
     const attacks=indexes.map(i=>engine.getMoveByName(active.abilities[i])).filter(m=>m.power>0 && !observed?.immuneMoves?.includes(m.ename));
-    const ctx={field,ownSide,enemySide,attacks,replies,
+    const ctx={field,ownSide,enemySide,attacks,replies,observed,moveByName:engine.getMoveByName,
+        party:version>=5?team.filter(p=>p.currentHp>0).map(p=>({...ownView(p),moves:legalIndexes(p,field).map(i=>engine.getMoveByName(p.abilities[i])).filter(m=>m.power>0)})):[],
         remainingPp:Object.fromEntries(indexes.map(i=>[active.abilities[i],active.movePp?.[i] ?? getMaxMovePp(active.abilities[i])]))};
     const incoming=Math.max(0,...replies.map(m=>damage(b,a,m,ownSide,field)));
     const candidates=indexes.map(number=>{
@@ -205,7 +207,11 @@ function chooseAction({ team, opponent, field, ownSide, enemySide, wave, memory,
                 if (tier>=6) score+=Math.min(...replies.map(reply=>project(a,b,move,reply,ctx)));
             }
             if (observed?.immuneMoves?.includes(move.ename)) score=-1000;
-        } else if (tier>=5) score=supportScore(a,b,move,ctx,incoming,Math.max(0,...attacks.map(m=>damage(a,b,m,enemySide,field))));
+        } else if (tier>=5 || version>=5 && tier>=4) {
+            const bestDamage=Math.max(0,...attacks.map(m=>damage(a,b,m,enemySide,field)));
+            score=supportScore(a,b,move,ctx,incoming,bestDamage);
+            if(version>=5)score=Math.max(score,require('./colosseumTactics').supportScore(a,b,move,ctx,incoming,bestDamage,{damage,speed,accuracy,before}));
+        }
         return {action:'attack',number,score};
     });
     candidates.sort((a,b)=>b.score-a.score || a.number-b.number);
