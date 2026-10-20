@@ -1,5 +1,9 @@
 # Contexte permanent — Explorakit
 
+## Portraits illustrés des PNJ — 20 octobre 2026
+
+Les dialogues utilisent exclusivement les illustrations de `assets/image`, et les PNJ de carte leur atlas pixel de `assets/pnj`. Ne plus rediriger `townspeople.png` des dialogues vers `pnjSpriteSources` : cela agrandissait un sprite 32 px. `dialoguePortrait.js` découpe l’atlas illustré 1774×887 en cellules bornées avec une marge d’un pixel ; lissage haute qualité, canvas 384 px pour le mobile. `npcFrames.js` et ses rectangles irréguliers restent uniquement sur carte. Ne pas réappliquer `image-rendering:pixelated` ou le clip des sprites aux portraits. Le slot se vide immédiatement lors d’un changement/source absente, et les chargements anciens ne remplacent pas le personnage courant. Recettes : deux tests de cadrage/validation, `validateNpcSprites` (32 sprites intacts et 32 illustrations séparées, source absente) et dialogues aux quatre tailles dans la publication navigateur.
+
 ## Eau de la Ville du Lac — 20 octobre 2026
 
 `villageWater.js` possède deux profils indépendants : lac bas de `start` et eau en haut à droite de `ville1`. Le second utilise uniquement cinq couleurs d’eau dans son rectangle, avec marge intérieure autour des berges/rochers/bâtiments ; PNG/foreground et données de carte inchangés. `hasVillageWater` active l’eau sans dépendre des cartes de pluie : Ville du Lac reste sèche. Le cache est invalidé au changement de carte/profil ; mêmes garde-fous 15 Hz, mouvement réduit et suspension. Recette partagée `validateLakeWaterUi` dans météo navigateur et contrôle HTTPS : vrais pixels, quatre tailles, décor/alpha exacts, arrêt/reprise mouvement réduit/combat/chargement/masquage.
@@ -78,7 +82,7 @@ Lire la section correspondante en tête d’audit. Les nouveaux Colosseum sont v
 
 ## Panthéon et effets de combat — 19 octobre 2026
 
-Lire la section correspondante en tête d’audit. `recordTeam` conserve les UUID/ordre d’entrée mais utilise les derniers snapshots permanents, y compris les perdus : ne pas revenir au seul snapshot d’entrée ou aux survivants. L’adversaire final conserve son équipement initial et les K.O. finaux ; les lectures publiques restent en liste autorisée. Les 32 cadres PNJ sont irréguliers : utiliser `npcFrames.js` sur carte et portrait, sans redécouper en cellules 32×32. Les indicateurs/effets lisent les états réels à identité constante ; préserver la file visuelle, l’annulation et les contrôles mobiles fixes. Recettes : Colosseum/SQL, `battle-conditions`, publication mobile (inclut 32 cadres PNJ) et combat.
+Lire la section correspondante en tête d’audit. `recordTeam` conserve les UUID/ordre d’entrée mais utilise les derniers snapshots permanents, y compris les perdus : ne pas revenir au seul snapshot d’entrée ou aux survivants. L’adversaire final conserve son équipement initial et les K.O. finaux ; les lectures publiques restent en liste autorisée. Les 32 cadres PNJ sont irréguliers : utiliser `npcFrames.js` sur carte, sans redécouper en cellules 32×32. Les portraits utilisent désormais leur atlas illustré distinct (voir mise à jour du 20 octobre). Les indicateurs/effets lisent les états réels à identité constante ; préserver la file visuelle, l’annulation et les contrôles mobiles fixes. Recettes : Colosseum/SQL, `battle-conditions`, publication mobile (inclut 32 cadres PNJ) et combat.
 
 ## Expéditions et combat mobile — 19 octobre 2026
 

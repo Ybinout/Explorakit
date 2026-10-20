@@ -18,18 +18,25 @@ async function validateNpcSprites(page,output){
   ctx.drawImage=function(img,...args){calls.push(args);return draw.call(this,img,...args);};
   try{vm.pnjs=atlas.frames.map((_,index)=>({sprite:'townspeople.png',spriteFrame:{columns:8,rows:4,index},x:index%8,y:Math.floor(index/8),movedAt:0}));vm.drawPnjs(ctx);}finally{vm.pnjs=previous;ctx.drawImage=draw;}
   for(let i=0;i<32;i++){const b=atlas.frames[i];if(JSON.stringify(calls[i].slice(0,4))!==JSON.stringify([b.x,b.y,b.w,b.h]))throw Error('World uses an incorrect crop '+i);}
-  vm.textImageSequence=[{text:'Bonjour !',image:image.src,portraitFrame:{columns:8,rows:4,index:0}}];await vm.$nextTick();
-  const portrait=document.querySelector('canvas.portrait-atlas').__vue__;
-  const sheet=document.createElement('canvas');sheet.width=512;sheet.height=256;sheet.id='npc-crop-review';const sheetCtx=sheet.getContext('2d');sheetCtx.imageSmoothingEnabled=false;
+  vm.updateTextImageSequence([{text:'Bonjour !',imageName:'townspeople.png',portraitFrame:{columns:8,rows:4,index:0}}]);await vm.$nextTick();
+  const portrait=document.querySelector('canvas.portrait-atlas').__vue__,illustration=new Image();illustration.src=vm.textImageSequence[0].image;await illustration.decode();
+  if(illustration.src===image.src||illustration.naturalWidth<1024||illustration.naturalHeight<512)throw Error('Dialogue must load its own high resolution illustration atlas');
+  const sheet=document.createElement('canvas');sheet.width=1024;sheet.height=512;sheet.id='npc-crop-review';const sheetCtx=sheet.getContext('2d');
   for(let i=0;i<32;i++){
    vm.textImageSequence[0].portraitFrame.index=i;await vm.$nextTick();await portrait.renderPortrait();
-   const rendered=portrait.$refs.portrait,expected=document.createElement('canvas');expected.width=192;expected.height=192;const ec=expected.getContext('2d');ec.imageSmoothingEnabled=false;const b=atlas.frames[i];ec.drawImage(image,b.x,b.y,b.w,b.h,(192-b.w*6)/2,192-b.h*6,b.w*6,b.h*6);
-   const actual=rendered.getContext('2d').getImageData(0,0,192,192).data,wanted=ec.getImageData(0,0,192,192).data;
-   if(actual.some((v,j)=>v!==wanted[j]))throw Error('Portrait crop differs from world '+i);
-   sheetCtx.drawImage(rendered,(i%8)*64,Math.floor(i/8)*64,64,64);
+   const rendered=portrait.$refs.portrait,expected=document.createElement('canvas');expected.width=rendered.width;expected.height=rendered.height;const ec=expected.getContext('2d');ec.imageSmoothingEnabled=true;ec.imageSmoothingQuality='high';
+   const column=i%8,row=Math.floor(i/8),x=Math.floor(column*illustration.width/8)+1,y=Math.floor(row*illustration.height/4)+1,w=Math.floor((column+1)*illustration.width/8)-1-x,h=Math.floor((row+1)*illustration.height/4)-1-y,scale=Math.min(rendered.width/w,rendered.height/h);
+   ec.drawImage(illustration,x,y,w,h,(rendered.width-w*scale)/2,rendered.height-h*scale,w*scale,h*scale);
+   const actual=rendered.getContext('2d').getImageData(0,0,rendered.width,rendered.height).data,wanted=ec.getImageData(0,0,expected.width,expected.height).data;
+   if(actual.some((v,j)=>v!==wanted[j]))throw Error('Dialogue illustration uses a wrong crop '+i);
+   if(!portrait.ready||getComputedStyle(rendered).imageRendering!=='auto')throw Error('Illustration still uses pixel rendering');
+   sheetCtx.drawImage(rendered,(i%8)*128,Math.floor(i/8)*128,128,128);
   }
-  vm.textImageSequence=[];sheet.style.cssText='position:fixed;inset:0;z-index:999999;background:#294550;width:512px;height:256px;image-rendering:pixelated';document.body.append(sheet);
-  return{worldFrames:calls.length,portraitFrames:32,connectedCharacters:components.length};
+  // Invalid or absent input clears the previous person immediately, keeping the slot fixed.
+  vm.textImageSequence[0].image='';await vm.$nextTick();await portrait.renderPortrait();
+  if(portrait.ready||portrait.$refs.portrait.getContext('2d').getImageData(0,0,384,384).data.some(Boolean))throw Error('Previous portrait survives a missing illustration');
+  vm.textImageSequence=[];sheet.style.cssText='position:fixed;inset:0;z-index:999999;background:#294550;width:min(1024px,100vw);height:auto;image-rendering:auto';document.body.append(sheet);
+  return{worldFrames:calls.length,portraitFrames:32,illustratedPortraits:true,separateAtlases:true,connectedCharacters:components.length};
  },atlas);
  assert.equal(result.worldFrames,32);await page.locator('#npc-crop-review').screenshot({path:path.join(output,'npc-crop-all-32.png')});await page.locator('#npc-crop-review').evaluate(el=>el.remove());return result;
 }

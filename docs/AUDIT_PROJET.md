@@ -1,5 +1,17 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Portraits illustrés des PNJ — 20 octobre 2026
+
+La mauvaise qualité des portraits venait du branchement des dialogues sur le petit atlas pixel de la carte, agrandi dans la fenêtre. Les ressources contiennent déjà les 32 illustrations cohérentes avec ces personnages : les dialogues chargent désormais `assets/image/townspeople.png` (1774×887), comme les autres portraits nommés. Les sprites restent en pixel art sur la carte ; aucun asset, nom, dialogue, comportement PNJ ou dessin utilisateur n’est remplacé.
+
+Rendu des portraits séparé dans `dialoguePortrait.js` : découpage de chaque cellule avec limites entières et marge intérieure d’un pixel (dimensions non divisibles), lissage de haute qualité et canvas 384×384 pour les écrans mobiles. Suppression du rendu CSS pixelisé et du rognage de sprite sur les illustrations ; cadre et commande A restent fixes. Effacement immédiat au changement de source, garde de génération après décodage et libération logique à la destruction, afin de ne pas montrer le personnage précédent en cas de ressource absente ou lente.
+
+Deux tests vérifient les 32 cellules réelles, leurs bornes, proportions et les entrées invalides ; recette navigateur révisée pour conserver les 32 crops de carte et comparer les 32 portraits à la vraie illustration HD, vérifier le lissage et l’effacement sur source absente. Les dialogues aux quatre tailles conservent leur parcours habituel.
+
+Validation : `verify:release -- --mysql` termine à 0 avec **494 tests applicatifs et 44 SQL**, audits, HTTP/reprise, lint et build. La recette de publication navigateur complète passe sans erreur : 32 sprites de carte inchangés, 32 illustrations séparées correctement cadrées/lissées, effacement sur source absente, dialogues mobiles et commandes fixes, ainsi que menus/thèmes/ordre automatique, déplacements/voyages, combats/XP/audio et apprentissage. Galerie des 32 illustrations et dialogue mobile inspectés.
+
+Build `/tmp/explorakit-npc-portraits-dist`, hash `9ce2f290a8546581` ; client `676579c5c0c758de08ad5b06ec0d1e2d70d5c734`. Publication statique le **20/10/2026 à 16 h 31 (Paris)** sans redémarrage ni changement de processus serveur. Sauvegarde sources/dist/SQL/checkpoint : `/home/ubuntu/dev/backups/explorakit-npc-portraits-2026-10-20T14-26-34-690Z`. Contrôle HTTPS terminé à 0 : recette des 32 sprites/portraits sur le build public, vrai dialogue avec la mère et progression au clic, quatre tailles, index conforme et aucune erreur. Compte temporaire supprimé ; Know et api-test inchangés. Service actif avec zéro redémarrage automatique. Logs/captures `/tmp/explorakit-npc-portraits-*`. Aucune CI distante ni validation sur téléphone physique revendiquée.
+
 ## Eau animée dans la Ville du Lac — 20 octobre 2026
 
 Le lac en haut à droite de `ville1` reçoit un courant discret d’un pixel source et de très légers reflets, via le renderer du lac de départ. Chaque carte conserve son propre rectangle et sa palette ; marge intérieure fixe autour des berges, rochers et bâtiments, sans modification du PNG ni du premier plan. Animation composée avant les personnages, commune aux trois modes, indépendante de la météo : la ville reste sèche.
@@ -1460,6 +1472,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **20 octobre 2026 — Portraits PNJ :** réparation du branchement vers les illustrations HD existantes, découpage/lissage indépendants des sprites ; tests des 32 portraits et crops de carte, contrôles mobiles.
 
 - **20 octobre 2026 — Ville du Lac :** animation douce du lac nord-est via un masque dédié ; décor et cartes sources préservés, météo inchangée. Tests de profils/pixels et recette navigateur à quatre tailles ajoutés.
 
