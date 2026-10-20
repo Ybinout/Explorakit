@@ -1,11 +1,17 @@
 const assert = require('node:assert/strict'), path = require('node:path');
-module.exports = async function validateLakeWaterUi(page, output) {
-  await page.waitForFunction(() => { const v = document.querySelector('.game-root')?.__vue__; return v?.map === 'ville1' && !v.mapLoading && v._villageWater?.map === 'ville1' && v._villageWater.frames > 1; });
-  const lake = await page.evaluate(() => {
+const LAKES = {
+  ville1: { slug: 'ville-du-lac', point: [790,270], minimum: 5000, fixed: [[279,39],[367,49],[386,123],[248,24],[330,95],[430,40]] },
+  route3: { slug: 'route3', point: [600,540], minimum: 3000, fixed: [[255,273],[319,273],[248,244],[358,246],[213,265],[300,230],[80,140]] },
+};
+module.exports = async function validateLakeWaterUi(page, output, map = 'ville1') {
+  const profile = LAKES[map]; assert(profile, 'A lake fixture must be explicitly mapped');
+  const { getWorldCamera } = await import('../vue-explorakit/src/services/worldCamera.js');
+  await page.waitForFunction(map => { const v = document.querySelector('.game-root')?.__vue__; return v?.map === map && !v.mapLoading && v._villageWater?.map === map && v._villageWater.frames > 1; }, map);
+  const lake = await page.evaluate(({map, fixedPoints}) => {
     const v = document.querySelector('.game-root').__vue__, r = new v._villageWater.constructor(), target = document.createElement('canvas');
     target.width = 896; target.height = 640;
-    r.draw(target.getContext('2d'), v.mapImage, 200, true, 'ville1'); const first = r.output.slice();
-    r.draw(target.getContext('2d'), v.mapImage, 2300, true, 'ville1'); let changed = 0, outside = 0, alpha = 0;
+    r.draw(target.getContext('2d'), v.mapImage, 200, true, map); const first = r.output.slice();
+    r.draw(target.getContext('2d'), v.mapImage, 2300, true, map); let changed = 0, outside = 0, alpha = 0;
     for (let i = 0; i < first.length; i++) {
       if (first[i] !== r.output[i]) changed++;
       if (!r.mask.interior[i] && r.output[i] !== r.original[i]) outside++;
@@ -13,14 +19,18 @@ module.exports = async function validateLakeWaterUi(page, output) {
     }
     const pixels = r.mask.pixels.length;
     // Rocks, bank, roof and foreground trees must never enter the animation mask.
-    const fixed = [[279,39],[367,49],[386,123],[248,24],[330,95],[430,40]].every(([x,y]) => !r.mask.interior[y*448+x]);
+    const fixed = fixedPoints.every(([x,y]) => !r.mask.interior[y*448+x]);
     r.destroy(); return {changed, outside, alpha, pixels, fixed, dry: !v.mapWeather?.kind};
-  });
-  assert(lake.changed > 100 && lake.pixels > 5000); assert(lake.fixed && lake.dry); assert.equal(lake.outside, 0); assert.equal(lake.alpha, 0);
+  }, {map, fixedPoints: profile.fixed});
+  assert(lake.changed > 100 && lake.pixels > profile.minimum); assert(lake.fixed && lake.dry); assert.equal(lake.outside, 0); assert.equal(lake.alpha, 0);
   for (const [width,height] of [[320,480],[393,852],[844,390],[1365,900]]) {
     await page.setViewportSize({width,height});
     await page.evaluate(width => { document.querySelector('.game-root').__vue__.showMobileControls = width <= 920; },width);
-    await page.screenshot({path: path.join(output,`ville-du-lac-water-${width}.png`)});
+    await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+    const scene = await page.evaluate(() => { const v=document.querySelector('.game-root').__vue__,p=v.players[v.socket.id];return {frame:v.worldFrame,player:{x:p.x,y:p.y},mobile:v.showMobileControls}; });
+    const camera = getWorldCamera(scene.frame.width,scene.frame.height,scene.player,scene.mobile), [x,y]=profile.point;
+    assert(x>=camera.x && x<camera.x+camera.visibleWidth && y>=camera.y && y<camera.y+camera.visibleHeight, `${map}: lake must be visible in the screenshot`);
+    await page.screenshot({path: path.join(output,`${profile.slug}-water-${width}.png`)});
     assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth+1));
   }
   for (const reduced of ['system','game']) {

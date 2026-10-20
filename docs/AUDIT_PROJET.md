@@ -1,5 +1,19 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Eau animée de la Route 3 — 20 octobre 2026
+
+L’étang au sud-est de `route3` bénéficie du même courant discret d’un pixel source et des légers reflets que le village de départ. Profil indépendant dans `villageWater.js`, limité aux pixels intérieurs de la palette d’eau, avec marge fixe autour des berges/rochers/reflets/plantes. Aucun PNG, premier plan, collision, passage ni climat modifié ; rendu partagé par les trois modes et indépendant de la pluie.
+
+Les garde-fous existants restent applicables : cache natif 448×320 à 15 Hz, libération lors des transitions/combat/chargement/masquage/destruction, image originale lorsque les animations sont réduites/désactivées. La recette `validateLakeWaterUi` est paramétrée pour garder les vérifications de Ville du Lac et ajouter celles de Route 3 : animation réelle, décor hors masque/alpha exacts, points fixes sur les rochers et berges, quatre tailles, arrêt/reprise.
+
+Validation technique : `verify:release -- --mysql` termine à 0 avec **494 tests applicatifs et 44 SQL**, audits, HTTP/reprise, lint et build. La recette générale de publication navigateur passe à 0 et sans erreur : menus/thèmes/ordre automatique, portraits illustrés, gestes/voyages, combats/XP/audio, apprentissage et Rift. La recette météo contrôle aussi Ville du Lac, le lac de départ et les trois modes.
+
+Le masque réel de Route 3 contient **5 923 pixels intérieurs** ; 2 572 changent entre les instants contrôlés, sans changement hors masque ni d’alpha. La recette exige qu’un point de l’eau soit visible aux quatre tailles, avec une position de compte de test sur un sol praticable, et vérifie les suspensions/reprises.
+
+Build `/tmp/explorakit-route3-water-dist`, hash `2b2770b33a0948d1` ; client `7c4b7103d4d3e28f6771baba21efae696783eb8a`. La recette météo finale termine à 0 et sans erreur, avec l’étang visible aux quatre tailles et toutes les suspensions/reprises vérifiées. Captures mobile et bureau inspectées.
+
+Publication statique le **20/10/2026 à 16 h 40 (Paris)** sans redémarrage ni changement de processus serveur. Sauvegarde sources/dist/SQL/checkpoint : `/home/ubuntu/dev/backups/explorakit-route3-water-2026-10-20T14-34-40-537Z`. Contrôle HTTPS terminé à 0 sur un compte temporaire : vrais pixels et cadrage du lac, quatre tailles, mouvement réduit/combat/chargement/masquage, index conforme et aucune erreur. Compte temporaire supprimé ; Know et api-test inchangés. Service actif avec zéro redémarrage automatique. Logs/captures `/tmp/explorakit-route3-water-*`. Aucune CI distante ni validation sur téléphone physique revendiquée.
+
 ## Portraits illustrés des PNJ — 20 octobre 2026
 
 La mauvaise qualité des portraits venait du branchement des dialogues sur le petit atlas pixel de la carte, agrandi dans la fenêtre. Les ressources contiennent déjà les 32 illustrations cohérentes avec ces personnages : les dialogues chargent désormais `assets/image/townspeople.png` (1774×887), comme les autres portraits nommés. Les sprites restent en pixel art sur la carte ; aucun asset, nom, dialogue, comportement PNJ ou dessin utilisateur n’est remplacé.
@@ -1472,6 +1486,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **20 octobre 2026 — Route 3 :** profil d’eau discret propre à l’étang sud-est, sources et décor préservés ; recette sur vrais pixels et quatre tailles ajoutée à la validation météo.
 
 - **20 octobre 2026 — Portraits PNJ :** réparation du branchement vers les illustrations HD existantes, découpage/lissage indépendants des sprites ; tests des 32 portraits et crops de carte, contrôles mobiles.
 
