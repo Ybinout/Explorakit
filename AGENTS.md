@@ -1,5 +1,9 @@
 # Contexte permanent — Explorakit
 
+## Entrée en combat — 20 octobre 2026
+
+`battletrigger` arme `BattleOverlay.prepareEntrance()` avant de rendre le combat. Deux volets CSS opaques masquent la scène jusqu’au décodage des images réellement sélectionnées (fond `<picture>`, deux sprites, socles), puis s’ouvrent ; la première `presentState` attend cette entrée dans la file existante. Ne pas remplacer par un simple délai aveugle ni autoriser une action pendant la couverture. Attente réseau bornée à 2,4 s, animation courte, aucune règle/horloge serveur modifiée. Réduction des mouvements système/jeu : attente des images sans animation ni délai décoratif. Reset/déconnexion/masquage/destruction libèrent attente, timers et écouteurs ; les anciennes images/messages ne doivent pas ressusciter au combat suivant. Recettes : `battle-entrance.test.js`, `validateBattleEntranceUi` dans combat navigateur (images lentes, rotation, délai maximal, reset, mouvement réduit, onglet masqué, quatre tailles), publication et contrôle HTTPS sur duel de comptes temporaires.
+
 ## Bilan de combat sobre — 20 octobre 2026
 
 `BattleResultPanel` utilise les variables communes bleu pâle, Arial, un petit pictogramme et les seules informations réelles. Ne pas réintroduire le médaillon doré, le titre serif, les phrases décoratives ou un bloc vide après fuite/match nul. Les six issues restent explicites, sans fermeture automatique ; conserver focus/Tab/Échap, résultat après la file combat/XP, message de récupération tardif et restitution vers évolution/apprentissage. `UserMap` fournit le libellé Aventure/Rift/Colosseum et l’avertissement de temps uniquement en exploration. Recettes : `validateBattleResultUi` dans publication (six issues × quatre tailles, gains, défilement, focus et récupération tardive), vrai Rift et combat Colosseum.

@@ -1,5 +1,19 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Transition d’entrée en combat — 20 octobre 2026
+
+Le composant partagé des trois modes dispose d’une entrée à deux volets bleu nuit, séparés par une ligne et une Ball SVG native. Le décor, les sprites et les commandes sont masqués dès `battletrigger`. La première présentation d’état charge les combattants sous cette couverture, attend les images effectives du `<picture>`, des sprites et des socles, puis leur décodage et le calibrage des silhouettes. Les volets s’ouvrent ensuite en 420 ms ; l’ensemble possède un minimum court de 520 ms avant ouverture si les ressources sont déjà en cache. Aucun nouvel asset raster ni téléchargement d’animation.
+
+Cette attente appartient à la file visuelle existante : les effets, actions et résultats ne passent pas devant l’entrée. Les contrôles sont désactivés/inertes jusqu’à la fin et les lecteurs d’écran reçoivent l’état de préparation. En cas de ressource absente ou bloquée, l’attente est bornée à 2,4 secondes ; elle ne retarde ni le serveur ni son horloge. Annulation au reset, déconnexion, destruction et masquage de l’onglet, avec libération des timers/écouteurs. Une rotation ou une variante météo sélectionnée pendant le chargement est revérifiée. Mouvement réduit système ou animations désactivées : les images sont attendues sans mouvement des volets ni durée minimale décorative.
+
+Recettes : cinq tests ciblés sur chargement/décodage/cache, sélection de nouvelle image, remplacement encore en attente sur le même élément, erreurs/délai maximal et annulation ; navigateur combat avec téléchargements volontairement retenus, quatre tailles, commandes bloquées, images prêtes à l’ouverture, rotation, attente maximale, reset vers un nouveau combat, deux réductions de mouvement et masquage d’onglet. Les autres recettes de combat, publication et météo conservent leur chronologie et leur rendu.
+
+Validation : `verify:release -- --mysql` passe avec **486 tests applicatifs et 43 SQL**, audits, HTTP/reprise, lint/build. `test:combat-browser` et `test:release-browser` terminent à 0 sans erreur : chronologie complète des combats, entrée à images lentes aux quatre tailles, rotation, délai maximal, reset, réductions de mouvement/masquage, bilans, déplacements/dialogues, XP et apprentissage. Les assertions de recette ont été ajustées aux attributs booléens Vue et au très court délai global de mouvement réduit ; aucun contournement du comportement testé.
+
+La dernière garde vérifie aussi `image.complete` après décodage, car le même élément peut attendre son remplaçant tout en conservant momentanément l’ancienne `currentSrc`. Test de reproduction ajouté ; après ce changement, **487 tests applicatifs**, lint et build passent, puis la recette ciblée complète d’entrée est rejouée sur le build final, à 0 et sans erreur. Pas de changement SQL ni serveur. Build `/tmp/explorakit-entrance-final-dist`, hash `675d292bfde154a8`. Captures mobile en attente/mi-ouverture inspectées. Client `ea30b508d25112ce2d3f78104d387ef96ee240ed`. Logs/captures `/tmp/explorakit-entrance-*`.
+
+Publication statique le **20/10/2026 à 13 h 17 (Paris)**, sans redémarrage ni changement de processus serveur. Sauvegarde sources/dist/SQL/checkpoint : `/home/ubuntu/dev/backups/explorakit-entrance-2026-10-20T11-09-11-476Z`. Contrôle HTTPS terminé à 0 sur un vrai duel entre deux comptes temporaires : couverture initiale, observation de la phase d’ouverture avec ses trois images chargées, actions encore bloquées puis disponibles, sortie vers un bilan compact aux quatre tailles, index conforme au build et aucune erreur. L’observation suit les changements de phase afin de ne pas manquer la courte ouverture pendant une capture d’écran. Comptes temporaires supprimés ; Know/api-test inchangés, service actif avec zéro redémarrage. Aucune CI distante ni validation sur téléphone physique revendiquée.
+
 ## Refonte du bilan de combat — 20 octobre 2026
 
 Le bilan de fin de combat adopte la DA bleu pâle commune au Pokédex : typographie Arial, bordure simple, titre compact, petit pictogramme d’issue et bouton Continuer pleine largeur. Suppression du médaillon, des dorures, du titre serif, du flou de fond et des phrases décoratives. Une fuite ou un match nul sans gains ne crée plus de corps vide ; les explications restent affichées pour une interruption, un forfait ou une défaite.
@@ -1404,6 +1418,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **20/10/2026 — Entrée en combat** : volets opaques communs aux trois modes, chargement/décodage sous couverture, ouverture courte et commandes ensuite, attente bornée et annulation ; tests de lenteur, rotation et mouvement réduit. Voir la section du jour.
 
 - **20/10/2026 — Bilan de combat** : panneau bleu pâle compact, sans dorures ni phrases décoratives ; gains et récupération préservés, contextes Aventure/Rift/Colosseum, six issues aux quatre tailles. Voir la section du jour.
 
