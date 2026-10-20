@@ -1,0 +1,31 @@
+{
+  "created": "2026-10-20",
+  "tool": "Built-in image_gen.imagegen",
+  "encoding": "PNG outputs encoded to WebP quality 0.90 using browser canvas; no resizing or artistic post-processing",
+  "assets": [
+    {
+      "key": "grass-mobile",
+      "original": "vue-explorakit/src/assets/battle/grass-mobile-v3.webp",
+      "output": "vue-explorakit/src/assets/battle/grass-rain-mobile-v1.webp",
+      "prompt": "Edit target: the supplied portrait pixel-art battle meadow, 768 by 1152. Create its RAIN WEATHER VARIANT for use as the EXACT SAME game background. Keep the original pixel-art style, camera, 2:3 aspect ratio, horizon at the same height, tree line and the ENTIRE ground layout exactly aligned to the reference. Replace only the bright blue sky and fair-weather clouds with an unbroken dense gray-blue overcast cloud ceiling; absolutely no blue-sky holes, sunlight or sun. Give the same grass and trees slightly darker, cool wet green colors and diffuse rainy daylight, still legible, no pitch-black storm. Do NOT add rain streaks, drops or splash marks: animated rain is drawn by the game separately. Do not add platforms, people, creatures, text, UI, objects, buildings, lightning or water pools. Keep the whole lower field open exactly as in the reference. Preserve pixel edges and the position of every foreground patch. This is a non-destructive weather variation, not a redesign."
+    },
+    {
+      "key": "grass-wide",
+      "original": "vue-explorakit/src/assets/battle/back.webp",
+      "output": "vue-explorakit/src/assets/battle/grass-rain-wide-v1.webp",
+      "prompt": "Edit target: the supplied wide game battle meadow, 1536 by 1024. Create a RAIN WEATHER VARIANT of this EXACT SAME background. Keep the same 3:2 aspect ratio, camera, horizon height, tree-line silhouette and grass layout. The large oval raised grass platform at the right and the orange soil platform at bottom-left MUST remain exactly the same size, shape, perspective and pixel positions as the reference; do not move, resize, recenter or crop them. Replace the entire cyan/blue sky including the artificial horizontal blue bars with a coherent ceiling of heavy gray-blue overcast clouds; NO remaining blue-sky holes, sun or direct sunlight. Give the original grass, soil and trees slightly darker cool wet colors with diffuse rainy daylight, maintaining clear visibility. Preserve the illustrated game-art style. Do NOT draw any rain streaks/drops, lightning, characters, Pokémon, HUD, text, logos, new scenery or pools. Only weather/lighting changes; preserve composition and both existing platform positions precisely."
+    },
+    {
+      "key": "arena-mobile",
+      "original": "vue-explorakit/src/assets/battle/colosseum-mobile-v3.webp",
+      "output": "vue-explorakit/src/assets/battle/colosseum-rain-mobile-v1.webp",
+      "prompt": "Edit target: the supplied portrait 2:3 pixel-art empty colosseum battle background. Create its rainy-weather variant while preserving the exact camera, aspect ratio, arena-wall and ground boundary height, architecture, doors, crowd arrangement, banners and ENTIRE empty floor geometry. Preserve every existing floor marking and its position; do not add platforms or any creature/character on the arena floor. Only change weather and illumination: replace EVERY visible bright blue sky patch above and through the upper arches with dense gray-blue overcast clouds, no clear blue, no sunbeams. Keep the arena clearly readable with cool diffuse rainy daylight and slightly darker wet sandstone and sand. Retain the pixel-art style faithfully and all spatial placements. No baked rain drops or streaks (the game draws animated rain), no puddles, lightning, text, UI, logos or new objects. Non-destructive weather variation of this same image, not a redesign."
+    },
+    {
+      "key": "arena-wide",
+      "original": "vue-explorakit/src/assets/battle/colosseum-wide-v2.webp",
+      "output": "vue-explorakit/src/assets/battle/colosseum-rain-wide-v1.webp",
+      "prompt": "Edit target: the supplied wide 3:2 illustrated game-art empty colosseum battle background. Create its rainy-weather variant while preserving the exact camera, aspect ratio, arena-wall and ground boundary height, architecture, doors, crowd arrangement, banners and ENTIRE empty floor geometry. Preserve every existing floor marking and its position; do not add platforms or any creature/character on the arena floor. Only change weather and illumination: replace EVERY visible bright blue sky patch above and through the upper arches with dense gray-blue overcast clouds, no clear blue, no sunbeams. Keep the arena clearly readable with cool diffuse rainy daylight and slightly darker wet sandstone and sand. Retain the illustrated game-art style faithfully and all spatial placements. No baked rain drops or streaks (the game draws animated rain), no puddles, lightning, text, UI, logos or new objects. Non-destructive weather variation of this same image, not a redesign."
+    }
+  ]
+}

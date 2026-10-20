@@ -1,5 +1,17 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Pluie plus visible et décors couverts — 20 octobre 2026
+
+Les gouttes de combat passent de 4–9 à 6–11 px, avec un contraste et une épaisseur renforcés ; les micro-impacts sont également plus lisibles. La densité augmente modérément sur les petites scènes, sans dépasser 128 éléments, 30 Hz ni DPR 1,5. La vitesse de chute et toutes les règles météo serveur restent identiques.
+
+Quatre variantes WebP de la prairie et du Colosseum (portrait mobile / paysage) remplacent le ciel bleu par un ciel couvert et une lumière humide, en conservant le cadrage du terrain et les plateformes. Création avec l’outil intégré `image_gen.imagegen` à partir des décors existants ; originaux conservés. Sources, sorties et prompts exacts : `docs/battle-rain-assets.json`. Les deux variantes du format courant sont préchargées dès la création du composant. La sélection dépend du champ réel du combat ; Zénith ou dissipation rétablit le décor sec. Les grottes conservent leur propre image. Le composant partagé couvre les trois modes.
+
+Vérification reproductible : `battle-rain.test.js` conserve les contrôles de taille, sol, budgets et cycle de vie ; `test:weather-browser` vérifie les quatre sources pluvieuses chargées, les quatre tailles, le décor de grotte conservé sous la pluie et le retour à l’image sèche sous Zénith.
+
+Validation : **477 tests applicatifs actifs et 43 tests SQL**, audits, HTTP/reprise, lint et build réussis (`verify:release -- --mysql`). Les recettes météo et publication navigateur passent sans erreur ; captures prairie et arène mobile/PC inspectées. Le contrôle météo confirme quatre variantes chargées, décor de grotte conservé, retour au décor sec sous Zénith, cadence bornée, masquage et mouvement réduit. La recette générale couvre également gestes carte/dock, voyages, dialogues, sprites, combats/XP/audio et apprentissage. Build `/tmp/explorakit-rain-variants-dist`, hash `ff9082d00a233870`.
+
+Publication statique le **20/10/2026 à 12 h 02 (Paris)**, sans redémarrage ni changement du PID 857294. Sauvegarde sources/dist/SQL/checkpoint : `/home/ubuntu/dev/backups/explorakit-rain-variants-2026-10-20T09-59-16-570Z`. Le contrôle HTTPS lance un vrai duel entre deux comptes temporaires : pluie réelle des deux côtés, impacts visibles, décors pluvieux chargés aux quatre tailles, index identique au build et voisins Know/api-test inchangés. Abandon simultané sans récompense, aucune erreur et comptes supprimés. Client publié `48bad8a02698daefc88c12df98aedc3a34d079ce`. Logs/captures `/tmp/explorakit-rain-variants-*`. Aucune CI distante revendiquée ; l’appréciation finale et la fluidité sur téléphone physique restent humaines.
+
 ## Pluie de combat et petits impacts au sol — 20 octobre 2026
 
 Les larges bandes diagonales répétées sont supprimées. Le composant commun `BattleRain` dessine des gouttes fines et courtes, légèrement inclinées, à des positions et vitesses variées. Chaque goutte termine sa chute sur le terrain puis produit un petit anneau aplati et deux projections discrètes, qui disparaissent en 220 ms. La perspective réduit la taille des impacts éloignés. Les impacts sont limités à la partie au sol de la scène ; le rendu reste sous les Pokémon et cartes de PV, sans intercepter les touches ni déplacer les actions.
@@ -1324,6 +1336,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **20/10/2026 — Décors pluvieux** : pluie et micro-impacts renforcés, quatre variantes nuageuses prairie/arène responsive, sélection selon la météo réelle et conservation du décor de grotte. Voir la section du jour.
 
 - **20/10/2026 — Animation de pluie en combat** : bandes remplacées par gouttes fines et micro-impacts synchronisés au sol, composant responsive partagé avec cycle de vie et mouvement réduit vérifiés. Voir la section du jour.
 

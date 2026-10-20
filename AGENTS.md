@@ -1,5 +1,9 @@
 # Contexte permanent — Explorakit
 
+## Décors pluvieux et lisibilité — 20 octobre 2026
+
+Les variantes `grass-rain-*-v1.webp` et `colosseum-rain-*-v1.webp` remplacent les décors extérieurs uniquement quand le champ réel vaut `rain`, dans le composant commun aux trois modes. Conserver les variantes sèches originales, le cadrage et les ancres des socles ; les grottes gardent leur propre décor. Deux variantes adaptées au format sont préchargées à la création du composant. Prompts et provenance imagegen : `docs/battle-rain-assets.json`. Gouttes plus contrastées (6–11 px) et impacts visibles, sans accélération de chute ni dépassement des budgets. La recette météo couvre ciel pluie/sec, prairie/arène portrait/paysage et grotte conservée.
+
 ## Pluie fine et impacts en combat — 20 octobre 2026
 
 `BattleRain.vue` remplace la pluie CSS à bandes de `BattleOverlay`. `battleRain.js` fait tomber des gouttes courtes jusqu’au terrain puis dessine de petits anneaux/apports d’eau au point d’arrivée ; aucun impact au-dessus du sol. Composant partagé par les trois modes, sous les sprites/cartes de PV et sans interception tactile. Conserver le plafond 128 particules, 30 Hz, DPR 1,5, taille liée à la scène, aucun impact animé en mouvement réduit. Onglet masqué : boucle annulée et canvas libéré ; changement de météo/fin de combat : composant, boucle et écouteurs détruits. Ne pas changer la météo réelle serveur pour un ajustement graphique. Recettes : `battle-rain.test.js`, `test:weather-browser` (impacts, resize/DPR, mouvement réduit, masquage, destruction au Zénith) et recette de publication mobile.
