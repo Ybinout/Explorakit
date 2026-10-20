@@ -36,7 +36,8 @@
     "test:pwa-browser": "node scripts/validatePwaBrowser.js",
     "test:community-browser": "node --env-file-if-exists=.env scripts/validateCommunityBrowser.js",
     "test:contracts-browser": "node --env-file-if-exists=.env scripts/validateContractsBrowser.js",
-    "test:combat-browser": "node --env-file-if-exists=.env scripts/validateCombatFeedbackBrowser.js"
+    "test:combat-browser": "node --env-file-if-exists=.env scripts/validateCombatFeedbackBrowser.js",
+    "test:valpierre-browser": "node --env-file-if-exists=.env scripts/validateValpierreBrowser.js"
   },
   "keywords": [],
   "author": "",

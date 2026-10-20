@@ -1,6 +1,12 @@
 {
   "aliases": {
     "ville1_arene": "gen_arene1",
-    "ville1_shop": "gen_shop1"
+    "ville1_shop": "gen_shop1",
+    "ville_safe1_arene": "gen_arene1",
+    "ville_safe1_shop": "gen_shop1",
+    "ville_safe1_maison1": "gen_maison1",
+    "ville_safe1_maison2": "gen_maison2",
+    "ville_safe1_maison3": "gen_maison3",
+    "ville_safe1_maison4": "gen_maison1"
   }
 }

@@ -636,6 +636,62 @@
         "index": 22
       },
       "block": true
+    },
+    {
+      "name": "valpierre_guide",
+      "interactionName": "valpierre_guide",
+      "map": "ville_safe1",
+      "x": 18,
+      "y": 5,
+      "sprite": "townspeople.png",
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 15
+      },
+      "block": true
+    },
+    {
+      "name": "valpierre_gardien",
+      "interactionName": "valpierre_gardien",
+      "map": "ville_safe1_arene",
+      "x": 13,
+      "y": 5,
+      "sprite": "townspeople.png",
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 17
+      },
+      "block": true
+    },
+    {
+      "name": "valpierre_refuge",
+      "interactionName": "valpierre_refuge",
+      "map": "ville_safe1_maison1",
+      "x": 14,
+      "y": 9,
+      "sprite": "townspeople.png",
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 31
+      },
+      "block": true
+    },
+    {
+      "name": "valpierre_vendeur",
+      "interactionName": "valpierre_vendeur",
+      "map": "ville_safe1_shop",
+      "x": 13,
+      "y": 5,
+      "sprite": "townspeople.png",
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 30
+      },
+      "block": true
     }
   ]
 }

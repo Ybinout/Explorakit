@@ -1,5 +1,12 @@
 # Audit du contenu du jeu
 
+## Extension Valpierre — 20 octobre 2026
+
+Ville fournie par le créateur (`ville_safe1`, images originales conservées), accessible directement à l’est de la route 4. Quatre maisons au nord, boutique et arène du passage, six retours indépendants ; guide, vendeur et refuge de soin. Le gardien propose un détour facultatif après Mounir : Gravalanch 35, Mysdibule 36, Solaroc 37 ; 1 500 pièces et Badge Cristal uniques. La quête « Le relais de Valpierre » rappelle le passage d’Aspha et renvoie vers Hoze sans modifier les chapitres I/II. La sortie sud de route4 reste disponible. Les chiffres des bilans ci-dessous sont antérieurs à cette extension : +7 cartes logiques, +4 PNJ, +1 quête, +1 distinction et +1 combat persistant.
+
+Les combats des grottes disposent de décors dédiés portrait/panoramique, avec socles rocheux ancrés aux Pokémon. Le Colosseum conserve son arène ; Aventure et exploration Rift/Colosseum partagent le choix du décor selon la carte.
+
+
 Dernière confrontation au code et aux contrôles : 14 octobre 2026.
 
 Ce document distingue le contenu installé, le contenu raccordé dans la configuration et le contenu réellement jouable. Les chiffres se reproduisent avec `npm run audit:content`.

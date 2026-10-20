@@ -1605,5 +1605,124 @@
       }
     ],
     "end": "shop"
+  },
+  {
+    "name": "valpierre_guide",
+    "map": null,
+    "x": null,
+    "sentences": [
+      {
+        "text": "Bienvenue à Valpierre ! La route 4 est à l’ouest. Le grand bâtiment à la Pokéball abrite notre arène du passage. La boutique est à l’est ; les maisons sont au nord.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 15
+        }
+      },
+      {
+        "text": "Aspha est passée par notre relais. Le gardien de l’arène conserve le registre des voyageurs. Son défi est facultatif : trois Pokémon, niveaux 35 à 37.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 15
+        }
+      }
+    ],
+    "end": null
+  },
+  {
+    "name": "valpierre_gardien",
+    "map": null,
+    "x": null,
+    "sentences": [
+      {
+        "text": "Gardien : Aspha nous a mis en garde contre des convois de l’Aube Obscure. Ici, nous apprenons à protéger les voyageurs et leurs Pokémon.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 17
+        }
+      },
+      {
+        "text": "Gardien : Mounir t’a préparé ? Alors relève mon défi du passage. Trois partenaires, niveaux 35 à 37. Fais parler ta stratégie !",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 17
+        }
+      }
+    ],
+    "end": "battle",
+    "team": "valpierre_gardien",
+    "after": "valpierre_gardien_after",
+    "locked": "valpierre_gardien_locked"
+  },
+  {
+    "name": "valpierre_gardien_after",
+    "sentences": [
+      {
+        "text": "Gardien : Bien joué ! Voici 1 500 pièces et le Badge Cristal. Aspha figure dans nos registres. Hoze, à Ocreville, connaît la suite de sa piste ; cette arène reste un détour facultatif.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 17
+        }
+      }
+    ],
+    "end": null
+  },
+  {
+    "name": "valpierre_gardien_locked",
+    "sentences": [
+      {
+        "text": "Gardien : Affronte d’abord Mounir dans l’arène de la Ville du Lac. Tu pourras ensuite revenir relever mon défi ; Valpierre reste ouverte à tous.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 17
+        }
+      }
+    ],
+    "end": null
+  },
+  {
+    "name": "valpierre_refuge",
+    "map": null,
+    "x": null,
+    "sentences": [
+      {
+        "text": "Prends le temps de souffler. Notre relais accueille les compagnons des voyageurs, comme Aspha nous l’a appris. Je vais soigner ton équipe.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 31
+        }
+      }
+    ],
+    "end": "heal"
+  },
+  {
+    "name": "valpierre_vendeur",
+    "map": null,
+    "x": null,
+    "sentences": [
+      {
+        "text": "Bienvenue à la boutique de Valpierre. Tu peux acheter des Balls et des soins avec le bouton Acheter. En expédition, nos pierres, objets et Drifts sont aussi disponibles.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 30
+        }
+      }
+    ],
+    "end": null
   }
 ]

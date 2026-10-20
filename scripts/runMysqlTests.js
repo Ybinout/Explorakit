@@ -12,6 +12,7 @@ const result = spawnSync(
     process.execPath,
     [
         '--test',
+        '--test-concurrency=1', // Integration suites share one database; avoid inter-suite lock races.
         path.resolve(__dirname, '..', 'tests', 'mysql-integration.test.js'),
         path.resolve(__dirname, '..', 'tests', 'battle-runtime-integration.test.js'),
         path.resolve(__dirname, '..', 'tests', 'story-socket-integration.test.js'),

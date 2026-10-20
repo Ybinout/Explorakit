@@ -11,7 +11,10 @@ function isCenterDoor(map, x, y) {
 function normalizeCenterReturnPoint(point) {
     if (!point || !entranceMaps.has(point.map)) return null;
     const { map } = point;
-    const x = Number(point.x), y = Number(point.y);
+    let x = Number(point.x), y = Number(point.y);
+    // Old route-4 wildcard incorrectly treated the eastern path as a Center door.
+    // Return those existing saves to the real Center doorstep after the town opens.
+    if (map === 'route4' && x === 848 && y === 112) { x = 720; y = 144; }
     if (!Number.isInteger(x) || !Number.isInteger(y) || x % 32 !== 16 || y % 32 !== 16) return null;
     const tileX = Math.floor(x / 32), tileY = Math.floor(y / 32);
     if (loadCollisionData(map)[tileY]?.[tileX] !== 0 || changeMapData(map)[tileY]?.[tileX]) return null;

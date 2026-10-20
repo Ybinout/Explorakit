@@ -61,7 +61,7 @@ test('Socket réel : chapitres I et II, prérequis, combats, scènes et récompe
     const speak = async (expectedName) => {
         const response = event(socket, 'dialogue');
         socket.emit('Space');
-        const dialogue = await response;
+        const dialogue = await response.catch(error => { throw new Error(`${expectedName}: ${error.message} ${serverErrors}`); });
         assert.equal(dialogue[1], expectedName);
         return dialogue;
     };
@@ -236,6 +236,26 @@ test('Socket réel : chapitres I et II, prérequis, combats, scènes et récompe
         await visit('town_ch2_clara');
         await speak('ch2_clara_after');
         assert.equal((await loadProgressState(userId)).money, 22125);
+        // Refill PP through an actual authorised heal before the extra gym.
+        await at('start', 6, 9);await speak('dia0');
+        const refill = event(socket, 'teamStateChanged', p => p.reason === 'heal');
+        socket.emit('onEndDialogue', 'dia0');await refill;
+        // The new eastern gym is optional and does not reopen either chapter.
+        await visit('valpierre_gardien');
+        await speak('valpierre_gardien');
+        socket.on('requestAction', () => socket.emit('actionResponse', { action: 'attack', number: 0 }));
+        const crystal = event(socket, 'dialogue', payload => payload[1] === 'valpierre_gardien_after');
+        socket.emit('onEndDialogue', 'valpierre_gardien');
+        await crystal.catch(error => { throw new Error(`Arène de Valpierre: ${error.message} ${serverErrors}`); });
+        const expanded = await loadProgressState(userId);
+        assert.equal(expanded.quests.find(q => q.key === 'valpierre_passage').status, 'completed');
+        assert(expanded.badges.some(b => b.key === 'crystal_badge' && b.earned));
+        assert.equal(main(expanded).status, 'completed');
+        assert.equal(expanded.quests.find(q => q.key === 'clara_chapter2').status, 'completed');
+        const afterCrystal = expanded.money;
+        await visit('valpierre_gardien');await speak('valpierre_gardien_after');
+        assert.equal((await loadProgressState(userId)).money, afterCrystal);
+
 
     } finally {
         socket?.disconnect();

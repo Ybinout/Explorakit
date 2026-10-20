@@ -29,6 +29,16 @@
       "description": "Rencontrer Lyse à Floraville et Abel à Ocreville.",
       "defaultStatus": "active",
       "target": 2
+    },
+    {
+      "key": "valpierre_passage",
+      "title": "Le relais de Valpierre",
+      "description": "Facultatif : relève le défi du gardien dans l’arène de Valpierre, à l’est de la route 4 (niveaux 35–37).",
+      "requiresFlags": [
+        "moonpunch_defeated"
+      ],
+      "defaultStatus": "active",
+      "target": 1
     }
   ],
   "badges": [
@@ -56,6 +66,11 @@
       "key": "forest_badge",
       "name": "Sceau Sylve",
       "order": 5
+    },
+    {
+      "key": "crystal_badge",
+      "name": "Badge Cristal",
+      "order": 6
     }
   ],
   "npcBattles": {
@@ -265,6 +280,30 @@
         "flags": {
           "ch2_soren_defeated": "true"
         }
+      }
+    },
+    "valpierre_gardien": {
+      "battleKey": "valpierre_gardien",
+      "once": true,
+      "requiresFlags": [
+        "moonpunch_defeated"
+      ],
+      "experienceKind": "arena",
+      "reward": {
+        "money": 1500,
+        "badges": [
+          "crystal_badge"
+        ],
+        "flags": {
+          "valpierre_gardien_defeated": "true"
+        },
+        "quests": [
+          {
+            "key": "valpierre_passage",
+            "status": "completed",
+            "progress": 1
+          }
+        ]
       }
     }
   },

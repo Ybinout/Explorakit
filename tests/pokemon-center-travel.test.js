@@ -5,7 +5,7 @@ const { buildPositionSnapshot, positionsAreEqual } = require('../server/realtime
 
 test('chaque entrée du centre retourne à son propre parvis, pas à une ville fixe', () => {
     for (const [map, doorX, doorY, x, y] of [
-        ['ville1', 15, 8, 15, 9], ['route4', 22, 3, 22, 4], ['route4', 27, 3, 26, 3]
+        ['ville1', 15, 8, 15, 9], ['route4', 22, 3, 22, 4]
     ]) {
         const previous = { x: x * 32 + 16, y: y * 32 + 16 };
         const point = getPokemonCenterEntryReturn(map, doorX, doorY, previous);
@@ -24,8 +24,9 @@ test('le retour refuse les murs, tuiles de changement, cartes étrangères et co
     assert.equal(getPokemonCenterEntryReturn('ville1', 20, 8, { x: 656, y: 304 }), null, 'la boutique ne crée pas de retour de centre');
 });
 
-test('une entrée par une tuile change voisine choisit un parvis sûr dans la même zone', () => {
-    assert.deepEqual(getPokemonCenterEntryReturn('route4', 27, 3, { x: 880, y: 144 }), { map: 'route4', x: 848, y: 112 });
+test('le passage est ne devient plus une entrée du Centre ; les anciens retours sont corrigés sans migration SQL', () => {
+    assert.equal(getPokemonCenterEntryReturn('route4', 27, 3, { x: 880, y: 144 }), null);
+    assert.deepEqual(getPokemonCenterExit({ map: 'route4', x: 848, y: 112 }), { map: 'route4', x: 720, y: 144 });
 });
 
 test('la sauvegarde de position détecte aussi un changement du retour de centre', () => {

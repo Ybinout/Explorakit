@@ -1325,6 +1325,80 @@
           }
         }
       ]
+    },
+    {
+      "name": "valpierre_gardien",
+      "team": [
+        {
+          "pokemonId": 75,
+          "name": "Gravalanch",
+          "level": 35,
+          "abilities": [
+            "Rock Slide",
+            "Bulldoze",
+            "Protect",
+            "Tackle"
+          ],
+          "passiveAbility": "Sturdy",
+          "heldItem": "leftovers",
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 15,
+            "attack": 15,
+            "defense": 15,
+            "specialAttack": 15,
+            "specialDefense": 15,
+            "speed": 15
+          }
+        },
+        {
+          "pokemonId": 303,
+          "name": "Mysdibule",
+          "level": 36,
+          "abilities": [
+            "Iron Head",
+            "Bite",
+            "Rock Tomb",
+            "Protect"
+          ],
+          "passiveAbility": "Intimidate",
+          "heldItem": "sitrus_berry",
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 15,
+            "attack": 15,
+            "defense": 15,
+            "specialAttack": 15,
+            "specialDefense": 15,
+            "speed": 15
+          }
+        },
+        {
+          "pokemonId": 338,
+          "name": "Solaroc",
+          "level": 37,
+          "abilities": [
+            "Rock Slide",
+            "Psychic",
+            "Light Screen",
+            "Flamethrower"
+          ],
+          "passiveAbility": "Levitate",
+          "heldItem": "sitrus_berry",
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 15,
+            "attack": 15,
+            "defense": 15,
+            "specialAttack": 15,
+            "specialDefense": 15,
+            "speed": 15
+          }
+        }
+      ]
     }
   ]
 }
