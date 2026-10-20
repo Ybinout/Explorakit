@@ -1,5 +1,21 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Choisir son remplaçant après un K.O. — 20 octobre 2026
+
+Les trois modes laissent choisir le compagnon qui prend le relais après un K.O., même s’il ne reste qu’une réserve. La sélection s’ouvre directement dans le panneau d’équipe après les animations du sortant. Attaque, sac et fuite sont verrouillés pendant ce choix. Le remplacement n’utilise pas un tour et ne déclenche pas de nouvelle attaque adverse ; le tour suivant reprend avec les deux combattants aptes. Les PNJ conservent leur remplacement automatique.
+
+Le contrôle appartient au serveur : demande identifiée, index entier apte uniquement, refus des anciennes demandes/autres actions, sans piégeage sur le K.O. Les pivots/expulsions ne contournent plus le choix lorsqu’un combattant est déjà K.O. La sélection applique pièges et talents d’entrée, puis recommence si l’entrant tombe lui-même K.O. Une équipe entièrement K.O. termine directement le combat. En PvP Rift, un double K.O. recueille les deux choix privés avant de publier les entrants ; reconnexion/checkpoint conservent la phase et le choix déjà reçu. Première réserve apte après 60 secondes d’inactivité (90 en PvP Aventure), avec nettoyage des écouteurs en Aventure.
+
+Mort des expéditions : déclaration/perte comptée une fois, slot actif retenu à 0 PV jusqu’au choix puis suppression définitive ; protégé par talisman conservé mais indisponible. Fin par timer/abandon pendant la sélection nettoie aussi le mort temporairement retenu. Aucun changement de carte, progression, XP, schéma SQL ou classement.
+
+Vérifications : demandes invalides/rejouées, délai/déconnexion/nettoyage, quatre types de duel, deuxième réserve choisie sans dégâts/PP supplémentaires, doubles K.O., checkpoint et reprise, pièges successifs, talisman et dernier K.O. Les recettes SQL couvrent de vrais K.O. sauvage/dresseur/PvP avec choix et sauvegarde ; la recette navigateur combat vérifie un vrai K.O., l’ouverture directe, les actions bloquées, le choix non premier et les boutons aux quatre tailles.
+
+Validation : `verify:release -- --mysql` passe à 0 avec **505 tests applicatifs et 46 SQL**, audits, HTTP/reprise, lint et build. Les recettes combat et publication générale passent à 0 sans erreur : sélection après vrai K.O. aux quatre tailles, animations/XP/entrée, menus, déplacements, thèmes, apprentissage et Rift. Le libellé de choix reste visible sur mobile même sous la pluie, en utilisant l’emplacement réservé aux annonces, sans déplacement des boutons. Captures 320/393 inspectées. Après ajout du filtrage des réponses de remplacement retardées dans les tours normaux Aventure/PvP, les **46 tests SQL repassent à 0**, avec injection d’une ancienne réponse avant l’action suivante.
+
+Build final `/tmp/explorakit-replacement-dist`, hash `2a9c8e033c8a9066` ; client `fbf6ae99641b7ca5edb6b553edf60cc7df41c62a`. Publication finale le **20/10/2026 à 18 h 07 (Paris)**, service Explorakit seul redémarré, checkpoint sauvegardé avant et zéro expédition active au contrôle préalable. Sauvegarde sources/dist/SQL/checkpoint : `/home/ubuntu/dev/backups/explorakit-replacement-2026-10-20T15-59-09-465Z`.
+
+Contrôle HTTPS terminé à 0 sur deux comptes temporaires : vrai duel PvP et K.O., ouverture directe de l’équipe aux quatre tailles, choix de la deuxième réserve sans dégâts supplémentaires, ancien message réseau ignoré, ordre effectivement sauvegardé, index conforme et aucune erreur. Comptes supprimés ; Know et api-test inchangés. Service actif, zéro redémarrage automatique. Logs/captures `/tmp/explorakit-replacement-*`. Aucune CI distante ni validation sur téléphone physique revendiquée.
+
 ## Mise à jour du JSON et du premier plan de Valpierre — 20 octobre 2026
 
 Reprise exacte des fichiers de `/home/ubuntu/dev/pourtoi` : `ville_safe1.json` (SHA-256 `7e578dcec2b46512c5bdf90ca0744b4d8043b4f13c66b39ce34c6898a31b6b1b`) et `ville_safe1_f.png` (`f7ef6612c853bbc6df8c7801fc18c4f5996f833e8b4959ee95aad384b0e7a263`). Le fond PNG est inchangé. L’auteur a ajouté une collision en (6,7) et modifié six cases de la couche `foreground` ; le total de collisions passe à 148. Les dix couches du TMX sont synchronisées sans autre modification de métadonnées ou de dessin.
@@ -1516,6 +1532,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **20 octobre 2026 — Choix après K.O. :** remplacement explicite partagé aux trois modes, sélection directe, contrôle serveur et reprise, pièges/talisman et vérifications SQL/navigateur.
 
 - **20 octobre 2026 — Nouvel export de Valpierre :** JSON et foreground copiés à l’identique, miroir TMX, collision (6,7) et six cases de premier plan ; contrôles de mouvement, portes et rendu adaptés.
 

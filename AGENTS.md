@@ -1,5 +1,13 @@
 # Contexte permanent — Explorakit
 
+## Choix du remplaçant après K.O. — 20 octobre 2026
+
+Les quatre orchestrateurs (Aventure sauvage/dresseur/PvP et Drift pour Rift/Colosseum) attendent un choix explicite parmi les réserves aptes après un K.O. Une phase de remplacement ne consomme ni tour ni PP et ignore le piégeage. Aucun choix si l’équipe est totalement K.O. ; un K.O. sur pièges d’entrée redemande un choix. Les pivots/expulsions ne remplacent jamais automatiquement un combattant déjà K.O.
+
+`requestAction` reste compatible et ajoute `replacement`, `allowedPokemonIndexes`, `replacementId` (et le `turnId` existant en Drift). Le client ouvre directement l’équipe après la file K.O./animations, désactive attaque/sac/fuite et transmet l’identifiant de la demande affichée. Le serveur contrôle index/état/jeton et ignore les rejouages. Secours après inactivité : première réserve apte à 60 s (90 s pour le PvP Aventure). En Rift PvP, les deux choix après double K.O. restent privés jusqu’à leur réception. Reconnexion/checkpoint préservent la phase, le jeton et le premier choix reçu.
+
+Le Pokémon mort définitivement en expédition est signalé et compté une seule fois ; son slot actif reste à 0 PV le temps du choix, puis il disparaît. Le talisman conserve son protégé K.O. et indisponible. Une fin par timer/abandon nettoie aussi les morts en attente. Ne pas rétablir `autoSwitchPokemon` pour un joueur après K.O. Recettes : `replacement-choice.test.js`, combats SQL sauvage/dresseur/PvP, tests de stratégie/Colosseum et `test:combat-browser` (vrai K.O., choix non premier, quatre tailles).
+
 ## Nouvel export de Valpierre — 20 octobre 2026
 
 Le JSON et le foreground de `pourtoi` déposés à 17 h 20–21 (Paris) sont repris à l’identique. JSON SHA-256 `7e578dcec2b46512c5bdf90ca0744b4d8043b4f13c66b39ce34c6898a31b6b1b`, PNG `_f` SHA-256 `f7ef6612c853bbc6df8c7801fc18c4f5996f833e8b4959ee95aad384b0e7a263`. Collision ajoutée en (6,7), six changements dans `foreground`, total 148 cases bloquées. TMX synchronisé aux dix couches, fond PNG inchangé. Ne pas rouvrir (6,7), ni changer les portes, PNJ ou passages pour contourner l’export. Les cases (5,7) et le parvis restent praticables ; l’ancien marqueur ouest (0,6) reste bloqué par la falaise. Recettes : fingerprint JSON/PNG et miroir TMX dans Valpierre, vraie tentative de mouvement vers (6,7), six portes aller/retour et rendu aux quatre tailles dans `test:valpierre-browser`.

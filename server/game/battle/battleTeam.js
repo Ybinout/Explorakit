@@ -84,10 +84,10 @@ function switchToNextAlive(teamOrPokemons, options = {}) {
 
 function resolveMoveSwitches(moveResult, attackerTeam, defenderTeam) {
     const resolution = { attacker: null, defender: null };
-    if (moveResult?.forceSwitch) {
+    if (moveResult?.forceSwitch && Number(getPokemonList(defenderTeam)[0]?.currentHp) > 0) {
         resolution.defender = switchToNextAlive(defenderTeam);
     }
-    if (moveResult?.switchSelf) {
+    if (moveResult?.switchSelf && Number(getPokemonList(attackerTeam)[0]?.currentHp) > 0) {
         resolution.attacker = switchToNextAlive(attackerTeam, {
             batonPass: Boolean(moveResult.batonPass)
         });

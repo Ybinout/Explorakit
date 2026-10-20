@@ -232,7 +232,7 @@ test('arena wins grant points once, heal only survivors and advance difficulty; 
     f.runtime.ready(p);const b=p.battle,lost=p.equipe.pokemons[0];
     assert.equal(p.run.phase,'colosseum_battle');
     assert.throws(()=>f.runtime.ready(p),/Aucun défi/);
-    lost.currentHp=0;b.prune();p.equipe.pokemons[0].currentHp=1;
+    lost.currentHp=0;b.prune();b.request();assert(b.action(p,{action:'change',number:1,turnId:b.token}));p.equipe.pokemons[0].currentHp=1;
     defeatEnemies(b);b.finish(p,'finished');
     assert.equal(p.run.colosseum.score,300);assert.equal(p.run.colosseum.wins,1);
     assert.equal(p.equipe.pokemons.length,1);assert.equal(p.equipe.pokemons[0].currentHp,p.equipe.pokemons[0].maxHp);

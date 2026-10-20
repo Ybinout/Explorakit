@@ -28,8 +28,10 @@ class ScriptedSocket extends EventEmitter {
     emit(eventName, payload) {
         this.outgoing.push({ eventName, payload });
         if (eventName === 'requestAction') {
+            if (payload.replacementId) this.lastReplacementId=payload.replacementId;
+            else if (this.lastReplacementId) setImmediate(()=>super.emit('actionResponse',{action:'attack',number:0,replacementId:this.lastReplacementId}));
             const action = this.actions.shift() || { action: 'flee' };
-            setImmediate(() => super.emit('actionResponse', action));
+            setImmediate(() => super.emit('actionResponse', { ...action, ...(payload.replacementId ? {replacementId:payload.replacementId} : {}) }));
             return true;
         }
         return super.emit(eventName, payload);
@@ -208,6 +210,7 @@ test('combat sauvage réel : K.O., changement forcé puis fuite', { skip: !shoul
         firstPokemon.currentSpeed = 1;
         const replacement = createPokemon(7, 'Remplaçant', ['Water Gun']);
         replacement.currentHp = replacement.maxHp;
+        player.equipe.ajouterPokemon(createPokemon(25, 'Autre choix'));
         player.equipe.ajouterPokemon(replacement);
 
         const wildPokemon = createPokemon(19, 'Rattata');
@@ -215,11 +218,13 @@ test('combat sauvage réel : K.O., changement forcé puis fuite', { skip: !shoul
         wildPokemon.currentSpeed = 999;
         const socket = new ScriptedSocket([
             { action: 'attack', number: 0 },
+            { action: 'change', number: 2 },
             { action: 'flee' }
         ]);
         const io = new RecordingIo({ [player.id]: socket });
         const result = await withFixedRandom(0.5, () => startWildBattle(player, wildPokemon, io, userId));
 
+        assert.equal(socket.outgoing.filter(e=>e.eventName==='requestAction'&&e.payload.replacement).length,1);
         assert.equal(result, true);
         assert.equal(firstPokemon.currentHp, 0);
         assert.equal(player.equipe.pokemons[0].uuid, replacement.uuid);
@@ -484,4 +489,36 @@ test('Adventure trainer voluntary switch consumes its action instead of granting
         const attacks=io.events.filter(e=>e.eventName==='battleMoveAnimation');assert.deepEqual(attacks.map(e=>e.payload.actor),['player']);
         assert.equal(lead.currentHp,500);assert.equal(replacement.movePp[0],35);
     } finally {if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
+});
+
+
+test('combat dresseur réel : K.O. puis choix de la deuxième réserve sans subir un tour supplémentaire', { skip: !shouldRun }, async () => {
+    const pool=createTestPool();let userId;
+    try {
+        const fixture=await createPlayer(4),{player}=fixture;userId=fixture.user.id;
+        const lead=player.equipe.pokemons[0];lead.passiveAbility=null;lead.currentHp=1;lead.currentSpeed=1;lead.currentDefense=1;
+        const skipped=createPokemon(25,'Premier choix'),chosen=createPokemon(7,'Choix voulu');
+        skipped.passiveAbility=chosen.passiveAbility=null;player.equipe.ajouterPokemon(skipped);player.equipe.ajouterPokemon(chosen);
+        const enemy=createPokemon(19,'Rival');enemy.passiveAbility=null;enemy.currentAttack=999;enemy.currentSpeed=999;
+        const socket=new ScriptedSocket([{action:'attack',number:0},{action:'change',number:2},{action:'flee'}]);
+        const io=new RecordingIo({[player.id]:socket}),hp=chosen.currentHp;
+        assert.equal(await withFixedRandom(.5,()=>startTrainerBattle(player,createTeam(enemy),io,userId)),true);
+        assert.equal(lead.currentHp,0);assert.equal(player.equipe.pokemons[0].uuid,chosen.uuid);assert.equal(chosen.currentHp,hp);
+        assert.equal(chosen.movePp[0],35);assert.equal(socket.outgoing.filter(e=>e.eventName==='requestAction'&&e.payload.replacement).length,1);
+        assert.equal((await loadEquipe(userId)).pokemons[0].uuid,chosen.uuid);
+    } finally { if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end(); }
+});
+
+test('combat PVP réel : le choix après K.O. ne consomme pas une action adverse', { skip: !shouldRun }, async () => {
+    const lead=createPokemon(4,'Premier'),reserve=createPokemon(25,'Réserve'),chosen=createPokemon(7,'Choisi'),enemy=createPokemon(19,'Adversaire');
+    for(const p of [lead,reserve,chosen,enemy])p.passiveAbility=null;
+    lead.currentHp=1;lead.currentDefense=1;lead.currentSpeed=1;enemy.currentSpeed=999;enemy.currentAttack=999;
+    const a={id:'choice-a',equipe:createTeam(lead,reserve,chosen)},b={id:'choice-b',equipe:createTeam(enemy)};
+    const sa=new ScriptedSocket([{action:'attack',number:0},{action:'change',number:2},{action:'flee'}]);
+    const sb=new ScriptedSocket([{action:'attack',number:0},{action:'flee'}]),io=new RecordingIo({[a.id]:sa,[b.id]:sb}),hp=chosen.currentHp;
+    await withFixedRandom(.5,()=>startPvpBattle(a,b,io));
+    assert.equal(lead.currentHp,0);assert.equal(a.equipe.pokemons[0].uuid,chosen.uuid);assert.equal(chosen.currentHp,hp);
+    assert.equal(sa.outgoing.filter(e=>e.eventName==='requestAction'&&e.payload.replacement).length,1);
+    assert.equal(sb.outgoing.filter(e=>e.eventName==='requestAction').length,2);
+    assert.equal(io.events.filter(e=>e.targetId===a.id&&e.eventName==='battleMoveAnimation').length,1);
 });

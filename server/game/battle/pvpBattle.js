@@ -1,3 +1,4 @@
+const { requestReplacement } = require('./replacementChoice');
 const presentation = require('./presentationState');
 const {
     useattack,
@@ -149,6 +150,7 @@ async function requestPlayerAction(io, player, message = 'Quelle est votre proch
         };
 
         const onResponse = (response = {}) => {
+            if (response?.replacementId) return;
             cleanup();
             resolve(response);
         };
@@ -237,24 +239,23 @@ async function ensureActivePokemonAlive(io, actorPlayer, enemyPlayer, ownSide, e
         return true;
     }
 
-    const nextAliveIndex = getFirstAliveIndex(team);
-    if (nextAliveIndex < 0) {
-        return false;
+    // Hazards may knock out several entrants; each replacement is chosen separately.
+    while (Number(team[0]?.currentHp || 0) <= 0 && hasAlivePokemon(team)) {
+        const response = await requestReplacement(io, actorPlayer, { timeoutMs: ACTION_TIMEOUT_MS });
+        if (response.action !== 'change' || !swapToIndex(team, response.number)) return false;
+        const nextPokemon = team[0];
+        await narrateToBoth(
+            io,
+            actorPlayer,
+            enemyPlayer,
+            `${getTrainerName(actorPlayer)} envoie ${getPokemonDisplayName(nextPokemon)} !`,
+            900
+        );
+        emitBattleStateForBoth(io, actorPlayer, enemyPlayer);
+        await applySwitchInNarration(io, actorPlayer, enemyPlayer, nextPokemon, ownSide, enemySide, battleState);
+
     }
-
-    swapToIndex(team, nextAliveIndex);
-    const nextPokemon = team[0];
-    await narrateToBoth(
-        io,
-        actorPlayer,
-        enemyPlayer,
-        `${getTrainerName(actorPlayer)} envoie ${getPokemonDisplayName(nextPokemon)} !`,
-        900
-    );
-    emitBattleStateForBoth(io, actorPlayer, enemyPlayer);
-    await applySwitchInNarration(io, actorPlayer, enemyPlayer, nextPokemon, ownSide, enemySide, battleState);
-
-    return Number(nextPokemon?.currentHp || 0) > 0;
+    return Number(team[0]?.currentHp || 0) > 0;
 }
 
 async function performAttack(io, attackerPlayer, defenderPlayer, moveIndex, attackerSide, defenderSide, battleState) {

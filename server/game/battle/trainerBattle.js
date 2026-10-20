@@ -1,3 +1,4 @@
+const { requestReplacement } = require('./replacementChoice');
 const presentation = require('./presentationState');
 const { rewardTraining } = require('../models/training');
 const {
@@ -16,7 +17,6 @@ const { calculateBattleExperience, BATTLE_EXPERIENCE_MULTIPLIERS } = require('..
 const { emitSoloBattleEnd, createBattleSummaryTracker } = require('./battleOutcome');
 const { emitFieldState, emitSoloMoveResult } = require('./battleEvents');
 const {
-    autoSwitchPokemon,
     hasAlivePokemon,
     resolveMoveSwitches,
     switchPokemonByIndex
@@ -194,10 +194,6 @@ function playerChangePokemonByIndex(equipe, index) {
     return switchPokemonByIndex(equipe, index);
 }
 
-function playerChangePokemon(equipe) {
-    return autoSwitchPokemon(equipe);
-}
-
 function playerTurn(player, io) {
     return new Promise((resolve) => {
         const playerSocket = io.sockets.sockets.get(player.id);
@@ -227,6 +223,7 @@ function playerTurn(player, io) {
         };
 
         const responseListener = (response = {}) => {
+            if (response?.replacementId) return; // A delayed replacement must not consume the next turn.
             switch (response.action) {
                 case 'attack':
                 case 'flee':
@@ -431,7 +428,13 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
     };
 
     const handleForcedPlayerSwitch = async () => {
-        const switched = playerChangePokemon(player.equipe);
+        const response = await requestReplacement(io, player);
+        if (response.action === 'disconnect') {
+            endBattle(false, { interrupted: true, reason: response.reason });
+            await editEquipe(userId, player.equipe);
+            return false;
+        }
+        const switched = response.action === 'change' && playerChangePokemonByIndex(player.equipe, response.number);
         if (!switched || !hasAlivePokemon(player.equipe.pokemons)) {
             await narrate(player, io, 'Tu as perdu le combat...');
             endBattle(false);
@@ -467,6 +470,7 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
         if (player.equipe.pokemons[0].currentHp <= 0) {
             const canContinue = await handleForcedPlayerSwitch();
             if (!canContinue) return false;
+            continue; // A hazard K.O. must open a new replacement choice.
         }
 
         if (currentEnemy.currentHp <= 0) {

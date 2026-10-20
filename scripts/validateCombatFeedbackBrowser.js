@@ -57,8 +57,25 @@ async function closePanel(){await page.getByRole('button',{name:'Fermer le carne
  await page.locator('.action-pokemon:enabled').click();await page.locator('.battle-pokemon-choice:enabled').first().click();
  await page.locator('.battle-transition-recall').waitFor();assert.match(await page.locator('[data-battle-transition]').innerText(),/rappelé/);await page.screenshot({path:path.join(output,'recall-mobile.png')});
  await page.waitForFunction(()=>window.combatTransitions.some(e=>e.kind==='enter'&&e.label.includes('entre en combat')));await page.locator('.action-attack:enabled').waitFor();
- await page.evaluate(()=>{window.combatTransitions=[];});const fallen=p.equipe.pokemons[0].uuid;p.equipe.pokemons[0].currentHp=0;battle.prune();battle.sync();
- await page.locator('.battle-transition-faint').waitFor();assert.match(await page.locator('[data-battle-transition]').innerText(),/K.O./);await page.screenshot({path:path.join(output,'faint-mobile.png')});await page.waitForFunction(()=>window.combatTransitions.some(e=>e.kind==='enter'));assert(!p.equipe.pokemons.some(x=>x.uuid===fallen));
+ await page.evaluate(()=>{window.combatTransitions=[];});const fallen=p.equipe.pokemons[0].uuid;p.equipe.pokemons[0].currentHp=1;
+ const foe=enemy.equipe.pokemons[0];foe.abilities=['Tackle'];foe.movePp=[35];foe.currentAttack=999;foe.currentSpeed=999;
+ await page.locator('.action-attack:enabled').click();await page.locator('.battle-grid-attacks .battle-choice-btn:enabled').first().click();
+ await page.locator('.battle-transition-faint').waitFor();assert.match(await page.locator('[data-battle-transition]').innerText(),/K.O./);await page.screenshot({path:path.join(output,'faint-mobile.png')});
+ await page.locator('[data-replacement-choice="true"] .battle-pokemon-choice:enabled').first().waitFor();
+ assert.equal(battle.active(0).uuid,fallen);assert(battle.replacementPhase);const choice=p.equipe.pokemons[2].uuid;
+ for(const [width,height]of [[320,480],[393,852],[844,390],[1365,900]]){
+  await page.setViewportSize({width,height});await page.evaluate(width=>{window.combatVm.showMobileControls=width<=920;},width);
+  for(const action of ['attack','bag','flee'])assert(await page.locator('.action-'+action).isDisabled());
+  assert.equal(await page.locator('.battle-pokemon-choice:enabled').count(),2);
+  assert(await page.locator('.battle-turn-indicator').isVisible());assert.match(await page.locator('.battle-turn-indicator').innerText(),/Choisis ton prochain Pokémon/);
+  for(const button of await page.locator('.battle-pokemon-choice:enabled').all()){
+   await button.scrollIntoViewIfNeeded();const bounds=await button.boundingBox();assert(bounds.height>=44&&bounds.x>=0&&bounds.x+bounds.width<=width+1&&bounds.y>=0&&bounds.y+bounds.height<=height+1);
+  }
+  assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
+  await page.screenshot({path:path.join(output,`replacement-${width}.png`)});
+ }
+ await page.setViewportSize({width:393,height:852});await page.locator('.battle-pokemon-choice:enabled').last().click();
+ await page.waitForFunction(()=>window.combatTransitions.some(e=>e.kind==='enter'));assert(!p.equipe.pokemons.some(x=>x.uuid===fallen));assert.equal(battle.active(0).uuid,choice);
  const rejected=await request('drift:reorder',{orderedUuids:p.equipe.pokemons.map(x=>x.uuid).reverse()});assert.equal(rejected.success,false);
  await page.locator('.action-attack:enabled').waitFor();enemy.equipe.pokemons[0].currentHp=0;battle.prune();battle.checkEnd();await page.locator('.battle-transition-faint').waitFor();assert.equal(await page.locator('[data-battle-result-continue]').isVisible(),false);await page.locator('[data-battle-result-continue]').waitFor();assert.match(await page.locator('.result-kicker').textContent(),/Colosseum/);assert.equal(await page.locator('.result-timer').count(),0);assert.equal(await page.locator('[data-battle-result]').evaluate(el=>getComputedStyle(el).backgroundColor),'rgb(237, 245, 252)');await page.screenshot({path:path.join(output,'colosseum-result-mobile.png')});await closeResult();
  // Shared music selector uses the real assets for wild/trainer/arena and stops on result.
@@ -67,5 +84,5 @@ async function closePanel(){await page.getByRole('button',{name:'Fermer le carne
  const timeline=await require('./validateBattleTimeline').validateBattleTimeline(page,output);
  const entrance=await require('./validateBattleEntranceUi').validateBattleEntranceUi(page,output);
  await page.reload({waitUntil:'networkidle'});await vm();const saved=require('../server/game/drift/checkpointCodec').decode(checkpoint).runs.get(p.run.id).players.get(userId);assert.deepEqual(saved.equipe.pokemons.map(x=>x.uuid),p.equipe.pokemons.map(x=>x.uuid));assert(!saved.drifts.some(d=>d.uuid==='power'));
- assert.deepEqual(errors,[]);success=true;console.log(JSON.stringify({timeline,entrance,automaticMenuOrder:true,nightJournal:true,teamOrder:true,equippedDeletion:true,mixedFusion:true,realDriftSignals:true,recallAndFaintDistinct:true,replacement:true,resultAfterKO:true,musicPlayback:true,checkpoint:true,viewports:4,errors,output}));
+ assert.deepEqual(errors,[]);success=true;console.log(JSON.stringify({timeline,entrance,automaticMenuOrder:true,nightJournal:true,teamOrder:true,equippedDeletion:true,mixedFusion:true,realDriftSignals:true,recallAndFaintDistinct:true,replacement:{chosenReserve:true,automaticPanel:true,viewports:4,realKO:true},resultAfterKO:true,musicPlayback:true,checkpoint:true,viewports:4,errors,output}));
 }finally{if(!success&&page)await page.screenshot({path:path.join(output,'failure.png'),fullPage:true}).catch(()=>{});await browser?.close();cleanup();await new Promise(r=>io.close(r));if(userId)await dbPool.execute('DELETE FROM users WHERE id=?',[userId]);await dbPool.end();}})().catch(e=>{console.error(e);process.exitCode=1});

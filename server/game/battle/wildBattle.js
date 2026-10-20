@@ -1,3 +1,4 @@
+const { requestReplacement } = require('./replacementChoice');
 const presentation = require('./presentationState');
 const { rewardTraining } = require('../models/training');
 const {
@@ -14,7 +15,6 @@ const { calculateBattleExperience, BATTLE_EXPERIENCE_MULTIPLIERS } = require('..
 const { emitSoloBattleEnd, createBattleSummaryTracker } = require('./battleOutcome');
 const { emitFieldState, emitSoloMoveResult } = require('./battleEvents');
 const {
-    autoSwitchPokemon,
     hasAlivePokemon,
     resolveMoveSwitches,
     switchPokemonByIndex: playerSwitchByIndex
@@ -398,6 +398,7 @@ function playerTurn(player, io) {
         };
 
         const responseListener = (response = {}) => {
+            if (response?.replacementId) return; // A delayed replacement must not consume the next turn.
             switch (response.action) {
                 case 'attack':
                 case 'flee':
@@ -473,7 +474,13 @@ async function startBattle(player, wildPokemon, io, userId) {
     };
 
     const handleForcedSwitch = async () => {
-        const switched = autoSwitchPokemon(player.equipe);
+        const response = await requestReplacement(io, player);
+        if (response.action === 'disconnect') {
+            await endBattle(false, { interrupted: true, reason: response.reason });
+            await editEquipe(userId, player.equipe);
+            return false;
+        }
+        const switched = response.action === 'change' && playerSwitchByIndex(player.equipe, response.number);
         if (!switched) {
             await narrate(player, io, 'Tu as perdu le combat...');
             await endBattle(false);
@@ -539,6 +546,7 @@ async function startBattle(player, wildPokemon, io, userId) {
             if (!canContinue) {
                 return false;
             }
+            continue; // Entry hazards can require another choice before a normal turn.
         }
 
         try {
