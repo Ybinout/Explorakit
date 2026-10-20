@@ -1,5 +1,19 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Impacts de pluie sur les cartes et routes légèrement pluvieuses — 20 octobre 2026
+
+Les petits impacts sont plus lisibles : anneaux courts et aplatis, avec de minuscules projections, qui apparaissent en des points variés puis s’effacent. Leur masque est dérivé des cases libres, sans passage/interaction ni couche classique de premier plan ; chaque impact et son rayon restent dans sa case. Les impacts sont dessinés après le fond mais avant PNJ, joueurs et premier plan, évitant les projections sur les toits, arbres et sprites. La couche `leaf` de `start` référence une image entière dont les cases transparentes ont aussi des GID : elle ne sert pas de masque d’occupation ; ses pixels visibles restent naturellement devant les impacts. Les tests exigent des impacts non nuls séparément sur chaque carte, y compris le village. Les cartes et leurs images restent inchangées. `scripts/generateWorldRainGround.js` régénère uniquement le petit module client de masques à partir des trois JSON Tiled.
+
+`route1` et `route2` reçoivent une vraie pluie avec une ambiance légère : pluie 1/3 et vent 1/3. Le serveur annonce ce profil dans `mapWeatherState.ambience` ; l’affichage des routes est indépendant des préférences propres au village et attend un état correspondant à la carte courante. Comme au village, les combats héritent de cette pluie et de ses effets habituels. Intérieurs/autres routes/arène Colosseum restent inchangés. Les animations de lac et de couronnes du village restent explicitement réservées à `start`.
+
+Les deux passes météo partagent une seule surface et un cache plafonné à 30 Hz, sans nouvelle boucle. Budget maximal 208 éléments (pluie/vent/impacts compris), libération aux voyages/chargements/combats/masquage/destruction ; mouvement réduit : ambiance fixe sans impacts. Les préférences locales du village, la vitesse adoucie de la pluie et les sauvegardes de combat sont conservées.
+
+Recettes reproductibles : `world-weather.test.js` vérifie les impacts sur les vraies couches des cartes, les bornes, les budgets, le cache commun et les profils sans fuite entre cartes ; `map-weather.test.js` vérifie la pluie réelle des routes dans les trois modes. `test:weather-browser` couvre les deux routes aux quatre tailles, les effets propres au village absents et la pluie héritée en combat.
+
+Validation : **482 tests applicatifs actifs et 43 SQL**, audits, HTTP/reprise, lint et build réussis (`verify:release -- --mysql`). La recette météo passe sans erreur : deux profils légers, impacts observés sur chaque route, quatre tailles par carte, pluie réelle de route en combat et absence du masque de feuillage/lac du village sur les routes. Les seize réglages du village, météo de combat, mouvement réduit, masquage et voyage intérieur restent corrects. Captures routes mobile/PC et village inspectées. Build `/tmp/explorakit-route-rain-dist`, hash `e6dbcddb7bcff38e`. `test:release-browser` passe aussi sans erreur : carnet/menus, gestes carte/dock, voyages/dialogues, sprites, combat/XP/audio et apprentissage. Client `d809cc0fe473a5998bfd55a37d753ad5e0ae4ae5`. Logs/captures `/tmp/explorakit-route-rain-*`.
+
+Publication finale le **20/10/2026 à 12 h 26 (Paris)**. La météo serveur a été appliquée par le seul redémarrage d’`explorakit.service` à 12 h 22 après sauvegarde/checkpoint, zéro tentative active ; la correction finale du masque du village est statique, sans autre redémarrage. Sauvegarde sources/dist/SQL/checkpoint : `/home/ubuntu/dev/backups/explorakit-route-rain-2026-10-20T10-18-18-933Z`. Le contrôle HTTPS avec un compte temporaire vérifie les trois profils, impacts non nuls sur chaque carte, mouvement réduit, index identique au build et douze captures (trois cartes × quatre tailles). Village : 128 gouttes / 48 emplacements d’impact ; chaque route : 36 gouttes / 16 emplacements, vent 1/3. Aucune erreur, voisins Know/api-test inchangés et compte supprimé. Aucune CI distante revendiquée ; la fluidité sur téléphone physique reste à apprécier humainement.
+
 ## Léger mouvement du lac de départ — 20 octobre 2026
 
 Le lac en bas de `start` reçoit un courant doux d’un pixel source et de faibles reflets qui se déplacent lentement. Un masque de palette d’eau, limité au lac puis réduit d’un pixel autour de chaque détail fixe, protège les berges, rochers, plantes, contours et reflets clairs. Les autres pixels et toute transparence restent exactement identiques. L’image de carte originale n’est ni retouchée ni déplacée.
@@ -1348,6 +1362,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **20/10/2026 — Pluie des routes / impacts** : impacts visibles sur les cases au sol, sous les personnages et le premier plan ; routes 1/2 légèrement pluvieuses et venteuses, climat réel partagé avec les combats. Voir la section du jour.
 
 - **20/10/2026 — Eau du village** : courant discret et reflets animés à l’intérieur du lac, berges et autres détails fixes, rendu commun aux trois modes et mouvement réduit respecté. Voir la section du jour.
 

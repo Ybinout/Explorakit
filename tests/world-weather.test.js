@@ -10,9 +10,9 @@ test('weather preferences are bounded, durable and tolerate corrupt or unavailab
  const denied={getItem(){throw Error('denied');},setItem(){throw Error('denied');}};assert.deepEqual(w.loadWorldWeather(denied),w.DEFAULT_WORLD_WEATHER);assert.deepEqual(w.saveWorldWeather({wind:2,rain:0},denied),{wind:2,rain:0});
  assert.deepEqual(w.normalizeWorldWeather({wind:Infinity,rain:-2}),{wind:0,rain:0});assert.deepEqual(w.normalizeWorldWeather(null),{wind:0,rain:0});
 });
-test('only the starting village receives the preview, never interiors, battles, held loading frames or hidden tabs',async()=>{
- const {worldWeatherEnabled:enabled}=await weather();assert(enabled('start'));
- for(const map of ['maison','ville1','route1','cave1','ville_safe1',null])assert(!enabled(map));for(const reason of ['hidden','battle','loading'])assert(!enabled('start',{[reason]:true}));
+test('weather covers the village and the two rainy routes, never interiors, battles, loading or hidden tabs',async()=>{
+ const {worldWeatherEnabled:enabled}=await weather();for(const map of ['start','route1','route2'])assert(enabled(map));
+ for(const map of ['maison','ville1','route3','cave1','ville_safe1',null])assert(!enabled(map));for(const reason of ['hidden','battle','loading'])assert(!enabled('start',{[reason]:true}));
 });
 test('four intensity levels have separate, monotone and bounded particle budgets',async()=>{
  const {worldWeatherBudget:budget}=await weather();let previous={rain:-1,leaves:-1};for(let i=0;i<4;i++){const b=budget({wind:i,rain:i});assert(b.rain>previous.rain&&b.leaves>previous.leaves);assert(Object.values(b).reduce((a,b)=>a+b,0)<=210);previous=b;}
@@ -32,4 +32,15 @@ test('reduced motion renders a stable frame and does not accumulate paint work o
  const {WorldWeatherRenderer}=await weather(),renderer=new WorldWeatherRenderer(()=>surface().canvas),target={drawImage(){}};
  renderer.draw(target,0,{wind:3,rain:3},false);for(const t of [16,34,1e6])renderer.draw(target,t,{wind:3,rain:3},false);assert.equal(renderer.frames,1);
  renderer.draw(target,1e6+1,{wind:2,rain:1},false);assert.equal(renderer.frames,2);renderer.draw(target,1e6+40,{wind:2,rain:1},true);assert.equal(renderer.frames,3);
+});
+
+test('route ambience follows its server climate, independently from the village preview and with no stale-map leakage',async()=>{
+ const {mapWorldWeather:settings}=await weather();for(const map of ['route1','route2']){const climate=require('../server/game/world/mapWeather').getMapWeather(map);assert.deepEqual(settings(map,{wind:3,rain:3},climate),{wind:1,rain:1});assert.deepEqual(settings(map,{wind:0,rain:0},climate),{wind:1,rain:1});assert.deepEqual(settings(map,{wind:3,rain:3},{...climate,map:'start'}),{wind:0,rain:0});}
+ assert.deepEqual(settings('start',{wind:2,rain:0},null),{wind:2,rain:0});assert.deepEqual(settings('maison2',{wind:3,rain:3},null),{wind:0,rain:0});
+});
+test('map impacts stay on authoritative uncovered ground, bounded within their tile, below actors and absent in reduced motion',async()=>{
+ const {worldRainImpacts,WorldWeatherRenderer}=await weather();let total=0;
+ for(const map of ['start','route1','route2']){const before=total;const source=require('../data/maps/'+map+'.json'),layers=source.layers.filter(l=>['coll','change','int','foreground','for2'].includes(l.name));for(let t=0;t<6000;t+=70){const impacts=worldRainImpacts(t,3,map);assert(impacts.length<=48);for(const p of impacts){total++;const x=Math.floor(p.x/32),y=Math.floor(p.y/32);assert(layers.every(l=>!l.data[y*28+x]),map+' covered/blocked tile');assert(p.radius<=4.4&&p.alpha>0&&p.alpha<=.68);assert(p.x-p.radius>x*32&&p.x+p.radius<(x+1)*32);assert(p.y-p.radius>y*32&&p.y+p.radius<(y+1)*32);}}assert(total-before>100,map+' must have visible ground impacts');}
+ assert(total>100);assert.deepEqual(worldRainImpacts(500,3,'maison2'),[]);assert.deepEqual(worldRainImpacts(500,0,'start'),[]);
+ const s=surface(),r=new WorldWeatherRenderer(()=>s.canvas);r.drawGround(s.ctx,0,{wind:1,rain:1},true,'route1');assert(r.impacts.length>0);r.draw({drawImage(){}},0,{wind:1,rain:1},true,'route1');assert.equal(r.frames,1);assert(s.calls.some(c=>c[0]==='ellipse'));r.drawGround(s.ctx,100,{wind:1,rain:1},false,'route1');assert.equal(r.impacts.length,0);r.suspend();assert.equal(r.impacts.length,0);
 });

@@ -1,5 +1,9 @@
 # Contexte permanent — Explorakit
 
+## Impacts au sol et météo des routes 1/2 — 20 octobre 2026
+
+`map_weather.json` définit la pluie réelle de `start`, `route1`, `route2` ; les routes annoncent aussi `ambience:{wind:1,rain:1}` dans l’événement compatible `mapWeatherState`. Les préférences du village restent propres à `start` ; `effectiveWorldWeather` utilise le profil serveur des routes. `worldRainGround.js` est dérivé en lecture seule des collisions/couches couvertes classiques via `scripts/generateWorldRainGround.js` : régénérer si ces trois cartes changent. Les impacts sont contenus dans les cases libres/non couvertes et dessinés avant PNJ/personnages/premier plan ; pluie/vent restent au-dessus. Une seule surface météo, cache partagé 30 Hz entre les deux passes, maximum 208 éléments, aucun impact en mouvement réduit. Lac et animation des deux couronnes restent strictement limités à `start` ; ne pas appliquer leurs masques aux routes. Recettes : `world-weather.test.js`, `map-weather.test.js`, `test:weather-browser` (deux profils légers, quatre tailles, pluie réelle en combat, absence d’effets spécifiques du village sur routes).
+
 ## Eau du lac de départ — 20 octobre 2026
 
 `villageWater.js` anime uniquement les pixels intérieurs de la palette d’eau du lac de `start`, avec marge fixe autour des berges/rochers/reflets/plantes. Courant d’un pixel source et reflets très doux, source PNG inchangée. Composition du fond avant personnages/premier plan/météo, mêmes coordonnées caméra. Une surface 448×320 réutilisée à 15 Hz dans la boucle du monde ; indépendante de la météo, commune aux trois modes. Mouvement réduit système/jeu : image originale et buffers libérés. Hors carte, combat/résultat, chargement, masquage et destruction : suspension/libération. Recettes : `village-water.test.js` et `test:weather-browser` (pixels hors masque et alpha exacts, lac actif même à vent/pluie zéro, suspension/reprise).
