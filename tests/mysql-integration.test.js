@@ -220,7 +220,7 @@ test('le chapitre suit les victoires, résiste aux doublons et reprend les ancie
         assert.equal(town.granted, true);
         assert.equal(main(town.progress).progress, 0);
         let expectedMoney = 225;
-        const chain = ['dia1','aspha_route2','moon','champion_hoze'];
+        const chain = ['dia1','aspha_route2','moon','champion_hoze','champion_raphael'];
         for (const [index,name] of chain.entries()) {
             const before = await loadProgressState(userId);
             assert.equal(getSentenceForName(name,before)[1],name);
@@ -229,19 +229,19 @@ test('le chapitre suit les victoires, résiste aux doublons et reprend les ancie
             expectedMoney += results.find(result=>result.granted).money;
             const reloaded = await loadProgressState(userId);
             assert.equal(main(reloaded).progress,index+1);
-            assert.equal(main(reloaded).status,index===3?'completed':'active');
+            assert.equal(main(reloaded).status,index===4?'completed':'active');
             assert.equal(reloaded.money,expectedMoney);
             assert.equal(getSentenceForName(name,reloaded)[1],`${name}_after`);
             assert.equal((await completeStoryEvent(userId,'clara_letter')).granted,false);
         }
         await completeNpcBattle(userId,'town_lina');
         const final = await loadProgressState(userId);
-        assert.equal(main(final).status,'completed');assert.equal(main(final).progress,4);assert.ok(main(final).completedAt);
-        assert.equal(final.badges.filter(b=>b.earned).length,1);assert.equal(final.money,expectedMoney);
+        assert.equal(main(final).status,'completed');assert.equal(main(final).progress,5);assert.ok(main(final).completedAt);
+        assert.equal(final.badges.filter(b=>b.earned).length,2);assert.equal(final.money,expectedMoney);
         assert.equal(final.quests.some(q=>['clara_chapter2','refuges','valpierre_passage'].includes(q.key)),false);
-        assert.equal((await completeNpcBattle(userId,'champion_raphael')).reason,'requirements_not_met');
+        assert.equal((await completeNpcBattle(userId,'champion_raphael')).granted,false);
         const [[stored]] = await pool.execute("SELECT status, progress FROM player_quests WHERE user_id = ? AND quest_key = 'main_sister_search'",[userId]);
-        assert.equal(stored.status,'completed');assert.equal(stored.progress,4);
+        assert.equal(stored.status,'completed');assert.equal(stored.progress,5);
     } finally {
         if (userId) await pool.execute('DELETE FROM users WHERE id = ?', [userId]);
         await pool.end();

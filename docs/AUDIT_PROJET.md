@@ -1,5 +1,25 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Route 8, Ocreville et nouvelle étape Raphael — 20 octobre 2026
+
+Les JSON, fonds et premiers plans de `pourtoi/route8*` et `pourtoi/ocreville*` remplacent à l’identique `gen_route8` et `gen_ville5`. JSON CRLF et PNG préservés, empreintes SHA-256 versionnées dans `docs/ocreville-author-assets.json`, TMX miroirs des couches. Même grille 28×20/16 px, identifiants historiques conservés, pas de suppression des sauvegardes. Les raccords deviennent verticaux : Route 4 sud ↔ Route 8 nord, Route 8 sud ↔ Ocreville nord ; Ocreville sud ↔ Route 7 est. Arrivées praticables hors portails ; pas d’altération des collisions fournies. Le marqueur (21,19) d’Ocreville est derrière l’obstacle de l’auteur, les cellules voisines assurent le passage ; aucune ouverture artificielle.
+
+Six portes fonctionnelles : arène (5,12), Centre (17,7), boutique (23,13), maisons (4,4), (12,4) et (16,17). Retour sur chaque parvis, alias isolés des deux maisons supplémentaires vers les intérieurs existants, nouveaux habitants, guides/PNJ repositionnés sur des cases libres et accessibles, dialogues/localisations/badges cohérents. Le Centre partagé conserve provenance, checkpoint de soin et retour personnel à Ocreville. Ancien intérieur `gen_shop1` gardé avec une sortie sûre en compatibilité `legacyOnly` ; sa texture reste utilisée ailleurs, sans fausse nouvelle porte. Audit distingue ces cartes de compatibilité des lieux à visiter. La Route 8 garde son palier 35–37 avec des rencontres terrestres adaptées à ses herbes plutôt que l’ancien groupe aquatique.
+
+Raphael (`raph.png`) quitte `gen_arene4` pour la nouvelle arène `gen_arene5`, en (13,5). Son duel est activé après Hoze uniquement : équipe/objets/talents 44–46 existants, 2 400 pièces et Badge Floraison, reçu `story_champion_raphael` et anti-rejeu inchangés. Quête à cinq jalons, Hoze donne le trajet, objectif d’arène et lieu du badge actualisés. Les sauvegardes déjà victorieuses de Hoze voient ce nouvel objectif ; celles ayant déjà battu Raphael conservent leur résultat et ne touchent pas une seconde récompense. Après lui, l’indice Ana est conservé mais Ana/Wanda/archives/chapitre II restent désactivés ; arrêt déplacé à Raphael seulement. `phrase.txt` reste intact.
+
+La recette navigateur a révélé un ancien chevauchement `battle`/`change` sur la sortie sud de Route 4 : le serveur lançait une rencontre avant la transition puis déplaçait le joueur avec le combat ouvert. Les portails sont désormais exclus des tirages sauvages Aventure ; les expéditions donnaient déjà priorité au passage. Recette avec tirage forcé à 0 dans le seul serveur de test, sans combat sur les portails.
+
+Les anciens emplacements bloqués sont corrigés à la connexion : secours sur une case hors transition pour Aventure et recalage de la position monde à la reprise d’expédition, sans toucher équipe, chronomètre ou combat. Les magasins, soins et transitions des autres villes restent indépendants. Recettes étendues : empreintes/TMX, accès et retours des six portes, PNJ, parcours nord/sud, réapparition hors murs/portails, Rift réel, chaîne SQL à cinq victoires et Centre à trois origines avec redémarrage. Navigateurs dédiés pour trajets/portes/Raphael/Colosseum et les cinq dialogues du récit.
+
+Validation finale : `verify:release -- --mysql` repasse à 0 après la correction portail/rencontre, avec **530 tests applicatifs et 49 SQL**, audits, HTTP/reprise, lint et build. Les cinq tests de cartes ajoutés couvrent les empreintes des six sources, TMX, accès/retours, habitants et reprise de position ; le runtime Rift vérifie les six portes, le Centre et les positions restaurées. La chaîne SQL bat réellement les cinq adversaires jusqu’à Raphael, contrôle XP/récompenses sauvegardées et anti-rejeu ; le Centre est testé depuis Ville du Lac, Route 4 et Ocreville avec redémarrage et provenance individuelle.
+
+`test:ocreville-browser` et `test:story-browser` terminent à 0 et sans erreur : vrais déplacements, trois raccords aller/retour, six portes, boutique et Centre, Raphael refusé avant Hoze puis accessible, objectif mis à jour, exploration Colosseum, cinq dialogues/portraits et fin après Raphael, quatre tailles 320×480/393×852/844×390/1365×900. Tirage sauvage forcé à zéro uniquement dans le serveur local pour prouver l’absence de rencontre sur les portails. Captures mobiles et bureau inspectées. Les six fichiers auteur sont toujours strictement identiques à `pourtoi` au contrôle final.
+
+Build final `/tmp/explorakit-ocreville-dist`, hash `4ebc9cdfd64d4241` ; client `0cfd12523603faa7fc2e4a8cdc7a1bbae23637b7`. Publication le **20/10/2026 à 21 h 27 (Paris)** avec redémarrage du seul service Explorakit pour renouveler les cartes/PNJ/progression en cache. Checkpoint sauvegardé juste avant ; zéro expédition active. Sauvegarde sources/dist/SQL/checkpoint : `/home/ubuntu/dev/backups/explorakit-ocreville-2026-10-20T19-22-29-198Z`.
+
+Contrôle HTTPS final terminé à 0 sur un compte temporaire : vrais déplacements et trois raccords aller/retour, six portes et parvis corrects, Centre vers Ocreville, catalogue boutique, Raphael refusé avant Hoze puis accessible avec nouvel objectif, quatre tailles, images décodées et aucune erreur. Index conforme au build, compte supprimé, Know et api-test inchangés. Service actif, zéro redémarrage automatique. Logs/captures `/tmp/explorakit-ocreville-*`. Actualiser les clients déjà ouverts pour charger les nouveaux décors ; aucun rechargement forcé d’un combat en cours. Aucune CI distante ni validation sur téléphone physique revendiquée.
+
 ## Retour à la taille précédente des habitants — 20 octobre 2026
 
 Le créateur trouve les sprites agrandis trop gros et préfère le rendu précédent. Les 32 habitants de l’atlas `townspeople-pixel-v2` reviennent au repère 48 px, facteur 1,5, décalage +8/+4 par rapport au repère de dessin : silhouette 25 % plus petite que le repère 64 px. Bastien retrouve 30×42 pixels du monde au lieu de 40×56. Taille et placement antérieurs rétablis, centrage conservé, marche arrondie au pixel. Cette préférence remplace l’interdiction historique de revenir à 48 px dans la section d’agrandissement.
@@ -1608,6 +1628,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **20 octobre 2026 — Nouvelle Ocreville :** six sources auteur remplacées, raccords nord/sud, six portes/Centre/PNJ, Raphael déplacé et cinquième jalon, anciennes positions sécurisées et contrôles des trois modes.
 
 - **20 octobre 2026 — PNJ compacts :** retour demandé à la taille et au placement antérieurs des habitants, avec découpes et illustrations préservées ; recette adaptée.
 

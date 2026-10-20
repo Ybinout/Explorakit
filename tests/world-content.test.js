@@ -72,13 +72,13 @@ test('toutes les cartes générées raccordées sont actives et accessibles', ()
             queue.push(transition.goto);
         }
     }
-    expected.forEach((mapName) => assert.ok(reachable.has(mapName), `${mapName} doit être accessible depuis start`));
+    expected.filter(mapName=>!byName.get(mapName)?.legacyOnly).forEach((mapName) => assert.ok(reachable.has(mapName), `${mapName} doit être accessible depuis start`));
 });
 
 test('chaque passage généré possède une destination libre et non ambiguë', () => {
     const activeNames = new Set(worldConfig.map((entry) => entry.mapName));
     for (const entry of generatedEntries) {
-        const map = readJson('data', 'maps', `${entry.mapName}.json`);
+        const map = readJson('data', 'maps', `${resolveMapSourceName(entry.mapName)}.json`);
         const layers = technicalLayers(map);
         assert.ok(layers.coll && layers.change, `${entry.mapName} doit avoir coll et change`);
 
@@ -92,7 +92,7 @@ test('chaque passage généré possède une destination libre et non ambiguë', 
 
         for (const transition of entry.mapchange) {
             assert.ok(activeNames.has(transition.goto), `${entry.mapName} cible une carte active`);
-            const target = readJson('data', 'maps', `${transition.goto}.json`);
+            const target = readJson('data', 'maps', `${resolveMapSourceName(transition.goto)}.json`);
             const targetLayers = technicalLayers(target);
             const x = Math.floor((transition.nexX + 16) / 32);
             const y = Math.floor((transition.nexY - 16) / 32);
@@ -120,9 +120,9 @@ test('les raccords vers les intérieurs livrés par l’agent cartes sont exacts
 
 test('chaque nouveau PNJ est posé sur une case libre et possède un dialogue exploitable', () => {
     const pnjs = readJson('data', 'game', 'pnjs.jsonc').pnjs.filter((pnj) => pnj.map.startsWith('gen_'));
-    assert.equal(pnjs.length, 39); // Hoze now lives in Valpierre, outside the generated region.
+    assert.equal(pnjs.length, 41); // Hoze now lives in Valpierre, outside the generated region.
     for (const pnj of pnjs) {
-        const map = readJson('data', 'maps', `${pnj.map}.json`);
+        const map = readJson('data', 'maps', `${resolveMapSourceName(pnj.map)}.json`);
         const layers = technicalLayers(map);
         const index = pnj.y * map.width + pnj.x;
         assert.equal(layers.coll[index], 0, `${pnj.name} doit être sur une case libre`);
@@ -144,7 +144,7 @@ test('les champions conservent leurs planches et les civils utilisent les portra
     assert.deepEqual(usedSprites, expectedSprites);
 
     const civilians = pnjs.filter(pnj => pnj.spriteFrame);
-    assert.equal(civilians.length, 44);
+    assert.equal(civilians.length, 46);
     assert.equal(new Set(civilians.map(pnj => pnj.spriteFrame.index)).size, 32);
     const dialogues = readJson('data', 'game', 'interact.json');
     for (const pnj of civilians) {

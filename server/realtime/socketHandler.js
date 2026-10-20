@@ -1054,7 +1054,7 @@ const socketHandler = (io) => {
                 return;
             }
 
-            if (battlemap2D[matrixY] && battlemap2D[matrixY][matrixX] != 0 && !player.inbattle) {
+            if (battlemap2D[matrixY] && battlemap2D[matrixY][matrixX] != 0 && !changemap2D[matrixY]?.[matrixX] && !player.inbattle) {
                 const randomNumber = Math.floor(Math.random() * 15);
                 if (randomNumber === 0) {
                     player.inbattle = true;

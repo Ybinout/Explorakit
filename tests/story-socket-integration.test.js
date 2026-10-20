@@ -23,7 +23,7 @@ function event(socket, name, predicate = () => true) {
     });
 }
 
-test('Socket réel : Lucie, Timmy → Aspha → Mounir → Hoze, refus/fuite/reprise et arrêt à Valpierre', { skip: !shouldRun, timeout: 60000 }, async () => {
+test('Socket réel : Lucie, Timmy → Aspha → Mounir → Hoze → Raphael, refus/fuite/reprise et arrêt à Ocreville', { skip: !shouldRun, timeout: 60000 }, async () => {
     assert.match(testDatabaseName, /test/i);
     assert.equal(process.env.DB_NAME, testDatabaseName, 'Utiliser npm run test:mysql pour isoler les données');
     const { io } = require(path.resolve(__dirname, '../vue-explorakit/node_modules/socket.io-client'));
@@ -151,7 +151,7 @@ test('Socket réel : Lucie, Timmy → Aspha → Mounir → Hoze, refus/fuite/rep
         const {calculateBattleExperience,BATTLE_EXPERIENCE_MULTIPLIERS}=require('../server/game/models/progression');
         const {getPnjTeam}=require('../server/game/world/pnjTeamFactory');
         const catalog=require('../data/game/progression.json'),dialogues=require('../data/game/interact.json');
-        const battles=[['dia1','start',18,3],['aspha_route2','route2',25,6],['moon','ville1_arene',13,6],['champion_hoze','ville_safe1_arene',13,6]];
+        const battles=[['dia1','start',18,3],['aspha_route2','route2',25,6],['moon','ville1_arene',13,6],['champion_hoze','ville_safe1_arene',13,6],['champion_raphael','gen_arene5',13,6]];
         for(const [index,[name,map,x,y]] of battles.entries()) {
             await at(map,x,y);await speak(name);
             if(name==='aspha_route2') {
@@ -169,17 +169,17 @@ test('Socket réel : Lucie, Timmy → Aspha → Mounir → Hoze, refus/fuite/rep
             assert.equal((await loadEquipe(userId)).pokemons[0].experience,expectedExperience,`${name}: XP sauvegardée`);
             assert(scene[0].length>=2);const progress=await loadProgressState(userId);
             assert.equal(summary.outcome,'victory');assert.equal(summary.money,progress.money-before.money);assert(summary.experience[0].xpGained>0);
-            assert.equal(main(progress).progress,index+1);assert.equal(main(progress).status,index===3?'completed':'active');
-            assert(scene[0].some(line=>line.text.includes(name==='dia1'?'Aspha':name==='aspha_route2'?'Mounir':name==='moon'?'Hoze':'Raphael')));
+            assert.equal(main(progress).progress,index+1);assert.equal(main(progress).status,index===4?'completed':'active');
+            assert(scene[0].some(line=>line.text.includes(name==='dia1'?'Aspha':name==='aspha_route2'?'Mounir':name==='moon'?'Hoze':name==='champion_hoze'?'Raphael':'Ana')));
             socket.emit('onEndDialogue',`${name}_after`);
         }
-        const final=await at('ville_safe1_arene',13,6);await speak('champion_hoze_after');
-        assert.equal(main(final).progress,4);assert.equal(main(final).status,'completed');
+        const final=await at('gen_arene5',13,6);await speak('champion_raphael_after');
+        assert.equal(main(final).progress,5);assert.equal(main(final).status,'completed');
         assert(final.badges.some(b=>b.key==='dune_badge'&&b.earned));
         assert.equal(final.quests.some(q=>q.key==='clara_chapter2'),false);
         const money=final.money;
-        await at('gen_arene4',13,6);await speak('champion_raphael_locked');
-        const blocked=event(socket,'interactionRejected');socket.emit('onEndDialogue','champion_raphael');
+        await at('gen_arene3',13,6);await speak('champion_ana_locked');
+        const blocked=event(socket,'interactionRejected');socket.emit('onEndDialogue','champion_ana');
         assert.equal((await blocked).reason,'invalid_or_expired_dialogue');assert.equal((await loadProgressState(userId)).money,money);
     } finally {
         socket?.disconnect();

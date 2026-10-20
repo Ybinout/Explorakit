@@ -1,4 +1,4 @@
-const { loadCollisionData } = require('../game/world/mapRepository');
+const { loadCollisionData, changeMapData } = require('../game/world/mapRepository');
 const { isPnjBlockingTile } = require('../game/world/pnjStore');
 
 const DEFAULT_MAP = 'start';
@@ -82,9 +82,11 @@ function resolveMapName(mapName) {
 }
 
 function findFirstWalkablePosition(collisionData2D, mapName) {
+    let changes = [];
+    try { changes = changeMapData(mapName); } catch (_) { /* Synthetic callers may have no map metadata. */ }
     for (let y = 0; y < collisionData2D.length; y += 1) {
         for (let x = 0; x < collisionData2D[y].length; x += 1) {
-            if (collisionData2D[y][x] === 0 && !isPnjBlockingTile(mapName, x, y)) {
+            if (collisionData2D[y][x] === 0 && !changes[y]?.[x] && !isPnjBlockingTile(mapName, x, y)) {
                 return { x: x * TILE_SIZE + MAP_CENTER_OFFSET, y: y * TILE_SIZE + MAP_CENTER_OFFSET };
             }
         }

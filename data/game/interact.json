@@ -179,7 +179,7 @@
     "name": "route_guide_7",
     "sentences": [
       {
-        "text": "Cette route relie Ocreville à Floraville. Hoze connaît Raphael ; tous deux ont rencontré Lucie avant sa disparition.",
+        "text": "Cette route relie Ocreville à Floraville. Raphael est maintenant à l’arène d’Ocreville ; Hoze le connaît et pourra te recommander à lui.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -193,7 +193,7 @@
     "name": "route_guide_8",
     "sentences": [
       {
-        "text": "Depuis l’ancienne route 4, ce chemin mène à Ocreville. Hoze y attend les dresseurs envoyés par Mounir.",
+        "text": "Au nord, la Route 4 mène à Valpierre et à l’arène de Hoze. Au sud, Ocreville et Raphael t’attendent. Prépare ton équipe avant de le défier.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -249,7 +249,7 @@
     "name": "city_guide_4",
     "sentences": [
       {
-        "text": "Bienvenue à Floraville. Raphael vous attend dans l’arène Floraison, au toit rouge. Hoze saura vous présenter à lui.",
+        "text": "Bienvenue à Floraville. Raphael a rejoint l’arène d’Ocreville, au-delà de la Route 7. Son ancienne arène est désormais vide.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -263,7 +263,7 @@
     "name": "city_guide_5",
     "sentences": [
       {
-        "text": "Bienvenue à Ocreville. Hoze tient l’arène Dune au nord-est. Si vous cherchez Lucie, c’est ici que commence la piste après Mounir.",
+        "text": "Bienvenue à Ocreville. Raphael t’attend dans l’arène à l’ouest, sous le grand emblème Poké Ball. Le Centre Pokémon est au nord-est et la boutique à l’est.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -404,7 +404,7 @@
         "imageName": "hoze.png"
       },
       {
-        "text": "Hoze : Je suis sûr qu’il pourrait t’aider... si tu parviens à le convaincre. Pour l’instant, repose ton équipe : cette première piste s’arrête ici. La suite de ton aventure viendra plus tard.",
+        "text": "Hoze : Raphael t’attend dans l’arène d’Ocreville. Reviens sur la Route 4, prends la Route 8 vers le sud et continue jusqu’à la ville. Je suis sûr qu’il pourra t’aider... si tu parviens à le convaincre.",
         "imageName": "hoze.png"
       }
     ]
@@ -447,7 +447,7 @@
         "imageName": "raph.png"
       },
       {
-        "text": "Raphael : Trouve-la à Rochebourg, après les routes 6 et 5. Ses Pokémon sont niveaux 48 à 50. Ne confonds jamais une promesse avec une preuve.",
+        "text": "Raphael : Ana, à Rochebourg, aurait peut-être une autre piste. Garde cet indice pour la suite : pour l’instant, repose ton équipe et explore les lieux accessibles.",
         "imageName": "raph.png"
       }
     ]
@@ -456,7 +456,7 @@
     "name": "champion_raphael_locked",
     "sentences": [
       {
-        "text": "La suite de cette piste n’est pas encore disponible. Ton enquête sur Lucie se poursuit pour le moment jusqu’à Hoze, à Valpierre.",
+        "text": "Raphael : Hoze doit d’abord reconnaître ta détermination dans son arène de Valpierre. Reviens à Ocreville quand tu auras gagné son défi.",
         "imageName": "raph.png"
       }
     ]
@@ -1791,6 +1791,34 @@
       {
         "text": "Mounir : Tu recherches Lucie ? Commence par retrouver Aspha, le dresseur à la fin de la Route 2. Gagne son duel, puis reviens me voir.",
         "imageName": "moonpunch.png"
+      }
+    ]
+  },
+  {
+    "name": "ocreville_resident2",
+    "sentences": [
+      {
+        "text": "Raphael écoute les voyageurs envoyés par Hoze. Son arène est à l’ouest de la place, sous le grand emblème Poké Ball.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 26
+        }
+      }
+    ]
+  },
+  {
+    "name": "ocreville_resident3",
+    "sentences": [
+      {
+        "text": "Le Centre Pokémon soigne toute ton équipe. La boutique est juste à l’est ; prépare ton sac avant de reprendre la Route 8.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 27
+        }
       }
     ]
   }

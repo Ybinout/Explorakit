@@ -52,7 +52,8 @@ const report = {
         generatedButInactive: installedMaps.filter((name) => name.startsWith('gen_') && !activeNames.has(name)),
         activeWithoutFile: [...activeNames].filter((name) => !installedNames.has(name)),
         inactiveInstalled: installedMaps.filter((name) => !activeNames.has(name)),
-        unreachableActive: [...activeNames].filter((name) => !reachable.has(name)),
+        legacyOnly: activeMaps.filter(entry=>entry.legacyOnly).map(entry=>entry.mapName),
+        unreachableActive: [...activeNames].filter((name) => !reachable.has(name) && !mapsByName.get(name).legacyOnly),
         unknownDestinations: [...new Set(destinations.filter((name) => !activeNames.has(name)))]
     },
     content: {

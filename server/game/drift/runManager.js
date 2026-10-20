@@ -331,6 +331,8 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         p.socketId=socket.id;p.disconnectedAt=null;
         contracts.migrate(p);require('./fusion').consolidate(p);
         if(p.alive) {
+            // Author map replacements may invalidate an expedition checkpoint's world tile.
+            Object.assign(p,sanitizeSpawnPosition(p.x,p.y,loadCollisionData(p.currentmap),p.currentmap));
             emit(p,'playersList',publicPlayers(p.run,p.currentmap));
             emit(p,'mapWeatherState',getMapWeather(p.currentmap));
             emit(p,'pnjsList',{mapname:p.currentmap,pnjs:p.run.phase==='exploration'?p.run.pnjs.getPnjsForMap(p.currentmap):[]});

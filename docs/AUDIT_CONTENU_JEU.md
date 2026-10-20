@@ -2,7 +2,7 @@
 
 ## Parcours jouable actuel — 20 octobre 2026
 
-**Lucie** est la sœur disparue. **Aspha** est un dresseur distinct, ajouté à la fin de Route 2. Le parcours courant remplace les descriptions historiques plus bas : Timmy (niveau 5, village) → Aspha (13/14, Route 2) → Mounir (17–19, Ville du Lac) → Hoze (37–39, Valpierre après les grottes et Route 4). Chaque victoire révèle le contact suivant. Quatre étapes au carnet ; après Hoze, la piste Raphael est annoncée mais la suite attend les nouvelles cartes du créateur. Les anciens chapitres, équipes et dialogues restent archivés/désactivés, tout comme le gardien facultatif de Valpierre remplacé par Hoze. Aucune source de carte ni transition modifiée. Portrait/sprite Hoze existants confirmés conformes au WebP fourni. Détails, compatibilité et validation dans la section du jour de `AUDIT_PROJET.md`.
+**Lucie** est la sœur disparue ; **Aspha** est le dresseur distinct de Route 2. Parcours actuel : Timmy (5, village) → Aspha (13/14, Route 2) → Mounir (17–19, Ville du Lac) → Hoze (37–39, Valpierre) → Raphael (44–46, nouvelle Ocreville). Les cartes `route8`/`ocreville` fournies dans `pourtoi` remplacent `gen_route8`/`gen_ville5`, avec leurs six fichiers conservés à l’identique. Les raccords suivent Route 4 sud → Route 8 nord/sud → Ocreville nord ; la sortie sud mène à Route 7. Six portes complètes, Centre Pokémon avec retour à la bonne ville, trois maisons, boutique et arène. Raphael quitte Floraville pour `gen_arene5`, conserve son équipe/Badge Floraison/récompense unique ; cinquième étape du carnet après Hoze. Après Raphael, indice Ana conservé et récit en pause ; la suite reste archivée. Les historiques ci-dessous n’annulent pas ce nouvel état.
 
 
 ## Extension Valpierre — 20 octobre 2026

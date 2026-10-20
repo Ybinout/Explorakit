@@ -3,9 +3,9 @@
     {
       "key": "main_sister_search",
       "title": "À la recherche de Lucie — premières pistes",
-      "description": "Retrouver la piste de Lucie, de Timmy jusqu’à Hoze à Valpierre.",
+      "description": "Retrouver la piste de Lucie, de Timmy jusqu’à Raphael à Ocreville.",
       "defaultStatus": "active",
-      "target": 4
+      "target": 5
     },
     {
       "key": "first_challenge",
@@ -143,8 +143,7 @@
           "raphael_defeated": "true"
         }
       },
-      "experienceKind": "arena",
-      "enabled": false
+      "experienceKind": "arena"
     },
     "champion_ana": {
       "battleKey": "story_champion_ana",
@@ -362,9 +361,15 @@
       "objective": "Mounir te conseille Hoze à Valpierre. Traverse la Route 3 et les deux grottes, puis prends la Route 4 vers l’est et défie le champion.",
       "map": "ville_safe1_arene",
       "destination": "Hoze · Arène de Valpierre"
+    },
+    {
+      "flag": "raphael_defeated",
+      "objective": "Hoze t’envoie vers Raphael à Ocreville. Reviens sur la Route 4, prends la Route 8 au sud puis rejoins son arène, à l’ouest de la ville.",
+      "map": "gen_arene5",
+      "destination": "Raphael · Arène d’Ocreville"
     }
   ],
-  "chapterConclusion": "Hoze t’a confié une nouvelle piste : Raphael. La recherche de Lucie continue ; la suite du récit sera disponible plus tard.",
+  "chapterConclusion": "Raphael t’a révélé les doutes de Lucie au sujet de l’Aube Obscure et une nouvelle piste : Ana. La recherche continue ; la suite du récit sera disponible plus tard.",
   "storyEvents": {
     "clara_letter": {
       "requiresFlags": [
@@ -460,12 +465,6 @@
     }
   ],
   "futureStorySteps": [
-    {
-      "flag": "raphael_defeated",
-      "objective": "Hoze t’envoie vers Raphael, dans l’arène Floraison de Floraville, après la route 7.",
-      "map": "gen_arene4",
-      "destination": "Arène Floraison · Floraville"
-    },
     {
       "flag": "ana_defeated",
       "objective": "Retrouve Ana à l’arène Minerai de Rochebourg, au-delà des routes 6 et 5.",

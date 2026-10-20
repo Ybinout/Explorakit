@@ -1,5 +1,13 @@
 # Contexte permanent — Explorakit
 
+## Route 8, nouvelle Ocreville et Raphael — 20 octobre 2026
+
+Les six fichiers auteur de `pourtoi` remplacent à l’identique les sources `gen_route8`/`gen_ville5` (empreintes dans `docs/ocreville-author-assets.json`), TMX miroirs des couches. Identifiants historiques conservés pour les sauvegardes. Route 4 sud ↔ Route 8 nord ; Route 8 sud ↔ Ocreville nord ; Ocreville sud ↔ Route 7 est. Arrivées hors portails : Route 8 (18,1)/(23,18), Ocreville (23,1)/(23,18), Route 4 (18,18), Route 7 (26,10). Ne pas rétablir les anciens raccords est/ouest. Le marqueur sud-ouest (21,19) d’Ocreville reste derrière un obstacle auteur ; les passages voisins sont praticables. Ne pas retoucher les collisions pour l’ouvrir.
+
+Six portes : maisons (4,4), (12,4), (16,17), arène (5,12), boutique (23,13), Centre (17,7). Les deux nouvelles maisons réutilisent `gen_maison2/3` via alias logiques `gen_maison_ville5_2/3` ; sorties propres. Centre commun et provenance/point de soin existants, pas de nouvelle instance. Ancien `gen_shop1` seulement en compatibilité (`legacyOnly`) : sortie sûre conservée vers la boutique actuelle, image encore utilisée par d’autres villes.
+
+Raphael est désormais à `gen_arene5` (13,5), absent de Floraville. Cette livraison autorise le cinquième jalon après Hoze : même équipe 44–46, portrait `raph.png`, Badge Floraison, reçu unique `story_champion_raphael` et prérequis Hoze. Quête et indices s’arrêtent à Raphael/Ana en attente ; ne pas réactiver Ana/Wanda/chapitre II. Lire cette entrée avant les anciennes consignes d’arrêt à Hoze. Les réserves/équipes, reçus et drapeaux existants restent valables. `sanitizeSpawnPosition` évite les portails en secours ; reconnexion d’expédition recale un ancien emplacement devenu bloqué sans réinitialiser la partie. Les cases `change` ne tirent pas de rencontre sauvage Aventure, même si `battle` les recouvre ; le passage a priorité. Recettes : `ocreville.test.js`, Rift runtime, chaîne SQL à cinq duels, trois origines du Centre, `test:ocreville-browser` et `test:story-browser`.
+
 ## Retour aux PNJ compacts — 20 octobre 2026
 
 Le créateur trouve l’agrandissement trop gros et préfère l’ancien rendu : cette consigne remplace la taille ×2 décrite plus bas. Pour l’atlas des habitants uniquement, `drawNpcFrame` revient au repère 48 px, facteur 1,5, décalage +8/+4 et base de pieds y de case ×32 +26. Conserver les 32 rectangles exacts de `npcFrames.js`, les positions arrondies pendant la marche, les portraits HD indépendants et les sprites de combat inchangés. Ne pas rétablir 64 px pour ces PNJ sans nouvelle demande. `validateNpcSprites` vérifie la taille/position précédentes et les découpes/portraits ; aucun changement de carte ni de serveur.

@@ -79,7 +79,7 @@ test('Centre partagé : deux joueurs, reconnexion, redémarrage, nouvelle entré
         return response;
     }
     async function exit(account, expected) {
-        await move(account, 'move_z');
+        if(expected.map!=='gen_ville5')await move(account, 'move_z');
         const result = await move(account, 'move_s', true);
         const player = result.playersList[account.socket.id];
         assert.deepEqual({ map: result.mapname, x: player.x, y: player.y }, expected);
@@ -87,7 +87,7 @@ test('Centre partagé : deux joueurs, reconnexion, redémarrage, nouvelle entré
     }
     try {
         await start();
-        for (const [index, map, x, y] of [[0, 'ville1', 496, 304], [1, 'route4', 720, 144]]) {
+        for (const [index, map, x, y] of [[0, 'ville1', 496, 304], [1, 'route4', 720, 144], [2, 'gen_ville5', 560, 272]]) {
             const response = await fetch(`${url}/api/users`, {
                 method: 'POST', headers: { 'content-type': 'application/json' },
                 body: JSON.stringify({ username: `center_${Date.now()}_${index}`, password: 'center-test-password', starterId: 7 })
@@ -101,7 +101,7 @@ test('Centre partagé : deux joueurs, reconnexion, redémarrage, nouvelle entré
             assert.equal((await move(account, 'move_z', true)).mapname, 'centre');
             await save(account);
         }
-        // Both players share one interior, but their origins must survive a process restart.
+        // Players from all three entrances share one interior, but their origins must survive a process restart.
         accounts.forEach(account => account.socket.disconnect());
         await stop();
         await start();

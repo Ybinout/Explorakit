@@ -351,3 +351,10 @@ test('Soigneur nomade partage le soin effectif par Symbiose avant de libérer le
     assert.deepEqual(p.equipe.pokemons.map(a=>a.currentHp),[62,62]);
     assert.ok(p.equipe.pokemons.every(a=>!effects.states.has(a)));
 });
+
+test('Rift uses the new Ocreville doors, Center provenance and safe restored positions',()=>{
+ const f=fixture(),p=f.run.players.get(1),set=(map,x,y)=>Object.assign(p,{currentmap:map,x:x*32+16,y:y*32+16,lastMove:0});
+ for(const [map,x,y,action,target]of [['route4',18,18,'move_s','gen_route8'],['gen_route8',18,1,'move_z','route4'],['gen_route8',23,18,'move_s','gen_ville5'],['gen_ville5',23,1,'move_z','gen_route8'],['gen_ville5',23,18,'move_s','gen_route7'],['gen_route7',26,10,'move_d','gen_ville5']]){set(map,x,y);f.runtime.move(p,action);assert.equal(p.currentmap,target);}
+ for(const [x,y,target]of [[4,4,'gen_maison_ville5_1'],[12,4,'gen_maison_ville5_2'],[16,17,'gen_maison_ville5_3'],[5,12,'gen_arene5'],[23,13,'gen_shop_ville5_1'],[17,7,'centre']]){set('gen_ville5',x,y+1);f.runtime.move(p,'move_z');assert.equal(p.currentmap,target);p.lastMove=0;f.runtime.move(p,'move_s');assert.equal(p.currentmap,'gen_ville5');assert.deepEqual([p.x,p.y],[x*32+16,(y+1)*32+16]);}
+ for(const map of ['gen_route8','gen_ville5']){set(map,0,0);f.runtime.enter(f.users[0],f.sockets[0]);const repo=require('../server/game/world/mapRepository'),x=Math.floor(p.x/32),y=Math.floor(p.y/32);assert.equal(repo.loadCollisionData(map)[y][x],0);assert.equal(repo.changeMapData(map)[y][x],0);}
+});
