@@ -4,11 +4,13 @@ const maps=require('../server/game/world/mapRepository'),{isPnjBlockingTile}=req
 function reachable(map,start){const coll=maps.loadCollisionData(map),changes=maps.changeMapData(map),seen=new Set(),q=[start];while(q.length){const [x,y]=q.shift(),key=`${x}:${y}`;if(seen.has(key)||coll[y]?.[x]!==0||isPnjBlockingTile(map,x,y))continue;seen.add(key);if(changes[y]?.[x])continue;for(const [dx,dy]of [[1,0],[-1,0],[0,1],[0,-1]])q.push([x+dx,y+dy]);}return seen;}
 test('Valpierre uses the exact author export and mirrors every layer in TMX',()=>{
  const path=require('node:path'),crypto=require('node:crypto'),bytes=fs.readFileSync(path.join(__dirname,'../data/maps/ville_safe1.json'));
- assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),'da1241c5bcef04418d7ebac4eb38c542bd859e7ac816ca39da86ac49b1546e56');
+ assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),'7e578dcec2b46512c5bdf90ca0744b4d8043b4f13c66b39ce34c6898a31b6b1b');
  const map=JSON.parse(bytes),tmx=fs.readFileSync(path.join(__dirname,'../data/maps/ville_safe1.tmx'),'utf8');
  for(const layer of map.layers){const csv=tmx.match(new RegExp('<layer[^>]*name="'+layer.name+'"[^>]*>[\\s\\S]*?<data[^>]*>([\\s\\S]*?)</data>'));assert(csv,layer.name);assert.deepEqual(csv[1].trim().split(/[,\s]+/).map(Number),layer.data,layer.name);}
- assert.equal(map.layers.find(l=>l.name==='coll').data.filter(Boolean).length,147);
+ assert.equal(map.layers.find(l=>l.name==='coll').data.filter(Boolean).length,148);
  assert(maps.changeMapData('ville_safe1')[6][0]);assert.notEqual(maps.loadCollisionData('ville_safe1')[6][0],0); // The author cliff remains solid despite its change marker.
+ assert.notEqual(maps.loadCollisionData('ville_safe1')[7][6],0); // Author update: roof-side block.
+ assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(__dirname,'../vue-explorakit/src/assets/ville_safe1_f.png'))).digest('hex'),'f7ef6612c853bbc6df8c7801fc18c4f5996f833e8b4959ee95aad384b0e7a263');
  assert.equal(maps.loadCollisionData('ville_safe1')[7][5],0);assert.notEqual(maps.loadCollisionData('ville_safe1')[8][5],0);
 });
 test('east route 4 and Valpierre west connect both ways, with safe non-transition arrivals',()=>{

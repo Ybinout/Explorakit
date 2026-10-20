@@ -1,5 +1,17 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Mise à jour du JSON et du premier plan de Valpierre — 20 octobre 2026
+
+Reprise exacte des fichiers de `/home/ubuntu/dev/pourtoi` : `ville_safe1.json` (SHA-256 `7e578dcec2b46512c5bdf90ca0744b4d8043b4f13c66b39ce34c6898a31b6b1b`) et `ville_safe1_f.png` (`f7ef6612c853bbc6df8c7801fc18c4f5996f833e8b4959ee95aad384b0e7a263`). Le fond PNG est inchangé. L’auteur a ajouté une collision en (6,7) et modifié six cases de la couche `foreground` ; le total de collisions passe à 148. Les dix couches du TMX sont synchronisées sans autre modification de métadonnées ou de dessin.
+
+Les portes, transitions, habitants, Hoze et le récit de Lucie restent identiques. Vérifications de l’export, de l’accès aux six portes et aux habitants, des arrivées/retours et de l’ancienne falaise (0,6). La recette navigateur ajoute une vraie tentative vers la nouvelle case bloquée (6,7), conserve le contrôle du passage libre voisin et du mur de façade, les six allers/retours et les captures aux quatre tailles. Aucun changement de règle de combat, de climat, de schéma SQL ou de partie sauvegardée.
+
+Validation : `verify:release -- --mysql` termine à 0 avec **495 tests applicatifs et 44 SQL**, audits, HTTP/reprise, lint et build. Les recettes Valpierre et publication générale passent à 0 et sans erreur : nouvelle collision réelle, voisin libre, six portes aller/retour, boutique, grottes, priorité Colosseum et quatre tailles. Captures mobile et bureau inspectées.
+
+Build `/tmp/explorakit-valpierre-update-dist`, hash `68bb15ab4bdabd4b` ; client `cf09afc679dbefce6dfedee5920365fe68468052`. Publication le **20/10/2026 à 17 h 50 (Paris)** avec redémarrage du seul service Explorakit pour renouveler le cache des cartes. Checkpoint sauvegardé juste avant ; zéro expédition active. Sauvegarde sources/dist/SQL/checkpoint : `/home/ubuntu/dev/backups/explorakit-valpierre-update-2026-10-20T15-44-27-441Z`.
+
+Contrôle HTTPS terminé à 0 sur un compte temporaire : premier plan téléchargé identique à l’original fourni, fond conservé, nouvelle collision effective et voisin praticable, quatre tailles sans débordement, index conforme et aucune erreur. Compte temporaire supprimé ; Know et api-test inchangés. Service actif, zéro redémarrage automatique. Logs/captures `/tmp/explorakit-valpierre-update-*`. Aucune CI distante ni validation sur téléphone physique revendiquée.
+
 ## Début du récit de Lucie — 20 octobre 2026
 
 Le créateur fixe le début jouable : on recherche sa sœur **Lucie**, on doit battre Timmy pour obtenir le nom d’**Aspha**, dresseur distinct à la fin de la Route 2. Aspha exige un duel puis dirige vers Mounir. Vaincu, Mounir explique qu’il ne sait rien et recommande Hoze, qui a des contacts à Valpierre, après la Route 3 et les deux grottes puis la Route 4 vers l’est. Hoze devient le champion de cette ville. Son dialogue de victoire reprend la piste originale vers Raphael, puis annonce la pause de cette version ; aucune quête n’envoie dans les cartes inachevées.
@@ -1504,6 +1516,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **20 octobre 2026 — Nouvel export de Valpierre :** JSON et foreground copiés à l’identique, miroir TMX, collision (6,7) et six cases de premier plan ; contrôles de mouvement, portes et rendu adaptés.
 
 - **20 octobre 2026 — Récit de Lucie :** Timmy → Aspha Route 2 → Mounir → Hoze à Valpierre ; parcours borné à quatre victoires, suite conservée en archives, protections de progression/récompenses et anciennes sauvegardes, recettes SQL/Socket et navigateur dédiées.
 

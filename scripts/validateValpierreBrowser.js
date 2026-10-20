@@ -39,7 +39,10 @@ async function scenery(label){
  for(const [width,height]of [[320,480],[393,852],[844,390],[1365,900]]){await page.setViewportSize({width,height});assert(await page.evaluate(()=>window.cityVm.mapImage.naturalWidth===448&&window.cityVm.foregroundImage.naturalWidth===448&&document.documentElement.scrollWidth<=innerWidth+1));await page.screenshot({path:path.join(output,`city-${width}.png`)});}
  await step('move_q','route4');
  for(const [x,y,map]of [[8,12,'ville_safe1_arene'],[24,10,'ville_safe1_shop'],...[3,9,15,21].map((x,i)=>[x,2,'ville_safe1_maison'+(i+1)])]){await locate('ville_safe1',x,y+1);await step('move_z',map);if(map.endsWith('_shop')){await page.locator('.location-shop-btn').click();await page.locator('.shop-item').first().waitFor();await page.locator('.shop-close').click();}await page.waitForTimeout(150);await step('move_s','ville_safe1');const tile=await page.evaluate(()=>{const v=window.cityVm,p=v.players[v.socket.id];return [Math.floor(p.x/32),Math.floor(p.y/32)];});assert.deepEqual(tile,[x,y+1]);}
- // Author collision regression: blocked facade and newly passable roof-side tile.
+ // Updated author collision: stepping east from (5,7) must stop before (6,7).
+ await locate('ville_safe1',5,7);await page.evaluate(()=>window.cityVm.socket.emit('playerAction','move_d'));await page.waitForTimeout(180);
+ assert.deepEqual(await page.evaluate(()=>{const v=window.cityVm,p=v.players[v.socket.id];return [Math.floor(p.x/32),Math.floor(p.y/32)];}),[5,7]);
+ // Author collision regression: blocked facade and passable neighbouring roof-side tile.
  await locate('ville_safe1',4,8);await page.evaluate(()=>window.cityVm.socket.emit('playerAction','move_d'));await page.waitForTimeout(180);
  assert.deepEqual(await page.evaluate(()=>{const v=window.cityVm,p=v.players[v.socket.id];return [Math.floor(p.x/32),Math.floor(p.y/32)];}),[4,8]);
  await locate('ville_safe1',5,6);await page.evaluate(()=>window.cityVm.socket.emit('playerAction','move_s'));await page.waitForFunction(()=>{const v=window.cityVm,p=v.players[v.socket.id];return p.x===176&&p.y===240;});

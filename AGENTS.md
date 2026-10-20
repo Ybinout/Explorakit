@@ -1,5 +1,9 @@
 # Contexte permanent — Explorakit
 
+## Nouvel export de Valpierre — 20 octobre 2026
+
+Le JSON et le foreground de `pourtoi` déposés à 17 h 20–21 (Paris) sont repris à l’identique. JSON SHA-256 `7e578dcec2b46512c5bdf90ca0744b4d8043b4f13c66b39ce34c6898a31b6b1b`, PNG `_f` SHA-256 `f7ef6612c853bbc6df8c7801fc18c4f5996f833e8b4959ee95aad384b0e7a263`. Collision ajoutée en (6,7), six changements dans `foreground`, total 148 cases bloquées. TMX synchronisé aux dix couches, fond PNG inchangé. Ne pas rouvrir (6,7), ni changer les portes, PNJ ou passages pour contourner l’export. Les cases (5,7) et le parvis restent praticables ; l’ancien marqueur ouest (0,6) reste bloqué par la falaise. Recettes : fingerprint JSON/PNG et miroir TMX dans Valpierre, vraie tentative de mouvement vers (6,7), six portes aller/retour et rendu aux quatre tailles dans `test:valpierre-browser`.
+
 ## Début du récit — Lucie et Valpierre — 20 octobre 2026
 
 La sœur disparue est **Lucie** ; **Aspha** est le dresseur masculin de fin de Route 2, distinct. Parcours actif Aventure : Timmy (`dia1`) → Aspha (`aspha_route2`, 25,5, immobile, niveaux 13/14) → Mounir (`moon`, niveaux 17–19) → Hoze (`champion_hoze`, arène `ville_safe1_arene`, niveaux 37–39). Indices seulement après victoire, verrouillage au dialogue, au lancement et dans la transaction de récompense. Le carnet a quatre étapes et s’arrête après Hoze ; l’indice Raphael est conservé, sans nouvelle destination active vers les cartes inachevées.
@@ -70,7 +74,7 @@ Les variantes `grass-rain-*-v1.webp` et `colosseum-rain-*-v1.webp` remplacent le
 
 ## JSON officiel de Valpierre — 20 octobre 2026
 
-Le JSON déposé ensuite par le créateur dans `/home/ubuntu/dev/pourtoi/ville_safe1.json` remplace intégralement la carte déduite du dessin. Copie exacte (SHA-256 `da1241c5bcef04418d7ebac4eb38c542bd859e7ac816ca39da86ac49b1546e56`), dix couches conservées ; TMX miroir des mêmes données. Ne pas reconstruire les collisions ni effacer sa case `battle`. Les six portes et le raccord ouest existants conviennent. La case (0,6) porte aussi un marqueur change mais reste bloquée par la collision de la falaise ; conserver cette priorité, les passages utiles sont (0,3–5). Une zone sans pool sauvage ne doit pas ouvrir de combat vide : le serveur émet `battletrigger` seulement après création effective du sauvage. Recettes : `valpierre.test.js`, `test:valpierre-browser` (mur, passage libre, tirage sauvage forcé sur base isolée).
+Le JSON déposé ensuite par le créateur dans `/home/ubuntu/dev/pourtoi/ville_safe1.json` remplace intégralement la carte déduite du dessin. Premier export historique (SHA-256 `da1241c5bcef04418d7ebac4eb38c542bd859e7ac816ca39da86ac49b1546e56`), remplacé ensuite par le nouvel export décrit en tête, dix couches conservées ; TMX miroir des mêmes données. Ne pas reconstruire les collisions ni effacer sa case `battle`. Les six portes et le raccord ouest existants conviennent. La case (0,6) porte aussi un marqueur change mais reste bloquée par la collision de la falaise ; conserver cette priorité, les passages utiles sont (0,3–5). Une zone sans pool sauvage ne doit pas ouvrir de combat vide : le serveur émet `battletrigger` seulement après création effective du sauvage. Recettes : `valpierre.test.js`, `test:valpierre-browser` (mur, passage libre, tirage sauvage forcé sur base isolée).
 
 ## Valpierre et combats en grotte — 20 octobre 2026
 
