@@ -1,5 +1,17 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Léger mouvement du lac de départ — 20 octobre 2026
+
+Le lac en bas de `start` reçoit un courant doux d’un pixel source et de faibles reflets qui se déplacent lentement. Un masque de palette d’eau, limité au lac puis réduit d’un pixel autour de chaque détail fixe, protège les berges, rochers, plantes, contours et reflets clairs. Les autres pixels et toute transparence restent exactement identiques. L’image de carte originale n’est ni retouchée ni déplacée.
+
+`VillageWaterRenderer` compose le fond avant les personnages et le premier plan, en suivant la caméra existante. Une seule surface native 448×320, réutilisée à 15 Hz dans la boucle du monde ; aucune boucle supplémentaire ni requête réseau. L’effet fonctionne par temps sec ou pluvieux, dans l’Aventure et l’exploration Rift/Colosseum. Mouvement réduit système ou animations désactivées : retour au fond original et libération des buffers. Suspension/libération pendant chargement, combat/résultat, sortie de carte, onglet masqué et destruction ; reprise normale au retour.
+
+Vérifications reproductibles : `village-water.test.js` contrôle les pixels hors lac, marge fixe autour des rochers/transparences, cadence/cache, libération et repli sans lecture canvas. `test:weather-browser` compare les deux états sur la véritable image et vérifie les pixels extérieurs/alpha exacts, l’indépendance aux réglages de pluie/vent et les gardes de cycle de vie.
+
+Validation : **480 tests applicatifs actifs et 43 tests SQL**, audits, HTTP/reprise, lint/build réussis (`verify:release -- --mysql`). La recette météo confirme 3 649 pixels intérieurs d’eau, dont 1 607 changent entre deux instants ; zéro pixel hors masque modifié et alpha identique partout. Elle passe également les seize combinaisons pluie/vent, mouvement réduit, masquage, voyages/intérieurs, combat et les trois modes. Captures mobiles du lac par temps calme inspectées. Build `/tmp/explorakit-lake-dist`, hash `5d4bb5663f90dcfa`. `test:release-browser` passe aussi sans erreur : menus/carnet, gestes carte/dock, voyages/dialogues, sprites, combats/XP/audio et apprentissage. Client `756704f68d536bbb435672d2115fab007a828039`. Logs/captures `/tmp/explorakit-lake-*`.
+
+Publication statique le **20/10/2026 à 12 h 11 (Paris)**, sans redémarrage ni changement du PID 857294 ; service actif, zéro redémarrage automatique. Sauvegarde sources/dist/SQL/checkpoint : `/home/ubuntu/dev/backups/explorakit-lake-2026-10-20T10-07-12-554Z`. Le contrôle HTTPS utilise un seul compte temporaire placé près du lac : 1 314 pixels d’eau changent sur 1,1 seconde, 14 images calculées, aucun pixel extérieur ni alpha altéré ; effet actif à vent/pluie zéro et correctement libéré en mouvement réduit. Captures aux quatre tailles, index identique au build et voisins Know/api-test inchangés, aucune erreur et compte supprimé. Aucune CI distante revendiquée ; la fluidité sur téléphone physique reste à apprécier humainement.
+
 ## Pluie plus visible et décors couverts — 20 octobre 2026
 
 Les gouttes de combat passent de 4–9 à 6–11 px, avec un contraste et une épaisseur renforcés ; les micro-impacts sont également plus lisibles. La densité augmente modérément sur les petites scènes, sans dépasser 128 éléments, 30 Hz ni DPR 1,5. La vitesse de chute et toutes les règles météo serveur restent identiques.
@@ -1336,6 +1348,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **20/10/2026 — Eau du village** : courant discret et reflets animés à l’intérieur du lac, berges et autres détails fixes, rendu commun aux trois modes et mouvement réduit respecté. Voir la section du jour.
 
 - **20/10/2026 — Décors pluvieux** : pluie et micro-impacts renforcés, quatre variantes nuageuses prairie/arène responsive, sélection selon la météo réelle et conservation du décor de grotte. Voir la section du jour.
 

@@ -1,5 +1,9 @@
 # Contexte permanent — Explorakit
 
+## Eau du lac de départ — 20 octobre 2026
+
+`villageWater.js` anime uniquement les pixels intérieurs de la palette d’eau du lac de `start`, avec marge fixe autour des berges/rochers/reflets/plantes. Courant d’un pixel source et reflets très doux, source PNG inchangée. Composition du fond avant personnages/premier plan/météo, mêmes coordonnées caméra. Une surface 448×320 réutilisée à 15 Hz dans la boucle du monde ; indépendante de la météo, commune aux trois modes. Mouvement réduit système/jeu : image originale et buffers libérés. Hors carte, combat/résultat, chargement, masquage et destruction : suspension/libération. Recettes : `village-water.test.js` et `test:weather-browser` (pixels hors masque et alpha exacts, lac actif même à vent/pluie zéro, suspension/reprise).
+
 ## Décors pluvieux et lisibilité — 20 octobre 2026
 
 Les variantes `grass-rain-*-v1.webp` et `colosseum-rain-*-v1.webp` remplacent les décors extérieurs uniquement quand le champ réel vaut `rain`, dans le composant commun aux trois modes. Conserver les variantes sèches originales, le cadrage et les ancres des socles ; les grottes gardent leur propre décor. Deux variantes adaptées au format sont préchargées à la création du composant. Prompts et provenance imagegen : `docs/battle-rain-assets.json`. Gouttes plus contrastées (6–11 px) et impacts visibles, sans accélération de chute ni dépassement des budgets. La recette météo couvre ciel pluie/sec, prairie/arène portrait/paysage et grotte conservée.
