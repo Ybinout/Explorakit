@@ -1,0 +1,37 @@
+{
+  "retrieved": "2026-10-20",
+  "source": "PokeAPI/sprites",
+  "unchangedDownloads": true,
+  "assets": [
+    {
+      "file": "vue-explorakit/src/assets/dp2/10013.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10013.png",
+      "sha256": "8e03470ab427c5c05055bac3c89abc8198e3e67143b83ab726c79b081212a2e5"
+    },
+    {
+      "file": "vue-explorakit/src/assets/back/10013.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/10013.png",
+      "sha256": "13a8941c25d492ebc350bb2ceb9125035bb013a28a181614c47e313bdcd2594c"
+    },
+    {
+      "file": "vue-explorakit/src/assets/dp2/10014.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10014.png",
+      "sha256": "b8864dc46b6be9997884f6e1cffd415fc444dce4ea3cfa892dc2d33afe3649a7"
+    },
+    {
+      "file": "vue-explorakit/src/assets/back/10014.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/10014.png",
+      "sha256": "b5f0624d8b86457d4b717a5bff39180c6dfa738cea6e3e511a161ca7af756f1e"
+    },
+    {
+      "file": "vue-explorakit/src/assets/dp2/10015.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10015.png",
+      "sha256": "5d4312e39535067e04c3fc8f438833b45278d1ba44c24a87b9a99ff76019ce7d"
+    },
+    {
+      "file": "vue-explorakit/src/assets/back/10015.png",
+      "source": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/10015.png",
+      "sha256": "8ed4c7bed8cab9a5b86f3294adcc8102a36f8226d7073572c2ded328eb70b0aa"
+    }
+  ]
+}

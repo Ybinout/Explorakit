@@ -672,7 +672,22 @@ function resolveRedirectedTarget(originalTarget, targetSide, activeTargets = [],
         || originalTarget;
 }
 
+function resolveWeatherMove(move, attacker, defender, battleState) {
+    if (move?.ename !== 'Weather Ball' || move.__weatherResolved) return move;
+    const weather=isWeatherSuppressed(attacker,defender)?null:battleState?.weather?.kind;
+    const type=({sun:'Fire',rain:'Water',hail:'Ice',sandstorm:'Rock'})[weather];
+    return {...move,type:type||'Normal',power:type?100:50,__weatherResolved:true};
+}
+
+function battleMoveTypes(pokemon, opponent, battleState) {
+    return (pokemon?.abilities||[]).map(name=> {
+        const move=resolveWeatherMove(getMoveByName(name),pokemon,opponent,battleState);
+        return move?.ename==='Weather Ball'?transformMoveForAbility(pokemon,move).move.type:null;
+    });
+}
+
 function calculateDamageDetailed(attacker, defender, move, context = {}) {
+    move=resolveWeatherMove(move,attacker,defender,context.battleState);
     const damageClass = move?.combat?.damage_class || (move?.category === 'phy' ? 'physical' : move?.category === 'spe' ? 'special' : 'status');
     if (damageClass === 'status') {
         return {
@@ -1366,8 +1381,8 @@ function applyEffect(effect, context, moveResult) {
         case 'set_type': {
             const typeName = effect.type;
             if (typeName) {
-                attackerData.tempTypes = [typeName];
-                messages.push(`${getPokemonDisplayName(context.attacker)} devient de type ${typeName}.`);
+                targetData.tempTypes = [typeName];
+                messages.push(`${getPokemonDisplayName(effectTargetPokemon)} devient de type ${typeName}.`);
             }
             return;
         }
@@ -2164,7 +2179,7 @@ function processPokemonEndTurn(pokemon, enemyPokemon, ownSide, battleState) {
             : applyDamage(target, amount, { allowEndure: false })
     }));
     reactions.endTurn(pokemon,enemyPokemon,battleState,reactionHelpers(),messages);
-    abilityForms.sync(pokemon,'end',messages);
+    abilityForms.sync(pokemon,'end',messages,null,battleState,enemyPokemon);
     activateHeldItem(pokemon,battleState,messages,'immediate',enemyPokemon);
 
     if (pokemonData.perishSongTurns > 0 && safeNumber(pokemon.currentHp, 0) > 0) {
@@ -2295,6 +2310,7 @@ function advanceBattleState(battleState) {
 
 function processEndOfRound(playerPokemon, enemyPokemon, playerSide, enemySide, battleState) {
     const messages = [];
+    abilityForms.syncWeatherForms(playerPokemon,enemyPokemon,battleState,messages);
     const before=[playerPokemon?.currentHp,enemyPokemon?.currentHp];
     messages.push(...processPokemonEndTurn(playerPokemon, enemyPokemon, playerSide, battleState));
     messages.push(...processPokemonEndTurn(enemyPokemon, playerPokemon, enemySide, battleState));
@@ -2302,6 +2318,7 @@ function processEndOfRound(playerPokemon, enemyPokemon, playerSide, enemySide, b
         if(p?.currentHp>0 && hp>0 && other?.currentHp<=0 && hasPassiveAbility(p,'Soul-Heart'))applyStageChange(p,'specialAttack',1,messages,p);
     }
     messages.push(...advanceBattleState(battleState));
+    abilityForms.syncWeatherForms(playerPokemon,enemyPokemon,battleState,messages);
     return messages;
 }
 
@@ -2365,7 +2382,7 @@ function applySwitchInEffects(pokemon, ownSide, enemySide, battleState, enemyPok
     battleData.switchedInTurn=ownSide.abilityEntries>0?battleState?.turn:0;
     ownSide.abilityEntries=(ownSide.abilityEntries||0)+1;
     battleData.activeTurns=0;
-    abilityForms.sync(pokemon,'entry',messages);
+    abilityForms.sync(pokemon,'entry',messages,null,battleState,enemyPokemon);
     battleData.protect = false;
     battleData.endure = false;
 
@@ -2383,6 +2400,7 @@ function applySwitchInEffects(pokemon, ownSide, enemySide, battleState, enemyPok
             return safeNumber(move.power, 0) > 0 && effectiveness > 1;
         }
     }));
+    abilityForms.syncWeatherForms(pokemon,enemyPokemon,battleState,messages);
     return messages;
 }
 
@@ -2549,6 +2567,16 @@ function reactionHelpers() {
 }
 
 function useattack(attackName, attacker, defender, options = {}) {
+    options={...options,battleState:options.battleState||createBattleState()};
+    const before=[];
+    abilityForms.syncWeatherForms(attacker,defender,options.battleState,before);
+    const result=executeAttack(attackName,attacker,defender,options);
+    result.messages.unshift(...before);
+    abilityForms.syncWeatherForms(attacker,defender,options.battleState,result.messages);
+    return result;
+}
+
+function executeAttack(attackName, attacker, defender, options = {}) {
     const battleState = options.battleState || createBattleState();
     const attackerSide = options.attackerSide || createSideState('attacker');
     const defenderSide = options.defenderSide || createSideState('defender');
@@ -2583,7 +2611,7 @@ function useattack(attackName, attacker, defender, options = {}) {
         return moveResult;
     }
 
-    let move = getMoveByName(attackName);
+    let move = resolveWeatherMove(getMoveByName(attackName),attacker,defender,battleState);
     if (!move) {
         moveResult.messages.push(`Attaque inconnue: ${attackName}.`);
         return moveResult;
@@ -2669,7 +2697,7 @@ function useattack(attackName, attacker, defender, options = {}) {
             if(hasPassiveAbility(defender,'Pressure') && !['self','self_side','field','ally','self_or_ally'].includes(move.combat?.target))reduceMovePp(attacker,move.ename,1);
         }
     }
-    abilityForms.sync(attacker,'move',moveResult.messages,move);
+    abilityForms.sync(attacker,'move',moveResult.messages,move,battleState,defender);
     if (!calledDepth) heldItems.lockMove(attacker, move.ename, battleState);
 
     if (move.combat?.power_type === 'charge') {
@@ -2978,7 +3006,7 @@ function useattack(attackName, attacker, defender, options = {}) {
     const reactionContext={...effectContext,result:moveResult,hpBefore:hpBeforeMove};
     if(!perHitSecondaries && !effects.some(e=>['status_chance','flinch'].includes(e.kind)))reactions.secondaryEffects(reactionContext,helper,moveResult.messages);
     reactions.afterMove(reactionContext,helper,moveResult.messages);
-    if(defender.currentHp<=0 && hpBeforeMove>0)abilityForms.sync(attacker,'ko',moveResult.messages);
+    if(defender.currentHp<=0 && hpBeforeMove>0)abilityForms.sync(attacker,'ko',moveResult.messages,null,battleState,defender);
     if(defender.currentHp<=0 && attacker.currentHp>0 && hpBeforeMove>0 && hasPassiveAbility(attacker,'Soul-Heart'))applyStageChange(attacker,'specialAttack',1,moveResult.messages,attacker);
 
     const moveRecoil = getMoveFlags(move).recoil;
@@ -3030,6 +3058,8 @@ module.exports = {
     getEffectiveness,
     getBattleSpeed,
     getMoveByName,
+    resolveWeatherMove,
+    battleMoveTypes,
     getMovePriority,
     orderBattleActions,
     resolveRedirectedTarget,

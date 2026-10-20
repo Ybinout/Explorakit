@@ -353,7 +353,7 @@ function applySwitchInAbility(pokemon, opponent, ownSide, enemySide, battleState
         const specialDefense = safeNumber(opponent.currentSpecialDefense, opponent.specialDefense);
         changeStage(pokemon, defense < specialDefense ? 'attack' : 'specialAttack', 1, messages, pokemon);
     }
-    const uncopyable = new Set(['Trace','Imposter','Illusion','Multitype','RKS System','Schooling','Shields Down','Stance Change','Disguise','Comatose','Power Construct','Battle Bond']);
+    const uncopyable = new Set(['Forecast','Trace','Imposter','Illusion','Multitype','RKS System','Schooling','Shields Down','Stance Change','Disguise','Comatose','Power Construct','Battle Bond']);
     if (ability === 'Trace' && opponent && getAbilityName(opponent) && !uncopyable.has(getAbilityName(opponent)) && typeof helpers.snapshotAbility === 'function') {
         helpers.snapshotAbility(pokemon);
         pokemon.passiveAbility = getAbilityName(opponent);
@@ -383,13 +383,6 @@ function applySwitchInAbility(pokemon, opponent, ownSide, enemySide, battleState
         pokemon.__battle.tempTypes = [opponent.type1, opponent.type2].filter(Boolean);
         if(typeof helpers.snapshotAbility==='function') {helpers.snapshotAbility(pokemon);pokemon.passiveAbility=getAbilityName(opponent);}
         messages.push(`${name} prend l'apparence et les aptitudes de ${enemyName} avec Imposter.`);
-    }
-    if (ability === 'Forecast') {
-        if (!pokemon.__battle) pokemon.__battle = {};
-        const weather = isWeatherSuppressed(pokemon,opponent)?null:battleState?.weather?.kind;
-        pokemon.__battle.tempTypes = weather === 'sun' ? ['Fire']
-            : weather === 'rain' ? ['Water']
-                : weather === 'hail' ? ['Ice'] : [];
     }
     return messages;
 }
@@ -440,12 +433,6 @@ function applyWeatherAbilityEndTurn(pokemon, opponent, battleState, helpers = {}
     if (ability === 'Hydration' && weather === 'rain' && pokemon.status !== 'normal') {
         pokemon.status = 'normal';
         messages.push(`${name} est soigne par Hydration.`);
-    }
-    if (ability === 'Forecast') {
-        if (!pokemon.__battle) pokemon.__battle = {};
-        pokemon.__battle.tempTypes = weather === 'sun' ? ['Fire']
-            : weather === 'rain' ? ['Water']
-                : weather === 'hail' ? ['Ice'] : [];
     }
     return messages;
 }

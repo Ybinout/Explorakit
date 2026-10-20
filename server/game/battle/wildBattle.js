@@ -4,6 +4,8 @@ const { rewardTraining, effortYield, grantEffort } = require('../models/training
 const {
     useattack,
     getMoveByName,
+    resolveWeatherMove,
+    battleMoveTypes,
     createBattleState,
     orderBattleActions,
     processEndOfRound,
@@ -75,12 +77,12 @@ async function narrate(player, io, message, delayMs = TEXT_DELAY_MS) {
     }
 }
 
-function displayIntroAnimation(player, wildPokemon, io) {
-    io.to(player.id).emit('introAnimation', { player, wildPokemon, effortYield:effortYield(wildPokemon), transitions:presentation.transitions(player,player.equipe.pokemons[0],wildPokemon) });
+function displayIntroAnimation(player, wildPokemon, io, battleState) {
+    io.to(player.id).emit('introAnimation', { player, wildPokemon, moveTypes:battleMoveTypes(player.equipe.pokemons[0],wildPokemon,battleState), effortYield:effortYield(wildPokemon), transitions:presentation.transitions(player,player.equipe.pokemons[0],wildPokemon) });
 }
 
-function displayMoveAnimation(player, attacker, moveName, io) {
-    const move = getMoveByName(moveName);
+function displayMoveAnimation(player, attacker, defender, moveName, io, battleState) {
+    const move = resolveWeatherMove(getMoveByName(moveName),attacker,defender,battleState);
     io.to(player.id).emit('battleMoveAnimation', {
         actor: attacker === player?.equipe?.pokemons?.[0] ? 'player' : 'opponent',
         moveName,
@@ -114,11 +116,11 @@ async function performAttackWithNarration(attacker, defender, moveIndex, player,
     const defenderName = getPokemonDisplayName(defender);
     const moveName = getMoveName(attacker, moveIndex);
 
-    displayMoveAnimation(player, attacker, moveName, io);
+    displayMoveAnimation(player, attacker, defender, moveName, io, battleContext.battleState);
     await narrate(player, io, `${attackerName} utilise ${moveName} !`);
     const attackResult = performAttack(attacker, defender, moveIndex, battleContext);
     emitSoloMoveResult(io, player, attacker, attackResult, battleContext?.battleState);
-    displayIntroAnimation(player, wildPokemon, io);
+    displayIntroAnimation(player, wildPokemon, io, battleContext.battleState);
     await sleep(SHORT_DELAY_MS);
     await narrateMessages(player, io, attackResult.messages, 950);
 
@@ -160,12 +162,12 @@ async function applySwitchInNarration(player, wildPokemon, io, switchedPokemon, 
     const enemyPokemon = switchedPokemon === wildPokemon
         ? player?.equipe?.pokemons?.[0]
         : wildPokemon;
-    displayIntroAnimation(player, wildPokemon, io);
+    displayIntroAnimation(player, wildPokemon, io, battleState);
     const switchMessages = applySwitchInEffects(switchedPokemon, ownSide, enemySide, battleState, enemyPokemon);
     emitFieldState(io, player?.id, battleState);
     if (switchMessages.length === 0) return;
 
-    displayIntroAnimation(player, wildPokemon, io);
+    displayIntroAnimation(player, wildPokemon, io, battleState);
     await sleep(SHORT_DELAY_MS);
     await narrateMessages(player, io, switchMessages, 950);
 }
@@ -176,7 +178,7 @@ async function resolveRoundEnd(player, wildPokemon, io, battleState, playerSide,
     emitFieldState(io, player?.id, battleState);
 
     if (endTurnMessages.length > 0) {
-        displayIntroAnimation(player, wildPokemon, io);
+        displayIntroAnimation(player, wildPokemon, io, battleState);
         await sleep(SHORT_DELAY_MS);
         await narrateMessages(player, io, endTurnMessages, 950);
     }
@@ -489,7 +491,7 @@ async function startBattle(player, wildPokemon, io, userId) {
             return false;
         }
 
-        displayIntroAnimation(player, wildPokemon, io);
+        displayIntroAnimation(player, wildPokemon, io, battleState);
         await narrate(player, io, `${getPokemonDisplayName(player.equipe.pokemons[0])} entre en combat !`, 900);
         await applySwitchInNarration(
             player,
@@ -511,7 +513,7 @@ async function startBattle(player, wildPokemon, io, userId) {
         return true;
     };
 
-    displayIntroAnimation(player, wildPokemon, io);
+    displayIntroAnimation(player, wildPokemon, io, battleState);
     emitFieldState(io, player.id, battleState);
     await emitBagUpdate(player, io, userId);
     await narrate(player, io, `Un ${getPokemonDisplayName(wildPokemon)} sauvage apparait !`);
@@ -642,7 +644,7 @@ async function startBattle(player, wildPokemon, io, userId) {
                 }
 
                 await narrate(player, io, `${getPokemonDisplayName(player.equipe.pokemons[0])} est maintenant en combat !`, 900);
-                displayIntroAnimation(player, wildPokemon, io);
+                displayIntroAnimation(player, wildPokemon, io, battleState);
                 await applySwitchInNarration(
                     player,
                     wildPokemon,

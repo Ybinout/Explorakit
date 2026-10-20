@@ -39,7 +39,8 @@
     "test:combat-browser": "node --env-file-if-exists=.env scripts/validateCombatFeedbackBrowser.js",
     "test:weather-browser": "node --env-file-if-exists=.env scripts/validateWeatherBrowser.js",
     "test:valpierre-browser": "node --env-file-if-exists=.env scripts/validateValpierreBrowser.js",
-    "test:story-browser": "node --env-file-if-exists=.env scripts/validateOpeningStoryBrowser.js"
+    "test:story-browser": "node --env-file-if-exists=.env scripts/validateOpeningStoryBrowser.js",
+    "test:castform-browser": "node --env-file-if-exists=.env scripts/validateCastformBrowser.js"
   },
   "keywords": [],
   "author": "",

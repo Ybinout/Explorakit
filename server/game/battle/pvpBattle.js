@@ -3,6 +3,8 @@ const presentation = require('./presentationState');
 const {
     useattack,
     getMoveByName,
+    resolveWeatherMove,
+    battleMoveTypes,
     createBattleState,
     orderBattleActions,
     processEndOfRound,
@@ -81,10 +83,11 @@ async function narrateToBoth(io, playerA, playerB, message, delayMs = TEXT_DELAY
     }
 }
 
-function emitBattleStateForBoth(io, playerA, playerB) {
+function emitBattleStateForBoth(io, playerA, playerB, battleState) {
     if (!playerA || !playerB) return;
 
     io.to(playerA.id).emit('introAnimation', {
+        moveTypes:battleMoveTypes(playerA.equipe.pokemons[0],playerB.equipe.pokemons[0],battleState),
         player: playerA,
         transitions:presentation.transitions(playerA,playerA.equipe.pokemons[0],playerB.equipe.pokemons[0]),
         wildPokemon: playerB?.equipe?.pokemons?.[0] || null,
@@ -96,6 +99,7 @@ function emitBattleStateForBoth(io, playerA, playerB) {
     });
 
     io.to(playerB.id).emit('introAnimation', {
+        moveTypes:battleMoveTypes(playerB.equipe.pokemons[0],playerA.equipe.pokemons[0],battleState),
         player: playerB,
         transitions:presentation.transitions(playerB,playerB.equipe.pokemons[0],playerA.equipe.pokemons[0]),
         wildPokemon: playerA?.equipe?.pokemons?.[0] || null,
@@ -107,8 +111,8 @@ function emitBattleStateForBoth(io, playerA, playerB) {
     });
 }
 
-function emitMoveAnimationForBoth(io, attackerPlayer, defenderPlayer, moveName) {
-    const move = getMoveByName(moveName);
+function emitMoveAnimationForBoth(io, attackerPlayer, defenderPlayer, moveName, battleState) {
+    const move = resolveWeatherMove(getMoveByName(moveName),attackerPlayer.equipe.pokemons[0],defenderPlayer.equipe.pokemons[0],battleState);
     const movePayload = {
         moveName,
         moveType: move?.type || 'Normal',
@@ -219,7 +223,7 @@ async function applySwitchInNarration(io, actorPlayer, enemyPlayer, switchedPoke
     emitFieldState(io, [actorPlayer?.id, enemyPlayer?.id], battleState);
     if (!Array.isArray(switchMessages) || switchMessages.length === 0) return;
 
-    emitBattleStateForBoth(io, actorPlayer, enemyPlayer);
+    emitBattleStateForBoth(io, actorPlayer, enemyPlayer, battleState);
     await sleep(SHORT_DELAY_MS);
 
     for (const message of switchMessages) {
@@ -251,7 +255,7 @@ async function ensureActivePokemonAlive(io, actorPlayer, enemyPlayer, ownSide, e
             `${getTrainerName(actorPlayer)} envoie ${getPokemonDisplayName(nextPokemon)} !`,
             900
         );
-        emitBattleStateForBoth(io, actorPlayer, enemyPlayer);
+        emitBattleStateForBoth(io, actorPlayer, enemyPlayer, battleState);
         await applySwitchInNarration(io, actorPlayer, enemyPlayer, nextPokemon, ownSide, enemySide, battleState);
 
     }
@@ -275,7 +279,7 @@ async function performAttack(io, attackerPlayer, defenderPlayer, moveIndex, atta
         : getRandomMoveIndex(attackerPokemon);
     const moveName = attackerPokemon.getAtkName(selectedMoveIndex) || 'une attaque';
 
-    emitMoveAnimationForBoth(io, attackerPlayer, defenderPlayer, moveName);
+    emitMoveAnimationForBoth(io, attackerPlayer, defenderPlayer, moveName, battleState);
 
     await narrateToBoth(
         io,
@@ -294,7 +298,7 @@ async function performAttack(io, attackerPlayer, defenderPlayer, moveIndex, atta
 
     emitPvpMoveResult(io, attackerPlayer, defenderPlayer, attackResult, battleState);
 
-    emitBattleStateForBoth(io, attackerPlayer, defenderPlayer);
+    emitBattleStateForBoth(io, attackerPlayer, defenderPlayer, battleState);
     await sleep(SHORT_DELAY_MS);
 
     if (Array.isArray(attackResult?.messages)) {
@@ -316,7 +320,7 @@ async function performAttack(io, attackerPlayer, defenderPlayer, moveIndex, atta
             io, attackerPlayer, defenderPlayer,
             `${getTrainerName(defenderPlayer)} est force d'envoyer ${getPokemonDisplayName(switches.defender.incoming)} !`, 900
         );
-        emitBattleStateForBoth(io, attackerPlayer, defenderPlayer);
+        emitBattleStateForBoth(io, attackerPlayer, defenderPlayer, battleState);
         await applySwitchInNarration(
             io, defenderPlayer, attackerPlayer, switches.defender.incoming,
             defenderSide, attackerSide, battleState
@@ -328,7 +332,7 @@ async function performAttack(io, attackerPlayer, defenderPlayer, moveIndex, atta
             io, attackerPlayer, defenderPlayer,
             `${getTrainerName(attackerPlayer)} envoie ${getPokemonDisplayName(switches.attacker.incoming)} !`, 900
         );
-        emitBattleStateForBoth(io, attackerPlayer, defenderPlayer);
+        emitBattleStateForBoth(io, attackerPlayer, defenderPlayer, battleState);
         await applySwitchInNarration(
             io, attackerPlayer, defenderPlayer, switches.attacker.incoming,
             attackerSide, defenderSide, battleState
@@ -464,7 +468,7 @@ async function startPvpBattle(playerA, playerB, io) {
         };
     }
 
-    emitBattleStateForBoth(io, playerA, playerB);
+    emitBattleStateForBoth(io, playerA, playerB, battleState);
     emitFieldState(io, [playerA.id, playerB.id], battleState);
     await narrateToBoth(io, playerA, playerB, `${getTrainerName(playerA)} defie ${getTrainerName(playerB)} !`, 900);
     await applySwitchInNarration(io, playerA, playerB, teamA[0], sideA, sideB, battleState);
@@ -600,7 +604,7 @@ async function startPvpBattle(playerA, playerB, io) {
                 `${getTrainerName(playerA)} rappelle ${previousName} et envoie ${getPokemonDisplayName(teamA[0])} !`,
                 900
             );
-            emitBattleStateForBoth(io, playerA, playerB);
+            emitBattleStateForBoth(io, playerA, playerB, battleState);
             await applySwitchInNarration(io, playerA, playerB, teamA[0], sideA, sideB, battleState);
         }
 
@@ -614,7 +618,7 @@ async function startPvpBattle(playerA, playerB, io) {
                 `${getTrainerName(playerB)} rappelle ${previousName} et envoie ${getPokemonDisplayName(teamB[0])} !`,
                 900
             );
-            emitBattleStateForBoth(io, playerA, playerB);
+            emitBattleStateForBoth(io, playerA, playerB, battleState);
             await applySwitchInNarration(io, playerB, playerA, teamB[0], sideB, sideA, battleState);
         }
 
@@ -652,7 +656,7 @@ async function startPvpBattle(playerA, playerB, io) {
                 const endTurnMessages = processEndOfRound(activeAfterTurnA, activeAfterTurnB, sideA, sideB, battleState);
                 emitFieldState(io, [playerA?.id, playerB?.id], battleState);
                 if (Array.isArray(endTurnMessages) && endTurnMessages.length > 0) {
-                    emitBattleStateForBoth(io, playerA, playerB);
+                    emitBattleStateForBoth(io, playerA, playerB, battleState);
                     await sleep(SHORT_DELAY_MS);
                     for (const message of endTurnMessages) {
                         if (!message) continue;

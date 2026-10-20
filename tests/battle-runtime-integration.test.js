@@ -527,3 +527,23 @@ test('combat PVP réel : le choix après K.O. ne consomme pas une action adverse
     assert.equal(sb.outgoing.filter(e=>e.eventName==='requestAction').length,2);
     assert.equal(io.events.filter(e=>e.targetId===a.id&&e.eventName==='battleMoveAnimation').length,1);
 });
+
+
+for(const kind of ['wild','trainer','pvp'])test(`Morphéo réseau ${kind} : météo immédiate, Ball’Météo Eau et retour normal sauvegardé`,{skip:!shouldRun},async()=>{
+    const pool=createTestPool();let userId;
+    try{
+        const fixture=await createPlayer(7),{player}=fixture;userId=fixture.user.id;player.currentmap='start';
+        const cast=require('../server/game/drift/pokemonFactory').create(351,40,true);cast.passiveAbility='Forecast';cast.abilities=['Rain Dance','Weather Ball'];cast.movePp=[5,10];player.equipe=createTeam(cast);
+        const enemy=createPokemon(143,'Météorologue',['Splash']);enemy.passiveAbility='Drought';enemy.maxHp=enemy.currentHp=10000;
+        const socket=new ScriptedSocket([{action:'attack',number:0},{action:'attack',number:1},{action:'flee'}]);
+        const other={id:'weather-opponent',equipe:createTeam(enemy)},otherSocket=new ScriptedSocket([{action:'attack',number:0},{action:'attack',number:0},{action:'flee'}]);
+        const io=new RecordingIo({[player.id]:socket,[other.id]:otherSocket});
+        const battle=()=>kind==='wild'?startWildBattle(player,enemy,io,userId):kind==='trainer'?startTrainerBattle(player,other.equipe,io,userId):startPvpBattle(player,other,io);
+        await withFixedRandom(.5,battle);
+        const views=io.events.filter(e=>e.targetId===player.id&&e.eventName==='introAnimation').map(e=>e.payload);
+        assert(views.some(v=>v.player.equipe.pokemons[0].__battle?.formSpriteId===10013)||io.events.some(e=>e.eventName==='battleText'&&e.payload.message.includes('Solaire')));
+        assert(views.some(v=>v.moveTypes?.[1]==='Water'));
+        const ball=io.events.find(e=>e.targetId===player.id&&e.eventName==='battleMoveAnimation'&&e.payload.moveName==='Weather Ball');assert.equal(ball.payload.moveType,'Water');
+        const saved=(await loadEquipe(userId)).pokemons[0];assert.equal(saved.data.id,351);assert.equal(saved.type1,'Normal');assert.equal(saved.passiveAbility,'Forecast');assert(!saved.__battle);
+    }finally{if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
+});

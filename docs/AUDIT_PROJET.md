@@ -1,5 +1,17 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Morphéo : formes et météo réellement raccordées — 20 octobre 2026
+
+Morphéo ne changeait qu’un type temporaire à certains instants ; formes/sprites absents, Ball’Météo toujours Normal/50. Le moteur partagé gère maintenant Forecast sur l’espèce 351 avec formes Solaire/Feu, Eau de Pluie/Eau et Blizzard/Glace ; Normal sans météo, sous sable ou quand Ciel Gris/Air Lock neutralise les effets. Synchronisation des deux actifs dès l’entrée, après les capacités (y compris météo ou suppression du talent), K.O. du neutraliseur et expiration en fin de tour. Annonces seulement aux vrais changements, aura visuelle commune, six sprites originaux face/dos et reprise checkpoint/rechargement. Aucune modification permanente d’espèce, statistiques, types ou XP ; anciennes valeurs temporaires Forecast nettoyées une fois. Détrempage est conservé jusqu’au vrai changement de forme ; son effet de type est corrigé pour viser la cible, sans casser Conversion sur soi. Forecast n’est plus copiable via Calque.
+
+Ball’Météo utilise Normal/50 sans météo effective, Feu/Eau/Glace/Roche de puissance 100 sous soleil/pluie/grêle/sable ; même résolution pour dégâts, estimation et animation, puis transformations existantes de type sans double calcul. Son bouton reçoit son type effectif via le champ additif `moveTypes`, avec fallback compatible. Les quatre orchestrateurs utilisent le même moteur : Aventure sauvage/dresseur/PvP et Rift/Colosseum. Aucun schéma SQL ni carte modifié. Références primaires : [Forecast](https://github.com/smogon/pokemon-showdown/blob/master/data/abilities.ts), [Weather Ball](https://github.com/smogon/pokemon-showdown/blob/master/data/moves.ts) ; provenance et SHA-256 des six PNG PokeAPI inchangés dans `docs/castform-sprite-sources.json`.
+
+Validation : `verify:release -- --mysql` passe à 0 avec **524 tests applicatifs et 49 SQL**, audits, HTTP/reprise, lint/build. Treize tests moteur dédiés et trois combats SQL réels vérifient météo héritée, changement immédiat, talents neutraliseurs, K.O., grêle/expiration, PP, Électrification, Détrempage, copie de talent, catalogue immuable et sauvegarde Normal/351 sans état temporaire. `test:castform-browser` passe à 0 : cinq météos × quatre tailles, vrais sprites face/dos et couleurs des capacités, Ciel Gris, checkpoint/rechargement, retour au type permanent. La recette talents préexistante passe aussi à 0 : Lévitation, Peau Dure, forme Exagide et rechargement. Captures mobiles inspectées ; aucun test sur téléphone physique revendiqué.
+
+Build `/tmp/explorakit-castform-dist`, hash `b6c581b925221bc8` ; client `9b42dc4dff5b481d2c7617b6ab364340467b3b90`. Publication le **20/10/2026 à 18 h 51 (Paris)**, avec redémarrage du seul service Explorakit. Checkpoint sauvegardé avant, zéro expédition active. Sauvegarde sources/dist/SQL/checkpoint : `/home/ubuntu/dev/backups/explorakit-castform-2026-10-20T16-50-00-615Z`.
+
+Contrôle HTTPS terminé à 0 sur deux comptes temporaires : vrai PvP sous pluie héritée, Zénith puis Grêle, trois formes face/dos et boutons Ball’Météo aux quatre tailles, images chargées sans erreur, sauvegarde permanente Normal/351/Forecast sans état temporaire. Comptes supprimés, index identique au build, Know et api-test inchangés. Service actif et zéro redémarrage automatique. Logs/captures `/tmp/explorakit-castform-*`. Aucune CI distante revendiquée.
+
 ## Vaguelettes plus visibles dans la Ville du Lac — 20 octobre 2026
 
 Le courant précédent, d’un pixel et avec des reflets très faibles, se voyait peu sur le bleu uniforme de la ville. Le seul profil `ville1` reçoit un mouvement de deux pixels source au maximum en horizontal/un en vertical et des crêtes claires et creux doux qui traversent la surface, sans clignotement global. Les autres lacs gardent leur animation. Le masque de 9 098 pixels reste identique : aucun changement des berges, rochers, plantes, décors, transparence ou PNG. Pas de nouvelle boucle ; cache natif 448×320 à 15 Hz, mouvement réduit et suspensions existants conservés. Composant commun aux trois modes, sans changement de climat, carte ou serveur.
@@ -1570,6 +1582,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **20 octobre 2026 — Morphéo :** formes, types, sprites et Ball’Météo météo partagés ; neutralisation/expiration/reprise, Détrempage ciblé et contrôles moteur/SQL/navigateur.
 
 - **20 octobre 2026 — Lac plus animé :** courant et vaguelettes renforcés seulement à Ville du Lac ; masque/décor fixes et vérification du mouvement sur 400 ms.
 

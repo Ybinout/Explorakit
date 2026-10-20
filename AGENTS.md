@@ -1,5 +1,11 @@
 # Contexte permanent — Explorakit
 
+## Morphéo et Ball’Météo — 20 octobre 2026
+
+`abilityForms.syncWeatherForms` gère Morphéo (351) avec Météo/Forecast : Solaire 10013/Feu, Eau de Pluie 10014/Eau, Blizzard 10015/Glace, Normal sans météo/sable ou sous Ciel Gris/Air Lock. Synchroniser les deux actifs dès l’entrée, après chaque capacité/talent et après expiration météo ; les K.O. ne suppriment plus la météo par leur talent. Ne jamais réécrire l’espèce, les types permanents, statistiques ou XP. Les anciens types temporaires Forecast sont nettoyés une seule fois ; Détrempage conserve son effet jusqu’au vrai changement de forme. `set_type` utilise sa cible résolue (Détrempage adverse, Conversion soi).
+
+`resolveWeatherMove` résout Ball’Météo avant les effets de type, y compris dans l’estimation IA ; clone du catalogue, marqueur anti-double résolution pour Électrification/Normalise. `introAnimation.moveTypes` donne la couleur effective de cette capacité, compatible avec anciens messages. Six sprites originaux PokeAPI, provenance/hashes dans `docs/castform-sprite-sources.json`, changement de forme signalé par l’aura commune. Recettes : `castform.test.js`, trois combats SQL Aventure, `test:castform-browser` (cinq météos, quatre tailles, Ciel Gris, checkpoint/rechargement) et régression talents. Partagé Aventure/Rift/Colosseum, aucune migration SQL.
+
 ## Eau plus visible dans la Ville du Lac — 20 octobre 2026
 
 Seul le profil `ville1` de `VillageWaterRenderer` utilise un courant de deux pixels source au maximum en horizontal/un en vertical et des crêtes et creux modérés qui se déplacent. Le masque intérieur de 9 098 pixels, sa marge et les points fixes restent identiques. Ne pas augmenter tout le rendu de la carte, déplacer les rochers ni toucher les autres profils pour rendre le lac plus animé. Source immuable, alpha conservé, cache natif/15 Hz et suspensions/mouvement réduit restent inchangés. La recette `validateLakeWaterUi` exige désormais un changement perceptible sous 400 ms pour `ville1`, tout en contrôlant les pixels extérieurs, berges et rochers fixes, quatre tailles et les garde-fous.

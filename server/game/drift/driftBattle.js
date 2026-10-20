@@ -69,7 +69,7 @@ class DriftBattle {
     musicKind() { return this.a.run?.mode==='colosseum' && this.npcKey?.startsWith('colosseum_') ? 'colosseum' : this.type; }
     sync() {
         for (const [index,p] of [this.a,this.b].entries()) if (!p.npc) {
-            this.emit(p, 'introAnimation', { effortYield:this.type==='pvp'?null:effortYield(this.active(1-index)), musicKind:this.musicKind(), transitions:presentation.transitions(p,this.active(index),this.active(1-index)), player: { id: p.socketId, userId: p.userId, equipe: p.equipe }, wildPokemon: this.active(1-index) || null, battleType: this.type === 'arena' ? 'trainer' : this.type, usableMoveIndexes: getUsableMoveIndexes(this.active(index), this.state) });
+            this.emit(p, 'introAnimation', { moveTypes:engine.battleMoveTypes(this.active(index),this.active(1-index),this.state), effortYield:this.type==='pvp'?null:effortYield(this.active(1-index)), musicKind:this.musicKind(), transitions:presentation.transitions(p,this.active(index),this.active(1-index)), player: { id: p.socketId, userId: p.userId, equipe: p.equipe }, wildPokemon: this.active(1-index) || null, battleType: this.type === 'arena' ? 'trainer' : this.type, usableMoveIndexes: getUsableMoveIndexes(this.active(index), this.state) });
             this.emit(p, 'battleFieldState', serializeFieldState(this.state));
             this.emit(p, 'bagUpdated', { items: economy.bag(p) });
         }
@@ -268,7 +268,7 @@ class DriftBattle {
             const { p, index, pokemon, name } = action;
             if (this.pending.get(p)?.action !== 'attack' || this.active(index) !== pokemon || effects.isDead(pokemon)) continue;
             const defender = this.active(1-index); if (!defender || effects.isDead(defender)) continue;
-            const move = engine.getMoveByName(name);
+            const move = engine.resolveWeatherMove(engine.getMoveByName(name),pokemon,defender,this.state);
             for (const [view,viewer] of actors.entries()) if (!viewer.npc) this.emit(viewer,'battleMoveAnimation',{
                 actor:view===index?'player':'opponent', moveTarget:move?.combat?.target || 'opponent', moveName:name, moveType:move?.type || 'Normal',
                 damageClass:move?.combat?.damage_class || (move?.category === 'phy' ? 'physical' : move?.category === 'spe' ? 'special' : 'status')
