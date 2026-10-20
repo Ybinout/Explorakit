@@ -48,6 +48,7 @@ const { registerChatHandlers } = require('./handlers/chatHandlers');
 const {registerMedicineHandlers}=require('./handlers/medicineHandlers');
 const { registerEvolutionHandlers } = require('./handlers/evolutionHandlers');
 const { registerMoveLearningHandlers } = require('./handlers/moveLearningHandlers');
+const { registerTeamOrderHandlers } = require('./handlers/teamOrderHandlers');
 const { registerShopHandlers } = require('./handlers/shopHandlers');
 const {
     completeNpcBattle,
@@ -510,6 +511,7 @@ const socketHandler = (io) => {
         }
 
         registerPlayerProfileHandlers({ socket, io, players, userId });
+        registerTeamOrderHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!interactionBusy&&!transitionBusy});
         registerMedicineHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!interactionBusy&&!transitionBusy});
         registerMoveLearningHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!interactionBusy&&!transitionBusy});
         registerEvolutionHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!interactionBusy&&!transitionBusy});

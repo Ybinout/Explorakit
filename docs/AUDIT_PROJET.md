@@ -1,5 +1,21 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Palettes, mode nocturne et ordre automatique — 20 octobre 2026
+
+Les options proposent quatre couleurs d’interface (bleu, sauge, lavande, sable) et deux affichages (clair, nocturne). Choix immédiat et mémorisé dans les préférences locales existantes ; valeurs normalisées et défaut bleu/clair pour les anciens appareils. `main.js` applique le thème avant le montage pour conserver le mode nocturne au rechargement. Les variables partagées couvrent menus, Pokédex, sac, équipe/fiches, badges, dialogues, carnets Rift/Colosseum et bilans ; les cartes/sprites, météo et couleurs sémantiques des types, PV ou raretés restent des informations du jeu. Les cartes de PV adoptent aussi une surface nocturne. Les boutons ont un texte d’accent inverse dédié ; palettes ajustées pour une lecture contrastée, sans filtre global d’image. Radios étiquetés, focus visible et cibles tactiles.
+
+Le menu Pokémon n’affiche plus « Sauvegarder l’ordre ». Chaque flèche enregistre son déplacement avec statut discret et blocage des mutations concurrentes. Échec : relecture de l’état autoritaire, liste toujours accessible, message et nouvelle tentative possibles. Le carnet d’expédition conserve son fonctionnement immédiat. En Aventure, l’ancien endpoint HTTP ne mettait pas à jour l’équipe vivante : un prochain combat ou une sauvegarde pouvait reprendre l’ordre précédent. Le nouvel événement authentifié `reorderTeam` valide l’équipe complète, refuse combat/action concurrente, persiste la transaction avant d’appliquer et publier le nouvel ordre ; aucune modification de ressources ou propriété. `requestGameSave` conserve alors l’ordre ; les expéditions gardent `drift:reorder`, ses règles et son checkpoint. Aucun changement de schéma ou progression.
+
+Recettes : normalisation des thèmes, handler (ordre après commit, refus des entrées invalides, concurrence et rollback), SQL (ordre relu et seconde sauvegarde), navigateur publication (huit combinaisons × quatre tailles, contrastes, mode nocturne dans les menus et fiches, rechargement, ordre immédiatement sauvegardé puis sauvegarde/rechargement, erreur et reprise), combat (menu Pokémon Colosseum automatique et carnet nocturne).
+
+Validation : `verify:release -- --mysql` passe avec **491 tests applicatifs et 44 SQL**, audits, HTTP/reprise, lint et build. La recette navigateur de publication termine à 0 et sans erreur : **32 combinaisons** de palette/affichage/taille, mémoire au rechargement, menus nocturnes, ordre automatique conservé après sauvegarde puis rechargement, refus temporaire et nouvelle tentative, ainsi que les parcours habituels (gestes/voyages, dialogues, combat/XP/audio, apprentissage et six bilans). Contraste minimal des textes principaux/secondaires/accents sur les surfaces et du texte sur bouton : **4,64:1**.
+
+La recette de combat complète termine à 0 : ordre automatique du menu Pokémon Colosseum, carnet nocturne, chronologie et entrée en combat, équipements/Drifts et checkpoint, sans erreur. Après les finitions visuelles (texte du niveau et de l’XP, suppression du rechargement inutile après ordre confirmé, derniers encarts du carnet), lint/build sont rejoués, ainsi que la recette ciblée complète thèmes/ordre (32 combinaisons, sauvegarde/rechargement, erreur/reprise) et la recette ciblée du menu/carnet Colosseum. Captures mobile des options, équipe, fiche et carnet inspectées. Build `/tmp/explorakit-themes-final-dist`, hash `d125e150d0be85cf`. Client `6634464f87295148bfe297f975688c275d06b8e0`. Logs/captures `/tmp/explorakit-themes-*`.
+
+Publication le **20/10/2026 à 15 h 56 (Paris)**, avec redémarrage contrôlé du seul service Explorakit pour activer l’événement d’ordre Aventure. Checkpoint sauvegardé avant redémarrage ; **zéro expédition active** au contrôle préalable, schéma SQL inchangé. Sauvegarde sources/dist/SQL/checkpoint : `/home/ubuntu/dev/backups/explorakit-themes-2026-10-20T13-42-28-496Z`.
+
+Contrôle HTTPS terminé à 0 sur un compte temporaire : options nocturnes aux quatre tailles, choix mémorisé au rechargement, équipe/Pokédex/fiche cohérents (texte de niveau inverse vérifié), ordre automatiquement enregistré en base et dans le joueur connecté, conservé après sauvegarde et rechargement, bouton de confirmation absent, index conforme au build. Aucune erreur ; compte temporaire supprimé, Know/api-test inchangés. Service actif, compteur de redémarrages automatiques nul. Aucune CI distante ni validation sur téléphone physique revendiquée.
+
 ## Transition d’entrée en combat — 20 octobre 2026
 
 Le composant partagé des trois modes dispose d’une entrée à deux volets bleu nuit, séparés par une ligne et une Ball SVG native. Le décor, les sprites et les commandes sont masqués dès `battletrigger`. La première présentation d’état charge les combattants sous cette couverture, attend les images effectives du `<picture>`, des sprites et des socles, puis leur décodage et le calibrage des silhouettes. Les volets s’ouvrent ensuite en 420 ms ; l’ensemble possède un minimum court de 520 ms avant ouverture si les ressources sont déjà en cache. Aucun nouvel asset raster ni téléchargement d’animation.
@@ -1418,6 +1434,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **20/10/2026 — Thèmes / équipe** : quatre palettes clair/nocturne mémorisées et menus raccordés ; ordre Pokémon automatiquement enregistré, équipe vivante et base synchronisées, gestion d’échec et contrôles de contraste. Voir la section du jour.
 
 - **20/10/2026 — Entrée en combat** : volets opaques communs aux trois modes, chargement/décodage sous couverture, ouverture courte et commandes ensuite, attente bornée et annulation ; tests de lenteur, rotation et mouvement réduit. Voir la section du jour.
 

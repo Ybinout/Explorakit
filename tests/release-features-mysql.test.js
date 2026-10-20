@@ -176,3 +176,19 @@ test('evolution choices are owned, atomic and persistent, including legacy XP cu
         assert.equal((await teams.loadEquipe(b.id)).pokemons[0].data.id,7);
     } finally {await db.execute('DELETE FROM users WHERE id IN (?,?)',[a.id,b.id]);}
 });
+
+test('automatic team order persists the live roster, resources and following save', {skip:!enabled}, async()=>{
+    const u=await fixture();
+    try {
+        const team=await teams.loadEquipe(u.id);
+        const second=require('../server/game/drift/pokemonFactory').create(19,5);
+        team.pokemons.push(second);await teams.editEquipe(u.id,team);
+        const original=team.pokemons.map(p=>p.uuid),ids=[...original].reverse(),hp=team.pokemons[0].currentHp;
+        const handlers={},player={equipe:team};
+        require('../server/realtime/handlers/teamOrderHandlers').registerTeamOrderHandlers({socket:{on:(n,fn)=>handlers[n]=fn,emit(){}},userId:u.id,getPlayer:()=>player});
+        let result;await handlers.reorderTeam({orderedUuids:ids},r=>result=r);assert.equal(result.success,true);
+        assert.deepEqual((await teams.loadEquipe(u.id)).pokemons.map(p=>p.uuid),ids);
+        await teams.editEquipe(u.id,player.equipe);
+        const saved=await teams.loadEquipe(u.id);assert.deepEqual(saved.pokemons.map(p=>p.uuid),ids);assert.equal(saved.pokemons[1].currentHp,hp);
+    } finally {await db.execute('DELETE FROM users WHERE id=?',[u.id]);}
+});

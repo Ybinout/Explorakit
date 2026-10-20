@@ -1,5 +1,11 @@
 # Contexte permanent — Explorakit
 
+## Thèmes et ordre automatique — 20 octobre 2026
+
+Options : palettes bleu/sauge/lavande/sable et clair/nocturne via `gamePreferences` (`themeColor`, `themeMode`). Le thème est appliqué avant montage dans `main.js`, puis immédiatement à chaque enregistrement, par attributs sur `html` et variables `field-journal.css`. Défaut bleu/clair pour préférences anciennes ; ne pas filtrer la carte ni recolorer types/PV/raretés. Les textes des boutons d’accent utilisent `--journal-on-accent`, contrastes vérifiés dans les huit combinaisons.
+
+Menu Pokémon : les flèches déclenchent immédiatement la sauvegarde ; aucun bouton de confirmation. Sérialiser les mutations, indiquer le statut, garder la liste et réconcilier l’état réel en cas d’échec. Aventure utilise `reorderTeam` authentifié, protégé par `inventoryBusy`/hors combat : persister avant de modifier l’équipe vivante, afin que le prochain combat et `requestGameSave` conservent l’ordre. Ne pas revenir à une seule écriture HTTP qui laisserait l’équipe connectée inchangée. Rift/Colosseum utilisent `drift:reorder` existant et son checkpoint. Recettes : tests thèmes/handler/SQL, `validateThemeAndTeamUi` dans publication, menu Colosseum dans combat navigateur.
+
 ## Entrée en combat — 20 octobre 2026
 
 `battletrigger` arme `BattleOverlay.prepareEntrance()` avant de rendre le combat. Deux volets CSS opaques masquent la scène jusqu’au décodage des images réellement sélectionnées (fond `<picture>`, deux sprites, socles), puis s’ouvrent ; la première `presentState` attend cette entrée dans la file existante. Ne pas remplacer par un simple délai aveugle ni autoriser une action pendant la couverture. Attente réseau bornée à 2,4 s, animation courte, aucune règle/horloge serveur modifiée. Réduction des mouvements système/jeu : attente des images sans animation ni délai décoratif. Reset/déconnexion/masquage/destruction libèrent attente, timers et écouteurs ; les anciennes images/messages ne doivent pas ressusciter au combat suivant. Recettes : `battle-entrance.test.js`, `validateBattleEntranceUi` dans combat navigateur (images lentes, rotation, délai maximal, reset, mouvement réduit, onglet masqué, quatre tailles), publication et contrôle HTTPS sur duel de comptes temporaires.

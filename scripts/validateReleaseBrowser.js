@@ -163,6 +163,10 @@ async function fit(page, selector, width, height) {
             'UPDATE pokemons p JOIN teams t ON t.id=p.team_id SET p.current_hp=1 WHERE t.user_id=?',
             [host.user.id]
         );
+        const [[starterRow]] = await db.execute('SELECT p.* FROM pokemons p JOIN teams t ON t.id=p.team_id WHERE t.user_id=? LIMIT 1',[host.user.id]);
+        const reserve = {...starterRow,uuid:randomUUID(),position:2};delete reserve.id;
+        const reserveColumns=Object.keys(reserve);
+        await db.execute('INSERT INTO pokemons ('+reserveColumns.map(c=>'`'+c+'`').join(',')+') VALUES ('+reserveColumns.map(()=>'?').join(',')+')',reserveColumns.map(c=>typeof reserve[c]==='object'&&reserve[c]!==null&&!(reserve[c] instanceof Date)?JSON.stringify(reserve[c]):reserve[c]));
         // Create a real report; a clean browser context must retrieve it without localStorage archives.
         const a = await connect(host),
             b = await connect(guest);
@@ -287,6 +291,7 @@ async function fit(page, selector, width, height) {
         const [[healed]] = await db.execute('SELECT current_hp FROM pokemons WHERE uuid=?', [uuid]);
         assert(healed.current_hp > 1, 'Le soin doit être sauvegardé');
         await page.screenshot({ path: path.join(output, 'medicine-mobile.png') });
+        const themesAndOrder=await require('./validateThemeAndTeamUi').validateThemeAndTeamUi({page,base,db,userId:host.user.id,output,fit});
         const journal = await validateJournalUi(page, output, fit);
         const battleResults = await validateBattleResultUi(page, output, fit);
         await page.goto(base + '/drift', { waitUntil: 'networkidle' });
@@ -341,6 +346,7 @@ async function fit(page, selector, width, height) {
                 persistedCosmetics: true,
                 objectiveAndHelp: true,
                 medicine: true,
+                themesAndOrder,
                 journal,
                 battleResults,
                 mobile,
