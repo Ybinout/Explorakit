@@ -28,6 +28,6 @@ function deriveStoryQuest(state = {}) {
 function deriveChapter2(state={}) {
     const steps=catalog.chapter2Steps||[];let progress=0;
     while(progress<steps.length && state.flags?.[steps[progress].flag]==='true')progress++;
-    return {progress,target:steps.length,status:progress===steps.length?'completed':'active',description:steps[progress]?.objective||'Clara est retrouvée. Les refuges ont retrouvé leur liberté.',destination:steps[progress]?.destination||null,map:steps[progress]?.map||null};
+    return {progress,target:steps.length,status:progress===steps.length?'completed':'active',description:steps[progress]?.objective||'Aspha est retrouvée. Les refuges ont retrouvé leur liberté.',destination:steps[progress]?.destination||null,map:steps[progress]?.map||null};
 }
 module.exports = { deriveChapter2, meetsRequirements, hasCompletedBattle, deriveStoryQuest };

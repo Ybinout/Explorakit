@@ -1,5 +1,9 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Noms des personnages — 20 octobre 2026
+
+À la demande du créateur : Iris devient **Sofiane**, Nora **Noz**, Soren **Thibaut**, Clara **Aspha**. Dialogues des deux chapitres, journal/objectifs, descriptions des objets clés et conclusion affichent les nouveaux noms ; Aspha conserve son rôle de sœur. Les identifiants de PNJ, scènes, quêtes, objets, victoires et drapeaux restent identiques pour préserver les sauvegardes et récompenses acquises. Aucune carte, équipe, position ni image modifiée. `phrase.txt` et les anciennes entrées de cet audit restent des archives historiques. Le document de contenu courant utilise les nouveaux noms. Validation : 12 tests de contenu/progression, parcours Socket réel des deux chapitres sur base de test et audit de contenu réussis. Publication le **20/10/2026 à 9 h 25 (Paris)** après sauvegarde des sources précédentes, dist, SQL et checkpoint dans `/home/ubuntu/dev/backups/explorakit-names-2026-10-20T07-25-51-024Z` (zéro tentative active au contrôle). Seul `explorakit.service` redémarré, service actif sans boucle. Le contrôle HTTPS vérifie les quatre nouveaux noms dans leurs véritables dialogues verrouillés, le titre de quête Aspha et les empreintes inchangées de Know/api-test ; comptes temporaires supprimés. Aucun build client requis, les textes sont servis par le backend. Logs `/tmp/explorakit-names-*`.
+
 ## Animation des évolutions — 20 octobre 2026
 
 Les trois modes partagent une présentation des évolutions permanentes : halo et illumination de l’ancienne forme, révélation de la nouvelle, noms français puis bouton Continuer. L’animation peut être passée ; le réglage du jeu et la préférence système de mouvement réduit donnent directement la révélation. Les boutons restent accessibles au clavier et au toucher, avec focus contenu dans le dialogue et mise en page adaptée aux écrans courts/paysage. Un sprite manquant donne une présentation textuelle sans bloquer la poursuite.
@@ -1227,6 +1231,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **20/10/2026 — Noms du récit** : Sofiane, Noz, Thibaut et Aspha remplacent Iris, Nora, Soren et Clara dans le contenu affiché, identifiants de sauvegarde conservés. Voir la section du jour.
 
 - **20/10/2026 — Animation des évolutions** : présentation commune aux trois modes, chaînes/réserves/pierres, file après résultat de combat, mouvement réduit et commandes mobiles protégées. Recettes et publication dans la section du jour.
 

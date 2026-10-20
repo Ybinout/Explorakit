@@ -3,7 +3,7 @@
     "name": "dia0",
     "sentences": [
       {
-        "text": "Ta sœur Clara nous écrivait de chaque ville. Sa dernière lettre parlait d’un groupe qui protégeait les Pokémon : l’Aube Obscure. Puis, plus rien.",
+        "text": "Ta sœur Aspha nous écrivait de chaque ville. Sa dernière lettre parlait d’un groupe qui protégeait les Pokémon : l’Aube Obscure. Puis, plus rien.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -12,7 +12,7 @@
         }
       },
       {
-        "text": "Ton compagnon est prêt. À la Ville du Lac, cherche Mounir ; on le surnomme Moonpunch. Clara s’entraînait avec lui avant son départ.",
+        "text": "Ton compagnon est prêt. À la Ville du Lac, cherche Mounir ; on le surnomme Moonpunch. Aspha s’entraînait avec lui avant son départ.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -38,7 +38,7 @@
     "x": 18,
     "sentences": [
       {
-        "text": "Timmy : Tu pars retrouver Clara ? Je me souviens de ses conseils. Avant la route, faisons un petit duel pour préparer ton compagnon.",
+        "text": "Timmy : Tu pars retrouver Aspha ? Je me souviens de ses conseils. Avant la route, faisons un petit duel pour préparer ton compagnon.",
         "imageName": "a.png"
       },
       {
@@ -69,7 +69,7 @@
     "x": null,
     "sentences": [
       {
-        "text": "Mounir : Ici, on m’appelle Moonpunch. Clara venait souvent s’entraîner. Elle est partie vers Ocreville après avoir parlé à un membre de l’Aube Obscure.",
+        "text": "Mounir : Ici, on m’appelle Moonpunch. Aspha venait souvent s’entraîner. Elle est partie vers Ocreville après avoir parlé à un membre de l’Aube Obscure.",
         "imageName": "moonpunch.png"
       },
       {
@@ -108,7 +108,7 @@
     "name": "route_guide_2",
     "sentences": [
       {
-        "text": "Entre Rivazur et Clairbois, des voyageurs ont vu Clara porter un carnet. Aux archives, Éloi conserve ce qu’elle lui a confié.",
+        "text": "Entre Rivazur et Clairbois, des voyageurs ont vu Aspha porter un carnet. Aux archives, Éloi conserve ce qu’elle lui a confié.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -178,7 +178,7 @@
     "name": "route_guide_7",
     "sentences": [
       {
-        "text": "Cette route relie Ocreville à Floraville. Hoze connaît Raphael ; tous deux ont rencontré Clara avant sa disparition.",
+        "text": "Cette route relie Ocreville à Floraville. Hoze connaît Raphael ; tous deux ont rencontré Aspha avant sa disparition.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -262,7 +262,7 @@
     "name": "city_guide_5",
     "sentences": [
       {
-        "text": "Bienvenue à Ocreville. Hoze tient l’arène Dune au nord-est. Si vous cherchez Clara, c’est ici que commence la piste après Mounir.",
+        "text": "Bienvenue à Ocreville. Hoze tient l’arène Dune au nord-est. Si vous cherchez Aspha, c’est ici que commence la piste après Mounir.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -276,7 +276,7 @@
     "name": "home_resident_1",
     "sentences": [
       {
-        "text": "Clara s’est reposée ici avant de remettre une lettre aux archives. Elle semblait inquiète, mais décidée à découvrir la vérité.",
+        "text": "Aspha s’est reposée ici avant de remettre une lettre aux archives. Elle semblait inquiète, mais décidée à découvrir la vérité.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -361,7 +361,7 @@
     "name": "moon_after",
     "sentences": [
       {
-        "text": "Mounir : Tu as gagné. Clara avait la même détermination. Hoze l’a vue à Ocreville ; il saura t’en dire plus.",
+        "text": "Mounir : Tu as gagné. Aspha avait la même détermination. Hoze l’a vue à Ocreville ; il saura t’en dire plus.",
         "imageName": "moonpunch.png"
       },
       {
@@ -374,7 +374,7 @@
     "name": "champion_hoze",
     "sentences": [
       {
-        "text": "Hoze : Mounir m’a parlé de toi. Tu cherches Clara ? Elle est passée ici, mais cette piste n’est pas faite pour ceux qui hésitent.",
+        "text": "Hoze : Mounir m’a parlé de toi. Tu cherches Aspha ? Elle est passée ici, mais cette piste n’est pas faite pour ceux qui hésitent.",
         "imageName": "hoze.png"
       },
       {
@@ -395,7 +395,7 @@
         "imageName": "hoze.png"
       },
       {
-        "text": "Hoze : Clara accompagnait des gens de l’Aube Obscure. Elle posait trop de questions pour une simple recrue. Va parler à Raphael, à Floraville.",
+        "text": "Hoze : Aspha accompagnait des gens de l’Aube Obscure. Elle posait trop de questions pour une simple recrue. Va parler à Raphael, à Floraville.",
         "imageName": "hoze.png"
       },
       {
@@ -408,7 +408,7 @@
     "name": "champion_hoze_locked",
     "sentences": [
       {
-        "text": "Hoze : Tu viens au sujet de Clara ? Parle d’abord à Mounir dans l’arène de la Ville du Lac. J’ai besoin de savoir que tu es prêt à suivre sa piste.",
+        "text": "Hoze : Tu viens au sujet d’Aspha ? Parle d’abord à Mounir dans l’arène de la Ville du Lac. J’ai besoin de savoir que tu es prêt à suivre sa piste.",
         "imageName": "hoze.png"
       }
     ]
@@ -434,11 +434,11 @@
     "name": "champion_raphael_after",
     "sentences": [
       {
-        "text": "Raphael : Tu as prouvé ta valeur. Voici le Badge Floraison. Quant à Clara… elle voulait comprendre pourquoi des Pokémon quittaient leur habitat.",
+        "text": "Raphael : Tu as prouvé ta valeur. Voici le Badge Floraison. Quant à Aspha… elle voulait comprendre pourquoi des Pokémon quittaient leur habitat.",
         "imageName": "raph.png"
       },
       {
-        "text": "Raphael : L’Aube Obscure promettait de les protéger. Clara a commencé à douter de leurs méthodes, puis elle est partie interroger Ana.",
+        "text": "Raphael : L’Aube Obscure promettait de les protéger. Aspha a commencé à douter de leurs méthodes, puis elle est partie interroger Ana.",
         "imageName": "raph.png"
       },
       {
@@ -451,7 +451,7 @@
     "name": "champion_raphael_locked",
     "sentences": [
       {
-        "text": "Raphael : Les rumeurs vont vite. Pour parler de Clara, commence par Hoze à Ocreville. Sans son témoignage, tu n’aurais qu’une moitié de l’histoire.",
+        "text": "Raphael : Les rumeurs vont vite. Pour parler d’Aspha, commence par Hoze à Ocreville. Sans son témoignage, tu n’aurais qu’une moitié de l’histoire.",
         "imageName": "raph.png"
       }
     ]
@@ -460,7 +460,7 @@
     "name": "champion_ana",
     "sentences": [
       {
-        "text": "Ana : Alors, c’est toi qui cherches Clara. Raphael a dû te prévenir : ce que je sais touche aussi à ma famille.",
+        "text": "Ana : Alors, c’est toi qui cherches Aspha. Raphael a dû te prévenir : ce que je sais touche aussi à ma famille.",
         "imageName": "ana.png"
       },
       {
@@ -477,7 +477,7 @@
     "name": "champion_ana_after",
     "sentences": [
       {
-        "text": "Ana : Tu es plus persévérant que je ne le pensais. Tu mérites le Badge Minerai. Clara s’est retrouvée mêlée à une organisation dangereuse : l’Aube Obscure.",
+        "text": "Ana : Tu es plus persévérant que je ne le pensais. Tu mérites le Badge Minerai. Aspha s’est retrouvée mêlée à une organisation dangereuse : l’Aube Obscure.",
         "imageName": "ana.png"
       },
       {
@@ -494,7 +494,7 @@
     "name": "champion_ana_locked",
     "sentences": [
       {
-        "text": "Ana : Je ne parlerai pas sur la foi d’une rumeur. Va voir Raphael à Floraville ; il a entendu Clara expliquer ce qu’elle cherchait.",
+        "text": "Ana : Je ne parlerai pas sur la foi d’une rumeur. Va voir Raphael à Floraville ; il a entendu Aspha expliquer ce qu’elle cherchait.",
         "imageName": "ana.png"
       }
     ]
@@ -528,7 +528,7 @@
         "imageName": "wanda.png"
       },
       {
-        "text": "Wanda : J’ai quitté l’organisation. Cela n’efface pas ma responsabilité. Clara a découvert ce qu’ils faisaient ; elle pourrait être en grand danger.",
+        "text": "Wanda : J’ai quitté l’organisation. Cela n’efface pas ma responsabilité. Aspha a découvert ce qu’ils faisaient ; elle pourrait être en grand danger.",
         "imageName": "wanda.png"
       },
       {
@@ -541,7 +541,7 @@
     "name": "champion_wanda_locked",
     "sentences": [
       {
-        "text": "Wanda : Tu veux des réponses sur Clara ? Commence par écouter Ana à Rochebourg. Ma sœur mérite que tu entendes son histoire avant la mienne.",
+        "text": "Wanda : Tu veux des réponses sur Aspha ? Commence par écouter Ana à Rochebourg. Ma sœur mérite que tu entendes son histoire avant la mienne.",
         "imageName": "wanda.png"
       }
     ]
@@ -550,7 +550,7 @@
     "name": "clara_letter",
     "sentences": [
       {
-        "text": "Éloi : Wanda t’envoie ? Alors tu dois être de la famille de Clara. Elle m’a confié cette lettre, avec ordre de la garder loin de l’Aube Obscure.",
+        "text": "Éloi : Wanda t’envoie ? Alors tu dois être de la famille d’Aspha. Elle m’a confié cette lettre, avec ordre de la garder loin de l’Aube Obscure.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -559,7 +559,7 @@
         }
       },
       {
-        "text": "Clara : « Si tu lis ceci, tu as dû suivre ma trace. Je croyais aider les Pokémon. J’ai découvert des opérations dont même les nouvelles recrues ne savent rien. »",
+        "text": "Aspha : « Si tu lis ceci, tu as dû suivre ma trace. Je croyais aider les Pokémon. J’ai découvert des opérations dont même les nouvelles recrues ne savent rien. »",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -568,7 +568,7 @@
         }
       },
       {
-        "text": "Clara : « Je vais chercher des preuves. Ne fais confiance à personne sur la seule foi de son emblème. Souviens-toi : protéger un Pokémon ne donne pas le droit de choisir sa vie. »",
+        "text": "Aspha : « Je vais chercher des preuves. Ne fais confiance à personne sur la seule foi de son emblème. Souviens-toi : protéger un Pokémon ne donne pas le droit de choisir sa vie. »",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -586,7 +586,7 @@
         }
       },
       {
-        "text": "Éloi : Tu sais désormais pourquoi Clara a disparu. Ce premier chapitre s’achève ; sa recherche, elle, continue. Reviens aux archives quand tu voudras relire sa lettre.",
+        "text": "Éloi : Tu sais désormais pourquoi Aspha a disparu. Ce premier chapitre s’achève ; sa recherche, elle, continue. Reviens aux archives quand tu voudras relire sa lettre.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -603,7 +603,7 @@
     "name": "clara_letter_locked",
     "sentences": [
       {
-        "text": "Éloi : Ces archives abritent des témoignages sensibles. Je garde une lettre pour la famille de Clara, mais je dois d’abord savoir à qui je peux la confier.",
+        "text": "Éloi : Ces archives abritent des témoignages sensibles. Je garde une lettre pour la famille d’Aspha, mais je dois d’abord savoir à qui je peux la confier.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -626,7 +626,7 @@
     "name": "clara_letter_after",
     "sentences": [
       {
-        "text": "Éloi : La lettre de Clara est toujours à l’abri. Elle enquêtait sur l’Aube Obscure et cherchait des preuves de ses opérations.",
+        "text": "Éloi : La lettre d’Aspha est toujours à l’abri. Elle enquêtait sur l’Aube Obscure et cherchait des preuves de ses opérations.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -635,7 +635,7 @@
         }
       },
       {
-        "text": "Clara : « Ne fais confiance à personne sur la seule foi de son emblème. Protéger un Pokémon ne donne pas le droit de choisir sa vie. »",
+        "text": "Aspha : « Ne fais confiance à personne sur la seule foi de son emblème. Protéger un Pokémon ne donne pas le droit de choisir sa vie. »",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -644,7 +644,7 @@
         }
       },
       {
-        "text": "Éloi : Iris, dans la maison de Clairbois, a gardé un registre lié à cette lettre. Va la voir : la piste de Clara continue.",
+        "text": "Éloi : Sofiane, dans la maison de Clairbois, a gardé un registre lié à cette lettre. Va le voir : la piste d’Aspha continue.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -707,7 +707,7 @@
     "name": "town_bastien",
     "sentences": [
       {
-        "text": "Bastien : Clara m’a appris à varier mon équipe. Deux partenaires, niveaux 13 et 14 : à toi de jouer !",
+        "text": "Bastien : Aspha m’a appris à varier mon équipe. Deux partenaires, niveaux 13 et 14 : à toi de jouer !",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -742,7 +742,7 @@
         }
       },
       {
-        "text": "Bastien : Mounir garde un souvenir ému de Clara. Va lui parler dans l’arène ; il ne le montrera pas, mais tu lui feras plaisir.",
+        "text": "Bastien : Mounir garde un souvenir ému d’Aspha. Va lui parler dans l’arène ; il ne le montrera pas, mais tu lui feras plaisir.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -854,7 +854,7 @@
     "name": "town_iris",
     "sentences": [
       {
-        "text": "Iris : Je laisse une place aux Pokémon dans chaque jardin. Mes deux compagnons sont niveaux 40 et 41. On s’entraîne ?",
+        "text": "Sofiane : Je laisse une place aux Pokémon dans chaque jardin. Mes deux compagnons sont niveaux 40 et 41. On s’entraîne ?",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -880,7 +880,7 @@
     "name": "town_iris_after",
     "sentences": [
       {
-        "text": "Iris : Bien joué ! Voilà 400 pièces pour ton voyage.",
+        "text": "Sofiane : Bien joué ! Voilà 400 pièces pour ton voyage.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -889,7 +889,7 @@
         }
       },
       {
-        "text": "Iris : Clara prenait des notes sur les fleurs désertées par les Pokémon. Raphael lui a prêté ses relevés.",
+        "text": "Sofiane : Aspha prenait des notes sur les fleurs désertées par les Pokémon. Raphael lui a prêté ses relevés.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1036,7 +1036,7 @@
         }
       },
       {
-        "text": "Maëlle : Clara a interrogé les ouvriers après le passage d’un convoi. Ana a reconnu le signe de l’Aube Obscure sur leurs caisses.",
+        "text": "Maëlle : Aspha a interrogé les ouvriers après le passage d’un convoi. Ana a reconnu le signe de l’Aube Obscure sur leurs caisses.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1232,7 +1232,7 @@
         }
       },
       {
-        "text": "Célia : Tu as fait du chemin. Prends le temps de lire la lettre de Clara aux archives ; gagner n’est pas toujours la seule façon d’avancer.",
+        "text": "Célia : Tu as fait du chemin. Prends le temps de lire la lettre d’Aspha aux archives ; gagner n’est pas toujours la seule façon d’avancer.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1246,7 +1246,7 @@
     "name": "ch2_iris",
     "sentences": [
       {
-        "text": "Iris : La lettre de Clara parle de registres falsifiés. J’ai conservé le double d’une livraison : des Pokémon transportés sous couvert de soins.",
+        "text": "Sofiane : La lettre d’Aspha parle de registres falsifiés. J’ai conservé le double d’une livraison : des Pokémon transportés sous couvert de soins.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1255,7 +1255,7 @@
         }
       },
       {
-        "text": "Iris : Nora, dans la maison de Rivazur, a vu le convoi. Montre-lui ce registre ; elle saura que tu viens de ma part.",
+        "text": "Sofiane : Noz, dans la maison de Rivazur, a vu le convoi. Montre-lui ce registre ; il saura que tu viens de ma part.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1272,7 +1272,7 @@
     "name": "ch2_iris_locked",
     "sentences": [
       {
-        "text": "Iris : Nous parlerons de cette piste quand tu auras suivi les indices précédents de ton carnet.",
+        "text": "Sofiane : Nous parlerons de cette piste quand tu auras suivi les indices précédents de ton carnet.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1286,7 +1286,7 @@
     "name": "ch2_iris_after",
     "sentences": [
       {
-        "text": "Iris : Nora, dans la maison de Rivazur, a vu le convoi. Montre-lui ce registre ; elle saura que tu viens de ma part.",
+        "text": "Sofiane : Noz, dans la maison de Rivazur, a vu le convoi. Montre-lui ce registre ; il saura que tu viens de ma part.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1300,7 +1300,7 @@
     "name": "ch2_nora",
     "sentences": [
       {
-        "text": "Nora : J’ai guidé Clara jusqu’à Rochebourg. Elle a découvert que l’Aube Obscure revendait les Pokémon confiés à son refuge.",
+        "text": "Noz : J’ai guidé Aspha jusqu’à Rochebourg. Elle a découvert que l’Aube Obscure revendait les Pokémon confiés à son refuge.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1309,7 +1309,7 @@
         }
       },
       {
-        "text": "Nora : Soren garde les preuves dans une maison de Rochebourg. Il ne les donnera pas facilement. Prépare une équipe autour du niveau 58.",
+        "text": "Noz : Thibaut garde les preuves dans une maison de Rochebourg. Il ne les donnera pas facilement. Prépare une équipe autour du niveau 58.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1326,7 +1326,7 @@
     "name": "ch2_nora_locked",
     "sentences": [
       {
-        "text": "Nora : Nous parlerons de cette piste quand tu auras suivi les indices précédents de ton carnet.",
+        "text": "Noz : Nous parlerons de cette piste quand tu auras suivi les indices précédents de ton carnet.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1340,7 +1340,7 @@
     "name": "ch2_nora_after",
     "sentences": [
       {
-        "text": "Nora : Soren garde les preuves dans une maison de Rochebourg. Il ne les donnera pas facilement. Prépare une équipe autour du niveau 58.",
+        "text": "Noz : Thibaut garde les preuves dans une maison de Rochebourg. Il ne les donnera pas facilement. Prépare une équipe autour du niveau 58.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1354,7 +1354,7 @@
     "name": "ch2_soren",
     "sentences": [
       {
-        "text": "Soren : Clara voulait prévenir les habitants. Je pensais protéger le refuge en gardant le silence… mais ses registres disent vrai.",
+        "text": "Thibaut : Aspha voulait prévenir les habitants. Je pensais protéger le refuge en gardant le silence… mais ses registres disent vrai.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1363,7 +1363,7 @@
         }
       },
       {
-        "text": "Soren : Prouve-moi que tu sauras la protéger. Mes trois partenaires sont niveaux 56 à 58. Après notre duel, je te dirai où elle attend.",
+        "text": "Thibaut : Prouve-moi que tu sauras la protéger. Mes trois partenaires sont niveaux 56 à 58. Après notre duel, je te dirai où elle attend.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1381,7 +1381,7 @@
     "name": "ch2_soren_locked",
     "sentences": [
       {
-        "text": "Soren : Nous parlerons de cette piste quand tu auras suivi les indices précédents de ton carnet.",
+        "text": "Thibaut : Nous parlerons de cette piste quand tu auras suivi les indices précédents de ton carnet.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1395,7 +1395,7 @@
     "name": "ch2_soren_after",
     "sentences": [
       {
-        "text": "Soren : Clara est à l’abri dans une maison de Floraville. Dis-lui que les preuves sont entre de bonnes mains.",
+        "text": "Thibaut : Aspha est à l’abri dans une maison de Floraville. Dis-lui que les preuves sont entre de bonnes mains.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1409,7 +1409,7 @@
     "name": "ch2_clara",
     "sentences": [
       {
-        "text": "Clara : Tu m’as retrouvée ! Je suis restée ici pour mettre les Pokémon à l’abri. Je ne voulais pas vous entraîner dans cette histoire.",
+        "text": "Aspha : Tu m’as retrouvée ! Je suis restée ici pour mettre les Pokémon à l’abri. Je ne voulais pas vous entraîner dans cette histoire.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1418,7 +1418,7 @@
         }
       },
       {
-        "text": "Clara : Avec le registre et le témoignage de Soren, les habitants peuvent reprendre le refuge. Cette fois, nous agirons ensemble.",
+        "text": "Aspha : Avec le registre et le témoignage de Thibaut, les habitants peuvent reprendre le refuge. Cette fois, nous agirons ensemble.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1427,7 +1427,7 @@
         }
       },
       {
-        "text": "Clara : Rentrons rassurer maman. Garde cette lettre : tu as gagné la confiance des refuges, et une nouvelle aventure reste possible.",
+        "text": "Aspha : Rentrons rassurer maman. Garde cette lettre : tu as gagné la confiance des refuges, et une nouvelle aventure reste possible.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1444,7 +1444,7 @@
     "name": "ch2_clara_locked",
     "sentences": [
       {
-        "text": "Clara : Nous parlerons de cette piste quand tu auras suivi les indices précédents de ton carnet.",
+        "text": "Aspha : Nous parlerons de cette piste quand tu auras suivi les indices précédents de ton carnet.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1458,7 +1458,7 @@
     "name": "ch2_clara_after",
     "sentences": [
       {
-        "text": "Clara : Le chapitre II est terminé. Merci de m’avoir retrouvée. Retourne au village quand tu le souhaites ; les refuges gardent leurs portes ouvertes.",
+        "text": "Aspha : Le chapitre II est terminé. Merci de m’avoir retrouvée. Retourne au village quand tu le souhaites ; les refuges gardent leurs portes ouvertes.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,

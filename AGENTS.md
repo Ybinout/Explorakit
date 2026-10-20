@@ -1,5 +1,9 @@
 # Contexte permanent — Explorakit
 
+## Noms du récit — 20 octobre 2026
+
+Iris → Sofiane, Nora → Noz, Soren → Thibaut, Clara → Aspha dans les textes affichés. Conserver les identifiants historiques minuscules (`ch2_iris`, `chapter2_soren`, `clara_chapter2`, objets et drapeaux) pour les sauvegardes ; ne pas renommer les cartes en cours de création par le propriétaire.
+
 ## Présentation des évolutions — 20 octobre 2026
 
 Les conditions restent côté serveur. `evolutionPresentation.js` observe les changements permanents d’espèce des seuls compagnons connus (UUID), via `applyTeamPokemons`. Le graphe client couvre exactement les règles automatiques et pierres ; le régénérer avec `node scripts/generateEvolutionPresentation.js` si elles changent. Premier chargement/capture/reconnexion ne doivent pas rejouer une évolution ; les formes temporaires et snapshots inverses ne sont pas des évolutions. Préserver la file combat/XP → résultat → évolutions successives/réserves → apprentissage, les gardes de déplacement, le focus et le mouvement réduit. Recettes : `evolution-presentation.test.js`, `test:evolution-browser`, `test:strategy-browser` et recettes publication/Colosseum/combat.

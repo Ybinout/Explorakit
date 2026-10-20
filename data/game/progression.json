@@ -2,8 +2,8 @@
   "quests": [
     {
       "key": "main_sister_search",
-      "title": "Clara — chapitre I : les premières traces",
-      "description": "Suivre la piste de Clara, de Mounir jusqu’à Clairbois.",
+      "title": "Aspha — chapitre I : les premières traces",
+      "description": "Suivre la piste d’Aspha, de Mounir jusqu’à Clairbois.",
       "defaultStatus": "active",
       "target": 6
     },
@@ -16,8 +16,8 @@
     },
     {
       "key": "clara_chapter2",
-      "title": "Clara — chapitre II : les refuges de l’Aube",
-      "description": "Retrouver Clara et dévoiler le trafic de l’Aube Obscure.",
+      "title": "Aspha — chapitre II : les refuges de l’Aube",
+      "description": "Retrouver Aspha et dévoiler le trafic de l’Aube Obscure.",
       "requiresFlags": [
         "chapter1_complete"
       ],
@@ -271,7 +271,7 @@
   "storySteps": [
     {
       "flag": "moonpunch_defeated",
-      "objective": "Retrouve Mounir (Moonpunch) dans l’arène de la Ville du Lac. Il a connu Clara.",
+      "objective": "Retrouve Mounir (Moonpunch) dans l’arène de la Ville du Lac. Il a connu Aspha.",
       "map": "ville1_arene",
       "destination": "Arène de la Ville du Lac"
     },
@@ -306,7 +306,7 @@
       "destination": "Archives Sylve · Clairbois"
     }
   ],
-  "chapterConclusion": "Le chapitre I est terminé. Iris t’attend dans la maison de Clairbois pour poursuivre la piste de Clara.",
+  "chapterConclusion": "Le chapitre I est terminé. Sofiane t’attend dans la maison de Clairbois pour poursuivre la piste d’Aspha.",
   "storyEvents": {
     "clara_letter": {
       "requiresFlags": [
@@ -372,25 +372,25 @@
   "chapter2Steps": [
     {
       "flag": "ch2_registry",
-      "objective": "Parle à Iris dans la maison de Clairbois pour déchiffrer le registre.",
+      "objective": "Parle à Sofiane dans la maison de Clairbois pour déchiffrer le registre.",
       "map": "gen_maison_ville1_2",
       "destination": "Maison de Clairbois"
     },
     {
       "flag": "ch2_witness",
-      "objective": "Montre le registre à Nora dans la maison de Rivazur.",
+      "objective": "Montre le registre à Noz dans la maison de Rivazur.",
       "map": "gen_maison_ville2_1",
       "destination": "Maison de Rivazur"
     },
     {
       "flag": "ch2_soren_defeated",
-      "objective": "Affronte Soren dans la maison de Rochebourg (niveaux 56–58).",
+      "objective": "Affronte Thibaut dans la maison de Rochebourg (niveaux 56–58).",
       "map": "gen_maison_ville3_1",
       "destination": "Maison de Rochebourg"
     },
     {
       "flag": "chapter2_complete",
-      "objective": "Retrouve Clara dans la première maison de Floraville.",
+      "objective": "Retrouve Aspha dans la première maison de Floraville.",
       "map": "gen_maison_ville4_1",
       "destination": "Maison de Floraville"
     }

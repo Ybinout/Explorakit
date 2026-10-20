@@ -23,7 +23,7 @@ Les huit routes générées, les cinq villes, les cinq arènes et les douze int�
 
 Les raccords vers les dix maisons et deux boutiques générées sont déclarés dans `nextMap.json` à partir des coordonnées produites et validées par l’agent cartes. `ville1` utilise en plus deux portes existantes pour une arène et une boutique indépendantes, via des alias de rendu qui ne modifient aucun JSON/TMX/PNG de carte.
 
-Le chapitre I est raccordé : Mounir (identifiant `moonpunch`), puis les champions d’origine Hoze → Raphael → Ana → Wanda, puis la lettre de Clara aux archives de Clairbois. Douze dresseurs de ville proposent des combats facultatifs uniques. Les scènes évoluent avec les victoires persistantes. Le chapitre II prolonge désormais la lettre : Iris à Clairbois remet un registre, Nora à Rivazur témoigne, Soren est affronté à Rochebourg (56–58), puis Clara est retrouvée à Floraville. Cet arc est conclu ; aucun épilogue global ni crédits ne sont déclarés livrés.
+Le chapitre I est raccordé : Mounir (identifiant `moonpunch`), puis les champions d’origine Hoze → Raphael → Ana → Wanda, puis la lettre d’Aspha aux archives de Clairbois. Douze dresseurs de ville proposent des combats facultatifs uniques. Les scènes évoluent avec les victoires persistantes. Le chapitre II prolonge désormais la lettre : Sofiane à Clairbois remet un registre, Noz à Rivazur témoigne, Thibaut est affronté à Rochebourg (56–58), puis Aspha est retrouvée à Floraville. Cet arc est conclu ; aucun épilogue global ni crédits ne sont déclarés livrés.
 
 ### Défauts confirmés lors de la revue du 11 octobre
 
@@ -39,9 +39,9 @@ Le chapitre I est raccordé : Mounir (identifiant `moonpunch`), puis les champio
 | Lieux actifs | 46 | 44 cartes actives et 2 alias d'intérieur ; `pk2` reste active uniquement pour compatibilité |
 | Lieux atteignables depuis `start` | 45 | tous les lieux actifs sauf `pk2` |
 | Parcours généré actif | 30/30 | 8 routes, 5 villes, 5 arènes, 10 maisons et 2 boutiques |
-| PNJ placés | 45 | 8 nouveaux occupants d’intérieurs : 4 pour Clara, 2 refuges et 2 vendeurs ; atlas existant réutilisé |
+| PNJ placés | 45 | 8 nouveaux occupants d’intérieurs : 4 pour Aspha, 2 refuges et 2 vendeurs ; atlas existant réutilisé |
 | Équipes de dresseurs | 25 | 19 utilisées ; Garry et les 5 anciennes équipes générées restent archivés, sans PNJ actif |
-| Combats persistants | 19 | Timmy, Mounir, 4 champions, 12 habitants et Soren ; récompenses uniques |
+| Combats persistants | 19 | Timmy, Mounir, 4 champions, 12 habitants et Thibaut ; récompenses uniques |
 | Quêtes / distinctions | 4 / 5 | 4 badges de champions + Sceau Sylve des archives ; clés historiques préservées |
 | Dialogues | 83 (141 phrases) | Deux chapitres, prérequis, victoires, retrouvailles, refuges et boutiques |
 | Objets | 13 | 3 Balls, 4 objets tenus, 4 médicaments et 2 objets clés ; utilisation hors combat des médicaments |
@@ -82,14 +82,14 @@ Les niveaux explicites de `pnj_teams.json` sont convertis avec la courbe d’exp
 |---|---|---|---|
 | Ville du Lac | Lina, Bastien | 12 ; 13–14 | 150 ; 200 |
 | Ocreville | Nadir, Salomé | 36–37 ; 38 | 350 ; 380 |
-| Floraville | Iris, Noé | 40–41 ; 42 | 400 ; 420 |
+| Floraville | Sofiane, Noé | 40–41 ; 42 | 400 ; 420 |
 | Rochebourg | Malo, Maëlle | 44–45 ; 46 | 450 ; 480 |
 | Rivazur | Louis, Inès | 48–49 ; 50 | 500 ; 520 |
 | Clairbois | Robin, Célia | 54–55 ; 56 | 550 ; 580 |
 
 Chaque habitant annonce ses niveaux avant le combat, puis donne un conseil ou un témoignage. Les récompenses ne sont versées qu’une fois ; après victoire, le dialogue remplace le défi, y compris après reconnexion. Une fuite ou défaite laisse le défi disponible. Les dialogues de victoire apparaissent automatiquement après le combat et restent consultables en reparlant au personnage.
 
-La mère, placée dans `start` (6, 8), introduit la disparition de Clara et dirige vers Mounir. À la fin de chaque conversation, elle soigne gratuitement toute l’équipe : PV et PP au maximum, statuts retirés et Pokémon K.O. rétablis en Aventure. Le soin est sauvegardé et ne remplace pas le dernier Centre comme point de retour. En Rift, elle soigne l’équipe encore présente ; les Pokémon définitivement perdus ne reviennent pas. Son soin est identifié dans le journal sans augmenter le compteur « Soins au Centre ». Les huit intérieurs supplémentaires ont désormais un PNJ : Iris, Nora, Soren, Clara, Lyse, Abel et les deux vendeurs. Aucun emplacement de carte n’a été modifié. Les 12 planches 4×4 existantes sont réutilisées ; aucun asset de carte ni JSON/TMX de carte n’a changé. Les tests tiennent compte des **deux cases** occupées par chaque PNJ, des portes et de toutes les arrivées dans les villes.
+La mère, placée dans `start` (6, 8), introduit la disparition d’Aspha et dirige vers Mounir. À la fin de chaque conversation, elle soigne gratuitement toute l’équipe : PV et PP au maximum, statuts retirés et Pokémon K.O. rétablis en Aventure. Le soin est sauvegardé et ne remplace pas le dernier Centre comme point de retour. En Rift, elle soigne l’équipe encore présente ; les Pokémon définitivement perdus ne reviennent pas. Son soin est identifié dans le journal sans augmenter le compteur « Soins au Centre ». Les huit intérieurs supplémentaires ont désormais un PNJ : Sofiane, Noz, Thibaut, Aspha, Lyse, Abel et les deux vendeurs. Aucun emplacement de carte n’a été modifié. Les 12 planches 4×4 existantes sont réutilisées ; aucun asset de carte ni JSON/TMX de carte n’a changé. Les tests tiennent compte des **deux cases** occupées par chaque PNJ, des portes et de toutes les arrivées dans les villes.
 
 ## Langues
 
@@ -160,12 +160,12 @@ Contrôles dédiés : `node --test tests/story-content.test.js`, `npm run test:m
 1. Recette humaine du chapitre I et ajustement des niveaux/équipes. La courbe sauvage et les bonus d’XP ont été redistribués ; vérifier en partie réelle le rythme d’entraînement de plusieurs Pokémon et les retours au Centre.
 2. Vérifier sur téléphone physique les dialogues, les combats et les déplacements ; compléter le PVP à deux navigateurs.
 3. Ajouter du contenu aux huit intérieurs vides et prévoir de nouveaux lieux de soins avec le responsable cartes, sans fabriquer de portes hors de ce lot.
-4. Développer la suite Clara/Aube Obscure après la lettre, puis la résolution, le combat final et l’épilogue.
+4. Développer la suite Aspha/Aube Obscure après la lettre, puis la résolution, le combat final et l’épilogue.
 5. Ajouter les soins utilisables et les objets clés, puis l’anglais des dialogues et écrans restants.
 
 ## Ajouts du 14 octobre 2026
 
-Les refuges de Lyse (Floraville) et Abel (Ocreville) composent une quête annexe de deux visites, avec deux Potions offertes par personne, une seule fois. Le chapitre II se déverrouille après la lettre du chapitre I. Iris remet le registre ; Nora révèle le contact ; Soren donne 1 800 pièces après victoire ; Clara donne une lettre et 1 200 pièces lors des retrouvailles. Les récompenses sont sérialisées par compte et les drapeaux sont conservés après reconnexion.
+Les refuges de Lyse (Floraville) et Abel (Ocreville) composent une quête annexe de deux visites, avec deux Potions offertes par personne, une seule fois. Le chapitre II se déverrouille après la lettre du chapitre I. Sofiane remet le registre ; Noz révèle le contact ; Thibaut donne 1 800 pièces après victoire ; Aspha donne une lettre et 1 200 pièces lors des retrouvailles. Les récompenses sont sérialisées par compte et les drapeaux sont conservés après reconnexion.
 
 Les boutiques proposent Potion (20 PV, 200), Super Potion (50 PV, 700), Antidote (poison simple/sévère, 100) et Rappel (moitié des PV, 1 500). Un objet sans effet ou une cible non possédée n’entraîne aucun débit. Les prix sont en monnaie Aventure, distincte des pièces RiftMon.
 
