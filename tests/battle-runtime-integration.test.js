@@ -130,6 +130,7 @@ test('combat sauvage réel : capture, objet consommé et équipe persistée', { 
         userId = fixture.user.id;
         const { player } = fixture;
         player.currentmap = 'start';
+        const beforeEv = { ...player.equipe.pokemons[0].ev };
         const wildPokemon = createPokemon(19, 'Rattata');
         wildPokemon.maxHp = 100;
         wildPokemon.currentHp = 1;
@@ -151,7 +152,11 @@ test('combat sauvage réel : capture, objet consommé et équipe persistée', { 
         const [[wallet]] = await pool.execute('SELECT money FROM users WHERE id=?',[userId]);
         assert.equal(wallet.money, summary.money);
         assert.deepEqual(summary.experience, []);
-        assert.equal((await loadEquipe(userId)).pokemons.length, 2);
+        const saved=await loadEquipe(userId);
+        assert.equal(saved.pokemons.length, 2);
+        assert.equal(saved.pokemons[0].ev.speed,beforeEv.speed+1);
+        assert.equal(saved.pokemons[1].ev.speed,0);
+        assert.deepEqual(io.events.find(e=>e.eventName==='introAnimation').payload.effortYield,{speed:1});
         const hyperBall = (await loadUserItems(userId)).find((item) => item.key === 'hyperball');
         assert.equal(hyperBall.quantity, 1);
     } finally {

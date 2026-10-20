@@ -1,6 +1,6 @@
 const { requestReplacement } = require('./replacementChoice');
 const presentation = require('./presentationState');
-const { rewardTraining } = require('../models/training');
+const { rewardTraining, effortYield } = require('../models/training');
 const {
     useattack,
     getEffectiveness,
@@ -70,7 +70,7 @@ async function narrateMessages(player, io, messages = [], delayMs = TEXT_DELAY_M
 }
 
 function displayIntroAnimation(player, currentEnemy, io) {
-    io.to(player.id).emit('introAnimation', { player, wildPokemon: currentEnemy, transitions:presentation.transitions(player,player.equipe.pokemons[0],currentEnemy) });
+    io.to(player.id).emit('introAnimation', { player, wildPokemon: currentEnemy, effortYield:effortYield(currentEnemy), transitions:presentation.transitions(player,player.equipe.pokemons[0],currentEnemy) });
 }
 
 function displayMoveAnimation(player, attacker, moveName, io) {

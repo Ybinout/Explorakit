@@ -9,7 +9,7 @@ const { switchPokemonByIndex, resolveMoveSwitches, autoSwitchPokemon, hasAlivePo
 const { serializeMoveResult, serializeFieldState } = require('../battle/battleEvents');
 const { getMoveFlags } = require('../abilities/abilityEngine');
 const { calculateBattleExperience } = require('../models/progression');
-const { yields } = require('../../../data/game/effort_yields.json');
+const { effortYield, grantEffort } = require('../models/training');
 const economy = require('./economy');
 const report = require('./runReport');
 const colosseumAI = require('./colosseumAI');
@@ -69,7 +69,7 @@ class DriftBattle {
     musicKind() { return this.a.run?.mode==='colosseum' && this.npcKey?.startsWith('colosseum_') ? 'colosseum' : this.type; }
     sync() {
         for (const [index,p] of [this.a,this.b].entries()) if (!p.npc) {
-            this.emit(p, 'introAnimation', { musicKind:this.musicKind(), transitions:presentation.transitions(p,this.active(index),this.active(1-index)), player: { id: p.socketId, userId: p.userId, equipe: p.equipe }, wildPokemon: this.active(1-index) || null, battleType: this.type === 'arena' ? 'trainer' : this.type, usableMoveIndexes: getUsableMoveIndexes(this.active(index), this.state) });
+            this.emit(p, 'introAnimation', { effortYield:this.type==='pvp'?null:effortYield(this.active(1-index)), musicKind:this.musicKind(), transitions:presentation.transitions(p,this.active(index),this.active(1-index)), player: { id: p.socketId, userId: p.userId, equipe: p.equipe }, wildPokemon: this.active(1-index) || null, battleType: this.type === 'arena' ? 'trainer' : this.type, usableMoveIndexes: getUsableMoveIndexes(this.active(index), this.state) });
             this.emit(p, 'battleFieldState', serializeFieldState(this.state));
             this.emit(p, 'bagUpdated', { items: economy.bag(p) });
         }
@@ -223,7 +223,7 @@ class DriftBattle {
         // Keep the Colosseum fighter multiplier and the existing reserve sharing rates.
         const xp = isColosseum ? Math.max(1, Math.floor(Math.floor(sharingBase * 9 / 10) * 4 / 5)) : sharingBase;
         const previousLevel = active.level, previousExperience = active.experience;
-        active.gainEffort(yields[defeated.data.id] || {}); active.gainExperience(xp);
+        grantEffort(active, defeated); active.gainExperience(xp);
         for (const [reserve, reserveXp] of reserveAwards) reserve.gainExperience(reserveXp);
         this.emit(this.a,'battleExperience',{ pokemon: active, xpGained: xp, previousLevel, previousExperience });
         this.a.chain = Math.min(5,(this.a.chain || 0)+1);
@@ -255,7 +255,7 @@ class DriftBattle {
                 const chance = Math.min(.95, Math.max(.05,(.16+(1-target.currentHp/target.maxHp)*.64)*multiplier*(1+effects.value(p,47)/100)));
                 const success = this.random() < chance;
                 this.emit(p,'captureAnimation',{ success, shakes: success ? 3 : 1, itemKey: action.itemKey });
-                if (success) { this.capturedPokemon = target; this.b.equipe.pokemons = []; p.equipe.pokemons.push(target); effects.detach([target]);report.capture(p,target);this.finish(p,'captured'); return; }
+                if (success) { grantEffort(this.active(0), target); this.capturedPokemon = target; this.b.equipe.pokemons = []; p.equipe.pokemons.push(target); effects.detach([target]);report.capture(p,target);this.finish(p,'captured'); return; }
                 this.say('Le Pokémon se libère !');
             }
         }

@@ -10,12 +10,22 @@ function normalizeEffort(input = {}) {
     }));
 }
 
+function effortYield(pokemon) {
+    const entry = yields[pokemon?.data?.id];
+    return entry ? { ...entry } : null;
+}
+
+function grantEffort(pokemon, opponent) {
+    if (!pokemon || Number(pokemon.currentHp) <= 0) return {};
+    return pokemon.gainEffort(effortYield(opponent) || {});
+}
+
 function rewardTraining(pokemon, defeated, xp, io, playerId) {
     const previousLevel = pokemon.level;
     const previousExperience = pokemon.experience;
-    const effortGained = pokemon.gainEffort(yields[defeated?.data?.id] || {});
+    const effortGained = grantEffort(pokemon, defeated);
     pokemon.gainExperience(xp);
     io.to(playerId).emit('battleExperience', { pokemon, xpGained: xp, previousLevel, previousExperience, effortGained });
 }
 
-module.exports = { STAT_KEYS, normalizeEffort, rewardTraining };
+module.exports = { STAT_KEYS, normalizeEffort, effortYield, grantEffort, rewardTraining };

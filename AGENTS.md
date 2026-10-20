@@ -1,5 +1,9 @@
 # Contexte permanent — Explorakit
 
+## Rendement EV visible en combat — 20 octobre 2026
+
+La ligne discrète en bas de la carte adverse lit le champ additif `introAnimation.effortYield`, provenant de `training.effortYield` et du catalogue serveur `effort_yields.json`. Masquée sans rendement et en PvP ; remise à jour à chaque entrant/reset. Ce sont les EV de base, avec plafonds 252/stat et 510 au total indiqués au survol, pas les EV acquis par l’adversaire. Une capture réellement réussie en Aventure/Rift/Colosseum accorde aussi ces EV au seul combattant actif via `grantEffort`, sans ajouter d’XP ni toucher la réserve/le capturé. Échec, équipe pleine et PvP n’en donnent pas. Préserver les plafonds et la persistance. Recettes : `effort-rewards.test.js`, capture SQL, `validateBattleEffortUi` dans combat navigateur (quatre tailles, clair/nocturne, gains mixtes, contraste et ligne masquée).
+
 ## Choix du remplaçant après K.O. — 20 octobre 2026
 
 Les quatre orchestrateurs (Aventure sauvage/dresseur/PvP et Drift pour Rift/Colosseum) attendent un choix explicite parmi les réserves aptes après un K.O. Une phase de remplacement ne consomme ni tour ni PP et ignore le piégeage. Aucun choix si l’équipe est totalement K.O. ; un K.O. sur pièges d’entrée redemande un choix. Les pivots/expulsions ne remplacent jamais automatiquement un combattant déjà K.O.

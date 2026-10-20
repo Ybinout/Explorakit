@@ -1,6 +1,6 @@
 const { requestReplacement } = require('./replacementChoice');
 const presentation = require('./presentationState');
-const { rewardTraining } = require('../models/training');
+const { rewardTraining, effortYield, grantEffort } = require('../models/training');
 const {
     useattack,
     getMoveByName,
@@ -76,7 +76,7 @@ async function narrate(player, io, message, delayMs = TEXT_DELAY_MS) {
 }
 
 function displayIntroAnimation(player, wildPokemon, io) {
-    io.to(player.id).emit('introAnimation', { player, wildPokemon, transitions:presentation.transitions(player,player.equipe.pokemons[0],wildPokemon) });
+    io.to(player.id).emit('introAnimation', { player, wildPokemon, effortYield:effortYield(wildPokemon), transitions:presentation.transitions(player,player.equipe.pokemons[0],wildPokemon) });
 }
 
 function displayMoveAnimation(player, attacker, moveName, io) {
@@ -267,6 +267,7 @@ async function handleBagAction(player, wildPokemon, io, userId, itemKey) {
         wildPokemon.currentHp = 1;
     }
 
+    grantEffort(playerPokemon, wildPokemon);
     player.equipe.pokemons.push(wildPokemon);
     try {
         await markPokemonCaught(userId, wildPokemon);

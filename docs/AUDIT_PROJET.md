@@ -1,5 +1,19 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Rendement EV dans la fiche adverse — 20 octobre 2026
+
+Petite ligne au bas du rectangle adverse, par exemple « EV : +1 Déf. », pour le rendement de base de l’espèce. Les gains mixtes sont réunis sur la même ligne, avec retour à la ligne si nécessaire, police 10 px et couleur commune aux thèmes. Aide au survol sur les plafonds 252 par stat/510 au total. La source autoritaire est le catalogue de récompenses, transmis via `introAnimation.effortYield` ; mise à jour au changement d’adversaire et suppression au reset/sans données. Pas de ligne en PvP, qui ne récompense pas d’EV.
+
+La vérification a révélé l’absence d’EV à la capture. Une capture réellement réussie accorde maintenant le rendement au seul combattant actif, dans les trois modes, en respectant les plafonds existants. Aucun ajout d’XP de capture ; réserve et capturé inchangés. Échec de capture, équipe pleine et PvP ne donnent pas d’EV. La victoire reste basée sur le même catalogue et la même fonction partagée. Aucun changement de carte, classement ou schéma SQL.
+
+Vérifications : catalogue/espèces mixtes, caps et K.O., capture réussie/ratée Rift et Colosseum, absence de gain d’XP/réserve/capturé/rejeu, invisibilité PvP et actualisation après changement PNJ ; SQL capture Aventure avec EV effectivement persistés. Recette navigateur intégrée au combat : quatre tailles, clair/nocturne, gains mixtes, contraste et ligne bornée dans la carte. Sur portrait très court, les espacements de la seule fiche adverse sont resserrés pour que la ligne EV ne passe pas sous la fiche du joueur ; les actions restent fixes. La recette contrôle aussi ce chevauchement. Le helper d’ouverture du carnet de test est rendu idempotent face à son ouverture automatique.
+
+Validation : `verify:release -- --mysql` termine à 0 avec **511 tests applicatifs et 46 SQL**, audits, HTTP/reprise, lint et build. Après l’ajustement visuel pour petits écrans, lint et build repassent ; la recette combat complète passe à 0 et sans erreur : ligne EV réelle, gains mixtes dans deux thèmes/quatre tailles, contraste d’au moins 4,5:1, absence de chevauchement, ligne masquée, entrée/animations/XP, choix après K.O., ordre d’équipe, musique et checkpoint. Captures 320/393 clair/nocturne inspectées.
+
+Build final `/tmp/explorakit-ev-preview-dist`, hash `611b57dd47519145` ; client `2dc33b766a7d71fc3c3487f0e1950354f99b8aef`. Publication le **20/10/2026 à 18 h 17 (Paris)** avec redémarrage du seul service Explorakit, checkpoint sauvegardé et zéro expédition active au contrôle préalable. Sauvegarde sources/dist/SQL/checkpoint : `/home/ubuntu/dev/backups/explorakit-ev-preview-2026-10-20T16-12-18-683Z`.
+
+Contrôle HTTPS terminé à 0 sur un compte temporaire : vrai duel contre Timmy, rendement serveur « EV : +1 Vit. », quatre tailles et deux thèmes, ligne dans la fiche, reset après sortie, index conforme et aucune erreur. Compte supprimé ; Know et api-test inchangés. Service actif, zéro redémarrage automatique. Logs/captures `/tmp/explorakit-ev-preview-*`. Aucune CI distante ni validation sur téléphone physique revendiquée.
+
 ## Choisir son remplaçant après un K.O. — 20 octobre 2026
 
 Les trois modes laissent choisir le compagnon qui prend le relais après un K.O., même s’il ne reste qu’une réserve. La sélection s’ouvre directement dans le panneau d’équipe après les animations du sortant. Attaque, sac et fuite sont verrouillés pendant ce choix. Le remplacement n’utilise pas un tour et ne déclenche pas de nouvelle attaque adverse ; le tour suivant reprend avec les deux combattants aptes. Les PNJ conservent leur remplacement automatique.
@@ -1532,6 +1546,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **20 octobre 2026 — Rendement EV :** ligne serveur dans la fiche adverse, absente en PvP ; EV accordés aussi à la capture réussie, contrôles et sauvegarde vérifiés.
 
 - **20 octobre 2026 — Choix après K.O. :** remplacement explicite partagé aux trois modes, sélection directe, contrôle serveur et reprise, pièges/talisman et vérifications SQL/navigateur.
 
