@@ -1,5 +1,17 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Vaguelettes plus visibles dans la Ville du Lac — 20 octobre 2026
+
+Le courant précédent, d’un pixel et avec des reflets très faibles, se voyait peu sur le bleu uniforme de la ville. Le seul profil `ville1` reçoit un mouvement de deux pixels source au maximum en horizontal/un en vertical et des crêtes claires et creux doux qui traversent la surface, sans clignotement global. Les autres lacs gardent leur animation. Le masque de 9 098 pixels reste identique : aucun changement des berges, rochers, plantes, décors, transparence ou PNG. Pas de nouvelle boucle ; cache natif 448×320 à 15 Hz, mouvement réduit et suspensions existants conservés. Composant commun aux trois modes, sans changement de climat, carte ou serveur.
+
+Sur la vraie image, entre 200 et 600 ms : 6 218 pixels d’eau changent contre 1 737 auparavant ; écart RGB moyen 4,45 contre 0,71. La recette du lac vérifie maintenant la lisibilité sur cet intervalle court, en plus des points fixes et des pixels hors masque/alpha, des quatre tailles et de l’arrêt/reprise. Les quatre tests existants de masque/cache/profils passent. Comparaison des vrais PNG du village de départ et de Route 3 avec le renderer précédent sur cinq instants : sorties strictement identiques.
+
+Validation : lint et build passent à 0. La recette météo complète termine à 0 sans erreur, avec les trois modes, les trois lacs, pluie/impacts/feuillage, décors de combat et interruptions. Ville du Lac : 6 707 pixels changent entre 200 et 2 300 ms, aucun changement hors masque ni d’alpha, tous les points fixes préservés. Mouvement réduit système/jeu, combat/chargement/masquage et reprise contrôlés ; captures mobile inspectées.
+
+Build `/tmp/explorakit-lake-motion-dist`, hash `ea4b8638d129239d` ; client `720386cafc11978e71a93d4acf0ef47a398f7029`. Publication statique le **20/10/2026 à 18 h 33 (Paris)**, sans redémarrage ni changement de processus serveur. Sauvegarde sources/dist/SQL/checkpoint : `/home/ubuntu/dev/backups/explorakit-lake-motion-2026-10-20T16-31-44-489Z`.
+
+Contrôle HTTPS terminé à 0 sur un compte temporaire dans la Ville du Lac : mêmes mesures réelles du mouvement court, pixels extérieurs/alpha intacts et rochers/berges fixes, lac visible aux quatre tailles, suspensions/reprise, ville sèche, index conforme et aucune erreur. Compte supprimé ; Know et api-test inchangés. Service actif, zéro redémarrage automatique. Logs/captures `/tmp/explorakit-lake-motion-*`. Aucune CI distante ni validation sur téléphone physique revendiquée.
+
 ## PNJ plus lisibles et alignés sur le joueur — 20 octobre 2026
 
 Le PNJ à côté du joueur dans la Ville du Lac utilise le petit atlas des habitants. Son repère de dessin était réduit à 48 px : chaque pixel source occupait 1,5 pixel du monde, donnant des marches irrégulières ; ses pieds finissaient aussi huit pixels trop haut. Le repère passe à 64 px avec facteur entier ×2, pixels carrés sans lissage, silhouette entière et pieds sur la même base opaque que le joueur. Arrondi au pixel du monde pendant la marche. Même correction pour les 32 cadres de cet atlas, dans le composant partagé par Aventure/Rift/Colosseum.
@@ -1558,6 +1570,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **20 octobre 2026 — Lac plus animé :** courant et vaguelettes renforcés seulement à Ville du Lac ; masque/décor fixes et vérification du mouvement sur 400 ms.
 
 - **20 octobre 2026 — PNJ sur carte :** agrandissement net ×2 des habitants, pixels entiers et pieds alignés sur le joueur ; cadrages et portraits préservés, recette navigateur adaptée.
 

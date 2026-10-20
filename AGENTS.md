@@ -1,5 +1,9 @@
 # Contexte permanent — Explorakit
 
+## Eau plus visible dans la Ville du Lac — 20 octobre 2026
+
+Seul le profil `ville1` de `VillageWaterRenderer` utilise un courant de deux pixels source au maximum en horizontal/un en vertical et des crêtes et creux modérés qui se déplacent. Le masque intérieur de 9 098 pixels, sa marge et les points fixes restent identiques. Ne pas augmenter tout le rendu de la carte, déplacer les rochers ni toucher les autres profils pour rendre le lac plus animé. Source immuable, alpha conservé, cache natif/15 Hz et suspensions/mouvement réduit restent inchangés. La recette `validateLakeWaterUi` exige désormais un changement perceptible sous 400 ms pour `ville1`, tout en contrôlant les pixels extérieurs, berges et rochers fixes, quatre tailles et les garde-fous.
+
 ## Taille des PNJ sur carte — 20 octobre 2026
 
 Les 32 cadres du petit atlas `townspeople-pixel-v2` sont dessinés dans un repère 64 px, à un facteur entier ×2 (ancien facteur 1,5). Les rectangles irréguliers de `npcFrames.js` restent exacts ; pas de nouvelle image ni modification des portraits illustrés. Le bord opaque des pieds s’aligne sur celui du joueur : centre de case +18 px, soit y de case ×32 +34. Le déplacement interpolé des PNJ est arrondi au pixel du monde. Ne pas remettre le repère 48 px et le pied décalé. `validateNpcSprites` contrôle les 32 découpes, facteur entier, centrage et sol commun, en plus de l’indépendance des portraits.

@@ -10,7 +10,13 @@ module.exports = async function validateLakeWaterUi(page, output, map = 'ville1'
   const lake = await page.evaluate(({map, fixedPoints}) => {
     const v = document.querySelector('.game-root').__vue__, r = new v._villageWater.constructor(), target = document.createElement('canvas');
     target.width = 896; target.height = 640;
-    r.draw(target.getContext('2d'), v.mapImage, 200, true, map); const first = r.output.slice();
+    r.draw(target.getContext('2d'), v.mapImage, 200, true, map); const first = r.output.slice(), firstColors = r.frame.data.slice();
+    r.draw(target.getContext('2d'), v.mapImage, 600, true, map); let shortChanged = 0, shortDelta = 0;
+    for (const i of r.mask.pixels) {
+      if (first[i] !== r.output[i]) shortChanged++;
+      for (let channel = 0; channel < 3; channel++) shortDelta += Math.abs(firstColors[i*4+channel] - r.frame.data[i*4+channel]);
+    }
+    const shortMean = shortDelta / (3*r.mask.pixels.length);
     r.draw(target.getContext('2d'), v.mapImage, 2300, true, map); let changed = 0, outside = 0, alpha = 0;
     for (let i = 0; i < first.length; i++) {
       if (first[i] !== r.output[i]) changed++;
@@ -20,8 +26,9 @@ module.exports = async function validateLakeWaterUi(page, output, map = 'ville1'
     const pixels = r.mask.pixels.length;
     // Rocks, bank, roof and foreground trees must never enter the animation mask.
     const fixed = fixedPoints.every(([x,y]) => !r.mask.interior[y*448+x]);
-    r.destroy(); return {changed, outside, alpha, pixels, fixed, dry: !v.mapWeather?.kind};
+    r.destroy(); return {shortChanged, shortMean, changed, outside, alpha, pixels, fixed, dry: !v.mapWeather?.kind};
   }, {map, fixedPoints: profile.fixed});
+  if (map === 'ville1') assert(lake.shortChanged > lake.pixels * .4 && lake.shortMean > 2, 'City water must move visibly within 400 ms');
   assert(lake.changed > 100 && lake.pixels > profile.minimum); assert(lake.fixed && lake.dry); assert.equal(lake.outside, 0); assert.equal(lake.alpha, 0);
   for (const [width,height] of [[320,480],[393,852],[844,390],[1365,900]]) {
     await page.setViewportSize({width,height});
