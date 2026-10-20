@@ -1,5 +1,17 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Eau animée dans la Ville du Lac — 20 octobre 2026
+
+Le lac en haut à droite de `ville1` reçoit un courant discret d’un pixel source et de très légers reflets, via le renderer du lac de départ. Chaque carte conserve son propre rectangle et sa palette ; marge intérieure fixe autour des berges, rochers et bâtiments, sans modification du PNG ni du premier plan. Animation composée avant les personnages, commune aux trois modes, indépendante de la météo : la ville reste sèche.
+
+Surface native réutilisée à 15 Hz ; cache libéré au changement de carte, combat/résultat, chargement, onglet masqué et destruction. Animations désactivées ou réduction des mouvements système : image originale exacte. Test supplémentaire de séparation des profils et d’immobilité du décor ; recette `validateLakeWaterUi` sur la vraie image, quatre tailles, intégrité hors masque/alpha et suspension/reprise, intégrée à `test:weather-browser`.
+
+Validation technique : `verify:release -- --mysql` passe avec **492 tests applicatifs et 44 SQL**, audits, HTTP/reprise, lint et build. La recette météo complète termine à 0 et sans erreur : **9 098 pixels intérieurs** dans la Ville du Lac, 2 985 modifiés entre les deux instants contrôlés, aucun changement hors masque ni d’alpha ; rochers/berges/bâtiments fixes, quatre tailles, ville sèche et garde-fous d’animation. Lac de départ, feuillage, routes, pluie réelle et trois modes conservent leur validation. Captures mobile et bureau inspectées.
+
+Build `/tmp/explorakit-lac-water-dist`, hash `586e9006d8167df9` ; client `d49aad63d4f36d6b496e0b80c5fa73f9a8088624`. La recette de publication navigateur complète passe à 0 et sans erreur (menus/thèmes/ordre automatique, déplacements/voyages, combats, XP/audio, apprentissage et Rift). Publication statique le **20/10/2026 à 16 h 20 (Paris)**, sans redémarrage ni changement de processus serveur. Sauvegarde sources/dist/SQL/checkpoint : `/home/ubuntu/dev/backups/explorakit-lac-water-2026-10-20T14-15-40-338Z`.
+
+Contrôle HTTPS terminé à 0 sur un compte temporaire : même masque et intégrité des pixels, quatre tailles, garde-fous et reprise, ville sèche, index conforme au build et aucune erreur. Compte temporaire supprimé ; Know et api-test inchangés. Service actif, zéro redémarrage automatique. Logs/captures `/tmp/explorakit-lac-water-*`. Aucune CI distante ni validation sur téléphone physique revendiquée.
+
 ## Bilan de combat avec davantage de caractère — 20 octobre 2026
 
 Le créateur préfère finalement le caractère de l’ancien bilan illustré dans sa capture au panneau très sobre livré précédemment. Retour d’un bandeau contrasté, d’un emblème circulaire, du titre Georgia, d’un cadre à liseré doré et de coins asymétriques, avec un bouton Continuer plus marqué. Cette demande remplace l’ancienne interdiction d’emblème/titre serif dans les consignes du bilan ; elle ne concerne pas la typographie des autres menus.
@@ -1448,6 +1460,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **20 octobre 2026 — Ville du Lac :** animation douce du lac nord-est via un masque dédié ; décor et cartes sources préservés, météo inchangée. Tests de profils/pixels et recette navigateur à quatre tailles ajoutés.
 
 - **20/10/2026 — Caractère du bilan** : retour du bandeau sombre, emblème, titre serif et liseré demandés ; thèmes/nocturne, six issues, détails réels et interactions préservés. Voir la section du jour.
 

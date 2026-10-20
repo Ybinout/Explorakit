@@ -1,5 +1,9 @@
 # Contexte permanent — Explorakit
 
+## Eau de la Ville du Lac — 20 octobre 2026
+
+`villageWater.js` possède deux profils indépendants : lac bas de `start` et eau en haut à droite de `ville1`. Le second utilise uniquement cinq couleurs d’eau dans son rectangle, avec marge intérieure autour des berges/rochers/bâtiments ; PNG/foreground et données de carte inchangés. `hasVillageWater` active l’eau sans dépendre des cartes de pluie : Ville du Lac reste sèche. Le cache est invalidé au changement de carte/profil ; mêmes garde-fous 15 Hz, mouvement réduit et suspension. Recette partagée `validateLakeWaterUi` dans météo navigateur et contrôle HTTPS : vrais pixels, quatre tailles, décor/alpha exacts, arrêt/reprise mouvement réduit/combat/chargement/masquage.
+
 ## Thèmes et ordre automatique — 20 octobre 2026
 
 Options : palettes bleu/sauge/lavande/sable et clair/nocturne via `gamePreferences` (`themeColor`, `themeMode`). Le thème est appliqué avant montage dans `main.js`, puis immédiatement à chaque enregistrement, par attributs sur `html` et variables `field-journal.css`. Défaut bleu/clair pour préférences anciennes ; ne pas filtrer la carte ni recolorer types/PV/raretés. Les textes des boutons d’accent utilisent `--journal-on-accent`, contrastes vérifiés dans les huit combinaisons.
@@ -24,7 +28,7 @@ La météo et ses intensités viennent uniquement de `mapWeatherState.ambience` 
 
 ## Impacts au sol et météo des routes 1/2 — 20 octobre 2026
 
-`map_weather.json` définit la pluie réelle de `start`, `route1`, `route2` ; les routes annoncent aussi `ambience:{wind:1,rain:1}` dans l’événement compatible `mapWeatherState`. Les préférences du village restent propres à `start` ; `effectiveWorldWeather` utilise le profil serveur des routes. `worldRainGround.js` est dérivé en lecture seule des collisions/couches couvertes classiques via `scripts/generateWorldRainGround.js` : régénérer si ces trois cartes changent. Les impacts sont contenus dans les cases libres/non couvertes et dessinés avant PNJ/personnages/premier plan ; pluie/vent restent au-dessus. Une seule surface météo, cache partagé 30 Hz entre les deux passes, maximum 208 éléments, aucun impact en mouvement réduit. Lac et animation des deux couronnes restent strictement limités à `start` ; ne pas appliquer leurs masques aux routes. Recettes : `world-weather.test.js`, `map-weather.test.js`, `test:weather-browser` (deux profils légers, quatre tailles, pluie réelle en combat, absence d’effets spécifiques du village sur routes).
+`map_weather.json` définit la pluie réelle de `start`, `route1`, `route2` ; les routes annoncent aussi `ambience:{wind:1,rain:1}` dans l’événement compatible `mapWeatherState`. Les préférences du village restent propres à `start` ; `effectiveWorldWeather` utilise le profil serveur des routes. `worldRainGround.js` est dérivé en lecture seule des collisions/couches couvertes classiques via `scripts/generateWorldRainGround.js` : régénérer si ces trois cartes changent. Les impacts sont contenus dans les cases libres/non couvertes et dessinés avant PNJ/personnages/premier plan ; pluie/vent restent au-dessus. Une seule surface météo, cache partagé 30 Hz entre les deux passes, maximum 208 éléments, aucun impact en mouvement réduit. Le lac de départ et les deux couronnes utilisent leurs masques propres à `start` ; le lac de `ville1` possède un profil indépendant. Ne pas appliquer ces masques aux routes. Recettes : `world-weather.test.js`, `map-weather.test.js`, `test:weather-browser` (deux profils légers, quatre tailles, pluie réelle en combat, absence d’effets spécifiques du village sur routes).
 
 ## Eau du lac de départ — 20 octobre 2026
 

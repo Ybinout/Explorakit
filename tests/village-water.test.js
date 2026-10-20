@@ -46,3 +46,23 @@ test('unreadable lake pixels fall back to the unchanged map', async () => {
     assert.equal(r.canvas, null); assert.deepEqual(calls.at(-1), [image,0,0,896,640]);
   }
 });
+test('Ville du Lac animates only its own water colors and clears its profile on map changes', async () => {
+  const { VillageWaterRenderer, villageWaterMask, hasVillageWater } = await service();
+  const {data, put} = artwork();
+  for (let y = 28; y < 140; y++) for (let x = 250; x < 408; x++) put(x, y, x % 3 ? [48,176,240,255] : [64,184,240,255]);
+  put(280,40,[149,172,158,255]); // Rock and its fixed margin.
+  put(390,120,[48,176,240,80]);
+  const s = surfaces(data), r = new VillageWaterRenderer(() => s.create()), image = {}, target = {drawImage() {}};
+  assert.equal(hasVillageWater('ville1'), true); assert.equal(hasVillageWater('route1'), false); assert.equal(hasVillageWater('toString'), false);
+  r.draw(target,image,200,true,'ville1'); const first=r.output.slice();
+  r.draw(target,image,2300,true,'ville1'); let changed=0;
+  for(let i=0;i<first.length;i++) {
+    if(first[i]!==r.output[i]) changed++;
+    if(!r.mask.interior[i]) assert.equal(r.output[i],r.original[i]);
+    assert.equal(r.frame.data[i*4+3],data[i*4+3]);
+  }
+  assert(changed>100);
+  for(const [x,y] of [[280,40],[279,40],[390,120],[389,120],[250,70],[90,280]]) assert.equal(r.mask.interior[y*448+x],0);
+  r.draw(target,image,2400,true,'start'); assert.equal(s.all[0].width,0); assert.equal(r.map,'start'); assert.equal(r.mask.interior[80*448+300],0);
+  r.draw(target,image,2500,true,'route1'); assert.equal(r.canvas,null); assert.equal(villageWaterMask(data,'route1').pixels.length,0);
+});
