@@ -1,5 +1,17 @@
 # Audit technique et mémoire du projet Explorakit
 
+## PNJ plus lisibles et alignés sur le joueur — 20 octobre 2026
+
+Le PNJ à côté du joueur dans la Ville du Lac utilise le petit atlas des habitants. Son repère de dessin était réduit à 48 px : chaque pixel source occupait 1,5 pixel du monde, donnant des marches irrégulières ; ses pieds finissaient aussi huit pixels trop haut. Le repère passe à 64 px avec facteur entier ×2, pixels carrés sans lissage, silhouette entière et pieds sur la même base opaque que le joueur. Arrondi au pixel du monde pendant la marche. Même correction pour les 32 cadres de cet atlas, dans le composant partagé par Aventure/Rift/Colosseum.
+
+Les rectangles de découpe irréguliers sont conservés, sans toucher les images/portraits illustrés, les autres sprites 64 px, positions, collisions ou interactions. Aucun changement serveur ou SQL. La recette existante `validateNpcSprites` contrôle les 32 découpes, l’échelle entière, le centrage et l’ancrage des pieds, ainsi que les 32 illustrations indépendantes. Vérification visuelle à proximité de Bastien dans la Ville du Lac, aux quatre tailles.
+
+Validation : lint et build passent à 0. La recette de publication navigateur complète passe à 0 et sans erreur, avec les 32 découpes entières, facteur ×2 et pieds alignés, 32 portraits illustrés indépendants, déplacements/voyages, menus/thèmes/ordre, combats/XP/audio et apprentissage. Aucun test unitaire supplémentaire pour ce changement de rendu réversible ; les contrôles existants de dessin sont étendus.
+
+Build `/tmp/explorakit-npc-scale-dist`, hash `86464b7862c0b5d1` ; client `7eaa3a4f55e439350f10fbcc919fee07985f1213`. Publication statique le **20/10/2026 à 18 h 25 (Paris)**, sans redémarrage ni changement de processus serveur. Sauvegarde sources/dist/SQL/checkpoint : `/home/ubuntu/dev/backups/explorakit-npc-scale-2026-10-20T16-23-04-422Z`.
+
+Contrôle HTTPS terminé à 0 sur un compte temporaire à Ville du Lac : Bastien passe d’une silhouette de 30×42 à 40×56 pixels du monde, centrée et ancrée sur la même base que le joueur, sans lissage ; quatre tailles sans débordement, index conforme et aucune erreur. Compte supprimé ; Know et api-test inchangés. Service actif, zéro redémarrage automatique. Captures mobiles inspectées. Logs/captures `/tmp/explorakit-npc-scale-*`. Aucune CI distante ni validation sur téléphone physique revendiquée.
+
 ## Rendement EV dans la fiche adverse — 20 octobre 2026
 
 Petite ligne au bas du rectangle adverse, par exemple « EV : +1 Déf. », pour le rendement de base de l’espèce. Les gains mixtes sont réunis sur la même ligne, avec retour à la ligne si nécessaire, police 10 px et couleur commune aux thèmes. Aide au survol sur les plafonds 252 par stat/510 au total. La source autoritaire est le catalogue de récompenses, transmis via `introAnimation.effortYield` ; mise à jour au changement d’adversaire et suppression au reset/sans données. Pas de ligne en PvP, qui ne récompense pas d’EV.
@@ -1546,6 +1558,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **20 octobre 2026 — PNJ sur carte :** agrandissement net ×2 des habitants, pixels entiers et pieds alignés sur le joueur ; cadrages et portraits préservés, recette navigateur adaptée.
 
 - **20 octobre 2026 — Rendement EV :** ligne serveur dans la fiche adverse, absente en PvP ; EV accordés aussi à la capture réussie, contrôles et sauvegarde vérifiés.
 

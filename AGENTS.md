@@ -1,5 +1,9 @@
 # Contexte permanent — Explorakit
 
+## Taille des PNJ sur carte — 20 octobre 2026
+
+Les 32 cadres du petit atlas `townspeople-pixel-v2` sont dessinés dans un repère 64 px, à un facteur entier ×2 (ancien facteur 1,5). Les rectangles irréguliers de `npcFrames.js` restent exacts ; pas de nouvelle image ni modification des portraits illustrés. Le bord opaque des pieds s’aligne sur celui du joueur : centre de case +18 px, soit y de case ×32 +34. Le déplacement interpolé des PNJ est arrondi au pixel du monde. Ne pas remettre le repère 48 px et le pied décalé. `validateNpcSprites` contrôle les 32 découpes, facteur entier, centrage et sol commun, en plus de l’indépendance des portraits.
+
 ## Rendement EV visible en combat — 20 octobre 2026
 
 La ligne discrète en bas de la carte adverse lit le champ additif `introAnimation.effortYield`, provenant de `training.effortYield` et du catalogue serveur `effort_yields.json`. Masquée sans rendement et en PvP ; remise à jour à chaque entrant/reset. Ce sont les EV de base, avec plafonds 252/stat et 510 au total indiqués au survol, pas les EV acquis par l’adversaire. Une capture réellement réussie en Aventure/Rift/Colosseum accorde aussi ces EV au seul combattant actif via `grantEffort`, sans ajouter d’XP ni toucher la réserve/le capturé. Échec, équipe pleine et PvP n’en donnent pas. Préserver les plafonds et la persistance. Recettes : `effort-rewards.test.js`, capture SQL, `validateBattleEffortUi` dans combat navigateur (quatre tailles, clair/nocturne, gains mixtes, contraste et ligne masquée).
