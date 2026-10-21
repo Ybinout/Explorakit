@@ -1,5 +1,21 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Repousse, Super Repousse et Repousse Max — 21 octobre 2026
+
+Trois consommables d’exploration sont vendus dans toutes les boutiques actuelles, également dans Fournitures en Rift/Colosseum : **Repousse 350 ₽ / 100 pas**, **Super Repousse 500 ₽ / 200 pas**, **Repousse Max 700 ₽ / 250 pas**. Durées et noms vérifiés dans les [données primaires PokeAPI](https://github.com/PokeAPI/pokeapi/tree/master/data/v2/csv) (`item_prose.csv`, `item_names.csv`) ; prix choisis pour l’économie du jeu. Le premier compagnon apte donne le seuil : seuls les sauvages de niveau strictement inférieur sont repoussés, les niveaux égaux/supérieurs restent rencontrables. Le tirage est ignoré, sans nouveau tirage forcé ni récompense. Aucun effet sur les PNJ, arènes ou PvP.
+
+Le pas n’est décompté qu’après un mouvement autorisé ; mur, PNJ bloquant, commande invalide, menu et combat n’usent rien. Une entrée/sortie compte un seul pas, pas la distance de téléportation. Le dernier pas bénéficie encore de la protection puis un message discret annonce la fin. Réordonnancement/niveau de l’équipe pris en compte au pas suivant. Activation directe depuis la nouvelle poche **Objets** du sac, sans cible ; bouton désactivé pendant l’effet, validation serveur identique et aucun objet perdu sur refus. Compteur privé visible dans le sac, aucun HUD envahissant ajouté. Icône spray SVG native et sept poches permanentes, thèmes et accessibilité conservés.
+
+Persistance Aventure : migration additive/réexécutable **018_repel_steps.sql**, initialisation à 0 des sauvegardes existantes. Activation et consommation sous transaction/verrou utilisateur ; vidage préalable de la file de position pour éviter une écriture ancienne à 0 après l’activation. Compteur sauvé avec le déplacement et à la déconnexion/sauvegarde, écritures monotones et appels anciens sans compteur préservés. La normalisation d’une ancienne position conserve aussi le Repousse. Aucun compte, stock existant, Pokémon, progression ou carte réinitialisé.
+
+Rift/Colosseum : commande `drift:repel`, consommation du stock de l’expédition et compteur dans le checkpoint courant, absent dans les anciens checkpoints = 0. Utilisation réservée à l’exploration d’un survivant hors combat, aucun partage avec le sac ou le compteur Aventure. Achat/activation suivent la sauvegarde durable existante des commandes ; pas de nouvelle mécanique de survie ou de tournoi.
+
+Recettes : sept tests de règles/économie/checkpoint/état privé, deux scénarios runtime Rift (murs/portails/expiration, vraie rencontre forcée sur le dernier pas), intégration MySQL (achats, double activation concurrente, anti-cumul, sauvegarde/rechargement, appel ancien, stock épuisé). `test:repel-browser` achète réellement les trois objets, utilise sans cible, contrôle compteur/reconnexion et indépendance Aventure/Colosseum, dernier pas protégé puis vrai retour des rencontres, refus en combat et quatre tailles/deux thèmes sans erreur navigateur. La recette de sac existante couvre désormais aussi la poche Objets.
+
+Validation finale : `verify:release -- --mysql` à 0, **539 tests applicatifs + 50 SQL**, audits, HTTP/reprise, lint et build `/tmp/explorakit-repel-dist` (hash `8f7e22f708e9f4ed`). Migration 018 appliquée deux fois sur le schéma de test pour vérifier sa réexécution ; préflight et vérification du schéma de production à 0. `test:repel-browser` repasse sur le build final, y compris la recette existante de toutes les poches (quantités/épuisement/vide/inconnu, clavier/focus), quatre tailles et deux thèmes, sans erreur.
+
+Publication le **21/10/2026 à 7 h 25 (Paris)**, client `74baa9331af788928080895a93f37206911ce5ef`. Sauvegarde sources/dist/SQL/checkpoint : `/home/ubuntu/dev/backups/explorakit-repel-2026-10-21T05-23-18-063Z`. Migration additive 018 seule ajoutée ; redémarrage du seul service Explorakit, aucune expédition active avant redémarrage, service actif et zéro redémarrage automatique. Contrôle HTTPS à 0 sur compte temporaire : trois achats réels, utilisation, anti-cumul sans consommation, compteur 100 → 99, sauvegarde SQL/reconnexion, quatre tailles/deux thèmes et index identique au build. Compte de recette supprimé ; Know et api-test inchangés (statut et empreinte). Captures inspectées, logs `/tmp/explorakit-repel-*` ; aucune validation sur téléphone physique ni CI distante revendiquée.
+
 ## Route 8, Ocreville et nouvelle étape Raphael — 20 octobre 2026
 
 Les JSON, fonds et premiers plans de `pourtoi/route8*` et `pourtoi/ocreville*` remplacent à l’identique `gen_route8` et `gen_ville5`. JSON CRLF et PNG préservés, empreintes SHA-256 versionnées dans `docs/ocreville-author-assets.json`, TMX miroirs des couches. Même grille 28×20/16 px, identifiants historiques conservés, pas de suppression des sauvegardes. Les raccords deviennent verticaux : Route 4 sud ↔ Route 8 nord, Route 8 sud ↔ Ocreville nord ; Ocreville sud ↔ Route 7 est. Arrivées praticables hors portails ; pas d’altération des collisions fournies. Le marqueur (21,19) d’Ocreville est derrière l’obstacle de l’auteur, les cellules voisines assurent le passage ; aucune ouverture artificielle.
@@ -1630,6 +1646,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **21 octobre 2026 — Repousse :** trois formats vendus et utilisables, poche Objets, protection en pas partagée entre moteurs, compteurs et stocks persistants séparés, dernier pas et reconnexions vérifiés.
 
 - **20 octobre 2026 — Nouvelle Ocreville :** six sources auteur remplacées, raccords nord/sud, six portes/Centre/PNJ, Raphael déplacé et cinquième jalon, anciennes positions sécurisées et contrôles des trois modes.
 

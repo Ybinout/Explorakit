@@ -19,7 +19,8 @@ const migrationFiles = [
     '014_colosseum_formats.sql',
     '015_ranks_friends.sql',
     '016_move_learning.sql',
-    '017_evolution_experience.sql'
+    '017_evolution_experience.sql',
+    '018_repel_steps.sql'
 ];
 
 async function applyMigrations() {

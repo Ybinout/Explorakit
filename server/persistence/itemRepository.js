@@ -21,7 +21,8 @@ function hydrateItems(rows) {
             heal: itemFromCatalog.heal || null,
             cure: itemFromCatalog.cure || null,
             revive: Boolean(itemFromCatalog.revive),
-            fieldUse: itemFromCatalog.fieldUse || null
+            fieldUse: itemFromCatalog.fieldUse || null,
+            repelSteps: itemFromCatalog.repelSteps || null
         };
     });
 }

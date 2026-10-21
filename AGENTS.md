@@ -1,5 +1,11 @@
 # Contexte permanent — Explorakit
 
+## Repousse dans les trois modes — 21 octobre 2026
+
+`items.json` ajoute `repel` / `super_repel` / `max_repel`, poche `field` (Objets), durées 100/200/250 pas, prix 350/500/700. Disponibles dans toutes les boutiques existantes et Fournitures d’expédition. `game/items/repel.js` partage la règle : premier Pokémon apte, rencontres strictement plus faibles ignorées, dernier pas protégé ; compteur seulement sur un déplacement accepté, y compris une porte mais sans compter la téléportation. Pas d’effet sur dresseurs/PvP, pas de soin ni de cible, aucun cumul/gaspillage si déjà actif.
+
+Aventure : migration additive idempotente 018 (`users.repel_steps`), activation transactionnelle avec stock et verrou utilisateur, vidage des anciennes écritures de position avant activation. Les sauvegardes de position ne peuvent qu’abaisser le compteur et n’envoient rien s’il est inchangé ; anciens appels sans compteur le conservent. Rift/Colosseum : `drift:repel`, stock/compteur propres à la partie et checkpoint existant, défaut 0 pour anciennes parties. État privé `fieldEffectState` / `drift:state`, affichage seulement dans le sac et message d’expiration ; ne pas ajouter de panneau sur la carte. Le sac a désormais sept poches permanentes plus Autres conditionnelle. Recettes : `repel.test.js`, deux scénarios runtime Rift, transaction SQL et `test:repel-browser` (achats réels, reconnexions, indépendance Aventure/Colosseum, dernier pas, retour des rencontres, mobile/thèmes).
+
 ## Route 8, nouvelle Ocreville et Raphael — 20 octobre 2026
 
 Les six fichiers auteur de `pourtoi` remplacent à l’identique les sources `gen_route8`/`gen_ville5` (empreintes dans `docs/ocreville-author-assets.json`), TMX miroirs des couches. Identifiants historiques conservés pour les sauvegardes. Route 4 sud ↔ Route 8 nord ; Route 8 sud ↔ Ocreville nord ; Ocreville sud ↔ Route 7 est. Arrivées hors portails : Route 8 (18,1)/(23,18), Ocreville (23,1)/(23,18), Route 4 (18,18), Route 7 (26,10). Ne pas rétablir les anciens raccords est/ouest. Le marqueur sud-ouest (21,19) d’Ocreville reste derrière un obstacle auteur ; les passages voisins sont praticables. Ne pas retoucher les collisions pour l’ouvrir.

@@ -30,7 +30,7 @@ async function verifyMigration() {
             `SELECT COLUMN_NAME, COLUMN_TYPE, IS_NULLABLE
              FROM information_schema.COLUMNS
              WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'users'
-               AND COLUMN_NAME IN ('respawn_x', 'respawn_y', 'respawn_map', 'money', 'center_return_x', 'center_return_y', 'center_return_map')
+               AND COLUMN_NAME IN ('respawn_x', 'respawn_y', 'respawn_map', 'money', 'center_return_x', 'center_return_y', 'center_return_map', 'repel_steps')
              ORDER BY COLUMN_NAME`
         );
         const [constraints] = await connection.query(
@@ -92,7 +92,9 @@ async function verifyMigration() {
                     column.TABLE_NAME === 'rift_runs' && column.COLUMN_NAME === name
                     && type.test(column.COLUMN_TYPE) && column.IS_NULLABLE === 'YES'
                     && (column.COLUMN_DEFAULT === null || column.COLUMN_DEFAULT === 'NULL')))
-            && respawnColumns.length === 7
+            && migrations.some(migration => migration.name === '018_repel_steps.sql')
+            && respawnColumns.some(column => column.COLUMN_NAME === 'repel_steps' && column.IS_NULLABLE === 'NO' && /smallint.*unsigned/i.test(column.COLUMN_TYPE))
+            && respawnColumns.length === 8
             && respawnColumns.some((column) => column.COLUMN_NAME === 'money')
             && columns.some((column) => column.COLUMN_NAME === 'status')
             && columns.some((column) => column.COLUMN_NAME === 'passive_ability')

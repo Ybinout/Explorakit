@@ -20,7 +20,7 @@ async function loadUserPosition(userId) {
     let rows;
     try {
         [rows] = await dbPool.execute(
-            `SELECT x, y, map, sprite,
+            `SELECT x, y, map, sprite, repel_steps,
                     respawn_x, respawn_y, respawn_map,
                     center_return_x, center_return_y, center_return_map
              FROM users WHERE id = ? LIMIT 1`,
@@ -57,18 +57,20 @@ async function loadUserPosition(userId) {
     };
 }
 
-async function saveUserPosition(userId, { x, y, map, centerReturnPoint }) {
+async function saveUserPosition(userId, { x, y, map, centerReturnPoint, repelSteps }) {
+    const steps = repelSteps === undefined ? null : require('../game/items/repel').remainingRepel({ repelSteps });
     const point = normalizeCenterReturnPoint(centerReturnPoint);
     await dbPool.execute(
         `UPDATE users
-         SET x = ?, y = ?, map = ?, center_return_x = ?, center_return_y = ?, center_return_map = ?
+         SET x = ?, y = ?, map = ?, center_return_x = ?, center_return_y = ?, center_return_map = ?, repel_steps = LEAST(repel_steps, COALESCE(?, repel_steps))
          WHERE id = ?
          AND NOT (
              x <=> ? AND y <=> ? AND map <=> ?
              AND center_return_x <=> ? AND center_return_y <=> ? AND center_return_map <=> ?
+             AND (? IS NULL OR repel_steps <=> ?)
          )`,
-        [x, y, map, point?.x ?? null, point?.y ?? null, point?.map ?? null,
-            userId, x, y, map, point?.x ?? null, point?.y ?? null, point?.map ?? null]
+        [x, y, map, point?.x ?? null, point?.y ?? null, point?.map ?? null, steps,
+            userId, x, y, map, point?.x ?? null, point?.y ?? null, point?.map ?? null, steps, steps]
     );
 }
 

@@ -85,6 +85,30 @@
       "description": "Tenus, ils restaurent un seizième des PV à chaque tour."
     },
     {
+      "key": "repel",
+      "name": "Repousse",
+      "category": "field",
+      "buy_price": 350,
+      "repelSteps": 100,
+      "description": "Repousse pendant 100 pas les Pokémon sauvages de niveau inférieur au premier Pokémon apte de ton équipe. Sans effet sur les dresseurs."
+    },
+    {
+      "key": "super_repel",
+      "name": "Super Repousse",
+      "category": "field",
+      "buy_price": 500,
+      "repelSteps": 200,
+      "description": "Repousse pendant 200 pas les Pokémon sauvages de niveau inférieur au premier Pokémon apte de ton équipe. Sans effet sur les dresseurs."
+    },
+    {
+      "key": "max_repel",
+      "name": "Repousse Max",
+      "category": "field",
+      "buy_price": 700,
+      "repelSteps": 250,
+      "description": "Repousse pendant 250 pas les Pokémon sauvages de niveau inférieur au premier Pokémon apte de ton équipe. Sans effet sur les dresseurs."
+    },
+    {
       "key": "potion",
       "name": "Potion",
       "category": "medicine",

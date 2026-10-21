@@ -41,7 +41,8 @@
     "test:valpierre-browser": "node --env-file-if-exists=.env scripts/validateValpierreBrowser.js",
     "test:story-browser": "node --env-file-if-exists=.env scripts/validateOpeningStoryBrowser.js",
     "test:castform-browser": "node --env-file-if-exists=.env scripts/validateCastformBrowser.js",
-    "test:ocreville-browser": "node --env-file-if-exists=.env scripts/validateOcrevilleBrowser.js"
+    "test:ocreville-browser": "node --env-file-if-exists=.env scripts/validateOcrevilleBrowser.js",
+    "test:repel-browser": "node --env-file-if-exists=.env scripts/validateRepelBrowser.js"
   },
   "keywords": [],
   "author": "",

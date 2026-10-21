@@ -1,6 +1,8 @@
 const { loadCollisionData, changeMapData } = require('../game/world/mapRepository');
 const { isPnjBlockingTile } = require('../game/world/pnjStore');
 
+const { remainingRepel } = require('../game/items/repel');
+
 const DEFAULT_MAP = 'start';
 const DEFAULT_POSITION = Object.freeze({ x: 80, y: 208 });
 const TILE_SIZE = 32;
@@ -36,6 +38,7 @@ function getDirectionFromAction(action) {
 function buildPositionSnapshot(player) {
     return {
         x: Math.round(player.x), y: Math.round(player.y), map: player.currentmap,
+        repelSteps: remainingRepel(player),
         centerReturnPoint: player.centerReturnPoint ? { ...player.centerReturnPoint } : null
     };
 }
@@ -43,6 +46,7 @@ function buildPositionSnapshot(player) {
 function positionsAreEqual(posA, posB) {
     const a = posA?.centerReturnPoint, b = posB?.centerReturnPoint;
     return Boolean(posA && posB && posA.x === posB.x && posA.y === posB.y && posA.map === posB.map
+        && remainingRepel(posA) === remainingRepel(posB)
         && a?.map === b?.map && a?.x === b?.x && a?.y === b?.y);
 }
 

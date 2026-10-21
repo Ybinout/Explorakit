@@ -358,3 +358,28 @@ test('Rift uses the new Ocreville doors, Center provenance and safe restored pos
  for(const [x,y,target]of [[4,4,'gen_maison_ville5_1'],[12,4,'gen_maison_ville5_2'],[16,17,'gen_maison_ville5_3'],[5,12,'gen_arene5'],[23,13,'gen_shop_ville5_1'],[17,7,'centre']]){set('gen_ville5',x,y+1);f.runtime.move(p,'move_z');assert.equal(p.currentmap,target);p.lastMove=0;f.runtime.move(p,'move_s');assert.equal(p.currentmap,'gen_ville5');assert.deepEqual([p.x,p.y],[x*32+16,(y+1)*32+16]);}
  for(const map of ['gen_route8','gen_ville5']){set(map,0,0);f.runtime.enter(f.users[0],f.sockets[0]);const repo=require('../server/game/world/mapRepository'),x=Math.floor(p.x/32),y=Math.floor(p.y/32);assert.equal(repo.loadCollisionData(map)[y][x],0);assert.equal(repo.changeMapData(map)[y][x],0);}
 });
+
+test('Repousse Rift : murs et commandes invalides gratuits, pas réel compté, portail protégé et expiration unique',()=>{
+ const f=fixture(2,()=>0),p=f.run.players.get(1);
+ p.repelSteps=10;p.currentmap='gen_ville5';p.x=23*32+16;p.y=1*32+16;p.lastMove=0;
+ f.runtime.move(p,'teleport');assert.equal(p.repelSteps,10);
+ // Northern portal returns to Route 8; transition itself does not consume extra steps.
+ f.runtime.move(p,'move_z');assert.equal(p.currentmap,'gen_route8');assert.equal(p.repelSteps,9);
+ p.currentmap='start';p.x=16;p.y=16;p.lastMove=0;
+ f.runtime.move(p,'move_z');assert.equal(p.repelSteps,9,'outside the map is not a step');
+ p.currentmap='gen_route8';p.x=23*32+16;p.y=18*32+16;p.lastMove=0;p.repelSteps=1;
+ f.runtime.move(p,'move_s');assert.equal(p.currentmap,'gen_ville5');assert.equal(p.repelSteps,0);
+ assert.equal(f.messages.filter(m=>m.event==='progressionNotice'&&/Repousse/.test(m.payload.message)).length,1);
+ assert.equal(f.runtime.state(p).repelSteps,0);
+});
+
+test('Repousse filtre une vraie rencontre Rift sur le dernier pas, le pas suivant déclenche le combat',()=>{
+ const f=fixture(2,()=>0),p=f.run.players.get(1);
+ const maps=require('../server/game/world/mapRepository');
+ const map='route1',c=maps.loadCollisionData(map),b=maps.battleMapData(map),changes=maps.changeMapData(map);
+ let pair;
+ for(let y=1;y<c.length&&!pair;y++)for(let x=1;x<c[y].length-1;x++)if(c[y][x]===0&&c[y][x+1]===0&&b[y]?.[x]&&b[y]?.[x+1]&&!changes[y]?.[x]&&!changes[y]?.[x+1]&&!f.run.pnjs.isPnjBlockingTile(map,x,y)&&!f.run.pnjs.isPnjBlockingTile(map,x+1,y)){pair={x,y};break;}
+ assert(pair);Object.assign(p,{currentmap:map,x:pair.x*32+16,y:pair.y*32+16,lastMove:0,repelSteps:1});p.equipe.pokemons[0].level=100;
+ f.runtime.move(p,'move_d');assert.equal(p.repelSteps,0);assert(!p.inbattle);
+ p.lastMove=0;f.runtime.move(p,'move_q');assert(p.inbattle);assert(f.messages.some(m=>m.event==='battletrigger'));
+});

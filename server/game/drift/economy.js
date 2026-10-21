@@ -8,6 +8,7 @@ const { medicineResult } = require('../items/medicineEffects');
 const report = require('./runReport');
 const stones = require('../items/stoneEvolution');
 const merchant = require('./merchant');
+const { validateRepel } = require('../items/repel');
 const SLOT_LIMIT = 5;
 const prices = { common: 50, rare: 120, epic: 300, legendary: 800, mythic: 2000 };
 const types = ['Normal','Fire','Water','Electric','Grass','Ice','Fighting','Poison','Ground','Flying','Psychic','Bug','Rock','Ghost','Dragon','Dark','Steel','Fairy'];
@@ -82,6 +83,15 @@ function usePotion(p, key, uuid, random = Math.random) {
     report.increment(p,'potionsUsed');report.event(p,'heal',`${item.name} utilisée sur ${pokemon.truename || pokemon.name}.`);
     return { success: true, items: bag(p), equipe: p.equipe };
 }
+function useRepel(p, key) {
+    requireMutable(p);
+    if (p.run.phase !== 'exploration') fail('Le Repousse s’utilise pendant l’exploration.');
+    let steps;
+    try { steps = validateRepel(p, key); } catch (error) { fail(error.message); }
+    if (!(p.items[key] > 0)) fail('Cet objet n’est plus dans ton sac.');
+    p.items[key]--; p.repelSteps = steps;
+    return { success: true, items: bag(p), repelSteps: steps };
+}
 function drop(p, source, random = Math.random) {
     const chance = { wild: .15, capture: .15, trainer: .5, arena: 1 }[source] || 0;
     const loot = [];
@@ -114,4 +124,4 @@ function evolve(p,key,uuid) {
     const evolution=stones.evolve(pokemon,key);p.items[key]--;p.ready=false;report.syncTeam(p);
     return {success:true,evolution,equipe:p.equipe,items:bag(p)};
 }
-module.exports = { salePrice, replace, evolve, SLOT_LIMIT, prices, bag, shop, equip, remove, buy, usePotion, drop, requireMutable, fail };
+module.exports = { useRepel, salePrice, replace, evolve, SLOT_LIMIT, prices, bag, shop, equip, remove, buy, usePotion, drop, requireMutable, fail };

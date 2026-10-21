@@ -137,6 +137,7 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
             require('../game/drift/runReport').syncTeam(p);
             return { success: true, equipe: p.equipe, evolution: result };
         });
+        gameCommand('drift:repel', (p, data) => economy.useRepel(p, data?.itemKey));
         gameCommand('drift:heal', (p, data) => economy.usePotion(p, data?.itemKey, data?.pokemonUuid));
         gameCommand('drift:learnMove', (p, data) => {
             const pokemon = p.equipe.pokemons.find(poke => poke.uuid === data?.pokemonUuid);

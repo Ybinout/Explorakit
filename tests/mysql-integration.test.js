@@ -247,3 +247,27 @@ test('le chapitre suit les victoires, résiste aux doublons et reprend les ancie
         await pool.end();
     }
 });
+
+test('Repousse SQL : achat, activation atomique, anti-cumul et compteur sauvegardé sans perte de stock', {skip:!shouldRun},async()=>{
+ const pool=createTestPool();let id;
+ try{
+  const [created]=await pool.execute('INSERT INTO users(username,password_hash,money) VALUES(?,?,?)',[`repel_${Date.now()}`,'test',5000]);id=created.insertId;
+  const {purchaseUserItem,loadUserItems}=require('../server/persistence/itemRepository');
+  const {useRepel}=require('../server/persistence/repelRepository');
+  const {loadUserPosition,saveUserPosition}=require('../server/persistence/playerRepository');
+  for(const key of ['repel','super_repel','max_repel'])assert((await purchaseUserItem(id,key,2)).success);
+  assert.equal((await loadUserItems(id)).find(i=>i.key==='max_repel').repelSteps,250);
+  const activations=await Promise.allSettled([useRepel(id,'repel'),useRepel(id,'repel')]);
+  assert.equal(activations.filter(r=>r.status==='fulfilled').length,1);
+  assert.equal((await loadUserPosition(id)).repel_steps,100);assert.equal((await loadUserItems(id)).find(i=>i.key==='repel').quantity,1);
+  await assert.rejects(useRepel(id,'super_repel'),/déjà actif/);
+  await saveUserPosition(id,{x:80,y:208,map:'start',repelSteps:73});assert.equal((await loadUserPosition(id)).repel_steps,73);
+  await saveUserPosition(id,{x:80,y:208,map:'start',repelSteps:99});assert.equal((await loadUserPosition(id)).repel_steps,73,'position saves cannot extend a protection');
+  await saveUserPosition(id,{x:112,y:208,map:'start'});assert.equal((await loadUserPosition(id)).repel_steps,73,'legacy callers preserve the effect');
+  await saveUserPosition(id,{x:112,y:208,map:'start',repelSteps:0});assert.equal(await useRepel(id,'max_repel'),250);
+  await saveUserPosition(id,{x:112,y:208,map:'start',repelSteps:0});
+  await pool.execute("DELETE FROM user_items WHERE user_id=? AND item_key='max_repel'",[id]);
+  await assert.rejects(useRepel(id,'max_repel'),/sac/);assert.equal((await loadUserPosition(id)).repel_steps,0);
+  await assert.rejects(useRepel(id,'potion'),/Repousse/);
+ }finally{if(id)await pool.execute('DELETE FROM users WHERE id=?',[id]);await pool.end();}
+});

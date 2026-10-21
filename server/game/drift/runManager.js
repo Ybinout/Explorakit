@@ -22,6 +22,7 @@ const { sanitizeSpawnPosition, toPublicPlayer, getDirectionFromAction } = requir
 const { isShopMap } = require('../world/shopCatalog');
 const progression = require('../../../data/game/progression.json');
 const { RECONNECT_MS } = require('./lobbyStore');
+const { remainingRepel, stepRepel, repelsWild } = require('../items/repel');
 const ROOM = 'ville1_arene';
 
 function createRunManager({ store, namespace, now = Date.now, random = Math.random, paceMs = 1800, durationMs = null, starterChoiceMs = 45000, accountRepository = null, colosseumRepository = null }) {
@@ -58,7 +59,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         return { id:run.id, mode:run.mode || 'rift', durationMinutes:run.lobby.rules.durationMinutes, colosseum:run.colosseum ? { ...run.colosseum, ...(run.report ? { resultTeam:colosseum.recordTeam(run.report), defeat:colosseum.recordDefeat(run.report) } : {}) } : null, phase:run.phase, starterChoices:p.starterChoices || [], selectionEndsAt:run.selectionEndsAt || null, serverNow:now(), endsAt:run.endsAt, preparationEndsAt:run.preparationEndsAt,
             alive:p.alive, winnerId:run.winnerId, reason:p.eliminationReason, currentRound:run.round, ready:p.ready,spectatingAvailable:run.mode !== 'colosseum',
             storagePaused:storagePausedAt !== null, recoveredAt:run.recoveredAt || null, recoveryWaiting:Boolean(run.recoveryWaiting), slot:p.slot, slotLimit:economy.SLOT_LIMIT, money:p.money, drifts:p.drifts.map(d=>({...d,...require('./driftStrength').summary(d),salePrice:economy.salePrice(d)})), equipped:p.equipped, lastDriftFusion:p.lastDriftFusion || null,
-            team:p.equipe.pokemons, contracts:contracts.view(p), trainers:trainers.list(p), items:economy.bag(p), merchant:isShopMap(p.currentmap)&&run.phase==='exploration'?require('./merchant').view(p):null,
+            repelSteps:remainingRepel(p), team:p.equipe.pokemons, contracts:contracts.view(p), trainers:trainers.list(p), items:economy.bag(p), merchant:isShopMap(p.currentmap)&&run.phase==='exploration'?require('./merchant').view(p):null,
             players:[...run.players.values()].map(a=>({id:a.userId,username:a.username,alive:a.alive,ready:a.ready,
                 connected:Boolean(a.socketId&&playerFor({id:a.userId})===a),inBattle:Boolean(a.inbattle),reason:a.eliminationReason||null})),
             matches:run.matches.map(m=>({id:m.id,round:m.round,players:m.players,status:m.status,winnerId:m.winnerId})),
@@ -357,6 +358,8 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         const x=p.x+delta[0],y=p.y+delta[1],tx=Math.floor(x/32),ty=Math.floor(y/32);
         if(loadCollisionData(p.currentmap)[ty]?.[tx]!==0||p.run.pnjs.isPnjBlockingTile(p.currentmap,tx,ty))return;
         const previous={x:p.x,y:p.y};p.x=x;p.y=y;p.direction=direction;p.lastMove=now();p.dialogue=null;
+        const repelProtection=stepRepel(p);
+        if(repelProtection?.expired)emit(p,'progressionNotice',{message:'L’effet du Repousse est terminé.'});
         report.increment(p,'steps');
         for(const other of p.run.players.values()) if(other.alive&&other.currentmap===p.currentmap) emit(other,'playerMoved',{id:p.socketId,player:toPublicPlayer({...p,id:p.socketId})});
         if(changeMapData(p.currentmap)[ty]?.[tx]) {
@@ -369,7 +372,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         }
         if(p.equipe.pokemons.some(poke=>!effects.isDead(poke))&&battleMapData(p.currentmap)[ty]?.[tx]&&random()<1/15) {
             const wild=factory.wild(p.currentmap,p,random);
-            if(wild)battle(p,{npc:true,equipe:{pokemons:[wild]},drifts:[],equipped:[],chain:0},'wild');
+            if(wild&&!repelsWild(repelProtection,wild))battle(p,{npc:true,equipe:{pokemons:[wild]},drifts:[],equipped:[],chain:0},'wild');
         }
     }
     function interact(p) {

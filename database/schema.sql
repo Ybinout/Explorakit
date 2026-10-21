@@ -129,6 +129,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `center_return_map` varchar(50) DEFAULT NULL,
   `sprite` varchar(50) DEFAULT 'sprite.png',
   `money` bigint unsigned NOT NULL DEFAULT 0,
+  `repel_steps` smallint unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`)

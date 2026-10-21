@@ -46,6 +46,8 @@ const {
 const { DEFAULT_SPRITE, registerPlayerProfileHandlers } = require('./handlers/playerProfileHandlers');
 const { registerChatHandlers } = require('./handlers/chatHandlers');
 const {registerMedicineHandlers}=require('./handlers/medicineHandlers');
+const {registerRepelHandlers}=require('./handlers/repelHandlers');
+const {remainingRepel,stepRepel,repelsWild}=require('../game/items/repel');
 const { registerEvolutionHandlers } = require('./handlers/evolutionHandlers');
 const { registerMoveLearningHandlers } = require('./handlers/moveLearningHandlers');
 const { registerTeamOrderHandlers } = require('./handlers/teamOrderHandlers');
@@ -265,7 +267,8 @@ const socketHandler = (io) => {
 
         if (hasLegacyZeroPosition || hasLegacyMap) {
             savedPosition = {
-                sprite: savedPosition?.sprite
+                sprite: savedPosition?.sprite,
+                repel_steps: savedPosition?.repel_steps
             };
         }
 
@@ -293,6 +296,7 @@ const socketHandler = (io) => {
             currentmap,
             equipe,
             respawnPoint: savedPosition?.respawnPoint || null,
+            repelSteps: remainingRepel({repelSteps:savedPosition?.repel_steps}),
             centerReturnPoint: savedPosition?.centerReturnPoint || null,
             inbattle: false
         };
@@ -321,6 +325,7 @@ const socketHandler = (io) => {
                 x: Number(savedPosition.x),
                 y: Number(savedPosition.y),
                 map: savedPosition.map,
+                repelSteps: remainingRepel({repelSteps:savedPosition.repel_steps}),
                 centerReturnPoint: savedPosition.centerReturnPoint || null
             }
             : null;
@@ -346,7 +351,9 @@ const socketHandler = (io) => {
                         if (!player) return false;
                         const positionToSave = buildPositionSnapshot(player);
                         if (!positionsAreEqual(positionToSave, lastSavedPosition)) {
-                            await saveUserPosition(userId, positionToSave);
+                            // Inactive/stale tabs must not clear a newer protection when only their position changes.
+                            const repelChanged = remainingRepel(positionToSave) !== remainingRepel(lastSavedPosition);
+                            await saveUserPosition(userId, {...positionToSave, repelSteps:repelChanged ? positionToSave.repelSteps : undefined});
                             lastSavedPosition = positionToSave;
                         }
                         savePending = !positionsAreEqual(buildPositionSnapshot(player), lastSavedPosition);
@@ -513,6 +520,8 @@ const socketHandler = (io) => {
         registerPlayerProfileHandlers({ socket, io, players, userId });
         registerTeamOrderHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!interactionBusy&&!transitionBusy});
         registerMedicineHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!interactionBusy&&!transitionBusy});
+        registerRepelHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!interactionBusy&&!transitionBusy,flushPositionSave,schedulePositionSave});
+        socket.emit('fieldEffectState',{repelSteps:remainingRepel(players[socket.id])});
         registerMoveLearningHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!interactionBusy&&!transitionBusy});
         registerEvolutionHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!interactionBusy&&!transitionBusy});
         const shopHandlers = registerShopHandlers({
@@ -1031,11 +1040,17 @@ const socketHandler = (io) => {
             const matrixX = Math.floor(newPlayerX / TILE_SIZE);
             const matrixY = Math.floor(newPlayerY / TILE_SIZE);
 
+            let repelProtection = null;
             const previousPosition = { x: player.x, y: player.y };
             const blockedByPnj = isPnjBlockingTile(currentmap, matrixX, matrixY);
             if (collisionData2D[matrixY] && collisionData2D[matrixY][matrixX] === 0 && !blockedByPnj) {
                 player.x = newPlayerX;
                 player.y = newPlayerY;
+                repelProtection = stepRepel(player);
+                if (repelProtection) {
+                    socket.emit('fieldEffectState', {repelSteps:player.repelSteps});
+                    if (repelProtection.expired) socket.emit('progressionNotice', {message:'L’effet du Repousse est terminé.'});
+                }
 
                 for (const id in players) {
                     if (players[id].currentmap === currentmap) {
@@ -1074,7 +1089,7 @@ const socketHandler = (io) => {
 
                     utiliserCreatePokemon()
                         .then((pokemonsauvage) => {
-                            if (!pokemonsauvage) {
+                            if (!pokemonsauvage || repelsWild(repelProtection, pokemonsauvage)) {
                                 if (players[socket.id]) {
                                     players[socket.id].inbattle = false;
                                 }
