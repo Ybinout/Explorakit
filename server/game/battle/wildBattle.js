@@ -1,6 +1,8 @@
 const { requestReplacement } = require('./replacementChoice');
 const presentation = require('./presentationState');
-const { rewardTraining, effortYield, grantEffort } = require('../models/training');
+const { effortYield, grantEffort } = require('../models/training');
+const { AdventureExperience } = require('./adventureExperience');
+const { planTurnActions } = require('./turnActions');
 const {
     useattack,
     getMoveByName,
@@ -14,7 +16,7 @@ const {
     canSwitchOut
 } = require('./battleEngine');
 const { getUsableMoveIndexes, getChargingMove, selectedMoveName } = require('./battleResources');
-const { calculateBattleExperience, BATTLE_EXPERIENCE_MULTIPLIERS } = require('../models/progression');
+const { BATTLE_EXPERIENCE_MULTIPLIERS } = require('../models/progression');
 const { emitSoloBattleEnd, createBattleSummaryTracker, clearBattleTransientState } = require('./battleOutcome');
 const { emitFieldState, emitSoloMoveResult } = require('./battleEvents');
 const {
@@ -162,6 +164,7 @@ async function performAttackWithNarration(attacker, defender, moveIndex, player,
 }
 
 async function applySwitchInNarration(player, wildPokemon, io, switchedPokemon, ownSide, enemySide, battleState) {
+    battleState.adventureExperience?.enter(player.equipe.pokemons[0], wildPokemon);
     const enemyPokemon = switchedPokemon === wildPokemon
         ? player?.equipe?.pokemons?.[0]
         : wildPokemon;
@@ -294,6 +297,10 @@ async function runAttackTurn(player, wildPokemon, response, io, battleState, pla
 
     const playerMoveName = selectedMoveName(playerPokemon, playerMoveIndex);
     const wildMoveName = selectedMoveName(wildPokemon, wildMoveIndex);
+    planTurnActions(battleState, [
+        { pokemon: playerPokemon, action: 'attack', moveName: playerMoveName },
+        { pokemon: wildPokemon, action: 'attack', moveName: wildMoveName }
+    ]);
     const playerActsFirst = decideMoveOrder(playerPokemon, playerMoveName, wildPokemon, wildMoveName, battleState);
 
     if (playerActsFirst) {
@@ -449,8 +456,8 @@ async function startBattle(player, wildPokemon, io, userId) {
             summary: resultTracker.snapshot(player.equipe.pokemons, extra.captured ? wildPokemon : null)
         }, 'wild');
     };
-    let wildXpGranted = false;
     const battleState = createBattleState({ mapName: player.currentmap });
+    battleState.adventureExperience = new AdventureExperience();
     require('../abilities/abilityForms').attachTeam(player.equipe.pokemons);
     const playerSide = battleState.sides.player;
     const enemySide = battleState.sides.enemy;
@@ -463,24 +470,8 @@ async function startBattle(player, wildPokemon, io, userId) {
     }
 
     const grantWildXp = async () => {
-        if (wildXpGranted) return;
-
-        const activePokemon = player?.equipe?.pokemons?.[0];
-        if (!activePokemon || activePokemon.currentHp <= 0 || typeof activePokemon.gainExperience !== 'function') {
-            wildXpGranted = true;
-            return;
-        }
-
-        const xpWin = calculateBattleExperience(wildPokemon, BATTLE_EXPERIENCE_MULTIPLIERS.wild, activePokemon);
-
-        if (!Number.isFinite(xpWin) || xpWin <= 0) {
-            wildXpGranted = true;
-            return;
-        }
-
-        rewardTraining(activePokemon, wildPokemon, xpWin, io, player.id);
-        wildXpGranted = true;
-        await narrate(player, io, `${getPokemonDisplayName(activePokemon)} gagne ${xpWin} XP !`, 900);
+        const awards = battleState.adventureExperience.reward(player, wildPokemon, BATTLE_EXPERIENCE_MULTIPLIERS.wild, io);
+        for (const {pokemon, xp} of awards) await narrate(player, io, `${getPokemonDisplayName(pokemon)} gagne ${xp} XP !`, 900);
     };
 
     const handleForcedSwitch = async () => {
@@ -573,6 +564,8 @@ async function startBattle(player, wildPokemon, io, userId) {
             }
 
             const currentPokemon = player.equipe.pokemons[0];
+            planTurnActions(battleState, [{ pokemon: currentPokemon, action: actionPlayer,
+                moveName: selectedMoveName(currentPokemon, response.number) }]);
 
             if (actionPlayer === 'flee') {
                 if (!canSwitchOut(currentPokemon, wildPokemon, battleState, { escape: actionPlayer === 'flee' })) {

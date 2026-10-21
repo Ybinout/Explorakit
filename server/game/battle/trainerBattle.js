@@ -1,7 +1,9 @@
 const { requestReplacement } = require('./replacementChoice');
 const presentation = require('./presentationState');
 const trainerTactics = require('./trainerTactics');
-const { rewardTraining, effortYield } = require('../models/training');
+const { effortYield } = require('../models/training');
+const { AdventureExperience } = require('./adventureExperience');
+const { planTurnActions } = require('./turnActions');
 const {
     useattack,
     getEffectiveness,
@@ -17,7 +19,7 @@ const {
     canSwitchOut
 } = require('./battleEngine');
 const { getUsableMoveIndexes, getChargingMove, selectedMoveName } = require('./battleResources');
-const { calculateBattleExperience, BATTLE_EXPERIENCE_MULTIPLIERS } = require('../models/progression');
+const { BATTLE_EXPERIENCE_MULTIPLIERS } = require('../models/progression');
 const { emitSoloBattleEnd, createBattleSummaryTracker } = require('./battleOutcome');
 const { emitFieldState, emitSoloMoveResult } = require('./battleEvents');
 const {
@@ -157,6 +159,7 @@ async function performAttackWithNarration(attacker, defender, moveIndex, player,
 }
 
 async function applySwitchInNarration(player, currentEnemy, io, switchedPokemon, ownSide, enemySide, battleState) {
+    battleState.adventureExperience?.enter(player.equipe.pokemons[0], currentEnemy);
     const enemyPokemon = switchedPokemon === currentEnemy
         ? player?.equipe?.pokemons?.[0]
         : currentEnemy;
@@ -381,6 +384,7 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
     const moves = loadMovesData();
     const usedPokemons = [];
     const battleState = createBattleState({ mapName: player.currentmap });
+    battleState.adventureExperience = new AdventureExperience();
     battleState.trainerTeam = enemyTeam;
     battleState.trainerMemory = trainerTactics.createMemory();
     let round = 0;
@@ -430,16 +434,13 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
     const experienceMultiplier = options.experienceKind === 'arena'
         ? BATTLE_EXPERIENCE_MULTIPLIERS.arena : BATTLE_EXPERIENCE_MULTIPLIERS.trainer;
     const grantDefeatedExperience = async () => {
-        const recipient = player.equipe.pokemons[0];
-        if (!recipient || recipient.currentHp <= 0 || typeof recipient.gainExperience !== 'function') return;
         // Inclut le dernier K.O. et ceux survenus lors d'un changement forcé.
         // Les instances sont suivies même si leur ordre dans l'équipe change.
         for (const defeated of enemyTeam.pokemons) {
             if (defeated.currentHp > 0 || rewardedEnemies.has(defeated)) continue;
             rewardedEnemies.add(defeated);
-            const xp = calculateBattleExperience(defeated, experienceMultiplier, recipient);
-            rewardTraining(recipient, defeated, xp, io, player.id);
-            await narrate(player, io, `${getPokemonDisplayName(recipient)} gagne ${xp} XP !`, 900);
+            const awards = battleState.adventureExperience.reward(player, defeated, experienceMultiplier, io);
+            for (const {pokemon, xp} of awards) await narrate(player, io, `${getPokemonDisplayName(pokemon)} gagne ${xp} XP !`, 900);
         }
     };
 
@@ -531,6 +532,8 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
         }
 
         const playerPokemon = player.equipe.pokemons[0];
+        planTurnActions(battleState, [{ pokemon: playerPokemon, action: actionPlayer,
+            moveName: selectedMoveName(playerPokemon, response.number) }]);
 
         if (actionPlayer === 'flee') {
             if (!canSwitchOut(playerPokemon, enemyTeam.pokemons[0], battleState, {escape:actionPlayer==='flee'})) {
@@ -635,6 +638,10 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
         }
 
         if (currentEnemy.currentHp <= 0 || playerPokemon.currentHp <= 0) continue;
+        planTurnActions(battleState, [
+            { pokemon: playerPokemon, action: 'attack', moveName: playerMoveName },
+            { pokemon: currentEnemy, action: enemySwitched ? 'change' : 'attack', moveName: enemyMoveName }
+        ]);
         const playerActsFirst = enemySwitched || decideMoveOrder(playerPokemon, playerMoveName, currentEnemy, enemyMoveName, battleState);
 
         if (playerActsFirst) {

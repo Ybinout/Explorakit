@@ -9,6 +9,7 @@ const { switchPokemonByIndex, resolveMoveSwitches, autoSwitchPokemon, hasAlivePo
 const { serializeMoveResult, serializeFieldState } = require('../battle/battleEvents');
 const { getMoveFlags } = require('../abilities/abilityEngine');
 const { calculateBattleExperience } = require('../models/progression');
+const { planTurnActions } = require('../battle/turnActions');
 const { effortYield, grantEffort } = require('../models/training');
 const economy = require('./economy');
 const report = require('./runReport');
@@ -252,6 +253,11 @@ class DriftBattle {
             else this.finish(null,'fled');
             return;
         }
+        planTurnActions(this.state, actors.map((p,index) => {
+            const action = this.pending.get(p), pokemon = this.active(index);
+            return { pokemon, action: action?.action,
+                moveName: getChargingMove(pokemon) || (getUsableMoveIndexes(pokemon, this.state).length ? selectedMoveName(pokemon, action?.number) : 'Struggle') };
+        }));
         for (const [i,p] of actors.entries()) {
             const action = this.pending.get(p);
             if (action?.action === 'change' && engine.canSwitchOut(this.active(i), this.active(1-i), this.state)) {

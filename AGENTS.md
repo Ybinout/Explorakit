@@ -1,5 +1,11 @@
 # Contexte permanent — Explorakit
 
+## Coup Bas / XP des participants — 21 octobre 2026
+
+`turnActions` est le plan privé du tour (UUID, type d’action, mouvement, action dépensée). Les quatre orchestrateurs le renseignent à partir des décisions réelles avant la résolution des attaques ; `useattack` dépense l’action extérieure, puis Coup Bas vérifie une attaque offensive encore en attente (exception Me First, Lutte PP épuisés). Ne pas utiliser `lastMoveUsed` pour cette condition ni exposer les choix dans les DTO. PP et priorité +1 conservés, y compris les échecs et deux Coup Bas face à face.
+
+`AdventureExperience` suit les vrais entrants par adversaire, aux effets d’entrée ; il partage l’XP ajustée à chaque receveur entre participants encore aptes au K.O., minimum 1, une seule fois. Aucun gain au banc/K.O./capture, listes conservées au rappel et séparées par adversaire ; EV du seul actif préservés. Ne pas l’utiliser dans Rift/Colosseum et ne pas transformer les rafraîchissements d’image en participation. L’événement d’XP reste identique ; libellé nommé pour le rappelé, sans changer l’actif ni déplacer les commandes. Tests dédiés Coup Bas/participation, PvP réel et SQL, `npm run test:participation-browser` ; contrôle complet 602 applicatifs/63 SQL, HTTPS public sur compte temporaire et publication validés. Aucun reset de sauvegarde.
+
 ## Deuxième hausse XP Aventure — 21 octobre 2026
 
 Nouvelle demande « encore +40 % » : `experience_balance.json.multipliers` vaut maintenant sauvage 1,96 /dresseur 2,94 /arène 3,92, soit ×1,4 sur la hausse précédente et ×1,96 sur l’origine. La portée reste Aventure uniquement ; les anciens 1,4/2,1/2,8 ci-dessous sont historiques. Ne pas modifier le calcul commun ou les facteurs/partages Rift/Colosseum. Contrôle numérique niveau40 K1 : 2846/4269/5692 en Aventure, base commune 1452/2178/2904 conservée. Vérification complète SQL/audits/lint/build réussie, publication serveur seule sans migration ni modification des sauvegardes.

@@ -603,3 +603,39 @@ test('Aventure PvP : Vol poursuit sans second choix, le rival agit normalement e
         assert.equal((await loadEquipe(a.user.id)).pokemons[0].movePp[0],0);assert.equal((await loadEquipe(b.user.id)).pokemons[0].movePp[0],33);
     } finally {for(const id of ids)await pool.execute('DELETE FROM users WHERE id=?',[id]);await pool.end();}
 });
+
+for (const kind of ['wild','trainer','arena']) test(`Aventure ${kind} : partage par adversaire, entrants vivants, affichage et persistance`, {skip:!shouldRun}, async()=>{
+ const pool=createTestPool();let userId;
+ try{
+  const {user,player}=await createPlayer(1);userId=user.id;
+  const lead=createPokemon(1,'Premier',['Growl']),reserve=createPokemon(7,'Relais'),bench=createPokemon(25,'Banc');reserve.currentAttack=999;reserve.currentSpeed=999;
+  player.equipe=createTeam(lead,reserve,bench);const first=createPokemon(19,'Premier adverse',['Growl']),last=createPokemon(19,'Second adverse',['Growl']);for(const p of [first,last]){p.currentHp=1;p.passiveAbility=null;}
+  const {calculateBattleExperience:xp,BATTLE_EXPERIENCE_MULTIPLIERS:rates}=require('../server/game/models/progression');const factor=rates[kind],share=Math.floor(xp(first,factor,lead)/2),baseline=lead.experience;
+  const expectedReserve=createPokemon(7,'Calcul');expectedReserve.gainExperience(share);const second=kind==='wild'?0:xp(last,factor,expectedReserve);
+  const actions=[{action:'attack',number:0},{action:'change',number:1},{action:'attack',number:0},...(kind==='wild'?[]:[{action:'attack',number:0}])],socket=new ScriptedSocket(actions),io=new RecordingIo({[player.id]:socket});
+  if(kind==='wild')await withFixedRandom(.5,()=>startWildBattle(player,first,io,userId));else await withFixedRandom(.5,()=>startTrainerBattle(player,createTeam(first,last),io,userId,{experienceKind:kind}));
+  const saved=(await loadEquipe(userId)).pokemons,byId=id=>saved.find(p=>p.uuid===id);
+  assert.equal(byId(lead.uuid).experience,baseline+share);assert.equal(byId(reserve.uuid).experience,baseline+share+second);assert.equal(byId(bench.uuid).experience,baseline);
+  assert.equal(saved[0].uuid,reserve.uuid,'receiving XP must not swap the active Pokémon');
+  const awards=io.events.filter(e=>e.eventName==='battleExperience');assert.equal(awards.length,kind==='wild'?2:3);assert(awards.every(e=>e.targetId===player.id));
+  const summary=io.lastEvent(player.id,'endbattle').payload.summary;assert.equal(summary.experience.find(p=>p.uuid===lead.uuid).xpGained,share);assert.equal(summary.experience.find(p=>p.uuid===reserve.uuid).xpGained,share+second);assert(!summary.experience.some(p=>p.uuid===bench.uuid));
+ }finally{if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
+});
+
+for(const opponentMove of ['Growl','Tackle']) test(`Aventure sauvage : Coup Bas contre ${opponentMove}`, {skip:!shouldRun}, async()=>{
+ const pool=createTestPool();let userId;
+ try{
+  const {user,player}=await createPlayer(1);userId=user.id;const lead=createPokemon(19,'Coup Bas',['Sucker Punch']);lead.maxHp=lead.currentHp=500;player.equipe=createTeam(lead);
+  const foe=createPokemon(19,'Cible',[opponentMove]);foe.maxHp=foe.currentHp=500;const socket=new ScriptedSocket([{action:'attack',number:0},{action:'flee'}]),io=new RecordingIo({[player.id]:socket});
+  await withFixedRandom(.5,()=>startWildBattle(player,foe,io,userId));const result=io.events.find(e=>e.eventName==='battleMoveResult'&&e.payload.actor==='player');assert.equal(result.payload.damage>0,opponentMove==='Tackle');assert.equal((await loadEquipe(userId)).pokemons[0].movePp[0],4);
+ }finally{if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
+});
+
+for(const opponentMove of ['Growl','Tackle']) test(`Aventure dresseur : Coup Bas contre ${opponentMove}`, {skip:!shouldRun}, async()=>{
+ const pool=createTestPool();let userId;
+ try{
+  const {user,player}=await createPlayer(1);userId=user.id;const lead=createPokemon(19,'Coup Bas',['Sucker Punch']);lead.maxHp=lead.currentHp=500;player.equipe=createTeam(lead);
+  const foe=createPokemon(19,'Cible',[opponentMove]);foe.maxHp=foe.currentHp=500;const socket=new ScriptedSocket([{action:'attack',number:0},{action:'flee'}]),io=new RecordingIo({[player.id]:socket});
+  await withFixedRandom(.5,()=>startTrainerBattle(player,createTeam(foe),io,userId));const result=io.events.find(e=>e.eventName==='battleMoveResult'&&e.payload.actor==='player');assert.equal(result.payload.damage>0,opponentMove==='Tackle');assert.equal((await loadEquipe(userId)).pokemons[0].movePp[0],4);
+ }finally{if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
+});

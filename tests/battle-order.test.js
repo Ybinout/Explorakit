@@ -23,3 +23,15 @@ for(const pivot of [false,true])test(`PVP ${pivot?'pivot attack then replacement
         if(pivot)assert(list.findIndex(e=>e.name==='battleMoveAnimation')<entry);
     }
 });
+
+for(const opposing of ['Tackle','Growl','Quick Attack','switch'])test(`PVP Aventure: Coup Bas checks the actual opposing ${opposing} action for both players`,async()=>{
+ const previous=Math.random;Math.random=()=>.5;
+ try{
+  const a=mon(19),b=mon(19),reserve=mon(7);a.abilities=['Sucker Punch'];a.movePp=[5];a.currentSpeed=1;b.currentSpeed=999;b.abilities=[opposing==='switch'?'Tackle':opposing];b.movePp=[35];
+  const left={id:'left',equipe:{pokemons:[a]}},right={id:'right',equipe:{pokemons:[b,reserve]}},events=[];
+  const io={sockets:{sockets:new Map([['left',new Socket([{action:'attack',number:0}])],['right',new Socket([{action:opposing==='switch'?'change':'attack',number:opposing==='switch'?1:0}])]])},to:target=>({emit:(name,payload)=>events.push({target,name,payload:JSON.parse(JSON.stringify(payload))})})};
+  await startPvpBattle(left,right,io);
+  for(const viewer of ['left','right']){const result=events.find(e=>e.target===viewer&&e.name==='battleMoveResult'&&e.payload.moveName==='Sucker Punch');assert(result);assert.equal(result.payload.damage>0,opposing==='Tackle');}
+  assert.equal(a.movePp[0],4);
+ }finally{Math.random=previous;}
+});

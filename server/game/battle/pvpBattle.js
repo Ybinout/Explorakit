@@ -1,5 +1,6 @@
 const { requestReplacement } = require('./replacementChoice');
 const presentation = require('./presentationState');
+const { planTurnActions } = require('./turnActions');
 const {
     useattack,
     getMoveByName,
@@ -586,6 +587,11 @@ async function startPvpBattle(playerA, playerB, io) {
                 canSwitchB = true;
             }
         }
+
+        planTurnActions(battleState, [
+            { pokemon: activeA, action: actionA.action, moveName: selectedMoveName(activeA, actionA.moveIndex) },
+            { pokemon: activeB, action: actionB.action, moveName: selectedMoveName(activeB, actionB.moveIndex) }
+        ]);
 
         if (canSwitchA) {
             const previousName = getPokemonDisplayName(teamA[0]);

@@ -20,10 +20,10 @@ function grantEffort(pokemon, opponent) {
     return pokemon.gainEffort(effortYield(opponent) || {});
 }
 
-function rewardTraining(pokemon, defeated, xp, io, playerId) {
+function rewardTraining(pokemon, defeated, xp, io, playerId, options = {}) {
     const previousLevel = pokemon.level;
     const previousExperience = pokemon.experience;
-    const effortGained = grantEffort(pokemon, defeated);
+    const effortGained = options.effortGained ?? grantEffort(pokemon, defeated);
     pokemon.gainExperience(xp);
     io.to(playerId).emit('battleExperience', { pokemon, xpGained: xp, previousLevel, previousExperience, effortGained });
 }

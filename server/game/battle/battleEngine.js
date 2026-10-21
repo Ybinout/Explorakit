@@ -3,6 +3,7 @@ const heldItems = require('../items/heldItems');
 const reactions = require('../abilities/abilityReactions');
 const abilityForms = require('../abilities/abilityForms');
 const twoTurn = require('./twoTurnMoves');
+const turnActions = require('./turnActions');
 const drift = require('../drift/driftEffects');
 const {
     consumeMovePp,
@@ -2591,6 +2592,7 @@ function reactionHelpers() {
 
 function useattack(attackName, attacker, defender, options = {}) {
     options={...options,battleState:options.battleState||createBattleState()};
+    if (!options.calledDepth) turnActions.spendTurnAction(options.battleState, attacker);
     const before=[];
     abilityForms.syncWeatherForms(attacker,defender,options.battleState,before);
     const result=executeAttack(attackName,attacker,defender,options);
@@ -2749,6 +2751,17 @@ function executeAttack(attackName, attacker, defender, options = {}) {
     }
     abilityForms.sync(attacker,'move',moveResult.messages,move,battleState,defender);
     if (!calledDepth) heldItems.lockMove(attacker, move.ename, battleState);
+
+    if (move.ename === 'Sucker Punch') {
+        const pending = getMoveByName(turnActions.pendingMove(battleState, defender));
+        const category = pending?.combat?.damage_class || (pending?.category === 'phy' ? 'physical' : pending?.category === 'spe' ? 'special' : 'status');
+        if (!pending || (category === 'status' && pending.ename !== 'Me First')) {
+            moveResult.blocked = true;
+            attackerData.lastMoveUsed = move.ename;
+            moveResult.messages.push('Coup Bas échoue : la cible ne prépare plus d’attaque offensive.');
+            return moveResult;
+        }
+    }
 
     const chargeRule = twoTurn.rule(move.ename);
     if (chargeRule?.gravity && battleState.field?.gravityTurns > 0) {
