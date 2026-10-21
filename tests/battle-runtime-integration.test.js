@@ -569,3 +569,37 @@ test('Mounir Aventure : équipe réelle sous la pluie, Morphéo réservé et tra
         assert.equal((await loadEquipe(userId)).pokemons[0].uuid,lead.uuid);
     } finally {if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
 });
+
+for (const kind of ['wild','trainer']) test(`Aventure ${kind} : Tunnel utilise son dernier PP, évite le premier tour et poursuit automatiquement sans nouvelle demande`, {skip:!shouldRun}, async()=>{
+    const pool=createTestPool();let userId;
+    try {
+        const {user,player}=await createPlayer(7);userId=user.id;player.currentmap='ville1_arene';
+        const lead=player.equipe.pokemons[0];lead.abilities=['Dig','Tackle'];lead.movePp=[1,35];lead.currentHp=lead.maxHp=1000;lead.currentSpeed=999;
+        const enemy=createPokemon(19,'Rattata',['Tackle']);enemy.currentHp=enemy.maxHp=1000;enemy.currentAttack=1;
+        const socket=new ScriptedSocket([{action:'attack',number:0},{action:'flee'}]),io=new RecordingIo({[player.id]:socket});
+        await withFixedRandom(.5,()=>kind==='wild'?startWildBattle(player,enemy,io,userId):startTrainerBattle(player,createTeam(enemy),io,userId));
+        assert.equal(socket.outgoing.filter(e=>e.eventName==='requestAction').length,2);
+        const frames=io.events.filter(e=>e.eventName==='battleMoveResult');const own=frames.filter(e=>e.payload.actor==='player');
+        assert.deepEqual(own.map(e=>e.payload.phase),['prepare','strike']);assert.equal(own[0].payload.damage,0);assert(own[1].payload.damage>0);
+        assert(frames.find(e=>e.payload.actor==='opponent').payload.missed);
+        const saved=(await loadEquipe(userId)).pokemons[0];assert.equal(saved.movePp[0],0);assert.equal(saved.movePp[1],35);assert(!saved.__battle?.chargeMove);
+        assert.equal(io.lastEvent(player.id,'endbattle').payload.reason,'fled');
+    } finally {if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
+});
+
+test('Aventure PvP : Vol poursuit sans second choix, le rival agit normalement et les PP des deux comptes sont sauvegardés', {skip:!shouldRun}, async()=>{
+    const pool=createTestPool(),ids=[];
+    try {
+        const a=await createPlayer(7),b=await createPlayer(1);ids.push(a.user.id,b.user.id);
+        const lead=a.player.equipe.pokemons[0],target=b.player.equipe.pokemons[0];lead.abilities=['Fly'];lead.movePp=[1];lead.currentSpeed=999;
+        for(const p of [lead,target]){p.currentHp=p.maxHp=1000;p.currentAttack=1;}
+        target.abilities=['Tackle'];target.movePp=[35];
+        const sa=new ScriptedSocket([{action:'attack',number:0},{action:'flee'}]),sb=new ScriptedSocket([{action:'attack',number:0},{action:'attack',number:0},{action:'attack',number:0}]);
+        const io=new RecordingIo({[a.player.id]:sa,[b.player.id]:sb});
+        await withFixedRandom(.5,()=>startPvpBattle(a.player,b.player,io));
+        assert.equal(sa.outgoing.filter(e=>e.eventName==='requestAction').length,2);assert.equal(sb.outgoing.filter(e=>e.eventName==='requestAction').length,3);
+        const frames=io.events.filter(e=>e.targetId===a.player.id&&e.eventName==='battleMoveResult');
+        assert.deepEqual(frames.filter(e=>e.payload.actor==='player').map(e=>e.payload.phase),['prepare','strike']);assert(frames.find(e=>e.payload.actor==='opponent').payload.missed);
+        assert.equal((await loadEquipe(a.user.id)).pokemons[0].movePp[0],0);assert.equal((await loadEquipe(b.user.id)).pokemons[0].movePp[0],33);
+    } finally {for(const id of ids)await pool.execute('DELETE FROM users WHERE id=?',[id]);await pool.end();}
+});

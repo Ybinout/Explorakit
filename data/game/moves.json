@@ -271,7 +271,7 @@
             "damage_class": "special",
             "power_type": "charge",
             "priority": 0,
-            "crit_stage": 0,
+            "crit_stage": 1,
             "target": "single",
             "effects": [
                 {
@@ -401,11 +401,16 @@
         "type": "Flying",
         "combat": {
             "damage_class": "physical",
-            "power_type": "standard",
+            "power_type": "charge",
             "priority": 0,
             "crit_stage": 0,
             "target": "single",
-            "effects": []
+            "effects": [
+                {
+                    "kind": "charge_turn",
+                    "turns": 2
+                }
+            ]
         }
     },
     {
@@ -1920,11 +1925,16 @@
         "type": "Ground",
         "combat": {
             "damage_class": "physical",
-            "power_type": "standard",
+            "power_type": "charge",
             "priority": 0,
             "crit_stage": 0,
             "target": "single",
-            "effects": []
+            "effects": [
+                {
+                    "kind": "charge_turn",
+                    "turns": 2
+                }
+            ]
         }
     },
     {
@@ -3110,7 +3120,7 @@
             "damage_class": "physical",
             "power_type": "charge",
             "priority": 0,
-            "crit_stage": 0,
+            "crit_stage": 1,
             "target": "single",
             "effects": [
                 {
@@ -6367,11 +6377,16 @@
         "type": "Water",
         "combat": {
             "damage_class": "physical",
-            "power_type": "standard",
+            "power_type": "charge",
             "priority": 0,
             "crit_stage": 0,
             "target": "single",
-            "effects": []
+            "effects": [
+                {
+                    "kind": "charge_turn",
+                    "turns": 2
+                }
+            ]
         }
     },
     {
@@ -7432,11 +7447,16 @@
         "type": "Flying",
         "combat": {
             "damage_class": "physical",
-            "power_type": "standard",
+            "power_type": "charge",
             "priority": 0,
             "crit_stage": 0,
             "target": "single",
-            "effects": []
+            "effects": [
+                {
+                    "kind": "charge_turn",
+                    "turns": 2
+                }
+            ]
         }
     },
     {
@@ -10077,11 +10097,16 @@
         "type": "Ghost",
         "combat": {
             "damage_class": "physical",
-            "power_type": "standard",
+            "power_type": "charge",
             "priority": 0,
             "crit_stage": 0,
             "target": "single",
-            "effects": []
+            "effects": [
+                {
+                    "kind": "charge_turn",
+                    "turns": 2
+                }
+            ]
         }
     },
     {
@@ -11008,11 +11033,16 @@
         "type": "Flying",
         "combat": {
             "damage_class": "physical",
-            "power_type": "standard",
+            "power_type": "charge",
             "priority": 0,
             "crit_stage": 0,
             "target": "single",
-            "effects": []
+            "effects": [
+                {
+                    "kind": "charge_turn",
+                    "turns": 2
+                }
+            ]
         }
     },
     {
@@ -11937,11 +11967,16 @@
         "type": "Ice",
         "combat": {
             "damage_class": "physical",
-            "power_type": "standard",
+            "power_type": "charge",
             "priority": 0,
             "crit_stage": 0,
             "target": "single",
-            "effects": []
+            "effects": [
+                {
+                    "kind": "charge_turn",
+                    "turns": 2
+                }
+            ]
         }
     },
     {
@@ -11956,11 +11991,16 @@
         "type": "Ice",
         "combat": {
             "damage_class": "special",
-            "power_type": "standard",
+            "power_type": "charge",
             "priority": 0,
             "crit_stage": 0,
             "target": "single",
-            "effects": []
+            "effects": [
+                {
+                    "kind": "charge_turn",
+                    "turns": 2
+                }
+            ]
         }
     },
     {
@@ -12203,11 +12243,16 @@
         "type": "Ghost",
         "combat": {
             "damage_class": "physical",
-            "power_type": "standard",
+            "power_type": "charge",
             "priority": 0,
             "crit_stage": 0,
             "target": "single",
-            "effects": []
+            "effects": [
+                {
+                    "kind": "charge_turn",
+                    "turns": 2
+                }
+            ]
         }
     },
     {

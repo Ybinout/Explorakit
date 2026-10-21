@@ -1,3 +1,4 @@
+const { generationStandard } = require('../battle/twoTurnMoves');
 const Pokemon = require('../models/Pokemon');
 const dex = require('../../../data/game/pokedex.json');
 const moves = require('../../../data/game/moves.json');
@@ -18,7 +19,7 @@ function create(id, level = 5, balanced = false, random = Math.random, minimumIv
     p.stoneEvolutions = true;
     p.gender = require('../items/stoneEvolution').gender(p);
     const slugs = new Set(pools[id] || []);
-    const possible = moves.filter(m => slugs.has(m.ename.toLowerCase().replace(/[^a-z0-9]+/g, '-')) && m.power > 0 && m.power <= Math.min(100, 45 + level) && m.combat?.power_type === 'standard');
+    const possible = moves.filter(m => slugs.has(m.ename.toLowerCase().replace(/[^a-z0-9]+/g, '-')) && m.power > 0 && m.power <= Math.min(100, 45 + level) && generationStandard(m));
     possible.sort((a,b) => Number(species.type.includes(b.type)) - Number(species.type.includes(a.type)) || b.power - a.power);
     const chosen = possible.slice(0, 3).map(m => m.ename);
     if (!chosen.length) chosen.push('Tackle');

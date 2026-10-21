@@ -2,12 +2,14 @@ const { battleWeatherForMap } = require('../world/mapWeather');
 const heldItems = require('../items/heldItems');
 const reactions = require('../abilities/abilityReactions');
 const abilityForms = require('../abilities/abilityForms');
+const twoTurn = require('./twoTurnMoves');
 const drift = require('../drift/driftEffects');
 const {
     consumeMovePp,
     getItemDefinition,
     getMovePp,
     getUsableMoveIndexes,
+    getChargingMove,
     normalizeMovePp,
     reduceMovePp
 } = require('./battleResources');
@@ -371,6 +373,7 @@ function activateHeldItem(pokemon, battleState, messages, trigger = 'immediate',
 function isGrounded(pokemon, battleState) {
     if (!pokemon) return false;
     if (battleState?.field?.gravityTurns > 0) return true;
+    if (pokemon.__battle?.grounded) return true;
     if (hasType(pokemon, 'Flying')) return false;
     if (hasPassiveAbility(pokemon, 'Levitate')) return false;
     const battleData = ensureBattleData(pokemon);
@@ -632,7 +635,7 @@ function clearStatus(target, messages, statusFilter = null) {
 }
 
 function getMovePriority(moveName, pokemon = null) {
-    const move = getMoveByName(moveName);
+    const move = getMoveByName(getChargingMove(pokemon) || moveName);
     return safeNumber(move?.combat?.priority, 0) + getAbilityPriority(pokemon, move);
 }
 
@@ -733,6 +736,7 @@ function calculateDamageDetailed(attacker, defender, move, context = {}) {
     const defenderData = ensureBattleData(defender);
     for (const type of defenderTypes) {
         let typeModifier = getEffectiveness(move.type, type);
+        if (type === 'Flying' && move.type === 'Ground' && (defenderData.grounded || battleState?.field?.gravityTurns > 0 || move.ename === 'Thousand Arrows')) typeModifier = 1;
         if (typeModifier === 0 && type === 'Ghost' && (defenderData.foresight || hasPassiveAbility(attacker,'Scrappy')) && ['Normal', 'Fighting'].includes(move.type)) {
             typeModifier = 1;
         }
@@ -744,6 +748,9 @@ function calculateDamageDetailed(attacker, defender, move, context = {}) {
     modifier *= effectiveness;
 
     const weather = isWeatherSuppressed(attacker, defender) ? null : battleState?.weather?.kind;
+    if (twoTurn.rule(move.ename)?.solar && ['rain','hail','sandstorm'].includes(weather)) modifier *= 0.5;
+    const hidden = twoTurn.rule(defenderData.chargeMove) || (defenderData.skyDropBy ? twoTurn.rule('Sky Drop') : null);
+    if (defenderData.semiInvulnerable && hidden?.hits?.[move.ename]) modifier *= hidden.hits[move.ename];
     if (weather === 'rain') {
         if (move.type === 'Water') modifier *= 1.5;
         if (move.type === 'Fire') modifier *= 0.5;
@@ -944,6 +951,7 @@ function applyStageChange(target, stat, stages, messages, source = null) {
 function canSwitchOut(pokemon, opponent = null, battleState = null, { escape = false } = {}) {
     if (!pokemon || safeNumber(pokemon.currentHp, 0) <= 0) return false;
     const battleData = ensureBattleData(pokemon);
+    if (battleData.skyDropBy || (!escape && getChargingMove(pokemon))) return false;
     if (escape && hasPassiveAbility(pokemon,'Run Away')) return true;
     if (hasType(pokemon,'Ghost')) return true;
     if (battleData.trappedTurns > 0) return false;
@@ -1458,6 +1466,9 @@ function applyEffect(effect, context, moveResult) {
             return;
 
         case 'force_switch':
+            if (targetData.skyDropBy || targetData.skyDropTarget) {
+                messages.push('Chute Libre empêche le changement forcé.'); return;
+            }
             if (blocksForcedSwitch(effectTargetPokemon, context.attacker)) {
                 messages.push(`${getPokemonDisplayName(effectTargetPokemon)} reste en place grace a Ventouse.`);
                 return;
@@ -1974,7 +1985,7 @@ function processTurnStart(pokemon, options = {}) {
         return { canAct: false, messages };
     }
 
-    if (pokemonData.tormented && pokemonData.lastMoveUsed && move?.ename === pokemonData.lastMoveUsed) {
+    if (!options.charging && pokemonData.tormented && pokemonData.lastMoveUsed && move?.ename === pokemonData.lastMoveUsed) {
         messages.push(`${pokemonName} est sous Tourmente et ne peut pas rejouer ${move.ename}.`);
         return { canAct: false, messages };
     }
@@ -2051,6 +2062,7 @@ function resolveWeatherDamage(pokemon, battleState, opponent = null) {
     if (!pokemon || safeNumber(pokemon.currentHp, 0) <= 0) return 0;
     if (isWeatherSuppressed(pokemon, opponent) || hasPassiveAbility(pokemon, 'Overcoat')) return 0;
     const weather = battleState?.weather?.kind;
+    if (['underground','submerged'].includes(pokemon.__battle?.semiInvulnerable)) return 0;
     if (!weather) return 0;
 
     if (weather === 'sandstorm' && !['Sand Force', 'Sand Rush', 'Sand Veil'].includes(getPassiveAbility(pokemon))
@@ -2324,6 +2336,7 @@ function processEndOfRound(playerPokemon, enemyPokemon, playerSide, enemySide, b
     const before=[playerPokemon?.currentHp,enemyPokemon?.currentHp];
     messages.push(...processPokemonEndTurn(playerPokemon, enemyPokemon, playerSide, battleState));
     messages.push(...processPokemonEndTurn(enemyPokemon, playerPokemon, enemySide, battleState));
+    for (const [p,other] of [[playerPokemon,enemyPokemon],[enemyPokemon,playerPokemon]]) if (Number(p?.currentHp)<=0) twoTurn.clear(p,other,battleState.turn);
     for(const [p,other,hp]of [[playerPokemon,enemyPokemon,before[1]],[enemyPokemon,playerPokemon,before[0]]]) {
         if(p?.currentHp>0 && hp>0 && other?.currentHp<=0 && hasPassiveAbility(p,'Soul-Heart'))applyStageChange(p,'specialAttack',1,messages,p);
     }
@@ -2581,9 +2594,18 @@ function useattack(attackName, attacker, defender, options = {}) {
     const before=[];
     abilityForms.syncWeatherForms(attacker,defender,options.battleState,before);
     const result=executeAttack(attackName,attacker,defender,options);
+    for (const [p,other] of [[attacker,defender],[defender,attacker]]) if (Number(p?.currentHp)<=0) twoTurn.clear(p,other,options.battleState.turn);
     result.messages.unshift(...before);
     abilityForms.syncWeatherForms(attacker,defender,options.battleState,result.messages);
     return result;
+}
+
+function movePhase(pokemon, moveName, battleState, opponent) {
+    if (getChargingMove(pokemon)) return 'strike';
+    const move = getMoveByName(moveName);
+    if (move?.combat?.power_type !== 'charge') return null;
+    if (twoTurn.rule(moveName)?.solar && battleState?.weather?.kind === 'sun' && !isWeatherSuppressed(pokemon,opponent)) return null;
+    return 'prepare';
 }
 
 function executeAttack(attackName, attacker, defender, options = {}) {
@@ -2593,6 +2615,8 @@ function executeAttack(attackName, attacker, defender, options = {}) {
     const attackerTeam = options.attackerTeam || null;
     const defenderTeam = options.defenderTeam || null;
     const calledDepth = Math.max(0, safeNumber(options.calledDepth, 0));
+    const charging = !calledDepth && getChargingMove(attacker);
+    if (charging) attackName = charging;
 
     const moveResult = {
         success: false,
@@ -2632,6 +2656,21 @@ function executeAttack(attackName, attacker, defender, options = {}) {
 
     const attackerData = ensureBattleData(attacker);
     const defenderData = ensureBattleData(defender);
+    const carriedTarget = attackerData.skyDropTarget;
+    // Remain hidden until this action, then reappear even if sleep, flinch,
+    // paralysis, Entrave, a miss or Protect interrupts the release.
+    if (charging) twoTurn.clear(attacker,defender,battleState.turn);
+    if (charging === 'Sky Drop' && carriedTarget && carriedTarget !== defender.uuid) {
+        moveResult.blocked = true; moveResult.messages.push('La cible de Chute Libre n’est plus en combat.'); return moveResult;
+    }
+    if (attackerData.skyDropBy || attackerData.skyDropSkipTurn === battleState.turn) {
+        moveResult.blocked = true;
+        moveResult.messages.push(`${getPokemonDisplayName(attacker)} est emporté dans les airs et ne peut pas agir.`);
+        return moveResult;
+    }
+    if (attackerData.chargeInterruptedTurn === battleState.turn) {
+        moveResult.blocked = true; moveResult.messages.push(`${getPokemonDisplayName(attacker)} a été interrompu et ne peut pas terminer son attaque.`); return moveResult;
+    }
     const hpBeforeMove=defender.currentHp;
     const helper=reactionHelpers();
     const hit=(amount,critical=false) => {
@@ -2654,7 +2693,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         return moveResult;
     }
 
-    if (options.consumePp !== false) {
+    if (options.consumePp !== false && !charging) {
         const ppState = getMovePp(attacker, move.ename);
         if (ppState && ppState.current <= 0) {
             if (getUsableMoveIndexes(attacker, battleState).length === 0 && move.ename !== 'Struggle') {
@@ -2693,14 +2732,15 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         attackerSide,
         defenderSide,
         battleState,
-        ignoreSleep: Boolean(options.ignoreSleep)
+        ignoreSleep: Boolean(options.ignoreSleep),
+        charging: Boolean(charging)
     });
     moveResult.messages.push(...startTurn.messages);
     if (!startTurn.canAct || safeNumber(attacker.currentHp, 0) <= 0) {
         attackerData.lastMoveUsed = move.ename;
         return moveResult;
     }
-    if(options.consumePp!==false) {
+    if(options.consumePp!==false && !charging) {
         const consumed=consumeMovePp(attacker,move.ename);
         if(consumed.consumed) {
             attackerData.lastMoveSlot=consumed.slot;
@@ -2710,17 +2750,36 @@ function executeAttack(attackName, attacker, defender, options = {}) {
     abilityForms.sync(attacker,'move',moveResult.messages,move,battleState,defender);
     if (!calledDepth) heldItems.lockMove(attacker, move.ename, battleState);
 
-    if (move.combat?.power_type === 'charge') {
-        if (attackerData.chargeTurns <= 0 || attackerData.chargeMove !== move.ename) {
+    const chargeRule = twoTurn.rule(move.ename);
+    if (chargeRule?.gravity && battleState.field?.gravityTurns > 0) {
+        moveResult.blocked = true;
+        moveResult.messages.push(`${move.ename} est impossible sous Gravité.`);
+        return moveResult;
+    }
+    if (move.combat?.power_type === 'charge' && !charging) {
+        if (move.ename === 'Sky Drop' && (defenderData.substituteHp > 0 || getPokemonMassProxy(defender) >= 200 || defenderData.semiInvulnerable || isMoveBlockedByProtect(defender,defenderSide,move))) {
+            moveResult.blocked = true; moveResult.messages.push('Impossible d’emporter cet adversaire avec Chute Libre.'); return moveResult;
+        }
+        if (chargeRule?.defense) applyStageChange(attacker,'defense',1,moveResult.messages,attacker);
+        const sunny = chargeRule?.solar && battleState.weather?.kind === 'sun' && !isWeatherSuppressed(attacker,defender);
+        if (!sunny) {
             attackerData.chargeMove = move.ename;
             attackerData.chargeTurns = 1;
+            attackerData.semiInvulnerable = chargeRule?.state || null;
+            if (move.ename === 'Sky Drop') {
+                attackerData.skyDropTarget = defender.uuid;
+                defenderData.skyDropBy = attacker.uuid; defenderData.semiInvulnerable = 'airborne';
+            }
             moveResult.success = true;
-            moveResult.messages.push(`${getPokemonDisplayName(attacker)} se charge pour ${move.ename}.`);
+            moveResult.phase = 'prepare';
+            moveResult.messages.push(`${getPokemonDisplayName(attacker)} ${chargeRule?.prepare || `se prépare pour ${move.ename}`}.`);
             attackerData.lastMoveUsed = move.ename;
             return moveResult;
         }
-        attackerData.chargeTurns = 0;
-        attackerData.chargeMove = null;
+    }
+    if (charging) moveResult.phase = 'strike';
+    if (move.ename === 'Sky Drop' && charging && hasType(defender,'Flying')) {
+        moveResult.effectiveness = 0; moveResult.messages.push('Chute Libre est sans effet sur un Pokémon de type Vol.'); return moveResult;
     }
 
     const moveTarget = move?.combat?.target || 'single';
@@ -2776,7 +2835,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         return moveResult;
     }
 
-    if (moveTargetsOpponent && isMoveBlockedByProtect(defender, defenderSide, move)) {
+    if (moveTargetsOpponent && !chargeRule?.breaksProtect && isMoveBlockedByProtect(defender, defenderSide, move)) {
         moveResult.blocked = true;
         moveResult.messages.push(`${getPokemonDisplayName(defender)} bloque l'attaque.`);
         if (safeNumber(defenderData.contactDamageFraction, 0) > 0 && damageClass !== 'status' && reactions.contact(attacker,move) && !hasPassiveAbility(attacker,'Magic Guard')) {
@@ -2790,6 +2849,16 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         return moveResult;
     }
 
+    // Always-hit accuracy alone (Swift, rain Thunder…) does not bypass a
+    // semi-invulnerable turn. No Guard and Lock-On do, as do named counters.
+    const lockedOn = attackerData.lockOnTurns > 0 && attackerData.lockOnTargetId === (defender.uuid || getPokemonDisplayName(defender));
+    const noGuard = hasPassiveAbility(attacker,'No Guard') || (!ignoresDefenderAbility(attacker,defender) && hasPassiveAbility(defender,'No Guard'));
+    const hiddenRule = twoTurn.rule(defenderData.chargeMove) || (defenderData.skyDropBy ? twoTurn.rule('Sky Drop') : null);
+    const hitsHidden = !defenderData.semiInvulnerable || noGuard || lockedOn || hiddenRule?.hits?.[move.ename];
+    if (moveTargetsOpponent && !hitsHidden) {
+        moveResult.missed = true; attackerData.lastMoveUsed = move.ename;
+        moveResult.messages.push(`${getPokemonDisplayName(defender)} est hors de portée de ${move.ename}.`); return moveResult;
+    }
     const accuracy = weatherMoveAccuracy(move, attacker, defender, battleState);
     let attackHits = true;
     let hitChance = 1;
@@ -2817,6 +2886,8 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         attackerData.lastMoveUsed = move.ename;
         return moveResult;
     }
+
+    if (chargeRule?.breaksProtect) defenderData.protect = false;
 
     if (moveTargetsOpponent) {
         const abilityEffectiveness = getPokemonTypes(defender)
@@ -3013,6 +3084,19 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         applyEffect(resolved, effectContext, moveResult);
     }
     applyImplicitMoveEffect(move, effectContext, moveResult);
+    // Grounding moves interrupt the airborne release; Gravity interrupts both
+    // participants in Sky Drop. Keep this after the successful hit/effect.
+    if (moveResult.success && ['Gravity','Smack Down','Thousand Arrows'].includes(move.ename)) {
+        for (const [target,other] of move.ename === 'Gravity' ? [[attacker,defender],[defender,attacker]] : [[defender,attacker]]) {
+            if (target.__battle?.semiInvulnerable === 'airborne') {
+                twoTurn.clear(target,other,battleState.turn);
+                if (target.__battle.skyDropBy) { delete target.__battle.skyDropBy; twoTurn.clear(other,target,battleState.turn); }
+                target.__battle.grounded = true;
+                target.__battle.chargeInterruptedTurn = battleState.turn;
+                moveResult.messages.push(`${getPokemonDisplayName(target)} est ramené au sol.`);
+            }
+        }
+    }
     const reactionContext={...effectContext,result:moveResult,hpBefore:hpBeforeMove};
     if(!perHitSecondaries && !effects.some(e=>['status_chance','flinch'].includes(e.kind)))reactions.secondaryEffects(reactionContext,helper,moveResult.messages);
     reactions.afterMove(reactionContext,helper,moveResult.messages);
@@ -3062,6 +3146,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
 }
 
 module.exports = {
+    movePhase,
     PARTIAL_EFFECT_KINDS,
     applyStatus,
     applyStageChange,

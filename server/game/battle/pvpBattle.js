@@ -5,13 +5,14 @@ const {
     getMoveByName,
     resolveWeatherMove,
     battleMoveTypes,
+    movePhase,
     createBattleState,
     orderBattleActions,
     processEndOfRound,
     applySwitchInEffects,
     canSwitchOut
 } = require('./battleEngine');
-const { getUsableMoveIndexes } = require('./battleResources');
+const { getUsableMoveIndexes, getChargingMove, selectedMoveName } = require('./battleResources');
 const { editEquipe } = require('../../persistence/teamRepository');
 const { emitPvpBattleEnd } = require('./battleOutcome');
 const { emitFieldState, emitPvpMoveResult } = require('./battleEvents');
@@ -115,6 +116,7 @@ function emitMoveAnimationForBoth(io, attackerPlayer, defenderPlayer, moveName, 
     const move = resolveWeatherMove(getMoveByName(moveName),attackerPlayer.equipe.pokemons[0],defenderPlayer.equipe.pokemons[0],battleState);
     const movePayload = {
         moveName,
+        phase: movePhase(attackerPlayer.equipe.pokemons[0],moveName,battleState,defenderPlayer.equipe.pokemons[0]),
         moveType: move?.type || 'Normal',
         moveTarget: move?.combat?.target || 'opponent',
         damageClass: move?.combat?.damage_class || 'status'
@@ -131,6 +133,7 @@ function emitMoveAnimationForBoth(io, attackerPlayer, defenderPlayer, moveName, 
 }
 
 async function requestPlayerAction(io, player, message = 'Quelle est votre prochaine action ?') {
+    if (getChargingMove(player.equipe?.pokemons?.[0])) return { action:'attack', number:getUsableMoveIndexes(player.equipe.pokemons[0])[0] };
     const socket = getPlayerSocket(io, player);
     if (!socket) {
         return {
@@ -277,7 +280,7 @@ async function performAttack(io, attackerPlayer, defenderPlayer, moveIndex, atta
     const selectedMoveIndex = Number.isInteger(moveIndex)
         ? moveIndex
         : getRandomMoveIndex(attackerPokemon);
-    const moveName = attackerPokemon.getAtkName(selectedMoveIndex) || 'une attaque';
+    const moveName = selectedMoveName(attackerPokemon, selectedMoveIndex) || 'une attaque';
 
     emitMoveAnimationForBoth(io, attackerPlayer, defenderPlayer, moveName, battleState);
 
@@ -361,22 +364,12 @@ async function performAttack(io, attackerPlayer, defenderPlayer, moveIndex, atta
 }
 
 async function persistTeams(playerA, playerB) {
-    const saveTasks = [];
-
-    if (Number.isInteger(playerA?.userId) && playerA?.equipe) {
-        saveTasks.push(editEquipe(playerA.userId, playerA.equipe));
-    }
-
-    if (Number.isInteger(playerB?.userId) && playerB?.equipe) {
-        saveTasks.push(editEquipe(playerB.userId, playerB.equipe));
-    }
-
-    if (saveTasks.length === 0) return;
-
-    try {
-        await Promise.all(saveTasks);
-    } catch (error) {
-        console.error('Erreur sauvegarde equipe PVP:', error?.message || error);
+    // Team rewrites delete/reinsert indexed rows. Serialise the two saves to
+    // avoid InnoDB gap-lock deadlocks losing one participant's HP/PP update.
+    for (const player of [playerA,playerB]) {
+        if (!Number.isInteger(player?.userId) || !player.equipe) continue;
+        try { await editEquipe(player.userId,player.equipe); }
+        catch (error) { console.error('Erreur sauvegarde equipe PVP:', error?.message || error); }
     }
 }
 
@@ -623,8 +616,8 @@ async function startPvpBattle(playerA, playerB, io) {
         }
 
         if (!canSwitchA && !canSwitchB) {
-            const moveNameA = teamA[0]?.getAtkName?.(actionA.moveIndex);
-            const moveNameB = teamB[0]?.getAtkName?.(actionB.moveIndex);
+            const moveNameA = selectedMoveName(teamA[0], actionA.moveIndex);
+            const moveNameB = selectedMoveName(teamB[0], actionB.moveIndex);
             const firstActor = decideMoveOrder(teamA[0], moveNameA, teamB[0], moveNameB, battleState);
 
             if (firstActor === 'A') {

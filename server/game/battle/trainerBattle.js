@@ -8,6 +8,7 @@ const {
     getMoveByName,
     resolveWeatherMove,
     battleMoveTypes,
+    movePhase,
     orderBattleActions,
     calculateDamage,
     createBattleState,
@@ -15,7 +16,7 @@ const {
     applySwitchInEffects,
     canSwitchOut
 } = require('./battleEngine');
-const { getUsableMoveIndexes } = require('./battleResources');
+const { getUsableMoveIndexes, getChargingMove, selectedMoveName } = require('./battleResources');
 const { calculateBattleExperience, BATTLE_EXPERIENCE_MULTIPLIERS } = require('../models/progression');
 const { emitSoloBattleEnd, createBattleSummaryTracker } = require('./battleOutcome');
 const { emitFieldState, emitSoloMoveResult } = require('./battleEvents');
@@ -53,7 +54,7 @@ function getMoveName(pokemon, moveIndex) {
         return 'une attaque';
     }
 
-    const moveName = pokemon.getAtkName(moveIndex);
+    const moveName = selectedMoveName(pokemon, moveIndex);
     return moveName || 'une attaque';
 }
 
@@ -84,6 +85,7 @@ function displayMoveAnimation(player, attacker, defender, moveName, io, battleSt
     io.to(player.id).emit('battleMoveAnimation', {
         actor: attacker === player?.equipe?.pokemons?.[0] ? 'player' : 'opponent',
         moveName,
+        phase: movePhase(attacker,moveName,battleState,defender),
         moveType: move?.type || 'Normal',
         moveTarget: move?.combat?.target || 'opponent',
         damageClass: move?.combat?.damage_class || 'status'
@@ -98,7 +100,7 @@ function decideMoveOrder(playerPokemon, playerMoveName, enemyPokemon, enemyMoveN
 }
 
 function performAttack(attacker, defender, moveIndex, battleContext) {
-    return useattack(attacker.getAtkName(moveIndex), attacker, defender, battleContext);
+    return useattack(selectedMoveName(attacker, moveIndex), attacker, defender, battleContext);
 }
 
 async function performAttackWithNarration(attacker, defender, moveIndex, player, currentEnemy, io, battleContext) {
@@ -204,6 +206,7 @@ function playerChangePokemonByIndex(equipe, index) {
 }
 
 function playerTurn(player, io) {
+    if (getChargingMove(player.equipe?.pokemons?.[0])) return Promise.resolve({ action:'attack', number:getUsableMoveIndexes(player.equipe.pokemons[0])[0] });
     return new Promise((resolve) => {
         const playerSocket = io.sockets.sockets.get(player.id);
         if (!playerSocket) {
@@ -600,11 +603,11 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
         }
 
         const playerMove = Number.isInteger(response.number) ? response.number : getRandomNumber(playerPokemon);
-        const playerMoveName = playerPokemon.getAtkName(playerMove);
+        const playerMoveName = selectedMoveName(playerPokemon, playerMove);
         round++;
         const decision = enemyDecision();
         let enemyMove = decision?.action === 'attack' ? decision.number : resolveEnemyMoveIndex(playerPokemon, currentEnemy, moves);
-        let enemyMoveName = currentEnemy.getAtkName(enemyMove);
+        let enemyMoveName = selectedMoveName(currentEnemy, enemyMove);
 
         const haveToSwap = decision ? (decision.action === 'change' ? decision.number : false)
             : determineIfSwap(currentEnemy, enemyTeam, playerPokemon);
@@ -627,7 +630,7 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
                 );
                 await applySwitchInNarration(player, currentEnemy, io, currentEnemy, enemySide, playerSide, battleState);
                 enemyMove = resolveEnemyMoveIndex(playerPokemon, currentEnemy, moves);
-                enemyMoveName = currentEnemy.getAtkName(enemyMove);
+                enemyMoveName = selectedMoveName(currentEnemy, enemyMove);
             }
         }
 

@@ -120,6 +120,7 @@ function statusGuard(p, status, source, reflect) {
     return false;
 }
 function afterMove(a, d, result, { contact = false, status, stage }) {
+    if (result.phase === 'prepare') return; // Keep first-hit/entry bonuses for the actual strike.
     const s = states.get(a), t = states.get(d);
     const offensive = result.move && result.move.combat?.damage_class !== 'status';
     if (result.missed && s) s.streak = 0;

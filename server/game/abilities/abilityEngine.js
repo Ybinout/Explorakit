@@ -162,7 +162,7 @@ function resolveMoveAbilityImmunity(context) {
     const flags = getMoveFlags(move);
     let reason = null;
 
-    if (ability === 'Levitate' && move.type === 'Ground' && !(battleState?.field?.gravityTurns > 0)
+    if (ability === 'Levitate' && move.type === 'Ground' && move.ename !== 'Thousand Arrows' && !(battleState?.field?.gravityTurns > 0)
         && !(defender.__battle?.ingrain || defender.__battle?.grounded)) reason = 'Levitate';
     if (ability === 'Soundproof' && SOUND_MOVES.has(move.ename)) reason = 'Soundproof';
     if (ability === 'Bulletproof' && BULLET_MOVES.has(move.ename)) reason = 'Bulletproof';

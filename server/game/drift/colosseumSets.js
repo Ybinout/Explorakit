@@ -1,3 +1,4 @@
+const { generationStandard } = require('../battle/twoTurnMoves');
 const engine = require('../battle/battleEngine');
 const { getMoveFlags } = require('../abilities/abilityEngine');
 const { chooseSpeciesAbility, createDeterministicRandom, getSpeciesAbilitySlots } = require('../abilities/abilityDex');
@@ -54,7 +55,7 @@ function plan(id, wave, index, tactic = null) {
     if (ability === 'Klutz') ability = getSpeciesAbilitySlots(id).find(a => !a.hidden && !a.special && a.name !== 'Klutz')?.name || ability;
     const available = moves.filter(m => legal.has(slug(m.ename))).map(m => engine.getMoveByName(m.ename));
     const cap = wave <= 5 ? 60 : wave <= 10 ? 80 : wave <= 15 ? 100 : 120;
-    const attacks = available.filter(m => m.power > 0 && m.power <= cap && m.combat.power_type === 'standard'
+    const attacks = available.filter(m => m.power > 0 && m.power <= cap && generationStandard(m)
         && !traits[m.ename]?.multihit && !conditional.has(m.ename) && !getMoveFlags(m).selfdestruct
         && !getMoveFlags(m).charge && !getMoveFlags(m).recharge
         && !traits[m.ename]?.charge && !traits[m.ename]?.recharge

@@ -131,3 +131,12 @@ test('Recherche rare favorise une espèce explicitement rare sans changer la car
     assert(boosted > basic);assert(boosted < basic * 3);
     assert.equal(factory.wild('centre',p,()=>0),null);
 });
+
+test('two-turn preparation preserves first-strike and entry Rift bonuses until the actual damaging release',()=>{
+    const f=fixture(7),move=engine.getMoveByName('Dig');f.a.abilities=['Dig'];f.a.movePp=[1];f.state.entry=true;
+    const initial=fx.multiplier(f.a,f.b,move,false);assert(initial>1);
+    const preparation=engine.useattack('Dig',f.a,f.b);fx.afterMove(f.a,f.b,preparation,callbacks);
+    assert.equal(f.state.shared.firstUsed,false);assert.equal(f.state.entry,true);assert.equal(fx.multiplier(f.a,f.b,move,false),initial);
+    const strike=engine.useattack('Dig',f.a,f.b);assert(strike.damage>0);fx.afterMove(f.a,f.b,strike,callbacks);
+    assert.equal(f.state.shared.firstUsed,true);assert.equal(f.state.entry,false);assert.equal(f.a.movePp[0],0);
+});

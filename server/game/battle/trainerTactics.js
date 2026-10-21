@@ -21,6 +21,8 @@ function eligibleIndexes(team) {
 }
 function replacementIndex(team) { return eligibleIndexes(team)[0] ?? -1; }
 function chooseAction(team, opponent, field, memory, round) {
+    const resources = require('./battleResources');
+    if (resources.getChargingMove(team.pokemons[0])) return {action:'attack',number:resources.getUsableMoveIndexes(team.pokemons[0],field)[0]};
     if (team.__trainerPlan?.ai !== 'expert') return null;
     // Keep the active Pokémon in the simulation. A reserved ace is excluded
     // only from voluntary switches, never made immune to a forced switch.

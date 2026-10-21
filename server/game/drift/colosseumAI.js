@@ -1,5 +1,6 @@
+const { generationStandard } = require('../battle/twoTurnMoves');
 const engine = require('../battle/battleEngine');
-const { getMaxMovePp } = require('../battle/battleResources');
+const { getMaxMovePp, getChargingMove, getUsableMoveIndexes } = require('../battle/battleResources');
 const { createDeterministicRandom, chooseSpeciesAbility } = require('../abilities/abilityDex');
 const { getMoveFlags } = require('../abilities/abilityEngine');
 const moveData = require('../../../data/game/moves.json');
@@ -37,7 +38,7 @@ function preparePokemon(pokemon, wave, index, version = 3) {
     if (tier < 3) return;
     const legal = new Set(learnsets[pokemon.data.id] || []);
     const available = moveData.filter(m => legal.has(slug(m.ename))).map(m => engine.getMoveByName(m.ename));
-    const attacks = available.filter(m => m.power > 0 && m.power <= (tier >= 6 ? 120 : 100) && m.combat?.power_type === 'standard'
+    const attacks = available.filter(m => m.power > 0 && m.power <= (tier >= 6 ? 120 : 100) && generationStandard(m)
         && !getMoveFlags(m).selfdestruct && !['Explosion', 'Self-Destruct'].includes(m.ename));
     const selected = [];
     for (let slot = 0; slot < 4; slot++) {
@@ -184,6 +185,7 @@ function project(a,b,move,reply,ctx) {
 }
 
 function chooseAction({ team, opponent, field, ownSide, enemySide, wave, memory, round, version = 3 }) {
+    if (getChargingMove(team[0])) return {action:'attack',number:getUsableMoveIndexes(team[0],field)[0]};
     const tier = difficulty(wave, version).tier + (version >= 3 ? 2 : 0), active = team[0];
     if (tier === 1 || !active || !opponent) return null;
     const a=ownView(active), b=observedView(opponent), observed=memory.seen?.[b.uuid];
