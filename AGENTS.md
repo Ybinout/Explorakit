@@ -1,5 +1,11 @@
 # Contexte permanent — Explorakit
 
+## Hautes herbes au passage — 21 octobre 2026
+
+`GrassRustleRenderer` réutilise les pixels des brins autour des déplacements interpolés du joueur, autres joueurs et PNJ, dans les trois modes. Cache natif/30 Hz/32 touffes, retour au repos 440 ms ; pas d’effet à l’apparition, au repos ou à la téléportation. Dessin après base/eau et avant météo/personnages/foreground, sol/alpha/ombres fixes. `pnjWorldPosition` est partagé entre dessin et suivi des pas. Mouvement réduit/masquage/chargement/combat libèrent le cache.
+
+`src/data/worldGrass.js` est généré en lecture seule depuis les Tiled : 22 cartes /1 326 cases des quatre dessins `teset2` 3225/2804/2944/3087. Ne pas inclure les bordures 1850 ni utiliser les flags de rencontre des grottes. Régénérer par `node scripts/generateWorldGrass.js`, vérifier `--check`, sans réécrire cartes/collisions/PNG. Nouveaux dessins à inventorier explicitement. Tests `grass-rustle.test.js` et `npm run test:grass-browser` sur base dédiée ; vrais pas local/distant et privés, PNJ de présentation, quatre tailles/pixels/pauses. Aucune modification serveur ou sauvegarde, publication statique sans redémarrage.
+
 ## Décor de combat de Mounir — 21 octobre 2026
 
 Nouveaux assets `assets/battle/mounir-{mobile,wide,platform}-v1.webp`, créés avec le skill imagegen intégré : cour d’arène de la Ville du Lac, pierre bleutée humide, bassins latéraux, ciel couvert et sol continu. Deux compositions distinctes 1024×1536 /1536×1024 ; pas de Pokémon, interface ou socle peint dans le fond. Socle de pierre assorti avec anneau turquoise et vraie transparence (1774×887), rendu deux fois aux ancrages des combattants, pour qu’aucun recadrage ne décale leurs appuis. Formats WebP qualité 0,93 par encodage Canvas, dimensions et alpha conservés sans recadrage ; prompts complets/provenance dans `mounir-v1.prompts.txt`, PNG originaux conservés.

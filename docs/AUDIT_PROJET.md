@@ -1,5 +1,15 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Hautes herbes au passage des personnages — 21 octobre 2026
+
+`GrassRustleRenderer` anime brièvement les couleurs des brins des touffes autour des pas réellement parcourus, puis les ramène au repos en 440 ms. Même dessin pixel art que la carte, oscillation limitée aux pixels des brins et à la case, bordures/sol/ombres/alpha fixes ; aucun déplacement du foreground complet. Le masque visuel provient de quatre dessins d’herbes du tileset `teset2` (3225/2804/2944/3087), pas des cases de rencontre des grottes. Les bordures de chemin 1850 sont explicitement exclues. Métadonnées de **22 cartes /1 326 cases**, générées en lecture seule par `scripts/generateWorldGrass.js`, contrôle `--check`. Les nouvelles cartes utilisant d’autres dessins nécessitent d’étendre ce repérage visuel.
+
+Le client utilise les mêmes positions interpolées que le rendu du joueur, des autres joueurs et des PNJ en marche (`pnjWorldPosition` partagé). Première apparition, téléportation, immobilité et longue absence ne déclenchent pas de pas. Dessin après carte/eau et avant météo au sol/personnages/foreground ; cache natif 448×320, calcul 30 Hz au plus, 32 touffes actives maximum. Pauses et libération des buffers lors de chargement/changement de carte, combat/résultat/présentation, onglet masqué et mouvement réduit système/jeu. Même composant dans Aventure, Rift et Colosseum ; aucune modification serveur, protocole Socket, carte auteur, rencontre, collision ou sauvegarde.
+
+Validation reproductible : `node --test tests/grass-rustle.test.js` (5 contrôles : métadonnées, vrais pas et pixels, téléportation/pauses, budget/cache, Canvas indisponible) ; `RELEASE_DIST_DIR=/tmp/explorakit-grass-dist npm run test:grass-browser` sur base dédiée. Recette réussie : vrais déplacements Aventure à deux comptes, autre joueur vu depuis le premier, PNJ interpolé de présentation, tous les 22 fonds reconnus, sept cartes et quatre dessins, mouvement en Rift/Colosseum, absence d’effet au repos, quatre tailles 320×480 /393×852 /844×390 /1365×900 et pauses. Aucun pixel hors masque ni alpha altéré ; captures inspectées, zéro erreur navigateur. Lint et build réussis, tests applicatifs 586 réussis (56 SQL ignorés dans cette commande, aucune modification de persistance). Aucun essai sur téléphone physique revendiqué.
+
+Client publié `8c5c68683ee3bae658ebd3c4cb630bddbec9313d`, build `/tmp/explorakit-grass-dist`, hash `a9247134f09c9047`. Publication statique le **21/10/2026 à 17 h 06 (Paris)**, index atomique et anciens bundles conservés, PID Explorakit 1056827 inchangé, sans redémarrage. Sauvegarde sources/dist/SQL/checkpoint `/home/ubuntu/dev/backups/explorakit-grass-2026-10-21T15-05-46-429Z` ; aucune migration ni donnée existante modifiée. Contrôle HTTPS public sur deux comptes temporaires : déplacement local/distant, pixels, pauses et quatre tailles, index identique au build, Know/api-test inchangés et zéro erreur navigateur. Comptes de recette supprimés. Logs/captures `/tmp/explorakit-grass-*`.
+
 ## Décor de combat de Mounir — 21 octobre 2026
 
 Nouveaux assets `assets/battle/mounir-{mobile,wide,platform}-v1.webp`, créés avec le skill imagegen intégré : cour d’arène de la Ville du Lac, pierre bleutée humide, bassins latéraux, ciel couvert et sol continu. Deux compositions distinctes 1024×1536 /1536×1024 ; pas de Pokémon, interface ou socle peint dans le fond. Socle de pierre assorti avec anneau turquoise et vraie transparence (1774×887), rendu deux fois aux ancrages des combattants, pour qu’aucun recadrage ne décale leurs appuis. Formats WebP qualité 0,93 par encodage Canvas, dimensions et alpha conservés sans recadrage ; prompts complets/provenance dans `mounir-v1.prompts.txt`, PNG originaux conservés.
@@ -1826,6 +1836,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **21 octobre 2026 — Hautes herbes :** frémissement bref aux vrais pas du joueur, autres joueurs et PNJ, 22 cartes et trois modes, sol/ombres fixes et pauses respectées ; recette pixels/déplacements dédiée.
 
 - **21 octobre 2026 — Arène de Mounir :** décor pixel art pluvieux propre à son lieu, compositions mobile/bureau et deux socles transparents alignés, avec préchargement et recette visuelle dédiée.
 
