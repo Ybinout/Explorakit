@@ -149,7 +149,7 @@ class DriftBattle {
         if (kind === 'change' && (!Number.isInteger(payload.number) || payload.number <= 0 || !p.equipe.pokemons[payload.number] || effects.isDead(p.equipe.pokemons[payload.number]) || !engine.canSwitchOut(active, this.active(p === this.a ? 1 : 0), this.state))) return false;
         if (kind === 'flee' && this.type === 'wild' && !engine.canSwitchOut(active, this.active(p === this.a ? 1 : 0), this.state, {escape:true})) return false;
         if (kind === 'attack' && !(getUsableMoveIndexes(active, this.state).includes(payload.number) || !getUsableMoveIndexes(active, this.state).length)) return false;
-        if (kind === 'bag' && (this.type !== 'wild' || p !== this.a || p.equipe.pokemons.length >= 6 || !(p.items[payload.itemKey] > 0) || getItemDefinition(payload.itemKey)?.category !== 'ball')) return false;
+        if (kind === 'bag' && (this.type !== 'wild' || p !== this.a || (p.equipe.pokemons.length >= 6 && (p.storage || []).length >= require('../storage/pokemonStorage').CAPACITY) || !(p.items[payload.itemKey] > 0) || getItemDefinition(payload.itemKey)?.category !== 'ball')) return false;
         this.pending.set(p, { action: kind, number: payload.number, itemKey: payload.itemKey });
         if (this.pending.size === 2) this.resolve();
         return true;
@@ -255,7 +255,18 @@ class DriftBattle {
                 const chance = Math.min(.95, Math.max(.05,(.16+(1-target.currentHp/target.maxHp)*.64)*multiplier*(1+effects.value(p,47)/100)));
                 const success = this.random() < chance;
                 this.emit(p,'captureAnimation',{ success, shakes: success ? 3 : 1, itemKey: action.itemKey });
-                if (success) { grantEffort(this.active(0), target); this.capturedPokemon = target; this.b.equipe.pokemons = []; p.equipe.pokemons.push(target); effects.detach([target]);report.capture(p,target);this.finish(p,'captured'); return; }
+                if (success) {
+                    grantEffort(this.active(0), target);
+                    this.capturedPokemon = target; this.b.equipe.pokemons = []; effects.detach([target]);
+                    let destination = 'team';
+                    if (p.equipe.pokemons.length < 6) p.equipe.pokemons.push(target);
+                    else {
+                        p.storage = p.storage || [];
+                        p.storage.push({...require('../storage/pokemonStorage').freeSlot(p.storage), pokemon:target});
+                        destination = 'pc'; this.say(`${target.truename || target.name} rejoint le PC.`);
+                    }
+                    report.capture(p,target,destination); this.finish(p,'captured'); return;
+                }
                 this.say('Le Pokémon se libère !');
             }
         }

@@ -445,21 +445,23 @@ test('arène : tous les K.O. donnent le bonus prévu, fuite sans K.O. sans XP', 
     }
 });
 
-test('wild failed capture or full team gives no money; standard Poké Ball reaches its improved threshold', {skip:!shouldRun},async()=>{
+test('wild failed capture gives no money; successful capture with six companions goes to the PC and rewards normally', {skip:!shouldRun},async()=>{
  const pool=createTestPool();let userId;
  try{
   const {user,player}=await createPlayer(1);userId=user.id;
-  const run=async(random)=>{
-   const target=createPokemon(19,'Rattata',['Growl']);target.currentHp=target.maxHp;
+  const run=async(random,temporary=false)=>{
+   const target=createPokemon(19,'Rattata',['Growl']);target.currentHp=target.maxHp;const originalAbility=target.passiveAbility;
+   if(temporary){target.__passiveAbilityBeforeBattle=originalAbility;target.passiveAbility='Pressure';target.__heldItemBeforeExchange=null;target.heldItem='leftovers';target.__moveAndStatOverrides={abilities:['Growl'],movePp:[40]};target.abilities=['Thunderbolt'];target.movePp=[15];}
    const io=new RecordingIo({[player.id]:new ScriptedSocket([{action:'bag',itemKey:'pokeball'},{action:'flee'}])});
-   await withFixedRandom(random,()=>startWildBattle(player,target,io,userId));return io;
+   io.originalAbility=originalAbility;await withFixedRandom(random,()=>startWildBattle(player,target,io,userId));return io;
   };
   let io=await run(.99);assert.equal(io.lastEvent(player.id,'endbattle').payload.summary.money,0);
   let [[wallet]]=await pool.execute('SELECT money FROM users WHERE id=?',[userId]);assert.equal(wallet.money,0);
   io=await run(.17);assert.equal(io.lastEvent(player.id,'endbattle').payload.summary.outcome,'captured');assert.equal(io.lastEvent(player.id,'endbattle').payload.summary.money,45);
   while(player.equipe.pokemons.length<6)player.equipe.pokemons.push(createPokemon(7,'Full team'));
-  io=await run(0);assert.equal(io.lastEvent(player.id,'endbattle').payload.summary.money,0);
-  [[wallet]]=await pool.execute('SELECT money FROM users WHERE id=?',[userId]);assert.equal(wallet.money,45);
+  io=await run(0,true);assert.equal(io.lastEvent(player.id,'endbattle').payload.summary.money,45);
+  assert.equal(player.equipe.pokemons.length,6);const stored=await require('../server/persistence/pokemonStorageRepository').loadEntries(userId);assert.equal(stored.length,1);assert.equal(stored[0].pokemon.data.id,19);assert.equal(stored[0].pokemon.passiveAbility,io.originalAbility);assert.equal(stored[0].pokemon.heldItem,null);assert.deepEqual(stored[0].pokemon.abilities,['Growl']);
+  [[wallet]]=await pool.execute('SELECT money FROM users WHERE id=?',[userId]);assert.equal(wallet.money,90);
  }finally{if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
 });
 

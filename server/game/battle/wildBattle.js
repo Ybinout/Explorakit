@@ -14,7 +14,7 @@ const {
 } = require('./battleEngine');
 const { getUsableMoveIndexes } = require('./battleResources');
 const { calculateBattleExperience, BATTLE_EXPERIENCE_MULTIPLIERS } = require('../models/progression');
-const { emitSoloBattleEnd, createBattleSummaryTracker } = require('./battleOutcome');
+const { emitSoloBattleEnd, createBattleSummaryTracker, clearBattleTransientState } = require('./battleOutcome');
 const { emitFieldState, emitSoloMoveResult } = require('./battleEvents');
 const {
     hasAlivePokemon,
@@ -26,6 +26,7 @@ const { awardUserMoney } = require('../../persistence/userRepository');
 const { adventureMoneyReward } = require('./wildReward');
 const { loadUserItems, consumeUserItem } = require('../../persistence/itemRepository');
 const { markPokemonCaught, markPokemonSeen } = require('../../persistence/progressionRepository');
+const pokemonStorage=require('../../persistence/pokemonStorageRepository');
 const itemsCatalog = require('../../../data/game/items.json');
 
 const CAPTURE_ANIMATION_DURATION_MS = 2800;
@@ -226,6 +227,10 @@ async function handleBagAction(player, wildPokemon, io, userId, itemKey) {
         return { turnConsumed: false, caught: false };
     }
 
+    if(player.equipe?.pokemons?.length>=6 && !await pokemonStorage.hasRoom(userId)){
+        await narrate(player,io,'Ton équipe et ton PC sont pleins. Libère une place dans un Centre Pokémon.');
+        return {turnConsumed:false,caught:false};
+    }
     const consumeResult = await consumeUserItem(userId, itemKey, 1);
     if (!consumeResult.success) {
         await narrate(player, io, `Tu n'as plus de ${ball.name}.`);
@@ -257,10 +262,6 @@ async function handleBagAction(player, wildPokemon, io, userId, itemKey) {
         return { turnConsumed: true, caught: false };
     }
 
-    if (!player.equipe || !Array.isArray(player.equipe.pokemons) || player.equipe.pokemons.length >= 6) {
-        await narrate(player, io, 'Capture reussie mais equipe pleine. Le Pokemon sauvage a ete relache.');
-        return { turnConsumed: true, caught: false };
-    }
 
     if (!wildPokemon.name || wildPokemon.name === 'test') {
         wildPokemon.name = wildPokemon.truename || 'Pokemon';
@@ -269,15 +270,18 @@ async function handleBagAction(player, wildPokemon, io, userId, itemKey) {
         wildPokemon.currentHp = 1;
     }
 
+    clearBattleTransientState([wildPokemon]);
+    let stored=null;
+    if(player.equipe.pokemons.length>=6)stored=await pokemonStorage.storeCapturedPokemon(userId,wildPokemon);
+    else player.equipe.pokemons.push(wildPokemon);
     grantEffort(playerPokemon, wildPokemon);
-    player.equipe.pokemons.push(wildPokemon);
     try {
-        await markPokemonCaught(userId, wildPokemon);
+        if(!stored)await markPokemonCaught(userId, wildPokemon);
         io.to(player.id).emit('pokedexChanged', { reason: 'captured', pokemonId: wildPokemon?.data?.id });
     } catch (error) {
         console.error(`Erreur Pokédex après capture user ${userId}:`, error.message);
     }
-    await narrate(player, io, `${getPokemonDisplayName(wildPokemon)} est capture et rejoint ton equipe !`);
+    await narrate(player, io, stored?`${getPokemonDisplayName(wildPokemon)} est capturé et envoyé dans la Boîte ${stored.box+1} du PC !`:`${getPokemonDisplayName(wildPokemon)} est capturé et rejoint ton équipe !`);
     return { turnConsumed: true, caught: true };
 }
 

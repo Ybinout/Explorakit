@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS pokemon_storage;
 DROP TABLE IF EXISTS trainer_friendships;
 DROP TABLE IF EXISTS rift_rating_results;
 DROP TABLE IF EXISTS rift_ratings;
@@ -339,4 +340,16 @@ CREATE TABLE IF NOT EXISTS trainer_friendships (
  CONSTRAINT fk_friends_low FOREIGN KEY(user_low) REFERENCES users(id) ON DELETE CASCADE,
  CONSTRAINT fk_friends_high FOREIGN KEY(user_high) REFERENCES users(id) ON DELETE CASCADE,
  CONSTRAINT fk_friends_requester FOREIGN KEY(requested_by) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dedicated storage: active party schema and existing companions stay unchanged.
+CREATE TABLE IF NOT EXISTS pokemon_storage (
+ uuid CHAR(36) NOT NULL PRIMARY KEY,
+ user_id INT NOT NULL,
+ box_index TINYINT UNSIGNED NOT NULL,
+ slot_index TINYINT UNSIGNED NOT NULL,
+ pokemon_data JSON NOT NULL,
+ created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ UNIQUE KEY uniq_storage_slot(user_id,box_index,slot_index),
+ CONSTRAINT fk_storage_user FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

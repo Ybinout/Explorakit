@@ -20,7 +20,8 @@ const migrationFiles = [
     '015_ranks_friends.sql',
     '016_move_learning.sql',
     '017_evolution_experience.sql',
-    '018_repel_steps.sql'
+    '018_repel_steps.sql',
+    '019_pokemon_storage.sql'
 ];
 
 async function applyMigrations() {

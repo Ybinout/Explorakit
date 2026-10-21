@@ -163,6 +163,7 @@ test('une capture ratée ou refusée ne tire aucun Drift',()=>{
     assert.equal(b.finished,false);assert.equal(p.items.pokeball,9);assert.equal(p.drifts.length,0);
     b.tick();
     while(p.equipe.pokemons.length<6)p.equipe.pokemons.push(factory.create(1,5));
+    p.storage=Array.from({length:require('../server/game/storage/pokemonStorage').CAPACITY},(_,i)=>({box:Math.floor(i/30),slot:i%30,pokemon:factory.create(7,5)}));
     b.random=()=>{throw new Error('Aucun tirage ne doit être effectué pour une capture refusée');};
     assert.equal(b.action(p,{action:'bag',itemKey:'pokeball',turnId:b.token}),false);
     assert.equal(p.items.pokeball,9);assert.equal(p.drifts.length,0);

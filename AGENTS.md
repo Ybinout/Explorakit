@@ -1,5 +1,13 @@
 # Contexte permanent — Explorakit
 
+## PC et stockage Pokémon — 21 octobre 2026
+
+`game/storage/pokemonStorage.js` partage les règles : 8 boîtes ×30, équipe ≤6, au moins un compagnon apte après dépôt/échange/relâchement en équipe, confirmation explicite pour relâcher. PC sur le meuble déjà bloqué du Centre commun (17,8), accès orthogonal à une case (sol 17,9), bouton A/`Space`. Tous les Centres y mènent ; aucune carte/collision/PNG retouché. `worldDevicesState` sert le terminal, rendu canvas natif `services/pokemonComputer.js`, interface `menu/PokemonComputer.vue` dans la DA/thèmes, mobile/clavier/focus. Aucun accès distant depuis le menu.
+
+Capture réussie au-delà de six → première place du PC, récompenses/Pokédex/EV normaux ; équipe + PC pleins refusent la Ball sans la consommer. Avant capture Aventure, restaurer les talents/objets/capacités temporaires pour ne pas stocker Trace/Échange/Transform en permanence. Migration additive 019 : table propriétaire `pokemon_storage`, UUID et emplacement uniques, JSON des mêmes colonnes permanentes que l’équipe, FK avec cascade de suppression du compte. Transactions atomiques équipe ↔ PC ; conserver IV/EV/K/nature/XP/courbe/talent/PP/attaques à apprendre/PV/statut/objet. Le PC ne soigne pas. Un objet tenu est restitué au sac au relâchement, une seule fois.
+
+Aventure et chaque expédition ont leur propre PC. Rift/Colosseum utilisent `p.storage` dans le checkpoint existant (ancien checkpoint sans ce champ = vide), exclusivement pendant l’exploration, avant le tournoi ; pas d’XP/soin en boîte, pas de sauvetage après élimination ni de transfert vers la sauvegarde Aventure. Purge vide aussi les boîtes. États/UUID contrôlés au serveur et équipe vivante synchronisée après mutation ; ne jamais proposer une sauvegarde manuelle supplémentaire ni ajouter une septième place à l’équipe. Recettes : `pokemon-storage.test.js`, SQL stockage/capture >6/restauration temporaire/rollback, `test:pc-browser` (bouton d’action, interface complète, reconnexion, isolation Colosseum, tournoi, quatre tailles et deux thèmes).
+
 ## Repousse dans les trois modes — 21 octobre 2026
 
 `items.json` ajoute `repel` / `super_repel` / `max_repel`, poche `field` (Objets), durées 100/200/250 pas, prix 350/500/700. Disponibles dans toutes les boutiques existantes et Fournitures d’expédition. `game/items/repel.js` partage la règle : premier Pokémon apte, rencontres strictement plus faibles ignorées, dernier pas protégé ; compteur seulement sur un déplacement accepté, y compris une porte mais sans compter la téléportation. Pas d’effet sur dresseurs/PvP, pas de soin ni de cible, aucun cumul/gaspillage si déjà actif.

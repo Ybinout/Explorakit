@@ -90,7 +90,7 @@ test('Connexion au camp : distinguer un ancien serveur, une session refusée et 
         await t.test('le bouton solo ouvre le monde Aventure après un camp ayant désactivé autoConnect', async () => {
             io.use(authenticateSocket).on('connection', client => client.emit('adventure:ready', { userId: client.data.user.id }));
             const instance = {
-                isDrift: false, saveState: { lastSyncedAt: null }, $refs: { monCanvas: {}, worldViewport: {} },
+                isDrift: false, pc:{visible:false}, saveState: { lastSyncedAt: null }, $refs: { monCanvas: {}, worldViewport: {} },
                 $nextTick: callback => callback(),
                 getStoredUserId: () => 73, getStoredUsername: () => 'Dresseur', getStoredToken: () => token,
                 ensureSpriteSheet: () => ({ complete: true })

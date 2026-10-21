@@ -271,3 +271,30 @@ test('Repousse SQL : achat, activation atomique, anti-cumul et compteur sauvegar
   await assert.rejects(useRepel(id,'potion'),/Repousse/);
  }finally{if(id)await pool.execute('DELETE FROM users WHERE id=?',[id]);await pool.end();}
 });
+
+test('PC SQL : transferts atomiques, métadonnées intactes, accès privé, anti-rejeu et objet rendu au relâchement', {skip:!shouldRun},async()=>{
+ const pool=createTestPool();const ids=[];
+ try{
+  const {createUserWithStarter}=require('../server/persistence/userRepository'),teamRepo=require('../server/persistence/teamRepository'),pc=require('../server/persistence/pokemonStorageRepository'),factory=require('../server/game/drift/pokemonFactory');
+  const owner=await createUserWithStarter(`pc_${Date.now()}`,'storage-test-password',{starterId:7});ids.push(owner.id);
+  const other=await createUserWithStarter(`pc_other_${Date.now()}`,'storage-test-password',{starterId:1});ids.push(other.id);
+  const team=await teamRepo.loadEquipe(owner.id),special=factory.create(4,20,true);special.currentHp=7;special.status='poison';special.heldItem='life_orb';special.ev.speed=12;special.recalculateStats();special.movePp[0]=2;special.pendingMoves=[{name:'Flamethrower',level:40}];
+  team.pokemons.push(special);await teamRepo.editEquipe(owner.id,team);
+  const initial={uuid:special.uuid,experience:special.experience,iv:special.iv,ev:special.ev,k:special.k,nature:special.nature,heldItem:special.heldItem,passiveAbility:special.passiveAbility,movePp:special.movePp,pendingMoves:special.pendingMoves,currentHp:special.currentHp,status:special.status,experienceRate:special.experienceRate};
+  let result=await pc.mutateStorage(owner.id,{action:'deposit',pokemonUuid:special.uuid,box:3});assert.equal(result.equipe.pokemons.length,1);assert.equal(result.state.entries[0].box,3);assert.equal(result.state.entries[0].slot,0);
+  await assert.rejects(pc.mutateStorage(owner.id,{action:'deposit',pokemonUuid:team.pokemons[0].uuid,box:0}),/apte/);
+  const [entry]=await pc.loadEntries(owner.id);for(const [key,value]of Object.entries(initial))assert.deepEqual(entry.pokemon[key],value,`stored ${key}`);
+  await assert.rejects(pc.mutateStorage(other.id,{action:'withdraw',pokemonUuid:special.uuid}),/PC/);assert.equal((await pc.loadEntries(owner.id)).length,1);
+  const concurrent=await Promise.allSettled([pc.mutateStorage(owner.id,{action:'withdraw',pokemonUuid:special.uuid}),pc.mutateStorage(owner.id,{action:'withdraw',pokemonUuid:special.uuid})]);assert.equal(concurrent.filter(r=>r.status==='fulfilled').length,1);
+  const returned=(await teamRepo.loadEquipe(owner.id)).pokemons.find(p=>p.uuid===special.uuid);for(const [key,value]of Object.entries(initial))assert.deepEqual(returned[key],value,`withdrawn ${key}`);
+  await pc.mutateStorage(owner.id,{action:'deposit',pokemonUuid:special.uuid,box:0});
+  const captured=factory.create(19,12,true);await pc.storeCapturedPokemon(owner.id,captured);await assert.rejects(pc.storeCapturedPokemon(owner.id,captured),/déjà/);const [[dex]]=await pool.execute('SELECT caught_count FROM user_pokedex WHERE user_id=? AND pokemon_id=19',[owner.id]);assert.equal(dex.caught_count,1);
+  result=await pc.mutateStorage(owner.id,{action:'swap',pokemonUuid:captured.uuid,teamUuid:team.pokemons[0].uuid});assert.equal(result.equipe.pokemons[0].uuid,captured.uuid);assert.equal(result.state.entries.find(e=>e.pokemon.uuid===team.pokemons[0].uuid).slot,1);
+  await assert.rejects(pc.mutateStorage(owner.id,{action:'release',pokemonUuid:special.uuid,source:'box'}),/Confirme/);
+  await pc.mutateStorage(owner.id,{action:'release',pokemonUuid:special.uuid,source:'box',confirm:true});
+  await assert.rejects(pc.mutateStorage(owner.id,{action:'release',pokemonUuid:special.uuid,source:'box',confirm:true}));const [[item]]=await pool.execute("SELECT quantity FROM user_items WHERE user_id=? AND item_key='life_orb'",[owner.id]);assert.equal(item.quantity,1);
+  // Inject a duplicate only in this test account: a SQL failure after DELETE must roll back both sides.
+  const active=(await teamRepo.loadEquipe(owner.id)).pokemons[0];await pool.execute('INSERT INTO pokemon_storage(uuid,user_id,box_index,slot_index,pokemon_data) VALUES(?,?,7,29,?)',[active.uuid,owner.id,pc.encodePokemon(active)]);
+  const before=await pc.loadStorage(owner.id);await assert.rejects(pc.mutateStorage(owner.id,{action:'withdraw',pokemonUuid:active.uuid}),e=>e.code==='ER_DUP_ENTRY');assert.deepEqual(await pc.loadStorage(owner.id),before);
+ }finally{for(const id of ids)await pool.execute('DELETE FROM users WHERE id=?',[id]);await pool.end();}
+});

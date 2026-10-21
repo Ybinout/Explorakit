@@ -23,6 +23,8 @@ const { isShopMap } = require('../world/shopCatalog');
 const progression = require('../../../data/game/progression.json');
 const { RECONNECT_MS } = require('./lobbyStore');
 const { remainingRepel, stepRepel, repelsWild } = require('../items/repel');
+const {devicesForMap,isNearComputer}=require('../world/pokemonComputer');
+const computer=require('./pokemonComputer');
 const ROOM = 'ville1_arene';
 
 function createRunManager({ store, namespace, now = Date.now, random = Math.random, paceMs = 1800, durationMs = null, starterChoiceMs = 45000, accountRepository = null, colosseumRepository = null }) {
@@ -116,6 +118,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         const safe=sanitizeSpawnPosition(x,y,loadCollisionData(map),map); p.currentmap=map;p.x=safe.x;p.y=safe.y;p.dialogue=null;
         emit(p,'newmap',{mapname:map,playersList:publicPlayers(p.run,map),reason:'drift'});
         emit(p,'mapWeatherState',getMapWeather(map));
+        emit(p,'worldDevicesState',devicesForMap(map));
         emit(p,'pnjsList',{mapname:map,pnjs:p.run.phase==='exploration'?p.run.pnjs.getPnjsForMap(map):[]});
         world(p.run);
     }
@@ -124,7 +127,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         report.endPlayer(p,reason,economy.bag(p));
         p.alive=false;p.eliminationReason=reason;p.ready=false;p.dialogue=null;
         clearBattleTransientState(p.equipe.pokemons);effects.detach(p.equipe.pokemons);
-        p.equipe={pokemons:[]};p.items={};p.drifts=[];p.equipped=[];p.money=0;p.defeated.clear();p.chain=0;p.centerReturnPoint=null;
+        p.storage=[];p.equipe={pokemons:[]};p.items={};p.drifts=[];p.equipped=[];p.money=0;p.defeated.clear();p.chain=0;p.centerReturnPoint=null;
         p.x=null;p.y=null;p.currentmap=null;p.slot=null;
     }
     function finishExploration(run, at = now()) {
@@ -336,6 +339,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
             Object.assign(p,sanitizeSpawnPosition(p.x,p.y,loadCollisionData(p.currentmap),p.currentmap));
             emit(p,'playersList',publicPlayers(p.run,p.currentmap));
             emit(p,'mapWeatherState',getMapWeather(p.currentmap));
+            emit(p,'worldDevicesState',devicesForMap(p.currentmap));
             emit(p,'pnjsList',{mapname:p.currentmap,pnjs:p.run.phase==='exploration'?p.run.pnjs.getPnjsForMap(p.currentmap):[]});
             if(p.inbattle) {emit(p,'battletrigger',{battleType:p.battle.type,musicKind:p.battle.musicKind(),field:require('../battle/battleEvents').serializeFieldState(p.battle.state)});p.battle.resume(p);}
         }
@@ -377,6 +381,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
     }
     function interact(p) {
         if(p.run.phase!=='exploration')return;
+        if(isNearComputer(p)){emit(p,'pcOpened',computer.open(p));return;}
         const x=Math.floor(p.x/32),y=Math.floor(p.y/32);
         for(const [dx,dy] of [[0,-1],[0,1],[-1,0],[1,0]]) {
             const tx=x+dx,ty=y+dy,pnj=p.run.pnjs.getPnjAtTile(p.currentmap,tx,ty);

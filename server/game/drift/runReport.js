@@ -96,10 +96,10 @@ function lost(p, pokemon) {
     increment(p, 'pokemonLost');
     event(p, 'lost', `${pokemon.truename || pokemon.name} niveau ${pokemon.level} est tombé au combat.`);
 }
-function capture(p, pokemon) {
+function capture(p, pokemon, destination = 'team') {
     rememberPokemon(p, pokemon, 'capture');
     increment(p, 'captures');
-    event(p, 'capture', `${pokemon.truename || pokemon.name} niveau ${pokemon.level} rejoint l’équipe.`);
+    event(p, 'capture', `${pokemon.truename || pokemon.name} niveau ${pokemon.level} ${destination==='pc'?'rejoint le PC':'rejoint l’équipe'}.`);
 }
 function battleFinished(p, battle, summary) {
     if (!p.runReport) return;

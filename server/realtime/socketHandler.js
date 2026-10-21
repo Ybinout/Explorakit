@@ -46,6 +46,8 @@ const {
 const { DEFAULT_SPRITE, registerPlayerProfileHandlers } = require('./handlers/playerProfileHandlers');
 const { registerChatHandlers } = require('./handlers/chatHandlers');
 const {registerMedicineHandlers}=require('./handlers/medicineHandlers');
+const {devicesForMap,isNearComputer}=require('../game/world/pokemonComputer');
+const {registerPokemonComputerHandlers}=require('./handlers/pokemonComputerHandlers');
 const {registerRepelHandlers}=require('./handlers/repelHandlers');
 const {remainingRepel,stepRepel,repelsWild}=require('../game/items/repel');
 const { registerEvolutionHandlers } = require('./handlers/evolutionHandlers');
@@ -456,6 +458,7 @@ const socketHandler = (io) => {
             const sameMapPlayers = getPlayersInMap(players, currentmap);
             socket.emit('newmap', { mapname: currentmap, playersList: sameMapPlayers, reason });
             socket.emit('mapWeatherState', getMapWeather(currentmap));
+            socket.emit('worldDevicesState',devicesForMap(currentmap));
             socket.emit('pnjsList', { mapname: currentmap, pnjs: currentPnjs });
             schedulePositionSave({ immediate: true });
 
@@ -506,6 +509,7 @@ const socketHandler = (io) => {
         const sameMapPlayers = getPlayersInMap(players, currentmap);
         socket.emit('playersList', sameMapPlayers);
         socket.emit('mapWeatherState', getMapWeather(currentmap));
+        socket.emit('worldDevicesState',devicesForMap(currentmap));
         socket.emit('pnjsList', { mapname: currentmap, pnjs: currentPnjs });
         emitProgressionSnapshot().catch((error) => {
             console.error(`Erreur chargement progression user ${userId}:`, error.message);
@@ -520,6 +524,7 @@ const socketHandler = (io) => {
         registerPlayerProfileHandlers({ socket, io, players, userId });
         registerTeamOrderHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!interactionBusy&&!transitionBusy});
         registerMedicineHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!interactionBusy&&!transitionBusy});
+        const computerHandlers=registerPokemonComputerHandlers({socket,io,userId,getPlayer:()=>players[socket.id],getPeers:()=>Object.values(players).filter(p=>p.userId===userId),canUse:()=>!transitionBusy});
         registerRepelHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!interactionBusy&&!transitionBusy,flushPositionSave,schedulePositionSave});
         socket.emit('fieldEffectState',{repelSteps:remainingRepel(players[socket.id])});
         registerMoveLearningHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!interactionBusy&&!transitionBusy});
@@ -923,6 +928,7 @@ const socketHandler = (io) => {
             if (!player) return;
             if (player.inbattle || player.inventoryBusy) return;
 
+            if (isNearComputer(player)) { await computerHandlers.open(); return; }
             if (!socketToChatSession.has(socket.id) && !hasPendingRequestForSocket(socket.id)) {
                 const nearbyPlayer = findNearbyInteractablePlayer(socket.id);
                 if (nearbyPlayer && nearbyPlayer.player && !nearbyPlayer.player.inbattle) {
