@@ -46,6 +46,11 @@
   ],
   "badges": [
     {
+      "key": "lake_badge",
+      "name": "Badge du Lac",
+      "order": 0
+    },
+    {
       "key": "dune_badge",
       "name": "Badge Dune",
       "order": 1
@@ -100,6 +105,9 @@
       "once": true,
       "reward": {
         "money": 1200,
+        "badges": [
+          "lake_badge"
+        ],
         "flags": {
           "moonpunch_defeated": "true",
           "sister_clue_1": "unlocked"

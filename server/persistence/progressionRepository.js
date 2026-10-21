@@ -39,9 +39,25 @@ async function ensureInitialProgress(userId, executor = dbPool) {
     }
 }
 
+async function reconcileMoonpunchBadge(userId, executor = dbPool) {
+    const id = normalizeUserId(userId);
+    // Reconcile only a recorded victory, never an inferred story prerequisite.
+    // Preserve its date and existing rewards/receipts, including legacy flag-only saves.
+    const [result] = await executor.execute(
+        `INSERT IGNORE INTO player_badges (user_id, badge_key, awarded_at)
+         SELECT u.id, 'lake_badge', COALESCE(b.completed_at, f.updated_at, CURRENT_TIMESTAMP)
+         FROM users u
+         LEFT JOIN user_npc_battles b ON b.user_id = u.id AND b.battle_key = 'moonpunch_ville1'
+         LEFT JOIN player_story_flags f ON f.user_id = u.id AND f.flag_key = 'moonpunch_defeated' AND f.flag_value = 'true'
+         WHERE u.id = ? AND (b.user_id IS NOT NULL OR f.user_id IS NOT NULL)`, [id]
+    );
+    return result.affectedRows;
+}
+
 async function loadProgressState(userId) {
     const id = normalizeUserId(userId);
     await ensureInitialProgress(id);
+    await reconcileMoonpunchBadge(id);
     const [[flagRows], [questRows], [badgeRows], [battleRows], [moneyRows]] = await Promise.all([
         dbPool.execute('SELECT flag_key, flag_value, updated_at FROM player_story_flags WHERE user_id = ?', [id]),
         dbPool.execute('SELECT quest_key, status, progress, updated_at, completed_at FROM player_quests WHERE user_id = ?', [id]),
@@ -299,5 +315,6 @@ module.exports = {
     markPokemonCaught,
     markPokemonSeen,
     resolvePokemonId,
+    reconcileMoonpunchBadge,
     synchronizeCaughtPokemon
 };

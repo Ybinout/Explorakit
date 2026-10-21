@@ -169,6 +169,7 @@ test('Socket réel : Lucie, Timmy → Aspha → Mounir → Hoze → Raphael → 
             expectedExperience+=trainerTeam.pokemons.reduce((sum,opponent)=>sum+calculateBattleExperience(opponent,BATTLE_EXPERIENCE_MULTIPLIERS[kind],pokemon),0);
             assert.equal((await loadEquipe(userId)).pokemons[0].experience,expectedExperience,`${name}: XP sauvegardée`);
             assert(scene[0].length>=2);const progress=await loadProgressState(userId);
+            if(name==='moon')assert(progress.badges.some(b=>b.key==='lake_badge'&&b.earned));
             assert.equal(summary.outcome,'victory');assert.equal(summary.money,progress.money-before.money);assert(summary.experience[0].xpGained>0);
             assert.equal(main(progress).progress,index+1);assert.equal(main(progress).status,index===battles.length-1?'completed':'active');
             assert(scene[0].some(line=>line.text.includes(name==='dia1'?'Aspha':name==='aspha_route2'?'Mounir':name==='moon'?'Hoze':name==='champion_hoze'?'Raphael':name==='champion_raphael'?'Ana':name==='champion_ana'?'Wanda':'Lucie')));
@@ -176,6 +177,7 @@ test('Socket réel : Lucie, Timmy → Aspha → Mounir → Hoze → Raphael → 
         }
         const final=await at('ville4_arene',13,6);await speak('champion_wanda_after');
         assert.equal(main(final).progress,7);assert.equal(main(final).status,'completed');
+        assert(final.badges.some(b=>b.key==='lake_badge'&&b.earned));
         assert(final.badges.some(b=>b.key==='dune_badge'&&b.earned));
         assert.equal(final.quests.some(q=>q.key==='clara_chapter2'),false);
         const money=final.money;

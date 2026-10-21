@@ -1,5 +1,15 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Badge de Mounir / Moonpunch — 21 octobre 2026
+
+Le duel de la Ville du Lac ne contenait aucune récompense de badge. Ajout du **Badge du Lac**, clé `lake_badge`, en première position sans renommer les six anciennes clés ni leurs ordres. La récompense transactionnelle du vrai combat ajoute le badge et le premier dialogue après victoire annonce sa remise. Le carnet affiche Ville du Lac · Mounir et un emblème SVG goutte/vagues bleu lac, intégré au composant existant et aux thèmes.
+
+`reconcileMoonpunchBadge` est appelé avant la lecture de progression : `INSERT IGNORE` pour le seul utilisateur dont une victoire `moonpunch_ville1` ou un flag brut `moonpunch_defeated=true` est enregistré. Un prérequis inféré depuis Hoze ne suffit pas. Le reçu de victoire fournit la date, à défaut la date du flag ; une attribution existante garde sa date. Aucune nouvelle victoire, monnaie, quête, flag ou objet n’est rejoué. Réparation différée à la connexion pour les autres anciennes sauvegardes ; aucune migration ni remise à zéro. Le compte binout (id 4) a bien une victoire enregistrée et le badge persistant a été confirmé après publication ; autres badges, monnaie, reçus et flags inchangés lors du contrôle.
+
+Validation complète `RELEASE_DIST_DIR=/tmp/explorakit-moon-badge-dist VUE_APP_PUBLIC_PATH=/explorakit/ npm run verify:release -- --mysql` : **602 tests applicatifs et 64 SQL**, audits, HTTP/reprise, lint/build réussis. Le duel réel Mounir dans la recette SQL vérifie désormais le badge ; une recette supplémentaire couvre nouveau compte, reçu seul, ancien flag seul, fausse victoire inférée, idempotence/concurrence, date et récompenses préservées. `npm run test:moon-badge-browser` utilise une base dédiée et une ancienne victoire de fixture : premier badge/emblème, autre badge conservé, rechargement, fermeture par Échap, quatre tailles 320×480 /393×852 /844×390 /1365×900 et deux thèmes. Même contrôle sur HTTPS public avec un nouveau compte temporaire, supprimé ensuite ; aucun accès authentifié simulé à un compte réel. Captures inspectées, zéro erreur navigateur ; aucune recette sur téléphone physique revendiquée.
+
+Client publié `d45c17592be62056b2b0b521c36aaf1e59565a7e`, build hash `9b1245b22473ea03`. Publication le **21/10/2026 à 18 h 11 UTC** : copie des assets en conservant les anciens bundles, redémarrage de la seule unité Explorakit, index atomique, PID 1095278 actif sans redémarrage automatique. 0 expédition active au contrôle ; sauvegarde sources/dist/SQL/checkpoint `/home/ubuntu/dev/backups/explorakit-moon-badge-2026-10-21T18-05-20-664Z`, checkpoint relu avant redémarrage. HTTPS 200 et index identique au build, Know/api-test inchangés. Logs et captures `/tmp/explorakit-moon-badge-*`.
+
 ## Coup Bas et participants à l’XP Aventure — 21 octobre 2026
 
 Coup Bas était une frappe standard sans condition. `turnActions` conserve maintenant les intentions privées du tour, leur acteur UUID et l’action déjà dépensée ; Aventure sauvage/dresseur/PvP et Rift/Colosseum les renseignent avec leurs décisions réelles. Le moteur commun fait échouer Coup Bas sans attaque offensive encore en attente : statut, objet, changement, cible remplacée, action déjà tentée (même empêchée), ancien tour. Deux Coup Bas et les attaques prioritaires respectent l’ordre existant. Exception À Moi d’Abord (Me First) et Lutte après épuisement des PP reconnues. PP consommés normalement en cas d’échec, aucun dégât/recul offensif gratuit ; intention non déduite de `lastMoveUsed`, rien ajouté aux DTO publics/spectateurs. Priorité +1 et puissance 80 du catalogue existant conservées : ce correctif concerne ses conditions d’exécution. Référence de ces conditions : [implémentation primaire Pokémon Showdown](https://github.com/smogon/pokemon-showdown/blob/master/data/moves.ts#L18359).
@@ -1882,6 +1892,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **21 octobre 2026 — Badge du Lac :** récompense de Mounir, emblème et dialogue ; récupération des vraies victoires existantes sans rejouer les autres récompenses, compte binout vérifié, recettes SQL/navigateur et publication complète.
 
 - **21 octobre 2026 — Coup Bas et XP des participants :** conditions de l’attaque corrigées dans le moteur commun ; partage Aventure par adversaire entre entrants encore aptes, bilan/événements/sauvegarde et libellé mobile, recettes SQL/navigateur.
 

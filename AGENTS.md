@@ -1,5 +1,9 @@
 # Contexte permanent — Explorakit
 
+## Badge de Moonpunch — 21 octobre 2026
+
+Mounir/Moonpunch remet le `lake_badge` (Badge du Lac), premier dans le carnet, avec emblème goutte/vagues et lieu Ville du Lac. Conserver les clés/ordres des anciens badges. La récompense normale et le dialogue `Moon_after` incluent ce badge. `reconcileMoonpunchBadge` répare au chargement uniquement les vraies victoires (`user_npc_battles.moonpunch_ville1` ou flag brut `moonpunch_defeated=true`), jamais les prérequis déduits d’autres champions. Insertion idempotente, date de victoire conservée, aucun rejeu de monnaie/objet/quête/reçu. Ne pas attribuer ce badge à tous les comptes ni le conditionner à une nouvelle victoire. Aucune migration ; sauvegarde de binout vérifiée avec badge présent. Vérification complète 602 applicatifs/64 SQL ; `test:moon-badge-browser` sur base dédiée et contrôle HTTPS avec compte temporaire, quatre tailles/deux thèmes, rechargement et fermeture, sans erreur navigateur. Publication serveur/client et Git validés.
+
 ## Coup Bas / XP des participants — 21 octobre 2026
 
 `turnActions` est le plan privé du tour (UUID, type d’action, mouvement, action dépensée). Les quatre orchestrateurs le renseignent à partir des décisions réelles avant la résolution des attaques ; `useattack` dépense l’action extérieure, puis Coup Bas vérifie une attaque offensive encore en attente (exception Me First, Lutte PP épuisés). Ne pas utiliser `lastMoveUsed` pour cette condition ni exposer les choix dans les DTO. PP et priorité +1 conservés, y compris les échecs et deux Coup Bas face à face.

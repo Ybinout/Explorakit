@@ -237,7 +237,7 @@ test('le chapitre suit les victoires, résiste aux doublons et reprend les ancie
         await completeNpcBattle(userId,'town_lina');
         const final = await loadProgressState(userId);
         assert.equal(main(final).status,'completed');assert.equal(main(final).progress,7);assert.ok(main(final).completedAt);
-        assert.equal(final.badges.filter(b=>b.earned).length,4);assert.equal(final.money,expectedMoney);
+        assert.equal(final.badges.filter(b=>b.earned).length,5);assert.equal(final.money,expectedMoney);
         assert.equal(final.quests.some(q=>['clara_chapter2','refuges','valpierre_passage'].includes(q.key)),false);
         assert.equal((await completeNpcBattle(userId,'champion_raphael')).granted,false);
         const [[stored]] = await pool.execute("SELECT status, progress FROM player_quests WHERE user_id = ? AND quest_key = 'main_sister_search'",[userId]);

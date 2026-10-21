@@ -179,3 +179,21 @@ test('automatic team order persists the live roster, resources and following sav
         const saved=await teams.loadEquipe(u.id);assert.deepEqual(saved.pokemons.map(p=>p.uuid),ids);assert.equal(saved.pokemons[1].currentHp,hp);
     } finally {await db.execute('DELETE FROM users WHERE id=?',[u.id]);}
 });
+
+test('Moonpunch badge: retroactive recorded wins only, original dates, no reward replay and concurrent idempotence', {skip:!enabled}, async()=>{
+ const fresh=await fixture(),receipt=await fixture(),legacy=await fixture(),inferred=await fixture();
+ try{
+  for(const u of [fresh,receipt,legacy,inferred])await db.execute('UPDATE users SET money=321 WHERE id=?',[u.id]);
+  await db.execute("INSERT INTO user_npc_battles(user_id,battle_key,dialogue_name,reward_json,completed_at)VALUES(?,'moonpunch_ville1','moon','{\"money\":1800}','2026-01-02 12:00:00')",[receipt.id]);
+  await db.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value,updated_at)VALUES(?,'moonpunch_defeated','true','2026-01-03 12:00:00')",[legacy.id]);
+  await db.execute("INSERT INTO player_badges(user_id,badge_key)VALUES(?,'crystal_badge')",[legacy.id]);
+  await db.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value)VALUES(?,'moonpunch_defeated','false'),(?,'hoze_defeated','true')",[inferred.id,inferred.id]);
+  const earned=state=>state.badges.find(b=>b.key==='lake_badge').earned;
+  assert.equal(earned(await progress.loadProgressState(fresh.id)),false);assert.equal(earned(await progress.loadProgressState(inferred.id)),false,'an inferred prerequisite is not a recorded Moonpunch win');
+  const reads=await Promise.all([progress.loadProgressState(receipt.id),progress.loadProgressState(receipt.id),progress.loadProgressState(legacy.id)]);assert(reads.every(earned));assert(reads.every(s=>s.money===321));assert.equal(reads[0].flags.moonpunch_defeated,undefined,'receipt repair does not fabricate story flags');assert(reads[2].badges.find(b=>b.key==='crystal_badge').earned);
+  const [[r]]=await db.execute("SELECT COUNT(*) AS n,MIN(awarded_at='2026-01-02 12:00:00') AS originalDate FROM player_badges WHERE user_id=? AND badge_key='lake_badge'",[receipt.id]);assert.equal(r.n,1);assert.equal(r.originalDate,1);
+  const [[l]]=await db.execute("SELECT awarded_at='2026-01-03 12:00:00' AS originalDate FROM player_badges WHERE user_id=? AND badge_key='lake_badge'",[legacy.id]);assert.equal(l.originalDate,1);
+  assert.equal(await progress.reconcileMoonpunchBadge(receipt.id),0);assert.equal((await progress.loadProgressState(receipt.id)).completedNpcBattles.length,1);assert.equal((await progress.loadProgressState(legacy.id)).completedNpcBattles.length,0);
+  await db.execute("UPDATE player_badges SET awarded_at='2025-01-01 12:00:00' WHERE user_id=? AND badge_key='lake_badge'",[receipt.id]);await progress.loadProgressState(receipt.id);const [[keep]]=await db.execute("SELECT awarded_at='2025-01-01 12:00:00' AS originalDate FROM player_badges WHERE user_id=? AND badge_key='lake_badge'",[receipt.id]);assert.equal(keep.originalDate,1);
+ }finally{for(const u of [fresh,receipt,legacy,inferred])await db.execute('DELETE FROM users WHERE id=?',[u.id]);}
+});
