@@ -1,5 +1,17 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Eau animée de Clairfontaine — 21 octobre 2026
+
+`VillageWaterRenderer` ajoute le profil `ville3`, limité au bassin central (x176–303/y98–191 source) et à ses cinq couleurs bleues. Même courant lisible et petites crêtes que la Ville du Lac ; marge d’un pixel autour des berges, rochers et reflets fixes, source immuable et alpha conservé. Aucun PNG/Tiled/collision/foreground modifié. Les trois anciens profils gardent leurs paramètres. L’animation commune aux modes reste native/15 Hz avec cache et pauses mouvement réduit (système/jeu), combat, chargement et onglet masqué.
+
+Recette reproductible : `node --env-file-if-exists=.env scripts/validateClairfontaineWaterBrowser.js` sur base dédiée/build temporaire. `validateLakeWaterUi(...,'ville3')` contrôle les vrais pixels, mouvement perceptible en 400 ms, sept points fixes, décor/alpha exacts, quatre tailles et garde-fous. Le profil ne dépend pas de la pluie ; il est actif sur la carte sèche de Clairfontaine.
+
+
+Validation : sept tests existants eau/Clairfontaine passent, lint et build passent à 0. Recette locale puis HTTPS à 0 : **8 245 pixels d’eau animables**, 5 603 changés sous 400 ms, sept points fixes préservés, **0 pixel changé hors masque et 0 alpha changé** ; quatre tailles, arrêt/reprise sous mouvement réduit système/jeu, combat, chargement et onglet masqué. Eau active sans pluie, aucun message d’erreur navigateur, captures mobile/bureau inspectées. Les fichiers auteur et leurs empreintes restent identiques.
+
+Publication statique le **21/10/2026 à 10 h 08 (Paris)** : build `/tmp/explorakit-clairfontaine-water-dist`, hash `0f04d555b52c1663`, client `c142c15df6207d4a722f5db3074a0720a5d8ed53`. Sauvegarde `/home/ubuntu/dev/backups/explorakit-clairfontaine-water-2026-10-21T08-06-41-915Z`. Processus serveur inchangé, aucune migration ; anciens bundles conservés. Index HTTPS exact, Know/api-test inchangés, compte temporaire supprimé. Logs et captures `/tmp/explorakit-clairfontaine-water-*` ; aucune CI distante ni validation sur téléphone physique revendiquée. Actualiser le client pour charger l’animation.
+
+
 ## Clairfontaine après la Route 10 — 21 octobre 2026
 
 `pourtoi/ville3.json` et les deux PNG sont copiés à l’identique sous `ville3`, empreintes `docs/clairfontaine-author-assets.json` et TMX miroir des treize couches, sans retouche des collisions ou du bassin. Nom affiché **Clairfontaine** (Clearfountain en anglais). Route 10 sud (12–16,19) ↔ ville nord (12–16,0), arrivées ville (14,1) et Route 10 (14,18). Le message de sortie en attente décrit plus bas est remplacé seulement sur ce raccord ; la suite ouest de Clairfontaine (0,14–18) reste fermée avec le mécanisme `blockedMessage`, retour libre sans téléportation.
@@ -1717,6 +1729,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **21 octobre 2026 — Eau de Clairfontaine :** courant et petites ondulations du bassin central, masque limité à l’eau, rochers/berges/décor fixes, recette visuelle aux quatre tailles et pauses respectées.
 
 - **21 octobre 2026 — Clairfontaine :** export ville3 intégré sans retouche, raccord Route 10, cinq portes et intérieurs, Centre/soin/PC et boutique, dialogues et retour personnel persistant, passage ouest en attente.
 

@@ -1,5 +1,11 @@
 # Contexte permanent — Explorakit
 
+## Eau animée de Clairfontaine — 21 octobre 2026
+
+`VillageWaterRenderer` ajoute le profil `ville3`, limité au bassin central (x176–303/y98–191 source) et à ses cinq couleurs bleues. Même courant lisible et petites crêtes que la Ville du Lac ; marge d’un pixel autour des berges, rochers et reflets fixes, source immuable et alpha conservé. Aucun PNG/Tiled/collision/foreground modifié. Les trois anciens profils gardent leurs paramètres. L’animation commune aux modes reste native/15 Hz avec cache et pauses mouvement réduit (système/jeu), combat, chargement et onglet masqué.
+
+Recette reproductible : `node --env-file-if-exists=.env scripts/validateClairfontaineWaterBrowser.js` sur base dédiée/build temporaire. `validateLakeWaterUi(...,'ville3')` contrôle les vrais pixels, mouvement perceptible en 400 ms, sept points fixes, décor/alpha exacts, quatre tailles et garde-fous. Le profil ne dépend pas de la pluie ; il est actif sur la carte sèche de Clairfontaine.
+
 ## Clairfontaine après la Route 10 — 21 octobre 2026
 
 `pourtoi/ville3.json` et les deux PNG sont copiés à l’identique sous `ville3`, empreintes `docs/clairfontaine-author-assets.json` et TMX miroir des treize couches, sans retouche des collisions ou du bassin. Nom affiché **Clairfontaine** (Clearfountain en anglais). Route 10 sud (12–16,19) ↔ ville nord (12–16,0), arrivées ville (14,1) et Route 10 (14,18). Le message de sortie en attente décrit plus bas est remplacé seulement sur ce raccord ; la suite ouest de Clairfontaine (0,14–18) reste fermée avec le mécanisme `blockedMessage`, retour libre sans téléportation.
