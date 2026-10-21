@@ -1,5 +1,9 @@
 # Contexte permanent — Explorakit
 
+## Deuxième hausse XP Aventure — 21 octobre 2026
+
+Nouvelle demande « encore +40 % » : `experience_balance.json.multipliers` vaut maintenant sauvage 1,96 /dresseur 2,94 /arène 3,92, soit ×1,4 sur la hausse précédente et ×1,96 sur l’origine. La portée reste Aventure uniquement ; les anciens 1,4/2,1/2,8 ci-dessous sont historiques. Ne pas modifier le calcul commun ou les facteurs/partages Rift/Colosseum. Contrôle numérique niveau40 K1 : 2846/4269/5692 en Aventure, base commune 1452/2178/2904 conservée. Vérification complète SQL/audits/lint/build réussie, publication serveur seule sans migration ni modification des sauvegardes.
+
 ## Probabilités K — 21 octobre 2026
 
 Table commune `K_TIERS` : K4 0,5 %, K3 2 %, K2 18 %, K1 79,5 % (100 %). K3 à 2 % choisi explicitement pour compléter la répartition du créateur. Sauvages dans les trois modes et starters aléatoires utilisent ce tirage ; sauvegardes/équipes à K configuré restent identiques, aucun reroll rétroactif. Recette `progression.test.js` : seuils et 10 000 points uniformes donnant 50/200/1800/7950, traits des starters alignés ; vérification complète SQL/audits/lint/build passée, publication serveur seule.

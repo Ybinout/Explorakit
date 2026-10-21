@@ -1,5 +1,13 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Deuxième hausse de 40 % de l’XP Aventure — 21 octobre 2026
+
+Le créateur demande encore +40 % sur le gain actuel, toujours limité à l’**Aventure**, conformément à sa précision précédente. Les multiplicateurs deviennent **sauvage 1,96 /dresseur 2,94 /arène 3,92** dans `experience_balance.json` (1,4/2,1/2,8 ×1,4), soit +96 % par rapport au réglage avant les deux hausses, arrondi final habituel. Au niveau 40, K1 et adversaire de même niveau : 2 846 /4 269 /5 692 XP. Les bonus propres à Rift/Colosseum et la base commune 1 452 /2 178 /2 904 restent identiques ; partage, pénalités de sur-niveau, coût des niveaux et XP déjà acquise conservés. Aucune nouvelle XP à la capture.
+
+Attendus numériques et rythme standard (environ 1–2 victoires par niveau) adaptés dans `experience-balance.test.js`. `RELEASE_DIST_DIR=/tmp/explorakit-adventure-xp2-dist VUE_APP_PUBLIC_PATH=/explorakit/ npm run verify:release -- --mysql` réussi : **587 tests applicatifs et 56 SQL**, audits, HTTP/reprise, lint et build. Recettes de gains/dernier K.O./persistance Aventure et de réserves/checkpoints Rift/Colosseum conservées. Logs `/tmp/explorakit-adventure-xp2-verify.log`.
+
+Publication serveur seule le **21/10/2026 à 18 h 50 (Paris)**, PID 1082400 actif, zéro redémarrage automatique et 0 expédition active au contrôle. Sauvegarde `/home/ubuntu/dev/backups/explorakit-adventure-xp2-2026-10-21T16-49-12-070Z` (sources/dist/SQL/checkpoint), checkpoint relu avant redémarrage ; aucune migration ni réécriture des sauvegardes. Client/index conservés, HTTPS 200, Know/api-test inchangés, client/gitlink `8c5c68683ee3bae658ebd3c4cb630bddbec9313d`.
+
 ## Probabilités du potentiel K — 21 octobre 2026
 
 Nouvelle répartition confirmée par le créateur : **K4 0,5 % /K3 2 % /K2 18 % /K1 79,5 %**, somme 100 %. Le premier choix K4/K1 seul laissait 0,2 % non attribué ; le créateur a choisi explicitement de les ajouter à K3. La table commune `K_TIERS` de `progression.js` alimente le tirage des sauvages Aventure/Rift/Colosseum et les starters aléatoires existants. K4 représente désormais environ une rencontre sur 200 en moyenne ; aucun système de garantie ajouté. Les Pokémon sauvegardés ou à K explicitement configuré ne sont pas retirés au sort et les équipes calibrées de dresseurs restent inchangées.
@@ -1862,6 +1870,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **21 octobre 2026 — Deuxième hausse XP Aventure :** +40 % supplémentaires sur les gains actuels (facteurs 1,96/2,94/3,92), expéditions conservées ; vérification complète et publication serveur.
 
 - **21 octobre 2026 — Potentiel K :** K4 0,5 %, K3 2 %, K2 18 %, K1 79,5 % ; distribution complète vérifiée, sauvegardes et K configurés préservés, publication serveur.
 
