@@ -26,9 +26,9 @@ test('residents and Raphael remain accessible, and blocked old spawns never fall
  }
  assert.equal(getPnjsForMap('gen_arene5').filter(p=>p.name==='raphael').length,1);assert(!getPnjsForMap('gen_arene4').some(p=>p.name==='raphael'));assert(reachable('gen_arene5',[13,16]).has('13:6'));
 });
-test('Hoze now opens only Raphael, while later champions remain archived and old records stay valid',()=>{
+test('Hoze opens Raphael then Ana at Clairfontaine, with old records preserved',()=>{
  const {getSentenceForName}=require('../server/game/world/interactionRepository'),{deriveStoryQuest}=require('../server/game/world/storyProgression'),catalog=require('../data/game/progression.json');
- const state={flags:{hoze_defeated:'true'}};assert.equal(deriveStoryQuest(state).progress,4);assert.equal(deriveStoryQuest(state).target,5);assert.equal(deriveStoryQuest(state).map,'gen_arene5');assert.equal(getSentenceForName('champion_raphael',state)[1],'champion_raphael');
+ const state={flags:{hoze_defeated:'true'}};assert.equal(deriveStoryQuest(state).progress,4);assert.equal(deriveStoryQuest(state).target,7);assert.equal(deriveStoryQuest(state).map,'gen_arene5');assert.equal(getSentenceForName('champion_raphael',state)[1],'champion_raphael');
  assert.equal(getSentenceForName('champion_raphael',{flags:{}})[1],'champion_raphael_locked');assert.equal(catalog.npcBattles.champion_raphael.battleKey,'story_champion_raphael');
- state.flags.raphael_defeated='true';state.completedNpcBattles=[{battleKey:'story_champion_raphael'}];assert.equal(getSentenceForName('champion_raphael',state)[1],'champion_raphael_after');assert.equal(deriveStoryQuest(state).status,'completed');assert.equal(getSentenceForName('champion_ana',state)[1],'champion_ana_locked');assert.match(getSentenceForName('champion_ana',state)[0][0].text,/Raphael, à Ocreville/);assert.equal(state.flags.moonpunch_defeated,undefined);
+ state.flags.raphael_defeated='true';state.completedNpcBattles=[{battleKey:'story_champion_raphael'}];assert.equal(getSentenceForName('champion_raphael',state)[1],'champion_raphael_after');assert.equal(deriveStoryQuest(state).status,'active');assert.equal(deriveStoryQuest(state).map,'ville3_arene');assert.equal(getSentenceForName('champion_ana',state)[1],'champion_ana');assert.equal(state.flags.moonpunch_defeated,undefined);
 });

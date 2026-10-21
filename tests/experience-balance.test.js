@@ -10,7 +10,7 @@ const CreatePokemon = require('../server/game/world/wildPokemonFactory');
 const byName = new Map(world.map((entry) => [entry.mapName, entry]));
 const wildStages = balance.chapterPath.filter((name) => battleMapData(name).flat().some(Boolean));
 
-test('les rencontres progressent le long du parcours réellement raccordé, du niveau 5 au niveau 43', () => {
+test('les rencontres progressent le long du parcours réellement raccordé, du niveau 5 au niveau 47', () => {
     for (let index = 1; index < balance.chapterPath.length; index++) {
         const before = byName.get(balance.chapterPath[index - 1]);
         assert.ok(before.mapchange.some((link) => link.goto === balance.chapterPath[index]), `${before.mapName} : chemin narratif interrompu`);
@@ -26,7 +26,7 @@ test('les rencontres progressent le long du parcours réellement raccordé, du n
         assert.ok(current.max - current.min <= 4, `${wildStages[index]} : fourchette trop dispersée`);
     }
     assert.equal(byName.get(wildStages[0]).level.min, 5);
-    assert.equal(byName.get(wildStages.at(-1)).level.max, 43);
+    assert.equal(byName.get(wildStages.at(-1)).level.max, 47);
 });
 
 test('les Pokémon sauvages effectivement générés respectent les nouvelles bornes', async () => {
@@ -47,8 +47,8 @@ test('les Pokémon sauvages effectivement générés respectent les nouvelles bo
 test('les arènes prolongent les routes précédentes et possèdent leur propre bonus XP', () => {
     for (const [name, team, road] of [
         ['moon', 'moonpunch', 'route2'], ['champion_hoze', 'hoze', 'gen_route8'],
-        ['champion_raphael', 'raphael', 'gen_route7'], ['champion_ana', 'ana', 'gen_route5'],
-        ['champion_wanda', 'wanda', 'gen_route4']
+        ['champion_raphael', 'raphael', 'gen_route7'], ['champion_ana', 'ana', 'gen_route6'],
+        ['champion_wanda', 'wanda', 'route12']
     ]) {
         const maxWild = byName.get(road).level.max;
         const levels = getPnjTeam(team).pokemons.map((pokemon) => pokemon.level);

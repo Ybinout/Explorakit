@@ -40,7 +40,7 @@ test('Hoze is the once-only main gym in Valpierre and the old optional guardian 
  const residents=JSON.parse(fs.readFileSync(require('node:path').join(__dirname,'../data/game/pnjs.jsonc'))).pnjs;
  assert.equal(residents.find(p=>p.name==='hoze').map,'ville_safe1_arene');
  assert.equal(residents.some(p=>p.name==='valpierre_gardien'),false);
- assert.equal(catalog.storySteps.length,5);assert(catalog.npcBattles.champion_hoze.once);assert.equal(catalog.npcBattles.valpierre_gardien.enabled,false);
+ assert.equal(catalog.storySteps.length,7);assert(catalog.npcBattles.champion_hoze.once);assert.equal(catalog.npcBattles.valpierre_gardien.enabled,false);
  assert.equal(require('../server/game/world/shopCatalog').isShopMap('ville_safe1_shop'),true);
 });
 test('cave scenery covers Adventure and expedition caves, but Colosseum always keeps its arena',async()=>{

@@ -3,9 +3,9 @@
     {
       "key": "main_sister_search",
       "title": "À la recherche de Lucie — premières pistes",
-      "description": "Retrouver la piste de Lucie, de Timmy jusqu’à Raphael à Ocreville.",
+      "description": "Retrouver la piste de Lucie, de Timmy jusqu’à Wanda à Rochebrume.",
       "defaultStatus": "active",
-      "target": 5
+      "target": 7
     },
     {
       "key": "first_challenge",
@@ -160,8 +160,7 @@
           "ana_defeated": "true"
         }
       },
-      "experienceKind": "arena",
-      "enabled": false
+      "experienceKind": "arena"
     },
     "champion_wanda": {
       "battleKey": "story_champion_wanda",
@@ -178,8 +177,7 @@
           "wanda_defeated": "true"
         }
       },
-      "experienceKind": "arena",
-      "enabled": false
+      "experienceKind": "arena"
     },
     "town_lina": {
       "battleKey": "town_lina",
@@ -367,9 +365,21 @@
       "objective": "Hoze t’envoie vers Raphael à Ocreville. Reviens sur la Route 4, prends la Route 8 au sud puis rejoins son arène, à l’ouest de la ville.",
       "map": "gen_arene5",
       "destination": "Raphael · Arène d’Ocreville"
+    },
+    {
+      "flag": "ana_defeated",
+      "objective": "Après Raphael, rejoins Ana dans l’arène de Clairfontaine : prends les Routes 9 et 10 au sud d’Ocreville.",
+      "map": "ville3_arene",
+      "destination": "Ana · Arène de Clairfontaine"
+    },
+    {
+      "flag": "wanda_defeated",
+      "objective": "Ana te dirige vers Wanda à Rochebrume. Quitte Clairfontaine par l’ouest, traverse les Routes 11 puis 12 et gagne le défi de son arène.",
+      "map": "ville4_arene",
+      "destination": "Wanda · Arène de Rochebrume"
     }
   ],
-  "chapterConclusion": "Raphael t’a révélé les doutes de Lucie au sujet de l’Aube Obscure et une nouvelle piste : Ana. La recherche continue ; la suite du récit sera disponible plus tard.",
+  "chapterConclusion": "Wanda t’a confié que Lucie a laissé une lettre à Éloi, aux archives de Clairbois. Garde cette nouvelle piste : la recherche de Lucie reprendra plus tard, lorsque le chemin sera ouvert.",
   "storyEvents": {
     "clara_letter": {
       "requiresFlags": [

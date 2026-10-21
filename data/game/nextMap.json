@@ -1663,10 +1663,9 @@
         {
           "valX": 0,
           "valY": null,
-          "goto": "ville3",
-          "nexX": 32,
-          "nexY": 544,
-          "blockedMessage": "Le passage vers l’ouest est fermé pour le moment."
+          "goto": "route11",
+          "nexX": 832,
+          "nexY": 544
         }
       ]
     },
@@ -1734,6 +1733,208 @@
           "valY": 17,
           "goto": "ville3",
           "nexX": 480,
+          "nexY": 576
+        }
+      ]
+    },
+    {
+      "mapName": "route11",
+      "wildpokemon": [
+        28,
+        51,
+        75,
+        95,
+        105,
+        112,
+        178,
+        207,
+        210,
+        232,
+        305,
+        308
+      ],
+      "level": {
+        "min": 43,
+        "max": 45
+      },
+      "mapchange": [
+        {
+          "valX": 27,
+          "valY": null,
+          "goto": "ville3",
+          "nexX": 32,
+          "nexY": 544
+        },
+        {
+          "valX": 0,
+          "valY": null,
+          "goto": "route12",
+          "nexX": 832,
+          "nexY": 224
+        }
+      ]
+    },
+    {
+      "mapName": "route12",
+      "wildpokemon": [
+        57,
+        67,
+        85,
+        123,
+        185,
+        202,
+        208,
+        213,
+        237,
+        297,
+        303,
+        359
+      ],
+      "level": {
+        "min": 45,
+        "max": 47
+      },
+      "mapchange": [
+        {
+          "valX": 27,
+          "valY": null,
+          "goto": "route11",
+          "nexX": 32,
+          "nexY": 224
+        },
+        {
+          "valX": 0,
+          "valY": null,
+          "goto": "ville4",
+          "nexX": 832,
+          "nexY": 480
+        }
+      ]
+    },
+    {
+      "mapName": "ville4",
+      "wildpokemon": [],
+      "level": {
+        "min": 45,
+        "max": 47
+      },
+      "mapchange": [
+        {
+          "valX": 27,
+          "valY": null,
+          "goto": "route12",
+          "nexX": 32,
+          "nexY": 480
+        },
+        {
+          "valX": 13,
+          "valY": 3,
+          "goto": "ville4",
+          "nexX": 416,
+          "nexY": 160,
+          "blockedMessage": "Le passage de la montagne est fermé pour le moment."
+        },
+        {
+          "valX": 4,
+          "valY": 8,
+          "goto": "centre",
+          "nexX": 416,
+          "nexY": 480
+        },
+        {
+          "valX": 22,
+          "valY": 8,
+          "goto": "ville4_shop",
+          "nexX": 416,
+          "nexY": 544
+        },
+        {
+          "valX": 14,
+          "valY": 12,
+          "goto": "ville4_arene",
+          "nexX": 416,
+          "nexY": 544
+        },
+        {
+          "valX": 5,
+          "valY": 16,
+          "goto": "ville4_maison1",
+          "nexX": 416,
+          "nexY": 544
+        },
+        {
+          "valX": 22,
+          "valY": 16,
+          "goto": "ville4_maison2",
+          "nexX": 416,
+          "nexY": 544
+        }
+      ]
+    },
+    {
+      "mapName": "ville4_shop",
+      "wildpokemon": [],
+      "level": {
+        "min": 45,
+        "max": 47
+      },
+      "mapchange": [
+        {
+          "valX": null,
+          "valY": 17,
+          "goto": "ville4",
+          "nexX": 704,
+          "nexY": 320
+        }
+      ]
+    },
+    {
+      "mapName": "ville4_arene",
+      "wildpokemon": [],
+      "level": {
+        "min": 45,
+        "max": 47
+      },
+      "mapchange": [
+        {
+          "valX": null,
+          "valY": 17,
+          "goto": "ville4",
+          "nexX": 448,
+          "nexY": 448
+        }
+      ]
+    },
+    {
+      "mapName": "ville4_maison1",
+      "wildpokemon": [],
+      "level": {
+        "min": 45,
+        "max": 47
+      },
+      "mapchange": [
+        {
+          "valX": null,
+          "valY": 17,
+          "goto": "ville4",
+          "nexX": 160,
+          "nexY": 576
+        }
+      ]
+    },
+    {
+      "mapName": "ville4_maison2",
+      "wildpokemon": [],
+      "level": {
+        "min": 45,
+        "max": 47
+      },
+      "mapchange": [
+        {
+          "valX": null,
+          "valY": 17,
+          "goto": "ville4",
+          "nexX": 704,
           "nexY": 576
         }
       ]

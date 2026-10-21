@@ -1,5 +1,26 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Routes 11/12, Rochebrume et arènes Ana/Wanda — 21 octobre 2026
+
+Les neuf fichiers auteur `pourtoi/route11*`, `route12*`, `ville4*` sont copiés à l’identique ; empreintes `docs/rochebrume-author-assets.json`, TMX miroirs des douze couches de chaque carte, PNG/collisions/foreground préservés. Nouveau parcours vers l’ouest : Clairfontaine (0,14–18) ↔ Route 11 est (27,14–18) ; Route 11 ouest (0,4–8) ↔ Route 12 est (27,4–8) ; Route 12 ouest (0,12–16) ↔ Rochebrume est (27,12–16). Arrivées hors portails : Clairfontaine (1,16), Route 11 (26,16)/(1,6), Route 12 (26,6)/(1,14), Rochebrume (26,14). Les deux routes forcent certains passages dans les herbes, intention auteur conservée. Deux pools terrestres distincts de douze espèces, niveaux 43–45 puis 45–47 ; sprites/talents/capacités livrés et courbe existante préservée.
+
+Rochebrume (`ville4`, Miststone) possède Centre (4,8), boutique (22,8), arène (14,12), deux maisons (5,16)/(22,16), cinq portes et parvis exacts. Alias logiques propres vers les intérieurs existants, Centre commun (13,14), provenance/soin/PC persistants, retour (4,9), catalogues des trois modes et six nouveaux guides/habitants avec portraits existants. Le passage montagne (13,3) reste fermé avec message et possibilité de repartir ; ne pas le raccorder à une ancienne grotte au hasard.
+
+L’intégration « avec leurs arènes » ouvre la suite prévue après Raphael : **Ana à Clairfontaine** (`ville3_arene`, source `gen_arene3`) puis **Wanda à Rochebrume** (`ville4_arene`, source `gen_arene2`), toutes deux (13,5). Les deux anciennes arènes n’ont plus ces champions ; l’accueil provisoire de Clairfontaine est retiré. Sept jalons du carnet, prérequis Raphael → Ana → Wanda contrôlés au serveur, mêmes `story_champion_ana/wanda`, équipes/objets/talents et récompenses (3 000/3 600, badges Minerai/Marée). Niveaux réellement produits par la courbe compressée : Ana 44–46, Wanda 47–49 ; dialogues et lieux du carnet de badges corrigés (Raphael 40–42 également). Anciens flags/reçus/badges/sauvegardes conservés, pas de nouvelle migration ni de double paiement. Les expéditions peuvent affronter ces champions sans écrire l’histoire Aventure. L’arc se termine après Wanda avec l’indice de la lettre ; **archives/chapitre II restent désactivés**. Cette entrée remplace les anciennes consignes d’arrêt après Raphael.
+
+Recettes : `rochebrume.test.js` (sources/TMX, toutes les sorties, portes/habitants, Centre/PC/catalogue, anciens reçus et sept objectifs), runtime Rift/Colosseum (raccords/portes/les deux vrais PNJ d’arène), SQL histoire étendue aux sept duels réels + refus/fuite/reprise/anti-rejeu et Centre à cinq origines avec redémarrage. `validateRochebrumeBrowser` traverse les chemins auteur avec un Repousse réellement consommé et un compagnon de fixture apte, vérifie portes/soin/PC/achat/reconnexion/caverne fermée/dialogues des deux champions et retour à Clairfontaine, en Aventure et Colosseum ; quatre tailles. `test:story-browser` couvre les sept dialogues et le carnet final. Aucune commande de fixture exposée dans l’application.
+
+
+Validation : `verify:release -- --mysql` termine à 0, **559 tests applicatifs + 51 SQL**, audits, HTTP/reprise, lint et build `/tmp/explorakit-rochebrume-dist`, hash `e7d167a3c8a83b3f`. Les assertions historiques de longueur/carnet à cinq étapes ont été adaptées aux sept duels, avec quatre badges au terme de l’arc ; la recette SQL vérifie aussi les deux nouvelles récompenses simultanément et leur absence au rejeu. Les sept combats Socket réels donnent XP/argent et indices sauvegardés, refusent les lancements forgés et la suite archivée. Centre à cinq origines après redémarrage validé.
+
+`validateRochebrumeBrowser` termine à 0 : chemins réels avec les passages d’herbes auteur et activation légitime de Repousse, trois raccords aller/retour, cinq bâtiments, soins, PC par A, achat contrôlé, reconnexion en ville, montagne fermée puis retour à Clairfontaine ; Ana disponible et Wanda soumise à Ana en Aventure, deux défis disponibles sans progression Aventure en Colosseum, quatre tailles et aucune erreur. La recette des sept dialogues/carnet passe à 0, illustrations distinctes des sprites et cadrages aux quatre tailles, objectif final après Wanda et archives/chapitre II absents. Captures des trois cartes et des deux portraits mobiles inspectées.
+
+Publication le **21/10/2026 à 10 h 33 (Paris)** : client `cd626a5be170056310f0f15e8ae759b07fde44f8`, build/hash ci-dessus. Sauvegarde sources/dist/SQL/checkpoint `/home/ubuntu/dev/backups/explorakit-rochebrume-2026-10-21T08-20-44-770Z`. Aucune migration ; seul Explorakit redémarré, zéro expédition active juste avant, service actif et zéro redémarrage automatique. Les anciens bundles sont conservés pour les clients ouverts.
+
+
+Contrôle HTTPS final terminé à 0 : vrais parcours aller/retour depuis Clairfontaine avec Repousse consommé, trois nouvelles cartes, cinq portes/parvis, soin, PC par A, achat sauvegardé, reconnexion, montagne fermée, Ana disponible et Wanda refusée avant Ana. Sur le même compte temporaire, préparation du flag Ana puis nouvelle connexion : objectif sur l’arène de Rochebrume, Wanda disponible avec portrait illustré chargé aux quatre tailles. Index conforme au build, aucune erreur navigateur ; Know et api-test inchangés (statut/empreinte), compte et données de recette supprimés. Captures mobiles/bureau inspectées, logs `/tmp/explorakit-rochebrume-*`. Actualiser le jeu pour charger les nouveaux décors ; aucune CI distante ni validation sur téléphone physique revendiquée.
+
+
 ## Eau animée de Clairfontaine — 21 octobre 2026
 
 `VillageWaterRenderer` ajoute le profil `ville3`, limité au bassin central (x176–303/y98–191 source) et à ses cinq couleurs bleues. Même courant lisible et petites crêtes que la Ville du Lac ; marge d’un pixel autour des berges, rochers et reflets fixes, source immuable et alpha conservé. Aucun PNG/Tiled/collision/foreground modifié. Les trois anciens profils gardent leurs paramètres. L’animation commune aux modes reste native/15 Hz avec cache et pauses mouvement réduit (système/jeu), combat, chargement et onglet masqué.
@@ -1729,6 +1750,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **21 octobre 2026 — Rochebrume et nouvelles arènes :** neuf sources auteur, Clairfontaine → Routes 11/12 → Rochebrume, cinq portes/Centre/boutique/PC, Ana puis Wanda réactivées avec prérequis et récompenses existants, carnet à sept jalons, archives toujours en attente.
 
 - **21 octobre 2026 — Eau de Clairfontaine :** courant et petites ondulations du bassin central, masque limité à l’eau, rochers/berges/décor fixes, recette visuelle aux quatre tailles et pauses respectées.
 

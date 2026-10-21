@@ -426,7 +426,7 @@
         "imageName": "raph.png"
       },
       {
-        "text": "Raphael : Observe mes Pokémon, pas seulement leurs types. Mes trois partenaires sont niveaux 44 à 46. Voyons si tu sais regarder au-delà des apparences.",
+        "text": "Raphael : Observe mes Pokémon, pas seulement leurs types. Mes trois partenaires sont niveaux 40 à 42. Voyons si tu sais regarder au-delà des apparences.",
         "imageName": "raph.png"
       }
     ],
@@ -447,7 +447,7 @@
         "imageName": "raph.png"
       },
       {
-        "text": "Raphael : Ana, à Rochebourg, aurait peut-être une autre piste. Garde cet indice pour la suite : pour l’instant, repose ton équipe et explore les lieux accessibles.",
+        "text": "Raphael : Ana t’attend dans l’arène de Clairfontaine. Prends les Routes 9 puis 10 au sud d’Ocreville. Elle pourra peut-être t’aider à comprendre ce qui est arrivé à Lucie.",
         "imageName": "raph.png"
       }
     ]
@@ -469,7 +469,7 @@
         "imageName": "ana.png"
       },
       {
-        "text": "Ana : Je veux être sûre que tu tiendras bon. Trois partenaires, niveaux 48 à 50. Si tu gagnes, je te dirai ce que je sais.",
+        "text": "Ana : Je veux être sûre que tu tiendras bon. Trois partenaires, niveaux 44 à 46. Si tu gagnes, je te dirai ce que je sais.",
         "imageName": "ana.png"
       }
     ],
@@ -490,7 +490,7 @@
         "imageName": "ana.png"
       },
       {
-        "text": "Ana : Ma sœur Wanda vit à Rivazur. Elle connaît cette organisation de l’intérieur. Suis la route 4 ; son équipe est niveaux 52 à 54. Écoute-la, même si elle te provoque.",
+        "text": "Ana : Ma sœur Wanda vit à Rochebrume. Elle connaît cette organisation de l’intérieur. Quitte Clairfontaine par l’ouest et traverse les Routes 11 puis 12. Son équipe est niveaux 47 à 49. Écoute-la, même si elle te provoque.",
         "imageName": "ana.png"
       }
     ]
@@ -499,7 +499,7 @@
     "name": "champion_ana_locked",
     "sentences": [
       {
-        "text": "La suite de cette piste n’est pas encore disponible. Ton enquête sur Lucie se poursuit pour le moment jusqu’à Raphael, à Ocreville.",
+        "text": "Ana : Raphael doit d’abord reconnaître ta détermination dans l’arène d’Ocreville. Reviens me voir à Clairfontaine après l’avoir battu.",
         "imageName": "ana.png"
       }
     ]
@@ -512,7 +512,7 @@
         "imageName": "wanda.png"
       },
       {
-        "text": "Wanda : Quatre Pokémon, niveaux 52 à 54. Si tu tiens tant à me prouver ta valeur, ne compte pas sur ma clémence.",
+        "text": "Wanda : Quatre Pokémon, niveaux 47 à 49. Si tu tiens tant à me prouver ta valeur, ne compte pas sur ma clémence.",
         "imageName": "wanda.png"
       }
     ],
@@ -537,7 +537,7 @@
         "imageName": "wanda.png"
       },
       {
-        "text": "Wanda : Elle a confié une lettre à Éloi, aux archives de Clairbois. Passe par les routes 3 et 2. Dis-lui que je t’envoie. Cette fois, je ne détournerai pas les yeux.",
+        "text": "Wanda : Lucie a confié une lettre à Éloi, aux archives de Clairbois. Garde son nom en tête : le chemin n’est pas encore ouvert. Cette fois, je ne détournerai pas les yeux.",
         "imageName": "wanda.png"
       }
     ]
@@ -546,7 +546,7 @@
     "name": "champion_wanda_locked",
     "sentences": [
       {
-        "text": "La suite de cette piste n’est pas encore disponible. Ton enquête sur Lucie se poursuit pour le moment jusqu’à Raphael, à Ocreville.",
+        "text": "Wanda : Prouve d’abord ta valeur à Ana dans l’arène de Clairfontaine. Je t’attendrai ensuite à Rochebrume.",
         "imageName": "wanda.png"
       }
     ]
@@ -1826,7 +1826,7 @@
     "name": "clairfontaine_guide",
     "sentences": [
       {
-        "text": "Bienvenue à Clairfontaine ! La Route 10 est au nord. Le Centre Pokémon est en haut à droite, la boutique juste en dessous et l’arène à gauche du bassin.",
+        "text": "Bienvenue à Clairfontaine ! La Route 10 est au nord. À l’ouest, les Routes 11 et 12 conduisent à Rochebrume. Le Centre est en haut à droite et la boutique juste en dessous.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1880,15 +1880,86 @@
     ]
   },
   {
-    "name": "clairfontaine_accueil_arene",
+    "name": "route11_guide",
     "sentences": [
       {
-        "text": "Bienvenue à l’arène de Clairfontaine. Les prochains défis seront annoncés ici ; les combats ne sont pas encore ouverts.",
+        "text": "Vers l’est, la Route 11 rejoint Clairfontaine. À l’ouest, la Route 12 poursuit le chemin entre les reliefs. Les hautes herbes abritent des Pokémon endurants.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
           "rows": 4,
-          "index": 17
+          "index": 6
+        }
+      }
+    ]
+  },
+  {
+    "name": "route12_guide",
+    "sentences": [
+      {
+        "text": "Rochebrume se trouve à l’ouest, au bout de la Route 12. Son Centre Pokémon te permettra de reprendre des forces après cette traversée.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 7
+        }
+      }
+    ]
+  },
+  {
+    "name": "rochebrume_guide",
+    "sentences": [
+      {
+        "text": "Bienvenue à Rochebrume. Le Centre Pokémon est à l’ouest, la boutique à l’est et l’arène au centre. La Route 12 repart vers Clairfontaine, à l’est.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 20
+        }
+      }
+    ]
+  },
+  {
+    "name": "rochebrume_vendeuse",
+    "sentences": [
+      {
+        "text": "Bienvenue à la boutique de Rochebrume. Balls, soins et objets tenus t’aideront à préparer ton prochain défi.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 18
+        }
+      }
+    ],
+    "end": "shop"
+  },
+  {
+    "name": "rochebrume_habitant1",
+    "sentences": [
+      {
+        "text": "Les falaises protègent notre ville du vent. Le passage de la montagne est fermé, mais les Routes 11 et 12 restent ouvertes pour rejoindre Clairfontaine.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 26
+        }
+      }
+    ]
+  },
+  {
+    "name": "rochebrume_habitant2",
+    "sentences": [
+      {
+        "text": "Le Centre Pokémon soigne ton équipe et son PC garde les compagnons que tu ne peux pas emmener. Prends le temps de choisir tes six partenaires avant de repartir.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 27
         }
       }
     ]

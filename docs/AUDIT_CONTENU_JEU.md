@@ -1,5 +1,8 @@
 # Audit du contenu du jeu
 
+**Suite active : Ana à Clairfontaine puis Wanda à Rochebrume.** Les Routes 11 et 12 prolongent la sortie ouest de Clairfontaine jusqu’à Rochebrume (`ville4`), avec cinq bâtiments et Centre/PC/boutique. Carnet à sept victoires ; mêmes reçus/badges/récompenses, anciens acquis conservés. L’histoire s’arrête désormais après Wanda sur l’indice de la lettre à Éloi ; les archives et le chapitre II restent désactivés, le passage montagne attend une nouvelle carte. Les entrées d’arrêt à Raphael ci-dessous sont historiques.
+
+
 **Clairfontaine** (`ville3`) prolonge maintenant la Route 10 au sud : Centre Pokémon et PC, boutique, deux maisons et arène visitable sans nouveau champion actif. Le passage ouest reste fermé en attendant une nouvelle carte ; la recherche de Lucie reste arrêtée après Raphael. Cette entrée remplace la précédente attente du village au sud de Route 10.
 
 

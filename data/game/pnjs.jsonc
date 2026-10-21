@@ -237,7 +237,7 @@
     {
       "name": "wanda",
       "interactionName": "champion_wanda",
-      "map": "gen_arene2",
+      "map": "ville4_arene",
       "x": 13,
       "y": 5,
       "sprite": "wanda.png",
@@ -246,7 +246,7 @@
     {
       "name": "ana",
       "interactionName": "champion_ana",
-      "map": "gen_arene3",
+      "map": "ville3_arene",
       "x": 13,
       "y": 5,
       "sprite": "ana.png",
@@ -783,17 +783,92 @@
       "roamRadius": 0
     },
     {
-      "name": "clairfontaine_accueil_arene",
-      "interactionName": "clairfontaine_accueil_arene",
-      "map": "ville3_arene",
-      "x": 13,
-      "y": 7,
+      "name": "route11_guide",
+      "interactionName": "route11_guide",
+      "map": "route11",
+      "x": 14,
+      "y": 6,
       "sprite": "townspeople.png",
       "block": true,
       "spriteFrame": {
         "columns": 8,
         "rows": 4,
-        "index": 17
+        "index": 6
+      },
+      "roamRadius": 0
+    },
+    {
+      "name": "route12_guide",
+      "interactionName": "route12_guide",
+      "map": "route12",
+      "x": 20,
+      "y": 13,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 7
+      },
+      "roamRadius": 0
+    },
+    {
+      "name": "rochebrume_guide",
+      "interactionName": "rochebrume_guide",
+      "map": "ville4",
+      "x": 9,
+      "y": 10,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 20
+      },
+      "roamRadius": 0
+    },
+    {
+      "name": "rochebrume_vendeuse",
+      "interactionName": "rochebrume_vendeuse",
+      "map": "ville4_shop",
+      "x": 13,
+      "y": 6,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 18
+      },
+      "roamRadius": 0
+    },
+    {
+      "name": "rochebrume_habitant1",
+      "interactionName": "rochebrume_habitant1",
+      "map": "ville4_maison1",
+      "x": 13,
+      "y": 8,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 26
+      },
+      "roamRadius": 0
+    },
+    {
+      "name": "rochebrume_habitant2",
+      "interactionName": "rochebrume_habitant2",
+      "map": "ville4_maison2",
+      "x": 13,
+      "y": 8,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 27
       },
       "roamRadius": 0
     }
