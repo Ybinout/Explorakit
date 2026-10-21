@@ -1,5 +1,24 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Hoze : nouvelle équipe et as Carchacrok — 21 octobre 2026
+
+Équipe demandée pour le champion de Valpierre : **Carapuce 37 /Massko 38 /Lucario 38 /Carchacrok 39**. Fourchette d’arène 37–39 existante conservée, cohérente avec la zone 32–38 et les routes d’approche ; aucun ajustement sur le niveau du joueur. Carapuce et Massko gardent volontairement les espèces demandées malgré leur niveau. Les trois premiers sont K1/IV18/EV0 ; Carchacrok reprend la qualité d’as de Morphéo : **K4, IV31 partout, EV4 PV/252 Attaque/252 Vitesse**, nature Jovial, Peau Dure et Baie Prine contre les altérations.
+
+Sets légaux du catalogue et moteurs existants :
+
+- Carapuce : Ébullition, Laser Glace, Bâillement, Tour Rapide ; Assuré, Torrent, Évoluroc.
+- Massko : Lame Feuille, Vampipoing, Éboulement, Danse Lames ; Jovial, Engrais, Évoluroc.
+- Lucario : Aurasphère, Luminocanon, Vibrobscur, Machination ; Modeste, Attention, Orbe Vie.
+- Carchacrok : Séisme, Draco-Griffe, Crocs Feu, Danse Lames ; Jovial, Peau Dure, Baie Prine.
+
+Le plan `strategy` existant active l’IA experte, sa mémoire d’attaques effectivement observées et la réservation de l’as par UUID. Carchacrok reste hors des changements volontaires et remplacements tant qu’un partenaire est apte ; les changements forcés gardent leurs règles normales. Sa vraie entrée déclenche une réplique de Hoze et l’animation d’envoi partagée, une seule fois, y compris après checkpoint/reconnexion. Même équipe et politique pour Hoze en Aventure et dans l’exploration Rift/Colosseum ; les vagues du tournoi restent indépendantes. Aucun changement du moteur d’IA, des dégâts, des récompenses/badges ou de la météo des cartes. Dialogue de Hoze passé de trois à quatre partenaires et conseil de Salomé corrigé pour ne plus annoncer une équipe sable absente.
+
+Recettes : quatre tests `hoze-tactics.test.js` pour niveaux/sets/talents/PP/IV/EV/objets, équipes indépendantes, immunité de type et absence de lecture des informations cachées, réservation indépendante des slots, vraie entrée dans les deux expéditions et conservation de l’as/réplique aux checkpoints. Un scénario SQL Aventure bat réellement les quatre partenaires, vérifie l’as en dernier, sa réplique unique et la persistance des gains/UUID. L’ancien test de champion sans stratégie utilise Garry, Hoze ayant maintenant un plan explicite. Le contrôle des talents des PNJ dans `story-content` utilise `abilityCoverage.status(...)=single_battle` : l’ancienne liste partielle rejetait à tort Attention/Peau Dure, déjà gérés dans les réactions de combat.
+
+Validation `RELEASE_DIST_DIR=/tmp/explorakit-hoze-team-dist VUE_APP_PUBLIC_PATH=/explorakit/ npm run verify:release -- --mysql` réussie : **606 tests applicatifs et 65 SQL**, audits contenu/capacités/talents/équilibrage/simulation, HTTP/reprise, lint/build. Publication serveur seule le **21/10/2026 à 19 h 19 UTC**, PID 1102609 actif, aucun redémarrage automatique, 0 expédition active au contrôle. Sauvegarde sources/dist/SQL/checkpoint `/home/ubuntu/dev/backups/explorakit-hoze-team-2026-10-21T19-14-28-965Z`, checkpoint relu avant redémarrage ; aucune migration ni réécriture de sauvegarde. Client/gitlink `d45c17592be62056b2b0b521c36aaf1e59565a7e` et index conservés (build contrôlé identique `9b1245b22473ea03`), HTTPS 200 et Know/api-test inchangés. Logs `/tmp/explorakit-hoze-team-*`.
+
+Contrôle HTTPS public avec compte temporaire neuf : vrai dialogue de Hoze, combat Aventure, Carapuce/Massko/Lucario rencontrés, changement tactique de l’IA et Carchacrok en dernier, réplique unique et animation d’envoi, sprites chargés aux quatre tailles sans débordement, fuite et retour propres. Index conforme, voisins inchangés et zéro erreur navigateur ; compte de recette supprimé, captures inspectées. Aucune recette sur téléphone physique revendiquée. Captures/log `/tmp/explorakit-hoze-team-public*`.
+
 ## Badge de Mounir / Moonpunch — 21 octobre 2026
 
 Le duel de la Ville du Lac ne contenait aucune récompense de badge. Ajout du **Badge du Lac**, clé `lake_badge`, en première position sans renommer les six anciennes clés ni leurs ordres. La récompense transactionnelle du vrai combat ajoute le badge et le premier dialogue après victoire annonce sa remise. Le carnet affiche Ville du Lac · Mounir et un emblème SVG goutte/vagues bleu lac, intégré au composant existant et aux thèmes.
@@ -1892,6 +1911,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **21 octobre 2026 — Équipe de Hoze :** Carapuce/Massko/Lucario/Carchacrok 37–39, sets adaptés, as K4 IV31 EV optimisés, IA experte/réservation/réplique communes ; recettes runtime/SQL et publication serveur.
 
 - **21 octobre 2026 — Badge du Lac :** récompense de Mounir, emblème et dialogue ; récupération des vraies victoires existantes sans rejouer les autres récompenses, compte binout vérifié, recettes SQL/navigateur et publication complète.
 

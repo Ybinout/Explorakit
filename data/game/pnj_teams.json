@@ -386,19 +386,19 @@
       "name": "hoze",
       "team": [
         {
-          "pokemonId": 28,
-          "name": "Sablaireau",
+          "pokemonId": 7,
+          "name": "Carapuce",
           "level": 37,
           "abilities": [
-            "Dig",
-            "Rock Tomb",
-            "Slash",
-            "Sand Attack"
+            "Scald",
+            "Ice Beam",
+            "Yawn",
+            "Rapid Spin"
           ],
-          "passiveAbility": "Sand Veil",
-          "heldItem": null,
+          "passiveAbility": "Torrent",
+          "heldItem": "eviolite",
           "k": 1,
-          "nature": "Hardy",
+          "nature": "Bold",
           "givenIv": {
             "hp": 18,
             "attack": 18,
@@ -409,19 +409,19 @@
           }
         },
         {
-          "pokemonId": 323,
-          "name": "Camérupt",
-          "level": 37,
+          "pokemonId": 253,
+          "name": "Massko",
+          "level": 38,
           "abilities": [
-            "Flamethrower",
-            "Earth Power",
+            "Leaf Blade",
+            "Drain Punch",
             "Rock Slide",
-            "Amnesia"
+            "Swords Dance"
           ],
-          "passiveAbility": "Solid Rock",
-          "heldItem": null,
+          "passiveAbility": "Overgrow",
+          "heldItem": "eviolite",
           "k": 1,
-          "nature": "Hardy",
+          "nature": "Jolly",
           "givenIv": {
             "hp": 18,
             "attack": 18,
@@ -432,29 +432,65 @@
           }
         },
         {
-          "pokemonId": 450,
-          "name": "Hippodocus",
+          "pokemonId": 448,
+          "name": "Lucario",
+          "level": 38,
+          "abilities": [
+            "Aura Sphere",
+            "Flash Cannon",
+            "Dark Pulse",
+            "Nasty Plot"
+          ],
+          "passiveAbility": "Inner Focus",
+          "heldItem": "life_orb",
+          "k": 1,
+          "nature": "Modest",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          }
+        },
+        {
+          "pokemonId": 445,
+          "name": "Carchacrok",
           "level": 39,
           "abilities": [
             "Earthquake",
-            "Crunch",
-            "Yawn",
-            "Slack Off"
+            "Dragon Claw",
+            "Fire Fang",
+            "Swords Dance"
           ],
-          "passiveAbility": "Sand Stream",
-          "heldItem": "sitrus_berry",
-          "k": 2,
-          "nature": "Impish",
+          "passiveAbility": "Rough Skin",
+          "heldItem": "lum_berry",
+          "k": 4,
+          "nature": "Jolly",
           "givenIv": {
-            "hp": 22,
-            "attack": 22,
-            "defense": 22,
-            "specialAttack": 22,
-            "specialDefense": 22,
-            "speed": 22
+            "hp": 31,
+            "attack": 31,
+            "defense": 31,
+            "specialAttack": 31,
+            "specialDefense": 31,
+            "speed": 31
+          },
+          "ev": {
+            "hp": 4,
+            "attack": 252,
+            "speed": 252
           }
         }
-      ]
+      ],
+      "strategy": {
+        "name": "Hoze",
+        "ai": "expert",
+        "acePokemonId": 445,
+        "entryLines": {
+          "445": "Tu as passé mes premières défenses. Carchacrok, à toi ! Montre-lui toute la force de notre entraînement !"
+        }
+      }
     },
     {
       "name": "raphael",

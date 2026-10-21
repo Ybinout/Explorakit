@@ -570,6 +570,30 @@ test('Mounir Aventure : équipe réelle sous la pluie, Morphéo réservé et tra
     } finally {if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
 });
 
+test('Hoze Aventure : quatre partenaires réels, as K4 en dernier, réplique unique et gains persistés', {skip:!shouldRun}, async()=>{
+    const pool=createTestPool(); let userId;
+    try {
+        const {user,player}=await createPlayer(7); userId=user.id; player.currentmap='ville_safe1_arene';
+        const lead=player.equipe.pokemons[0]; lead.experience=lead.getNextLevelExpForLevel(100); lead.level=100; lead.recalculateStats();
+        lead.currentSpecialAttack=999; lead.currentSpeed=999; lead.abilities=['Ice Beam']; lead.movePp=[10];
+        const team=require('../server/game/world/pnjTeamFactory').getPnjTeam('hoze');
+        const socket=new ScriptedSocket(Array.from({length:10},()=>({action:'attack',number:0})));
+        const io=new RecordingIo({[player.id]:socket}), snapshots=[];
+        const to=io.to.bind(io); io.to=id=>({emit:(event,payload)=>{if(event==='introAnimation')snapshots.push(JSON.parse(JSON.stringify(payload)));to(id).emit(event,payload);}});
+        await withFixedRandom(.5,()=>startTrainerBattle(player,team,io,userId,{experienceKind:'arena'}));
+        assert.equal(io.lastEvent(player.id,'endbattle').payload.playerWon,true);
+        assert.deepEqual([...new Set(snapshots.map(s=>s.wildPokemon.data.id))].sort((a,b)=>a-b),[7,253,445,448]);
+        const entries=snapshots.flatMap(s=>s.transitions).filter(e=>e.kind==='enter'&&e.side==='opponent');
+        assert.equal(entries.at(-1).uuid,team.__trainerPlan.aceUuid);
+        assert.equal(entries.filter(e=>e.trainerSpeech).length,1);
+        assert.equal(entries.at(-1).trainerSpeech.name,'Hoze');
+        const ace=snapshots.find(s=>s.wildPokemon.data.id===445).wildPokemon;
+        assert.equal(ace.k,4); assert(Object.values(ace.iv).every(v=>v===31)); assert.equal(ace.ev.attack,252);
+        assert.equal((await loadEquipe(userId)).pokemons[0].uuid,lead.uuid);
+        const [[row]]=await pool.execute('SELECT money FROM users WHERE id=?',[userId]);assert(Number(row.money)>0);
+    } finally {if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
+});
+
 for (const kind of ['wild','trainer']) test(`Aventure ${kind} : Tunnel utilise son dernier PP, évite le premier tour et poursuit automatiquement sans nouvelle demande`, {skip:!shouldRun}, async()=>{
     const pool=createTestPool();let userId;
     try {

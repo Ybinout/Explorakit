@@ -90,5 +90,5 @@ test('entry lines attach to an actual arrival once, including a forced arrival; 
     assert.equal(events.filter(e=>e.trainerSpeech).length,1);
     presentation.transitions(viewer,own,team.pokemons[0]);
     events=tactics.decorateTransitions(presentation.transitions(viewer,own,ace),team,memory); assert(!events.some(e=>e.trainerSpeech));
-    assert.equal(tactics.chooseAction(getPnjTeam('hoze'),own,engine.createBattleState(),tactics.createMemory(),1),null);
+    assert.equal(tactics.chooseAction(getPnjTeam('garry'),own,engine.createBattleState(),tactics.createMemory(),1),null);
 });

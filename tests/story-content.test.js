@@ -10,7 +10,7 @@ const { getSentenceForName, getEndSentenceInformation } = require('../server/gam
 const { deriveStoryQuest } = require('../server/game/world/storyProgression');
 const { getPnjTeam } = require('../server/game/world/pnjTeamFactory');
 const { getCanonicalSpeciesAbility } = require('../server/game/abilities/abilityDex');
-const { SUPPORTED_ABILITIES } = require('../server/game/abilities/abilityEngine');
+const abilityCoverage = require('../server/game/abilities/abilityCoverage');
 const { loadCollisionData, changeMapData, getNextMap } = require('../server/game/world/mapRepository');
 const { isPnjBlockingTile } = require('../server/game/world/pnjStore');
 const moves = new Set(require('../data/game/moves.json').map((move) => move.ename));
@@ -95,7 +95,7 @@ test('les dialogues, portraits, récompenses et équipes actives sont raccordés
             assert.ok(pokemon.abilities.length >= 1 && pokemon.abilities.length <= 4);
             pokemon.abilities.forEach((move) => assert.ok(moves.has(move), move));
             assert.ok(getCanonicalSpeciesAbility(pokemon.pokemonId, pokemon.passiveAbility));
-            assert.ok(SUPPORTED_ABILITIES.has(pokemon.passiveAbility), pokemon.passiveAbility);
+            assert.equal(abilityCoverage.status(pokemon.passiveAbility), 'single_battle', pokemon.passiveAbility);
             assert.ok(!pokemon.heldItem || items.has(pokemon.heldItem));
             assert.ok(built.pokemons[index].movePp.every((pp) => pp > 0));
         }

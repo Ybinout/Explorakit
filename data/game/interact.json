@@ -383,7 +383,7 @@
         "imageName": "hoze.png"
       },
       {
-        "text": "Hoze : Tu crois avoir ce qu’il faut pour me battre ? Trois Pokémon, niveaux 37 à 39. Montre-moi ce que tu as dans le ventre, ou retourne t’entraîner !",
+        "text": "Hoze : Tu crois avoir ce qu’il faut pour me battre ? Quatre Pokémon, niveaux 37 à 39. Montre-moi ce que tu as dans le ventre, ou retourne t’entraîner !",
         "imageName": "hoze.png"
       }
     ],
@@ -836,7 +836,7 @@
         }
       },
       {
-        "text": "Salomé : Hoze utilise le sable à son avantage. Observe aussi les talents : ils peuvent faire basculer un combat.",
+        "text": "Salomé : Hoze garde son Carchacrok pour la fin. Méfie-toi de Danse Lames et de Peau Dure : un bon placement peut faire basculer le combat.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
