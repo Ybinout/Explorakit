@@ -298,3 +298,21 @@ test('PC SQL : transferts atomiques, métadonnées intactes, accès privé, anti
   const before=await pc.loadStorage(owner.id);await assert.rejects(pc.mutateStorage(owner.id,{action:'withdraw',pokemonUuid:active.uuid}),e=>e.code==='ER_DUP_ENTRY');assert.deepEqual(await pc.loadStorage(owner.id),before);
  }finally{for(const id of ids)await pool.execute('DELETE FROM users WHERE id=?',[id]);await pool.end();}
 });
+
+test('PC SQL drag : cases exactes, échange atomique, équipe ordonnée et refus des déplacements périmés ou étrangers', {skip:!shouldRun},async()=>{
+ const pool=createTestPool(),ids=[];
+ try {
+  const {createUserWithStarter}=require('../server/persistence/userRepository'),repo=require('../server/persistence/teamRepository'),pc=require('../server/persistence/pokemonStorageRepository'),f=require('../server/game/drift/pokemonFactory');
+  const owner=await createUserWithStarter(`drag_${Date.now()}`,'storage-drag-password',{starterId:7}),other=await createUserWithStarter(`drag_other_${Date.now()}`,'storage-drag-password',{starterId:1});ids.push(owner.id,other.id);
+  const party=await repo.loadEquipe(owner.id),b=f.create(4,20,true),c=f.create(25,20,true),d=f.create(19,20,true);b.currentHp=3;b.movePp[0]=0;b.heldItem='leftovers';party.pokemons.push(b);await repo.editEquipe(owner.id,party);await pc.storeCapturedPokemon(owner.id,c);await pc.storeCapturedPokemon(owner.id,d);
+  const move=(p,from,to,uuid=null)=>({action:'move',pokemonUuid:p.uuid,from,to:{...to,uuid}}),box=(box,slot)=>({kind:'box',box,slot}),team=index=>({kind:'team',index});
+  await pc.mutateStorage(owner.id,move(c,box(0,0),box(7,29)));await pc.mutateStorage(owner.id,move(c,box(7,29),box(0,1),d.uuid));
+  let entries=await pc.loadEntries(owner.id);assert.equal(entries.find(e=>e.pokemon.uuid===d.uuid).box,7);assert.equal(entries.find(e=>e.pokemon.uuid===d.uuid).slot,29);
+  const payload=move(c,box(0,1),box(4,23));const concurrent=await Promise.allSettled([pc.mutateStorage(owner.id,payload),pc.mutateStorage(owner.id,payload)]);assert.equal(concurrent.filter(r=>r.status==='fulfilled').length,1);
+  await assert.rejects(pc.mutateStorage(other.id,move(c,box(4,23),team(1))),/changé/);
+  const before=await pc.loadStorage(owner.id);await assert.rejects(pc.mutateStorage(owner.id,move(c,box(4,23),team(1))),/destination/);assert.deepEqual(await pc.loadStorage(owner.id),before);
+  await pc.mutateStorage(owner.id,move(b,team(1),box(4,23),c.uuid));assert.equal((await repo.loadEquipe(owner.id)).pokemons[1].uuid,c.uuid);
+  entries=await pc.loadEntries(owner.id);const stored=entries.find(e=>e.pokemon.uuid===b.uuid).pokemon;assert.equal(stored.currentHp,3);assert.equal(stored.movePp[0],0);assert.equal(stored.heldItem,'leftovers');assert.deepEqual(stored.iv,b.iv);assert.deepEqual(stored.ev,b.ev);
+  await pc.mutateStorage(owner.id,move(c,team(1),team(0),party.pokemons[0].uuid));assert.equal((await repo.loadEquipe(owner.id)).pokemons[0].uuid,c.uuid);
+ } finally {for(const id of ids)await pool.execute('DELETE FROM users WHERE id=?',[id]);await pool.end();}
+});

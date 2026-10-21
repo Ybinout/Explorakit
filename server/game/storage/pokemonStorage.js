@@ -14,6 +14,39 @@ function freeSlot(entries, preferredBox = null) {
     throw Error(preferredBox === null ? 'Le PC est plein. Libère une place avant de capturer.' : 'Cette boîte est pleine. Choisis une autre boîte.');
 }
 function isAble(pokemon) { return pokemon?.currentHp > 0 && !pokemon.riftFainted && !pokemon.isEgg; }
+function movePokemon(team, entries, {pokemonUuid, from, to}) {
+    if (!from || !to || !['team','box'].includes(from.kind) || !['team','box'].includes(to.kind)) throw Error('Emplacement invalide.');
+    const storedAt = place => {
+        assertBox(place.box);
+        if (!Number.isInteger(place.slot) || place.slot < 0 || place.slot >= BOX_SIZE) throw Error('Case de boîte invalide.');
+        return entries.find(e=>e.box===place.box && e.slot===place.slot);
+    };
+    const teamAt = (place, append = false) => {
+        if (!Number.isInteger(place.index) || place.index < 0 || place.index >= 6 || place.index > team.length || (!append && place.index===team.length)) throw Error('Place d’équipe invalide.');
+        return team[place.index];
+    };
+    const origin = from.kind==='team' ? teamAt(from) : storedAt(from)?.pokemon;
+    if (!origin || origin.uuid!==pokemonUuid) throw Error('Ce Pokémon a changé de place. Rouvre le PC pour réessayer.');
+    const destination = to.kind==='team' ? teamAt(to,true) : storedAt(to)?.pokemon;
+    if (!Object.hasOwn(to,'uuid') || to.uuid!==(destination?.uuid || null)) throw Error('La destination a changé. Rouvre le PC pour réessayer.');
+    if (origin===destination) return;
+    if (from.kind==='team' && to.kind==='team') {
+        if (destination) [team[from.index],team[to.index]]=[destination,origin];
+        else {team.splice(from.index,1);team.push(origin);}
+    } else if (from.kind==='box' && to.kind==='box') {
+        const sourceEntry=storedAt(from), targetEntry=storedAt(to);
+        if(targetEntry){targetEntry.box=from.box;targetEntry.slot=from.slot;}
+        sourceEntry.box=to.box;sourceEntry.slot=to.slot;
+    } else if (from.kind==='team') {
+        const targetEntry=storedAt(to);
+        if(targetEntry){team[from.index]=targetEntry.pokemon;targetEntry.pokemon=origin;}
+        else {team.splice(from.index,1);entries.push({box:to.box,slot:to.slot,pokemon:origin});}
+    } else {
+        const sourceEntry=storedAt(from);
+        if(destination){sourceEntry.pokemon=destination;team[to.index]=origin;}
+        else {entries.splice(entries.indexOf(sourceEntry),1);team.push(origin);}
+    }
+}
 function planAction(team, entries, payload = {}) {
     const nextTeam = [...team], nextEntries = entries.map(e => ({...e}));
     const {action, pokemonUuid, teamUuid, box, source, confirm} = payload;
@@ -21,7 +54,10 @@ function planAction(team, entries, payload = {}) {
     const teamIndex = nextTeam.findIndex(p => p.uuid === pokemonUuid);
     const storedIndex = nextEntries.findIndex(e => e.pokemon.uuid === pokemonUuid);
     let released = null, teamChanged = false;
-    if (action === 'deposit') {
+    if (action === 'move') {
+        movePokemon(nextTeam,nextEntries,payload);
+        teamChanged = payload.from.kind==='team' || payload.to.kind==='team';
+    } else if (action === 'deposit') {
         if (teamIndex < 0) throw Error('Ce Pokémon ne fait plus partie de ton équipe.');
         const destination = freeSlot(nextEntries, box);
         nextEntries.push({...destination, pokemon: nextTeam.splice(teamIndex,1)[0]}); teamChanged = true;

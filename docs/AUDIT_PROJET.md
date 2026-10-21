@@ -1,5 +1,23 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Glisser-déposer du PC — 21 octobre 2026
+
+Le PC utilise des Pointer Events communs souris/stylet/doigt : glissement d’un Pokémon vers une case exacte, échange sur une case occupée, transfert équipe ↔ boîte et permutation dans l’équipe. Une place libre permet de retirer vers la fin de l’équipe ; l’équipe garde ses positions compactes. Flèches de boîte survolées pendant 650 ms pour changer de boîte sans lâcher, défilement automatique du panneau/équipe aux bords, fantôme au-dessus du doigt et destination soulignée. Les tuiles occupées capturent le geste ; les espaces libres/panneaux restent défilables. Le clic/tap et les actions clavier/fiches existantes restent disponibles ; Échap, sortie, perte de pointeur, masquage, ouverture d’une fiche/confirmation et changement d’état annulent le déplacement sans commande.
+
+Nouvelle action additive `pc:action` → `move` dans le moteur partagé : `{pokemonUuid,from:{kind,box,slot/index},to:{kind,box,slot/index,uuid}}`, UUID attendu de la destination obligatoire (null pour vide), contrôles de propriétaire et de coordonnées, origine/destination encore identiques au snapshot et dernier compagnon apte. Mouvements de boîtes pleines permis par échange ; aucun soin, relâchement ou retour d’objet implicite. Les mêmes transactions SQL suppriment les anciennes positions avant réinsertion atomique ; checkpoints Rift/Colosseum utilisent la même règle et gardent leurs stocks indépendants. Pas de migration ni de remise à zéro.
+
+Recettes : `pokemon-storage-drag.test.js` (transferts/échanges/ordre/cases exactes, entrées immuables, dernier apte, coordonnées, rejeu/état périmé et checkpoint privé), nouveau scénario SQL de concurrence/positions/échanges/attributs. `validateComputerDragUi` dans `test:pc-browser` utilise la souris et de vrais Touch Events Chromium/CDP, transferts/échanges/équipe/annulation et changement de boîte au doigt, puis restaure les positions de fixture ; même contrôle en Colosseum, avant les recettes PC/fiches existantes.
+
+Validation : `verify:release -- --mysql` termine à 0 avec **570 tests applicatifs + 53 SQL**, audits, HTTP/reprise, lint et build. Les attentes des nouveaux scénarios SQL ont été corrigées pour transmettre les UUID de destination (comme le vrai client), sans assouplir le contrôle des emplacements. Dernier lint/build à 0 après correction tactile et stabilisation du bandeau d’aide.
+
+La recette PC complète termine à 0 : souris sur ordinateur (cases précises, échanges boîte/boîte et équipe/boîte, ordre d’équipe, Échap sans mutation), vrais gestes tactiles CDP (case exacte, changement de boîte sans lâcher, défilement vers la dernière case sur 320×480, tap qui reste une sélection), remise exacte des fixtures, mêmes gestes dans le PC Colosseum. Le transfert de capture implicite du pointeur tactile depuis une tuile vers le terminal ne doit pas être confondu avec la perte du pointeur du terminal : le handler ignore la première. L’aide occupe une hauteur fixe et ne décale plus les cases pendant le geste. La restauration de fixture utilise `useComputer`, comme les boutons, pour appliquer aussi l’accusé privé Colosseum.
+
+Les anciennes recettes restent vertes : accès par A/proximité, refus distant, dépôts/retraits sans soin, relâchement confirmé/objet restitué, reconnexion, indépendance des boîtes privées et fermeture au tournoi, fiches complètes équipe/boîte/Colosseum et fiche normale, clavier/focus ; quatre tailles et thèmes clair/nocturne, aucune erreur. Captures inspectées. Client `8c68ac4d8c76ad1a493019d5bb0567ee62932ca6`, build `/tmp/explorakit-pc-drag-dist`, hash **`14b9580a1f866e69`**.
+
+Publication le **21/10/2026 à 15 h 15 (Paris)**. Sauvegarde sources/dist/SQL/checkpoint `/home/ubuntu/dev/backups/explorakit-pc-drag-2026-10-21T13-08-23-344Z`, aucune migration ni remise à zéro. Seul Explorakit redémarré, zéro expédition active avant, service actif et zéro redémarrage automatique ; anciens bundles conservés. Logs/captures `/tmp/explorakit-pc-drag-*`. Aucune CI distante ni téléphone physique revendiqué.
+
+Contrôle HTTPS final terminé à 0 sur un compte temporaire : terminal du Centre, vrais glissements souris/doigt, emplacement exact, permutations d’équipe et de boîte, changement de boîte pendant le geste, défilement mobile jusqu’à la case 30, Échap sans mutation et tap avec actions. État SQL strictement identique après restauration, identités et attributs conservés, reconnexion donnant les mêmes cases et équipe. Fantôme/destination et captures publiques inspectés ; aucune erreur, index conforme au build, Know/api-test inchangés. Compte et données de recette supprimés.
+
 ## Session expirée et chargement du lieu — 21 octobre 2026
 
 Un jeton expiré était encore considéré présent par la garde du routeur ; le refus Socket ne mettait à jour que le petit état de sauvegarde et laissait « Chargement du lieu… » indéfiniment. Reproduit en HTTPS sur un compte temporaire : Clairfontaine charge avec un jeton valide, reste en attente avec un jeton invalide. Le créateur a confirmé que sa session avait expiré ; sa sauvegarde n’est pas en cause et n’a pas été modifiée.
@@ -1778,6 +1796,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **21 octobre 2026 — Glisser-déposer du PC :** organisation aux emplacements exacts, échanges et équipe à la souris/au doigt, boîtes pendant le glissement, validation atomique partagée et recettes de persistance.
 
 - **21 octobre 2026 — Session expirée :** le refus d’authentification du monde renvoie vers Connexion avec message explicite et destination conservée ; fin du chargement infini, sauvegarde intacte et erreurs réseau distinctes.
 

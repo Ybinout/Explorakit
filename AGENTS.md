@@ -1,5 +1,13 @@
 # Contexte permanent — Explorakit
 
+## Glisser-déposer du PC — 21 octobre 2026
+
+Le PC utilise des Pointer Events communs souris/stylet/doigt : glissement d’un Pokémon vers une case exacte, échange sur une case occupée, transfert équipe ↔ boîte et permutation dans l’équipe. Une place libre permet de retirer vers la fin de l’équipe ; l’équipe garde ses positions compactes. Flèches de boîte survolées pendant 650 ms pour changer de boîte sans lâcher, défilement automatique du panneau/équipe aux bords, fantôme au-dessus du doigt et destination soulignée. Les tuiles occupées capturent le geste ; les espaces libres/panneaux restent défilables. Le clic/tap et les actions clavier/fiches existantes restent disponibles ; Échap, sortie, perte de pointeur, masquage, ouverture d’une fiche/confirmation et changement d’état annulent le déplacement sans commande.
+
+Nouvelle action additive `pc:action` → `move` dans le moteur partagé : `{pokemonUuid,from:{kind,box,slot/index},to:{kind,box,slot/index,uuid}}`, UUID attendu de la destination obligatoire (null pour vide), contrôles de propriétaire et de coordonnées, origine/destination encore identiques au snapshot et dernier compagnon apte. Mouvements de boîtes pleines permis par échange ; aucun soin, relâchement ou retour d’objet implicite. Les mêmes transactions SQL suppriment les anciennes positions avant réinsertion atomique ; checkpoints Rift/Colosseum utilisent la même règle et gardent leurs stocks indépendants. Pas de migration ni de remise à zéro.
+
+Recettes : `pokemon-storage-drag.test.js` (transferts/échanges/ordre/cases exactes, entrées immuables, dernier apte, coordonnées, rejeu/état périmé et checkpoint privé), nouveau scénario SQL de concurrence/positions/échanges/attributs. `validateComputerDragUi` dans `test:pc-browser` utilise la souris et de vrais Touch Events Chromium/CDP, transferts/échanges/équipe/annulation et changement de boîte au doigt, puis restaure les positions de fixture ; même contrôle en Colosseum, avant les recettes PC/fiches existantes.
+
 ## Session expirée et chargement du lieu — 21 octobre 2026
 
 Un jeton expiré était encore considéré présent par la garde du routeur ; le refus Socket ne mettait à jour que le petit état de sauvegarde et laissait « Chargement du lieu… » indéfiniment. Reproduit en HTTPS sur un compte temporaire : Clairfontaine charge avec un jeton valide, reste en attente avec un jeton invalide. Le créateur a confirmé que sa session avait expiré ; sa sauvegarde n’est pas en cause et n’a pas été modifiée.
