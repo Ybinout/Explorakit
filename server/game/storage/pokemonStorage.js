@@ -1,4 +1,5 @@
 const itemNames = new Map(require('../../../data/game/items.json').items.map(i=>[i.key,i.name]));
+const {getMoveDefinition,getMaxMovePp}=require('../battle/battleResources');
 const BOX_COUNT = 8;
 const BOX_SIZE = 30;
 const CAPACITY = BOX_COUNT * BOX_SIZE;
@@ -44,6 +45,10 @@ function planAction(team, entries, payload = {}) {
 }
 function pokemonView(p) {
     return { uuid:p.uuid, pokemonId:p.data.id, name:p.truename || p.name, nickname:p.name, level:p.level,
+        nature:p.nature, experience:p.experience, experienceRate:p.experienceRate,
+        stats:Object.fromEntries(['attack','defense','specialAttack','specialDefense','speed'].map(key=>[key,p[key]])),
+        movePp:(p.movePp || []).slice(0,4),
+        moveDetails:(p.abilities || []).slice(0,4).map((name,index)=>{const m=getMoveDefinition(name);return {name,type:m?.type || null,damageClass:m?.combat?.damage_class || null,power:m?.power ?? null,accuracy:m?.accuracy ?? null,pp:p.movePp?.[index] ?? getMaxMovePp(name),maxPp:getMaxMovePp(name)};}),
         types:p.data.type, currentHp:p.currentHp, maxHp:p.maxHp, status:p.status, potential:p.k,
         heldItem:p.heldItem || null, heldItemName:itemNames.get(p.heldItem) || p.heldItem || null, passiveAbility:p.passiveAbility, iv:p.iv, ev:p.ev, moves:(p.abilities || []).slice(0,4) };
 }

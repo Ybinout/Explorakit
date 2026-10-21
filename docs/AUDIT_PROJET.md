@@ -1,5 +1,19 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Fiche complète des Pokémon du PC — 21 octobre 2026
+
+« Voir la fiche complète » ouvre la fiche partagée depuis la sélection d’un Pokémon en boîte ou dans l’équipe. Le serveur ajoute au snapshot privé les statistiques permanentes, nature réelle, expérience/courbe de progression et capacités détaillées, avec PP actuels/maximaux (y compris 0), type, classe, puissance et précision provenant du catalogue serveur. Les IV/EV/K/talent/objet existants restent présents. L’adaptateur client raccorde ces champs au modèle de la fiche sans modifier le Pokémon ou son emplacement ; aucun nouveau RPC ni migration SQL.
+
+Onglets Stats, Potentiel (IV) et Entraînement (EV), radar, nature/talent/potentiel, XP/PV et liste détaillée des capacités. Précédent/Suivant parcourt l’équipe ou la boîte sélectionnée, dans l’ordre des emplacements, en conservant l’onglet pour comparer. Fermer ou Échap revient au PC avec boîte/sélection/défilement conservés et focus restauré sur le bouton. La fiche est sœur du backdrop PC, rendu inert pendant sa consultation, pour conserver un seul piège à focus actif. Consultation seule : aucune évolution ni modification d’attaque depuis le stockage. La fiche normale garde son contexte, ses évolutions et son comportement existants.
+
+Deux tests supplémentaires vérifient les métadonnées réelles, les PP nuls et l’adaptateur sans mutation. Recette `validatePokemonComputerDetailsUi` intégrée à `test:pc-browser` : comparaison des six valeurs Stats/IV/EV avec le snapshot autoritaire, fiche pour équipe/boîte/Colosseum, navigation avec onglet conservé, Échap/focus, absence de mutations et fiche normale préservée ; quatre tailles et clair/nocturne.
+
+Validation finale : `verify:release -- --mysql` termine à 0 avec **547 tests applicatifs + 51 SQL**, audits, HTTP/reprise, lint et build `/tmp/explorakit-pc-details-dist`, hash `8ecdfed83eece089`. La recette PC locale passe à 0, y compris fiche équipe/boîte/Colosseum, chiffres réels Stats/IV/EV, nature Modeste, PP à zéro et comparaison intégrale de l’état avant/après lecture. Navigation avec onglet conservé, focus/Échap et fiche normale avec évolutions sont vérifiés. Captures mobiles/PC en clair et nocturne inspectées.
+
+Publication le **21/10/2026 à 8 h 22 (Paris)**, client `40e1798eac81d086adc70e602ef4d4be5097d153`. Sauvegarde sources/dist/SQL/checkpoint : `/home/ubuntu/dev/backups/explorakit-pc-details-2026-10-21T06-19-06-069Z`. Aucune migration ni changement de règles ; redémarrage du seul service Explorakit pour le snapshot enrichi, zéro expédition active avant redémarrage. Service actif, zéro redémarrage automatique.
+
+Contrôle HTTPS final à 0 sur compte jetable : vrai bouton A, fiche de boîte et de l’équipe, six chiffres de chaque onglet et PP exacts, lecture sans mutation, navigation/retour/focus, fiche normale préservée, régression des transferts/relâchement/reconnexion ; quatre tailles/deux thèmes, aucune erreur. Index conforme au build, Know/api-test inchangés, compte et boîtes de recette supprimés. Logs/captures `/tmp/explorakit-pc-details-*`. Aucune CI distante ni validation sur téléphone physique revendiquée ; actualiser le jeu pour charger le nouveau bouton.
+
 ## PC des Centres et captures supplémentaires — 21 octobre 2026
 
 Un terminal PC en pixel art natif est dessiné sur le meuble bloqué (17,8) du Centre commun, avec son abord libre (17,9). Tous les Centres des villes utilisant cet intérieur, il est présent partout sans nouvelle carte ni retouche des PNG/Tiled/collisions, portes, provenance ou soin. Le serveur publie `worldDevicesState` aux connexions et transitions ; `Space`/bouton A près du PC ouvre le stockage en priorité sur les interactions de joueurs/PNJ voisins. Les RPC vérifient la carte, la distance orthogonale d’une case, le propriétaire et l’absence de combat/action concurrente. Pas de PC dans le menu utilisable à distance.
@@ -1664,6 +1678,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **21 octobre 2026 — Fiches depuis le PC :** fiche commune consultable pour équipe/boîtes, statistiques/IV/EV/nature/XP/capacités et PP réels, navigation et retour sans perte de contexte, lecture seule et contrôle du focus.
 
 - **21 octobre 2026 — PC Pokémon :** terminal commun aux Centres, huit boîtes, captures au-delà de six, transferts atomiques et relâchement confirmé, stocks/compteurs des modes isolés et interface mobile/thèmes vérifiée.
 

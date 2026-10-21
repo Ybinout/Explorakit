@@ -1,5 +1,11 @@
 # Contexte permanent — Explorakit
 
+## Fiches détaillées depuis le PC — 21 octobre 2026
+
+Le bouton « Voir la fiche complète » de `PokemonComputer` ouvre le composant partagé `PokemonDetails` pour le compagnon de l’équipe ou de la boîte sélectionnée. `pokemonStorage.pokemonView` ajoute nature, XP/courbe, statistiques permanentes, PP et métadonnées des capacités depuis le catalogue existant ; aucun accès à un Pokémon tiers ni requête de mutation supplémentaire. L’adaptateur `computerPokemonDetails` dans le service client raccorde ce snapshot à la fiche (espèce/sprite/types/K/statistiques), sans fabriquer les stats ou réécrire les données.
+
+La fiche du PC est `readOnly` : Stats/IV/EV, nature, talent, potentiel, XP, objet et capacités/PP/type/classe/puissance/précision ; aucune action d’évolution. Précédent/Suivant parcourt l’équipe ou la boîte courante dans l’ordre, avec onglet conservé. La fiche normale garde ses valeurs par défaut et ses évolutions. Le PC sous-jacent devient inert ; fermer/Échap revient au bouton de fiche en préservant boîte/sélection/défilement. Éviter deux pièges à focus imbriqués : la fiche est sœur du backdrop PC. Recettes : tests stockage/adaptateur et `validatePokemonComputerDetailsUi` appelé dans `test:pc-browser`, avec vrais chiffres, PP à 0, navigation/focus, fiche normale, PC Colosseum, quatre tailles et deux thèmes.
+
 ## PC et stockage Pokémon — 21 octobre 2026
 
 `game/storage/pokemonStorage.js` partage les règles : 8 boîtes ×30, équipe ≤6, au moins un compagnon apte après dépôt/échange/relâchement en équipe, confirmation explicite pour relâcher. PC sur le meuble déjà bloqué du Centre commun (17,8), accès orthogonal à une case (sol 17,9), bouton A/`Space`. Tous les Centres y mènent ; aucune carte/collision/PNG retouché. `worldDevicesState` sert le terminal, rendu canvas natif `services/pokemonComputer.js`, interface `menu/PokemonComputer.vue` dans la DA/thèmes, mobile/clavier/focus. Aucun accès distant depuis le menu.

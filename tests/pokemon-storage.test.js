@@ -41,3 +41,14 @@ for(const mode of ['rift','colosseum'])test(`${mode} : septième capture au PC, 
  driftComputer.mutate(p,{action:'release',source:'box',pokemonUuid:outgoing.uuid,confirm:true});assert.equal(p.items.leftovers,1);assert.equal(p.storage.length,0);assert.throws(()=>driftComputer.mutate(p,{action:'release',source:'box',pokemonUuid:outgoing.uuid,confirm:true}));assert.equal(p.items.leftovers,1);
  p.run.phase='colosseum_ready';assert.throws(()=>driftComputer.open(p),/exploration/);p.run.phase='exploration';p.currentmap='route1';assert.throws(()=>driftComputer.open(p),/Approche/);
 });
+
+test('la fiche PC reçoit les statistiques permanentes, la vraie nature, l’XP et les PP sans modifier le compagnon',()=>{
+ const p=mon(4);p.nature='Modest';p.recalculateStats();p.movePp=[0];p.currentHp=3;p.heldItem='leftovers';
+ const before=JSON.stringify(p);const result=storage.view([p],[{box:0,slot:0,pokemon:p}],true);const entry=result.entries[0].pokemon;
+ for(const key of ['attack','defense','specialAttack','specialDefense','speed'])assert.equal(entry.stats[key],p[key]);
+ assert.equal(entry.nature,'Modest');assert.equal(entry.experience,p.experience);assert.equal(entry.experienceRate,p.experienceRate);assert.equal(entry.potential,p.k);assert.deepEqual(entry.iv,p.iv);assert.deepEqual(entry.ev,p.ev);assert.equal(entry.moveDetails[0].pp,0);assert.equal(entry.moveDetails[0].maxPp,40);assert.equal(entry.moveDetails[0].type,'Normal');assert.equal(entry.moveDetails[0].damageClass,'status');assert.equal(entry.heldItemName,'Restes');assert.deepEqual(result.team[0],entry);assert.equal(JSON.stringify(p),before);
+});
+test('adaptation vers la fiche commune : statistiques, potentiel, types et capacités sans modifier le snapshot PC',async()=>{
+ const {computerPokemonDetails}=await import('../vue-explorakit/src/services/pokemonComputer.js');const p=mon();const snapshot=storage.view([p],[]).team[0],before=JSON.stringify(snapshot);const adapted=computerPokemonDetails(snapshot);
+ assert.equal(adapted.spriteId,p.data.id);assert.equal(adapted.k,p.k);assert.equal(adapted.attack,p.attack);assert.equal(adapted.nature,p.nature);assert.equal(adapted.currentHp,p.currentHp);assert.deepEqual(adapted.data.type,p.data.type);assert.deepEqual(adapted.abilities,p.abilities);adapted.abilities.push('Scratch');assert.equal(JSON.stringify(snapshot),before);assert.equal(computerPokemonDetails(null),null);
+});
