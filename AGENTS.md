@@ -1,5 +1,9 @@
 # Contexte permanent — Explorakit
 
+## Probabilités K — 21 octobre 2026
+
+Table commune `K_TIERS` : K4 0,5 %, K3 2 %, K2 18 %, K1 79,5 % (100 %). K3 à 2 % choisi explicitement pour compléter la répartition du créateur. Sauvages dans les trois modes et starters aléatoires utilisent ce tirage ; sauvegardes/équipes à K configuré restent identiques, aucun reroll rétroactif. Recette `progression.test.js` : seuils et 10 000 points uniformes donnant 50/200/1800/7950, traits des starters alignés ; vérification complète SQL/audits/lint/build passée, publication serveur seule.
+
 ## XP Aventure +40 % — 21 octobre 2026
 
 `experience_balance.json.multipliers` vaut désormais sauvage 1,4 /dresseur 2,1 /arène 2,8 : ces valeurs sont utilisées uniquement par les orchestrateurs Aventure. `calculateBattleExperience` conserve sa base, pénalités de sur-niveau et coût des niveaux ; Rift/Colosseum gardent leurs facteurs et partages propres dans `DriftBattle.reward`. Ne pas placer ce bonus dans le calcul commun ou `gainExperience`. Tests de gains Aventure et base commune inchangée, suites réserves/checkpoints et vérification complète SQL/lint/build réussies ; publication serveur seule, aucun frontend ni sauvegarde réécrit.

@@ -34,10 +34,13 @@ test('les espèces sans ancienne valeur exp utilisent une progression standard',
 });
 
 test('la rareté k respecte les seuils documentés', () => {
-    assert.equal(rollK(() => 0), 4);
-    assert.equal(rollK(() => 0.002), 3);
-    assert.equal(rollK(() => 0.02), 2);
-    assert.equal(rollK(() => 0.2), 1);
+    for (const [roll, k] of [[0,4],[.004999,4],[.005,3],[.024999,3],[.025,2],[.204999,2],[.205,1],[.999999,1]]) {
+        assert.equal(rollK(() => roll), k);
+    }
+    // Exhaust the uniform domain at 0.01% resolution, without random/flaky counts.
+    const counts = {1:0,2:0,3:0,4:0};
+    for (let i=0;i<10000;i++) counts[rollK(() => (i+.5)/10000)]++;
+    assert.deepEqual(counts, {1:7950,2:1800,3:200,4:50});
 });
 
 test('un meilleur k augmente toutes les statistiques, y compris les PV', () => {
@@ -60,7 +63,7 @@ test('les trois starters sont autorisés et commencent au niveau 5 avec un poten
 });
 
 test('starter traits roll six independent IVs, a nature and the established K rarity', () => {
-    for (const [roll,k] of [[0,4],[.002,3],[.02,2],[.2,1]]) {
+    for (const [roll,k] of [[0,4],[.005,3],[.025,2],[.205,1]]) {
         const values=[0,.1,.3,.5,.75,.999,.6,roll];
         const starter=createStarterPokemon(7,()=>values.shift());
         assert.deepEqual(Object.values(starter.iv),[0,3,9,16,24,31]);

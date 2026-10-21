@@ -3,10 +3,10 @@ const EXPERIENCE_BALANCE = require('../../../data/game/experience_balance.json')
 const BATTLE_EXPERIENCE_MULTIPLIERS = Object.freeze({ ...EXPERIENCE_BALANCE.multipliers });
 
 const K_TIERS = Object.freeze([
-    { k: 4, probability: 0.002, label: 'Exceptionnel' },
-    { k: 3, probability: 0.018, label: 'Rare' },
+    { k: 4, probability: 0.005, label: 'Exceptionnel' },
+    { k: 3, probability: 0.02, label: 'Rare' },
     { k: 2, probability: 0.18, label: 'Prometteur' },
-    { k: 1, probability: 0.8, label: 'Commun' }
+    { k: 1, probability: 0.795, label: 'Commun' }
 ]);
 
 function getExperienceRate(maxExperience) {

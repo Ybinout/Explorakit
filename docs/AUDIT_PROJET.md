@@ -1,5 +1,13 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Probabilités du potentiel K — 21 octobre 2026
+
+Nouvelle répartition confirmée par le créateur : **K4 0,5 % /K3 2 % /K2 18 % /K1 79,5 %**, somme 100 %. Le premier choix K4/K1 seul laissait 0,2 % non attribué ; le créateur a choisi explicitement de les ajouter à K3. La table commune `K_TIERS` de `progression.js` alimente le tirage des sauvages Aventure/Rift/Colosseum et les starters aléatoires existants. K4 représente désormais environ une rencontre sur 200 en moyenne ; aucun système de garantie ajouté. Les Pokémon sauvegardés ou à K explicitement configuré ne sont pas retirés au sort et les équipes calibrées de dresseurs restent inchangées.
+
+`progression.test.js` contrôle les deux côtés de chaque seuil et les 10 000 points médians uniformes de l’intervalle : exactement 50 K4, 200 K3, 1 800 K2 et 7 950 K1, sans simulation aléatoire instable. Les seuils de la recette des traits de starter sont alignés ; IV/nature/XP et formule des statistiques inchangés. Vérification complète réussie : `RELEASE_DIST_DIR=/tmp/explorakit-k-rates-dist VUE_APP_PUBLIC_PATH=/explorakit/ npm run verify:release -- --mysql`, **587 tests applicatifs et 56 tests SQL**, audits, HTTP/reprise, lint et build ; logs `/tmp/explorakit-k-rates-verify.log`.
+
+Publication serveur seule le **21/10/2026 à 18 h 37 (Paris)**, PID 1078860 actif, zéro redémarrage automatique et 0 expédition active au contrôle. Sauvegarde sources/dist/SQL/checkpoint `/home/ubuntu/dev/backups/explorakit-k-rates-2026-10-21T16-34-44-191Z` et checkpoint relu avant redémarrage. Aucune migration ni modification des données des joueurs. Client/index conservés, HTTPS 200 et Know/api-test inchangés ; client/gitlink `8c5c68683ee3bae658ebd3c4cb630bddbec9313d`.
+
 ## XP Aventure augmentée de 40 % — 21 octobre 2026
 
 Hausse limitée au mode **Aventure** : multiplicateurs d’XP `wild` 1 →1,4, `trainer` 1,5 →2,1 et `arena` 2 →2,8 dans `data/game/experience_balance.json`. Les deux moteurs Aventure utilisent déjà ces valeurs ; le calcul de base commun reste identique. Au niveau 40, K1 et adversaire de même niveau : sauvage 1 452 →2 033, dresseur 2 178 →3 049, arène 2 904 →4 066 XP, avec un seul arrondi final. Le frein de sur-niveau et les ajustements au receveur restent actifs. L’XP accumulée/coût des niveaux n’est pas réécrit, les captures gardent leur comportement existant.
@@ -1854,6 +1862,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **21 octobre 2026 — Potentiel K :** K4 0,5 %, K3 2 %, K2 18 %, K1 79,5 % ; distribution complète vérifiée, sauvegardes et K configurés préservés, publication serveur.
 
 - **21 octobre 2026 — XP Aventure :** +40 % sur les K.O. sauvages/dresseurs/arènes par les multiplicateurs propres à l’Aventure ; base commune, Rift/Colosseum et partages conservés, vérification SQL complète et publication serveur.
 
