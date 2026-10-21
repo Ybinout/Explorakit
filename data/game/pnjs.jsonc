@@ -103,8 +103,8 @@
       "name": "voyageur_route6",
       "interactionName": "route_guide_6",
       "map": "gen_route6",
-      "x": 8,
-      "y": 12,
+      "x": 17,
+      "y": 16,
       "sprite": "townspeople.png",
       "block": true,
       "spriteFrame": {
@@ -112,14 +112,14 @@
         "rows": 4,
         "index": 6
       },
-      "roamRadius": 2
+      "roamRadius": 0
     },
     {
       "name": "dresseuse_route7",
       "interactionName": "route_guide_7",
       "map": "gen_route7",
       "x": 13,
-      "y": 12,
+      "y": 9,
       "sprite": "townspeople.png",
       "block": true,
       "spriteFrame": {
@@ -127,7 +127,7 @@
         "rows": 4,
         "index": 7
       },
-      "roamRadius": 2
+      "roamRadius": 0
     },
     {
       "name": "cartographe_route8",
@@ -316,9 +316,9 @@
       "roamRadius": 1
     },
     {
-      "name": "vendeuse_ocreville",
+      "name": "vendeuse_route10",
       "interactionName": "shop_keeper_1",
-      "map": "gen_shop1",
+      "map": "gen_shop_route10",
       "x": 13,
       "y": 6,
       "sprite": "townspeople.png",

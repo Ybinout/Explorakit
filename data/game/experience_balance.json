@@ -4,7 +4,6 @@
   "overlevelPenalty": { "graceLevels": 5, "graceRatio": 0.1, "scale": 10, "minimum": 0.1 },
   "chapterPath": [
     "start", "route1", "route2", "ville1", "route3", "cave1", "cave2", "route4",
-    "gen_route8", "gen_ville5", "gen_route7", "gen_ville4", "gen_route6", "gen_route5",
-    "gen_ville3", "gen_route4", "gen_ville2", "gen_route3", "gen_route2", "gen_ville1", "gen_route1"
+    "gen_route8", "gen_ville5", "gen_route7", "gen_route6"
   ]
 }

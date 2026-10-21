@@ -2,7 +2,7 @@ const itemsCatalog = require('../../../data/game/items.json');
 
 const SHOP_MAPS = new Set([
     'ville1_shop', 'ville_safe1_shop',
-    'gen_shop1',
+    'gen_shop1', 'gen_shop_route10',
     'gen_shop_ville2_1',
     'gen_shop_ville5_1'
 ]);

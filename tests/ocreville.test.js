@@ -8,7 +8,7 @@ test('Route 8 and Ocreville preserve all six original author files and every TMX
  for(const name of ['gen_route8','gen_ville5']){const m=require('../data/maps/'+name+'.json'),xml=fs.readFileSync(path.join(__dirname,'../data/maps',name+'.tmx'),'utf8');for(const l of m.layers){const csv=xml.match(new RegExp('<layer[^>]*name="'+l.name+'"[^>]*>[\\s\\S]*?<data[^>]*>([\\s\\S]*?)</data>'));assert(csv,l.name);assert.deepEqual(csv[1].trim().split(/[,\s]+/).map(Number),l.data);}}
 });
 test('north/south route connections lead both ways to safe non-portal tiles',()=>{
- for(const [map,x,y,target]of [['route4',18,19,'gen_route8'],['gen_route8',18,0,'route4'],['gen_route8',23,19,'gen_ville5'],['gen_ville5',23,0,'gen_route8'],['gen_ville5',23,19,'gen_route7'],['gen_route7',27,10,'gen_ville5']]){assert(maps.changeMapData(map)[y][x]);assert.equal(safe({map,tile:[x,y]}).nextMap,target);}
+ for(const [map,x,y,target]of [['route4',18,19,'gen_route8'],['gen_route8',18,0,'route4'],['gen_route8',23,19,'gen_ville5'],['gen_ville5',23,0,'gen_route8'],['gen_ville5',23,19,'gen_route7'],['gen_route7',23,0,'gen_ville5']]){assert(maps.changeMapData(map)[y][x]);assert.equal(safe({map,tile:[x,y]}).nextMap,target);}
  for(const name of ['gen_route8','gen_ville5']){const seen=reachable(name,name==='gen_route8'?[18,1]:[23,1]);const portals=maps.changeMapData(name);portals.forEach((row,y)=>row.forEach((v,x)=>{if(v)safe({map:name,tile:[x,y]});}));for(const link of world.find(m=>m.mapName===name).mapchange){assert([...seen].some(k=>{const [x,y]=k.split(':').map(Number);return portals[y]?.[x]&&maps.getNextMap(name,x,y)?.nextMap===link.goto;}),name+' -> '+link.goto+' unreachable');}}
 });
 test('six Ocreville doors have reachable interiors and a return to the same doorstep',()=>{

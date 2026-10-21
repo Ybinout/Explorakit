@@ -1,5 +1,13 @@
 # Contexte permanent — Explorakit
 
+## Routes 9 et 10 sous Ocreville — 21 octobre 2026
+
+Les six fichiers de `pourtoi/route9*` et `route10*` remplacent à l’identique les sources historiques `gen_route7` et `gen_route6` (empreintes `docs/routes9-10-author-assets.json`), sans retouche du dessin ni des collisions ; TMX miroirs des quatorze couches. Ces identifiants restent pour les sauvegardes, les noms affichés sont Route 9 / Route 10 dans les deux langues. Parcours : Ocreville sud (21–25,19) ↔ Route 9 nord (21–25,0), Route 9 sud (4–8,19) ↔ Route 10 nord (4–8,0). Arrivées hors portails : Route 9 (23,1)/(6,18), Route 10 (6,1), Ocreville (23,18).
+
+Boutique de Route 10 : porte exacte (20,7), alias indépendant `gen_shop_route10` vers l’intérieur `gen_shop1`, entrée (13,16), retour (20,8). Vendeuse réaffectée depuis la boutique historique de compatibilité ; catalogues/Achats Aventure et expéditions disponibles, aucun nouvel inventaire partagé entre modes. Les deux guides changent de position et donnent les vrais raccords. Anciennes arrivées depuis Floraville/Route 5 ajustées aux nouvelles cases libres ; région future conservée `legacyOnly` pour les anciennes sauvegardes, sans accès depuis le parcours neuf en attendant le village de l’auteur. `chapterPath` décrit le parcours neuf jusqu’à Route 10, bornes sauvages inchangées 38–41 puis 41–43.
+
+La sortie sud de Route 10 (12–16,19) reste une case auteur sans village livré : lien avec `blockedMessage`, traité par les deux moteurs comme une information, sans téléportation ni rencontre, sans modifier les collisions. Le joueur peut repartir vers le nord. Ne pas raccorder provisoirement une ville archivée ni réactiver l’histoire après Raphael. Le futur village doit remplacer ce seul raccord en attente. Recettes : `routes9-10.test.js`, runtime Rift/Colosseum, `validateRouteExtensionsUi` dans `test:ocreville-browser` (vrais chemins sans hautes herbes, achat en boutique, sortie en attente, reconnexion, aller/retour et quatre tailles).
+
 ## Fiches détaillées depuis le PC — 21 octobre 2026
 
 Le bouton « Voir la fiche complète » de `PokemonComputer` ouvre le composant partagé `PokemonDetails` pour le compagnon de l’équipe ou de la boîte sélectionnée. `pokemonStorage.pokemonView` ajoute nature, XP/courbe, statistiques permanentes, PP et métadonnées des capacités depuis le catalogue existant ; aucun accès à un Pokémon tiers ni requête de mutation supplémentaire. L’adaptateur `computerPokemonDetails` dans le service client raccorde ce snapshot à la fiche (espèce/sprite/types/K/statistiques), sans fabriquer les stats ou réécrire les données.

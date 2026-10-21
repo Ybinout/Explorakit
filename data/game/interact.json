@@ -165,7 +165,7 @@
     "name": "route_guide_6",
     "sentences": [
       {
-        "text": "Des convois de l’Aube Obscure ont emprunté cette route. À Rochebourg, Ana a posé des questions sur leur destination.",
+        "text": "Tu es sur la Route 10. La petite boutique, au nord-est, vend de quoi préparer ton équipe. La suite au sud ouvrira avec le prochain village.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -179,7 +179,7 @@
     "name": "route_guide_7",
     "sentences": [
       {
-        "text": "Cette route relie Ocreville à Floraville. Raphael est maintenant à l’arène d’Ocreville ; Hoze le connaît et pourra te recommander à lui.",
+        "text": "Tu es sur la Route 9. Ocreville est au nord ; au sud, la Route 10 continue le chemin. Pense à préparer ton équipe avant de t’aventurer dans les hautes herbes.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -334,7 +334,7 @@
     "name": "shop_keeper_1",
     "sentences": [
       {
-        "text": "Bienvenue dans la boutique d'Ocreville. Poké Balls, Baies et objets tenus sont disponibles au comptoir.",
+        "text": "Bienvenue à la boutique de la Route 10. Poké Balls, soins, Baies et objets tenus sont disponibles au comptoir.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,

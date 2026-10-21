@@ -1130,6 +1130,10 @@ const socketHandler = (io) => {
 
             if (changemap2D[matrixY] && changemap2D[matrixY][matrixX] != 0) {
                 const nextMapData = getNextMap(currentmap, matrixX, matrixY);
+                if (nextMapData?.blockedMessage) {
+                    socket.emit('progressionNotice', { message: nextMapData.blockedMessage });
+                    return;
+                }
                 if (nextMapData) {
                     let destination = { map: nextMapData.nextMap, x: nextMapData.nextX, y: nextMapData.nextY };
                     if (currentmap === 'centre') {

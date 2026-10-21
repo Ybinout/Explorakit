@@ -1,5 +1,24 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Routes 9 et 10 sous Ocreville — 21 octobre 2026
+
+Les six fichiers de `pourtoi/route9*` et `route10*` remplacent à l’identique les sources historiques `gen_route7` et `gen_route6` (empreintes `docs/routes9-10-author-assets.json`), sans retouche du dessin ni des collisions ; TMX miroirs des quatorze couches. Ces identifiants restent pour les sauvegardes, les noms affichés sont Route 9 / Route 10 dans les deux langues. Parcours : Ocreville sud (21–25,19) ↔ Route 9 nord (21–25,0), Route 9 sud (4–8,19) ↔ Route 10 nord (4–8,0). Arrivées hors portails : Route 9 (23,1)/(6,18), Route 10 (6,1), Ocreville (23,18).
+
+Boutique de Route 10 : porte exacte (20,7), alias indépendant `gen_shop_route10` vers l’intérieur `gen_shop1`, entrée (13,16), retour (20,8). Vendeuse réaffectée depuis la boutique historique de compatibilité ; catalogues/Achats Aventure et expéditions disponibles, aucun nouvel inventaire partagé entre modes. Les deux guides changent de position et donnent les vrais raccords. Anciennes arrivées depuis Floraville/Route 5 ajustées aux nouvelles cases libres ; région future conservée `legacyOnly` pour les anciennes sauvegardes, sans accès depuis le parcours neuf en attendant le village de l’auteur. `chapterPath` décrit le parcours neuf jusqu’à Route 10, bornes sauvages inchangées 38–41 puis 41–43.
+
+La sortie sud de Route 10 (12–16,19) reste une case auteur sans village livré : lien avec `blockedMessage`, traité par les deux moteurs comme une information, sans téléportation ni rencontre, sans modifier les collisions. Le joueur peut repartir vers le nord. Ne pas raccorder provisoirement une ville archivée ni réactiver l’histoire après Raphael. Le futur village doit remplacer ce seul raccord en attente. Recettes : `routes9-10.test.js`, runtime Rift/Colosseum, `validateRouteExtensionsUi` dans `test:ocreville-browser` (vrais chemins sans hautes herbes, achat en boutique, sortie en attente, reconnexion, aller/retour et quatre tailles).
+
+
+Validation : `verify:release -- --mysql` à 0 avec **551 tests applicatifs + 51 SQL**, audits, HTTP/reprise, lint et build. Quatre tests supplémentaires contrôlent les empreintes/TMX, la traversée des deux routes, les sorties, les habitants, le magasin et le passage différé dans les deux modes d’expédition. Les 52 tests ciblés cartes/runtime/contenu repassent après le placement du guide sur le chemin. JSON auteur CRLF conservés volontairement ; `git diff --check` avec `cr-at-eol` valide le reste.
+
+`test:ocreville-browser` termine à 0 : traversée réelle aller/retour des deux routes sans traverser murs/portes/herbes, achat de Poké Ball et quantités/argent réels, sortie sud informative sans téléportation, reconnexion et retour à Ocreville, en Aventure et Colosseum ; six anciennes portes/Centre/Raphael préservés, quatre tailles, aucune erreur navigateur. Une fixture sans argent et une assertion de position avant la fin de l’interpolation ont été corrigées dans la recette ; aucune règle économique ou durée de déplacement modifiée. Captures des deux routes sur mobile inspectées ; guide de Route 10 replacé sur le chemin hors feuillage.
+
+Publication le **21/10/2026 à 9 h 42 (Paris)** : build `/tmp/explorakit-routes910-dist`, hash `7f3d85c2a58095a7`, client `f240af1bbdcdddad6a0ee24133f0234cde1ce595`. Sauvegarde sources/dist/SQL/checkpoint `/home/ubuntu/dev/backups/explorakit-routes910-2026-10-21T07-39-13-778Z`, aucun changement de schéma. Seul Explorakit redémarré ; zéro expédition active juste avant, service actif et zéro redémarrage automatique. Les anciens bundles sont conservés pour les clients déjà ouverts.
+
+
+Contrôle HTTPS final terminé à 0 sur un compte temporaire : vrais déplacements sur les deux nouvelles routes, achat sauvegardé en boutique, passage sud différé et retour possible, reconnexion et retour à Ocreville, six portes et Centre, Raphael refusé avant Hoze puis accessible, quatre tailles, images chargées et aucune erreur. Index public conforme au build ; Know et api-test inchangés (statut et empreinte). Compte/équipe/stock de recette supprimés ; aucune sauvegarde existante modifiée. Logs/captures `/tmp/explorakit-routes910-*`. Actualiser le jeu pour charger les nouveaux décors ; aucune validation sur téléphone physique ni CI distante revendiquée.
+
+
 ## Fiche complète des Pokémon du PC — 21 octobre 2026
 
 « Voir la fiche complète » ouvre la fiche partagée depuis la sélection d’un Pokémon en boîte ou dans l’équipe. Le serveur ajoute au snapshot privé les statistiques permanentes, nature réelle, expérience/courbe de progression et capacités détaillées, avec PP actuels/maximaux (y compris 0), type, classe, puissance et précision provenant du catalogue serveur. Les IV/EV/K/talent/objet existants restent présents. L’adaptateur client raccorde ces champs au modèle de la fiche sans modifier le Pokémon ou son emplacement ; aucun nouveau RPC ni migration SQL.
@@ -1678,6 +1697,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **21 octobre 2026 — Routes 9 et 10 :** sources auteur exactes, Ocreville → Route 9 → Route 10, boutique utilisable, ancienne région conservée pour les sauvegardes et sortie suivante en attente du nouveau village.
 
 - **21 octobre 2026 — Fiches depuis le PC :** fiche commune consultable pour équipe/boîtes, statistiques/IV/EV/nature/XP/capacités et PP réels, navigation et retour sans perte de contexte, lecture seule et contrôle du focus.
 

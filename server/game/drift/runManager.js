@@ -367,7 +367,9 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         report.increment(p,'steps');
         for(const other of p.run.players.values()) if(other.alive&&other.currentmap===p.currentmap) emit(other,'playerMoved',{id:p.socketId,player:toPublicPlayer({...p,id:p.socketId})});
         if(changeMapData(p.currentmap)[ty]?.[tx]) {
-            const next=getNextMap(p.currentmap,tx,ty);if(next){
+            const next=getNextMap(p.currentmap,tx,ty);
+            if(next?.blockedMessage){emit(p,'progressionNotice',{message:next.blockedMessage});return;}
+            if(next){
                 let destination={map:next.nextMap,x:next.nextX,y:next.nextY};
                 if(p.currentmap==='centre')destination=getPokemonCenterExit(p.centerReturnPoint);
                 else if(destination.map==='centre')p.centerReturnPoint=getPokemonCenterEntryReturn(p.currentmap,tx,ty,previous);

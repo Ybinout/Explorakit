@@ -149,6 +149,7 @@ function getNextMap(currentMap, posX, posY) {
                     // Si valX est défini et correspond à posX
                     return {
                         nextMap: change.goto,
+                        ...(change.blockedMessage ? { blockedMessage: change.blockedMessage } : {}),
                         nextX: Number.isFinite(change.nexX) ? change.nexX + 16 : posX * 32 + 16,
                         nextY: Number.isFinite(change.nexY) ? change.nexY - 16 : posY * 32 + 16
                     };

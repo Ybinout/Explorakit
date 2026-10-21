@@ -355,7 +355,7 @@ test('Soigneur nomade partage le soin effectif par Symbiose avant de libérer le
 
 test('Rift uses the new Ocreville doors, Center provenance and safe restored positions',()=>{
  const f=fixture(),p=f.run.players.get(1),set=(map,x,y)=>Object.assign(p,{currentmap:map,x:x*32+16,y:y*32+16,lastMove:0});
- for(const [map,x,y,action,target]of [['route4',18,18,'move_s','gen_route8'],['gen_route8',18,1,'move_z','route4'],['gen_route8',23,18,'move_s','gen_ville5'],['gen_ville5',23,1,'move_z','gen_route8'],['gen_ville5',23,18,'move_s','gen_route7'],['gen_route7',26,10,'move_d','gen_ville5']]){set(map,x,y);f.runtime.move(p,action);assert.equal(p.currentmap,target);}
+ for(const [map,x,y,action,target]of [['route4',18,18,'move_s','gen_route8'],['gen_route8',18,1,'move_z','route4'],['gen_route8',23,18,'move_s','gen_ville5'],['gen_ville5',23,1,'move_z','gen_route8'],['gen_ville5',23,18,'move_s','gen_route7'],['gen_route7',23,1,'move_z','gen_ville5']]){set(map,x,y);f.runtime.move(p,action);assert.equal(p.currentmap,target);}
  for(const [x,y,target]of [[4,4,'gen_maison_ville5_1'],[12,4,'gen_maison_ville5_2'],[16,17,'gen_maison_ville5_3'],[5,12,'gen_arene5'],[23,13,'gen_shop_ville5_1'],[17,7,'centre']]){set('gen_ville5',x,y+1);f.runtime.move(p,'move_z');assert.equal(p.currentmap,target);p.lastMove=0;f.runtime.move(p,'move_s');assert.equal(p.currentmap,'gen_ville5');assert.deepEqual([p.x,p.y],[x*32+16,(y+1)*32+16]);}
  for(const map of ['gen_route8','gen_ville5']){set(map,0,0);f.runtime.enter(f.users[0],f.sockets[0]);const repo=require('../server/game/world/mapRepository'),x=Math.floor(p.x/32),y=Math.floor(p.y/32);assert.equal(repo.loadCollisionData(map)[y][x],0);assert.equal(repo.changeMapData(map)[y][x],0);}
 });
@@ -383,4 +383,14 @@ test('Repousse filtre une vraie rencontre Rift sur le dernier pas, le pas suivan
  assert(pair);Object.assign(p,{currentmap:map,x:pair.x*32+16,y:pair.y*32+16,lastMove:0,repelSteps:1});p.equipe.pokemons[0].level=100;
  f.runtime.move(p,'move_d');assert.equal(p.repelSteps,0);assert(!p.inbattle);
  p.lastMove=0;f.runtime.move(p,'move_q');assert(p.inbattle);assert(f.messages.some(m=>m.event==='battletrigger'));
+});
+
+test('Rift and Colosseum traverse Routes 9/10 and the shop; unfinished south exits never teleport',()=>{
+ for(const mode of ['rift','colosseum']){
+  const f=fixture(),p=f.run.players.get(1);f.run.mode=mode;
+  const set=(map,x,y)=>Object.assign(p,{currentmap:map,x:x*32+16,y:y*32+16,lastMove:0});
+  for(const [map,x,y,action,target,xy]of [['gen_ville5',23,18,'move_s','gen_route7',[23,1]],['gen_route7',6,18,'move_s','gen_route6',[6,1]],['gen_route6',6,1,'move_z','gen_route7',[6,18]],['gen_route7',23,1,'move_z','gen_ville5',[23,18]],['gen_route6',20,8,'move_z','gen_shop_route10',[13,16]],['gen_shop_route10',13,16,'move_s','gen_route6',[20,8]]]){set(map,x,y);f.runtime.move(p,action);assert.equal(p.currentmap,target);assert.deepEqual([Math.floor(p.x/32),Math.floor(p.y/32)],xy);}
+  set('gen_route6',14,18);f.runtime.move(p,'move_s');assert.equal(p.currentmap,'gen_route6');assert.equal(p.y,19*32+16);assert(f.messages.some(m=>m.event==='progressionNotice'&&/prochain village/.test(m.payload.message)));p.lastMove=0;f.runtime.move(p,'move_s');assert.equal(p.y,19*32+16);p.lastMove=0;f.runtime.move(p,'move_z');assert.equal(p.y,18*32+16);
+  const {decode,encode}=require('../server/game/drift/checkpointCodec'),restored=decode(encode(f.run));assert.equal(restored.players.get(1).currentmap,'gen_route6');
+ }
 });

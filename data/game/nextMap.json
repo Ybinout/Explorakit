@@ -191,7 +191,8 @@
       "level": {
         "min": 10,
         "max": 13
-      }
+      },
+      "legacyOnly": true
     },
     {
       "mapName": "route1",
@@ -564,7 +565,8 @@
       "level": {
         "min": 52,
         "max": 55
-      }
+      },
+      "legacyOnly": true
     },
     {
       "mapName": "gen_ville1",
@@ -609,7 +611,8 @@
           "nexX": 416,
           "nexY": 544
         }
-      ]
+      ],
+      "legacyOnly": true
     },
     {
       "mapName": "gen_route2",
@@ -646,7 +649,8 @@
       "level": {
         "min": 50,
         "max": 52
-      }
+      },
+      "legacyOnly": true
     },
     {
       "mapName": "gen_route3",
@@ -683,7 +687,8 @@
       "level": {
         "min": 48,
         "max": 50
-      }
+      },
+      "legacyOnly": true
     },
     {
       "mapName": "gen_ville2",
@@ -735,7 +740,8 @@
           "nexX": 416,
           "nexY": 544
         }
-      ]
+      ],
+      "legacyOnly": true
     },
     {
       "mapName": "gen_route4",
@@ -772,7 +778,8 @@
       "level": {
         "min": 46,
         "max": 47
-      }
+      },
+      "legacyOnly": true
     },
     {
       "mapName": "gen_ville3",
@@ -817,7 +824,8 @@
           "nexX": 416,
           "nexY": 544
         }
-      ]
+      ],
+      "legacyOnly": true
     },
     {
       "mapName": "gen_route5",
@@ -833,8 +841,8 @@
           "valX": 27,
           "valY": null,
           "goto": "gen_route6",
-          "nexX": 32,
-          "nexY": 352
+          "nexX": 192,
+          "nexY": 64
         }
       ],
       "wildpokemon": [
@@ -854,24 +862,33 @@
       "level": {
         "min": 43,
         "max": 45
-      }
+      },
+      "legacyOnly": true
     },
     {
       "mapName": "gen_route6",
       "mapchange": [
         {
-          "valX": 0,
-          "valY": null,
-          "goto": "gen_route5",
-          "nexX": 832,
-          "nexY": 352
+          "valX": null,
+          "valY": 0,
+          "goto": "gen_route7",
+          "nexX": 192,
+          "nexY": 608
         },
         {
-          "valX": 27,
-          "valY": null,
-          "goto": "gen_ville4",
-          "nexX": 32,
-          "nexY": 384
+          "valX": 20,
+          "valY": 7,
+          "goto": "gen_shop_route10",
+          "nexX": 416,
+          "nexY": 544
+        },
+        {
+          "valX": null,
+          "valY": 19,
+          "goto": "gen_route6",
+          "nexX": 448,
+          "nexY": 608,
+          "blockedMessage": "La suite de la route sera accessible avec le prochain village. Tu peux continuer à explorer les Routes 9 et 10."
         }
       ],
       "wildpokemon": [
@@ -905,15 +922,15 @@
           "valX": 0,
           "valY": null,
           "goto": "gen_route6",
-          "nexX": 832,
-          "nexY": 352
+          "nexX": 448,
+          "nexY": 608
         },
         {
           "valX": 27,
           "valY": null,
           "goto": "gen_route7",
-          "nexX": 32,
-          "nexY": 352
+          "nexX": 736,
+          "nexY": 64
         },
         {
           "valX": 5,
@@ -936,24 +953,25 @@
           "nexX": 416,
           "nexY": 544
         }
-      ]
+      ],
+      "legacyOnly": true
     },
     {
       "mapName": "gen_route7",
       "mapchange": [
         {
-          "valX": 0,
-          "valY": null,
-          "goto": "gen_ville4",
-          "nexX": 832,
-          "nexY": 384
-        },
-        {
-          "valX": 27,
-          "valY": null,
+          "valX": null,
+          "valY": 0,
           "goto": "gen_ville5",
           "nexX": 736,
           "nexY": 608
+        },
+        {
+          "valX": null,
+          "valY": 19,
+          "goto": "gen_route6",
+          "nexX": 192,
+          "nexY": 64
         }
       ],
       "wildpokemon": [
@@ -994,8 +1012,8 @@
           "valX": null,
           "valY": 19,
           "goto": "gen_route7",
-          "nexX": 832,
-          "nexY": 352
+          "nexX": 736,
+          "nexY": 64
         },
         {
           "valX": 5,
@@ -1093,7 +1111,8 @@
       "level": {
         "min": 50,
         "max": 52
-      }
+      },
+      "legacyOnly": true
     },
     {
       "mapName": "gen_arene2",
@@ -1110,7 +1129,8 @@
       "level": {
         "min": 46,
         "max": 47
-      }
+      },
+      "legacyOnly": true
     },
     {
       "mapName": "gen_arene3",
@@ -1127,7 +1147,8 @@
       "level": {
         "min": 43,
         "max": 45
-      }
+      },
+      "legacyOnly": true
     },
     {
       "mapName": "gen_arene4",
@@ -1144,7 +1165,8 @@
       "level": {
         "min": 38,
         "max": 41
-      }
+      },
+      "legacyOnly": true
     },
     {
       "mapName": "gen_arene5",
@@ -1178,7 +1200,8 @@
       "level": {
         "min": 50,
         "max": 52
-      }
+      },
+      "legacyOnly": true
     },
     {
       "mapName": "gen_maison_ville1_2",
@@ -1195,7 +1218,8 @@
       "level": {
         "min": 50,
         "max": 52
-      }
+      },
+      "legacyOnly": true
     },
     {
       "mapName": "gen_maison_ville2_1",
@@ -1212,7 +1236,8 @@
       "level": {
         "min": 46,
         "max": 47
-      }
+      },
+      "legacyOnly": true
     },
     {
       "mapName": "gen_maison2",
@@ -1229,7 +1254,8 @@
       "level": {
         "min": 46,
         "max": 47
-      }
+      },
+      "legacyOnly": true
     },
     {
       "mapName": "gen_shop_ville2_1",
@@ -1246,7 +1272,8 @@
       "level": {
         "min": 46,
         "max": 47
-      }
+      },
+      "legacyOnly": true
     },
     {
       "mapName": "gen_maison_ville3_1",
@@ -1263,7 +1290,8 @@
       "level": {
         "min": 43,
         "max": 45
-      }
+      },
+      "legacyOnly": true
     },
     {
       "mapName": "gen_maison3",
@@ -1280,7 +1308,8 @@
       "level": {
         "min": 43,
         "max": 45
-      }
+      },
+      "legacyOnly": true
     },
     {
       "mapName": "gen_maison_ville4_1",
@@ -1297,7 +1326,8 @@
       "level": {
         "min": 38,
         "max": 41
-      }
+      },
+      "legacyOnly": true
     },
     {
       "mapName": "gen_maison_ville4_2",
@@ -1314,7 +1344,8 @@
       "level": {
         "min": 38,
         "max": 41
-      }
+      },
+      "legacyOnly": true
     },
     {
       "mapName": "gen_maison_ville5_1",
@@ -1562,6 +1593,23 @@
         "min": 35,
         "max": 37
       }
+    },
+    {
+      "mapName": "gen_shop_route10",
+      "wildpokemon": [],
+      "level": {
+        "min": 41,
+        "max": 43
+      },
+      "mapchange": [
+        {
+          "valX": null,
+          "valY": 17,
+          "goto": "gen_route6",
+          "nexX": 640,
+          "nexY": 288
+        }
+      ]
     }
   ]
 }
