@@ -60,13 +60,14 @@
           "level": 17,
           "abilities": [
             "Karate Chop",
-            "Leer",
-            "Rock Tomb"
+            "Rock Tomb",
+            "Knock Off",
+            "Bulk Up"
           ],
           "passiveAbility": "Guts",
           "heldItem": null,
           "k": 1,
-          "nature": "Hardy",
+          "nature": "Adamant",
           "givenIv": {
             "hp": 18,
             "attack": 18,
@@ -77,18 +78,19 @@
           }
         },
         {
-          "pokemonId": 95,
-          "name": "Onix",
+          "pokemonId": 208,
+          "name": "Steelix",
           "level": 18,
           "abilities": [
-            "Rock Throw",
-            "Bind",
-            "Screech"
+            "Iron Head",
+            "Bulldoze",
+            "Rock Slide",
+            "Crunch"
           ],
-          "passiveAbility": "Rock Head",
+          "passiveAbility": "Sturdy",
           "heldItem": null,
           "k": 1,
-          "nature": "Hardy",
+          "nature": "Impish",
           "givenIv": {
             "hp": 18,
             "attack": 18,
@@ -99,29 +101,42 @@
           }
         },
         {
-          "pokemonId": 8,
-          "name": "Carabaffe",
-          "level": 19,
+          "pokemonId": 351,
+          "name": "Morphéo",
+          "level": 20,
           "abilities": [
-            "Water Gun",
-            "Bite",
-            "Withdraw",
-            "Rapid Spin"
+            "Weather Ball",
+            "Thunder",
+            "Ice Beam",
+            "Rain Dance"
           ],
-          "passiveAbility": "Torrent",
-          "heldItem": "oran_berry",
-          "k": 2,
-          "nature": "Hardy",
+          "passiveAbility": "Forecast",
+          "heldItem": "sitrus_berry",
+          "k": 4,
+          "nature": "Modest",
           "givenIv": {
-            "hp": 18,
-            "attack": 18,
-            "defense": 18,
-            "specialAttack": 18,
-            "specialDefense": 18,
-            "speed": 18
+            "hp": 31,
+            "attack": 31,
+            "defense": 31,
+            "specialAttack": 31,
+            "specialDefense": 31,
+            "speed": 31
+          },
+          "ev": {
+            "hp": 4,
+            "specialAttack": 252,
+            "speed": 252
           }
         }
-      ]
+      ],
+      "strategy": {
+        "name": "Mounir",
+        "ai": "expert",
+        "acePokemonId": 351,
+        "entryLines": {
+          "351": "Tu as tenu jusque-là… Morphéo, à toi ! Sous cette pluie, montre-lui de quoi tu es capable !"
+        }
+      }
     },
     {
       "name": "champion_sylve",

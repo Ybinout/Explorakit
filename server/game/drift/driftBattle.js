@@ -13,6 +13,7 @@ const { effortYield, grantEffort } = require('../models/training');
 const economy = require('./economy');
 const report = require('./runReport');
 const colosseumAI = require('./colosseumAI');
+const trainerTactics = require('../battle/trainerTactics');
 const { wildMoneyReward } = require('../battle/wildReward');
 
 class DriftBattle {
@@ -31,7 +32,8 @@ class DriftBattle {
             .map(p => [p, createBattleSummaryTracker(p.equipe.pokemons, 'drift')]));
         for (const [index, p] of [a,b].entries()) {
             if (!p.npc) report.battleStarted(p,this);
-            autoSwitchPokemon(p.equipe);
+            if (p.npc) switchPokemonByIndex(p.equipe,trainerTactics.replacementIndex(p.equipe));
+            else autoSwitchPokemon(p.equipe);
             require('../abilities/abilityForms').attachTeam(p.equipe.pokemons);
             p.inbattle = true; p.battle = this;
             effects.attach(p.equipe.pokemons, p, type === 'pvp', random);
@@ -68,8 +70,10 @@ class DriftBattle {
     }
     musicKind() { return this.a.run?.mode==='colosseum' && this.npcKey?.startsWith('colosseum_') ? 'colosseum' : this.type; }
     sync() {
+        require('../abilities/abilityForms').syncWeatherForms(this.active(0),this.active(1),this.state);
         for (const [index,p] of [this.a,this.b].entries()) if (!p.npc) {
-            this.emit(p, 'introAnimation', { moveTypes:engine.battleMoveTypes(this.active(index),this.active(1-index),this.state), effortYield:this.type==='pvp'?null:effortYield(this.active(1-index)), musicKind:this.musicKind(), transitions:presentation.transitions(p,this.active(index),this.active(1-index)), player: { id: p.socketId, userId: p.userId, equipe: p.equipe }, wildPokemon: this.active(1-index) || null, battleType: this.type === 'arena' ? 'trainer' : this.type, usableMoveIndexes: getUsableMoveIndexes(this.active(index), this.state) });
+            const transitions = presentation.transitions(p,this.active(index),this.active(1-index),{initial:this.type!=='wild'});
+            this.emit(p, 'introAnimation', { moveTypes:engine.battleMoveTypes(this.active(index),this.active(1-index),this.state), effortYield:this.type==='pvp'?null:effortYield(this.active(1-index)), musicKind:this.musicKind(), transitions:index===0&&this.b.npc?trainerTactics.decorateTransitions(transitions,this.b.equipe,this.aiMemory):transitions, player: { id: p.socketId, userId: p.userId, equipe: p.equipe }, wildPokemon: this.active(1-index) || null, battleType: this.type === 'arena' ? 'trainer' : this.type, usableMoveIndexes: getUsableMoveIndexes(this.active(index), this.state) });
             this.emit(p, 'battleFieldState', serializeFieldState(this.state));
             this.emit(p, 'bagUpdated', { items: economy.bag(p) });
         }
@@ -83,6 +87,10 @@ class DriftBattle {
     }
     defaultAction(p) {
         if (this.replacementPhase && this.replacementPlayers?.has(p)) return {action:'change',number:replacementIndexes(p.equipe)[0]};
+        if (p === this.b && p.npc) {
+            const decision = trainerTactics.chooseAction(p.equipe,this.active(0),this.state,this.aiMemory,this.round);
+            if (decision) return decision;
+        }
         const wave = p === this.b && p.npc && this.type === 'arena' && this.npcKey?.startsWith('colosseum_')
             ? p.colosseumWave || this.a.run?.colosseum?.wave : null;
         if (wave) {
@@ -201,7 +209,7 @@ class DriftBattle {
             p.equipe.pokemons = p.equipe.pokemons.filter(poke => !effects.isDead(poke) || poke.riftFainted || (needsChoice && poke===old));
             if (p === this.b && this.type !== 'pvp') for (const defeated of fainted) this.reward(defeated);
             if (this.type === 'pvp' && fainted.length) [this.a,this.b][1-index].chain = Math.min(5, ([this.a,this.b][1-index].chain || 0) + fainted.length);
-            if (p.npc) autoSwitchPokemon(p.equipe);
+            if (p.npc && effects.isDead(old)) switchPokemonByIndex(p.equipe,trainerTactics.replacementIndex(p.equipe));
             if (old !== this.active(index) && this.active(index)) this.enter(index);
         }
         if ([this.a,this.b].some(p=>p.equipe.pokemons.some(poke=>effects.isDead(poke) && !poke.riftFainted && !this.processedFaints.has(poke.uuid)))) this.prune();
@@ -289,6 +297,10 @@ class DriftBattle {
             if (this.aiMemory && this.b.npc && this.npcKey?.startsWith('colosseum_')) {
                 if (p === this.a) colosseumAI.observe(this.aiMemory,pokemon,name);
                 else colosseumAI.observe(this.aiMemory,defender,name,result);
+            }
+            if (this.b.npc) {
+                if (p === this.a) trainerTactics.observe(this.b.equipe,this.aiMemory,pokemon,name);
+                else trainerTactics.observe(this.b.equipe,this.aiMemory,defender,name,result);
             }
             this.withDriftSignals(()=>effects.afterMove(pokemon,defender,result,{ contact: Boolean(getMoveFlags(result.move).contact),
                 status:(target,status,source)=>engine.applyStatus(target,status,target===pokemon?this.sides[index]:this.sides[1-index],result.messages,{attacker:source,battleState:this.state}),

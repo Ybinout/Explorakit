@@ -836,6 +836,16 @@ function estimateDamage(attacker, defender, move, context = {}) {
         { ...structuredClone(context), preview: true }).damage;
 }
 
+function weatherMoveAccuracy(move, attacker, defender, battleState) {
+    const weather = isWeatherSuppressed(attacker, defender) ? null : battleState?.weather?.kind;
+    if (['Thunder', 'Hurricane'].includes(move?.ename)) {
+        if (weather === 'rain') return -1;
+        if (weather === 'sun') return 50;
+    }
+    if (move?.ename === 'Blizzard' && weather === 'hail') return -1;
+    return safeNumber(move?.accuracy, -1);
+}
+
 function resolveEffectTarget(effect, attacker, defender, context, move) {
     const rawTarget = effect.target || move?.combat?.target || 'single';
     const normalized = typeof rawTarget === 'string' ? rawTarget : 'single';
@@ -2780,7 +2790,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         return moveResult;
     }
 
-    const accuracy = safeNumber(move.accuracy, -1);
+    const accuracy = weatherMoveAccuracy(move, attacker, defender, battleState);
     let attackHits = true;
     let hitChance = 1;
     let perHitSecondaries = false;
@@ -3059,6 +3069,7 @@ module.exports = {
     getBattleSpeed,
     getMoveByName,
     resolveWeatherMove,
+    weatherMoveAccuracy,
     battleMoveTypes,
     getMovePriority,
     orderBattleActions,

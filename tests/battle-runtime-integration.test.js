@@ -549,3 +549,23 @@ for(const kind of ['wild','trainer','pvp'])test(`Morphéo réseau ${kind} : mét
         const saved=(await loadEquipe(userId)).pokemons[0];assert.equal(saved.data.id,351);assert.equal(saved.type1,'Normal');assert.equal(saved.passiveAbility,'Forecast');assert(!saved.__battle);
     }finally{if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
 });
+
+test('Mounir Aventure : équipe réelle sous la pluie, Morphéo réservé et transformé, une réplique à l’entrée et récompenses sauvegardées', {skip:!shouldRun}, async()=>{
+    const pool=createTestPool(); let userId;
+    try {
+        const {user,player}=await createPlayer(7); userId=user.id; player.currentmap='ville1_arene';
+        const lead=player.equipe.pokemons[0]; lead.experience=lead.getNextLevelExpForLevel(100); lead.level=100; lead.recalculateStats(); lead.currentAttack=999; lead.currentSpeed=999;
+        const team=require('../server/game/world/pnjTeamFactory').getPnjTeam('moonpunch');
+        const socket=new ScriptedSocket(Array.from({length:10},()=>({action:'attack',number:0})));
+        const io=new RecordingIo({[player.id]:socket}), snapshots=[];
+        const to=io.to.bind(io);io.to=id=>({emit:(event,payload)=>{if(event==='introAnimation')snapshots.push(JSON.parse(JSON.stringify(payload)));to(id).emit(event,payload);}});
+        await withFixedRandom(.5,()=>startTrainerBattle(player,team,io,userId,{experienceKind:'arena'}));
+        assert.equal(io.lastEvent(player.id,'endbattle').payload.playerWon,true);
+        assert.equal(io.events.find(e=>e.eventName==='battleFieldState').payload.weather.kind,'rain');
+        const entries=snapshots.flatMap(s=>s.transitions).filter(e=>e.kind==='enter'&&e.side==='opponent');
+        assert.equal(entries.at(-1).uuid,team.__trainerPlan.aceUuid);assert.equal(entries.filter(e=>e.trainerSpeech).length,1);
+        assert(snapshots.some(s=>s.wildPokemon.data.id===351&&s.wildPokemon.__battle?.formSpriteId===10014));
+        const [[row]]=await pool.execute('SELECT money FROM users WHERE id=?',[userId]);assert(Number(row.money)>0);
+        assert.equal((await loadEquipe(userId)).pokemons[0].uuid,lead.uuid);
+    } finally {if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
+});

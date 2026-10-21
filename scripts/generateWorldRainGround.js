@@ -2,8 +2,9 @@
 // This reads maps only; it never rewrites their Tiled data or artwork.
 const fs = require('node:fs'), path = require('node:path');
 const root = path.resolve(__dirname, '..'), masks = {};
-for (const name of ['start', 'route1', 'route2']) {
-    const map = JSON.parse(fs.readFileSync(path.join(root, 'data/maps', name + '.json'), 'utf8'));
+const aliases = require('../data/game/mapAliases.json').aliases;
+for (const name of ['start', 'route1', 'route2', 'ville1_arene']) {
+    const map = JSON.parse(fs.readFileSync(path.join(root, 'data/maps', (aliases[name] || name) + '.json'), 'utf8'));
     const collision = map.layers.find(layer => layer.name === 'coll');
     // The leaf layer is a full-map image atlas: even transparent cells have a GID.
     // Its visible pixels occlude impacts naturally in the later foreground pass.

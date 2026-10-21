@@ -1,5 +1,23 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Mounir, Morphéo et envois des dresseurs — 21 octobre 2026
+
+Équipe demandée : Machoc 17 (K1/IV18, Rigide), Steelix 18 (K1/IV18, Malin/Fermeté), Morphéo 20 (K4 maximum, IV31, Modeste, EV4 PV/252 Attaque Spéciale/252 Vitesse, Baie Sitrus). Quatre capacités légales par espèce : Machoc Karaté Poing/Tombe Roche/Sabotage/Gonflette ; Steelix Tête de Fer/Piétisol/Éboulement/Mâchouille ; Morphéo Ball’Météo/Fatal-Foudre/Laser Glace/Danse Pluie. Le constructeur PNJ accepte désormais les EV, avec les mêmes plafonds que les joueurs ; autres équipes inchangées.
+
+Climat serveur `ville1_arene` : pluie persistante (ambiance pluie2/vent1) à l’entrée, visuelle sur les seules cases de sol et réelle en combat, commune aux trois modes. Aucun effet sur les autres arènes partageant le même décor. Capacités/talents peuvent remplacer ou neutraliser la météo normalement. Forecast synchronise la forme de Morphéo avant son premier cadre d’envoi. Fatal-Foudre/Vent Violent prennent leur précision de pluie/soleil, Blizzard de grêle, avec suppression météo prise en compte ; règle du moteur commun.
+
+Plan de dresseur réutilisable dans `pnj_teams.json` (`strategy`) : IA experte commune, observation des seules attaques révélées, réservations par UUID indépendantes des changements d’ordre, réplique par entrant. `trainerTactics` partage la politique Aventure/Rift/Colosseum ; Morphéo ne peut pas être choisi volontairement tant qu’un partenaire est apte. Une capacité qui force un changement reste autorisée. Plan non énumérable sur l’équipe et mémoire du combat conservés dans les checkpoints, sans exposer la stratégie ni les réserves aux DTO. Réplique « Mounir … Morphéo, à toi ! » liée à la vraie transition et une seule fois par combat, pas au reconnect.
+
+`BattleSendOut` anime une Poké Ball, un éclat et la matérialisation au centre du vrai sprite, sur les deux côtés et tous les dresseurs ; rappel/K.O. restent distincts. Images décodées avant matérialisation, transitions/phrase/attaques sérialisées par la file existante, annulation et mouvement réduit respectés. La phrase utilise la zone de texte existante, sans masquer les Pokémon ni déplacer les actions mobiles. Aucune migration, remise à zéro, récompense ni progression modifiée. Recettes : `mounir-tactics.test.js`, scénario SQL réel Mounir et `npm run test:mounir-browser`, plus vérifications partagées combat/météo/Morphéo.
+
+Validation : `verify:release -- --mysql` termine à 0 : **565 tests applicatifs + 52 SQL**, audits contenu/capacités/talents/équilibrage/simulation, HTTP/reprise, lint et build. Le nouveau scénario SQL bat réellement les trois Pokémon, reçoit XP/argent sauvegardés et observe une seule entrée scénarisée de Morphéo, déjà transformé. La fixture de haut niveau évolue normalement ; son identité est contrôlée par UUID. Le test de courbe admet explicitement le niveau 20 demandé pour Mounir sans élargir les autres arènes. Après le dernier contrôle de réservation indépendante des slots (as placé volontairement au milieu dans la recette), **65 tests runtime/IA/checkpoints repassent à 0**.
+
+`test:mounir-browser` passe à 0 : vraie équipe de Mounir dans le moteur d’expédition, pluie/Forecast, Poké Balls des deux côtés, Morphéo dernier, phrase, file avant l’attaque, commandes fixes aux quatre tailles, mouvement réduit et annulation. Les captures initiales ont conduit à mettre la réplique dans la zone de texte existante, à stabiliser aussi la hauteur bureau et à masquer l’annonce d’entrée redondante pendant la phrase. La dernière recette contrôle le texte sans découpe ; 320×480, 393×852, 844×390 et 1365×900, aucune erreur. Captures inspectées. `test:combat-browser` passe également : rappel/K.O./choix du remplaçant, dégâts/critique/XP avant les envois, effets Drifts, musiques, images froides/rotation/délai maximal/annulation, reconnexion/checkpoint et quatre tailles.
+
+Client publié : `3003f353fc7941eda4d2e2dc0011cc78d92962e2`, build `/tmp/explorakit-mounir-dist`, hash **`17318dc66b9fd571`**. Sauvegarde sources/dist/SQL/checkpoint `/home/ubuntu/dev/backups/explorakit-mounir-2026-10-21T09-19-03-885Z`. Aucune migration ni remise à zéro ; seul Explorakit redémarré, zéro expédition active juste avant, service actif et zéro redémarrage automatique. Les anciens bundles restent disponibles. Logs/captures `/tmp/explorakit-mounir-*` ; aucune CI distante ni recette sur téléphone physique revendiquée.
+
+Publication finale le **21/10/2026 à 11 h 33 (Paris)**. Contrôle HTTPS terminé à 0 après le dernier redémarrage : compte temporaire autorisé dans l’arène, dialogue de Mounir puis vrai combat Aventure, Machoc → Steelix → Morphéo, pluie dès l’ouverture, forme Eau avec sprite 10014 chargé, réplique émise et affichée une fois, Poké Balls et quatre tailles, fuite/résultat propre. L’index correspond au build ; Know et api-test conservent leur statut et empreinte. Aucune erreur navigateur, compte et données de recette supprimés. Captures publiques inspectées.
+
 ## Routes 11/12, Rochebrume et arènes Ana/Wanda — 21 octobre 2026
 
 Les neuf fichiers auteur `pourtoi/route11*`, `route12*`, `ville4*` sont copiés à l’identique ; empreintes `docs/rochebrume-author-assets.json`, TMX miroirs des douze couches de chaque carte, PNG/collisions/foreground préservés. Nouveau parcours vers l’ouest : Clairfontaine (0,14–18) ↔ Route 11 est (27,14–18) ; Route 11 ouest (0,4–8) ↔ Route 12 est (27,4–8) ; Route 12 ouest (0,12–16) ↔ Rochebrume est (27,12–16). Arrivées hors portails : Clairfontaine (1,16), Route 11 (26,16)/(1,6), Route 12 (26,6)/(1,14), Rochebrume (26,14). Les deux routes forcent certains passages dans les herbes, intention auteur conservée. Deux pools terrestres distincts de douze espèces, niveaux 43–45 puis 45–47 ; sprites/talents/capacités livrés et courbe existante préservée.
@@ -1750,6 +1768,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **21 octobre 2026 — Mounir et Morphéo :** équipe 17/18/20, pluie d’arène, Morphéo K4/IV31/EV optimisés réservé pour la fin, IA/phrases configurables et animation commune d’envoi de Poké Ball.
 
 - **21 octobre 2026 — Rochebrume et nouvelles arènes :** neuf sources auteur, Clairfontaine → Routes 11/12 → Rochebrume, cinq portes/Centre/boutique/PC, Ana puis Wanda réactivées avec prérequis et récompenses existants, carnet à sept jalons, archives toujours en attente.
 

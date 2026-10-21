@@ -35,7 +35,8 @@ function getPnjTeam(pnjName) {
             experience, // Niveau explicite pour le contenu ; XP historiques toujours acceptées.
             pokemonData.givenIv,
             pokemonData.nature,
-            pokemonData.k
+            pokemonData.k,
+            pokemonData.ev
         );
 
         pokemonData.abilities.forEach(ability => pokemon.addAbility(ability));
@@ -44,6 +45,7 @@ function getPnjTeam(pnjName) {
         equipe.ajouterPokemon(pokemon);
     });
 
+    require('../battle/trainerTactics').attachPlan(equipe, pnjData);
     return equipe;
 }
 

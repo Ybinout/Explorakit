@@ -19,7 +19,7 @@ test('les rencontres progressent le long du parcours réellement raccordé, du n
         const previous = byName.get(wildStages[index - 1]).level;
         const current = byName.get(wildStages[index]).level;
         assert.ok(current.min > previous.min && current.max > previous.max, wildStages[index]);
-        // Mounir (17–19) fait le pont entre la route 2 et la route 3.
+        // Mounir (17–20) fait le pont entre la route 2 et la route 3.
         const previousChallenge = wildStages[index] === 'route3'
             ? Math.max(...getPnjTeam('moonpunch').pokemons.map((pokemon) => pokemon.level)) : previous.max;
         assert.ok(current.min - previousChallenge <= 2, `${wildStages[index]} : saut brutal`);
@@ -52,7 +52,7 @@ test('les arènes prolongent les routes précédentes et possèdent leur propre 
     ]) {
         const maxWild = byName.get(road).level.max;
         const levels = getPnjTeam(team).pokemons.map((pokemon) => pokemon.level);
-        assert.ok(Math.max(...levels) > maxWild && Math.max(...levels) <= maxWild + 4, name);
+        assert.ok(Math.max(...levels) > maxWild && Math.max(...levels) <= maxWild + (name === 'moon' ? 5 : 4), name);
         assert.equal(progression.npcBattles[name].experienceKind, 'arena');
     }
     for (const [name, definition] of Object.entries(progression.npcBattles)) {
