@@ -64,20 +64,22 @@ test('l’XP distingue sauvage, dresseur et arène et favorise les défis adapt�
     const enemy = { level: 40, k: 1 };
     const sameLevel = { level: 40 };
     const wild = calculateBattleExperience(enemy, BATTLE_EXPERIENCE_MULTIPLIERS.wild, sameLevel);
-    assert.equal(wild, 1452);
-    assert.equal(calculateBattleExperience(enemy, BATTLE_EXPERIENCE_MULTIPLIERS.trainer, sameLevel), 2178);
-    assert.equal(calculateBattleExperience(enemy, BATTLE_EXPERIENCE_MULTIPLIERS.arena, sameLevel), 2904);
-    assert.ok(calculateBattleExperience(enemy, 1, { level: 30 }) > wild);
-    assert.ok(calculateBattleExperience(enemy, 1, { level: 80 }) < wild);
-    assert.equal(calculateBattleExperience(enemy, 1, { level: 1000 }), Math.round(wild * 0.25 * 0.1));
-    assert.equal(calculateBattleExperience(enemy, 1, { level: 1 }), Math.round(wild * 1.5));
+    assert.equal(wild, 2033);
+    assert.equal(calculateBattleExperience(enemy, BATTLE_EXPERIENCE_MULTIPLIERS.trainer, sameLevel), 3049);
+    assert.equal(calculateBattleExperience(enemy, BATTLE_EXPERIENCE_MULTIPLIERS.arena, sameLevel), 4066);
+    assert.equal(calculateBattleExperience(enemy, 1, sameLevel), 1452, 'la base commune aux expéditions reste inchangée');
+    assert.ok(calculateBattleExperience(enemy, BATTLE_EXPERIENCE_MULTIPLIERS.wild, { level: 30 }) > wild);
+    assert.ok(calculateBattleExperience(enemy, BATTLE_EXPERIENCE_MULTIPLIERS.wild, { level: 80 }) < wild);
+    assert.equal(calculateBattleExperience(enemy, BATTLE_EXPERIENCE_MULTIPLIERS.wild, { level: 1000 }), Math.round(wild * 0.25 * 0.1));
+    // Le calcul arrondit une seule fois, après le bonus et l'ajustement de niveau.
+    assert.equal(calculateBattleExperience(enemy, BATTLE_EXPERIENCE_MULTIPLIERS.wild, { level: 1 }), 3049);
 });
 
-test('le rythme garde environ 3 à 4 victoires sauvages par niveau standard, sans plafond', () => {
+test('l’Aventure accélérée demande environ 2 à 3 victoires sauvages par niveau standard, sans plafond', () => {
     for (const level of [10, 20, 40, 60, 100, 200]) {
         const cost = getTotalExperienceForLevel(level + 1) - getTotalExperienceForLevel(level);
-        const xp = calculateBattleExperience({ level, k: 1 }, 1, { level });
+        const xp = calculateBattleExperience({ level, k: 1 }, BATTLE_EXPERIENCE_MULTIPLIERS.wild, { level });
         const wins = cost / xp;
-        assert.ok(wins >= 2.5 && wins <= 3.4, `niveau ${level}: ${wins}`);
+        assert.ok(wins >= 1.8 && wins <= 2.45, `niveau ${level}: ${wins}`);
     }
 });

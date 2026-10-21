@@ -1,5 +1,15 @@
 # Audit technique et mémoire du projet Explorakit
 
+## XP Aventure augmentée de 40 % — 21 octobre 2026
+
+Hausse limitée au mode **Aventure** : multiplicateurs d’XP `wild` 1 →1,4, `trainer` 1,5 →2,1 et `arena` 2 →2,8 dans `data/game/experience_balance.json`. Les deux moteurs Aventure utilisent déjà ces valeurs ; le calcul de base commun reste identique. Au niveau 40, K1 et adversaire de même niveau : sauvage 1 452 →2 033, dresseur 2 178 →3 049, arène 2 904 →4 066 XP, avec un seul arrondi final. Le frein de sur-niveau et les ajustements au receveur restent actifs. L’XP accumulée/coût des niveaux n’est pas réécrit, les captures gardent leur comportement existant.
+
+**Rift et Colosseum inchangés** : `DriftBattle.reward` continue d’appeler la base commune avec ses facteurs propres 1/1,5/2, puis ses bonus/partages existants ; il ne lit pas les multiplicateurs Aventure. Ne pas transférer le bonus dans `calculateBattleExperience` ou `Pokemon.gainExperience`. Le contrôle `experience-balance.test.js` vérifie les trois gains Aventure, la base commune 1 452 conservée et le rythme accéléré (environ 2–3 victoires standard par niveau). Recettes existantes actives/réserves/checkpoints des expéditions conservées.
+
+Vérification complète réussie : `RELEASE_DIST_DIR=/tmp/explorakit-adventure-xp-dist VUE_APP_PUBLIC_PATH=/explorakit/ npm run verify:release -- --mysql`, **587 tests applicatifs et 56 tests SQL**, audits, HTTP/reprise, lint et build. Les combats sauvages/dresseurs/arènes Aventure vérifient aussi les événements d’XP, le dernier K.O., la non-duplication et la persistance. Logs `/tmp/explorakit-adventure-xp-verify.log`.
+
+Publication serveur seule le **21/10/2026 à 18 h 12 (Paris)**, PID 1075140 actif, zéro redémarrage automatique et 0 expédition active au contrôle. Sauvegarde sources/dist/SQL/checkpoint `/home/ubuntu/dev/backups/explorakit-adventure-xp-2026-10-21T16-09-20-311Z`, checkpoint relu avant redémarrage ; seule unité Explorakit redémarrée, sans migration ni remise à zéro. Client/index conservés, HTTPS 200, Know/api-test inchangés ; client/gitlink toujours `8c5c68683ee3bae658ebd3c4cb630bddbec9313d`.
+
 ## Rencontres sauvages réduites de 20 % — 21 octobre 2026
 
 Probabilité commune `WILD_ENCOUNTER_CHANCE = (1 /15) ×0,8` dans `server/game/world/encounterRate.js` : **6,6667 % →5,3333 % par pas éligible**, soit 20 % de rencontres en moins en moyenne. L’Aventure et le moteur d’exploration Rift/Colosseum importent la même valeur. Conditions de terrain, déplacements acceptés, portails, Repousse, espèces/niveaux, taux de capture et combats de dresseurs inchangés ; aucun fichier auteur ni sauvegarde modifié.
@@ -1844,6 +1854,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **21 octobre 2026 — XP Aventure :** +40 % sur les K.O. sauvages/dresseurs/arènes par les multiplicateurs propres à l’Aventure ; base commune, Rift/Colosseum et partages conservés, vérification SQL complète et publication serveur.
 
 - **21 octobre 2026 — Rencontres sauvages :** probabilité par pas réduite de 20 % dans les trois modes, valeur serveur commune 5,3333 %, Repousse/terrains et autres règles préservés ; tests et publication serveur validés.
 

@@ -1,5 +1,9 @@
 # Contexte permanent — Explorakit
 
+## XP Aventure +40 % — 21 octobre 2026
+
+`experience_balance.json.multipliers` vaut désormais sauvage 1,4 /dresseur 2,1 /arène 2,8 : ces valeurs sont utilisées uniquement par les orchestrateurs Aventure. `calculateBattleExperience` conserve sa base, pénalités de sur-niveau et coût des niveaux ; Rift/Colosseum gardent leurs facteurs et partages propres dans `DriftBattle.reward`. Ne pas placer ce bonus dans le calcul commun ou `gainExperience`. Tests de gains Aventure et base commune inchangée, suites réserves/checkpoints et vérification complète SQL/lint/build réussies ; publication serveur seule, aucun frontend ni sauvegarde réécrit.
+
 ## Fréquence des rencontres — 21 octobre 2026
 
 `server/game/world/encounterRate.js` fournit `WILD_ENCOUNTER_CHANCE = (1 /15) *0.8`, soit 5,3333 % par pas éligible au lieu de 6,6667 %. Valeur partagée par Aventure (`socketHandler`) et exploration Rift/Colosseum (`runManager`), sans changer Repousse/portails/terrains/espèces/niveaux/capture. Ne pas réintroduire un tirage indépendant `1/15` dans un mode. Contrôle de vrais pas/tirages 0,05 et 0,06 dans `drift-runtime.test.js` ; vérification complète SQL/lint/build passée, publication serveur seule, aucun asset ni donnée de joueur modifié.
