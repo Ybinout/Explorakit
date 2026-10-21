@@ -570,6 +570,42 @@ test('Mounir Aventure : équipe réelle sous la pluie, Morphéo réservé et tra
     } finally {if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
 });
 
+for (const kind of ['wild','trainer']) test(`Multi Exp Aventure ${kind} : combattant entier, réserves à moitié, K.O. exclu, événements et gains sauvegardés`, {skip:!shouldRun}, async()=>{
+    const pool=createTestPool();let userId;
+    try {
+        const {user,player}=await createPlayer(7);userId=user.id;
+        const lead=createPokemon(7,'Actif'),reserve=createPokemon(4,'Réserve'),dead=createPokemon(25,'K.O.');dead.currentHp=0;
+        lead.currentAttack=999;lead.currentSpeed=999;player.equipe=createTeam(lead,reserve,dead);
+        await pool.execute("INSERT INTO user_items(user_id,item_key,quantity) VALUES(?,'exp_share',1)",[userId]);
+        const foe=createPokemon(19,'Cible');foe.currentHp=1;foe.passiveAbility=null;
+        const {calculateBattleExperience:xp,BATTLE_EXPERIENCE_MULTIPLIERS:rates}=require('../server/game/models/progression');
+        const baseline=[lead,reserve,dead].map(p=>p.experience),full=xp(foe,rates[kind],lead),half=Math.floor(xp(foe,rates[kind],reserve)/2);
+        const io=new RecordingIo({[player.id]:new ScriptedSocket([{action:'attack',number:0}])});
+        await withFixedRandom(.5,()=>kind==='wild'?startWildBattle(player,foe,io,userId):startTrainerBattle(player,createTeam(foe),io,userId));
+        const saved=(await loadEquipe(userId)).pokemons,byId=id=>saved.find(p=>p.uuid===id);
+        assert.equal(byId(lead.uuid).experience,baseline[0]+full);assert.equal(byId(reserve.uuid).experience,baseline[1]+half);assert.equal(byId(dead.uuid).experience,baseline[2]);
+        const awards=io.events.filter(e=>e.eventName==='battleExperience');assert.equal(awards.length,2);
+        const summary=io.lastEvent(player.id,'endbattle').payload.summary;assert.equal(summary.experience.length,2);
+    }finally{if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
+});
+
+for (const outcome of ['victory','flee','loss']) test(`Butin sauvage Aventure : ${outcome}, vrai combat et tirage contrôlé sans récompense de fuite/défaite`, {skip:!shouldRun}, async()=>{
+    const pool=createTestPool();let userId;
+    try {
+        const {user,player}=await createPlayer(7);userId=user.id;
+        const foe=createPokemon(19,'Cible');foe.currentHp=1;foe.passiveAbility=null;
+        const lead=player.equipe.pokemons[0];lead.currentAttack=999;lead.currentSpeed=999;
+        if(outcome==='loss'){lead.currentHp=1;lead.currentAttack=1;lead.currentSpeed=1;foe.currentHp=foe.maxHp=10000;foe.currentAttack=999;foe.currentSpeed=999;}
+        const [[before]]=await pool.execute("SELECT quantity FROM user_items WHERE user_id=? AND item_key='oran_berry'",[userId]);
+        const io=new RecordingIo({[player.id]:new ScriptedSocket([{action:outcome==='flee'?'flee':'attack',number:0}])});
+        await withFixedRandom(0,()=>startWildBattle(player,foe,io,userId));
+        const summary=io.lastEvent(player.id,'endbattle').payload.summary;
+        assert.deepEqual(summary.loot,outcome==='victory'?['Baie Oran']:[]);
+        const [[after]]=await pool.execute("SELECT quantity FROM user_items WHERE user_id=? AND item_key='oran_berry'",[userId]);assert.equal(after.quantity,before.quantity+(outcome==='victory'?1:0));
+        assert.equal(io.events.some(e=>e.eventName==='battleText'&&e.payload.message.includes('Objet trouvé')),outcome==='victory');
+    }finally{if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
+});
+
 test('Hoze Aventure : quatre partenaires réels, as K4 en dernier, réplique unique et gains persistés', {skip:!shouldRun}, async()=>{
     const pool=createTestPool(); let userId;
     try {

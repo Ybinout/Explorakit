@@ -37,6 +37,10 @@
       "description": "Tenue, elle restaure 10 PV sous la moitié des PV. Peut aussi être consommée depuis le sac hors combat.",
       "fieldUse": {
         "heal": 10
+      },
+      "wildLoot": {
+        "group": "berries",
+        "weight": 24
       }
     },
     {
@@ -52,6 +56,10 @@
       "description": "Tenue, elle restaure un quart des PV sous la moitié des PV. Peut aussi être consommée depuis le sac hors combat.",
       "fieldUse": {
         "healFraction": 0.25
+      },
+      "wildLoot": {
+        "group": "berries",
+        "weight": 12
       }
     },
     {
@@ -72,6 +80,10 @@
           "sleep",
           "freeze"
         ]
+      },
+      "wildLoot": {
+        "group": "berries",
+        "weight": 4
       }
     },
     {
@@ -82,7 +94,13 @@
       "battle_effect": "end_turn_heal",
       "fraction": 0.0625,
       "fling_power": 10,
-      "description": "Tenus, ils restaurent un seizième des PV à chaque tour."
+      "description": "Tenus, ils restaurent un seizième des PV à chaque tour.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      }
     },
     {
       "key": "repel",
@@ -162,7 +180,13 @@
       "buy_price": 2500,
       "battle_effect": "life_orb",
       "riftOnly": true,
-      "description": "Augmente les dégâts de 30 %, mais coûte 10 % des PV max après une attaque qui inflige des dégâts."
+      "description": "Augmente les dégâts de 30 %, mais coûte 10 % des PV max après une attaque qui inflige des dégâts.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      }
     },
     {
       "key": "choice_band",
@@ -171,7 +195,13 @@
       "buy_price": 2200,
       "battle_effect": "choice_attack",
       "riftOnly": true,
-      "description": "Attaque ×1,5 ; bloque sur la première capacité utilisée jusqu’au changement de Pokémon."
+      "description": "Attaque ×1,5 ; bloque sur la première capacité utilisée jusqu’au changement de Pokémon.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      }
     },
     {
       "key": "choice_specs",
@@ -180,7 +210,13 @@
       "buy_price": 2200,
       "battle_effect": "choice_specialAttack",
       "riftOnly": true,
-      "description": "Attaque spéciale ×1,5 ; bloque sur la première capacité utilisée jusqu’au changement de Pokémon."
+      "description": "Attaque spéciale ×1,5 ; bloque sur la première capacité utilisée jusqu’au changement de Pokémon.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      }
     },
     {
       "key": "choice_scarf",
@@ -189,7 +225,13 @@
       "buy_price": 2200,
       "battle_effect": "choice_speed",
       "riftOnly": true,
-      "description": "Vitesse ×1,5 ; bloque sur la première capacité utilisée jusqu’au changement de Pokémon."
+      "description": "Vitesse ×1,5 ; bloque sur la première capacité utilisée jusqu’au changement de Pokémon.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      }
     },
     {
       "key": "focus_sash",
@@ -198,7 +240,13 @@
       "buy_price": 1500,
       "battle_effect": "focus_sash",
       "riftOnly": true,
-      "description": "À pleine vie, survit à une attaque fatale avec 1 PV. Consommée après activation."
+      "description": "À pleine vie, survit à une attaque fatale avec 1 PV. Consommée après activation.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      }
     },
     {
       "key": "assault_vest",
@@ -207,7 +255,13 @@
       "buy_price": 2000,
       "battle_effect": "assault_vest",
       "riftOnly": true,
-      "description": "Défense spéciale ×1,5, mais interdit les capacités de statut."
+      "description": "Défense spéciale ×1,5, mais interdit les capacités de statut.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      }
     },
     {
       "key": "eviolite",
@@ -216,7 +270,13 @@
       "buy_price": 2000,
       "battle_effect": "eviolite",
       "riftOnly": true,
-      "description": "Défense et Défense spéciale ×1,5 tant que le Pokémon peut encore évoluer."
+      "description": "Défense et Défense spéciale ×1,5 tant que le Pokémon peut encore évoluer.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      }
     },
     {
       "key": "expert_belt",
@@ -225,7 +285,13 @@
       "buy_price": 1800,
       "battle_effect": "expert_belt",
       "riftOnly": true,
-      "description": "Augmente de 20 % les dégâts des attaques super efficaces."
+      "description": "Augmente de 20 % les dégâts des attaques super efficaces.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      }
     },
     {
       "key": "shell_bell",
@@ -234,7 +300,13 @@
       "buy_price": 1600,
       "battle_effect": "shell_bell",
       "riftOnly": true,
-      "description": "Restaure un huitième des dégâts infligés après une attaque."
+      "description": "Restaure un huitième des dégâts infligés après une attaque.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      }
     },
     {
       "key": "rocky_helmet",
@@ -243,7 +315,13 @@
       "buy_price": 2000,
       "battle_effect": "rocky_helmet",
       "riftOnly": true,
-      "description": "Un adversaire qui frappe au contact perd un sixième de ses PV max par coup."
+      "description": "Un adversaire qui frappe au contact perd un sixième de ses PV max par coup.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      }
     },
     {
       "key": "rift_talisman",
@@ -333,6 +411,734 @@
       "buy_price": 800,
       "riftOnly": true,
       "description": "Fait évoluer une espèce compatible hors combat. Consommée uniquement si l’évolution réussit."
+    },
+    {
+      "key": "cheri_berry",
+      "name": "Baie Ceriz",
+      "category": "held",
+      "battle_effect": "cure_status",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "berries",
+        "weight": 6
+      },
+      "fling_power": 10,
+      "natural_gift_power": 80,
+      "cure": [
+        "paralyze"
+      ],
+      "fieldUse": {
+        "cure": [
+          "paralyze"
+        ]
+      },
+      "description": "Tenue ou utilisée depuis le sac, soigne la paralysie. Consommée après utilisation."
+    },
+    {
+      "key": "chesto_berry",
+      "name": "Baie Maron",
+      "category": "held",
+      "battle_effect": "cure_status",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "berries",
+        "weight": 6
+      },
+      "fling_power": 10,
+      "natural_gift_power": 80,
+      "cure": [
+        "sleep"
+      ],
+      "fieldUse": {
+        "cure": [
+          "sleep"
+        ]
+      },
+      "description": "Tenue ou utilisée depuis le sac, soigne le sommeil. Consommée après utilisation."
+    },
+    {
+      "key": "pecha_berry",
+      "name": "Baie Pêcha",
+      "category": "held",
+      "battle_effect": "cure_status",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "berries",
+        "weight": 6
+      },
+      "fling_power": 10,
+      "natural_gift_power": 80,
+      "cure": [
+        "poison",
+        "badly_poison"
+      ],
+      "fieldUse": {
+        "cure": [
+          "poison",
+          "badly_poison"
+        ]
+      },
+      "description": "Tenue ou utilisée depuis le sac, soigne le poison. Consommée après utilisation."
+    },
+    {
+      "key": "rawst_berry",
+      "name": "Baie Fraive",
+      "category": "held",
+      "battle_effect": "cure_status",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "berries",
+        "weight": 6
+      },
+      "fling_power": 10,
+      "natural_gift_power": 80,
+      "cure": [
+        "burn"
+      ],
+      "fieldUse": {
+        "cure": [
+          "burn"
+        ]
+      },
+      "description": "Tenue ou utilisée depuis le sac, soigne la brûlure. Consommée après utilisation."
+    },
+    {
+      "key": "aspear_berry",
+      "name": "Baie Willia",
+      "category": "held",
+      "battle_effect": "cure_status",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "berries",
+        "weight": 6
+      },
+      "fling_power": 10,
+      "natural_gift_power": 80,
+      "cure": [
+        "freeze"
+      ],
+      "fieldUse": {
+        "cure": [
+          "freeze"
+        ]
+      },
+      "description": "Tenue ou utilisée depuis le sac, soigne le gel. Consommée après utilisation."
+    },
+    {
+      "key": "persim_berry",
+      "name": "Baie Kika",
+      "category": "held",
+      "battle_effect": "cure_confusion",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "berries",
+        "weight": 6
+      },
+      "fling_power": 10,
+      "natural_gift_power": 80,
+      "description": "Tenue, soigne la confusion. Consommée après utilisation."
+    },
+    {
+      "key": "leppa_berry",
+      "name": "Baie Mepo",
+      "category": "held",
+      "battle_effect": "restore_pp",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "berries",
+        "weight": 4
+      },
+      "fling_power": 10,
+      "natural_gift_power": 80,
+      "restore_pp": 10,
+      "fieldUse": {
+        "restorePp": 10
+      },
+      "description": "Restaure 10 PP à la première capacité épuisée, sinon à la première capacité incomplète depuis le sac. Tenue, s’active quand une capacité arrive à 0 PP."
+    },
+    {
+      "key": "liechi_berry",
+      "name": "Baie Lichii",
+      "category": "held",
+      "battle_effect": "stat_berry",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "berries",
+        "weight": 2
+      },
+      "fling_power": 10,
+      "natural_gift_power": 80,
+      "stat": "attack",
+      "trigger_hp_ratio": 0.25,
+      "description": "Tenue, augmente l’Attaque d’un cran à 25 % des PV ou moins. Consommée après utilisation."
+    },
+    {
+      "key": "ganlon_berry",
+      "name": "Baie Lingan",
+      "category": "held",
+      "battle_effect": "stat_berry",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "berries",
+        "weight": 2
+      },
+      "fling_power": 10,
+      "natural_gift_power": 80,
+      "stat": "defense",
+      "trigger_hp_ratio": 0.25,
+      "description": "Tenue, augmente la Défense d’un cran à 25 % des PV ou moins. Consommée après utilisation."
+    },
+    {
+      "key": "salac_berry",
+      "name": "Baie Sailak",
+      "category": "held",
+      "battle_effect": "stat_berry",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "berries",
+        "weight": 2
+      },
+      "fling_power": 10,
+      "natural_gift_power": 80,
+      "stat": "speed",
+      "trigger_hp_ratio": 0.25,
+      "description": "Tenue, augmente la Vitesse d’un cran à 25 % des PV ou moins. Consommée après utilisation."
+    },
+    {
+      "key": "petaya_berry",
+      "name": "Baie Pitaye",
+      "category": "held",
+      "battle_effect": "stat_berry",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "berries",
+        "weight": 2
+      },
+      "fling_power": 10,
+      "natural_gift_power": 80,
+      "stat": "specialAttack",
+      "trigger_hp_ratio": 0.25,
+      "description": "Tenue, augmente l’Attaque Spéciale d’un cran à 25 % des PV ou moins. Consommée après utilisation."
+    },
+    {
+      "key": "apicot_berry",
+      "name": "Baie Abriko",
+      "category": "held",
+      "battle_effect": "stat_berry",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "berries",
+        "weight": 2
+      },
+      "fling_power": 10,
+      "natural_gift_power": 80,
+      "stat": "specialDefense",
+      "trigger_hp_ratio": 0.25,
+      "description": "Tenue, augmente la Défense Spéciale d’un cran à 25 % des PV ou moins. Consommée après utilisation."
+    },
+    {
+      "key": "occa_berry",
+      "name": "Baie Chocco",
+      "category": "held",
+      "battle_effect": "type_resist",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "berries",
+        "weight": 2
+      },
+      "fling_power": 10,
+      "natural_gift_power": 80,
+      "resist_type": "Fire",
+      "description": "Tenue, divise par deux les dégâts de la première attaque Feu super efficace qui touche le porteur. Consommée après utilisation."
+    },
+    {
+      "key": "passho_berry",
+      "name": "Baie Pocpoc",
+      "category": "held",
+      "battle_effect": "type_resist",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "berries",
+        "weight": 2
+      },
+      "fling_power": 10,
+      "natural_gift_power": 80,
+      "resist_type": "Water",
+      "description": "Tenue, divise par deux les dégâts de la première attaque Eau super efficace qui touche le porteur. Consommée après utilisation."
+    },
+    {
+      "key": "wacan_berry",
+      "name": "Baie Parma",
+      "category": "held",
+      "battle_effect": "type_resist",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "berries",
+        "weight": 2
+      },
+      "fling_power": 10,
+      "natural_gift_power": 80,
+      "resist_type": "Electric",
+      "description": "Tenue, divise par deux les dégâts de la première attaque Électrik super efficace qui touche le porteur. Consommée après utilisation."
+    },
+    {
+      "key": "rindo_berry",
+      "name": "Baie Ratam",
+      "category": "held",
+      "battle_effect": "type_resist",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "berries",
+        "weight": 2
+      },
+      "fling_power": 10,
+      "natural_gift_power": 80,
+      "resist_type": "Grass",
+      "description": "Tenue, divise par deux les dégâts de la première attaque Plante super efficace qui touche le porteur. Consommée après utilisation."
+    },
+    {
+      "key": "yache_berry",
+      "name": "Baie Nanone",
+      "category": "held",
+      "battle_effect": "type_resist",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "berries",
+        "weight": 2
+      },
+      "fling_power": 10,
+      "natural_gift_power": 80,
+      "resist_type": "Ice",
+      "description": "Tenue, divise par deux les dégâts de la première attaque Glace super efficace qui touche le porteur. Consommée après utilisation."
+    },
+    {
+      "key": "chople_berry",
+      "name": "Baie Pomroz",
+      "category": "held",
+      "battle_effect": "type_resist",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "berries",
+        "weight": 2
+      },
+      "fling_power": 10,
+      "natural_gift_power": 80,
+      "resist_type": "Fighting",
+      "description": "Tenue, divise par deux les dégâts de la première attaque Combat super efficace qui touche le porteur. Consommée après utilisation."
+    },
+    {
+      "key": "kebia_berry",
+      "name": "Baie Kébia",
+      "category": "held",
+      "battle_effect": "type_resist",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "berries",
+        "weight": 2
+      },
+      "fling_power": 10,
+      "natural_gift_power": 80,
+      "resist_type": "Poison",
+      "description": "Tenue, divise par deux les dégâts de la première attaque Poison super efficace qui touche le porteur. Consommée après utilisation."
+    },
+    {
+      "key": "shuca_berry",
+      "name": "Baie Jouca",
+      "category": "held",
+      "battle_effect": "type_resist",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "berries",
+        "weight": 2
+      },
+      "fling_power": 10,
+      "natural_gift_power": 80,
+      "resist_type": "Ground",
+      "description": "Tenue, divise par deux les dégâts de la première attaque Sol super efficace qui touche le porteur. Consommée après utilisation."
+    },
+    {
+      "key": "coba_berry",
+      "name": "Baie Cobaba",
+      "category": "held",
+      "battle_effect": "type_resist",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "berries",
+        "weight": 2
+      },
+      "fling_power": 10,
+      "natural_gift_power": 80,
+      "resist_type": "Flying",
+      "description": "Tenue, divise par deux les dégâts de la première attaque Vol super efficace qui touche le porteur. Consommée après utilisation."
+    },
+    {
+      "key": "payapa_berry",
+      "name": "Baie Yapap",
+      "category": "held",
+      "battle_effect": "type_resist",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "berries",
+        "weight": 2
+      },
+      "fling_power": 10,
+      "natural_gift_power": 80,
+      "resist_type": "Psychic",
+      "description": "Tenue, divise par deux les dégâts de la première attaque Psy super efficace qui touche le porteur. Consommée après utilisation."
+    },
+    {
+      "key": "tanga_berry",
+      "name": "Baie Panga",
+      "category": "held",
+      "battle_effect": "type_resist",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "berries",
+        "weight": 2
+      },
+      "fling_power": 10,
+      "natural_gift_power": 80,
+      "resist_type": "Bug",
+      "description": "Tenue, divise par deux les dégâts de la première attaque Insecte super efficace qui touche le porteur. Consommée après utilisation."
+    },
+    {
+      "key": "charti_berry",
+      "name": "Baie Charti",
+      "category": "held",
+      "battle_effect": "type_resist",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "berries",
+        "weight": 2
+      },
+      "fling_power": 10,
+      "natural_gift_power": 80,
+      "resist_type": "Rock",
+      "description": "Tenue, divise par deux les dégâts de la première attaque Roche super efficace qui touche le porteur. Consommée après utilisation."
+    },
+    {
+      "key": "kasib_berry",
+      "name": "Baie Sédra",
+      "category": "held",
+      "battle_effect": "type_resist",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "berries",
+        "weight": 2
+      },
+      "fling_power": 10,
+      "natural_gift_power": 80,
+      "resist_type": "Ghost",
+      "description": "Tenue, divise par deux les dégâts de la première attaque Spectre super efficace qui touche le porteur. Consommée après utilisation."
+    },
+    {
+      "key": "haban_berry",
+      "name": "Baie Fraigo",
+      "category": "held",
+      "battle_effect": "type_resist",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "berries",
+        "weight": 2
+      },
+      "fling_power": 10,
+      "natural_gift_power": 80,
+      "resist_type": "Dragon",
+      "description": "Tenue, divise par deux les dégâts de la première attaque Dragon super efficace qui touche le porteur. Consommée après utilisation."
+    },
+    {
+      "key": "colbur_berry",
+      "name": "Baie Lampou",
+      "category": "held",
+      "battle_effect": "type_resist",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "berries",
+        "weight": 2
+      },
+      "fling_power": 10,
+      "natural_gift_power": 80,
+      "resist_type": "Dark",
+      "description": "Tenue, divise par deux les dégâts de la première attaque Ténèbres super efficace qui touche le porteur. Consommée après utilisation."
+    },
+    {
+      "key": "babiri_berry",
+      "name": "Baie Babiri",
+      "category": "held",
+      "battle_effect": "type_resist",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "berries",
+        "weight": 2
+      },
+      "fling_power": 10,
+      "natural_gift_power": 80,
+      "resist_type": "Steel",
+      "description": "Tenue, divise par deux les dégâts de la première attaque Acier super efficace qui touche le porteur. Consommée après utilisation."
+    },
+    {
+      "key": "roseli_berry",
+      "name": "Baie Selro",
+      "category": "held",
+      "battle_effect": "type_resist",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "berries",
+        "weight": 2
+      },
+      "fling_power": 10,
+      "natural_gift_power": 80,
+      "resist_type": "Fairy",
+      "description": "Tenue, divise par deux les dégâts de la première attaque Fée super efficace qui touche le porteur. Consommée après utilisation."
+    },
+    {
+      "key": "chilan_berry",
+      "name": "Baie Zalis",
+      "category": "held",
+      "battle_effect": "type_resist",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "berries",
+        "weight": 2
+      },
+      "fling_power": 10,
+      "natural_gift_power": 80,
+      "resist_type": "Normal",
+      "description": "Tenue, divise par deux les dégâts de la première attaque Normal qui touche le porteur. Consommée après utilisation."
+    },
+    {
+      "key": "pomeg_berry",
+      "name": "Baie Grena",
+      "category": "held",
+      "battle_effect": "effort_berry",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "berries",
+        "weight": 3
+      },
+      "fling_power": 10,
+      "natural_gift_power": 80,
+      "fieldUse": {
+        "effort": {
+          "stat": "hp",
+          "amount": -10
+        }
+      },
+      "description": "Depuis le sac, retire jusqu’à 10 EV en PV pour réorienter l’entraînement. Aucun effet si cette statistique n’a pas d’EV. Consommée après utilisation."
+    },
+    {
+      "key": "kelpsy_berry",
+      "name": "Baie Alga",
+      "category": "held",
+      "battle_effect": "effort_berry",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "berries",
+        "weight": 3
+      },
+      "fling_power": 10,
+      "natural_gift_power": 80,
+      "fieldUse": {
+        "effort": {
+          "stat": "attack",
+          "amount": -10
+        }
+      },
+      "description": "Depuis le sac, retire jusqu’à 10 EV en Attaque pour réorienter l’entraînement. Aucun effet si cette statistique n’a pas d’EV. Consommée après utilisation."
+    },
+    {
+      "key": "qualot_berry",
+      "name": "Baie Qualot",
+      "category": "held",
+      "battle_effect": "effort_berry",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "berries",
+        "weight": 3
+      },
+      "fling_power": 10,
+      "natural_gift_power": 80,
+      "fieldUse": {
+        "effort": {
+          "stat": "defense",
+          "amount": -10
+        }
+      },
+      "description": "Depuis le sac, retire jusqu’à 10 EV en Défense pour réorienter l’entraînement. Aucun effet si cette statistique n’a pas d’EV. Consommée après utilisation."
+    },
+    {
+      "key": "hondew_berry",
+      "name": "Baie Lonme",
+      "category": "held",
+      "battle_effect": "effort_berry",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "berries",
+        "weight": 3
+      },
+      "fling_power": 10,
+      "natural_gift_power": 80,
+      "fieldUse": {
+        "effort": {
+          "stat": "specialAttack",
+          "amount": -10
+        }
+      },
+      "description": "Depuis le sac, retire jusqu’à 10 EV en Attaque Spéciale pour réorienter l’entraînement. Aucun effet si cette statistique n’a pas d’EV. Consommée après utilisation."
+    },
+    {
+      "key": "grepa_berry",
+      "name": "Baie Résin",
+      "category": "held",
+      "battle_effect": "effort_berry",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "berries",
+        "weight": 3
+      },
+      "fling_power": 10,
+      "natural_gift_power": 80,
+      "fieldUse": {
+        "effort": {
+          "stat": "specialDefense",
+          "amount": -10
+        }
+      },
+      "description": "Depuis le sac, retire jusqu’à 10 EV en Défense Spéciale pour réorienter l’entraînement. Aucun effet si cette statistique n’a pas d’EV. Consommée après utilisation."
+    },
+    {
+      "key": "tamato_berry",
+      "name": "Baie Tamato",
+      "category": "held",
+      "battle_effect": "effort_berry",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "berries",
+        "weight": 3
+      },
+      "fling_power": 10,
+      "natural_gift_power": 80,
+      "fieldUse": {
+        "effort": {
+          "stat": "speed",
+          "amount": -10
+        }
+      },
+      "description": "Depuis le sac, retire jusqu’à 10 EV en Vitesse pour réorienter l’entraînement. Aucun effet si cette statistique n’a pas d’EV. Consommée après utilisation."
+    },
+    {
+      "key": "hp_up",
+      "name": "PV Plus",
+      "category": "medicine",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "vitamins",
+        "weight": 1
+      },
+      "fieldUse": {
+        "effort": {
+          "stat": "hp",
+          "amount": 10
+        }
+      },
+      "description": "Ajoute jusqu’à 10 EV en PV, dans la limite de 252 par statistique et de 510 au total. Consommé après utilisation. Trouvable sur les Pokémon sauvages vaincus."
+    },
+    {
+      "key": "protein",
+      "name": "Protéine",
+      "category": "medicine",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "vitamins",
+        "weight": 1
+      },
+      "fieldUse": {
+        "effort": {
+          "stat": "attack",
+          "amount": 10
+        }
+      },
+      "description": "Ajoute jusqu’à 10 EV en Attaque, dans la limite de 252 par statistique et de 510 au total. Consommé après utilisation. Trouvable sur les Pokémon sauvages vaincus."
+    },
+    {
+      "key": "iron",
+      "name": "Fer",
+      "category": "medicine",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "vitamins",
+        "weight": 1
+      },
+      "fieldUse": {
+        "effort": {
+          "stat": "defense",
+          "amount": 10
+        }
+      },
+      "description": "Ajoute jusqu’à 10 EV en Défense, dans la limite de 252 par statistique et de 510 au total. Consommé après utilisation. Trouvable sur les Pokémon sauvages vaincus."
+    },
+    {
+      "key": "calcium",
+      "name": "Calcium",
+      "category": "medicine",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "vitamins",
+        "weight": 1
+      },
+      "fieldUse": {
+        "effort": {
+          "stat": "specialAttack",
+          "amount": 10
+        }
+      },
+      "description": "Ajoute jusqu’à 10 EV en Attaque Spéciale, dans la limite de 252 par statistique et de 510 au total. Consommé après utilisation. Trouvable sur les Pokémon sauvages vaincus."
+    },
+    {
+      "key": "zinc",
+      "name": "Zinc",
+      "category": "medicine",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "vitamins",
+        "weight": 1
+      },
+      "fieldUse": {
+        "effort": {
+          "stat": "specialDefense",
+          "amount": 10
+        }
+      },
+      "description": "Ajoute jusqu’à 10 EV en Défense Spéciale, dans la limite de 252 par statistique et de 510 au total. Consommé après utilisation. Trouvable sur les Pokémon sauvages vaincus."
+    },
+    {
+      "key": "carbos",
+      "name": "Carbone",
+      "category": "medicine",
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "vitamins",
+        "weight": 1
+      },
+      "fieldUse": {
+        "effort": {
+          "stat": "speed",
+          "amount": 10
+        }
+      },
+      "description": "Ajoute jusqu’à 10 EV en Vitesse, dans la limite de 252 par statistique et de 510 au total. Consommé après utilisation. Trouvable sur les Pokémon sauvages vaincus."
+    },
+    {
+      "key": "exp_share",
+      "name": "Multi Exp",
+      "category": "key",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "key",
+        "weight": 1
+      },
+      "description": "Actif depuis le sac : le combattant conserve son gain normal et chaque autre compagnon apte reçoit au moins 50 % de son gain ajusté à son propre niveau. Ne se cumule pas avec le partage existant ; le meilleur partage est conservé. Aucun gain pour les Pokémon K.O. ou les Œufs."
     }
   ]
 }

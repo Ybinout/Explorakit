@@ -13,7 +13,7 @@ function isShopMap(mapName) {
 
 function getShopCatalog({ expedition = false } = {}) {
     return (itemsCatalog.items || [])
-        .filter((item) => Number(item?.buy_price) > 0 && (expedition || !item.riftOnly))
+        .filter((item) => !item.dropOnly && Number(item?.buy_price) > 0 && (expedition || !item.riftOnly))
         .map((item) => ({
             key: item.key,
             name: item.name,

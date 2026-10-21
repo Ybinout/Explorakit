@@ -11,7 +11,7 @@ async function verifyMigration() {
                  'users', 'teams', 'pokemons', 'user_items', 'player_story_flags',
                  'player_quests', 'player_badges', 'user_pokedex', 'user_npc_battles',
                  'rift_profiles', 'rift_runs', 'rift_run_entries',
-                 'rift_checkpoints', 'rift_reports', 'rift_cosmetics', 'rift_appearance', 'colosseum_runs', 'colosseum_bests', 'rift_ratings', 'rift_rating_results', 'trainer_friendships', 'pokemon_storage'
+                 'rift_checkpoints', 'rift_reports', 'rift_cosmetics', 'rift_appearance', 'colosseum_runs', 'colosseum_bests', 'rift_ratings', 'rift_rating_results', 'trainer_friendships', 'pokemon_storage', 'user_item_discoveries'
                )
              ORDER BY TABLE_NAME`
         );
@@ -41,7 +41,7 @@ async function verifyMigration() {
                  'uniq_team_user', 'uniq_team_position', 'fk_teams_user',
                  'fk_pokemons_team', 'fk_user_items_user',
                  'fk_rift_profiles_user', 'fk_rift_entries_user', 'fk_rift_entries_run',
-                 'fk_rating_user', 'fk_rating_result_run', 'fk_rating_result_user', 'fk_friends_low', 'fk_friends_high', 'fk_friends_requester', 'fk_storage_user', 'uniq_storage_slot'
+                 'fk_rating_user', 'fk_rating_result_run', 'fk_rating_result_user', 'fk_friends_low', 'fk_friends_high', 'fk_friends_requester', 'fk_storage_user', 'uniq_storage_slot', 'fk_item_discovery_user'
                )
              ORDER BY CONSTRAINT_NAME`
         );
@@ -66,9 +66,9 @@ async function verifyMigration() {
              WHERE CONSTRAINT_SCHEMA=DATABASE() AND TABLE_NAME='colosseum_bests'
                AND CONSTRAINT_NAME='PRIMARY' ORDER BY ORDINAL_POSITION`
         );
-        const valid = tables.length === 22
+        const valid = tables.length === 23
             && tables.every((table) => table.ENGINE === 'InnoDB')
-            && constraints.length === 16
+            && constraints.length === 17
             && migrations.some((migration) => migration.name === '010_rift_accounts.sql')
             && migrations.some((migration) => migration.name === '011_rift_reward_duration.sql')
             && migrations.some((migration) => migration.name === '012_rift_durability_cosmetics.sql')
@@ -95,6 +95,7 @@ async function verifyMigration() {
             && migrations.some(migration => migration.name === '018_repel_steps.sql')
             && respawnColumns.some(column => column.COLUMN_NAME === 'repel_steps' && column.IS_NULLABLE === 'NO' && /smallint.*unsigned/i.test(column.COLUMN_TYPE))
             && migrations.some(migration => migration.name === '019_pokemon_storage.sql')
+            && migrations.some(migration => migration.name === '020_unique_item_discoveries.sql')
             && respawnColumns.length === 8
             && respawnColumns.some((column) => column.COLUMN_NAME === 'money')
             && columns.some((column) => column.COLUMN_NAME === 'status')

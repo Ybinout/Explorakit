@@ -9,6 +9,7 @@ const {
     consumeMovePp,
     getItemDefinition,
     getMovePp,
+    getMaxMovePp,
     getUsableMoveIndexes,
     getChargingMove,
     normalizeMovePp,
@@ -323,6 +324,22 @@ function snapshotMoveAndStatOverrides(pokemon) {
     });
 }
 
+function consumeBerry(pokemon, battleState, messages) {
+    consumeHeldItem(pokemon,battleState);
+    if (pokemon.currentHp > 0 && hasPassiveAbility(pokemon,'Cheek Pouch') && !(pokemon.__battle?.healBlockTurns > 0)) {
+        const healed = healPokemon(pokemon,Math.max(1,Math.floor(pokemon.maxHp/3)));
+        if (healed) messages.push(`${getPokemonDisplayName(pokemon)} récupère ${healed} PV avec Bajoues.`);
+    }
+}
+
+function resistanceBerry(defender, attacker, move, effectiveness, state) {
+    const item = getItemDefinition(defender.heldItem);
+    if (heldItems.effect(defender,state) !== 'type_resist' || item?.resist_type !== move.type
+        || (effectiveness <= 1 && move.type !== 'Normal') || (attacker?.currentHp > 0 && hasPassiveAbility(attacker,'Unnerve'))
+        || (defender.__battle?.substituteHp > 0 && !hasPassiveAbility(attacker,'Infiltrator') && !getMoveFlags(move).sound)) return null;
+    return item.key;
+}
+
 function activateHeldItem(pokemon, battleState, messages, trigger = 'immediate', opponent = null) {
     if (!isHeldItemEnabled(pokemon, battleState) || safeNumber(pokemon.currentHp, 0) <= 0) return false;
     const item = getItemDefinition(pokemon.heldItem);
@@ -332,23 +349,42 @@ function activateHeldItem(pokemon, battleState, messages, trigger = 'immediate',
     const berry = pokemon.heldItem.endsWith('_berry');
     if (berry && opponent?.currentHp > 0 && hasPassiveAbility(opponent,'Unnerve')) return false;
     const consume = () => {
-        consumeHeldItem(pokemon,battleState);
-        if (berry && hasPassiveAbility(pokemon,'Cheek Pouch') && !(pokemon.__battle.healBlockTurns > 0)) {
-            const healed=healPokemon(pokemon,Math.max(1,Math.floor(maxHp/3)));
-            if(healed)messages.push(`${pokemonName} récupère ${healed} PV avec Bajoues.`);
-        }
+        if (berry) consumeBerry(pokemon,battleState,messages);
+        else consumeHeldItem(pokemon,battleState);
     };
 
-    if (trigger === 'immediate' && item.battle_effect === 'cure_status' && pokemon.status !== 'normal') {
+    const cures = item.cure || item.fieldUse?.cure || [];
+    if (trigger === 'immediate' && item.battle_effect === 'cure_status'
+        && (cures.includes(pokemon.status) || (item.key === 'lum_berry' && pokemon.__battle?.confusionTurns > 0))) {
         const itemName = item.name;
-        clearStatus(pokemon, messages);
+        pokemon.status = 'normal';
+        pokemon.__battle.sleepTurns = 0; pokemon.__battle.toxicCounter = 1; pokemon.__battle.nightmare = false;
+        if (item.key === 'lum_berry') pokemon.__battle.confusionTurns = 0;
         consume();
         messages.push(`${pokemonName} consomme ${itemName}.`);
         return true;
     }
+    if (trigger === 'immediate' && item.battle_effect === 'cure_confusion' && pokemon.__battle?.confusionTurns > 0) {
+        pokemon.__battle.confusionTurns = 0; consume();
+        messages.push(`${pokemonName} consomme ${item.name} et n’est plus confus.`); return true;
+    }
+    if (trigger === 'immediate' && item.battle_effect === 'restore_pp') {
+        normalizeMovePp(pokemon);
+        const slot = pokemon.abilities.findIndex((_name,i) => pokemon.movePp[i] === 0);
+        if (slot >= 0) {
+            pokemon.movePp[slot] = Math.min(getMaxMovePp(pokemon.abilities[slot]),item.restore_pp);
+            consume(); messages.push(`${pokemonName} consomme ${item.name} et récupère des PP.`); return true;
+        }
+    }
 
     const hpRatio = safeNumber(pokemon.currentHp, 0) / maxHp;
     const threshold=berry && hasPassiveAbility(pokemon,'Gluttony') && item.trigger_hp_ratio===.25 ? .5 : safeNumber(item.trigger_hp_ratio,0);
+    if (trigger === 'immediate' && item.battle_effect === 'stat_berry' && hpRatio <= threshold) {
+        if ((pokemon.__battle?.statStages?.[item.stat] || 0) < 6) {
+            applyStageChange(pokemon,item.stat,1,messages,pokemon); consume();
+            messages.push(`${pokemonName} consomme ${item.name}.`); return true;
+        }
+    }
     if (trigger === 'immediate' && hpRatio <= threshold && !(pokemon.__battle?.healBlockTurns > 0)) {
         let amount = 0;
         if (item.battle_effect === 'heal_flat') amount = safeNumber(item.amount, 0);
@@ -818,6 +854,8 @@ function calculateDamageDetailed(attacker, defender, move, context = {}) {
     });
 
     modifier *= heldItems.damageMultiplier(attacker, effectiveness, battleState);
+    const resistBerry = resistanceBerry(defender,attacker,move,effectiveness,battleState);
+    if (resistBerry) modifier *= 0.5;
     modifier *= drift.multiplier(attacker, defender, move, critical);
     let damage = Math.floor(baseDamage * modifier);
     if (effectiveness <= 0) {
@@ -829,7 +867,8 @@ function calculateDamageDetailed(attacker, defender, move, context = {}) {
     return {
         damage,
         effectiveness,
-        critical
+        critical,
+        resistBerry
     };
 }
 
@@ -2425,6 +2464,7 @@ function applySwitchInEffects(pokemon, ownSide, enemySide, battleState, enemyPok
         }
     }));
     abilityForms.syncWeatherForms(pokemon,enemyPokemon,battleState,messages);
+    activateHeldItem(pokemon,battleState,messages,'immediate',enemyPokemon);
     return messages;
 }
 
@@ -2675,9 +2715,14 @@ function executeAttack(attackName, attacker, defender, options = {}) {
     }
     const hpBeforeMove=defender.currentHp;
     const helper=reactionHelpers();
-    const hit=(amount,critical=false) => {
+    const hit=(amount,critical=false,resistBerry=null) => {
         const result=applyDamage(defender,amount,{allowEndure:true,attacker,battleState,
             bypassSubstitute:hasPassiveAbility(attacker,'Infiltrator')||getMoveFlags(move).sound});
+        if (resistBerry && result.damageToHp > 0 && defender.heldItem === resistBerry) {
+            const name = getItemDefinition(resistBerry).name;
+            consumeBerry(defender,battleState,moveResult.messages);
+            moveResult.messages.push(`${getPokemonDisplayName(defender)} réduit les dégâts avec ${name}.`);
+        }
         reactions.afterHit({attacker,defender,move,damage:result.damageToHp,critical,battleState,attackerSide,defenderSide},helper,moveResult.messages);
         activateHeldItem(defender,battleState,moveResult.messages,'immediate',attacker);
         return result;
@@ -2993,7 +3038,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
 
                 effectiveness = damageInfo.effectiveness;
                 if (effectiveness === 0) break;
-                const dmgResult = hit(damageInfo.damage,damageInfo.critical);
+                const dmgResult = hit(damageInfo.damage,damageInfo.critical,damageInfo.resistBerry);
                 if (perHitSecondaries) reactions.secondaryEffects({ attacker, defender, move: hitMove,
                     result: { damage: dmgResult.damageToHp }, battleState, attackerSide, defenderSide }, helper, moveResult.messages);
                 if (dmgResult.damageToHp > 0 && reactions.contact(attacker,resolvedMove) && heldItems.effect(defender, battleState) === 'rocky_helmet' && !hasPassiveAbility(attacker, 'Magic Guard')) {

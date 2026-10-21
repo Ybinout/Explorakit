@@ -21,7 +21,8 @@ const migrationFiles = [
     '016_move_learning.sql',
     '017_evolution_experience.sql',
     '018_repel_steps.sql',
-    '019_pokemon_storage.sql'
+    '019_pokemon_storage.sql',
+    '020_unique_item_discoveries.sql'
 ];
 
 async function applyMigrations() {

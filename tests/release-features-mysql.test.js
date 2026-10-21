@@ -197,3 +197,46 @@ test('Moonpunch badge: retroactive recorded wins only, original dates, no reward
   await db.execute("UPDATE player_badges SET awarded_at='2025-01-01 12:00:00' WHERE user_id=? AND badge_key='lake_badge'",[receipt.id]);await progress.loadProgressState(receipt.id);const [[keep]]=await db.execute("SELECT awarded_at='2025-01-01 12:00:00' AS originalDate FROM player_badges WHERE user_id=? AND badge_key='lake_badge'",[receipt.id]);assert.equal(keep.originalDate,1);
  }finally{for(const u of [fresh,receipt,legacy,inferred])await db.execute('DELETE FROM users WHERE id=?',[u.id]);}
 });
+
+test('wild items SQL: concurrent unique receipts, bag/held/PC exclusion and permanent history after consumption', {skip:!enabled}, async()=>{
+    const u=await fixture();
+    try {
+        const loot=require('../server/persistence/wildLootRepository'),factory=require('../server/game/drift/pokemonFactory');
+        const pc=require('../server/persistence/pokemonStorageRepository');
+        const team=await teams.loadEquipe(u.id);team.pokemons[0].heldItem='leftovers';await teams.editEquipe(u.id,team);
+        const stored=factory.create(25,20,true);stored.heldItem='life_orb';await pc.storeCapturedPokemon(u.id,stored);
+        const draws=(...values)=>()=>values.shift() ?? .5;
+        assert.equal(await loot.awardWildLoot(u.id,()=>.04),null);
+        const found=await Promise.all([loot.awardWildLoot(u.id,draws(0,.85,0)),loot.awardWildLoot(u.id,draws(0,.85,0))]);
+        assert.equal(new Set(found.map(i=>i.key)).size,2);assert(found.every(i=>!['leftovers','life_orb'].includes(i.key)));
+        const one=found[0].key;await db.execute('UPDATE user_items SET quantity=0 WHERE user_id=? AND item_key=?',[u.id,one]);
+        const next=await loot.awardWildLoot(u.id,draws(0,.85,0));assert.notEqual(next.key,one);
+        const exp=await loot.awardWildLoot(u.id,draws(0,.99,0));assert.equal(exp.key,'exp_share');assert(await loot.hasExpShare(u.id));
+        await db.execute("DELETE FROM user_items WHERE user_id=? AND item_key='exp_share'",[u.id]);
+        assert.notEqual((await loot.awardWildLoot(u.id,draws(0,.99,0))).key,'exp_share');
+        const [[duplicates]]=await db.execute('SELECT COUNT(*) AS n,COUNT(DISTINCT item_key) AS distinctN FROM user_item_discoveries WHERE user_id=?',[u.id]);assert.equal(duplicates.n,duplicates.distinctN);assert(duplicates.n>=6);
+        const {purchaseUserItem}=require('../server/persistence/itemRepository');
+        for(const key of ['exp_share','calcium','life_orb','yache_berry'])assert.equal((await purchaseUserItem(u.id,key,1)).reason,'item_unavailable');
+        assert.equal((await teams.loadEquipe(u.id)).pokemons[0].heldItem,'leftovers');
+    } finally {await db.execute('DELETE FROM users WHERE id=?',[u.id]);}
+});
+
+test('vitamins SQL: authoritative concurrent +10 EV, partial cap, no-effect rollback, PP and stats persist', {skip:!enabled}, async()=>{
+    const u=await fixture(),other=await fixture();
+    try {
+        const team=await teams.loadEquipe(u.id),p=team.pokemons[0];
+        await db.execute("INSERT INTO user_items(user_id,item_key,quantity) VALUES(?,'calcium',3),(?,'hondew_berry',1),(?,'leppa_berry',2)",[u.id,u.id,u.id]);
+        await assert.rejects(()=>medicine.useMedicine(other.id,p,'calcium'),/appartient/);
+        await Promise.all([medicine.useMedicine(u.id,p,'calcium'),medicine.useMedicine(u.id,p,'calcium')]);
+        let saved=(await teams.loadEquipe(u.id)).pokemons[0];assert.equal(saved.ev.specialAttack,20);assert.equal(p.ev.specialAttack,0,'repository does not mutate caller before transaction acknowledgement');
+        saved.ev.specialAttack=250;team.pokemons=[saved];await teams.editEquipe(u.id,team);
+        const cap=await medicine.useMedicine(u.id,p,'calcium');assert.equal(cap.ev.specialAttack,252);
+        await db.execute("UPDATE user_items SET quantity=1 WHERE user_id=? AND item_key='calcium'",[u.id]);
+        await assert.rejects(()=>medicine.useMedicine(u.id,p,'calcium'),/aucun effet/);
+        const [[stock]]=await db.execute("SELECT quantity FROM user_items WHERE user_id=? AND item_key='calcium'",[u.id]);assert.equal(stock.quantity,1);
+        const reset=await medicine.useMedicine(u.id,p,'hondew_berry');assert.equal(reset.ev.specialAttack,242);
+        saved=(await teams.loadEquipe(u.id)).pokemons[0];assert.equal(saved.specialAttack,reset.specialAttack);
+        saved.movePp[0]=0;team.pokemons=[saved];await teams.editEquipe(u.id,team);
+        const pp=await medicine.useMedicine(u.id,saved,'leppa_berry');assert.equal(pp.movePp[0],10);assert.equal((await teams.loadEquipe(u.id)).pokemons[0].movePp[0],10);
+    } finally {for(const u2 of [u,other])await db.execute('DELETE FROM users WHERE id=?',[u2.id]);}
+});

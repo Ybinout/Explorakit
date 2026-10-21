@@ -444,8 +444,17 @@ function playerTurn(player, io) {
 async function startBattle(player, wildPokemon, io, userId) {
     presentation.reset(player);
     const resultTracker = createBattleSummaryTracker(player?.equipe?.pokemons);
-    let wildMoneyGranted = false;
+    let wildMoneyGranted = false, wildLootAttempted = false;
     const endBattle = async (playerWon = false, extra = {}) => {
+        if (playerWon && !extra.captured && wildPokemon.currentHp <= 0 && !wildLootAttempted) {
+            wildLootAttempted = true;
+            const item = await require('../../persistence/wildLootRepository').awardWildLoot(userId);
+            if (item) {
+                resultTracker.loot.push(item.name);
+                io.to(player.id).emit('bagUpdated', {items:await loadUserItems(userId)});
+                await narrate(player,io,`Objet trouvé : ${item.name}${item.unique?' · unique':''} !`,900);
+            }
+        }
         if (playerWon && (extra.captured || wildPokemon.currentHp <= 0) && !wildMoneyGranted) {
             const money = await awardUserMoney(userId, adventureMoneyReward(wildPokemon, playerSide.rewardMultiplier));
             wildMoneyGranted = true;
@@ -457,7 +466,7 @@ async function startBattle(player, wildPokemon, io, userId) {
         }, 'wild');
     };
     const battleState = createBattleState({ mapName: player.currentmap });
-    battleState.adventureExperience = new AdventureExperience();
+    battleState.adventureExperience = new AdventureExperience({expShare:await require('../../persistence/wildLootRepository').hasExpShare(userId)});
     require('../abilities/abilityForms').attachTeam(player.equipe.pokemons);
     const playerSide = battleState.sides.player;
     const enemySide = battleState.sides.enemy;

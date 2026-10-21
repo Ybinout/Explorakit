@@ -61,8 +61,9 @@ function buy(p, key, quantity) {
     return { ...shop(p), progression: { money: p.money } };
 }
 function usePotion(p, key, uuid, random = Math.random) {
-    requireMutable(p); if (p.run.phase !== 'exploration') fail('Soins automatiques entre les rounds.');
+    requireMutable(p);
     const item = [...potions, ...baseItems].find(i => i.key === key), pokemon = p.equipe.pokemons.find(a => a.uuid === uuid);
+    if (p.run.phase !== 'exploration' && !(item?.fieldUse?.effort && ['preparation','tournament','colosseum_ready'].includes(p.run.phase))) fail('Soins automatiques entre les rounds.');
     if (!item || item.revive || !pokemon || (pokemon.currentHp <= 0 && !pokemon.riftFainted) || !(p.items[key] > 0)) fail('Ce soin est inutilisable.');
     let result;
     if (pokemon.riftFainted && pokemon.currentHp <= 0) {
@@ -76,6 +77,11 @@ function usePotion(p, key, uuid, random = Math.random) {
         result = { currentHp: Math.min(pokemon.maxHp, pokemon.currentHp + item.amount), status: pokemon.status };
     } else {
         try { result = medicineResult(pokemon, key); } catch (error) { fail(error.message); }
+    }
+    if (result.ev || result.movePp) {
+        Object.assign(pokemon,result); p.items[key]--; p.ready=false; report.syncTeam(p);
+        report.event(p,'item',`${item.name} utilisé sur ${pokemon.truename || pokemon.name}.`);
+        return {success:true,items:bag(p),equipe:p.equipe};
     }
     attach(p.equipe.pokemons, p, false, random);
     try { heal(pokemon, result.currentHp - pokemon.currentHp); pokemon.status = result.status; } finally { detach(p.equipe.pokemons); }
@@ -105,14 +111,13 @@ function drop(p, source, random = Math.random) {
         const drift = { uuid: randomUUID(), definitionId: definition.id, rarity, element: ['DRF-001', 'DRF-014'].includes(definition.id) ? types[Math.floor(random() * types.length)] : null };
         require('./fusion').acquire(p,drift,source); loot.push(definition.name);
     }
-    if (source !== 'capture' && random() < Math.min(1, .2 * (1 + value(p, 45) / 100))) {
+    if (source !== 'capture' && source !== 'wild' && random() < Math.min(1, .2 * (1 + value(p, 45) / 100))) {
         const key = random() < .5 ? 'pokeball' : 'drift_potion'; p.items[key] = (p.items[key] || 0) + 1; loot.push(key === 'pokeball' ? 'Poké Ball' : 'Potion');
         report.event(p,'item',`Objet trouvé : ${key==='pokeball'?'Poké Ball':'Potion'}.`);
     }
-    if (source === 'wild' && random() < Math.min(1, .12 * (1 + value(p,45)/100))) {
-        const pool=baseItems.filter(i=>i.category==='held' && i.key!=='rift_talisman');
-        const item=pool[Math.floor(random()*pool.length)];p.items[item.key]=(p.items[item.key]||0)+1;
-        loot.push(item.name);report.event(p,'item',`Objet stratégique trouvé : ${item.name}.`);
+    if (source === 'wild') {
+        const item = require('../items/wildLoot').awardExpedition(p, random,1+value(p,45)/100);
+        if (item) { loot.push(item.name); report.event(p,'item',`Objet trouvé : ${item.name}${item.unique?' · unique':''}.`); }
     }
     return loot;
 }

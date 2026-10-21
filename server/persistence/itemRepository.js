@@ -22,7 +22,9 @@ function hydrateItems(rows) {
             cure: itemFromCatalog.cure || null,
             revive: Boolean(itemFromCatalog.revive),
             fieldUse: itemFromCatalog.fieldUse || null,
-            repelSteps: itemFromCatalog.repelSteps || null
+            repelSteps: itemFromCatalog.repelSteps || null,
+            unique: Boolean(itemFromCatalog.unique),
+            dropOnly: Boolean(itemFromCatalog.dropOnly)
         };
     });
 }
@@ -30,7 +32,7 @@ function hydrateItems(rows) {
 function getPurchasableItem(itemKey) {
     const item = itemCatalogByKey[itemKey];
     const buyPrice = Math.floor(Number(item?.buy_price));
-    if (!item || !Number.isInteger(buyPrice) || buyPrice <= 0) return null;
+    if (!item || item.dropOnly || !Number.isInteger(buyPrice) || buyPrice <= 0) return null;
     return { ...item, buyPrice };
 }
 

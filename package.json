@@ -38,6 +38,7 @@
     "test:contracts-browser": "node --env-file-if-exists=.env scripts/validateContractsBrowser.js",
     "test:combat-browser": "node --env-file-if-exists=.env scripts/validateCombatFeedbackBrowser.js",
     "test:moon-badge-browser": "node --env-file-if-exists=.env scripts/validateMoonBadgeBrowser.js",
+    "test:wild-items-browser": "node --env-file-if-exists=.env scripts/validateWildItemsBrowser.js",
     "test:participation-browser": "node --env-file-if-exists=.env scripts/validateParticipationBrowser.js",
     "test:grass-browser": "node --env-file-if-exists=.env scripts/validateGrassBrowser.js",
     "test:weather-browser": "node --env-file-if-exists=.env scripts/validateWeatherBrowser.js",

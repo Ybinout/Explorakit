@@ -353,3 +353,12 @@ CREATE TABLE IF NOT EXISTS pokemon_storage (
  UNIQUE KEY uniq_storage_slot(user_id,box_index,slot_index),
  CONSTRAINT fk_storage_user FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Durable receipts: moving, equipping or consuming an item never resets discovery.
+CREATE TABLE IF NOT EXISTS user_item_discoveries (
+ user_id INT NOT NULL,
+ item_key VARCHAR(64) NOT NULL,
+ discovered_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ PRIMARY KEY(user_id,item_key),
+ CONSTRAINT fk_item_discovery_user FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

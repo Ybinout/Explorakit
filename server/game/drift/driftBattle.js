@@ -228,15 +228,22 @@ class DriftBattle {
         };
         // Evaluate each recipient before levelling anyone up; low-level reserves
         // catch up, while a high-level reserve cannot bypass the overlevel rule.
-        const reserveAwards = this.a.equipe.pokemons.filter(p=>p!==active && !effects.isDead(p)).map(p=>[p,
-            Math.floor(sharingBaseFor(p) * ((isColosseum ? 40 : 0) + effects.value(this.a,50))/100)]);
+        const fighterXp = p => isColosseum ? Math.max(1,Math.floor(Math.floor(sharingBaseFor(p)*9/10)*4/5)) : sharingBaseFor(p);
+        const expShare = this.a.items?.exp_share > 0;
+        const reserveAwards = this.a.equipe.pokemons.filter(p=>p!==active && !effects.isDead(p) && !p.isEgg).map(p=>[p,
+            Math.max(Math.floor(sharingBaseFor(p) * ((isColosseum ? 40 : 0) + effects.value(this.a,50))/100),
+                expShare ? Math.max(1,Math.floor(fighterXp(p)/2)) : 0)]);
         const sharingBase = sharingBaseFor(active);
         // Keep the Colosseum fighter multiplier and the existing reserve sharing rates.
         const xp = isColosseum ? Math.max(1, Math.floor(Math.floor(sharingBase * 9 / 10) * 4 / 5)) : sharingBase;
         const previousLevel = active.level, previousExperience = active.experience;
         grantEffort(active, defeated); active.gainExperience(xp);
-        for (const [reserve, reserveXp] of reserveAwards) reserve.gainExperience(reserveXp);
         this.emit(this.a,'battleExperience',{ pokemon: active, xpGained: xp, previousLevel, previousExperience });
+        for (const [reserve, reserveXp] of reserveAwards) {
+            const beforeLevel=reserve.level,beforeExperience=reserve.experience;
+            reserve.gainExperience(reserveXp);
+            if (expShare && reserveXp > 0) this.emit(this.a,'battleExperience',{pokemon:reserve,xpGained:reserveXp,previousLevel:beforeLevel,previousExperience:beforeExperience});
+        }
         this.a.chain = Math.min(5,(this.a.chain || 0)+1);
     }
     checkEnd() {
