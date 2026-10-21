@@ -1,5 +1,15 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Session expirée et chargement du lieu — 21 octobre 2026
+
+Un jeton expiré était encore considéré présent par la garde du routeur ; le refus Socket ne mettait à jour que le petit état de sauvegarde et laissait « Chargement du lieu… » indéfiniment. Reproduit en HTTPS sur un compte temporaire : Clairfontaine charge avec un jeton valide, reste en attente avec un jeton invalide. Le créateur a confirmé que sa session avait expiré ; sa sauvegarde n’est pas en cause et n’a pas été modifiée.
+
+`isSessionConnectionFailure` partage les deux erreurs d’authentification reconnues par le serveur. `UserMap` arrête la socket refusée, retire uniquement la session locale invalide et remplace la page par Connexion avec destination Aventure/Rift/Colosseum conservée. La page de connexion indique clairement que la session a expiré ou n’est plus valide. Un problème réseau ne supprime pas le jeton et conserve la reconnexion existante. Aucune modification serveur/base, compte, équipe ou progression. Recette `npm run test:session-browser` : vrai jeton signé expiré, trois routes, message et retrait du chargement, vraie connexion puis retour à Clairfontaine, équipe identique, erreur transport distincte et quatre tailles.
+
+Validation : cinq tests existants de connexion/authentification passent, lint/build terminent à 0. La recette `test:session-browser` puis sa version HTTPS terminent à 0 : vrai jeton signé expiré refusé dans Aventure/Rift/Colosseum, message lisible aux quatre tailles, session locale retirée, vraie connexion via formulaire et retour à Clairfontaine avec équipe/HP/XP/IV/K/UUID inchangés. Un échec transport conserve la session et la page ; aucune erreur navigateur. Comptes de recette supprimés ; le compte du créateur a seulement été lu pour vérifier son lieu et son équipe.
+
+Publication statique le **21/10/2026 à 14 h 54 (Paris)** : client `539901e5c7be832335eb6ba7e80df5f075e6550f`, build `/tmp/explorakit-session-expired-dist`, hash `1990befd2a5dde10`. Sauvegarde `/home/ubuntu/dev/backups/explorakit-session-expired-2026-10-21T12-54-13-481Z`. Aucun redémarrage (PID 1030433 conservé), aucune migration, index HTTPS exact, Know/api-test inchangés. Logs/captures `/tmp/explorakit-session-expired-*` ; aucune CI distante ni téléphone physique revendiqué.
+
 ## Mounir, Morphéo et envois des dresseurs — 21 octobre 2026
 
 Équipe demandée : Machoc 17 (K1/IV18, Rigide), Steelix 18 (K1/IV18, Malin/Fermeté), Morphéo 20 (K4 maximum, IV31, Modeste, EV4 PV/252 Attaque Spéciale/252 Vitesse, Baie Sitrus). Quatre capacités légales par espèce : Machoc Karaté Poing/Tombe Roche/Sabotage/Gonflette ; Steelix Tête de Fer/Piétisol/Éboulement/Mâchouille ; Morphéo Ball’Météo/Fatal-Foudre/Laser Glace/Danse Pluie. Le constructeur PNJ accepte désormais les EV, avec les mêmes plafonds que les joueurs ; autres équipes inchangées.
@@ -1768,6 +1778,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **21 octobre 2026 — Session expirée :** le refus d’authentification du monde renvoie vers Connexion avec message explicite et destination conservée ; fin du chargement infini, sauvegarde intacte et erreurs réseau distinctes.
 
 - **21 octobre 2026 — Mounir et Morphéo :** équipe 17/18/20, pluie d’arène, Morphéo K4/IV31/EV optimisés réservé pour la fin, IA/phrases configurables et animation commune d’envoi de Poké Ball.
 

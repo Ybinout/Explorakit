@@ -1,5 +1,11 @@
 # Contexte permanent — Explorakit
 
+## Session expirée et chargement du lieu — 21 octobre 2026
+
+Un jeton expiré était encore considéré présent par la garde du routeur ; le refus Socket ne mettait à jour que le petit état de sauvegarde et laissait « Chargement du lieu… » indéfiniment. Reproduit en HTTPS sur un compte temporaire : Clairfontaine charge avec un jeton valide, reste en attente avec un jeton invalide. Le créateur a confirmé que sa session avait expiré ; sa sauvegarde n’est pas en cause et n’a pas été modifiée.
+
+`isSessionConnectionFailure` partage les deux erreurs d’authentification reconnues par le serveur. `UserMap` arrête la socket refusée, retire uniquement la session locale invalide et remplace la page par Connexion avec destination Aventure/Rift/Colosseum conservée. La page de connexion indique clairement que la session a expiré ou n’est plus valide. Un problème réseau ne supprime pas le jeton et conserve la reconnexion existante. Aucune modification serveur/base, compte, équipe ou progression. Recette `npm run test:session-browser` : vrai jeton signé expiré, trois routes, message et retrait du chargement, vraie connexion puis retour à Clairfontaine, équipe identique, erreur transport distincte et quatre tailles.
+
 ## Mounir, Morphéo et envois des dresseurs — 21 octobre 2026
 
 Équipe demandée : Machoc 17 (K1/IV18, Rigide), Steelix 18 (K1/IV18, Malin/Fermeté), Morphéo 20 (K4 maximum, IV31, Modeste, EV4 PV/252 Attaque Spéciale/252 Vitesse, Baie Sitrus). Quatre capacités légales par espèce : Machoc Karaté Poing/Tombe Roche/Sabotage/Gonflette ; Steelix Tête de Fer/Piétisol/Éboulement/Mâchouille ; Morphéo Ball’Météo/Fatal-Foudre/Laser Glace/Danse Pluie. Le constructeur PNJ accepte désormais les EV, avec les mêmes plafonds que les joueurs ; autres équipes inchangées.
