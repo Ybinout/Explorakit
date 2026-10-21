@@ -1,5 +1,19 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Décor de combat de Mounir — 21 octobre 2026
+
+Nouveaux assets `assets/battle/mounir-{mobile,wide,platform}-v1.webp`, créés avec le skill imagegen intégré : cour d’arène de la Ville du Lac, pierre bleutée humide, bassins latéraux, ciel couvert et sol continu. Deux compositions distinctes 1024×1536 /1536×1024 ; pas de Pokémon, interface ou socle peint dans le fond. Socle de pierre assorti avec anneau turquoise et vraie transparence (1774×887), rendu deux fois aux ancrages des combattants, pour qu’aucun recadrage ne décale leurs appuis. Formats WebP qualité 0,93 par encodage Canvas, dimensions et alpha conservés sans recadrage ; prompts complets/provenance dans `mounir-v1.prompts.txt`, PNG originaux conservés.
+
+`battleEnvironment` reconnaît seulement l’identifiant logique `ville1_arene` comme `lake-gym`, après la priorité du vrai combat Colosseum. Même décor Aventure/Rift/Colosseum lors du duel contre Mounir ; les autres arènes utilisant `gen_arene1`, grottes et tournoi gardent leur décor. Aucun changement serveur, météo, équipe, dégâts, carte ou sauvegarde. La pluie animée existe déjà ; sa ligne d’impacts pour cette cour commence à 40 % du cadre pour rester au sol. Les deux images de socle font partie du préchargement de l’entrée existante ; pas de double disque CSS. Sol continu, dimensions et ancrages communs avec les sprites, appui avant du socle du joueur maintenu dans le cadre mobile/bureau.
+
+`test:mounir-browser` utilise désormais l’entrée réelle de la fixture sur `ville1_arene` (namespace `/drift`), plutôt qu’un simple changement de champ serveur sans mise à jour du lieu client. Chargement froid du fond/socle volontairement retardé pour vérifier le rideau et les commandes inactives ; `validateMounirArenaUi` contrôle les deux sources selon orientation, l’alpha réel des socles, leur alignement et le contact des pieds avec les pixels opaques aux quatre tailles, ainsi que l’isolation des autres décors. Cette recette reste sur compte/base dédiés, sans commande de fixture dans l’application.
+
+Validation : 13 contrôles existants météo/caverne/Mounir à 0, lint et compilation réussis. `test:mounir-browser` passe à 0 : vrai combat privé contre les trois compagnons de Mounir, source portrait/paysage correcte à 320×480, 393×852, 844×390 et 1365×900, deux socles avec alpha mesuré et pieds alignés à moins d’un pixel horizontal, chargement froid masqué, priorités des autres décors, pluie/Forecast, envois/réplique/chronologie, Vol, mouvement réduit et annulation. Captures inspectées. La fixture appelle l’entrée du runtime avec son identifiant de socket `/drift` ; aucune nouvelle route de test n’est exposée.
+
+Client publié : `17d1fe496cd22832163769ac374e725d9daf7452`, build `/tmp/explorakit-mounir-art-dist`, hash **`64c86c3e4baa73d1`**. Publication statique le **21/10/2026 à 16 h 08 (Paris)**, index atomique et anciens bundles conservés, processus Explorakit inchangé (PID 1056827), sans redémarrage de service. Sauvegarde sources/dist/SQL/checkpoint `/home/ubuntu/dev/backups/explorakit-mounir-art-2026-10-21T14-05-19-042Z`, zéro expédition active lors du contrôle ; aucune migration ni donnée de joueur modifiée. Logs/captures `/tmp/explorakit-mounir-art-*`.
+
+Contrôle HTTPS public réussi sur un compte temporaire neuf : vrai dialogue et duel Aventure Mounir, Machoc → Steelix → Morphéo sous la pluie, les deux compositions et socles alignés aux quatre tailles, transparence réelle et isolation des autres décors, Vol au dernier PP avec retour avant frappe, réplique et huit thèmes, PP sauvegardés et sortie propre. L’index correspond au build, Know et api-test conservent leurs empreintes/statuts ; aucune erreur navigateur. Compte et données de recette supprimés. Captures publiques inspectées.
+
 ## Attaques en deux tours et paroles des dresseurs — 21 octobre 2026
 
 Traduction à l’affichage des noms internes dans les messages de combat, en un seul passage avec les noms les plus longs en premier et des limites de mots Unicode ; boutons/identifiants/PP/sauvegardes restent identiques. Les quatre capacités de Morphéo sont couvertes (Ball’Météo, Fatal-Foudre, Laser Glace, Danse Pluie). Les identifiants anglais restent affichés dans l’option anglaise. Réplique de dresseur dans le même rectangle fixe : encre crème, nom bleu clair sur fond marine, durée minimale 6 s, adaptée au texte jusqu’à 10 s ; file de présentation, masquage, annulation et mouvement réduit conservés.
@@ -1812,6 +1826,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **21 octobre 2026 — Arène de Mounir :** décor pixel art pluvieux propre à son lieu, compositions mobile/bureau et deux socles transparents alignés, avec préchargement et recette visuelle dédiée.
 
 - **21 octobre 2026 — Capacités en deux tours et répliques :** traduction des messages de Morphéo, phrase contrastée pendant 6–10 s, règles communes de charge/disparition/PP/reprise automatique et distinction visuelle préparation/frappe ; générations historiques inchangées et sauvegardes PvP séquentielles.
 

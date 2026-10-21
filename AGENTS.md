@@ -1,5 +1,13 @@
 # Contexte permanent — Explorakit
 
+## Décor de combat de Mounir — 21 octobre 2026
+
+Nouveaux assets `assets/battle/mounir-{mobile,wide,platform}-v1.webp`, créés avec le skill imagegen intégré : cour d’arène de la Ville du Lac, pierre bleutée humide, bassins latéraux, ciel couvert et sol continu. Deux compositions distinctes 1024×1536 /1536×1024 ; pas de Pokémon, interface ou socle peint dans le fond. Socle de pierre assorti avec anneau turquoise et vraie transparence (1774×887), rendu deux fois aux ancrages des combattants, pour qu’aucun recadrage ne décale leurs appuis. Formats WebP qualité 0,93 par encodage Canvas, dimensions et alpha conservés sans recadrage ; prompts complets/provenance dans `mounir-v1.prompts.txt`, PNG originaux conservés.
+
+`battleEnvironment` reconnaît seulement l’identifiant logique `ville1_arene` comme `lake-gym`, après la priorité du vrai combat Colosseum. Même décor Aventure/Rift/Colosseum lors du duel contre Mounir ; les autres arènes utilisant `gen_arene1`, grottes et tournoi gardent leur décor. Aucun changement serveur, météo, équipe, dégâts, carte ou sauvegarde. La pluie animée existe déjà ; sa ligne d’impacts pour cette cour commence à 40 % du cadre pour rester au sol. Les deux images de socle font partie du préchargement de l’entrée existante ; pas de double disque CSS. Sol continu, dimensions et ancrages communs avec les sprites, appui avant du socle du joueur maintenu dans le cadre mobile/bureau.
+
+`test:mounir-browser` utilise désormais l’entrée réelle de la fixture sur `ville1_arene` (namespace `/drift`), plutôt qu’un simple changement de champ serveur sans mise à jour du lieu client. Chargement froid du fond/socle volontairement retardé pour vérifier le rideau et les commandes inactives ; `validateMounirArenaUi` contrôle les deux sources selon orientation, l’alpha réel des socles, leur alignement et le contact des pieds avec les pixels opaques aux quatre tailles, ainsi que l’isolation des autres décors. Cette recette reste sur compte/base dédiés, sans commande de fixture dans l’application.
+
 ## Attaques en deux tours et paroles des dresseurs — 21 octobre 2026
 
 Traduction à l’affichage des noms internes dans les messages de combat, en un seul passage avec les noms les plus longs en premier et des limites de mots Unicode ; boutons/identifiants/PP/sauvegardes restent identiques. Les quatre capacités de Morphéo sont couvertes (Ball’Météo, Fatal-Foudre, Laser Glace, Danse Pluie). Les identifiants anglais restent affichés dans l’option anglaise. Réplique de dresseur dans le même rectangle fixe : encre crème, nom bleu clair sur fond marine, durée minimale 6 s, adaptée au texte jusqu’à 10 s ; file de présentation, masquage, annulation et mouvement réduit conservés.
