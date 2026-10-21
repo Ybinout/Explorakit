@@ -374,6 +374,20 @@ test('Repousse Rift : murs et commandes invalides gratuits, pas réel compté, p
  assert.equal(f.runtime.state(p).repelSteps,0);
 });
 
+test('Rift et Colosseum réduisent les rencontres de 20 % sur les vrais pas dans les herbes',()=>{
+ for(const mode of ['rift','colosseum'])for(const roll of [.05,.06]){
+  const f=fixture(2,()=>roll),p=f.run.players.get(1);f.run.mode=mode;
+  const maps=require('../server/game/world/mapRepository'),map='route1',c=maps.loadCollisionData(map),b=maps.battleMapData(map),changes=maps.changeMapData(map);
+  let pair;
+  for(let y=1;y<c.length&&!pair;y++)for(let x=1;x<c[y].length-1;x++)if(c[y][x]===0&&c[y][x+1]===0&&b[y]?.[x+1]&&!changes[y]?.[x+1]&&!f.run.pnjs.isPnjBlockingTile(map,x+1,y)){pair={x,y};break;}
+  assert(pair);Object.assign(p,{currentmap:map,x:pair.x*32+16,y:pair.y*32+16,lastMove:0});
+  f.runtime.move(p,'move_d');
+  assert.equal(p.x,(pair.x+1)*32+16,'le déplacement est réellement accepté');
+  assert.equal(Boolean(p.inbattle),roll===.05,`${mode}: tirage ${roll}`);
+  assert.equal(f.messages.some(m=>m.event==='battletrigger'),roll===.05);
+ }
+});
+
 test('Repousse filtre une vraie rencontre Rift sur le dernier pas, le pas suivant déclenche le combat',()=>{
  const f=fixture(2,()=>0),p=f.run.players.get(1);
  const maps=require('../server/game/world/mapRepository');

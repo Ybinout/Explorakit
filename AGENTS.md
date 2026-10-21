@@ -1,5 +1,9 @@
 # Contexte permanent — Explorakit
 
+## Fréquence des rencontres — 21 octobre 2026
+
+`server/game/world/encounterRate.js` fournit `WILD_ENCOUNTER_CHANCE = (1 /15) *0.8`, soit 5,3333 % par pas éligible au lieu de 6,6667 %. Valeur partagée par Aventure (`socketHandler`) et exploration Rift/Colosseum (`runManager`), sans changer Repousse/portails/terrains/espèces/niveaux/capture. Ne pas réintroduire un tirage indépendant `1/15` dans un mode. Contrôle de vrais pas/tirages 0,05 et 0,06 dans `drift-runtime.test.js` ; vérification complète SQL/lint/build passée, publication serveur seule, aucun asset ni donnée de joueur modifié.
+
 ## Hautes herbes au passage — 21 octobre 2026
 
 `GrassRustleRenderer` réutilise les pixels des brins autour des déplacements interpolés du joueur, autres joueurs et PNJ, dans les trois modes. Cache natif/30 Hz/32 touffes, retour au repos 440 ms ; pas d’effet à l’apparition, au repos ou à la téléportation. Dessin après base/eau et avant météo/personnages/foreground, sol/alpha/ombres fixes. `pnjWorldPosition` est partagé entre dessin et suivi des pas. Mouvement réduit/masquage/chargement/combat libèrent le cache.

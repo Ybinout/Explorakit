@@ -1,5 +1,13 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Rencontres sauvages réduites de 20 % — 21 octobre 2026
+
+Probabilité commune `WILD_ENCOUNTER_CHANCE = (1 /15) ×0,8` dans `server/game/world/encounterRate.js` : **6,6667 % →5,3333 % par pas éligible**, soit 20 % de rencontres en moins en moyenne. L’Aventure et le moteur d’exploration Rift/Colosseum importent la même valeur. Conditions de terrain, déplacements acceptés, portails, Repousse, espèces/niveaux, taux de capture et combats de dresseurs inchangés ; aucun fichier auteur ni sauvegarde modifié.
+
+Contrôle supplémentaire dans `drift-runtime.test.js` : sur un vrai déplacement dans l’herbe, un tirage 0,06 n’ouvre plus de combat et un tirage 0,05 en ouvre toujours un, en Rift et Colosseum. `RELEASE_DIST_DIR=/tmp/explorakit-encounters-dist VUE_APP_PUBLIC_PATH=/explorakit/ npm run verify:release -- --mysql` réussi : **587 tests applicatifs, 56 tests SQL**, audits contenu/capacités/talents/équilibrage/simulation, HTTP/reprise, lint et build. Logs `/tmp/explorakit-encounters-verify.log`.
+
+Publication serveur le **21/10/2026 à 17 h 16 (Paris)** : seul Explorakit redémarré, PID 1068278 actif, aucun redémarrage automatique ; zéro expédition active au contrôle. Sauvegarde préalable sources/dist/SQL/checkpoint `/home/ubuntu/dev/backups/explorakit-encounters-2026-10-21T15-14-52-664Z`, checkpoint relu avant redémarrage. Aucune migration ni remise à zéro. Client et index existants conservés, réponse HTTPS 200/index identique, Know et api-test gardent leurs statuts/empreintes. Client/gitlink toujours `8c5c68683ee3bae658ebd3c4cb630bddbec9313d` ; aucun changement frontend requis.
+
 ## Hautes herbes au passage des personnages — 21 octobre 2026
 
 `GrassRustleRenderer` anime brièvement les couleurs des brins des touffes autour des pas réellement parcourus, puis les ramène au repos en 440 ms. Même dessin pixel art que la carte, oscillation limitée aux pixels des brins et à la case, bordures/sol/ombres/alpha fixes ; aucun déplacement du foreground complet. Le masque visuel provient de quatre dessins d’herbes du tileset `teset2` (3225/2804/2944/3087), pas des cases de rencontre des grottes. Les bordures de chemin 1850 sont explicitement exclues. Métadonnées de **22 cartes /1 326 cases**, générées en lecture seule par `scripts/generateWorldGrass.js`, contrôle `--check`. Les nouvelles cartes utilisant d’autres dessins nécessitent d’étendre ce repérage visuel.
@@ -1836,6 +1844,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **21 octobre 2026 — Rencontres sauvages :** probabilité par pas réduite de 20 % dans les trois modes, valeur serveur commune 5,3333 %, Repousse/terrains et autres règles préservés ; tests et publication serveur validés.
 
 - **21 octobre 2026 — Hautes herbes :** frémissement bref aux vrais pas du joueur, autres joueurs et PNJ, 22 cartes et trois modes, sol/ombres fixes et pauses respectées ; recette pixels/déplacements dédiée.
 

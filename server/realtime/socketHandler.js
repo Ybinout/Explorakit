@@ -4,6 +4,7 @@ const { startPnjMovement } = require('../game/world/pnjMovement');
 const { loadCollisionData, changeMapData, getNextMap, battleMapData, InteractMapData } = require('../game/world/mapRepository');
 const { loadEquipe, editEquipe } = require('../persistence/teamRepository');
 const CreatePokemon = require('../game/world/wildPokemonFactory');
+const { WILD_ENCOUNTER_CHANCE } = require('../game/world/encounterRate');
 const startBattle = require('../game/battle/wildBattle');
 const startTeamBattle = require('../game/battle/trainerBattle');
 const { getSentenceForMapAndPosition, getSentenceForName, getEndSentenceInformation, getTeamInformation } = require('../game/world/interactionRepository');
@@ -1076,8 +1077,7 @@ const socketHandler = (io) => {
             }
 
             if (battlemap2D[matrixY] && battlemap2D[matrixY][matrixX] != 0 && !changemap2D[matrixY]?.[matrixX] && !player.inbattle) {
-                const randomNumber = Math.floor(Math.random() * 15);
-                if (randomNumber === 0) {
+                if (Math.random() < WILD_ENCOUNTER_CHANCE) {
                     player.inbattle = true;
 
                     async function utiliserCreatePokemon() {
