@@ -1,5 +1,25 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Clairfontaine après la Route 10 — 21 octobre 2026
+
+`pourtoi/ville3.json` et les deux PNG sont copiés à l’identique sous `ville3`, empreintes `docs/clairfontaine-author-assets.json` et TMX miroir des treize couches, sans retouche des collisions ou du bassin. Nom affiché **Clairfontaine** (Clearfountain en anglais). Route 10 sud (12–16,19) ↔ ville nord (12–16,0), arrivées ville (14,1) et Route 10 (14,18). Le message de sortie en attente décrit plus bas est remplacé seulement sur ce raccord ; la suite ouest de Clairfontaine (0,14–18) reste fermée avec le mécanisme `blockedMessage`, retour libre sans téléportation.
+
+Cinq portes exactes : Centre (23,6), arène (5,8), boutique (22,13), maisons (5,16)/(15,16). Alias logiques isolés `ville3_arene/shop/maison1/maison2` vers les intérieurs existants, sorties sur leurs parvis ; aucune porte d’une autre ville déplacée. Centre commun, provenance/checkpoint/soin/PC existants, entrée (13,14), retour (23,7) et persistance indépendante de chaque utilisateur. Boutique intégrée aux catalogues des trois modes ; cinq habitants/portraits et dialogues cohérents, positions libres et accessibles. L’arène est visitable avec un accueil mais aucun champion ni nouveau jalon activé : Lucie et le récit s’arrêtent toujours après Raphael, Ana/Wanda et l’ancienne région restent archivés. Ne pas les réactiver par simple raccordement d’une carte.
+
+Recettes : `clairfontaine.test.js` (sources/TMX, traversée, cinq portes, habitants, Centre/PC, langues, fermeture ouest et archives), runtime Rift/Colosseum pour tous les aller/retour, test SQL du Centre avec quatrième origine et redémarrage. `validateClairfontaineUi` dans `test:ocreville-browser` traverse réellement la ville, les cinq intérieurs, soigne, ouvre le PC par A, achète, parle aux habitants, recharge en ville, vérifie le passage ouest fermé puis revient à Route 10/Ocreville, en Aventure et Colosseum, quatre tailles.
+
+
+Validation générale : `verify:release -- --mysql` termine à 0, **554 tests applicatifs + 51 SQL**, audits de contenu/capacités/talents/équilibrage, HTTP/reprise, lint et build `/tmp/explorakit-clairfontaine-dist` (hash `5a0405f7d8a12baa`). La recette SQL du Centre vérifie maintenant quatre origines distinctes dont Clairfontaine, avec reconnexion et redémarrage, sans nouvelle migration ni modification des sauvegardes existantes. Les six tests ciblés Clairfontaine/Routes 9–10 repassent après l’ajustement de la recette visuelle. Client publié : `9ec47a9eb456ac8cfec2e20ee34820354490dc4c`.
+
+
+Recette navigateur locale à 0 : traversée réelle des Routes 9/10 jusqu’à Clairfontaine puis retour à Ocreville, cinq portes et parvis, soin validé par l’état d’équipe, PC ouvert par le vrai bouton A, achat avec argent/quantité contrôlés, dialogues des deux maisons et de l’accueil d’arène, reconnexion en ville, passage ouest fermé sans téléportation, en Aventure et Colosseum. Les six portes d’Ocreville, le Centre et le verrouillage de Raphael restent validés ; quatre tailles, aucune erreur. Captures ville/mobile/bureau inspectées. Aucun nouveau champion, récompense ou jalon de l’histoire ajouté.
+
+Publication le **21/10/2026 à 9 h 58 (Paris)**, build/hash ci-dessus. Sauvegarde sources/dist/SQL/checkpoint `/home/ubuntu/dev/backups/explorakit-clairfontaine-2026-10-21T07-51-46-117Z`. Aucune migration SQL ; redémarrage du seul service Explorakit pour les cartes et PNJ en cache, zéro expédition active juste avant, service actif et zéro redémarrage automatique. Les anciens bundles sont conservés pour les clients déjà ouverts.
+
+
+Contrôle HTTPS final à 0 sur un compte temporaire : vrais déplacements jusqu’à Clairfontaine et retour, cinq portes et parvis exacts, soin, PC par A, achat sauvegardé, dialogues et reconnexion en ville, fermeture ouest, quatre tailles ; six portes/Centre/Raphael d’Ocreville toujours fonctionnels. Images chargées, index public conforme au build, aucune erreur navigateur. Know et api-test inchangés (statut/empreinte), compte et données de recette supprimés. Logs et captures `/tmp/explorakit-clairfontaine-*`, captures publiques mobiles/bureau inspectées. Actualiser le jeu pour charger la ville ; aucune CI distante ni validation sur téléphone physique revendiquée.
+
+
 ## Routes 9 et 10 sous Ocreville — 21 octobre 2026
 
 Les six fichiers de `pourtoi/route9*` et `route10*` remplacent à l’identique les sources historiques `gen_route7` et `gen_route6` (empreintes `docs/routes9-10-author-assets.json`), sans retouche du dessin ni des collisions ; TMX miroirs des quatorze couches. Ces identifiants restent pour les sauvegardes, les noms affichés sont Route 9 / Route 10 dans les deux langues. Parcours : Ocreville sud (21–25,19) ↔ Route 9 nord (21–25,0), Route 9 sud (4–8,19) ↔ Route 10 nord (4–8,0). Arrivées hors portails : Route 9 (23,1)/(6,18), Route 10 (6,1), Ocreville (23,18).
@@ -1697,6 +1717,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **21 octobre 2026 — Clairfontaine :** export ville3 intégré sans retouche, raccord Route 10, cinq portes et intérieurs, Centre/soin/PC et boutique, dialogues et retour personnel persistant, passage ouest en attente.
 
 - **21 octobre 2026 — Routes 9 et 10 :** sources auteur exactes, Ocreville → Route 9 → Route 10, boutique utilisable, ancienne région conservée pour les sauvegardes et sortie suivante en attente du nouveau village.
 

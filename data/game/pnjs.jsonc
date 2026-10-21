@@ -721,6 +721,81 @@
         "index": 27
       },
       "block": true
+    },
+    {
+      "name": "clairfontaine_guide",
+      "interactionName": "clairfontaine_guide",
+      "map": "ville3",
+      "x": 19,
+      "y": 14,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 20
+      },
+      "roamRadius": 0
+    },
+    {
+      "name": "clairfontaine_vendeuse",
+      "interactionName": "clairfontaine_vendeuse",
+      "map": "ville3_shop",
+      "x": 13,
+      "y": 6,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 18
+      },
+      "roamRadius": 0
+    },
+    {
+      "name": "clairfontaine_habitant1",
+      "interactionName": "clairfontaine_habitant1",
+      "map": "ville3_maison1",
+      "x": 13,
+      "y": 8,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 26
+      },
+      "roamRadius": 0
+    },
+    {
+      "name": "clairfontaine_habitant2",
+      "interactionName": "clairfontaine_habitant2",
+      "map": "ville3_maison2",
+      "x": 13,
+      "y": 8,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 27
+      },
+      "roamRadius": 0
+    },
+    {
+      "name": "clairfontaine_accueil_arene",
+      "interactionName": "clairfontaine_accueil_arene",
+      "map": "ville3_arene",
+      "x": 13,
+      "y": 7,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 17
+      },
+      "roamRadius": 0
     }
   ]
 }

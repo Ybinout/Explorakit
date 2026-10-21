@@ -1,5 +1,13 @@
 # Contexte permanent — Explorakit
 
+## Clairfontaine après la Route 10 — 21 octobre 2026
+
+`pourtoi/ville3.json` et les deux PNG sont copiés à l’identique sous `ville3`, empreintes `docs/clairfontaine-author-assets.json` et TMX miroir des treize couches, sans retouche des collisions ou du bassin. Nom affiché **Clairfontaine** (Clearfountain en anglais). Route 10 sud (12–16,19) ↔ ville nord (12–16,0), arrivées ville (14,1) et Route 10 (14,18). Le message de sortie en attente décrit plus bas est remplacé seulement sur ce raccord ; la suite ouest de Clairfontaine (0,14–18) reste fermée avec le mécanisme `blockedMessage`, retour libre sans téléportation.
+
+Cinq portes exactes : Centre (23,6), arène (5,8), boutique (22,13), maisons (5,16)/(15,16). Alias logiques isolés `ville3_arene/shop/maison1/maison2` vers les intérieurs existants, sorties sur leurs parvis ; aucune porte d’une autre ville déplacée. Centre commun, provenance/checkpoint/soin/PC existants, entrée (13,14), retour (23,7) et persistance indépendante de chaque utilisateur. Boutique intégrée aux catalogues des trois modes ; cinq habitants/portraits et dialogues cohérents, positions libres et accessibles. L’arène est visitable avec un accueil mais aucun champion ni nouveau jalon activé : Lucie et le récit s’arrêtent toujours après Raphael, Ana/Wanda et l’ancienne région restent archivés. Ne pas les réactiver par simple raccordement d’une carte.
+
+Recettes : `clairfontaine.test.js` (sources/TMX, traversée, cinq portes, habitants, Centre/PC, langues, fermeture ouest et archives), runtime Rift/Colosseum pour tous les aller/retour, test SQL du Centre avec quatrième origine et redémarrage. `validateClairfontaineUi` dans `test:ocreville-browser` traverse réellement la ville, les cinq intérieurs, soigne, ouvre le PC par A, achète, parle aux habitants, recharge en ville, vérifie le passage ouest fermé puis revient à Route 10/Ocreville, en Aventure et Colosseum, quatre tailles.
+
 ## Routes 9 et 10 sous Ocreville — 21 octobre 2026
 
 Les six fichiers de `pourtoi/route9*` et `route10*` remplacent à l’identique les sources historiques `gen_route7` et `gen_route6` (empreintes `docs/routes9-10-author-assets.json`), sans retouche du dessin ni des collisions ; TMX miroirs des quatorze couches. Ces identifiants restent pour les sauvegardes, les noms affichés sont Route 9 / Route 10 dans les deux langues. Parcours : Ocreville sud (21–25,19) ↔ Route 9 nord (21–25,0), Route 9 sud (4–8,19) ↔ Route 10 nord (4–8,0). Arrivées hors portails : Route 9 (23,1)/(6,18), Route 10 (6,1), Ocreville (23,18).

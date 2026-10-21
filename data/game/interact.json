@@ -165,7 +165,7 @@
     "name": "route_guide_6",
     "sentences": [
       {
-        "text": "Tu es sur la Route 10. La petite boutique, au nord-est, vend de quoi préparer ton équipe. La suite au sud ouvrira avec le prochain village.",
+        "text": "Tu es sur la Route 10. Au sud, Clairfontaine possède un Centre Pokémon, une boutique et une place autour du bassin. Tu peux revenir vers Ocreville par la Route 9, au nord.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1818,6 +1818,77 @@
           "columns": 8,
           "rows": 4,
           "index": 27
+        }
+      }
+    ]
+  },
+  {
+    "name": "clairfontaine_guide",
+    "sentences": [
+      {
+        "text": "Bienvenue à Clairfontaine ! La Route 10 est au nord. Le Centre Pokémon est en haut à droite, la boutique juste en dessous et l’arène à gauche du bassin.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 20
+        }
+      }
+    ]
+  },
+  {
+    "name": "clairfontaine_vendeuse",
+    "sentences": [
+      {
+        "text": "Bienvenue à la boutique de Clairfontaine. Fais le plein de Balls et de soins avant de reprendre la route.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 18
+        }
+      }
+    ],
+    "end": "shop"
+  },
+  {
+    "name": "clairfontaine_habitant1",
+    "sentences": [
+      {
+        "text": "Notre place s’organise autour du bassin. Après une longue marche, j’aime m’y arrêter pour retrouver un peu de calme.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 26
+        }
+      }
+    ]
+  },
+  {
+    "name": "clairfontaine_habitant2",
+    "sentences": [
+      {
+        "text": "Le PC du Centre Pokémon permet de garder tes compagnons en sécurité. Tu peux y déposer un Pokémon ou retrouver ceux que tu as capturés avec une équipe déjà complète.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 27
+        }
+      }
+    ]
+  },
+  {
+    "name": "clairfontaine_accueil_arene",
+    "sentences": [
+      {
+        "text": "Bienvenue à l’arène de Clairfontaine. Les prochains défis seront annoncés ici ; les combats ne sont pas encore ouverts.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 17
         }
       }
     ]

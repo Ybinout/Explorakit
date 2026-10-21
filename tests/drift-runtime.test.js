@@ -385,12 +385,14 @@ test('Repousse filtre une vraie rencontre Rift sur le dernier pas, le pas suivan
  p.lastMove=0;f.runtime.move(p,'move_q');assert(p.inbattle);assert(f.messages.some(m=>m.event==='battletrigger'));
 });
 
-test('Rift and Colosseum traverse Routes 9/10 and the shop; unfinished south exits never teleport',()=>{
+test('Rift and Colosseum traverse Routes 9/10 and the shop; Clairfontaine opens south while its west exit stays closed',()=>{
  for(const mode of ['rift','colosseum']){
   const f=fixture(),p=f.run.players.get(1);f.run.mode=mode;
   const set=(map,x,y)=>Object.assign(p,{currentmap:map,x:x*32+16,y:y*32+16,lastMove:0});
   for(const [map,x,y,action,target,xy]of [['gen_ville5',23,18,'move_s','gen_route7',[23,1]],['gen_route7',6,18,'move_s','gen_route6',[6,1]],['gen_route6',6,1,'move_z','gen_route7',[6,18]],['gen_route7',23,1,'move_z','gen_ville5',[23,18]],['gen_route6',20,8,'move_z','gen_shop_route10',[13,16]],['gen_shop_route10',13,16,'move_s','gen_route6',[20,8]]]){set(map,x,y);f.runtime.move(p,action);assert.equal(p.currentmap,target);assert.deepEqual([Math.floor(p.x/32),Math.floor(p.y/32)],xy);}
-  set('gen_route6',14,18);f.runtime.move(p,'move_s');assert.equal(p.currentmap,'gen_route6');assert.equal(p.y,19*32+16);assert(f.messages.some(m=>m.event==='progressionNotice'&&/prochain village/.test(m.payload.message)));p.lastMove=0;f.runtime.move(p,'move_s');assert.equal(p.y,19*32+16);p.lastMove=0;f.runtime.move(p,'move_z');assert.equal(p.y,18*32+16);
+  set('gen_route6',14,18);f.runtime.move(p,'move_s');assert.equal(p.currentmap,'ville3');assert.deepEqual([p.x,p.y],[14*32+16,48]);p.lastMove=0;f.runtime.move(p,'move_z');assert.equal(p.currentmap,'gen_route6');
+  for(const [x,y,target]of [[23,6,'centre'],[5,8,'ville3_arene'],[22,13,'ville3_shop'],[5,16,'ville3_maison1'],[15,16,'ville3_maison2']]){set('ville3',x,y+1);f.runtime.move(p,'move_z');assert.equal(p.currentmap,target);p.lastMove=0;f.runtime.move(p,'move_s');assert.equal(p.currentmap,'ville3');assert.deepEqual([Math.floor(p.x/32),Math.floor(p.y/32)],[x,y+1]);}
+  set('ville3',1,16);f.runtime.move(p,'move_q');assert.equal(p.currentmap,'ville3');assert.equal(p.x,16);assert(f.messages.some(m=>m.event==='progressionNotice'&&/ouest/.test(m.payload.message)));p.lastMove=0;f.runtime.move(p,'move_q');assert.equal(p.x,16);p.lastMove=0;f.runtime.move(p,'move_d');assert.equal(p.x,48);set('gen_route6',14,18);
   const {decode,encode}=require('../server/game/drift/checkpointCodec'),restored=decode(encode(f.run));assert.equal(restored.players.get(1).currentmap,'gen_route6');
  }
 });

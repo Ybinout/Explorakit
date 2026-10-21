@@ -885,10 +885,9 @@
         {
           "valX": null,
           "valY": 19,
-          "goto": "gen_route6",
+          "goto": "ville3",
           "nexX": 448,
-          "nexY": 608,
-          "blockedMessage": "La suite de la route sera accessible avec le prochain village. Tu peux continuer à explorer les Routes 9 et 10."
+          "nexY": 64
         }
       ],
       "wildpokemon": [
@@ -1608,6 +1607,134 @@
           "goto": "gen_route6",
           "nexX": 640,
           "nexY": 288
+        }
+      ]
+    },
+    {
+      "mapName": "ville3",
+      "wildpokemon": [],
+      "level": {
+        "min": 41,
+        "max": 43
+      },
+      "mapchange": [
+        {
+          "valX": null,
+          "valY": 0,
+          "goto": "gen_route6",
+          "nexX": 448,
+          "nexY": 608
+        },
+        {
+          "valX": 23,
+          "valY": 6,
+          "goto": "centre",
+          "nexX": 416,
+          "nexY": 480
+        },
+        {
+          "valX": 5,
+          "valY": 8,
+          "goto": "ville3_arene",
+          "nexX": 416,
+          "nexY": 544
+        },
+        {
+          "valX": 22,
+          "valY": 13,
+          "goto": "ville3_shop",
+          "nexX": 416,
+          "nexY": 544
+        },
+        {
+          "valX": 5,
+          "valY": 16,
+          "goto": "ville3_maison1",
+          "nexX": 416,
+          "nexY": 544
+        },
+        {
+          "valX": 15,
+          "valY": 16,
+          "goto": "ville3_maison2",
+          "nexX": 416,
+          "nexY": 544
+        },
+        {
+          "valX": 0,
+          "valY": null,
+          "goto": "ville3",
+          "nexX": 32,
+          "nexY": 544,
+          "blockedMessage": "Le passage vers l’ouest est fermé pour le moment."
+        }
+      ]
+    },
+    {
+      "mapName": "ville3_arene",
+      "wildpokemon": [],
+      "level": {
+        "min": 41,
+        "max": 43
+      },
+      "mapchange": [
+        {
+          "valX": null,
+          "valY": 17,
+          "goto": "ville3",
+          "nexX": 160,
+          "nexY": 320
+        }
+      ]
+    },
+    {
+      "mapName": "ville3_shop",
+      "wildpokemon": [],
+      "level": {
+        "min": 41,
+        "max": 43
+      },
+      "mapchange": [
+        {
+          "valX": null,
+          "valY": 17,
+          "goto": "ville3",
+          "nexX": 704,
+          "nexY": 480
+        }
+      ]
+    },
+    {
+      "mapName": "ville3_maison1",
+      "wildpokemon": [],
+      "level": {
+        "min": 41,
+        "max": 43
+      },
+      "mapchange": [
+        {
+          "valX": null,
+          "valY": 17,
+          "goto": "ville3",
+          "nexX": 160,
+          "nexY": 576
+        }
+      ]
+    },
+    {
+      "mapName": "ville3_maison2",
+      "wildpokemon": [],
+      "level": {
+        "min": 41,
+        "max": 43
+      },
+      "mapchange": [
+        {
+          "valX": null,
+          "valY": 17,
+          "goto": "ville3",
+          "nexX": 480,
+          "nexY": 576
         }
       ]
     }

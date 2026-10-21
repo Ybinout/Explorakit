@@ -5,7 +5,7 @@ if(!/test/i.test(process.env.DB_TEST_NAME||''))throw Error('Dedicated test datab
 process.env.DB_NAME=process.env.DB_TEST_NAME;process.env.NODE_ENV='test';
 const express=require('express'),{Server}=require('socket.io'),{chromium}=require('playwright');
 const {dbPool}=require('../server/config/database');
-const dist=process.env.RELEASE_DIST_DIR||'/tmp/explorakit-routes910-dist',output=process.env.RELEASE_SCREENSHOTS||'/tmp/explorakit-routes910-browser';fs.mkdirSync(output,{recursive:true});
+const dist=process.env.RELEASE_DIST_DIR||'/tmp/explorakit-clairfontaine-dist',output=process.env.RELEASE_SCREENSHOTS||'/tmp/explorakit-clairfontaine-browser';fs.mkdirSync(output,{recursive:true});
 const app=express(),server=http.createServer(app),io=new Server(server,{path:'/explorakit/socket.io'});
 app.use(express.json());app.use('/explorakit/api',require('../server/http/routes'));app.use('/explorakit',express.static(dist));app.get('*',(_q,r)=>r.sendFile(path.join(dist,'index.html')));
 io.use(require('../server/http/authMiddleware').authenticateSocket);require('../server/realtime/socketHandler')(io);

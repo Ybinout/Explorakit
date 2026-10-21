@@ -19,10 +19,10 @@ async function validateRouteExtensions(page,{step,capture,prefix=''}){
  await page.locator('.shop-item').filter({has:page.getByText(before.item.name,{exact:true})}).locator('.shop-buy-controls button').click();
  await page.waitForFunction(q=>{const v=window.cityVm;return !v.shop.loading&&!v.shop.error&&(v.bagItems.find(i=>i.key==='pokeball')?.quantity||0)===q+1;},before.quantity);assert.equal(await page.evaluate(()=>window.cityVm.shop.money),before.money-before.item.price);await page.locator('.shop-close').click();
  await step('move_s','gen_route6');assert.deepEqual(await position(),{map:'gen_route6',x:20,y:8});
- await walk(14,18);await step('move_s','gen_route6');await page.waitForFunction(()=>{const v=window.cityVm,p=v.players[v.socket.id];return v.interactionNotice.includes('prochain village')&&Math.floor(p.y/32)===19;});assert.deepEqual(await position(),{map:'gen_route6',x:14,y:19});await page.waitForTimeout(160);await page.evaluate(()=>window.cityVm.socket.emit('playerAction','move_s'));await page.waitForTimeout(200);assert.deepEqual(await position(),{map:'gen_route6',x:14,y:19});await walk(14,18);
+ await walk(14,18);const city=await require('./validateClairfontaineUi').validateClairfontaine(page,{walk,step,capture,prefix});
  if(!await page.evaluate(()=>window.cityVm.isDrift))assert((await page.evaluate(()=>new Promise(r=>window.cityVm.socket.emit('requestGameSave',r)))).success);
  await page.reload({waitUntil:'networkidle'});await page.waitForFunction(()=>{const v=document.querySelector('.game-root')?.__vue__;if(!v?.socket?.connected||!v.players[v.socket.id]||v.mapLoading||v.renderedMap!==v.map)return false;window.cityVm=v;return true;});assert.deepEqual(await position(),{map:'gen_route6',x:14,y:18});
  await walk(6,1);await step('move_z','gen_route7');assert.deepEqual(await position(),{map:'gen_route7',x:6,y:18});await walk(23,1);await step('move_z','gen_ville5');assert.deepEqual(await position(),{map:'gen_ville5',x:23,y:18});
- return {walkedBothRoads:true,shopPurchase:true,unfinishedVillageNotice:true,reconnected:true,returnedToOcreville:true};
+ return {walkedBothRoads:true,shopPurchase:true,city,reconnected:true,returnedToOcreville:true};
 }
 module.exports={validateRouteExtensions};

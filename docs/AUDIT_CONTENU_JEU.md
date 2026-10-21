@@ -1,5 +1,8 @@
 # Audit du contenu du jeu
 
+**Clairfontaine** (`ville3`) prolonge maintenant la Route 10 au sud : Centre Pokémon et PC, boutique, deux maisons et arène visitable sans nouveau champion actif. Le passage ouest reste fermé en attendant une nouvelle carte ; la recherche de Lucie reste arrêtée après Raphael. Cette entrée remplace la précédente attente du village au sud de Route 10.
+
+
 La nouvelle sortie d’Ocreville mène désormais à **Route 9 puis Route 10**, copies des exports auteur (anciens identifiants `gen_route7`/`gen_route6` conservés). Une boutique fonctionne sur Route 10 ; la sortie sud attend le prochain village de l’auteur. La région historique au-delà reste disponible seulement aux anciennes positions, sans nouvelle étape de scénario après Raphael. Cette topologie remplace le raccord provisoire Ocreville → ancienne Route 7 → Floraville décrit ci-dessous.
 
 
