@@ -1,5 +1,14 @@
 # Contexte permanent — Explorakit
 
+## Icône météo de combat — 22 octobre 2026
+
+Le composant commun affiche désormais la météo active dans une pastille de 34 px, en haut à droite du terrain, avec icône vectorielle issue de `JournalIcon` (pluie, soleil, sable ou grêle), libellé accessible et infobulle localisée. Aucun texte météo permanent en bas ; le créneau d’annonces/commandes n’est plus occupé par la météo seule. Les champs de terrain restent indiqués en bas comme auparavant. L’icône suit l’état serveur et disparaît sans météo ; pas de contrôle du climat ajouté.
+
+Position absolue dans la scène, au-dessus du rendu, loin de la carte adverse ; mêmes règles dans les trois modes. `test:combat-snow-browser` contrôle les quatre icônes/libellés, leur position et taille, l’absence de chevauchement/texte météo inférieur, la stabilité des boutons, le retour à un état sec et la conservation du Champ Herbu aux quatre tailles. Aucun état de combat, carte, sauvegarde ou calcul météo modifié.
+
+
+Validation complète 669 applicatifs/73 SQL et recette quatre icônes/quatre tailles passée, commandes fixes et terrains conservés. Publication statique le 22/10/2026 à 13 h 01 Paris, build07405368db1f5e77, aucun redémarrage ; HTTPS/index/bundle exacts, sites voisins préservés. Modifications utilisateur de `phrase.txt` laissées intactes hors patch.
+
 ## Décors de combat enneigés — 22 octobre 2026
 
 Deux assets originaux via skill imagegen intégré : `snow-mobile-v1.webp` 1024×1536 et `snow-wide-v1.webp` 1536×1024, pixel art de champ blanc, sapins/montagnes enneigés et ciel couvert. Prompts exacts et provenance dans `assets/battle/snow-v1.prompts.txt`. Encodage Canvas WebP0,93 sans recadrage ; pas de Pokémon/UI/particules ni socles peints dans les images. Deux disques blancs/bleu pâle sont rendus séparément aux mêmes ancrages que les combattants, aussi sur PC : aucun déplacement du fond ne peut décaler leurs appuis.

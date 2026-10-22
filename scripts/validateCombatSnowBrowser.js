@@ -71,6 +71,29 @@ let holdSnow = true; const heldSnow = [];
                 const c = document.querySelector('[data-battle-snow]'), r = c?.getBoundingClientRect();
                 return c?.__vue__?._snowRenderer?.frames > 0 && Math.abs(c.width - Math.round(r.width * Math.min(1.5,devicePixelRatio || 1))) <= 1;
             });
+            // Weather stays in the scene corner; it never consumes the action/announcement slot.
+            const icons = await page.evaluate(async () => {
+                const b = window.snowCombatVm.$refs.battleOverlay, result = [];
+                const buttons = () => { const r = document.querySelector('.battle-main-actions').getBoundingClientRect(); return {x:r.x,y:r.y,width:r.width,height:r.height}; };
+                const before = buttons();
+                for (const [kind,label] of [['rain','Pluie'],['sun','Soleil'],['sandstorm','Tempête de sable'],['hail','Grêle']]) {
+                    b.updateFieldState({weather:{kind}}); await b.$nextTick();
+                    const icon = document.querySelector('[data-battle-weather]'), rect = icon.getBoundingClientRect(), scene = document.querySelector('.battle-scene').getBoundingClientRect(), card = document.querySelector('.battle-status-wild').getBoundingClientRect();
+                    result.push({kind,label:icon.getAttribute('aria-label'),title:icon.title,path:icon.querySelector('path').getAttribute('d'),width:rect.width,height:rect.height,top:rect.top-scene.top,right:scene.right-rect.right,overlap:rect.left<card.right&&rect.right>card.left&&rect.top<card.bottom&&rect.bottom>card.top,bottomLabel:!!document.querySelector('.battle-announcements .battle-field-label'),text:icon.textContent.trim(),buttons:buttons()});
+                }
+                b.updateFieldState({weather:{kind:'rain'},terrain:{kind:'grassy_terrain'}}); await b.$nextTick();
+                const terrain = [...document.querySelectorAll('.battle-announcements .battle-field-label')].map(el=>el.textContent.trim());
+                b.updateFieldState({weather:{kind:null}}); await b.$nextTick(); const dry = !document.querySelector('[data-battle-weather]');
+                b.updateFieldState({weather:{kind:'hail'}}); await b.$nextTick();
+                return {before,result,terrain,dry};
+            });
+            assert.equal(new Set(icons.result.map(i=>i.path)).size,4);
+            for (const [i,label] of icons.result.map((item,i)=>[item,['Pluie','Soleil','Tempête de sable','Grêle'][i]])) {
+                assert.equal(i.label,label); assert.equal(i.title,label); assert.equal(i.text,''); assert.equal(i.bottomLabel,false); assert.equal(i.overlap,false);
+                assert.equal(i.width,34); assert.equal(i.height,34); assert(Math.abs(i.top-10)<1&&Math.abs(i.right-10)<1);
+                for (const key of ['x','y','width','height']) assert(Math.abs(i.buttons[key]-icons.before[key])<1);
+            }
+            assert(icons.dry); assert.deepEqual(icons.terrain,['Champ Herbu']);
             const probe = await page.locator('[data-battle-snow]').evaluate(async c => {
                 const v = c.__vue__, renderer = v._snowRenderer, rect = c.getBoundingClientRect();
                 const before = renderer.frames, start = performance.now(); await new Promise(resolve => setTimeout(resolve,350));
@@ -94,7 +117,7 @@ let holdSnow = true; const heldSnow = [];
                 });
             });
             for (const g of geometry) { assert(g.center < 1,JSON.stringify(g)); assert(g.foot >= g.top - 2 && g.foot <= g.bottom + 2,JSON.stringify(g)); assert.equal(g.color,'rgb(237, 247, 255)'); }
-            scenery.push({width,portrait,background,platforms:geometry});
+            scenery.push({width,portrait,background,platforms:geometry,weatherIcons:true});
             assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
             await page.screenshot({ path:path.join(output,`snow-${width}.png`) });
         }
