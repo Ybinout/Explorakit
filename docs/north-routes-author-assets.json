@@ -1,8 +1,11 @@
 {
-  "data/maps/route13.json": "340d3184d1e3f636b15e05241fc8cfa04c1456744ca5f96689cae25a7c858019",
-  "vue-explorakit/src/assets/route13.png": "446639302d28c313b1f9dc8afae09b5754dcf81cb0c755ac4d48b5a355dcf256",
-  "vue-explorakit/src/assets/route13_f.png": "5c5df687c397d7a5de3587bc58ab100b69bb5fc447980478d6a9af9bb51aaae5",
-  "data/maps/route14.json": "f0863dd75b8df316cea33f7c75a71ea02bbc1edfff0e81b457b3ceb2f12443b6",
-  "vue-explorakit/src/assets/route14.png": "129f8a13e239cadb14c41c0eecd8083ec3464c7f790b1936646ca5689be92aa8",
-  "vue-explorakit/src/assets/route14_f.png": "856aea65c861acf0fdfb64122624b1306303a6e971e035031d05d2577f94588f"
+  "data/maps/route13.json": "5554a21e63b17836cf782053f2ccebb96676e8d120ba47be7a08430a22a4dd9c",
+  "vue-explorakit/src/assets/route13.png": "85243f1c8eaa5a3d0a95b3b9691021feee75efd3c86f36bd185fe6ef007baece",
+  "vue-explorakit/src/assets/route13_f.png": "e4157d7f479b976060721e3e9a22965d96870d7f7bd3a1143699981305285eb5",
+  "data/maps/route14.json": "7cef44884bb34c5bf3e3b35895e0adb9301c90880dd85fb2350c9f296264fbf0",
+  "vue-explorakit/src/assets/route14.png": "cb79ab3ece7f7a581ebaca87b98a0076b1e353c1ac7d8c66ee0c56c3457cb9f6",
+  "vue-explorakit/src/assets/route14_f.png": "753832d7c195b7370652fa7edf61bbe94786959450633844f26533584c54476b",
+  "data/maps/ville5.json": "0f0b5d0594aa294070481dc341259eed5be52fdb18167d43630e07e5356e18ea",
+  "vue-explorakit/src/assets/ville5.png": "1107857622251b5e845430ffbfb5155462627ffc7d4e77734a8fe07c53e36073",
+  "vue-explorakit/src/assets/ville5_f.png": "5acce90095825d38caac18266f563c51f1616da36b6f79a8a2f74e1c4b9139b7"
 }

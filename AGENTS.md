@@ -1,5 +1,14 @@
 # Contexte permanent — Explorakit
 
+## Blanchecime et nouvelles versions des Routes 13/14 — 22 octobre 2026
+
+Les neuf fichiers auteur `pourtoi/route13 (1){,_f}.png`, Route14 et `ville5` sont copiés exactement : manifeste actualisé `docs/north-routes-author-assets.json` (neuf empreintes). Les révisions de routes changent les ombres et le foreground (arbres abaissés dans le PNG de base) ; collisions, portails et 27 herbes par route sont inchangés. Le cache d’herbes se régénère à l’identique (`generateWorldGrass --check`), neige3/vent2 et masque enneigé préservés. Aucun PNG, calque ou passage auteur retouché.
+
+`ville5` = **Blanchecime** (Whitepeak en anglais), après Route14 : ses cinq voies nord x12–16 mènent à la ville y18 ; les cinq voies sud de la ville reviennent à Route14 y1. Centre `(4,6)`, boutique `(22,6)`, arène `(13,7)`, maisons `(3,16)`/`(23,16)`, retours sur leur vrai parvis. Centre/soins/PC et origine persistante réutilisés ; boutique réelle reconnue serveur/client, quatre intérieurs isolés par alias, cinq habitants/accueil accessibles et portraits existants. La ville reste une zone sûre sans rencontres ni chute de neige ajoutée automatiquement ; les deux routes gardent leurs tables 51–53/52–54. Arène visitable avec accueil mais défi encore indisponible : aucun champion, chapitre, badge ou récompense inventé après Wanda.
+
+Tests `blanchecime`, manifeste et `north-caves`/`drift-runtime` adaptés : cinq voies, arrivées hors portail/collision/PNJ, toutes les portes/retours, provenance du Centre et accès boutique/PC. `test:north-caves-browser` traverse désormais Blanchecime et ses cinq bâtiments dans les trois modes avec soin, PC ouvert par A, achat effectif et dialogues, puis revient jusqu’à Rochebrume. Les états sauvegardés des routes restent compatibles puisque les collisions sont inchangées.
+Vérification complète 662 applicatifs/72 SQL passée ; parcours Aventure/Colosseum et Rift focalisé validés, cinq portes/soins/PC/achat, vrai combat en grotte, quatre tailles. Le partenaire de recette Rift doit ouvrir une vraie socket puis émettre `drift:enter` après le départ ; le salon seul ne suffit pas. Publication serveur/client sans migration, sauvegardes conservées.
+
 ## Hautes herbes enneigées — 22 octobre 2026
 
 Le dessin `teset2` 2961 est ajouté aux métadonnées visuelles `worldGrass`, régénérées en lecture seule : Route 13 et Route 14 possèdent chacune 27 touffes, total 24 cartes/1 380 cases. Aucun JSON/TMX/PNG auteur ni flag de rencontre modifié. Le masque du renderer partagé ajoute les cinq teintes exactes des brins et de leurs pointes enneigées, relevées sur les PNG livrés : 152,184,200 /183,207,215 /240,240,240 /214,232,237 /200,224,232. Exclure le fond neige 217,230,233, ses mouchetures, les ombres, bordures et pixels transparents ; ne pas déplacer le rectangle complet ou tout le foreground.

@@ -1963,5 +1963,76 @@
         }
       }
     ]
+  },
+  {
+    "name": "blanchecime_guide",
+    "sentences": [
+      {
+        "text": "Bienvenue à Blanchecime ! Les Routes 13 et 14 descendent vers les grottes et Rochebrume. Le Centre Pokémon et la boutique sont au nord de la place.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 20
+        }
+      }
+    ]
+  },
+  {
+    "name": "blanchecime_vendeuse",
+    "sentences": [
+      {
+        "text": "Bienvenue à la boutique de Blanchecime. Fais le plein de Balls et de soins avant de repartir dans la neige.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 18
+        }
+      }
+    ],
+    "end": "shop"
+  },
+  {
+    "name": "blanchecime_habitant1",
+    "sentences": [
+      {
+        "text": "Les hautes herbes enneigées abritent des Pokémon de montagne. Prépare une équipe variée avant de les explorer.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 26
+        }
+      }
+    ]
+  },
+  {
+    "name": "blanchecime_habitant2",
+    "sentences": [
+      {
+        "text": "Le PC du Centre Pokémon permet de déposer, retirer et échanger tes compagnons avec ceux de ton équipe.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 27
+        }
+      }
+    ]
+  },
+  {
+    "name": "blanchecime_arene",
+    "sentences": [
+      {
+        "text": "Bienvenue à l’arène de Blanchecime. Le prochain défi n’est pas encore ouvert. Tu peux revenir visiter la ville et préparer ton équipe en attendant.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 26
+        }
+      }
+    ]
   }
 ]

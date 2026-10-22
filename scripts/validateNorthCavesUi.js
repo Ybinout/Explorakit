@@ -83,8 +83,10 @@ async function validateNorthCaves(page, { capture }) {
     const savedRoute = await position();
     await page.reload({ waitUntil: 'networkidle' }); await ready(); assert.deepEqual(await position(), savedRoute);
     await walk(13, 1);
-    await step('move_z', { map: 'route14', x: 13, y: 0 });
-    await page.waitForFunction(() => window.cavesVm.interactionNotice.includes('Route 14'));
+    await step('move_z', { map: 'ville5', x: 13, y: 18 });
+    await require('./validateBlanchecimeUi').validateBlanchecime(page, { walk, step, position, capture });
+    await walk(13, 18);
+    await step('move_s', { map: 'route14', x: 13, y: 1 });
     await walk(13, 18);
     await step('move_s', { map: 'route13', x: 13, y: 1 });
     await walk(13, 18);
@@ -96,6 +98,6 @@ async function validateNorthCaves(page, { capture }) {
     await walk(13, 18);
     await step('move_s', { map: 'ville4', x: 13, y: 4 });
     assert.equal(await page.evaluate(() => window.cavesVm.mapWeather.kind), 'sandstorm');
-    return { orderedThreeCaves: true, orderedRoutes13And14: true, roundTrip: true, dryInteriors: true, reconnect: true, finalExitClosed: true };
+    return { orderedThreeCaves: true, orderedRoutes13And14: true, roundTrip: true, dryInteriors: true, reconnect: true, blanchecimeAndFiveDoors: true };
 }
 module.exports = { validateNorthCaves };

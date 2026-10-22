@@ -1,5 +1,19 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Blanchecime et nouvelles versions des Routes 13/14 — 22 octobre 2026
+
+Les neuf fichiers auteur `pourtoi/route13 (1){,_f}.png`, Route14 et `ville5` sont copiés exactement : manifeste actualisé `docs/north-routes-author-assets.json` (neuf empreintes). Les révisions de routes changent les ombres et le foreground (arbres abaissés dans le PNG de base) ; collisions, portails et 27 herbes par route sont inchangés. Le cache d’herbes se régénère à l’identique (`generateWorldGrass --check`), neige3/vent2 et masque enneigé préservés. Aucun PNG, calque ou passage auteur retouché.
+
+`ville5` = **Blanchecime** (Whitepeak en anglais), après Route14 : ses cinq voies nord x12–16 mènent à la ville y18 ; les cinq voies sud de la ville reviennent à Route14 y1. Centre `(4,6)`, boutique `(22,6)`, arène `(13,7)`, maisons `(3,16)`/`(23,16)`, retours sur leur vrai parvis. Centre/soins/PC et origine persistante réutilisés ; boutique réelle reconnue serveur/client, quatre intérieurs isolés par alias, cinq habitants/accueil accessibles et portraits existants. La ville reste une zone sûre sans rencontres ni chute de neige ajoutée automatiquement ; les deux routes gardent leurs tables 51–53/52–54. Arène visitable avec accueil mais défi encore indisponible : aucun champion, chapitre, badge ou récompense inventé après Wanda.
+
+Tests `blanchecime`, manifeste et `north-caves`/`drift-runtime` adaptés : cinq voies, arrivées hors portail/collision/PNJ, toutes les portes/retours, provenance du Centre et accès boutique/PC. `test:north-caves-browser` traverse désormais Blanchecime et ses cinq bâtiments dans les trois modes avec soin, PC ouvert par A, achat effectif et dialogues, puis revient jusqu’à Rochebrume. Les états sauvegardés des routes restent compatibles puisque les collisions sont inchangées.
+
+Vérification complète `RELEASE_DIST_DIR=/tmp/explorakit-blanchecime-dist VUE_APP_PUBLIC_PATH=/explorakit/ npm run verify:release -- --mysql` réussie : **662 tests applicatifs /72 SQL**, audits, HTTP/reprise, lint/build. Les cinq nouveaux civils portent le total attendu à 61 ; le contrôle des portraits reste strict (mêmes cadres entre PNJ/dialogue). Comparaison Canvas des deux PNG de base avant/après : **0 pixel modifié dans les 54 cases d’herbes**, masque et animation existants conservés. La recette Rift plus longue a révélé que son faux partenaire sans socket dépassait le délai de déconnexion ; son scénario utilise maintenant une vraie seconde connexion Socket.IO authentifiée, puis la vraie commande `drift:enter` (se connecter au salon seul n’attache pas le joueur au monde), sans modifier les règles de présence du jeu. Les parcours complets Aventure/Colosseum ont passé leurs cinq portes et le retour ; le Rift a ensuite passé l’ensemble avec `NORTH_CAVES_RIFT_ONLY=1`, vraie connexion des deux joueurs, reconnexions, cinq portes/soin/PC/achat et retour jusqu’à Rochebrume. La recette conserve son mode complet par défaut. Vrai combat en grotte/fuite aux quatre tailles passé à la fin, zéro erreur navigateur. Captures inspectées ; aucun téléphone physique revendiqué.
+
+Publication le **22/10/2026 à 11 h 59 (Paris)** : client `24bec48b03c68849823968bb20ba80267d18b959`, build `9a8f72a083355426`. Sauvegarde sources/dist/SQL/checkpoint `/home/ubuntu/dev/backups/explorakit-blanchecime-2026-10-22T09-34-59-390Z`, checkpoint relu avant redémarrage et 0 expédition active. Assets copiés avec anciens bundles conservés, seule unité Explorakit redémarrée, PID1170124 actif et zéro redémarrage automatique ; index atomique, HTTPS200/index conforme, Know/api-test inchangés. Aucune migration ni réécriture des sauvegardes réelles. Logs/captures `/tmp/explorakit-blanchecime-*`.
+
+Contrôle HTTPS public réussi sur compte temporaire : Rochebrume → grottes → Routes13/14 mises à jour → Blanchecime, cinq portes et retours, soin réel au Centre, PC par A, achat et dialogues puis retour complet. Quatre tailles, index identique au build et zéro erreur navigateur. Captures inspectées et compte supprimé (`/tmp/explorakit-blanchecime-public*`).
+
 ## Hautes herbes enneigées — 22 octobre 2026
 
 Le dessin `teset2` 2961 est ajouté aux métadonnées visuelles `worldGrass`, régénérées en lecture seule : Route 13 et Route 14 possèdent chacune 27 touffes, total 24 cartes/1 380 cases. Aucun JSON/TMX/PNG auteur ni flag de rencontre modifié. Le masque du renderer partagé ajoute les cinq teintes exactes des brins et de leurs pointes enneigées, relevées sur les PNG livrés : 152,184,200 /183,207,215 /240,240,240 /214,232,237 /200,224,232. Exclure le fond neige 217,230,233, ses mouchetures, les ombres, bordures et pixels transparents ; ne pas déplacer le rectangle complet ou tout le foreground.
@@ -1999,6 +2013,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **22 octobre 2026 — Blanchecime :** révisions auteur des Routes13/14 et ville5 intégrées exactement, cinq portes et raccordement nord ouverts, Centre/PC/boutique/maisons/arène visitable ; neige et herbes préservées.
 
 - **22 octobre 2026 — Herbes enneigées :** dessin 2961 des deux routes ajouté au frémissement partagé, masque de couleurs dédié et sol enneigé fixe ; tests et recette étendue.
 

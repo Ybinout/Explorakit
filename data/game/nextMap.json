@@ -2233,70 +2233,213 @@
         {
           "valX": 12,
           "valY": 0,
+          "goto": "ville5",
+          "nexX": 384,
+          "nexY": 608
+        },
+        {
+          "valX": 13,
+          "valY": 19,
+          "goto": "route13",
+          "nexX": 416,
+          "nexY": 64
+        },
+        {
+          "valX": 13,
+          "valY": 0,
+          "goto": "ville5",
+          "nexX": 416,
+          "nexY": 608
+        },
+        {
+          "valX": 14,
+          "valY": 19,
+          "goto": "route13",
+          "nexX": 448,
+          "nexY": 64
+        },
+        {
+          "valX": 14,
+          "valY": 0,
+          "goto": "ville5",
+          "nexX": 448,
+          "nexY": 608
+        },
+        {
+          "valX": 15,
+          "valY": 19,
+          "goto": "route13",
+          "nexX": 480,
+          "nexY": 64
+        },
+        {
+          "valX": 15,
+          "valY": 0,
+          "goto": "ville5",
+          "nexX": 480,
+          "nexY": 608
+        },
+        {
+          "valX": 16,
+          "valY": 19,
+          "goto": "route13",
+          "nexX": 512,
+          "nexY": 64
+        },
+        {
+          "valX": 16,
+          "valY": 0,
+          "goto": "ville5",
+          "nexX": 512,
+          "nexY": 608
+        }
+      ]
+    },
+    {
+      "mapName": "ville5",
+      "wildpokemon": [],
+      "level": {
+        "min": 52,
+        "max": 54
+      },
+      "mapchange": [
+        {
+          "valX": 12,
+          "valY": 19,
           "goto": "route14",
           "nexX": 384,
-          "nexY": 64,
-          "blockedMessage": "La suite de la Route 14 n’est pas encore accessible."
-        },
-        {
-          "valX": 13,
-          "valY": 19,
-          "goto": "route13",
-          "nexX": 416,
           "nexY": 64
         },
         {
           "valX": 13,
-          "valY": 0,
+          "valY": 19,
           "goto": "route14",
           "nexX": 416,
-          "nexY": 64,
-          "blockedMessage": "La suite de la Route 14 n’est pas encore accessible."
-        },
-        {
-          "valX": 14,
-          "valY": 19,
-          "goto": "route13",
-          "nexX": 448,
           "nexY": 64
         },
         {
           "valX": 14,
-          "valY": 0,
+          "valY": 19,
           "goto": "route14",
           "nexX": 448,
-          "nexY": 64,
-          "blockedMessage": "La suite de la Route 14 n’est pas encore accessible."
-        },
-        {
-          "valX": 15,
-          "valY": 19,
-          "goto": "route13",
-          "nexX": 480,
           "nexY": 64
         },
         {
           "valX": 15,
-          "valY": 0,
+          "valY": 19,
           "goto": "route14",
           "nexX": 480,
-          "nexY": 64,
-          "blockedMessage": "La suite de la Route 14 n’est pas encore accessible."
-        },
-        {
-          "valX": 16,
-          "valY": 19,
-          "goto": "route13",
-          "nexX": 512,
           "nexY": 64
         },
         {
           "valX": 16,
-          "valY": 0,
+          "valY": 19,
           "goto": "route14",
           "nexX": 512,
-          "nexY": 64,
-          "blockedMessage": "La suite de la Route 14 n’est pas encore accessible."
+          "nexY": 64
+        },
+        {
+          "valX": 4,
+          "valY": 6,
+          "goto": "centre",
+          "nexX": 416,
+          "nexY": 480
+        },
+        {
+          "valX": 22,
+          "valY": 6,
+          "goto": "ville5_shop",
+          "nexX": 416,
+          "nexY": 544
+        },
+        {
+          "valX": 13,
+          "valY": 7,
+          "goto": "ville5_arene",
+          "nexX": 416,
+          "nexY": 544
+        },
+        {
+          "valX": 3,
+          "valY": 16,
+          "goto": "ville5_maison1",
+          "nexX": 416,
+          "nexY": 544
+        },
+        {
+          "valX": 23,
+          "valY": 16,
+          "goto": "ville5_maison2",
+          "nexX": 416,
+          "nexY": 544
+        }
+      ]
+    },
+    {
+      "mapName": "ville5_shop",
+      "wildpokemon": [],
+      "level": {
+        "min": 52,
+        "max": 54
+      },
+      "mapchange": [
+        {
+          "valX": 13,
+          "valY": 17,
+          "goto": "ville5",
+          "nexX": 704,
+          "nexY": 256
+        }
+      ]
+    },
+    {
+      "mapName": "ville5_arene",
+      "wildpokemon": [],
+      "level": {
+        "min": 52,
+        "max": 54
+      },
+      "mapchange": [
+        {
+          "valX": 13,
+          "valY": 17,
+          "goto": "ville5",
+          "nexX": 416,
+          "nexY": 288
+        }
+      ]
+    },
+    {
+      "mapName": "ville5_maison1",
+      "wildpokemon": [],
+      "level": {
+        "min": 52,
+        "max": 54
+      },
+      "mapchange": [
+        {
+          "valX": 13,
+          "valY": 17,
+          "goto": "ville5",
+          "nexX": 96,
+          "nexY": 576
+        }
+      ]
+    },
+    {
+      "mapName": "ville5_maison2",
+      "wildpokemon": [],
+      "level": {
+        "min": 52,
+        "max": 54
+      },
+      "mapchange": [
+        {
+          "valX": 13,
+          "valY": 17,
+          "goto": "ville5",
+          "nexX": 736,
+          "nexY": 576
         }
       ]
     }

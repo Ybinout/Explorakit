@@ -7,9 +7,9 @@ const maps = require('../server/game/world/mapRepository');
 const world = require('../data/game/nextMap.json').maps;
 const CreatePokemon = require('../server/game/world/wildPokemonFactory');
 
-test('Routes 13/14 preserve all six author files and every portal is reachable from every arrival', () => {
+test('Routes 13/14 preserve all nine updated author files and every portal is reachable from every arrival', () => {
     const manifest = require('../docs/north-routes-author-assets.json');
-    assert.equal(Object.keys(manifest).length, 6);
+    assert.equal(Object.keys(manifest).length, 9);
     for (const [file, hash] of Object.entries(manifest)) {
         const bytes = fs.readFileSync(path.join(__dirname, '..', file));
         assert.equal(createHash('sha256').update(bytes).digest('hex'), hash, file);
@@ -30,13 +30,12 @@ test('Routes 13/14 preserve all six author files and every portal is reachable f
                 assert.equal(c[y][x], 0);
                 assert.equal(config.mapchange.filter(g => g.valX === x && g.valY === y).length, 1);
                 const link = maps.getNextMap(name, x, y);
-                const target = n === 13 ? y === 19 ? 'cave_rochebrume3' : 'route14' : y === 19 ? 'route13' : 'route14';
+                const target = n === 13 ? y === 19 ? 'cave_rochebrume3' : 'route14' : y === 19 ? 'route13' : 'ville5';
                 assert.equal(link.nextMap, target);
                 const dx = Math.floor(link.nextX / 32), dy = Math.floor(link.nextY / 32);
                 assert.equal(maps.loadCollisionData(target)[dy]?.[dx], 0);
                 assert.equal(maps.changeMapData(target)[dy]?.[dx], 0);
-                if (n === 14 && y === 0) assert.match(link.blockedMessage, /Route 14/);
-                else assert.equal(link.blockedMessage, undefined);
+                assert.equal(link.blockedMessage, undefined);
             }));
         }
         maps.battleMapData(name).forEach((row, y) => row.forEach((v, x) => {

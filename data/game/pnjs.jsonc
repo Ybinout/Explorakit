@@ -871,6 +871,81 @@
         "index": 27
       },
       "roamRadius": 0
+    },
+    {
+      "name": "blanchecime_guide",
+      "interactionName": "blanchecime_guide",
+      "map": "ville5",
+      "x": 9,
+      "y": 11,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 20
+      },
+      "roamRadius": 0
+    },
+    {
+      "name": "blanchecime_vendeuse",
+      "interactionName": "blanchecime_vendeuse",
+      "map": "ville5_shop",
+      "x": 13,
+      "y": 6,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 18
+      },
+      "roamRadius": 0
+    },
+    {
+      "name": "blanchecime_habitant1",
+      "interactionName": "blanchecime_habitant1",
+      "map": "ville5_maison1",
+      "x": 13,
+      "y": 8,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 26
+      },
+      "roamRadius": 0
+    },
+    {
+      "name": "blanchecime_habitant2",
+      "interactionName": "blanchecime_habitant2",
+      "map": "ville5_maison2",
+      "x": 13,
+      "y": 8,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 27
+      },
+      "roamRadius": 0
+    },
+    {
+      "name": "blanchecime_arene",
+      "interactionName": "blanchecime_arene",
+      "map": "ville5_arene",
+      "x": 13,
+      "y": 6,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 26
+      },
+      "roamRadius": 0
     }
   ]
 }
