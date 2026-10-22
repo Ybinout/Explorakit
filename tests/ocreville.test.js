@@ -28,7 +28,7 @@ test('residents and Raphael remain accessible, and blocked old spawns never fall
 });
 test('Hoze opens Raphael then Ana at Clairfontaine, with old records preserved',()=>{
  const {getSentenceForName}=require('../server/game/world/interactionRepository'),{deriveStoryQuest}=require('../server/game/world/storyProgression'),catalog=require('../data/game/progression.json');
- const state={flags:{hoze_defeated:'true'}};assert.equal(deriveStoryQuest(state).progress,4);assert.equal(deriveStoryQuest(state).target,7);assert.equal(deriveStoryQuest(state).map,'gen_arene5');assert.equal(getSentenceForName('champion_raphael',state)[1],'champion_raphael');
+ const state={flags:{hoze_defeated:'true'}};assert.equal(deriveStoryQuest(state).progress,4);assert.equal(deriveStoryQuest(state).target,9);assert.equal(deriveStoryQuest(state).map,'gen_arene5');assert.equal(getSentenceForName('champion_raphael',state)[1],'champion_raphael');
  assert.equal(getSentenceForName('champion_raphael',{flags:{}})[1],'champion_raphael_locked');assert.equal(catalog.npcBattles.champion_raphael.battleKey,'story_champion_raphael');
  state.flags.raphael_defeated='true';state.completedNpcBattles=[{battleKey:'story_champion_raphael'}];assert.equal(getSentenceForName('champion_raphael',state)[1],'champion_raphael_after');assert.equal(deriveStoryQuest(state).status,'active');assert.equal(deriveStoryQuest(state).map,'ville3_arene');assert.equal(getSentenceForName('champion_ana',state)[1],'champion_ana');assert.equal(state.flags.moonpunch_defeated,undefined);
 });

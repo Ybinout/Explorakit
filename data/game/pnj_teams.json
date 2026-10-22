@@ -1558,6 +1558,183 @@
           }
         }
       ]
+    },
+    {
+      "name": "sevenp",
+      "team": [
+        {
+          "pokemonId": 51,
+          "name": "Triopikeur",
+          "level": 54,
+          "nature": "Jolly",
+          "passiveAbility": "Arena Trap",
+          "heldItem": "focus_sash",
+          "abilities": [
+            "Earthquake",
+            "Stone Edge",
+            "Sucker Punch",
+            "Reversal"
+          ],
+          "k": 4,
+          "givenIv": {
+            "hp": 31,
+            "attack": 31,
+            "defense": 31,
+            "specialAttack": 31,
+            "specialDefense": 31,
+            "speed": 31
+          },
+          "ev": {
+            "attack": 252,
+            "speed": 252,
+            "specialDefense": 4
+          }
+        },
+        {
+          "pokemonId": 257,
+          "name": "Braségali",
+          "level": 55,
+          "nature": "Adamant",
+          "passiveAbility": "Speed Boost",
+          "heldItem": "life_orb",
+          "abilities": [
+            "Flare Blitz",
+            "High Jump Kick",
+            "Stone Edge",
+            "Swords Dance"
+          ],
+          "k": 4,
+          "givenIv": {
+            "hp": 31,
+            "attack": 31,
+            "defense": 31,
+            "specialAttack": 31,
+            "specialDefense": 31,
+            "speed": 31
+          },
+          "ev": {
+            "attack": 252,
+            "speed": 252,
+            "specialDefense": 4
+          }
+        },
+        {
+          "pokemonId": 94,
+          "name": "Ectoplasma",
+          "level": 55,
+          "nature": "Timid",
+          "passiveAbility": "Cursed Body",
+          "heldItem": "life_orb",
+          "abilities": [
+            "Shadow Ball",
+            "Sludge Bomb",
+            "Focus Blast",
+            "Taunt"
+          ],
+          "k": 4,
+          "givenIv": {
+            "hp": 31,
+            "attack": 31,
+            "defense": 31,
+            "specialAttack": 31,
+            "specialDefense": 31,
+            "speed": 31
+          },
+          "ev": {
+            "specialAttack": 252,
+            "speed": 252,
+            "specialDefense": 4
+          }
+        },
+        {
+          "pokemonId": 80,
+          "name": "Flagadoss",
+          "level": 55,
+          "nature": "Bold",
+          "passiveAbility": "Regenerator",
+          "heldItem": "leftovers",
+          "abilities": [
+            "Scald",
+            "Psyshock",
+            "Slack Off",
+            "Thunder Wave"
+          ],
+          "k": 4,
+          "givenIv": {
+            "hp": 31,
+            "attack": 31,
+            "defense": 31,
+            "specialAttack": 31,
+            "specialDefense": 31,
+            "speed": 31
+          },
+          "ev": {
+            "hp": 252,
+            "defense": 252,
+            "specialDefense": 4
+          }
+        },
+        {
+          "pokemonId": 135,
+          "name": "Voltali",
+          "level": 55,
+          "nature": "Timid",
+          "passiveAbility": "Volt Absorb",
+          "heldItem": "choice_specs",
+          "abilities": [
+            "Thunderbolt",
+            "Volt Switch",
+            "Shadow Ball",
+            "Signal Beam"
+          ],
+          "k": 4,
+          "givenIv": {
+            "hp": 31,
+            "attack": 31,
+            "defense": 31,
+            "specialAttack": 31,
+            "specialDefense": 31,
+            "speed": 31
+          },
+          "ev": {
+            "specialAttack": 252,
+            "speed": 252,
+            "specialDefense": 4
+          }
+        },
+        {
+          "pokemonId": 130,
+          "name": "Léviator",
+          "level": 56,
+          "nature": "Jolly",
+          "passiveAbility": "Intimidate",
+          "heldItem": "lum_berry",
+          "abilities": [
+            "Waterfall",
+            "Earthquake",
+            "Ice Fang",
+            "Dragon Dance"
+          ],
+          "k": 4,
+          "givenIv": {
+            "hp": 31,
+            "attack": 31,
+            "defense": 31,
+            "specialAttack": 31,
+            "specialDefense": 31,
+            "speed": 31
+          },
+          "ev": {
+            "attack": 252,
+            "speed": 252,
+            "specialDefense": 4
+          }
+        }
+      ],
+      "strategy": {
+        "name": "7p",
+        "ai": "expert"
+      }
     }
   ]
 }

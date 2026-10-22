@@ -17,7 +17,7 @@ const moves = new Set(require('../data/game/moves.json').map((move) => move.enam
 const items = new Set(require('../data/game/items.json').items.map((item) => item.key));
 const world = require('../data/game/nextMap.json').maps;
 
-const chain = ['dia1', 'aspha_route2', 'moon', 'champion_hoze', 'champion_raphael', 'champion_ana', 'champion_wanda'];
+const chain = ['dia1', 'aspha_route2', 'moon', 'champion_hoze', 'champion_raphael', 'champion_ana', 'champion_wanda', 'champion_7p'];
 
 test('la mère soigne à chaque conversation et conserve son introduction à Lucie', () => {
     const mother = pnjs.find(pnj => pnj.name === 'mere_clara');
@@ -41,7 +41,7 @@ test('les champions originaux suivent le parcours approuvé et remplacent les an
     }
 });
 
-test('les sept victoires ouvrent leurs indices dans l’ordre et la version s’arrête à Wanda', () => {
+test('les huit victoires ouvrent les indices, puis la rencontre de Lucie termine la recherche', () => {
     const state = { flags: {}, completedNpcBattles: [] };
     for (const name of chain.slice(1)) {
         assert.equal(getSentenceForName(name,state)[1],`${name}_locked`);
@@ -55,10 +55,11 @@ test('les sept victoires ouvrent leurs indices dans l’ordre et la version s’
         state.completedNpcBattles.push({battleKey:definition.battleKey});
         assert.equal(getSentenceForName(name,state)[1],`${name}_after`);
         assert.equal(deriveStoryQuest(state).progress,index+1);
-        assert.equal(deriveStoryQuest(state).status,index===6?'completed':'active');
+        assert.equal(deriveStoryQuest(state).status,'active');
     }
     assert.match(deriveStoryQuest(state).description,/Lucie/);
-    assert.match(deriveStoryQuest(state).description,/plus tard/);
+    assert.equal(deriveStoryQuest(state).map,'route2_maison');
+    state.flags.lucie_reunited='true';assert.equal(deriveStoryQuest(state).status,'completed');assert.equal(deriveStoryQuest(state).progress,9);
     for(const name of ['clara_letter','ch2_iris','valpierre_gardien']) {
         assert.equal(getSentenceForName(name,state)[1],`${name}_locked`);
         assert.equal(getSentenceForName(name)[1],`${name}_locked`);

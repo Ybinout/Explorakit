@@ -23,7 +23,7 @@ function event(socket, name, predicate = () => true) {
     });
 }
 
-test('Socket réel : Lucie, Wayne → Aspha → Mounir → Hoze → Raphael → Ana → Wanda, refus/fuite/reprise et arrêt à Rochebrume', { skip: !shouldRun, timeout: 60000 }, async () => {
+test('Socket réel : Lucie, Wayne → Aspha → Mounir → Hoze → Raphael → Ana → Wanda → 7p → Lucie, refus/fuite/reprise et retrouvailles', { skip: !shouldRun, timeout: 60000 }, async () => {
     assert.match(testDatabaseName, /test/i);
     assert.equal(process.env.DB_NAME, testDatabaseName, 'Utiliser npm run test:mysql pour isoler les données');
     const { io } = require(path.resolve(__dirname, '../vue-explorakit/node_modules/socket.io-client'));
@@ -43,7 +43,7 @@ test('Socket réel : Lucie, Wayne → Aspha → Mounir → Hoze → Raphael → 
     let serverErrors = '';
     child.stderr.on('data', chunk => { serverErrors = (serverErrors + String(chunk)).slice(-8000); });
     const main = (state) => state.quests.find((quest) => quest.key === 'main_sister_search');
-    const at = async (map, x, y) => {
+    const at = async (map, x, y, heal = false) => {
         if (socket) {
             // Une sauvegarde explicitement acquittée évite une écriture de position tardive.
             await new Promise((resolve, reject) => socket.timeout(5000).emit('requestGameSave', (error, result) => {
@@ -52,6 +52,7 @@ test('Socket réel : Lucie, Wayne → Aspha → Mounir → Hoze → Raphael → 
             }));
             socket.disconnect();
         }
+        if(heal){const fresh=await loadEquipe(userId);require('../server/game/world/playerRecovery').healTeam(fresh);await editEquipe(userId,fresh);}
         await dbPool.execute('UPDATE users SET map = ?, x = ?, y = ? WHERE id = ?', [map, x * 32 + 16, y * 32 + 16, userId]);
         socket = io(url, { autoConnect: false, auth: { token }, transports: ['websocket'], reconnection: false });
         const ready = event(socket, 'progressionState');
@@ -147,36 +148,37 @@ test('Socket réel : Lucie, Wayne → Aspha → Mounir → Hoze → Raphael → 
         assert.equal((await rejection).reason,'invalid_or_expired_dialogue');
         await at('route2',25,6);await speak('aspha_route2_locked');
         assert.equal((await loadProgressState(userId)).completedNpcBattles.length,0);
-        for(const [map,name]of [['ville3_arene','champion_ana'],['ville4_arene','champion_wanda']]){await at(map,13,6);await speak(name+'_locked');const blocked=event(socket,'interactionRejected');socket.emit('onEndDialogue',name);assert.equal((await blocked).reason,'invalid_or_expired_dialogue');}
+        for(const [map,name]of [['ville3_arene','champion_ana'],['ville4_arene','champion_wanda'],['ville5_arene','champion_7p']]){await at(map,13,6);await speak(name+'_locked');const blocked=event(socket,'interactionRejected');socket.emit('onEndDialogue',name);assert.equal((await blocked).reason,'invalid_or_expired_dialogue');}
         let attacks=0,expectedExperience=pokemon.experience;
         const {calculateBattleExperience,BATTLE_EXPERIENCE_MULTIPLIERS}=require('../server/game/models/progression');
         const {getPnjTeam}=require('../server/game/world/pnjTeamFactory');
         const catalog=require('../data/game/progression.json'),dialogues=require('../data/game/interact.json');
-        const battles=[['dia1','start',18,3],['aspha_route2','route2',25,6],['moon','ville1_arene',13,6],['champion_hoze','ville_safe1_arene',13,6],['champion_raphael','gen_arene5',13,6],['champion_ana','ville3_arene',13,6],['champion_wanda','ville4_arene',13,6]];
+        const battles=[['dia1','start',18,3],['aspha_route2','route2',25,6],['moon','ville1_arene',13,6],['champion_hoze','ville_safe1_arene',13,6],['champion_raphael','gen_arene5',13,6],['champion_ana','ville3_arene',13,6],['champion_wanda','ville4_arene',13,6],['champion_7p','ville5_arene',13,6]];
         for(const [index,[name,map,x,y]] of battles.entries()) {
-            await at(map,x,y);await speak(name);
+            await at(map,x,y,true);await speak(name);
             if(name==='aspha_route2') {
                 socket.once('requestAction',()=>socket.emit('actionResponse',{action:'flee'}));
                 const escaped=event(socket,'teamStateChanged',p=>p.reason==='trainer_battle_end');socket.emit('onEndDialogue',name);await escaped;
                 assert.equal(main(await loadProgressState(userId)).progress,1);
                 await at(map,x,y);await speak(name);
             }
-            const before=await loadProgressState(userId);
+            const before=await loadProgressState(userId),trace=[];socket.on('battleText',p=>{trace.push(p.message);if(trace.length>12)trace.shift();});socket.on('endbattle',p=>trace.push(JSON.stringify(p.summary)));
             socket.on('requestAction',()=>socket.emit('actionResponse',{action:'attack',number:attacks++%2}));
             const victoryScene=event(socket,'dialogue',p=>p[1]===`${name}_after`),battleResult=event(socket,'endbattle');
-            socket.emit('onEndDialogue',name);const scene=await victoryScene,summary=(await battleResult).summary;
+            socket.emit('onEndDialogue',name);const scene=await victoryScene.catch(e=>{throw Error(name+': '+e.message+' '+JSON.stringify(trace)+' '+serverErrors);}),summary=(await battleResult).summary;
             const trainerTeam=getPnjTeam(dialogues.find(e=>e.name===name).team),kind=catalog.npcBattles[name].experienceKind;
             expectedExperience+=trainerTeam.pokemons.reduce((sum,opponent)=>sum+calculateBattleExperience(opponent,BATTLE_EXPERIENCE_MULTIPLIERS[kind],pokemon),0);
             assert.equal((await loadEquipe(userId)).pokemons[0].experience,expectedExperience,`${name}: XP sauvegardée`);
             assert(scene[0].length>=2);const progress=await loadProgressState(userId);
             if(name==='moon')assert(progress.badges.some(b=>b.key==='lake_badge'&&b.earned));
             assert.equal(summary.outcome,'victory');assert.equal(summary.money,progress.money-before.money);assert(summary.experience[0].xpGained>0);
-            assert.equal(main(progress).progress,index+1);assert.equal(main(progress).status,index===battles.length-1?'completed':'active');
+            assert.equal(main(progress).progress,index+1);assert.equal(main(progress).status,'active');
             assert(scene[0].some(line=>line.text.includes(name==='dia1'?'Aspha':name==='aspha_route2'?'Mounir':name==='moon'?'Hoze':name==='champion_hoze'?'Raphael':name==='champion_raphael'?'Ana':name==='champion_ana'?'Wanda':'Lucie')));
             socket.emit('onEndDialogue',`${name}_after`);
         }
-        const final=await at('ville4_arene',13,6);await speak('champion_wanda_after');
-        assert.equal(main(final).progress,7);assert.equal(main(final).status,'completed');
+        const beforeReunion=await at('route2_maison',13,9);assert.equal(main(beforeReunion).progress,8);await speak('lucie_route2');const reunited=event(socket,'progressionState',p=>main(p).status==='completed');socket.emit('onEndDialogue','lucie_route2');await reunited;
+        const final=await at('ville5_arene',13,6);await speak('champion_7p_after');
+        assert.equal(main(final).progress,9);assert.equal(main(final).status,'completed');
         assert(final.badges.some(b=>b.key==='lake_badge'&&b.earned));
         assert(final.badges.some(b=>b.key==='dune_badge'&&b.earned));
         assert.equal(final.quests.some(q=>q.key==='clara_chapter2'),false);

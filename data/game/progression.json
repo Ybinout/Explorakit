@@ -3,9 +3,9 @@
     {
       "key": "main_sister_search",
       "title": "À la recherche de Lucie — premières pistes",
-      "description": "Retrouver la piste de Lucie, de Wayne jusqu’à Wanda à Rochebrume.",
+      "description": "Retrouver Lucie en suivant les pistes de Wayne jusqu’à 7p, puis rejoindre sa maison sur la Route 2.",
       "defaultStatus": "active",
-      "target": 7
+      "target": 9
     },
     {
       "key": "first_challenge",
@@ -79,6 +79,11 @@
       "key": "crystal_badge",
       "name": "Badge Cristal",
       "order": 6
+    },
+    {
+      "key": "summit_badge",
+      "name": "Badge Sommet",
+      "order": 7
     }
   ],
   "npcBattles": {
@@ -341,6 +346,26 @@
         }
       },
       "experienceKind": "trainer"
+    },
+    "champion_7p": {
+      "battleKey": "story_champion_7p",
+      "once": true,
+      "requiresFlags": [
+        "wanda_defeated"
+      ],
+      "reward": {
+        "money": 4800,
+        "badges": [
+          "summit_badge"
+        ],
+        "items": {
+          "route2_house_key": 1
+        },
+        "flags": {
+          "sevenp_defeated": "true"
+        }
+      },
+      "experienceKind": "arena"
     }
   },
   "storySteps": [
@@ -385,9 +410,21 @@
       "objective": "Ana te dirige vers Wanda à Rochebrume. Quitte Clairfontaine par l’ouest, traverse les Routes 11 puis 12 et gagne le défi de son arène.",
       "map": "ville4_arene",
       "destination": "Wanda · Arène de Rochebrume"
+    },
+    {
+      "flag": "sevenp_defeated",
+      "objective": "Wanda te dirige vers 7p, le champion de Blanchecime. Traverse les trois grottes au nord de Rochebrume, puis les Routes 13 et 14, et gagne son défi.",
+      "map": "ville5_arene",
+      "destination": "7p · Arène de Blanchecime"
+    },
+    {
+      "flag": "lucie_reunited",
+      "objective": "7p t’a confié la clé : retourne à la maison au milieu de la Route 2, ouvre sa porte et parle à Lucie.",
+      "map": "route2_maison",
+      "destination": "Lucie · Maison de la Route 2"
     }
   ],
-  "chapterConclusion": "Wanda t’a confié que Lucie a laissé une lettre à Éloi, aux archives de Clairbois. Garde cette nouvelle piste : la recherche de Lucie reprendra plus tard, lorsque le chemin sera ouvert.",
+  "chapterConclusion": "Tu as retrouvé Lucie dans la maison de la Route 2. Elle est en sécurité. La suite de votre histoire reste à écrire.",
   "storyEvents": {
     "clara_letter": {
       "requiresFlags": [
@@ -454,6 +491,12 @@
         }
       },
       "enabled": false
+    },
+    "lucie_route2": {
+      "requiresFlags": [
+        "sevenp_defeated"
+      ],
+      "completionFlag": "lucie_reunited"
     }
   },
   "chapter2Steps": [

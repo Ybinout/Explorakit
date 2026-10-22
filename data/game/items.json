@@ -1139,6 +1139,12 @@
         "weight": 1
       },
       "description": "Actif depuis le sac : le combattant conserve son gain normal et chaque autre compagnon apte reçoit au moins 50 % de son gain ajusté à son propre niveau. Ne se cumule pas avec le partage existant ; le meilleur partage est conservé. Aucun gain pour les Pokémon K.O. ou les Œufs."
+    },
+    {
+      "key": "route2_house_key",
+      "name": "Clé de la Route 2",
+      "category": "key",
+      "description": "Confiée par 7p après sa défaite. Ouvre la maison de Lucie sur la Route 2. Elle reste dans ton sac."
     }
   ]
 }

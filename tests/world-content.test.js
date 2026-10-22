@@ -139,11 +139,11 @@ test('chaque nouveau PNJ est posé sur une case libre et possède un dialogue ex
 
 test('les champions conservent leurs planches et les civils utilisent les portraits cohérents de l’atlas', () => {
     const pnjs = readJson('data', 'game', 'pnjs.jsonc').pnjs;
-    const expectedSprites = ['ana.png', 'hoze.png', 'moonpunch.png', 'raph.png', 'townspeople.png', 'wanda.png'];
+    const expectedSprites = ['7ps.png', 'ana.png', 'hoze.png', 'moonpunch.png', 'raph.png', 'townspeople.png', 'wanda.png'];
     const usedSprites = [...new Set(pnjs.map((pnj) => pnj.sprite))].sort();
     assert.deepEqual(usedSprites, expectedSprites);
 
-    const civilians = pnjs.filter(pnj => pnj.spriteFrame);
+    const civilians = pnjs.filter(pnj => pnj.sprite === 'townspeople.png');
     assert.equal(civilians.length, 61);
     assert.equal(new Set(civilians.map(pnj => pnj.spriteFrame.index)).size, 32);
     const dialogues = readJson('data', 'game', 'interact.json');

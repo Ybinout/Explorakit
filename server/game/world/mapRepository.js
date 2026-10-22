@@ -75,6 +75,13 @@ function changeMapData(mapName) {
         }
         collisionData2D.push(row);
     }
+    // Explicit logical doors connect already-painted door tiles without editing
+    // the author's terrain, collision data or foreground.
+    nextMapConfig ||= JSON.parse(fs.readFileSync(NEXT_MAP_PATH, 'utf8'));
+    for (const door of nextMapConfig.maps.find(map => map.mapName === mapName)?.mapchange || []) {
+        if (door.logicalDoor && Number.isInteger(door.valX) && Number.isInteger(door.valY)
+            && collisionData2D[door.valY]?.[door.valX] === 0) collisionData2D[door.valY][door.valX] = 1;
+    }
     return collisionData2D;
 }
 
@@ -150,6 +157,7 @@ function getNextMap(currentMap, posX, posY) {
                     return {
                         nextMap: change.goto,
                         ...(change.blockedMessage ? { blockedMessage: change.blockedMessage } : {}),
+                        ...(change.requiresStoryFlag ? { requiresStoryFlag: change.requiresStoryFlag, lockedMessage: change.lockedMessage } : {}),
                         nextX: Number.isFinite(change.nexX) ? change.nexX + 16 : posX * 32 + 16,
                         nextY: Number.isFinite(change.nexY) ? change.nexY - 16 : posY * 32 + 16
                     };

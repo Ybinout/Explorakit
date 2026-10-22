@@ -369,7 +369,9 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         for(const other of p.run.players.values()) if(other.alive&&other.currentmap===p.currentmap) emit(other,'playerMoved',{id:p.socketId,player:toPublicPlayer({...p,id:p.socketId})});
         if(changeMapData(p.currentmap)[ty]?.[tx]) {
             const next=getNextMap(p.currentmap,tx,ty);
-            if(next?.blockedMessage){emit(p,'progressionNotice',{message:next.blockedMessage});return;}
+            const flags=Object.fromEntries([...p.defeated].flatMap(name=>Object.entries(progression.npcBattles[name]?.reward?.flags || {})));
+            const blocked=require('../world/storyProgression').transitionBlock(next,flags);
+            if(blocked){emit(p,'progressionNotice',{message:blocked});return;}
             if(next){
                 let destination={map:next.nextMap,x:next.nextX,y:next.nextY};
                 if(p.currentmap==='centre')destination=getPokemonCenterExit(p.centerReturnPoint);
@@ -390,7 +392,8 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
             const tx=x+dx,ty=y+dy,pnj=p.run.pnjs.getPnjAtTile(p.currentmap,tx,ty);
             const trainer=pnj&&trainers.find(pnj.interactionName);
             if(trainer){p.dialogue=createDialogueAuthorization({name:trainer.id,map:p.currentmap,x:tx,y:ty},now());emit(p,'expedition:trainerOffer',trainers.view(trainer,p));return;}
-            const sentence=pnj?getSentenceForName(pnj.interactionName||pnj.name):InteractMapData(p.currentmap)[ty]?.[tx]?getSentenceForMapAndPosition(p.currentmap,tx,ty):null;
+            const storyState=pnj?.interactionName==='lucie_route2'?{flags:{sevenp_defeated:p.defeated.has('champion_7p')?'true':'false'}}:null;
+            const sentence=pnj?getSentenceForName(pnj.interactionName||pnj.name,storyState):InteractMapData(p.currentmap)[ty]?.[tx]?getSentenceForMapAndPosition(p.currentmap,tx,ty):null;
             if(sentence){p.dialogue=createDialogueAuthorization({name:sentence[1],map:p.currentmap,x:tx,y:ty},now());emit(p,'dialogue',sentence);return;}
         }
     }

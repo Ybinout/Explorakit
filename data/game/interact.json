@@ -490,7 +490,7 @@
         "imageName": "ana.png"
       },
       {
-        "text": "Ana : Ma sœur Wanda vit à Rochebrume. Elle connaît cette organisation de l’intérieur. Quitte Clairfontaine par l’ouest et traverse les Routes 11 puis 12. Son équipe est niveaux 47 à 49. Écoute-la, même si elle te provoque.",
+        "text": "Ana : Ma sœur Wanda vit à Rochebrume. Quitte Clairfontaine par l’ouest et traverse les Routes 11 puis 12. Elle pourra t’orienter, mais prends garde : elle est impitoyable. Une seule personne a déjà réussi à la battre.",
         "imageName": "ana.png"
       }
     ]
@@ -537,7 +537,7 @@
         "imageName": "wanda.png"
       },
       {
-        "text": "Wanda : Lucie a confié une lettre à Éloi, aux archives de Clairbois. Garde son nom en tête : le chemin n’est pas encore ouvert. Cette fois, je ne détournerai pas les yeux.",
+        "text": "Wanda : Lucie pourrait être en grand danger. Rejoins 7p dans l’arène de Blanchecime, après les trois grottes et les Routes 13 et 14 au nord. Il est le seul autre dresseur à m’avoir vaincue. Peut-être a-t-il croisé sa route.",
         "imageName": "wanda.png"
       }
     ]
@@ -1968,7 +1968,7 @@
     "name": "blanchecime_guide",
     "sentences": [
       {
-        "text": "Bienvenue à Blanchecime ! Les Routes 13 et 14 descendent vers les grottes et Rochebrume. Le Centre Pokémon et la boutique sont au nord de la place.",
+        "text": "Blanchecime, enfin ! Le Centre Pokémon est à l’est. 7p t’attend dans l’arène à l’ouest : Wanda pourra te recommander à lui.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -2022,15 +2022,107 @@
     ]
   },
   {
-    "name": "blanchecime_arene",
+    "name": "champion_7p",
     "sentences": [
       {
-        "text": "Bienvenue à l’arène de Blanchecime. Le prochain défi n’est pas encore ouvert. Tu peux revenir visiter la ville et préparer ton équipe en attendant.",
+        "text": "7p : C’est Wanda qui t’envoie ? Alors quelqu’un d’autre que moi a réussi à la battre… Je n’ai rien à voir avec vos histoires, mais j’ai croisé ta sœur. Une adversaire coriace.",
+        "imageName": "7ps.png"
+      },
+      {
+        "text": "7p : Je sais où se trouve Lucie. Bats-moi et je te le dirai. Mais prépare-toi : je suis de loin l’adversaire le plus fort que tu aies affronté. Je donnerai tout, dès le début.",
+        "imageName": "7ps.png"
+      }
+    ],
+    "end": "battle",
+    "team": "sevenp",
+    "after": "champion_7p_after",
+    "locked": "champion_7p_locked"
+  },
+  {
+    "name": "champion_7p_after",
+    "sentences": [
+      {
+        "text": "7p : Tu as gagné. Prends le Badge Sommet. Wanda avait raison de te faire confiance.",
+        "imageName": "7ps.png"
+      },
+      {
+        "text": "7p : Lucie se trouve dans la maison au milieu de la Route 2. Voici sa clé. Garde-la : elle te permettra d’ouvrir la porte aussi souvent que nécessaire.",
+        "imageName": "7ps.png"
+      },
+      {
+        "text": "7p : Elle s’est battue avec une détermination rare. Maintenant, va la retrouver. Vous avez sans doute beaucoup à vous dire.",
+        "imageName": "7ps.png"
+      }
+    ]
+  },
+  {
+    "name": "champion_7p_locked",
+    "sentences": [
+      {
+        "text": "7p : Wanda doit d’abord reconnaître ta valeur à Rochebrume. Reviens quand tu auras gagné son défi.",
+        "imageName": "7ps.png"
+      }
+    ]
+  },
+  {
+    "name": "lucie_route2",
+    "sentences": [
+      {
+        "text": "Lucie : Tu m’as retrouvée… 7p t’a donné la clé ? Je savais qu’il pouvait la garder en sécurité.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
           "rows": 4,
-          "index": 26
+          "index": 18
+        }
+      },
+      {
+        "text": "Lucie : Je suis restée ici pour échapper à l’Aube Obscure. Je voulais protéger les Pokémon sans vous mettre en danger. Je suis désolée de vous avoir laissés sans nouvelles.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 18
+        }
+      },
+      {
+        "text": "Lucie : Merci d’être venu jusqu’ici. Nous avons beaucoup à nous raconter. Pour l’instant, je suis en sécurité. Il faudra aussi rassurer maman.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 18
+        }
+      }
+    ],
+    "end": "story",
+    "after": "lucie_route2_after",
+    "locked": "lucie_route2_locked"
+  },
+  {
+    "name": "lucie_route2_after",
+    "sentences": [
+      {
+        "text": "Lucie : Je suis heureuse de te revoir. Merci de ne jamais avoir renoncé à me retrouver.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 18
+        }
+      }
+    ]
+  },
+  {
+    "name": "lucie_route2_locked",
+    "sentences": [
+      {
+        "text": "La maison est fermée. La clé est entre de bonnes mains.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 18
         }
       }
     ]

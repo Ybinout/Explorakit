@@ -245,6 +245,16 @@
           "goto": "ville1",
           "nexX": 32,
           "nexY": 192
+        },
+        {
+          "valX": 18,
+          "valY": 7,
+          "goto": "route2_maison",
+          "nexX": 416,
+          "nexY": 544,
+          "logicalDoor": true,
+          "requiresStoryFlag": "sevenp_defeated",
+          "lockedMessage": "La porte est verrouillée. Il te faut la clé de cette maison."
         }
       ],
       "wildpokemon": [
@@ -2440,6 +2450,23 @@
           "goto": "ville5",
           "nexX": 736,
           "nexY": 576
+        }
+      ]
+    },
+    {
+      "mapName": "route2_maison",
+      "wildpokemon": [],
+      "level": {
+        "min": 11,
+        "max": 15
+      },
+      "mapchange": [
+        {
+          "valX": 13,
+          "valY": 17,
+          "goto": "route2",
+          "nexX": 576,
+          "nexY": 288
         }
       ]
     }

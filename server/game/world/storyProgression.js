@@ -41,4 +41,8 @@ function deriveChapter2(state={}) {
     while(progress<steps.length && state.flags?.[steps[progress].flag]==='true')progress++;
     return {progress,target:steps.length,status:progress===steps.length?'completed':'active',description:steps[progress]?.objective||'Lucie est retrouvée. Les refuges ont retrouvé leur liberté.',destination:steps[progress]?.destination||null,map:steps[progress]?.map||null};
 }
-module.exports = { effectiveStoryFlags, deriveChapter2, meetsRequirements, hasCompletedBattle, deriveStoryQuest };
+function transitionBlock(transition, flags = {}) {
+    return transition?.blockedMessage || (transition?.requiresStoryFlag && flags[transition.requiresStoryFlag] !== 'true'
+        ? transition.lockedMessage || 'Ce passage est fermé.' : null);
+}
+module.exports = { effectiveStoryFlags, deriveChapter2, meetsRequirements, hasCompletedBattle, deriveStoryQuest, transitionBlock };

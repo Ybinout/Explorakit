@@ -933,18 +933,28 @@
       "roamRadius": 0
     },
     {
-      "name": "blanchecime_arene",
-      "interactionName": "blanchecime_arene",
+      "name": "sevenp",
+      "interactionName": "champion_7p",
       "map": "ville5_arene",
       "x": 13,
-      "y": 6,
-      "sprite": "townspeople.png",
+      "y": 5,
+      "sprite": "7ps.png",
       "block": true,
+      "roamRadius": 0
+    },
+    {
+      "name": "lucie_route2",
+      "interactionName": "lucie_route2",
+      "map": "route2_maison",
+      "x": 13,
+      "y": 8,
+      "sprite": "townspeople.png",
       "spriteFrame": {
         "columns": 8,
         "rows": 4,
-        "index": 26
+        "index": 18
       },
+      "block": true,
       "roamRadius": 0
     }
   ]

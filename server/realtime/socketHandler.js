@@ -1130,6 +1130,15 @@ const socketHandler = (io) => {
 
             if (changemap2D[matrixY] && changemap2D[matrixY][matrixX] != 0) {
                 const nextMapData = getNextMap(currentmap, matrixX, matrixY);
+                if (nextMapData?.requiresStoryFlag) {
+                    transitionBusy = true;
+                    try {
+                        const state = await loadProgressState(userId);
+                        if (!players[socket.id] || player.currentmap !== currentmap) return;
+                        const message = require('../game/world/storyProgression').transitionBlock(nextMapData, state.flags);
+                        if (message) { socket.emit('progressionNotice', { message }); return; }
+                    } finally { transitionBusy = false; }
+                }
                 if (nextMapData?.blockedMessage) {
                     socket.emit('progressionNotice', { message: nextMapData.blockedMessage });
                     return;
