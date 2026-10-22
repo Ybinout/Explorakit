@@ -1,5 +1,14 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Tempêtes de sable en volume — 22 octobre 2026
+
+Les longues courbes de vent et les lignes de poussière sont remplacées par `SandstormRenderer`, partagé entre cartes et combats. Grains fins de profondeurs/vitesses/tailles variées, petits tourbillons au sol et dix-huit nappes de poussière à contours irréguliers, sans grille répétée. Trois textures procédurales 192×128 mises en cache, teintes sable/brun et voile léger ; aucune modification des cartes/foreground, socles ou règles météo. Sur Rochebrume/Route12 : profil serveur vent2/sable2 inchangé, budget160 grains et zéro trait de rafale ; les autres vents/pluies/neiges conservent leur rendu.
+
+Combat : canvas sous les combattants/cartes, limité à220 grains/30 Hz/DPR1,5, poussière concentrée sur le terrain. Carte : surface896×640/30 Hz existante, cache externe conservé y compris changement de carte en mouvement réduit. Mouvement réduit/préférence sans animation : image stable ; masquage/départ/changement météo/destruction libèrent textures et surfaces. Pas de filtre flou coûteux ni d’asset réseau ajouté.
+
+Vérifications : géométrie sans longs traits, profondeur, continuité, très longue session, cache/délai/DPR/libération ; recette sable étendue aux combats quatre tailles, pixels/contraste et vrais Zénith et talent Sable Volant, trois modes sur les deux cartes et transitions/intérieurs. Validation complète 672 tests applicatifs/73 SQL, audits et lint/build 8c68e26390aa40f5 passés. Recettes sable et neige : quatre tailles, trois modes/deux cartes, pixels réellement visibles, bords des textures transparents, Zénith/Sable Volant, mouvement réduit et libération vérifiés sans erreur. Publication statique le 22/10/2026 à 14 h 20 Paris, client d69ca1f ; PID1220826 inchangé/actif, NRestarts0, aucun schéma ou sauvegarde modifié. Contrôle HTTPS sur compte temporaire : deux cartes, vrais passages/porte boutique et combat sauvage Route12 avec tempête héritée/animée, index exact et sites voisins inchangés ; comptes supprimés. Logs /tmp/explorakit-sand-quality-{verify,browser,snow-browser,deploy,public,combat-public}.log. Travail utilisateur phrase.txt conservé hors commit.
+
+
 ## Timmy devient Wayne — 22 octobre 2026
 
 Le prénom affiché est désormais **Wayne** dans ses répliques avant/après duel, les mentions de la mère et d’Aspha, objectifs/destinations et descriptions de quêtes. Le journal de combat dérive déjà le prénom de l’introduction et affiche donc Wayne. Tous les modes partagent ces catalogues.
@@ -2115,6 +2124,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **22 octobre 2026 — Sable en volume :** grains en profondeur, nappes irrégulières et tourbillons remplacent les longs traits ; renderer commun carte/combat, budgets bornés et textures libérées.
 
 - **22 octobre 2026 — Wayne :** prénom visible remplacé dans dialogues, objectifs, quêtes et nouveaux journaux ; identifiants et progression existante conservés.
 

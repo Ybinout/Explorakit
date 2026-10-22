@@ -1,6 +1,6 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 const weather=()=>import('../vue-explorakit/src/services/worldWeather.js');
-function surface(){const calls=[],ctx={};for(const name of ['clearRect','fillRect','beginPath','moveTo','lineTo','stroke','ellipse','save','translate','rotate','fill','restore','bezierCurveTo'])ctx[name]=(...args)=>{assert(args.every(n=>typeof n!=='number'||Number.isFinite(n)),name+' non-finite geometry');calls.push([name,...args]);};const canvas={width:0,height:0,getContext:()=>ctx};return {canvas,ctx,calls};}
+function surface(){const calls=[],ctx={};for(const name of ['clearRect','fillRect','beginPath','moveTo','lineTo','stroke','ellipse','save','translate','rotate','fill','restore','bezierCurveTo','drawImage','setTransform'])ctx[name]=(...args)=>{assert(args.every(n=>typeof n!=='number'||Number.isFinite(n)),name+' non-finite geometry');calls.push([name,...args]);};ctx.createRadialGradient=()=>({addColorStop(){}});const canvas={width:0,height:0,getContext:()=>ctx};return {canvas,ctx,calls};}
 test('Routes 13/14 share maximum snowfall, bounded depth particles and no leaves or leakage to caves',async()=>{
  const w=await weather(),get=require('../server/game/world/mapWeather').getMapWeather,p={wind:2,rain:0,snow:3};
  for(const map of ['route13','route14']){
@@ -60,7 +60,7 @@ test('Rochebrume and Route12 share visible wind/sand, without rain, leaves or le
   const climate=get(map);
   assert.deepEqual(climate,{map,kind:'sandstorm',ambience:{wind:2,rain:0,sand:2}});
   assert.deepEqual(w.mapWorldWeather(map,climate),{wind:2,rain:0,sand:2});
-  assert.deepEqual(w.worldWeatherBudget(climate.ambience),{rain:0,leaves:0,gusts:3,splashes:0,sand:68});
+  assert.deepEqual(w.worldWeatherBudget(climate.ambience),{rain:0,leaves:0,gusts:0,splashes:0,sand:160});
   for(const interior of ['ville4_arene','ville4_shop','ville4_maison1','centre','route11','ville_safe1']){
    assert.deepEqual(w.mapWorldWeather(interior,climate),{wind:0,rain:0});assert.equal(get(interior).kind,null);
   }
@@ -70,14 +70,16 @@ test('Rochebrume and Route12 share visible wind/sand, without rain, leaves or le
 });
 
 test('sand particles are bounded, cached at 30 Hz, static in reduced motion, and cleaned up on departure',async()=>{
- const {WorldWeatherRenderer,worldWeatherBudget}=await weather(),s=surface(),r=new WorldWeatherRenderer(()=>s.canvas),target={drawImage(){}};
- for(let sand=1;sand<=3;sand++){const b=worldWeatherBudget({wind:1,rain:0,sand});assert(b.sand<=112);assert.equal(b.leaves,0);assert.equal(b.rain,0);}
+ const {WorldWeatherRenderer,worldWeatherBudget}=await weather(),s=surface();let created=0;const r=new WorldWeatherRenderer(()=>created++?surface().canvas:s.canvas),target={drawImage(){}};
+ for(let sand=1;sand<=3;sand++){const b=worldWeatherBudget({wind:1,rain:0,sand});assert(b.sand<=220);assert.equal(b.leaves,0);assert.equal(b.rain,0);}
  const profile={wind:1,rain:0,sand:1};
- r.draw(target,0,profile,true,'ville4');assert.equal(s.calls.filter(c=>c[0]==='ellipse').length,32);assert(s.calls.filter(c=>c[0]==='bezierCurveTo').length>=8,'dust trails remain spread across the mobile viewport');assert.equal(r.impacts.length,0);
+ r.draw(target,0,profile,true,'ville4');assert.equal(s.calls.filter(c=>c[0]==='ellipse').length,80);assert.equal(s.calls.filter(c=>c[0]==='bezierCurveTo').length,0,'sand has no long wind strokes');assert.equal(s.calls.filter(c=>c[0]==='drawImage').length,12,'twelve cached irregular dust clouds');assert.equal(r.impacts.length,0);
  r.draw(target,10,profile,true,'ville4');assert.equal(r.frames,1);r.draw(target,35,profile,true,'ville4');assert.equal(r.frames,2);
  r.draw(target,40,profile,false,'ville4');const frames=r.frames;r.draw(target,1e8,profile,false,'ville4');assert.equal(r.frames,frames);
+ const clouds=s.calls.filter(c=>c[0]==='drawImage').length,textures=[...r._sandRenderer.textures];
+ r.draw(target,1e8+1,profile,false,'route12');assert.equal(s.calls.filter(c=>c[0]==='drawImage').length,clouds+12,'the static weather remains visible after changing map');
  r.draw(target,1e8+50,{wind:0,rain:0,sand:1},true,'ville4');assert(r.canvas,'sand also works without wind');
- r.draw(target,1e8+100,{wind:0,rain:0});assert.equal(r.canvas,null);r.destroy();assert.equal(s.canvas.width,0);
+ r.draw(target,1e8+100,{wind:0,rain:0});assert.equal(r.canvas,null);assert(textures.every(t=>t.width===0));r.destroy();assert.equal(s.canvas.width,0);
 });
 test('map impacts stay on authoritative uncovered ground, bounded within their tile, below actors and absent in reduced motion',async()=>{
  const {worldRainImpacts,WorldWeatherRenderer}=await weather();let total=0;
