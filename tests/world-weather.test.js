@@ -34,6 +34,29 @@ test('map ambience follows its server climate without stale-map leakage',async()
  const {mapWorldWeather:settings}=await weather();for(const map of ['route1','route2']){const climate=require('../server/game/world/mapWeather').getMapWeather(map);assert.deepEqual(settings(map,climate),{wind:1,rain:1});assert.deepEqual(settings(map,{...climate,map:'start'}),{wind:0,rain:0});}
  assert.deepEqual(settings('start',null),{wind:0,rain:0});assert.deepEqual(settings('maison2',null),{wind:0,rain:0});
 });
+
+test('Rochebrume has a shared light sand/wind profile, no rain or green leaves, and no leakage into its interiors',async()=>{
+ const w=await weather(),get=require('../server/game/world/mapWeather').getMapWeather,climate=get('ville4');
+ assert.deepEqual(climate,{map:'ville4',kind:'sandstorm',ambience:{wind:1,rain:0,sand:1}});
+ assert.deepEqual(w.mapWorldWeather('ville4',climate),{wind:1,rain:0,sand:1});
+ assert.deepEqual(w.worldWeatherBudget(climate.ambience),{rain:0,leaves:0,gusts:2,splashes:0,sand:32});
+ for(const map of ['ville4_arene','ville4_shop','ville4_maison1','centre','route12','ville_safe1']){
+  assert.deepEqual(w.mapWorldWeather(map,climate),{wind:0,rain:0});assert.equal(get(map).kind,null);
+ }
+ for(const reason of ['hidden','battle','loading'])assert.equal(w.worldWeatherEnabled('ville4',{[reason]:true}),false);
+ assert.deepEqual(w.mapWorldWeather('ville4',{...climate,map:'start'}),{wind:0,rain:0});
+});
+
+test('sand particles are bounded, cached at 30 Hz, static in reduced motion, and cleaned up on departure',async()=>{
+ const {WorldWeatherRenderer,worldWeatherBudget}=await weather(),s=surface(),r=new WorldWeatherRenderer(()=>s.canvas),target={drawImage(){}};
+ for(let sand=1;sand<=3;sand++){const b=worldWeatherBudget({wind:1,rain:0,sand});assert(b.sand<=112);assert.equal(b.leaves,0);assert.equal(b.rain,0);}
+ const profile={wind:1,rain:0,sand:1};
+ r.draw(target,0,profile,true,'ville4');assert.equal(s.calls.filter(c=>c[0]==='ellipse').length,32);assert.equal(r.impacts.length,0);
+ r.draw(target,10,profile,true,'ville4');assert.equal(r.frames,1);r.draw(target,35,profile,true,'ville4');assert.equal(r.frames,2);
+ r.draw(target,40,profile,false,'ville4');const frames=r.frames;r.draw(target,1e8,profile,false,'ville4');assert.equal(r.frames,frames);
+ r.draw(target,1e8+50,{wind:0,rain:0,sand:1},true,'ville4');assert(r.canvas,'sand also works without wind');
+ r.draw(target,1e8+100,{wind:0,rain:0});assert.equal(r.canvas,null);r.destroy();assert.equal(s.canvas.width,0);
+});
 test('map impacts stay on authoritative uncovered ground, bounded within their tile, below actors and absent in reduced motion',async()=>{
  const {worldRainImpacts,WorldWeatherRenderer}=await weather();let total=0;
  for(const map of ['start','route1','route2']){const before=total;const source=require('../data/maps/'+map+'.json'),layers=source.layers.filter(l=>['coll','change','int','foreground','for2'].includes(l.name));for(let t=0;t<6000;t+=70){const impacts=worldRainImpacts(t,3,map);assert(impacts.length<=48);for(const p of impacts){total++;const x=Math.floor(p.x/32),y=Math.floor(p.y/32);assert(layers.every(l=>!l.data[y*28+x]),map+' covered/blocked tile');assert(p.radius<=4.4&&p.alpha>0&&p.alpha<=.68);assert(p.x-p.radius>x*32&&p.x+p.radius<(x+1)*32);assert(p.y-p.radius>y*32&&p.y+p.radius<(y+1)*32);}}assert(total-before>100,map+' must have visible ground impacts');}

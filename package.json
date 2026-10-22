@@ -42,6 +42,7 @@
     "test:participation-browser": "node --env-file-if-exists=.env scripts/validateParticipationBrowser.js",
     "test:grass-browser": "node --env-file-if-exists=.env scripts/validateGrassBrowser.js",
     "test:weather-browser": "node --env-file-if-exists=.env scripts/validateWeatherBrowser.js",
+    "test:sand-browser": "node --env-file-if-exists=.env scripts/validateSandWeatherBrowser.js",
     "test:valpierre-browser": "node --env-file-if-exists=.env scripts/validateValpierreBrowser.js",
     "test:story-browser": "node --env-file-if-exists=.env scripts/validateOpeningStoryBrowser.js",
     "test:session-browser": "node --env-file-if-exists=.env scripts/validateExpiredSessionBrowser.js",

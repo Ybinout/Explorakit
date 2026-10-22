@@ -1,5 +1,19 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Rochebrume : vent et sable légers — 22 octobre 2026
+
+Le créateur a précisé **Rochebrume (Wanda)** lors de la clarification de la ville visée. Seule la carte extérieure `ville4` reçoit le profil serveur `kind:sandstorm`, ambiance **vent1/pluie0/sable1** (échelle 0–3). Aucun choix de météo ajouté au joueur : mêmes conditions en Aventure et en exploration Rift/Colosseum. Valpierre, les routes voisines et les intérieurs restent identiques ; l’arène de Wanda garde sa météo neutre.
+
+Le moteur commun `worldWeather` accepte désormais l’intensité optionnelle de sable, en conservant exactement les objets historiques vent/pluie des profils existants. Activation limitée aux cartes déjà animées et à `ville4`. Au niveau demandé : **32 grains fins**, deux faibles filets d’air, léger voile chaud alpha0,022 ; pas de pluie, impacts ni feuilles vertes dans ce climat. Mouvements horizontaux et petites oscillations continues, positions modulaires bornées ; aucun déplacement du foreground, nouvelle image, retouche de carte ou ressource externe. Cache unique 896×640 à 30 Hz au maximum, suspension/libération sur intérieur/chargement/combat/masquage et image stable en mouvement réduit ou animations désactivées. Le profil de vraie tempête de sable est hérité par les combats extérieurs de cette seule carte selon le mécanisme partagé existant : persistance de carte, dégâts et immunités habituels, météo remplaçable par talents/capacités. Cela n’étend pas le climat à `ville4_arene`.
+
+Trois recettes ajoutées aux tests météo : profil/absence de fuite vers intérieurs et Valpierre, budgets/cache/temps longs/mouvement réduit/nettoyage, héritage et immunité Roche/Sol aux dégâts de sable en Aventure et dans les deux expéditions. Les tests d’intégrité des neuf fichiers auteur et des transitions de Rochebrume restent actifs. Vérification complète `RELEASE_DIST_DIR=/tmp/explorakit-rochebrume-sand-dist VUE_APP_PUBLIC_PATH=/explorakit/ npm run verify:release -- --mysql` réussie : **653 tests applicatifs et 72 SQL**, audits, HTTP/reprise, lint/build.
+
+`npm run test:sand-browser` utilise comptes/base dédiés, vrai client et vraie entrée/sortie de boutique en Aventure ; contrôle aussi l’état météo client en Colosseum et Rift à deux joueurs. Quatre tailles 320×480 /393×852 /844×390 /1365×900, mouvement réduit, profil identique, zéro erreur navigateur. Mesures de la surface native : alpha moyen 6,006/255, maximum92/255 sur les grains, 316 pixels différents entre deux instants ; effet animé et léger sans opacifier la carte. Captures inspectées. Aucune commande de fixture exposée dans le produit, aucun essai sur téléphone physique revendiqué.
+
+Publication le **22/10/2026 à 9 h 04 (Paris)** : client `5913f61d852dd813723c91e41710e103bc8a763a`, build hash `f4ae5a303963644e`. Sauvegarde sources/dist/SQL/checkpoint `/home/ubuntu/dev/backups/explorakit-rochebrume-sand-2026-10-22T06-58-10-998Z` et checkpoint relu avant redémarrage ; 0 expédition active au contrôle. Assets copiés sans supprimer les anciens bundles, seule unité Explorakit redémarrée, index atomique ; PID1138063 actif, zéro redémarrage automatique. Aucune migration ni réécriture des sauvegardes. HTTPS200 et index conforme au build, Know/api-test inchangés. Logs/captures `/tmp/explorakit-rochebrume-sand-*`.
+
+Contrôle HTTPS public réussi avec un nouveau compte temporaire : Rochebrume réelle, profil léger identique, surface animée/alpha mesurés, quatre tailles et mouvement réduit ; vraie porte de boutique, absence d’effet à l’intérieur et retour automatique dehors. Index conforme, voisins inchangés, aucune erreur navigateur ; compte temporaire supprimé. Captures publiques inspectées (`/tmp/explorakit-rochebrume-sand-public*`).
+
 ## Butins sauvages, baies, vitamines et Multi Exp — 21 octobre 2026
 
 Demande du créateur : un objet sur 25 Pokémon sauvages vaincus, des raretés, des objets compétitifs uniques, un Multi Exp 100 %/50 %, des baies et les vitamines, avant un futur centre commercial. `server/game/items/wildLoot.js` est commun aux trois modes : **base 4 % par victoire sauvage**, puis familles **55 % baies /25 % vitamines /15 % équipement /5 % Multi Exp** parmi les butins encore accessibles. Deuxième tirage pondéré dans la famille : Oran/Sitrus et les cures simples plus fréquentes que les baies de stats/résistance. Les familles sans unique disponible sont retirées et les probabilités restantes renormalisées : un tirage réussi ne redonne jamais un doublon unique et ne devient pas vide. En expédition, le bonus relatif d’objets DRF-045 s’applique à cette base ; les deux anciennes chances sauvages séparées de 20 % consommables et 12 % équipement sont remplacées. Drifts, bonus collectionneur de Drifts, argent et récompenses de PNJ ne changent pas. Aucun objet via capture/fuite/défaite/PvP ; bilan et sac signalent la trouvaille après une vraie victoire, une seule tentative par combat.
@@ -1931,6 +1945,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **22 octobre 2026 — Rochebrume :** vent et sable au niveau léger, climat partagé et rendu animé borné, intérieurs préservés ; tests météo, trois modes/quatre tailles et publication complète.
 
 - **21 octobre 2026 — Butins, baies et Multi Exp :** base 1/25 sauvage, raretés, unicité SQL/checkpoint, 39 baies, six vitamines, partage d’XP conditionnel et poche Vitamines ; migration additive, tests/recettes et publication complète.
 

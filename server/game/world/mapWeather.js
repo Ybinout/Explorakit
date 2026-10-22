@@ -7,6 +7,7 @@ function getMapWeather(map) {
     if (climate.kind && entry.ambience) {
         const level = value => Number.isInteger(value) && value >= 0 && value <= 3 ? value : 0;
         climate.ambience = { wind: level(entry.ambience.wind), rain: level(entry.ambience.rain) };
+        if (climate.kind === 'sandstorm') climate.ambience.sand = level(entry.ambience.sand);
     }
     return climate;
 }

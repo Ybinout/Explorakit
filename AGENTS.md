@@ -1,5 +1,9 @@
 # Contexte permanent — Explorakit
 
+## Vent et sable légers à Rochebrume — 22 octobre 2026
+
+Le créateur a confirmé **Rochebrume (Wanda), `ville4`**, pas Valpierre. Profil serveur `sandstorm`, ambiance vent1/pluie0/sable1, partagé dans les trois modes. `worldWeather` ajoute un sable optionnel 0–3 sans modifier la forme historique des profils de pluie ; seule `ville4` est ajoutée à la liste des cartes animées. Niveau 1 : 32 grains fins, deux filets d’air, voile chaud alpha0,022, aucune feuille verte ni pluie ; surface fixe/cachée 30 Hz, mouvement réduit stable, libération sur intérieur/chargement/combat/masquage. Ne pas faire bouger tout le foreground ni toucher aux PNG/JSON/TMX auteur. Tempête réelle héritée par les combats extérieurs de cette carte via les règles communes, pas par l’arène de Wanda ni les autres intérieurs/routes/villes. Validation complète 653 applicatifs/72 SQL et `test:sand-browser` (trois modes, quatre tailles, pixels doux/animés, mouvement réduit, vraie porte boutique/retour), publication serveur/client et HTTPS public validés ; aucun reset/migration.
+
 ## Butins sauvages, baies, vitamines et Multi Exp — 21 octobre 2026
 
 `wildLoot` partage une base 1/25 uniquement sur victoire sauvage : familles 55 baies/25 vitamines/15 équipement/5 Multi Exp, puis poids internes ; exclure les uniques déjà trouvés et renormaliser les familles disponibles plutôt que gaspiller un tirage. En expédition, le bonus relatif DRF-045 reste appliqué ; les deux anciens tirages sauvages objets 20 %/12 % sont remplacés, les Drifts et autres récompenses gardent leurs règles. Pas de butin d’objet à la capture/fuite/défaite/PvP. 39 baies fonctionnelles, six vitamines (+10 EV sous 252/510), 11 équipements uniques et Multi Exp ; nouveaux objets/équipements hors boutique (`dropOnly`), talisman/pierres et anciens consommables inchangés.
