@@ -629,75 +629,182 @@
       "name": "ana",
       "team": [
         {
-          "pokemonId": 437,
-          "name": "Archéodong",
+          "pokemonId": 53,
+          "name": "Persian",
           "level": 44,
-          "abilities": [
-            "Extrasensory",
-            "Gyro Ball",
-            "Reflect",
-            "Hypnosis"
-          ],
-          "passiveAbility": "Levitate",
-          "heldItem": null,
-          "k": 1,
-          "nature": "Hardy",
-          "givenIv": {
-            "hp": 18,
-            "attack": 18,
-            "defense": 18,
-            "specialAttack": 18,
-            "specialDefense": 18,
-            "speed": 18
-          }
-        },
-        {
-          "pokemonId": 208,
-          "name": "Steelix",
-          "level": 45,
-          "abilities": [
-            "Iron Tail",
-            "Earthquake",
-            "Rock Slide",
-            "Screech"
-          ],
-          "passiveAbility": "Sturdy",
-          "heldItem": null,
-          "k": 1,
-          "nature": "Hardy",
-          "givenIv": {
-            "hp": 18,
-            "attack": 18,
-            "defense": 18,
-            "specialAttack": 18,
-            "specialDefense": 18,
-            "speed": 18
-          }
-        },
-        {
-          "pokemonId": 395,
-          "name": "Pingoléon",
-          "level": 46,
-          "abilities": [
-            "Surf",
-            "Flash Cannon",
-            "Ice Beam",
-            "Grass Knot"
-          ],
-          "passiveAbility": "Torrent",
-          "heldItem": "sitrus_berry",
           "k": 2,
-          "nature": "Modest",
+          "nature": "Jolly",
+          "passiveAbility": "Technician",
+          "heldItem": "life_orb",
+          "abilities": [
+            "Double-Edge",
+            "Bite",
+            "Aerial Ace",
+            "Taunt"
+          ],
           "givenIv": {
-            "hp": 22,
-            "attack": 22,
-            "defense": 22,
-            "specialAttack": 22,
-            "specialDefense": 22,
-            "speed": 22
+            "hp": 31,
+            "attack": 31,
+            "defense": 31,
+            "specialAttack": 31,
+            "specialDefense": 31,
+            "speed": 31
+          },
+          "ev": {
+            "attack": 252,
+            "speed": 252,
+            "specialDefense": 4
+          }
+        },
+        {
+          "pokemonId": 154,
+          "name": "Méganium",
+          "level": 44,
+          "k": 3,
+          "nature": "Bold",
+          "passiveAbility": "Overgrow",
+          "heldItem": "leftovers",
+          "abilities": [
+            "Giga Drain",
+            "Synthesis",
+            "Reflect",
+            "Light Screen"
+          ],
+          "givenIv": {
+            "hp": 31,
+            "attack": 31,
+            "defense": 31,
+            "specialAttack": 31,
+            "specialDefense": 31,
+            "speed": 31
+          },
+          "ev": {
+            "hp": 252,
+            "defense": 252,
+            "specialDefense": 4
+          }
+        },
+        {
+          "pokemonId": 78,
+          "name": "Galopa",
+          "level": 45,
+          "k": 3,
+          "nature": "Jolly",
+          "passiveAbility": "Flash Fire",
+          "heldItem": "choice_scarf",
+          "abilities": [
+            "Flare Blitz",
+            "Wild Charge",
+            "Megahorn",
+            "Drill Run"
+          ],
+          "givenIv": {
+            "hp": 31,
+            "attack": 31,
+            "defense": 31,
+            "specialAttack": 31,
+            "specialDefense": 31,
+            "speed": 31
+          },
+          "ev": {
+            "attack": 252,
+            "speed": 252,
+            "specialDefense": 4
+          }
+        },
+        {
+          "pokemonId": 148,
+          "name": "Draco",
+          "level": 45,
+          "k": 3,
+          "nature": "Adamant",
+          "passiveAbility": "Shed Skin",
+          "heldItem": "eviolite",
+          "abilities": [
+            "Dragon Dance",
+            "Outrage",
+            "Waterfall",
+            "Rest"
+          ],
+          "givenIv": {
+            "hp": 31,
+            "attack": 31,
+            "defense": 31,
+            "specialAttack": 31,
+            "specialDefense": 31,
+            "speed": 31
+          },
+          "ev": {
+            "hp": 252,
+            "attack": 252,
+            "specialDefense": 4
+          }
+        },
+        {
+          "pokemonId": 407,
+          "name": "Roserade",
+          "level": 46,
+          "k": 4,
+          "nature": "Timid",
+          "passiveAbility": "Natural Cure",
+          "heldItem": "life_orb",
+          "abilities": [
+            "Giga Drain",
+            "Sludge Bomb",
+            "Shadow Ball",
+            "Dazzling Gleam"
+          ],
+          "givenIv": {
+            "hp": 31,
+            "attack": 31,
+            "defense": 31,
+            "specialAttack": 31,
+            "specialDefense": 31,
+            "speed": 31
+          },
+          "ev": {
+            "specialAttack": 252,
+            "speed": 252,
+            "specialDefense": 4
+          }
+        },
+        {
+          "pokemonId": 282,
+          "name": "Gardevoir",
+          "level": 46,
+          "k": 4,
+          "nature": "Timid",
+          "passiveAbility": "Trace",
+          "heldItem": "lum_berry",
+          "abilities": [
+            "Moonblast",
+            "Psyshock",
+            "Focus Blast",
+            "Calm Mind"
+          ],
+          "givenIv": {
+            "hp": 31,
+            "attack": 31,
+            "defense": 31,
+            "specialAttack": 31,
+            "specialDefense": 31,
+            "speed": 31
+          },
+          "ev": {
+            "specialAttack": 252,
+            "speed": 252,
+            "specialDefense": 4
           }
         }
-      ]
+      ],
+      "strategy": {
+        "name": "Ana",
+        "ai": "expert",
+        "acePokemonId": 282,
+        "entryLines": {
+          "282": "Tu as tenu bon jusqu’ici. Gardevoir, à nous ! Ensemble, nous n’abandonnerons jamais."
+        }
+      }
     },
     {
       "name": "wanda",

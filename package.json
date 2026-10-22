@@ -54,6 +54,7 @@
     "test:north-caves-browser": "node --env-file-if-exists=.env scripts/validateNorthCavesBrowser.js",
     "test:snow-browser": "node --env-file-if-exists=.env scripts/validateSnowBrowser.js",
     "test:combat-snow-browser": "node --env-file-if-exists=.env scripts/validateCombatSnowBrowser.js",
+    "test:ana-browser": "node --env-file-if-exists=.env scripts/validateAnaBrowser.js",
     "test:raph-browser": "node --env-file-if-exists=.env scripts/validateRaphBrowser.js"
   },
   "keywords": [],

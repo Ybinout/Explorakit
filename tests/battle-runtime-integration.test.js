@@ -653,6 +653,30 @@ test('Raphael Aventure : cinq partenaires réels, as K4 en dernier, réplique un
     } finally {if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
 });
 
+test('Ana Aventure : six partenaires réels, as K4 en dernier, réplique unique et gains persistés', {skip:!shouldRun}, async()=>{
+    const pool=createTestPool(); let userId;
+    try {
+        const {user,player}=await createPlayer(7); userId=user.id; player.currentmap='ville3_arene';
+        const lead=player.equipe.pokemons[0]; lead.experience=lead.getNextLevelExpForLevel(100); lead.level=100; lead.recalculateStats();
+        lead.currentSpecialAttack=9999;lead.maxHp=lead.currentHp=1000; lead.currentSpeed=999; lead.abilities=['Surf']; lead.movePp=[15];
+        const team=require('../server/game/world/pnjTeamFactory').getPnjTeam('ana');
+        const socket=new ScriptedSocket(Array.from({length:10},()=>({action:'attack',number:0})));
+        const io=new RecordingIo({[player.id]:socket}), snapshots=[];
+        const to=io.to.bind(io); io.to=id=>({emit:(event,payload)=>{if(event==='introAnimation')snapshots.push(JSON.parse(JSON.stringify(payload)));to(id).emit(event,payload);}});
+        await withFixedRandom(.5,()=>startTrainerBattle(player,team,io,userId,{experienceKind:'arena'}));
+        assert.equal(io.lastEvent(player.id,'endbattle').payload.playerWon,true);
+        assert.deepEqual([...new Set(snapshots.map(s=>s.wildPokemon.data.id))].sort((a,b)=>a-b),[53,78,148,154,282,407]);
+        const entries=snapshots.flatMap(s=>s.transitions).filter(e=>e.kind==='enter'&&e.side==='opponent');
+        assert.equal(entries.at(-1).uuid,team.__trainerPlan.aceUuid);
+        assert.equal(entries.filter(e=>e.trainerSpeech).length,1);
+        assert.equal(entries.at(-1).trainerSpeech.name,'Ana');
+        const ace=snapshots.find(s=>s.wildPokemon.data.id===282).wildPokemon;
+        assert.equal(ace.k,4); assert(Object.values(ace.iv).every(v=>v===31)); assert.equal(ace.ev.specialAttack,252);
+        assert.equal((await loadEquipe(userId)).pokemons[0].uuid,lead.uuid);
+        const [[row]]=await pool.execute('SELECT money FROM users WHERE id=?',[userId]);assert(Number(row.money)>0);
+    } finally {if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
+});
+
 for (const kind of ['wild','trainer']) test(`Aventure ${kind} : Tunnel utilise son dernier PP, évite le premier tour et poursuit automatiquement sans nouvelle demande`, {skip:!shouldRun}, async()=>{
     const pool=createTestPool();let userId;
     try {

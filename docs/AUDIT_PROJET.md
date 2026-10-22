@@ -1,5 +1,13 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Nouvelle équipe d’Ana — 22 octobre 2026
+
+Ana à Clairfontaine (`ville3_arene`) commence par Persian44 K2 ; Méganium44, Galopa45 et Draco45 sont K3 ; Roserade46 et Gardevoir46 sont K4. Formes exactes (Draco, pas Dracolosse), anciens niveaux44–46 conservés. Six IV31 par Pokémon et EV508 légaux, répartis selon leur rôle (252/252/4). Persian Technicien/Orbe Vie, Méganium soutien/Restes, Galopa Torche/Mouchoir Choix, Draco Mue/Évoluroc, Roserade offensif/Orbe Vie et Gardevoir Calque/Baie Prine. Capacités légales du catalogue, quatre emplacements/PP complets et couverture cohérente ; seuls l’équipe d’Ana et son plan sont modifiés.
+
+Plan expert partagé (deux tours/observations publiques), Gardevoir réservé par UUID tant qu’un autre partenaire est apte, réplique unique à son envoi et reprise du plan après checkpoint. Les changements imposés par l’adversaire suivent les règles normales. Commun Aventure/Rift/Colosseum ; conditions, récompenses, dialogues narratifs, anciennes victoires et sauvegardes conservés. Tests `ana-tactics` : sets, IV/EV/K, absence d’immunité ciblée par erreur, réserve malgré réordre, isolement et reprise des deux expéditions. Vrai combat Aventure SQL à six partenaires et recette `test:ana-browser` : six espèces, Gardevoir dernier/réplique une fois, mobile/PC et fin de combat.
+
+Validation complète 682 tests applicatifs/74 SQL, audits et lint/build isolé d2761ccf4c125b78 passés. Vrai duel Aventure SQL à six espèces, Gardevoir dernier et annonce unique ; recette navigateur Ana mobile393/PC1365 passée avec les six vrais partenaires, même réserve et fin de combat sans erreur. Publication serveur seul le 22/10/2026 à 14 h 52 Paris après sauvegarde sources/dist/SQL/checkpoint (0 expédition active), PID1241659 actif/NRestarts0. Client9914b6c/index38088f1f8eba14eb et sites voisins inchangés. Contrôle HTTPS sur compte temporaire : vraie introduction Ana, premier envoi Persian44/K2/IV31/EV508/Orbe Vie et quatre capacités attendues, fuite sans récompense, compte supprimé. Aucun schéma, carte, dialogue narratif ni sauvegarde réécrit. Logs /tmp/explorakit-ana-team-{verify,browser,deploy,public}.log.
+
 ## 7p, dernier champion et retrouvailles — 22 octobre 2026
 
 7p remplace l’accueil provisoire de `ville5_arene` à Blanchecime (13,5). Sprite auteur `pnj/7ps.png`, découpe 64×64 de la première case de la planche 4×4, comme les autres champions ; illustration de dialogue existante `image/7ps.png`. Après Wanda, équipe fixe Triopikeur54 / Braségali55 / Ectoplasma55 / Flagadoss55 / Voltali55 / Léviator56, tous K4/IV31/EV508 répartis légalement (252/252/4), natures et objets adaptés. Piège Sable, Turbo, Corps Maudit, Régé-Force, Absorbe-Volt et Intimidation. Politique expert existante au maximum (projection deux tours et observations publiques), sans `acePokemonId` ni réserve imposée. Aucun changement des autres équipes, de la courbe ou de l’IA globale.
@@ -2132,6 +2140,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **22 octobre 2026 — Ana :** six partenaires K2/K3/K4, IV/EV et objets optimisés, Gardevoir réservé et annonce unique ; mêmes niveaux et récompenses.
 
 - **22 octobre 2026 — 7p et Lucie :** champion final K4 intégral sans réserve, textes Ana/Wanda, clé/maison Route2 et retrouvailles persistantes.
 
