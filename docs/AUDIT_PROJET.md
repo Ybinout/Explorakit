@@ -1,5 +1,18 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Flocons en combat — 22 octobre 2026
+
+L’ancien motif CSS de grêle répété tous les 58 px est remplacé par `BattleSnow`/`BattleSnowRenderer`, dans le composant partagé des trois modes. Flocons indépendants, profondeur/taille/vitesse variables, dérive légère, fins cristaux au premier plan, bord froid et centre blanc sans flou géant ; disparition douce et petites traces éphémères uniquement au sol. La couche reste derrière les combattants et cartes de PV, sans intercepter les commandes.
+
+Canvas plafonné à 220 particules et DPR1,5/30 Hz ; dimensions réévaluées au redimensionnement, image stable si animations désactivées/mouvement réduit, libération au changement de météo/fin du combat/destruction, suspension en arrière-plan. Aucune règle météo modifiée : la grêle du moteur garde ses effets et sa durée ; la neige d’ambiance des Routes13/14 n’est pas transformée en grêle. Pluie, soleil, sable et terrains conservent leurs couches existantes. Aucun artwork/carte modifié.
+
+Recettes : `tests/battle-snow.test.js` (géométrie/profondeur/atterrissages, quatre environnements/tailles, très longue session, limite30 Hz, redimensionnement et libération), puis `npm run test:combat-snow-browser` sur base dédiée : vraie Alerte Neige, pixels mobiles, quatre tailles, mouvement réduit/préférences/masquage, vraie Zénith remplaçant la météo, régression pluie et fin de combat.
+
+
+Vérification complète `RELEASE_DIST_DIR=/tmp/explorakit-combat-snow-dist VUE_APP_PUBLIC_PATH=/explorakit/ npm run verify:release -- --mysql` réussie : **668 tests applicatifs /73 SQL**, audits, HTTP/reprise, lint/build. `test:combat-snow-browser` passé : vraie Alerte Neige en combat, quatre tailles 320×480/393×852/844×390/1365×900, 80–220 particules selon le terrain, pixels indépendants (4 883 pixels modifiés, 1 145 visibles sur l’échantillon 393×590), plafond30 Hz, préférences/mouvement réduit/masquage, vraie Zénith, retour pluie puis grêle et libération finale. Le rival de recette utilise Charge et le meneur est rapide pour éviter qu’un éventuel apeurement aléatoire empêche le scénario de remplacement météo ; aucune règle de jeu modifiée. Captures mobile/PC inspectées, aucun débordement/erreur navigateur, compte temporaire supprimé. Aucun essai sur téléphone physique revendiqué.
+
+Publication **statique sans redémarrage** le **22/10/2026 à 12 h 24 (Paris)** : client `76cd9beb7df98227ae67f5e4d223c5eb3eb68aa3`, build `697d50d9eb1d036a`. Sauvegarde sources/dist/SQL/checkpoint `/home/ubuntu/dev/backups/explorakit-combat-snow-2026-10-22T10-17-49-847Z`, checkpoint relu et 0 expédition active. Index atomique/anciens bundles conservés, PID1174820 inchangé/actif, NRestarts0 ; HTTPS200, index conforme et `game.51970a99.js` servi octet pour octet comme le build. Know/api-test inchangés, aucune migration ni réécriture de sauvegarde. Logs `/tmp/explorakit-combat-snow-{verify,browser,deploy}.log`, captures `/tmp/explorakit-combat-snow-browser`.
+
 ## Équipe de Raph — 22 octobre 2026
 
 Raphael à Ocreville (`gen_arene5`) utilise les cinq formes demandées, sans évolution automatique : Kaiminus 40, Akwakwak 40, Absol 41, Libégon 41, Cizayox 42. Fourchette d’arène 40–42 conservée. Quatre partenaires K1/IV18/EV0, natures et objets adaptés : Évoluroc, Restes, Orbe Vie et Mouchoir Choix. Couverture Eau/Glace, menace Coup Bas et Libégon rapide ; toutes les capacités appartiennent aux learnsets et au moteur existants.
@@ -2026,6 +2039,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **22 octobre 2026 — Flocons en combat :** motif de grêle remplacé par particules indépendantes, profondeur/dérive et dissolution au sol, budget mobile et cycle de vie bornés ; règles météo conservées.
 
 - **22 octobre 2026 — Raph :** cinq espèces 40–42, Cizayox K4 IV31/EV optimisés, sets/objets cohérents et IA experte réservant l’as ; dialogue, tests communs/SQL et recette mobile/PC.
 

@@ -53,6 +53,7 @@
     "test:pc-browser": "node --env-file-if-exists=.env scripts/validatePokemonComputerBrowser.js",
     "test:north-caves-browser": "node --env-file-if-exists=.env scripts/validateNorthCavesBrowser.js",
     "test:snow-browser": "node --env-file-if-exists=.env scripts/validateSnowBrowser.js",
+    "test:combat-snow-browser": "node --env-file-if-exists=.env scripts/validateCombatSnowBrowser.js",
     "test:raph-browser": "node --env-file-if-exists=.env scripts/validateRaphBrowser.js"
   },
   "keywords": [],

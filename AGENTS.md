@@ -1,5 +1,16 @@
 # Contexte permanent — Explorakit
 
+## Flocons en combat — 22 octobre 2026
+
+L’ancien motif CSS de grêle répété tous les 58 px est remplacé par `BattleSnow`/`BattleSnowRenderer`, dans le composant partagé des trois modes. Flocons indépendants, profondeur/taille/vitesse variables, dérive légère, fins cristaux au premier plan, bord froid et centre blanc sans flou géant ; disparition douce et petites traces éphémères uniquement au sol. La couche reste derrière les combattants et cartes de PV, sans intercepter les commandes.
+
+Canvas plafonné à 220 particules et DPR1,5/30 Hz ; dimensions réévaluées au redimensionnement, image stable si animations désactivées/mouvement réduit, libération au changement de météo/fin du combat/destruction, suspension en arrière-plan. Aucune règle météo modifiée : la grêle du moteur garde ses effets et sa durée ; la neige d’ambiance des Routes13/14 n’est pas transformée en grêle. Pluie, soleil, sable et terrains conservent leurs couches existantes. Aucun artwork/carte modifié.
+
+Recettes : `tests/battle-snow.test.js` (géométrie/profondeur/atterrissages, quatre environnements/tailles, très longue session, limite30 Hz, redimensionnement et libération), puis `npm run test:combat-snow-browser` sur base dédiée : vraie Alerte Neige, pixels mobiles, quatre tailles, mouvement réduit/préférences/masquage, vraie Zénith remplaçant la météo, régression pluie et fin de combat.
+
+
+Validation complète 668 applicatifs/73 SQL et recette combat neige passées, quatre tailles/pixels, vraie Alerte Neige → Zénith, préférences et destruction vérifiées. Publication statique le 22/10/2026 à 12 h 24 Paris, build697d50d9eb1d036a, aucun redémarrage ni modification de sauvegarde ; HTTPS/index/bundle exacts, sites voisins préservés.
+
 ## Équipe de Raph — 22 octobre 2026
 
 Raphael à Ocreville (`gen_arene5`) utilise les cinq formes demandées, sans évolution automatique : Kaiminus 40, Akwakwak 40, Absol 41, Libégon 41, Cizayox 42. Fourchette d’arène 40–42 conservée. Quatre partenaires K1/IV18/EV0, natures et objets adaptés : Évoluroc, Restes, Orbe Vie et Mouchoir Choix. Couverture Eau/Glace, menace Coup Bas et Libégon rapide ; toutes les capacités appartiennent aux learnsets et au moteur existants.
