@@ -15,8 +15,9 @@ function getMapWeather(map) {
 }
 function battleWeatherForMap(map, opponentMap = map) {
     const climate = getMapWeather(map);
-    // Falling snow is map ambience, distinct from damaging battle hail.
-    if (!battleKinds.has(climate.kind) || map !== opponentMap) return { kind: null, turns: 0 };
-    return { kind: climate.kind, turns: 0, persistent: true, source: 'map' };
+    // Outdoor snowfall uses the existing Gen 7 ice-weather rules in battle.
+    const kind = climate.kind === 'snow' ? 'hail' : climate.kind;
+    if (!battleKinds.has(kind) || map !== opponentMap) return { kind: null, turns: 0 };
+    return { kind, turns: 0, persistent: true, source: 'map' };
 }
 module.exports = { getMapWeather, battleWeatherForMap };

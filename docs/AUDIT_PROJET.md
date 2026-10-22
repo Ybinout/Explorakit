@@ -1,5 +1,12 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Neige extérieure héritée en combat — 22 octobre 2026
+
+À la demande du joueur, neige avec effets météo : `battleWeatherForMap` convertit le climat extérieur `snow` en `hail` persistant, source carte, pour Routes13/14. Le moteur Gen7 existant applique dégâts/immunités, talents de glace, Blizzard, Ball’Météo et forme Blizzard de Morphéo ; le client commun affiche déjà flocons, décor et icône Grêle. Cette décision remplace la séparation purement décorative des livraisons précédentes. Aucun nouveau climat/règle de dégâts inventé ni effet ajouté à Blanchecime simplement parce que son sol est blanc.
+
+Commun Aventure/Rift/Colosseum, état présent avant les premières actions, persistant/reconnectable, remplacé normalement par météo de capacité/talent. Grottes, bâtiments et duels entre cartes différentes restent sans cette météo. Tests `map-weather`/`snow-background` et recette `test:combat-snow-browser` : départ réel sans Alerte Neige pour prouver l’héritage, puis remplacement Zénith/pluie/Alerte Neige et libération du rendu ; quatre tailles. Validation complète 670 tests applicatifs/73 SQL et recette combat neige quatre tailles passées : vrai départ sans talent météo, flocons visibles, effets, remplacement, mouvement réduit et nettoyage. Publication serveur seul le 22/10/2026 à 13 h 36 Paris : sauvegarde sources/dist/SQL/checkpoint, 0 expédition active au contrôle, PID1208680 actif/NRestarts0. Index/client fcca7709d1bea5bf inchangés, HTTPS200 et sites voisins préservés. Contrôle HTTPS sur compte temporaire : vrais combats Aventure des Routes13 et14, climat initial persistant et neige animée sans Alerte Neige, zéro erreur ; compte supprimé. Modifications utilisateur phrase.txt conservées hors commit. Logs /tmp/explorakit-map-combat-snow-{verify,browser,deploy,public}.log.
+
+
 ## Fenêtres centrées sur le jeu sur PC — 22 octobre 2026
 
 Les fenêtres suivent le rectangle visible de `.game-stage` plutôt que le centre de tout l’écran : Pokédex, sac, badges, options/quête/sauvegarde, boutique, équipe/apparence, fiches/PC, apprentissage/évolution, bilans et panneaux d’expédition. Hauteur bornée à la zone disponible avec 12 px de marge ; défilement interne conservé. Si le jeu est hors écran ou trop peu visible, repli au centre du navigateur. Mesure initiale puis ResizeObserver, resize et scroll regroupés par animation frame ; libération à la destruction. Le fond assombri continue de couvrir l’écran.
@@ -2087,6 +2094,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **22 octobre 2026 — Neige héritée :** neige extérieure convertie en météo de glace persistante dans les trois modes, avec effets moteur existants et flocons dès l’entrée ; intérieurs protégés, remplacement/reconnexion vérifiés.
 
 - **22 octobre 2026 — Centrage PC :** fenêtres alignées sur la zone visible du jeu, hauteur bornée, mise à jour au redimensionnement/défilement ; présentation mobile et coordonnées du glisser PC conservées.
 
