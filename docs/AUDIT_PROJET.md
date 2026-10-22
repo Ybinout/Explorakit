@@ -1,5 +1,20 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Vent et sable visibles à Rochebrume / Route 12 — 22 octobre 2026
+
+Route12 était absente du catalogue météo serveur et de la liste des cartes animées ; Rochebrume avait seulement vent1/sable1 et 32 grains très peu contrastés. Les deux cartes partagent maintenant `sandstorm`, vent2/pluie0/sable2 : 68 grains, trois rafales et aucun feuillage vert. Grains légèrement plus grands, centre clair/bord brun, filets d’air chauds plus visibles et huit traînées de poussière réparties en hauteur pour rester perceptibles avec la caméra mobile ; voile léger alpha0,052. Aucun dessin/collision/foreground retouché ; pluie et neige gardent leur rendu/budget.
+
+Climat autoritaire identique pour tous, transmis par les mécanismes existants des trois modes. Tempête réelle héritée par les combats extérieurs des deux cartes ; arène de Wanda, boutique, maisons, Centre, grottes et Route11 restent hors tempête. Aucun changement des sauvegardes, taux de rencontre ou niveaux. Cache 896×640/30 Hz, image stable si mouvement réduit et suspension des surfaces hors carte/combat/masquage conservés.
+
+Tests `world-weather` et `map-weather` adaptés aux deux profils et à la séparation des intérieurs. `test:sand-browser` couvre désormais les deux cartes en Aventure/Rift/Colosseum, vrais passages Route12 ↔ Rochebrume et Route12 ↔ Route11, pixels visibles/animés, quatre tailles, mouvement réduit et vraie porte boutique/retour.
+
+
+Vérification complète `RELEASE_DIST_DIR=/tmp/explorakit-sand-visible-dist VUE_APP_PUBLIC_PATH=/explorakit/ npm run verify:release -- --mysql` passée : **668 applicatifs /73 SQL**, audits, HTTP/reprise et lint/build. Après contrôle des captures sur sol beige, contraste final des grains/traînées renforcé : suites météo finales **18/18**, lint et build final `5287ed8f87e9a917` passés. `test:sand-browser` final réussi : les deux cartes dans les trois modes, vrais passages Rochebrume ↔ Route12 ↔ Route11 et boutique/retour, mouvement réduit, quatre tailles et aucune erreur navigateur. Le retour immédiat Route11 doit respecter les 200 ms du pas de recette ; aucun délai de déplacement du jeu modifié. Mesure surface : 12 700 pixels animés, alpha maximal225/255, alpha moyen13,375/255 (voile faible). Contrôle supplémentaire sur le vrai canvas affiché, avec/sans composition météo : 160 081–184 781 pixels affectés et 675–1 000 pixels d’un contraste supérieur à 12 niveaux RGB, afin de vérifier l’effet réellement visible sur les cartes. Captures inspectées ; aucun téléphone physique revendiqué.
+
+Publication le **22/10/2026 à 12 h 37 (Paris)** : client `52b00ab816ee7f123275f01e90c055c1d32b6439`, build `5287ed8f87e9a917`. Sauvegarde sources/dist/SQL/checkpoint `/home/ubuntu/dev/backups/explorakit-sand-visible-2026-10-22T10-27-04-605Z`, checkpoint relu avant redémarrage, 0 expédition active. Seule unité Explorakit redémarrée pour relire les profils serveur, PID1186818 actif/NRestarts0 ; index atomique, anciens bundles conservés, HTTPS200/index conforme et Know/api-test inchangés. Aucune migration ni réécriture de sauvegarde réelle. Logs `/tmp/explorakit-sand-visible-*`.
+
+Contrôle HTTPS public réussi sur un compte temporaire : Rochebrume et Route12 avec vent2/sable2, vraie boutique/retour, passages entre cartes et voisin sec puis retour de la tempête. Rendu mesuré sur le canvas réellement affiché (708–1 019 pixels fortement contrastés sur les deux vues mobiles), quatre tailles, index conforme au build et voisins inchangés, zéro erreur navigateur. Captures inspectées et compte de recette supprimé (`/tmp/explorakit-sand-visible-public*`).
+
 ## Flocons en combat — 22 octobre 2026
 
 L’ancien motif CSS de grêle répété tous les 58 px est remplacé par `BattleSnow`/`BattleSnowRenderer`, dans le composant partagé des trois modes. Flocons indépendants, profondeur/taille/vitesse variables, dérive légère, fins cristaux au premier plan, bord froid et centre blanc sans flou géant ; disparition douce et petites traces éphémères uniquement au sol. La couche reste derrière les combattants et cartes de PV, sans intercepter les commandes.
@@ -2039,6 +2054,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **22 octobre 2026 — Sable visible :** Route12 ajoutée au climat partagé, vent2/sable2 aussi à Rochebrume, grains et rafales plus lisibles ; vérification des deux cartes/trois modes et transitions vers voisin sec/intérieurs.
 
 - **22 octobre 2026 — Flocons en combat :** motif de grêle remplacé par particules indépendantes, profondeur/dérive et dissolution au sol, budget mobile et cycle de vie bornés ; règles météo conservées.
 

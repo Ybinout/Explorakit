@@ -13,11 +13,13 @@ test('heavy visual snowfall is separate from damaging hail in Adventure, Rift an
  assert.equal(getMapWeather('cave_rochebrume3').kind,null);assert.equal(getMapWeather('ville4').kind,'sandstorm');
 });
 test('Rochebrume sand is inherited outdoors in all modes, persists and preserves sand immunities; Wanda and other interiors stay dry',()=>{
- const expected={kind:'sandstorm',turns:0,persistent:true,source:'map'},field=engine.createBattleState({mapName:'ville4'});
+ for (const mapName of ['ville4','route12']) {
+ const expected={kind:'sandstorm',turns:0,persistent:true,source:'map'},field=engine.createBattleState({mapName});
  assert.deepEqual(field.weather,expected);const normal=mon(19),rock=mon(74),hp=normal.currentHp,rockHp=rock.currentHp;end(normal,rock,field);
  assert(normal.currentHp<hp);assert.equal(rock.currentHp,rockHp);assert.deepEqual(field.weather,expected);
- for(const mode of ['rift','colosseum']){const a=actor(1,'ville4'),b={...actor(2,'ville4'),npc:true};a.run={mode};const battle=new DriftBattle(a,b,{emit(){},paceMs:0});assert.deepEqual(battle.state.weather,expected);battle.finished=true;}
- for(const map of ['ville4_arene','ville4_shop','ville4_maison1','centre','route12','ville_safe1'])assert.equal(engine.createBattleState({mapName:map}).weather.kind,null);
+ for(const mode of ['rift','colosseum']){const a=actor(1,mapName),b={...actor(2,mapName),npc:true};a.run={mode};const battle=new DriftBattle(a,b,{emit(){},paceMs:0});assert.deepEqual(battle.state.weather,expected);battle.finished=true;}
+ }
+ for(const map of ['ville4_arene','ville4_shop','ville4_maison1','centre','route11','ville_safe1'])assert.equal(engine.createBattleState({mapName:map}).weather.kind,null);
  assert.equal(engine.createBattleState({mapName:'ville4',opponentMap:'centre'}).weather.kind,null);
 });
 test('map rain comes only from server climate; configured arena shares rain; other interiors and mismatched duels are dry',()=>{assert.equal(getMapWeather('start').kind,'rain');for(const map of ['route1','route2']){assert.deepEqual(getMapWeather(map).ambience,{wind:1,rain:1});assert.deepEqual(engine.createBattleState({mapName:map}).weather,{kind:'rain',turns:0,persistent:true,source:'map'});}assert.equal(engine.createBattleState({mapName:'start',weather:'sun'}).weather.kind,'rain');for(const map of ['route3','maison2','cave1','ville_safe1','__proto__',null,undefined])assert.equal(engine.createBattleState({mapName:map}).weather.kind,null);assert.equal(engine.createBattleState({mapName:'start',opponentMap:'maison2'}).weather.kind,null);});

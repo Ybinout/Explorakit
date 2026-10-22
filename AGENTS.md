@@ -1,5 +1,16 @@
 # Contexte permanent — Explorakit
 
+## Vent et sable visibles à Rochebrume / Route 12 — 22 octobre 2026
+
+Route12 était absente du catalogue météo serveur et de la liste des cartes animées ; Rochebrume avait seulement vent1/sable1 et 32 grains très peu contrastés. Les deux cartes partagent maintenant `sandstorm`, vent2/pluie0/sable2 : 68 grains, trois rafales et aucun feuillage vert. Grains légèrement plus grands, centre clair/bord brun, filets d’air chauds plus visibles et huit traînées de poussière réparties en hauteur pour rester perceptibles avec la caméra mobile ; voile léger alpha0,052. Aucun dessin/collision/foreground retouché ; pluie et neige gardent leur rendu/budget.
+
+Climat autoritaire identique pour tous, transmis par les mécanismes existants des trois modes. Tempête réelle héritée par les combats extérieurs des deux cartes ; arène de Wanda, boutique, maisons, Centre, grottes et Route11 restent hors tempête. Aucun changement des sauvegardes, taux de rencontre ou niveaux. Cache 896×640/30 Hz, image stable si mouvement réduit et suspension des surfaces hors carte/combat/masquage conservés.
+
+Tests `world-weather` et `map-weather` adaptés aux deux profils et à la séparation des intérieurs. `test:sand-browser` couvre désormais les deux cartes en Aventure/Rift/Colosseum, vrais passages Route12 ↔ Rochebrume et Route12 ↔ Route11, pixels visibles/animés, quatre tailles, mouvement réduit et vraie porte boutique/retour.
+
+
+Vérification complète 668 applicatifs/73 SQL passée, puis contraste final et 18 tests météo/lint/build validés ; recette finale deux cartes/trois modes, quatre tailles et vrais passages/porte boutique passée. Mesure du vrai canvas avec/sans météo ajoutée pour contrôler la visibilité sur sol beige. Publication serveur/client le 22/10/2026 à 12 h 37 Paris, build5287ed8f87e9a917, profils relus par le seul service Explorakit ; sauvegardes/sites voisins préservés.
+
 ## Flocons en combat — 22 octobre 2026
 
 L’ancien motif CSS de grêle répété tous les 58 px est remplacé par `BattleSnow`/`BattleSnowRenderer`, dans le composant partagé des trois modes. Flocons indépendants, profondeur/taille/vitesse variables, dérive légère, fins cristaux au premier plan, bord froid et centre blanc sans flou géant ; disparition douce et petites traces éphémères uniquement au sol. La couche reste derrière les combattants et cartes de PV, sans intercepter les commandes.

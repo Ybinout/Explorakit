@@ -54,23 +54,26 @@ test('map ambience follows its server climate without stale-map leakage',async()
  assert.deepEqual(settings('start',null),{wind:0,rain:0});assert.deepEqual(settings('maison2',null),{wind:0,rain:0});
 });
 
-test('Rochebrume has a shared light sand/wind profile, no rain or green leaves, and no leakage into its interiors',async()=>{
- const w=await weather(),get=require('../server/game/world/mapWeather').getMapWeather,climate=get('ville4');
- assert.deepEqual(climate,{map:'ville4',kind:'sandstorm',ambience:{wind:1,rain:0,sand:1}});
- assert.deepEqual(w.mapWorldWeather('ville4',climate),{wind:1,rain:0,sand:1});
- assert.deepEqual(w.worldWeatherBudget(climate.ambience),{rain:0,leaves:0,gusts:2,splashes:0,sand:32});
- for(const map of ['ville4_arene','ville4_shop','ville4_maison1','centre','route12','ville_safe1']){
-  assert.deepEqual(w.mapWorldWeather(map,climate),{wind:0,rain:0});assert.equal(get(map).kind,null);
+test('Rochebrume and Route12 share visible wind/sand, without rain, leaves or leakage indoors or on Route11',async()=>{
+ const w=await weather(),get=require('../server/game/world/mapWeather').getMapWeather;
+ for(const map of ['ville4','route12']){
+  const climate=get(map);
+  assert.deepEqual(climate,{map,kind:'sandstorm',ambience:{wind:2,rain:0,sand:2}});
+  assert.deepEqual(w.mapWorldWeather(map,climate),{wind:2,rain:0,sand:2});
+  assert.deepEqual(w.worldWeatherBudget(climate.ambience),{rain:0,leaves:0,gusts:3,splashes:0,sand:68});
+  for(const interior of ['ville4_arene','ville4_shop','ville4_maison1','centre','route11','ville_safe1']){
+   assert.deepEqual(w.mapWorldWeather(interior,climate),{wind:0,rain:0});assert.equal(get(interior).kind,null);
+  }
+  for(const reason of ['hidden','battle','loading'])assert.equal(w.worldWeatherEnabled(map,{[reason]:true}),false);
+  assert.deepEqual(w.mapWorldWeather(map,{...climate,map:'start'}),{wind:0,rain:0});
  }
- for(const reason of ['hidden','battle','loading'])assert.equal(w.worldWeatherEnabled('ville4',{[reason]:true}),false);
- assert.deepEqual(w.mapWorldWeather('ville4',{...climate,map:'start'}),{wind:0,rain:0});
 });
 
 test('sand particles are bounded, cached at 30 Hz, static in reduced motion, and cleaned up on departure',async()=>{
  const {WorldWeatherRenderer,worldWeatherBudget}=await weather(),s=surface(),r=new WorldWeatherRenderer(()=>s.canvas),target={drawImage(){}};
  for(let sand=1;sand<=3;sand++){const b=worldWeatherBudget({wind:1,rain:0,sand});assert(b.sand<=112);assert.equal(b.leaves,0);assert.equal(b.rain,0);}
  const profile={wind:1,rain:0,sand:1};
- r.draw(target,0,profile,true,'ville4');assert.equal(s.calls.filter(c=>c[0]==='ellipse').length,32);assert.equal(r.impacts.length,0);
+ r.draw(target,0,profile,true,'ville4');assert.equal(s.calls.filter(c=>c[0]==='ellipse').length,32);assert(s.calls.filter(c=>c[0]==='bezierCurveTo').length>=8,'dust trails remain spread across the mobile viewport');assert.equal(r.impacts.length,0);
  r.draw(target,10,profile,true,'ville4');assert.equal(r.frames,1);r.draw(target,35,profile,true,'ville4');assert.equal(r.frames,2);
  r.draw(target,40,profile,false,'ville4');const frames=r.frames;r.draw(target,1e8,profile,false,'ville4');assert.equal(r.frames,frames);
  r.draw(target,1e8+50,{wind:0,rain:0,sand:1},true,'ville4');assert(r.canvas,'sand also works without wind');
