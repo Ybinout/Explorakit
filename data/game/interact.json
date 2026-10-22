@@ -73,7 +73,7 @@
         "imageName": "moonpunch.png"
       },
       {
-        "text": "Mounir : Avant de poursuivre, montre-moi que tu peux protéger ton équipe. Machoc niveau 17, Steelix niveau 18… et une dernière surprise niveau 20. Ici, la pluie fait partie du défi. Après le combat, nous parlerons.",
+        "text": "Mounir : Avant de poursuivre, montre-moi que tu peux protéger ton équipe. Ici, la pluie ne laisse aucune place à l’hésitation. Après le combat, nous parlerons.",
         "imageName": "moonpunch.png"
       }
     ],
@@ -383,7 +383,7 @@
         "imageName": "hoze.png"
       },
       {
-        "text": "Hoze : Tu crois avoir ce qu’il faut pour me battre ? Quatre Pokémon, niveaux 37 à 39. Montre-moi ce que tu as dans le ventre, ou retourne t’entraîner !",
+        "text": "Hoze : Tu crois avoir ce qu’il faut pour me battre ? Alors avance. Je veux voir ta détermination, pas entendre des promesses !",
         "imageName": "hoze.png"
       }
     ],
@@ -426,7 +426,7 @@
         "imageName": "raph.png"
       },
       {
-        "text": "Raphael : Observe mes Pokémon, pas seulement leurs types. Mes cinq partenaires sont niveaux 40 à 42. Voyons si tu sais regarder au-delà des apparences.",
+        "text": "Raphael : Un combat se joue aussi dans ce qu’on ne remarque pas. Observe bien… et montre-moi ce que tu as compris.",
         "imageName": "raph.png"
       }
     ],
@@ -469,7 +469,7 @@
         "imageName": "ana.png"
       },
       {
-        "text": "Ana : Je veux être sûre que tu tiendras bon. Trois partenaires, niveaux 44 à 46. Si tu gagnes, je te dirai ce que je sais.",
+        "text": "Ana : Si tu veux retrouver Lucie, tu devras tenir bon quand tout semblera perdu. Montre-moi que tu n’abandonnes pas.",
         "imageName": "ana.png"
       }
     ],
@@ -512,7 +512,7 @@
         "imageName": "wanda.png"
       },
       {
-        "text": "Wanda : Quatre Pokémon, niveaux 47 à 49. Si tu tiens tant à me prouver ta valeur, ne compte pas sur ma clémence.",
+        "text": "Wanda : Tu es venu chercher des réponses ? Commence par me tenir tête. Je ne te ferai aucun cadeau.",
         "imageName": "wanda.png"
       }
     ],
@@ -1643,7 +1643,7 @@
         }
       },
       {
-        "text": "Gardien : Mounir t’a préparé ? Alors relève mon défi du passage. Trois partenaires, niveaux 35 à 37. Fais parler ta stratégie !",
+        "text": "Gardien : Mounir t’a préparé ? Alors relève mon défi du passage. Ici, il faut garder son sang-froid jusqu’au bout !",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,

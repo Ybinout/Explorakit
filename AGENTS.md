@@ -1,5 +1,12 @@
 # Contexte permanent — Explorakit
 
+## Répliques d’entrée des champions — 22 octobre 2026
+
+Les introductions de Mounir, Hoze, Raphael, Ana, Wanda et du Gardien de Valpierre ne révèlent plus leur composition, leur nombre de partenaires ou leurs niveaux. Six phrases réécrites selon leur caractère ; recherche de Lucie, liens entre personnages et conditions du défi conservés. Les annonces d’envoi en plein combat gardent les noms des Pokémon déjà révélés. Aucun changement d’équipe, d’IA, de récompense ou de structure des dialogues ; six remplacements de texte uniquement dans `interact.json`, format préservé et `phrase.txt` utilisateur intact.
+
+Les trois modes utilisent le même catalogue ; un redémarrage serveur est nécessaire pour son cache. Vérifications : audit contenu et recette existante histoire/arènes (dialogues, autorisations, portraits et récompenses). Validation complète 670 tests applicatifs/73 SQL, audits et lint/build passés. Comparaison structurée : exactement six textes modifiés, aucun autre champ ; pas de nom d’un membre de leur équipe ni niveau chiffré dans ces introductions. Publication serveur seul le 22/10/2026 à 13 h 43 Paris après sauvegarde sources/dist/SQL/checkpoint (0 expédition active) ; PID1212684 actif/NRestarts0. Client/index fcca7709d1bea5bf et sites voisins inchangés. Vérification HTTPS/Socket sur compte temporaire : vrais dialogues d’entrée des cinq champions identiques au catalogue, aucun combat démarré, compte supprimé. Logs /tmp/explorakit-arena-intros-{verify,deploy,public}.log ; travail utilisateur phrase.txt préservé hors commit.
+
+
 ## Neige extérieure héritée en combat — 22 octobre 2026
 
 À la demande du joueur, neige avec effets météo : `battleWeatherForMap` convertit le climat extérieur `snow` en `hail` persistant, source carte, pour Routes13/14. Le moteur Gen7 existant applique dégâts/immunités, talents de glace, Blizzard, Ball’Météo et forme Blizzard de Morphéo ; le client commun affiche déjà flocons, décor et icône Grêle. Cette décision remplace la séparation purement décorative des livraisons précédentes. Aucun nouveau climat/règle de dégâts inventé ni effet ajouté à Blanchecime simplement parce que son sol est blanc.
