@@ -1,5 +1,12 @@
 # Contexte permanent — Explorakit
 
+## Hautes herbes enneigées — 22 octobre 2026
+
+Le dessin `teset2` 2961 est ajouté aux métadonnées visuelles `worldGrass`, régénérées en lecture seule : Route 13 et Route 14 possèdent chacune 27 touffes, total 24 cartes/1 380 cases. Aucun JSON/TMX/PNG auteur ni flag de rencontre modifié. Le masque du renderer partagé ajoute les cinq teintes exactes des brins et de leurs pointes enneigées, relevées sur les PNG livrés : 152,184,200 /183,207,215 /240,240,240 /214,232,237 /200,224,232. Exclure le fond neige 217,230,233, ses mouchetures, les ombres, bordures et pixels transparents ; ne pas déplacer le rectangle complet ou tout le foreground.
+
+Réutilise le frémissement de passage existant (joueur, autres joueurs et PNJ), retour au repos 440 ms, cache natif et limite 30 Hz/32 touffes, annulation sur mouvement réduit/chargement/combat/masquage. La chute de neige abondante reste indépendante au-dessus. `grass-rustle.test.js` vérifie les 54 cases auteur, les acteurs, pixels fixes/alpha/retour au repos et grottes exclues. `test:grass-browser` étendu aux deux nouvelles cartes et à leurs vrais pixels, Colosseum sur Route13/Rift sur Route14, couverture des 24 cartes, régressions herbes vertes et quatre tailles. Publication statique seulement ; aucun redémarrage serveur nécessaire.
+Vérification complète 660 applicatifs/72 SQL et recette herbes passée, 24 cartes/54 nouvelles touffes, pixels/alpha fixes hors masque, trois modes ; publication client sans redémarrage serveur.
+
 ## Forte neige sur Routes 13 et 14 — 22 octobre 2026
 
 Profil serveur partagé `kind:snow`, ambiance vent2/pluie0/neige3, uniquement Route 13 et Route 14. `snow` représente ici la chute de neige sur la carte, distincte de la grêle du moteur de combat ; aucun dégât ni bonus de combat ajouté par cette demande visuelle. Le client étend le cache météo commun avec 480 flocons à l’intensité maximale (100/240/480 aux niveaux 1/2/3), tailles et vitesses selon profondeur, oscillation et dérive du vent, blanc avec liseré bleuté pour rester visible sur sol blanc. Voile froid léger alpha0,036, trois filets de vent, ni feuilles vertes ni pluie/impacts.

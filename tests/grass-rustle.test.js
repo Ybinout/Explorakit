@@ -1,8 +1,8 @@
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const service=()=>import('../vue-explorakit/src/services/grassRustle.js');
 async function fixture(map='route1'){
- const mod=await service(),data=new Uint8ClampedArray(448*320*4),cells=mod.grassCells(map);for(let i=0;i<data.length;i+=4)data.set([182,226,160,255],i);
- for(const [cell]of cells){const bx=cell%28*16,by=Math.floor(cell/28)*16;for(let y=by+1;y<by+15;y++)for(let x=bx+1;x<bx+15;x++)data.set((x+y)%3?[57,107,77,255]:[37,78,54,255],(y*448+x)*4);}
+ const mod=await service(),data=new Uint8ClampedArray(448*320*4),cells=mod.grassCells(map),snow=cells[0]?.[1]===2961;for(let i=0;i<data.length;i+=4)data.set(snow?[217,230,233,255]:[182,226,160,255],i);
+ for(const [cell]of cells){const bx=cell%28*16,by=Math.floor(cell/28)*16;for(let y=by+1;y<by+15;y++)for(let x=bx+1;x<bx+15;x++)data.set(snow?((x+y)%3?[152,184,200,255]:[240,240,240,255]):((x+y)%3?[57,107,77,255]:[37,78,54,255]),(y*448+x)*4);}
  const first=cells[0][0],tx=first%28,ty=Math.floor(first/28);data.set([120,80,40,255],((ty*16+3)*448+tx*16+3)*4);data.set([57,107,77,100],((ty*16+4)*448+tx*16+4)*4);
  const surfaces=[],create=()=>{const c={width:0,height:0};c.getContext=()=>({drawImage(){},getImageData:()=>({data:data.slice()}),createImageData:()=>({data:new Uint8ClampedArray(data.length)}),putImageData(){}});surfaces.push(c);return c;};
  const calls=[],target={drawImage:(...args)=>calls.push(args)},r=new mod.GrassRustleRenderer(create),image={},actor={id:'local',x:tx*32+16,y:ty*32+16};return {mod,data,cells,actor,r,image,target,calls,surfaces};
@@ -13,6 +13,27 @@ test('metadata identifies all delivered grass drawings without cave floors/paths
  for(const name of ['start','route1','route2','route3','route4','route5','route6','gen_route8','gen_route7','gen_route6','route11','route12'])assert(profiles[name]?.length,name);
  assert(!profiles.cave1&&!profiles.cave2&&!profiles.ville3&&!profiles.ville4);assert(Object.values(profiles).every(cells=>cells.every(([,id])=>id!==1850)), 'path-edge tiles must not move');assert(profiles.gen_route8.some(([,id])=>id===2944));
  const {hasRustlingGrass}=await service();assert(!hasRustlingGrass('toString'));assert(!hasRustlingGrass(null));
+});
+test('all 54 snowy grass tiles bend on passage while snow floor, borders, alpha and original artwork stay fixed',async()=>{
+ const {buildGrassProfiles}=require('../scripts/generateWorldGrass'),profiles=buildGrassProfiles();
+ for(const map of ['route13','route14']){
+  const source=require('../data/maps/'+map+'.json'),authored=source.layers.find(l=>l.name==='herbes enneigees').data;
+  assert.equal(profiles[map].length,27);assert.deepEqual(profiles[map],authored.flatMap((v,i)=>v?[[i,2961]]:[]));
+  const {r,image,target,actor,data,calls}=await fixture(map);
+  for(const id of ['local','remote-player','walking-pnj']){
+   r.suspend();r.draw(target,image,map,[{...actor,id}],0);assert.equal(r.events.size,0);
+   r.draw(target,image,map,[{...actor,id,x:actor.x+8}],100);r.draw(target,image,map,[{...actor,id,x:actor.x+8}],175);
+   assert(r.events.size>0);assert(r.changedPixels>0);
+   for(let i=0;i<r.mask.length;i++){
+    if(!r.mask[i])assert.deepEqual(r.frame.data.slice(i*4,i*4+4),data.slice(i*4,i*4+4));
+    assert.equal(r.frame.data[i*4+3],data[i*4+3]);
+   }
+   assert.deepEqual(r.original.data,data);
+   r.draw(target,image,map,[{...actor,id,x:actor.x+8}],650);assert.equal(r.events.size,0);assert.deepEqual(r.frame.data,data);
+  }
+  assert(calls.length>0);r.destroy();
+ }
+ assert(!profiles.cave_rochebrume1&&!profiles.cave_rochebrume2&&!profiles.cave_rochebrume3);
 });
 test('only real movement starts grass, using any visible actor identity; pixels outside blade masks, alpha and artwork stay intact',async()=>{
  const {r,image,target,actor,data,calls}=await fixture();r.draw(target,image,'route1',[actor],0);assert.equal(r.events.size,0);assert.equal(calls.length,0);

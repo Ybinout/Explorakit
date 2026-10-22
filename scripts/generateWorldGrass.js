@@ -1,7 +1,8 @@
 // Visual metadata only: never rewrites author maps, collisions or PNG artwork.
 const fs=require('node:fs'),path=require('node:path');
 const ROOT=path.resolve(__dirname,'..'),OUTPUT=path.join(ROOT,'vue-explorakit/src/data/worldGrass.js');
-const GRASS_IDS=new Set([3225,2804,2944,3087]);
+// teset2 2961: snow-covered blades on Routes 13/14, not the snowy ground.
+const GRASS_IDS=new Set([3225,2804,2944,3087,2961]);
 const TECHNICAL=new Set(['coll','battle','change','int','foreground','forground','for','for2','leaf','Calque de Tuiles 11']);
 function buildGrassProfiles(root=ROOT){
  const profiles={};

@@ -1,5 +1,17 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Hautes herbes enneigées — 22 octobre 2026
+
+Le dessin `teset2` 2961 est ajouté aux métadonnées visuelles `worldGrass`, régénérées en lecture seule : Route 13 et Route 14 possèdent chacune 27 touffes, total 24 cartes/1 380 cases. Aucun JSON/TMX/PNG auteur ni flag de rencontre modifié. Le masque du renderer partagé ajoute les cinq teintes exactes des brins et de leurs pointes enneigées, relevées sur les PNG livrés : 152,184,200 /183,207,215 /240,240,240 /214,232,237 /200,224,232. Exclure le fond neige 217,230,233, ses mouchetures, les ombres, bordures et pixels transparents ; ne pas déplacer le rectangle complet ou tout le foreground.
+
+Réutilise le frémissement de passage existant (joueur, autres joueurs et PNJ), retour au repos 440 ms, cache natif et limite 30 Hz/32 touffes, annulation sur mouvement réduit/chargement/combat/masquage. La chute de neige abondante reste indépendante au-dessus. `grass-rustle.test.js` vérifie les 54 cases auteur, les acteurs, pixels fixes/alpha/retour au repos et grottes exclues. `test:grass-browser` étendu aux deux nouvelles cartes et à leurs vrais pixels, Colosseum sur Route13/Rift sur Route14, couverture des 24 cartes, régressions herbes vertes et quatre tailles. Publication statique seulement ; aucun redémarrage serveur nécessaire.
+
+Vérification complète `RELEASE_DIST_DIR=/tmp/explorakit-snow-grass-dist VUE_APP_PUBLIC_PATH=/explorakit/ npm run verify:release -- --mysql` réussie : **660 tests applicatifs /72 SQL**, audits, HTTP/reprise, lint/build. `test:grass-browser` réussi : 24 cartes chargées avec toutes leurs touffes, régressions des quatre anciens dessins, vrais déplacements local/distant et PNJ de présentation, 27 touffes détectées sur chacune des deux routes ; mouvement réel et pixels enneigés en Aventure, Colosseum sur Route13 et Rift sur Route14. Par carte enneigée, masque de 4 779 pixels, 81 pixels différents dans l’échantillon animé, **zéro pixel hors masque et zéro alpha modifié** ; 197–206 pixels modifiés pendant un vrai pas selon l’instant. Retour au repos et libération sur préférences/mouvement réduit/masquage/combat/chargement, quatre tailles, zéro erreur navigateur. Contacts de pixels inspectés. Aucun test sur téléphone physique revendiqué.
+
+Publication le **22/10/2026 à 9 h 49 (Paris)** : client `d94ba408657f9a4abc8de57c1b9b49bb8dbe0946`, build `4b6d1b33e354c086`. Sauvegarde sources/dist/SQL/checkpoint `/home/ubuntu/dev/backups/explorakit-snow-grass-2026-10-22T07-44-44-686Z`. Assets statiques copiés avec anciens bundles conservés et index atomique, **aucun redémarrage**, PID1157211 inchangé/actif, zéro redémarrage automatique ; 0 expédition active au contrôle. HTTPS200/index conforme, Know/api-test inchangés ; aucune migration, retouche de carte ou réécriture de sauvegarde réelle. Logs/captures `/tmp/explorakit-snow-grass-*`.
+
+Contrôle HTTPS public sur compte temporaire : vrais pas dans les herbes des deux routes avec la forte neige conservée, 27 touffes/masque4779 par route, 81 pixels animés sur l’échantillon et zéro modification hors masque/alpha ; quatre tailles et cycle de suspension/reprise, index identique, zéro erreur navigateur. Captures inspectées et compte supprimé (`/tmp/explorakit-snow-grass-public*`).
+
 ## Forte neige sur Routes 13 et 14 — 22 octobre 2026
 
 Profil serveur partagé `kind:snow`, ambiance vent2/pluie0/neige3, uniquement Route 13 et Route 14. `snow` représente ici la chute de neige sur la carte, distincte de la grêle du moteur de combat ; aucun dégât ni bonus de combat ajouté par cette demande visuelle. Le client étend le cache météo commun avec 480 flocons à l’intensité maximale (100/240/480 aux niveaux 1/2/3), tailles et vitesses selon profondeur, oscillation et dérive du vent, blanc avec liseré bleuté pour rester visible sur sol blanc. Voile froid léger alpha0,036, trois filets de vent, ni feuilles vertes ni pluie/impacts.
@@ -1987,6 +1999,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **22 octobre 2026 — Herbes enneigées :** dessin 2961 des deux routes ajouté au frémissement partagé, masque de couleurs dédié et sol enneigé fixe ; tests et recette étendue.
 
 - **22 octobre 2026 — Forte neige :** ambiance commune aux Routes 13 et 14 au niveau 3, flocons de profondeur, cache et isolation des intérieurs ; distinction avec la grêle de combat.
 
