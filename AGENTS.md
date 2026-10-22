@@ -1,5 +1,18 @@
 # Contexte permanent — Explorakit
 
+## Neige : trace courte et pas discrets — 22 octobre 2026
+
+La demande remplace le long sillage uniforme par une trace hybride : neige légèrement tassée sur environ16 px de large, avec petites dépressions alternées gauche/droite tous les14 px de marche, orientées selon le déplacement et décalées de4 px. Pas de semelle dessinée ni de bordure épaisse : grain doux, impressions un peu plus présentes que le fond tassé et faible rebord clair. Le rendu conserve le cache448×320 à30 Hz et les recouvrements par maximum, sans assombrissement cumulatif.
+
+La trace fond en1350 ms (au lieu de3200) après un plateau120 ms, et sa longueur est aussi limitée par la distance parcourue : fondu après16 px, disparition complète à64 px derrière l’acteur, soit deux cases même en marchant vite. Le compteur de trajet continue hors neige ; apparition/arrêt/téléportation n’ajoutent aucun pas, les anciens trajets gardent leur distance figée et ne redeviennent pas foncés après reconnexion ou téléportation. Même effet sur joueurs distants/PNJ et dans les trois modes. Masque exact des Routes13/14/Blanchecime et cycle de vie inchangés ; aucune carte, image ou météo modifiée.
+
+Vérifications : sept tests `snow-footprints` (gait, orientation, contraste pas/fond, largeur, limite de distance, fonte, absence de réactivation, masquage/recouvrements/budget) et `test:snow-footprints-browser` (vraie marche, longueur bornée, disparition en1,5 s, joueurs distants/PNJ, trois cartes/quatre tailles/trois modes et nettoyage). Aperçu de contrôle rendu sur le vrai sol de Route13, sans modifier son asset.
+
+
+Validation finale : **716 tests applicatifs**, audits et lint/build isolé b489673a549c282f passés. Aperçu visuel contrôlé sur le vrai sol de Route13 : alternance visible, tassement léger et fonte rapide. Recette navigateur : marqueurs locaux/distants/PNJ, trois cartes/quatre tailles/trois modes, longueur maximale mesurée60,55 px après une marche prolongée, petits pas présents et disparition totale après1,5 s ; aucun pixel hors neige, aucune erreur et cycle de vie conservé.
+
+Publication statique le22/10/2026 à17 h12 Paris après sauvegarde sources/dist/SQL/checkpoint (0 expédition active), client db5ffb6 ; PID1284849 inchangé, actif/NRestarts0 et anciens bundles conservés. Contrôle HTTPS sur compte temporaire : vrai pas complet sur Routes13/14/Blanchecime, deux impressions alternées par case parcourue,119–152 pixels de neige tassée, puis disparition complète, mobile/PC, neige480/480/240 particules conservée, index exact et sites voisins inchangés ; compte supprimé. Aucun redémarrage, carte, image, schéma ni sauvegarde existante modifié. Logs /tmp/explorakit-snow-soft-steps-{unit,lint,verify,browser,deploy,public}.log ; aperçu /tmp/explorakit-snow-soft-steps-preview.png.
+
 ## Mise à jour auteur Route 12 et Rochebrume — 22 octobre 2026
 
 Les six ressources `pourtoi/route12 (1).json/.png`, `route12_f (1).png`, `ville4 (1).json/.png` et `ville4_f (1).png` sont intégrées octet pour octet. Route12 : nouveau sol rocheux/sentiers et rochers, mêmes collisions/herbes/rencontres/portails. Rochebrume : nouvelle façade/toiture d’arène, sentiers et collisions auteur ; porte déplacée de(14,12) à(14,11). Raccord logique ajusté à cette case existante, sortie de `ville4_arene` au nouveau parvis(14,12), sans portail sous le joueur. Les autres portes, Route11↔Route12↔Rochebrume et entrée des grottes sont conservées.

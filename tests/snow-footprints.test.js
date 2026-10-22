@@ -14,19 +14,19 @@ test('snow ground metadata matches author maps, covers only three snowy maps and
     assert.deepEqual(Object.keys(profiles),['route13','route14','ville5']);
     for(const [name,rows]of Object.entries(profiles)){const map=require('../data/maps/'+name+'.json'),coll=map.layers.find(l=>l.name==='coll').data;assert.equal(rows.length,20);let n=0;rows.forEach((row,y)=>{assert.equal(row.length,28);[...row].forEach((v,x)=>{if(v==='1'){n++;assert.equal(coll[y*28+x],0);}});});assert(n>300);}
 });
-test('actual travel leaves a continuous channel; spawn, idle, teleport, stale updates and invalid positions never draw a trail',async()=>{
+test('actual travel leaves a soft scuff and alternating steps; spawn, idle, teleport, stale updates and invalid positions never draw a trail',async()=>{
     const {r}=await fixture();const actor={id:'player:one',x:304,y:80};
     r.observe([actor],0);r.observe([actor],50);assert.equal(r.marks.length,0);
     for(let n=1;n<=8;n++)r.observe([{...actor,x:304+n*4}],50+n*16);
-    assert.equal(r.marks.length,8);assert(r.marks[0].x<r.marks[1].x);assert(r.marks.every(m=>m.y===80));for(let i=1;i<r.marks.length;i++)assert.equal(r.marks[i].x-r.marks[i-1].x,4);
+    const scuffs=r.marks.filter(m=>m.kind==='scuff'),steps=r.marks.filter(m=>m.kind==='step');assert.equal(scuffs.length,8);assert.equal(steps.length,2);assert(scuffs.every(m=>m.y===80));for(let i=1;i<scuffs.length;i++)assert.equal(scuffs[i].x-scuffs[i-1].x,4);assert.deepEqual(steps.map(m=>m.y),[76,84]);assert(steps.every(m=>m.heading==='1,0'));
     const before=r.triggers;r.observe([{...actor,x:700}],200);r.observe([{...actor,x:701}],1000);r.observe([{...actor,x:NaN}],1016);assert.equal(r.triggers,before);
     r.observe([],1032);assert.equal(r.actors.size,0);r.observe([{...actor,x:320}],1048);assert.equal(r.triggers,before);
 });
-test('footprints hold briefly then fade smoothly to nothing in 3.2 seconds, reuse a bounded cached layer and remain world anchored',async()=>{
-    const {w,r,target,image,s}=await fixture();assert(w.footprintOpacity(0,0)>0);assert.equal(w.footprintOpacity(500,0),w.footprintOpacity(0,0));assert(w.footprintOpacity(2000,0)<w.footprintOpacity(1000,0));assert.equal(w.footprintOpacity(3200,0),0);assert.equal(w.footprintOpacity(-1,0),0);
-    r.draw(target,image,'route13',[{id:'a',x:304,y:80}],0);r.draw(target,image,'route13',[{id:'a',x:320,y:80}],50);assert.equal(r.marks.length,4);assert(r.paintedPixels>0);
+test('footprints fade smoothly in 1.35 seconds and stay within two tiles of walking distance, reuse a bounded cached layer and remain world anchored',async()=>{
+    const {w,r,target,image,s}=await fixture();assert(w.footprintOpacity(0,0)>0);assert.equal(w.footprintOpacity(100,0),w.footprintOpacity(0,0));assert(w.footprintOpacity(1000,0)<w.footprintOpacity(500,0));assert.equal(w.footprintOpacity(1350,0),0);assert.equal(w.footprintOpacity(-1,0),0);
+    r.draw(target,image,'route13',[{id:'a',x:304,y:80}],0);r.draw(target,image,'route13',[{id:'a',x:320,y:80}],50);assert.equal(r.marks.length,5);assert(r.paintedPixels>0);
     const xy=r.marks.map(({x,y})=>({x,y})),frames=r.frames;r.draw(target,image,'route13',[{id:'a',x:320,y:80}],60);assert.equal(r.frames,frames);r.draw(target,image,'route13',[{id:'a',x:320,y:80}],1000);assert.deepEqual(r.marks.map(({x,y})=>({x,y})),xy);
-    r.draw(target,image,'route13',[],3250);assert.equal(r.marks.length,0);assert.equal(r.paintedPixels,0);assert.equal(s.created.length,2);assert.equal(r.canvas.width,448);assert.equal(s.created[0].width,0);
+    r.draw(target,image,'route13',[],1400);assert.equal(r.marks.length,0);assert.equal(r.paintedPixels,0);assert.equal(s.created.length,2);assert.equal(r.canvas.width,448);assert.equal(s.created[0].width,0);
 });
 test('only exact snow-floor pixels are painted: no paving, water, blades, transparency or out-of-map pixels',async()=>{
     const {r,s}=await fixture();
@@ -45,16 +45,28 @@ test('crowds, long sessions and cleanup remain bounded; off, reduced motion, map
     assert(!w.hasSnowGround('cave_rochebrume3'));assert(w.hasSnowGround('ville5'));
 });
 
-test('the rendered ribbon is connected, broader than shoes, gently textured, and crossings never accumulate opacity',async()=>{
+test('short tracks show alternating shallow steps above a faint narrow scuff; overlapping tracks never darken',async()=>{
  const {r,target,image}=await fixture();r.draw(target,image,'route13',[{id:'a',x:304,y:80}],0);
- r.draw(target,image,'route13',[{id:'a',x:336,y:80}],100);
- const data=r.frame.data;
- for(let x=154;x<=168;x++)assert(data[(40*448+x)*4+3]>50,'continuous centre');
- assert(data[(37*448+160)*4+3]>0);assert(data[(43*448+160)*4+3]>0);
- const alpha=data.reduce((m,v,i)=>i%4===3?Math.max(m,v):m,0);assert(alpha<=130);
- const original=r.marks.map(m=>({...m}));r.marks.push(...original,...original);r.draw(target,image,'route13',[],150);
- assert(r.frame.data.reduce((m,v,i)=>i%4===3?Math.max(m,v):m,0)<=alpha);
- r.draw(target,image,'route13',[{id:'turn',x:336,y:80}],200);
- r.draw(target,image,'route13',[{id:'turn',x:336,y:64}],300);
- for(let y=32;y<=40;y++)assert(r.frame.data[(y*448+168)*4+3]>30,'joined corner');
+ for(let n=1;n<=8;n++)r.draw(target,image,'route13',[{id:'a',x:304+n*4,y:80}],n*20);
+ const alpha=(x,y)=>r.frame.data[(y*448+x)*4+3];
+ assert(alpha(159,38)>alpha(159,40)*1.5,'first foot slightly off centre');
+ assert(alpha(166,42)>alpha(166,40)*1.5,'second foot on the other side');
+ assert(alpha(159,36)===0&&alpha(159,44)===0,'narrower than the old 24px channel');
+ const peak=r.frame.data.reduce((m,v,i)=>i%4===3?Math.max(m,v):m,0);assert(peak>45&&peak<=108);
+ const original=[...r.marks];r.marks.push(...original,...original);r.draw(target,image,'route13',[],200);
+ assert(r.frame.data.reduce((m,v,i)=>i%4===3?Math.max(m,v):m,0)<=peak);
+});
+test('walking and turning only retain a short fading tail; stopping, reappearing or teleporting never revives old tracks',async()=>{
+ const {w,r,target,image}=await fixture();const actor=(x,y)=>[{id:'a',x,y}];r.draw(target,image,'route13',actor(304,80),0);
+ for(let n=1;n<=30;n++)r.draw(target,image,'route13',actor(304+n*4,80),n*20);
+ r.draw(target,image,'route13',actor(424,80),620);
+ assert(r.marks.every(m=>m.path.distance-m.travelled<w.FOOTPRINT_MAX_DISTANCE));
+ assert(r.marks.every(m=>m.x>360),'no long ribbon behind a moving player');
+ assert(w.footprintOpacity(100,0,40)<w.footprintOpacity(100,0,10));assert.equal(w.footprintOpacity(100,0,64),0);
+ for(let n=1;n<=4;n++)r.draw(target,image,'route13',actor(424,80+n*4),620+n*20);
+ assert(r.marks.some(m=>m.kind==='step'&&m.heading==='0,1'));
+ const old=r.marks.map(m=>({m,opacity:w.footprintOpacity(700,m.born,m.path.distance-m.travelled)}));
+ r.draw(target,image,'route13',actor(700,400),720);
+ for(const{m,opacity}of old)assert(w.footprintOpacity(720,m.born,m.path.distance-m.travelled)<=opacity);
+ r.draw(target,image,'route13',[],2200);assert.equal(r.marks.length,0);assert.equal(r.paintedPixels,0);
 });
