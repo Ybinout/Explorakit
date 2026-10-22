@@ -1,5 +1,12 @@
 # Contexte permanent — Explorakit
 
+## Ouverture du PC pendant le chargement — 22 octobre 2026
+
+Le PC commun affiche un écran de connexion aux couleurs du journal, ferme les commandes du contenu et attend le chargement/décodage des portraits de l’équipe et de la boîte affichée. Réutilisation de l’attente d’assets du combat, bornée à 2,4 s ; minimum visuel 260 ms puis fondu 180 ms. Pas de chargement de toutes les boîtes ni de nouvel appel métier. Fermer/Échap restent accessibles ; aucune image manquante ne bloque le PC indéfiniment.
+
+Animations désactivées/mouvement réduit : attente réelle sans durée décorative. Destruction/fermeture et onglet masqué annulent l’attente ; retour visible relance la préparation si nécessaire. Focus cantonné au bouton Fermer durant la couverture, gestes/drag et stockage inchangés après révélation. Recette `test:pc-browser` étendue via `validateComputerOpeningUi` : vrais assets retardés, décodage, cache, annulation, délai maximal, masquage/reprise, mouvement réduit, mobile/PC puis recette PC complète. Validation complète 670 tests applicatifs/73 SQL, lint/build c0c21bb252d5c6ac et recette PC complète passés : réseau lent, décodage avant révélation, cache, fermeture/focus, délai maximal, masquage/reprise, mouvement réduit puis stockage/fiches/drag souris et tactile aux quatre tailles/deux thèmes. Publication statique le 22/10/2026 à 13 h 53 Paris, client2466886 ; PID1212684 inchangé/actif, NRestarts0, index atomique et anciens bundles conservés. Recette HTTPS sur compte temporaire avec mêmes images retardées et scénarios d’annulation/délai réussie, zéro erreur et index/bundle exacts ; compte supprimé, sites voisins inchangés. Logs /tmp/explorakit-pc-opening-{verify,browser,deploy,public}.log ; modifications utilisateur phrase.txt hors commit.
+
+
 ## Répliques d’entrée des champions — 22 octobre 2026
 
 Les introductions de Mounir, Hoze, Raphael, Ana, Wanda et du Gardien de Valpierre ne révèlent plus leur composition, leur nombre de partenaires ou leurs niveaux. Six phrases réécrites selon leur caractère ; recherche de Lucie, liens entre personnages et conditions du défi conservés. Les annonces d’envoi en plein combat gardent les noms des Pokémon déjà révélés. Aucun changement d’équipe, d’IA, de récompense ou de structure des dialogues ; six remplacements de texte uniquement dans `interact.json`, format préservé et `phrase.txt` utilisateur intact.
