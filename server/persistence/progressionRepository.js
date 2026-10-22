@@ -103,6 +103,7 @@ async function loadProgressState(userId) {
         flags,
         quests,
         badges,
+        capture: require('../game/battle/captureProgression').captureProgress(badges),
         completedNpcBattles: battleRows.map((row) => ({
             battleKey: row.battle_key,
             dialogueName: row.dialogue_name,

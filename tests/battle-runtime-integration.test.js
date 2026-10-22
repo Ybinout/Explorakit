@@ -122,6 +122,29 @@ test.after(async () => {
     await dbPool.end();
 });
 
+test('capture Aventure SQL : vrais badges uniquement, forte pénalité avant progression, capture normale après six badges et anti-usurpation', {skip:!shouldRun},async()=>{
+ const pool=createTestPool();let id;
+ try{
+  const fixture=await createPlayer(7);id=fixture.user.id;const p=fixture.player;p.currentmap='route1';
+  p.equipe.pokemons=[require('../server/game/drift/pokemonFactory').create(7,80,true)];
+  await require('../server/persistence/teamRepository').editEquipe(id,p.equipe);
+  await pool.execute("INSERT INTO user_items(user_id,item_key,quantity) VALUES(?,'hyperball',5) ON DUPLICATE KEY UPDATE quantity=5",[id]);
+  async function run(){const wild=require('../server/game/drift/pokemonFactory').create(19,60,true);wild.abilities=['Splash'];wild.movePp=[40];wild.currentHp=1;
+   const socket=new ScriptedSocket([{action:'bag',itemKey:'hyperball',badgeCount:8,capturePolicy:{comfortableLevel:100}}, {action:'flee'}]),io=new RecordingIo({[p.id]:socket});
+   p.badgeCount=8;p.badges=Array.from({length:8},()=>({earned:true}));
+   await withFixedRandom(.01,()=>startWildBattle(p,wild,io,id));return io;
+  }
+  const first=await run(),low=first.lastEvent(p.id,'captureAnimation').payload;
+  assert.equal(low.success,false);assert(low.chance>0&&low.chance<.001);assert.equal(first.lastEvent(p.id,'endbattle').payload.reason,'fled');
+  assert.equal(first.lastEvent(p.id,'introAnimation').payload.capturePolicy.badgeCount,0);
+  assert.equal((await loadUserItems(id)).find(i=>i.key==='hyperball').quantity,4);assert.equal((await loadEquipe(id)).pokemons.length,1);
+  for(const key of ['lake_badge','dune_badge','bloom_badge','ore_badge','tide_badge','summit_badge'])await pool.execute('INSERT INTO player_badges(user_id,badge_key) VALUES(?,?)',[id,key]);
+  const second=await run(),high=second.lastEvent(p.id,'captureAnimation').payload;
+  assert.equal(high.success,true);assert(high.chance>.5);assert.equal(second.lastEvent(p.id,'introAnimation').payload.capturePolicy.badgeCount,6);
+  assert.equal((await loadUserItems(id)).find(i=>i.key==='hyperball').quantity,3);assert.equal((await loadEquipe(id)).pokemons.length,2);
+ }finally{if(id)await pool.execute('DELETE FROM users WHERE id=?',[id]);await pool.end();}
+});
+
 test('combat sauvage réel : capture, objet consommé et équipe persistée', { skip: !shouldRun }, async () => {
     const pool = createTestPool();
     let userId = null;

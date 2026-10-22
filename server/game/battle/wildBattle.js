@@ -28,7 +28,8 @@ const { editEquipe } = require('../../persistence/teamRepository');
 const { awardUserMoney } = require('../../persistence/userRepository');
 const { adventureMoneyReward } = require('./wildReward');
 const { loadUserItems, consumeUserItem } = require('../../persistence/itemRepository');
-const { markPokemonCaught, markPokemonSeen } = require('../../persistence/progressionRepository');
+const { markPokemonCaught, markPokemonSeen, loadProgressState } = require('../../persistence/progressionRepository');
+const {captureAssessment} = require('./captureProgression');
 const pokemonStorage=require('../../persistence/pokemonStorageRepository');
 const itemsCatalog = require('../../../data/game/items.json');
 
@@ -82,7 +83,7 @@ async function narrate(player, io, message, delayMs = TEXT_DELAY_MS) {
 }
 
 function displayIntroAnimation(player, wildPokemon, io, battleState) {
-    io.to(player.id).emit('introAnimation', { player, wildPokemon, moveTypes:battleMoveTypes(player.equipe.pokemons[0],wildPokemon,battleState), effortYield:effortYield(wildPokemon), transitions:presentation.transitions(player,player.equipe.pokemons[0],wildPokemon) });
+    io.to(player.id).emit('introAnimation', { player, wildPokemon, capturePolicy:captureAssessment(battleState?.captureProgress,wildPokemon?.level), moveTypes:battleMoveTypes(player.equipe.pokemons[0],wildPokemon,battleState), effortYield:effortYield(wildPokemon), transitions:presentation.transitions(player,player.equipe.pokemons[0],wildPokemon) });
 }
 
 function displayMoveAnimation(player, attacker, defender, moveName, io, battleState) {
@@ -194,7 +195,7 @@ async function resolveRoundEnd(player, wildPokemon, io, battleState, playerSide,
     return 'continue';
 }
 
-function calculateCaptureChance(playerPokemon, wildPokemon, ballMultiplier = DEFAULT_CATCH_MULTIPLIER) {
+function calculateCaptureChance(playerPokemon, wildPokemon, ballMultiplier = DEFAULT_CATCH_MULTIPLIER, progress = null) {
     const safeMaxHp = Number(wildPokemon.maxHp) > 0 ? Number(wildPokemon.maxHp) : 1;
     const safeCurrentHp = clamp(Number(wildPokemon.currentHp) || 1, 1, safeMaxHp);
     const missingHpRatio = 1 - safeCurrentHp / safeMaxHp;
@@ -206,7 +207,9 @@ function calculateCaptureChance(playerPokemon, wildPokemon, ballMultiplier = DEF
     const levelFactor = clamp(1 + (playerLevel - wildLevel) * 0.012, 0.72, 1.35);
 
     const chance = baseChance * levelFactor * (Number(ballMultiplier) || DEFAULT_CATCH_MULTIPLIER);
-    return clamp(chance, 0.05, 0.95);
+    // Apply after the ordinary floor/cap: the 5% floor must not make distant
+    // endgame targets easy to obtain by throwing a few more Balls.
+    return clamp(chance, 0.05, 0.95) * (captureAssessment(progress,wildLevel)?.multiplier ?? 1);
 }
 
 function resolveCaptureShakes(success, chance) {
@@ -225,7 +228,7 @@ async function emitBagUpdate(player, io, userId) {
     }
 }
 
-async function handleBagAction(player, wildPokemon, io, userId, itemKey) {
+async function handleBagAction(player, wildPokemon, io, userId, itemKey, progress) {
     const ball = ballItemsByKey[itemKey];
     if (!ball) {
         await narrate(player, io, 'Cet objet ne peut pas etre utilise en combat.');
@@ -247,7 +250,7 @@ async function handleBagAction(player, wildPokemon, io, userId, itemKey) {
     await narrate(player, io, `${getPokemonDisplayName(player.equipe.pokemons[0])} utilise ${ball.name} !`, 900);
 
     const playerPokemon = player?.equipe?.pokemons?.[0];
-    const chance = calculateCaptureChance(playerPokemon, wildPokemon, ball.catch_multiplier);
+    const chance = calculateCaptureChance(playerPokemon, wildPokemon, ball.catch_multiplier, progress);
     const success = Math.random() < chance;
     const shakes = resolveCaptureShakes(success, chance);
 
@@ -466,6 +469,15 @@ async function startBattle(player, wildPokemon, io, userId) {
         }, 'wild');
     };
     const battleState = createBattleState({ mapName: player.currentmap });
+    try {
+        // Snapshot earned SQL badges for this Adventure battle. No client
+        // count, map, active Pokémon level or profile payload can unlock it.
+        battleState.captureProgress = (await loadProgressState(userId)).capture;
+    } catch (error) {
+        console.error('Progression de capture indisponible:', error.message);
+        await endBattle(false,{interrupted:true,reason:'progress_unavailable'});
+        return false;
+    }
     battleState.adventureExperience = new AdventureExperience({expShare:await require('../../persistence/wildLootRepository').hasExpShare(userId)});
     require('../abilities/abilityForms').attachTeam(player.equipe.pokemons);
     const playerSide = battleState.sides.player;
@@ -589,7 +601,7 @@ async function startBattle(player, wildPokemon, io, userId) {
             }
 
             if (actionPlayer === 'bag') {
-                const bagResult = await handleBagAction(player, wildPokemon, io, userId, response.itemKey);
+                const bagResult = await handleBagAction(player, wildPokemon, io, userId, response.itemKey, battleState.captureProgress);
 
                 if (bagResult.caught) {
                     await narrate(player, io, 'Victoire !');

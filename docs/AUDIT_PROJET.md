@@ -1,5 +1,19 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Capture progressive selon les badges — 22 octobre 2026
+
+Choix explicite du joueur : les captures hors progression restent possibles, avec une pénalité forte, sans plafond bloquant. Aventure uniquement. `capture_balance.json` fixe les paliers de niveau confortable :0→22,1→35,2→40,3→45,4→50,5→60,6 et plus→100. Les badges connus, réellement obtenus en SQL, sont dédupliqués ; aucun niveau du combattant, champ de profil/client ou valeur de l’action ne remplace ce décompte. Instantané au début de chaque combat sauvage, rapprochement Mounir historique existant conservé. Lecture indisponible : interruption propre avant tout lancer/consommation.
+
+Formule de capture habituelle (PV, niveau relatif, Ball, bornes5–95 %) conservée, puis multiplication par0,8 à la puissance du nombre de niveaux dépassant le palier. Aucun plancher5 % réappliqué après cette pénalité ; probabilité toujours positive, pas de verrouillage des Balls. À niveau adapté, résultat strictement identique à l’ancienne formule. Chaque badge réduit l’écart avec les cibles plus fortes ; Rift/Colosseum gardent leur formule indépendante et leurs Drifts. Pokémon déjà possédés et tous les gains/EV/PC/loots restent inchangés.
+
+Le profil de progression expose un résumé dérivé `capture` ; l’étui de badges montre le palier actuel et le suivant. Les états de combat sauvages Aventure ajoutent `capturePolicy`, qui alimente un avertissement dans le sac avant de lancer une Ball ; remise à zéro dans les autres combats. Élément dans la zone défilante existante, boutons mobiles fixes. Pas de formule dupliquée côté client ni d’écriture de schéma/sauvegardes.
+
+Vérifications : `capture-progression.test.js` (paliers, vrais badges uniques, pénalité graduelle sans plancher, impossibilité de contournement par niveau/Ball/PV, aucune mutation), vrai combat SQL avec tentative usurpée refusée puis capture après six badges, `test:capture-badges-browser` (vrai Cochignon52, échec/succès à tirage égal selon badges, reçu/stock/équipe, quatre tailles/deux thèmes, Colosseum sans pénalité/alerte résiduelle). Régression `test:combat-browser` pour animation/ordre/interfaces communs.
+
+Validation finale : **710 tests applicatifs/77 SQL**, audits, HTTP/reprise et lint/build 4de223cbce20d86c passés. Vrai duel SQL : tentative falsifiée sans badge échouée/petite probabilité positive, puis capture persistante après six badges à tirage identique, une Ball consommée à chaque fois. Recette navigateur quatre tailles/deux thèmes : Cochignon52/Hyperball/combattant80, chances0,052924 % puis42,752 % selon badges, échec puis capture à même tirage ; avertissement préalable, étui, stock/équipe, Colosseum sans alerte/pénalité et commandes fixes, zéro erreur. Régression combat passée (ordre, capture, K.O., switch, critiques, choix du remplaçant, chargement/annulation et XP).
+
+Publication serveur/client le 22/10/2026 à 16 h 33 Paris après sauvegarde sources/dist/SQL/checkpoint (0 expédition active), client 7bc43e0 ; PID 1271759 actif/NRestarts0, index atomique et anciens bundles conservés. Contrôle HTTPS sur compte temporaire : véritables rencontres sauvages niv.53/54,0 puis6 badges SQL, chances renvoyées0,041959 %/41,984 % exactement conformes à la formule, avertissement avant lancer et une seule Ball débitée par essai ; compte supprimé. Index exact et applications voisines inchangés. Aucun schéma/carte/record ni équipe existante réécrit. Logs /tmp/explorakit-capture-badges-{verify,unit,lint,browser,combat-browser,deploy,public}.log.
+
 ## Sillage continu et neige à Blanchecime — 22 octobre 2026
 
 À la demande du joueur, les petites semelles sont remplacées par une traînée continue de neige tassée : largeur d’environ24 pixels dans le monde, cœur bleu-gris doux/granuleux et rebord blanc irrégulier. Échantillons tous les4 pixels, même dans les virages, fondu en3,2 s ; les recouvrements utilisent le maximum de couverture et ne noircissent pas le sol. Même masque exact de neige, positions du monde, acteurs locaux/distants/PNJ et libération que la version précédente ; aucune trace sur pavés/eau/intérieurs. Cache448×320 à30 Hz rendu896×640 sans lissage, brosse pré-calculée, maximum1024 échantillons/64 acteurs, aucune peinture à vide.
@@ -2186,6 +2200,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 22/10/2026 — Captures Aventure liées aux badges SQL : paliers22/35/40/45/50/60/100, pénalité0,8 par niveau excédentaire, toujours possibles, aucune nouvelle limite stricte. Palier dans badges/avertissement avant lancer ; expéditions et Pokémon acquis conservés. Voir livraison en tête et `test:capture-badges-browser`.
 
 - 22/10/2026 — Sillage neige continu en remplacement des semelles, bords clairs/granuleux et recouvrements bornés ; vraie neige2/vent1 à Blanchecime, affichage partagé/combats extérieurs et intérieurs secs. Voir livraison en tête et recettes neige.
 
