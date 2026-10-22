@@ -1,5 +1,18 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Équipe de Raph — 22 octobre 2026
+
+Raphael à Ocreville (`gen_arene5`) utilise les cinq formes demandées, sans évolution automatique : Kaiminus 40, Akwakwak 40, Absol 41, Libégon 41, Cizayox 42. Fourchette d’arène 40–42 conservée. Quatre partenaires K1/IV18/EV0, natures et objets adaptés : Évoluroc, Restes, Orbe Vie et Mouchoir Choix. Couverture Eau/Glace, menace Coup Bas et Libégon rapide ; toutes les capacités appartiennent aux learnsets et au moteur existants.
+
+Cizayox : K4, six IV31, Rigide, Technicien, Baie Prine, EV252 PV/252 Attaque/4 Défense Spéciale (508 légaux, pas 252 partout), Pisto-Poing/Piqûre/Atterrissage/Danse Lames. Plan expert partagé, observation sans lecture des choix cachés, as réservé par UUID tant qu’un autre partenaire peut combattre, réplique unique d’entrée ; conservation après checkpoint. Le même contenu s’applique dans les trois modes, sans changer l’IA des autres champions. Dialogue cinq partenaires et conseil de Noé actualisés ; prérequis, badge, récompenses et victoires historiques conservés.
+
+Vérifications : `tests/raph-tactics.test.js` (sets, formes, PP/objets/talents, réserve malgré changement d’ordre, immunités, pas de lecture cachée, entrée/reprise Rift et Colosseum), vrai duel Aventure/SQL dans `battle-runtime-integration`, puis `npm run test:raph-browser` sur base dédiée (équipe réelle jusqu’à Cizayox, réplique, mobile/PC et fin du combat). Publication serveur uniquement ; pas de migration ni de réécriture de sauvegarde.
+
+
+Validation complète `RELEASE_DIST_DIR=/tmp/explorakit-raph-dist VUE_APP_PUBLIC_PATH=/explorakit/ npm run verify:release -- --mysql` passée : **666 tests applicatifs /73 SQL**, audits, HTTP/reprise, lint et build. Recette `test:raph-browser` passée : cinq espèces réellement envoyées, Cizayox dernier, K4/réplique unique, combat terminé ; 393×852 et 1365×900, captures inspectées et aucune erreur navigateur. La recette collecte les événements d’entrée réels, plutôt qu’échantillonner seulement l’actif après le clic (un changement tactique peut être très bref côté serveur). Comptes de recette supprimés ; pas d’essai sur téléphone physique revendiqué.
+
+Publication serveur seule le **22/10/2026 à 12 h 14 (Paris)**, sauvegarde `/home/ubuntu/dev/backups/explorakit-raph-2026-10-22T10-08-56-377Z` : sources/dist/SQL/checkpoint, checkpoint relu avant redémarrage et 0 expédition active. Seule unité Explorakit relancée, PID1174820 actif, NRestarts0. Index/client public inchangé (build Blanchecime), HTTPS200, Know/api-test inchangés. Pas de migration, de réinitialisation des victoires ou de modification des équipes de joueurs. Logs `/tmp/explorakit-raph-{verify,browser,deploy}.log` et captures `/tmp/explorakit-raph-browser`.
+
 ## Blanchecime et nouvelles versions des Routes 13/14 — 22 octobre 2026
 
 Les neuf fichiers auteur `pourtoi/route13 (1){,_f}.png`, Route14 et `ville5` sont copiés exactement : manifeste actualisé `docs/north-routes-author-assets.json` (neuf empreintes). Les révisions de routes changent les ombres et le foreground (arbres abaissés dans le PNG de base) ; collisions, portails et 27 herbes par route sont inchangés. Le cache d’herbes se régénère à l’identique (`generateWorldGrass --check`), neige3/vent2 et masque enneigé préservés. Aucun PNG, calque ou passage auteur retouché.
@@ -2013,6 +2026,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **22 octobre 2026 — Raph :** cinq espèces 40–42, Cizayox K4 IV31/EV optimisés, sets/objets cohérents et IA experte réservant l’as ; dialogue, tests communs/SQL et recette mobile/PC.
 
 - **22 octobre 2026 — Blanchecime :** révisions auteur des Routes13/14 et ville5 intégrées exactement, cinq portes et raccordement nord ouverts, Centre/PC/boutique/maisons/arène visitable ; neige et herbes préservées.
 

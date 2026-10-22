@@ -496,19 +496,19 @@
       "name": "raphael",
       "team": [
         {
-          "pokemonId": 189,
-          "name": "Cotovol",
+          "pokemonId": 158,
+          "name": "Kaiminus",
           "level": 40,
           "abilities": [
-            "Giga Drain",
-            "Acrobatics",
-            "Stun Spore",
-            "Leech Seed"
+            "Waterfall",
+            "Ice Punch",
+            "Crunch",
+            "Dragon Dance"
           ],
-          "passiveAbility": "Chlorophyll",
-          "heldItem": null,
+          "passiveAbility": "Torrent",
+          "heldItem": "eviolite",
           "k": 1,
-          "nature": "Hardy",
+          "nature": "Adamant",
           "givenIv": {
             "hp": 18,
             "attack": 18,
@@ -519,52 +519,111 @@
           }
         },
         {
-          "pokemonId": 407,
-          "name": "Roserade",
-          "level": 41,
+          "pokemonId": 55,
+          "name": "Akwakwak",
+          "level": 40,
           "abilities": [
-            "Giga Drain",
-            "Sludge Bomb",
-            "Toxic",
-            "Synthesis"
-          ],
-          "passiveAbility": "Natural Cure",
-          "heldItem": null,
-          "k": 1,
-          "nature": "Hardy",
-          "givenIv": {
-            "hp": 18,
-            "attack": 18,
-            "defense": 18,
-            "specialAttack": 18,
-            "specialDefense": 18,
-            "speed": 18
-          }
-        },
-        {
-          "pokemonId": 65,
-          "name": "Alakazam",
-          "level": 42,
-          "abilities": [
+            "Scald",
+            "Ice Beam",
             "Psychic",
-            "Shadow Ball",
-            "Reflect",
-            "Recover"
+            "Calm Mind"
           ],
-          "passiveAbility": "Magic Guard",
-          "heldItem": "sitrus_berry",
-          "k": 2,
+          "passiveAbility": "Cloud Nine",
+          "heldItem": "leftovers",
+          "k": 1,
           "nature": "Modest",
           "givenIv": {
-            "hp": 22,
-            "attack": 22,
-            "defense": 22,
-            "specialAttack": 22,
-            "specialDefense": 22,
-            "speed": 22
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          }
+        },
+        {
+          "pokemonId": 359,
+          "name": "Absol",
+          "level": 41,
+          "abilities": [
+            "Knock Off",
+            "Psycho Cut",
+            "Superpower",
+            "Sucker Punch"
+          ],
+          "passiveAbility": "Super Luck",
+          "heldItem": "life_orb",
+          "k": 1,
+          "nature": "Adamant",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          }
+        },
+        {
+          "pokemonId": 330,
+          "name": "Libégon",
+          "level": 41,
+          "abilities": [
+            "Earthquake",
+            "Dragon Claw",
+            "Rock Slide",
+            "Fire Punch"
+          ],
+          "passiveAbility": "Levitate",
+          "heldItem": "choice_scarf",
+          "k": 1,
+          "nature": "Jolly",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          }
+        },
+        {
+          "pokemonId": 212,
+          "name": "Cizayox",
+          "level": 42,
+          "abilities": [
+            "Bullet Punch",
+            "Bug Bite",
+            "Roost",
+            "Swords Dance"
+          ],
+          "passiveAbility": "Technician",
+          "heldItem": "lum_berry",
+          "k": 4,
+          "nature": "Adamant",
+          "givenIv": {
+            "hp": 31,
+            "attack": 31,
+            "defense": 31,
+            "specialAttack": 31,
+            "specialDefense": 31,
+            "speed": 31
+          },
+          "ev": {
+            "hp": 252,
+            "attack": 252,
+            "specialDefense": 4
           }
         }
-      ]
+      ],
+      "strategy": {
+        "name": "Raphael",
+        "ai": "expert",
+        "acePokemonId": 212,
+        "entryLines": {
+          "212": "Tu as découvert mes premières cartes. Cizayox, à toi ! Notre entraînement ne laisse aucune place au hasard !"
+        }
+      }
     },
     {
       "name": "ana",

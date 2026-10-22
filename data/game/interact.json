@@ -426,7 +426,7 @@
         "imageName": "raph.png"
       },
       {
-        "text": "Raphael : Observe mes Pokémon, pas seulement leurs types. Mes trois partenaires sont niveaux 40 à 42. Voyons si tu sais regarder au-delà des apparences.",
+        "text": "Raphael : Observe mes Pokémon, pas seulement leurs types. Mes cinq partenaires sont niveaux 40 à 42. Voyons si tu sais regarder au-delà des apparences.",
         "imageName": "raph.png"
       }
     ],
@@ -934,7 +934,7 @@
         }
       },
       {
-        "text": "Noé : Raphael parle par énigmes, mais il écoute tout. Son dernier partenaire aime les attaques spéciales.",
+        "text": "Noé : Raphael parle par énigmes, mais il écoute tout. Il garde Cizayox pour la fin : méfie-toi de sa Danse Lames et de ses attaques prioritaires.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,

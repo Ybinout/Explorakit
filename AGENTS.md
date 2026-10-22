@@ -1,5 +1,16 @@
 # Contexte permanent — Explorakit
 
+## Équipe de Raph — 22 octobre 2026
+
+Raphael à Ocreville (`gen_arene5`) utilise les cinq formes demandées, sans évolution automatique : Kaiminus 40, Akwakwak 40, Absol 41, Libégon 41, Cizayox 42. Fourchette d’arène 40–42 conservée. Quatre partenaires K1/IV18/EV0, natures et objets adaptés : Évoluroc, Restes, Orbe Vie et Mouchoir Choix. Couverture Eau/Glace, menace Coup Bas et Libégon rapide ; toutes les capacités appartiennent aux learnsets et au moteur existants.
+
+Cizayox : K4, six IV31, Rigide, Technicien, Baie Prine, EV252 PV/252 Attaque/4 Défense Spéciale (508 légaux, pas 252 partout), Pisto-Poing/Piqûre/Atterrissage/Danse Lames. Plan expert partagé, observation sans lecture des choix cachés, as réservé par UUID tant qu’un autre partenaire peut combattre, réplique unique d’entrée ; conservation après checkpoint. Le même contenu s’applique dans les trois modes, sans changer l’IA des autres champions. Dialogue cinq partenaires et conseil de Noé actualisés ; prérequis, badge, récompenses et victoires historiques conservés.
+
+Vérifications : `tests/raph-tactics.test.js` (sets, formes, PP/objets/talents, réserve malgré changement d’ordre, immunités, pas de lecture cachée, entrée/reprise Rift et Colosseum), vrai duel Aventure/SQL dans `battle-runtime-integration`, puis `npm run test:raph-browser` sur base dédiée (équipe réelle jusqu’à Cizayox, réplique, mobile/PC et fin du combat). Publication serveur uniquement ; pas de migration ni de réécriture de sauvegarde.
+
+
+Vérification complète 666 applicatifs/73 SQL et recette Raph mobile/PC passées, cinq espèces réelles, Cizayox dernier/réplique unique. Publication serveur seule le 22/10/2026 à 12 h 14 Paris : client/index inchangés, sauvegardes conservées, HTTPS200 et sites voisins intacts.
+
 ## Blanchecime et nouvelles versions des Routes 13/14 — 22 octobre 2026
 
 Les neuf fichiers auteur `pourtoi/route13 (1){,_f}.png`, Route14 et `ville5` sont copiés exactement : manifeste actualisé `docs/north-routes-author-assets.json` (neuf empreintes). Les révisions de routes changent les ombres et le foreground (arbres abaissés dans le PNG de base) ; collisions, portails et 27 herbes par route sont inchangés. Le cache d’herbes se régénère à l’identique (`generateWorldGrass --check`), neige3/vent2 et masque enneigé préservés. Aucun PNG, calque ou passage auteur retouché.

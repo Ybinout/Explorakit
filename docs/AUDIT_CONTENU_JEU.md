@@ -1,5 +1,14 @@
 # Audit du contenu du jeu
 
+## Équipe de Raph — 22 octobre 2026
+
+Raphael à Ocreville (`gen_arene5`) utilise les cinq formes demandées, sans évolution automatique : Kaiminus 40, Akwakwak 40, Absol 41, Libégon 41, Cizayox 42. Fourchette d’arène 40–42 conservée. Quatre partenaires K1/IV18/EV0, natures et objets adaptés : Évoluroc, Restes, Orbe Vie et Mouchoir Choix. Couverture Eau/Glace, menace Coup Bas et Libégon rapide ; toutes les capacités appartiennent aux learnsets et au moteur existants.
+
+Cizayox : K4, six IV31, Rigide, Technicien, Baie Prine, EV252 PV/252 Attaque/4 Défense Spéciale (508 légaux, pas 252 partout), Pisto-Poing/Piqûre/Atterrissage/Danse Lames. Plan expert partagé, observation sans lecture des choix cachés, as réservé par UUID tant qu’un autre partenaire peut combattre, réplique unique d’entrée ; conservation après checkpoint. Le même contenu s’applique dans les trois modes, sans changer l’IA des autres champions. Dialogue cinq partenaires et conseil de Noé actualisés ; prérequis, badge, récompenses et victoires historiques conservés.
+
+Vérifications : `tests/raph-tactics.test.js` (sets, formes, PP/objets/talents, réserve malgré changement d’ordre, immunités, pas de lecture cachée, entrée/reprise Rift et Colosseum), vrai duel Aventure/SQL dans `battle-runtime-integration`, puis `npm run test:raph-browser` sur base dédiée (équipe réelle jusqu’à Cizayox, réplique, mobile/PC et fin du combat). Publication serveur uniquement ; pas de migration ni de réécriture de sauvegarde.
+
+
 **Blanchecime** (`ville5`) suit Route14 : Centre/soins/PC, boutique, deux maisons et arène visitable avec accueil. Les Routes13/14 utilisent les derniers PNG/JSON auteur, neige et herbes animées conservées. Aucun nouveau duel de champion ni chapitre activé après Wanda.
 
 **Météo des Routes 13 et 14 :** forte chute de neige (niveau 3) avec vent (niveau 2), ambiance partagée dans les trois modes et arrêt dans les grottes. La neige de carte ne déclenche pas de dégâts de grêle.
