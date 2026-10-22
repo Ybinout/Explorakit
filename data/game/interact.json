@@ -1940,7 +1940,7 @@
     "name": "rochebrume_habitant1",
     "sentences": [
       {
-        "text": "Les falaises protègent notre ville du vent. Le passage de la montagne est fermé, mais les Routes 11 et 12 restent ouvertes pour rejoindre Clairfontaine.",
+        "text": "Au nord, le passage traverse trois grottes de plus en plus glacées. Tu peux revenir en ville à tout moment. Les Routes 11 et 12 rejoignent Clairfontaine.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,

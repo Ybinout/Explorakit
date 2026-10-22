@@ -21,9 +21,9 @@ async function validateRochebrume(page,{step,capture,prefix=''}){
   await walk(13,map==='centre'?14:16);await step('move_s','ville4');assert.deepEqual(await position(),{map:'ville4',x,y:y+1});}
  if(!isDrift)assert((await page.evaluate(()=>new Promise(r=>window.cityVm.socket.emit('requestGameSave',r)))).success);
  await page.reload({waitUntil:'networkidle'});await page.waitForFunction(()=>{const v=document.querySelector('.game-root')?.__vue__;if(!v?.socket?.connected||!v.players[v.socket.id]||v.mapLoading||v.renderedMap!==v.map)return false;window.cityVm=v;return true;});assert.deepEqual(await position(),{map:'ville4',x:22,y:17});
- await walk(13,4);await step('move_z','ville4');await page.waitForFunction(()=>{const v=window.cityVm,p=v.players[v.socket.id];return v.interactionNotice.includes('montagne')&&Math.floor(p.y/32)===3;});assert.deepEqual(await position(),{map:'ville4',x:13,y:3});await walk(13,4);
+ await walk(13,4);await step('move_z','cave_rochebrume1');assert.deepEqual(await position(),{map:'cave_rochebrume1',x:13,y:18});await step('move_s','ville4');assert.deepEqual(await position(),{map:'ville4',x:13,y:4});
  await walk(26,14);await step('move_d','route12');assert.deepEqual(await position(),{map:'route12',x:1,y:14});await walk(26,6);await step('move_d','route11');assert.deepEqual(await position(),{map:'route11',x:1,y:6});await walk(26,16);await step('move_d','ville3');assert.deepEqual(await position(),{map:'ville3',x:1,y:16});
  await walk(5,9);await step('move_z','ville3_arene');await walk(13,6);await talk('champion_ana',{complete:false});await capture(prefix+'ana');await walk(13,16);await step('move_s','ville3');assert.deepEqual(await position(),{map:'ville3',x:5,y:9});
- return {actualGrassCrossingsWithRepel:true,threeRoundTrips:true,fiveDoorsAndReturns:true,centerHeal:true,pcViaA:true,shopPurchase:true,reconnectedInCity:true,mountainClosed:true,anaAvailable:true,wanda:isDrift?'available':'requiresAna',returnedToClairfontaine:true};
+ return {actualGrassCrossingsWithRepel:true,threeRoundTrips:true,fiveDoorsAndReturns:true,centerHeal:true,pcViaA:true,shopPurchase:true,reconnectedInCity:true,mountainEntryAndReturn:true,anaAvailable:true,wanda:isDrift?'available':'requiresAna',returnedToClairfontaine:true};
 }
 module.exports={validateRochebrume};

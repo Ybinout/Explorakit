@@ -1,5 +1,21 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Trois grottes au nord de Rochebrume — 22 octobre 2026
+
+Les neuf fichiers auteur livrés dans `/home/ubuntu/dev/pourtoi` sont copiés exactement sous les identifiants `cave_rochebrume1`, `cave_rochebrume2`, `cave_rochebrume3` : JSON Tiled, PNG de base et foreground 448×320. Aucun pixel, calque ni collision modifié ; manifeste SHA-256 `docs/north-caves-author-assets.json`. Pas de TMX inventé. Les anciennes grottes de la Route 3 restent intactes.
+
+Le passage déjà livré en `ville4 (13,3)` donne sur le sud de la première grotte `(13,18)`. Les trois voies des ouvertures nord/sud x12–14 sont raccordées individuellement entre les grottes, avec conservation de la voie et arrivée sur y18 ou y1, hors portail. Retour de la première vers la ville `(13,4)`. La porte finale de la troisième `(13,3)` donne un message de passage encore inaccessible ; le joueur peut revenir sans blocage. L’habitant ne dit plus que le passage de la montagne est fermé : il indique les trois grottes et le retour possible. Aucune retouche du parcours narratif après Wanda ni archives activées.
+
+Les rencontres accompagnent le passage rocheux vers la neige : dix espèces par zone, niveaux 48–50 /49–51 /50–52, extension progressive de `chapterPath`. Aucun changement de fréquence, K, XP ou des zones existantes. Noms français/anglais ajoutés au bandeau ; chargement explicite des six PNG dans le bundle client. Les trois modes partagent transitions et rencontres ; décor de combat grotte et socles déjà existants, météo sèche dans les nouvelles cartes sans hériter du sable extérieur de Rochebrume.
+
+Vérifications reproductibles : `node --test tests/north-caves.test.js tests/rochebrume.test.js tests/experience-balance.test.js` (empreintes, dimensions, chaque portail depuis chaque arrivée, collisions, absence de boucle, ordre et vraie génération de chacune des 30 espèces configurées, décor/météo), puis `npm run test:north-caves-browser` sur base dédiée (parcours réel aller-retour des trois modes, reprise dans la troisième grotte, porte finale, retour de la météo de ville et affichage aux quatre tailles). La recette Rochebrume existante vérifie désormais l’entrée/sortie de la première grotte au lieu de l’ancienne fermeture.
+
+Validation complète `RELEASE_DIST_DIR=/tmp/explorakit-north-caves-dist VUE_APP_PUBLIC_PATH=/explorakit/ npm run verify:release -- --mysql` réussie : **656 tests applicatifs /72 SQL**, audits, HTTP/reprise, lint/build. Contrôle ciblé final 18/18 après alignement du seul dialogue de l’habitant, audit contenu sans destination inconnue. `test:north-caves-browser` réussi : aller-retour et reprise de session dans les trois modes, quatre tailles 320×480 /393×852 /844×390 /1365×900, vrai pas déclenchant un combat sauvage en grotte sur serveur isolé, décor chargé et deux socles, météo sèche, fuite/retour propres, zéro erreur navigateur. Captures inspectées ; aucun essai sur téléphone physique revendiqué.
+
+Publication le **22/10/2026 à 9 h 20 (Paris)** : client `2e17f50ce629146c66cdd0373ec3eaba2b874bdd`, build `69869b6a5331a5ef`. Sauvegarde sources/dist/SQL/checkpoint `/home/ubuntu/dev/backups/explorakit-north-caves-2026-10-22T07-11-33-274Z` ; checkpoint relu avant redémarrage, 0 expédition active. Seule unité Explorakit redémarrée, PID1145559 actif et zéro redémarrage automatique. Assets copiés en conservant les anciens bundles et index atomique, HTTPS200/index conforme, Know/api-test inchangés. Aucune migration ni réécriture des sauvegardes réelles. Logs et captures `/tmp/explorakit-north-caves-*`.
+
+Contrôle HTTPS public avec un nouveau compte temporaire : vrai parcours Rochebrume → trois grottes → Rochebrume, reprise dans la dernière, porte finale et météo intérieure/extérieure vérifiées, quatre tailles, index identique au build et zéro erreur navigateur. Compte de recette supprimé et captures inspectées (`/tmp/explorakit-north-caves-public*`).
+
 ## Rochebrume : vent et sable légers — 22 octobre 2026
 
 Le créateur a précisé **Rochebrume (Wanda)** lors de la clarification de la ville visée. Seule la carte extérieure `ville4` reçoit le profil serveur `kind:sandstorm`, ambiance **vent1/pluie0/sable1** (échelle 0–3). Aucun choix de météo ajouté au joueur : mêmes conditions en Aventure et en exploration Rift/Colosseum. Valpierre, les routes voisines et les intérieurs restent identiques ; l’arène de Wanda garde sa météo neutre.
@@ -1945,6 +1961,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 22 octobre 2026 : intégration exacte des trois grottes de Rochebrume, raccordements réversibles, rencontres progressives et recette commune aux trois modes ; détails en tête du document.
 
 - **22 octobre 2026 — Rochebrume :** vent et sable au niveau léger, climat partagé et rendu animé borné, intérieurs préservés ; tests météo, trois modes/quatre tailles et publication complète.
 

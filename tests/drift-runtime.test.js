@@ -416,7 +416,10 @@ test('Rift/Colosseum cross Routes 11/12 and Rochebrume, use all doors and reach 
   const f=fixture(),p=f.run.players.get(1);f.run.mode=mode;const set=(map,x,y)=>Object.assign(p,{currentmap:map,x:x*32+16,y:y*32+16,lastMove:0});
   for(const [map,x,y,action,target]of [['ville3',1,16,'move_q','route11'],['route11',26,16,'move_d','ville3'],['route11',1,6,'move_q','route12'],['route12',26,6,'move_d','route11'],['route12',1,14,'move_q','ville4'],['ville4',26,14,'move_d','route12']]){set(map,x,y);f.runtime.move(p,action);assert.equal(p.currentmap,target);}
   for(const [x,y,target]of [[4,8,'centre'],[22,8,'ville4_shop'],[14,12,'ville4_arene'],[5,16,'ville4_maison1'],[22,16,'ville4_maison2']]){set('ville4',x,y+1);f.runtime.move(p,'move_z');assert.equal(p.currentmap,target);p.lastMove=0;f.runtime.move(p,'move_s');assert.equal(p.currentmap,'ville4');assert.deepEqual([Math.floor(p.x/32),Math.floor(p.y/32)],[x,y+1]);}
-  set('ville4',13,4);f.runtime.move(p,'move_z');assert.equal(p.currentmap,'ville4');assert(f.messages.some(m=>m.event==='progressionNotice'&&/montagne/.test(m.payload.message)));
+  set('ville4',13,4);f.runtime.move(p,'move_z');assert.equal(p.currentmap,'cave_rochebrume1');
+  for(const n of [1,2])for(const x of [12,13,14]){set(`cave_rochebrume${n}`,x,1);f.runtime.move(p,'move_z');assert.equal(p.currentmap,`cave_rochebrume${n+1}`);assert.deepEqual([Math.floor(p.x/32),Math.floor(p.y/32)],[x,18]);p.lastMove=0;f.runtime.move(p,'move_s');assert.equal(p.currentmap,`cave_rochebrume${n}`);assert.deepEqual([Math.floor(p.x/32),Math.floor(p.y/32)],[x,1]);}
+  set('cave_rochebrume3',13,4);f.runtime.move(p,'move_z');assert.equal(p.currentmap,'cave_rochebrume3');assert(f.messages.some(m=>m.event==='progressionNotice'&&/pas encore accessible/.test(m.payload.message)));
+  set('cave_rochebrume1',13,18);f.runtime.move(p,'move_s');assert.equal(p.currentmap,'ville4');assert.deepEqual([Math.floor(p.x/32),Math.floor(p.y/32)],[13,4]);
   for(const [map,name]of [['ville3_arene','champion_ana'],['ville4_arene','champion_wanda']]){const next=fixture(),a=next.run.players.get(1);next.run.mode=mode;Object.assign(a,{currentmap:map,x:432,y:208});next.runtime.interact(a);assert.equal(a.dialogue.name,name);next.runtime.endDialogue(a,name);assert(a.inbattle);assert.equal(a.battle.type,'arena');assert(next.messages.some(m=>m.event==='battletrigger'));}
  }
 });

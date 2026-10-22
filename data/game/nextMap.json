@@ -1829,10 +1829,9 @@
         {
           "valX": 13,
           "valY": 3,
-          "goto": "ville4",
+          "goto": "cave_rochebrume1",
           "nexX": 416,
-          "nexY": 160,
-          "blockedMessage": "Le passage de la montagne est fermé pour le moment."
+          "nexY": 608
         },
         {
           "valX": 4,
@@ -1936,6 +1935,182 @@
           "goto": "ville4",
           "nexX": 704,
           "nexY": 576
+        }
+      ]
+    },
+    {
+      "mapName": "cave_rochebrume1",
+      "wildpokemon": [
+        42,
+        75,
+        95,
+        67,
+        361,
+        436,
+        225,
+        299,
+        305,
+        343
+      ],
+      "level": {
+        "min": 48,
+        "max": 50
+      },
+      "mapchange": [
+        {
+          "valX": 12,
+          "valY": 19,
+          "goto": "ville4",
+          "nexX": 416,
+          "nexY": 160
+        },
+        {
+          "valX": 13,
+          "valY": 19,
+          "goto": "ville4",
+          "nexX": 416,
+          "nexY": 160
+        },
+        {
+          "valX": 14,
+          "valY": 19,
+          "goto": "ville4",
+          "nexX": 416,
+          "nexY": 160
+        },
+        {
+          "valX": 12,
+          "valY": 0,
+          "goto": "cave_rochebrume2",
+          "nexX": 384,
+          "nexY": 608
+        },
+        {
+          "valX": 13,
+          "valY": 0,
+          "goto": "cave_rochebrume2",
+          "nexX": 416,
+          "nexY": 608
+        },
+        {
+          "valX": 14,
+          "valY": 0,
+          "goto": "cave_rochebrume2",
+          "nexX": 448,
+          "nexY": 608
+        }
+      ]
+    },
+    {
+      "mapName": "cave_rochebrume2",
+      "wildpokemon": [
+        42,
+        75,
+        215,
+        220,
+        361,
+        459,
+        363,
+        221,
+        302,
+        437
+      ],
+      "level": {
+        "min": 49,
+        "max": 51
+      },
+      "mapchange": [
+        {
+          "valX": 12,
+          "valY": 19,
+          "goto": "cave_rochebrume1",
+          "nexX": 384,
+          "nexY": 64
+        },
+        {
+          "valX": 13,
+          "valY": 19,
+          "goto": "cave_rochebrume1",
+          "nexX": 416,
+          "nexY": 64
+        },
+        {
+          "valX": 14,
+          "valY": 19,
+          "goto": "cave_rochebrume1",
+          "nexX": 448,
+          "nexY": 64
+        },
+        {
+          "valX": 12,
+          "valY": 0,
+          "goto": "cave_rochebrume3",
+          "nexX": 384,
+          "nexY": 608
+        },
+        {
+          "valX": 13,
+          "valY": 0,
+          "goto": "cave_rochebrume3",
+          "nexX": 416,
+          "nexY": 608
+        },
+        {
+          "valX": 14,
+          "valY": 0,
+          "goto": "cave_rochebrume3",
+          "nexX": 448,
+          "nexY": 608
+        }
+      ]
+    },
+    {
+      "mapName": "cave_rochebrume3",
+      "wildpokemon": [
+        42,
+        215,
+        221,
+        362,
+        459,
+        437,
+        364,
+        460,
+        124,
+        478
+      ],
+      "level": {
+        "min": 50,
+        "max": 52
+      },
+      "mapchange": [
+        {
+          "valX": 12,
+          "valY": 19,
+          "goto": "cave_rochebrume2",
+          "nexX": 384,
+          "nexY": 64
+        },
+        {
+          "valX": 13,
+          "valY": 19,
+          "goto": "cave_rochebrume2",
+          "nexX": 416,
+          "nexY": 64
+        },
+        {
+          "valX": 14,
+          "valY": 19,
+          "goto": "cave_rochebrume2",
+          "nexX": 448,
+          "nexY": 64
+        },
+        {
+          "valX": 13,
+          "valY": 3,
+          "goto": "cave_rochebrume3",
+          "nexX": 416,
+          "nexY": 160,
+          "blockedMessage": "La suite du passage de la montagne n’est pas encore accessible."
         }
       ]
     }
