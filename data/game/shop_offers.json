@@ -1,0 +1,253 @@
+{
+  "tiers": [
+    {
+      "flag": null,
+      "name": "Essentiels",
+      "next": "Bats Mounir pour débloquer de nouvelles fournitures."
+    },
+    {
+      "flag": "moonpunch_defeated",
+      "name": "Dresseur du Lac",
+      "next": "Bats Hoze pour débloquer les pierres et les Hyper Balls."
+    },
+    {
+      "flag": "hoze_defeated",
+      "name": "Voyageur confirmé",
+      "next": "Bats Raphael pour débloquer les Hyper Potions et les soins avancés."
+    },
+    {
+      "flag": "raphael_defeated",
+      "name": "Équipe aguerrie",
+      "next": "Bats Ana pour débloquer les Potions Max et les baies Mepo."
+    },
+    {
+      "flag": "ana_defeated",
+      "name": "Dresseur expert",
+      "next": "Bats Wanda pour ouvrir le rayon Entraînement à Blanchecime."
+    },
+    {
+      "flag": "wanda_defeated",
+      "name": "Dernière ligne droite",
+      "next": "Le rayon Entraînement de Blanchecime peut préparer ton équipe au défi de 7p."
+    }
+  ],
+  "offers": {
+    "superball": {
+      "tier": 1
+    },
+    "super_potion": {
+      "tier": 1
+    },
+    "sitrus_berry": {
+      "tier": 1
+    },
+    "super_repel": {
+      "tier": 1
+    },
+    "burn_heal": {
+      "tier": 1
+    },
+    "ice_heal": {
+      "tier": 1
+    },
+    "hyperball": {
+      "tier": 2
+    },
+    "revive": {
+      "tier": 2
+    },
+    "max_repel": {
+      "tier": 2
+    },
+    "hyper_potion": {
+      "tier": 3
+    },
+    "full_heal": {
+      "tier": 3
+    },
+    "lum_berry": {
+      "tier": 3
+    },
+    "max_potion": {
+      "tier": 4
+    },
+    "fire_stone": {
+      "tier": 2
+    },
+    "water_stone": {
+      "tier": 2
+    },
+    "thunder_stone": {
+      "tier": 2
+    },
+    "leaf_stone": {
+      "tier": 2
+    },
+    "moon_stone": {
+      "tier": 2
+    },
+    "sun_stone": {
+      "tier": 2
+    },
+    "shiny_stone": {
+      "tier": 2
+    },
+    "dusk_stone": {
+      "tier": 2
+    },
+    "dawn_stone": {
+      "tier": 2
+    },
+    "ice_stone": {
+      "tier": 2
+    },
+    "cheri_berry": {
+      "tier": 2,
+      "price": 150
+    },
+    "chesto_berry": {
+      "tier": 2,
+      "price": 150
+    },
+    "pecha_berry": {
+      "tier": 2,
+      "price": 150
+    },
+    "rawst_berry": {
+      "tier": 2,
+      "price": 150
+    },
+    "aspear_berry": {
+      "tier": 2,
+      "price": 150
+    },
+    "persim_berry": {
+      "tier": 2,
+      "price": 150
+    },
+    "leppa_berry": {
+      "tier": 4,
+      "price": 450
+    },
+    "hp_up": {
+      "tier": 5,
+      "maps": [
+        "ville5_shop"
+      ],
+      "price": 200
+    },
+    "protein": {
+      "tier": 5,
+      "maps": [
+        "ville5_shop"
+      ],
+      "price": 200
+    },
+    "iron": {
+      "tier": 5,
+      "maps": [
+        "ville5_shop"
+      ],
+      "price": 200
+    },
+    "calcium": {
+      "tier": 5,
+      "maps": [
+        "ville5_shop"
+      ],
+      "price": 200
+    },
+    "zinc": {
+      "tier": 5,
+      "maps": [
+        "ville5_shop"
+      ],
+      "price": 200
+    },
+    "carbos": {
+      "tier": 5,
+      "maps": [
+        "ville5_shop"
+      ],
+      "price": 200
+    },
+    "iv_randomizer_hp": {
+      "tier": 5,
+      "maps": [
+        "ville5_shop"
+      ]
+    },
+    "ev_reset_hp": {
+      "tier": 5,
+      "maps": [
+        "ville5_shop"
+      ]
+    },
+    "iv_randomizer_attack": {
+      "tier": 5,
+      "maps": [
+        "ville5_shop"
+      ]
+    },
+    "ev_reset_attack": {
+      "tier": 5,
+      "maps": [
+        "ville5_shop"
+      ]
+    },
+    "iv_randomizer_defense": {
+      "tier": 5,
+      "maps": [
+        "ville5_shop"
+      ]
+    },
+    "ev_reset_defense": {
+      "tier": 5,
+      "maps": [
+        "ville5_shop"
+      ]
+    },
+    "iv_randomizer_specialAttack": {
+      "tier": 5,
+      "maps": [
+        "ville5_shop"
+      ]
+    },
+    "ev_reset_specialAttack": {
+      "tier": 5,
+      "maps": [
+        "ville5_shop"
+      ]
+    },
+    "iv_randomizer_specialDefense": {
+      "tier": 5,
+      "maps": [
+        "ville5_shop"
+      ]
+    },
+    "ev_reset_specialDefense": {
+      "tier": 5,
+      "maps": [
+        "ville5_shop"
+      ]
+    },
+    "iv_randomizer_speed": {
+      "tier": 5,
+      "maps": [
+        "ville5_shop"
+      ]
+    },
+    "ev_reset_speed": {
+      "tier": 5,
+      "maps": [
+        "ville5_shop"
+      ]
+    },
+    "ev_reset_all": {
+      "tier": 5,
+      "maps": [
+        "ville5_shop"
+      ]
+    }
+  }
+}

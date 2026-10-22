@@ -29,11 +29,11 @@ function hydrateItems(rows) {
     });
 }
 
-function getPurchasableItem(itemKey) {
-    const item = itemCatalogByKey[itemKey];
-    const buyPrice = Math.floor(Number(item?.buy_price));
-    if (!item || item.dropOnly || !Number.isInteger(buyPrice) || buyPrice <= 0) return null;
-    return { ...item, buyPrice };
+function getPurchasableItem(itemKey, context = {}) {
+    const {getShopCatalog,isShopMap}=require('../game/world/shopCatalog');
+    if(!isShopMap(context.mapName))return null;
+    const offer=getShopCatalog(context).find(i=>i.key===itemKey);
+    return offer?{...itemCatalogByKey[itemKey],buyPrice:offer.price}:null;
 }
 
 async function loadUserItems(userId) {
@@ -77,21 +77,17 @@ async function consumeUserItem(userId, itemKey, quantity = 1) {
     return { success: true, remaining };
 }
 
-async function purchaseUserItem(userId, itemKey, quantity = 1) {
+async function purchaseUserItem(userId, itemKey, quantity = 1, context = {}) {
     const normalizedUserId = Number(userId);
     const normalizedQuantity = Number(quantity);
-    const item = getPurchasableItem(itemKey);
+
     if (!Number.isInteger(normalizedUserId) || normalizedUserId <= 0) {
         return { success: false, reason: 'invalid_user' };
     }
     if (!Number.isInteger(normalizedQuantity) || normalizedQuantity <= 0 || normalizedQuantity > 99) {
         return { success: false, reason: 'invalid_quantity' };
     }
-    if (!item) {
-        return { success: false, reason: 'item_unavailable' };
-    }
-
-    const totalPrice = item.buyPrice * normalizedQuantity;
+    if (!itemCatalogByKey[itemKey] || !require('../game/world/shopCatalog').isShopMap(context.mapName))return {success:false,reason:'item_unavailable'};
     return withTransaction(async (connection) => {
         const [userRows] = await connection.execute(
             'SELECT money FROM users WHERE id = ? FOR UPDATE',
@@ -101,6 +97,11 @@ async function purchaseUserItem(userId, itemKey, quantity = 1) {
             return { success: false, reason: 'invalid_user' };
         }
 
+        const [flagRows]=await connection.execute('SELECT flag_key,flag_value FROM player_story_flags WHERE user_id=?',[normalizedUserId]);
+        const flags=Object.fromEntries(flagRows.map(r=>[r.flag_key,r.flag_value]));
+        const item=getPurchasableItem(itemKey,{mapName:context.mapName,flags});
+        if(!item)return {success:false,reason:'item_unavailable'};
+        const totalPrice=item.buyPrice*normalizedQuantity;
         const currentMoney = Number(userRows[0].money) || 0;
         if (currentMoney < totalPrice) {
             return { success: false, reason: 'insufficient_funds', money: currentMoney };

@@ -4,7 +4,7 @@ const { value, heal, attach, detach } = require('./driftEffects');
 const { isShopMap, getShopCatalog } = require('../world/shopCatalog');
 const { items: baseItems } = require('../../../data/game/items.json');
 const { LobbyError } = require('./lobbyStore');
-const { medicineResult } = require('../items/medicineEffects');
+const { medicineBatch } = require('../items/medicineEffects');
 const report = require('./runReport');
 const stones = require('../items/stoneEvolution');
 const merchant = require('./merchant');
@@ -16,7 +16,7 @@ const potions = [{ key: 'drift_potion', name: 'Potion', category: 'heal', price:
     { key: 'drift_super_potion', name: 'Super Potion', category: 'heal', price: 300, amount: 60, description: 'Soigne 60 PV hors combat.' }];
 const fail = message => { throw new LobbyError('drift_invalid', message); };
 function bag(p) { return [...baseItems, ...potions].filter(i => p.items[i.key] > 0).map(i => ({ ...i, quantity: p.items[i.key], ...(i.category==='evolution'?{evolutions:Object.fromEntries(p.equipe.pokemons.map(poke=>[poke.uuid,stones.target(poke,i.key)]).filter(([,target])=>target))}:{}) })); }
-function shop(p) { return { success: true, catalog: [...getShopCatalog({expedition:true}).filter(i => i.key !== 'revive'), ...potions], items: bag(p), money: p.money, merchant:merchant.view(p) }; }
+function shop(p) { return { success: true, catalog: [...getShopCatalog({expedition:true,mapName:p.currentmap}).filter(i => i.key !== 'revive'), ...potions], items: bag(p), money: p.money, shopMeta:require('../world/shopCatalog').getShopMeta({expedition:true,mapName:p.currentmap}), merchant:merchant.view(p) }; }
 function requireMutable(p) { if (!p.alive || p.inbattle || ['results','selection'].includes(p.run.phase)) fail('Action indisponible maintenant.'); }
 function equip(p, uuid, enabled) {
     requireMutable(p);
@@ -60,11 +60,12 @@ function buy(p, key, quantity) {
     report.increment(p,'moneySpent',cost);report.event(p,'purchase',`${quantity} × ${item.name} acheté${quantity>1?'s':''} · −${cost} ₽.`);
     return { ...shop(p), progression: { money: p.money } };
 }
-function usePotion(p, key, uuid, random = Math.random) {
+function usePotion(p, key, uuid, random = Math.random, quantity=1) {
     requireMutable(p);
     const item = [...potions, ...baseItems].find(i => i.key === key), pokemon = p.equipe.pokemons.find(a => a.uuid === uuid);
-    if (p.run.phase !== 'exploration' && !(item?.fieldUse?.effort && ['preparation','tournament','colosseum_ready'].includes(p.run.phase))) fail('Soins automatiques entre les rounds.');
+    if (p.run.phase !== 'exploration' && !((item?.fieldUse?.effort || item?.fieldUse?.ivReroll || item?.fieldUse?.effortReset) && ['preparation','tournament','colosseum_ready'].includes(p.run.phase))) fail('Soins automatiques entre les rounds.');
     if (!item || item.revive || !pokemon || (pokemon.currentHp <= 0 && !pokemon.riftFainted) || !(p.items[key] > 0)) fail('Ce soin est inutilisable.');
+    if(!Number.isInteger(quantity)||quantity<1||quantity>99||quantity>1&&!(item.fieldUse?.effort?.amount>0))fail('Quantité invalide.');
     let result;
     if (pokemon.riftFainted && pokemon.currentHp <= 0) {
         const effect=item.fieldUse || item;
@@ -76,12 +77,12 @@ function usePotion(p, key, uuid, random = Math.random) {
         if (pokemon.currentHp >= pokemon.maxHp) fail('Cet objet n’aurait aucun effet.');
         result = { currentHp: Math.min(pokemon.maxHp, pokemon.currentHp + item.amount), status: pokemon.status };
     } else {
-        try { result = medicineResult(pokemon, key); } catch (error) { fail(error.message); }
+        try { result = medicineBatch(pokemon,key,quantity,p.items[key],random); } catch (error) { fail(error.message); }
     }
-    if (result.ev || result.movePp) {
-        Object.assign(pokemon,result); p.items[key]--; p.ready=false; report.syncTeam(p);
-        report.event(p,'item',`${item.name} utilisé sur ${pokemon.truename || pokemon.name}.`);
-        return {success:true,items:bag(p),equipe:p.equipe};
+    if (result.ev || result.iv || result.movePp) {
+        const {trainingChange,consumed,...updated}=result;Object.assign(pokemon,updated); p.items[key]-=consumed||1; p.ready=false; report.syncTeam(p);
+        report.event(p,'item',`${consumed||1} × ${item.name} utilisé sur ${pokemon.truename || pokemon.name}.`);
+        return {success:true,items:bag(p),equipe:p.equipe,trainingChange,consumed:consumed||1};
     }
     attach(p.equipe.pokemons, p, false, random);
     try { heal(pokemon, result.currentHp - pokemon.currentHp); pokemon.status = result.status; } finally { detach(p.equipe.pokemons); }

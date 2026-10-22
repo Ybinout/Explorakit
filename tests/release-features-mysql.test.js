@@ -216,7 +216,7 @@ test('wild items SQL: concurrent unique receipts, bag/held/PC exclusion and perm
         assert.notEqual((await loot.awardWildLoot(u.id,draws(0,.99,0))).key,'exp_share');
         const [[duplicates]]=await db.execute('SELECT COUNT(*) AS n,COUNT(DISTINCT item_key) AS distinctN FROM user_item_discoveries WHERE user_id=?',[u.id]);assert.equal(duplicates.n,duplicates.distinctN);assert(duplicates.n>=6);
         const {purchaseUserItem}=require('../server/persistence/itemRepository');
-        for(const key of ['exp_share','calcium','life_orb','yache_berry'])assert.equal((await purchaseUserItem(u.id,key,1)).reason,'item_unavailable');
+        for(const key of ['exp_share','calcium','life_orb','yache_berry'])assert.equal((await purchaseUserItem(u.id,key,1,{mapName:'ville1_shop'})).reason,'item_unavailable');
         assert.equal((await teams.loadEquipe(u.id)).pokemons[0].heldItem,'leftovers');
     } finally {await db.execute('DELETE FROM users WHERE id=?',[u.id]);}
 });

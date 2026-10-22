@@ -7,7 +7,7 @@ const {getShopCatalog}=require('../server/game/world/shopCatalog');
 const party=()=>({repelSteps:0,equipe:{pokemons:[{level:40,currentHp:0},{level:12,currentHp:20},{level:99,currentHp:40}]}});
 test('trois Repousse vendus dans chaque mode, durées et prix progressifs',()=>{
  for(const expedition of [false,true]){
-  const catalog=getShopCatalog({expedition});
+  const catalog=getShopCatalog({expedition,mapName:'ville1_shop',flags:{hoze_defeated:'true'}});
   for(const [key,steps,price]of [['repel',100,350],['super_repel',200,500],['max_repel',250,700]]){
    assert.equal(repelDuration(key),steps);assert.equal(catalog.find(i=>i.key===key).price,price);
   }

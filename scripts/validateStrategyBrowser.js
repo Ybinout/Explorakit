@@ -36,7 +36,7 @@ async function deferLearning(){if(await page.locator('.learning-sheet').isVisibl
  await page.reload({waitUntil:'networkidle'});await page.locator('.location-shop-btn').click();
  for(const [key,name,price]of [['pokeball','Pokeball',150],['superball','Superball',450],['hyperball','Hyperball',900]]){
   const item=page.locator('.shop-item').filter({has:page.getByText(name,{exact:true})}),beforeMoney=p.money,beforeCount=p.items[key]||0;
-  await item.getByRole('button',{name:price+' ₽',exact:true}).click();
+  await item.locator('.shop-buy-controls button').click();
   await item.getByText('Possédé : '+(beforeCount+1),{exact:true}).waitFor();
   assert.equal(p.money,beforeMoney-price);assert.equal(p.items[key],beforeCount+1);
  }

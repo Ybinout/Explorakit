@@ -1,6 +1,6 @@
 const { loadUserItems, purchaseUserItem } = require('../../persistence/itemRepository');
 const { loadProgressState } = require('../../persistence/progressionRepository');
-const { getShopCatalog, isShopMap } = require('../../game/world/shopCatalog');
+const { getShopCatalog, getShopMeta, isShopMap } = require('../../game/world/shopCatalog');
 
 function registerShopHandlers({ socket, userId, getPlayer }) {
     const replyTo = (acknowledge) => (typeof acknowledge === 'function' ? acknowledge : () => {});
@@ -19,14 +19,17 @@ function registerShopHandlers({ socket, userId, getPlayer }) {
             return response;
         }
 
+        const mapName=player.currentmap;
         try {
             const [items, progression] = await Promise.all([
                 loadUserItems(userId),
                 loadProgressState(userId)
             ]);
+            if(getPlayer()!==player||player.currentmap!==mapName||player.inbattle){const response={success:false,reason:'not_in_shop'};reply(response);return response;}
             const response = {
                 success: true,
-                catalog: getShopCatalog(),
+                catalog: getShopCatalog({mapName,flags:progression.flags}),
+                shopMeta:getShopMeta({mapName,flags:progression.flags}),
                 items,
                 money: progression.money
             };
@@ -55,8 +58,10 @@ function registerShopHandlers({ socket, userId, getPlayer }) {
             return;
         }
 
+        if(player.inventoryBusy){reply({success:false,reason:'inventory_busy'});return;}
+        player.inventoryBusy=true;
         try {
-            const result = await purchaseUserItem(userId, payload.itemKey, payload.quantity);
+            const result = await purchaseUserItem(userId, payload.itemKey, payload.quantity,{mapName:player.currentmap});
             if (!result.success) {
                 reply(result);
                 return;
@@ -71,7 +76,7 @@ function registerShopHandlers({ socket, userId, getPlayer }) {
         } catch (error) {
             console.error(`Erreur achat boutique user ${userId}:`, error.message);
             reply({ success: false, reason: 'shop_unavailable' });
-        }
+        } finally {player.inventoryBusy=false;}
     });
 
     return { openShop };

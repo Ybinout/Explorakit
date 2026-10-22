@@ -130,7 +130,7 @@ async function validateJournalUi(page, output, fit) {
             vm.shop = {
                 visible: true, money: 1200, loading: false, error: '',
                 catalog: Array.from({ length: 8 }, (_, i) => ({
-                    key: `visual-${i}`, name: i ? 'Super Potion' : 'Potion', price: 200,
+                    category:'medicine', key: `visual-${i}`, name: i ? 'Super Potion' : 'Potion', price: 200,
                     description: 'Rend des points de vie à un Pokémon de ton équipe.'
                 }))
             };

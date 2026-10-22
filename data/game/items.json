@@ -1145,6 +1145,221 @@
       "name": "Clé de la Route 2",
       "category": "key",
       "description": "Confiée par 7p après sa défaite. Ouvre la maison de Lucie sur la Route 2. Elle reste dans ton sac."
+    },
+    {
+      "key": "iv_randomizer_hp",
+      "name": "Relance IV · PV",
+      "category": "medicine",
+      "buy_price": 250,
+      "description": "Relance l’IV PV entre 0 et 31. La nouvelle valeur remplace l’ancienne, même si elle est inférieure. Ne change ni le potentiel K ni les autres IV.",
+      "fieldUse": {
+        "ivReroll": "hp"
+      }
+    },
+    {
+      "key": "ev_reset_hp",
+      "name": "Reset EV · PV",
+      "category": "medicine",
+      "buy_price": 150,
+      "description": "Remet uniquement les EV PV à zéro. Les IV, le niveau et le potentiel K sont conservés.",
+      "fieldUse": {
+        "effortReset": "hp"
+      }
+    },
+    {
+      "key": "iv_randomizer_attack",
+      "name": "Relance IV · Attaque",
+      "category": "medicine",
+      "buy_price": 250,
+      "description": "Relance l’IV Attaque entre 0 et 31. La nouvelle valeur remplace l’ancienne, même si elle est inférieure. Ne change ni le potentiel K ni les autres IV.",
+      "fieldUse": {
+        "ivReroll": "attack"
+      }
+    },
+    {
+      "key": "ev_reset_attack",
+      "name": "Reset EV · Attaque",
+      "category": "medicine",
+      "buy_price": 150,
+      "description": "Remet uniquement les EV Attaque à zéro. Les IV, le niveau et le potentiel K sont conservés.",
+      "fieldUse": {
+        "effortReset": "attack"
+      }
+    },
+    {
+      "key": "iv_randomizer_defense",
+      "name": "Relance IV · Défense",
+      "category": "medicine",
+      "buy_price": 250,
+      "description": "Relance l’IV Défense entre 0 et 31. La nouvelle valeur remplace l’ancienne, même si elle est inférieure. Ne change ni le potentiel K ni les autres IV.",
+      "fieldUse": {
+        "ivReroll": "defense"
+      }
+    },
+    {
+      "key": "ev_reset_defense",
+      "name": "Reset EV · Défense",
+      "category": "medicine",
+      "buy_price": 150,
+      "description": "Remet uniquement les EV Défense à zéro. Les IV, le niveau et le potentiel K sont conservés.",
+      "fieldUse": {
+        "effortReset": "defense"
+      }
+    },
+    {
+      "key": "iv_randomizer_specialAttack",
+      "name": "Relance IV · Attaque Spéciale",
+      "category": "medicine",
+      "buy_price": 250,
+      "description": "Relance l’IV Attaque Spéciale entre 0 et 31. La nouvelle valeur remplace l’ancienne, même si elle est inférieure. Ne change ni le potentiel K ni les autres IV.",
+      "fieldUse": {
+        "ivReroll": "specialAttack"
+      }
+    },
+    {
+      "key": "ev_reset_specialAttack",
+      "name": "Reset EV · Attaque Spéciale",
+      "category": "medicine",
+      "buy_price": 150,
+      "description": "Remet uniquement les EV Attaque Spéciale à zéro. Les IV, le niveau et le potentiel K sont conservés.",
+      "fieldUse": {
+        "effortReset": "specialAttack"
+      }
+    },
+    {
+      "key": "iv_randomizer_specialDefense",
+      "name": "Relance IV · Défense Spéciale",
+      "category": "medicine",
+      "buy_price": 250,
+      "description": "Relance l’IV Défense Spéciale entre 0 et 31. La nouvelle valeur remplace l’ancienne, même si elle est inférieure. Ne change ni le potentiel K ni les autres IV.",
+      "fieldUse": {
+        "ivReroll": "specialDefense"
+      }
+    },
+    {
+      "key": "ev_reset_specialDefense",
+      "name": "Reset EV · Défense Spéciale",
+      "category": "medicine",
+      "buy_price": 150,
+      "description": "Remet uniquement les EV Défense Spéciale à zéro. Les IV, le niveau et le potentiel K sont conservés.",
+      "fieldUse": {
+        "effortReset": "specialDefense"
+      }
+    },
+    {
+      "key": "iv_randomizer_speed",
+      "name": "Relance IV · Vitesse",
+      "category": "medicine",
+      "buy_price": 250,
+      "description": "Relance l’IV Vitesse entre 0 et 31. La nouvelle valeur remplace l’ancienne, même si elle est inférieure. Ne change ni le potentiel K ni les autres IV.",
+      "fieldUse": {
+        "ivReroll": "speed"
+      }
+    },
+    {
+      "key": "ev_reset_speed",
+      "name": "Reset EV · Vitesse",
+      "category": "medicine",
+      "buy_price": 150,
+      "description": "Remet uniquement les EV Vitesse à zéro. Les IV, le niveau et le potentiel K sont conservés.",
+      "fieldUse": {
+        "effortReset": "speed"
+      }
+    },
+    {
+      "key": "ev_reset_all",
+      "name": "Reset EV · Complet",
+      "category": "medicine",
+      "buy_price": 600,
+      "description": "Remet les six statistiques d’EV à zéro pour recommencer l’entraînement. Les IV, le niveau et le potentiel K sont conservés.",
+      "fieldUse": {
+        "effortReset": "all"
+      }
+    },
+    {
+      "key": "awakening",
+      "name": "Réveil",
+      "category": "medicine",
+      "buy_price": 200,
+      "description": "Soigne le sommeil hors combat.",
+      "fieldUse": {
+        "cure": [
+          "sleep"
+        ]
+      }
+    },
+    {
+      "key": "paralyze_heal",
+      "name": "Anti-Para",
+      "category": "medicine",
+      "buy_price": 200,
+      "description": "Soigne la paralysie hors combat.",
+      "fieldUse": {
+        "cure": [
+          "paralyze"
+        ]
+      }
+    },
+    {
+      "key": "burn_heal",
+      "name": "Anti-Brûle",
+      "category": "medicine",
+      "buy_price": 200,
+      "description": "Soigne la brûlure hors combat.",
+      "fieldUse": {
+        "cure": [
+          "burn"
+        ]
+      }
+    },
+    {
+      "key": "ice_heal",
+      "name": "Antigel",
+      "category": "medicine",
+      "buy_price": 250,
+      "description": "Soigne le gel hors combat.",
+      "fieldUse": {
+        "cure": [
+          "freeze"
+        ]
+      }
+    },
+    {
+      "key": "hyper_potion",
+      "name": "Hyper Potion",
+      "category": "medicine",
+      "buy_price": 1200,
+      "description": "Restaure 120 PV hors combat.",
+      "fieldUse": {
+        "heal": 120
+      }
+    },
+    {
+      "key": "max_potion",
+      "name": "Potion Max",
+      "category": "medicine",
+      "buy_price": 2200,
+      "description": "Restaure tous les PV hors combat.",
+      "fieldUse": {
+        "healFraction": 1
+      }
+    },
+    {
+      "key": "full_heal",
+      "name": "Total Soin",
+      "category": "medicine",
+      "buy_price": 600,
+      "description": "Soigne les altérations de statut hors combat.",
+      "fieldUse": {
+        "cure": [
+          "poison",
+          "badly_poison",
+          "burn",
+          "paralyze",
+          "sleep",
+          "freeze"
+        ]
+      }
     }
   ]
 }

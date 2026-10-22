@@ -153,14 +153,14 @@ test('le parcours réel crée, authentifie et sauvegarde un nouveau dresseur', {
         const [[rewardMoneyRow]] = await pool.execute('SELECT money FROM users WHERE id = ?', [userId]);
         assert.equal(Number(rewardMoneyRow.money), 1150);
 
-        const purchase = await purchaseUserItem(userId, 'pokeball', 2);
+        const purchase = await purchaseUserItem(userId, 'pokeball', 2, {mapName:'ville1_shop'});
         assert.equal(purchase.success, true);
         assert.equal(purchase.totalPrice, 300);
         assert.equal(purchase.money, 850);
         assert.equal(purchase.items.find((item) => item.key === 'pokeball')?.quantity, 12);
-        const refusedPurchase = await purchaseUserItem(userId, 'hyperball', 1);
+        const refusedPurchase = await purchaseUserItem(userId, 'hyperball', 1, {mapName:'ville1_shop'});
         assert.equal(refusedPurchase.success, false);
-        assert.equal(refusedPurchase.reason, 'insufficient_funds');
+        assert.equal(refusedPurchase.reason, 'item_unavailable');
         const [[moneyAfterPurchase]] = await pool.execute('SELECT money FROM users WHERE id = ?', [userId]);
         assert.equal(Number(moneyAfterPurchase.money), 850);
 
@@ -257,7 +257,8 @@ test('Repousse SQL : achat, activation atomique, anti-cumul et compteur sauvegar
   const {purchaseUserItem,loadUserItems}=require('../server/persistence/itemRepository');
   const {useRepel}=require('../server/persistence/repelRepository');
   const {loadUserPosition,saveUserPosition}=require('../server/persistence/playerRepository');
-  for(const key of ['repel','super_repel','max_repel'])assert((await purchaseUserItem(id,key,2)).success);
+  await pool.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,'hoze_defeated','true')",[id]);
+  for(const key of ['repel','super_repel','max_repel'])assert((await purchaseUserItem(id,key,2,{mapName:'ville1_shop'})).success);
   assert.equal((await loadUserItems(id)).find(i=>i.key==='max_repel').repelSteps,250);
   const activations=await Promise.allSettled([useRepel(id,'repel'),useRepel(id,'repel')]);
   assert.equal(activations.filter(r=>r.status==='fulfilled').length,1);
@@ -272,6 +273,41 @@ test('Repousse SQL : achat, activation atomique, anti-cumul et compteur sauvegar
   await assert.rejects(useRepel(id,'max_repel'),/sac/);assert.equal((await loadUserPosition(id)).repel_steps,0);
   await assert.rejects(useRepel(id,'potion'),/Repousse/);
  }finally{if(id)await pool.execute('DELETE FROM users WHERE id=?',[id]);await pool.end();}
+});
+
+test('boutique et entraînement SQL : progression, localisation, prix serveur, IV persistants, EV en lot, limites et propriété', {skip:!shouldRun},async()=>{
+ const pool=createTestPool(),ids=[];
+ const {createUserWithStarter}=require('../server/persistence/userRepository');
+ const {purchaseUserItem,loadUserItems}=require('../server/persistence/itemRepository');
+ const {useMedicine}=require('../server/persistence/medicineRepository');
+ const {loadEquipe,editEquipe}=require('../server/persistence/teamRepository');
+ try{
+  for(let i=0;i<2;i++){const u=await createUserWithStarter(`training_${Date.now()}_${i}`,'test-training',{starterId:7});ids.push(u.id);}
+  const id=ids[0],context={mapName:'ville5_shop',flags:{wanda_defeated:'true'},price:1,tier:5};
+  await pool.execute('UPDATE users SET money=50000 WHERE id=?',[id]);
+  assert.equal((await purchaseUserItem(id,'iv_randomizer_attack',1,context)).reason,'item_unavailable','forged flags and price ignored');
+  await pool.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,'wanda_defeated','true')",[id]);
+  assert.equal((await purchaseUserItem(id,'zinc',1,{mapName:'ville1_shop'})).reason,'item_unavailable');
+  assert.equal((await purchaseUserItem(id,'life_orb',1,context)).reason,'item_unavailable');
+  assert.equal((await purchaseUserItem(id,'zinc',1)).reason,'item_unavailable');
+  const buys=await Promise.all([purchaseUserItem(id,'iv_randomizer_attack',2,context),purchaseUserItem(id,'protein',25,context)]);
+  assert(buys.every(r=>r.success));assert.deepEqual(buys.map(r=>r.totalPrice),[500,5000]);
+  assert((await purchaseUserItem(id,'ev_reset_all',1,context)).success);
+  const team=await loadEquipe(id),p=team.pokemons[0];p.iv.attack=30;p.ev.attack=247;p.recalculateStats();p.currentHp-=2;await editEquipe(id,team);
+  const oldK=p.k,oldWound=p.maxHp-p.currentHp;
+  const r=await useMedicine(id,p,'protein',25);assert.equal(r.consumed,1);assert.equal(r.ev.attack,252);
+  assert.equal((await loadUserItems(id)).find(i=>i.key==='protein').quantity,24);
+  await assert.rejects(useMedicine(ids[1],p,'iv_randomizer_attack'),/appartient/);
+  await useMedicine(id,p,'iv_randomizer_attack');let saved=(await loadEquipe(id)).pokemons[0];assert(saved.iv.attack>=0&&saved.iv.attack<=31);assert.equal(saved.k,oldK);assert.equal(saved.maxHp-saved.currentHp,oldWound);
+  await pool.execute('UPDATE pokemons SET iv_attack=31 WHERE uuid=?',[p.uuid]);
+  const rolled=await useMedicine(id,p,'iv_randomizer_attack');assert.equal(rolled.trainingChange.before,31);assert.equal((await loadUserItems(id)).find(i=>i.key==='iv_randomizer_attack'),undefined);
+  await useMedicine(id,p,'ev_reset_all');saved=(await loadEquipe(id)).pokemons[0];assert(Object.values(saved.ev).every(n=>n===0));assert.equal(saved.iv.attack,rolled.iv.attack);
+  assert.equal((await loadUserItems(id)).find(i=>i.key==='ev_reset_all'),undefined);
+  await pool.execute('UPDATE users SET money=200 WHERE id=?',[id]);
+  const concurrent=await Promise.all([purchaseUserItem(id,'zinc',1,context),purchaseUserItem(id,'zinc',1,context)]);
+  assert.equal(concurrent.filter(r=>r.success).length,1);assert.equal(concurrent.find(r=>!r.success).reason,'insufficient_funds');
+  const [[row]]=await pool.execute('SELECT money FROM users WHERE id=?',[id]);assert.equal(Number(row.money),0);
+ }finally{for(const id of ids)await pool.execute('DELETE FROM users WHERE id=?',[id]);await pool.end();}
 });
 
 test('PC SQL : transferts atomiques, métadonnées intactes, accès privé, anti-rejeu et objet rendu au relâchement', {skip:!shouldRun},async()=>{

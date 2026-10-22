@@ -140,7 +140,7 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
         gameCommand('pc:open',p=>{const state=require('../game/drift/pokemonComputer').open(p);socket.emit('pcOpened',state);return {success:true,state};},false);
         gameCommand('pc:action',(p,data)=>require('../game/drift/pokemonComputer').mutate(p,data));
         gameCommand('drift:repel', (p, data) => economy.useRepel(p, data?.itemKey));
-        gameCommand('drift:heal', (p, data) => economy.usePotion(p, data?.itemKey, data?.pokemonUuid));
+        gameCommand('drift:heal', (p, data) => economy.usePotion(p, data?.itemKey, data?.pokemonUuid,undefined,data?.quantity??1));
         gameCommand('drift:learnMove', (p, data) => {
             const pokemon = p.equipe.pokemons.find(poke => poke.uuid === data?.pokemonUuid);
             try { Object.assign(pokemon, resolveMoveChoice(pokemon, data)); }
