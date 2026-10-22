@@ -13,6 +13,7 @@ async function validateComputerDragUi(page,output,{privateMode=false}={}) {
   else{await page.mouse.move(a.x,a.y);await page.mouse.down();}
   for(let i=1;i<=12;i++){const p={x:a.x+(b.x-a.x)*i/12,y:a.y+(b.y-a.y)*i/12};if(touch)await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{...p,id:1}]});else await page.mouse.move(p.x,p.y);}
   await page.locator('[data-pc-drag-ghost]').waitFor();
+  const ghost=await page.locator('[data-pc-drag-ghost]').boundingBox();assert(Math.abs(ghost.x+ghost.width/2-b.x)<2&&Math.abs(ghost.y+ghost.height*.85-b.y)<2,'PC drag preview must follow viewport pointer coordinates');
   if(touch)await page.screenshot({path:path.join(output,`pc-drag-active-${privateMode?'private':'adventure'}.png`)});
   if(hover)await page.waitForTimeout(750);
   if(cancel){await page.keyboard.press('Escape');}
@@ -31,7 +32,7 @@ async function validateComputerDragUi(page,output,{privateMode=false}={}) {
  }
  const first=initial.entries[0].pokemon;
  if(!privateMode){
-  await page.setViewportSize({width:1365,height:900});await choose(0);await gesture(stored(first.uuid),slot(17));assert.equal((await read()).entries.find(e=>e.pokemon.uuid===first.uuid).slot,17);
+  await page.setViewportSize({width:1365,height:900});await page.waitForTimeout(300);await page.evaluate(()=>window.pcVm.showMobileControls=false);await page.waitForFunction(()=>{const panel=document.querySelector('.pc-terminal').getBoundingClientRect(),game=document.querySelector('.game-stage').getBoundingClientRect();return Math.abs(panel.x+panel.width/2-(game.left+game.right)/2)<2&&Math.abs(panel.y+panel.height/2-(Math.max(0,game.top)+Math.min(innerHeight,game.bottom))/2)<2;});await choose(0);await gesture(stored(first.uuid),slot(17));assert.equal((await read()).entries.find(e=>e.pokemon.uuid===first.uuid).slot,17);
   const second=initial.entries[1].pokemon;await gesture(stored(first.uuid),stored(second.uuid));assert.equal((await read()).entries.find(e=>e.pokemon.uuid===second.uuid).slot,17);
   await gesture(party(initial.team[1].uuid),slot(25));assert.equal((await read()).team.length,5);
   await gesture(stored(initial.team[1].uuid),'.pc-team-empty');assert.equal((await read()).team.at(-1).uuid,initial.team[1].uuid);

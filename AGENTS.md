@@ -1,5 +1,12 @@
 # Contexte permanent — Explorakit
 
+## Fenêtres centrées sur le jeu sur PC — 22 octobre 2026
+
+Les fenêtres suivent le rectangle visible de `.game-stage` plutôt que le centre de tout l’écran : Pokédex, sac, badges, options/quête/sauvegarde, boutique, équipe/apparence, fiches/PC, apprentissage/évolution, bilans et panneaux d’expédition. Hauteur bornée à la zone disponible avec 12 px de marge ; défilement interne conservé. Si le jeu est hors écran ou trop peu visible, repli au centre du navigateur. Mesure initiale puis ResizeObserver, resize et scroll regroupés par animation frame ; libération à la destruction. Le fond assombri continue de couvrir l’écran.
+
+Règles limitées au bureau (`!is-mobile`) : ni transformation ni containment du jeu, pour préserver le fantôme PC en coordonnées client et le combat. Pas de modification des cartes, sauvegardes, règles ou de la présentation mobile. Recette `test:release-browser` / `validateJournalUi` : sept tailles dont la capture 1282×1112, centrage réel de huit menus et fiche/boutique, débordements, focus/fermeture, redimensionnement et scroll avec Pokédex ouvert. Validation complète 669 tests applicatifs/73 SQL, lint/build final et recettes release/PC passées : sept tailles pour menus et bilans, quatre pour le PC, souris/tactile/coordonnées du fantôme, focus et défilement conservés. Publication statique le 22/10/2026 à 13 h 27 Paris, build fcca7709d1bea5bf, client b2368a2 ; aucun redémarrage (PID 1186818). Index/CSS publics exacts et véritable Pokédex contrôlé en HTTPS à trois tailles PC et une mobile ; sites voisins inchangés. Modifications utilisateur de phrase.txt laissées intactes hors commit.
+
+
 ## Icône météo de combat — 22 octobre 2026
 
 Le composant commun affiche désormais la météo active dans une pastille de 34 px, en haut à droite du terrain, avec icône vectorielle issue de `JournalIcon` (pluie, soleil, sable ou grêle), libellé accessible et infobulle localisée. Aucun texte météo permanent en bas ; le créneau d’annonces/commandes n’est plus occupé par la météo seule. Les champs de terrain restent indiqués en bas comme auparavant. L’icône suit l’état serveur et disparaît sans météo ; pas de contrôle du climat ajouté.
@@ -433,7 +440,7 @@ Explorakit est un fan game web multijoueur privé : frontend Vue 2/canvas, backe
 - Backend : `npm start`
 - Syntaxe JS : exécuter `node --check` sur les fichiers JavaScript hors `node_modules` et `dist`
 - Frontend : `npm --prefix vue-explorakit run lint`
-- Build : `npm run build:client` (écrit dans `dist/`; préférer une destination temporaire lors d'une simple revue)
+- Build : `npm run build:client` écrit toujours dans `dist/` et ignore `RELEASE_DIST_DIR`. Cette variable est consommée par `verify:release` uniquement. Pour compiler isolément : `VUE_APP_PUBLIC_PATH=/explorakit/ npm --prefix vue-explorakit run build -- --dest /tmp/explorakit-patch-dist`.
 - Tests : `npm test`
 - Audit des capacités : `npm run audit:moves`
 - Audit des talents : `npm run audit:abilities`

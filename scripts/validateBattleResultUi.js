@@ -37,6 +37,8 @@ async function validateBattleResultUi(page, output, fit) {
     ];
     for (const [width, height] of viewports) {
         await page.setViewportSize({ width, height });
+        // ResizeObserver and the game layout settle on the next rendering frame.
+        await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
         for (const result of scenarios) {
             await showResult(page, { ...result, mode: 'adventure' });
             const panel = page.locator('[data-battle-result]');
