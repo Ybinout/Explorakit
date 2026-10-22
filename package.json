@@ -56,6 +56,7 @@
     "test:combat-snow-browser": "node --env-file-if-exists=.env scripts/validateCombatSnowBrowser.js",
     "test:capture-badges-browser": "node --env-file-if-exists=.env scripts/validateCaptureBadgesBrowser.js",
     "test:snow-footprints-browser": "node --env-file-if-exists=.env scripts/validateSnowFootprintsBrowser.js",
+    "test:world-music-browser": "node --env-file-if-exists=.env scripts/validateWorldMusicBrowser.js",
     "test:shop-browser": "node --env-file-if-exists=.env scripts/validateShopTrainingBrowser.js",
     "test:wanda-browser": "node --env-file-if-exists=.env scripts/validateWandaBrowser.js",
     "test:ana-browser": "node --env-file-if-exists=.env scripts/validateAnaBrowser.js",

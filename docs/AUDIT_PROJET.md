@@ -1,5 +1,18 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Musique d’exploration continue — 22 octobre 2026
+
+Les villes/villages et leurs intérieurs jouent `village.mp3`, les routes normales/générées jouent `start.mp3`. Le lecteur commun Aventure/Rift/Colosseum garde deux pistes au maximum, bouclées et chargées à la demande. Volume de fond à22 % du volume général (7,7 % au réglage initial35 %). Le même élément et sa position sont conservés entre routes, pendant le décodage des cartes et au retour en ville ; aucune réinitialisation au changement de lieu de même famille.
+
+Combat/résultat, spectateur, sélection/préparation d’expédition, déconnexion, onglet masqué et volume0 suspendent le fond. Les combats gardent leurs musiques propres ; retour à l’exploration au même instant musical, sans superposition. Autoplay refusé : nouvelle tentative au prochain vrai toucher/clic/clavier, promesses concurrentes bornées et tardives neutralisées. Sortie du monde : écouteurs retirés, pistes arrêtées et sources libérées. Grottes silencieuses, aucune modification des cartes/sons de combat/règles serveur.
+
+Vérification reproductible : `tests/world-music.test.js` et `npm run test:world-music-browser` (vrais MP3, passage Route1→Route2 accepté par le serveur dans les trois modes, ville via sortie Route2, volume, quatre tailles, masquage, vrai combat et reprise, destruction). Le test du montage Aventure importe le vrai lecteur sans simuler sa mécanique ; seuls les assets/DOM restent substitués dans cette recette Node.
+
+
+Validation finale : **714 tests applicatifs**, audits, lint et build isolé70c418b683c543ae passés. Recette navigateur : vrais MP3 et transitions Route1→Route2 dans les trois modes, même élément/compteur de lecture et temps avançant ; arrivée en ville par le vrai passage Route2, quatre tailles, volume0/reprise, masquage, véritable combat sans superposition et destruction lors d’une navigation SPA ; zéro erreur. Le trajet de recette utilise un Pokémon temporaire niv.100 et un Repousse pour éviter une rencontre aléatoire pendant la marche, sans changer les règles serveur.
+
+Publication statique le 22/10/2026 à16 h50 Paris après sauvegarde sources/dist/SQL/checkpoint (0 expédition active), client b61b74b ; PID1271759 inchangé, actif/NRestarts0, anciens bundles conservés. Contrôle HTTPS avec compte temporaire : Route1→Route2 réelle, même piste passant de0,125 à0,635 s sans nouvel appel de lecture ; `village.mp3` en ville, volume7,7 %, silence/reprise, mobile/PC, deux assets MP3 HTTP200, index exact et sites voisins inchangés. Compte supprimé. Aucun schéma, carte, record ni sauvegarde existante réécrit. Logs /tmp/explorakit-world-music-{verify,unit,lint,browser,deploy,public}.log.
+
 ## Capture progressive selon les badges — 22 octobre 2026
 
 Choix explicite du joueur : les captures hors progression restent possibles, avec une pénalité forte, sans plafond bloquant. Aventure uniquement. `capture_balance.json` fixe les paliers de niveau confortable :0→22,1→35,2→40,3→45,4→50,5→60,6 et plus→100. Les badges connus, réellement obtenus en SQL, sont dédupliqués ; aucun niveau du combattant, champ de profil/client ou valeur de l’action ne remplace ce décompte. Instantané au début de chaque combat sauvage, rapprochement Mounir historique existant conservé. Lecture indisponible : interruption propre avant tout lancer/consommation.
@@ -2200,6 +2213,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 22/10/2026 — Musique de fond villages/routes, volume discret, lecture continue entre routes et reprise après combat ; lecteur partagé et recette navigateur réelle. Voir livraison en tête et `test:world-music-browser`.
 
 - 22/10/2026 — Captures Aventure liées aux badges SQL : paliers22/35/40/45/50/60/100, pénalité0,8 par niveau excédentaire, toujours possibles, aucune nouvelle limite stricte. Palier dans badges/avertissement avant lancer ; expéditions et Pokémon acquis conservés. Voir livraison en tête et `test:capture-badges-browser`.
 

@@ -12,17 +12,19 @@ const { authenticateSocket } = require('../server/http/authMiddleware');
 async function loadWorldMount(createGameSocket, createDriftSocket) {
     // Execute the actual Vue lifecycle hook; only canvas/DOM rendering is stubbed.
     const { WORLD_WIDTH, WORLD_HEIGHT } = await import('../vue-explorakit/src/services/worldCamera.js');
+    const { WorldMusic } = await import('../vue-explorakit/src/services/worldMusic.js');
     const source = fs.readFileSync(path.resolve(__dirname, '../vue-explorakit/src/components/UserMap.vue'), 'utf8');
     const script = require('../vue-explorakit/node_modules/vue-template-compiler').parseComponent(source).script.content;
     const ast = require('../vue-explorakit/node_modules/@babel/parser').parse(script, { sourceType: 'module' });
     const component = ast.program.body.find(node => node.type === 'ExportDefaultDeclaration').declaration;
     const mounted = component.properties.find(node => node.key.name === 'mounted');
-    return new Function('createGameSocket', 'createDriftSocket', 'document', 'window', 'console', 'WORLD_WIDTH', 'WORLD_HEIGHT', 'ResizeObserver', 'attachGamePopupLayout',
+    return new Function('createGameSocket', 'createDriftSocket', 'document', 'window', 'console', 'WORLD_WIDTH', 'WORLD_HEIGHT', 'ResizeObserver', 'attachGamePopupLayout', 'WorldMusic', 'require',
         `return ({${script.slice(mounted.start, mounted.end)}}).mounted;`)(
         createGameSocket, createDriftSocket, { body: { classList: { add() {} } }, addEventListener() {} },
         { addEventListener() {} }, { log() {}, error() {} }, WORLD_WIDTH, WORLD_HEIGHT,
         class { observe(element) { assert(element, 'The world viewport must be mounted'); } },
-        () => () => {} // Layout is exercised in the browser recipe, alongside real DOM geometry.
+        () => () => {}, // Layout is exercised in the browser recipe, alongside real DOM geometry.
+        WorldMusic, asset => asset
     );
 }
 
@@ -96,6 +98,7 @@ test('Connexion au camp : distinguer un ancien serveur, une session refusée et 
                 getStoredUserId: () => 73, getStoredUsername: () => 'Dresseur', getStoredToken: () => token,
                 ensureSpriteSheet: () => ({ complete: true })
             };
+            instance.syncWorldMusic = () => {};
             for (const name of ['loadMapImage', 'loadForegroundImage', 'loadAvailableSprites', 'loadPnjSpriteSources',
                 'handleKeydown', 'handleKeyup', 'handleOutsideMenuClick', 'updateMobileControlsVisibility',
                 'releaseAllMovementKeys', 'startGameLoop', 'startMovementLoop', 'resizeWorldViewport']) instance[name] = () => {};
