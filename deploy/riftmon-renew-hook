@@ -1,0 +1,6 @@
+#!/bin/sh
+# Webroot renewal replaces the certificate on disk; Nginx needs a reload.
+if [ "${RENEWED_LINEAGE:-}" = /etc/letsencrypt/live/riftmon.binout.fr ]
+then
+    /usr/sbin/nginx -t && /bin/systemctl reload nginx
+fi

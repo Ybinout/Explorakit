@@ -8,27 +8,31 @@ const express = require('express');
 const {chromium} = require('playwright');
 const dist = process.env.RELEASE_DIST_DIR || '/tmp/explorakit-release-dist';
 const output = process.env.RELEASE_SCREENSHOTS || '/tmp/explorakit-six-browser';
+const mount = process.env.RELEASE_PUBLIC_PATH || '/explorakit/';
+if (!['/', '/explorakit/'].includes(mount)) throw Error('Unsupported PWA test scope');
 fs.mkdirSync(output,{recursive:true});
 (async()=>{
-  const app=express(),server=http.createServer(app);let browser;
+  const app=express(),server=http.createServer(app),other=http.createServer((_q,r)=>r.end('Other project'));let browser;
   app.get('/other-project',(_req,res)=>res.send('Other project'));
-  app.get('/explorakit/api/probe',(_req,res)=>res.set('Cache-Control','no-store').json({private:true}));
-  app.use('/explorakit',express.static(dist));
-  app.get('/explorakit/*',(_req,res)=>res.sendFile(path.join(dist,'index.html')));
+  app.get(mount+'api/probe',(_req,res)=>res.set('Cache-Control','no-store').json({private:true}));
+  app.use(mount,express.static(dist));
+  app.get(mount+'*',(_req,res)=>res.sendFile(path.join(dist,'index.html')));
   try {
     server.listen(0,'127.0.0.1');await once(server,'listening');
-    const origin=`http://127.0.0.1:${server.address().port}`,base=origin+'/explorakit/';
+    other.listen(0,'127.0.0.1');await once(other,'listening');
+    const origin=`http://127.0.0.1:${server.address().port}`,base=origin+mount;
+    const otherProject=mount==='/'?`http://127.0.0.1:${other.address().port}/`:origin+'/other-project';
     browser=await chromium.launch({headless:true});
     const context=await browser.newContext({viewport:{width:393,height:852},hasTouch:true});
     const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
-    await page.goto(origin+'/other-project');
+    await page.goto(base+'api/probe');
     await page.evaluate(()=>caches.open('another-project-cache'));
     await page.goto(base);await page.locator('[data-pwa-install]').waitFor();
     await page.evaluate(async()=>{await navigator.serviceWorker.ready;if(!navigator.serviceWorker.controller)await new Promise(r=>navigator.serviceWorker.addEventListener('controllerchange',r,{once:true}));});
     assert.equal(await page.evaluate(async()=>(await navigator.serviceWorker.ready).scope),base);
     const manifestUrl=await page.locator('link[rel="manifest"]').getAttribute('href');
     const response=await page.request.get(new URL(manifestUrl,base).href);assert(response.ok());
-    const manifest=await response.json();assert.equal(manifest.display,'standalone');
+    const manifest=await response.json();assert.equal(manifest.display,'standalone');assert.equal(manifest.name,'RiftMon');assert.equal(manifest.short_name,'RiftMon');
     for(const field of ['id','scope','start_url'])assert.equal(new URL(manifest[field],new URL(manifestUrl,base)).href,base);
     for(const icon of manifest.icons){const r=await page.request.get(new URL(icon.src,base).href);assert(r.ok());assert.match(r.headers()['content-type'],/image\/png/);}
     const cdp=await context.newCDPSession(page);await cdp.send('Page.enable');
@@ -49,8 +53,8 @@ fs.mkdirSync(output,{recursive:true});
     await page.goto(base+'colosseum/game');await page.getByRole('heading',{name:'Retrouvons le chemin.'}).waitFor();
     assert.equal(await page.locator('#app').count(),0);await page.screenshot({path:path.join(output,'pwa-offline-mobile.png')});
     await context.setOffline(false);await page.goto(base);await page.locator('[data-mode-menu]').waitFor();
-    await page.goto(origin+'/other-project');assert.equal(await page.evaluate(()=>navigator.serviceWorker.controller),null);
+    await page.goto(otherProject);assert.equal(await page.evaluate(()=>navigator.serviceWorker.controller),null);
     assert.deepEqual(errors,[]);
     console.log(JSON.stringify({pwa:true,installability,scope:base,nativePrompt:true,offlineFallback:true,apiNeverCached:true,otherProjectUnaffected:true,output}));
-  } finally {await browser?.close();await new Promise(r=>server.close(r));}
+  } finally {await browser?.close();await new Promise(r=>server.close(r));await new Promise(r=>other.close(r));}
 })().catch(error=>{console.error(error);process.exitCode=1;});

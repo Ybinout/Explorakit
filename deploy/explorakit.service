@@ -1,5 +1,5 @@
 [Unit]
-Description=Explorakit web game
+Description=RiftMon web game
 After=network.target mariadb.service
 Requires=mariadb.service
 

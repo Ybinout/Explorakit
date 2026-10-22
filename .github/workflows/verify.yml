@@ -1,4 +1,4 @@
-name: Vérification Explorakit
+name: Vérification RiftMon
 on:
   push:
     branches: [master]
@@ -57,6 +57,10 @@ jobs:
       - run: npm run test:combat-browser
       - run: npm run test:community-browser
       - run: npm run test:pwa-browser
+      # Existing recipes also guard the historical subpath; production now uses /.
+      - run: VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-root-dist
+      - run: RELEASE_DIST_DIR=/tmp/riftmon-root-dist RELEASE_PUBLIC_PATH=/ npm run test:pwa-browser
+      - run: RELEASE_DIST_DIR=/tmp/riftmon-root-dist npm run test:riftmon-browser
       - uses: actions/upload-artifact@v4
         if: always()
         with:

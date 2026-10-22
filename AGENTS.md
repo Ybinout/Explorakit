@@ -1,4 +1,23 @@
-# Contexte permanent — Explorakit
+# Contexte permanent — RiftMon
+
+## RiftMon sur son domaine propre — 22 octobre 2026
+
+**Adresse canonique : https://riftmon.binout.fr/ ; nom public : RiftMon.** Knov reste sur https://app.binout.fr/, proxy3333 strictement conservé ; api-test inchangé. Le DNS A de RiftMon pointe vers54.37.226.233. Nouveau vhost HTTPS dédié vers le même serveur de jeu127.0.0.1:3340, certificat Let's Encrypt distinct et renouvellement webroot `/var/www/riftmon-acme` avec hook de rechargement Nginx limité à ce certificat. Aucun changement de DNS/port/base pour les autres applications.
+
+**Publier désormais un build à la racine : `VUE_APP_PUBLIC_PATH=/`.** Le client calcule API `/api`, Socket.IO `/socket.io`, router/base/assets et PWA `/` depuis ce montage ; aucune URL absolue vers Knov. `.env.production.local` local aligne cette valeur. Les scripts historiques de recette restent prévus pour un build `/explorakit/` : préparer un build distinct pour ces recettes ; `test:riftmon-browser` et `RELEASE_PUBLIC_PATH=/ test:pwa-browser` couvrent la racine et sont ajoutés à la CI. `npm run build:client` écrit toujours dans `dist` vivant : préparation via build isolé/`verify:release` uniquement.
+
+`deploy/nginx-riftmon.conf` décrit le nouveau vhost ; `deploy/nginx-location.conf` remplace seulement les anciennes locations du jeu dans le vhost de Knov. Anciennes navigations `/explorakit` et `/explorakit/...` redirigées vers le nouveau domaine en conservant route/paramètres. API, WebSocket, bundles/images/sons et fichiers PWA du préfixe historique restent servis pour les fenêtres déjà ouvertes : conserver les anciens bundles et ne pas redémarrer le jeu pour ce changement de frontend/proxy. Aucun transfert de jeton par URL. Nouvelle origine : se reconnecter avec les mêmes identifiants ; comptes, progression, équipes et expéditions restent dans les mêmes SQL/checkpoints. Les préférences/archives locales appartiennent à leur ancienne origine web.
+
+Nom RiftMon dans accueil/menu/Pokédex/inscription/installation, titre web et iOS, manifeste et page hors ligne ; exports de rapports nommés `riftmon-drift`. Icônes boussole existantes conservées. Clés locales historiques/session, IDs/migrations, noms techniques des dépôts/sous-module/dossier/service `explorakit` restent stables. Seule la description systemd devient RiftMon ; aucun renommage de dépôt/base ni reset de données.
+
+Vérifications : `riftmon-domain.test.js`, recette racine `test:riftmon-browser` (vraie connexion, équipe conservée, sauvegarde/rechargement, trois modes/deux namespaces, assets/API racine, quatre tailles), recettes PWA racine et préfixe (installation, périmètre, mode hors ligne, API jamais mise en cache, autres applications/caches conservés), configuration Nginx et vrai renouvellement simulé du certificat dédié. Voir `deploy/README.txt` pour la publication et les noms techniques conservés.
+
+
+Validation finale : **718 tests applicatifs**, audits et lint/build racine c02c11de375a4729 passés ; recette dédiée racine avec vraie connexion, équipe/position conservées, sauvegarde/rechargement, vrais mondes Aventure/Colosseum/Rift et deux namespaces Socket.IO, quatre tailles sans erreur. PWA racine et préfixe (build de compatibilité b734c1c6f2db896e) : zéro erreur d’installabilité, vrai prompt, périmètre exact, page hors ligne, API non mise en cache et autre projet/cache conservés. `nginx -t` et renouvellement Certbot simulé du seul certificat RiftMon avec hook passés ; certificat valide jusqu’au20 janvier2027.
+
+Publication le22/10/2026 à17 h29 Paris après sauvegarde sources/dist/SQL/checkpoint et vhost/service/env public (0 expédition active), client fe012f1 ; PID1284849 inchangé/NRestarts0. Contrôle HTTPS sur compte temporaire créé par l’ancien endpoint : ancien WebSocket authentifié encore fonctionnel, vraie connexion sur le nouveau domaine avec même compte/équipe, déplacement/sauvegarde/rechargement, hubs Colosseum/Rift connectés, branding et PWA à la racine, quatre tailles, sept redirections avec paramètres et HTTP→HTTPS validés, aucun appel navigateur vers Knov. Index exact, proxy racine Knov conservé textuellement et empreintes HTML Knov/api-test identiques ; compte supprimé. Aucun schéma, carte, équipe/progression existante ni record réécrit. Sauvegarde /home/ubuntu/dev/backups/riftmon-domain-2026-10-22T15-16-31-262Z ; logs /tmp/riftmon-domain-{verify,unit,browser,pwa,legacy-build,legacy-pwa,certificate,renewal,deploy,public}.log.
+
+Les anciens scripts `/tmp/explorakit-*` de publication/contrôle HTTPS visent souvent l’ancien préfixe : ne pas les réutiliser tels quels. Comparer désormais l’index public à `https://riftmon.binout.fr/`, compiler avec publicPath `/`, garder la redirection historique et les anciens assets. Une PWA installée depuis l’ancienne origine peut devoir être réinstallée depuis le nouveau domaine pour conserver la portée plein écran.
 
 ## Neige : trace courte et pas discrets — 22 octobre 2026
 

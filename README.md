@@ -1,6 +1,10 @@
-# Explorakit
+# RiftMon
 
 Fan game web privé construit avec Vue 2, Node.js, Express, Socket.IO et MySQL.
+
+Adresse officielle : https://riftmon.binout.fr/ — Aventure, Rift multijoueur et Colosseum. Les anciens liens `app.binout.fr/explorakit/` redirigent vers ce domaine ; Knov reste sur `app.binout.fr`. Les noms techniques des dépôts/dossiers et la base existante sont conservés pour préserver les installations et sauvegardes.
+
+Voir [le déploiement](deploy/README.txt) avant toute publication sur le VPS.
 
 ## Organisation
 
