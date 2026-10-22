@@ -1,5 +1,13 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Nouvelle équipe de Wanda — 22 octobre 2026
+
+Wanda à Rochebrume (`ville4_arene`) : Drattak47/Mackogneur47/Tentacruel48 K3, Alakazam48/Dracaufeu49/Métalosse49 K4. Anciens niveaux47–49 conservés. Les cinq premiers ont chacun six IV variés entre24 et30, bons mais aucun parfait ; Métalosse seul a six IV31. EV508 légaux distribués selon le rôle : offensifs rapides, Mackogneur robuste et Tentacruel défensif mixte. Objets : Baie Prine, Veste de Combat, Restes, Ceinture Force, Orbe Vie, Bandeau Choix. Intimidation, Annule Garde/Dynamopoing, Suintement/Buée Noire, Garde Magik/Ceinture Force, Brasier et Corps Sain. Quatre capacités légales par Pokémon et PP complets.
+
+Plan expert partagé (projection deux tours, informations publiques) sans `acePokemonId` : les six partenaires sont utilisables immédiatement, Métalosse compris. Aucun changement des autres champions, niveaux/règles globaux, récompenses ou récit. Commun Aventure/Rift/Colosseum, IV et absence de réserve persistants après checkpoint. Tests : bornes/variété des IV, EV/sets/objets, décision envoyant Métalosse dès le premier tour d’un mauvais matchup, isolement/reprise des deux expéditions, vrai duel Aventure SQL et recette navigateur mobile/PC avec les six espèces.
+
+Validation complète 686 tests applicatifs/75 SQL, audits et lint/build isolé d2761ccf4c125b78 passés. Recette navigateur mobile393/PC1365 : les six espèces réellement affrontées, IV imparfaits/perfection de Métalosse et plan sans réserve vérifiés, zéro erreur. Publication serveur seul le 22/10/2026 à 15 h 02 Paris après sauvegarde sources/dist/SQL/checkpoint (0 expédition active), PID1245801 actif/NRestarts0. Contrôle HTTPS sur compte temporaire : vrai dialogue Wanda et Drattak47/K3/IV24–30/EV508/Baie Prine avec ses capacités attendues, fuite sans gain ni reçu, compte supprimé. Client9914b6c/index38088f1f8eba14eb et sites voisins inchangés ; aucun schéma/carte/sauvegarde réécrit. Comparaison structurée du catalogue : seule Wanda change. Logs /tmp/explorakit-wanda-team-{verify,browser,deploy,public}.log.
+
 ## Nouvelle équipe d’Ana — 22 octobre 2026
 
 Ana à Clairfontaine (`ville3_arene`) commence par Persian44 K2 ; Méganium44, Galopa45 et Draco45 sont K3 ; Roserade46 et Gardevoir46 sont K4. Formes exactes (Draco, pas Dracolosse), anciens niveaux44–46 conservés. Six IV31 par Pokémon et EV508 légaux, répartis selon leur rôle (252/252/4). Persian Technicien/Orbe Vie, Méganium soutien/Restes, Galopa Torche/Mouchoir Choix, Draco Mue/Évoluroc, Roserade offensif/Orbe Vie et Gardevoir Calque/Baie Prine. Capacités légales du catalogue, quatre emplacements/PP complets et couverture cohérente ; seuls l’équipe d’Ana et son plan sont modifiés.
@@ -2140,6 +2148,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **22 octobre 2026 — Wanda :** six partenaires K3/K4, cinq Pokémon aux IV imparfaits et Métalosse IV31, sets/objets coordonnés, IA expert sans réserve.
 
 - **22 octobre 2026 — Ana :** six partenaires K2/K3/K4, IV/EV et objets optimisés, Gardevoir réservé et annonce unique ; mêmes niveaux et récompenses.
 

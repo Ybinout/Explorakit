@@ -810,98 +810,178 @@
       "name": "wanda",
       "team": [
         {
-          "pokemonId": 279,
-          "name": "Bekipan",
+          "pokemonId": 373,
+          "name": "Drattak",
           "level": 47,
+          "k": 3,
+          "nature": "Jolly",
+          "passiveAbility": "Intimidate",
+          "heldItem": "lum_berry",
           "abilities": [
-            "Surf",
-            "Air Slash",
-            "Rain Dance",
+            "Dragon Dance",
+            "Dragon Claw",
+            "Earthquake",
             "Roost"
           ],
-          "passiveAbility": "Keen Eye",
-          "heldItem": null,
-          "k": 1,
-          "nature": "Hardy",
           "givenIv": {
-            "hp": 18,
-            "attack": 18,
-            "defense": 18,
-            "specialAttack": 18,
-            "specialDefense": 18,
-            "speed": 18
+            "hp": 28,
+            "attack": 30,
+            "defense": 26,
+            "specialAttack": 24,
+            "specialDefense": 27,
+            "speed": 29
+          },
+          "ev": {
+            "attack": 252,
+            "speed": 252,
+            "specialDefense": 4
           }
         },
         {
-          "pokemonId": 272,
-          "name": "Ludicolo",
+          "pokemonId": 68,
+          "name": "Mackogneur",
           "level": 47,
+          "k": 3,
+          "nature": "Adamant",
+          "passiveAbility": "No Guard",
+          "heldItem": "assault_vest",
           "abilities": [
-            "Surf",
-            "Giga Drain",
-            "Ice Beam",
-            "Fake Out"
+            "Dynamic Punch",
+            "Knock Off",
+            "Stone Edge",
+            "Ice Punch"
           ],
-          "passiveAbility": "Swift Swim",
-          "heldItem": null,
-          "k": 1,
-          "nature": "Hardy",
           "givenIv": {
-            "hp": 18,
-            "attack": 18,
-            "defense": 18,
-            "specialAttack": 18,
-            "specialDefense": 18,
-            "speed": 18
+            "hp": 29,
+            "attack": 30,
+            "defense": 27,
+            "specialAttack": 24,
+            "specialDefense": 28,
+            "speed": 25
+          },
+          "ev": {
+            "hp": 248,
+            "attack": 252,
+            "specialDefense": 8
           }
         },
         {
-          "pokemonId": 130,
-          "name": "Léviator",
+          "pokemonId": 73,
+          "name": "Tentacruel",
           "level": 48,
+          "k": 3,
+          "nature": "Calm",
+          "passiveAbility": "Liquid Ooze",
+          "heldItem": "leftovers",
           "abilities": [
-            "Waterfall",
-            "Ice Fang",
-            "Crunch",
-            "Dragon Dance"
+            "Scald",
+            "Sludge Bomb",
+            "Ice Beam",
+            "Haze"
           ],
-          "passiveAbility": "Intimidate",
-          "heldItem": null,
-          "k": 1,
-          "nature": "Hardy",
           "givenIv": {
-            "hp": 18,
-            "attack": 18,
-            "defense": 18,
-            "specialAttack": 18,
-            "specialDefense": 18,
-            "speed": 18
+            "hp": 29,
+            "attack": 24,
+            "defense": 28,
+            "specialAttack": 27,
+            "specialDefense": 30,
+            "speed": 28
+          },
+          "ev": {
+            "hp": 252,
+            "defense": 96,
+            "specialDefense": 160
           }
         },
         {
-          "pokemonId": 350,
-          "name": "Milobellus",
-          "level": 49,
+          "pokemonId": 65,
+          "name": "Alakazam",
+          "level": 48,
+          "k": 4,
+          "nature": "Timid",
+          "passiveAbility": "Magic Guard",
+          "heldItem": "focus_sash",
           "abilities": [
-            "Surf",
-            "Ice Beam",
-            "Recover",
-            "Toxic"
+            "Psyshock",
+            "Focus Blast",
+            "Shadow Ball",
+            "Dazzling Gleam"
           ],
-          "passiveAbility": "Marvel Scale",
-          "heldItem": "sitrus_berry",
-          "k": 2,
-          "nature": "Bold",
           "givenIv": {
-            "hp": 22,
-            "attack": 22,
-            "defense": 22,
-            "specialAttack": 22,
-            "specialDefense": 22,
-            "speed": 22
+            "hp": 27,
+            "attack": 24,
+            "defense": 25,
+            "specialAttack": 30,
+            "specialDefense": 28,
+            "speed": 30
+          },
+          "ev": {
+            "specialAttack": 252,
+            "speed": 252,
+            "specialDefense": 4
+          }
+        },
+        {
+          "pokemonId": 6,
+          "name": "Dracaufeu",
+          "level": 49,
+          "k": 4,
+          "nature": "Timid",
+          "passiveAbility": "Blaze",
+          "heldItem": "life_orb",
+          "abilities": [
+            "Flamethrower",
+            "Air Slash",
+            "Focus Blast",
+            "Roost"
+          ],
+          "givenIv": {
+            "hp": 28,
+            "attack": 24,
+            "defense": 27,
+            "specialAttack": 30,
+            "specialDefense": 26,
+            "speed": 29
+          },
+          "ev": {
+            "specialAttack": 252,
+            "speed": 252,
+            "defense": 4
+          }
+        },
+        {
+          "pokemonId": 376,
+          "name": "Métalosse",
+          "level": 49,
+          "k": 4,
+          "nature": "Adamant",
+          "passiveAbility": "Clear Body",
+          "heldItem": "choice_band",
+          "abilities": [
+            "Meteor Mash",
+            "Zen Headbutt",
+            "Earthquake",
+            "Bullet Punch"
+          ],
+          "givenIv": {
+            "hp": 31,
+            "attack": 31,
+            "defense": 31,
+            "specialAttack": 31,
+            "specialDefense": 31,
+            "speed": 31
+          },
+          "ev": {
+            "hp": 252,
+            "attack": 252,
+            "specialDefense": 4
           }
         }
-      ]
+      ],
+      "strategy": {
+        "name": "Wanda",
+        "ai": "expert"
+      }
     },
     {
       "name": "town_lina",
