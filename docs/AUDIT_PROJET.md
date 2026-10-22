@@ -1,5 +1,12 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Timmy devient Wayne — 22 octobre 2026
+
+Le prénom affiché est désormais **Wayne** dans ses répliques avant/après duel, les mentions de la mère et d’Aspha, objectifs/destinations et descriptions de quêtes. Le journal de combat dérive déjà le prénom de l’introduction et affiche donc Wayne. Tous les modes partagent ces catalogues.
+
+Conserver les identifiants internes existants (`timmy`, `dia1`, clés de quête/bataille et drapeaux) : aucune réinitialisation ni migration des parties. Équipe, portrait et combat inchangés. Attentes du journal et de la recette navigateur actualisées ; pas de renommage des données historiques enregistrées. Validation complète 670 tests applicatifs/73 SQL, audits et lint/build passés. Comparaison structurée des deux catalogues : seuls les prénoms visibles changent ; identifiants de dialogues, équipe timmy et clés de progression conservés. Publication serveur seul le 22/10/2026 à 13 h 59 Paris après sauvegarde sources/dist/SQL/checkpoint (0 expédition active), PID1220826 actif/NRestarts0. Client/index c0c21bb252d5c6ac et sites voisins inchangés. Contrôle HTTPS sur compte temporaire : API de progression, mère, Wayne et réplique verrouillée d’Aspha portent le nouveau prénom ; compte supprimé. Logs /tmp/explorakit-wayne-{verify,deploy,public}.log ; travail utilisateur phrase.txt conservé hors commit.
+
+
 ## Ouverture du PC pendant le chargement — 22 octobre 2026
 
 Le PC commun affiche un écran de connexion aux couleurs du journal, ferme les commandes du contenu et attend le chargement/décodage des portraits de l’équipe et de la boîte affichée. Réutilisation de l’attente d’assets du combat, bornée à 2,4 s ; minimum visuel 260 ms puis fondu 180 ms. Pas de chargement de toutes les boîtes ni de nouvel appel métier. Fermer/Échap restent accessibles ; aucune image manquante ne bloque le PC indéfiniment.
@@ -2108,6 +2115,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **22 octobre 2026 — Wayne :** prénom visible remplacé dans dialogues, objectifs, quêtes et nouveaux journaux ; identifiants et progression existante conservés.
 
 - **22 octobre 2026 — Ouverture du PC :** écran de chargement lié aux vrais portraits, attente bornée et annulable, mouvement réduit/focus préservés ; recette réseau lente et PC complète.
 

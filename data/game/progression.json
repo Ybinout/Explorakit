@@ -3,14 +3,14 @@
     {
       "key": "main_sister_search",
       "title": "À la recherche de Lucie — premières pistes",
-      "description": "Retrouver la piste de Lucie, de Timmy jusqu’à Wanda à Rochebrume.",
+      "description": "Retrouver la piste de Lucie, de Wayne jusqu’à Wanda à Rochebrume.",
       "defaultStatus": "active",
       "target": 7
     },
     {
       "key": "first_challenge",
       "title": "Prouver sa valeur",
-      "description": "Gagner le duel d’entraînement de Timmy au village de départ.",
+      "description": "Gagner le duel d’entraînement de Wayne au village de départ.",
       "defaultStatus": "active",
       "target": 1
     },
@@ -346,9 +346,9 @@
   "storySteps": [
     {
       "flag": "route_guard_defeated",
-      "objective": "Parle à Timmy près de la sortie du village et bats-le pour obtenir une première piste sur ta sœur Lucie.",
+      "objective": "Parle à Wayne près de la sortie du village et bats-le pour obtenir une première piste sur ta sœur Lucie.",
       "map": "start",
-      "destination": "Timmy · Village de départ"
+      "destination": "Wayne · Village de départ"
     },
     {
       "flag": "aspha_route2_defeated",

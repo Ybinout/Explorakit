@@ -12,7 +12,7 @@
         }
       },
       {
-        "text": "Si tu veux partir à sa recherche, commence par parler à Timmy, près de la sortie du village. Il connaît les dresseurs des premières routes.",
+        "text": "Si tu veux partir à sa recherche, commence par parler à Wayne, près de la sortie du village. Il connaît les dresseurs des premières routes.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -38,11 +38,11 @@
     "x": 18,
     "sentences": [
       {
-        "text": "Timmy : Tu cherches ta sœur Lucie ? J’ai peut-être une piste, mais je refuse de t’aider tant que tu ne m’as pas battu.",
+        "text": "Wayne : Tu cherches ta sœur Lucie ? J’ai peut-être une piste, mais je refuse de t’aider tant que tu ne m’as pas battu.",
         "imageName": "a.png"
       },
       {
-        "text": "Timmy : Mon Rattata est niveau 5. Prépare ton compagnon : si tu gagnes, je te dirai à qui parler !",
+        "text": "Wayne : Mon Rattata est niveau 5. Prépare ton compagnon : si tu gagnes, je te dirai à qui parler !",
         "imageName": "a.png"
       }
     ],
@@ -349,11 +349,11 @@
     "name": "dia1_after",
     "sentences": [
       {
-        "text": "Timmy : Bien joué ! Tu as tenu parole. Garde ces pièces pour ton voyage.",
+        "text": "Wayne : Bien joué ! Tu as tenu parole. Garde ces pièces pour ton voyage.",
         "imageName": "a.png"
       },
       {
-        "text": "Timmy : Aspha pourra peut-être t’en dire plus sur Lucie. C’est un dresseur que tu trouveras à la fin de la Route 2, juste avant la Ville du Lac.",
+        "text": "Wayne : Aspha pourra peut-être t’en dire plus sur Lucie. C’est un dresseur que tu trouveras à la fin de la Route 2, juste avant la Ville du Lac.",
         "imageName": "a.png"
       }
     ]
@@ -1725,7 +1725,7 @@
     "name": "aspha_route2",
     "sentences": [
       {
-        "text": "Aspha : Timmy t’envoie à la recherche de Lucie ? Avant de te donner ma piste, je veux voir comment tu te débrouilles en combat.",
+        "text": "Aspha : Wayne t’envoie à la recherche de Lucie ? Avant de te donner ma piste, je veux voir comment tu te débrouilles en combat.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1775,7 +1775,7 @@
     "name": "aspha_route2_locked",
     "sentences": [
       {
-        "text": "Aspha : Tu recherches ta sœur Lucie ? Va d’abord parler à Timmy au village de départ. Gagne son duel, puis reviens me voir ici.",
+        "text": "Aspha : Tu recherches ta sœur Lucie ? Va d’abord parler à Wayne au village de départ. Gagne son duel, puis reviens me voir ici.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,

@@ -260,7 +260,7 @@ async function fit(page, selector, width, height) {
         await page.locator('.menu-toggle-btn').click();
         await page.locator('[data-menu-action="progress"]').click();
         await page.locator('.adventure-guide').waitFor();
-        assert.match(await page.locator('.destination').innerText(), /Timmy.*Village de départ/);
+        assert.match(await page.locator('.destination').innerText(), /Wayne.*Village de départ/);
         assert.match(await page.locator('.adventure-guide .objective').innerText(), /Lucie/);
         await page.locator('.help > summary').click();
         for (const [width, height] of [

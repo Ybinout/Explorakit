@@ -153,7 +153,7 @@ test('journal borné conserve les compteurs complets et explique les événement
 test('journal des adversaires affiche les prénoms du récit et masque les identifiants techniques inconnus', () => {
     const f = fixture();
     for (const [type, key, expected] of [
-        ['trainer', 'dia1', 'Combat contre Timmy.'],
+        ['trainer', 'dia1', 'Combat contre Wayne.'],
         ['trainer', 'town_ines', 'Combat contre Inès.'],
         ['arena', 'champion_hoze', 'Combat d’arène contre Hoze.'],
         ['arena', 'unknown_arena_fixture', 'Combat d’arène contre un champion.'],

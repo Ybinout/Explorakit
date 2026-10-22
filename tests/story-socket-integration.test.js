@@ -23,7 +23,7 @@ function event(socket, name, predicate = () => true) {
     });
 }
 
-test('Socket réel : Lucie, Timmy → Aspha → Mounir → Hoze → Raphael → Ana → Wanda, refus/fuite/reprise et arrêt à Rochebrume', { skip: !shouldRun, timeout: 60000 }, async () => {
+test('Socket réel : Lucie, Wayne → Aspha → Mounir → Hoze → Raphael → Ana → Wanda, refus/fuite/reprise et arrêt à Rochebrume', { skip: !shouldRun, timeout: 60000 }, async () => {
     assert.match(testDatabaseName, /test/i);
     assert.equal(process.env.DB_NAME, testDatabaseName, 'Utiliser npm run test:mysql pour isoler les données');
     const { io } = require(path.resolve(__dirname, '../vue-explorakit/node_modules/socket.io-client'));
