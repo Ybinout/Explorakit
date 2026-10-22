@@ -1,5 +1,17 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Sillage continu et neige à Blanchecime — 22 octobre 2026
+
+À la demande du joueur, les petites semelles sont remplacées par une traînée continue de neige tassée : largeur d’environ24 pixels dans le monde, cœur bleu-gris doux/granuleux et rebord blanc irrégulier. Échantillons tous les4 pixels, même dans les virages, fondu en3,2 s ; les recouvrements utilisent le maximum de couverture et ne noircissent pas le sol. Même masque exact de neige, positions du monde, acteurs locaux/distants/PNJ et libération que la version précédente ; aucune trace sur pavés/eau/intérieurs. Cache448×320 à30 Hz rendu896×640 sans lissage, brosse pré-calculée, maximum1024 échantillons/64 acteurs, aucune peinture à vide.
+
+Blanchecime (`ville5`) a désormais une vraie météo partagée `snow`, intensité2 avec vent1, dans les trois modes ; Routes13/14 restent neige3/vent2. Ajout à l’autorisation d’affichage extérieure, même rendu de flocons existant. Le moteur partagé hérite normalement de cette neige comme grêle persistante lors d’un combat extérieur, avec décor déjà enneigé ; boutique/arène/maisons/centre secs. Aucun dessin de carte, collision, rencontre, sauvegarde ou règle météo globale réécrit.
+
+Recettes : `tests/snow-footprints.test.js` vérifie continuité/largeur/virages/absence de sur-opacité, masquage, fonte et budget ; `world-weather`/`map-weather`/`snow-background`/`blanchecime` couvrent le nouveau climat et les effets communs. `test:snow-footprints-browser` vérifie pixels natifs448×320, trajets réels des trois modes, quatre tailles et neige visible de Blanchecime ; `test:snow-browser` conserve les tests des Routes13/14 et de la grotte.
+
+Validation finale : **705 tests applicatifs/76 SQL**, audits, HTTP/reprise et lint/build passés ; brosse finale adoucie et virage joint revérifiés par les six tests du sillage et la recette navigateur. Build final 7c61929c1f0946c2. Pixels natifs :222–225 visibles après un vrai pas, aucun hors masque, recouvrement plafonné, fonte complète ; quatre tailles/trois modes et vrais joueurs distants/PNJ, sans erreur. Neige de Blanchecime réellement présente (240 flocons), routes toujours480 ; régression neige/grotte/mouvement réduit passée.
+
+Publication serveur/client le 22/10/2026 à 16 h 11 Paris après sauvegarde sources/dist/SQL/checkpoint (0 expédition active), client 04b2d1d ; PID 1266636 actif/NRestarts0, index atomique et anciens bundles conservés. Contrôle HTTPS sur compte temporaire : vrai déplacement complet sur les trois cartes, traînée visible puis disparue, climat neige2/vent1 de Blanchecime et480/240 flocons selon le lieu, mobile/PC, index exact et sites voisins inchangés ; compte supprimé. Aucun schéma, carte, image ou sauvegarde existante réécrit. Logs /tmp/explorakit-snow-ribbon-{verify,final-unit,lint,build,browser,snow-browser,deploy,public}.log.
+
 ## Empreintes éphémères dans la neige — 22 octobre 2026
 
 `SnowFootprintsRenderer` commun à l’Aventure/Rift/Colosseum laisse de petites semelles pixel art alternées tous les14 pixels de déplacement réel, sous les acteurs et foregrounds, sur Routes13/14 et Blanchecime. Positions dans le monde : les empreintes ne suivent pas la caméra. Apparition/reconnexion, maintien d’une touche bloquée, arrêt, téléportation ou saut temporel ne fabriquent pas de trajet. Même observation interpolée pour joueurs distants et PNJ mobiles.
@@ -2174,6 +2186,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 22/10/2026 — Sillage neige continu en remplacement des semelles, bords clairs/granuleux et recouvrements bornés ; vraie neige2/vent1 à Blanchecime, affichage partagé/combats extérieurs et intérieurs secs. Voir livraison en tête et recettes neige.
 
 - 22/10/2026 — Empreintes pixel art éphémères sur neige (Routes13/14/Blanchecime), fonte3,2 s, masque limité au sol, cache borné et libération. Rendu commun aux trois modes, joueurs/PNJ, sans modifier cartes ni mécanique. Voir livraison en tête et `test:snow-footprints-browser`.
 

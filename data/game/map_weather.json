@@ -6,5 +6,6 @@
   "ville4": { "kind": "sandstorm", "ambience": { "wind": 2, "rain": 0, "sand": 2 } },
   "route12": { "kind": "sandstorm", "ambience": { "wind": 2, "rain": 0, "sand": 2 } },
   "route13": { "kind": "snow", "ambience": { "wind": 2, "rain": 0, "snow": 3 } },
+  "ville5": { "kind": "snow", "ambience": { "wind": 1, "rain": 0, "snow": 2 } },
   "route14": { "kind": "snow", "ambience": { "wind": 2, "rain": 0, "snow": 3 } }
 }

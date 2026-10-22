@@ -64,6 +64,6 @@ test('Blanchecime has Center provenance, PC, a real shop and accessible NPCs; ar
     }
     const interactions = require('../server/game/world/interactionRepository');
     assert.equal(interactions.getEndSentenceInformation('champion_7p'), 'battle');
-    assert.equal(require('../server/game/world/mapWeather').getMapWeather('ville5').kind, null);
+    assert.equal(require('../server/game/world/mapWeather').getMapWeather('ville5').kind, 'snow');
     for (const map of ['route13', 'route14']) assert.equal(require('../server/game/world/mapWeather').getMapWeather(map).ambience.snow, 3);
 });

@@ -12,6 +12,6 @@ test('snow scenery follows snowy maps and outdoor hail, while gyms, caves and th
         for (const map of ['route13','cave1','ville1_arene']) assert.equal(battleEnvironment(map,true,weather),'colosseum');
     }
     // Only actual falling snow starts ice weather; a white city alone does not.
-    for (const mapName of ['route13','route14']) assert.equal(require('../server/game/battle/battleEngine').createBattleState({mapName}).weather.kind,'hail');
-    assert.equal(require('../server/game/battle/battleEngine').createBattleState({mapName:'ville5'}).weather.kind,null);
+    for (const mapName of ['route13','route14','ville5']) assert.equal(require('../server/game/battle/battleEngine').createBattleState({mapName}).weather.kind,'hail');
+    assert.equal(require('../server/game/battle/battleEngine').createBattleState({mapName:'ville5_arene'}).weather.kind,null);
 });
