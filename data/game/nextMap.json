@@ -1859,7 +1859,7 @@
         },
         {
           "valX": 14,
-          "valY": 12,
+          "valY": 11,
           "goto": "ville4_arene",
           "nexX": 416,
           "nexY": 544
@@ -1910,7 +1910,7 @@
           "valY": 17,
           "goto": "ville4",
           "nexX": 448,
-          "nexY": 448
+          "nexY": 416
         }
       ]
     },

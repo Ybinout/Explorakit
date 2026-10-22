@@ -1,5 +1,18 @@
 # Contexte permanent — Explorakit
 
+## Mise à jour auteur Route 12 et Rochebrume — 22 octobre 2026
+
+Les six ressources `pourtoi/route12 (1).json/.png`, `route12_f (1).png`, `ville4 (1).json/.png` et `ville4_f (1).png` sont intégrées octet pour octet. Route12 : nouveau sol rocheux/sentiers et rochers, mêmes collisions/herbes/rencontres/portails. Rochebrume : nouvelle façade/toiture d’arène, sentiers et collisions auteur ; porte déplacée de(14,12) à(14,11). Raccord logique ajusté à cette case existante, sortie de `ville4_arene` au nouveau parvis(14,12), sans portail sous le joueur. Les autres portes, Route11↔Route12↔Rochebrume et entrée des grottes sont conservées.
+
+JSON exportés jamais réécrits ; TMX miroirs des douze couches, GID et tilesets existants conservés. Empreintes de référence actualisées dans `docs/rochebrume-author-assets.json` sans toucher Route11 ; contrôle des métadonnées d’herbes sans régénération car elles restent identiques. Wanda, ses sets/récompenses/progression, PNJ, météo sable/vent et musiques village/routes conservés. Aucun schéma/record modifié ni ancien fichier de `pourtoi` réimporté.
+
+Recettes : `rochebrume.test.js` (export auteur, accès, nouvelle porte/parvis, mur de façade solide, Centre/PC et progression), `drift-runtime` (portes/retours Rift et Colosseum), `npm run test:rochebrume-browser` (aller-retour routes, cinq portes, grotte, soin/PC/achat, reconnexion et dialogues Aventure/Colosseum, quatre tailles). Voir également `north-caves`, `map-weather` et `generateWorldGrass.js --check`.
+
+
+Validation finale : **715 tests applicatifs/77 SQL**, audits, HTTP/reprise et lint/build isolé e46ac91e3906b875 passés. Recette Rochebrume Aventure et Colosseum : trois allers-retours de routes, cinq bâtiments/retours, soins, PC, achat, reconnexion, grotte et dialogues Ana/Wanda, quatre tailles ; zéro erreur. Les nouveaux raccords sont aussi exercés dans les deux runtimes d’expédition. Les six fichiers livrés correspondent toujours exactement aux exports auteur ; seules les trois images effectivement différentes changent dans le client.
+
+Publication serveur/client le22/10/2026 à17 h01 Paris après sauvegarde sources/dist/SQL/checkpoint (0 expédition active), client cd36fe5 ; PID1284849 actif/NRestarts0, index atomique et anciens bundles conservés. Contrôle HTTPS sur compte temporaire : JSON/PNG/foreground exacts pour les deux cartes, nouveau mur solide et cases libérées praticables, vraie entrée par(14,11), sortie/reconnexion au parvis(14,12), passage Route12→Rochebrume et quatre tailles ; index exact et sites voisins inchangés, compte supprimé. Aucun schéma, record ni équipe/progression existante modifié ; dossier `pourtoi` conservé. Logs /tmp/explorakit-route12-update-{unit,verify,browser,deploy,public}.log.
+
 ## Musique d’exploration continue — 22 octobre 2026
 
 Les villes/villages et leurs intérieurs jouent `village.mp3`, les routes normales/générées jouent `start.mp3`. Le lecteur commun Aventure/Rift/Colosseum garde deux pistes au maximum, bouclées et chargées à la demande. Volume de fond à22 % du volume général (7,7 % au réglage initial35 %). Le même élément et sa position sont conservés entre routes, pendant le décodage des cartes et au retour en ville ; aucune réinitialisation au changement de lieu de même famille.
