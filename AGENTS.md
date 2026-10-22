@@ -1,5 +1,17 @@
 # Contexte permanent — Explorakit
 
+## Empreintes éphémères dans la neige — 22 octobre 2026
+
+`SnowFootprintsRenderer` commun à l’Aventure/Rift/Colosseum laisse de petites semelles pixel art alternées tous les14 pixels de déplacement réel, sous les acteurs et foregrounds, sur Routes13/14 et Blanchecime. Positions dans le monde : les empreintes ne suivent pas la caméra. Apparition/reconnexion, maintien d’une touche bloquée, arrêt, téléportation ou saut temporel ne fabriquent pas de trajet. Même observation interpolée pour joueurs distants et PNJ mobiles.
+
+Plateau650 ms puis fonte progressive jusqu’à3200 ms. Maximum192 empreintes/64 acteurs, une surface896×640 en cache30 Hz ; pas de peinture à vide. Masque en mémoire préparé une seule fois par carte/image : cellules de sol neige2261 sans collision, puis trois couleurs exactes du sol dans le PNG existant. Pas d’écriture sur l’eau, les pavés, les lames d’herbe, les ombres ou les toits. Métadonnées reproductibles `scripts/generateSnowGround.js --check` ; aucune carte/collision/image auteur modifiée.
+
+Chargement/changement de carte, combat/résultat/évolution, onglet masqué, animations désactivées ou mouvement réduit effacent et libèrent la couche ; destruction définitive à la sortie. Aucun message réseau, état persistant, règle de déplacement, rencontre ou climat ajouté. Vérification : `tests/snow-footprints.test.js`, `npm run test:snow-footprints-browser` (vrais pas locaux/distants/PNJ, pixels limités au masque, disparition complète, trois cartes/quatre tailles, trois modes et cycle de vie), régression `test:snow-browser`.
+
+Validation finale : **703 tests applicatifs**, audits, lint et build isolé 55221c41d5e7f1c4 passés ; les cinq tests d’empreintes et la suite applicative ont été rejoués après l’optimisation du cache à vide. Recette navigateur : vrais déplacements locaux/distants et PNJ, 96 pixels visibles après un pas/aucun hors masque, disparition complète, Routes13/14/Blanchecime, quatre tailles, trois modes, intérieur et annulation/libération, zéro erreur. Régression neige existante passée sur deux routes/trois modes/quatre tailles, flocons, mouvement réduit et véritable passage par la grotte conservés.
+
+Publication statique le 22/10/2026 à 15 h 55 Paris après sauvegarde sources/dist/SQL/checkpoint (0 expédition active), client 469c212 ; PID 1256054 inchangé/actif/NRestarts0. Contrôle HTTPS sur compte temporaire : un vrai pas complet sur chacune des trois cartes laisse deux empreintes, puis zéro au terme du délai ; mobile/PC, index exact et sites voisins inchangés, compte supprimé. Aucun redémarrage, schéma, carte, image ni sauvegarde existante modifié. Logs /tmp/explorakit-snow-trails-{verify,final-tests,unit,lint,build,browser,snow-browser,deploy,public}.log.
+
 ## Boutiques progressives et entraînement à Blanchecime — 22 octobre 2026
 
 Boutique commune réorganisée comme le sac : rayons Balls, Soins, Baies, Objets, Objets tenus, Évolution et Entraînement selon les articles disponibles, recherche transversale, quantités1/5/10/25, stock possédé et prochain déblocage visibles. Interface aux variables du journal/thèmes clair-sombre, défilement interne, navigation clavier et retour du focus ; petite hauteur mobile avec rayons défilants. Le marchand de Drifts reste accessible en expédition.
