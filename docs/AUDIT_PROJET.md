@@ -1,5 +1,19 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Routes 13 et 14 après les grottes — 22 octobre 2026
+
+Les six fichiers auteur `pourtoi/route13{,_f}.png`, `route14{,_f}.png` et leurs JSON sont importés sans aucune retouche ; empreintes dans `docs/north-routes-author-assets.json`. La sortie nord `(13,3)` de `cave_rochebrume3` est ouverte vers Route 13 `(13,18)`, puis Route 14 au nord. Les cinq voies x12–16 de chaque ouverture sont raccordées explicitement ; retour sud de Route 13 vers grotte 3 `(13,4)`, retour sud de Route 14 vers Route 13 y1, arrivées hors portail. Seule la sortie nord de Route 14 reste fermée en attendant la prochaine carte.
+
+Deux tables de dix espèces de montagne/Glace avec niveaux 51–53 puis 52–54 prolongent progressivement les grottes, sans modifier les taux, XP, K ou niveaux déjà livrés. Assets inclus dans le client ; libellés Route 13/14 utilisent le nom commun existant. Pas de nouveau chapitre, champion, récompense ou météo imposée. La recette `test:north-caves-browser` est étendue aux deux routes et à la reprise dans Route 14 dans les trois modes, en conservant le parcours aller-retour depuis Rochebrume et le vrai combat en grotte. Tests `north-caves`, `drift-runtime` et `experience-balance` adaptés à l’ouverture ; empreintes, cinq voies, collisions, retour et fin de parcours couverts.
+
+Vérification complète `RELEASE_DIST_DIR=/tmp/explorakit-north-routes-dist VUE_APP_PUBLIC_PATH=/explorakit/ npm run verify:release -- --mysql` réussie : **657 tests applicatifs /72 SQL**, audits, HTTP/reprise, lint/build. Build `5a0cd829016f5485`. Aucun fichier auteur ancien modifié, aucun nouveau mécanisme de combat ou reset de sauvegarde.
+
+Recette navigateur prolongée réussie : Rochebrume → trois grottes → Route 13 → Route 14 puis retour, dans les trois modes ; reconnexion dans la troisième grotte puis Route 14, fin de parcours signalée, quatre tailles 320×480 /393×852 /844×390 /1365×900, vrai combat en grotte conservé, zéro erreur navigateur. Captures inspectées ; aucune recette sur téléphone physique revendiquée. Logs/captures `/tmp/explorakit-north-routes-browser*`.
+
+Publication le **22/10/2026 à 9 h 30 (Paris)** : client `896517d67470a40f4e2f833dfa6a0ff206243a5a`, build `5a0cd829016f5485`. Sauvegarde sources/dist/SQL/checkpoint `/home/ubuntu/dev/backups/explorakit-north-routes-2026-10-22T07-24-30-006Z`, checkpoint relu avant redémarrage, 0 expédition active ; seule unité Explorakit redémarrée, PID1149772 actif et zéro redémarrage automatique. Assets copiés sans supprimer les anciens bundles, index atomique, HTTPS200 et index conforme au build, Know/api-test inchangés. Aucune migration ni réécriture de sauvegardes réelles. Logs `/tmp/explorakit-north-routes-*`.
+
+Contrôle HTTPS public réussi avec un compte temporaire : vrai aller-retour depuis Rochebrume jusqu’à Route 14, reprise de session dans la grotte puis sur Route 14, sortie finale et affichage aux quatre tailles, index identique au build et zéro erreur navigateur. Captures inspectées, compte de recette supprimé (`/tmp/explorakit-north-routes-public*`).
+
 ## Trois grottes au nord de Rochebrume — 22 octobre 2026
 
 Les neuf fichiers auteur livrés dans `/home/ubuntu/dev/pourtoi` sont copiés exactement sous les identifiants `cave_rochebrume1`, `cave_rochebrume2`, `cave_rochebrume3` : JSON Tiled, PNG de base et foreground 448×320. Aucun pixel, calque ni collision modifié ; manifeste SHA-256 `docs/north-caves-author-assets.json`. Pas de TMX inventé. Les anciennes grottes de la Route 3 restent intactes.
@@ -1961,6 +1975,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **22 octobre 2026 — Routes 13/14 :** import exact des six fichiers auteur, raccordement après les grottes, cinq voies et retours sûrs, progression 51–54 et recette commune prolongée.
 
 - 22 octobre 2026 : intégration exacte des trois grottes de Rochebrume, raccordements réversibles, rencontres progressives et recette commune aux trois modes ; détails en tête du document.
 

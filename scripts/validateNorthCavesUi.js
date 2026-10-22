@@ -40,7 +40,7 @@ async function validateNorthCaves(page, { capture }) {
         const path = [];
         for (let k = goal; parents.get(k); k = parents.get(k).previous) path.unshift(parents.get(k));
         for (const p of path) {
-            if (start.map.startsWith('cave_') && !await page.evaluate(() => window.cavesVm.repelSteps > 0)) {
+            if ((start.map.startsWith('cave_') || ['route13', 'route14'].includes(start.map)) && !await page.evaluate(() => window.cavesVm.repelSteps > 0)) {
                 const result = await page.evaluate(() => new Promise(resolve => {
                     const v = window.cavesVm;
                     v.socket.emit(v.isDrift ? 'drift:repel' : 'useRepel', { itemKey: 'max_repel' }, resolve);
@@ -72,8 +72,23 @@ async function validateNorthCaves(page, { capture }) {
     const saved = await position();
     await page.reload({ waitUntil: 'networkidle' }); await ready(); assert.deepEqual(await position(), saved);
     await walk(13, 4);
-    await step('move_z', { map: 'cave_rochebrume3', x: 13, y: 3 });
-    await page.waitForFunction(() => window.cavesVm.interactionNotice.includes('pas encore accessible'));
+    await step('move_z', { map: 'route13', x: 13, y: 18 });
+    assert.match(await page.locator('.location-name').innerText(), /Route 13/);
+    await capture('route13');
+    await walk(13, 1);
+    await step('move_z', { map: 'route14', x: 13, y: 18 });
+    assert.match(await page.locator('.location-name').innerText(), /Route 14/);
+    await capture('route14');
+    if (await page.evaluate(() => !window.cavesVm.isDrift)) assert((await page.evaluate(() => new Promise(resolve => window.cavesVm.socket.emit('requestGameSave', resolve)))).success);
+    const savedRoute = await position();
+    await page.reload({ waitUntil: 'networkidle' }); await ready(); assert.deepEqual(await position(), savedRoute);
+    await walk(13, 1);
+    await step('move_z', { map: 'route14', x: 13, y: 0 });
+    await page.waitForFunction(() => window.cavesVm.interactionNotice.includes('Route 14'));
+    await walk(13, 18);
+    await step('move_s', { map: 'route13', x: 13, y: 1 });
+    await walk(13, 18);
+    await step('move_s', { map: 'cave_rochebrume3', x: 13, y: 4 });
     await walk(13, 18);
     await step('move_s', { map: 'cave_rochebrume2', x: 13, y: 1 });
     await walk(13, 18);
@@ -81,6 +96,6 @@ async function validateNorthCaves(page, { capture }) {
     await walk(13, 18);
     await step('move_s', { map: 'ville4', x: 13, y: 4 });
     assert.equal(await page.evaluate(() => window.cavesVm.mapWeather.kind), 'sandstorm');
-    return { orderedThreeCaves: true, roundTrip: true, dryInteriors: true, reconnect: true, finalExitClosed: true };
+    return { orderedThreeCaves: true, orderedRoutes13And14: true, roundTrip: true, dryInteriors: true, reconnect: true, finalExitClosed: true };
 }
 module.exports = { validateNorthCaves };

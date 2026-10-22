@@ -2107,10 +2107,196 @@
         {
           "valX": 13,
           "valY": 3,
+          "goto": "route13",
+          "nexX": 416,
+          "nexY": 608
+        }
+      ]
+    },
+    {
+      "mapName": "route13",
+      "wildpokemon": [
+        221,
+        215,
+        361,
+        459,
+        363,
+        225,
+        124,
+        436,
+        75,
+        93
+      ],
+      "level": {
+        "min": 51,
+        "max": 53
+      },
+      "mapchange": [
+        {
+          "valX": 12,
+          "valY": 19,
           "goto": "cave_rochebrume3",
           "nexX": 416,
-          "nexY": 160,
-          "blockedMessage": "La suite du passage de la montagne n’est pas encore accessible."
+          "nexY": 160
+        },
+        {
+          "valX": 12,
+          "valY": 0,
+          "goto": "route14",
+          "nexX": 384,
+          "nexY": 608
+        },
+        {
+          "valX": 13,
+          "valY": 19,
+          "goto": "cave_rochebrume3",
+          "nexX": 416,
+          "nexY": 160
+        },
+        {
+          "valX": 13,
+          "valY": 0,
+          "goto": "route14",
+          "nexX": 416,
+          "nexY": 608
+        },
+        {
+          "valX": 14,
+          "valY": 19,
+          "goto": "cave_rochebrume3",
+          "nexX": 416,
+          "nexY": 160
+        },
+        {
+          "valX": 14,
+          "valY": 0,
+          "goto": "route14",
+          "nexX": 448,
+          "nexY": 608
+        },
+        {
+          "valX": 15,
+          "valY": 19,
+          "goto": "cave_rochebrume3",
+          "nexX": 416,
+          "nexY": 160
+        },
+        {
+          "valX": 15,
+          "valY": 0,
+          "goto": "route14",
+          "nexX": 480,
+          "nexY": 608
+        },
+        {
+          "valX": 16,
+          "valY": 19,
+          "goto": "cave_rochebrume3",
+          "nexX": 416,
+          "nexY": 160
+        },
+        {
+          "valX": 16,
+          "valY": 0,
+          "goto": "route14",
+          "nexX": 512,
+          "nexY": 608
+        }
+      ]
+    },
+    {
+      "mapName": "route14",
+      "wildpokemon": [
+        221,
+        215,
+        362,
+        460,
+        364,
+        225,
+        124,
+        478,
+        437,
+        308
+      ],
+      "level": {
+        "min": 52,
+        "max": 54
+      },
+      "mapchange": [
+        {
+          "valX": 12,
+          "valY": 19,
+          "goto": "route13",
+          "nexX": 384,
+          "nexY": 64
+        },
+        {
+          "valX": 12,
+          "valY": 0,
+          "goto": "route14",
+          "nexX": 384,
+          "nexY": 64,
+          "blockedMessage": "La suite de la Route 14 n’est pas encore accessible."
+        },
+        {
+          "valX": 13,
+          "valY": 19,
+          "goto": "route13",
+          "nexX": 416,
+          "nexY": 64
+        },
+        {
+          "valX": 13,
+          "valY": 0,
+          "goto": "route14",
+          "nexX": 416,
+          "nexY": 64,
+          "blockedMessage": "La suite de la Route 14 n’est pas encore accessible."
+        },
+        {
+          "valX": 14,
+          "valY": 19,
+          "goto": "route13",
+          "nexX": 448,
+          "nexY": 64
+        },
+        {
+          "valX": 14,
+          "valY": 0,
+          "goto": "route14",
+          "nexX": 448,
+          "nexY": 64,
+          "blockedMessage": "La suite de la Route 14 n’est pas encore accessible."
+        },
+        {
+          "valX": 15,
+          "valY": 19,
+          "goto": "route13",
+          "nexX": 480,
+          "nexY": 64
+        },
+        {
+          "valX": 15,
+          "valY": 0,
+          "goto": "route14",
+          "nexX": 480,
+          "nexY": 64,
+          "blockedMessage": "La suite de la Route 14 n’est pas encore accessible."
+        },
+        {
+          "valX": 16,
+          "valY": 19,
+          "goto": "route13",
+          "nexX": 512,
+          "nexY": 64
+        },
+        {
+          "valX": 16,
+          "valY": 0,
+          "goto": "route14",
+          "nexX": 512,
+          "nexY": 64,
+          "blockedMessage": "La suite de la Route 14 n’est pas encore accessible."
         }
       ]
     }
