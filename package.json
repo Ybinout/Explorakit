@@ -51,7 +51,8 @@
     "test:ocreville-browser": "node --env-file-if-exists=.env scripts/validateOcrevilleBrowser.js",
     "test:repel-browser": "node --env-file-if-exists=.env scripts/validateRepelBrowser.js",
     "test:pc-browser": "node --env-file-if-exists=.env scripts/validatePokemonComputerBrowser.js",
-    "test:north-caves-browser": "node --env-file-if-exists=.env scripts/validateNorthCavesBrowser.js"
+    "test:north-caves-browser": "node --env-file-if-exists=.env scripts/validateNorthCavesBrowser.js",
+    "test:snow-browser": "node --env-file-if-exists=.env scripts/validateSnowBrowser.js"
   },
   "keywords": [],
   "author": "",

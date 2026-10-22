@@ -1,5 +1,17 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Forte neige sur Routes 13 et 14 — 22 octobre 2026
+
+Profil serveur partagé `kind:snow`, ambiance vent2/pluie0/neige3, uniquement Route 13 et Route 14. `snow` représente ici la chute de neige sur la carte, distincte de la grêle du moteur de combat ; aucun dégât ni bonus de combat ajouté par cette demande visuelle. Le client étend le cache météo commun avec 480 flocons à l’intensité maximale (100/240/480 aux niveaux 1/2/3), tailles et vitesses selon profondeur, oscillation et dérive du vent, blanc avec liseré bleuté pour rester visible sur sol blanc. Voile froid léger alpha0,036, trois filets de vent, ni feuilles vertes ni pluie/impacts.
+
+Surface unique 896×640 et plafond 30 Hz, positions déterministes, géométrie bornée même sur temps longs ; mouvement réduit/animations désactivées donnent une image stable. Libération lors d’un combat, chargement, masquage, entrée dans la grotte ou destruction. Aucune carte/foreground/collision modifiée ; pluie existante et sable de Rochebrume conservent leurs profils. Recettes `world-weather.test.js` et `map-weather.test.js` pour intensité, cache, isolation et distinction neige/grêle ; `test:snow-browser` pour les deux cartes et trois modes, quatre tailles, vrais passages vers la grotte/retour, pixels visibles/animés et mouvement réduit.
+
+Après inspection du premier rendu, densité doublée et flocons légèrement agrandis pour répondre à la forte chute demandée : budget final 480, tailles natives 1,1–4,3 px. Vérification complète finale `RELEASE_DIST_DIR=/tmp/explorakit-heavy-snow-dist VUE_APP_PUBLIC_PATH=/explorakit/ npm run verify:release -- --mysql` réussie : **659 tests applicatifs /72 SQL**, audits, HTTP/reprise, lint/build. `test:snow-browser` passé sur les deux routes dans les trois modes et quatre tailles 320×480 /393×852 /844×390 /1365×900, mouvement réduit, limite du cache, vraies transitions Route13 ↔ Route14 et Route13 ↔ grotte3. Surface native : 33 544 pixels différents entre deux instants, alpha maximal253/255, alpha moyen12,743/255 et 10 646 pixels de flocons au-dessus de 100/255 ; neige visible avec voile faible. Captures inspectées, zéro erreur navigateur. Pas de téléphone physique revendiqué.
+
+Publication le **22/10/2026 à 9 h 41 (Paris)** : client `3f0e7adcc34882fa67bab9adadd87c2e26d7b32b`, build `abdcf75523dd00d2`. Sauvegarde sources/dist/SQL/checkpoint `/home/ubuntu/dev/backups/explorakit-heavy-snow-2026-10-22T07-34-49-252Z`, checkpoint relu avant redémarrage et 0 expédition active. Seule unité Explorakit redémarrée, PID1157211 actif et zéro redémarrage automatique ; index atomique, anciens bundles conservés, HTTPS200/index conforme, Know/api-test inchangés. Aucune migration ou sauvegarde réelle réécrite. Logs/captures `/tmp/explorakit-heavy-snow-*`.
+
+Contrôle HTTPS public réussi avec un compte temporaire neuf : neige abondante et animée sur les deux routes, quatre tailles et mouvement réduit, vrai passage vers la grotte sans neige puis retour, index identique au build et zéro erreur navigateur. Captures publiques inspectées et compte supprimé (`/tmp/explorakit-heavy-snow-public*`).
+
 ## Routes 13 et 14 après les grottes — 22 octobre 2026
 
 Les six fichiers auteur `pourtoi/route13{,_f}.png`, `route14{,_f}.png` et leurs JSON sont importés sans aucune retouche ; empreintes dans `docs/north-routes-author-assets.json`. La sortie nord `(13,3)` de `cave_rochebrume3` est ouverte vers Route 13 `(13,18)`, puis Route 14 au nord. Les cinq voies x12–16 de chaque ouverture sont raccordées explicitement ; retour sud de Route 13 vers grotte 3 `(13,4)`, retour sud de Route 14 vers Route 13 y1, arrivées hors portail. Seule la sortie nord de Route 14 reste fermée en attendant la prochaine carte.
@@ -1975,6 +1987,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **22 octobre 2026 — Forte neige :** ambiance commune aux Routes 13 et 14 au niveau 3, flocons de profondeur, cache et isolation des intérieurs ; distinction avec la grêle de combat.
 
 - **22 octobre 2026 — Routes 13/14 :** import exact des six fichiers auteur, raccordement après les grottes, cinq voies et retours sûrs, progression 51–54 et recette commune prolongée.
 

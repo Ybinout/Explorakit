@@ -1,5 +1,12 @@
 # Contexte permanent — Explorakit
 
+## Forte neige sur Routes 13 et 14 — 22 octobre 2026
+
+Profil serveur partagé `kind:snow`, ambiance vent2/pluie0/neige3, uniquement Route 13 et Route 14. `snow` représente ici la chute de neige sur la carte, distincte de la grêle du moteur de combat ; aucun dégât ni bonus de combat ajouté par cette demande visuelle. Le client étend le cache météo commun avec 480 flocons à l’intensité maximale (100/240/480 aux niveaux 1/2/3), tailles et vitesses selon profondeur, oscillation et dérive du vent, blanc avec liseré bleuté pour rester visible sur sol blanc. Voile froid léger alpha0,036, trois filets de vent, ni feuilles vertes ni pluie/impacts.
+
+Surface unique 896×640 et plafond 30 Hz, positions déterministes, géométrie bornée même sur temps longs ; mouvement réduit/animations désactivées donnent une image stable. Libération lors d’un combat, chargement, masquage, entrée dans la grotte ou destruction. Aucune carte/foreground/collision modifiée ; pluie existante et sable de Rochebrume conservent leurs profils. Recettes `world-weather.test.js` et `map-weather.test.js` pour intensité, cache, isolation et distinction neige/grêle ; `test:snow-browser` pour les deux cartes et trois modes, quatre tailles, vrais passages vers la grotte/retour, pixels visibles/animés et mouvement réduit.
+Validation complète finale 659 applicatifs/72 SQL, recette deux routes/trois modes/quatre tailles passée, mouvement réduit et transitions réelles contrôlés ; publication serveur/client sans migration ni modification des cartes/sauvegardes.
+
 ## Routes 13 et 14 après les grottes — 22 octobre 2026
 
 Les six fichiers auteur `pourtoi/route13{,_f}.png`, `route14{,_f}.png` et leurs JSON sont importés sans aucune retouche ; empreintes dans `docs/north-routes-author-assets.json`. La sortie nord `(13,3)` de `cave_rochebrume3` est ouverte vers Route 13 `(13,18)`, puis Route 14 au nord. Les cinq voies x12–16 de chaque ouverture sont raccordées explicitement ; retour sud de Route 13 vers grotte 3 `(13,4)`, retour sud de Route 14 vers Route 13 y1, arrivées hors portail. Seule la sortie nord de Route 14 reste fermée en attendant la prochaine carte.

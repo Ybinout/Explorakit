@@ -5,6 +5,13 @@ const codec=require('../server/game/drift/checkpointCodec'),{DriftBattle}=requir
 function mon(id=61,ability='Run Away'){const p=factory.create(id,30,true);p.passiveAbility=ability;p.abilities=['Tackle'];p.maxHp=500;p.currentHp=400;return p;}
 function end(a,b,s){return engine.processEndOfRound(a,b,s.sides.player,s.sides.enemy,s);}
 function actor(id,map='start'){return {userId:id,currentmap:map,equipe:{pokemons:[mon()]},drifts:[],equipped:[],items:{},defeated:new Set(),chain:0,money:0};}
+test('heavy visual snowfall is separate from damaging hail in Adventure, Rift and Colosseum',()=>{
+ for(const map of ['route13','route14']){
+  assert.equal(getMapWeather(map).ambience.snow,3);assert.equal(engine.createBattleState({mapName:map}).weather.kind,null);
+  for(const mode of ['rift','colosseum']){const a=actor(1,map),b={...actor(2,map),npc:true};a.run={mode};const battle=new DriftBattle(a,b,{emit(){},paceMs:0});assert.equal(battle.state.weather.kind,null);battle.finished=true;}
+ }
+ assert.equal(getMapWeather('cave_rochebrume3').kind,null);assert.equal(getMapWeather('ville4').kind,'sandstorm');
+});
 test('Rochebrume sand is inherited outdoors in all modes, persists and preserves sand immunities; Wanda and other interiors stay dry',()=>{
  const expected={kind:'sandstorm',turns:0,persistent:true,source:'map'},field=engine.createBattleState({mapName:'ville4'});
  assert.deepEqual(field.weather,expected);const normal=mon(19),rock=mon(74),hp=normal.currentHp,rockHp=rock.currentHp;end(normal,rock,field);

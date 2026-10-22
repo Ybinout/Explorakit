@@ -1,5 +1,7 @@
 # Audit du contenu du jeu
 
+**Météo des Routes 13 et 14 :** forte chute de neige (niveau 3) avec vent (niveau 2), ambiance partagée dans les trois modes et arrêt dans les grottes. La neige de carte ne déclenche pas de dégâts de grêle.
+
 **Suite active : Ana à Clairfontaine puis Wanda à Rochebrume.** Les Routes 11 et 12 prolongent la sortie ouest de Clairfontaine jusqu’à Rochebrume (`ville4`), avec cinq bâtiments et Centre/PC/boutique. Carnet à sept victoires ; mêmes reçus/badges/récompenses, anciens acquis conservés. L’histoire s’arrête désormais après Wanda sur l’indice de la lettre à Éloi ; les archives et le chapitre II restent désactivés, le passage nord traverse désormais les trois grottes de Rochebrume dans l’ordre 1 → 2 → 3 (48–52), avec retour possible ; leur sortie nord rejoint maintenant Route 13 puis Route 14 (51–54), seule la sortie nord de Route 14 attend la prochaine carte. Les entrées d’arrêt à Raphael ci-dessous sont historiques.
 
 

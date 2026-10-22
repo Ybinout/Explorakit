@@ -1,6 +1,25 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 const weather=()=>import('../vue-explorakit/src/services/worldWeather.js');
 function surface(){const calls=[],ctx={};for(const name of ['clearRect','fillRect','beginPath','moveTo','lineTo','stroke','ellipse','save','translate','rotate','fill','restore','bezierCurveTo'])ctx[name]=(...args)=>{assert(args.every(n=>typeof n!=='number'||Number.isFinite(n)),name+' non-finite geometry');calls.push([name,...args]);};const canvas={width:0,height:0,getContext:()=>ctx};return {canvas,ctx,calls};}
+test('Routes 13/14 share maximum snowfall, bounded depth particles and no leaves or leakage to caves',async()=>{
+ const w=await weather(),get=require('../server/game/world/mapWeather').getMapWeather,p={wind:2,rain:0,snow:3};
+ for(const map of ['route13','route14']){
+  assert.deepEqual(get(map),{map,kind:'snow',ambience:p});assert.deepEqual(w.mapWorldWeather(map,get(map)),p);
+  for(const reason of ['hidden','battle','loading'])assert.equal(w.worldWeatherEnabled(map,{[reason]:true}),false);
+  assert.deepEqual(w.mapWorldWeather(map,{...get(map),map:'start'}),{wind:0,rain:0});
+ }
+ assert.deepEqual(w.worldWeatherBudget(p),{rain:0,leaves:0,gusts:3,splashes:0,snow:480});
+ for(const map of ['cave_rochebrume3','ville4','route12','centre'])assert.equal(w.mapWorldWeather(map,get('route13')).snow,undefined);
+ const s=surface(),r=new w.WorldWeatherRenderer(()=>s.canvas),target={drawImage(){}};
+ r.draw(target,0,p,true,'route13');assert.equal(s.calls.filter(c=>c[0]==='ellipse').length,480);assert.equal(r.impacts.length,0);
+ const first=s.calls.slice();r.draw(target,16,p,true,'route13');assert.equal(r.frames,1);
+ r.draw(target,35,p,true,'route13');assert.equal(r.frames,2);assert.notDeepEqual(s.calls.slice(first.length),first);
+ r.draw(target,1e9,p,true,'route13');assert.equal(r.canvas.width,896);assert.equal(r.canvas.height,640);
+ r.draw(target,1e9+50,p,false,'route13');const frames=r.frames;r.draw(target,1e10,p,false,'route13');assert.equal(r.frames,frames);
+ r.draw(target,1e10+50,{wind:0,rain:0,snow:3},true,'route14');assert(r.canvas,'snow can fall without wind');
+ r.draw(target,1e10+100,{wind:0,rain:0});assert.equal(r.canvas,null);r.destroy();assert.equal(s.canvas.width,0);
+ assert.deepEqual(w.normalizeWorldWeather({snow:99}),{wind:0,rain:0,snow:3});
+});
 test('weather intensity is authoritative for every map and accepts only bounded display levels',async()=>{
  const w=await weather(),{getMapWeather}=require('../server/game/world/mapWeather');
  for(const map of ['start','route1','route2']){const climate=getMapWeather(map);assert.deepEqual(w.mapWorldWeather(map,climate),map==='start'?{wind:3,rain:3}:{wind:1,rain:1});}

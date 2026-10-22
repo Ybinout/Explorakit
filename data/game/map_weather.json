@@ -3,5 +3,7 @@
   "route1": { "kind": "rain", "ambience": { "wind": 1, "rain": 1 } },
   "route2": { "kind": "rain", "ambience": { "wind": 1, "rain": 1 } },
   "ville1_arene": { "kind": "rain", "ambience": { "wind": 1, "rain": 2 } },
-  "ville4": { "kind": "sandstorm", "ambience": { "wind": 1, "rain": 0, "sand": 1 } }
+  "ville4": { "kind": "sandstorm", "ambience": { "wind": 1, "rain": 0, "sand": 1 } },
+  "route13": { "kind": "snow", "ambience": { "wind": 2, "rain": 0, "snow": 3 } },
+  "route14": { "kind": "snow", "ambience": { "wind": 2, "rain": 0, "snow": 3 } }
 }
