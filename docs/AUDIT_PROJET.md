@@ -1,5 +1,18 @@
 # Audit technique et mémoire du projet Explorakit
 
+## Décors de combat enneigés — 22 octobre 2026
+
+Deux assets originaux via skill imagegen intégré : `snow-mobile-v1.webp` 1024×1536 et `snow-wide-v1.webp` 1536×1024, pixel art de champ blanc, sapins/montagnes enneigés et ciel couvert. Prompts exacts et provenance dans `assets/battle/snow-v1.prompts.txt`. Encodage Canvas WebP0,93 sans recadrage ; pas de Pokémon/UI/particules ni socles peints dans les images. Deux disques blancs/bleu pâle sont rendus séparément aux mêmes ancrages que les combattants, aussi sur PC : aucun déplacement du fond ne peut décaler leurs appuis.
+
+`battleEnvironment` retourne `snow` pour Routes13/14 et Blanchecime (`ville5`), quel que soit le climat de combat ; la région reste blanche sous Zénith. La grêle en extérieur utilise aussi ce décor, puis revient au décor de la carte à sa fin. Priorités Colosseum → arène du Lac → grotte conservées, pour ne pas placer ces combattants dans une forêt. Composant commun aux trois modes, capture de la carte au début du combat conservée. Changement uniquement visuel : pas de grêle/dégât introduit par la neige de carte.
+
+Préchargement du format utile lorsque le joueur rejoint une région enneigée, sans charger ces images partout. L’entrée attend toujours le véritable `picture` sélectionné ; recette avec assets froids volontairement retardés, champ caché jusqu’à leur arrivée. `snow-background.test.js` vérifie régions/climats et priorités ; `test:combat-snow-browser` étendu aux deux formats, quatre tailles et géométrie/couleurs des deux socles, hiver maintenu sous soleil, grêle extérieure, retour herbe, grotte et Colosseum, tout en conservant les tests de particules et de libération.
+
+
+Vérification complète `RELEASE_DIST_DIR=/tmp/explorakit-snow-background-dist VUE_APP_PUBLIC_PATH=/explorakit/ npm run verify:release -- --mysql` réussie : **669 applicatifs /73 SQL**, audits, HTTP/reprise, lint/build. Build `d4ea6130f4ce24e1`. Recette `test:combat-snow-browser` finale passée : vraie Alerte Neige en exploration Colosseum, images volontairement retardées et terrain masqué pendant l’attente, deux variantes dans quatre tailles, deux socles blancs/bleus et centres exactement alignés (écart0 px), pieds à l’intérieur de leur emprise. Contrôle de la région maintenue sous Zénith, Routes14/Blanchecime, grêle sur zone ordinaire puis retour à l’herbe, priorités grotte/arène, préférences/masquage/libération, zéro erreur navigateur. Le scénario attend la fin du resize avant de sélectionner l’affichage PC, pour ne pas confondre grand écran tactile et bureau. Captures mobile/PC inspectées ; aucun téléphone physique revendiqué. Jeu et règles météo partagés inchangés.
+
+Publication **statique sans redémarrage** le **22/10/2026 à 12 h 51 (Paris)** : client `88a8a93a089a92b0f43cd43921d8d2c3fc88529e`, build `d4ea6130f4ce24e1`. Sauvegarde sources/dist/SQL/checkpoint `/home/ubuntu/dev/backups/explorakit-snow-background-2026-10-22T10-42-21-378Z`, checkpoint relu et 0 expédition active ; PID1186818 inchangé/actif, NRestarts0, index atomique et anciens bundles conservés. HTTPS200/index conforme, Know/api-test inchangés. Contrôle HTTPS des deux images : octets identiques au build, décodage navigateur 1024×1536 et 1536×1024, absence de pixels d’herbe verte sur le terrain (fraction0), aucune sauvegarde réelle réécrite ni migration. Logs `/tmp/explorakit-snow-background-{verify,browser,deploy,public-assets}.log`, captures `/tmp/explorakit-snow-background-browser`.
+
 ## Vent et sable visibles à Rochebrume / Route 12 — 22 octobre 2026
 
 Route12 était absente du catalogue météo serveur et de la liste des cartes animées ; Rochebrume avait seulement vent1/sable1 et 32 grains très peu contrastés. Les deux cartes partagent maintenant `sandstorm`, vent2/pluie0/sable2 : 68 grains, trois rafales et aucun feuillage vert. Grains légèrement plus grands, centre clair/bord brun, filets d’air chauds plus visibles et huit traînées de poussière réparties en hauteur pour rester perceptibles avec la caméra mobile ; voile léger alpha0,052. Aucun dessin/collision/foreground retouché ; pluie et neige gardent leur rendu/budget.
@@ -2054,6 +2067,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **22 octobre 2026 — Décors neige :** variantes portrait/paysage générées, régions blanches et grêle extérieure raccordées, socles glacés aux ancrages, préchargement/entrée froide et priorités des lieux vérifiés.
 
 - **22 octobre 2026 — Sable visible :** Route12 ajoutée au climat partagé, vent2/sable2 aussi à Rochebrume, grains et rafales plus lisibles ; vérification des deux cartes/trois modes et transitions vers voisin sec/intérieurs.
 

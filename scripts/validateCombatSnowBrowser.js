@@ -18,6 +18,7 @@ app.get('*', (_req, res) => res.sendFile(path.join(dist, 'index.html')));
 const cleanup = require('../server/realtime/driftLobbyHandler').registerDriftLobbies(io, { runtimeOptions: { random: () => .9, paceMs: 0 } });
 let browser, page, userId, success = false;
 const errors = [];
+let holdSnow = true; const heldSnow = [];
 (async () => {
     try {
         server.listen(0, '127.0.0.1'); await once(server, 'listening');
@@ -41,6 +42,7 @@ const errors = [];
             window.snowCombatVm = el.__vue__; return true;
         });
         await page.evaluate(() => { window.snowCombatVm.showMobileControls = true; window.snowCombatVm.updatePreferences({ ...window.snowCombatVm.preferences, masterVolume: 0 }); });
+        await page.route('**/img/snow-*.webp', async route => { if (holdSnow) await new Promise(resolve => heldSnow.push(resolve)); await route.continue().catch(() => {}); });
         const player = cleanup.runtime.playerFor({ id: userId });
         const factory = require('../server/game/drift/pokemonFactory');
         const lead = factory.create(460, 45, true), foe = factory.create(19, 40, true);
@@ -54,11 +56,16 @@ const errors = [];
         const opponent = { npc: true, equipe: { pokemons: [foe] }, drifts: [], equipped: [], chain: 0 };
         const battle = cleanup.runtime.battle(player, opponent, 'wild');
         battle.deadline = Date.now() + 240000;
+        await page.locator('[data-battle-entrance][data-phase="holding"]').waitFor();
+        await page.waitForTimeout(650); assert(heldSnow.length > 0);
+        assert.equal(await page.locator('.battle-scene').evaluate(el => getComputedStyle(el).visibility),'hidden');
+        holdSnow = false; heldSnow.splice(0).forEach(resolve => resolve());
         await page.locator('.action-attack:enabled').waitFor();
         assert.equal(battle.state.weather.kind, 'hail');
-        const probes = [];
+        const probes = [], scenery = [];
         for (const [width,height] of [[320,480],[393,852],[844,390],[1365,900]]) {
             await page.setViewportSize({width,height});
+            await page.waitForTimeout(300);
             await page.evaluate(width => { window.snowCombatVm.showMobileControls = width <= 920; }, width);
             await page.waitForFunction(() => {
                 const c = document.querySelector('[data-battle-snow]'), r = c?.getBoundingClientRect();
@@ -74,6 +81,20 @@ const errors = [];
             assert(probe.stats.count <= 220 && probe.stats.flakes > 20);
             assert(probe.width <= probe.cssWidth * 1.5 + 1 && probe.height <= probe.cssHeight * 1.5 + 1);
             assert.equal(probe.pointer,'none'); probes.push(probe);
+            await page.waitForFunction(() => { const img = document.querySelector('[data-battle-environment="snow"] .battle-background'); return img?.complete && img.naturalWidth > 0; });
+            const background = await page.locator('.battle-background').evaluate(img => ({src:img.currentSrc,width:img.naturalWidth,height:img.naturalHeight}));
+            const portrait = width <= 920 && width < height;
+            assert.match(background.src,portrait ? /snow-mobile-v1/ : /snow-wide-v1/);
+            assert.equal(background.width,portrait ? 1024 : 1536); assert.equal(background.height,portrait ? 1536 : 1024);
+            const geometry = await page.evaluate(() => {
+                const b = window.snowCombatVm.$refs.battleOverlay, scene = document.querySelector('.battle-scene').getBoundingClientRect();
+                return ['player','wild'].map(side => {
+                    const el = document.querySelector(`[data-battle-platform="${side}"] .snow-disc`), rect = el.getBoundingClientRect(), foot = b.getSpriteGeometry(side);
+                    return {side,center:Math.abs(rect.x + rect.width / 2 - (scene.x + foot.centerX)),foot:scene.y + foot.bottomY,top:rect.top,bottom:rect.bottom,color:getComputedStyle(el).backgroundColor};
+                });
+            });
+            for (const g of geometry) { assert(g.center < 1,JSON.stringify(g)); assert(g.foot >= g.top - 2 && g.foot <= g.bottom + 2,JSON.stringify(g)); assert.equal(g.color,'rgb(237, 247, 255)'); }
+            scenery.push({width,portrait,background,platforms:geometry});
             assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
             await page.screenshot({ path:path.join(output,`snow-${width}.png`) });
         }
@@ -109,6 +130,23 @@ const errors = [];
         await page.locator('.battle-grid-attacks button:enabled').first().click();
         await page.locator('.battle-scene.weather-sun').waitFor();
         assert.equal(battle.state.weather.kind,'sun');
+        // The snowy region stays white under sun; other environments keep priority.
+        assert.equal(await page.locator('[data-battle-environment="snow"]').count(),1);
+        for (const map of ['route14','ville5']) {
+            await page.evaluate(map => { window.snowCombatVm.$refs.battleOverlay.battleMapName = map; },map);
+            await page.locator('[data-battle-environment="snow"]').waitFor();
+        }
+        await page.evaluate(() => { const b = window.snowCombatVm.$refs.battleOverlay; b.battleMapName = 'route11'; b.updateFieldState({weather:{kind:'hail'}}); });
+        await page.locator('[data-battle-environment="snow"]').waitFor();
+        await page.evaluate(() => { window.snowCombatVm.$refs.battleOverlay.updateFieldState({weather:{kind:null}}); });
+        await page.waitForFunction(() => document.querySelector('.battle-background')?.currentSrc.includes('back.'));
+        await page.evaluate(() => { const b = window.snowCombatVm.$refs.battleOverlay; b.battleMapName = 'cave_rochebrume3'; b.updateFieldState({weather:{kind:'hail'}}); });
+        await page.locator('[data-battle-environment="cave"]').waitFor();
+        assert.equal(await page.locator('[data-battle-environment="snow"]').count(),0);
+        await page.evaluate(() => { window.snowCombatVm.$refs.battleOverlay.challenge = {wave:1,label:'Test'}; });
+        await page.locator('.battle-colosseum').waitFor(); assert.equal(await page.locator('[data-battle-environment="snow"]').count(),0);
+        await page.evaluate(() => { const b = window.snowCombatVm.$refs.battleOverlay; b.challenge = null; b.battleMapName = 'route13'; b.updateFieldState({weather:{kind:'sun'}}); });
+        await page.locator('[data-battle-environment="snow"]').waitFor();
         assert.equal(await page.locator('[data-battle-snow]').count(),0);
         assert.equal(await page.evaluate(() => window.oldSnowRenderer.destroyed),true);
         assert.equal(await page.evaluate(() => window.oldSnowRenderer.particles.length),0);
@@ -124,9 +162,10 @@ const errors = [];
         assert.equal(await page.evaluate(() => window.lastSnowRenderer.destroyed),true);
         assert.equal(await page.locator('[data-battle-snow]').count(),0);
         assert.deepEqual(errors,[]);
-        console.log(JSON.stringify({realSnowWarningBattle:true,probes,pixels,reducedMotion:true,disabledMotion:true,visibilityRelease:true,weatherReplacement:true,endCleanup:true,errors,output}));
+        console.log(JSON.stringify({realSnowWarningBattle:true,probes,pixels,scenery,coldSnowAssetHold:true,environmentPriority:true,reducedMotion:true,disabledMotion:true,visibilityRelease:true,weatherReplacement:true,endCleanup:true,errors,output}));
         success = true;
     } finally {
+        holdSnow = false; heldSnow.splice(0).forEach(resolve => resolve());
         if (!success && page) await page.screenshot({ path: path.join(output, 'failure.png'), fullPage: true }).catch(() => {});
         await browser?.close(); cleanup(); await new Promise(resolve => io.close(resolve));
         if (userId) await dbPool.execute('DELETE FROM users WHERE id=?', [userId]);

@@ -1,5 +1,16 @@
 # Contexte permanent — Explorakit
 
+## Décors de combat enneigés — 22 octobre 2026
+
+Deux assets originaux via skill imagegen intégré : `snow-mobile-v1.webp` 1024×1536 et `snow-wide-v1.webp` 1536×1024, pixel art de champ blanc, sapins/montagnes enneigés et ciel couvert. Prompts exacts et provenance dans `assets/battle/snow-v1.prompts.txt`. Encodage Canvas WebP0,93 sans recadrage ; pas de Pokémon/UI/particules ni socles peints dans les images. Deux disques blancs/bleu pâle sont rendus séparément aux mêmes ancrages que les combattants, aussi sur PC : aucun déplacement du fond ne peut décaler leurs appuis.
+
+`battleEnvironment` retourne `snow` pour Routes13/14 et Blanchecime (`ville5`), quel que soit le climat de combat ; la région reste blanche sous Zénith. La grêle en extérieur utilise aussi ce décor, puis revient au décor de la carte à sa fin. Priorités Colosseum → arène du Lac → grotte conservées, pour ne pas placer ces combattants dans une forêt. Composant commun aux trois modes, capture de la carte au début du combat conservée. Changement uniquement visuel : pas de grêle/dégât introduit par la neige de carte.
+
+Préchargement du format utile lorsque le joueur rejoint une région enneigée, sans charger ces images partout. L’entrée attend toujours le véritable `picture` sélectionné ; recette avec assets froids volontairement retardés, champ caché jusqu’à leur arrivée. `snow-background.test.js` vérifie régions/climats et priorités ; `test:combat-snow-browser` étendu aux deux formats, quatre tailles et géométrie/couleurs des deux socles, hiver maintenu sous soleil, grêle extérieure, retour herbe, grotte et Colosseum, tout en conservant les tests de particules et de libération.
+
+
+Validation complète 669 applicatifs/73 SQL et recette neige/chargement froid passées : quatre tailles, deux formats et deux socles/pieds alignés, priorités des lieux/climats, régressions particules. Publication statique le 22/10/2026 à 12 h 51 Paris, buildd4ea6130f4ce24e1, client88a8a93 ; service inchangé, HTTPS/index/images exacts et sites voisins préservés. Aucune migration ni sauvegarde modifiée.
+
 ## Vent et sable visibles à Rochebrume / Route 12 — 22 octobre 2026
 
 Route12 était absente du catalogue météo serveur et de la liste des cartes animées ; Rochebrume avait seulement vent1/sable1 et 32 grains très peu contrastés. Les deux cartes partagent maintenant `sandstorm`, vent2/pluie0/sable2 : 68 grains, trois rafales et aucun feuillage vert. Grains légèrement plus grands, centre clair/bord brun, filets d’air chauds plus visibles et huit traînées de poussière réparties en hauteur pour rester perceptibles avec la caméra mobile ; voile léger alpha0,052. Aucun dessin/collision/foreground retouché ; pluie et neige gardent leur rendu/budget.
