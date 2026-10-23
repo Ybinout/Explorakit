@@ -73,7 +73,8 @@
     "test:arena-return-browser": "node --env-file-if-exists=.env scripts/validateArenaReturnBrowser.js",
     "audit:availability": "node scripts/auditPokemonAvailability.js",
     "test:machines-browser": "node --env-file-if-exists=.env scripts/validateMachinesBrowser.js",
-    "test:level-growth-browser": "node --env-file-if-exists=.env scripts/validateLevelGrowthBrowser.js"
+    "test:level-growth-browser": "node --env-file-if-exists=.env scripts/validateLevelGrowthBrowser.js",
+    "test:position-recovery-browser": "node --env-file-if-exists=.env scripts/validatePositionRecoveryBrowser.js"
   },
   "keywords": [],
   "author": "",

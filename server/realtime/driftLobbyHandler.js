@@ -106,6 +106,7 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
             catch (error) { if (typeof acknowledge === 'function') acknowledge({ success: false, message: error.message }); }
         });
         gameCommand('drift:refresh', () => ({ success: true }), false);
+        gameCommand('recoverPosition', p=>runtime.recoverPosition(p));
         gameCommand('drift:save', () => ({ success: true }), false);
         let appearanceBusy = false;
         socket.on('setSprite', async (data = {}, acknowledge = () => {}) => {

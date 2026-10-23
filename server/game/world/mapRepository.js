@@ -178,6 +178,7 @@ function getNextMap(currentMap, posX, posY) {
 
 
 module.exports = {
+    readMap,
     loadCollisionData,
     changeMapData,
     getNextMap,

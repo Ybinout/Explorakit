@@ -1,12 +1,10 @@
-const { loadCollisionData, changeMapData } = require('../game/world/mapRepository');
-const { isPnjBlockingTile } = require('../game/world/pnjStore');
+const { loadCollisionData } = require('../game/world/mapRepository');
 
 const { remainingRepel } = require('../game/items/repel');
 
 const DEFAULT_MAP = 'start';
 const DEFAULT_POSITION = Object.freeze({ x: 80, y: 208 });
 const TILE_SIZE = 32;
-const MAP_CENTER_OFFSET = 16;
 
 function getPlayerDisplayName(player) {
     if (!player) return 'Joueur';
@@ -85,46 +83,8 @@ function resolveMapName(mapName) {
     }
 }
 
-function findFirstWalkablePosition(collisionData2D, mapName) {
-    let changes = [];
-    try { changes = changeMapData(mapName); } catch (_) { /* Synthetic callers may have no map metadata. */ }
-    // Updated author maps can invalidate old saves. Prefer their connected road
-    // entrance over decorative walkable pockets behind roofs or cliffs.
-    const entry = { ville_safe1:[1,7], route5:[1,4], route6:[5,1], ville_commerciale:[26,17], tour_rdc:[13,16], tour_etage1:[3,5], tour_etage2:[3,5], tour_etage3:[3,5] }[mapName];
-    if (entry) {
-        const [x,y] = entry;
-        if (collisionData2D[y]?.[x] === 0 && !changes[y]?.[x] && !isPnjBlockingTile(mapName,x,y))
-            return { x:x*TILE_SIZE+MAP_CENTER_OFFSET, y:y*TILE_SIZE+MAP_CENTER_OFFSET };
-    }
-    for (let y = 0; y < collisionData2D.length; y += 1) {
-        for (let x = 0; x < collisionData2D[y].length; x += 1) {
-            if (collisionData2D[y][x] === 0 && !changes[y]?.[x] && !isPnjBlockingTile(mapName, x, y)) {
-                return { x: x * TILE_SIZE + MAP_CENTER_OFFSET, y: y * TILE_SIZE + MAP_CENTER_OFFSET };
-            }
-        }
-    }
-    return { ...DEFAULT_POSITION };
-}
-
-function sanitizeSpawnPosition(rawX, rawY, collisionData2D, mapName) {
-    const safeFallback = findFirstWalkablePosition(collisionData2D, mapName);
-    const parsedX = Number(rawX);
-    const parsedY = Number(rawY);
-    const numericX = Number.isFinite(parsedX) ? parsedX : DEFAULT_POSITION.x;
-    const numericY = Number.isFinite(parsedY) ? parsedY : DEFAULT_POSITION.y;
-    const snapToGrid = (value) => Math.round((value - MAP_CENTER_OFFSET) / TILE_SIZE) * TILE_SIZE + MAP_CENTER_OFFSET;
-    const maxXIndex = Math.max(0, (collisionData2D[0]?.length || 1) - 1);
-    const maxYIndex = Math.max(0, collisionData2D.length - 1);
-    let x = Math.min(Math.max(snapToGrid(numericX), MAP_CENTER_OFFSET), maxXIndex * TILE_SIZE + MAP_CENTER_OFFSET);
-    let y = Math.min(Math.max(snapToGrid(numericY), MAP_CENTER_OFFSET), maxYIndex * TILE_SIZE + MAP_CENTER_OFFSET);
-    const matrixX = Math.floor(x / TILE_SIZE);
-    const matrixY = Math.floor(y / TILE_SIZE);
-    if (!collisionData2D[matrixY]
-        || collisionData2D[matrixY][matrixX] !== 0
-        || isPnjBlockingTile(mapName, matrixX, matrixY)) {
-        return safeFallback;
-    }
-    return { x, y };
+function sanitizeSpawnPosition(rawX, rawY, collisionData2D, mapName, options) {
+    return require('../game/world/safePosition').nearestSafePosition(rawX, rawY, collisionData2D, mapName, options);
 }
 
 module.exports = {

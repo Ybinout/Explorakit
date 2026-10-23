@@ -260,15 +260,11 @@ const socketHandler = (io) => {
         });
 
         let savedPosition = loadedSavedPosition;
-        const hasLegacyZeroPosition =
-            savedPosition &&
-            Number(savedPosition.x) === 0 &&
-            Number(savedPosition.y) === 0;
         const hasLegacyMap =
             savedPosition &&
             (savedPosition.map === 'default_map' || !savedPosition.map);
 
-        if (hasLegacyZeroPosition || hasLegacyMap) {
+        if (hasLegacyMap) {
             savedPosition = {
                 sprite: savedPosition?.sprite,
                 repel_steps: savedPosition?.repel_steps
@@ -471,7 +467,8 @@ const socketHandler = (io) => {
                 destination?.x,
                 destination?.y,
                 collisionData2D,
-                currentmap
+                currentmap,
+                {allowTransition:reason === 'map_transition'}
             );
 
             player.x = safeDestination.x;
@@ -567,6 +564,23 @@ const socketHandler = (io) => {
             socket,
             userId,
             getPlayer: () => players[socket.id] || null
+        });
+
+        require('./handlers/positionRecoveryHandlers').registerPositionRecoveryHandlers({
+            socket, getPlayer:()=>players[socket.id],
+            canUse:()=>!interactionBusy && !transitionBusy && !socketToChatSession.has(socket.id),
+            recover:async player=>{
+                transitionBusy=true;
+                try {
+                    const destination=sanitizeSpawnPosition(player.x,player.y,collisionData2D,currentmap,{manual:true});
+                    pendingDialogue=null;
+                    cancelPendingRequestsForSocket(socket.id,'position_recovered');
+                    player.isInteracting=false; player.interactionAsset=null; player.animationFrame=0;
+                    await relocatePlayer({map:currentmap,...destination},{reason:'position_recovery'});
+                    canMove=true;
+                    if (!await flushPositionSave()) throw new Error('Position non sauvegardée');
+                } finally { transitionBusy=false; }
+            }
         });
 
         socket.on('requestGameSave', async (acknowledge) => {

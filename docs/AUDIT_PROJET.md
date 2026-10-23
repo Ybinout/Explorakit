@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Reconnexion et déblocage à proximité — 23 octobre 2026
+
+Le repli de `sanitizeSpawnPosition` pouvait renvoyer une sauvegarde devenue invalide vers la première case `coll=0`, parfois une poche de décor isolée. `world/safePosition.js` recherche désormais la case la plus proche sur du terrain peint, dans une composante accessible depuis une entrée réelle de la carte (plus le départ du village ; plus grande composante en dernier recours). Les cases de transition et PNJ sont exclus des destinations de réparation. Les positions valides, y compris une sortie de Centre sauvegardée, sont conservées à la reconnexion. Une position 0/0 ne fait plus perdre le nom du lieu ; les véritables cartes héritées `default_map` gardent leur migration. Les transitions normales conservent leurs destinations explicites. Cartes et collisions de l’auteur inchangées.
+
+Options → volet repliable « Debug · Dépannage » → « Débloquer mon personnage » : commande authentifiée `recoverPosition`, commune aux namespaces Aventure/Rift. Le serveur ignore toute coordonnée fournie, choisit une case proche dans le même lieu et, lorsque le personnage est déjà sur une zone accessible, dans la même composante. Préférence aux cases sans herbe ni interaction dans un rayon de trois tuiles. Nouveau snapshot de carte pour recaler l’affichage et arrêter le déplacement/la pêche ; position enregistrée avant réponse (SQL Aventure, checkpoint expédition). Pas de soin, argent, objet, progression ou temps supplémentaire. Refus pendant combat/inventaire/transition ; en expédition, réservé à l’exploration. Double requête et répétition immédiate bloquées, messages de connexion/erreur/succès visibles ; traductions FR/EN et thèmes existants conservés.
+
+Validation : huit nouveaux tests de récupération et de commande, coordonnées négatives/hors limites/NaN/0-0 sur toutes les cartes déclarées chargeables, terrain connecté, PNJ, stabilité après reconnexion, entrée/sortie des maisons, invariants Rift et Colosseum (équipe/sac/argent/chrono). L’ancien test de repli à une entrée fixe vérifie maintenant la proximité sur une composante accessible, selon la nouvelle règle. `test:position-recovery-browser` : vrais sockets et SQL, compte temporaire hors carte réparé, bouton réellement cliqué, sauvegarde/reconnexion stables, équipe/Repousse conservés, refus hors connexion et en combat, checkpoint Colosseum, rendu 320/393/1365 sans erreur ; recette ajoutée à la CI. Lint/build `fbd74550df00ebc6` réussis. 844 tests applicatifs et 88 tests SQL passés ; recette navigateur réussie sur les trois tailles, sans erreur. Logs `/tmp/riftmon-unstuck-*`, captures `/tmp/riftmon-unstuck-browser`. Aucun compte réel modifié manuellement.
+
+Publication serveur/client le 23/10/2026 à 16 h 38 Paris : client `7d3b362`, build `fbd74550df00ebc6`, PID 1442877 actif/NRestarts 0 ; aucune expédition active avant reprise. Index publié atomiquement, anciens bundles conservés, HTTPS 200 et Knov/api-test inchangés. Sauvegarde sources/SQL/checkpoint `/home/ubuntu/dev/backups/riftmon-unstuck-2026-10-23T14-32-27-049Z` ; ancien client référencé dans `riftmon-strategy-prices-2026-10-23T13-45-05-716Z`. Le client courant a changé : cette ancienne copie ne doit plus servir de référence pour les prochains correctifs serveur seuls.
+
 ## Audit comportemental des attaques — 23 octobre 2026
 
 Revue du moteur partagé Aventure/Rift/Colosseum/PvP et de ses métadonnées : la couverture structurelle de 612 capacités ne garantissait pas la justesse des règles. `audit:moves` exécute désormais chaque attaque sur quatre situations (cible normale, Clone, Abri, lanceur à 1 PV), soit 2448 exécutions avec contrôle des résultats/PV, en plus des effets inconnus. Les assertions de règles restent séparées dans `tests/move-behavior-audit.test.js` ; un rapport structurel vide ne signifie pas une conformité exhaustive aux jeux officiels.
@@ -2551,6 +2561,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+23/10/2026 — Repli de reconnexion vers le terrain accessible le plus proche, positions valides conservées ; bouton Options → Debug pour débloquer le personnage dans le même lieu, avec sauvegarde SQL/checkpoint. Recettes unitaires, réseau et navigateurs ajoutées ; cartes auteur inchangées. Voir entrée en tête.
 
 23/10/2026 — Audit des attaques : coûts de statistiques/recharge, puissances variables, ripostes et Patience/Baston, Clone, sommeil, attaques appelées et protections consécutives corrigés dans le moteur commun. Audit structurel enrichi de 2448 exécutions ; tests de règles et vrais tours réseau/SQL ajoutés. Voir entrée en tête.
 

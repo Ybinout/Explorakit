@@ -130,7 +130,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
     function moveTo(p,map,x,y) {
         fishing.cancel(p);
         if(p.currentmap!==map) report.visit(p,map);
-        const safe=sanitizeSpawnPosition(x,y,loadCollisionData(map),map); p.currentmap=map;p.x=safe.x;p.y=safe.y;p.dialogue=null;
+        const safe=sanitizeSpawnPosition(x,y,loadCollisionData(map),map,{allowTransition:true,blocked:p.run.pnjs.isPnjBlockingTile}); p.currentmap=map;p.x=safe.x;p.y=safe.y;p.dialogue=null;
         emit(p,'newmap',{mapname:map,playersList:publicPlayers(p.run,map),reason:'drift'});
         emit(p,'mapWeatherState',getMapWeather(map));
         emit(p,'worldDevicesState',devicesForMap(map));
@@ -354,7 +354,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         contracts.migrate(p);require('./fusion').consolidate(p);
         if(p.alive) {
             // Author map replacements may invalidate an expedition checkpoint's world tile.
-            Object.assign(p,sanitizeSpawnPosition(p.x,p.y,loadCollisionData(p.currentmap),p.currentmap));
+            Object.assign(p,sanitizeSpawnPosition(p.x,p.y,loadCollisionData(p.currentmap),p.currentmap,{blocked:p.run.pnjs.isPnjBlockingTile}));
             emit(p,'playersList',publicPlayers(p.run,p.currentmap));
             emit(p,'mapWeatherState',getMapWeather(p.currentmap));
             emit(p,'worldDevicesState',devicesForMap(p.currentmap));
@@ -372,6 +372,15 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         if(['preparation','tournament'].includes(p.run.phase)&&now()>=p.run.preparationEndsAt)tick();
         if(mutable) economy.requireMutable(p);
         return p;
+    }
+    function recoverPosition(p) {
+        economy.requireMutable(p);
+        if (p.inventoryBusy || p.run.phase!=='exploration') economy.fail('Déblocage disponible pendant l’exploration, hors combat.');
+        if (Number.isFinite(p.lastPositionRecovery) && now()-p.lastPositionRecovery<10000) economy.fail('Patiente quelques secondes avant de réessayer.');
+        const safe=sanitizeSpawnPosition(p.x,p.y,loadCollisionData(p.currentmap),p.currentmap,{manual:true,blocked:p.run.pnjs.isPnjBlockingTile});
+        moveTo(p,p.currentmap,safe.x,safe.y);
+        p.isMoving=false;p.isInteracting=false;p.animationFrame=0;p.lastMove=now();p.lastPositionRecovery=now();
+        return {success:true,message:'Personnage replacé sur une case accessible à proximité.'};
     }
     function move(p,action) {
         if(getDirectionFromAction(action))fishing.cancel(p);
@@ -557,7 +566,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
             runs.set(run.id,run);
         }
     }
-    return {fishing,reconcileSettlements,setStorageAvailable,restore,start,startColosseum,chooseStarter,enter,guard,move,interact,endDialogue,ready,abandon,tick,send,publish,state,playerFor,battle,beginTournament,runs,spectate,stopSpectating,
+    return {fishing,reconcileSettlements,setStorageAvailable,restore,start,startColosseum,chooseStarter,enter,guard,recoverPosition,move,interact,endDialogue,ready,abandon,tick,send,publish,state,playerFor,battle,beginTournament,runs,spectate,stopSpectating,
         disconnect(user,socket){const p=playerFor(user);if(p?.socketId===socket.id){fishing.cancel(p);stopSpectating(p,'disconnected');p.socketId=null;p.disconnectedAt=now();world(p.run);}}};
 }
 module.exports={createRunManager};
