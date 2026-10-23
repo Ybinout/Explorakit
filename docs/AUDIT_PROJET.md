@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## Attaques : suppression du cercle de préparation — 24 octobre 2026
+
+Le cercle et le disque génériques de la phase `windup` sont retirés de `BattleMoveEffect`, avec leur CSS devenu inutilisé. Ce composant est partagé par les trois modes et les deux camps : plus de cercle sur le Pokémon au lancement de son attaque. Aucun changement de timing, déplacement du lanceur, projectile, dégâts, météo ou socle.
+
+Vérification reproductible : lint/build isolé, puis `RELEASE_PUBLIC_PATH=/ RELEASE_DIST_DIR=/tmp/riftmon-no-windup-circle-dist RELEASE_SCREENSHOTS=/tmp/riftmon-no-windup-circle-browser node --env-file-if-exists=.env scripts/validateCombatFeedbackBrowser.js`. Journaux `/tmp/riftmon-no-windup-circle-*`.
+
+Lint/build et recette navigateur réussis sans erreur : huit familles d’attaques, synchronisation PV, transitions, critiques, capture, entrée et mouvement réduit, mobile/PC. Publication client seule à 2026-10-23T22:22:45.019Z (24 octobre, 00 h 22 Paris), client `298fadd`, build `4021c1de5d4bbcec`. PID 1489232 inchangé, index public vérifié, sites voisins inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-no-windup-circle-2026-10-23T22-22-44-338Z`, anciens bundles conservés.
+
 ## Arène de Raph : musique dédiée et décor — 24 octobre 2026
 
 La musique fournie dans `pourtoi` est intégrée sans réencodage comme `msc/raph.mp3`, réservée aux combats de type arène sur `gen_arene5`. Le changement de tour ou de Pokémon conserve la même instance audio, le volume et la coupure du son suivent les préférences existantes. Les autres arènes, le PvP et les défis du Colosseum conservent leurs pistes.
@@ -2751,6 +2759,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+24/10/2026 — Suppression du cercle de préparation des attaques pour les deux camps et les trois modes.
 
 24/10/2026 — Raph : musique fournie dédiée, décor acier/jade mobile et PC, socles ancrés aux combattants ; source audio dédupliquée après publication.
 
