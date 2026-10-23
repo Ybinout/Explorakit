@@ -1,5 +1,13 @@
 # Contexte permanent — RiftMon
 
+## Attaques : retrait du motif « soleil » — 24 octobre 2026
+
+Suppression des rayons autour de la préparation et de l’éclat étoilé générique à l’impact dans `BattleMoveEffect`. Les anneaux discrets et les effets propres aux familles (griffures, morsures, projectiles, rayons, drain, zone) restent présents. Le critique remplace l’étoile et ses huit rayons par un « ! » bref ; textes, dégâts mis en évidence, son et synchronisation des PV inchangés. Composants partagés par Aventure/Rift/Colosseum ; aucune règle de combat ni météo modifiée.
+
+Lint/build client réussis. Recette de combat existante exécutée sur le build isolé, avec bibliothèque d’attaques, timeline, critique, remplacements, capture et mouvement réduit. Journaux/captures `/tmp/riftmon-no-sun-fx-*`. Publication client seule sans redémarrage serveur.
+
+Publication à 2026-10-23T22:06:43.108Z (24 octobre, 00 h 06 Paris) : client `0d9341c`, build `b5e84e7ee552f406`. Recette navigateur réussie sans erreur, huit familles en mobile/PC et chronologie des critiques validées. PID 1489232 inchangé ; index public vérifié et sites Knov/api-test inchangés. Sauvegarde index/référence client dans `/home/ubuntu/dev/backups/riftmon-no-sun-fx-2026-10-23T22-06-42-420Z`, anciens bundles conservés.
+
 ## Minimap : zoom progressif et navigation tactile — 23 octobre 2026
 
 `RegionMapPanel` remplace le basculement 100/200 % par un zoom de 100 à 400 % : boutons −/+, molette/trackpad sur la carte, pincement à deux doigts et déplacement par glissement (souris ou un doigt). Vue d’ensemble rétablit le cadrage complet ; Me situer conserve le zoom et recentre le joueur. Le sélecteur de lieux recentre le repère choisi. Les localisations du Pokédex et les minimaps Aventure/Rift/Colosseum réutilisent ce composant, avec habitats et sélection conservés.
