@@ -2,7 +2,7 @@ const moves = require('../../../data/game/moves.json');
 const pools = require('../../../data/game/pokemonData.json');
 const traits = require('../../../data/game/ability_move_traits.gen7.json').moves;
 // Expedition opening only; no change to PvP, arena teams or saved companions.
-const levels = { start:{min:3,max:5}, route1:{min:6,max:9} };
+const levels = { start:{min:2,max:5}, route1:{min:6,max:9} };
 function tuneWildMoves(pokemon) {
     if(pokemon.level>14)return pokemon;
     const cap=pokemon.level<=6?40:pokemon.level<=10?45:55;

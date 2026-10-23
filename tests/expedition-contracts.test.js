@@ -73,7 +73,7 @@ test('trainer spawns use walkable non-transition tiles and preserve access to ev
 });
 test('opening encounters remove early multi-hit bursts and substantially reduce first-hit KOs without changing the arena factory',()=>{
  const {tuneWildMoves}=require('../server/game/drift/openingBalance'),traits=require('../data/game/ability_move_traits.gen7.json').moves;
- for(const id of factory.STARTERS)for(const level of [3,5,9,14]){const p=tuneWildMoves(factory.create(id,level));assert(p.abilities.some(name=>require('../server/game/battle/battleEngine').getMoveByName(name)?.power>0));assert(p.abilities.every(name=>!traits[name]?.multihit));assert.equal(p.abilities.length,p.movePp.length);}
+ for(const id of factory.STARTERS)for(const level of [2,3,5,9,14]){const p=tuneWildMoves(factory.create(id,level));assert(p.abilities.some(name=>require('../server/game/battle/battleEngine').getMoveByName(name)?.power>0));assert(p.abilities.every(name=>!traits[name]?.multihit));assert.equal(p.abilities.length,p.movePp.length);}
  const high=factory.create(1,20),old=[...high.abilities];tuneWildMoves(high);assert.deepEqual(high.abilities,old);
  assert(factory.create(1,5).abilities.includes('Bullet Seed'),'Starter/arena generation must remain unchanged');
  const sample=require('../scripts/auditExpeditionOpening').measureOpening();assert(sample.after.oneHitKOs<sample.before.oneHitKOs/4);assert(sample.after.averageWorstHitPercent<sample.before.averageWorstHitPercent);

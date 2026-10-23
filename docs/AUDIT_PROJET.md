@@ -1,5 +1,10 @@
 # Audit technique et mémoire de RiftMon
 
+## Premier buisson niveaux 2–5 — 23 octobre 2026
+
+Le village `start` ne contient qu’un seul massif de rencontres sauvages (nord-est, colonnes23–26/lignes2–8). Sa plage commune passe de5–7 à2–5 ; le profil de début Rift/Colosseum passe de3–5 à2–5. Le lac reprend aussi la plage du village via sa règle existante. Douze espèces, chances de rencontre/K, Pokémon initiaux niveau5, Routes1+ et sauvegardes conservés ; seuls les futurs adversaires sont concernés. Tests de progression actualisés pour le premier buisson et son écart volontaire de trois niveaux jusqu’au minimum8 de Route1 en Aventure. 750 tests applicatifs passés, audit des niveaux et six seuils du tirage contrôlés avec les deux fabriques réelles (Aventure/Rift/Colosseum). Publication serveur le23/10/2026 à11 h50 Paris, PID1390707 actif/NRestarts0, aucune expédition active avant reprise ; build client e8a8d03d178b1789 conservé, index HTTPS exact, Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-start-levels-2026-10-23T09-49-24-361Z` ; logs `/tmp/riftmon-start-levels-*`. Aucune sauvegarde joueur ni carte auteur réécrite.
+
+
 ## Décors de pêche simplifiés — 23 octobre 2026
 
 Demande visuelle : lac désormais dominé par l’eau (~80% de l’image), rive lointaine discrète, moins de détails et suppression du sol/de la végétation au premier plan. Deux éditions imagegen intégrées sous `lake-wide-v2.webp` et `lake-mobile-v2.webp`, ~169Ko au total, anciennes versions conservées ; prompts et sources dans `docs/FISHING_ASSETS.md`. Socles recolorés en bleu aquatique, mêmes positions/dimensions ; rendu partagé dans les trois modes. Aucun mécanisme de pêche, carte, météo ou donnée joueur modifié. Lint et build `e8a8d03d178b1789` passés ; recette pêche existante validée sur six lacs, trois modes, quatre tailles, mouvement réduit et vrai contexte PC, zéro erreur. Publication statique le23/10/2026 à11 h44 Paris, client `056c9b9`, sans redémarrage (PID1388260 conservé, actif/NRestarts0), index atomique et anciens bundles conservés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-lake-simple-2026-10-23T09-41-52-867Z` ; contrôle HTTPS sur compte temporaire supprimé réussi :vrais combats de pêche PC/mobile, octets des deux images v2 exacts, météo et socles conservés, six lacs, achat unique/sauvegarde, index exact, Knov/api-test inchangés et zéro erreur. Logs `/tmp/riftmon-lake-simple-*`.
@@ -2405,6 +2410,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+23/10/2026 — Premier buisson du village :niveaux2–5 dans les trois modes, autres routes conservées. Voir entrée en tête.
 
 23/10/2026 — Décors de pêche PC/mobile simplifiés, eau dominante, socles aquatiques. Recette trois modes/quatre tailles et HTTPS passés ; client056c9b9/builde8a8d03d178b1789 publiés11 h44 Paris, sans redémarrage. Voir entrée en tête et `docs/FISHING_ASSETS.md`.
 
