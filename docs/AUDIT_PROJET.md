@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## Bonus supplémentaire de 10 % d’XP en combat — 23 octobre 2026
+
+Les gains actuels de tous les combats rémunérés en XP augmentent de 10 %, dans les trois modes. Coefficients Aventure sauvage/dresseur/arène : 2,3716 / 3,8808 / 5,1744 ; expéditions : 1,21 / 1,98 / 2,64. Application avant les arrondis existants, sans modifier le partage participants/réserves/Multi Exp, les coefficients du Colosseum, les Drifts ni la pénalité de sur-niveau. Pas de nouvelle XP en PvP ou lors des captures qui n’en donnaient pas, ni de modification des récompenses de contrats exprimées en niveaux.
+
+778 tests applicatifs et 81 SQL passés ; audit d’équilibrage et diff propres. Scénarios sauvages/dresseurs/arènes, formats 30/60, partage, sauvegarde et anti-rejeu conservés. À niveau 40/K1 et niveau égal, l’Aventure donne 3444 / 5635 / 7513 XP. Logs `/tmp/riftmon-xp-ten-*`.
+
+Publication serveur le 23/10/2026 à 13 h 47 Paris : PID 1423603 actif, NRestarts 0, aucune expédition active avant reprise ; index/client et Knov/api-test inchangés, HTTPS 200. Sauvegarde sources/SQL/checkpoint `/home/ubuntu/dev/backups/riftmon-xp-ten-2026-10-23T11-47-33-747Z`, client identique référencé dans `riftmon-route-starters-2026-10-23T10-55-36-198Z`. Aucune migration.
+
 ## Vérification des statistiques après modification d’IV/EV — 23 octobre 2026
 
 Revue de `medicineEffects.trainingResult`, du modèle Pokémon, des commandes Aventure/expédition, de la reconstruction SQL et de la fiche client : les modifications d’IV/EV recalculent déjà les six statistiques permanentes et les valeurs courantes utilisées en combat. L’équipe actualisée est renvoyée au client ; les reconnexions SQL reconstruisent les statistiques depuis les IV/EV/nature/K, les checkpoints conservent les valeurs actualisées. Aucun défaut reproduit, aucune modification du moteur ni redémarrage de production nécessaire.
@@ -2484,6 +2492,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+23/10/2026 — +10 % supplémentaires d’XP pour les combats des trois modes, partage et pénalités conservés ; 778+81 tests passés, publié à 13 h 47 Paris. Voir entrée en tête.
 
 23/10/2026 — Recalcul IV/EV vérifié : six stats permanentes et de combat, réponses serveur, reconnexion SQL et checkpoints ; 68 tests ciblés et 81 SQL passés. Aucun correctif moteur requis.
 

@@ -5,7 +5,7 @@ const { calculateBattleExperience }=require('../server/game/models/progression')
 const { rewardTraining }=require('../server/game/models/training');
 const effects=require('../server/game/drift/driftEffects');
 const modes = [{ mode:'rift', durationMinutes:30 }, { mode:'colosseum', durationMinutes:30 }, { mode:'colosseum', durationMinutes:60 }];
-for(const {mode,durationMinutes} of modes) for(const withDrifts of [false,true]) for(const [type,multiplier] of [['wild',1.1],['trainer',1.8],['arena',2.4]]) {
+for(const {mode,durationMinutes} of modes) for(const withDrifts of [false,true]) for(const [type,multiplier] of [['wild',1.21],['trainer',1.98],['arena',2.64]]) {
     test(`${mode} ${durationMinutes}min ${type}, Drifts ${withDrifts}: exact XP, reserve sharing and one reward per KO`,()=>{
         const active=factory.create(1,5), reserve=factory.create(7,5), secondReserve=factory.create(25,20), dead=factory.create(4,5), enemy=factory.create(19,9);dead.currentHp=0;
         const drifts=(withDrifts ? [43,50,51] : []).map(n=>({uuid:String(n),definitionId:`DRF-${String(n).padStart(3,'0')}`,rarity:'mythic',element:'Grass'}));

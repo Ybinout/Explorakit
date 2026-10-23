@@ -77,7 +77,7 @@ for (const durationMinutes of [30, 60]) test(`Colosseum ${durationMinutes}min: b
     const before = [active.experience, reserve.experience, lost.experience];
     const enemy = factory.create(19, 14);
     enemy.k = 1;
-    const sharingBase = Math.floor(6 * require('../server/game/models/progression').calculateBattleExperience(enemy, 1.1, active) * 4 / 5);
+    const sharingBase = Math.floor(6 * require('../server/game/models/progression').calculateBattleExperience(enemy, 1.21, active) * 4 / 5);
     const battle = f.runtime.battle(p, { npc:true, equipe:{ pokemons:[enemy] }, drifts:[], equipped:[] }, 'wild');
     lost.currentHp = 0;
     defeatEnemies(battle);
