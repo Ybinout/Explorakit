@@ -1,5 +1,15 @@
 # Contexte permanent — RiftMon
 
+## Bonus d’XP sauvage et dresseurs — 23 octobre 2026
+
+Augmentation relative des gains actuels, annoncée sans cumul :+10% pour les Pokémon sauvages, +20% pour les dresseurs/arènes et adversaires du Colosseum. Aventure :coefficients2,156 /3,528 /4,704 au lieu de1,96 /2,94 /3,92. Rift/Colosseum :base par type1,1 /1,8 /2,4 au lieu de1 /1,5 /2, désormais dans `expeditionMultipliers` de `experience_balance.json`. Chaque bonus s’applique avant les arrondis existants. Les coefficients propres au mode/combattant, partage réserves/Multi Exp/participants, Drifts, pénalité de sur-niveau et formule brute restent conservés. Aucun gain d’XP ajouté au PvP, aux captures sans XP ni aux récompenses de contrats exprimées en niveaux ; aucun recalcul de l’XP déjà acquise.
+
+771 tests applicatifs et80 SQL passés, audit d’équilibrage/syntaxe/diff propres. Cas réels couverts :sauvages/dresseurs/arènes des trois modes, formats30/60, réserves/Drifts/Multi Exp, sur-niveau, K.O./anti-rejeu et sauvegarde. Tests chiffrés actualisés :adversaire40/K1 à niveau égal en Aventure3131/5123/6830 XP. Logs `/tmp/riftmon-xp-boost-*` ; aucun client ni schéma modifié.
+
+Publication serveur le23/10/2026 à13 h02 Paris :PID1419487 actif/NRestarts0,0 expédition active avant reprise ; build client `6f649462fb6fe515` et index HTTPS conservés, Knov/api-test inchangés. Sauvegarde sources/SQL/checkpoint `/home/ubuntu/dev/backups/riftmon-xp-boost-2026-10-23T11-01-50-148Z` ; client inchangé référencé dans la sauvegarde complète `riftmon-route-starters-2026-10-23T10-55-36-198Z`.
+
+Incident préparatoire :disque plein avant publication, aucune relance effectuée sur cet échec. Suppression de22 anciens builds temporaires compilés sous `/tmp` et de la sauvegarde incomplète de cette tentative ; sources, production et sauvegardes complètes conservées. Environ1,8Go libres après reprise. Pour les prochains correctifs serveur seuls, éviter de recopier inutilement le client/dist dans chaque sauvegarde ; conserver SQL/sources/checkpoint et référencer la dernière sauvegarde client identique.
+
 ## Starters et niveaux des premières routes — 23 octobre 2026
 
 Sur demande du créateur, Bulbizarre/Salamèche/Carapuce retirés des rencontres des Routes1 et2 dans les trois modes. Pour conserver la couverture du Pokédex, Bulbizarre et Carapuce déplacés sur Route3, Salamèche sur Route4 ; les choix de starter et les prises déjà possédées ne changent pas. Route1 Aventure passe de8–10 à6–9, comme le profil Rift/Colosseum déjà réglé6–9. « XP de6 à9 » interprété comme la plage de niveaux, annoncé avant modification ; multiplicateurs d’XP inchangés. Route2 reste11–15.

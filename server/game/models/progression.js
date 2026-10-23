@@ -2,6 +2,8 @@ const DEFAULT_EXPERIENCE_RATE = 1;
 const EXPERIENCE_BALANCE = require('../../../data/game/experience_balance.json');
 const BATTLE_EXPERIENCE_MULTIPLIERS = Object.freeze({ ...EXPERIENCE_BALANCE.multipliers });
 
+const EXPEDITION_EXPERIENCE_MULTIPLIERS = Object.freeze({ ...EXPERIENCE_BALANCE.expeditionMultipliers });
+
 const K_TIERS = Object.freeze([
     { k: 4, probability: 0.01, label: 'Exceptionnel' },
     { k: 3, probability: 0.02, label: 'Rare' },
@@ -75,6 +77,7 @@ function calculateBattleExperience(defeatedPokemon, multiplier = 1, recipient = 
 
 module.exports = {
     BATTLE_EXPERIENCE_MULTIPLIERS,
+    EXPEDITION_EXPERIENCE_MULTIPLIERS,
     DEFAULT_EXPERIENCE_RATE,
     K_TIERS,
     calculateBattleExperience,

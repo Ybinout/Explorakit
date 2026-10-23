@@ -331,7 +331,7 @@ test('XP active/réserve et fortune appliquent les Drifts, récompense de K.O. i
     const f=fixture(4),p=f.run.players.get(1);p.equipe.pokemons=[factory.create(19,5),factory.create(19,5)];
     for(const n of [43,50,51,46]){const d=addDrift(p,n);economy.equip(p,d.uuid,true);}
     const target=factory.create(19,6),before=p.equipe.pokemons.map(a=>a.experience);
-    const base=require('../server/game/models/progression').calculateBattleExperience(target,1.5,p.equipe.pokemons[0]);
+    const base=require('../server/game/models/progression').calculateBattleExperience(target,1.8,p.equipe.pokemons[0]);
     const battle=f.runtime.battle(p,{npc:true,equipe:{pokemons:[target]},drifts:[],equipped:[]},'trainer','reward_fixture');
     battle.reward(target);battle.reward(target);
     const xp=2*Math.floor(base*2); // XP Rift ×2, puis +40 % apprentissage et +60 % adversaire supérieur.

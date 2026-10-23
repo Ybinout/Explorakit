@@ -9,7 +9,7 @@ const { clearBattleTransientState, buildBattleSummary, createBattleSummaryTracke
 const { switchPokemonByIndex, resolveMoveSwitches, autoSwitchPokemon, hasAlivePokemon } = require('../battle/battleTeam');
 const { serializeMoveResult, serializeFieldState } = require('../battle/battleEvents');
 const { getMoveFlags } = require('../abilities/abilityEngine');
-const { calculateBattleExperience } = require('../models/progression');
+const { calculateBattleExperience, EXPEDITION_EXPERIENCE_MULTIPLIERS } = require('../models/progression');
 const { planTurnActions } = require('../battle/turnActions');
 const { effortYield, grantParticipantEffort } = require('../models/training');
 const economy = require('./economy');
@@ -248,7 +248,7 @@ class DriftBattle {
         const isColosseum = this.a.run?.mode === 'colosseum';
         const sharingBaseFor = recipient => {
             const bonus = effects.value(this.a,43) + (defeated.level > recipient.level ? effects.value(this.a,51) : 0);
-            const baseXp = Math.max(1,Math.floor(calculateBattleExperience(defeated, this.type === 'arena' ? 2 : this.type === 'trainer' ? 1.5 : 1, recipient) * (1 + bonus/100)));
+            const baseXp = Math.max(1,Math.floor(calculateBattleExperience(defeated, EXPEDITION_EXPERIENCE_MULTIPLIERS[this.type] || EXPEDITION_EXPERIENCE_MULTIPLIERS.wild, recipient) * (1 + bonus/100)));
             return isColosseum ? Math.floor(baseXp * 48 / 10) : baseXp * 2;
         };
         // Evaluate each recipient before levelling anyone up; low-level reserves
