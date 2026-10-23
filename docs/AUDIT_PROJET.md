@@ -1,5 +1,11 @@
 # Audit technique et mémoire de RiftMon
 
+## Correction du périmètre du bonus d’XP : Aventure uniquement — 23 octobre 2026
+
+Précision du créateur : le dernier bonus de 10 % est réservé à l’Aventure. Ses coefficients restent 2,3716 / 3,8808 / 5,1744 (sauvage/dresseur/arène). Rift et Colosseum retrouvent exactement leurs coefficients antérieurs 1,1 / 1,8 / 2,4 ; les anciens bonus, partages, Drifts et pénalités restent conservés. Cette entrée remplace le périmètre « trois modes » de l’entrée précédente. Aucune XP déjà acquise n’est retirée.
+
+778 tests applicatifs et 81 SQL passés, attentes des expéditions rétablies et attentes Aventure conservées. Publication serveur le 23/10/2026 à 14 h 02 Paris : PID 1425150 actif/NRestarts 0, aucune expédition active avant reprise ; HTTPS 200, client/index et Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-xp-adventure-only-2026-10-23T12-02-00-469Z` ; client identique référencé dans `riftmon-route-starters-2026-10-23T10-55-36-198Z`. Logs `/tmp/riftmon-xp-adventure-only-*` ; aucune migration.
+
 ## Bonus supplémentaire de 10 % d’XP en combat — 23 octobre 2026
 
 Les gains actuels de tous les combats rémunérés en XP augmentent de 10 %, dans les trois modes. Coefficients Aventure sauvage/dresseur/arène : 2,3716 / 3,8808 / 5,1744 ; expéditions : 1,21 / 1,98 / 2,64. Application avant les arrondis existants, sans modifier le partage participants/réserves/Multi Exp, les coefficients du Colosseum, les Drifts ni la pénalité de sur-niveau. Pas de nouvelle XP en PvP ou lors des captures qui n’en donnaient pas, ni de modification des récompenses de contrats exprimées en niveaux.
@@ -2492,6 +2498,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+23/10/2026 — Précision utilisateur : dernier bonus XP de 10 % limité à l’Aventure, Rift/Colosseum rétablis ; 778+81 tests passés, publié à 14 h 02 Paris.
 
 23/10/2026 — +10 % supplémentaires d’XP pour les combats des trois modes, partage et pénalités conservés ; 778+81 tests passés, publié à 13 h 47 Paris. Voir entrée en tête.
 

@@ -31,7 +31,7 @@ for(const mode of ['rift','colosseum'])test(`${mode}: an overlevel lead does not
     const b=Object.assign(Object.create(DriftBattle.prototype),{a:p,type:'wild',rewarded:new Set(),emit(){}});
     b.reward(enemy);b.reward(enemy);
     assert(low.experience-before[1]>high.experience-before[0]);assert.equal(dead.experience,before[2]);
-    const base=xp(enemy,1.21,{level:10});
+    const base=xp(enemy,1.1,{level:10});
     assert.equal(low.experience-before[1],Math.floor((mode==='colosseum'?Math.floor(base*4.8):base*2)*(mode==='colosseum'?.75:.35)));
 });
 

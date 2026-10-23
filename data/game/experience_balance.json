@@ -1,6 +1,6 @@
 {
   "multipliers": { "wild": 2.3716, "trainer": 3.8808, "arena": 5.1744 },
-  "expeditionMultipliers": { "wild": 1.21, "trainer": 1.98, "arena": 2.64 },
+  "expeditionMultipliers": { "wild": 1.1, "trainer": 1.8, "arena": 2.4 },
   "levelScaling": { "minimum": 0.25, "maximum": 1.5, "exponent": 1.25 },
   "overlevelPenalty": { "graceLevels": 5, "graceRatio": 0.1, "scale": 10, "minimum": 0.1 },
   "chapterPath": [
