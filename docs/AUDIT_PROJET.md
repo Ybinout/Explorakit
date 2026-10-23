@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Arène de Raph : musique dédiée et décor — 24 octobre 2026
+
+La musique fournie dans `pourtoi` est intégrée sans réencodage comme `msc/raph.mp3`, réservée aux combats de type arène sur `gen_arene5`. Le changement de tour ou de Pokémon conserve la même instance audio, le volume et la coupure du son suivent les préférences existantes. Les autres arènes, le PvP et les défis du Colosseum conservent leurs pistes.
+
+`battleEnvironment` choisit `raph-gym` pour cette arène ; décor intérieur acier/jade, lanternes et bannières, en versions paysage et portrait. Deux WebP sans perte, pixels vérifiés identiques aux images générées. Socles indépendants aux mêmes points d’ancrage que les Pokémon, y compris sur mobile. Chargement couvert par l’entrée de combat existante. Prompts, chemins et empreinte de la musique dans `docs/RAPH_ARENA_ASSETS.md`.
+
+Lint/build et cinq tests ciblés réussis. Recette Raph étendue : quatre formats, choix du décor, alignement des socles, piste décodable/jouable et continuité jusqu’à Cizayox. Journaux/captures `/tmp/riftmon-raph-arena-*`. Aucune modification serveur, équipe ou sauvegarde.
+
+Publication client seule à 2026-10-23T22:16:58.688Z (24 octobre, 00 h 16 Paris), client `0dbb575`, build `0f097633095abf3e`. Recette Raph réussie sans erreur en contextes tactile et bureau, musique et quatre formats validés ; fichiers audio/images publics comparés octet par octet au build. PID 1489232 inchangé, index HTTPS vérifié, Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-raph-arena-2026-10-23T22-16-58-018Z` ; anciens bundles conservés. Copie d’import audio dans `pourtoi` supprimée après comparaison SHA-256 avec la source publiée sur Git.
+
 ## Attaques : retrait du motif « soleil » — 24 octobre 2026
 
 Suppression des rayons autour de la préparation et de l’éclat étoilé générique à l’impact dans `BattleMoveEffect`. Les anneaux discrets et les effets propres aux familles (griffures, morsures, projectiles, rayons, drain, zone) restent présents. Le critique remplace l’étoile et ses huit rayons par un « ! » bref ; textes, dégâts mis en évidence, son et synchronisation des PV inchangés. Composants partagés par Aventure/Rift/Colosseum ; aucune règle de combat ni météo modifiée.
@@ -2741,6 +2751,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+24/10/2026 — Raph : musique fournie dédiée, décor acier/jade mobile et PC, socles ancrés aux combattants ; source audio dédupliquée après publication.
 
 24/10/2026 — Retrait des motifs rayonnants « soleil » des attaques, critique signalé par « ! », bibliothèque commune aux trois modes.
 
