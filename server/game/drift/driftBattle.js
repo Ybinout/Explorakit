@@ -1,3 +1,4 @@
+const { captureBaseChance } = require('../battle/captureProgression');
 const { growthSnapshot, levelGrowth } = require('../models/levelGrowth');
 const { replacementIndexes } = require('../battle/replacementChoice');
 const presentation = require('../battle/presentationState');
@@ -302,7 +303,7 @@ class DriftBattle {
                 p.items[action.itemKey]--;
                 report.increment(p,'captureAttempts');
                 const target = this.active(1), multiplier = getItemDefinition(action.itemKey).catch_multiplier;
-                const chance = Math.min(.95, Math.max(.05,(.16+(1-target.currentHp/target.maxHp)*.64)*multiplier*(1+effects.value(p,47)/100)));
+                const chance = Math.min(.95, Math.max(.05,captureBaseChance(target)*multiplier*(1+effects.value(p,47)/100)));
                 const success = this.random() < chance;
                 this.emit(p,'captureAnimation',{ success, shakes: success ? 3 : 1, itemKey: action.itemKey });
                 if (success) {

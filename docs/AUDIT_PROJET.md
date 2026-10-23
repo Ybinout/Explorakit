@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## Captures facilitées en début de partie — 23 octobre 2026
+
+Bonus commun aux trois modes dans `captureBaseChance`, réglé par `capture_balance.json` : +0,12 à la probabilité de base jusqu’au niveau 10 de la cible, puis réduction linéaire jusqu’à disparition au niveau 25. À niveau égal et sans autre bonus, une Poké Ball passe de 18,4 % à 32,2 % sur une cible intacte de niveau 1–10, de 55,2 % à 69 % à mi-PV. Les bonus des Balls et Drifts, plafond 95 %, facteur de niveau Aventure et pénalité liée aux badges restent appliqués comme avant ; aucune facilité supplémentaire pour les cibles de niveau 25 ou plus. Aucun changement de prix, de stock, de récompenses ou des Pokémon déjà capturés.
+
+Validation : 772 tests applicatifs et 80 SQL passés, puis 19 tests ciblés après renforcement du scénario de capture Rift/Colosseum : tirage à 30 % auparavant raté, désormais réussi, une seule Ball consommée et aucune double récompense après reprise du checkpoint. Courbe 1–100, fin du bonus, PV, meilleures Balls et restrictions des badges couverts ; syntaxe et diff propres. Logs `/tmp/riftmon-capture-opening-*`.
+
+Publication serveur le 23/10/2026 à 13 h 08 Paris : PID 1421044 actif, NRestarts 0 ; client et index HTTPS inchangés, Knov/api-test inchangés. Sauvegarde sources/SQL/checkpoint `/home/ubuntu/dev/backups/riftmon-capture-opening-2026-10-23T11-08-16-108Z` ; client identique référencé dans la sauvegarde complète `riftmon-route-starters-2026-10-23T10-55-36-198Z`. Aucune migration ni modification du client.
+
 ## Bonus d’XP sauvage et dresseurs — 23 octobre 2026
 
 Augmentation relative des gains actuels, annoncée sans cumul :+10% pour les Pokémon sauvages, +20% pour les dresseurs/arènes et adversaires du Colosseum. Aventure :coefficients2,156 /3,528 /4,704 au lieu de1,96 /2,94 /3,92. Rift/Colosseum :base par type1,1 /1,8 /2,4 au lieu de1 /1,5 /2, désormais dans `expeditionMultipliers` de `experience_balance.json`. Chaque bonus s’applique avant les arrondis existants. Les coefficients propres au mode/combattant, partage réserves/Multi Exp/participants, Drifts, pénalité de sur-niveau et formule brute restent conservés. Aucun gain d’XP ajouté au PvP, aux captures sans XP ni aux récompenses de contrats exprimées en niveaux ; aucun recalcul de l’XP déjà acquise.
@@ -2470,6 +2478,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+23/10/2026 — Bonus de capture progressif niveaux 1–24 dans les trois modes, restrictions des badges conservées ; 772+80 tests et 19 tests ciblés passés. Voir entrée en tête.
 
 23/10/2026 — XP sauvage+10%, dresseurs/arènes/Colosseum+20% sans cumul, trois modes ;771+80 tests passés. Voir entrée en tête.
 

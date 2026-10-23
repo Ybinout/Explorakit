@@ -29,7 +29,7 @@ const { awardUserMoney } = require('../../persistence/userRepository');
 const { adventureMoneyReward } = require('./wildReward');
 const { loadUserItems, consumeUserItem } = require('../../persistence/itemRepository');
 const { markPokemonCaught, markPokemonSeen, loadProgressState } = require('../../persistence/progressionRepository');
-const {captureAssessment} = require('./captureProgression');
+const {captureAssessment, captureBaseChance} = require('./captureProgression');
 const pokemonStorage=require('../../persistence/pokemonStorageRepository');
 const itemsCatalog = require('../../../data/game/items.json');
 
@@ -196,11 +196,7 @@ async function resolveRoundEnd(player, wildPokemon, io, battleState, playerSide,
 }
 
 function calculateCaptureChance(playerPokemon, wildPokemon, ballMultiplier = DEFAULT_CATCH_MULTIPLIER, progress = null) {
-    const safeMaxHp = Number(wildPokemon.maxHp) > 0 ? Number(wildPokemon.maxHp) : 1;
-    const safeCurrentHp = clamp(Number(wildPokemon.currentHp) || 1, 1, safeMaxHp);
-    const missingHpRatio = 1 - safeCurrentHp / safeMaxHp;
-
-    const baseChance = 0.16 + missingHpRatio * 0.64;
+    const baseChance = captureBaseChance(wildPokemon);
 
     const playerLevel = Number(playerPokemon?.level) || 1;
     const wildLevel = Number(wildPokemon.level) || 1;

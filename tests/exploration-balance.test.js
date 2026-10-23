@@ -23,14 +23,14 @@ test('Poké Ball gains 15% relative odds, better Balls and 95% ceiling remain',(
  for(const hp of [100,50,10]){
   const target={level:5,maxHp:100,currentHp:hp};
   const before=calculateCaptureChance(player,target,1),after=calculateCaptureChance(player,target);
-  assert(Math.abs(after-before*1.15)<1e-9);assert(after<calculateCaptureChance(player,target,1.5));
+  assert(Math.abs(after-Math.min(.95,before*1.15))<1e-9);assert(after<=calculateCaptureChance(player,target,1.5));
  }
  assert.equal(calculateCaptureChance({level:1000},{level:1,maxHp:100,currentHp:1},2),.95);
 });
 for(const mode of ['rift','colosseum-30','colosseum-60']){
  test(`${mode}: new Poké Ball threshold captures and pays once, also after checkpoint replay`,()=>{
-  const {a,target,battle,events}=battleFixture(mode);
-  // 17% failed against a healthy wild Pokémon before the 18.4% adjustment.
+  const {a,target,battle,events}=battleFixture(mode,()=>.30);
+  // 30% fails against the old 18.4% odds but succeeds with the opening bonus (32.2%).
   battle.action(a,{action:'bag',itemKey:'pokeball',turnId:battle.token});
   assert(battle.finished);assert.equal(a.equipe.pokemons[1],target);assert.equal(a.items.pokeball,1);assert.equal(a.money,530);
   assert.equal(events.find(e=>e.name==='endbattle').payload.summary.money,30);
