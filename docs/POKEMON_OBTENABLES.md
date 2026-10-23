@@ -10,13 +10,13 @@ Une présence dans les données ne suffit pas : les tests vérifient aussi les s
 
 | N° | Pokémon | Obtention |
 |---|---|---|
-| 1 | Bulbizarre | route1 |
+| 1 | Bulbizarre | route3 |
 | 2 | Herbizarre | Évolution de Bulbizarre (niv. 16) |
 | 3 | Florizarre | Évolution de Herbizarre (niv. 32) |
-| 4 | Salamèche | route1 |
+| 4 | Salamèche | route4 |
 | 5 | Reptincel | Évolution de Salamèche (niv. 16) |
 | 6 | Dracaufeu | Évolution de Reptincel (niv. 36) |
-| 7 | Carapuce | route2 |
+| 7 | Carapuce | route3 |
 | 8 | Carabaffe | Évolution de Carapuce (niv. 16) |
 | 9 | Tortank | Évolution de Carabaffe (niv. 36) |
 | 10 | Chenipan | start |

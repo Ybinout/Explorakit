@@ -22,7 +22,7 @@ test('les rencontres progressent le long du parcours réellement raccordé, du n
         // Mounir (17–20) fait le pont entre la route 2 et la route 3.
         const previousChallenge = wildStages[index] === 'route3'
             ? Math.max(...getPnjTeam('moonpunch').pokemons.map((pokemon) => pokemon.level)) : previous.max;
-        assert.ok(current.min - previousChallenge <= (wildStages[index] === 'route1' ? 3 : 2), `${wildStages[index]} : saut brutal`);
+        assert.ok(current.min - previousChallenge <= 2, `${wildStages[index]} : saut brutal`);
         assert.ok(current.max - current.min <= 4, `${wildStages[index]} : fourchette trop dispersée`);
     }
     assert.equal(byName.get(wildStages[0]).level.min, 2);

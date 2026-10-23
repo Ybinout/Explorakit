@@ -1,5 +1,13 @@
 # Contexte permanent — RiftMon
 
+## Starters et niveaux des premières routes — 23 octobre 2026
+
+Sur demande du créateur, Bulbizarre/Salamèche/Carapuce retirés des rencontres des Routes1 et2 dans les trois modes. Pour conserver la couverture du Pokédex, Bulbizarre et Carapuce déplacés sur Route3, Salamèche sur Route4 ; les choix de starter et les prises déjà possédées ne changent pas. Route1 Aventure passe de8–10 à6–9, comme le profil Rift/Colosseum déjà réglé6–9. « XP de6 à9 » interprété comme la plage de niveaux, annoncé avant modification ; multiplicateurs d’XP inchangés. Route2 reste11–15.
+
+771 tests applicatifs passés, audit d’équilibrage et couverture458/458 réussis ; les deux fabriques réelles tirent les niveaux6/7/8/9 et aucun starter I sur les deux routes. Inventaire `docs/POKEMON_OBTENABLES.md` régénéré ; aucune carte auteur, sauvegarde joueur ni client modifié. Logs `/tmp/riftmon-route-starters-*`.
+
+Publication serveur le23/10/2026 à12 h55 Paris :PID1417010 actif/NRestarts0,0 expédition active avant reprise ; build client `6f649462fb6fe515` conservé, index HTTPS exact, Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-route-starters-2026-10-23T10-55-36-198Z`.
+
 ## Récapitulatif des montées de niveau — 23 octobre 2026
 
 Récapitulatif commun des six statistiques permanentes (PV max, Attaque, Défense, Atq.Spé., Déf.Spé., Vitesse) : annonce compacte pendant l’XP et tableau avant→après/gain dans le résultat pour chaque Pokémon monté de niveau, y compris réserves et compagnons perdus après leur progression. Les gains multiples d’un même combat sont regroupés par Pokémon ; les EV gagnés pendant le combat sont compris dans le bilan permanent, les bonus temporaires et dégâts exclus. Une évolution simultanée est signalée ; les différences négatives ou nulles restent exactes. Aucun changement des gains d’XP, EV, niveaux, stats ou durées des combats.
