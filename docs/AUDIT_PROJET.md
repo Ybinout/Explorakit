@@ -1,5 +1,18 @@
 # Audit technique et mémoire de RiftMon
 
+## Stockage sans perte — 23 octobre 2026
+
+Audit disque demandé par le joueur, nettoyage autorisé seulement pour les fichiers devenus inutiles ; conserver toutes les données et la qualité RiftMon. 123 anciens builds `/tmp/(riftmon|explorakit)-*dist` identifiés par leur index et dossier JS, absence de symlinks et de références dans les processus/fichiers ouverts/configuration Nginx, puis supprimés : 8,17 Gio libérés. Liste exacte : `/tmp/riftmon-storage-build-removed.json`. Aucun changement dans le `dist` actif, les sources d’assets, les sauvegardes SQL, ni les données de joueurs.
+
+Ajout de `scripts/deduplicateReleaseBackups.py`, simulation par défaut, application explicite `--apply`. Il ne parcourt que les dossiers `dist-before` des sauvegardes. Regroupement par SHA-256 ET comparaison octet par octet, mêmes taille, droits, propriétaire, mtime et attributs étendus ; remplacement atomique par lien physique et relecture du hash. Les liens symboliques et autres emplacements sont exclus. Tous les chemins et contenus sont conservés. 238 941 fichiers examinés, 85 954 copies identiques regroupées : 16 807 866 368 octets (~15,65 Gio) économisés. Restaurer ces sauvegardes **par copie**, jamais éditer leurs fichiers en place (contenu partagé entre archives). Les sauvegardes doivent rester immuables. Relancer le script après constitution de nouvelles sauvegardes pour éviter l’accumulation ; ne pas créer de liens physiques depuis le `dist` actif modifiable.
+
+Audit des ressources : maps chargées par alias et require.context, portraits chargés dynamiquement, sprites avant/arrière et formes nécessaires, données générations étendues utilisées par le moteur. Absence de référence littérale insuffisante pour supprimer. Trois anciens décors de combat (~0,74 Mio) sans référence statique courante (`lake-wide-v1`, `lake-mobile-v1`, `colosseum-mobile-v2`) conservés, comme les sources graphiques XCF. Les anciens bundles publiés sont aussi conservés pour les clients ouverts/PWA. Pas de recompression destructive d’images/audio ni de purge SQL. Les checkpoints Rift sont déjà compressés en gzip.
+
+Validation : test dédié de conservation octets/chemins/droits/dates, exclusion symlinks, distinction des fichiers différents, simulation et idempotence ; suite 866 tests applicatifs réussis (95 SQL non relancés). Audits attaques et disponibilité des 458 espèces sans erreur, intégrité des raccords conservée. Pages publiques Knov/api-test identiques à leurs empreintes préalables, RiftMon index identique au build déployé. Services actifs sans redémarrage nécessaire. Disque : ~290 Mio libres au début, ~25 Gio libres après opération ; saturation passée de 100 % à 67 %.
+
+Knov, projet séparé `/home/ubuntu/dev/persona-data-api` : 58 665 anciens événements et 4 725 empreintes archivés en gzip privé, relus/vérifiés avant suppression transactionnelle et compaction. Trente jours complets sans agrégation, réceptions tardives et états nécessaires à l’accueil conservés ; archives historiques conservées, sessions/notifications/VAPID inchangés. Validation sur copie de production des vues et de la restitution de tous les événements, 81 tests réussis, intégrité SQLite OK ; entretien quotidien vers 04 h 15 Europe/Paris. Détails et chemins dans le README de ce projet. Aucun changement aux données RiftMon.
+
+
 ## Fuite face à un sauvage plus fort — précision du 23 octobre 2026
 
 Le joueur confirme que les six/sept niveaux d’avance concernent le sauvage. Cette précision remplace l’hypothèse inverse du correctif précédent : fuite garantie si le sauvage est au moins six niveaux au-dessus du Pokémon actif apte, même en présence de pièges. Aucun bonus inverse fondé sur le niveau du joueur ; les exemptions normales et les switches restent inchangés. Helper commun Aventure/Rift/Colosseum.
@@ -2652,6 +2665,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+23/10/2026 — Stockage : anciens builds temporaires retirés, sauvegardes identiques regroupées sans perte (chemins conservés), ~24 Gio récupérés. Script et test de déduplication ajoutés ; aucune ressource/donnée de jeu supprimée. Knov : entretien 30 jours et archivage intégral des données anciennes.
 
 23/10/2026 — Précision joueur : fuite garantie lorsque le sauvage a au moins six niveaux de plus ; hypothèse inverse remplacée. Quatre tests ciblés et un test SQL Aventure réussis.
 
