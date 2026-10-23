@@ -1,5 +1,18 @@
 # Audit technique et mémoire de RiftMon
 
+## Traces sur la terre et pluie des premières routes — 23 octobre 2026
+
+Les sols en terre extérieurs reçoivent les petits pas alternés et le tassement bref déjà utilisés pour la neige, avec des couleurs brunes et une opacité réduite à65 %. Moteur commun `groundFootprints.js`, enveloppes neige/terre distinctes ; rendu neige conservé à l’identique. Fonte1350 ms, distance maximale64 px derrière chaque acteur, cache448×320 à30 Hz, recouvrements bornés, joueurs locaux/distants et PNJ dans les trois modes. Aucun pas à l’apparition/téléportation ; nettoyage au chargement, combat, onglet masqué, animations désactivées ou mouvement réduit.
+
+`scripts/generateDirtGround.js` lit seulement les exports auteur :26 profils extérieurs de chemins gris-brun ou ocre ; masque combinant cases de terre praticables et couleurs exactes de l’image. Pavés, végétation, eau, neige, grottes et intérieurs exclus. JSON/TMX/images et collisions jamais modifiés. Régénérer puis vérifier `--check` lors d’un futur changement de sol auteur.
+
+Routes1 et2 : pluie2 au lieu de1, vent léger1 conservé, météo commune à tous les joueurs.76 gouttes et32 impacts au sol au lieu de36/16 ; pluie réelle héritée en combat inchangée. `data/game/map_weather.json` est chargé au démarrage serveur : redémarrer seulement le service du jeu après sauvegarde/checkpoint. Build à la racine du domaine RiftMon, Knov/api-test préservés.
+
+Validation :723 tests applicatifs et77 SQL, audits/lint/build isolé racine c7e8d56307480abb passés. Recette terre : vrais déplacements acceptés, joueur distant/PNJ, quatre terrains/quatre tailles, trois modes, pas hors masque0, fonte complète après1,5 s, longueur60,15 px ; vérification de la pluie2 et des impacts32. Recettes neige et météo passées à la racine via `RELEASE_PUBLIC_PATH=/` : neige inchangée, pluie réellement héritée en combat, décors et effets, eau/feuilles et trois modes conservés ; zéro erreur. Recettes terre/neige ajoutées à la CI. Logs `/tmp/riftmon-dirt-rain-*`.
+
+Publication le23/10/2026 à03 h49 Paris après sauvegarde sources/dist/SQL/checkpoint (0 expédition active), client de14877, service du jeu actif PID1308210/NRestarts0. Index racine atomique et anciens bundles conservés. Contrôle HTTPS sur compte temporaire : vraie marche sur Routes1/2/12 et Valpierre, deux pas par case,136–151 pixels marqués puis disparition complète, pluie2/76 gouttes sur Routes1/2, mobile/PC, index exact, Knov/api-test inchangés et zéro erreur ; compte supprimé. Aucun schéma, export auteur, collision, record ni progression existante modifié. Sauvegarde `/home/ubuntu/dev/backups/riftmon-dirt-rain-2026-10-23T01-38-47-696Z` ; logs verify/browser/snow-browser/weather-browser/deploy/public sous le préfixe ci-dessus.
+
+
 ## RiftMon sur son domaine propre — 22 octobre 2026
 
 **Adresse canonique : https://riftmon.binout.fr/ ; nom public : RiftMon.** Knov reste sur https://app.binout.fr/, proxy3333 strictement conservé ; api-test inchangé. Le DNS A de RiftMon pointe vers54.37.226.233. Nouveau vhost HTTPS dédié vers le même serveur de jeu127.0.0.1:3340, certificat Let's Encrypt distinct et renouvellement webroot `/var/www/riftmon-acme` avec hook de rechargement Nginx limité à ce certificat. Aucun changement de DNS/port/base pour les autres applications.
@@ -2258,6 +2271,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 23/10/2026 — Petites traces temporaires sur la terre extérieure avec moteur commun neige/terre et masques exacts ; pluie Routes1/2 portée à2, vent1 conservé. Voir livraison en tête et recettes terre/neige/météo.
 
 - 22/10/2026 — RiftMon devient le nom public et https://riftmon.binout.fr/ son domaine HTTPS propre ; Knov inchangé, anciens liens redirigés/API-bundles compatibles, comptes conservés, build/PWA racine et recettes dédiées. Voir livraison en tête et `deploy/README.txt`.
 

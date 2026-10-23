@@ -29,7 +29,7 @@ test('Blanchecime has shared moderate snowfall and light wind, never indoors',as
 });
 test('weather intensity is authoritative for every map and accepts only bounded display levels',async()=>{
  const w=await weather(),{getMapWeather}=require('../server/game/world/mapWeather');
- for(const map of ['start','route1','route2']){const climate=getMapWeather(map);assert.deepEqual(w.mapWorldWeather(map,climate),map==='start'?{wind:3,rain:3}:{wind:1,rain:1});}
+ for(const map of ['start','route1','route2']){const climate=getMapWeather(map);assert.deepEqual(w.mapWorldWeather(map,climate),map==='start'?{wind:3,rain:3}:{wind:1,rain:2});}
  assert.deepEqual(w.normalizeWorldWeather({wind:99,rain:'2',extra:true}),{wind:3,rain:2});assert.deepEqual(w.normalizeWorldWeather({wind:Infinity,rain:-2}),{wind:0,rain:0});assert.deepEqual(w.normalizeWorldWeather(null),{wind:0,rain:0});
 });
 test('weather covers the village and the two rainy routes, never interiors, battles, loading or hidden tabs',async()=>{
@@ -57,7 +57,7 @@ test('reduced motion renders a stable frame and does not accumulate paint work o
 });
 
 test('map ambience follows its server climate without stale-map leakage',async()=>{
- const {mapWorldWeather:settings}=await weather();for(const map of ['route1','route2']){const climate=require('../server/game/world/mapWeather').getMapWeather(map);assert.deepEqual(settings(map,climate),{wind:1,rain:1});assert.deepEqual(settings(map,{...climate,map:'start'}),{wind:0,rain:0});}
+ const {mapWorldWeather:settings}=await weather();for(const map of ['route1','route2']){const climate=require('../server/game/world/mapWeather').getMapWeather(map);assert.deepEqual(settings(map,climate),{wind:1,rain:2});assert.deepEqual(settings(map,{...climate,map:'start'}),{wind:0,rain:0});}
  assert.deepEqual(settings('start',null),{wind:0,rain:0});assert.deepEqual(settings('maison2',null),{wind:0,rain:0});
 });
 
@@ -93,4 +93,8 @@ test('map impacts stay on authoritative uncovered ground, bounded within their t
  for(const map of ['start','route1','route2']){const before=total;const source=require('../data/maps/'+map+'.json'),layers=source.layers.filter(l=>['coll','change','int','foreground','for2'].includes(l.name));for(let t=0;t<6000;t+=70){const impacts=worldRainImpacts(t,3,map);assert(impacts.length<=48);for(const p of impacts){total++;const x=Math.floor(p.x/32),y=Math.floor(p.y/32);assert(layers.every(l=>!l.data[y*28+x]),map+' covered/blocked tile');assert(p.radius<=4.4&&p.alpha>0&&p.alpha<=.68);assert(p.x-p.radius>x*32&&p.x+p.radius<(x+1)*32);assert(p.y-p.radius>y*32&&p.y+p.radius<(y+1)*32);}}assert(total-before>100,map+' must have visible ground impacts');}
  assert(total>100);assert.deepEqual(worldRainImpacts(500,3,'maison2'),[]);assert.deepEqual(worldRainImpacts(500,0,'start'),[]);
  const s=surface(),r=new WorldWeatherRenderer(()=>s.canvas);r.drawGround(s.ctx,0,{wind:1,rain:1},true,'route1');assert(r.impacts.length>0);r.draw({drawImage(){}},0,{wind:1,rain:1},true,'route1');assert.equal(r.frames,1);assert(s.calls.some(c=>c[0]==='ellipse'));r.drawGround(s.ctx,100,{wind:1,rain:1},false,'route1');assert.equal(r.impacts.length,0);r.suspend();assert.equal(r.impacts.length,0);
+});
+test('Route 1 and Route 2 now have stronger shared rain and twice as many ground splashes with light wind preserved',async()=>{
+ const{getMapWeather}=require('../server/game/world/mapWeather'),w=await weather();for(const map of ['route1','route2']){const climate=getMapWeather(map);assert.deepEqual(climate.ambience,{wind:1,rain:2});const budget=w.worldWeatherBudget(climate.ambience);assert.equal(budget.rain,76);assert.equal(budget.splashes,32);assert.equal(budget.leaves,8);assert.equal(w.worldWeatherBudget({wind:1,rain:1}).rain,36);}
+ assert.equal(getMapWeather('start').ambience.rain,3);assert.equal(getMapWeather('maison2').kind,null);
 });
