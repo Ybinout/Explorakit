@@ -2,6 +2,7 @@ const { requestReplacement } = require('./replacementChoice');
 const presentation = require('./presentationState');
 const { effortYield } = require('../models/training');
 const { AdventureExperience } = require('./adventureExperience');
+const { canFleeWildBattle } = require('./wildEscape');
 const { planTurnActions } = require('./turnActions');
 const {
     useattack,
@@ -589,7 +590,7 @@ async function startBattle(player, wildPokemon, io, userId) {
                 moveName: selectedMoveName(currentPokemon, response.number) }]);
 
             if (actionPlayer === 'flee') {
-                if (!canSwitchOut(currentPokemon, wildPokemon, battleState, { escape: actionPlayer === 'flee' })) {
+                if (!canFleeWildBattle(currentPokemon, wildPokemon, battleState)) {
                     await narrate(player, io, `${getPokemonDisplayName(currentPokemon)} est piege et ne peut pas fuir.`);
                     continue;
                 }

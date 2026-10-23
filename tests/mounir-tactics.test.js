@@ -14,17 +14,17 @@ function enter(p, other, field) { return engine.applySwitchInEffects(p, field.si
 
 test('Mounir has the requested levels, average partners and a legal maximally talented, trained ace; teams are private and independent', () => {
     const a = getPnjTeam('moonpunch'), b = getPnjTeam('moonpunch');
-    assert.deepEqual(a.pokemons.map(p => [p.data.id,p.level]), [[66,17],[208,18],[351,20]]);
+    assert.deepEqual(a.pokemons.map(p => [p.data.id,p.level]), [[66,17],[208,18],[351,23]]);
     const ace = a.pokemons[2]; assert.equal(ace.k,4); assert(Object.values(ace.iv).every(v => v===31));
     assert.equal(ace.ev.specialAttack,252); assert.equal(ace.ev.speed,252); assert.equal(Object.values(ace.ev).reduce((a,b)=>a+b,0),508);
-    assert.equal(ace.specialAttack,77); assert.equal(ace.maxHp,83); assert.equal(ace.passiveAbility,'Forecast');
+    assert.equal(ace.specialAttack,88); assert.equal(ace.maxHp,93); assert.equal(ace.passiveAbility,'Forecast');
     for (const p of a.pokemons) {
         assert.equal(p.abilities.length,4); assert(p.abilities.every(n => require('../data/game/pokemonData.json')[p.data.id].includes(slug(n))));
         assert.deepEqual(p.movePp,p.abilities.map(getMaxMovePp));
     }
     assert(a.pokemons.slice(0,2).every(p=>p.k===1&&Object.values(p.iv).every(v=>v===18)&&Object.values(p.ev).every(v=>v===0)));
     assert(!JSON.stringify(a).includes('__trainerPlan'));
-    a.pokemons[2].currentHp=0; assert.equal(b.pokemons[2].currentHp,83); assert.notEqual(a.__trainerPlan.aceUuid,b.__trainerPlan.aceUuid);
+    a.pokemons[2].currentHp=0; assert.equal(b.pokemons[2].currentHp,93); assert.notEqual(a.__trainerPlan.aceUuid,b.__trainerPlan.aceUuid);
 });
 
 test('ace retention follows identities through switches and KOs; support and attack selection are legal without hidden opponent information', () => {

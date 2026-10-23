@@ -27,3 +27,16 @@ test('an unentered opponent, a capture/living foe and all participants KO give n
  const f=fixture(),before=f.a.experience;f.t.enter(f.a,f.enemy);assert.deepEqual(f.t.reward(f.p,f.enemy,1,f.io),[]);f.a.currentHp=0;f.enemy.currentHp=0;assert.deepEqual(f.t.reward(f.p,f.enemy,1,f.io),[]);f.a.currentHp=10;assert.deepEqual(f.t.reward(f.p,f.enemy,1,f.io),[]);assert.equal(f.a.experience,before);
  const missing=mon(19);missing.currentHp=0;assert.deepEqual(f.t.reward(f.p,missing,1,f.io),[]);
 });
+
+test('Adventure rebalance: ten percent less combat XP and Multi Exp reserves at forty percent; expedition rates stay unchanged',()=>{
+ const balance=require('../data/game/experience_balance.json');
+ assert.deepEqual(balance.expeditionMultipliers,{wild:1.1,trainer:1.8,arena:2.4});
+ for(const [kind,oldRate] of Object.entries({wild:2.3716,trainer:3.8808,arena:5.1744})) {
+  assert(Math.abs(rates[kind]/oldRate-0.9)<1e-12);
+  const f=fixture();f.t=new AdventureExperience({expShare:true});f.t.enter(f.a,f.enemy);
+  const full=xp(f.enemy,rates[kind],f.a),reserve=Math.floor(xp(f.enemy,rates[kind],f.b)*0.4);
+  f.enemy.currentHp=0;const awards=f.t.reward(f.p,f.enemy,rates[kind],f.io);
+  assert.equal(awards[0].xp,full);assert.equal(awards[1].xp,reserve);assert.equal(awards[2].xp,reserve);
+  assert.equal(f.a.ev.speed,1);assert.equal(f.b.ev.speed,0);assert.equal(f.bench.ev.speed,0);
+ }
+});

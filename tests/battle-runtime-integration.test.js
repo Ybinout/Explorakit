@@ -703,7 +703,7 @@ test('Mounir Aventure : équipe réelle sous la pluie, Morphéo réservé et tra
     } finally {if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
 });
 
-for (const kind of ['wild','trainer']) test(`Multi Exp Aventure ${kind} : combattant entier, réserves à moitié, K.O. exclu, événements et gains sauvegardés`, {skip:!shouldRun}, async()=>{
+for (const kind of ['wild','trainer']) test(`Multi Exp Aventure ${kind} : combattant entier, réserves à 40 %, K.O. exclu, événements et gains sauvegardés`, {skip:!shouldRun}, async()=>{
     const pool=createTestPool();let userId;
     try {
         const {user,player}=await createPlayer(7);userId=user.id;
@@ -712,11 +712,11 @@ for (const kind of ['wild','trainer']) test(`Multi Exp Aventure ${kind} : combat
         await pool.execute("INSERT INTO user_items(user_id,item_key,quantity) VALUES(?,'exp_share',1)",[userId]);
         const foe=createPokemon(19,'Cible');foe.currentHp=1;foe.passiveAbility=null;
         const {calculateBattleExperience:xp,BATTLE_EXPERIENCE_MULTIPLIERS:rates}=require('../server/game/models/progression');
-        const baseline=[lead,reserve,dead].map(p=>p.experience),full=xp(foe,rates[kind],lead),half=Math.floor(xp(foe,rates[kind],reserve)/2);
+        const baseline=[lead,reserve,dead].map(p=>p.experience),full=xp(foe,rates[kind],lead),shared=Math.floor(xp(foe,rates[kind],reserve)*0.4);
         const io=new RecordingIo({[player.id]:new ScriptedSocket([{action:'attack',number:0}])});
         await withFixedRandom(.5,()=>kind==='wild'?startWildBattle(player,foe,io,userId):startTrainerBattle(player,createTeam(foe),io,userId));
         const saved=(await loadEquipe(userId)).pokemons,byId=id=>saved.find(p=>p.uuid===id);
-        assert.equal(byId(lead.uuid).experience,baseline[0]+full);assert.equal(byId(reserve.uuid).experience,baseline[1]+half);assert.equal(byId(dead.uuid).experience,baseline[2]);
+        assert.equal(byId(lead.uuid).experience,baseline[0]+full);assert.equal(byId(reserve.uuid).experience,baseline[1]+shared);assert.equal(byId(dead.uuid).experience,baseline[2]);
         const awards=io.events.filter(e=>e.eventName==='battleExperience');assert.equal(awards.length,2);
         const summary=io.lastEvent(player.id,'endbattle').payload.summary;assert.equal(summary.experience.length,2);
     }finally{if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
@@ -950,4 +950,19 @@ for(const kind of ['wild','trainer'])test(`Recharge Aventure ${kind}: tour autom
   assert(io.events.some(e=>JSON.stringify(e.payload).includes('recharger son énergie')));assert.equal(io.lastEvent(player.id,'endbattle').payload.reason,'fled');
   assert.equal((await loadEquipe(id)).pokemons.find(p=>p.uuid===lead.uuid).movePp[0],0);
  }finally{if(id)await pool.execute('DELETE FROM users WHERE id=?',[id]);await pool.end();}
+});
+
+test('wild Adventure: six-level advantage escapes Arena Trap in one action, preserving the saved team and XP', {skip:!shouldRun}, async()=>{
+ const pool=createTestPool();let userId;
+ try {
+  const fixture=await createPlayer(7);userId=fixture.user.id;const player=fixture.player;
+  const factory=require('../server/game/drift/pokemonFactory'),lead=factory.create(7,26,true),foe=factory.create(50,20,true);
+  lead.passiveAbility=null;foe.passiveAbility='Arena Trap';foe.abilities=['Scratch'];player.equipe=createTeam(lead);
+  const xp=lead.experience,hp=lead.currentHp,socket=new ScriptedSocket([{action:'flee'}]),io=new RecordingIo({[player.id]:socket});
+  assert.equal(await startWildBattle(player,foe,io,userId),true);
+  assert.equal(socket.outgoing.filter(e=>e.eventName==='requestAction').length,1);
+  assert.equal(io.lastEvent(player.id,'endbattle').payload.reason,'fled');
+  assert.equal(lead.experience,xp);assert.equal(lead.currentHp,hp);
+  const saved=(await loadEquipe(userId)).pokemons[0];assert.equal(saved.uuid,lead.uuid);assert.equal(saved.experience,xp);assert.equal(saved.currentHp,hp);
+ }finally{if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
 });

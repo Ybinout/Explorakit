@@ -1,4 +1,5 @@
 const { calculateBattleExperience } = require('../models/progression');
+const { adventureReserveShare } = require('../../../data/game/experience_balance.json');
 const { grantParticipantEffort, rewardTraining } = require('../models/training');
 
 class AdventureExperience {
@@ -22,7 +23,7 @@ class AdventureExperience {
         // its level scaling/overlevel penalty; untouched reserves get nothing.
         const awards = (grantExperience ? eligible : []).map(pokemon => ({ pokemon,
             xp: Math.max(1, Math.floor(calculateBattleExperience(defeated, multiplier, pokemon)
-                * (this.expShare ? (pokemon === team[0] ? 1 : 0.5) : 1 / eligible.length)))
+                * (this.expShare ? (pokemon === team[0] ? 1 : adventureReserveShare) : 1 / eligible.length)))
         }));
         const effort = this.rewardEffort(player, defeated);
         for (const {pokemon, xp} of awards) rewardTraining(pokemon, defeated, xp, io, player.id,

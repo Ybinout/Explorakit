@@ -1,5 +1,15 @@
 # Contexte permanent — RiftMon
 
+## Mounir niveau 23, XP Aventure et fuite des sauvages — 23 octobre 2026
+
+Morphéo de Mounir passe de 20 à 23, avec statistiques reconstruites par la fabrique (93 PV, 88 Attaque Spéciale, 80 Vitesse). K4, IV parfaits, EV, set, talent, baie et réserve de sa pièce maîtresse conservés ; Machoc 17 et Steelix 18 inchangés. Multiplicateurs XP Aventure sauvage/dresseur/arène ×0,9 : 2,13444 / 3,49272 / 4,65696. Le Multi Exp Aventure passe de 50 % à 40 % pour chaque réserve apte (−20 % relatif sur la part, en plus du −10 % global). Sans Multi Exp, partage égal entre participants inchangé. Ni XP déjà acquise, ni EV, ni XP/partage Rift-Colosseum modifiés ; description de l’objet actualisée côté serveur et reçus d’XP d’arène conservés.
+
+La fuite sauvage ne comportait aucun RNG : les refus venaient des pièges. `wildEscape.canFleeWildBattle` garantit désormais le départ d’un Pokémon apte ayant au moins six niveaux d’avance, y compris contre pièges/talents. Helper utilisé seulement par les combats sauvages Aventure et Rift/Colosseum. Sous ce seuil, règles existantes conservées, sans ajouter de tirage aléatoire ; aucun changement aux switches, dresseurs, abandons PvP ou Pokémon K.O. Hypothèse annoncée au joueur : les six/sept niveaux concernent son Pokémon ; question de précision restée sans réponse pendant le travail.
+
+Validation : 861 tests applicatifs, 94 SQL réussis. Bornes −7/0/+5/+6/+7/+40, pièges de capacité/talents, K.O., Ghost/Run Away et switches distincts ; vrais combats Rift/Colosseum et Aventure contre Piège Sable, un clic, aucun gain ni dégât et équipe sauvegardée. XP exacte, Multi Exp/participation, Mounir/pluie/stratégie et anti-farm vérifiés. Assertions historiques de statistiques niveau 20 et de part 50 % adaptées aux nouvelles valeurs. Logs `/tmp/riftmon-balance-flee-*`. Serveur et données seulement ; pas de build client nécessaire.
+
+Publication serveur seule à 2026-10-23T19:09:54.121Z (21 h 09 Paris), PID 1466426 actif/NRestarts 0, aucune expédition active avant reprise. HTTPS 200, index/client `4f3ccae` et build `31d3f7d94f592c13` inchangés, Knov/api-test inchangés. Sauvegarde sources serveur, SQL, checkpoint et index dans `/home/ubuntu/dev/backups/riftmon-balance-flee-2026-10-23T19-09-05-834Z` ; client versionné et bundles conservés, pas de copie intégrale supplémentaire. Racine précédente `7977d43`.
+
 ## Pierres d’évolution utilisables en Aventure — 23 octobre 2026
 
 Les boutiques vendaient les pierres en Aventure, mais le sac réservait leur utilisation aux expéditions. Le sac affiche désormais les cibles compatibles (par exemple Goupix → Feunard) dans les trois modes. Nouveau RPC authentifié `useEvolutionStone`, mêmes gardes hors combat/inventaire/transition que les évolutions manuelles ; règles d’espèce et de sexe communes à Rift/Colosseum, vérifiées côté serveur. Pokémon K.O. ou œuf refusé, choix incompatible et pierre absente sans consommation. Surnom conservé par les évolutions par pierre dans tous les modes.

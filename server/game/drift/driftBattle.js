@@ -4,6 +4,7 @@ const { replacementIndexes } = require('../battle/replacementChoice');
 const presentation = require('../battle/presentationState');
 const { randomUUID } = require('node:crypto');
 const engine = require('../battle/battleEngine');
+const { canFleeWildBattle } = require('../battle/wildEscape');
 const effects = require('./driftEffects');
 const { getUsableMoveIndexes, getItemDefinition, getForcedMove, selectedMoveName } = require('../battle/battleResources');
 const { clearBattleTransientState, buildBattleSummary, createBattleSummaryTracker } = require('../battle/battleOutcome');
@@ -184,7 +185,7 @@ class DriftBattle {
         const kind = payload.action;
         if (!['attack','change','bag','flee'].includes(kind)) return false;
         if (kind === 'change' && (!Number.isInteger(payload.number) || payload.number <= 0 || !p.equipe.pokemons[payload.number] || effects.isDead(p.equipe.pokemons[payload.number]) || !engine.canSwitchOut(active, this.active(p === this.a ? 1 : 0), this.state))) return false;
-        if (kind === 'flee' && this.type === 'wild' && !engine.canSwitchOut(active, this.active(p === this.a ? 1 : 0), this.state, {escape:true})) return false;
+        if (kind === 'flee' && this.type === 'wild' && !canFleeWildBattle(active, this.active(p === this.a ? 1 : 0), this.state)) return false;
         if (kind === 'attack' && !(getUsableMoveIndexes(active, this.state).includes(payload.number) || !getUsableMoveIndexes(active, this.state).length)) return false;
         if (kind === 'bag' && (this.type !== 'wild' || p !== this.a || (p.equipe.pokemons.length >= 6 && (p.storage || []).length >= require('../storage/pokemonStorage').CAPACITY) || !(p.items[payload.itemKey] > 0) || getItemDefinition(payload.itemKey)?.category !== 'ball')) return false;
         this.pending.set(p, { action: kind, number: payload.number, itemKey: payload.itemKey });
