@@ -4,7 +4,7 @@ async function fixture(){const{DirtFootprintsRenderer}=await service(),data=new 
 test('soil metadata follows authored outdoor earth tiles without rewriting maps or including interiors, paving-only snow or caves',async()=>{
  const{buildDirtGround,serialize}=require('../scripts/generateDirtGround'),{default:dirt}=await import('../vue-explorakit/src/data/dirtGround.js');
  const files=fs.readdirSync(path.join(__dirname,'../data/maps')).filter(n=>n.endsWith('.json')),digest=()=>files.map(f=>crypto.createHash('sha256').update(fs.readFileSync(path.join(__dirname,'../data/maps',f))).digest('hex'));const before=digest();assert.deepEqual(dirt,buildDirtGround());assert.deepEqual(digest(),before);assert.equal(fs.readFileSync(path.join(__dirname,'../vue-explorakit/src/data/dirtGround.js'),'utf8'),serialize(dirt));
- for(const map of ['start','route1','route2','route4','route12','ville_safe1','ville4'])assert(dirt.maps[map],map);for(const map of ['route13','route14','ville5','centre','cave1','ville4_arene','route2_maison'])assert(!dirt.maps[map],map);
+ for(const map of ['start','route1','route2','route4','route12','ville4'])assert(dirt.maps[map],map);for(const map of ['ville_safe1','route13','route14','ville5','centre','cave1','ville4_arene','route2_maison'])assert(!dirt.maps[map],map);
  for(const[map,rows]of Object.entries(dirt.maps)){const m=require('../data/maps/'+map+'.json'),coll=m.layers.find(l=>l.name==='coll').data;assert.equal(rows.length,20);rows.forEach((row,y)=>{assert.equal(row.length,28);[...row].forEach((c,x)=>{if(c==='1')assert.equal(coll[y*28+x],0,map);});});}
 });
 test('soil marks touch only exact earth pixels: never paving, vegetation, water, snow or transparent artwork',async()=>{

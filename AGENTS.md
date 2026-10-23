@@ -1,5 +1,18 @@
 # Contexte permanent — RiftMon
 
+## Valpierre remplacée par ville_lac_arene — 23 octobre 2026
+
+À la demande du créateur, `pourtoi/ville_lac_arene.json/.png/_f.png` remplace la carte extérieure de Valpierre. Les trois fichiers sont copiés octet pour octet sous les identifiants existants `ville_safe1` pour conserver les sauvegardes, Hoze, les badges et l’histoire ; le nom affiché reste Valpierre. TMX miroir des dix couches de tuiles et du groupe `liaisons` vide, tilesets embarqués/GID conservés. Empreintes de ces trois fichiers actualisées dans `valpierre-routes-author-assets.json` ; Routes5/6 et autres exports auteur inchangés. Nouvelle collision auteur152 cases ; lac/murs intacts, sans modification du JSON source.
+
+Six passages auteur ouest/est aux lignes6–8. Route4 est→ville(1,7), Route5 ouest→ville(26,7), sorties ville→Route4(26,4)/Route5(1,4). Quatre portes logiques sur les cases déjà peintes et libres :arène(14,15), boutique(22,15), maisons1(4,5)/2(23,5), retour sur leur parvis. Les deux anciennes maisons3/4 n’ont plus de façade dans cette carte :leurs intérieurs et sauvegardes restent valides, marqués `legacyOnly`, avec sortie sûre vers les deux maisons restantes ; aucun joueur enfermé ni données supprimées. Repli d’une ancienne position devenue obstacle sur l’entrée(1,7). Guide déplacé à(19,10) après contrôle visuel pour le dégager du nouveau lampadaire, dialogue adapté à la place centrale. Hoze/équipe/IA/progression, refuge et boutique existants conservés.
+
+Métadonnées herbes/terre régénérées en lecture seule :aucune haute herbe ni terre sur la nouvelle ville pavée, donc retrait de ses anciens profils (24 cartes herbe,25 cartes terre). Recette terre conserve les trois sols existants pertinents et son test exige l’absence de traces à Valpierre. Tests et deux recettes Valpierre mis à jour pour les quatre portes, entrées routières, lac/murs, sauvegarde invalide et maisons héritées.
+
+Validation complète :741 tests applicatifs/77 SQL, audits et lint/build racine `e2629405ad4dc1d0` passés. Recette `test:valpierre-routes-browser` :quatre tailles, quatre portes/retours, boutique et Hoze, anciennes maisons3/4 avec sorties, guide, lac solide, refuge d’une ancienne position, vrais déplacements sur Routes5/6 jusqu’à Comptoirville dans les trois modes, deux rencontres sauvages et zéro erreur. Après déplacement visuel du guide,11 tests Valpierre revérifiés et vrai dialogue à la nouvelle position contrôlé en HTTPS.
+
+Publication le23/10/2026 à10 h04 Paris après sauvegarde sources/dist/SQL/checkpoint (0 expédition active), client `8f3925a`, service actif PID1365423/NRestarts0, index atomique/anciens bundles conservés. Contrôle HTTPS sur compte temporaire supprimé :six images/foreground exacts, quatre tailles, quatre portes, anciens intérieurs et sorties, guide, accès routiers réciproques jusqu’à Comptoirville, position invalide récupérée et sauvegarde/reconnexion ; index exact, Knov/api-test inchangés, zéro erreur. Aucun schéma, équipe, progression ou record existant réécrit ; `pourtoi` intact. Sauvegarde `/home/ubuntu/dev/backups/riftmon-valpierre-replacement-2026-10-23T07-58-03-964Z` ; logs `/tmp/riftmon-valpierre-replacement-{verify,unit,browser,deploy,public}.log`.
+
+
 ## Vent plus sensible et feuillages animés — 23 octobre 2026
 
 Vent fort :42 feuilles au lieu de28, six rafales au lieu de quatre, déplacements205 px/s au lieu de132, feuilles plus contrastées sur les chemins clairs et filets d’air clairs avec une ombre douce. Vent1/2 gardent des intensités graduelles ; pluie, sable, neige, profils serveur et effets de combat inchangés. Aucune caméra ni carte déplacée.

@@ -1608,7 +1608,7 @@
     "x": null,
     "sentences": [
       {
-        "text": "Bienvenue à Valpierre ! La Route 4 arrive à l’ouest. L’arène de Hoze est dans le grand bâtiment au sud-ouest, la boutique à l’est et les maisons au nord. À l’est de la ville, les Routes 5 et 6 mènent à Comptoirville et à son centre commercial.",
+        "text": "Bienvenue à Valpierre ! La Route 4 arrive à l’ouest et la Route 5 repart à l’est, vers la Route 6 et Comptoirville. L’arène de Hoze est dans le grand bâtiment au sud, la boutique juste à sa droite et les deux maisons au nord.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,

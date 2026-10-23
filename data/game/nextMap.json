@@ -496,8 +496,8 @@
           "valX": 27,
           "valY": null,
           "goto": "ville_safe1",
-          "nexX": 64,
-          "nexY": 160
+          "nexX": 32,
+          "nexY": 256
         },
         {
           "valX": 0,
@@ -1420,8 +1420,8 @@
           "valX": null,
           "valY": 17,
           "goto": "ville_safe1",
-          "nexX": 256,
-          "nexY": 448
+          "nexX": 448,
+          "nexY": 544
         }
       ]
     },
@@ -1437,8 +1437,8 @@
           "valX": null,
           "valY": 17,
           "goto": "ville_safe1",
-          "nexX": 768,
-          "nexY": 384
+          "nexX": 704,
+          "nexY": 544
         }
       ]
     },
@@ -1454,8 +1454,8 @@
           "valX": null,
           "valY": 17,
           "goto": "ville_safe1",
-          "nexX": 96,
-          "nexY": 128
+          "nexX": 128,
+          "nexY": 224
         }
       ]
     },
@@ -1471,8 +1471,8 @@
           "valX": null,
           "valY": 17,
           "goto": "ville_safe1",
-          "nexX": 288,
-          "nexY": 128
+          "nexX": 736,
+          "nexY": 224
         }
       ]
     },
@@ -1488,10 +1488,11 @@
           "valX": null,
           "valY": 17,
           "goto": "ville_safe1",
-          "nexX": 480,
-          "nexY": 128
+          "nexX": 128,
+          "nexY": 224
         }
-      ]
+      ],
+      "legacyOnly": true
     },
     {
       "mapName": "ville_safe1_maison4",
@@ -1505,10 +1506,11 @@
           "valX": null,
           "valY": 17,
           "goto": "ville_safe1",
-          "nexX": 672,
-          "nexY": 128
+          "nexX": 736,
+          "nexY": 224
         }
-      ]
+      ],
+      "legacyOnly": true
     },
     {
       "mapName": "ville_safe1",
@@ -1533,44 +1535,34 @@
           "nexY": 160
         },
         {
-          "valX": 8,
-          "valY": 12,
+          "valX": 14,
+          "valY": 15,
+          "logicalDoor": true,
           "goto": "ville_safe1_arene",
           "nexX": 416,
           "nexY": 544
         },
         {
-          "valX": 24,
-          "valY": 10,
+          "valX": 22,
+          "valY": 15,
+          "logicalDoor": true,
           "goto": "ville_safe1_shop",
           "nexX": 416,
           "nexY": 544
         },
         {
-          "valX": 3,
-          "valY": 2,
+          "valX": 4,
+          "valY": 5,
+          "logicalDoor": true,
           "goto": "ville_safe1_maison1",
           "nexX": 416,
           "nexY": 544
         },
         {
-          "valX": 9,
-          "valY": 2,
+          "valX": 23,
+          "valY": 5,
+          "logicalDoor": true,
           "goto": "ville_safe1_maison2",
-          "nexX": 416,
-          "nexY": 544
-        },
-        {
-          "valX": 15,
-          "valY": 2,
-          "goto": "ville_safe1_maison3",
-          "nexX": 416,
-          "nexY": 544
-        },
-        {
-          "valX": 21,
-          "valY": 2,
-          "goto": "ville_safe1_maison4",
           "nexX": 416,
           "nexY": 544
         }
@@ -2485,7 +2477,7 @@
           "valY": null,
           "goto": "ville_safe1",
           "nexX": 832,
-          "nexY": 160
+          "nexY": 256
         },
         {
           "valX": null,

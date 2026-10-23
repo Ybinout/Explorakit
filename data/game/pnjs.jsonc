@@ -641,8 +641,8 @@
       "name": "valpierre_guide",
       "interactionName": "valpierre_guide",
       "map": "ville_safe1",
-      "x": 18,
-      "y": 5,
+      "x": 19,
+      "y": 10,
       "sprite": "townspeople.png",
       "spriteFrame": {
         "columns": 8,

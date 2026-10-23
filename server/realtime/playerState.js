@@ -90,7 +90,7 @@ function findFirstWalkablePosition(collisionData2D, mapName) {
     try { changes = changeMapData(mapName); } catch (_) { /* Synthetic callers may have no map metadata. */ }
     // Updated author maps can invalidate old saves. Prefer their connected road
     // entrance over decorative walkable pockets behind roofs or cliffs.
-    const entry = { ville_safe1:[2,4], route5:[1,4], route6:[5,1], ville_commerciale:[26,17], tour_rdc:[13,16], tour_etage1:[3,5], tour_etage2:[3,5], tour_etage3:[3,5] }[mapName];
+    const entry = { ville_safe1:[1,7], route5:[1,4], route6:[5,1], ville_commerciale:[26,17], tour_rdc:[13,16], tour_etage1:[3,5], tour_etage2:[3,5], tour_etage3:[3,5] }[mapName];
     if (entry) {
         const [x,y] = entry;
         if (collisionData2D[y]?.[x] === 0 && !changes[y]?.[x] && !isPnjBlockingTile(mapName,x,y))
