@@ -1,5 +1,17 @@
 # Contexte permanent — RiftMon
 
+## Gwenn garde le sud de la Route 8 — 24 octobre 2026
+
+PNJ fixe `gwenn_route8` placé en (23,17) sur `gen_route8`, avec sprite civil classique et portrait illustré correspondant (index 20). En Aventure, dialogue de refus avant `hoze_defeated`, puis duel de dresseur. Victoire unique persistée `story_gwenn_route8` / `gwenn_route8_defeated` ; fuite ou défaite autorise une nouvelle tentative, victoire interdit les replays et nouvelles récompenses. Pas de déblocage implicite par un autre champion pour les sauvegardes avancées. Objectif après Hoze mentionne le passage par Gwenn sans changer les étapes/reçus de l’histoire.
+
+Équipe : Noarfang 37 (Air Slash, Extrasensory, Reflect, Roost, Baie Sitrus), Pharamp 38 (Thunderbolt, Power Gem, Thunder Wave, Light Screen, Restes), Scarhino 39 (Brick Break, Aerial Ace, Rock Slide, Bulk Up, Ceinture Pro). K1/K1/K2, IV18, EV modérés, IA experte, aucune pièce imposée en réserve. Récompense configurée 1600, soit 2400 avec le multiplicateur dresseur existant. Talents/moves/items validés par le contrôle de contenu.
+
+Barrière réutilisée `gwenn_ocreville` sur x18–25/y18, sens sud, sortie `gen_ville5`. Contrôle serveur couvrant tous les passages réels et sauvegardes déjà au-delà, retour vers le nord autorisé, ouverture animée après victoire. Le PNJ reste présent pour son dialogue après victoire et laisse des cases de passage libres. Aucune carte, collision ou transition modifiée. Les expéditions conservent leur circulation sans verrou narratif.
+
+Vérifications : 876 tests applicatifs réussis ; deux suites SQL/Socket ciblées réussies, dont vrai parcours Hoze → Gwenn, refus de faux dialogue avant Hoze, fuite/reprise, victoire, reconnexion et rejet d’un replay/récompense doublée. Parcours exhaustif des cinq sorties sud, accès au PNJ et retour testés. Recette navigateur des trois gardiens étendue à Gwenn : refus/autorisation, sprite/portrait, corde et ouverture, 320/393/1365, circulation Colosseum. Lint/build réussis. Logs `/tmp/riftmon-gwenn-*`.
+
+Publication serveur/client à 2026-10-23T22:31:34.988Z (24 octobre, 00 h 31 Paris), client `0f52b32`, build `d40adfe34113f6cf`. Recette navigateur finale trois gardiens réussie sans erreur, y compris Route 8 en Colosseum sans verrou ; aucune expédition active avant reprise. PID 1497198 actif/NRestarts 0, index HTTPS vérifié, Knov/api-test inchangés. Sauvegarde SQL/sources/checkpoint/index dans `/home/ubuntu/dev/backups/riftmon-gwenn-2026-10-23T22-30-28-147Z`, anciens bundles conservés.
+
 ## Attaques : suppression du cercle de préparation — 24 octobre 2026
 
 Le cercle et le disque génériques de la phase `windup` sont retirés de `BattleMoveEffect`, avec leur CSS devenu inutilisé. Ce composant est partagé par les trois modes et les deux camps : plus de cercle sur le Pokémon au lancement de son attaque. Aucun changement de timing, déplacement du lanceur, projectile, dégâts, météo ou socle.

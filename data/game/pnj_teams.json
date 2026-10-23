@@ -1922,6 +1922,96 @@
         "name": "7p",
         "ai": "expert"
       }
+    },
+    {
+      "name": "gwenn_route8",
+      "team": [
+        {
+          "pokemonId": 164,
+          "name": "Noarfang",
+          "level": 37,
+          "abilities": [
+            "Air Slash",
+            "Extrasensory",
+            "Reflect",
+            "Roost"
+          ],
+          "passiveAbility": "Keen Eye",
+          "heldItem": "sitrus_berry",
+          "k": 1,
+          "nature": "Calm",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          },
+          "ev": {
+            "hp": 64,
+            "specialAttack": 64
+          }
+        },
+        {
+          "pokemonId": 181,
+          "name": "Pharamp",
+          "level": 38,
+          "abilities": [
+            "Thunderbolt",
+            "Power Gem",
+            "Thunder Wave",
+            "Light Screen"
+          ],
+          "passiveAbility": "Static",
+          "heldItem": "leftovers",
+          "k": 1,
+          "nature": "Modest",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          },
+          "ev": {
+            "hp": 84,
+            "specialAttack": 84
+          }
+        },
+        {
+          "pokemonId": 214,
+          "name": "Scarhino",
+          "level": 39,
+          "abilities": [
+            "Brick Break",
+            "Aerial Ace",
+            "Rock Slide",
+            "Bulk Up"
+          ],
+          "passiveAbility": "Guts",
+          "heldItem": "expert_belt",
+          "k": 2,
+          "nature": "Jolly",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          },
+          "ev": {
+            "attack": 96,
+            "speed": 96
+          }
+        }
+      ],
+      "strategy": {
+        "name": "Gwenn",
+        "ai": "expert"
+      }
     }
   ]
 }

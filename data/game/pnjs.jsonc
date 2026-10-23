@@ -1031,6 +1031,21 @@
         "index": 18
       },
       "roamRadius": 0
+    },
+    {
+      "name": "gwenn_route8",
+      "interactionName": "gwenn_route8",
+      "map": "gen_route8",
+      "x": 23,
+      "y": 17,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 20
+      },
+      "roamRadius": 0
     }
   ]
 }

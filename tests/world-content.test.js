@@ -120,7 +120,7 @@ test('les raccords vers les intérieurs livrés par l’agent cartes sont exacts
 
 test('chaque nouveau PNJ est posé sur une case libre et possède un dialogue exploitable', () => {
     const pnjs = readJson('data', 'game', 'pnjs.jsonc').pnjs.filter((pnj) => pnj.map.startsWith('gen_'));
-    assert.equal(pnjs.length, 39); // Hoze now lives in Valpierre, outside the generated region.
+    assert.equal(pnjs.length, 40); // Hoze is in Valpierre; Gwenn now guards Route 8.
     for (const pnj of pnjs) {
         const map = readJson('data', 'maps', `${resolveMapSourceName(pnj.map)}.json`);
         const layers = technicalLayers(map);
@@ -144,7 +144,7 @@ test('les champions conservent leurs planches et les civils utilisent les portra
     assert.deepEqual(usedSprites, expectedSprites);
 
     const civilians = pnjs.filter(pnj => pnj.sprite === 'townspeople.png');
-    assert.equal(civilians.length, 66);
+    assert.equal(civilians.length, 67);
     assert.equal(new Set(civilians.map(pnj => pnj.spriteFrame.index)).size, 32);
     const dialogues = readJson('data', 'game', 'interact.json');
     for (const pnj of civilians) {

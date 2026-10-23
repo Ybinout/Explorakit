@@ -23,6 +23,23 @@
       "name": "Aspha",
       "message": "Aspha : Avant de rejoindre la Ville du Lac, montre-moi ce que vaut ton équipe ! Viens me parler avec A.",
       "messageEn": "Aspha: Before heading to Lake Town, show me what your team can do! Come talk to me with A."
+    },
+    {
+      "id": "gwenn_ocreville",
+      "map": "gen_route8",
+      "nextMap": "gen_ville5",
+      "npcBattle": "gwenn_route8",
+      "requiredFlag": "gwenn_route8_defeated",
+      "direction": "down",
+      "tiles": {
+        "x": 18,
+        "y": 18,
+        "width": 8,
+        "height": 1
+      },
+      "name": "Gwenn",
+      "message": "Gwenn : Le passage est fermé. Viens me parler avec A pour savoir si tu peux continuer.",
+      "messageEn": "Gwenn: This path is closed. Come talk to me with A before going further."
     }
   ]
 }

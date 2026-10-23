@@ -2,7 +2,7 @@ const test=require('node:test'),assert=require('node:assert/strict'),path=requir
 const {spawn}=require('node:child_process'),{once}=require('node:events'),{randomUUID}=require('node:crypto');
 const enabled=process.env.RUN_MYSQL_TESTS==='1';
 function event(socket,name,predicate=()=>true){return new Promise((resolve,reject)=>{const timer=setTimeout(()=>{socket.off(name,handler);reject(Error('Missing '+name));},7000);const handler=p=>{if(!predicate(p))return;clearTimeout(timer);socket.off(name,handler);resolve(p);};socket.on(name,handler);});}
-test('real Adventure sockets: Wayne and Aspha deny passage before movement, unlock by persisted victory and survive reconnect', {skip:!enabled,timeout:40000},async()=>{
+test('real Adventure sockets: Wayne, Aspha and Gwenn deny passage before movement, unlock by persisted victory and survive reconnect', {skip:!enabled,timeout:40000},async()=>{
  assert.match(process.env.DB_NAME||'',/test/i);
  const {dbPool:db}=require('../server/config/database'),{io}=require('../vue-explorakit/node_modules/socket.io-client');
  const port=31249,base=`http://127.0.0.1:${port}`;
@@ -36,7 +36,16 @@ test('real Adventure sockets: Wayne and Aspha deny passage before movement, unlo
   const saved=await savePosition();assert.equal(saved.map,'ville1');
   await db.execute("DELETE FROM player_story_flags WHERE user_id=? AND flag_key IN ('route_guard_defeated','aspha_route2_defeated')",[fixture.user.id]);
   await db.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,'moonpunch_defeated','true')",[fixture.user.id]);
-  const legacy=await at('route2',25,6);assert(legacy.gates.every(g=>!g.locked));await move('move_d',26,6);
+  const legacy=await at('route2',25,6);assert(legacy.gates.filter(g=>g.id!=='gwenn_ocreville').every(g=>!g.locked));await move('move_d',26,6);
+  await at('gen_route8',22,17);const beforeGwenn=await savePosition();await blocked('move_s','gwenn_ocreville');assert.deepEqual(await savePosition(),beforeGwenn);
+  await db.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,'hoze_defeated','true')",[fixture.user.id]);
+  await at('gen_route8',22,17);await blocked('move_s','gwenn_ocreville');
+  await at('gen_route8',22,18);await blocked('move_s','gwenn_ocreville');
+  await move('move_z',22,17);
+  assert((await require('../server/persistence/progressionRepository').completeNpcBattle(fixture.user.id,'gwenn_route8')).granted);
+  await move('move_s',22,18);await pause(370);const city=event(socket,'newmap');socket.emit('playerAction','move_s');await city;
+  assert.equal((await savePosition()).map,'gen_ville5');
+  const restored=await at('gen_route8',22,17);assert(!restored.gates.find(g=>g.id==='gwenn_ocreville').locked);await move('move_s',22,18);
  }finally{
   socket?.disconnect();if(child.exitCode===null){const stopped=once(child,'exit');child.kill('SIGTERM');await stopped;}
   for(const id of ids)await db.execute('DELETE FROM users WHERE id=?',[id]);await db.end();
