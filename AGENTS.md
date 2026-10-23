@@ -1,5 +1,13 @@
 # Contexte permanent — RiftMon
 
+## Économie sauvage Aventure : progression tardive et loot — 23 octobre 2026
+
+`adventureMoneyReward` prolonge la progression de base à `min(250, 30 + 3 × niveau du sauvage)` : 150 ₽ au niveau 40, 180 au niveau 50, 210 au niveau 60, 240 au niveau 70 et 250 dès le niveau 74. Le précédent plafond réel était 180 au niveau 50. Même gain pour victoire et capture réussie, avec les multiplicateurs de récompense existants appliqués après le plafond de base. Les gains Rift/Colosseum gardent leur courbe `min(120, 20 + 2 × niveau)`.
+
+Chance de loot Aventure portée de 4 % à 5 % (1/20) par victoire sauvage grâce à `wildLoot.ADVENTURE_CHANCE`. `CHANCE` reste 1/25 pour les expéditions, avec leurs bonus Drifts. Répartition des familles, poids de rareté et historique permanent des objets uniques conservés. Toujours aucun loot d’objet à la capture, fuite ou défaite ; aucune modification rétroactive d’argent/inventaire.
+
+Vérifications : 66 tests ciblés, 871 tests applicatifs et 63 tests SQL réussis. Seuil 5 % vérifié via vraie transaction SQL, nouveaux tirages entre 4 % et 5 %, concurrence/unicité et exclusion des objets tenus/stockés ; courbe de gains monotone, seuils/plafond/bonus et isolation expéditions. Logs `/tmp/riftmon-economy-high-*`. Publication serveur seule à 2026-10-23T21:37:04.611Z : aucune expédition active avant reprise, PID 1486045 actif/NRestarts 0 ; HTTPS 200, index client et sites Knov/api-test inchangés. Sauvegarde sources/SQL/checkpoint/index dans `/home/ubuntu/dev/backups/riftmon-economy-high-2026-10-23T21-36-45-154Z`.
+
 ## Grand Comptoir : progression par badges — 23 octobre 2026
 
 Les quatre étages restent accessibles et tous les articles de chaque rayon restent visibles. En Aventure, `department_store.json` définit un `requiredTier` par offre, fondé sur les mêmes drapeaux de victoire que les boutiques ordinaires : Mounir 1, Hoze 2, Raphael 3, Ana 4, Wanda 5. Articles verrouillés accompagnés du nom du badge/champion requis (FR/EN), sélecteur et achat désactivés. Indication générale dans la zone défilante pour préserver la place sur petits écrans. Prix, catégories et stock conservés ; canne à pêche toujours accessible sans badge. Aucun changement de cartes ni de sauvegardes existantes.

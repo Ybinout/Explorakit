@@ -1,5 +1,6 @@
 const items = require('../../../data/game/items.json').items;
-const CHANCE = 1 / 25;
+const CHANCE = 1 / 25; // Expedition base, before Drift bonuses.
+const ADVENTURE_CHANCE = 1 / 20;
 const GROUP_WEIGHTS = Object.freeze({berries:55, vitamins:25, equipment:15, key:5});
 const uniqueKeys = items.filter(i => i.unique).map(i => i.key);
 const byKey = new Map(items.map(i => [i.key,i]));
@@ -27,4 +28,4 @@ function awardExpedition(player, random = Math.random, bonus = 1) {
     player.items[item.key] = (player.items[item.key] || 0) + 1;
     return item;
 }
-module.exports = {CHANCE, GROUP_WEIGHTS, uniqueKeys, select, awardExpedition};
+module.exports = {CHANCE, ADVENTURE_CHANCE, GROUP_WEIGHTS, uniqueKeys, select, awardExpedition};

@@ -5,7 +5,7 @@ async function hasExpShare(userId) {
     return Boolean(row.owned);
 }
 async function awardWildLoot(userId, random = Math.random) {
-    if (random() >= loot.CHANCE) return null;
+    if (random() >= loot.ADVENTURE_CHANCE) return null;
     return withTransaction(async c => {
         const [[owner]] = await c.execute('SELECT id FROM users WHERE id=? FOR UPDATE',[userId]);
         if (!owner) throw Error('Joueur introuvable.');
