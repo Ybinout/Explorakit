@@ -1,3 +1,4 @@
+const { growthSnapshot, levelGrowth } = require('../models/levelGrowth');
 function clearBattleTransientState(team) {
     if (!Array.isArray(team)) return;
     for (const pokemon of team) {
@@ -71,6 +72,7 @@ class BattleSummaryTracker {
     constructor(team = [], mode = 'adventure') {
     this.mode=mode; this.team=team; this.initial = team.map(pokemon => ({
         pokemon,
+        growth: growthSnapshot(pokemon),
         experience: Number(pokemon.experience) || 0,
         level: Number(pokemon.level) || 1
     }));
@@ -79,9 +81,9 @@ class BattleSummaryTracker {
     snapshot(currentTeam = this.team, capturedPokemon = null) {
             return {
                 mode: this.mode,
-                experience: this.initial.flatMap(({ pokemon, experience, level }) => {
+                experience: this.initial.flatMap(({ pokemon, experience, level, growth }) => {
                     const xpGained = Math.max(0, (Number(pokemon.experience) || 0) - experience);
-                    return xpGained ? [{ ...describePokemon(pokemon), xpGained, previousLevel: level }] : [];
+                    return xpGained ? [{ ...describePokemon(pokemon), xpGained, previousLevel: level, levelGrowth:levelGrowth(pokemon,growth) }] : [];
                 }),
                 money: this.money,
                 loot: [...this.loot],

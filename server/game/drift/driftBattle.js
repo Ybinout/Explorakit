@@ -1,3 +1,4 @@
+const { growthSnapshot, levelGrowth } = require('../models/levelGrowth');
 const { replacementIndexes } = require('../battle/replacementChoice');
 const presentation = require('../battle/presentationState');
 const { randomUUID } = require('node:crypto');
@@ -261,12 +262,14 @@ class DriftBattle {
         // Keep the Colosseum fighter multiplier and the existing reserve sharing rates.
         const xp = isColosseum ? Math.max(1, Math.floor(Math.floor(sharingBase * 9 / 10) * 4 / 5)) : sharingBase;
         const previousLevel = active.level, previousExperience = active.experience;
+        const beforeGrowth = growthSnapshot(active);
         active.gainExperience(xp);
-        this.emit(this.a,'battleExperience',{ pokemon: active, xpGained: xp, previousLevel, previousExperience, effortGained:effort.get(active.uuid)||{} });
+        this.emit(this.a,'battleExperience',{ pokemon: active, xpGained: xp, previousLevel, previousExperience, effortGained:effort.get(active.uuid)||{},levelGrowth:levelGrowth(active,beforeGrowth) });
         for (const [reserve, reserveXp] of reserveAwards) {
             const beforeLevel=reserve.level,beforeExperience=reserve.experience;
+            const reserveGrowth=growthSnapshot(reserve);
             reserve.gainExperience(reserveXp);
-            if (expShare && reserveXp > 0) this.emit(this.a,'battleExperience',{pokemon:reserve,xpGained:reserveXp,previousLevel:beforeLevel,previousExperience:beforeExperience,effortGained:effort.get(reserve.uuid)||{}});
+            if (expShare && reserveXp > 0) this.emit(this.a,'battleExperience',{pokemon:reserve,xpGained:reserveXp,previousLevel:beforeLevel,previousExperience:beforeExperience,effortGained:effort.get(reserve.uuid)||{},levelGrowth:levelGrowth(reserve,reserveGrowth)});
         }
         this.a.chain = Math.min(5,(this.a.chain || 0)+1);
     }

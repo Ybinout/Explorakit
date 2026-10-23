@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Récapitulatif des montées de niveau — 23 octobre 2026
+
+Récapitulatif commun des six statistiques permanentes (PV max, Attaque, Défense, Atq.Spé., Déf.Spé., Vitesse) : annonce compacte pendant l’XP et tableau avant→après/gain dans le résultat pour chaque Pokémon monté de niveau, y compris réserves et compagnons perdus après leur progression. Les gains multiples d’un même combat sont regroupés par Pokémon ; les EV gagnés pendant le combat sont compris dans le bilan permanent, les bonus temporaires et dégâts exclus. Une évolution simultanée est signalée ; les différences négatives ou nulles restent exactes. Aucun changement des gains d’XP, EV, niveaux, stats ou durées des combats.
+
+`levelGrowth.js` copie les valeurs permanentes ; `BattleSummaryTracker` conserve les instantanés dans les checkpoints existants et tolère les anciens sans ces données. Les événements XP portent aussi le récap, sans nouvelle attente imposée avant le résultat. Les récompenses d’entraînement des contrats renvoient le même tableau affiché dans le carnet. Le composant `LevelGrowth.vue` utilise la DA et les thèmes existants, sans nouvelle fenêtre bloquante ni déplacement des commandes.
+
+Validation :771 tests applicatifs et80 SQL passés, audits/lint/build `6f649462fb6fe515` réussis. `npm run test:level-growth-browser` :vrai combat Aventure, Multi Exp, réserve Colosseum sans Multi Exp, contrat d’entraînement, comparaison des valeurs avec SQL, quatre tailles320/393/844/1365, thèmes clair/sombre, six stats visibles, commandes fixes et aucune erreur navigateur. Tests ciblés :multi-niveaux, évolution/baisse possible, absence de niveau gagné, exclusion bonus/PV courants, réserves/pertes et checkpoints. Recette ajoutée à la CI ; logs `/tmp/riftmon-level-growth-*`.
+
+Publication le23/10/2026 à12 h51 Paris :client `058d924`, build `6f649462fb6fe515`, service actif PID1415616/NRestarts0, aucune expédition active avant reprise. Sauvegarde `/home/ubuntu/dev/backups/riftmon-level-growth-2026-10-23T10-51-15-093Z`. Index atomique et anciens bundles conservés ; contrôle HTTPS sur compte temporaire supprimé :vraie rencontre, niveau10→11, six stats affichées et comparaison SQL réussie, aucune erreur navigateur. Knov/api-test inchangés.
+
 ## CS au Grand Comptoir — 23 octobre 2026
 
 101 capacités CT/CS de génération IV sont vendues sous le nom « CS + attaque française », dans un rayon CS au niveau2 du Grand Comptoir (`tour_etage1`), avec une poche dédiée dans le sac. Compatibilité par espèce et méthode machine uniquement, union Diamant/Perle/Platine/HGSS pour1–493 ; USUM/Let’s Go pour les espèces ultérieures déjà présentes. Source PokeAPI épinglée `81d20919845b6a445969b9265aab5cec6b04cece`, générateur `scripts/generateMachines.py` et provenance dans `data/game/machines.json`. Aucun déplacement de terrain ajouté avec Surf/Vol/Coupe. Prix1500/3000/4500 selon puissance, aucun déblocage dans les autres boutiques.
@@ -2442,6 +2452,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+23/10/2026 — Récap des six stats permanentes aux montées de niveau, bilan regroupé par Pokémon et récompenses d’entraînement ;771+80 tests et recette navigateur quatre tailles/deux thèmes réussis. Voir entrée en tête.
 
 23/10/2026 —101 CS au niveau2 du Grand Comptoir, compatibilité machine par espèce, choix/remplacement explicite, consommation atomique et poche du sac ;767+80 tests et recette navigateur passés. Voir entrée en tête.
 

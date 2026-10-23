@@ -1,3 +1,4 @@
+const { growthSnapshot, levelGrowth } = require('./levelGrowth');
 const { yields } = require('../../../data/game/effort_yields.json');
 
 const STAT_KEYS = ['hp', 'attack', 'defense', 'specialAttack', 'specialDefense', 'speed'];
@@ -35,8 +36,9 @@ function rewardTraining(pokemon, defeated, xp, io, playerId, options = {}) {
     const previousLevel = pokemon.level;
     const previousExperience = pokemon.experience;
     const effortGained = options.effortGained ?? grantEffort(pokemon, defeated);
+    const beforeGrowth = growthSnapshot(pokemon);
     pokemon.gainExperience(xp);
-    io.to(playerId).emit('battleExperience', { pokemon, xpGained: xp, previousLevel, previousExperience, effortGained });
+    io.to(playerId).emit('battleExperience', { pokemon, xpGained: xp, previousLevel, previousExperience, effortGained, levelGrowth:levelGrowth(pokemon,beforeGrowth) });
 }
 
 module.exports = { STAT_KEYS, normalizeEffort, effortYield, grantEffort, grantParticipantEffort, rewardTraining };
