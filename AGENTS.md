@@ -1,5 +1,10 @@
 # Contexte permanent — RiftMon
 
+## Décors de pêche simplifiés — 23 octobre 2026
+
+Demande visuelle : lac désormais dominé par l’eau (~80% de l’image), rive lointaine discrète, moins de détails et suppression du sol/de la végétation au premier plan. Deux éditions imagegen intégrées sous `lake-wide-v2.webp` et `lake-mobile-v2.webp`, ~169Ko au total, anciennes versions conservées ; prompts et sources dans `docs/FISHING_ASSETS.md`. Socles recolorés en bleu aquatique, mêmes positions/dimensions ; rendu partagé dans les trois modes. Aucun mécanisme de pêche, carte, météo ou donnée joueur modifié. Lint et build `e8a8d03d178b1789` passés ; recette pêche existante validée sur six lacs, trois modes, quatre tailles, mouvement réduit et vrai contexte PC, zéro erreur. Publication statique le23/10/2026 à11 h44 Paris, client `056c9b9`, sans redémarrage (PID1388260 conservé, actif/NRestarts0), index atomique et anciens bundles conservés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-lake-simple-2026-10-23T09-41-52-867Z` ; contrôle HTTPS sur compte temporaire supprimé réussi :vrais combats de pêche PC/mobile, octets des deux images v2 exacts, météo et socles conservés, six lacs, achat unique/sauvegarde, index exact, Knov/api-test inchangés et zéro erreur. Logs `/tmp/riftmon-lake-simple-*`.
+
+
 ## Retour d’arène et derniers niveaux — 23 octobre 2026
 
 Retour de combat : les sprites dont le téléchargement a échoué (`complete` mais dimensions nulles) sont ignorés au dessin ; le contexte canvas est restauré même si un effet échoue. La boucle réserve sa prochaine image avant de dessiner et récupère une erreur ponctuelle ; trois échecs consécutifs affichent une reprise explicite. Recréation du buffer et recalage du viewport après le résultat, retour d’onglet/page et restauration du contexte graphique mobile, sans reconnecter ni déplacer le joueur. Un paquet d’introduction tardif après la fin du combat ne reverrouille plus les commandes ; une déconnexion efface le verrou et les animations, et une erreur de présentation ne supprime pas le résultat serveur. Moteur partagé Aventure/Rift/Colosseum.
