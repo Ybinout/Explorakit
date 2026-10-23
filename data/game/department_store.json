@@ -96,7 +96,7 @@
     "tour_etage1": {
       "number": 2,
       "name": "Entraînement",
-      "description": "Vitamines, relances d’IV de 0 à 31 et remise à zéro des EV.",
+      "description": "Vitamines, relances d’IV, remise à zéro des EV et CS pour apprendre des attaques.",
       "specialty": "training",
       "offers": {
         "hp_up": {
@@ -155,6 +155,309 @@
         },
         "ev_reset_all": {
           "price": 600
+        },
+        "cs_swords_dance": {
+          "price": 1500
+        },
+        "cs_cut": {
+          "price": 1500
+        },
+        "cs_fly": {
+          "price": 3000
+        },
+        "cs_roar": {
+          "price": 1500
+        },
+        "cs_flamethrower": {
+          "price": 3000
+        },
+        "cs_surf": {
+          "price": 3000
+        },
+        "cs_ice_beam": {
+          "price": 3000
+        },
+        "cs_blizzard": {
+          "price": 4500
+        },
+        "cs_hyper_beam": {
+          "price": 4500
+        },
+        "cs_strength": {
+          "price": 3000
+        },
+        "cs_solar_beam": {
+          "price": 4500
+        },
+        "cs_thunderbolt": {
+          "price": 3000
+        },
+        "cs_thunder_wave": {
+          "price": 1500
+        },
+        "cs_thunder": {
+          "price": 4500
+        },
+        "cs_earthquake": {
+          "price": 4500
+        },
+        "cs_dig": {
+          "price": 3000
+        },
+        "cs_toxic": {
+          "price": 1500
+        },
+        "cs_psychic": {
+          "price": 3000
+        },
+        "cs_double_team": {
+          "price": 1500
+        },
+        "cs_light_screen": {
+          "price": 1500
+        },
+        "cs_reflect": {
+          "price": 1500
+        },
+        "cs_fire_blast": {
+          "price": 4500
+        },
+        "cs_waterfall": {
+          "price": 3000
+        },
+        "cs_dream_eater": {
+          "price": 4500
+        },
+        "cs_flash": {
+          "price": 1500
+        },
+        "cs_explosion": {
+          "price": 4500
+        },
+        "cs_rest": {
+          "price": 1500
+        },
+        "cs_rock_slide": {
+          "price": 1500
+        },
+        "cs_substitute": {
+          "price": 1500
+        },
+        "cs_thief": {
+          "price": 1500
+        },
+        "cs_protect": {
+          "price": 1500
+        },
+        "cs_sludge_bomb": {
+          "price": 3000
+        },
+        "cs_sandstorm": {
+          "price": 1500
+        },
+        "cs_giga_drain": {
+          "price": 1500
+        },
+        "cs_endure": {
+          "price": 1500
+        },
+        "cs_false_swipe": {
+          "price": 1500
+        },
+        "cs_swagger": {
+          "price": 1500
+        },
+        "cs_steel_wing": {
+          "price": 1500
+        },
+        "cs_attract": {
+          "price": 1500
+        },
+        "cs_sleep_talk": {
+          "price": 1500
+        },
+        "cs_return": {
+          "price": 1500
+        },
+        "cs_frustration": {
+          "price": 1500
+        },
+        "cs_safeguard": {
+          "price": 1500
+        },
+        "cs_iron_tail": {
+          "price": 4500
+        },
+        "cs_hidden_power": {
+          "price": 1500
+        },
+        "cs_rain_dance": {
+          "price": 1500
+        },
+        "cs_sunny_day": {
+          "price": 1500
+        },
+        "cs_psych_up": {
+          "price": 1500
+        },
+        "cs_shadow_ball": {
+          "price": 3000
+        },
+        "cs_rock_smash": {
+          "price": 1500
+        },
+        "cs_whirlpool": {
+          "price": 1500
+        },
+        "cs_hail": {
+          "price": 1500
+        },
+        "cs_torment": {
+          "price": 1500
+        },
+        "cs_will_o_wisp": {
+          "price": 1500
+        },
+        "cs_facade": {
+          "price": 1500
+        },
+        "cs_focus_punch": {
+          "price": 4500
+        },
+        "cs_taunt": {
+          "price": 1500
+        },
+        "cs_recycle": {
+          "price": 1500
+        },
+        "cs_brick_break": {
+          "price": 1500
+        },
+        "cs_skill_swap": {
+          "price": 1500
+        },
+        "cs_snatch": {
+          "price": 1500
+        },
+        "cs_secret_power": {
+          "price": 1500
+        },
+        "cs_overheat": {
+          "price": 4500
+        },
+        "cs_rock_tomb": {
+          "price": 1500
+        },
+        "cs_silver_wind": {
+          "price": 1500
+        },
+        "cs_bullet_seed": {
+          "price": 1500
+        },
+        "cs_aerial_ace": {
+          "price": 1500
+        },
+        "cs_dragon_claw": {
+          "price": 3000
+        },
+        "cs_bulk_up": {
+          "price": 1500
+        },
+        "cs_calm_mind": {
+          "price": 1500
+        },
+        "cs_shock_wave": {
+          "price": 1500
+        },
+        "cs_water_pulse": {
+          "price": 1500
+        },
+        "cs_roost": {
+          "price": 1500
+        },
+        "cs_gyro_ball": {
+          "price": 1500
+        },
+        "cs_brine": {
+          "price": 1500
+        },
+        "cs_natural_gift": {
+          "price": 1500
+        },
+        "cs_pluck": {
+          "price": 1500
+        },
+        "cs_u_turn": {
+          "price": 1500
+        },
+        "cs_payback": {
+          "price": 1500
+        },
+        "cs_embargo": {
+          "price": 1500
+        },
+        "cs_fling": {
+          "price": 1500
+        },
+        "cs_rock_polish": {
+          "price": 1500
+        },
+        "cs_poison_jab": {
+          "price": 3000
+        },
+        "cs_dark_pulse": {
+          "price": 3000
+        },
+        "cs_x_scissor": {
+          "price": 3000
+        },
+        "cs_dragon_pulse": {
+          "price": 3000
+        },
+        "cs_drain_punch": {
+          "price": 1500
+        },
+        "cs_focus_blast": {
+          "price": 4500
+        },
+        "cs_energy_ball": {
+          "price": 3000
+        },
+        "cs_giga_impact": {
+          "price": 4500
+        },
+        "cs_avalanche": {
+          "price": 1500
+        },
+        "cs_shadow_claw": {
+          "price": 1500
+        },
+        "cs_flash_cannon": {
+          "price": 3000
+        },
+        "cs_rock_climb": {
+          "price": 3000
+        },
+        "cs_defog": {
+          "price": 1500
+        },
+        "cs_trick_room": {
+          "price": 1500
+        },
+        "cs_stone_edge": {
+          "price": 4500
+        },
+        "cs_captivate": {
+          "price": 1500
+        },
+        "cs_stealth_rock": {
+          "price": 1500
+        },
+        "cs_grass_knot": {
+          "price": 1500
+        },
+        "cs_charge_beam": {
+          "price": 1500
         }
       }
     },

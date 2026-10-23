@@ -65,6 +65,7 @@ jobs:
       - run: RELEASE_DIST_DIR=/tmp/riftmon-root-dist npm run test:player-options-browser
       - run: RELEASE_DIST_DIR=/tmp/riftmon-root-dist npm run test:wind-trees-browser
       - run: RELEASE_DIST_DIR=/tmp/riftmon-root-dist npm run test:department-store-browser
+      - run: RELEASE_DIST_DIR=/tmp/riftmon-root-dist npm run test:machines-browser
       - run: RELEASE_DIST_DIR=/tmp/riftmon-root-dist npm run test:fishing-browser
       - run: RELEASE_DIST_DIR=/tmp/riftmon-root-dist npm run test:arena-return-browser
       - run: RELEASE_DIST_DIR=/tmp/riftmon-root-dist npm run test:valpierre-routes-browser

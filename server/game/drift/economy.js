@@ -103,6 +103,18 @@ function useRepel(p, key) {
     p.items[key]--; p.repelSteps = steps;
     return { success: true, items: bag(p), repelSteps: steps };
 }
+function useMachine(p, data) {
+    requireMutable(p);
+    if (!['exploration','preparation','tournament','colosseum_ready'].includes(p.run.phase)) fail('Apprentissage indisponible maintenant.');
+    const pokemon = p.equipe.pokemons.find(poke=>poke.uuid===data?.pokemonUuid);
+    if (!(p.items[data?.itemKey]>0)) fail('Cette CS n’est plus dans ton sac.');
+    let result;
+    try { result = require('../items/machines').teachMachine(pokemon,data?.itemKey,data); }
+    catch (error) { fail(error.message); }
+    Object.assign(pokemon,result);p.items[data.itemKey]--;p.ready=false;report.syncTeam(p);
+    report.event(p,'item',`${baseItems.find(i=>i.key===data.itemKey).name} utilisée sur ${pokemon.truename || pokemon.name}.`);
+    return {success:true,equipe:p.equipe,items:bag(p)};
+}
 function drop(p, source, random = Math.random) {
     const chance = { wild: .15, capture: .15, trainer: .5, arena: 1 }[source] || 0;
     const loot = [];
@@ -134,4 +146,4 @@ function evolve(p,key,uuid) {
     const evolution=stones.evolve(pokemon,key);p.items[key]--;p.ready=false;report.syncTeam(p);
     return {success:true,evolution,equipe:p.equipe,items:bag(p)};
 }
-module.exports = { useRepel, salePrice, replace, evolve, SLOT_LIMIT, prices, bag, shop, equip, remove, buy, usePotion, drop, requireMutable, fail };
+module.exports = { useMachine, useRepel, salePrice, replace, evolve, SLOT_LIMIT, prices, bag, shop, equip, remove, buy, usePotion, drop, requireMutable, fail };

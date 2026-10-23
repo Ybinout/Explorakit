@@ -165,6 +165,7 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
         gameCommand('pc:action',(p,data)=>require('../game/drift/pokemonComputer').mutate(p,data));
         gameCommand('drift:repel', (p, data) => economy.useRepel(p, data?.itemKey));
         gameCommand('drift:heal', (p, data) => economy.usePotion(p, data?.itemKey, data?.pokemonUuid,undefined,data?.quantity??1));
+        gameCommand('drift:useMachine', (p,data) => economy.useMachine(p,data));
         gameCommand('drift:learnMove', (p, data) => {
             const pokemon = p.equipe.pokemons.find(poke => poke.uuid === data?.pokemonUuid);
             try { Object.assign(pokemon, resolveMoveChoice(pokemon, data)); }

@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## CS au Grand Comptoir — 23 octobre 2026
+
+101 capacités CT/CS de génération IV sont vendues sous le nom « CS + attaque française », dans un rayon CS au niveau2 du Grand Comptoir (`tour_etage1`), avec une poche dédiée dans le sac. Compatibilité par espèce et méthode machine uniquement, union Diamant/Perle/Platine/HGSS pour1–493 ; USUM/Let’s Go pour les espèces ultérieures déjà présentes. Source PokeAPI épinglée `81d20919845b6a445969b9265aab5cec6b04cece`, générateur `scripts/generateMachines.py` et provenance dans `data/game/machines.json`. Aucun déplacement de terrain ajouté avec Surf/Vol/Coupe. Prix1500/3000/4500 selon puissance, aucun déblocage dans les autres boutiques.
+
+CS consommable après apprentissage réussi, hors combat sur un Pokémon conscient non œuf. Le sac indique incompatibilité/déjà connue, présente les caractéristiques, puis demande une confirmation et le choix explicite de l’attaque à oublier si quatre capacités. Ajout direct si place libre. Serveur autoritaire : propriété, stock, espèce, doublon et instantané des capacités vérifiés ; transaction SQL verrouillée pour consommation et capacités/PP, checkpoint pour Rift/Colosseum. Les PP des autres capacités et les autres choix d’apprentissage restent conservés ; aucune retouche des équipes existantes ni migration SQL.
+
+Validation :767 tests applicatifs et80 SQL passés, audits/lint/build `7802f3745d1ee388` réussis. `npm run test:machines-browser` vérifie les vrais achats/appels Socket et relecture SQL, incompatibilité affichée, annulation, remplacement, reconnexion, ajout en Colosseum, inventaires séparés, trois tailles320/393/1365 sans débordement ni erreur navigateur ; recette ajoutée à la CI. Tests métier couvrent aussi Rift, checkpoints, doubles requêtes concurrentes, PP, œufs/K.O. et choix périmés. Logs `/tmp/riftmon-machines-*`.
+
+Publication le23/10/2026 à12 h40 Paris :client `167bfc6`, build `7802f3745d1ee388`, service actif PID1407207/NRestarts0, aucune expédition active avant reprise. Sauvegarde `/home/ubuntu/dev/backups/riftmon-machines-2026-10-23T10-39-23-423Z`. Index atomique, anciens bundles conservés ; HTTPS200 et contrôle réel sur compte temporaire supprimé :rayon101, achat, apprentissage, relecture SQL et reconnexion réussis, zéro erreur navigateur. Knov/api-test inchangés.
+
 ## EV pour chaque participant — 23 octobre 2026
 
 À la défaite d’un adversaire, chaque Pokémon ayant réellement été face à lui reçoit son rendement EV complet, sans division entre participants. Suivi propre à l’identité de chaque adversaire, conservé lorsqu’il quitte puis revient sur le terrain ; les entrées/pivots/changements forcés passent par les mêmes points d’entrée que les effets de combat. Aventure (sauvages/dresseurs/arènes) et exploration/défis Rift/Colosseum ; aucun EV ajouté en PvP. Même règle à la capture, sans EV pour le Pokémon capturé ni les réserves jamais entrées, même avec Multi Exp. Les gains/règles d’XP restent inchangés. Les participants K.O. encore conservés dans l’équipe gardent leurs EV sans être soignés ; en expédition, un Pokémon définitivement supprimé ne reçoit rien, un K.O. protégé par talisman peut les recevoir. Plafonds252/statistique et510/total conservés.
@@ -2432,6 +2442,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+23/10/2026 —101 CS au niveau2 du Grand Comptoir, compatibilité machine par espèce, choix/remplacement explicite, consommation atomique et poche du sac ;767+80 tests et recette navigateur passés. Voir entrée en tête.
 
 23/10/2026 — EV complets pour chaque participant réel, par adversaire, y compris capture ; Multi Exp/XP inchangés, aucune récompense au banc/PvP.762+79 tests passés. Voir entrée en tête.
 

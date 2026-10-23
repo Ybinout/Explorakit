@@ -1368,6 +1368,915 @@
       "buy_price": 15000,
       "purchaseLimit": 1,
       "description": "Une canne solide pour tous les lacs. Approche-toi de l’eau et utilise Action pour pêcher. Achat unique, réutilisable à volonté."
+    },
+    {
+      "key": "cs_swords_dance",
+      "name": "CS Danse Lames",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Danse Lames à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Swords Dance"
+    },
+    {
+      "key": "cs_cut",
+      "name": "CS Coupe",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Coupe à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Cut"
+    },
+    {
+      "key": "cs_fly",
+      "name": "CS Vol",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Vol à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Fly"
+    },
+    {
+      "key": "cs_roar",
+      "name": "CS Hurlement",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Hurlement à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Roar"
+    },
+    {
+      "key": "cs_flamethrower",
+      "name": "CS Lance-Flammes",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Lance-Flammes à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Flamethrower"
+    },
+    {
+      "key": "cs_surf",
+      "name": "CS Surf",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Surf à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Surf"
+    },
+    {
+      "key": "cs_ice_beam",
+      "name": "CS Laser Glace",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Laser Glace à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Ice Beam"
+    },
+    {
+      "key": "cs_blizzard",
+      "name": "CS Blizzard",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Blizzard à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Blizzard"
+    },
+    {
+      "key": "cs_hyper_beam",
+      "name": "CS Ultralaser",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Ultralaser à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Hyper Beam"
+    },
+    {
+      "key": "cs_strength",
+      "name": "CS Force",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Force à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Strength"
+    },
+    {
+      "key": "cs_solar_beam",
+      "name": "CS Lance-Soleil",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Lance-Soleil à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Solar Beam"
+    },
+    {
+      "key": "cs_thunderbolt",
+      "name": "CS Tonnerre",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Tonnerre à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Thunderbolt"
+    },
+    {
+      "key": "cs_thunder_wave",
+      "name": "CS Cage Éclair",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Cage Éclair à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Thunder Wave"
+    },
+    {
+      "key": "cs_thunder",
+      "name": "CS Fatal-Foudre",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Fatal-Foudre à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Thunder"
+    },
+    {
+      "key": "cs_earthquake",
+      "name": "CS Séisme",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Séisme à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Earthquake"
+    },
+    {
+      "key": "cs_dig",
+      "name": "CS Tunnel",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Tunnel à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Dig"
+    },
+    {
+      "key": "cs_toxic",
+      "name": "CS Toxik",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Toxik à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Toxic"
+    },
+    {
+      "key": "cs_psychic",
+      "name": "CS Psyko",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Psyko à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Psychic"
+    },
+    {
+      "key": "cs_double_team",
+      "name": "CS Reflet",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Reflet à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Double Team"
+    },
+    {
+      "key": "cs_light_screen",
+      "name": "CS Mur Lumière",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Mur Lumière à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Light Screen"
+    },
+    {
+      "key": "cs_reflect",
+      "name": "CS Protection",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Protection à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Reflect"
+    },
+    {
+      "key": "cs_fire_blast",
+      "name": "CS Déflagration",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Déflagration à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Fire Blast"
+    },
+    {
+      "key": "cs_waterfall",
+      "name": "CS Cascade",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Cascade à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Waterfall"
+    },
+    {
+      "key": "cs_dream_eater",
+      "name": "CS Dévorêve",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Dévorêve à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Dream Eater"
+    },
+    {
+      "key": "cs_flash",
+      "name": "CS Flash",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Flash à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Flash"
+    },
+    {
+      "key": "cs_explosion",
+      "name": "CS Explosion",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Explosion à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Explosion"
+    },
+    {
+      "key": "cs_rest",
+      "name": "CS Repos",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Repos à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Rest"
+    },
+    {
+      "key": "cs_rock_slide",
+      "name": "CS Éboulement",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Éboulement à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Rock Slide"
+    },
+    {
+      "key": "cs_substitute",
+      "name": "CS Clonage",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Clonage à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Substitute"
+    },
+    {
+      "key": "cs_thief",
+      "name": "CS Larcin",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Larcin à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Thief"
+    },
+    {
+      "key": "cs_protect",
+      "name": "CS Abri",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Abri à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Protect"
+    },
+    {
+      "key": "cs_sludge_bomb",
+      "name": "CS Bombe Beurk",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Bombe Beurk à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Sludge Bomb"
+    },
+    {
+      "key": "cs_sandstorm",
+      "name": "CS Tempête de Sable",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Tempête de Sable à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Sandstorm"
+    },
+    {
+      "key": "cs_giga_drain",
+      "name": "CS Giga-Sangsue",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Giga-Sangsue à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Giga Drain"
+    },
+    {
+      "key": "cs_endure",
+      "name": "CS Ténacité",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Ténacité à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Endure"
+    },
+    {
+      "key": "cs_false_swipe",
+      "name": "CS Faux-Chage",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Faux-Chage à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "False Swipe"
+    },
+    {
+      "key": "cs_swagger",
+      "name": "CS Vantardise",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Vantardise à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Swagger"
+    },
+    {
+      "key": "cs_steel_wing",
+      "name": "CS Ailes d’Acier",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Ailes d’Acier à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Steel Wing"
+    },
+    {
+      "key": "cs_attract",
+      "name": "CS Attraction",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Attraction à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Attract"
+    },
+    {
+      "key": "cs_sleep_talk",
+      "name": "CS Blabla Dodo",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Blabla Dodo à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Sleep Talk"
+    },
+    {
+      "key": "cs_return",
+      "name": "CS Retour",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Retour à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Return"
+    },
+    {
+      "key": "cs_frustration",
+      "name": "CS Frustration",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Frustration à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Frustration"
+    },
+    {
+      "key": "cs_safeguard",
+      "name": "CS Rune Protect",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Rune Protect à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Safeguard"
+    },
+    {
+      "key": "cs_iron_tail",
+      "name": "CS Queue de Fer",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Queue de Fer à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Iron Tail"
+    },
+    {
+      "key": "cs_hidden_power",
+      "name": "CS Puissance Cachée",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Puissance Cachée à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Hidden Power"
+    },
+    {
+      "key": "cs_rain_dance",
+      "name": "CS Danse Pluie",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Danse Pluie à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Rain Dance"
+    },
+    {
+      "key": "cs_sunny_day",
+      "name": "CS Zénith",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Zénith à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Sunny Day"
+    },
+    {
+      "key": "cs_psych_up",
+      "name": "CS Boost",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Boost à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Psych Up"
+    },
+    {
+      "key": "cs_shadow_ball",
+      "name": "CS Ball’Ombre",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Ball’Ombre à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Shadow Ball"
+    },
+    {
+      "key": "cs_rock_smash",
+      "name": "CS Éclate-Roc",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Éclate-Roc à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Rock Smash"
+    },
+    {
+      "key": "cs_whirlpool",
+      "name": "CS Siphon",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Siphon à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Whirlpool"
+    },
+    {
+      "key": "cs_hail",
+      "name": "CS Grêle",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Grêle à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Hail"
+    },
+    {
+      "key": "cs_torment",
+      "name": "CS Tourmente",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Tourmente à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Torment"
+    },
+    {
+      "key": "cs_will_o_wisp",
+      "name": "CS Feu Follet",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Feu Follet à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Will-O-Wisp"
+    },
+    {
+      "key": "cs_facade",
+      "name": "CS Façade",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Façade à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Facade"
+    },
+    {
+      "key": "cs_focus_punch",
+      "name": "CS Mitra-Poing",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Mitra-Poing à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Focus Punch"
+    },
+    {
+      "key": "cs_taunt",
+      "name": "CS Provoc",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Provoc à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Taunt"
+    },
+    {
+      "key": "cs_recycle",
+      "name": "CS Recyclage",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Recyclage à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Recycle"
+    },
+    {
+      "key": "cs_brick_break",
+      "name": "CS Casse-Brique",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Casse-Brique à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Brick Break"
+    },
+    {
+      "key": "cs_skill_swap",
+      "name": "CS Échange",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Échange à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Skill Swap"
+    },
+    {
+      "key": "cs_snatch",
+      "name": "CS Saisie",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Saisie à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Snatch"
+    },
+    {
+      "key": "cs_secret_power",
+      "name": "CS Force Cachée",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Force Cachée à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Secret Power"
+    },
+    {
+      "key": "cs_overheat",
+      "name": "CS Surchauffe",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Surchauffe à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Overheat"
+    },
+    {
+      "key": "cs_rock_tomb",
+      "name": "CS Tomberoche",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Tomberoche à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Rock Tomb"
+    },
+    {
+      "key": "cs_silver_wind",
+      "name": "CS Vent Argenté",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Vent Argenté à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Silver Wind"
+    },
+    {
+      "key": "cs_bullet_seed",
+      "name": "CS Balle Graine",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Balle Graine à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Bullet Seed"
+    },
+    {
+      "key": "cs_aerial_ace",
+      "name": "CS Aéropique",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Aéropique à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Aerial Ace"
+    },
+    {
+      "key": "cs_dragon_claw",
+      "name": "CS Draco-Griffe",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Draco-Griffe à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Dragon Claw"
+    },
+    {
+      "key": "cs_bulk_up",
+      "name": "CS Gonflette",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Gonflette à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Bulk Up"
+    },
+    {
+      "key": "cs_calm_mind",
+      "name": "CS Plénitude",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Plénitude à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Calm Mind"
+    },
+    {
+      "key": "cs_shock_wave",
+      "name": "CS Onde de Choc",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Onde de Choc à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Shock Wave"
+    },
+    {
+      "key": "cs_water_pulse",
+      "name": "CS Vibraqua",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Vibraqua à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Water Pulse"
+    },
+    {
+      "key": "cs_roost",
+      "name": "CS Atterrissage",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Atterrissage à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Roost"
+    },
+    {
+      "key": "cs_gyro_ball",
+      "name": "CS Gyroballe",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Gyroballe à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Gyro Ball"
+    },
+    {
+      "key": "cs_brine",
+      "name": "CS Saumure",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Saumure à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Brine"
+    },
+    {
+      "key": "cs_natural_gift",
+      "name": "CS Don Naturel",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Don Naturel à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Natural Gift"
+    },
+    {
+      "key": "cs_pluck",
+      "name": "CS Picore",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Picore à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Pluck"
+    },
+    {
+      "key": "cs_u_turn",
+      "name": "CS Demi-Tour",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Demi-Tour à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "U-turn"
+    },
+    {
+      "key": "cs_payback",
+      "name": "CS Représailles",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Représailles à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Payback"
+    },
+    {
+      "key": "cs_embargo",
+      "name": "CS Embargo",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Embargo à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Embargo"
+    },
+    {
+      "key": "cs_fling",
+      "name": "CS Dégommage",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Dégommage à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Fling"
+    },
+    {
+      "key": "cs_rock_polish",
+      "name": "CS Poliroche",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Poliroche à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Rock Polish"
+    },
+    {
+      "key": "cs_poison_jab",
+      "name": "CS Direct Toxik",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Direct Toxik à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Poison Jab"
+    },
+    {
+      "key": "cs_dark_pulse",
+      "name": "CS Vibrobscur",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Vibrobscur à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Dark Pulse"
+    },
+    {
+      "key": "cs_x_scissor",
+      "name": "CS Plaie Croix",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Plaie Croix à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "X-Scissor"
+    },
+    {
+      "key": "cs_dragon_pulse",
+      "name": "CS Draco-Choc",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Draco-Choc à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Dragon Pulse"
+    },
+    {
+      "key": "cs_drain_punch",
+      "name": "CS Vampi-Poing",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Vampi-Poing à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Drain Punch"
+    },
+    {
+      "key": "cs_focus_blast",
+      "name": "CS Exploforce",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Exploforce à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Focus Blast"
+    },
+    {
+      "key": "cs_energy_ball",
+      "name": "CS Éco-Sphère",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Éco-Sphère à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Energy Ball"
+    },
+    {
+      "key": "cs_giga_impact",
+      "name": "CS Giga Impact",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Giga Impact à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Giga Impact"
+    },
+    {
+      "key": "cs_avalanche",
+      "name": "CS Avalanche",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Avalanche à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Avalanche"
+    },
+    {
+      "key": "cs_shadow_claw",
+      "name": "CS Griffe Ombre",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Griffe Ombre à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Shadow Claw"
+    },
+    {
+      "key": "cs_flash_cannon",
+      "name": "CS Luminocanon",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Luminocanon à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Flash Cannon"
+    },
+    {
+      "key": "cs_rock_climb",
+      "name": "CS Escalade",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Escalade à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Rock Climb"
+    },
+    {
+      "key": "cs_defog",
+      "name": "CS Anti-Brume",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Anti-Brume à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Defog"
+    },
+    {
+      "key": "cs_trick_room",
+      "name": "CS Distorsion",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Distorsion à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Trick Room"
+    },
+    {
+      "key": "cs_stone_edge",
+      "name": "CS Lame de Roc",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Lame de Roc à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Stone Edge"
+    },
+    {
+      "key": "cs_captivate",
+      "name": "CS Séduction",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Séduction à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Captivate"
+    },
+    {
+      "key": "cs_stealth_rock",
+      "name": "CS Piège de Roc",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Piège de Roc à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Stealth Rock"
+    },
+    {
+      "key": "cs_grass_knot",
+      "name": "CS Nœud Herbe",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Nœud Herbe à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Grass Knot"
+    },
+    {
+      "key": "cs_charge_beam",
+      "name": "CS Rayon Chargé",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Rayon Chargé à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Charge Beam"
     }
   ]
 }

@@ -71,7 +71,8 @@
     "test:raph-browser": "node --env-file-if-exists=.env scripts/validateRaphBrowser.js",
     "test:fishing-browser": "node --env-file-if-exists=.env scripts/validateFishingBrowser.js",
     "test:arena-return-browser": "node --env-file-if-exists=.env scripts/validateArenaReturnBrowser.js",
-    "audit:availability": "node scripts/auditPokemonAvailability.js"
+    "audit:availability": "node scripts/auditPokemonAvailability.js",
+    "test:machines-browser": "node --env-file-if-exists=.env scripts/validateMachinesBrowser.js"
   },
   "keywords": [],
   "author": "",
