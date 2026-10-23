@@ -40,6 +40,23 @@
       "name": "Gwenn",
       "message": "Gwenn : Le passage est fermé. Viens me parler avec A pour savoir si tu peux continuer.",
       "messageEn": "Gwenn: This path is closed. Come talk to me with A before going further."
+    },
+    {
+      "id": "mathilde_route5",
+      "map": "ville_safe1",
+      "nextMap": "route5",
+      "npcBattle": "mathilde_pikapika",
+      "requiredFlag": "mathilde_pikapika_defeated",
+      "direction": "right",
+      "tiles": {
+        "x": 26,
+        "y": 6,
+        "width": 1,
+        "height": 3
+      },
+      "name": "Mathilde Pikapika",
+      "message": "Mathilde Pikapika : La Route 5 est fermée. Viens me voir avec A avant de continuer.",
+      "messageEn": "Mathilde Pikapika: Route 5 is closed. Come talk to me with A before going further."
     }
   ]
 }

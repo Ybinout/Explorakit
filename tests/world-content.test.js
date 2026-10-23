@@ -144,7 +144,7 @@ test('les champions conservent leurs planches et les civils utilisent les portra
     assert.deepEqual(usedSprites, expectedSprites);
 
     const civilians = pnjs.filter(pnj => pnj.sprite === 'townspeople.png');
-    assert.equal(civilians.length, 67);
+    assert.equal(civilians.length, 68);
     assert.equal(new Set(civilians.map(pnj => pnj.spriteFrame.index)).size, 32);
     const dialogues = readJson('data', 'game', 'interact.json');
     for (const pnj of civilians) {

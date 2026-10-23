@@ -1046,6 +1046,21 @@
         "index": 20
       },
       "roamRadius": 0
+    },
+    {
+      "name": "mathilde_pikapika",
+      "interactionName": "mathilde_pikapika",
+      "map": "ville_safe1",
+      "x": 25,
+      "y": 7,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 7
+      },
+      "roamRadius": 0
     }
   ]
 }

@@ -1,5 +1,17 @@
 # Audit technique et mémoire de RiftMon
 
+## Mathilde Pikapika ouvre la Route 5 après Hoze — 24 octobre 2026
+
+Dresseuse fixe `mathilde_pikapika` en (25,7) sur `ville_safe1`, près de la sortie nord-est vers Route 5. Sprite féminin classique et portrait illustré assorti, index 7. Dialogue de refus sans `hoze_defeated`, puis défi unique `story_mathilde_pikapika`. Victoire enregistrée dans `mathilde_pikapika_defeated`, passage permanent et dialogue après combat sans revanche. Fuite/défaite n’ouvre pas le passage et permet de réessayer. Aucune victoire de Gwenn ou d’un autre champion ne vaut victoire contre elle.
+
+Quatre instances distinctes de Pikachu, niveaux 37/38/38/39, K1/K1/K1/K2, IV18 et EV modérés. IA experte, profils soutien/paralysie, couverture spéciale, temporisation et attaquant physique ; objets Baie Sitrus, Ceinture Pro, Restes, Orbe Vie. Tous restent Pikachu. Récompense configurée 1600 (2400 avec le multiplicateur dresseur existant). La progression principale de Lucie n’ajoute pas d’étape obligatoire : la Route 5 est une branche vers le Grand Comptoir.
+
+Barrière réutilisable `mathilde_route5` en x26/y6–8, vers l’est ; toutes les sorties effectives vers `route5` restent vérifiées même depuis une ancienne sauvegarde au-delà de la corde. Retour vers Valpierre libre. Aucune modification de carte/collision/transition. Portraits raccordés via le générateur de manifeste existant, sans nouvel asset. Les verrous narratifs restent propres à l’Aventure.
+
+Validation : 877 tests applicatifs réussis et deux suites SQL/Socket ciblées réussies, dont vrai combat avec les quatre Pikachu, refus avant Hoze, fuite/reprise, ouverture, reconnexion et rejet du replay/double récompense. Lint/build réussis. Recette navigateur des quatre gardiens étendue : refus/autorisation, sprite/portrait, trois formats, ouverture et passage Colosseum inchangé. Journaux/captures `/tmp/riftmon-mathilde-*`.
+
+Publication serveur/client à 2026-10-23T22:38:28.864Z (24/10, 00 h 38 Paris), client `e38d768`, build `b51dc7a31782c347`. Recette navigateur finale quatre gardiens réussie sans erreur ; aucune expédition active avant reprise. PID 1499091 actif/NRestarts 0, index HTTPS vérifié, Knov/api-test inchangés. Sauvegarde SQL/sources/checkpoint/index dans `/home/ubuntu/dev/backups/riftmon-mathilde-2026-10-23T22-37-00-587Z`, anciens bundles conservés.
+
 ## Gwenn garde le sud de la Route 8 — 24 octobre 2026
 
 PNJ fixe `gwenn_route8` placé en (23,17) sur `gen_route8`, avec sprite civil classique et portrait illustré correspondant (index 20). En Aventure, dialogue de refus avant `hoze_defeated`, puis duel de dresseur. Victoire unique persistée `story_gwenn_route8` / `gwenn_route8_defeated` ; fuite ou défaite autorise une nouvelle tentative, victoire interdit les replays et nouvelles récompenses. Pas de déblocage implicite par un autre champion pour les sauvegardes avancées. Objectif après Hoze mentionne le passage par Gwenn sans changer les étapes/reçus de l’histoire.
@@ -2771,6 +2783,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+24/10/2026 — Mathilde Pikapika à Valpierre : badge de Hoze requis, quatre Pikachu et victoire unique pour ouvrir définitivement Route 5. Vérifications serveur, persistance et mobile/PC.
 
 24/10/2026 — Gwenn : gardien au sud de la Route 8, Hoze requis puis combat unique, équipe niveau 37–39, ouverture persistante et animation réutilisée. Tests SQL/Socket et mobile/PC.
 

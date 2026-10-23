@@ -384,6 +384,21 @@
         }
       },
       "experienceKind": "trainer"
+    },
+    "mathilde_pikapika": {
+      "battleKey": "story_mathilde_pikapika",
+      "once": true,
+      "requiresFlags": [
+        "hoze_defeated"
+      ],
+      "completionFlag": "mathilde_pikapika_defeated",
+      "reward": {
+        "money": 1600,
+        "flags": {
+          "mathilde_pikapika_defeated": "true"
+        }
+      },
+      "experienceKind": "trainer"
     }
   },
   "storySteps": [

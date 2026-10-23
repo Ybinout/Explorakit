@@ -16,7 +16,13 @@ async function push(action,eventName,id){return page.evaluate(({action,eventName
 (async()=>{try{
  server.listen(0,'127.0.0.1');await once(server,'listening');base=`http://127.0.0.1:${server.address().port}`;const a=await create();
  browser=await chromium.launch({headless:true,args:['--no-sandbox']});const context=await browser.newContext({viewport:{width:393,height:852},hasTouch:true,isMobile:true});await context.addInitScript(s=>{if(location.protocol==='http:')localStorage.setItem('explorakit.user',JSON.stringify(s));},{...a.user,token:a.token});page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.url().startsWith(base)&&r.status()>=400)errors.push(r.status()+' '+r.url());});
- for(const g of [{id:'wayne_route1',map:'start',x:19,y:3,action:'move_z',npc:'dia1',name:'Wayne'},{id:'aspha_lake',map:'route2',x:25,y:6,action:'move_d',npc:'aspha_route2',name:'Aspha'},{id:'gwenn_ocreville',map:'gen_route8',x:22,y:17,action:'move_s',npc:'gwenn_route8',name:'Gwenn'}]){
+ await locate(a,'ville_safe1',25,8);await page.evaluate(()=>window.cityVm.socket.emit('Space'));
+ await page.waitForFunction(()=>window.cityVm.endSentences==='mathilde_pikapika_locked'&&document.querySelector('.dialogue-layer .text')?.textContent.length>20);
+ assert.match(await page.evaluate(()=>window.cityVm.textImageSequence[0].text),/badge de Hoze/);
+ await page.screenshot({path:path.join(output,'mathilde-refusal-393.png')});
+ assert.equal((await require('../server/persistence/progressionRepository').completeNpcBattle(a.user.id,'mathilde_pikapika')).reason,'requirements_not_met');
+ await page.evaluate(()=>window.cityVm.clearSequence());
+ for(const g of [{id:'wayne_route1',map:'start',x:19,y:3,action:'move_z',npc:'dia1',name:'Wayne'},{id:'aspha_lake',map:'route2',x:25,y:6,action:'move_d',npc:'aspha_route2',name:'Aspha'},{id:'gwenn_ocreville',map:'gen_route8',x:22,y:17,action:'move_s',npc:'gwenn_route8',name:'Gwenn'},{id:'mathilde_route5',map:'ville_safe1',x:25,y:8,action:'move_d',npc:'mathilde_pikapika',name:'Mathilde Pikapika'}]){
   await locate(a,g.map,g.x,g.y);await page.waitForFunction(id=>window.cityVm._storyGateRenderer?.gates.get(id)?.locked,g.id);
   if(g.id==='gwenn_ocreville'){
    await page.evaluate(()=>window.cityVm.socket.emit('Space'));
@@ -45,6 +51,12 @@ async function push(action,eventName,id){return page.evaluate(({action,eventName
    // The actual one-off fight and replay rejection are covered by story-socket-integration.
    await locate(a,g.map,g.x,g.y);
   }
+  if(g.id==='mathilde_route5'){
+   await page.evaluate(()=>window.cityVm.socket.emit('Space'));
+   await page.waitForFunction(()=>window.cityVm.endSentences==='mathilde_pikapika'&&document.querySelector('.dialogue-layer .text')?.textContent.length>20);
+   await page.screenshot({path:path.join(output,'mathilde-ready-393.png')});
+   await locate(a,g.map,g.x,g.y);
+  }
   assert((await require('../server/persistence/progressionRepository').completeNpcBattle(a.user.id,g.npc)).granted);
   await page.waitForTimeout(400);await push(g.action,'playerMoved');
   assert(await page.evaluate(id=>window.cityVm._storyGateRenderer.gates.get(id).opening,g.id));
@@ -59,5 +71,6 @@ async function push(action,eventName,id){return page.evaluate(({action,eventName
  await page.goto(base+'/colosseum',{waitUntil:'networkidle'});await page.locator('[data-colosseum-start]:enabled').click();await page.locator('[data-starter-choice]').first().click();await page.locator('.starter-backdrop').waitFor({state:'hidden'});
  const p=cleanup.runtime.playerFor(a.user);Object.assign(p,{currentmap:'start',x:624,y:112,repelSteps:100});await page.reload({waitUntil:'networkidle'});await ready();assert(await page.evaluate(()=>window.cityVm.isDrift&&!window.cityVm._storyGateRenderer));await push('move_z','playerMoved');assert.equal(p.y,80);
  Object.assign(p,{currentmap:'gen_route8',x:22*32+16,y:17*32+16,repelSteps:100});await page.reload({waitUntil:'networkidle'});await ready();await push('move_s','playerMoved');assert.equal(p.y,18*32+16);
- assert.deepEqual(errors,[]);success=true;console.log(JSON.stringify({gates:3,gwennRefusalBeforeHoze:true,gwennChallengeAfterHoze:true,realBlockedMovement:true,openingAnimation:true,reconnectUnlocked:true,expeditionUnaffected:true,viewports:3,errors,output}));
+ Object.assign(p,{currentmap:'ville_safe1',x:25*32+16,y:8*32+16,repelSteps:100});await page.reload({waitUntil:'networkidle'});await ready();await push('move_d','playerMoved');assert.equal(p.x,26*32+16);
+ assert.deepEqual(errors,[]);success=true;console.log(JSON.stringify({gates:4,mathildeBadgeRequired:true,mathildeChallengeAfterHoze:true,gwennRefusalBeforeHoze:true,gwennChallengeAfterHoze:true,realBlockedMovement:true,openingAnimation:true,reconnectUnlocked:true,expeditionUnaffected:true,viewports:3,errors,output}));
 }finally{if(!success&&page)await page.screenshot({path:path.join(output,'failure.png'),fullPage:true}).catch(()=>{});await browser?.close();cleanup();await new Promise(r=>io.close(r));await new Promise(r=>setTimeout(r,250));for(const f of users)await dbPool.execute('DELETE FROM users WHERE id=?',[f.user.id]);await dbPool.end();}})().catch(e=>{console.error(e.stack);process.exitCode=1});

@@ -2012,6 +2012,123 @@
         "name": "Gwenn",
         "ai": "expert"
       }
+    },
+    {
+      "name": "mathilde_pikapika",
+      "team": [
+        {
+          "pokemonId": 25,
+          "name": "Pikachu",
+          "level": 37,
+          "abilities": [
+            "Thunderbolt",
+            "Thunder Wave",
+            "Light Screen",
+            "Quick Attack"
+          ],
+          "passiveAbility": "Static",
+          "heldItem": "sitrus_berry",
+          "k": 1,
+          "nature": "Timid",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          },
+          "ev": {
+            "hp": 64,
+            "speed": 64
+          }
+        },
+        {
+          "pokemonId": 25,
+          "name": "Pikachu",
+          "level": 38,
+          "abilities": [
+            "Thunderbolt",
+            "Grass Knot",
+            "Signal Beam",
+            "Quick Attack"
+          ],
+          "passiveAbility": "Lightning Rod",
+          "heldItem": "expert_belt",
+          "k": 1,
+          "nature": "Modest",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          },
+          "ev": {
+            "specialAttack": 84,
+            "speed": 84
+          }
+        },
+        {
+          "pokemonId": 25,
+          "name": "Pikachu",
+          "level": 38,
+          "abilities": [
+            "Discharge",
+            "Nuzzle",
+            "Protect",
+            "Light Screen"
+          ],
+          "passiveAbility": "Static",
+          "heldItem": "leftovers",
+          "k": 1,
+          "nature": "Timid",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          },
+          "ev": {
+            "hp": 84,
+            "speed": 84
+          }
+        },
+        {
+          "pokemonId": 25,
+          "name": "Pikachu",
+          "level": 39,
+          "abilities": [
+            "Volt Tackle",
+            "Iron Tail",
+            "Brick Break",
+            "Quick Attack"
+          ],
+          "passiveAbility": "Static",
+          "heldItem": "life_orb",
+          "k": 2,
+          "nature": "Jolly",
+          "givenIv": {
+            "hp": 18,
+            "attack": 18,
+            "defense": 18,
+            "specialAttack": 18,
+            "specialDefense": 18,
+            "speed": 18
+          },
+          "ev": {
+            "attack": 96,
+            "speed": 96
+          }
+        }
+      ],
+      "strategy": {
+        "name": "Mathilde Pikapika",
+        "ai": "expert"
+      }
     }
   ]
 }

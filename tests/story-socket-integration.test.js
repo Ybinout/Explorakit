@@ -23,7 +23,7 @@ function event(socket, name, predicate = () => true) {
     });
 }
 
-test('Socket réel : Lucie, Wayne → Aspha → Mounir → Hoze → Gwenn → Raphael → Ana → Wanda → 7p → Lucie, refus/fuite/reprise et retrouvailles', { skip: !shouldRun, timeout: 60000 }, async () => {
+test('Socket réel : Lucie, Wayne → Aspha → Mounir → Hoze → Mathilde → Gwenn → Raphael → Ana → Wanda → 7p → Lucie, refus/fuite/reprise et retrouvailles', { skip: !shouldRun, timeout: 60000 }, async () => {
     assert.match(testDatabaseName, /test/i);
     assert.equal(process.env.DB_NAME, testDatabaseName, 'Utiliser npm run test:mysql pour isoler les données');
     const { io } = require(path.resolve(__dirname, '../vue-explorakit/node_modules/socket.io-client'));
@@ -156,16 +156,18 @@ test('Socket réel : Lucie, Wayne → Aspha → Mounir → Hoze → Gwenn → Ra
         await at('gen_route8',22,17);await speak('gwenn_route8_locked');
         const gwennRejected=event(socket,'interactionRejected');socket.emit('onEndDialogue','gwenn_route8');
         assert.equal((await gwennRejected).reason,'invalid_or_expired_dialogue');
+        await at('ville_safe1',25,8);await speak('mathilde_pikapika_locked');
+        const mathildeRejected=event(socket,'interactionRejected');socket.emit('onEndDialogue','mathilde_pikapika');assert.equal((await mathildeRejected).reason,'invalid_or_expired_dialogue');
         assert.equal((await loadProgressState(userId)).completedNpcBattles.length,0);
         for(const [map,name]of [['ville3_arene','champion_ana'],['ville4_arene','champion_wanda'],['ville5_arene','champion_7p']]){await at(map,13,6);await speak(name+'_locked');const blocked=event(socket,'interactionRejected');socket.emit('onEndDialogue',name);assert.equal((await blocked).reason,'invalid_or_expired_dialogue');}
         let attacks=0,expectedExperience=pokemon.experience;
         const {calculateBattleExperience,BATTLE_EXPERIENCE_MULTIPLIERS}=require('../server/game/models/progression');
         const {getPnjTeam}=require('../server/game/world/pnjTeamFactory');
         const catalog=require('../data/game/progression.json'),dialogues=require('../data/game/interact.json');
-        const battles=[['dia1','start',18,3],['aspha_route2','route2',25,6],['moon','ville1_arene',13,6],['champion_hoze','ville_safe1_arene',13,6],['gwenn_route8','gen_route8',22,17],['champion_raphael','gen_arene5',13,6],['champion_ana','ville3_arene',13,6],['champion_wanda','ville4_arene',13,6],['champion_7p','ville5_arene',13,6]];
-        for(const [index,[name,map,x,y]] of battles.entries()) {
+        const battles=[['dia1','start',18,3],['aspha_route2','route2',25,6],['moon','ville1_arene',13,6],['champion_hoze','ville_safe1_arene',13,6],['mathilde_pikapika','ville_safe1',25,8],['gwenn_route8','gen_route8',22,17],['champion_raphael','gen_arene5',13,6],['champion_ana','ville3_arene',13,6],['champion_wanda','ville4_arene',13,6],['champion_7p','ville5_arene',13,6]];
+        for(const [name,map,x,y] of battles) {
             await at(map,x,y,true);await speak(name);
-            if(name==='aspha_route2'||name==='gwenn_route8') {
+            if(['aspha_route2','gwenn_route8','mathilde_pikapika'].includes(name)) {
                 socket.once('requestAction',()=>socket.emit('actionResponse',{action:'flee'}));
                 const escaped=event(socket,'teamStateChanged',p=>p.reason==='trainer_battle_end');socket.emit('onEndDialogue',name);await escaped;
                 assert.equal(main(await loadProgressState(userId)).progress,name==='aspha_route2'?1:4);
@@ -174,7 +176,7 @@ test('Socket réel : Lucie, Wayne → Aspha → Mounir → Hoze → Gwenn → Ra
             const before=await loadProgressState(userId),trace=[];socket.on('battleText',p=>{trace.push(p.message);if(trace.length>12)trace.shift();});socket.on('endbattle',p=>trace.push(JSON.stringify(p.summary)));
             socket.on('requestAction',()=>socket.emit('actionResponse',{action:'attack',number:attacks++%2}));
             const victoryScene=event(socket,'dialogue',p=>p[1]===`${name}_after`),battleResult=event(socket,'endbattle');
-            const gateId=name==='dia1'?'wayne_route1':name==='aspha_route2'?'aspha_lake':name==='gwenn_route8'?'gwenn_ocreville':null;
+            const gateId=name==='dia1'?'wayne_route1':name==='aspha_route2'?'aspha_lake':name==='gwenn_route8'?'gwenn_ocreville':name==='mathilde_pikapika'?'mathilde_route5':null;
             const openedGate=gateId?event(socket,'storyGatesState',p=>p.gates.some(g=>g.id===gateId&&!g.locked)):null;
             socket.emit('onEndDialogue',name);const scene=await victoryScene.catch(e=>{throw Error(name+': '+e.message+' '+JSON.stringify(trace)+' '+serverErrors);}),summary=(await battleResult).summary;
             if(openedGate)await openedGate;
@@ -184,8 +186,9 @@ test('Socket réel : Lucie, Wayne → Aspha → Mounir → Hoze → Gwenn → Ra
             assert(scene[0].length>=2);const progress=await loadProgressState(userId);
             if(name==='moon')assert(progress.badges.some(b=>b.key==='lake_badge'&&b.earned));
             assert.equal(summary.outcome,'victory');assert.equal(summary.money,progress.money-before.money);assert(summary.experience[0].xpGained>0);
-            assert.equal(main(progress).progress,index+1-(index>=4?1:0));assert.equal(main(progress).status,'active');
-            assert(scene[0].some(line=>line.text.includes(name==='dia1'?'Aspha':name==='aspha_route2'?'Mounir':name==='moon'?'Hoze':name==='champion_hoze'?'Raphael':name==='gwenn_route8'?'Ocreville':name==='champion_raphael'?'Ana':name==='champion_ana'?'Wanda':'Lucie')));
+            const storyStep=catalog.storySteps.findIndex(step=>catalog.npcBattles[name].reward.flags[step.flag]==='true');
+            assert.equal(main(progress).progress,storyStep<0?main(before).progress:storyStep+1);assert.equal(main(progress).status,'active');
+            assert(scene[0].some(line=>line.text.includes(name==='dia1'?'Aspha':name==='aspha_route2'?'Mounir':name==='moon'?'Hoze':name==='champion_hoze'?'Raphael':name==='gwenn_route8'?'Ocreville':name==='mathilde_pikapika'?'Route 5':name==='champion_raphael'?'Ana':name==='champion_ana'?'Wanda':'Lucie')));
             socket.emit('onEndDialogue',`${name}_after`);
         }
         const beforeReunion=await at('route2_maison',13,9);assert.equal(main(beforeReunion).progress,8);await speak('lucie_route2');const reunited=event(socket,'progressionState',p=>main(p).status==='completed');socket.emit('onEndDialogue','lucie_route2');await reunited;
@@ -195,6 +198,10 @@ test('Socket réel : Lucie, Wayne → Aspha → Mounir → Hoze → Gwenn → Ra
         assert(final.badges.some(b=>b.key==='dune_badge'&&b.earned));
         assert.equal(final.quests.some(q=>q.key==='clara_chapter2'),false);
         const money=final.money;
+        await at('ville_safe1',25,8);await speak('mathilde_pikapika_after');
+        const replayMathilde=event(socket,'interactionRejected');socket.emit('onEndDialogue','mathilde_pikapika');assert.equal((await replayMathilde).reason,'invalid_or_expired_dialogue');
+        assert.equal((await loadProgressState(userId)).money,money);
+        assert.equal((await require('../server/persistence/progressionRepository').completeNpcBattle(userId,'mathilde_pikapika')).reason,'already_completed');
         await at('gen_route8',22,17);await speak('gwenn_route8_after');
         const replay=event(socket,'interactionRejected');socket.emit('onEndDialogue','gwenn_route8');assert.equal((await replay).reason,'invalid_or_expired_dialogue');
         assert.equal((await loadProgressState(userId)).money,money);

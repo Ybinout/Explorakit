@@ -162,3 +162,19 @@ test('les nouveaux habitants sont accessibles et ne coupent aucun passage exista
         }
     }
 });
+
+
+test('Mathilde guards Route 5 with four distinct Pikachu instances and requires her own one-time victory after Hoze', () => {
+    const definition = catalog.npcBattles.mathilde_pikapika;
+    assert.equal(definition.once, true);
+    const team = getPnjTeam('mathilde_pikapika');
+    assert.equal(team.pokemons.length, 4);
+    assert(team.pokemons.every(p => p.data.id === 25));
+    assert.equal(new Set(team.pokemons.map(p => p.uuid)).size, 4);
+    assert.equal(getSentenceForName('mathilde_pikapika', {flags:{gwenn_route8_defeated:'true'}})[1], 'mathilde_pikapika_locked');
+    const progress = {flags:{hoze_defeated:'true'}};
+    assert.equal(getSentenceForName('mathilde_pikapika', progress)[1], 'mathilde_pikapika');
+    Object.assign(progress.flags, definition.reward.flags);
+    assert.equal(getSentenceForName('mathilde_pikapika', progress)[1], 'mathilde_pikapika_after');
+    assert.notEqual(getEndSentenceInformation('mathilde_pikapika_after'), 'battle');
+});

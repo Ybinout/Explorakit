@@ -2268,5 +2268,69 @@
         }
       }
     ]
+  },
+  {
+    "name": "mathilde_pikapika",
+    "sentences": [
+      {
+        "text": "Mathilde Pikapika : Le badge de Hoze ! Cette fois, je veux bien te défier.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 7
+        }
+      },
+      {
+        "text": "Mathilde Pikapika : Si tu gagnes, la Route 5 sera à toi. Prêt à faire des étincelles ?",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 7
+        }
+      }
+    ],
+    "end": "battle",
+    "team": "mathilde_pikapika",
+    "after": "mathilde_pikapika_after",
+    "locked": "mathilde_pikapika_locked"
+  },
+  {
+    "name": "mathilde_pikapika_locked",
+    "sentences": [
+      {
+        "text": "Mathilde Pikapika : Sans le badge de Hoze, je ne te parle pas et personne ne passe. Reviens quand tu l’auras battu.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 7
+        }
+      }
+    ]
+  },
+  {
+    "name": "mathilde_pikapika_after",
+    "sentences": [
+      {
+        "text": "Mathilde Pikapika : Tu as gagné ! La Route 5 est ouverte, tu peux passer.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 7
+        }
+      },
+      {
+        "text": "Mathilde Pikapika : Un seul duel, c’était notre accord. Bonne route !",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 7
+        }
+      }
+    ]
   }
 ]

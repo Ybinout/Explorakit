@@ -17,7 +17,7 @@ test('configured story barriers seal every authored exit without blocking their 
  assert.equal(new Set(gates.gates.map(g=>g.id)).size,gates.gates.length);
  for(const g of gates.gates){
   assert(catalog.npcBattles[g.npcBattle]);assert.equal(catalog.npcBattles[g.npcBattle].reward.flags[g.requiredFlag],'true');
-  const fixtures={wayne_route1:{start:[19,7],talk:'18:3'},aspha_lake:{start:[25,18],talk:'25:6'},gwenn_ocreville:{start:[18,1],talk:'22:17'}};
+  const fixtures={wayne_route1:{start:[19,7],talk:'18:3'},aspha_lake:{start:[25,18],talk:'25:6'},gwenn_ocreville:{start:[18,1],talk:'22:17'},mathilde_route5:{start:[1,8],talk:'25:8'}};
   const {start,talk}=fixtures[g.id];
   const locked=reachable(g.map,start,{}),open=reachable(g.map,start,{flags:{[g.requiredFlag]:'true'}});
   assert(locked.has(talk),g.name+' remains reachable');
@@ -32,8 +32,8 @@ test('story barriers unlock only from authoritative victories, support old advan
   for(const flags of [{},{[g.requiredFlag]:'false'},{unrelated:'true'}])assert(gates.isLocked(g,{flags}));
   assert(!gates.isLocked(g,{flags:{[g.requiredFlag]:'true'}}));
   assert(!gates.isLocked(g,{completedNpcBattles:[{battleKey:catalog.npcBattles[g.npcBattle].battleKey}]}));
-  assert.equal(gates.isLocked(g,{flags:{moonpunch_defeated:'true'}}),g.id==='gwenn_ocreville');
-  assert.equal(gates.isLocked(g,{flags:{hoze_defeated:'true'}}),g.id==='gwenn_ocreville');
+  assert.equal(gates.isLocked(g,{flags:{moonpunch_defeated:'true'}}),['gwenn_ocreville','mathilde_route5'].includes(g.id));
+  assert.equal(gates.isLocked(g,{flags:{hoze_defeated:'true'}}),['gwenn_ocreville','mathilde_route5'].includes(g.id));
  }
  const a=gates.snapshot({flags:{route_guard_defeated:'true'}}),b=gates.snapshot({});assert.equal(a[0].locked,false);assert.equal(a[1].locked,true);assert(b.every(g=>g.locked));
 });
