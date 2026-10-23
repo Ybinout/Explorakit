@@ -13,7 +13,7 @@ const {
     applySwitchInEffects,
     canSwitchOut
 } = require('./battleEngine');
-const { getUsableMoveIndexes, getChargingMove, selectedMoveName } = require('./battleResources');
+const { getUsableMoveIndexes, getForcedMove, selectedMoveName } = require('./battleResources');
 const { editEquipe } = require('../../persistence/teamRepository');
 const { emitPvpBattleEnd } = require('./battleOutcome');
 const { emitFieldState, emitPvpMoveResult } = require('./battleEvents');
@@ -134,7 +134,7 @@ function emitMoveAnimationForBoth(io, attackerPlayer, defenderPlayer, moveName, 
 }
 
 async function requestPlayerAction(io, player, message = 'Quelle est votre prochaine action ?') {
-    if (getChargingMove(player.equipe?.pokemons?.[0])) return { action:'attack', number:getUsableMoveIndexes(player.equipe.pokemons[0])[0] };
+    if (getForcedMove(player.equipe?.pokemons?.[0])) return { action:'attack', number:getUsableMoveIndexes(player.equipe.pokemons[0])[0] };
     const socket = getPlayerSocket(io, player);
     if (!socket) {
         return {

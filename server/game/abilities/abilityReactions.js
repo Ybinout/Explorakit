@@ -73,6 +73,11 @@ function transferItem(from, to, h, messages, source) {
 }
 function afterMove(ctx,h,messages) {
     const {attacker:a,defender:d,move,result,hpBefore,battleState:state}=ctx;
+    if (result.damage + (result.substituteDamage || 0) > 0 && traits.moves[move.ename]?.drain && alive(a)) {
+        const [num,den]=traits.moves[move.ename].drain,amount=Math.max(1,Math.floor((result.damage + (result.substituteDamage || 0))*num/den));
+        if (hasAbility(d,'Liquid Ooze')) indirect(a,amount,h,messages,'Suintement');
+        else if (!(a.__battle.healBlockTurns>0)) {const healed=h.heal(a,amount); if(healed) messages.push(`${label(a)} absorbe ${healed} PV.`);}
+    }
     if (!(result.damage>0)) return;
     const ability=getAbilityName(d);
     if (alive(d)) {
@@ -93,18 +98,15 @@ function afterMove(ctx,h,messages) {
             h.stage(a,best,1,messages,a);
         }
     }
-    if (traits.moves[move.ename]?.drain && alive(a)) {
-        const [num,den]=traits.moves[move.ename].drain,amount=Math.max(1,Math.floor(result.damage*num/den));
-        if (hasAbility(d,'Liquid Ooze')) indirect(a,amount,h,messages,'Suintement');
-        else if (!(a.__battle.healBlockTurns>0)) {const healed=h.heal(a,amount); if(healed) messages.push(`${label(a)} absorbe ${healed} PV.`);}
-    }
+
 }
 function secondaryEffects(ctx,h,messages) {
     const {attacker:a,defender:d,move,result,battleState:state,attackerSide,defenderSide}=ctx;
-    if (!(result.damage>0) || !alive(d) || hasAbility(a,'Sheer Force')) return;
+    if (!(result.damage + (result.substituteDamage || 0) > 0) || hasAbility(a,'Sheer Force')) return;
     const effects=traits.moves[move.ename]?.secondaries || [];
     for(const secondary of effects) {
         const recipient=secondary.self?a:d;
+        if (!alive(recipient) || (recipient===d && !(result.damage>0))) continue;
         if (recipient===d && !ignoresDefenderAbility(a,d) && hasAbility(d,'Shield Dust')) continue;
         if(Math.random()>=Math.min(1,(secondary.chance||100)/100*(hasAbility(a,'Serene Grace')?2:1)))continue;
         const effect=secondary.self||secondary;
@@ -115,7 +117,7 @@ function secondaryEffects(ctx,h,messages) {
         if(effect.volatileStatus==='flinch')flinch(d,a,state,messages,h);
         for(const [stat,value]of Object.entries(effect.boosts||{}))if(STATS[stat])h.stage(recipient,STATS[stat],value,messages,a);
     }
-    if(hasAbility(a,'Stench') && !effects.some(s=>s.volatileStatus==='flinch') && Math.random()<.1
+    if(alive(d) && result.damage>0 && hasAbility(a,'Stench') && !effects.some(s=>s.volatileStatus==='flinch') && Math.random()<.1
         && (ignoresDefenderAbility(a,d)||!hasAbility(d,'Shield Dust')))flinch(d,a,state,messages,h);
 }
 function flinch(p,attacker,state,messages,h) {

@@ -18,7 +18,7 @@ const {
     applySwitchInEffects,
     canSwitchOut
 } = require('./battleEngine');
-const { getUsableMoveIndexes, getChargingMove, selectedMoveName } = require('./battleResources');
+const { getUsableMoveIndexes, getForcedMove, selectedMoveName } = require('./battleResources');
 const { BATTLE_EXPERIENCE_MULTIPLIERS } = require('../models/progression');
 const { emitSoloBattleEnd, createBattleSummaryTracker } = require('./battleOutcome');
 const { emitFieldState, emitSoloMoveResult } = require('./battleEvents');
@@ -209,7 +209,7 @@ function playerChangePokemonByIndex(equipe, index) {
 }
 
 function playerTurn(player, io) {
-    if (getChargingMove(player.equipe?.pokemons?.[0])) return Promise.resolve({ action:'attack', number:getUsableMoveIndexes(player.equipe.pokemons[0])[0] });
+    if (getForcedMove(player.equipe?.pokemons?.[0])) return Promise.resolve({ action:'attack', number:getUsableMoveIndexes(player.equipe.pokemons[0])[0] });
     return new Promise((resolve) => {
         const playerSocket = io.sockets.sockets.get(player.id);
         if (!playerSocket) {

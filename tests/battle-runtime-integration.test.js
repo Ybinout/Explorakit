@@ -828,3 +828,16 @@ for(const trainer of [false,true])for(const simultaneous of [false,true])test(`D
   else {assert.equal(end.reason,'fled');assert.equal(socket.outgoing.filter(e=>e.eventName==='requestAction'&&e.payload.replacement).length,1);}
  }finally{if(id)await pool.execute('DELETE FROM users WHERE id=?',[id]);await pool.end();}
 });
+for(const kind of ['wild','trainer'])test(`Recharge Aventure ${kind}: tour automatique sans nouvelle saisie ni PP, puis retour des commandes`,{skip:!shouldRun},async()=>{
+ const pool=createTestPool();let id;
+ try{
+  const {user,player}=await createPlayer(4);id=user.id;
+  const lead=player.equipe.pokemons[0];lead.passiveAbility=null;lead.abilities=['Hyper Beam'];lead.movePp=[1];lead.currentSpeed=999;lead.currentHp=lead.maxHp=1000;
+  const enemy=createPokemon(7,'Recharge',['Splash']);enemy.passiveAbility=null;enemy.currentHp=enemy.maxHp=9999;enemy.currentSpeed=1;
+  const socket=new ScriptedSocket([{action:'attack',number:0},{action:'flee'}]),io=new RecordingIo({[player.id]:socket});
+  await withFixedRandom(.5,()=>kind==='wild'?startWildBattle(player,enemy,io,id):startTrainerBattle(player,createTeam(enemy),io,id));
+  assert.equal(lead.movePp[0],0);assert.equal(socket.outgoing.filter(e=>e.eventName==='requestAction').length,2);
+  assert(io.events.some(e=>JSON.stringify(e.payload).includes('recharger son énergie')));assert.equal(io.lastEvent(player.id,'endbattle').payload.reason,'fled');
+  assert.equal((await loadEquipe(id)).pokemons.find(p=>p.uuid===lead.uuid).movePp[0],0);
+ }finally{if(id)await pool.execute('DELETE FROM users WHERE id=?',[id]);await pool.end();}
+});

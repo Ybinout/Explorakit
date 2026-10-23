@@ -3,6 +3,7 @@ const path = require('path');
 const moves = require('../data/game/moves.json');
 const {
     PARTIAL_EFFECT_KINDS,
+    useattack, createBattleState, ensureBattleData,
     getSpecialMoveResolution
 } = require('../server/game/battle/battleEngine');
 
@@ -42,7 +43,32 @@ function auditMoves() {
         .filter((move) => getSpecialMoveResolution(move, attacker, defender, { attackerTeam: [attacker] })?.unsupported)
         .map((move) => move.ename);
 
+    // Execution smoke checks complement (but do not replace) semantic regressions.
+    const executionFailures = [];
+    const scenarios = ['healthy', 'substitute', 'protect', 'low_hp'];
+    const previousRandom = Math.random;
+    try {
+        Math.random = () => 0.5;
+        for (const move of moves) for (const scenario of scenarios) {
+            const source = createPokemon(), target = createPokemon(), state = createBattleState();
+            source.uuid = 'audit-source'; target.uuid = 'audit-target';
+            source.abilities = [move.ename]; source.movePp = [move.pp || 1];
+            if (scenario === 'substitute') ensureBattleData(target).substituteHp = 25;
+            if (scenario === 'protect') ensureBattleData(target).protect = true;
+            if (scenario === 'low_hp') source.currentHp = 1;
+            try {
+                const result = useattack(move.ename, source, target, {battleState:state, attackerTeam:[source], defenderTeam:[target]});
+                if (!Number.isFinite(result.damage) || !Array.isArray(result.messages)
+                    || [source,target].some(p => !Number.isFinite(p.currentHp) || p.currentHp < 0 || p.currentHp > p.maxHp)) {
+                    executionFailures.push({move:move.ename, scenario, error:'Invalid result or HP'});
+                }
+            } catch (error) { executionFailures.push({move:move.ename, scenario, error:error.message}); }
+        }
+    } finally { Math.random = previousRandom; }
     return {
+        scope: 'Structural coverage and execution smoke checks; behavioral rules are tested separately.',
+        executionChecks: moves.length * scenarios.length,
+        executionFailures,
         totalMoves: moves.length,
         totalEffectKinds: effectKinds.size,
         unknownEffectKinds,
@@ -54,7 +80,7 @@ function auditMoves() {
 if (require.main === module) {
     const report = auditMoves();
     console.log(JSON.stringify(report, null, 2));
-    if (report.unknownEffectKinds.length > 0 || report.unsupportedSpecialCases.length > 0) {
+    if (report.unknownEffectKinds.length > 0 || report.unsupportedSpecialCases.length > 0 || report.executionFailures.length > 0) {
         process.exitCode = 2;
     }
 }

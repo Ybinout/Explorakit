@@ -134,6 +134,12 @@ test('Socket réel : Lucie, Wayne → Aspha → Mounir → Hoze → Raphael → 
         const team = await loadEquipe(userId);
         team.pokemons.splice(1);
         const pokemon = team.pokemons[0];
+        // Stable network/story fixture, independent of starter IV/K rolls and boss AI RNG.
+        pokemon.k = 4;
+        pokemon.iv = Object.fromEntries(['hp','attack','defense','specialAttack','specialDefense','speed'].map(stat => [stat,31]));
+        pokemon.ev = {hp:252,attack:0,defense:0,specialAttack:252,specialDefense:0,speed:4};
+        pokemon.nature = 'Modest';
+        pokemon.passiveAbility = 'Torrent';
         pokemon.experience = pokemon.getNextLevelExpForLevel(200);
         pokemon.level = pokemon.calculateLevelFromExperience(pokemon.experience);
         pokemon.recalculateStats();

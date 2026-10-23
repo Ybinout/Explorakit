@@ -1,6 +1,6 @@
 const { generationStandard } = require('../battle/twoTurnMoves');
 const engine = require('../battle/battleEngine');
-const { getMaxMovePp, getChargingMove, getUsableMoveIndexes } = require('../battle/battleResources');
+const { getMaxMovePp, getForcedMove, getUsableMoveIndexes } = require('../battle/battleResources');
 const { createDeterministicRandom, chooseSpeciesAbility } = require('../abilities/abilityDex');
 const { getMoveFlags } = require('../abilities/abilityEngine');
 const moveData = require('../../../data/game/moves.json');
@@ -185,7 +185,7 @@ function project(a,b,move,reply,ctx) {
 }
 
 function chooseAction({ team, opponent, field, ownSide, enemySide, wave, memory, round, version = 3 }) {
-    if (getChargingMove(team[0])) return {action:'attack',number:getUsableMoveIndexes(team[0],field)[0]};
+    if (getForcedMove(team[0])) return {action:'attack',number:getUsableMoveIndexes(team[0],field)[0]};
     const tier = difficulty(wave, version).tier + (version >= 3 ? 2 : 0), active = team[0];
     if (tier === 1 || !active || !opponent) return null;
     const a=ownView(active), b=observedView(opponent), observed=memory.seen?.[b.uuid];

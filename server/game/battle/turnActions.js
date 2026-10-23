@@ -21,6 +21,7 @@ function spendTurnAction(state, pokemon) {
 function pendingMove(state, pokemon) {
     const plan = state?.turnActions;
     if (plan?.turn !== state.turn) return null;
+    if (pokemon?.__battle?.rechargeMove) return null;
     return plan.entries.find(a => a.uuid === pokemon?.uuid && a.action === 'attack' && !a.acted)?.moveName || null;
 }
 module.exports = { planTurnActions, spendTurnAction, pendingMove };

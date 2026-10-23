@@ -95,7 +95,7 @@ function restoreMovePp(pokemon, moveName = null) {
 function getUsableMoveIndexes(pokemon, battleState = null) {
     if (!Array.isArray(pokemon?.abilities)) return [];
     normalizeMovePp(pokemon);
-    const charging = getChargingMove(pokemon);
+    const charging = getForcedMove(pokemon);
     // The release costs no PP, even if preparation used the last PP. Called
     // moves can charge without occupying a normal move slot (index -1).
     if (charging) return [getMoveSlot(pokemon, charging)];
@@ -110,8 +110,13 @@ function getChargingMove(pokemon) {
         ? data.chargeMove : null;
 }
 
+function getForcedMove(pokemon) {
+    return getChargingMove(pokemon) || (Number(pokemon?.currentHp) > 0 && pokemon?.__battle?.bideTurns > 0 ? 'Bide' : null) || (Number(pokemon?.currentHp) > 0 && pokemon?.__battle?.rechargeMove
+        ? pokemon.__battle.rechargeMove : null);
+}
+
 function selectedMoveName(pokemon, index) {
-    return getChargingMove(pokemon) || pokemon?.getAtkName?.(index) || pokemon?.abilities?.[index] || 'Struggle';
+    return getForcedMove(pokemon) || pokemon?.getAtkName?.(index) || pokemon?.abilities?.[index] || 'Struggle';
 }
 
 module.exports = {
@@ -123,6 +128,7 @@ module.exports = {
     getMoveSlot,
     getUsableMoveIndexes,
     getChargingMove,
+    getForcedMove,
     selectedMoveName,
     normalizeMovePp,
     reduceMovePp,

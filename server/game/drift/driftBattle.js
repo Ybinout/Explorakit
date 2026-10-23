@@ -5,7 +5,7 @@ const presentation = require('../battle/presentationState');
 const { randomUUID } = require('node:crypto');
 const engine = require('../battle/battleEngine');
 const effects = require('./driftEffects');
-const { getUsableMoveIndexes, getItemDefinition, getChargingMove, selectedMoveName } = require('../battle/battleResources');
+const { getUsableMoveIndexes, getItemDefinition, getForcedMove, selectedMoveName } = require('../battle/battleResources');
 const { clearBattleTransientState, buildBattleSummary, createBattleSummaryTracker } = require('../battle/battleOutcome');
 const { switchPokemonByIndex, resolveMoveSwitches, autoSwitchPokemon, hasAlivePokemon } = require('../battle/battleTeam');
 const { serializeMoveResult, serializeFieldState } = require('../battle/battleEvents');
@@ -112,7 +112,7 @@ class DriftBattle {
     }
     defaultAction(p) {
         if (this.replacementPhase && this.replacementPlayers?.has(p)) return {action:'change',number:replacementIndexes(p.equipe)[0]};
-        if (getChargingMove(p.equipe.pokemons[0])) return {action:'attack',number:getUsableMoveIndexes(p.equipe.pokemons[0],this.state)[0]};
+        if (getForcedMove(p.equipe.pokemons[0])) return {action:'attack',number:getUsableMoveIndexes(p.equipe.pokemons[0],this.state)[0]};
         if (p === this.b && p.npc) {
             const decision = trainerTactics.chooseAction(p.equipe,this.active(0),this.state,this.aiMemory,this.round);
             if (decision) return decision;
@@ -149,7 +149,7 @@ class DriftBattle {
         this.round++; this.token = `${this.id}:${this.round}`; this.pending.clear(); this.awaiting = true;
         this.deadline = this.now() + 30000;
         for (const p of [this.a,this.b]) {
-            if (p.npc || getChargingMove(p.equipe.pokemons[0])) this.pending.set(p, this.defaultAction(p));
+            if (p.npc || getForcedMove(p.equipe.pokemons[0])) this.pending.set(p, this.defaultAction(p));
             else this.emit(p,'requestAction',{ message: 'Choisis ton action · 30 secondes', turnId: this.token });
         }
         this.onUpdate?.(this);
@@ -291,7 +291,7 @@ class DriftBattle {
         planTurnActions(this.state, actors.map((p,index) => {
             const action = this.pending.get(p), pokemon = this.active(index);
             return { pokemon, action: action?.action,
-                moveName: getChargingMove(pokemon) || (getUsableMoveIndexes(pokemon, this.state).length ? selectedMoveName(pokemon, action?.number) : 'Struggle') };
+                moveName: getForcedMove(pokemon) || (getUsableMoveIndexes(pokemon, this.state).length ? selectedMoveName(pokemon, action?.number) : 'Struggle') };
         }));
         for (const [i,p] of actors.entries()) {
             const action = this.pending.get(p);
@@ -323,7 +323,7 @@ class DriftBattle {
         }
         const ordered = engine.orderBattleActions(actors.map((p,index) => {
             const action = this.pending.get(p), pokemon = this.active(index);
-            const name = getChargingMove(pokemon) || (getUsableMoveIndexes(pokemon, this.state).length ? selectedMoveName(pokemon,action?.number) : 'Struggle');
+            const name = getForcedMove(pokemon) || (getUsableMoveIndexes(pokemon, this.state).length ? selectedMoveName(pokemon,action?.number) : 'Struggle');
             return { p, index, pokemon, name, moveName: name, side: this.sides[index], driftPriority: action?.action === 'attack' ? this.withDriftSignals(()=>effects.priority(pokemon,engine.getMoveByName(name))) : 0 };
         }), this.state, this.random);
         for (const action of ordered) {
