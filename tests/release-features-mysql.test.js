@@ -240,3 +240,51 @@ test('vitamins SQL: authoritative concurrent +10 EV, partial cap, no-effect roll
         const pp=await medicine.useMedicine(u.id,saved,'leppa_berry');assert.equal(pp.movePp[0],10);assert.equal((await teams.loadEquipe(u.id)).pokemons[0].movePp[0],10);
     } finally {for(const u2 of [u,other])await db.execute('DELETE FROM users WHERE id=?',[u2.id]);}
 });
+
+test('Adventure stones: Goupix compatibility, purchase, ownership, KO, duplicate requests and persistent evolution', {skip:!enabled}, async()=>{
+    const a=await fixture(),b=await fixture(),items=require('../server/persistence/itemRepository');
+    const {evolvePokemonWithStone:use}=require('../server/persistence/evolutionRepository');
+    const factory=require('../server/game/drift/pokemonFactory');
+    try {
+        const fox=factory.create(37,15),squirtle=factory.create(7,5),ko=factory.create(37,5);ko.currentHp=0;
+        fox.name='Flamme';fox.currentHp-=7;fox.status='poison';fox.heldItem='leftovers';fox.movePp[0]=1;
+        await teams.editEquipe(a.id,{pokemons:[squirtle,fox,ko]});
+        await db.execute('UPDATE users SET money=100000 WHERE id=?',[a.id]);
+        const bought=await items.purchaseUserItem(a.id,'fire_stone',2,{mapName:'tour_rdc'});
+        assert(bought.success);assert.deepEqual(bought.items.find(i=>i.key==='fire_stone').evolutions,{[fox.uuid]:{id:38,name:'Feunard'}});
+        await assert.rejects(use(b.id,fox.uuid,'fire_stone'),/appartient/);
+        await assert.rejects(use(a.id,squirtle.uuid,'fire_stone'),/convient/);
+        await assert.rejects(use(a.id,ko.uuid,'fire_stone'),/Soigne/);
+        await assert.rejects(use(a.id,fox.uuid,'potion'),/pierre/);
+        assert.equal((await items.loadUserItems(a.id)).find(i=>i.key==='fire_stone').quantity,2);
+        const results=await Promise.allSettled([use(a.id,fox.uuid,'fire_stone'),use(a.id,fox.uuid,'fire_stone')]);
+        assert.equal(results.filter(r=>r.status==='fulfilled').length,1);
+        const saved=(await teams.loadEquipe(a.id)).pokemons;
+        assert.deepEqual(saved.map(p=>p.uuid),[squirtle.uuid,fox.uuid,ko.uuid]);
+        const evolved=saved[1];assert.equal(evolved.data.id,38);assert.equal(evolved.name,'Flamme');assert.equal(evolved.level,15);
+        assert.equal(evolved.experience,fox.experience);assert.equal(evolved.k,fox.k);assert.deepEqual(evolved.iv,fox.iv);assert.deepEqual(evolved.ev,fox.ev);
+        assert.equal(evolved.maxHp-evolved.currentHp,7);assert.equal(evolved.status,'poison');assert.equal(evolved.heldItem,'leftovers');
+        assert.deepEqual(evolved.abilities,fox.abilities);assert.deepEqual(evolved.movePp,fox.movePp);assert(evolved.specialAttack>fox.specialAttack);
+        assert((await progress.loadPokedex(a.id)).entries.find(p=>p.id===38).caught);
+        const stone=(await items.loadUserItems(a.id)).find(i=>i.key==='fire_stone');assert.equal(stone.quantity,1);assert.deepEqual(stone.evolutions,{});
+    } finally {await db.execute('DELETE FROM users WHERE id IN (?,?)',[a.id,b.id]);}
+});
+
+test('Adventure stones: missing inventory and SQL failure roll back species, stock and Pokedex together', {skip:!enabled}, async()=>{
+    const a=await fixture(),factory=require('../server/game/drift/pokemonFactory');
+    const {evolvePokemonWithStone:use}=require('../server/persistence/evolutionRepository');
+    const sync=progress.synchronizeCaughtPokemon;
+    try {
+        const fox=factory.create(37,5);await teams.editEquipe(a.id,{pokemons:[fox]});
+        await assert.rejects(use(a.id,fox.uuid,'fire_stone'),/sac/);
+        assert.equal((await teams.loadEquipe(a.id)).pokemons[0].data.id,37);
+        await db.execute("INSERT INTO user_items(user_id,item_key,quantity) VALUES (?,'fire_stone',1)",[a.id]);
+        progress.synchronizeCaughtPokemon=async()=>{throw Error('Injected persistence failure');};
+        await assert.rejects(use(a.id,fox.uuid,'fire_stone'),/Injected/);
+        progress.synchronizeCaughtPokemon=sync;
+        assert.equal((await teams.loadEquipe(a.id)).pokemons[0].data.id,37);
+        assert.equal((await require('../server/persistence/itemRepository').loadUserItems(a.id)).find(i=>i.key==='fire_stone').quantity,1);
+        assert(!(await progress.loadPokedex(a.id)).entries.find(p=>p.id===38).caught);
+        const result=await use(a.id,fox.uuid,'fire_stone');assert.equal(result.pokemon.data.id,38);assert(!result.items.some(i=>i.key==='fire_stone'));
+    } finally {progress.synchronizeCaughtPokemon=sync;await db.execute('DELETE FROM users WHERE id=?',[a.id]);}
+});

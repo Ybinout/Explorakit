@@ -75,3 +75,29 @@ test('all 809 identifiers and all non-stone targets are valid, distinct and have
     const rules=require('../data/game/evolutions.json').rules;assert.equal(new Set(rules.map(r=>`${r.from}:${r.to}`)).size,rules.length);
     for(const r of rules){assert(dex.some(p=>p.id===r.from));assert(dex.some(p=>p.id===r.to));assert(r.level>=1&&r.level<=100);for(const folder of ['back','dp2'])assert(fs.existsSync(path.join(__dirname,`../vue-explorakit/src/assets/${folder}/${r.to}.png`)));}
 });
+
+test('fire stones evolve Goupix at any level while preserving nicknames, wounds and training', () => {
+    const stones=require('../server/game/items/stoneEvolution');
+    for(const level of [1,5,20,100]) {
+        const p=specimen(37,level);p.name='Flamme';p.currentHp-=2;p.abilities=['Ember'];p.movePp=[3];
+        const before={uuid:p.uuid,iv:{...p.iv},ev:{...p.ev},k:p.k,xp:p.experience};
+        assert.deepEqual(stones.target(p,'fire_stone'),{id:38,name:'Feunard'});stones.evolve(p,'fire_stone');
+        assert.equal(p.data.id,38);assert.equal(p.name,'Flamme');assert.equal(p.uuid,before.uuid);assert.equal(p.level,level);assert.equal(p.experience,before.xp);
+        assert.deepEqual(p.iv,before.iv);assert.deepEqual(p.ev,before.ev);assert.equal(p.k,before.k);assert.equal(p.maxHp-p.currentHp,2);assert.deepEqual(p.movePp,[3]);
+        assert.equal(stones.target(p,'fire_stone'),null);
+    }
+    const p=specimen(37);p.isEgg=true;assert.equal(stones.target(p,'fire_stone'),null);assert.throws(()=>stones.evolve(p,'fire_stone'),/convient/);
+});
+
+test('Adventure stone socket refuses missing players, battles, locked actions and foreign companions before persistence', async()=>{
+    const {registerEvolutionHandlers}=require('../server/realtime/handlers/evolutionHandlers');
+    const handlers={},sent=[];let player=null,allowed=true;
+    registerEvolutionHandlers({socket:{on:(key,fn)=>handlers[key]=fn,emit:(...args)=>sent.push(args)},userId:1,getPlayer:()=>player,canUse:()=>allowed});
+    const use=async()=>{let reply;await handlers.useEvolutionStone({pokemonUuid:'fox',itemKey:'fire_stone'},r=>reply=r);return reply;};
+    assert.equal((await use()).success,false);
+    player={equipe:{pokemons:[{uuid:'fox'}]},inbattle:true};assert.equal((await use()).success,false);
+    player.inbattle=false;player.inventoryBusy=true;assert.equal((await use()).success,false);
+    player.inventoryBusy=false;allowed=false;assert.equal((await use()).success,false);
+    allowed=true;player.equipe.pokemons=[];assert.match((await use()).message,/appartient/);
+    assert.deepEqual(sent,[]);assert.equal(player.inventoryBusy,false);
+});

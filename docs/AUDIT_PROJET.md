@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Pierres d’évolution utilisables en Aventure — 23 octobre 2026
+
+Les boutiques vendaient les pierres en Aventure, mais le sac réservait leur utilisation aux expéditions. Le sac affiche désormais les cibles compatibles (par exemple Goupix → Feunard) dans les trois modes. Nouveau RPC authentifié `useEvolutionStone`, mêmes gardes hors combat/inventaire/transition que les évolutions manuelles ; règles d’espèce et de sexe communes à Rift/Colosseum, vérifiées côté serveur. Pokémon K.O. ou œuf refusé, choix incompatible et pierre absente sans consommation. Surnom conservé par les évolutions par pierre dans tous les modes.
+
+`evolutionRepository` verrouille le compte et le Pokémon, consomme exactement une pierre, sauvegarde l’évolution et le Pokédex puis prépare le sac actualisé dans une seule transaction. Une erreur annule tout ; deux demandes concurrentes sur le même Goupix n’en consomment qu’une. UUID, ordre, niveau/XP, IV/EV/K, blessures, statut, attaques/PP et objet tenu conservés ; statistiques recalculées. `loadUserItems` et les achats enrichissent les pierres avec les cibles de l’équipe SQL ; soins, PC et évolutions renvoient ainsi des compatibilités fraîches. Animation commune existante, sans nouvelle migration SQL.
+
+Validation : suite applicative 854 tests réussis, puis 11 tests d’évolution ciblés dont deux nouveaux ; 93 tests SQL réussis (achat, Goupix, propriété, K.O., incompatibilité, concurrence, rollback injecté après écritures, Pokédex et persistance). Recette `test:stone-evolution-browser` ajoutée à la CI racine : vrais achats et clics du sac, Feunard animé, reconnexion SQL sans rejouer l’animation, inventaires séparés et évolution en Colosseum/Rift, checkpoint et mouvement réduit ; 320/393/1365, aucune erreur navigateur. Le premier essai de recette demandait une quantité ×2 absente du sélecteur : corrigé en deux achats ×1, parcours ensuite réussi. Lint et build `31d3f7d94f592c13` réussis. Logs/captures `/tmp/riftmon-stone-fix-*`.
+
+Publication serveur/client à 2026-10-23T19:02:20.627Z (21 h 02 Paris) : client `4f3ccae`, build `31d3f7d94f592c13`, PID 1464089 actif/NRestarts 0, aucune expédition active avant reprise. HTTPS 200, index atomique et anciens bundles conservés ; Knov/api-test inchangés. Sauvegarde sources serveur, SQL, checkpoint et ancien index : `/home/ubuntu/dev/backups/riftmon-stone-fix-2026-10-23T19-01-44-561Z` ; ancien client `90dbc95`/build `626d6426a58aca38` versionné, bundles conservés, pas de nouvelle archive client intégrale. Racine précédente `d6565d1`.
+
 ## Ordre d’équipe indépendant des changements en combat — 23 octobre 2026
 
 Les switches volontaires, remplacements après K.O., pivots et changements forcés ne modifient plus l’ordre choisi par le joueur. Le moteur garde son tableau de combat avec l’actif en position 0 ; `partyOrder.js` mémorise séparément `battlePartySlot` au début du combat, restaure l’ordre avant les résultats/retours d’équipe et dans le finally des boucles Aventure/PvP. `teamRepository.editEquipe` écrit l’ordre choisi sans toucher au tableau actif, y compris lors de la sauvegarde atomique d’XP d’arène. Les nouveaux capturés se placent après les compagnons présents ; les mêmes instances et UUID sont conservés.
@@ -2613,6 +2623,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+23/10/2026 — Pierres d’évolution raccordées au sac Aventure, Goupix → Feunard et autres règles communes, transaction pierre/évolution/Pokédex, cibles compatibles et animation. 93 tests SQL, contrôles applicatifs et recette navigateur trois modes réussis ; voir entrée en tête.
 
 23/10/2026 — Ordre de l’équipe conservé malgré switches/K.O. en combat, sauvegardes et sélection mobile indépendantes de la position active ; premières places K.O. conservées et survivants Rift ordonnés. 854 tests applicatifs/91 SQL et recette navigateur passés ; serveur/client publiés. Voir entrée en tête.
 

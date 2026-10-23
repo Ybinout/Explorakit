@@ -36,8 +36,23 @@ function getPurchasableItem(itemKey, context = {}) {
     return offer?{...itemCatalogByKey[itemKey],buyPrice:offer.price}:null;
 }
 
-async function loadUserItems(userId) {
-    const [rows] = await dbPool.execute(
+async function hydrateUserItems(userId, rows, executor = dbPool) {
+    const items = hydrateItems(rows);
+    if (items.some(item => item.category === 'evolution')) {
+        const { rowToPokemon } = require('./teamRepository');
+        const stones = require('../game/items/stoneEvolution');
+        const [teamRows] = await executor.execute(
+            'SELECT p.* FROM pokemons p JOIN teams t ON t.id=p.team_id WHERE t.user_id=? ORDER BY p.position', [userId]);
+        const team = teamRows.map(rowToPokemon);
+        for (const item of items) if (item.category === 'evolution') {
+            item.evolutions = Object.fromEntries(team.map(p => [p.uuid, stones.target(p, item.key)]).filter(([, target]) => target));
+        }
+    }
+    return items;
+}
+
+async function loadUserItems(userId, executor = dbPool) {
+    const [rows] = await executor.execute(
         `SELECT item_key, quantity
          FROM user_items
          WHERE user_id = ? AND quantity > 0
@@ -45,7 +60,7 @@ async function loadUserItems(userId) {
         [userId]
     );
 
-    return hydrateItems(rows);
+    return hydrateUserItems(userId, rows, executor);
 }
 
 async function consumeUserItem(userId, itemKey, quantity = 1) {
@@ -140,7 +155,7 @@ async function purchaseUserItem(userId, itemKey, quantity = 1, context = {}) {
             quantity: normalizedQuantity,
             totalPrice,
             money: currentMoney - totalPrice,
-            items: hydrateItems(itemRows)
+            items: await hydrateUserItems(normalizedUserId, itemRows, connection)
         };
     });
 }

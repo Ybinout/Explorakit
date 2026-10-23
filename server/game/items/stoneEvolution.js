@@ -10,7 +10,7 @@ function gender(pokemon) {
     return roll < rate ? 'female' : 'male';
 }
 function target(pokemon, key) {
-    if (!pokemon || pokemon.currentHp <= 0) return null;
+    if (!pokemon || pokemon.isEgg || pokemon.currentHp <= 0) return null;
     const rule = rules.find(r => r.from === pokemon.data.id && r.item === key && (!r.gender || r.gender === gender(pokemon)));
     return rule ? { id:rule.to, name:dex.get(rule.to).name.french } : null;
 }
@@ -19,7 +19,6 @@ function evolve(pokemon, key) {
     if (!evolution) throw Error('Cette pierre ne convient pas à ce Pokémon.');
     pokemon.gender = gender(pokemon);
     pokemon.updatePokemon(evolution.id);
-    pokemon.name = pokemon.truename;
     return evolution;
 }
 function requiresStone(from, to) { return rules.some(r => r.from === from && r.to === to); }
