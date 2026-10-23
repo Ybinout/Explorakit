@@ -266,6 +266,7 @@ async function assignAutomaticMoves(pokemon) {
     const automaticMoveNames = pickAutomaticMoveNames(pokemon, movePool);
     pokemon.abilities = [];
     automaticMoveNames.forEach((moveName) => pokemon.addAbility(moveName));
+    require('../models/moveLearning').preserveWildEvolutionMove(pokemon);
 }
 
 function chooseWildPokemonForMap(mapName, mapData) {

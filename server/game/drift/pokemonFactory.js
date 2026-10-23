@@ -44,6 +44,8 @@ function wild(map, player, random = Math.random) {
     const opening = require('./openingBalance');
     const bounds = opening.levels[map] || zone.level;
     const min = bounds?.min || 5, max = bounds?.max || min;
-    return opening.tuneWildMoves(create(ids[index], min + Math.floor(random() * (max - min + 1))));
+    const pokemon = opening.tuneWildMoves(create(ids[index], min + Math.floor(random() * (max - min + 1))));
+    require('../models/moveLearning').preserveWildEvolutionMove(pokemon);
+    return pokemon;
 }
 module.exports = { STARTERS, legendary, create, starter, starterChoices, wild };

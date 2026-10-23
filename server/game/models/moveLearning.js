@@ -1,12 +1,27 @@
 const { randomUUID } = require('node:crypto');
 const { species } = require('../../../data/game/level_up_moves.json');
 const { getMoveDefinition, getMaxMovePp, normalizeMovePp } = require('../battle/battleResources');
+const evolutionRules = require('../../../data/game/evolutions.json').rules;
+
+// A late capture must not miss the only move that unlocks its evolution.
+// This only prepares new wild Pokémon; it never rewrites a player's chosen set.
+function preserveWildEvolutionMove(pokemon) {
+    const required = evolutionRules.find(rule => rule.from === pokemon.data.id && rule.move)?.move;
+    if (!required || pokemon.abilities.includes(required)) return;
+    if (!(species[pokemon.data.id] || []).some(([level, move]) => move === required && level <= pokemon.level)) return;
+    const slot = Math.min(3, pokemon.abilities.length);
+    pokemon.abilities[slot] = required;
+    pokemon.movePp ||= [];
+    pokemon.movePp[slot] = getMaxMovePp(required);
+}
 
 function queueLevelMoves(pokemon, previousLevel, evolution = false) {
     pokemon.pendingMoves ||= [];
     const known = new Set([...pokemon.abilities, ...pokemon.pendingMoves.map(choice => choice.move)]);
     for (const [level, move] of species[pokemon.data.id] || []) {
-        if (!(evolution ? level === 0 : level > previousLevel && level <= pokemon.level) || known.has(move)) continue;
+        const evolutionMove = evolution && (level === 0 || (level <= pokemon.level
+            && evolutionRules.some(rule => rule.from === pokemon.data.id && rule.move === move)));
+        if (!(evolution ? evolutionMove : level > previousLevel && level <= pokemon.level) || known.has(move)) continue;
         pokemon.pendingMoves.push({ id: randomUUID(), move, level: evolution ? pokemon.level : level, speciesId: pokemon.data.id });
         known.add(move);
     }
@@ -29,4 +44,4 @@ function resolveMoveChoice(pokemon, { choiceId, slot } = {}) {
     return result;
 }
 
-module.exports = { queueLevelMoves, resolveMoveChoice };
+module.exports = { queueLevelMoves, resolveMoveChoice, preserveWildEvolutionMove };

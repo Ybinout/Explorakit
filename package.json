@@ -70,7 +70,8 @@
     "test:ana-browser": "node --env-file-if-exists=.env scripts/validateAnaBrowser.js",
     "test:raph-browser": "node --env-file-if-exists=.env scripts/validateRaphBrowser.js",
     "test:fishing-browser": "node --env-file-if-exists=.env scripts/validateFishingBrowser.js",
-    "test:arena-return-browser": "node --env-file-if-exists=.env scripts/validateArenaReturnBrowser.js"
+    "test:arena-return-browser": "node --env-file-if-exists=.env scripts/validateArenaReturnBrowser.js",
+    "audit:availability": "node scripts/auditPokemonAvailability.js"
   },
   "keywords": [],
   "author": "",
