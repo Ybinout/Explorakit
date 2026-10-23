@@ -3,6 +3,15 @@ const {AdventureExperience}=require('../server/game/battle/adventureExperience')
 const factory=require('../server/game/drift/pokemonFactory'),{calculateBattleExperience:xp,BATTLE_EXPERIENCE_MULTIPLIERS:rates}=require('../server/game/models/progression');
 function mon(id=1,level=20){return factory.create(id,level,true);}
 function fixture(){const a=mon(),b=mon(),bench=mon(),enemy=mon(19),p={id:'owner',equipe:{pokemons:[a,b,bench]}},events=[],io={to:id=>({emit:(name,payload)=>events.push({id,name,payload})})};return {a,b,bench,enemy,p,events,io,t:new AdventureExperience()};}
+test('already claimed arena XP excludes every participant and Exp Share reserve, while retaining normal EV participation',()=>{
+ for(const expShare of [false,true]){
+  const f=fixture();f.t=new AdventureExperience({expShare});f.t.enter(f.a,f.enemy);f.t.enter(f.b,f.enemy);
+  const before=f.p.equipe.pokemons.map(p=>p.experience);f.enemy.currentHp=0;
+  assert.deepEqual(f.t.reward(f.p,f.enemy,rates.arena,f.io,{grantExperience:false}),[]);
+  assert.deepEqual(f.p.equipe.pokemons.map(p=>p.experience),before);assert.equal(f.events.length,0);
+  assert.equal(f.a.ev.speed,1);assert.equal(f.b.ev.speed,1);assert.equal(f.bench.ev.speed,0);
+ }
+});
 test('participation is per opponent and rewards living entrants equally, once, independently of team order',()=>{
  const {a,b,bench,enemy,p,events,io,t}=fixture(),other=mon(16),before=[a,b,bench].map(m=>m.experience),share=Math.floor(xp(enemy,rates.trainer,a)/2);
  t.enter(a,enemy);t.enter(a,enemy);t.enter(b,enemy);t.enter(b,other);p.equipe.pokemons=[b,bench,a];enemy.currentHp=0;

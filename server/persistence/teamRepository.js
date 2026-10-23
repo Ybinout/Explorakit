@@ -95,12 +95,12 @@ async function loadEquipe(userId) {
     return team;
 }
 
-async function editEquipe(userId, team) {
+async function editEquipe(userId, team, executor = null) {
     if (!Array.isArray(team?.pokemons) || team.pokemons.length > 6) {
         throw new Error('Une équipe doit contenir entre 0 et 6 Pokémon.');
     }
 
-    return withTransaction(async (connection) => {
+    const save = async (connection) => {
         let teamRecord = await getTeamRecord(userId, connection);
         if (!teamRecord) {
             const [result] = await connection.execute(
@@ -119,7 +119,8 @@ async function editEquipe(userId, team) {
             await connection.execute(insertSql, values);
         }
         return teamRecord.id;
-    });
+    };
+    return executor ? save(executor) : withTransaction(save);
 }
 
 module.exports = {

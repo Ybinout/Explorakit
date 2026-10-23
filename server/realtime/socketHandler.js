@@ -895,6 +895,7 @@ const socketHandler = (io) => {
                 startTeamBattle(player, enemyteam, io, userId, {
                     grantBaseMoney: !battleDefinition,
                     experienceKind: battleDefinition?.experienceKind || 'trainer',
+                    arenaBattleKey: battleDefinition?.experienceKind === 'arena' ? battleDefinition.battleKey : null,
                     onVictory: battleDefinition
                         ? async () => {
                             const completion = await completeNpcBattle(userId, dialogueName);

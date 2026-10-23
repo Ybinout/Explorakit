@@ -381,6 +381,8 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
         return true;
     }
 
+    const arenaRewards = options.experienceKind === 'arena'
+        ? require('./arenaExperience').createArenaExperience(options.arenaBattleKey, enemyTeam.pokemons) : null;
     const moves = loadMovesData();
     const usedPokemons = [];
     const battleState = createBattleState({ mapName: player.currentmap });
@@ -439,7 +441,17 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
         for (const defeated of enemyTeam.pokemons) {
             if (defeated.currentHp > 0 || rewardedEnemies.has(defeated)) continue;
             rewardedEnemies.add(defeated);
-            const awards = battleState.adventureExperience.reward(player, defeated, experienceMultiplier, io);
+            let awards;
+            try {
+                awards = arenaRewards
+                    ? await arenaRewards.reward(userId, player, defeated, experienceMultiplier, io, battleState.adventureExperience)
+                    : battleState.adventureExperience.reward(player, defeated, experienceMultiplier, io);
+            } catch (error) {
+                // A failed atomic reward must not leave the client inside a dead battle.
+                endBattle(false, { interrupted: true, reason: 'error' });
+                throw error;
+            }
+            if (arenaRewards && awards.alreadyClaimed) await narrate(player, io, `${getPokemonDisplayName(defeated)} a déjà donné son XP lors d’un précédent défi.`, 900);
             for (const {pokemon, xp} of awards) await narrate(player, io, `${getPokemonDisplayName(pokemon)} gagne ${xp} XP !`, 900);
         }
     };

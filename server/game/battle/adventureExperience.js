@@ -13,14 +13,14 @@ class AdventureExperience {
         this.effortRewarded.add(opponent);
         return grantParticipantEffort(player.equipe.pokemons, opponent, this.participants.get(opponent));
     }
-    reward(player, defeated, multiplier, io) {
+    reward(player, defeated, multiplier, io, { grantExperience = true } = {}) {
         if (defeated.currentHp > 0 || this.rewarded.has(defeated)) return [];
         this.rewarded.add(defeated);
         const team = player.equipe.pokemons, participants = this.participants.get(defeated) || new Set();
         const eligible = team.filter(p => (this.expShare ? participants.size > 0 : participants.has(p.uuid)) && p.currentHp > 0 && !p.isEgg);
         // Calculate every share before levelling anyone. Each recipient retains
         // its level scaling/overlevel penalty; untouched reserves get nothing.
-        const awards = eligible.map(pokemon => ({ pokemon,
+        const awards = (grantExperience ? eligible : []).map(pokemon => ({ pokemon,
             xp: Math.max(1, Math.floor(calculateBattleExperience(defeated, multiplier, pokemon)
                 * (this.expShare ? (pokemon === team[0] ? 1 : 0.5) : 1 / eligible.length)))
         }));

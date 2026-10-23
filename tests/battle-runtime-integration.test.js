@@ -92,6 +92,88 @@ function createTeam(...pokemons) {
     return team;
 }
 
+test('arène : première victime récompensée une seule fois malgré défaite et reconnexion, puis XP du suivant', {skip:!shouldRun}, async()=>{
+    const pool=createTestPool();let id;
+    try {
+        const fixture=await createPlayer(7);id=fixture.user.id;const player=fixture.player;
+        player.equipe=createTeam(createPokemon(7,'Compagnon'));
+        const initial=player.equipe.pokemons[0].experience;
+        async function attempt(lose) {
+            player.equipe.pokemons.forEach(p=>{p.currentHp=p.maxHp;p.status='normal';p.movePp=p.abilities.map(()=>35);});
+            const first=createPokemon(19,'Premier',['Splash']);first.currentHp=1;
+            // Same species in two original slots must have separate XP receipts.
+            const last=lose?require('../server/game/drift/pokemonFactory').create(19,100,true):createPokemon(19,'Second',['Splash']);
+            last.abilities=lose?['Tackle']:['Splash'];last.movePp=[35];if(!lose)last.currentHp=1;
+            const socket=new ScriptedSocket(Array.from({length:5},()=>({action:'attack',number:0}))),io=new RecordingIo({[player.id]:socket});
+            await withFixedRandom(.5,()=>startTrainerBattle(player,createTeam(first,last),io,id,{experienceKind:'arena',arenaBattleKey:'anti_farm_fixture'}));
+            return io;
+        }
+        const first=await attempt(true);
+        assert.equal(first.lastEvent(player.id,'endbattle').payload.reason,'defeat');
+        assert.equal(first.events.filter(e=>e.eventName==='battleExperience').length,1);
+        player.equipe=await loadEquipe(id);const afterFirst=player.equipe.pokemons[0].experience;assert(afterFirst>initial);
+        const second=await attempt(true);
+        assert.equal(second.lastEvent(player.id,'endbattle').payload.reason,'defeat');
+        assert.equal(second.events.filter(e=>e.eventName==='battleExperience').length,0);
+        assert.deepEqual(second.lastEvent(player.id,'endbattle').payload.summary.experience,[]);
+        player.equipe=await loadEquipe(id);assert.equal(player.equipe.pokemons[0].experience,afterFirst);
+        const third=await attempt(false);
+        assert.equal(third.lastEvent(player.id,'endbattle').payload.reason,'victory');
+        assert.equal(third.events.filter(e=>e.eventName==='battleExperience').length,1);
+        assert((await loadEquipe(id)).pokemons[0].experience>afterFirst);
+        const [receipts]=await pool.execute("SELECT flag_key FROM player_story_flags WHERE user_id=? AND flag_key LIKE 'arena_xp:%'",[id]);
+        assert.deepEqual(receipts.map(r=>r.flag_key).sort(),['arena_xp:anti_farm_fixture:0','arena_xp:anti_farm_fixture:1']);
+    } finally {if(id)await pool.execute('DELETE FROM users WHERE id=?',[id]);await pool.end();}
+});
+
+test('arène : reçu et équipe atomiques, ordre stable, concurrence et rollback sans animation XP fantôme', {skip:!shouldRun}, async()=>{
+    const pool=createTestPool();let id,otherId;
+    try {
+        const {createArenaExperience}=require('../server/game/battle/arenaExperience');
+        const {AdventureExperience}=require('../server/game/battle/adventureExperience');
+        const {editEquipe}=require('../server/persistence/teamRepository');
+        const fixture=await createPlayer(7);id=fixture.user.id;const p=fixture.player,lead=p.equipe.pokemons[0],base=lead.experience;
+        const a=createPokemon(19,'A'),b=createPokemon(19,'B'),roster=[a,b],gate=createArenaExperience('receipt_fixture',roster);
+        const tracker=new AdventureExperience();tracker.enter(lead,a);tracker.enter(lead,b);a.currentHp=b.currentHp=0;
+        roster.reverse();const io=new RecordingIo();
+        // Force an SQL write failure after training was staged; neither reward nor event survives.
+        const uuid=lead.uuid;lead.uuid='x'.repeat(200);
+        tracker.participants.set(b,new Set([lead.uuid]));
+        await assert.rejects(gate.reward(id,p,b,2,io,tracker));lead.uuid=uuid;tracker.participants.set(b,new Set([uuid]));
+        assert.equal(lead.experience,base);assert.equal(io.events.length,0);assert(!tracker.rewarded.has(b));
+        const [[count]]=await pool.execute("SELECT COUNT(*) AS n FROM player_story_flags WHERE user_id=? AND flag_key LIKE 'arena_xp:%'",[id]);assert.equal(count.n,0);
+        Object.defineProperty(lead,'__heldItemOrigin',{value:lead,writable:true,configurable:true});
+        Object.defineProperty(lead,'__heldItemBeforeExchange',{value:'leftovers',writable:true,configurable:true});
+        lead.heldItem='life_orb';lead.__battle={stages:{speed:3}};
+        const gained=await gate.reward(id,p,b,2,io,tracker);assert.equal(gained.length,1);
+        assert.equal(lead.__heldItemOrigin,lead);assert.equal(lead.heldItem,'life_orb');assert.equal(lead.__battle.stages.speed,3);
+        assert.equal((await loadEquipe(id)).pokemons[0].heldItem,'leftovers','mid-battle save contains permanent item, not the exchanged one');
+        assert.equal((await loadEquipe(id)).pokemons[0].experience,lead.experience);
+        const [flags]=await pool.execute("SELECT flag_key FROM player_story_flags WHERE user_id=? AND flag_key LIKE 'arena_xp:%'",[id]);assert.deepEqual(flags.map(r=>r.flag_key),['arena_xp:receipt_fixture:1']);
+        // Same account/slot, newly constructed opponents and concurrent requests: exactly one gain.
+        const before=lead.experience;
+        const grants=await Promise.all([0,1].map(async()=>{
+            const player={...p,equipe:await loadEquipe(id)},enemy=createPokemon(19,'Nouveau UUID'),t=new AdventureExperience();
+            t.enter(player.equipe.pokemons[0],enemy);enemy.currentHp=0;
+            return createArenaExperience('concurrent_fixture',[enemy]).reward(id,player,enemy,2,new RecordingIo(),t);
+        }));
+        assert.equal(grants.filter(result=>result.length).length,1);
+        assert.equal((await loadEquipe(id)).pokemons[0].experience,before+grants.flat()[0].xp);
+        const other=await createPlayer(7);otherId=other.user.id;const t=new AdventureExperience();b.currentHp=1;t.enter(other.player.equipe.pokemons[0],b);b.currentHp=0;
+        assert.equal((await createArenaExperience('receipt_fixture',[a,b]).reward(otherId,other.player,b,2,new RecordingIo(),t)).length,1);
+        // No surviving participant means no XP was given: the slot remains available on retry.
+        const noXpGate=createArenaExperience('no_recipient_fixture',[a]),noXpTracker=new AdventureExperience();
+        const alive=other.player.equipe.pokemons[0];a.currentHp=1;noXpTracker.enter(alive,a);a.currentHp=0;alive.currentHp=0;
+        assert.equal((await noXpGate.reward(otherId,other.player,a,2,new RecordingIo(),noXpTracker)).length,0);
+        const [[empty]]=await pool.execute("SELECT COUNT(*) AS n FROM player_story_flags WHERE user_id=? AND flag_key='arena_xp:no_recipient_fixture:0'",[otherId]);assert.equal(empty.n,0);
+        alive.currentHp=alive.maxHp;a.currentHp=1;const retry=new AdventureExperience();retry.enter(alive,a);a.currentHp=0;
+        assert.equal((await noXpGate.reward(otherId,other.player,a,2,new RecordingIo(),retry)).length,1);
+        // Missing identities fail closed; ordinary trainers do not use this gate.
+        assert.throws(()=>createArenaExperience(undefined,[a]));
+        await editEquipe(id,await loadEquipe(id));
+    } finally {for(const userId of [id,otherId])if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
+});
+
 function withFixedRandom(value, work) {
     const previousRandom = Math.random;
     Math.random = () => value;
@@ -457,10 +539,10 @@ test('arène : tous les K.O. donnent le bonus prévu, fuite sans K.O. sans XP', 
         const { calculateBattleExperience, BATTLE_EXPERIENCE_MULTIPLIERS } = require('../server/game/models/progression');
         const expected = [first, last].reduce((sum, enemy) => sum + calculateBattleExperience(enemy, BATTLE_EXPERIENCE_MULTIPLIERS.arena, active), 0);
         const socket = new ScriptedSocket([{ action: 'attack', number: 0 }, { action: 'attack', number: 0 }]);
-        await withFixedRandom(0.5, () => startTrainerBattle(player, createTeam(first, last), new RecordingIo({ [player.id]: socket }), userId, { experienceKind: 'arena' }));
+        await withFixedRandom(0.5, () => startTrainerBattle(player, createTeam(first, last), new RecordingIo({ [player.id]: socket }), userId, { experienceKind: 'arena', arenaBattleKey: 'test_arena' }));
         assert.equal((await loadEquipe(userId)).pokemons[0].experience, before + expected);
         const fleeSocket = new ScriptedSocket([{ action: 'flee' }]);
-        await withFixedRandom(0.5, () => startTrainerBattle(player, createTeam(createPokemon(19, 'Intact')), new RecordingIo({ [player.id]: fleeSocket }), userId, { experienceKind: 'arena' }));
+        await withFixedRandom(0.5, () => startTrainerBattle(player, createTeam(createPokemon(19, 'Intact')), new RecordingIo({ [player.id]: fleeSocket }), userId, { experienceKind: 'arena', arenaBattleKey: 'test_arena' }));
         assert.equal((await loadEquipe(userId)).pokemons[0].experience, before + expected);
     } finally {
         if (userId) await pool.execute('DELETE FROM users WHERE id = ?', [userId]);
@@ -582,7 +664,7 @@ test('Mounir Aventure : équipe réelle sous la pluie, Morphéo réservé et tra
         const socket=new ScriptedSocket(Array.from({length:10},()=>({action:'attack',number:0})));
         const io=new RecordingIo({[player.id]:socket}), snapshots=[];
         const to=io.to.bind(io);io.to=id=>({emit:(event,payload)=>{if(event==='introAnimation')snapshots.push(JSON.parse(JSON.stringify(payload)));to(id).emit(event,payload);}});
-        await withFixedRandom(.5,()=>startTrainerBattle(player,team,io,userId,{experienceKind:'arena'}));
+        await withFixedRandom(.5,()=>startTrainerBattle(player,team,io,userId,{experienceKind:'arena',arenaBattleKey:'test_arena'}));
         assert.equal(io.lastEvent(player.id,'endbattle').payload.playerWon,true);
         assert.equal(io.events.find(e=>e.eventName==='battleFieldState').payload.weather.kind,'rain');
         const entries=snapshots.flatMap(s=>s.transitions).filter(e=>e.kind==='enter'&&e.side==='opponent');
@@ -639,7 +721,7 @@ test('Hoze Aventure : quatre partenaires réels, as K4 en dernier, réplique uni
         const socket=new ScriptedSocket(Array.from({length:10},()=>({action:'attack',number:0})));
         const io=new RecordingIo({[player.id]:socket}), snapshots=[];
         const to=io.to.bind(io); io.to=id=>({emit:(event,payload)=>{if(event==='introAnimation')snapshots.push(JSON.parse(JSON.stringify(payload)));to(id).emit(event,payload);}});
-        await withFixedRandom(.5,()=>startTrainerBattle(player,team,io,userId,{experienceKind:'arena'}));
+        await withFixedRandom(.5,()=>startTrainerBattle(player,team,io,userId,{experienceKind:'arena',arenaBattleKey:'test_arena'}));
         assert.equal(io.lastEvent(player.id,'endbattle').payload.playerWon,true);
         assert.deepEqual([...new Set(snapshots.map(s=>s.wildPokemon.data.id))].sort((a,b)=>a-b),[7,253,445,448]);
         const entries=snapshots.flatMap(s=>s.transitions).filter(e=>e.kind==='enter'&&e.side==='opponent');
@@ -662,7 +744,7 @@ test('Raphael Aventure : cinq partenaires réels, as K4 en dernier, réplique un
         const socket=new ScriptedSocket(Array.from({length:10},()=>({action:'attack',number:0})));
         const io=new RecordingIo({[player.id]:socket}), snapshots=[];
         const to=io.to.bind(io); io.to=id=>({emit:(event,payload)=>{if(event==='introAnimation')snapshots.push(JSON.parse(JSON.stringify(payload)));to(id).emit(event,payload);}});
-        await withFixedRandom(.5,()=>startTrainerBattle(player,team,io,userId,{experienceKind:'arena'}));
+        await withFixedRandom(.5,()=>startTrainerBattle(player,team,io,userId,{experienceKind:'arena',arenaBattleKey:'test_arena'}));
         assert.equal(io.lastEvent(player.id,'endbattle').payload.playerWon,true);
         assert.deepEqual([...new Set(snapshots.map(s=>s.wildPokemon.data.id))].sort((a,b)=>a-b),[55,158,212,330,359]);
         const entries=snapshots.flatMap(s=>s.transitions).filter(e=>e.kind==='enter'&&e.side==='opponent');
@@ -686,7 +768,7 @@ test('Ana Aventure : six partenaires réels, as K4 en dernier, réplique unique 
         const socket=new ScriptedSocket(Array.from({length:10},()=>({action:'attack',number:0})));
         const io=new RecordingIo({[player.id]:socket}), snapshots=[];
         const to=io.to.bind(io); io.to=id=>({emit:(event,payload)=>{if(event==='introAnimation')snapshots.push(JSON.parse(JSON.stringify(payload)));to(id).emit(event,payload);}});
-        await withFixedRandom(.5,()=>startTrainerBattle(player,team,io,userId,{experienceKind:'arena'}));
+        await withFixedRandom(.5,()=>startTrainerBattle(player,team,io,userId,{experienceKind:'arena',arenaBattleKey:'test_arena'}));
         assert.equal(io.lastEvent(player.id,'endbattle').payload.playerWon,true);
         assert.deepEqual([...new Set(snapshots.map(s=>s.wildPokemon.data.id))].sort((a,b)=>a-b),[53,78,148,154,282,407]);
         const entries=snapshots.flatMap(s=>s.transitions).filter(e=>e.kind==='enter'&&e.side==='opponent');
@@ -710,7 +792,7 @@ test('Wanda Aventure : six partenaires réels, IV distincts, aucun as réservé 
         const socket=new ScriptedSocket(Array.from({length:20},()=>({action:'attack',number:0})));
         const io=new RecordingIo({[player.id]:socket}), snapshots=[];
         const to=io.to.bind(io); io.to=id=>({emit:(event,payload)=>{if(event==='introAnimation')snapshots.push(JSON.parse(JSON.stringify(payload)));to(id).emit(event,payload);}});
-        await withFixedRandom(.5,()=>startTrainerBattle(player,team,io,userId,{experienceKind:'arena'}));
+        await withFixedRandom(.5,()=>startTrainerBattle(player,team,io,userId,{experienceKind:'arena',arenaBattleKey:'test_arena'}));
         assert.equal(io.lastEvent(player.id,'endbattle').payload.playerWon,true);
         assert.deepEqual([...new Set(snapshots.map(s=>s.wildPokemon.data.id))].sort((a,b)=>a-b),[6,65,68,73,373,376]);
         const entries=snapshots.flatMap(s=>s.transitions).filter(e=>e.kind==='enter'&&e.side==='opponent');
@@ -766,7 +848,7 @@ for (const kind of ['wild','trainer','arena']) test(`Aventure ${kind} : partage 
   const {calculateBattleExperience:xp,BATTLE_EXPERIENCE_MULTIPLIERS:rates}=require('../server/game/models/progression');const factor=rates[kind],share=Math.floor(xp(first,factor,lead)/2),baseline=lead.experience;
   const expectedReserve=createPokemon(7,'Calcul');expectedReserve.gainExperience(share);const second=kind==='wild'?0:xp(last,factor,expectedReserve);
   const actions=[{action:'attack',number:0},{action:'change',number:1},{action:'attack',number:0},...(kind==='wild'?[]:[{action:'attack',number:0}])],socket=new ScriptedSocket(actions),io=new RecordingIo({[player.id]:socket});
-  if(kind==='wild')await withFixedRandom(.5,()=>startWildBattle(player,first,io,userId));else await withFixedRandom(.5,()=>startTrainerBattle(player,createTeam(first,last),io,userId,{experienceKind:kind}));
+  if(kind==='wild')await withFixedRandom(.5,()=>startWildBattle(player,first,io,userId));else await withFixedRandom(.5,()=>startTrainerBattle(player,createTeam(first,last),io,userId,{experienceKind:kind,arenaBattleKey:kind==='arena'?'test_arena':null}));
   const saved=(await loadEquipe(userId)).pokemons,byId=id=>saved.find(p=>p.uuid===id);
   assert.equal(byId(lead.uuid).experience,baseline+share);assert.equal(byId(reserve.uuid).experience,baseline+share+second);assert.equal(byId(bench.uuid).experience,baseline);
   assert.equal(saved[0].uuid,reserve.uuid,'receiving XP must not swap the active Pokémon');
