@@ -1150,7 +1150,7 @@
       "key": "iv_randomizer_hp",
       "name": "Relance IV · PV",
       "category": "medicine",
-      "buy_price": 250,
+      "buy_price": 1000,
       "description": "Relance l’IV PV entre 0 et 31. La nouvelle valeur remplace l’ancienne, même si elle est inférieure. Ne change ni le potentiel K ni les autres IV.",
       "fieldUse": {
         "ivReroll": "hp"
@@ -1160,7 +1160,7 @@
       "key": "ev_reset_hp",
       "name": "Reset EV · PV",
       "category": "medicine",
-      "buy_price": 150,
+      "buy_price": 5000,
       "description": "Remet uniquement les EV PV à zéro. Les IV, le niveau et le potentiel K sont conservés.",
       "fieldUse": {
         "effortReset": "hp"
@@ -1170,7 +1170,7 @@
       "key": "iv_randomizer_attack",
       "name": "Relance IV · Attaque",
       "category": "medicine",
-      "buy_price": 250,
+      "buy_price": 1000,
       "description": "Relance l’IV Attaque entre 0 et 31. La nouvelle valeur remplace l’ancienne, même si elle est inférieure. Ne change ni le potentiel K ni les autres IV.",
       "fieldUse": {
         "ivReroll": "attack"
@@ -1180,7 +1180,7 @@
       "key": "ev_reset_attack",
       "name": "Reset EV · Attaque",
       "category": "medicine",
-      "buy_price": 150,
+      "buy_price": 5000,
       "description": "Remet uniquement les EV Attaque à zéro. Les IV, le niveau et le potentiel K sont conservés.",
       "fieldUse": {
         "effortReset": "attack"
@@ -1190,7 +1190,7 @@
       "key": "iv_randomizer_defense",
       "name": "Relance IV · Défense",
       "category": "medicine",
-      "buy_price": 250,
+      "buy_price": 1000,
       "description": "Relance l’IV Défense entre 0 et 31. La nouvelle valeur remplace l’ancienne, même si elle est inférieure. Ne change ni le potentiel K ni les autres IV.",
       "fieldUse": {
         "ivReroll": "defense"
@@ -1200,7 +1200,7 @@
       "key": "ev_reset_defense",
       "name": "Reset EV · Défense",
       "category": "medicine",
-      "buy_price": 150,
+      "buy_price": 5000,
       "description": "Remet uniquement les EV Défense à zéro. Les IV, le niveau et le potentiel K sont conservés.",
       "fieldUse": {
         "effortReset": "defense"
@@ -1210,7 +1210,7 @@
       "key": "iv_randomizer_specialAttack",
       "name": "Relance IV · Attaque Spéciale",
       "category": "medicine",
-      "buy_price": 250,
+      "buy_price": 1000,
       "description": "Relance l’IV Attaque Spéciale entre 0 et 31. La nouvelle valeur remplace l’ancienne, même si elle est inférieure. Ne change ni le potentiel K ni les autres IV.",
       "fieldUse": {
         "ivReroll": "specialAttack"
@@ -1220,7 +1220,7 @@
       "key": "ev_reset_specialAttack",
       "name": "Reset EV · Attaque Spéciale",
       "category": "medicine",
-      "buy_price": 150,
+      "buy_price": 5000,
       "description": "Remet uniquement les EV Attaque Spéciale à zéro. Les IV, le niveau et le potentiel K sont conservés.",
       "fieldUse": {
         "effortReset": "specialAttack"
@@ -1230,7 +1230,7 @@
       "key": "iv_randomizer_specialDefense",
       "name": "Relance IV · Défense Spéciale",
       "category": "medicine",
-      "buy_price": 250,
+      "buy_price": 1000,
       "description": "Relance l’IV Défense Spéciale entre 0 et 31. La nouvelle valeur remplace l’ancienne, même si elle est inférieure. Ne change ni le potentiel K ni les autres IV.",
       "fieldUse": {
         "ivReroll": "specialDefense"
@@ -1240,7 +1240,7 @@
       "key": "ev_reset_specialDefense",
       "name": "Reset EV · Défense Spéciale",
       "category": "medicine",
-      "buy_price": 150,
+      "buy_price": 5000,
       "description": "Remet uniquement les EV Défense Spéciale à zéro. Les IV, le niveau et le potentiel K sont conservés.",
       "fieldUse": {
         "effortReset": "specialDefense"
@@ -1250,7 +1250,7 @@
       "key": "iv_randomizer_speed",
       "name": "Relance IV · Vitesse",
       "category": "medicine",
-      "buy_price": 250,
+      "buy_price": 1000,
       "description": "Relance l’IV Vitesse entre 0 et 31. La nouvelle valeur remplace l’ancienne, même si elle est inférieure. Ne change ni le potentiel K ni les autres IV.",
       "fieldUse": {
         "ivReroll": "speed"
@@ -1260,7 +1260,7 @@
       "key": "ev_reset_speed",
       "name": "Reset EV · Vitesse",
       "category": "medicine",
-      "buy_price": 150,
+      "buy_price": 5000,
       "description": "Remet uniquement les EV Vitesse à zéro. Les IV, le niveau et le potentiel K sont conservés.",
       "fieldUse": {
         "effortReset": "speed"
@@ -1270,7 +1270,7 @@
       "key": "ev_reset_all",
       "name": "Reset EV · Complet",
       "category": "medicine",
-      "buy_price": 600,
+      "buy_price": 5000,
       "description": "Remet les six statistiques d’EV à zéro pour recommencer l’entraînement. Les IV, le niveau et le potentiel K sont conservés.",
       "fieldUse": {
         "effortReset": "all"

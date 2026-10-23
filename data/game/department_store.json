@@ -118,43 +118,43 @@
           "price": 800
         },
         "iv_randomizer_hp": {
-          "price": 250
+          "price": 1000
         },
         "ev_reset_hp": {
-          "price": 150
+          "price": 5000
         },
         "iv_randomizer_attack": {
-          "price": 250
+          "price": 1000
         },
         "ev_reset_attack": {
-          "price": 150
+          "price": 5000
         },
         "iv_randomizer_defense": {
-          "price": 250
+          "price": 1000
         },
         "ev_reset_defense": {
-          "price": 150
+          "price": 5000
         },
         "iv_randomizer_specialAttack": {
-          "price": 250
+          "price": 1000
         },
         "ev_reset_specialAttack": {
-          "price": 150
+          "price": 5000
         },
         "iv_randomizer_specialDefense": {
-          "price": 250
+          "price": 1000
         },
         "ev_reset_specialDefense": {
-          "price": 150
+          "price": 5000
         },
         "iv_randomizer_speed": {
-          "price": 250
+          "price": 1000
         },
         "ev_reset_speed": {
-          "price": 150
+          "price": 5000
         },
         "ev_reset_all": {
-          "price": 600
+          "price": 5000
         },
         "cs_swords_dance": {
           "price": 3000

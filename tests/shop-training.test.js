@@ -36,7 +36,7 @@ test('Whitepeak training: exact location and Wanda victory; expedition supplies 
         assert(catalog({},'ville5_shop',true).some(i=>i.key===key));
     }
     for(const mapName of ['ville5_shop','tour_etage1'])for(const expedition of [false,true])for(const key of ['hp_up','protein','iron','calcium','zinc','carbos'])assert.equal(catalog(flags,mapName,expedition).find(i=>i.key===key).price,800);
-    assert.equal(catalog(flags,'ville5_shop').find(i=>i.key==='iv_randomizer_attack').price,250);
+    for(const mapName of ['ville5_shop','tour_etage1'])for(const expedition of [false,true])for(const item of catalog(flags,mapName,expedition).filter(i=>i.fieldUse?.ivReroll||i.fieldUse?.effortReset))assert.equal(item.price,item.fieldUse.ivReroll?1000:5000);
     assert.equal(getShopMeta({mapName:'ville5_shop'}).trainingAvailable,false);
     for(const expedition of [false,true])for(const item of items.filter(i=>i.unique&&i.dropOnly))assert(!catalog(flags,'ville5_shop',expedition).some(i=>i.key===item.key));
     assert(catalog({},'ville1_shop',true).some(i=>i.key==='thunder_stone'));
@@ -76,7 +76,7 @@ test('vitamin batches consume only useful stock, respect 252/510 including last 
 
 for(const mode of ['rift','colosseum'])test(`${mode}: training uses own stock, persists checkpoint, works between rounds and cannot heal KO or refund IV`,()=>{
     const p={alive:true,currentmap:'ville5_shop',money:10000,run:{mode,phase:'exploration'},equipe:{pokemons:[pokemon()]},items:{},drifts:[],equipped:[]};
-    economy.buy(p,'iv_randomizer_attack',2);assert.equal(p.money,9500);p.run.phase='colosseum_ready';
+    economy.buy(p,'iv_randomizer_attack',2);assert.equal(p.money,8000);p.run.phase='colosseum_ready';
     const result=economy.usePotion(p,'iv_randomizer_attack',p.equipe.pokemons[0].uuid,()=>.9999);assert.equal(result.trainingChange.after,31);assert.equal(p.items.iv_randomizer_attack,1);
     economy.usePotion(p,'iv_randomizer_attack',p.equipe.pokemons[0].uuid,()=>0);assert.equal(p.equipe.pokemons[0].iv.attack,0);assert.equal(p.items.iv_randomizer_attack,0);
     p.items.protein=25;assert.equal(economy.usePotion(p,'protein',p.equipe.pokemons[0].uuid,()=>0,25).consumed,25);

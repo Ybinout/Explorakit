@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## Tarifs des relances IV et resets EV — 23 octobre 2026
+
+Les six randomizers IV coûtent 1000 chacun ; les six resets EV ciblés et le reset EV global coûtent 5000 chacun. Prix de base et offres du niveau 2 du Grand Comptoir alignés ; mêmes tarifs à Blanchecime, en Aventure, Rift et Colosseum. Les effets restent identiques : IV relancé entre 0 et 31, EV concernés remis à zéro, recalcul immédiat des statistiques. Les autres tarifs restent conservés.
+
+778 tests applicatifs et 82 SQL passés. Vérification des 13 tarifs dans les deux boutiques et modes, deux relances IV débitées 2000 en expédition et en SQL, reset global débité 5000, solde SQL exact après achats en lot. Logs `/tmp/riftmon-training-prices-*`.
+
+Publication serveur le 23/10/2026 à 15 h 48 Paris : PID 1430627 actif/NRestarts 0, aucune expédition active avant reprise ; HTTPS 200, client/index et Knov/api-test inchangés. Sauvegarde sources/SQL/checkpoint `/home/ubuntu/dev/backups/riftmon-training-prices-2026-10-23T13-47-56-213Z`, client courant référencé dans la sauvegarde complète `riftmon-strategy-prices-2026-10-23T13-45-05-716Z` (`7e5afb4`, build `33531c0b4794c8ff`). Aucun schéma ni inventaire existant modifié.
+
 ## Objets stratégiques à 10 000 minimum — 23 octobre 2026
 
 Les 12 objets du rayon Stratégie passent à 10000 l’unité : Restes, Orbe Vie, Bandeau/Lunettes/Mouchoir Choix, Ceinture Force, Veste de Combat, Évoluroc, Ceinture Pro, Grelot Coque, Casque Brut et talisman Rift (réservé aux expéditions). Les offres du Grand Comptoir et les prix de base du catalogue sont alignés, couvrant aussi les boutiques d’expédition où certains objets restent disponibles. Disponibilité, drops, effets et prix des autres rayons inchangés : vitamines 800, CS 3000/4000/5000, baies à leurs tarifs existants.
@@ -2514,6 +2522,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+23/10/2026 — Relances IV à 1000 et tous les resets EV à 5000 ; 778+82 tests passés, publié à 15 h 48 Paris.
 
 23/10/2026 — 12 objets stratégiques à 10000 minimum, catalogues et boutiques alignés ; 778+82 tests passés, publié à 15 h 45 Paris.
 
