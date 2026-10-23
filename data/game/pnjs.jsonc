@@ -956,6 +956,81 @@
       },
       "block": true,
       "roamRadius": 0
+    },
+    {
+      "name": "vendeuse_commercial_1",
+      "interactionName": "commercial_keeper_1",
+      "map": "tour_rdc",
+      "x": 9,
+      "y": 7,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 0
+      },
+      "roamRadius": 0
+    },
+    {
+      "name": "vendeuse_commercial_2",
+      "interactionName": "commercial_keeper_2",
+      "map": "tour_etage1",
+      "x": 9,
+      "y": 7,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 0
+      },
+      "roamRadius": 0
+    },
+    {
+      "name": "vendeuse_commercial_3",
+      "interactionName": "commercial_keeper_3",
+      "map": "tour_etage2",
+      "x": 9,
+      "y": 7,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 0
+      },
+      "roamRadius": 0
+    },
+    {
+      "name": "vendeuse_commercial_4",
+      "interactionName": "commercial_keeper_4",
+      "map": "tour_etage3",
+      "x": 9,
+      "y": 7,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 0
+      },
+      "roamRadius": 0
+    },
+    {
+      "name": "guide_commercial",
+      "interactionName": "commercial_guide",
+      "map": "ville_commerciale",
+      "x": 10,
+      "y": 12,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 18
+      },
+      "roamRadius": 0
     }
   ]
 }

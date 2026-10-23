@@ -2526,11 +2526,24 @@
         },
         {
           "valX": 0,
-          "valY": null,
-          "goto": "route6",
-          "nexX": 32,
-          "nexY": 576,
-          "blockedMessage": "Le chemin vers le prochain village est fermé pour le moment."
+          "valY": 16,
+          "goto": "ville_commerciale",
+          "nexX": 832,
+          "nexY": 544
+        },
+        {
+          "valX": 0,
+          "valY": 17,
+          "goto": "ville_commerciale",
+          "nexX": 832,
+          "nexY": 576
+        },
+        {
+          "valX": 0,
+          "valY": 18,
+          "goto": "ville_commerciale",
+          "nexX": 832,
+          "nexY": 608
         }
       ],
       "wildpokemon": [
@@ -2547,6 +2560,162 @@
         336,
         352
       ],
+      "level": {
+        "min": 34,
+        "max": 36
+      }
+    },
+    {
+      "mapName": "ville_commerciale",
+      "mapchange": [
+        {
+          "valX": 27,
+          "valY": 16,
+          "goto": "route6",
+          "nexX": 32,
+          "nexY": 544
+        },
+        {
+          "valX": 27,
+          "valY": 17,
+          "goto": "route6",
+          "nexX": 32,
+          "nexY": 576
+        },
+        {
+          "valX": 27,
+          "valY": 18,
+          "goto": "route6",
+          "nexX": 32,
+          "nexY": 608
+        },
+        {
+          "valX": 13,
+          "valY": 11,
+          "goto": "tour_rdc",
+          "nexX": 416,
+          "nexY": 544
+        },
+        {
+          "valX": 4,
+          "valY": 8,
+          "logicalDoor": true,
+          "goto": "centre",
+          "nexX": 416,
+          "nexY": 480
+        }
+      ],
+      "wildpokemon": [],
+      "level": {
+        "min": 34,
+        "max": 36
+      }
+    },
+    {
+      "mapName": "tour_rdc",
+      "mapchange": [
+        {
+          "valX": 24,
+          "valY": 4,
+          "goto": "tour_etage1",
+          "nexX": 96,
+          "nexY": 192
+        },
+        {
+          "valX": 12,
+          "valY": 19,
+          "goto": "ville_commerciale",
+          "nexX": 416,
+          "nexY": 416
+        },
+        {
+          "valX": 13,
+          "valY": 19,
+          "goto": "ville_commerciale",
+          "nexX": 416,
+          "nexY": 416
+        },
+        {
+          "valX": 14,
+          "valY": 19,
+          "goto": "ville_commerciale",
+          "nexX": 416,
+          "nexY": 416
+        },
+        {
+          "valX": 15,
+          "valY": 19,
+          "goto": "ville_commerciale",
+          "nexX": 416,
+          "nexY": 416
+        }
+      ],
+      "wildpokemon": [],
+      "level": {
+        "min": 34,
+        "max": 36
+      }
+    },
+    {
+      "mapName": "tour_etage1",
+      "mapchange": [
+        {
+          "valX": 3,
+          "valY": 4,
+          "goto": "tour_rdc",
+          "nexX": 768,
+          "nexY": 192
+        },
+        {
+          "valX": 24,
+          "valY": 4,
+          "goto": "tour_etage2",
+          "nexX": 96,
+          "nexY": 192
+        }
+      ],
+      "wildpokemon": [],
+      "level": {
+        "min": 34,
+        "max": 36
+      }
+    },
+    {
+      "mapName": "tour_etage2",
+      "mapchange": [
+        {
+          "valX": 3,
+          "valY": 4,
+          "goto": "tour_etage1",
+          "nexX": 768,
+          "nexY": 192
+        },
+        {
+          "valX": 24,
+          "valY": 4,
+          "goto": "tour_etage3",
+          "nexX": 96,
+          "nexY": 192
+        }
+      ],
+      "wildpokemon": [],
+      "level": {
+        "min": 34,
+        "max": 36
+      }
+    },
+    {
+      "mapName": "tour_etage3",
+      "mapchange": [
+        {
+          "valX": 3,
+          "valY": 4,
+          "goto": "tour_etage2",
+          "nexX": 768,
+          "nexY": 192
+        }
+      ],
+      "wildpokemon": [],
       "level": {
         "min": 34,
         "max": 36

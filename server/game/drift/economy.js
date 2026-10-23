@@ -1,7 +1,7 @@
 const { randomUUID } = require('node:crypto');
 const catalogue = require('../../../data/game/drifts.json');
 const { value, heal, attach, detach } = require('./driftEffects');
-const { isShopMap, getShopCatalog } = require('../world/shopCatalog');
+const { isShopMap, getShopCatalog, getDepartment } = require('../world/shopCatalog');
 const { items: baseItems } = require('../../../data/game/items.json');
 const { LobbyError } = require('./lobbyStore');
 const { medicineBatch } = require('../items/medicineEffects');
@@ -16,7 +16,10 @@ const potions = [{ key: 'drift_potion', name: 'Potion', category: 'heal', price:
     { key: 'drift_super_potion', name: 'Super Potion', category: 'heal', price: 300, amount: 60, description: 'Soigne 60 PV hors combat.' }];
 const fail = message => { throw new LobbyError('drift_invalid', message); };
 function bag(p) { return [...baseItems, ...potions].filter(i => p.items[i.key] > 0).map(i => ({ ...i, quantity: p.items[i.key], ...(i.category==='evolution'?{evolutions:Object.fromEntries(p.equipe.pokemons.map(poke=>[poke.uuid,stones.target(poke,i.key)]).filter(([,target])=>target))}:{}) })); }
-function shop(p) { return { success: true, catalog: [...getShopCatalog({expedition:true,mapName:p.currentmap}).filter(i => i.key !== 'revive'), ...potions], items: bag(p), money: p.money, shopMeta:require('../world/shopCatalog').getShopMeta({expedition:true,mapName:p.currentmap}), merchant:merchant.view(p) }; }
+function shop(p) {
+    const department=getDepartment(p.currentmap),supplies=!department||department.number===1;
+    return { success: true, catalog: [...getShopCatalog({expedition:true,mapName:p.currentmap}).filter(i => i.key !== 'revive'), ...(supplies?potions:[])], items: bag(p), money: p.money, shopMeta:require('../world/shopCatalog').getShopMeta({expedition:true,mapName:p.currentmap}), merchant:supplies?merchant.view(p):null };
+}
 function requireMutable(p) { if (!p.alive || p.inbattle || ['results','selection'].includes(p.run.phase)) fail('Action indisponible maintenant.'); }
 function equip(p, uuid, enabled) {
     requireMutable(p);

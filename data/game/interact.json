@@ -1608,7 +1608,7 @@
     "x": null,
     "sentences": [
       {
-        "text": "Bienvenue à Valpierre ! La Route 4 arrive à l’ouest. L’arène de Hoze est dans le grand bâtiment au sud-ouest, la boutique à l’est et les maisons au nord. À l’est de la ville, les Routes 5 et 6 mènent vers le prochain village, dont le chemin est encore fermé.",
+        "text": "Bienvenue à Valpierre ! La Route 4 arrive à l’ouest. L’arène de Hoze est dans le grand bâtiment au sud-ouest, la boutique à l’est et les maisons au nord. À l’est de la ville, les Routes 5 et 6 mènent à Comptoirville et à son centre commercial.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -2118,6 +2118,80 @@
     "sentences": [
       {
         "text": "La maison est fermée. La clé est entre de bonnes mains.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 18
+        }
+      }
+    ]
+  },
+  {
+    "name": "commercial_keeper_1",
+    "sentences": [
+      {
+        "text": "Bienvenue au niveau 1 du Grand Comptoir, rayon Fournitures. Balls, Repousse, soins et pierres d’évolution.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 0
+        }
+      }
+    ],
+    "end": "shop"
+  },
+  {
+    "name": "commercial_keeper_2",
+    "sentences": [
+      {
+        "text": "Bienvenue au niveau 2 du Grand Comptoir, rayon Entraînement. Vitamines, relances d’IV de 0 à 31 et remise à zéro des EV.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 0
+        }
+      }
+    ],
+    "end": "shop"
+  },
+  {
+    "name": "commercial_keeper_3",
+    "sentences": [
+      {
+        "text": "Bienvenue au niveau 3 du Grand Comptoir, rayon Stratégie. Objets tenus pour construire ta stratégie de combat.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 0
+        }
+      }
+    ],
+    "end": "shop"
+  },
+  {
+    "name": "commercial_keeper_4",
+    "sentences": [
+      {
+        "text": "Bienvenue au niveau 4 du Grand Comptoir, rayon Baies. Baies de soin, de statut, de résistance et de statistiques.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 0
+        }
+      }
+    ],
+    "end": "shop"
+  },
+  {
+    "name": "commercial_guide",
+    "sentences": [
+      {
+        "text": "Bienvenue à Comptoirville ! La grande tour au centre est notre centre commercial : niveau 1, fournitures ; niveau 2, entraînement EV et IV ; niveau 3, objets stratégiques ; niveau 4, baies. Le Centre Pokémon est au nord-ouest. La Route 6 est à l’est.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,

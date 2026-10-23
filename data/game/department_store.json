@@ -1,0 +1,329 @@
+{
+  "name": "Grand Comptoir",
+  "floors": {
+    "tour_rdc": {
+      "number": 1,
+      "name": "Fournitures",
+      "description": "Balls, Repousse, soins et pierres d’évolution.",
+      "specialty": "supplies",
+      "offers": {
+        "pokeball": {
+          "price": 150
+        },
+        "superball": {
+          "price": 450
+        },
+        "hyperball": {
+          "price": 900
+        },
+        "repel": {
+          "price": 350
+        },
+        "super_repel": {
+          "price": 500
+        },
+        "max_repel": {
+          "price": 700
+        },
+        "potion": {
+          "price": 200
+        },
+        "super_potion": {
+          "price": 700
+        },
+        "antidote": {
+          "price": 100
+        },
+        "revive": {
+          "price": 1500
+        },
+        "fire_stone": {
+          "price": 800
+        },
+        "water_stone": {
+          "price": 800
+        },
+        "thunder_stone": {
+          "price": 800
+        },
+        "leaf_stone": {
+          "price": 800
+        },
+        "moon_stone": {
+          "price": 800
+        },
+        "sun_stone": {
+          "price": 800
+        },
+        "shiny_stone": {
+          "price": 800
+        },
+        "dusk_stone": {
+          "price": 800
+        },
+        "dawn_stone": {
+          "price": 800
+        },
+        "ice_stone": {
+          "price": 800
+        },
+        "awakening": {
+          "price": 200
+        },
+        "paralyze_heal": {
+          "price": 200
+        },
+        "burn_heal": {
+          "price": 200
+        },
+        "ice_heal": {
+          "price": 250
+        },
+        "hyper_potion": {
+          "price": 1200
+        },
+        "max_potion": {
+          "price": 2200
+        },
+        "full_heal": {
+          "price": 600
+        }
+      }
+    },
+    "tour_etage1": {
+      "number": 2,
+      "name": "Entraînement",
+      "description": "Vitamines, relances d’IV de 0 à 31 et remise à zéro des EV.",
+      "specialty": "training",
+      "offers": {
+        "hp_up": {
+          "price": 200
+        },
+        "protein": {
+          "price": 200
+        },
+        "iron": {
+          "price": 200
+        },
+        "calcium": {
+          "price": 200
+        },
+        "zinc": {
+          "price": 200
+        },
+        "carbos": {
+          "price": 200
+        },
+        "iv_randomizer_hp": {
+          "price": 250
+        },
+        "ev_reset_hp": {
+          "price": 150
+        },
+        "iv_randomizer_attack": {
+          "price": 250
+        },
+        "ev_reset_attack": {
+          "price": 150
+        },
+        "iv_randomizer_defense": {
+          "price": 250
+        },
+        "ev_reset_defense": {
+          "price": 150
+        },
+        "iv_randomizer_specialAttack": {
+          "price": 250
+        },
+        "ev_reset_specialAttack": {
+          "price": 150
+        },
+        "iv_randomizer_specialDefense": {
+          "price": 250
+        },
+        "ev_reset_specialDefense": {
+          "price": 150
+        },
+        "iv_randomizer_speed": {
+          "price": 250
+        },
+        "ev_reset_speed": {
+          "price": 150
+        },
+        "ev_reset_all": {
+          "price": 600
+        }
+      }
+    },
+    "tour_etage2": {
+      "number": 3,
+      "name": "Stratégie",
+      "description": "Objets tenus pour construire ta stratégie de combat.",
+      "specialty": "held",
+      "offers": {
+        "leftovers": {
+          "price": 3000
+        },
+        "life_orb": {
+          "price": 2500
+        },
+        "choice_band": {
+          "price": 2200
+        },
+        "choice_specs": {
+          "price": 2200
+        },
+        "choice_scarf": {
+          "price": 2200
+        },
+        "focus_sash": {
+          "price": 1500
+        },
+        "assault_vest": {
+          "price": 2000
+        },
+        "eviolite": {
+          "price": 2000
+        },
+        "expert_belt": {
+          "price": 1800
+        },
+        "shell_bell": {
+          "price": 1600
+        },
+        "rocky_helmet": {
+          "price": 2000
+        },
+        "rift_talisman": {
+          "price": 1200,
+          "expeditionOnly": true
+        }
+      }
+    },
+    "tour_etage3": {
+      "number": 4,
+      "name": "Baies",
+      "description": "Baies de soin, de statut, de résistance et de statistiques.",
+      "specialty": "berries",
+      "offers": {
+        "oran_berry": {
+          "price": 100
+        },
+        "sitrus_berry": {
+          "price": 300
+        },
+        "lum_berry": {
+          "price": 500
+        },
+        "cheri_berry": {
+          "price": 150
+        },
+        "chesto_berry": {
+          "price": 150
+        },
+        "pecha_berry": {
+          "price": 150
+        },
+        "rawst_berry": {
+          "price": 150
+        },
+        "aspear_berry": {
+          "price": 150
+        },
+        "persim_berry": {
+          "price": 150
+        },
+        "leppa_berry": {
+          "price": 450
+        },
+        "liechi_berry": {
+          "price": 800
+        },
+        "ganlon_berry": {
+          "price": 800
+        },
+        "salac_berry": {
+          "price": 800
+        },
+        "petaya_berry": {
+          "price": 800
+        },
+        "apicot_berry": {
+          "price": 800
+        },
+        "occa_berry": {
+          "price": 600
+        },
+        "passho_berry": {
+          "price": 600
+        },
+        "wacan_berry": {
+          "price": 600
+        },
+        "rindo_berry": {
+          "price": 600
+        },
+        "yache_berry": {
+          "price": 600
+        },
+        "chople_berry": {
+          "price": 600
+        },
+        "kebia_berry": {
+          "price": 600
+        },
+        "shuca_berry": {
+          "price": 600
+        },
+        "coba_berry": {
+          "price": 600
+        },
+        "payapa_berry": {
+          "price": 600
+        },
+        "tanga_berry": {
+          "price": 600
+        },
+        "charti_berry": {
+          "price": 600
+        },
+        "kasib_berry": {
+          "price": 600
+        },
+        "haban_berry": {
+          "price": 600
+        },
+        "colbur_berry": {
+          "price": 600
+        },
+        "babiri_berry": {
+          "price": 600
+        },
+        "roseli_berry": {
+          "price": 600
+        },
+        "chilan_berry": {
+          "price": 600
+        },
+        "pomeg_berry": {
+          "price": 350
+        },
+        "kelpsy_berry": {
+          "price": 350
+        },
+        "qualot_berry": {
+          "price": 350
+        },
+        "hondew_berry": {
+          "price": 350
+        },
+        "grepa_berry": {
+          "price": 350
+        },
+        "tamato_berry": {
+          "price": 350
+        }
+      }
+    }
+  }
+}
