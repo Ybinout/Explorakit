@@ -1,5 +1,13 @@
 # Contexte permanent — RiftMon
 
+## Action unique Sauvegarder et quitter — 23 octobre 2026
+
+Le menu principal affiche désormais « Sauvegarder et quitter » (« Save and quit » en anglais) ; l’entrée Sauvegarder séparée est retirée. Le comportement existant de `quitGame` conserve l’attente du succès de la sauvegarde SQL/checkpoint avant retour à l’accueil, le refus hors connexion et la conservation de l’expédition. Le bouton d’abandon reste distinct. Le dépannage reste uniquement dans Options → Debug · Dépannage → Débloquer mon personnage, déjà à cet endroit depuis le correctif précédent.
+
+Client uniquement, aucun changement serveur/SQL. Lint/build `c975de417e197245` réussis. Vérification navigateur ciblée sur le libellé unique, sauvegarde/reconnexion, refus de quitter hors connexion et sortie/reprise Rift/Colosseum ; recette de récupération dans les options également exécutée. La recette historique des apparences a d’abord échoué sur son déplacement à côté du PNJ itinérant `town_bastien`, après réussite du parcours sauvegarde Aventure ; cette étape étrangère au menu est exclue de la copie temporaire de vérification, sans modifier le jeu ni la recette versionnée. Les deux parcours ciblés passent, sans erreur navigateur. Logs `/tmp/riftmon-menu-actions-*`.
+
+Publication client seule à 2026-10-23T15:01:39.043Z : client `8582046`, build `c975de417e197245`, index atomique et anciens bundles conservés. Service inchangé (PID 1446200), aucune interruption des parties, HTTPS 200 et Knov/api-test inchangés. Index précédent sauvegardé dans `/home/ubuntu/dev/backups/riftmon-menu-actions-2026-10-23T15-01-38-275Z` ; rollback par restauration atomique de cet index, ses bundles étant conservés. Sources précédentes versionnées (`60b7d09` client, `27e12d9` racine).
+
 ## Minimap régionale et habitats du Pokédex — 23 octobre 2026
 
 Menu → Minimap, dans les trois modes : atlas SVG interactif au style pixel, huit villes et 26 lieux extérieurs/grottes, routes numérotées, repère joueur, sélection d’un lieu, zoom mobile et liste accessible. Nord conservé ; les distances sont schématiques. Les coordonnées graphiques sont dans `data/game/region_map.json`, les chemins et les intérieurs sont dérivés des transitions réellement praticables dans `world/regionMap.js`. Aucun raccord fictif Route 7/Comptoirville → Ocreville, aucune modification des cartes Tiled/collisions/assets de l’auteur. `regionLocation` ajouté au joueur public : bâtiments rattachés à leur lieu extérieur ; Centre partagé rattaché à son `centerReturnPoint`, y compris après reconnexion. Une provenance manquante reste inconnue plutôt qu’inventée.
