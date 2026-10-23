@@ -10,6 +10,8 @@ L’achat SQL relit les drapeaux persistés sous verrou joueur avant tout débit
 
 Validation : 871 tests applicatifs réussis ; 97 tests SQL réussis (96 au premier passage, puis audit du sac corrigé et relancé avec succès), lint/build client. Recette navigateur des quatre étages verrouillés puis débloqués, achats réels et parcours d’escaliers, modes Aventure/Rift/Colosseum, formats 320/393/844/1365, thèmes clair/sombre. Logs et captures `/tmp/riftmon-store-badges-*`.
 
+Publication serveur/client à 2026-10-23T21:34:05.219Z : patch `02d52fd`, client `abc3010`, build `0d86b7e681f4d866`. Recette finale trois modes réussie, aucune erreur navigateur. Sauvegarde SQL/sources/checkpoint/index dans `/home/ubuntu/dev/backups/riftmon-store-badges-2026-10-23T21-29-48-915Z`, aucune expédition active avant reprise ; PID 1484625 actif, NRestarts 0. HTTPS 200/index vérifié, anciens bundles conservés et Knov/api-test inchangés.
+
 ## Multi Exp garanti après Hoze et objet tenu — 23 octobre 2026
 
 Hoze remet désormais un Multi Exp unique à la victoire en Aventure. Le dialogue après combat et la notification expliquent de le faire tenir au premier Pokémon. `hozeRewardRepository` ajoute la remise dans la transaction de victoire et réconcilie les anciennes victoires lors du chargement de progression, sur drapeau explicite `hoze_defeated` ou reçu `story_champion_hoze`. Verrou joueur, reçu `hoze_exp_share_received`, inventaire/équipe/PC/historique vérifiés : pas de double exemplaire ni de nouvelle prime/badge accordé lors du rattrapage. Les drops existants et les exemplaires déjà obtenus sont conservés.
