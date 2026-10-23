@@ -171,7 +171,10 @@ test('Socket réel : Lucie, Wayne → Aspha → Mounir → Hoze → Raphael → 
             const before=await loadProgressState(userId),trace=[];socket.on('battleText',p=>{trace.push(p.message);if(trace.length>12)trace.shift();});socket.on('endbattle',p=>trace.push(JSON.stringify(p.summary)));
             socket.on('requestAction',()=>socket.emit('actionResponse',{action:'attack',number:attacks++%2}));
             const victoryScene=event(socket,'dialogue',p=>p[1]===`${name}_after`),battleResult=event(socket,'endbattle');
+            const gateId=name==='dia1'?'wayne_route1':name==='aspha_route2'?'aspha_lake':null;
+            const openedGate=gateId?event(socket,'storyGatesState',p=>p.gates.some(g=>g.id===gateId&&!g.locked)):null;
             socket.emit('onEndDialogue',name);const scene=await victoryScene.catch(e=>{throw Error(name+': '+e.message+' '+JSON.stringify(trace)+' '+serverErrors);}),summary=(await battleResult).summary;
+            if(openedGate)await openedGate;
             const trainerTeam=getPnjTeam(dialogues.find(e=>e.name===name).team),kind=catalog.npcBattles[name].experienceKind;
             expectedExperience+=trainerTeam.pokemons.reduce((sum,opponent)=>sum+calculateBattleExperience(opponent,BATTLE_EXPERIENCE_MULTIPLIERS[kind],pokemon),0);
             assert.equal((await loadEquipe(userId)).pokemons[0].experience,expectedExperience,`${name}: XP sauvegardée`);

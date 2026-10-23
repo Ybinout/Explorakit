@@ -66,6 +66,7 @@ const {
 } = require('../persistence/progressionRepository');
 
 const { meetsRequirements } = require('../game/world/storyProgression');
+const storyGates = require('../game/world/storyGates');
 
 const MOVE_DELAY = 130;
 const POSITION_SAVE_DELAY_MS = 4000;
@@ -427,12 +428,19 @@ const socketHandler = (io) => {
             }, POSITION_SAVE_DELAY_MS);
         };
 
+        const emitPlayerProgression = (progression) => {
+            socket.emit('progressionState', progression);
+            socket.emit('storyGatesState', { gates: storyGates.snapshot(progression) });
+        };
+        let lastGateAttempt = 0;
+        let lastGateNotice = 0;
+
         const emitProgressionSnapshot = async () => {
             const [progression, pokedex] = await Promise.all([
                 loadProgressState(userId),
                 loadPokedex(userId)
             ]);
-            socket.emit('progressionState', progression);
+            emitPlayerProgression(progression);
             socket.emit('pokedexState', pokedex);
             return { progression, pokedex };
         };
@@ -879,7 +887,7 @@ const socketHandler = (io) => {
                         type: 'already_completed',
                         message: 'Ce dresseur a déjà été vaincu.'
                     });
-                    socket.emit('progressionState', await loadProgressState(userId));
+                    emitPlayerProgression(await loadProgressState(userId));
                     return;
                 }
                 const getFightTeamName = getTeamInformation(dialogueName);
@@ -900,7 +908,7 @@ const socketHandler = (io) => {
                         ? async () => {
                             const completion = await completeNpcBattle(userId, dialogueName);
                             if (completion.granted) victoryProgress = completion.progress;
-                            socket.emit('progressionState', completion.progress);
+                            emitPlayerProgression(completion.progress);
                             socket.emit('progressionNotice', {
                                 type: completion.granted ? 'reward' : 'already_completed',
                                 message: completion.granted
@@ -963,7 +971,7 @@ const socketHandler = (io) => {
                 console.log("Tous les Pokémon de l'équipe ont été soignés !");
             } else if (dialogueAction === 'story') {
                 const completion = await completeStoryEvent(userId, dialogueName);
-                socket.emit('progressionState', completion.progress);
+                emitPlayerProgression(completion.progress);
                 if (completion.granted) socket.emit('progressionNotice', {
                     type: 'reward', message: completion.progress.objective?.text || 'Ton carnet de quêtes a été mis à jour.'
                 });
@@ -1096,6 +1104,36 @@ const socketHandler = (io) => {
 
             const matrixX = Math.floor(newPlayerX / TILE_SIZE);
             const matrixY = Math.floor(newPlayerY / TILE_SIZE);
+
+            const nextStepMap = changemap2D[matrixY]?.[matrixX] ? getNextMap(currentmap, matrixX, matrixY)?.nextMap : null;
+            const gateCandidates = storyGates.candidatesForStep(currentmap, direction, matrixX, matrixY, nextStepMap);
+            if (gateCandidates.length) {
+                player.isMoving = false;
+                if (Date.now() - lastGateAttempt < 350) return;
+                lastGateAttempt = Date.now();
+                const origin = { map: player.currentmap, x: player.x, y: player.y };
+                transitionBusy = true;
+                try {
+                    const progress = await loadProgressState(userId);
+                    if (players[socket.id] !== player || !socket.connected || player.inbattle || player.inventoryBusy || interactionBusy
+                        || player.currentmap !== origin.map || player.x !== origin.x || player.y !== origin.y) return;
+                    socket.emit('storyGatesState', { gates: storyGates.snapshot(progress) });
+                    const gate = gateCandidates.find(g => storyGates.isLocked(g, progress));
+                    if (gate) {
+                        if (Date.now() - lastGateNotice >= 1200) {
+                            lastGateNotice = Date.now();
+                            socket.emit('storyGateBlocked', { id: gate.id, map: gate.map, message: gate.message, messageEn: gate.messageEn });
+                        }
+                        return;
+                    }
+                    lastGateAttempt = 0;
+                    player.isMoving = true;
+                } catch (error) {
+                    console.error('Vérification passage narratif :', error.message);
+                    socket.emit('progressionNotice', { message: 'Impossible de vérifier ce passage. Réessaie dans un instant.' });
+                    return;
+                } finally { transitionBusy = false; }
+            }
 
             let repelProtection = null;
             const previousPosition = { x: player.x, y: player.y };

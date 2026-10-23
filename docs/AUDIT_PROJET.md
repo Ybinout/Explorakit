@@ -1,5 +1,17 @@
 # Audit technique et mémoire de RiftMon
 
+## Passages gardés réutilisables : Wayne et Aspha — 23 octobre 2026
+
+En Aventure, la sortie nord de Départ vers Route 1 exige la victoire sur Wayne ; la sortie est de Route 2 vers Ville du Lac exige Aspha. Petites barrières de corde en pixel art, sursaut et « ! » à la tentative de passage, retrait/fondu après victoire. Le message apparaît en bas de la carte, sans couvrir la barrière ni déplacer les boutons mobiles. Mouvement réduit respecté ; aucune image supplémentaire à charger. L’ouverture attend le retour à la carte après combat/bilan et n’est pas rejouée à chaque snapshot ou reconnexion.
+
+Configuration extensible dans `data/game/story_gates.json` : `id`, carte, prochaine carte, référence `npcBattle`, drapeau requis, sens de progression, rectangle de cases et messages FR/EN. Pour ajouter un gardien, réutiliser un passage existant, renseigner ces champs et son combat ; aucune modification du moteur/canvas requise. Le test de parcours vérifie les issues réelles et l’accès au dresseur. Ne pas modifier les collisions/cartes/PNG pour ajouter ces conditions. Le retour dans l’autre sens reste possible.
+
+`storyGates` décide depuis la progression persistée, avec prise en compte des reçus de victoire et des anciens drapeaux avancés via `effectiveStoryFlags`. Dans le handler Aventure, vérification avant mouvement, Repousse, rencontre ou sauvegarde ; revalidation joueur/carte/position après lecture SQL, refus si la vérification échoue, tentatives/messages limités. La transition réelle reste protégée pour les sauvegardes prises au-delà de la corde avant ce patch. Aucune récompense ni victoire inventée par ce contrôle. Événements additifs `storyGatesState` et `storyGateBlocked`, propres à chaque joueur ; les catalogues et parcours Rift/Colosseum ne reçoivent pas ces barrières.
+
+Vérifications : 874 tests applicatifs réussis et 98 tests SQL réussis. Nouveau test Socket réel (refus, spam, faux déblocage client, retour, ancienne position, victoire persistée, reconnexion et sauvegarde intacte), raccordé à `test:mysql`. Le parcours historique de vrais combats vérifie aussi l’événement d’ouverture après Wayne/Aspha. Recette `node --env-file-if-exists=.env scripts/validateStoryGatesBrowser.js` avec `RELEASE_DIST_DIR` isolé : deux barrières, animation d’ouverture, trois formats 320/393/1365, reconnexion et traversée Colosseum sans verrou. Lint/build réussis, journaux/captures `/tmp/riftmon-story-gates-*`.
+
+Publication serveur/client à 2026-10-23T21:52:39.561Z (23 h 52 Paris) : client `f88bbcd`, build `99c36ea25a9bb2e7`, PID 1489232 actif/NRestarts 0. Recette navigateur finale sans erreur ; aucune expédition active avant reprise. Sauvegarde sources/SQL/checkpoint/index dans `/home/ubuntu/dev/backups/riftmon-story-gates-2026-10-23T21-48-10-457Z`. HTTPS 200/index vérifié, anciens bundles conservés, Knov/api-test inchangés.
+
 ## Économie sauvage Aventure : progression tardive et loot — 23 octobre 2026
 
 `adventureMoneyReward` prolonge la progression de base à `min(250, 30 + 3 × niveau du sauvage)` : 150 ₽ au niveau 40, 180 au niveau 50, 210 au niveau 60, 240 au niveau 70 et 250 dès le niveau 74. Le précédent plafond réel était 180 au niveau 50. Même gain pour victoire et capture réussie, avec les multiplicateurs de récompense existants appliqués après le plafond de base. Les gains Rift/Colosseum gardent leur courbe `min(120, 20 + 2 × niveau)`.
@@ -2711,6 +2723,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+23/10/2026 — Barrières narratives Wayne/Aspha en Aventure : contrôles serveur réutilisables, animation pixel art, anciens joueurs et retours préservés, tests SQL/Socket et mobile/PC.
 
 23/10/2026 — Aventure : récompenses sauvages poursuivies jusqu’à 250 ₽, loot 4 % → 5 %, expéditions inchangées. Tests de courbe, récompenses réelles et unicité SQL validés ; publication serveur seule.
 

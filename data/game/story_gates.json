@@ -1,0 +1,28 @@
+{
+  "gates": [
+    {
+      "id": "wayne_route1",
+      "map": "start",
+      "nextMap": "route1",
+      "npcBattle": "dia1",
+      "requiredFlag": "route_guard_defeated",
+      "direction": "up",
+      "tiles": { "x": 19, "y": 2, "width": 3, "height": 1 },
+      "name": "Wayne",
+      "message": "Wayne : Pas si vite ! Bats-moi avant de prendre la route. Viens me parler avec A.",
+      "messageEn": "Wayne: Not so fast! Beat me before taking the road. Come talk to me with A."
+    },
+    {
+      "id": "aspha_lake",
+      "map": "route2",
+      "nextMap": "ville1",
+      "npcBattle": "aspha_route2",
+      "requiredFlag": "aspha_route2_defeated",
+      "direction": "right",
+      "tiles": { "x": 26, "y": 5, "width": 1, "height": 2 },
+      "name": "Aspha",
+      "message": "Aspha : Avant de rejoindre la Ville du Lac, montre-moi ce que vaut ton équipe ! Viens me parler avec A.",
+      "messageEn": "Aspha: Before heading to Lake Town, show me what your team can do! Come talk to me with A."
+    }
+  ]
+}
