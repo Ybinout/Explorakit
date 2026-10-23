@@ -313,4 +313,11 @@ async function CreatePokemon(mapName) {
     }
 }
 
+CreatePokemon.createAtLevel = async function(id, level) {
+    if (!Number.isInteger(id) || !Number.isInteger(level) || level < 1 || level > 100) throw new Error('Rencontre invalide.');
+    const poke = new Pokemon(id, 'test', 0, 0, null, Pokemon.randomNature(), null);
+    applyTargetLevel(poke, level);
+    await assignAutomaticMoves(poke);
+    return poke;
+};
 module.exports = CreatePokemon;

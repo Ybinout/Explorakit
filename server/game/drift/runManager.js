@@ -51,6 +51,19 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
     const emit = (p,event,payload) => {
         if(p.socketId && playerFor({id:p.userId})===p) namespace.to(p.socketId).emit(event,payload);
     };
+    const fishing = require('../world/fishingController').createFishingController({
+        now, random,
+        ownsRod: p => p.items.fishing_rod > 0,
+        available: p => p.alive && Boolean(p.socketId) && playerFor({id:p.userId})===p && p.run.phase==='exploration' && now()<p.run.endsAt && storagePausedAt===null && !p.run.recoveryWaiting && !p.inbattle && !p.inventoryBusy && p.equipe.pokemons.some(mon=>!effects.isDead(mon)),
+        emit,
+        onHook: p => {
+            const encounter=require('../world/fishingEncounters').fishingEncounter(p.currentmap,random);
+            if(!encounter || !p.alive || p.inbattle || p.run.phase!=='exploration' || now()>=p.run.endsAt)return;
+            const wild=factory.create(encounter.id,encounter.level,false,random);
+            require('./openingBalance').tuneWildMoves(wild);
+            battle(p,{npc:true,equipe:{pokemons:[wild]},drifts:[],equipped:[],chain:0},'wild',null,null,'lake');
+        }
+    });
     function publicPlayers(run,map) {
         const result={}; for(const p of run.players.values()) if(p.alive && p.socketId && p.currentmap===map) result[p.socketId]=toPublicPlayer({...p,id:p.socketId});
         return result;
@@ -115,6 +128,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         for(const p of run.players.values()) if(p.socketId) emit(p,'playersList',publicPlayers(run,p.currentmap));
     }
     function moveTo(p,map,x,y) {
+        fishing.cancel(p);
         if(p.currentmap!==map) report.visit(p,map);
         const safe=sanitizeSpawnPosition(x,y,loadCollisionData(map),map); p.currentmap=map;p.x=safe.x;p.y=safe.y;p.dialogue=null;
         emit(p,'newmap',{mapname:map,playersList:publicPlayers(p.run,map),reason:'drift'});
@@ -124,6 +138,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         world(p.run);
     }
     function purge(p,reason) {
+        fishing.cancel(p);
         if(!p.alive) return;
         report.endPlayer(p,reason,economy.bag(p));
         p.alive=false;p.eliminationReason=reason;p.ready=false;p.dialogue=null;
@@ -187,11 +202,12 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         if(run.phase==='transition') return;
         if(match) advance(run); else checkSolo(run);
     }
-    function battle(p,opponent,type,npcKey=null,match=null) {
+    function battle(p,opponent,type,npcKey=null,match=null,environment=null) {
         const run=p.run;
+        fishing.cancel(p);
         if (!p.equipe.pokemons.some(poke => !effects.isDead(poke))) economy.fail('Soigne un compagnon avant de combattre.');
         stopSpectating(p,'own_match');stopSpectating(opponent,'own_match');
-        const b=new DriftBattle(p,opponent,{type,npcKey,emit,now,random,paceMs,
+        const b=new DriftBattle(p,opponent,{type,npcKey,emit,now,random,paceMs,environment,
             onUpdate:b=>publishSpectators(run,match,b),onFinish:(...args)=>finishBattle(run,...args,match)});
         b.matchId=match?.id||null;
         if(!b.finished) run.battles.add(b);
@@ -343,7 +359,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
             emit(p,'mapWeatherState',getMapWeather(p.currentmap));
             emit(p,'worldDevicesState',devicesForMap(p.currentmap));
             emit(p,'pnjsList',{mapname:p.currentmap,pnjs:p.run.phase==='exploration'?p.run.pnjs.getPnjsForMap(p.currentmap):[]});
-            if(p.inbattle) {emit(p,'battletrigger',{battleType:p.battle.type,musicKind:p.battle.musicKind(),field:require('../battle/battleEvents').serializeFieldState(p.battle.state)});p.battle.resume(p);}
+            if(p.inbattle) {emit(p,'battletrigger',{battleType:p.battle.type,musicKind:p.battle.musicKind(),environment:p.battle.environment||null,field:require('../battle/battleEvents').serializeFieldState(p.battle.state)});p.battle.resume(p);}
         }
         send(p);world(p.run);return state(p);
     }
@@ -358,6 +374,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         return p;
     }
     function move(p,action) {
+        if(getDirectionFromAction(action))fishing.cancel(p);
         if(!p.alive||p.inbattle||p.run.phase!=='exploration'||now()-p.lastMove<130) return;
         const direction=getDirectionFromAction(action);if(!direction)return;
         const delta={move_z:[0,-32],move_s:[0,32],move_q:[-32,0],move_d:[32,0]}[action];
@@ -387,6 +404,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
     }
     function interact(p) {
         if(p.run.phase!=='exploration')return;
+        if(fishing.current(p)){fishing.reel(p,fishing.current(p).id);return;}
         if(isNearComputer(p)){emit(p,'pcOpened',computer.open(p));return;}
         const x=Math.floor(p.x/32),y=Math.floor(p.y/32);
         for(const [dx,dy] of [[0,-1],[0,1],[-1,0],[1,0]]) {
@@ -397,6 +415,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
             const sentence=pnj?getSentenceForName(pnj.interactionName||pnj.name,storyState):InteractMapData(p.currentmap)[ty]?.[tx]?getSentenceForMapAndPosition(p.currentmap,tx,ty):null;
             if(sentence){p.dialogue=createDialogueAuthorization({name:sentence[1],map:p.currentmap,x:tx,y:ty},now());emit(p,'dialogue',sentence);return;}
         }
+        return fishing.offer(p);
     }
     function endDialogue(p,name) {
         if(p.run.phase!=='exploration'||!isDialogueCompletionAllowed(p.dialogue,{name,map:p.currentmap,playerX:Math.floor(p.x/32),playerY:Math.floor(p.y/32)},now()))economy.fail('Dialogue expiré.');
@@ -445,6 +464,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         publish(run);world(run);
     }
     function tick() {
+        fishing.prune();
         if (storagePausedAt !== null) return;
         for(const run of [...runs.values()]) {
             if(run.recoveryWaiting) {
@@ -537,7 +557,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
             runs.set(run.id,run);
         }
     }
-    return {reconcileSettlements,setStorageAvailable,restore,start,startColosseum,chooseStarter,enter,guard,move,interact,endDialogue,ready,abandon,tick,send,publish,state,playerFor,battle,beginTournament,runs,spectate,stopSpectating,
-        disconnect(user,socket){const p=playerFor(user);if(p?.socketId===socket.id){stopSpectating(p,'disconnected');p.socketId=null;p.disconnectedAt=now();world(p.run);}}};
+    return {fishing,reconcileSettlements,setStorageAvailable,restore,start,startColosseum,chooseStarter,enter,guard,move,interact,endDialogue,ready,abandon,tick,send,publish,state,playerFor,battle,beginTournament,runs,spectate,stopSpectating,
+        disconnect(user,socket){const p=playerFor(user);if(p?.socketId===socket.id){fishing.cancel(p);stopSpectating(p,'disconnected');p.socketId=null;p.disconnectedAt=now();world(p.run);}}};
 }
 module.exports={createRunManager};

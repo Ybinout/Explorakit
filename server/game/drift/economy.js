@@ -58,6 +58,7 @@ function buy(p, key, quantity) {
     if (p.run.phase !== 'exploration' || !isShopMap(p.currentmap)) fail('Rejoins une boutique.');
     const item = shop(p).catalog.find(i => i.key === key);
     if (!item || !Number.isInteger(quantity) || quantity < 1 || quantity > 99) fail('Achat invalide.');
+    if (item.purchaseLimit && (p.items[key] || 0) + quantity > item.purchaseLimit) fail('Tu possèdes déjà cette canne. Un seul exemplaire suffit.');
     const cost = item.price * quantity; if (p.money < cost) fail('Monnaie insuffisante.');
     p.money -= cost; p.items[key] = (p.items[key] || 0) + quantity;
     report.increment(p,'moneySpent',cost);report.event(p,'purchase',`${quantity} × ${item.name} acheté${quantity>1?'s':''} · −${cost} ₽.`);

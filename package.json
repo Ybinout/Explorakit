@@ -68,7 +68,8 @@
     "test:shop-browser": "node --env-file-if-exists=.env scripts/validateShopTrainingBrowser.js",
     "test:wanda-browser": "node --env-file-if-exists=.env scripts/validateWandaBrowser.js",
     "test:ana-browser": "node --env-file-if-exists=.env scripts/validateAnaBrowser.js",
-    "test:raph-browser": "node --env-file-if-exists=.env scripts/validateRaphBrowser.js"
+    "test:raph-browser": "node --env-file-if-exists=.env scripts/validateRaphBrowser.js",
+    "test:fishing-browser": "node --env-file-if-exists=.env scripts/validateFishingBrowser.js"
   },
   "keywords": [],
   "author": "",

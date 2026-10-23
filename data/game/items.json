@@ -1360,6 +1360,14 @@
           "freeze"
         ]
       }
+    },
+    {
+      "key": "fishing_rod",
+      "name": "Canne à pêche",
+      "category": "field",
+      "buy_price": 15000,
+      "purchaseLimit": 1,
+      "description": "Une canne solide pour tous les lacs. Approche-toi de l’eau et utilise Action pour pêcher. Achat unique, réutilisable à volonté."
     }
   ]
 }

@@ -101,7 +101,7 @@ test('Connexion au camp : distinguer un ancien serveur, une session refusée et 
             instance.syncWorldMusic = () => {};
             for (const name of ['loadMapImage', 'loadForegroundImage', 'loadAvailableSprites', 'loadPnjSpriteSources',
                 'handleKeydown', 'handleKeyup', 'handleOutsideMenuClick', 'updateMobileControlsVisibility',
-                'releaseAllMovementKeys', 'startGameLoop', 'startMovementLoop', 'resizeWorldViewport']) instance[name] = () => {};
+                'cancelFishing', 'releaseAllMovementKeys', 'startGameLoop', 'startMovementLoop', 'resizeWorldViewport']) instance[name] = () => {};
             (await loadWorldMount(createGameSocket, createDriftSocket)).call(instance);
             const socket = instance.socket;
             sockets.push(socket);

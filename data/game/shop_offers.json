@@ -248,6 +248,12 @@
       "maps": [
         "ville5_shop"
       ]
+    },
+    "fishing_rod": {
+      "tier": 0,
+      "maps": [
+        "tour_rdc"
+      ]
     }
   }
 }

@@ -18,10 +18,11 @@ const trainerTactics = require('../battle/trainerTactics');
 const { wildMoneyReward } = require('../battle/wildReward');
 
 class DriftBattle {
-    constructor(a, b, { type = 'wild', emit, now = Date.now, random = Math.random, onFinish, onUpdate, npcKey = null, paceMs = 1800 }) {
+    constructor(a, b, { type = 'wild', emit, now = Date.now, random = Math.random, onFinish, onUpdate, npcKey = null, environment = null, paceMs = 1800 }) {
         presentation.reset(a);presentation.reset(b);
         this.id = randomUUID(); this.a = a; this.b = b; this.type = type; this.emit = emit; this.now = now;
         this.random = random; this.onFinish = onFinish; this.onUpdate = onUpdate; this.npcKey = npcKey; this.paceMs = paceMs;
+        this.environment = environment === 'lake' ? 'lake' : null;
         this.publicLog = [];
         this.contractContributors = new Set();
         this.aiMemory = { seen: {}, lastSwitchRound: -10 };
@@ -39,7 +40,7 @@ class DriftBattle {
             p.inbattle = true; p.battle = this;
             effects.attach(p.equipe.pokemons, p, type === 'pvp', random);
             p.equipe.pokemons.forEach(poke => { effects.states.get(poke).wild = index === 0 && type === 'wild'; });
-            if (!p.npc) emit(p, 'battletrigger', { field:serializeFieldState(this.state), musicKind:this.musicKind(), battleType: type === 'arena' ? 'trainer' : type, message: type === 'pvp' ? 'Duel du tournoi Drift !' : 'Un combat Drift commence !' });
+            if (!p.npc) emit(p, 'battletrigger', { environment:this.environment, field:serializeFieldState(this.state), musicKind:this.musicKind(), battleType: type === 'arena' ? 'trainer' : type, message: type === 'pvp' ? 'Duel du tournoi Drift !' : 'Un combat Drift commence !' });
         }
         for (const index of [0,1]) this.enter(index, false, true);
         this.prune();

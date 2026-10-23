@@ -87,6 +87,9 @@
         },
         "full_heal": {
           "price": 600
+        },
+        "fishing_rod": {
+          "price": 15000
         }
       }
     },

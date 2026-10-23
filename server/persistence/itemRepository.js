@@ -101,6 +101,11 @@ async function purchaseUserItem(userId, itemKey, quantity = 1, context = {}) {
         const flags=Object.fromEntries(flagRows.map(r=>[r.flag_key,r.flag_value]));
         const item=getPurchasableItem(itemKey,{mapName:context.mapName,flags});
         if(!item)return {success:false,reason:'item_unavailable'};
+        if (item.purchaseLimit) {
+            const [owned] = await connection.execute('SELECT quantity FROM user_items WHERE user_id=? AND item_key=?', [normalizedUserId, item.key]);
+            if ((Number(owned[0]?.quantity) || 0) + normalizedQuantity > item.purchaseLimit)
+                return { success: false, reason: 'purchase_limit' };
+        }
         const totalPrice=item.buyPrice*normalizedQuantity;
         const currentMoney = Number(userRows[0].money) || 0;
         if (currentMoney < totalPrice) {

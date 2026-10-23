@@ -304,6 +304,38 @@ const socketHandler = (io) => {
             inbattle: false
         };
 
+        const fishing = require('../game/world/fishingController').createFishingController({
+            ownsRod: async () => (await require('../persistence/itemRepository').loadUserItems(userId)).some(i => i.key === 'fishing_rod' && i.quantity > 0),
+            available: p => players[socket.id] === p && socket.connected && !p.inbattle && !p.inventoryBusy && !transitionBusy && hasConsciousPokemon(p.equipe),
+            emit: (p,event,payload) => socket.emit(event,payload),
+            onHook: async p => {
+                if (players[socket.id] !== p || p.inbattle || !socket.connected) return;
+                const encounter = require('../game/world/fishingEncounters').fishingEncounter(p.currentmap);
+                if (!encounter) return;
+                p.inbattle = true;
+                try {
+                    const wild = await CreatePokemon.createAtLevel(encounter.id,encounter.level);
+                    if (players[socket.id] !== p || !socket.connected) return;
+                    socket.emit('battletrigger',{message:'Ça mord !',battleType:'wild',environment:'lake',field:{weather:battleWeatherForMap(p.currentmap)}});
+                    await startBattle(p,wild,io,userId,p.equipe);
+                } finally {
+                    if (players[socket.id] === p) {
+                        await handleBlackout().catch(error => console.error('Récupération après pêche :',error.message));
+                        p.inbattle = false;
+                        socket.emit('teamStateChanged',{reason:'wild_battle_end',equipe:p.equipe});
+                    }
+                }
+            }
+        });
+        for (const [event, operation] of Object.entries({
+            'fishing:start': (p,data) => fishing.start(p,data?.id),
+            'fishing:reel': (p,data) => fishing.reel(p,data?.id),
+            'fishing:cancel': p => fishing.cancel(p)
+        })) socket.on(event,(data,ack) => {
+            const p=players[socket.id];
+            const success=Boolean(p && operation(p,data));
+            if (typeof ack === 'function') ack({success});
+        });
         let canMove = true;
         let transitionBusy = false;
         let saveTimer = null;
@@ -423,6 +455,7 @@ const socketHandler = (io) => {
         };
 
         const relocatePlayer = async (destination, { reason = 'relocation', saveCheckpoint = false } = {}) => {
+            if (players[socket.id]) fishing.cancel(players[socket.id]);
             const player = players[socket.id];
             if (!player) return false;
 
@@ -928,6 +961,7 @@ const socketHandler = (io) => {
             const player = players[socket.id];
             if (!player) return;
             if (player.inbattle || player.inventoryBusy) return;
+            if (fishing.current(player)) { fishing.reel(player,fishing.current(player).id); return; }
 
             if (isNearComputer(player)) { await computerHandlers.open(); return; }
             if (!socketToChatSession.has(socket.id) && !hasPendingRequestForSocket(socket.id)) {
@@ -1006,11 +1040,12 @@ const socketHandler = (io) => {
             }
 
             if (!interactionDetected) {
-                console.log('No interaction detected near the player.');
+                await fishing.offer(player);
             }
         }));
 
         socket.on('playerAction', async (action) => {
+            if (getDirectionFromAction(action) && players[socket.id]) fishing.cancel(players[socket.id]);
             if (!canMove || interactionBusy || transitionBusy) return;
             const player = players[socket.id];
             if (!player) return;
@@ -1161,6 +1196,7 @@ const socketHandler = (io) => {
         });
 
         socket.on('disconnect', async () => {
+            fishing.stop();
             if (saveTimer) {
                 clearTimeout(saveTimer);
                 saveTimer = null;

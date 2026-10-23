@@ -90,7 +90,7 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
             try {
                 if(stopped || checkpointError)throw new LobbyError('storage_unavailable','Sauvegarde temporairement indisponible. Réessaie dans un instant.');
                 const p = runtime.guard(user, socket, mutable);
-                const result = handler(p, payload);
+                const result = await handler(p, payload);
                 if(name!=='getPokemonEvolutions' && name!=='playerAction' && name!=='drift:refresh' && !name.includes('Spectat') && name!=='drift:spectate') await checkpoint();
                 runtime.send(p);
                 reply(result || { success: true });
@@ -130,6 +130,9 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
         gameCommand('drift:stopSpectating', p => runtime.stopSpectating(p), false);
         gameCommand('playerAction', (p, action) => runtime.move(p, action));
         gameCommand('Space', p => runtime.interact(p));
+        gameCommand('fishing:start', (p,data) => ({success:runtime.fishing.start(p,data?.id)}));
+        gameCommand('fishing:reel', (p,data) => ({success:runtime.fishing.reel(p,data?.id)}));
+        gameCommand('fishing:cancel', p => ({success:runtime.fishing.cancel(p)}), false);
         gameCommand('onEndDialogue', (p, name) => runtime.endDialogue(p, name));
         gameCommand('actionResponse', (p, action) => {
             if (!p.battle?.action(p, action)) { p.battle?.resume(p); throw new LobbyError('invalid_action', 'Choisis une action disponible.'); }
@@ -196,7 +199,7 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
         });
         socket.on('disconnect', () => { runtime.disconnect(user, socket); store.disconnect(user, socket.id); publish(); });
     });
-    const cleanup = () => { stopped=true; clearInterval(timer); clearInterval(runtimeTimer); clearInterval(checkpointTimer); };
+    const cleanup = () => { runtime.fishing.stop(); stopped=true; clearInterval(timer); clearInterval(runtimeTimer); clearInterval(checkpointTimer); };
     cleanup.checkpoint=checkpoint;
     cleanup.runtime = runtime;
     return cleanup;

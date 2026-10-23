@@ -17,13 +17,13 @@ function getShopCatalog(context = {}) {
     const department=getDepartment(mapName);
     if(department)return itemsCatalog.items.filter(item=>{
         const offer=department.offers[item.key];return offer&&offer.price>0&&(!offer.expeditionOnly||expedition);
-    }).map(item=>({key:item.key,name:item.name,category:item.category,description:item.description||'',price:department.offers[item.key].price,fieldUse:item.fieldUse||null}));
+    }).map(item=>({key:item.key,name:item.name,category:item.category,description:item.description||'',price:department.offers[item.key].price,fieldUse:item.fieldUse||null,...(item.purchaseLimit?{purchaseLimit:item.purchaseLimit}:{})}));
     const {tier}=getShopMeta(context);
     return (itemsCatalog.items || []).filter(item=>{
         const offer=offers[item.key],price=offer?.price ?? item.buy_price;
         if (!(Number(price)>0) || (item.dropOnly&&!offer) || (item.riftOnly&&!expedition&&!offer))return false;
         if (offer?.maps&&!offer.maps.includes(mapName))return false;
         return expedition || tier>=(offer?.tier||0);
-    }).map(item=>({key:item.key,name:item.name,category:item.category,description:item.description||'',price:Math.floor(Number(offers[item.key]?.price ?? item.buy_price)),fieldUse:item.fieldUse||null}));
+    }).map(item=>({key:item.key,name:item.name,category:item.category,description:item.description||'',price:Math.floor(Number(offers[item.key]?.price ?? item.buy_price)),fieldUse:item.fieldUse||null,...(item.purchaseLimit?{purchaseLimit:item.purchaseLimit}:{})}));
 }
 module.exports = { getShopCatalog, getShopMeta, shopTier, isShopMap, SHOP_MAPS, getDepartment };
