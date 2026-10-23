@@ -20,3 +20,8 @@ test('invalid portrait frames do not sample another character or a world sprite'
   }
   assert.equal(dialoguePortraitRect({naturalWidth:0,naturalHeight:0},{columns:8,rows:4,index:0}),null);
 });
+test('new civilian atlases honor authored row gutters and reject malformed boundaries',async()=>{
+ const {dialoguePortraitRect}=await service(),image={naturalWidth:1774,naturalHeight:887},rowBounds=[0,326,602,887];
+ for(let index=0;index<18;index++){const box=dialoguePortraitRect(image,{columns:6,rows:3,index,rowBounds}),row=Math.floor(index/6);assert.equal(box.y,rowBounds[row]+1);assert.equal(box.y+box.h,rowBounds[row+1]-1);}
+ for(const rows of [[0,326,602,886],[0,500,400,887],[1,326,602,887],[0,300,887],[0,NaN,602,887]])assert.equal(dialoguePortraitRect(image,{columns:6,rows:3,index:0,rowBounds:rows}),null);
+});

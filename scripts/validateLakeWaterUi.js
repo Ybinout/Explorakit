@@ -1,5 +1,7 @@
 const assert = require('node:assert/strict'), path = require('node:path');
 const LAKES = {
+  ville_safe1: { slug: 'valpierre', point: [144,420], minimum: 2500, fixed: [[35,210],[72,180],[110,220],[230,240],[80,80]] },
+  gen_ville5: { slug: 'ocreville', point: [780,246], minimum: 600, fixed: [[391,121],[389,120],[370,110],[414,130],[300,120]] },
   ville3: { slug: 'clairfontaine', point: [480,340], minimum: 5000, fixed: [[235,145],[200,168],[280,120],[176,140],[230,96],[235,200],[100,100]] },
   ville1: { slug: 'ville-du-lac', point: [790,270], minimum: 5000, fixed: [[279,39],[367,49],[386,123],[248,24],[330,95],[430,40]] },
   route3: { slug: 'route3', point: [600,540], minimum: 3000, fixed: [[255,273],[319,273],[248,244],[358,246],[213,265],[300,230],[80,140]] },
@@ -29,7 +31,7 @@ module.exports = async function validateLakeWaterUi(page, output, map = 'ville1'
     const fixed = fixedPoints.every(([x,y]) => !r.mask.interior[y*448+x]);
     r.destroy(); return {shortChanged, shortMean, changed, outside, alpha, pixels, fixed, dry: !v.mapWeather?.kind};
   }, {map, fixedPoints: profile.fixed});
-  if (map === 'ville1' || map === 'ville3') assert(lake.shortChanged > lake.pixels * .4 && lake.shortMean > 2, 'City water must move visibly within 400 ms');
+  if (['ville1','ville3','ville_safe1','gen_ville5'].includes(map)) assert(lake.shortChanged > lake.pixels * .4 && lake.shortMean > 2, 'City water must move visibly within 400 ms');
   assert(lake.changed > 100 && lake.pixels > profile.minimum); assert(lake.fixed && lake.dry); assert.equal(lake.outside, 0); assert.equal(lake.alpha, 0);
   for (const [width,height] of [[320,480],[393,852],[844,390],[1365,900]]) {
     await page.setViewportSize({width,height});

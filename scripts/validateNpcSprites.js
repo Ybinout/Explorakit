@@ -1,7 +1,8 @@
 const assert=require('node:assert/strict'),path=require('node:path');
 const atlas=require('../vue-explorakit/src/data/classicNpcFrames.json');
+const manifest=require('../vue-explorakit/src/data/npcDialoguePortraits.json');
 async function validateNpcSprites(page,output){
- const result=await page.evaluate(async atlas=>{
+ const result=await page.evaluate(async ({atlas,manifest})=>{
   const vm=window.mobileTestVm,image=vm.ensurePnjSpriteSheet('townspeople.png');await image.decode();
   if(!/(?:^|\/)6931\.[a-z0-9]+\.png$/.test(image.src))throw Error('World did not load the author-provided atlas');
   if(image.naturalWidth!==atlas.width||image.naturalHeight!==atlas.height)throw Error('Wrong source sheet');
@@ -30,26 +31,38 @@ async function validateNpcSprites(page,output){
   const world=document.createElement('canvas');world.id='npc-world-review';world.width=960;world.height=640;const wc=world.getContext('2d');wc.fillStyle='#dce8e0';wc.fillRect(0,0,960,640);wc.imageSmoothingEnabled=false;
   atlas.frames.forEach((b,i)=>{const x=(i%8)*120,y=Math.floor(i/8)*128;wc.drawImage(image,b.x,b.y,b.w,b.h,x+(120-b.w*2)/2,y+88-b.h*2,b.w*2,b.h*2);wc.fillStyle='#203d49';wc.font='12px sans-serif';wc.fillText(b.name,x+5,y+110);});
   world.style.cssText='position:fixed;inset:0;z-index:999999;width:min(960px,100vw);height:auto;image-rendering:pixelated';document.body.append(world);
-  vm.updateTextImageSequence([{text:'Bonjour !',imageName:'townspeople.png',portraitFrame:{columns:8,rows:4,index:0}}]);await vm.$nextTick();
-  const portrait=document.querySelector('canvas.portrait-atlas').__vue__,illustration=new Image();illustration.src=vm.textImageSequence[0].image;await illustration.decode();
-  if(illustration.src===image.src||illustration.naturalWidth<1024||illustration.naturalHeight<512)throw Error('Dialogue must load its own high resolution illustration atlas');
-  const sheet=document.createElement('canvas');sheet.width=1024;sheet.height=512;sheet.id='npc-crop-review';const sheetCtx=sheet.getContext('2d');
-  for(let i=0;i<32;i++){
-   vm.textImageSequence[0].portraitFrame.index=i;await vm.$nextTick();await portrait.renderPortrait();
+  const sheet=document.createElement('canvas');sheet.width=864;sheet.height=1200;sheet.id='npc-crop-review';const sheetCtx=sheet.getContext('2d');
+  sheetCtx.fillStyle='#e5edf0';sheetCtx.fillRect(0,0,sheet.width,sheet.height);
+  let portrait;
+  for(let i=0;i<36;i++){
+   const special=[{name:'aspha_route2_after',index:25},{name:'valpierre_vendeur',index:30},{name:'centre',index:0,imageName:'inf.png'},{name:'lucie_route2_locked',index:18}][i-32];
+   vm.updateTextImageSequence([{text:'Bonjour !',imageName:special?.imageName||'townspeople.png',portraitFrame:{columns:8,rows:4,index:special?.index??i}}],special?.name||'');await vm.$nextTick();
+   portrait=document.querySelector('canvas.portrait-atlas').__vue__;await portrait.renderPortrait();
+   const resolved=vm.textImageSequence[0],asset=manifest.assets[Math.floor(i/18)],f=resolved.portraitFrame;
+   if(!resolved.image.includes(asset.imageName.replace('.png','.'))||f.columns!==6||f.rows!==3||f.index!==i%18)throw Error('Portrait identity mismatch '+i);
+   const illustration=new Image();illustration.src=resolved.image;await illustration.decode();
+   if(illustration.src===image.src||illustration.naturalWidth!==asset.width||illustration.naturalHeight!==asset.height)throw Error('Dialogue must use its separate HD atlas');
    const rendered=portrait.$refs.portrait,expected=document.createElement('canvas');expected.width=rendered.width;expected.height=rendered.height;const ec=expected.getContext('2d');ec.imageSmoothingEnabled=true;ec.imageSmoothingQuality='high';
-   const column=i%8,row=Math.floor(i/8),x=Math.floor(column*illustration.width/8)+1,y=Math.floor(row*illustration.height/4)+1,w=Math.floor((column+1)*illustration.width/8)-1-x,h=Math.floor((row+1)*illustration.height/4)-1-y,scale=Math.min(rendered.width/w,rendered.height/h);
+   const column=f.index%6,row=Math.floor(f.index/6),x=Math.floor(column*illustration.width/6)+1,y=asset.rowBounds[row]+1,w=Math.floor((column+1)*illustration.width/6)-1-x,h=asset.rowBounds[row+1]-1-y,scale=Math.min(rendered.width/w,rendered.height/h);
    ec.drawImage(illustration,x,y,w,h,(rendered.width-w*scale)/2,rendered.height-h*scale,w*scale,h*scale);
    const actual=rendered.getContext('2d').getImageData(0,0,rendered.width,rendered.height).data,wanted=ec.getImageData(0,0,expected.width,expected.height).data;
-   if(actual.some((v,j)=>v!==wanted[j]))throw Error('Dialogue illustration uses a wrong crop '+i);
-   if(!portrait.ready||getComputedStyle(rendered).imageRendering!=='auto')throw Error('Illustration still uses pixel rendering');
-   sheetCtx.drawImage(rendered,(i%8)*128,Math.floor(i/8)*128,128,128);
+   if(actual.some((v,j)=>v!==wanted[j]))throw Error('Dialogue crop mismatch '+i);
+   if(!portrait.ready||getComputedStyle(rendered).imageRendering!=='auto')throw Error('Illustration uses pixel rendering');
+   const xx=i%6*144,yy=Math.floor(i/6)*200;sheetCtx.drawImage(rendered,xx,yy,144,144);const b=atlas.frames[i];sheetCtx.imageSmoothingEnabled=false;sheetCtx.drawImage(image,b.x,b.y,b.w,b.h,xx+(144-b.w*2)/2,yy+179-b.h*2,b.w*2,b.h*2);sheetCtx.imageSmoothingEnabled=true;sheetCtx.fillStyle='#234550';sheetCtx.font='11px sans-serif';sheetCtx.fillText(i+' '+b.name,xx+8,yy+194);
   }
+  // Role overrides also cover saleswomen, continuation dialogues and static Wayne.
+  for(const [name,expected] of [['shop_keeper_1',0],['clairfontaine_vendeuse',0],['aspha_route2_locked',32],['lucie_route2_after',35]]){
+   vm.updateTextImageSequence([{text:'Bonjour',imageName:'townspeople.png',portraitFrame:{columns:8,rows:4,index:18}}],name);const r=vm.textImageSequence[0];if(r.portraitFrame.index!==expected%18||!r.image.includes(manifest.assets[Math.floor(expected/18)].imageName.replace('.png','.')))throw Error('Role override mismatch '+name);
+  }
+  vm.updateTextImageSequence([{text:'Wayne',imageName:'a.png'}],'dia1');if(vm.textImageSequence[0].portraitFrame.index!==15)throw Error('Wayne must match his painted navy cap');
+  for(const imageName of ['moonpunch.png','hoze.png','raph.png','ana.png','wanda.png','7ps.png']){vm.updateTextImageSequence([{text:'Champion',imageName}]);if(vm.textImageSequence[0].portraitFrame||!vm.textImageSequence[0].image.includes(imageName.replace('.png','.')))throw Error('Champion portrait changed');}
+  vm.updateTextImageSequence([{text:'Bonjour',imageName:'inf.png'}],'centre');await vm.$nextTick();portrait=document.querySelector('canvas.portrait-atlas').__vue__;await portrait.renderPortrait();
   // Invalid or absent input clears the previous person immediately, keeping the slot fixed.
   vm.textImageSequence[0].image='';await vm.$nextTick();await portrait.renderPortrait();
   if(portrait.ready||portrait.$refs.portrait.getContext('2d').getImageData(0,0,384,384).data.some(Boolean))throw Error('Previous portrait survives a missing illustration');
-  vm.textImageSequence=[];sheet.style.cssText='position:fixed;inset:0;z-index:999999;background:#294550;width:min(1024px,100vw);height:auto;image-rendering:auto';document.body.append(sheet);
-  return{worldScale:2,originalAtlas:true,championsPreserved:true,feetAnchor:26,worldFrames:32,roleOverrides:special.length,portraitFrames:32,illustratedPortraits:true,separateAtlases:true,connectedCharacters:atlas.frames.length};
- },atlas);
- assert.equal(result.worldFrames,32);await page.locator('#npc-crop-review').screenshot({path:path.join(output,'npc-crop-all-32.png')});await page.locator('#npc-crop-review').evaluate(el=>el.remove());await page.locator('#npc-world-review').screenshot({path:path.join(output,'npc-original-world.png')});await page.locator('#npc-world-review').evaluate(el=>el.remove());return result;
+  vm.textImageSequence=[];sheet.style.cssText='position:fixed;inset:0;z-index:999999;background:#294550;width:min(864px,100vw);height:auto;image-rendering:auto';document.body.append(sheet);
+  return{worldScale:2,originalAtlas:true,championsPreserved:true,feetAnchor:26,worldFrames:32,roleOverrides:special.length,portraitFrames:36,illustratedPortraits:true,separateAtlases:true,connectedCharacters:atlas.frames.length};
+ },{atlas,manifest});
+ assert.equal(result.worldFrames,32);await page.locator('#npc-crop-review').screenshot({path:path.join(output,'npc-crop-all-36.png')});await page.locator('#npc-crop-review').evaluate(el=>el.remove());await page.locator('#npc-world-review').screenshot({path:path.join(output,'npc-original-world.png')});await page.locator('#npc-world-review').evaluate(el=>el.remove());return result;
 }
 module.exports={validateNpcSprites};

@@ -66,3 +66,15 @@ test('Ville du Lac animates only its own water colors and clears its profile on 
   r.draw(target,image,2400,true,'start'); assert.equal(s.all[0].width,0); assert.equal(r.map,'start'); assert.equal(r.mask.interior[80*448+300],0);
   r.draw(target,image,2500,true,'route1'); assert.equal(r.canvas,null); assert.equal(villageWaterMask(data,'route1').pixels.length,0);
 });
+test('Valpierre and Ocreville lakes animate only their mapped water, including rock margins',async()=>{
+ const {VillageWaterRenderer,hasVillageWater}=await service();
+ for(const [map,bounds] of [['ville_safe1',[37,107,184,237]],['gen_ville5',[373,411,104,141]]]){
+  const [left,right,top,bottom]=bounds,{data,put}=artwork();for(let y=top;y<bottom;y++)for(let x=left;x<right;x++)put(x,y,[48,176,240,255]);const rx=left+10,ry=top+10;put(rx,ry,[149,172,158,255]);
+  const s=surfaces(data),r=new VillageWaterRenderer(()=>s.create()),target={drawImage(){}};assert(hasVillageWater(map));r.draw(target,{},200,true,map);const before=r.output.slice();r.draw(target,r.source,600,true,map);let changed=0;
+  for(let i=0;i<before.length;i++){if(before[i]!==r.output[i])changed++;if(!r.mask.interior[i])assert.equal(r.output[i],r.original[i]);assert.equal(r.frame.data[i*4+3],data[i*4+3]);}
+  assert(changed>r.mask.pixels.length*.4);assert(!r.mask.interior[ry*448+rx]);assert(!r.mask.interior[ry*448+rx-1]);r.destroy();
+ }
+});
+test('every currently fishable lake has an animation profile',async()=>{
+ const {hasVillageWater}=await service();for(const map of Object.keys(require('../data/game/fishing_waters.json').maps))assert(hasVillageWater(map),map);
+});

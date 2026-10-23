@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Lacs animés et portraits cohérents — 23 octobre 2026
+
+Les six lacs actuellement pêchables ont une animation : ajout des profils Valpierre (`ville_safe1`) et Ocreville (`gen_ville5`) dans `villageWater.js`. Même rendu à 15 Hz, reflets et petites ondulations, masque des seules couleurs d’eau avec marge fixe aux berges et au rocher. Aucun PNG de carte, collision, transition ou premier plan retouché. Réduction des animations et suspension combat/chargement/onglet masqué conservées.
+
+Deux atlas illustrés générés avec imagegen depuis les 36 cadres réels de `6931.png` remplacent les portraits civils hérités. Les sprites sur carte, leur taille et les six champions restent inchangés. `npcPortraits.js` utilise les mêmes règles d’identité que `classicNpcIndex` ; `npcDialoguePortraits.json` lie 96 dialogues (y compris variantes after/locked) au vrai PNJ, sans changer le protocole serveur ni les répliques. Cas spécifiques Aspha, Lucie, vendeurs/vendeuses, infirmière et Wayne raccordés. Régénération/vérification : `node scripts/generateDialoguePortraits.js --check`. Les limites de rangées explicites de l’atlas B évitent toute épaule ou tête voisine dans le cadrage ; `dialoguePortrait.js` les valide avant dessin.
+
+Validation : 850 tests applicatifs réussis, 88 SQL dédiés ignorés dans cette commande (serveur/SQL inchangés), lint et build `966d02119d708b23` réussis. `test:npc-browser` avec ce build isolé sur base de test : 36 portraits comparés aux sprites, 96 liaisons générées, champions conservés, vrai dialogue Aspha, Aventure/Rift/Colosseum, quatre tailles 320/393/844/1365. Pour les deux nouveaux lacs, changement visible en 400 ms et zéro modification hors masque/alpha ; garde des rochers, mouvement réduit et suspension vérifiés. La recette attend désormais l’arrivée des PNJ d’expédition après le choix du starter avant de les contrôler. Aucun compte réel modifié. Logs `/tmp/riftmon-lakes-portraits-*`, captures `/tmp/riftmon-lakes-portraits-browser`.
+
+Publication client seule à 2026-10-23T17:13:18.337Z (19 h 13 Paris), build `966d02119d708b23` : HTTPS 200, index atomique, anciens bundles conservés. Service inchangé (PID 1446200), Knov et api-test inchangés. Index précédent sauvegardé dans `/home/ubuntu/dev/backups/riftmon-lakes-portraits-2026-10-23T17-13-17-511Z` ; rollback en restaurant cet index atomiquement. Sources précédentes versionnées : `8582046` client, `d03d11d` racine.
+
 ## Action unique Sauvegarder et quitter — 23 octobre 2026
 
 Le menu principal affiche désormais « Sauvegarder et quitter » (« Save and quit » en anglais) ; l’entrée Sauvegarder séparée est retirée. Le comportement existant de `quitGame` conserve l’attente du succès de la sauvegarde SQL/checkpoint avant retour à l’accueil, le refus hors connexion et la conservation de l’expédition. Le bouton d’abandon reste distinct. Le dépannage reste uniquement dans Options → Debug · Dépannage → Débloquer mon personnage, déjà à cet endroit depuis le correctif précédent.
@@ -2579,6 +2589,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+23/10/2026 — Animation des deux derniers lacs (Valpierre/Ocreville) et 36 portraits illustrés cohérents avec les sprites civils ; champions préservés. Validation des cadrages, eau et trois modes, publication client seule. Voir entrée en tête.
 
 23/10/2026 — Sauvegarder et quitter regroupés dans le menu ; dépannage conservé dans Options. Livraison client seule, sauvegarde serveur existante conservée. Voir entrée en tête.
 
