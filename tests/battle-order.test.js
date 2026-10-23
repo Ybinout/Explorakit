@@ -13,6 +13,7 @@ for(const pivot of [false,true])test(`PVP ${pivot?'pivot attack then replacement
     const a={id:'left',username:'A',equipe:{pokemons:[lead,reserve]}},b={id:'right',username:'B',equipe:{pokemons:[enemy]}};
     const events=[],io={sockets:{sockets:new Map([['left',new Socket([{action:pivot?'attack':'change',number:pivot?0:1}])],['right',new Socket([{action:'attack',number:0}])]])},to:target=>({emit:(name,payload)=>events.push({target,name,payload:JSON.parse(JSON.stringify(payload))})})};
     await startPvpBattle(a,b,io);
+    assert.deepEqual(a.equipe.pokemons.map(p=>p.uuid),[lead.uuid,reserve.uuid]);
     for(const viewer of ['left','right']){
         const list=events.filter(e=>e.target===viewer),side=viewer==='left'?'player':'opponent';
         const entry=list.findIndex(e=>e.name==='introAnimation'&&e.payload.transitions.some(t=>t.kind==='enter'&&t.uuid===reserve.uuid&&t.side===side));

@@ -31,6 +31,7 @@ class DriftBattle {
         this.aiMemory = { seen: {}, lastSwitchRound: -10 };
         this.state = engine.createBattleState({ mapName: a.currentmap, opponentMap: b.npc ? a.currentmap : b.currentmap ?? null }); this.sides = [this.state.sides.player, this.state.sides.enemy];
         this.pending = new Map(); this.round = 0; this.finished = false; this.rewarded = new Set(); this.awaiting = false;
+        for (const p of [a,b]) if (!p.npc) require('../battle/partyOrder').rememberPartyOrder(p.equipe);
         this.originals = [...a.equipe.pokemons, ...b.equipe.pokemons];
         this.originalTeams = new Map([a,b].filter(p=>!p.npc).map(p=>[p,[...p.equipe.pokemons]]));
         this.resultTrackers = new Map([a, b].filter(p => !p.npc)
@@ -370,6 +371,7 @@ class DriftBattle {
         if(reason==='finished')this.sync();
         for (const p of [this.a,this.b]) p.equipe.pokemons = p.equipe.pokemons.filter(poke=>!effects.isDead(poke) || poke.riftFainted);
         clearBattleTransientState(this.originals);
+        for (const p of [this.a,this.b]) if (!p.npc) require('../battle/partyOrder').restorePartyOrder(p.equipe);
         for (const p of [this.a,this.b]) { p.inbattle=false; p.battle=null; }
         if (winner === this.a && this.type === 'wild' && ['captured', 'finished'].includes(reason)) {
             const target = this.capturedPokemon || this.originals.find(p => this.rewarded.has(p.uuid));

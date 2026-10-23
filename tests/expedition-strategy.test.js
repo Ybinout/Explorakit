@@ -83,9 +83,9 @@ for(const source of ['direct','residual'])test(`talisman ${source}: consumes onc
  a.currentHp=0;b.prune();b.request();assert(b.action(p,{action:'change',number:1,turnId:b.token}));assert.equal(a.heldItem,null);assert.equal(a.riftFainted,true);assert.equal(b.active(0),reserve);assert.equal(p.equipe.pokemons.length,2);
  b.prune();assert.equal(p.runReport.stats.pokemonLost,0);const before=a.experience;b.reward(fighter(19,5));assert.equal(a.experience,before);
  assert(!b.action(p,{action:'change',number:1,turnId:b.token}));assert.throws(()=>economy.usePotion(p,'drift_potion',a.uuid),/indisponible/);
- b.finish(null,'fled');const restored=decode(encode(p));assert.equal(restored.equipe.pokemons[1].riftFainted,true);
+ b.finish(null,'fled');const restored=decode(encode(p));assert.deepEqual(restored.equipe.pokemons.map(p=>p.uuid),[a.uuid,reserve.uuid]);assert.equal(restored.equipe.pokemons[0].riftFainted,true);
  economy.usePotion(p,'drift_potion',a.uuid,()=>.99);assert.equal(a.currentHp,20);assert.equal(a.riftFainted,undefined);
- const second=f.runtime.battle(p,{npc:true,equipe:{pokemons:[fighter()]},drifts:[],equipped:[]},'wild');a.currentHp=0;second.prune();assert(!p.equipe.pokemons.includes(a));
+ const second=f.runtime.battle(p,{npc:true,equipe:{pokemons:[fighter()]},drifts:[],equipped:[]},'wild');a.currentHp=0;second.prune();second.request();assert(second.action(p,{action:'change',number:1,turnId:second.token}));assert(!p.equipe.pokemons.includes(a));
 });
 test('last protected Pokémon survives exploration defeat but not a lost Colosseum challenge',()=>{
  const f=setup(),p=f.choose(),a=p.equipe.pokemons[0];a.heldItem='rift_talisman';const b=f.runtime.battle(p,{npc:true,equipe:{pokemons:[fighter()]},drifts:[],equipped:[]},'wild');a.currentHp=0;b.prune();b.checkEnd();

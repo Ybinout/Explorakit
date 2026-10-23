@@ -342,6 +342,8 @@ function findDmgAtk(attackName, pokemon1, pokemon2) {
 
 async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
     presentation.reset(player);
+    require('./partyOrder').rememberPartyOrder(player.equipe);
+    require('./battleTeam').autoSwitchPokemon(player.equipe);
     const resultTracker = createBattleSummaryTracker(player?.equipe?.pokemons);
     const endBattle = (playerWon = false, extra = {}) => emitSoloBattleEnd(player, io, playerWon, {
         ...extra, summary: resultTracker.snapshot(player.equipe.pokemons)
@@ -763,4 +765,4 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
     return true;
 }
 
-module.exports = startTeamBattle;
+module.exports = require('./partyOrder').preservePartyOrder(startTeamBattle);

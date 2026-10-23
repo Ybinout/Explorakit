@@ -387,6 +387,8 @@ async function startPvpBattle(playerA, playerB, io) {
         };
     }
 
+    require('./partyOrder').rememberPartyOrder(playerA.equipe);
+    require('./partyOrder').rememberPartyOrder(playerB.equipe);
     const teamA = playerA?.equipe?.pokemons;
     const teamB = playerB?.equipe?.pokemons;
 
@@ -690,6 +692,6 @@ async function startPvpBattle(playerA, playerB, io) {
 }
 
 module.exports = {
-    startPvpBattle,
+    startPvpBattle: require('./partyOrder').preservePartyOrder(startPvpBattle, 2),
     hasAlivePokemon
 };

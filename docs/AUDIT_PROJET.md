@@ -1,5 +1,17 @@
 # Audit technique et mémoire de RiftMon
 
+## Ordre d’équipe indépendant des changements en combat — 23 octobre 2026
+
+Les switches volontaires, remplacements après K.O., pivots et changements forcés ne modifient plus l’ordre choisi par le joueur. Le moteur garde son tableau de combat avec l’actif en position 0 ; `partyOrder.js` mémorise séparément `battlePartySlot` au début du combat, restaure l’ordre avant les résultats/retours d’équipe et dans le finally des boucles Aventure/PvP. `teamRepository.editEquipe` écrit l’ordre choisi sans toucher au tableau actif, y compris lors de la sauvegarde atomique d’XP d’arène. Les nouveaux capturés se placent après les compagnons présents ; les mêmes instances et UUID sont conservés.
+
+Aventure : un K.O. garde sa place dans l’équipe et dans les sauvegardes. Au prochain combat sauvage/dresseur, le premier compagnon apte est choisi temporairement sans déplacer le K.O. durablement. Rift/Colosseum/PvP d’expédition : marqueurs conservés par le checkpoint ; les survivants et protégés par talisman retrouvent leur ordre relatif, sans ressusciter les morts définitifs. Les PNJ et les choix tactiques de leur IA ne sont pas réordonnés par ce mécanisme. Le réordonnancement explicite dans les menus reste disponible hors combat.
+
+`BattleOverlay` affiche la sélection de remplacement dans l’ordre choisi, mais chaque bouton garde son véritable index de combat pour le serveur. Le marqueur actif et les boutons désactivés utilisent cet index, jamais la position visuelle. Champ additionnel compatible avec les anciens clients ; sans marqueurs, la liste garde l’ordre reçu. Pas de migration SQL.
+
+Validation : 854 tests applicatifs et 91 SQL réussis ; switches/pivots PvP, K.O. temporaire et talisman, capture, ordre et état actif distincts lors d’une sauvegarde intermédiaire/arène, reconnexion, première place K.O. au prochain combat, checkpoint et erreur interrompant la boucle. Les anciennes assertions qui plaçaient automatiquement le remplaçant en tête après combat suivent désormais l’ordre demandé. `test:combat-browser` sur base isolée, quatre tailles 320/393/844/1365 : vraie sélection/switch/K.O., ordre DOM stable, bon remplaçant envoyé, ordre des survivants restauré et checkpoint, transitions et entrée sans régression ; aucune erreur navigateur. Recette compatible chemin racine via `RELEASE_PUBLIC_PATH=/`, ancien préfixe conservé par défaut. Lint et build `626d6426a58aca38` réussis. Logs et captures `/tmp/riftmon-party-order-*`.
+
+Publication serveur/client à 2026-10-23T18:22:15.744Z (20 h 22 Paris) : client `90dbc95`, PID 1460368 actif/NRestarts 0 ; aucune expédition active avant reprise. HTTPS 200, index atomique/anciens bundles conservés et Knov/api-test inchangés. Sauvegarde sources serveur, SQL, checkpoint et ancien index dans `/home/ubuntu/dev/backups/riftmon-party-order-2026-10-23T18-21-35-314Z` ; ancien client `f516ec7`/build `966d02119d708b23` versionné et bundles conservés, pas de nouvelle archive intégrale client. Racine précédente `10f41a5`.
+
 ## XP d’arène accordée une seule fois par adversaire — 23 octobre 2026
 
 En Aventure, chaque membre de l’équipe d’une arène ne peut désormais donner son XP qu’une fois par compte, même après défaite, fuite, déconnexion ou nouvelle tentative. `socketHandler` transmet le `battleKey` serveur du catalogue ; `arenaExperience.js` associe chaque instance au rang initial de son équipe avant les switches de l’IA. Le reçu durable `arena_xp:<battleKey>:<slot>` est stocké dans `player_story_flags`, sans migration ni nouvel identifiant client. Ne pas utiliser l’UUID recréé à chaque combat, l’espèce seule ou la position courante : deux Pokémon identiques ont des reçus distincts. Préserver ces identités lors d’une future refonte des équipes.
@@ -2601,6 +2613,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+23/10/2026 — Ordre de l’équipe conservé malgré switches/K.O. en combat, sauvegardes et sélection mobile indépendantes de la position active ; premières places K.O. conservées et survivants Rift ordonnés. 854 tests applicatifs/91 SQL et recette navigateur passés ; serveur/client publiés. Voir entrée en tête.
 
 23/10/2026 — XP d’arène limitée à une récompense par compte/champion/membre initial, reçus SQL et gains atomiques, anti-farm après perte/reconnexion. 851 tests applicatifs et 90 SQL passés ; serveur publié, client inchangé. Voir entrée en tête.
 

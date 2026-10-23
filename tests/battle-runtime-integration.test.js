@@ -92,6 +92,33 @@ function createTeam(...pokemons) {
     return team;
 }
 
+test('ordre de l’équipe : sauvegarde en plein combat/arène et premier compagnon K.O. au combat suivant', {skip:!shouldRun}, async()=>{
+    const pool=createTestPool();let id;
+    try {
+        const fixture=await createPlayer(7);id=fixture.user.id;const player=fixture.player;
+        const a=createPokemon(7,'Premier'),b=createPokemon(4,'Deuxième'),c=createPokemon(25,'Troisième');
+        player.equipe=createTeam(a,b,c);const original=[a.uuid,b.uuid,c.uuid];
+        const {rememberPartyOrder,restorePartyOrder}=require('../server/game/battle/partyOrder');
+        const {switchPokemonByIndex}=require('../server/game/battle/battleTeam');
+        const {editEquipe}=require('../server/persistence/teamRepository');
+        rememberPartyOrder(player.equipe);switchPokemonByIndex(player.equipe,2);
+        await editEquipe(id,player.equipe);
+        assert.equal(player.equipe.pokemons[0],c);assert.deepEqual((await loadEquipe(id)).pokemons.map(p=>p.uuid),original);
+        const enemy=createPokemon(19,'Victime'),tracker=new (require('../server/game/battle/adventureExperience').AdventureExperience)();
+        tracker.enter(c,enemy);enemy.currentHp=0;
+        await require('../server/game/battle/arenaExperience').createArenaExperience('order_fixture',[enemy]).reward(id,player,enemy,2,new RecordingIo(),tracker);
+        assert.equal(player.equipe.pokemons[0],c);assert.deepEqual((await loadEquipe(id)).pokemons.map(p=>p.uuid),original);
+        const captured=createPokemon(16,'Capturé');player.equipe.ajouterPokemon(captured);original.push(captured.uuid);
+        await editEquipe(id,player.equipe);assert.deepEqual((await loadEquipe(id)).pokemons.map(p=>p.uuid),original);
+        restorePartyOrder(player.equipe);a.currentHp=0;
+        const foe=createPokemon(19,'Suivant',['Splash']),socket=new ScriptedSocket([{action:'flee'}]),io=new RecordingIo({[player.id]:socket});
+        const activeAtIntro=[],baseTo=io.to.bind(io);io.to=target=>({emit:(name,payload)=>{if(name==='introAnimation')activeAtIntro.push(payload.player.equipe.pokemons[0].uuid);baseTo(target).emit(name,payload);}});
+        await withFixedRandom(.5,()=>startWildBattle(player,foe,io,id));
+        assert.equal(activeAtIntro[0],b.uuid);assert.deepEqual(player.equipe.pokemons.map(p=>p.uuid),original);
+        assert.deepEqual((await loadEquipe(id)).pokemons.map(p=>p.uuid),original);assert.equal(a.currentHp,0);
+    } finally {if(id)await pool.execute('DELETE FROM users WHERE id=?',[id]);await pool.end();}
+});
+
 test('arène : première victime récompensée une seule fois malgré défaite et reconnexion, puis XP du suivant', {skip:!shouldRun}, async()=>{
     const pool=createTestPool();let id;
     try {
@@ -337,9 +364,9 @@ test('combat sauvage réel : K.O., changement forcé puis fuite', { skip: !shoul
         assert.equal(socket.outgoing.filter(e=>e.eventName==='requestAction'&&e.payload.replacement).length,1);
         assert.equal(result, true);
         assert.equal(firstPokemon.currentHp, 0);
-        assert.equal(player.equipe.pokemons[0].uuid, replacement.uuid);
+        assert.equal(player.equipe.pokemons[0].uuid, firstPokemon.uuid);
         assert.equal(io.lastEvent(player.id, 'endbattle')?.payload.reason, 'fled');
-        assert.equal((await loadEquipe(userId)).pokemons[0].uuid, replacement.uuid);
+        assert.equal((await loadEquipe(userId)).pokemons[0].uuid, firstPokemon.uuid);
         const summary = io.lastEvent(player.id, 'endbattle').payload.summary;
         assert.equal(summary.outcome, 'fled');
         assert.deepEqual(summary.lostPokemon, [], 'Le K.O. Aventure reste temporaire');
@@ -420,6 +447,7 @@ test('combat dresseur réel : changement manuel puis fuite', { skip: !shouldRun 
         const fixture = await createPlayer(4);
         userId = fixture.user.id;
         const { player } = fixture;
+        const initialOrder=player.equipe.pokemons.map(p=>p.uuid);
         const replacement = createPokemon(7, 'Relève', ['Water Gun']);
         replacement.currentHp = replacement.maxHp;
         player.equipe.ajouterPokemon(replacement);
@@ -434,7 +462,7 @@ test('combat dresseur réel : changement manuel puis fuite', { skip: !shouldRun 
         const result = await withFixedRandom(0.5, () => startTrainerBattle(player, createTeam(enemy), io, userId));
 
         assert.equal(result, true);
-        assert.equal(player.equipe.pokemons[0].uuid, replacement.uuid);
+        assert.deepEqual(player.equipe.pokemons.map(p=>p.uuid),[...initialOrder,replacement.uuid]);
         assert.equal(io.lastEvent(player.id, 'endbattle')?.payload.reason, 'fled');
     } finally {
         if (userId) await pool.execute('DELETE FROM users WHERE id = ?', [userId]);
@@ -615,9 +643,9 @@ test('combat dresseur réel : K.O. puis choix de la deuxième réserve sans subi
         const socket=new ScriptedSocket([{action:'attack',number:0},{action:'change',number:2},{action:'flee'}]);
         const io=new RecordingIo({[player.id]:socket}),hp=chosen.currentHp;
         assert.equal(await withFixedRandom(.5,()=>startTrainerBattle(player,createTeam(enemy),io,userId)),true);
-        assert.equal(lead.currentHp,0);assert.equal(player.equipe.pokemons[0].uuid,chosen.uuid);assert.equal(chosen.currentHp,hp);
+        assert.equal(lead.currentHp,0);assert.deepEqual(player.equipe.pokemons.map(p=>p.uuid),[lead.uuid,skipped.uuid,chosen.uuid]);assert.equal(chosen.currentHp,hp);
         assert.equal(chosen.movePp[0],35);assert.equal(socket.outgoing.filter(e=>e.eventName==='requestAction'&&e.payload.replacement).length,1);
-        assert.equal((await loadEquipe(userId)).pokemons[0].uuid,chosen.uuid);
+        assert.deepEqual((await loadEquipe(userId)).pokemons.map(p=>p.uuid),[lead.uuid,skipped.uuid,chosen.uuid]);
     } finally { if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end(); }
 });
 
@@ -629,7 +657,7 @@ test('combat PVP réel : le choix après K.O. ne consomme pas une action adverse
     const sa=new ScriptedSocket([{action:'attack',number:0},{action:'change',number:2},{action:'flee'}]);
     const sb=new ScriptedSocket([{action:'attack',number:0},{action:'flee'}]),io=new RecordingIo({[a.id]:sa,[b.id]:sb}),hp=chosen.currentHp;
     await withFixedRandom(.5,()=>startPvpBattle(a,b,io));
-    assert.equal(lead.currentHp,0);assert.equal(a.equipe.pokemons[0].uuid,chosen.uuid);assert.equal(chosen.currentHp,hp);
+    assert.equal(lead.currentHp,0);assert.deepEqual(a.equipe.pokemons.map(p=>p.uuid),[lead.uuid,reserve.uuid,chosen.uuid]);assert.equal(chosen.currentHp,hp);
     assert.equal(sa.outgoing.filter(e=>e.eventName==='requestAction'&&e.payload.replacement).length,1);
     assert.equal(sb.outgoing.filter(e=>e.eventName==='requestAction').length,2);
     assert.equal(io.events.filter(e=>e.targetId===a.id&&e.eventName==='battleMoveAnimation').length,1);
@@ -851,7 +879,7 @@ for (const kind of ['wild','trainer','arena']) test(`Aventure ${kind} : partage 
   if(kind==='wild')await withFixedRandom(.5,()=>startWildBattle(player,first,io,userId));else await withFixedRandom(.5,()=>startTrainerBattle(player,createTeam(first,last),io,userId,{experienceKind:kind,arenaBattleKey:kind==='arena'?'test_arena':null}));
   const saved=(await loadEquipe(userId)).pokemons,byId=id=>saved.find(p=>p.uuid===id);
   assert.equal(byId(lead.uuid).experience,baseline+share);assert.equal(byId(reserve.uuid).experience,baseline+share+second);assert.equal(byId(bench.uuid).experience,baseline);
-  assert.equal(saved[0].uuid,reserve.uuid,'receiving XP must not swap the active Pokémon');
+  assert.deepEqual(saved.map(p=>p.uuid),[lead.uuid,reserve.uuid,bench.uuid],'combat switches and XP must preserve party order');
   assert.equal(byId(lead.uuid).ev.speed,1);assert.equal(byId(reserve.uuid).ev.speed,kind==='wild'?1:2);assert.equal(byId(bench.uuid).ev.speed,0);
   const awards=io.events.filter(e=>e.eventName==='battleExperience');assert.equal(awards.length,kind==='wild'?2:3);assert(awards.every(e=>e.targetId===player.id));
   const summary=io.lastEvent(player.id,'endbattle').payload.summary;assert.equal(summary.experience.find(p=>p.uuid===lead.uuid).xpGained,share);assert.equal(summary.experience.find(p=>p.uuid===reserve.uuid).xpGained,share+second);assert(!summary.experience.some(p=>p.uuid===bench.uuid));

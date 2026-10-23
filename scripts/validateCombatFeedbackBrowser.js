@@ -7,7 +7,8 @@ const express=require('express'),{Server}=require('socket.io'),{chromium}=requir
 const {dbPool}=require('../server/config/database'),factory=require('../server/game/drift/pokemonFactory');
 const {registerDriftLobbies}=require('../server/realtime/driftLobbyHandler');
 const output=process.env.RELEASE_SCREENSHOTS||'/tmp/explorakit-combat-browser',dist=process.env.RELEASE_DIST_DIR||'/tmp/explorakit-release-dist';fs.mkdirSync(output,{recursive:true});
-const app=express(),server=http.createServer(app),io=new Server(server,{path:'/explorakit/socket.io'});app.use(express.json());app.use('/explorakit/api',require('../server/http/routes'));app.use('/explorakit',express.static(dist));app.get('*',(_q,r)=>r.sendFile(path.join(dist,'index.html')));
+const prefix=(process.env.RELEASE_PUBLIC_PATH||'/explorakit').replace(/\/$/,'');
+const app=express(),server=http.createServer(app),io=new Server(server,{path:prefix+'/socket.io'});app.use(express.json());app.use(prefix+'/api',require('../server/http/routes'));app.use(prefix||'/',express.static(dist));app.get('*',(_q,r)=>r.sendFile(path.join(dist,'index.html')));
 let checkpoint;const cleanup=registerDriftLobbies(io,{checkpointRepository:{async save(bytes){checkpoint=bytes;}},runtimeOptions:{random:()=>.9,paceMs:0}});
 let browser,page,userId,success=false;const errors=[];
 function mon(id,level=20){const m=factory.create(id,level,true);m.passiveAbility=null;m.abilities=['Tackle'];m.movePp=[35];return m;}
@@ -17,7 +18,7 @@ async function closeResult(){await page.locator('[data-battle-result-continue]')
 async function openPanel(){await page.locator('.drift-hud-toggle').evaluate(el=>{if(el.getAttribute('aria-expanded')!=='true')el.click();});await page.locator('.run-panel').waitFor();}
 async function closePanel(){await page.getByRole('button',{name:'Fermer le carnet Drift',exact:true}).click();}
 (async()=>{try{
- server.listen(0,'127.0.0.1');await once(server,'listening');const base=`http://127.0.0.1:${server.address().port}/explorakit`;
+ server.listen(0,'127.0.0.1');await once(server,'listening');const base=`http://127.0.0.1:${server.address().port}${prefix}`;
  const r=await fetch(base+'/api/users',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:'combat_'+randomUUID(),password:randomUUID(),starterId:7})});assert(r.ok);const fixture=await r.json();userId=fixture.user.id;
  browser=await chromium.launch({headless:true,args:['--no-sandbox']});const context=await browser.newContext({viewport:{width:393,height:852},hasTouch:true,isMobile:true});
  await context.addInitScript(s=>localStorage.setItem('explorakit.user',JSON.stringify(s)),{...fixture.user,token:fixture.token});page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.url().startsWith(base)&&r.status()>=400)errors.push(`${r.status()} ${r.url()}`);});
@@ -49,6 +50,7 @@ async function closePanel(){await page.getByRole('button',{name:'Fermer le carne
  await card.locator('[data-drift-action="discard"]').click();await page.locator('[data-drift-action="confirm"]').click();await page.waitForFunction(()=>window.combatVm.driftState.drifts.length===0);assert.deepEqual(p.equipped,[]);await closePanel();
  p.drifts=[{uuid:'pierce',definitionId:'DRF-002',rarity:'mythic'},{uuid:'drain',definitionId:'DRF-005',rarity:'mythic'}];p.equipped=p.drifts.map(d=>d.uuid);p.equipe.pokemons[0].currentHp-=10;p.run.phase='colosseum_battle';p.run.colosseum.wave=1;
  await page.setViewportSize({width:393,height:852});const enemy={npc:true,equipe:{pokemons:[mon(19,25)]},drifts:[],equipped:[]};enemy.equipe.pokemons[0].abilities=['Growl'];enemy.equipe.pokemons[0].movePp=[40];
+ const battleOrder=p.equipe.pokemons.map(x=>x.uuid);
  const battle=cleanup.runtime.battle(p,enemy,'arena','colosseum_1');await page.locator('.battle-scene').waitFor();
  await page.locator('[data-battle-effort-yield]').waitFor();const effortPreview=await require('./validateBattleEffortUi').validateBattleEffortUi(page,output);
  await page.locator('.action-attack:enabled').click();await page.locator('.battle-grid-attacks .battle-choice-btn:enabled').first().click();
@@ -63,6 +65,7 @@ async function closePanel(){await page.getByRole('button',{name:'Fermer le carne
  await page.locator('.action-attack:enabled').click();await page.locator('.battle-grid-attacks .battle-choice-btn:enabled').first().click();
  await page.locator('.battle-transition-faint').waitFor();assert.match(await page.locator('[data-battle-transition]').innerText(),/K.O./);await page.screenshot({path:path.join(output,'faint-mobile.png')});
  await page.locator('[data-replacement-choice="true"] .battle-pokemon-choice:enabled').first().waitFor();
+ assert.deepEqual(await page.locator('.battle-pokemon-choice').evaluateAll(els=>els.map(el=>el.dataset.partyUuid)),battleOrder);
  assert.equal(battle.active(0).uuid,fallen);assert(battle.replacementPhase);const choice=p.equipe.pokemons[2].uuid;
  for(const [width,height]of [[320,480],[393,852],[844,390],[1365,900]]){
   await page.setViewportSize({width,height});await page.evaluate(width=>{window.combatVm.showMobileControls=width<=920;},width);
@@ -79,6 +82,7 @@ async function closePanel(){await page.getByRole('button',{name:'Fermer le carne
  await page.waitForFunction(()=>window.combatTransitions.some(e=>e.kind==='enter'));assert(!p.equipe.pokemons.some(x=>x.uuid===fallen));assert.equal(battle.active(0).uuid,choice);
  const rejected=await request('drift:reorder',{orderedUuids:p.equipe.pokemons.map(x=>x.uuid).reverse()});assert.equal(rejected.success,false);
  await page.locator('.action-attack:enabled').waitFor();enemy.equipe.pokemons[0].currentHp=0;battle.prune();battle.checkEnd();await page.locator('.battle-transition-faint').waitFor();assert.equal(await page.locator('[data-battle-result-continue]').isVisible(),false);await page.locator('[data-battle-result-continue]').waitFor();assert.match(await page.locator('.result-kicker').textContent(),/Colosseum/);assert.equal(await page.locator('.result-timer').count(),0);assert.equal(await page.locator('[data-battle-result]').evaluate(el=>getComputedStyle(el).backgroundColor),'rgb(237, 245, 252)');await page.screenshot({path:path.join(output,'colosseum-result-mobile.png')});await closeResult();
+ assert.deepEqual(p.equipe.pokemons.map(x=>x.uuid),battleOrder.filter(id=>id!==fallen));
  // Shared music selector uses the real assets for wild/trainer/arena and stops on result.
  p.run.phase='exploration';p.run.endsAt=Date.now()+60000;
  for(const kind of ['wild','trainer']){const e={npc:true,equipe:{pokemons:[mon(19)]},drifts:[],equipped:[]};const b=cleanup.runtime.battle(p,e,kind);await page.locator('.battle-scene').waitFor();await page.locator('.action-pokemon:enabled').click();await page.waitForFunction(kind=>{const b=window.combatVm.$refs.battleOverlay;return b.musicKind===kind&&b.music.readyState>=2&&!b.music.paused;},kind);b.finish(null,'fled');await page.locator('[data-battle-result-continue]').waitFor();await closeResult();}

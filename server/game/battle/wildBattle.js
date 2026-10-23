@@ -442,6 +442,8 @@ function playerTurn(player, io) {
 
 async function startBattle(player, wildPokemon, io, userId) {
     presentation.reset(player);
+    require('./partyOrder').rememberPartyOrder(player.equipe);
+    require('./battleTeam').autoSwitchPokemon(player.equipe);
     const resultTracker = createBattleSummaryTracker(player?.equipe?.pokemons);
     let wildMoneyGranted = false, wildLootAttempted = false;
     const endBattle = async (playerWon = false, extra = {}) => {
@@ -745,5 +747,5 @@ async function startBattle(player, wildPokemon, io, userId) {
     return true;
 }
 
-module.exports = startBattle;
+module.exports = require('./partyOrder').preservePartyOrder(startBattle);
 module.exports.calculateCaptureChance = calculateCaptureChance;

@@ -1,3 +1,4 @@
+const { restorePartyOrder } = require('./partyOrder');
 const { growthSnapshot, levelGrowth } = require('../models/levelGrowth');
 function clearBattleTransientState(team) {
     if (!Array.isArray(team)) return;
@@ -98,6 +99,7 @@ function createBattleSummaryTracker(team,mode) { return new BattleSummaryTracker
 
 function emitSoloBattleEnd(player, io, playerWon = false, extra = {}, battleType = 'wild') {
     clearBattleTransientState(player?.equipe?.pokemons);
+    restorePartyOrder(player?.equipe);
     const payload = {
         message: 'Fin du combat',
         playerWon: Boolean(playerWon),
@@ -113,6 +115,8 @@ function emitSoloBattleEnd(player, io, playerWon = false, extra = {}, battleType
 function emitPvpBattleEnd(io, playerA, playerB, winnerId = null, reason = 'finished') {
     clearBattleTransientState(playerA?.equipe?.pokemons);
     clearBattleTransientState(playerB?.equipe?.pokemons);
+    restorePartyOrder(playerA?.equipe);
+    restorePartyOrder(playerB?.equipe);
     const draw = !winnerId;
     const payloadA = {
         message: 'Fin du combat',

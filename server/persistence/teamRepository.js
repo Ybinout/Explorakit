@@ -113,7 +113,7 @@ async function editEquipe(userId, team, executor = null) {
         await connection.execute('DELETE FROM pokemons WHERE team_id = ?', [teamRecord.id]);
         const placeholders = POKEMON_COLUMNS.map(() => '?').join(', ');
         const insertSql = `INSERT INTO pokemons (${POKEMON_COLUMNS.join(', ')}) VALUES (${placeholders})`;
-        for (const [index, pokemon] of team.pokemons.entries()) {
+        for (const [index, pokemon] of require('../game/battle/partyOrder').orderedParty(team.pokemons).entries()) {
             const values = pokemonToRow(pokemon, teamRecord.id, index + 1);
             pokemon.uuid = values[0];
             await connection.execute(insertSql, values);
