@@ -1,5 +1,16 @@
 # Contexte permanent — RiftMon
 
+## Traces de terre plus visibles — 23 octobre 2026
+
+Retour du créateur : les premières traces de terre étaient presque invisibles. Profil terre seul renforcé : brun66/45/28 au lieu de92/70/48, gain d’opacité1,6 au lieu de0,65 (environ×2,46). Petits pas et tassement plus lisibles sur les terres grises/ocres, même sous la pluie. Même forme/largeur, fonte1350 ms et longueur maximale64 px ; neige, météo, masques, cartes et moteur commun inchangés. Rendu partagé Aventure/Rift/Colosseum.
+
+Tests terre/neige existants :11/11 ; assertion du contraste réel sur les deux palettes de terre, alpha maximal100–170 sans empilement. Recette terre exige désormais un alpha frais≥100 et conserve les contrôles de masquage, longueur, fonte, acteurs distants/PNJ, trois modes/quatre tailles. Logs de livraison `/tmp/riftmon-dirt-visible-*`.
+
+Validation finale :723 tests applicatifs/77 SQL, audits et lint/build racine2dc1df49885e15f3 passés. Recette terre :alpha134–154 contre55–67 auparavant, quatre sols/quatre tailles, marche réelle dans les trois modes, joueur distant/PNJ, aucun pixel hors masque, longueur61,03 px et fonte complète après1,5 s. Comparaison visuelle contrôlée sur les vrais sols de Route1 et Valpierre : `/tmp/riftmon-dirt-visible-preview.png`.
+
+Publication statique le23/10/2026 à04 h10 Paris après sauvegarde sources/dist/SQL/checkpoint (0 expédition active), client c5d161b ; PID1308210 inchangé, actif/NRestarts0, index atomique et anciens bundles conservés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-dirt-visible-2026-10-23T02-07-08-160Z` ; aucune carte, collision, météo, progression ni donnée existante modifiée. Contrôle HTTPS sur compte temporaire :vrais pas sur Routes1/2/12 et Valpierre, alpha134–154, disparition complète, mobile/PC, index exact, sites Knov/api-test inchangés et zéro erreur ; compte supprimé.
+
+
 ## PNJ issus de la planche auteur 6931 — 23 octobre 2026
 
 Les personnages de carte non champions utilisent directement `src/assets/6931.png`, sans retouche ni nouvelle image générée. `classicNpcFrames.json` référence son empreinte et36 rectangles exacts :32 apparences civiles et rôles spécifiques Aspha (personnage chauve montré par le créateur), vendeur, infirmière et Lucie. Découpes au personnage entier, sans les petits pixels/voisins hors cadre ; agrandissement entier×2, sans lissage, hauteur visible36–56 px selon le personnage et même ancrage des pieds à26 px dans la case. Ne pas normaliser chaque personnage en une grande case étirée ni redécouper cette planche irrégulière en une grille uniforme.

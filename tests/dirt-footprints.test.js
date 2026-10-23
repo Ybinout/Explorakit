@@ -10,10 +10,11 @@ test('soil metadata follows authored outdoor earth tiles without rewriting maps 
 test('soil marks touch only exact earth pixels: never paving, vegetation, water, snow or transparent artwork',async()=>{
  const{r,data,image}=await fixture();assert(r.onGround(80,80));for(const color of [[177,182,172,255],[174,168,144,255],[97,154,78,255],[85,165,215,255],[217,230,233,255],[149,135,115,0]]){data.set(color,(40*448+40)*4);r.prepare(image,'route12');assert(!r.onGround(80,80),color.join(','));}data.set([233,219,172,255],(40*448+40)*4);r.prepare(image,'route12');assert(r.onGround(80,80));for(const xy of [[-1,80],[896,80],[80,640],[NaN,0]])assert(!r.onGround(...xy));
 });
-test('earth retains the short alternating gait with warm subtle colours and fades without layering dark tracks',async()=>{
+test('earth footsteps stay visible on grey and ochre soil, retain their short alternating gait and fade without dark stacking',async()=>{
  const{r,image,target}=await fixture();r.draw(target,image,'route12',[{id:'me',x:80,y:80}],0);assert.equal(r.marks.length,0);
  for(let n=1;n<=8;n++)r.draw(target,image,'route12',[{id:'me',x:80+n*4,y:80}],n*20);
- const steps=r.marks.filter(m=>m.kind==='step');assert.deepEqual(steps.map(m=>m.y),[76,84]);assert(r.paintedPixels>50);let max=0;for(let i=0;i<r.frame.data.length;i+=4){const a=r.frame.data[i+3];if(a){assert(r.frame.data[i]>r.frame.data[i+2],'earth stays warm');max=Math.max(max,a);}}assert(max>25&&max<=70);
+ const steps=r.marks.filter(m=>m.kind==='step');assert.deepEqual(steps.map(m=>m.y),[76,84]);assert(r.paintedPixels>50);let max=0;for(let i=0;i<r.frame.data.length;i+=4){const a=r.frame.data[i+3];if(a){assert(r.frame.data[i]>r.frame.data[i+2],'earth stays warm');max=Math.max(max,a);}}assert(max>=100&&max<=170);
+ for(const base of [[149,135,115],[233,219,172]]){const contrast=base.map((v,i)=>(v-r.surface.core[i])*max/255);assert(contrast.every(v=>v>=30),'fresh steps visibly darken both authored earth palettes');}
  const marks=[...r.marks];r.marks.push(...marks,...marks);r.draw(target,image,'route12',[],200);assert(r.frame.data.every((v,i)=>i%4!==3||v<=max));r.draw(target,image,'route12',[],1600);assert.equal(r.paintedPixels,0);assert.equal(r.marks.length,0);
 });
 test('soil surfaces remain bounded and are released on battle/loading/off/reduced motion, indoors and destruction',async()=>{
