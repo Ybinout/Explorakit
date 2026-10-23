@@ -62,6 +62,7 @@ jobs:
       - run: RELEASE_DIST_DIR=/tmp/riftmon-root-dist RELEASE_PUBLIC_PATH=/ npm run test:pwa-browser
       - run: RELEASE_DIST_DIR=/tmp/riftmon-root-dist npm run test:riftmon-browser
       - run: RELEASE_DIST_DIR=/tmp/riftmon-root-dist npm run test:stone-evolution-browser
+      - run: RELEASE_DIST_DIR=/tmp/riftmon-root-dist npm run test:item-usage-browser
       - run: RELEASE_DIST_DIR=/tmp/riftmon-root-dist npm run test:npc-browser
       - run: RELEASE_DIST_DIR=/tmp/riftmon-root-dist npm run test:player-options-browser
       - run: RELEASE_DIST_DIR=/tmp/riftmon-root-dist npm run test:region-map-browser

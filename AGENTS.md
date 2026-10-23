@@ -1,5 +1,17 @@
 # Contexte permanent — RiftMon
 
+## Audit des utilisations du sac — 23 octobre 2026
+
+Vérification du même risque que les pierres : un objet présent dans le catalogue/boutique doit avoir une commande utilisable, ou un rôle automatique/terrain explicite. Les 203 entrées sont couvertes : 45 soins/baies consommables, 10 pierres, 101 CS, 3 Repousses, 51 objets pouvant être tenus (dont 15 baies également consommables), Balls, canne, Multi Exp et objets narratifs. Comparaison exacte des données de compatibilité des CS client/serveur, cibles valides et offres de toutes les boutiques/modes. Aucun autre raccord manquant retrouvé dans les actions du sac testées.
+
+Correction de `BagPanel` : son indication Multi Exp codée en dur annonçait encore 50 % en Aventure, malgré le calcul serveur et la description à 40 %. Libellé FR/EN désormais 40 % en Aventure et au moins 50 % en expédition. Aucun changement supplémentaire d’équilibrage ou de moteur. Le contrôle porte sur le parcours d’utilisation/équipement ; les effets détaillés de chaque objet tenu en combat restent couverts par leurs tests de moteur existants, ce n’est pas un nouvel audit intégral des combats.
+
+Ajout de fixtures isolées `scripts/lib/itemUsageFixtures.js`, tests catalogue/effets `item-usage-audit.test.js`, SQL `item-usage-mysql.test.js` et recette `test:item-usage-browser`, raccordés aux suites SQL et CI. SQL : toutes les utilisations consommables, chaque pierre et CS, trois Repousses, équipement/retrait des 51 objets, stock et état persistant. Navigateur : commandes présentes pour les 203 objets dans chacun des trois modes, cibles valides pour les 45 objets consommables, vrais clics potion/antidote/baie PP/vitamine/baie EV/relance IV/reset EV/Rappel Aventure/CS/Repousse/pierre/équipement/retrait, puis reconnexion. Rendu 320/393/1365 et affichage Multi Exp contrôlé, aucune erreur navigateur, aucun compte réel modifié.
+
+Validation : 865 tests applicatifs et 95 SQL réussis, recette navigateur trois modes réussie, lint/build `ada368361d3c448a` réussis. Logs/captures `/tmp/riftmon-items-audit-*`. Serveur applicatif inchangé ; publication client seule nécessaire pour le libellé.
+
+Publication client seule à 2026-10-23T19:19:48.104Z (21 h 19 Paris) : client `e3d7a6d`, build `ada368361d3c448a`. PID serveur 1466426 inchangé, HTTPS 200, index atomique et anciens bundles conservés, Knov/api-test inchangés. Ancien index sauvegardé dans `/home/ubuntu/dev/backups/riftmon-items-audit-2026-10-23T19-19-47-405Z` ; ancien client `4f3ccae`/build `31d3f7d94f592c13` versionné et bundles conservés. Racine précédente `fec5425`.
+
 ## Mounir niveau 23, XP Aventure et fuite des sauvages — 23 octobre 2026
 
 Morphéo de Mounir passe de 20 à 23, avec statistiques reconstruites par la fabrique (93 PV, 88 Attaque Spéciale, 80 Vitesse). K4, IV parfaits, EV, set, talent, baie et réserve de sa pièce maîtresse conservés ; Machoc 17 et Steelix 18 inchangés. Multiplicateurs XP Aventure sauvage/dresseur/arène ×0,9 : 2,13444 / 3,49272 / 4,65696. Le Multi Exp Aventure passe de 50 % à 40 % pour chaque réserve apte (−20 % relatif sur la part, en plus du −10 % global). Sans Multi Exp, partage égal entre participants inchangé. Ni XP déjà acquise, ni EV, ni XP/partage Rift-Colosseum modifiés ; description de l’objet actualisée côté serveur et reçus d’XP d’arène conservés.
