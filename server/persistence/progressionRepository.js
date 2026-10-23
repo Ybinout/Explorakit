@@ -58,6 +58,7 @@ async function loadProgressState(userId) {
     const id = normalizeUserId(userId);
     await ensureInitialProgress(id);
     await reconcileMoonpunchBadge(id);
+    await require('./hozeRewardRepository').reconcileHozeExpShare(id);
     const [[flagRows], [questRows], [badgeRows], [battleRows], [moneyRows]] = await Promise.all([
         dbPool.execute('SELECT flag_key, flag_value, updated_at FROM player_story_flags WHERE user_id = ?', [id]),
         dbPool.execute('SELECT quest_key, status, progress, updated_at, completed_at FROM player_quests WHERE user_id = ?', [id]),
@@ -226,6 +227,7 @@ async function grantReward(id, reward, connection) {
     if (money > 0) await connection.execute('UPDATE users SET money = money + ? WHERE id = ?', [money, id]);
     for(const [key,count]of Object.entries(reward.items||{})) {
         if(!Number.isSafeInteger(count)||count<1||count>99)throw Error('Récompense objet invalide.');
+        if (key === 'exp_share') { await require('./hozeRewardRepository').grantHozeExpShare(id,connection); continue; }
         await connection.execute('INSERT INTO user_items(user_id,item_key,quantity) VALUES (?,?,?) ON DUPLICATE KEY UPDATE quantity=quantity+VALUES(quantity)',[id,key,count]);
     }
     for (const [key, value] of Object.entries(reward.flags || {})) {

@@ -904,7 +904,7 @@ const socketHandler = (io) => {
                             socket.emit('progressionNotice', {
                                 type: completion.granted ? 'reward' : 'already_completed',
                                 message: completion.granted
-                                    ? 'Victoire enregistrée et récompense obtenue.'
+                                    ? (dialogueName === 'champion_hoze' ? 'Victoire enregistrée ! Multi Exp débloqué : fais-le tenir au premier Pokémon de ton équipe.' : 'Victoire enregistrée et récompense obtenue.')
                                     : 'Cette récompense avait déjà été récupérée.'
                             });
                             return completion;

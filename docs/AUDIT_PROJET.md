@@ -1,5 +1,17 @@
 # Audit technique et mémoire de RiftMon
 
+## Multi Exp garanti après Hoze et objet tenu — 23 octobre 2026
+
+Hoze remet désormais un Multi Exp unique à la victoire en Aventure. Le dialogue après combat et la notification expliquent de le faire tenir au premier Pokémon. `hozeRewardRepository` ajoute la remise dans la transaction de victoire et réconcilie les anciennes victoires lors du chargement de progression, sur drapeau explicite `hoze_defeated` ou reçu `story_champion_hoze`. Verrou joueur, reçu `hoze_exp_share_received`, inventaire/équipe/PC/historique vérifiés : pas de double exemplaire ni de nouvelle prime/badge accordé lors du rattrapage. Les drops existants et les exemplaires déjà obtenus sont conservés.
+
+Multi Exp passe en catégorie objet tenu. Son effet est conditionné à `heldItem === exp_share` sur le premier compagnon dans l’ordre choisi par le joueur (`orderedParty`), pas sur le combattant temporairement placé à l’index 0 après switch. Le sac seul ou un porteur en réserve ne l’active plus. Même règle d’équipement pour Aventure/Rift/Colosseum ; taux d’XP et partage natif des expéditions inchangés. En Aventure, le tracker emploie un mode sérialisable `equipped`, recalculé au moment de la récompense : aucune closure dans l’état cloné par les simulations de l’IA. Textes FR/EN du sac et catalogue client des objets tenus synchronisés.
+
+Vérifications : 63 tests SQL réussis incluant vrais combats Aventure, champions/IA, remise Hoze, sauvegardes anciennes, équipement et concurrence ; tests du partage actif/inactif, ordre conservé après switch et usages du sac. Recette navigateur des 203 objets dans les trois modes, équipement/retrait réel du Multi Exp, reconnexion et formats 320/393/1365 réussis, aucune erreur navigateur. Lint/build client réussis. Logs `/tmp/riftmon-hoze-exp-*`. Pas de migration SQL structurelle.
+
+
+Publication serveur/client à 2026-10-23T21:19:46.308Z (23 h 19 Paris) : client `8ca041b`, build `cc32122d61192bdb`, PID 1481725 actif/NRestarts 0 ; aucune expédition active avant reprise. Sauvegarde sources/SQL/checkpoint/index dans `/home/ubuntu/dev/backups/riftmon-hoze-exp-2026-10-23T21-18-02-588Z`. HTTPS 200, anciens bundles conservés, Knov/api-test inchangés. Rattrapage production : 1 joueur éligible, 1 objet attribué ; seconde passe sans attribution. Suite finale : 870 tests applicatifs réussis, 96 SQL exclus de cette commande ; les 63 SQL ciblés ont été exécutés séparément avec succès.
+
+
 ## Bibliothèque visuelle des attaques — 23 octobre 2026
 
 Familles partagées par le BattleOverlay Aventure/Rift/Colosseum : morsures, griffures, poings, charges, rayons, projectiles, drain et effets de zone. `services/moveVisuals.js` associe les noms canoniques à une famille, avec repli physique/spécial/statut et respect de la préparation des capacités à deux tours. `BattleMoveEffect.vue` dessine des effets SVG légers, teintés par type et positionnés à partir des sprites/socles réels. Pas de nouvelle image distante ni de modification des règles de combat.

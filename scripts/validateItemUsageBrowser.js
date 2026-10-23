@@ -43,8 +43,12 @@ async function exercise(mode,roster){
  row=await select('max_repel','field');await row.locator('[data-use-repel]').click();await page.waitForFunction(()=>!window.itemsVm.medicineBusy&&window.itemsVm.repelSteps===250);
  await use('fire_stone','evolution',roster[1].uuid);await page.locator('.evolution-sheet.revealed').waitFor();await page.locator('[data-evolution-continue]').click();
  row=await select('choice_scarf','held');await row.locator('.bag-equip-link').click();await page.locator('.team-held-item-select').first().selectOption('choice_scarf');await page.waitForFunction(()=>!window.itemsVm.teamSaving&&window.itemsVm.teamPokemons[0].heldItem==='choice_scarf');await page.locator('.team-held-item-select').first().selectOption('');await page.waitForFunction(()=>!window.itemsVm.teamSaving&&!window.itemsVm.teamPokemons[0].heldItem);
- await page.keyboard.press('Escape');await openBag();row=await select('exp_share','key');
+ await page.keyboard.press('Escape');await openBag();row=await select('exp_share','held');
  for(const [width,height]of [[320,568],[393,852],[1365,900]]){await page.setViewportSize({width,height});await row.scrollIntoViewIfNeeded();assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));await page.screenshot({path:path.join(output,`${mode}-${width}.png`)});}
+ await row.locator('.bag-equip-link').click();await page.locator('.team-held-item-select').first().selectOption('exp_share');
+ await page.waitForFunction(()=>!window.itemsVm.teamSaving&&window.itemsVm.teamPokemons[0].heldItem==='exp_share');
+ await page.screenshot({path:path.join(output,`${mode}-multi-exp-equipped.png`)});
+ await page.locator('.team-held-item-select').first().selectOption('');await page.waitForFunction(()=>!window.itemsVm.teamSaving&&!window.itemsVm.teamPokemons[0].heldItem);
  await page.keyboard.press('Escape');await page.reload({waitUntil:'networkidle'});await ready();
  const result=await page.evaluate(()=>window.itemsVm.teamPokemons.map(p=>({id:p.data.id,hp:p.currentHp,status:p.status,ev:p.ev,moves:p.abilities,pp:p.movePp,held:p.heldItem})));
  assert.equal(result[1].id,38);assert.equal(result[0].status,'normal');assert.equal(result[0].pp[0],10);assert(result[0].moves.includes('Surf'));assert(Object.values(result[0].ev).every(n=>n===0));assert(!result[0].held);if(mode==='adventure')assert(result[2].hp>0);

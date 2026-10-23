@@ -137,6 +137,9 @@
         ],
         "flags": {
           "hoze_defeated": "true"
+        },
+        "items": {
+          "exp_share": 1
         }
       },
       "experienceKind": "arena"

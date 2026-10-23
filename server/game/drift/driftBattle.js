@@ -257,7 +257,7 @@ class DriftBattle {
         // Evaluate each recipient before levelling anyone up; low-level reserves
         // catch up, while a high-level reserve cannot bypass the overlevel rule.
         const fighterXp = p => isColosseum ? Math.max(1,Math.floor(Math.floor(sharingBaseFor(p)*9/10)*4/5)) : sharingBaseFor(p);
-        const expShare = this.a.items?.exp_share > 0;
+        const expShare = require('../items/expShare').hasEquippedExpShare(this.a.equipe.pokemons);
         const reserveAwards = this.a.equipe.pokemons.filter(p=>p!==active && !effects.isDead(p) && !p.isEgg).map(p=>[p,
             Math.max(Math.floor(sharingBaseFor(p) * ((isColosseum ? 40 : 0) + effects.value(this.a,50))/100),
                 expShare ? Math.max(1,Math.floor(fighterXp(p)/2)) : 0)]);

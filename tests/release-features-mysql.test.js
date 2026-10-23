@@ -288,3 +288,31 @@ test('Adventure stones: missing inventory and SQL failure roll back species, sto
         const result=await use(a.id,fox.uuid,'fire_stone');assert.equal(result.pokemon.data.id,38);assert(!result.items.some(i=>i.key==='fire_stone'));
     } finally {progress.synchronizeCaughtPokemon=sync;await db.execute('DELETE FROM users WHERE id=?',[a.id]);}
 });
+
+test('Hoze Multi Exp: victory reward, legacy repair, no premature grant and concurrent idempotence including held/PC copies', {skip:!enabled}, async()=>{
+ const ids=[];
+ try {
+  const {reconcileHozeExpShare}=require('../server/persistence/hozeRewardRepository');
+  for(const location of ['new','legacy','bag','held','pc']){
+   const u=await fixture();ids.push(u.id);await progress.loadProgressState(u.id);
+   let [[r]]=await db.execute("SELECT COALESCE(SUM(quantity),0) n FROM user_items WHERE user_id=? AND item_key='exp_share'",[u.id]);assert.equal(Number(r.n),0);
+   if(location==='bag')await db.execute("INSERT INTO user_items(user_id,item_key,quantity) VALUES(?,'exp_share',1)",[u.id]);
+   if(location==='held'){const t=await teams.loadEquipe(u.id);t.pokemons[0].heldItem='exp_share';await teams.editEquipe(u.id,t);}
+   if(location==='pc'){const p=require('../server/game/drift/pokemonFactory').create(25,20,true);p.heldItem='exp_share';await require('../server/persistence/pokemonStorageRepository').storeCapturedPokemon(u.id,p);}
+   if(location==='new'){
+    await db.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,'moonpunch_defeated','true')",[u.id]);
+    const results=await Promise.all([progress.completeNpcBattle(u.id,'champion_hoze'),progress.completeNpcBattle(u.id,'champion_hoze')]);assert.equal(results.filter(r=>r.granted).length,1);
+   }else await db.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,'hoze_defeated','true')",[u.id]);
+   await Promise.all([reconcileHozeExpShare(u.id),reconcileHozeExpShare(u.id),progress.loadProgressState(u.id)]);
+   [[r]]=await db.execute("SELECT COALESCE(SUM(quantity),0) n FROM user_items WHERE user_id=? AND item_key='exp_share'",[u.id]);assert.equal(Number(r.n),['held','pc'].includes(location)?0:1,location);
+   const [[receipt]]=await db.execute("SELECT COUNT(*) n FROM player_story_flags WHERE user_id=? AND flag_key='hoze_exp_share_received'",[u.id]);assert.equal(receipt.n,1);
+   const t=await teams.loadEquipe(u.id);
+   if(!['held','pc'].includes(location)){
+    const {equipHeldItem}=require('../server/persistence/itemRepository');
+    const [[teamRow]]=await db.execute('SELECT id FROM teams WHERE user_id=?',[u.id]);
+    const equipped=await equipHeldItem(u.id,teamRow.id,t.pokemons[0].uuid,'exp_share');assert.equal(equipped,'exp_share');
+    assert.equal((await teams.loadEquipe(u.id)).pokemons[0].heldItem,'exp_share');
+   }
+  }
+ }finally{for(const id of ids)await db.execute('DELETE FROM users WHERE id=?',[id]);}
+});

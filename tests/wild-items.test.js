@@ -94,7 +94,7 @@ test('Adventure Multi Exp replaces participation splitting with full fighter and
     const awards=tracker.reward(p,foe,1,io);assert.equal(awards.length,2);assert.equal(awards[0].xp,full);assert.equal(awards[1].xp,shared);assert.equal(bench.experience,initial+shared);assert.equal(events.length,2);assert.equal(bench.ev.speed,1,'This reserve faced the enemy and earns its EV yield');assert.deepEqual(tracker.reward(p,foe,1,io),[]);
 });
 for(const mode of ['rift','colosseum'])test(`${mode}: Multi Exp keeps fighter XP and better existing sharing, includes living reserves and does not double rewards`,()=>{
-    function run(enabled){const lead=pkm(),reserve=pkm(),foe=pkm(19),events=[],p={run:{mode},items:enabled?{exp_share:1}:{},equipe:{pokemons:[lead,reserve]},drifts:[],equipped:[]};
+    function run(enabled){const lead=pkm(),reserve=pkm(),foe=pkm(19),events=[];if(enabled)lead.heldItem='exp_share';const p={run:{mode},items:enabled?{exp_share:1}:{},equipe:{pokemons:[lead,reserve]},drifts:[],equipped:[]};
         const b=Object.assign(Object.create(DriftBattle.prototype),{a:p,type:'wild',rewarded:new Set(),emit:(_p,_event,data)=>events.push(data)});
         const initial=[lead.experience,reserve.experience];b.reward(foe);const gains=[lead.experience-initial[0],reserve.experience-initial[1]];b.reward(foe);assert.deepEqual([lead.experience-initial[0],reserve.experience-initial[1]],gains);return {gains,events};}
     const normal=run(false),shared=run(true);assert.equal(shared.gains[0],normal.gains[0]);assert(shared.gains[1]>=Math.floor(shared.gains[0]/2));assert(shared.gains[1]>=normal.gains[1]);assert.equal(shared.events.length,2);

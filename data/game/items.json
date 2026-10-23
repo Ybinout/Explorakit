@@ -1131,14 +1131,14 @@
     {
       "key": "exp_share",
       "name": "Multi Exp",
-      "category": "key",
+      "category": "held",
       "unique": true,
       "dropOnly": true,
       "wildLoot": {
         "group": "key",
         "weight": 1
       },
-      "description": "Actif depuis le sac : le combattant conserve son gain normal. Chaque autre compagnon apte reçoit 40 % de son gain ajusté à son propre niveau en Aventure, et au moins 50 % en Rift/Colosseum. Ne se cumule pas avec le partage existant ; le meilleur partage est conservé. Aucun gain pour les Pokémon K.O. ou les Œufs."
+      "description": "À faire tenir au premier Pokémon dans l’ordre de ton équipe pour l’activer. Garanti après la victoire contre Hoze en Aventure. Le combattant conserve son gain normal. Chaque autre compagnon apte reçoit 40 % de son gain ajusté à son propre niveau en Aventure, et au moins 50 % en Rift/Colosseum. Ne se cumule pas avec le partage existant ; le meilleur partage est conservé. Aucun gain pour les Pokémon K.O. ou les Œufs."
     },
     {
       "key": "route2_house_key",

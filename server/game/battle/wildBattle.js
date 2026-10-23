@@ -479,7 +479,7 @@ async function startBattle(player, wildPokemon, io, userId) {
         await endBattle(false,{interrupted:true,reason:'progress_unavailable'});
         return false;
     }
-    battleState.adventureExperience = new AdventureExperience({expShare:await require('../../persistence/wildLootRepository').hasExpShare(userId)});
+    battleState.adventureExperience = new AdventureExperience({expShare:'equipped'});
     require('../abilities/abilityForms').attachTeam(player.equipe.pokemons);
     const playerSide = battleState.sides.player;
     const enemySide = battleState.sides.enemy;

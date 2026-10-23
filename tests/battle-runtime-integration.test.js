@@ -709,7 +709,7 @@ for (const kind of ['wild','trainer']) test(`Multi Exp Aventure ${kind} : combat
         const {user,player}=await createPlayer(7);userId=user.id;
         const lead=createPokemon(7,'Actif'),reserve=createPokemon(4,'Réserve'),dead=createPokemon(25,'K.O.');dead.currentHp=0;
         lead.currentAttack=999;lead.currentSpeed=999;player.equipe=createTeam(lead,reserve,dead);
-        await pool.execute("INSERT INTO user_items(user_id,item_key,quantity) VALUES(?,'exp_share',1)",[userId]);
+        lead.heldItem='exp_share';
         const foe=createPokemon(19,'Cible');foe.currentHp=1;foe.passiveAbility=null;
         const {calculateBattleExperience:xp,BATTLE_EXPERIENCE_MULTIPLIERS:rates}=require('../server/game/models/progression');
         const baseline=[lead,reserve,dead].map(p=>p.experience),full=xp(foe,rates[kind],lead),shared=Math.floor(xp(foe,rates[kind],reserve)*0.4);
