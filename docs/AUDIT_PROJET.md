@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Minimap régionale et habitats du Pokédex — 23 octobre 2026
+
+Menu → Minimap, dans les trois modes : atlas SVG interactif au style pixel, huit villes et 26 lieux extérieurs/grottes, routes numérotées, repère joueur, sélection d’un lieu, zoom mobile et liste accessible. Nord conservé ; les distances sont schématiques. Les coordonnées graphiques sont dans `data/game/region_map.json`, les chemins et les intérieurs sont dérivés des transitions réellement praticables dans `world/regionMap.js`. Aucun raccord fictif Route 7/Comptoirville → Ocreville, aucune modification des cartes Tiled/collisions/assets de l’auteur. `regionLocation` ajouté au joueur public : bâtiments rattachés à leur lieu extérieur ; Centre partagé rattaché à son `centerReturnPoint`, y compris après reconnexion. Une provenance manquante reste inconnue plutôt qu’inventée.
+
+Pokédex : bouton Localisation seulement pour les espèces vues/capturées, ouvre la même carte et conserve recherche/filtres/focus au retour. `habitat` ajouté à `loadPokedex` uniquement pour ces entrées ; sources calculées depuis les vrais pools sauvages accessibles et la pêche, caves distinguées des herbes, niveaux indiqués. Les évolutions sans rencontre directe montrent explicitement les habitats de leurs pré-évolutions ; les espèces indisponibles n’affichent aucun faux repère. API authentifiée `/world-map`, aucune action de déplacement ni modification du taux de rencontre. Mêmes couleurs de thème et mode nuit, réduction des animations, clavier/Escape/focus, chargement/erreur/retry, carte centrée sur le jeu sur PC. Boutons et sélecteur tactiles ; marqueurs animés de présence distincts du repère du joueur.
+
+Validation : comparaison exhaustive des habitats directs avec l’audit d’obtention, connectivité des 26 lieux, intérieurs/Centres, absence de données pour les espèces non vues ; 847 tests applicatifs et 88 SQL passés. `test:region-map-browser` sur base isolée : vrais HTTP/sockets, 320/393/1365 et vrai contexte desktop, zoom, pêche, évolution, indisponibilité, conservation des filtres/focus, reconnexion Centre, Colosseum, navigation clavier et erreur réseau/retry. Recette ajoutée à la CI. Lint/build `293bfb3fde8f402b` réussis. Logs `/tmp/riftmon-region-*`, captures `/tmp/riftmon-region-browser`. Aucun compte réel modifié.
+
+Publication serveur/client le 23/10/2026 à 16 h 56 Paris : client `60b7d09`, PID 1446200 actif/NRestarts 0 ; aucune expédition active avant reprise. Index atomique, anciens bundles conservés, HTTPS 200, Knov/api-test inchangés. Sauvegarde complète sources/client/dist/SQL/checkpoint `/home/ubuntu/dev/backups/riftmon-region-2026-10-23T14-52-30-756Z` (client avant patch `7d3b362`, build `fbd74550df00ebc6`). Client courant désormais différent ; ne pas référencer cette ancienne copie comme identique lors du prochain backup serveur seul.
+
 ## Reconnexion et déblocage à proximité — 23 octobre 2026
 
 Le repli de `sanitizeSpawnPosition` pouvait renvoyer une sauvegarde devenue invalide vers la première case `coll=0`, parfois une poche de décor isolée. `world/safePosition.js` recherche désormais la case la plus proche sur du terrain peint, dans une composante accessible depuis une entrée réelle de la carte (plus le départ du village ; plus grande composante en dernier recours). Les cases de transition et PNJ sont exclus des destinations de réparation. Les positions valides, y compris une sortie de Centre sauvegardée, sont conservées à la reconnexion. Une position 0/0 ne fait plus perdre le nom du lieu ; les véritables cartes héritées `default_map` gardent leur migration. Les transitions normales conservent leurs destinations explicites. Cartes et collisions de l’auteur inchangées.
@@ -2561,6 +2571,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+23/10/2026 — Minimap régionale et position du joueur (y compris intérieurs), habitats du Pokédex avec pêche/évolutions, carte pixel interactive commune aux modes. Vérifications de sources et recette navigateur ajoutées. Voir entrée en tête.
 
 23/10/2026 — Repli de reconnexion vers le terrain accessible le plus proche, positions valides conservées ; bouton Options → Debug pour débloquer le personnage dans le même lieu, avec sauvegarde SQL/checkpoint. Recettes unitaires, réseau et navigateurs ajoutées ; cartes auteur inchangées. Voir entrée en tête.
 

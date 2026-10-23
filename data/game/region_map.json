@@ -1,0 +1,162 @@
+{
+  "width": 512,
+  "height": 448,
+  "nodes": [
+    {
+      "id": "start",
+      "x": 140,
+      "y": 352,
+      "kind": "town"
+    },
+    {
+      "id": "route1",
+      "x": 140,
+      "y": 310,
+      "kind": "route"
+    },
+    {
+      "id": "route2",
+      "x": 140,
+      "y": 260,
+      "kind": "route"
+    },
+    {
+      "id": "ville1",
+      "x": 208,
+      "y": 260,
+      "kind": "town"
+    },
+    {
+      "id": "route3",
+      "x": 276,
+      "y": 260,
+      "kind": "route"
+    },
+    {
+      "id": "cave1",
+      "x": 276,
+      "y": 216,
+      "kind": "cave"
+    },
+    {
+      "id": "cave2",
+      "x": 318,
+      "y": 216,
+      "kind": "cave"
+    },
+    {
+      "id": "route4",
+      "x": 360,
+      "y": 216,
+      "kind": "route"
+    },
+    {
+      "id": "ville_safe1",
+      "x": 412,
+      "y": 216,
+      "kind": "town"
+    },
+    {
+      "id": "route5",
+      "x": 464,
+      "y": 216,
+      "kind": "route"
+    },
+    {
+      "id": "route6",
+      "x": 464,
+      "y": 280,
+      "kind": "route"
+    },
+    {
+      "id": "ville_commerciale",
+      "x": 412,
+      "y": 280,
+      "kind": "town"
+    },
+    {
+      "id": "gen_route8",
+      "x": 360,
+      "y": 260,
+      "kind": "route"
+    },
+    {
+      "id": "gen_ville5",
+      "x": 360,
+      "y": 310,
+      "kind": "town"
+    },
+    {
+      "id": "gen_route7",
+      "x": 360,
+      "y": 342,
+      "kind": "route"
+    },
+    {
+      "id": "gen_route6",
+      "x": 360,
+      "y": 370,
+      "kind": "route"
+    },
+    {
+      "id": "ville3",
+      "x": 360,
+      "y": 406,
+      "kind": "town"
+    },
+    {
+      "id": "route11",
+      "x": 260,
+      "y": 406,
+      "kind": "route"
+    },
+    {
+      "id": "route12",
+      "x": 160,
+      "y": 406,
+      "kind": "route"
+    },
+    {
+      "id": "ville4",
+      "x": 60,
+      "y": 406,
+      "kind": "town"
+    },
+    {
+      "id": "cave_rochebrume1",
+      "x": 60,
+      "y": 360,
+      "kind": "cave"
+    },
+    {
+      "id": "cave_rochebrume2",
+      "x": 60,
+      "y": 324,
+      "kind": "cave"
+    },
+    {
+      "id": "cave_rochebrume3",
+      "x": 60,
+      "y": 288,
+      "kind": "cave"
+    },
+    {
+      "id": "route13",
+      "x": 60,
+      "y": 242,
+      "kind": "route"
+    },
+    {
+      "id": "route14",
+      "x": 60,
+      "y": 196,
+      "kind": "route"
+    },
+    {
+      "id": "ville5",
+      "x": 60,
+      "y": 144,
+      "kind": "town"
+    }
+  ]
+}

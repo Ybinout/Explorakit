@@ -60,6 +60,7 @@ function toPublicPlayer(player) {
         isMoving: Boolean(player.isMoving),
         animationFrame: Number(player.animationFrame) || 0,
         currentmap: player.currentmap,
+        regionLocation: require('../game/world/regionMap').regionLocation(player.currentmap, player.centerReturnPoint),
         inbattle: Boolean(player.inbattle)
     };
 }

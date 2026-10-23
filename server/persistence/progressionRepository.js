@@ -132,6 +132,7 @@ async function loadPokedex(userId) {
             caught: Number(record?.caught_count) > 0,
             seenCount: Number(record?.seen_count) || 0,
             caughtCount: Number(record?.caught_count) || 0,
+            habitat: require('../game/world/regionMap').pokemonLocations(Number(pokemon.id), Number(record?.seen_count) > 0 || Number(record?.caught_count) > 0),
             firstSeenAt: record?.first_seen_at || null,
             firstCaughtAt: record?.first_caught_at || null
         };
