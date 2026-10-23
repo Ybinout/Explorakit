@@ -33,7 +33,7 @@ test('weather intensity is authoritative for every map and accepts only bounded 
  for(const map of ['route5','route6']){
   const climate=getMapWeather(map);assert.deepEqual(climate,{map,kind:'wind',ambience:{wind:3,rain:0}});
   assert.deepEqual(w.mapWorldWeather(map,climate),{wind:3,rain:0});
-  assert.deepEqual(w.worldWeatherBudget(climate.ambience),{rain:0,leaves:28,gusts:4,splashes:0});
+  assert.deepEqual(w.worldWeatherBudget(climate.ambience),{rain:0,leaves:42,gusts:6,splashes:0});
   assert.deepEqual(require('../server/game/world/mapWeather').battleWeatherForMap(map),{kind:null,turns:0});
   assert.deepEqual(w.mapWorldWeather(map,{...climate,map:'start'}),{wind:0,rain:0});
   for(const reason of ['hidden','battle','loading'])assert(!w.worldWeatherEnabled(map,{[reason]:true}));
@@ -45,7 +45,7 @@ test('weather covers the village and the two rainy routes, never interiors, batt
  for(const map of ['maison','ville1','route3','cave1','ville_safe1',null])assert(!enabled(map));for(const reason of ['hidden','battle','loading'])assert(!enabled('start',{[reason]:true}));
 });
 test('four intensity levels have separate, monotone and bounded particle budgets',async()=>{
- const {worldWeatherBudget:budget}=await weather();let previous={rain:-1,leaves:-1};for(let i=0;i<4;i++){const b=budget({wind:i,rain:i});assert(b.rain>previous.rain&&b.leaves>previous.leaves);assert(Object.values(b).reduce((a,b)=>a+b,0)<=210);previous=b;}
+ const {worldWeatherBudget:budget}=await weather();let previous={rain:-1,leaves:-1};for(let i=0;i<4;i++){const b=budget({wind:i,rain:i});assert(b.rain>previous.rain&&b.leaves>previous.leaves);assert(Object.values(b).reduce((a,b)=>a+b,0)<=230);previous=b;}
  assert.deepEqual(budget({wind:0,rain:0}),{rain:0,leaves:0,gusts:0,splashes:0});assert.equal(budget({wind:3,rain:0}).rain,0);assert.equal(budget({wind:0,rain:3}).leaves,0);
 });
 test('weather reuses one fixed-size surface, repaints at most 30 Hz, updates choices immediately and releases memory',async()=>{

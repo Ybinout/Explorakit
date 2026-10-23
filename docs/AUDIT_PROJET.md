@@ -1,5 +1,16 @@
 # Audit technique et mémoire de RiftMon
 
+## Vent plus sensible et feuillages animés — 23 octobre 2026
+
+Vent fort :42 feuilles au lieu de28, six rafales au lieu de quatre, déplacements205 px/s au lieu de132, feuilles plus contrastées sur les chemins clairs et filets d’air clairs avec une ombre douce. Vent1/2 gardent des intensités graduelles ; pluie, sable, neige, profils serveur et effets de combat inchangés. Aucune caméra ni carte déplacée.
+
+`generateWindTrees.js` extrait en lecture seule les cellules de couronnes teset2 des cartes venteuses dans `windTrees.js` :Routes1/2/5, Routes13/14 et Blanchecime. Les deux couronnes manuelles du village sont conservées ; aucun arbre inventé sur Route6/Rochebrume/Route12. `ForegroundWindRenderer` partage désormais les masques des arbres, y compris le blanc de la neige, et s’applique aux trois modes ; seules les couleurs opaques du feuillage varient à l’intérieur de leur couronne d’origine. Troncs, silhouettes/alpha, ombres, toits, sol et pixels voisins restent identiques. Animation native448×320 à30 Hz maximum, phases par arbre, déplacement intérieur jusqu’à3 px source au vent maximum ; brise suffisamment ample pour dépasser la grille de pixels. Les arbres intégrés au fond de Route1 ont une surcouche transparente séparée : aucun remplacement du sol ni du rendu d’eau. Cache par image/carte/couche ; nettoyage au changement de carte, chargement, combat, onglet masqué, animations désactivées/mouvement réduit et destruction.
+
+Tests :17 recettes unitaires feuillages/météo passées, dont deux nouvelles pour les cellules auteur/neige et la surcouche de fond ; garde sur le mouvement effectif à vent1. Recette météo historique adaptée aux arbres maintenant animés des Routes1/2. `test:wind-trees-browser` et captures ajoutés à la CI racine :vraies images de sept lieux/huit couches,0 pixel changé hors feuillage et0 alpha altéré ;7488 pixels animés sur Route5,140–3008 en brise selon couche et28388 sur les routes enneigées. Route5/6 aux quatre tailles, marche réelle en Aventure/Rift/Colosseum, pause des animations et arrière-plan vérifiés,10 images recalculées en451 ms (plafond30 Hz), zéro erreur. Validation complète741 tests applicatifs/77 SQL, audits/lint/buildbf94a1326acbddd5 ; ajustements finaux de brise et contraste couverts par les17 tests, la recette navigateur surc09cec124266eb23, le lint et le build final e5c72181113ba66b. Logs `/tmp/riftmon-tree-wind-*`.
+
+Publication statique le23/10/2026 à09 h52 Paris, client a6b9d53 ; aucun redémarrage (PID1354314 inchangé, actif/NRestarts0), index atomique et anciens bundles conservés. Contrôle HTTPS sur compte temporaire supprimé :Routes5/6/quatre tailles,42 feuilles/six rafales, cinq arbres et3960 pixels de masque sur Route5, vraie animation et mouvement réduit, retour Comptoirville sans vent, index exact, Knov/api-test inchangés et zéro erreur. Aucun fichier auteur, collision, PNJ, équipe, progression ou schéma modifié. Sauvegarde `/home/ubuntu/dev/backups/riftmon-tree-wind-2026-10-23T07-43-20-290Z` ; `pourtoi` intact.
+
+
 ## Comptoirville et centre commercial — 23 octobre 2026
 
 Suite désormais fournie par le créateur :la sortie ouest de Route6 rejoint **Comptoirville** (`ville_commerciale`) par les trois couloirs16/17/18, réciproques. Cette livraison remplace l’attente du futur village décrite dans le lot précédent ; aucun lien Route8/Route7 ajouté. Les15 fichiers auteur JSON/PNG/foreground sont intégrés octet pour octet, sans retouche de collisions/terrain/illustrations ; empreintes dans `docs/commercial-author-assets.json`. Cinq TMX miroirs conservent les tilesets embarqués, dix couches de tuiles et les objets/propriétés `liaisons` : leurs destinations explicites servent aux escaliers et à la porte de la tour. Centre Pokémon déjà peint raccordé par porte logique(4,8), avec provenance/retour/PC partagés ; autres façades sans intérieur fourni conservées. Guide local et guide Valpierre actualisés ; aucun récit/champion modifié.
@@ -2349,6 +2360,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+23/10/2026 — Rafales et feuilles plus visibles, feuillages des cartes venteuses animés sans déplacer silhouettes/décor, y compris neige. Masques auteur en lecture seule,741+77 vérifiés, recette sept lieux/trois modes et HTTPS quatre tailles passés. Publication statique09 h52 Paris, builde5c72181113ba66b, client a6b9d53 ; PID1354314 inchangé. Voir entrée en tête et logs `/tmp/riftmon-tree-wind-*`.
 
 23/10/2026 — Comptoirville après Route6 et Grand Comptoir à quatre niveaux (fournitures/EV-IV/stratégie/39 baies), vendeuses et Centre Pokémon raccordés. Sources auteur exactes,739 tests applicatifs/77 SQL, recette complète trois modes/quatre tailles/deux thèmes et contrôle HTTPS passés. Publication09 h37 Paris, client10d3396, build7383bd4ed274fe16, PID1354314 actif. Voir entrée en tête et logs `/tmp/riftmon-commercial-*`.
 

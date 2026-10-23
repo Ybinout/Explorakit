@@ -63,6 +63,7 @@ jobs:
       - run: RELEASE_DIST_DIR=/tmp/riftmon-root-dist npm run test:riftmon-browser
       - run: RELEASE_DIST_DIR=/tmp/riftmon-root-dist npm run test:npc-browser
       - run: RELEASE_DIST_DIR=/tmp/riftmon-root-dist npm run test:player-options-browser
+      - run: RELEASE_DIST_DIR=/tmp/riftmon-root-dist npm run test:wind-trees-browser
       - run: RELEASE_DIST_DIR=/tmp/riftmon-root-dist npm run test:department-store-browser
       - run: RELEASE_DIST_DIR=/tmp/riftmon-root-dist npm run test:valpierre-routes-browser
       - run: RELEASE_DIST_DIR=/tmp/riftmon-root-dist RELEASE_PUBLIC_PATH=/ npm run test:dirt-footprints-browser
@@ -74,4 +75,5 @@ jobs:
           path: |
             /tmp/explorakit-six-browser
             /tmp/riftmon-commercial-browser
+            /tmp/riftmon-tree-wind-browser
           if-no-files-found: ignore
