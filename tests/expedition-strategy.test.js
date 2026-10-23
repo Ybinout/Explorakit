@@ -79,7 +79,7 @@ test('strategic drops occur only on wild victories and survive a checkpoint; no 
 for(const source of ['direct','residual'])test(`talisman ${source}: consumes once, allows chosen replacement, excludes XP and heals only out of battle`,()=>{
  const f=setup(),p=f.choose(),a=fighter(),reserve=fighter(7);a.heldItem='rift_talisman';p.equipe.pokemons=[a,reserve];
  const b=f.runtime.battle(p,{npc:true,equipe:{pokemons:[fighter()]},drifts:[],equipped:[]},'wild');
- if(source==='direct')engine.useattack('Explosion',b.active(1),a,{battleState:b.state,attackerSide:b.sides[1],defenderSide:b.sides[0]});
+ if(source==='direct')engine.useattack('Tackle',b.active(1),a,{battleState:b.state,attackerSide:b.sides[1],defenderSide:b.sides[0]});
  a.currentHp=0;b.prune();b.request();assert(b.action(p,{action:'change',number:1,turnId:b.token}));assert.equal(a.heldItem,null);assert.equal(a.riftFainted,true);assert.equal(b.active(0),reserve);assert.equal(p.equipe.pokemons.length,2);
  b.prune();assert.equal(p.runReport.stats.pokemonLost,0);const before=a.experience;b.reward(fighter(19,5));assert.equal(a.experience,before);
  assert(!b.action(p,{action:'change',number:1,turnId:b.token}));assert.throws(()=>economy.usePotion(p,'drift_potion',a.uuid),/indisponible/);

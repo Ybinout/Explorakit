@@ -2630,12 +2630,22 @@ function reactionHelpers() {
         recycle:(p,messages)=>applyEffect({kind:'recycle'},{attacker:p,defender:p,move:{}},{messages})};
 }
 
+// Sacrifice is not recoil: it bypasses Endure, Sturdy, substitutes and held items.
+function finishSelfDestruct(attacker, result) {
+    if (result.selfDestruct && safeNumber(attacker?.currentHp, 0) > 0) {
+        setPokemonHp(attacker, 0);
+        result.messages.push(`${getPokemonDisplayName(attacker)} se met K.O. !`);
+    }
+}
+
 function useattack(attackName, attacker, defender, options = {}) {
     options={...options,battleState:options.battleState||createBattleState()};
     if (!options.calledDepth) turnActions.spendTurnAction(options.battleState, attacker);
     const before=[];
     abilityForms.syncWeatherForms(attacker,defender,options.battleState,before);
     const result=executeAttack(attackName,attacker,defender,options);
+    // Misses, protection and immunities return early but still cost the user its life.
+    finishSelfDestruct(attacker,result);
     for (const [p,other] of [[attacker,defender],[defender,attacker]]) if (Number(p?.currentHp)<=0) twoTurn.clear(p,other,options.battleState.turn);
     result.messages.unshift(...before);
     abilityForms.syncWeatherForms(attacker,defender,options.battleState,result.messages);
@@ -2796,6 +2806,21 @@ function executeAttack(attackName, attacker, defender, options = {}) {
     }
     abilityForms.sync(attacker,'move',moveResult.messages,move,battleState,defender);
     if (!calledDepth) heldItems.lockMove(attacker, move.ename, battleState);
+
+    if (['Self-Destruct', 'Explosion'].includes(move.ename)) {
+        // Resolve Damp before Protect/accuracy/immunity; a prevented explosion
+        // consumes PP, but a Pokémon unable to act never reaches this point.
+        const damp = hasPassiveAbility(attacker, 'Damp') ? attacker
+            : !ignoresDefenderAbility(attacker, defender) && hasPassiveAbility(defender, 'Damp') ? defender : null;
+        if (damp) {
+            moveResult.blocked = true;
+            moveResult.abilityBlocked = true;
+            attackerData.lastMoveUsed = move.ename;
+            moveResult.messages.push(`Moiteur de ${getPokemonDisplayName(damp)} empêche l’explosion.`);
+            return moveResult;
+        }
+        moveResult.selfDestruct = true;
+    }
 
     if (move.ename === 'Sucker Punch') {
         const pending = getMoveByName(turnActions.pendingMove(battleState, defender));
@@ -3112,6 +3137,9 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         const consumedItem = consumeHeldItem(attacker,battleState);
         if (consumedItem) moveResult.messages.push(`${getPokemonDisplayName(attacker)} consomme son objet avec ${move.ename}.`);
     }
+
+    // Successful explosions sacrifice before post-move healing/reactions.
+    finishSelfDestruct(attacker,moveResult);
 
     const effectContext = {
         attacker,

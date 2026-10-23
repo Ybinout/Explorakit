@@ -735,7 +735,7 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
     const playerHasPokemonAlive = hasAlivePokemon(player.equipe.pokemons);
     const enemyHasPokemonAlive = hasAlivePokemon(enemyTeam.pokemons);
 
-    if (!enemyHasPokemonAlive) {
+    if (!enemyHasPokemonAlive && playerHasPokemonAlive) {
         await narrate(player, io, 'Victoire !');
         await grantMoneyReward();
         await finalizeVictory();

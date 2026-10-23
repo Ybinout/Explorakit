@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Destruction et Explosion : sacrifice du lanceur — 23 octobre 2026
+
+Défaut reproduit : Destruction (`Self-Destruct`) et Explosion infligeaient leurs dégâts sans mettre le lanceur K.O. Le moteur partagé engage désormais le sacrifice seulement lorsque le Pokémon peut réellement agir, après consommation des PP. Le K.O. est appliqué après les dégâts et aussi sur les sorties anticipées (Abri, raté, semi-invulnérabilité, immunité de type ou de talent). Moiteur est vérifié avant ces sorties et empêche l’explosion sans sacrifier le lanceur ; suppression du talent et Brise Moule restent respectés. Fermeté, Ceinture Force, Tête de Roc, Garde Magik, Ténacité et le clone ne bloquent pas le sacrifice. Le Grelot Coque ne soigne pas le lanceur sacrifié. Puissances physiques modernes conservées (200/250), sans division supplémentaire de la Défense.
+
+Références consultées : [données du moteur Pokémon Showdown](https://github.com/smogon/pokemon-showdown/blob/master/data/moves.ts) (`selfdestruct: always`) et [règles de Destruction](https://bulbapedia.bulbagarden.net/wiki/Self-Destruct). Le correctif est dans `battleEngine.js`, commun Aventure/Rift/Colosseum/PvP ; les transitions existantes signalent le K.O., le remplacement reste un choix, et le traitement de mort définitive/talisman des expéditions reste centralisé. Cas secondaire corrigé en Aventure : un double K.O. sans compagnon apte ne peut plus donner une victoire, de l’argent ou une récompense d’arène.
+
+798 tests applicatifs et 86 SQL passés ; audit 612 capacités sans effet inconnu/partiel, syntaxe et diff propres. Nouveau fichier `tests/self-destruct.test.js` : deux attaques, dégâts/PP, échecs/immunités/Abri/Clone/Tunnel, protections, Moiteur/suppression/Brise Moule, incapacité d’agir, vrai tour Rift/Colosseum, K.O. visuel et remplacement. Quatre scénarios SQL Aventure sauvage/dresseur : sacrifice puis choix/fuite/sauvegarde, double K.O. terminal sans fausse victoire. Le test de talisman utilise désormais Charge pour tester un combat qui continue ; Explosion ne convenait plus après correction de son sacrifice. Logs `/tmp/riftmon-self-destruct-*`.
+
+Publication serveur le 23/10/2026 à 15 h 57 Paris : PID 1433565 actif/NRestarts 0, aucune expédition active avant reprise ; HTTPS 200, client/index et Knov/api-test inchangés. Sauvegarde sources/SQL/checkpoint `/home/ubuntu/dev/backups/riftmon-self-destruct-2026-10-23T13-57-27-543Z`, client courant référencé dans `riftmon-strategy-prices-2026-10-23T13-45-05-716Z`. Aucune migration ni modification du client.
+
 ## Tarifs des relances IV et resets EV — 23 octobre 2026
 
 Les six randomizers IV coûtent 1000 chacun ; les six resets EV ciblés et le reset EV global coûtent 5000 chacun. Prix de base et offres du niveau 2 du Grand Comptoir alignés ; mêmes tarifs à Blanchecime, en Aventure, Rift et Colosseum. Les effets restent identiques : IV relancé entre 0 et 31, EV concernés remis à zéro, recalcul immédiat des statistiques. Les autres tarifs restent conservés.
@@ -2522,6 +2532,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+23/10/2026 — Destruction/Explosion sacrifient enfin le lanceur, Moiteur et échecs correctement traités ; double K.O. Aventure sans fausse victoire ; 798+86 tests passés, publié à 15 h 57 Paris.
 
 23/10/2026 — Relances IV à 1000 et tous les resets EV à 5000 ; 778+82 tests passés, publié à 15 h 48 Paris.
 

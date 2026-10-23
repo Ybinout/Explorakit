@@ -190,7 +190,7 @@ async function resolveRoundEnd(player, wildPokemon, io, battleState, playerSide,
         await narrateMessages(player, io, endTurnMessages, 950);
     }
 
-    if (wildPokemon.currentHp <= 0) return 'wild_ko';
+    if (wildPokemon.currentHp <= 0) return hasAlivePokemon(player.equipe.pokemons) ? 'wild_ko' : 'player_ko';
     if (playerPokemon.currentHp <= 0) return 'player_ko';
     return 'continue';
 }
@@ -318,7 +318,7 @@ async function runAttackTurn(player, wildPokemon, response, io, battleState, pla
                 defenderTeam: [wildPokemon]
             }
         );
-        if (wildPokemon.currentHp <= 0) return 'wild_ko';
+        if (wildPokemon.currentHp <= 0) return hasAlivePokemon(player.equipe.pokemons) ? 'wild_ko' : 'player_ko';
         if (player.equipe.pokemons[0].currentHp <= 0) return 'player_ko';
 
         await performAttackWithNarration(
@@ -338,7 +338,7 @@ async function runAttackTurn(player, wildPokemon, response, io, battleState, pla
         );
 
         if (player.equipe.pokemons[0].currentHp <= 0) return 'player_ko';
-        if (wildPokemon.currentHp <= 0) return 'wild_ko';
+        if (wildPokemon.currentHp <= 0) return hasAlivePokemon(player.equipe.pokemons) ? 'wild_ko' : 'player_ko';
         return resolveRoundEnd(player, wildPokemon, io, battleState, playerSide, enemySide);
     }
 
@@ -358,7 +358,7 @@ async function runAttackTurn(player, wildPokemon, response, io, battleState, pla
         }
     );
     if (player.equipe.pokemons[0].currentHp <= 0) return 'player_ko';
-    if (wildPokemon.currentHp <= 0) return 'wild_ko';
+    if (wildPokemon.currentHp <= 0) return hasAlivePokemon(player.equipe.pokemons) ? 'wild_ko' : 'player_ko';
     if (wildResult?.switches?.defender) {
         return resolveRoundEnd(player, wildPokemon, io, battleState, playerSide, enemySide);
     }
@@ -379,7 +379,7 @@ async function runAttackTurn(player, wildPokemon, response, io, battleState, pla
         }
     );
 
-    if (wildPokemon.currentHp <= 0) return 'wild_ko';
+    if (wildPokemon.currentHp <= 0) return hasAlivePokemon(player.equipe.pokemons) ? 'wild_ko' : 'player_ko';
     if (player.equipe.pokemons[0].currentHp <= 0) return 'player_ko';
     return resolveRoundEnd(player, wildPokemon, io, battleState, playerSide, enemySide);
 }
@@ -445,6 +445,8 @@ async function startBattle(player, wildPokemon, io, userId) {
     const resultTracker = createBattleSummaryTracker(player?.equipe?.pokemons);
     let wildMoneyGranted = false, wildLootAttempted = false;
     const endBattle = async (playerWon = false, extra = {}) => {
+        // A simultaneous K.O. cannot award victory with no surviving companion.
+        if (playerWon && !hasAlivePokemon(player.equipe.pokemons)) playerWon = false;
         if (playerWon && !extra.captured && wildPokemon.currentHp <= 0 && !wildLootAttempted) {
             wildLootAttempted = true;
             const item = await require('../../persistence/wildLootRepository').awardWildLoot(userId);

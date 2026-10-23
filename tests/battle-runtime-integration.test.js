@@ -807,3 +807,24 @@ test('Aventure capture : les EV de tous les entrants sont persistés, sans gain 
   assert.deepEqual([lead,relay,bench,wild].map(p=>saved.find(q=>q.uuid===p.uuid).ev.speed),[1,1,0,0]);
  }finally{if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
 });
+
+for(const trainer of [false,true])for(const simultaneous of [false,true])test(`Destruction Aventure ${trainer?'dresseur':'sauvage'} : ${simultaneous?'double K.O. sans fausse victoire':'choix du remplaçant et sauvegarde'}`,{skip:!shouldRun},async()=>{
+ const pool=createTestPool();let id;
+ try{
+  const {user,player}=await createPlayer(4);id=user.id;
+  const lead=player.equipe.pokemons[0];lead.passiveAbility=null;lead.abilities=['Self-Destruct'];lead.movePp=[5];lead.currentSpeed=999;
+  const enemy=createPokemon(7,'Cible',['Splash']);enemy.passiveAbility=null;enemy.currentSpeed=1;
+  if(simultaneous){enemy.currentHp=1;lead.currentAttack=999;}
+  else {enemy.currentHp=enemy.maxHp=999;player.equipe.ajouterPokemon(createPokemon(4,'Réserve'));}
+  const socket=new ScriptedSocket(simultaneous?[{action:'attack',number:0}]:[{action:'attack',number:0},{action:'change',number:1},{action:'flee'}]);
+  const io=new RecordingIo({[player.id]:socket});
+  await withFixedRandom(.5,()=>trainer?startTrainerBattle(player,createTeam(enemy),io,id):startWildBattle(player,enemy,io,id));
+  assert.equal(lead.currentHp,0);assert.equal(lead.movePp[0],4);
+  const saved=(await loadEquipe(id)).pokemons.find(p=>p.uuid===lead.uuid);assert.equal(saved.currentHp,0);assert.equal(saved.movePp[0],4);
+  const end=io.lastEvent(player.id,'endbattle').payload;assert.equal(end.playerWon,false);
+  assert.equal(io.events.filter(e=>e.eventName==='endbattle').length,1);
+  assert(io.events.some(e=>e.eventName==='introAnimation'&&e.payload.transitions?.some(t=>t.kind==='faint'&&t.uuid===lead.uuid)));
+  if(simultaneous){assert.equal(enemy.currentHp,0);assert.equal(end.summary.money,0);}
+  else {assert.equal(end.reason,'fled');assert.equal(socket.outgoing.filter(e=>e.eventName==='requestAction'&&e.payload.replacement).length,1);}
+ }finally{if(id)await pool.execute('DELETE FROM users WHERE id=?',[id]);await pool.end();}
+});
