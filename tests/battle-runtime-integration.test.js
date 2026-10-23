@@ -952,11 +952,11 @@ for(const kind of ['wild','trainer'])test(`Recharge Aventure ${kind}: tour autom
  }finally{if(id)await pool.execute('DELETE FROM users WHERE id=?',[id]);await pool.end();}
 });
 
-test('wild Adventure: six-level advantage escapes Arena Trap in one action, preserving the saved team and XP', {skip:!shouldRun}, async()=>{
+test('wild Adventure: enemy six levels higher allows escape from Arena Trap in one action, preserving the saved team and XP', {skip:!shouldRun}, async()=>{
  const pool=createTestPool();let userId;
  try {
   const fixture=await createPlayer(7);userId=fixture.user.id;const player=fixture.player;
-  const factory=require('../server/game/drift/pokemonFactory'),lead=factory.create(7,26,true),foe=factory.create(50,20,true);
+  const factory=require('../server/game/drift/pokemonFactory'),lead=factory.create(7,20,true),foe=factory.create(50,26,true);
   lead.passiveAbility=null;foe.passiveAbility='Arena Trap';foe.abilities=['Scratch'];player.equipe=createTeam(lead);
   const xp=lead.experience,hp=lead.currentHp,socket=new ScriptedSocket([{action:'flee'}]),io=new RecordingIo({[player.id]:socket});
   assert.equal(await startWildBattle(player,foe,io,userId),true);

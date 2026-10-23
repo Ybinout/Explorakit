@@ -1,5 +1,12 @@
 # Audit technique et mémoire de RiftMon
 
+## Fuite face à un sauvage plus fort — précision du 23 octobre 2026
+
+Le joueur confirme que les six/sept niveaux d’avance concernent le sauvage. Cette précision remplace l’hypothèse inverse du correctif précédent : fuite garantie si le sauvage est au moins six niveaux au-dessus du Pokémon actif apte, même en présence de pièges. Aucun bonus inverse fondé sur le niveau du joueur ; les exemptions normales et les switches restent inchangés. Helper commun Aventure/Rift/Colosseum.
+
+Validation : quatre tests ciblés réussis (seuils sauvage −7/−6/0/+5/+6/+7/+40, six pièges, K.O., exemptions, vrais combats Rift/Colosseum) et un test SQL Aventure réel réussi : une seule action, aucune perte de PV ni XP gagnée, équipe persistée. Pas de changement client ni de migration SQL. Publication serveur seule le 23 octobre à 21 h 58 Paris : PID 1472456 actif, HTTPS 200, client et sites voisins inchangés ; aucune expédition active avant reprise.
+
+
 ## Audit des utilisations du sac — 23 octobre 2026
 
 Vérification du même risque que les pierres : un objet présent dans le catalogue/boutique doit avoir une commande utilisable, ou un rôle automatique/terrain explicite. Les 203 entrées sont couvertes : 45 soins/baies consommables, 10 pierres, 101 CS, 3 Repousses, 51 objets pouvant être tenus (dont 15 baies également consommables), Balls, canne, Multi Exp et objets narratifs. Comparaison exacte des données de compatibilité des CS client/serveur, cibles valides et offres de toutes les boutiques/modes. Aucun autre raccord manquant retrouvé dans les actions du sac testées.
@@ -2645,6 +2652,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+23/10/2026 — Précision joueur : fuite garantie lorsque le sauvage a au moins six niveaux de plus ; hypothèse inverse remplacée. Quatre tests ciblés et un test SQL Aventure réussis.
 
 23/10/2026 — Audit des 203 objets et commandes du sac dans les trois modes ; pas d’autre raccord manquant retrouvé. Multi Exp : libellé Aventure corrigé à 40 %, tests exhaustifs d’utilisation/équipement SQL et UI ajoutés. 865 tests applicatifs/95 SQL et recette navigateur passés ; voir entrée en tête.
 
