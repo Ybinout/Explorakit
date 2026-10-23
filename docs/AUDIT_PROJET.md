@@ -1,5 +1,14 @@
 # Audit technique et mémoire de RiftMon
 
+## Retour d’arène et derniers niveaux — 23 octobre 2026
+
+Retour de combat : les sprites dont le téléchargement a échoué (`complete` mais dimensions nulles) sont ignorés au dessin ; le contexte canvas est restauré même si un effet échoue. La boucle réserve sa prochaine image avant de dessiner et récupère une erreur ponctuelle ; trois échecs consécutifs affichent une reprise explicite. Recréation du buffer et recalage du viewport après le résultat, retour d’onglet/page et restauration du contexte graphique mobile, sans reconnecter ni déplacer le joueur. Un paquet d’introduction tardif après la fin du combat ne reverrouille plus les commandes ; une déconnexion efface le verrou et les animations, et une erreur de présentation ne supprime pas le résultat serveur. Moteur partagé Aventure/Rift/Colosseum.
+
+Progression finale : Routes11/12 à45–47/48–50 ; Rochebrume48–50 ; grottes51–53,53–55,55–57 ; Routes13/14 à57–59/59–61 ; Blanchecime59–61. Wanda52/52/53/53/54/54, 7p60/61/61/61/62/63 (Léviator63). Équipes, IV/EV/K, objets, IA et accès conservés. Les nouvelles rencontres des trois modes reprennent ces niveaux partagés ; aucun Pokémon déjà possédé ni combat en cours recalculé.
+
+Recette dédiée `test:arena-return-browser` : base de test, vrais combats contre les deux champions et dialogues de victoire, mouvement sans reconnexion, sprites cassés, erreur de dessin ponctuelle, restauration canvas, retour d’onglet, introduction périmée et quatre tailles. Les adversaires ont1PV dans cette seule recette pour accélérer la validation du cycle complet ; aucune commande de test exposée en production. Tests de paliers et équipes actualisés. Validation complète :750 tests applicatifs et78 SQL, audits/lint/build `1e4687a428601b8c` passés. Ancien build :sprite cassé reproduit `InvalidStateError` avec transform canvas non restauré. Nouveau build :recette complète réussie sur quatre tailles, deux victoires réelles et dialogues, mouvement sans nouvelle socket, erreurs de rendu/préparation récupérées, zéro erreur navigateur. Logs `/tmp/riftmon-arena-return-*`. Publication le23/10/2026 à11 h36 Paris, client `362383e`, build `1e4687a428601b8c`, service actif PID1388260/NRestarts0, 0 expédition active avant redémarrage. Sauvegarde `/home/ubuntu/dev/backups/riftmon-arena-return-2026-10-23T09-31-02-870Z`, index atomique et anciens bundles conservés. Contrôle HTTPS sur compte temporaire supprimé :résultat visuel, retour de carte, contexte restauré, paquet tardif ignoré et vrais déplacements sur PC/mobile sans reconnexion ; index exact, Knov/api-test inchangés et zéro erreur. Les victoires réelles sont validées sur la base de test, sans remettre à zéro les badges ni retoucher un compte joueur en production.
+
+
 ## Pêche dans les lacs et tirage K — 23 octobre 2026
 
 Canne réutilisable vendue uniquement au **niveau1 du Grand Comptoir (`tour_rdc`) à15000 ₽**, achat unique par inventaire Aventure ou par expédition. Limite contrôlée avant débit dans la transaction SQL sous verrou du propriétaire, y compris achats simultanés/de plusieurs exemplaires ; même limite dans l’économie Rift/Colosseum et les checkpoints. Quantité fixée à1 dans le rayon Objets, achat désactivé après possession, icône canne dans boutique/sac ; aucune consommation, revente ni équipement sur un Pokémon.
@@ -2391,6 +2400,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+23/10/2026 — Reprise de carte et commandes après combat, récupération du rendu mobile, progression finale relevée jusqu’au Léviator63 de7p. 750+78 tests et recette réelle réussis, build1e4687a428601b8c/client362383e publiés11 h36 Paris et HTTPS contrôlé. Voir entrée en tête et recette `test:arena-return-browser`.
 
 23/10/2026 — Canne permanente achat unique au Grand Comptoir et pêche autoritaire sur les six lacs, animations et décors lac PC/mobile communs aux trois modes ; tirage K4 à1%/K1 à79%, lot de test binout déposé au PC sans remplacer son équipe. 749 tests applicatifs/78 SQL, recette trois modes/quatre tailles et HTTPS PC/mobile passés ; publication10 h50 Paris, client8591a42/build96f9b7fa73d0ddd3, PID1378853 actif. Voir entrée en tête et recette pêche.
 

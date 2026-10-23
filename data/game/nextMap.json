@@ -1763,8 +1763,8 @@
         308
       ],
       "level": {
-        "min": 43,
-        "max": 45
+        "min": 45,
+        "max": 47
       },
       "mapchange": [
         {
@@ -1800,8 +1800,8 @@
         359
       ],
       "level": {
-        "min": 45,
-        "max": 47
+        "min": 48,
+        "max": 50
       },
       "mapchange": [
         {
@@ -1824,8 +1824,8 @@
       "mapName": "ville4",
       "wildpokemon": [],
       "level": {
-        "min": 45,
-        "max": 47
+        "min": 48,
+        "max": 50
       },
       "mapchange": [
         {
@@ -1883,8 +1883,8 @@
       "mapName": "ville4_shop",
       "wildpokemon": [],
       "level": {
-        "min": 45,
-        "max": 47
+        "min": 48,
+        "max": 50
       },
       "mapchange": [
         {
@@ -1900,8 +1900,8 @@
       "mapName": "ville4_arene",
       "wildpokemon": [],
       "level": {
-        "min": 45,
-        "max": 47
+        "min": 48,
+        "max": 50
       },
       "mapchange": [
         {
@@ -1917,8 +1917,8 @@
       "mapName": "ville4_maison1",
       "wildpokemon": [],
       "level": {
-        "min": 45,
-        "max": 47
+        "min": 48,
+        "max": 50
       },
       "mapchange": [
         {
@@ -1934,8 +1934,8 @@
       "mapName": "ville4_maison2",
       "wildpokemon": [],
       "level": {
-        "min": 45,
-        "max": 47
+        "min": 48,
+        "max": 50
       },
       "mapchange": [
         {
@@ -1962,8 +1962,8 @@
         343
       ],
       "level": {
-        "min": 48,
-        "max": 50
+        "min": 51,
+        "max": 53
       },
       "mapchange": [
         {
@@ -2025,8 +2025,8 @@
         437
       ],
       "level": {
-        "min": 49,
-        "max": 51
+        "min": 53,
+        "max": 55
       },
       "mapchange": [
         {
@@ -2088,8 +2088,8 @@
         478
       ],
       "level": {
-        "min": 50,
-        "max": 52
+        "min": 55,
+        "max": 57
       },
       "mapchange": [
         {
@@ -2137,8 +2137,8 @@
         93
       ],
       "level": {
-        "min": 51,
-        "max": 53
+        "min": 57,
+        "max": 59
       },
       "mapchange": [
         {
@@ -2228,8 +2228,8 @@
         308
       ],
       "level": {
-        "min": 52,
-        "max": 54
+        "min": 59,
+        "max": 61
       },
       "mapchange": [
         {
@@ -2308,8 +2308,8 @@
       "mapName": "ville5",
       "wildpokemon": [],
       "level": {
-        "min": 52,
-        "max": 54
+        "min": 59,
+        "max": 61
       },
       "mapchange": [
         {
@@ -2388,8 +2388,8 @@
       "mapName": "ville5_shop",
       "wildpokemon": [],
       "level": {
-        "min": 52,
-        "max": 54
+        "min": 59,
+        "max": 61
       },
       "mapchange": [
         {
@@ -2405,8 +2405,8 @@
       "mapName": "ville5_arene",
       "wildpokemon": [],
       "level": {
-        "min": 52,
-        "max": 54
+        "min": 59,
+        "max": 61
       },
       "mapchange": [
         {
@@ -2422,8 +2422,8 @@
       "mapName": "ville5_maison1",
       "wildpokemon": [],
       "level": {
-        "min": 52,
-        "max": 54
+        "min": 59,
+        "max": 61
       },
       "mapchange": [
         {
@@ -2439,8 +2439,8 @@
       "mapName": "ville5_maison2",
       "wildpokemon": [],
       "level": {
-        "min": 52,
-        "max": 54
+        "min": 59,
+        "max": 61
       },
       "mapchange": [
         {
