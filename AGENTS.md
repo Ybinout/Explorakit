@@ -1,8 +1,16 @@
 # Contexte permanent — RiftMon
 
+## Objets stratégiques à 10 000 minimum — 23 octobre 2026
+
+Les 12 objets du rayon Stratégie passent à 10000 l’unité : Restes, Orbe Vie, Bandeau/Lunettes/Mouchoir Choix, Ceinture Force, Veste de Combat, Évoluroc, Ceinture Pro, Grelot Coque, Casque Brut et talisman Rift (réservé aux expéditions). Les offres du Grand Comptoir et les prix de base du catalogue sont alignés, couvrant aussi les boutiques d’expédition où certains objets restent disponibles. Disponibilité, drops, effets et prix des autres rayons inchangés : vitamines 800, CS 3000/4000/5000, baies à leurs tarifs existants.
+
+778 tests applicatifs et 82 SQL passés ; vérification des tarifs stratégiques de toutes les boutiques et des achats Rift/Colosseum. Nouveau scénario SQL : refus à 9999 sans débit ni objet, achat de deux Mouchoirs Choix débité 20000, prix client falsifié ignoré et inventaire relu. Logs `/tmp/riftmon-strategy-prices-*`.
+
+Publication serveur le 23/10/2026 à 15 h 45 Paris : PID 1429280 actif/NRestarts 0, aucune expédition active avant reprise, HTTPS 200, client/index et Knov/api-test inchangés. Sauvegarde complète sources/client/dist/SQL/checkpoint `/home/ubuntu/dev/backups/riftmon-strategy-prices-2026-10-23T13-45-05-716Z`. Cette sauvegarde contient le client courant `7e5afb4`, build `33531c0b4794c8ff`, et peut être référencée pour les prochains correctifs serveur seuls. Aucun schéma modifié.
+
 ## Tarifs des vitamines et CS — 23 octobre 2026
 
-Les six vitamines (PV Plus, Protéine, Fer, Calcium, Zinc, Carbone) coûtent désormais 800 l’unité, à Blanchecime comme au niveau 2 du Grand Comptoir, dans les trois modes. Prix définis dans les offres serveur, donc identiques à l’affichage et au débit réel, y compris les achats en lot. « CS de 3000 à 5000 » interprété comme une gamme : anciens paliers 1500/3000/4500 remplacés par 3000/4000/5000 selon la puissance existante. Cette interprétation a été annoncée après une question facultative restée sans réponse ; pas de changement de compatibilité ni d’effet. Les 101 CS, leurs métadonnées serveur/client et le générateur sont synchronisés ; IV, resets EV et autres objets gardent leur tarif.
+Les six vitamines (PV Plus, Protéine, Fer, Calcium, Zinc, Carbone) coûtent désormais 800 l’unité, à Blanchecime comme au niveau 2 du Grand Comptoir, dans les trois modes. Prix définis dans les offres serveur, donc identiques à l’affichage et au débit réel, y compris les achats en lot. « CS de 3000 à 5000 » interprété comme une gamme : anciens paliers 1500/3000/4500 remplacés par 3000/4000/5000 selon la puissance existante. Ces paliers ont été confirmés explicitement par le créateur après publication ; pas de changement de compatibilité ni d’effet. Les 101 CS, leurs métadonnées serveur/client et le générateur sont synchronisés ; IV, resets EV et autres objets gardent leur tarif.
 
 778 tests applicatifs et 81 SQL passés ; lint/build `33531c0b4794c8ff` réussis. Achat de 25 Protéines débité 20000, concurrence sur une dernière vitamine à 800, deux CS Surf débitées 8000 malgré un prix client falsifié. Recette navigateur CS : achat, remplacement, incompatibilités, annulation, reconnexion/SQL et expédition réussis sur trois tailles, aucune erreur. Logs `/tmp/riftmon-shop-prices-*`.
 

@@ -468,40 +468,40 @@
       "specialty": "held",
       "offers": {
         "leftovers": {
-          "price": 3000
+          "price": 10000
         },
         "life_orb": {
-          "price": 2500
+          "price": 10000
         },
         "choice_band": {
-          "price": 2200
+          "price": 10000
         },
         "choice_specs": {
-          "price": 2200
+          "price": 10000
         },
         "choice_scarf": {
-          "price": 2200
+          "price": 10000
         },
         "focus_sash": {
-          "price": 1500
+          "price": 10000
         },
         "assault_vest": {
-          "price": 2000
+          "price": 10000
         },
         "eviolite": {
-          "price": 2000
+          "price": 10000
         },
         "expert_belt": {
-          "price": 1800
+          "price": 10000
         },
         "shell_bell": {
-          "price": 1600
+          "price": 10000
         },
         "rocky_helmet": {
-          "price": 2000
+          "price": 10000
         },
         "rift_talisman": {
-          "price": 1200,
+          "price": 10000,
           "expeditionOnly": true
         }
       }

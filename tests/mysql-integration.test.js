@@ -397,3 +397,21 @@ test('IV/EV items update all six real stats in live team replies and after SQL r
   }
  }finally{if(id)await pool.execute('DELETE FROM users WHERE id=?',[id]);await pool.end();}
 });
+
+test('strategic shop items enforce the 10000 minimum on the server and persist the exact debit', {skip:!shouldRun}, async()=>{
+ const pool=createTestPool();let id;
+ const {createUserWithStarter}=require('../server/persistence/userRepository');
+ const {purchaseUserItem,loadUserItems}=require('../server/persistence/itemRepository');
+ try{
+  id=(await createUserWithStarter(`strategy_price_${Date.now()}`,'test-price',{starterId:7})).id;
+  const context={mapName:'tour_etage2',price:1};
+  await pool.execute('UPDATE users SET money=9999 WHERE id=?',[id]);
+  const denied=await purchaseUserItem(id,'choice_scarf',1,context);assert.equal(denied.reason,'insufficient_funds');
+  assert(!(await loadUserItems(id)).some(i=>i.key==='choice_scarf'));
+  const [[before]]=await pool.execute('SELECT money FROM users WHERE id=?',[id]);assert.equal(Number(before.money),9999);
+  await pool.execute('UPDATE users SET money=20000 WHERE id=?',[id]);
+  const bought=await purchaseUserItem(id,'choice_scarf',2,context);assert(bought.success);assert.equal(bought.totalPrice,20000);
+  const [[after]]=await pool.execute('SELECT money FROM users WHERE id=?',[id]);assert.equal(Number(after.money),0);
+  assert.equal((await loadUserItems(id)).find(i=>i.key==='choice_scarf').quantity,2);
+ }finally{if(id)await pool.execute('DELETE FROM users WHERE id=?',[id]);await pool.end();}
+});

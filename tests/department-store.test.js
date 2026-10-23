@@ -23,6 +23,7 @@ test('four server-authoritative departments provide distinct legal stock without
  for(let i=0;i<stock.length;i++)for(const item of stock[i]){assert(Number.isSafeInteger(item.price)&&item.price>0);assert(items.some(i=>i.key===item.key));for(let j=0;j<stock.length;j++)if(j!==i)assert(!stock[j].some(i=>i.key===item.key));}
  for(const key of['pokeball','hyperball','repel','super_repel','max_repel','thunder_stone'])assert(stock[0].some(i=>i.key===key));
  assert.equal(stock[1].filter(i=>i.fieldUse?.ivReroll).length,6);assert.equal(stock[1].filter(i=>i.fieldUse?.effortReset).length,7);assert.equal(stock[1].filter(i=>i.fieldUse?.effort?.amount>0).length,6);
+ for(const expedition of [false,true])for(const mapName of shops.SHOP_MAPS)for(const item of shops.getShopCatalog({mapName,expedition,flags:{wanda_defeated:'true'}}).filter(i=>i.category==='held'&&!i.key.endsWith('_berry')))assert(item.price>=10000,`${mapName} ${item.key}`);
  for(const key of['leftovers','life_orb','choice_specs','choice_scarf','choice_band'])assert(stock[2].some(i=>i.key===key));assert(stock[3].every(i=>i.key.endsWith('_berry')));
  for(const key of['leftovers','choice_scarf','liechi_berry','zinc'])assert(!shops.getShopCatalog({mapName:'ville1_shop',flags:{wanda_defeated:'true'}}).some(i=>i.key===key));
  for(const list of stock)assert(!list.some(i=>['exp_share','route2_house_key','rift_talisman'].includes(i.key)));
@@ -30,7 +31,7 @@ test('four server-authoritative departments provide distinct legal stock without
 });
 for(const mode of['rift','colosseum'])test(mode+': departments enforce stock, charge purchases once, survive checkpoints and keep expedition inventory separate',()=>{
  const economy=require('../server/game/drift/economy'),codec=require('../server/game/drift/checkpointCodec');const p={alive:true,currentmap:'tour_etage2',money:20000,run:{mode,phase:'exploration'},equipe:{pokemons:[]},items:{},drifts:[],equipped:[]};
- assert.equal(economy.shop(p).merchant,null);assert(!economy.shop(p).catalog.some(i=>i.key==='drift_potion'));assert.throws(()=>economy.buy(p,'iv_randomizer_attack',1),/invalide/);const money=p.money;economy.buy(p,'choice_scarf',1);assert.equal(p.money,money-2200);assert.equal(p.items.choice_scarf,1);
+ assert.equal(economy.shop(p).merchant,null);assert(!economy.shop(p).catalog.some(i=>i.key==='drift_potion'));assert.throws(()=>economy.buy(p,'iv_randomizer_attack',1),/invalide/);const money=p.money;economy.buy(p,'choice_scarf',1);assert.equal(p.money,money-10000);assert.equal(p.items.choice_scarf,1);
  p.currentmap='tour_etage1';economy.buy(p,'iv_randomizer_attack',2);p.currentmap='tour_etage3';economy.buy(p,'leppa_berry',5);const copy=codec.decode(codec.encode(p));assert.equal(copy.items.leppa_berry,5);assert.equal(copy.items.iv_randomizer_attack,2);assert.equal(copy.items.choice_scarf,1);assert(!economy.shop(copy).catalog.some(i=>i.key==='revive'));p.inbattle=true;assert.throws(()=>economy.buy(p,'leppa_berry',1),/indisponible/);
 });
 for(const mode of['rift','colosseum'])test(mode+': new city and stairs move in both directions and Center returns to its actual town',async()=>{
