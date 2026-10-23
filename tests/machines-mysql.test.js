@@ -6,7 +6,8 @@ test('CS SQL: ownership, stale choices, concurrent consumption, moves/PP and sto
  const u=await users.createUserWithStarter('cs_'+randomUUID(),'Machine-test-password-2026',{starterId:7,sprite:'sprite.png'});
  try{
   await db.execute('UPDATE users SET money=50000 WHERE id=?',[u.id]);const team=await teams.loadEquipe(u.id),p=team.pokemons[0];p.abilities=['Tackle','Tail Whip','Water Gun','Withdraw'];p.movePp=[2,3,4,5];await teams.editEquipe(u.id,team);
-  assert((await items.purchaseUserItem(u.id,'cs_surf',2,{mapName:'tour_etage1'})).success);
+  const purchase=await items.purchaseUserItem(u.id,'cs_surf',2,{mapName:'tour_etage1',price:1});assert(purchase.success);assert.equal(purchase.totalPrice,8000);
+  const [[wallet]]=await db.execute('SELECT money FROM users WHERE id=?',[u.id]);assert.equal(Number(wallet.money),42000);
   const c={slot:2,expectedMoves:[...p.abilities]};
   await assert.rejects(machines.useMachine(u.id+100000,p.uuid,'cs_surf',c),/appartient/);
   await assert.rejects(machines.useMachine(u.id,p.uuid,'cs_surf',{...c,expectedMoves:['Tackle']}),/changé/);

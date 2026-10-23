@@ -35,7 +35,7 @@ test('Whitepeak training: exact location and Wanda victory; expedition supplies 
         assert(catalog(flags,'ville5_shop').some(i=>i.key===key));
         assert(catalog({},'ville5_shop',true).some(i=>i.key===key));
     }
-    assert.equal(catalog(flags,'ville5_shop').find(i=>i.key==='zinc').price,200);
+    for(const mapName of ['ville5_shop','tour_etage1'])for(const expedition of [false,true])for(const key of ['hp_up','protein','iron','calcium','zinc','carbos'])assert.equal(catalog(flags,mapName,expedition).find(i=>i.key===key).price,800);
     assert.equal(catalog(flags,'ville5_shop').find(i=>i.key==='iv_randomizer_attack').price,250);
     assert.equal(getShopMeta({mapName:'ville5_shop'}).trainingAvailable,false);
     for(const expedition of [false,true])for(const item of items.filter(i=>i.unique&&i.dropOnly))assert(!catalog(flags,'ville5_shop',expedition).some(i=>i.key===item.key));

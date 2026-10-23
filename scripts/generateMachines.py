@@ -22,7 +22,7 @@ machines={}
 for id in sorted(classic):
  m=catalog[id];power=m.get('power') or 0
  key='cs_'+slugs[id].replace('-','_')
- machines[key]={'move':m['ename'],'moveId':id,'name':'CS '+french[id],'type':m['type'],'price':4500 if power>=100 else 3000 if power>=80 else 1500,'species':sorted(compatible[id])}
+ machines[key]={'move':m['ename'],'moveId':id,'name':'CS '+french[id],'type':m['type'],'price':5000 if power>=100 else 4000 if power>=80 else 3000,'species':sorted(compatible[id])}
 meta={'source':BASE,'scope':'CT/CS Diamond/Pearl, Platinum and HGSS, no field traversal effects. Compatibility: machine method only, Gen IV for species 1–493; USUM / Let’s Go for later existing species.','machines':machines}
 (ROOT/'data/game/machines.json').write_text(json.dumps(meta,ensure_ascii=False,indent=2)+'\n')
 (ROOT/'vue-explorakit/src/data/machines.json').write_text(json.dumps(machines,ensure_ascii=False,separators=(',',':'))+'\n')

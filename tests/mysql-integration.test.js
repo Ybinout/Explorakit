@@ -291,7 +291,7 @@ test('boutique et entraînement SQL : progression, localisation, prix serveur, I
   assert.equal((await purchaseUserItem(id,'life_orb',1,context)).reason,'item_unavailable');
   assert.equal((await purchaseUserItem(id,'zinc',1)).reason,'item_unavailable');
   const buys=await Promise.all([purchaseUserItem(id,'iv_randomizer_attack',2,context),purchaseUserItem(id,'protein',25,context)]);
-  assert(buys.every(r=>r.success));assert.deepEqual(buys.map(r=>r.totalPrice),[500,5000]);
+  assert(buys.every(r=>r.success));assert.deepEqual(buys.map(r=>r.totalPrice),[500,20000]);
   assert((await purchaseUserItem(id,'ev_reset_all',1,context)).success);
   const team=await loadEquipe(id),p=team.pokemons[0];p.iv.attack=30;p.ev.attack=247;p.recalculateStats();p.currentHp-=2;await editEquipe(id,team);
   const oldK=p.k,oldWound=p.maxHp-p.currentHp;
@@ -303,7 +303,7 @@ test('boutique et entraînement SQL : progression, localisation, prix serveur, I
   const rolled=await useMedicine(id,p,'iv_randomizer_attack');assert.equal(rolled.trainingChange.before,31);assert.equal((await loadUserItems(id)).find(i=>i.key==='iv_randomizer_attack'),undefined);
   await useMedicine(id,p,'ev_reset_all');saved=(await loadEquipe(id)).pokemons[0];assert(Object.values(saved.ev).every(n=>n===0));assert.equal(saved.iv.attack,rolled.iv.attack);
   assert.equal((await loadUserItems(id)).find(i=>i.key==='ev_reset_all'),undefined);
-  await pool.execute('UPDATE users SET money=200 WHERE id=?',[id]);
+  await pool.execute('UPDATE users SET money=800 WHERE id=?',[id]);
   const concurrent=await Promise.all([purchaseUserItem(id,'zinc',1,context),purchaseUserItem(id,'zinc',1,context)]);
   assert.equal(concurrent.filter(r=>r.success).length,1);assert.equal(concurrent.find(r=>!r.success).reason,'insufficient_funds');
   const [[row]]=await pool.execute('SELECT money FROM users WHERE id=?',[id]);assert.equal(Number(row.money),0);

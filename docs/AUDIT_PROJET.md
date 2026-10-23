@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## Tarifs des vitamines et CS — 23 octobre 2026
+
+Les six vitamines (PV Plus, Protéine, Fer, Calcium, Zinc, Carbone) coûtent désormais 800 l’unité, à Blanchecime comme au niveau 2 du Grand Comptoir, dans les trois modes. Prix définis dans les offres serveur, donc identiques à l’affichage et au débit réel, y compris les achats en lot. « CS de 3000 à 5000 » interprété comme une gamme : anciens paliers 1500/3000/4500 remplacés par 3000/4000/5000 selon la puissance existante. Cette interprétation a été annoncée après une question facultative restée sans réponse ; pas de changement de compatibilité ni d’effet. Les 101 CS, leurs métadonnées serveur/client et le générateur sont synchronisés ; IV, resets EV et autres objets gardent leur tarif.
+
+778 tests applicatifs et 81 SQL passés ; lint/build `33531c0b4794c8ff` réussis. Achat de 25 Protéines débité 20000, concurrence sur une dernière vitamine à 800, deux CS Surf débitées 8000 malgré un prix client falsifié. Recette navigateur CS : achat, remplacement, incompatibilités, annulation, reconnexion/SQL et expédition réussis sur trois tailles, aucune erreur. Logs `/tmp/riftmon-shop-prices-*`.
+
+Publication serveur/client le 23/10/2026 à 15 h 35 Paris : client `7e5afb4`, PID 1427738 actif/NRestarts 0, aucune expédition active avant reprise ; index atomique, anciens bundles conservés, HTTPS 200 et Knov/api-test inchangés. Sauvegarde avant patch `/home/ubuntu/dev/backups/riftmon-shop-prices-2026-10-23T13-33-57-260Z`, ancien client identique référencé dans `riftmon-route-starters-2026-10-23T10-55-36-198Z`. Attention pour les prochains backups : le client courant a changé ; cette ancienne sauvegarde n’est plus une copie du build courant. Aucun schéma ni inventaire existant modifié.
+
 ## Correction du périmètre du bonus d’XP : Aventure uniquement — 23 octobre 2026
 
 Précision du créateur : le dernier bonus de 10 % est réservé à l’Aventure. Ses coefficients restent 2,3716 / 3,8808 / 5,1744 (sauvage/dresseur/arène). Rift et Colosseum retrouvent exactement leurs coefficients antérieurs 1,1 / 1,8 / 2,4 ; les anciens bonus, partages, Drifts et pénalités restent conservés. Cette entrée remplace le périmètre « trois modes » de l’entrée précédente. Aucune XP déjà acquise n’est retirée.
@@ -2498,6 +2506,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+23/10/2026 — Vitamines à 800 et CS à 3000/4000/5000, achats serveur et métadonnées synchronisés ; 778+81 tests et recette navigateur CS passés, publié à 15 h 35 Paris.
 
 23/10/2026 — Précision utilisateur : dernier bonus XP de 10 % limité à l’Aventure, Rift/Colosseum rétablis ; 778+81 tests passés, publié à 14 h 02 Paris.
 
