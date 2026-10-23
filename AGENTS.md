@@ -1,5 +1,15 @@
 # Contexte permanent — RiftMon
 
+## Minimap : zoom progressif et navigation tactile — 23 octobre 2026
+
+`RegionMapPanel` remplace le basculement 100/200 % par un zoom de 100 à 400 % : boutons −/+, molette/trackpad sur la carte, pincement à deux doigts et déplacement par glissement (souris ou un doigt). Vue d’ensemble rétablit le cadrage complet ; Me situer conserve le zoom et recentre le joueur. Le sélecteur de lieux recentre le repère choisi. Les localisations du Pokédex et les minimaps Aventure/Rift/Colosseum réutilisent ce composant, avec habitats et sélection conservés.
+
+`regionMapViewport` calcule le cadrage sans déformer le SVG et maintient le point sous le curseur/centre du pincement, dans des limites de défilement bornées. Le viewport garde sa taille pendant le zoom ; ResizeObserver adapte le cadrage aux changements de taille. Pointer capture, gestes annulables, suppression des clics involontaires après déplacement, aucune action du jeu propagée. Clavier dans la carte : +/−, 0, flèches. Quand le bouton utilisé devient désactivé (borne/retour à 100 %), le focus rejoint la carte pour préserver Échap et le retour au Pokédex. Aucun timer d’animation ni requête serveur supplémentaire.
+
+Vérifications : 876 tests applicatifs réussis (98 SQL hors exécution, aucune règle serveur modifiée), deux tests géométriques ciblés, lint/build. Recette HTTP/Socket/Playwright étendue : boutons/bornes, vrai pincement et glissement via événements tactiles Chromium, molette et glissement souris, sélection par clic après déplacement, clavier, recentrage du marqueur, habitats/Pokédex avec restauration du focus, Centre sauvegardé/reconnexion, erreur/retry, Colosseum ; formats 320/393/1365, aucune erreur navigateur. Journaux et captures `/tmp/riftmon-minimap-zoom-*`. Publication client seule, sans migration ni redémarrage serveur.
+
+Publication client seule à 2026-10-23T22:01:43.069Z (24 octobre, 00 h 01 Paris) : client `87d8f58`, build `8eaee500653d8e20`, PID serveur 1489232 inchangé. Index HTTPS vérifié, anciens bundles conservés et sites Knov/api-test inchangés. Ancien index/référence client sauvegardés dans `/home/ubuntu/dev/backups/riftmon-minimap-zoom-2026-10-23T22-01-42-435Z`.
+
 ## Passages gardés réutilisables : Wayne et Aspha — 23 octobre 2026
 
 En Aventure, la sortie nord de Départ vers Route 1 exige la victoire sur Wayne ; la sortie est de Route 2 vers Ville du Lac exige Aspha. Petites barrières de corde en pixel art, sursaut et « ! » à la tentative de passage, retrait/fondu après victoire. Le message apparaît en bas de la carte, sans couvrir la barrière ni déplacer les boutons mobiles. Mouvement réduit respecté ; aucune image supplémentaire à charger. L’ouverture attend le retour à la carte après combat/bilan et n’est pas rejouée à chaque snapshot ou reconnexion.
