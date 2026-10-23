@@ -10,9 +10,6 @@ test('every configured doorway can be entered without crossing a collision', () 
         const collisions = loadCollisionData(mapName), changes = changeMapData(mapName);
         for (let y = 0; y < changes.length; y++) {
             for (let x = 0; x < changes[y].length; x++) {
-                // The official Valpierre export intentionally keeps a cliff over
-                // the last west marker; its three adjacent exits remain usable.
-                if (mapName === 'ville_safe1' && x === 0 && y === 6) { assert.notEqual(collisions[y]?.[x], 0); continue; }
                 if (changes[y][x] && getNextMap(mapName, x, y))
                     assert.equal(collisions[y]?.[x], 0, `${mapName}: doorway ${x},${y} is blocked`);
             }

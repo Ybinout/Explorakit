@@ -1608,7 +1608,7 @@
     "x": null,
     "sentences": [
       {
-        "text": "Bienvenue à Valpierre ! Tu arrives par la Route 4, à l’ouest. Le grand bâtiment à la Pokéball abrite l’arène de Hoze. La boutique est à l’est ; les maisons sont au nord.",
+        "text": "Bienvenue à Valpierre ! La Route 4 arrive à l’ouest. L’arène de Hoze est dans le grand bâtiment au sud-ouest, la boutique à l’est et les maisons au nord. À l’est de la ville, les Routes 5 et 6 mènent vers le prochain village, dont le chemin est encore fermé.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,

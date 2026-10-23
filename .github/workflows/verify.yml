@@ -63,6 +63,7 @@ jobs:
       - run: RELEASE_DIST_DIR=/tmp/riftmon-root-dist npm run test:riftmon-browser
       - run: RELEASE_DIST_DIR=/tmp/riftmon-root-dist npm run test:npc-browser
       - run: RELEASE_DIST_DIR=/tmp/riftmon-root-dist npm run test:player-options-browser
+      - run: RELEASE_DIST_DIR=/tmp/riftmon-root-dist npm run test:valpierre-routes-browser
       - run: RELEASE_DIST_DIR=/tmp/riftmon-root-dist RELEASE_PUBLIC_PATH=/ npm run test:dirt-footprints-browser
       - run: RELEASE_DIST_DIR=/tmp/riftmon-root-dist RELEASE_PUBLIC_PATH=/ npm run test:snow-footprints-browser
       - uses: actions/upload-artifact@v4

@@ -496,7 +496,7 @@
           "valX": 27,
           "valY": null,
           "goto": "ville_safe1",
-          "nexX": 32,
+          "nexX": 64,
           "nexY": 160
         },
         {
@@ -1526,6 +1526,13 @@
           "nexY": 160
         },
         {
+          "valX": 27,
+          "valY": null,
+          "goto": "route5",
+          "nexX": 32,
+          "nexY": 160
+        },
+        {
           "valX": 8,
           "valY": 12,
           "goto": "ville_safe1_arene",
@@ -2469,6 +2476,81 @@
           "nexY": 288
         }
       ]
+    },
+    {
+      "mapName": "route5",
+      "mapchange": [
+        {
+          "valX": 0,
+          "valY": null,
+          "goto": "ville_safe1",
+          "nexX": 832,
+          "nexY": 160
+        },
+        {
+          "valX": null,
+          "valY": 19,
+          "goto": "route6",
+          "nexX": 160,
+          "nexY": 64
+        }
+      ],
+      "wildpokemon": [
+        12,
+        22,
+        44,
+        47,
+        49,
+        83,
+        164,
+        192,
+        234,
+        271,
+        274,
+        315
+      ],
+      "level": {
+        "min": 33,
+        "max": 35
+      }
+    },
+    {
+      "mapName": "route6",
+      "mapchange": [
+        {
+          "valX": null,
+          "valY": 0,
+          "goto": "route5",
+          "nexX": 160,
+          "nexY": 608
+        },
+        {
+          "valX": 0,
+          "valY": null,
+          "goto": "route6",
+          "nexX": 32,
+          "nexY": 576,
+          "blockedMessage": "Le chemin vers le prochain village est fermé pour le moment."
+        }
+      ],
+      "wildpokemon": [
+        24,
+        64,
+        67,
+        85,
+        185,
+        203,
+        207,
+        214,
+        286,
+        335,
+        336,
+        352
+      ],
+      "level": {
+        "min": 34,
+        "max": 36
+      }
     }
   ]
 }

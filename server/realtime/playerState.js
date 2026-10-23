@@ -88,6 +88,14 @@ function resolveMapName(mapName) {
 function findFirstWalkablePosition(collisionData2D, mapName) {
     let changes = [];
     try { changes = changeMapData(mapName); } catch (_) { /* Synthetic callers may have no map metadata. */ }
+    // Updated author maps can invalidate old saves. Prefer their connected road
+    // entrance over decorative walkable pockets behind roofs or cliffs.
+    const entry = { ville_safe1:[2,4], route5:[1,4], route6:[5,1] }[mapName];
+    if (entry) {
+        const [x,y] = entry;
+        if (collisionData2D[y]?.[x] === 0 && !changes[y]?.[x] && !isPnjBlockingTile(mapName,x,y))
+            return { x:x*TILE_SIZE+MAP_CENTER_OFFSET, y:y*TILE_SIZE+MAP_CENTER_OFFSET };
+    }
     for (let y = 0; y < collisionData2D.length; y += 1) {
         for (let x = 0; x < collisionData2D[y].length; x += 1) {
             if (collisionData2D[y][x] === 0 && !changes[y]?.[x] && !isPnjBlockingTile(mapName, x, y)) {

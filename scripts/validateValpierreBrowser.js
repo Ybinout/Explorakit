@@ -6,8 +6,9 @@ process.env.DB_NAME=process.env.DB_TEST_NAME;process.env.NODE_ENV='test';
 const express=require('express'),{Server}=require('socket.io'),{chromium}=require('playwright');
 const {dbPool}=require('../server/config/database');
 const dist=process.env.RELEASE_DIST_DIR||'/tmp/explorakit-valpierre-dist',output=process.env.RELEASE_SCREENSHOTS||'/tmp/explorakit-valpierre-browser';fs.mkdirSync(output,{recursive:true});
-const app=express(),server=http.createServer(app),io=new Server(server,{path:'/explorakit/socket.io'});
-app.use(express.json());app.use('/explorakit/api',require('../server/http/routes'));app.use('/explorakit',express.static(dist));app.get('*',(_q,r)=>r.sendFile(path.join(dist,'index.html')));
+const mount=process.env.RELEASE_PUBLIC_PATH||'/explorakit/';
+const app=express(),server=http.createServer(app),io=new Server(server,{path:mount+'socket.io'});
+app.use(express.json());app.use(mount+'api',require('../server/http/routes'));app.use(mount,express.static(dist));app.get('*',(_q,r)=>r.sendFile(path.join(dist,'index.html')));
 io.use(require('../server/http/authMiddleware').authenticateSocket);require('../server/realtime/socketHandler')(io);
 const cleanup=require('../server/realtime/driftLobbyHandler').registerDriftLobbies(io);
 let browser,page,userId,base,success=false;const errors=[];
@@ -32,19 +33,19 @@ async function scenery(label){
  await page.evaluate(()=>{window.cityVm.battle=false;});
 }
 (async()=>{try{
- server.listen(0,'127.0.0.1');await once(server,'listening');base=`http://127.0.0.1:${server.address().port}/explorakit`;
+ server.listen(0,'127.0.0.1');await once(server,'listening');base=`http://127.0.0.1:${server.address().port}${mount.replace(/\/$/,'')}`;
  const r=await fetch(base+'/api/users',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:'city_'+randomUUID(),password:randomUUID(),starterId:7})});assert.equal(r.status,201);const fixture=await r.json();userId=fixture.user.id;
  browser=await chromium.launch({headless:true,args:['--no-sandbox']});const context=await browser.newContext({viewport:{width:393,height:852},hasTouch:true,isMobile:true});await context.addInitScript(s=>{if(location.protocol==='http:'||location.protocol==='https:')localStorage.setItem('explorakit.user',JSON.stringify(s));},{...fixture.user,token:fixture.token});page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.url().startsWith(base)&&r.status()>=400)errors.push(r.status()+' '+r.url());});
  await locate('route4',26,4);await step('move_d','ville_safe1');await page.locator('.location-name').filter({hasText:'Valpierre'}).waitFor();
  for(const [width,height]of [[320,480],[393,852],[844,390],[1365,900]]){await page.setViewportSize({width,height});assert(await page.evaluate(()=>window.cityVm.mapImage.naturalWidth===448&&window.cityVm.foregroundImage.naturalWidth===448&&document.documentElement.scrollWidth<=innerWidth+1));await page.screenshot({path:path.join(output,`city-${width}.png`)});}
- await step('move_q','route4');
+ await page.evaluate(()=>window.cityVm.socket.emit('playerAction','move_q'));await page.waitForFunction(()=>window.cityVm.players[window.cityVm.socket.id].x===48);await page.waitForTimeout(180);await step('move_q','route4');
  for(const [x,y,map]of [[8,12,'ville_safe1_arene'],[24,10,'ville_safe1_shop'],...[3,9,15,21].map((x,i)=>[x,2,'ville_safe1_maison'+(i+1)])]){await locate('ville_safe1',x,y+1);await step('move_z',map);if(map.endsWith('_shop')){await page.locator('.location-shop-btn').click();await page.locator('.shop-item').first().waitFor();await page.locator('.shop-close').click();}await page.waitForTimeout(150);await step('move_s','ville_safe1');const tile=await page.evaluate(()=>{const v=window.cityVm,p=v.players[v.socket.id];return [Math.floor(p.x/32),Math.floor(p.y/32)];});assert.deepEqual(tile,[x,y+1]);}
  // Updated author collision: stepping east from (5,7) must stop before (6,7).
  await locate('ville_safe1',5,7);await page.evaluate(()=>window.cityVm.socket.emit('playerAction','move_d'));await page.waitForTimeout(180);
  assert.deepEqual(await page.evaluate(()=>{const v=window.cityVm,p=v.players[v.socket.id];return [Math.floor(p.x/32),Math.floor(p.y/32)];}),[5,7]);
- // Author collision regression: blocked facade and passable neighbouring roof-side tile.
- await locate('ville_safe1',4,8);await page.evaluate(()=>window.cityVm.socket.emit('playerAction','move_d'));await page.waitForTimeout(180);
- assert.deepEqual(await page.evaluate(()=>{const v=window.cityVm,p=v.players[v.socket.id];return [Math.floor(p.x/32),Math.floor(p.y/32)];}),[4,8]);
+ // Revised author collision: a fence remains solid, and the neighbouring clearing is walkable.
+ await locate('ville_safe1',4,11);await page.evaluate(()=>window.cityVm.socket.emit('playerAction','move_d'));await page.waitForTimeout(180);
+ assert.deepEqual(await page.evaluate(()=>{const v=window.cityVm,p=v.players[v.socket.id];return [Math.floor(p.x/32),Math.floor(p.y/32)];}),[4,11]);
  await locate('ville_safe1',5,6);await page.evaluate(()=>window.cityVm.socket.emit('playerAction','move_s'));await page.waitForFunction(()=>{const v=window.cityVm,p=v.players[v.socket.id];return p.x===176&&p.y===240;});
  // Force the encounter roll only in this isolated Node test process. The author
  // grass marker has no wild pool: it must not open an empty combat overlay.

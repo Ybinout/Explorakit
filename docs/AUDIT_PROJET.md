@@ -1,5 +1,20 @@
 # Audit technique et mémoire de RiftMon
 
+## Valpierre révisée et nouvelles Routes 5/6 — 23 octobre 2026
+
+Les neuf ressources `pourtoi/{ville_safe1,route5,route6}.{json,png}` et leurs `_f.png` sont copiées octet pour octet ; JSON auteur CRLF conservés, aucun sol/collision/foreground retouché. Trois TMX miroirs des couches fournies, tilesets/GID conservés ; empreintes dans `docs/valpierre-routes-author-assets.json`. Valpierre conserve Hoze, ses six bâtiments et ses PNJ ; guide adapté à la nouvelle façade et aux deux routes à l’est. L’ancienne marque ouest(0,6) n’existe plus dans l’export ;(0,5) est un bout de bordure auteur relié uniquement à la marque voisine(0,4), pas un passage à creuser.
+
+Parcours :Route4 est↔Valpierre ouest ; Valpierre est↔Route5 ouest ; Route5 sud↔Route6 nord. Arrivées sûres hors portails/décor :ville(2,4)/(26,4), Route5(1,4)/(5,18), Route6(5,1). Demande explicite du créateur :**attendre un futur village à l’ouest de Route6**, ne pas raccorder à Route8 ni inventer Route7. Les trois marqueurs ouest de Route6 restent sur leur terrain auteur ; lien auto-référent bloqué avec message « Le chemin vers le prochain village est fermé pour le moment. », exploité par les gardes existantes Aventure/Rift/Colosseum, sans chargement/translation. Recul toujours possible. Route4 sud↔Route8↔Ocreville et l’histoire actuelle restent inchangés.
+
+Routes actives natives `route5`/`route6`, distinctes de `gen_route5` (historique) et `gen_route6` (Route10 actuelle). Deux pools de12 espèces sauvages, niveaux33–35 puis34–36 dans la courbe de Route4 ; végétation et traces de terre régénérées en lecture seule. Météo/neige/impacts existants conservés, musiques de route/village automatiques. Une ancienne position devenue obstacle dans ces trois cartes revient sur leur entrée routière connectée plutôt que dans un recoin derrière les toits/falaises ; positions encore valides et données sauvegardées conservées.
+
+Vérifications :732 tests applicatifs/77 SQL, audits et lint/build racine3c4daea3bed5bb90 passés. Six tests `valpierre-routes` :empreintes/TMX, accès dans les deux sens, coins auteur, refuge des sauvegardes, rencontres/niveaux et vrais déplacements Rift/Colosseum30/60 jusqu’au village fermé. Recette `test:valpierre-routes-browser` à la racine ajoutée à la CI ; recette historique Valpierre adaptée au montage racine et à la nouvelle clôture. Logs `/tmp/riftmon-valpierre-routes-*`.
+
+Recette navigateur complète :52 pas sur Route5 puis44 sur Route6, dans les trois modes, retour intégral en Aventure ; six portes/retours, boutique et Hoze conservés, guide actualisé, ancien emplacement bloqué récupéré, deux vraies rencontres sauvages isolées, quatre tailles et zéro erreur. L’arrivée ouest de Valpierre a ensuite été décalée à(2,4) pour éviter le lampadaire ;732 tests applicatifs revérifiés et contrôle HTTPS de cette arrivée/refuge réalisés.
+
+Publication le23/10/2026 à08 h57 Paris après sauvegarde sources/dist/SQL/checkpoint (0 expédition active), client2aa141d ; service actif PID1340834/NRestarts0, index racine atomique et anciens bundles conservés. Contrôle HTTPS sur compte temporaire :six images/fichiers foreground exactement identiques aux exports auteur, trois cartes/quatre tailles, six bâtiments et retours, Hoze/boutique, vrais passages aller-retour, sortie du futur village bloquée sans chargement, recul possible, sauvegarde/reconnexion et refuge d’une ancienne position invalide ; index exact, Knov/api-test inchangés, zéro erreur et compte supprimé. Aucun schéma, progression, équipe ou record existant réécrit ; `pourtoi` conservé. Sauvegarde `/home/ubuntu/dev/backups/riftmon-valpierre-routes-2026-10-23T06-41-15-996Z` ; logs verify/all-unit/unit/browser/deploy/public sous le préfixe ci-dessus.
+
+
 ## Apparences du joueur, quitter et noms des habitants — 23 octobre 2026
 
 Quatre apparences gratuites supplémentaires dans Apparence :Éclaireur, Exploratrice, Randonneur et Voyageuse, en plus des deux tenues initiales. `generatePlayerSprites.js` extrait exclusivement les poses existantes de `6931.png` (source inchangée), avec provenance `playerSpriteSources.json` ; sprites3–6 en256×256,16 cases64×64, quatre directions et trois poses de marche, pixels×2 sans lissage, pieds alignés à58 px. Pas de nouvelle illustration générée. L’aperçu du menu montre une seule pose à sa taille réelle, et le profil communautaire conserve et affiche ces nouveaux choix sans déformer les planches.
@@ -2310,6 +2325,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 23/10/2026 — Nouvelle Valpierre et Routes5/6 auteur intégrées à l’identique ; route vers le futur village fermée sur demande, suite actuelle vers Ocreville préservée. Voir livraison en tête, empreintes et recette valpierre-routes.
 
 - 23/10/2026 — Quatre tenues de joueur supplémentaires (planche auteur, échelle et marche constantes), choix persistant dans les trois modes/profil ; bouton Quitter avec sauvegarde et retour accueil ; habitants du Lac renommés Maria/Clément sans reset. Voir livraison en tête et recette player-options.
 
