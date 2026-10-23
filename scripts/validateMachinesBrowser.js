@@ -21,6 +21,7 @@ async function openBag(){await page.locator('.menu-toggle-btn').click();await pa
 (async()=>{try{
  server.listen(0,'127.0.0.1');await once(server,'listening');base=`http://127.0.0.1:${server.address().port}`;
  const r=await fetch(base+'/api/users',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:'machine_'+randomUUID(),password:randomUUID(),starterId:7})});assert.equal(r.status,201);const fixture=await r.json();userId=fixture.user.id;
+ await dbPool.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,'ana_defeated','true')",[userId]);
  await dbPool.execute('UPDATE users SET money=100000 WHERE id=?',[userId]);
  const team=await repo.loadEquipe(userId),lead=team.pokemons[0];lead.abilities=['Tackle','Tail Whip','Water Gun','Withdraw'];lead.movePp=[2,3,4,5];const incompatible=require('../server/game/drift/pokemonFactory').create(4,5,true);team.pokemons.push(incompatible);await repo.editEquipe(userId,team);
  browser=await chromium.launch({headless:true,args:['--no-sandbox']});const context=await browser.newContext({viewport:{width:393,height:852},hasTouch:true,isMobile:true});await context.addInitScript(s=>{if(location.protocol==='http:'||location.protocol==='https:')localStorage.setItem('explorakit.user',JSON.stringify(s));},{...fixture.user,token:fixture.token});page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));

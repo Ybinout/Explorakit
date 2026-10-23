@@ -41,3 +41,27 @@ for(const mode of['rift','colosseum'])test(mode+': new city and stairs move in b
  for(let i=0;i<3;i++){from(floors[i],24,5,'move_z',floors[i+1],3,5);from(floors[i+1],3,5,'move_z',floors[i],24,5);}
  from('tour_rdc',13,18,'move_s','ville_commerciale',13,12);from('ville_commerciale',4,9,'move_z','centre',13,14);from('centre',13,14,'move_s','ville_commerciale',4,9);
 });
+
+test('Adventure department stock stays visible, unlocks monotonically with the same badge tiers as ordinary shops',()=>{
+ const {tiers,offers}=require('../data/game/shop_offers.json');
+ for(const mapName of floors){
+  const initial=shops.getShopCatalog({mapName});
+  for(let tier=0;tier<tiers.length;tier++){
+   const flags=tier?{[tiers[tier].flag]:'true'}:{};
+   const stock=shops.getShopCatalog({mapName,flags});
+   assert.deepEqual(stock.map(i=>i.key),initial.map(i=>i.key));
+   assert.equal(shops.getShopMeta({mapName,flags}).tier,tier);
+   for(const item of stock){
+    assert(Number.isInteger(item.requiredTier)&&item.requiredTier>=0&&item.requiredTier<tiers.length,item.key);
+    assert.equal(item.locked,item.requiredTier>tier,item.key);
+    if(item.requiredTier){assert.match(item.unlockLabel,/Badge/);assert(item.unlockLabelEn);}
+    if(mapName==='tour_rdc')assert.equal(item.requiredTier,offers[item.key]?.tier||0,item.key);
+   }
+  }
+  for(const item of shops.getShopCatalog({mapName,expedition:true}))assert.equal(item.locked,false,item.key);
+  assert.equal(shops.getShopMeta({mapName,expedition:true}).badgeProgression,false);
+ }
+ for(const [mapName,key,tier]of [['tour_rdc','fishing_rod',0],['tour_rdc','fire_stone',2],['tour_etage1','protein',2],['tour_etage1','iv_randomizer_attack',4],['tour_etage2','leftovers',3],['tour_etage2','choice_scarf',4],['tour_etage2','focus_sash',5],['tour_etage3','leppa_berry',4]]){
+  assert.equal(shops.getShopCatalog({mapName}).find(i=>i.key===key)?.requiredTier,tier,key);
+ }
+});

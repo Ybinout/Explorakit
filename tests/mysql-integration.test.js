@@ -405,6 +405,7 @@ test('strategic shop items enforce the 10000 minimum on the server and persist t
  const {purchaseUserItem,loadUserItems}=require('../server/persistence/itemRepository');
  try{
   id=(await createUserWithStarter(`strategy_price_${Date.now()}`,'test-price',{starterId:7})).id;
+  await pool.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,'ana_defeated','true')",[id]);
   const context={mapName:'tour_etage2',price:1};
   await pool.execute('UPDATE users SET money=9999 WHERE id=?',[id]);
   const denied=await purchaseUserItem(id,'choice_scarf',1,context);assert.equal(denied.reason,'insufficient_funds');
@@ -414,5 +415,33 @@ test('strategic shop items enforce the 10000 minimum on the server and persist t
   const bought=await purchaseUserItem(id,'choice_scarf',2,context);assert(bought.success);assert.equal(bought.totalPrice,20000);
   const [[after]]=await pool.execute('SELECT money FROM users WHERE id=?',[id]);assert.equal(Number(after.money),0);
   assert.equal((await loadUserItems(id)).find(i=>i.key==='choice_scarf').quantity,2);
+ }finally{if(id)await pool.execute('DELETE FROM users WHERE id=?',[id]);await pool.end();}
+});
+
+test('Grand Comptoir enforces earned badges transactionally and ignores forged unlocks', {skip:!shouldRun}, async()=>{
+ const pool=createTestPool();let id;
+ const {createUserWithStarter}=require('../server/persistence/userRepository');
+ const {purchaseUserItem,loadUserItems}=require('../server/persistence/itemRepository');
+ try{
+  id=(await createUserWithStarter(`store_badges_${Date.now()}`,'test-store-badges',{starterId:7})).id;
+  await pool.execute('UPDATE users SET money=100000 WHERE id=?',[id]);
+  const before=await loadUserItems(id);
+  const cases=[['tour_rdc','fire_stone'],['tour_etage1','iv_randomizer_attack'],['tour_etage2','choice_scarf'],['tour_etage3','leppa_berry']];
+  for(const[mapName,key]of cases){
+   const denied=await purchaseUserItem(id,key,1,{mapName,expedition:true,tier:5,flags:{wanda_defeated:'true'},price:1});
+   assert.equal(denied.reason,'badge_required',key);assert.match(denied.unlockLabel,/Badge/);
+  }
+  assert.deepEqual(await loadUserItems(id),before);
+  assert.equal(Number((await pool.execute('SELECT money FROM users WHERE id=?',[id]))[0][0].money),100000);
+  assert((await purchaseUserItem(id,'pokeball',1,{mapName:'tour_rdc'})).success);
+  await pool.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,'hoze_defeated','true')",[id]);
+  assert((await purchaseUserItem(id,'fire_stone',1,{mapName:'tour_rdc'})).success);
+  assert.equal((await purchaseUserItem(id,'choice_scarf',1,{mapName:'tour_etage2'})).reason,'badge_required');
+  await pool.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,'ana_defeated','true')",[id]);
+  const bought=await purchaseUserItem(id,'choice_scarf',1,{mapName:'tour_etage2',price:1});
+  assert(bought.success);assert.equal(bought.totalPrice,10000);
+  assert.equal((await purchaseUserItem(id,'focus_sash',1,{mapName:'tour_etage2'})).reason,'badge_required');
+  await pool.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,'wanda_defeated','true')",[id]);
+  assert((await purchaseUserItem(id,'focus_sash',1,{mapName:'tour_etage2'})).success);
  }finally{if(id)await pool.execute('DELETE FROM users WHERE id=?',[id]);await pool.end();}
 });

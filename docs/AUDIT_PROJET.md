@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Grand Comptoir : progression par badges — 23 octobre 2026
+
+Les quatre étages restent accessibles et tous les articles de chaque rayon restent visibles. En Aventure, `department_store.json` définit un `requiredTier` par offre, fondé sur les mêmes drapeaux de victoire que les boutiques ordinaires : Mounir 1, Hoze 2, Raphael 3, Ana 4, Wanda 5. Articles verrouillés accompagnés du nom du badge/champion requis (FR/EN), sélecteur et achat désactivés. Indication générale dans la zone défilante pour préserver la place sur petits écrans. Prix, catégories et stock conservés ; canne à pêche toujours accessible sans badge. Aucun changement de cartes ni de sauvegardes existantes.
+
+Paliers : fournitures identiques aux boutiques ordinaires ; pierres, vitamines et CS simples après Hoze ; resets EV/CS intermédiaires/Restes/Casque Brut/Évoluroc après Raphael ; relances IV/CS avancées/objets Choix/Orbe Vie après Ana ; Ceinture Force/Veste de Combat après Wanda. Baies de soin alignées sur les boutiques ordinaires, baies de réduction d’EV après Hoze, résistances après Raphael, bonus de statistiques après Ana. Les catalogues Rift/Colosseum conservent leur disponibilité complète, indépendamment des badges Aventure.
+
+L’achat SQL relit les drapeaux persistés sous verrou joueur avant tout débit et renvoie `badge_required` sans consommer d’argent ni accorder d’objet. Les paramètres client (prix, étage, badges, mode) ne permettent pas de contourner les contrôles. Tests de progression monotone et de parité des fournitures ; test SQL des quatre étages, falsification, absence de débit et déblocage réel. Les anciennes recettes d’achat de pierres/CS/objets stratégiques reçoivent les vrais drapeaux nécessaires. Audit exhaustif du sac remis à jour pour compter le Multi Exp devenu objet tenu (52 objets équipables, 37 usages équipement).
+
+Validation : 871 tests applicatifs réussis ; 97 tests SQL réussis (96 au premier passage, puis audit du sac corrigé et relancé avec succès), lint/build client. Recette navigateur des quatre étages verrouillés puis débloqués, achats réels et parcours d’escaliers, modes Aventure/Rift/Colosseum, formats 320/393/844/1365, thèmes clair/sombre. Logs et captures `/tmp/riftmon-store-badges-*`.
+
 ## Multi Exp garanti après Hoze et objet tenu — 23 octobre 2026
 
 Hoze remet désormais un Multi Exp unique à la victoire en Aventure. Le dialogue après combat et la notification expliquent de le faire tenir au premier Pokémon. `hozeRewardRepository` ajoute la remise dans la transaction de victoire et réconcilie les anciennes victoires lors du chargement de progression, sur drapeau explicite `hoze_defeated` ou reçu `story_champion_hoze`. Verrou joueur, reçu `hoze_exp_share_received`, inventaire/équipe/PC/historique vérifiés : pas de double exemplaire ni de nouvelle prime/badge accordé lors du rattrapage. Les drops existants et les exemplaires déjà obtenus sont conservés.
@@ -2691,6 +2701,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+23/10/2026 — Grand Comptoir : étages ouverts, articles avancés visibles et verrouillés par badge en Aventure ; vérification serveur, affichage FR/EN et recettes SQL/navigateur. Expéditions inchangées ; détails en tête.
 
 23/10/2026 — Stockage : anciens builds temporaires retirés, sauvegardes identiques regroupées sans perte (chemins conservés), ~24 Gio récupérés. Script et test de déduplication ajoutés ; aucune ressource/donnée de jeu supprimée. Knov : entretien 30 jours et archivage intégral des données anciennes.
 

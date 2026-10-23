@@ -19,6 +19,7 @@ async function evolve(row,uuid){await row.locator('[data-medicine-target]').sele
 (async()=>{try{
  server.listen(0,'127.0.0.1');await once(server,'listening');base=`http://127.0.0.1:${server.address().port}`;
  const fixture=await createUser(),fox=factory.create(37,15),incompatible=factory.create(7,5),ko=factory.create(37,5);ko.currentHp=0;fox.currentHp-=5;
+ await dbPool.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,'hoze_defeated','true')",[fixture.user.id]);
  await teams.editEquipe(fixture.user.id,{pokemons:[incompatible,fox,ko]});await dbPool.execute('UPDATE users SET money=100000,map=?,x=432,y=464 WHERE id=?',['tour_rdc',fixture.user.id]);
  browser=await chromium.launch({headless:true,args:['--no-sandbox']});const context=await browser.newContext({viewport:{width:393,height:852},hasTouch:true,isMobile:true});await context.addInitScript(s=>{if(location.protocol.startsWith('http'))localStorage.setItem('explorakit.user',JSON.stringify(s));},{...fixture.user,token:fixture.token});page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
  await page.goto(base+'/game',{waitUntil:'networkidle'});await ready();await page.locator('.location-shop-btn').click();await page.locator('[data-shop-category="evolution"]').click();

@@ -250,6 +250,7 @@ test('Adventure stones: Goupix compatibility, purchase, ownership, KO, duplicate
         fox.name='Flamme';fox.currentHp-=7;fox.status='poison';fox.heldItem='leftovers';fox.movePp[0]=1;
         await teams.editEquipe(a.id,{pokemons:[squirtle,fox,ko]});
         await db.execute('UPDATE users SET money=100000 WHERE id=?',[a.id]);
+        await db.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,'hoze_defeated','true')",[a.id]);
         const bought=await items.purchaseUserItem(a.id,'fire_stone',2,{mapName:'tour_rdc'});
         assert(bought.success);assert.deepEqual(bought.items.find(i=>i.key==='fire_stone').evolutions,{[fox.uuid]:{id:38,name:'Feunard'}});
         await assert.rejects(use(b.id,fox.uuid,'fire_stone'),/appartient/);

@@ -33,7 +33,7 @@ function getPurchasableItem(itemKey, context = {}) {
     const {getShopCatalog,isShopMap}=require('../game/world/shopCatalog');
     if(!isShopMap(context.mapName))return null;
     const offer=getShopCatalog(context).find(i=>i.key===itemKey);
-    return offer?{...itemCatalogByKey[itemKey],buyPrice:offer.price}:null;
+    return offer&&!offer.locked?{...itemCatalogByKey[itemKey],buyPrice:offer.price}:null;
 }
 
 async function hydrateUserItems(userId, rows, executor = dbPool) {
@@ -114,6 +114,8 @@ async function purchaseUserItem(userId, itemKey, quantity = 1, context = {}) {
 
         const [flagRows]=await connection.execute('SELECT flag_key,flag_value FROM player_story_flags WHERE user_id=?',[normalizedUserId]);
         const flags=Object.fromEntries(flagRows.map(r=>[r.flag_key,r.flag_value]));
+        const offered=require('../game/world/shopCatalog').getShopCatalog({mapName:context.mapName,flags}).find(item=>item.key===itemKey);
+        if(offered?.locked)return {success:false,reason:'badge_required',unlockLabel:offered.unlockLabel};
         const item=getPurchasableItem(itemKey,{mapName:context.mapName,flags});
         if(!item)return {success:false,reason:'item_unavailable'};
         if (item.purchaseLimit) {
