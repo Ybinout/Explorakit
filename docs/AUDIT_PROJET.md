@@ -1,5 +1,12 @@
 # Audit technique et mémoire de RiftMon
 
+## Vent fort sur les Routes 5 et 6 — 23 octobre 2026
+
+Les cartes natives `route5` et `route6` ont un climat partagé `wind`, intensité3 maximale/pluie0 :28 feuilles et quatre rafales animées avec le moteur commun Aventure/Rift/Colosseum. Type d’ambiance distinct des météos de combat ; aucun climat de dégâts ni pluie ajouté. Client autorisé sur ces deux cartes, contrôle de la carte source, suspension en combat/chargement/arrière-plan et mouvement réduit conservés. Aucun changement aux exports auteur, collisions ou passages.
+
+Tests météo existants complétés :profil serveur, rendu client, budget, absence de fuite à une autre carte et absence de météo de combat. Validation complète :732 tests applicatifs/77 SQL, audits/lint/build racine `cefdcbd66e90c692` réussis. Publication le23/10/2026 à09 h17 Paris, client `ff5ec09`, service actif PID1345418/NRestarts0, zéro expédition active avant redémarrage. Contrôle HTTPS sur compte temporaire supprimé :les deux cartes/quatre tailles, pixels réellement animés, mode mouvement réduit, retour à Valpierre sans vent, index exact et Knov/api-test inchangés, zéro erreur. Sauvegarde `/home/ubuntu/dev/backups/riftmon-routes-wind-2026-10-23T07-15-01-541Z` ; logs `/tmp/riftmon-routes-wind-{verify,deploy,public}.log`.
+
+
 ## Valpierre révisée et nouvelles Routes 5/6 — 23 octobre 2026
 
 Les neuf ressources `pourtoi/{ville_safe1,route5,route6}.{json,png}` et leurs `_f.png` sont copiées octet pour octet ; JSON auteur CRLF conservés, aucun sol/collision/foreground retouché. Trois TMX miroirs des couches fournies, tilesets/GID conservés ; empreintes dans `docs/valpierre-routes-author-assets.json`. Valpierre conserve Hoze, ses six bâtiments et ses PNJ ; guide adapté à la nouvelle façade et aux deux routes à l’est. L’ancienne marque ouest(0,6) n’existe plus dans l’export ;(0,5) est un bout de bordure auteur relié uniquement à la marque voisine(0,4), pas un passage à creuser.
@@ -2325,6 +2332,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+23/10/2026 — Vent maximal commun sur Routes5/6 (feuilles/rafales), climat d’ambiance sans effet en combat. Vérifications732+77 et contrôle HTTPS quatre tailles passés ; publication09 h17 Paris, buildcefdcbd66e90c692, clientff5ec09. Voir entrée en tête et logs `/tmp/riftmon-routes-wind-*`.
 
 - 23/10/2026 — Nouvelle Valpierre et Routes5/6 auteur intégrées à l’identique ; route vers le futur village fermée sur demande, suite actuelle vers Ocreville préservée. Voir livraison en tête, empreintes et recette valpierre-routes.
 

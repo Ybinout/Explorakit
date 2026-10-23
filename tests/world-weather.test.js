@@ -30,6 +30,14 @@ test('Blanchecime has shared moderate snowfall and light wind, never indoors',as
 test('weather intensity is authoritative for every map and accepts only bounded display levels',async()=>{
  const w=await weather(),{getMapWeather}=require('../server/game/world/mapWeather');
  for(const map of ['start','route1','route2']){const climate=getMapWeather(map);assert.deepEqual(w.mapWorldWeather(map,climate),map==='start'?{wind:3,rain:3}:{wind:1,rain:2});}
+ for(const map of ['route5','route6']){
+  const climate=getMapWeather(map);assert.deepEqual(climate,{map,kind:'wind',ambience:{wind:3,rain:0}});
+  assert.deepEqual(w.mapWorldWeather(map,climate),{wind:3,rain:0});
+  assert.deepEqual(w.worldWeatherBudget(climate.ambience),{rain:0,leaves:28,gusts:4,splashes:0});
+  assert.deepEqual(require('../server/game/world/mapWeather').battleWeatherForMap(map),{kind:null,turns:0});
+  assert.deepEqual(w.mapWorldWeather(map,{...climate,map:'start'}),{wind:0,rain:0});
+  for(const reason of ['hidden','battle','loading'])assert(!w.worldWeatherEnabled(map,{[reason]:true}));
+ }
  assert.deepEqual(w.normalizeWorldWeather({wind:99,rain:'2',extra:true}),{wind:3,rain:2});assert.deepEqual(w.normalizeWorldWeather({wind:Infinity,rain:-2}),{wind:0,rain:0});assert.deepEqual(w.normalizeWorldWeather(null),{wind:0,rain:0});
 });
 test('weather covers the village and the two rainy routes, never interiors, battles, loading or hidden tabs',async()=>{

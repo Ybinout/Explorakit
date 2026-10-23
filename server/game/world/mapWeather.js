@@ -1,6 +1,6 @@
 const climates = require('../../../data/game/map_weather.json');
 const battleKinds = new Set(['rain', 'sun', 'sandstorm', 'hail']);
-const kinds = new Set([...battleKinds, 'snow']);
+const kinds = new Set([...battleKinds, 'snow', 'wind']);
 // Map climate is authoritative and shared. Display preferences never change it.
 function getMapWeather(map) {
     const entry = typeof map === 'string' && Object.hasOwn(climates, map) ? climates[map] : null;
