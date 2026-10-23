@@ -1,6 +1,6 @@
 const { requestReplacement } = require('./replacementChoice');
 const presentation = require('./presentationState');
-const { effortYield, grantEffort } = require('../models/training');
+const { effortYield } = require('../models/training');
 const { AdventureExperience } = require('./adventureExperience');
 const { planTurnActions } = require('./turnActions');
 const {
@@ -228,7 +228,7 @@ async function emitBagUpdate(player, io, userId) {
     }
 }
 
-async function handleBagAction(player, wildPokemon, io, userId, itemKey, progress) {
+async function handleBagAction(player, wildPokemon, io, userId, itemKey, progress, participation) {
     const ball = ballItemsByKey[itemKey];
     if (!ball) {
         await narrate(player, io, 'Cet objet ne peut pas etre utilise en combat.');
@@ -282,7 +282,7 @@ async function handleBagAction(player, wildPokemon, io, userId, itemKey, progres
     let stored=null;
     if(player.equipe.pokemons.length>=6)stored=await pokemonStorage.storeCapturedPokemon(userId,wildPokemon);
     else player.equipe.pokemons.push(wildPokemon);
-    grantEffort(playerPokemon, wildPokemon);
+    participation.rewardEffort(player, wildPokemon);
     try {
         if(!stored)await markPokemonCaught(userId, wildPokemon);
         io.to(player.id).emit('pokedexChanged', { reason: 'captured', pokemonId: wildPokemon?.data?.id });
@@ -601,7 +601,7 @@ async function startBattle(player, wildPokemon, io, userId) {
             }
 
             if (actionPlayer === 'bag') {
-                const bagResult = await handleBagAction(player, wildPokemon, io, userId, response.itemKey, battleState.captureProgress);
+                const bagResult = await handleBagAction(player, wildPokemon, io, userId, response.itemKey, battleState.captureProgress, battleState.adventureExperience);
 
                 if (bagResult.caught) {
                     await narrate(player, io, 'Victoire !');

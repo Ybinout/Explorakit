@@ -1,5 +1,16 @@
 # Contexte permanent — RiftMon
 
+## EV pour chaque participant — 23 octobre 2026
+
+À la défaite d’un adversaire, chaque Pokémon ayant réellement été face à lui reçoit son rendement EV complet, sans division entre participants. Suivi propre à l’identité de chaque adversaire, conservé lorsqu’il quitte puis revient sur le terrain ; les entrées/pivots/changements forcés passent par les mêmes points d’entrée que les effets de combat. Aventure (sauvages/dresseurs/arènes) et exploration/défis Rift/Colosseum ; aucun EV ajouté en PvP. Même règle à la capture, sans EV pour le Pokémon capturé ni les réserves jamais entrées, même avec Multi Exp. Les gains/règles d’XP restent inchangés. Les participants K.O. encore conservés dans l’équipe gardent leurs EV sans être soignés ; en expédition, un Pokémon définitivement supprimé ne reçoit rien, un K.O. protégé par talisman peut les recevoir. Plafonds252/statistique et510/total conservés.
+
+`grantParticipantEffort` mutualise l’attribution ; `AdventureExperience` réutilise son suivi par adversaire et sépare l’anti-rejeu EV de l’XP pour les captures. Les expéditions stockent des Map/Set de UUID dans les checkpoints existants ; la reprise ne duplique pas les récompenses. Les anciens checkpoints sans historique ne peuvent pas reconstituer les entrées passées :ils suivent le participant observé à la reprise, avec repli ancien actif seulement si aucune observation nouvelle n’existe. Aucun schéma SQL, client ni sauvegarde historique réécrit.
+
+Validation :762 tests applicatifs et79 SQL passés, syntaxe/diff propres. Cas ciblés :plusieurs participants, rendements non divisés, adversaires distincts de la même espèce, changement adverse puis retour, K.O. protégé, Multi Exp, plafonds EV, capture, exclusion banc/capturé/PvP, checkpoints et anti-rejeu. Intégration SQL :vrais combats sauvages/dresseurs/arènes avec relais, captures avec relais, relecture des EV persistés. Logs `/tmp/riftmon-ev-participation-*`.
+
+Publication serveur le23/10/2026 à12 h21 Paris :PID1401850 actif/NRestarts0,0 expédition active avant reprise ; build client `9863560defc4f697` et index conservés, HTTPS200/index exact, Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-ev-participation-2026-10-23T10-20-59-122Z`.
+
+
 ## Couverture Pokémon générations I–IV — 23 octobre 2026
 
 Périmètre confirmé par le créateur :493 espèces du Pokédex visible, dont35 légendaires/fabuleux exclus. Les **458 autres espèces sont obtenables :291 directement et167 par évolution uniquement**. Ajout des familles absentes dans les19 zones d’herbes/grottes actives et les6 lacs, avec espèces de base et répartition par milieu/progression. Aucun changement des niveaux, du premier buisson2–5, du taux de rencontre, du tirage K ni des Pokémon déjà possédés. Les poids rares Rift/Colosseum incluent les nouvelles familles rares ; Barpau reste1% dans chaque lac. Les grandes évolutions de starters, pseudo-légendaires, Milobellus, Hyporoi, Monaflèmit, Lucario et Togekiss restent obtenables par évolution, absentes des pools sauvages actifs.

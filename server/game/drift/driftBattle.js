@@ -10,7 +10,7 @@ const { serializeMoveResult, serializeFieldState } = require('../battle/battleEv
 const { getMoveFlags } = require('../abilities/abilityEngine');
 const { calculateBattleExperience } = require('../models/progression');
 const { planTurnActions } = require('../battle/turnActions');
-const { effortYield, grantEffort } = require('../models/training');
+const { effortYield, grantParticipantEffort } = require('../models/training');
 const economy = require('./economy');
 const report = require('./runReport');
 const colosseumAI = require('./colosseumAI');
@@ -25,6 +25,7 @@ class DriftBattle {
         this.environment = environment === 'lake' ? 'lake' : null;
         this.publicLog = [];
         this.contractContributors = new Set();
+        this.effortParticipants = new Map(); this.effortRewarded = new Set();
         this.aiMemory = { seen: {}, lastSwitchRound: -10 };
         this.state = engine.createBattleState({ mapName: a.currentmap, opponentMap: b.npc ? a.currentmap : b.currentmap ?? null }); this.sides = [this.state.sides.player, this.state.sides.enemy];
         this.pending = new Map(); this.round = 0; this.finished = false; this.rewarded = new Set(); this.awaiting = false;
@@ -83,9 +84,29 @@ class DriftBattle {
     }
     enter(i, manual = false, initial = false) {
         const p = this.active(i); if (!p || effects.isDead(p) || !this.active(1-i)) return;
+        this.recordEffortParticipation();
         if (!initial) this.sync(); // Publish the entrant before hazards, abilities or healing.
         engine.applySwitchInEffects(p, this.sides[i], this.sides[1-i], this.state, this.active(1-i)).forEach(m=>this.say(m));
         if (!initial)this.withDriftSignals(()=>effects.switched(p,manual));
+    }
+    recordEffortParticipation() {
+        if (this.type === 'pvp') return;
+        const pokemon = this.active(0), opponent = this.active(1);
+        if (!(pokemon?.currentHp > 0) || !(opponent?.currentHp > 0) || pokemon.isEgg) return;
+        this.effortParticipants ||= new Map();
+        if (!this.effortParticipants.has(opponent.uuid)) this.effortParticipants.set(opponent.uuid, new Set());
+        this.effortParticipants.get(opponent.uuid).add(pokemon.uuid);
+    }
+    rewardEffort(opponent) {
+        if (this.type === 'pvp') return new Map();
+        this.effortRewarded ||= new Set();
+        if (this.effortRewarded.has(opponent.uuid)) return new Map();
+        this.effortRewarded.add(opponent.uuid);
+        // Old checkpoints cannot reconstruct earlier switches: retain their old
+        // active-only reward until participation has been observed after resume.
+        const participants = this.effortParticipants?.get(opponent.uuid)
+            || (!this.effortParticipants ? new Set([this.active(0)?.uuid]) : new Set());
+        return grantParticipantEffort(this.a.equipe.pokemons.filter(p=>!effects.isDead(p)||p.riftFainted), opponent, participants);
     }
     defaultAction(p) {
         if (this.replacementPhase && this.replacementPlayers?.has(p)) return {action:'change',number:replacementIndexes(p.equipe)[0]};
@@ -138,6 +159,7 @@ class DriftBattle {
     }
     resume(p) {
         if (this.finished) return;
+        this.recordEffortParticipation();
         this.sync();
         if (this.awaiting && !this.pending.has(p)) {
             if (this.replacementPhase) { if (this.replacementPlayers.has(p)) this.promptReplacement(p); }
@@ -220,6 +242,7 @@ class DriftBattle {
     }
     reward(defeated) {
         if (this.rewarded.has(defeated.uuid)) return; this.rewarded.add(defeated.uuid);
+        const effort = this.rewardEffort(defeated);
         const active = this.a.equipe.pokemons.find(p=>!effects.isDead(p)); if (!active) return;
         const isColosseum = this.a.run?.mode === 'colosseum';
         const sharingBaseFor = recipient => {
@@ -238,12 +261,12 @@ class DriftBattle {
         // Keep the Colosseum fighter multiplier and the existing reserve sharing rates.
         const xp = isColosseum ? Math.max(1, Math.floor(Math.floor(sharingBase * 9 / 10) * 4 / 5)) : sharingBase;
         const previousLevel = active.level, previousExperience = active.experience;
-        grantEffort(active, defeated); active.gainExperience(xp);
-        this.emit(this.a,'battleExperience',{ pokemon: active, xpGained: xp, previousLevel, previousExperience });
+        active.gainExperience(xp);
+        this.emit(this.a,'battleExperience',{ pokemon: active, xpGained: xp, previousLevel, previousExperience, effortGained:effort.get(active.uuid)||{} });
         for (const [reserve, reserveXp] of reserveAwards) {
             const beforeLevel=reserve.level,beforeExperience=reserve.experience;
             reserve.gainExperience(reserveXp);
-            if (expShare && reserveXp > 0) this.emit(this.a,'battleExperience',{pokemon:reserve,xpGained:reserveXp,previousLevel:beforeLevel,previousExperience:beforeExperience});
+            if (expShare && reserveXp > 0) this.emit(this.a,'battleExperience',{pokemon:reserve,xpGained:reserveXp,previousLevel:beforeLevel,previousExperience:beforeExperience,effortGained:effort.get(reserve.uuid)||{}});
         }
         this.a.chain = Math.min(5,(this.a.chain || 0)+1);
     }
@@ -280,7 +303,7 @@ class DriftBattle {
                 const success = this.random() < chance;
                 this.emit(p,'captureAnimation',{ success, shakes: success ? 3 : 1, itemKey: action.itemKey });
                 if (success) {
-                    grantEffort(this.active(0), target);
+                    this.rewardEffort(target);
                     this.capturedPokemon = target; this.b.equipe.pokemons = []; effects.detach([target]);
                     let destination = 'team';
                     if (p.equipe.pokemons.length < 6) p.equipe.pokemons.push(target);

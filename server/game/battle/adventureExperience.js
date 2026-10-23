@@ -1,12 +1,17 @@
 const { calculateBattleExperience } = require('../models/progression');
-const { grantEffort, rewardTraining } = require('../models/training');
+const { grantParticipantEffort, rewardTraining } = require('../models/training');
 
 class AdventureExperience {
-    constructor({expShare = false} = {}) { this.participants = new Map(); this.rewarded = new Set(); this.expShare = expShare; }
+    constructor({expShare = false} = {}) { this.participants = new Map(); this.rewarded = new Set(); this.effortRewarded = new Set(); this.expShare = expShare; }
     enter(pokemon, opponent) {
         if (!(pokemon?.currentHp > 0) || !(opponent?.currentHp > 0) || pokemon.isEgg) return;
         if (!this.participants.has(opponent)) this.participants.set(opponent, new Set());
         this.participants.get(opponent).add(pokemon.uuid);
+    }
+    rewardEffort(player, opponent) {
+        if (this.effortRewarded.has(opponent)) return new Map();
+        this.effortRewarded.add(opponent);
+        return grantParticipantEffort(player.equipe.pokemons, opponent, this.participants.get(opponent));
     }
     reward(player, defeated, multiplier, io) {
         if (defeated.currentHp > 0 || this.rewarded.has(defeated)) return [];
@@ -19,10 +24,9 @@ class AdventureExperience {
             xp: Math.max(1, Math.floor(calculateBattleExperience(defeated, multiplier, pokemon)
                 * (this.expShare ? (pokemon === team[0] ? 1 : 0.5) : 1 / eligible.length)))
         }));
-        // This patch shares XP only: keep the existing active-only EV reward.
-        const effort = grantEffort(team[0], defeated);
+        const effort = this.rewardEffort(player, defeated);
         for (const {pokemon, xp} of awards) rewardTraining(pokemon, defeated, xp, io, player.id,
-            { effortGained: pokemon === team[0] ? effort : {} });
+            { effortGained: effort.get(pokemon.uuid) || {} });
         return awards;
     }
 }

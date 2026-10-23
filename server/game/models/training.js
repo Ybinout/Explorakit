@@ -20,6 +20,17 @@ function grantEffort(pokemon, opponent) {
     return pokemon.gainEffort(effortYield(opponent) || {});
 }
 
+// EVs are a full yield for each actual entrant, independent of XP sharing.
+// A fainted companion still in the team keeps its training, without being healed.
+function grantParticipantEffort(team, opponent, participants = new Set()) {
+    const gains = new Map();
+    for (const pokemon of team || []) {
+        if (pokemon.isEgg || !participants.has(pokemon.uuid) || gains.has(pokemon.uuid)) continue;
+        gains.set(pokemon.uuid, pokemon.gainEffort(effortYield(opponent) || {}));
+    }
+    return gains;
+}
+
 function rewardTraining(pokemon, defeated, xp, io, playerId, options = {}) {
     const previousLevel = pokemon.level;
     const previousExperience = pokemon.experience;
@@ -28,4 +39,4 @@ function rewardTraining(pokemon, defeated, xp, io, playerId, options = {}) {
     io.to(playerId).emit('battleExperience', { pokemon, xpGained: xp, previousLevel, previousExperience, effortGained });
 }
 
-module.exports = { STAT_KEYS, normalizeEffort, effortYield, grantEffort, rewardTraining };
+module.exports = { STAT_KEYS, normalizeEffort, effortYield, grantEffort, grantParticipantEffort, rewardTraining };

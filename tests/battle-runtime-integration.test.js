@@ -770,6 +770,7 @@ for (const kind of ['wild','trainer','arena']) test(`Aventure ${kind} : partage 
   const saved=(await loadEquipe(userId)).pokemons,byId=id=>saved.find(p=>p.uuid===id);
   assert.equal(byId(lead.uuid).experience,baseline+share);assert.equal(byId(reserve.uuid).experience,baseline+share+second);assert.equal(byId(bench.uuid).experience,baseline);
   assert.equal(saved[0].uuid,reserve.uuid,'receiving XP must not swap the active Pokémon');
+  assert.equal(byId(lead.uuid).ev.speed,1);assert.equal(byId(reserve.uuid).ev.speed,kind==='wild'?1:2);assert.equal(byId(bench.uuid).ev.speed,0);
   const awards=io.events.filter(e=>e.eventName==='battleExperience');assert.equal(awards.length,kind==='wild'?2:3);assert(awards.every(e=>e.targetId===player.id));
   const summary=io.lastEvent(player.id,'endbattle').payload.summary;assert.equal(summary.experience.find(p=>p.uuid===lead.uuid).xpGained,share);assert.equal(summary.experience.find(p=>p.uuid===reserve.uuid).xpGained,share+second);assert(!summary.experience.some(p=>p.uuid===bench.uuid));
  }finally{if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
@@ -790,5 +791,19 @@ for(const opponentMove of ['Growl','Tackle']) test(`Aventure dresseur : Coup Bas
   const {user,player}=await createPlayer(1);userId=user.id;const lead=createPokemon(19,'Coup Bas',['Sucker Punch']);lead.maxHp=lead.currentHp=500;player.equipe=createTeam(lead);
   const foe=createPokemon(19,'Cible',[opponentMove]);foe.maxHp=foe.currentHp=500;const socket=new ScriptedSocket([{action:'attack',number:0},{action:'flee'}]),io=new RecordingIo({[player.id]:socket});
   await withFixedRandom(.5,()=>startTrainerBattle(player,createTeam(foe),io,userId));const result=io.events.find(e=>e.eventName==='battleMoveResult'&&e.payload.actor==='player');assert.equal(result.payload.damage>0,opponentMove==='Tackle');assert.equal((await loadEquipe(userId)).pokemons[0].movePp[0],4);
+ }finally{if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
+});
+
+test('Aventure capture : les EV de tous les entrants sont persistés, sans gain pour le banc ni la capture', {skip:!shouldRun}, async()=>{
+ const pool=createTestPool();let userId;
+ try{
+  const {user,player}=await createPlayer(1);userId=user.id;
+  const lead=createPokemon(1,'Premier',['Splash']),relay=createPokemon(7,'Relais',['Splash']),bench=createPokemon(25,'Banc',['Splash']),wild=createPokemon(19,'Capture',['Splash']);
+  player.equipe=createTeam(lead,relay,bench);wild.currentHp=1;wild.passiveAbility=null;
+  const socket=new ScriptedSocket([{action:'change',number:1},{action:'bag',itemKey:'hyperball'}]),io=new RecordingIo({[player.id]:socket});
+  await withFixedRandom(0,()=>startWildBattle(player,wild,io,userId));
+  assert.equal(io.lastEvent(player.id,'endbattle').payload.reason,'captured');
+  const saved=(await loadEquipe(userId)).pokemons;
+  assert.deepEqual([lead,relay,bench,wild].map(p=>saved.find(q=>q.uuid===p.uuid).ev.speed),[1,1,0,0]);
  }finally{if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
 });

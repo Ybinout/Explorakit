@@ -91,7 +91,7 @@ test('Adventure Multi Exp replaces participation splitting with full fighter and
     const lead=pkm(),bench=pkm(),dead=pkm(),egg=pkm(),foe=pkm(19);dead.currentHp=0;egg.isEgg=true;bench.level=5;bench.recalculateStats();
     const p={id:'owner',equipe:{pokemons:[lead,bench,dead,egg]}},tracker=new AdventureExperience({expShare:true}),events=[],io={to:()=>({emit:(_name,data)=>events.push(data)})};
     tracker.enter(lead,foe);tracker.enter(bench,foe);const full=xp(foe,1,lead),half=Math.floor(xp(foe,1,bench)/2),initial=bench.experience;foe.currentHp=0;
-    const awards=tracker.reward(p,foe,1,io);assert.equal(awards.length,2);assert.equal(awards[0].xp,full);assert.equal(awards[1].xp,half);assert.equal(bench.experience,initial+half);assert.equal(events.length,2);assert.equal(bench.ev.speed,0);assert.deepEqual(tracker.reward(p,foe,1,io),[]);
+    const awards=tracker.reward(p,foe,1,io);assert.equal(awards.length,2);assert.equal(awards[0].xp,full);assert.equal(awards[1].xp,half);assert.equal(bench.experience,initial+half);assert.equal(events.length,2);assert.equal(bench.ev.speed,1,'This reserve faced the enemy and earns its EV yield');assert.deepEqual(tracker.reward(p,foe,1,io),[]);
 });
 for(const mode of ['rift','colosseum'])test(`${mode}: Multi Exp keeps fighter XP and better existing sharing, includes living reserves and does not double rewards`,()=>{
     function run(enabled){const lead=pkm(),reserve=pkm(),foe=pkm(19),events=[],p={run:{mode},items:enabled?{exp_share:1}:{},equipe:{pokemons:[lead,reserve]},drifts:[],equipped:[]};
