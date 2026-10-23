@@ -354,3 +354,46 @@ test('PC SQL drag : cases exactes, échange atomique, équipe ordonnée et refus
   await pc.mutateStorage(owner.id,move(c,team(1),team(0),party.pokemons[0].uuid));assert.equal((await repo.loadEquipe(owner.id)).pokemons[0].uuid,c.uuid);
  } finally {for(const id of ids)await pool.execute('DELETE FROM users WHERE id=?',[id]);await pool.end();}
 });
+
+test('IV/EV items update all six real stats in live team replies and after SQL reconnect', {skip:!shouldRun}, async()=>{
+ const pool=createTestPool();let id;
+ const {createUserWithStarter}=require('../server/persistence/userRepository');
+ const {loadEquipe,editEquipe}=require('../server/persistence/teamRepository');
+ const {registerMedicineHandlers}=require('../server/realtime/handlers/medicineHandlers');
+ const {STAT_KEYS}=require('../server/game/models/training');
+ const catalog=require('../data/game/items.json').items;
+ const baseKeys={hp:'HP',attack:'Attack',defense:'Defense',specialAttack:'Sp. Attack',specialDefense:'Sp. Defense',speed:'Speed'};
+ try{
+  id=(await createUserWithStarter(`training_stats_${Date.now()}`,'test-training',{starterId:7})).id;
+  const equipe=await loadEquipe(id),mon=equipe.pokemons[0],player={equipe},handlers={},events=[];
+  mon.k=4;mon.nature='Bashful';mon.level=100;mon.experience=mon.getNextLevelExpForLevel(100);
+  mon.iv=Object.fromEntries(STAT_KEYS.map(key=>[key,0]));mon.ev={...mon.iv};mon.recalculateStats();mon.currentHp-=7;
+  await editEquipe(id,equipe);
+  registerMedicineHandlers({userId:id,getPlayer:()=>player,socket:{on:(name,fn)=>{handlers[name]=fn;},emit:(name,payload)=>events.push({name,payload})}});
+  const checkStats=p=>{
+   for(const stat of STAT_KEYS){
+    const expected=2*p.data.base[baseKeys[stat]]+4*p.iv[stat]+Math.floor(p.ev[stat]/4)+(stat==='hp'?110:5);
+    assert.equal(p[stat==='hp'?'maxHp':stat],expected,`${stat} permanent`);
+    if(stat!=='hp')assert.equal(p['current'+stat[0].toUpperCase()+stat.slice(1)],expected,`${stat} combat`);
+   }
+   assert.equal(p.maxHp-p.currentHp,7);
+  };
+  const use=async(key,quantity=1)=>{
+   await pool.execute('INSERT INTO user_items(user_id,item_key,quantity) VALUES(?,?,?) ON DUPLICATE KEY UPDATE quantity=VALUES(quantity)',[id,key,quantity]);
+   events.length=0;let response;
+   await handlers.useMedicine({itemKey:key,pokemonUuid:mon.uuid,quantity},reply=>{response=reply;});
+   assert.equal(response.success,true,response.message);
+   const emitted=events.find(event=>event.name==='teamStateChanged');assert(emitted);
+   for(const p of [response.equipe.pokemons[0],emitted.payload.equipe.pokemons[0],(await loadEquipe(id)).pokemons[0]])checkStats(p);
+   return response;
+  };
+  for(const stat of STAT_KEYS){
+   await use(`iv_randomizer_${stat}`);
+   const vitamin=catalog.find(item=>item.fieldUse?.effort?.stat===stat && item.fieldUse.effort.amount===10).key;
+   const field=stat==='hp'?'maxHp':stat,before=mon[field];
+   await use(vitamin,25);assert.equal(mon[field],before+62);
+   await use(`ev_reset_${stat}`);assert.equal(mon[field],before);
+   await use(vitamin,25);await use('ev_reset_all');assert.equal(mon[field],before);
+  }
+ }finally{if(id)await pool.execute('DELETE FROM users WHERE id=?',[id]);await pool.end();}
+});

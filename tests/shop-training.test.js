@@ -84,3 +84,37 @@ for(const mode of ['rift','colosseum'])test(`${mode}: training uses own stock, p
     const saved=codec.decode(codec.encode(p));assert.equal(saved.equipe.pokemons[0].iv.attack,0);assert.equal(saved.items.protein,0);
     p.run.phase='exploration';p.currentmap='ville1_shop';assert.throws(()=>economy.buy(p,'zinc',1),/Achat/);
 });
+
+// Level 100, neutral nature and K4 give exact independent expectations:
+// each IV contributes 4 points and each complete group of 4 EV contributes 1.
+for (const stat of STAT_KEYS) test(`${stat}: actual stats follow IV/EV items immediately and after expedition recovery`, () => {
+    const baseKeys={hp:'HP',attack:'Attack',defense:'Defense',specialAttack:'Sp. Attack',specialDefense:'Sp. Defense',speed:'Speed'};
+    const field=stat==='hp'?'maxHp':stat;
+    for (const mode of ['rift','colosseum']) {
+        const mon=factory.create(7,100,true);
+        mon.k=4;mon.nature='Bashful';
+        mon.iv=Object.fromEntries(STAT_KEYS.map(key=>[key,0]));
+        mon.ev=Object.fromEntries(STAT_KEYS.map(key=>[key,0]));
+        mon.recalculateStats();mon.currentHp-=7;
+        const player={alive:true,run:{mode,phase:'colosseum_ready'},equipe:{pokemons:[mon]},items:{},drifts:[],equipped:[]};
+        const baseline=Object.fromEntries(STAT_KEYS.map(key=>[key,mon[key==='hp'?'maxHp':key]]));
+        const vitamin=items.find(item=>item.fieldUse?.effort?.stat===stat && item.fieldUse.effort.amount===10).key;
+        const base=2*mon.data.base[baseKeys[stat]]+(stat==='hp'?110:5);
+        const use=(key,expected,random=()=>0,quantity=1)=>{
+            player.items[key]=quantity;
+            const response=economy.usePotion(player,key,mon.uuid,random,quantity);
+            for(const actual of [response.equipe.pokemons[0],codec.decode(codec.encode(player)).equipe.pokemons[0]]){
+                assert.equal(actual[field],expected,`${mode} ${key} permanent`);
+                if(stat!=='hp')assert.equal(actual['current'+stat[0].toUpperCase()+stat.slice(1)],expected,`${mode} ${key} combat`);
+                assert.equal(actual.maxHp-actual.currentHp,7);
+                for(const other of STAT_KEYS.filter(key=>key!==stat))assert.equal(actual[other==='hp'?'maxHp':other],baseline[other]);
+            }
+        };
+        use(`iv_randomizer_${stat}`,base+124,()=>.9999);
+        use(`iv_randomizer_${stat}`,base);
+        use(vitamin,base+62,()=>0,25);
+        use(`ev_reset_${stat}`,base);
+        use(vitamin,base+62,()=>0,25);
+        use('ev_reset_all',base);
+    }
+});

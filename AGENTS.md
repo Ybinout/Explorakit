@@ -1,5 +1,11 @@
 # Contexte permanent — RiftMon
 
+## Vérification des statistiques après modification d’IV/EV — 23 octobre 2026
+
+Revue de `medicineEffects.trainingResult`, du modèle Pokémon, des commandes Aventure/expédition, de la reconstruction SQL et de la fiche client : les modifications d’IV/EV recalculent déjà les six statistiques permanentes et les valeurs courantes utilisées en combat. L’équipe actualisée est renvoyée au client ; les reconnexions SQL reconstruisent les statistiques depuis les IV/EV/nature/K, les checkpoints conservent les valeurs actualisées. Aucun défaut reproduit, aucune modification du moteur ni redémarrage de production nécessaire.
+
+Tests renforcés : pour chacune des six statistiques, randomizer IV 0→31→0, vitamines par lot, reset ciblé et reset global dans Rift/Colosseum avec reprise de checkpoint. Valeurs attendues indépendantes à niveau 100, K4 et nature neutre : +124 points pour 31 IV, +62 pour 250 EV ; blessures et autres statistiques préservées. Nouveau test SQL passant par le vrai handler `useMedicine` : équipe en mémoire, réponse, événement `teamStateChanged` et relecture SQL vérifiés pour les six statistiques et chaque opération. 68 tests ciblés et 81 SQL passés ; logs `/tmp/riftmon-training-stats-*`. À faible niveau, les arrondis peuvent légitimement absorber une petite variation d’IV/EV sans modifier immédiatement la valeur entière affichée.
+
 ## Captures facilitées en début de partie — 23 octobre 2026
 
 Bonus commun aux trois modes dans `captureBaseChance`, réglé par `capture_balance.json` : +0,12 à la probabilité de base jusqu’au niveau 10 de la cible, puis réduction linéaire jusqu’à disparition au niveau 25. À niveau égal et sans autre bonus, une Poké Ball passe de 18,4 % à 32,2 % sur une cible intacte de niveau 1–10, de 55,2 % à 69 % à mi-PV. Les bonus des Balls et Drifts, plafond 95 %, facteur de niveau Aventure et pénalité liée aux badges restent appliqués comme avant ; aucune facilité supplémentaire pour les cibles de niveau 25 ou plus. Aucun changement de prix, de stock, de récompenses ou des Pokémon déjà capturés.
