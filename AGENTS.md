@@ -1,5 +1,19 @@
 # Contexte permanent — RiftMon
 
+## Bibliothèque visuelle des attaques — 23 octobre 2026
+
+Familles partagées par le BattleOverlay Aventure/Rift/Colosseum : morsures, griffures, poings, charges, rayons, projectiles, drain et effets de zone. `services/moveVisuals.js` associe les noms canoniques à une famille, avec repli physique/spécial/statut et respect de la préparation des capacités à deux tours. `BattleMoveEffect.vue` dessine des effets SVG légers, teintés par type et positionnés à partir des sprites/socles réels. Pas de nouvelle image distante ni de modification des règles de combat.
+
+La file commune sépare anticipation, trajet, impact et retour d’énergie. Le trajet se termine avant la mutation affichée des PV ; un drain avec soin effectif revient vers le lanceur avant son gain de PV. Résultats manqués, bloqués, immunisés ou échoués dissipent l’effet sans impact réussi. Le critique visuel démarre avec la perte de PV. Les charges déplacent le sprite sans modifier l’ancre de son socle ; les rayons se dissipent après leur impact. Les attentes restent annulables au reset/K.O./changement de combat ; mouvement réduit et onglet masqué respectés.
+
+`BattlePersistentEffect.vue` affiche un bouclier pour `__battle.protect` et un leurre pour `__battle.substituteHp > 0`, exclusivement pour un Pokémon vivant. Identité liée à l’UUID, expiration du bouclier et rupture du clone distinctes ; aucun état de protection inventé depuis le seul nom d’une attaque. Les effets passent au-dessus des sprites, les cartes et commandes restent lisibles.
+
+Vérifications : tests des familles, échecs et états persistants ; recette `validateMoveLibraryUi.js` raccordée à `test:combat-browser` (mobile/PC, huit familles, PV inchangés pendant le trajet, soin après retour, protection/clone, mouvement réduit). La recette générale conserve captures, switches, K.O., XP, remplacements et entrée de combat. Suite : 868 réussis, 95 SQL hors exécution ; lint et build client réussis. Journaux et captures `/tmp/riftmon-move-library-*`. Publication client uniquement, sans migration ni redémarrage serveur.
+
+
+Publication client seule à 2026-10-23T21:12:08.457Z (23 h 12 Paris) : client `d66311a`, build `5a12c86a364a4ed1`. Recette navigateur finale réussie, huit familles en 393/1365 px, parcours commun en 320/393/844/1365 px et aucune erreur navigateur. Index HTTPS vérifié, PID serveur 1472456 inchangé et sites Knov/api-test identiques. Ancien index et référence client sauvegardés dans `/home/ubuntu/dev/backups/riftmon-move-library-2026-10-23T21-12-07-728Z`, anciens bundles conservés.
+
+
 ## Stockage sans perte — 23 octobre 2026
 
 Audit disque demandé par le joueur, nettoyage autorisé seulement pour les fichiers devenus inutiles ; conserver toutes les données et la qualité RiftMon. 123 anciens builds `/tmp/(riftmon|explorakit)-*dist` identifiés par leur index et dossier JS, absence de symlinks et de références dans les processus/fichiers ouverts/configuration Nginx, puis supprimés : 8,17 Gio libérés. Liste exacte : `/tmp/riftmon-storage-build-removed.json`. Aucun changement dans le `dist` actif, les sources d’assets, les sauvegardes SQL, ni les données de joueurs.
