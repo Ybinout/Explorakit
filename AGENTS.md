@@ -1,5 +1,18 @@
 # Contexte permanent — RiftMon
 
+## PNJ issus de la planche auteur 6931 — 23 octobre 2026
+
+Les personnages de carte non champions utilisent directement `src/assets/6931.png`, sans retouche ni nouvelle image générée. `classicNpcFrames.json` référence son empreinte et36 rectangles exacts :32 apparences civiles et rôles spécifiques Aspha (personnage chauve montré par le créateur), vendeur, infirmière et Lucie. Découpes au personnage entier, sans les petits pixels/voisins hors cadre ; agrandissement entier×2, sans lissage, hauteur visible36–56 px selon le personnage et même ancrage des pieds à26 px dans la case. Ne pas normaliser chaque personnage en une grande case étirée ni redécouper cette planche irrégulière en une grille uniforme.
+
+`townspeople.png` et le repli `perso1.png` résolvent cette planche originale côté client ; les rôles restent compatibles avec les index8×4 des payloads/dialogues existants. Aspha/vendeurs/Lucie sont distingués par leur nom, sans changer IDs, positions, collisions, patrouilles ou interactions. Les61 PNJ civils et quatre dresseurs d’expédition sont ainsi couverts par le moteur partagé Aventure/Rift/Colosseum. Les six champions gardent leurs planches et leur rendu. Les personnages déjà peints dans les cartes auteur, dont les infirmières, proviennent déjà de cette planche : aucun doublon ajouté et aucune carte/image auteur modifiée. Le rôle infirmière reste disponible pour un futur PNJ dynamique.
+
+Les portraits de dialogue restent leurs illustrations haute résolution distinctes. Le service conserve le découpage de l’ancien atlas pour compatibilité, mais les sources de carte actives sont désormais celles choisies par le créateur. Recette reproductible `test:npc-browser` à la racine, ajoutée à la CI ; `validateNpcSprites` contrôle les36 personnages connexes entiers (sans pixels voisins), l’échelle×2, les rôles, l’ancrage, les six champions et32 portraits séparés. Ne pas rétablir la redirection `townspeople-pixel-v2` de l’ancienne livraison.
+
+Validation finale :723 tests applicatifs/77 SQL, audits, syntaxe/lint passés ; build racine88e926422ff5d6a2 après correction d’une coiffure dépassant sa cellule source. Recette PNJ :36 composantes entières,32 apparences civiles et cinq cas de rôle,32 illustrations séparées, six champions conservés, cinq lieux/quatre tailles et vrais mondes Rift/Colosseum ; dialogue Aspha accepté, zéro erreur. Aperçus dans `/tmp/riftmon-npc-atlas-browser`.
+
+Publication statique le23/10/2026 à04 h04 Paris après sauvegarde sources/dist/SQL/checkpoint (0 expédition active), client cc5d5eb ; service actif PID1308210 inchangé/NRestarts0, aucun redémarrage. Index atomique et anciens bundles conservés. Contrôle HTTPS sur compte temporaire : Aspha/boutique/Centre/Mounir,36 découpes/32 portraits, quatre tailles, sources originales et champion préservé, index exact, Knov/api-test inchangés et zéro erreur ; compte supprimé. Sauvegarde `/home/ubuntu/dev/backups/riftmon-npc-atlas-2026-10-23T01-53-43-141Z` ; logs `/tmp/riftmon-npc-atlas-{verify,build,browser,deploy,public}.log`.
+
+
 ## Traces sur la terre et pluie des premières routes — 23 octobre 2026
 
 Les sols en terre extérieurs reçoivent les petits pas alternés et le tassement bref déjà utilisés pour la neige, avec des couleurs brunes et une opacité réduite à65 %. Moteur commun `groundFootprints.js`, enveloppes neige/terre distinctes ; rendu neige conservé à l’identique. Fonte1350 ms, distance maximale64 px derrière chaque acteur, cache448×320 à30 Hz, recouvrements bornés, joueurs locaux/distants et PNJ dans les trois modes. Aucun pas à l’apparition/téléportation ; nettoyage au chargement, combat, onglet masqué, animations désactivées ou mouvement réduit.
