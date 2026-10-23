@@ -1,3 +1,4 @@
+const testAppearanceRepository = { async loadUserSprite(){return 'sprite.png';}, async saveUserSprite(){} };
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const http = require('node:http');
@@ -21,7 +22,7 @@ function command(socket, name, payload = {}) {
 test('Socket Drift réel : authentification, groupe synchronisé, confidentialité, reprise et isolation Aventure', { timeout: 15000 }, async () => {
     const server = http.createServer();
     const io = new Server(server);
-    const cleanup = registerDriftLobbies(io, { runtimeOptions:{starterChoiceMs:0}, sweepMs: 60000 });
+    const cleanup = registerDriftLobbies(io, { appearanceRepository:testAppearanceRepository, runtimeOptions:{starterChoiceMs:0}, sweepMs: 60000 });
     let adventureConnections = 0;
     io.on('connection', () => adventureConnections++);
     server.listen(0, '127.0.0.1');
@@ -83,7 +84,7 @@ test('Socket : lancement, monde existant, horloge, équipement limité et tourno
     const factory=require('../server/game/drift/pokemonFactory');
     const store=createLobbyStore({now:()=>clock});
     const server=http.createServer(),io=new Server(server);
-    const cleanup=registerDriftLobbies(io,{store,runtimeOptions:{starterChoiceMs:0,now:()=>clock,random:()=>.1,paceMs:0}});
+    const cleanup=registerDriftLobbies(io, { appearanceRepository:testAppearanceRepository,store,runtimeOptions:{starterChoiceMs:0,now:()=>clock,random:()=>.1,paceMs:0}});
     server.listen(0,'127.0.0.1');await once(server,'listening');
     const url=`http://127.0.0.1:${server.address().port}/drift`,sockets=[];
     const users=[{id:91,username:'Anna'},{id:92,username:'Bruno'}];
@@ -123,7 +124,7 @@ test('Socket Drift : passage salon/monde, changement de carte et reconnexion con
     const { createLobbyStore, RECONNECT_MS } = require('../server/game/drift/lobbyStore');
     const store = createLobbyStore({ now: () => clock });
     const server = http.createServer(), io = new Server(server);
-    const cleanup = registerDriftLobbies(io, { store, runtimeOptions: { starterChoiceMs:0, now: () => clock, random: () => .5 } });
+    const cleanup = registerDriftLobbies(io, { appearanceRepository:testAppearanceRepository, store, runtimeOptions: { starterChoiceMs:0, now: () => clock, random: () => .5 } });
     server.listen(0, '127.0.0.1');
     await once(server, 'listening');
     const url = `http://127.0.0.1:${server.address().port}/drift`;

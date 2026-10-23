@@ -1,3 +1,4 @@
+const testAppearanceRepository = { async loadUserSprite(){return 'sprite.png';}, async saveUserSprite(){} };
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const { createLobbyStore } = require('../server/game/drift/lobbyStore');
@@ -293,7 +294,7 @@ test('Socket Colosseum ignores forged mode settings, points, user identity and e
     const {io:client}=require('../vue-explorakit/node_modules/socket.io-client');
     const {signAccessToken}=require('../server/config/auth');
     const {registerDriftLobbies}=require('../server/realtime/driftLobbyHandler');
-    const server=http.createServer(),io=new Server(server),cleanup=registerDriftLobbies(io,{runtimeOptions:{starterChoiceMs:0}});
+    const server=http.createServer(),io=new Server(server),cleanup=registerDriftLobbies(io, { appearanceRepository:testAppearanceRepository,runtimeOptions:{starterChoiceMs:0}});
     server.listen(0,'127.0.0.1');await once(server,'listening');
     const sockets=[];
     const command=(s,n,p={})=>new Promise((resolve,reject)=>s.timeout(3000).emit(n,p,(e,r)=>e?reject(e):resolve(r)));

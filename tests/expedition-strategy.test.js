@@ -1,3 +1,4 @@
+const testAppearanceRepository = { async loadUserSprite(){return 'sprite.png';}, async saveUserSprite(){} };
 const test=require('node:test'),assert=require('node:assert/strict');
 const {createLobbyStore}=require('../server/game/drift/lobbyStore');
 const {createRunManager}=require('../server/game/drift/runManager');
@@ -133,7 +134,7 @@ test('Socket strategy commands are owner-checked and checkpointed; stale choices
  const http=require('node:http'),{once}=require('node:events'),{Server}=require('socket.io'),{io:client}=require('../vue-explorakit/node_modules/socket.io-client');
  const {signAccessToken}=require('../server/config/auth'),{registerDriftLobbies}=require('../server/realtime/driftLobbyHandler');
  const server=http.createServer(),io=new Server(server);let checkpoint;
- const cleanup=registerDriftLobbies(io,{checkpointRepository:{async save(bytes){checkpoint=bytes;}}});
+ const cleanup=registerDriftLobbies(io, { appearanceRepository:testAppearanceRepository,checkpointRepository:{async save(bytes){checkpoint=bytes;}}});
  server.listen(0,'127.0.0.1');await once(server,'listening');const sockets=[];
  const command=(s,n,p={})=>new Promise((resolve,reject)=>s.timeout(3000).emit(n,p,(e,r)=>e?reject(e):resolve(r)));
  try{

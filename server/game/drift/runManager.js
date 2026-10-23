@@ -329,8 +329,9 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
             players: [...run.players.values()].map(p => ({ id: p.userId, username: p.username })) }))
             .then(activate).catch(error => { lobby.starting=false;throw error; });
     }
-    function enter(user,socket) {
+    function enter(user,socket,sprite) {
         const p=playerFor(user); if(!p) economy.fail('Aucune expédition active.');
+        if (sprite) p.sprite = sprite;
         stopSpectating(p,'replaced');
         if(p.socketId && p.socketId!==socket.id) namespace.to(p.socketId).emit('drift:replaced',{});
         p.socketId=socket.id;p.disconnectedAt=null;

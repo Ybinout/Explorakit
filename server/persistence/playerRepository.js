@@ -57,6 +57,11 @@ async function loadUserPosition(userId) {
     };
 }
 
+async function loadUserSprite(userId) {
+    const [rows] = await dbPool.execute('SELECT sprite FROM users WHERE id = ? LIMIT 1', [userId]);
+    return sanitizeSpriteName(rows[0]?.sprite);
+}
+
 async function saveUserPosition(userId, { x, y, map, centerReturnPoint, repelSteps }) {
     const steps = repelSteps === undefined ? null : require('../game/items/repel').remainingRepel({ repelSteps });
     const point = normalizeCenterReturnPoint(centerReturnPoint);
@@ -107,6 +112,7 @@ async function saveUserRespawnPoint(userId, { x, y, map }) {
 }
 
 module.exports = {
+    loadUserSprite,
     loadUserPosition,
     saveUserPosition,
     saveUserRespawnPoint,

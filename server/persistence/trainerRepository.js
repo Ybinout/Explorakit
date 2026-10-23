@@ -1,6 +1,7 @@
 const { dbPool, withTransaction } = require('../config/database');
 const { INITIAL_RATING, riftRank, colosseumRank, eloThresholds, colosseumThresholds } = require('../game/social/ranks');
 const cosmetics = require('../../data/game/cosmetics.json');
+const { sanitizeSpriteName } = require('./playerRepository');
 const fail = (message, statusCode = 400) => { throw Object.assign(new Error(message), { statusCode }); };
 function id(value) {
     if (!/^[1-9]\d*$/.test(String(value)) || !Number.isSafeInteger(Number(value)) || Number(value) > 2147483647) fail('Dresseur invalide.');
@@ -11,7 +12,7 @@ const select = `SELECT u.id,u.username,u.sprite,p.wins,p.losses,p.games_started,
     LEFT JOIN rift_appearance a ON a.user_id=u.id`;
 function publicTrainer(row) {
     const rating = row.rating == null ? INITIAL_RATING : Number(row.rating), games = Number(row.games) || 0;
-    return { id: Number(row.id), username: row.username, sprite: row.sprite === 'sprite2.png' ? 'sprite2.png' : 'sprite.png',
+    return { id: Number(row.id), username: row.username, sprite: sanitizeSpriteName(row.sprite),
         title: cosmetics.find(c => c.key === row.title_key)?.name || null,
         frame: cosmetics.find(c => c.key === row.frame_key)?.color || null,
         rift: { wins: Number(row.wins) || 0, losses: Number(row.losses) || 0, gamesStarted: Number(row.games_started) || 0,

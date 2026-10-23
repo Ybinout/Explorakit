@@ -654,7 +654,7 @@
     "name": "town_lina",
     "sentences": [
       {
-        "text": "Lina : Je m’entraîne avant de défier Mounir. Mon Roucool est niveau 12. Un duel amical ?",
+        "text": "Maria : Je m’entraîne avant de défier Mounir. Mon Roucool est niveau 12. Un duel amical ?",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -680,7 +680,7 @@
     "name": "town_lina_after",
     "sentences": [
       {
-        "text": "Lina : Bien joué ! Voilà 150 pièces pour ton voyage.",
+        "text": "Maria : Bien joué ! Voilà 150 pièces pour ton voyage.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -689,7 +689,7 @@
         }
       },
       {
-        "text": "Lina : Je surveille mieux les types maintenant. Le Centre est juste au nord : soigne ton équipe avant l’arène.",
+        "text": "Maria : Je surveille mieux les types maintenant. Le Centre est juste au nord : soigne ton équipe avant l’arène.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -703,7 +703,7 @@
     "name": "town_bastien",
     "sentences": [
       {
-        "text": "Bastien : Lucie m’a appris à varier mon équipe. Deux partenaires, niveaux 13 et 14 : à toi de jouer !",
+        "text": "Clément : Lucie m’a appris à varier mon équipe. Deux partenaires, niveaux 13 et 14 : à toi de jouer !",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -729,7 +729,7 @@
     "name": "town_bastien_after",
     "sentences": [
       {
-        "text": "Bastien : Bien joué ! Voilà 200 pièces pour ton voyage.",
+        "text": "Clément : Bien joué ! Voilà 200 pièces pour ton voyage.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -738,7 +738,7 @@
         }
       },
       {
-        "text": "Bastien : Mounir garde un souvenir ému d’Lucie. Va lui parler dans l’arène ; il ne le montrera pas, mais tu lui feras plaisir.",
+        "text": "Clément : Mounir garde un souvenir ému d’Lucie. Va lui parler dans l’arène ; il ne le montrera pas, mais tu lui feras plaisir.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,

@@ -1,5 +1,20 @@
 # Contexte permanent — RiftMon
 
+## Apparences du joueur, quitter et noms des habitants — 23 octobre 2026
+
+Quatre apparences gratuites supplémentaires dans Apparence :Éclaireur, Exploratrice, Randonneur et Voyageuse, en plus des deux tenues initiales. `generatePlayerSprites.js` extrait exclusivement les poses existantes de `6931.png` (source inchangée), avec provenance `playerSpriteSources.json` ; sprites3–6 en256×256,16 cases64×64, quatre directions et trois poses de marche, pixels×2 sans lissage, pieds alignés à58 px. Pas de nouvelle illustration générée. L’aperçu du menu montre une seule pose à sa taille réelle, et le profil communautaire conserve et affiche ces nouveaux choix sans déformer les planches.
+
+Le choix est disponible en Aventure/Rift/Colosseum :décodage avant affichage, attente de confirmation serveur, un changement à la fois, erreur lisible si sauvegarde refusée. Événement `setSprite` compatible avec les anciens clients ; propriétaire issu du JWT, écriture SQL du seul sprite puis diffusion aux joueurs concernés. Les expéditions lisent uniquement le sprite global à l’entrée (jamais équipe/inventaire/position Aventure), le conservent en checkpoint et le restaurent à la reconnexion. Dépôt d’apparence injectable pour garder les recettes Socket unitaires sans SQL ; aucune migration.
+
+Bouton « Quitter » dans les menus des trois modes :arrêt du déplacement, sauvegarde confirmée avant retour à l’accueil en restant connecté au compte. Échec/déconnexion :reste dans le jeu avec message. En expédition, `drift:save` prend un checkpoint ; aucun `drift:exit` implicite et aucune modification du chrono ni de la grâce de déconnexion90 s. Avertissement dans le menu :le temps continue et une déconnexion prolongée compte comme un abandon. Le bouton d’abandon existant reste distinct.
+
+Ville du Lac :Lina devient Maria et Bastien devient Clément dans tous leurs dialogues avant/après duel. IDs `town_lina`/`town_bastien`, équipes, conditions, récompenses et acquis existants conservés ; aucun changement de carte/PNJ/champion/portrait.
+
+Vérifications :726 tests applicatifs (dont trois tests de sauvegarde, concurrence/échec, autorisation, checkpoint et reconnexion des apparences),77 SQL et audits/lint/build racine ccce83128e57c843. `test:player-options-browser`, ajouté à la CI :64 poses comparées pixel par pixel à la source, pieds constants, vrai changement visible par un autre joueur, SQL/rechargement/profil, quatre tailles, refus de quitter hors connexion, sauvegarde avant accueil, équipe Aventure préservée, dialogues Maria/Clément, vrais Rift/Colosseum et reprise de la même expédition sans abandon ; zéro erreur. Les cinq suites Socket sans SQL injectent un dépôt d’apparence simulé ; le navigateur utilise la vraie base dédiée. Logs `/tmp/riftmon-player-options-*`.
+
+Publication le23/10/2026 à04 h36 Paris après sauvegarde sources/dist/SQL/checkpoint (0 expédition active), client b373f09 ; service actif PID1327347/NRestarts0, index racine atomique et anciens bundles conservés. Contrôle HTTPS sur compte temporaire :les quatre tenues choisies/enregistrées, six choix visibles à quatre tailles, vrai déplacement puis Quitter et reprise aux mêmes coordonnées, apparence persistante, vrai Colosseum repris avec sa tenue et même ID après Quitter, profil correct et dialogues Maria/Clément ; index exact, Knov/api-test inchangés, zéro erreur. Expédition temporaire abandonnée puis compte supprimé. Aucun schéma, carte, acquis, équipe ou record existant modifié. Sauvegarde `/home/ubuntu/dev/backups/riftmon-player-options-2026-10-23T02-17-31-814Z` ; logs verify/all-unit/unit/browser/deploy/public sous le préfixe ci-dessus.
+
+
 ## Traces de terre plus visibles — 23 octobre 2026
 
 Retour du créateur : les premières traces de terre étaient presque invisibles. Profil terre seul renforcé : brun66/45/28 au lieu de92/70/48, gain d’opacité1,6 au lieu de0,65 (environ×2,46). Petits pas et tassement plus lisibles sur les terres grises/ocres, même sous la pluie. Même forme/largeur, fonte1350 ms et longueur maximale64 px ; neige, météo, masques, cartes et moteur commun inchangés. Rendu partagé Aventure/Rift/Colosseum.

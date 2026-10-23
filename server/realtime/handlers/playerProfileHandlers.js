@@ -4,19 +4,26 @@ const { saveUserSprite, sanitizeSpriteName } = require('../../persistence/player
 const DEFAULT_SPRITE = 'sprite.png';
 
 function registerPlayerProfileHandlers({ socket, io, players, userId }) {
-    socket.on('setSprite', async (payload = {}) => {
+    let appearanceBusy = false;
+    socket.on('setSprite', async (payload = {}, acknowledge = () => {}) => {
+        const reply = typeof acknowledge === 'function' ? acknowledge : () => {};
         const player = players[socket.id];
-        if (!player) return;
+        if (!player || player.inbattle || appearanceBusy) return reply({ success: false, message: 'Apparence indisponible maintenant.' });
 
         const requestedSprite = sanitizeSpriteName(payload.sprite || DEFAULT_SPRITE);
-        if (player.sprite === requestedSprite) return;
+        if (player.sprite === requestedSprite) return reply({ success: true, sprite: requestedSprite });
 
-        player.sprite = requestedSprite;
+        appearanceBusy = true;
         try {
             await saveUserSprite(userId, requestedSprite);
+            player.sprite = requestedSprite;
         } catch (error) {
             console.error(`Erreur de sauvegarde sprite user ${userId}:`, error.message);
+            return reply({ success: false, message: 'Impossible d’enregistrer cette apparence. Réessaie.' });
+        } finally {
+            appearanceBusy = false;
         }
+        reply({ success: true, sprite: requestedSprite });
 
         for (const id in players) {
             if (players[id].currentmap === player.currentmap) {

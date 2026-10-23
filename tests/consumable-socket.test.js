@@ -1,3 +1,4 @@
+const testAppearanceRepository = { async loadUserSprite(){return 'sprite.png';}, async saveUserSprite(){} };
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const http = require('node:http');
@@ -15,7 +16,7 @@ for (const mode of ['rift', 'colosseum-30', 'colosseum-60']) {
     test(`${mode}: bag healing is owned, consumed once, persisted and never revives a KO`, { timeout: 15000 }, async () => {
         let checkpoint;
         const server = http.createServer(), io = new Server(server);
-        const cleanup = registerDriftLobbies(io, { runtimeOptions:{starterChoiceMs:0}, checkpointRepository: { async save(bytes) { checkpoint = bytes; } } });
+        const cleanup = registerDriftLobbies(io, { appearanceRepository:testAppearanceRepository, runtimeOptions:{starterChoiceMs:0}, checkpointRepository: { async save(bytes) { checkpoint = bytes; } } });
         server.listen(0, '127.0.0.1');await once(server, 'listening');
         const sockets = [], users = [{ id: 801, username: 'Bag tester' }, { id: 802, username: 'Other trainer' }];
         try {

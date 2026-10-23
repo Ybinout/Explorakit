@@ -1,3 +1,4 @@
+const testAppearanceRepository = { async loadUserSprite(){return 'sprite.png';}, async saveUserSprite(){} };
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const http = require('node:http');
@@ -24,7 +25,7 @@ function command(socket, name, payload = {}) {
 test('RiftMon Socket : liste publique, trois joueurs, exemption spectatrice, confidentialité et fin réelle du duel', { timeout: 15000 }, async () => {
     const store = createLobbyStore();
     const server = http.createServer(), io = new Server(server);
-    const cleanup = registerDriftLobbies(io, { store, sweepMs: 60000, runtimeOptions: { starterChoiceMs:0, random: () => .2, paceMs: 0 } });
+    const cleanup = registerDriftLobbies(io, { appearanceRepository:testAppearanceRepository, store, sweepMs: 60000, runtimeOptions: { starterChoiceMs:0, random: () => .2, paceMs: 0 } });
     server.listen(0, '127.0.0.1'); await once(server, 'listening');
     const url = `http://127.0.0.1:${server.address().port}/drift`;
     const sockets = [], users = Array.from({ length: 4 }, (_, i) => ({ id: 601 + i, username: `Rift ${i}` }));
