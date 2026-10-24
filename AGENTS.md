@@ -1,5 +1,13 @@
 # Contexte permanent — RiftMon
 
+## Musiques de salle Mounir et Hoze — 24 octobre 2026
+
+Fichiers utilisateur `pourtoi/mounir.mp3` et `pourtoi/hoze_arene.mp3` copiés sans conversion en `mounir-arene.mp3` et `hoze-arene.mp3`. Thèmes `mounir-room` pour `ville1_arene` et `hoze-room` pour `ville_safe1_arene`. Volume de fond commun, boucle, redémarrage lors du retour depuis un autre thème ; pause pendant combat/résultat/onglet masqué puis reprise au même endroit. Les pistes de combat Mounir et Hoze restent distinctes. Tous les champions actifs disposent désormais d’un thème de salle et d’un thème de combat configurés.
+
+Validation : neuf tests musique, lint/build isolé `55f69662dda4b002`. Recette navigateur audio réel `validateNewMusicBrowser.js` étendue aux deux salles (lecture/décodage, réentrée, pause/reprise et absence de superposition). Journaux `/tmp/riftmon-last-rooms-{tests,lint,build,browser,deploy}.log`.
+
+Publication client seule à 2026-10-24T15:56:18.651Z, client `1c16958e3f3e3a064a45ac27f000408bc3048918`, build `55f69662dda4b002`. Recette navigateur réussie ; index et deux MP3 publics identiques aux sources. Serveur PID 1544514 et Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-last-rooms-2026-10-24T15-56-17-615Z`.
+
 ## Musique de combat Mounir — 24 octobre 2026
 
 Le nouveau fichier utilisateur `pourtoi/Battle! Gym Leader - Remix Cover (Pokémon Sword and Shield)(2).mp3` est valide et copié sans conversion en `src/assets/msc/mounir.mp3`. Il remplace le thème générique pendant les combats d’arène de Mounir (`ville1_arene`), via le sélecteur commun aux trois modes. La musique de salle reste inchangée. Cette livraison résout l’attente du précédent fichier vide, qui n’avait pas été déployé.
