@@ -12,12 +12,12 @@ function player() {return {items:{},equipe:{pokemons:[pkm()]},storage:[]};}
 function fixed(fn) {const old=Math.random;Math.random=()=>.5;try{return fn();}finally{Math.random=old;}}
 function enter(p,opponent=pkm(),state=engine.createBattleState()) {return engine.applySwitchInEffects(p,state.sides.player,state.sides.enemy,state,opponent);}
 
-test('wild loot: exact 1/25 base threshold, weighted families, berries repeat and exhausted unique pools never waste a successful drop',()=>{
-    assert.equal(loot.CHANCE,1/25);const p=player();
-    assert(loot.awardExpedition(p,sequence(.039999,0,0)));
-    assert.equal(loot.awardExpedition(p,sequence(.04,0,0)),null);
-    let found=0;for(let i=0;i<10000;i++)if(loot.awardExpedition(p,sequence((i+.5)/10000,0,0)))found++;
-    assert.equal(found,400);
+test('wild loot: exact 1/17 base threshold, weighted families, berries repeat and exhausted unique pools never waste a successful drop',()=>{
+    assert.equal(loot.CHANCE,1/17);const p=player();
+    assert(loot.awardExpedition(p,sequence(1/17-1e-8,0,0)));
+    assert.equal(loot.awardExpedition(p,sequence(1/17,0,0)),null);
+    let found=0;for(let i=0;i<17000;i++)if(loot.awardExpedition(p,sequence((i+.5)/17000,0,0)))found++;
+    assert.equal(found,1000);
     const groups={};for(let i=0;i<10000;i++){const item=loot.select(new Set(),sequence((i+.5)/10000,.5));groups[item.wildLoot.group]=(groups[item.wildLoot.group]||0)+1;}
     assert.deepEqual(groups,{berries:5500,vitamins:2500,equipment:1500,key:500});
     const claimed=new Set(loot.uniqueKeys);

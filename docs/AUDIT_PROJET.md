@@ -1,5 +1,11 @@
 # Audit technique et mémoire de RiftMon
 
+## Butin sauvage à 1/17 — 24 octobre 2026
+
+Taux de base des objets après victoire sauvage : 1/17 (≈5,88 %) dans les trois modes. L’Aventure était déjà à 1/20, les expéditions à 1/25 ; `ADVENTURE_CHANCE` partage maintenant `CHANCE`. Pondérations des familles/objets, exclusion permanente des uniques, bonus Drifts et absence de butin sur capture/fuite/défaite inchangés. Aucun inventaire modifié rétroactivement.
+
+Validation : 44 tests objets réussis, dont 1 000 succès sur 17 000 tirages déterministes et contrôle strict de la frontière 1/17 ; test SQL ciblé réussi (seuil, réception concurrente, inventaire/équipement/PC et unicité persistante). Journaux `/tmp/riftmon-loot17-{tests,mysql,deploy}.log`. Publication serveur à 2026-10-24T06:58:01.311Z, PID 1522716 actif, HTTPS 200, client et Knov/api-test inchangés ; sauvegarde `/home/ubuntu/dev/backups/riftmon-loot17-2026-10-24T06-57-23-678Z`.
+
 ## Progression après Raph — 24 octobre 2026
 
 Le creux des routes suivant Raph est corrigé : Route 9 (`gen_route7`) 42–44, Route 10 (`gen_route6`) 44–46, Ana 47/47/48/48/49/49, Route 11 47–49, Route 12 49–51. Wanda reste 52–54 ; grottes de Rochebrume 51–53 / 53–55 / 55–57, Routes 13–14 57–59 / 59–61 et 7p 60–63 déjà cohérents, inchangés. Les rencontres sauvages restent légèrement sous les champions voisins. K/IV/EV/sets/IA/objets préservés.
@@ -2913,6 +2919,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+24/10/2026 — Butin sauvage : chance de base 1/17 dans les trois modes, raretés/uniques/bonus préservés, seuil et réception SQL vérifiés.
 
 24/10/2026 — Progression post-Raph : Routes 9–12 et Ana relevées, Mathilde/branche commerciale alignées ; villes et pêche cohérentes, montée jusqu’à 7p niveau 63 conservée. Tests et parcours complet SQL validés.
 
