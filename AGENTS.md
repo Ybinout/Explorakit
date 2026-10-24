@@ -1,5 +1,15 @@
 # Contexte permanent — RiftMon
 
+## Musiques des grottes, de Blanchecime et de trois champions — 24 octobre 2026
+
+Les cinq MP3 fournis dans `/home/ubuntu/dev/pourtoi` sont copiés sans réencodage : `cave.mp3` pour l’exploration des grottes, `snow.mp3` pour Blanchecime/boutique/arène hors combat, `ana.mp3`, `wanda.mp3`, `7p.mp3` pour leurs combats d’arène. Identité SHA-256 vérifiée ; les imports source sont conservés. Affectations, chemins, tailles, durées et empreintes dans `docs/NEW_MUSIC_ASSETS.md`.
+
+Le contrôleur WorldMusic garde une instance et une position par thème, sans recommencer entre salles de grotte ni au retour d’un combat. `battleMusicTrack` sélectionne la piste par arène uniquement pour les combats d’arène, avant le contrôle de continuité existant : Raph garde sa musique, les autres types de combat sont inchangés. Fonctionnement partagé par Aventure/Rift/Colosseum. Les routes enneigées restent des routes pour leur ambiance ; le Centre Pokémon partagé conserve son thème village.
+
+Six tests unitaires, lint et build isolé réussis. Recette `scripts/validateNewMusicBrowser.js` passée sans erreur : lecture et décodage réels des cinq pistes nouvelles + Raph/arène générique, continuité dans les grottes, Blanchecime/boutique, cinq vrais combats, mises à jour sans redémarrage audio, pause/reprise sans superposition, volume et onglet masqué. Journaux `/tmp/riftmon-new-music-*`.
+
+Publication client seule à 2026-10-24T05:36:10.760Z, client `2ac59eb`, build `b5e295cee2700d78`. Index HTTPS et cinq MP3 publiés vérifiés octet par octet. Serveur PID 1508798 inchangé, Knov/api-test inchangés. Sauvegarde index/référence client dans `/home/ubuntu/dev/backups/riftmon-new-music-2026-10-24T05-36-10-038Z`, anciens bundles conservés.
+
 ## Décors dédiés pour les quatre arènes restantes — 24 octobre 2026
 
 Hoze (`ville_safe1_arene`), Ana (`ville3_arene`), Wanda (`ville4_arene`) et 7p (`ville5_arene`) ont chacun un fond de combat dédié, en paysage 1536×1024 et portrait 1024×1536. Thèmes : salle de grès doré, serre ivoire/sauge, citadelle de basalte/violet, salle du sommet en marbre glacé. Mounir et Raph conservent leurs décors existants ; les six champions actuels sont couverts. Les arènes gardent leur intérieur quand la météo de combat change. Priorité du Colosseum et des rencontres de pêche inchangée.
