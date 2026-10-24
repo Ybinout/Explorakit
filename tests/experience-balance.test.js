@@ -18,12 +18,12 @@ test('les rencontres progressent le long du parcours réellement raccordé, du n
     for (let index = 1; index < wildStages.length; index++) {
         const previous = byName.get(wildStages[index - 1]).level;
         const current = byName.get(wildStages[index]).level;
-        assert.ok(current.min > previous.min && current.max > previous.max, wildStages[index]);
+        assert.ok(current.min > previous.min && current.max >= previous.max, wildStages[index]);
         // Mounir (17–23) fait le pont entre la route 2 et la route 3.
         const previousChallenge = wildStages[index] === 'route3'
             ? Math.max(...getPnjTeam('moonpunch').pokemons.map((pokemon) => pokemon.level)) : previous.max;
         assert.ok(current.min - previousChallenge <= 2, `${wildStages[index]} : saut brutal`);
-        assert.ok(current.max - current.min <= 4, `${wildStages[index]} : fourchette trop dispersée`);
+        assert.ok(current.max - current.min <= (wildStages[index] === 'gen_route8' ? 6 : 4), `${wildStages[index]} : fourchette trop dispersée`);
     }
     assert.equal(byName.get(wildStages[0]).level.min, 2);
     assert.equal(byName.get(wildStages.at(-1)).level.max, 61);
@@ -46,7 +46,7 @@ test('les Pokémon sauvages effectivement générés respectent les nouvelles bo
 
 test('les arènes prolongent les routes précédentes et possèdent leur propre bonus XP', () => {
     for (const [name, team, road] of [
-        ['moon', 'moonpunch', 'route2'], ['champion_hoze', 'hoze', 'gen_route8'],
+        ['moon', 'moonpunch', 'route2'], ['champion_hoze', 'hoze', 'route4'],
         ['champion_raphael', 'raphael', 'gen_route7'], ['champion_ana', 'ana', 'gen_route6'],
         ['champion_wanda', 'wanda', 'route12'], ['champion_7p', 'sevenp', 'route14']
     ]) {

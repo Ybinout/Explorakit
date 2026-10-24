@@ -54,7 +54,7 @@ test('wild level curve keeps a level 2–5 starting patch and the compressed lat
  const previous={start:[5,7],route1:[8,11],route2:[12,16],route3:[21,25],cave1:[26,30],cave2:[31,35],route4:[35,38],gen_route8:[38,41],gen_route7:[42,45],gen_route6:[45,47],gen_route5:[47,49],gen_route4:[50,52],gen_route3:[53,55],gen_route2:[55,57],gen_route1:[57,60]};
  for(const [name,range] of Object.entries(previous)){
   const zone=maps.find(m=>m.mapName===name);
-  assert.deepEqual([zone.level.min,zone.level.max],name==='start'?[2,5]:name==='route1'?[6,9]:range.map(level=>Math.round(5+(level-5)*.9)),name);
+  assert.deepEqual([zone.level.min,zone.level.max],name==='start'?[2,5]:name==='route1'?[6,9]:name==='gen_route8'?[35,41]:range.map(level=>Math.round(5+(level-5)*.9)),name);
   assert(zone.wildpokemon.length>=12);assert.equal(new Set(zone.wildpokemon).size,zone.wildpokemon.length);assert(zone.mapchange.length>0);
  }
 });

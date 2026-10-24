@@ -1,5 +1,11 @@
 # Contexte permanent — RiftMon
 
+## Route 8 : rencontres jusqu’au niveau 41 — 24 octobre 2026
+
+La plage sauvage de `gen_route8` passe de 35–37 à 35–41. Minimum, espèces et transitions inchangés, aucune autre zone modifiée. Les tests de progression autorisent cette plage élargie et le chevauchement avec la route suivante ; Hoze est comparé à Route 4, avant Route 8, sans modifier son équipe.
+
+Validation : 20 tests rencontres/variété/équilibrage réussis, dont génération réelle aux deux bornes. Publication serveur seule à 2026-10-24T06:19:22.352Z, PID 1521211 actif, HTTPS 200, client et Knov/api-test inchangés. Journaux `/tmp/riftmon-route8-levels-{tests,deploy}.log` ; sauvegarde `/home/ubuntu/dev/backups/riftmon-route8-levels-2026-10-24T06-18-14-921Z`.
+
 ## Renforcement de Raph — 24 octobre 2026
 
 Toute son équipe gagne deux niveaux : Kaiminus 42/K1, Akwakwak 42/K2, Absol 43/K1, Libégon 43/K3, Cizayox 44/K4. Sets, talents, objets, IV/EV et réserve de Cizayox inchangés. `pnjTeamFactory` recalcule déjà les six statistiques depuis niveau/K/IV/EV : les six valeurs augmentent pour chaque Pokémon ; à niveau identique, les K2/K3 augmentent aussi chacune par rapport au K1 précédent. Exemple : Libégon Attaque 94 → 114, Akwakwak Attaque Spéciale 97 → 109. Aucun changement de formule.
