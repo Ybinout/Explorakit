@@ -12,10 +12,10 @@ const learnsets = require('../data/game/pokemonData.json');
 
 test('Raphael: five arena-level partners, legal coherent sets and a fully trained K4 ace; independent encounters', () => {
     const team = getPnjTeam('raphael'), other = getPnjTeam('raphael');
-    assert.deepEqual(team.pokemons.map(p => [p.data.id, p.level]), [[158,40],[55,40],[359,41],[330,41],[212,42]]);
+    assert.deepEqual(team.pokemons.map(p => [p.data.id, p.level]), [[158,42],[55,42],[359,43],[330,43],[212,44]]);
     const zone = require('../data/game/nextMap.json').maps.find(m => m.mapName === 'gen_route7').level;
     for (const p of team.pokemons) {
-        assert(p.level >= zone.min && p.level <= zone.max + 1);
+        assert(p.level >= zone.min && p.level <= zone.max + 3);
         assert.equal(p.abilities.length, 4);
         for (const name of p.abilities) {
             assert(learnsets[p.data.id].includes(name.toLowerCase().replace(/[^a-z0-9]+/g, '-')));
@@ -25,7 +25,8 @@ test('Raphael: five arena-level partners, legal coherent sets and a fully traine
         assert.deepEqual(p.movePp, p.abilities.map(getMaxMovePp));
     }
     assert.deepEqual(team.pokemons.map(p => p.heldItem), ['eviolite','leftovers','life_orb','choice_scarf','lum_berry']);
-    assert(team.pokemons.slice(0,4).every(p => p.k === 1 && Object.values(p.iv).every(v => v === 18) && Object.values(p.ev).every(v => v === 0)));
+    assert.deepEqual(team.pokemons.map(p => p.k), [1,2,1,3,4]);
+    assert(team.pokemons.slice(0,4).every(p => Object.values(p.iv).every(v => v === 18) && Object.values(p.ev).every(v => v === 0)));
     const ace = team.pokemons[4];
     assert.equal(ace.k, 4); assert(Object.values(ace.iv).every(v => v === 31));
     assert.equal(ace.nature, 'Adamant'); assert.equal(ace.passiveAbility, 'Technician');

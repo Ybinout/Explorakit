@@ -498,7 +498,7 @@
         {
           "pokemonId": 158,
           "name": "Kaiminus",
-          "level": 40,
+          "level": 42,
           "abilities": [
             "Waterfall",
             "Ice Punch",
@@ -521,7 +521,7 @@
         {
           "pokemonId": 55,
           "name": "Akwakwak",
-          "level": 40,
+          "level": 42,
           "abilities": [
             "Scald",
             "Ice Beam",
@@ -530,7 +530,7 @@
           ],
           "passiveAbility": "Cloud Nine",
           "heldItem": "leftovers",
-          "k": 1,
+          "k": 2,
           "nature": "Modest",
           "givenIv": {
             "hp": 18,
@@ -544,7 +544,7 @@
         {
           "pokemonId": 359,
           "name": "Absol",
-          "level": 41,
+          "level": 43,
           "abilities": [
             "Knock Off",
             "Psycho Cut",
@@ -567,7 +567,7 @@
         {
           "pokemonId": 330,
           "name": "Libégon",
-          "level": 41,
+          "level": 43,
           "abilities": [
             "Earthquake",
             "Dragon Claw",
@@ -576,7 +576,7 @@
           ],
           "passiveAbility": "Levitate",
           "heldItem": "choice_scarf",
-          "k": 1,
+          "k": 3,
           "nature": "Jolly",
           "givenIv": {
             "hp": 18,
@@ -590,7 +590,7 @@
         {
           "pokemonId": 212,
           "name": "Cizayox",
-          "level": 42,
+          "level": 44,
           "abilities": [
             "Bullet Punch",
             "Bug Bite",
