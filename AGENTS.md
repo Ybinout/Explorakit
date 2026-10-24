@@ -1,5 +1,19 @@
 # Contexte permanent — RiftMon
 
+## Lumière des lieux et vie locale — 24 octobre 2026
+
+`services/placeAmbience.js` ajoute un rendu client commun aux trois modes, sur 13 cartes explicitement choisies : Blanchecime, Ville du Lac, cinq grottes et six intérieurs d’arène. Toutes les coordonnées sont exprimées dans le dessin natif 448×320 puis projetées à 896×640 avec la caméra existante. Aucun déplacement de foreground entier, modification de carte/collision/transition ou changement de météo réelle.
+
+Blanchecime : voile bleu froid léger, huit fenêtres chaudes, quatre lanternes avec lumière sur les pavés, fumée des deux cheminées existantes et petite enseigne suspendue. Les sources des lanternes et cheminées ont été recalées après inspection du foreground composé. Ville du Lac : reflets/ondes près des rochers et crestes sur l’eau masquée, ombres de nuages lentes, deux papillons intermittents (8 s actifs sur 37 s, décalés) et bannière près de l’arène. Grottes : ombrage bleu/gris, deux groupes de cristaux sur des rochers sélectionnés par carte, poussières proches des sources et deux gouttes/impacts espacés (cycle 8,7 s). Animations locales, sans effet de collision ou d’interaction inventé.
+
+Six ambiances d’arène partagées entre la carte et `BattleOverlay` : cyan Mounir, ambre Hoze, cuivre Raph, sauge Ana, lilas Wanda, bleu glacé 7p. Bannières dans les salles ; éclairage fixe du décor, léger liseré des sprites et reflet des socles en combat. Aucun halo animé d’attaque ajouté. HUD et contrôles exclus des filtres ; ancres géométriques des socles/sprites conservées. Les vagues Colosseum gardent leur propre décor sans hériter d’une arène.
+
+Rendu plafonné à 20 Hz sur une surface native en cache ; le lac ajoute seulement son masque et sa surface d’effets. Masque créé une fois depuis `villageWaterMask`, composition `destination-in` : aucun reflet sur les rochers/berges. Lumière statique conservée en mouvement réduit, fumée/gouttes/papillons/nuages figés ou masqués. Surfaces libérées à la sortie de carte, masquage d’onglet, chargement, combat et destruction ; retour à la carte testé. Pas d’asset bitmap supplémentaire ni d’appel réseau pour les effets.
+
+Validation reproductible : `node scripts/validatePlaceAmbienceCanvas.js` couvre les 13 compositions, mouvement réduit, plafond de rendu, destruction et confinement pixel du lac (438 pixels éclairés, zéro hors masque). Mesure indicative Chromium headless : environ 0,61 ms par peinture du lac, pas une mesure de FPS sur téléphone physique. `RELEASE_DIST_DIR=/tmp/riftmon-place-ambience-dist node --env-file-if-exists=.env scripts/validatePlaceAmbienceBrowser.js` utilise un joueur jetable en base de test : 13 cartes en mobile/PC, six combats d’arène en 320/393/844/1365, palettes distinctes, alignement socles, lifecycle, aucun débordement ni erreur navigateur. Captures neige/lac/grottes/arènes inspectées. Recette complète `validateCombatFeedbackBrowser.js` réussie : huit familles d’attaques, synchronisation PV, capture/switch/K.O./XP, choix du remplaçant, six portraits d’entrée, mouvement réduit, musique et annulation. Lint/build et diff propres. Journaux `/tmp/riftmon-place-ambience-{lint,build,canvas,browser,combat,deploy}.log`.
+
+Publication client seule le 24/10/2026 à 13 h 30 Paris (11:30:30.641Z), client `71ec0c29deba2fb5601c1d52322350a3e858d7f9`, build `290242fc3c096dff`. Index HTTPS vérifié ; serveur PID 1522984 et Knov/api-test inchangés. Sauvegarde index/référence client dans `/home/ubuntu/dev/backups/riftmon-place-ambience-2026-10-24T11-30-29-602Z`, anciens bundles conservés.
+
 ## Butin Aventure à 1/15 — 24 octobre 2026
 
 Le taux d’objet après victoire sauvage en Aventure passe de 1/17 à 1/15 (≈6,67 %) via `ADVENTURE_CHANCE`. Rift et Colosseum conservent `CHANCE = 1/17`, leurs bonus et toutes les règles de rareté/unicité. Aucun inventaire modifié.

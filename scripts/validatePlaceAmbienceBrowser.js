@@ -1,0 +1,41 @@
+// Real game rendering with a disposable player and an isolated test database.
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),http=require('node:http');
+const {once}=require('node:events'),{randomUUID}=require('node:crypto');
+if(!/test/i.test(process.env.DB_TEST_NAME||''))throw Error('Dedicated test database required');
+process.env.DB_NAME=process.env.DB_TEST_NAME;process.env.NODE_ENV='test';
+const express=require('express'),{Server}=require('socket.io'),{chromium}=require('playwright'),{dbPool}=require('../server/config/database');
+const output=process.env.RELEASE_SCREENSHOTS||'/tmp/riftmon-place-ambience-browser';fs.mkdirSync(output,{recursive:true});
+const app=express(),server=http.createServer(app),io=new Server(server);app.use(express.json());app.use('/api',require('../server/http/routes'));app.use(express.static(process.env.RELEASE_DIST_DIR||'/tmp/riftmon-place-ambience-dist'));app.get('*',(_q,r)=>r.sendFile(path.resolve(process.env.RELEASE_DIST_DIR||'/tmp/riftmon-place-ambience-dist','index.html')));
+const cleanup=require('../server/realtime/driftLobbyHandler').registerDriftLobbies(io,{checkpointRepository:{async save(){}},runtimeOptions:{random:()=>.9,paceMs:0}});
+let browser,page,userId,success=false;const errors=[];
+(async()=>{try{
+ server.listen(0,'127.0.0.1');await once(server,'listening');const base=`http://127.0.0.1:${server.address().port}`;
+ const response=await fetch(base+'/api/users',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:'ambience_'+randomUUID(),password:randomUUID(),starterId:7})});assert.equal(response.status,201);const fixture=await response.json();userId=fixture.user.id;
+ browser=await chromium.launch({headless:true,args:['--no-sandbox']});const context=await browser.newContext({viewport:{width:393,height:852},hasTouch:true,isMobile:true});await context.addInitScript(v=>localStorage.setItem('explorakit.user',JSON.stringify(v)),{...fixture.user,token:fixture.token});page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.url().startsWith(base)&&r.status()>=400)errors.push(`${r.status()} ${r.url()}`);});
+ await page.goto(base+'/colosseum',{waitUntil:'networkidle'});await page.locator('[data-colosseum-start]:enabled').click();await page.locator('[data-starter-choice]').first().click();await page.locator('.starter-backdrop').waitFor({state:'hidden'});
+ await page.waitForFunction(()=>{let e=document.querySelector('.game-stage');while(e&&!e.__vue__)e=e.parentElement;if(!e?.__vue__?.socket?.connected)return false;window.v=e.__vue__;return true;});
+ await page.evaluate(()=>v.updatePreferences({...v.preferences,masterVolume:0}));const player=cleanup.runtime.playerFor({id:userId});
+ async function locate(map){const repo=require('../server/game/world/mapRepository'),c=repo.loadCollisionData(map),changes=repo.changeMapData(map);const points=[];for(let y=1;y<c.length-1;y++)for(let x=1;x<c[y].length-1;x++)if(!c[y][x]&&!changes[y]?.[x])points.push([x,y]);points.sort((a,b)=>(a[0]-14)**2+(a[1]-11)**2-((b[0]-14)**2+(b[1]-11)**2));const [x,y]=points[0];Object.assign(player,{currentmap:map,x:x*32+16,y:y*32+16});cleanup.runtime.enter(fixture.user,{id:player.socketId});await page.waitForFunction(map=>v.map===map&&v.renderedMap===map&&!v.mapLoading,map);}
+ const maps=['ville5','ville1','cave1','cave2','cave_rochebrume1','cave_rochebrume2','cave_rochebrume3','ville1_arene','ville_safe1_arene','gen_arene5','ville3_arene','ville4_arene','ville5_arene'];
+ for(const map of maps){await locate(map);await page.waitForFunction(map=>v._placeAmbience?.canvas&&v._placeAmbience.map===map,map);
+  for(const [width,height] of [[393,852],[1365,900]]){await page.setViewportSize({width,height});await page.evaluate(w=>{v.showMobileControls=w<1000;},width);await page.waitForTimeout(250);assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));await page.screenshot({path:path.join(output,`${map}-${width}.png`)});}
+ }
+ await locate('ville5');await page.evaluate(()=>v.updatePreferences({...v.preferences,animationsEnabled:false}));await page.waitForTimeout(150);const frames=await page.evaluate(()=>v._placeAmbience.frames);await page.waitForTimeout(300);assert.equal(await page.evaluate(()=>v._placeAmbience.frames),frames,'reduced motion freezes decorative animation, keeps lighting');
+ await page.evaluate(()=>{Object.defineProperty(document,'hidden',{configurable:true,value:true});document.dispatchEvent(new Event('visibilitychange'));});assert(await page.evaluate(()=>!v._placeAmbience.canvas));await page.evaluate(()=>{delete document.hidden;document.dispatchEvent(new Event('visibilitychange'));v.updatePreferences({...v.preferences,animationsEnabled:true});});await page.waitForFunction(()=>v._placeAmbience?.canvas);
+ await page.evaluate(()=>window.oldSurface=v._placeAmbience.canvas);await locate('route1');assert(await page.evaluate(()=>!v._placeAmbience.canvas&&oldSurface.width===0),'unknown map releases surface');
+ const palettes=[];
+ for(const [map,team,key] of [['ville1_arene','moonpunch','lake-gym'],['ville_safe1_arene','hoze','hoze-gym'],['gen_arene5','raphael','raph-gym'],['ville3_arene','ana','ana-gym'],['ville4_arene','wanda','wanda-gym'],['ville5_arene','sevenp','7p-gym']]){
+  await locate(map);const lead=require('../server/game/drift/pokemonFactory').create(9,100,true);lead.maxHp=lead.currentHp=5000;player.equipe.pokemons=[lead];
+  const battle=cleanup.runtime.battle(player,{npc:true,equipe:require('../server/game/world/pnjTeamFactory').getPnjTeam(team),drifts:[],equipped:[],chain:0},'arena',team==='moonpunch'?'moon':'champion_'+team);battle.deadline=Date.now()+240000;
+  await page.locator('.action-attack:enabled').waitFor();assert(await page.evaluate(()=>!v._placeAmbience.canvas),'world renderer is suspended during fight');
+  for(const [width,height] of [[320,568],[393,852],[844,390],[1365,900]]){
+   await page.setViewportSize({width,height});await page.evaluate(w=>{v.showMobileControls=w<1000;},width);await page.waitForTimeout(250);
+   const info=await page.evaluate(()=>{const battle=document.querySelector('.battle'),s=document.querySelector('.battle-scene'),b=v.$refs.battleOverlay;return {key:battle.dataset.placeLight,light:getComputedStyle(battle).getPropertyValue('--place-light-rgb'),overlay:getComputedStyle(s,'::after').backgroundImage,pointer:getComputedStyle(s,'::after').pointerEvents,sprite:getComputedStyle(document.querySelector('.battle-sprite-anchor')).filter,positions:['player','wild'].map(side=>{const platform=document.querySelector(`[data-battle-platform="${side}"]`).getBoundingClientRect(),sprite=b.getSpriteGeometry(side),scene=s.getBoundingClientRect();return [platform.x-(scene.x+sprite.centerX),platform.y-(scene.y+sprite.bottomY)];})};});
+   assert.equal(info.key,key);assert.notEqual(info.overlay,'none');assert.equal(info.pointer,'none');assert.match(info.sprite,/drop-shadow/);for(const [dx,dy]of info.positions){assert(Math.abs(dx)<1);assert(Math.abs(dy)<1);}if(width===393)palettes.push(info.light);
+   assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));await page.screenshot({path:path.join(output,`${key}-fight-${width}.png`)});
+  }
+  await page.evaluate(()=>{v.$refs.battleOverlay.challenge={wave:1,label:'Test'};});assert.equal(await page.locator('[data-place-light]').count(),0,'Colosseum does not inherit a gym palette');await page.evaluate(()=>v.$refs.battleOverlay.challenge=null);
+  battle.finish(null,'fled');await page.locator('[data-battle-result-continue]').click();await page.locator('.battle-scene').waitFor({state:'hidden'});await page.waitForFunction(()=>v._placeAmbience?.canvas);
+ }
+ assert.equal(new Set(palettes).size,6);assert.deepEqual(errors,[]);success=true;console.log(JSON.stringify({maps:13,worldViewports:2,champions:6,battleViewports:4,anchors:true,reducedMotion:true,hidden:true,transitionCleanup:true,errors}));
+}finally{if(!success&&page)await page.screenshot({path:path.join(output,'failure.png'),fullPage:true}).catch(()=>{});await browser?.close();cleanup();await new Promise(r=>io.close(r));if(userId)await dbPool.execute('DELETE FROM users WHERE id=?',[userId]);await dbPool.end();}})().catch(e=>{console.error(e.stack);process.exitCode=1});
