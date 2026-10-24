@@ -937,7 +937,7 @@
       "interactionName": "champion_7p",
       "map": "ville5_arene",
       "x": 13,
-      "y": 5,
+      "y": 4,
       "sprite": "7ps.png",
       "block": true,
       "roamRadius": 0

@@ -15,7 +15,7 @@ const out=process.env.RELEASE_SCREENSHOTS||'/tmp/riftmon-place-ambience-canvas';
    window.show=async(map,asset=map)=>{window.base=await load(asset);window.front=null;try{window.front=await load(asset+'_f');}catch{}window.map=map;window.render(3210);};
    window.render=(t,motion=true)=>{c.clearRect(0,0,896,640);c.drawImage(base,0,0,896,640);if(front)c.drawImage(front,0,0,896,640);r.draw(c,base,map,t,motion,2);};
   });
-  const scenes={ville5:'ville5',ville1:'ville1',cave1:'cave1',cave2:'cave2',cave_rochebrume1:'cave_rochebrume1',cave_rochebrume2:'cave_rochebrume2',cave_rochebrume3:'cave_rochebrume3',ville1_arene:'gen_arene1',ville_safe1_arene:'gen_arene1',gen_arene5:'gen_arene5',ville3_arene:'gen_arene3',ville4_arene:'gen_arene2',ville5_arene:'gen_arene2'};
+  const scenes={ville5:'ville5',ville1:'ville1',cave1:'cave1',cave2:'cave2',cave_rochebrume1:'cave_rochebrume1',cave_rochebrume2:'cave_rochebrume2',cave_rochebrume3:'cave_rochebrume3',ville1_arene:'gen_arene1',ville_safe1_arene:'gen_arene1',gen_arene5:'gen_arene5',ville3_arene:'gen_arene3',ville4_arene:'gen_arene2',ville5_arene:'ville5_arene'};
   for(const [map,asset] of Object.entries(scenes)){
    await page.evaluate(([map,asset])=>show(map,asset),[map,asset]);
    await page.screenshot({path:path.join(out,map+'.png')});

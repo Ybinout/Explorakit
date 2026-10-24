@@ -2504,6 +2504,13 @@
           "goto": "ville5",
           "nexX": 416,
           "nexY": 288
+        },
+        {
+          "valX": 14,
+          "valY": 17,
+          "goto": "ville5",
+          "nexX": 416,
+          "nexY": 288
         }
       ]
     },

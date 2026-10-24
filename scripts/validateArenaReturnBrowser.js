@@ -30,7 +30,14 @@ async function scene(){return page.evaluate(()=>{const v=window.returnVm,c=v.$re
  // Loss/restoration and return from a background tab must keep the same scene.
  await page.evaluate(()=>window.returnVm.$refs.monCanvas.dispatchEvent(new Event('contextlost',{cancelable:true})));assert(await page.evaluate(()=>window.returnVm.worldContextLost));await page.evaluate(()=>window.returnVm.$refs.monCanvas.dispatchEvent(new Event('contextrestored')));await page.waitForTimeout(100);assert((await scene()).opaque>.95);
  for(const [name,map,flag]of [['champion_wanda','ville4_arene','wanda_defeated'],['champion_7p','ville5_arene','sevenp_defeated']]){
-  if(name==='champion_7p'){await page.evaluate(()=>new Promise(r=>window.returnVm.socket.emit('requestGameSave',()=>{window.returnVm.socket.disconnect();r();})));await page.goto('about:blank');await page.waitForTimeout(200);await dbPool.execute('UPDATE users SET map=?,x=432,y=208 WHERE id=?',[map,userId]);await page.goto(base+'/game',{waitUntil:'networkidle'});await ready();}
+  if(name==='champion_7p'){await page.evaluate(()=>new Promise(r=>window.returnVm.socket.emit('requestGameSave',()=>{window.returnVm.socket.disconnect();r();})));await page.goto('about:blank');await page.waitForTimeout(200);await dbPool.execute('UPDATE users SET map=?,x=432,y=272 WHERE id=?',['ville5',userId]);await page.goto(base+'/game',{waitUntil:'networkidle'});await ready();}
+  if(name==='champion_7p'){
+   // Enter through the real city door, then walk the new centre aisle to 7p.
+   await page.locator('.mobile-dpad-up').click();
+   await page.waitForFunction(()=>window.returnVm.map==='ville5_arene'&&!window.returnVm.mapLoading);
+   for(let y=15;y>=5;y--){await page.waitForTimeout(160);await page.locator('.mobile-dpad-up').click();await page.waitForFunction(y=>Math.floor(window.returnVm.players[window.returnVm.socket.id].y/32)===y,y);}
+   await page.screenshot({path:path.join(output,'sevenp-approach.png')});
+  }
   const socketId=await page.evaluate(()=>window.returnVm.socket.id);
   await page.evaluate(()=>{const v=window.returnVm;v.preferences.animationsEnabled=false;v.preferences.textSpeed=10000;v.socket.emit('Space');});await page.waitForFunction(n=>window.returnVm.endSentences===n,name);await page.evaluate(()=>window.returnVm.clearSequence());await page.waitForFunction(()=>window.returnVm.battle);
   for(let i=0;i<20;i++){
@@ -48,9 +55,14 @@ async function scene(){return page.evaluate(()=>{const v=window.returnVm,c=v.$re
   assert.equal(await page.evaluate(f=>window.returnVm.progressionState.flags[f],flag),'true');
   for(const [w,h]of [[320,568],[393,852],[844,390],[1365,900]]){await page.setViewportSize({width:w,height:h});await page.evaluate(w=>window.returnVm.showMobileControls=w<=920,w);await page.waitForTimeout(100);assert((await scene()).opaque>.95);await page.screenshot({path:path.join(output,`${name}-${w}.png`)});}
   await page.setViewportSize({width:393,height:852});await page.evaluate(()=>window.returnVm.showMobileControls=true);
+  if(name==='champion_7p'){
+   for(let y=7;y<=16;y++){await page.waitForTimeout(160);await page.locator('.mobile-dpad-down').click();await page.waitForFunction(y=>Math.floor(window.returnVm.players[window.returnVm.socket.id].y/32)===y,y);}
+   await page.waitForTimeout(160);await page.locator('.mobile-dpad-down').click();await page.waitForFunction(()=>window.returnVm.map==='ville5'&&!window.returnVm.mapLoading);
+   assert.equal(Math.floor((await scene()).y/32),8,'back outside the real arena door');
+  }
  }
  // A rejected animation promise still produces the authoritative result.
  await page.evaluate(async()=>{const v=window.returnVm,o=v.$refs.battleOverlay,finish=o.finishPresentation;o.finishPresentation=()=>Promise.reject(Error('intentional effect failure'));await v.presentBattleEnd({playerWon:true,battleType:'arena'});o.finishPresentation=finish;});
  await page.locator('[data-battle-result] button').click();await page.waitForFunction(()=>!window.returnVm.movementBlocked);assert((await scene()).opaque>.95);
- assert.deepEqual(errors,[]);success=true;console.log(JSON.stringify({realGymVictories:['wanda','sevenp'],followUpDialogue:true,moveWithoutReconnect:true,brokenSpriteSafe:true,transientRenderRecovery:true,contextRestored:true,backgroundResume:true,lateIntroIgnored:true,rejectedEffectStillShowsResult:true,viewports:4,errors,output}));
+ assert.deepEqual(errors,[]);success=true;console.log(JSON.stringify({realGymVictories:['wanda','sevenp'],followUpDialogue:true,sevenpRealEntranceAndExit:true,moveWithoutReconnect:true,brokenSpriteSafe:true,transientRenderRecovery:true,contextRestored:true,backgroundResume:true,lateIntroIgnored:true,rejectedEffectStillShowsResult:true,viewports:4,errors,output}));
 }finally{if(!success&&page)await page.screenshot({path:path.join(output,'failure.png'),fullPage:true}).catch(()=>{});await browser?.close();await new Promise(r=>io.close(r));await new Promise(r=>setTimeout(r,200));if(userId)await dbPool.execute('DELETE FROM users WHERE id=?',[userId]);await dbPool.end();}})().catch(e=>{console.error(e.stack);process.exitCode=1});

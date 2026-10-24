@@ -159,12 +159,12 @@ test('Socket réel : Lucie, Wayne → Aspha → Mounir → Hoze → Gwenn → Ra
         await at('ville_safe1',25,8);await speak('mathilde_pikapika_locked');
         const mathildeRejected=event(socket,'interactionRejected');socket.emit('onEndDialogue','mathilde_pikapika');assert.equal((await mathildeRejected).reason,'invalid_or_expired_dialogue');
         assert.equal((await loadProgressState(userId)).completedNpcBattles.length,0);
-        for(const [map,name]of [['ville3_arene','champion_ana'],['ville4_arene','champion_wanda'],['ville5_arene','champion_7p']]){await at(map,13,6);await speak(name+'_locked');const blocked=event(socket,'interactionRejected');socket.emit('onEndDialogue',name);assert.equal((await blocked).reason,'invalid_or_expired_dialogue');}
+        for(const [map,name]of [['ville3_arene','champion_ana'],['ville4_arene','champion_wanda'],['ville5_arene','champion_7p']]){await at(map,13,map==='ville5_arene'?5:6);await speak(name+'_locked');const blocked=event(socket,'interactionRejected');socket.emit('onEndDialogue',name);assert.equal((await blocked).reason,'invalid_or_expired_dialogue');}
         let attacks=0,expectedExperience=pokemon.experience;
         const {calculateBattleExperience,reduceActiveOverlevelExperience,BATTLE_EXPERIENCE_MULTIPLIERS}=require('../server/game/models/progression');
         const {getPnjTeam}=require('../server/game/world/pnjTeamFactory');
         const catalog=require('../data/game/progression.json'),dialogues=require('../data/game/interact.json');
-        const battles=[['dia1','start',18,3],['aspha_route2','route2',25,6],['moon','ville1_arene',13,6],['champion_hoze','ville_safe1_arene',13,6],['gwenn_route8','gen_route8',22,17],['champion_raphael','gen_arene5',13,6],['mathilde_pikapika','ville_safe1',25,8],['champion_ana','ville3_arene',13,6],['champion_wanda','ville4_arene',13,6],['champion_7p','ville5_arene',13,6]];
+        const battles=[['dia1','start',18,3],['aspha_route2','route2',25,6],['moon','ville1_arene',13,6],['champion_hoze','ville_safe1_arene',13,6],['gwenn_route8','gen_route8',22,17],['champion_raphael','gen_arene5',13,6],['mathilde_pikapika','ville_safe1',25,8],['champion_ana','ville3_arene',13,6],['champion_wanda','ville4_arene',13,6],['champion_7p','ville5_arene',13,5]];
         for(const [name,map,x,y] of battles) {
             await at(map,x,y,true);await speak(name);
             if(['aspha_route2','gwenn_route8','mathilde_pikapika'].includes(name)) {
@@ -193,7 +193,7 @@ test('Socket réel : Lucie, Wayne → Aspha → Mounir → Hoze → Gwenn → Ra
             socket.emit('onEndDialogue',`${name}_after`);
         }
         const beforeReunion=await at('route2_maison',13,9);assert.equal(main(beforeReunion).progress,8);await speak('lucie_route2');const reunited=event(socket,'progressionState',p=>main(p).status==='completed');socket.emit('onEndDialogue','lucie_route2');await reunited;
-        const final=await at('ville5_arene',13,6);await speak('champion_7p_after');
+        const final=await at('ville5_arene',13,5);await speak('champion_7p_after');
         assert.equal(main(final).progress,9);assert.equal(main(final).status,'completed');
         assert(final.badges.some(b=>b.key==='lake_badge'&&b.earned));
         assert(final.badges.some(b=>b.key==='dune_badge'&&b.earned));

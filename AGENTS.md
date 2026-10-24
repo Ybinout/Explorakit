@@ -1,5 +1,15 @@
 # Contexte permanent — RiftMon
 
+## Nouvelle salle de 7p — 24 octobre 2026
+
+Intérieur original de Blanchecime : verrière glacée, colonnes et cristaux latéraux, mosaïque étoilée, allée centrale et estrade. Création avec l’outil intégré imagegen ; PNG 1484×1060 préservé, prompt et provenance dans `docs/SEVENP_HALL_ASSET.md`. Carte dédiée `ville5_arene` (JSON/TMX concordants, 28×20 cases ; source 53 px/case projetée à 32 px par le moteur). Suppression de son alias serveur/client vers `gen_arene2`, qui reste utilisé par Wanda. Aucun changement d’équipe, difficulté, récompenses, musique ou fond de combat.
+
+7p déplacé de (13,5) à (13,4) sur l’estrade ; interaction depuis (13,5). Arrivée conservée en (13,16), deux cases de porte (13/14,17) reviennent devant l’arène. Murs/piliers bloqués, sol entièrement relié. Les anciennes positions devenues bloquées bénéficient de la récupération existante vers le sol accessible. Profil lumineux dédié dans `placeAmbience.js` : sources calées sur le nouveau dessin, lanternes ambrées, cristaux froids et quelques poussières ; mouvement réduit et cache 20 Hz conservés, aucune bannière générique ajoutée sur la verrière.
+
+Validation : 18 tests ciblés (carte/anciennes sauvegardes, Blanchecime, tactique 7p, histoire), parcours SQL/Socket jusqu’à Lucie, lint/build réussis. `validateArenaReturnBrowser.js` vérifie désormais l’entrée réelle depuis Blanchecime, la marche vers 7p, sa défaite, le dialogue suivant et la sortie sans reconnexion, en plus de Wanda et de la récupération canvas ; quatre formats navigateur 320/393/844/1365. `validatePlaceAmbienceCanvas.js` et `validatePlaceAmbienceBrowser.js` : 13 lieux et six combats, mouvement réduit/lifecycle, aucun débordement ni erreur navigateur. Captures PC et mobile inspectées ; pas de mesure sur téléphone physique. Journaux `/tmp/riftmon-sevenp-hall-{tests,map-tests,story,lint,build,canvas,browser,ambience-browser,deploy}.log`.
+
+Publication serveur/client à 2026-10-24T11:56:43.566Z (13 h 56 Paris), PID 1529756 actif, build `2ec6b3cfd957f975`, client `1ced36f208f1a1c9f84d8dc33b8ffa5bafa4f6bd`. Index et PNG HTTPS vérifiés à l’octet, Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-sevenp-hall-2026-10-24T11-50-12-865Z` ; anciens bundles conservés, aucune expédition active avant redémarrage.
+
 ## Lumière des lieux et vie locale — 24 octobre 2026
 
 `services/placeAmbience.js` ajoute un rendu client commun aux trois modes, sur 13 cartes explicitement choisies : Blanchecime, Ville du Lac, cinq grottes et six intérieurs d’arène. Toutes les coordonnées sont exprimées dans le dessin natif 448×320 puis projetées à 896×640 avec la caméra existante. Aucun déplacement de foreground entier, modification de carte/collision/transition ou changement de météo réelle.
