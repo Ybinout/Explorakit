@@ -2292,7 +2292,7 @@
     "name": "gwenn_route8",
     "sentences": [
       {
-        "text": "Gwenn : Tu as gagné contre Hoze ? Bien. Avant de rejoindre Ocreville, montre-moi ce que tu as appris.",
+        "text": "Matthieu : Tu as gagné contre Hoze ? Bien. Avant de rejoindre Ocreville, montre-moi ce que tu as appris.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -2301,7 +2301,7 @@
         }
       },
       {
-        "text": "Gwenn : Bats-moi et je te laisse passer. À toi de jouer !",
+        "text": "Matthieu : Bats-moi et je te laisse passer. À toi de jouer !",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -2319,7 +2319,7 @@
     "name": "gwenn_route8_locked",
     "sentences": [
       {
-        "text": "Gwenn : Je n’ai rien à te dire tant que tu n’as pas battu Hoze. Reviens avec son badge. Pour l’instant, le passage reste fermé.",
+        "text": "Matthieu : Je n’ai rien à te dire tant que tu n’as pas battu Hoze. Reviens avec son badge. Pour l’instant, le passage reste fermé.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -2333,7 +2333,7 @@
     "name": "gwenn_route8_after",
     "sentences": [
       {
-        "text": "Gwenn : Bien joué, tu as gagné ! Le passage est libre. Ocreville t’attend au bout du chemin. Nous n’avons plus besoin de nous affronter.",
+        "text": "Matthieu : Bien joué, tu as gagné ! Le passage est libre. Ocreville t’attend au bout du chemin. Nous n’avons plus besoin de nous affronter.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -2342,7 +2342,7 @@
         }
       },
       {
-        "text": "Gwenn : Pense à soigner tes compagnons avant le prochain défi. Bonne route !",
+        "text": "Matthieu : Pense à soigner tes compagnons avant le prochain défi. Bonne route !",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,

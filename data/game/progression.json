@@ -449,7 +449,7 @@
     },
     {
       "flag": "raphael_defeated",
-      "objective": "Hoze t’envoie vers Raphael à Ocreville. Reviens sur la Route 4, prends la Route 8 au sud et bats Gwenn pour ouvrir le passage, puis rejoins l’arène à l’ouest de la ville.",
+      "objective": "Hoze t’envoie vers Raphael à Ocreville. Reviens sur la Route 4, prends la Route 8 au sud et bats Matthieu pour ouvrir le passage, puis rejoins l’arène à l’ouest de la ville.",
       "map": "gen_arene5",
       "destination": "Raphael · Arène d’Ocreville"
     },

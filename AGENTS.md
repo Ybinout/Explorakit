@@ -1,5 +1,15 @@
 # Contexte permanent — RiftMon
 
+## Lucie simplifiée, décor de combat et Matthieu — 24 octobre 2026
+
+Sprite Lucie remplacé par un vrai asset 24×32 px, exporté au plus proche voisin après génération imagegen ; silhouette compacte, cadrage normal sans grand rectangle source spécifique. Ancien fichier PNJ retiré, portrait et splashart conservés. Position serveur (13,5) au fond de la maison, approche (13,6), couloir central libre ; aucun changement des collisions ou de la carte. Deux décors de combat intérieur, large et vertical, reprennent le parquet bleu sombre et la chambre. Socles ardoise attachés aux positions des Pokémon via le composant partagé, préchargement et introduction existants conservés. La météo lancée en combat ne remplace pas la maison par une plaine enneigée ; priorité des véritables vagues Colosseum inchangée. Assets et prompts : `docs/LUCIE_SCENE_ASSETS.md`.
+
+Gwenn devient Matthieu dans tous les dialogues, l’objectif, le panneau de passage et l’identité de combat. Les identifiants internes `gwenn_route8`, drapeaux et reçus restent identiques pour préserver les victoires et ouvertures personnelles déjà acquises. Ni nouvelle récompense ni revanche provoquée par le renommage.
+
+Validation : 17 tests ciblés (équipe/histoire, emplacement accessible, sprite et décors, renommage rétrocompatible), deux parcours SQL/Socket réels (histoire complète et barrières/reconnexion), lint et build réussis. Recette navigateur Lucie 320/393/1365 px avec nouveau sprite, variante mobile/PC chargée et deux socles, musique, temporisation, victoire et absence de revanche après reconnexion ; aucune erreur. Journaux et captures `/tmp/riftmon-lucie-refresh-*`.
+
+Publication serveur/client le 24 octobre 2026 à 17:29:48 UTC, client `279a88683043c0a47d765638d4db482339843c3d`, build `1fbf7a4427db3265`, PID 1561999 actif sans redémarrage automatique. Aucun run actif avant reprise, index HTTPS exact, Knov/api-test inchangés. Sauvegarde sources/index/checkpoint : `/home/ubuntu/dev/backups/riftmon-lucie-refresh-2026-10-24T17-25-37-952Z`.
+
 ## Taille des grands Pokémon adverses — 24 octobre 2026
 
 La calibration alpha ramenait tous les sprites adverses au même encombrement, effaçant les différences entre petits et grands dessins. Les sprites de face dépassant 55 % de leur canevas peuvent maintenant dépasser la taille de base : environ +35 à +57 % pour Onix, Steelix, Léviator, Wailord, Drattak et Carchacrok. Les petits sprites et les sprites de dos gardent leur calibration. Pieds et centres restent ancrés ; les limites visibles utilisées par les effets suivent exactement la nouvelle taille. Composant partagé par Aventure, Rift et Colosseum, sans modification des statistiques.

@@ -947,8 +947,8 @@
       "interactionName": "lucie_route2",
       "map": "route2_maison",
       "x": 13,
-      "y": 8,
-      "sprite": "lucie-v1.png",
+      "y": 5,
+      "sprite": "lucie-pixel-v2.png",
       "spriteFrame": {
         "columns": 1,
         "rows": 1,

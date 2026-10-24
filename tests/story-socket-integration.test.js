@@ -164,7 +164,7 @@ test('Socket réel : Lucie, Wayne → Aspha → Mounir → Hoze → Gwenn → Ra
         const {calculateBattleExperience,reduceActiveOverlevelExperience,BATTLE_EXPERIENCE_MULTIPLIERS}=require('../server/game/models/progression');
         const {getPnjTeam}=require('../server/game/world/pnjTeamFactory');
         const catalog=require('../data/game/progression.json'),dialogues=require('../data/game/interact.json');
-        const battles=[['dia1','start',18,3],['aspha_route2','route2',25,6],['moon','ville1_arene',13,5],['champion_hoze','ville_safe1_arene',13,5],['gwenn_route8','gen_route8',22,17],['champion_raphael','gen_arene5',13,5],['mathilde_pikapika','ville_safe1',25,8],['champion_ana','ville3_arene',13,5],['champion_wanda','ville4_arene',13,5],['champion_7p','ville5_arene',13,5],['lucie_route2','route2_maison',13,9]];
+        const battles=[['dia1','start',18,3],['aspha_route2','route2',25,6],['moon','ville1_arene',13,5],['champion_hoze','ville_safe1_arene',13,5],['gwenn_route8','gen_route8',22,17],['champion_raphael','gen_arene5',13,5],['mathilde_pikapika','ville_safe1',25,8],['champion_ana','ville3_arene',13,5],['champion_wanda','ville4_arene',13,5],['champion_7p','ville5_arene',13,5],['lucie_route2','route2_maison',13,6]];
         for(const [name,map,x,y] of battles) {
             await at(map,x,y,true);await speak(name);
             if(['aspha_route2','gwenn_route8','mathilde_pikapika','lucie_route2'].includes(name)) {
@@ -192,7 +192,7 @@ test('Socket réel : Lucie, Wayne → Aspha → Mounir → Hoze → Gwenn → Ra
             assert(scene[0].some(line=>line.text.includes(name==='dia1'?'Aspha':name==='aspha_route2'?'Mounir':name==='moon'?'Hoze':name==='champion_hoze'?'Raphael':name==='gwenn_route8'?'Ocreville':name==='mathilde_pikapika'?'Route 5':name==='champion_raphael'?'Ana':name==='champion_ana'?'Wanda':name==='lucie_route2'?'maman':'Lucie')));
             socket.emit('onEndDialogue',`${name}_after`);
         }
-        await at('route2_maison',13,9);await speak('lucie_route2_after');socket.emit('onEndDialogue','lucie_route2_after');
+        await at('route2_maison',13,6);await speak('lucie_route2_after');socket.emit('onEndDialogue','lucie_route2_after');
         const final=await at('ville5_arene',13,5);await speak('champion_7p_after');
         assert.equal(main(final).progress,9);assert.equal(main(final).status,'completed');
         assert(final.badges.some(b=>b.key==='lake_badge'&&b.earned));

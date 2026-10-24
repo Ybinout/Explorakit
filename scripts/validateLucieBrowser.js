@@ -8,17 +8,17 @@ const dist=process.env.RELEASE_DIST_DIR||'/tmp/riftmon-lucie-dist',output=proces
 const app=express(),server=http.createServer(app),io=new Server(server);app.use(express.json());app.use('/api',require('../server/http/routes'));app.use(express.static(dist));app.get('*',(_q,r)=>r.sendFile(path.join(dist,'index.html')));io.use(require('../server/http/authMiddleware').authenticateSocket);require('../server/realtime/socketHandler')(io);
 let browser,page,userId,success=false;const errors=[];
 async function ready(){await page.waitForFunction(()=>{const v=document.querySelector('.game-root')?.__vue__;if(!v?.socket?.connected||v.mapLoading||v.renderedMap!==v.map||!v.players[v.socket.id])return false;window.v=v;return true;});}
-async function pictures(label){for(const[width,height]of [[320,568],[393,852],[1365,900]]){await page.setViewportSize({width,height});await page.evaluate(w=>v.showMobileControls=w<=920,width);await page.waitForTimeout(150);assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));await page.screenshot({path:path.join(output,`${label}-${width}.png`)});}await page.setViewportSize({width:393,height:852});await page.evaluate(()=>v.showMobileControls=true);}
+async function pictures(label){for(const[width,height]of [[320,568],[393,852],[1365,900]]){await page.setViewportSize({width,height});await page.evaluate(w=>v.showMobileControls=w<=920,width);await page.waitForTimeout(150);if(label==='battle'){const layout=await page.evaluate(()=>{const img=document.querySelector('[data-battle-environment="lucie-house"] img');return{src:img.currentSrc,platforms:document.querySelectorAll('.gym-disc').length};});assert(layout.src.includes(width<=920?'lucie-house-mobile':'lucie-house-wide'));assert.equal(layout.platforms,2);}assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));await page.screenshot({path:path.join(output,`${label}-${width}.png`)});}await page.setViewportSize({width:393,height:852});await page.evaluate(()=>v.showMobileControls=true);}
 (async()=>{try{
  server.listen(0,'127.0.0.1');await once(server,'listening');const base=`http://127.0.0.1:${server.address().port}`;
  const r=await fetch(base+'/api/users',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:'lucie_'+randomUUID(),password:randomUUID(),starterId:7})});assert.equal(r.status,201);const fixture=await r.json();userId=fixture.user.id;
  const lead=require('../server/game/drift/pokemonFactory').create(150,200,true);lead.k=4;lead.recalculateStats();lead.currentHp=lead.maxHp;lead.abilities=[];lead.movePp=[];for(const move of ['Dark Pulse','Aura Sphere','Ice Beam','Recover'])lead.addAbility(move);
  await require('../server/persistence/teamRepository').editEquipe(userId,{pokemons:[lead]});
  const catalog=require('../data/game/progression.json');for(const flag of [...catalog.storySteps.slice(0,-1).map(s=>s.flag),'lucie_reunited'])await dbPool.execute('INSERT INTO player_story_flags(user_id,flag_key,flag_value)VALUES(?,?,?)ON DUPLICATE KEY UPDATE flag_value=VALUES(flag_value)',[userId,flag,'true']);
- await dbPool.execute("UPDATE users SET map='route2_maison',x=432,y=304 WHERE id=?",[userId]);
+ await dbPool.execute("UPDATE users SET map='route2_maison',x=432,y=208 WHERE id=?",[userId]);
  browser=await chromium.launch({headless:true,args:['--no-sandbox']});const context=await browser.newContext({viewport:{width:393,height:852},hasTouch:true,isMobile:true});await context.addInitScript(s=>localStorage.setItem('explorakit.user',JSON.stringify(s)),{...fixture.user,token:fixture.token});page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.url().startsWith(base)&&r.status()>=400)errors.push(r.status()+' '+r.url());});
  await page.goto(base+'/game',{waitUntil:'networkidle'});await ready();
- await page.waitForFunction(()=>Object.values(v.pnjSpriteSheets).some(i=>i.src.includes('lucie-v1')&&i.complete&&i.naturalWidth>0));
+ await page.waitForFunction(()=>v.pnjSpriteSheets['lucie-pixel-v2.png']?.complete&&v.pnjSpriteSheets['lucie-pixel-v2.png'].naturalWidth===24);
  assert(await page.evaluate(()=>v.mapImage.src.includes('route2_maison')));
  await pictures('house');
  await page.evaluate(()=>{v.updatePreferences({...v.preferences,animationsEnabled:true,textSpeed:10000,masterVolume:35});v.socket.emit('Space');});await page.waitForFunction(()=>v.endSentences==='lucie_route2'&&v.textImageSequence.length>0);
@@ -37,6 +37,7 @@ async function pictures(label){for(const[width,height]of [[320,568],[393,852],[1
  assert.equal(await page.locator('.champion-heading h2').textContent(),'Lucie');
  await page.waitForFunction(()=>v._worldMusic.tracks.get('lucie-room').paused&&v.$refs.battleOverlay.musicKind==='lucie'&&!v.$refs.battleOverlay.music.paused);
  await pictures('splash');await page.locator('.action-attack:enabled').waitFor();assert(Date.now()-entranceStart>=4300);
+ await page.waitForFunction(()=>{const image=document.querySelector('[data-battle-environment="lucie-house"] img');return image?.complete&&image.naturalWidth>0;});
  await pictures('battle');await page.evaluate(()=>v.updatePreferences({...v.preferences,animationsEnabled:false}));
  for(let i=0;i<30;i++){
   await page.waitForFunction(()=>v.battleResult||document.querySelector('.action-attack:not(:disabled)'));

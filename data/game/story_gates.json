@@ -37,9 +37,9 @@
         "width": 8,
         "height": 1
       },
-      "name": "Gwenn",
-      "message": "Gwenn : Le passage est fermé. Viens me parler avec A pour savoir si tu peux continuer.",
-      "messageEn": "Gwenn: This path is closed. Come talk to me with A before going further."
+      "name": "Matthieu",
+      "message": "Matthieu : Le passage est fermé. Viens me parler avec A pour savoir si tu peux continuer.",
+      "messageEn": "Matthieu: This path is closed. Come talk to me with A before going further."
     },
     {
       "id": "mathilde_route5",

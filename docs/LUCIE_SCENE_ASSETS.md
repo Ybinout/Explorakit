@@ -1,5 +1,26 @@
 # Lucie — assets et mise en scène
 
+## Révision du 24 octobre — sprite simple et combat intérieur
+
+Création avec l’outil intégré imagegen. Le portrait de dialogue et le splashart restent inchangés. Le sprite précédent, trop détaillé, est remplacé par `src/assets/pnj/lucie-pixel-v2.png` : cadrage alpha de l’original généré (384,314,507,749), export au plus proche voisin en 24 × 32 px. Le renderer utilise désormais sa case entière, hauteur monde 48 px et ancrage des pieds habituel, sans coordonnées de crop spécifiques. Lucie attend en (13,5), au fond de la maison ; le couloir central et l’approche par (13,6) sont libres.
+
+Deux décors de combat dédiés : `src/assets/battle/lucie-house-wide-v1.webp` (1536 × 1024) et `lucie-house-mobile-v1.webp` (1024 × 1536). Exports WebP qualité 93 depuis les originaux générés, parquet sombre et meubles rejetés au fond. Les socles bleu ardoise sont dessinés par le composant commun aux coordonnées des Pokémon, sans socles intégrés dans l’image. L’environnement `lucie-house` précède le repli neige/plaine et reste une maison même si une capacité change la météo. Une vraie vague du Colosseum garde son arène.
+
+Originaux dans le même répertoire imagegen indiqué en tête : sprite `exec-6fb0e264-ae24-46de-841d-cb80ae465424.png`, décor large `exec-f7a150f7-e679-4088-9f30-cdd130fa5a86.png`, mobile `exec-8b8dceba-aaf5-4ce1-9766-ac6ea3e4d00a.png`. L’ancien sprite PNJ est retiré du build ; son historique Git conserve l’original.
+
+### Prompt du nouveau sprite
+
+Use case: style-transfer. Create ONE tiny classic handheld RPG overworld sprite of Lucie on a TRUE transparent background. Reference 1 is her OLD sprite for identity ONLY; simplify it radically. Reference 2 is the game's existing NPC sprite atlas: match the very simple characters in the left grid, NOT the large illustrations. Front-facing standing girl seen slightly from above, big round head and VERY short compact body, head nearly half total height. Chestnut brown shoulder-length hair with only 3 broad color clusters, pale face with two tiny dark eyes, cream shirt under dark blue jacket, blue trousers and dark shoes, arms at sides, tiny red-white ball in one hand. STRICT logical pixel grid of 24 pixels wide by 32 pixels tall for the character. Hard square pixels, chunky stair-step silhouette, 12 colors maximum, flat shading with one shadow tone per material. No hair strands, no folds, no fingers, no detailed face, no painterly anti-aliasing, no gradients, no glow, no shadow. Render the 24x32 logical sprite as crisp enlarged pixels occupying center 60% of square image with transparent margins. Single sprite, all feet visible, NO sheet, NO text. It must read like a regular small background NPC in a 2004 tile-based game, absolutely not a detailed character illustration.
+
+### Prompt du décor de combat large
+
+Use case: stylized-concept. Generate a LANDSCAPE 1536x1024 RPG battle background showing the INSIDE of the reference house, viewed from the battling player's eye at a slightly elevated angle, not the top-down map. Match the reference dark blue wooden floorboards, faded muted plum wallpaper, tiny cold blue window on back wall, small bookshelf at far left, modest bed far right, one dim warm lantern on a low table against left wall. Simple classic handheld pixel-art environment, chunky clean pixel clusters, restrained shapes, NO fine texture noise, no realism. Back wall occupies upper 30 percent, remaining 70 percent is wide CLEAR empty wooden floor, with gentle perspective and readable blue-gray boards. House feels lonely and tense but floor is visible, softly lit blue moonlight, subtle amber corner. All furniture against the back wall, no foreground obstruction. The combat UI will overlay this image, keep plenty of quiet empty space. No characters, no creatures, no text, no UI, no sunlight, no outdoors, no circles or platforms painted into the floor; game draws the two combat platforms itself at precise sprite anchors. Strong coherent composition suitable for wide battle screen.
+
+### Prompt du décor de combat mobile
+
+Create a portrait MOBILE game battle background variant of the attached landscape room. Canvas 1024x1536, full-bleed, same restrained classic pixel art and muted slate-blue wood / plum wallpaper / small warm lantern. Preserve its identity: tiny cold moonlit window upper middle, tiny bookshelf left rear and modest bed right rear, lantern on small left side table. Recompose them within the TOP 24 percent of the tall canvas, much smaller, against the back wall. Bottom 76 percent is uninterrupted EMPTY dark blue wooden floor with very gentle perspective and subtle blue moonlight. We will place enemy Pokemon around 77 percent across and 55 percent down, player bottom left; keep these areas completely clear. No characters, no UI, no text, no circles, no embedded platforms, no foreground furniture, no sparks, no elaborate detail. Crisp chunky simple pixels, not realistic. Floor sufficiently lit to see silhouettes. This must work as a tall combat scene without stretching a landscape image.
+
+
 Créés le 24 octobre 2026 avec l’outil intégré `image_gen.imagegen` (compétence imagegen). Les originaux sont conservés dans `/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/`.
 
 | Asset client | Original généré | Usage |
