@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Décors dédiés pour les quatre arènes restantes — 24 octobre 2026
+
+Hoze (`ville_safe1_arene`), Ana (`ville3_arene`), Wanda (`ville4_arene`) et 7p (`ville5_arene`) ont chacun un fond de combat dédié, en paysage 1536×1024 et portrait 1024×1536. Thèmes : salle de grès doré, serre ivoire/sauge, citadelle de basalte/violet, salle du sommet en marbre glacé. Mounir et Raph conservent leurs décors existants ; les six champions actuels sont couverts. Les arènes gardent leur intérieur quand la météo de combat change. Priorité du Colosseum et des rencontres de pêche inchangée.
+
+Huit images générées avec imagegen intégré, encodées en WebP sans perte (pixels RGBA comparés aux originaux), sans redimensionnement. Total 11 808 958 octets ; seuls les assets du décor choisi sont chargés par le navigateur, via `picture`. Prompts, dimensions et chemins dans `docs/GYM_BACKGROUND_ASSETS.md`. Deux socles CSS indépendants par arène, couleurs assorties au sol, ancrés aux combattants ; rotation ou cadrage ne décale pas leur contact. Chargement couvert par l’entrée de combat existante.
+
+Validation : lint/build isolé et sept tests ciblés réussis. `scripts/validateGymBackgroundsBrowser.js` lance les quatre vrais combats d’arène sur un compte SQL de test, vérifie quatre formats, source mobile/PC décodée, socles et contact avec les sprites, changements de météo, priorité Colosseum et absence de débordement. Recette passée sans erreur navigateur, captures inspectées. Journaux `/tmp/riftmon-gym-backgrounds-*`.
+
+Publication client seule à 2026-10-24T05:29:04.738Z, client `b10d7ee`, build `72d017a34dee540b`. Index public et huit WebP publiés vérifiés octet par octet. Serveur PID 1508798 inchangé, Knov/api-test inchangés. Sauvegarde index/référence client dans `/home/ubuntu/dev/backups/riftmon-gym-backgrounds-2026-10-24T05-29-04-091Z`, anciens bundles conservés.
+
 ## Entrée d’arène : illustrations des champions — 24 octobre 2026
 
 Le rideau de chargement du combat met en scène Mounir, Hoze, Raph, Ana, Wanda et 7p : illustration HD existante des dialogues, grand nom, ville, bande oblique et couleur propre au champion. Apparition latérale et fondu vers le combat ; cadrages portrait/paysage et petit mobile. Aucun nouvel asset ni information dévoilant les équipes. Le choix exige une carte d’arène reconnue et un combat de type arène (ou `musicKind: arena` en expédition) ; PvP, rencontres sauvages et vagues Colosseum conservent l’entrée courte.
@@ -2813,6 +2823,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+24/10/2026 — Fonds d’arène de Hoze, Ana, Wanda et 7p, en mobile et PC ; socles séparés et palettes assorties, les six champions ont désormais leur décor.
 
 24/10/2026 — Présentation des six champions pendant le chargement des arènes : illustrations existantes, animation mobile/PC, attente bornée et commandes après révélation.
 
