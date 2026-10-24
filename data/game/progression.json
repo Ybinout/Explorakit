@@ -190,7 +190,11 @@
           "tide_badge"
         ],
         "flags": {
-          "wanda_defeated": "true"
+          "wanda_defeated": "true",
+          "fly_module_received": "true"
+        },
+        "items": {
+          "fly_module": 1
         }
       },
       "experienceKind": "arena"

@@ -58,6 +58,7 @@ async function loadProgressState(userId) {
     const id = normalizeUserId(userId);
     await ensureInitialProgress(id);
     await reconcileMoonpunchBadge(id);
+    await require('./flightRepository').reconcileFlightProgress(id);
     await require('./hozeRewardRepository').reconcileHozeExpShare(id);
     const [[flagRows], [questRows], [badgeRows], [battleRows], [moneyRows]] = await Promise.all([
         dbPool.execute('SELECT flag_key, flag_value, updated_at FROM player_story_flags WHERE user_id = ?', [id]),
@@ -104,6 +105,7 @@ async function loadProgressState(userId) {
         flags,
         quests,
         badges,
+        flight: require('../game/world/flightTravel').flightState(flags),
         capture: require('../game/battle/captureProgression').captureProgress(badges),
         completedNpcBattles: battleRows.map((row) => ({
             battleKey: row.battle_key,

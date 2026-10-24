@@ -2277,6 +2277,15 @@
       "sell_price": 0,
       "description": "Apprend Rayon Chargé à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
       "machineMove": "Charge Beam"
+    },
+    {
+      "key": "fly_module",
+      "name": "Module Vol",
+      "category": "key",
+      "buy_price": 0,
+      "sell_price": 0,
+      "unique": true,
+      "description": "Offert par Wanda. Depuis la minimap, rejoins une ville déjà visitée. Permanent, sans Pokémon ni capacité à équiper."
     }
   ]
 }

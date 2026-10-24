@@ -528,6 +528,7 @@
   {
     "name": "champion_wanda_after",
     "sentences": [
+      {"text": "Wanda : Prends ce module Vol. Ouvre ta minimap et choisis une ville que tu as déjà visitée : il te déposera devant son Centre Pokémon, ou devant son arène. Tu pourras revenir nous voir quand tu voudras.", "imageName": "wanda.png"},
       {
         "text": "Wanda : Impressionnant. Une seule autre personne m’avait déjà battue. Prends le Badge Marée… et écoute bien.",
         "imageName": "wanda.png"

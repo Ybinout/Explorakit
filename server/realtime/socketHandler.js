@@ -458,6 +458,14 @@ const socketHandler = (io) => {
             }
         };
 
+        const recordFlightVisit = async () => {
+            const player=players[socket.id];if(!player)return;
+            const flights=require('../persistence/flightRepository');
+            try {
+                if(await flights.recordTownVisit(userId,player.currentmap,player.centerReturnPoint))socket.emit('flightState',await flights.loadFlightState(userId));
+            } catch(error) { console.error('Enregistrement visite:',error.message); }
+        };
+
         const relocatePlayer = async (destination, { reason = 'relocation', saveCheckpoint = false } = {}) => {
             if (players[socket.id]) fishing.cancel(players[socket.id]);
             const player = players[socket.id];
@@ -500,6 +508,7 @@ const socketHandler = (io) => {
             socket.emit('worldDevicesState',devicesForMap(currentmap));
             socket.emit('pnjsList', { mapname: currentmap, pnjs: currentPnjs });
             schedulePositionSave({ immediate: true });
+            await recordFlightVisit();
 
             if (saveCheckpoint && currentmap === 'centre') {
                 await savePokemonCenterCheckpoint();
@@ -550,6 +559,7 @@ const socketHandler = (io) => {
         socket.emit('mapWeatherState', getMapWeather(currentmap));
         socket.emit('worldDevicesState',devicesForMap(currentmap));
         socket.emit('pnjsList', { mapname: currentmap, pnjs: currentPnjs });
+        await recordFlightVisit();
         emitProgressionSnapshot().catch((error) => {
             console.error(`Erreur chargement progression user ${userId}:`, error.message);
         });
@@ -572,6 +582,20 @@ const socketHandler = (io) => {
             socket,
             userId,
             getPlayer: () => players[socket.id] || null
+        });
+
+        require('./handlers/flightHandlers').registerFlightHandlers({
+            socket,userId,getPlayer:()=>players[socket.id],
+            canUse:()=>!interactionBusy&&!transitionBusy&&!pendingDialogue&&!socketToChatSession.has(socket.id),
+            setBusy:value=>{transitionBusy=value;},
+            travel:async (destination,player)=>{
+                pendingDialogue=null;fishing.cancel(player);
+                cancelPendingRequestsForSocket(socket.id,'flight');
+                player.direction='down';player.isMoving=false;player.animationFrame=0;
+                await relocatePlayer(destination,{reason:'flight'});
+                if(!await flushPositionSave())throw Error('Position non sauvegardée');
+                canMove=true;
+            }
         });
 
         require('./handlers/positionRecoveryHandlers').registerPositionRecoveryHandlers({
