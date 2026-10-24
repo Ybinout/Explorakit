@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## Musique de salle d’Ana — 24 octobre 2026
+
+`pourtoi/ana_arene.mp3` intégré à l’identique dans les assets audio, associé à `ville3_arene` par le thème `ana-room`. Musique de fond en boucle au volume commun, redémarrage lorsqu’on revient depuis un autre thème, pause pendant combat/résultat/onglet masqué et reprise au même endroit. Le morceau de combat `ana.mp3` reste distinct. Raccord partagé par les trois modes.
+
+Validation : huit tests musique, lint/build isolé ; recette navigateur audio réel (`validateNewMusicBrowser.js`) étendue à Ana : lecture/décodage, retour dans l’arène, pause/reprise et absence de superposition. Fichier source et asset identiques (SHA-256 `46e5d1d034be23f699f656055d3ca1ee3e2e66286ef121d7d21413d1149f1502`). Journaux `/tmp/riftmon-ana-room-{tests,lint,build,browser,deploy}.log`.
+
+Publication client seule à 2026-10-24T15:06:06.245Z, client `0574c69bf01539d93c9204f5651290f138af4f91`, build `a3c775329f168e79`. Index et MP3 publics vérifiés, serveur PID 1541206 et Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-ana-room-2026-10-24T15-06-05-278Z`.
+
 ## Bluff après remplacement d’un allié K.O. — 24 octobre 2026
 
 Cas utilisateur reproduit en Aventure : Simiabraz entre après le K.O. d’un allié, Bluff touche, mais Carchacrok de Hoze (ou Libégon de Raph) riposte. L’ancien contrôle `lastActionTurn === state.turn` conservait l’action ayant causé le K.O. : l’orchestrateur peut rouvrir un choix sans avancer le compteur de fin de round. Il prenait donc l’action précédente pour celle du nouveau choix et refusait d’appliquer la peur.
@@ -3019,6 +3027,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 24 octobre 2026 — Musique de salle Ana : `ana_arene.mp3` utilisateur raccordé à `ville3_arene`, avec pause au combat et redémarrage après changement de thème.
 
 - 24 octobre 2026 — Bluff : riposte après remplacement d’un allié K.O. reproduite et corrigée ; l’apeurement consulte la file courante au lieu d’un ancien marqueur de tour. Douze nouvelles variantes SQL Simiabraz contre Hoze/Raph.
 

@@ -1,6 +1,6 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 const service=()=>import('../vue-explorakit/src/services/worldMusic.js');
-async function fixture(){const {WorldMusic}=await service(),audios=[];const music=new WorldMusic({village:'village.mp3',route:'start.mp3',cave:'cave.mp3',snow:'snow.mp3','wanda-room':'areneWanda.mp3','sevenp-room':'arene7p.mp3','raph-room':'areneraph.mp3'},src=>{const a={src,paused:true,currentTime:0,plays:0,pauses:0,loads:0,play(){this.plays++;this.paused=false;return Promise.resolve();},pause(){this.paused=true;this.pauses++;},removeAttribute(){this.src='';},load(){this.loads++;}};audios.push(a);return a;});return{music,audios};}
+async function fixture(){const {WorldMusic}=await service(),audios=[];const music=new WorldMusic({village:'village.mp3',route:'start.mp3',cave:'cave.mp3',snow:'snow.mp3','wanda-room':'areneWanda.mp3','sevenp-room':'arene7p.mp3','raph-room':'areneraph.mp3','ana-room':'ana_arene.mp3'},src=>{const a={src,paused:true,currentTime:0,plays:0,pauses:0,loads:0,play(){this.plays++;this.paused=false;return Promise.resolve();},pause(){this.paused=true;this.pauses++;},removeAttribute(){this.src='';},load(){this.loads++;}};audios.push(a);return a;});return{music,audios};}
 const tick=()=>new Promise(resolve=>setImmediate(resolve));
 test('exploration tracks cover every village, normal/generated routes and interiors, including caves and snowy Blanchecime',async()=>{const{worldMusicTrack}=await service();for(const m of ['start','ville1','ville_safe1','ville3','ville4','gen_ville5','centre','maison','etage2','ville_safe1_arene','gen_maison2','route2_maison'])assert.equal(worldMusicTrack(m),'village',m);for(const m of ['route1','gen_route6','gen_route7','gen_shop_route10','pk1'])assert.equal(worldMusicTrack(m),'route',m);for(const m of ['ville5','ville5_shop','route13','route14'])assert.equal(worldMusicTrack(m),'snow',m);for(const m of ['cave1','cave2','cave_rochebrume3','cave_ice'])assert.equal(worldMusicTrack(m),'cave',m);for(const m of [null,undefined,'unknown'])assert.equal(worldMusicTrack(m),null);});
 test('route-to-route and town-to-interior transitions preserve the same audio and advancing playhead',async()=>{const{music,audios}=await fixture();music.update({map:'route1',active:true,volume:.35});await tick();const a=audios[0];a.currentTime=31;for(const map of ['route2','route3','gen_route6'])music.update({map,active:true,volume:.35});assert.equal(audios.length,1);assert.equal(a.plays,1);assert.equal(a.currentTime,31);assert.equal(a.paused,false);assert.equal(a.loop,true);assert(Math.abs(a.volume-.077)<1e-8);music.update({map:'ville5',active:true,volume:.35});await tick();const b=audios[1];b.currentTime=12;music.update({map:'ville5_shop',active:true,volume:.35});assert.equal(b.plays,1);assert.equal(b.currentTime,12);assert(a.paused);music.update({map:'route1',active:true,volume:.35});await tick();assert.equal(audios.length,2);assert.equal(a.currentTime,0);assert(!a.paused);assert(b.paused);});
@@ -30,7 +30,7 @@ test('dedicated champion battle tracks stay stable and cannot override wild, tra
 
 test('dedicated arena room music pauses for combat and resumes its own playhead',async()=>{
  const {music,audios}=await fixture();
- for(const [map,key]of [['ville4_arene','wanda-room'],['ville5_arene','sevenp-room'],['gen_arene5','raph-room']]){
+ for(const [map,key]of [['ville3_arene','ana-room'],['ville4_arene','wanda-room'],['ville5_arene','sevenp-room'],['gen_arene5','raph-room']]){
   music.update({map,active:true,volume:.35});await tick();
   const a=music.tracks.get(key);assert(a&&!a.paused);a.currentTime=19;
   music.update({map,active:false,volume:.35});assert(a.paused);
@@ -42,7 +42,7 @@ test('dedicated arena room music pauses for combat and resumes its own playhead'
 
 test('returning from another theme restarts villages, routes and arenas, even after muted travel',async()=>{
  const {music,audios}=await fixture();
- for(const [map,key,elsewhere]of [['ville1','village','route1'],['route1','route','ville1'],['gen_arene5','raph-room','gen_ville5'],['ville4_arene','wanda-room','ville4'],['ville5_arene','sevenp-room','ville5'],['route13','snow','cave1']]){
+ for(const [map,key,elsewhere]of [['ville3_arene','ana-room','ville3'],['ville1','village','route1'],['route1','route','ville1'],['gen_arene5','raph-room','gen_ville5'],['ville4_arene','wanda-room','ville4'],['ville5_arene','sevenp-room','ville5'],['route13','snow','cave1']]){
   music.update({map,active:true,volume:.35});await tick();const a=music.tracks.get(key);a.currentTime=27;
   music.update({map:elsewhere,active:true,volume:.35});await tick();assert(a.paused);
   music.update({map,active:true,volume:.35});await tick();assert.equal(a.currentTime,0);assert(!a.paused);assert.equal(music.tracks.get(key),a);
