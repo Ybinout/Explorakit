@@ -6,11 +6,8 @@ const { AdventureExperience } = require('./adventureExperience');
 const { planTurnActions } = require('./turnActions');
 const {
     useattack,
-    getEffectiveness,
-    getMoveByName,
     battleMoveTypes,
     orderBattleActions,
-    calculateDamage,
     createBattleState,
     processEndOfRound,
     applySwitchInEffects,
@@ -38,10 +35,6 @@ function sleep(ms) {
         ? Math.max(0, configuredScale)
         : 1;
     return new Promise((resolve) => setTimeout(resolve, Math.round(ms * scale)));
-}
-
-function loadMovesData() {
-    return require('../../../data/game/moves.json');
 }
 
 function getPokemonDisplayName(pokemon) {
@@ -110,8 +103,8 @@ async function performAttackWithNarration(attacker, defender, moveIndex, player,
         await narrate(player, io, `${attackerName} utilise ${animation.moveName} !`);
     }
     const field = battleContext.battleState;
-    if (attacker === player.equipe.pokemons[0]) trainerTactics.observe(field.trainerTeam, field.trainerMemory, attacker, moveName);
-    else trainerTactics.observe(field.trainerTeam, field.trainerMemory, defender, moveName, result);
+    if (!result.actionPrevented && attacker === player.equipe.pokemons[0]) trainerTactics.observe(field.trainerTeam, field.trainerMemory, attacker, moveName);
+    else if (!result.actionPrevented && attacker !== player.equipe.pokemons[0]) trainerTactics.observe(field.trainerTeam, field.trainerMemory, defender, moveName, result);
     emitSoloMoveResult(io, player, attacker, result, battleContext?.battleState);
     displayIntroAnimation(player, currentEnemy, io, battleContext.battleState);
     await sleep(SHORT_DELAY_MS);
@@ -185,15 +178,6 @@ async function resolveRoundEnd(player, currentEnemy, io, battleState, playerSide
     return 'continue';
 }
 
-function resolveEnemyMoveIndex(playerPokemon, currentEnemy, moves) {
-    const bestAttack = getBestAttack(playerPokemon, currentEnemy, moves);
-    if (Number.isInteger(bestAttack) && bestAttack >= 0) {
-        return bestAttack;
-    }
-
-    return getRandomNumber(currentEnemy);
-}
-
 function getRandomNumber(pokemon) {
     const indexes = getUsableMoveIndexes(pokemon);
     if (indexes.length === 0) return 0;
@@ -261,38 +245,6 @@ function playerTurn(player, io) {
 }
 
 
-function determineIfSwap(currentEnemy, enemyTeam, playerPokemon) {
-    let currentEffectiveness = getEffectiveness(playerPokemon.type1, currentEnemy.type1) *
-        (currentEnemy.type2 ? getEffectiveness(playerPokemon.type1, currentEnemy.type2) : 1);
-
-    if (playerPokemon.type2) {
-        currentEffectiveness *= getEffectiveness(playerPokemon.type2, currentEnemy.type1) *
-            (currentEnemy.type2 ? getEffectiveness(playerPokemon.type2, currentEnemy.type2) : 1);
-    }
-
-    let bestSwap = false;
-    let bestEffectiveness = currentEffectiveness;
-
-    enemyTeam.pokemons.forEach((pokemon, index) => {
-        if (pokemon.uuid === currentEnemy.uuid || pokemon.currentHp <= 0) return;
-
-        let swapEffectiveness = getEffectiveness(playerPokemon.type1, pokemon.type1) *
-            (pokemon.type2 ? getEffectiveness(playerPokemon.type1, pokemon.type2) : 1);
-
-        if (playerPokemon.type2) {
-            swapEffectiveness *= getEffectiveness(playerPokemon.type2, pokemon.type1) *
-                (pokemon.type2 ? getEffectiveness(playerPokemon.type2, pokemon.type2) : 1);
-        }
-
-        if (swapEffectiveness < bestEffectiveness) {
-            bestEffectiveness = swapEffectiveness;
-            bestSwap = index;
-        }
-    });
-
-    return bestSwap !== false && bestEffectiveness < currentEffectiveness ? bestSwap : false;
-}
-
 function enemySwapPokemon(enemyTeam, index, usedPokemons) {
     if (index < 0 || index >= enemyTeam.pokemons.length) return false;
     if (enemyTeam.pokemons[index].currentHp <= 0) return false;
@@ -304,36 +256,6 @@ function enemySwapPokemon(enemyTeam, index, usedPokemons) {
     }
 
     return true;
-}
-
-function getBestAttack(me, enemy, moves) {
-    if (!enemy || !Array.isArray(enemy.abilities) || enemy.abilities.length === 0) {
-        return -1;
-    }
-
-    return enemy.abilities
-        .map((ability, index) => {
-            const move = moves.find((m) => m.ename === ability);
-            if (!move) {
-                return { index, score: -Infinity };
-            }
-
-            const stab = (move.type === enemy.type1 || (enemy.type2 && move.type === enemy.type2)) ? 1.5 : 1;
-            const effectiveness1 = getEffectiveness(move.type, me.type1) || 1;
-            const effectiveness2 = me.type2 ? (getEffectiveness(move.type, me.type2) || 1) : 1;
-            const totalEffectiveness = effectiveness1 * effectiveness2;
-            const score = Number(move.power || 0) * totalEffectiveness * stab;
-
-            return { index, score };
-        })
-        .reduce((best, move) => (move.score > best.score ? move : best), { index: -1, score: -Infinity })
-        .index;
-}
-
-function findDmgAtk(attackName, pokemon1, pokemon2) {
-    const move = getMoveByName(attackName);
-    if (!move) return 0;
-    return calculateDamage(pokemon1, pokemon2, move);
 }
 
 async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
@@ -381,14 +303,14 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
 
     const arenaRewards = options.experienceKind === 'arena' || options.arenaBattleKey
         ? require('./arenaExperience').createArenaExperience(options.arenaBattleKey, enemyTeam.pokemons) : null;
-    const moves = loadMovesData();
     const usedPokemons = [];
     const battleState = createBattleState({ mapName: player.currentmap });
     battleState.adventureExperience = new AdventureExperience({expShare:'equipped'});
     battleState.trainerTeam = enemyTeam;
     battleState.trainerMemory = trainerTactics.createMemory();
     let round = 0;
-    const enemyDecision = () => trainerTactics.chooseAction(enemyTeam, player.equipe.pokemons[0], battleState, battleState.trainerMemory, round);
+    let committedDecision = null;
+    const enemyDecision = () => trainerTactics.chooseAction(enemyTeam, player.equipe.pokemons[0], battleState, battleState.trainerMemory, round + 1, player.equipe.pokemons);
     require('../abilities/abilityForms').attachTeam(player.equipe.pokemons);
     require('../abilities/abilityForms').attachTeam(enemyTeam.pokemons);
     const playerSide = battleState.sides.player;
@@ -489,6 +411,18 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
         return true;
     };
 
+    const executeEnemySwitch = async decision => {
+        if (decision.action !== 'change' || !canSwitchOut(currentEnemy, player.equipe.pokemons[0], battleState)) return false;
+        const previousEnemyName = getPokemonDisplayName(currentEnemy);
+        if (!enemySwapPokemon(enemyTeam, decision.number, usedPokemons)) return false;
+        battleState.trainerMemory.lastSwitchRound = round;
+        currentEnemy = enemyTeam.pokemons[0];
+        displayIntroAnimation(player, currentEnemy, io, battleState);
+        await narrate(player, io, `Le dresseur rappelle ${previousEnemyName} et envoie ${getPokemonDisplayName(currentEnemy)} !`, 900);
+        await applySwitchInNarration(player, currentEnemy, io, currentEnemy, enemySide, playerSide, battleState);
+        return true;
+    };
+
     displayIntroAnimation(player, currentEnemy, io, battleState);
     emitFieldState(io, player.id, battleState);
     await narrate(player, io, `Le dresseur envoie ${getPokemonDisplayName(currentEnemy)} !`, 900);
@@ -527,6 +461,8 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
             continue;
         }
 
+        // Commit against the pre-choice board. Invalid commands keep this choice.
+        committedDecision ||= enemyDecision();
         let response;
         try {
             response = await playerTurn(player, io);
@@ -547,6 +483,8 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
         }
 
         const playerPokemon = player.equipe.pokemons[0];
+        if (actionPlayer === 'attack' && getUsableMoveIndexes(playerPokemon, battleState).length
+            && !getUsableMoveIndexes(playerPokemon, battleState).includes(response.number)) continue;
         planTurnActions(battleState, [{ pokemon: playerPokemon, action: actionPlayer,
             moveName: selectedMoveName(playerPokemon, response.number) }]);
 
@@ -573,20 +511,26 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
                 continue;
             }
 
+            const outgoingUuid = playerPokemon.uuid;
             const changed = playerChangePokemonByIndex(player.equipe, Number.parseInt(response.number, 10));
             if (!changed) {
                 await narrate(player, io, 'Changement impossible.');
                 continue;
             }
 
+            round++;
+            const decision = committedDecision; committedDecision = null;
+            planTurnActions(battleState, [
+                {pokemon:playerPokemon,action:'change'},
+                {pokemon:currentEnemy,action:decision.action,moveName:decision.action==='attack'?selectedMoveName(currentEnemy,decision.number):null}
+            ]);
             displayIntroAnimation(player, currentEnemy, io, battleState);
             await narrate(player, io, `${getPokemonDisplayName(player.equipe.pokemons[0])} est maintenant en combat !`, 900);
             await applySwitchInNarration(player, currentEnemy, io, player.equipe.pokemons[0], playerSide, enemySide, battleState);
 
-            if (currentEnemy.currentHp > 0 && player.equipe.pokemons[0].currentHp > 0) {
-                round++;
-                const decision = enemyDecision();
-                const enemyMove = decision?.action === 'attack' ? decision.number : resolveEnemyMoveIndex(player.equipe.pokemons[0], currentEnemy, moves);
+            await executeEnemySwitch(decision);
+            if (decision.action === 'attack' && currentEnemy.currentHp > 0 && player.equipe.pokemons[0].currentHp > 0) {
+                const enemyMove = decision.number;
                 await performAttackWithNarration(
                     currentEnemy,
                     player.equipe.pokemons[0],
@@ -604,6 +548,8 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
                 );
                 currentEnemy = enemyTeam.pokemons[0];
             }
+
+            require('./humanTrainerAI').observeTurn(battleState.trainerMemory,outgoingUuid,player.equipe.pokemons[0],'change');
 
             if (currentEnemy.currentHp > 0 && player.equipe.pokemons[0].currentHp > 0) {
                 const roundResult = await resolveRoundEnd(player, currentEnemy, io, battleState, playerSide, enemySide);
@@ -623,41 +569,18 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
         const playerMove = Number.isInteger(response.number) ? response.number : getRandomNumber(playerPokemon);
         const playerMoveName = selectedMoveName(playerPokemon, playerMove);
         round++;
-        const decision = enemyDecision();
-        let enemyMove = decision?.action === 'attack' ? decision.number : resolveEnemyMoveIndex(playerPokemon, currentEnemy, moves);
-        let enemyMoveName = selectedMoveName(currentEnemy, enemyMove);
-
-        const haveToSwap = decision ? (decision.action === 'change' ? decision.number : false)
-            : determineIfSwap(currentEnemy, enemyTeam, playerPokemon);
-        const enemyDamagePreview = findDmgAtk(enemyMoveName, currentEnemy, playerPokemon);
-
-        let enemySwitched = false;
-        if (haveToSwap !== false && (decision || enemyDamagePreview < playerPokemon.currentHp)) {
-            const previousEnemyName = getPokemonDisplayName(currentEnemy);
-            const swapped = enemySwapPokemon(enemyTeam, haveToSwap, usedPokemons);
-            if (swapped) {
-                enemySwitched = true;
-                battleState.trainerMemory.lastSwitchRound = round;
-                currentEnemy = enemyTeam.pokemons[0];
-                displayIntroAnimation(player, currentEnemy, io, battleState);
-                await narrate(
-                    player,
-                    io,
-                    `Le dresseur rappelle ${previousEnemyName} et envoie ${getPokemonDisplayName(currentEnemy)} !`,
-                    900
-                );
-                await applySwitchInNarration(player, currentEnemy, io, currentEnemy, enemySide, playerSide, battleState);
-                enemyMove = resolveEnemyMoveIndex(playerPokemon, currentEnemy, moves);
-                enemyMoveName = selectedMoveName(currentEnemy, enemyMove);
-            }
-        }
+        const decision = committedDecision; committedDecision = null;
+        const enemyMove = decision.action === 'attack' ? decision.number : -1;
+        const enemyMoveName = selectedMoveName(currentEnemy, enemyMove);
+        const enemySwitched = await executeEnemySwitch(decision);
+        require('./humanTrainerAI').observeTurn(battleState.trainerMemory,playerPokemon.uuid,playerPokemon,'attack');
 
         if (currentEnemy.currentHp <= 0 || playerPokemon.currentHp <= 0) continue;
         planTurnActions(battleState, [
             { pokemon: playerPokemon, action: 'attack', moveName: playerMoveName },
-            { pokemon: currentEnemy, action: enemySwitched ? 'change' : 'attack', moveName: enemyMoveName }
+            { pokemon: currentEnemy, action: decision.action, moveName: enemyMoveName }
         ]);
-        const playerActsFirst = enemySwitched || decideMoveOrder(playerPokemon, playerMoveName, currentEnemy, enemyMoveName, battleState);
+        const playerActsFirst = decision.action === 'change' || decideMoveOrder(playerPokemon, playerMoveName, currentEnemy, enemyMoveName, battleState);
 
         if (playerActsFirst) {
             const playerResult = await performAttackWithNarration(
@@ -677,7 +600,7 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
             );
             currentEnemy = enemyTeam.pokemons[0];
 
-            if (!enemySwitched && !playerResult?.switches?.defender
+            if (decision.action === 'attack' && !enemySwitched && !playerResult?.switches?.defender
                 && currentEnemy.currentHp > 0
                 && player.equipe.pokemons[0].currentHp > 0) {
                 await performAttackWithNarration(

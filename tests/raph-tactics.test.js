@@ -49,7 +49,7 @@ test('Raphael: expert decisions avoid an immune STAB, reserve Cizayox by identit
         if (d.action === 'attack') assert(!['Earthquake','Dragon Claw'].includes(team.pokemons[0].abilities[d.number]));
         else assert.notEqual(team.pokemons[d.number].data.id, 212);
     }
-    const hidden = {...enemy, abilities:['Secret'], movePp:[0], heldItem:'focus_sash', iv:{}, ev:{}, passiveAbility:'Wonder Guard'};
+    const hidden = {...enemy, movePp:[0], heldItem:'focus_sash', iv:{}, ev:{}, passiveAbility:'Wonder Guard'};
     assert.deepEqual(tactics.chooseAction(team,enemy,field,memory,1), tactics.chooseAction(team,hidden,field,memory,1));
     [team.pokemons[1],team.pokemons[4]] = [team.pokemons[4],team.pokemons[1]];
     team.pokemons[0].currentHp = 0;

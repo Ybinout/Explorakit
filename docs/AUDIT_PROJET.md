@@ -1,5 +1,21 @@
 # Audit technique et mémoire de RiftMon
 
+## IA des dresseurs : anticipation sans lecture du choix — 24 octobre 2026
+
+Demande utilisateur : connaître toute l’équipe adverse et ses attaques, mais jamais le coup choisi. Nouvelle politique commune `server/game/battle/humanTrainerAI.js` pour tous les dresseurs Aventure, Rift et Colosseum, y compris ceux sans stratégie experte déclarée. Pokémon sauvages et duels entre joueurs inchangés. Les réservations de pièces maîtresses et répliques restent portées par `trainerTactics`. Au Colosseum, l’importance des anticipations augmente par paliers de cinq combats jusqu’au défi 16 ; équipes, niveaux, items, récompenses et anciennes générations de sets restent identiques.
+
+Frontière d’information explicite : espèce/types/forme visibles, niveaux, PV, statuts/effets publics, composition et capacités autorisées de toute l’équipe. Pas de lecture des commandes en attente, des PP, IV/EV, K, objets, talents ou statistiques exactes cachées de l’adversaire. Évaluation sur copies avec terrain et effets publics autorisés ; `turnActions`, objets joueur et callbacks exclus. Calculs sans consommation du générateur aléatoire de combat. Immunités constatées et attaques effectivement exécutées mémorisées ; historique des changements et préférences utilisé pour les décisions suivantes seulement.
+
+Prévision pondérée des attaques, soutiens et changements possibles vers les réserves connues ; un changement n’est jamais tenu pour certain. Dégâts, précision, priorité, survie, soins, placement, altérations, écrans, météo, pièges, Protection/Clone et coût d’entrée sont évalués avec une projection courte. La couverture peut viser une réserve probable (ex. Surf de Pikachu face à Léviator pour anticiper Rhinoféros), au risque de perdre de la valeur si le joueur reste. Choix variés uniquement parmi des options proches, coût/cooldown des changements et restrictions de PP/objets/tours de charge conservés. Lutte ne remplace pas artificiellement Bluff s’il reste des PP. La projection reste une heuristique bornée, pas une simulation exhaustive de toutes les capacités et de tous les futurs.
+
+Bug confirmé en Aventure : la branche changement choisissait l’attaque adverse après l’entrée du nouveau Pokémon. La décision est désormais prise avant `requestAction`, gardée lors des commandes invalides et exécutée sans recalcul. Un changement simultané du dresseur consomme son action, sans attaque supplémentaire. Dans les expéditions, la décision déjà anticipée reste enregistrée dans `pending` et les checkpoints ; reconnexion et chargement n’en changent pas le contenu.
+
+Validation : trois régressions de pré-engagement échouent avec le module Aventure d’avant patch, puis passent avec le nouveau ; quatrième scénario de double changement. 44 tests IA/tactiques et 83 intégrations SQL/Socket réussis (sommeil, Bluff, Coup Bas, remplacements, XP unique/partagée, histoire complète, dresseurs). Quelques fixtures XP sont immobilisées pour tester les récompenses indépendamment du nouveau choix de changement ; la recette de changement volontaire annonce désormais une véritable capacité offensive connue. Suite globale : 983 réussites, 126 ignorés, seulement les deux échecs préexistants de niveaux tardifs et d’ancien alias d’arène. Les empreintes des quatre anciens générateurs Colosseum restent exactes.
+
+`node scripts/validateHumanTrainerAI.js` : 48 combats en mémoire, 16 par politique, mêmes équipes et graines. Nouvelle IA 6 victoires, ancienne experte 5, choix aléatoires 1 ; 28 changements et 17 soutiens pour la nouvelle IA. Tous les combats terminent, aucun PV invalide ; 151 décisions mesurées, moyenne 6,44 ms, maximum 34,70 ms sur ce serveur (petit échantillon de comparaison, pas une garantie sur tous les matchups). Tests six contre six séparés et contrôle d’absence de mutation/lecture d’intentions. Journaux `/tmp/riftmon-human-ai-{baseline,suite-verified,runtime-verified,tactics-verified,simulation-verified,deploy}.log`.
+
+Publication serveur seule à 2026-10-24T16:30:36.382Z, PID 1552185 actif, aucun redémarrage automatique ni expédition active à la reprise. Client/build `55f69662dda4b002` inchangé ; index HTTPS et Knov/api-test vérifiés. Sauvegarde sources/index/checkpoints `/home/ubuntu/dev/backups/riftmon-human-ai-2026-10-24T16-08-49-868Z`.
+
 ## Musiques de salle Mounir et Hoze — 24 octobre 2026
 
 Fichiers utilisateur `pourtoi/mounir.mp3` et `pourtoi/hoze_arene.mp3` copiés sans conversion en `mounir-arene.mp3` et `hoze-arene.mp3`. Thèmes `mounir-room` pour `ville1_arene` et `hoze-room` pour `ville_safe1_arene`. Volume de fond commun, boucle, redémarrage lors du retour depuis un autre thème ; pause pendant combat/résultat/onglet masqué puis reprise au même endroit. Les pistes de combat Mounir et Hoze restent distinctes. Tous les champions actifs disposent désormais d’un thème de salle et d’un thème de combat configurés.
@@ -3063,6 +3079,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 24 octobre 2026 — IA commune à tous les dresseurs : équipe/capacités connues, anticipation probabiliste, choix engagé avant le joueur, bug de contre-attaque après changement corrigé. 44 tests tactiques, 83 intégrations et 48 simulations comparatives.
 
 - 24 octobre 2026 — Musiques d’intérieur Mounir et Hoze ajoutées ; tous les champions actifs ont leurs thèmes de salle et de combat configurés.
 

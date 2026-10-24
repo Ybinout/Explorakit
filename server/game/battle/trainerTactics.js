@@ -1,4 +1,5 @@
 const ai = require('../drift/colosseumAI');
+const humanAI = require('./humanTrainerAI');
 
 // Server-only plan, independent of slot swaps; the checkpoint codec preserves
 // non-enumerable properties, while JSON/Socket snapshots do not expose them.
@@ -20,21 +21,20 @@ function eligibleIndexes(team) {
     return ordinary.length ? ordinary : alive;
 }
 function replacementIndex(team) { return eligibleIndexes(team)[0] ?? -1; }
-function chooseAction(team, opponent, field, memory, round) {
+function chooseAction(team, opponent, field, memory, round, opponentTeam = [opponent], skill = 1) {
     const resources = require('./battleResources');
     if (resources.getForcedMove(team.pokemons[0])) return {action:'attack',number:resources.getUsableMoveIndexes(team.pokemons[0],field)[0]};
-    if (team.__trainerPlan?.ai !== 'expert') return null;
     // Keep the active Pokémon in the simulation. A reserved ace is excluded
     // only from voluntary switches, never made immune to a forced switch.
     const indexes = [0, ...eligibleIndexes(team).filter(i => i !== 0)];
-    const decision = ai.chooseAction({ team: indexes.map(i => team.pokemons[i]), opponent,
+    const decision = humanAI.chooseAction({ team: indexes.map(i => team.pokemons[i]), opponentTeam,
         field, ownSide: field.sides.enemy, enemySide: field.sides.player,
-        memory, round, wave: 16, version: 5 });
+        memory, round, skill });
     return decision?.action === 'change' ? { ...decision, number: indexes[decision.number] } : decision;
 }
 function observe(team, memory, actor, move, result) {
-    if (team.__trainerPlan?.ai !== 'expert') return;
     ai.observe(memory, actor, move, result);
+    if (!result) humanAI.observeMove(memory,actor.uuid,move);
 }
 function decorateTransitions(events, team, memory) {
     const plan = team?.__trainerPlan;

@@ -23,7 +23,7 @@ test('Wanda can immediately send her last slot against a bad matchup, with four 
  const team=getPnjTeam('wanda');for(let i=1;i<5;i++)team.pokemons[i].currentHp=1;
  const enemy=factory.create(468,49,true),field=engine.createBattleState(),memory=tactics.createMemory();
  assert.deepEqual(tactics.chooseAction(team,enemy,field,memory,1),{action:'change',number:5});assert.equal(team.pokemons[5].data.id,376);
- const hidden={...enemy,abilities:['Secret'],movePp:[0],heldItem:'focus_sash',iv:{},ev:{},passiveAbility:'Wonder Guard'};
+ const hidden={...enemy,movePp:[0],heldItem:'focus_sash',iv:{},ev:{},passiveAbility:'Wonder Guard'};
  assert.deepEqual(tactics.chooseAction(team,enemy,field,memory,1),tactics.chooseAction(team,hidden,field,memory,1));
 });
 for(const mode of ['rift','colosseum'])test(`${mode}: real Wanda team, individual IVs and unrestricted expert plan survive a checkpoint`,()=>{

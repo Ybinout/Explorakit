@@ -16,7 +16,6 @@ const { planTurnActions } = require('../battle/turnActions');
 const { effortYield, grantParticipantEffort } = require('../models/training');
 const economy = require('./economy');
 const report = require('./runReport');
-const colosseumAI = require('./colosseumAI');
 const trainerTactics = require('../battle/trainerTactics');
 const { wildMoneyReward } = require('../battle/wildReward');
 
@@ -116,18 +115,10 @@ class DriftBattle {
     defaultAction(p) {
         if (this.replacementPhase && this.replacementPlayers?.has(p)) return {action:'change',number:replacementIndexes(p.equipe)[0]};
         if (getForcedMove(p.equipe.pokemons[0])) return {action:'attack',number:getUsableMoveIndexes(p.equipe.pokemons[0],this.state)[0]};
-        if (p === this.b && p.npc) {
-            const decision = trainerTactics.chooseAction(p.equipe,this.active(0),this.state,this.aiMemory,this.round);
-            if (decision) return decision;
-        }
-        const wave = p === this.b && p.npc && this.type === 'arena' && this.npcKey?.startsWith('colosseum_')
-            ? p.colosseumWave || this.a.run?.colosseum?.wave : null;
-        if (wave) {
-            this.aiMemory ||= { seen: {}, lastSwitchRound: -10 };
-            const decision = colosseumAI.chooseAction({ team:p.equipe.pokemons, opponent:this.active(0),
-                field:this.state, ownSide:this.sides[1], enemySide:this.sides[0], wave, memory:this.aiMemory, round:this.round,
-                version:p.colosseumVersion ?? (this.a.run ? this.a.run.colosseum?.version || 1 : 3) });
-            if (decision) return decision;
+        if (p === this.b && p.npc && this.type !== 'wild') {
+            const wave = this.npcKey?.startsWith('colosseum_') ? p.colosseumWave || this.a.run?.colosseum?.wave : null;
+            const skill = wave ? Math.min(1, .55 + Math.floor((wave - 1) / 5) * .15) : 1;
+            return trainerTactics.chooseAction(p.equipe,this.active(0),this.state,this.aiMemory,this.round,this.a.equipe.pokemons,skill);
         }
         const active = p.equipe.pokemons[0];
         const usable = active ? getUsableMoveIndexes(active, this.state) : [];
@@ -292,6 +283,10 @@ class DriftBattle {
             else this.finish(null,'fled');
             return;
         }
+        if (this.b.npc && this.type !== 'wild') {
+            const command=this.pending.get(this.a),lead=this.active(0);
+            require('../battle/humanTrainerAI').observeTurn(this.aiMemory,lead.uuid,lead,command.action);
+        }
         planTurnActions(this.state, actors.map((p,index) => {
             const action = this.pending.get(p), pokemon = this.active(index);
             return { pokemon, action: action?.action,
@@ -342,11 +337,7 @@ class DriftBattle {
                 }
             });
             if(p===this.a&&result.damage>0)(this.contractContributors ||= new Set()).add(pokemon.uuid);
-            if (this.aiMemory && this.b.npc && this.npcKey?.startsWith('colosseum_')) {
-                if (p === this.a) colosseumAI.observe(this.aiMemory,pokemon,name);
-                else colosseumAI.observe(this.aiMemory,defender,name,result);
-            }
-            if (this.b.npc) {
+            if (this.b.npc && !result.actionPrevented) {
                 if (p === this.a) trainerTactics.observe(this.b.equipe,this.aiMemory,pokemon,name);
                 else trainerTactics.observe(this.b.equipe,this.aiMemory,defender,name,result);
             }

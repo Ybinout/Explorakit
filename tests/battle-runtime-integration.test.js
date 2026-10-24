@@ -192,7 +192,7 @@ test('arène : première victime récompensée une seule fois malgré défaite e
         const initial=player.equipe.pokemons[0].experience;
         async function attempt(lose) {
             player.equipe.pokemons.forEach(p=>{p.currentHp=p.maxHp;p.status='normal';p.movePp=p.abilities.map(()=>35);});
-            const first=createPokemon(19,'Premier',['Splash']);first.currentHp=1;
+            const first=createPokemon(19,'Premier',['Splash']);first.currentHp=1;first.__battle={ingrain:true}; // Keep this XP-receipt fixture in its original slot.
             // Same species in two original slots must have separate XP receipts.
             const last=lose?require('../server/game/drift/pokemonFactory').create(19,100,true):createPokemon(19,'Second',['Splash']);
             last.abilities=lose?['Tackle']:['Splash'];last.movePp=[35];if(!lose)last.currentHp=1;
@@ -686,7 +686,7 @@ test('Adventure trainer voluntary switch consumes its action instead of granting
     const pool=createTestPool();let userId;
     try {
         const fixture=await createPlayer(1);userId=fixture.user.id;const {player}=fixture;
-        const lead=player.equipe.pokemons[0];lead.passiveAbility=null;lead.maxHp=lead.currentHp=500;lead.abilities=['Growl'];lead.movePp=[40];
+        const lead=player.equipe.pokemons[0];lead.passiveAbility=null;lead.maxHp=lead.currentHp=500;lead.abilities=['Growl','Vine Whip'];lead.movePp=[40,25];
         const enemy=createPokemon(7,'Water'),replacement=createPokemon(4,'Fire');enemy.passiveAbility=replacement.passiveAbility=null;
         const socket=new ScriptedSocket([{action:'attack',number:0},{action:'flee'}]);const io=new RecordingIo({[player.id]:socket});
         await withFixedRandom(.5,()=>startTrainerBattle(player,createTeam(enemy,replacement),io,userId));
@@ -939,7 +939,7 @@ for (const kind of ['wild','trainer','arena']) test(`Aventure ${kind} : partage 
  try{
   const {user,player}=await createPlayer(1);userId=user.id;
   const lead=createPokemon(1,'Premier',['Growl']),reserve=createPokemon(7,'Relais'),bench=createPokemon(25,'Banc');reserve.currentAttack=999;reserve.currentSpeed=999;
-  player.equipe=createTeam(lead,reserve,bench);const first=createPokemon(19,'Premier adverse',['Growl']),last=createPokemon(19,'Second adverse',['Growl']);for(const p of [first,last]){p.currentHp=1;p.passiveAbility=null;}
+  player.equipe=createTeam(lead,reserve,bench);const first=createPokemon(19,'Premier adverse',['Growl']),last=createPokemon(19,'Second adverse',['Growl']);for(const p of [first,last]){p.currentHp=1;p.passiveAbility=null;p.__battle={ingrain:true};} // Isolate XP distribution from trainer switching.
   const {calculateBattleExperience:xp,BATTLE_EXPERIENCE_MULTIPLIERS:rates}=require('../server/game/models/progression');const factor=rates[kind],share=Math.floor(xp(first,factor,lead)/2),baseline=lead.experience;
   const expectedReserve=createPokemon(7,'Calcul');expectedReserve.gainExperience(share);const second=kind==='wild'?0:xp(last,factor,expectedReserve);
   const actions=[{action:'attack',number:0},{action:'change',number:1},{action:'attack',number:0},...(kind==='wild'?[]:[{action:'attack',number:0}])],socket=new ScriptedSocket(actions),io=new RecordingIo({[player.id]:socket});
@@ -1081,4 +1081,45 @@ test('Lucie trainer experience is persistent per opponent slot across retries', 
   const before=lead.experience;await run();const gained=(await loadEquipe(userId)).pokemons[0].experience;assert(gained>before);
   const io=await run();assert.equal((await loadEquipe(userId)).pokemons[0].experience,gained);assert(!io.events.some(e=>e.eventName==='battleExperience'));
  }finally{if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
+});
+
+for (const command of [{action:'attack',number:0},{action:'change',number:1},{action:'change',number:2}])
+test(`Human AI commits before the Adventure prompt and cannot retarget ${command.action}:${command.number}`,{skip:!shouldRun},async()=>{
+ const pool=createTestPool();let userId;const tactics=require('../server/game/battle/trainerTactics'),original=tactics.chooseAction;const choices=[];
+ try{
+  const {user,player}=await createPlayer(7);userId=user.id;
+  const factory=require('../server/game/drift/pokemonFactory');
+  const roster=[factory.create(9,40,true),factory.create(6,40,true),factory.create(3,40,true)];
+  for(const [i,p]of roster.entries()){p.uuid='human-ai-player-'+i;p.abilities=['Splash'];p.movePp=[40];p.passiveAbility=null;p.heldItem=null;}
+  const enemy=factory.create(25,40,true);enemy.uuid='human-ai-npc';enemy.abilities=['Thunderbolt','Iron Tail'];enemy.movePp=[15,15];enemy.passiveAbility=null;enemy.heldItem=null;
+  player.equipe=createTeam(...roster);const team=createTeam(enemy);
+  tactics.chooseAction=function(...args){const action=original(...args);choices.push({action,active:args[1].uuid});return action;};
+  class PromptSocket extends ScriptedSocket{emit(event,payload){if(event==='requestAction')assert(choices.length>0,'AI must already be committed');return super.emit(event,payload);}}
+  const io=new RecordingIo({[player.id]:new PromptSocket([{action:'change',number:99},command,{action:'flee'}])});
+  await withFixedRandom(.5,()=>startTrainerBattle(player,team,io,userId));
+  assert.equal(choices.length,2,'invalid command must not reroll the AI; next valid round gets one decision');
+  assert.equal(choices[0].active,'human-ai-player-0');
+  const action=choices[0].action;assert.equal(action.action,'attack');
+  const results=io.events.filter(e=>e.eventName==='battleMoveAnimation'&&e.payload.actor==='opponent');
+  assert.equal(results.length,1);assert.equal(results[0].payload.moveName,enemy.abilities[action.number]);
+  assert.equal(enemy.movePp[action.number],14,'Only the committed move was used');
+  assert.equal(enemy.movePp[1-action.number],15);
+ }finally{tactics.chooseAction=original;if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
+});
+
+test('Human AI Adventure preserves a committed NPC switch when the player also switches',{skip:!shouldRun},async()=>{
+ const pool=createTestPool();let userId;const tactics=require('../server/game/battle/trainerTactics'),original=tactics.chooseAction;let count=0;
+ try{
+  const {user,player}=await createPlayer(7);userId=user.id;
+  const factory=require('../server/game/drift/pokemonFactory');
+  const lead=factory.create(9,40,true),reserve=factory.create(6,40,true),rock=factory.create(112,40,true),grass=factory.create(3,40,true);
+  for(const p of [lead,reserve,rock,grass]){p.passiveAbility=null;p.heldItem=null;}
+  lead.abilities=['Surf'];reserve.abilities=['Flamethrower'];rock.abilities=['Rock Slide'];grass.abilities=['Razor Leaf'];
+  for(const p of [lead,reserve,rock,grass])p.movePp=[20];
+  player.equipe=createTeam(lead,reserve);const team=createTeam(rock,grass);
+  tactics.chooseAction=(...args)=>{const d=original(...args);if(!count++)assert.deepEqual(d,{action:'change',number:1});return d;};
+  const io=new RecordingIo({[player.id]:new ScriptedSocket([{action:'change',number:1},{action:'flee'}])});
+  await withFixedRandom(.5,()=>startTrainerBattle(player,team,io,userId));
+  assert.equal(team.pokemons[0].uuid,grass.uuid);assert(!io.events.some(e=>e.eventName==='battleMoveAnimation'),'Both committed switches spend the round');
+ }finally{tactics.chooseAction=original;if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
 });

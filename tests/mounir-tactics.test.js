@@ -36,7 +36,7 @@ test('ace retention follows identities through switches and KOs; support and att
     }
     // Machoc cannot hurt a Ghost with its Fighting STAB. Switch or coverage, never Karate Chop.
     const d = tactics.chooseAction(t,enemy,field,memory,1); assert(d.action==='change'||d.number!==0);
-    const hidden={...enemy,abilities:['Secret move'],movePp:[0],heldItem:'life_orb',iv:{},ev:{},passiveAbility:'Wonder Guard'};
+    const hidden={...enemy,movePp:[0],heldItem:'life_orb',iv:{},ev:{},passiveAbility:'Wonder Guard'};
     assert.deepEqual(tactics.chooseAction(t,hidden,field,memory,1),d);
     [t.pokemons[0],t.pokemons[1]]=[t.pokemons[1],t.pokemons[0]];
     t.pokemons[0].currentHp=0; assert.equal(t.pokemons[tactics.replacementIndex(t)].data.id,66);
@@ -90,5 +90,5 @@ test('entry lines attach to an actual arrival once, including a forced arrival; 
     assert.equal(events.filter(e=>e.trainerSpeech).length,1);
     presentation.transitions(viewer,own,team.pokemons[0]);
     events=tactics.decorateTransitions(presentation.transitions(viewer,own,ace),team,memory); assert(!events.some(e=>e.trainerSpeech));
-    assert.equal(tactics.chooseAction(getPnjTeam('garry'),own,engine.createBattleState(),tactics.createMemory(),1),null);
+    assert(tactics.chooseAction(getPnjTeam('garry'),own,engine.createBattleState(),tactics.createMemory(),1));
 });

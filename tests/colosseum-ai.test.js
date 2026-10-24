@@ -213,6 +213,9 @@ test('real battles finish at every intelligence boundary, and expert choices out
             const a={userId:1,equipe:{pokemons:[pokemon(enemy,['Tackle','Body Slam'])]},drifts:[],equipped:[],items:{},defeated:new Set(),chain:0,money:0};
             const b={npc:true,colosseumWave:wave,colosseumVersion:version,equipe:{pokemons:[pokemon(25,['Thunderbolt','Iron Tail','Brick Break','Quick Attack'])]},drifts:[],equipped:[]};
             const battle=new DriftBattle(a,b,{type:'arena',npcKey:`colosseum_${wave}`,emit(){},now:()=>0,random:Math.random,paceMs:0,onFinish:(_b,winner)=>{if(winner===b)wins[policy]++;}});
+            // This historical benchmark targets the legacy scorer, retained for set-generation compatibility.
+            const legacyDefault=battle.defaultAction.bind(battle);battle.defaultAction=p=>p===b?(ai.chooseAction({team:b.equipe.pokemons,opponent:battle.active(0),field:battle.state,ownSide:battle.sides[1],enemySide:battle.sides[0],memory:battle.aiMemory,round:battle.round,wave,version})||{action:'attack',number:Math.floor(Math.random()*4)}):legacyDefault(p);
+            battle.pending.set(b,battle.defaultAction(b));
             for(let turn=0;turn<200&&!battle.finished;turn++){battle.action(a,{...battle.defaultAction(a),turnId:battle.token});battle.tick();}
             assert(battle.finished);completed++;
         }

@@ -26,7 +26,7 @@ function difficulty(wave, version = 3) {
     const modern = version >= 3, totalTiers = modern ? 4 : 6, interval = modern ? 5 : 10;
     const tier = Math.min(totalTiers, 1 + Math.floor((Math.max(1, Number(wave) || 1) - 1) / interval));
     const policy = tier + (modern ? 2 : 0);
-    return { tier, totalTiers, label: TIERS[policy - 1][0], description: TIERS[policy - 1][1], nextWave: tier < totalTiers ? tier * interval + 1 : null };
+    return { tier, totalTiers, label: TIERS[policy - 1][0], description: version >= 5 && policy === 6 ? 'Anticipe les attaques et changements probables à partir de l’équipe connue.' : TIERS[policy - 1][1], nextWave: tier < totalTiers ? tier * interval + 1 : null };
 }
 
 function preparePokemon(pokemon, wave, index, version = 3) {
@@ -249,4 +249,4 @@ function observe(memory, pokemon, moveName, outcome = null) {
     if ((outcome?.effectiveness===0 || outcome?.abilityBlocked) && !entry.immuneMoves.includes(moveName)) entry.immuneMoves.push(moveName);
 }
 
-module.exports = { difficulty, preparePokemon, chooseAction, observe, observedView, entryDamage, legalIndexes };
+module.exports = { ownView, observedView, supportScore, difficulty, preparePokemon, chooseAction, observe, entryDamage, legalIndexes };

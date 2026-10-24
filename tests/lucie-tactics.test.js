@@ -21,11 +21,11 @@ test('Lucie has six legal level 80 K4 optimized sets and unrestricted expert AI'
  for(let i=1;i<6;i++){const copy=getPnjTeam('lucie_corrupted');[copy.pokemons[1],copy.pokemons[i]]=[copy.pokemons[i],copy.pokemons[1]];copy.pokemons[0].currentHp=0;assert.equal(tactics.replacementIndex(copy),1);}
  team.pokemons[0].currentHp=0;assert(getPnjTeam('lucie_corrupted').pokemons[0].currentHp>0);
 });
-test('Lucie expert choices are legal, independent of private opponent moves, IVs and items',()=>{
+test('Lucie expert choices are legal, independent of private opponent IVs and items',()=>{
  const team=getPnjTeam('lucie_corrupted'),foe=factory.create(445,80,true),field=engine.createBattleState(),memory=tactics.createMemory();
  tactics.observe(team,memory,foe,'Earthquake');
  const choice=tactics.chooseAction(team,foe,field,memory,1);assert(choice);
- assert.deepEqual(choice,tactics.chooseAction(team,{...foe,abilities:['Secret'],heldItem:'focus_sash',iv:{},ev:{},passiveAbility:'Wonder Guard'},field,memory,1));
+ assert.deepEqual(choice,tactics.chooseAction(team,{...foe,heldItem:'focus_sash',iv:{},ev:{},passiveAbility:'Wonder Guard'},field,memory,1));
  assert(choice.action==='attack'?team.pokemons[0].abilities[choice.number]:team.pokemons[choice.number]);
 });
 test('Lucie needs 7p then a new victory; the old reunion flag cannot skip her battle',()=>{
