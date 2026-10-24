@@ -5,7 +5,7 @@
       "interactionName": "moon",
       "map": "ville1_arene",
       "x": 13,
-      "y": 5,
+      "y": 4,
       "sprite": "moonpunch.png",
       "block": true
     },
@@ -239,7 +239,7 @@
       "interactionName": "champion_wanda",
       "map": "ville4_arene",
       "x": 13,
-      "y": 5,
+      "y": 4,
       "sprite": "wanda.png",
       "block": true
     },
@@ -248,7 +248,7 @@
       "interactionName": "champion_ana",
       "map": "ville3_arene",
       "x": 13,
-      "y": 5,
+      "y": 4,
       "sprite": "ana.png",
       "block": true
     },
@@ -257,7 +257,7 @@
       "interactionName": "champion_raphael",
       "map": "gen_arene5",
       "x": 13,
-      "y": 5,
+      "y": 4,
       "sprite": "raph.png",
       "block": true
     },
@@ -266,7 +266,7 @@
       "interactionName": "champion_hoze",
       "map": "ville_safe1_arene",
       "x": 13,
-      "y": 5,
+      "y": 4,
       "sprite": "hoze.png",
       "block": true
     },

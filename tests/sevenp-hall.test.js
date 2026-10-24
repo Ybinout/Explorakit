@@ -20,7 +20,7 @@ function accessible() {
 
 test('7p has an independent painted map; source JSON and editable TMX agree', () => {
     assert.equal(maps.resolveMapSourceName(name), name);
-    assert.equal(maps.resolveMapSourceName('ville4_arene'), 'gen_arene2');
+    assert.equal(maps.resolveMapSourceName('gen_arene2'), 'gen_arene2');
     const map = maps.readMap(name);
     const xml = fs.readFileSync(path.join(__dirname,'../data/maps/ville5_arene.tmx'),'utf8');
     const layers = [...xml.matchAll(/<layer[^>]*name="([^"]+)"[^>]*>[\s\S]*?<data encoding="csv">([\s\S]*?)<\/data>/g)];

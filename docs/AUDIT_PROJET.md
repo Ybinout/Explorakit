@@ -1,5 +1,17 @@
 # Audit technique et mémoire de RiftMon
 
+## Cinq intérieurs de champions refaits — 24 octobre 2026
+
+Périmètre confirmé par le joueur : Mounir, Hoze, Raph, Ana et Wanda seulement ; les quatre anciennes salles (dont les archives) et 7p restent inchangés. Cinq décors imagegen dans la DA sobre de 7p : eau/acier et bassins Mounir, grès/ocre Hoze, cuivre/acier Raph, jardin ivoire/sauge Ana, obsidienne/violet Wanda. Assets et prompts dans `docs/FIVE_ARENA_HALLS_ASSETS.md`. PNG 1484×1060, tuiles Tiled source 53 px, grille 28×20 projetée à 32 px/case en jeu.
+
+Cartes dédiées `ville1_arene`, `ville_safe1_arene`, `gen_arene5`, `ville3_arene`, `ville4_arene` ; quatre alias serveur/client supprimés. `gen_arene1..4` restent intacts. Ancien foreground de Raph retiré : tout son nouveau décor est dans le PNG base. Sol central relié, piliers/bassins/plantes hors passage, arrivée (13,16), deux sorties (13/14,17) vers la porte de ville d’origine. Champions placés (13,4), dialogue (13,5), centrage visuel (+16,-24) sur le losange comme 7p. Fixtures de dialogue et scripts de recette adaptés. Équipes, niveaux, IA, histoire, récompenses, musiques et décors des combats inchangés ; pluie réelle de Mounir conservée.
+
+`placeAmbience` reçoit les profils des nouveaux intérieurs : lumière discrète à la verrière, lanternes aux emplacements peints, poussières localisées, teinte violette chez Wanda. Anciennes bannières dessinées au-dessus de la carte supprimées pour ces cinq salles ; cache/mouvement réduit/lifecycle conservés.
+
+Validation : 87 tests ciblés validés (29 monde/histoire, 11 nouvelles cartes, 47 runtime/PNJ/minimap). Une ancienne fixture Ana/Wanda encore en y=208 a été corrigée en y=176 puis les 42 tests runtime repassés. Parcours SQL/Socket de l’histoire jusqu’à Lucie réussi. Lint/build/diff propres. `validateFiveArenaHallsBrowser.js` : cinq entrées réelles depuis les villes, marche vers les champions, dialogues, lancement des combats et retour/sortie sans reconnexion ; deux cases de porte ; captures 320/393/844/1365 inspectées, aucune erreur navigateur. `validatePlaceAmbienceCanvas.js` : 13 lieux, mouvement réduit, plafond 20 Hz et libération validés. Positions anciennes dans les nouveaux obstacles récupérées sur sol connecté par la routine existante ; tests couvrant chaque salle.
+
+Publication serveur/client à 2026-10-24T12:25:52.405Z, client `75142b95bff387366c62bf4b7130f895bb74f531`, build `d9bdf54d7856bd3c`, serveur PID 1533203 actif. Index et cinq PNG HTTPS vérifiés à l’octet, Knov/api-test inchangés, aucune expédition active avant redémarrage. Sauvegarde `/home/ubuntu/dev/backups/riftmon-five-halls-2026-10-24T12-16-47-681Z`, anciens bundles conservés. Journaux `/tmp/riftmon-five-halls-{tests,map-tests,runtime-tests,runtime-recheck,story,lint,final-build,canvas,browser,deploy}.log`.
+
 ## Musiques neige/arènes et centrage de 7p — 24 octobre 2026
 
 Routes 13 et 14 utilisent désormais `snow.mp3`, sans reprise à zéro entre ces routes, Blanchecime et ses intérieurs enneigés. Les nouveaux fichiers utilisateur `/home/ubuntu/dev/pourtoi/areneWanda.mp3` et `arene7p.mp3` sont copiés à l’identique dans `vue-explorakit/src/assets/msc/` et affectés à l’exploration des salles `ville4_arene` et `ville5_arene`. Les morceaux de combat `wanda.mp3` et `7p.mp3` restent distincts. Volume de fond, pause pendant combat/résultat/onglet masqué, reprise du playhead et préférences conservés dans les trois modes.
@@ -2965,6 +2977,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+24/10/2026 — Cinq intérieurs dédiés Mounir/Hoze/Raph/Ana/Wanda dans la DA sobre de 7p ; cartes, portes, centrage PNJ et lumières raccordés. Parcours mobile/PC et histoire SQL validés, serveur/client publiés. Anciennes salles exclues sur confirmation du joueur.
 
 24/10/2026 — Musique neige Routes 13–14, deux thèmes de salle Wanda/7p importés, 7p centré visuellement sur son losange. Continuité audio et parcours navigateur vérifiés, publication client seule.
 

@@ -148,7 +148,7 @@ test('Socket réel : Lucie, Wayne → Aspha → Mounir → Hoze → Gwenn → Ra
         pokemon.addAbility('Surf');
         pokemon.addAbility('Ice Beam');
         await editEquipe(userId, team);
-        await at('ville_safe1_arene',13,6);
+        await at('ville_safe1_arene',13,5);
         await speak('champion_hoze_locked');
         const rejection=event(socket,'interactionRejected');socket.emit('onEndDialogue','champion_hoze');
         assert.equal((await rejection).reason,'invalid_or_expired_dialogue');
@@ -159,12 +159,12 @@ test('Socket réel : Lucie, Wayne → Aspha → Mounir → Hoze → Gwenn → Ra
         await at('ville_safe1',25,8);await speak('mathilde_pikapika_locked');
         const mathildeRejected=event(socket,'interactionRejected');socket.emit('onEndDialogue','mathilde_pikapika');assert.equal((await mathildeRejected).reason,'invalid_or_expired_dialogue');
         assert.equal((await loadProgressState(userId)).completedNpcBattles.length,0);
-        for(const [map,name]of [['ville3_arene','champion_ana'],['ville4_arene','champion_wanda'],['ville5_arene','champion_7p']]){await at(map,13,map==='ville5_arene'?5:6);await speak(name+'_locked');const blocked=event(socket,'interactionRejected');socket.emit('onEndDialogue',name);assert.equal((await blocked).reason,'invalid_or_expired_dialogue');}
+        for(const [map,name]of [['ville3_arene','champion_ana'],['ville4_arene','champion_wanda'],['ville5_arene','champion_7p']]){await at(map,13,5);await speak(name+'_locked');const blocked=event(socket,'interactionRejected');socket.emit('onEndDialogue',name);assert.equal((await blocked).reason,'invalid_or_expired_dialogue');}
         let attacks=0,expectedExperience=pokemon.experience;
         const {calculateBattleExperience,reduceActiveOverlevelExperience,BATTLE_EXPERIENCE_MULTIPLIERS}=require('../server/game/models/progression');
         const {getPnjTeam}=require('../server/game/world/pnjTeamFactory');
         const catalog=require('../data/game/progression.json'),dialogues=require('../data/game/interact.json');
-        const battles=[['dia1','start',18,3],['aspha_route2','route2',25,6],['moon','ville1_arene',13,6],['champion_hoze','ville_safe1_arene',13,6],['gwenn_route8','gen_route8',22,17],['champion_raphael','gen_arene5',13,6],['mathilde_pikapika','ville_safe1',25,8],['champion_ana','ville3_arene',13,6],['champion_wanda','ville4_arene',13,6],['champion_7p','ville5_arene',13,5]];
+        const battles=[['dia1','start',18,3],['aspha_route2','route2',25,6],['moon','ville1_arene',13,5],['champion_hoze','ville_safe1_arene',13,5],['gwenn_route8','gen_route8',22,17],['champion_raphael','gen_arene5',13,5],['mathilde_pikapika','ville_safe1',25,8],['champion_ana','ville3_arene',13,5],['champion_wanda','ville4_arene',13,5],['champion_7p','ville5_arene',13,5]];
         for(const [name,map,x,y] of battles) {
             await at(map,x,y,true);await speak(name);
             if(['aspha_route2','gwenn_route8','mathilde_pikapika'].includes(name)) {
@@ -207,7 +207,7 @@ test('Socket réel : Lucie, Wayne → Aspha → Mounir → Hoze → Gwenn → Ra
         const replay=event(socket,'interactionRejected');socket.emit('onEndDialogue','gwenn_route8');assert.equal((await replay).reason,'invalid_or_expired_dialogue');
         assert.equal((await loadProgressState(userId)).money,money);
         assert.equal((await require('../server/persistence/progressionRepository').completeNpcBattle(userId,'gwenn_route8')).reason,'already_completed');
-        await at('ville3_arene',13,6);await speak('champion_ana_after');assert.equal((await loadProgressState(userId)).money,money);
+        await at('ville3_arene',13,5);await speak('champion_ana_after');assert.equal((await loadProgressState(userId)).money,money);
         const archivist=require('../server/game/world/pnjStore').getPnjsForMap('gen_arene1').find(p=>p.interactionName==='clara_letter');await at('gen_arene1',archivist.x,archivist.y+1);await speak('clara_letter_locked');
         const blocked=event(socket,'interactionRejected');socket.emit('onEndDialogue','clara_letter');
         assert.equal((await blocked).reason,'invalid_or_expired_dialogue');assert.equal((await loadProgressState(userId)).money,money);

@@ -366,7 +366,15 @@
           "valY": 17,
           "goto": "ville1",
           "nexX": 128,
-          "nexY": 416
+          "nexY": 416,
+          "valX": 13
+        },
+        {
+          "valY": 17,
+          "goto": "ville1",
+          "nexX": 128,
+          "nexY": 416,
+          "valX": 14
         }
       ],
       "wildpokemon": [],
@@ -1267,7 +1275,14 @@
       "mapName": "gen_arene5",
       "mapchange": [
         {
-          "valX": null,
+          "valX": 13,
+          "valY": 17,
+          "goto": "gen_ville5",
+          "nexX": 160,
+          "nexY": 448
+        },
+        {
+          "valX": 14,
           "valY": 17,
           "goto": "gen_ville5",
           "nexX": 160,
@@ -1503,7 +1518,14 @@
       },
       "mapchange": [
         {
-          "valX": null,
+          "valX": 13,
+          "valY": 17,
+          "goto": "ville_safe1",
+          "nexX": 448,
+          "nexY": 544
+        },
+        {
+          "valX": 14,
           "valY": 17,
           "goto": "ville_safe1",
           "nexX": 448,
@@ -1773,7 +1795,14 @@
       },
       "mapchange": [
         {
-          "valX": null,
+          "valX": 13,
+          "valY": 17,
+          "goto": "ville3",
+          "nexX": 160,
+          "nexY": 320
+        },
+        {
+          "valX": 14,
           "valY": 17,
           "goto": "ville3",
           "nexX": 160,
@@ -1992,7 +2021,14 @@
       },
       "mapchange": [
         {
-          "valX": null,
+          "valX": 13,
+          "valY": 17,
+          "goto": "ville4",
+          "nexX": 448,
+          "nexY": 416
+        },
+        {
+          "valX": 14,
           "valY": 17,
           "goto": "ville4",
           "nexX": 448,

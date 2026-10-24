@@ -25,5 +25,5 @@ test('la configuration PNJ charge moonpunch dans l’arène de ville1', () => {
 
     assert.ok(moonpunch);
     assert.equal(moonpunch.interactionName, 'moon');
-    assert.equal(isPnjBlockingTile('ville1_arene', 13, 5), true);
+    assert.equal(isPnjBlockingTile('ville1_arene', 13, 4), true);
 });
