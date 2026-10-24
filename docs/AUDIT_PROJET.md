@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Grand Comptoir : catalogue complet après Hoze — 24 octobre 2026
+
+Tous les articles de la tour sont achetables dès le palier de Hoze (`hoze_defeated`), sans attendre Raphael, Ana ou Wanda. Les 83 offres auparavant aux paliers 3–5 passent au palier 2 dans `department_store.json`. Les articles de départ et ceux de Mounir restent accessibles comme avant. Prix, catégories, quantités, limites d’achat et exclusions de mode inchangés ; comparaison exhaustive avec le catalogue précédent. Les boutiques ordinaires conservent leur progression, les expéditions leur catalogue complet.
+
+Le contrôle d’achat transactionnel existant utilise les nouveaux paliers et les drapeaux persistés ; pas de migration de sauvegarde. Interface FR/EN : le message de la tour indique que Hoze débloque tout le catalogue. Générateur des CS aligné sur le palier 2 pour préserver la règle lors d’une régénération.
+
+Validation : 877 tests applicatifs réussis, test SQL ciblé du Grand Comptoir réussi (refus avant badge, rejet des faux paramètres, achats après Hoze aux tarifs réels, catalogue complet aux quatre étages). Lint/build isolé réussis ; recette navigateur des quatre étages mise à jour pour ne donner que la victoire Hoze au compte de test. Journaux `/tmp/riftmon-store-hoze-*`.
+
+Recette navigateur réussie sans erreur : achats réels, quatre étages, quatre formats, deux thèmes et trois modes. Publication serveur/client à 2026-10-24T05:06:25.267Z, client `83c3326`, build `2723cd4e94ad9c39`. Aucune expédition active avant reprise ; serveur PID 1508798 actif, NRestarts 0, HTTPS vérifié, sites voisins inchangés. Sauvegarde configuration précédente, checkpoint et index dans `/home/ubuntu/dev/backups/riftmon-store-hoze-2026-10-24T05-02-53-970Z`, anciens bundles conservés.
+
 ## Accès direct à l’équipe à côté de Menu — 24 octobre 2026
 
 Le bandeau partagé `UserMap` affiche un bouton Pokémon à côté de Menu en Aventure, Rift et Colosseum. L’entrée Pokémon est retirée du menu déroulant. Même panneau d’équipe et chargement existants ; ouverture directe suspend les déplacements et ferme le carnet Drift. Fermeture par croix ou Échap restaure le focus sur le bouton. Couleurs du thème et cibles tactiles de 44 px conservées ; le chronomètre et les Drifts passent à la ligne sur les petits écrans.
@@ -2791,6 +2801,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+24/10/2026 — Grand Comptoir : tout le catalogue disponible après Hoze, prix inchangés, anciennes disponibilités préservées ; contrôle SQL et message FR/EN alignés.
 
 24/10/2026 — Bouton Pokémon à côté de Menu, accès direct partagé entre les trois modes et entrée retirée du menu. Recette mobile/PC et publication client seule.
 

@@ -105,15 +105,15 @@
         },
         "hyper_potion": {
           "price": 1200,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "max_potion": {
           "price": 2200,
-          "requiredTier": 4
+          "requiredTier": 2
         },
         "full_heal": {
           "price": 600,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "fishing_rod": {
           "price": 15000,
@@ -153,55 +153,55 @@
         },
         "iv_randomizer_hp": {
           "price": 1000,
-          "requiredTier": 4
+          "requiredTier": 2
         },
         "ev_reset_hp": {
           "price": 5000,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "iv_randomizer_attack": {
           "price": 1000,
-          "requiredTier": 4
+          "requiredTier": 2
         },
         "ev_reset_attack": {
           "price": 5000,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "iv_randomizer_defense": {
           "price": 1000,
-          "requiredTier": 4
+          "requiredTier": 2
         },
         "ev_reset_defense": {
           "price": 5000,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "iv_randomizer_specialAttack": {
           "price": 1000,
-          "requiredTier": 4
+          "requiredTier": 2
         },
         "ev_reset_specialAttack": {
           "price": 5000,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "iv_randomizer_specialDefense": {
           "price": 1000,
-          "requiredTier": 4
+          "requiredTier": 2
         },
         "ev_reset_specialDefense": {
           "price": 5000,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "iv_randomizer_speed": {
           "price": 1000,
-          "requiredTier": 4
+          "requiredTier": 2
         },
         "ev_reset_speed": {
           "price": 5000,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "ev_reset_all": {
           "price": 5000,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "cs_swords_dance": {
           "price": 3000,
@@ -213,7 +213,7 @@
         },
         "cs_fly": {
           "price": 4000,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "cs_roar": {
           "price": 3000,
@@ -221,35 +221,35 @@
         },
         "cs_flamethrower": {
           "price": 4000,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "cs_surf": {
           "price": 4000,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "cs_ice_beam": {
           "price": 4000,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "cs_blizzard": {
           "price": 5000,
-          "requiredTier": 4
+          "requiredTier": 2
         },
         "cs_hyper_beam": {
           "price": 5000,
-          "requiredTier": 4
+          "requiredTier": 2
         },
         "cs_strength": {
           "price": 4000,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "cs_solar_beam": {
           "price": 5000,
-          "requiredTier": 4
+          "requiredTier": 2
         },
         "cs_thunderbolt": {
           "price": 4000,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "cs_thunder_wave": {
           "price": 3000,
@@ -257,15 +257,15 @@
         },
         "cs_thunder": {
           "price": 5000,
-          "requiredTier": 4
+          "requiredTier": 2
         },
         "cs_earthquake": {
           "price": 5000,
-          "requiredTier": 4
+          "requiredTier": 2
         },
         "cs_dig": {
           "price": 4000,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "cs_toxic": {
           "price": 3000,
@@ -273,7 +273,7 @@
         },
         "cs_psychic": {
           "price": 4000,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "cs_double_team": {
           "price": 3000,
@@ -289,15 +289,15 @@
         },
         "cs_fire_blast": {
           "price": 5000,
-          "requiredTier": 4
+          "requiredTier": 2
         },
         "cs_waterfall": {
           "price": 4000,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "cs_dream_eater": {
           "price": 5000,
-          "requiredTier": 4
+          "requiredTier": 2
         },
         "cs_flash": {
           "price": 3000,
@@ -305,7 +305,7 @@
         },
         "cs_explosion": {
           "price": 5000,
-          "requiredTier": 4
+          "requiredTier": 2
         },
         "cs_rest": {
           "price": 3000,
@@ -329,7 +329,7 @@
         },
         "cs_sludge_bomb": {
           "price": 4000,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "cs_sandstorm": {
           "price": 3000,
@@ -377,7 +377,7 @@
         },
         "cs_iron_tail": {
           "price": 5000,
-          "requiredTier": 4
+          "requiredTier": 2
         },
         "cs_hidden_power": {
           "price": 3000,
@@ -397,7 +397,7 @@
         },
         "cs_shadow_ball": {
           "price": 4000,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "cs_rock_smash": {
           "price": 3000,
@@ -425,7 +425,7 @@
         },
         "cs_focus_punch": {
           "price": 5000,
-          "requiredTier": 4
+          "requiredTier": 2
         },
         "cs_taunt": {
           "price": 3000,
@@ -453,7 +453,7 @@
         },
         "cs_overheat": {
           "price": 5000,
-          "requiredTier": 4
+          "requiredTier": 2
         },
         "cs_rock_tomb": {
           "price": 3000,
@@ -473,7 +473,7 @@
         },
         "cs_dragon_claw": {
           "price": 4000,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "cs_bulk_up": {
           "price": 3000,
@@ -533,19 +533,19 @@
         },
         "cs_poison_jab": {
           "price": 4000,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "cs_dark_pulse": {
           "price": 4000,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "cs_x_scissor": {
           "price": 4000,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "cs_dragon_pulse": {
           "price": 4000,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "cs_drain_punch": {
           "price": 3000,
@@ -553,15 +553,15 @@
         },
         "cs_focus_blast": {
           "price": 5000,
-          "requiredTier": 4
+          "requiredTier": 2
         },
         "cs_energy_ball": {
           "price": 4000,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "cs_giga_impact": {
           "price": 5000,
-          "requiredTier": 4
+          "requiredTier": 2
         },
         "cs_avalanche": {
           "price": 3000,
@@ -573,11 +573,11 @@
         },
         "cs_flash_cannon": {
           "price": 4000,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "cs_rock_climb": {
           "price": 4000,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "cs_defog": {
           "price": 3000,
@@ -589,7 +589,7 @@
         },
         "cs_stone_edge": {
           "price": 5000,
-          "requiredTier": 4
+          "requiredTier": 2
         },
         "cs_captivate": {
           "price": 3000,
@@ -617,35 +617,35 @@
       "offers": {
         "leftovers": {
           "price": 10000,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "life_orb": {
           "price": 10000,
-          "requiredTier": 4
+          "requiredTier": 2
         },
         "choice_band": {
           "price": 10000,
-          "requiredTier": 4
+          "requiredTier": 2
         },
         "choice_specs": {
           "price": 10000,
-          "requiredTier": 4
+          "requiredTier": 2
         },
         "choice_scarf": {
           "price": 10000,
-          "requiredTier": 4
+          "requiredTier": 2
         },
         "focus_sash": {
           "price": 10000,
-          "requiredTier": 5
+          "requiredTier": 2
         },
         "assault_vest": {
           "price": 10000,
-          "requiredTier": 5
+          "requiredTier": 2
         },
         "eviolite": {
           "price": 10000,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "expert_belt": {
           "price": 10000,
@@ -657,7 +657,7 @@
         },
         "rocky_helmet": {
           "price": 10000,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "rift_talisman": {
           "price": 10000,
@@ -682,7 +682,7 @@
         },
         "lum_berry": {
           "price": 500,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "cheri_berry": {
           "price": 150,
@@ -710,99 +710,99 @@
         },
         "leppa_berry": {
           "price": 450,
-          "requiredTier": 4
+          "requiredTier": 2
         },
         "liechi_berry": {
           "price": 800,
-          "requiredTier": 4
+          "requiredTier": 2
         },
         "ganlon_berry": {
           "price": 800,
-          "requiredTier": 4
+          "requiredTier": 2
         },
         "salac_berry": {
           "price": 800,
-          "requiredTier": 4
+          "requiredTier": 2
         },
         "petaya_berry": {
           "price": 800,
-          "requiredTier": 4
+          "requiredTier": 2
         },
         "apicot_berry": {
           "price": 800,
-          "requiredTier": 4
+          "requiredTier": 2
         },
         "occa_berry": {
           "price": 600,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "passho_berry": {
           "price": 600,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "wacan_berry": {
           "price": 600,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "rindo_berry": {
           "price": 600,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "yache_berry": {
           "price": 600,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "chople_berry": {
           "price": 600,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "kebia_berry": {
           "price": 600,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "shuca_berry": {
           "price": 600,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "coba_berry": {
           "price": 600,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "payapa_berry": {
           "price": 600,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "tanga_berry": {
           "price": 600,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "charti_berry": {
           "price": 600,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "kasib_berry": {
           "price": 600,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "haban_berry": {
           "price": 600,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "colbur_berry": {
           "price": 600,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "babiri_berry": {
           "price": 600,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "roseli_berry": {
           "price": 600,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "chilan_berry": {
           "price": 600,
-          "requiredTier": 3
+          "requiredTier": 2
         },
         "pomeg_berry": {
           "price": 350,

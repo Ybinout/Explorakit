@@ -30,5 +30,5 @@ p=ROOT/'data/game/items.json';items=json.loads(p.read_text());items['items']=[i 
 for key,m in machines.items():items['items'].append({'key':key,'name':m['name'],'category':'machine','buy_price':0,'sell_price':0,'description':f"Apprend {french[m['moveId']]} à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",'machineMove':m['move']})
 p.write_text(json.dumps(items,ensure_ascii=False,indent=2)+'\n')
 p=ROOT/'data/game/department_store.json';store=json.loads(p.read_text());floor=store['floors']['tour_etage1'];floor['description']='Vitamines, relances d’IV, remise à zéro des EV et CS pour apprendre des attaques.'
-floor['offers']={k:v for k,v in floor['offers'].items() if not k.startswith('cs_')};floor['offers'].update({k:{'price':m['price']} for k,m in machines.items()});p.write_text(json.dumps(store,ensure_ascii=False,indent=2)+'\n')
+floor['offers']={k:v for k,v in floor['offers'].items() if not k.startswith('cs_')};floor['offers'].update({k:{'price':m['price'],'requiredTier':2} for k,m in machines.items()});p.write_text(json.dumps(store,ensure_ascii=False,indent=2)+'\n')
 print(f'{len(machines)} CS; {sum(len(m["species"]) for m in machines.values())} compatibilities')

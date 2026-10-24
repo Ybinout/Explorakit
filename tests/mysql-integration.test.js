@@ -418,7 +418,7 @@ test('strategic shop items enforce the 10000 minimum on the server and persist t
  }finally{if(id)await pool.execute('DELETE FROM users WHERE id=?',[id]);await pool.end();}
 });
 
-test('Grand Comptoir enforces earned badges transactionally and ignores forged unlocks', {skip:!shouldRun}, async()=>{
+test('Grand Comptoir unlocks every floor after Hoze, charges unchanged prices and ignores forged unlocks', {skip:!shouldRun}, async()=>{
  const pool=createTestPool();let id;
  const {createUserWithStarter}=require('../server/persistence/userRepository');
  const {purchaseUserItem,loadUserItems}=require('../server/persistence/itemRepository');
@@ -436,12 +436,15 @@ test('Grand Comptoir enforces earned badges transactionally and ignores forged u
   assert((await purchaseUserItem(id,'pokeball',1,{mapName:'tour_rdc'})).success);
   await pool.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,'hoze_defeated','true')",[id]);
   assert((await purchaseUserItem(id,'fire_stone',1,{mapName:'tour_rdc'})).success);
-  assert.equal((await purchaseUserItem(id,'choice_scarf',1,{mapName:'tour_etage2'})).reason,'badge_required');
-  await pool.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,'ana_defeated','true')",[id]);
+  for(const [mapName,key,price]of [['tour_etage1','iv_randomizer_attack',1000],['tour_etage1','ev_reset_all',5000],['tour_etage3','leppa_berry',450]]){
+   const result=await purchaseUserItem(id,key,1,{mapName,price:1});assert(result.success,key);assert.equal(result.totalPrice,price);
+  }
   const bought=await purchaseUserItem(id,'choice_scarf',1,{mapName:'tour_etage2',price:1});
   assert(bought.success);assert.equal(bought.totalPrice,10000);
-  assert.equal((await purchaseUserItem(id,'focus_sash',1,{mapName:'tour_etage2'})).reason,'badge_required');
-  await pool.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,'wanda_defeated','true')",[id]);
+  const {getShopCatalog}=require('../server/game/world/shopCatalog');
+  const {loadProgressState}=require('../server/persistence/progressionRepository');
+  const {flags}=await loadProgressState(id);
+  for(const mapName of ['tour_rdc','tour_etage1','tour_etage2','tour_etage3'])assert(getShopCatalog({mapName,flags}).every(item=>!item.locked));
   assert((await purchaseUserItem(id,'focus_sash',1,{mapName:'tour_etage2'})).success);
  }finally{if(id)await pool.execute('DELETE FROM users WHERE id=?',[id]);await pool.end();}
 });
