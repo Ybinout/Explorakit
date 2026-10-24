@@ -1,5 +1,11 @@
 # Audit technique et mémoire de RiftMon
 
+## Compte binout — remise en place des obstacles et copie au PC — 24 octobre 2026
+
+À la demande du propriétaire, les trois drapeaux de retrait des obstacles de Lucie ont été supprimés pour le seul compte exact `binout`, afin de rejouer l’avertissement d’entrée et les destructions. Aucune victoire contre Lucie ni drapeau `lucie_freed` n’était présent ; aucune victoire, récompense, position ou autre progression n’a donc été retirée.
+
+Une copie de son Ectoplasma existant a été ajoutée au PC, boîte 1 / case 3, avec un nouvel UUID : niveau 100, K4, mêmes IV/EV, nature, talent, attaques, PP, état et Orbe Vie. Équipe active et anciennes entrées PC inchangées. Opérations atomiques sous transaction et verrous, vérification par relecture de l’objet sauvegardé et des trois obstacles verrouillés. Snapshot privé avant modification et reçu avec UUID source/copie : `/home/ubuntu/dev/backups/riftmon-binout-retest-2026-10-24/`. Application à 22 h 15 (Paris). Aucune modification applicative, recompilation ni interruption de service ; rechargement du jeu nécessaire pour actualiser la scène déjà affichée.
+
 ## Lucie — cristaux à briser et avertissement d’entrée — 24 octobre 2026
 
 Les trois anciennes lignes de planches deviennent des amas irréguliers de cristaux sombres, dessinés en pixel art Canvas dans la boucle existante : silhouettes à facettes, racines au sol, fissures localisées puis éclats et dissipation. Aucun asset bitmap ni nouvelle boucle d’animation. Carte, collisions, cases d’obstacles et identifiants `lucie_barricade_*` conservés ; les passages déjà ouverts et les anciennes victoires restent acquis, individuellement. Les expéditions ne reçoivent pas les obstacles/scènes de cette séquence d’histoire.
@@ -3185,6 +3191,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 24 octobre 2026 — Compte binout : trois obstacles de Lucie réarmés et copie fidèle de l’Ectoplasma déposée en boîte 1 / case 3, sous sauvegarde/transaction ; reste du compte conservé.
 
 - 24 octobre 2026 — Chambre de Lucie : cristaux sombres à briser, trois coups synchronisés avec le personnage, fissures/éclats et confirmation ; avertissement à l’entrée après chargement. Progression personnelle préservée, parcours complet et publication vérifiés.
 
