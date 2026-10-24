@@ -1,5 +1,11 @@
 # Contexte permanent — RiftMon
 
+## Redémarrage des musiques à la réentrée — 24 octobre 2026
+
+`WorldMusic.update` remet la piste d’arrivée à zéro lorsque son thème diffère du précédent. Une réentrée ville → route → ville, ou salle d’arène → ville → salle, rejoue donc le morceau depuis le début. Deux cartes consécutives partageant le même thème continuent sans coupure (notamment Routes 13–14–Blanchecime, routes normales entre elles, grottes et intérieurs de même ambiance). Les objets Audio sont conservés en cache ; aucune recharge du MP3. Le volume coupé pendant les déplacements respecte aussi le redémarrage. Les pauses sans changement de thème (combat, résultat, onglet masqué, volume) gardent leur playhead. Cette règle remplace la conservation historique des positions entre thèmes décrite dans les anciennes entrées.
+
+Validation : huit tests musique, lint/build et recette navigateur réussis : véritables seeks à 18 s, continuité sur même thème, remise au début après détour, retour d’arène, volume/visibilité et absence de chevauchement. Journaux `/tmp/riftmon-music-reentry-{tests,lint,build,browser,deploy}.log`. Publication client seule à 2026-10-24T12:43:00.815Z, client `dddd6bd46431ce87b89b080cfbbd357a555c12cd`, build `81b8f59dac5e9cb6`. Index HTTPS vérifié, serveur PID 1533203 et Knov/api-test inchangés ; sauvegarde `/home/ubuntu/dev/backups/riftmon-music-reentry-2026-10-24T12-42-59-908Z`.
+
 ## Musique de salle de Raph — 24 octobre 2026
 
 `pourtoi/areneraph.mp3` copié à l’identique dans `vue-explorakit/src/assets/msc/areneraph.mp3`, affecté à `gen_arene5` via la piste d’exploration `raph-room`. Volume de fond commun, boucle, pause pendant combat/résultat, reprise au même endroit ; `raph.mp3` reste le thème du combat. Partagé par les trois modes.

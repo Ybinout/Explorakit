@@ -56,7 +56,7 @@ const errors = [];
             return page.evaluate(key=>{const a=window.musicVm._worldMusic.tracks.get(key);return {key,src:a.src,time:a.currentTime,volume:a.volume,duration:a.duration};},key);
         }
         await locate('cave1');const cave=await playing('cave');assert.match(cave.src,/cave\.[a-f0-9]+\.mp3/);assert(cave.duration>20);assert(Math.abs(cave.volume-.077)<1e-8);
-        await page.evaluate(()=>window.savedCave=window.musicVm._worldMusic.tracks.get('cave'));
+        await page.evaluate(()=>{window.savedCave=window.musicVm._worldMusic.tracks.get('cave');window.savedCave.currentTime=18;});
         for(const map of ['cave2','cave_rochebrume1','cave_rochebrume3']){await locate(map);const now=await playing('cave');assert(now.time>=cave.time);assert(await page.evaluate(()=>window.savedCave===window.musicVm._worldMusic.tracks.get('cave')));}
         await locate('ville5');const snow=await playing('snow');assert.match(snow.src,/snow\.[a-f0-9]+\.mp3/);assert(snow.duration>20);assert(await page.evaluate(()=>window.savedCave.paused));
         await page.evaluate(()=>window.savedSnow=window.musicVm._worldMusic.tracks.get('snow'));
@@ -65,6 +65,16 @@ const errors = [];
         await page.evaluate(()=>window.musicVm.updatePreferences({...window.musicVm.preferences,masterVolume:35}));await playing('snow');
         await page.evaluate(()=>{Object.defineProperty(document,'hidden',{configurable:true,value:true});document.dispatchEvent(new Event('visibilitychange'));});assert(await page.evaluate(()=>window.savedSnow.paused));
         await page.evaluate(()=>{delete document.hidden;document.dispatchEvent(new Event('visibilitychange'));});await playing('snow');
+        // Real HTMLAudioElement seeks: only a change of theme resets the playhead.
+        for(const [map,key,away,same]of [['ville1','village','route1','ville1_shop'],['route1','route','ville1','route2'],['gen_arene5','raph-room','gen_ville5','gen_arene5'],['route13','snow','cave1','route14']]){
+            await locate(map);await playing(key);
+            await page.evaluate(key=>{window.restartAudio=window.musicVm._worldMusic.tracks.get(key);window.restartAudio.currentTime=18;},key);
+            await page.waitForFunction(()=>!window.restartAudio.seeking&&window.restartAudio.currentTime>=18);
+            await locate(same);assert((await playing(key)).time>=18,'same theme must continue');
+            await locate(away);assert(await page.evaluate(()=>window.restartAudio.paused));
+            await locate(map);assert((await playing(key)).time<3,'different theme must restart');
+            assert(await page.evaluate(key=>window.restartAudio===window.musicVm._worldMusic.tracks.get(key),key));
+        }
         results.push(cave,snow);
         const cases=[['ville3_arene','ana','ana'],['ville4_arene','wanda','wanda'],['ville5_arene','sevenp','7p'],['gen_arene5','raphael','raph'],['ville_safe1_arene','hoze','arena']];
         for(const [map,team,key]of cases){
@@ -83,8 +93,8 @@ const errors = [];
             battle.finish(null,'fled');await page.locator('[data-battle-result-continue]').waitFor();assert(await page.evaluate(()=>window.beforeBattleWorld.paused));await page.locator('[data-battle-result-continue]').click();await playing(world);
             assert(await page.evaluate(()=>window.musicVm.$refs.battleOverlay.music===null));results.push(audio);
         }
-        await locate('cave1');const restored=await playing('cave');assert(restored.time>=cave.time);assert(await page.evaluate(()=>window.savedCave===window.musicVm._worldMusic.tracks.get('cave')));
-        assert.deepEqual(errors,[]);success=true;console.log(JSON.stringify({results,caveContinuity:true,snowRoutesCityAndShop:true,arenaRoomTracks:true,realArenaMusic:true,syncDoesNotRestart:true,noBattleOverlap:true,resumeWorld:true,volumeAndVisibility:true,errors}));
+        await locate('cave1');const restored=await playing('cave');assert(restored.time<3);assert(await page.evaluate(()=>window.savedCave===window.musicVm._worldMusic.tracks.get('cave')));
+        assert.deepEqual(errors,[]);success=true;console.log(JSON.stringify({results,caveContinuity:true,reentryRestarts:true,snowRoutesCityAndShop:true,arenaRoomTracks:true,realArenaMusic:true,syncDoesNotRestart:true,noBattleOverlap:true,resumeWorld:true,volumeAndVisibility:true,errors}));
     } finally {
         if (!success && page) await page.screenshot({ path: path.join(output, 'failure.png'), fullPage: true }).catch(() => {});
         await browser?.close(); cleanup(); await new Promise(resolve => io.close(resolve));
