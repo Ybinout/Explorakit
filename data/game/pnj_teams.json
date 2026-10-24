@@ -2129,6 +2129,189 @@
         "name": "Mathilde Pikapika",
         "ai": "expert"
       }
+    },
+    {
+      "name": "lucie_corrupted",
+      "team": [
+        {
+          "pokemonId": 395,
+          "name": "Pingoléon",
+          "level": 80,
+          "k": 4,
+          "nature": "Modest",
+          "passiveAbility": "Torrent",
+          "heldItem": "leftovers",
+          "abilities": [
+            "Scald",
+            "Ice Beam",
+            "Grass Knot",
+            "Stealth Rock"
+          ],
+          "givenIv": {
+            "hp": 31,
+            "attack": 31,
+            "defense": 31,
+            "specialAttack": 31,
+            "specialDefense": 31,
+            "speed": 31
+          },
+          "ev": {
+            "hp": 252,
+            "specialAttack": 252,
+            "defense": 4
+          }
+        },
+        {
+          "pokemonId": 65,
+          "name": "Alakazam",
+          "level": 80,
+          "k": 4,
+          "nature": "Timid",
+          "passiveAbility": "Magic Guard",
+          "heldItem": "focus_sash",
+          "abilities": [
+            "Psychic",
+            "Focus Blast",
+            "Shadow Ball",
+            "Energy Ball"
+          ],
+          "givenIv": {
+            "hp": 31,
+            "attack": 31,
+            "defense": 31,
+            "specialAttack": 31,
+            "specialDefense": 31,
+            "speed": 31
+          },
+          "ev": {
+            "specialAttack": 252,
+            "speed": 252,
+            "specialDefense": 4
+          }
+        },
+        {
+          "pokemonId": 68,
+          "name": "Mackogneur",
+          "level": 80,
+          "k": 4,
+          "nature": "Adamant",
+          "passiveAbility": "No Guard",
+          "heldItem": "assault_vest",
+          "abilities": [
+            "Dynamic Punch",
+            "Knock Off",
+            "Ice Punch",
+            "Stone Edge"
+          ],
+          "givenIv": {
+            "hp": 31,
+            "attack": 31,
+            "defense": 31,
+            "specialAttack": 31,
+            "specialDefense": 31,
+            "speed": 31
+          },
+          "ev": {
+            "hp": 252,
+            "attack": 252,
+            "specialDefense": 4
+          }
+        },
+        {
+          "pokemonId": 196,
+          "name": "Mentali",
+          "level": 80,
+          "k": 4,
+          "nature": "Timid",
+          "passiveAbility": "Magic Bounce",
+          "heldItem": "life_orb",
+          "abilities": [
+            "Psychic",
+            "Dazzling Gleam",
+            "Shadow Ball",
+            "Calm Mind"
+          ],
+          "givenIv": {
+            "hp": 31,
+            "attack": 31,
+            "defense": 31,
+            "specialAttack": 31,
+            "specialDefense": 31,
+            "speed": 31
+          },
+          "ev": {
+            "specialAttack": 252,
+            "speed": 252,
+            "specialDefense": 4
+          }
+        },
+        {
+          "pokemonId": 398,
+          "name": "Étouraptor",
+          "level": 80,
+          "k": 4,
+          "nature": "Jolly",
+          "passiveAbility": "Reckless",
+          "heldItem": "choice_scarf",
+          "abilities": [
+            "Brave Bird",
+            "Return",
+            "Close Combat",
+            "U-turn"
+          ],
+          "givenIv": {
+            "hp": 31,
+            "attack": 31,
+            "defense": 31,
+            "specialAttack": 31,
+            "specialDefense": 31,
+            "speed": 31
+          },
+          "ev": {
+            "attack": 252,
+            "speed": 252,
+            "specialDefense": 4
+          }
+        },
+        {
+          "pokemonId": 350,
+          "name": "Milobellus",
+          "level": 80,
+          "k": 4,
+          "nature": "Bold",
+          "passiveAbility": "Competitive",
+          "heldItem": "leftovers",
+          "abilities": [
+            "Scald",
+            "Recover",
+            "Ice Beam",
+            "Toxic"
+          ],
+          "givenIv": {
+            "hp": 31,
+            "attack": 31,
+            "defense": 31,
+            "specialAttack": 31,
+            "specialDefense": 31,
+            "speed": 31
+          },
+          "ev": {
+            "hp": 252,
+            "defense": 252,
+            "specialDefense": 4
+          }
+        }
+      ],
+      "strategy": {
+        "name": "Lucie",
+        "ai": "expert",
+        "entryLines": {
+          "395": "Ne t’approche pas. Je… je dois protéger cette maison.",
+          "196": "Ces souvenirs ne sont pas à toi. Tais-toi… tais-toi !",
+          "350": "Je connais cette voix… Non. L’Aube m’a donné un ordre."
+        },
+        "defeatLine": "Lucie : Pars… tant que je peux encore te le demander. Ne les laisse pas te prendre aussi."
+      }
     }
   ]
 }

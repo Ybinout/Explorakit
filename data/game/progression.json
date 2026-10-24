@@ -3,7 +3,7 @@
     {
       "key": "main_sister_search",
       "title": "À la recherche de Lucie — premières pistes",
-      "description": "Retrouver Lucie en suivant les pistes de Wayne jusqu’à 7p, puis rejoindre sa maison sur la Route 2.",
+      "description": "Retrouver Lucie en suivant les pistes de Wayne jusqu’à 7p, puis la libérer de l’Aube Obscure dans la maison de la Route 2.",
       "defaultStatus": "active",
       "target": 9
     },
@@ -399,6 +399,23 @@
         }
       },
       "experienceKind": "trainer"
+    },
+    "lucie_route2": {
+      "battleKey": "story_lucie_corrupted",
+      "once": true,
+      "requiresFlags": [
+        "sevenp_defeated"
+      ],
+      "completionFlag": "lucie_freed",
+      "experienceKind": "trainer",
+      "uniqueExperience": true,
+      "reward": {
+        "money": 6000,
+        "flags": {
+          "lucie_freed": "true",
+          "lucie_reunited": "true"
+        }
+      }
     }
   },
   "storySteps": [
@@ -451,13 +468,13 @@
       "destination": "7p · Arène de Blanchecime"
     },
     {
-      "flag": "lucie_reunited",
-      "objective": "7p t’a confié la clé : retourne à la maison au milieu de la Route 2, ouvre sa porte et parle à Lucie.",
+      "flag": "lucie_freed",
+      "objective": "7p t’a confié la clé de la maison de la Route 2. Retrouve Lucie et libère-la de l’emprise de l’Aube Obscure.",
       "map": "route2_maison",
       "destination": "Lucie · Maison de la Route 2"
     }
   ],
-  "chapterConclusion": "Tu as retrouvé Lucie dans la maison de la Route 2. Elle est en sécurité. La suite de votre histoire reste à écrire.",
+  "chapterConclusion": "Tu as vaincu Lucie et brisé l’emprise de l’Aube Obscure. Ta sœur est libre ; vous pouvez enfin donner des nouvelles à votre mère.",
   "storyEvents": {
     "clara_letter": {
       "requiresFlags": [
@@ -524,12 +541,6 @@
         }
       },
       "enabled": false
-    },
-    "lucie_route2": {
-      "requiresFlags": [
-        "sevenp_defeated"
-      ],
-      "completionFlag": "lucie_reunited"
     }
   },
   "chapter2Steps": [

@@ -1,5 +1,17 @@
 # Audit technique et mémoire de RiftMon
 
+## Lucie sous l’emprise de l’Aube — 24 octobre 2026
+
+La rencontre dans `route2_maison`, accessible après 7p, mène désormais à un combat contre Lucie avant de terminer la recherche de la sœur. Dialogues d’approche, fragments de résistance à l’organisation, répliques en combat, défaite et retrouvailles après victoire. Les anciennes sauvegardes `lucie_reunited` peuvent jouer ce nouveau dénouement ; seul `lucie_freed` le termine. Récompense et victoire uniques par joueur ; XP de chaque adversaire accordée une seule fois malgré les tentatives. La clé et les six badges existants restent inchangés.
+
+Équipe : Pingoléon, Alakazam, Mackogneur, Mentali, Étouraptor et Milobellus, tous niveau 80, K4, IV 31 et 508 EV répartis selon leur rôle. Sets vérifiés dans les compatibilités du jeu, talents et objets stratégiques fonctionnels. IA experte au plus haut palier existant, aucun Pokémon réservé comme pièce maîtresse. La construction de l’équipe et les thèmes audio sont partagés avec les rencontres correspondantes des expéditions ; leur progression reste propre à la session.
+
+Musiques utilisateur copiées sans modification : `LUCIE8MAISON.mp3` → `lucie-maison.mp3`, `music combat lucie.mp3` → `lucie-combat.mp3`. Thème de maison interrompu pendant le combat, morceau de combat dédié, reprise sans superposition. Aucun changement de carte ou de portrait.
+
+Validation : 27 tests ciblés, trois tests SQL de progression/défaite/XP unique, parcours Socket complet jusqu’à Lucie ; lint et build `1ded1060f0eabc83`. Recette navigateur `validateLucieBrowser.js` : équipe réelle, ancienne sauvegarde, victoire, retrouvailles, absence de revanche après rechargement, captures 320/393/1365 px, aucune erreur. Lecture des deux MP3 et transitions validées par `validateNewMusicBrowser.js`. Suite globale : 972 réussites, 122 ignorés et les deux échecs préexistants de niveaux tardifs et d’ancien alias d’arène, déjà constatés avant ce patch. Journaux `/tmp/riftmon-lucie-*.log`, captures `/tmp/riftmon-lucie-browser/`.
+
+Publication serveur/client à 2026-10-24T15:26:48.769Z, client `e4b4accc216ef72c6a73efcfbbd0b3e7292d644e`, build `1ded1060f0eabc83`, serveur PID 1544514 actif. Index et deux MP3 publics vérifiés à l’octet ; Knov/api-test inchangés, aucune expédition active au redémarrage. Sauvegarde `/home/ubuntu/dev/backups/riftmon-lucie-2026-10-24T15-14-24-977Z`.
+
 ## Musique de salle d’Ana — 24 octobre 2026
 
 `pourtoi/ana_arene.mp3` intégré à l’identique dans les assets audio, associé à `ville3_arene` par le thème `ana-room`. Musique de fond en boucle au volume commun, redémarrage lorsqu’on revient depuis un autre thème, pause pendant combat/résultat/onglet masqué et reprise au même endroit. Le morceau de combat `ana.mp3` reste distinct. Raccord partagé par les trois modes.
@@ -3027,6 +3039,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 24 octobre 2026 — Lucie corrompue : combat final unique, six Pokémon niveau 80 K4 et IA experte, dialogues de libération, deux musiques dédiées, compatibilité des anciennes sauvegardes et XP par adversaire non répétable.
 
 - 24 octobre 2026 — Musique de salle Ana : `ana_arene.mp3` utilisateur raccordé à `ville3_arene`, avec pause au combat et redémarrage après changement de thème.
 

@@ -379,7 +379,7 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
         return true;
     }
 
-    const arenaRewards = options.experienceKind === 'arena'
+    const arenaRewards = options.experienceKind === 'arena' || options.arenaBattleKey
         ? require('./arenaExperience').createArenaExperience(options.arenaBattleKey, enemyTeam.pokemons) : null;
     const moves = loadMovesData();
     const usedPokemons = [];
@@ -454,6 +454,11 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
         }
     };
 
+    const narrateDefeat = async () => {
+        if (enemyTeam.__trainerPlan?.defeatLine) await narrate(player, io, enemyTeam.__trainerPlan.defeatLine, 2600);
+        await narrate(player, io, 'Tu as perdu le combat...');
+    };
+
     const handleForcedPlayerSwitch = async () => {
         const response = await requestReplacement(io, player);
         if (response.action === 'disconnect') {
@@ -463,7 +468,7 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
         }
         const switched = response.action === 'change' && playerChangePokemonByIndex(player.equipe, response.number);
         if (!switched || !hasAlivePokemon(player.equipe.pokemons)) {
-            await narrate(player, io, 'Tu as perdu le combat...');
+            await narrateDefeat();
             endBattle(false);
             await editEquipe(userId, player.equipe);
             return false;
@@ -751,7 +756,7 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
         await finalizeVictory();
         endBattle(true);
     } else if (!playerHasPokemonAlive) {
-        await narrate(player, io, 'Tu as perdu le combat...');
+        await narrateDefeat();
         endBattle(false);
     } else {
         endBattle(false, { interrupted: true });

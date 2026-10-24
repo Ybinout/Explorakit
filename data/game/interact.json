@@ -2054,7 +2054,7 @@
         "imageName": "7ps.png"
       },
       {
-        "text": "7p : Elle s’est battue avec une détermination rare. Maintenant, va la retrouver. Vous avez sans doute beaucoup à vous dire.",
+        "text": "7p : Quand je l’ai croisée, elle luttait contre quelque chose que je ne voyais pas. Elle m’a confié la clé sans réussir à m’expliquer pourquoi. Va la retrouver, mais prépare bien ton équipe.",
         "imageName": "7ps.png"
       }
     ]
@@ -2072,7 +2072,7 @@
     "name": "lucie_route2",
     "sentences": [
       {
-        "text": "Lucie : Tu m’as retrouvée… 7p t’a donné la clé ? Je savais qu’il pouvait la garder en sécurité.",
+        "text": "Lucie se tient au fond de la pièce, immobile. Elle serre une Poké Ball si fort que ses doigts tremblent. Quand elle relève la tête, son regard passe à travers toi.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -2081,7 +2081,7 @@
         }
       },
       {
-        "text": "Lucie : Je suis restée ici pour échapper à l’Aube Obscure. Je voulais protéger les Pokémon sans vous mettre en danger. Je suis désolée de vous avoir laissés sans nouvelles.",
+        "text": "Lucie : Tu n’aurais pas dû venir. Cette maison est sous la protection de l’Aube Obscure. Personne ne doit en sortir.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -2090,7 +2090,43 @@
         }
       },
       {
-        "text": "Lucie : Merci d’être venu jusqu’ici. Nous avons beaucoup à nous raconter. Pour l’instant, je suis en sécurité. Il faudra aussi rassurer maman.",
+        "text": "Tu prononces son nom. Elle recule, une main contre sa tempe.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 18
+        }
+      },
+      {
+        "text": "Lucie : Ne m’appelle pas comme ça… C’est ce qu’elle disait. Maman… Non. Ce souvenir ne m’appartient plus.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 18
+        }
+      },
+      {
+        "text": "Lucie : Ils disaient qu’ils allaient protéger les Pokémon. J’ai voulu les croire. Depuis, leur voix ne s’arrête jamais.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 18
+        }
+      },
+      {
+        "text": "Pendant un instant, elle te regarde vraiment. « Si je n’arrive plus à m’arrêter… arrête-moi. S’il te plaît. » Puis elle lève sa Poké Ball.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 18
+        }
+      },
+      {
+        "text": "Lucie : Tu ne passeras pas.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -2099,15 +2135,61 @@
         }
       }
     ],
-    "end": "story",
+    "end": "battle",
     "after": "lucie_route2_after",
-    "locked": "lucie_route2_locked"
+    "locked": "lucie_route2_locked",
+    "team": "lucie_corrupted"
   },
   {
     "name": "lucie_route2_after",
     "sentences": [
       {
-        "text": "Lucie : Je suis heureuse de te revoir. Merci de ne jamais avoir renoncé à me retrouver.",
+        "text": "La dernière Poké Ball se referme. Lucie porte les mains à ses oreilles, puis les baisse lentement. Le silence revient dans la maison.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 18
+        }
+      },
+      {
+        "text": "Lucie : La voix… je ne l’entends plus. C’est vraiment toi ? Tu as fait tout ce chemin pour moi…",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 18
+        }
+      },
+      {
+        "text": "Tu lui prends la main. Cette fois, elle la serre en retour.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 18
+        }
+      },
+      {
+        "text": "Lucie : L’Aube Obscure m’a promis un refuge pour les Pokémon blessés. Quand j’ai compris ce qu’ils faisaient, j’ai essayé de partir. Ils m’ont rattrapée. Après… il y a des morceaux dont je ne me souviens pas.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 18
+        }
+      },
+      {
+        "text": "Lucie : Je me rappelle avoir confié cette clé à 7p. Je voulais qu’il empêche quelqu’un d’entrer. Surtout toi. Je suis désolée de t’avoir attaqué.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 18
+        }
+      },
+      {
+        "text": "Lucie : J’ai besoin d’un peu de temps. Mais je ne suis plus seule. Et cette fois, on donnera des nouvelles à maman. Ensemble.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,

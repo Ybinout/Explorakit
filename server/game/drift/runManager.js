@@ -420,7 +420,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
             const tx=x+dx,ty=y+dy,pnj=p.run.pnjs.getPnjAtTile(p.currentmap,tx,ty);
             const trainer=pnj&&trainers.find(pnj.interactionName);
             if(trainer){p.dialogue=createDialogueAuthorization({name:trainer.id,map:p.currentmap,x:tx,y:ty},now());emit(p,'expedition:trainerOffer',trainers.view(trainer,p));return;}
-            const storyState=pnj?.interactionName==='lucie_route2'?{flags:{sevenp_defeated:p.defeated.has('champion_7p')?'true':'false'}}:null;
+            const storyState=pnj?.interactionName==='lucie_route2'?{flags:{sevenp_defeated:p.defeated.has('champion_7p')?'true':'false',lucie_freed:p.defeated.has('lucie_route2')?'true':'false'}}:null;
             const sentence=pnj?getSentenceForName(pnj.interactionName||pnj.name,storyState):InteractMapData(p.currentmap)[ty]?.[tx]?getSentenceForMapAndPosition(p.currentmap,tx,ty):null;
             if(sentence){p.dialogue=createDialogueAuthorization({name:sentence[1],map:p.currentmap,x:tx,y:ty},now());emit(p,'dialogue',sentence);return;}
         }

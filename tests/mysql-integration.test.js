@@ -235,7 +235,10 @@ test('le chapitre suit les victoires, résiste aux doublons et reprend les ancie
             assert.equal((await completeStoryEvent(userId,'clara_letter')).granted,false);
         }
         await completeNpcBattle(userId,'town_lina');
-        const reunion=await Promise.all([completeStoryEvent(userId,'lucie_route2'),completeStoryEvent(userId,'lucie_route2')]);assert.equal(reunion.filter(r=>r.granted).length,1);
+        assert.equal((await completeStoryEvent(userId,'lucie_route2')).granted,false);
+        await pool.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,'lucie_reunited','true')",[userId]);
+        assert.equal(main(await loadProgressState(userId)).status,'active');
+        const reunion=await Promise.all([completeNpcBattle(userId,'lucie_route2'),completeNpcBattle(userId,'lucie_route2')]);expectedMoney+=reunion.find(r=>r.granted).money;assert.equal(reunion.filter(r=>r.granted).length,1);
         assert.equal((await require('../server/persistence/itemRepository').loadUserItems(userId)).find(i=>i.key==='route2_house_key').quantity,1);
         const final = await loadProgressState(userId);
         assert.equal(main(final).status,'completed');assert.equal(main(final).progress,9);assert.ok(main(final).completedAt);

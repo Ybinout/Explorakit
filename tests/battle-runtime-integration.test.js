@@ -1056,3 +1056,29 @@ test(`Bluff Simiabraz ${ability} contre ${champion} (${entry}) : équipe réelle
   assert.equal(events.filter(e=>e.eventName==='battleMoveAnimation'&&e.payload.actor==='opponent').length,entry!=='lead'?1:0);
  }finally{if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
 });
+
+test('Lucie: defeat speech precedes the result and cannot trigger victory', {skip:!shouldRun},async()=>{
+ const pool=createTestPool();let userId;
+ try{
+  const{user,player}=await createPlayer(7);userId=user.id;
+  player.equipe.pokemons[0].currentHp=1;player.equipe.pokemons[0].abilities=['Splash'];player.equipe.pokemons[0].movePp=[40];
+  const team=require('../server/game/world/pnjTeamFactory').getPnjTeam('lucie_corrupted');
+  const io=new RecordingIo({[player.id]:new ScriptedSocket([{action:'attack',number:0}])});let wins=0;
+  await withFixedRandom(.5,()=>startTrainerBattle(player,team,io,userId,{experienceKind:'trainer',arenaBattleKey:'story_lucie_corrupted',onVictory:async()=>{wins++;}}));
+  assert.equal(wins,0);assert.equal(io.lastEvent(player.id,'endbattle').payload.summary.outcome,'defeat');
+  const speech=io.events.findIndex(e=>e.eventName==='battleText'&&e.payload.message===team.__trainerPlan.defeatLine);
+  assert(speech>=0&&speech<io.events.findIndex(e=>e.eventName==='endbattle'));
+ }finally{if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
+});
+test('Lucie trainer experience is persistent per opponent slot across retries', {skip:!shouldRun},async()=>{
+ const pool=createTestPool();let userId;
+ try{
+  const{user,player}=await createPlayer(7);userId=user.id;
+  const lead=player.equipe.pokemons[0];lead.experience=lead.getNextLevelExpForLevel(100);lead.level=100;lead.recalculateStats();
+  const run=async()=>{const team=require('../server/game/world/pnjTeamFactory').getPnjTeam('lucie_corrupted');team.pokemons.forEach(p=>{p.currentHp=1;p.passiveAbility=null;p.heldItem=null;});
+   const io=new RecordingIo({[player.id]:new ScriptedSocket([{action:'attack',number:0},{action:'flee'}])});
+   await withFixedRandom(.5,()=>startTrainerBattle(player,team,io,userId,{experienceKind:'trainer',arenaBattleKey:'story_lucie_corrupted'}));return io;};
+  const before=lead.experience;await run();const gained=(await loadEquipe(userId)).pokemons[0].experience;assert(gained>before);
+  const io=await run();assert.equal((await loadEquipe(userId)).pokemons[0].experience,gained);assert(!io.events.some(e=>e.eventName==='battleExperience'));
+ }finally{if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
+});

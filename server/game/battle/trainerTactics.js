@@ -4,9 +4,9 @@ const ai = require('../drift/colosseumAI');
 // non-enumerable properties, while JSON/Socket snapshots do not expose them.
 function attachPlan(team, definition) {
     if (!definition.strategy) return;
-    const { name, acePokemonId, entryLines = {}, ai: policy } = definition.strategy;
+    const { name, acePokemonId, entryLines = {}, defeatLine, ai: policy } = definition.strategy;
     Object.defineProperty(team, '__trainerPlan', { configurable: true, value: {
-        name, ai: policy,
+        name, ai: policy, defeatLine,
         aceUuid: team.pokemons.find(p => p.data.id === acePokemonId)?.uuid,
         entryLines: Object.fromEntries(team.pokemons.filter(p => entryLines[p.data.id])
             .map(p => [p.uuid, entryLines[p.data.id]]))
