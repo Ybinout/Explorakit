@@ -1,5 +1,13 @@
 # Contexte permanent — RiftMon
 
+## Musiques de combat Ana et Hoze — 24 octobre 2026
+
+`pourtoi/ana_fight.mp3` remplace la piste de combat `ana.mp3`. `hoze_fight.mp3` est intégré à l’identique comme `hoze.mp3`, affecté aux combats d’arène dans `ville_safe1_arene`. Les thèmes de salle restent inchangés. Mounir conserve `arene.mp3` : son fichier utilisateur `mounir fight .mp3` est vide (0 octet), détecté par la recette de lecture réelle avant déploiement ; le raccord provisoire a été retiré. Attendre un fichier complet avant d’activer sa piste dédiée.
+
+Neuf tests musique réussis, lint/build isolés. La recette `validateNewMusicBrowser.js` couvre désormais aussi Mounir et Hoze, la lecture réelle, la pause de la salle, le retour sans chevauchement et la stabilité du morceau pendant les mises à jour de combat. Journaux `/tmp/riftmon-gym-fights-{tests,lint,build,browser,deploy}.log`.
+
+Publication client seule à 2026-10-24T15:33:32.020Z, client `f1557e3c2362ab5103c8213507cfba0b571dfa60`, build `8b43b7981f06258f`. Recette navigateur réussie, index et deux MP3 publics exacts ; serveur PID 1544514 et Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-gym-fights-2026-10-24T15-33-31-163Z`.
+
 ## Lucie sous l’emprise de l’Aube — 24 octobre 2026
 
 La rencontre dans `route2_maison`, accessible après 7p, mène désormais à un combat contre Lucie avant de terminer la recherche de la sœur. Dialogues d’approche, fragments de résistance à l’organisation, répliques en combat, défaite et retrouvailles après victoire. Les anciennes sauvegardes `lucie_reunited` peuvent jouer ce nouveau dénouement ; seul `lucie_freed` le termine. Récompense et victoire uniques par joueur ; XP de chaque adversaire accordée une seule fois malgré les tentatives. La clé et les six badges existants restent inchangés.

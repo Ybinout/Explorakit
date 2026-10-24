@@ -21,11 +21,11 @@ test('cave rooms and snowy town interiors preserve their playhead across transit
 });
 test('dedicated champion battle tracks stay stable and cannot override wild, trainer, PvP or Colosseum music',async()=>{
  const{battleMusicTrack}=await import('../vue-explorakit/src/services/battleMusic.js');
- for(const[map,track]of [['gen_arene5','raph'],['ville3_arene','ana'],['ville4_arene','wanda'],['ville5_arene','7p']]){
+ for(const[map,track]of [['ville_safe1_arene','hoze'],['gen_arene5','raph'],['ville3_arene','ana'],['ville4_arene','wanda'],['ville5_arene','7p']]){
   assert.equal(battleMusicTrack('arena',map),track);
   for(const kind of ['wild','trainer','pvp','colosseum'])assert.equal(battleMusicTrack(kind,map),kind);
  }
- for(const map of ['ville1_arene','ville_safe1_arene','__proto__',null])assert.equal(battleMusicTrack('arena',map),'arena');
+ for(const map of ['ville1_arene','unknown','__proto__',null])assert.equal(battleMusicTrack('arena',map),'arena');
 });
 
 test('dedicated arena room music pauses for combat and resumes its own playhead',async()=>{
