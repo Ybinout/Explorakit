@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Musiques neige/arènes et centrage de 7p — 24 octobre 2026
+
+Routes 13 et 14 utilisent désormais `snow.mp3`, sans reprise à zéro entre ces routes, Blanchecime et ses intérieurs enneigés. Les nouveaux fichiers utilisateur `/home/ubuntu/dev/pourtoi/areneWanda.mp3` et `arene7p.mp3` sont copiés à l’identique dans `vue-explorakit/src/assets/msc/` et affectés à l’exploration des salles `ville4_arene` et `ville5_arene`. Les morceaux de combat `wanda.mp3` et `7p.mp3` restent distincts. Volume de fond, pause pendant combat/résultat/onglet masqué, reprise du playhead et préférences conservés dans les trois modes.
+
+7p est centré visuellement sur le losange de l’estrade : décalage de rendu (+16,-24) pixels monde via `npcRenderOffset`, uniquement pour `sevenp` dans `ville5_arene`. Case serveur (13,4), dialogue depuis (13,5), collisions et parcours inchangés ; pas de déplacement des autres PNJ.
+
+Validation : 10 tests musique/carte, lint/build isolé ; recette `validateNewMusicBrowser.js` avec décodage et lecture réelle des pistes, continuité Routes 13–14/ville, interruption/reprise, absence de chevauchement. `validateArenaReturnBrowser.js` et captures quatre formats : centrage, entrée, dialogue, victoire et sortie validés. Premier essai de cette recette perdu par son Mewtwo de test contre l’IA ; second essai réussi, sans modification du moteur de combat. Journaux `/tmp/riftmon-snow-gym-music-{tests,lint,build,browser,deploy}.log` et `/tmp/riftmon-sevenp-centered-browser{-retry,}.log`.
+
+Publication client seule à 2026-10-24T12:09:05.746Z, client `6b9e8460b142e73942218b20164f6a296c53b0ef`, build `7390557f68bf5e82`. Index et deux nouveaux MP3 HTTPS vérifiés (fichiers identiques aux sources). Serveur PID 1529756 et Knov/api-test inchangés ; sauvegarde `/home/ubuntu/dev/backups/riftmon-snow-gym-music-2026-10-24T12-09-04-826Z`.
+
 ## Arène de 7p : pixel art simplifié — 24 octobre 2026
 
 À la demande du joueur, le décor détaillé de 7p est remplacé par une version plus sobre : pierre en aplats, vitraux et ornements simplifiés, palette resserrée, contours lisibles avec les sprites. Retouche avec l’outil intégré imagegen, bitmap conservé à 1484×1060 sans filtre logiciel ; prompt actif dans `docs/SEVENP_HALL_ASSET.md`. Même disposition, portes, collisions, PNJ et lumières. Seul le PNG du client change.
@@ -2955,6 +2965,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+24/10/2026 — Musique neige Routes 13–14, deux thèmes de salle Wanda/7p importés, 7p centré visuellement sur son losange. Continuité audio et parcours navigateur vérifiés, publication client seule.
 
 24/10/2026 — Arène 7p : décor redessiné en pixel art plus sobre, géométrie conservée ; vérification mobile/PC et publication client seule.
 
