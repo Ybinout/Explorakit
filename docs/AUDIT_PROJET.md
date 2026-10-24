@@ -1,5 +1,17 @@
 # Audit technique et mémoire de RiftMon
 
+## Entrée d’arène : illustrations des champions — 24 octobre 2026
+
+Le rideau de chargement du combat met en scène Mounir, Hoze, Raph, Ana, Wanda et 7p : illustration HD existante des dialogues, grand nom, ville, bande oblique et couleur propre au champion. Apparition latérale et fondu vers le combat ; cadrages portrait/paysage et petit mobile. Aucun nouvel asset ni information dévoilant les équipes. Le choix exige une carte d’arène reconnue et un combat de type arène (ou `musicKind: arena` en expédition) ; PvP, rencontres sauvages et vagues Colosseum conservent l’entrée courte.
+
+Portrait préchargé à l’entrée de l’arène puis décodé avec le décor, les socles et les sprites. Présentation minimale de 2,8 s avant l’ouverture de 420 ms, dont au moins 1,6 s pour une illustration arrivée tardivement. Mouvement réduit : tableau statique, attente réduite (1,2 s / 900 ms de lecture). Une image absente ou bloquée conserve le nom et ne bloque pas le combat ; délais bornés, annulation et visibilité de l’onglet raccordées au contrôleur existant. Les commandes restent inertes et les événements de combat dans la file jusqu’à la fin de l’entrée.
+
+Six tests ciblés réussis : association arène/type/illustration, chargement/décodage, changement de ressource, panne, délai limite et annulation. Lint/build isolé réussis. Recette `scripts/validateArenaEntranceUi.js` ajoutée au contrôle des combats ; vérifie six champions, quatre formats, ressources lentes/manquantes, portrait arrivé après le délai limite, interruption, mouvement réduit et autres rencontres. Journaux/captures `/tmp/riftmon-arena-splash-*`.
+
+Recette navigateur ciblée passée sur le build final, sans erreur : garde de chargement existante et six champions, quatre formats, portrait tardif lisible, image cassée/bloquée, annulation, mouvement réduit système/jeu. Captures contrôlées ; invocation `NODE_PATH=/home/ubuntu/dev/explorakit/node_modules RELEASE_PUBLIC_PATH=/ RELEASE_DIST_DIR=/tmp/riftmon-arena-splash-release-dist RELEASE_SCREENSHOTS=/tmp/riftmon-arena-splash-release-browser node --env-file-if-exists=.env /tmp/riftmon-arena-splash-review.cjs` (harness isolé appelant les deux recettes versionnées).
+
+Publication client seule à 2026-10-24T05:16:59.302Z, client `c9aa78e`, build `43c414527f019718`. Serveur PID 1508798 inchangé, index HTTPS vérifié et sites voisins inchangés. Sauvegarde index/référence client dans `/home/ubuntu/dev/backups/riftmon-arena-splash-2026-10-24T05-16-58-677Z`, anciens bundles conservés.
+
 ## Grand Comptoir : catalogue complet après Hoze — 24 octobre 2026
 
 Tous les articles de la tour sont achetables dès le palier de Hoze (`hoze_defeated`), sans attendre Raphael, Ana ou Wanda. Les 83 offres auparavant aux paliers 3–5 passent au palier 2 dans `department_store.json`. Les articles de départ et ceux de Mounir restent accessibles comme avant. Prix, catégories, quantités, limites d’achat et exclusions de mode inchangés ; comparaison exhaustive avec le catalogue précédent. Les boutiques ordinaires conservent leur progression, les expéditions leur catalogue complet.
@@ -2801,6 +2813,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+24/10/2026 — Présentation des six champions pendant le chargement des arènes : illustrations existantes, animation mobile/PC, attente bornée et commandes après révélation.
 
 24/10/2026 — Grand Comptoir : tout le catalogue disponible après Hoze, prix inchangés, anciennes disponibilités préservées ; contrôle SQL et message FR/EN alignés.
 

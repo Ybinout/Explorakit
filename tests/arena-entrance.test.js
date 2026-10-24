@@ -1,0 +1,11 @@
+const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
+test('champion splash art uses existing illustrations and only appears for arena encounters',async()=>{
+ const {arenaChampion}=await import('../vue-explorakit/src/services/arenaEntrance.js');
+ const maps=['ville1_arene','ville_safe1_arene','gen_arene5','ville3_arene','ville4_arene','ville5_arene'];
+ for(const map of maps){
+  const champion=arenaChampion(map,'arena');assert(champion?.name);assert(champion.cityEn);
+  assert(fs.existsSync(path.join(__dirname,'../vue-explorakit/src/assets/image',champion.portrait)));
+  for(const kind of ['wild','pvp','colosseum','trainer',undefined])assert.equal(arenaChampion(map,kind),null);
+ }
+ for(const map of ['start','route1','ville_commerciale','__proto__','unknown'])assert.equal(arenaChampion(map,'arena'),null);
+});
