@@ -51,6 +51,7 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
     timer.unref();
     namespace.on('connection', socket => {
         limitSocket(socket);
+        require('./worldClock').registerWorldClock(socket);
         const user = socket.data.user;
         store.connect(user, socket.id);
         socket.emit('drift:bootstrap', { capacities: CAPACITIES, durations: DURATIONS, catalogue, launchAvailable: true });

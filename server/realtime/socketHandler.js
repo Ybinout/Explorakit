@@ -248,6 +248,7 @@ const socketHandler = (io) => {
             socket.disconnect(true);
             return;
         }
+        require('./worldClock').registerWorldClock(socket);
         const requestedUsername = typeof socket.data.user?.username === 'string'
             ? socket.data.user.username.trim()
             : '';
