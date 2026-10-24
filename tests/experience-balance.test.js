@@ -47,7 +47,7 @@ test('les Pokémon sauvages effectivement générés respectent les nouvelles bo
 test('les arènes prolongent les routes précédentes et possèdent leur propre bonus XP', () => {
     for (const [name, team, road] of [
         ['moon', 'moonpunch', 'route2'], ['champion_hoze', 'hoze', 'route4'],
-        ['champion_raphael', 'raphael', 'gen_route7'], ['champion_ana', 'ana', 'gen_route6'],
+        ['champion_raphael', 'raphael', 'gen_route8'], ['champion_ana', 'ana', 'gen_route6'],
         ['champion_wanda', 'wanda', 'route12'], ['champion_7p', 'sevenp', 'route14']
     ]) {
         const maxWild = byName.get(road).level.max;
@@ -81,5 +81,24 @@ test('l’Aventure accélérée demande environ 1 à 2 victoires sauvages par ni
         const xp = calculateBattleExperience({ level, k: 1 }, BATTLE_EXPERIENCE_MULTIPLIERS.wild, { level });
         const wins = cost / xp;
         assert.ok(wins >= 1.1 && wins <= 1.6, `niveau ${level}: ${wins}`);
+    }
+});
+
+test('après Raph, les routes restent proches du dernier champion et les champions suivants montent en puissance', () => {
+    for (const [champion, nextRoad] of [['raphael', 'gen_route7'], ['ana', 'route11'], ['wanda', 'cave_rochebrume1'], ['mathilde_pikapika', 'route5']]) {
+        const aceLevel = Math.max(...getPnjTeam(champion).pokemons.map(p => p.level));
+        const zone = byName.get(nextRoad).level;
+        assert.ok(zone.max >= aceLevel - 1 && zone.max <= aceLevel + 2, `${champion} → ${nextRoad}`);
+        assert.ok(zone.min >= aceLevel - 3, `${nextRoad} : retour à une zone trop faible`);
+    }
+    let previousAce = Math.max(...getPnjTeam('raphael').pokemons.map(p => p.level));
+    for (const champion of ['ana', 'wanda', 'sevenp']) {
+        const levels = getPnjTeam(champion).pokemons.map(p => p.level);
+        assert.ok(Math.min(...levels) > previousAce, champion);
+        previousAce = Math.max(...levels);
+    }
+    assert.equal(previousAce, 63, 'le sommet de 7p reste au niveau 63');
+    for (const [city, road] of [['ville3', 'gen_route6'], ['ville4', 'route12'], ['ville5', 'route14'], ['ville_commerciale', 'route6']]) {
+        assert.deepEqual(byName.get(city).level, byName.get(road).level, `${city} : cohérence des rencontres de pêche`);
     }
 });

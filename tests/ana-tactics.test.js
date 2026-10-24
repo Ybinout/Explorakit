@@ -12,7 +12,7 @@ const learnsets = require('../data/game/pokemonData.json');
 
 test('Ana: six arena-level partners, legal coherent sets and a fully trained K4 ace; independent encounters', () => {
     const team = getPnjTeam('ana'), other = getPnjTeam('ana');
-    assert.deepEqual(team.pokemons.map(p => [p.data.id, p.level]), [[53,44],[154,44],[78,45],[148,45],[407,46],[282,46]]);
+    assert.deepEqual(team.pokemons.map(p => [p.data.id, p.level]), [[53,47],[154,47],[78,48],[148,48],[407,49],[282,49]]);
     const zone = require('../data/game/nextMap.json').maps.find(m => m.mapName === 'ville3').level;
     for (const p of team.pokemons) {
         assert(p.level >= zone.min && p.level <= zone.max + 3);

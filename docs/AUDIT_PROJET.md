@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Progression après Raph — 24 octobre 2026
+
+Le creux des routes suivant Raph est corrigé : Route 9 (`gen_route7`) 42–44, Route 10 (`gen_route6`) 44–46, Ana 47/47/48/48/49/49, Route 11 47–49, Route 12 49–51. Wanda reste 52–54 ; grottes de Rochebrume 51–53 / 53–55 / 55–57, Routes 13–14 57–59 / 59–61 et 7p 60–63 déjà cohérents, inchangés. Les rencontres sauvages restent légèrement sous les champions voisins. K/IV/EV/sets/IA/objets préservés.
+
+Branche commerciale désormais post-Raph : Mathilde 42/43/43/44, Route 5 42–44, Route 6 44–46. Métadonnées de ville et de leurs intérieurs alignées sur les routes d’arrivée (Ocreville 35–41, Clairfontaine 44–46, Rochebrume 49–51, ville commerciale/tour 44–46), notamment pour la pêche qui lit ces mêmes niveaux. Arène de Raph 42–44. Aucun changement de carte, collision, transition, espèces, prix ou formule XP ; anciens secteurs non raccordés conservés.
+
+Validation : 44 tests ciblés réussis (génération aux bornes, progression, sets/IA Raph/Ana/Wanda, branche commerciale et pêche) ; parcours narratif réel SQL/Socket jusqu’à Lucie réussi, XP et victoires sauvegardées vérifiées. Nouvelle garde contre une chute de niveaux après un champion et maintien du sommet 63. Journaux `/tmp/riftmon-post-raph-{tests,story,deploy}.log`.
+
+Publication serveur seule à 2026-10-24T06:55:46.228Z, PID 1522362 actif, HTTPS 200, client et Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-post-raph-2026-10-24T06-54-45-477Z`.
+
 ## Route 8 : rencontres jusqu’au niveau 41 — 24 octobre 2026
 
 La plage sauvage de `gen_route8` passe de 35–37 à 35–41. Minimum, espèces et transitions inchangés, aucune autre zone modifiée. Les tests de progression autorisent cette plage élargie et le chevauchement avec la route suivante ; Hoze est comparé à Route 4, avant Route 8, sans modifier son équipe.
@@ -2903,6 +2913,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+24/10/2026 — Progression post-Raph : Routes 9–12 et Ana relevées, Mathilde/branche commerciale alignées ; villes et pêche cohérentes, montée jusqu’à 7p niveau 63 conservée. Tests et parcours complet SQL validés.
 
 24/10/2026 — Route 8 : Pokémon sauvages niveaux 35–41, génération aux bornes vérifiée et autres zones inchangées.
 

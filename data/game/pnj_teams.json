@@ -631,7 +631,7 @@
         {
           "pokemonId": 53,
           "name": "Persian",
-          "level": 44,
+          "level": 47,
           "k": 2,
           "nature": "Jolly",
           "passiveAbility": "Technician",
@@ -659,7 +659,7 @@
         {
           "pokemonId": 154,
           "name": "Méganium",
-          "level": 44,
+          "level": 47,
           "k": 3,
           "nature": "Bold",
           "passiveAbility": "Overgrow",
@@ -687,7 +687,7 @@
         {
           "pokemonId": 78,
           "name": "Galopa",
-          "level": 45,
+          "level": 48,
           "k": 3,
           "nature": "Jolly",
           "passiveAbility": "Flash Fire",
@@ -715,7 +715,7 @@
         {
           "pokemonId": 148,
           "name": "Draco",
-          "level": 45,
+          "level": 48,
           "k": 3,
           "nature": "Adamant",
           "passiveAbility": "Shed Skin",
@@ -743,7 +743,7 @@
         {
           "pokemonId": 407,
           "name": "Roserade",
-          "level": 46,
+          "level": 49,
           "k": 4,
           "nature": "Timid",
           "passiveAbility": "Natural Cure",
@@ -771,7 +771,7 @@
         {
           "pokemonId": 282,
           "name": "Gardevoir",
-          "level": 46,
+          "level": 49,
           "k": 4,
           "nature": "Timid",
           "passiveAbility": "Trace",
@@ -2019,7 +2019,7 @@
         {
           "pokemonId": 25,
           "name": "Pikachu",
-          "level": 37,
+          "level": 42,
           "abilities": [
             "Thunderbolt",
             "Thunder Wave",
@@ -2046,7 +2046,7 @@
         {
           "pokemonId": 25,
           "name": "Pikachu",
-          "level": 38,
+          "level": 43,
           "abilities": [
             "Thunderbolt",
             "Grass Knot",
@@ -2073,7 +2073,7 @@
         {
           "pokemonId": 25,
           "name": "Pikachu",
-          "level": 38,
+          "level": 43,
           "abilities": [
             "Discharge",
             "Nuzzle",
@@ -2100,7 +2100,7 @@
         {
           "pokemonId": 25,
           "name": "Pikachu",
-          "level": 39,
+          "level": 44,
           "abilities": [
             "Volt Tackle",
             "Iron Tail",
