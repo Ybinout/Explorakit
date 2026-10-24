@@ -1,5 +1,11 @@
 # Audit technique et mémoire de RiftMon
 
+## Retour au décor de combat précédent de Lucie — 24 octobre 2026
+
+À la demande utilisateur, les deux fichiers `lucie-house-wide-v1.webp` et `lucie-house-mobile-v1.webp` sont restaurés à l’octet depuis le client `279a886`. La chambre d’exploration pixelisée et les trois barricades restent conservées. Aucun code ni donnée serveur modifié ; pas de redémarrage.
+
+Build `1178c13e5d297828` réussi, client `dcf19a8d5f98789a526be590f7a6bbf23e00b722`, publié à 21 h 16 (Paris). Index HTTPS vérifié, serveur PID 1564694 et Knov/api-test inchangés. Sauvegarde : `/home/ubuntu/dev/backups/riftmon-lucie-bg-restore-2026-10-24T19-16-52-830Z`. Journaux `/tmp/riftmon-lucie-bg-restore-*`.
+
 ## Chambre pixelisée et barricades à dégager — 24 octobre 2026
 
 La chambre de Lucie et ses deux décors de combat sont simplifiés avec imagegen puis exportés sur une grille réelle de pixels : carte 448×320, combat large 480×320, mobile 320×480. Les footprints des meubles, collisions, porte, position de Lucie et socles restent les mêmes. Trois textures ramenées d’environ 1,49 Mo à 245 Ko. Prompts et sources : `docs/LUCIE_SCENE_ASSETS.md`.
@@ -3133,6 +3139,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 24 octobre 2026 — Décors de combat de Lucie restaurés à leur version précédente ; chambre pixelisée et barricades conservées. Publication client seule.
 
 - 24 octobre 2026 — Chambre Lucie davantage pixelisée, trois barricades personnelles à dégager avec Action, manipulation animée et musique continue. Retraits persistants, annulation à la déconnexion, anciens vainqueurs préservés ; tests et publication vérifiés.
 

@@ -1,5 +1,7 @@
 # Lucie — assets et mise en scène
 
+**Version active :** les décors de combat large/mobile sont revenus aux originaux détaillés du client `279a886` (1536×1024 et 1024×1536), à la demande utilisateur. La carte de chambre 448×320 et les barricades de la révision suivante restent actives. Aucun nouvel asset généré pour ce retour.
+
 ## Chambre davantage pixelisée et barricades — 24 octobre 2026
 
 Outil intégré imagegen, puis export des textures au plus proche voisin : `src/assets/route2_maison.png` en 448×320, `src/assets/battle/lucie-house-wide-v1.webp` en 480×320, `src/assets/battle/lucie-house-mobile-v1.webp` en 320×480 (WebP qualité 96). Nouveaux originaux : `exec-4e3bcb25-6086-41b8-8e96-7691cadcfa14.png`, `exec-91a68fce-69bb-4181-9fff-2032011d89e6.png`, `exec-dc7b473b-8b76-4f98-b1d1-4b7372d0674e.png`, dans le répertoire imagegen déjà indiqué. Objets et silhouettes de collision conservés ; aucun changement de fichier Tiled. Les barricades sont rendues séparément en Canvas à partir des cellules serveur, avec des aplats de bois et quelques ligatures, sans asset raster supplémentaire.
