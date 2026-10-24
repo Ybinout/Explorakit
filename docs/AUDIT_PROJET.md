@@ -1,5 +1,11 @@
 # Audit technique et mémoire de RiftMon
 
+## Arène de 7p : pixel art simplifié — 24 octobre 2026
+
+À la demande du joueur, le décor détaillé de 7p est remplacé par une version plus sobre : pierre en aplats, vitraux et ornements simplifiés, palette resserrée, contours lisibles avec les sprites. Retouche avec l’outil intégré imagegen, bitmap conservé à 1484×1060 sans filtre logiciel ; prompt actif dans `docs/SEVENP_HALL_ASSET.md`. Même disposition, portes, collisions, PNJ et lumières. Seul le PNG du client change.
+
+Validation : trois tests de carte réussis, build isolé, recette navigateur entrée réelle → marche → combat de 7p → sortie, quatre formats 320/393/844/1365, aucune erreur. Captures mobile et PC inspectées. Journaux `/tmp/riftmon-sevenp-soft-{tests,build,browser,deploy}.log`. Publication client seule le 2026-10-24T12:02:16.587Z, build `fce16d1b84549395`, client `5d86a1014ba6b727f97c54f6a565df05bd36c069`. Index HTTPS vérifié, serveur PID 1529756 et Knov/api-test inchangés ; sauvegarde `/home/ubuntu/dev/backups/riftmon-sevenp-soft-2026-10-24T12-02-15-811Z`.
+
 ## Nouvelle salle de 7p — 24 octobre 2026
 
 Intérieur original de Blanchecime : verrière glacée, colonnes et cristaux latéraux, mosaïque étoilée, allée centrale et estrade. Création avec l’outil intégré imagegen ; PNG 1484×1060 préservé, prompt et provenance dans `docs/SEVENP_HALL_ASSET.md`. Carte dédiée `ville5_arene` (JSON/TMX concordants, 28×20 cases ; source 53 px/case projetée à 32 px par le moteur). Suppression de son alias serveur/client vers `gen_arene2`, qui reste utilisé par Wanda. Aucun changement d’équipe, difficulté, récompenses, musique ou fond de combat.
@@ -2949,6 +2955,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+24/10/2026 — Arène 7p : décor redessiné en pixel art plus sobre, géométrie conservée ; vérification mobile/PC et publication client seule.
 
 24/10/2026 — Salle dédiée de 7p : création du décor, collisions/portes, éclairage local et repositionnement sur l’estrade. Parcours réel entrée/combat/sortie, anciennes sauvegardes et rendu mobile/PC validés ; serveur/client publiés.
 

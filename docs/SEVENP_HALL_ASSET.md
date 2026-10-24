@@ -4,7 +4,19 @@ Décor créé avec l’outil intégré **imagegen**, livré sans redimensionneme
 
 La salle remplace uniquement l’ancien alias de Blanchecime vers `gen_arene2`. Wanda conserve sa carte. 7p se tient en (13,4), dialogue depuis (13,5), arrivée en (13,16), sortie en (13,17) ou (14,17). Piliers et murs bloqués, allée centrale libre. Équipe, difficulté, musique, récompenses et décor du combat inchangés. Éclairage local et poussières discrètes, compatibles mouvement réduit.
 
-## Prompt de création
+## Révision graphique : pixel art plus sobre
+
+Le décor actif a été redessiné avec l’outil intégré imagegen pour réduire les détails : aplats de pierre bleue, panneaux de vitraux élargis, bannières et cristaux simplifiés. Les dimensions, les silhouettes des obstacles et les positions des portes restent identiques. Aucun filtre de pixellisation ou redimensionnement ajouté au moteur. L’ancienne version détaillée reste dans Git.
+
+### Prompt de révision (version active)
+
+Use case: style-transfer.
+Edit target: image 1, the existing ice-blue final champion arena. Image 2 is ONLY a supporting reference for the simple, readable handheld RPG tile-art language; do not copy its maze, rocks, red carpet or layout.
+Redraw image 1 as clean, charming medium-resolution pixel art that fits a classic top-down monster-catching RPG with small pixel sprites. The current image is far too intricate and looks like a detailed fantasy illustration. Strongly simplify its visual information: remove stone grain, marble veins, scratches, tiny decorative borders, micro highlights, fine gold filigree and busy geometric subdivisions. Use broad quiet blue-grey floor tiles with very minimal variation, a restrained palette, two or three discrete shades per material, readable stepped pixel outlines and simple soft-coloured clusters. A polished Nintendo DS/GBA-era tile-art feel, neither crude huge pixels nor smooth vector/3D rendering. No grain/noise, no blur or realistic surface texture.
+Keep the same room architecture and exact silhouette/footprints: north stained-glass star window, raised northern dais and shallow steps, paired side columns, blue central runner, large single compass-star floor inlay, side crystals, simple dark blue banners and a few warm lanterns. Reduce their internal ornamentation by about 80%. The star inlay should be broad clean shapes without tiny secondary patterns; the runner plain with a single silver border. Window panes large and simple, blue crystal clusters 2–3 clean facets each. Keep warm/cold contrast but reduce glossy glare.
+CRITICAL gameplay invariants: preserve the exact 7:5 composition and 1484x1060 image dimensions of image 1; no crop, no camera/perspective change, no zoom. All walls, columns, stair edges, entrance and open floor must stay at exactly the same coordinates as image 1. Preserve clear unobstructed centre path from south doorway to empty champion spot on north dais. Do not add/remove/move obstacles. Keep lantern/crystal locations unchanged for the existing light overlay. No characters, text, UI or grid. Opaque dark navy exterior. Finished map asset, not a screenshot of a game.
+
+## Prompt de création initiale
 
 Create a finished, production-ready 2D top-down pixel-art interior map for the FINAL champion arena in a handheld-style monster-catching RPG. This is the actual WALKABLE OVERWORLD MAP, not a battle background, not concept art, not isometric, not a perspective room. A magnificent mountain summit sanctuary for champion 7p: blue-black slate, silver inlaid stone, pale ice crystals, restrained warm brass lanterns, icy stained-glass windows, majestic architectural symmetry. Crisp hand-placed-looking pixels, coherent low-resolution tile art, strong silhouettes, beautiful material detail without photographic textures, no blur, no vector gradients. Visible top faces and short south-facing vertical wall faces as in classic Nintendo DS top-down town interiors. Landscape canvas, 7:5 aspect ratio, intended logical map size 448 x 320 pixels (28 columns x 20 rows of 16-pixel tiles); the rendered output may be larger but preserve that pixel-art scale and this exact composition.
 
