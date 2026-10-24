@@ -18,9 +18,26 @@ async function pictures(label){for(const[width,height]of [[320,568],[393,852],[1
  await dbPool.execute("UPDATE users SET map='route2_maison',x=432,y=304 WHERE id=?",[userId]);
  browser=await chromium.launch({headless:true,args:['--no-sandbox']});const context=await browser.newContext({viewport:{width:393,height:852},hasTouch:true,isMobile:true});await context.addInitScript(s=>localStorage.setItem('explorakit.user',JSON.stringify(s)),{...fixture.user,token:fixture.token});page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.url().startsWith(base)&&r.status()>=400)errors.push(r.status()+' '+r.url());});
  await page.goto(base+'/game',{waitUntil:'networkidle'});await ready();
- await page.evaluate(()=>{v.updatePreferences({...v.preferences,animationsEnabled:false,textSpeed:10000,masterVolume:35});v.socket.emit('Space');});await page.waitForFunction(()=>v.endSentences==='lucie_route2'&&v.textImageSequence.length>0);
+ await page.waitForFunction(()=>Object.values(v.pnjSpriteSheets).some(i=>i.src.includes('lucie-v1')&&i.complete&&i.naturalWidth>0));
+ assert(await page.evaluate(()=>v.mapImage.src.includes('route2_maison')));
+ await pictures('house');
+ await page.evaluate(()=>{v.updatePreferences({...v.preferences,animationsEnabled:true,textSpeed:10000,masterVolume:35});v.socket.emit('Space');});await page.waitForFunction(()=>v.endSentences==='lucie_route2'&&v.textImageSequence.length>0);
+ await page.waitForTimeout(700);
+ const typing=await page.evaluate(()=>{const d=document.querySelector('.dialogue-shell').__vue__;return{visible:d.displayedText.length,total:d.currentText.length,portrait:d.currentImageSrc,rect:document.querySelector('.text-with-image').getBoundingClientRect().height};});
+ assert(typing.visible>0&&typing.visible<typing.total);assert(typing.portrait.includes('lucie-v1'));
+ await page.locator('.dialogue-layer .text').click();
+ assert(await page.evaluate(()=>{const d=document.querySelector('.dialogue-shell').__vue__;return d.displayedText===d.currentText&&d.currentIndex===0;}));
+ assert(Math.abs(await page.locator('.text-with-image').evaluate(e=>e.getBoundingClientRect().height)-typing.rect)<1);
+ await page.waitForFunction(()=>{const a=v._worldMusic?.tracks.get('lucie-room');return a&&!a.paused&&a.currentTime>.1;});
+ const musicBefore=await page.evaluate(()=>v._worldMusic.tracks.get('lucie-room').currentTime);
+ await page.waitForTimeout(400);assert(await page.evaluate(t=>v._worldMusic.tracks.get('lucie-room').currentTime>t,musicBefore));
  assert(await page.evaluate(()=>v.textImageSequence.some(s=>s.text.includes('Aube Obscure'))));await pictures('intro');
- await page.evaluate(()=>v.clearSequence());await page.waitForFunction(()=>v.battle);await page.locator('.action-attack:enabled').waitFor();await pictures('battle');
+ const entranceStart=Date.now();await page.evaluate(()=>v.clearSequence());await page.waitForFunction(()=>v.battle);
+ await page.locator('.is-story .portrait-ready').waitFor();
+ assert.equal(await page.locator('.champion-heading h2').textContent(),'Lucie');
+ await page.waitForFunction(()=>v._worldMusic.tracks.get('lucie-room').paused&&v.$refs.battleOverlay.musicKind==='lucie'&&!v.$refs.battleOverlay.music.paused);
+ await pictures('splash');await page.locator('.action-attack:enabled').waitFor();assert(Date.now()-entranceStart>=4300);
+ await pictures('battle');await page.evaluate(()=>v.updatePreferences({...v.preferences,animationsEnabled:false}));
  for(let i=0;i<30;i++){
   await page.waitForFunction(()=>v.battleResult||document.querySelector('.action-attack:not(:disabled)'));
   if(await page.evaluate(()=>!!v.battleResult))break;
@@ -30,5 +47,5 @@ async function pictures(label){for(const[width,height]of [[320,568],[393,852],[1
  await page.waitForFunction(()=>v.endSentences==='lucie_route2_after'&&v.textImageSequence.length>0);assert.equal(await page.evaluate(()=>v.progressionState.flags.lucie_freed),'true');await pictures('reunion');
  await page.evaluate(()=>v.clearSequence());await page.waitForFunction(()=>!v.movementBlocked);
  await page.reload({waitUntil:'networkidle'});await ready();await page.evaluate(()=>v.socket.emit('Space'));await page.waitForFunction(()=>v.endSentences==='lucie_route2_after');assert.equal(await page.evaluate(()=>Boolean(v.battle)),false);
- assert.deepEqual(errors,[]);success=true;console.log(JSON.stringify({actualLucieTeam:true,legacySave:true,victory:true,followUp:true,noRematchAfterReload:true,viewports:3,errors}));
+ assert.deepEqual(errors,[]);success=true;console.log(JSON.stringify({actualLucieTeam:true,legacySave:true,victory:true,followUp:true,noRematchAfterReload:true,viewports:3,slowDialogue:true,skippableTyping:true,stableDialogueHeight:true,lucieSplash:true,extendedEntrance:true,newRoom:true,newSprite:true,musicDuringDialogueAndEntrance:true,errors}));
 }finally{if(!success&&page)await page.screenshot({path:path.join(output,'failure.png'),fullPage:true}).catch(()=>{});await browser?.close();await new Promise(r=>io.close(r));await new Promise(r=>setTimeout(r,200));if(userId)await dbPool.execute('DELETE FROM users WHERE id=?',[userId]);await dbPool.end();}})().catch(e=>{console.error(e.stack);process.exitCode=1});

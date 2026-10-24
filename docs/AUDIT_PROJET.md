@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Lucie — illustration, maison sombre et scène musicale — 24 octobre 2026
+
+Trois assets créés avec imagegen : illustration monochrome d’une Lucie désorientée tenant une Ball, sprite couleur dédié et intérieur sombre aux planches bleutées, fenêtre froide et petite lampe chaude. Le portrait sert aux dialogues et à l’introduction de son combat ; détails, chemins et prompts dans `docs/LUCIE_SCENE_ASSETS.md`. Sprite unique cadré sur sa zone alpha dans le renderer, 48 px de haut et pieds ancrés comme les autres PNJ. Le nouveau décor n’affecte que `route2_maison` ; alias serveur, collisions, porte et autres maisons conservés.
+
+Introduction commune aux rencontres de Lucie dans les trois modes, limitée au type dresseur dans sa maison : durée minimum 4,4 s, dont 2,6 s de portrait visible ; mode mouvement réduit 1,2/0,9 s. Préchargement/décodage et file de présentation existants conservés. Carte violette « Retrouvailles » sans étiquette d’arène. Les dialogues d’approche et de retrouvailles défilent à 45 ms/caractère avec pauses de ponctuation ; l’appui révèle la réplique puis avance, sans défilement automatique entre répliques. Le panneau réserve la hauteur du texte pour éviter les sauts mobiles. Les dialogues ordinaires gardent leur pagination.
+
+Validation : 25 tests ciblés réussis, lint et build isolé `3853afc015a5b78f`. Recette `validateLucieBrowser.js` sur base dédiée : vrais sprites/décor, portrait à 320/393/1365 px, temporisation, révélation au clic, stabilité de hauteur, combat réel contre l’équipe de Lucie, victoire/retrouvailles et absence de revanche après reconnexion. Lecture réelle de la musique de maison pendant le texte et du morceau de combat pendant le portrait, sans superposition, vérifiée. Captures `/tmp/riftmon-lucie-scene-browser/`, journaux `/tmp/riftmon-lucie-scene-*.log`.
+
+Publication à 2026-10-24T16:48:42.563Z, client `b3bfc63cd4c1bf2699f657cae5024650e15d024e`, build `3853afc015a5b78f`, serveur PID 1553794 actif sans redémarrage automatique. Index et trois nouvelles images HTTPS identiques au build. Knov/api-test inchangés, aucune expédition active avant redémarrage. Sauvegarde `/home/ubuntu/dev/backups/riftmon-lucie-scene-2026-10-24T16-42-17-605Z`.
+
 ## IA des dresseurs : anticipation sans lecture du choix — 24 octobre 2026
 
 Demande utilisateur : connaître toute l’équipe adverse et ses attaques, mais jamais le coup choisi. Nouvelle politique commune `server/game/battle/humanTrainerAI.js` pour tous les dresseurs Aventure, Rift et Colosseum, y compris ceux sans stratégie experte déclarée. Pokémon sauvages et duels entre joueurs inchangés. Les réservations de pièces maîtresses et répliques restent portées par `trainerTactics`. Au Colosseum, l’importance des anticipations augmente par paliers de cinq combats jusqu’au défi 16 ; équipes, niveaux, items, récompenses et anciennes générations de sets restent identiques.
@@ -3079,6 +3089,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 24 octobre 2026 — Lucie : splashart, sprite dédié, maison sombre et dialogues à défilement lent avec révélation manuelle. Introduction du combat prolongée et validée sur mobile/PC ; 25 tests ciblés.
 
 - 24 octobre 2026 — IA commune à tous les dresseurs : équipe/capacités connues, anticipation probabiliste, choix engagé avant le joueur, bug de contre-attaque après changement corrigé. 44 tests tactiques, 83 intégrations et 48 simulations comparatives.
 

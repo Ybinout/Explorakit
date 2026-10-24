@@ -948,11 +948,11 @@
       "map": "route2_maison",
       "x": 13,
       "y": 8,
-      "sprite": "townspeople.png",
+      "sprite": "lucie-v1.png",
       "spriteFrame": {
-        "columns": 8,
-        "rows": 4,
-        "index": 18
+        "columns": 1,
+        "rows": 1,
+        "index": 0
       },
       "block": true,
       "roamRadius": 0
