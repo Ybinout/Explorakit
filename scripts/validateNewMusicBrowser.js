@@ -68,7 +68,7 @@ const errors = [];
         results.push(cave,snow);
         const cases=[['ville3_arene','ana','ana'],['ville4_arene','wanda','wanda'],['ville5_arene','sevenp','7p'],['gen_arene5','raphael','raph'],['ville_safe1_arene','hoze','arena']];
         for(const [map,team,key]of cases){
-            await locate(map);const world=map==='ville5_arene'?'sevenp-room':map==='ville4_arene'?'wanda-room':'village';const room=await playing(world);if(world.endsWith('-room')){assert(room.src.includes(map==='ville5_arene'?'arene7p.':'areneWanda.'));assert(room.duration>20);}
+            await locate(map);const world=map==='ville5_arene'?'sevenp-room':map==='ville4_arene'?'wanda-room':map==='gen_arene5'?'raph-room':'village';const room=await playing(world);if(world.endsWith('-room')){assert(room.src.includes(map==='ville5_arene'?'arene7p.':map==='gen_arene5'?'areneraph.':'areneWanda.'));assert(room.duration>20);}
             await page.evaluate(world=>window.beforeBattleWorld=window.musicVm._worldMusic.tracks.get(world),world);
             const lead=require('../server/game/drift/pokemonFactory').create(9,100,true);lead.maxHp=lead.currentHp=5000;player.equipe.pokemons=[lead];
             const battle=cleanup.runtime.battle(player,{npc:true,equipe:require('../server/game/world/pnjTeamFactory').getPnjTeam(team),drifts:[],equipped:[],chain:0},'arena','champion_'+team);battle.deadline=Date.now()+240000;

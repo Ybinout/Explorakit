@@ -1,5 +1,11 @@
 # Contexte permanent — RiftMon
 
+## Musique de salle de Raph — 24 octobre 2026
+
+`pourtoi/areneraph.mp3` copié à l’identique dans `vue-explorakit/src/assets/msc/areneraph.mp3`, affecté à `gen_arene5` via la piste d’exploration `raph-room`. Volume de fond commun, boucle, pause pendant combat/résultat, reprise au même endroit ; `raph.mp3` reste le thème du combat. Partagé par les trois modes.
+
+Validation : sept tests musique, lint/build et recette navigateur de lecture réelle réussis (pistes de salle distinctes, pause/reprise, aucune superposition ni erreur). MP3 public identique à la source utilisateur. Journaux `/tmp/riftmon-raph-room-music-{tests,lint,build,browser,deploy}.log`. Publication client seule à 2026-10-24T12:30:59.345Z, client `b9c21481a30f6e92dd0be20976d3e0dff317a7ae`, build `5b84fa32af476811`. Serveur PID 1533203, Knov et api-test inchangés ; sauvegarde `/home/ubuntu/dev/backups/riftmon-raph-room-music-2026-10-24T12-30-58-479Z`.
+
 ## Cinq intérieurs de champions refaits — 24 octobre 2026
 
 Périmètre confirmé par le joueur : Mounir, Hoze, Raph, Ana et Wanda seulement ; les quatre anciennes salles (dont les archives) et 7p restent inchangés. Cinq décors imagegen dans la DA sobre de 7p : eau/acier et bassins Mounir, grès/ocre Hoze, cuivre/acier Raph, jardin ivoire/sauge Ana, obsidienne/violet Wanda. Assets et prompts dans `docs/FIVE_ARENA_HALLS_ASSETS.md`. PNG 1484×1060, tuiles Tiled source 53 px, grille 28×20 projetée à 32 px/case en jeu.
