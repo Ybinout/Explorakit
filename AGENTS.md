@@ -1,5 +1,11 @@
 # Contexte permanent — RiftMon
 
+## Butin Aventure à 1/15 — 24 octobre 2026
+
+Le taux d’objet après victoire sauvage en Aventure passe de 1/17 à 1/15 (≈6,67 %) via `ADVENTURE_CHANCE`. Rift et Colosseum conservent `CHANCE = 1/17`, leurs bonus et toutes les règles de rareté/unicité. Aucun inventaire modifié.
+
+Validation : 44 tests objets réussis avec seuil expédition 1/17 inchangé ; test SQL ciblé réussi au seuil Aventure 1/15, y compris réception et unicité. Journaux `/tmp/riftmon-adventure-loot15-{tests,mysql,deploy}.log`. Publication serveur à 2026-10-24T06:59:34.918Z, PID 1522984 actif, HTTPS 200, client et Knov/api-test inchangés ; sauvegarde `/home/ubuntu/dev/backups/riftmon-adventure-loot15-2026-10-24T06-59-17-180Z`.
+
 ## Butin sauvage à 1/17 — 24 octobre 2026
 
 Taux de base des objets après victoire sauvage : 1/17 (≈5,88 %) dans les trois modes. L’Aventure était déjà à 1/20, les expéditions à 1/25 ; `ADVENTURE_CHANCE` partage maintenant `CHANCE`. Pondérations des familles/objets, exclusion permanente des uniques, bonus Drifts et absence de butin sur capture/fuite/défaite inchangés. Aucun inventaire modifié rétroactivement.
