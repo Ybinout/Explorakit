@@ -1,5 +1,11 @@
 # Audit technique et mémoire de RiftMon
 
+## Son du bouton Action réduit — 24 octobre 2026
+
+Le son de validation/défilement des dialogues (bouton A, Espace ou appui sur le texte) reçoit désormais 50 % du volume précédent, via le composant de monde commun aux trois modes. Le volume principal et le mode muet continuent de s’appliquer. Musiques et sons de combat inchangés.
+
+Lint et build `e26eef7221331387` réussis. Client `cceff26791f6683b13dd6397fb1c73ab38617cbb`, publié à 21 h 44 (Paris) ; index HTTPS vérifié, serveur PID 1567946 et Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-action-volume-2026-10-24T19-44-07-121Z`. Journaux `/tmp/riftmon-action-volume-*`.
+
 ## Cycle jour/nuit partagé — 24 octobre 2026
 
 Cycle visuel réel de 24 heures pour les extérieurs des trois modes : aube de 6 h à 8 h, jour de 8 h à 18 h, crépuscule de 18 h à 21 h, nuit de 21 h à 6 h, heure Europe/Paris (été/hiver automatique). Les courbes interpolées ont une pente nulle aux raccords ; aucun changement brutal aux seuils, à minuit ou au changement d’heure. `server/realtime/worldClock.js` fournit l’heure sur les deux espaces Socket, sans minuterie serveur ni réglage joueur. Le client compense le trajet réseau, progresse sur une horloge monotone et se resynchronise à la connexion, au retour de l’onglet et toutes les cinq minutes. Les réponses tardives après destruction sont ignorées. Le suivi de synchronisation et le rendu ne modifient aucune sauvegarde ni règle de jeu.
@@ -3155,6 +3161,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 24 octobre 2026 — Son du bouton Action réduit de moitié dans les trois modes ; volume principal/muet conservés, publication client seule vérifiée.
 
 - 24 octobre 2026 — Cycle réel Europe/Paris partagé dans les trois modes, lumières nocturnes composées, lucioles ponctuelles et combats extérieurs cohérents. 29 tests, recettes Canvas/navigateur et publication vérifiés ; détails en tête.
 
