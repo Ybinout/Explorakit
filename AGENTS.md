@@ -1,5 +1,15 @@
 # Contexte permanent — RiftMon
 
+## Papillons et vent Route 8 — 24 octobre 2026
+
+Ocreville (`gen_ville5`) reçoit vingt papillons, Route 4 seize, répartis dans les espaces verts et autour des chemins. Vols locaux bornés, quatre couleurs, battements d’ailes et repos décalés : environ seize et douze visibles simultanément sur la carte complète. Le renderer partagé conserve son cache 20 Hz, ses arrêts pendant les combats/chargements/onglets masqués et le respect des animations désactivées. La Ville du Lac conserve sa faible densité existante avec le même dessin amélioré. Aucun déplacement global de foreground.
+
+Route 8 (`gen_route8`) reçoit un vent partagé d’intensité 2 : feuilles transportées et rafales, sans pluie ni effet de météo de combat. Ce décor ne possède pas de masque de cimes reconnu : aucune animation arbitraire du foreground ajoutée. Applicable aux trois modes via leurs cartes et leur météo communes.
+
+Validation : 27 tests météo/feuillages, lint/build isolé ; recette Canvas sur quinze cartes et navigateur mobile/PC sur les nouveaux lieux, extinction des effets au changement de carte, mouvement réduit et onglet masqué. Journaux `/tmp/riftmon-butterflies-wind-{tests,lint,build,canvas,browser,deploy}.log`.
+
+Publication serveur/client à 2026-10-24T13:11:13.118Z, client `45b7ee42509439decb823323ca3b6508bbde0256`, build `41dd08f61c203b68`. Index HTTPS vérifié ; Knov/api-test inchangés, aucune expédition active avant redémarrage. Sauvegarde `/home/ubuntu/dev/backups/riftmon-butterflies-wind-2026-10-24T13-07-18-756Z`.
+
 ## Redémarrage des musiques à la réentrée — 24 octobre 2026
 
 `WorldMusic.update` remet la piste d’arrivée à zéro lorsque son thème diffère du précédent. Une réentrée ville → route → ville, ou salle d’arène → ville → salle, rejoue donc le morceau depuis le début. Deux cartes consécutives partageant le même thème continuent sans coupure (notamment Routes 13–14–Blanchecime, routes normales entre elles, grottes et intérieurs de même ambiance). Les objets Audio sont conservés en cache ; aucune recharge du MP3. Le volume coupé pendant les déplacements respecte aussi le redémarrage. Les pauses sans changement de thème (combat, résultat, onglet masqué, volume) gardent leur playhead. Cette règle remplace la conservation historique des positions entre thèmes décrite dans les anciennes entrées.

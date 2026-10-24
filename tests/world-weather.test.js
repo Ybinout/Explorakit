@@ -106,3 +106,13 @@ test('Route 1 and Route 2 now have stronger shared rain and twice as many ground
  const{getMapWeather}=require('../server/game/world/mapWeather'),w=await weather();for(const map of ['route1','route2']){const climate=getMapWeather(map);assert.deepEqual(climate.ambience,{wind:1,rain:2});const budget=w.worldWeatherBudget(climate.ambience);assert.equal(budget.rain,76);assert.equal(budget.splashes,32);assert.equal(budget.leaves,8);assert.equal(w.worldWeatherBudget({wind:1,rain:1}).rain,36);}
  assert.equal(getMapWeather('start').ambience.rain,3);assert.equal(getMapWeather('maison2').kind,null);
 });
+
+test('Route 8 receives shared wind, without rain or combat weather',async()=>{
+ const w=await weather(),{getMapWeather,battleWeatherForMap}=require('../server/game/world/mapWeather');
+ const map='gen_route8',climate=getMapWeather(map);
+ assert.deepEqual(w.mapWorldWeather(map,climate),{wind:2,rain:0});
+ assert.deepEqual(w.worldWeatherBudget(climate.ambience),{rain:0,leaves:20,gusts:3,splashes:0});
+ assert.deepEqual(battleWeatherForMap(map),{kind:null,turns:0});
+ for(const reason of ['hidden','battle','loading'])assert(!w.worldWeatherEnabled(map,{[reason]:true}));
+ assert.deepEqual(w.mapWorldWeather('gen_ville5',climate),{wind:0,rain:0});
+});

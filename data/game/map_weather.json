@@ -3,6 +3,7 @@
   "route1": { "kind": "rain", "ambience": { "wind": 1, "rain": 2 } },
   "route2": { "kind": "rain", "ambience": { "wind": 1, "rain": 2 } },
   "route5": { "kind": "wind", "ambience": { "wind": 3, "rain": 0 } },
+  "gen_route8": { "kind": "wind", "ambience": { "wind": 2, "rain": 0 } },
   "route6": { "kind": "wind", "ambience": { "wind": 3, "rain": 0 } },
   "ville1_arene": { "kind": "rain", "ambience": { "wind": 1, "rain": 2 } },
   "ville4": { "kind": "sandstorm", "ambience": { "wind": 2, "rain": 0, "sand": 2 } },
