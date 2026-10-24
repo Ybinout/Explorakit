@@ -28,7 +28,11 @@ function clearSwitchOutState(pokemon) {
         delete pokemon.__moveAndStatOverrides;
         pokemon.resetCombatStats?.();
     }
+    // Sleep is non-volatile: switching must not reset its remaining actions.
+    const sleepTurns = pokemon.status === 'sleep' && Number.isFinite(pokemon.__battle?.sleepTurns)
+        ? pokemon.__battle.sleepTurns : null;
     delete pokemon.__battle;
+    if (sleepTurns !== null) pokemon.__battle = { sleepTurns };
 }
 
 function switchPokemonByIndex(teamOrPokemons, index) {

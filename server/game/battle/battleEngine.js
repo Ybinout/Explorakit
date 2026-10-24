@@ -185,7 +185,8 @@ function ensureBattleData(pokemon) {
         }
     }
 
-    if (!Number.isFinite(battleData.sleepTurns)) battleData.sleepTurns = 0;
+    // Saved non-volatile sleep can outlive the transient battle counter.
+    if (!Number.isFinite(battleData.sleepTurns)) battleData.sleepTurns = pokemon.status === 'sleep' ? Math.floor(Math.random() * 3) + 2 : 0;
     if (!Number.isFinite(battleData.toxicCounter)) battleData.toxicCounter = 1;
     if (!Number.isFinite(battleData.confusionTurns)) battleData.confusionTurns = 0;
     if (!Number.isFinite(battleData.infatuationTurns)) battleData.infatuationTurns = 0;
@@ -617,9 +618,10 @@ function applyStatus(target, status, targetSide, messages, options = {}) {
     target.status = status;
     if (status === 'sleep') {
         targetData.sleepTurns = clamp(
-            Math.floor(safeNumber(options.turns, Math.floor(Math.random() * 3) + 1)),
-            1,
-            3
+            // The counter includes the waking action: 2–4 means 1–3 blocked actions.
+            Math.floor(Number.isFinite(options.turns) ? options.turns : Math.floor(Math.random() * 3) + 2),
+            2,
+            4
         );
     }
 
@@ -2074,6 +2076,7 @@ function processTurnStart(pokemon, options = {}) {
     if (pokemon.status === 'sleep' && !options.ignoreSleep) {
         if (pokemonData.sleepTurns <= 0) {
             pokemon.status = 'normal';
+            pokemonData.sleepTurns = 0; pokemonData.nightmare = false;
             messages.push(`${pokemonName} se reveille !`);
         } else {
             pokemonData.sleepTurns -= hasPassiveAbility(pokemon,'Early Bird') ? 2 : 1;
@@ -2082,6 +2085,7 @@ function processTurnStart(pokemon, options = {}) {
                 if (!['Sleep Talk','Snore'].includes(move?.ename)) return { canAct: false, messages };
             } else {
                 pokemon.status = 'normal';
+                pokemonData.sleepTurns = 0; pokemonData.nightmare = false;
                 messages.push(`${pokemonName} se reveille !`);
             }
         }
@@ -2842,8 +2846,10 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         ignoreSleep: Boolean(options.ignoreSleep),
         charging: Boolean(charging)
     });
+    moveResult.beforeActionMessages = [...startTurn.messages];
     moveResult.messages.push(...startTurn.messages);
     if (!startTurn.canAct || safeNumber(attacker.currentHp, 0) <= 0) {
+        moveResult.actionPrevented = true;
         delete attackerData.bideTurns;
         delete attackerData.bideDamage;
         attackerData.lastMoveUsed = move.ename;

@@ -1,3 +1,21 @@
+// Snapshot charge phase/type before resolving the move mutates combat state.
+function prepareMoveAnimation(attacker, defender, moveName, battleState) {
+    const engine = require('./battleEngine');
+    const move = engine.resolveWeatherMove(engine.getMoveByName(moveName), attacker, defender, battleState);
+    return { moveName, phase: engine.movePhase(attacker, moveName, battleState, defender),
+        moveType: move?.type || 'Normal', moveTarget: move?.combat?.target || 'opponent',
+        damageClass: move?.combat?.damage_class || 'status' };
+}
+
+function afterActionMessages(result) {
+    const messages = [...(result.messages || [])];
+    for (const message of result.beforeActionMessages || []) {
+        const index = messages.indexOf(message);
+        if (index >= 0) messages.splice(index, 1);
+    }
+    return messages;
+}
+
 function serializeFieldState(battleState = {}) {
     return {
         turn: Number(battleState.turn) || 1,
@@ -59,6 +77,8 @@ function emitPvpMoveResult(io, attackerPlayer, defenderPlayer, result, battleSta
 }
 
 module.exports = {
+    prepareMoveAnimation,
+    afterActionMessages,
     emitFieldState,
     emitPvpMoveResult,
     emitSoloMoveResult,

@@ -6,10 +6,7 @@ const { canFleeWildBattle } = require('./wildEscape');
 const { planTurnActions } = require('./turnActions');
 const {
     useattack,
-    getMoveByName,
-    resolveWeatherMove,
     battleMoveTypes,
-    movePhase,
     createBattleState,
     orderBattleActions,
     processEndOfRound,
@@ -19,7 +16,7 @@ const {
 const { getUsableMoveIndexes, getForcedMove, selectedMoveName } = require('./battleResources');
 const { BATTLE_EXPERIENCE_MULTIPLIERS } = require('../models/progression');
 const { emitSoloBattleEnd, createBattleSummaryTracker, clearBattleTransientState } = require('./battleOutcome');
-const { emitFieldState, emitSoloMoveResult } = require('./battleEvents');
+const { emitFieldState, emitSoloMoveResult, prepareMoveAnimation, afterActionMessages } = require('./battleEvents');
 const {
     hasAlivePokemon,
     resolveMoveSwitches,
@@ -87,15 +84,9 @@ function displayIntroAnimation(player, wildPokemon, io, battleState) {
     io.to(player.id).emit('introAnimation', { player, wildPokemon, capturePolicy:captureAssessment(battleState?.captureProgress,wildPokemon?.level), moveTypes:battleMoveTypes(player.equipe.pokemons[0],wildPokemon,battleState), effortYield:effortYield(wildPokemon), transitions:presentation.transitions(player,player.equipe.pokemons[0],wildPokemon) });
 }
 
-function displayMoveAnimation(player, attacker, defender, moveName, io, battleState) {
-    const move = resolveWeatherMove(getMoveByName(moveName),attacker,defender,battleState);
+function displayMoveAnimation(player, attacker, io, details) {
     io.to(player.id).emit('battleMoveAnimation', {
-        actor: attacker === player?.equipe?.pokemons?.[0] ? 'player' : 'opponent',
-        moveName,
-        phase: movePhase(attacker,moveName,battleState,defender),
-        moveType: move?.type || 'Normal',
-        moveTarget: move?.combat?.target || 'opponent',
-        damageClass: move?.combat?.damage_class || 'status'
+        ...details, actor: attacker === player?.equipe?.pokemons?.[0] ? 'player' : 'opponent'
     });
 }
 
@@ -123,13 +114,17 @@ async function performAttackWithNarration(attacker, defender, moveIndex, player,
     const defenderName = getPokemonDisplayName(defender);
     const moveName = getMoveName(attacker, moveIndex);
 
-    displayMoveAnimation(player, attacker, defender, moveName, io, battleContext.battleState);
-    await narrate(player, io, `${attackerName} utilise ${moveName} !`);
+    const animation = prepareMoveAnimation(attacker, defender, moveName, battleContext.battleState);
     const attackResult = performAttack(attacker, defender, moveIndex, battleContext);
+    await narrateMessages(player, io, attackResult.beforeActionMessages, 950);
+    if (!attackResult.actionPrevented) {
+        displayMoveAnimation(player, attacker, io, animation);
+        await narrate(player, io, `${attackerName} utilise ${moveName} !`);
+    }
     emitSoloMoveResult(io, player, attacker, attackResult, battleContext?.battleState);
     displayIntroAnimation(player, wildPokemon, io, battleContext.battleState);
     await sleep(SHORT_DELAY_MS);
-    await narrateMessages(player, io, attackResult.messages, 950);
+    await narrateMessages(player, io, afterActionMessages(attackResult), 950);
 
     const switches = resolveMoveSwitches(
         attackResult,

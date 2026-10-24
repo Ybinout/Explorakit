@@ -9,7 +9,7 @@ const effects = require('./driftEffects');
 const { getUsableMoveIndexes, getItemDefinition, getForcedMove, selectedMoveName } = require('../battle/battleResources');
 const { clearBattleTransientState, buildBattleSummary, createBattleSummaryTracker } = require('../battle/battleOutcome');
 const { switchPokemonByIndex, resolveMoveSwitches, autoSwitchPokemon, hasAlivePokemon } = require('../battle/battleTeam');
-const { serializeMoveResult, serializeFieldState } = require('../battle/battleEvents');
+const { serializeMoveResult, serializeFieldState, prepareMoveAnimation, afterActionMessages } = require('../battle/battleEvents');
 const { getMoveFlags } = require('../abilities/abilityEngine');
 const { calculateBattleExperience, reduceActiveOverlevelExperience, EXPEDITION_EXPERIENCE_MULTIPLIERS } = require('../models/progression');
 const { planTurnActions } = require('../battle/turnActions');
@@ -70,8 +70,9 @@ class DriftBattle {
             } : null };
         }) };
     }
-    withDriftSignals(action) {
+    withDriftSignals(action, beforeSignals = null) {
         const captured=require('./driftSignals').capture(action);
+        beforeSignals?.(captured.result);
         if(captured.effects.length)for(const viewer of [this.a,this.b])if(!viewer.npc)this.emit(viewer,'battleDriftEffects',{effects:captured.effects.map(({owner,...effect})=>({...effect,side:owner===viewer?'player':'opponent'}))});
         return captured.result;
     }
@@ -333,12 +334,13 @@ class DriftBattle {
             const { p, index, pokemon, name } = action;
             if (this.pending.get(p)?.action !== 'attack' || this.active(index) !== pokemon || effects.isDead(pokemon)) continue;
             const defender = this.active(1-index); if (!defender || effects.isDead(defender)) continue;
-            const move = engine.resolveWeatherMove(engine.getMoveByName(name),pokemon,defender,this.state);
-            for (const [view,viewer] of actors.entries()) if (!viewer.npc) this.emit(viewer,'battleMoveAnimation',{
-                actor:view===index?'player':'opponent', moveTarget:move?.combat?.target || 'opponent', moveName:name, moveType:move?.type || 'Normal', phase:engine.movePhase(pokemon,name,this.state,defender),
-                damageClass:move?.combat?.damage_class || (move?.category === 'phy' ? 'physical' : move?.category === 'spe' ? 'special' : 'status')
+            const animation = prepareMoveAnimation(pokemon,defender,name,this.state);
+            const result = this.withDriftSignals(()=>engine.useattack(name,pokemon,defender,{ battleState:this.state, attackerSide:this.sides[index],defenderSide:this.sides[1-index],attackerTeam:p.equipe.pokemons,defenderTeam:actors[1-index].equipe.pokemons }), resolved => {
+                (resolved.beforeActionMessages || []).forEach(m=>this.say(m));
+                if (!resolved.actionPrevented) for (const [view,viewer] of actors.entries()) if (!viewer.npc) {
+                    this.emit(viewer,'battleMoveAnimation',{...animation,actor:view===index?'player':'opponent'});
+                }
             });
-            const result = this.withDriftSignals(()=>engine.useattack(name,pokemon,defender,{ battleState:this.state, attackerSide:this.sides[index],defenderSide:this.sides[1-index],attackerTeam:p.equipe.pokemons,defenderTeam:actors[1-index].equipe.pokemons }));
             if(p===this.a&&result.damage>0)(this.contractContributors ||= new Set()).add(pokemon.uuid);
             if (this.aiMemory && this.b.npc && this.npcKey?.startsWith('colosseum_')) {
                 if (p === this.a) colosseumAI.observe(this.aiMemory,pokemon,name);
@@ -351,7 +353,7 @@ class DriftBattle {
             this.withDriftSignals(()=>effects.afterMove(pokemon,defender,result,{ contact: Boolean(getMoveFlags(result.move).contact),
                 status:(target,status,source)=>engine.applyStatus(target,status,target===pokemon?this.sides[index]:this.sides[1-index],result.messages,{attacker:source,battleState:this.state}),
                 stage:(target,stat,delta)=>engine.applyStageChange(target,stat,delta,result.messages) }));
-            result.messages.forEach(m=>this.say(m));
+            afterActionMessages(result).forEach(m=>this.say(m));
             for (const [view,viewer] of actors.entries()) if(!viewer.npc) this.emit(viewer,'battleMoveResult',serializeMoveResult(view===index?'player':'opponent',result));
             this.sync(); // Damage and K.O. belong to the outgoing sprites, before XP or replacement.
             const switched = resolveMoveSwitches(result,p.equipe,actors[1-index].equipe);

@@ -1,5 +1,17 @@
 # Contexte permanent — RiftMon
 
+## Sommeil : durée réelle et présentation avant l’action — 24 octobre 2026
+
+Deux causes reproduites : le compteur aléatoire 1–3 était décrémenté avant le contrôle, permettant zéro action bloquée ; les orchestrateurs annonçaient/animaient l’attaque avant de vérifier le sommeil. Le compteur initial devient 2–4, soit 1–3 actions ordinaires bloquées, puis réveil avec action possible. Repos conserve son compteur 3 (deux actions bloquées), Matinal sa décrémentation double, Ronflement/Blabla Dodo leurs exceptions. Référence de comparaison : [implémentation publique du sommeil dans Pokémon Showdown](https://github.com/smogon/pokemon-showdown/blob/master/data/conditions.ts), état `slp`.
+
+Un switch conserve seulement le compteur du sommeil parmi les états transitoires, après l’éventuel soin de Médic Nature. Le réveil efface aussi Cauchemar. Un statut sommeil chargé sans compteur transitoire reçoit un compteur valide à l’entrée en combat, plutôt qu’un réveil gratuit ; aucune migration SQL ni nouvelle propriété persistée. Les compteurs présents dans les checkpoints restent conservés.
+
+Le moteur expose `beforeActionMessages` et `actionPrevented` en interne. Sauvage/dresseur/PvP et Rift/Colosseum résolvent le contrôle avant la présentation : message de sommeil/réveil avant toute animation, aucune annonce « utilise » ni animation pour une action empêchée. Les messages ne sont pas répétés. Phase de charge et type d’attaque photographiés avant résolution ; signaux de Drifts restent après l’animation. Événements réseau existants inchangés, aucun build client requis.
+
+Validation : 932 tests applicatifs réussis (100 SQL ignorés dans cette commande), dont 15 tests sommeil dédiés : durées, sept capacités d’endormissement, PP/PV, Repos/Matinal, Ronflement/Blabla Dodo, immunités, baie Maron, switch/checkpoint et file réelle Rift/Colosseum. 53 régressions de combats SQL passées ; trois nouvelles recettes sommeil sauvage/dresseur/PvP passées après correction du nom affiché dans leur fixture. Elles vérifient absence d’animation/dégâts/PP au premier tour, réveil puis animation au suivant. Journaux `/tmp/riftmon-sleep-{targeted,tests,mysql,mysql-targeted}.log`, syntaxe et diff propres.
+
+Publication serveur seule à 2026-10-24T05:49:44.821Z ; aucune expédition active avant reprise. PID 1515926 actif, NRestarts 0, HTTPS 200, index client et Knov/api-test inchangés. Sauvegarde sources/checkpoint/index dans `/home/ubuntu/dev/backups/riftmon-sleep-2026-10-24T05-45-10-801Z`.
+
 ## XP du combattant avec cinq niveaux d’avance — 24 octobre 2026
 
 Le gain final du Pokémon actif est multiplié par 0,7 dès qu’il possède au moins cinq niveaux de plus que l’adversaire vaincu. Seuil fixe dans `activeOverlevelPenalty` de `experience_balance.json`, appliqué aux trois modes, sauvages/dresseurs/arènes et vagues Colosseum. Réduction après les coefficients/arrondis existants, minimum 1 XP pour un gain positif, aucune XP acquise retirée. La pénalité progressive de grand écart reste conservée et se cumule avec cette réduction.

@@ -86,6 +86,31 @@ function createPokemon(id, name, moves = ['Tackle']) {
     return pokemon;
 }
 
+for (const kind of ['wild','trainer','pvp']) test(`Sommeil ${kind} : premier tour bloqué, réveil avant animation, aucun faux PP ni dégât`, {skip:!shouldRun}, async()=>{
+    const pool=createTestPool(); let userId;
+    try {
+        const {user,player}=await createPlayer(7);userId=user.id;
+        const active=createPokemon(7,'Lanceur',['Spore','Splash']),enemy=createPokemon(19,'Dormeur');
+        active.truename='Lanceur';enemy.truename='Dormeur';
+        for(const p of [active,enemy]) {p.passiveAbility=null;p.heldItem=null;p.currentHp=p.maxHp=1000;}
+        active.currentSpeed=999;player.equipe=createTeam(active);
+        const rival={id:'sleep-rival',equipe:createTeam(enemy)};
+        const io=new RecordingIo({[player.id]:new ScriptedSocket([{action:'attack',number:0},{action:'attack',number:1},{action:'flee'}]),
+            [rival.id]:new ScriptedSocket([{action:'attack',number:0},{action:'attack',number:0},{action:'flee'}])});
+        const pp=enemy.movePp[0];
+        await withFixedRandom(0,()=>kind==='wild'?startWildBattle(player,enemy,io,userId):kind==='trainer'?startTrainerBattle(player,rival.equipe,io,userId):startPvpBattle(player,rival,io));
+        const events=io.events.filter(e=>e.targetId===player.id);
+        const results=events.filter(e=>e.eventName==='battleMoveResult'&&e.payload.actor==='opponent');
+        assert.equal(results.length,2);assert.equal(results[0].payload.success,false);assert.equal(results[0].payload.damage,0);assert(results[1].payload.damage>0);
+        assert.equal(enemy.movePp[0],pp-1);
+        const animations=events.filter(e=>e.eventName==='battleMoveAnimation'&&e.payload.actor==='opponent');assert.equal(animations.length,1);
+        const asleep=events.findIndex(e=>e.eventName==='battleText'&&/Dormeur dort/.test(e.payload.message));
+        const wake=events.findIndex(e=>e.eventName==='battleText'&&/Dormeur se reveille/.test(e.payload.message));
+        assert(asleep>=0&&wake>asleep);assert(events.indexOf(animations[0])>wake);
+        assert.equal(events.filter(e=>e.eventName==='battleText'&&/Dormeur.*utilise Tackle/.test(e.payload.message)).length,1);
+    } finally {if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
+});
+
 function createTeam(...pokemons) {
     const team = new Team();
     for (const pokemon of pokemons) team.ajouterPokemon(pokemon);

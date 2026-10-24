@@ -8,9 +8,7 @@ const {
     useattack,
     getEffectiveness,
     getMoveByName,
-    resolveWeatherMove,
     battleMoveTypes,
-    movePhase,
     orderBattleActions,
     calculateDamage,
     createBattleState,
@@ -21,7 +19,7 @@ const {
 const { getUsableMoveIndexes, getForcedMove, selectedMoveName } = require('./battleResources');
 const { BATTLE_EXPERIENCE_MULTIPLIERS } = require('../models/progression');
 const { emitSoloBattleEnd, createBattleSummaryTracker } = require('./battleOutcome');
-const { emitFieldState, emitSoloMoveResult } = require('./battleEvents');
+const { emitFieldState, emitSoloMoveResult, prepareMoveAnimation, afterActionMessages } = require('./battleEvents');
 const {
     hasAlivePokemon,
     resolveMoveSwitches,
@@ -82,15 +80,9 @@ function displayIntroAnimation(player, currentEnemy, io, battleState) {
     io.to(player.id).emit('introAnimation', { player, wildPokemon: currentEnemy, moveTypes:battleMoveTypes(player.equipe.pokemons[0],currentEnemy,battleState), effortYield:effortYield(currentEnemy), transitions:trainerTactics.decorateTransitions(presentation.transitions(player,player.equipe.pokemons[0],currentEnemy,{initial:true}),battleState.trainerTeam,battleState.trainerMemory) });
 }
 
-function displayMoveAnimation(player, attacker, defender, moveName, io, battleState) {
-    const move = resolveWeatherMove(getMoveByName(moveName),attacker,defender,battleState);
+function displayMoveAnimation(player, attacker, io, details) {
     io.to(player.id).emit('battleMoveAnimation', {
-        actor: attacker === player?.equipe?.pokemons?.[0] ? 'player' : 'opponent',
-        moveName,
-        phase: movePhase(attacker,moveName,battleState,defender),
-        moveType: move?.type || 'Normal',
-        moveTarget: move?.combat?.target || 'opponent',
-        damageClass: move?.combat?.damage_class || 'status'
+        ...details, actor: attacker === player?.equipe?.pokemons?.[0] ? 'player' : 'opponent'
     });
 }
 
@@ -110,16 +102,20 @@ async function performAttackWithNarration(attacker, defender, moveIndex, player,
     const defenderName = getPokemonDisplayName(defender);
     const moveName = getMoveName(attacker, moveIndex);
 
-    displayMoveAnimation(player, attacker, defender, moveName, io, battleContext.battleState);
-    await narrate(player, io, `${attackerName} utilise ${moveName} !`);
+    const animation = prepareMoveAnimation(attacker, defender, moveName, battleContext.battleState);
     const result = performAttack(attacker, defender, moveIndex, battleContext);
+    await narrateMessages(player, io, result.beforeActionMessages, 950);
+    if (!result.actionPrevented) {
+        displayMoveAnimation(player, attacker, io, animation);
+        await narrate(player, io, `${attackerName} utilise ${moveName} !`);
+    }
     const field = battleContext.battleState;
     if (attacker === player.equipe.pokemons[0]) trainerTactics.observe(field.trainerTeam, field.trainerMemory, attacker, moveName);
     else trainerTactics.observe(field.trainerTeam, field.trainerMemory, defender, moveName, result);
     emitSoloMoveResult(io, player, attacker, result, battleContext?.battleState);
     displayIntroAnimation(player, currentEnemy, io, battleContext.battleState);
     await sleep(SHORT_DELAY_MS);
-    await narrateMessages(player, io, result.messages, 950);
+    await narrateMessages(player, io, afterActionMessages(result), 950);
 
     const switches = resolveMoveSwitches(
         result,

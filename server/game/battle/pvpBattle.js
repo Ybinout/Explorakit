@@ -3,10 +3,7 @@ const presentation = require('./presentationState');
 const { planTurnActions } = require('./turnActions');
 const {
     useattack,
-    getMoveByName,
-    resolveWeatherMove,
     battleMoveTypes,
-    movePhase,
     createBattleState,
     orderBattleActions,
     processEndOfRound,
@@ -16,7 +13,7 @@ const {
 const { getUsableMoveIndexes, getForcedMove, selectedMoveName } = require('./battleResources');
 const { editEquipe } = require('../../persistence/teamRepository');
 const { emitPvpBattleEnd } = require('./battleOutcome');
-const { emitFieldState, emitPvpMoveResult } = require('./battleEvents');
+const { emitFieldState, emitPvpMoveResult, prepareMoveAnimation, afterActionMessages } = require('./battleEvents');
 const {
     getFirstAliveIndex,
     hasAlivePokemon,
@@ -113,16 +110,7 @@ function emitBattleStateForBoth(io, playerA, playerB, battleState) {
     });
 }
 
-function emitMoveAnimationForBoth(io, attackerPlayer, defenderPlayer, moveName, battleState) {
-    const move = resolveWeatherMove(getMoveByName(moveName),attackerPlayer.equipe.pokemons[0],defenderPlayer.equipe.pokemons[0],battleState);
-    const movePayload = {
-        moveName,
-        phase: movePhase(attackerPlayer.equipe.pokemons[0],moveName,battleState,defenderPlayer.equipe.pokemons[0]),
-        moveType: move?.type || 'Normal',
-        moveTarget: move?.combat?.target || 'opponent',
-        damageClass: move?.combat?.damage_class || 'status'
-    };
-
+function emitMoveAnimationForBoth(io, attackerPlayer, defenderPlayer, movePayload) {
     io.to(attackerPlayer.id).emit('battleMoveAnimation', {
         ...movePayload,
         actor: 'player'
@@ -283,14 +271,7 @@ async function performAttack(io, attackerPlayer, defenderPlayer, moveIndex, atta
         : getRandomMoveIndex(attackerPokemon);
     const moveName = selectedMoveName(attackerPokemon, selectedMoveIndex) || 'une attaque';
 
-    emitMoveAnimationForBoth(io, attackerPlayer, defenderPlayer, moveName, battleState);
-
-    await narrateToBoth(
-        io,
-        attackerPlayer,
-        defenderPlayer,
-        `${getTrainerName(attackerPlayer)}: ${getPokemonDisplayName(attackerPokemon)} utilise ${moveName} !`
-    );
+    const animation = prepareMoveAnimation(attackerPokemon, defenderPokemon, moveName, battleState);
 
     const attackResult = useattack(moveName, attackerPokemon, defenderPokemon, {
         battleState,
@@ -300,13 +281,22 @@ async function performAttack(io, attackerPlayer, defenderPlayer, moveIndex, atta
         defenderTeam: defenderPlayer.equipe.pokemons
     });
 
+    for (const message of attackResult.beforeActionMessages || []) {
+        await narrateToBoth(io, attackerPlayer, defenderPlayer, message, 900);
+    }
+    if (!attackResult.actionPrevented) {
+        emitMoveAnimationForBoth(io, attackerPlayer, defenderPlayer, animation);
+        await narrateToBoth(io, attackerPlayer, defenderPlayer,
+            `${getTrainerName(attackerPlayer)}: ${getPokemonDisplayName(attackerPokemon)} utilise ${moveName} !`);
+    }
+
     emitPvpMoveResult(io, attackerPlayer, defenderPlayer, attackResult, battleState);
 
     emitBattleStateForBoth(io, attackerPlayer, defenderPlayer, battleState);
     await sleep(SHORT_DELAY_MS);
 
     if (Array.isArray(attackResult?.messages)) {
-        for (const message of attackResult.messages) {
+        for (const message of afterActionMessages(attackResult)) {
             if (!message) continue;
             await narrateToBoth(io, attackerPlayer, defenderPlayer, message, 900);
         }
