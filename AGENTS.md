@@ -1,5 +1,13 @@
 # Contexte permanent — RiftMon
 
+## Musique de combat Mounir — 24 octobre 2026
+
+Le nouveau fichier utilisateur `pourtoi/Battle! Gym Leader - Remix Cover (Pokémon Sword and Shield)(2).mp3` est valide et copié sans conversion en `src/assets/msc/mounir.mp3`. Il remplace le thème générique pendant les combats d’arène de Mounir (`ville1_arene`), via le sélecteur commun aux trois modes. La musique de salle reste inchangée. Cette livraison résout l’attente du précédent fichier vide, qui n’avait pas été déployé.
+
+Neuf tests musique, lint et build isolé `32f11db51e58f653`. Recette navigateur audio réel `validateNewMusicBrowser.js` : thème Mounir dédié, pause/reprise du fond, absence de superposition et de redémarrage pendant les mises à jour de combat. Journaux `/tmp/riftmon-mounir-fight-{tests,lint,build,browser,deploy}.log`.
+
+Publication client seule à 2026-10-24T15:49:23.532Z, client `03ad6c6077fae86abe5ad085be2b7821a3ae399d`, build `32f11db51e58f653`. Recette navigateur réussie ; index et MP3 HTTPS exacts. Serveur PID 1544514 et Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-mounir-fight-2026-10-24T15-49-22-568Z`.
+
 ## Musiques de combat Ana et Hoze — 24 octobre 2026
 
 `pourtoi/ana_fight.mp3` remplace la piste de combat `ana.mp3`. `hoze_fight.mp3` est intégré à l’identique comme `hoze.mp3`, affecté aux combats d’arène dans `ville_safe1_arene`. Les thèmes de salle restent inchangés. Mounir conserve `arene.mp3` : son fichier utilisateur `mounir fight .mp3` est vide (0 octet), détecté par la recette de lecture réelle avant déploiement ; le raccord provisoire a été retiré. Attendre un fichier complet avant d’activer sa piste dédiée.

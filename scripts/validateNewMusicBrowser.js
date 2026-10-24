@@ -76,7 +76,7 @@ const errors = [];
             assert(await page.evaluate(key=>window.restartAudio===window.musicVm._worldMusic.tracks.get(key),key));
         }
         results.push(cave,snow);
-        const cases=[['route2_maison','lucie_corrupted','lucie'],['ville3_arene','ana','ana'],['ville4_arene','wanda','wanda'],['ville5_arene','sevenp','7p'],['gen_arene5','raphael','raph'],['ville1_arene','moonpunch','arena'],['ville_safe1_arene','hoze','hoze']];
+        const cases=[['route2_maison','lucie_corrupted','lucie'],['ville3_arene','ana','ana'],['ville4_arene','wanda','wanda'],['ville5_arene','sevenp','7p'],['gen_arene5','raphael','raph'],['ville1_arene','moonpunch','mounir'],['ville_safe1_arene','hoze','hoze']];
         for(const [map,team,key]of cases){
             await locate(map);const world=map==='route2_maison'?'lucie-room':map==='ville3_arene'?'ana-room':map==='ville5_arene'?'sevenp-room':map==='ville4_arene'?'wanda-room':map==='gen_arene5'?'raph-room':'village';const room=await playing(world);if(world.endsWith('-room')){assert(room.src.includes(map==='route2_maison'?'lucie-maison.':map==='ville3_arene'?'ana_arene.':map==='ville5_arene'?'arene7p.':map==='gen_arene5'?'areneraph.':'areneWanda.'));assert(room.duration>20);}
             await page.evaluate(world=>window.beforeBattleWorld=window.musicVm._worldMusic.tracks.get(world),world);
