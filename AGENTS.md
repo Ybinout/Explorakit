@@ -1,5 +1,13 @@
 # Contexte permanent — RiftMon
 
+## Taille des grands Pokémon adverses — 24 octobre 2026
+
+La calibration alpha ramenait tous les sprites adverses au même encombrement, effaçant les différences entre petits et grands dessins. Les sprites de face dépassant 55 % de leur canevas peuvent maintenant dépasser la taille de base : environ +35 à +57 % pour Onix, Steelix, Léviator, Wailord, Drattak et Carchacrok. Les petits sprites et les sprites de dos gardent leur calibration. Pieds et centres restent ancrés ; les limites visibles utilisées par les effets suivent exactement la nouvelle taille. Composant partagé par Aventure, Rift et Colosseum, sans modification des statistiques.
+
+Sur téléphone portrait de moins de 600 px de haut, la zone de texte passe de 92 à 60 px, toujours défilable, pour laisser assez de hauteur au décor sans rogner les grands adversaires. Actions tactiles inchangées. Recette `scripts/validateEnemySpriteSizes.js` avec `DB_TEST_NAME` dédié : 80 rendus réels, huit espèces, cinq tailles (320×480 à 1365×900), présentations aventure/Colosseum ; aucun débordement des adversaires testés, pieds ancrés, géométrie des effets exacte et taille alliée inchangée. Aucune erreur navigateur ; lint et build réussis. Captures et journaux `/tmp/riftmon-enemy-size-*`.
+
+Publié le 24 octobre 2026 à 17:19:34 UTC, client `ebd3aaf884b9cfd95265ed4ec59cd61991948dfd`, build `e619b450e8acc7a4`. Index HTTPS vérifié ; serveur PID 1559308, Knov et api-test inchangés. Sauvegarde d’index et référence client précédente : `/home/ubuntu/dev/backups/riftmon-enemy-size-2026-10-24T17-19-34-146Z`.
+
 ## Module Vol après Wanda — 24 octobre 2026
 
 Récompense permanente `fly_module` (Objets clés) après la victoire contre Wanda, sans Pokémon ni attaque à équiper. Les anciennes victoires sont reconnues par le drapeau réel, le reçu du combat ou le Badge Marée ; attribution idempotente sous verrou utilisateur. `reconcileFlightModules.js` propose un aperçu puis un `--apply --backup` qui sauvegarde les lignes concernées avant toute régularisation. Aucun changement de schéma.
