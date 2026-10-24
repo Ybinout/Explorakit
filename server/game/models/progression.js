@@ -62,6 +62,16 @@ function overlevelExperienceFactor(opponentLevel, recipientLevel) {
     return Math.max(rule.minimum, 1 / (1 + Math.pow(excess / rule.scale, 2)));
 }
 
+// Apply only to the active fighter's final award, never to the reserve base.
+// Levels must be read before gainExperience can level up either recipient.
+function reduceActiveOverlevelExperience(xp, defeatedPokemon, recipient) {
+    const rule = EXPERIENCE_BALANCE.activeOverlevelPenalty;
+    const enemyLevel = Number(defeatedPokemon?.level), level = Number(recipient?.level);
+    if (!Number.isFinite(enemyLevel) || enemyLevel <= 0 || !Number.isFinite(level)
+        || level - enemyLevel < rule.minimumLevelLead || xp <= 0) return xp;
+    return Math.max(1, Math.floor(xp * rule.multiplier));
+}
+
 function calculateBattleExperience(defeatedPokemon, multiplier = 1, recipient = null) {
     const level = Math.max(1, Math.floor(Number(defeatedPokemon?.level) || 1));
     const k = normalizeK(defeatedPokemon?.k) || 1;
@@ -81,6 +91,7 @@ module.exports = {
     DEFAULT_EXPERIENCE_RATE,
     K_TIERS,
     calculateBattleExperience,
+    reduceActiveOverlevelExperience,
     overlevelExperienceFactor,
     getExperienceRate,
     getLevelFromExperience,

@@ -565,7 +565,7 @@ test('arène : tous les K.O. donnent le bonus prévu, fuite sans K.O. sans XP', 
         const last = createPokemon(16, 'Dernier');
         for (const enemy of [first, last]) { enemy.currentHp = 1; enemy.passiveAbility = null; }
         const { calculateBattleExperience, BATTLE_EXPERIENCE_MULTIPLIERS } = require('../server/game/models/progression');
-        const expected = [first, last].reduce((sum, enemy) => sum + calculateBattleExperience(enemy, BATTLE_EXPERIENCE_MULTIPLIERS.arena, active), 0);
+        const expected = [first, last].reduce((sum, enemy) => sum + Math.max(1, Math.floor(calculateBattleExperience(enemy, BATTLE_EXPERIENCE_MULTIPLIERS.arena, active) * 0.7)), 0);
         const socket = new ScriptedSocket([{ action: 'attack', number: 0 }, { action: 'attack', number: 0 }]);
         await withFixedRandom(0.5, () => startTrainerBattle(player, createTeam(first, last), new RecordingIo({ [player.id]: socket }), userId, { experienceKind: 'arena', arenaBattleKey: 'test_arena' }));
         assert.equal((await loadEquipe(userId)).pokemons[0].experience, before + expected);
@@ -703,16 +703,18 @@ test('Mounir Aventure : équipe réelle sous la pluie, Morphéo réservé et tra
     } finally {if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
 });
 
-for (const kind of ['wild','trainer']) test(`Multi Exp Aventure ${kind} : combattant entier, réserves à 40 %, K.O. exclu, événements et gains sauvegardés`, {skip:!shouldRun}, async()=>{
+for (const kind of ['wild','trainer']) for (const levelLead of [0,5]) test(`Multi Exp Aventure ${kind} +${levelLead} : combattant ajusté, réserves à 40 %, K.O. exclu, événements et gains sauvegardés`, {skip:!shouldRun}, async()=>{
     const pool=createTestPool();let userId;
     try {
         const {user,player}=await createPlayer(7);userId=user.id;
         const lead=createPokemon(7,'Actif'),reserve=createPokemon(4,'Réserve'),dead=createPokemon(25,'K.O.');dead.currentHp=0;
         lead.currentAttack=999;lead.currentSpeed=999;player.equipe=createTeam(lead,reserve,dead);
         lead.heldItem='exp_share';
+        lead.level += levelLead; lead.experience = lead.getNextLevelExpForLevel(lead.level); lead.recalculateStats();
+        lead.currentAttack=999; lead.currentSpeed=999;
         const foe=createPokemon(19,'Cible');foe.currentHp=1;foe.passiveAbility=null;
         const {calculateBattleExperience:xp,BATTLE_EXPERIENCE_MULTIPLIERS:rates}=require('../server/game/models/progression');
-        const baseline=[lead,reserve,dead].map(p=>p.experience),full=xp(foe,rates[kind],lead),shared=Math.floor(xp(foe,rates[kind],reserve)*0.4);
+        const baseline=[lead,reserve,dead].map(p=>p.experience),full=Math.max(1,Math.floor(xp(foe,rates[kind],lead)*(levelLead>=5?0.7:1))),shared=Math.floor(xp(foe,rates[kind],reserve)*0.4);
         const io=new RecordingIo({[player.id]:new ScriptedSocket([{action:'attack',number:0}])});
         await withFixedRandom(.5,()=>kind==='wild'?startWildBattle(player,foe,io,userId):startTrainerBattle(player,createTeam(foe),io,userId));
         const saved=(await loadEquipe(userId)).pokemons,byId=id=>saved.find(p=>p.uuid===id);

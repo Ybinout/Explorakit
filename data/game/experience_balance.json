@@ -1,6 +1,7 @@
 {
   "multipliers": { "wild": 2.13444, "trainer": 3.49272, "arena": 4.65696 },
   "adventureReserveShare": 0.4,
+  "activeOverlevelPenalty": { "minimumLevelLead": 5, "multiplier": 0.7 },
   "expeditionMultipliers": { "wild": 1.1, "trainer": 1.8, "arena": 2.4 },
   "levelScaling": { "minimum": 0.25, "maximum": 1.5, "exponent": 1.25 },
   "overlevelPenalty": { "graceLevels": 5, "graceRatio": 0.1, "scale": 10, "minimum": 0.1 },

@@ -11,7 +11,7 @@ const { clearBattleTransientState, buildBattleSummary, createBattleSummaryTracke
 const { switchPokemonByIndex, resolveMoveSwitches, autoSwitchPokemon, hasAlivePokemon } = require('../battle/battleTeam');
 const { serializeMoveResult, serializeFieldState } = require('../battle/battleEvents');
 const { getMoveFlags } = require('../abilities/abilityEngine');
-const { calculateBattleExperience, EXPEDITION_EXPERIENCE_MULTIPLIERS } = require('../models/progression');
+const { calculateBattleExperience, reduceActiveOverlevelExperience, EXPEDITION_EXPERIENCE_MULTIPLIERS } = require('../models/progression');
 const { planTurnActions } = require('../battle/turnActions');
 const { effortYield, grantParticipantEffort } = require('../models/training');
 const economy = require('./economy');
@@ -263,7 +263,8 @@ class DriftBattle {
                 expShare ? Math.max(1,Math.floor(fighterXp(p)/2)) : 0)]);
         const sharingBase = sharingBaseFor(active);
         // Keep the Colosseum fighter multiplier and the existing reserve sharing rates.
-        const xp = isColosseum ? Math.max(1, Math.floor(Math.floor(sharingBase * 9 / 10) * 4 / 5)) : sharingBase;
+        const fighterAward = isColosseum ? Math.max(1, Math.floor(Math.floor(sharingBase * 9 / 10) * 4 / 5)) : sharingBase;
+        const xp = reduceActiveOverlevelExperience(fighterAward, defeated, active);
         const previousLevel = active.level, previousExperience = active.experience;
         const beforeGrowth = growthSnapshot(active);
         active.gainExperience(xp);

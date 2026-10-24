@@ -1,5 +1,15 @@
 # Contexte permanent — RiftMon
 
+## XP du combattant avec cinq niveaux d’avance — 24 octobre 2026
+
+Le gain final du Pokémon actif est multiplié par 0,7 dès qu’il possède au moins cinq niveaux de plus que l’adversaire vaincu. Seuil fixe dans `activeOverlevelPenalty` de `experience_balance.json`, appliqué aux trois modes, sauvages/dresseurs/arènes et vagues Colosseum. Réduction après les coefficients/arrondis existants, minimum 1 XP pour un gain positif, aucune XP acquise retirée. La pénalité progressive de grand écart reste conservée et se cumule avec cette réduction.
+
+`reduceActiveOverlevelExperience` ne touche qu’au gain du combattant actuel, après un éventuel switch, et lit les niveaux avant progression. Les réserves, participants précédents, Multi Exp, partages natifs, EV et anti-rejeu d’arène gardent leur calcul ; la base de partage ne subit pas cette nouvelle baisse. Aucun changement client ni migration SQL.
+
+Validation : 917 tests applicatifs réussis (98 SQL non exécutés dans cette commande), dont 37 nouveaux cas ciblés : seuils +4/+5/+6, écart important, trois modes/types, réserves et événements exacts, switches, gain minimal et double récompense. Neuf tests SQL ciblés réussis : vrais combats sauvages/dresseurs/arène, Multi Exp à niveau égal et +5, participation, sauvegarde/relecture et résumé. Journaux `/tmp/riftmon-lead-xp-{tests,mysql}.log` ; syntaxe et diff vérifiés.
+
+Publication serveur seule à 2026-10-24T05:42:12.086Z ; aucune expédition active avant reprise. PID 1514154 actif, NRestarts 0, HTTPS 200, index client et Knov/api-test inchangés. Sauvegarde sources/checkpoint/index dans `/home/ubuntu/dev/backups/riftmon-lead-xp-2026-10-24T05-40-07-070Z`.
+
 ## Musiques des grottes, de Blanchecime et de trois champions — 24 octobre 2026
 
 Les cinq MP3 fournis dans `/home/ubuntu/dev/pourtoi` sont copiés sans réencodage : `cave.mp3` pour l’exploration des grottes, `snow.mp3` pour Blanchecime/boutique/arène hors combat, `ana.mp3`, `wanda.mp3`, `7p.mp3` pour leurs combats d’arène. Identité SHA-256 vérifiée ; les imports source sont conservés. Affectations, chemins, tailles, durées et empreintes dans `docs/NEW_MUSIC_ASSETS.md`.

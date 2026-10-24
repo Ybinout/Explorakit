@@ -20,7 +20,7 @@ test('participation is per opponent and rewards living entrants equally, once, i
 });
 test('KO, untouched reserves and entries after the enemy KO are excluded; each share uses its recipient level before any level-up',()=>{
  const {a,b,bench,enemy,p,io,t}=fixture();b.level=5;b.recalculateStats();a.level=60;a.recalculateStats();
- t.enter(a,enemy);t.enter(b,enemy);const expected=[a,b].map(poke=>Math.floor(xp(enemy,rates.wild,poke)/2)),before=[a.experience,b.experience,bench.experience];enemy.currentHp=0;t.enter(bench,enemy);t.reward(p,enemy,rates.wild,io);assert.deepEqual([a.experience-before[0],b.experience-before[1]],expected);assert.equal(bench.experience,before[2]);
+ t.enter(a,enemy);t.enter(b,enemy);const expected=[a,b].map(poke=>Math.max(1,Math.floor(Math.floor(xp(enemy,rates.wild,poke)/2)*(poke===a?0.7:1)))),before=[a.experience,b.experience,bench.experience];enemy.currentHp=0;t.enter(bench,enemy);t.reward(p,enemy,rates.wild,io);assert.deepEqual([a.experience-before[0],b.experience-before[1]],expected);assert.equal(bench.experience,before[2]);
  const f=fixture();f.t.enter(f.a,f.enemy);f.t.enter(f.b,f.enemy);f.a.currentHp=0;f.enemy.currentHp=0;const initial=f.b.experience,full=xp(f.enemy,rates.arena,f.b);f.t.reward(f.p,f.enemy,rates.arena,f.io);assert.equal(f.b.experience,initial+full);assert.equal(f.a.currentHp,0);assert.equal(f.a.ev.speed,1,'A fainted participant keeps EVs without healing');
 });
 test('an unentered opponent, a capture/living foe and all participants KO give no XP and cannot be rewarded after healing',()=>{
