@@ -1,5 +1,13 @@
 # Contexte permanent — RiftMon
 
+## Accès direct à l’équipe à côté de Menu — 24 octobre 2026
+
+Le bandeau partagé `UserMap` affiche un bouton Pokémon à côté de Menu en Aventure, Rift et Colosseum. L’entrée Pokémon est retirée du menu déroulant. Même panneau d’équipe et chargement existants ; ouverture directe suspend les déplacements et ferme le carnet Drift. Fermeture par croix ou Échap restaure le focus sur le bouton. Couleurs du thème et cibles tactiles de 44 px conservées ; le chronomètre et les Drifts passent à la ligne sur les petits écrans.
+
+Validation : lint/build isolé réussis, recette navigateur sur comptes de test en Aventure et Colosseum aux formats 320×568, 393×852, 844×390 et 1365×900, ouverture directe, retrait du menu, fermeture/focus, boutique étroite et thème nocturne. Aucune erreur navigateur ni débordement horizontal ; captures contrôlées. Script et journaux `/tmp/riftmon-quick-team-review.cjs`, `/tmp/riftmon-quick-team-*`.
+
+Publication client seule à 2026-10-24T04:59:34.979Z, client `c5bb1aa`, build `213067dacf985400`. Serveur PID 1499091 inchangé, index HTTPS vérifié et Knov/api-test inchangés. Sauvegarde index et référence client dans `/home/ubuntu/dev/backups/riftmon-quick-team-2026-10-24T04-59-34-348Z`, anciens bundles conservés.
+
 ## Mathilde Pikapika ouvre la Route 5 après Hoze — 24 octobre 2026
 
 Dresseuse fixe `mathilde_pikapika` en (25,7) sur `ville_safe1`, près de la sortie nord-est vers Route 5. Sprite féminin classique et portrait illustré assorti, index 7. Dialogue de refus sans `hoze_defeated`, puis défi unique `story_mathilde_pikapika`. Victoire enregistrée dans `mathilde_pikapika_defeated`, passage permanent et dialogue après combat sans revanche. Fuite/défaite n’ouvre pas le passage et permet de réessayer. Aucune victoire de Gwenn ou d’un autre champion ne vaut victoire contre elle.
