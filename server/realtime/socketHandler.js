@@ -54,6 +54,7 @@ const {remainingRepel,stepRepel,repelsWild}=require('../game/items/repel');
 const { registerEvolutionHandlers } = require('./handlers/evolutionHandlers');
 const { registerMoveLearningHandlers } = require('./handlers/moveLearningHandlers');
 const { registerTeamOrderHandlers } = require('./handlers/teamOrderHandlers');
+const arenaTests = require('../game/world/arenaTests');
 const { registerShopHandlers } = require('./handlers/shopHandlers');
 const {
     completeNpcBattle,
@@ -432,6 +433,7 @@ const socketHandler = (io) => {
         const emitPlayerProgression = (progression) => {
             socket.emit('progressionState', progression);
             socket.emit('storyGatesState', { gates: storyGates.snapshot(progression) });
+            socket.emit('adminArenaState', arenaTests.publicState(socket.data.user, progression));
         };
         let roomEntryShown = false;
         const showRoomEntry = async (progression) => {
@@ -591,6 +593,9 @@ const socketHandler = (io) => {
 
         registerPlayerProfileHandlers({ socket, io, players, userId });
         registerTeamOrderHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!interactionBusy&&!transitionBusy});
+        require('./handlers/arenaTestHandlers').registerArenaTestHandlers({socket,getPlayer:()=>players[socket.id],
+            getPeers:()=>Object.values(players).filter(p=>p.userId===userId),
+            canUse:()=>!interactionBusy&&!transitionBusy&&!pendingDialogue&&!socketToChatSession.has(socket.id),emitProgression:emitPlayerProgression});
         registerMedicineHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!interactionBusy&&!transitionBusy});
         const computerHandlers=registerPokemonComputerHandlers({socket,io,userId,getPlayer:()=>players[socket.id],getPeers:()=>Object.values(players).filter(p=>p.userId===userId),canUse:()=>!transitionBusy});
         registerRepelHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!interactionBusy&&!transitionBusy,flushPositionSave,schedulePositionSave});
@@ -923,17 +928,21 @@ const socketHandler = (io) => {
                 const battleDefinition = getNpcBattleDefinition(dialogueName);
                 const progress = await loadProgressState(userId);
                 if (!players[socket.id] || player.inbattle || player.inventoryBusy) return;
+                const testRematch = arenaTests.canReplay(socket.data.user, dialogueName, progress);
                 if (!meetsRequirements(battleDefinition, progress)) {
                     socket.emit('interactionRejected', { reason: 'story_requirements_not_met' });
                     return;
                 }
-                if (battleDefinition?.once && await isNpcBattleCompleted(userId, dialogueName)) {
+                if (!testRematch && battleDefinition?.once && await isNpcBattleCompleted(userId, dialogueName)) {
                     socket.emit('progressionNotice', {
                         type: 'already_completed',
                         message: 'Ce dresseur a déjà été vaincu.'
                     });
                     emitPlayerProgression(await loadProgressState(userId));
                     return;
+                }
+                if (testRematch && Object.values(players).some(p=>p.userId===userId&&p.inbattle)) {
+                    socket.emit('interactionRejected',{reason:'battle_already_running'});return;
                 }
                 const getFightTeamName = getTeamInformation(dialogueName);
                 const enemyteam = getPnjTeam(getFightTeamName);
@@ -947,10 +956,17 @@ const socketHandler = (io) => {
                 socket.emit('battletrigger', { message: 'Le duel commence !', battleType: battleDefinition?.experienceKind || 'trainer', field: { weather: battleWeatherForMap(player.currentmap) } });
                 startTeamBattle(player, enemyteam, io, userId, {
                     grantBaseMoney: !battleDefinition,
+                    testRematch,
                     experienceKind: battleDefinition?.experienceKind || 'trainer',
                     arenaBattleKey: battleDefinition?.experienceKind === 'arena' || battleDefinition?.uniqueExperience ? battleDefinition.battleKey : null,
                     onVictory: battleDefinition
                         ? async () => {
+                            if (testRematch) {
+                                await require('../persistence/arenaTestRepository').complete(socket.data.user,dialogueName);
+                                emitPlayerProgression(await loadProgressState(userId));
+                                socket.emit('progressionNotice',{message:'Test terminé. Tu peux réactiver ce champion dans les options.'});
+                                return {granted:false,reason:'admin_test'};
+                            }
                             const completion = await completeNpcBattle(userId, dialogueName);
                             if (completion.granted) victoryProgress = completion.progress;
                             emitPlayerProgression(completion.progress);
@@ -1072,7 +1088,8 @@ const socketHandler = (io) => {
                 const pnj = getPnjAtTile(currentmap, pos.x, pos.y);
                 if (pnj) {
                     interactionDetected = true;
-                    const sentence = getSentenceForName(pnj.interactionName || pnj.name, progress);
+                    const name = pnj.interactionName || pnj.name;
+                    const sentence = getSentenceForName(name, progress, {replayArena:arenaTests.canReplay(socket.data.user,name,progress)});
                     if (sentence) {
                         pendingDialogue = createDialogueAuthorization({
                             name: sentence[1],

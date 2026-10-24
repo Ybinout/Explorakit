@@ -356,6 +356,7 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
     const experienceMultiplier = options.experienceKind === 'arena'
         ? BATTLE_EXPERIENCE_MULTIPLIERS.arena : BATTLE_EXPERIENCE_MULTIPLIERS.trainer;
     const grantDefeatedExperience = async () => {
+        if (options.testRematch) return; // Owner-only replay: preserve training and original arena XP receipts.
         // Inclut le dernier K.O. et ceux survenus lors d'un changement forcé.
         // Les instances sont suivies même si leur ordre dans l'équipe change.
         for (const defeated of enemyTeam.pokemons) {

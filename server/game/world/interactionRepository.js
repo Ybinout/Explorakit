@@ -37,7 +37,7 @@ function getSentenceForMapAndPosition(map, x, y = null, state = null) {
     return null;
 }
 
-function getSentenceForName(name, state = null) {
+function getSentenceForName(name, state = null, { replayArena = false } = {}) {
     let dialogueEntry = getDialogueEntryByName(name);
     const definition = catalog.npcBattles?.[name] || catalog.storyEvents?.[name];
     if (definition?.enabled === false && dialogueEntry?.locked) {
@@ -45,7 +45,7 @@ function getSentenceForName(name, state = null) {
     } else if (dialogueEntry && state) {
         const completed = hasCompletedBattle(catalog.npcBattles?.[name], state)
             || (definition?.completionFlag && state.flags?.[definition.completionFlag] === 'true');
-        if (completed && dialogueEntry.after) dialogueEntry = getDialogueEntryByName(dialogueEntry.after);
+        if (completed && dialogueEntry.after && !replayArena) dialogueEntry = getDialogueEntryByName(dialogueEntry.after);
         else if (!meetsRequirements(definition, state) && dialogueEntry.locked) {
             dialogueEntry = getDialogueEntryByName(dialogueEntry.locked);
         }

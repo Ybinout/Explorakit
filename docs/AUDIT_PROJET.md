@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Binout — bouton de revanche des arènes — 24 octobre 2026
+
+En Aventure, Options affiche « Tests des arènes » uniquement pour le compte propriétaire existant (identité signée id 4 et nom exact `binout`). Le serveur autorise `admin:rearmArenas`, puis revérifie cette identité dans la base sous verrou ; aucune identité cible ni rôle transmis par le client n’est accepté. Les autres comptes et les expéditions n’ont pas ce bouton. Réactivation refusée pendant un combat, dialogue, transition ou opération d’inventaire ; les autres connexions du même compte en combat sont prises en compte.
+
+Les six champions actifs déjà vaincus et accessibles reçoivent un marqueur personnel `admin_arena_replay:<battleKey> = ready`. Les dialogues de défi redeviennent disponibles ; une victoire consomme seulement le marqueur du champion concerné, une défaite/déconnexion laisse la revanche ouverte. Le bouton permet de les réarmer à nouveau. Badges, reçus de victoire, accès, quêtes et progression restent acquis. Ces tests utilisent les équipes/IA/animations normales mais ne versent ni XP, ni EV, ni argent ni récompense supplémentaire. PV, PP et consommables restent soumis au combat normal. Les anciens reçus anti-farm restent intacts ; aucun combat ordinaire n’est modifié. Lucie, les dresseurs de route et les anciennes arènes désactivées sont exclus.
+
+Validation : quatre tests `tests/arena-admin.test.js` passent, dont intégration SQL/Socket réelle sur base dédiée : identité exacte, refus d’une identité falsifiée, répétition concurrente, persistance, dialogue, combat, victoire, absence de gain, déconnexion et identité SQL modifiée. Les 85 tests ciblés existants de récompenses/combats/parcours complet passent. `scripts/validateArenaAdminBrowser.js` vérifie le vrai bouton, sa confirmation, la reconnexion et son absence pour un autre compte même avec un nom/role falsifié dans le navigateur ; captures 320/393/1365 px inspectées, aucune erreur navigateur. Lint/build réussis. Journaux `/tmp/riftmon-arena-admin-{tests,regression,browser,lint,build,deploy}.log`. Recettes SQL via `RUN_MYSQL_TESTS=1`, `DB_NAME` dédié contenant `test`, `NODE_ENV=test`, `BATTLE_DELAY_SCALE=0` ; navigateur via `DB_TEST_NAME` dédié et `RELEASE_DIST_DIR=/tmp/riftmon-arena-admin-dist`. L’identité de fixture est substituée uniquement en mémoire du processus de recette, jamais par configuration de production.
+
+Publié le 24 octobre à 22 h 27 (Paris), client `2a9cd3c55395f2cf53507435a3f70b64247747fe`, build `99a9b8a4961bc1c6`. Publication exacte 2026-10-24T20:27:07.616Z, PID 1573848 actif sans redémarrage automatique, index HTTPS vérifié, Knov/api-test inchangés. Aucune expédition active à la reprise, aucune migration. Lecture seule du compte réel : six champions éligibles, aucun réarmement automatique ; le joueur utilisera son bouton. Sauvegarde sources/index/checkpoint : `/home/ubuntu/dev/backups/riftmon-arena-admin-2026-10-24T20-26-41-547Z`.
+
 ## Compte binout — remise en place des obstacles et copie au PC — 24 octobre 2026
 
 À la demande du propriétaire, les trois drapeaux de retrait des obstacles de Lucie ont été supprimés pour le seul compte exact `binout`, afin de rejouer l’avertissement d’entrée et les destructions. Aucune victoire contre Lucie ni drapeau `lucie_freed` n’était présent ; aucune victoire, récompense, position ou autre progression n’a donc été retirée.
@@ -3191,6 +3201,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 24/10/2026 22 h 27 : bouton Options réservé à binout pour réactiver les six champions vaincus ; marqueurs de revanche isolés, aucune suppression de progression ni récompense répétée. Quatre tests spécifiques, 85 régressions, recette navigateur 320/393/1365 px, lint/build ; déployé, sites voisins inchangés. Voir la section « Binout — bouton de revanche des arènes ».
 
 - 24 octobre 2026 — Compte binout : trois obstacles de Lucie réarmés et copie fidèle de l’Ectoplasma déposée en boîte 1 / case 3, sous sauvegarde/transaction ; reste du compte conservé.
 
