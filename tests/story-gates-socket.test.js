@@ -49,6 +49,8 @@ test('real Adventure sockets: Wayne, Aspha, Gwenn and Mathilde deny passage befo
   const restored=await at('gen_route8',22,17);assert(!restored.gates.find(g=>g.id==='gwenn_ocreville').locked);await move('move_s',22,18);
   await at('ville_safe1',25,8);await blocked('move_d','mathilde_route5');
   await at('ville_safe1',26,8);await blocked('move_d','mathilde_route5');await move('move_q',25,8);
+  assert.equal((await require('../server/persistence/progressionRepository').completeNpcBattle(fixture.user.id,'mathilde_pikapika')).reason,'requirements_not_met');
+  await db.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,'raphael_defeated','true')",[fixture.user.id]);
   assert((await require('../server/persistence/progressionRepository').completeNpcBattle(fixture.user.id,'mathilde_pikapika')).granted);
   await move('move_d',26,8);await pause(370);const route5=event(socket,'newmap');socket.emit('playerAction','move_d');await route5;
   assert.equal((await savePosition()).map,'route5');

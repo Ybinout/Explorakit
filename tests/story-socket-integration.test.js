@@ -23,7 +23,7 @@ function event(socket, name, predicate = () => true) {
     });
 }
 
-test('Socket réel : Lucie, Wayne → Aspha → Mounir → Hoze → Mathilde → Gwenn → Raphael → Ana → Wanda → 7p → Lucie, refus/fuite/reprise et retrouvailles', { skip: !shouldRun, timeout: 60000 }, async () => {
+test('Socket réel : Lucie, Wayne → Aspha → Mounir → Hoze → Gwenn → Raphael → Mathilde → Ana → Wanda → 7p → Lucie, refus/fuite/reprise et retrouvailles', { skip: !shouldRun, timeout: 60000 }, async () => {
     assert.match(testDatabaseName, /test/i);
     assert.equal(process.env.DB_NAME, testDatabaseName, 'Utiliser npm run test:mysql pour isoler les données');
     const { io } = require(path.resolve(__dirname, '../vue-explorakit/node_modules/socket.io-client'));
@@ -164,13 +164,14 @@ test('Socket réel : Lucie, Wayne → Aspha → Mounir → Hoze → Mathilde →
         const {calculateBattleExperience,reduceActiveOverlevelExperience,BATTLE_EXPERIENCE_MULTIPLIERS}=require('../server/game/models/progression');
         const {getPnjTeam}=require('../server/game/world/pnjTeamFactory');
         const catalog=require('../data/game/progression.json'),dialogues=require('../data/game/interact.json');
-        const battles=[['dia1','start',18,3],['aspha_route2','route2',25,6],['moon','ville1_arene',13,6],['champion_hoze','ville_safe1_arene',13,6],['mathilde_pikapika','ville_safe1',25,8],['gwenn_route8','gen_route8',22,17],['champion_raphael','gen_arene5',13,6],['champion_ana','ville3_arene',13,6],['champion_wanda','ville4_arene',13,6],['champion_7p','ville5_arene',13,6]];
+        const battles=[['dia1','start',18,3],['aspha_route2','route2',25,6],['moon','ville1_arene',13,6],['champion_hoze','ville_safe1_arene',13,6],['gwenn_route8','gen_route8',22,17],['champion_raphael','gen_arene5',13,6],['mathilde_pikapika','ville_safe1',25,8],['champion_ana','ville3_arene',13,6],['champion_wanda','ville4_arene',13,6],['champion_7p','ville5_arene',13,6]];
         for(const [name,map,x,y] of battles) {
             await at(map,x,y,true);await speak(name);
             if(['aspha_route2','gwenn_route8','mathilde_pikapika'].includes(name)) {
+                const progressBeforeFlee=main(await loadProgressState(userId)).progress;
                 socket.once('requestAction',()=>socket.emit('actionResponse',{action:'flee'}));
                 const escaped=event(socket,'teamStateChanged',p=>p.reason==='trainer_battle_end');socket.emit('onEndDialogue',name);await escaped;
-                assert.equal(main(await loadProgressState(userId)).progress,name==='aspha_route2'?1:4);
+                assert.equal(main(await loadProgressState(userId)).progress,progressBeforeFlee);
                 await at(map,x,y);await speak(name);
             }
             const before=await loadProgressState(userId),trace=[];socket.on('battleText',p=>{trace.push(p.message);if(trace.length>12)trace.shift();});socket.on('endbattle',p=>trace.push(JSON.stringify(p.summary)));

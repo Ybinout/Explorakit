@@ -18,7 +18,7 @@ async function push(action,eventName,id){return page.evaluate(({action,eventName
  browser=await chromium.launch({headless:true,args:['--no-sandbox']});const context=await browser.newContext({viewport:{width:393,height:852},hasTouch:true,isMobile:true});await context.addInitScript(s=>{if(location.protocol==='http:')localStorage.setItem('explorakit.user',JSON.stringify(s));},{...a.user,token:a.token});page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.url().startsWith(base)&&r.status()>=400)errors.push(r.status()+' '+r.url());});
  await locate(a,'ville_safe1',25,8);await page.evaluate(()=>window.cityVm.socket.emit('Space'));
  await page.waitForFunction(()=>window.cityVm.endSentences==='mathilde_pikapika_locked'&&document.querySelector('.dialogue-layer .text')?.textContent.length>20);
- assert.match(await page.evaluate(()=>window.cityVm.textImageSequence[0].text),/badge de Hoze/);
+ assert.match(await page.evaluate(()=>window.cityVm.textImageSequence[0].text),/badge de Raph/);
  await page.screenshot({path:path.join(output,'mathilde-refusal-393.png')});
  assert.equal((await require('../server/persistence/progressionRepository').completeNpcBattle(a.user.id,'mathilde_pikapika')).reason,'requirements_not_met');
  await page.evaluate(()=>window.cityVm.clearSequence());
@@ -52,6 +52,9 @@ async function push(action,eventName,id){return page.evaluate(({action,eventName
    await locate(a,g.map,g.x,g.y);
   }
   if(g.id==='mathilde_route5'){
+   const repo=require('../server/persistence/progressionRepository');
+   assert.equal((await repo.completeNpcBattle(a.user.id,g.npc)).reason,'requirements_not_met');
+   assert((await repo.completeNpcBattle(a.user.id,'champion_raphael')).granted);
    await page.evaluate(()=>window.cityVm.socket.emit('Space'));
    await page.waitForFunction(()=>window.cityVm.endSentences==='mathilde_pikapika'&&document.querySelector('.dialogue-layer .text')?.textContent.length>20);
    await page.screenshot({path:path.join(output,'mathilde-ready-393.png')});

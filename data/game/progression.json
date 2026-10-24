@@ -389,7 +389,7 @@
       "battleKey": "story_mathilde_pikapika",
       "once": true,
       "requiresFlags": [
-        "hoze_defeated"
+        "raphael_defeated"
       ],
       "completionFlag": "mathilde_pikapika_defeated",
       "reward": {

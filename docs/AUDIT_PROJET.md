@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## Mathilde Pikapika après Raph — 24 octobre 2026
+
+Le défi unique de Mathilde demande désormais `raphael_defeated`, et ses dialogues annoncent le badge de Raph. Hoze seul ne suffit plus : parcours Hoze → Gwenn → Raph → Mathilde → Route 5 → centre commercial. Sa victoire reste nécessaire pour ouvrir la barrière ; les ouvertures déjà gagnées restent acquises. Équipe, prix et catalogue du centre commercial inchangés. Cette entrée remplace le prérequis Hoze documenté dans l’historique.
+
+Validation : 10 tests contenu/barrières réussis, deux suites SQL/Socket réussies (parcours narratif complet, refus avec Hoze seul, ouverture après Raph puis Mathilde, fuite, sauvegarde/reconnexion et combat unique). Fixtures navigateur alignées sur le nouveau prérequis ; aucun changement client. Journaux `/tmp/riftmon-mathilde-raph-{tests,mysql,deploy}.log`.
+
+Publication serveur à 2026-10-24T06:14:49.482Z : PID 1520520 actif, NRestarts 0, HTTPS 200, aucune expédition active avant reprise, client et Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-mathilde-raph-2026-10-24T06-13-25-055Z`.
+
 ## Revue de régression des attaques — 24 octobre 2026
 
 Régression reproduite du patch `4ff906f` : un renvoi automatique (Miroir Magik/Reflet Magik) ou une capacité copiée/volée incrémentait `activeMoveActions`. Après une entrée puis un renvoi automatique, le premier véritable Bluff était refusé. Le compteur est désormais initialisé avant ces effets et seules les tentatives normales le font avancer ; les capacités appelées, renvoyées, volées ou copiées ne consomment ni cette première action ni l’intention planifiée. Le repli interne vers Lutte compte toujours une seule fois.
@@ -2883,6 +2891,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+24/10/2026 — Mathilde Pikapika exige désormais la victoire contre Raph ; dialogues et parcours de validation adaptés, accès commercial retardé et victoires existantes conservées.
 
 24/10/2026 — Revue des attaques : régression du compteur de Bluff corrigée, réactions automatiques isolées des actions prévues/charges, recharge et Lutte présentées correctement ; comparaison de 29 376 scénarios et recettes serveur/SQL/navigateur.
 

@@ -2273,7 +2273,7 @@
     "name": "mathilde_pikapika",
     "sentences": [
       {
-        "text": "Mathilde Pikapika : Le badge de Hoze ! Cette fois, je veux bien te défier.",
+        "text": "Mathilde Pikapika : Le badge de Raph ! Cette fois, je veux bien te défier.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -2300,7 +2300,7 @@
     "name": "mathilde_pikapika_locked",
     "sentences": [
       {
-        "text": "Mathilde Pikapika : Sans le badge de Hoze, je ne te parle pas et personne ne passe. Reviens quand tu l’auras battu.",
+        "text": "Mathilde Pikapika : Sans le badge de Raph, je ne te parle pas et personne ne passe. Reviens quand tu l’auras battu.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
