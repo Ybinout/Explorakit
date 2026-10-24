@@ -102,12 +102,19 @@ function afterMove(ctx,h,messages) {
 }
 function secondaryEffects(ctx,h,messages) {
     const {attacker:a,defender:d,move,result,battleState:state,attackerSide,defenderSide}=ctx;
-    if (!(result.damage + (result.substituteDamage || 0) > 0) || hasAbility(a,'Sheer Force')) return;
+    if (!(result.damage + (result.substituteDamage || 0) > 0)) return;
+    if (hasAbility(a,'Sheer Force')) {
+        if (move.ename === 'Fake Out' && result.damage > 0 && alive(d)) messages.push('Sans Limite renforce Bluff mais supprime son effet d’apeurement.');
+        return;
+    }
     const effects=traits.moves[move.ename]?.secondaries || [];
     for(const secondary of effects) {
         const recipient=secondary.self?a:d;
         if (!alive(recipient) || (recipient===d && !(result.damage>0))) continue;
-        if (recipient===d && !ignoresDefenderAbility(a,d) && hasAbility(d,'Shield Dust')) continue;
+        if (recipient===d && !ignoresDefenderAbility(a,d) && hasAbility(d,'Shield Dust')) {
+            if (move.ename === 'Fake Out') messages.push(`Écran Poudre de ${label(d)} empêche l’apeurement.`);
+            continue;
+        }
         if(Math.random()>=Math.min(1,(secondary.chance||100)/100*(hasAbility(a,'Serene Grace')?2:1)))continue;
         const effect=secondary.self||secondary;
         let status=STATUS[effect.status];
@@ -122,8 +129,13 @@ function secondaryEffects(ctx,h,messages) {
 }
 function flinch(p,attacker,state,messages,h) {
     if(p.__battle.lastActionTurn===state.turn)return;
-    if(!ignoresDefenderAbility(attacker,p)&&hasAbility(p,'Inner Focus'))return;
+    const bypassAbility=ignoresDefenderAbility(attacker,p);
+    if(!bypassAbility&&hasAbility(p,'Inner Focus')) {
+        messages.push(`Attention de ${label(p)} empêche l’apeurement.`);
+        return;
+    }
     p.__battle.flinch=true;
+    p.__battle.flinchBypassesAbility=bypassAbility;
     if(hasAbility(p,'Steadfast'))h.stage(p,'speed',1,messages,p);
 }
 function endTurn(p,opponent,state,h,messages) {

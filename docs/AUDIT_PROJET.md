@@ -1,5 +1,17 @@
 # Audit technique et mémoire de RiftMon
 
+## Bluff : première action, apeurement et talents — 24 octobre 2026
+
+Le cas ordinaire apeurait déjà via `ability_move_traits.gen7.json` (100 %, priorité +3). Pas de reproduction d’une absence générale d’apeurement. En revanche, la restriction à la première tentative de capacité après entrée manquait : compteur `activeMoveActions` dans l’état de combat, réinitialisé à chaque entrée et conservé dans les checkpoints. Les actions empêchées comptent ; les capacités appelées et le repli interne Lutte ne comptent pas deux fois. Une nouvelle utilisation sans sortie/retour échoue explicitement après consommation des PP. Repli prudent pour anciens checkpoints ayant déjà un historique d’action.
+
+Correction réelle d’une interaction : Brise Moule contournait Attention à l’impact, mais Attention annulait de nouveau l’apeurement au contrôle d’action. Le contournement est désormais mémorisé jusqu’à la résolution, puis effacé (également en fin de tour). Messages explicites pour Attention, Écran Poudre et Sans Limite avec Bluff ; message d’incapacité « est apeuré et ne peut pas agir ». Le pipeline livré avec le sommeil supprime déjà l’animation/annonce d’une attaque empêchée. Les protections légitimes, Clonage, immunité Spectre, cible ayant déjà agi et suppression de l’effet secondaire par Sans Limite sont conservés.
+
+Référence de comparaison : [Pokémon Showdown, Fake Out](https://github.com/smogon/pokemon-showdown/blob/master/data/moves.ts), suivi `activeMoveActions` dans `sim/battle-actions.ts`. Moteur commun aux trois modes ; pas de changement client ni migration SQL.
+
+Validation : 938 tests applicatifs réussis (103 SQL ignorés), dont six nouveaux tests couvrant priorité contre Vitesse Extrême, PP/PV, action empêchée, sommeil, répétition, switch/checkpoint, talents, protections et vraies files Rift/Colosseum. Six recettes SQL ciblées réussies : Bluff et sommeil dans les orchestrateurs sauvage/dresseur/PvP ; aucune fausse animation adverse, puis reprise au tour suivant. Syntaxe/diff propres. Journaux `/tmp/riftmon-fake-out-{targeted,tests,mysql}.log`.
+
+Publication serveur seule à 2026-10-24T05:55:37.023Z ; aucune expédition active avant reprise. PID 1517518 actif, NRestarts 0, HTTPS 200, index client et Knov/api-test inchangés. Sauvegarde sources/checkpoint/index dans `/home/ubuntu/dev/backups/riftmon-fake-out-2026-10-24T05-53-13-843Z`.
+
 ## Sommeil : durée réelle et présentation avant l’action — 24 octobre 2026
 
 Deux causes reproduites : le compteur aléatoire 1–3 était décrémenté avant le contrôle, permettant zéro action bloquée ; les orchestrateurs annonçaient/animaient l’attaque avant de vérifier le sommeil. Le compteur initial devient 2–4, soit 1–3 actions ordinaires bloquées, puis réveil avec action possible. Repos conserve son compteur 3 (deux actions bloquées), Matinal sa décrémentation double, Ronflement/Blabla Dodo leurs exceptions. Référence de comparaison : [implémentation publique du sommeil dans Pokémon Showdown](https://github.com/smogon/pokemon-showdown/blob/master/data/conditions.ts), état `slp`.
@@ -2855,6 +2867,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+24/10/2026 — Bluff : première tentative après entrée, interaction Brise Moule/Attention corrigée, immunités expliquées et apeurement validé dans les trois modes.
 
 24/10/2026 — Sommeil : correction du tour manquant, compteur conservé au switch, réveil annoncé avant l’attaque et suppression des fausses animations d’action empêchée dans les trois modes.
 

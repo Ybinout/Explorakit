@@ -2018,8 +2018,10 @@ function processTurnStart(pokemon, options = {}) {
         if(!pokemonData.loafing){messages.push(`${pokemonName} paresse ce tour-ci (Absentéisme).`);return {canAct:false,messages};}
     }
     if(pokemonData.flinch) {
+        const bypassAbility = pokemonData.flinchBypassesAbility;
         pokemonData.flinch=false;
-        if(!hasPassiveAbility(pokemon,'Inner Focus')) {messages.push(`${pokemonName} est apeuré.`);return {canAct:false,messages};}
+        delete pokemonData.flinchBypassesAbility;
+        if(bypassAbility || !hasPassiveAbility(pokemon,'Inner Focus')) {messages.push(`${pokemonName} est apeuré et ne peut pas agir !`);return {canAct:false,messages};}
     }
 
     if (pokemonData.healBlockTurns > 0 && Array.isArray(move?.combat?.effects)
@@ -2337,6 +2339,7 @@ function processPokemonEndTurn(pokemon, enemyPokemon, ownSide, battleState) {
     pokemonData.snatch = false;
     pokemonData.quashed = false;
     pokemonData.flinch = false;
+    delete pokemonData.flinchBypassesAbility;
 
     if (ownSide?.wish) {
         ownSide.wish.turns -= 1;
@@ -2480,6 +2483,7 @@ function applySwitchInEffects(pokemon, ownSide, enemySide, battleState, enemyPok
     battleData.switchedInTurn=ownSide.abilityEntries>0?battleState?.turn:0;
     ownSide.abilityEntries=(ownSide.abilityEntries||0)+1;
     battleData.activeTurns=0;
+    battleData.activeMoveActions=0;
     abilityForms.sync(pokemon,'entry',messages,null,battleState,enemyPokemon);
     battleData.protect = false;
     battleData.endure = false;
@@ -2684,6 +2688,14 @@ function finishSelfDestruct(attacker, result) {
 function useattack(attackName, attacker, defender, options = {}) {
     options={...options,battleState:options.battleState||createBattleState()};
     if (!options.calledDepth) turnActions.spendTurnAction(options.battleState, attacker);
+    // Called moves and the internal Struggle fallback are part of the same action.
+    if (attacker && !options.calledDepth && !options.actionCounted) {
+        const data = ensureBattleData(attacker);
+        const prior = Number.isFinite(data.activeMoveActions) ? data.activeMoveActions
+            : (data.lastActionTurn > 0 || data.lastMoveUsed ? 1 : 0);
+        data.activeMoveActions = prior + 1;
+        options.actionCounted = true;
+    }
     const before=[];
     abilityForms.syncWeatherForms(attacker,defender,options.battleState,before);
     const result=executeAttack(attackName,attacker,defender,options);
@@ -2865,6 +2877,12 @@ function executeAttack(attackName, attacker, defender, options = {}) {
     abilityForms.sync(attacker,'move',moveResult.messages,move,battleState,defender);
     if (!calledDepth) heldItems.lockMove(attacker, move.ename, battleState);
 
+    if (move.ename === 'Fake Out' && attackerData.activeMoveActions > 1) {
+        moveResult.blocked = true;
+        attackerData.lastMoveUsed = move.ename;
+        moveResult.messages.push('Bluff échoue : utilisable uniquement lors de la première action après l’entrée en combat.');
+        return moveResult;
+    }
     if (['Sleep Talk','Snore'].includes(move.ename) && attacker.status !== 'sleep' && !hasPassiveAbility(attacker,'Comatose')) {
         moveResult.messages.push('Cette capacité nécessite de dormir.');
         return moveResult;

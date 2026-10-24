@@ -117,6 +117,29 @@ function createTeam(...pokemons) {
     return team;
 }
 
+for (const kind of ['wild','trainer','pvp']) test(`Bluff ${kind} : priorité, apeurement sans attaque fantôme, puis échec au tour suivant`, {skip:!shouldRun}, async()=>{
+    const pool=createTestPool();let userId;
+    try {
+        const {user,player}=await createPlayer(7);userId=user.id;
+        const active=createPokemon(52,'Bluffeur',['Fake Out']),enemy=createPokemon(19,'Cible');
+        for(const p of [active,enemy]) {p.passiveAbility=null;p.heldItem=null;p.currentHp=p.maxHp=1000;}
+        active.currentSpeed=1;enemy.currentSpeed=999;player.equipe=createTeam(active);
+        const rival={id:'fake-out-rival',equipe:createTeam(enemy)};
+        const actions=[{action:'attack',number:0},{action:'attack',number:0},{action:'flee'}];
+        const io=new RecordingIo({[player.id]:new ScriptedSocket(actions),[rival.id]:new ScriptedSocket(actions)});
+        const pp=enemy.movePp[0];
+        await withFixedRandom(0.5,()=>kind==='wild'?startWildBattle(player,enemy,io,userId):kind==='trainer'?startTrainerBattle(player,rival.equipe,io,userId):startPvpBattle(player,rival,io));
+        const events=io.events.filter(e=>e.targetId===player.id),results=events.filter(e=>e.eventName==='battleMoveResult');
+        assert.equal(results[0].payload.actor,'player');assert(results[0].payload.damage>0);
+        assert.equal(results[1].payload.actor,'opponent');assert.equal(results[1].payload.damage,0);
+        const next=results.filter(e=>e.payload.actor==='player')[1];assert.equal(next.payload.damage,0);assert(next.payload.blocked);
+        assert.equal(enemy.movePp[0],pp-1);assert.equal(active.movePp[0],8);
+        assert.equal(events.filter(e=>e.eventName==='battleMoveAnimation'&&e.payload.actor==='opponent').length,1);
+        assert(events.some(e=>e.eventName==='battleText'&&/apeuré/.test(e.payload.message)));
+        assert(events.some(e=>e.eventName==='battleText'&&/Bluff échoue/.test(e.payload.message)));
+    } finally {if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
+});
+
 test('ordre de l’équipe : sauvegarde en plein combat/arène et premier compagnon K.O. au combat suivant', {skip:!shouldRun}, async()=>{
     const pool=createTestPool();let id;
     try {
