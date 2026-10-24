@@ -36,7 +36,7 @@ test('real Adventure sockets: Wayne, Aspha, Gwenn and Mathilde deny passage befo
   const saved=await savePosition();assert.equal(saved.map,'ville1');
   await db.execute("DELETE FROM player_story_flags WHERE user_id=? AND flag_key IN ('route_guard_defeated','aspha_route2_defeated')",[fixture.user.id]);
   await db.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,'moonpunch_defeated','true')",[fixture.user.id]);
-  const legacy=await at('route2',25,6);assert(legacy.gates.filter(g=>!['gwenn_ocreville','mathilde_route5'].includes(g.id)).every(g=>!g.locked));await move('move_d',26,6);
+  const legacy=await at('route2',25,6);assert(legacy.gates.filter(g=>['wayne_route1','aspha_lake'].includes(g.id)).every(g=>!g.locked));await move('move_d',26,6);
   await at('gen_route8',22,17);const beforeGwenn=await savePosition();await blocked('move_s','gwenn_ocreville');assert.deepEqual(await savePosition(),beforeGwenn);
   await at('ville_safe1',25,8);const beforeMathilde=await savePosition();await blocked('move_d','mathilde_route5');assert.deepEqual(await savePosition(),beforeMathilde);
   await db.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,'hoze_defeated','true')",[fixture.user.id]);

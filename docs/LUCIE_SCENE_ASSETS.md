@@ -1,5 +1,22 @@
 # Lucie — assets et mise en scène
 
+## Chambre davantage pixelisée et barricades — 24 octobre 2026
+
+Outil intégré imagegen, puis export des textures au plus proche voisin : `src/assets/route2_maison.png` en 448×320, `src/assets/battle/lucie-house-wide-v1.webp` en 480×320, `src/assets/battle/lucie-house-mobile-v1.webp` en 320×480 (WebP qualité 96). Nouveaux originaux : `exec-4e3bcb25-6086-41b8-8e96-7691cadcfa14.png`, `exec-91a68fce-69bb-4181-9fff-2032011d89e6.png`, `exec-dc7b473b-8b76-4f98-b1d1-4b7372d0674e.png`, dans le répertoire imagegen déjà indiqué. Objets et silhouettes de collision conservés ; aucun changement de fichier Tiled. Les barricades sont rendues séparément en Canvas à partir des cellules serveur, avec des aplats de bois et quelques ligatures, sans asset raster supplémentaire.
+
+### Prompt chambre pixelisée
+
+Edit this top-down RPG house MAP TEXTURE to much simpler authentic handheld PIXEL ART. Preserve EXACT layout, framing, aspect ratio, black void outside, wall/floor edges, furniture footprints and empty paths. It is a 28x20 tile map: logical texture448x320, 16px tiles. North wall, little window, bookcase upper left, bed upper right, table with lantern lower left, chest lower right, plant right and entry rug remain at EXACT current relative coordinates. Make ALL surfaces visibly pixelated with clean chunky clusters and simple flat limited shading: no fine grain on wood, no tiny wallpaper motifs, fewer wider floorboard lines, plain plum wallpaper in broad blocks, readable simple bed, objects outlined dark like 2004 handheld Pokemon interiors. Use muted blue-gray floors, dark plum walls, readable medium-dark tones, cold blue window and tiny warm lamp. NOT realistic, not HD painted texture, no intricate shading, no gradients. Do not add any obstacles: separate interactive barricades will be drawn by game engine. No characters, no circles, no text. Keep the room traversable and preserve every collision silhouette. Aim for a genuine 448x320 low-resolution map enlarged with nearest-neighbor edges. Output same 7:5 landscape aspect.
+
+### Prompt combat large pixelisé
+
+Edit this battle room background to match simple low resolution handheld RPG pixel art. Preserve exactly the composition and furniture positions, 3:2 landscape aspect, empty floor, dark blue wooden room, plum wall, cold window and warm little lamp. Simplify aggressively: remove all fine woodgrain and wallpaper patterns, plain broad plank blocks, clean square pixel clusters and limited flat shading. Logical resolution 480x320 enlarged nearest neighbor. No painterly gradients or HD texture detail. Slightly brighter readable slate-blue floor. Keep furniture in upper third, floor clear for Pokemon overlays. No characters, no text, no platforms, no barriers.
+
+### Prompt combat mobile pixelisé
+
+Edit the attached portrait mobile RPG battle background into SIMPLE HANDHELD PIXEL ART. Keep exact portrait 2:3 layout: furniture/window/back wall in top24 percent, bottom76 percent clear dark blue wooden floor. Match new simple chunky style: broad flat blue-gray boards with few seams, plain plum panels without wallpaper pattern, simple crisp square-pixel bed, bookcase and little amber lamp, cold moonlit window. Logical resolution320x480 enlarged nearest-neighbor, limited shading, no wood grain, no fine textures, no painterly gradients. Keep darker restrained mood but floor readable. No characters, text, circles, platforms, barriers or foreground objects.
+
+
 ## Révision du 24 octobre — sprite simple et combat intérieur
 
 Création avec l’outil intégré imagegen. Le portrait de dialogue et le splashart restent inchangés. Le sprite précédent, trop détaillé, est remplacé par `src/assets/pnj/lucie-pixel-v2.png` : cadrage alpha de l’original généré (384,314,507,749), export au plus proche voisin en 24 × 32 px. Le renderer utilise désormais sa case entière, hauteur monde 48 px et ancrage des pieds habituel, sans coordonnées de crop spécifiques. Lucie attend en (13,5), au fond de la maison ; le couloir central et l’approche par (13,6) sont libres.

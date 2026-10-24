@@ -15,12 +15,32 @@ async function pictures(label){for(const[width,height]of [[320,568],[393,852],[1
  const lead=require('../server/game/drift/pokemonFactory').create(150,200,true);lead.k=4;lead.recalculateStats();lead.currentHp=lead.maxHp;lead.abilities=[];lead.movePp=[];for(const move of ['Dark Pulse','Aura Sphere','Ice Beam','Recover'])lead.addAbility(move);
  await require('../server/persistence/teamRepository').editEquipe(userId,{pokemons:[lead]});
  const catalog=require('../data/game/progression.json');for(const flag of [...catalog.storySteps.slice(0,-1).map(s=>s.flag),'lucie_reunited'])await dbPool.execute('INSERT INTO player_story_flags(user_id,flag_key,flag_value)VALUES(?,?,?)ON DUPLICATE KEY UPDATE flag_value=VALUES(flag_value)',[userId,flag,'true']);
- await dbPool.execute("UPDATE users SET map='route2_maison',x=432,y=208 WHERE id=?",[userId]);
+ await dbPool.execute("UPDATE users SET map='route2_maison',x=432,y=? WHERE id=?",[process.env.VALIDATE_ROOM_BARRIERS==='1'?528:208,userId]);
  browser=await chromium.launch({headless:true,args:['--no-sandbox']});const context=await browser.newContext({viewport:{width:393,height:852},hasTouch:true,isMobile:true});await context.addInitScript(s=>localStorage.setItem('explorakit.user',JSON.stringify(s)),{...fixture.user,token:fixture.token});page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.url().startsWith(base)&&r.status()>=400)errors.push(r.status()+' '+r.url());});
  await page.goto(base+'/game',{waitUntil:'networkidle'});await ready();
  await page.waitForFunction(()=>v.pnjSpriteSheets['lucie-pixel-v2.png']?.complete&&v.pnjSpriteSheets['lucie-pixel-v2.png'].naturalWidth===24);
  assert(await page.evaluate(()=>v.mapImage.src.includes('route2_maison')));
  await pictures('house');
+ if(process.env.VALIDATE_ROOM_BARRIERS==='1'){
+  await page.evaluate(()=>v.updatePreferences({...v.preferences,animationsEnabled:true,masterVolume:35}));
+  let row=16;
+  for(const [index,stop]of [16,12,9].entries()){
+   while(row>stop){await page.waitForTimeout(380);await page.evaluate(()=>v.socket.emit('playerAction','move_z'));row--;await page.waitForFunction(y=>v.players[v.socket.id].y===y*32+16,row);}
+   if(index===1){await page.setViewportSize({width:1365,height:900});await page.evaluate(()=>v.showMobileControls=false);}
+   else{await page.setViewportSize({width:393,height:852});await page.evaluate(()=>v.showMobileControls=true);}
+   const started=Date.now();if(index===1)await page.keyboard.press('Space');else await page.locator('.mobile-action-a').click();await page.locator('.room-obstacle-action').waitFor();
+   assert(await page.evaluate(()=>v.movementBlocked));
+   await page.waitForFunction(()=>{const a=v._worldMusic?.tracks.get('lucie-room');return a&&!a.paused&&a.currentTime>.1;});
+   const before=await page.evaluate(()=>v._worldMusic.tracks.get('lucie-room').currentTime);await page.waitForTimeout(350);
+   assert(await page.evaluate(t=>v._worldMusic.tracks.get('lucie-room').currentTime>t,before));
+   await page.screenshot({path:path.join(output,`clearing-${index+1}.png`)});
+   await page.locator('.room-obstacle-action').waitFor({state:'hidden'});assert(Date.now()-started>=2500);
+   await page.waitForFunction(key=>v.progressionState.flags[key]==='true',`lucie_barricade_${index+1}_cleared`);
+   await page.waitForTimeout(1150);
+  }
+  while(row>6){await page.waitForTimeout(380);await page.evaluate(()=>v.socket.emit('playerAction','move_z'));row--;await page.waitForFunction(y=>v.players[v.socket.id].y===y*32+16,row);}
+  await page.reload({waitUntil:'networkidle'});await ready();assert(await page.evaluate(()=>[1,2,3].every(i=>v.progressionState.flags[`lucie_barricade_${i}_cleared`]==='true')));
+ }
  await page.evaluate(()=>{v.updatePreferences({...v.preferences,animationsEnabled:true,textSpeed:10000,masterVolume:35});v.socket.emit('Space');});await page.waitForFunction(()=>v.endSentences==='lucie_route2'&&v.textImageSequence.length>0);
  await page.waitForTimeout(700);
  const typing=await page.evaluate(()=>{const d=document.querySelector('.dialogue-shell').__vue__;return{visible:d.displayedText.length,total:d.currentText.length,portrait:d.currentImageSrc,rect:document.querySelector('.text-with-image').getBoundingClientRect().height};});
@@ -48,5 +68,5 @@ async function pictures(label){for(const[width,height]of [[320,568],[393,852],[1
  await page.waitForFunction(()=>v.endSentences==='lucie_route2_after'&&v.textImageSequence.length>0);assert.equal(await page.evaluate(()=>v.progressionState.flags.lucie_freed),'true');await pictures('reunion');
  await page.evaluate(()=>v.clearSequence());await page.waitForFunction(()=>!v.movementBlocked);
  await page.reload({waitUntil:'networkidle'});await ready();await page.evaluate(()=>v.socket.emit('Space'));await page.waitForFunction(()=>v.endSentences==='lucie_route2_after');assert.equal(await page.evaluate(()=>Boolean(v.battle)),false);
- assert.deepEqual(errors,[]);success=true;console.log(JSON.stringify({actualLucieTeam:true,legacySave:true,victory:true,followUp:true,noRematchAfterReload:true,viewports:3,slowDialogue:true,skippableTyping:true,stableDialogueHeight:true,lucieSplash:true,extendedEntrance:true,newRoom:true,newSprite:true,musicDuringDialogueAndEntrance:true,errors}));
+ assert.deepEqual(errors,[]);success=true;console.log(JSON.stringify({actualLucieTeam:true,legacySave:true,victory:true,followUp:true,noRematchAfterReload:true,viewports:3,slowDialogue:true,skippableTyping:true,stableDialogueHeight:true,lucieSplash:true,extendedEntrance:true,newRoom:true,newSprite:true,musicDuringDialogueAndEntrance:true,clearedRoomBarriers:process.env.VALIDATE_ROOM_BARRIERS==='1',errors}));
 }finally{if(!success&&page)await page.screenshot({path:path.join(output,'failure.png'),fullPage:true}).catch(()=>{});await browser?.close();await new Promise(r=>io.close(r));await new Promise(r=>setTimeout(r,200));if(userId)await dbPool.execute('DELETE FROM users WHERE id=?',[userId]);await dbPool.end();}})().catch(e=>{console.error(e.stack);process.exitCode=1});

@@ -1010,6 +1010,13 @@ const socketHandler = (io) => {
             if (player.inbattle || player.inventoryBusy) return;
             if (fishing.current(player)) { fishing.reel(player,fishing.current(player).id); return; }
 
+            if (currentmap === 'route2_maison') {
+                if (transitionBusy || pendingDialogue || socketToChatSession.has(socket.id)) return;
+                if (await require('./handlers/roomObstacleHandlers').clearNearbyRoomObstacle({
+                    socket, userId, player, getPlayer: () => players[socket.id], emitProgression: emitPlayerProgression
+                })) return;
+            }
+
             if (isNearComputer(player)) { await computerHandlers.open(); return; }
             if (!socketToChatSession.has(socket.id) && !hasPendingRequestForSocket(socket.id)) {
                 const nearbyPlayer = findNearbyInteractablePlayer(socket.id);
