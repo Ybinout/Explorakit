@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Fluidité de Blanchecime — 24 octobre 2026
+
+Suppression de l’enseigne orange ajoutée à (327,94), à côté de la boutique de Blanchecime. L’éclairage fixe de la ville (teinte, fenêtres, lanternes) est composé une seule fois dans une petite surface 448×320, puis réutilisé ; seule la fumée reste redessinée à chaque pas d’animation. Le cache est libéré au changement de lieu, à la suspension et à la destruction.
+
+La neige extérieure conserve ses 240 flocons en ville et 480 sur les Routes 13/14, leurs positions, tailles, trajectoires et rotations. Six groupes de profondeur remplacent les centaines de soumissions fill/stroke par image ; seule l’opacité est discrétisée en six nuances. Les effets des combats et la météo serveur ne changent pas.
+
+Validation : 18 tests météo/feuillages ; quinze scènes Canvas ; lint/build. `validateSnowPerformanceCanvas.js` vérifie cache, immobilité et libération avec un benchmark Canvas réel incluant lecture de pixels. Comparaison locale avant/après : éclairage 0,818 → 0,260 ms et neige 2,258 → 1,701 ms, soit environ 36 % de moins pour ces deux effets ; ce chiffre ne mesure pas les FPS d’un téléphone physique. `validateSnowAmbienceBrowser.js` couvre Blanchecime et Routes 13/14, mobile/PC, animations réduites, onglet masqué et transitions. Journaux `/tmp/riftmon-snow-{performance,tests,canvas,lint,build,browser,deploy}.log`.
+
+Publication client seule à 2026-10-24T13:54:30.141Z, client `371b46fa94f5074b9c40dcfaf5bf769aaf6d7533`, build `8117a0e6782764bf`. Index HTTPS vérifié, serveur PID 1536918 et Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-snow-2026-10-24T13-54-29-286Z`.
+
 ## Papillons et vent Route 8 — 24 octobre 2026
 
 Ocreville (`gen_ville5`) reçoit vingt papillons, Route 4 seize, répartis dans les espaces verts et autour des chemins. Vols locaux bornés, quatre couleurs, battements d’ailes et repos décalés : environ seize et douze visibles simultanément sur la carte complète. Le renderer partagé conserve son cache 20 Hz, ses arrêts pendant les combats/chargements/onglets masqués et le respect des animations désactivées. La Ville du Lac conserve sa faible densité existante avec le même dessin amélioré. Aucun déplacement global de foreground.
@@ -2999,6 +3009,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 24 octobre 2026 — Blanchecime : enseigne orange retirée, éclairage fixe mis en cache, neige regroupée par profondeur sans réduire le nombre de flocons. Recettes `validateSnowPerformanceCanvas.js` et `validateSnowAmbienceBrowser.js`.
 
 - 24 octobre 2026 — Papillons plus nombreux à Ocreville/Route 4 ; vent partagé Route 8. Recette `scripts/validateButterfliesWindBrowser.js`, tests météo et Canvas.
 

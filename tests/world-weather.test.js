@@ -11,7 +11,7 @@ test('Routes 13/14 share maximum snowfall, bounded depth particles and no leaves
  assert.deepEqual(w.worldWeatherBudget(p),{rain:0,leaves:0,gusts:3,splashes:0,snow:480});
  for(const map of ['cave_rochebrume3','ville4','route12','centre'])assert.equal(w.mapWorldWeather(map,get('route13')).snow,undefined);
  const s=surface(),r=new w.WorldWeatherRenderer(()=>s.canvas),target={drawImage(){}};
- r.draw(target,0,p,true,'route13');assert.equal(s.calls.filter(c=>c[0]==='ellipse').length,480);assert.equal(r.impacts.length,0);
+ r.draw(target,0,p,true,'route13');assert.equal(s.calls.filter(c=>c[0]==='ellipse').length,480);assert.equal(r.impacts.length,0);assert.equal(s.calls.filter(c=>c[0]==='fill').length,6,'snow is submitted in six depth batches');
  const first=s.calls.slice();r.draw(target,16,p,true,'route13');assert.equal(r.frames,1);
  r.draw(target,35,p,true,'route13');assert.equal(r.frames,2);assert.notDeepEqual(s.calls.slice(first.length),first);
  r.draw(target,1e9,p,true,'route13');assert.equal(r.canvas.width,896);assert.equal(r.canvas.height,640);
