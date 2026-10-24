@@ -107,7 +107,7 @@ async function performAttackWithNarration(attacker, defender, moveIndex, player,
     await narrateMessages(player, io, result.beforeActionMessages, 950);
     if (!result.actionPrevented) {
         displayMoveAnimation(player, attacker, io, animation);
-        await narrate(player, io, `${attackerName} utilise ${moveName} !`);
+        await narrate(player, io, `${attackerName} utilise ${animation.moveName} !`);
     }
     const field = battleContext.battleState;
     if (attacker === player.equipe.pokemons[0]) trainerTactics.observe(field.trainerTeam, field.trainerMemory, attacker, moveName);

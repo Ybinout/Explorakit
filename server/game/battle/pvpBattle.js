@@ -287,7 +287,7 @@ async function performAttack(io, attackerPlayer, defenderPlayer, moveIndex, atta
     if (!attackResult.actionPrevented) {
         emitMoveAnimationForBoth(io, attackerPlayer, defenderPlayer, animation);
         await narrateToBoth(io, attackerPlayer, defenderPlayer,
-            `${getTrainerName(attackerPlayer)}: ${getPokemonDisplayName(attackerPokemon)} utilise ${moveName} !`);
+            `${getTrainerName(attackerPlayer)}: ${getPokemonDisplayName(attackerPokemon)} utilise ${animation.moveName} !`);
     }
 
     emitPvpMoveResult(io, attackerPlayer, defenderPlayer, attackResult, battleState);

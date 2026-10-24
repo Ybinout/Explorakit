@@ -117,6 +117,23 @@ function createTeam(...pokemons) {
     return team;
 }
 
+for(const kind of ['wild','trainer'])test(`Régression ${kind}: Miroir Magik au switch ne consomme pas le premier Bluff`,{skip:!shouldRun},async()=>{
+    const pool=createTestPool();let userId;
+    try {
+        const {user,player}=await createPlayer(7);userId=user.id;
+        const lead=createPokemon(7,'Premier',['Splash']),reserve=createPokemon(52,'Relais',['Fake Out']),enemy=createPokemon(19,'Cible',['Growl']);
+        for(const p of [lead,reserve,enemy]){p.passiveAbility=null;p.heldItem=null;p.currentHp=p.maxHp=1000;}
+        reserve.passiveAbility='Magic Bounce';player.equipe=createTeam(lead,reserve);
+        const io=new RecordingIo({[player.id]:new ScriptedSocket([{action:'change',number:1},{action:'attack',number:0},{action:'flee'}])});
+        await withFixedRandom(0.5,()=>kind==='wild'?startWildBattle(player,enemy,io,userId):startTrainerBattle(player,createTeam(enemy),io,userId));
+        const result=io.events.find(e=>e.eventName==='battleMoveResult'&&e.payload.actor==='player'&&e.payload.moveName==='Fake Out');
+        assert(result?.payload.damage>0);assert(!result.payload.blocked);
+        assert(io.events.some(e=>e.eventName==='battleText'&&/Miroir Magik/.test(e.payload.message)));
+        assert(io.events.some(e=>e.eventName==='battleText'&&/apeuré/.test(e.payload.message)));
+        assert.equal((await loadEquipe(userId)).pokemons.find(p=>p.uuid===reserve.uuid).movePp[0],9);
+    }finally{if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
+});
+
 for (const kind of ['wild','trainer','pvp']) test(`Bluff ${kind} : priorité, apeurement sans attaque fantôme, puis échec au tour suivant`, {skip:!shouldRun}, async()=>{
     const pool=createTestPool();let userId;
     try {
@@ -997,6 +1014,7 @@ for(const kind of ['wild','trainer'])test(`Recharge Aventure ${kind}: tour autom
   const socket=new ScriptedSocket([{action:'attack',number:0},{action:'flee'}]),io=new RecordingIo({[player.id]:socket});
   await withFixedRandom(.5,()=>kind==='wild'?startWildBattle(player,enemy,io,id):startTrainerBattle(player,createTeam(enemy),io,id));
   assert.equal(lead.movePp[0],0);assert.equal(socket.outgoing.filter(e=>e.eventName==='requestAction').length,2);
+  assert.equal(io.events.filter(e=>e.eventName==='battleMoveAnimation'&&e.payload.actor==='player').length,1,'Recharge must not replay the attack');
   assert(io.events.some(e=>JSON.stringify(e.payload).includes('recharger son énergie')));assert.equal(io.lastEvent(player.id,'endbattle').payload.reason,'fled');
   assert.equal((await loadEquipe(id)).pokemons.find(p=>p.uuid===lead.uuid).movePp[0],0);
  }finally{if(id)await pool.execute('DELETE FROM users WHERE id=?',[id]);await pool.end();}

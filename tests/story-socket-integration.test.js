@@ -161,7 +161,7 @@ test('Socket réel : Lucie, Wayne → Aspha → Mounir → Hoze → Mathilde →
         assert.equal((await loadProgressState(userId)).completedNpcBattles.length,0);
         for(const [map,name]of [['ville3_arene','champion_ana'],['ville4_arene','champion_wanda'],['ville5_arene','champion_7p']]){await at(map,13,6);await speak(name+'_locked');const blocked=event(socket,'interactionRejected');socket.emit('onEndDialogue',name);assert.equal((await blocked).reason,'invalid_or_expired_dialogue');}
         let attacks=0,expectedExperience=pokemon.experience;
-        const {calculateBattleExperience,BATTLE_EXPERIENCE_MULTIPLIERS}=require('../server/game/models/progression');
+        const {calculateBattleExperience,reduceActiveOverlevelExperience,BATTLE_EXPERIENCE_MULTIPLIERS}=require('../server/game/models/progression');
         const {getPnjTeam}=require('../server/game/world/pnjTeamFactory');
         const catalog=require('../data/game/progression.json'),dialogues=require('../data/game/interact.json');
         const battles=[['dia1','start',18,3],['aspha_route2','route2',25,6],['moon','ville1_arene',13,6],['champion_hoze','ville_safe1_arene',13,6],['mathilde_pikapika','ville_safe1',25,8],['gwenn_route8','gen_route8',22,17],['champion_raphael','gen_arene5',13,6],['champion_ana','ville3_arene',13,6],['champion_wanda','ville4_arene',13,6],['champion_7p','ville5_arene',13,6]];
@@ -181,7 +181,7 @@ test('Socket réel : Lucie, Wayne → Aspha → Mounir → Hoze → Mathilde →
             socket.emit('onEndDialogue',name);const scene=await victoryScene.catch(e=>{throw Error(name+': '+e.message+' '+JSON.stringify(trace)+' '+serverErrors);}),summary=(await battleResult).summary;
             if(openedGate)await openedGate;
             const trainerTeam=getPnjTeam(dialogues.find(e=>e.name===name).team),kind=catalog.npcBattles[name].experienceKind;
-            expectedExperience+=trainerTeam.pokemons.reduce((sum,opponent)=>sum+calculateBattleExperience(opponent,BATTLE_EXPERIENCE_MULTIPLIERS[kind],pokemon),0);
+            expectedExperience+=trainerTeam.pokemons.reduce((sum,opponent)=>sum+reduceActiveOverlevelExperience(calculateBattleExperience(opponent,BATTLE_EXPERIENCE_MULTIPLIERS[kind],pokemon),opponent,pokemon),0);
             assert.equal((await loadEquipe(userId)).pokemons[0].experience,expectedExperience,`${name}: XP sauvegardée`);
             assert(scene[0].length>=2);const progress=await loadProgressState(userId);
             if(name==='moon')assert(progress.badges.some(b=>b.key==='lake_badge'&&b.earned));

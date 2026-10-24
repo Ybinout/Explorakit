@@ -119,7 +119,7 @@ async function performAttackWithNarration(attacker, defender, moveIndex, player,
     await narrateMessages(player, io, attackResult.beforeActionMessages, 950);
     if (!attackResult.actionPrevented) {
         displayMoveAnimation(player, attacker, io, animation);
-        await narrate(player, io, `${attackerName} utilise ${moveName} !`);
+        await narrate(player, io, `${attackerName} utilise ${animation.moveName} !`);
     }
     emitSoloMoveResult(io, player, attacker, attackResult, battleContext?.battleState);
     displayIntroAnimation(player, wildPokemon, io, battleContext.battleState);

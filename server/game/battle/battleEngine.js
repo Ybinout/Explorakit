@@ -187,6 +187,7 @@ function ensureBattleData(pokemon) {
 
     // Saved non-volatile sleep can outlive the transient battle counter.
     if (!Number.isFinite(battleData.sleepTurns)) battleData.sleepTurns = pokemon.status === 'sleep' ? Math.floor(Math.random() * 3) + 2 : 0;
+    if (!Number.isFinite(battleData.activeMoveActions)) battleData.activeMoveActions = Number(battleData.lastActionTurn) > 0 ? 1 : 0;
     if (!Number.isFinite(battleData.toxicCounter)) battleData.toxicCounter = 1;
     if (!Number.isFinite(battleData.confusionTurns)) battleData.confusionTurns = 0;
     if (!Number.isFinite(battleData.infatuationTurns)) battleData.infatuationTurns = 0;
@@ -2687,13 +2688,11 @@ function finishSelfDestruct(attacker, result) {
 
 function useattack(attackName, attacker, defender, options = {}) {
     options={...options,battleState:options.battleState||createBattleState()};
-    if (!options.calledDepth) turnActions.spendTurnAction(options.battleState, attacker);
+    if (!options.calledDepth && !options.skipTurnStart) turnActions.spendTurnAction(options.battleState, attacker);
     // Called moves and the internal Struggle fallback are part of the same action.
-    if (attacker && !options.calledDepth && !options.actionCounted) {
+    if (attacker && !options.calledDepth && !options.skipTurnStart && !options.actionCounted) {
         const data = ensureBattleData(attacker);
-        const prior = Number.isFinite(data.activeMoveActions) ? data.activeMoveActions
-            : (data.lastActionTurn > 0 || data.lastMoveUsed ? 1 : 0);
-        data.activeMoveActions = prior + 1;
+        data.activeMoveActions += 1;
         options.actionCounted = true;
     }
     const before=[];
@@ -2724,8 +2723,8 @@ function executeAttack(attackName, attacker, defender, options = {}) {
     const attackerTeam = options.attackerTeam || null;
     const defenderTeam = options.defenderTeam || null;
     const calledDepth = Math.max(0, safeNumber(options.calledDepth, 0));
-    const charging = !calledDepth && getChargingMove(attacker);
-    const biding = !calledDepth && attacker?.__battle?.bideTurns > 0;
+    const charging = !calledDepth && !options.skipTurnStart && getChargingMove(attacker);
+    const biding = !calledDepth && !options.skipTurnStart && attacker?.__battle?.bideTurns > 0;
     if (charging) attackName = charging;
     else if (biding) attackName = 'Bide';
 
@@ -2767,9 +2766,11 @@ function executeAttack(attackName, attacker, defender, options = {}) {
 
     const attackerData = ensureBattleData(attacker);
     const defenderData = ensureBattleData(defender);
-    if (!calledDepth && attackerData.rechargeMove) {
+    if (!calledDepth && !options.skipTurnStart && attackerData.rechargeMove) {
         attackerData.lastActionTurn = battleState.turn;
-        moveResult.messages.push(...processTurnStart(attacker, {move,battleState}).messages);
+        moveResult.beforeActionMessages = processTurnStart(attacker, {move,battleState}).messages;
+        moveResult.messages.push(...moveResult.beforeActionMessages);
+        moveResult.actionPrevented = true;
         return moveResult;
     }
     const carriedTarget = attackerData.skyDropTarget;
@@ -2806,7 +2807,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
     const movedLastThisTurn = defenderData.lastActionTurn === safeNumber(battleState.turn, 1);
     if(!options.skipTurnStart)attackerData.lastActionTurn = safeNumber(battleState.turn, 1);
 
-    if (!calledDepth && !heldItems.allowsMove(attacker, move.ename, battleState)) {
+    if (!calledDepth && !options.skipTurnStart && !heldItems.allowsMove(attacker, move.ename, battleState)) {
         moveResult.blocked = true; moveResult.messages.push('Cette capacité est bloquée par l’objet tenu.'); return moveResult;
     }
 
@@ -2875,7 +2876,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         }
     }
     abilityForms.sync(attacker,'move',moveResult.messages,move,battleState,defender);
-    if (!calledDepth) heldItems.lockMove(attacker, move.ename, battleState);
+    if (!calledDepth && !options.skipTurnStart) heldItems.lockMove(attacker, move.ename, battleState);
 
     if (move.ename === 'Fake Out' && attackerData.activeMoveActions > 1) {
         moveResult.blocked = true;
