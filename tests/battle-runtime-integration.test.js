@@ -1034,3 +1034,25 @@ test('wild Adventure: enemy six levels higher allows escape from Arena Trap in o
   const saved=(await loadEquipe(userId)).pokemons[0];assert.equal(saved.uuid,lead.uuid);assert.equal(saved.experience,xp);assert.equal(saved.currentHp,hp);
  }finally{if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
 });
+
+for (const [champion,species] of [['hoze',445],['raphael',330]]) for(const ability of ['Blaze','Iron Fist']) for(const entry of ['lead','switch','ko'])
+test(`Bluff Simiabraz ${ability} contre ${champion} (${entry}) : équipe réelle, talent et objet conservés`,{skip:!shouldRun},async()=>{
+ const pool=createTestPool();let userId;
+ try{
+  const{user,player}=await createPlayer(7);userId=user.id;
+  const active=require('../server/game/drift/pokemonFactory').create(392,39,true);
+  active.abilities=['Fake Out','Splash'];active.movePp=[10,40];active.passiveAbility=ability;active.heldItem=null;
+  const team=require('../server/game/world/pnjTeamFactory').getPnjTeam(champion);
+  team.pokemons=team.pokemons.filter(p=>p.data.id===species);
+  player.equipe=entry!=='lead'?createTeam(createPokemon(143,'Relais',['Splash']),active):createTeam(active);
+  if(entry!=='lead')active.currentHp=active.maxHp=1000;
+  if(entry==='ko')player.equipe.pokemons[0].currentHp=1;
+  const io=new RecordingIo({[player.id]:new ScriptedSocket([...(entry==='ko'?[{action:'attack',number:0},{action:'change',number:1}]:entry==='switch'?[{action:'change',number:1}]:[]),{action:'attack',number:0},{action:'flee'}])});
+  await withFixedRandom(.5,()=>startTrainerBattle(player,team,io,userId));
+  const events=io.events.filter(e=>e.targetId===player.id),results=events.filter(e=>e.eventName==='battleMoveResult').slice(entry!=='lead'?1:0);
+  assert.equal(results[0].payload.actor,'player');assert(results[0].payload.damage>0);
+  assert.equal(results[1].payload.actor,'opponent');assert.equal(results[1].payload.damage,0);
+  assert(events.some(e=>e.eventName==='battleText'&&/apeuré/.test(e.payload.message)));
+  assert.equal(events.filter(e=>e.eventName==='battleMoveAnimation'&&e.payload.actor==='opponent').length,entry!=='lead'?1:0);
+ }finally{if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
+});

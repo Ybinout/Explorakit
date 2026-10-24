@@ -18,10 +18,18 @@ function spendTurnAction(state, pokemon) {
     const entry = plan.entries.find(a => a.uuid === pokemon?.uuid);
     if (entry) entry.acted = true;
 }
+// A replacement after a direct K.O. can open a new choice before the field's
+// end-of-round counter advances. The current queue is authoritative in that case.
+function hasActedThisTurn(state, pokemon) {
+    const plan = state?.turnActions;
+    const entry = plan?.turn === state?.turn
+        ? plan?.entries.find(action => action.uuid === pokemon?.uuid) : null;
+    return entry ? entry.acted : pokemon?.__battle?.lastActionTurn === state?.turn;
+}
 function pendingMove(state, pokemon) {
     const plan = state?.turnActions;
     if (plan?.turn !== state.turn) return null;
     if (pokemon?.__battle?.rechargeMove) return null;
     return plan.entries.find(a => a.uuid === pokemon?.uuid && a.action === 'attack' && !a.acted)?.moveName || null;
 }
-module.exports = { planTurnActions, spendTurnAction, pendingMove };
+module.exports = { planTurnActions, spendTurnAction, pendingMove, hasActedThisTurn };

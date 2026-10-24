@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Bluff après remplacement d’un allié K.O. — 24 octobre 2026
+
+Cas utilisateur reproduit en Aventure : Simiabraz entre après le K.O. d’un allié, Bluff touche, mais Carchacrok de Hoze (ou Libégon de Raph) riposte. L’ancien contrôle `lastActionTurn === state.turn` conservait l’action ayant causé le K.O. : l’orchestrateur peut rouvrir un choix sans avancer le compteur de fin de round. Il prenait donc l’action précédente pour celle du nouveau choix et refusait d’appliquer la peur.
+
+`turnActions.hasActedThisTurn` consulte désormais en priorité l’entrée de la file d’actions actuelle ; le compteur historique reste un repli pour les appels sans file. Le hook d’apeurement commun l’utilise, ce qui couvre Bluff et les autres attaques de peur dans les trois modes. Restriction de Bluff à la première action, PP, priorités, talents protecteurs, Peau Dure et cible ayant réellement déjà agi conservés. Aucun changement d’équilibrage, de carte ni de client.
+
+Reproduction SQL avant correction : quatre échecs, ripostes de 268/188 PV après Bluff. Après correction : 17 tests SQL Bluff réussis, dont douze variantes Simiabraz Brasier/Poing de Fer × Hoze/Raph × entrée initiale/changement volontaire/remplacement après K.O. ; aucune animation d’attaque adverse après la peur. 57 tests ciblés réussis. Suite globale : 966 réussites, 120 ignorés, deux échecs préexistants (attentes de niveaux tardifs et ancien alias `ville1_arene`), également reproduits avec les deux modules d’avant patch. Journaux `/tmp/riftmon-bluff-{ko-before,ko-runtime,ko-tests,ko-suite,baseline-tests,ko-deploy}.log`. Ces nouvelles recettes complètent celles du premier contrôle, qui ne couvraient pas le remplacement après K.O.
+
+Publication serveur seule à 2026-10-24T15:02:39.460Z, PID 1541206, client/build `8117a0e6782764bf` inchangé. Index HTTPS et Knov/api-test vérifiés, aucune expédition active au redémarrage. Sauvegarde `/home/ubuntu/dev/backups/riftmon-bluff-ko-2026-10-24T15-00-32-419Z`.
+
 ## Fluidité de Blanchecime — 24 octobre 2026
 
 Suppression de l’enseigne orange ajoutée à (327,94), à côté de la boutique de Blanchecime. L’éclairage fixe de la ville (teinte, fenêtres, lanternes) est composé une seule fois dans une petite surface 448×320, puis réutilisé ; seule la fumée reste redessinée à chaque pas d’animation. Le cache est libéré au changement de lieu, à la suspension et à la destruction.
@@ -3009,6 +3019,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 24 octobre 2026 — Bluff : riposte après remplacement d’un allié K.O. reproduite et corrigée ; l’apeurement consulte la file courante au lieu d’un ancien marqueur de tour. Douze nouvelles variantes SQL Simiabraz contre Hoze/Raph.
 
 - 24 octobre 2026 — Blanchecime : enseigne orange retirée, éclairage fixe mis en cache, neige regroupée par profondeur sans réduire le nombre de flocons. Recettes `validateSnowPerformanceCanvas.js` et `validateSnowAmbienceBrowser.js`.
 

@@ -66,3 +66,16 @@ for(const mode of ['rift','colosseum'])test(`${mode}: real queue cancels flinche
     const failed=events.find(e=>e.name==='battleMoveResult'&&e.payload.actor==='player');assert.equal(failed.payload.damage,0);assert.equal(failed.payload.blocked,true);
     assert(events.some(e=>e.name==='battleMoveAnimation'&&e.payload.actor==='opponent'));
 }));
+
+test('after a knockout, a fresh action queue overrides the survivor’s previous action marker',()=>fixed(()=>{
+    const {planTurnActions}=require('../server/game/battle/turnActions');
+    for(const alreadyActed of [false,true]) {
+        const a=mon(),b=mon(['Splash']),s=engine.createBattleState();
+        engine.ensureBattleData(b).lastActionTurn=s.turn;
+        planTurnActions(s,[{pokemon:a,action:'attack',moveName:'Fake Out'},{pokemon:b,action:'attack',moveName:'Splash'}]);
+        if(alreadyActed)hit(b,a,s,'Splash');
+        assert(hit(a,b,s).damage>0);
+        assert.equal(Boolean(b.__battle.flinch),!alreadyActed);
+        if(!alreadyActed)assert(hit(b,a,s,'Splash').actionPrevented);
+    }
+}));

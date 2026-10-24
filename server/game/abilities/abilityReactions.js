@@ -1,5 +1,6 @@
 // Event hooks for single battles. Mutations go through the engine's HP/status/item helpers.
 const { getAbilityName, hasAbility, getMoveFlags, ignoresDefenderAbility, isWeatherSuppressed } = require('./abilityEngine');
+const { hasActedThisTurn } = require('../battle/turnActions');
 const { gender } = require('../items/stoneEvolution');
 const traits = require('../../../data/game/ability_move_traits.gen7.json');
 const STATS = { atk:'attack', def:'defense', spa:'specialAttack', spd:'specialDefense', spe:'speed', accuracy:'accuracy', evasion:'evasion' };
@@ -128,7 +129,7 @@ function secondaryEffects(ctx,h,messages) {
         && (ignoresDefenderAbility(a,d)||!hasAbility(d,'Shield Dust')))flinch(d,a,state,messages,h);
 }
 function flinch(p,attacker,state,messages,h) {
-    if(p.__battle.lastActionTurn===state.turn)return;
+    if(hasActedThisTurn(state,p))return;
     const bypassAbility=ignoresDefenderAbility(attacker,p);
     if(!bypassAbility&&hasAbility(p,'Inner Focus')) {
         messages.push(`Attention de ${label(p)} empêche l’apeurement.`);
