@@ -15,7 +15,7 @@ function candidatesForStep(map, direction, x, y, nextMap = null) {
         if (nextMap && gate.nextMap === nextMap) return true;
         const t = gate.tiles;
         return direction === gate.direction && x >= t.x && x < t.x + t.width && y >= t.y && y < t.y + t.height;
-    }).concat(roomObstacles.candidates(map, x, y).map(o => ({...o, message:o.blockedMessage})));
+    }).concat(roomObstacles.candidates(map, x, y).map(o => ({...o, message:o.blockedMessage, messageEn:o.blockedMessageEn})));
 }
 function snapshot(progress = {}) {
     return gates.map(gate => ({

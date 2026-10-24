@@ -8,7 +8,17 @@ test('real sockets: boards block, require nearby action, resist spam, persist pe
  const express=require('express'),{Server}=require('socket.io'),{io:client}=require('../vue-explorakit/node_modules/socket.io-client'),{dbPool:db}=require('../server/config/database');
  const app=express(),server=http.createServer(app),io=new Server(server);app.use(express.json());app.use('/api',require('../server/http/routes'));io.use(require('../server/http/authMiddleware').authenticateSocket);require('../server/realtime/socketHandler')(io);
  const ids=[],sockets=[];let user;
- async function connect(who,y){await db.execute("UPDATE users SET map='route2_maison',x=432,y=? WHERE id=?",[y*32+16,who.user.id]);const s=client(base,{autoConnect:false,auth:{token:who.token},transports:['websocket'],reconnection:false});sockets.push(s);const state=event(s,'storyGatesState');s.connect();return{s,state:await state};}
+ async function connect(who,y){
+  await db.execute("UPDATE users SET map='route2_maison',x=432,y=? WHERE id=?",[y*32+16,who.user.id]);
+  const s=client(base,{autoConnect:false,auth:{token:who.token},transports:['websocket'],reconnection:false});sockets.push(s);
+  const state=event(s,'storyGatesState'),speech=new Promise(resolve=>s.once('dialogue',resolve));s.connect();const snapshot=await state;
+  if(y>=16&&snapshot.gates.find(g=>g.id==='lucie_barricade_1').locked){
+   const intro=await speech;assert.equal(intro[1],'lucie_room_entry');assert.equal(intro[2].entryMap,'route2_maison');
+   let acted=false;s.once('roomObstacleAction',()=>acted=true);s.emit('Space');await pause(80);assert(!acted,'must finish the warning before striking');
+   s.emit('onEndDialogue',intro[1]);await pause(80);
+  }
+  return{s,state:snapshot};
+ }
  async function flags(){const[r]=await db.execute("SELECT flag_key FROM player_story_flags WHERE user_id=? AND flag_key LIKE 'lucie_barricade_%'",[user.user.id]);return r.map(x=>x.flag_key);}
  let base;
  try{
@@ -17,9 +27,9 @@ test('real sockets: boards block, require nearby action, resist spam, persist pe
   user=await create();const other=await create();let {s}=await connect(user,16);let y; s.on('playerMoved',p=>{if(p.id===s.id)y=p.player.y;});
   const blocked=event(s,'storyGateBlocked',p=>p.id==='lucie_barricade_1');s.emit('playerAction','move_z');await blocked;
   s.emit('roomObstacleAction',{active:false,id:'lucie_barricade_1'});s.emit('storyGatesState',{gates:[]});await pause(100);assert.deepEqual(await flags(),[]);
-  const started=event(s,'roomObstacleAction',p=>p.active);const start=Date.now();s.emit('Space');assert.equal((await started).duration,2600);const finished=event(s,'roomObstacleAction',p=>!p.active);
+  const started=event(s,'roomObstacleAction',p=>p.active);const start=Date.now();s.emit('Space');const action=await started;assert.equal(action.duration,2600);assert.deepEqual(action.target,{x:13,y:15});assert.match(action.message,/toutes tes forces/);const finished=event(s,'roomObstacleAction',p=>!p.active);
   for(let i=0;i<12;i++){s.emit('Space');s.emit('playerAction','move_z');}await pause(400);assert.equal(y,undefined);assert.deepEqual(await flags(),[]);
-  await finished;assert(Date.now()-start>=2500);assert.deepEqual(await flags(),['lucie_barricade_1_cleared']);
+  assert.equal((await finished).success,true);assert(Date.now()-start>=2500);assert.deepEqual(await flags(),['lucie_barricade_1_cleared']);
   const moved=event(s,'playerMoved',p=>p.id===s.id&&p.player.y===15*32+16);s.emit('playerAction','move_z');await moved;
   const save=await new Promise(r=>s.emit('requestGameSave',r));assert(save.success);s.disconnect();await pause(100);
   const re=await connect(user,12);s=re.s;assert.equal(re.state.gates.find(g=>g.id==='lucie_barricade_1').locked,false);

@@ -433,6 +433,20 @@ const socketHandler = (io) => {
             socket.emit('progressionState', progression);
             socket.emit('storyGatesState', { gates: storyGates.snapshot(progression) });
         };
+        let roomEntryShown = false;
+        const showRoomEntry = async (progression) => {
+            const player = players[socket.id];
+            if (roomEntryShown || !player || player.currentmap !== 'route2_maison' || player.inbattle || pendingDialogue) return;
+            const progress = progression || await loadProgressState(userId);
+            if (!socket.connected || players[socket.id] !== player || player.inbattle || pendingDialogue) return;
+            const name = require('../game/world/roomObstacles').entryDialogue(player, progress);
+            if (!name) return;
+            const sentence = getSentenceForName(name);
+            if (!sentence) return;
+            roomEntryShown = true;
+            pendingDialogue = createDialogueAuthorization({name, map:player.currentmap, x:Math.floor(player.x/32), y:Math.floor(player.y/32)});
+            socket.emit('dialogue', [...sentence, {entryMap:player.currentmap}]);
+        };
         let lastGateAttempt = 0;
         let lastGateNotice = 0;
 
@@ -443,6 +457,7 @@ const socketHandler = (io) => {
             ]);
             emitPlayerProgression(progression);
             socket.emit('pokedexState', pokedex);
+            await showRoomEntry(progression);
             return { progression, pokedex };
         };
 
@@ -474,6 +489,7 @@ const socketHandler = (io) => {
 
             const oldMap = currentmap;
             currentmap = resolveMapName(destination?.map);
+            if (oldMap !== currentmap) roomEntryShown = false;
             collisionData2D = loadCollisionData(currentmap);
             changemap2D = changeMapData(currentmap);
             battlemap2D = battleMapData(currentmap);
@@ -514,6 +530,8 @@ const socketHandler = (io) => {
             if (saveCheckpoint && currentmap === 'centre') {
                 await savePokemonCenterCheckpoint();
             }
+
+            await showRoomEntry();
 
             return true;
         };
@@ -884,7 +902,9 @@ const socketHandler = (io) => {
 
             const dialogueName = typeof data === 'string' ? data : '';
             const playerTile = getPlayerTilePosition(player);
-            const dialogueIsValid = isDialogueCompletionAllowed(pendingDialogue, {
+            // This entry speech is read-only: a long listening pause must not leave it locked by the reward-dialogue TTL.
+            const readOnlyEntry = pendingDialogue?.name === 'lucie_room_entry' && dialogueName === pendingDialogue.name && player.currentmap === pendingDialogue.map;
+            const dialogueIsValid = readOnlyEntry || isDialogueCompletionAllowed(pendingDialogue, {
                 name: dialogueName,
                 map: player.currentmap,
                 playerX: playerTile.x,

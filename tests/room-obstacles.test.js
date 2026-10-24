@@ -9,7 +9,32 @@ test('clearing remains personal, legacy victory opens the room and both sides ca
  for(const o of room.obstacles){assert(room.isLocked(o,{}));assert(!room.isLocked(o,{flags:{lucie_freed:'true'}}));assert(!room.isLocked(o,{completedNpcBattles:[{battleKey:require('../data/game/progression.json').npcBattles.lucie_route2.battleKey}]}));for(const y of [o.y-1,o.y,o.y+1])assert.equal(room.nearby({currentmap:o.map,x:432,y:y*32+16},{}).id,o.id);assert.equal(room.nearby({currentmap:'start',x:432,y:o.y*32+16},{}),undefined);}
  assert.equal(room.nearby({currentmap:'route2_maison',x:432,y:16*32+16},{flags:{}}).id,'lucie_barricade_1');
 });
-test('wood renderer supports opening, duplicate snapshots and motion preference',async()=>{
+test('crystal renderer supports opening, duplicate snapshots and motion preference',async()=>{
  const {StoryGateRenderer}=await import('../vue-explorakit/src/services/storyGateRenderer.js');const r=new StoryGateRenderer();r.sync(room.snapshot({}));r.work({active:true,id:'lucie_barricade_1'});assert(r.gates.get('lucie_barricade_1').workingAt!==null);
  const open=room.snapshot({flags:{lucie_barricade_1_cleared:'true'}});r.sync(open);r.sync(open);const ctx=new Proxy({},{get:()=>()=>{},set:()=>true});r.draw(ctx,'route2_maison',1000);r.draw(ctx,'route2_maison',2200);assert(!r.gates.get('lucie_barricade_1').opening);r.sync(room.snapshot({}));r.sync(open);r.draw(ctx,'route2_maison',3000,false);assert(!r.gates.get('lucie_barricade_1').opening);r.work(null);assert([...r.gates.values()].every(g=>g.workingAt===null));
+});
+test('entry warning only appears at the entrance before the first barrier, never after a previous victory',()=>{
+ const player={currentmap:'route2_maison',x:432,y:528};
+ assert.equal(room.entryDialogue(player,{}),'lucie_room_entry');
+ assert.equal(room.entryDialogue({...player,currentmap:'start'},{}),null);
+ assert.equal(room.entryDialogue({...player,y:208},{}),null);
+ for(const flags of [{lucie_freed:'true'},{lucie_barricade_1_cleared:'true'}])assert.equal(room.entryDialogue(player,{flags}),null);
+ assert.equal(room.entryDialogue(player,{completedNpcBattles:[{battleKey:require('../data/game/progression.json').npcBattles.lucie_route2.battleKey}]}),null);
+ const dialogue=require('../server/game/world/interactionRepository');
+ assert.match(dialogue.getSentenceForName('lucie_room_entry')[0][0].text,/n’entre pas/);
+ assert.equal(dialogue.getEndSentenceInformation('lucie_room_entry'),undefined,'read-only dialogue cannot award a reward or launch a battle');
+});
+test('strike anticipation, hit feedback and actor pose share the same three timestamps and honor reduced motion',async()=>{
+ const {STRIKE_TIMES,strikeState,roomStrikePose}=await import('../vue-explorakit/src/services/roomObstacleRenderer.js');
+ const action={active:true,startedAt:1000,origin:{x:432,y:528},target:{x:13,y:15}};
+ assert.equal(strikeState(action,1000).hits,0);
+ for(const [i,t]of STRIKE_TIMES.entries()){
+  assert.equal(strikeState(action,1000+t-1).hits,i);
+  assert.equal(strikeState(action,1000+t).hits,i+1);
+  assert.equal(roomStrikePose(action,1000+t,true).y,-8);
+  assert.equal(Math.abs(roomStrikePose(action,1000+t,false).y),0);
+ }
+ assert.equal(roomStrikePose({...action,origin:{x:432,y:464}},1550,true).y,8,'strikes also face barriers approached from above');
+ assert.deepEqual(roomStrikePose(null,1550),{x:0,y:0});
+ assert.equal(strikeState({...action,active:false},1550).impact,0);
 });

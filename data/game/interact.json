@@ -2070,6 +2070,26 @@
     ]
   },
   {
+    "name": "lucie_room_entry",
+    "sentences": [
+      {
+        "text": "Lucie : Non… n’entre pas ! Pars, je t’en supplie ! Je… je ne veux pas te faire de mal.",
+        "imageName": "lucie-v1.png",
+        "typewriterMs": 55
+      },
+      {
+        "text": "Des cristaux sombres barrent le passage. Derrière eux, Lucie recule et serre sa Poké Ball. Tu refuses de la laisser seule.",
+        "imageName": "lucie-v1.png",
+        "typewriterMs": 42
+      },
+      {
+        "text": "Approche-toi des cristaux et appuie sur Action pour les briser.",
+        "imageName": "lucie-v1.png",
+        "typewriterMs": 35
+      }
+    ]
+  },
+  {
     "name": "lucie_route2",
     "sentences": [
       {
