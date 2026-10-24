@@ -1,5 +1,17 @@
 # Audit technique et mémoire de RiftMon
 
+## Centres Pokémon — intérieur pixelisé et thème dédié — 24 octobre 2026
+
+Les sept entrées de Centres partagent le nouveau décor `centre.png`, généré avec imagegen en reprenant le langage pixelisé de la chambre de Lucie : murs crème/corail, sol ardoise, machine de soin, bancs latéraux et allée centrale libre. Export au plus proche voisin en 448×320. Prompt exact, source et coordonnées dans `docs/CENTER_SCENE_ASSETS.json`. L’ancienne infirmière intégrée à l’image est remplacée par un PNJ immobile issu de l’atlas classique 6931, en (10,8), avec le dialogue/soin serveur existant. Le PC reste à sa case (17,8), aligné visuellement dans son alcôve sans déplacer son interaction.
+
+Collisions recadrées sur les murs/meubles, vide extérieur fermé, anciens déclencheurs de soin invisibles retirés. Les sept entrées arrivent maintenant à l’intérieur, en (13,14), avant les deux cases de sortie existantes ; deux anciennes portes arrivaient directement sur la sortie. Respawn après défaite et provenance personnelle de chaque Centre conservés. Sauvegardes hors de la nouvelle surface récupérées par le mécanisme existant de position sûre. Le JSON Tiled référence le nouveau décor au lieu des anciennes tuiles visuelles ; calques techniques conservés. Aucun changement de Pokémon, objets, boîtes ou progression.
+
+`pourtoi/center.mp3` copié à l’octet dans les ressources client (2 min 05,8 s), sans supprimer l’original. Thème exclusif au Centre, bouclé à 22 % du volume principal, intégré au contrôleur partagé : sourdine, pause/onglet masqué, arrêt en sortant et reprise de la musique de ville. Un retour depuis un autre thème redémarre le morceau selon la règle déjà demandée.
+
+Validation : 15 tests ciblés réussis (accès, sorties, anciennes positions, musique et cycle de vie) ; intégration SQL/Socket réelle des sept entrées, reconnexion, redémarrage, provenance individuelle et respawn ; `scripts/validateCenterBrowser.js` sur base dédiée, soins PV/statut/PP et dépôts/retraits PC en Aventure puis Colosseum, retour à Blanchecime, lecture audio réelle. Rendus 320/393/1365 px inspectés, aucune erreur navigateur. Lint/build réussis. Journaux et captures `/tmp/riftmon-center-*`. Pas de test sur téléphone physique revendiqué.
+
+Publication à 21 h 58 (Paris), client `d78e9318ffe1b6f96e1452f7b500aa667c96a6d3`, build `7ccdb34b93825a9b`. Serveur PID 1570614 actif sans redémarrage automatique, aucune expédition active lors de la reprise. Index, texture et musique HTTPS vérifiés à l’octet ; Knov/api-test inchangés. Sauvegarde sources serveur, index précédent et checkpoint : `/home/ubuntu/dev/backups/riftmon-center-2026-10-24T19-57-33-117Z`. Aucune migration SQL.
+
 ## Son du bouton Action réduit — 24 octobre 2026
 
 Le son de validation/défilement des dialogues (bouton A, Espace ou appui sur le texte) reçoit désormais 50 % du volume précédent, via le composant de monde commun aux trois modes. Le volume principal et le mode muet continuent de s’appliquer. Musiques et sons de combat inchangés.
@@ -3161,6 +3173,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 24 octobre 2026 — Centres Pokémon refaits dans la DA pixelisée, infirmière/PC intégrés et `center.mp3` dédié. Collisions et sept retours vérifiés, soins et stockage validés en navigateur ; publication sans migration.
 
 - 24 octobre 2026 — Son du bouton Action réduit de moitié dans les trois modes ; volume principal/muet conservés, publication client seule vérifiée.
 

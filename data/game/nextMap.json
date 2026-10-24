@@ -310,7 +310,7 @@
           "valY": 8,
           "goto": "centre",
           "nexX": 416,
-          "nexY": 512
+          "nexY": 480
         },
         {
           "valX": 20,
@@ -571,7 +571,7 @@
           "valY": 3,
           "goto": "centre",
           "nexX": 416,
-          "nexY": 512
+          "nexY": 480
         },
         {
           "valX": null,

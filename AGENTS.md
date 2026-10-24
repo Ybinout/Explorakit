@@ -1,5 +1,17 @@
 # Contexte permanent — RiftMon
 
+## Centres Pokémon — intérieur pixelisé et thème dédié — 24 octobre 2026
+
+Les sept entrées de Centres partagent le nouveau décor `centre.png`, généré avec imagegen en reprenant le langage pixelisé de la chambre de Lucie : murs crème/corail, sol ardoise, machine de soin, bancs latéraux et allée centrale libre. Export au plus proche voisin en 448×320. Prompt exact, source et coordonnées dans `docs/CENTER_SCENE_ASSETS.json`. L’ancienne infirmière intégrée à l’image est remplacée par un PNJ immobile issu de l’atlas classique 6931, en (10,8), avec le dialogue/soin serveur existant. Le PC reste à sa case (17,8), aligné visuellement dans son alcôve sans déplacer son interaction.
+
+Collisions recadrées sur les murs/meubles, vide extérieur fermé, anciens déclencheurs de soin invisibles retirés. Les sept entrées arrivent maintenant à l’intérieur, en (13,14), avant les deux cases de sortie existantes ; deux anciennes portes arrivaient directement sur la sortie. Respawn après défaite et provenance personnelle de chaque Centre conservés. Sauvegardes hors de la nouvelle surface récupérées par le mécanisme existant de position sûre. Le JSON Tiled référence le nouveau décor au lieu des anciennes tuiles visuelles ; calques techniques conservés. Aucun changement de Pokémon, objets, boîtes ou progression.
+
+`pourtoi/center.mp3` copié à l’octet dans les ressources client (2 min 05,8 s), sans supprimer l’original. Thème exclusif au Centre, bouclé à 22 % du volume principal, intégré au contrôleur partagé : sourdine, pause/onglet masqué, arrêt en sortant et reprise de la musique de ville. Un retour depuis un autre thème redémarre le morceau selon la règle déjà demandée.
+
+Validation : 15 tests ciblés réussis (accès, sorties, anciennes positions, musique et cycle de vie) ; intégration SQL/Socket réelle des sept entrées, reconnexion, redémarrage, provenance individuelle et respawn ; `scripts/validateCenterBrowser.js` sur base dédiée, soins PV/statut/PP et dépôts/retraits PC en Aventure puis Colosseum, retour à Blanchecime, lecture audio réelle. Rendus 320/393/1365 px inspectés, aucune erreur navigateur. Lint/build réussis. Journaux et captures `/tmp/riftmon-center-*`. Pas de test sur téléphone physique revendiqué.
+
+Publication à 21 h 58 (Paris), client `d78e9318ffe1b6f96e1452f7b500aa667c96a6d3`, build `7ccdb34b93825a9b`. Serveur PID 1570614 actif sans redémarrage automatique, aucune expédition active lors de la reprise. Index, texture et musique HTTPS vérifiés à l’octet ; Knov/api-test inchangés. Sauvegarde sources serveur, index précédent et checkpoint : `/home/ubuntu/dev/backups/riftmon-center-2026-10-24T19-57-33-117Z`. Aucune migration SQL.
+
 ## Cycle jour/nuit partagé — 24 octobre 2026
 
 Cycle visuel réel de 24 heures pour les extérieurs des trois modes : aube de 6 h à 8 h, jour de 8 h à 18 h, crépuscule de 18 h à 21 h, nuit de 21 h à 6 h, heure Europe/Paris (été/hiver automatique). Les courbes interpolées ont une pente nulle aux raccords ; aucun changement brutal aux seuils, à minuit ou au changement d’heure. `server/realtime/worldClock.js` fournit l’heure sur les deux espaces Socket, sans minuterie serveur ni réglage joueur. Le client compense le trajet réseau, progresse sur une horloge monotone et se resynchronise à la connexion, au retour de l’onglet et toutes les cinq minutes. Les réponses tardives après destruction sont ignorées. Le suivi de synchronisation et le rendu ne modifient aucune sauvegarde ni règle de jeu.

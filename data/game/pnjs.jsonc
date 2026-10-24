@@ -1061,6 +1061,21 @@
         "index": 7
       },
       "roamRadius": 0
+    },
+    {
+      "name": "infirmiere_centre",
+      "interactionName": "centre",
+      "map": "centre",
+      "x": 10,
+      "y": 8,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 0
+      },
+      "roamRadius": 0
     }
   ]
 }

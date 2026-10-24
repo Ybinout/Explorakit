@@ -21,7 +21,7 @@ function event(socket, name, predicate = () => true) {
     });
 }
 
-test('Centre partagé : deux joueurs, reconnexion, redémarrage, nouvelle entrée et défaite gardent le bon retour', {
+test('Centre partagé : sept origines, reconnexion, redémarrage, nouvelle entrée et défaite gardent le bon retour', {
     skip: process.env.RUN_MYSQL_TESTS !== '1', timeout: 45000
 }, async () => {
     const testDatabase = process.env.DB_TEST_NAME || `${process.env.DB_NAME}_test`;
@@ -76,10 +76,9 @@ test('Centre partagé : deux joueurs, reconnexion, redémarrage, nouvelle entré
         const socket = account.socket;
         const response = changesMap ? event(socket, 'newmap') : event(socket, 'playerMoved', payload => payload.id === socket.id);
         socket.emit('playerAction', action);
-        return response;
+        return response.catch(error => { throw new Error(`${account.origin.map} / ${action} / transition=${changesMap}: ${error.message}`); });
     }
     async function exit(account, expected) {
-        if(!['gen_ville5','ville3','ville4'].includes(expected.map))await move(account, 'move_z');
         const result = await move(account, 'move_s', true);
         const player = result.playersList[account.socket.id];
         assert.deepEqual({ map: result.mapname, x: player.x, y: player.y }, expected);
@@ -87,7 +86,7 @@ test('Centre partagé : deux joueurs, reconnexion, redémarrage, nouvelle entré
     }
     try {
         await start();
-        for (const [index, map, x, y] of [[0, 'ville1', 496, 304], [1, 'route4', 720, 144], [2, 'gen_ville5', 560, 272], [3, 'ville3', 752, 240], [4, 'ville4', 144, 304]]) {
+        for (const [index, map, x, y] of [[0, 'ville1', 496, 304], [1, 'route4', 720, 144], [2, 'gen_ville5', 560, 272], [3, 'ville3', 752, 240], [4, 'ville4', 144, 304], [5, 'ville5', 144, 240], [6, 'ville_commerciale', 144, 304]]) {
             const response = await fetch(`${url}/api/users`, {
                 method: 'POST', headers: { 'content-type': 'application/json' },
                 body: JSON.stringify({ username: `center_${Date.now()}_${index}`, password: 'center-test-password', starterId: 7 })
@@ -101,7 +100,7 @@ test('Centre partagé : deux joueurs, reconnexion, redémarrage, nouvelle entré
             assert.equal((await move(account, 'move_z', true)).mapname, 'centre');
             await save(account);
         }
-        // Players from all five entrances share one interior, but their origins must survive a process restart.
+        // Players from all seven entrances share one interior, but their origins must survive a process restart.
         accounts.forEach(account => account.socket.disconnect());
         await stop();
         await start();

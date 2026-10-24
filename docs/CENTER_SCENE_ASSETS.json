@@ -1,0 +1,58 @@
+{
+  "date": "2026-10-24",
+  "tool": "image_gen.imagegen (built-in)",
+  "asset": "vue-explorakit/src/assets/centre.png",
+  "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-7100e1f5-a708-485f-93ec-6bcaa8717b9e.png",
+  "references": [
+    "vue-explorakit/src/assets/route2_maison.png",
+    "previous vue-explorakit/src/assets/centre.png at cceff26791f6683b13dd6397fb1c73ab38617cbb"
+  ],
+  "export": "448x320 PNG, nearest-neighbor canvas resize; final geometry aligned to delivered art, not assumed from prompt",
+  "music": {
+    "source": "/home/ubuntu/dev/pourtoi/center.mp3",
+    "asset": "vue-explorakit/src/assets/msc/center.mp3",
+    "processing": "Copied byte-for-byte; shared music controller volume ×0.22, loop, pause/mute/cleanup"
+  },
+  "layout": {
+    "tileSize": 16,
+    "roomPixels": [
+      96,
+      54,
+      256,
+      208
+    ],
+    "nurseTile": [
+      10,
+      8
+    ],
+    "nurseApproach": [
+      10,
+      9
+    ],
+    "pcTile": [
+      17,
+      8
+    ],
+    "pcVisualOffsetWorldX": 8,
+    "pcApproach": [
+      17,
+      9
+    ],
+    "entryTile": [
+      13,
+      14
+    ],
+    "exitTiles": [
+      [
+        13,
+        15
+      ],
+      [
+        14,
+        15
+      ]
+    ],
+    "note": "Nurse uses existing 6931 classic sprite atlas, PC uses existing canvas art; neither is baked into the background. All seven entrances use the shared map. Outside void and furniture are blocked; exit and personalized city return preserved."
+  },
+  "prompt": "Use case: stylized-concept / game map texture.\nCreate a redesigned Pokemon healing CENTER INTERIOR for the attached pixel-art RPG. Reference 1 is the current bedroom: match its SIMPLE crisp handheld pixel clusters, modest object detail and top-down tile-map viewpoint, not its dark story mood. Reference 2 is the obsolete tiny center: functional identity only, DO NOT retain its small room, checkerboard clutter or baked-in nurse.\nOUTPUT a 7:5 landscape complete MAP TEXTURE with black void outside, equivalent to a real 448x320 pixel canvas enlarged cleanly. Orthographic overhead classic 2004 handheld RPG perspective, not isometric and not a cinematic room illustration. All coordinates below refer to the 448x320 logical canvas.\nRoom outer footprint EXACTLY x96..351, y32..255. North wall band y32..63 with cream panels, coral trim and a small tasteful red/white healing emblem centered high. Floor x112..335 y64..239: simple broad desaturated blue-gray floor tiles, limited flat shading, calm and readable. Bottom wall at y240..255, open exit EXACTLY x208..239 y240..255. A small muted coral entrance rug x208..239 y208..239 leads straight into the clear central aisle.\nReception on upper LEFT: a compact healing machine with six small red-and-white ball sockets at x144..207 y80..111. A waist-high CORAL and CREAM reception counter extends at x128..223 y112..143, but has an OPEN 16x16 notch at x144..159 y128..143 where the game will place its nurse sprite. Keep that nurse spot visibly empty: NO drawn people. The nurse will stand facing downward at pixel152,136, reachable from empty floor immediately south at x144..159 y144..159. Counter must not extend onto that approach.\nUpper RIGHT a quiet computer alcove around x256..303 y112..143. Leave the exact 16x24 rectangle x272..287 y120..143 EMPTY, unobstructed flat floor/wall backing: the game will render the working computer itself there. Do not draw a second PC or computer screen. A small storage cabinet may sit behind this area at x288..319 y80..111.\nComfortable waiting benches only in two narrow side strips x112..127 y176..207 and x320..335 y176..207; empty middle aisle between them. Two small potted plants can be in the rear corners x112..127 y64..95 and x320..335 y64..95. The entire floor x128..319 y144..239 MUST stay open and walkable, except the FLAT entrance rug. No central tables, seats, plants, huge symbols, rug obstacles, or extra furniture in that area.\nClear welcoming lighting, warm cream walls and muted coral accents with slate-blue floor, restrained wood trim. Same clean restrained pixelated craftsmanship as bedroom reference, but brighter and restful like a proper medical center. Limited color ramps, chunky square pixels, dark simple object outlines, no fine wallpaper, no woodgrain noise, no gradients, no photorealism, no over-detailed painting, no lettering/text or UI. No people/creatures, NO nurse baked into background, NO computer painted in its reserved area. Preserve every coordinate proportion and the 7:5 full canvas with black surrounding void."
+}
