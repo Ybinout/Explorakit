@@ -1,5 +1,17 @@
 # Audit technique et mémoire de RiftMon
 
+## Ana — feuillages vivants et oiseaux derrière les vitres — 25 octobre 2026
+
+Les quatorze plantes fleuries et quatre lierres de l’arène de Clairfontaine ondulent maintenant à des rythmes décalés. `anaArena.js` extrait leurs vrais pixels à l’intérieur de silhouettes définies sur le décor ; les encadrements verts, pierres, pots, motifs peints au sol et bannières restent fixes. Seuils adaptés aux lierres éclairés par les lanternes et fleurs conservées avec leurs feuilles. Les zones complexes au voisinage des vitres et pointes de drapeaux ont des contours précis. Une réparation locale du fond sous les anciens pixels évite le dédoublement : aucune translation de rectangle de mur ni du foreground entier. Les racines restent ancrées ; déplacement horizontal maximal trois pixels sur le calque 896×640.
+
+Trois petites formations de trois/deux/deux oiseaux passent à des hauteurs différentes, avec battements d’ailes, léger mouvement vertical et sens alternés. Ils sont découpés par un masque extrait du ciel dans la grande verrière et les quatre ouvertures latérales ; cadres, emblème de la vitre et végétation extérieure masquent leur passage. Aucun oiseau dans la salle. Les 49 étoiles blanches/bleues gardent exactement leurs positions et fondus : méthode `drawAnaStars` extraite sans modification des pixels, parité avec vingt images de la référence client `c39d5ab293032870cac85345d20534468047ce9d`.
+
+Préparation des textures/masques sur une surface de lecture jetable, pas de lecture/reconstruction des pixels à chaque image. Peinture 20 Hz réutilisant le cache existant, lignes de feuilles regroupées par décalage identique, aucune nouvelle boucle ni minuterie. Surfaces toutes libérées à la suspension (combat, onglet masqué, changement de carte). Mouvement réduit : végétation source immobile et oiseaux absents, étoiles fixes comme précédemment. Rendu commun Aventure/Rift/Colosseum. Aucun PNG/Tiled, collision, dialogue, météo, musique, serveur ou SQL modifié. Les anciennes recettes de parité globale doivent prendre ce nouveau rendu d’Ana comme référence ; la parité de ses étoiles est contrôlée séparément.
+
+Validation : `scripts/validateAnaArenaCanvas.js` étendu au vrai Canvas et au vrai décor. Les 18 zones bougent (762–1 826 pixels changés selon zone), zéro débordement, zéro pixel d’effet sur les zones d’architecture protégées, zéro oiseau hors ciel. Masque de 10 809 pixels ; oiseaux visibles sur 29 des 40 phases contrôlées. Vingt images d’étoiles strictement identiques, zéro octet différent ; mouvements réduits, cadence/cache et libération validés. Peinture indicative locale ~0,54 ms hors compositage final, pas une promesse de cadence sur téléphone. Lint/build `e5421c9197322e4a`, syntaxe/diff réussis. Recette `ARENA_DECOR=ana RELEASE_DIST_DIR=/tmp/riftmon-ana-living-dist node --env-file=.env scripts/validateHozeArenaBrowser.js` : 320/393/844/1365, animation, mouvement réduit, onglet caché, masquage par la présentation de combat et changement de carte validés, zéro erreur. Compte jetable `explorakit_test` supprimé ; captures salle/mobile inspectées, aucun téléphone physique. Preuves/config/commandes : `docs/ANA_LIVING_ARENA.json`, journaux `/tmp/riftmon-ana-living-*`.
+
+Publication statique 2026-10-25T19:24:01.597Z, client `74e3a8793679f60a758693a15c06681c813c05b5`, build `e5421c9197322e4a`. Index/bundles HTTPS vérifiés à l’octet ; anciens bundles conservés, index remplacé atomiquement. PID 1697717 conservé, aucun redémarrage ; Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-ana-living-2026-10-25T19-24-00-215Z`. Recharger le jeu.
+
 ## Raph — accueil historique rétabli — 25 octobre 2026
 
 À la demande du créateur, la phrase d’entrée redevient exactement : « Raphael : Bienvenue. Observe bien le terrain : la précipitation ne mène jamais très loin. » Aucun avertissement sur un jeu ou une poursuite : le joueur découvre les téléportations. Seul ce texte de `data/game/arena_scenes.json` change ; comparaison complète du JSON avec la référence `e211cfa149789edbe6f35461b9b66266802534f5` identique. Parcours personnel à quatre téléportations, dialogues suivants et états sauvegardés conservés. Cette correction remplace l’accueil explicatif décrit dans la livraison de la poursuite ci-dessous.
@@ -3738,6 +3750,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 25 octobre 2026 — Ana : 14 plantes et quatre lierres animés localement, oiseaux derrière les vitres, architecture fixe et étoiles identiques sur vingt images ; quatre formats, cache/nettoyage et publication statique validés. Détails en tête et `docs/ANA_LIVING_ARENA.json`.
 
 - 25 octobre 2026 — Raph : accueil historique restauré mot pour mot pour préserver la surprise des téléportations ; tests d’entrée et publication serveur vérifiés. Détails en tête.
 

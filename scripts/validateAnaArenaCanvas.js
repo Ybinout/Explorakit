@@ -1,28 +1,38 @@
-// Fixed sparkle anchors, blue/white palettes, fades, confinement and disposal.
+// Real Canvas: isolated foliage, glass-masked birds, original stars and cleanup.
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
 const express=require('express'),{chromium}=require('playwright');
-const out=process.env.RELEASE_SCREENSHOTS||'/tmp/riftmon-ana-stars-canvas';fs.mkdirSync(out,{recursive:true});
-(async()=>{const app=express();app.use(express.static(path.resolve(__dirname,'../vue-explorakit/src')));const server=app.listen(0,'127.0.0.1');await new Promise(r=>server.once('listening',r));let browser;
+const out=process.env.RELEASE_SCREENSHOTS||'/tmp/riftmon-ana-living-canvas';fs.mkdirSync(out,{recursive:true});
+(async()=>{const app=express();if(process.env.ANA_STAR_BASELINE_SERVICE)app.get('/ana-before.js',(_q,r)=>r.type('application/javascript').send(fs.readFileSync(process.env.ANA_STAR_BASELINE_SERVICE,'utf8')));app.use(express.static(path.resolve(__dirname,'../vue-explorakit/src')));const server=app.listen(0,'127.0.0.1');await new Promise(r=>server.once('listening',r));let browser;
 try{browser=await chromium.launch({headless:true,args:['--no-sandbox']});const page=await browser.newPage({viewport:{width:896,height:640}});await page.goto(`http://127.0.0.1:${server.address().port}/services/anaArena.js`);
-await page.evaluate(async()=>{document.body.innerHTML='<canvas width="896" height="640"></canvas>';document.body.style='margin:0;background:#0d1722;overflow:hidden';window.h=await import('/services/anaArena.js');window.a=await import('/services/placeAmbience.js');window.r=new h.AnaArenaRenderer();window.source=new Image();source.src='/assets/ville3_arene.png';await source.decode();window.c=document.querySelector('canvas').getContext('2d');c.imageSmoothingEnabled=false;window.render=(t,motion=true)=>{c.drawImage(source,0,0,896,640);r.draw(c,source,t,motion);};});
+await page.evaluate(async baseline=>{document.body.innerHTML='<canvas width="896" height="640"></canvas>';document.body.style='margin:0;background:#0d1722;overflow:hidden';window.h=await import('/services/anaArena.js');window.a=await import('/services/placeAmbience.js');window.r=new h.AnaArenaRenderer();window.source=new Image();source.src='/assets/ville3_arene.png';await source.decode();window.c=document.querySelector('canvas').getContext('2d');c.imageSmoothingEnabled=false;window.render=(t,motion=true)=>{c.drawImage(source,0,0,896,640);r.draw(c,source,t,motion);};if(baseline){const old=await import('/ana-before.js');window.before=new old.AnaArenaRenderer();}},Boolean(process.env.ANA_STAR_BASELINE_SERVICE));
 const checks=await page.evaluate(()=>{
- let escaped=0,white=0,blue=0,minActive=Infinity,maxActive=0;const minimum=h.ANA_STARS.map(()=>255),maximum=h.ANA_STARS.map(()=>0);
- for(let t=0;t<20000;t+=250){render(t);const pixels=r.context.getImageData(0,0,896,640).data;let active=0;
-  for(let i=0;i<h.ANA_STARS.length;i++){const[x,y]=h.ANA_STARS[i],alpha=pixels[((y*2)*896+x*2)*4+3];minimum[i]=Math.min(minimum[i],alpha);maximum[i]=Math.max(maximum[i],alpha);if(alpha)active++;}
-  minActive=Math.min(minActive,active);maxActive=Math.max(maxActive,active);
-  for(let y=0;y<640;y++)for(let x=0;x<896;x++){const j=(y*896+x)*4;if(!pixels[j+3])continue;
-   if(!h.ANA_STARS.some(([sx,sy])=>x>=(sx-3)*2&&x<(sx+4)*2&&y>=(sy-3)*2&&y<(sy+4)*2))escaped++;
-   if(pixels[j]>230&&pixels[j+1]>240&&pixels[j+2]>245)white++;
-   if(pixels[j]<160&&pixels[j+1]>170&&pixels[j+2]>240)blue++;
-  }
+ render(0);const allowed=new Uint8Array(896*640),starMask=new Uint8Array(896*640),groups=[];
+ for(const[x,y]of h.ANA_STARS)for(let yy=(y-3)*2;yy<(y+4)*2;yy++)for(let xx=(x-3)*2;xx<(x+4)*2;xx++){allowed[yy*896+xx]=1;starMask[yy*896+xx]=1;}
+ for(const f of r.foliage){const d=f.texture.getContext('2d').getImageData(0,0,f.w,f.h).data,indices=[];for(let y=0;y<f.h;y++)for(let x=0;x<f.w;x++)if(d[(y*f.w+x)*4+3]){const i=(f.y+y)*896+f.x+x;indices.push(i);for(let dx=-3;dx<=3;dx++)allowed[i+dx]=1;}groups.push(indices);}
+ const skyMask=r.skyMask.getContext('2d').getImageData(0,0,r.skyMask.width,r.skyMask.height).data;
+ for(let y=0;y<r.skyMask.height;y++)for(let x=0;x<r.skyMask.width;x++)if(skyMask[(y*r.skyMask.width+x)*4+3])allowed[y*896+x+24]=1;
+ const stars=document.createElement('canvas');stars.width=896;stars.height=640;const sc=stars.getContext('2d');let escaped=0,skyEscaped=0,skyLit=0,visibleBirdFrames=0,starParityImages=0,starParityDifferingBytes=0,architecturePixels=0;
+ const first=new Uint8ClampedArray(c.getImageData(0,0,896,640).data),moving=groups.map(()=>0),min=h.ANA_STARS.map(()=>255),max=h.ANA_STARS.map(()=>0);
+ const architectureSamples=[];// The blue notch at x=222 is glass beside the crest, not its solid stem.
+ const protectedAreas=[[138,57,12,7],[298,57,12,7],[39,83,17,12],[392,83,17,12],[26,108,6,12],[415,108,6,12],[223,8,2,23],[180,135,90,90]];
+ for(let n=0;n<40;n++){
+  const t=n*500;render(t);const effect=r.context.getImageData(0,0,896,640).data,final=c.getImageData(0,0,896,640).data;
+  for(let i=0;i<allowed.length;i++)if(effect[i*4+3]&&!allowed[i])escaped++;
+  for(const[l,top,w,h]of protectedAreas)for(let y=top*2;y<(top+h)*2;y++)for(let x=l*2;x<(l+w)*2;x++){const i=y*896+x;if(!starMask[i]&&effect[i*4+3]){architecturePixels++;if(architectureSamples.length<8)architectureSamples.push({x:x/2,y:y/2,t});}}
+  for(let g=0;g<groups.length;g++){let count=0;for(const i of groups[g])if(!starMask[i]&&(first[i*4]!==final[i*4]||first[i*4+1]!==final[i*4+1]||first[i*4+2]!==final[i*4+2]))count++;moving[g]=Math.max(moving[g],count);}
+  const birds=r.sky.getContext('2d').getImageData(0,0,r.sky.width,r.sky.height).data;let lit=0;for(let i=3;i<birds.length;i+=4)if(birds[i]){lit++;if(!skyMask[i])skyEscaped++;}skyLit+=lit;if(lit)visibleBirdFrames++;
+  sc.clearRect(0,0,896,640);h.drawAnaStars(sc,t,true);const pixels=sc.getImageData(0,0,896,640).data;
+  for(let i=0;i<h.ANA_STARS.length;i++){const[x,y]=h.ANA_STARS[i],alpha=pixels[((y*2)*896+x*2)*4+3];min[i]=Math.min(min[i],alpha);max[i]=Math.max(max[i],alpha);}
+  if(window.before&&n<20){before.draw({drawImage(){}},source,t);const previous=before.context.getImageData(0,0,896,640).data;for(let i=0;i<pixels.length;i++)if(previous[i]!==pixels[i])starParityDifferingBytes++;starParityImages++;}
  }
- const allFade=minimum.every(n=>n===0)&&maximum.every(n=>n>180);
  render(21000,false);const fixed=r.canvas.toDataURL(),frames=r.frames;render(23000,false);const reduced=fixed===r.canvas.toDataURL()&&frames===r.frames;
- render(24000);const before=r.frames;render(24001);const throttled=r.frames===before;
- const start=performance.now();for(let n=0;n<200;n++)r.paint(n*50,true);const averagePaintMs=(performance.now()-start)/200;
- const surface=r.canvas;r.suspend();const released=surface.width===0&&!r.canvas;
+ // In reduced motion the original plants remain untouched, only fixed stars show.
+ const reducedPixels=r.context.getImageData(0,0,896,640).data;let reducedFoliagePixels=0;for(let i=0;i<allowed.length;i++)if(reducedPixels[i*4+3]&&!starMask[i])reducedFoliagePixels++;
+ render(24000);const beforeFrames=r.frames;render(24001);const throttled=r.frames===beforeFrames;
+ const start=performance.now();for(let n=0;n<160;n++)r.paint(n*50,true);const averagePaintMs=(performance.now()-start)/160;
+ const surfaces=[r.canvas,r.sky,r.skyMask,r.repair,...r.foliage.map(f=>f.texture)],foliage=r.foliage.map((f,i)=>({id:f.id,pixels:f.pixels,movingPixels:moving[i]})),skyPixels=r.skyPixels;r.suspend();window.before?.suspend();const released=surfaces.every(c=>c.width===0)&&!r.canvas&&!r.foliage.length;
  const ambience=new a.PlaceAmbienceRenderer();ambience.drawGround(c,source,h.ANA_MAP,1000,true);const old=ambience.ana.canvas;ambience.drawGround(c,source,'start',1000,true);const isolated=!ambience.ana.canvas&&old.width===0;ambience.destroy();
- return{stars:h.ANA_STARS.length,escaped,white,blue,minActive,maxActive,allFade,reduced,throttled,released,isolated,averagePaintMs};
-});assert.equal(checks.stars,49);assert.equal(checks.escaped,0);assert(checks.white>500);assert(checks.blue>500);assert(checks.minActive>10);assert(checks.maxActive<49);for(const k of ['allFade','reduced','throttled','released','isolated'])assert(checks[k],k);
+ return{stars:h.ANA_STARS.length,allFade:min.every(n=>n===0)&&max.every(n=>n>180),foliage,escaped,architecturePixels,architectureSamples,skyPixels,skyEscaped,skyLit,visibleBirdFrames,starParityImages,starParityDifferingBytes,reduced,reducedFoliagePixels,throttled,released,isolated,averagePaintMs};
+});fs.writeFileSync(path.join(out,'checks.json'),JSON.stringify(checks,null,2));assert.equal(checks.stars,49);assert.equal(checks.foliage.length,18);assert(checks.foliage.every(f=>f.pixels>150&&f.movingPixels>20));assert.equal(checks.escaped,0);assert.equal(checks.architecturePixels,0);assert.equal(checks.skyEscaped,0);assert(checks.skyPixels>3000);assert(checks.skyLit>200);assert(checks.visibleBirdFrames>12);assert.equal(checks.starParityDifferingBytes,0);assert.equal(checks.reducedFoliagePixels,0);for(const k of ['allFade','reduced','throttled','released','isolated'])assert(checks[k],k);
 for(const t of [0,1500,3500,6000]){await page.evaluate(t=>render(t),t);await page.screenshot({path:path.join(out,`ana-${t}.png`)});}fs.writeFileSync(path.join(out,'checks.json'),JSON.stringify(checks,null,2));console.log(JSON.stringify(checks));
 }finally{await browser?.close();await new Promise(r=>server.close(r));}})().catch(e=>{console.error(e.stack);process.exitCode=1});
