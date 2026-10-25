@@ -1,0 +1,12 @@
+{
+  "mode": "Built-in imagegen edit",
+  "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-b09273a8-8983-4d55-a9a7-5b0e9c1cc1a5.png",
+  "reference": "vue-explorakit/src/assets/image/a.png",
+  "destination": "vue-explorakit/src/assets/image/wayne-eyepatch-v1.png",
+  "prompt": "Use case: precise-object-edit. Edit target: the supplied black-and-white manga portrait of Wayne, the young boy holding a ball toward the viewer. Add a single small, opaque black fabric eyepatch covering ONE of his eyes, with a thin strap that follows the face naturally and disappears beneath his hair. Keep the other eye fully visible. Make the eyepatch readable in a small game dialogue portrait. Preserve the exact same character identity, friendly expression, black spiky hairstyle, pose, raised hand and ball, outfit, framing, manga ink lines, monochrome halftones, and transparent background. This is a minimal localized addition to the original illustration, not a redesign. No writing, no added accessories except the eyepatch, no additional characters, no background. Preserve original transparency.",
+  "export": "Native Canvas, proportional downscale to 512 px wide, high-quality resampling, PNG with original generated alpha.",
+  "width": 512,
+  "height": 512,
+  "sha256": "d08e7d2a8a1cf756f9c1dfbbe4e171ce6021db1934306740178ae8d7f3d18c4a",
+  "bytes": 393466
+}

@@ -1,5 +1,17 @@
 # Contexte permanent — RiftMon
 
+## Wayne — portrait noir et blanc avec cache-œil — 25 octobre 2026
+
+Ajout d’un cache-œil noir sur un seul œil du portrait manga original `image/a.png`, via imagegen intégré. Autre œil, identité, pose, ball, tenue et transparence conservés visuellement. Export PNG proportionnel 512×512 (393 466 octets), `image/wayne-eyepatch-v1.png` ; original conservé. Prompt complet, source générée, export et SHA256 dans `docs/WAYNE_EYEPATCH_EDIT.json`. Le générateur fournit une opacité maximale légèrement inférieure à 255 : alpha conservé, contrôle du sujet alpha≥240 et du fond transparent plutôt qu’exiger des pixels strictement opaques.
+
+`illustratedNpcPortrait` remplace les anciens payloads `a.png` par cette illustration entière sans découpage d’atlas. Les deux dialogues Wayne (`dia1`, `dia1_after`) utilisent le portrait monochrome dédié plutôt que la précédente vignette civile colorée ; sprites de carte et champions inchangés. Aucun changement serveur, de progression ou de carte.
+
+Validation : lint ciblé et build `ecf3b3c888d25017`, diff réussis. Recette ponctuelle `/tmp/riftmon-wayne-browser.cjs` sur `explorakit_test`, compte jetable : vrais textes des deux dialogues injectés dans le composant du jeu, image décodée et non recadrée, PC/mobile 1365/393 px, aucun débordement ni erreur navigateur, portraits champions conservés. Capture mobile inspectée ; aucun combat lancé ni compte réel modifié. Pas de test physique. Journaux/captures `/tmp/riftmon-wayne-*`.
+
+Publication statique 2026-10-25T14:24:53.200Z, client `c3d57825d9ae6276908b5d20b57873b63e2ea3da`, index/bundles/portrait publics vérifiés à l’octet. Aucun redémarrage (PID 1627712), Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-wayne-2026-10-25T14-24-51-949Z`.
+
+
+
 ## Raph — étoiles filantes dans la salle — 25 octobre 2026
 
 La verrière conserve ses étoiles masquées derrière les vitres. Six nouvelles trajectoires célestes bleu glacier/or traversent le sol ouvert de `gen_arene5`, en diagonales alternées : tête scintillante à quatre pointes, traînée courte en pixels, reflet discret sur les dalles et petits fragments qui s’effacent. Passages décalés avec intervalles calmes ; le sol est découpé par un polygone explicite, avant les personnages. Escaliers, murs et colonnes ne reçoivent pas la projection. Piliers/fanions précédents conservés ; aucun PNG/Tiled, hitbox, musique, combat ou état serveur modifié.
