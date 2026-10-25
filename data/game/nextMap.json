@@ -2779,29 +2779,15 @@
           "nexY": 192
         },
         {
-          "valX": 12,
-          "valY": 19,
-          "goto": "ville_commerciale",
-          "nexX": 416,
-          "nexY": 416
-        },
-        {
           "valX": 13,
-          "valY": 19,
+          "valY": 17,
           "goto": "ville_commerciale",
           "nexX": 416,
           "nexY": 416
         },
         {
           "valX": 14,
-          "valY": 19,
-          "goto": "ville_commerciale",
-          "nexX": 416,
-          "nexY": 416
-        },
-        {
-          "valX": 15,
-          "valY": 19,
+          "valY": 17,
           "goto": "ville_commerciale",
           "nexX": 416,
           "nexY": 416

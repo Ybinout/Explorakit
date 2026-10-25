@@ -20,7 +20,7 @@ async function capture(label){for(const[width,height]of [[320,568],[393,852],[84
 const floors=['tour_rdc','tour_etage1','tour_etage2','tour_etage3'];
 async function command(event,data){return page.evaluate(({event,data})=>new Promise((resolve,reject)=>{const ack=(e,r)=>e?reject(e):resolve(r),s=window.cityVm.socket.timeout(8000);if(data===undefined)s.emit(event,ack);else s.emit(event,data,ack);}),{event,data});}
 async function counter(number){
- await walkTo(10,7);await page.evaluate(()=>window.cityVm.triggerMobileActionA());await page.waitForFunction(()=>window.cityVm.textImageSequence.length>0);
+ await walkTo(11,9);await page.evaluate(()=>window.cityVm.triggerMobileActionA());await page.waitForFunction(()=>window.cityVm.textImageSequence.length>0);
  for(let n=0;n<8&&!await page.evaluate(()=>window.cityVm.shop.visible);n++){await page.evaluate(()=>window.cityVm.triggerMobileActionA());await page.waitForTimeout(120);}
  await page.locator('.shop-item').first().waitFor();await page.waitForFunction(()=>!window.cityVm.shop.loading);assert.equal(await page.evaluate(()=>window.cityVm.shop.metadata.department),number);assert.equal(await page.locator('.department-directory li').count(),4);assert.equal(await page.locator('.department-directory [aria-current]').count(),1);if(number>1)assert.equal(await page.locator('[data-shop-category="drifts"]').count(),0);
 }
@@ -42,7 +42,7 @@ async function lockedAscent(){
  }
  for(let i=3;i>0;i--){await walkTo(3,5);await step('move_z',floors[i-1]);}
 }
-async function ascent(prefix,views=false){const keys=['max_repel','iv_randomizer_attack','choice_scarf','leppa_berry'];for(let i=0;i<4;i++){assert.equal(await page.evaluate(()=>window.cityVm.map),floors[i]);if(views)await capture(prefix+floors[i]);await counter(i+1);assert(await page.evaluate(()=>window.cityVm.shop.catalog.every(item=>!item.locked)));if(views)await counterViews(i+1);await buy(keys[i],i===3?5:1);await closeShop();if(i<3){await walkTo(24,5);await step('move_z',floors[i+1]);}}for(let i=3;i>0;i--){await walkTo(3,5);await step('move_z',floors[i-1]);}await walkTo(13,18);await step('move_s','ville_commerciale');}
+async function ascent(prefix,views=false){const keys=['max_repel','iv_randomizer_attack','choice_scarf','leppa_berry'];for(let i=0;i<4;i++){assert.equal(await page.evaluate(()=>window.cityVm.map),floors[i]);if(views)await capture(prefix+floors[i]);await counter(i+1);assert(await page.evaluate(()=>window.cityVm.shop.catalog.every(item=>!item.locked)));if(views)await counterViews(i+1);await buy(keys[i],i===3?5:1);await closeShop();if(i<3){await walkTo(24,5);await step('move_z',floors[i+1]);}}for(let i=3;i>0;i--){await walkTo(3,5);await step('move_z',floors[i-1]);}await walkTo(13,16);await step('move_s','ville_commerciale');}
 (async()=>{try{
  server.listen(0,'127.0.0.1');await once(server,'listening');base=`http://127.0.0.1:${server.address().port}`;const a=await create(),b=await create();await dbPool.execute('UPDATE users SET money=100000 WHERE id=?',[a.user.id]);
  browser=await chromium.launch({headless:true,args:['--no-sandbox']});const context=await browser.newContext({viewport:{width:393,height:852},hasTouch:true,isMobile:true});await context.addInitScript(s=>{if(location.protocol==='http:')localStorage.setItem('explorakit.user',JSON.stringify(s));},{...a.user,token:a.token});page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.url().startsWith(base)&&r.status()>=400)errors.push(r.status()+' '+r.url());});

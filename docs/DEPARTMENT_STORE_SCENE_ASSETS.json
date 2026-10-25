@@ -1,0 +1,112 @@
+{
+  "createdAt": "2026-10-25",
+  "method": "Built-in imagegen; Canvas nearest-neighbor export to 448×320; transparent foregrounds.",
+  "reference": "vue-explorakit/src/assets/gen_shop1.png",
+  "floors": [
+    {
+      "map": "tour_rdc",
+      "asset": "vue-explorakit/src/assets/tour_rdc.png",
+      "foreground": "vue-explorakit/src/assets/tour_rdc_f.png",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-26b7d8d3-8c87-4448-bea5-5f6a207b42bb.png",
+      "prompt": "Create a NEW game-ready 2D top-down pixel-art department store GROUND FLOOR map. The supplied small blue shop is a STYLE reference only: match its crisp restrained handheld RPG pixels, cream walls, blue trim, slate-blue rectangular floor tiles, simple shelves and flat overhead perspective. Expand into a larger coherent department store. Logical image 448x320 pixels (7:5 landscape), enlarged clean pixels; NOT isometric, no painterly texture, no exaggerated lighting. Entire room visible. Black void outside. Room outer bounds x16..431,y32..319. Cream north wall y32..63 with blue trim. Walkable floor x32..415,y64..303. Low front wall y304..319 with a clear FOUR-TILE entrance gap x192..255 and blue welcome mat immediately above it. IMPORTANT staircase UP at northeast x368..415,y48..95: clearly recognizable compact blue-gray steps climbing north into an upper doorway, side handrails, accessible from the floor below. No staircase at northwest on this ground floor. A compact cream-blue sales counter at x112..223,y96..127, split into two sections by a clear EMPTY flat-floor notch x144..175,y112..127 where the game places its seller; no baked-in character. Keep x144..175,y128..159 open to approach. Shelves with red-white balls, colorful medicine bottles and a slender fishing-rod display along sides only: west shelves x48..79,y144..223; east shelves x368..399,y144..223; one small display x288..335,y112..159. Keep broad central circulation open x96..351,y160..287, and an uninterrupted horizontal aisle y80..95 connecting both ends. A small potted plant in northwest, no fake staircase. Lower side shelving allowed but no obstacles in central entrance. Only simple merchandise shapes, no people, no text, no words, no letters, no floor numbers, no logos. Clean collision-readable furniture, restrained pixel detail, same blue shop art direction as reference.",
+      "up": [
+        24,
+        4
+      ],
+      "down": null,
+      "vendor": [
+        11,
+        8
+      ],
+      "vendorApproach": [
+        11,
+        9
+      ]
+    },
+    {
+      "map": "tour_etage1",
+      "asset": "vue-explorakit/src/assets/tour_etage1.png",
+      "foreground": "vue-explorakit/src/assets/tour_etage1_f.png",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-f02cea63-f16d-492b-9f10-225a7acc01fc.png",
+      "prompt": "Create the SECOND SHOP FLOOR of the same department store as this reference. Keep the EXACT room bounds, camera, pixel scale, cream wall with blue trim, slate-blue tiled floor, counter positions and EMPTY central notch between the two counter halves, shelving footprints, black outside margins, and northeast UP staircase from the reference. Change only these features: (1) Replace the northwest potted plant with a clear matching DOWN staircase in a recessed floor well, at the mirror position of the northeast staircase; visible dark blue steps descending north, cream-blue side rails, accessible from below. Both staircases must be large and unmistakable. (2) Close the bottom entrance completely with continuous cream-blue front wall, removing the welcome mat; this is an upper floor, no outside door. (3) This floor sells vitamins, IV/EV training supplies and move discs: neatly arranged colorful small bottles, medicine boxes and a few circular discs in the existing shelves. Keep all counters and shelves in exactly their previous footprints, leave the shopkeeper notch and center aisle empty. Very restrained GBA/Nintendo DS pixel-art, simple flat shapes, limited blue/cream palette, no extra furniture in the walkways, no characters, no text, no floor numbers or signage, no perspective or painterly shading. Landscape aspect 7:5, logical 448x320.",
+      "up": [
+        24,
+        4
+      ],
+      "down": [
+        3,
+        4
+      ],
+      "vendor": [
+        11,
+        8
+      ],
+      "vendorApproach": [
+        11,
+        9
+      ]
+    },
+    {
+      "map": "tour_etage2",
+      "asset": "vue-explorakit/src/assets/tour_etage2.png",
+      "foreground": "vue-explorakit/src/assets/tour_etage2_f.png",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-c01afc6c-c968-4151-bf7b-f80fab8ed24f.png",
+      "prompt": "Create the THIRD SHOP FLOOR of this exact pixel-art department store. Preserve the exact room boundary, counter halves and empty central shopkeeper notch, all shelf footprints, staircase positions at both back corners, floor tiles, front wall, black margins, scale and restrained cream-blue handheld RPG art. This floor sells competitive equipment: on existing shelves show a few folded colored scarves, small dark glasses/goggles, belts, a red orb, a metallic claw and simple held-item boxes instead of medicine. No fishing rods. Keep readable chunky low-detail pixels, no tiny writing. The left staircase goes DOWN: its top opening is darker, steps descend into a slightly shadowed floor recess, with cream-blue rails. The right staircase goes UP, lit treads climbing toward the back wall. Do not move either stairs or enlarge their footprints. All central walkways stay completely clear. No outside doorway or welcome mat on this upper floor. No people, no text, no logos, no perspective change, no additional cabinets or floor decoration. 7:5 landscape, logical 448x320.",
+      "up": [
+        24,
+        4
+      ],
+      "down": [
+        3,
+        4
+      ],
+      "vendor": [
+        11,
+        8
+      ],
+      "vendorApproach": [
+        11,
+        9
+      ]
+    },
+    {
+      "map": "tour_etage3",
+      "asset": "vue-explorakit/src/assets/tour_etage3.png",
+      "foreground": "vue-explorakit/src/assets/tour_etage3_f.png",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-e326ed32-bf5f-4ef6-bf52-4909064fdd05.png",
+      "prompt": "Create the FOURTH AND TOP SHOP FLOOR of this exact pixel-art department store. Preserve exact room bounds, camera, scale, slate-blue tiles, cream walls with blue trim, the two counter halves and empty central seller notch, shelves in their existing footprints, and the LEFT DOWN staircase with dark recess. Remove the RIGHT UP staircase completely: replace its area with continuous north wall and one small leafy potted plant below the wall, contained at the former stair footprint, because this is the top floor. This floor is a berry market: replace all shelf merchandise with simple colorful berry baskets, red blue yellow purple berries, small jars and a few leaf sprigs, NOT competitive gear. Warm wicker accents on shelves but keep the same underlying blue-and-cream furniture. No extra furniture or plants in the central walkway. Bottom wall remains closed with no exterior door or welcome mat. Restrained clean GBA/Nintendo DS pixel art, flat simple shapes, limited palette, no realistic or painterly detail, no people, no text, no labels, no logos. Landscape 7:5, logical 448x320. The single staircase must remain clearly recognizable and accessible from below.",
+      "up": null,
+      "down": [
+        3,
+        4
+      ],
+      "vendor": [
+        11,
+        8
+      ],
+      "vendorApproach": [
+        11,
+        9
+      ]
+    }
+  ],
+  "groundExit": [
+    [
+      13,
+      17
+    ],
+    [
+      14,
+      17
+    ]
+  ],
+  "cityArrival": [
+    13,
+    12
+  ],
+  "groundArrival": [
+    13,
+    16
+  ],
+  "note": "Original author manifest retained as historical provenance; only tower interiors and their collisions/transitions intentionally replaced. External town unchanged."
+}

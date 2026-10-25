@@ -1,5 +1,17 @@
 # Audit technique et mémoire de RiftMon
 
+## Grand Comptoir — quatre intérieurs et escaliers — 25 octobre 2026
+
+Les quatre niveaux `tour_rdc`, `tour_etage1`, `tour_etage2`, `tour_etage3` reprennent le style de la boutique approuvée : murs crème, bordures bleues, carrelage bleu ardoise et mobilier lisible. Décors propres aux fournitures, à l’entraînement IV/EV/CS, aux objets stratégiques et aux baies. Escalier montant à droite (24,4), descendant à gauche (3,4), avec arrivées une case devant ; aucune montée au dernier étage. Vendeuses existantes placées dans l’ouverture du comptoir (11,8), approche (11,9). Sortie du rez-de-chaussée alignée sur le nouveau seuil (13–14,17), arrivée en (13,16), retour extérieur inchangé.
+
+Cartes JSON/TMX reconstruites ensemble avec une couche image éditable et collisions calées sur les meubles, rayons et rampes ; anciens foregrounds remplacés par des transparents. Ville commerciale extérieure, offres, prix, déblocages et règles de jeu conservés. Les anciennes positions devenues invalides sont récupérées par le mécanisme existant, sans migration des sauvegardes. Assets produits avec imagegen intégré, export 448×320 au plus proche voisin ; prompts et sources dans `docs/DEPARTMENT_STORE_SCENE_ASSETS.json`. Le manifeste auteur initial reste historique ; ses trois ressources extérieures restent vérifiées à l’octet.
+
+Vérification : 15 tests boutiques, étages, liens, collisions, anciens points sauvegardés et état joueur réussis ; build `191a3088b310e8e0`. Recette reproductible `scripts/validateDepartmentStoreBrowser.js` sur base dédiée avec `RELEASE_DIST_DIR=/tmp/riftmon-tower-dist` ; fixtures de pêche mises à jour pour la nouvelle position du comptoir. Journaux `/tmp/riftmon-tower-*`. Captures des quatre étages inspectées en mobile/PC ; pas de test sur téléphone physique.
+
+Recette navigateur terminée : déplacements réels, six passages d’escaliers aller/retour, quatre vendeuses/achats, sortie vers la ville, sauvegarde/reconnexion et catalogues verrouillés/déverrouillés ; Aventure, Rift et Colosseum, quatre formats et deux thèmes, zéro erreur. Les inventaires d’expédition restent séparés de l’Aventure.
+
+Publié `2026-10-25T07:17:57.271Z`, client `5943b5eb19dded41dd6dbe887c81876850f78512`, build `191a3088b310e8e0`. Index HTTPS et quatre décors publics vérifiés à l’octet ; serveur PID 1594400 actif sans redémarrage automatique, aucune expédition active à la reprise. Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-tower-2026-10-25T07-15-12-542Z`. Aucune migration SQL ni modification de données de joueurs.
+
 ## Gwenn — foulard masquant le visage — 25 octobre 2026
 
 Portrait illustré et sprite de Gwenn retouchés avec un foulard sombre couvrant nez, bouche et menton ; seuls les yeux restent visibles sous la casquette. Pose, cheveux longs, Ball, vapoteuse et tenue conservés. Remplacement demandé des deux assets existants, mêmes dimensions (640×960 et 24×32), alpha conservé, export sprite au plus proche voisin. Dialogues et entrée de combat utilisent automatiquement le portrait ; aucun changement serveur, de carte, de collision ou de règle. Sources/prompts imagegen intégrés dans `docs/GWENN_SCARF_ASSETS.json`.
@@ -3290,6 +3302,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 25 octobre 2026 — Quatre étages du Grand Comptoir redessinés dans le style des boutiques, escaliers visibles, comptoirs/collisions/portes raccordés et sauvegardes anciennes vérifiées ; détails et recette en tête.
 
 - 25 octobre 2026 — Foulard ajouté au portrait et au sprite de Gwenn ; intégration visuelle vérifiée en dialogue/combat, dimensions et règles conservées.
 
