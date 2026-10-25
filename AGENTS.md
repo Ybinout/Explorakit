@@ -1,5 +1,13 @@
 # Contexte permanent — RiftMon
 
+## Ana — danse de pétales — 25 octobre 2026
+
+`anaPetals.js` ajoute trois petites rafales décalées dans l’arène d’Ana : pétales roses, pêche et ivoire, trajectoires courbes avec spirales douces, rotation, bascule et fines ombres au sol. Sens alternés, apparitions/disparitions progressives ; 9–18 pétales visibles sur les phases contrôlées. L’effet est découpé au sol ouvert, en excluant escaliers, murs, vitres et lanternes, puis dessiné sous les personnages. La météo et les règles de combat ne changent pas.
+
+Même cache 20 Hz que le décor, aucun asset, surface persistante ni timer supplémentaire. Mouvement réduit : aucun pétale ; suspension des effets avec la salle existante. Rendu commun aux trois modes. La recette Canvas vérifie maintenant aussi les pétales séparément : 40 images différentes, zéro débordement, architecture protégée, disparition en mouvement réduit, oiseaux et 18 feuillages toujours valides. Les vingt images de référence des étoiles restent identiques. Peinture globale locale indicative ~0,75 ms, hors compositage final. Lint/build `2e6cb8460fb3bd2d`, syntaxe/diff réussis. Navigateur Aventure 320/393/844/1365 : animé/réduit, masquage, combat et changement de carte vérifiés, zéro erreur ; captures salle/mobile inspectées, base de test/compte jetable, aucun téléphone physique. Preuves : `docs/ANA_ARENA_PETALS.json`.
+
+Publication statique 2026-10-25T19:32:26.100Z, client `e1906836c3b490ddcbee4f38b52b23d9ce4d177e`, index/bundles HTTPS vérifiés à l’octet. PID 1697717 conservé, aucun redémarrage, Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-ana-petals-2026-10-25T19-32-24-966Z`, anciens bundles conservés ; recharger le jeu.
+
 ## Ana — feuillages vivants et oiseaux derrière les vitres — 25 octobre 2026
 
 Les quatorze plantes fleuries et quatre lierres de l’arène de Clairfontaine ondulent maintenant à des rythmes décalés. `anaArena.js` extrait leurs vrais pixels à l’intérieur de silhouettes définies sur le décor ; les encadrements verts, pierres, pots, motifs peints au sol et bannières restent fixes. Seuils adaptés aux lierres éclairés par les lanternes et fleurs conservées avec leurs feuilles. Les zones complexes au voisinage des vitres et pointes de drapeaux ont des contours précis. Une réparation locale du fond sous les anciens pixels évite le dédoublement : aucune translation de rectangle de mur ni du foreground entier. Les racines restent ancrées ; déplacement horizontal maximal trois pixels sur le calque 896×640.

@@ -1,0 +1,155 @@
+{
+  "map": "ville3_arene",
+  "effect": "rose, peach and ivory petals drifting in alternating small gusts",
+  "nativeCanvas": {
+    "petals": {
+      "escaped": 0,
+      "pixels": 26904,
+      "minVisible": 9,
+      "maxVisible": 18,
+      "differentFrames": 40,
+      "reduced": true
+    },
+    "stars": 49,
+    "allFade": true,
+    "foliage": [
+      {
+        "id": "upper-left",
+        "pixels": 924,
+        "movingPixels": 897
+      },
+      {
+        "id": "upper-left-inner",
+        "pixels": 1483,
+        "movingPixels": 1305
+      },
+      {
+        "id": "dais-left",
+        "pixels": 987,
+        "movingPixels": 931
+      },
+      {
+        "id": "dais-right",
+        "pixels": 985,
+        "movingPixels": 870
+      },
+      {
+        "id": "upper-right-inner",
+        "pixels": 1488,
+        "movingPixels": 1379
+      },
+      {
+        "id": "upper-right",
+        "pixels": 931,
+        "movingPixels": 877
+      },
+      {
+        "id": "middle-left",
+        "pixels": 1555,
+        "movingPixels": 1240
+      },
+      {
+        "id": "middle-left-inner",
+        "pixels": 1996,
+        "movingPixels": 1799
+      },
+      {
+        "id": "middle-right-inner",
+        "pixels": 2013,
+        "movingPixels": 1826
+      },
+      {
+        "id": "middle-right",
+        "pixels": 1678,
+        "movingPixels": 1429
+      },
+      {
+        "id": "lower-left",
+        "pixels": 1154,
+        "movingPixels": 964
+      },
+      {
+        "id": "lower-left-inner",
+        "pixels": 1791,
+        "movingPixels": 1558
+      },
+      {
+        "id": "lower-right-inner",
+        "pixels": 1857,
+        "movingPixels": 1567
+      },
+      {
+        "id": "lower-right",
+        "pixels": 1098,
+        "movingPixels": 890
+      },
+      {
+        "id": "ivy-left",
+        "pixels": 843,
+        "movingPixels": 762
+      },
+      {
+        "id": "ivy-left-inner",
+        "pixels": 841,
+        "movingPixels": 793
+      },
+      {
+        "id": "ivy-right-inner",
+        "pixels": 846,
+        "movingPixels": 802
+      },
+      {
+        "id": "ivy-right",
+        "pixels": 843,
+        "movingPixels": 767
+      }
+    ],
+    "escaped": 0,
+    "architecturePixels": 0,
+    "architectureSamples": [],
+    "skyPixels": 10809,
+    "skyEscaped": 0,
+    "skyLit": 1235,
+    "visibleBirdFrames": 29,
+    "starParityImages": 20,
+    "starParityDifferingBytes": 0,
+    "reduced": true,
+    "reducedFoliagePixels": 0,
+    "throttled": true,
+    "released": true,
+    "isolated": true,
+    "averagePaintMs": 0.75
+  },
+  "browser": {
+    "map": "ville3_arene",
+    "viewports": 4,
+    "animated": true,
+    "reducedMotion": true,
+    "hiddenCleanup": true,
+    "battlePresentationCleanup": true,
+    "mapIsolation": true,
+    "maximumHozeWind": false,
+    "completedFaultsRetained": false,
+    "collapseBackgroundsAndReset": false,
+    "movementControls": false,
+    "errors": []
+  },
+  "physicalPhoneTested": false,
+  "newAssets": false,
+  "newTimerOrLoop": false,
+  "serverOrDatabaseChanged": false,
+  "publication": {
+    "publishedAt": "2026-10-25T19:32:26.100Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-ana-petals-2026-10-25T19-32-24-966Z",
+    "clientBuild": "2e6cb8460fb3bd2d",
+    "clientCommit": "e1906836c3b490ddcbee4f38b52b23d9ce4d177e",
+    "pid": "1697717",
+    "serverRestarted": false,
+    "neighborsUnchanged": true,
+    "publicGameBundle": true
+  },
+  "reproduce": {
+    "canvas": "ANA_STAR_BASELINE_SERVICE=/tmp/riftmon-ana-before.js RELEASE_SCREENSHOTS=/tmp/riftmon-ana-petals-canvas node scripts/validateAnaArenaCanvas.js",
+    "browser": "ARENA_DECOR=ana RELEASE_DIST_DIR=/tmp/riftmon-ana-petals-dist RELEASE_SCREENSHOTS=/tmp/riftmon-ana-petals-browser node --env-file=.env scripts/validateHozeArenaBrowser.js"
+  }
+}
