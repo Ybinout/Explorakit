@@ -1,5 +1,6 @@
 const assert = require('node:assert/strict'), path = require('node:path');
 const LAKES = {
+  ville1_arene: { slug: 'mounir', point: [144,400], minimum: 1500, rainy: true, fixed: [[224,164],[64,164],[45,210],[81,130],[130,75],[20,20]] },
   ville_safe1: { slug: 'valpierre', point: [144,420], minimum: 2500, fixed: [[35,210],[72,180],[110,220],[230,240],[80,80]] },
   gen_ville5: { slug: 'ocreville', point: [780,246], minimum: 600, fixed: [[391,121],[389,120],[370,110],[414,130],[300,120]] },
   ville3: { slug: 'clairfontaine', point: [480,340], minimum: 5000, fixed: [[235,145],[200,168],[280,120],[176,140],[230,96],[235,200],[100,100]] },
@@ -31,11 +32,12 @@ module.exports = async function validateLakeWaterUi(page, output, map = 'ville1'
     const fixed = fixedPoints.every(([x,y]) => !r.mask.interior[y*448+x]);
     r.destroy(); return {shortChanged, shortMean, changed, outside, alpha, pixels, fixed, dry: !v.mapWeather?.kind};
   }, {map, fixedPoints: profile.fixed});
-  if (['ville1','ville3','ville_safe1','gen_ville5'].includes(map)) assert(lake.shortChanged > lake.pixels * .4 && lake.shortMean > 2, 'City water must move visibly within 400 ms');
-  assert(lake.changed > 100 && lake.pixels > profile.minimum); assert(lake.fixed && lake.dry); assert.equal(lake.outside, 0); assert.equal(lake.alpha, 0);
+  if (['ville1','ville3','ville_safe1','gen_ville5','ville1_arene'].includes(map)) assert(lake.shortChanged > lake.pixels * .4 && lake.shortMean > 2, 'City water must move visibly within 400 ms');
+  assert(lake.changed > 100 && lake.pixels > profile.minimum); assert(lake.fixed && (profile.rainy ? !lake.dry : lake.dry)); assert.equal(lake.outside, 0); assert.equal(lake.alpha, 0);
   for (const [width,height] of [[320,480],[393,852],[844,390],[1365,900]]) {
     await page.setViewportSize({width,height});
-    await page.evaluate(width => { document.querySelector('.game-root').__vue__.showMobileControls = width <= 920; },width);
+    await page.waitForTimeout(100);
+    await page.evaluate(async width => {const v=document.querySelector('.game-root').__vue__;v.showMobileControls=width<=920;await v.$nextTick();v.resizeWorldViewport();},width);
     await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
     const scene = await page.evaluate(() => { const v=document.querySelector('.game-root').__vue__,p=v.players[v.socket.id];return {frame:v.worldFrame,player:{x:p.x,y:p.y},mobile:v.showMobileControls}; });
     const camera = getWorldCamera(scene.frame.width,scene.frame.height,scene.player,scene.mobile), [x,y]=profile.point;

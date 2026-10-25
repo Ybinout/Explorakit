@@ -1,5 +1,15 @@
 # Contexte permanent — RiftMon
 
+## Arène de Mounir — pluie/vent maximum et bassins animés — 25 octobre 2026
+
+Le climat partagé de `ville1_arene` passe à pluie 3 / vent 3, maximum existant : pluie inclinée, rafales, impacts au sol. Le vent de cette salle emporte des embruns cyan plutôt que les feuilles utilisées dehors. La pluie réelle déjà transmise aux combats conserve ses effets habituels.
+
+`VillageWaterRenderer` anime désormais les deux bassins latéraux de l’arène : régions précisément délimitées et sélection de palette cyan, marge d’un pixel autour des éléments fixes. Ondulations et reflets réutilisent le cache 448×320 à 15 Hz ; colonnes, bannières, fleurs, cristaux et sol central ne bougent pas. Animations suspendues en combat, pendant le chargement, onglet caché ou réduction des mouvements. Aucun PNG, plan de carte ni collision modifié.
+
+Validation : 28 tests météo/eau réussis, lint/build `767b6797145809f5` réussis. `validateMounirStormBrowser.js`, base dédiée et véritable décor : 2 926 pixels d’eau (1 414 gauche, 1 512 droite), 2 352 changent en 400 ms ; aucun pixel hors masque ni alpha modifié. Climat serveur 3/3, 128 gouttes et six rafales vérifiés ; rendus 320/393/844/1365 px inspectés, réduction des mouvements, pause/reprise combat/chargement/visibilité et absence d’erreur navigateur vérifiées. Journaux `/tmp/riftmon-mounir-storm-*`. Pas de test sur appareil physique.
+
+Publié 2026-10-25T08:28:26.079Z, client `7f717637ab6253eee32ff9d88a4692023e8fa99d`, serveur PID 1602782, 0 expédition(s) active(s) à la reprise. Index, JS et CSS publics vérifiés à l’octet ; sites voisins inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-mounir-storm-2026-10-25T08-28-23-832Z`.
+
 ## Wanda et dialogues de victoire — ordre et fond stable — 25 octobre 2026
 
 La réplique de Wanda expliquant le module Vol est déplacée en dernière position de `champion_wanda_after`, après le badge, les révélations et les indications vers Gwenn/7p. Aucun changement de récompense ou de prérequis.
