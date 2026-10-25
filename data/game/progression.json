@@ -46,7 +46,7 @@
     {
       "key": "gwenn_challenge",
       "title": "Le défi de Gwenn",
-      "description": "Va parler au père de Gwenn, devant le tunnel au nord de Rochebrume. Son fils ne sort plus de la maison orange : il a besoin de ton aide.",
+      "description": "Va parler au père de Gwenn, devant le tunnel au nord de Rochebrume. Son fils ne sort plus de la maison de la Route 4 : il a besoin de ton aide.",
       "defaultStatus": "active",
       "target": 1,
       "requiresFlags": [

@@ -2452,7 +2452,7 @@
         "imageName": "gwenn-v1.png"
       },
       {
-        "text": "Gwenn : Je préviens mon père : il te laissera le passage. Le tunnel au nord mène vers les routes enneigées et Blanchecime. Bonne route.",
+        "text": "Gwenn : Je préviens mon père : il te laissera le passage. Le tunnel au nord de Rochebrume mène vers les routes enneigées et Blanchecime. Bonne route.",
         "imageName": "gwenn-v1.png"
       }
     ]
@@ -2479,7 +2479,7 @@
         }
       },
       {
-        "text": "Le père de Gwenn : Tiens, la clé de sa maison orange, au sud-est. Entre et défie-le ! Il refuse les promenades, mais il n’a jamais su refuser un bon combat.",
+        "text": "Le père de Gwenn : Tiens, la clé de sa maison au toit orange, sur la Route 4. Entre et défie-le ! Il refuse les promenades, mais il n’a jamais su refuser un bon combat.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -2505,7 +2505,7 @@
     "name": "gwenn_father_locked",
     "sentences": [
       {
-        "text": "Le père de Gwenn : Gwenn ne sort plus de sa maison orange. À ce rythme, je vais devoir l’arroser comme une plante verte.",
+        "text": "Le père de Gwenn : Gwenn ne sort plus de sa maison de la Route 4. À ce rythme, je vais devoir l’arroser comme une plante verte.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -2528,7 +2528,7 @@
     "name": "gwenn_father_after",
     "sentences": [
       {
-        "text": "Le père de Gwenn : Tu as la clé : sa maison orange est au sud-est. S’il prétend être absent, ne le crois pas. Même ses chaussons ont pris racine.",
+        "text": "Le père de Gwenn : Tu as la clé : sa maison au toit orange se trouve sur la Route 4. S’il prétend être absent, ne le crois pas. Même ses chaussons ont pris racine.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,

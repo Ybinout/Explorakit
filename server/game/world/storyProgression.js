@@ -21,8 +21,8 @@ function hasCompletedBattle(definition, state = {}) {
 
 function deriveGwennQuest(state = {}) {
     return state.flags?.gwenn_house_key_received === 'true'
-        ? { description: 'Tu as la clé de Gwenn. Entre dans la maison orange au sud-est de Rochebrume et bats-le : son père libérera le tunnel au nord.', destination: 'Gwenn · Maison orange de Rochebrume', map: 'ville4_maison2' }
-        : { description: 'Va parler au père de Gwenn, devant le tunnel au nord de Rochebrume. Son fils ne sort plus de la maison orange : il a besoin de ton aide.', destination: 'Le père de Gwenn · Tunnel de Rochebrume', map: 'ville4' };
+        ? { description: 'Tu as la clé de Gwenn. Entre dans la maison au toit orange de la Route 4 et bats-le : son père libérera le tunnel au nord de Rochebrume.', destination: 'Gwenn · Maison de la Route 4', map: 'route4_maison' }
+        : { description: 'Va parler au père de Gwenn, devant le tunnel au nord de Rochebrume. Son fils ne sort plus de la maison de la Route 4 : il a besoin de ton aide.', destination: 'Le père de Gwenn · Tunnel de Rochebrume', map: 'ville4' };
 }
 
 // Les étapes sont comptées dans l'ordre, jamais à partir du numéro d'un badge.

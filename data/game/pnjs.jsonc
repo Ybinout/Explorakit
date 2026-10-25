@@ -1070,10 +1070,10 @@
     {
       "name": "gwenn_rochebrume",
       "interactionName": "gwenn_rochebrume",
-      "map": "ville4_maison2",
+      "map": "route4_maison",
       "x": 13,
       "y": 9,
-      "sprite": "gwenn-pixel-v1.png",
+      "sprite": "gwenn-pixel-v2.png",
       "spriteFrame": {
         "columns": 1,
         "rows": 1,

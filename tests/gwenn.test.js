@@ -9,14 +9,30 @@ test('Gwenn has five fully prepared Pokémon just above Wanda, valid items and i
  for(const [i,p]of t.pokemons.entries()){assert.equal(p.level,config.team[i].level);assert.equal(p.currentHp,p.maxHp);assert.equal(p.abilities.length,4);assert(items.some(x=>x.key===p.heldItem));assert.equal(Object.values(config.team[i].ev).reduce((a,b)=>a+b,0),508);assert.notEqual(p.uuid,other.pokemons[i].uuid);}
  assert(Object.values(config.team[4].givenIv).every(n=>n===31));assert(config.team.slice(0,4).every(p=>Object.values(p.givenIv).some(n=>n<31)));
 });
-test('orange house has safe entrance/exit and gate actor disappears only after the personal victory',()=>{
- const door=terrain.getNextMap('ville4',22,16);assert.equal(door.nextMap,'ville4_maison2');assert.equal(door.requiresStoryFlag,'gwenn_house_key_received');
- const coll=terrain.loadCollisionData('ville4_maison2');assert.equal(coll[15][13],0);assert.equal(coll[16][13],0);assert(coll[0][0]);assert(coll[8][5]);assert.equal(terrain.getNextMap('ville4_maison2',13,16).nextMap,'ville4');assert.equal(terrain.getNextMap('cave_rochebrume1',13,19).nextY,176,'return below the father, never on his tile');
+test('Route 4 house has safe entrance/exit and gate actor disappears only after the personal victory',()=>{
+ const door=terrain.getNextMap('route4',11,17);assert.equal(door.nextMap,'route4_maison');assert.equal(door.requiresStoryFlag,'gwenn_house_key_received');
+ const coll=terrain.loadCollisionData('route4_maison');assert.equal(coll[15][13],0);assert.equal(coll[16][13],0);assert(coll[0][0]);assert(coll[8][5]);assert.equal(terrain.getNextMap('route4_maison',13,16).nextMap,'route4');assert.equal(terrain.getNextMap('cave_rochebrume1',13,19).nextY,176,'return below the father, never on his tile');
  const g=gates.gates.find(g=>g.id==='gwenn_rochebrume_tunnel');assert(gates.isLocked(g,{flags:{wanda_defeated:'true'}}));
  for(const direction of ['up','left','right','down'])assert(gates.candidatesForStep('ville4',direction,13,4).includes(g));
  assert(gates.candidatesForStep('ville4','up',13,3,'cave_rochebrume1').includes(g));
  assert(gates.actorAtTile('ville4',13,4,{}));assert.equal(gates.actorAtTile('ville4',13,4,{flags:{gwenn_rochebrume_defeated:'true'}}),null);
  assert.equal(catalog.npcBattles.gwenn_rochebrume.once,true);
+});
+test('Gwenn moved to Route 4; old Rochebrume saves still have an ordinary usable house',async()=>{
+ const pnjs=require('../server/game/world/pnjStore'),{regionLocation}=require('../server/game/world/regionMap');
+ assert.equal(regionLocation('route4_maison'),'route4');
+ assert(!pnjs.getPnjsForMap('ville4_maison2').some(p=>p.name==='gwenn_rochebrume'));
+ const actor=pnjs.getPnjsForMap('route4_maison').find(p=>p.name==='gwenn_rochebrume');assert.equal(actor.sprite,'gwenn-pixel-v2.png');
+ assert.equal(terrain.getNextMap('ville4',22,16).requiresStoryFlag,undefined);
+ assert.equal(terrain.getNextMap('ville4_maison2',13,17).nextMap,'ville4');
+ const c=terrain.loadCollisionData('route4_maison');for(let y=10;y<=16;y++)assert.equal(c[y][13],0);
+ assert.equal(terrain.loadCollisionData('route4')[17][11],0);assert(terrain.changeMapData('route4')[17][11]);
+ const exit=terrain.getNextMap('route4_maison',13,16);assert.deepEqual([exit.nextX,exit.nextY],[368,592]);assert.equal(terrain.changeMapData('route4')[18][11],0);
+ const {arenaChampion}=await import('../vue-explorakit/src/services/arenaEntrance.js');
+ const {worldMusicTrack}=await import('../vue-explorakit/src/services/worldMusic.js');
+ assert.equal(arenaChampion('route4_maison','trainer').name,'Gwenn');assert.equal(arenaChampion('ville4_maison2','trainer'),null);assert.equal(worldMusicTrack('route4_maison'),'village');
+ const fs=require('fs'),path=require('path'),m=terrain.readMap('route4_maison'),xml=fs.readFileSync(path.join(__dirname,'../data/maps/gwenn_house.tmx'),'utf8');
+ for(const l of m.layers.filter(l=>l.type==='tilelayer')){const csv=xml.match(new RegExp('<layer[^>]*name="'+l.name+'"[^>]*>[\\s\\S]*?<data[^>]*>([\\s\\S]*?)</data>'));assert.deepEqual(csv[1].trim().split(/[,\s]+/).map(Number),l.data);}
 });
 test('father dialogue and quest guide the player to the key before the house',()=>{
  const {getSentenceForName,getEndSentenceInformation}=require('../server/game/world/interactionRepository');
@@ -28,7 +44,7 @@ test('father dialogue and quest guide the player to the key before the house',()
  assert.equal(getSentenceForName('gwenn_father',state)[1],'gwenn_father');assert.equal(getEndSentenceInformation('gwenn_father'),'story');
  assert.equal(deriveGwennQuest(state).map,'ville4');assert.equal(deriveStoryQuest(state).map,'ville4');
  state.flags.gwenn_house_key_received='true';assert.equal(getSentenceForName('gwenn_father',state)[1],'gwenn_father_after');
- assert.equal(getEndSentenceInformation('gwenn_father_after'),undefined);assert.equal(deriveStoryQuest(state).map,'ville4_maison2');
+ assert.equal(getEndSentenceInformation('gwenn_father_after'),undefined);assert.equal(deriveStoryQuest(state).map,'route4_maison');
 });
 test('only the father grants a new key; Wanda unlocks the conversation and old keys stay valid',{skip:process.env.RUN_MYSQL_TESTS!=='1',timeout:30000},async()=>{
  assert.match(process.env.DB_NAME||'',/test/i);const {dbPool:db}=require('../server/config/database'),{randomUUID}=require('crypto'),key=require('../server/persistence/gwennKeyRepository'),progress=require('../server/persistence/progressionRepository');
@@ -51,7 +67,7 @@ test('only the father grants a new key; Wanda unlocks the conversation and old k
  assert.equal(result.filter(r=>r.granted).length,kind==='none'||legacy?0:1,kind+' exactly one handover');
  [rows]=await db.execute("SELECT quantity FROM user_items WHERE user_id=? AND item_key='gwenn_house_key'",[u.id]);assert.equal(rows.length,kind==='none'?0:1);if(rows.length)assert.equal(rows[0].quantity,1);
  state=await progress.loadProgressState(u.id);assert.equal(state.money,before.money);assert.equal(state.flags.gwenn_house_key_received==='true',kind!=='none');
- if(kind!=='none')assert.equal(state.quests.find(q=>q.key==='gwenn_challenge').map,'ville4_maison2');
+ if(kind!=='none')assert.equal(state.quests.find(q=>q.key==='gwenn_challenge').map,'route4_maison');
  if(!legacy&&kind!=='none'){const won=await progress.completeNpcBattle(u.id,'gwenn_rochebrume');assert(won.granted);assert.equal(won.progress.quests.find(q=>q.key==='gwenn_challenge').status,'completed');assert.equal((await progress.completeNpcBattle(u.id,'gwenn_rochebrume')).granted,false);}
  }
  }finally{await new Promise(r=>server.close(r));for(const id of ids)await db.execute('DELETE FROM users WHERE id=?',[id]);await db.end();}

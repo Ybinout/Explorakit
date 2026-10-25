@@ -1,5 +1,17 @@
 # Contexte permanent — RiftMon
 
+## Gwenn — maison Route 4 et graphismes simplifiés — 25 octobre 2026
+
+La maison au toit orange de Route 4 devient le domicile de Gwenn : porte existante (11,17) désormais raccordée à `route4_maison` (alias `gwenn_house`), arrivée (13,15), sorties (13–14,16) vers Route 4 (11,18). Carte extérieure et sa porte technique conservées. Clé et prérequis identiques ; père toujours devant le tunnel de Rochebrume. Dialogues, objet, quête principale/personnelle, nom du lieu, minimap, musique intérieure et entrée/décor de combat suivent la nouvelle adresse. Identifiant de duel `gwenn_rochebrume` conservé pour préserver victoires, admin et anciennes clés.
+
+`ville4_maison2` redevient une maison ordinaire (alias `gen_maison2`), sans Gwenn ni serrure personnelle, avec arrivée (13,16) et sortie (13–14,17) vers Rochebrume (22,17). Les sauvegardes dans cet ancien intérieur restent utilisables ; pas de migration ni de suppression de progression. La recette admin vise désormais `route4_maison`.
+
+Intérieur redessiné en pixel art sobre, meubles réduits, sol/parois lisibles ; collisions JSON/TMX alignées. Nouveau sprite `pnj/gwenn-pixel-v2.png`, alpha 32×32, silhouette compacte et tête large ; proportions proches des champions, rendu normal 48 px. Casquette, cheveux noirs, foulard masquant le visage, Ball et vapoteuse conservés. Portrait et fonds de combat existants conservés, contexte rebranché sur Route 4. Assets créés/retouchés avec imagegen intégré, export au plus proche voisin ; sources/prompts dans `docs/GWENN_ROUTE4_ASSETS.json`.
+
+Validation : 73 tests cartes/histoire/expéditions/minimap/musique réussis et 1 scénario SQL sauté dans cette commande ; 5 tests Gwenn réussis avec MySQL. Lint/build réussis. Recette `validateGwennBrowser.js` adaptée : porte Route 4 fermée avant la clé, père à Rochebrume, remise unique, entrée/sortie Route 4, vrai duel et victoire, tunnel libéré, rendus 320/393/1365 inspectés, zéro erreur. L’ancien test de progression après Wanda est mis à jour pour inclure père puis Gwenn. Journaux `/tmp/riftmon-gwenn-route4-*`. Pas de test sur téléphone physique.
+
+Publié 2026-10-25T07:50:10.859Z, client `0488837bc5baa7d2604cf63f434ba78eee0d02fd`, build `19ecdd9baa70d568`. Index et décor publics vérifiés à l’octet ; sprite intégré au bundle. Serveur PID 1597682, aucune expédition active à la reprise, Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-gwenn-route4-2026-10-25T07-48-50-723Z`.
+
 ## Gwenn — clé remise par son père — 25 octobre 2026
 
 En Aventure, Wanda conserve son badge et le module Vol, mais ne remet plus la clé de Gwenn. Après sa victoire, parler au père devant le tunnel déclenche un événement narratif `gwenn_father`, terminé par le mécanisme serveur existant de dialogue autorisé et récompense transactionnelle unique. Refus avant Wanda, puis remise, puis réplique de rappel sans nouvelle récompense. Le père raconte que son fils ne sort plus et a ouvert sa fenêtre de trois centimètres en déclarant « Expédition terminée » ; il demande une « livraison de motivation ». Wanda dirige vers lui, Gwenn réagit à la demande de son père. Porte, objet, message du passage, objectif principal et quête personnelle indiquent désormais le père avant la clé, puis la maison orange après réception.

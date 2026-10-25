@@ -65,7 +65,7 @@ test('owner replay SQL/socket: entry speeches, story duels, crystals, isolation 
   assert.deepEqual((await progression.loadProgressState(other.user.id)).testReplays,[]);
   await fight('dia1');assert(!gates.snapshot(await progression.loadProgressState(admin.user.id)).find(g=>g.id==='wayne_route1').locked);await leave();
   for(const scene of scenes){s=await connect(admin,scene.map,13,16,scene.name);assert.equal((await progression.loadProgressState(admin.user.id)).flags[scene.flag],'true');await leave();}
-  for(const [map,x,y,name]of [['route2',25,6,'aspha_route2'],['gen_route8',22,17,'gwenn_route8'],['ville_safe1',25,8,'mathilde_pikapika'],['ville4_maison2',13,10,'gwenn_rochebrume']]){s=await connect(admin,map,x,y);await fight(name);await leave();}
+  for(const [map,x,y,name]of [['route2',25,6,'aspha_route2'],['gen_route8',22,17,'gwenn_route8'],['ville_safe1',25,8,'mathilde_pikapika'],['route4_maison',13,10,'gwenn_rochebrume']]){s=await connect(admin,map,x,y);await fight(name);await leave();}
   progress=await progression.loadProgressState(admin.user.id);assert.equal(gates.actorAtTile('ville4',13,4,progress),null);
   s=await connect(admin,'route2_maison',13,16,'lucie_room_entry');
   for(const obstacle of room.obstacles){

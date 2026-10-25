@@ -14,18 +14,18 @@ async function dialogueDone(){for(let i=0;i<16&&await page.locator('.dialogue-la
 (async()=>{try{
  server.listen(0,'127.0.0.1');await once(server,'listening');const base=`http://127.0.0.1:${server.address().port}`;
  async function create(){const r=await fetch(base+'/api/users',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:'gw_ui_'+randomUUID(),password:randomUUID(),starterId:7})});assert.equal(r.status,201);const u=await r.json();ids.push(u.user.id);return u;}
- const u=await create(),other=await create();await db.execute("UPDATE users SET map='ville4',x=720,y=560 WHERE id=?",[u.user.id]);
+ const u=await create(),other=await create();await db.execute("UPDATE users SET map='route4',x=368,y=592 WHERE id=?",[u.user.id]);
  const lead=require('../server/game/drift/pokemonFactory').create(150,200,true);lead.k=4;lead.recalculateStats();lead.currentHp=lead.maxHp;lead.abilities=[];lead.movePp=[];for(const move of ['Ice Beam','Aura Sphere','Shadow Ball','Recover'])lead.addAbility(move);await require('../server/persistence/teamRepository').editEquipe(u.user.id,{pokemons:[lead]});
  browser=await chromium.launch({headless:true,args:['--no-sandbox']});const ctx=await browser.newContext({viewport:{width:393,height:852},hasTouch:true,isMobile:true});
  await ctx.addInitScript(s=>{if(location.protocol.startsWith('http'))localStorage.setItem('explorakit.user',JSON.stringify(s));},{...u.user,token:u.token});page=await ctx.newPage();page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.url().startsWith(base)&&r.status()>=400)errors.push(r.status()+' '+r.url());});await page.goto(base+'/game',{waitUntil:'networkidle'});await ready();
  async function at(map,x,y){const saved=await page.evaluate(()=>new Promise(r=>v.socket.emit('requestGameSave',r)));assert(saved.success);await page.evaluate(()=>v.socket.disconnect());await page.waitForTimeout(200);await db.execute('UPDATE users SET map=?,x=?,y=? WHERE id=?',[map,x*32+16,y*32+16,u.user.id]);await page.reload({waitUntil:'networkidle'});await ready();}
- await step('move_z');assert.equal(await page.evaluate(()=>v.map),'ville4');assert.match(await page.evaluate(()=>v.progressionNotice?.message||v.interactionNotice||document.body.innerText),/clé|porte|Wanda/i);await page.screenshot({path:path.join(out,'door-locked.png')});
+ await step('move_z');assert.equal(await page.evaluate(()=>v.map),'route4');assert.match(await page.evaluate(()=>v.progressionNotice?.message||v.interactionNotice||document.body.innerText),/clé|porte|Wanda/i);await page.screenshot({path:path.join(out,'door-locked.png')});
  await at('ville4',13,5);assert.equal(await page.evaluate(()=>v.personalGateActors.filter(p=>p.name==='gwenn_father').length),1);await step('move_z');assert.equal(await page.evaluate(()=>Math.floor(v.players[v.socket.id].y/32)),5);await page.evaluate(()=>v.socket.emit('Space'));await page.waitForFunction(()=>v.endSentences==='gwenn_father_locked'&&v.textImageSequence.length);await dialogueDone();await page.screenshot({path:path.join(out,'father.png')});
  // Wanda unlocks the father, but never grants the key on login.
- await db.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value)VALUES(?,'wanda_defeated','true')",[u.user.id]);await at('ville4',22,17);
+ await db.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value)VALUES(?,'wanda_defeated','true')",[u.user.id]);await at('route4',11,18);
  let [keyRows]=await db.execute("SELECT quantity FROM user_items WHERE user_id=? AND item_key='gwenn_house_key'",[u.user.id]);assert.equal(keyRows.length,0);
  const denied=await page.evaluate(()=>new Promise(resolve=>{v.socket.once('interactionRejected',resolve);v.socket.emit('onEndDialogue','gwenn_father');}));assert.equal(denied.reason,'invalid_or_expired_dialogue');
- await step('move_z');assert.equal(await page.evaluate(()=>v.map),'ville4');
+ await step('move_z');assert.equal(await page.evaluate(()=>v.map),'route4');
  await at('ville4',13,5);await page.evaluate(()=>v.socket.emit('Space'));await page.waitForFunction(()=>v.endSentences==='gwenn_father'&&v.textImageSequence.length);
  [keyRows]=await db.execute("SELECT quantity FROM user_items WHERE user_id=? AND item_key='gwenn_house_key'",[u.user.id]);assert.equal(keyRows.length,0,'key waits for authorized dialogue completion');
  await page.screenshot({path:path.join(out,'father-handover.png')});await dialogueDone();
@@ -33,10 +33,10 @@ async function dialogueDone(){for(let i=0;i<16&&await page.locator('.dialogue-la
  [keyRows]=await db.execute("SELECT quantity FROM user_items WHERE user_id=? AND item_key='gwenn_house_key'",[u.user.id]);assert.equal(keyRows[0].quantity,1);
  await page.evaluate(()=>v.socket.emit('Space'));await page.waitForFunction(()=>v.endSentences==='gwenn_father_after'&&v.textImageSequence.length);await dialogueDone();
  [keyRows]=await db.execute("SELECT quantity FROM user_items WHERE user_id=? AND item_key='gwenn_house_key'",[u.user.id]);assert.equal(keyRows[0].quantity,1);
- await at('ville4',22,17);
- await step('move_z');await page.waitForFunction(()=>v.map==='ville4_maison2'&&!v.mapLoading&&v.renderedMap===v.map);assert.deepEqual(await page.evaluate(()=>[Math.floor(v.players[v.socket.id].x/32),Math.floor(v.players[v.socket.id].y/32)]),[13,15]);
+ await at('route4',11,18);
+ await step('move_z');await page.waitForFunction(()=>v.map==='route4_maison'&&!v.mapLoading&&v.renderedMap===v.map);assert.deepEqual(await page.evaluate(()=>[Math.floor(v.players[v.socket.id].x/32),Math.floor(v.players[v.socket.id].y/32)]),[13,15]);
  for(const [width,height]of [[320,568],[393,852],[1365,900]]){await page.setViewportSize({width,height});await page.evaluate(w=>v.showMobileControls=w<920,width);await page.waitForTimeout(150);assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));await page.screenshot({path:path.join(out,`house-${width}.png`)});}
- await step('move_s');await page.waitForFunction(()=>v.map==='ville4');assert.deepEqual(await page.evaluate(()=>[Math.floor(v.players[v.socket.id].x/32),Math.floor(v.players[v.socket.id].y/32)]),[22,17]);await step('move_z');await ready();
+ await step('move_s');await page.waitForFunction(()=>v.map==='route4');assert.deepEqual(await page.evaluate(()=>[Math.floor(v.players[v.socket.id].x/32),Math.floor(v.players[v.socket.id].y/32)]),[11,18]);await step('move_z');await ready();
  await page.setViewportSize({width:393,height:852});await page.evaluate(()=>v.showMobileControls=true);for(let i=0;i<5;i++)await step('move_z');assert.equal(await page.evaluate(()=>Math.floor(v.players[v.socket.id].y/32)),10);
  await page.evaluate(()=>{window.battleRequests=0;v.socket.on('requestAction',()=>battleRequests++);v.socket.emit('Space');});await page.waitForFunction(()=>v.endSentences==='gwenn_rochebrume'&&v.textImageSequence.length);await page.locator('.dialogue-layer .text').click();await page.screenshot({path:path.join(out,'gwenn-dialogue.png')});await dialogueDone();
  await page.waitForSelector('[data-arena-intro]');await page.waitForFunction(()=>document.querySelector('.entrance-portrait')?.naturalWidth>0);await page.screenshot({path:path.join(out,'gwenn-intro.png')});

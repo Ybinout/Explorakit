@@ -1,0 +1,34 @@
+{
+  "date": "2026-10-25",
+  "method": "Built-in imagegen, nearest-neighbor export. House 448x320; sprite cropped to alpha bounds and fitted into 32x32 at 29px tall.",
+  "art": [
+    {
+      "key": "house",
+      "prompt": "Edit the first image, Gwenn's game house interior, to use the much simpler classic handheld pixel-art style and small furniture scale of the SECOND reference image. This is a top-down 2D tile-map background, NOT a perspective room illustration. Logical size 448x320 pixels, aspect 7:5. Keep a single rectangular room fully visible with black void margins, outer walls roughly x64..383 y32..271, central bottom doorway at x208..239 y256..271 and open entrance landing immediately above. Replace the ornate dark detailed room with a restrained cozy grey-blue wooden-floor home, pale grey walls with simple dark blue trim, a small plain rug in the center. Make all furniture simple chunky pixel shapes at normal 16x16 tile scale: a small two-seat sofa about 32x24 pixels on the left, compact bookcase about 24x32 pixels top left, small TV on a low cabinet about 32x24 pixels top right, one small side table and one plant. No massive desk, no huge armchair, no ornate carpet or diamonds, no candles or paintings crowding every wall. Leave broad clear floor from the entrance to the center and upper center, where the game places the NPC. Do not bake in a character. Flat limited colors and clean strong pixel clusters, minimal texture, modest warm lived-in feeling, like a classic Pokemon overworld interior. Furniture must NOT dwarf the small game character. No text or symbols, no added doors or stairs, no painterly shading. The result should fit with reference two, not with a realistic rendered house.",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-c48a5a98-e37b-49ff-835e-5403634823f4.png",
+      "references": [
+        "/home/ubuntu/dev/explorakit/vue-explorakit/src/assets/gwenn_house.png",
+        "/home/ubuntu/dev/explorakit/vue-explorakit/src/assets/gen_maison1.png"
+      ]
+    },
+    {
+      "key": "sprite",
+      "prompt": "Replace the first image (Gwenn world sprite) with ONE single front-facing idle overworld character sprite, NOT a sprite sheet. Use images two and three ONLY as references for the game champions' compact chibi pixel-art proportions: oversized head, short stout body, short legs, broad readable silhouette, chunky low-resolution pixels. Logical canvas 32x32 pixels, centered character about 20 pixels wide and 29 pixels high, bottom aligned. Transparent background. Gwenn wears a BLACK CAP (not a hood), long black hair peeking from the cap, black scarf covering nose/mouth/chin so only eyes show, black outfit, simple charcoal highlights, pale hands. A tiny red-white Ball in one hand and a small grey vape in the other. These are small readable pixel accents, NOT detailed realistic props. Simplify heavily to match the champion references, thick dark outline and flat pixel clusters, limited palette. The previous sprite was too thin and too detailed: make the silhouette substantially broader and stockier with a large head, no slender realistic anatomy, no long legs, no detailed hair strands, no text, no background, no shadow disc. ONE sprite only, facing the camera with both feet visible.",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-75f7dc73-7893-4907-8977-b75437eda8cd.png",
+      "references": [
+        "/home/ubuntu/dev/explorakit/vue-explorakit/src/assets/pnj/gwenn-pixel-v1.png",
+        "/home/ubuntu/dev/explorakit/vue-explorakit/src/assets/pnj/7ps.png",
+        "/home/ubuntu/dev/explorakit/vue-explorakit/src/assets/pnj/raph.png"
+      ]
+    }
+  ],
+  "finalHouse": {
+    "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-0329aec0-d928-4ca0-b628-0a38c762db87.png",
+    "prompt": "Precise object edit of this game map: SHRINK every furniture object and both plants to about TWO THIRDS (65%) of their current width and height, keeping their approximate floor positions. The bookcase must become a compact 24x32 logical pixel object, the sofa about 20x30 logical pixels, the television cabinet about 24x24 logical pixels, plants about 12x18 logical pixels. Their old surrounding area must become matching open floor/wall. These furniture objects are still too large for the game's small overworld sprites. Preserve room outer bounds, wall positions, window, floor, central doorway, rug position and the simple classic pixel style EXACTLY. Do not reduce the whole room or change the framing. No new furniture. No characters. Flat low-detail classic handheld pixel art, clean small furnishings. Logical resolution 448x320, same 7:5 aspect ratio. Main change: clearly substantially smaller furniture, simpler silhouettes.",
+    "asset": "vue-explorakit/src/assets/gwenn_house.png"
+  },
+  "finalSprite": {
+    "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-75f7dc73-7893-4907-8977-b75437eda8cd.png",
+    "asset": "vue-explorakit/src/assets/pnj/gwenn-pixel-v2.png"
+  }
+}

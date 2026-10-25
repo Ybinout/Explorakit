@@ -579,6 +579,15 @@
           "goto": "gen_route8",
           "nexX": 576,
           "nexY": 64
+        },
+        {
+          "valX": 11,
+          "valY": 17,
+          "goto": "route4_maison",
+          "nexX": 416,
+          "nexY": 512,
+          "requiresStoryFlag": "gwenn_house_key_received",
+          "lockedMessage": "La porte est fermée. Après avoir battu Wanda, parle au père de Gwenn devant le tunnel au nord de Rochebrume pour obtenir la clé."
         }
       ],
       "wildpokemon": [
@@ -1991,9 +2000,7 @@
           "valY": 16,
           "goto": "ville4_maison2",
           "nexX": 416,
-          "nexY": 512,
-          "requiresStoryFlag": "gwenn_house_key_received",
-          "lockedMessage": "La porte est fermée. Après avoir battu Wanda, parle au père de Gwenn devant le tunnel au nord de Rochebrume pour obtenir la clé."
+          "nexY": 544
         }
       ]
     },
@@ -2065,14 +2072,14 @@
       "mapchange": [
         {
           "valX": 13,
-          "valY": 16,
+          "valY": 17,
           "goto": "ville4",
           "nexX": 704,
           "nexY": 576
         },
         {
           "valX": 14,
-          "valY": 16,
+          "valY": 17,
           "goto": "ville4",
           "nexX": 704,
           "nexY": 576
@@ -2863,6 +2870,30 @@
         "min": 44,
         "max": 46
       }
+    },
+    {
+      "mapName": "route4_maison",
+      "wildpokemon": [],
+      "level": {
+        "min": 49,
+        "max": 51
+      },
+      "mapchange": [
+        {
+          "valX": 13,
+          "valY": 16,
+          "goto": "route4",
+          "nexX": 352,
+          "nexY": 608
+        },
+        {
+          "valX": 14,
+          "valY": 16,
+          "goto": "route4",
+          "nexX": 352,
+          "nexY": 608
+        }
+      ]
     }
   ]
 }
