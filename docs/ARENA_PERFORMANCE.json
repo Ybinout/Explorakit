@@ -1,0 +1,665 @@
+{
+  "date": "2026-10-25",
+  "baselineClient": "9c1f92facc005939efad4bf221b161f18b756705",
+  "baselineBuild": "f68d6e4bceee66b8",
+  "optimizedBuild": "70590aa20a62ad9c",
+  "method": "Real HTTP/Socket/Canvas on disposable explorakit_test users; same safe corridors in six active arenas. Eight alternating 470ms legs, then 24 legs for Mounir/Hoze. Sequential baseline and optimized runs; no production account changes.",
+  "environment": {
+    "browser": "Headless Chromium on VPS",
+    "pc": {
+      "viewport": [
+        1365,
+        900
+      ],
+      "cpuThrottle": 1,
+      "deviceScaleFactor": 1
+    },
+    "mobileSimulation": {
+      "viewport": [
+        393,
+        852
+      ],
+      "cpuThrottle": 4,
+      "deviceScaleFactor": 3
+    },
+    "physicalPhoneTest": false
+  },
+  "limits": [
+    "Short FPS runs vary with compilation, canvas adaptation and scheduling; frame-rate changes are not all positive and are not a phone performance guarantee.",
+    "The short baseline Wanda run had 459 frame samples and 49 sent commands versus 226/24 in the after run: its command counts should not be treated as a controlled acceptance-rate comparison.",
+    "Existing adaptive mobile density remains 2 to 1.5 to 1; not altered by this patch. CSS UI remains native.",
+    "Effect-only benchmark excludes final compositing to the screen: CPU gains do not directly equal FPS gains."
+  ],
+  "shortComparisons": [
+    {
+      "format": "pc",
+      "map": "ville1_arene",
+      "before": {
+        "format": "pc",
+        "map": "ville1_arene",
+        "fpsMean": 60.002926972047426,
+        "drawMeanMs": 3.5959514278149314,
+        "drawP95Ms": 9.599999904632568,
+        "canvas": [
+          896,
+          640
+        ],
+        "sent": 26,
+        "accepted": 26,
+        "frameSamples": 246,
+        "uiUpdates": 27
+      },
+      "after": {
+        "format": "pc",
+        "map": "ville1_arene",
+        "fpsMean": 60.00292697204743,
+        "drawMeanMs": 3.2757084997076737,
+        "drawP95Ms": 8.700000286102295,
+        "canvas": [
+          896,
+          640
+        ],
+        "sent": 26,
+        "accepted": 26,
+        "frameSamples": 246,
+        "uiUpdates": 27
+      }
+    },
+    {
+      "format": "pc",
+      "map": "ville_safe1_arene",
+      "before": {
+        "format": "pc",
+        "map": "ville_safe1_arene",
+        "fpsMean": 60.00393468424163,
+        "drawMeanMs": 2.882448980759601,
+        "drawP95Ms": 9.400000095367432,
+        "canvas": [
+          896,
+          640
+        ],
+        "sent": 26,
+        "accepted": 26,
+        "frameSamples": 244,
+        "uiUpdates": 27
+      },
+      "after": {
+        "format": "pc",
+        "map": "ville_safe1_arene",
+        "fpsMean": 60.00296310928939,
+        "drawMeanMs": 2.6184426233416698,
+        "drawP95Ms": 7.800000190734863,
+        "canvas": [
+          896,
+          640
+        ],
+        "sent": 26,
+        "accepted": 26,
+        "frameSamples": 243,
+        "uiUpdates": 27
+      }
+    },
+    {
+      "format": "pc",
+      "map": "gen_arene5",
+      "before": {
+        "format": "pc",
+        "map": "gen_arene5",
+        "fpsMean": 60.00198353664587,
+        "drawMeanMs": 2.115226331561681,
+        "drawP95Ms": 7.899999618530273,
+        "canvas": [
+          896,
+          640
+        ],
+        "sent": 26,
+        "accepted": 26,
+        "frameSamples": 242,
+        "uiUpdates": 27
+      },
+      "after": {
+        "format": "pc",
+        "map": "gen_arene5",
+        "fpsMean": 60.002963109289404,
+        "drawMeanMs": 1.9659836155469301,
+        "drawP95Ms": 7.299999713897705,
+        "canvas": [
+          896,
+          640
+        ],
+        "sent": 26,
+        "accepted": 26,
+        "frameSamples": 243,
+        "uiUpdates": 27
+      }
+    },
+    {
+      "format": "pc",
+      "map": "ville3_arene",
+      "before": {
+        "format": "pc",
+        "map": "ville3_arene",
+        "fpsMean": 60.001983536645895,
+        "drawMeanMs": 1.0481481336271812,
+        "drawP95Ms": 2.9000000953674316,
+        "canvas": [
+          896,
+          640
+        ],
+        "sent": 26,
+        "accepted": 26,
+        "frameSamples": 242,
+        "uiUpdates": 27
+      },
+      "after": {
+        "format": "pc",
+        "map": "ville3_arene",
+        "fpsMean": 60.002963109289375,
+        "drawMeanMs": 0.9651639402889814,
+        "drawP95Ms": 2.6999998092651367,
+        "canvas": [
+          896,
+          640
+        ],
+        "sent": 26,
+        "accepted": 26,
+        "frameSamples": 243,
+        "uiUpdates": 27
+      }
+    },
+    {
+      "format": "pc",
+      "map": "ville4_arene",
+      "before": {
+        "format": "pc",
+        "map": "ville4_arene",
+        "fpsMean": 60.00296310928941,
+        "drawMeanMs": 0.7340164223655326,
+        "drawP95Ms": 2,
+        "canvas": [
+          896,
+          640
+        ],
+        "sent": 26,
+        "accepted": 26,
+        "frameSamples": 243,
+        "uiUpdates": 27
+      },
+      "after": {
+        "format": "pc",
+        "map": "ville4_arene",
+        "fpsMean": 60.002489729864365,
+        "drawMeanMs": 0.6136363734883711,
+        "drawP95Ms": 1.3000001907348633,
+        "canvas": [
+          896,
+          640
+        ],
+        "sent": 26,
+        "accepted": 26,
+        "frameSamples": 241,
+        "uiUpdates": 27
+      }
+    },
+    {
+      "format": "pc",
+      "map": "ville5_arene",
+      "before": {
+        "format": "pc",
+        "map": "ville5_arene",
+        "fpsMean": 60.0019835366459,
+        "drawMeanMs": 0.8061728045773604,
+        "drawP95Ms": 2.299999713897705,
+        "canvas": [
+          896,
+          640
+        ],
+        "sent": 26,
+        "accepted": 26,
+        "frameSamples": 242,
+        "uiUpdates": 27
+      },
+      "after": {
+        "format": "pc",
+        "map": "ville5_arene",
+        "fpsMean": 60.00049587186674,
+        "drawMeanMs": 0.6288066028076925,
+        "drawP95Ms": 1.5,
+        "canvas": [
+          896,
+          640
+        ],
+        "sent": 26,
+        "accepted": 26,
+        "frameSamples": 242,
+        "uiUpdates": 27
+      }
+    },
+    {
+      "format": "mobile-cpu4",
+      "map": "ville1_arene",
+      "before": {
+        "format": "mobile-cpu4",
+        "map": "ville1_arene",
+        "fpsMean": 42.27464884767488,
+        "drawMeanMs": 9.575935835506828,
+        "drawP95Ms": 18.90000009536743,
+        "canvas": [
+          393,
+          631
+        ],
+        "sent": 24,
+        "accepted": 24,
+        "frameSamples": 186,
+        "uiUpdates": 41
+      },
+      "after": {
+        "format": "mobile-cpu4",
+        "map": "ville1_arene",
+        "fpsMean": 39.70378301213417,
+        "drawMeanMs": 10.155307266299285,
+        "drawP95Ms": 19.300000190734863,
+        "canvas": [
+          393,
+          631
+        ],
+        "sent": 25,
+        "accepted": 25,
+        "frameSamples": 178,
+        "uiUpdates": 42
+      }
+    },
+    {
+      "format": "mobile-cpu4",
+      "map": "ville_safe1_arene",
+      "before": {
+        "format": "mobile-cpu4",
+        "map": "ville_safe1_arene",
+        "fpsMean": 25.840925017519268,
+        "drawMeanMs": 22.284999994436898,
+        "drawP95Ms": 38.799999713897705,
+        "canvas": [
+          393,
+          631
+        ],
+        "sent": 22,
+        "accepted": 22,
+        "frameSamples": 118,
+        "uiUpdates": 39
+      },
+      "after": {
+        "format": "mobile-cpu4",
+        "map": "ville_safe1_arene",
+        "fpsMean": 28.19570071955429,
+        "drawMeanMs": 20.07322836673166,
+        "drawP95Ms": 34.19999980926514,
+        "canvas": [
+          393,
+          631
+        ],
+        "sent": 22,
+        "accepted": 22,
+        "frameSamples": 125,
+        "uiUpdates": 39
+      }
+    },
+    {
+      "format": "mobile-cpu4",
+      "map": "gen_arene5",
+      "before": {
+        "format": "mobile-cpu4",
+        "map": "gen_arene5",
+        "fpsMean": 47.2257711261179,
+        "drawMeanMs": 5.492307681303758,
+        "drawP95Ms": 16.90000009536743,
+        "canvas": [
+          590,
+          947
+        ],
+        "sent": 25,
+        "accepted": 25,
+        "frameSamples": 207,
+        "uiUpdates": 42
+      },
+      "after": {
+        "format": "mobile-cpu4",
+        "map": "gen_arene5",
+        "fpsMean": 49.577203753040656,
+        "drawMeanMs": 4.949302318484285,
+        "drawP95Ms": 14.5,
+        "canvas": [
+          590,
+          947
+        ],
+        "sent": 25,
+        "accepted": 25,
+        "frameSamples": 214,
+        "uiUpdates": 42
+      }
+    },
+    {
+      "format": "mobile-cpu4",
+      "map": "ville3_arene",
+      "before": {
+        "format": "mobile-cpu4",
+        "map": "ville3_arene",
+        "fpsMean": 52.442596617216296,
+        "drawMeanMs": 2.9031390117422884,
+        "drawP95Ms": 7.099999904632568,
+        "canvas": [
+          590,
+          947
+        ],
+        "sent": 24,
+        "accepted": 24,
+        "frameSamples": 222,
+        "uiUpdates": 41
+      },
+      "after": {
+        "format": "mobile-cpu4",
+        "map": "ville3_arene",
+        "fpsMean": 52.58890304644968,
+        "drawMeanMs": 2.686842106936271,
+        "drawP95Ms": 6.799999713897705,
+        "canvas": [
+          590,
+          947
+        ],
+        "sent": 24,
+        "accepted": 24,
+        "frameSamples": 227,
+        "uiUpdates": 41
+      }
+    },
+    {
+      "format": "mobile-cpu4",
+      "map": "ville4_arene",
+      "before": {
+        "format": "mobile-cpu4",
+        "map": "ville4_arene",
+        "fpsMean": 57.13930038590806,
+        "drawMeanMs": 1.2376086836275848,
+        "drawP95Ms": 4,
+        "canvas": [
+          786,
+          1228
+        ],
+        "sent": 49,
+        "accepted": 32,
+        "frameSamples": 459,
+        "uiUpdates": 49
+      },
+      "after": {
+        "format": "mobile-cpu4",
+        "map": "ville4_arene",
+        "fpsMean": 56.979394390436774,
+        "drawMeanMs": 1.8024390519149904,
+        "drawP95Ms": 3.9000000953674316,
+        "canvas": [
+          786,
+          1228
+        ],
+        "sent": 24,
+        "accepted": 24,
+        "frameSamples": 245,
+        "uiUpdates": 41
+      }
+    },
+    {
+      "format": "mobile-cpu4",
+      "map": "ville5_arene",
+      "before": {
+        "format": "mobile-cpu4",
+        "map": "ville5_arene",
+        "fpsMean": 52.35723387003359,
+        "drawMeanMs": 2.2440528722586612,
+        "drawP95Ms": 5.600000381469727,
+        "canvas": [
+          786,
+          1262
+        ],
+        "sent": 24,
+        "accepted": 24,
+        "frameSamples": 226,
+        "uiUpdates": 41
+      },
+      "after": {
+        "format": "mobile-cpu4",
+        "map": "ville5_arene",
+        "fpsMean": 53.23122898767277,
+        "drawMeanMs": 1.889082964851346,
+        "drawP95Ms": 3.9000000953674316,
+        "canvas": [
+          786,
+          1262
+        ],
+        "sent": 24,
+        "accepted": 24,
+        "frameSamples": 228,
+        "uiUpdates": 41
+      }
+    }
+  ],
+  "longMobileComparisons": {
+    "before": [
+      {
+        "format": "mobile-cpu4",
+        "map": "ville1_arene",
+        "fpsMean": 52.151343037275076,
+        "drawMeanMs": 7.917944784544728,
+        "drawP95Ms": 18.700000286102295,
+        "canvas": [
+          393,
+          631
+        ],
+        "sent": 75,
+        "accepted": 75,
+        "frameSamples": 651,
+        "uiUpdates": 125
+      },
+      {
+        "format": "mobile-cpu4",
+        "map": "ville_safe1_arene",
+        "fpsMean": 51.9969917759036,
+        "drawMeanMs": 7.518449611072392,
+        "drawP95Ms": 21.5,
+        "canvas": [
+          393,
+          631
+        ],
+        "sent": 72,
+        "accepted": 72,
+        "frameSamples": 643,
+        "uiUpdates": 122
+      }
+    ],
+    "after": [
+      {
+        "format": "mobile-cpu4",
+        "map": "ville1_arene",
+        "fpsMean": 54.24558899844331,
+        "drawMeanMs": 7.165074629570121,
+        "drawP95Ms": 16.799999713897705,
+        "canvas": [
+          393,
+          631
+        ],
+        "sent": 73,
+        "accepted": 73,
+        "frameSamples": 669,
+        "uiUpdates": 123
+      },
+      {
+        "format": "mobile-cpu4",
+        "map": "ville_safe1_arene",
+        "fpsMean": 52.06118994713678,
+        "drawMeanMs": 7.497542250174714,
+        "drawP95Ms": 19.5,
+        "canvas": [
+          393,
+          631
+        ],
+        "sent": 73,
+        "accepted": 73,
+        "frameSamples": 649,
+        "uiUpdates": 123
+      }
+    ]
+  },
+  "effectOnlyBenchmark": {
+    "cpuThrottle": 4,
+    "framesPerVariant": 400,
+    "target": "Native Canvas effects; final target blit excluded",
+    "rows": [
+      {
+        "map": "ville1_arene",
+        "phase": "lighting",
+        "before": {
+          "meanMs": 0.38425000190734865,
+          "p50Ms": 0.10000038146972656,
+          "p95Ms": 1
+        },
+        "after": {
+          "meanMs": 0.22799999952316286,
+          "p50Ms": 0.09999990463256836,
+          "p95Ms": 0.9000000953674316
+        }
+      },
+      {
+        "map": "ville_safe1_arene",
+        "phase": "opening",
+        "before": {
+          "meanMs": 1.6897499990463256,
+          "p50Ms": 1.6999998092651367,
+          "p95Ms": 2.5999999046325684
+        },
+        "after": {
+          "meanMs": 1.189249999523163,
+          "p50Ms": 1.1000003814697266,
+          "p95Ms": 1.8999996185302734
+        }
+      },
+      {
+        "map": "ville_safe1_arene",
+        "phase": "settled",
+        "before": {
+          "meanMs": 1.697999999523163,
+          "p50Ms": 1.6999998092651367,
+          "p95Ms": 2.5999999046325684
+        },
+        "after": {
+          "meanMs": 0.4435000014305115,
+          "p50Ms": 0.3000001907348633,
+          "p95Ms": 0.9000000953674316
+        }
+      },
+      {
+        "map": "gen_arene5",
+        "phase": "lighting",
+        "before": {
+          "meanMs": 2.647749999761581,
+          "p50Ms": 2.4000000953674316,
+          "p95Ms": 4.5
+        },
+        "after": {
+          "meanMs": 2.4492500007152556,
+          "p50Ms": 2.299999713897705,
+          "p95Ms": 4.200000286102295
+        }
+      },
+      {
+        "map": "ville3_arene",
+        "phase": "lighting",
+        "before": {
+          "meanMs": 0.5697500002384186,
+          "p50Ms": 0.5999999046325684,
+          "p95Ms": 1.1999998092651367
+        },
+        "after": {
+          "meanMs": 0.42350000262260434,
+          "p50Ms": 0.40000009536743164,
+          "p95Ms": 1
+        }
+      },
+      {
+        "map": "ville4_arene",
+        "phase": "lighting",
+        "before": {
+          "meanMs": 0.25300000071525575,
+          "p50Ms": 0.09999990463256836,
+          "p95Ms": 0.9000000953674316
+        },
+        "after": {
+          "meanMs": 0.14875,
+          "p50Ms": 0,
+          "p95Ms": 0.6999998092651367
+        }
+      },
+      {
+        "map": "ville5_arene",
+        "phase": "lighting",
+        "before": {
+          "meanMs": 0.42050000071525573,
+          "p50Ms": 0.39999961853027344,
+          "p95Ms": 1
+        },
+        "after": {
+          "meanMs": 0.1475,
+          "p50Ms": 0,
+          "p95Ms": 0.8000001907348633
+        }
+      },
+      {
+        "map": "ville1_arene",
+        "phase": "water",
+        "before": {
+          "meanMs": 7.813750002384186,
+          "p50Ms": 7.5,
+          "p95Ms": 10.900000095367432
+        },
+        "after": {
+          "meanMs": 6.360000001192093,
+          "p50Ms": 6.299999713897705,
+          "p95Ms": 8.400000095367432
+        }
+      }
+    ]
+  },
+  "pixelParity": {
+    "frames": 156,
+    "waterFrames": 49,
+    "differingBytes": 0,
+    "maxDelta": 0,
+    "differences": [],
+    "released": true
+  },
+  "evidence": {
+    "shortBaseline": "/tmp/riftmon-arenas-before/results.json",
+    "shortOptimized": "/tmp/riftmon-arenas-after/results.json",
+    "longBaseline": "/tmp/riftmon-arenas-long-before/results.json",
+    "longOptimized": "/tmp/riftmon-arenas-long-after/results.json",
+    "effectOnly": "/tmp/riftmon-arenas-effects.json",
+    "browser": "/tmp/riftmon-arenas-hoze-browser.log",
+    "screenshots": "/tmp/riftmon-arenas-hoze-browser"
+  },
+  "sixArenaBrowserValidation": {
+    "halls": 6,
+    "realCityEntrances": true,
+    "realNpcDialogues": true,
+    "arenaBattles": true,
+    "returnWithoutReconnect": true,
+    "bothExitCells": true,
+    "viewports": 4,
+    "errors": [],
+    "output": "/tmp/riftmon-arenas-six-halls"
+  },
+  "deployment": {
+    "publishedAt": "2026-10-25T16:28:00.772Z",
+    "clientCommit": "4edfefb42bab2ce6a1bfc4f2adcc7ce6d1a8a42e",
+    "build": "70590aa20a62ad9c",
+    "serverRestarted": false,
+    "serverPid": 1639340,
+    "neighborSitesUnchanged": true,
+    "backup": "/home/ubuntu/dev/backups/riftmon-arena-performance-2026-10-25T16-27-59-314Z"
+  }
+}

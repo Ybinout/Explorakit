@@ -19,12 +19,18 @@ let browser,page,userId,success=false;const errors=[];
  const world=require('../data/game/nextMap.json').maps;
  await page.evaluate(()=>{v.showMobileControls=true;v.preferences.textSpeed=10000;v.preferences.animationsEnabled=false;});
  const halls=[['ville1_arene','moonpunch','moon'],['ville_safe1_arene','hoze','champion_hoze'],['gen_arene5','raphael','champion_raphael'],['ville3_arene','ana','champion_ana'],['ville4_arene','wanda','champion_wanda']];
+ if(process.env.VALIDATE_ALL_ARENAS==='1')halls.push(['ville5_arene','sevenp','champion_7p']);
  for(const [map,champion,dialogue] of halls){
   const city=world.find(m=>m.mapchange.some(c=>c.goto===map)),door=city.mapchange.find(c=>c.goto===map);
   Object.assign(player,{currentmap:city.mapName,x:door.valX*32+16,y:(door.valY+1)*32+16});cleanup.runtime.enter(fixture.user,{id:player.socketId});
   await page.waitForFunction(m=>v.map===m&&v.renderedMap===m&&!v.mapLoading,city.mapName);
   await page.waitForTimeout(180);await page.locator('.mobile-dpad-up').click();
   await page.waitForFunction(m=>v.map===m&&v.renderedMap===m&&!v.mapLoading,map);
+  // The current arena entrance scene hides the directional pad until read.
+  for(let n=0;n<10&&await page.locator('.dialogue-layer .text').count();n++){
+   await page.locator('.dialogue-layer .text').click();await page.waitForTimeout(70);
+  }
+  assert.equal(await page.locator('.dialogue-layer .text').count(),0);
   for(let y=15;y>=5;y--){await page.waitForTimeout(180);await page.locator('.mobile-dpad-up').click();await page.waitForFunction(y=>Math.floor(v.players[v.socket.id].y/32)===y,y);}
   const actor=await page.evaluate(name=>v.pnjs.find(p=>p.name===name),champion);assert(actor);assert.equal(actor.y,4);
   for(const [width,height]of [[320,568],[393,852],[844,390],[1365,900]]){
@@ -44,5 +50,5 @@ let browser,page,userId,success=false;const errors=[];
   await page.waitForTimeout(180);await page.locator('.mobile-dpad-down').click();await page.waitForFunction(m=>v.map===m&&!v.mapLoading,city.mapName);
   assert.deepEqual([Math.floor(player.x/32),Math.floor(player.y/32)],[door.valX,door.valY+1]);
  }
- assert.deepEqual(errors,[]);success=true;console.log(JSON.stringify({halls:5,realCityEntrances:true,realNpcDialogues:true,arenaBattles:true,returnWithoutReconnect:true,bothExitCells:true,viewports:4,errors,output}));
+ assert.deepEqual(errors,[]);success=true;console.log(JSON.stringify({halls:halls.length,realCityEntrances:true,realNpcDialogues:true,arenaBattles:true,returnWithoutReconnect:true,bothExitCells:true,viewports:4,errors,output}));
 }finally{if(!success&&page)await page.screenshot({path:path.join(output,'failure.png'),fullPage:true}).catch(()=>{});await browser?.close();cleanup();await new Promise(r=>io.close(r));if(userId)await dbPool.execute('DELETE FROM users WHERE id=?',[userId]);await dbPool.end();}})().catch(e=>{console.error(e.stack);process.exitCode=1});

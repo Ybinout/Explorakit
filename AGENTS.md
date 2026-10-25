@@ -1,5 +1,13 @@
 # Contexte permanent — RiftMon
 
+## Fluidité des arènes — 25 octobre 2026
+
+Les six arènes actives réutilisent une base lumineuse fixe et huit gradients de lanternes. Hoze/Raph séparent la lecture initiale des pixels et le rendu animé ; ne pas remettre les lectures de texture sur la surface animée. Hoze réutilise les poids de flexion des piliers et met seulement les fissures **terminées** en cache : nouvelle époque serveur/admin supprime ce cache, sans modifier les délais d’effondrement ni les collisions. Toutes les surfaces et gradients sont libérés par `suspend` ; l’horloge persistante reste indépendante du cache.
+
+Mounir/lacs : termes des vagues par ligne/colonne, pixels strictement identiques ; conserver les masques et la palette. `UserMap.drawPlayers` transmet un timestamp unique aux phases eau/météo : pas de double préparation météo dans une même image lente. Aucun asset, effet, intensité, budget de résolution ou cadence de commande modifié. Rendu partagé Aventure/Rift/Colosseum. Mesures complètes et limites dans `docs/ARENA_PERFORMANCE.json` et la section de tête de l’audit : gains de calcul des effets, pas de promesse uniforme d’images/s sur téléphone.
+
+Recettes nouvelles : `validateArenaRenderParity.js` (205 images sans différence, baseline services client `9c1f92facc005939efad4bf221b161f18b756705` exportés dans `/tmp/riftmon-arenas-baseline-services`), `measureArenaEffectsCanvas.js`. Préserver le nettoyage des nouveaux caches et leur invalidation admin. `VALIDATE_ALL_ARENAS=1` étend `validateFiveArenaHallsBrowser.js` à 7p ; le dialogue d’entrée doit être lu avant de marcher. Voir l’audit pour les 45 tests ciblés, recettes Canvas et navigateur Hoze/quatre formats. Passe six salles avec véritables combats Colosseum et retours réussie ; build `70590aa20a62ad9c`, client `4edfefb42bab2ce6a1bfc4f2adcc7ce6d1a8a42e`, publication statique sans redémarrage.
+
 ## Fluidité des déplacements et budget mobile — 25 octobre 2026
 
 Le profilage identifie deux coûts évitables : les poses des personnages modifiaient des données Vue observées à chaque image, et les traces repeignaient/effaçaient leur surface entière. `worldMovement.js` conserve maintenant les poses visuelles hors réactivité ; caméra, sprite, herbes et traces partagent cette interpolation, tandis que les coordonnées métier restent les positions autorisées par le serveur. Durée initiale 150 ms, adaptation bornée 130–180 ms, cycle de marche continu entre paquets. Aucune prédiction dans les murs. Changement de carte, téléportation, instantané complet et déconnexion effacent les poses concernées ; les paquets Rift/Colosseum restent interpolés même si leur `isMoving` vaut faux.
