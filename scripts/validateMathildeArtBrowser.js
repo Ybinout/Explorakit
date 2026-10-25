@@ -4,13 +4,14 @@ if(!/test/i.test(process.env.DB_TEST_NAME||''))throw Error('Dedicated test datab
 process.env.DB_NAME=process.env.DB_TEST_NAME;process.env.NODE_ENV='test';process.env.BATTLE_DELAY_SCALE='0';
 const express=require('express'),{Server}=require('socket.io'),{chromium}=require('playwright');
 const {dbPool:db}=require('../server/config/database');
-const dist=process.env.RELEASE_DIST_DIR||'/tmp/riftmon-mathilde-dist',out=process.env.RELEASE_SCREENSHOTS||'/tmp/riftmon-mathilde-browser';fs.mkdirSync(out,{recursive:true});
+const dist=process.env.RELEASE_DIST_DIR||'/tmp/riftmon-mathilde-splash-dist',out=process.env.RELEASE_SCREENSHOTS||'/tmp/riftmon-mathilde-splash-browser';fs.mkdirSync(out,{recursive:true});
 const app=express(),server=http.createServer(app),io=new Server(server);
 app.use(express.json());app.use('/api',require('../server/http/routes'));app.use(express.static(dist));app.get('*',(_q,r)=>r.sendFile(path.join(dist,'index.html')));io.use(require('../server/http/authMiddleware').authenticateSocket);require('../server/realtime/socketHandler')(io);
 const ids=[],errors=[];let browser,page,success=false;
 async function ready(){await page.waitForFunction(()=>{const v=document.querySelector('.game-root')?.__vue__;if(!v?.socket?.connected||!v.players[v.socket.id]||v.mapLoading||v.renderedMap!==v.map)return false;window.v=v;return true;});}
 async function step(action){await page.evaluate(a=>v.socket.emit('playerAction',a),action);await page.waitForTimeout(400);}
 async function dialogueDone(){for(let i=0;i<16&&await page.locator('.dialogue-layer .text').count();i++){await page.locator('.dialogue-layer .text').click();await page.waitForTimeout(90);}}
+async function portrait(){await page.waitForFunction(()=>document.querySelector('.dialogue-layer img')?.naturalWidth>0);const p=await page.evaluate(()=>({src:v.textImageSequence[0].image,frame:v.textImageSequence[0].portraitFrame}));assert.match(p.src,/mathilde-v1/);assert.equal(p.frame,null);}
 (async()=>{try{
  server.listen(0,'127.0.0.1');await once(server,'listening');const base=`http://127.0.0.1:${server.address().port}`;
  async function create(){const r=await fetch(base+'/api/users',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:'mathilde_ui_'+randomUUID(),password:randomUUID(),starterId:7})});assert.equal(r.status,201);const u=await r.json();ids.push(u.user.id);return u;}
@@ -21,14 +22,22 @@ async function dialogueDone(){for(let i=0;i<16&&await page.locator('.dialogue-la
  async function at(map,x,y){const saved=await page.evaluate(()=>new Promise(r=>v.socket.emit('requestGameSave',r)));assert(saved.success);await page.evaluate(()=>v.socket.disconnect());await page.waitForTimeout(200);await db.execute('UPDATE users SET map=?,x=?,y=? WHERE id=?',[map,x*32+16,y*32+16,u.user.id]);await page.reload({waitUntil:'networkidle'});await ready();}
  // The atlas crop and its normal 2x rendering must remain crisp next to the player.
  await page.evaluate(async()=>{const n=v.pnjs.find(n=>n.name==='mathilde_pikapika');if(!n)throw Error('Missing Mathilde');const i=v.ensurePnjSpriteSheet(n.sprite);await i.decode();if(i.naturalWidth!==1451)throw Error('Wrong atlas');const c=document.createElement('canvas');c.width=896;c.height=640;const g=c.getContext('2d'),calls=[],draw=g.drawImage;g.drawImage=function(img,...args){calls.push(args);return draw.call(this,img,...args);};const previous=v.pnjs;try{v.pnjs=[n];v.drawPnjs(g);}finally{v.pnjs=previous;}const a=calls[0];if(JSON.stringify(a.slice(0,4))!==JSON.stringify([941,802,19,24])||a[6]!==38||a[7]!==48)throw Error('Wrong Mathilde crop or scaling '+a);});
- for(const [width,height]of [[320,568],[393,852],[1365,900]]){await page.setViewportSize({width,height});await page.waitForTimeout(150);await page.evaluate(async w=>{v.showMobileControls=w<=920;await v.$nextTick();v.resizeWorldViewport();},width);assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));await page.screenshot({path:path.join(out,`mathilde-${width}.png`)});}
+ for(const [width,height]of [[320,568],[393,852],[844,390],[1365,900]]){await page.setViewportSize({width,height});await page.waitForTimeout(150);await page.evaluate(async w=>{v.showMobileControls=w<=920;await v.$nextTick();v.resizeWorldViewport();},width);assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));await page.screenshot({path:path.join(out,`mathilde-${width}.png`)});}
  await page.setViewportSize({width:393,height:852});await page.waitForTimeout(150);await page.evaluate(()=>v.showMobileControls=true);
  await step('move_z');assert.equal(await page.evaluate(()=>Math.floor(v.players[v.socket.id].y/32)),8,'Mathilde remains solid');
  await page.evaluate(()=>v.socket.emit('Space'));await page.waitForFunction(()=>v.endSentences==='mathilde_pikapika_locked'&&v.textImageSequence.length);await page.locator('.dialogue-layer .text').click();await page.screenshot({path:path.join(out,'mathilde-locked-dialogue.png')});
- assert.equal(await page.evaluate(()=>v.textImageSequence[0].portraitFrame.index),15,'blonde civilian fallback');await dialogueDone();
+ await portrait();await dialogueDone();
  await db.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value)VALUES(?,'raphael_defeated','true')",[u.user.id]);await at('ville_safe1',25,8);
  await step('move_z');await page.evaluate(()=>v.socket.emit('Space'));await page.waitForFunction(()=>v.endSentences==='mathilde_pikapika'&&v.textImageSequence.length);await page.locator('.dialogue-layer .text').click();await page.screenshot({path:path.join(out,'mathilde-ready-dialogue.png')});
- for(const name of ['mathilde_pikapika','mathilde_pikapika_locked','mathilde_pikapika_after']){const p=await page.evaluate(name=>{v.updateTextImageSequence([{text:'Bonjour',imageName:'townspeople.png',portraitFrame:{columns:8,rows:4,index:7}}],name);return v.textImageSequence[0].portraitFrame.index;},name);assert.equal(p,15);}
-  assert.deepEqual(errors,[]);success=true;console.log(JSON.stringify({sprite:true,nativeCrop:[941,802,19,24],worldScale:2,dialogue:true,raphPrerequisite:true,solidNpc:true,blondePortraitFallback:true,viewports:3,errors,out}));
+ await portrait();
+ for(const [width,height]of [[320,568],[393,852],[844,390],[1365,900]]){await page.setViewportSize({width,height});await page.waitForTimeout(120);assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));await page.screenshot({path:path.join(out,`dialogue-${width}.png`)});}
+ await page.setViewportSize({width:393,height:852});await dialogueDone();
+ await page.waitForSelector('[data-arena-intro]');await page.waitForFunction(()=>document.querySelector('.entrance-portrait')?.naturalWidth>0);
+ assert.match(await page.locator('[data-arena-intro]').innerText(),/Mathilde/);
+ for(const [width,height]of [[320,568],[393,852],[844,390],[1365,900]]){await page.setViewportSize({width,height});await page.waitForTimeout(100);assert.match(await page.locator('.entrance-portrait').getAttribute('src'),/mathilde-v1/);assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));await page.screenshot({path:path.join(out,`entrance-${width}.png`)});}
+ await page.waitForSelector('[data-battle-entrance]',{state:'detached',timeout:15000});assert(await page.evaluate(()=>v.battle&&Boolean(v.$refs.battleOverlay)));
+ for(const name of ['mathilde_pikapika','mathilde_pikapika_locked','mathilde_pikapika_after']){await page.evaluate(name=>v.updateTextImageSequence([{text:'Mathilde : Bonjour',imageName:'townspeople.png',portraitFrame:{columns:8,rows:4,index:7}}],name),name);await portrait();}
+ await page.evaluate(()=>v.clearSequence());
+ assert.deepEqual(errors,[]);success=true;console.log(JSON.stringify({sprite:true,nativeCrop:[941,802,19,24],worldScale:2,dialogue:true,raphPrerequisite:true,solidNpc:true,dedicatedPortraitInAllThreeDialogues:true,actualTrainerEntrance:true,viewports:4,errors,out}));
 }finally{if(!success&&page&&!page.isClosed()){await page.screenshot({path:path.join(out,'failure.png'),fullPage:true}).catch(()=>{});console.error(await page.evaluate(()=>({map:window.v?.map,speech:window.v?.endSentences,notices:document.body.innerText.slice(-1000)})).catch(()=>null));}await browser?.close();await new Promise(r=>io.close(r));await new Promise(r=>setTimeout(r,200));for(const id of ids)await db.execute('DELETE FROM users WHERE id=?',[id]);await db.end();}
 })().catch(e=>{console.error(e.stack);process.exitCode=1});

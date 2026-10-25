@@ -1,0 +1,89 @@
+{
+  "asset": "vue-explorakit/src/assets/image/mathilde-v1.png",
+  "generator": "Built-in image_gen.imagegen tool",
+  "transparentBackground": true,
+  "prompt": "Use case: stylized-concept.\nAsset type: RiftMon trainer splash illustration, also displayed as a dialogue portrait.\nInput images: reference 1 (Ana) and reference 2 (Wayne) are STYLE REFERENCES ONLY: black-and-white Japanese manga ink drawing, clear black outlines, controlled crosshatching and grey screentone shading. Create a distinct new character, do not copy their face, costume or pose.\nSubject: Mathilde, a clearly ADULT woman around 26 years old, slim build, very long flowing BLONDE hair rendered with light unfilled ink highlights, confident relaxed expression. She wears a simple casual top, short dark denim mini-shorts and trainers. A small ordinary cigarette rests at one corner of her lips, with a faint curl of smoke. She holds one round red/white-style trainer capture Ball, rendered monochrome, prominently in one raised hand near her shoulder. Her other arm rests naturally by her side. Small lightning-shaped patch on her top connects to her enthusiasm for electric creatures.\nComposition: complete single character from head to shoes, three-quarter standing pose turned toward viewer, face/cigarette and Ball clearly readable at small dialogue size. Comfortable empty margins around hair, hands and feet. Natural adult proportions; casual grounded stance.\nStyle: polished manga splash art matching the references, expressive but restrained, strong readable silhouette. Monochrome black, white and greys only, no yellow tint. Clean true alpha cutout on a genuinely TRANSPARENT background.\nConstraints: no scene, no ground plane, no additional character or creature, no letters, text, frame or watermark; no pixellation, no chibi proportions, no realistic photograph, no school uniform, no exaggerated anatomy or glamour pose.",
+  "styleReferences": [
+    "vue-explorakit/src/assets/image/ana.png",
+    "vue-explorakit/src/assets/image/wayne-eyepatch-v1.png"
+  ],
+  "generationSource": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-f85b56f2-cade-4a1e-8fae-2d8cce8eef01.png",
+  "size": [
+    1024,
+    1536
+  ],
+  "integration": {
+    "dialogues": [
+      "mathilde_pikapika",
+      "mathilde_pikapika_locked",
+      "mathilde_pikapika_after"
+    ],
+    "encounter": {
+      "map": "ville_safe1",
+      "kind": "trainer",
+      "trainerKey": "mathilde_pikapika"
+    },
+    "minimumEntranceMs": 3600,
+    "minimumPortraitMs": 2200,
+    "worldSpriteChanged": false,
+    "progressionChanged": false
+  },
+  "manualRecipe": "Parler à Mathilde au nord-est de Valpierre (ville_safe1, approche 25,8). Vérifier le portrait avant Raph, après son badge et après la victoire personnelle contre Mathilde. Terminer le dialogue autorisé pour voir le splash d’entrée en combat. Sprite blond de l’atlas 6931 inchangé, condition Raph et passage Route 5 inchangés.",
+  "bytes": 2208407,
+  "sha256": "eb10c1076c62d5f1672c34570fb6ef98dde43b77827ebd6c98118538e2dc02bf",
+  "alphaChecks": {
+    "transparentPixels": 1039174,
+    "partiallyTransparentPixels": 533690,
+    "totalPixels": 1572864,
+    "cornerAlpha": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "previewOnJournalBackground": "/tmp/riftmon-mathilde-composite.png",
+    "renderReviewed": true,
+    "sourceCopiedWithoutModification": true
+  },
+  "checks": {
+    "browser": {
+      "sprite": true,
+      "nativeCrop": [
+        941,
+        802,
+        19,
+        24
+      ],
+      "worldScale": 2,
+      "dialogue": true,
+      "raphPrerequisite": true,
+      "solidNpc": true,
+      "dedicatedPortraitInAllThreeDialogues": true,
+      "actualTrainerEntrance": true,
+      "viewports": 4,
+      "errors": [],
+      "out": "/tmp/riftmon-mathilde-splash-browser"
+    },
+    "arenaEntranceTestsPassed": 3,
+    "lint": true,
+    "build": "9f95078b4c1973ec",
+    "visualReview": [
+      "dialogue-393.png",
+      "entrance-393.png",
+      "entrance-1365.png"
+    ],
+    "phoneHardwareTested": false
+  },
+  "publication": {
+    "publishedAt": "2026-10-25T20:09:36.544Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-mathilde-splash-2026-10-25T20-09-35-202Z",
+    "clientBuild": "9f95078b4c1973ec",
+    "clientCommit": "b4035fbaff1dbe4673fb776dd02c518be97342d6",
+    "pid": "1697717",
+    "serverRestarted": false,
+    "neighborsUnchanged": true,
+    "publicGameBundle": true,
+    "publicPortrait": "mathilde-v1.9185a4db.png",
+    "portraitSha256": "eb10c1076c62d5f1672c34570fb6ef98dde43b77827ebd6c98118538e2dc02bf"
+  }
+}

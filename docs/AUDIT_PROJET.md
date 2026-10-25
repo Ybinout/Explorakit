@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Mathilde — splash manga dédié — 25 octobre 2026
+
+Illustration créée avec l’outil intégré imagegen dans la DA manga noir/blanc des autres dresseurs : femme adulte fine, très longs cheveux blonds représentés en aplats clairs, mini-short, haut avec petit éclair, cigarette au coin des lèvres, Ball en main et baskets. PNG RGBA 1 024×1 536, 2 208 407 octets, `src/assets/image/mathilde-v1.png` ; copie de la source générée sans modification, alpha conservé et vérifié sur le fond bleu du carnet. Prompts exacts, références Ana/Wayne, empreinte et validations : `docs/MATHILDE_PORTRAIT.json`. L’ancien échec de génération reste en historique dans `MATHILDE_CHARACTER_ASSETS.json`, dont le statut courant est maintenant livré.
+
+`npcPortraits.js` utilise l’image entière pour les trois dialogues `mathilde_pikapika`, `_locked`, `_after`, y compris avec un ancien serveur envoyant encore l’atlas civil. `arenaEntrance.js` ne montre son splash que pour carte `ville_safe1`, type `trainer` et clé `mathilde_pikapika` ensemble ; présentation commune de 3,6 s minimum, dont 2,2 s de portrait visible, comportement de chargement/mouvement réduit existant. Sprite blond de l’atlas 6931, collisions, condition Raph, quatre Pikachu, victoire personnelle et passage Route 5 restent inchangés. Aucun serveur/SQL, musique ou autre dresseur modifié. Résolveur commun aux trois modes.
+
+Validation : lint/build `9f95078b4c1973ec`, trois tests d’entrée réussis, syntaxe/diff valides. Recette `RELEASE_DIST_DIR=/tmp/riftmon-mathilde-splash-dist node --env-file=.env scripts/validateMathildeArtBrowser.js` actualisée : sprite source 19×24 à ×2 intact, PNJ solide, refus avant Raph/autorisation après, trois dialogues avec nouvelle image, vrai lancement du duel et splash aux formats 320/393/844/1365 ; zéro erreur navigateur. Captures dialogue/entrée mobile et PC inspectées, compte jetable de la base de test supprimé, aucun téléphone physique.
+
+Publication statique 2026-10-25T20:09:36.544Z, client `b4035fbaff1dbe4673fb776dd02c518be97342d6`, build `9f95078b4c1973ec` ; index, bundles et `mathilde-v1.9185a4db.png` HTTPS vérifiés à l’octet. PID 1697717 conservé, aucun redémarrage ; Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-mathilde-splash-2026-10-25T20-09-35-202Z`, anciens bundles conservés. Recharger le jeu.
+
 ## Gwenn et Matthieu — sprites natifs cohérents — 25 octobre 2026
 
 Deux sprites de carte redessinés avec imagegen à partir des proportions du joueur et de l’atlas original 6931, puis exportés en cellules transparentes 32×32 : tête presque aussi haute que le corps, silhouette compacte, palette limitée et pixels opaques sans lissage. Gwenn porte casquette noire, deux mèches longues, foulard masquant le bas du visage, tenue sombre, Ball et petite vapoteuse. Matthieu garde bonnet sans cheveux visibles, barbe, sweat/pantalon amples et Ball. Une seconde passe rend les Balls rouge/blanc lisibles et simplifie le visage de Matthieu. Étendues visibles 20×26 et 21×25 pixels, 10 et 9 couleurs ; 747 et 752 octets. Aperçu comparé au joueur : `docs/art/gwenn-matthieu-sprites.png`. Prompts exacts, références, sources et contrôles : `docs/GWENN_MATTHIEU_SPRITES.json`.
@@ -3768,6 +3778,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 25 octobre 2026 — Mathilde : splash manga cheveux longs blonds, mini-short, cigarette et Ball ; trois dialogues et entrée de son duel intégrés, sprite original/progression conservés, quatre formats et chargement réel vérifiés. Prompts et preuves dans `docs/MATHILDE_PORTRAIT.json`.
 
 - 25 octobre 2026 — Gwenn et Matthieu : sprites de carte refaits à la grille native, proportions compactes du joueur, casquette/foulard ou bonnet/barbe/oversize, Balls lisibles ; rendu ×2, collisions et illustrations vérifiés sur quatre formats. Détails en tête et `docs/GWENN_MATTHIEU_SPRITES.json`.
 

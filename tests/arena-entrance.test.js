@@ -18,3 +18,12 @@ test('Aspha entrance identifies the actual trainer, not other encounters on Rout
  for(const kind of ['wild','pvp','colosseum','arena'])assert.equal(arenaChampion('route2',kind,'aspha_route2'),null);
  assert.equal(arenaChampion('route1','trainer','aspha_route2'),null);
 });
+test('Mathilde splash is restricted to her own trainer encounter in Valpierre',async()=>{
+ const {arenaChampion}=await import('../vue-explorakit/src/services/arenaEntrance.js');
+ const portrait=arenaChampion('ville_safe1','trainer','mathilde_pikapika');
+ assert.equal(portrait.name,'Mathilde');
+ assert(fs.existsSync(path.join(__dirname,'../vue-explorakit/src/assets/image',portrait.portrait)));
+ for(const key of [undefined,null,'challenge_valpierre','champion_hoze'])assert.equal(arenaChampion('ville_safe1','trainer',key),null);
+ for(const kind of ['wild','pvp','colosseum','arena'])assert.equal(arenaChampion('ville_safe1',kind,'mathilde_pikapika'),null);
+ assert.equal(arenaChampion('route5','trainer','mathilde_pikapika'),null);
+});

@@ -19,6 +19,24 @@
     "editing": "Source pixels unchanged; classicNpcFrames.json selects the user-provided blonde character."
   },
   "portrait": {
+    "status": "dedicated illustration delivered",
+    "source": "vue-explorakit/src/assets/image/mathilde-v1.png",
+    "portraitFrame": null,
+    "details": "Long blonde hair, slim adult woman, mini-shorts, cigarette at the corner of her mouth and capture Ball; monochrome manga DA.",
+    "generation": {
+      "mode": "Built-in image_gen.imagegen tool",
+      "manifest": "docs/MATHILDE_PORTRAIT.json"
+    },
+    "usedFor": "all three Mathilde dialogues and her own trainer entrance"
+  },
+  "unchanged": [
+    "NPC position and collision",
+    "Raph prerequisite",
+    "four-Pikachu team",
+    "unique per-player victory and Route 5 gate"
+  ],
+  "validation": "scripts/validateMathildeArtBrowser.js",
+  "previousPortrait": {
     "status": "temporary existing blonde civilian portrait; dedicated image generation blocked",
     "source": "vue-explorakit/src/assets/image/civilian-portraits-a.png",
     "columns": 6,
@@ -40,12 +58,5 @@
         "/tmp/mathilde-sprite-reference.png"
       ]
     }
-  },
-  "unchanged": [
-    "NPC position and collision",
-    "Raph prerequisite",
-    "four-Pikachu team",
-    "unique per-player victory and Route 5 gate"
-  ],
-  "validation": "scripts/validateMathildeArtBrowser.js"
+  }
 }
