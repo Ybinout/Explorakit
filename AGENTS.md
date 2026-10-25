@@ -1,5 +1,15 @@
 # Contexte permanent — RiftMon
 
+## Aspha — passage Route 2 dégagé dans les deux sens — 25 octobre 2026
+
+Aspha et son chien sont reculés de (25,5) à (24,4), sur deux cases libres au-dessus du passage. Leur collision double reste solide mais ne couvre plus les deux voies (y=5 et y=6) près de la sortie vers la Ville du Lac. La barrière personnelle `aspha_lake`, le prérequis de victoire, les dialogues et les sauvegardes sont inchangés. Aucun asset ni client à reconstruire.
+
+La recette `validateAsphaArtBrowser.js` suit la nouvelle position et vérifie une vraie victoire, la sortie vers la Ville du Lac, le retour par la transition réelle puis la traversée des deux voies dans les deux sens.
+
+Validation : sept tests PNJ/passages réussis ; recette navigateur 320/393/1365 px, combat réel, refus avant victoire, aller/retour et deux voies vérifiés, zéro erreur. Journaux `/tmp/riftmon-aspha-passage-*`.
+
+Publié 2026-10-25T08:12:50.070Z, serveur PID 1600648, 0 expédition(s) active(s) au redémarrage, index client et sites voisins inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-aspha-passage-2026-10-25T08-12-48-803Z`.
+
 ## Mix musical — exploration discrète, lieux spéciaux marqués — 25 octobre 2026
 
 Le mix de `WorldMusic` dépend du lieu : facteur 0,14 pour villes/routes (y compris neige et intérieurs ordinaires partageant ces thèmes), 0,34 pour arènes et maisons événementielles de Lucie/Gwenn, contre 0,22 partout auparavant. Centres Pokémon et grottes restent à 0,22. Le curseur général et la coupure du son s’appliquent toujours ; aucune préférence sauvegardée n’est remplacée. Le volume de combat/effets reste celui existant.
