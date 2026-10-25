@@ -7,6 +7,7 @@ const { getExperienceRate, getTotalExperienceForLevel } = require('../models/pro
 const { maps } = require('../../../data/game/nextMap.json');
 const { value } = require('./driftEffects');
 const encounterRarity = require('../../../data/game/drift_encounters.json');
+const { rollLegendary } = require('../world/legendaryEncounters');
 // Explicit base species with both front and back sprites shipped by this client.
 const STARTERS = [1,4,7,10,13,16,19,32,43,60,66,69,74,92,152,155,158,161,163,165,167,179,187,191,252,255,258,261,263,265,270,273,276,280,283,285,287,293,304,387,390,393,396,399,401,403,406,418,420];
 const legendary = new Set([144,145,146,150,151,243,244,245,249,250,251,377,378,379,380,381,382,383,384,385,386,480,481,482,483,484,485,486,487,488,489,490,491,492,493,494,638,639,640,641,642,643,644,645,646,647,648,649,716,717,718,719,720,721,772,773,785,786,787,788,789,790,791,792,793,794,795,796,797,798,799,800,801,802,803,804,805,806,807,808,809]);
@@ -37,14 +38,18 @@ function wild(map, player, random = Math.random) {
     const zone = maps.find(m => m.mapName === map);
     const ids = zone?.wildpokemon?.filter(id => !legendary.has(id) && dex.some(p => p.id === id));
     if (!ids?.length) return null;
-    const weights = ids.map(id => encounterRarity.rareSpecies.includes(id)
-        ? encounterRarity.rareWeight * (1 + value(player, 54) / 100) : encounterRarity.commonWeight);
-    let draw = random() * weights.reduce((s,n)=>s+n,0), index = 0;
-    for (; index < weights.length - 1; index++) { draw -= weights[index]; if (draw < 0) break; }
+    let speciesId = rollLegendary(random);
+    if (speciesId === null) {
+        const weights = ids.map(id => encounterRarity.rareSpecies.includes(id)
+            ? encounterRarity.rareWeight * (1 + value(player, 54) / 100) : encounterRarity.commonWeight);
+        let draw = random() * weights.reduce((s,n)=>s+n,0), index = 0;
+        for (; index < weights.length - 1; index++) { draw -= weights[index]; if (draw < 0) break; }
+        speciesId = ids[index];
+    }
     const opening = require('./openingBalance');
     const bounds = opening.levels[map] || zone.level;
     const min = bounds?.min || 5, max = bounds?.max || min;
-    const pokemon = opening.tuneWildMoves(create(ids[index], min + Math.floor(random() * (max - min + 1))));
+    const pokemon = opening.tuneWildMoves(create(speciesId, min + Math.floor(random() * (max - min + 1))));
     require('../models/moveLearning').preserveWildEvolutionMove(pokemon);
     return pokemon;
 }

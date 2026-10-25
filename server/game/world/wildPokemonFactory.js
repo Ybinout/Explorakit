@@ -1,6 +1,7 @@
 const fs = require('fs').promises;
 const path = require('node:path');
 const Pokemon = require('../models/Pokemon');
+const { rollLegendary } = require('./legendaryEncounters');
 
 const GAME_DATA_DIR = path.resolve(__dirname, '..', '..', '..', 'data', 'game');
 const MAP_CONFIG_PATH = path.join(GAME_DATA_DIR, 'nextMap.json');
@@ -18,11 +19,11 @@ const MOVE_SLUG_ALIASES = {
 
 let moveResourcesPromise = null;
 
-function chooseRandomItem(items) {
+function chooseRandomItem(items, random = Math.random) {
     if (!Array.isArray(items) || items.length === 0) {
         return null;
     }
-    const randomIndex = Math.floor(Math.random() * items.length);
+    const randomIndex = Math.floor(random() * items.length);
     return items[randomIndex];
 }
 
@@ -68,7 +69,7 @@ function normalizeLevelRange(rawLevel) {
     return null;
 }
 
-function chooseLevelForZone(mapConfig) {
+function chooseLevelForZone(mapConfig, random = Math.random) {
     if (!mapConfig || typeof mapConfig !== 'object') {
         return null;
     }
@@ -77,7 +78,7 @@ function chooseLevelForZone(mapConfig) {
     const levelRange = normalizeLevelRange(configuredLevel);
     if (!levelRange) return null;
     if (levelRange.min === levelRange.max) return levelRange.min;
-    return Math.floor(Math.random() * (levelRange.max - levelRange.min + 1)) + levelRange.min;
+    return Math.floor(random() * (levelRange.max - levelRange.min + 1)) + levelRange.min;
 }
 
 function moveNameToSlug(moveName) {
@@ -269,14 +270,15 @@ async function assignAutomaticMoves(pokemon) {
     require('../models/moveLearning').preserveWildEvolutionMove(pokemon);
 }
 
-function chooseWildPokemonForMap(mapName, mapData) {
+function chooseWildPokemonForMap(mapName, mapData, random = Math.random) {
     const mapConfig = mapData.maps.find((map) => map.mapName === mapName);
     if (!mapConfig) {
         console.error(`La carte ${mapName} n'existe pas.`);
         return null;
     }
 
-    const pokemonId = chooseRandomItem(mapConfig.wildpokemon);
+    if (!Array.isArray(mapConfig.wildpokemon) || !mapConfig.wildpokemon.length) return null;
+    const pokemonId = rollLegendary(random) ?? chooseRandomItem(mapConfig.wildpokemon, random);
     if (pokemonId === null) {
         return null;
     }
@@ -287,18 +289,18 @@ function chooseWildPokemonForMap(mapName, mapData) {
     };
 }
 
-async function CreatePokemon(mapName) {
+async function CreatePokemon(mapName, random = Math.random) {
     try {
         const rawMapData = await fs.readFile(MAP_CONFIG_PATH, 'utf8');
         const mapData = JSON.parse(rawMapData);
-        const wildSelection = chooseWildPokemonForMap(mapName, mapData);
+        const wildSelection = chooseWildPokemonForMap(mapName, mapData, random);
 
         if (!wildSelection) {
             return null;
         }
 
         const poke = new Pokemon(wildSelection.pokemonId, 'test', 0, 0, null, Pokemon.randomNature(), null);
-        const zoneLevel = chooseLevelForZone(wildSelection.mapConfig);
+        const zoneLevel = chooseLevelForZone(wildSelection.mapConfig, random);
 
         if (zoneLevel !== null) {
             applyTargetLevel(poke, zoneLevel);

@@ -1,0 +1,22 @@
+{
+  "retrieved": "2026-10-25",
+  "unchangedDownloads": true,
+  "assets": [
+    {
+      "id": 380,
+      "file": "vue-explorakit/src/assets/back/380.png",
+      "source": "https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/versions/generation-iv/platinum/back/380.png",
+      "repository": "PokeAPI/sprites",
+      "path": "sprites/pokemon/versions/generation-iv/platinum/back/380.png",
+      "blobSha": "79f15f2000c01ebc31ea820ba9bce80b917f8376"
+    },
+    {
+      "id": 488,
+      "file": "vue-explorakit/src/assets/back/488.png",
+      "source": "https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/versions/generation-iv/platinum/back/488.png",
+      "repository": "PokeAPI/sprites",
+      "path": "sprites/pokemon/versions/generation-iv/platinum/back/488.png",
+      "blobSha": "776e64c73a2b4acb139bb1f36db395bff6b2904b"
+    }
+  ]
+}

@@ -22,7 +22,9 @@ test('habitats distinguish fishing, evolution and unavailable species without ex
     assert.equal(pokemonLocations(129,false),undefined);
     assert(pokemonLocations(129,true).locations.every(l=>l.method==='fishing'));
     const venusaur=pokemonLocations(3,true);assert.equal(venusaur.kind,'evolution');assert.deepEqual(venusaur.locations,[]);assert(venusaur.ancestors.some(a=>a.speciesId===1||a.speciesId===2));
-    assert.equal(pokemonLocations(150,true).kind,'unavailable');
+    const mewtwo=pokemonLocations(150,true);assert.equal(mewtwo.kind,'wild');assert.deepEqual(mewtwo.legendary,{oneIn:3000,poolSize:35});
+    assert(mewtwo.locations.some(l=>l.map==='start'&&l.method==='grass'));assert(mewtwo.locations.some(l=>l.method==='cave'));assert(mewtwo.locations.some(l=>l.method==='fishing'));
+    assert.equal(pokemonLocations(150,false),undefined);assert.equal(pokemonLocations(494,true).kind,'unavailable');
 });
 test('player marker resolves interiors and each shared Pokemon Centre return town',()=>{
     const examples={etage:'start',route2_maison:'route2',ville1_arene:'ville1',ville_safe1_shop:'ville_safe1',gen_arene5:'gen_ville5',tour_etage3:'ville_commerciale',ville5_arene:'ville5',gen_shop_route10:'gen_route6'};

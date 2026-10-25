@@ -10,10 +10,10 @@ const {maps}=require('../data/game/nextMap.json');
 const rules=require('../data/game/evolutions.json').rules;
 const stoneRules=require('../data/game/stone_evolutions.json').rules;
 
-test('all 458 non-legendary Gen I–IV species are obtainable on real connected maps, with both sprites',()=>{
- const report=buildReport();assert.equal(report.total,458);assert.equal(report.excluded,35);
+test('all 493 Gen I–IV species are obtainable on real connected maps, including rare legendaries with both sprites',()=>{
+ const report=buildReport();assert.equal(report.total,493);assert.equal(report.excluded,0);assert.equal(report.legendary,35);assert.equal(report.legendaryOneIn,3000);
  assert.deepEqual(report.missing,[]);assert.deepEqual(report.missingSprites,[]);assert.deepEqual(report.forbiddenWild,[]);
- assert.equal(report.direct+report.evolutionOnly,458);
+ assert.equal(report.direct+report.evolutionOnly,493);
  for(const id of EVOLUTION_ONLY)assert.equal(report.entries.find(p=>p.id===id).method,'evolution',String(id));
  for(const entry of report.entries.filter(p=>p.method==='capture'))for(const place of entry.locations){assert(reachableMaps().has(place.map));assert(!maps.find(m=>m.mapName===place.map).legacyOnly);}
  assert.deepEqual(maps.find(m=>m.mapName==='start').level,{min:2,max:5});

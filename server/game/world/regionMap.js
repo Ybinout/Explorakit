@@ -3,6 +3,7 @@ const { maps } = require('../../../data/game/nextMap.json');
 const atlas = require('../../../data/game/region_map.json');
 const terrain = require('./mapRepository');
 const { profiles } = require('./fishingEncounters');
+const legendary = require('./legendaryEncounters');
 const evolutionRules = [...require('../../../data/game/evolutions.json').rules, ...require('../../../data/game/stone_evolutions.json').rules];
 const nodeIds = new Set(atlas.nodes.map(n => n.id));
 let cached;
@@ -39,16 +40,18 @@ function buildRegion() {
     for (const node of nodes) for (const next of adjacency.get(node.id) || []) {
         if (nodeIds.has(next)) { const pair = [node.id,next].sort(); edges.set(pair.join(':'),pair); }
     }
-    const habitats = new Map();
+    const habitats = new Map(), legendaryHabitats = [];
     const add = (id, location) => habitats.set(id, [...(habitats.get(id) || []), location]);
     for (const name of reachable) {
         if (!nodeIds.has(name)) continue;
         const zone = byName.get(name), collision = terrain.loadCollisionData(name);
         const grass = terrain.battleMapData(name).some((row,y) => row.some((tile,x) => tile && !collision[y]?.[x]));
+        if (grass && zone.wildpokemon?.length) legendaryHabitats.push({ map:name, method:name.startsWith('cave')?'cave':'grass', level:zone.level });
+        if (profiles[name]?.length) legendaryHabitats.push({ map:name, method:'fishing', level:zone.level });
         if (grass) for (const id of new Set(zone.wildpokemon || [])) add(id, { map:name, method:name.startsWith('cave')?'cave':'grass', level:zone.level });
         for (const [id] of profiles[name] || []) add(id, { map:name, method:'fishing', level:zone.level });
     }
-    cached = { public: { ...atlas, nodes, edges:[...edges.values()], aliases }, habitats };
+    cached = { public: { ...atlas, nodes, edges:[...edges.values()], aliases }, habitats, legendaryHabitats };
     return cached;
 }
 function getRegionMap() { return buildRegion().public; }
@@ -58,6 +61,7 @@ function regionLocation(map, centerReturnPoint) {
 }
 function pokemonLocations(id, known) {
     if (!known) return undefined;
+    if (legendary.isLegendary(id)) return { kind:'wild', legendary:{ oneIn:legendary.oneIn, poolSize:legendary.species.length }, locations:buildRegion().legendaryHabitats };
     const habitats = buildRegion().habitats;
     if (habitats.has(id)) return { kind:'wild', locations:habitats.get(id) };
     const visited = new Set([id]), queue = [id], ancestors = [];

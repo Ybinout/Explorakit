@@ -1,5 +1,17 @@
 # Audit technique et mémoire de RiftMon
 
+## Rencontres légendaires — 1/3 000, toutes zones — 25 octobre 2026
+
+Les 35 légendaires/fabuleux des générations I–IV sont capturables. Chaque rencontre sauvage admissible commence par un tirage indépendant de probabilité 1/3 000, puis une espèce uniforme parmi ces 35 en cas de succès. Le niveau est tiré dans la plage habituelle du lieu (et dans les niveaux d’ouverture propres aux expéditions). Aucun légendaire ajouté aux listes ordinaires pondérées ; les bonus de Recherche rare ne multiplient pas ce taux. Pas de garantie après 3 000 rencontres ni d’exclusion des doublons. IV, EV initiaux, K et capture suivent les règles sauvages existantes.
+
+Module commun `server/game/world/legendaryEncounters.js`, catalogue `data/game/legendary_encounters.json`, raccordé aux fabriques Aventure/Rift/Colosseum et à la pêche. Aucun tirage dans les intérieurs sans rencontres, aucune modification des chances par pas, du Repousse ou des starters. `createAtLevel` ne relance pas le tirage : la pêche ne le fait qu’une fois.
+
+Localisations Pokédex des espèces déjà vues : toutes les véritables zones de rencontre et de pêche, avec explication « 1/3 000 pour un légendaire, puis tirage parmi 35 ». Audit de disponibilité actualisé : 493 obtenables, 326 capturables directement et 167 par évolution ; aucun sprite manquant. Sprites de dos Latias/Cresselia manquants ajoutés depuis `PokeAPI/sprites`, bytes et blobs Git vérifiés, provenance dans `docs/legendary-sprite-sources.json`.
+
+Validation : 114 tests ciblés réussis, dont seuil exact et un succès sur 3 000 intervalles, tirage uniforme des 35, niveaux/moves valides en début/grotte/fin, pêche, indépendance des bonus, starters, captures au PC et restauration de checkpoints Rift/Colosseum. Recette réelle `validateLegendaryEncountersBrowser.js` sur base dédiée : marche dans l’herbe → Artikodin au niveau 2 → capture → équipe SQL et reconnexion ; localisations Pokédex et deux nouveaux sprites de dos chargés, formats 320/393/1365 px, zéro erreur. Tirage forcé uniquement dans le processus de recette, jamais par paramètre public ou en production. Audit `node scripts/auditPokemonAvailability.js --markdown`, lint et build `909ae90aa05a90fe` réussis. Journaux `/tmp/riftmon-legendaries-*`.
+
+Publié 2026-10-25T09:24:16.767Z, client `b0f1d808366208f94cb7720c7cd0c7bb3e12ed56`, serveur PID 1608807, 0 expédition(s) active(s) à la reprise. Index, JS/CSS et deux sprites publics vérifiés à l’octet ; Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-legendaries-2026-10-25T09-24-14-460Z`. Aucune migration SQL ni modification de compte réel.
+
 ## Mounir — rideaux d’eau et cascades animés — 25 octobre 2026
 
 Les dix panneaux d’eau du mur de Mounir ont un écoulement vertical, des stries lumineuses et de l’écume à leur pied. Le grand emblème central et les cadres restent fixes. `VillageWaterRenderer` compose cette couche après les bassins existants, avant les personnages et le foreground, et libère ses ressources avec eux.
@@ -3404,6 +3416,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 25 octobre 2026 — 35 légendaires/fabuleux I–IV rencontrables au niveau du lieu, 1/3 000 par rencontre puis espèce uniforme ; localisations, sprites et audit raccordés. Détails en tête.
 
 - 25 octobre 2026 — Mounir : dix rideaux d’eau muraux, six cascades et deux bassins du combat animés avec masques locaux ; détails et recettes en tête.
 

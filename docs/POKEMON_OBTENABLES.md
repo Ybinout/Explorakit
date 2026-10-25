@@ -2,7 +2,7 @@
 
 Rapport reproductible : `node scripts/auditPokemonAvailability.js --markdown`. Les cartes inaccessibles, les anciennes routes et les intérieurs sans herbe ne comptent pas. Les verrous de scénario sont considérés ouvrables en progressant.
 
-458 espèces non légendaires : **291 capturables directement**, **167 par évolution uniquement**. 35 légendaires/fabuleux exclus. 0 espèce manquante ; 0 sprite manquant.
+493 espèces : **326 capturables directement**, **167 par évolution uniquement**. Les 35 légendaires/fabuleux sont rencontrables partout où une rencontre sauvage est possible, pêche comprise : 1 chance sur 3000 pour la catégorie, puis espèce uniforme. 0 espèce manquante ; 0 sprite manquant.
 
 Les mêmes rencontres sont utilisées en Aventure et en exploration Rift/Colosseum. Les niveaux de début et les poids rares des expéditions restent spécifiques à ces modes. La pêche nécessite la canne du Grand Comptoir. Les branches d’évolution se choisissent dans la fiche ; pierres vendues par les marchands. Les évolutions par échange/bonheur suivent les adaptations solo indiquées dans la fiche.
 
@@ -153,9 +153,14 @@ Une présence dans les données ne suffit pas : les tests vérifient aussi les s
 | 141 | Kabutops | Évolution de Kabuto (niv. 40) |
 | 142 | Ptéra | gen_route7 |
 | 143 | Ronflex | Évolution de Goinfrex (niv. 20) |
+| 144 | Artikodin | Rencontre exceptionnelle, toutes zones et tous lacs (1/3000 pour un légendaire, puis tirage parmi 35) |
+| 145 | Électhor | Rencontre exceptionnelle, toutes zones et tous lacs (1/3000 pour un légendaire, puis tirage parmi 35) |
+| 146 | Sulfura | Rencontre exceptionnelle, toutes zones et tous lacs (1/3000 pour un légendaire, puis tirage parmi 35) |
 | 147 | Minidraco | gen_route7 |
 | 148 | Draco | Évolution de Minidraco (niv. 30) |
 | 149 | Dracolosse | Évolution de Draco (niv. 55) |
+| 150 | Mewtwo | Rencontre exceptionnelle, toutes zones et tous lacs (1/3000 pour un légendaire, puis tirage parmi 35) |
+| 151 | Mew | Rencontre exceptionnelle, toutes zones et tous lacs (1/3000 pour un légendaire, puis tirage parmi 35) |
 | 152 | Germignon | route2 |
 | 153 | Macronium | Évolution de Germignon (niv. 16) |
 | 154 | Méganium | Évolution de Macronium (niv. 32) |
@@ -247,9 +252,15 @@ Une présence dans les données ne suffit pas : les tests vérifient aussi les s
 | 240 | Magby | route6 |
 | 241 | Écrémeuh | route6 |
 | 242 | Leuphorie | Évolution de Leveinard (niv. 30) |
+| 243 | Raikou | Rencontre exceptionnelle, toutes zones et tous lacs (1/3000 pour un légendaire, puis tirage parmi 35) |
+| 244 | Entei | Rencontre exceptionnelle, toutes zones et tous lacs (1/3000 pour un légendaire, puis tirage parmi 35) |
+| 245 | Suicune | Rencontre exceptionnelle, toutes zones et tous lacs (1/3000 pour un légendaire, puis tirage parmi 35) |
 | 246 | Embrylex | cave2 |
 | 247 | Ymphect | Évolution de Embrylex (niv. 30) |
 | 248 | Tyranocif | Évolution de Ymphect (niv. 55) |
+| 249 | Lugia | Rencontre exceptionnelle, toutes zones et tous lacs (1/3000 pour un légendaire, puis tirage parmi 35) |
+| 250 | Ho-Oh | Rencontre exceptionnelle, toutes zones et tous lacs (1/3000 pour un légendaire, puis tirage parmi 35) |
+| 251 | Celebi | Rencontre exceptionnelle, toutes zones et tous lacs (1/3000 pour un légendaire, puis tirage parmi 35) |
 | 252 | Arcko | route5 |
 | 253 | Massko | Évolution de Arcko (niv. 16) |
 | 254 | Jungko | Évolution de Massko (niv. 36) |
@@ -375,6 +386,16 @@ Une présence dans les données ne suffit pas : les tests vérifient aussi les s
 | 374 | Terhal | gen_route7 |
 | 375 | Métang | Évolution de Terhal (niv. 20) |
 | 376 | Métalosse | Évolution de Métang (niv. 45) |
+| 377 | Regirock | Rencontre exceptionnelle, toutes zones et tous lacs (1/3000 pour un légendaire, puis tirage parmi 35) |
+| 378 | Regice | Rencontre exceptionnelle, toutes zones et tous lacs (1/3000 pour un légendaire, puis tirage parmi 35) |
+| 379 | Registeel | Rencontre exceptionnelle, toutes zones et tous lacs (1/3000 pour un légendaire, puis tirage parmi 35) |
+| 380 | Latias | Rencontre exceptionnelle, toutes zones et tous lacs (1/3000 pour un légendaire, puis tirage parmi 35) |
+| 381 | Latios | Rencontre exceptionnelle, toutes zones et tous lacs (1/3000 pour un légendaire, puis tirage parmi 35) |
+| 382 | Kyogre | Rencontre exceptionnelle, toutes zones et tous lacs (1/3000 pour un légendaire, puis tirage parmi 35) |
+| 383 | Groudon | Rencontre exceptionnelle, toutes zones et tous lacs (1/3000 pour un légendaire, puis tirage parmi 35) |
+| 384 | Rayquaza | Rencontre exceptionnelle, toutes zones et tous lacs (1/3000 pour un légendaire, puis tirage parmi 35) |
+| 385 | Jirachi | Rencontre exceptionnelle, toutes zones et tous lacs (1/3000 pour un légendaire, puis tirage parmi 35) |
+| 386 | Deoxys | Rencontre exceptionnelle, toutes zones et tous lacs (1/3000 pour un légendaire, puis tirage parmi 35) |
 | 387 | Tortipouss | route4 |
 | 388 | Boskara | Évolution de Tortipouss (niv. 18) |
 | 389 | Torterra | Évolution de Boskara (niv. 32) |
@@ -468,3 +489,17 @@ Une présence dans les données ne suffit pas : les tests vérifient aussi les s
 | 477 | Noctunoir | Évolution de Téraclope (niv. 47) |
 | 478 | Momartik | cave_rochebrume3, route14 |
 | 479 | Motisma | gen_route8 |
+| 480 | Créhelf | Rencontre exceptionnelle, toutes zones et tous lacs (1/3000 pour un légendaire, puis tirage parmi 35) |
+| 481 | Créfollet | Rencontre exceptionnelle, toutes zones et tous lacs (1/3000 pour un légendaire, puis tirage parmi 35) |
+| 482 | Créfadet | Rencontre exceptionnelle, toutes zones et tous lacs (1/3000 pour un légendaire, puis tirage parmi 35) |
+| 483 | Dialga | Rencontre exceptionnelle, toutes zones et tous lacs (1/3000 pour un légendaire, puis tirage parmi 35) |
+| 484 | Palkia | Rencontre exceptionnelle, toutes zones et tous lacs (1/3000 pour un légendaire, puis tirage parmi 35) |
+| 485 | Heatran | Rencontre exceptionnelle, toutes zones et tous lacs (1/3000 pour un légendaire, puis tirage parmi 35) |
+| 486 | Regigigas | Rencontre exceptionnelle, toutes zones et tous lacs (1/3000 pour un légendaire, puis tirage parmi 35) |
+| 487 | Giratina | Rencontre exceptionnelle, toutes zones et tous lacs (1/3000 pour un légendaire, puis tirage parmi 35) |
+| 488 | Cresselia | Rencontre exceptionnelle, toutes zones et tous lacs (1/3000 pour un légendaire, puis tirage parmi 35) |
+| 489 | Phione | Rencontre exceptionnelle, toutes zones et tous lacs (1/3000 pour un légendaire, puis tirage parmi 35) |
+| 490 | Manaphy | Rencontre exceptionnelle, toutes zones et tous lacs (1/3000 pour un légendaire, puis tirage parmi 35) |
+| 491 | Darkrai | Rencontre exceptionnelle, toutes zones et tous lacs (1/3000 pour un légendaire, puis tirage parmi 35) |
+| 492 | Shaymin | Rencontre exceptionnelle, toutes zones et tous lacs (1/3000 pour un légendaire, puis tirage parmi 35) |
+| 493 | Arceus | Rencontre exceptionnelle, toutes zones et tous lacs (1/3000 pour un légendaire, puis tirage parmi 35) |

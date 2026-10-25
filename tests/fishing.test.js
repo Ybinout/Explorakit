@@ -53,7 +53,7 @@ test('fishing: varied aquatic pools follow zone levels, rare fish stay rare',()=
  const zones=require('../data/game/nextMap.json').maps;
  for(const [map,pool]of Object.entries(profiles)){
   assert.equal(pool.reduce((sum,[,w])=>sum+w,0),100);const zone=zones.find(z=>z.mapName===map).level,seen=new Set();
-  for(let i=0;i<10000;i++){let n=0;const e=fishingEncounter(map,()=>n++===0?i/10000:.99);seen.add(e.id);assert(e.level>=zone.min&&e.level<=zone.max);}
+  for(let i=0;i<10000;i++){let n=0;const e=fishingEncounter(map,()=>[.5,i/10000,.99][n++]);seen.add(e.id);assert(e.level>=zone.min&&e.level<=zone.max);}
   assert.equal(seen.size,pool.length);assert.equal(fishingEncounter(map,()=>.999).id,349);
  }assert.equal(fishingEncounter('route1'),null);
 });
