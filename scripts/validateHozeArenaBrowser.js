@@ -28,7 +28,7 @@ if(validateCollapse){
 }
 await page.evaluate(()=>v.battle=false);await page.waitForFunction(()=>v._placeAmbience[decorKey].canvas);if(hoze)assert(await page.evaluate(()=>v._placeAmbience.hoze.faultElapsed>=60000));
 if(validateCollapse){
- const epoch=await page.evaluate(()=>v.arenaCollapse.epoch);await page.evaluate(()=>v.rearmArenas());await page.waitForFunction(epoch=>v.arenaCollapse?.epoch!==epoch&&v._placeAmbience.hoze.collapseElapsed<2000,epoch);assert(await page.evaluate(()=>{const r=v._placeAmbience.hoze,d=r.context.getImageData(0,0,896,640).data;return v.arenaCollapse.holes.every(h=>d[(((h.y*16+22)*2)*896+(h.x*16+4)*2)*4+3]===0);}));await page.screenshot({path:path.join(out,'collapse-admin-reset.png')});
+ const epoch=await page.evaluate(()=>v.arenaCollapse.epoch);await page.evaluate(()=>v.rearmArenas());await page.waitForFunction(epoch=>v.arenaCollapse?.epoch!==epoch&&v._placeAmbience.hoze.collapseElapsed<2000,epoch);assert(await page.evaluate(()=>{const r=v._placeAmbience.hoze,d=r.context.getImageData(0,0,896,640).data;return v.arenaCollapse.holes.every(h=>{const[dx,dy]=h.cells?.[0]||[0,0];return d[((((h.y+dy)*16+8)*2)*896+((h.x+dx)*16+8)*2)*4+3]===0;});}));await page.screenshot({path:path.join(out,'collapse-admin-reset.png')});
 }
 if(process.env.VALIDATE_MOVEMENT_CONTROLS==='1'){
  await page.setViewportSize({width:393,height:852});await page.evaluate(()=>{v.showMobileControls=true;window.mobileTestVm=v;});await page.waitForTimeout(200);

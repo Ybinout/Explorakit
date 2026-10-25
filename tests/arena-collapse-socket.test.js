@@ -17,6 +17,10 @@ test('SQL/socket: collapsed floor blocks moves, rescues occupants, persists and 
   s.emit('playerAction','move_q');await wait(180);assert.equal(position,null,'cannot enter the hole');
   s.emit('arenaCollapseState',{elapsedMs:0,holes:[]});s.emit('admin:collapseReset',{});s.emit('playerAction','move_q');await wait(160);assert.equal(position,null,'forged events cannot reopen the floor');
   const moved=event(s,'playerMoved',p=>p.id===s.id&&p.player.x===10*32+16);s.emit('playerAction','move_d');await moved;s.disconnect();await wait(120);
+  ({s,snapshot}=await connect(admin,18,12));assert.equal(snapshot.revision,2);
+  const [[notch]]=await db.execute('SELECT x,y FROM users WHERE id=?',[admin.user.id]);assert.deepEqual([Math.floor(notch.x/32),Math.floor(notch.y/32)],[18,12],'the empty corner of a bounding box stays walkable');
+  position=null;s.on('playerMoved',p=>{if(p.id===s.id)position=p.player;});s.emit('playerAction','move_s');await wait(160);assert.equal(position,null,'the next cell of the irregular hole is blocked');
+  const around=event(s,'playerMoved',p=>p.id===s.id&&p.player.x===17*32+16);s.emit('playerAction','move_q');await around;s.disconnect();await wait(120);
   ({s,snapshot}=await connect(admin,7,9));assert.equal(snapshot.epoch,past);const [[row]]=await db.execute('SELECT x,y FROM users WHERE id=?',[admin.user.id]);assert(!rules.blocked(past,Math.floor(row.x/32),Math.floor(row.y/32)),'reconnect on a hole rescues and saves');
   const otherSocket=(await connect(other,13,12)).s;assert.equal((await new Promise(r=>otherSocket.emit('admin:rearmArenas',{},r))).success,false);
   const resetState=event(s,'arenaCollapseState',p=>p?.epoch!==past);const result=await new Promise(r=>s.emit('admin:rearmArenas',{},r));assert(result.success);const fresh=await resetState;assert(fresh.elapsedMs<1000);

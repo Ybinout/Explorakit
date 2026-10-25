@@ -1,9 +1,10 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 const rules=require('../server/game/world/arenaCollapse'),{createArenaCollapseController}=require('../server/game/world/arenaCollapseController');
 const collision=require('../server/game/world/mapRepository').loadCollisionData(rules.config.map);
-test('six holes only remove walkable side floor and preserve the full central route',()=>{
- assert.equal(rules.config.holes.length,6);const used=new Set();
- for(const h of rules.config.holes)for(let y=h.y;y<h.y+h.height;y++)for(let x=h.x;x<h.x+h.width;x++){
+test('three asymmetric irregular holes only remove their own cells and preserve the full central route',()=>{
+ assert.equal(rules.config.holes.length,3);const used=new Set();
+ for(const h of rules.config.holes)for(const [dx,dy]of h.cells){
+  const x=h.x+dx,y=h.y+dy;
   assert.equal(collision[y][x],0);assert(x<11||x>16);assert(!used.has(x+','+y));used.add(x+','+y);
  }
  for(let y=3;y<=17;y++)for(const x of [13,14])assert(!rules.blocked(1000,x,y,100000));
@@ -14,11 +15,24 @@ test('six holes only remove walkable side floor and preserve the full central ro
  }
  for(let y=0;y<collision.length;y++)for(let x=0;x<collision[y].length;x++)if(collision[y][x]===0&&!rules.blocked(1000,x,y,100000))assert(seen.has(x+','+y),`Unreachable ${x},${y}`);
 });
+test('each distinct silhouette matches its blocked tile centres, leaving concave corners walkable',()=>{
+ const inside=(points,x,y)=>{let hit=false;for(let i=0,j=points.length-1;i<points.length;j=i++){const a=points[i],b=points[j];if((a[1]>y)!==(b[1]>y)&&x<(b[0]-a[0])*(y-a[1])/(b[1]-a[1])+a[0])hit=!hit;}return hit;};
+ assert.deepEqual(rules.config.holes.map(h=>h.cells.length),[4,5,3]);
+ let notches=0;
+ for(const h of rules.config.holes)for(let y=0;y<h.height;y++)for(let x=0;x<h.width;x++){
+  const blocked=rules.contains(h,h.x+x,h.y+y);assert.equal(inside(h.outline,x+.5,y+.5),blocked,h.id+' '+x+','+y);
+  if(!blocked){notches++;assert(!rules.blocked(1000,h.x+x,h.y+y,100000));}
+ }
+ assert.equal(notches,4);assert.equal(rules.snapshot(1000,100000).revision,2);
+ const cells=rules.config.holes.flatMap(h=>h.cells.map(([x,y])=>[h.x+x,h.y+y]));
+ assert(cells.some(([x,y])=>!cells.some(([xx,yy])=>xx===27-x&&yy===y)),'layout must not be mirrored');
+ assert(rules.contains({x:2,y:3,width:2,height:1},3,3),'legacy rectangle descriptors remain valid');
+});
 test('blocking starts when a slab falls and remains permanent afterwards',()=>{
  const h=rules.config.holes[0];assert(!rules.blocked(1000,h.x,h.y,1000+h.atMs-1));assert(rules.blocked(1000,h.x,h.y,1000+h.atMs));assert(rules.blocked(1000,h.x,h.y,1000000));
 });
 test('an occupant always finds a real neighbouring solid tile without using the champion tile',()=>{
- for(const h of rules.config.holes){const p={x:h.x*32+16,y:h.y*32+16},safe=rules.safeTile(p,collision,1000,100000,(x,y)=>x===13&&y===4);assert(safe);assert.equal(collision[safe.y][safe.x],0);assert(!rules.blocked(1000,safe.x,safe.y,100000));}
+ for(const h of rules.config.holes){const [dx,dy]=h.cells[0],p={x:(h.x+dx)*32+16,y:(h.y+dy)*32+16},safe=rules.safeTile(p,collision,1000,100000,(x,y)=>x===13&&y===4);assert(safe);assert.equal(collision[safe.y][safe.x],0);assert(!rules.blocked(1000,safe.x,safe.y,100000));}
 });
 test('controller warns through its state, rescues on the deadline, restores and resets by a new epoch',async()=>{
  let time=100000,start=time,task,id=0;const frames=[],rescues=[];const p={currentmap:rules.config.map,x:7*32+16,y:9*32+16};

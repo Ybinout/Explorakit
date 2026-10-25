@@ -1,11 +1,14 @@
 const config = require('../../../data/game/hoze_collapse.json');
 function elapsed(startedAt, now = Date.now()) { return Math.max(0, now - startedAt); }
-function contains(hole, x, y) { return x >= hole.x && x < hole.x + hole.width && y >= hole.y && y < hole.y + hole.height; }
+function contains(hole, x, y) {
+    if (Array.isArray(hole.cells)) return hole.cells.some(([dx,dy]) => x === hole.x + dx && y === hole.y + dy);
+    return x >= hole.x && x < hole.x + hole.width && y >= hole.y && y < hole.y + hole.height;
+}
 function blocked(startedAt, x, y, now = Date.now()) {
     return config.holes.some(h => elapsed(startedAt, now) >= h.atMs && contains(h, x, y));
 }
 function snapshot(startedAt, now = Date.now()) {
-    return { map: config.map, epoch: startedAt, elapsedMs: elapsed(startedAt, now), fallMs: config.fallMs,
+    return { map: config.map, revision: config.revision || 1, epoch: startedAt, elapsedMs: elapsed(startedAt, now), fallMs: config.fallMs,
         warningMs: config.warningMs, holes: config.holes };
 }
 function safeTile(player, collision, startedAt, now = Date.now(), occupied = () => false) {

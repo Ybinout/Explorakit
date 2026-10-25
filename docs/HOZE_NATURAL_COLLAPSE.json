@@ -1,0 +1,409 @@
+{
+  "date": "2026-10-25",
+  "revision": 2,
+  "previousHoleCount": 6,
+  "holeCount": 3,
+  "previousBlockedTiles": 24,
+  "blockedTiles": 12,
+  "configSha256": "5b71cf634f954820d143aa9e4567173c3b3b23d42059e57d935cebf325602ee1",
+  "config": {
+    "map": "ville_safe1_arene",
+    "revision": 2,
+    "flag": "arena_collapse:hoze:v1",
+    "fallMs": 1200,
+    "warningMs": 1800,
+    "holes": [
+      {
+        "id": "hoze_left_fault",
+        "x": 7,
+        "y": 9,
+        "width": 3,
+        "height": 2,
+        "atMs": 12000,
+        "cells": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            1
+          ]
+        ],
+        "outline": [
+          [
+            0.12,
+            0.35
+          ],
+          [
+            0.5,
+            0.06
+          ],
+          [
+            1.55,
+            0.14
+          ],
+          [
+            1.84,
+            0.48
+          ],
+          [
+            1.72,
+            0.82
+          ],
+          [
+            1.8,
+            1.07
+          ],
+          [
+            2.28,
+            1.12
+          ],
+          [
+            2.7,
+            1.26
+          ],
+          [
+            2.88,
+            1.48
+          ],
+          [
+            2.62,
+            1.82
+          ],
+          [
+            2.2,
+            1.92
+          ],
+          [
+            1.72,
+            1.8
+          ],
+          [
+            1.44,
+            1.5
+          ],
+          [
+            1.3,
+            1.18
+          ],
+          [
+            0.95,
+            0.88
+          ],
+          [
+            0.46,
+            0.86
+          ],
+          [
+            0.16,
+            0.6
+          ]
+        ],
+        "crack": [
+          [
+            0.18,
+            0.55
+          ],
+          [
+            0.7,
+            0.34
+          ],
+          [
+            1.3,
+            0.62
+          ],
+          [
+            1.6,
+            0.98
+          ],
+          [
+            1.4,
+            1.44
+          ],
+          [
+            2.5,
+            1.35
+          ]
+        ]
+      },
+      {
+        "id": "hoze_right_sink",
+        "x": 18,
+        "y": 12,
+        "width": 2,
+        "height": 3,
+        "atMs": 28500,
+        "cells": [
+          [
+            1,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        "outline": [
+          [
+            1.22,
+            0.12
+          ],
+          [
+            1.8,
+            0.15
+          ],
+          [
+            1.96,
+            0.6
+          ],
+          [
+            1.79,
+            1.2
+          ],
+          [
+            1.97,
+            1.8
+          ],
+          [
+            1.85,
+            2.45
+          ],
+          [
+            1.4,
+            2.84
+          ],
+          [
+            0.61,
+            2.94
+          ],
+          [
+            0.13,
+            2.5
+          ],
+          [
+            0.08,
+            1.6
+          ],
+          [
+            0.45,
+            1.16
+          ],
+          [
+            1.02,
+            1.04
+          ],
+          [
+            1.08,
+            0.57
+          ]
+        ],
+        "crack": [
+          [
+            1.55,
+            0.25
+          ],
+          [
+            1.35,
+            0.82
+          ],
+          [
+            1.55,
+            1.3
+          ],
+          [
+            0.7,
+            1.65
+          ],
+          [
+            1.1,
+            2.13
+          ],
+          [
+            0.6,
+            2.7
+          ]
+        ]
+      },
+      {
+        "id": "hoze_left_chip",
+        "x": 9,
+        "y": 14,
+        "width": 2,
+        "height": 2,
+        "atMs": 44500,
+        "cells": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "outline": [
+          [
+            0.16,
+            0.3
+          ],
+          [
+            0.6,
+            0.12
+          ],
+          [
+            1.15,
+            0.17
+          ],
+          [
+            1.7,
+            0.38
+          ],
+          [
+            1.89,
+            0.85
+          ],
+          [
+            1.76,
+            1.4
+          ],
+          [
+            1.48,
+            1.76
+          ],
+          [
+            1.21,
+            1.58
+          ],
+          [
+            1.16,
+            1.16
+          ],
+          [
+            0.88,
+            0.82
+          ],
+          [
+            0.35,
+            0.72
+          ],
+          [
+            0.13,
+            0.53
+          ]
+        ],
+        "crack": [
+          [
+            0.22,
+            0.42
+          ],
+          [
+            0.8,
+            0.7
+          ],
+          [
+            1.35,
+            0.5
+          ],
+          [
+            1.65,
+            1.1
+          ],
+          [
+            1.37,
+            1.6
+          ]
+        ]
+      }
+    ]
+  },
+  "canvas": {
+    "counts": [
+      0,
+      0,
+      1,
+      1,
+      1,
+      2,
+      3,
+      3
+    ],
+    "centre": 0,
+    "escaped": 0,
+    "areas": [
+      2610,
+      4068,
+      1745
+    ],
+    "revisionInvalidates": true,
+    "falling": true,
+    "noMotionDebris": true,
+    "restored": true,
+    "futureClosed": true,
+    "reducedOpensOnTime": true,
+    "released": true
+  },
+  "validation": {
+    "targetedTests": 82,
+    "failed": 0,
+    "mysqlSocketTests": 1,
+    "browser": {
+      "map": "ville_safe1_arene",
+      "viewports": 4,
+      "animated": true,
+      "reducedMotion": true,
+      "hiddenCleanup": true,
+      "battlePresentationCleanup": true,
+      "mapIsolation": true,
+      "maximumHozeWind": true,
+      "completedFaultsRetained": true,
+      "collapseBackgroundsAndReset": true,
+      "movementControls": true,
+      "errors": []
+    },
+    "physicalPhone": false
+  },
+  "clientCommit": "9b0513eae916d6c0ec2b07641a5e502710e8aafc",
+  "deployment": {
+    "publishedAt": "2026-10-25T17:20:00.087Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-hoze-natural-2026-10-25T17-19-57-434Z",
+    "clientBuild": "0662aa12c5a2d1c7",
+    "beforePid": "1671877",
+    "afterPid": "1679276",
+    "activeRuns": 0,
+    "serverRestarted": true,
+    "checkpointSaved": true,
+    "neighborsUnchanged": true,
+    "publicGameBundle": true,
+    "holes": 3,
+    "backgroundsVerified": true,
+    "revision": 2,
+    "blockedCells": 12
+  },
+  "evidence": "/tmp/riftmon-hoze-natural-*; /tmp/riftmon-hoze-collapse-canvas/collapse-60000.png",
+  "rendering": "Code-native polygon overlays; no raster artwork or Tiled data changed."
+}
