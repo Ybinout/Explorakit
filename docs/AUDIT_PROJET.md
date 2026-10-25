@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Mix musical — exploration discrète, lieux spéciaux marqués — 25 octobre 2026
+
+Le mix de `WorldMusic` dépend du lieu : facteur 0,14 pour villes/routes (y compris neige et intérieurs ordinaires partageant ces thèmes), 0,34 pour arènes et maisons événementielles de Lucie/Gwenn, contre 0,22 partout auparavant. Centres Pokémon et grottes restent à 0,22. Le curseur général et la coupure du son s’appliquent toujours ; aucune préférence sauvegardée n’est remplacée. Le volume de combat/effets reste celui existant.
+
+Le gain dépend de la carte, pas seulement du morceau : la maison de Gwenn partage `village.mp3` mais prend le mix événementiel. Un passage entre lieux jouant le même morceau conserve la tête de lecture ; pauses combat/onglet et reprise sont inchangées. Service partagé par Aventure, Rift et Colosseum.
+
+Validation : 12 tests musique réussis, lint/build `4bb30ab10b6f1085` réussis. Recette `validateNewMusicBrowser.js` en navigateur avec audio réel : volumes exploration/événement, changement de mix sur un même morceau, six arènes et maison de Lucie, pause/reprise de combat, sourdine, visibilité et continuité, zéro erreur. Journaux `/tmp/riftmon-music-mix-*`.
+
+Publication statique 2026-10-25T08:07:30.770Z, client `62ab195a0e5283f94ea7be76975b3857305ab1cd`. Index/bundle publics exacts, aucun redémarrage (PID 1597682), sites voisins inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-music-mix-2026-10-25T08-07-29-432Z`.
+
 ## Aspha et Gwenn — proportions de l’atlas classique — 25 octobre 2026
 
 Les deux sprites v2 sont redessinés à partir du personnage chauve de `6931.png` (rectangle 652,33,21,25), avec tête occupant environ la moitié de la hauteur, corps court et gros blocs de pixels. Aspha conserve son chien, Gwenn sa casquette et son foulard. Exports transparents au plus proche voisin : Aspha 40×32 (silhouette et chien 37×28), Gwenn 32×32 (21×25). Le rendu commun les affiche exactement à 2×, pied ancré comme les PNJ classiques, en identifiant le fichier source pour rester compatible avec les PNG intégrés en data URI. Aspha sans `spriteFrame` reçoit un cadre entier côté rendu ; aucun changement de protocole/données serveur.
@@ -3342,6 +3352,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 25 octobre 2026 — Mix par lieu : villes/routes abaissées, arènes et maisons événementielles renforcées ; réglage général et continuité musicale conservés. Détails en tête.
 
 - 25 octobre 2026 — Aspha et Gwenn redessinés selon les grosses têtes et petits corps de `6931.png`, pixels à 2× et ancrage commun ; recettes navigateur complètes sans erreur. Détails en tête.
 

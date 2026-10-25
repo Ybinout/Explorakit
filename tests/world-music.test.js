@@ -18,8 +18,8 @@ test('every Center has its own soft looping theme, paused on exit and restarted 
  music.destroy();
 });
 test('exploration tracks cover every village, normal/generated routes and interiors, including caves and snowy Blanchecime',async()=>{const{worldMusicTrack}=await service();for(const m of ['start','ville1','ville_safe1','ville3','ville4','gen_ville5','maison','etage2','gen_maison2'])assert.equal(worldMusicTrack(m),'village',m);for(const m of ['route1','gen_route6','gen_route7','gen_shop_route10','pk1'])assert.equal(worldMusicTrack(m),'route',m);for(const m of ['ville5','ville5_shop','route13','route14'])assert.equal(worldMusicTrack(m),'snow',m);for(const m of ['cave1','cave2','cave_rochebrume3','cave_ice'])assert.equal(worldMusicTrack(m),'cave',m);for(const m of [null,undefined,'unknown'])assert.equal(worldMusicTrack(m),null);});
-test('route-to-route and town-to-interior transitions preserve the same audio and advancing playhead',async()=>{const{music,audios}=await fixture();music.update({map:'route1',active:true,volume:.35});await tick();const a=audios[0];a.currentTime=31;for(const map of ['route2','route3','gen_route6'])music.update({map,active:true,volume:.35});assert.equal(audios.length,1);assert.equal(a.plays,1);assert.equal(a.currentTime,31);assert.equal(a.paused,false);assert.equal(a.loop,true);assert(Math.abs(a.volume-.077)<1e-8);music.update({map:'ville5',active:true,volume:.35});await tick();const b=audios[1];b.currentTime=12;music.update({map:'ville5_shop',active:true,volume:.35});assert.equal(b.plays,1);assert.equal(b.currentTime,12);assert(a.paused);music.update({map:'route1',active:true,volume:.35});await tick();assert.equal(audios.length,2);assert.equal(a.currentTime,0);assert(!a.paused);assert(b.paused);});
-test('battle, results, offline, hidden and mute pause without resetting; changes of volume resume quietly',async()=>{const{music,audios}=await fixture();const state={map:'route1',active:true,volume:.35};music.update(state);await tick();const a=audios[0];a.currentTime=8;for(const patch of [{active:false},{volume:0}]){music.update({...state,...patch});assert(a.paused);assert.equal(a.currentTime,8);music.update(state);await tick();assert(!a.paused);assert.equal(a.currentTime,8);}music.update({...state,volume:1});assert.equal(a.volume,.22);music.update({...state,volume:Infinity});assert.equal(a.volume,.22);music.update({...state,volume:NaN});assert(a.paused);});
+test('route-to-route and town-to-interior transitions preserve the same audio and advancing playhead',async()=>{const{music,audios}=await fixture();music.update({map:'route1',active:true,volume:.35});await tick();const a=audios[0];a.currentTime=31;for(const map of ['route2','route3','gen_route6'])music.update({map,active:true,volume:.35});assert.equal(audios.length,1);assert.equal(a.plays,1);assert.equal(a.currentTime,31);assert.equal(a.paused,false);assert.equal(a.loop,true);assert(Math.abs(a.volume-.049)<1e-8);music.update({map:'ville5',active:true,volume:.35});await tick();const b=audios[1];b.currentTime=12;music.update({map:'ville5_shop',active:true,volume:.35});assert.equal(b.plays,1);assert.equal(b.currentTime,12);assert(a.paused);music.update({map:'route1',active:true,volume:.35});await tick();assert.equal(audios.length,2);assert.equal(a.currentTime,0);assert(!a.paused);assert(b.paused);});
+test('battle, results, offline, hidden and mute pause without resetting; changes of volume resume quietly',async()=>{const{music,audios}=await fixture();const state={map:'route1',active:true,volume:.35};music.update(state);await tick();const a=audios[0];a.currentTime=8;for(const patch of [{active:false},{volume:0}]){music.update({...state,...patch});assert(a.paused);assert.equal(a.currentTime,8);music.update(state);await tick();assert(!a.paused);assert.equal(a.currentTime,8);}music.update({...state,volume:1});assert.equal(a.volume,.14);music.update({...state,volume:Infinity});assert.equal(a.volume,.14);music.update({...state,volume:NaN});assert(a.paused);});
 test('refused autoplay retries on interaction, concurrent gestures do not stack plays, stale promises never restart old tracks',async()=>{const{music,audios}=await fixture();music.update({map:'route1',active:true,volume:.35});await tick();const a=audios[0];a.pause();a.play=function(){this.plays++;return Promise.reject(Error('NotAllowedError'));};music.sync();music.sync();await tick();assert.equal(a.plays,2);a.play=function(){this.plays++;this.paused=false;return Promise.resolve();};music.sync();await tick();assert(!a.paused);a.pause();let resolve;a.play=function(){this.plays++;return new Promise(r=>resolve=r);};music.sync();music.update({map:'ville1',active:true,volume:.35});a.paused=false;resolve();await tick();assert(a.paused);assert(!audios[1].paused);music.destroy();assert(audios.every(a=>a.paused&&a.src===''&&a.loads===1));music.sync();music.update({map:'route1',active:true,volume:1});assert.equal(music.tracks.size,0);});
 
 test('cave rooms and snowy town interiors preserve their playhead across transitions and battle pauses',async()=>{
@@ -73,4 +73,30 @@ test('Lucie battle theme only applies to the trainer encounter in her house',asy
  assert.equal(battleMusicTrack('trainer','route2_maison'),'lucie');
  for(const kind of ['wild','pvp','colosseum','arena'])assert.equal(battleMusicTrack(kind,'route2_maison'),kind);
  assert.equal(battleMusicTrack('trainer','route2'),'trainer');
+});
+
+
+test('towns and routes are quieter; arenas and event houses are louder while honoring the master slider',async()=>{
+ const {music}=await fixture();
+ for(const [maps,gain] of [
+  [['start','ville1','ville_safe1','ville3','ville4','ville5','route1','route8','route13','route14','ville_commerciale'],.14],
+  [['ville1_arene','ville_safe1_arene','gen_arene5','ville3_arene','ville4_arene','ville5_arene','route2_maison','route4_maison'],.34],
+  [['centre','cave1'],.22]
+ ]) for(const map of maps) for(const volume of [0,.35,1]){
+  music.update({map,active:true,volume});await tick();
+  assert(Math.abs(music.volume-volume*gain)<1e-9,map);
+  const a=music.tracks.get(music.track);
+  if(a){assert.equal(a.volume,music.volume);assert.equal(a.paused,volume===0,map);}
+ }
+ music.destroy();
+});
+test('entering Gwenn’s event house changes the mix without restarting the shared village track',async()=>{
+ const {music,audios}=await fixture();
+ music.update({map:'ville1',active:true,volume:1});await tick();
+ const a=audios[0];a.currentTime=23;
+ music.update({map:'route4_maison',active:true,volume:1});await tick();
+ assert.equal(audios.length,1);assert.equal(a.volume,.34);assert.equal(a.currentTime,23);assert.equal(a.plays,1);
+ music.update({map:'ville1',active:true,volume:1});await tick();
+ assert.equal(a.volume,.14);assert.equal(a.currentTime,23);assert.equal(a.plays,1);
+ music.destroy();
 });

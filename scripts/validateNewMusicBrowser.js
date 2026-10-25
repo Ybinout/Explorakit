@@ -58,7 +58,7 @@ const errors = [];
         await locate('cave1');const cave=await playing('cave');assert.match(cave.src,/cave\.[a-f0-9]+\.mp3/);assert(cave.duration>20);assert(Math.abs(cave.volume-.077)<1e-8);
         await page.evaluate(()=>{window.savedCave=window.musicVm._worldMusic.tracks.get('cave');window.savedCave.currentTime=18;});
         for(const map of ['cave2','cave_rochebrume1','cave_rochebrume3']){await locate(map);const now=await playing('cave');assert(now.time>=cave.time);assert(await page.evaluate(()=>window.savedCave===window.musicVm._worldMusic.tracks.get('cave')));}
-        await locate('ville5');const snow=await playing('snow');assert.match(snow.src,/snow\.[a-f0-9]+\.mp3/);assert(snow.duration>20);assert(await page.evaluate(()=>window.savedCave.paused));
+        await locate('ville5');const snow=await playing('snow');assert.match(snow.src,/snow\.[a-f0-9]+\.mp3/);assert(snow.duration>20);assert(Math.abs(snow.volume-.049)<1e-8);assert(await page.evaluate(()=>window.savedCave.paused));
         await page.evaluate(()=>window.savedSnow=window.musicVm._worldMusic.tracks.get('snow'));
         for(const map of ['route13','route14','ville5','ville5_shop']){await locate(map);assert((await playing('snow')).time>=snow.time);}assert(await page.evaluate(()=>window.savedSnow===window.musicVm._worldMusic.tracks.get('snow')));
         await page.evaluate(()=>window.musicVm.updatePreferences({...window.musicVm.preferences,masterVolume:0}));await page.waitForFunction(()=>window.savedSnow.paused);
@@ -67,7 +67,7 @@ const errors = [];
         await page.evaluate(()=>{delete document.hidden;document.dispatchEvent(new Event('visibilitychange'));});await playing('snow');
         // Real HTMLAudioElement seeks: only a change of theme resets the playhead.
         for(const [map,key,away,same]of [['ville1_arene','mounir-room','ville1','ville1_arene'],['ville_safe1_arene','hoze-room','ville_safe1','ville_safe1_arene'],['route2_maison','lucie-room','route2','route2_maison'],['ville3_arene','ana-room','ville3','ville3_arene'],['ville1','village','route1','ville1_shop'],['route1','route','ville1','route2'],['gen_arene5','raph-room','gen_ville5','gen_arene5'],['route13','snow','cave1','route14']]){
-            await locate(map);await playing(key);
+            await locate(map);const mix=await playing(key);assert(Math.abs(mix.volume-(key.endsWith('-room')?.119:.049))<1e-8);
             await page.evaluate(key=>{window.restartAudio=window.musicVm._worldMusic.tracks.get(key);window.restartAudio.currentTime=18;},key);
             await page.waitForFunction(()=>!window.restartAudio.seeking&&window.restartAudio.currentTime>=18);
             await locate(same);assert((await playing(key)).time>=18,'same theme must continue');
@@ -75,10 +75,16 @@ const errors = [];
             await locate(map);assert((await playing(key)).time<3,'different theme must restart');
             assert(await page.evaluate(key=>window.restartAudio===window.musicVm._worldMusic.tracks.get(key),key));
         }
-        results.push(cave,snow);
+        // Gwenn shares the village file but has the louder event-room mix.
+        await locate('ville1');await playing('village');
+        await page.evaluate(()=>{window.sharedVillage=window.musicVm._worldMusic.tracks.get('village');window.sharedVillage.currentTime=18;});
+        await locate('route4_maison');const event=await playing('village');assert(Math.abs(event.volume-.119)<1e-8);assert(event.time>=18);
+        assert(await page.evaluate(()=>window.sharedVillage===window.musicVm._worldMusic.tracks.get('village')));
+        await locate('ville1');assert(Math.abs((await playing('village')).volume-.049)<1e-8);
+        results.push(cave,snow,event);
         const cases=[['route2_maison','lucie_corrupted','lucie'],['ville3_arene','ana','ana'],['ville4_arene','wanda','wanda'],['ville5_arene','sevenp','7p'],['gen_arene5','raphael','raph'],['ville1_arene','moonpunch','mounir'],['ville_safe1_arene','hoze','hoze']];
         for(const [map,team,key]of cases){
-            await locate(map);const world=map==='ville1_arene'?'mounir-room':map==='ville_safe1_arene'?'hoze-room':map==='route2_maison'?'lucie-room':map==='ville3_arene'?'ana-room':map==='ville5_arene'?'sevenp-room':map==='ville4_arene'?'wanda-room':map==='gen_arene5'?'raph-room':'village';const room=await playing(world);if(world.endsWith('-room')){assert(room.src.includes(map==='ville1_arene'?'mounir-arene.':map==='ville_safe1_arene'?'hoze-arene.':map==='route2_maison'?'lucie-maison.':map==='ville3_arene'?'ana_arene.':map==='ville5_arene'?'arene7p.':map==='gen_arene5'?'areneraph.':'areneWanda.'));assert(room.duration>20);}
+            await locate(map);const world=map==='ville1_arene'?'mounir-room':map==='ville_safe1_arene'?'hoze-room':map==='route2_maison'?'lucie-room':map==='ville3_arene'?'ana-room':map==='ville5_arene'?'sevenp-room':map==='ville4_arene'?'wanda-room':map==='gen_arene5'?'raph-room':'village';const room=await playing(world);assert(Math.abs(room.volume-.119)<1e-8);if(world.endsWith('-room')){assert(room.src.includes(map==='ville1_arene'?'mounir-arene.':map==='ville_safe1_arene'?'hoze-arene.':map==='route2_maison'?'lucie-maison.':map==='ville3_arene'?'ana_arene.':map==='ville5_arene'?'arene7p.':map==='gen_arene5'?'areneraph.':'areneWanda.'));assert(room.duration>20);}
             await page.evaluate(world=>window.beforeBattleWorld=window.musicVm._worldMusic.tracks.get(world),world);
             const lead=require('../server/game/drift/pokemonFactory').create(9,100,true);lead.maxHp=lead.currentHp=5000;player.equipe.pokemons=[lead];
             const battle=cleanup.runtime.battle(player,{npc:true,equipe:require('../server/game/world/pnjTeamFactory').getPnjTeam(team),drifts:[],equipped:[],chain:0},map==='route2_maison'?'trainer':'arena',map==='route2_maison'?'lucie_route2':'champion_'+team);battle.deadline=Date.now()+240000;
