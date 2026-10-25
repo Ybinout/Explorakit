@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Matthieu — portrait illustré et présentation de combat — 25 octobre 2026
+
+Nouveau splash noir et blanc créé avec l’outil intégré imagegen, dans le style manga encré de Wayne/Gwenn : adulte de petite stature, bonnet sans cheveux visibles, barbe, sweat/pantalon oversize et Ball en main. Image RGBA 1 024×1 536, `src/assets/image/matthieu-v1.png` ; transparence conservée, référence source générée copiée sans modification. Prompt exact, références et vérifications dans `docs/MATTHIEU_PORTRAIT.json`.
+
+Le résolveur client `npcPortraits.js` utilise cette image entière dans les trois dialogues de Matthieu (`gwenn_route8`, `_locked`, `_after`), sans l’ancien cadrage d’atlas. `arenaEntrance.js` ajoute son splash uniquement pour carte `gen_route8`, type `trainer` et clé `gwenn_route8` ensemble ; durée minimum 3,6 s dont portrait visible 2,2 s, réglages de mouvement réduit/chargement existants conservés. Les anciens noms techniques et drapeaux restent indispensables à la progression : ne pas les renommer en `matthieu`. Gwenn de la Route 4 garde son propre portrait, le sprite de Matthieu sur carte et les combats ne changent pas. Aucun changement serveur/SQL.
+
+Lint, build `71a0e433901a1cea`, deux tests existants `tests/arena-entrance.test.js` réussis. Recette navigateur réelle sur `explorakit_test` : dialogue refusé avant Hoze, dialogue autorisé après son badge, trois correspondances de portraits et vrai lancement du combat avec splash, aux formats 320/393/844/1365 ; zéro erreur. Captures `/tmp/riftmon-matthieu-browser` inspectées, notamment introduction mobile et dialogue PC. Fixture temporaire `/tmp/riftmon-validate-matthieu.cjs`, compte jetable supprimé ; deux corrections du script de contrôle (sélecteur et extraction du bloc final), aucun défaut du jeu observé. Pas de téléphone physique. Recette manuelle reproductible dans le JSON.
+
+Publication statique 2026-10-25T17:48:33.282Z, client `03c9e70feb5a3e385385f56b37fb17264ef473d7` ; index, bundles et `matthieu-v1.f14ea8fc.png` HTTPS vérifiés à l’octet. Anciens bundles conservés, remplacement atomique de l’index, aucun redémarrage (PID 1679276), Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-matthieu-2026-10-25T17-48-31-912Z` ; recharger le jeu pour recevoir le portrait.
+
 ## Raph — alternance des bandes au sol — 25 octobre 2026
 
 Les six trajectoires d’étoiles projetées sur le sol sont retirées à la demande du créateur. Les 28 étoiles derrière la verrière gardent leur dessin, leur rythme et leur masque : comparaison de vingt images avec le client `9b0513eae916d6c0ec2b07641a5e502710e8aafc`, zéro octet différent dans le ciel. Piliers et fanions conservés. Les incrustations cuivre du décor alternent maintenant avec un bleu glacier, en deux groupes opposés : bandes extérieures/podium/rails et emblème/anneau intérieur/bords du tapis. Cycle continu de neuf secondes, transition douce sans flash.
@@ -3698,6 +3708,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 25 octobre 2026 — Matthieu : nouveau splash manga bonnet/barbe/oversize/Ball, intégré aux trois dialogues et au véritable lancement de son duel Route 8 ; quatre formats validés, aucun renommage des identifiants persistants. Prompt et publication dans `docs/MATTHIEU_PORTRAIT.json`.
 
 - 25 octobre 2026 — Raph : étoiles du sol remplacées par une alternance douce cuivre/bleu sur les incrustations, ciel derrière la vitre identique sur vingt images ; quatre formats et nettoyage validés, publication statique sans redémarrage. Détails en tête et `docs/RAPH_FLOOR_BANDS.json`.
 

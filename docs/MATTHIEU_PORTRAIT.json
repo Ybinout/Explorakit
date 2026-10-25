@@ -1,0 +1,62 @@
+{
+  "asset": "vue-explorakit/src/assets/image/matthieu-v1.png",
+  "generator": "Built-in image_gen.imagegen tool",
+  "transparentBackground": true,
+  "prompt": "Use case: stylized-concept. Create a NEW standalone character splash illustration for the trainer Matthieu in the game RiftMon, matching the two reference images ONLY for their black-and-white Japanese manga ink art direction, bold clear outlines, detailed but controlled crosshatching, grey screentone shading and contrast. Do not copy either reference character. Subject: a SHORT adult man of compact stature with a clearly visible short full beard and moustache, wearing a snug knitted beanie that entirely covers his scalp; bald, absolutely no visible hair, no fringe, no locks beneath the beanie. Very baggy oversized streetwear: broad loose hoodie with dropped shoulders and long sleeves, wide trousers and chunky trainers. He holds one clearly readable round trainer capture Ball in a raised hand, looking calmly confident toward the viewer. Full character from beanie to shoes, comfortably contained within frame; natural compact adult proportions, avoid a tall lean fashion-model silhouette. The other hand can rest in his hoodie pocket. Strong readable face and Ball for small dialogue portrait usage, three-quarter stance, slightly enlarged head in the established illustrated trainer style. Monochrome black/white/greys only. Genuine transparent background, clean complete silhouette, no scene, no ground, no smoke, no lettering, no watermark, no extra characters or equipment.",
+  "styleReferences": [
+    "vue-explorakit/src/assets/image/wayne-eyepatch-v1.png",
+    "vue-explorakit/src/assets/image/gwenn-v1.png"
+  ],
+  "generationSource": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-7648c6a0-4ae2-4103-b59a-c15fdf79d5b2.png",
+  "size": [
+    1024,
+    1536
+  ],
+  "bytes": 2742040,
+  "integration": {
+    "dialogues": [
+      "gwenn_route8",
+      "gwenn_route8_locked",
+      "gwenn_route8_after"
+    ],
+    "encounter": {
+      "map": "gen_route8",
+      "kind": "trainer",
+      "trainerKey": "gwenn_route8"
+    },
+    "minimumEntranceMs": 3600,
+    "minimumPortraitMs": 2200,
+    "worldSpriteChanged": false,
+    "progressionChanged": false
+  },
+  "checks": {
+    "browser": {
+      "lockedDialogue": true,
+      "readyDialogue": true,
+      "postVictoryMapping": true,
+      "actualTrainerEntrance": true,
+      "viewports": 4,
+      "errors": [],
+      "out": "/tmp/riftmon-matthieu-browser"
+    },
+    "existingArenaEntranceTestsPassed": 2,
+    "lint": true,
+    "build": "71a0e433901a1cea",
+    "visualReview": [
+      "dialogue-1365.png",
+      "entrance-393.png"
+    ],
+    "phoneHardwareTested": false
+  },
+  "manualRecipe": "En Aventure, parler à Matthieu au sud de la Route 8 (gen_route8, case 22,17). Vérifier son portrait avant Hoze, après obtention du badge puis en dialogue après sa victoire. Terminer le dialogue autorisé pour voir le splash de combat. Le même ancien identifiant gwenn_route8 et les mêmes drapeaux restent utilisés. Sur compte déjà vainqueur, le reset admin permet de rejouer.",
+  "publication": {
+    "publishedAt": "2026-10-25T17:48:33.282Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-matthieu-2026-10-25T17-48-31-912Z",
+    "clientBuild": "71a0e433901a1cea",
+    "clientCommit": "03c9e70feb5a3e385385f56b37fb17264ef473d7",
+    "pid": "1679276",
+    "serverRestarted": false,
+    "neighborsUnchanged": true,
+    "publicGameBundle": true
+  }
+}
