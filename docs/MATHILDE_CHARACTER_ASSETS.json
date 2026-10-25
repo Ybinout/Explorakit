@@ -1,0 +1,51 @@
+{
+  "character": "Mathilde Pikapika",
+  "createdAt": "2026-10-25",
+  "worldSprite": {
+    "source": "vue-explorakit/src/assets/6931.png",
+    "sha256": "c52207adff88198d3d3c16fbaf728ed9a53e5013434b60f56ef3b29a5e9d5d81",
+    "rectangle": {
+      "x": 941,
+      "y": 802,
+      "w": 19,
+      "h": 24
+    },
+    "opaquePixels": 339,
+    "renderScale": 2,
+    "renderPixels": {
+      "width": 38,
+      "height": 48
+    },
+    "editing": "Source pixels unchanged; classicNpcFrames.json selects the user-provided blonde character."
+  },
+  "portrait": {
+    "status": "temporary existing blonde civilian portrait; dedicated image generation blocked",
+    "source": "vue-explorakit/src/assets/image/civilian-portraits-a.png",
+    "columns": 6,
+    "rows": 3,
+    "index": 15,
+    "rowBounds": [
+      0,
+      296,
+      591,
+      887
+    ],
+    "generation": {
+      "mode": "built-in imagegen",
+      "attempts": 2,
+      "result": "Both requests rejected at output stage, moderation category other. No generated image saved; no API/CLI fallback used.",
+      "lastPrompt": "Create a professional video-game character illustration for RiftMon: Mathilde Pikapika, an adult female Pokémon trainer with long blonde hair, a friendly confident smile, a lightning-shaped hair clip, a practical trainer dress, a small Pikachu shoulder bag and a Poké Ball held in her hand. A cheerful Pikachu sits beside her shoulder. Match the black-and-white manga ink drawing style of reference 1; reference 2 is her existing tiny world sprite and provides the hair and outfit silhouette. Clean bold linework, black shadows, fine grey hatching, expressive face. Portrait composition showing her from head to knees, with complete hair and hands and ample transparent space around the silhouette. Black and white illustration, transparent background, no environment, no text. This is an illustrated dialogue portrait, not a pixel sprite.",
+      "references": [
+        "vue-explorakit/src/assets/image/gwenn-v1.png",
+        "/tmp/mathilde-sprite-reference.png"
+      ]
+    }
+  },
+  "unchanged": [
+    "NPC position and collision",
+    "Raph prerequisite",
+    "four-Pikachu team",
+    "unique per-player victory and Route 5 gate"
+  ],
+  "validation": "scripts/validateMathildeArtBrowser.js"
+}

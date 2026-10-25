@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Mathilde Pikapika — sprite blond choisi dans l’atlas — 25 octobre 2026
+
+Mathilde utilise le personnage blond fourni par le propriétaire dans `src/assets/6931.png` : rectangle (941,802,19,24), 339 pixels opaques, rendu natif ×2 (38×48), sans rééchantillonnage ni retouche de l’atlas. Le rôle dédié 36 dans `classicNpcFrames.json` évite de changer les autres personnages utilisant l’ancien index 7. Position, collisions, quatre Pikachu, prérequis Raph et duel unique personnel conservés ; aucune modification serveur ni sauvegarde.
+
+Le portrait dédié noir et blanc reste à produire : deux générations via imagegen intégré ont été refusées à la sortie (catégorie « other »), sans image livrée. Aucun contournement ni appel API/CLI. Les trois dialogues utilisent provisoirement une illustration blonde civile déjà présente, plutôt que l’ancienne brune ; résolution explicite avant l’atlas générique pour éviter de chercher une troisième planche inexistante avec le nouvel index 36. Source, rectangle, statut du portrait et dernier prompt dans `docs/MATHILDE_CHARACTER_ASSETS.json`. Ne pas considérer le splash art personnalisé comme livré.
+
+Validation : huit tests portraits/entrées/passages réussis, lint et build `fa3a4e9242faf6b8`. `scripts/validateMathildeArtBrowser.js` sur base dédiée : rectangle réellement dessiné, échelle, PNJ solide, refus avant Raph et vraie conversation après Raph, trois dialogues compatibles, formats 320/393/1365 px, zéro erreur. Captures inspectées et journaux `/tmp/riftmon-mathilde-*`. Aucun compte réel modifié.
+
+Publication statique 2026-10-25T09:40:11.365Z, client `54b33968d2193221ddb9160fa2e32aa37564e9ee`, sans redémarrage (PID 1608807). Index/JS/CSS HTTPS vérifiés à l’octet, sites voisins inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-mathilde-2026-10-25T09-40-10-075Z`.
+
 ## Rencontres légendaires — 1/3 000, toutes zones — 25 octobre 2026
 
 Les 35 légendaires/fabuleux des générations I–IV sont capturables. Chaque rencontre sauvage admissible commence par un tirage indépendant de probabilité 1/3 000, puis une espèce uniforme parmi ces 35 en cas de succès. Le niveau est tiré dans la plage habituelle du lieu (et dans les niveaux d’ouverture propres aux expéditions). Aucun légendaire ajouté aux listes ordinaires pondérées ; les bonus de Recherche rare ne multiplient pas ce taux. Pas de garantie après 3 000 rencontres ni d’exclusion des doublons. IV, EV initiaux, K et capture suivent les règles sauvages existantes.
@@ -3416,6 +3426,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 25 octobre 2026 — Mathilde : sprite blond natif choisi par le propriétaire, rendu ×2 et dialogues blonds provisoires. Portrait dédié non livré : imagegen refusé. Détails en tête.
 
 - 25 octobre 2026 — 35 légendaires/fabuleux I–IV rencontrables au niveau du lieu, 1/3 000 par rencontre puis espèce uniforme ; localisations, sprites et audit raccordés. Détails en tête.
 
