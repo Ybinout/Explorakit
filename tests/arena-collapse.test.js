@@ -49,8 +49,34 @@ for(const mode of ['rift','colosseum'])test(`${mode}: same blocking/rescue rules
  let time=100000;const events=[],store=createLobbyStore({now:()=>time}),user={id:1,username:'Collapse'},peer={id:2,username:'Peer'},socket={id:'collapse'};
  const runtime=createRunManager({store,namespace:{to:id=>({emit:(name,payload)=>events.push({name,payload})})},now:()=>time,random:()=>.2,starterChoiceMs:0,paceMs:0});store.connect(user,socket.id);
  if(mode==='colosseum')await runtime.startColosseum(user);else{store.connect(peer,'peer');const lobby=store.create(user,{capacity:2,durationMinutes:30});store.join(peer,lobby.code);store.ready(user,true);store.ready(peer,true);await runtime.start(user);}
- runtime.enter(user,socket);const p=runtime.playerFor(user);Object.assign(p,{currentmap:rules.config.map,x:7*32+16,y:9*32+16,arenaEntriesSeen:{'arena_entry:champion_hoze':'true'}});runtime.enter(user,socket);assert.equal(p.run.hozeCollapseStartedAt,time);
- time+=65000;runtime.tick();assert(!rules.blocked(p.run.hozeCollapseStartedAt,Math.floor(p.x/32),Math.floor(p.y/32),time));
+ runtime.enter(user,socket);const p=runtime.playerFor(user);Object.assign(p,{currentmap:rules.config.map,x:7*32+16,y:9*32+16,arenaEntriesSeen:{'arena_entry:champion_hoze':'true'}});runtime.enter(user,socket);assert.equal(p.hozeCollapseStartedAt,time);
+ time+=65000;runtime.tick();assert(!rules.blocked(p.hozeCollapseStartedAt,Math.floor(p.x/32),Math.floor(p.y/32),time));
  Object.assign(p,{x:9*32+16,y:9*32+16,lastMove:0,dialogue:null});runtime.move(p,'move_q');assert.equal(p.x,9*32+16);
- const restored=codec.decode(codec.encode(runtime.runs));assert.equal(restored.get(p.run.id).hozeCollapseStartedAt,100000);assert(events.some(e=>e.name==='arenaCollapseState'&&e.payload?.elapsedMs>=65000));
+ const restored=codec.decode(codec.encode(runtime.runs));assert.equal(restored.get(p.run.id).players.get(user.id).hozeCollapseStartedAt,100000);assert(events.some(e=>e.name==='arenaCollapseState'&&e.payload?.elapsedMs>=65000));
+});
+test('Rift: a later visitor gets fresh cracks and collisions while the first player keeps the collapsed floor',async()=>{
+ const {createLobbyStore}=require('../server/game/drift/lobbyStore'),{createRunManager}=require('../server/game/drift/runManager');
+ let time=100000;const events=[],store=createLobbyStore({now:()=>time}),a={id:1},b={id:2};
+ const runtime=createRunManager({store,namespace:{to:id=>({emit:(name,payload)=>events.push({id,name,payload})})},now:()=>time,random:()=>.2,starterChoiceMs:0,paceMs:0});
+ store.connect(a,'a');store.connect(b,'b');const lobby=store.create(a,{capacity:2,durationMinutes:30});store.join(b,lobby.code);store.ready(a,true);store.ready(b,true);await runtime.start(a);
+ const p=runtime.playerFor(a),q=runtime.playerFor(b);Object.assign(p,{currentmap:rules.config.map,x:432,y:432,arenaEntriesSeen:{'arena_entry:champion_hoze':'true'}});runtime.enter(a,{id:'a'});
+ time+=65000;runtime.tick();assert.equal(q.hozeCollapseStartedAt,undefined);
+ Object.assign(q,{currentmap:rules.config.map,x:432,y:432,arenaEntriesSeen:{'arena_entry:champion_hoze':'true'}});runtime.enter(b,{id:'b'});
+ assert.equal(p.hozeCollapseStartedAt,100000);assert.equal(q.hozeCollapseStartedAt,165000);
+ assert.equal(events.filter(e=>e.id==='b'&&e.name==='arenaCollapseState').at(-1).payload.elapsedMs,0);
+ for(const x of [p,q])Object.assign(x,{x:304,y:304,lastMove:0,dialogue:null});
+ runtime.move(p,'move_q');runtime.move(q,'move_q');assert.equal(p.x,304);assert.equal(q.x,272);
+ Object.assign(q,{currentmap:'start'});runtime.enter(b,{id:'b'});time+=2000;Object.assign(q,{currentmap:rules.config.map});runtime.enter(b,{id:'b'});assert.equal(q.hozeCollapseStartedAt,165000);
+});
+test('legacy checkpoint clocks migrate only visited players and remain paused across restart and recovery',async()=>{
+ const {createLobbyStore}=require('../server/game/drift/lobbyStore'),{createRunManager}=require('../server/game/drift/runManager'),codec=require('../server/game/drift/checkpointCodec');
+ let time=100000;const make=()=>{const store=createLobbyStore({now:()=>time});return{store,runtime:createRunManager({store,namespace:{to:()=>({emit(){}})},now:()=>time,random:()=>.2,starterChoiceMs:0,paceMs:0})};};
+ const a={id:1},b={id:2},first=make();first.store.connect(a,'a');first.store.connect(b,'b');const lobby=first.store.create(a,{capacity:2,durationMinutes:30});first.store.join(b,lobby.code);first.store.ready(a,true);first.store.ready(b,true);await first.runtime.start(a);
+ const p=first.runtime.playerFor(a);p.currentmap=rules.config.map;p.hozeCollapseStage=1;p.run.hozeCollapseStartedAt=80000;
+ const saved=codec.decode(codec.encode({runs:first.runtime.runs,lobbies:first.store.exportLobbies(),savedAt:time}));time+=300000;
+ const second=make();second.store.restoreLobbies(saved.lobbies);second.runtime.restore(saved.runs,saved.savedAt);
+ const restored=second.runtime.playerFor(a),unvisited=second.runtime.playerFor(b);assert.equal(restored.hozeCollapseStartedAt,380000);assert.equal(unvisited.hozeCollapseStartedAt,undefined);
+ second.runtime.setStorageAvailable(false);time+=5000;second.runtime.setStorageAvailable(true);assert.equal(restored.hozeCollapseStartedAt,385000);
+ const fresh=codec.decode(codec.encode({runs:second.runtime.runs,lobbies:second.store.exportLobbies(),savedAt:time}));time+=10000;const third=make();third.store.restoreLobbies(fresh.lobbies);third.runtime.restore(fresh.runs,fresh.savedAt);assert.equal(third.runtime.playerFor(a).hozeCollapseStartedAt,395000);assert.equal(third.runtime.playerFor(b).hozeCollapseStartedAt,undefined);
+ time+=2000;for(const u of [a,b]){third.store.connect(u,'r'+u.id);third.runtime.enter(u,{id:'r'+u.id});}third.runtime.tick();assert.equal(third.runtime.playerFor(a).hozeCollapseStartedAt,397000);
 });

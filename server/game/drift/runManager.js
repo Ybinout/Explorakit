@@ -51,8 +51,10 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
                 if(Number.isFinite(run.hozeCollapseStartedAt))run.hozeCollapseStartedAt+=pause;
                 for (const key of ['startedAt', 'endsAt', 'selectionEndsAt', 'preparationEndsAt', 'closedAt', 'recoveredAt'])
                     if (Number.isFinite(run[key])) run[key] += pause;
-                for (const player of run.players.values())
+                for (const player of run.players.values()) {
                     if (Number.isFinite(player.disconnectedAt)) player.disconnectedAt += pause;
+                    if (Number.isFinite(player.hozeCollapseStartedAt)) player.hozeCollapseStartedAt += pause;
+                }
                 for (const battle of run.battles) for (const key of ['deadline', 'nextRoundAt'])
                     if (Number.isFinite(battle[key])) battle[key] += pause;
             }
@@ -149,8 +151,8 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
     }
     function syncCollapse(p,force=false) {
         if(p.currentmap!==collapse.config.map){if(force)emit(p,'arenaCollapseState',null);return;}
-        p.run.hozeCollapseStartedAt ??= now();
-        const start=p.run.hozeCollapseStartedAt,time=now();
+        p.hozeCollapseStartedAt ??= now();
+        const start=p.hozeCollapseStartedAt,time=now();
         const stage=collapse.config.holes.filter(h=>collapse.elapsed(start,time)>=h.atMs).length;
         if(collapse.blocked(start,Math.floor(p.x/32),Math.floor(p.y/32),time)){
             const safe=collapse.safeTile(p,loadCollisionData(p.currentmap),start,time,(x,y)=>p.run.pnjs.isPnjBlockingTile(p.currentmap,x,y));
@@ -427,7 +429,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         const direction=getDirectionFromAction(action);if(!direction)return;
         const delta={move_z:[0,-32],move_s:[0,32],move_q:[-32,0],move_d:[32,0]}[action];
         const x=p.x+delta[0],y=p.y+delta[1],tx=Math.floor(x/32),ty=Math.floor(y/32);
-        if(p.currentmap===collapse.config.map&&Number.isFinite(p.run.hozeCollapseStartedAt)&&collapse.blocked(p.run.hozeCollapseStartedAt,tx,ty,now()))return;
+        if(p.currentmap===collapse.config.map&&Number.isFinite(p.hozeCollapseStartedAt)&&collapse.blocked(p.hozeCollapseStartedAt,tx,ty,now()))return;
         if(loadCollisionData(p.currentmap)[ty]?.[tx]!==0||pnjsFor(p).isPnjBlockingTile(p.currentmap,tx,ty))return;
         const previous={x:p.x,y:p.y};p.x=x;p.y=y;p.direction=direction;p.lastMove=now();p.dialogue=null;
         const repelProtection=stepRepel(p);
@@ -540,6 +542,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
                 for(const key of ['startedAt','endsAt','selectionEndsAt','preparationEndsAt'])if(Number.isFinite(run[key]))run[key]+=wait;
                 for(const b of run.battles)for(const key of ['deadline','nextRoundAt'])if(Number.isFinite(b[key]))b[key]+=wait;
                 if(Number.isFinite(run.hozeCollapseStartedAt))run.hozeCollapseStartedAt+=wait;
+                for(const p of run.players.values())if(Number.isFinite(p.hozeCollapseStartedAt))p.hozeCollapseStartedAt+=wait;
                 run.recoveryWaiting=false;
             }
             if(run.phase==='results') {
@@ -613,6 +616,12 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
             run.pnjs=createPnjStore(trainers.entries); run.pnjDeadlines=new Map(); run.settling=null; run.settleAfter=0;
             run.recoveredAt=now(); run.recoveryWaiting=run.phase!=='results';
             for (const p of run.players.values()) {
+                // Preserve visited players' old shared epoch, without advancing
+                // a teammate who has never entered Hoze's room.
+                if(!Number.isFinite(p.hozeCollapseStartedAt) && Number.isFinite(run.hozeCollapseStartedAt)
+                    && (p.currentmap===collapse.config.map || Number.isFinite(p.hozeCollapseStage)))
+                    p.hozeCollapseStartedAt=run.hozeCollapseStartedAt;
+                else if(Number.isFinite(p.hozeCollapseStartedAt))p.hozeCollapseStartedAt+=downtime;
                 p.socketId=null; p.disconnectedAt=now()+210000; p.dialogue=null; p.watchingMatchId=null;
                 if (p.runReport) p.runReport.now=now;
                 contracts.migrate(p);require('./fusion').consolidate(p);
