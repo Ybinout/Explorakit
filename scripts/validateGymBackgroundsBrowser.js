@@ -65,13 +65,13 @@ const errors = [];
                 assert.equal(src.w,portrait?1024:1536);assert.equal(src.h,portrait?1536:1024);
                 const geometry=await page.evaluate(()=>{
                     const b=window.gymVm.$refs.battleOverlay,scene=document.querySelector('.battle-scene').getBoundingClientRect();
-                    return ['player','wild'].map(side=>{
+                    return ['wild'].map(side=>{
                         const platform=document.querySelector(`[data-battle-platform="${side}"]`),disc=platform.querySelector('.gym-disc').getBoundingClientRect(),sprite=b.getSpriteGeometry(side),anchor=platform.getBoundingClientRect();
                         return {side,anchorX:anchor.x,anchorY:anchor.y,x:scene.x+sprite.centerX,y:scene.y+sprite.bottomY,disc:{top:disc.top,bottom:disc.bottom,left:disc.left,right:disc.right}};
                     });
                 });
                 for(const g of geometry){assert(Math.abs(g.x-g.anchorX)<1,JSON.stringify(g));assert(Math.abs(g.y-g.anchorY)<1,JSON.stringify(g));assert(g.y>=g.disc.top-1&&g.y<=g.disc.bottom+2,JSON.stringify(g));}
-                assert.equal(await page.locator('.gym-disc').count(),2);
+                assert.equal(await page.locator('.gym-disc').count(),1);
                 assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
                 await page.screenshot({path:path.join(output,`${key}-gym-${width}.png`)});
             }

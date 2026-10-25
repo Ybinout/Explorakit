@@ -112,7 +112,7 @@ let holdSnow = true; const heldSnow = [];
             assert.equal(background.width,portrait ? 1024 : 1536); assert.equal(background.height,portrait ? 1536 : 1024);
             const geometry = await page.evaluate(() => {
                 const b = window.snowCombatVm.$refs.battleOverlay, scene = document.querySelector('.battle-scene').getBoundingClientRect();
-                return ['player','wild'].map(side => {
+                return ['wild'].map(side => {
                     const el = document.querySelector(`[data-battle-platform="${side}"] .snow-disc`), rect = el.getBoundingClientRect(), foot = b.getSpriteGeometry(side);
                     return {side,center:Math.abs(rect.x + rect.width / 2 - (scene.x + foot.centerX)),foot:scene.y + foot.bottomY,top:rect.top,bottom:rect.bottom,color:getComputedStyle(el).backgroundColor};
                 });

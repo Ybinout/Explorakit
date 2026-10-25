@@ -75,7 +75,7 @@ const errors = [];
             await backdrop.evaluate(el => el.decode());
             const source = await backdrop.evaluate(el => el.currentSrc);
             assert.match(source, width <= 720 ? /raph-mobile/ : /raph-wide/);
-            for (const side of ['player','wild']) {
+            for (const side of ['wild']) {
                 const platform = await page.locator('[data-battle-platform="'+side+'"]').boundingBox();
                 const sprite = await page.locator('.battle-sprite-'+side).boundingBox();
                 assert(Math.abs(platform.x - sprite.x) < 1 && Math.abs(platform.y - sprite.y) < 1, 'Shared ground anchors');

@@ -1,0 +1,80 @@
+{
+  "date": "2026-10-25",
+  "toolMode": "built-in imagegen",
+  "baseClient": "335ee3115024acd39786be12eea26e98a897ee77",
+  "prompt": "Edit this RPG battle background. Remove ONLY the round dirt platform encircled by stones in the bottom-left foreground (the player's platform). Replace that foreground area with a seamless continuation of the surrounding grassy meadow, matching its texture, perspective, colors and lighting. There must be no round clearing, ring, raised rim, stones in a circle or pedestal remaining in the bottom-left. Keep the opponent's large grassy circular platform on the right EXACTLY as it is. Keep all sky, clouds, horizon, distant trees and the rest of the background unchanged. Same composition and proportions. No characters, no text, no new objects.",
+  "patch": {
+    "left": 0,
+    "top": 720,
+    "right": 650,
+    "bottom": 1024,
+    "featherTopAndRight": 48
+  },
+  "encoding": "Lossless WebP via a temporary sharp installation; source pixels outside the foreground patch remain identical.",
+  "assets": [
+    {
+      "name": "back.webp",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-f83bc0be-1b1d-4902-bdc0-883d120a63b7.png",
+      "destination": "vue-explorakit/src/assets/battle/back.webp"
+    },
+    {
+      "name": "grass-rain-wide-v1.webp",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-665ed6a6-3a5c-4129-a9c4-20d16d057f8b.png",
+      "destination": "vue-explorakit/src/assets/battle/grass-rain-wide-v1.webp"
+    }
+  ],
+  "exportVerification": {
+    "sharpVersion": "0.35.5",
+    "checks": [
+      {
+        "name": "back.webp",
+        "width": 1536,
+        "height": 1024,
+        "composedPixels": 196950,
+        "preservedOutsidePixels": 1375264,
+        "enemyPlatformUnchanged": true,
+        "lossless": true,
+        "sha256": "afe385e994932c66362c901cc3d9d26ebc85a23917e8a0805c5ad5ef3089e51d",
+        "bytes": 1326680
+      },
+      {
+        "name": "grass-rain-wide-v1.webp",
+        "width": 1536,
+        "height": 1024,
+        "composedPixels": 196950,
+        "preservedOutsidePixels": 1375264,
+        "enemyPlatformUnchanged": true,
+        "lossless": true,
+        "sha256": "194d6e227992205fd985cd13d8837e14178be88473a0ffccc301ac473b7ba106",
+        "bytes": 1331686
+      }
+    ]
+  },
+  "validation": {
+    "build": "c5c1b7fb7a2f183a",
+    "lint": "passed",
+    "browser": {
+      "cases": 48,
+      "scenes": 16,
+      "viewports": [
+        "393x852",
+        "844x390",
+        "1365x900"
+      ],
+      "method": "Read-only fixtures on the shared component, authenticated disposable account on dedicated test DB; no battle commands or rewards. Cached sprites calibrated as in real entrance.",
+      "report": "/tmp/riftmon-no-ally-platform-browser/platform-matrix.json"
+    },
+    "phoneHardware": false
+  },
+  "deployment": {
+    "publishedAt": "2026-10-25T11:34:01.698Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-no-ally-platform-2026-10-25T11-34-00-250Z",
+    "clientBuild": "c5c1b7fb7a2f183a",
+    "pid": "1615281",
+    "serverRestarted": false,
+    "neighborsUnchanged": true,
+    "publicGameBundle": true
+  },
+  "clientCommit": "f50df69d387a26efa9671fc333820c81fb1d54a6",
+  "encodingDependency": "sharp 0.35.5 / libwebp 1.6.0, temporary export tool only; no runtime dependency"
+}

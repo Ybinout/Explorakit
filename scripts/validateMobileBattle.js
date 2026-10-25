@@ -65,7 +65,8 @@ async function validateMobileBattle(page, output, fit, { colosseum = false } = {
         };
     });
     const checkPlatforms = layout => {
-        assert.equal(layout.platforms.length, colosseum || layout.mobile ? 2 : 0);
+        assert.equal(layout.platforms.length, colosseum || layout.mobile ? 1 : 0);
+        assert(layout.platforms.every(p=>p.side==='wild'),'Only the opponent retains a platform');
         for (const platform of layout.platforms) {
             const sprite = layout.sprites.find(s => s.side === platform.side);
             assert(platform.loaded && platform.passive && platform.z < 55, 'Platform must load behind the fighter without blocking input');

@@ -1,5 +1,14 @@
 # Contexte permanent — RiftMon
 
+## Combats — seul le socle adverse est conservé — 25 octobre 2026
+
+Le composant partagé `BattleOverlay` ne dessine plus de plateforme alliée : Aventure, Rift, Colosseum et PvP, PC/mobile. Position et taille des Pokémon conservées. Les deux fonds larges de prairie claire/pluvieuse avaient aussi un socle allié peint : retouche imagegen intégrée uniquement sur le premier plan gauche, composition Canvas et export WebP sans perte. Tous les pixels hors du rectangle (0,720)–(650,1024), dont le socle ennemi, sont vérifiés identiques après encodage. Sources, prompt complet et preuves dans `docs/BATTLE_ALLY_PLATFORM_REMOVAL.json` ; exporteur `scripts/exportBattleAllyPlatformRemoval.js`, dépendance temporaire sharp 0.35.5 sans ajout au runtime.
+
+Validation : lint et build `c5c1b7fb7a2f183a` réussis, syntaxe des scripts et diff vérifiés. Recette `scripts/validateEnemyOnlyPlatformsBrowser.js` : 48 scènes de rendu (16 environnements/modes × 393×852, 844×390, 1365×900), sur compte jetable et base dédiée. Absence de socle allié, maintien du socle adverse et de son ancrage, deux sprites visibles/décodés et aucun débordement ni erreur. Les images en cache sont calibrées comme lors de la véritable entrée. Scènes injectées en lecture seule dans le composant, sans commandes de combat ni récompenses ; captures représentatives inspectées. Dix anciennes recettes de socles actualisées, sans les relancer intégralement. Journaux/captures `/tmp/riftmon-no-ally-platform-*`. Aucun compte réel modifié ; pas de test sur téléphone physique.
+
+Publication statique 2026-10-25T11:34:01.698Z, client `f50df69d387a26efa9671fc333820c81fb1d54a6`. Index, JS/CSS et deux fonds publics vérifiés à l’octet ; aucun redémarrage (PID 1615281), Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-no-ally-platform-2026-10-25T11-34-00-250Z`.
+
+
 ## Dialogues PC — ancrage au bas du canvas — 25 octobre 2026
 
 Sur ordinateur, la couche de dialogue est positionnée en absolu dans le cadre du jeu et sa coque prend 100 % de cette hauteur, au lieu de 100dvh. Marge intérieure de 16 px : le panneau se place au bas du canvas, suit le cadre lors du défilement et ne descend plus dans le vide sous le jeu sur un écran haut. Deux règles limitées à `.game-root:not(.is-mobile)` dans `worldViewport.css` ; rendu mobile et commandes A existants conservés. Le voile reste modal sur la fenêtre.
