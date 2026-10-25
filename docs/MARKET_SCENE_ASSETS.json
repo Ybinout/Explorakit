@@ -1,0 +1,49 @@
+{
+  "date": "2026-10-24",
+  "tool": "image_gen.imagegen (built-in)",
+  "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-97405660-790f-41aa-b171-6b98fb14a1de.png",
+  "references": [
+    "vue-explorakit/src/assets/centre.png",
+    "previous gen_shop1.png"
+  ],
+  "assets": [
+    "vue-explorakit/src/assets/gen_shop1.png",
+    "vue-explorakit/src/assets/gen_shop_ville2_1.png",
+    "vue-explorakit/src/assets/gen_shop_ville5_1.png"
+  ],
+  "foreground": "Three transparent 448x320 layers replace the obsolete shelf overlays; scene furniture is baked into the new background.",
+  "export": "Generated 1484x1060, exported 448x320 using nearest-neighbor canvas scaling. Final collisions follow actual delivered art.",
+  "layout": {
+    "logicalTileSize": 16,
+    "roomBounds": [
+      96,
+      54,
+      256,
+      212
+    ],
+    "keeper": [
+      13,
+      8
+    ],
+    "approach": [
+      13,
+      9
+    ],
+    "entry": [
+      13,
+      15
+    ],
+    "exit": [
+      [
+        13,
+        16
+      ],
+      [
+        14,
+        16
+      ]
+    ],
+    "note": "Eight existing clerk identities/sprites/portraits retained, all immobile in the counter gap. Seven active shops plus legacy map variants. Tower floors excluded; catalogues and city return destinations retained."
+  },
+  "prompt": "Use case: stylized-concept, production game map texture.\nPrimary request: redesign the ordinary POKEMON MART interiors to match the existing healing-center pixel-art style. Reference 1 is the APPROVED healing-center style, pixel scale, colors and restrained detailing. Reference 2 is the obsolete shop: preserve its functional identity as an item store, but replace its busy checkerboard flooring and empty furniture arrangement.\nCreate ONE complete 7:5 landscape map texture, logical size 448x320 pixels, cleanly enlarged pixel-art. Black void outside the room. Orthographic overhead handheld RPG perspective, exactly like reference 1; NOT isometric, not a perspective room illustration.\nRoom outer footprint x96..351, y48..287 on the 448x320 logical canvas. North wall cream panels with muted BLUE trim, y48..79. Floor from x112..335 y80..271. Low bottom wall y272..287 with the only open exit x208..239 y272..287; small flat pale-blue welcome mat x208..239 y240..271 aligned to that opening.\nAt the rear center a compact cream-and-blue sales counter x160..287 y112..143, with a clear OPEN NOTCH x208..223 y128..143 where the game will draw its shopkeeper. The notch must be flat empty floor, no furniture or baked-in character. The keeper stands centered at pixel216,136; floor immediately below, x208..223 y144..159, MUST be empty and reachable. A small register sits at the right counter end, never over the notch.\nFour tidy narrow product displays: one at x112..143 y96..143 and one at x304..335 y96..143; another pair at x112..143 y176..207 and x304..335 y176..207. Clearly readable tiny colored potion bottles, ball capsules and a few folded packages, represented by simple 2–5 pixel blocks, not tiny lettering or dense ornamental detail. The central area x144..303 y144..271 stays entirely clear and walkable, except the FLAT entrance mat. Two little plants only in the bottom side corners x112..127 and x320..335, y240..271. Small simple ball-shaped store emblem centered on the north wall.\nStyle: same soft cream walls, dark restrained outlines and broad slate-blue floor tiles as reference 1; cooler blue shop trim in place of the coral healing-center trim. LIMITED palette and limited color ramps, crisp square pixel clusters, simple surfaces. Warm welcoming room, professional readable game tiles. No mottled shading, no texture noise, no detailed woodgrain, no blurry gradients, no painterly realism, no checkerboard floor, no giant central ornament. NO people, Pokémon, UI, text, numbers or watermarks. No healing machine or computer.\nPreserve the whole 7:5 canvas and surrounding black void; do not crop tightly around the room. Deliver a single finished map image."
+}

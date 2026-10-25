@@ -144,7 +144,7 @@ test('les champions conservent leurs planches et les civils utilisent les portra
     assert.deepEqual(usedSprites, expectedSprites);
 
     const civilians = pnjs.filter(pnj => pnj.sprite === 'townspeople.png');
-    assert.equal(civilians.length, 67);
+    assert.equal(civilians.length, 68);
     const lucie = pnjs.find(pnj => pnj.name === 'lucie_route2');
     assert.equal(lucie.sprite, 'lucie-pixel-v2.png');
     assert.deepEqual(lucie.spriteFrame, {columns:1, rows:1, index:0});
@@ -155,6 +155,11 @@ test('les champions conservent leurs planches et les civils utilisent les portra
     for (const pnj of civilians) {
         const dialogue = dialogues.find(entry => entry.name === pnj.interactionName);
         for (const sentence of dialogue.sentences) {
+            if (pnj.interactionName === 'centre') {
+                assert.equal(sentence.imageName, 'inf.png'); // Existing dedicated nurse portrait.
+                assert(fs.existsSync(path.join(root, 'vue-explorakit/src/assets/image/inf.png')));
+                continue;
+            }
             assert.equal(sentence.imageName, 'townspeople.png');
             assert.deepEqual(sentence.portraitFrame, pnj.spriteFrame);
         }
@@ -184,7 +189,7 @@ test('ville1 raccorde ses portes existantes à une arène et une boutique indép
     assert.equal(getNextMap('ville1', 4, 11)?.nextMap, 'ville1_arene');
     assert.equal(getNextMap('ville1', 20, 8)?.nextMap, 'ville1_shop');
     assert.equal(getNextMap('ville1', 15, 8)?.nextMap, 'centre');
-    assert.equal(resolveMapSourceName('ville1_arene'), 'gen_arene1');
+    assert.equal(resolveMapSourceName('ville1_arene'), 'ville1_arene');
     assert.equal(resolveMapSourceName('ville1_shop'), 'gen_shop1');
     assert.ok(loadCollisionData('ville1_arene').length > 0);
     assert.ok(loadCollisionData('ville1_shop').length > 0);

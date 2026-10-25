@@ -317,7 +317,7 @@
           "valY": 8,
           "goto": "ville1_shop",
           "nexX": 416,
-          "nexY": 544
+          "nexY": 512
         },
         {
           "valX": 4,
@@ -387,7 +387,7 @@
       "mapName": "ville1_shop",
       "mapchange": [
         {
-          "valY": 17,
+          "valY": 16,
           "goto": "ville1",
           "nexX": 640,
           "nexY": 320
@@ -822,7 +822,7 @@
           "valY": 4,
           "goto": "gen_shop_ville2_1",
           "nexX": 416,
-          "nexY": 544
+          "nexY": 512
         }
       ],
       "legacyOnly": true
@@ -964,7 +964,7 @@
           "valY": 7,
           "goto": "gen_shop_route10",
           "nexX": 416,
-          "nexY": 544
+          "nexY": 512
         },
         {
           "valX": null,
@@ -1140,7 +1140,7 @@
           "valY": 13,
           "goto": "gen_shop_ville5_1",
           "nexX": 416,
-          "nexY": 544
+          "nexY": 512
         },
         {
           "valX": 17,
@@ -1372,7 +1372,7 @@
       "mapchange": [
         {
           "valX": null,
-          "valY": 17,
+          "valY": 16,
           "goto": "gen_ville2",
           "nexX": 640,
           "nexY": 192
@@ -1479,7 +1479,7 @@
       "mapchange": [
         {
           "valX": null,
-          "valY": 17,
+          "valY": 16,
           "goto": "gen_ville5",
           "nexX": 736,
           "nexY": 480
@@ -1497,7 +1497,7 @@
       "mapchange": [
         {
           "valX": null,
-          "valY": 17,
+          "valY": 16,
           "goto": "gen_ville5",
           "nexX": 736,
           "nexY": 480
@@ -1543,7 +1543,7 @@
       "mapchange": [
         {
           "valX": null,
-          "valY": 17,
+          "valY": 16,
           "goto": "ville_safe1",
           "nexX": 704,
           "nexY": 544
@@ -1656,7 +1656,7 @@
           "logicalDoor": true,
           "goto": "ville_safe1_shop",
           "nexX": 416,
-          "nexY": 544
+          "nexY": 512
         },
         {
           "valX": 4,
@@ -1720,7 +1720,7 @@
       "mapchange": [
         {
           "valX": null,
-          "valY": 17,
+          "valY": 16,
           "goto": "gen_route6",
           "nexX": 640,
           "nexY": 288
@@ -1761,7 +1761,7 @@
           "valY": 13,
           "goto": "ville3_shop",
           "nexX": 416,
-          "nexY": 544
+          "nexY": 512
         },
         {
           "valX": 5,
@@ -1820,7 +1820,7 @@
       "mapchange": [
         {
           "valX": null,
-          "valY": 17,
+          "valY": 16,
           "goto": "ville3",
           "nexX": 704,
           "nexY": 480
@@ -1970,7 +1970,7 @@
           "valY": 8,
           "goto": "ville4_shop",
           "nexX": 416,
-          "nexY": 544
+          "nexY": 512
         },
         {
           "valX": 14,
@@ -2005,7 +2005,7 @@
       "mapchange": [
         {
           "valX": null,
-          "valY": 17,
+          "valY": 16,
           "goto": "ville4",
           "nexX": 704,
           "nexY": 320
@@ -2484,7 +2484,7 @@
           "valY": 6,
           "goto": "ville5_shop",
           "nexX": 416,
-          "nexY": 544
+          "nexY": 512
         },
         {
           "valX": 13,
@@ -2519,7 +2519,7 @@
       "mapchange": [
         {
           "valX": 13,
-          "valY": 17,
+          "valY": 16,
           "goto": "ville5",
           "nexX": 704,
           "nexY": 256

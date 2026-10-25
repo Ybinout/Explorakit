@@ -1715,7 +1715,7 @@
     "x": null,
     "sentences": [
       {
-        "text": "Bienvenue à la boutique de Valpierre. Tu peux acheter des Balls et des soins avec le bouton Acheter. En expédition, nos pierres, objets et Drifts sont aussi disponibles.",
+        "text": "Bienvenue à la boutique de Valpierre. Balls, soins et objets sont disponibles au comptoir. En expédition, retrouve aussi notre sélection de Drifts.",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1724,7 +1724,7 @@
         }
       }
     ],
-    "end": null
+    "end": "shop"
   },
   {
     "name": "aspha_route2",

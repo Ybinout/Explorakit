@@ -14,7 +14,7 @@
       "interactionName": "shop_keeper_ville1",
       "map": "ville1_shop",
       "x": 13,
-      "y": 6,
+      "y": 8,
       "sprite": "townspeople.png",
       "block": true,
       "spriteFrame": {
@@ -320,7 +320,7 @@
       "interactionName": "shop_keeper_1",
       "map": "gen_shop_route10",
       "x": 13,
-      "y": 6,
+      "y": 8,
       "sprite": "townspeople.png",
       "block": true,
       "spriteFrame": {
@@ -613,29 +613,31 @@
       "name": "town_shop_rivazur",
       "interactionName": "shop_rivazur",
       "map": "gen_shop_ville2_1",
-      "x": 11,
-      "y": 5,
+      "x": 13,
+      "y": 8,
       "sprite": "townspeople.png",
       "spriteFrame": {
         "columns": 8,
         "rows": 4,
         "index": 21
       },
-      "block": true
+      "block": true,
+      "roamRadius": 0
     },
     {
       "name": "town_shop_ocreville",
       "interactionName": "shop_ocreville",
       "map": "gen_shop_ville5_1",
-      "x": 11,
-      "y": 5,
+      "x": 13,
+      "y": 8,
       "sprite": "townspeople.png",
       "spriteFrame": {
         "columns": 8,
         "rows": 4,
         "index": 22
       },
-      "block": true
+      "block": true,
+      "roamRadius": 0
     },
     {
       "name": "valpierre_guide",
@@ -670,14 +672,15 @@
       "interactionName": "valpierre_vendeur",
       "map": "ville_safe1_shop",
       "x": 13,
-      "y": 5,
+      "y": 8,
       "sprite": "townspeople.png",
       "spriteFrame": {
         "columns": 8,
         "rows": 4,
         "index": 30
       },
-      "block": true
+      "block": true,
+      "roamRadius": 0
     },
     {
       "name": "aspha_route2",
@@ -742,7 +745,7 @@
       "interactionName": "clairfontaine_vendeuse",
       "map": "ville3_shop",
       "x": 13,
-      "y": 6,
+      "y": 8,
       "sprite": "townspeople.png",
       "block": true,
       "spriteFrame": {
@@ -832,7 +835,7 @@
       "interactionName": "rochebrume_vendeuse",
       "map": "ville4_shop",
       "x": 13,
-      "y": 6,
+      "y": 8,
       "sprite": "townspeople.png",
       "block": true,
       "spriteFrame": {
@@ -892,7 +895,7 @@
       "interactionName": "blanchecime_vendeuse",
       "map": "ville5_shop",
       "x": 13,
-      "y": 6,
+      "y": 8,
       "sprite": "townspeople.png",
       "block": true,
       "spriteFrame": {

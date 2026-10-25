@@ -1,0 +1,37 @@
+// Actual movement, dialogue and purchases on disposable accounts in a dedicated test database.
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),http=require('node:http');
+const {once}=require('node:events'),{randomUUID}=require('node:crypto');
+if(!/test/i.test(process.env.DB_TEST_NAME||''))throw Error('Dedicated test database required');
+process.env.DB_NAME=process.env.DB_TEST_NAME;process.env.NODE_ENV='test';
+const express=require('express'),{Server}=require('socket.io'),{chromium}=require('playwright'),{dbPool:db}=require('../server/config/database');
+const maps=require('../server/game/world/mapRepository'),{maps:world}=require('../data/game/nextMap.json');
+const shops=[...require('../server/game/world/shopCatalog').SHOP_MAPS].filter(n=>!n.startsWith('tour_'));
+const entries=world.flatMap(m=>m.mapchange.filter(t=>shops.includes(t.goto)).map(t=>({origin:m.mapName,...t})));
+const dist=process.env.RELEASE_DIST_DIR||'/tmp/riftmon-markets-dist',out=process.env.RELEASE_SCREENSHOTS||'/tmp/riftmon-markets-browser';fs.mkdirSync(out,{recursive:true});
+const app=express(),server=http.createServer(app),io=new Server(server);app.use(express.json());app.use('/api',require('../server/http/routes'));app.use(express.static(dist));app.get('*',(_q,r)=>r.sendFile(path.join(dist,'index.html')));io.use(require('../server/http/authMiddleware').authenticateSocket);require('../server/realtime/socketHandler')(io);
+const cleanup=require('../server/realtime/driftLobbyHandler').registerDriftLobbies(io,{checkpointRepository:{async save(){}},runtimeOptions:{random:()=>.9,paceMs:0}});
+let browser,page,userId,success=false;const errors=[],visited=[];
+const pause=ms=>new Promise(r=>setTimeout(r,ms));
+async function ready(){await page.waitForFunction(()=>{const v=document.querySelector('.game-root')?.__vue__;if(!v?.socket?.connected||!v.players[v.socket.id]||v.mapLoading||v.renderedMap!==v.map)return false;window.v=v;return true;});}
+async function leave(){if(await page.evaluate(()=>Boolean(window.v?.socket?.connected))){await page.evaluate(()=>new Promise(r=>v.socket.emit('requestGameSave',r)));await page.evaluate(()=>v.socket.disconnect());await pause(200);}await page.goto('about:blank');}
+async function step(action,map){await page.waitForTimeout(175);const before=await page.evaluate(()=>{const p=v.players[v.socket.id];return{x:p.x,y:p.y};});await page.evaluate(a=>v.socket.emit('playerAction',a),action);if(map)await page.waitForFunction(m=>v.map===m&&!v.mapLoading&&v.renderedMap===m,map);else await page.waitForFunction(p=>{const n=v.players[v.socket.id];return n.x!==p.x||n.y!==p.y;},before);}
+async function approach(){for(let y=15;y>9;y--)await step('move_z');}
+async function talk(){await page.evaluate(()=>v.espace());await page.locator('.dialogue-shell').waitFor();for(let i=0;i<8&&await page.locator('.dialogue-shell').count();i++){await page.locator('.dialogue-shell .text').click();await page.waitForTimeout(130);}await page.locator('.shop-item').first().waitFor();await page.waitForFunction(()=>!v.shop.loading);}
+async function buy(){const before=await page.evaluate(()=>({item:v.shop.catalog.find(i=>i.key==='pokeball'),money:v.shop.money,q:v.bagItems.find(i=>i.key==='pokeball')?.quantity||0}));assert(before.money>=before.item.price);await page.locator('.shop-item').filter({has:page.getByText(before.item.name,{exact:true})}).locator('.shop-buy-controls button').click();await page.waitForFunction(q=>!v.shop.loading&&!v.shop.error&&(v.bagItems.find(i=>i.key==='pokeball')?.quantity||0)===q+1,before.q);assert.equal(await page.evaluate(()=>v.shop.money),before.money-before.item.price);}
+async function pictures(){for(const[width,height]of [[320,568],[393,852],[1365,900]]){await page.setViewportSize({width,height});await page.evaluate(w=>v.showMobileControls=w<920,width);await page.waitForTimeout(160);assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));const label=await page.locator('.location-name').boundingBox();assert(label.width>=140&&label.height<=32,'shop location must remain readable');await page.screenshot({path:path.join(out,`market-${width}.png`)});}await page.setViewportSize({width:393,height:852});await page.evaluate(()=>v.showMobileControls=true);}
+(async()=>{try{
+ server.listen(0,'127.0.0.1');await once(server,'listening');const base=`http://127.0.0.1:${server.address().port}`;
+ const r=await fetch(base+'/api/users',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:'market_'+randomUUID(),password:randomUUID(),starterId:7})});assert.equal(r.status,201);const fixture=await r.json();userId=fixture.user.id;await db.execute('UPDATE users SET money=10000 WHERE id=?',[userId]);
+ browser=await chromium.launch({headless:true,args:['--no-sandbox']});const ctx=await browser.newContext({viewport:{width:393,height:852},hasTouch:true,isMobile:true});await ctx.addInitScript(s=>{if(location.protocol.startsWith('http'))localStorage.setItem('explorakit.user',JSON.stringify(s));},{...fixture.user,token:fixture.token});page=await ctx.newPage();page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.url().startsWith(base)&&r.status()>=400)errors.push(r.status()+' '+r.url());});
+ for(const entry of entries){
+  if(visited.length)await leave();await db.execute('UPDATE users SET map=?,x=?,y=? WHERE id=?',[entry.origin,entry.valX*32+16,(entry.valY+1)*32+16,userId]);await page.goto(base+'/game',{waitUntil:'networkidle'});await ready();await step('move_z',entry.goto);
+  assert.deepEqual(await page.evaluate(()=>{const p=v.players[v.socket.id];return[p.x,p.y];}),[432,496]);await approach();
+  if(!visited.length)await pictures();await talk();if(!visited.length||entry.goto==='ville5_shop')await buy();await page.locator('.shop-close').click();
+  for(let y=9;y<15;y++)await step('move_s');await step('move_s',entry.origin);
+  const back=maps.getNextMap(entry.goto,13,16);assert.deepEqual(await page.evaluate(()=>{const p=v.players[v.socket.id];return[p.x,p.y];}),[back.nextX,back.nextY]);visited.push(entry.goto);
+ }
+ await leave();await db.execute("UPDATE users SET map='ville1_shop',x=432,y=560 WHERE id=?",[userId]);await page.goto(base+'/game',{waitUntil:'networkidle'});await ready();assert.deepEqual(await page.evaluate(()=>{const p=v.players[v.socket.id];return[p.x,p.y];}),[432,496]);
+ await page.goto(base+'/colosseum',{waitUntil:'networkidle'});await page.locator('[data-colosseum-start]:enabled').click();await page.locator('[data-starter-choice]').first().click();await page.locator('.starter-backdrop').waitFor({state:'hidden'});await ready();
+ const p=cleanup.runtime.playerFor(fixture.user);Object.assign(p,{currentmap:'ville1_shop',x:432,y:496,money:5000});await page.reload({waitUntil:'networkidle'});await ready();await approach();await talk();await buy();await page.locator('.shop-close').click();for(let y=9;y<15;y++)await step('move_s');await step('move_s','ville1');
+ assert.deepEqual(errors,[]);success=true;console.log(JSON.stringify({visited,adventurePurchases:2,colosseumPurchase:true,legacySaveRecovery:true,viewports:3,errors,out}));
+}finally{if(!success&&page)await page.screenshot({path:path.join(out,'failure.png'),fullPage:true}).catch(()=>{});await browser?.close();cleanup();await new Promise(r=>io.close(r));await pause(200);if(userId)await db.execute('DELETE FROM users WHERE id=?',[userId]);await db.end();}})().catch(e=>{console.error(e.stack);process.exitCode=1});

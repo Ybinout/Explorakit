@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Boutiques — intérieur harmonisé avec le Centre Pokémon — 25 octobre 2026
+
+Les trois décors `gen_shop1`, `gen_shop_ville2_1` et `gen_shop_ville5_1`, utilisés par les sept boutiques actives et leurs variantes historiques, partagent un nouvel intérieur pixelisé : murs crème, liserés bleus, sol ardoise et quatre rayonnages lisibles autour d’un comptoir dégagé. Génération imagegen intégrée au dépôt ; source, fichiers et prompt complet dans `docs/MARKET_SCENE_ASSETS.json`. Export 448×320 au plus proche voisin ; anciens premiers plans vidés pour éviter les meubles superposés. Les étages de la tour conservent les cartes auteur.
+
+JSON/TMX synchronisés avec le décor livré : arrivée (13,15), porte (13/14,16), vendeurs existants immobiles en (13,8), interaction depuis (13,9). Collisions sur meubles/murs/vide, sorties vers les mêmes villes, anciennes positions invalides récupérées dans la zone praticable. Identités, sprites, portraits, prix, inventaires et catalogues conservés. Le dialogue du vendeur de Valpierre ouvre maintenant directement son comptoir, comme les autres. Sur téléphone ≤420 px, le lieu et Acheter occupent une ligne sous Menu/Pokémon pour éviter le texte comprimé verticalement.
+
+Validation : 50 tests ciblés de cartes, accès et boutiques ; deux attentes historiques de la recette monde actualisées pour l’infirmière déjà ajoutée et l’arène Mounir dédiée. `scripts/validateMarketBrowser.js` sur base dédiée : huit véritables entrées/sorties, vendeurs, achats Aventure et Colosseum, reconnexion d’une ancienne position ; captures 320/393/1365 px et lisibilité du bandeau vérifiées, aucune erreur navigateur. Lint/build réussis ; journaux `/tmp/riftmon-markets-*`. Aucun test sur téléphone physique revendiqué.
+
+Décors/données publiés le 24 octobre à 22 h 39 Paris (2026-10-24T20:39:29.162Z), serveur PID 1575422 actif, aucune expédition active ni migration SQL. Ajustement du bandeau publié le 25 octobre, client final `b40f0387a3fec5858c8e6dc4332f52860acab4fe`, build `8c7ba7ea8a7b80e6`, sans second redémarrage. Index et image publics vérifiés ; Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-markets-2026-10-24T20-38-46-908Z`.
+
 ## Binout — bouton de revanche des arènes — 24 octobre 2026
 
 En Aventure, Options affiche « Tests des arènes » uniquement pour le compte propriétaire existant (identité signée id 4 et nom exact `binout`). Le serveur autorise `admin:rearmArenas`, puis revérifie cette identité dans la base sous verrou ; aucune identité cible ni rôle transmis par le client n’est accepté. Les autres comptes et les expéditions n’ont pas ce bouton. Réactivation refusée pendant un combat, dialogue, transition ou opération d’inventaire ; les autres connexions du même compte en combat sont prises en compte.
@@ -3201,6 +3211,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 25/10/2026 : boutiques harmonisées avec le Centre, collisions/PNJ/portes synchronisés, ancien emplacement récupéré, bandeau mobile lisible. 50 tests et recette navigateur sur base dédiée réussis ; décors/client/données publiés, sites voisins inchangés. Voir « Boutiques — intérieur harmonisé avec le Centre Pokémon ».
 
 - 24/10/2026 22 h 27 : bouton Options réservé à binout pour réactiver les six champions vaincus ; marqueurs de revanche isolés, aucune suppression de progression ni récompense répétée. Quatre tests spécifiques, 85 régressions, recette navigateur 320/393/1365 px, lint/build ; déployé, sites voisins inchangés. Voir la section « Binout — bouton de revanche des arènes ».
 
