@@ -1,5 +1,17 @@
 # Contexte permanent — RiftMon
 
+## Ana — étoiles blanches et bleues immobiles — 25 octobre 2026
+
+`anaArena.js` ajoute 49 étoiles à positions fixes réparties dans la salle `ville3_arene` : sol, tapis, côtés et près des vitraux, sans atteindre l’extérieur. Étoiles à quatre pointes en pixels, blanches et bleu clair, petite bordure lumineuse bleue. Seule l’opacité varie : apparition/extinction douce et pause, cycles décalés de 5,2 à 8,8 s ; aucune translation, rotation ni changement de taille. Rendu dans `PlaceAmbienceRenderer.drawGround`, avant les personnages, partagé Aventure/Rift/Colosseum. Décor, PNG/Tiled, collisions, musique et combats inchangés.
+
+Une surface 896×640, cache 20 Hz dans la boucle existante, sans timer ni réseau. Surface libérée sur carte, combat, onglet masqué et destruction. Animations désactivées/mouvement réduit : mêmes étoiles fixes à luminosité discrète constante. Les couches d’ambiance/lumières précédentes restent en place.
+
+Validation : nouvelle recette `validateAnaArenaCanvas.js`, 80 phases sur 20 s : 49 ancres, chaque étoile complètement éteinte puis visible, couleurs blanche et bleue vérifiées, 21–40 étoiles simultanées, aucun pixel hors des empreintes fixes. Cache, préférence, nettoyage et isolation réussis ; peinture locale Chromium environ 0,06 ms. `validatePlaceAmbienceCanvas.js` repassé sur les quinze lieux, eau confinée et cycle de vie conservés. Lint ciblé, build `4ddf4a311059dd5d`, syntaxe/diff réussis. Recette navigateur étendue `ARENA_DECOR=ana node scripts/validateHozeArenaBrowser.js`, base `explorakit_test` et compte jetable : quatre formats 320/393/844/1365 px, mouvement lumineux, préférence, onglet masqué, suspension/reprise de présentation de combat et reconnexion ailleurs ; zéro erreur. Captures PC/mobile inspectées ; aucun compte réel modifié ni combat serveur lancé, pas de test physique. Journaux/captures `/tmp/riftmon-ana-stars-*`.
+
+Publication statique 2026-10-25T14:38:57.863Z, client `0165a5dd175dd4f50f113ea993d16a56efa50bd4`, index/JS/CSS publics vérifiés à l’octet. Aucun redémarrage (PID 1627712), Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-ana-stars-2026-10-25T14-38-56-636Z`.
+
+
+
 ## Hoze — fissures plus nombreuses, étendues et durables — 25 octobre 2026
 
 Remplace l’ancienne respiration cyclique de quatre fractures : huit grandes fissures et 32 branches couvrent désormais deux bandes élargies x27–209 / x239–421, y104–271, vers le motif central et au pied des colonnes. Tapis central, escaliers et murs préservés ; même masque de structures pour passer sous les piliers, plinthes et tissus. Aucun PNG/Tiled, collision ou météo modifié. Colonnes en mouvement continu et vent maximal conservés.
