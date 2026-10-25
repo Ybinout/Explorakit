@@ -1,0 +1,123 @@
+{
+  "date": "2026-10-25",
+  "toolMode": "built-in imagegen",
+  "atlas": "vue-explorakit/src/assets/6931.png",
+  "atlasSha256": "c52207adff88198d3d3c16fbaf728ed9a53e5013434b60f56ef3b29a5e9d5d81",
+  "size": [
+    32,
+    32
+  ],
+  "renderScale": 2,
+  "preserveBodyFromRow": 22,
+  "palette": "Nearest colors from the original actor and hairstyle-reference atlas frames; binary alpha.",
+  "sprites": [
+    {
+      "name": "noz",
+      "originalFrame": {
+        "name": "noz",
+        "x": 367,
+        "y": 417,
+        "w": 17,
+        "h": 25
+      },
+      "referenceCell": "/tmp/nrv-noz-cell.png",
+      "portrait": "vue-explorakit/src/assets/image/nrv-noz-v1.png",
+      "prompt": "Edit reference 1, a classic handheld RPG overworld pixel sprite shown enlarged from an exact 32 by 32 logical pixel cell. Reference 2 is character identity only, NOT the desired rendering style. Keep the exact simple pixel style of reference 1: large head about half the body height, tiny compact body, chunky square flat-color pixels, no antialiasing, no fine illustration detail. Front-facing stationary pose, same cell, same feet position, same small scale, same clothing, same skin tone, transparent background. Change only the head area above logical row 22; leave neck, torso, arms, hands, trousers and shoes in the same positions. Output one character alone, no text, no grid, no floor, no shadow, no extra poses. Render the logical 32x32 sprite enlarged with nearest-neighbor-looking square pixels.\nMake this character completely bald with a simple rounded peach-colored scalp, no hair and no sideburns. Keep his recognizable confident eyes and dark jacket with pale collar. The bald character in reference 2 is NOZ. Do not add glasses or a beard.",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-8018955d-bdf0-4789-b7e9-6069ad85df37.png",
+      "destination": "vue-explorakit/src/assets/pnj/nrv-noz-pixel-v1.png",
+      "referenceFrame": {
+        "name": "noz",
+        "x": 367,
+        "y": 417,
+        "w": 17,
+        "h": 25
+      }
+    },
+    {
+      "name": "tom",
+      "originalFrame": {
+        "name": "tom",
+        "x": 558,
+        "y": 288,
+        "w": 17,
+        "h": 26
+      },
+      "referenceCell": "/tmp/nrv-tom-cell.png",
+      "portrait": "vue-explorakit/src/assets/image/nrv-tom-v1.png",
+      "prompt": "Edit reference 1, a classic handheld RPG overworld pixel sprite shown enlarged from an exact 32 by 32 logical pixel cell. Reference 2 is character identity only, NOT the desired rendering style. Keep the exact simple pixel style of reference 1: large head about half the body height, tiny compact body, chunky square flat-color pixels, no antialiasing, no fine illustration detail. Front-facing stationary pose, same cell, same feet position, same small scale, same clothing, same skin tone, transparent background. Change only the head area above logical row 22; leave neck, torso, arms, hands, trousers and shoes in the same positions. Output one character alone, no text, no grid, no floor, no shadow, no extra poses. Render the logical 32x32 sprite enlarged with nearest-neighbor-looking square pixels.\nGive this character the layered rounded teal-blue hair with a long soft fringe and small dark rectangular eyeglasses corresponding to the haired man in reference 2. Keep the hair only lightly tousled, with a few large pixel clusters, not tall spikes. Two tiny simple glasses frames and a bridge must be visible over the eyes. Keep the pale jacket and compact body.",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-203d0fbf-0fc2-4fd1-ad21-b77eb077a994.png",
+      "destination": "vue-explorakit/src/assets/pnj/nrv-tom-pixel-v1.png",
+      "referenceFrame": {
+        "name": "tom",
+        "x": 654,
+        "y": 290,
+        "w": 17,
+        "h": 24
+      }
+    },
+    {
+      "name": "cry",
+      "originalFrame": {
+        "name": "cry",
+        "x": 654,
+        "y": 290,
+        "w": 17,
+        "h": 24
+      },
+      "referenceCell": "/tmp/nrv-cry-cell.png",
+      "portrait": "vue-explorakit/src/assets/image/nrv-cry-v1.png",
+      "prompt": "Edit reference 1, a classic handheld RPG overworld pixel sprite shown enlarged from an exact 32 by 32 logical pixel cell. Reference 2 is character identity only, NOT the desired rendering style. Keep the exact simple pixel style of reference 1: large head about half the body height, tiny compact body, chunky square flat-color pixels, no antialiasing, no fine illustration detail. Front-facing stationary pose, same cell, same feet position, same small scale, same clothing, same skin tone, transparent background. Change only the head area above logical row 22; leave neck, torso, arms, hands, trousers and shoes in the same positions. Output one character alone, no text, no grid, no floor, no shadow, no extra poses. Render the logical 32x32 sprite enlarged with nearest-neighbor-looking square pixels.\nMake this character completely bald with a simple rounded peach-colored scalp, no hair and no sideburns. Keep the serious eyebrows and pale high-collar jacket. The bald character in reference 2 is CRY. Do not add glasses or a beard.",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-f3a25695-9877-45f3-93b1-6d6b2aa517af.png",
+      "destination": "vue-explorakit/src/assets/pnj/nrv-cry-pixel-v1.png",
+      "referenceFrame": {
+        "name": "cry",
+        "x": 558,
+        "y": 288,
+        "w": 17,
+        "h": 26
+      }
+    }
+  ],
+  "exportVerification": [
+    {
+      "name": "noz",
+      "pixels": 278,
+      "bounds": {
+        "x": 7,
+        "y": 9,
+        "w": 17,
+        "h": 23
+      },
+      "bodyPreserved": true,
+      "paletteColors": 15,
+      "sha256": "67a11b6458fc1945e31fce2cff84f57e7136b8d8e734377d8581b821fa7dc466"
+    },
+    {
+      "name": "tom",
+      "pixels": 329,
+      "bounds": {
+        "x": 7,
+        "y": 6,
+        "w": 17,
+        "h": 26
+      },
+      "bodyPreserved": true,
+      "paletteColors": 17,
+      "sha256": "e27f6e7856a5b9ff04b161d82effe452bd6e214301a1eaae79c9b414708e5893"
+    },
+    {
+      "name": "cry",
+      "pixels": 292,
+      "bounds": {
+        "x": 7,
+        "y": 7,
+        "w": 17,
+        "h": 25
+      },
+      "bodyPreserved": true,
+      "paletteColors": 17,
+      "sha256": "0378cb5ffa3af0fb00b6d420bc9e4868f0f44418fb8770af1b6deffcaea59e8f"
+    }
+  ],
+  "runtime": "Client-only npcAppearance mapping for nrv_noz/nrv_tom/nrv_cry; full 32x32 frames, exact 2x draw, same feet anchor. Legacy PNJ configuration and original atlas unchanged."
+}

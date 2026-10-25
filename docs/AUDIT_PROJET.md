@@ -1,5 +1,17 @@
 # Audit technique et mémoire de RiftMon
 
+## NRV — sprites de carte assortis aux portraits — 25 octobre 2026
+
+NOZ et CRY ont le crâne chauve ; TOM a une frange souple bleu-vert et des lunettes. Têtes retouchées avec imagegen intégré à partir des sprites classiques et des trois portraits actuels. Exports `src/assets/pnj/nrv-{noz,tom,cry}-pixel-v1.png`, cellules transparentes 32×32 ; rendu ×2 sans lissage. Détails, prompts complets, références et sources générées dans `docs/NRV_SPRITE_EDITS.json`.
+
+`exportNrvSpriteEdits.js` conserve exactement les pixels du corps de chaque PNJ à partir de la ligne 22, réutilise les palettes de l’atlas original et de la référence de coiffure, et vérifie transparence, dimensions, bornes et pieds à la ligne 31. Silhouettes finales de 17×23/26/25 px, palettes sources de 15/17/17 couleurs. Atlas `6931.png` vérifié par SHA256, jamais modifié. Les vêtements de TOM/CRY restent ceux de leurs sprites de carte précédents, même si la référence de tête suit l’identité corrigée des portraits.
+
+`npcAppearance` ne remplace que l’apparence des trois identifiants NRV à la réception client : cadre entier 1×1 et fichier personnel. Le chemin de rendu des sprites classiques personnalisés les affiche à ×2 avec le même ancrage des pieds. Données serveur, positions, collisions et ancien format d’atlas conservés ; anciens clients utilisables et nouveaux clients compatibles avec les serveurs existants. Service de carte commun aux trois modes.
+
+Validation : 19 tests contenu/histoire/portraits réussis, lint et build `d91986dcc988b314` réussis. Export répété avec les mêmes empreintes, preuve de conservation des corps. Recette `NRV_PORTRAITS_ONLY=1` dans `validateNrvHouseBrowser.js` : trois PNG décodés, source exacte 32×32 et destination 64×64, trois dialogues et portraits chargés, scènes 320/393/1365 px inspectées, zéro erreur. Journaux/captures `/tmp/riftmon-nrv-sprites-*`. Aucun compte réel modifié ; pas de test sur téléphone physique.
+
+Publication statique 2026-10-25T10:57:30.730Z, client `97c186d576043dac683f213e5373e88cc90c2f50`, index/JS/CSS publics vérifiés à l’octet. Aucun redémarrage (PID 1615281), sites voisins inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-nrv-sprites-2026-10-25T10-57-29-687Z`.
+
 ## Wanda — nouvelle musique dès le dialogue de défi — 25 octobre 2026
 
 `/home/ubuntu/dev/pourtoi/new_wandaa.mp3` remplace la piste de combat `src/assets/msc/wanda.mp3`, copie à l’octet (5 282 003 octets, durée décodée 220,08 s). Provenance/empreinte et recette dans `docs/WANDA_BATTLE_MUSIC.json`. Aucun réencodage ; piste d’ambiance d’arène distincte conservée.
@@ -3474,6 +3486,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 25 octobre 2026 — Sprites NRV assortis aux portraits : NOZ/CRY chauves, TOM frange/lunettes, export natif et corps conservés. Détails en tête.
 
 - 25 octobre 2026 — Nouvelle musique Wanda dès son dialogue de défi, continue pendant chargement/combat, sans double piste ni remise à zéro. Détails et recette réelle en tête.
 
