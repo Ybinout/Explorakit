@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Grand Comptoir — mobilier compact calé sur les collisions — 25 octobre 2026
+
+Les comptoirs et présentoirs sont réduits aux quatre étages. Les dessins dépassaient en haut/latéralement des cases bloquées, ce qui faisait paraître le joueur debout dessus. Nouveaux éléments générés à partir des décors existants puis intégrés dans des rectangles précis avec une marge dans les collisions : comptoir gauche 52×37, droit 40×37, présentoirs 36×37/38 pixels, en coordonnées image 448×320. Chaque pixel de ces rectangles est vérifié dans une case bloquée par l’outil d’export.
+
+Seules les zones des anciens meubles sont recomposées avec le carrelage et le mobilier générés ; pixels hors de ces zones vérifiés identiques à l’ancien décor. Escaliers, plantes, murs, seuil, vendeuses, catalogues et JSON/TMX conservés. Aucun rayon ajouté sous les escaliers. Images finales aux mêmes chemins `src/assets/tour_{rdc,etage1,etage2,etage3}.png`. Sources, prompts imagegen intégré et rectangles dans `docs/DEPARTMENT_STORE_COMPACT_FURNITURE.json` ; export reproductible `node scripts/exportDepartmentStoreCompactAssets.js` avec sources locales indiquées par le manifeste.
+
+Validation : 16 tests boutiques/cartes/positions réussis ; export vérifiant tous les rectangles dans les collisions et zéro pixel modifié hors des retouches ; build `3ac6fef6aec26121` réussi. `RELEASE_FURNITURE_ONLY=1` dans `validateDepartmentStoreBrowser.js` vérifie quatre vendeuses, 60 bords de meubles solides, marche réelle, six passages d’escaliers aller/retour et sortie, quatre formats 320/393/844/1365 px, aucune erreur. Captures inspectées. Journaux `/tmp/riftmon-store-compact-*`. Pas de test sur appareil physique.
+
+Publication statique 2026-10-25T08:43:06.682Z, client `664f040a34456036f15f60d811731456808fd802`. Index/bundle et quatre PNG publics vérifiés à l’octet ; aucun redémarrage (PID 1602782), sites voisins inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-store-compact-2026-10-25T08-43-05-423Z`.
+
 ## Arène de Mounir — pluie/vent maximum et bassins animés — 25 octobre 2026
 
 Le climat partagé de `ville1_arene` passe à pluie 3 / vent 3, maximum existant : pluie inclinée, rafales, impacts au sol. Le vent de cette salle emporte des embruns cyan plutôt que les feuilles utilisées dehors. La pluie réelle déjà transmise aux combats conserve ses effets habituels.
@@ -3382,6 +3392,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 25 octobre 2026 — Comptoirs et présentoirs de la tour réduits et intégrés dans leurs cases bloquées ; passages et escaliers conservés. Détails en tête.
 
 - 25 octobre 2026 — Arène Mounir : pluie/vent au maximum, embruns et ondulations confinées aux deux bassins ; détails et recette en tête.
 

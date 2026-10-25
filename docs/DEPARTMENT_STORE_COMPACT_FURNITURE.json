@@ -1,0 +1,511 @@
+{
+  "mode": "Built-in image_gen edits and nearest-neighbor placement",
+  "baseClientCommit": "7f717637ab6253eee32ff9d88a4692023e8fa99d",
+  "export": {
+    "size": [
+      448,
+      320
+    ],
+    "filter": "nearest-neighbor"
+  },
+  "floor": {
+    "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-5fdcca40-1f72-4d8e-99e3-9e99233311b2.png",
+    "prompt": "Precise-object-edit. Edit this existing pixel-art shop map. Remove EVERY central service counter, cash register, merchandise display and freestanding shelf. Replace all those objects and their shadows with uninterrupted blue tiled floor matching the reference. The result is the EMPTY room with only its outer cream/blue walls, the two staircases and black margins. Do not add objects. Preserve exact 7:5 framing and logical 448x320 geometry. All former furniture spots must be plain walkable blue tile floor. Keep the blue floor's existing palette, brick pattern and small pixel scale, no gradients, no people or text. Do not move or change walls or staircases."
+  },
+  "edits": [
+    {
+      "map": "tour_rdc",
+      "asset": "vue-explorakit/src/assets/tour_rdc.png",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-7e50dfe6-4945-45db-8fa3-51d60a5802e5.png",
+      "prompt": "Precise game map asset edit. Edit this EXISTING 448x320 pixel-art shop floor, same framing and exact 7:5 aspect ratio, no redesign. REDUCE THE FURNITURE to fit its existing collision grid with generous empty margins. Furniture is too tall: reduce height by about 30%, width by 15%. Both halves of the central L-shaped service counter must be visibly squat and compact, keeping the existing open middle for the saleswoman. Exact desired rectangles in the logical 448x320 image: left counter ALL pixels including black outline/shadow inside x118..170,y102..139; right counter inside x212..252,y102..139. The standalone merchandise display at x284..338,y106..158 must instead fit x294..330,y118..154. Left lower shelf must fit x38..74,y181..218; right lower shelf x374..410,y181..218. Any existing upper wall shelf must fit x38..74,y118..154 on left or x374..410,y118..154 on right. Replace the newly freed pixels around each reduced object with the same blue tiled floor. Keep all remaining furnishings at their original center positions; do not add shelves below staircases. Keep existing staircase(s), outer walls, floor boundaries, plants, bottom doorway if present, entire room layout, black margins EXACTLY fixed. Preserve authentic crisp tiny pixel-art style, cream and blue palette. Do not enlarge furniture details; tiny simple supplies on compact counters. No characters, no labels, no text. The clear path immediately in front of both stairs must stay empty. All countertop rear pillars also must shrink to stay inside the new specified rectangles. Preserve the open service aisle x176..208. Do not merely remove furniture, shrink it. Department of this image: Poké Balls and ordinary supplies.",
+      "objects": [
+        {
+          "name": "leftCounter",
+          "sourceSearch": [
+            112,
+            96,
+            64,
+            56
+          ],
+          "clear": [
+            112,
+            90,
+            65,
+            62
+          ],
+          "target": [
+            118,
+            102,
+            52,
+            37
+          ]
+        },
+        {
+          "name": "rightCounter",
+          "sourceSearch": [
+            200,
+            96,
+            64,
+            56
+          ],
+          "clear": [
+            200,
+            90,
+            64,
+            62
+          ],
+          "target": [
+            212,
+            102,
+            40,
+            37
+          ]
+        },
+        {
+          "name": "display",
+          "sourceSearch": [
+            280,
+            104,
+            64,
+            60
+          ],
+          "clear": [
+            280,
+            102,
+            64,
+            62
+          ],
+          "target": [
+            294,
+            118,
+            36,
+            37
+          ]
+        },
+        {
+          "name": "leftLower",
+          "sourceSearch": [
+            36,
+            166,
+            44,
+            64
+          ],
+          "clear": [
+            32,
+            166,
+            48,
+            62
+          ],
+          "target": [
+            38,
+            181,
+            36,
+            38
+          ]
+        },
+        {
+          "name": "rightLower",
+          "sourceSearch": [
+            370,
+            166,
+            46,
+            64
+          ],
+          "clear": [
+            374,
+            166,
+            42,
+            62
+          ],
+          "target": [
+            374,
+            181,
+            36,
+            38
+          ]
+        },
+        {
+          "name": "leftUpper",
+          "sourceSearch": [
+            36,
+            104,
+            44,
+            60
+          ],
+          "clear": [
+            32,
+            102,
+            48,
+            62
+          ],
+          "target": [
+            38,
+            118,
+            36,
+            37
+          ]
+        }
+      ]
+    },
+    {
+      "map": "tour_etage1",
+      "asset": "vue-explorakit/src/assets/tour_etage1.png",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-36a49214-8513-4e75-a103-6216346fe8ca.png",
+      "prompt": "Precise game map asset edit. Edit this EXISTING 448x320 pixel-art shop floor, same framing and exact 7:5 aspect ratio, no redesign. REDUCE THE FURNITURE to fit its existing collision grid with generous empty margins. Furniture is too tall: reduce height by about 30%, width by 15%. Both halves of the central L-shaped service counter must be visibly squat and compact, keeping the existing open middle for the saleswoman. Exact desired rectangles in the logical 448x320 image: left counter ALL pixels including black outline/shadow inside x118..170,y102..139; right counter inside x212..252,y102..139. The standalone merchandise display at x284..338,y106..158 must instead fit x294..330,y118..154. Left lower shelf must fit x38..74,y181..218; right lower shelf x374..410,y181..218. Any existing upper wall shelf must fit x38..74,y118..154 on left or x374..410,y118..154 on right. Replace the newly freed pixels around each reduced object with the same blue tiled floor. Keep all remaining furnishings at their original center positions; do not add shelves below staircases. Keep existing staircase(s), outer walls, floor boundaries, plants, bottom doorway if present, entire room layout, black margins EXACTLY fixed. Preserve authentic crisp tiny pixel-art style, cream and blue palette. Do not enlarge furniture details; tiny simple supplies on compact counters. No characters, no labels, no text. The clear path immediately in front of both stairs must stay empty. All countertop rear pillars also must shrink to stay inside the new specified rectangles. Preserve the open service aisle x176..208. Do not merely remove furniture, shrink it. Department of this image: training vitamins, IV/EV supplies.",
+      "objects": [
+        {
+          "name": "leftCounter",
+          "sourceSearch": [
+            112,
+            96,
+            64,
+            56
+          ],
+          "clear": [
+            112,
+            90,
+            65,
+            62
+          ],
+          "target": [
+            118,
+            102,
+            52,
+            37
+          ]
+        },
+        {
+          "name": "rightCounter",
+          "sourceSearch": [
+            200,
+            96,
+            64,
+            56
+          ],
+          "clear": [
+            200,
+            90,
+            64,
+            62
+          ],
+          "target": [
+            212,
+            102,
+            40,
+            37
+          ]
+        },
+        {
+          "name": "display",
+          "sourceSearch": [
+            280,
+            104,
+            64,
+            60
+          ],
+          "clear": [
+            280,
+            102,
+            64,
+            62
+          ],
+          "target": [
+            294,
+            118,
+            36,
+            37
+          ]
+        },
+        {
+          "name": "leftLower",
+          "sourceSearch": [
+            36,
+            166,
+            44,
+            64
+          ],
+          "clear": [
+            32,
+            166,
+            48,
+            62
+          ],
+          "target": [
+            38,
+            181,
+            36,
+            38
+          ]
+        },
+        {
+          "name": "rightLower",
+          "sourceSearch": [
+            370,
+            166,
+            46,
+            64
+          ],
+          "clear": [
+            374,
+            166,
+            42,
+            62
+          ],
+          "target": [
+            374,
+            181,
+            36,
+            38
+          ]
+        }
+      ]
+    },
+    {
+      "map": "tour_etage2",
+      "asset": "vue-explorakit/src/assets/tour_etage2.png",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-e94bf357-2ca4-4193-a792-161966779d5f.png",
+      "prompt": "Precise game map asset edit. Edit this EXISTING 448x320 pixel-art shop floor, same framing and exact 7:5 aspect ratio, no redesign. REDUCE THE FURNITURE to fit its existing collision grid with generous empty margins. Furniture is too tall: reduce height by about 30%, width by 15%. Both halves of the central L-shaped service counter must be visibly squat and compact, keeping the existing open middle for the saleswoman. Exact desired rectangles in the logical 448x320 image: left counter ALL pixels including black outline/shadow inside x118..170,y102..139; right counter inside x212..252,y102..139. The standalone merchandise display at x284..338,y106..158 must instead fit x294..330,y118..154. Left lower shelf must fit x38..74,y181..218; right lower shelf x374..410,y181..218. Any existing upper wall shelf must fit x38..74,y118..154 on left or x374..410,y118..154 on right. Replace the newly freed pixels around each reduced object with the same blue tiled floor. Keep all remaining furnishings at their original center positions; do not add shelves below staircases. Keep existing staircase(s), outer walls, floor boundaries, plants, bottom doorway if present, entire room layout, black margins EXACTLY fixed. Preserve authentic crisp tiny pixel-art style, cream and blue palette. Do not enlarge furniture details; tiny simple supplies on compact counters. No characters, no labels, no text. The clear path immediately in front of both stairs must stay empty. All countertop rear pillars also must shrink to stay inside the new specified rectangles. Preserve the open service aisle x176..208. Do not merely remove furniture, shrink it. Department of this image: competitive held items.",
+      "objects": [
+        {
+          "name": "leftCounter",
+          "sourceSearch": [
+            112,
+            96,
+            64,
+            56
+          ],
+          "clear": [
+            112,
+            90,
+            65,
+            62
+          ],
+          "target": [
+            118,
+            102,
+            52,
+            37
+          ]
+        },
+        {
+          "name": "rightCounter",
+          "sourceSearch": [
+            200,
+            96,
+            64,
+            56
+          ],
+          "clear": [
+            200,
+            90,
+            64,
+            62
+          ],
+          "target": [
+            212,
+            102,
+            40,
+            37
+          ]
+        },
+        {
+          "name": "display",
+          "sourceSearch": [
+            280,
+            104,
+            64,
+            60
+          ],
+          "clear": [
+            280,
+            102,
+            64,
+            62
+          ],
+          "target": [
+            294,
+            118,
+            36,
+            37
+          ]
+        },
+        {
+          "name": "leftLower",
+          "sourceSearch": [
+            36,
+            166,
+            44,
+            64
+          ],
+          "clear": [
+            32,
+            166,
+            48,
+            62
+          ],
+          "target": [
+            38,
+            181,
+            36,
+            38
+          ]
+        },
+        {
+          "name": "rightLower",
+          "sourceSearch": [
+            370,
+            166,
+            46,
+            64
+          ],
+          "clear": [
+            374,
+            166,
+            42,
+            62
+          ],
+          "target": [
+            374,
+            181,
+            36,
+            38
+          ]
+        }
+      ]
+    },
+    {
+      "map": "tour_etage3",
+      "asset": "vue-explorakit/src/assets/tour_etage3.png",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-e988e236-9557-4b3f-ab50-c7efd034b8ee.png",
+      "prompt": "Precise game map asset edit. Edit this EXISTING 448x320 pixel-art shop floor, same framing and exact 7:5 aspect ratio, no redesign. REDUCE THE FURNITURE to fit its existing collision grid with generous empty margins. Furniture is too tall: reduce height by about 30%, width by 15%. Both halves of the central L-shaped service counter must be visibly squat and compact, keeping the existing open middle for the saleswoman. Exact desired rectangles in the logical 448x320 image: left counter ALL pixels including black outline/shadow inside x118..170,y102..139; right counter inside x212..252,y102..139. The standalone merchandise display at x284..338,y106..158 must instead fit x294..330,y118..154. Left lower shelf must fit x38..74,y181..218; right lower shelf x374..410,y181..218. Any existing upper wall shelf must fit x38..74,y118..154 on left or x374..410,y118..154 on right. Replace the newly freed pixels around each reduced object with the same blue tiled floor. Keep all remaining furnishings at their original center positions; do not add shelves below staircases. Keep existing staircase(s), outer walls, floor boundaries, plants, bottom doorway if present, entire room layout, black margins EXACTLY fixed. Preserve authentic crisp tiny pixel-art style, cream and blue palette. Do not enlarge furniture details; tiny simple supplies on compact counters. No characters, no labels, no text. The clear path immediately in front of both stairs must stay empty. All countertop rear pillars also must shrink to stay inside the new specified rectangles. Preserve the open service aisle x176..208. Do not merely remove furniture, shrink it. Department of this image: berries in small colored baskets.",
+      "objects": [
+        {
+          "name": "leftCounter",
+          "sourceSearch": [
+            112,
+            96,
+            64,
+            56
+          ],
+          "clear": [
+            112,
+            90,
+            65,
+            62
+          ],
+          "target": [
+            118,
+            102,
+            52,
+            37
+          ]
+        },
+        {
+          "name": "rightCounter",
+          "sourceSearch": [
+            200,
+            96,
+            64,
+            56
+          ],
+          "clear": [
+            200,
+            90,
+            64,
+            62
+          ],
+          "target": [
+            212,
+            102,
+            40,
+            37
+          ]
+        },
+        {
+          "name": "display",
+          "sourceSearch": [
+            280,
+            104,
+            64,
+            60
+          ],
+          "clear": [
+            280,
+            102,
+            64,
+            62
+          ],
+          "target": [
+            294,
+            118,
+            36,
+            37
+          ]
+        },
+        {
+          "name": "leftLower",
+          "sourceSearch": [
+            36,
+            178,
+            44,
+            54
+          ],
+          "clear": [
+            32,
+            166,
+            48,
+            62
+          ],
+          "target": [
+            38,
+            181,
+            36,
+            38
+          ]
+        },
+        {
+          "name": "rightLower",
+          "sourceSearch": [
+            370,
+            178,
+            46,
+            54
+          ],
+          "clear": [
+            374,
+            166,
+            42,
+            62
+          ],
+          "target": [
+            374,
+            181,
+            36,
+            38
+          ]
+        },
+        {
+          "name": "rightUpper",
+          "sourceSearch": [
+            370,
+            104,
+            46,
+            60
+          ],
+          "clear": [
+            374,
+            102,
+            42,
+            62
+          ],
+          "target": [
+            374,
+            118,
+            36,
+            37
+          ]
+        }
+      ]
+    }
+  ]
+}
