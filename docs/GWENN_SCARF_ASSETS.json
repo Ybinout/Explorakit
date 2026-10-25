@@ -1,0 +1,24 @@
+{
+  "method": "Built-in image_gen",
+  "assets": [
+    {
+      "file": "vue-explorakit/src/assets/image/gwenn-v1.png",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-8d77130e-a5d2-4852-9a57-1d30637da8e9.png",
+      "prompt": "Edit this existing black-and-white manga trainer portrait. Change ONLY the face/neck clothing: add a dark fabric scarf wrapped around the neck and pulled up over the nose, mouth, chin and lower cheeks, leaving only his eyes visible beneath the black cap and long black hair. The top edge of the scarf sits just below the eyes, with a few restrained cloth folds. Preserve exactly the existing character, eyes, pose, black cap, long hair, black outfit, capture ball in one hand, vape in the other, full framing and monochrome ink style. Do not redesign him, do not add accessories, symbols or color. Preserve genuine transparent background outside the character.",
+      "dimensions": [
+        640,
+        960
+      ]
+    },
+    {
+      "file": "vue-explorakit/src/assets/pnj/gwenn-pixel-v1.png",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-39524961-3bd1-428d-9d4d-d299911272be.png",
+      "prompt": "Edit this existing tiny pixel-art RPG overworld sprite of Gwenn. Keep exactly the existing one front-facing pose, chibi proportions, black cap, shoulder-length black hair, black clothes, small capture ball and small vape in the hands, feet and silhouette. ONLY add a very simple dark charcoal scarf over the entire lower face and neck, covering nose and mouth so only the two eyes remain visible below the cap. Two or three chunky pixels of a slightly lighter charcoal may suggest cloth. Match the original very low-resolution pixel art, conceptual 24 by 32 pixel grid. No extra detail, no smoothing, no painted texture, no additional characters or frames. Keep the same whole-body composition and transparent background with empty margins. Upscale using exact square pixels if necessary.",
+      "dimensions": [
+        24,
+        32
+      ]
+    }
+  ],
+  "export": "Existing assets replaced as requested. Alpha preserved; sprite cropped to opaque bounds, nearest-neighbor resize, same dimensions and anchors."
+}

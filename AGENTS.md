@@ -1,5 +1,13 @@
 # Contexte permanent — RiftMon
 
+## Gwenn — foulard masquant le visage — 25 octobre 2026
+
+Portrait illustré et sprite de Gwenn retouchés avec un foulard sombre couvrant nez, bouche et menton ; seuls les yeux restent visibles sous la casquette. Pose, cheveux longs, Ball, vapoteuse et tenue conservés. Remplacement demandé des deux assets existants, mêmes dimensions (640×960 et 24×32), alpha conservé, export sprite au plus proche voisin. Dialogues et entrée de combat utilisent automatiquement le portrait ; aucun changement serveur, de carte, de collision ou de règle. Sources/prompts imagegen intégrés dans `docs/GWENN_SCARF_ASSETS.json`.
+
+Build réussi ; recette existante `scripts/validateGwennBrowser.js` sur base dédiée : chargement du portrait/splash, véritable combat et sortie, rendus 320/393/1365 ; captures inspectées et aucune erreur navigateur. Journaux `/tmp/riftmon-gwenn-scarf-*`. Publication statique sans redémarrage du serveur.
+
+Publié `2026-10-25T06:59:59.281Z`, client `5c2fc581a6e0f39c6384e6c72a136a755c42f9c9`, build `b818f5a1b6fd3a4f`. Index et portrait publics vérifiés à l’octet ; serveur PID 1591997 conservé, Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-gwenn-scarf-2026-10-25T06-59-57-856Z` ; anciens bundles retenus pour retour arrière.
+
 ## Admin — rejouer les rencontres et leurs scènes — 25 octobre 2026
 
 Le bouton propriétaire devient « Réinitialiser les rencontres » : six champions actifs, Wayne (`dia1`), Aspha, Matthieu (`gwenn_route8`), Mathilde, Gwenn de Rochebrume et Lucie, soit douze rencontres déjà vaincues et accessibles. Identité exacte id 4 + username binout, vérifiée à nouveau en SQL sous verrou. Aucun autre compte ni expédition ne reçoit ce privilège. Compatibilité Socket : événement `admin:rearmArenas` conservé.
