@@ -1,5 +1,15 @@
 # Contexte permanent — RiftMon
 
+## Aspha et Gwenn — proportions de l’atlas classique — 25 octobre 2026
+
+Les deux sprites v2 sont redessinés à partir du personnage chauve de `6931.png` (rectangle 652,33,21,25), avec tête occupant environ la moitié de la hauteur, corps court et gros blocs de pixels. Aspha conserve son chien, Gwenn sa casquette et son foulard. Exports transparents au plus proche voisin : Aspha 40×32 (silhouette et chien 37×28), Gwenn 32×32 (21×25). Le rendu commun les affiche exactement à 2×, pied ancré comme les PNJ classiques, en identifiant le fichier source pour rester compatible avec les PNG intégrés en data URI. Aspha sans `spriteFrame` reçoit un cadre entier côté rendu ; aucun changement de protocole/données serveur.
+
+Illustrations générées avec imagegen intégré ; références, prompts complets, sources et exports dans `docs/CLASSIC_ASPHA_GWENN_SPRITES.json`. Atlas original, portraits, cartes, collisions et progression conservés.
+
+Validation : lint/build réussis (`90825b635efa419c`), recettes existantes `validateAsphaArtBrowser.js` et `validateGwennBrowser.js` sur base dédiée, rendus 320/393/1365 px inspectés, dialogues, accès, vraies victoires et sorties vérifiés, aucune erreur navigateur. Journaux `/tmp/riftmon-classic-npcs-*`. Pas de test sur téléphone physique.
+
+Publication statique le 25/10/2026 à 08:03 UTC, client `5d364d281a3331609a72f131e96b7c2fd5fb9461`. Index et bundle contenant les deux PNG vérifiés en HTTPS, PID serveur 1597682 conservé, Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-classic-npcs-2026-10-25T08-03-09-486Z`.
+
 ## Gwenn — maison Route 4 et graphismes simplifiés — 25 octobre 2026
 
 La maison au toit orange de Route 4 devient le domicile de Gwenn : porte existante (11,17) désormais raccordée à `route4_maison` (alias `gwenn_house`), arrivée (13,15), sorties (13–14,16) vers Route 4 (11,18). Carte extérieure et sa porte technique conservées. Clé et prérequis identiques ; père toujours devant le tunnel de Rochebrume. Dialogues, objet, quête principale/personnelle, nom du lieu, minimap, musique intérieure et entrée/décor de combat suivent la nouvelle adresse. Identifiant de duel `gwenn_rochebrume` conservé pour préserver victoires, admin et anciennes clés.

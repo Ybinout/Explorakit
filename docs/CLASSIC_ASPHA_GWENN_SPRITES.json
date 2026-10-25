@@ -1,0 +1,46 @@
+{
+  "mode": "built-in image_gen",
+  "reference": "vue-explorakit/src/assets/6931.png",
+  "referenceCrop": {
+    "x": 652,
+    "y": 33,
+    "width": 21,
+    "height": 25
+  },
+  "sprites": {
+    "aspha": {
+      "prompt": "Create ONE game-ready overworld sprite with transparent background. The attached cropped sprite from our actual 6931.png atlas is the STRICT style and pixel geometry reference. Preserve its authentic extremely low-resolution GBA overworld anatomy: HUGE head occupying 13 of 25 logical pixels of height, tiny squat body and stubby legs occupying the other 12. Single square pixels, flat limited palette, dark chunky stepped outline. NO illustration, NO miniature detailed person, NO smooth shading, NO fine features. Output enlarged nearest-neighbor pixel art with a perfectly uniform coarse logical pixel grid, so it can be downsampled into 32x32 with NO loss of detail. Front facing, slight top-down view. No text, grid, shadow or floor. Character: Aspha, a bald broad-shouldered muscular man. Strongly preserve reference bald head and its massive width, simple eyes and warm skin palette. Dark sleeveless shirt, blue trousers, short boots, one red-and-white ball represented by four pixels. Beside him a small German shepherd on a short leash, only 9 logical pixels wide and 12 tall, simple tan/black clusters and pointed ears. Man 21 pixels wide x25 tall; whole man+dog together fit 32 logical pixels wide x25 tall. Head must not shrink to make room for dog. Man on left, dog on right. Visible feet aligned along same baseline.",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-e040424a-b865-4b1f-8239-f83a1386a893.png",
+      "asset": "vue-explorakit/src/assets/pnj/aspha-pixel-v2.png",
+      "export": {
+        "canvas": [
+          40,
+          32
+        ],
+        "visibleSize": [
+          37,
+          28
+        ],
+        "filter": "nearest-neighbor",
+        "baseline": 32
+      }
+    },
+    "gwenn": {
+      "prompt": "Create ONE game-ready overworld sprite with transparent background. The attached cropped sprite from our actual 6931.png atlas is the STRICT style and pixel geometry reference. Preserve its authentic extremely low-resolution GBA overworld anatomy: HUGE head occupying 13 of 25 logical pixels of height, tiny squat body and stubby legs occupying the other 12. Single square pixels, flat limited palette, dark chunky stepped outline. NO illustration, NO miniature detailed person, NO smooth shading, NO fine features. Output enlarged nearest-neighbor pixel art with a perfectly uniform coarse logical pixel grid, so it can be downsampled into 32x32 with NO loss of detail. Front facing, slight top-down view. No text, grid, shadow or floor. Character: Gwenn, wearing a BLACK baseball cap, black hair peeking out from under cap, and a BLACK scarf over nose and mouth, ONLY EYES visible. His head plus cap is a huge 17 logical pixels wide x13 high, and body only 17 wide x12 high. Black jacket with charcoal highlights, short dark trousers, chunky shoes, one red-white ball in one hand and a tiny gray vape in the other. Cap outline round and wide like the player's cap, NOT a tall hat. Use distinct gray values so arms and scarf remain readable. Make the character 21 logical pixels wide x25 high with the same squashy huge-head proportions as the reference. No dog.",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-ed015bdd-6f1a-4c87-bf14-96e0949c5191.png",
+      "asset": "vue-explorakit/src/assets/pnj/gwenn-pixel-v2.png",
+      "export": {
+        "canvas": [
+          32,
+          32
+        ],
+        "visibleSize": [
+          21,
+          25
+        ],
+        "filter": "nearest-neighbor",
+        "baseline": 32
+      }
+    }
+  }
+}
