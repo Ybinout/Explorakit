@@ -3,6 +3,7 @@
   "effect": "rose, peach and ivory petals drifting in alternating small gusts",
   "nativeCanvas": {
     "petals": {
+      "fixtureMaskCorrect": true,
       "escaped": 0,
       "pixels": 26904,
       "minVisible": 9,
@@ -118,7 +119,7 @@
     "throttled": true,
     "released": true,
     "isolated": true,
-    "averagePaintMs": 0.75
+    "averagePaintMs": 1.182499998807907
   },
   "browser": {
     "map": "ville3_arene",
@@ -139,6 +140,20 @@
   "newTimerOrLoop": false,
   "serverOrDatabaseChanged": false,
   "publication": {
+    "publishedAt": "2026-10-25T19:37:29.937Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-ana-petals-final-2026-10-25T19-37-28-543Z",
+    "clientBuild": "0e34ac51faf9c5f3",
+    "clientCommit": "514d9169a02f404d2b5bc672107e06beaf9bd5f7",
+    "pid": "1697717",
+    "serverRestarted": false,
+    "neighborsUnchanged": true,
+    "publicGameBundle": true
+  },
+  "reproduce": {
+    "canvas": "ANA_STAR_BASELINE_SERVICE=/tmp/riftmon-ana-before.js RELEASE_SCREENSHOTS=/tmp/riftmon-ana-petals-canvas node scripts/validateAnaArenaCanvas.js",
+    "browser": "ARENA_DECOR=ana RELEASE_DIST_DIR=/tmp/riftmon-ana-petals-final-dist RELEASE_SCREENSHOTS=/tmp/riftmon-ana-petals-browser node --env-file=.env scripts/validateHozeArenaBrowser.js"
+  },
+  "initialPublication": {
     "publishedAt": "2026-10-25T19:32:26.100Z",
     "backup": "/home/ubuntu/dev/backups/riftmon-ana-petals-2026-10-25T19-32-24-966Z",
     "clientBuild": "2e6cb8460fb3bd2d",
@@ -148,8 +163,5 @@
     "neighborsUnchanged": true,
     "publicGameBundle": true
   },
-  "reproduce": {
-    "canvas": "ANA_STAR_BASELINE_SERVICE=/tmp/riftmon-ana-before.js RELEASE_SCREENSHOTS=/tmp/riftmon-ana-petals-canvas node scripts/validateAnaArenaCanvas.js",
-    "browser": "ARENA_DECOR=ana RELEASE_DIST_DIR=/tmp/riftmon-ana-petals-dist RELEASE_SCREENSHOTS=/tmp/riftmon-ana-petals-browser node --env-file=.env scripts/validateHozeArenaBrowser.js"
-  }
+  "fixtureCutoutsIntersectFloor": true
 }
