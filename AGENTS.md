@@ -1,5 +1,15 @@
 # Contexte permanent — RiftMon
 
+## Wanda et dialogues de victoire — ordre et fond stable — 25 octobre 2026
+
+La réplique de Wanda expliquant le module Vol est déplacée en dernière position de `champion_wanda_after`, après le badge, les révélations et les indications vers Gwenn/7p. Aucun changement de récompense ou de prérequis.
+
+Le retour au monde pour le dialogue automatique appelle maintenant `restoreWorldView` au tick suivant, une fois barre et commandes réaffichées, plutôt que d’attendre la fermeture du récapitulatif. Le filtre `backdrop-filter:blur(4px)` des dialogues est retiré : l’arène reste nette sous le voile sombre. Le cadrage mesuré sur l’ancienne version était identique avant/après combat ; pas de changement de zoom/caméra ajouté. Correctif partagé par tous les dialogues de fin de combat.
+
+Validation : 19 tests ciblés réussis et un scénario SQL ignoré dans cette commande, lint/build `e0bcd7c755bfa934` réussis. Recette `validateArenaScenesBrowser.js` sur base dédiée : vraie victoire de Mounir, dialogue automatique avant le récapitulatif, reprise des déplacements, ordre rédigé de Wanda, cadrage et fond sans filtre vérifiés à 320/393/844/1365 px ; zéro erreur navigateur. Mesures et captures avant/après conservées dans `/tmp/riftmon-{arena-dialogue-baseline,victory-dialogue-browser}`. Pas de test sur appareil physique.
+
+Publié 2026-10-25T08:19:56.281Z, client `ccb6148a4416d5c95a15b9cceecf101e5b510a8a`, serveur PID 1601723, 0 expédition(s) active(s) à la reprise. Index, JS et CSS publics vérifiés à l’octet, sites voisins inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-victory-dialogue-2026-10-25T08-19-54-098Z`.
+
 ## Aspha — passage Route 2 dégagé dans les deux sens — 25 octobre 2026
 
 Aspha et son chien sont reculés de (25,5) à (24,4), sur deux cases libres au-dessus du passage. Leur collision double reste solide mais ne couvre plus les deux voies (y=5 et y=6) près de la sortie vers la Ville du Lac. La barrière personnelle `aspha_lake`, le prérequis de victoire, les dialogues et les sauvegardes sont inchangés. Aucun asset ni client à reconstruire.
