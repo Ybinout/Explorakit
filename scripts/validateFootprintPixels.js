@@ -1,0 +1,10 @@
+const fs=require('fs'),path=require('path'),assert=require('assert/strict'),express=require('express'),{chromium}=require('playwright');
+const original=process.env.ORIGINAL_FOOTPRINT_SERVICE||'/tmp/riftmon-groundFootprints-before.js';
+(async()=>{const app=express();app.get('/ground-before.js',(_q,r)=>r.type('application/javascript').send(fs.readFileSync(original,'utf8')));app.use(express.static(path.resolve(__dirname,'../vue-explorakit/src')));const server=app.listen(0,'127.0.0.1');await new Promise(r=>server.once('listening',r));let browser;
+try{browser=await chromium.launch({headless:true,args:['--no-sandbox']});const p=await browser.newPage();await p.goto('http://127.0.0.1:'+server.address().port+'/services/groundFootprints.js');const checks=await p.evaluate(async()=>{
+ const before=await import('/ground-before.js'),after=await import('/services/groundFootprints.js'),surface={maps:{fixture:Array(20).fill('1'.repeat(28))},colors:new Set(['217,230,233']),core:[105,121,140],rim:[242,248,255],opacity:.85};
+ const image=document.createElement('canvas');image.width=448;image.height=320;const g=image.getContext('2d');g.fillStyle='rgb(217,230,233)';g.fillRect(0,0,448,320);
+ const a=new before.GroundFootprintsRenderer(surface),b=new after.GroundFootprintsRenderer(surface),target={drawImage(){}};let compared=0,mismatch=0;
+ for(let n=0;n<140;n++){const t=n*25,actors=n>95?[]:Array.from({length:n>60?12:2},(_,i)=>({id:'actor'+i,x:240+Math.sin(n*.08+i)*100,y:180+Math.cos(n*.09+i)*90}));a.draw(target,image,'fixture',actors,t);b.draw(target,image,'fixture',actors,t);if(!a.context||!b.context)continue;const aa=a.context.getImageData(0,0,448,320).data,bb=b.context.getImageData(0,0,448,320).data;for(let j=0;j<aa.length;j++)if(aa[j]!==bb[j])mismatch++;compared++;}
+ const released=b.canvas;b.suspend();return{compared,mismatch,released:released.width===0,dirtyReleased:b.dirty.length===0};
+});assert.equal(checks.mismatch,0);assert(checks.compared>100&&checks.released&&checks.dirtyReleased);console.log(JSON.stringify(checks));}finally{await browser?.close();await new Promise(r=>server.close(r));}})().catch(e=>{console.error(e.stack);process.exitCode=1});

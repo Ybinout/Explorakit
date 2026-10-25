@@ -60,7 +60,7 @@ async function validateMobileWorld({ loginContext, fixture, base, output, fit })
         assert.equal(state.matrix[0], state.matrix[3], 'Map must not be stretched');
         assert(state.matrix[0] >= state.ratio, 'Mobile sprites are shrunk');
         for (const axis of [0, 1]) {
-            assert.equal(state.buffer[axis], state.viewport[axis] * state.ratio);
+            assert.equal(state.buffer[axis], Math.round(state.viewport[axis] * state.ratio));
             const position = state.player[axis] * state.matrix[0] + state.matrix[axis + 4];
             assert(position >= 0 && position <= state.buffer[axis], 'Camera lost the player');
         }

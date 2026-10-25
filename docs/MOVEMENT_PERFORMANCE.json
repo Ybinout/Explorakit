@@ -1,0 +1,249 @@
+{
+  "date": "2026-10-25",
+  "scenario": "Real HTTP/Socket accepted movement on disposable accounts in explorakit_test; 8 alternating directions held 470 ms, same four safe map corridors.",
+  "environment": {
+    "browser": "Headless Chromium via Playwright on the VPS",
+    "pc": {
+      "viewport": [
+        1365,
+        900
+      ],
+      "cpuThrottle": 1,
+      "deviceScaleFactor": 1
+    },
+    "mobileSimulation": {
+      "viewport": [
+        393,
+        852
+      ],
+      "cpuThrottle": 4,
+      "deviceScaleFactor": 3
+    },
+    "physicalPhoneTest": false
+  },
+  "baselineBuild": "6fc53fae784bd67b",
+  "profiledBuild": "9564ebbb1aa9667c",
+  "finalBuild": "f68d6e4bceee66b8",
+  "finalChangesAfterProfile": "Only reset the sampling window while the world is hidden and preserve held-frame transparency; visible walking path is unchanged.",
+  "limits": "Short laboratory runs, not a guarantee of frame rate on a particular phone or network. Final mobile backing density may drop from 2 to 1.5 or 1 under sustained overload; native image files and CSS UI stay unchanged.",
+  "rows": [
+    {
+      "format": "pc",
+      "map": "start",
+      "before": {
+        "fpsMean": 60.0019592476489,
+        "drawMeanMs": 2.8243902408010593,
+        "uiUpdates": 242,
+        "sent": 32,
+        "accepted": 25,
+        "canvas": [
+          896,
+          640
+        ]
+      },
+      "after": {
+        "fpsMean": 60.00195924764893,
+        "drawMeanMs": 3.00731705262409,
+        "uiUpdates": 27,
+        "sent": 26,
+        "accepted": 26,
+        "canvas": [
+          896,
+          640
+        ]
+      }
+    },
+    {
+      "format": "pc",
+      "map": "ville5",
+      "before": {
+        "fpsMean": 60.002926972047426,
+        "drawMeanMs": 3.378542496607854,
+        "uiUpdates": 243,
+        "sent": 32,
+        "accepted": 25,
+        "canvas": [
+          896,
+          640
+        ]
+      },
+      "after": {
+        "fpsMean": 60.00292697204745,
+        "drawMeanMs": 2.963967636046622,
+        "uiUpdates": 27,
+        "sent": 26,
+        "accepted": 26,
+        "canvas": [
+          896,
+          640
+        ]
+      }
+    },
+    {
+      "format": "pc",
+      "map": "route5",
+      "before": {
+        "fpsMean": 60.00195924764895,
+        "drawMeanMs": 1.9837398257681993,
+        "uiUpdates": 242,
+        "sent": 32,
+        "accepted": 25,
+        "canvas": [
+          896,
+          640
+        ]
+      },
+      "after": {
+        "fpsMean": 60.002963109289375,
+        "drawMeanMs": 1.704098377071443,
+        "uiUpdates": 27,
+        "sent": 26,
+        "accepted": 26,
+        "canvas": [
+          896,
+          640
+        ]
+      }
+    },
+    {
+      "format": "pc",
+      "map": "ville_safe1_arene",
+      "before": {
+        "fpsMean": 60.00195924764893,
+        "drawMeanMs": 2.866260177720853,
+        "uiUpdates": 243,
+        "sent": 32,
+        "accepted": 25,
+        "canvas": [
+          896,
+          640
+        ]
+      },
+      "after": {
+        "fpsMean": 60.003428767358166,
+        "drawMeanMs": 3.1662601901263727,
+        "uiUpdates": 27,
+        "sent": 26,
+        "accepted": 26,
+        "canvas": [
+          896,
+          640
+        ]
+      }
+    },
+    {
+      "format": "mobile-cpu4",
+      "map": "start",
+      "before": {
+        "fpsMean": 29.890031451451005,
+        "drawMeanMs": 10.329629615501121,
+        "uiUpdates": 146,
+        "sent": 28,
+        "accepted": 24,
+        "canvas": [
+          786,
+          1270
+        ]
+      },
+      "after": {
+        "fpsMean": 46.6677394882641,
+        "drawMeanMs": 7.448529418777017,
+        "uiUpdates": 42,
+        "sent": 25,
+        "accepted": 25,
+        "canvas": [
+          393,
+          635
+        ]
+      }
+    },
+    {
+      "format": "mobile-cpu4",
+      "map": "ville5",
+      "before": {
+        "fpsMean": 19.418746727177513,
+        "drawMeanMs": 18.22111111217075,
+        "uiUpdates": 100,
+        "sent": 26,
+        "accepted": 22,
+        "canvas": [
+          786,
+          1270
+        ]
+      },
+      "after": {
+        "fpsMean": 44.54747943088321,
+        "drawMeanMs": 7.707614225784534,
+        "uiUpdates": 41,
+        "sent": 24,
+        "accepted": 24,
+        "canvas": [
+          393,
+          635
+        ]
+      }
+    },
+    {
+      "format": "mobile-cpu4",
+      "map": "route5",
+      "before": {
+        "fpsMean": 31.345154934622958,
+        "drawMeanMs": 7.402836894312649,
+        "uiUpdates": 147,
+        "sent": 26,
+        "accepted": 22,
+        "canvas": [
+          786,
+          1270
+        ]
+      },
+      "after": {
+        "fpsMean": 50.43076276528684,
+        "drawMeanMs": 4.14700459774738,
+        "uiUpdates": 41,
+        "sent": 24,
+        "accepted": 24,
+        "canvas": [
+          590,
+          953
+        ]
+      }
+    },
+    {
+      "format": "mobile-cpu4",
+      "map": "ville_safe1_arene",
+      "before": {
+        "fpsMean": 19.856686523353183,
+        "drawMeanMs": 23.938297875384066,
+        "uiUpdates": 99,
+        "sent": 27,
+        "accepted": 20,
+        "canvas": [
+          786,
+          1262
+        ]
+      },
+      "after": {
+        "fpsMean": 35.36309917638202,
+        "drawMeanMs": 13.449044573838544,
+        "uiUpdates": 40,
+        "sent": 23,
+        "accepted": 23,
+        "canvas": [
+          393,
+          631
+        ]
+      }
+    }
+  ],
+  "pixelParity": {
+    "compared": 140,
+    "mismatch": 0,
+    "released": true,
+    "dirtyReleased": true
+  },
+  "rawReports": [
+    "/tmp/riftmon-movement-before/results.json",
+    "/tmp/riftmon-movement-publish/results.json"
+  ]
+}

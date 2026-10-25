@@ -25,6 +25,7 @@ async function validateMobileGestures(page, context, output) {
         for (const [dx, dy, key] of [[46, 0, 'd'], [0, 46, 's'], [-46, 0, 'q'], [0, -46, 'z']]) {
             await touch('touchMove', { x: center.x + dx, y: center.y + dy });
             await page.waitForFunction(key => window.mobileTestVm.keysPressed[key], key);
+            await page.waitForFunction(key => window.mobileTestVm.gestureCommands.at(-1) === `move_${key}`, key);
         }
         await touch('touchCancel');
         assert.deepEqual(await page.evaluate(() => window.mobileTestVm.gestureCommands
@@ -85,7 +86,7 @@ async function validateMapLoading(page, output) {
     let release;
     const delayed = new Promise(resolve => { release = resolve; });
     let heldRequests = 0;
-    const delayHouse = async route => { heldRequests++; await delayed; await route.continue(); };
+    const delayHouse = async route => { heldRequests++; await delayed; await route.continue().catch(error=>{if(!/already handled|Target.*closed/.test(error.message))throw error;}); };
     await page.route('**/img/maison2*.png', delayHouse);
     await page.evaluate(() => {
         const vm = window.mobileTestVm;
@@ -95,6 +96,7 @@ async function validateMapLoading(page, output) {
         vm._travelFixture = { map: vm.map, players: JSON.parse(JSON.stringify(vm.players)), pnjs: vm.pnjs };
         vm._mapScenes.clear();
         vm._travelFrame = vm.$refs.monCanvas.toDataURL();
+        vm._travelSize=[vm.$refs.monCanvas.width,vm.$refs.monCanvas.height];
     });
     const bounds=await page.locator('.world-viewport').boundingBox(),origin={x:bounds.x+bounds.width/2,y:bounds.y+bounds.height/2};
     await client.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[origin]});
@@ -111,9 +113,12 @@ async function validateMapLoading(page, output) {
         await page.waitForTimeout(200); // Cross at least one movement repeat while decoding.
         assert(await page.evaluate(()=>!!window.mobileTestVm._touchGesture && !Object.values(window.mobileTestVm.keysPressed).some(Boolean)),'Map loading must pause, not lose, the held finger');
         assert.equal(await page.evaluate(() => {
-            const vm = window.mobileTestVm;
-            return vm.$refs.monCanvas.toDataURL() === vm._travelFrame;
-        }), true, 'Keep exactly the previous frame while assets are missing');
+            const vm = window.mobileTestVm,canvas=vm.$refs.monCanvas;
+            // A longer location name can resize the viewport while loading.
+            // Preserve the source frame exactly; only its display may be fitted.
+            if(canvas.width!==vm._travelSize[0]||canvas.height!==vm._travelSize[1])return vm._heldWorldFrame.toDataURL()===vm._travelFrame;
+            return canvas.toDataURL() === vm._travelFrame;
+        }), true, 'Keep exactly the previous source frame while assets are missing');
         await page.screenshot({ path: path.join(output, 'mobile-map-loading.png') });
         assert(heldRequests > 0, 'The map request must really be delayed');
         // A newer server destination wins even when an older image finishes last.
