@@ -18,7 +18,7 @@ async function clearNearbyRoomObstacle({ socket, userId, player, getPlayer, emit
     player.inventoryBusy = true;
     player.isMoving = false;
     socket.emit('roomObstacleAction', { active: true, id: obstacle.id, map: obstacle.map,
-        duration: obstacle.duration, message: obstacle.message, messageEn: obstacle.messageEn, origin, target });
+        duration: obstacle.duration, strikeTimes: obstacle.strikeTimes, message: obstacle.message, messageEn: obstacle.messageEn, origin, target });
     try {
         await new Promise(resolve => setTimeout(resolve, obstacle.duration));
         if (!socket.connected || getPlayer() !== player || player.inbattle

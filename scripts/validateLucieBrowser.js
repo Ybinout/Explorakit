@@ -51,10 +51,15 @@ async function pictures(label){for(const[width,height]of [[320,568],[393,852],[1
    await page.screenshot({path:path.join(output,`clearing-${index+1}.png`)});
    await page.locator('.room-obstacle-hits i.hit').first().waitFor();
    await page.screenshot({path:path.join(output,`strike-${index+1}.png`)});
+   assert.equal(await page.locator('.room-obstacle-hits i').count(),5);
+   await page.waitForFunction(()=>document.querySelectorAll('.room-obstacle-hits i.hit').length===3);
+   assert(await page.evaluate(()=>!v.progressionState.flags[v.roomObstacleAction.id+'_cleared']),'third hit does not clear the obstacle');
+   await page.waitForFunction(()=>document.querySelectorAll('.room-obstacle-hits i.hit').length===5);
+   await page.screenshot({path:path.join(output,`fifth-strike-${index+1}.png`)});
    await page.locator('.room-obstacle-action.is-complete').waitFor();
    assert.match(await page.locator('.room-obstacle-confirm').innerText(),/Passage dégagé/);
    await page.screenshot({path:path.join(output,`cleared-${index+1}.png`)});
-   await page.locator('.room-obstacle-action').waitFor({state:'hidden'});assert(Date.now()-started>=2500);
+   await page.locator('.room-obstacle-action').waitFor({state:'hidden'});assert(Date.now()-started>=4050);
    await page.waitForFunction(key=>v.progressionState.flags[key]==='true',`lucie_barricade_${index+1}_cleared`);
    await page.waitForTimeout(1150);
   }
@@ -62,6 +67,7 @@ async function pictures(label){for(const[width,height]of [[320,568],[393,852],[1
   await page.reload({waitUntil:'networkidle'});await ready();assert(await page.evaluate(()=>[1,2,3].every(i=>v.progressionState.flags[`lucie_barricade_${i}_cleared`]==='true')));
   assert.equal(await page.locator('.dialogue-shell').count(),0,'entry warning does not repeat after clearing');
  }
+ if(process.env.ROOM_BARRIERS_ONLY==='1'){assert.deepEqual(errors,[]);success=true;console.log(JSON.stringify({barriers:3,strikesEach:5,thirdHitStillBlocked:true,persisted:true,desktopAndMobile:true,reducedMotion:true,errors}));return;}
  await page.evaluate(()=>{v.updatePreferences({...v.preferences,animationsEnabled:true,textSpeed:10000,masterVolume:35});v.socket.emit('Space');});await page.waitForFunction(()=>v.endSentences==='lucie_route2'&&v.textImageSequence.length>0);
  await page.waitForTimeout(700);
  const typing=await page.evaluate(()=>{const d=document.querySelector('.dialogue-shell').__vue__;return{visible:d.displayedText.length,total:d.currentText.length,portrait:d.currentImageSrc,rect:document.querySelector('.text-with-image').getBoundingClientRect().height};});

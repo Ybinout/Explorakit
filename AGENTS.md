@@ -1,5 +1,16 @@
 # Contexte permanent — RiftMon
 
+## Maison de Lucie — cinq coups par obstacle — 25 octobre 2026
+
+Chacune des trois barrières de cristaux se brise après cinq impacts animés au lieu de trois. Action lance toujours la séquence, maintenant de 4 140 ms, avec impacts à 550/1280/2050/2820/3590 ms. Le serveur garde le passage verrouillé pendant toute la durée et transmet facultativement cette chronologie au client. Personnage, impacts, fissures et indicateur de cinq repères utilisent les mêmes temps ; six libellés FR/EN accompagnent la progression. La grande fissure finale du cristal intervient au cinquième coup. Les identifiants, collisions, drapeaux de progression, barrières déjà dégagées et mode de rejeu admin restent conservés.
+
+Compatibilité : les anciens clients ignorent la nouvelle chronologie sans compromettre la validation serveur ; le client récent sait aussi ajuster cinq impacts à la durée d’un ancien serveur. Une chronologie invalide est remplacée par la séquence par défaut. Annulation à la déconnexion, verrouillage des déplacements et protection contre le spam inchangés.
+
+Validation : cinq tests de barrières/animation réussis, dont les cinq impacts synchronisés, préférence de mouvement et compatibilité. Test MySQL/Socket réel réussi sur base dédiée : après le troisième impact le passage reste bloqué, temporisation complète, spam/faux événements sans effet, persistance personnelle et annulation à la déconnexion. `VALIDATE_ROOM_BARRIERS=1 ROOM_BARRIERS_ONLY=1` dans `validateLucieBrowser.js` : les trois obstacles réellement dégagés, cinq repères/coups chacun, troisième impact insuffisant, musique continue, PC/mobile et mouvement réduit, persistance après reconnexion ; aucun combat Lucie lancé. Captures dont cinquième impact inspectées, zéro erreur. Lint/build `6ae50f1be04efbcb`, syntaxe/diff réussis ; journaux/captures `/tmp/riftmon-lucie-five-*`. Aucun compte réel modifié ni progression remise à zéro ; pas de test sur appareil physique.
+
+Publication serveur/client 2026-10-25T12:23:09.192Z, client `9f7361a16337c3eb1204286d816a2b8c96126882`, index/JS/CSS publics vérifiés à l’octet. Service actif, PID 1626733 → 1627712, zéro redémarrage automatique ; checkpoint sauvegardé et aucune expédition active à la reprise. Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-lucie-five-2026-10-25T12-23-06-743Z`.
+
+
 ## Hoze — colonnes en mouvement continu, grandes fissures sous les structures et vent maximal — 25 octobre 2026
 
 Ce réglage remplace les secousses espacées et les petites fissures de la première version de Hoze. Les huit colonnes oscillent désormais en permanence, avec phases décalées et pied ancré : texture entière détourée selon une silhouette dédiée, restauration localisée de leur ancienne position, déplacements groupés par bandes de pixels. Le contour a été élargi après inspection en gros plan pour inclure les anciennes arêtes et éviter les traces d’ancienne position. Les autres arènes, dont Raph, conservent leurs cycles.

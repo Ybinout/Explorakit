@@ -2,6 +2,8 @@ const { loadCollisionData } = require('./mapRepository');
 const { hasCompletedBattle } = require('./storyProgression');
 const { npcBattles } = require('../../../data/game/progression.json');
 const map = 'route2_maison';
+const strikeTimes = Object.freeze([550, 1280, 2050, 2820, 3590]);
+const strikeDuration = 4140;
 const collision = loadCollisionData(map);
 const obstacles = [
     { y: 15, done: 'Les cristaux éclatent. Un premier passage est ouvert.', doneEn: 'The crystals shatter. The first passage is open.' },
@@ -9,8 +11,8 @@ const obstacles = [
     { y: 8, done: 'Le dernier obstacle vole en éclats. Lucie est devant toi.', doneEn: 'The last obstacle shatters. Lucie is right ahead.' }
 ].map((entry, index) => ({
     ...entry, id: `lucie_barricade_${index + 1}`, requiredFlag: `lucie_barricade_${index + 1}_cleared`,
-    // Keep IDs/flags for existing players. Only the presentation changes.
-    map, kind: 'barricade', appearance: 'corrupted-crystal', name: 'Cristaux de l’Aube Obscure', duration: 2600, direction: 'up',
+    // Keep IDs, flags and collision cells for existing players.
+    map, kind: 'barricade', appearance: 'corrupted-crystal', name: 'Cristaux de l’Aube Obscure', duration: strikeDuration, strikeTimes, direction: 'up',
     message: 'Tu frappes de toutes tes forces !', messageEn: 'You strike with all your strength!',
     tiles: { x: 7, y: entry.y, width: 14, height: 1 },
     cells: Array.from({ length: 14 }, (_, i) => ({ x: 7 + i, y: entry.y })).filter(p => collision[p.y]?.[p.x] === 0),
