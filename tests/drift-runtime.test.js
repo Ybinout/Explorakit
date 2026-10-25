@@ -415,7 +415,7 @@ test('Rift/Colosseum cross Routes 11/12 and Rochebrume, use all doors and reach 
  for(const mode of ['rift','colosseum']){
   const f=fixture(),p=f.run.players.get(1);f.run.mode=mode;const set=(map,x,y)=>Object.assign(p,{currentmap:map,x:x*32+16,y:y*32+16,lastMove:0});
   for(const [map,x,y,action,target]of [['ville3',1,16,'move_q','route11'],['route11',26,16,'move_d','ville3'],['route11',1,6,'move_q','route12'],['route12',26,6,'move_d','route11'],['route12',1,14,'move_q','ville4'],['ville4',26,14,'move_d','route12']]){set(map,x,y);f.runtime.move(p,action);assert.equal(p.currentmap,target);}
-  p.defeated.add('champion_wanda'); // The new orange house requires Wanda's key in this expedition.
+  p.defeated.add('champion_wanda'); // Expeditions retain Wanda-based access; Adventure uses the father's key.
   for(const [x,y,target]of [[4,8,'centre'],[22,8,'ville4_shop'],[14,11,'ville4_arene'],[5,16,'ville4_maison1'],[22,16,'ville4_maison2']]){set('ville4',x,y+1);f.runtime.move(p,'move_z');assert.equal(p.currentmap,target);if(p.dialogue?.arenaEntry)f.runtime.endDialogue(p,p.dialogue.name);p.lastMove=0;f.runtime.move(p,'move_s');assert.equal(p.currentmap,'ville4');assert.deepEqual([Math.floor(p.x/32),Math.floor(p.y/32)],[x,y+1]);}
   set('ville4',13,4);f.runtime.move(p,'move_z');assert.equal(p.currentmap,'cave_rochebrume1');
   for(const n of [1,2])for(const x of [12,13,14]){set(`cave_rochebrume${n}`,x,1);f.runtime.move(p,'move_z');assert.equal(p.currentmap,`cave_rochebrume${n+1}`);assert.deepEqual([Math.floor(p.x/32),Math.floor(p.y/32)],[x,18]);p.lastMove=0;f.runtime.move(p,'move_s');assert.equal(p.currentmap,`cave_rochebrume${n}`);assert.deepEqual([Math.floor(p.x/32),Math.floor(p.y/32)],[x,1]);}

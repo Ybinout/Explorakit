@@ -545,7 +545,7 @@
         "imageName": "wanda.png"
       },
       {
-        "text": "Wanda : Prends aussi la clé de la maison de Gwenn, la maison orange au sud-est. Bats-le : son père te laissera alors prendre le tunnel vers Blanchecime et 7p.",
+        "text": "Wanda : Avant de prendre le tunnel vers Blanchecime, parle au père de Gwenn, au nord de la ville. Son fils ne sort plus de chez lui ; je crois qu’il cherche quelqu’un pour le secouer un peu.",
         "imageName": "wanda.png"
       },
       {
@@ -2425,7 +2425,7 @@
     "locked": "gwenn_rochebrume_locked",
     "sentences": [
       {
-        "text": "Gwenn : Wanda t’a confié ma clé ? Entre. Elle ne l’aurait pas fait sans une bonne raison.",
+        "text": "Gwenn : Mon père t’a donné la clé ? Une « livraison de motivation »… Sérieusement ? J’allais justement sortir. Demain. Peut-être.",
         "imageName": "gwenn-v1.png"
       },
       {
@@ -2448,7 +2448,7 @@
     "name": "gwenn_rochebrume_after",
     "sentences": [
       {
-        "text": "Gwenn : Tu as gagné. Tu n’as pas lâché ton plan, même quand le combat s’est compliqué. Respect.",
+        "text": "Gwenn : Bon, tu as gagné. Ça faisait longtemps que je n’avais pas eu un combat pareil ! Je vais sortir prendre l’air… jusqu’à la porte, pour commencer.",
         "imageName": "gwenn-v1.png"
       },
       {
@@ -2461,7 +2461,7 @@
     "name": "gwenn_father",
     "sentences": [
       {
-        "text": "Le père de Gwenn : Je garde ce passage. Les grottes ne pardonnent pas l’imprudence.",
+        "text": "Le père de Gwenn : Tu as battu Wanda ? Enfin quelqu’un capable de sortir mon fils de son canapé !",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -2470,7 +2470,74 @@
         }
       },
       {
-        "text": "Le père de Gwenn : Bats mon fils, dans la maison orange au sud-est. Wanda t’en confiera la clé après son défi. Quand Gwenn me dira que tu es prêt, je partirai.",
+        "text": "Le père de Gwenn : Gwenn ne sort plus de chez lui. Hier, je lui ai proposé de prendre l’air. Il a ouvert sa fenêtre de trois centimètres : « Voilà, papa. Expédition terminée. »",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 14
+        }
+      },
+      {
+        "text": "Le père de Gwenn : Tiens, la clé de sa maison orange, au sud-est. Entre et défie-le ! Il refuse les promenades, mais il n’a jamais su refuser un bon combat.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 14
+        }
+      },
+      {
+        "text": "Le père de Gwenn : Bats-le, puis je libérerai le tunnel. Et s’il te demande qui t’a envoyé… dis-lui que c’est une livraison de motivation.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 14
+        }
+      }
+    ],
+    "end": "story",
+    "locked": "gwenn_father_locked",
+    "after": "gwenn_father_after"
+  },
+  {
+    "name": "gwenn_father_locked",
+    "sentences": [
+      {
+        "text": "Le père de Gwenn : Gwenn ne sort plus de sa maison orange. À ce rythme, je vais devoir l’arroser comme une plante verte.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 14
+        }
+      },
+      {
+        "text": "Le père de Gwenn : Gagne d’abord le badge de Wanda, puis reviens me voir. Pour réveiller mon fils, il me faut quelqu’un qui sache vraiment se battre !",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 14
+        }
+      }
+    ]
+  },
+  {
+    "name": "gwenn_father_after",
+    "sentences": [
+      {
+        "text": "Le père de Gwenn : Tu as la clé : sa maison orange est au sud-est. S’il prétend être absent, ne le crois pas. Même ses chaussons ont pris racine.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 14
+        }
+      },
+      {
+        "text": "Le père de Gwenn : Défie Gwenn et gagne. Je te laisserai ensuite passer vers les grottes. La livraison de motivation compte sur toi !",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,

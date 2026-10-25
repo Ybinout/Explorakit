@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Gwenn — clé remise par son père — 25 octobre 2026
+
+En Aventure, Wanda conserve son badge et le module Vol, mais ne remet plus la clé de Gwenn. Après sa victoire, parler au père devant le tunnel déclenche un événement narratif `gwenn_father`, terminé par le mécanisme serveur existant de dialogue autorisé et récompense transactionnelle unique. Refus avant Wanda, puis remise, puis réplique de rappel sans nouvelle récompense. Le père raconte que son fils ne sort plus et a ouvert sa fenêtre de trois centimètres en déclarant « Expédition terminée » ; il demande une « livraison de motivation ». Wanda dirige vers lui, Gwenn réagit à la demande de son père. Porte, objet, message du passage, objectif principal et quête personnelle indiquent désormais le père avant la clé, puis la maison orange après réception.
+
+Réconciliation : victoire/receipt/badge de Wanda débloque seulement la conversation ; aucun nouveau cadeau automatique à la connexion. Les clés déjà possédées, anciens marqueurs de remise et anciennes victoires de Gwenn sont conservés/réparés. Normalisation sous le même verrou utilisateur que les récompenses, relecture après verrou ; les demandes simultanées ne dupliquent pas la clé. Aucun retrait aux comptes existants. Les expéditions, qui ne jouent pas ces scènes ni les acteurs de passage d’Aventure, conservent leur accès existant à la maison après Wanda, sans remise de clé d’Aventure.
+
+Validation : 57 tests histoire/passages/Rift réussis (un test SQL sauté dans cette commande), puis les 4 tests Gwenn avec MySQL, dont 9 profils de progression, fausses valeurs, ancienne clé, ancienne victoire, appels concurrents et idempotence. Recette `scripts/validateGwennBrowser.js` sur base dédiée : absence de clé après Wanda/reconnexion, refus d’une fausse fin de dialogue à distance, remise seulement à la fin de la conversation, rappel sans doublon, entrée/sortie, vraie victoire contre Gwenn et tunnel personnel, trois formats sans erreur. Journaux `/tmp/riftmon-father-*`. Client inchangé, build existant `15c9e319b335b21c` ; pas de compilation inutile ni de migration SQL.
+
+Publication serveur 2026-10-25T07:37:31.862Z, PID 1596472, aucune expédition active à la reprise. Index client HTTPS identique, Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-father-2026-10-25T07-36-41-804Z`. Aucune réinitialisation des joueurs.
+
 ## Grand Comptoir — passage dégagé sous les escaliers — 25 octobre 2026
 
 Les six rayonnages directement sous les escaliers sont retirés des quatre images : droite au rez-de-chaussée, gauche et droite aux deux étages intermédiaires, gauche au dernier étage. Le carrelage les remplace ; les autres meubles et la géométrie des pièces restent en place. Collisions JSON/TMX correspondantes libérées (colonnes 2–4 ou 23–25, lignes 7–9), pour marcher droit depuis les paliers jusqu’à l’allée transversale. Escaliers, destinations, vendeuses et catalogues inchangés.
@@ -3310,6 +3320,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 25 octobre 2026 — Clé de Gwenn remise par son père après Wanda, scène humoristique et quêtes cohérentes ; anciennes clés préservées, remise unique et parcours complet vérifiés. Détails en tête.
 
 - 25 octobre 2026 — Rayonnages sous les six escaliers du Grand Comptoir retirés des quatre décors, collisions libérées et trajet droit vérifié ; détails en tête.
 

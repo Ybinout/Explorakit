@@ -1993,7 +1993,7 @@
           "nexX": 416,
           "nexY": 512,
           "requiresStoryFlag": "gwenn_house_key_received",
-          "lockedMessage": "La porte est fermée. Wanda te remettra la clé de la maison de Gwenn après sa défaite."
+          "lockedMessage": "La porte est fermée. Après avoir battu Wanda, parle au père de Gwenn devant le tunnel au nord de Rochebrume pour obtenir la clé."
         }
       ]
     },

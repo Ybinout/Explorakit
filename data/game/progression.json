@@ -46,14 +46,14 @@
     {
       "key": "gwenn_challenge",
       "title": "Le défi de Gwenn",
-      "description": "Wanda t’a remis sa clé. Entre dans la maison orange au sud-est de Rochebrume et bats Gwenn : son père libérera ensuite l’entrée du tunnel au nord.",
+      "description": "Va parler au père de Gwenn, devant le tunnel au nord de Rochebrume. Son fils ne sort plus de la maison orange : il a besoin de ton aide.",
       "defaultStatus": "active",
       "target": 1,
       "requiresFlags": [
         "wanda_defeated"
       ],
-      "map": "ville4_maison2",
-      "destination": "Gwenn · Maison orange de Rochebrume"
+      "map": "ville4",
+      "destination": "Le père de Gwenn · Tunnel de Rochebrume"
     }
   ],
   "badges": [
@@ -193,12 +193,10 @@
         ],
         "flags": {
           "wanda_defeated": "true",
-          "fly_module_received": "true",
-          "gwenn_house_key_received": "true"
+          "fly_module_received": "true"
         },
         "items": {
-          "fly_module": 1,
-          "gwenn_house_key": 1
+          "fly_module": 1
         }
       },
       "experienceKind": "arena"
@@ -565,6 +563,17 @@
         }
       },
       "enabled": false
+    },
+    "gwenn_father": {
+      "requiresFlags": [
+        "wanda_defeated"
+      ],
+      "completionFlag": "gwenn_house_key_received",
+      "reward": {
+        "items": {
+          "gwenn_house_key": 1
+        }
+      }
     }
   },
   "chapter2Steps": [

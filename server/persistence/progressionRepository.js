@@ -1,7 +1,7 @@
 const progressionCatalog = require('../../data/game/progression.json');
 const pokedexCatalog = require('../../data/game/pokedex.json');
 const { dbPool, withTransaction } = require('../config/database');
-const { meetsRequirements, hasCompletedBattle, effectiveStoryFlags, deriveStoryQuest, deriveChapter2 } = require('../game/world/storyProgression');
+const { meetsRequirements, hasCompletedBattle, effectiveStoryFlags, deriveStoryQuest, deriveChapter2, deriveGwennQuest } = require('../game/world/storyProgression');
 
 const QUEST_STATUSES = new Set(['active', 'completed']);
 const questDefinitions = new Map((progressionCatalog.quests || []).map((quest) => [quest.key, quest]));
@@ -86,6 +86,7 @@ async function loadProgressState(userId) {
             ...(definition.key === 'clara_chapter2' ? deriveChapter2({flags}) : {}),
             ...(definition.key === 'refuges' ? {progress:['refuge_lyse_met','refuge_abel_met'].filter(k=>flags[k]==='true').length,status:['refuge_lyse_met','refuge_abel_met'].every(k=>flags[k]==='true')?'completed':'active'} : {}),
             ...(definition.key === 'gwenn_challenge' && flags.gwenn_rochebrume_defeated === 'true' ? {status:'completed',progress:1} : {}),
+            ...(definition.key === 'gwenn_challenge' ? deriveGwennQuest({flags}) : {}),
             ...(definition.key === 'main_sister_search' ? {
                 ...storyQuest,
                 completedAt: storyQuest.status === 'completed'

@@ -410,6 +410,9 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         if(changeMapData(p.currentmap)[ty]?.[tx]) {
             const next=getNextMap(p.currentmap,tx,ty);
             const flags=Object.fromEntries([...p.defeated].flatMap(name=>Object.entries(progression.npcBattles[name]?.reward?.flags || {})));
+            // Expeditions have no Adventure gate actors or key handover scenes.
+            // Preserve their existing access rule without granting an Adventure key.
+            if(p.defeated.has('champion_wanda'))flags.gwenn_house_key_received='true';
             const blocked=require('../world/storyProgression').transitionBlock(next,flags);
             if(blocked){emit(p,'progressionNotice',{message:blocked});return;}
             if(next){
