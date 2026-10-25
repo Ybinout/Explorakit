@@ -13,7 +13,7 @@ const out=process.env.RELEASE_SCREENSHOTS||'/tmp/riftmon-place-ambience-canvas';
    window.module=await import('/services/placeAmbience.js');window.r=new window.module.PlaceAmbienceRenderer();window.c=document.querySelector('canvas').getContext('2d');window.c.imageSmoothingEnabled=false;
    window.load=async name=>{const i=new Image();i.src='/assets/'+name+'.png';await i.decode();return i;};
    window.show=async(map,asset=map)=>{window.base=await load(asset);window.front=null;try{window.front=await load(asset+'_f');}catch{}window.map=map;window.render(3210);};
-   window.render=(t,motion=true)=>{c.clearRect(0,0,896,640);c.drawImage(base,0,0,896,640);if(front)c.drawImage(front,0,0,896,640);r.draw(c,base,map,t,motion,2);};
+   window.render=(t,motion=true)=>{c.clearRect(0,0,896,640);c.drawImage(base,0,0,896,640);r.drawGround(c,base,map,t,motion);if(front)c.drawImage(front,0,0,896,640);r.draw(c,base,map,t,motion,2);};
   });
   const scenes={gen_ville5:'gen_ville5',route4:'route4',ville5:'ville5',ville1:'ville1',cave1:'cave1',cave2:'cave2',cave_rochebrume1:'cave_rochebrume1',cave_rochebrume2:'cave_rochebrume2',cave_rochebrume3:'cave_rochebrume3',ville1_arene:'ville1_arene',ville_safe1_arene:'ville_safe1_arene',gen_arene5:'gen_arene5',ville3_arene:'ville3_arene',ville4_arene:'ville4_arene',ville5_arene:'ville5_arene'};
   for(const [map,asset] of Object.entries(scenes)){

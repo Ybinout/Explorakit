@@ -1,5 +1,16 @@
 # Contexte permanent — RiftMon
 
+## Hoze — fissures et secousses latérales — 25 octobre 2026
+
+L’intérieur `ville_safe1_arene` reçoit quatre fissures ramifiées, deux par côté. Elles se dessinent progressivement, accompagnées de poussière de pierre, puis s’effacent avec un intervalle calme. Huit colonnes ont des vibrations localisées dans leur pierre pendant une secousse courte et une réplique ; contours, socles, bannières et sol voisin restent fixes, sans déplacement rectangulaire de décor ni secousse globale de caméra. Coordonnées explicites sur l’artwork 448×320, sans modifier les PNG/Tiled ni les collisions.
+
+`services/hozeArena.js` compose une surface 896×640, recalculée à 20 Hz maximum dans la boucle monde existante. `PlaceAmbienceRenderer.drawGround` l’intègre après la carte et avant les PNJ/joueurs/premier plan : les personnages ne sont jamais recouverts par un échantillon du décor. Le même UserMap dessert Aventure/Rift/Colosseum ; seuls les intérieurs de Hoze reçoivent cet effet. Réglage d’animations ou mouvement réduit : fissures discrètes fixes, aucun tremblement/poussière. Surface libérée au combat, changement de carte, onglet masqué et destruction ; aucun timer ni nouvelle image téléchargée.
+
+Validation : lint/build `09353b4327e0eb15`, syntaxe et diff réussis. `node scripts/validateHozeArenaCanvas.js` : neuf phases, zéro pixel dessiné hors des bandes latérales, animation des deux côtés/colonnes, cache, mouvement réduit et libération vérifiés ; peinture moyenne 0,24 ms en Chromium local. `node scripts/validatePlaceAmbienceCanvas.js` : quinze lieux, confinement de l’eau et cycle de vie conservés. `scripts/validateHozeArenaBrowser.js`, base dédiée et compte jetable : véritable connexion monde dans l’arène, mouvement effectif, quatre formats 320/393/844/1365 px, absence de débordement, préférence, onglet masqué, suspension/reprise lors d’une présentation de combat simulée et reconnexion ailleurs sans effet Hoze. Aucun combat serveur lancé par cette recette ; captures monde/Canvas inspectées, zéro erreur navigateur. Journaux/captures `/tmp/riftmon-hoze-quake-*`. Aucun compte réel modifié ; pas de test sur téléphone physique.
+
+Publication statique 2026-10-25T11:43:59.269Z, client `8e592a3cb1d29c1862794977918b17474826cb8f`, index/JS/CSS publics vérifiés à l’octet. Aucun redémarrage (PID 1615281), Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-hoze-quake-2026-10-25T11-43-57-952Z`.
+
+
 ## Combats — seul le socle adverse est conservé — 25 octobre 2026
 
 Le composant partagé `BattleOverlay` ne dessine plus de plateforme alliée : Aventure, Rift, Colosseum et PvP, PC/mobile. Position et taille des Pokémon conservées. Les deux fonds larges de prairie claire/pluvieuse avaient aussi un socle allié peint : retouche imagegen intégrée uniquement sur le premier plan gauche, composition Canvas et export WebP sans perte. Tous les pixels hors du rectangle (0,720)–(650,1024), dont le socle ennemi, sont vérifiés identiques après encodage. Sources, prompt complet et preuves dans `docs/BATTLE_ALLY_PLATFORM_REMOVAL.json` ; exporteur `scripts/exportBattleAllyPlatformRemoval.js`, dépendance temporaire sharp 0.35.5 sans ajout au runtime.
