@@ -1,5 +1,17 @@
 # Audit technique et mémoire de RiftMon
 
+## Mounir — rideaux d’eau et cascades animés — 25 octobre 2026
+
+Les dix panneaux d’eau du mur de Mounir ont un écoulement vertical, des stries lumineuses et de l’écume à leur pied. Le grand emblème central et les cadres restent fixes. `VillageWaterRenderer` compose cette couche après les bassins existants, avant les personnages et le foreground, et libère ses ressources avec eux.
+
+Le décor de combat anime ses six cascades et les deux bassins latéraux, pour les variantes portrait et paysage. `BattleWaterfalls` suit l’image réellement sélectionnée par `<picture>`, avec le même étirement que le fond ; socles, Pokémon et interface restent au-dessus de l’eau. Le moteur commun `WaterfallRenderer` utilise rectangles/polygones précisément dessinés et sélection de pixels d’eau, cache natif à 20 Hz, déplacement vertical des textures et rides horizontales dans les bassins. Pas de mouvement global du décor ni de retouche de bitmap.
+
+Réduction des mouvements système ou option du jeu : arrêt et libération du cache. Onglet masqué, changement de décor et fermeture de combat : suspension/destruction des effets, puis reprise appropriée du monde. Fonctionne dans les trois modes dès que le décor de Mounir est utilisé ; aucune dépendance à la pluie pour faire couler les fontaines.
+
+Validation : 34 tests eau/météo/tactiques Mounir réussis, lint/build `0cd41225850cc34b` réussis. `validateWaterfallsCanvas.js` utilise les trois vrais décors : 3 174 pixels muraux, 7 809 pixels combat paysage et 5 508 portrait, aucun pixel hors masque ni du grand emblème modifié. Changement visible entre 200 et 600 ms, cache et destruction vérifiés ; benchmark local incluant composition Canvas environ 1,1–1,6 ms/image, sans garantie de FPS sur téléphone physique. Recette navigateur `validateMounirWaterfallsBrowser.js` : vrai combat Mounir, six cascades correctement alignées à 320/393/844/1365 px, changements portrait/paysage, réglages de mouvement, arrière-plan, destruction sur changement de lieu et retour à l’arène. Journaux/captures `/tmp/riftmon-waterfalls-*`.
+
+Publication statique 2026-10-25T09:03:24.360Z, client `305ee7c269f0b3c1d9994cc37024d69ee812ade9`. Index, JS et CSS publics vérifiés à l’octet ; aucun redémarrage (PID 1602782), sites voisins inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-waterfalls-2026-10-25T09-03-23-121Z`.
+
 ## Grand Comptoir — mobilier compact calé sur les collisions — 25 octobre 2026
 
 Les comptoirs et présentoirs sont réduits aux quatre étages. Les dessins dépassaient en haut/latéralement des cases bloquées, ce qui faisait paraître le joueur debout dessus. Nouveaux éléments générés à partir des décors existants puis intégrés dans des rectangles précis avec une marge dans les collisions : comptoir gauche 52×37, droit 40×37, présentoirs 36×37/38 pixels, en coordonnées image 448×320. Chaque pixel de ces rectangles est vérifié dans une case bloquée par l’outil d’export.
@@ -3392,6 +3404,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 25 octobre 2026 — Mounir : dix rideaux d’eau muraux, six cascades et deux bassins du combat animés avec masques locaux ; détails et recettes en tête.
 
 - 25 octobre 2026 — Comptoirs et présentoirs de la tour réduits et intégrés dans leurs cases bloquées ; passages et escaliers conservés. Détails en tête.
 
