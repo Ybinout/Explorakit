@@ -1,0 +1,200 @@
+{
+  "createdAt": "2026-10-25T19:48:13.185Z",
+  "tool": "built-in image_gen.imagegen",
+  "intent": "World sprites only; original atlas proportions, native crisp pixels.",
+  "cell": [
+    32,
+    32
+  ],
+  "alphaThreshold": 128,
+  "palette": [
+    "#211e29",
+    "#34333e",
+    "#4a4b56",
+    "#696b76",
+    "#8d9098",
+    "#c6cbd3",
+    "#f3eee8",
+    "#f5c99f",
+    "#dca580",
+    "#b9775d",
+    "#df5951",
+    "#9c383f"
+  ],
+  "sprites": [
+    {
+      "name": "gwenn",
+      "references": [
+        "/tmp/riftmon-player-front-reference.png",
+        "/home/ubuntu/dev/explorakit/vue-explorakit/src/assets/image/gwenn-v1.png"
+      ],
+      "prompt": "Use case: stylized-concept. Edit reference image 1 into the overworld NPC Gwenn. Reference 1 is the ABSOLUTE style, proportions, native pixel grid, viewing angle and scale target; reference 2 supplies identity/clothes ONLY and must NOT supply its realistic proportions or detailed rendering. Produce one front-facing idle TOP-DOWN RPG world sprite in the exact coarse 32x32 logical pixel art style of reference 1, enlarged using nearest-neighbor: huge round head about 13 pixels tall, short wide body including legs about 12 pixels tall, head wider than shoulders, short chunky legs, small boots, same standing pose and feet baseline as reference 1. Each logical pixel is a solid visible square. Sprite visible height about 25 logical pixels, width about 21 logical pixels. Gwenn wears a black baseball cap, long black hair represented ONLY by two chunky side locks, black scarf covering the nose/mouth so ONLY two small eyes and a narrow skin strip remain visible, dark oversized jacket, black trousers and boots. Clearly readable charcoal grey highlights separate cap, scarf, coat and legs. A tiny red/white capture Ball in one hand, a tiny grey vape device in the other hand; both are only a few simple pixels. 12-16 flat colours maximum, dark single-pixel outline, two flat shadow shades, no gradients, no texture, no anti-aliasing, no soft pixels, no illustration, no realistic anatomy, no long slender body, no action pose. One complete character only, centered on a transparent square background with generous empty side margins, no labels, no checkerboard, no ground/shadow, no border.",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-090396e5-d462-47a6-853a-9c41feeaf830.png",
+      "destination": "vue-explorakit/src/assets/pnj/gwenn-pixel-v3.png",
+      "nativeContent": [
+        20,
+        26
+      ],
+      "refinementPrompt": "Edit reference 1 ONLY, keeping its exact coarse pixel grid and short chunky body proportions. Reference 2 is the original game sprite proportions and flat pixel-art style, do not make an illustration. This is Gwenn, one full front-facing idle RPG world sprite in a 32x32 logical pixel cell. Huge head, black baseball cap with a simple short brim, two simple black long-hair side-locks, black scarf masking ALL of the lower face leaving ONLY his two tiny eyes in a narrow skin strip visible. Dark chunky jacket and short trousers. Charcoal flat highlights separate cap, scarf, jacket and boots. Keep visible character 20 pixels wide, 26 tall, head approximately same height as entire body. IMPORTANT: the Ball in his left hand must be bigger and CLEARLY RED AND WHITE, a simple 4-by-4 logical pixel round object with red top, dark horizontal middle, WHITE lower half; show the white bottom clearly. His other hand holds a tiny grey vape, just two by three pixels. Do not add ornate belt or cloth folds. At most twelve FLAT colours, no gradients or texture, no anti-aliasing, every logical pixel a solid square, extremely simple native-game sprite. One character only centered on a genuinely transparent square background, no text or ground or shadows.",
+      "refinementReferences": [
+        "/tmp/riftmon-gwenn-native-preview.png",
+        "/tmp/riftmon-real-player-reference.png"
+      ],
+      "draftSource": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-5707fc10-eafd-438f-a624-bf05d8540500.png"
+    },
+    {
+      "name": "matthieu",
+      "references": [
+        "/tmp/riftmon-player-front-reference.png",
+        "/home/ubuntu/dev/explorakit/vue-explorakit/src/assets/image/matthieu-v1.png"
+      ],
+      "prompt": "Use case: stylized-concept. Edit reference image 1 into the overworld NPC Matthieu. Reference 1 is the ABSOLUTE style, proportions, native pixel grid, viewing angle and scale target; reference 2 supplies beanie/beard/oversized outfit identity ONLY and must NOT supply its realistic proportions or detailed rendering. One front-facing idle TOP-DOWN RPG world sprite, exact coarse 32x32 logical pixel art like reference 1, enlarged with nearest-neighbor. Huge round head including beanie roughly 13 pixels tall, compact short wide body including legs roughly 11 pixels tall, head wider than shoulders, very short chunky legs and small shoes, feet same baseline as reference 1. Matthieu is a short adult man, bald under a plain charcoal knitted beanie: absolutely NO visible hair or fringe. Warm skin, two simple dark pixel eyes, a short full beard drawn as one simple dark shape around the lower face, readable skin/eyes above beard. Loose oversized grey hoodie, broad sleeves, baggy dark trousers, chunky trainers. Tiny red/white capture Ball held beside the body in one hand, the other arm resting naturally. Sprite content about 24 logical pixels tall and 20 pixels wide; the HEAD and entire BODY must have almost the SAME HEIGHT. 12-16 flat colours maximum, dark single-pixel outline, two flat shadow shades. Every logical pixel must be a large solid square. No fine knit texture, no tiny cloth folds, no gradients, no anti-aliasing, no soft pixels, no illustration, no realistic tall anatomy, no large expressive anime eyes, no action pose. One complete character only centered on a genuine transparent square background, no checkerboard, no ground/shadow, no text, no border.",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-84dd791b-9251-4e59-8809-5beb89d7b7a0.png",
+      "destination": "vue-explorakit/src/assets/pnj/matthieu-pixel-v1.png",
+      "nativeContent": [
+        21,
+        25
+      ],
+      "refinementPrompt": "Edit reference 1 ONLY, keeping its exact coarse pixel grid, its huge-head/short-body proportions and overall silhouette. Reference 2 is the ORIGINAL GAME ATLAS STYLE: match its simple pixel-face construction and very flat colours, not an illustration. This is an in-game 32x32-cell idle world sprite. Matthieu: plain grey/charcoal beanie, BALD with zero visible hair, a short FULL DARK BEARD visibly surrounding the lower half of his warm-skinned face, two SINGLE-PIXEL dark eyes (do not use large angry anime eyes or expressive eyebrows), oversized loose grey hoodie, very short baggy dark legs, grey trainers. Crucially enlarge the red-and-white capture BALL in his left hand: it must be a clearly readable 4-by-4 logical pixel red/white round object with dark horizontal middle and white lower half, not merely a red strip. Keep head half the total character height, head slightly wider than body, match original NPC atlas. Very simple 12 flat colours maximum, each pixel a solid square, crisp edges, no gradients or textures, no extra folds, no shadow. Output just the full character on genuine transparent background, centered, not touching canvas edges, no labels.",
+      "refinementReferences": [
+        "/tmp/riftmon-matthieu-native-preview.png",
+        "/tmp/riftmon-real-bald-reference.png"
+      ],
+      "draftSource": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-4741c0b2-1df2-4c97-8947-bef9c4c638bd.png"
+    }
+  ],
+  "referencePreparation": "Pixel-only source crops: player front [0,0,64,64] from src/assets/sprite.png; bald NPC [652,33,21,25] from src/assets/6931.png. Nearest-neighbor enlargement, no painted pixels. First generated drafts exported to 32x32 for the refinement references.",
+  "draftReferenceNote": "Refinement used the first-draft native previews. Temporary preview filenames were subsequently reused by the final export. Draft source images above retain the original generation; apply the same native content size/palette to reconstruct them.",
+  "exportChecks": [
+    {
+      "name": "gwenn",
+      "destination": "vue-explorakit/src/assets/pnj/gwenn-pixel-v3.png",
+      "opaque": 392,
+      "bounds": {
+        "x": 6,
+        "y": 6,
+        "w": 20,
+        "h": 26
+      },
+      "colors": 10,
+      "alpha": [
+        0,
+        255
+      ],
+      "sourceBounds": {
+        "x": 313,
+        "y": 234,
+        "w": 661,
+        "h": 874
+      },
+      "bytes": 747,
+      "sha256": "3ce0fad20433fb037a609e0bfe3e7406cf5ecb214aef6979acce55208c8574d6"
+    },
+    {
+      "name": "matthieu",
+      "destination": "vue-explorakit/src/assets/pnj/matthieu-pixel-v1.png",
+      "opaque": 349,
+      "bounds": {
+        "x": 5,
+        "y": 7,
+        "w": 21,
+        "h": 25
+      },
+      "colors": 9,
+      "alpha": [
+        0,
+        255
+      ],
+      "sourceBounds": {
+        "x": 233,
+        "y": 206,
+        "w": 788,
+        "h": 943
+      },
+      "bytes": 752,
+      "sha256": "da734a8d62e00eb558ce0b020e71bba17765b31193293f8688a33624190ada1e"
+    }
+  ],
+  "browserChecks": {
+    "results": [
+      {
+        "name": "gwenn_rochebrume",
+        "source": [
+          0,
+          0,
+          32,
+          32
+        ],
+        "scale": 2,
+        "feetY": 314,
+        "colors": 10,
+        "ballRedPixels": 2,
+        "ballWhitePixels": 5,
+        "bounds": [
+          6,
+          6,
+          20,
+          26
+        ],
+        "solid": true,
+        "illustratedPortrait": true,
+        "viewports": 4
+      },
+      {
+        "name": "gwenn_route8",
+        "source": [
+          0,
+          0,
+          32,
+          32
+        ],
+        "scale": 2,
+        "feetY": 570,
+        "colors": 9,
+        "ballRedPixels": 4,
+        "ballWhitePixels": 11,
+        "bounds": [
+          5,
+          7,
+          21,
+          25
+        ],
+        "solid": true,
+        "illustratedPortrait": true,
+        "viewports": 4
+      }
+    ],
+    "errors": [],
+    "out": "/tmp/riftmon-gwenn-matthieu-browser"
+  },
+  "build": "fe88dfce2ad6e9d2",
+  "lint": true,
+  "phoneHardwareTested": false,
+  "preview": "docs/art/gwenn-matthieu-sprites.png",
+  "runtime": "Client-only appearance mapping, shared by Adventure/Rift/Colosseum. gwenn_rochebrume remains Gwenn in route4_maison; gwenn_route8 remains Matthieu on gen_route8. 32x32 single cell drawn at exact 2x, existing feet anchors. Two PNGs total 1499 bytes, inlined in game.c8d65054.js; no extra requests, timers or canvases at runtime.",
+  "manualRecipe": "Recharger RiftMon. Dans la maison de la Route 4, regarder Gwenn près du joueur puis lui parler : casquette/cheveux/foulard sur carte, illustration habituelle dans le dialogue. Sur la Route 8, regarder Matthieu : bonnet sans cheveux, barbe, sweat ample et Ball. Vérifier la netteté et les pieds aux formats 320/393/844/1365 ; essayer de traverser les PNJ, qui doivent rester solides. Les conditions de combat et la progression restent inchangées.",
+  "publication": {
+    "publishedAt": "2026-10-25T19:59:15.828Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-gwenn-matthieu-sprites-2026-10-25T19-59-14-475Z",
+    "clientBuild": "fe88dfce2ad6e9d2",
+    "clientCommit": "d98c0fbfd12c07d3f16609eaefda05dbe517e045",
+    "pid": "1697717",
+    "serverRestarted": false,
+    "neighborsUnchanged": true,
+    "publicGameBundle": true,
+    "sprites": [
+      {
+        "name": "gwenn-pixel-v3",
+        "bytes": 747,
+        "sha256": "3ce0fad20433fb037a609e0bfe3e7406cf5ecb214aef6979acce55208c8574d6",
+        "delivery": "inline in game.c8d65054.js"
+      },
+      {
+        "name": "matthieu-pixel-v1",
+        "bytes": 752,
+        "sha256": "da734a8d62e00eb558ce0b020e71bba17765b31193293f8688a33624190ada1e",
+        "delivery": "inline in game.c8d65054.js"
+      }
+    ]
+  }
+}

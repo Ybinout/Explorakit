@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Gwenn et Matthieu — sprites natifs cohérents — 25 octobre 2026
+
+Deux sprites de carte redessinés avec imagegen à partir des proportions du joueur et de l’atlas original 6931, puis exportés en cellules transparentes 32×32 : tête presque aussi haute que le corps, silhouette compacte, palette limitée et pixels opaques sans lissage. Gwenn porte casquette noire, deux mèches longues, foulard masquant le bas du visage, tenue sombre, Ball et petite vapoteuse. Matthieu garde bonnet sans cheveux visibles, barbe, sweat/pantalon amples et Ball. Une seconde passe rend les Balls rouge/blanc lisibles et simplifie le visage de Matthieu. Étendues visibles 20×26 et 21×25 pixels, 10 et 9 couleurs ; 747 et 752 octets. Aperçu comparé au joueur : `docs/art/gwenn-matthieu-sprites.png`. Prompts exacts, références, sources et contrôles : `docs/GWENN_MATTHIEU_SPRITES.json`.
+
+`npcAppearance` applique les deux fichiers versionnés côté client ; `UserMap` conserve le rendu entier ×2 et les ancres des pieds. Les clés persistantes restent `gwenn_rochebrume` (maison Route 4) et `gwenn_route8` (Matthieu Route 8). Résolveur partagé aux trois modes, aucun changement serveur, progression, collision, dialogue, portrait illustré, champion ou carte. Les deux PNG sont intégrés au bundle existant, sans nouvelle requête ni boucle de rendu. Les anciens fichiers restent disponibles pour compatibilité.
+
+Validation : export Canvas avec alpha strict 0/255, palette ≤12, dimensions/empreinte/pieds et coins transparents ; lint et build `fe88dfce2ad6e9d2`, syntaxe/diff valides. Recette réelle `RELEASE_DIST_DIR=/tmp/riftmon-gwenn-matthieu-sprites-dist node --env-file=.env scripts/validateGwennMatthieuSpritesBrowser.js` : les deux lieux, huit captures aux formats 320/393/844/1365, dessin source 32×32 à ×2 sans lissage, Ball rouge/blanc, PNJ solides et illustrations de dialogue conservées, zéro erreur navigateur. Compte jetable sur base de test supprimé ; captures mobile/PC inspectées, aucun téléphone physique. Le script de recette a été corrigé pour observer le lissage au moment du dessin (restore rétablit ensuite sa valeur), attendre une clé de dialogue éventuellement nulle et accepter l’absence de cadre d’une illustration entière ; aucun changement du jeu nécessaire pour ces ajustements de recette.
+
+Publication statique 2026-10-25T19:59:15.828Z, client `d98c0fbfd12c07d3f16609eaefda05dbe517e045`, build `fe88dfce2ad6e9d2` : index/bundles HTTPS vérifiés à l’octet, dont les deux PNG intégrés. PID 1697717 conservé, aucun redémarrage, Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-gwenn-matthieu-sprites-2026-10-25T19-59-14-475Z`, anciens bundles conservés. Recharger le jeu.
+
 ## Ana — danse de pétales — 25 octobre 2026
 
 `anaPetals.js` ajoute trois petites rafales décalées dans l’arène d’Ana : pétales roses, pêche et ivoire, trajectoires courbes avec spirales douces, rotation, bascule et fines ombres au sol. Sens alternés, apparitions/disparitions progressives ; 9–18 pétales visibles sur les phases contrôlées. L’effet est découpé au sol ouvert, en excluant escaliers, murs, vitres et lanternes, puis dessiné sous les personnages. Les exclusions des lanternes sont intersectées avec le sol pour ne pas créer de zones autorisées à l’extérieur ; quatre points de contrôle fixes vérifient ces limites. La météo et les règles de combat ne changent pas.
@@ -3758,6 +3768,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 25 octobre 2026 — Gwenn et Matthieu : sprites de carte refaits à la grille native, proportions compactes du joueur, casquette/foulard ou bonnet/barbe/oversize, Balls lisibles ; rendu ×2, collisions et illustrations vérifiés sur quatre formats. Détails en tête et `docs/GWENN_MATTHIEU_SPRITES.json`.
 
 - 25 octobre 2026 — Ana : pétales roses/pêche/ivoire portés par de petites rafales alternées, spirales, rotation et ombres ; confinement, mouvement réduit et quatre formats vérifiés. Détails en tête et `docs/ANA_ARENA_PETALS.json`.
 
