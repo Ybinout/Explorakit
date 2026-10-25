@@ -1,5 +1,11 @@
 # Audit technique et mémoire de RiftMon
 
+## Mounir — Lombre remplace Machoc — 25 octobre 2026
+
+Premier partenaire de Mounir : Lombre niveau 17, K1, IV18 et EV0, nature Modeste, talent Glissade. Set légal pour l’espèce : Bluff / Bulles d’O / Méga-Sangsue / Vent Glace, sans objet tenu. Le catalogue commun est utilisé en Aventure et lors des rencontres avec Mounir en expédition. Steelix18 et Morphéo23 K4 restent les partenaires suivants, avec réserve du Morphéo gérée par son identité.
+
+Validation : 15 tests tactiques Mounir/histoire/PNJ réussis, dont capacités compatibles, PP, IA face à un Spectre (éviter Bluff), réserve, pluie/Morphéo et sauvegarde de la tactique Rift/Colosseum. Publication serveur seul 2026-10-25T10:20:44.913Z, PID 1615281, aucune expédition active à la reprise ; index client inchangé et sprite public Lombre271 disponible. Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-mounir-lombre-2026-10-25T10-20-43-642Z`, journaux `/tmp/riftmon-mounir-lombre-*`. Aucune migration ni modification de compte réel ; pas de build client nécessaire.
+
 ## NRV — répliques brèves et identité de TOM — 25 octobre 2026
 
 NOZ dit uniquement « NOZ : miaou », TOM « TOM : Wouaf », CRY « CRY : ... ». Une phrase avant le lancement standard du combat, et la même réplique après victoire. Les duels restent uniques par joueur. Le portrait avec cheveux et lunettes est réattribué à TOM ; CRY reçoit le portrait chauve du milieu. Permutation exacte des PNG existants, sans nouvelle génération ni retouche des pixels.
@@ -3458,6 +3464,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 25 octobre 2026 — Mounir ouvre avec Lombre17/Glissade à la place de Machoc ; set pluie compatible, 15 tests réussis. Détails en tête.
 
 - 25 octobre 2026 — NOZ « miaou », TOM « Wouaf », CRY « ... », une réplique avant combat ; portrait avec cheveux/lunettes réattribué à TOM. Détails en tête.
 

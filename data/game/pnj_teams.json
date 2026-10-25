@@ -55,19 +55,19 @@
       "name": "moonpunch",
       "team": [
         {
-          "pokemonId": 66,
-          "name": "Machoc",
+          "pokemonId": 271,
+          "name": "Lombre",
           "level": 17,
           "abilities": [
-            "Karate Chop",
-            "Rock Tomb",
-            "Knock Off",
-            "Bulk Up"
+            "Fake Out",
+            "Bubble Beam",
+            "Mega Drain",
+            "Icy Wind"
           ],
-          "passiveAbility": "Guts",
+          "passiveAbility": "Swift Swim",
           "heldItem": null,
           "k": 1,
-          "nature": "Adamant",
+          "nature": "Modest",
           "givenIv": {
             "hp": 18,
             "attack": 18,

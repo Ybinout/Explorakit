@@ -14,7 +14,8 @@ function enter(p, other, field) { return engine.applySwitchInEffects(p, field.si
 
 test('Mounir has the requested levels, average partners and a legal maximally talented, trained ace; teams are private and independent', () => {
     const a = getPnjTeam('moonpunch'), b = getPnjTeam('moonpunch');
-    assert.deepEqual(a.pokemons.map(p => [p.data.id,p.level]), [[66,17],[208,18],[351,23]]);
+    assert.deepEqual(a.pokemons.map(p => [p.data.id,p.level]), [[271,17],[208,18],[351,23]]);
+    assert.equal(a.pokemons[0].passiveAbility,'Swift Swim');
     const ace = a.pokemons[2]; assert.equal(ace.k,4); assert(Object.values(ace.iv).every(v => v===31));
     assert.equal(ace.ev.specialAttack,252); assert.equal(ace.ev.speed,252); assert.equal(Object.values(ace.ev).reduce((a,b)=>a+b,0),508);
     assert.equal(ace.specialAttack,88); assert.equal(ace.maxHp,93); assert.equal(ace.passiveAbility,'Forecast');
@@ -34,12 +35,12 @@ test('ace retention follows identities through switches and KOs; support and att
         assert(!(decision.action==='change' && t.pokemons[decision.number].data.id===351));
         if(decision.action==='attack') assert(engine.getMoveByName(t.pokemons[0].abilities[decision.number]));
     }
-    // Machoc cannot hurt a Ghost with its Fighting STAB. Switch or coverage, never Karate Chop.
+    // Lombre cannot hit a Ghost with Fake Out. Switch or another move, never Fake Out.
     const d = tactics.chooseAction(t,enemy,field,memory,1); assert(d.action==='change'||d.number!==0);
     const hidden={...enemy,movePp:[0],heldItem:'life_orb',iv:{},ev:{},passiveAbility:'Wonder Guard'};
     assert.deepEqual(tactics.chooseAction(t,hidden,field,memory,1),d);
     [t.pokemons[0],t.pokemons[1]]=[t.pokemons[1],t.pokemons[0]];
-    t.pokemons[0].currentHp=0; assert.equal(t.pokemons[tactics.replacementIndex(t)].data.id,66);
+    t.pokemons[0].currentHp=0; assert.equal(t.pokemons[tactics.replacementIndex(t)].data.id,271);
     t.pokemons[1].currentHp=0; assert.equal(t.pokemons[tactics.replacementIndex(t)].data.id,351);
 });
 
