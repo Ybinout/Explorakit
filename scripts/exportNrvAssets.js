@@ -30,6 +30,6 @@ const result=await page.evaluate(async data=>{
  }
  return{images:results,changedRoofPixels:changed,outsideRoofUnchanged:true};
 },[uri(original('route3.png')),uri(original('route3_f.png')),uri(fs.readFileSync(manifest.sources.roof)),uri(fs.readFileSync(manifest.sources.interior)),uri(fs.readFileSync(manifest.sources.portraits))]);
-for(const [name,base64]of Object.entries(result.images)){const file=path.join(client,'src/assets',name);fs.writeFileSync(file,Buffer.from(base64,'base64'));}
+for(const [name,base64]of Object.entries(result.images)){if(process.env.NRV_PORTRAITS_ONLY==='1'&&!name.startsWith('image/'))continue;const file=path.join(client,'src/assets',name);fs.writeFileSync(file,Buffer.from(base64,'base64'));}
 console.log(JSON.stringify({changedRoofPixels:result.changedRoofPixels,outsideRoofUnchanged:result.outsideRoofUnchanged,assets:Object.keys(result.images).map(name=>({name,sha256:createHash('sha256').update(fs.readFileSync(path.join(client,'src/assets',name))).digest('hex')}))}));
 }finally{await browser.close();}})().catch(e=>{console.error(e);process.exitCode=1;});

@@ -10,7 +10,7 @@
   "sources": {
     "roof": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-092bdff5-b77a-4c6f-91a2-f049c6fb36d9.png",
     "interior": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-c326fbc0-a0e3-497b-912b-1f38c7e51721.png",
-    "portraits": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-d0e8e652-5547-412b-8ee9-97460186fb01.png"
+    "portraits": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-b8b80a63-b05a-4140-bbb0-4e120b9b149c.png"
   },
   "worldSprites": [
     {
@@ -110,16 +110,34 @@
       },
       {
         "name": "image/nrv-noz-v1.png",
-        "sha256": "0f7eba819a511f141e2cfabe1876070d8727b822411d2fdebb4e17fe0b36245b"
+        "sha256": "d7ebbb943df289cbc55dde08c2fd75fbf98e5afc0fbbf7cbc4788594d5695194"
       },
       {
         "name": "image/nrv-tom-v1.png",
-        "sha256": "4089bf3df72a625e221dfd0a98180d817d3fb6be6bdff36160e3a4a586e51a22"
+        "sha256": "803c7b34dc602e1df5831a376b9b60c7fbfa6f4d49a559bad3d20e9962faaf2d"
       },
       {
         "name": "image/nrv-cry-v1.png",
-        "sha256": "a7b348f18ca921177ad137e5ddf5e5e46248cc263964bff49bc53bf5b7320184"
+        "sha256": "9f183586451daeeaa1feb865d849832a7c8635896fdcb501db7ecf5f331368ad"
       }
     ]
+  },
+  "portraitRevision": {
+    "date": "2026-10-25",
+    "toolMode": "built-in imagegen",
+    "previousSource": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-d0e8e652-5547-412b-8ee9-97460186fb01.png",
+    "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-b8b80a63-b05a-4140-bbb0-4e120b9b149c.png",
+    "prompt": "Edit this existing three-person monochrome manga portrait strip. Make ONLY these requested appearance changes: LEFT portrait (NOZ): make him completely bald, with a naturally shaped smooth shaved scalp; remove all head hair including fringe, side hair and the hair behind his neck, preserving his ears, face, eyebrows, confident smile and jacket. CENTER portrait (TOM): make him completely bald with a smooth shaved scalp, removing all spiky hair and sideburns while keeping his face, eyebrows, serious expression and outfit unchanged. RIGHT portrait (CRY): add tasteful thin dark rectangular prescription eyeglasses on his face, with transparent lenses so the eyes remain visible; keep his current hair, expression, raised hand and clothing. Preserve the exact left-to-right identity order, three equal-width crop cells, poses, black-and-white manga inking, grey hatching, composition and genuinely transparent background. Do not add facial hair, hats, extra people, lettering or scenery. Keep the shoulders and faces in the same positions, no layout redesign.",
+    "changes": {
+      "noz": "Bald head, original face and clothing preserved",
+      "tom": "Bald head, original face and clothing preserved",
+      "cry": "Eyeglasses added, hair and clothing preserved"
+    },
+    "exports": [
+      "image/nrv-noz-v1.png",
+      "image/nrv-tom-v1.png",
+      "image/nrv-cry-v1.png"
+    ],
+    "validation": "NRV_PORTRAITS_ONLY=1 in scripts/validateNrvHouseBrowser.js: all three actual dialogues, image dimensions/loads and mobile/desktop screenshots."
   }
 }

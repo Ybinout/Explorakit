@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## NRV — retouches des trois portraits — 25 octobre 2026
+
+Sur l’illustration demandée, NOZ (gauche) et TOM (centre) deviennent chauves ; CRY (droite) porte des lunettes à verres transparents. Retouche via imagegen intégré à partir de la planche précédente, noir et blanc et alpha conservés. Exports remplacés aux trois chemins `src/assets/image/nrv-{noz,tom,cry}-v1.png`, largeur 384 px. Aucune modification de contenu serveur.
+
+Prompt, source avant/après et nouvelles empreintes dans `docs/NRV_ROUTE3_ASSETS.json`, champ `portraitRevision`. `NRV_PORTRAITS_ONLY=1 node scripts/exportNrvAssets.js` exporte les seuls portraits ; les trois autres décors restent identiques à l’octet. Le même mode dans `validateNrvHouseBrowser.js` ouvre les trois vrais dialogues sans lancer les combats, vérifie le chargement des images et capture les trois portraits sur mobile/PC. Recette sur base dédiée réussie, aucun utilisateur réel modifié, zéro erreur navigateur ; images et cadrages inspectés. Export et deux scripts vérifiés, build `cb37cac0f304f75f` réussi ; journaux `/tmp/riftmon-nrv-portraits-*`.
+
+Publication statique 2026-10-25T10:07:48.299Z, client `d2b6402ff5018ef25031a865e2d46e30bd60ae96`, index/JS/CSS et trois PNG publics vérifiés à l’octet. Aucun redémarrage (PID 1612506), sites voisins inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-nrv-portraits-2026-10-25T10-07-47-029Z`.
+
 ## Route 3 — repaire NRV, NOZ / TOM / CRY — 25 octobre 2026
 
 La maison bleue à droite porte un tag NRV vert peint sur son toit. Imagegen intégré fournit la peinture, l’intérieur bleu/gris et vert, et trois portraits manga noir et blanc. Export reproductible `scripts/exportNrvAssets.js`, sources/prompts/empreintes dans `docs/NRV_ROUTE3_ASSETS.json`. Seuls 496 pixels de peinture changent sur le toit, également repris dans le foreground qui le recouvre ; tous les pixels hors du masque du toit sont vérifiés identiques. Aucun changement aux autres maisons, au lac ou aux collisions de Route 3.
@@ -3440,6 +3448,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 25 octobre 2026 — Portraits NRV : NOZ/TOM chauves et lunettes pour CRY, retouche imagegen et trois dialogues vérifiés. Détails en tête.
 
 - 25 octobre 2026 — Maison bleue Route 3 : toit tagué NRV, intérieur, trois sprites/portraits et duels personnels NOZ/TOM/CRY, niveaux 21–23 ; entrée/sortie et trois victoires testées. Détails en tête.
 

@@ -24,6 +24,14 @@ async function dialogueDone(){for(let i=0;i<20&&await page.locator('.dialogue-la
  const draws=await page.evaluate(async()=>{const image=v.ensurePnjSpriteSheet('townspeople.png');await image.decode();const c=document.createElement('canvas');c.width=896;c.height=640;const g=c.getContext('2d'),draw=g.drawImage,calls=[];g.drawImage=function(img,...a){calls.push(a.slice(0,4));return draw.call(this,img,...a);};v.drawPnjs(g);return calls;});assert.deepEqual(draws,[[367,417,17,25],[558,288,17,26],[654,290,17,24]]);
  for(const [width,height]of [[320,568],[393,852],[1365,900]]){await page.setViewportSize({width,height});await page.waitForTimeout(150);await page.evaluate(async w=>{v.showMobileControls=w<=920;await v.$nextTick();v.resizeWorldViewport();},width);assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));await page.screenshot({path:path.join(out,`house-${width}.png`)});}
  await page.setViewportSize({width:393,height:852});await page.waitForTimeout(150);await page.evaluate(()=>v.showMobileControls=true);
+ if(process.env.NRV_PORTRAITS_ONLY==='1'){
+  for(const [name,x,y]of [['noz',10,10],['tom',17,9],['cry',17,14]]){
+   await at('route3_maison_nrv',x,y);await page.evaluate(()=>v.socket.emit('Space'));await page.waitForFunction(n=>v.endSentences==='nrv_'+n&&v.textImageSequence.length,name);await page.locator('.dialogue-layer .text').click();
+   await page.waitForFunction(n=>[...document.querySelectorAll('.dialogue-layer img')].some(i=>i.src.includes('nrv-'+n+'-v1')&&i.complete&&i.naturalWidth===384),name);
+   for(const[width,height]of [[393,852],[1365,900]]){await page.setViewportSize({width,height});await page.waitForTimeout(150);await page.evaluate(async w=>{v.showMobileControls=w<=920;await v.$nextTick();v.resizeWorldViewport();},width);await page.screenshot({path:path.join(out,'portrait-'+name+'-'+width+'.png')});}
+  }
+  assert.deepEqual(errors,[]);success=true;console.log(JSON.stringify({threeActualDialogues:true,portraitsLoaded:true,viewports:3,errors,out}));return;
+ }
  async function fight(name){
   await page.evaluate(()=>v.socket.emit('Space'));await page.waitForFunction(n=>v.endSentences===n&&v.textImageSequence.length,name);await page.locator('.dialogue-layer .text').click();
   await page.waitForFunction(()=>[...document.querySelectorAll('.dialogue-layer img')].some(i=>i.complete&&i.naturalWidth>0));await page.screenshot({path:path.join(out,name+'-dialogue.png')});assert(await page.evaluate(n=>v.textImageSequence[0].image.includes(n.replace('_','-')+'-v1'),name));await dialogueDone();
