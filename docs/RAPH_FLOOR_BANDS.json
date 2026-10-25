@@ -1,0 +1,90 @@
+{
+  "map": "gen_arene5",
+  "change": "Remove floor meteors; alternate authored copper inlays with luminance-preserving ice blue. Keep window meteors unchanged.",
+  "cycleMs": 9000,
+  "maximumBlueOpacity": 0.88,
+  "groups": [
+    "outer bands, podium and side rails",
+    "emblem, inner ring and carpet borders"
+  ],
+  "nativeCanvas": {
+    "escaped": 0,
+    "unmaskedFloorPixels": 0,
+    "bands": [
+      24468,
+      17279
+    ],
+    "colours": [
+      [
+        -85.10331862023868,
+        90.1934139707159
+      ],
+      [
+        92.97605035147949,
+        -96.69240118062388
+      ],
+      [
+        -85.10331862023868,
+        90.1934139707159
+      ]
+    ],
+    "skyEscaped": 0,
+    "skyLit": 3862,
+    "maxSkyLit": 318,
+    "skyParityImages": 20,
+    "skyParityDifferingBytes": 0,
+    "flags": [
+      2559,
+      2057,
+      1553,
+      1572,
+      1529,
+      1542,
+      1595,
+      1590,
+      1544,
+      1528
+    ],
+    "glassPixels": 5241,
+    "movingCloth": 1214,
+    "movingPillars": 2320,
+    "reduced": true,
+    "staticAlpha": false,
+    "throttled": true,
+    "released": true,
+    "isolated": true,
+    "averagePaintMs": 0.49166666666666664
+  },
+  "browser": {
+    "map": "gen_arene5",
+    "viewports": 4,
+    "animated": true,
+    "reducedMotion": true,
+    "hiddenCleanup": true,
+    "battlePresentationCleanup": true,
+    "mapIsolation": true,
+    "maximumHozeWind": false,
+    "completedFaultsRetained": false,
+    "collapseBackgroundsAndReset": false,
+    "movementControls": false,
+    "errors": []
+  },
+  "phoneHardwareTested": false,
+  "build": "a4962a7de18f8ee9",
+  "publication": {
+    "publishedAt": "2026-10-25T17:38:59.079Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-raph-bands-2026-10-25T17-38-57-767Z",
+    "clientBuild": "a4962a7de18f8ee9",
+    "clientCommit": "a46e7c11853b43010497ff341b5a00aff0d79c54",
+    "pid": "1679276",
+    "serverRestarted": false,
+    "neighborsUnchanged": true,
+    "publicGameBundle": true
+  },
+  "reproduce": {
+    "canvas": "RAPH_SKY_BASELINE_SERVICE=/tmp/riftmon-raph-bands-before.js RELEASE_SCREENSHOTS=/tmp/riftmon-raph-bands-canvas node scripts/validateRaphArenaCanvas.js",
+    "baselineClient": "9b0513eae916d6c0ec2b07641a5e502710e8aafc",
+    "baselineFile": "src/services/raphArena.js",
+    "browser": "ARENA_DECOR=raph RELEASE_DIST_DIR=/tmp/riftmon-raph-bands-dist RELEASE_SCREENSHOTS=/tmp/riftmon-raph-bands-browser node --env-file=.env scripts/validateHozeArenaBrowser.js"
+  }
+}
