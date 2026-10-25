@@ -1,0 +1,26 @@
+{
+  "mode": "Built-in imagegen edit",
+  "assets": [
+    {
+      "reference": "vue-explorakit/src/assets/battle/hoze-wide-v1.webp",
+      "generated": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-e8259f8a-d319-4506-ac63-b22a84225c58.png",
+      "destination": "vue-explorakit/src/assets/battle/hoze-wide-v2.webp",
+      "prompt": "Use case: precise-object-edit. Edit target: the supplied landscape Hoze arena battle background. Change ONLY the stone floor: add several thin branching earthquake cracks reaching from the left and right edges into the side areas, and two irregular collapsed holes with broken golden sandstone tile rims, dark deep interiors and a few small rubble fragments at the far LEFT and RIGHT sides of the arena floor. Keep the center combat lane clearly intact, open and readable. Preserve the existing golden sandstone and blue-banner hall, all walls, door, torches, light, perspective, pixel-painted game-art style and wide framing. Holes should have convincing depth without excessive detail, with edges following floor perspective. No fighters, no characters, no platforms, no text, no flames, no large destruction of the building. This is a coherent battle backdrop matching an arena with a slowly collapsing floor. Do not change the architecture or add a central hole.",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 379880,
+      "sha256": "16329540fe6ecc4e12f86b22cbad4c50d232f6aae773cf98af6057f500601e20"
+    },
+    {
+      "reference": "vue-explorakit/src/assets/battle/hoze-mobile-v1.webp",
+      "generated": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-76609e75-31c1-4ec3-97b3-02cd6de229dd.png",
+      "destination": "vue-explorakit/src/assets/battle/hoze-mobile-v2.webp",
+      "prompt": "Use case: precise-object-edit. Edit target: the supplied PORTRAIT mobile Hoze arena battle background. Modify ONLY the stone floor: add earthquake cracks branching from both side edges, and two irregular holes where golden sandstone floor tiles have fallen away, with dark deep interiors and broken tile rims plus sparse small rubble. Place one hole along the extreme left edge in the middle foreground, the other along the extreme right edge in the lower-middle foreground. Leave the central floor intact and spacious for the Pokémon fighters. Preserve the original vertical composition, exact hall architecture, door, blue banners, wall carvings, torches, warm golden light, perspective and stylized pixel-painted game-art treatment. Keep the expected enemy standing region (roughly 75% across and 58% down) and lower-left player region intact. No characters, no Pokémon, no platforms, no text, no central hole, no excessive fine detail. This must feel like the same Hoze arena with a damaged floor, suitable for mobile battles.",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 348378,
+      "sha256": "dea84fa03aa61cff7a8a0c501fd3dd758e879fc623b5db412c03eb7ef04dff74"
+    }
+  ],
+  "export": "Native browser Canvas, same image dimensions, WebP quality 0.96; source PNGs retained. Original backgrounds remain unchanged."
+}

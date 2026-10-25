@@ -25,6 +25,7 @@ async function rearm(user) {
             await connection.execute('DELETE FROM player_story_flags WHERE user_id=? AND flag_key=?',
                 [owner.id,require('../game/world/testReplayState').obstacleFlag(obstacle)]);
         }
+        await connection.execute('DELETE FROM player_story_flags WHERE user_id=? AND flag_key=?',[owner.id,require('../game/world/arenaCollapse').config.flag]);
         return {count:champions.length};
     });
 }

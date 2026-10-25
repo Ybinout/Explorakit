@@ -336,6 +336,7 @@ const socketHandler = (io) => {
             const success=Boolean(p && operation(p,data));
             if (typeof ack === 'function') ack({success});
         });
+        let arenaCollapse = null;
         let canMove = true;
         let transitionBusy = false;
         let saveTimer = null;
@@ -546,6 +547,7 @@ const socketHandler = (io) => {
                 await savePokemonCenterCheckpoint();
             }
 
+            await arenaCollapse?.enter();
             await showRoomEntry();
 
             return true;
@@ -588,6 +590,21 @@ const socketHandler = (io) => {
             schedulePositionSave({ immediate: true });
         }
 
+        arenaCollapse = require('../game/world/arenaCollapseController').createArenaCollapseController({
+            getPlayer:()=>players[socket.id],
+            loadStart:()=>require('../persistence/arenaCollapseRepository').ensure(userId),
+            emit:state=>socket.emit('arenaCollapseState',state),
+            collision:()=>collisionData2D,
+            occupied:(x,y)=>isPnjBlockingTile(currentmap,x,y),
+            rescue:(player,tile)=>{
+                player.x=tile.x*TILE_SIZE+16;player.y=tile.y*TILE_SIZE+16;player.isMoving=false;
+                for(const id in players)if(players[id].currentmap===currentmap)io.to(id).emit('playerMoved',{id:socket.id,player:toPublicPlayer(player)});
+                socket.emit('progressionNotice',{message:'Le sol cède ! Tu te mets à l’abri sur une dalle solide.'});
+                schedulePositionSave({immediate:true});
+            }
+        });
+        socket.once('disconnect',()=>arenaCollapse.stop());
+        await arenaCollapse.enter();
         const sameMapPlayers = getPlayersInMap(players, currentmap);
         socket.emit('playersList', sameMapPlayers);
         socket.emit('mapWeatherState', getMapWeather(currentmap));
@@ -608,7 +625,7 @@ const socketHandler = (io) => {
         replaySessions.set(socket.id, {userId,
             canReset:()=>!interactionBusy&&!transitionBusy&&!pendingDialogue&&!socketToChatSession.has(socket.id)
                 && !players[socket.id]?.inbattle && !players[socket.id]?.inventoryBusy,
-            refresh:(progress,reset)=>{if(reset)roomEntryShown=false;emitPlayerProgression(progress);}
+            refresh:(progress,reset)=>{if(reset){roomEntryShown=false;arenaCollapse?.enter().catch(e=>console.error('Réinitialisation du sol :',e.message));}emitPlayerProgression(progress);}
         });
         const refreshReplaySessions = (progress, reset = false) => {
             for (const session of replaySessions.values()) if(session.userId===userId) session.refresh(progress,reset);
@@ -1232,6 +1249,12 @@ const socketHandler = (io) => {
                 } finally { transitionBusy = false; }
             }
 
+            if (arenaCollapse?.blocked(matrixX,matrixY)) {
+                player.isMoving=false;
+                if(Date.now()-lastGateNotice>=1200){lastGateNotice=Date.now();socket.emit('progressionNotice',{message:'Le sol s’est effondré ici. Passe par le centre de la salle.'});}
+                return;
+            }
+
             let repelProtection = null;
             const previousPosition = { x: player.x, y: player.y };
             const blockedByPnj = isPnjBlockingTile(currentmap, matrixX, matrixY);
@@ -1346,6 +1369,7 @@ const socketHandler = (io) => {
         });
 
         socket.on('disconnect', async () => {
+            arenaCollapse?.stop();
             replaySessions.delete(socket.id);
             fishing.stop();
             if (saveTimer) {

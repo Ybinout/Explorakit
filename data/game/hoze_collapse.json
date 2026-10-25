@@ -1,0 +1,14 @@
+{
+  "map": "ville_safe1_arene",
+  "flag": "arena_collapse:hoze:v1",
+  "fallMs": 1200,
+  "warningMs": 1800,
+  "holes": [
+    {"id":"hoze_left_front","x":7,"y":9,"width":2,"height":2,"atMs":12000},
+    {"id":"hoze_right_front","x":19,"y":9,"width":2,"height":2,"atMs":18500},
+    {"id":"hoze_left_back","x":8,"y":13,"width":2,"height":2,"atMs":25000},
+    {"id":"hoze_right_back","x":18,"y":13,"width":2,"height":2,"atMs":31500},
+    {"id":"hoze_left_upper","x":9,"y":7,"width":2,"height":2,"atMs":38000},
+    {"id":"hoze_right_upper","x":17,"y":7,"width":2,"height":2,"atMs":44500}
+  ]
+}

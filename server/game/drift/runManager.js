@@ -26,6 +26,7 @@ const { RECONNECT_MS } = require('./lobbyStore');
 const { remainingRepel, stepRepel, repelsWild } = require('../items/repel');
 const {devicesForMap,isNearComputer}=require('../world/pokemonComputer');
 const computer=require('./pokemonComputer');
+const collapse = require('../world/arenaCollapse');
 const ROOM = 'ville1_arene';
 
 function createRunManager({ store, namespace, now = Date.now, random = Math.random, paceMs = 1800, durationMs = null, starterChoiceMs = 45000, accountRepository = null, colosseumRepository = null }) {
@@ -37,6 +38,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         if (available && storagePausedAt !== null) {
             const pause = now() - storagePausedAt;
             for (const run of runs.values()) {
+                if(Number.isFinite(run.hozeCollapseStartedAt))run.hozeCollapseStartedAt+=pause;
                 for (const key of ['startedAt', 'endsAt', 'selectionEndsAt', 'preparationEndsAt', 'closedAt', 'recoveredAt'])
                     if (Number.isFinite(run[key])) run[key] += pause;
                 for (const player of run.players.values())
@@ -134,6 +136,17 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         p.dialogue = {...createDialogueAuthorization({name:scene.name,map:p.currentmap,x:Math.floor(p.x/32),y:Math.floor(p.y/32)},now()),arenaEntry:true};
         emit(p,'dialogue',[scene.sentences,scene.name,{entryMap:p.currentmap}]);
     }
+    function syncCollapse(p,force=false) {
+        if(p.currentmap!==collapse.config.map){if(force)emit(p,'arenaCollapseState',null);return;}
+        p.run.hozeCollapseStartedAt ??= now();
+        const start=p.run.hozeCollapseStartedAt,time=now();
+        const stage=collapse.config.holes.filter(h=>collapse.elapsed(start,time)>=h.atMs).length;
+        if(collapse.blocked(start,Math.floor(p.x/32),Math.floor(p.y/32),time)){
+            const safe=collapse.safeTile(p,loadCollisionData(p.currentmap),start,time,(x,y)=>p.run.pnjs.isPnjBlockingTile(p.currentmap,x,y));
+            if(safe){p.x=safe.x*32+16;p.y=safe.y*32+16;world(p.run);emit(p,'progressionNotice',{message:'Le sol cède ! Tu te mets à l’abri sur une dalle solide.'});}
+        }
+        if(force||p.hozeCollapseStage!==stage){p.hozeCollapseStage=stage;emit(p,'arenaCollapseState',collapse.snapshot(start,time));}
+    }
     function moveTo(p,map,x,y) {
         fishing.cancel(p);
         if(p.currentmap!==map) report.visit(p,map);
@@ -142,7 +155,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         emit(p,'mapWeatherState',getMapWeather(map));
         emit(p,'worldDevicesState',devicesForMap(map));
         emit(p,'pnjsList',{mapname:map,pnjs:p.run.phase==='exploration'?p.run.pnjs.getPnjsForMap(map):[]});
-        world(p.run);showArenaEntry(p);
+        syncCollapse(p,true);world(p.run);showArenaEntry(p);
     }
     function purge(p,reason) {
         fishing.cancel(p);
@@ -374,7 +387,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
             emit(p,'pnjsList',{mapname:p.currentmap,pnjs:p.run.phase==='exploration'?p.run.pnjs.getPnjsForMap(p.currentmap):[]});
             if(p.inbattle) {emit(p,'battletrigger',{trainerKey:p.battle.npcKey,battleType:p.battle.type,musicKind:p.battle.musicKind(),environment:p.battle.environment||null,field:require('../battle/battleEvents').serializeFieldState(p.battle.state)});p.battle.resume(p);}
         }
-        send(p);world(p.run);showArenaEntry(p);return state(p);
+        syncCollapse(p,true);send(p);world(p.run);showArenaEntry(p);return state(p);
     }
     function guard(user,socket,mutable=true) {
         const p=playerFor(user);
@@ -401,6 +414,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         const direction=getDirectionFromAction(action);if(!direction)return;
         const delta={move_z:[0,-32],move_s:[0,32],move_q:[-32,0],move_d:[32,0]}[action];
         const x=p.x+delta[0],y=p.y+delta[1],tx=Math.floor(x/32),ty=Math.floor(y/32);
+        if(p.currentmap===collapse.config.map&&Number.isFinite(p.run.hozeCollapseStartedAt)&&collapse.blocked(p.run.hozeCollapseStartedAt,tx,ty,now()))return;
         if(loadCollisionData(p.currentmap)[ty]?.[tx]!==0||p.run.pnjs.isPnjBlockingTile(p.currentmap,tx,ty))return;
         const previous={x:p.x,y:p.y};p.x=x;p.y=y;p.direction=direction;p.lastMove=now();p.dialogue=null;
         const repelProtection=stepRepel(p);
@@ -502,6 +516,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
                 const wait=now()-run.recoveredAt;
                 for(const key of ['startedAt','endsAt','selectionEndsAt','preparationEndsAt'])if(Number.isFinite(run[key]))run[key]+=wait;
                 for(const b of run.battles)for(const key of ['deadline','nextRoundAt'])if(Number.isFinite(b[key]))b[key]+=wait;
+                if(Number.isFinite(run.hozeCollapseStartedAt))run.hozeCollapseStartedAt+=wait;
                 run.recoveryWaiting=false;
             }
             if(run.phase==='results') {
@@ -524,6 +539,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
             if(run.phase==='exploration'&&now()>=run.endsAt)beginTournament(run);
             if (run.phase === 'exploration') {
                 const occupants = [...run.players.values()].filter(p => p.alive && p.socketId);
+                for(const p of occupants)syncCollapse(p);
                 const changed = tickRoaming(occupants, now(), run.pnjDeadlines, random, run.pnjs);
                 for (const p of occupants) if (changed.has(p.currentmap)) emit(p, 'pnjsList', {
                     mapname: p.currentmap, pnjs: run.pnjs.getPnjsForMap(p.currentmap), walking: true
@@ -569,6 +585,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
     function restore(saved, savedAt) {
         const downtime = Math.max(0, now() - savedAt);
         for (const run of saved.values()) {
+            if(Number.isFinite(run.hozeCollapseStartedAt))run.hozeCollapseStartedAt+=downtime;
             for (const key of ['startedAt','endsAt','selectionEndsAt','preparationEndsAt','closedAt']) if (Number.isFinite(run[key])) run[key]+=downtime;
             run.pnjs=createPnjStore(trainers.entries); run.pnjDeadlines=new Map(); run.settling=null; run.settleAfter=0;
             run.recoveredAt=now(); run.recoveryWaiting=run.phase!=='results';

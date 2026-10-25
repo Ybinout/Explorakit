@@ -1,5 +1,23 @@
 # Audit technique et mémoire de RiftMon
 
+## Hoze — dalles qui s’effondrent, collisions et réinitialisation — 25 octobre 2026
+
+Six zones latérales de 2×2 cases s’effondrent progressivement entre 12 et 44,5 secondes après la première entrée. `data/game/hoze_collapse.json` est la source serveur : empreintes toutes marchables à l’origine, hors couloir central x11–16 ; toutes les autres cases restent reliées à l’entrée. Avertissement de 1,8 s (fissure locale et huit petits débris venant du plafond), chute de quatre fragments du vrai sol pendant 1,2 s, trou sombre avec parois/bords ébréchés, puis poussière qui se dissipe. Les nouveaux trous sont dessinés sous les personnages ; les débris au-dessus, sans recouvrir les commandes. Colonnes, fissures persistantes, vent maximal et chemin du champion conservés. Aucun PNG/Tiled/collision d’auteur modifié.
+
+Les trous sont des obstacles serveur dès le début de la chute, jamais de simples images. Un occupant est replacé immédiatement sur une vraie case solide proche, sans dégât ni perte ; le blocage couvre aussi la connexion sur un ancien emplacement effondré. Aventure : une date persistée dans `player_story_flags` sous `arena_collapse:hoze:v1`, transaction verrouillant l’identité SQL ; un seul timer pour la prochaine chute par connexion dans cette arène, libéré au départ/débranchement. Reconnexion et redémarrage retrouvent le même sol. L’admin existant supprime uniquement cette date lors du reset ; tous ses onglets relancent une nouvelle époque, sol et fissures restaurés, chronologie/poussières/débris recommencés, autres comptes et victoires préservés.
+
+Rift/Colosseum : même règle géométrique dans le runtime, date propre à l’expédition conservée dans le checkpoint ; tick existant pour la mise à l’abri, délais ajustés aux pauses/reprises, aucun timer ou SQL par déplacement supplémentaire. Événement additif `arenaCollapseState`, temps écoulé + réception monotone côté client ; nouvelle époque efface l’ancien effet. Les trous changent au bon moment même avec animations désactivées, sans chute/débris ; un correctif du cache statique évite qu’un trou bloquant reste visuellement fermé. Les clients récents avec ancien serveur gardent les anciennes fissures sans trous ; les anciens clients peuvent ignorer le nouvel événement mais doivent recharger pour voir ces nouveaux obstacles.
+
+Deux fonds de combat Hoze retouchés avec imagegen intégré : fissures, trous latéraux et gravats, centre dégagé, architecture et identité visuelle conservées. Exports WebP qualité 0,96, 1536×1024 et 1024×1536 (379 880 / 348 378 octets), `hoze-wide-v2.webp` / `hoze-mobile-v2.webp` ; anciens fonds conservés. Prompts complets, sources générées et empreintes dans `docs/HOZE_COLLAPSE_BACKGROUNDS.json`. Socle adverse et positions des Pokémon conservés ; pas de socle allié ajouté.
+
+Validation : 85 tests ciblés (82 réussis, trois scénarios SQL ignorés dans cette passe), dont sept nouveaux contrôles de connectivité, calendrier, mise à l’abri, reset/annulation et règles Rift/Colosseum/checkpoint. SQL/Socket dédié : un scénario réussi pour blocage réel, événements forgés sans effet, sortie sur sol intact, connexion sur trou, persistance et reset réservé au propriétaire sans toucher à l’autre compte. Les six tests admin/histoire avec SQL passent en configuration `NODE_ENV=test BATTLE_DELAY_SCALE=0` ; un premier lancement non accéléré avait dépassé les temporisations d’attente de dialogue. Aucun changement de rythme de combat livré.
+
+Recettes Canvas nouvelle/ancienne réussies : six trous finaux, centre sans dessin, débris présents puis absents en mouvement réduit, ancien état effacé à la nouvelle époque, ouverture à l’heure même en mode statique, masque de structures et colonnes conservés. Lint/build `6fc53fae784bd67b`, syntaxe/diff réussis. `VALIDATE_COLLAPSE=1` sur base `explorakit_test` et compte jetable : quatre formats 320/393/844/1365 px, présentation de combat PC/mobile avec nouveaux fonds et socle adverse, vrai reset via le bouton, préférence/onglet masqué/suspension/isolation réussis, zéro erreur. Captures phase de chute, salle finale, reset et combat inspectées ; combats d’illustration injectés sans récompense, pas de test physique. Journaux/captures `/tmp/riftmon-hoze-collapse-*`.
+
+Publication serveur/client 2026-10-25T15:05:31.617Z, client `b93fccb02c506aec330f34a28f6e1cc612beb1dc`. Index, bundles et deux fonds publics vérifiés à l’octet. Service PID 1627712 → 1639340, actif sans redémarrage automatique ; checkpoint sauvegardé, 0 expédition active à la reprise. Knov/api-test inchangés. Contrôle HTTPS/WebSocket sur compte éphémère public : six trous reçus, déplacement vers le vide rejeté, déplacement solide accepté ; compte supprimé ensuite, aucun compte réel modifié. Sauvegarde `/home/ubuntu/dev/backups/riftmon-hoze-collapse-2026-10-25T15-05-28-977Z`.
+
+
+
 ## Ana — étoiles blanches et bleues immobiles — 25 octobre 2026
 
 `anaArena.js` ajoute 49 étoiles à positions fixes réparties dans la salle `ville3_arene` : sol, tapis, côtés et près des vitraux, sans atteindre l’extérieur. Étoiles à quatre pointes en pixels, blanches et bleu clair, petite bordure lumineuse bleue. Seule l’opacité varie : apparition/extinction douce et pause, cycles décalés de 5,2 à 8,8 s ; aucune translation, rotation ni changement de taille. Rendu dans `PlaceAmbienceRenderer.drawGround`, avant les personnages, partagé Aventure/Rift/Colosseum. Décor, PNG/Tiled, collisions, musique et combats inchangés.
@@ -3610,6 +3628,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 25 octobre 2026 — Hoze : six dalles latérales s’effondrent avec débris du plafond, trous bloquants/persistants et mise à l’abri ; reset admin complet, décors de combat PC/mobile, SQL et quatre formats validés. Détails en tête.
 
 - 25 octobre 2026 — Ana : étoiles blanches/bleues immobiles, apparitions/extinctions décalées ; positions fixes, quinze lieux et quatre formats vérifiés. Détails en tête.
 
