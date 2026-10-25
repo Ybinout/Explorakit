@@ -1,5 +1,11 @@
 # Audit technique et mémoire de RiftMon
 
+## Raph — accueil historique rétabli — 25 octobre 2026
+
+À la demande du créateur, la phrase d’entrée redevient exactement : « Raphael : Bienvenue. Observe bien le terrain : la précipitation ne mène jamais très loin. » Aucun avertissement sur un jeu ou une poursuite : le joueur découvre les téléportations. Seul ce texte de `data/game/arena_scenes.json` change ; comparaison complète du JSON avec la référence `e211cfa149789edbe6f35461b9b66266802534f5` identique. Parcours personnel à quatre téléportations, dialogues suivants et états sauvegardés conservés. Cette correction remplace l’accueil explicatif décrit dans la livraison de la poursuite ci-dessous.
+
+Validation : deux tests existants `tests/arena-scenes.test.js` réussis, variante SQL ignorée, JSON/diff valides. Publication serveur seule 2026-10-25T18:26:47.333Z, PID 1696346→1697717, checkpoint sauvegardé, zéro expédition active, client/build inchangés et bundles HTTPS identiques ; Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-raph-welcome-2026-10-25T18-26-38-354Z`. Aucun reset de joueur.
+
 ## PNJ plus naturels et fissures Hoze individuelles — 25 octobre 2026
 
 Passe sur les dialogues du monde : 82 entrées réécrites ou raccourcies, 231→204 phrases au total. Les douze dresseurs secondaires ne disent plus « Termine ce dialogue pour commencer le combat » ni le texte identique de récompense unique ; chacun propose un duel en une courte réplique et réagit plus naturellement ensuite. Habitants et promeneurs parlent davantage du quotidien, du lieu, des Pokémon ou de petites anecdotes ; six conseils simples seulement, dont immunités Électrik/Sol, Sol/Vol, Normal/Spectre et Poison/Acier, efficacité Eau/Feu et utilité d’une Baie tenue. Table des types du moteur vérifiée. Aucune météo temporaire ne conditionne une réplique annoncée comme météo actuelle.
@@ -3732,6 +3738,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 25 octobre 2026 — Raph : accueil historique restauré mot pour mot pour préserver la surprise des téléportations ; tests d’entrée et publication serveur vérifiés. Détails en tête.
 
 - 25 octobre 2026 — PNJ : répliques plus courtes et naturelles, six conseils simples, douze annonces de lancement de combat et formulations hors univers retirées ; aucune métadonnée changée. Hoze désormais individuel aussi en expédition, reprise des anciens checkpoints et pauses validées. Détails en tête et `docs/NPC_DIALOGUE_IMMERSION.json`.
 
