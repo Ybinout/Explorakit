@@ -1,5 +1,15 @@
 # Contexte permanent — RiftMon
 
+## NRV — répliques brèves et identité de TOM — 25 octobre 2026
+
+NOZ dit uniquement « NOZ : miaou », TOM « TOM : Wouaf », CRY « CRY : ... ». Une phrase avant le lancement standard du combat, et la même réplique après victoire. Les duels restent uniques par joueur. Le portrait avec cheveux et lunettes est réattribué à TOM ; CRY reçoit le portrait chauve du milieu. Permutation exacte des PNG existants, sans nouvelle génération ni retouche des pixels.
+
+`portraitOrder` dans `docs/NRV_ROUTE3_ASSETS.json` fixe l’ordre gauche/milieu/droite à NOZ/CRY/TOM ; l’exporteur transmet cette liste au contexte navigateur et la distingue des cinq images d’entrée. Empreintes courantes mises à jour. La recette NRV exige maintenant les trois introductions exactes d’une phrase puis effectue les vrais combats.
+
+Validation : sept tests contenu/histoire, scripts vérifiés, build `617f2fb371ce8926` réussi. Recette navigateur sur base dédiée : trois répliques exactes suivies de trois victoires réelles, portraits vérifiés visuellement, victoire unique persistante, entrée/sortie et trois formats 320/393/1365 px, zéro erreur. Journaux `/tmp/riftmon-nrv-identity-*`. Aucun compte réel modifié.
+
+Publié 2026-10-25T10:16:05.445Z, client `b8d8d99eab4b98b9c0d9050aad39b8792f6acb61`, serveur PID 1614776, aucune expédition active à la reprise. Index, JS/CSS et images publics vérifiés à l’octet ; sites voisins inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-nrv-identity-2026-10-25T10-16-03-047Z`.
+
 ## NRV — retouches des trois portraits — 25 octobre 2026
 
 Sur l’illustration demandée, NOZ (gauche) et TOM (centre) deviennent chauves ; CRY (droite) porte des lunettes à verres transparents. Retouche via imagegen intégré à partir de la planche précédente, noir et blanc et alpha conservés. Exports remplacés aux trois chemins `src/assets/image/nrv-{noz,tom,cry}-v1.png`, largeur 384 px. Aucune modification de contenu serveur.

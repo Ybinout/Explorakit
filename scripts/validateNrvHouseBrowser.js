@@ -33,7 +33,7 @@ async function dialogueDone(){for(let i=0;i<20&&await page.locator('.dialogue-la
   assert.deepEqual(errors,[]);success=true;console.log(JSON.stringify({threeActualDialogues:true,portraitsLoaded:true,viewports:3,errors,out}));return;
  }
  async function fight(name){
-  await page.evaluate(()=>v.socket.emit('Space'));await page.waitForFunction(n=>v.endSentences===n&&v.textImageSequence.length,name);await page.locator('.dialogue-layer .text').click();
+  await page.evaluate(()=>v.socket.emit('Space'));await page.waitForFunction(n=>v.endSentences===n&&v.textImageSequence.length,name);assert.deepEqual(await page.evaluate(()=>v.textImageSequence.map(s=>s.text)),[{nrv_noz:'NOZ : miaou',nrv_tom:'TOM : Wouaf',nrv_cry:'CRY : ...'}[name]]);await page.locator('.dialogue-layer .text').click();
   await page.waitForFunction(()=>[...document.querySelectorAll('.dialogue-layer img')].some(i=>i.complete&&i.naturalWidth>0));await page.screenshot({path:path.join(out,name+'-dialogue.png')});assert(await page.evaluate(n=>v.textImageSequence[0].image.includes(n.replace('_','-')+'-v1'),name));await dialogueDone();
   await page.waitForFunction(()=>v.battle);await page.waitForSelector('[data-battle-entrance]',{state:'detached',timeout:15000});await page.screenshot({path:path.join(out,name+'-battle.png')});
   await page.evaluate(()=>{if(!window.autoNrv){window.autoNrv=true;v.socket.on('requestAction',()=>v.socket.emit('actionResponse',{action:'attack',number:0}));}v.socket.emit('actionResponse',{action:'attack',number:0});});

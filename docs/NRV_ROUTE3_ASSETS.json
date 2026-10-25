@@ -113,11 +113,11 @@
         "sha256": "d7ebbb943df289cbc55dde08c2fd75fbf98e5afc0fbbf7cbc4788594d5695194"
       },
       {
-        "name": "image/nrv-tom-v1.png",
+        "name": "image/nrv-cry-v1.png",
         "sha256": "803c7b34dc602e1df5831a376b9b60c7fbfa6f4d49a559bad3d20e9962faaf2d"
       },
       {
-        "name": "image/nrv-cry-v1.png",
+        "name": "image/nrv-tom-v1.png",
         "sha256": "9f183586451daeeaa1feb865d849832a7c8635896fdcb501db7ecf5f331368ad"
       }
     ]
@@ -138,6 +138,21 @@
       "image/nrv-tom-v1.png",
       "image/nrv-cry-v1.png"
     ],
-    "validation": "NRV_PORTRAITS_ONLY=1 in scripts/validateNrvHouseBrowser.js: all three actual dialogues, image dimensions/loads and mobile/desktop screenshots."
+    "validation": "NRV_PORTRAITS_ONLY=1 in scripts/validateNrvHouseBrowser.js: all three actual dialogues, image dimensions/loads and mobile/desktop screenshots.",
+    "status": "Historical edit specification; current identities follow portraitOrder and identityCorrection."
+  },
+  "portraitOrder": [
+    "noz",
+    "cry",
+    "tom"
+  ],
+  "identityCorrection": {
+    "date": "2026-10-25",
+    "assignment": "NOZ = left bald portrait; CRY = middle bald portrait; TOM = right portrait with hair and glasses. Reassignment requested by owner; existing edited pixels reused.",
+    "dialogues": {
+      "noz": "NOZ : miaou",
+      "tom": "TOM : Wouaf",
+      "cry": "CRY : ..."
+    }
   }
 }
