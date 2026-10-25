@@ -1,5 +1,18 @@
 # Audit technique et mémoire de RiftMon
 
+## Hoze — colonnes en mouvement continu, grandes fissures sous les structures et vent maximal — 25 octobre 2026
+
+Ce réglage remplace les secousses espacées et les petites fissures de la première version de Hoze. Les huit colonnes oscillent désormais en permanence, avec phases décalées et pied ancré : texture entière détourée selon une silhouette dédiée, restauration localisée de leur ancienne position, déplacements groupés par bandes de pixels. Le contour a été élargi après inspection en gros plan pour inclure les anciennes arêtes et éviter les traces d’ancienne position. Les autres arènes, dont Raph, conservent leurs cycles.
+
+Quatre grandes fractures ramifiées traversent les sols latéraux entre x27–143 / x305–421, sans atteindre l’axe central. Ouverture irrégulière, extrémités affinées, bords de pierre et poussière ; leur croissance/respiration ne les fait plus disparaître complètement. Un masque de structures exclut les colonnes, plinthes et tissus : les fissures se prolongent réellement dessous et réapparaissent de l’autre côté, sans être dessinées sur les socles. Les effets restent sous les personnages dans `drawGround`. Les PNG/Tiled, collisions et positions des PNJ sont inchangés.
+
+Climat serveur `ville_safe1_arene` : `kind:wind`, ambiance vent3/pluie0. Activation explicite de cette seule arène dans le renderer météo ; six rafales contrastées et 42 poussières pierre/ivoire, confinées à l’intérieur de la salle. Aucun feuillage vert, pluie, sable de dégâts ou météo de combat ajouté. Conditions communes aux joueurs Aventure/Rift/Colosseum, jamais choisies localement. Cache de décor 20 Hz, météo 30 Hz, aucun nouveau timer ; libération des onze surfaces Hoze, masques et textures en quittant la scène. Réglage d’animations/mouvement réduit : colonnes fixes et grandes fissures discrètes fixes.
+
+Validation : lint/build `06df3c3f76a9f6d2`, syntaxe et diff réussis. 23 tests météo/carte passent, dont vent serveur maximal, budget, confinement, absence d’effet en combat et absence de fuite vers Raph. `validateHozeArenaCanvas.js` contrôle neuf vues et 56 échantillons sur 14 s : mouvement à chaque intervalle, zéro dessin hors des bandes, zéro recouvrement des plinthes et du masque, deux côtés suffisamment couverts, mouvement réduit, cache et libération. Peinture moyenne 0,27 ms en Chromium local. Recettes Canvas Raph et quinze lieux d’ambiance repassées. `validateHozeArenaBrowser.js` sur base dédiée/compte jetable : vrai climat reçu du serveur, vent3/six rafales, quatre formats 320/393/844/1365 px, animation, préférence, masquage, suspension/reprise d’une présentation de combat simulée et reconnexion ailleurs ; zéro erreur. Captures monde/Canvas et gros plan des colonnes inspectés. Journaux `/tmp/riftmon-hoze-upgrade-*`, captures Canvas `/tmp/riftmon-hoze-quake-canvas`. Aucun compte réel modifié ni combat serveur lancé ; pas de test sur appareil physique.
+
+Publication client et météo serveur 2026-10-25T12:13:29.598Z, client `e2dc521013660330722174d264b5e9bf6a84ef32`, build/index/JS/CSS publics vérifiés. Rechargement du service pour la configuration météo : PID 1615281 → 1626733, état actif, zéro redémarrage automatique ; checkpoint sauvegardé, aucune expédition active à la reprise. Knov/api-test inchangés. Sauvegarde index/configuration/checkpoint `/home/ubuntu/dev/backups/riftmon-hoze-upgrade-2026-10-25T12-13-27-269Z`.
+
+
 ## Raph — piliers, fanions et étoiles filantes — 25 octobre 2026
 
 L’intérieur `gen_arene5` reçoit huit colonnes vibrant par courtes séquences, dix fanions dont le tissu ondule sous des attaches fixes, et une pluie d’étoiles filantes derrière la grande verrière nord. Vingt-huit trajectoires décalées évitent une animation synchronisée. Masque de ciel peint dans des polygones de vitres explicites, limité aux couleurs du ciel : les montants, le motif central et les montagnes passent devant les étoiles. Les fanions réutilisent les pixels du décor d’origine, avec réparation uniquement des pixels chauds de tissu à leur ancienne position à partir du mur voisin de la même ligne ; aucun rectangle de mur déplacé. PNG/Tiled, sprites, hitboxes et passage central inchangés.
@@ -3525,6 +3538,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 25 octobre 2026 — Hoze renforcé : huit colonnes en oscillation continue, grandes fissures sous les structures et vent3 avec poussière ; 23 tests météo et quatre formats validés. Détails en tête.
 
 - 25 octobre 2026 — Raph : huit colonnes vibrantes, dix fanions animés et étoiles filantes masquées derrière la verrière ; quatre formats Raph/Hoze et confinement Canvas validés. Détails en tête.
 

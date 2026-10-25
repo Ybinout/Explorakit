@@ -1,6 +1,6 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 const weather=()=>import('../vue-explorakit/src/services/worldWeather.js');
-function surface(){const calls=[],ctx={};for(const name of ['clearRect','fillRect','beginPath','moveTo','lineTo','stroke','ellipse','save','translate','rotate','fill','restore','bezierCurveTo','drawImage','setTransform'])ctx[name]=(...args)=>{assert(args.every(n=>typeof n!=='number'||Number.isFinite(n)),name+' non-finite geometry');calls.push([name,...args]);};ctx.createRadialGradient=()=>({addColorStop(){}});const canvas={width:0,height:0,getContext:()=>ctx};return {canvas,ctx,calls};}
+function surface(){const calls=[],ctx={};for(const name of ['clearRect','fillRect','beginPath','moveTo','lineTo','stroke','ellipse','save','translate','rotate','fill','restore','bezierCurveTo','drawImage','setTransform','closePath','clip'])ctx[name]=(...args)=>{assert(args.every(n=>typeof n!=='number'||Number.isFinite(n)),name+' non-finite geometry');calls.push([name,...args]);};ctx.createRadialGradient=()=>({addColorStop(){}});const canvas={width:0,height:0,getContext:()=>ctx};return {canvas,ctx,calls};}
 test('Routes 13/14 share maximum snowfall, bounded depth particles and no leaves or leakage to caves',async()=>{
  const w=await weather(),get=require('../server/game/world/mapWeather').getMapWeather,p={wind:2,rain:0,snow:3};
  for(const map of ['route13','route14']){
@@ -115,4 +115,16 @@ test('Route 8 receives shared wind, without rain or combat weather',async()=>{
  assert.deepEqual(battleWeatherForMap(map),{kind:null,turns:0});
  for(const reason of ['hidden','battle','loading'])assert(!w.worldWeatherEnabled(map,{[reason]:true}));
  assert.deepEqual(w.mapWorldWeather('gen_ville5',climate),{wind:0,rain:0});
+});
+
+
+test('Hoze has maximum shared indoor wind, stone dust, no rain or damaging combat weather',async()=>{
+ const w=await weather(),{getMapWeather,battleWeatherForMap}=require('../server/game/world/mapWeather');
+ const climate=getMapWeather('ville_safe1_arene');assert.deepEqual(climate,{map:'ville_safe1_arene',kind:'wind',ambience:{wind:3,rain:0}});
+ assert.deepEqual(w.mapWorldWeather(climate.map,climate),{wind:3,rain:0});assert.deepEqual(battleWeatherForMap(climate.map),{kind:null,turns:0});
+ for(const reason of ['hidden','battle','loading'])assert(!w.worldWeatherEnabled(climate.map,{[reason]:true}));
+ assert.deepEqual(w.mapWorldWeather('gen_arene5',climate),{wind:0,rain:0});
+ const s=surface(),r=new w.WorldWeatherRenderer(()=>s.canvas);r.draw(s.ctx,0,climate.ambience,true,climate.map);
+ assert.equal(r.budget.gusts,6);assert.equal(r.budget.leaves,42);assert.equal(r.budget.rain,0);assert(s.calls.some(c=>c[0]==='clip'));
+ const first=r.frames;r.draw(s.ctx,16,climate.ambience,true,climate.map);assert.equal(r.frames,first);r.suspend();assert.equal(r.canvas,null);
 });
