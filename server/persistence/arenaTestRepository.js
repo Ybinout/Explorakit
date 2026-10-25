@@ -18,12 +18,19 @@ async function rearm(user) {
         for (const champion of champions) await connection.execute(
             "INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,?,'ready') ON DUPLICATE KEY UPDATE flag_value='ready'",
             [owner.id,champion.flag]);
+        for (const scene of require('../game/world/arenaScenes').scenes.filter(s=>champions.some(c=>c.name===s.champion))) {
+            await connection.execute('DELETE FROM player_story_flags WHERE user_id=? AND flag_key=?',[owner.id,scene.flag]);
+        }
+        if (champions.some(c=>c.name==='lucie_route2')) for (const obstacle of require('../game/world/roomObstacles').obstacles) {
+            await connection.execute('DELETE FROM player_story_flags WHERE user_id=? AND flag_key=?',
+                [owner.id,require('../game/world/testReplayState').obstacleFlag(obstacle)]);
+        }
         return {count:champions.length};
     });
 }
 async function complete(user, name) {
-    const champion = policy.champions.find(c=>c.name===name);
-    if (!champion) throw Error('Arène de test inconnue.');
+    const champion = policy.encounters.find(c=>c.name===name);
+    if (!champion) throw Error('Rencontre de test inconnue.');
     return authorizedTransaction(user, async (connection, owner) => {
         await connection.execute("DELETE FROM player_story_flags WHERE user_id=? AND flag_key=? AND flag_value='ready'",[owner.id,champion.flag]);
     });

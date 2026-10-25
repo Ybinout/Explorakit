@@ -66,7 +66,7 @@ async function loadProgressState(userId) {
         dbPool.execute('SELECT quest_key, status, progress, updated_at, completed_at FROM player_quests WHERE user_id = ?', [id]),
         dbPool.execute('SELECT badge_key, awarded_at FROM player_badges WHERE user_id = ?', [id]),
         dbPool.execute('SELECT battle_key, dialogue_name, completed_at FROM user_npc_battles WHERE user_id = ?', [id]),
-        dbPool.execute('SELECT money FROM users WHERE id = ? LIMIT 1', [id])
+        dbPool.execute('SELECT id, username, money FROM users WHERE id = ? LIMIT 1', [id])
     ]);
 
     const flags = Object.fromEntries(flagRows.map((row) => [row.flag_key, row.flag_value]));
@@ -103,6 +103,9 @@ async function loadProgressState(userId) {
 
     const objective=quests.find(q=>q.key==='main_sister_search'&&q.status==='active')||quests.find(q=>q.key==='clara_chapter2'&&q.status==='active');
     return {
+        testReplays: require('../game/world/arenaTests').eligible(moneyRows[0], {
+            flags, completedNpcBattles:battleRows.map(row=>({battleKey:row.battle_key}))
+        }).filter(c=>flags[c.flag]==='ready').map(c=>c.name),
         objective:objective?{title:objective.title,text:objective.description,destination:objective.destination||null,map:objective.map||null}:null,
         flags,
         quests,

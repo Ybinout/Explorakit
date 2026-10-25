@@ -5,6 +5,7 @@ const { effectiveStoryFlags, hasCompletedBattle } = require('./storyProgression'
 
 function isLocked(gate, progress = {}) {
     if (gate.kind === 'barricade') return roomObstacles.isLocked(gate, progress);
+    if (require('./testReplayState').active(progress, gate.npcBattle)) return true;
     return effectiveStoryFlags(progress)[gate.requiredFlag] !== 'true'
         && !hasCompletedBattle(npcBattles[gate.npcBattle], progress);
 }

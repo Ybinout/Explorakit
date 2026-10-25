@@ -37,7 +37,7 @@ function getSentenceForMapAndPosition(map, x, y = null, state = null) {
     return null;
 }
 
-function getSentenceForName(name, state = null, { replayArena = false } = {}) {
+function getSentenceForName(name, state = null, { replayArena = require('./testReplayState').active(state, name) } = {}) {
     let dialogueEntry = getDialogueEntryByName(name);
     const definition = catalog.npcBattles?.[name] || catalog.storyEvents?.[name];
     if (definition?.enabled === false && dialogueEntry?.locked) {

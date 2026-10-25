@@ -25,7 +25,8 @@ async function clearNearbyRoomObstacle({ socket, userId, player, getPlayer, emit
             || player.currentmap !== origin.map || player.x !== origin.x || player.y !== origin.y) return true;
         await dbPool.execute(
             "INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,?,'true') ON DUPLICATE KEY UPDATE flag_value='true'",
-            [userId, obstacle.requiredFlag]
+            [userId, require('../../game/world/testReplayState').active(progress, 'lucie_route2')
+                ? require('../../game/world/testReplayState').obstacleFlag(obstacle) : obstacle.requiredFlag]
         );
         if (socket.connected && getPlayer() === player) {
             completed = true;

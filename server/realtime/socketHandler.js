@@ -78,6 +78,7 @@ const pendingInteractionRequests = new Map();
 const activeChatSessions = new Map();
 const socketToChatSession = new Map();
 const blackoutHandlers = new Map();
+const replaySessions = new Map();
 
 function buildId(prefix = 'id') {
     return `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
@@ -604,10 +605,19 @@ const socketHandler = (io) => {
         }
 
         registerPlayerProfileHandlers({ socket, io, players, userId });
+        replaySessions.set(socket.id, {userId,
+            canReset:()=>!interactionBusy&&!transitionBusy&&!pendingDialogue&&!socketToChatSession.has(socket.id)
+                && !players[socket.id]?.inbattle && !players[socket.id]?.inventoryBusy,
+            refresh:(progress,reset)=>{if(reset)roomEntryShown=false;emitPlayerProgression(progress);}
+        });
+        const refreshReplaySessions = (progress, reset = false) => {
+            for (const session of replaySessions.values()) if(session.userId===userId) session.refresh(progress,reset);
+        };
         registerTeamOrderHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!interactionBusy&&!transitionBusy});
         require('./handlers/arenaTestHandlers').registerArenaTestHandlers({socket,getPlayer:()=>players[socket.id],
             getPeers:()=>Object.values(players).filter(p=>p.userId===userId),
-            canUse:()=>!interactionBusy&&!transitionBusy&&!pendingDialogue&&!socketToChatSession.has(socket.id),emitProgression:emitPlayerProgression});
+            canUse:()=>[...replaySessions.values()].filter(s=>s.userId===userId).every(s=>s.canReset()),
+            emitProgression:emitPlayerProgression,onRearmed:progress=>refreshReplaySessions(progress,true)});
         registerMedicineHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!interactionBusy&&!transitionBusy});
         const computerHandlers=registerPokemonComputerHandlers({socket,io,userId,getPlayer:()=>players[socket.id],getPeers:()=>Object.values(players).filter(p=>p.userId===userId),canUse:()=>!transitionBusy});
         registerRepelHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!interactionBusy&&!transitionBusy,flushPositionSave,schedulePositionSave});
@@ -980,8 +990,8 @@ const socketHandler = (io) => {
                             if (testRematch) {
                                 await require('../persistence/arenaTestRepository').complete(socket.data.user,dialogueName);
                                 victoryProgress = await loadProgressState(userId);
-                                emitPlayerProgression(victoryProgress);
-                                socket.emit('progressionNotice',{message:'Test terminé. Tu peux réactiver ce champion dans les options.'});
+                                refreshReplaySessions(victoryProgress);
+                                socket.emit('progressionNotice',{message:'Test terminé. Tu peux réinitialiser cette rencontre dans les options.'});
                                 return {granted:false,reason:'admin_test'};
                             }
                             const completion = await completeNpcBattle(userId, dialogueName);
@@ -1336,6 +1346,7 @@ const socketHandler = (io) => {
         });
 
         socket.on('disconnect', async () => {
+            replaySessions.delete(socket.id);
             fishing.stop();
             if (saveTimer) {
                 clearTimeout(saveTimer);

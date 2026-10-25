@@ -18,6 +18,8 @@ const obstacles = [
     blockedMessage: 'Des cristaux sombres bloquent le passage. Appuie sur A / Espace à proximité pour les briser.'
 }));
 function isLocked(obstacle, progress = {}) {
+    const replay = require('./testReplayState');
+    if (replay.active(progress, 'lucie_route2')) return progress.flags?.[replay.obstacleFlag(obstacle)] !== 'true';
     return progress.flags?.[obstacle.requiredFlag] !== 'true'
         && progress.flags?.lucie_freed !== 'true'
         && !hasCompletedBattle(npcBattles.lucie_route2, progress);

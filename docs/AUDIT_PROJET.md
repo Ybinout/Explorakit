@@ -1,5 +1,19 @@
 # Audit technique et mémoire de RiftMon
 
+## Admin — rejouer les rencontres et leurs scènes — 25 octobre 2026
+
+Le bouton propriétaire devient « Réinitialiser les rencontres » : six champions actifs, Wayne (`dia1`), Aspha, Matthieu (`gwenn_route8`), Mathilde, Gwenn de Rochebrume et Lucie, soit douze rencontres déjà vaincues et accessibles. Identité exacte id 4 + username binout, vérifiée à nouveau en SQL sous verrou. Aucun autre compte ni expédition ne reçoit ce privilège. Compatibilité Socket : événement `admin:rearmArenas` conservé.
+
+Réinitialisation transactionnelle des marqueurs de revanche et des lectures `arena_entry:*` pour les champions concernés. Les dialogues d’entrée reviennent à la prochaine entrée, dialogues de défi et de victoire complets, fabrique de combat normale avec équipes/IA/animations fraîches. Wayne, issu d’une interaction de tuile, profite aussi du remplacement de dialogue. Les passages personnels de Wayne, Aspha, Matthieu, Mathilde et le père de Gwenn se referment jusqu’à la victoire de test correspondante. Le père réapparaît pour ce compte seulement.
+
+Lucie : marqueurs de destruction propres au test `admin_room_obstacle:*`, distincts des anciens `lucie_barricade_*_cleared`. Les trois cristaux, leurs actions/animations, l’avertissement d’entrée, le dialogue corrompu, le duel et les retrouvailles se rejouent. `testReplays` est dérivé de l’identité SQL et des marqueurs validés, jamais accepté du client ; il permet aux passages et obstacles de masquer temporairement les victoires sans supprimer les vrais acquis. Badges, clés, Vol, quêtes, reçus, argent et gains historiques restent conservés. Aucun nouveau gain d’XP/EV/récompense en revanche ; PV/PP et consommables suivent le combat normal. Défaite ou déconnexion laisse la rencontre réessayable.
+
+Les onglets du compte reçoivent les nouveaux états et la disparition des passages après victoire. Toute scène, transition, combat ou opération d’inventaire en cours dans l’un de ces onglets bloque la réinitialisation ; annuaire de sessions nettoyé à la déconnexion. Le souvenir local de l’avertissement Lucie est réinitialisé. Pas de reset automatique du compte réel à la publication : le joueur utilise son bouton.
+
+Validation : 4 tests admin existants étendus à douze rencontres ; 2 nouveaux tests `tests/story-replay-admin.test.js`, dont SQL/Socket réel sur compte jetable : six phrases d’entrée, six duels narratifs gagnés, trois cristaux réellement brisés, portes/père, reset répété, avertissement après sortie/retour sans reconnexion, isolation d’un autre compte, faux marqueurs ignorés, synchronisation/refus multi-onglets et absence de nouveaux gains. 61 régressions PNJ/histoire/obstacles/Rift réussies. Recette `scripts/validateArenaAdminBrowser.js` : bouton, confirmation 12/12, reconnexion, tentative de faux admin refusée, formats 320/393/1365 inspectés ; aucune erreur navigateur. Lint/build réussis. Journaux `/tmp/riftmon-replay-*`. Pas de test sur téléphone physique.
+
+Publication `2026-10-25T06:54:24.448Z`, client `29fe7071ef37e88fe959a0ff4d8251317bcc5db1`, build `2df0eb9dc008e1b0`. Index HTTPS vérifié, Knov/api-test inchangés ; serveur PID 1591997 actif sans redémarrage automatique. Aucune expédition active à la reprise. Sauvegarde `/home/ubuntu/dev/backups/riftmon-replay-2026-10-25T06-54-04-378Z` ; nouveau fichier serveur `server/game/world/testReplayState.js`. Pas de migration SQL ni de réinitialisation automatique d’un joueur.
+
 ## Badges actifs et sprite simplifié d’Aspha — 25 octobre 2026
 
 Sceau Sylve et Badge Cristal retirés du catalogue, de leurs anciennes récompenses désactivées et des dessins/libellés de l’étui. Six badges restent, dans l’ordre Mounir, Hoze, Raph, Ana, Wanda, 7p ; total, collection complète et paliers de capture suivent ces six victoires. Courbe 22/35/40/45/50/60/100 conservée, aucun septième badge annoncé. Les anciennes lignes SQL éventuelles restent archivées et ignorées par le catalogue ; ni acquis des six champions, ni argent, ni reçus de victoire supprimés.
@@ -3268,6 +3282,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 25 octobre 2026 — Mode admin étendu aux douze rencontres narratives : accueils, dialogues, passages et cristaux de Lucie réarmés personnellement, sans effacer les récompenses. Vérification SQL/Socket des six rencontres hors arène et recette mobile/PC ; détails en tête.
 
 - 25 octobre 2026 — Étui limité aux six badges actifs, anciens Sylve/Cristal retirés et compteur de capture aligné ; sprite d’Aspha simplifié, portrait conservé. Recettes SQL/navigateur et détails en tête.
 
