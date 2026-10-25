@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## Dialogues PC — ancrage au bas du canvas — 25 octobre 2026
+
+Sur ordinateur, la couche de dialogue est positionnée en absolu dans le cadre du jeu et sa coque prend 100 % de cette hauteur, au lieu de 100dvh. Marge intérieure de 16 px : le panneau se place au bas du canvas, suit le cadre lors du défilement et ne descend plus dans le vide sous le jeu sur un écran haut. Deux règles limitées à `.game-root:not(.is-mobile)` dans `worldViewport.css` ; rendu mobile et commandes A existants conservés. Le voile reste modal sur la fenêtre.
+
+Validation : lint/build `aee85ed25fc77f65` réussis. Recette SQL/navigateur `validateArenaScenesBrowser.js` : textes complets, dialogue d’entrée persistant, vraie victoire de Mounir et réplique automatique, cadrage stable. Contrôle géométrique PC : panneau entièrement dans le canvas et écart inférieur ou égal à 24 px au bord inférieur. Six formats capturés : 320×568, 393×852, 844×390, 1214×1253 (capture utilisateur), 1365×900 et 1920×1080 ; images inspectées, zéro erreur. Compteur de formats de la recette actualisé. Journaux/captures `/tmp/riftmon-dialogue-anchor-*`.
+
+Publication statique 2026-10-25T11:09:40.407Z, client `335ee3115024acd39786be12eea26e98a897ee77`, index/JS/CSS publics vérifiés à l’octet ; aucun redémarrage (PID 1615281), Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-dialogue-anchor-2026-10-25T11-09-39-229Z`. Aucun compte réel modifié.
+
 ## NRV — sprites de carte assortis aux portraits — 25 octobre 2026
 
 NOZ et CRY ont le crâne chauve ; TOM a une frange souple bleu-vert et des lunettes. Têtes retouchées avec imagegen intégré à partir des sprites classiques et des trois portraits actuels. Exports `src/assets/pnj/nrv-{noz,tom,cry}-pixel-v1.png`, cellules transparentes 32×32 ; rendu ×2 sans lissage. Détails, prompts complets, références et sources générées dans `docs/NRV_SPRITE_EDITS.json`.
@@ -3486,6 +3494,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 25 octobre 2026 — Dialogues PC ancrés au bas du canvas ; six formats et vrai dialogue de victoire vérifiés. Détails en tête.
 
 - 25 octobre 2026 — Sprites NRV assortis aux portraits : NOZ/CRY chauves, TOM frange/lunettes, export natif et corps conservés. Détails en tête.
 

@@ -31,8 +31,10 @@ async function reveal(){await page.locator('.dialogue-layer .text').click();}
  assert.match(wanda.at(-1).text,/module Vol/);assert(wanda.slice(0,-1).every(s=>!/module Vol/.test(s.text)));
  // Check the longest actual authored paragraph, including short portrait phones and landscape.
  const entries=require('../data/game/interact.json'),longest=entries.flatMap(e=>e.sentences||[]).filter(s=>typeof s.text==='string').sort((a,b)=>b.text.length-a.text.length)[0];
- for(const[width,height]of [[320,568],[393,852],[844,390],[1365,900]]){
+ for(const[width,height]of [[320,568],[393,852],[844,390],[1214,1253],[1365,900],[1920,1080]]){
   await page.setViewportSize({width,height});await page.waitForTimeout(100);await page.evaluate(({w,s})=>{v.showMobileControls=w<920;v.updateTextImageSequence([s],'guide');}, {w:width,s:longest});await reveal();await page.waitForTimeout(100);
+  if(width>920){const a=await page.evaluate(()=>{const c=v.$refs.monCanvas.getBoundingClientRect(),d=document.querySelector('.dialogue-layer .text-with-image').getBoundingClientRect();return{canvas:{top:c.top,bottom:c.bottom,left:c.left,right:c.right},dialogue:{top:d.top,bottom:d.bottom,left:d.left,right:d.right}};});assert(a.canvas.bottom-a.dialogue.bottom>=0&&a.canvas.bottom-a.dialogue.bottom<=24,JSON.stringify(a));assert(a.dialogue.top>=a.canvas.top&&a.dialogue.left>=a.canvas.left&&a.dialogue.right<=a.canvas.right,JSON.stringify(a));}
+
   assert.equal(await page.locator('.dialogue-visible').innerText(),longest.text);
   const bounds=await page.locator('.dialogue-layer .text').evaluate(el=>{const r=el.getBoundingClientRect();return {x:r.x,y:r.y,right:r.right,bottom:r.bottom,h:el.clientHeight,scroll:el.scrollHeight};});
   assert(bounds.y>=0&&bounds.bottom<=height&&bounds.x>=0&&bounds.right<=width,JSON.stringify(bounds));assert(bounds.scroll<=bounds.h+1,'whole paragraph fits: '+JSON.stringify(bounds));
@@ -58,7 +60,7 @@ async function reveal(){await page.locator('.dialogue-layer .text').click();}
  for(let i=0;i<12&&await page.locator('.dialogue-layer .text').count();i++){await reveal();await page.waitForTimeout(60);}
  await page.waitForFunction(()=>Boolean(v.battleResult)&&!v.textImageSequence.length);await page.evaluate(()=>v.dismissBattleResult());assert.equal(await page.evaluate(()=>v.lock),false);
  // Stable framing and no filter also hold after resizing the victory dialogue.
- for(const [width,height]of [[320,568],[393,852],[844,390],[1365,900]]){
+ for(const [width,height]of [[320,568],[393,852],[844,390],[1214,1253],[1365,900],[1920,1080]]){
   await page.setViewportSize({width,height});await page.waitForTimeout(100);await page.evaluate(async w=>{v.showMobileControls=w<920;await v.$nextTick();v.resizeWorldViewport();},width);await page.waitForTimeout(150);
   const before=await page.evaluate(()=>sceneFrame());
   await page.evaluate(()=>{v.postBattleDialogue=[[{text:'Réplique de victoire',imageName:'wanda.png'}],'champion_wanda_after',{afterBattle:true}];v.showPostBattleDialogue();});
@@ -66,7 +68,7 @@ async function reveal(){await page.locator('.dialogue-layer .text').click();}
   assert.equal(await page.locator('.dialogue-backdrop').evaluate(el=>getComputedStyle(el).backdropFilter),'none');
   await page.screenshot({path:path.join(out,`stable-dialogue-${width}.png`)});await page.evaluate(()=>{v.textImageSequence=[];});
  }
- assert.deepEqual(errors,[]);success=true;console.log(JSON.stringify({entry:true,persisted:true,fullParagraph:true,viewports:4,automaticVictoryBeforeRecap:true,stableVictoryFraming:true,noBackdropFilter:true,wandaFlightLast:true,movementUnlocked:true,errors,out}));
+ assert.deepEqual(errors,[]);success=true;console.log(JSON.stringify({entry:true,persisted:true,fullParagraph:true,viewports:6,automaticVictoryBeforeRecap:true,stableVictoryFraming:true,noBackdropFilter:true,wandaFlightLast:true,movementUnlocked:true,errors,out}));
 }finally{
  if(!success&&page&&!page.isClosed())await page.screenshot({path:path.join(out,'failure.png'),fullPage:true}).catch(()=>{});
  await browser?.close();await new Promise(r=>io.close(r));await new Promise(r=>setTimeout(r,150));policy.isOwner=original;
