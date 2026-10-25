@@ -1,5 +1,16 @@
 # Audit technique et mémoire de RiftMon
 
+## Raph — piliers, fanions et étoiles filantes — 25 octobre 2026
+
+L’intérieur `gen_arene5` reçoit huit colonnes vibrant par courtes séquences, dix fanions dont le tissu ondule sous des attaches fixes, et une pluie d’étoiles filantes derrière la grande verrière nord. Vingt-huit trajectoires décalées évitent une animation synchronisée. Masque de ciel peint dans des polygones de vitres explicites, limité aux couleurs du ciel : les montants, le motif central et les montagnes passent devant les étoiles. Les fanions réutilisent les pixels du décor d’origine, avec réparation uniquement des pixels chauds de tissu à leur ancienne position à partir du mur voisin de la même ligne ; aucun rectangle de mur déplacé. PNG/Tiled, sprites, hitboxes et passage central inchangés.
+
+`raphArena.js` se raccorde à `PlaceAmbienceRenderer.drawGround`, avant les personnages, dans le UserMap commun Aventure/Rift/Colosseum. `arenaPillars.js` partage le dessin local des colonnes avec Hoze, dont le cycle et les fissures restent identiques. Surfaces mises en cache à 20 Hz dans la boucle monde existante ; lignes de tissu partageant le même décalage regroupées pour réduire les appels Canvas. Animations désactivées/mouvement réduit : décor original fixe. Nettoyage des textures, masques et surfaces au départ, au combat, au masquage et à la destruction ; pas de timer, nouvelle requête ou nouvel artwork.
+
+Validation : lint/build `c0c1d5128fe53b87`, syntaxe et diff réussis. `node scripts/validateRaphArenaCanvas.js` : vingt phases, dix tissus détectés et mobiles, colonnes animées, zéro pixel hors des zones autorisées et zéro étoile hors du masque de ciel ; cache, mouvement réduit et libération des quatorze surfaces vérifiés. 5 241 pixels de ciel, jusqu’à 318 pixels d’étoiles sur une phase ; peinture moyenne 0,50 ms en Chromium local après regroupement des bandes. Recettes Canvas Hoze et quinze lieux d’ambiance repassées, eau confinée et mêmes contrôles de colonnes Hoze. `ARENA_DECOR=raph node scripts/validateHozeArenaBrowser.js` (base dédiée et build via variables habituelles) : vraie connexion monde, quatre formats 320/393/844/1365 px, dix textures et masque chargés, mouvement, préférence, onglet masqué, suspension/reprise de présentation de combat simulée et reconnexion ailleurs sans fuite ; zéro erreur. La même recette repassée par défaut pour Hoze. Captures PC/mobile et gros plan de la verrière inspectés. Journaux/captures `/tmp/riftmon-raph-decor-*`. Aucun compte réel modifié ni combat serveur lancé ; pas de test sur téléphone physique.
+
+Publication statique 2026-10-25T11:56:29.520Z, client `8b762a12df11fa9269a7a5c7811e2efda52644d7`, index/JS/CSS publics vérifiés à l’octet. Aucun redémarrage (PID 1615281), Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-raph-decor-2026-10-25T11-56-28-216Z`.
+
+
 ## Hoze — fissures et secousses latérales — 25 octobre 2026
 
 L’intérieur `ville_safe1_arene` reçoit quatre fissures ramifiées, deux par côté. Elles se dessinent progressivement, accompagnées de poussière de pierre, puis s’effacent avec un intervalle calme. Huit colonnes ont des vibrations localisées dans leur pierre pendant une secousse courte et une réplique ; contours, socles, bannières et sol voisin restent fixes, sans déplacement rectangulaire de décor ni secousse globale de caméra. Coordonnées explicites sur l’artwork 448×320, sans modifier les PNG/Tiled ni les collisions.
@@ -3514,6 +3525,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 25 octobre 2026 — Raph : huit colonnes vibrantes, dix fanions animés et étoiles filantes masquées derrière la verrière ; quatre formats Raph/Hoze et confinement Canvas validés. Détails en tête.
 
 - 25 octobre 2026 — Hoze : fissures progressives, poussière et secousses locales sur huit colonnes, rendu sous les personnages, cache et quatre formats validés. Détails en tête.
 
