@@ -1,5 +1,15 @@
 # Contexte permanent — RiftMon
 
+## Aspha — portrait et sprite dédiés — 25 octobre 2026
+
+Aspha apparaît désormais chauve et musclé, en tenue noire, avec son berger en laisse et une Ball. Portrait manga monochrome 640×960 dans les trois dialogues et le chargement de son duel ; sprite pixel art 32×32 affiché à échelle 2 sur la Route 2. Empreinte serveur de deux colonnes pour le duo, ancre logique inchangée ; le passage est praticable après la victoire. Ancienne réplique annonçant Snubbull/Nénupiot remplacée par une invitation neutre ; équipe Riolu/Tarsal/Draby, niveaux et règles conservés.
+
+Le champ Socket additif `trainerKey` identifie le dresseur pour le splash : Aspha uniquement sur Route 2 pendant son duel, jamais sur un sauvage, un autre dresseur ou un PvP. Transmis aussi en Rift/Colosseum et lors de la reprise du combat. Les anciennes charges sans champ gardent leur entrée standard. Assets générés avec imagegen intégré, sources/prompts/export dans `docs/ASPHA_CHARACTER_ASSETS.json`.
+
+Validation : 14 tests ciblés (histoire, PNJ, passages, identification du splash), 44 régressions d’expédition, lint et build réussis. `scripts/validateAsphaArtBrowser.js` sur DB_TEST_NAME dédiée : vrais dialogue, collision, combat gagné, déverrouillage et sortie vers Ville du Lac ; images chargées, aucun débordement aux formats 320/393/1365, aucune erreur navigateur. Captures inspectées dans `/tmp/riftmon-aspha-art-browser`, journaux `/tmp/riftmon-aspha-art-*`. Aucun test sur téléphone physique revendiqué.
+
+Publié le 25 octobre 2026 à 06:36:42 UTC, client `aa67ef06b0e0bbb006e35e471682d25cc009911c`, build `f8ddf322734fb2f7`. Index HTTPS et portrait public vérifiés à l’octet ; sprite embarqué dans le bundle. Serveur PID 1589617 actif, zéro redémarrage automatique et aucune expédition active à la reprise. Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-aspha-art-2026-10-25T06-36-12-177Z`. Aucune migration SQL ni modification des comptes réels.
+
 ## Gwenn — maison orange et tunnel de Rochebrume — 25 octobre 2026
 
 Nouveau dresseur `gwenn_rochebrume`, distinct de l’ancien identifiant `gwenn_route8` qui reste Matthieu. Maison orange sud-est de Rochebrume (`ville4_maison2`, porte 22,16) : Wanda remet la clé permanente `gwenn_house_key`, objet important unique, et un dialogue l’annonce. `gwennKeyRepository` réconcilie les anciennes victoires prouvées par flag, reçu ou Badge Marée ; verrou de compte, attribution idempotente, aucune autre récompense. Acquittement client ou simple possession d’un objet envoyé par le client ne permet pas d’ouvrir la porte. Les anciens gagnants reçoivent la clé au prochain chargement de leur progression.

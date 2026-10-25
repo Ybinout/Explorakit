@@ -693,12 +693,8 @@
       "map": "route2",
       "x": 25,
       "y": 5,
-      "sprite": "townspeople.png",
-      "spriteFrame": {
-        "columns": 8,
-        "rows": 4,
-        "index": 25
-      },
+      "sprite": "aspha-pixel-v1.png",
+      "blockingWidth": 2,
       "block": true,
       "roamRadius": 0
     },

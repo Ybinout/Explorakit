@@ -969,7 +969,7 @@ const socketHandler = (io) => {
 
                 let victoryProgress = null;
                 player.inbattle = true;
-                socket.emit('battletrigger', { message: 'Le duel commence !', battleType: battleDefinition?.experienceKind || 'trainer', field: { weather: battleWeatherForMap(player.currentmap) } });
+                socket.emit('battletrigger', { message: 'Le duel commence !', trainerKey: dialogueName, battleType: battleDefinition?.experienceKind || 'trainer', field: { weather: battleWeatherForMap(player.currentmap) } });
                 startTeamBattle(player, enemyteam, io, userId, {
                     grantBaseMoney: !battleDefinition,
                     testRematch,

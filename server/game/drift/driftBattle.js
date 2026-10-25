@@ -44,7 +44,7 @@ class DriftBattle {
             p.inbattle = true; p.battle = this;
             effects.attach(p.equipe.pokemons, p, type === 'pvp', random);
             p.equipe.pokemons.forEach(poke => { effects.states.get(poke).wild = index === 0 && type === 'wild'; });
-            if (!p.npc) emit(p, 'battletrigger', { environment:this.environment, field:serializeFieldState(this.state), musicKind:this.musicKind(), battleType: type === 'arena' ? 'trainer' : type, message: type === 'pvp' ? 'Duel du tournoi Drift !' : 'Un combat Drift commence !' });
+            if (!p.npc) emit(p, 'battletrigger', { trainerKey:this.npcKey, environment:this.environment, field:serializeFieldState(this.state), musicKind:this.musicKind(), battleType: type === 'arena' ? 'trainer' : type, message: type === 'pvp' ? 'Duel du tournoi Drift !' : 'Un combat Drift commence !' });
         }
         for (const index of [0,1]) this.enter(index, false, true);
         this.prune();

@@ -1738,21 +1738,11 @@
     "sentences": [
       {
         "text": "Aspha : Wayne t’envoie à la recherche de Lucie ? Avant de te donner ma piste, je veux voir comment tu te débrouilles en combat.",
-        "imageName": "townspeople.png",
-        "portraitFrame": {
-          "columns": 8,
-          "rows": 4,
-          "index": 25
-        }
+        "imageName": "aspha-v1.png"
       },
       {
-        "text": "Aspha : J’ai deux compagnons, Snubbull niveau 13 et Nénupiot niveau 14. Bats-moi et je te dirai à qui parler.",
-        "imageName": "townspeople.png",
-        "portraitFrame": {
-          "columns": 8,
-          "rows": 4,
-          "index": 25
-        }
+        "text": "Aspha : Prends le temps de te préparer. Bats-moi, et je te dirai à qui parler.",
+        "imageName": "aspha-v1.png"
       }
     ],
     "end": "battle",
@@ -1765,21 +1755,11 @@
     "sentences": [
       {
         "text": "Aspha : Beau combat ! Pour retrouver Lucie, va voir Mounir. On le surnomme Moonpunch ; il reçoit les dresseurs dans l’arène de la Ville du Lac.",
-        "imageName": "townspeople.png",
-        "portraitFrame": {
-          "columns": 8,
-          "rows": 4,
-          "index": 25
-        }
+        "imageName": "aspha-v1.png"
       },
       {
         "text": "Aspha : La ville est juste au bout de cette route, à l’est. Passe au Centre pour soigner ton équipe avant de le défier.",
-        "imageName": "townspeople.png",
-        "portraitFrame": {
-          "columns": 8,
-          "rows": 4,
-          "index": 25
-        }
+        "imageName": "aspha-v1.png"
       }
     ]
   },
@@ -1788,12 +1768,7 @@
     "sentences": [
       {
         "text": "Aspha : Tu recherches ta sœur Lucie ? Va d’abord parler à Wayne au village de départ. Gagne son duel, puis reviens me voir ici.",
-        "imageName": "townspeople.png",
-        "portraitFrame": {
-          "columns": 8,
-          "rows": 4,
-          "index": 25
-        }
+        "imageName": "aspha-v1.png"
       }
     ]
   },

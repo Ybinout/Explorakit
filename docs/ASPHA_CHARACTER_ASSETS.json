@@ -1,0 +1,28 @@
+{
+  "method": "Built-in image_gen",
+  "assets": [
+    {
+      "kind": "Monochrome portrait",
+      "file": "vue-explorakit/src/assets/image/aspha-v1.png",
+      "dimensions": [
+        640,
+        960
+      ],
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-f1ada85d-39d4-4220-9f06-96dfc837c15d.png",
+      "original": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-079296af-b99c-497a-88fc-b8405472648b.png",
+      "prompt": "Create a new character splash art for RiftMon matching high-quality black-and-white manga ink trainer portraits. Aspha is a very tall, bald, strongly muscular adult man with broad shoulders, clean shaven head, a confident calm face, fitted dark sleeveless top, dark trousers and practical boots. Full body in a strong relaxed three-quarter stance. In one raised hand he holds a recognizable round monster capture ball. In his OTHER hand he holds a visible loose leash attached to the collar of a large attentive German shepherd dog standing naturally beside his leg. The dog must be fully visible with ears and paws inside the frame, correct canine anatomy, familiar German shepherd coat pattern rendered in grayscale. Man and dog must form one balanced readable silhouette, fit completely inside the frame with comfortable margins. Only these two subjects. Crisp black ink, bold contours, expressive manga face, white highlights and subtle grayscale screentone shading, sophisticated dramatic but friendly trainer illustration. Pure monochrome, no colors, no scenery, no title, no typography, no logos, no vignette, no glow. Genuine transparent background. Not pixel art; this is a dialogue and battle-loading portrait. Composition must remain recognizable in a narrow portrait mobile interface.",
+      "transparentEditPrompt": "Remove the entire black and gray background and halo from this image. Keep the man, capture ball, leash and German shepherd dog exactly unchanged including full body, paws, boots, monochrome ink art and fine outline. Output an isolated cutout with truly transparent alpha background everywhere outside these subjects, including the space between legs, arm, leash and dog. No background shading or glow."
+    },
+    {
+      "kind": "Overworld sprite",
+      "file": "vue-explorakit/src/assets/pnj/aspha-pixel-v1.png",
+      "dimensions": [
+        32,
+        32
+      ],
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-49cc47a6-4f36-48fe-b2da-72db78ec7cd3.png",
+      "prompt": "Create ONE compact low-resolution pixel-art overworld NPC sprite for a 2D top-down monster-catching RPG, styled like GBA / Nintendo DS village character sprites. Aspha is a bald, muscular adult man in a black sleeveless shirt, dark trousers and boots, holding a tiny red-and-white capture ball in one hand and a leash in the other. A small tan-and-black German shepherd dog with pointed ears stands immediately beside him, connected by that leash. Whole man and dog visible, one unified sprite, facing south toward viewer with slightly visible top of heads. Chibi RPG proportions: large bald round head, compact broad torso, short legs. Very simple crisp chunky square pixels, limited 16-color palette, dark 1-pixel outline, no anti-aliasing, no gradients, no high-detail illustration. Design the pair together on an approximately 32 by 32 logical pixel grid, upscaled nearest-neighbor. Man should occupy roughly two-thirds width, dog one-third and half the man's height. Centered with small empty margin on all sides. Transparent background, alpha cutout, no floor, no shadow plane, no frame, no text, no sheet or extra views."
+    }
+  ],
+  "export": "Canvas resize preserving alpha; sprite alpha-bound crop, nearest-neighbor, no smoothing. World display 64×64, two-column collision, x offset 16."
+}

@@ -9,3 +9,12 @@ test('champion splash art uses existing illustrations and only appears for arena
  }
  for(const map of ['start','route1','ville_commerciale','__proto__','unknown'])assert.equal(arenaChampion(map,'arena'),null);
 });
+test('Aspha entrance identifies the actual trainer, not other encounters on Route 2',async()=>{
+ const {arenaChampion}=await import('../vue-explorakit/src/services/arenaEntrance.js');
+ const portrait=arenaChampion('route2','trainer','aspha_route2');
+ assert.equal(portrait.name,'Aspha');
+ assert(fs.existsSync(path.join(__dirname,'../vue-explorakit/src/assets/image',portrait.portrait)));
+ for(const key of [undefined,null,'challenge_route2','gwenn_route8'])assert.equal(arenaChampion('route2','trainer',key),null);
+ for(const kind of ['wild','pvp','colosseum','arena'])assert.equal(arenaChampion('route2',kind,'aspha_route2'),null);
+ assert.equal(arenaChampion('route1','trainer','aspha_route2'),null);
+});
