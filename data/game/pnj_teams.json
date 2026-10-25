@@ -1701,15 +1701,15 @@
       "name": "aspha_route2",
       "team": [
         {
-          "pokemonId": 209,
-          "name": "Snubbull",
+          "pokemonId": 447,
+          "name": "Riolu",
           "level": 13,
           "abilities": [
-            "Tackle",
-            "Bite",
-            "Tail Whip"
+            "Quick Attack",
+            "Counter",
+            "Feint"
           ],
-          "passiveAbility": "Intimidate",
+          "passiveAbility": "Inner Focus",
           "heldItem": "oran_berry",
           "k": 1,
           "nature": "Hardy",
@@ -1723,15 +1723,37 @@
           }
         },
         {
-          "pokemonId": 270,
-          "name": "Nénupiot",
+          "pokemonId": 280,
+          "name": "Tarsal",
           "level": 14,
           "abilities": [
-            "Absorb",
-            "Water Gun",
+            "Confusion",
+            "Disarming Voice",
             "Growl"
           ],
-          "passiveAbility": "Swift Swim",
+          "passiveAbility": "Synchronize",
+          "heldItem": null,
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 12,
+            "attack": 12,
+            "defense": 12,
+            "specialAttack": 12,
+            "specialDefense": 12,
+            "speed": 12
+          }
+        },
+        {
+          "pokemonId": 371,
+          "name": "Draby",
+          "level": 14,
+          "abilities": [
+            "Dragon Breath",
+            "Bite",
+            "Ember"
+          ],
+          "passiveAbility": "Rock Head",
           "heldItem": null,
           "k": 1,
           "nature": "Hardy",

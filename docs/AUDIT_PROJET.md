@@ -1,5 +1,12 @@
 # Audit technique et mémoire de RiftMon
 
+## Aspha — équipe Route 2 — 25 octobre 2026
+
+Équipe remplacée dans le catalogue partagé : Riolu niveau 13 (Vive-Attaque, Riposte, Ruse ; Attention), Tarsal niveau 14 (Choc Mental, Voix Enjôleuse, Rugissement ; Synchro) et Draby niveau 14 (Dracosouffle, Morsure, Flammèche ; Tête de Roc). K1, IV 12, nature neutre ; Riolu conserve la Baie Oran du premier emplacement. Espèces non évoluées, niveaux dans le palier précédent. Accès après Wayne, combat unique, progression et récompenses inchangés ; équipe partagée Aventure/expéditions.
+
+Vérification directe de la fabrique : trois espèces/niveaux exacts, PV pleins, capacités présentes et apprenables dans les données du jeu à ces niveaux. Neuf tests contenu d’histoire/PNJ passent (`node --test tests/story-content.test.js tests/pnj-regressions.test.js`). Publication serveur seule, sans build client ni migration ; journal `/tmp/riftmon-aspha-deploy.log`, sauvegarde du catalogue et du checkpoint avant redémarrage, index des trois sites vérifiés inchangés.
+
+
 ## Arènes — accueil, victoire automatique et dialogues complets — 25 octobre 2026
 
 Les six champions actifs accueillent le joueur à l’entrée avec une réplique courte et leur portrait existant. En Aventure, le marqueur personnel `arena_entry:<dialogue>` est enregistré après lecture dans `player_story_flags` ; interrompre le chargement ou se déconnecter avant la fin permet de relire l’accueil. Aucun combat, badge ou récompense déclenché par cette scène. Mouvement et nouvelle interaction suspendus pendant la lecture ; contrôle serveur du nom et de la carte. Rift/Colosseum conservent une mémoire distincte par expédition dans le checkpoint existant.
@@ -3226,6 +3233,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 25 octobre 2026 — Aspha utilise désormais Riolu 13, Tarsal 14 et Draby 14. Attaques/talents adaptés, neuf tests ciblés réussis ; catalogue serveur publié sans modification des sauvegardes.
 
 - 25 octobre 2026 — Accueil personnel des six arènes, dialogue de victoire automatique avant bilan, empreinte des champions alignée sur leurs sprites et répliques mobiles complètes. Recettes SQL/Socket, Rift et navigateur dédiées ; détails et limites dans la section en tête.
 
