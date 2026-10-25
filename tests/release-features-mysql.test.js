@@ -46,7 +46,7 @@ test(
             assert.equal(old.quests.find(q=>q.key==='first_challenge').status,'completed');
             assert.equal(await progress.isNpcBattleCompleted(legacy.id,'aspha_route2'),true);
             assert.equal((await progress.completeNpcBattle(legacy.id,'aspha_route2')).reason,'already_completed');
-            const retained=await progress.loadProgressState(legacy.id);assert.equal(retained.money,old.money);assert(retained.badges.find(b=>b.key==='crystal_badge').earned);
+            const retained=await progress.loadProgressState(legacy.id);assert.equal(retained.money,old.money);assert(!retained.badges.some(b=>b.key==='crystal_badge'));assert.equal((await db.execute("SELECT COUNT(*) AS n FROM player_badges WHERE user_id=? AND badge_key='crystal_badge'",[legacy.id]))[0][0].n,1);
             assert.equal(retained.completedNpcBattles.length,0);assert.equal(retained.flags.aspha_route2_defeated,undefined);
         } finally {
             for(const u_ of [u,legacy]) await db.execute('DELETE FROM users WHERE id=?',[u_.id]);
@@ -190,7 +190,7 @@ test('Moonpunch badge: retroactive recorded wins only, original dates, no reward
   await db.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value)VALUES(?,'moonpunch_defeated','false'),(?,'hoze_defeated','true')",[inferred.id,inferred.id]);
   const earned=state=>state.badges.find(b=>b.key==='lake_badge').earned;
   assert.equal(earned(await progress.loadProgressState(fresh.id)),false);assert.equal(earned(await progress.loadProgressState(inferred.id)),false,'an inferred prerequisite is not a recorded Moonpunch win');
-  const reads=await Promise.all([progress.loadProgressState(receipt.id),progress.loadProgressState(receipt.id),progress.loadProgressState(legacy.id)]);assert(reads.every(earned));assert(reads.every(s=>s.money===321));assert.equal(reads[0].flags.moonpunch_defeated,undefined,'receipt repair does not fabricate story flags');assert(reads[2].badges.find(b=>b.key==='crystal_badge').earned);
+  const reads=await Promise.all([progress.loadProgressState(receipt.id),progress.loadProgressState(receipt.id),progress.loadProgressState(legacy.id)]);assert(reads.every(earned));assert(reads.every(s=>s.money===321));assert.equal(reads[0].flags.moonpunch_defeated,undefined,'receipt repair does not fabricate story flags');assert(!reads[2].badges.some(b=>b.key==='crystal_badge'));assert.equal((await db.execute("SELECT COUNT(*) AS n FROM player_badges WHERE user_id=? AND badge_key='crystal_badge'",[legacy.id]))[0][0].n,1);
   const [[r]]=await db.execute("SELECT COUNT(*) AS n,MIN(awarded_at='2026-01-02 12:00:00') AS originalDate FROM player_badges WHERE user_id=? AND badge_key='lake_badge'",[receipt.id]);assert.equal(r.n,1);assert.equal(r.originalDate,1);
   const [[l]]=await db.execute("SELECT awarded_at='2026-01-03 12:00:00' AS originalDate FROM player_badges WHERE user_id=? AND badge_key='lake_badge'",[legacy.id]);assert.equal(l.originalDate,1);
   assert.equal(await progress.reconcileMoonpunchBadge(receipt.id),0);assert.equal((await progress.loadProgressState(receipt.id)).completedNpcBattles.length,1);assert.equal((await progress.loadProgressState(legacy.id)).completedNpcBattles.length,0);

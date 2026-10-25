@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Badges actifs et sprite simplifié d’Aspha — 25 octobre 2026
+
+Sceau Sylve et Badge Cristal retirés du catalogue, de leurs anciennes récompenses désactivées et des dessins/libellés de l’étui. Six badges restent, dans l’ordre Mounir, Hoze, Raph, Ana, Wanda, 7p ; total, collection complète et paliers de capture suivent ces six victoires. Courbe 22/35/40/45/50/60/100 conservée, aucun septième badge annoncé. Les anciennes lignes SQL éventuelles restent archivées et ignorées par le catalogue ; ni acquis des six champions, ni argent, ni reçus de victoire supprimés.
+
+Aspha utilise `aspha-pixel-v2.png`, nouveau sprite plus simple : aplats, visage minimal, silhouette compacte et berger lisible. Export alpha 32×32 au plus proche voisin ; échelle, position et collisions conservées. Portrait illustré inchangé. Imagegen intégré ; source et prompt dans `docs/ASPHA_SIMPLE_SPRITE.json`.
+
+Validation : 17 tests capture/histoire/PNJ/passages, recette SQL ciblée du badge rétroactif de Mounir avec conservation des anciennes lignes, lint/build réussis. Recette de l’étui sur base dédiée : six emplacements, ancien Cristal absent, progression rechargée, clavier, quatre formats et deux thèmes sans erreur. Recette Aspha : vraie victoire, dialogue/portrait chargés et sortie Route 2 ; captures inspectées. Journaux `/tmp/riftmon-badges-aspha-*`. Pas de test sur téléphone physique.
+
+Publication `2026-10-25T06:42:31.567Z`, client `422982f2c311b16540a2cc18ab271b122f6221f5`, build `190f8f99de4a53fe`. Index public vérifié ; Knov/api-test inchangés. Serveur PID 1590718 actif sans redémarrage automatique, zéro expédition active à la reprise. Sauvegarde `/home/ubuntu/dev/backups/riftmon-badges-aspha-2026-10-25T06-42-18-857Z`. Aucune migration SQL ni suppression de données de joueurs.
+
 ## Aspha — portrait et sprite dédiés — 25 octobre 2026
 
 Aspha apparaît désormais chauve et musclé, en tenue noire, avec son berger en laisse et une Ball. Portrait manga monochrome 640×960 dans les trois dialogues et le chargement de son duel ; sprite pixel art 32×32 affiché à échelle 2 sur la Route 2. Empreinte serveur de deux colonnes pour le duo, ancre logique inchangée ; le passage est praticable après la victoire. Ancienne réplique annonçant Snubbull/Nénupiot remplacée par une invitation neutre ; équipe Riolu/Tarsal/Draby, niveaux et règles conservés.
@@ -3258,6 +3268,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 25 octobre 2026 — Étui limité aux six badges actifs, anciens Sylve/Cristal retirés et compteur de capture aligné ; sprite d’Aspha simplifié, portrait conservé. Recettes SQL/navigateur et détails en tête.
 
 - 25 octobre 2026 — Identité visuelle d’Aspha : portrait illustré et sprite avec berger, entrée de duel identifiée côté serveur, collisions et sortie validées en navigateur. Sources et prompts conservés ; détails en tête.
 

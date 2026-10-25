@@ -693,7 +693,7 @@
       "map": "route2",
       "x": 25,
       "y": 5,
-      "sprite": "aspha-pixel-v1.png",
+      "sprite": "aspha-pixel-v2.png",
       "blockingWidth": 2,
       "block": true,
       "roamRadius": 0

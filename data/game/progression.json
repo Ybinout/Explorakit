@@ -83,19 +83,9 @@
       "order": 4
     },
     {
-      "key": "forest_badge",
-      "name": "Sceau Sylve",
-      "order": 5
-    },
-    {
-      "key": "crystal_badge",
-      "name": "Badge Cristal",
-      "order": 6
-    },
-    {
       "key": "summit_badge",
       "name": "Badge Sommet",
-      "order": 7
+      "order": 5
     }
   ],
   "npcBattles": {
@@ -333,9 +323,6 @@
       "experienceKind": "arena",
       "reward": {
         "money": 1500,
-        "badges": [
-          "crystal_badge"
-        ],
         "flags": {
           "valpierre_gardien_defeated": "true"
         },
@@ -526,11 +513,7 @@
         "wanda_defeated"
       ],
       "completionFlag": "chapter1_complete",
-      "reward": {
-        "badges": [
-          "forest_badge"
-        ]
-      },
+      "reward": {},
       "enabled": false
     },
     "ch2_iris": {

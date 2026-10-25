@@ -4,7 +4,9 @@ const {calculateCaptureChance:chance}=require('../server/game/battle/wildBattle'
 const keys=require('../data/game/progression.json').badges.map(b=>b.key);
 const badges=n=>keys.slice(0,n).map(key=>({key,earned:true}));
 test('capture tiers count distinct known earned badges only, including existing saves, with a monotone six-arena curve',()=>{
- for(const [n,level]of [22,35,40,45,50,60,100,100,100].entries())assert.equal(captureProgress(badges(n)).comfortableLevel,level);
+ assert.equal(keys.length,6);assert.equal(captureProgress(badges(6)).nextComfortableLevel,null);
+ assert.equal(captureProgress([{key:'forest_badge',earned:true},{key:'crystal_badge',earned:true}]).badgeCount,0);
+ for(const [n,level]of [22,35,40,45,50,60,100].entries())assert.equal(captureProgress(badges(n)).comfortableLevel,level);
  assert.deepEqual(captureProgress([{key:keys[0],earned:true},{key:keys[0],earned:true},{key:keys[1],earned:false},{key:keys[2],earned:'true'},{key:'forged_badge',earned:true}]),{badgeCount:1,comfortableLevel:35,nextComfortableLevel:40});
 });
 test('captures at and below the badge tier preserve all previous probabilities; no effect without Adventure context',()=>{
