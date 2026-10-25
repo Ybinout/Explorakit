@@ -19,11 +19,18 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
         store.restoreLobbies(saved.lobbies); runtime.restore(saved.runs,saved.savedAt);
     }
     const limitSocket = createSocketRateLimit();
-    let writing=Promise.resolve(), checkpointError=null, stopped=false;
+    let writing=Promise.resolve(), checkpointError=null, stopped=false, lastCheckpointEmpty=false;
     const checkpoint = () => {
         if (!checkpointRepository) return Promise.resolve();
-        const payload=checkpointCodec.encode({savedAt:Date.now(),lobbies:store.exportLobbies(),runs:runtime.runs});
-        const task=writing.catch(()=>{}).then(()=>checkpointRepository.save(payload));
+        const task=writing.catch(()=>{}).then(async()=>{
+            const lobbies=store.exportLobbies(), empty=!lobbies.length && !runtime.runs.size;
+            // Persist the empty state once (including removal of the last run).
+            // Subsequent idle ticks must not rewrite the same SQL row each second.
+            if(empty && lastCheckpointEmpty && !checkpointError)return;
+            const payload=await checkpointCodec.encodeAsync({savedAt:Date.now(),lobbies,runs:runtime.runs});
+            await checkpointRepository.save(payload);
+            lastCheckpointEmpty=empty;
+        });
         writing=task.then(()=>{
             checkpointError=null; runtime.setStorageAvailable(true);
         },error=>{
@@ -91,9 +98,13 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
             try {
                 if(stopped || checkpointError)throw new LobbyError('storage_unavailable','Sauvegarde temporairement indisponible. Réessaie dans un instant.');
                 const p = runtime.guard(user, socket, mutable);
+                const before={map:p.currentmap,phase:p.run.phase,inbattle:p.inbattle,alive:p.alive};
                 const result = await handler(p, payload);
                 if(name!=='getPokemonEvolutions' && name!=='playerAction' && name!=='drift:refresh' && !name.includes('Spectat') && name!=='drift:spectate') await checkpoint();
-                runtime.send(p);
+                if(name==='playerAction' && socket.data.riftMovementPatches && before.map===p.currentmap
+                    && before.phase===p.run.phase && before.inbattle===p.inbattle && before.alive===p.alive)
+                    socket.emit('drift:movementState',runtime.movementState(p));
+                else runtime.send(p);
                 reply(result || { success: true });
             } catch (error) {
                 const message = error instanceof LobbyError ? error.message : 'Action Drift indisponible.';
@@ -103,7 +114,7 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
             }
         });
         socket.on('drift:enter', async (payload, acknowledge) => {
-            try { if(stopped)throw new LobbyError('restarting','Le serveur redémarre.'); const sprite = await appearanceRepository.loadUserSprite(user.id); if(stopped || !socket.connected) return; const state = runtime.enter(user, socket, sprite); if (typeof acknowledge === 'function') acknowledge({ success: true, state }); }
+            try { if(stopped)throw new LobbyError('restarting','Le serveur redémarre.'); socket.data.riftMovementPatches=payload?.movementPatches===1; const sprite = await appearanceRepository.loadUserSprite(user.id); if(stopped || !socket.connected) return; const state = runtime.enter(user, socket, sprite); if (typeof acknowledge === 'function') acknowledge({ success: true, state }); }
             catch (error) { if (typeof acknowledge === 'function') acknowledge({ success: false, message: error.message }); }
         });
         gameCommand('drift:refresh', () => ({ success: true }), false);

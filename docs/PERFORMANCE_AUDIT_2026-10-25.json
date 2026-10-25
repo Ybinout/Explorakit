@@ -1,0 +1,1477 @@
+{
+  "date": "2026-10-25",
+  "baselineRoot": "a746f03c1f7f6fee4bf1b7c863030d7680321e56",
+  "baselineClient": "4edfefb42bab2ce6a1bfc4f2adcc7ce6d1a8a42e",
+  "finalBuild": "b462ef09166a7869",
+  "renderingAssetsChanged": false,
+  "renderQualitySettingsChanged": false,
+  "databaseSchemaChanged": false,
+  "databaseDurabilityChanged": false,
+  "terrainHashesIdentical": true,
+  "serverBenchmark": {
+    "before": {
+      "node": "v22.22.2",
+      "maps": 88,
+      "layerHashes": [
+        {
+          "map": "etage",
+          "hash": "1d5a7747acfdbfae869c58a30e46dd82209339c5285727308ff4f5f88dcd41ba"
+        },
+        {
+          "map": "etage2",
+          "hash": "1d5a7747acfdbfae869c58a30e46dd82209339c5285727308ff4f5f88dcd41ba"
+        },
+        {
+          "map": "maison",
+          "hash": "6454d2a6791f9ebcb2aebb8a38d26a326d25c47f30ed59d64ad8deb543bb7572"
+        },
+        {
+          "map": "maison2",
+          "hash": "6454d2a6791f9ebcb2aebb8a38d26a326d25c47f30ed59d64ad8deb543bb7572"
+        },
+        {
+          "map": "start",
+          "hash": "4db841570eac1ff899323a888b83135071a106aa181c435ced450687a314f250"
+        },
+        {
+          "map": "pk2",
+          "hash": "09c5ba658a67aaa2bb54dffc0f7c47f064cfa59a0c24606122aef991b0a7c73e"
+        },
+        {
+          "map": "route1",
+          "hash": "9eba8a9a9c66128a419f6c6bbb5a61f2ddf2c47dd74291361d2fba82a5a723ab"
+        },
+        {
+          "map": "route2",
+          "hash": "3db1f43c1dfd48d6f1ce7f5a6615a941625acfdfd46cbba6c2bded35505f55f7"
+        },
+        {
+          "map": "ville1",
+          "hash": "ae4f3df32defd92c50a3f5fb85234972b1a73eacf831de71d9fb2788c6d06c65"
+        },
+        {
+          "map": "centre",
+          "hash": "6464f6908879f7c29ab8469553f6ad830f5c1d5c7f7dfce31014859a9842cb39"
+        },
+        {
+          "map": "ville1_arene",
+          "hash": "55e5ecbd34aa6cc068354d13805d408bc7f0a13dca302f3375bcd2d0738b740b"
+        },
+        {
+          "map": "ville1_shop",
+          "hash": "76756a7e0573546f7efda6d210bd2f7b7f951ffb558ea199a7abf380b7e869ee"
+        },
+        {
+          "map": "route3",
+          "hash": "a374e8222b485b56484eca963e302232d770e8dee87f349a2e6afd1e209b62fc"
+        },
+        {
+          "map": "cave1",
+          "hash": "f26dce64b63ca96476b13a9fa3df7f00ffbdc520fc2f938beeb5f1456aee5ca0"
+        },
+        {
+          "map": "cave2",
+          "hash": "76cd8111d0c975d3c93735d56a82bafc014e8d2368a1524e966b8920ba053ab6"
+        },
+        {
+          "map": "route4",
+          "hash": "049dd934dae71a58b5cd8571bb84728af461c6fb36d4423df4f86be9c8eec338"
+        },
+        {
+          "map": "gen_route1",
+          "hash": "5a0c134ac9d5c78eecabc2cc2f130e5931e0b1952b882c1f09a1e5aa02c15bbd"
+        },
+        {
+          "map": "gen_ville1",
+          "hash": "b4e2136aae59669a1a197d553c0a7d5b7bb45ae94bef4c26fe1b067848f62f0b"
+        },
+        {
+          "map": "gen_route2",
+          "hash": "2ec622cca369856c606b52ba0901ef7be2d02e345de967a8c14ef192cc1775f6"
+        },
+        {
+          "map": "gen_route3",
+          "hash": "5e08d12f329bffc5e7eb5c63ecc8dd156120f929b805bc59ce4f25cd0bc1f14e"
+        },
+        {
+          "map": "gen_ville2",
+          "hash": "4077c38f008c4b80c3ea8ecfd29a4bd9b20ddf6a9d2a11d16a1975ab246cae59"
+        },
+        {
+          "map": "gen_route4",
+          "hash": "222e892ea5e44e4d03494d5631c455099136123bc7c504638516520986b15b84"
+        },
+        {
+          "map": "gen_ville3",
+          "hash": "24b4afa2765cb7c7a7f3c71d570d06b6203a01ab920e5d24c06e7b1e4a159ff8"
+        },
+        {
+          "map": "gen_route5",
+          "hash": "9d8e69c0665cc1d326c29fe9eb98f1536ad1ceaadac657211cd55e53fdf90e5c"
+        },
+        {
+          "map": "gen_route6",
+          "hash": "07839a41646ca314c9da5a16fab70a45fedfbb1e7e244baabf9328574dbde31d"
+        },
+        {
+          "map": "gen_ville4",
+          "hash": "002e2a734c93b1fa9d4ef0bee99bd819b4036f944f89616e4beea163fc7bb039"
+        },
+        {
+          "map": "gen_route7",
+          "hash": "134dee81e22632a4feb897663f325a3421ed718e2c719859d9ecddd2829c3dde"
+        },
+        {
+          "map": "gen_ville5",
+          "hash": "68b4e57599dd132429daf91fce15724dcdb71f4cce49f4ee89f92bdf4c64a16d"
+        },
+        {
+          "map": "gen_route8",
+          "hash": "24cb460f148ad643350f691df7839c85307a475dfb36af6387eccba77af2e7d6"
+        },
+        {
+          "map": "gen_arene1",
+          "hash": "d0d9e42bc70ea69ab0b37b22f6cf94a68aa7567f3b53083cc7685bc4fa64ce1b"
+        },
+        {
+          "map": "gen_arene2",
+          "hash": "d521cc2bf84f01dfb79e38fe865afd59d6d217f5a8c58d3a550d9606028d9e70"
+        },
+        {
+          "map": "gen_arene3",
+          "hash": "6d59470420c9df1f337d246944a0cbc7f517dc32eece2041631a5fd630b503bb"
+        },
+        {
+          "map": "gen_arene4",
+          "hash": "e7e78a6fe75597a642dd367c68ad63d3be4c2e1404203adc48b4f43e23d77851"
+        },
+        {
+          "map": "gen_arene5",
+          "hash": "55e5ecbd34aa6cc068354d13805d408bc7f0a13dca302f3375bcd2d0738b740b"
+        },
+        {
+          "map": "gen_maison1",
+          "hash": "31cf30da9f485591420e23ca7c2e2426d58cd9f2847f71680c90dd9cd2a63d52"
+        },
+        {
+          "map": "gen_maison_ville1_2",
+          "hash": "31cf30da9f485591420e23ca7c2e2426d58cd9f2847f71680c90dd9cd2a63d52"
+        },
+        {
+          "map": "gen_maison_ville2_1",
+          "hash": "31cf30da9f485591420e23ca7c2e2426d58cd9f2847f71680c90dd9cd2a63d52"
+        },
+        {
+          "map": "gen_maison2",
+          "hash": "12e0ccacc6f120e7a91aad8080ecc783b2cce98cbcdafc3730bd53745469123f"
+        },
+        {
+          "map": "gen_shop_ville2_1",
+          "hash": "76756a7e0573546f7efda6d210bd2f7b7f951ffb558ea199a7abf380b7e869ee"
+        },
+        {
+          "map": "gen_maison_ville3_1",
+          "hash": "12e0ccacc6f120e7a91aad8080ecc783b2cce98cbcdafc3730bd53745469123f"
+        },
+        {
+          "map": "gen_maison3",
+          "hash": "f2724bdf9510f96abb210b81129c87d950ab61a53c40e49bc40fa333e6566962"
+        },
+        {
+          "map": "gen_maison_ville4_1",
+          "hash": "f2724bdf9510f96abb210b81129c87d950ab61a53c40e49bc40fa333e6566962"
+        },
+        {
+          "map": "gen_maison_ville4_2",
+          "hash": "31cf30da9f485591420e23ca7c2e2426d58cd9f2847f71680c90dd9cd2a63d52"
+        },
+        {
+          "map": "gen_maison_ville5_1",
+          "hash": "31cf30da9f485591420e23ca7c2e2426d58cd9f2847f71680c90dd9cd2a63d52"
+        },
+        {
+          "map": "gen_shop1",
+          "hash": "76756a7e0573546f7efda6d210bd2f7b7f951ffb558ea199a7abf380b7e869ee"
+        },
+        {
+          "map": "gen_shop_ville5_1",
+          "hash": "76756a7e0573546f7efda6d210bd2f7b7f951ffb558ea199a7abf380b7e869ee"
+        },
+        {
+          "map": "ville_safe1_arene",
+          "hash": "55e5ecbd34aa6cc068354d13805d408bc7f0a13dca302f3375bcd2d0738b740b"
+        },
+        {
+          "map": "ville_safe1_shop",
+          "hash": "76756a7e0573546f7efda6d210bd2f7b7f951ffb558ea199a7abf380b7e869ee"
+        },
+        {
+          "map": "ville_safe1_maison1",
+          "hash": "31cf30da9f485591420e23ca7c2e2426d58cd9f2847f71680c90dd9cd2a63d52"
+        },
+        {
+          "map": "ville_safe1_maison2",
+          "hash": "12e0ccacc6f120e7a91aad8080ecc783b2cce98cbcdafc3730bd53745469123f"
+        },
+        {
+          "map": "ville_safe1_maison3",
+          "hash": "f2724bdf9510f96abb210b81129c87d950ab61a53c40e49bc40fa333e6566962"
+        },
+        {
+          "map": "ville_safe1_maison4",
+          "hash": "31cf30da9f485591420e23ca7c2e2426d58cd9f2847f71680c90dd9cd2a63d52"
+        },
+        {
+          "map": "ville_safe1",
+          "hash": "1b7b13ea23b10e24464699b03fcfc8728fd41c108a0dc31b2e5fefd2ec3c46fe"
+        },
+        {
+          "map": "gen_maison_ville5_2",
+          "hash": "12e0ccacc6f120e7a91aad8080ecc783b2cce98cbcdafc3730bd53745469123f"
+        },
+        {
+          "map": "gen_maison_ville5_3",
+          "hash": "f2724bdf9510f96abb210b81129c87d950ab61a53c40e49bc40fa333e6566962"
+        },
+        {
+          "map": "gen_shop_route10",
+          "hash": "76756a7e0573546f7efda6d210bd2f7b7f951ffb558ea199a7abf380b7e869ee"
+        },
+        {
+          "map": "ville3",
+          "hash": "2bd86eb24435d83c2d0df165f5ffba583ae84893de8face0fd51745a027bdf3d"
+        },
+        {
+          "map": "ville3_arene",
+          "hash": "55e5ecbd34aa6cc068354d13805d408bc7f0a13dca302f3375bcd2d0738b740b"
+        },
+        {
+          "map": "ville3_shop",
+          "hash": "76756a7e0573546f7efda6d210bd2f7b7f951ffb558ea199a7abf380b7e869ee"
+        },
+        {
+          "map": "ville3_maison1",
+          "hash": "31cf30da9f485591420e23ca7c2e2426d58cd9f2847f71680c90dd9cd2a63d52"
+        },
+        {
+          "map": "ville3_maison2",
+          "hash": "12e0ccacc6f120e7a91aad8080ecc783b2cce98cbcdafc3730bd53745469123f"
+        },
+        {
+          "map": "route11",
+          "hash": "94ec4092e59f59274bbd286dbc37e3ae270beeb162348113541a89085f285b38"
+        },
+        {
+          "map": "route12",
+          "hash": "39aaeb8243f85fd322b66c79cbb7d04569a3fdda3ebe5206de6237c43c646927"
+        },
+        {
+          "map": "ville4",
+          "hash": "8d56ff446071f5b1262fc95638e4b68437fe30682c91559971fe412578f2803a"
+        },
+        {
+          "map": "ville4_shop",
+          "hash": "76756a7e0573546f7efda6d210bd2f7b7f951ffb558ea199a7abf380b7e869ee"
+        },
+        {
+          "map": "ville4_arene",
+          "hash": "55e5ecbd34aa6cc068354d13805d408bc7f0a13dca302f3375bcd2d0738b740b"
+        },
+        {
+          "map": "ville4_maison1",
+          "hash": "31cf30da9f485591420e23ca7c2e2426d58cd9f2847f71680c90dd9cd2a63d52"
+        },
+        {
+          "map": "ville4_maison2",
+          "hash": "12e0ccacc6f120e7a91aad8080ecc783b2cce98cbcdafc3730bd53745469123f"
+        },
+        {
+          "map": "cave_rochebrume1",
+          "hash": "d8e5a29b4e2f1de8c232d24399eb8f5c77c9cf429b81dbc490bd7a2490a5ead8"
+        },
+        {
+          "map": "cave_rochebrume2",
+          "hash": "310f4fc9428fb411bf63a11566b4a7afa35c72ef29d37cb4794074054ca61c76"
+        },
+        {
+          "map": "cave_rochebrume3",
+          "hash": "31bd16e1e9f3830fdf1d16efbf17266c7711ece36324d083157ad36abceff483"
+        },
+        {
+          "map": "route13",
+          "hash": "97561067d0b7edf40c3f1f54df04e4154d95330b1374878b1c1d8f44f26ceb85"
+        },
+        {
+          "map": "route14",
+          "hash": "951a71b8589b6c779cc1e92c3f88d24876cace5632e92528c50a5a417e9a2cb0"
+        },
+        {
+          "map": "ville5",
+          "hash": "e48872505384dd34ba817b50c1c95a08aa0484ff1b9e8a6bc4af5a7fb063f641"
+        },
+        {
+          "map": "ville5_shop",
+          "hash": "76756a7e0573546f7efda6d210bd2f7b7f951ffb558ea199a7abf380b7e869ee"
+        },
+        {
+          "map": "ville5_arene",
+          "hash": "55e5ecbd34aa6cc068354d13805d408bc7f0a13dca302f3375bcd2d0738b740b"
+        },
+        {
+          "map": "ville5_maison1",
+          "hash": "31cf30da9f485591420e23ca7c2e2426d58cd9f2847f71680c90dd9cd2a63d52"
+        },
+        {
+          "map": "ville5_maison2",
+          "hash": "12e0ccacc6f120e7a91aad8080ecc783b2cce98cbcdafc3730bd53745469123f"
+        },
+        {
+          "map": "route2_maison",
+          "hash": "12e0ccacc6f120e7a91aad8080ecc783b2cce98cbcdafc3730bd53745469123f"
+        },
+        {
+          "map": "route5",
+          "hash": "c7820a9132de42bdbdff7dbb449d39703833dc6b8c87a4967c293b53e80eeeec"
+        },
+        {
+          "map": "route6",
+          "hash": "2231249ef031e5e0d3c146d9fef7638717a848b4b77eac3fae261200b7921d72"
+        },
+        {
+          "map": "ville_commerciale",
+          "hash": "9b39408e19e0c97c90b79972e2af4667e31ad508c889412ff46697a49cfb593b"
+        },
+        {
+          "map": "tour_rdc",
+          "hash": "acab76d20c8696cf166bdb1114db58e75555b7573a26365cdbb21a839db22b41"
+        },
+        {
+          "map": "tour_etage1",
+          "hash": "3e951e31b72b08ea1357098dc6fd031e75e5cc13cc26ead3175da6770c002936"
+        },
+        {
+          "map": "tour_etage2",
+          "hash": "3e951e31b72b08ea1357098dc6fd031e75e5cc13cc26ead3175da6770c002936"
+        },
+        {
+          "map": "tour_etage3",
+          "hash": "f89a82a0d1b97a1b77e44c968e97b04ae2c11056ba12d19579b2d48a14525511"
+        },
+        {
+          "map": "route4_maison",
+          "hash": "bc1b452a1dc8fc543e252a5c8b2a443ca420de4856b048b737bfb7b21a18a160"
+        },
+        {
+          "map": "route3_maison_nrv",
+          "hash": "05b1228ef7dbd72589dedb25653be7681bce6ba81a3af6edd6661e9e9656bcd8"
+        }
+      ],
+      "layers": {
+        "count": 1000,
+        "meanMs": 0.09125399399999952,
+        "p95Ms": 0.2789629999999761
+      },
+      "checkpoint": {
+        "count": 30,
+        "meanMs": 6.631050399999992,
+        "p95Ms": 8.930286000000024,
+        "bytes": 10055,
+        "asyncEncode": null
+      },
+      "fullStateBytes": 11243,
+      "movementStateBytes": null
+    },
+    "after": {
+      "node": "v22.22.2",
+      "maps": 88,
+      "layerHashes": [
+        {
+          "map": "etage",
+          "hash": "1d5a7747acfdbfae869c58a30e46dd82209339c5285727308ff4f5f88dcd41ba"
+        },
+        {
+          "map": "etage2",
+          "hash": "1d5a7747acfdbfae869c58a30e46dd82209339c5285727308ff4f5f88dcd41ba"
+        },
+        {
+          "map": "maison",
+          "hash": "6454d2a6791f9ebcb2aebb8a38d26a326d25c47f30ed59d64ad8deb543bb7572"
+        },
+        {
+          "map": "maison2",
+          "hash": "6454d2a6791f9ebcb2aebb8a38d26a326d25c47f30ed59d64ad8deb543bb7572"
+        },
+        {
+          "map": "start",
+          "hash": "4db841570eac1ff899323a888b83135071a106aa181c435ced450687a314f250"
+        },
+        {
+          "map": "pk2",
+          "hash": "09c5ba658a67aaa2bb54dffc0f7c47f064cfa59a0c24606122aef991b0a7c73e"
+        },
+        {
+          "map": "route1",
+          "hash": "9eba8a9a9c66128a419f6c6bbb5a61f2ddf2c47dd74291361d2fba82a5a723ab"
+        },
+        {
+          "map": "route2",
+          "hash": "3db1f43c1dfd48d6f1ce7f5a6615a941625acfdfd46cbba6c2bded35505f55f7"
+        },
+        {
+          "map": "ville1",
+          "hash": "ae4f3df32defd92c50a3f5fb85234972b1a73eacf831de71d9fb2788c6d06c65"
+        },
+        {
+          "map": "centre",
+          "hash": "6464f6908879f7c29ab8469553f6ad830f5c1d5c7f7dfce31014859a9842cb39"
+        },
+        {
+          "map": "ville1_arene",
+          "hash": "55e5ecbd34aa6cc068354d13805d408bc7f0a13dca302f3375bcd2d0738b740b"
+        },
+        {
+          "map": "ville1_shop",
+          "hash": "76756a7e0573546f7efda6d210bd2f7b7f951ffb558ea199a7abf380b7e869ee"
+        },
+        {
+          "map": "route3",
+          "hash": "a374e8222b485b56484eca963e302232d770e8dee87f349a2e6afd1e209b62fc"
+        },
+        {
+          "map": "cave1",
+          "hash": "f26dce64b63ca96476b13a9fa3df7f00ffbdc520fc2f938beeb5f1456aee5ca0"
+        },
+        {
+          "map": "cave2",
+          "hash": "76cd8111d0c975d3c93735d56a82bafc014e8d2368a1524e966b8920ba053ab6"
+        },
+        {
+          "map": "route4",
+          "hash": "049dd934dae71a58b5cd8571bb84728af461c6fb36d4423df4f86be9c8eec338"
+        },
+        {
+          "map": "gen_route1",
+          "hash": "5a0c134ac9d5c78eecabc2cc2f130e5931e0b1952b882c1f09a1e5aa02c15bbd"
+        },
+        {
+          "map": "gen_ville1",
+          "hash": "b4e2136aae59669a1a197d553c0a7d5b7bb45ae94bef4c26fe1b067848f62f0b"
+        },
+        {
+          "map": "gen_route2",
+          "hash": "2ec622cca369856c606b52ba0901ef7be2d02e345de967a8c14ef192cc1775f6"
+        },
+        {
+          "map": "gen_route3",
+          "hash": "5e08d12f329bffc5e7eb5c63ecc8dd156120f929b805bc59ce4f25cd0bc1f14e"
+        },
+        {
+          "map": "gen_ville2",
+          "hash": "4077c38f008c4b80c3ea8ecfd29a4bd9b20ddf6a9d2a11d16a1975ab246cae59"
+        },
+        {
+          "map": "gen_route4",
+          "hash": "222e892ea5e44e4d03494d5631c455099136123bc7c504638516520986b15b84"
+        },
+        {
+          "map": "gen_ville3",
+          "hash": "24b4afa2765cb7c7a7f3c71d570d06b6203a01ab920e5d24c06e7b1e4a159ff8"
+        },
+        {
+          "map": "gen_route5",
+          "hash": "9d8e69c0665cc1d326c29fe9eb98f1536ad1ceaadac657211cd55e53fdf90e5c"
+        },
+        {
+          "map": "gen_route6",
+          "hash": "07839a41646ca314c9da5a16fab70a45fedfbb1e7e244baabf9328574dbde31d"
+        },
+        {
+          "map": "gen_ville4",
+          "hash": "002e2a734c93b1fa9d4ef0bee99bd819b4036f944f89616e4beea163fc7bb039"
+        },
+        {
+          "map": "gen_route7",
+          "hash": "134dee81e22632a4feb897663f325a3421ed718e2c719859d9ecddd2829c3dde"
+        },
+        {
+          "map": "gen_ville5",
+          "hash": "68b4e57599dd132429daf91fce15724dcdb71f4cce49f4ee89f92bdf4c64a16d"
+        },
+        {
+          "map": "gen_route8",
+          "hash": "24cb460f148ad643350f691df7839c85307a475dfb36af6387eccba77af2e7d6"
+        },
+        {
+          "map": "gen_arene1",
+          "hash": "d0d9e42bc70ea69ab0b37b22f6cf94a68aa7567f3b53083cc7685bc4fa64ce1b"
+        },
+        {
+          "map": "gen_arene2",
+          "hash": "d521cc2bf84f01dfb79e38fe865afd59d6d217f5a8c58d3a550d9606028d9e70"
+        },
+        {
+          "map": "gen_arene3",
+          "hash": "6d59470420c9df1f337d246944a0cbc7f517dc32eece2041631a5fd630b503bb"
+        },
+        {
+          "map": "gen_arene4",
+          "hash": "e7e78a6fe75597a642dd367c68ad63d3be4c2e1404203adc48b4f43e23d77851"
+        },
+        {
+          "map": "gen_arene5",
+          "hash": "55e5ecbd34aa6cc068354d13805d408bc7f0a13dca302f3375bcd2d0738b740b"
+        },
+        {
+          "map": "gen_maison1",
+          "hash": "31cf30da9f485591420e23ca7c2e2426d58cd9f2847f71680c90dd9cd2a63d52"
+        },
+        {
+          "map": "gen_maison_ville1_2",
+          "hash": "31cf30da9f485591420e23ca7c2e2426d58cd9f2847f71680c90dd9cd2a63d52"
+        },
+        {
+          "map": "gen_maison_ville2_1",
+          "hash": "31cf30da9f485591420e23ca7c2e2426d58cd9f2847f71680c90dd9cd2a63d52"
+        },
+        {
+          "map": "gen_maison2",
+          "hash": "12e0ccacc6f120e7a91aad8080ecc783b2cce98cbcdafc3730bd53745469123f"
+        },
+        {
+          "map": "gen_shop_ville2_1",
+          "hash": "76756a7e0573546f7efda6d210bd2f7b7f951ffb558ea199a7abf380b7e869ee"
+        },
+        {
+          "map": "gen_maison_ville3_1",
+          "hash": "12e0ccacc6f120e7a91aad8080ecc783b2cce98cbcdafc3730bd53745469123f"
+        },
+        {
+          "map": "gen_maison3",
+          "hash": "f2724bdf9510f96abb210b81129c87d950ab61a53c40e49bc40fa333e6566962"
+        },
+        {
+          "map": "gen_maison_ville4_1",
+          "hash": "f2724bdf9510f96abb210b81129c87d950ab61a53c40e49bc40fa333e6566962"
+        },
+        {
+          "map": "gen_maison_ville4_2",
+          "hash": "31cf30da9f485591420e23ca7c2e2426d58cd9f2847f71680c90dd9cd2a63d52"
+        },
+        {
+          "map": "gen_maison_ville5_1",
+          "hash": "31cf30da9f485591420e23ca7c2e2426d58cd9f2847f71680c90dd9cd2a63d52"
+        },
+        {
+          "map": "gen_shop1",
+          "hash": "76756a7e0573546f7efda6d210bd2f7b7f951ffb558ea199a7abf380b7e869ee"
+        },
+        {
+          "map": "gen_shop_ville5_1",
+          "hash": "76756a7e0573546f7efda6d210bd2f7b7f951ffb558ea199a7abf380b7e869ee"
+        },
+        {
+          "map": "ville_safe1_arene",
+          "hash": "55e5ecbd34aa6cc068354d13805d408bc7f0a13dca302f3375bcd2d0738b740b"
+        },
+        {
+          "map": "ville_safe1_shop",
+          "hash": "76756a7e0573546f7efda6d210bd2f7b7f951ffb558ea199a7abf380b7e869ee"
+        },
+        {
+          "map": "ville_safe1_maison1",
+          "hash": "31cf30da9f485591420e23ca7c2e2426d58cd9f2847f71680c90dd9cd2a63d52"
+        },
+        {
+          "map": "ville_safe1_maison2",
+          "hash": "12e0ccacc6f120e7a91aad8080ecc783b2cce98cbcdafc3730bd53745469123f"
+        },
+        {
+          "map": "ville_safe1_maison3",
+          "hash": "f2724bdf9510f96abb210b81129c87d950ab61a53c40e49bc40fa333e6566962"
+        },
+        {
+          "map": "ville_safe1_maison4",
+          "hash": "31cf30da9f485591420e23ca7c2e2426d58cd9f2847f71680c90dd9cd2a63d52"
+        },
+        {
+          "map": "ville_safe1",
+          "hash": "1b7b13ea23b10e24464699b03fcfc8728fd41c108a0dc31b2e5fefd2ec3c46fe"
+        },
+        {
+          "map": "gen_maison_ville5_2",
+          "hash": "12e0ccacc6f120e7a91aad8080ecc783b2cce98cbcdafc3730bd53745469123f"
+        },
+        {
+          "map": "gen_maison_ville5_3",
+          "hash": "f2724bdf9510f96abb210b81129c87d950ab61a53c40e49bc40fa333e6566962"
+        },
+        {
+          "map": "gen_shop_route10",
+          "hash": "76756a7e0573546f7efda6d210bd2f7b7f951ffb558ea199a7abf380b7e869ee"
+        },
+        {
+          "map": "ville3",
+          "hash": "2bd86eb24435d83c2d0df165f5ffba583ae84893de8face0fd51745a027bdf3d"
+        },
+        {
+          "map": "ville3_arene",
+          "hash": "55e5ecbd34aa6cc068354d13805d408bc7f0a13dca302f3375bcd2d0738b740b"
+        },
+        {
+          "map": "ville3_shop",
+          "hash": "76756a7e0573546f7efda6d210bd2f7b7f951ffb558ea199a7abf380b7e869ee"
+        },
+        {
+          "map": "ville3_maison1",
+          "hash": "31cf30da9f485591420e23ca7c2e2426d58cd9f2847f71680c90dd9cd2a63d52"
+        },
+        {
+          "map": "ville3_maison2",
+          "hash": "12e0ccacc6f120e7a91aad8080ecc783b2cce98cbcdafc3730bd53745469123f"
+        },
+        {
+          "map": "route11",
+          "hash": "94ec4092e59f59274bbd286dbc37e3ae270beeb162348113541a89085f285b38"
+        },
+        {
+          "map": "route12",
+          "hash": "39aaeb8243f85fd322b66c79cbb7d04569a3fdda3ebe5206de6237c43c646927"
+        },
+        {
+          "map": "ville4",
+          "hash": "8d56ff446071f5b1262fc95638e4b68437fe30682c91559971fe412578f2803a"
+        },
+        {
+          "map": "ville4_shop",
+          "hash": "76756a7e0573546f7efda6d210bd2f7b7f951ffb558ea199a7abf380b7e869ee"
+        },
+        {
+          "map": "ville4_arene",
+          "hash": "55e5ecbd34aa6cc068354d13805d408bc7f0a13dca302f3375bcd2d0738b740b"
+        },
+        {
+          "map": "ville4_maison1",
+          "hash": "31cf30da9f485591420e23ca7c2e2426d58cd9f2847f71680c90dd9cd2a63d52"
+        },
+        {
+          "map": "ville4_maison2",
+          "hash": "12e0ccacc6f120e7a91aad8080ecc783b2cce98cbcdafc3730bd53745469123f"
+        },
+        {
+          "map": "cave_rochebrume1",
+          "hash": "d8e5a29b4e2f1de8c232d24399eb8f5c77c9cf429b81dbc490bd7a2490a5ead8"
+        },
+        {
+          "map": "cave_rochebrume2",
+          "hash": "310f4fc9428fb411bf63a11566b4a7afa35c72ef29d37cb4794074054ca61c76"
+        },
+        {
+          "map": "cave_rochebrume3",
+          "hash": "31bd16e1e9f3830fdf1d16efbf17266c7711ece36324d083157ad36abceff483"
+        },
+        {
+          "map": "route13",
+          "hash": "97561067d0b7edf40c3f1f54df04e4154d95330b1374878b1c1d8f44f26ceb85"
+        },
+        {
+          "map": "route14",
+          "hash": "951a71b8589b6c779cc1e92c3f88d24876cace5632e92528c50a5a417e9a2cb0"
+        },
+        {
+          "map": "ville5",
+          "hash": "e48872505384dd34ba817b50c1c95a08aa0484ff1b9e8a6bc4af5a7fb063f641"
+        },
+        {
+          "map": "ville5_shop",
+          "hash": "76756a7e0573546f7efda6d210bd2f7b7f951ffb558ea199a7abf380b7e869ee"
+        },
+        {
+          "map": "ville5_arene",
+          "hash": "55e5ecbd34aa6cc068354d13805d408bc7f0a13dca302f3375bcd2d0738b740b"
+        },
+        {
+          "map": "ville5_maison1",
+          "hash": "31cf30da9f485591420e23ca7c2e2426d58cd9f2847f71680c90dd9cd2a63d52"
+        },
+        {
+          "map": "ville5_maison2",
+          "hash": "12e0ccacc6f120e7a91aad8080ecc783b2cce98cbcdafc3730bd53745469123f"
+        },
+        {
+          "map": "route2_maison",
+          "hash": "12e0ccacc6f120e7a91aad8080ecc783b2cce98cbcdafc3730bd53745469123f"
+        },
+        {
+          "map": "route5",
+          "hash": "c7820a9132de42bdbdff7dbb449d39703833dc6b8c87a4967c293b53e80eeeec"
+        },
+        {
+          "map": "route6",
+          "hash": "2231249ef031e5e0d3c146d9fef7638717a848b4b77eac3fae261200b7921d72"
+        },
+        {
+          "map": "ville_commerciale",
+          "hash": "9b39408e19e0c97c90b79972e2af4667e31ad508c889412ff46697a49cfb593b"
+        },
+        {
+          "map": "tour_rdc",
+          "hash": "acab76d20c8696cf166bdb1114db58e75555b7573a26365cdbb21a839db22b41"
+        },
+        {
+          "map": "tour_etage1",
+          "hash": "3e951e31b72b08ea1357098dc6fd031e75e5cc13cc26ead3175da6770c002936"
+        },
+        {
+          "map": "tour_etage2",
+          "hash": "3e951e31b72b08ea1357098dc6fd031e75e5cc13cc26ead3175da6770c002936"
+        },
+        {
+          "map": "tour_etage3",
+          "hash": "f89a82a0d1b97a1b77e44c968e97b04ae2c11056ba12d19579b2d48a14525511"
+        },
+        {
+          "map": "route4_maison",
+          "hash": "bc1b452a1dc8fc543e252a5c8b2a443ca420de4856b048b737bfb7b21a18a160"
+        },
+        {
+          "map": "route3_maison_nrv",
+          "hash": "05b1228ef7dbd72589dedb25653be7681bce6ba81a3af6edd6661e9e9656bcd8"
+        }
+      ],
+      "layers": {
+        "count": 1000,
+        "meanMs": 0.002154226999998798,
+        "p95Ms": 0.0024369999999862557
+      },
+      "checkpoint": {
+        "count": 30,
+        "meanMs": 6.764098200000018,
+        "p95Ms": 8.232051999999953,
+        "bytes": 10090,
+        "asyncEncode": {
+          "totalMs": 12.31196,
+          "timerDelayMs": 7.306780000000003,
+          "bytes": 10090,
+          "identical": true
+        }
+      },
+      "fullStateBytes": 11251,
+      "movementStateBytes": 60
+    },
+    "limits": "Synthetic eight-player expedition with six level-55 Pok\u00e9mon each, local Node, no production load test. Layer timing is a batch of fifteen grid reads. Timing includes machine scheduling variance. Async gzip moves compression only, not graph serialization, off the JS thread."
+  },
+  "ai": {
+    "rows": [
+      {
+        "name": "sevenp",
+        "opponent": "wanda",
+        "weather": "none",
+        "beforeMeanMs": 63.01261700000001,
+        "afterMeanMs": 45.254846250000014,
+        "beforeP95Ms": 108.20973000000001,
+        "afterP95Ms": 91.55537899999999,
+        "exactChoicePredictionScores": true,
+        "analysisSha256": "466d22069fc3369cb9c3fa485a554eb1b549b2dcfe97e318b66508de68bdaac3"
+      },
+      {
+        "name": "sevenp",
+        "opponent": "wanda",
+        "weather": "rain",
+        "beforeMeanMs": 45.40337558333329,
+        "afterMeanMs": 35.999890666666666,
+        "beforeP95Ms": 52.159370999999965,
+        "afterP95Ms": 38.77916200000004,
+        "exactChoicePredictionScores": true,
+        "analysisSha256": "b400c561adb58028fd7e126bdd6a35bf1a0307d72101c88b1f5ccf2f46a49c42"
+      },
+      {
+        "name": "wanda",
+        "opponent": "sevenp",
+        "weather": "none",
+        "beforeMeanMs": 46.78156783333333,
+        "afterMeanMs": 37.52753250000001,
+        "beforeP95Ms": 80.34210899999994,
+        "afterP95Ms": 45.424122000000125,
+        "exactChoicePredictionScores": true,
+        "analysisSha256": "1af662e38daa828bae8038b9c08abf10e2547e45663d6e01163f869541bdcf4a"
+      },
+      {
+        "name": "wanda",
+        "opponent": "sevenp",
+        "weather": "rain",
+        "beforeMeanMs": 36.72271558333333,
+        "afterMeanMs": 31.490785000000017,
+        "beforeP95Ms": 38.0445880000002,
+        "afterP95Ms": 33.55929900000001,
+        "exactChoicePredictionScores": true,
+        "analysisSha256": "b5d7fa829fa912b85ea8689062f5ff87f01d6839900662e1c7950fb173438bac"
+      },
+      {
+        "name": "ana",
+        "opponent": "sevenp",
+        "weather": "none",
+        "beforeMeanMs": 36.06130499999995,
+        "afterMeanMs": 29.46898883333328,
+        "beforeP95Ms": 37.96816800000033,
+        "afterP95Ms": 31.064847999999984,
+        "exactChoicePredictionScores": true,
+        "analysisSha256": "217ae7221d8fc0f72e8674f44f9e7f49da72eeab28aaeb5f2be940ccd6bd8dbd"
+      },
+      {
+        "name": "ana",
+        "opponent": "sevenp",
+        "weather": "rain",
+        "beforeMeanMs": 38.18426908333337,
+        "afterMeanMs": 28.417875833333294,
+        "beforeP95Ms": 51.24814100000003,
+        "afterP95Ms": 30.060547999999926,
+        "exactChoicePredictionScores": true,
+        "analysisSha256": "a8f5600bd34efefbaf1275520945a03a595e2905ce4195838058fae3f2b87846"
+      },
+      {
+        "name": "raphael",
+        "opponent": "sevenp",
+        "weather": "none",
+        "beforeMeanMs": 31.857974666666678,
+        "afterMeanMs": 25.745999083333345,
+        "beforeP95Ms": 42.79898600000024,
+        "afterP95Ms": 28.053583999999773,
+        "exactChoicePredictionScores": true,
+        "analysisSha256": "eb012b12888216d0ef8b8098673bb0099e936bc6383c74ad3ef58fa166ddb9b0"
+      },
+      {
+        "name": "raphael",
+        "opponent": "sevenp",
+        "weather": "rain",
+        "beforeMeanMs": 28.064852583333316,
+        "afterMeanMs": 25.590936666666646,
+        "beforeP95Ms": 30.52267800000027,
+        "afterP95Ms": 31.727412000000186,
+        "exactChoicePredictionScores": true,
+        "analysisSha256": "b8260f50523bb2359e43968106f3f7346b908360066316b8d3cafc2fcd7dcf30"
+      }
+    ],
+    "beforeMeanMs": 40.76108466666666,
+    "afterMeanMs": 32.43710685416666,
+    "fixedFixtures": "/tmp/riftmon-ai-performance-fixtures.gz",
+    "limits": "Eight identical synthetic late-game teams and weather scenarios; not a guarantee for every decision."
+  },
+  "database": {
+    "at": "2026-10-25T16:47:35.735Z",
+    "variables": [
+      {
+        "Variable_name": "innodb_buffer_pool_size",
+        "Value": "134217728"
+      },
+      {
+        "Variable_name": "innodb_flush_log_at_trx_commit",
+        "Value": "1"
+      },
+      {
+        "Variable_name": "long_query_time",
+        "Value": "10.000000"
+      },
+      {
+        "Variable_name": "performance_schema",
+        "Value": "OFF"
+      },
+      {
+        "Variable_name": "slow_query_log",
+        "Value": "OFF"
+      },
+      {
+        "Variable_name": "sync_binlog",
+        "Value": "0"
+      }
+    ],
+    "status": [
+      {
+        "Variable_name": "Innodb_buffer_pool_read_requests",
+        "Value": "60845599"
+      },
+      {
+        "Variable_name": "Innodb_buffer_pool_reads",
+        "Value": "452"
+      },
+      {
+        "Variable_name": "Innodb_row_lock_time",
+        "Value": "13808"
+      },
+      {
+        "Variable_name": "Innodb_row_lock_waits",
+        "Value": "2714"
+      },
+      {
+        "Variable_name": "Questions",
+        "Value": "779669"
+      },
+      {
+        "Variable_name": "Slow_queries",
+        "Value": "0"
+      },
+      {
+        "Variable_name": "Threads_connected",
+        "Value": "7"
+      },
+      {
+        "Variable_name": "Threads_running",
+        "Value": "1"
+      }
+    ],
+    "tables": [
+      {
+        "TABLE_NAME": "colosseum_runs",
+        "TABLE_ROWS": 21,
+        "DATA_LENGTH": 1540096,
+        "INDEX_LENGTH": 16384
+      },
+      {
+        "TABLE_NAME": "pokemons",
+        "TABLE_ROWS": 13,
+        "DATA_LENGTH": 16384,
+        "INDEX_LENGTH": 49152
+      },
+      {
+        "TABLE_NAME": "trainer_friendships",
+        "TABLE_ROWS": 0,
+        "DATA_LENGTH": 16384,
+        "INDEX_LENGTH": 32768
+      },
+      {
+        "TABLE_NAME": "users",
+        "TABLE_ROWS": 3,
+        "DATA_LENGTH": 16384,
+        "INDEX_LENGTH": 32768
+      },
+      {
+        "TABLE_NAME": "user_items",
+        "TABLE_ROWS": 36,
+        "DATA_LENGTH": 16384,
+        "INDEX_LENGTH": 32768
+      },
+      {
+        "TABLE_NAME": "teams",
+        "TABLE_ROWS": 3,
+        "DATA_LENGTH": 16384,
+        "INDEX_LENGTH": 16384
+      },
+      {
+        "TABLE_NAME": "colosseum_bests",
+        "TABLE_ROWS": 1,
+        "DATA_LENGTH": 16384,
+        "INDEX_LENGTH": 16384
+      },
+      {
+        "TABLE_NAME": "rift_runs",
+        "TABLE_ROWS": 0,
+        "DATA_LENGTH": 16384,
+        "INDEX_LENGTH": 16384
+      },
+      {
+        "TABLE_NAME": "pokemon_storage",
+        "TABLE_ROWS": 3,
+        "DATA_LENGTH": 16384,
+        "INDEX_LENGTH": 16384
+      },
+      {
+        "TABLE_NAME": "rift_rating_results",
+        "TABLE_ROWS": 0,
+        "DATA_LENGTH": 16384,
+        "INDEX_LENGTH": 16384
+      },
+      {
+        "TABLE_NAME": "rift_ratings",
+        "TABLE_ROWS": 0,
+        "DATA_LENGTH": 16384,
+        "INDEX_LENGTH": 16384
+      },
+      {
+        "TABLE_NAME": "rift_run_entries",
+        "TABLE_ROWS": 0,
+        "DATA_LENGTH": 16384,
+        "INDEX_LENGTH": 16384
+      },
+      {
+        "TABLE_NAME": "player_badges",
+        "TABLE_ROWS": 9,
+        "DATA_LENGTH": 16384,
+        "INDEX_LENGTH": 0
+      },
+      {
+        "TABLE_NAME": "schema_migrations",
+        "TABLE_ROWS": 18,
+        "DATA_LENGTH": 16384,
+        "INDEX_LENGTH": 0
+      },
+      {
+        "TABLE_NAME": "rift_appearance",
+        "TABLE_ROWS": 0,
+        "DATA_LENGTH": 16384,
+        "INDEX_LENGTH": 0
+      },
+      {
+        "TABLE_NAME": "player_quests",
+        "TABLE_ROWS": 9,
+        "DATA_LENGTH": 16384,
+        "INDEX_LENGTH": 0
+      },
+      {
+        "TABLE_NAME": "rift_reports",
+        "TABLE_ROWS": 0,
+        "DATA_LENGTH": 16384,
+        "INDEX_LENGTH": 0
+      },
+      {
+        "TABLE_NAME": "rift_checkpoints",
+        "TABLE_ROWS": 0,
+        "DATA_LENGTH": 16384,
+        "INDEX_LENGTH": 0
+      },
+      {
+        "TABLE_NAME": "user_npc_battles",
+        "TABLE_ROWS": 22,
+        "DATA_LENGTH": 16384,
+        "INDEX_LENGTH": 0
+      },
+      {
+        "TABLE_NAME": "user_pokedex",
+        "TABLE_ROWS": 351,
+        "DATA_LENGTH": 16384,
+        "INDEX_LENGTH": 0
+      },
+      {
+        "TABLE_NAME": "player_story_flags",
+        "TABLE_ROWS": 82,
+        "DATA_LENGTH": 16384,
+        "INDEX_LENGTH": 0
+      },
+      {
+        "TABLE_NAME": "rift_cosmetics",
+        "TABLE_ROWS": 0,
+        "DATA_LENGTH": 16384,
+        "INDEX_LENGTH": 0
+      },
+      {
+        "TABLE_NAME": "rift_profiles",
+        "TABLE_ROWS": 0,
+        "DATA_LENGTH": 16384,
+        "INDEX_LENGTH": 0
+      },
+      {
+        "TABLE_NAME": "user_item_discoveries",
+        "TABLE_ROWS": 5,
+        "DATA_LENGTH": 16384,
+        "INDEX_LENGTH": 0
+      }
+    ],
+    "indexes": [
+      {
+        "TABLE_NAME": "colosseum_bests",
+        "INDEX_NAME": "PRIMARY",
+        "cols": "user_id,duration_minutes"
+      },
+      {
+        "TABLE_NAME": "colosseum_bests",
+        "INDEX_NAME": "run_id",
+        "cols": "run_id"
+      },
+      {
+        "TABLE_NAME": "colosseum_runs",
+        "INDEX_NAME": "fk_colosseum_run_user",
+        "cols": "user_id"
+      },
+      {
+        "TABLE_NAME": "colosseum_runs",
+        "INDEX_NAME": "PRIMARY",
+        "cols": "id"
+      },
+      {
+        "TABLE_NAME": "player_badges",
+        "INDEX_NAME": "PRIMARY",
+        "cols": "user_id,badge_key"
+      },
+      {
+        "TABLE_NAME": "player_quests",
+        "INDEX_NAME": "PRIMARY",
+        "cols": "user_id,quest_key"
+      },
+      {
+        "TABLE_NAME": "player_story_flags",
+        "INDEX_NAME": "PRIMARY",
+        "cols": "user_id,flag_key"
+      },
+      {
+        "TABLE_NAME": "pokemons",
+        "INDEX_NAME": "PRIMARY",
+        "cols": "id"
+      },
+      {
+        "TABLE_NAME": "pokemons",
+        "INDEX_NAME": "team_id",
+        "cols": "team_id"
+      },
+      {
+        "TABLE_NAME": "pokemons",
+        "INDEX_NAME": "uniq_team_position",
+        "cols": "team_id,position"
+      },
+      {
+        "TABLE_NAME": "pokemons",
+        "INDEX_NAME": "uuid",
+        "cols": "uuid"
+      },
+      {
+        "TABLE_NAME": "pokemon_storage",
+        "INDEX_NAME": "PRIMARY",
+        "cols": "uuid"
+      },
+      {
+        "TABLE_NAME": "pokemon_storage",
+        "INDEX_NAME": "uniq_storage_slot",
+        "cols": "user_id,box_index,slot_index"
+      },
+      {
+        "TABLE_NAME": "rift_appearance",
+        "INDEX_NAME": "PRIMARY",
+        "cols": "user_id"
+      },
+      {
+        "TABLE_NAME": "rift_checkpoints",
+        "INDEX_NAME": "PRIMARY",
+        "cols": "id"
+      },
+      {
+        "TABLE_NAME": "rift_cosmetics",
+        "INDEX_NAME": "PRIMARY",
+        "cols": "user_id,cosmetic_key"
+      },
+      {
+        "TABLE_NAME": "rift_profiles",
+        "INDEX_NAME": "PRIMARY",
+        "cols": "user_id"
+      },
+      {
+        "TABLE_NAME": "rift_ratings",
+        "INDEX_NAME": "idx_rift_rating",
+        "cols": "rating,user_id"
+      },
+      {
+        "TABLE_NAME": "rift_ratings",
+        "INDEX_NAME": "PRIMARY",
+        "cols": "user_id"
+      },
+      {
+        "TABLE_NAME": "rift_rating_results",
+        "INDEX_NAME": "fk_rating_result_user",
+        "cols": "user_id"
+      },
+      {
+        "TABLE_NAME": "rift_rating_results",
+        "INDEX_NAME": "PRIMARY",
+        "cols": "run_id,user_id"
+      },
+      {
+        "TABLE_NAME": "rift_reports",
+        "INDEX_NAME": "PRIMARY",
+        "cols": "run_id"
+      },
+      {
+        "TABLE_NAME": "rift_runs",
+        "INDEX_NAME": "idx_rift_runs_finished",
+        "cols": "finished_at"
+      },
+      {
+        "TABLE_NAME": "rift_runs",
+        "INDEX_NAME": "PRIMARY",
+        "cols": "id"
+      },
+      {
+        "TABLE_NAME": "rift_run_entries",
+        "INDEX_NAME": "idx_rift_entries_user",
+        "cols": "user_id"
+      },
+      {
+        "TABLE_NAME": "rift_run_entries",
+        "INDEX_NAME": "PRIMARY",
+        "cols": "run_id,user_id"
+      },
+      {
+        "TABLE_NAME": "schema_migrations",
+        "INDEX_NAME": "PRIMARY",
+        "cols": "name"
+      },
+      {
+        "TABLE_NAME": "teams",
+        "INDEX_NAME": "PRIMARY",
+        "cols": "id"
+      },
+      {
+        "TABLE_NAME": "teams",
+        "INDEX_NAME": "uniq_team_user",
+        "cols": "user_id"
+      },
+      {
+        "TABLE_NAME": "trainer_friendships",
+        "INDEX_NAME": "fk_friends_requester",
+        "cols": "requested_by"
+      },
+      {
+        "TABLE_NAME": "trainer_friendships",
+        "INDEX_NAME": "idx_friends_high",
+        "cols": "user_high,status"
+      },
+      {
+        "TABLE_NAME": "trainer_friendships",
+        "INDEX_NAME": "PRIMARY",
+        "cols": "user_low,user_high"
+      },
+      {
+        "TABLE_NAME": "users",
+        "INDEX_NAME": "email",
+        "cols": "email"
+      },
+      {
+        "TABLE_NAME": "users",
+        "INDEX_NAME": "PRIMARY",
+        "cols": "id"
+      },
+      {
+        "TABLE_NAME": "users",
+        "INDEX_NAME": "username",
+        "cols": "username"
+      },
+      {
+        "TABLE_NAME": "user_items",
+        "INDEX_NAME": "PRIMARY",
+        "cols": "id"
+      },
+      {
+        "TABLE_NAME": "user_items",
+        "INDEX_NAME": "uniq_user_item",
+        "cols": "user_id,item_key"
+      },
+      {
+        "TABLE_NAME": "user_items",
+        "INDEX_NAME": "user_id",
+        "cols": "user_id"
+      },
+      {
+        "TABLE_NAME": "user_item_discoveries",
+        "INDEX_NAME": "PRIMARY",
+        "cols": "user_id,item_key"
+      },
+      {
+        "TABLE_NAME": "user_npc_battles",
+        "INDEX_NAME": "PRIMARY",
+        "cols": "user_id,battle_key"
+      },
+      {
+        "TABLE_NAME": "user_pokedex",
+        "INDEX_NAME": "PRIMARY",
+        "cols": "user_id,pokemon_id"
+      }
+    ],
+    "plans": [
+      {
+        "query": "SELECT * FROM pokemons WHERE team_id=1 ORDER BY position",
+        "plan": [
+          {
+            "id": 1,
+            "select_type": "SIMPLE",
+            "table": "pokemons",
+            "type": "ref",
+            "possible_keys": "uniq_team_position,team_id",
+            "key": "uniq_team_position",
+            "key_len": "4",
+            "ref": "const",
+            "rows": "1",
+            "Extra": "Using where"
+          }
+        ]
+      },
+      {
+        "query": "SELECT flag_key,flag_value FROM player_story_flags WHERE user_id=1",
+        "plan": [
+          {
+            "id": 1,
+            "select_type": "SIMPLE",
+            "table": "player_story_flags",
+            "type": "ref",
+            "possible_keys": "PRIMARY",
+            "key": "PRIMARY",
+            "key_len": "4",
+            "ref": "const",
+            "rows": "1",
+            "Extra": ""
+          }
+        ]
+      },
+      {
+        "query": "SELECT uuid,box_index,slot_index,pokemon_data FROM pokemon_storage WHERE user_id=1 ORDER BY box_index,slot_index",
+        "plan": [
+          {
+            "id": 1,
+            "select_type": "SIMPLE",
+            "table": "pokemon_storage",
+            "type": "ref",
+            "possible_keys": "uniq_storage_slot",
+            "key": "uniq_storage_slot",
+            "key_len": "4",
+            "ref": "const",
+            "rows": "1",
+            "Extra": "Using where"
+          }
+        ]
+      },
+      {
+        "query": "SELECT id,score,wins,finished_at FROM colosseum_runs WHERE user_id=1 ORDER BY finished_at DESC LIMIT 20",
+        "plan": [
+          {
+            "id": 1,
+            "select_type": "SIMPLE",
+            "table": "colosseum_runs",
+            "type": "ref",
+            "possible_keys": "fk_colosseum_run_user",
+            "key": "fk_colosseum_run_user",
+            "key_len": "4",
+            "ref": "const",
+            "rows": "1",
+            "Extra": "Using where; Using filesort"
+          }
+        ]
+      }
+    ],
+    "estimatedTableRows": true,
+    "readOnly": true
+  },
+  "deployment": {
+    "verifiedAt": "2026-10-25T16:56:59.864Z",
+    "publishedAt": "2026-10-25T16:55:22Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-global-performance-2026-10-25T16-55-20-132Z",
+    "clientBuild": "b462ef09166a7869",
+    "clientCommit": "2a15969a94884f704e126582bedbf1d5fd30e8d1",
+    "beforePid": 1639340,
+    "afterPid": 1671877,
+    "activeRuns": 0,
+    "checkpointSaved": true,
+    "databaseBackupBytes": 881812,
+    "neighborServicesNotRestarted": true,
+    "neighbors": [
+      {
+        "url": "https://app.binout.fr/",
+        "status": 200
+      },
+      {
+        "url": "https://api-test.binout.fr/",
+        "status": 200
+      }
+    ],
+    "assets": [
+      {
+        "file": "js/game.478386d9.js",
+        "plainBytes": 935120,
+        "wireBytes": 304560,
+        "encoding": "gzip",
+        "cache": "public, max-age=31536000, immutable"
+      },
+      {
+        "file": "css/game.e449d387.css",
+        "plainBytes": 272426,
+        "wireBytes": 56031,
+        "encoding": "gzip",
+        "cache": "public, max-age=31536000, immutable"
+      }
+    ],
+    "unversioned": [
+      {
+        "file": "service-worker.js",
+        "cache": "public, max-age=0"
+      },
+      {
+        "file": "manifest.webmanifest",
+        "cache": "public, max-age=0"
+      }
+    ],
+    "sameBaselineAsset": {
+      "beforeWireBytes": 934891,
+      "afterWireBytes": 304364,
+      "decodedIdentical": true
+    },
+    "verificationNote": "Initial verification reused a pre-reload keep-alive connection and saw the old Nginx compression policy. Fresh HTTPS connections verify the new policy; no second server restart."
+  },
+  "validation": {
+    "targetedTests": 87,
+    "targetedFailed": 0,
+    "mysqlTests": 126,
+    "mysqlPassed": 124,
+    "mysqlPreexistingFailures": 2,
+    "historicalSuiteInitial": {
+      "tests": 1192,
+      "pass": 1046,
+      "fail": 12,
+      "skipped": 134
+    },
+    "baselineControl": {
+      "selectedTests": 40,
+      "pass": 29,
+      "fail": 11,
+      "legacyAiRainAssertion": "Intermittent on baseline: 2 failures in 5 isolated baseline runs."
+    },
+    "browserRootModes": {
+      "rootDeepLink": true,
+      "realLogin": true,
+      "existingTeamPreserved": true,
+      "adventureSavedAndReloaded": true,
+      "colosseum": true,
+      "rift": true,
+      "websocketNamespaces": true,
+      "rootAssetAndApiPaths": true,
+      "branding": true,
+      "viewports": 4,
+      "errors": [],
+      "output": "/tmp/riftmon-global-rift"
+    },
+    "browserHoze": {
+      "map": "ville_safe1_arene",
+      "viewports": 4,
+      "animated": true,
+      "reducedMotion": true,
+      "hiddenCleanup": true,
+      "battlePresentationCleanup": true,
+      "mapIsolation": true,
+      "maximumHozeWind": true,
+      "completedFaultsRetained": true,
+      "collapseBackgroundsAndReset": true,
+      "movementControls": true,
+      "errors": []
+    },
+    "browserSixArenas": {
+      "halls": 6,
+      "realCityEntrances": true,
+      "realNpcDialogues": true,
+      "arenaBattles": true,
+      "returnWithoutReconnect": true,
+      "bothExitCells": true,
+      "viewports": 4,
+      "errors": [],
+      "output": "/tmp/riftmon-global-six-halls"
+    },
+    "legacyColosseumRecipe": "Initial run used a root build with a /explorakit/ harness; rerun with the required prefixed build progressed until the obsolete inventory select control. Current root modes and six real arena battles/returns pass.",
+    "historicalSuiteFinal": {
+      "tests": 1192,
+      "pass": 1046,
+      "fail": 12,
+      "skipped": 134,
+      "sameFailuresAsInitial": true
+    },
+    "productionIdleCheckpoint": {
+      "updatedAtBefore": "2026-10-25T16:55:23Z",
+      "updatedAtAfter": "2026-10-25T16:55:23Z",
+      "sampleGapMs": 2200,
+      "lobbies": 0,
+      "runs": 0,
+      "timestampUnchanged": true
+    }
+  },
+  "evidencePrefix": "/tmp/riftmon-global-"
+}

@@ -20,7 +20,7 @@ io.use(authenticateSocket);
 app.use(express.json({ limit: '256kb' }));
 
 // Servez les fichiers statiques de votre application Vue
-app.use(express.static(DIST_DIR));
+app.use(express.static(DIST_DIR, { setHeaders: require('./http/staticAssets').staticAssetHeaders }));
 
 app.use('/api', userRoutes);
 

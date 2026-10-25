@@ -64,10 +64,13 @@ async function leaderboard(userId, format = 60) {
         FROM colosseum_bests b JOIN colosseum_runs r ON r.id=b.run_id WHERE b.duration_minutes=?
       ) ranked JOIN users u ON u.id=ranked.user_id JOIN colosseum_runs r ON r.id=ranked.run_id
       WHERE ranked.position<=50 OR ranked.user_id=? ORDER BY ranked.position`, [minutes,userId]);
-    const entries = rows.map(row => ({ rank: Number(row.position), userId: Number(row.user_id), username: row.username,
+    const entries = rows.map(row => {
+        const report = JSON.parse(row.report_json);
+        return { rank: Number(row.position), userId: Number(row.user_id), username: row.username,
         score: Number(row.score), wins: Number(row.wins), league: colosseumRank(Number(row.score), Number(row.wins)), finishedAt: new Date(row.finished_at).getTime(),
-        defeat: recordDefeat(JSON.parse(row.report_json)),
-        team: recordTeam(JSON.parse(row.report_json)).map(p => ({ pokemonId:p.pokemonId,name:p.name,level:p.level,knockedOut:p.currentHp<=0 })) }));
+        defeat: recordDefeat(report),
+        team: recordTeam(report).map(p => ({ pokemonId:p.pokemonId,name:p.name,level:p.level,knockedOut:p.currentHp<=0 })) };
+    });
     return { durationMinutes: minutes, entries: entries.filter(row=>row.rank<=50), personal: entries.find(row=>row.userId===userId) || null };
 }
 module.exports = { recordRunStarted, recordRunFinished, getFinishedRuns, leaderboard };

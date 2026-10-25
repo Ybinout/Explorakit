@@ -10,6 +10,7 @@ const ratio = (n, p) => 100 * n / Math.max(1, p.maxHp);
 const moveByName = engine.getMoveByName;
 const damageCaches = new WeakMap();
 const moveCaches = new WeakMap();
+const speedCaches = new WeakMap();
 const PUBLIC_VOLATILES = ['statStages','tempTypes','formTypes','abilityForm','tauntTurns','disableTurns',
     'disabledMove','encoreTurns','encoreMove','leechSeedSource','foresight','miracleEye','substituteHp',
     'trappedTurns','ingrain','chargeMove','chargeTurns','semiInvulnerable','rechargeMove','bideTurns',
@@ -59,10 +60,21 @@ function chance(move,a,b,field) {
     const stage=n=>n>=0?(3+n)/3:3/(3-n);
     return accuracy<=0?1:clamp(accuracy/100*stage(a.__battle.statStages?.accuracy||0)/stage(b.__battle.statStages?.evasion||0),.05,1);
 }
+// Every analysis owns immutable public snapshots and a private field copy.
+// Repeated priority/support evaluations can share speed for that exact snapshot,
+// while new turns, changed weather and hypothetical boosted Pokémon get new keys.
+function speed(pokemon, side, field) {
+    let cache=speedCaches.get(field);
+    if(!cache){cache=new WeakMap();speedCaches.set(field,cache);}
+    let sides=cache.get(pokemon);
+    if(!sides){sides=new Map();cache.set(pokemon,sides);}
+    if(!sides.has(side))sides.set(side,engine.getBattleSpeed(structuredClone(pokemon),side,field));
+    return sides.get(side);
+}
 function actsFirst(a,m,b,r,ctx) {
     const priority=engine.getMovePriority(m.ename,a)-engine.getMovePriority(r.ename,b);
     if(priority)return priority>0;
-    const delta=engine.getBattleSpeed(structuredClone(a),ctx.ownSide,ctx.field)-engine.getBattleSpeed(structuredClone(b),ctx.enemySide,ctx.field);
+    const delta=speed(a,ctx.ownSide,ctx.field)-speed(b,ctx.enemySide,ctx.field);
     return ctx.field.field.trickRoomTurns>0?delta<0:delta>=0;
 }
 function damage(a,b,move,side,field) {
@@ -90,7 +102,7 @@ function attackValue(a,b,m,ctx,side=ctx.enemySide) {
     return value;
 }
 function support(a,b,move,ctx,incoming,bestDamage) {
-    const helpers={damage,speed:(p,side,field)=>engine.getBattleSpeed(structuredClone(p),side,field),
+    const helpers={damage,speed,
         accuracy:(m,x,y)=>chance(m,x,y,ctx.field),before:actsFirst};
     let score=Math.max(legacy.supportScore(a,b,move,ctx,incoming,bestDamage),
         require('../drift/colosseumTactics').supportScore(a,b,move,ctx,incoming,bestDamage,helpers));

@@ -86,6 +86,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
                 ...(run.settlement.ratings?{ratings:run.settlement.ratings}:{})}}:{}),
             ...(run.phase==='results'&&run.report?{report:run.report}:{}) };
     }
+    function movementState(p) { return {id:p.run.id,repelSteps:remainingRepel(p)}; }
     function send(p) { emit(p,'drift:state',state(p)); }
     function publish(run) { for(const p of run.players.values()) send(p); }
     function stopSpectating(p, reason = 'stopped', final = {}) {
@@ -604,7 +605,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
             runs.set(run.id,run);
         }
     }
-    return {fishing,reconcileSettlements,setStorageAvailable,restore,start,startColosseum,chooseStarter,enter,guard,recoverPosition,move,interact,endDialogue,ready,abandon,tick,send,publish,state,playerFor,battle,beginTournament,runs,spectate,stopSpectating,
+    return { movementState,fishing,reconcileSettlements,setStorageAvailable,restore,start,startColosseum,chooseStarter,enter,guard,recoverPosition,move,interact,endDialogue,ready,abandon,tick,send,publish,state,playerFor,battle,beginTournament,runs,spectate,stopSpectating,
         disconnect(user,socket){const p=playerFor(user);if(p?.socketId===socket.id){fishing.cancel(p);stopSpectating(p,'disconnected');p.socketId=null;p.disconnectedAt=now();world(p.run);}}};
 }
 module.exports={createRunManager};

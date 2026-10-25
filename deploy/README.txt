@@ -41,3 +41,12 @@ Le worker ne met en cache que la page hors ligne, jamais API/jetons/combats.
 Les recettes historiques avec un build /explorakit/ continuent à fonctionner
 sur serveur de test ; la recette dédiée couvre le vrai montage racine.
 Ne jamais réimporter database/schema.sql sur la base de production existante.
+
+Performance HTTP (25 octobre 2026) :
+- Le vhost RiftMon active gzip pour JS/CSS/JSON/SVG, sans réencodage des assets.
+- server/http/staticAssets.js applique un an/immutable uniquement aux fichiers
+  dont le nom contient une empreinte. Index, worker, manifest et sprites aux noms
+  fixes doivent continuer à être revalidés. Ne pas appliquer cette règle aux API.
+- Après rechargement Nginx, vérifier les nouveaux headers avec une connexion
+  neuve : une connexion maintenue peut encore être servie par un ancien worker.
+- Rapport et limites : docs/AUDIT_PERFORMANCES_2026-10-25.md.

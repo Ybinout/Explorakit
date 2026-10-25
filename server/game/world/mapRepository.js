@@ -42,7 +42,7 @@ function readMap(mapName) {
     return mapCache.get(safeMapName);
 }
 
-function loadCollisionData(mapName) {
+function buildCollisionData(mapName) {
     const mapData = readMap(mapName);
     let collLayer = mapData.layers.find(layer => layer.name === 'coll');
     let collisionData1D = collLayer ? collLayer.data : [];
@@ -61,7 +61,7 @@ function loadCollisionData(mapName) {
 }
 
 
-function changeMapData(mapName) {
+function buildChangeMapData(mapName) {
     const mapData = readMap(mapName);
     let collLayer = mapData.layers.find(layer => layer.name === 'change');
     let collisionData1D = collLayer ? collLayer.data : [];
@@ -86,7 +86,7 @@ function changeMapData(mapName) {
 }
 
 
-function InteractMapData(mapName) {
+function buildInteractMapData(mapName) {
     try {
         const mapData = readMap(mapName);
         if (!mapData.layers || !Array.isArray(mapData.layers)) {
@@ -117,7 +117,7 @@ function InteractMapData(mapName) {
 }
 
 
-function battleMapData(mapName) {
+function buildBattleMapData(mapName) {
     const mapData = readMap(mapName);
     let collLayer = mapData.layers.find(layer => layer.name === 'battle');
     let collisionData1D = collLayer ? collLayer.data : [];
@@ -176,6 +176,24 @@ function getNextMap(currentMap, posX, posY) {
     return null;
 }
 
+
+// Tiled files are already immutable for the lifetime of this process. Cache
+// the derived grids too: expeditions read three layers on every walking step.
+// Each logical name gets its own transition grid, including alias-specific doors.
+function cachedLayer(build) {
+    const grids = new Map();
+    return mapName => {
+        if (!grids.has(mapName)) {
+            const grid = build(mapName);
+            grids.set(mapName, Object.freeze(grid.map(row => Object.freeze(row))));
+        }
+        return grids.get(mapName);
+    };
+}
+const loadCollisionData = cachedLayer(buildCollisionData);
+const changeMapData = cachedLayer(buildChangeMapData);
+const InteractMapData = cachedLayer(buildInteractMapData);
+const battleMapData = cachedLayer(buildBattleMapData);
 
 module.exports = {
     readMap,

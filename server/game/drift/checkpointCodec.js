@@ -1,4 +1,5 @@
-const { gzipSync, gunzipSync } = require('node:zlib');
+const { gzipSync, gzip, gunzipSync } = require('node:zlib');
+const gzipAsync = require('node:util').promisify(gzip);
 const { createHash } = require('node:crypto');
 const Pokemon = require('../models/Pokemon');
 const { DriftBattle } = require('./driftBattle');
@@ -8,7 +9,7 @@ const effects = require('./driftEffects');
 // Trusted server state only. References preserve battle participants, Maps and
 // shared one-use effect counters. No client-supplied state is ever decoded.
 const omitted = new Set(['pnjs', 'pnjDeadlines', 'settling']);
-function encode(root) {
+function serialize(root) {
     const nodes = [],
         ids = new Map();
     function ref(value) {
@@ -46,7 +47,13 @@ function encode(root) {
     }
     const pointer = ref(root);
     const data = JSON.stringify({ version: 1, root: pointer, nodes });
-    return gzipSync(JSON.stringify({ hash: createHash('sha256').update(data).digest('hex'), data }));
+    return JSON.stringify({ hash: createHash('sha256').update(data).digest('hex'), data });
+}
+function encode(root) { return gzipSync(serialize(root)); }
+async function encodeAsync(root) {
+    // Capture the complete reference graph before yielding. Mutations during
+    // compression belong to the next checkpoint; gzip itself runs off-thread.
+    return gzipAsync(serialize(root));
 }
 function decode(buffer) {
     const envelope = JSON.parse(gunzipSync(buffer, { maxOutputLength: 128 * 1024 * 1024 }).toString());
@@ -111,4 +118,4 @@ function decode(buffer) {
     });
     return val(data.root);
 }
-module.exports = { encode, decode };
+module.exports = { encode, encodeAsync, decode };

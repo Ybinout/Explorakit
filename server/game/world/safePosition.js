@@ -6,7 +6,11 @@ const DIRECTIONS = [[0,1],[1,0],[-1,0],[0,-1]];
 
 // Only terrain connected to a real entrance is suitable for recovery. Empty
 // collision cells behind roofs/cliffs are not necessarily playable terrain.
+const recoveryCache = new WeakMap();
 function recoveryTerrain(collision, mapName) {
+    // Mutable synthetic grids retain the uncached path; live map grids are frozen.
+    const cached = Object.isFrozen(collision) && recoveryCache.get(collision)?.get(mapName);
+    if (cached) return cached;
     let data, changes = [];
     try { data = readMap(mapName); changes = changeMapData(mapName); } catch (_) { /* Synthetic test maps. */ }
     const floorLayers = (data?.layers || []).filter(l => l.type === 'tilelayer' && l.visible !== false
@@ -30,7 +34,12 @@ function recoveryTerrain(collision, mapName) {
     if (mapName === 'start') anchors.push([2,6]);
     const allowed = new Set(anchors.map(([x,y]) => ids.get(`${x},${y}`)).filter(id => id !== undefined));
     if (!allowed.size && components.length) allowed.add(components.reduce((best,c,i) => c.length>components[best].length?i:best,0));
-    return {data, changes, open, ids, components, allowed};
+    const result = {data, changes, open, ids, components, allowed};
+    if (Object.isFrozen(collision)) {
+        if (!recoveryCache.has(collision)) recoveryCache.set(collision, new Map());
+        recoveryCache.get(collision).set(mapName, result);
+    }
+    return result;
 }
 
 function nearestSafePosition(rawX, rawY, collision, mapName, {manual=false, allowTransition=true, blocked=isPnjBlockingTile}={}) {
