@@ -1,5 +1,17 @@
 # Contexte permanent — RiftMon
 
+## Hoze — fissures plus nombreuses, étendues et durables — 25 octobre 2026
+
+Remplace l’ancienne respiration cyclique de quatre fractures : huit grandes fissures et 32 branches couvrent désormais deux bandes élargies x27–209 / x239–421, y104–271, vers le motif central et au pied des colonnes. Tapis central, escaliers et murs préservés ; même masque de structures pour passer sous les piliers, plinthes et tissus. Aucun PNG/Tiled, collision ou météo modifié. Colonnes en mouvement continu et vent maximal conservés.
+
+Chaque ligne principale se révèle en 42 secondes, avec départs décalés jusqu’à 10,5 s : salle complètement fissurée après 52,5 s. Progression par distance parcourue, branches ouvertes seulement après atteinte de leur point d’attache, poussière limitée au front actif. À la fin, croissance/teinte fixes et poussière arrêtée ; aucune résorption ni nouveau cycle. Une horloge locale commence au premier dessin dans l’arène, indépendamment de l’âge de la page, et reste monotone à travers les libérations/recréations des surfaces (combat, onglet masqué, changement de carte). Cette mémoire visuelle dure pendant la session du composant ; un rechargement complet recommence l’apparition. Animation désactivée/mouvement réduit : fissures complètes fixes ; réactivation sans fermeture. Même boucle et cache 20 Hz, aucune surface/timer/requête supplémentaire. Ligne terminale des colonnes bornée à leur dernière ligne valide pour éviter un calcul inutile non fini.
+
+Validation : `validateHozeArenaCanvas.js` étendu : huit lignes, ouverture lente et monotone, départ à l’entrée malgré timestamp élevé, fissures finies identiques à 60/90/180 s, maintien après suspension et horloge reculant. 3 233 pixels de fissures dans l’extension vers le centre, zéro débordement/recouvrement des structures ; colonnes toujours mobiles à chaque échantillon, cache, préférence et libération réussis. Peinture locale Chromium environ 0,33 ms. Lint ciblé, build `c655a131971aead5`, syntaxe/diff réussis. Recette navigateur `validateHozeArenaBrowser.js` sur `explorakit_test`, compte jetable : vrai climat vent3, quatre formats 320/393/844/1365 px, ouverture initiale puis phase finale avancée pour les captures, maintien après onglet masqué/préférence/présentation de combat et isolation après reconnexion ailleurs ; zéro erreur. Captures initiale/intermédiaire/finale et mobile inspectées. Journaux `/tmp/riftmon-hoze-faults-*` ; aucun compte réel modifié, aucun combat serveur lancé, pas de test physique.
+
+Publication statique 2026-10-25T14:32:45.871Z, client `26263598a9a635070628d937095bbda00586748b`, index/JS/CSS publics vérifiés à l’octet. Aucun redémarrage (PID 1627712), Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-hoze-faults-2026-10-25T14-32-44-621Z`.
+
+
+
 ## Wayne — portrait noir et blanc avec cache-œil — 25 octobre 2026
 
 Ajout d’un cache-œil noir sur un seul œil du portrait manga original `image/a.png`, via imagegen intégré. Autre œil, identité, pose, ball, tenue et transparence conservés visuellement. Export PNG proportionnel 512×512 (393 466 octets), `image/wayne-eyepatch-v1.png` ; original conservé. Prompt complet, source générée, export et SHA256 dans `docs/WAYNE_EYEPATCH_EDIT.json`. Le générateur fournit une opacité maximale légèrement inférieure à 255 : alpha conservé, contrôle du sujet alpha≥240 et du fond transparent plutôt qu’exiger des pixels strictement opaques.
