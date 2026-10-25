@@ -1,0 +1,36 @@
+{
+  "date": "2026-10-25",
+  "source": "/home/ubuntu/dev/pourtoi/new_wandaa.mp3",
+  "destination": "vue-explorakit/src/assets/msc/wanda.mp3",
+  "bytes": 5282003,
+  "sha256": "66d0e82a308d0a25a146d40d79f7937f384c0befb8ecf077c04775467fc4697b",
+  "transfer": "Original file copied byte for byte, no transcoding",
+  "durationSeconds": 220.081625,
+  "startRule": {
+    "map": "ville4_arene",
+    "dialogue": "champion_wanda",
+    "otherDialogues": "Room entry, locked challenge and victory dialogue excluded"
+  },
+  "continuity": "The existing BattleOverlay Audio object starts during dialogue and remains the same through loading and battle. Exploration music pauses while the prelude owns audio.",
+  "browserValidation": {
+    "newAudio": {
+      "time": 0.216868,
+      "duration": 220.081625,
+      "src": "http://127.0.0.1:35255/media/wanda.caaf3d19.mp3",
+      "volume": 0.13999999999999999,
+      "loop": true,
+      "prelude": true,
+      "battle": false,
+      "roomPaused": true
+    },
+    "realTouchStartsWithDialogue": true,
+    "entryAndLockedExcluded": true,
+    "continuousIntoBattle": true,
+    "volumeMuteVisibility": true,
+    "disconnectCleanup": true,
+    "realWandaVictory": true,
+    "ordinaryChampionUnchanged": true,
+    "errors": [],
+    "out": "/tmp/riftmon-wanda-prelude-browser"
+  }
+}

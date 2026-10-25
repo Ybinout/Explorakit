@@ -1,5 +1,15 @@
 # Contexte permanent — RiftMon
 
+## Wanda — nouvelle musique dès le dialogue de défi — 25 octobre 2026
+
+`/home/ubuntu/dev/pourtoi/new_wandaa.mp3` remplace la piste de combat `src/assets/msc/wanda.mp3`, copie à l’octet (5 282 003 octets, durée décodée 220,08 s). Provenance/empreinte et recette dans `docs/WANDA_BATTLE_MUSIC.json`. Aucun réencodage ; piste d’ambiance d’arène distincte conservée.
+
+Seul le dialogue autorisé `champion_wanda` dans `ville4_arene` amorce la piste. L’accueil automatique à l’entrée, le refus avant Ana, les répliques après victoire et les autres champions ne la déclenchent pas. Fonction de sélection testable dans `battleMusic.js`. Le composant de combat, déjà monté, possède le même objet Audio pendant dialogue, chargement et combat ; le passage `active=true` libère l’état de prélude sans arrêter la musique. Le parent suspend l’ambiance immédiatement pendant ce prélude, pour éviter deux pistes superposées. Volume général, coupure des sons de combat, pause/reprise de visibilité et nouvelle tentative après geste utilisateur sont respectés. Déconnexion, destruction, autre dialogue, refus d’interaction et changement de carte nettoient le prélude. La fin du combat arrête la piste et l’ambiance peut reprendre.
+
+Validation : 13 tests musique réussis, lint et build `1a7ced2663a97ace` réussis. `scripts/validateWandaPreludeBrowser.js`, base dédiée et vrai Audio décodé : tap réel sur A, musique pendant le dialogue avant combat, entrée/refus exclus, même objet et progression temporelle pendant chargement/combat, volume/sourdine, visibilité simulée, nettoyage à la déconnexion, vrai duel gagné contre Wanda et retour à l’ambiance. Un dialogue réel de Mounir confirme son démarrage habituel. Zéro erreur ; captures/journaux `/tmp/riftmon-wanda-prelude-*`. Aucun compte réel modifié ; pas de test sur téléphone physique.
+
+Publication statique 2026-10-25T10:38:46.402Z, client `d72f79f6795c6d7ccfe7a122db6a971726d76305`, index/JS/CSS et MP3 public vérifiés à l’octet. Aucun redémarrage (PID 1615281), Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-wanda-prelude-2026-10-25T10-38-45-098Z`.
+
 ## Mounir — Lombre remplace Machoc — 25 octobre 2026
 
 Premier partenaire de Mounir : Lombre niveau 17, K1, IV18 et EV0, nature Modeste, talent Glissade. Set légal pour l’espèce : Bluff / Bulles d’O / Méga-Sangsue / Vent Glace, sans objet tenu. Le catalogue commun est utilisé en Aventure et lors des rencontres avec Mounir en expédition. Steelix18 et Morphéo23 K4 restent les partenaires suivants, avec réserve du Morphéo gérée par son identité.

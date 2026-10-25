@@ -100,3 +100,10 @@ test('entering Gwenn’s event house changes the mix without restarting the shar
  assert.equal(a.volume,.14);assert.equal(a.currentTime,23);assert.equal(a.plays,1);
  music.destroy();
 });
+
+test('only Wanda challenge dialogue can start a trainer theme before battle',async()=>{
+ const {trainerPreludeMusicTrack}=await import('../vue-explorakit/src/services/battleMusic.js');
+ assert.equal(trainerPreludeMusicTrack('champion_wanda','ville4_arene'),'wanda');
+ for(const name of ['champion_wanda_locked','champion_wanda_after','arena_entry:champion_wanda','champion_ana','moon',null,undefined])assert.equal(trainerPreludeMusicTrack(name,'ville4_arene'),null);
+ for(const map of ['ville3_arene','start',null,undefined])assert.equal(trainerPreludeMusicTrack('champion_wanda',map),null);
+});
