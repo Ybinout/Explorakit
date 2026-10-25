@@ -1,0 +1,110 @@
+{
+  "rules": {
+    "map": "gen_arene5",
+    "actor": "raphael",
+    "champion": "champion_raphael",
+    "flag": "arena_trial:raph:v1",
+    "home": {
+      "x": 13,
+      "y": 4
+    },
+    "duration": 960,
+    "stops": [
+      {
+        "x": 8,
+        "y": 8
+      },
+      {
+        "x": 18,
+        "y": 8
+      },
+      {
+        "x": 8,
+        "y": 13
+      },
+      {
+        "x": 18,
+        "y": 13
+      },
+      {
+        "x": 12,
+        "y": 11
+      },
+      {
+        "x": 15,
+        "y": 7
+      }
+    ],
+    "messages": [
+      "Raph : Tu pensais déjà m’avoir trouvé ? Regarde ailleurs…",
+      "Raph : Pas mal ! Mais je ne reste jamais longtemps au même endroit.",
+      "Raph : Encore un petit effort. Garde les yeux ouverts !",
+      "Raph : Bien joué ! Retrouve-moi sur l’estrade. Cette fois, je reste."
+    ],
+    "messagesEn": [
+      "Raph: Think you’ve already found me? Look elsewhere…",
+      "Raph: Not bad! But I never stay in one place for long.",
+      "Raph: One more effort. Keep your eyes open!",
+      "Raph: Well done! Meet me on the dais. This time, I’ll stay."
+    ]
+  },
+  "persistence": {
+    "adventure": "player_story_flags: arena_trial:raph:v1 (version, stops, step, availableAt)",
+    "expeditions": "player.raphTrial in existing durable checkpoint",
+    "adminReset": true,
+    "alreadyDefeatedPlayersSkipTrial": true,
+    "newSchema": false,
+    "sharedNpcStoreMutated": false
+  },
+  "presentation": {
+    "durationMs": 960,
+    "disappearUntil": 0.32,
+    "hiddenUntil": 0.5,
+    "reappearAtDestination": true,
+    "respectReducedMotion": true,
+    "newTimerOrLoop": false
+  },
+  "validation": {
+    "regressionTests": {
+      "passed": 20,
+      "skippedSqlTests": 2
+    },
+    "hozeCollapseTestsPassed": 8,
+    "newSqlSocketTestPassed": true,
+    "browser": {
+      "teleports": 4,
+      "viewports": 4,
+      "reconnectProgress": true,
+      "reducedMotion": true,
+      "finalOriginalPosition": true,
+      "actualDialogueAndBattle": true,
+      "errors": [],
+      "out": "/tmp/riftmon-raph-trial-browser"
+    },
+    "physicalPhoneTested": false,
+    "lint": true,
+    "syntax": true,
+    "commands": [
+      "node --test tests/raph-trial.test.js tests/arena-scenes.test.js tests/arena-admin.test.js tests/drift-checkpoint.test.js tests/story-gates.test.js tests/arena-entrance.test.js",
+      "node --test tests/arena-collapse.test.js",
+      "node --env-file=.env -e 'process.env.DB_NAME=process.env.DB_TEST_NAME;process.env.RUN_MYSQL_TESTS=\"1\";require(\"./tests/raph-trial-socket.test.js\")'",
+      "RELEASE_DIST_DIR=/tmp/riftmon-raph-trial-dist RELEASE_SCREENSHOTS=/tmp/riftmon-raph-trial-browser node --env-file=.env scripts/validateRaphTrialBrowser.js"
+    ]
+  },
+  "publication": {
+    "publishedAt": "2026-10-25T18:06:19.135Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-raph-trial-2026-10-25T18-06-16-452Z",
+    "clientBuild": "f431832de0d8f144",
+    "clientCommit": "c39d5ab293032870cac85345d20534468047ce9d",
+    "beforePid": "1679276",
+    "afterPid": "1692430",
+    "activeRuns": 0,
+    "serverRestarted": true,
+    "checkpointSaved": true,
+    "neighborsUnchanged": true,
+    "publicGameBundle": true,
+    "raphTrial": true,
+    "teleports": 4,
+    "personalState": true
+  }
+}

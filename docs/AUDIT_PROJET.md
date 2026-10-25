@@ -1,5 +1,17 @@
 # Audit technique et mémoire de RiftMon
 
+## Raph — poursuite personnelle et quatre téléportations — 25 octobre 2026
+
+Raph apparaît à un emplacement aléatoire de sa salle, puis se téléporte quand le joueur utilise A/Espace à côté de lui. Quatre rencontres à des endroits différents, assez espacés, avant son retour exact sur l’estrade (13,4). Petites répliques de poursuite, puis seulement le dialogue/combat habituel. Les prérequis de Hoze, équipe, récompenses et victoire unique restent inchangés. Le nouveau message d’entrée explique le jeu. Six emplacements validés sur le vrai sol, avec toute l’empreinte PNJ (deux colonnes et deux lignes) praticable et une approche possible.
+
+`data/game/raph_trial.json` et `server/game/world/raphTrial.js` portent la règle commune. Un magasin PNJ personnel superposé déplace ensemble dessin, interaction, collisions et placement sûr, sans modifier le magasin commun ni les cartes Tiled/PNG. En Aventure, le drapeau `arena_trial:raph:v1` conserve les quatre destinations tirées une seule fois, l’étape et la fin de transition. Écriture transactionnelle avec verrou utilisateur, position adjacente vérifiée côté serveur et délai de 960 ms : plusieurs pressions/onglets ne sautent pas d’étape. Les onglets du même compte reçoivent le déplacement, les autres joueurs gardent leur propre parcours. Reconnexion et sortie/rentrée reprennent l’étape ; les joueurs déjà vainqueurs conservent Raph sur l’estrade. Le reset admin des rencontres efface ce parcours lorsqu’il réarme Raph, retire aussi l’ancienne animation et relance un tirage. Aucun reset de compte réel effectué pendant cette livraison.
+
+Rift/Colosseum : même règle durant l’exploration, état personnel `p.raphTrial` intégré au checkpoint existant, reprise et nouvelle expédition cohérentes ; aucune donnée Aventure modifiée. `pnjsList.teleport` est une métadonnée additive : ancien client toujours capable de suivre Raph instantanément, nouveau client animé. `npcTeleport.js` réutilisable produit fondu, léger soulèvement et éclats pixel blancs/bleus au départ et à l’arrivée ; aucune glissade entre deux endroits. Mouvement réduit = placement immédiat sans effets. Pas de timer/boucle de rendu supplémentaire, état visuel hors réactivité Vue, effacé au changement de carte/déconnexion/reset. Les effets de salle Raph existants restent identiques.
+
+Validation : 20 tests ciblés réussis (deux anciennes variantes SQL ignorées dans ce lancement), huit tests de l’effondrement Hoze également réussis. Nouveau vrai test SQL/Socket réussi en ~12,4 s : marche réelle sur les quatre approches, collisions, quatre sauts, spam/refus de dialogue forgé, deux onglets, deux comptes isolés, reconnexion intermédiaire, ancien vainqueur et reset admin. Scénarios Rift et Colosseum vérifient poursuite/reconnexion/checkpoint/dialogue final. Lint/build `f431832de0d8f144`, syntaxe et diff réussis. Recette navigateur Aventure `scripts/validateRaphTrialBrowser.js` : 320/393/844/1365 px, départ/disparition/arrivée, mouvement réduit, progression après reconnexions et véritable présentation de combat après le dialogue final ; zéro erreur. Captures `/tmp/riftmon-raph-trial-browser` inspectées. Comptes jetables sur `explorakit_test` supprimés ; pas de téléphone physique. Règles, résultats et commandes dans `docs/RAPH_ARENA_TRIAL.json`. Les anciennes recettes qui rejoignent directement Raph sur l’estrade doivent désormais terminer la poursuite, ou préparer explicitement un compte ayant déjà fini cette étape.
+
+Publication 2026-10-25T18:06:19.135Z, client `c39d5ab293032870cac85345d20534468047ce9d`, index/bundles HTTPS vérifiés à l’octet. Redémarrage prévu PID 1679276→1692430 avec checkpoint sauvegardé et zéro expédition active ; Knov/api-test inchangés. Sauvegarde source/index/checkpoint `/home/ubuntu/dev/backups/riftmon-raph-trial-2026-10-25T18-06-16-452Z`, anciens bundles conservés. Aucune migration SQL. Recharger le jeu ; un ancien vainqueur peut utiliser le reset admin pour rejouer l’ensemble de l’expérience.
+
 ## Matthieu — portrait illustré et présentation de combat — 25 octobre 2026
 
 Nouveau splash noir et blanc créé avec l’outil intégré imagegen, dans le style manga encré de Wayne/Gwenn : adulte de petite stature, bonnet sans cheveux visibles, barbe, sweat/pantalon oversize et Ball en main. Image RGBA 1 024×1 536, `src/assets/image/matthieu-v1.png` ; transparence conservée, référence source générée copiée sans modification. Prompt exact, références et vérifications dans `docs/MATTHIEU_PORTRAIT.json`.
@@ -3708,6 +3720,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 25 octobre 2026 — Raph : poursuite personnelle à quatre téléportations, retour final sur l’estrade, collisions/SQL/checkpoints cohérents et animation réutilisable ; isolement, reconnexion, reset admin et quatre formats validés. Détails en tête et `docs/RAPH_ARENA_TRIAL.json`.
 
 - 25 octobre 2026 — Matthieu : nouveau splash manga bonnet/barbe/oversize/Ball, intégré aux trois dialogues et au véritable lancement de son duel Route 8 ; quatre formats validés, aucun renommage des identifiants persistants. Prompt et publication dans `docs/MATTHIEU_PORTRAIT.json`.
 

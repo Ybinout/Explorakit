@@ -1,0 +1,28 @@
+{
+  "map": "gen_arene5",
+  "actor": "raphael",
+  "champion": "champion_raphael",
+  "flag": "arena_trial:raph:v1",
+  "home": { "x": 13, "y": 4 },
+  "duration": 960,
+  "stops": [
+    { "x": 8, "y": 8 },
+    { "x": 18, "y": 8 },
+    { "x": 8, "y": 13 },
+    { "x": 18, "y": 13 },
+    { "x": 12, "y": 11 },
+    { "x": 15, "y": 7 }
+  ],
+  "messages": [
+    "Raph : Tu pensais déjà m’avoir trouvé ? Regarde ailleurs…",
+    "Raph : Pas mal ! Mais je ne reste jamais longtemps au même endroit.",
+    "Raph : Encore un petit effort. Garde les yeux ouverts !",
+    "Raph : Bien joué ! Retrouve-moi sur l’estrade. Cette fois, je reste."
+  ],
+  "messagesEn": [
+    "Raph: Think you’ve already found me? Look elsewhere…",
+    "Raph: Not bad! But I never stay in one place for long.",
+    "Raph: One more effort. Keep your eyes open!",
+    "Raph: Well done! Meet me on the dais. This time, I’ll stay."
+  ]
+}

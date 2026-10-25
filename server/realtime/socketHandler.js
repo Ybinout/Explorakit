@@ -15,7 +15,9 @@ const {
     saveUserRespawnPoint,
     sanitizeSpriteName
 } = require('../persistence/playerRepository');
-const { getPnjsForMap, getPnjAtTile, isPnjBlockingTile } = require('../game/world/pnjStore');
+const defaultPnjStore = require('../game/world/pnjStore');
+const raphTrial = require('../game/world/raphTrial');
+const raphTrialRepository = require('../persistence/raphTrialRepository');
 const { startPvpBattle, hasAlivePokemon } = require('../game/battle/pvpBattle');
 const { emitPvpBattleEnd } = require('../game/battle/battleOutcome');
 const {
@@ -276,13 +278,15 @@ const socketHandler = (io) => {
         }
 
         let currentmap = resolveMapName(savedPosition?.map || DEFAULT_MAP);
+        let raphTrialState = currentmap === raphTrial.config.map ? await raphTrialRepository.ensure(userId,savedPosition) : null;
+        const {getPnjsForMap,getPnjAtTile,isPnjBlockingTile}=raphTrial.scopedStore(defaultPnjStore,()=>raphTrialState);
         let collisionData2D = loadCollisionData(currentmap);
         let changemap2D = changeMapData(currentmap);
         let battlemap2D = battleMapData(currentmap);
         let interactmap = InteractMapData(currentmap);
         let currentPnjs = getPnjsForMap(currentmap);
 
-        const spawnPosition = sanitizeSpawnPosition(savedPosition?.x, savedPosition?.y, collisionData2D, currentmap);
+        const spawnPosition = sanitizeSpawnPosition(savedPosition?.x, savedPosition?.y, collisionData2D, currentmap,{blocked:isPnjBlockingTile});
 
         players[socket.id] = {
             id: socket.id,
@@ -343,6 +347,12 @@ const socketHandler = (io) => {
         let activePositionSave = null;
         let savePending = false;
         let pendingDialogue = null;
+        const syncRaphTrial = (state,teleport=null,reset=false) => {
+            raphTrialState=state;
+            if(currentmap!==raphTrial.config.map || !socket.connected)return;
+            currentPnjs=getPnjsForMap(currentmap);
+            socket.emit('pnjsList',{mapname:currentmap,pnjs:currentPnjs,...(teleport?{teleport}: {}),...(reset?{teleportReset:true}: {})});
+        };
         let interactionBusy = false;
         const guardInteraction = (handler) => async (data) => {
             if (interactionBusy) return;
@@ -510,6 +520,7 @@ const socketHandler = (io) => {
             changemap2D = changeMapData(currentmap);
             battlemap2D = battleMapData(currentmap);
             interactmap = InteractMapData(currentmap);
+            raphTrialState=currentmap===raphTrial.config.map ? await raphTrialRepository.ensure(userId,{...destination,currentmap}) : null;
             currentPnjs = getPnjsForMap(currentmap);
 
             const safeDestination = sanitizeSpawnPosition(
@@ -517,7 +528,7 @@ const socketHandler = (io) => {
                 destination?.y,
                 collisionData2D,
                 currentmap,
-                {allowTransition:reason === 'map_transition'}
+                {allowTransition:reason === 'map_transition',blocked:isPnjBlockingTile}
             );
 
             player.x = safeDestination.x;
@@ -623,9 +634,12 @@ const socketHandler = (io) => {
 
         registerPlayerProfileHandlers({ socket, io, players, userId });
         replaySessions.set(socket.id, {userId,
+            syncRaphTrial,
             canReset:()=>!interactionBusy&&!transitionBusy&&!pendingDialogue&&!socketToChatSession.has(socket.id)
                 && !players[socket.id]?.inbattle && !players[socket.id]?.inventoryBusy,
-            refresh:(progress,reset)=>{if(reset){roomEntryShown=false;arenaCollapse?.enter().catch(e=>console.error('Réinitialisation du sol :',e.message));}emitPlayerProgression(progress);}
+            refresh:(progress,reset)=>{if(reset){roomEntryShown=false;arenaCollapse?.enter().catch(e=>console.error('Réinitialisation du sol :',e.message));
+                if(currentmap===raphTrial.config.map)raphTrialRepository.ensure(userId,players[socket.id]).then(state=>syncRaphTrial(state,null,true)).catch(e=>console.error('Réinitialisation de Raph :',e.message));
+            }emitPlayerProgression(progress);}
         });
         const refreshReplaySessions = (progress, reset = false) => {
             for (const session of replaySessions.values()) if(session.userId===userId) session.refresh(progress,reset);
@@ -667,7 +681,7 @@ const socketHandler = (io) => {
             recover:async player=>{
                 transitionBusy=true;
                 try {
-                    const destination=sanitizeSpawnPosition(player.x,player.y,collisionData2D,currentmap,{manual:true});
+                    const destination=sanitizeSpawnPosition(player.x,player.y,collisionData2D,currentmap,{manual:true,blocked:isPnjBlockingTile});
                     pendingDialogue=null;
                     cancelPendingRequestsForSocket(socket.id,'position_recovered');
                     player.isInteracting=false; player.interactionAsset=null; player.animationFrame=0;
@@ -969,6 +983,9 @@ const socketHandler = (io) => {
             const dialogueAction = getEndSentenceInformation(dialogueName);
             if (dialogueAction === 'battle') {
                 const battleDefinition = getNpcBattleDefinition(dialogueName);
+                if(dialogueName===raphTrial.config.champion && raphTrialState && (raphTrialState.step<4 || Date.now()<raphTrialState.availableAt)) {
+                    socket.emit('interactionRejected',{reason:'arena_trial_incomplete'});return;
+                }
                 const progress = await loadProgressState(userId);
                 if (!players[socket.id] || player.inbattle || player.inventoryBusy) return;
                 const testRematch = arenaTests.canReplay(socket.data.user, dialogueName, progress);
@@ -1134,6 +1151,13 @@ const socketHandler = (io) => {
                 if (pnj) {
                     interactionDetected = true;
                     const name = pnj.interactionName || pnj.name;
+                    if(name===raphTrial.config.champion && raphTrialState && (raphTrialState.step<4 || Date.now()<raphTrialState.availableAt)) {
+                        if(pendingDialogue || transitionBusy)return;
+                        const result=await raphTrialRepository.advance(userId,player);
+                        for(const session of replaySessions.values())if(session.userId===userId)session.syncRaphTrial?.(result.state,result.transition);
+                        if(result.changed)socket.emit('progressionNotice',{message:raphTrial.config.messages[result.state.step-1],messageEn:raphTrial.config.messagesEn[result.state.step-1]});
+                        return;
+                    }
                     const sentence = getSentenceForName(name, progress, {replayArena:arenaTests.canReplay(socket.data.user,name,progress)});
                     if (sentence) {
                         pendingDialogue = createDialogueAuthorization({

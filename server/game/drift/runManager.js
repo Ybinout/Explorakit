@@ -27,10 +27,20 @@ const { remainingRepel, stepRepel, repelsWild } = require('../items/repel');
 const {devicesForMap,isNearComputer}=require('../world/pokemonComputer');
 const computer=require('./pokemonComputer');
 const collapse = require('../world/arenaCollapse');
+const raphTrial = require('../world/raphTrial');
 const ROOM = 'ville1_arene';
 
 function createRunManager({ store, namespace, now = Date.now, random = Math.random, paceMs = 1800, durationMs = null, starterChoiceMs = 45000, accountRepository = null, colosseumRepository = null }) {
     const runs = new Map();
+    const personalPnjs = new WeakMap();
+    function pnjsFor(p) {
+        if(!personalPnjs.has(p))personalPnjs.set(p,raphTrial.scopedStore(p.run.pnjs,()=>p.raphTrial));
+        return personalPnjs.get(p);
+    }
+    function ensureRaphTrial(p,map=p.currentmap,position=p) {
+        if(map===raphTrial.config.map && p.run.phase==='exploration' && !p.defeated.has(raphTrial.config.champion))
+            p.raphTrial=raphTrial.normalize(p.raphTrial)||raphTrial.create(position,random);
+    }
     const repositoryFor = run => run.mode === 'colosseum' ? colosseumRepository : accountRepository;
     let storagePausedAt = null;
     function setStorageAvailable(available) {
@@ -151,11 +161,12 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
     function moveTo(p,map,x,y) {
         fishing.cancel(p);
         if(p.currentmap!==map) report.visit(p,map);
-        const safe=sanitizeSpawnPosition(x,y,loadCollisionData(map),map,{allowTransition:true,blocked:p.run.pnjs.isPnjBlockingTile}); p.currentmap=map;p.x=safe.x;p.y=safe.y;p.dialogue=null;
+        ensureRaphTrial(p,map,{x,y});
+        const safe=sanitizeSpawnPosition(x,y,loadCollisionData(map),map,{allowTransition:true,blocked:pnjsFor(p).isPnjBlockingTile}); p.currentmap=map;p.x=safe.x;p.y=safe.y;p.dialogue=null;
         emit(p,'newmap',{mapname:map,playersList:publicPlayers(p.run,map),reason:'drift'});
         emit(p,'mapWeatherState',getMapWeather(map));
         emit(p,'worldDevicesState',devicesForMap(map));
-        emit(p,'pnjsList',{mapname:map,pnjs:p.run.phase==='exploration'?p.run.pnjs.getPnjsForMap(map):[]});
+        emit(p,'pnjsList',{mapname:map,pnjs:p.run.phase==='exploration'?pnjsFor(p).getPnjsForMap(map):[]});
         syncCollapse(p,true);world(p.run);showArenaEntry(p);
     }
     function purge(p,reason) {
@@ -380,12 +391,13 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         p.socketId=socket.id;p.disconnectedAt=null;
         contracts.migrate(p);require('./fusion').consolidate(p);
         if(p.alive) {
+            ensureRaphTrial(p);
             // Author map replacements may invalidate an expedition checkpoint's world tile.
-            Object.assign(p,sanitizeSpawnPosition(p.x,p.y,loadCollisionData(p.currentmap),p.currentmap,{blocked:p.run.pnjs.isPnjBlockingTile}));
+            Object.assign(p,sanitizeSpawnPosition(p.x,p.y,loadCollisionData(p.currentmap),p.currentmap,{blocked:pnjsFor(p).isPnjBlockingTile}));
             emit(p,'playersList',publicPlayers(p.run,p.currentmap));
             emit(p,'mapWeatherState',getMapWeather(p.currentmap));
             emit(p,'worldDevicesState',devicesForMap(p.currentmap));
-            emit(p,'pnjsList',{mapname:p.currentmap,pnjs:p.run.phase==='exploration'?p.run.pnjs.getPnjsForMap(p.currentmap):[]});
+            emit(p,'pnjsList',{mapname:p.currentmap,pnjs:p.run.phase==='exploration'?pnjsFor(p).getPnjsForMap(p.currentmap):[]});
             if(p.inbattle) {emit(p,'battletrigger',{trainerKey:p.battle.npcKey,battleType:p.battle.type,musicKind:p.battle.musicKind(),environment:p.battle.environment||null,field:require('../battle/battleEvents').serializeFieldState(p.battle.state)});p.battle.resume(p);}
         }
         syncCollapse(p,true);send(p);world(p.run);showArenaEntry(p);return state(p);
@@ -404,7 +416,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         economy.requireMutable(p);
         if (p.inventoryBusy || p.run.phase!=='exploration') economy.fail('Déblocage disponible pendant l’exploration, hors combat.');
         if (Number.isFinite(p.lastPositionRecovery) && now()-p.lastPositionRecovery<10000) economy.fail('Patiente quelques secondes avant de réessayer.');
-        const safe=sanitizeSpawnPosition(p.x,p.y,loadCollisionData(p.currentmap),p.currentmap,{manual:true,blocked:p.run.pnjs.isPnjBlockingTile});
+        const safe=sanitizeSpawnPosition(p.x,p.y,loadCollisionData(p.currentmap),p.currentmap,{manual:true,blocked:pnjsFor(p).isPnjBlockingTile});
         moveTo(p,p.currentmap,safe.x,safe.y);
         p.isMoving=false;p.isInteracting=false;p.animationFrame=0;p.lastMove=now();p.lastPositionRecovery=now();
         return {success:true,message:'Personnage replacé sur une case accessible à proximité.'};
@@ -416,7 +428,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         const delta={move_z:[0,-32],move_s:[0,32],move_q:[-32,0],move_d:[32,0]}[action];
         const x=p.x+delta[0],y=p.y+delta[1],tx=Math.floor(x/32),ty=Math.floor(y/32);
         if(p.currentmap===collapse.config.map&&Number.isFinite(p.run.hozeCollapseStartedAt)&&collapse.blocked(p.run.hozeCollapseStartedAt,tx,ty,now()))return;
-        if(loadCollisionData(p.currentmap)[ty]?.[tx]!==0||p.run.pnjs.isPnjBlockingTile(p.currentmap,tx,ty))return;
+        if(loadCollisionData(p.currentmap)[ty]?.[tx]!==0||pnjsFor(p).isPnjBlockingTile(p.currentmap,tx,ty))return;
         const previous={x:p.x,y:p.y};p.x=x;p.y=y;p.direction=direction;p.lastMove=now();p.dialogue=null;
         const repelProtection=stepRepel(p);
         if(repelProtection?.expired)emit(p,'progressionNotice',{message:'L’effet du Repousse est terminé.'});
@@ -449,7 +461,16 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         if(isNearComputer(p)){emit(p,'pcOpened',computer.open(p));return;}
         const x=Math.floor(p.x/32),y=Math.floor(p.y/32);
         for(const [dx,dy] of [[0,-1],[0,1],[-1,0],[1,0]]) {
-            const tx=x+dx,ty=y+dy,pnj=p.run.pnjs.getPnjAtTile(p.currentmap,tx,ty);
+            const tx=x+dx,ty=y+dy,pnj=pnjsFor(p).getPnjAtTile(p.currentmap,tx,ty);
+            if(pnj?.interactionName===raphTrial.config.champion && p.raphTrial && (p.raphTrial.step<4 || now()<p.raphTrial.availableAt)) {
+                const result=raphTrial.advance(p.raphTrial,p,now());p.raphTrial=result.state;
+                if(result.changed) {
+                    p.dialogue=null;
+                    emit(p,'pnjsList',{mapname:p.currentmap,pnjs:pnjsFor(p).getPnjsForMap(p.currentmap),teleport:result.transition});
+                    emit(p,'progressionNotice',{message:raphTrial.config.messages[result.state.step-1],messageEn:raphTrial.config.messagesEn[result.state.step-1]});
+                }
+                return;
+            }
             const trainer=pnj&&trainers.find(pnj.interactionName);
             if(trainer){p.dialogue=createDialogueAuthorization({name:trainer.id,map:p.currentmap,x:tx,y:ty},now());emit(p,'expedition:trainerOffer',trainers.view(trainer,p));return;}
             const storyState=pnj?.interactionName==='lucie_route2'?{flags:{sevenp_defeated:p.defeated.has('champion_7p')?'true':'false',lucie_freed:p.defeated.has('lucie_route2')?'true':'false'}}:null;
@@ -464,6 +485,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
             p.arenaEntriesSeen ||= {}; p.arenaEntriesSeen[name]='true'; p.dialogue=null; send(p); return;
         }
         if(p.run.phase!=='exploration'||!isDialogueCompletionAllowed(p.dialogue,{name,map:p.currentmap,playerX:Math.floor(p.x/32),playerY:Math.floor(p.y/32)},now()))economy.fail('Dialogue expiré.');
+        if(name===raphTrial.config.champion && p.raphTrial && (p.raphTrial.step<4 || now()<p.raphTrial.availableAt))economy.fail('Retrouve d’abord Raph dans la salle.');
         p.dialogue=null;const trainer=trainers.find(name);
         if(trainer){if(p.defeated.has(name))economy.fail('Ce dresseur a déjà été vaincu dans cette expédition.');battle(p,trainers.opponent(trainer),'trainer',name);return;}
         const end=getEndSentenceInformation(name);
@@ -543,7 +565,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
                 for(const p of occupants)syncCollapse(p);
                 const changed = tickRoaming(occupants, now(), run.pnjDeadlines, random, run.pnjs);
                 for (const p of occupants) if (changed.has(p.currentmap)) emit(p, 'pnjsList', {
-                    mapname: p.currentmap, pnjs: run.pnjs.getPnjsForMap(p.currentmap), walking: true
+                    mapname: p.currentmap, pnjs: pnjsFor(p).getPnjsForMap(p.currentmap), walking: true
                 });
             }
             for(const b of [...run.battles])b.tick();

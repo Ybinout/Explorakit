@@ -26,6 +26,7 @@ async function rearm(user) {
                 [owner.id,require('../game/world/testReplayState').obstacleFlag(obstacle)]);
         }
         await connection.execute('DELETE FROM player_story_flags WHERE user_id=? AND flag_key=?',[owner.id,require('../game/world/arenaCollapse').config.flag]);
+        if(champions.some(c=>c.name==='champion_raphael'))await connection.execute('DELETE FROM player_story_flags WHERE user_id=? AND flag_key=?',[owner.id,require('../game/world/raphTrial').config.flag]);
         return {count:champions.length};
     });
 }
