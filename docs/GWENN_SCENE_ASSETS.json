@@ -1,0 +1,36 @@
+{
+  "generatedBy": "Built-in imagegen, 2026-10-25",
+  "assets": [
+    {
+      "kind": "Portrait",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-a2484f87-2344-427f-aa04-65a415dc4c1b.png",
+      "file": "vue-explorakit/src/assets/image/gwenn-v1.png",
+      "prompt": "Create a new transparent character splash art for RiftMon, matching a black-and-white manga ink trainer portrait. An adult male trainer named Gwenn, tall slender build, entirely black clothes: black cap, long black straight hair visibly falling out under cap past his shoulders, black open jacket and black trousers. Three-quarter full upper body down to mid-thigh, both hands completely visible. One hand holds a clearly recognizable round capture ball, the other holds a small unbranded rectangular vape device casually lowered, no smoke cloud, no text. Calm self-assured expression, strong readable silhouette, sophisticated bold manga linework, white highlights and grayscale screentone shading. Pure black and white only. Character isolated on genuine transparent background. No typography, no logos, no scenery, no border. Keep cap and both hands completely in frame, comfortable margins. This is an illustrated dialogue and battle entrance portrait, not pixel art."
+    },
+    {
+      "kind": "Sprite",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-9154c55c-607a-4190-a562-4ff6aeeaeb17.png",
+      "file": "vue-explorakit/src/assets/pnj/gwenn-pixel-v1.png",
+      "prompt": "Use case: stylized-concept. A single tiny overworld pixel-art RPG trainer sprite, front facing with slight top-down view, full body centered, on genuine transparent background. Character is adult male Gwenn, black cap, straight long black hair hanging below cap to shoulders, black jacket, black pants and black shoes, pale face, tiny capture ball in one hand and tiny gray unbranded vape in the other. Match Nintendo DS era monster-catching overworld trainer sprites: chibi large head, compact body, chunky deliberate pixel clusters, dark one-pixel outline, only about 12 colors, no antialiasing, no painted details, no blur, no glow, no ground shadow, no scenery, no text. Design on a conceptual 24-by-32 pixel grid enlarged with exact square pixels. Visible character approximately 18 pixels wide and 29 pixels tall, with transparent margins on every side. One character only, one pose only, feet fully visible. This must read like an existing low-resolution game sprite, not a detailed illustration."
+    },
+    {
+      "kind": "House",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-5841532c-f886-4b6c-a983-7ff3a7921322.png",
+      "file": "vue-explorakit/src/assets/gwenn_house.png",
+      "prompt": "Create a new game-ready top-down pixel-art RPG house interior background, landscape 7:5 aspect ratio, ultimately displayed at 448x320 pixels. Match restrained Nintendo DS / GBA monster-catching RPG interior tile art: deliberate square pixels, simple crisp shapes, 16px tiles, no painterly rendering, no isometric view, no perspective floor. Entire room visible, surrounded by solid black void. Exact layout in a conceptual 448x320 canvas: room spans x96..352, back wall y32..72, slate charcoal floor x96..352 y72..288, open exit gap x208..240 at bottom y288..304. Black exterior on both sides. This is adult trainer Gwenn's comfortable dark house, NOT a dungeon: muted aubergine walls, black wood furniture, warm small desk lamp, gray stone floor. Furniture only at sides: left bookcase and small black sofa x104..155, right low cabinet and desk x296..340. Center x165..285 must be completely empty walkable floor from y90 to bottom door. Small elegant dark geometric floor rug centered at (224,120), flat and walkable, where a trainer will stand. One modest window high on back wall, curtains. Cohesive sparse cozy noir atmosphere, enough brightness to see characters, no characters, no monsters, no text, no icons, no smoke, no huge light beams. Tiles and furniture must have clean readable collision silhouettes. Do not add a raised platform, stair, or door on the back wall."
+    },
+    {
+      "kind": "BattleWide",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-e3dd0364-a708-4047-bbbb-052c5ce39a46.png",
+      "file": "vue-explorakit/src/assets/battle/gwenn-house-wide-v1.webp",
+      "prompt": "Create a game battle background, wide 16:9 composition, restrained crisp pixel-art matching a Nintendo DS monster-catching RPG. Inside Gwenn's dark but comfortable house: muted plum wallpaper, dark wood paneling, small curtained window high center with night blue glass, black bookcase and sofa only at far left, desk and small warm lamp at far right. Camera faces across the room at a low slightly elevated battle angle, no overhead map view. Most of the picture (bottom 75 percent) is open gray slate tiled floor, subdued and legible with sparse tile lines. Back wall and furniture confined to upper 25 percent and far edges. Spacious empty combat area. No characters, no monsters, no text, no UI, no circular marks or platforms: the game draws precisely aligned platforms on top. Limit detail, large pixel clusters, clean silhouettes, no photorealism, no blur, no dramatic volumetric beams. Gentle warm/cool contrast and readable dark floor, no total black areas. It must be a home battle room, not a cathedral or arena."
+    },
+    {
+      "kind": "BattleMobile",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-d6c82c32-bf9a-44dc-a228-dc6f0555bada.png",
+      "file": "vue-explorakit/src/assets/battle/gwenn-house-mobile-v1.webp",
+      "prompt": "Create a new VERTICAL PORTRAIT mobile game battle background, aspect ratio 2:3. Restrained crisp pixel-art of Gwenn's dark comfortable home battle room: plum wallpaper, black wood paneling, a modest blue window and small warm desk lamp, matching Nintendo DS era monster-catching game art. Camera faces the back wall from low slightly elevated combat viewpoint. VERY IMPORTANT MOBILE COMPOSITION: wall/window/furniture occupy only the top 22 percent; bottom 78 percent is simple open gray slate tiled floor fading gently toward foreground, with broad pixel clusters and very sparse tile seams. Black sofa barely at far left edge high up, lamp at far right edge high up. Empty floor for an enemy sprite at 77% width / 55% height and player sprite at 18% width / 96% height. No characters, no monsters, no circular platforms or ground markings (runtime draws aligned platforms), no text/UI, no thick fog, no bright light effects. Enough ambient brightness to see dark silhouettes. Cozy restrained noir house, not dungeon, not photorealistic. Vertical image with calm empty combat space."
+    }
+  ],
+  "integration": "Transparent foreground gwenn_house_f.png; dedicated collision map gwenn_house.json/.tmx; battle platforms drawn by the existing renderer at sprite anchors. Sprite resized to 24x32 preserving alpha; backdrop 448x320, battle wide 1280x720 and mobile 768x1152."
+}

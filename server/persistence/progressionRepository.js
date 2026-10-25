@@ -60,6 +60,7 @@ async function loadProgressState(userId) {
     await reconcileMoonpunchBadge(id);
     await require('./flightRepository').reconcileFlightProgress(id);
     await require('./hozeRewardRepository').reconcileHozeExpShare(id);
+    await require('./gwennKeyRepository').reconcile(id);
     const [[flagRows], [questRows], [badgeRows], [battleRows], [moneyRows]] = await Promise.all([
         dbPool.execute('SELECT flag_key, flag_value, updated_at FROM player_story_flags WHERE user_id = ?', [id]),
         dbPool.execute('SELECT quest_key, status, progress, updated_at, completed_at FROM player_quests WHERE user_id = ?', [id]),
@@ -84,6 +85,7 @@ async function loadProgressState(userId) {
             ...(definition.key === 'first_challenge' && effectiveFlags.route_guard_defeated === 'true' ? { status:'completed', progress:1 } : {}),
             ...(definition.key === 'clara_chapter2' ? deriveChapter2({flags}) : {}),
             ...(definition.key === 'refuges' ? {progress:['refuge_lyse_met','refuge_abel_met'].filter(k=>flags[k]==='true').length,status:['refuge_lyse_met','refuge_abel_met'].every(k=>flags[k]==='true')?'completed':'active'} : {}),
+            ...(definition.key === 'gwenn_challenge' && flags.gwenn_rochebrume_defeated === 'true' ? {status:'completed',progress:1} : {}),
             ...(definition.key === 'main_sister_search' ? {
                 ...storyQuest,
                 completedAt: storyQuest.status === 'completed'
@@ -229,6 +231,7 @@ async function grantReward(id, reward, connection) {
     if (money > 0) await connection.execute('UPDATE users SET money = money + ? WHERE id = ?', [money, id]);
     for(const [key,count]of Object.entries(reward.items||{})) {
         if(!Number.isSafeInteger(count)||count<1||count>99)throw Error('Récompense objet invalide.');
+        if (key === 'gwenn_house_key') { await require('./gwennKeyRepository').grant(id,connection); continue; }
         if (key === 'exp_share') { await require('./hozeRewardRepository').grantHozeExpShare(id,connection); continue; }
         await connection.execute('INSERT INTO user_items(user_id,item_key,quantity) VALUES (?,?,?) ON DUPLICATE KEY UPDATE quantity=quantity+VALUES(quantity)',[id,key,count]);
     }

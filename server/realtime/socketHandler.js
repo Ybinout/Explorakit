@@ -1103,7 +1103,7 @@ const socketHandler = (io) => {
             let interactionDetected = false;
 
             for (const pos of adjacentPositions) {
-                const pnj = getPnjAtTile(currentmap, pos.x, pos.y);
+                const pnj = storyGates.actorAtTile(currentmap,pos.x,pos.y,progress) || getPnjAtTile(currentmap, pos.x, pos.y);
                 if (pnj) {
                     interactionDetected = true;
                     const name = pnj.interactionName || pnj.name;

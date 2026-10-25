@@ -2334,6 +2334,159 @@
         },
         "defeatLine": "Lucie : Pars… tant que je peux encore te le demander. Ne les laisse pas te prendre aussi."
       }
+    },
+    {
+      "name": "gwenn_rochebrume",
+      "team": [
+        {
+          "pokemonId": 428,
+          "name": "Lockpin",
+          "level": 55,
+          "k": 3,
+          "nature": "Jolly",
+          "passiveAbility": "Limber",
+          "heldItem": "expert_belt",
+          "abilities": [
+            "Fake Out",
+            "Double-Edge",
+            "Drain Punch",
+            "Ice Punch"
+          ],
+          "givenIv": {
+            "hp": 28,
+            "attack": 30,
+            "defense": 27,
+            "specialAttack": 27,
+            "specialDefense": 28,
+            "speed": 30
+          },
+          "ev": {
+            "attack": 252,
+            "speed": 252,
+            "specialDefense": 4
+          }
+        },
+        {
+          "pokemonId": 430,
+          "name": "Corboss",
+          "level": 55,
+          "k": 3,
+          "nature": "Adamant",
+          "passiveAbility": "Moxie",
+          "heldItem": "life_orb",
+          "abilities": [
+            "Brave Bird",
+            "Sucker Punch",
+            "Superpower",
+            "Roost"
+          ],
+          "givenIv": {
+            "hp": 28,
+            "attack": 30,
+            "defense": 27,
+            "specialAttack": 27,
+            "specialDefense": 28,
+            "speed": 30
+          },
+          "ev": {
+            "attack": 252,
+            "speed": 252,
+            "specialDefense": 4
+          }
+        },
+        {
+          "pokemonId": 248,
+          "name": "Tyranocif",
+          "level": 56,
+          "k": 3,
+          "nature": "Jolly",
+          "passiveAbility": "Sand Stream",
+          "heldItem": "lum_berry",
+          "abilities": [
+            "Dragon Dance",
+            "Stone Edge",
+            "Crunch",
+            "Earthquake"
+          ],
+          "givenIv": {
+            "hp": 28,
+            "attack": 30,
+            "defense": 27,
+            "specialAttack": 27,
+            "specialDefense": 28,
+            "speed": 30
+          },
+          "ev": {
+            "attack": 252,
+            "speed": 252,
+            "specialDefense": 4
+          }
+        },
+        {
+          "pokemonId": 227,
+          "name": "Airmure",
+          "level": 56,
+          "k": 3,
+          "nature": "Impish",
+          "passiveAbility": "Sturdy",
+          "heldItem": "leftovers",
+          "abilities": [
+            "Spikes",
+            "Whirlwind",
+            "Roost",
+            "Brave Bird"
+          ],
+          "givenIv": {
+            "hp": 28,
+            "attack": 30,
+            "defense": 27,
+            "specialAttack": 27,
+            "specialDefense": 28,
+            "speed": 30
+          },
+          "ev": {
+            "hp": 252,
+            "defense": 232,
+            "speed": 24
+          }
+        },
+        {
+          "pokemonId": 94,
+          "name": "Ectoplasma",
+          "level": 57,
+          "k": 4,
+          "nature": "Timid",
+          "passiveAbility": "Cursed Body",
+          "heldItem": "life_orb",
+          "abilities": [
+            "Shadow Ball",
+            "Sludge Bomb",
+            "Focus Blast",
+            "Thunderbolt"
+          ],
+          "givenIv": {
+            "hp": 31,
+            "attack": 31,
+            "defense": 31,
+            "specialAttack": 31,
+            "specialDefense": 31,
+            "speed": 31
+          },
+          "ev": {
+            "specialAttack": 252,
+            "speed": 252,
+            "specialDefense": 4
+          }
+        }
+      ],
+      "strategy": {
+        "name": "Gwenn",
+        "ai": "expert",
+        "entryLines": {
+          "94": "On garde la tête froide. À nous de trouver la faille."
+        },
+        "defeatLine": "Gwenn : Bien joué… Tu as su tenir ton plan jusqu’au bout."
+      }
     }
   ]
 }

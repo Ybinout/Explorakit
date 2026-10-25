@@ -1991,7 +1991,9 @@
           "valY": 16,
           "goto": "ville4_maison2",
           "nexX": 416,
-          "nexY": 544
+          "nexY": 512,
+          "requiresStoryFlag": "gwenn_house_key_received",
+          "lockedMessage": "La porte est fermée. Wanda te remettra la clé de la maison de Gwenn après sa défaite."
         }
       ]
     },
@@ -2062,8 +2064,15 @@
       },
       "mapchange": [
         {
-          "valX": null,
-          "valY": 17,
+          "valX": 13,
+          "valY": 16,
+          "goto": "ville4",
+          "nexX": 704,
+          "nexY": 576
+        },
+        {
+          "valX": 14,
+          "valY": 16,
           "goto": "ville4",
           "nexX": 704,
           "nexY": 576
@@ -2095,21 +2104,21 @@
           "valY": 19,
           "goto": "ville4",
           "nexX": 416,
-          "nexY": 160
+          "nexY": 192
         },
         {
           "valX": 13,
           "valY": 19,
           "goto": "ville4",
           "nexX": 416,
-          "nexY": 160
+          "nexY": 192
         },
         {
           "valX": 14,
           "valY": 19,
           "goto": "ville4",
           "nexX": 416,
-          "nexY": 160
+          "nexY": 192
         },
         {
           "valX": 12,

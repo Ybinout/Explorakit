@@ -7,7 +7,12 @@
       "npcBattle": "dia1",
       "requiredFlag": "route_guard_defeated",
       "direction": "up",
-      "tiles": { "x": 19, "y": 2, "width": 3, "height": 1 },
+      "tiles": {
+        "x": 19,
+        "y": 2,
+        "width": 3,
+        "height": 1
+      },
       "name": "Wayne",
       "message": "Wayne : Pas si vite ! Bats-moi avant de prendre la route. Viens me parler avec A.",
       "messageEn": "Wayne: Not so fast! Beat me before taking the road. Come talk to me with A."
@@ -19,7 +24,12 @@
       "npcBattle": "aspha_route2",
       "requiredFlag": "aspha_route2_defeated",
       "direction": "right",
-      "tiles": { "x": 26, "y": 5, "width": 1, "height": 2 },
+      "tiles": {
+        "x": 26,
+        "y": 5,
+        "width": 1,
+        "height": 2
+      },
       "name": "Aspha",
       "message": "Aspha : Avant de rejoindre la Ville du Lac, montre-moi ce que vaut ton équipe ! Viens me parler avec A.",
       "messageEn": "Aspha: Before heading to Lake Town, show me what your team can do! Come talk to me with A."
@@ -57,6 +67,37 @@
       "name": "Mathilde Pikapika",
       "message": "Mathilde Pikapika : La Route 5 est fermée. Viens me voir avec A avant de continuer.",
       "messageEn": "Mathilde Pikapika: Route 5 is closed. Come talk to me with A before going further."
+    },
+    {
+      "id": "gwenn_rochebrume_tunnel",
+      "map": "ville4",
+      "nextMap": "cave_rochebrume1",
+      "npcBattle": "gwenn_rochebrume",
+      "requiredFlag": "gwenn_rochebrume_defeated",
+      "direction": "up",
+      "tiles": {
+        "x": 13,
+        "y": 3,
+        "width": 1,
+        "height": 2
+      },
+      "name": "Le père de Gwenn",
+      "kind": "npc",
+      "actor": {
+        "name": "gwenn_father",
+        "interactionName": "gwenn_father",
+        "map": "ville4",
+        "x": 13,
+        "y": 4,
+        "sprite": "6931.png",
+        "spriteFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 14
+        }
+      },
+      "message": "Le père de Gwenn : Bats mon fils dans la maison orange avant de passer. Wanda te donnera sa clé.",
+      "messageEn": "Gwenn’s father: Defeat my son in the orange house before passing. Wanda will give you its key."
     }
   ]
 }

@@ -528,7 +528,10 @@
   {
     "name": "champion_wanda_after",
     "sentences": [
-      {"text": "Wanda : Prends ce module Vol. Ouvre ta minimap et choisis une ville que tu as déjà visitée : il te déposera devant son Centre Pokémon, ou devant son arène. Tu pourras revenir nous voir quand tu voudras.", "imageName": "wanda.png"},
+      {
+        "text": "Wanda : Prends ce module Vol. Ouvre ta minimap et choisis une ville que tu as déjà visitée : il te déposera devant son Centre Pokémon, ou devant son arène. Tu pourras revenir nous voir quand tu voudras.",
+        "imageName": "wanda.png"
+      },
       {
         "text": "Wanda : Impressionnant. Une seule autre personne m’avait déjà battue. Prends le Badge Marée… et écoute bien.",
         "imageName": "wanda.png"
@@ -539,6 +542,10 @@
       },
       {
         "text": "Wanda : J’ai quitté l’organisation. Cela n’efface pas ma responsabilité. Lucie a découvert ce qu’ils faisaient ; elle pourrait être en grand danger.",
+        "imageName": "wanda.png"
+      },
+      {
+        "text": "Wanda : Prends aussi la clé de la maison de Gwenn, la maison orange au sud-est. Bats-le : son père te laissera alors prendre le tunnel vers Blanchecime et 7p.",
         "imageName": "wanda.png"
       },
       {
@@ -2432,6 +2439,68 @@
           "columns": 8,
           "rows": 4,
           "index": 7
+        }
+      }
+    ]
+  },
+  {
+    "name": "gwenn_rochebrume",
+    "team": "gwenn_rochebrume",
+    "after": "gwenn_rochebrume_after",
+    "locked": "gwenn_rochebrume_locked",
+    "sentences": [
+      {
+        "text": "Gwenn : Wanda t’a confié ma clé ? Entre. Elle ne l’aurait pas fait sans une bonne raison.",
+        "imageName": "gwenn-v1.png"
+      },
+      {
+        "text": "Gwenn : Mon père surveille le tunnel. Je lui ai demandé de laisser passer les dresseurs capables de me battre. Prépare ton équipe, on commence.",
+        "imageName": "gwenn-v1.png"
+      }
+    ],
+    "end": "battle"
+  },
+  {
+    "name": "gwenn_rochebrume_locked",
+    "sentences": [
+      {
+        "text": "Gwenn : Va d’abord affronter Wanda. Si elle te fait confiance, on pourra parler de ce duel.",
+        "imageName": "gwenn-v1.png"
+      }
+    ]
+  },
+  {
+    "name": "gwenn_rochebrume_after",
+    "sentences": [
+      {
+        "text": "Gwenn : Tu as gagné. Tu n’as pas lâché ton plan, même quand le combat s’est compliqué. Respect.",
+        "imageName": "gwenn-v1.png"
+      },
+      {
+        "text": "Gwenn : Je préviens mon père : il te laissera le passage. Le tunnel au nord mène vers les routes enneigées et Blanchecime. Bonne route.",
+        "imageName": "gwenn-v1.png"
+      }
+    ]
+  },
+  {
+    "name": "gwenn_father",
+    "sentences": [
+      {
+        "text": "Le père de Gwenn : Je garde ce passage. Les grottes ne pardonnent pas l’imprudence.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 14
+        }
+      },
+      {
+        "text": "Le père de Gwenn : Bats mon fils, dans la maison orange au sud-est. Wanda t’en confiera la clé après son défi. Quand Gwenn me dira que tu es prêt, je partirai.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 14
         }
       }
     ]

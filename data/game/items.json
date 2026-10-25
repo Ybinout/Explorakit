@@ -2286,6 +2286,15 @@
       "sell_price": 0,
       "unique": true,
       "description": "Offert par Wanda. Depuis la minimap, rejoins une ville déjà visitée. Permanent, sans Pokémon ni capacité à équiper."
+    },
+    {
+      "key": "gwenn_house_key",
+      "name": "Clé de la maison de Gwenn",
+      "category": "key",
+      "buy_price": 0,
+      "sell_price": 0,
+      "unique": true,
+      "description": "Remise par Wanda. Ouvre la maison orange au sud-est de Rochebrume. Permanente."
     }
   ]
 }

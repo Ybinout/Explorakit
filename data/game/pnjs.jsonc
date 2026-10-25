@@ -866,21 +866,6 @@
       "roamRadius": 0
     },
     {
-      "name": "rochebrume_habitant2",
-      "interactionName": "rochebrume_habitant2",
-      "map": "ville4_maison2",
-      "x": 13,
-      "y": 8,
-      "sprite": "townspeople.png",
-      "block": true,
-      "spriteFrame": {
-        "columns": 8,
-        "rows": 4,
-        "index": 27
-      },
-      "roamRadius": 0
-    },
-    {
       "name": "blanchecime_guide",
       "interactionName": "blanchecime_guide",
       "map": "ville5",
@@ -1085,6 +1070,22 @@
         "index": 0
       },
       "roamRadius": 0
+    },
+    {
+      "name": "gwenn_rochebrume",
+      "interactionName": "gwenn_rochebrume",
+      "map": "ville4_maison2",
+      "x": 13,
+      "y": 9,
+      "sprite": "gwenn-pixel-v1.png",
+      "spriteFrame": {
+        "columns": 1,
+        "rows": 1,
+        "index": 0
+      },
+      "block": true,
+      "roamRadius": 0,
+      "blockingWidth": 2
     }
   ]
 }

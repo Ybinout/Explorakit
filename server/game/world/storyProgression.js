@@ -26,13 +26,15 @@ function deriveStoryQuest(state = {}) {
     const flags = effectiveStoryFlags(state);
     let progress = 0;
     while (progress < steps.length && flags[steps[progress].flag] === 'true') progress += 1;
+    const needsGwenn = flags.wanda_defeated === 'true' && flags.gwenn_rochebrume_defeated !== 'true' && flags.sevenp_defeated !== 'true';
     return {
         progress,
         target: steps.length,
         status: progress === steps.length ? 'completed' : 'active',
-        description: steps[progress]?.objective || catalog.chapterConclusion,
-        destination: steps[progress]?.destination || null,
-        map: steps[progress]?.map || null
+        description: needsGwenn
+            ? 'Wanda t’a donné la clé de Gwenn. Bats-le dans la maison orange au sud-est de Rochebrume pour que son père libère le tunnel au nord.' : steps[progress]?.objective || catalog.chapterConclusion,
+        destination: needsGwenn ? 'Gwenn · Maison orange de Rochebrume' : steps[progress]?.destination || null,
+        map: needsGwenn ? 'ville4_maison2' : steps[progress]?.map || null
     };
 }
 

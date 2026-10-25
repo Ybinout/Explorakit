@@ -1,5 +1,20 @@
 # Audit technique et mémoire de RiftMon
 
+## Gwenn — maison orange et tunnel de Rochebrume — 25 octobre 2026
+
+Nouveau dresseur `gwenn_rochebrume`, distinct de l’ancien identifiant `gwenn_route8` qui reste Matthieu. Maison orange sud-est de Rochebrume (`ville4_maison2`, porte 22,16) : Wanda remet la clé permanente `gwenn_house_key`, objet important unique, et un dialogue l’annonce. `gwennKeyRepository` réconcilie les anciennes victoires prouvées par flag, reçu ou Badge Marée ; verrou de compte, attribution idempotente, aucune autre récompense. Acquittement client ou simple possession d’un objet envoyé par le client ne permet pas d’ouvrir la porte. Les anciens gagnants reçoivent la clé au prochain chargement de leur progression.
+
+Équipe : Lockpin 55 K3 (Ceinture Pro), Corboss 55 K3 (Orbe Vie), Tyranocif 56 K3 (Baie Prine), Airmure 56 K3 (Restes), Ectoplasma 57 K4 (Orbe Vie). Natures, talents, quatre attaques et répartitions de 508 EV adaptées ; IV 27–30 pour les K3, IV parfaits pour Ectoplasma. Plan expert de l’IA humaine existante, aucune lecture du choix adverse, pas de réserve forcée. Combat unique avec protection anti-farm d’XP, victoire personnelle, dialogue après victoire et quête « Le défi de Gwenn » dans le journal après Wanda. L’objectif principal pointe vers Gwenn avant 7p, sans invalider les anciens chapitres terminés ni changer le nombre d’étapes acquises.
+
+Père de Gwenn devant le tunnel nord : acteur personnel du système de passages, envoyé par snapshot de progression, dessiné avec le vieil archiviste de l’atlas classique. Dialogue avec Action et blocage serveur de toutes les approches + contrôle de la véritable sortie, y compris pour les sauvegardes déjà au-delà. Il disparaît uniquement lorsque ce joueur a vaincu Gwenn ; aucun PNJ mondial supprimé. Retour de grotte en (13,5), devant le père et non sur sa case. Les barrières de récit restent propres à l’Aventure ; les expéditions partagent la nouvelle maison, l’équipe et le décor, avec la clé conditionnée à leur propre victoire contre Wanda comme les autres portes narratives.
+
+Maison dédiée `gwenn_house` en JSON/TMX, alias et décor 448×320 indépendants : passage central libre, collisions meubles/murs/vide, arrivée (13,15), sortie (13/14,16) vers (22,17) en ville. Foreground transparent pour éviter les anciens meubles. Nouveau sprite 24×32 à échelle 2, centré sur le tapis avec collision deux colonnes ; portrait manga noir et blanc avec casquette, longs cheveux noirs, Ball et vapoteuse. Splash de combat 3,6 s ; backgrounds distincts PC/mobile avec socles dessinés aux ancres des combattants. Musique générique conservée en attendant les morceaux du créateur. Assets créés via imagegen intégré ; chemins, sources et prompts exacts dans `docs/GWENN_SCENE_ASSETS.json`.
+
+Validation : 3 tests `tests/gwenn.test.js`, dont SQL sur comptes jetables : récompense nouvelle victoire, anciennes preuves flag/badge/reçu, appels concurrents sans doublon, joueur non éligible et quête complétée une seule fois. 60 régressions monde/portes/PNJ/Vol/expéditions et 12 vérifications IA/entrées de combat passent. `scripts/validateGwennBrowser.js` : porte verrouillée, vraie attribution rétroactive, entrée/sortie, père et dialogue, véritable combat gagné, quête, disparition personnelle, tunnel aller/retour ; captures 320/393/1365 inspectées, décors portrait/paysage et splash chargés, aucune erreur navigateur. Lint/build réussis ; fichiers `/tmp/riftmon-gwenn-*`. Aucun test sur téléphone physique revendiqué.
+
+
+Publication le 25 octobre 2026 à 06:22:57 UTC, client `3b3176eb118f555b6a40b00dc36cf4396085454b`, build `9180dc4e72f4971e`. Serveur PID 1588121 actif sans redémarrage automatique ; aucune expédition active lors de la reprise. Index HTTPS et quatre images publiques contrôlés à l’octet, petit sprite embarqué dans le bundle ; Knov/api-test inchangés. Sauvegarde sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-gwenn-2026-10-25T06-20-10-427Z`. Pas de migration SQL ni de remise à zéro ; clés réconciliées au chargement de la progression.
+
 ## Aspha — équipe Route 2 — 25 octobre 2026
 
 Équipe remplacée dans le catalogue partagé : Riolu niveau 13 (Vive-Attaque, Riposte, Ruse ; Attention), Tarsal niveau 14 (Choc Mental, Voix Enjôleuse, Rugissement ; Synchro) et Draby niveau 14 (Dracosouffle, Morsure, Flammèche ; Tête de Roc). K1, IV 12, nature neutre ; Riolu conserve la Baie Oran du premier emplacement. Espèces non évoluées, niveaux dans le palier précédent. Accès après Wayne, combat unique, progression et récompenses inchangés ; équipe partagée Aventure/expéditions.
@@ -3233,6 +3248,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 25 octobre 2026 — Gwenn ajouté après Wanda dans la maison orange de Rochebrume : clé rétroactive, quête/duel stratégique, père personnel devant le tunnel, intérieur/portrait/sprite/décors dédiés et recettes SQL/navigateur. Voir la section en tête pour les limites et la reprise des anciennes sauvegardes.
 
 - 25 octobre 2026 — Aspha utilise désormais Riolu 13, Tarsal 14 et Draby 14. Attaques/talents adaptés, neuf tests ciblés réussis ; catalogue serveur publié sans modification des sauvegardes.
 

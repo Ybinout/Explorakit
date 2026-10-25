@@ -14,13 +14,16 @@ function candidatesForStep(map, direction, x, y, nextMap = null) {
         // Also protect the real exit for saves made beyond the barrier before its introduction.
         if (nextMap && gate.nextMap === nextMap) return true;
         const t = gate.tiles;
-        return direction === gate.direction && x >= t.x && x < t.x + t.width && y >= t.y && y < t.y + t.height;
+        return (gate.actor || direction === gate.direction) && x >= t.x && x < t.x + t.width && y >= t.y && y < t.y + t.height;
     }).concat(roomObstacles.candidates(map, x, y).map(o => ({...o, message:o.blockedMessage, messageEn:o.blockedMessageEn})));
 }
 function snapshot(progress = {}) {
     return gates.map(gate => ({
         id: gate.id, map: gate.map, tiles: gate.tiles, direction: gate.direction,
-        name: gate.name, locked: isLocked(gate, progress)
+        name: gate.name, kind: gate.kind, actor: gate.actor, locked: isLocked(gate, progress)
     })).concat(roomObstacles.snapshot(progress));
 }
-module.exports = { gates, isLocked, candidatesForStep, snapshot };
+function actorAtTile(map,x,y,progress) {
+    return gates.find(g=>g.map===map&&g.actor&&g.actor.x===x&&(g.actor.y===y||g.actor.y-1===y)&&isLocked(g,progress))?.actor || null;
+}
+module.exports = { gates, isLocked, candidatesForStep, snapshot, actorAtTile };
