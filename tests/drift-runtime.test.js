@@ -356,7 +356,7 @@ test('Soigneur nomade partage le soin effectif par Symbiose avant de libérer le
 test('Rift uses the new Ocreville doors, Center provenance and safe restored positions',()=>{
  const f=fixture(),p=f.run.players.get(1),set=(map,x,y)=>Object.assign(p,{currentmap:map,x:x*32+16,y:y*32+16,lastMove:0});
  for(const [map,x,y,action,target]of [['route4',18,18,'move_s','gen_route8'],['gen_route8',18,1,'move_z','route4'],['gen_route8',23,18,'move_s','gen_ville5'],['gen_ville5',23,1,'move_z','gen_route8'],['gen_ville5',23,18,'move_s','gen_route7'],['gen_route7',23,1,'move_z','gen_ville5']]){set(map,x,y);f.runtime.move(p,action);assert.equal(p.currentmap,target);}
- for(const [x,y,target]of [[4,4,'gen_maison_ville5_1'],[12,4,'gen_maison_ville5_2'],[16,17,'gen_maison_ville5_3'],[5,12,'gen_arene5'],[23,13,'gen_shop_ville5_1'],[17,7,'centre']]){set('gen_ville5',x,y+1);f.runtime.move(p,'move_z');assert.equal(p.currentmap,target);p.lastMove=0;f.runtime.move(p,'move_s');assert.equal(p.currentmap,'gen_ville5');assert.deepEqual([p.x,p.y],[x*32+16,(y+1)*32+16]);}
+ for(const [x,y,target]of [[4,4,'gen_maison_ville5_1'],[12,4,'gen_maison_ville5_2'],[16,17,'gen_maison_ville5_3'],[5,12,'gen_arene5'],[23,13,'gen_shop_ville5_1'],[17,7,'centre']]){set('gen_ville5',x,y+1);f.runtime.move(p,'move_z');assert.equal(p.currentmap,target);if(p.dialogue?.arenaEntry)f.runtime.endDialogue(p,p.dialogue.name);p.lastMove=0;f.runtime.move(p,'move_s');assert.equal(p.currentmap,'gen_ville5');assert.deepEqual([p.x,p.y],[x*32+16,(y+1)*32+16]);}
  for(const map of ['gen_route8','gen_ville5']){set(map,0,0);f.runtime.enter(f.users[0],f.sockets[0]);const repo=require('../server/game/world/mapRepository'),x=Math.floor(p.x/32),y=Math.floor(p.y/32);assert.equal(repo.loadCollisionData(map)[y][x],0);assert.equal(repo.changeMapData(map)[y][x],0);}
 });
 
@@ -403,9 +403,9 @@ test('Rift and Colosseum traverse Routes 9/10 and the shop; Clairfontaine opens 
  for(const mode of ['rift','colosseum']){
   const f=fixture(),p=f.run.players.get(1);f.run.mode=mode;
   const set=(map,x,y)=>Object.assign(p,{currentmap:map,x:x*32+16,y:y*32+16,lastMove:0});
-  for(const [map,x,y,action,target,xy]of [['gen_ville5',23,18,'move_s','gen_route7',[23,1]],['gen_route7',6,18,'move_s','gen_route6',[6,1]],['gen_route6',6,1,'move_z','gen_route7',[6,18]],['gen_route7',23,1,'move_z','gen_ville5',[23,18]],['gen_route6',20,8,'move_z','gen_shop_route10',[13,16]],['gen_shop_route10',13,16,'move_s','gen_route6',[20,8]]]){set(map,x,y);f.runtime.move(p,action);assert.equal(p.currentmap,target);assert.deepEqual([Math.floor(p.x/32),Math.floor(p.y/32)],xy);}
+  for(const [map,x,y,action,target,xy]of [['gen_ville5',23,18,'move_s','gen_route7',[23,1]],['gen_route7',6,18,'move_s','gen_route6',[6,1]],['gen_route6',6,1,'move_z','gen_route7',[6,18]],['gen_route7',23,1,'move_z','gen_ville5',[23,18]],['gen_route6',20,8,'move_z','gen_shop_route10',[13,15]],['gen_shop_route10',13,15,'move_s','gen_route6',[20,8]]]){set(map,x,y);f.runtime.move(p,action);assert.equal(p.currentmap,target);assert.deepEqual([Math.floor(p.x/32),Math.floor(p.y/32)],xy);}
   set('gen_route6',14,18);f.runtime.move(p,'move_s');assert.equal(p.currentmap,'ville3');assert.deepEqual([p.x,p.y],[14*32+16,48]);p.lastMove=0;f.runtime.move(p,'move_z');assert.equal(p.currentmap,'gen_route6');
-  for(const [x,y,target]of [[23,6,'centre'],[5,8,'ville3_arene'],[22,13,'ville3_shop'],[5,16,'ville3_maison1'],[15,16,'ville3_maison2']]){set('ville3',x,y+1);f.runtime.move(p,'move_z');assert.equal(p.currentmap,target);p.lastMove=0;f.runtime.move(p,'move_s');assert.equal(p.currentmap,'ville3');assert.deepEqual([Math.floor(p.x/32),Math.floor(p.y/32)],[x,y+1]);}
+  for(const [x,y,target]of [[23,6,'centre'],[5,8,'ville3_arene'],[22,13,'ville3_shop'],[5,16,'ville3_maison1'],[15,16,'ville3_maison2']]){set('ville3',x,y+1);f.runtime.move(p,'move_z');assert.equal(p.currentmap,target);if(p.dialogue?.arenaEntry)f.runtime.endDialogue(p,p.dialogue.name);p.lastMove=0;f.runtime.move(p,'move_s');assert.equal(p.currentmap,'ville3');assert.deepEqual([Math.floor(p.x/32),Math.floor(p.y/32)],[x,y+1]);}
   set('ville3',1,16);f.runtime.move(p,'move_q');assert.equal(p.currentmap,'route11');assert.deepEqual([p.x,p.y],[26*32+16,16*32+16]);p.lastMove=0;f.runtime.move(p,'move_d');assert.equal(p.currentmap,'ville3');assert.equal(p.x,48);set('gen_route6',14,18);
   const {decode,encode}=require('../server/game/drift/checkpointCodec'),restored=decode(encode(f.run));assert.equal(restored.players.get(1).currentmap,'gen_route6');
  }
@@ -415,7 +415,7 @@ test('Rift/Colosseum cross Routes 11/12 and Rochebrume, use all doors and reach 
  for(const mode of ['rift','colosseum']){
   const f=fixture(),p=f.run.players.get(1);f.run.mode=mode;const set=(map,x,y)=>Object.assign(p,{currentmap:map,x:x*32+16,y:y*32+16,lastMove:0});
   for(const [map,x,y,action,target]of [['ville3',1,16,'move_q','route11'],['route11',26,16,'move_d','ville3'],['route11',1,6,'move_q','route12'],['route12',26,6,'move_d','route11'],['route12',1,14,'move_q','ville4'],['ville4',26,14,'move_d','route12']]){set(map,x,y);f.runtime.move(p,action);assert.equal(p.currentmap,target);}
-  for(const [x,y,target]of [[4,8,'centre'],[22,8,'ville4_shop'],[14,11,'ville4_arene'],[5,16,'ville4_maison1'],[22,16,'ville4_maison2']]){set('ville4',x,y+1);f.runtime.move(p,'move_z');assert.equal(p.currentmap,target);p.lastMove=0;f.runtime.move(p,'move_s');assert.equal(p.currentmap,'ville4');assert.deepEqual([Math.floor(p.x/32),Math.floor(p.y/32)],[x,y+1]);}
+  for(const [x,y,target]of [[4,8,'centre'],[22,8,'ville4_shop'],[14,11,'ville4_arene'],[5,16,'ville4_maison1'],[22,16,'ville4_maison2']]){set('ville4',x,y+1);f.runtime.move(p,'move_z');assert.equal(p.currentmap,target);if(p.dialogue?.arenaEntry)f.runtime.endDialogue(p,p.dialogue.name);p.lastMove=0;f.runtime.move(p,'move_s');assert.equal(p.currentmap,'ville4');assert.deepEqual([Math.floor(p.x/32),Math.floor(p.y/32)],[x,y+1]);}
   set('ville4',13,4);f.runtime.move(p,'move_z');assert.equal(p.currentmap,'cave_rochebrume1');
   for(const n of [1,2])for(const x of [12,13,14]){set(`cave_rochebrume${n}`,x,1);f.runtime.move(p,'move_z');assert.equal(p.currentmap,`cave_rochebrume${n+1}`);assert.deepEqual([Math.floor(p.x/32),Math.floor(p.y/32)],[x,18]);p.lastMove=0;f.runtime.move(p,'move_s');assert.equal(p.currentmap,`cave_rochebrume${n}`);assert.deepEqual([Math.floor(p.x/32),Math.floor(p.y/32)],[x,1]);}
   set('cave_rochebrume3',13,4);f.runtime.move(p,'move_z');assert.equal(p.currentmap,'route13');assert.deepEqual([Math.floor(p.x/32),Math.floor(p.y/32)],[13,18]);
@@ -423,4 +423,30 @@ test('Rift/Colosseum cross Routes 11/12 and Rochebrume, use all doors and reach 
   set('cave_rochebrume1',13,18);f.runtime.move(p,'move_s');assert.equal(p.currentmap,'ville4');assert.deepEqual([Math.floor(p.x/32),Math.floor(p.y/32)],[13,4]);
   for(const [map,name]of [['ville3_arene','champion_ana'],['ville4_arene','champion_wanda']]){const next=fixture(),a=next.run.players.get(1);next.run.mode=mode;Object.assign(a,{currentmap:map,x:432,y:176});next.runtime.interact(a);assert.equal(a.dialogue.name,name);next.runtime.endDialogue(a,name);assert(a.inbattle);assert.equal(a.battle.type,'arena');assert(next.messages.some(m=>m.event==='battletrigger'));}
  }
+});
+
+test('arena welcome is personal per expedition and cannot be bypassed by movement',()=>{
+ const f=fixture(),p=f.run.players.get(1);
+ Object.assign(p,{currentmap:'ville1_arene',x:432,y:528});
+ f.runtime.enter(f.users[0],f.sockets[0]);
+ const welcome=f.messages.filter(m=>m.id==='s1'&&m.event==='dialogue').at(-1).payload;
+ assert.equal(welcome[1],'arena_entry:moon');
+ f.advance(200);f.runtime.move(p,'move_z');assert.equal(p.y,528);
+ f.runtime.endDialogue(p,welcome[1]);assert.equal(p.arenaEntriesSeen['arena_entry:moon'],'true');
+ const count=f.messages.filter(m=>m.event==='dialogue').length;
+ f.runtime.enter(f.users[0],f.sockets[0]);assert.equal(f.messages.filter(m=>m.event==='dialogue').length,count);
+ f.advance(200);f.runtime.move(p,'move_z');assert.equal(p.y,496);
+ const other=f.run.players.get(2);Object.assign(other,{currentmap:'ville1_arene',x:432,y:528});
+ f.runtime.enter(f.users[1],f.sockets[1]);assert.equal(f.messages.filter(m=>m.event==='dialogue').length,count+1);
+});
+
+test('champion victory in expedition emits a read-only congratulations without adventure rewards',()=>{
+ const f=fixture(),p=f.run.players.get(1);
+ Object.assign(p,{currentmap:'ville1_arene',x:432,y:176});
+ p.equipe.pokemons=[factory.create(150,200)];
+ p.equipe.pokemons[0].abilities=['Psychic'];p.equipe.pokemons[0].movePp=[30];
+ f.runtime.interact(p);assert.equal(p.dialogue.name,'moon');f.runtime.endDialogue(p,'moon');fight(p.battle);
+ const d=f.messages.filter(m=>m.id==='s1'&&m.event==='dialogue').at(-1).payload;
+ assert.equal(d[1],'arena_victory:moon');assert.equal(d[2].afterBattle,true);assert(!d[0][0].text.includes('Badge'));
+ f.runtime.endDialogue(p,d[1]);assert.equal(p.dialogue,null);
 });

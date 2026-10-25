@@ -7,7 +7,8 @@
       "x": 13,
       "y": 4,
       "sprite": "moonpunch.png",
-      "block": true
+      "block": true,
+      "blockingWidth": 2
     },
     {
       "name": "vendeuse_ville_du_lac",
@@ -241,7 +242,8 @@
       "x": 13,
       "y": 4,
       "sprite": "wanda.png",
-      "block": true
+      "block": true,
+      "blockingWidth": 2
     },
     {
       "name": "ana",
@@ -250,7 +252,8 @@
       "x": 13,
       "y": 4,
       "sprite": "ana.png",
-      "block": true
+      "block": true,
+      "blockingWidth": 2
     },
     {
       "name": "raphael",
@@ -259,7 +262,8 @@
       "x": 13,
       "y": 4,
       "sprite": "raph.png",
-      "block": true
+      "block": true,
+      "blockingWidth": 2
     },
     {
       "name": "hoze",
@@ -268,7 +272,8 @@
       "x": 13,
       "y": 4,
       "sprite": "hoze.png",
-      "block": true
+      "block": true,
+      "blockingWidth": 2
     },
     {
       "name": "habitante_clairbois",
@@ -943,7 +948,8 @@
       "y": 4,
       "sprite": "7ps.png",
       "block": true,
-      "roamRadius": 0
+      "roamRadius": 0,
+      "blockingWidth": 2
     },
     {
       "name": "lucie_route2",

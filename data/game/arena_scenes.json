@@ -1,0 +1,74 @@
+[
+  {
+    "map": "ville1_arene",
+    "champion": "moon",
+    "name": "arena_entry:moon",
+    "flag": "arena_entry:moon",
+    "sentences": [
+      {
+        "text": "Mounir : Entre ! Ici, on garde la tête froide, même quand la pression monte.",
+        "imageName": "moonpunch.png"
+      }
+    ]
+  },
+  {
+    "map": "ville_safe1_arene",
+    "champion": "champion_hoze",
+    "name": "arena_entry:champion_hoze",
+    "flag": "arena_entry:champion_hoze",
+    "sentences": [
+      {
+        "text": "Hoze : Te voilà. Prends le temps de te préparer, puis viens me faire face.",
+        "imageName": "hoze.png"
+      }
+    ]
+  },
+  {
+    "map": "gen_arene5",
+    "champion": "champion_raphael",
+    "name": "arena_entry:champion_raphael",
+    "flag": "arena_entry:champion_raphael",
+    "sentences": [
+      {
+        "text": "Raphael : Bienvenue. Observe bien le terrain : la précipitation ne mène jamais très loin.",
+        "imageName": "raph.png"
+      }
+    ]
+  },
+  {
+    "map": "ville3_arene",
+    "champion": "champion_ana",
+    "name": "arena_entry:champion_ana",
+    "flag": "arena_entry:champion_ana",
+    "sentences": [
+      {
+        "text": "Ana : Je t’attendais. Avance quand tu seras prêt ; ici, chaque décision compte.",
+        "imageName": "ana.png"
+      }
+    ]
+  },
+  {
+    "map": "ville4_arene",
+    "champion": "champion_wanda",
+    "name": "arena_entry:champion_wanda",
+    "flag": "arena_entry:champion_wanda",
+    "sentences": [
+      {
+        "text": "Wanda : Tu as franchi ma porte. Voyons si tu as le courage d’aller jusqu’au bout.",
+        "imageName": "wanda.png"
+      }
+    ]
+  },
+  {
+    "map": "ville5_arene",
+    "champion": "champion_7p",
+    "name": "arena_entry:champion_7p",
+    "flag": "arena_entry:champion_7p",
+    "sentences": [
+      {
+        "text": "7p : Approche. Pas de grand discours : donne tout ce que tu as.",
+        "imageName": "7ps.png"
+      }
+    ]
+  }
+]

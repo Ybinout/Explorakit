@@ -37,6 +37,7 @@ function normalizePnjEntry(entry) {
             ? entry.sprite.trim()
             : 'perso1.png',
         ...(Number.isInteger(entry.challengeLevel) ? { challengeLevel: entry.challengeLevel } : {}),
+        blockingWidth: Math.min(2, Math.max(1, toInt(entry.blockingWidth) || 1)),
         block: entry.block !== false
     };
 }
@@ -57,10 +58,10 @@ function loadPnjConfig() {
 }
 
 function getOccupiedTileKeysForPnj(pnj) {
-    const keys = [`${pnj.x}:${pnj.y}`];
-
-    if (pnj.y > 0) {
-        keys.push(`${pnj.x}:${pnj.y - 1}`);
+    const keys = [];
+    for (let dx = 0; dx < (pnj.blockingWidth || 1); dx++) {
+        keys.push(`${pnj.x + dx}:${pnj.y}`);
+        if (pnj.y > 0) keys.push(`${pnj.x + dx}:${pnj.y - 1}`);
     }
 
     return keys;

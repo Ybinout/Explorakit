@@ -438,7 +438,19 @@ const socketHandler = (io) => {
         let roomEntryShown = false;
         const showRoomEntry = async (progression) => {
             const player = players[socket.id];
-            if (roomEntryShown || !player || player.currentmap !== 'route2_maison' || player.inbattle || pendingDialogue) return;
+            if (!player || player.inbattle || pendingDialogue) return;
+            const arenaScenes = require('../game/world/arenaScenes');
+            if (arenaScenes.scenes.some(s => s.map === player.currentmap)) {
+                const map = player.currentmap;
+                const progress = progression || await loadProgressState(userId);
+                if (!socket.connected || players[socket.id] !== player || player.currentmap !== map || player.inbattle || pendingDialogue) return;
+                const scene = arenaScenes.entry(player, progress.flags);
+                if (!scene) return;
+                pendingDialogue = {...createDialogueAuthorization({name:scene.name,map,x:Math.floor(player.x/32),y:Math.floor(player.y/32)}), arenaEntry:true};
+                socket.emit('dialogue', [scene.sentences,scene.name,{entryMap:map}]);
+                return;
+            }
+            if (roomEntryShown || player.currentmap !== 'route2_maison') return;
             const progress = progression || await loadProgressState(userId);
             if (!socket.connected || players[socket.id] !== player || player.inbattle || pendingDialogue) return;
             const name = require('../game/world/roomObstacles').entryDialogue(player, progress);
@@ -908,7 +920,7 @@ const socketHandler = (io) => {
             const dialogueName = typeof data === 'string' ? data : '';
             const playerTile = getPlayerTilePosition(player);
             // This entry speech is read-only: a long listening pause must not leave it locked by the reward-dialogue TTL.
-            const readOnlyEntry = pendingDialogue?.name === 'lucie_room_entry' && dialogueName === pendingDialogue.name && player.currentmap === pendingDialogue.map;
+            const readOnlyEntry = (pendingDialogue?.name === 'lucie_room_entry' || pendingDialogue?.arenaEntry) && dialogueName === pendingDialogue.name && player.currentmap === pendingDialogue.map;
             const dialogueIsValid = readOnlyEntry || isDialogueCompletionAllowed(pendingDialogue, {
                 name: dialogueName,
                 map: player.currentmap,
@@ -923,6 +935,10 @@ const socketHandler = (io) => {
             const authorization = pendingDialogue;
             pendingDialogue = null;
 
+            if (authorization.arenaEntry) {
+                await require('../persistence/arenaSceneRepository').acknowledge(userId, dialogueName);
+                return;
+            }
             const dialogueAction = getEndSentenceInformation(dialogueName);
             if (dialogueAction === 'battle') {
                 const battleDefinition = getNpcBattleDefinition(dialogueName);
@@ -963,7 +979,8 @@ const socketHandler = (io) => {
                         ? async () => {
                             if (testRematch) {
                                 await require('../persistence/arenaTestRepository').complete(socket.data.user,dialogueName);
-                                emitPlayerProgression(await loadProgressState(userId));
+                                victoryProgress = await loadProgressState(userId);
+                                emitPlayerProgression(victoryProgress);
                                 socket.emit('progressionNotice',{message:'Test terminé. Tu peux réactiver ce champion dans les options.'});
                                 return {granted:false,reason:'admin_test'};
                             }
@@ -1003,7 +1020,7 @@ const socketHandler = (io) => {
                                 const sentence = getSentenceForName(dialogueName, victoryProgress);
                                 if (sentence && sentence[1] !== dialogueName) {
                                     pendingDialogue = createDialogueAuthorization({ ...authorization, name: sentence[1] });
-                                    socket.emit('dialogue', sentence);
+                                    socket.emit('dialogue', [...sentence, {afterBattle:true}]);
                                 }
                             }
                         }
@@ -1042,6 +1059,7 @@ const socketHandler = (io) => {
         }));
 
         socket.on('Space', guardInteraction(async () => {
+            if (pendingDialogue?.arenaEntry) return;
             const player = players[socket.id];
             if (!player) return;
             if (player.inbattle || player.inventoryBusy) return;
@@ -1138,7 +1156,7 @@ const socketHandler = (io) => {
 
         socket.on('playerAction', async (action) => {
             if (getDirectionFromAction(action) && players[socket.id]) fishing.cancel(players[socket.id]);
-            if (!canMove || interactionBusy || transitionBusy) return;
+            if (!canMove || interactionBusy || transitionBusy || pendingDialogue?.arenaEntry) return;
             const player = players[socket.id];
             if (!player) return;
             if (player.inbattle || player.inventoryBusy) return;

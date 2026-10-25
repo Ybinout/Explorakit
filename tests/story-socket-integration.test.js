@@ -43,13 +43,19 @@ test('Socket réel : Lucie, Wayne → Aspha → Mounir → Hoze → Gwenn → Ra
     let serverErrors = '';
     child.stderr.on('data', chunk => { serverErrors = (serverErrors + String(chunk)).slice(-8000); });
     const main = (state) => state.quests.find((quest) => quest.key === 'main_sister_search');
+    const saveBeforeTravel = async (map) => {
+        for (let attempt=0;attempt<2;attempt++) {
+            const result=await new Promise((resolve,reject)=>socket.timeout(5000).emit('requestGameSave',(error,result)=>error?reject(error):resolve(result)));
+            if(result?.success)return;
+            // The full-speed fixture can exhaust the real account bucket across reconnects.
+            if(result?.code==='rate_limit'&&attempt===0){await new Promise(r=>setTimeout(r,10050));continue;}
+            throw new Error(`Sauvegarde avant ${map} refusée : ${result?.message || result?.code}\n${serverErrors}`);
+        }
+    };
     const at = async (map, x, y, heal = false) => {
         if (socket) {
             // Une sauvegarde explicitement acquittée évite une écriture de position tardive.
-            await new Promise((resolve, reject) => socket.timeout(5000).emit('requestGameSave', (error, result) => {
-                if (error || !result?.success) reject(error || new Error(`Sauvegarde avant ${map} refusée : ${result?.message || result?.code || 'sans motif'}\n${serverErrors}`));
-                else resolve();
-            }));
+            await saveBeforeTravel(map);
             socket.disconnect();
         }
         if(heal){const fresh=await loadEquipe(userId);require('../server/game/world/playerRecovery').healTeam(fresh);await editEquipe(userId,fresh);}

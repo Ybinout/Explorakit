@@ -12,6 +12,7 @@ function getTerrain(map) {
 }
 
 function canRoamTo(pnj, x, y, players, map = getTerrain(pnj.map), store = defaultStore) {
+    if (pnj.blockingWidth > 1) return false;
     if (Math.abs(x - pnj.anchorX) + Math.abs(y - pnj.anchorY) > pnj.roamRadius) return false;
     // Two-tile footprint, like the existing collision/interaction system.
     for (const tileY of [y, y - 1]) {

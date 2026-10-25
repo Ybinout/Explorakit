@@ -127,6 +127,13 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
     function world(run) {
         for(const p of run.players.values()) if(p.socketId) emit(p,'playersList',publicPlayers(run,p.currentmap));
     }
+    function showArenaEntry(p) {
+        if (!p.alive || p.inbattle || p.run.phase !== 'exploration') return;
+        const scene = require('../world/arenaScenes').entry(p, p.arenaEntriesSeen || {});
+        if (!scene) return;
+        p.dialogue = {...createDialogueAuthorization({name:scene.name,map:p.currentmap,x:Math.floor(p.x/32),y:Math.floor(p.y/32)},now()),arenaEntry:true};
+        emit(p,'dialogue',[scene.sentences,scene.name,{entryMap:p.currentmap}]);
+    }
     function moveTo(p,map,x,y) {
         fishing.cancel(p);
         if(p.currentmap!==map) report.visit(p,map);
@@ -135,7 +142,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         emit(p,'mapWeatherState',getMapWeather(map));
         emit(p,'worldDevicesState',devicesForMap(map));
         emit(p,'pnjsList',{mapname:map,pnjs:p.run.phase==='exploration'?p.run.pnjs.getPnjsForMap(map):[]});
-        world(p.run);
+        world(p.run);showArenaEntry(p);
     }
     function purge(p,reason) {
         fishing.cancel(p);
@@ -201,6 +208,12 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         publish(run);world(run);
         if(run.phase==='transition') return;
         if(match) advance(run); else checkSolo(run);
+        const scene = require('../world/arenaScenes').scenes.find(s => s.champion === battle.npcKey && s.map === battle.a.currentmap);
+        if (scene && winner === battle.a && reason === 'finished' && run.phase === 'exploration' && battle.a.alive) {
+            const p=battle.a,name='arena_victory:'+scene.champion;
+            p.dialogue={...createDialogueAuthorization({name,map:p.currentmap,x:Math.floor(p.x/32),y:Math.floor(p.y/32)},now()),arenaVictory:true};
+            emit(p,'dialogue',[[{text:scene.sentences[0].text.split(' : ')[0]+' : Bien joué ! Tu as remporté ce duel. Bonne chance pour la suite de ton expédition.',imageName:scene.sentences[0].imageName}],name,{afterBattle:true}]);
+        }
     }
     function battle(p,opponent,type,npcKey=null,match=null,environment=null) {
         const run=p.run;
@@ -361,7 +374,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
             emit(p,'pnjsList',{mapname:p.currentmap,pnjs:p.run.phase==='exploration'?p.run.pnjs.getPnjsForMap(p.currentmap):[]});
             if(p.inbattle) {emit(p,'battletrigger',{battleType:p.battle.type,musicKind:p.battle.musicKind(),environment:p.battle.environment||null,field:require('../battle/battleEvents').serializeFieldState(p.battle.state)});p.battle.resume(p);}
         }
-        send(p);world(p.run);return state(p);
+        send(p);world(p.run);showArenaEntry(p);return state(p);
     }
     function guard(user,socket,mutable=true) {
         const p=playerFor(user);
@@ -384,7 +397,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
     }
     function move(p,action) {
         if(getDirectionFromAction(action))fishing.cancel(p);
-        if(!p.alive||p.inbattle||p.run.phase!=='exploration'||now()-p.lastMove<130) return;
+        if(!p.alive||p.inbattle||p.dialogue?.arenaEntry||p.run.phase!=='exploration'||now()-p.lastMove<130) return;
         const direction=getDirectionFromAction(action);if(!direction)return;
         const delta={move_z:[0,-32],move_s:[0,32],move_q:[-32,0],move_d:[32,0]}[action];
         const x=p.x+delta[0],y=p.y+delta[1],tx=Math.floor(x/32),ty=Math.floor(y/32);
@@ -412,6 +425,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         }
     }
     function interact(p) {
+        if (p.dialogue?.arenaEntry) return;
         if(p.run.phase!=='exploration')return;
         if(fishing.current(p)){fishing.reel(p,fishing.current(p).id);return;}
         if(isNearComputer(p)){emit(p,'pcOpened',computer.open(p));return;}
@@ -427,6 +441,10 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         return fishing.offer(p);
     }
     function endDialogue(p,name) {
+        if (p.run.phase==='exploration' && p.dialogue?.arenaVictory && p.dialogue.name===name && p.dialogue.map===p.currentmap) { p.dialogue=null; return; }
+        if (p.run.phase==='exploration' && p.dialogue?.arenaEntry && p.dialogue.name===name && p.dialogue.map===p.currentmap) {
+            p.arenaEntriesSeen ||= {}; p.arenaEntriesSeen[name]='true'; p.dialogue=null; send(p); return;
+        }
         if(p.run.phase!=='exploration'||!isDialogueCompletionAllowed(p.dialogue,{name,map:p.currentmap,playerX:Math.floor(p.x/32),playerY:Math.floor(p.y/32)},now()))economy.fail('Dialogue expiré.');
         p.dialogue=null;const trainer=trainers.find(name);
         if(trainer){if(p.defeated.has(name))economy.fail('Ce dresseur a déjà été vaincu dans cette expédition.');battle(p,trainers.opponent(trainer),'trainer',name);return;}

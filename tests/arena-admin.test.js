@@ -73,14 +73,14 @@ test('real SQL/socket replay: authorization, persistence, victory, no rewards, c
         s.disconnect();await pause(150);({s,state}=await connect(admin));assert.equal(state.ready,6);
         let speech=event(s,'dialogue');s.emit('Space');assert.equal((await speech)[1],'moon');
         assert.equal((await command(s)).success,false,'no rearm during dialogue');
-        let attack=event(s,'requestAction'),ended=event(s,'endbattle');s.emit('onEndDialogue','moon');await attack;
+        let attack=event(s,'requestAction'),ended=event(s,'endbattle'),followup=event(s,'dialogue',p=>p[1]==='moon_after');s.emit('onEndDialogue','moon');await attack;
         assert.equal((await command(s)).success,false,'no rearm during combat');
         s.on('requestAction',()=>s.emit('actionResponse',{action:'attack',number:0}));s.emit('actionResponse',{action:'attack',number:0});
         const result=await ended;assert.equal(result.summary.outcome,'victory');assert.equal(result.summary.money,0);
         assert.deepEqual(training((await teamRepo.loadEquipe(admin.user.id)).pokemons[0]),beforeTraining);
         assert.deepEqual(await protectedState(admin.user.id),before);
         assert.equal(policy.publicState(admin.user,await progression.loadProgressState(admin.user.id)).ready,5);
-        await pause(100);speech=event(s,'dialogue');s.emit('Space');assert.equal((await speech)[1],'moon_after');s.emit('onEndDialogue','moon_after');await pause(100);
+        assert.equal((await followup)[2].afterBattle,true);s.emit('onEndDialogue','moon_after');await pause(100);
         assert.equal((await command(s)).count,6);
         s.removeAllListeners('requestAction');speech=event(s,'dialogue');s.emit('Space');assert.equal((await speech)[1],'moon');attack=event(s,'requestAction');s.emit('onEndDialogue','moon');await attack;s.disconnect();await pause(250);
         assert.equal(policy.publicState(admin.user,await progression.loadProgressState(admin.user.id)).ready,6,'disconnect retains retry');

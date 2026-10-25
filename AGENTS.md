@@ -1,5 +1,20 @@
 # Contexte permanent — RiftMon
 
+## Arènes — accueil, victoire automatique et dialogues complets — 25 octobre 2026
+
+Les six champions actifs accueillent le joueur à l’entrée avec une réplique courte et leur portrait existant. En Aventure, le marqueur personnel `arena_entry:<dialogue>` est enregistré après lecture dans `player_story_flags` ; interrompre le chargement ou se déconnecter avant la fin permet de relire l’accueil. Aucun combat, badge ou récompense déclenché par cette scène. Mouvement et nouvelle interaction suspendus pendant la lecture ; contrôle serveur du nom et de la carte. Rift/Colosseum conservent une mémoire distincte par expédition dans le checkpoint existant.
+
+Après une victoire, le dialogue existant arrive automatiquement après la dernière animation de combat, avant le bilan ; celui-ci revient à la fermeture du dialogue. Les revanches administrateur déclenchent également ce dialogue, sans nouveau gain. En expédition, une félicitation neutre remplace les textes de récompenses de l’histoire ; aucune scène ajoutée aux vagues virtuelles du Colosseum. Files visuelles supprimées à la déconnexion/changement de carte, apprentissage différé pendant les répliques.
+
+Les champions décalés de 16 px pour être centrés sur leur socle occupent maintenant les deux colonnes correspondantes dans l’index de collision et d’interaction partagé. Les autres PNJ conservent leur empreinte existante. Le sprite et les cartes ne sont pas modifiés. Une empreinte large reste immobile pour éviter une dérive sur les meubles.
+
+Les dialogues partagent désormais une réplique entière par page, sans découpage arbitraire à 120 caractères. Défilement lent/normal/instantané selon la préférence existante ; Action ou clic révèle tout, puis passe à la réplique suivante. Les pauses spécifiques de Lucie restent prioritaires. La hauteur est réservée pendant le défilement ; le bouton A ne se déplace pas.
+
+Validation reproductible : `tests/arena-scenes.test.js` (3 tests dont SQL/Socket réel : six accueils, persistance, isolation entre comptes, reprise et refus d’un faux acquittement), `tests/arena-admin.test.js` (4 tests, victoire réelle sans récompense et dialogue automatique), `tests/drift-runtime.test.js` + PNJ (48 tests, dont félicitation de champion en expédition). Le parcours SQL/Socket complet Wayne → Lucie passe également ; la recette respecte désormais un éventuel délai du limiteur réel avant une sauvegarde. La recette navigateur `scripts/validateArenaScenesBrowser.js` utilise un compte jetable sur `DB_TEST_NAME` : accueil, reconnexion, plus long paragraphe réel aux tailles 320/393/844 paysage/1365, vraie victoire et dialogue avant bilan, retour aux commandes ; aucune erreur navigateur. Lint/build réussis, captures inspectées, pas de test sur téléphone physique revendiqué. Journaux `/tmp/riftmon-arena-scenes-*`. Les parcours de portes des anciennes recettes acquittent maintenant l’accueil ; l’attente historique de la boutique Route 10 est actualisée à l’arrivée (13,15), déjà publiée.
+
+
+Publié le 25 octobre à 05:56:04 UTC, client `2039e6ce6804abcb76b05c70fb35ebe805b82a32`, build `378ff7f09d8ae771`. Serveur actif PID 1585155, aucun redémarrage automatique ; zéro expédition active à la reprise. Index HTTPS et sites Knov/api-test vérifiés. Aucune migration ni modification des comptes de production. Sauvegarde `/home/ubuntu/dev/backups/riftmon-arena-scenes-2026-10-25T05-53-47-834Z`.
+
 ## Boutiques — intérieur harmonisé avec le Centre Pokémon — 25 octobre 2026
 
 Les trois décors `gen_shop1`, `gen_shop_ville2_1` et `gen_shop_ville5_1`, utilisés par les sept boutiques actives et leurs variantes historiques, partagent un nouvel intérieur pixelisé : murs crème, liserés bleus, sol ardoise et quatre rayonnages lisibles autour d’un comptoir dégagé. Génération imagegen intégrée au dépôt ; source, fichiers et prompt complet dans `docs/MARKET_SCENE_ASSETS.json`. Export 448×320 au plus proche voisin ; anciens premiers plans vidés pour éviter les meubles superposés. Les étages de la tour conservent les cartes auteur.
