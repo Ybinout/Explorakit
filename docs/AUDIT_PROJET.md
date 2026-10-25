@@ -1,5 +1,17 @@
 # Audit technique et mémoire de RiftMon
 
+## Raph — étoiles filantes dans la salle — 25 octobre 2026
+
+La verrière conserve ses étoiles masquées derrière les vitres. Six nouvelles trajectoires célestes bleu glacier/or traversent le sol ouvert de `gen_arene5`, en diagonales alternées : tête scintillante à quatre pointes, traînée courte en pixels, reflet discret sur les dalles et petits fragments qui s’effacent. Passages décalés avec intervalles calmes ; le sol est découpé par un polygone explicite, avant les personnages. Escaliers, murs et colonnes ne reçoivent pas la projection. Piliers/fanions précédents conservés ; aucun PNG/Tiled, hitbox, musique, combat ou état serveur modifié.
+
+Même boucle monde et cache 20 Hz que le décor existant, sans surface, image, timer ni requête supplémentaire. Mouvement réduit/animations désactivées : décor original fixe. Nettoyage carte/combat/onglet masqué inchangé. Rendu partagé Aventure/Rift/Colosseum pour cette arène uniquement.
+
+Validation : `validateRaphArenaCanvas.js` étendu à 56 phases sur 14 s, mouvement du sol visible (40 687 pixels cumulés, maximum 1 963 par phase), zéro pixel hors du polygone ou du masque de verrière ; tissus, piliers, cache, réduction du mouvement et libération toujours vérifiés. Peinture locale Chromium environ 0,58 ms par mise à jour. Lint ciblé, build `690c26f540ee3698`, syntaxe et diff réussis. Recette navigateur réelle `ARENA_DECOR=raph` sur `explorakit_test`, compte jetable : quatre formats 320/393/844/1365 px, animations, préférences, onglet masqué, suspension/reprise de présentation de combat et reconnexion ailleurs ; zéro erreur. Captures inspectées, aucun compte réel modifié ni test sur appareil physique. Journaux/captures `/tmp/riftmon-raph-stars-*`. Un premier essai navigateur avait indiqué un nom de base de test sans droits ; relancé avec la base dédiée configurée, aucune modification de droits ni de production.
+
+Publication statique 2026-10-25T14:17:09.675Z, client `427e8087fbb3dc6e9e125ce7b7152c81069b8ba2`, index/JS/CSS publics vérifiés à l’octet. Aucun redémarrage (PID 1627712), Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-raph-stars-2026-10-25T14-17-08-157Z` sur le volume additionnel.
+
+
+
 ## Disque additionnel — sauvegardes et Knov déplacés — 25 octobre 2026
 
 Volume neuf de 50 Gio vérifié sans signature/partition puis préparé GPT/ext4 (`app-storage`, UUID `ba7068db-9e96-4521-8765-e6009711f6aa`), monté dans `/srv/storage`. **Ce volume contient maintenant les données actives : ne pas le reformater.** `/srv/storage/backups` est monté par liaison dans `/home/ubuntu/dev/backups` ; `/srv/storage/knov` dans `/home/ubuntu/dev/persona-data-api`. Les chemins existants restent donc valides pour tous les déploiements, bases, scripts, archives et services. Knov complet et ses données y résident ; code client/serveur, MySQL et données de RiftMon restent sur le disque système.
@@ -3562,6 +3574,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 25 octobre 2026 — Raph : six trajectoires d’étoiles filantes projetées sur le sol, reflets/éclats bleu et or, cache existant ; confinement et quatre formats vérifiés. Détails en tête.
 
 - 25 octobre 2026 — Disque additionnel 50 Gio configuré : sauvegardes et Knov complet migrés avec chemins conservés, données/session vérifiées, 37 Gio disponibles sur le principal et 22 Gio sur le nouveau. Détails en tête.
 
