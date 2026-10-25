@@ -1,6 +1,18 @@
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
 const maps=require('../server/game/world/mapRepository'),pnjs=require('../server/game/world/pnjStore'),shops=require('../server/game/world/shopCatalog'),items=require('../data/game/items.json').items;
 const floors=['tour_rdc','tour_etage1','tour_etage2','tour_etage3'],names=['ville_commerciale',...floors];
+test('every staircase has a straight clear approach down to the cross aisle',()=>{
+ floors.forEach((name,i)=>{
+  const c=maps.loadCollisionData(name),changes=maps.changeMapData(name);
+  for(const x of [...(i>0?[3]:[]),...(i<3?[24]:[])]){
+   assert(changes[4][x]);
+   for(let y=5;y<=10;y++){
+    assert.equal(c[y][x],0,`${name}: clear staircase approach ${x},${y}`);
+    assert(!changes[y][x]);assert(!pnjs.isPnjBlockingTile(name,x,y));
+   }
+  }
+ });
+});
 function reachable(name,start){const c=maps.loadCollisionData(name),t=maps.changeMapData(name),seen=new Set(),q=[start];while(q.length){const[x,y]=q.shift(),k=x+':'+y;if(seen.has(k)||c[y]?.[x]!==0||pnjs.isPnjBlockingTile(name,x,y))continue;seen.add(k);if(t[y]?.[x])continue;for(const[dx,dy]of[[1,0],[-1,0],[0,1],[0,-1]])q.push([x+dx,y+dy]);}return seen;}
 test('old tower saves recover onto connected aisles and artwork stays aligned with the map grid',()=>{
  const {sanitizeSpawnPosition}=require('../server/realtime/playerState');

@@ -1,0 +1,30 @@
+{
+  "date": "2026-10-25",
+  "method": "Built-in imagegen edits, nearest-neighbor export to 448×320.",
+  "edits": [
+    {
+      "map": "tour_rdc",
+      "asset": "vue-explorakit/src/assets/tour_rdc.png",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-597eb4e5-d7d5-4c19-90cb-1a93cd0c8a8d.png",
+      "prompt": "Use case: precise-object-edit. Edit the attached existing pixel-art shop map, do not redesign it. Remove ONLY the uppermost merchandise shelving unit against the RIGHT wall directly below the northeast staircase (roughly x377..413,y108..160 in the 448x320 reference). Replace those furniture footprints and their shadows with a seamless continuation of the existing blue tiled floor. This creates a clear straight walking lane leading down from each staircase. Keep the lower shelves around y169..224, the central split counter, other display, staircases, walls, doorway or closed bottom wall, plants, all margins and every remaining object EXACTLY where they are. Preserve the same crisp pixel-art style and blue/cream palette, same 7:5 framing and logical 448x320 map grid. No new objects, no text, no characters, no change of perspective, no changes to stairs or geometry. Remove only the specified shelf/shelves and their contents; don't move them elsewhere."
+    },
+    {
+      "map": "tour_etage1",
+      "asset": "vue-explorakit/src/assets/tour_etage1.png",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-e02f6618-f6a2-427f-83ac-f730c1301a2f.png",
+      "prompt": "Use case: precise-object-edit. Edit the attached existing pixel-art shop map, do not redesign it. Remove BOTH uppermost merchandise shelving units immediately below the northwest and northeast staircases: LEFT x34..71,y108..160 and RIGHT x377..413,y108..160 in the 448x320 reference. Replace those furniture footprints and their shadows with a seamless continuation of the existing blue tiled floor. This creates a clear straight walking lane leading down from each staircase. Keep the lower shelves around y169..224, the central split counter, other display, staircases, walls, doorway or closed bottom wall, plants, all margins and every remaining object EXACTLY where they are. Preserve the same crisp pixel-art style and blue/cream palette, same 7:5 framing and logical 448x320 map grid. No new objects, no text, no characters, no change of perspective, no changes to stairs or geometry. Remove only the specified shelf/shelves and their contents; don't move them elsewhere."
+    },
+    {
+      "map": "tour_etage2",
+      "asset": "vue-explorakit/src/assets/tour_etage2.png",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-630f6804-a807-4048-bef1-d92d958dfcf8.png",
+      "prompt": "Use case: precise-object-edit. Edit the attached existing pixel-art shop map, do not redesign it. Remove BOTH uppermost merchandise shelving units immediately below the northwest and northeast staircases: LEFT x34..71,y108..160 and RIGHT x377..413,y108..160 in the 448x320 reference. Replace those furniture footprints and their shadows with a seamless continuation of the existing blue tiled floor. This creates a clear straight walking lane leading down from each staircase. Keep the lower shelves around y169..224, the central split counter, other display, staircases, walls, doorway or closed bottom wall, plants, all margins and every remaining object EXACTLY where they are. Preserve the same crisp pixel-art style and blue/cream palette, same 7:5 framing and logical 448x320 map grid. No new objects, no text, no characters, no change of perspective, no changes to stairs or geometry. Remove only the specified shelf/shelves and their contents; don't move them elsewhere."
+    },
+    {
+      "map": "tour_etage3",
+      "asset": "vue-explorakit/src/assets/tour_etage3.png",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-7472833b-dbb1-4965-a225-603b46a0fcf4.png",
+      "prompt": "Use case: precise-object-edit. Edit the attached existing pixel-art shop map, do not redesign it. Remove ONLY the uppermost berry shelving unit against the LEFT wall directly below the northwest staircase (roughly x34..71,y108..160 in the 448x320 reference). Replace those furniture footprints and their shadows with a seamless continuation of the existing blue tiled floor. This creates a clear straight walking lane leading down from each staircase. Keep the lower shelves around y169..224, the central split counter, other display, staircases, walls, doorway or closed bottom wall, plants, all margins and every remaining object EXACTLY where they are. Preserve the same crisp pixel-art style and blue/cream palette, same 7:5 framing and logical 448x320 map grid. No new objects, no text, no characters, no change of perspective, no changes to stairs or geometry. Remove only the specified shelf/shelves and their contents; don't move them elsewhere."
+    }
+  ]
+}

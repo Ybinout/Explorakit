@@ -1,5 +1,13 @@
 # Contexte permanent — RiftMon
 
+## Grand Comptoir — passage dégagé sous les escaliers — 25 octobre 2026
+
+Les six rayonnages directement sous les escaliers sont retirés des quatre images : droite au rez-de-chaussée, gauche et droite aux deux étages intermédiaires, gauche au dernier étage. Le carrelage les remplace ; les autres meubles et la géométrie des pièces restent en place. Collisions JSON/TMX correspondantes libérées (colonnes 2–4 ou 23–25, lignes 7–9), pour marcher droit depuis les paliers jusqu’à l’allée transversale. Escaliers, destinations, vendeuses et catalogues inchangés.
+
+Retouches avec imagegen intégré, export 448×320 au plus proche voisin ; fichiers et prompts dans `docs/DEPARTMENT_STORE_CLEAR_STAIRS.json`. Vérification reproductible : `node --test tests/department-store.test.js tests/market-layout.test.js tests/player-state.test.js`, 16 tests réussis, dont un contrôle du chemin droit devant chacun des six escaliers. Build `15c9e319b335b21c`. Journaux `/tmp/riftmon-stairs-*`.
+
+Recette navigateur `validateDepartmentStoreBrowser.js` réussie : déplacements/escaliers aller-retour, achats et inventaires des trois modes, quatre formats et deux thèmes, zéro erreur. Captures inspectées. Publication 2026-10-25T07:26:45.636Z, client `9f2c5fb43982871e0f1518f01ea9a4adaf00a8a4`, index et quatre PNG publics vérifiés à l’octet. Serveur PID 1595533, aucune expédition active à la reprise, Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-stairs-2026-10-25T07-22-50-649Z`. Aucune migration SQL.
+
 ## Grand Comptoir — quatre intérieurs et escaliers — 25 octobre 2026
 
 Les quatre niveaux `tour_rdc`, `tour_etage1`, `tour_etage2`, `tour_etage3` reprennent le style de la boutique approuvée : murs crème, bordures bleues, carrelage bleu ardoise et mobilier lisible. Décors propres aux fournitures, à l’entraînement IV/EV/CS, aux objets stratégiques et aux baies. Escalier montant à droite (24,4), descendant à gauche (3,4), avec arrivées une case devant ; aucune montée au dernier étage. Vendeuses existantes placées dans l’ouverture du comptoir (11,8), approche (11,9). Sortie du rez-de-chaussée alignée sur le nouveau seuil (13–14,17), arrivée en (13,16), retour extérieur inchangé.
