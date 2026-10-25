@@ -2487,6 +2487,285 @@
         },
         "defeatLine": "Gwenn : Bien joué… Tu as su tenir ton plan jusqu’au bout."
       }
+    },
+    {
+      "name": "nrv_noz",
+      "team": [
+        {
+          "pokemonId": 198,
+          "name": "Cornèbre",
+          "level": 21,
+          "abilities": [
+            "Wing Attack",
+            "Night Shade",
+            "Taunt",
+            "Haze"
+          ],
+          "passiveAbility": "Insomnia",
+          "heldItem": "oran_berry",
+          "k": 1,
+          "nature": "Jolly",
+          "givenIv": {
+            "hp": 20,
+            "attack": 18,
+            "defense": 17,
+            "specialAttack": 19,
+            "specialDefense": 18,
+            "speed": 20
+          },
+          "ev": {
+            "hp": 24,
+            "attack": 48,
+            "speed": 24
+          }
+        },
+        {
+          "pokemonId": 207,
+          "name": "Scorplane",
+          "level": 22,
+          "abilities": [
+            "Aerial Ace",
+            "Bulldoze",
+            "Quick Attack",
+            "Sand Attack"
+          ],
+          "passiveAbility": "Hyper Cutter",
+          "heldItem": "oran_berry",
+          "k": 1,
+          "nature": "Impish",
+          "givenIv": {
+            "hp": 20,
+            "attack": 18,
+            "defense": 17,
+            "specialAttack": 19,
+            "specialDefense": 18,
+            "speed": 20
+          },
+          "ev": {
+            "hp": 24,
+            "attack": 48,
+            "speed": 24
+          }
+        },
+        {
+          "pokemonId": 215,
+          "name": "Farfuret",
+          "level": 23,
+          "abilities": [
+            "Ice Shard",
+            "Bite",
+            "Screech",
+            "Quick Attack"
+          ],
+          "passiveAbility": "Inner Focus",
+          "heldItem": "sitrus_berry",
+          "k": 2,
+          "nature": "Jolly",
+          "givenIv": {
+            "hp": 20,
+            "attack": 18,
+            "defense": 17,
+            "specialAttack": 19,
+            "specialDefense": 18,
+            "speed": 20
+          },
+          "ev": {
+            "hp": 24,
+            "attack": 48,
+            "speed": 24
+          }
+        }
+      ],
+      "strategy": {
+        "name": "NOZ",
+        "ai": "expert"
+      }
+    },
+    {
+      "name": "nrv_tom",
+      "team": [
+        {
+          "pokemonId": 81,
+          "name": "Magnéti",
+          "level": 21,
+          "abilities": [
+            "Thunder Shock",
+            "Sonic Boom",
+            "Thunder Wave",
+            "Magnet Bomb"
+          ],
+          "passiveAbility": "Magnet Pull",
+          "heldItem": "oran_berry",
+          "k": 1,
+          "nature": "Modest",
+          "givenIv": {
+            "hp": 20,
+            "attack": 18,
+            "defense": 17,
+            "specialAttack": 19,
+            "specialDefense": 18,
+            "speed": 20
+          },
+          "ev": {
+            "hp": 24,
+            "specialAttack": 48,
+            "speed": 24
+          }
+        },
+        {
+          "pokemonId": 404,
+          "name": "Luxio",
+          "level": 22,
+          "abilities": [
+            "Spark",
+            "Bite",
+            "Leer",
+            "Roar"
+          ],
+          "passiveAbility": "Intimidate",
+          "heldItem": "oran_berry",
+          "k": 1,
+          "nature": "Adamant",
+          "givenIv": {
+            "hp": 20,
+            "attack": 18,
+            "defense": 17,
+            "specialAttack": 19,
+            "specialDefense": 18,
+            "speed": 20
+          },
+          "ev": {
+            "hp": 24,
+            "attack": 48,
+            "speed": 24
+          }
+        },
+        {
+          "pokemonId": 137,
+          "name": "Porygon",
+          "level": 23,
+          "abilities": [
+            "Psybeam",
+            "Recover",
+            "Agility",
+            "Tri Attack"
+          ],
+          "passiveAbility": "Trace",
+          "heldItem": "sitrus_berry",
+          "k": 2,
+          "nature": "Modest",
+          "givenIv": {
+            "hp": 20,
+            "attack": 18,
+            "defense": 17,
+            "specialAttack": 19,
+            "specialDefense": 18,
+            "speed": 20
+          },
+          "ev": {
+            "hp": 24,
+            "specialAttack": 48,
+            "speed": 24
+          }
+        }
+      ],
+      "strategy": {
+        "name": "TOM",
+        "ai": "expert"
+      }
+    },
+    {
+      "name": "nrv_cry",
+      "team": [
+        {
+          "pokemonId": 183,
+          "name": "Marill",
+          "level": 21,
+          "abilities": [
+            "Bubble Beam",
+            "Rollout",
+            "Defense Curl",
+            "Aqua Ring"
+          ],
+          "passiveAbility": "Huge Power",
+          "heldItem": "oran_berry",
+          "k": 1,
+          "nature": "Adamant",
+          "givenIv": {
+            "hp": 20,
+            "attack": 18,
+            "defense": 17,
+            "specialAttack": 19,
+            "specialDefense": 18,
+            "speed": 20
+          },
+          "ev": {
+            "hp": 24,
+            "attack": 48,
+            "speed": 24
+          }
+        },
+        {
+          "pokemonId": 120,
+          "name": "Stari",
+          "level": 22,
+          "abilities": [
+            "Water Pulse",
+            "Swift",
+            "Recover",
+            "Light Screen"
+          ],
+          "passiveAbility": "Natural Cure",
+          "heldItem": "oran_berry",
+          "k": 1,
+          "nature": "Timid",
+          "givenIv": {
+            "hp": 20,
+            "attack": 18,
+            "defense": 17,
+            "specialAttack": 19,
+            "specialDefense": 18,
+            "speed": 20
+          },
+          "ev": {
+            "hp": 24,
+            "specialAttack": 48,
+            "speed": 24
+          }
+        },
+        {
+          "pokemonId": 363,
+          "name": "Obalie",
+          "level": 23,
+          "abilities": [
+            "Aurora Beam",
+            "Water Pulse",
+            "Body Slam",
+            "Encore"
+          ],
+          "passiveAbility": "Thick Fat",
+          "heldItem": "sitrus_berry",
+          "k": 2,
+          "nature": "Calm",
+          "givenIv": {
+            "hp": 20,
+            "attack": 18,
+            "defense": 17,
+            "specialAttack": 19,
+            "specialDefense": 18,
+            "speed": 20
+          },
+          "ev": {
+            "hp": 24,
+            "specialAttack": 48,
+            "speed": 24
+          }
+        }
+      ],
+      "strategy": {
+        "name": "CRY",
+        "ai": "expert"
+      }
     }
   ]
 }

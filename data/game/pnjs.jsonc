@@ -1082,6 +1082,51 @@
       "block": true,
       "roamRadius": 0,
       "blockingWidth": 2
+    },
+    {
+      "name": "nrv_noz",
+      "interactionName": "nrv_noz",
+      "map": "route3_maison_nrv",
+      "x": 10,
+      "y": 9,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 24
+      },
+      "roamRadius": 0
+    },
+    {
+      "name": "nrv_tom",
+      "interactionName": "nrv_tom",
+      "map": "route3_maison_nrv",
+      "x": 17,
+      "y": 8,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 10
+      },
+      "roamRadius": 0
+    },
+    {
+      "name": "nrv_cry",
+      "interactionName": "nrv_cry",
+      "map": "route3_maison_nrv",
+      "x": 17,
+      "y": 13,
+      "sprite": "townspeople.png",
+      "block": true,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 9
+      },
+      "roamRadius": 0
     }
   ]
 }

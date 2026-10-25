@@ -442,6 +442,42 @@
           }
         ]
       }
+    },
+    "nrv_noz": {
+      "battleKey": "story_nrv_noz",
+      "once": true,
+      "completionFlag": "nrv_noz_defeated",
+      "reward": {
+        "money": 600,
+        "flags": {
+          "nrv_noz_defeated": "true"
+        }
+      },
+      "experienceKind": "trainer"
+    },
+    "nrv_tom": {
+      "battleKey": "story_nrv_tom",
+      "once": true,
+      "completionFlag": "nrv_tom_defeated",
+      "reward": {
+        "money": 650,
+        "flags": {
+          "nrv_tom_defeated": "true"
+        }
+      },
+      "experienceKind": "trainer"
+    },
+    "nrv_cry": {
+      "battleKey": "story_nrv_cry",
+      "once": true,
+      "completionFlag": "nrv_cry_defeated",
+      "reward": {
+        "money": 700,
+        "flags": {
+          "nrv_cry_defeated": "true"
+        }
+      },
+      "experienceKind": "trainer"
     }
   },
   "storySteps": [

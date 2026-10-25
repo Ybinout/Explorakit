@@ -2546,5 +2546,116 @@
         }
       }
     ]
+  },
+  {
+    "name": "nrv_noz",
+    "sentences": [
+      {
+        "text": "NOZ : Tu as suivi le tag vert ? Bienvenue au repaire NRV. Ici, on s'entraîne entre potes, et les visiteurs ont droit à un duel.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 24
+        }
+      },
+      {
+        "text": "NOZ : Pas de badge à gagner. Juste un beau combat. Montre-moi comment tu t'en sors !",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 24
+        }
+      }
+    ],
+    "end": "battle",
+    "team": "nrv_noz",
+    "after": "nrv_noz_after"
+  },
+  {
+    "name": "nrv_noz_after",
+    "sentences": [
+      {
+        "text": "NOZ : Bien joué ! Le toit est signé NRV, mais cette victoire-là, elle est pour toi.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 24
+        }
+      },
+      {
+        "text": "NOZ : TOM et CRY ont leur propre style. Va les voir si tu veux varier les plaisirs.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 24
+        }
+      }
+    ]
+  },
+  {
+    "name": "nrv_tom",
+    "sentences": [
+      {
+        "text": "TOM : NOZ parle beaucoup. Moi, je préfère que mes Pokémon fassent le bruit. On s'entraîne ?",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 10
+        }
+      }
+    ],
+    "end": "battle",
+    "team": "nrv_tom",
+    "after": "nrv_tom_after"
+  },
+  {
+    "name": "nrv_tom_after",
+    "sentences": [
+      {
+        "text": "TOM : OK, respect. Tu m'as donné des idées pour notre prochain entraînement.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 10
+        }
+      }
+    ]
+  },
+  {
+    "name": "nrv_cry",
+    "sentences": [
+      {
+        "text": "CRY : Entre donc. Pas besoin de crier pour faire un bon combat. Tu veux essayer mon équipe ?",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 9
+        }
+      }
+    ],
+    "end": "battle",
+    "team": "nrv_cry",
+    "after": "nrv_cry_after"
+  },
+  {
+    "name": "nrv_cry_after",
+    "sentences": [
+      {
+        "text": "CRY : Une défaite, ça se digère. Un bon combat, ça se savoure. Merci pour celui-là.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 9
+        }
+      }
+    ]
   }
 ]

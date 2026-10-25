@@ -415,6 +415,14 @@
           "goto": "ville1",
           "nexX": 832,
           "nexY": 544
+        },
+        {
+          "valX": 23,
+          "valY": 13,
+          "goto": "route3_maison_nrv",
+          "nexX": 416,
+          "nexY": 544,
+          "logicalDoor": true
         }
       ],
       "wildpokemon": [
@@ -2894,6 +2902,30 @@
           "nexY": 608
         }
       ]
+    },
+    {
+      "mapName": "route3_maison_nrv",
+      "mapchange": [
+        {
+          "valX": 13,
+          "valY": 17,
+          "goto": "route3",
+          "nexX": 736,
+          "nexY": 480
+        },
+        {
+          "valX": 14,
+          "valY": 17,
+          "goto": "route3",
+          "nexX": 736,
+          "nexY": 480
+        }
+      ],
+      "wildpokemon": [],
+      "level": {
+        "min": 21,
+        "max": 23
+      }
     }
   ]
 }

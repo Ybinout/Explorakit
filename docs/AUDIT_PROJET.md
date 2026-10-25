@@ -1,5 +1,19 @@
 # Audit technique et mémoire de RiftMon
 
+## Route 3 — repaire NRV, NOZ / TOM / CRY — 25 octobre 2026
+
+La maison bleue à droite porte un tag NRV vert peint sur son toit. Imagegen intégré fournit la peinture, l’intérieur bleu/gris et vert, et trois portraits manga noir et blanc. Export reproductible `scripts/exportNrvAssets.js`, sources/prompts/empreintes dans `docs/NRV_ROUTE3_ASSETS.json`. Seuls 496 pixels de peinture changent sur le toit, également repris dans le foreground qui le recouvre ; tous les pixels hors du masque du toit sont vérifiés identiques. Aucun changement aux autres maisons, au lac ou aux collisions de Route 3.
+
+La porte peinte existante et libre (23,13) utilise une transition logique vers `route3_maison_nrv`, arrivée (13,16). Les deux cases de sortie (13–14,17) ramènent Route 3 (23,14), sans boucle de transition. Intérieur dédié 448×320, technique JSON/TMX cohérente, grille de mobilier de `gen_maison1`, pas de rencontres sauvages. Nom du lieu, contexte d’assets, musique de village et décor intérieur de combat existant de Gwenn raccordés ; pas de plaine dans la maison.
+
+Trois PNJ fixes et solides : NOZ (10,9), TOM (17,8), CRY (17,13). Sprites exacts de `6931.png` fournis par le propriétaire, ×2 sans lissage : NOZ (367,417,17,25), TOM (558,288,17,26), CRY (654,290,17,24). Le cadrage TOM exclut deux pixels du personnage voisin en dessous. Rôles dédiés et portraits personnels dans les dialogues ; format historique de portrait conservé côté serveur pour les clients antérieurs.
+
+Chaque duel est facultatif, indépendant et unique par joueur, sans verrou sur l’histoire. Équipes de trois aux niveaux 21/22/23 : NOZ Cornèbre/Scorplane/Farfuret ; TOM Magnéti/Luxio/Porygon ; CRY Marill/Stari/Obalie. Sets variés, talents valides, IV moyens, EV modérés, K1 puis K2, baies et IA humaine experte existante. Récompenses uniques de 600/650/700 ; réplique amicale après victoire. Les expéditions suivent leur propre liste de victoires. Mode admin propriétaire étendu aux trois nouveaux duels, sans ajouter de droits aux autres comptes ni remettre à zéro une victoire réelle.
+
+Validation : 37 tests contenu/histoire/cartes/minimap/musique réussis (deux scénarios SQL exclus de cette commande), puis six tests SQL/admin/rejeu réussis. Mise à jour des attentes du nombre de duels, du sprite Aspha/Gwenn déjà livré et de la position de recette d’Aspha. Lint et build `a9e2191d2a3e1696` réussis. Recette `scripts/validateNrvHouseBrowser.js` sur base dédiée : vraie porte, allers-retours, trois victoires contre les neuf Pokémon, portraits chargés, cadrages exacts, solidité des PNJ, réplique après reconnexion et absence de partage des victoires avec un second compte. Rendus 320/393/1365 px inspectés, zéro erreur. Journaux/captures `/tmp/riftmon-nrv-*`. Pas de test sur téléphone physique ; aucun compte réel modifié.
+
+Publié 2026-10-25T09:59:57.674Z, client `633cd02c30dfc2afa41acabe669dc00d5e5c2868`, serveur PID 1612506, aucune expédition active à la reprise. Index/JS/CSS et six images NRV publics vérifiés à l’octet ; Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-nrv-2026-10-25T09-59-55-224Z`. Aucune migration SQL.
+
 ## Mathilde Pikapika — sprite blond choisi dans l’atlas — 25 octobre 2026
 
 Mathilde utilise le personnage blond fourni par le propriétaire dans `src/assets/6931.png` : rectangle (941,802,19,24), 339 pixels opaques, rendu natif ×2 (38×48), sans rééchantillonnage ni retouche de l’atlas. Le rôle dédié 36 dans `classicNpcFrames.json` évite de changer les autres personnages utilisant l’ancien index 7. Position, collisions, quatre Pikachu, prérequis Raph et duel unique personnel conservés ; aucune modification serveur ni sauvegarde.
@@ -3426,6 +3440,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 25 octobre 2026 — Maison bleue Route 3 : toit tagué NRV, intérieur, trois sprites/portraits et duels personnels NOZ/TOM/CRY, niveaux 21–23 ; entrée/sortie et trois victoires testées. Détails en tête.
 
 - 25 octobre 2026 — Mathilde : sprite blond natif choisi par le propriétaire, rendu ×2 et dialogues blonds provisoires. Portrait dédié non livré : imagegen refusé. Détails en tête.
 

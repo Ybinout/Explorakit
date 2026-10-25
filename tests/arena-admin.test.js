@@ -12,17 +12,17 @@ test('arena admin is restricted to the exact existing owner identity', () => {
     assert(policy.isOwner(owner));
     for (const user of [null,{}, {id:162,username:'binout'},{id:4,username:'ybinout'},{id:'4',username:'binout'},{id:4,username:'Binout'}]) assert.equal(policy.isOwner(user),false);
 });
-test('only twelve active, already won story encounters with access are replayable', () => {
-    assert.deepEqual(policy.encounters.map(c=>c.name).sort(),['moon','champion_hoze','champion_raphael','champion_ana','champion_wanda','champion_7p','dia1','aspha_route2','gwenn_route8','mathilde_pikapika','gwenn_rochebrume','lucie_route2'].sort());
+test('only active, already won story encounters with access are replayable', () => {
+    assert.deepEqual(policy.encounters.map(c=>c.name).sort(),['moon','champion_hoze','champion_raphael','champion_ana','champion_wanda','champion_7p','dia1','aspha_route2','gwenn_route8','mathilde_pikapika','gwenn_rochebrume','lucie_route2','nrv_noz','nrv_tom','nrv_cry'].sort());
     const progress = allWon();
-    assert.equal(policy.eligible(owner,progress).length,12);
+    assert.equal(policy.eligible(owner,progress).length,policy.encounters.length);
     assert.equal(policy.eligible(owner,{flags:{},completedNpcBattles:[]}).length,0);
     assert.equal(policy.canReplay(owner,'moon',progress),false);
     for(const c of policy.encounters) progress.flags[c.flag]='ready';
     assert(policy.canReplay(owner,'moon',progress));
     assert.equal(policy.canReplay({id:162,username:'binout'},'moon',progress),false);
     assert.equal(policy.canReplay(owner,'lucie_route2',progress),true);
-    assert.deepEqual(policy.publicState(owner,progress),{allowed:true,total:12,unlocked:12,ready:12});
+    assert.deepEqual(policy.publicState(owner,progress),{allowed:true,total:policy.encounters.length,unlocked:policy.encounters.length,ready:policy.encounters.length});
     assert.deepEqual(policy.publicState({id:5,username:'other'},progress),{allowed:false});
 });
 test('replay dialogue override preserves normal post-victory dialogues and story flags', () => {
@@ -68,9 +68,9 @@ test('real SQL/socket replay: authorization, persistence, victory, no rewards, c
         const beforeTraining=training((await teamRepo.loadEquipe(admin.user.id)).pokemons[0]);
         const stranger=await connect(other);assert.deepEqual(stranger.state,{allowed:false});assert.equal((await command(stranger.s,{userId:admin.user.id,admin:true})).success,false);stranger.s.disconnect();await pause(100);
         let {s,state}=await connect(admin);assert.equal(state.ready,0);
-        const results=await Promise.all([command(s),command(s)]);assert(results.some(r=>r.success&&r.count===12));
+        const results=await Promise.all([command(s),command(s)]);assert(results.some(r=>r.success&&r.count===policy.encounters.length));
         assert.deepEqual(await protectedState(admin.user.id),before);
-        s.disconnect();await pause(150);({s,state}=await connect(admin));assert.equal(state.ready,12);
+        s.disconnect();await pause(150);({s,state}=await connect(admin));assert.equal(state.ready,policy.encounters.length);
         let speech=event(s,'dialogue');s.emit('Space');assert.equal((await speech)[1],'moon');
         assert.equal((await command(s)).success,false,'no rearm during dialogue');
         let attack=event(s,'requestAction'),ended=event(s,'endbattle'),followup=event(s,'dialogue',p=>p[1]==='moon_after');s.emit('onEndDialogue','moon');await attack;
@@ -79,11 +79,11 @@ test('real SQL/socket replay: authorization, persistence, victory, no rewards, c
         const result=await ended;assert.equal(result.summary.outcome,'victory');assert.equal(result.summary.money,0);
         assert.deepEqual(training((await teamRepo.loadEquipe(admin.user.id)).pokemons[0]),beforeTraining);
         assert.deepEqual(await protectedState(admin.user.id),before);
-        assert.equal(policy.publicState(admin.user,await progression.loadProgressState(admin.user.id )).ready,11);
+        assert.equal(policy.publicState(admin.user,await progression.loadProgressState(admin.user.id )).ready,policy.encounters.length-1);
         assert.equal((await followup)[2].afterBattle,true);s.emit('onEndDialogue','moon_after');await pause(100);
-        assert.equal((await command(s)).count,12);
+        assert.equal((await command(s)).count,policy.encounters.length);
         s.removeAllListeners('requestAction');speech=event(s,'dialogue');s.emit('Space');assert.equal((await speech)[1],'moon');attack=event(s,'requestAction');s.emit('onEndDialogue','moon');await attack;s.disconnect();await pause(250);
-        assert.equal(policy.publicState(admin.user,await progression.loadProgressState(admin.user.id )).ready,12,'disconnect retains retry');
+        assert.equal(policy.publicState(admin.user,await progression.loadProgressState(admin.user.id )).ready,policy.encounters.length,'disconnect retains retry');
         // Fresh database identity is checked under lock, even if the JWT still contains its old username.
         await db.execute('UPDATE users SET username=? WHERE id=?',['renamed_'+randomUUID(),admin.user.id]);
         await assert.rejects(repository.rearm(admin.user),/réservé/);

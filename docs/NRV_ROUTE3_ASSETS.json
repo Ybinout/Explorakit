@@ -1,0 +1,125 @@
+{
+  "createdAt": "2026-10-25",
+  "toolMode": "built-in imagegen",
+  "baseClient": "54b33968d2193221ddb9160fa2e32aa37564e9ee",
+  "prompts": {
+    "roof": "Edit this pixel-art blue house roof reference. Add only a readable green spray-painted graffiti tag spelling exactly NRV across the left blue roof slope, below the top ridge and to the left of the chimney. It should look hand-tagged with energetic slanted joined letters, dark forest-green outline, vivid grass-green paint and a few tiny drips, matching the low-resolution pixel-art game world. The lettering follows the roof plane. Preserve the original blue roof tiles, chimney, facade, windows, door and grass exactly outside the paint. Do not redesign the building. No extra letters, signs, people or other objects. Preserve the pixel art proportions and square edges.",
+    "interior": "Edit the provided top-down pixel-art game house interior into a small clubhouse shared by three Pokémon trainers, NOZ TOM CRY. Keep exactly the existing camera angle, room silhouette, solid black outside, walls, door at the bottom center, and the location and footprint of every furniture item so existing game collisions remain correct. Change the pink checkerboard floor into a calm warm gray-blue tiled floor, make the bed and furniture dark navy with small lime-green accents, and turn the central table into a small trainer strategy table. Add a small green hand-painted NRV tag on the rear wall above the kitchen, with no other text. Keep the open walking space open. Classic handheld RPG pixel art, simple blocky pixels, low detail, no realism, no glow, no characters, no clutter, no extra furniture, no perspective distortion. Exact same 28 by 20 tile proportions. One coherent full interior image.",
+    "portraits": "Create a horizontal strip of THREE SEPARATE monochrome manga character dialogue portraits for an RPG. Reference images 1, 2, 3 show three different adult male trainers and must be followed in that left-to-right order. Reference 4 defines the game's black-and-white ink illustration style only. LEFT: NOZ, the man with dramatic swept-up dark hair forming two points, long fringe, confident composed smile, dark jacket with pale high collar. CENTER: TOM, the serious man with short upright spiky hair and angular hairline, pale formal jacket with dark lapels, gold badge rendered gray. RIGHT: CRY, the quiet man with rounded layered hair covering one eye, pale high-collar jacket, hand calmly raised near his chest. Keep their different hair shapes recognizably faithful to the pixel sprite references. Each portrait shows head and shoulders, and each sits entirely within its own equal-width third of the canvas, with ample empty margins so they can be cropped individually. Fine manga ink lines, black shadows, gray hatching, clean attractive expressive faces, not pixel art. All three on truly transparent background, no environment, no dividers, no text, no letters, no watermark. Three clearly distinct separate people, three equal portrait cells."
+  },
+  "sources": {
+    "roof": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-092bdff5-b77a-4c6f-91a2-f049c6fb36d9.png",
+    "interior": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-c326fbc0-a0e3-497b-912b-1f38c7e51721.png",
+    "portraits": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-d0e8e652-5547-412b-8ee9-97460186fb01.png"
+  },
+  "worldSprites": [
+    {
+      "name": "noz",
+      "x": 367,
+      "y": 417,
+      "w": 17,
+      "h": 25,
+      "pixels": 336
+    },
+    {
+      "name": "tom",
+      "x": 558,
+      "y": 288,
+      "w": 17,
+      "h": 26,
+      "pixels": 340
+    },
+    {
+      "name": "cry",
+      "x": 654,
+      "y": 290,
+      "w": 17,
+      "h": 24,
+      "pixels": 308
+    }
+  ],
+  "exports": [
+    "vue-explorakit/src/assets/route3.png",
+    "vue-explorakit/src/assets/route3_f.png",
+    "vue-explorakit/src/assets/route3_maison_nrv.png",
+    "vue-explorakit/src/assets/image/nrv-noz-v1.png",
+    "vue-explorakit/src/assets/image/nrv-tom-v1.png",
+    "vue-explorakit/src/assets/image/nrv-cry-v1.png"
+  ],
+  "roofComposition": "Only green generated paint sampled inside original blue roof pixels, x362..401 y152..187. All other route pixels preserved; identical paint in roof foreground.",
+  "interior": "448x320 nearest-neighbor export, room collision grid from gen_maison1; two-tile exit.",
+  "portraits": "Separate equal thirds from generated strip, scaled to width 384 with alpha preserved.",
+  "referenceInputs": {
+    "roof": {
+      "source": "vue-explorakit/src/assets/route3.png",
+      "rect": [
+        352,
+        136,
+        80,
+        88
+      ],
+      "nearestNeighborScale": 8
+    },
+    "interior": "vue-explorakit/src/assets/gen_maison1.png",
+    "portraits": {
+      "sprites": "vue-explorakit/src/assets/6931.png",
+      "rectangles": [
+        {
+          "name": "noz",
+          "x": 367,
+          "y": 417,
+          "w": 17,
+          "h": 25,
+          "pixels": 336
+        },
+        {
+          "name": "tom",
+          "x": 558,
+          "y": 288,
+          "w": 17,
+          "h": 26,
+          "pixels": 340
+        },
+        {
+          "name": "cry",
+          "x": 654,
+          "y": 290,
+          "w": 17,
+          "h": 24,
+          "pixels": 308
+        }
+      ],
+      "style": "vue-explorakit/src/assets/image/gwenn-v1.png"
+    }
+  },
+  "exportVerification": {
+    "changedRoofPixels": 496,
+    "outsideRoofUnchanged": true,
+    "assets": [
+      {
+        "name": "route3.png",
+        "sha256": "f5b7ae08ddb7cddec21d9bb17c1f03400497b6cbf551160a6fb91b45d192635e"
+      },
+      {
+        "name": "route3_f.png",
+        "sha256": "0cb0f52b483ce947815ef27f3df8a76e59308f322d9623d9445eae0a6e7084e5"
+      },
+      {
+        "name": "route3_maison_nrv.png",
+        "sha256": "f95f39bcbc6bea0b2ff24eca26f10004b1803d160bf8edda851779f550daf74c"
+      },
+      {
+        "name": "image/nrv-noz-v1.png",
+        "sha256": "0f7eba819a511f141e2cfabe1876070d8727b822411d2fdebb4e17fe0b36245b"
+      },
+      {
+        "name": "image/nrv-tom-v1.png",
+        "sha256": "4089bf3df72a625e221dfd0a98180d817d3fb6be6bdff36160e3a4a586e51a22"
+      },
+      {
+        "name": "image/nrv-cry-v1.png",
+        "sha256": "a7b348f18ca921177ad137e5ddf5e5e46248cc263964bff49bc53bf5b7320184"
+      }
+    ]
+  }
+}

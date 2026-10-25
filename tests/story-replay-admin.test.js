@@ -55,8 +55,8 @@ test('owner replay SQL/socket: entry speeches, story duels, crystals, isolation 
   }
   const before=await progression.loadProgressState(admin.user.id),otherBefore=await progression.loadProgressState(other.user.id);
   const lead=require('../server/game/drift/pokemonFactory').create(150,200,true);lead.k=4;lead.recalculateStats();lead.currentHp=lead.maxHp;lead.abilities=[];lead.movePp=[];lead.addAbility('Dark Pulse');await teamRepo.editEquipe(admin.user.id,{pokemons:[lead]});
-  s=await connect(admin,'start',18,3);assert.equal((await reset(s)).count,12);
-  let progress=await progression.loadProgressState(admin.user.id);assert.equal(progress.testReplays.length,12);assert(gates.snapshot(progress).every(g=>g.locked));
+  s=await connect(admin,'start',18,3);assert.equal((await reset(s)).count,policy.encounters.length);
+  let progress=await progression.loadProgressState(admin.user.id);assert.equal(progress.testReplays.length,policy.encounters.length);assert(gates.snapshot(progress).every(g=>g.locked));
   for(const scene of scenes)assert.equal(progress.flags[scene.flag],undefined);
   for(const o of room.obstacles)assert.equal(progress.flags[o.requiredFlag],'true');
   assert.deepEqual((await progression.loadProgressState(other.user.id)).flags,otherBefore.flags);
@@ -65,7 +65,7 @@ test('owner replay SQL/socket: entry speeches, story duels, crystals, isolation 
   assert.deepEqual((await progression.loadProgressState(other.user.id)).testReplays,[]);
   await fight('dia1');assert(!gates.snapshot(await progression.loadProgressState(admin.user.id)).find(g=>g.id==='wayne_route1').locked);await leave();
   for(const scene of scenes){s=await connect(admin,scene.map,13,16,scene.name);assert.equal((await progression.loadProgressState(admin.user.id)).flags[scene.flag],'true');await leave();}
-  for(const [map,x,y,name]of [['route2',25,6,'aspha_route2'],['gen_route8',22,17,'gwenn_route8'],['ville_safe1',25,8,'mathilde_pikapika'],['route4_maison',13,10,'gwenn_rochebrume']]){s=await connect(admin,map,x,y);await fight(name);await leave();}
+  for(const [map,x,y,name]of [['route2',24,5,'aspha_route2'],['gen_route8',22,17,'gwenn_route8'],['ville_safe1',25,8,'mathilde_pikapika'],['route4_maison',13,10,'gwenn_rochebrume']]){s=await connect(admin,map,x,y);await fight(name);await leave();}
   progress=await progression.loadProgressState(admin.user.id);assert.equal(gates.actorAtTile('ville4',13,4,progress),null);
   s=await connect(admin,'route2_maison',13,16,'lucie_room_entry');
   for(const obstacle of room.obstacles){
@@ -77,7 +77,7 @@ test('owner replay SQL/socket: entry speeches, story duels, crystals, isolation 
   progress=await progression.loadProgressState(admin.user.id);assert(!progress.testReplays.includes('lucie_route2'));assert(gates.snapshot(progress).every(g=>!g.locked));
   for(const key of ['money','badges','completedNpcBattles','quests'])assert.deepEqual(progress[key],before[key],key+' preserved');
   const trained=(await teamRepo.loadEquipe(admin.user.id)).pokemons[0];assert.equal(trained.experience,lead.experience);assert.deepEqual(trained.ev,lead.ev);
-  assert.equal((await reset(s)).count,12);progress=await progression.loadProgressState(admin.user.id);assert(gates.snapshot(progress).every(g=>g.locked));
+  assert.equal((await reset(s)).count,policy.encounters.length);progress=await progression.loadProgressState(admin.user.id);assert(gates.snapshot(progress).every(g=>g.locked));
   for(const scene of scenes)assert.equal(progress.flags[scene.flag],undefined);
   // Reconnect, then leave/re-enter without reconnecting: both replay the warning.
   await leave();s=await connect(admin,'route2_maison',13,16,'lucie_room_entry');
@@ -86,6 +86,6 @@ test('owner replay SQL/socket: entry speeches, story duels, crystals, isolation 
   // Another owner tab reading an entry scene must prevent an overlapping reset.
   const peer=await connect(admin,scenes[0].map,13,16);await pause(100);
   assert.equal((await reset(s)).success,false);peer.emit('onEndDialogue',scenes[0].name);await pause(100);
-  const refreshed=event(peer,'progressionState');assert.equal((await reset(s)).count,12);assert.equal((await refreshed).testReplays.length,12);
+  const refreshed=event(peer,'progressionState');assert.equal((await reset(s)).count,policy.encounters.length);assert.equal((await refreshed).testReplays.length,policy.encounters.length);
  }finally{for(const socket of sockets)socket.disconnect();await new Promise(r=>io.close(r));await pause(150);policy.isOwner=original;for(const id of ids)await db.execute('DELETE FROM users WHERE id=?',[id]);await db.end();}
 });
