@@ -1,0 +1,168 @@
+{
+  "date": "2026-10-26",
+  "tool": "Built-in image_gen.imagegen",
+  "references": [
+    "docs/art/player-sprite-reference-384.png",
+    "vue-explorakit/src/assets/6931.png"
+  ],
+  "prompt": "Use case: identity-preserve. Asset: a single very simple RPG overworld sprite for Lucie, reskinned DIRECTLY from the player sprite in image 1. Image 1 is the strict edit target for pose, exact big head/short body proportions, hand positions, tiny feet and coarse grid. Image 2 is the game's original atlas: match the simplicity of its small front-facing female NPCs. Do not imitate the large illustrated characters on the atlas. The final native character is only 17 logical pixels wide by 24 tall inside a 32x32 cell; image 1's logical pixels are large solid squares. Keep precisely the player's height, oversized head and very short body, with no extra detail. Reskin as a young adult woman: plain medium-brown straight hair to the shoulders, simple dark brown fringe, no hat, two dark eyes of ONE logical pixel each. Pale lavender plain short-sleeved top, very short dark navy trousers, two tiny dark shoes, skin-colored hands in exactly the player's original positions. Tiny red and white Ball of just two or three logical pixels at one hand. At most 10-12 flat colors including outline, one shadow color per area. Crisp square pixels, dark flat outline, NO anti-aliasing, gradients, shading texture, detailed face, long limbs, eyelashes, fingers, seams, folds, jewelry or decorative accessories. This must look like the actual player wearing a female outfit and simple brown hair, NOT like a miniature anime illustration. One front-facing idle character centered on genuinely transparent background, no ground shadow, no labels, no border, no scenery.",
+  "preview": "docs/art/lucie-player-based.png",
+  "alphaThreshold": 128,
+  "palette": [
+    "#25222b",
+    "#49313e",
+    "#73472f",
+    "#a56a43",
+    "#d49f79",
+    "#f5cbaa",
+    "#fff4e7",
+    "#bba4d9",
+    "#e2d8ef",
+    "#324764",
+    "#be4545"
+  ],
+  "sprites": [
+    {
+      "name": "lucie",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-fbd638af-f455-414d-8ce8-369634525b4a.png",
+      "destination": "vue-explorakit/src/assets/pnj/lucie-pixel-v3.png",
+      "nativeContent": [
+        17,
+        24
+      ],
+      "nativeBox": {
+        "x": 7,
+        "y": 6,
+        "w": 17,
+        "h": 24
+      }
+    }
+  ],
+  "exportChecks": [
+    {
+      "name": "lucie",
+      "destination": "vue-explorakit/src/assets/pnj/lucie-pixel-v3.png",
+      "opaque": 314,
+      "bounds": {
+        "x": 7,
+        "y": 6,
+        "w": 17,
+        "h": 24
+      },
+      "colors": 11,
+      "alpha": [
+        0,
+        255
+      ],
+      "sourceBounds": {
+        "x": 305,
+        "y": 251,
+        "w": 644,
+        "h": 849
+      },
+      "bytes": 688,
+      "sha256": "f962329ca406a7b23f7e01c82ea177182d367231924d62e471ece23586e3c8f7"
+    }
+  ],
+  "scene": {
+    "trigger": "Victoire puis fin du dialogue lucie_route2_after ; jamais après défaite/fuite.",
+    "line": "Lucie : Non… laisse-moi ! Éloigne-toi !",
+    "durationMs": 4200,
+    "effect": "Vortex sombre au sol, halo violet, arcs et particules attirées vers le centre ; réduction/rotation légère/effacement du sprite puis fermeture. Mouvement réduit : fondu sans rotation, réduction ni particules.",
+    "recap": "Le récapitulatif attend la fin de la scène ; garde de 2,5 s sans événement pour compatibilité ancien serveur/erreur, puis garde de durée+1 s durant la scène.",
+    "persistence": "Flag privé lucie_departure=seen écrit transactionnellement avant animation. Reconnexion avant acquittement : dialogue reproposé. Pendant/après : acteur et collision retirés. Comptes déjà victorieux : nouvelle conclusion proposée une fois sans refaire/payer le duel.",
+    "admin": "admin_lucie_departure suit armed → pending → seen ; le bouton de reset réactive Lucie, dialogues et obstacles existants. Les gains, reçus et flags permanents restent protégés.",
+    "expeditions": "Même scène pour les rencontres de Lucie en exploration Rift/Colosseum ; état propre au joueur de la tentative et conservé par checkpoint, sans changer sa progression Aventure.",
+    "story": "L’ancien dialogue de retrouvailles heureuses est remplacé ; la conclusion du carnet dit que l’emprise reste présente et que la recherche continue. Les clés historiques lucie_freed/lucie_reunited restent techniques pour les sauvegardes et reçus existants.",
+    "security": "Autorisation serveur de dialogue, victoire réellement enregistrée, verrou SQL de compte, idempotence multi-onglets, action/déplacement bloqués pendant la scène. Aucune table, migration, reset de compte ou modification de carte."
+  },
+  "verification": {
+    "unit": {
+      "command": "node --test tests/lucie-departure.test.js tests/lucie-tactics.test.js tests/arena-entrance.test.js tests/battle-entrance.test.js tests/story-progression.test.js tests/drift-runtime.test.js tests/arena-admin.test.js tests/room-obstacles.test.js tests/colosseum.test.js",
+      "passed": 94,
+      "failed": 0,
+      "skipped": 1,
+      "log": "/tmp/riftmon-lucie-departure-tests.log"
+    },
+    "mysql": {
+      "newDeparture": "tests/lucie-departure-mysql.test.js : réussi ; vraie concurrence, victoire requise, isolation, reset admin et absence de nouvelle récompense. Intégré à scripts/runMysqlTests.js.",
+      "roomAndAdmin": "Groupe arena-admin/room-obstacles-socket/lucie-departure-mysql : cinq réussites, un échec ancien de recette admin sur Missing dialogue. Fixture de protection des données permanentes ajustée pour exclure le nouveau flag admin éphémère. Le test dédié vérifie séparément ses transitions.",
+      "gatesAndStory": "story-gates-socket réussit. La recette complète story-socket s’arrête sur aspha_route2_locked, déjà en échec avant ce patch. Son assertion finale est actualisée pour la nouvelle réplique.",
+      "baseline": "Checkout temporaire du HEAD 38ec490 sans le patch : mêmes erreurs admin Missing dialogue et Aspha ; deux anciens échecs unitaires Lucie/Matthieu reproduits également. Aucune réussite globale des anciennes recettes complètes revendiquée.",
+      "logs": [
+        "/tmp/riftmon-lucie-departure-mysql.log",
+        "/tmp/riftmon-lucie-admin-mysql.log",
+        "/tmp/riftmon-lucie-admin-recheck.log",
+        "/tmp/riftmon-lucie-story-mysql.log",
+        "/tmp/riftmon-lucie-baseline-admin.log",
+        "/tmp/riftmon-lucie-baseline-story.log",
+        "/tmp/riftmon-lucie-baseline-unit.log"
+      ]
+    },
+    "browser": {
+      "command": "RELEASE_DIST_DIR=/tmp/riftmon-lucie-departure-dist RELEASE_SCREENSHOTS=/tmp/riftmon-lucie-departure-browser node --env-file=.env scripts/validateLucieBrowser.js",
+      "result": {
+        "actualLucieTeam": true,
+        "legacySave": true,
+        "victory": true,
+        "followUp": true,
+        "blackHole": true,
+        "personalCollisionRemoved": true,
+        "departurePersists": true,
+        "pendingSceneResumes": true,
+        "midSceneReconnect": true,
+        "reducedMotion": true,
+        "noRematchAfterReload": true,
+        "viewports": 4,
+        "slowDialogue": true,
+        "skippableTyping": true,
+        "stableDialogueHeight": true,
+        "lucieSplash": true,
+        "extendedEntrance": true,
+        "newRoom": true,
+        "newSprite": true,
+        "musicDuringDialogueAndEntrance": true,
+        "clearedRoomBarriers": false,
+        "errors": []
+      },
+      "capturesInspected": [
+        "/tmp/riftmon-lucie-departure-browser/house-393.png",
+        "/tmp/riftmon-lucie-departure-browser/vortex-393.png",
+        "/tmp/riftmon-lucie-departure-browser/empty-room-393.png"
+      ],
+      "physicalPhone": false,
+      "notes": "Vraie équipe de Lucie affrontée avec un compagnon puissant de test ; compte SQL jetable nettoyé, aucun compte réel modifié. Victoire, dialogue automatique, récap après vortex, déplacement refusé durant puis marche sur la case libérée, rechargement, ancienne sauvegarde et reconnexion au milieu, mouvement réduit, quatre formats."
+    },
+    "lint": "npm --prefix vue-explorakit run lint -- --no-fix : aucune erreur",
+    "build": {
+      "command": "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-lucie-departure-dist",
+      "hash": "20330e5b988e4ea9"
+    },
+    "syntax": "node --check des modules serveur/tests/recettes modifiés ; git diff --check dans les deux dépôts."
+  },
+  "deployment": {
+    "publishedAt": "2026-10-26T05:34:29.396Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-lucie-departure-2026-10-26T05-34-26-979Z",
+    "clientBuild": "20330e5b988e4ea9",
+    "clientCommit": "fafd3275f33e01b6118f61d75b3e4f2a48f04b28",
+    "beforePid": "1835218",
+    "afterPid": "1847354",
+    "activeRuns": 0,
+    "serverRestarted": true,
+    "checkpointSaved": true,
+    "neighborsUnchanged": true,
+    "publicAssets": [
+      "js/app.4cdd7ef0.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/game.4d71e522.js",
+      "css/app.8538ed5d.css",
+      "css/game.59539689.css"
+    ],
+    "lucieScene": true,
+    "nativeSprite": {
+      "bytes": 688,
+      "sha256": "f962329ca406a7b23f7e01c82ea177182d367231924d62e471ece23586e3c8f7"
+    },
+    "noSchemaChanges": true
+  }
+}

@@ -536,7 +536,7 @@
       "destination": "Lucie · Maison de la Route 2"
     }
   ],
-  "chapterConclusion": "Tu as vaincu Lucie et brisé l’emprise de l’Aube Obscure. Ta sœur est libre ; vous pouvez enfin donner des nouvelles à votre mère.",
+  "chapterConclusion": "Le combat contre Lucie est terminé, mais l’Aube Obscure garde encore son emprise. La recherche continue.",
   "storyEvents": {
     "clara_letter": {
       "requiresFlags": [

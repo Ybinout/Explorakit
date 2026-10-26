@@ -25,6 +25,7 @@ async function rearm(user) {
             await connection.execute('DELETE FROM player_story_flags WHERE user_id=? AND flag_key=?',
                 [owner.id,require('../game/world/testReplayState').obstacleFlag(obstacle)]);
         }
+        if(champions.some(c=>c.name==='lucie_route2'))await connection.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,?,'armed') ON DUPLICATE KEY UPDATE flag_value='armed'",[owner.id,require('../game/world/lucieDeparture').config.adminFlag]);
         await connection.execute('DELETE FROM player_story_flags WHERE user_id=? AND flag_key=?',[owner.id,require('../game/world/arenaCollapse').config.flag]);
         if(champions.some(c=>c.name==='champion_raphael'))await connection.execute('DELETE FROM player_story_flags WHERE user_id=? AND flag_key=?',[owner.id,require('../game/world/raphTrial').config.flag]);
         return {count:champions.length};
@@ -35,6 +36,7 @@ async function complete(user, name) {
     if (!champion) throw Error('Rencontre de test inconnue.');
     return authorizedTransaction(user, async (connection, owner) => {
         await connection.execute("DELETE FROM player_story_flags WHERE user_id=? AND flag_key=? AND flag_value='ready'",[owner.id,champion.flag]);
+        if(name==='lucie_route2')await connection.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,?,'pending') ON DUPLICATE KEY UPDATE flag_value='pending'",[owner.id,require('../game/world/lucieDeparture').config.adminFlag]);
     });
 }
 module.exports = { rearm, complete };

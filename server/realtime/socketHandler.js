@@ -279,7 +279,9 @@ const socketHandler = (io) => {
 
         let currentmap = resolveMapName(savedPosition?.map || DEFAULT_MAP);
         let raphTrialState = currentmap === raphTrial.config.map ? await raphTrialRepository.ensure(userId,savedPosition) : null;
-        const {getPnjsForMap,getPnjAtTile,isPnjBlockingTile}=raphTrial.scopedStore(defaultPnjStore,()=>raphTrialState);
+        const lucieScene=require('../game/world/lucieDeparture');
+        let lucieProgress=currentmap===lucieScene.config.map?await loadProgressState(userId):{flags:{}},lucieLeaving=false;
+        const {getPnjsForMap,getPnjAtTile,isPnjBlockingTile}=lucieScene.scopedStore(raphTrial.scopedStore(defaultPnjStore,()=>raphTrialState),()=>lucieProgress,()=>lucieLeaving);
         let collisionData2D = loadCollisionData(currentmap);
         let changemap2D = changeMapData(currentmap);
         let battlemap2D = battleMapData(currentmap);
@@ -443,14 +445,21 @@ const socketHandler = (io) => {
         };
 
         const emitPlayerProgression = (progression) => {
+            lucieProgress=progression;
             socket.emit('progressionState', progression);
             socket.emit('storyGatesState', { gates: storyGates.snapshot(progression) });
             socket.emit('adminArenaState', arenaTests.publicState(socket.data.user, progression));
+            if(currentmap===lucieScene.config.map){currentPnjs=getPnjsForMap(currentmap);socket.emit('pnjsList',{mapname:currentmap,pnjs:currentPnjs});}
         };
         let roomEntryShown = false;
         const showRoomEntry = async (progression) => {
             const player = players[socket.id];
             if (!player || player.inbattle || pendingDialogue) return;
+            if(player.currentmap===lucieScene.config.map && lucieScene.pending(progression||lucieProgress)) {
+                const name=lucieScene.config.dialogue,sentence=getSentenceForName(name);
+                pendingDialogue={...createDialogueAuthorization({name,map:player.currentmap,x:Math.floor(player.x/32),y:Math.floor(player.y/32)}),lucieDeparture:true};
+                socket.emit('dialogue',[...sentence,{entryMap:player.currentmap}]);return;
+            }
             const arenaScenes = require('../game/world/arenaScenes');
             if (arenaScenes.scenes.some(s => s.map === player.currentmap)) {
                 const map = player.currentmap;
@@ -961,7 +970,7 @@ const socketHandler = (io) => {
             const dialogueName = typeof data === 'string' ? data : '';
             const playerTile = getPlayerTilePosition(player);
             // This entry speech is read-only: a long listening pause must not leave it locked by the reward-dialogue TTL.
-            const readOnlyEntry = (pendingDialogue?.name === 'lucie_room_entry' || pendingDialogue?.arenaEntry) && dialogueName === pendingDialogue.name && player.currentmap === pendingDialogue.map;
+            const readOnlyEntry = (pendingDialogue?.name === 'lucie_room_entry' || pendingDialogue?.arenaEntry || pendingDialogue?.lucieDeparture) && dialogueName === pendingDialogue.name && player.currentmap === pendingDialogue.map;
             const dialogueIsValid = readOnlyEntry || isDialogueCompletionAllowed(pendingDialogue, {
                 name: dialogueName,
                 map: player.currentmap,
@@ -975,6 +984,11 @@ const socketHandler = (io) => {
             }
             const authorization = pendingDialogue;
             pendingDialogue = null;
+
+            if(dialogueName===lucieScene.config.dialogue) {
+                await require('./handlers/lucieDepartureHandlers').depart({socket,userId,player,getPlayer:()=>players[socket.id],setLeaving:value=>{lucieLeaving=value;},emitProgression:emitPlayerProgression,syncPeers:progress=>refreshReplaySessions(progress)});
+                return;
+            }
 
             if (authorization.arenaEntry) {
                 await require('../persistence/arenaSceneRepository').acknowledge(userId, dialogueName);
@@ -1063,7 +1077,7 @@ const socketHandler = (io) => {
                             })) {
                                 const sentence = getSentenceForName(dialogueName, victoryProgress);
                                 if (sentence && sentence[1] !== dialogueName) {
-                                    pendingDialogue = createDialogueAuthorization({ ...authorization, name: sentence[1] });
+                                    pendingDialogue = {...createDialogueAuthorization({ ...authorization, name: sentence[1] }),...(dialogueName===lucieScene.config.actor?{lucieDeparture:true}:{})};
                                     socket.emit('dialogue', [...sentence, {afterBattle:true}]);
                                 }
                             }
@@ -1103,7 +1117,7 @@ const socketHandler = (io) => {
         }));
 
         socket.on('Space', guardInteraction(async () => {
-            if (pendingDialogue?.arenaEntry) return;
+            if (pendingDialogue?.arenaEntry || pendingDialogue?.lucieDeparture) return;
             const player = players[socket.id];
             if (!player) return;
             if (player.inbattle || player.inventoryBusy) return;
@@ -1207,7 +1221,7 @@ const socketHandler = (io) => {
 
         socket.on('playerAction', async (action) => {
             if (getDirectionFromAction(action) && players[socket.id]) fishing.cancel(players[socket.id]);
-            if (!canMove || interactionBusy || transitionBusy || pendingDialogue?.arenaEntry) return;
+            if (!canMove || interactionBusy || transitionBusy || pendingDialogue?.arenaEntry || pendingDialogue?.lucieDeparture) return;
             const player = players[socket.id];
             if (!player) return;
             if (player.inbattle || player.inventoryBusy) return;

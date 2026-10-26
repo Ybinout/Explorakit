@@ -1904,58 +1904,14 @@
     "name": "lucie_route2_after",
     "sentences": [
       {
-        "text": "La dernière Poké Ball se referme. Lucie porte les mains à ses oreilles, puis les baisse lentement. Le silence revient dans la maison.",
-        "imageName": "townspeople.png",
-        "portraitFrame": {
-          "columns": 8,
-          "rows": 4,
-          "index": 18
-        }
+        "text": "Lucie recule. Sa main se crispe sur sa Poké Ball ; son regard se trouble de nouveau.",
+        "imageName": "lucie-v1.png",
+        "typewriterMs": 45
       },
       {
-        "text": "Lucie : La voix… je ne l’entends plus. C’est vraiment toi ? Tu as fait tout ce chemin pour moi…",
-        "imageName": "townspeople.png",
-        "portraitFrame": {
-          "columns": 8,
-          "rows": 4,
-          "index": 18
-        }
-      },
-      {
-        "text": "Tu lui prends la main. Cette fois, elle la serre en retour.",
-        "imageName": "townspeople.png",
-        "portraitFrame": {
-          "columns": 8,
-          "rows": 4,
-          "index": 18
-        }
-      },
-      {
-        "text": "Lucie : L’Aube Obscure m’a promis un refuge pour les Pokémon blessés. Quand j’ai compris ce qu’ils faisaient, j’ai essayé de partir. Ils m’ont rattrapée. Après… il y a des morceaux dont je ne me souviens pas.",
-        "imageName": "townspeople.png",
-        "portraitFrame": {
-          "columns": 8,
-          "rows": 4,
-          "index": 18
-        }
-      },
-      {
-        "text": "Lucie : Je me rappelle avoir confié cette clé à 7p. Je voulais qu’il empêche quelqu’un d’entrer. Surtout toi. Je suis désolée de t’avoir attaqué.",
-        "imageName": "townspeople.png",
-        "portraitFrame": {
-          "columns": 8,
-          "rows": 4,
-          "index": 18
-        }
-      },
-      {
-        "text": "Lucie : J’ai besoin d’un peu de temps. Mais je ne suis plus seule. Et cette fois, on donnera des nouvelles à maman. Ensemble.",
-        "imageName": "townspeople.png",
-        "portraitFrame": {
-          "columns": 8,
-          "rows": 4,
-          "index": 18
-        }
+        "text": "Lucie : Non… laisse-moi ! Éloigne-toi !",
+        "imageName": "lucie-v1.png",
+        "typewriterMs": 45
       }
     ]
   },

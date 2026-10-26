@@ -26,7 +26,7 @@ async function pictures(label){for(const[width,height]of [[320,568],[393,852],[1
   assert.equal(await page.locator('.dialogue-shell').count(),0,'warning waits for the room to decode');
   await page.waitForFunction(()=>v.map==='route2_maison'&&v.renderedMap===v.map&&!v.mapLoading);
  }
- await page.waitForFunction(()=>v.pnjSpriteSheets['lucie-pixel-v2.png']?.complete&&v.pnjSpriteSheets['lucie-pixel-v2.png'].naturalWidth===24);
+ await page.waitForFunction(()=>v.pnjSpriteSheets['lucie-pixel-v3.png']?.complete&&v.pnjSpriteSheets['lucie-pixel-v3.png'].naturalWidth===32);
  assert(await page.evaluate(()=>v.mapImage.src.includes('route2_maison')));
  await pictures('house');
  if(process.env.VALIDATE_ROOM_BARRIERS==='1'){
@@ -87,13 +87,31 @@ async function pictures(label){for(const[width,height]of [[320,568],[393,852],[1
  await page.waitForFunction(()=>{const image=document.querySelector('[data-battle-environment="lucie-house"] img');return image?.complete&&image.naturalWidth>0;});
  await pictures('battle');await page.evaluate(()=>v.updatePreferences({...v.preferences,animationsEnabled:false}));
  for(let i=0;i<30;i++){
-  await page.waitForFunction(()=>v.battleResult||document.querySelector('.action-attack:not(:disabled)'));
-  if(await page.evaluate(()=>!!v.battleResult))break;
+  await page.waitForFunction(()=>v.battleResult||v.deferredBattleResult||document.querySelector('.action-attack:not(:disabled)'));
+  if(await page.evaluate(()=>!!v.battleResult||!!v.deferredBattleResult))break;
   await page.locator('.action-attack:enabled').click();await page.locator('.battle-grid-attacks button:enabled').first().click();await page.waitForTimeout(120);
  }
- await page.waitForFunction(()=>!!v.battleResult);assert.equal(await page.evaluate(()=>v.battleResult.outcome),'victory');await page.locator('[data-battle-result] button').click();
+ await page.waitForFunction(()=>!!v.battleResult||!!v.deferredBattleResult);assert.equal(await page.evaluate(()=>(v.battleResult||v.deferredBattleResult).outcome),'victory');if(await page.evaluate(()=>!!v.battleResult))await page.locator('[data-battle-result] button').click();
  await page.waitForFunction(()=>v.endSentences==='lucie_route2_after'&&v.textImageSequence.length>0);assert.equal(await page.evaluate(()=>v.progressionState.flags.lucie_freed),'true');await pictures('reunion');
- await page.evaluate(()=>v.clearSequence());await page.waitForFunction(()=>!v.movementBlocked);
- await page.reload({waitUntil:'networkidle'});await ready();await page.evaluate(()=>v.socket.emit('Space'));await page.waitForFunction(()=>v.endSentences==='lucie_route2_after');assert.equal(await page.evaluate(()=>Boolean(v.battle)),false);
- assert.deepEqual(errors,[]);success=true;console.log(JSON.stringify({actualLucieTeam:true,legacySave:true,victory:true,followUp:true,noRematchAfterReload:true,viewports:3,slowDialogue:true,skippableTyping:true,stableDialogueHeight:true,lucieSplash:true,extendedEntrance:true,newRoom:true,newSprite:true,musicDuringDialogueAndEntrance:true,clearedRoomBarriers:process.env.VALIDATE_ROOM_BARRIERS==='1',errors}));
+ assert(await page.evaluate(()=>v.textImageSequence.at(-1).text==='Lucie : Non… laisse-moi ! Éloigne-toi !'));
+ await page.evaluate(()=>{v.updatePreferences({...v.preferences,animationsEnabled:true});v.clearSequence();});await page.waitForFunction(()=>!!v.lucieDeparture);
+ assert(!await page.evaluate(()=>v.battleResult),'recap stays hidden until the vortex closes');
+ assert(await page.evaluate(()=>v.movementBlocked));assert(await page.locator('.mobile-action-a').isDisabled());
+ const origin=await page.evaluate(()=>({x:v.players[v.socket.id].x,y:v.players[v.socket.id].y}));await page.evaluate(()=>v.socket.emit('playerAction','move_d'));await page.waitForTimeout(250);
+ assert.deepEqual(await page.evaluate(()=>({x:v.players[v.socket.id].x,y:v.players[v.socket.id].y})),origin);
+ for(const [width,height]of [[393,852],[1365,900],[320,568],[844,390]]){
+  await page.setViewportSize({width,height});await page.evaluate(w=>{v.showMobileControls=w<=920;if(v.lucieDeparture)v.lucieDeparture.startedAt=performance.now()-1900;},width);
+  assert(await page.evaluate(()=>!!v.lucieDeparture));await page.screenshot({path:path.join(output,`vortex-${width}.png`)});
+ }
+ await page.waitForFunction(()=>!v.lucieDeparture&&!v.pnjs.some(p=>p.name==='lucie_route2'));
+ if(await page.evaluate(()=>!!v.battleResult))await page.locator('[data-battle-result] button').click();
+ assert.equal(await page.evaluate(()=>v.progressionState.flags.lucie_departure),'seen');await page.evaluate(()=>v.socket.emit('playerAction','move_z'));await page.waitForFunction(()=>v.players[v.socket.id].y===176);
+ await page.reload({waitUntil:'networkidle'});await ready();assert(!await page.evaluate(()=>v.pnjs.some(p=>p.name==='lucie_route2')));assert.equal(await page.evaluate(()=>v.textImageSequence.length),0);assert(!await page.evaluate(()=>v.battle));await pictures('empty-room');
+ // A saved win from before this patch gets the new ending once. Losing the
+ // connection during the vortex must still leave the actor permanently gone.
+ await page.evaluate(()=>new Promise(r=>v.socket.emit('requestGameSave',r)));await page.evaluate(()=>v.socket.disconnect());await page.waitForTimeout(200);
+ await dbPool.execute("DELETE FROM player_story_flags WHERE user_id=? AND flag_key='lucie_departure'",[userId]);await page.reload({waitUntil:'networkidle'});await ready();await page.waitForFunction(()=>v.endSentences==='lucie_route2_after'&&v.textImageSequence.length>0);
+ await page.reload({waitUntil:'networkidle'});await ready();await page.waitForFunction(()=>v.endSentences==='lucie_route2_after'&&v.textImageSequence.length>0);
+ await page.evaluate(()=>{v.updatePreferences({...v.preferences,animationsEnabled:false});v.clearSequence();});await page.waitForFunction(()=>!!v.lucieDeparture);assert(await page.evaluate(()=>v.movementBlocked));await page.reload({waitUntil:'networkidle'});await ready();assert(!await page.evaluate(()=>v.pnjs.some(p=>p.name==='lucie_route2')));assert(!await page.evaluate(()=>v.lucieDeparture));
+ assert.deepEqual(errors,[]);success=true;const result={actualLucieTeam:true,legacySave:true,victory:true,followUp:true,blackHole:true,personalCollisionRemoved:true,departurePersists:true,pendingSceneResumes:true,midSceneReconnect:true,reducedMotion:true,noRematchAfterReload:true,viewports:4,slowDialogue:true,skippableTyping:true,stableDialogueHeight:true,lucieSplash:true,extendedEntrance:true,newRoom:true,newSprite:true,musicDuringDialogueAndEntrance:true,clearedRoomBarriers:process.env.VALIDATE_ROOM_BARRIERS==='1',errors};fs.writeFileSync(path.join(output,'results.json'),JSON.stringify(result,null,2));console.log(JSON.stringify(result));
 }finally{if(!success&&page)await page.screenshot({path:path.join(output,'failure.png'),fullPage:true}).catch(()=>{});await browser?.close();await new Promise(r=>io.close(r));await new Promise(r=>setTimeout(r,200));if(userId)await dbPool.execute('DELETE FROM users WHERE id=?',[userId]);await dbPool.end();}})().catch(e=>{console.error(e.stack);process.exitCode=1});

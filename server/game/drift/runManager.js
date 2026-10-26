@@ -28,13 +28,15 @@ const {devicesForMap,isNearComputer}=require('../world/pokemonComputer');
 const computer=require('./pokemonComputer');
 const collapse = require('../world/arenaCollapse');
 const raphTrial = require('../world/raphTrial');
+const lucieScene = require('../world/lucieDeparture');
 const ROOM = 'ville1_arene';
 
 function createRunManager({ store, namespace, now = Date.now, random = Math.random, paceMs = 1800, durationMs = null, starterChoiceMs = 45000, accountRepository = null, colosseumRepository = null }) {
     const runs = new Map();
     const personalPnjs = new WeakMap();
+    const lucieProgress=p=>({flags:{lucie_freed:p.defeated.has(lucieScene.config.actor)?'true':'false',lucie_departure:p.lucieDepartureSeen?'seen':''}});
     function pnjsFor(p) {
-        if(!personalPnjs.has(p))personalPnjs.set(p,raphTrial.scopedStore(p.run.pnjs,()=>p.raphTrial));
+        if(!personalPnjs.has(p))personalPnjs.set(p,lucieScene.scopedStore(raphTrial.scopedStore(p.run.pnjs,()=>p.raphTrial),()=>lucieProgress(p),()=>p.lucieDeparture?.until>now()));
         return personalPnjs.get(p);
     }
     function ensureRaphTrial(p,map=p.currentmap,position=p) {
@@ -144,6 +146,11 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
     }
     function showArenaEntry(p) {
         if (!p.alive || p.inbattle || p.run.phase !== 'exploration') return;
+        if(p.currentmap===lucieScene.config.map && lucieScene.pending(lucieProgress(p))) {
+            const name=lucieScene.config.dialogue;
+            p.dialogue={...createDialogueAuthorization({name,map:p.currentmap,x:Math.floor(p.x/32),y:Math.floor(p.y/32)},now()),lucieDeparture:true};
+            emit(p,'dialogue',[...getSentenceForName(name),{entryMap:p.currentmap}]);return;
+        }
         const scene = require('../world/arenaScenes').entry(p, p.arenaEntriesSeen || {});
         if (!scene) return;
         p.dialogue = {...createDialogueAuthorization({name:scene.name,map:p.currentmap,x:Math.floor(p.x/32),y:Math.floor(p.y/32)},now()),arenaEntry:true};
@@ -235,6 +242,11 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         publish(run);world(run);
         if(run.phase==='transition') return;
         if(match) advance(run); else checkSolo(run);
+        if(battle.npcKey===lucieScene.config.actor && winner===battle.a && reason==='finished' && run.phase==='exploration' && battle.a.alive){
+            const p=battle.a,name=lucieScene.config.dialogue;
+            p.dialogue={...createDialogueAuthorization({name,map:p.currentmap,x:Math.floor(p.x/32),y:Math.floor(p.y/32)},now()),lucieDeparture:true};
+            emit(p,'dialogue',[...getSentenceForName(name),{afterBattle:true}]);
+        }
         const scene = require('../world/arenaScenes').scenes.find(s => s.champion === battle.npcKey && s.map === battle.a.currentmap);
         if (scene && winner === battle.a && reason === 'finished' && run.phase === 'exploration' && battle.a.alive) {
             const p=battle.a,name='arena_victory:'+scene.champion;
@@ -387,6 +399,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
     }
     function enter(user,socket,sprite) {
         const p=playerFor(user); if(!p) economy.fail('Aucune expédition active.');
+        p.lucieDeparture=null; // Its permanent run flag already records a started disappearance.
         if (sprite) p.sprite = sprite;
         stopSpectating(p,'replaced');
         if(p.socketId && p.socketId!==socket.id) namespace.to(p.socketId).emit('drift:replaced',{});
@@ -411,6 +424,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         if(p.run.phase==='selection'&&now()>=p.run.selectionEndsAt)beginExploration(p.run);
         if(p.run.phase==='exploration'&&now()>=p.run.endsAt) beginTournament(p.run);
         if(['preparation','tournament'].includes(p.run.phase)&&now()>=p.run.preparationEndsAt)tick();
+        if(mutable && p.lucieDeparture?.until>now())economy.fail('Patiente un instant.');
         if(mutable) economy.requireMutable(p);
         return p;
     }
@@ -425,7 +439,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
     }
     function move(p,action) {
         if(getDirectionFromAction(action))fishing.cancel(p);
-        if(!p.alive||p.inbattle||p.dialogue?.arenaEntry||p.run.phase!=='exploration'||now()-p.lastMove<130) return;
+        if(!p.alive||p.inbattle||p.dialogue?.arenaEntry||p.dialogue?.lucieDeparture||p.lucieDeparture?.until>now()||p.run.phase!=='exploration'||now()-p.lastMove<130) return;
         const direction=getDirectionFromAction(action);if(!direction)return;
         const delta={move_z:[0,-32],move_s:[0,32],move_q:[-32,0],move_d:[32,0]}[action];
         const x=p.x+delta[0],y=p.y+delta[1],tx=Math.floor(x/32),ty=Math.floor(y/32);
@@ -457,7 +471,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         }
     }
     function interact(p) {
-        if (p.dialogue?.arenaEntry) return;
+        if (p.dialogue?.arenaEntry || p.dialogue?.lucieDeparture || p.lucieDeparture?.until>now()) return;
         if(p.run.phase!=='exploration')return;
         if(fishing.current(p)){fishing.reel(p,fishing.current(p).id);return;}
         if(isNearComputer(p)){emit(p,'pcOpened',computer.open(p));return;}
@@ -482,6 +496,10 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         return fishing.offer(p);
     }
     function endDialogue(p,name) {
+        if(p.run.phase==='exploration'&&p.dialogue?.lucieDeparture&&name===lucieScene.config.dialogue&&p.dialogue.map===p.currentmap&&lucieScene.pending(lucieProgress(p))) {
+            p.dialogue=null;p.lucieDepartureSeen=true;p.lucieDeparture={id:require('node:crypto').randomUUID(),until:now()+lucieScene.config.duration};
+            emit(p,'lucieDeparture',{...lucieScene.config,id:p.lucieDeparture.id,active:true});send(p);return;
+        }
         if (p.run.phase==='exploration' && p.dialogue?.arenaVictory && p.dialogue.name===name && p.dialogue.map===p.currentmap) { p.dialogue=null; return; }
         if (p.run.phase==='exploration' && p.dialogue?.arenaEntry && p.dialogue.name===name && p.dialogue.map===p.currentmap) {
             p.arenaEntriesSeen ||= {}; p.arenaEntriesSeen[name]='true'; p.dialogue=null; send(p); return;
@@ -581,6 +599,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
                 advance(run);
             }
             if (!run.lastPublished || now()-run.lastPublished>=1000) {run.lastPublished=now();publish(run);}
+            for(const p of run.players.values())if(p.lucieDeparture&&now()>=p.lucieDeparture.until){p.lucieDeparture=null;emit(p,'lucieDeparture',{map:lucieScene.config.map,active:false});emit(p,'pnjsList',{mapname:p.currentmap,pnjs:pnjsFor(p).getPnjsForMap(p.currentmap)});}
         }
     }
     async function reconcileSettlements() {

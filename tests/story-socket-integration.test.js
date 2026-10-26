@@ -195,7 +195,7 @@ test('Socket réel : Lucie, Wayne → Aspha → Mounir → Hoze → Gwenn → Ra
             assert.equal(summary.outcome,'victory');assert.equal(summary.money,progress.money-before.money);assert(summary.experience[0].xpGained>0);
             const storyStep=catalog.storySteps.findIndex(step=>catalog.npcBattles[name].reward.flags[step.flag]==='true');
             assert.equal(main(progress).progress,storyStep<0?main(before).progress:storyStep+1);assert.equal(main(progress).status,name==='lucie_route2'?'completed':'active');
-            assert(scene[0].some(line=>line.text.includes(name==='dia1'?'Aspha':name==='aspha_route2'?'Mounir':name==='moon'?'Hoze':name==='champion_hoze'?'Raphael':name==='gwenn_route8'?'Ocreville':name==='mathilde_pikapika'?'Route 5':name==='champion_raphael'?'Ana':name==='champion_ana'?'Wanda':name==='lucie_route2'?'maman':'Lucie')));
+            assert(scene[0].some(line=>line.text.includes(name==='dia1'?'Aspha':name==='aspha_route2'?'Mounir':name==='moon'?'Hoze':name==='champion_hoze'?'Raphael':name==='gwenn_route8'?'Ocreville':name==='mathilde_pikapika'?'Route 5':name==='champion_raphael'?'Ana':name==='champion_ana'?'Wanda':name==='lucie_route2'?'Éloigne-toi':'Lucie')));
             socket.emit('onEndDialogue',`${name}_after`);
         }
         await at('route2_maison',13,6);await speak('lucie_route2_after');socket.emit('onEndDialogue','lucie_route2_after');

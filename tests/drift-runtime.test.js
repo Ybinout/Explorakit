@@ -35,6 +35,19 @@ function addDrift(p,number,rarity='mythic') {
     p.drifts.push(d);return d;
 }
 
+for(const mode of ['rift','colosseum'])test(`${mode}: Lucie departure is personal, blocks actions during the vortex and survives checkpoints`,()=>{
+ const f=fixture(),p=f.run.players.get(1),other=f.run.players.get(2);f.run.mode=mode;
+ p.currentmap='route2_maison';p.x=432;p.y=208;p.defeated.add('lucie_route2');
+ f.runtime.enter(f.users[0],f.sockets[0]);assert.equal(p.dialogue.name,'lucie_route2_after');
+ f.runtime.endDialogue(p,'lucie_route2_after');assert(p.lucieDepartureSeen);assert(p.lucieDeparture);
+ const origin={x:p.x,y:p.y};f.runtime.move(p,'move_d');assert.deepEqual({x:p.x,y:p.y},origin);
+ assert(!f.messages.some(m=>m.id===other.socketId&&m.event==='lucieDeparture'));
+ const saved=require('../server/game/drift/checkpointCodec').decode(require('../server/game/drift/checkpointCodec').encode(p));assert(saved.lucieDepartureSeen);
+ f.advance(4300);assert.equal(p.lucieDeparture,null);
+ const npcs=f.messages.filter(m=>m.id===p.socketId&&m.event==='pnjsList').at(-1).payload.pnjs;assert(!npcs.some(n=>n.name==='lucie_route2'));
+ f.runtime.move(p,'move_z');assert.equal(p.y,176,'the vanished NPC no longer blocks the tile');
+});
+
 test('Rift battle animation identifies physical, special and status moves for visuals and sounds', () => {
     for (const [name, damageClass] of [['Tackle','physical'],['Water Gun','special'],['Growl','status']]) {
         const f=fixture(), p=f.run.players.get(1);
