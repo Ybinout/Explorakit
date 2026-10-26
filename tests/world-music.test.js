@@ -45,7 +45,7 @@ test('dedicated champion battle tracks stay stable and cannot override wild, tra
 
 test('dedicated arena room music pauses for combat and resumes its own playhead',async()=>{
  const {music,audios}=await fixture();
- for(const [map,key]of [['ville1_arene','mounir-room'],['ville_safe1_arene','hoze-room'],['route2_maison','lucie-room'],['ville3_arene','ana-room'],['ville4_arene','wanda-room'],['ville5_arene','sevenp-room'],['gen_arene5','raph-room']]){
+ for(const [map,key]of [['ville1_arene','mounir-room'],['ville_safe1_arene','hoze-room'],['route2_maison','lucie-room'],['professor_lab','lucie-room'],['ville3_arene','ana-room'],['ville4_arene','wanda-room'],['ville5_arene','sevenp-room'],['gen_arene5','raph-room']]){
   music.update({map,active:true,volume:.35});await tick();
   const a=music.tracks.get(key);assert(a&&!a.paused);a.currentTime=19;
   music.update({map,active:false,volume:.35});assert(a.paused);
@@ -80,7 +80,8 @@ test('towns and routes are quieter; arenas and event houses are louder while hon
  const {music}=await fixture();
  for(const [maps,gain] of [
   [['start','ville1','ville_safe1','ville3','ville4','ville5','route1','route8','route13','route14','ville_commerciale'],.14],
-  [['ville1_arene','ville_safe1_arene','gen_arene5','ville3_arene','ville4_arene','ville5_arene','route2_maison','route4_maison'],.34],
+  [['ville1_arene','ville_safe1_arene','gen_arene5','ville3_arene','ville4_arene','ville5_arene','route4_maison'],.34],
+  [['route2_maison','professor_lab'],.5],
   [['centre','cave1'],.22]
  ]) for(const map of maps) for(const volume of [0,.35,1]){
   music.update({map,active:true,volume});await tick();

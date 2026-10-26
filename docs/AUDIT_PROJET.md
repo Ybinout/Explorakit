@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Ana sans étoiles, pétales roses / oiseaux et mix Lucie / Professeur — 26 octobre 2026
+
+À la demande du créateur, le calque des 49 étoiles blanches/bleues pulsantes d’Ana est entièrement retiré : coordonnées, calcul d’opacité et passe de dessin supprimés. Les motifs peints du décor restent identiques. Pétales : budget 27→45, trois roses doux et taille native 1,6–2,2 ; mêmes courants, rotations, petites ombres et limites du sol évitant les luminaires. Oiseaux : trois groupes/sept partenaires→cinq groupes/dix-neuf, départs décalés et hauteurs/tailles variées derrière les vitres uniquement. Les 18 végétaux isolés gardent leur mouvement ; aucune architecture, position, collision, carte PNG/Tiled ou logique de duel modifiée. Même cache borné à 20 Hz, configurations de vols précréées, pas de boucle/timer supplémentaire ; mouvement réduit et libération des surfaces conservés.
+
+Musique d’ambiance de la maison de Lucie et du laboratoire du Professeur : gain 0,34→0,50, soit environ +47 %. Le volume général reste multiplicatif et zéro coupe toujours le son ; pauses, reprise et position de lecture conservées. Autres lieux et musiques de combat inchangés. Le même thème de pièce existant est réutilisé. Les portraits Maria/Clément v2 de la livraison précédente restent présents.
+
+Validation : 13 tests du mix et des changements de thème réussis, lint/syntaxe/diff valides, build `0d0947a2c7ec9e78`. Vrai Canvas sur 40 images : 21–28 pétales visibles, oiseaux dans 36 images, aucun débordement de pétale/oiseau ni mouvement d’architecture, végétaux/cache/nettoyage contrôlés ; rendu réduit sans calque décoratif résiduel. Peinture locale moyenne 0.81 ms dans Chromium (micro-mesure, pas une promesse de FPS sur téléphone). Recette SQL/navigateur sur compte jetable supprimé : vrais volumes HTMLAudioElement aux réglages 60/0/100 dans les deux pièces, gain Ana 0,34 conservé, arène aux formats 320/393/844/1365 et mouvement réduit, zéro erreur. Vues Canvas et mobile inspectées. Aucun téléphone physique, suite globale non relancée. Commandes et résultats dans `docs/ANA_AMBIENCE_AND_EVENT_AUDIO.json`.
+
+Publication statique 2026-10-26T08:15:58.564Z, client `6524db577ac9f8b886d1a5fdce2961e7539c0401`, PID 1878831 conservé, aucun redémarrage. Index, cinq bundles et portraits v2 publics vérifiés à l’octet ; anciens bundles conservés, Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-event-ambience-2026-10-26T08-15-57-236Z`. Aucun changement serveur, SQL ou compte réel.
+
 ## Maria / Clément — lunettes et boucles serrées — 26 octobre 2026
 
 Retouches demandées sur les illustrations, avec l’outil intégré imagegen : Clément conserve son visage, sa pose et sa tenue, avec des boucles courtes nettement plus serrées ; Maria porte des lunettes de vue à monture fine, verres clairs et yeux visibles sous son parapluie. Versions `clement-v2.png` et `maria-v2.png` raccordées aux dialogues avant/après et aux entrées des vrais combats. Sprites de carte, équipes, textes et progression inchangés. Les v1 restent disponibles. Une passe supplémentaire a retiré un voile rectangulaire semi-transparent autour de Clément ; cinq points extérieurs vérifiés à alpha 0 avant publication, silhouette préservée. Les PNG générés sélectionnés sont copiés sans transformation. Sources, prompts exacts, empreintes et preuves dans `docs/MARIA_CLEMENT_PORTRAITS_V2.json`.
@@ -3880,6 +3890,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 26 octobre 2026 — Ana : étoiles pulsantes retirées, davantage de pétales roses et d’oiseaux derrière les vitres ; ambiances Lucie/laboratoire +47 % avec curseur général conservé. 13 tests, Canvas/confinement et navigateur réel/quatre formats validés ; publication sans redémarrage. Détails `docs/ANA_AMBIENCE_AND_EVENT_AUDIO.json`.
 
 - 26 octobre 2026 — Portraits v2 : boucles plus serrées Clément, lunettes de vue Maria, découpe transparente vérifiée. Dialogues/entrées réels, huit tests et quatre formats navigateur validés ; publication statique sans redémarrage. Sources/prompts dans `docs/MARIA_CLEMENT_PORTRAITS_V2.json`.
 

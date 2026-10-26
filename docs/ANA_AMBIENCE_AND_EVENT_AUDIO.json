@@ -1,0 +1,295 @@
+{
+  "date": "2026-10-26",
+  "scope": {
+    "audio": {
+      "maps": [
+        "route2_maison",
+        "professor_lab"
+      ],
+      "beforeGain": 0.34,
+      "afterGain": 0.5,
+      "increasePercent": 47.058823529411754,
+      "masterSlider": "Toujours multiplicatif, silence à zéro et reprise/pauses inchangées.",
+      "others": "Autres ambiances et musiques de combat inchangées."
+    },
+    "ana": {
+      "map": "ville3_arene",
+      "stars": "Suppression du calque des 49 étoiles blanches/bleues qui apparaissaient et disparaissaient ; décor peint intact.",
+      "petals": {
+        "beforeBudget": 27,
+        "afterBudget": 45,
+        "colors": [
+          "#ec9eb8",
+          "#f6c0d1",
+          "#f4d6dc"
+        ],
+        "nativeSizeRange": [
+          1.6,
+          2.2
+        ],
+        "motion": "Trois courants alternés, rotation et léger soulèvement ; mêmes limites de sol et exclusions des luminaires."
+      },
+      "birds": {
+        "beforeBudget": 7,
+        "afterBudget": 19,
+        "flocks": 5,
+        "motion": "Trajets décalés et battement des ailes ; masque extrait du verre, jamais sur les murs ou les montants."
+      },
+      "preserved": "Les 18 zones de feuillage bougent toujours localement ; aucun PNG/Tiled, personnage, combat ou collision modifié.",
+      "performance": "Même cache de rendu à 20 Hz, surfaces bornées ; zéro particule libre ou timer supplémentaire, préconfigurations des vols hors des frames ; réduction de mouvement et nettoyage conservés."
+    }
+  },
+  "validation": {
+    "unit": {
+      "file": "tests/world-music.test.js",
+      "passed": 13,
+      "failed": 0,
+      "log": "/tmp/riftmon-lucie-professor-volume-unit.log"
+    },
+    "canvas": {
+      "command": "RELEASE_SCREENSHOTS=/tmp/riftmon-ana-pink-canvas node scripts/validateAnaArenaCanvas.js",
+      "petals": {
+        "fixtureMaskCorrect": true,
+        "escaped": 0,
+        "pixels": 53471,
+        "minVisible": 21,
+        "maxVisible": 28,
+        "differentFrames": 40,
+        "reduced": true
+      },
+      "foliage": [
+        {
+          "id": "upper-left",
+          "pixels": 924,
+          "movingPixels": 897
+        },
+        {
+          "id": "upper-left-inner",
+          "pixels": 1483,
+          "movingPixels": 1305
+        },
+        {
+          "id": "dais-left",
+          "pixels": 987,
+          "movingPixels": 931
+        },
+        {
+          "id": "dais-right",
+          "pixels": 985,
+          "movingPixels": 882
+        },
+        {
+          "id": "upper-right-inner",
+          "pixels": 1488,
+          "movingPixels": 1379
+        },
+        {
+          "id": "upper-right",
+          "pixels": 931,
+          "movingPixels": 877
+        },
+        {
+          "id": "middle-left",
+          "pixels": 1555,
+          "movingPixels": 1435
+        },
+        {
+          "id": "middle-left-inner",
+          "pixels": 1996,
+          "movingPixels": 1799
+        },
+        {
+          "id": "middle-right-inner",
+          "pixels": 2013,
+          "movingPixels": 1826
+        },
+        {
+          "id": "middle-right",
+          "pixels": 1678,
+          "movingPixels": 1551
+        },
+        {
+          "id": "lower-left",
+          "pixels": 1154,
+          "movingPixels": 1071
+        },
+        {
+          "id": "lower-left-inner",
+          "pixels": 1791,
+          "movingPixels": 1558
+        },
+        {
+          "id": "lower-right-inner",
+          "pixels": 1857,
+          "movingPixels": 1567
+        },
+        {
+          "id": "lower-right",
+          "pixels": 1098,
+          "movingPixels": 1014
+        },
+        {
+          "id": "ivy-left",
+          "pixels": 843,
+          "movingPixels": 762
+        },
+        {
+          "id": "ivy-left-inner",
+          "pixels": 841,
+          "movingPixels": 793
+        },
+        {
+          "id": "ivy-right-inner",
+          "pixels": 846,
+          "movingPixels": 802
+        },
+        {
+          "id": "ivy-right",
+          "pixels": 843,
+          "movingPixels": 767
+        }
+      ],
+      "escaped": 0,
+      "architecturePixels": 0,
+      "architectureSamples": [],
+      "skyPixels": 10809,
+      "skyEscaped": 0,
+      "skyLit": 2802,
+      "visibleBirdFrames": 36,
+      "reduced": true,
+      "reducedFoliagePixels": 0,
+      "throttled": true,
+      "released": true,
+      "isolated": true,
+      "averagePaintMs": 0.8143749982118607,
+      "limits": "Micro-mesure locale Chromium ; ne constitue pas une mesure de FPS sur téléphone."
+    },
+    "browser": {
+      "command": "RELEASE_DIST_DIR=/tmp/riftmon-event-ambience-dist node --env-file=.env scripts/validateEventAmbienceBrowser.js",
+      "rooms": 2,
+      "controlRoom": "ville3_arene",
+      "anaWorldViewports": 4,
+      "anaReducedMotion": true,
+      "checks": [
+        {
+          "map": "route2_maison",
+          "track": "lucie-room",
+          "src": "http://127.0.0.1:35335/media/lucie-maison.ae3c4192.mp3",
+          "volume": 0.3,
+          "paused": false,
+          "masterVolume": 60
+        },
+        {
+          "map": "route2_maison",
+          "track": "lucie-room",
+          "src": "http://127.0.0.1:35335/media/lucie-maison.ae3c4192.mp3",
+          "volume": 0,
+          "paused": true,
+          "masterVolume": 0
+        },
+        {
+          "map": "route2_maison",
+          "track": "lucie-room",
+          "src": "http://127.0.0.1:35335/media/lucie-maison.ae3c4192.mp3",
+          "volume": 0.5,
+          "paused": false,
+          "masterVolume": 100
+        },
+        {
+          "map": "professor_lab",
+          "track": "lucie-room",
+          "src": "http://127.0.0.1:35335/media/lucie-maison.ae3c4192.mp3",
+          "volume": 0.3,
+          "paused": false,
+          "masterVolume": 60
+        },
+        {
+          "map": "professor_lab",
+          "track": "lucie-room",
+          "src": "http://127.0.0.1:35335/media/lucie-maison.ae3c4192.mp3",
+          "volume": 0,
+          "paused": true,
+          "masterVolume": 0
+        },
+        {
+          "map": "professor_lab",
+          "track": "lucie-room",
+          "src": "http://127.0.0.1:35335/media/lucie-maison.ae3c4192.mp3",
+          "volume": 0.5,
+          "paused": false,
+          "masterVolume": 100
+        },
+        {
+          "map": "ville3_arene",
+          "track": "ana-room",
+          "src": "http://127.0.0.1:35335/media/ana_arene.29d7cfd7.mp3",
+          "volume": 0.20400000000000001,
+          "paused": false,
+          "masterVolume": 60
+        },
+        {
+          "map": "ville3_arene",
+          "track": "ana-room",
+          "src": "http://127.0.0.1:35335/media/ana_arene.29d7cfd7.mp3",
+          "volume": 0,
+          "paused": true,
+          "masterVolume": 0
+        },
+        {
+          "map": "ville3_arene",
+          "track": "ana-room",
+          "src": "http://127.0.0.1:35335/media/ana_arene.29d7cfd7.mp3",
+          "volume": 0.34,
+          "paused": false,
+          "masterVolume": 100
+        }
+      ],
+      "masterSliderHonored": true,
+      "muteHonored": true,
+      "errors": [],
+      "screenshots": "/tmp/riftmon-ana-pink-canvas/world-{320,393,844,1365}.png",
+      "account": "Compte jetable de la base de test, supprimé."
+    },
+    "lint": "No lint errors found; /tmp/riftmon-event-ambience-lint.log",
+    "build": {
+      "id": "0d0947a2c7ec9e78",
+      "directory": "/tmp/riftmon-event-ambience-dist",
+      "publicPath": "/"
+    },
+    "syntax": "node --check et git diff --check",
+    "limits": [
+      "Aucun téléphone physique.",
+      "Suite historique complète non relancée."
+    ]
+  },
+  "deployment": {
+    "publishedAt": "2026-10-26T08:15:58.564Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-event-ambience-2026-10-26T08-15-57-236Z",
+    "clientBuild": "0d0947a2c7ec9e78",
+    "clientCommit": "6524db577ac9f8b886d1a5fdce2961e7539c0401",
+    "pid": "1878831",
+    "serverRestarted": false,
+    "neighborsUnchanged": true,
+    "publicAssets": [
+      "js/app.d2922708.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/game.2fb27f08.js",
+      "css/app.8538ed5d.css",
+      "css/game.f8a72554.css",
+      "img/maria-v2.564002d1.png",
+      "img/clement-v2.804e1f22.png"
+    ],
+    "portraits": [
+      {
+        "name": "maria",
+        "file": "maria-v2.564002d1.png",
+        "sha256": "0c850885294ffbbbbd8fb497b0d1f947a59cb61a770633a88ec9342f7864cdcb"
+      },
+      {
+        "name": "clement",
+        "file": "clement-v2.804e1f22.png",
+        "sha256": "2f8f501893f017b8590a1e2cde6c3b26c7d4b9cdee9624414c4ad03d7161d3ac"
+      }
+    ]
+  }
+}
