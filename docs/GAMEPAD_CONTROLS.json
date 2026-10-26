@@ -1,0 +1,145 @@
+{
+  "date": "2026-10-26",
+  "request": "AYN Thor controller support in Chrome",
+  "scope": {
+    "api": "W3C Gamepad API via navigator.getGamepads",
+    "modes": [
+      "Adventure",
+      "Rift",
+      "Colosseum"
+    ],
+    "shared": "App navigation and UserMap/BattleOverlay shared by all three modes",
+    "controls": {
+      "dpadAndLeftStick": "world movement + spatial menu navigation",
+      "A": "interact / confirm / advance dialogue",
+      "B": "back",
+      "X": "team",
+      "Y": "bag",
+      "Start": "menu",
+      "L1R1": "previous / next tab"
+    },
+    "options": [
+      "controllerEnabled, on by default",
+      "controllerLayout standard / nintendo, local persistent settings",
+      "local connection status, ID and nonstandard mapping hint"
+    ],
+    "touchAndKeyboardPreserved": true
+  },
+  "implementation": {
+    "deadZone": 0.35,
+    "releaseZone": 0.23,
+    "menuRepeatInitialMs": 320,
+    "menuRepeatMs": 110,
+    "buttonActions": "rising edge only; no repeat on confirm/back",
+    "worldMovement": "existing authoritative paced movement loop; separate pad-held direction, shared interpolation and render budget",
+    "lifecycle": "release on blur/hidden/disconnect/unmount; neutral required after reconnect/focus/route/config reset",
+    "resourceUse": "one RAF reader only when pad active; 1-second discovery without pad/when disabled; no polling hidden or unfocused; no added asset, dependency, server event, timer per menu or schema",
+    "menuFocus": "visible controls only; top visible dialog/panel; disabled/inert/hidden excluded; primary actions before close; nested detail/PC dialogs; selects/sliders and tabs supported"
+  },
+  "validation": {
+    "unit": {
+      "command": "node --test tests/gamepad.test.js tests/game-theme.test.js tests/world-movement.test.js",
+      "passed": 11,
+      "failed": 0,
+      "log": "/tmp/riftmon-gamepad-tests.log"
+    },
+    "lint": {
+      "command": "npm --prefix vue-explorakit run lint",
+      "result": "pass",
+      "log": "/tmp/riftmon-gamepad-lint.log"
+    },
+    "build": {
+      "command": "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-gamepad-dist",
+      "hash": "b1973d7226e5eee6",
+      "log": "/tmp/riftmon-gamepad-build.log"
+    },
+    "browser": {
+      "command": "RELEASE_DIST_DIR=/tmp/riftmon-gamepad-dist node --env-file=.env scripts/validateGamepadBrowser.js",
+      "hardware": "Simulated navigator.getGamepads in real Chromium; no physical AYN Thor available",
+      "checks": [
+        "D-pad moves through real Socket/server",
+        "Stick drift ignored",
+        "Start opens menu and arrows focus visible actions",
+        "Held navigation repeats without moving behind menu",
+        "X team, A details, B returns through nested panels",
+        "Y bag, R1 pocket, B close",
+        "Nintendo A/B swap saved and applied immediately",
+        "Controller opt-out preserves touch and keyboard",
+        "Blur, held-stick return and unplug release movement",
+        "A starts actual trainer dialogue",
+        "A opens attacks and submits real combat action; B backs out; X opens switch menu",
+        "Real Colosseum entry, one-of-three starter selection, team and menu via pad"
+      ],
+      "viewports": 3,
+      "screenshots": [
+        "options-320.png",
+        "options-393.png",
+        "options-1280.png",
+        "combat-navigation.png",
+        "colosseum-menu.png"
+      ],
+      "errors": [],
+      "account": "disposable test SQL account deleted in finally; production data untouched",
+      "viewsInspected": [
+        "options-393.png",
+        "combat-navigation.png"
+      ]
+    },
+    "syntaxAndDiff": "pass",
+    "limits": [
+      "No physical AYN Thor available: hardware/browser mapping must be confirmed by owner; Xbox profile recommended",
+      "Virtual Gamepad readings, real Chrome/Vue/HTTP/Socket/MySQL flows",
+      "Real Adventure trainer battle and Colosseum starter/exploration controls; no full multiplayer tournament played",
+      "No global test suite, physical phone FPS or hardware latency certification",
+      "Chrome may require an initial screen interaction for audio; normal browser activation rules retained"
+    ],
+    "publicSmoke": {
+      "url": "https://riftmon.binout.fr/",
+      "focus": 1,
+      "modeCards": 3,
+      "errors": []
+    }
+  },
+  "sources": [
+    {
+      "url": "https://www.w3.org/TR/gamepad/",
+      "purpose": "standard button/axis mapping, focused document and controller API"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Gamepad_API/Using_the_Gamepad_API",
+      "purpose": "browser polling, first input discovery, connection and disconnection events"
+    }
+  ],
+  "deployment": {
+    "publishedAt": "2026-10-26T09:25:45.236Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-gamepad-2026-10-26T09-25-43-853Z",
+    "clientBuild": "b1973d7226e5eee6",
+    "clientCommit": "09e40782aeaf86c4667a2c37ca4c7d3a8b05af53",
+    "pid": "1893919",
+    "serverRestarted": false,
+    "neighborsUnchanged": true,
+    "publicAssets": [
+      "js/account.701cc72b.js",
+      "js/app.1bc70756.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/game.0c9a1d86.js",
+      "css/account.71f45b55.css",
+      "css/app.ddcdfdde.css",
+      "css/game.87e94b23.css",
+      "img/maria-v2.564002d1.png",
+      "img/clement-v2.804e1f22.png"
+    ],
+    "portraits": [
+      {
+        "name": "maria",
+        "file": "maria-v2.564002d1.png",
+        "sha256": "0c850885294ffbbbbd8fb497b0d1f947a59cb61a770633a88ec9342f7864cdcb"
+      },
+      {
+        "name": "clement",
+        "file": "clement-v2.804e1f22.png",
+        "sha256": "2f8f501893f017b8590a1e2cde6c3b26c7d4b9cdee9624414c4ad03d7161d3ac"
+      }
+    ]
+  }
+}
