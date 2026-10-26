@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Nuit à 18 h et fenêtres derrière les personnages — 26 octobre 2026
+
+À 18 h, heure Europe/Paris, la nuit est désormais complètement installée ; crépuscule continu de 17 h à 18 h, jour 8 h–17 h et aube 6 h–8 h conservée. Même horloge serveur pour tous les joueurs, offsets été/hiver automatiques et indépendance du fuseau de l’appareil. Aucune modification d’heure système, de réglage joueur ou de sauvegarde.
+
+Correction de profondeur : l’émission des fenêtres, les ampoules et les halos chauds passent dans une surface statique dessinée avant tous les personnages et PNJ. Le voile nocturne avec ses éclaircies locales et les lucioles reste au-dessus des sprites, pour conserver l’ambiance et l’ombre du joueur. Les pixels de verre ne peuvent plus s’imprimer sur lui. Les deux passes partagent la préparation et les gradients ; une seule surface 448×320 supplémentaire (≈0,55 Mio), aucun asset ni nouvelle boucle RAF. Cache, plafond 20 Hz des lucioles et libération de toutes les surfaces lors des suspensions conservés. Composant monde commun aux trois modes ; intérieurs inchangés.
+
+Validation : 21 tests cycle/horloge/météo réussis, continuité seconde par seconde et heure d’été/hiver. Recette Canvas sur 42 vues principales, trois intérieurs et régression de recouvrement : pixel du marqueur non recouvert (vert 30, contre 191 avec l’ancien ordre), fenêtre libre toujours chaude, cache partagé et libération vérifiés. Vrai navigateur SQL : ordre « fixtures → player(s) → veil », deux clients Honolulu/Tokyo synchronisés, nuit de 18 h après reconnexion, Aventure/Colosseum/espace Rift, préférences réduites, masquage, intérieurs et combats, formats 320/393/1365 ; zéro erreur, comptes jetables supprimés. Captures de profondeur et village inspectées. Lint/build `925913d08c2164fa`, syntaxe et diff valides. Pas de téléphone physique ni de suite globale revendiqués ; une variante ancienne de test map-weather conserve son échec de fixture déjà documenté. Commandes et preuves : `docs/NIGHT_DEPTH_18H.json`.
+
+Publication statique 2026-10-26T21:13:57.606Z, client a9ca1cfbd1e7e4bbc81d7c7c2ff46e8b1677e84c / build 925913d08c2164fa. Index/bundles publics, sprite et portraits conservés vérifiés à l’octet ; anciens assets gardés, Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-night-depth-2026-10-26T21-13-56-300Z`. PID 2076407 conservé, aucun redémarrage serveur ni changement SQL/compte réel.
+
 ## Attaques, apprentissages et CS — revue des 493 espèces — 26 octobre 2026
 
 Référence PokeAPI épinglée USUM, génération 7 déjà utilisée par le moteur : revue individuelle des 493 espèces du Pokédex jouable, tables conservées pour les 809 espèces serveur. 21 capacités simples ajoutées, catalogue 612→633 ; anciens identifiants internes conservés et correspondance par nom avec les vrais identifiants sources. 43 entrées de niveau corrigées/ajoutées : table entière de Sabelette manquante, alias Force Poigne/Vise Grip et nouvelles capacités. Nouvelles rencontres : une à quatre attaques naturelles disponibles au niveau réel, distinctes, au lieu de capacités CT/futures et de slots dupliqués ; Métamorph, Zarbi, Magicarpe et Queulorior gardent leurs particularités. Équipes possédées, starters Aventure explicites et sets dresseurs conservés. Générateurs historiques Colosseum v1–v4 gardent le catalogue antérieur.
@@ -4113,6 +4123,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 26 octobre 2026 — Nuit complète à 18 h Paris, crépuscule 17–18 h. Émission des fenêtres/halos derrière les personnages, voile ambiant au-dessus ; caches et libération conservés, une petite surface supplémentaire. 21 tests, Canvas/régression de pixels et navigateur SQL PC/mobile validés, zéro erreur. Client seul, sans changement serveur/SQL/cartes. Rapport `docs/NIGHT_DEPTH_18H.json`.
 
 - 26 octobre 2026 — Revue des 493 apprentissages : 21 attaques simples, 43 entrées de niveau restaurées, rencontres naturelles sans doublons, CS 101→263 compatibles et filtrables par type. Anciens sets/identifiants/prix conservés ; nouveaux effets testés dans le moteur partagé. 324 tests ciblés, 90 recettes SQL, 2 465 générations et navigateur PC/mobile réussis ; suite globale 21 échecs reproduits sur référence, aucune nouvelle régression. Rapports `docs/LEARNSET_REVIEW.json` et `docs/LEARNSET_REVIEW_VALIDATION.json`.
 

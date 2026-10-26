@@ -10,7 +10,7 @@ const app=express(),server=http.createServer(app),io=new Server(server);app.use(
 let fixtureTime=Date.parse('2026-10-24T21:00:00Z'),fixtureStart=performance.now();
 const clock=require('../server/realtime/worldClock'),register=clock.registerWorldClock;
 clock.registerWorldClock=socket=>register(socket,()=>fixtureTime+performance.now()-fixtureStart);
-function phase(value){fixtureTime=Date.parse('2026-10-24T'+{day:'10:00',dawn:'05:00',dusk:'17:00',night:'21:00'}[value]+':00Z');fixtureStart=performance.now();for(const ns of [io,io.of('/drift')])ns.emit('worldClockState',{serverTime:fixtureTime,timeZone:'Europe/Paris'});}
+function phase(value){fixtureTime=Date.parse('2026-10-24T'+{day:'12:00',dawn:'07:00',dusk:'17:30',night:'18:00'}[value]+':00+02:00');fixtureStart=performance.now();for(const ns of [io,io.of('/drift')])ns.emit('worldClockState',{serverTime:fixtureTime,timeZone:'Europe/Paris'});}
 io.use(require('../server/http/authMiddleware').authenticateSocket);require('../server/realtime/socketHandler')(io);
 const cleanup=require('../server/realtime/driftLobbyHandler').registerDriftLobbies(io,{checkpointRepository:{async save(){}},runtimeOptions:{random:()=>.9,paceMs:0}});
 let browser,page,success=false;const ids=[],errors=[];
@@ -27,6 +27,14 @@ let browser,page,success=false;const ids=[],errors=[];
  assert(Math.abs(await page.evaluate(()=>v._worldClock.now())-await other.evaluate(()=>v._worldClock.now()))<500);
  phase('day');for(const p of [page,other])await p.waitForFunction(()=>v.worldDaylight.phase==='day'&&!v._worldNight?.canvas);
  phase('night');await page.waitForFunction(()=>v._worldNight?.canvas);await page.reload({waitUntil:'networkidle'});await ready(page);assert.equal(await page.evaluate(()=>v.worldDaylight.phase),'night');
+ const renderOrder=await page.evaluate(()=>{
+  const context=v.$refs.monCanvas.getContext('2d'),original=context.drawImage,actor=v.getSpriteSheetForPlayer(v.players[v.socket.id]),calls=[];
+  context.drawImage=function(...args){if(args[0]===v._worldNight?.fixtures)calls.push('fixtures');if(args[0]===actor)calls.push('player');if(args[0]===v._worldNight?.canvas)calls.push('veil');return original.apply(this,args);};
+  try{v.drawPlayers();}finally{context.drawImage=original;}
+  return calls;
+ });
+ assert(renderOrder.indexOf('fixtures')>=0&&renderOrder.indexOf('fixtures')<renderOrder.indexOf('player'));
+ assert(renderOrder.lastIndexOf('veil')>renderOrder.indexOf('player'));
  await other.close();
  await page.goto(base+'/colosseum',{waitUntil:'networkidle'});await page.locator('[data-colosseum-start]:enabled').click();await page.locator('[data-starter-choice]').first().click();await page.locator('.starter-backdrop').waitFor({state:'hidden'});await ready(page);
  assert(await page.evaluate(()=>v.isColosseum&&v.worldDaylight.phase==='night'));
@@ -57,5 +65,5 @@ let browser,page,success=false;const ids=[],errors=[];
  battle.finished=true;
  // /drift serves both timed modes: the clock is namespace-level, independent of run state.
  const {io:connect}=require('../vue-explorakit/node_modules/socket.io-client');const socket=connect(base+'/drift',{autoConnect:false,auth:{token:second.token},transports:['websocket']});const state=new Promise(r=>socket.once('worldClockState',r));socket.connect();assert.equal((await state).timeZone,'Europe/Paris');socket.disconnect();
- assert.deepEqual(errors,[]);success=true;console.log(JSON.stringify({adventure:true,expedition:true,riftNamespace:true,timezoneIndependence:true,reconnect:true,hidden:true,reducedMotion:true,worldScreenshots:15,battleScreenshots:4,interiorIsolation:true,errors}));
+ assert.deepEqual(errors,[]);success=true;console.log(JSON.stringify({adventure:true,expedition:true,riftNamespace:true,timezoneIndependence:true,reconnect:true,hidden:true,reducedMotion:true,worldScreenshots:15,battleScreenshots:4,renderOrder,nightStartsAtParis18:true,interiorIsolation:true,errors}));
 }finally{if(!success&&page)await page.screenshot({path:path.join(out,'failure.png'),fullPage:true}).catch(()=>{});await browser?.close();cleanup();await new Promise(r=>io.close(r));await new Promise(r=>setTimeout(r,150));for(const id of ids)await dbPool.execute('DELETE FROM users WHERE id=?',[id]);await dbPool.end();}})().catch(e=>{console.error(e.stack);process.exitCode=1});

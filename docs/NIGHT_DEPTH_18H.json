@@ -1,0 +1,229 @@
+{
+  "date": "2026-10-26",
+  "scope": "Éclairage nocturne des extérieurs, monde commun Aventure/Rift/Colosseum",
+  "schedule": {
+    "timeZone": "Europe/Paris",
+    "dawn": "06:00–08:00",
+    "day": "08:00–17:00",
+    "dusk": "17:00–18:00",
+    "night": "18:00–06:00",
+    "sharedServerClock": true,
+    "seasonalOffsets": "Automatic summer/winter via Intl, independent of browser time zone"
+  },
+  "rendering": {
+    "before": "Window emissive pixels and warm halos were composited after sprites.",
+    "after": "Cached window/bulb/halo surface drawn before all actors; ambient veil and fireflies remain after actors. Player and NPC sprites still receive smooth local night shading.",
+    "groundLayer": "One additional 448x320 RGBA surface, approximately 0.55 MiB, only while active. Both passes reuse preparation/gradients; no extra RAF or assets.",
+    "release": "All three surfaces and optional spark released on daytime, indoors, hidden/loading/battle/map change/destruction."
+  },
+  "validation": {
+    "unit": {
+      "pass": 21,
+      "fail": 0,
+      "skip": 0,
+      "command": "node --test tests/world-daynight.test.js tests/world-weather.test.js"
+    },
+    "canvas": {
+      "scenes": 42,
+      "measurements": [
+        {
+          "map": "start",
+          "staticOK": true,
+          "cached": true,
+          "drawMs": 0.007499998807907105,
+          "released": true
+        },
+        {
+          "map": "ville1",
+          "staticOK": true,
+          "cached": true,
+          "drawMs": 0.004374998807907105,
+          "released": true
+        },
+        {
+          "map": "ville_safe1",
+          "staticOK": true,
+          "cached": true,
+          "drawMs": 0.006874999403953553,
+          "released": true
+        },
+        {
+          "map": "gen_ville5",
+          "staticOK": true,
+          "cached": true,
+          "drawMs": 0.008125001192092895,
+          "released": true
+        },
+        {
+          "map": "ville_commerciale",
+          "staticOK": true,
+          "cached": true,
+          "drawMs": 0.004374998807907105,
+          "released": true
+        },
+        {
+          "map": "ville3",
+          "staticOK": true,
+          "cached": true,
+          "drawMs": 0.007500001788139343,
+          "released": true
+        },
+        {
+          "map": "ville4",
+          "staticOK": true,
+          "cached": true,
+          "drawMs": 0.016874998807907104,
+          "released": true
+        },
+        {
+          "map": "ville5",
+          "staticOK": true,
+          "cached": true,
+          "drawMs": 0.005000001192092896,
+          "released": true
+        },
+        {
+          "map": "route1",
+          "staticOK": true,
+          "cached": true,
+          "drawMs": 1.8193750023841857,
+          "released": true
+        },
+        {
+          "map": "route3",
+          "staticOK": true,
+          "cached": true,
+          "drawMs": 1.2,
+          "released": true
+        },
+        {
+          "map": "route4",
+          "staticOK": true,
+          "cached": true,
+          "drawMs": 1.1381249994039535,
+          "released": true
+        },
+        {
+          "map": "gen_route8",
+          "staticOK": true,
+          "cached": true,
+          "drawMs": 1.190625,
+          "released": true
+        },
+        {
+          "map": "route13",
+          "staticOK": true,
+          "cached": true,
+          "drawMs": 0.006874999403953553,
+          "released": true
+        },
+        {
+          "map": "route14",
+          "staticOK": true,
+          "cached": true,
+          "drawMs": 0.004374998807907105,
+          "released": true
+        }
+      ],
+      "occlusion": {
+        "actual": [
+          154,
+          30,
+          166,
+          255
+        ],
+        "incorrect": [
+          239,
+          191,
+          161,
+          255
+        ],
+        "windowColor": [
+          173,
+          161,
+          142,
+          255
+        ],
+        "sharedCache": true,
+        "released": true
+      }
+    },
+    "canvasCommand": "node scripts/validateDayNightCanvas.js",
+    "browser": {
+      "adventure": true,
+      "expedition": true,
+      "riftNamespace": true,
+      "timezoneIndependence": true,
+      "reconnect": true,
+      "hidden": true,
+      "reducedMotion": true,
+      "worldScreenshots": 15,
+      "battleScreenshots": 4,
+      "renderOrder": [
+        "fixtures",
+        "player",
+        "player",
+        "veil"
+      ],
+      "nightStartsAtParis18": true,
+      "interiorIsolation": true,
+      "errors": []
+    },
+    "browserCommand": "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-night-depth-dist RELEASE_SCREENSHOTS=/tmp/riftmon-night-depth-browser node --env-file=.env scripts/validateDayNightBrowser.js",
+    "lint": true,
+    "build": "925913d08c2164fa",
+    "syntaxAndDiff": true,
+    "viewports": [
+      320,
+      393,
+      1365
+    ],
+    "inspected": [
+      "/tmp/riftmon-night-depth-canvas/window-occlusion-fixed.png",
+      "/tmp/riftmon-night-depth-canvas/start-night.png"
+    ]
+  },
+  "limits": [
+    "Pixel regression uses an opaque actor marker against actual authored glass pixels; the real client additionally verifies fixtures → player(s) → veil ordering.",
+    "No physical handset or global suite executed. The broader initial map-weather pass encountered the already documented dry-state unit fixture failure (undefined visible), outside this change.",
+    "No change to weather/gameplay, indoor arena lighting, server code, database, map assets or user preferences."
+  ],
+  "deployment": {
+    "sprite": {
+      "asset": "pnj/clement-pixel-v2.png",
+      "sha256": "0947bc3341b14da9ed55d5f2770a8b8cbffee6a6ff5dcdeb3dd6ac6a619a00dc",
+      "bytes": 685,
+      "embeddedIn": "game.6d918fcb.js"
+    },
+    "publishedAt": "2026-10-26T21:13:57.606Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-night-depth-2026-10-26T21-13-56-300Z",
+    "clientBuild": "925913d08c2164fa",
+    "clientCommit": "a9ca1cfbd1e7e4bbc81d7c7c2ff46e8b1677e84c",
+    "pid": "2076407",
+    "serverRestarted": false,
+    "neighborsUnchanged": true,
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.4bceca30.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/game.6d918fcb.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/game.022a9d9e.css",
+      "img/maria-v2.564002d1.png",
+      "img/clement-v2.804e1f22.png"
+    ],
+    "portraits": [
+      {
+        "name": "maria",
+        "file": "maria-v2.564002d1.png",
+        "sha256": "0c850885294ffbbbbd8fb497b0d1f947a59cb61a770633a88ec9342f7864cdcb"
+      },
+      {
+        "name": "clement",
+        "file": "clement-v2.804e1f22.png",
+        "sha256": "2f8f501893f017b8590a1e2cde6c3b26c7d4b9cdee9624414c4ad03d7161d3ac"
+      }
+    ]
+  }
+}

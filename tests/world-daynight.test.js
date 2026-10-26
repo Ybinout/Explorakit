@@ -6,7 +6,7 @@ test('Paris real day: morning, day, sunset, night, midnight and DST remain conti
     for (const offset of ['+02:00', '+01:00']) {
         const date = offset === '+02:00' ? '2026-07-10' : '2026-12-10';
         for (const [time, phase, night] of [['05:00:00','night',1],['06:00:00','dawn',1],
-            ['07:00:00','dawn',.32],['12:00:00','day',0],['18:00:00','dusk',0],['20:00:00','dusk',.65],['23:00:00','night',1]]) {
+            ['07:00:00','dawn',.32],['12:00:00','day',0],['17:00:00','dusk',0],['17:30:00','dusk',.4],['18:00:00','night',1],['20:00:00','night',1],['23:00:00','night',1]]) {
             const actual = daylightAt(stamp(`${date}T${time}${offset}`));
             assert.equal(actual.phase, phase); assert.equal(actual.night, night);
         }
