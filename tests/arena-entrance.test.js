@@ -41,7 +41,7 @@ test('Mathilde splash is restricted to her own trainer encounter in Valpierre',a
 
 test('Maria and Clément keep their own illustrated entrance without affecting other village encounters',async()=>{
  const {arenaChampion}=await import('../vue-explorakit/src/services/arenaEntrance.js');
- for(const [key,name,portrait]of [['town_lina','Maria','maria-v1.png'],['town_bastien','Clément','clement-v1.png']]){
+ for(const [key,name,portrait]of [['town_lina','Maria','maria-v2.png'],['town_bastien','Clément','clement-v2.png']]){
   assert.equal(arenaChampion('ville1','trainer',key).name,name);
   assert.equal(arenaChampion('ville1','trainer',key).portrait,portrait);
   assert(fs.existsSync(path.join(__dirname,'../vue-explorakit/src/assets/image',portrait)));

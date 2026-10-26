@@ -21,7 +21,7 @@ async function talk(key){await page.evaluate(()=>v.socket.emit('Space'));await p
 function approach(actor){const c=maps.loadCollisionData(actor.map);const target=[[actor.x,actor.y+1],[actor.x-1,actor.y],[actor.x+1,actor.y]].find(([x,y])=>c[y]?.[x]===0&&!store.isPnjBlockingTile(actor.map,x,y));assert(target);return target;}
 (async()=>{try{
  server.listen(0,'127.0.0.1');await once(server,'listening');base=`http://127.0.0.1:${server.address().port}`;browser=await chromium.launch({headless:true,args:['--no-sandbox']});
- for(const[key,name,asset]of [['town_lina','Maria','maria-v1'],['town_bastien','Clément','clement-v1']]){
+ for(const[key,name,asset]of [['town_lina','Maria','maria-v2'],['town_bastien','Clément','clement-v2']]){
   const actor=store.getPnjsForMap('ville1').find(n=>n.name===key),[x,y]=approach(actor),u=await create('ville1',x,y);await open(u);
   const drawing=await page.evaluate(async key=>{
    const n=v.pnjs.find(n=>n.name===key),i=v.ensurePnjSpriteSheet(n.sprite);await i.decode();

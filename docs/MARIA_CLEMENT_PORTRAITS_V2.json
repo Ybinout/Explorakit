@@ -1,0 +1,153 @@
+{
+  "date": "2026-10-26",
+  "tool": "Built-in image_gen.imagegen",
+  "prompts": [
+    {
+      "name": "clement",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-5b061ba8-b41f-4cba-a6e7-c12a3bf1a9a2.png",
+      "prompt": "Use case: precise-object-edit / identity-preserve. Edit ONLY THE HAIR of the young man Clément in this exact attached black-and-white manga trainer illustration. Make his short hair MUCH MORE TIGHTLY CURLED: dense small springy curls and clearly defined tight coils, a naturally frizzy/curly texture all over the crown and along the hairline, rather than the current large loose wavy locks. Keep the hairstyle short, close to the head, with essentially the same overall volume and silhouette; do not add a huge afro, long hanging strands or a new haircut. Preserve his face, expression, skin screentone, eyes, ears, pose, capture ball, hands, open-collar light shirt, rolled sleeves, belt, trousers, shoes, lighting, framing, background transparency and exact monochrome ink/screentone style. Only the hair texture/curl definition is changed. Same full-body composition, same aspect ratio. No glasses, hat, extra accessories, text, logo, border or other character. Preserve existing transparency."
+    },
+    {
+      "name": "maria",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-6630ca9f-c8a7-48ea-aaa8-475fbf4f8ff4.png",
+      "prompt": "Use case: precise-object-edit / identity-preserve. Edit this exact black-and-white manga illustration of Maria holding an open umbrella. ONLY add ordinary PRESCRIPTION EYEGLASSES correctly fitted on HER FACE, covering both eyes with clear transparent lenses, a tasteful thin dark slightly rounded frame, a bridge on the nose, and subtle temples reaching toward her ears. Both eyes and her friendly expression must remain fully visible through the clear lenses. These are everyday vision-correcting glasses, NOT sunglasses, goggles or glasses perched on her hair/umbrella. Preserve her face and identity, hairstyle, skin screentone, earrings, pose, umbrella canopy/handle, hands, rain jacket, shirt, shorts, belt, shoes, lighting, exact framing, background transparency and monochrome ink/screentone style. No other changes or accessories. Same full-body composition and aspect ratio, no text, logo, border or second person. Preserve existing transparency."
+    }
+  ],
+  "assets": [
+    {
+      "character": "Clément",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-0f6bf218-44db-4384-bf4c-ef1c2c1dfd2b.png",
+      "destination": "vue-explorakit/src/assets/image/clement-v2.png",
+      "change": "Boucles courtes nettement plus serrées ; identité, tenue et pose conservées.",
+      "bytes": 1816078,
+      "size": [
+        1024,
+        1536
+      ],
+      "sha256": "2f8f501893f017b8590a1e2cde6c3b26c7d4b9cdee9624414c4ad03d7161d3ac",
+      "curlEditSource": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-f5b61c4b-cf7c-4d94-a377-445312389c23.png"
+    },
+    {
+      "character": "Maria",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-9c8afc20-a2e9-4565-a18c-0b8cdb2f8956.png",
+      "destination": "vue-explorakit/src/assets/image/maria-v2.png",
+      "change": "Lunettes de vue à monture fine et verres transparents, yeux visibles ; parapluie et identité conservés.",
+      "bytes": 2173095,
+      "size": [
+        1024,
+        1536
+      ],
+      "sha256": "0c850885294ffbbbbd8fb497b0d1f947a59cb61a770633a88ec9342f7864cdcb"
+    }
+  ],
+  "integration": "Portraits avant/après dialogue et présentation de combat. Sprites sur carte inchangés ; anciennes versions v1 conservées pour les clients historiques.",
+  "validation": {
+    "unit": {
+      "passed": 8,
+      "failed": 0,
+      "command": "node --test tests/arena-entrance.test.js tests/dialogue-portrait.test.js",
+      "log": "/tmp/riftmon-portrait-revision-unit.log"
+    },
+    "lint": "No lint errors found; /tmp/riftmon-portrait-revision-lint.log",
+    "syntax": "git diff --check dans les deux dépôts, script navigateur node --check",
+    "build": {
+      "id": "e71f13216c6a552c",
+      "path": "/tmp/riftmon-portrait-revision-dist",
+      "publicPath": "/"
+    },
+    "visual": "Résultats imagegen inspectés : cheveux courts à boucles serrées Clément ; lunettes placées sur les yeux Maria, yeux visibles et parapluie entier.",
+    "limits": [
+      "Pas de téléphone physique."
+    ],
+    "alphaCheck": "Clément après nettoyage et Maria : alpha 0 aux cinq échantillons extérieurs (0,0), (10,1000), (1010,1000), (100,700), (900,700). Ancien premier essai Clément conservait un voile rectangulaire semi-transparent ; non retenu.",
+    "browser": {
+      "command": "RELEASE_DIST_DIR=/tmp/riftmon-portrait-revision-dist RELEASE_SCREENSHOTS=/tmp/riftmon-portrait-revision-browser node --env-file=.env scripts/validateVillagePortraitsBrowser.js",
+      "actualDialogues": 2,
+      "actualTrainerEntrances": 2,
+      "mariaSpriteUnchanged": true,
+      "clementNativeSize": [
+        32,
+        32
+      ],
+      "worldScale": 2,
+      "afterBattlePortraits": true,
+      "arenaSnow": 240,
+      "arenaBattleWeather": "hail",
+      "arenaThemePreserved": true,
+      "reducedMotion": true,
+      "viewports": 4,
+      "artifacts": [
+        "town_lina-world-320.png",
+        "town_lina-world-393.png",
+        "town_lina-world-844.png",
+        "town_lina-world-1365.png",
+        "town_lina-dialogue-320.png",
+        "town_lina-dialogue-393.png",
+        "town_lina-dialogue-844.png",
+        "town_lina-dialogue-1365.png",
+        "town_lina-entrance-320.png",
+        "town_lina-entrance-393.png",
+        "town_lina-entrance-844.png",
+        "town_lina-entrance-1365.png",
+        "town_bastien-world-320.png",
+        "town_bastien-world-393.png",
+        "town_bastien-world-844.png",
+        "town_bastien-world-1365.png",
+        "town_bastien-dialogue-320.png",
+        "town_bastien-dialogue-393.png",
+        "town_bastien-dialogue-844.png",
+        "town_bastien-dialogue-1365.png",
+        "town_bastien-entrance-320.png",
+        "town_bastien-entrance-393.png",
+        "town_bastien-entrance-844.png",
+        "town_bastien-entrance-1365.png",
+        "sevenp-snow-320.png",
+        "sevenp-snow-393.png",
+        "sevenp-snow-844.png",
+        "sevenp-snow-1365.png",
+        "sevenp-battle-snow-320.png",
+        "sevenp-battle-snow-393.png",
+        "sevenp-battle-snow-844.png",
+        "sevenp-battle-snow-1365.png"
+      ],
+      "errors": [],
+      "directory": "/tmp/riftmon-portrait-revision-browser",
+      "inspection": [
+        "town_bastien-entrance-393.png",
+        "town_lina-entrance-393.png"
+      ],
+      "testAccounts": "Jetables sur base de test ; supprimés."
+    }
+  },
+  "backgroundCleanupPrompt": "Use case: background-extraction. Remove the entire remaining dark rectangular matte/gradient background from this exact Clément illustration and replace it with TRUE alpha transparency. This is a clean full-body character cutout for a game entrance; every background pixel around the head, behind the ball/arm, between arm and torso, around the legs and shoes, and at all image edges must be transparent. Do not leave a rectangle, dark cloudy border, grey glow, fake checkerboard or drop shadow. Keep all the character pixels visually unchanged: his NEW very tight short curly/coiled hair, face, expression, skin screentone, light open-collar shirt, hands, ball, black trousers, white shoes, proportions, pose, monochrome ink style and full-body framing. Keep his clothing's BLACK ink and all interior screentone shading; remove only the background outside the figure. Preserve the character identity and do not restyle or redraw him. Single character with a crisp clean silhouette on genuine transparent alpha.",
+  "deployment": {
+    "publishedAt": "2026-10-26T07:59:36.053Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-portrait-revision-2026-10-26T07-59-34-817Z",
+    "clientBuild": "e71f13216c6a552c",
+    "clientCommit": "fc643d1fd4d02e386a83f766329774fae871c764",
+    "pid": "1878831",
+    "serverRestarted": false,
+    "neighborsUnchanged": true,
+    "publicAssets": [
+      "js/app.6c9bfdc5.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/game.a0e9e5fd.js",
+      "css/app.8538ed5d.css",
+      "css/game.f8a72554.css",
+      "img/maria-v2.564002d1.png",
+      "img/clement-v2.804e1f22.png"
+    ],
+    "portraits": [
+      {
+        "name": "maria",
+        "file": "maria-v2.564002d1.png",
+        "sha256": "0c850885294ffbbbbd8fb497b0d1f947a59cb61a770633a88ec9342f7864cdcb"
+      },
+      {
+        "name": "clement",
+        "file": "clement-v2.804e1f22.png",
+        "sha256": "2f8f501893f017b8590a1e2cde6c3b26c7d4b9cdee9624414c4ad03d7161d3ac"
+      }
+    ]
+  }
+}

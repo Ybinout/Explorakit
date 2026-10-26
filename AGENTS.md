@@ -1,5 +1,13 @@
 # Contexte permanent — RiftMon
 
+## Maria / Clément — lunettes et boucles serrées — 26 octobre 2026
+
+Retouches demandées sur les illustrations, avec l’outil intégré imagegen : Clément conserve son visage, sa pose et sa tenue, avec des boucles courtes nettement plus serrées ; Maria porte des lunettes de vue à monture fine, verres clairs et yeux visibles sous son parapluie. Versions `clement-v2.png` et `maria-v2.png` raccordées aux dialogues avant/après et aux entrées des vrais combats. Sprites de carte, équipes, textes et progression inchangés. Les v1 restent disponibles. Une passe supplémentaire a retiré un voile rectangulaire semi-transparent autour de Clément ; cinq points extérieurs vérifiés à alpha 0 avant publication, silhouette préservée. Les PNG générés sélectionnés sont copiés sans transformation. Sources, prompts exacts, empreintes et preuves dans `docs/MARIA_CLEMENT_PORTRAITS_V2.json`.
+
+Validation : huit tests d’entrée/cadrage réussis, lint/syntaxe/diff valides, build `e71f13216c6a552c`. Recette navigateur existante actualisée v2 : vrais dialogues/entrées Maria et Clément, portraits après duel, sprites conservés et quatre formats 320/393/844/1365, zéro erreur ; scènes 7p inchangées aussi contrôlées. 32 captures, entrées mobiles inspectées après nettoyage ; comptes jetables supprimés. Pas de téléphone physique ni test global supplémentaire pour ce lot de portraits.
+
+Publication statique 2026-10-26T07:59:36.053Z, client `fc643d1fd4d02e386a83f766329774fae871c764`, PID 1878831 conservé, aucun redémarrage. Index, cinq bundles et deux nouveaux portraits HTTPS vérifiés à l’octet, anciens bundles conservés ; Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-portrait-revision-2026-10-26T07-59-34-817Z`. Aucun changement serveur, SQL ou compte réel.
+
 ## Maria, Clément, neige de 7p et cristaux — 26 octobre 2026
 
 Le duel du Professeur au laboratoire utilise maintenant exactement la piste `lucie-combat.mp3` déjà utilisée pour Lucie. Les autres catégories de combat gardent leur musique. Les quatre barrières de cristaux (trois dans la maison de Lucie et une au laboratoire) passent à dix impacts sur 8 030 ms, espacés de 770 ms après une anticipation de 550 ms. La liste des instants envoyée par le serveur reste la référence du rendu, du compteur et des mouvements ; les textes ne prétendent plus que les cristaux cèdent au cinquième coup. Délai de secours client porté au-delà de cette durée, annulation/déconnexion, validation spatiale, isolation et flags ouverts existants conservés. Le secours ancien serveur sans liste reste à cinq impacts, pour la compatibilité.
