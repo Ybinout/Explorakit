@@ -134,7 +134,7 @@ test('K.O. sauvage définitif, pas de soin/blackout, purge de session et aucun d
     assert.equal(summary.lostPokemon[0].uuid,uuid);assert.equal(summary.money,0);assert.deepEqual(summary.loot,[]);
 });
 
-test('capture Rift : compagnon et Drift gagnés une seule fois, petite prime et Drift sans XP ni objet bonus',()=>{
+test('capture Rift : compagnon, Drift et objet sauvage gagnés une seule fois, petite prime sans XP',()=>{
     const f=fixture(4,()=>0),p=f.run.players.get(1),wild=factory.create(19,5),enemy={npc:true,equipe:{pokemons:[wild]},drifts:[],equipped:[]};
     const b=f.runtime.battle(p,enemy,'wild');
     assert.equal(b.action(p,{action:'bag',itemKey:'pokeball',turnId:b.token}),true);
@@ -143,11 +143,11 @@ test('capture Rift : compagnon et Drift gagnés une seule fois, petite prime et 
     const summary=f.messages.find(m=>m.id===p.socketId&&m.event==='endbattle').payload.summary;
     assert.equal(summary.outcome,'captured');assert.equal(summary.capturedPokemon.uuid,wild.uuid);
     const definition=require('../data/game/drifts.json').definitions.find(d=>d.id===p.drifts[0].definitionId);
-    assert.equal(summary.capturedPokemon.pokemonId,19);assert.deepEqual(summary.experience,[]);assert.deepEqual(summary.loot,[definition.name]);
+    assert.equal(summary.capturedPokemon.pokemonId,19);assert.deepEqual(summary.experience,[]);assert.deepEqual(summary.loot,[definition.name,'Baie Oran']);assert.equal(p.items.oran_berry,1);
     assert.equal(summary.money,30);assert.equal(p.money,530);
     assert.equal(p.runReport.stats.driftsFound,1);assert.equal(p.runReport.drifts.get(p.drifts[0].uuid).source,'capture');
     b.finish(p,'captured');assert.equal(b.action(p,{action:'bag',itemKey:'pokeball',turnId:b.token}),false);
-    assert.equal(p.drifts.length,1);assert.equal(p.runReport.stats.driftsFound,1);assert.equal(p.items.pokeball,9);assert.equal(p.money,530);
+    assert.equal(p.drifts.length,1);assert.equal(p.runReport.stats.driftsFound,1);assert.equal(p.items.pokeball,9);assert.equal(p.items.oran_berry,1);assert.equal(p.money,530);
     assert.equal(f.messages.filter(m=>m.id===p.socketId&&m.event==='endbattle').length,1);
 });
 
@@ -156,7 +156,7 @@ test('capture Rift : seuil de 15 %, bonus collectionneur et même rareté que le
         const f=fixture(4),p=f.run.players.get(1),wild=factory.create(19,5);
         if(collector) {const d=addDrift(p,44);p.equipped=[d.uuid];}
         const b=f.runtime.battle(p,{npc:true,equipe:{pokemons:[wild]},drifts:[],equipped:[]},'wild');
-        const draws=[0,roll,.9,.2];b.random=()=>draws.shift();
+        const draws=[0,roll,.9,.2];b.random=()=>draws.shift() ?? .9;
         b.action(p,{action:'bag',itemKey:'pokeball',turnId:b.token});
         assert.equal(b.finished,true);assert.equal(p.equipe.pokemons.length,2);
         assert.equal(p.drifts.length,Number(collector)+expected,`tirage ${roll}, collectionneur ${collector}`);

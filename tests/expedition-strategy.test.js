@@ -68,11 +68,11 @@ test('merchant has stable finite per-player stock, cannot buy twice or forge pri
  assert.throws(()=>merchant.exchange(p,ids),/non équipés/);const oldMoney=p.money;economy.remove(p,p.drifts[0].uuid,true);assert(p.money>oldMoney);assert.equal(p.drifts.length,0);
  const saved=decode(encode(p));assert.equal(merchant.view(saved).offers[0].stock,0);p.currentmap='start';assert.throws(()=>merchant.buy(p,stock.offers[1].id),/boutique/);
 });
-test('strategic drops occur only on wild victories and survive a checkpoint; no capture or defeat farming',()=>{
+test('strategic drops occur on wild victories and captures and survive a checkpoint; no defeat farming',()=>{
  const f=setup(),p=f.choose();const roll=()=>0;
  const loot=economy.drop(p,'wild',roll);assert(loot.includes('Baie Oran'));assert.equal(p.items.oran_berry,1);
- const before=p.items.oran_berry;economy.drop(p,'capture',roll);assert.equal(p.items.oran_berry,before);
- const saved=decode(encode(p));assert.equal(saved.items.oran_berry,1);
+ const before=p.items.oran_berry;economy.drop(p,'capture',roll);assert.equal(p.items.oran_berry,before+1);
+ const saved=decode(encode(p));assert.equal(saved.items.oran_berry,2);
  const enemy={npc:true,equipe:{pokemons:[fighter()]},drifts:[],equipped:[]};
  const b=f.runtime.battle(p,enemy,'wild');p.equipe.pokemons[0].currentHp=0;b.prune();b.checkEnd();assert.equal(p.alive,false);
 });

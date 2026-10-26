@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Objets sauvages — une chance sur six, victoire et capture — 26 octobre 2026
+
+Taux de base commun Aventure/Rift/Colosseum : `CHANCE = ADVENTURE_CHANCE = 1/6` (≈16,67 %), tirage indépendant par Pokémon sauvage battu ou capturé ; aucun compteur imposant le sixième. Les bonus de butin d'objet des Drifts sont conservés et plafonnés à 100 %. Le taux séparé des Drifts, les pondérations de rareté et l'historique des objets uniques ne changent pas.
+
+Les captures n'avaient jusque-là aucun tirage d'objet ordinaire : elles utilisent désormais le même chemin que la victoire sauvage, avec résumé, actualisation du sac et annonce existants. Garde de fin de combat/tirage unique conservé ; capture ratée/refusée, fuite, défaite et expiration ne créent pas de butin d'objet. Découvertes permanentes, objets tenus/PC, inventaires et checkpoints préservés ; aucune migration ni attribution rétroactive. Les règles précédentes 1/17 expédition et 1/15 Aventure décrites plus bas sont historiques.
+
+Validation : 137 tests ciblés et cinq recettes SQL réussis, zéro échec/ignoré. Frontière exacte du seuil, 1 000 succès sur 6 000 tirages régulièrement espacés, pondérations, bonus, unicité/concurrence/PC/consommation/checkpoint ; vraie capture et vraie victoire sauvegardent chacune un objet de plus que le stock initial, récapitulatif correct et pas de double récompense, fuite/défaite préservées. Tests de captures actualisés pour leur nouveau butin ; leurs tirages de Drift restent indépendants, sans RNG épuisé donnant `undefined`. Syntaxe/diff valides. Commandes/preuves : `docs/WILD_LOOT_SIX.json`. Compte réel et client inchangés ; pas de nouvelle interface, build client, navigateur ou suite globale revendiqués.
+
+Publication serveur seule 2026-10-26T21:46:52.981Z, PID 2076407→2092573. Checkpoint sauvegardé, 0 expédition active relevée avant reprise. Sauvegarde `/home/ubuntu/dev/backups/riftmon-loot6-2026-10-26T21-46-51-074Z`. Client 405067f74c2e38d72aac06c67b9a7c0a5519d765 / build c3820988886b654c, index/bundles publics et Knov/api-test conservés.
+
 ## Chambre de Lucie — mobilier plus compact et pixel art simplifié — 26 octobre 2026
 
 Décor `route2_maison.png` redessiné dans le langage des intérieurs du jeu : formes courtes et lisibles, contours sombres, ombres réduites et tapis uni bordé plutôt qu'ornementé. Tous les éléments restent présents : fenêtre bleue, bibliothèque, lit violet, table/lampe/papiers/petit objet vert, coffre, plante et tapis d'entrée. Même chambre sombre bleu ardoise/prune ; mobilier plus compact, notamment lit 28×45, table 28×30, coffre 28×27 et plante 14×26. Source imagegen intégrée puis export au plus proche voisin en 448×320 ; les cinq meubles solides restent entièrement dans les cases bloquées existantes. Plancher continu depuis une base vide ; fonds bleus/ancien halo rectangulaire de table retirés lors de la composition. Sources et prompts versionnés, export reproductible `node scripts/exportLucieCompactRoom.js --check`.
@@ -4143,6 +4153,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 26 octobre 2026 — Objets sauvages : taux de base 1/6 dans les trois modes, captures réussies désormais éligibles comme les victoires. Raretés, uniques, bonus et taux des Drifts conservés ; pas de récompense doublée/fuite/défaite. 137 tests + cinq recettes SQL réussis, publication serveur avec checkpoint et client/voisins inchangés. Rapport `docs/WILD_LOOT_SIX.json`.
 
 - 26 octobre 2026 — Chambre de Lucie simplifiée en pixel art, meubles plus compacts et tous les éléments conservés. Cinq meubles vérifiés dans les collisions existantes, plancher sans raccords, un PNG 448×320 plus léger. Export/build et recette navigateur complète barrières/combat/faille/reconnexion réussis ; 11 tests/une ancienne assertion de dialogue inchangée. Sources/prompts et publication statique sans redémarrage : `docs/LUCIE_COMPACT_ROOM.json`.
 

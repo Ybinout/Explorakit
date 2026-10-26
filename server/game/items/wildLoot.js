@@ -1,6 +1,6 @@
 const items = require('../../../data/game/items.json').items;
-const CHANCE = 1 / 17; // Expedition base, before Drift bonuses.
-const ADVENTURE_CHANCE = 1 / 15;
+const CHANCE = 1 / 6; // Wild victory or capture; before expedition Drift bonuses.
+const ADVENTURE_CHANCE = CHANCE;
 const GROUP_WEIGHTS = Object.freeze({berries:55, vitamins:25, equipment:15, key:5});
 const uniqueKeys = items.filter(i => i.unique).map(i => i.key);
 const byKey = new Map(items.map(i => [i.key,i]));

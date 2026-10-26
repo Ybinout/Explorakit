@@ -1,0 +1,99 @@
+{
+  "date": "2026-10-26",
+  "request": "Objets trouvables : un sur six Pokémon sauvages battus ou capturés.",
+  "semantics": "Independent 1/6 chance (16.6667%) per successful wild victory or capture, not a guaranteed sixth-encounter counter.",
+  "modes": [
+    "Adventure",
+    "Rift",
+    "Colosseum"
+  ],
+  "changes": {
+    "chance": "CHANCE = 1/6; ADVENTURE_CHANCE = CHANCE. Expedition Drift item-drop bonuses continue multiplying the base rate, capped at 100%.",
+    "captureAdventure": "A captured Pokémon is now an eligible successful outcome for the existing per-battle guarded SQL loot attempt. Summary, bagUpdated and narration use the existing item path.",
+    "captureExpedition": "capture and wild use the same item selector; finish guard already prevents duplicate capture/endbattle rewards.",
+    "preserved": [
+      "Conditional weighted item families and individual rarity weights",
+      "Permanent unique-item discovery history, held and PC exclusions",
+      "One object attempt per battle; no item attempts for failure, escape or defeat",
+      "Separate Drift drop rate, collection bonuses and rarity",
+      "Money, XP, existing inventories, schemas and client assets"
+    ]
+  },
+  "validation": {
+    "targeted": {
+      "command": "node --test tests/wild-items.test.js tests/drift-runtime.test.js tests/expedition-strategy.test.js tests/colosseum.test.js",
+      "passed": 137,
+      "failed": 0,
+      "skipped": 0,
+      "log": "/tmp/riftmon-loot6-tests.log",
+      "checks": [
+        "Strict below/at 1/6 cutoff",
+        "Exactly 1000 successes among 6000 evenly spaced deterministic draws",
+        "Conditional family weighting, unique discovery and checkpoint preservation",
+        "Capture object granted once, summary contains it; duplicate finish grants nothing again",
+        "Separate Drift rate unchanged and deterministic test RNG defaults explicit"
+      ]
+    },
+    "sqlLoot": {
+      "command": "DB_NAME=explorakit_test RUN_MYSQL_TESTS=1 NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file=.env --test --test-name-pattern='wild items SQL' tests/release-features-mysql.test.js",
+      "passed": 1,
+      "failed": 0,
+      "log": "/tmp/riftmon-loot6-mysql.log",
+      "checks": [
+        "Exact Adventure cutoff",
+        "Real inventory writes",
+        "Concurrent unique receipts",
+        "Bag, held and PC exclusion",
+        "Unique history after consumption"
+      ]
+    },
+    "sqlBattles": {
+      "command": "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RUN_MYSQL_TESTS=1 NODE_ENV=test node --env-file=.env --test --test-name-pattern='combat sauvage réel' tests/battle-runtime-integration.test.js",
+      "passed": 4,
+      "failed": 0,
+      "log": "/tmp/riftmon-loot6-battle-mysql.log",
+      "checks": [
+        "Actual capture grants exactly one berry beyond starting stock",
+        "Capture summary and one object announcement",
+        "Actual wild victory grants a persisted berry",
+        "Flee and defeat remain unrewarded"
+      ]
+    },
+    "syntaxAndDiff": "passed",
+    "limits": [
+      "No global suite claimed",
+      "No browser run or frontend build needed for this server-only rule change"
+    ],
+    "accounts": "Disposable test users removed by fixture cleanup. No direct production inventory/account changes."
+  },
+  "deployment": {
+    "sourceHashes": {
+      "server/game/items/wildLoot.js": "fa906d6e8ec8b490c2c859d36bbb05c00218282eff76f466b120873ae7c548a2",
+      "server/game/battle/wildBattle.js": "473436419444ce364e0a6fdd55686960fba41cc8a8f77b5bb09ec7f2058ad7c5",
+      "server/game/drift/economy.js": "75dcaa2c25da9eb5586c0d6be83c2c40cf8395d181f14329d6d80ce82510af99"
+    },
+    "publishedAt": "2026-10-26T21:46:52.981Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-loot6-2026-10-26T21-46-51-074Z",
+    "clientCommit": "405067f74c2e38d72aac06c67b9a7c0a5519d765",
+    "clientBuild": "c3820988886b654c",
+    "beforePid": "2076407",
+    "afterPid": "2092573",
+    "activeRuns": 0,
+    "checkpointSaved": true,
+    "backendOnly": true,
+    "serverRestarted": true,
+    "gracefulCheckpoint": true,
+    "neighborsUnchanged": true,
+    "publicAssetsUnchanged": [
+      "js/account.161ce126.js",
+      "js/app.4e0c3ea1.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.02239fb3.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.022a9d9e.css"
+    ]
+  }
+}

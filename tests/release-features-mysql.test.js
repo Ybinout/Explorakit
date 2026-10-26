@@ -206,9 +206,9 @@ test('wild items SQL: concurrent unique receipts, bag/held/PC exclusion and perm
         const team=await teams.loadEquipe(u.id);team.pokemons[0].heldItem='leftovers';await teams.editEquipe(u.id,team);
         const stored=factory.create(25,20,true);stored.heldItem='life_orb';await pc.storeCapturedPokemon(u.id,stored);
         const draws=(...values)=>()=>values.shift() ?? .5;
-        assert.equal(require('../server/game/items/wildLoot').ADVENTURE_CHANCE,1/15);
-        assert.equal(await loot.awardWildLoot(u.id,()=>1/15),null);
-        assert.equal((await loot.awardWildLoot(u.id,draws(1/15-1e-8,0,0))).wildLoot.group,'berries');
+        assert.equal(require('../server/game/items/wildLoot').ADVENTURE_CHANCE,1/6);
+        assert.equal(await loot.awardWildLoot(u.id,()=>1/6),null);
+        assert.equal((await loot.awardWildLoot(u.id,draws(1/6-1e-8,0,0))).wildLoot.group,'berries');
         assert.equal((await loot.awardWildLoot(u.id,draws(.04,0,0))).wildLoot.group,'berries');
         const found=await Promise.all([loot.awardWildLoot(u.id,draws(0,.85,0)),loot.awardWildLoot(u.id,draws(0,.85,0))]);
         assert.equal(new Set(found.map(i=>i.key)).size,2);assert(found.every(i=>!['leftovers','life_orb'].includes(i.key)));

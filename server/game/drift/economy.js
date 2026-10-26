@@ -132,7 +132,7 @@ function drop(p, source, random = Math.random) {
         const key = random() < .5 ? 'pokeball' : 'drift_potion'; p.items[key] = (p.items[key] || 0) + 1; loot.push(key === 'pokeball' ? 'Poké Ball' : 'Potion');
         report.event(p,'item',`Objet trouvé : ${key==='pokeball'?'Poké Ball':'Potion'}.`);
     }
-    if (source === 'wild') {
+    if (source === 'wild' || source === 'capture') {
         const item = require('../items/wildLoot').awardExpedition(p, random,1+value(p,45)/100);
         if (item) { loot.push(item.name); report.event(p,'item',`Objet trouvé : ${item.name}${item.unique?' · unique':''}.`); }
     }

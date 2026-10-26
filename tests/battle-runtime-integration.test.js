@@ -363,6 +363,7 @@ test('combat sauvage réel : capture, objet consommé et équipe persistée', { 
         userId = fixture.user.id;
         const { player } = fixture;
         player.currentmap = 'start';
+        const beforeOran = (await loadUserItems(userId)).find(item=>item.key==='oran_berry')?.quantity || 0;
         const beforeEv = { ...player.equipe.pokemons[0].ev };
         const wildPokemon = createPokemon(19, 'Rattata');
         wildPokemon.maxHp = 100;
@@ -381,6 +382,9 @@ test('combat sauvage réel : capture, objet consommé et équipe persistée', { 
         assert.equal(summary.mode, 'adventure');
         assert.equal(summary.capturedPokemon.uuid, wildPokemon.uuid);
         assert.equal(summary.capturedPokemon.pokemonId, 19);
+        assert.deepEqual(summary.loot, ['Baie Oran']);
+        assert.equal((await loadUserItems(userId)).find(item=>item.key==='oran_berry')?.quantity,beforeOran+1);
+        assert.equal(io.events.filter(e=>e.eventName==='battleText'&&/Objet trouvé/.test(e.payload.message)).length,1);
         assert.equal(summary.money, Math.floor((20 + wildPokemon.level * 2) * 1.5));
         const [[wallet]] = await pool.execute('SELECT money FROM users WHERE id=?',[userId]);
         assert.equal(wallet.money, summary.money);
@@ -405,6 +409,7 @@ test('combat sauvage réel : attaque, victoire, expérience et PP persistés', {
         const fixture = await createPlayer(1);
         userId = fixture.user.id;
         const { player } = fixture;
+        const beforeOran = (await loadUserItems(userId)).find(item=>item.key==='oran_berry')?.quantity || 0;
         const activePokemon = player.equipe.pokemons[0];
         activePokemon.currentAttack = 999;
         activePokemon.currentSpeed = 999;
@@ -415,7 +420,7 @@ test('combat sauvage réel : attaque, victoire, expérience et PP persistés', {
         const socket = new ScriptedSocket([{ action: 'attack', number: 0 }]);
         const io = new RecordingIo({ [player.id]: socket });
 
-        const result = await withFixedRandom(0.5, () => startWildBattle(player, wildPokemon, io, userId));
+        const result = await withFixedRandom(0, () => startWildBattle(player, wildPokemon, io, userId));
         const persistedPokemon = (await loadEquipe(userId)).pokemons[0];
 
         assert.equal(result, true);
@@ -425,6 +430,8 @@ test('combat sauvage réel : attaque, victoire, expérience et PP persistés', {
         assert.equal(persistedPokemon.movePp[0], initialPp - 1);
         const summary = io.lastEvent(player.id, 'endbattle').payload.summary;
         assert.equal(summary.outcome, 'victory');
+        assert.deepEqual(summary.loot, ['Baie Oran']);
+        assert.equal((await loadUserItems(userId)).find(item=>item.key==='oran_berry')?.quantity,beforeOran+1);
         assert.equal(summary.experience[0].xpGained, persistedPokemon.experience - initialExperience);
         assert.equal(summary.money, Math.floor((20 + wildPokemon.level * 2) * 1.5));
         const [[wallet]] = await pool.execute('SELECT money FROM users WHERE id=?',[userId]);

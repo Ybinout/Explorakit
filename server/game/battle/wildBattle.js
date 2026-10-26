@@ -445,7 +445,7 @@ async function startBattle(player, wildPokemon, io, userId) {
     const endBattle = async (playerWon = false, extra = {}) => {
         // A simultaneous K.O. cannot award victory with no surviving companion.
         if (playerWon && !hasAlivePokemon(player.equipe.pokemons)) playerWon = false;
-        if (playerWon && !extra.captured && wildPokemon.currentHp <= 0 && !wildLootAttempted) {
+        if (playerWon && (extra.captured || wildPokemon.currentHp <= 0) && !wildLootAttempted) {
             wildLootAttempted = true;
             const item = await require('../../persistence/wildLootRepository').awardWildLoot(userId);
             if (item) {
