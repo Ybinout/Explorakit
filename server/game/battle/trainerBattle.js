@@ -441,7 +441,8 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
         }
 
         if (currentEnemy.currentHp <= 0) {
-            const nextEnemyIndex = trainerTactics.replacementIndex(enemyTeam);
+            const nextEnemyIndex = trainerTactics.replacementIndex(enemyTeam,{opponentTeam:player.equipe.pokemons,
+                field:battleState,ownSide:enemySide,enemySide:playerSide,memory:battleState.trainerMemory,round:round+1});
             if (nextEnemyIndex === -1) {
                 await narrate(player, io, 'Victoire !');
                 await grantMoneyReward();

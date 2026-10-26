@@ -1,0 +1,321 @@
+{
+  "date": "2026-10-26",
+  "scope": "IA commune des dresseurs Aventure, Rift et Colosseum ; aucun choix du joueur consulté",
+  "baseline": {
+    "root": "c5e58039940b3966ad7d12bbbccaa48f9879a5b8",
+    "client": "ac0f717a56605e8c82bc4bdaea9afdcc24c60b6e",
+    "build": "e96cfb4d4510c500"
+  },
+  "changes": [
+    "Projection déterministe sur copies : soins, recul Orbe Vie, drain, Grelot Coque, Restes, baies de soin/statut/statistique/résistance, Ceinture Force, Fermeté, consommation et Délestage ; multiplicateurs Choix/Veste/Evoluroc/Ceinture Pro conservés via les règles communes.",
+    "Vrais compteurs protectionStreak/protectionTurn, coût du Clone, statuts/écrans/météo, paliers plafonnés, incapacités, priorités et risques de K.O. ; valeur des préparations météo pour les réserves.",
+    "Dégâts variables/fixes et multi-coups estimés, charge distinguée du coup, immunités connues de ses propres talents, précision et coûts de recharge/recul.",
+    "Après K.O., comparaison des remplaçants éligibles et pièges d’entrée ; premier Pokémon écrit par le créateur et pièce maîtresse réservée conservés. En double K.O., aucun accès au choix humain de remplacement.",
+    "Anti-enchaînement de switches conservé hors urgence ; deuxième défense permise en cas de menace immédiate crédible avec coût supplémentaire. Pas de Bluff inutilisable favorisé par une mauvaise échelle des scores.",
+    "Analyse de toutes les possibilités légales à un tour, prolongement borné des trois hypothèses les plus probables ; aucun budget basé sur le temps qui ferait varier la décision.",
+    "Clone ne masque pas Buée Noire ou les effets de terrain dans la projection ; pas de baisse de statistique secondaire projetée sur une cible immunisée ou protégée par le Clone au début du coup."
+  ],
+  "fairness": {
+    "permitted_opponent": [
+      "espèce/forme visible",
+      "équipe et quatre capacités connues",
+      "PV/niveau/statut/paliers/terrain visibles",
+      "historique des tours terminés",
+      "statistiques estimées à partir des données d’espèce et PV visibles"
+    ],
+    "forbidden_opponent": [
+      "commande soumise ou en attente",
+      "objet/talent réel caché",
+      "vraies statistiques IV/EV/K",
+      "PP réels",
+      "références indirectes et champs non autorisés"
+    ],
+    "own_information": "Ses propres statistiques, talents, objets et PP sont utilisés ; les objets restent consommés par le vrai moteur uniquement quand leur effet se déclenche.",
+    "commit": "Décision engagée avant requestAction, conservée sur commande invalide/checkpoint/reconnexion ; observation seulement après verrouillage/exécution, aucune seconde décision pour suivre un switch humain.",
+    "boundary": "Copies construites par liste blanche y compris sous-structures de terrain et paliers ; aucun clone de référence croisée brute ni lecture de turnActions/trainerTeam/pending. Aucun Math.random dans la planification."
+  },
+  "validation": {
+    "targeted": {
+      "pass": 280,
+      "fail": 0,
+      "skip": 0,
+      "log": "/tmp/riftmon-ai-strategy-targeted.log"
+    },
+    "mysql_actual_engine": {
+      "pass": 88,
+      "fail": 0,
+      "skip": 0,
+      "database": "explorakit_test",
+      "log": "/tmp/riftmon-ai-strategy-mysql.log",
+      "includes": "6 tests de décision engagée Aventure, saisie invalide, switch humain, et recettes K.O./capacités/terrain/talents/reprise"
+    },
+    "new_regressions": {
+      "decision_and_privacy": 12,
+      "engine_projection_oracles": 16,
+      "frozen_baseline_subset": {
+        "cases": 8,
+        "fail_before": 7,
+        "pass_before": 1,
+        "all_pass_after": true,
+        "log": "/tmp/riftmon-ai-strategy-baseline-regressions.log"
+      }
+    },
+    "finishing_pressure_sweep": {
+      "decisions": 126,
+      "immuneChoices": 0,
+      "maxSwitchProbability": 0.01224000000000001,
+      "averageAnalysisAndChoiceMs": 5.488101944444438,
+      "maxAnalysisAndChoiceMs": 29.75261499999999,
+      "examples": [
+        {
+          "id": 51,
+          "hp": 10,
+          "ownSpeed": 70,
+          "trick": 0,
+          "habits": 0,
+          "chosen": "Surf",
+          "switchProbability": 0.005
+        },
+        {
+          "id": 51,
+          "hp": 10,
+          "ownSpeed": 70,
+          "trick": 0,
+          "habits": 10,
+          "chosen": "Surf",
+          "switchProbability": 0.01224000000000001
+        },
+        {
+          "id": 51,
+          "hp": 10,
+          "ownSpeed": 70,
+          "trick": 3,
+          "habits": 0,
+          "chosen": "Surf",
+          "switchProbability": 0.005
+        },
+        {
+          "id": 51,
+          "hp": 10,
+          "ownSpeed": 70,
+          "trick": 3,
+          "habits": 10,
+          "chosen": "Surf",
+          "switchProbability": 0.01224000000000001
+        }
+      ]
+    },
+    "actual_matches_before": {
+      "matches": 48,
+      "perPolicy": 16,
+      "stats": {
+        "human": {
+          "wins": 6,
+          "draws": 0,
+          "turns": 151,
+          "switches": 29,
+          "support": 18
+        },
+        "legacy": {
+          "wins": 5,
+          "draws": 0,
+          "turns": 134,
+          "switches": 18,
+          "support": 5
+        },
+        "random": {
+          "wins": 1,
+          "draws": 0,
+          "turns": 125,
+          "switches": 0,
+          "support": 31
+        }
+      },
+      "choices": 151,
+      "averageDecisionMs": 6.0169263774834425,
+      "maxDecisionMs": 33.007180999999974
+    },
+    "actual_matches_after": {
+      "matches": 48,
+      "perPolicy": 16,
+      "stats": {
+        "human": {
+          "wins": 7,
+          "draws": 0,
+          "turns": 219,
+          "switches": 34,
+          "support": 83
+        },
+        "legacy": {
+          "wins": 5,
+          "draws": 0,
+          "turns": 134,
+          "switches": 19,
+          "support": 5
+        },
+        "random": {
+          "wins": 1,
+          "draws": 0,
+          "turns": 126,
+          "switches": 0,
+          "support": 37
+        }
+      },
+      "choices": 219,
+      "averageDecisionMs": 14.601045388127847,
+      "maxDecisionMs": 65.47801500000003
+    },
+    "six_vs_six_two_interleaved_passes": {
+      "baseline": [
+        {
+          "fixtures": 80,
+          "teamSize": 6,
+          "choices": 80,
+          "switches": 38,
+          "support": 3,
+          "mutations": 0,
+          "rngReads": 0,
+          "nondeterministicChoices": 0,
+          "illegalChoices": 0,
+          "milliseconds": {
+            "mean": 33.06102338749997,
+            "p50": 31.822093000000223,
+            "p95": 47.61511299999984,
+            "max": 63.442119000000275
+          }
+        },
+        {
+          "fixtures": 80,
+          "teamSize": 6,
+          "choices": 80,
+          "switches": 38,
+          "support": 3,
+          "mutations": 0,
+          "rngReads": 0,
+          "nondeterministicChoices": 0,
+          "illegalChoices": 0,
+          "milliseconds": {
+            "mean": 30.48760093749999,
+            "p50": 30.492409000000407,
+            "p95": 36.60866299999998,
+            "max": 67.85457700000006
+          }
+        }
+      ],
+      "current": [
+        {
+          "fixtures": 80,
+          "teamSize": 6,
+          "choices": 80,
+          "switches": 40,
+          "support": 1,
+          "mutations": 0,
+          "rngReads": 0,
+          "nondeterministicChoices": 0,
+          "illegalChoices": 0,
+          "milliseconds": {
+            "mean": 22.36711012500003,
+            "p50": 21.897182000000157,
+            "p95": 32.84718299999997,
+            "max": 37.06125799999995
+          }
+        },
+        {
+          "fixtures": 80,
+          "teamSize": 6,
+          "choices": 80,
+          "switches": 40,
+          "support": 1,
+          "mutations": 0,
+          "rngReads": 0,
+          "nondeterministicChoices": 0,
+          "illegalChoices": 0,
+          "milliseconds": {
+            "mean": 23.494978900000007,
+            "p50": 23.029690000000073,
+            "p95": 33.73855699999967,
+            "max": 38.30328399999962
+          }
+        }
+      ]
+    },
+    "syntax_and_diff": true
+  },
+  "commands": [
+    "node --test tests/human-trainer-ai.test.js tests/human-trainer-finishing.test.js tests/human-trainer-items.test.js tests/human-trainer-model.test.js tests/expedition-strategy.test.js tests/colosseum-ai.test.js tests/colosseum-variety.test.js tests/replacement-choice.test.js tests/battle-order.test.js tests/battle-team.test.js tests/battle-engine.test.js tests/ability-system.test.js tests/ability-audit-regression.test.js tests/two-turn-moves.test.js tests/automatic-move-regressions.test.js tests/move-behavior-audit.test.js tests/battle-field.test.js",
+    "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test node --env-file=.env --test tests/battle-runtime-integration.test.js",
+    "node scripts/validateTrainerStrategy.js",
+    "git show c5e58039940b3966ad7d12bbbccaa48f9879a5b8:server/game/battle/humanTrainerAI.js > /tmp/riftmon-ai-strategy-before-humanTrainerAI.js",
+    "TRAINER_AI_BASELINE=/tmp/riftmon-ai-strategy-before-humanTrainerAI.js node scripts/validateTrainerStrategy.js",
+    "node scripts/validateHumanTrainerAI.js",
+    "node scripts/validateHumanTrainerFinishing.js"
+  ],
+  "limits": [
+    "Planificateur heuristique à horizon court ; valeurs attendues et statistiques adverses inférées, pas résolution exhaustive du combat ni preuve d’optimalité. Les effets secondaires aléatoires ne sont pas tous simulés comme des branches exactes.",
+    "48 combats de contrôle = 16 par politique, adversaire compétent fixe ; 7 victoires contre 6 avant ne constituent pas une mesure générale du niveau ou de l’équilibrage. Le choix automatique de remplacement est aussi amélioré dans ces combats.",
+    "Projections plus riches : moyenne du lot de combats à trois Pokémon ≈14,6 ms contre ≈6 ms avant ; sur deux mesures à six contre six ≈23 ms contre ≈32 ms grâce au prolongement borné. Valeurs locales sous charge variable, aucune garantie de latence absolue.",
+    "Aucun changement des statistiques, équipes, objets distribués, récompenses, difficulté des vagues, mécanique réelle des attaques, rendu, protocole client, schéma SQL ou compte réel.",
+    "Pas de nouvelle recette navigateur, matériel physique ni suite globale revendiqués pour ce correctif serveur."
+  ],
+  "deployment": {
+    "initial": {
+      "publishedAt": "2026-10-26T20:22:05.179Z",
+      "backup": "/home/ubuntu/dev/backups/riftmon-ai-strategy-2026-10-26T20-22-03-738Z",
+      "clientCommit": "ac0f717a56605e8c82bc4bdaea9afdcc24c60b6e",
+      "clientBuild": "e96cfb4d4510c500",
+      "beforePid": "2050066",
+      "afterPid": "2060846",
+      "sourceSha256": "a1fec2e0a1a3bc5265671512a8525f043d395db763be9491d098c1f2c58ac28d",
+      "activeRuns": 0,
+      "checkpointSaved": true,
+      "backendOnly": true,
+      "serverRestarted": true,
+      "gracefulCheckpoint": true,
+      "neighborsUnchanged": true,
+      "publicAssetsUnchanged": [
+        "js/account.f0f65147.js",
+        "js/app.38482f64.js",
+        "js/chunk-vendors.3cf1258a.js",
+        "js/community.00fadb68.js",
+        "js/game.66375d4d.js",
+        "css/account.e4a31390.css",
+        "css/app.bbefd3a4.css",
+        "css/community.553e140c.css",
+        "css/game.aeaf1423.css"
+      ]
+    },
+    "final": {
+      "sourceHashes": {
+        "server/game/battle/humanTrainerAI.js": "a1fec2e0a1a3bc5265671512a8525f043d395db763be9491d098c1f2c58ac28d",
+        "server/game/battle/humanTrainerModel.js": "6e179c06a241cb5ef78b5a805cb6d060d577cf11c5302cea43dbb18ddd96e5f4",
+        "server/game/battle/trainerTactics.js": "3796c1f4fe12a24ac27b4a4304e162753d1f96205ac1f06c25d3e7e2120a7a26",
+        "server/game/battle/trainerBattle.js": "5851fd8ae2aca83f881a869b361f0395a20f9bcdd2070efadaa384b24afb8f57",
+        "server/game/drift/driftBattle.js": "4e5f9825672245669987fc8e2868c40c5f33227402221bc0ceca406a6f857810"
+      },
+      "publishedAt": "2026-10-26T20:24:11.790Z",
+      "backup": "/home/ubuntu/dev/backups/riftmon-ai-strategy-2026-10-26T20-24-10-261Z",
+      "clientCommit": "ac0f717a56605e8c82bc4bdaea9afdcc24c60b6e",
+      "clientBuild": "e96cfb4d4510c500",
+      "beforePid": "2060846",
+      "afterPid": "2061551",
+      "sourceSha256": "a1fec2e0a1a3bc5265671512a8525f043d395db763be9491d098c1f2c58ac28d",
+      "activeRuns": 0,
+      "checkpointSaved": true,
+      "backendOnly": true,
+      "serverRestarted": true,
+      "gracefulCheckpoint": true,
+      "neighborsUnchanged": true,
+      "publicAssetsUnchanged": [
+        "js/account.f0f65147.js",
+        "js/app.38482f64.js",
+        "js/chunk-vendors.3cf1258a.js",
+        "js/community.00fadb68.js",
+        "js/game.66375d4d.js",
+        "css/account.e4a31390.css",
+        "css/app.bbefd3a4.css",
+        "css/community.553e140c.css",
+        "css/game.aeaf1423.css"
+      ]
+    }
+  }
+}

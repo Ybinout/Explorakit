@@ -41,7 +41,7 @@ test('strategic options include healing, setup, and an escape from a losing matc
  assert(Array.from({length:12},(_,i)=>ai.chooseAction(options([setup],[wall],{round:i+1})).number).includes(1),'Try a strong setup when the opponent cannot threaten it');
  const rock=p(112,['Rock Slide']),grass=p(3,['Razor Leaf']),water=p(9,['Surf']);
  assert.deepEqual(ai.chooseAction(options([rock,grass],[water])),{action:'change',number:1});
- const o=options([rock,grass],[water],{memory:{lastSwitchRound:1},round:2});assert.equal(ai.chooseAction(o).action,'attack');
+ const o=options([rock,grass],[water],{memory:{lastSwitchRound:1},round:2});assert.equal(ai.chooseAction(o).action,'change','a credible immediate KO permits a second defensive switch, with a repeat cost');
  rock.__battle.trappedTurns=2;assert.equal(ai.chooseAction(options([rock,grass],[water])).action,'attack');
 });
 test('all ordinary trainers use the new policy; champion ace reservation remains intact',()=>{

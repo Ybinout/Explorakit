@@ -1,5 +1,17 @@
 # Audit technique et mémoire de RiftMon
 
+## IA des dresseurs — stratégie et objets sans lecture du choix — 26 octobre 2026
+
+La politique commune Aventure/Rift/Colosseum projette les conséquences des attaques avant de choisir : soins et recul des objets, drain, Ceinture Force/Fermeté, baies et leur consommation, Délestage, Restes, repos avec Baie Maron, protections consécutives et Clone. Dégâts variables/fixes/multi-coups, préparation/recharge, priorités et immunités de ses propres talents sont mieux évalués. Les préparations météo tiennent compte de l’équipe. Le moteur réel et la distribution des objets/équipes ne changent pas.
+
+Après K.O., choix d’un remplaçant adapté parmi les éligibles au lieu du premier slot ; premier envoi écrit par le créateur et pièce maîtresse réservée conservés. Aucun choix humain de remplacement consulté en double K.O. Une menace crédible de K.O. peut autoriser un deuxième switch défensif avec pénalité ; hors urgence, le garde contre les allers-retours reste actif. Bluff inutilisable et immunité déjà observée ne bénéficient plus d’un score artificiellement avantageux dans une situation perdante.
+
+Frontière d’observation renforcée par listes blanches des sous-structures : équipe/capacités et états visibles adverses, statistiques inférées, historique terminé ; jamais commande soumise, vraies statistiques/PP/objets/talents cachés ou référence indirecte vers l’adversaire. Ses propres objets/talents/PP sont connus. Choix engagé avant l’invite, conservé à saisie invalide et reprise, sans consommation du hasard des combats. Toutes les réponses légales sont estimées à un tour ; seules les trois hypothèses les plus probables sont prolongées. Horizon court et approximations explicites, aucune promesse de décision parfaite.
+
+Validation : 280 tests ciblés + 88 recettes moteur/SQL dédiées, zéro échec/ignoré. 28 nouveaux tests, dont 16 oracles contre les vrais effets du moteur et 12 décisions/confidentialité ; sous-lot de huit cas sur source précédente : sept en échec avant, tous réussis après. Matrice de 126 menaces : zéro attaque immunisée choisie. Deux passages de 80 scénarios à six contre six, choix légaux/déterministes, sans mutation ni lecture du RNG : moyenne ≈23 ms contre ≈32 ms avant. Lot réel de 48 combats terminé : 7/16 victoires de la politique améliorée contre 6/16 avant ; échantillon limité, moyenne de décision de ce lot à trois Pokémon ≈14,6 ms contre ≈6 ms avant. Syntaxe/diff valides ; pas de nouvelle interface, build client, recette navigateur ni suite globale revendiqués. Commandes, chiffres et limites : `docs/AI_STRATEGY_REVIEW.json`.
+
+Publication serveur seule 2026-10-26T20:24:11.790Z, PID 2060846→2061551. Client ac0f717a56605e8c82bc4bdaea9afdcc24c60b6e / build e96cfb4d4510c500 conservés, index/bundles publics inchangés à l’octet, Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-ai-strategy-2026-10-26T20-24-10-261Z`, checkpoint conservé et 0 expédition active relevée. Une première publication protégée par checkpoint a précédé l’ajustement final des projections contre Clone ; les deux reçus figurent au rapport. Aucune migration SQL ni modification de compte réel.
+
 ## Talents — audit des attributions et interactions de combat — 26 octobre 2026
 
 Comparaison indépendante avec @pkmn/dex 0.10.11 / génération 7 : 809 espèces, slots normaux/cachés/événementiels identiques à la référence. Audit des instances : 809 constructions, 809 créations expédition, 113 Pokémon de PNJ et 560 adversaires sur les 100 premiers défis Colosseum, tous légaux ; lecture seule des 10 Pokémon en équipe et 7 au PC présents en production, aucune incohérence et aucune écriture. Tirage, équipes, progression, données personnelles et règles K/IV/EV conservés.
@@ -4087,6 +4099,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 26 octobre 2026 — IA partagée : projections des objets/soins/recul/baies, préparation et protections réelles ; remplaçants adaptés après K.O., réserves des champions conservées. Listes blanches contre les accès indirects, choix toujours avant commande. 280 tests + 88 recettes SQL, 28 nouveaux tests, 126 menaces et deux passages 80×6v6 réussis ; 48 combats de contrôle terminés. Rapport `docs/AI_STRATEGY_REVIEW.json`.
 
 - 26 octobre 2026 — Talents : 809 espèces et instances PNJ/Colosseum/équipe-PC cohérentes ; règles génération 7 épinglées pour copie/échange/neutralisation. Précision, statuts, Clone/Intimidation, Télécharge, réactions Sans Limite, reprise de Calque et talents acquis corrigés dans les trois modes. 328 tests + 88 recettes SQL, 40 nouvelles régressions (39 en échec avant), 31 220 séquences structurelles et recette navigateur réussis. Serveur publié seul ; données/voisins/client conservés. Rapport `docs/ABILITIES_REVIEW.json`.
 

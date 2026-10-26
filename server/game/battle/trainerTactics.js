@@ -20,7 +20,12 @@ function eligibleIndexes(team) {
     const ordinary = alive.filter(i => team.pokemons[i].uuid !== ace);
     return ordinary.length ? ordinary : alive;
 }
-function replacementIndex(team) { return eligibleIndexes(team)[0] ?? -1; }
+function replacementIndex(team,context) {
+    const indexes=eligibleIndexes(team);
+    if(!context||indexes.length<2)return indexes[0]??-1;
+    const selected=humanAI.chooseReplacement({...context,team:indexes.map(i=>team.pokemons[i])});
+    return indexes[selected]??indexes[0]??-1;
+}
 function chooseAction(team, opponent, field, memory, round, opponentTeam = [opponent], skill = 1) {
     const resources = require('./battleResources');
     if (resources.getForcedMove(team.pokemons[0])) return {action:'attack',number:resources.getUsableMoveIndexes(team.pokemons[0],field)[0]};

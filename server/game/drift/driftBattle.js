@@ -112,12 +112,15 @@ class DriftBattle {
             || (!this.effortParticipants ? new Set([this.active(0)?.uuid]) : new Set());
         return grantParticipantEffort(this.a.equipe.pokemons.filter(p=>!effects.isDead(p)||p.riftFainted), opponent, participants);
     }
+    trainerSkill(p) {
+        const wave=this.npcKey?.startsWith('colosseum_')?p.colosseumWave||this.a.run?.colosseum?.wave:null;
+        return wave?Math.min(1,.55+Math.floor((wave-1)/5)*.15):1;
+    }
     defaultAction(p) {
         if (this.replacementPhase && this.replacementPlayers?.has(p)) return {action:'change',number:replacementIndexes(p.equipe)[0]};
         if (getForcedMove(p.equipe.pokemons[0])) return {action:'attack',number:getUsableMoveIndexes(p.equipe.pokemons[0],this.state)[0]};
         if (p === this.b && p.npc && this.type !== 'wild') {
-            const wave = this.npcKey?.startsWith('colosseum_') ? p.colosseumWave || this.a.run?.colosseum?.wave : null;
-            const skill = wave ? Math.min(1, .55 + Math.floor((wave - 1) / 5) * .15) : 1;
+            const skill = this.trainerSkill(p);
             return trainerTactics.chooseAction(p.equipe,this.active(0),this.state,this.aiMemory,this.round,this.a.equipe.pokemons,skill);
         }
         const active = p.equipe.pokemons[0];
@@ -231,7 +234,9 @@ class DriftBattle {
             p.equipe.pokemons = p.equipe.pokemons.filter(poke => !effects.isDead(poke) || poke.riftFainted || (needsChoice && poke===old));
             if (p === this.b && this.type !== 'pvp') for (const defeated of fainted) this.reward(defeated);
             if (this.type === 'pvp' && fainted.length) [this.a,this.b][1-index].chain = Math.min(5, ([this.a,this.b][1-index].chain || 0) + fainted.length);
-            if (p.npc && effects.isDead(old)) switchPokemonByIndex(p.equipe,trainerTactics.replacementIndex(p.equipe));
+            if (p.npc && effects.isDead(old)) switchPokemonByIndex(p.equipe,trainerTactics.replacementIndex(p.equipe,{
+                opponentTeam:[this.a,this.b][1-index].equipe.pokemons,field:this.state,ownSide:this.sides[index],enemySide:this.sides[1-index],
+                memory:this.aiMemory,round:this.round,skill:this.trainerSkill(p)}));
             if (old !== this.active(index) && this.active(index)) this.enter(index);
         }
         if ([this.a,this.b].some(p=>p.equipe.pokemons.some(poke=>effects.isDead(poke) && !poke.riftFainted && !this.processedFaints.has(poke.uuid)))) this.prune();
