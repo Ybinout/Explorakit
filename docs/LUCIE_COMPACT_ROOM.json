@@ -1,0 +1,283 @@
+{
+  "date": "2026-10-26",
+  "request": "Recreate Lucie's bedroom with simpler, smaller furniture in the established RiftMon pixel-art style, preserving its elements.",
+  "generation": {
+    "mode": "built-in image_gen",
+    "references": [
+      "vue-explorakit/src/assets/route2_maison.png at d497729d5e209e4eb3cffbc3823bab4f05fb390d",
+      "vue-explorakit/src/assets/centre.png (style only)"
+    ],
+    "prompts": {
+      "room": "Use case: precise-object-edit / style-transfer. Asset: an existing top-down pixel-art RPG bedroom map for RiftMon, logical size 448x320. Image 1 is the EDIT TARGET (Lucie's dark bedroom). Image 2 is STYLE REFERENCE ONLY (our simpler Pokémon Center). REDRAW the bedroom to match the clean, compact, simple classic handheld RPG pixel art of image 2. Keep every existing element from image 1: tiny cold-blue window in north wall, short bookshelf upper left, purple single bed upper right, small table with amber lamp and two papers at lower left, low wooden chest at lower right, little potted green plant on right, long narrow plum entry rug. No other furniture. The problem is oversized overly detailed objects: use simpler compact tile furniture with bold dark outlines and two or three flat shades per material. No tiny wood grain, ornate rug motifs, realistic textures, soft rendered gradients or HD detail. Furniture must look designed at 16-pixel tile scale, then nearest-neighbor enlarged. Warm readable silhouettes, restrained slate blue/plum palette. Keep moody night bedroom: one small blue window light wedge and tiny amber tabletop lamp pool, readable floor, no fog. EXACT GEOMETRY IN LOGICAL 448x320 COORDINATES: black void outside room x96..351,y32..287; top plum wall band x96..351,y32..63; no lower wall added. Window stays x151..175,y35..60. Furniture must fit within these blocked rectangles INCLUDING outline/shadow: bookshelf x114..139,y81..111 (26x31), bed x290..317,y81..125 (28x45), lamp TABLE x130..157,y178..205 (28x28), CHEST x258..285,y179..205 (28x27), plant x305..318,y210..235 (14x26). Small simple objects, do not enlarge. The chest is a low chest, not a tall cupboard. Entry rug x211..236,y209..285, plain two-tone with simple edge and no intricate central ornaments. Entire central path x176..255,y64..287 must stay empty except flat rug and window light. Lucie will be drawn separately at x216,y88; leave that spot clear. Flat dark blue-gray wood floor with wider straight plank rows and subtle consistent joints, no patchwork. Keep same room bounds, framing, object centers and empty aisles; NO stairs or clinic elements from reference 2. No characters, no UI, no text, no magic circles or static barricades (the engine draws those). EXACT 7:5 landscape aspect ratio, straight orthographic room; not isometric, no perspective. Aim for an authentic compact 2004 handheld RPG interior, fewer deliberate square pixel clusters, not a detailed painting.",
+      "emptyMaster": "Precise-object-edit. This image is an existing 7:5 pixel-art RPG bedroom map. Make an EMPTY ROOM MASTER for compositing. Remove the bookshelf, bed, table, lamp, papers, chest, plant and rug COMPLETELY. Fill every removed item and its cast shadow with the same uninterrupted dark blue-gray horizontal plank floor. Remove the amber lamp light patch too, since the lamp is removed. Keep ONLY the black void outside, the plum upper wall, the little cold blue window and its modest pixelated wedge of blue light. Preserve EXACT framing, room boundaries, wall positions, window position, every plank scale, palette and the simple crisp pixel-art style. This is not a redesign. No new props, symbols, characters, objects, gradients, patterned repair rectangles or text. The floor must be consistent and continuous across all former furniture locations, no changes of hue or rectangular seams."
+    },
+    "originals": [
+      "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-668d1326-cab9-4250-b466-f92676596f95.png",
+      "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-96b550d1-dca3-4ad0-a314-c93213fc2445.png"
+    ],
+    "repositorySources": [
+      "docs/art/lucie-room-furniture.png",
+      "docs/art/lucie-room-empty.png"
+    ],
+    "exporter": "scripts/exportLucieCompactRoom.js",
+    "sampling": "nearest-neighbor"
+  },
+  "assets": [
+    {
+      "path": "vue-explorakit/src/assets/route2_maison.png",
+      "width": 448,
+      "height": 320,
+      "bytes": 118876,
+      "sha256": "6238bcd15a73ded42f822fab7411db563e88a4349776a65f11cf03208003446c"
+    }
+  ],
+  "preserved": [
+    "Small cold-blue window and moonlight",
+    "Upper-left bookshelf",
+    "Upper-right single purple bed",
+    "Lower-left table, lamp, papers and small green object",
+    "Low chest on the right",
+    "Potted plant",
+    "Long plum entrance rug",
+    "Dark, readable slate/plum mood",
+    "Dynamic crystal barriers, Lucie actor, story, music and combat backgrounds"
+  ],
+  "implementation": {
+    "roomBounds": [
+      96,
+      32,
+      256,
+      256
+    ],
+    "furniture": "Furniture silhouette alpha extracted from generated art; source floor is not copied. Lamp-table outline closed locally to keep its interior and remove its old rectangular amber lighting patch.",
+    "floor": "One generated empty-room base retains a continuous plank floor.",
+    "collision": "All five solid furniture rectangles lie wholly within the existing server-blocked cells. No Tiled/map links/actor positions changed.",
+    "runtime": "One existing static PNG only; no renderer, timers, server, saved accounts or database changes.",
+    "scope": "Shared map asset used by Adventure, Rift and Colosseum; story barriers remain Adventure-only."
+  },
+  "validation": {
+    "export": "node scripts/exportLucieCompactRoom.js --check",
+    "unitCommand": "node --test tests/lucie-scene.test.js tests/room-obstacles.test.js tests/house-exits.test.js",
+    "unitResult": {
+      "passed": 11,
+      "failed": 1,
+      "skipped": 0
+    },
+    "knownFailure": {
+      "test": "ordinary dialogue retains paging and Lucie timers are cancelled when sequence changes or closes",
+      "reason": "Old assertion expects immediate ordinary text, while current shared dialogue types it progressively.",
+      "previouslyDocumented": "docs/FINALE_ADMIN_REPLAY_FIX.json (lucie-scene: old instant paging expectation)",
+      "unmodifiedRuntimeFile": "vue-explorakit/src/components/TextWithImage.vue"
+    },
+    "build": "c3820988886b654c",
+    "buildCommand": "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-lucie-compact-dist",
+    "browserCommand": "DB_TEST_NAME=explorakit_test VALIDATE_ROOM_BARRIERS=1 RELEASE_DIST_DIR=/tmp/riftmon-lucie-compact-dist RELEASE_SCREENSHOTS=/tmp/riftmon-lucie-compact-browser node --env-file=.env scripts/validateLucieBrowser.js",
+    "fixtureCorrection": "Stop the disposable test account before the lucie_freed story step, rather than before the last story step of the now-longer Professor chapter. Report ten hits, consistent with the existing assertions and server.",
+    "browserStatus": "passed",
+    "limits": [
+      "No physical handset used.",
+      "No global test suite claimed."
+    ],
+    "browserResult": {
+      "actualLucieTeam": true,
+      "legacySave": true,
+      "victory": true,
+      "followUp": true,
+      "blackHole": true,
+      "personalCollisionRemoved": true,
+      "departurePersists": true,
+      "pendingSceneResumes": true,
+      "midSceneReconnect": true,
+      "reducedMotion": true,
+      "noRematchAfterReload": true,
+      "viewports": 4,
+      "slowDialogue": true,
+      "skippableTyping": true,
+      "stableDialogueHeight": true,
+      "lucieSplash": true,
+      "extendedEntrance": true,
+      "newRoom": true,
+      "newSprite": true,
+      "musicDuringDialogueAndEntrance": true,
+      "clearedRoomBarriers": true,
+      "errors": []
+    },
+    "testAccounts": "Both browser recipe attempts removed their disposable accounts in finally; no real account altered.",
+    "visualInspection": [
+      "Native 448x320 final room",
+      "Room with crystal barriers/dialogue at 393px",
+      "Complete cleared room at 1365px"
+    ],
+    "firstRecipeAttempt": "Legacy fixture completed Lucie before entering; timed out waiting for entry warning. Corrected fixture before the successful run; no runtime fix necessary."
+  },
+  "exportProof": {
+    "proof": [
+      {
+        "name": "rug",
+        "source": [
+          208,
+          208,
+          31,
+          80
+        ],
+        "target": [
+          211,
+          209,
+          26,
+          77
+        ],
+        "preservedPixels": 2480,
+        "removedBackground": 376
+      },
+      {
+        "name": "bookshelf",
+        "source": [
+          114,
+          82,
+          29,
+          34
+        ],
+        "target": [
+          114,
+          81,
+          26,
+          31
+        ],
+        "preservedPixels": 903,
+        "removedBackground": 537
+      },
+      {
+        "name": "bed",
+        "source": [
+          290,
+          82,
+          34,
+          52
+        ],
+        "target": [
+          290,
+          81,
+          28,
+          45
+        ],
+        "preservedPixels": 1652,
+        "removedBackground": 708
+      },
+      {
+        "name": "table-lamp-papers",
+        "source": [
+          129,
+          170,
+          36,
+          41
+        ],
+        "target": [
+          130,
+          177,
+          28,
+          30
+        ],
+        "preservedPixels": 1269,
+        "removedBackground": 531
+      },
+      {
+        "name": "chest",
+        "source": [
+          259,
+          179,
+          35,
+          33
+        ],
+        "target": [
+          258,
+          179,
+          28,
+          27
+        ],
+        "preservedPixels": 1003,
+        "removedBackground": 479
+      },
+      {
+        "name": "plant",
+        "source": [
+          305,
+          202,
+          20,
+          35
+        ],
+        "target": [
+          305,
+          210,
+          14,
+          26
+        ],
+        "preservedPixels": 497,
+        "removedBackground": 400
+      }
+    ],
+    "outside": 0
+  },
+  "sourceAssets": [
+    {
+      "path": "docs/art/lucie-room-furniture.png",
+      "sha256": "606d570544e1111a18fe3d4e17a971ac8f0ff316c68daf4439d1830728cd3b0f"
+    },
+    {
+      "path": "docs/art/lucie-room-empty.png",
+      "sha256": "66aadd9a88960d06192d554ba67c608025b6c22fb643a2d005386d7e454e8efb"
+    }
+  ],
+  "unchangedCombatBackgrounds": [
+    {
+      "path": "vue-explorakit/src/assets/battle/lucie-house-wide-v1.webp",
+      "sha256": "c95ec66b23e15465b3c2eea10bd791f4e14e35153a9ebb81d56fca8536448f46"
+    },
+    {
+      "path": "vue-explorakit/src/assets/battle/lucie-house-mobile-v1.webp",
+      "sha256": "ebb93e9f8dbbb1b42f436f9c16fe4e7c60e1d33464a7aaf7fd308067d441025a"
+    }
+  ],
+  "deployment": {
+    "sprite": {
+      "asset": "pnj/clement-pixel-v2.png",
+      "sha256": "0947bc3341b14da9ed55d5f2770a8b8cbffee6a6ff5dcdeb3dd6ac6a619a00dc",
+      "bytes": 685,
+      "embeddedIn": "game.02239fb3.js"
+    },
+    "publishedAt": "2026-10-26T21:39:42.831Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-lucie-compact-2026-10-26T21-39-41-264Z",
+    "clientBuild": "c3820988886b654c",
+    "clientCommit": "405067f74c2e38d72aac06c67b9a7c0a5519d765",
+    "pid": "2076407",
+    "serverRestarted": false,
+    "neighborsUnchanged": true,
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.4e0c3ea1.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/game.02239fb3.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/game.022a9d9e.css",
+      "img/tour_rdc.e03e0f06.png",
+      "img/tour_etage1.8ec612be.png",
+      "img/tour_etage2.18713452.png",
+      "img/tour_etage3.ac05c302.png",
+      "img/route2_maison.3916584e.png",
+      "img/maria-v2.564002d1.png",
+      "img/clement-v2.804e1f22.png"
+    ],
+    "portraits": [
+      {
+        "name": "maria",
+        "file": "maria-v2.564002d1.png",
+        "sha256": "0c850885294ffbbbbd8fb497b0d1f947a59cb61a770633a88ec9342f7864cdcb"
+      },
+      {
+        "name": "clement",
+        "file": "clement-v2.804e1f22.png",
+        "sha256": "2f8f501893f017b8590a1e2cde6c3b26c7d4b9cdee9624414c4ad03d7161d3ac"
+      }
+    ]
+  }
+}

@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Chambre de Lucie — mobilier plus compact et pixel art simplifié — 26 octobre 2026
+
+Décor `route2_maison.png` redessiné dans le langage des intérieurs du jeu : formes courtes et lisibles, contours sombres, ombres réduites et tapis uni bordé plutôt qu'ornementé. Tous les éléments restent présents : fenêtre bleue, bibliothèque, lit violet, table/lampe/papiers/petit objet vert, coffre, plante et tapis d'entrée. Même chambre sombre bleu ardoise/prune ; mobilier plus compact, notamment lit 28×45, table 28×30, coffre 28×27 et plante 14×26. Source imagegen intégrée puis export au plus proche voisin en 448×320 ; les cinq meubles solides restent entièrement dans les cases bloquées existantes. Plancher continu depuis une base vide ; fonds bleus/ancien halo rectangulaire de table retirés lors de la composition. Sources et prompts versionnés, export reproductible `node scripts/exportLucieCompactRoom.js --check`.
+
+Une seule image statique changée en fonctionnement, de 198 549 à 118 876 octets. Plan Tiled/alias `gen_maison2`, collisions, porte, personnage, obstacles/impacts, dialogues, musique et décors de combat conservés. Même carte affichée par les trois modes ; scènes narratives toujours propres à l'Aventure. Pas de moteur de rendu ni de minuteur ajouté, aucune donnée réelle modifiée.
+
+Validation : export/rectangles, syntaxe/diff et build `c3820988886b654c` valides. Groupe de 12 tests : 11 réussis et une ancienne attente de texte instantané déjà documentée dans `FINALE_ADMIN_REPLAY_FIX.json`, sans fichier de dialogue modifié. Recette complète SQL/Socket/navigateur sur compte jetable : trois barrières à dix impacts, clavier/tactile/mouvement réduit, vrai combat et victoire Lucie, présentation, musique, faille, reprise et reconnexions ; quatre formats, zéro erreur. Captures native/mobile/grand format inspectées. Fixture de recette corrigée pour s'arrêter avant `lucie_freed` et non avant le dernier jalon du chapitre Professeur, qui terminait déjà la scène à tester. Comptes de test supprimés ; pas de téléphone physique ni suite globale revendiqués. Détails : `docs/LUCIE_COMPACT_ROOM.json`.
+
+Publication statique 2026-10-26T21:39:42.831Z, client 405067f74c2e38d72aac06c67b9a7c0a5519d765. Index/bundles/chambre et quatre décors du Comptoir publics vérifiés à l'octet ; anciens assets et Knov/api-test conservés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-lucie-compact-2026-10-26T21-39-41-264Z`, PID 2076407 inchangé ; aucun redémarrage serveur ni changement SQL.
+
 ## Grand Comptoir — sol continu et sens des escaliers — 26 octobre 2026
 
 Les quatre décors statiques partagent un carrelage bleu continu : les rectangles de sol de teintes différentes issus des anciens exports sous les meubles sont remplacés sur toute la surface. Les silhouettes du mobilier existant sont recomposées sans leur fond bleu, aux mêmes dimensions et positions dans les collisions. Plantes, porte du rez-de-chaussée, murs et limites conservés. À gauche, descente navy sombre identique aux étages 2/3/4 ; à droite, montée aux marches bleu pâle/ivoire identiques aux étages 1/2/3. Aucun escalier ajouté aux niveaux terminaux.
@@ -4133,6 +4143,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 26 octobre 2026 — Chambre de Lucie simplifiée en pixel art, meubles plus compacts et tous les éléments conservés. Cinq meubles vérifiés dans les collisions existantes, plancher sans raccords, un PNG 448×320 plus léger. Export/build et recette navigateur complète barrières/combat/faille/reconnexion réussis ; 11 tests/une ancienne assertion de dialogue inchangée. Sources/prompts et publication statique sans redémarrage : `docs/LUCIE_COMPACT_ROOM.json`.
 
 - 26 octobre 2026 — Grand Comptoir : carrelage continu sans fonds rectangulaires sous les meubles ; escaliers sombres à gauche pour descendre, clairs à droite pour monter, aux quatre étages. Mobilier/porte/plantes/collisions conservés, quatre PNG seulement en fonctionnement. 16 tests, export reproductible et navigateur quatre formats/60 bords/six escaliers réussis ; publication statique sans redémarrage ni données modifiées. Rapport `docs/DEPARTMENT_STORE_FLOOR_STAIRS.json`.
 

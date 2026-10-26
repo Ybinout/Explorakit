@@ -1,5 +1,7 @@
 # Lucie — assets et mise en scène
 
+**Chambre active au 26 octobre 2026 :** décor simplifié et mobilier compact, export `scripts/exportLucieCompactRoom.js`, sources/prompts `docs/LUCIE_COMPACT_ROOM.json`. Tous les éléments sont conservés ; les deux décors de combat détaillés choisis ci-dessous restent inchangés. Les générations de chambre décrites ensuite sont historiques.
+
 **Version active :** les décors de combat large/mobile sont revenus aux originaux détaillés du client `279a886` (1536×1024 et 1024×1536), à la demande utilisateur. La carte de chambre 448×320 et les barricades de la révision suivante restent actives. Aucun nouvel asset généré pour ce retour.
 
 ## Chambre davantage pixelisée et barricades — 24 octobre 2026

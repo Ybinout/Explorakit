@@ -14,7 +14,10 @@ async function pictures(label){for(const[width,height]of [[320,568],[393,852],[1
  const r=await fetch(base+'/api/users',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:'lucie_'+randomUUID(),password:randomUUID(),starterId:7})});assert.equal(r.status,201);const fixture=await r.json();userId=fixture.user.id;
  const lead=require('../server/game/drift/pokemonFactory').create(150,200,true);lead.k=4;lead.recalculateStats();lead.currentHp=lead.maxHp;lead.abilities=[];lead.movePp=[];for(const move of ['Dark Pulse','Aura Sphere','Ice Beam','Recover'])lead.addAbility(move);
  await require('../server/persistence/teamRepository').editEquipe(userId,{pokemons:[lead]});
- const catalog=require('../data/game/progression.json');for(const flag of [...catalog.storySteps.slice(0,-1).map(s=>s.flag),'lucie_reunited'])await dbPool.execute('INSERT INTO player_story_flags(user_id,flag_key,flag_value)VALUES(?,?,?)ON DUPLICATE KEY UPDATE flag_value=VALUES(flag_value)',[userId,flag,'true']);
+ const catalog=require('../data/game/progression.json'),lucieStep=catalog.storySteps.findIndex(s=>s.flag==='lucie_freed');assert(lucieStep>0);
+ // The Professor chapter follows Lucie now: this account must stop BEFORE
+ // her victory, otherwise its barriers and encounter are already completed.
+ for(const flag of catalog.storySteps.slice(0,lucieStep).map(s=>s.flag))await dbPool.execute('INSERT INTO player_story_flags(user_id,flag_key,flag_value)VALUES(?,?,?)ON DUPLICATE KEY UPDATE flag_value=VALUES(flag_value)',[userId,flag,'true']);
  await dbPool.execute("UPDATE users SET map='route2_maison',x=432,y=? WHERE id=?",[process.env.VALIDATE_ROOM_BARRIERS==='1'?528:208,userId]);
  if(process.env.VALIDATE_ROOM_BARRIERS==='1')await dbPool.execute("UPDATE users SET map='route2',x=592,y=272 WHERE id=?",[userId]);
  browser=await chromium.launch({headless:true,args:['--no-sandbox']});const context=await browser.newContext({viewport:{width:393,height:852},hasTouch:true,isMobile:true});await context.addInitScript(s=>localStorage.setItem('explorakit.user',JSON.stringify(s)),{...fixture.user,token:fixture.token});page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.url().startsWith(base)&&r.status()>=400)errors.push(r.status()+' '+r.url());});
@@ -67,7 +70,7 @@ async function pictures(label){for(const[width,height]of [[320,568],[393,852],[1
   await page.reload({waitUntil:'networkidle'});await ready();assert(await page.evaluate(()=>[1,2,3].every(i=>v.progressionState.flags[`lucie_barricade_${i}_cleared`]==='true')));
   assert.equal(await page.locator('.dialogue-shell').count(),0,'entry warning does not repeat after clearing');
  }
- if(process.env.ROOM_BARRIERS_ONLY==='1'){assert.deepEqual(errors,[]);success=true;console.log(JSON.stringify({barriers:3,strikesEach:5,thirdHitStillBlocked:true,persisted:true,desktopAndMobile:true,reducedMotion:true,errors}));return;}
+ if(process.env.ROOM_BARRIERS_ONLY==='1'){assert.deepEqual(errors,[]);success=true;console.log(JSON.stringify({barriers:3,strikesEach:10,thirdHitStillBlocked:true,persisted:true,desktopAndMobile:true,reducedMotion:true,errors}));return;}
  await page.evaluate(()=>{v.updatePreferences({...v.preferences,animationsEnabled:true,textSpeed:10000,masterVolume:35});v.socket.emit('Space');});await page.waitForFunction(()=>v.endSentences==='lucie_route2'&&v.textImageSequence.length>0);
  await page.waitForTimeout(700);
  const typing=await page.evaluate(()=>{const d=document.querySelector('.dialogue-shell').__vue__;return{visible:d.displayedText.length,total:d.currentText.length,portrait:d.currentImageSrc,rect:document.querySelector('.text-with-image').getBoundingClientRect().height};});
