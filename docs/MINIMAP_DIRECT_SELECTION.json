@@ -1,0 +1,99 @@
+{
+  "date": "2026-10-26",
+  "request": "Remove the minimap dropdown titled Explorer la carte",
+  "implementation": {
+    "removed": "Ordinary minimap exploration label and place select; no removal of the main game Menu button",
+    "selection": "Existing SVG town/route markers support direct tap/click plus accessible keyboard Enter/Space; visible focus and selected state",
+    "gamepad": "Confirm dispatches a click event for SVG controls without HTMLElement.click; native HTML control behavior retained",
+    "preserved": "Pokédex habitat Localisations select, zoom/pan, current marker, place details, Flight Module visits and server checks",
+    "scope": "Shared frontend only, no authored map, server, schema or real account mutation"
+  },
+  "validation": {
+    "lint": {
+      "command": "npm --prefix vue-explorakit run lint",
+      "result": "pass",
+      "log": "/tmp/riftmon-minimap-simple-lint.log"
+    },
+    "build": {
+      "command": "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-minimap-simple-dist",
+      "hash": "e77346e3ec08fa4a",
+      "result": "pass",
+      "log": "/tmp/riftmon-minimap-simple-build.log"
+    },
+    "targeted": {
+      "command": "node --test tests/region-map-zoom.test.js tests/gamepad.test.js",
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "log": "/tmp/riftmon-minimap-simple-tests.log"
+    },
+    "browser": {
+      "command": "RELEASE_DIST_DIR=/tmp/riftmon-minimap-simple-dist RELEASE_SCREENSHOTS=/tmp/riftmon-minimap-simple-browser node --env-file=.env scripts/validateFlightBrowser.js",
+      "result": {
+        "exploreDropdownRemoved": true,
+        "directPointerKeyboardGamepadSelection": true,
+        "pokedexHabitatsPreserved": true,
+        "legacyGrant": true,
+        "perPlayerVisits": true,
+        "unknownTownRejected": true,
+        "serverCoordinates": true,
+        "slowNetwork": true,
+        "departureArrival": true,
+        "viewports": 3,
+        "persistence": true,
+        "centerExit": true,
+        "arenaFallback": true,
+        "homeFallback": true,
+        "reducedMotion": true,
+        "errors": []
+      },
+      "log": "/tmp/riftmon-minimap-simple-browser.log",
+      "visualInspection": "minimap-393.png",
+      "disposableAccountCleaned": true
+    },
+    "syntaxAndDiff": "pass",
+    "limits": [
+      "Virtual gamepad in Chromium, no physical hardware",
+      "Full historical validateRegionMapBrowser updated for removed select but not rerun",
+      "No global suite claim"
+    ]
+  },
+  "deployment": {
+    "sprite": {
+      "asset": "pnj/clement-pixel-v2.png",
+      "sha256": "0947bc3341b14da9ed55d5f2770a8b8cbffee6a6ff5dcdeb3dd6ac6a619a00dc",
+      "bytes": 685,
+      "embeddedIn": "game.96a63f24.js"
+    },
+    "publishedAt": "2026-10-26T11:58:18.785Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-minimap-simple-2026-10-26T11-58-17-460Z",
+    "clientBuild": "e77346e3ec08fa4a",
+    "clientCommit": "981bb0f42b7e9cc74046cb3a8267abad2e67058d",
+    "pid": "1929536",
+    "serverRestarted": false,
+    "neighborsUnchanged": true,
+    "publicAssets": [
+      "js/account.701cc72b.js",
+      "js/app.67084bbe.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/game.96a63f24.js",
+      "css/account.71f45b55.css",
+      "css/app.bbefd3a4.css",
+      "css/game.861ea554.css",
+      "img/maria-v2.564002d1.png",
+      "img/clement-v2.804e1f22.png"
+    ],
+    "portraits": [
+      {
+        "name": "maria",
+        "file": "maria-v2.564002d1.png",
+        "sha256": "0c850885294ffbbbbd8fb497b0d1f947a59cb61a770633a88ec9342f7864cdcb"
+      },
+      {
+        "name": "clement",
+        "file": "clement-v2.804e1f22.png",
+        "sha256": "2f8f501893f017b8590a1e2cde6c3b26c7d4b9cdee9624414c4ad03d7161d3ac"
+      }
+    ]
+  }
+}

@@ -31,9 +31,9 @@ async function zoomChecks(context,touch){
   await send('touchStart',[[1,x-35,y],[2,x+35,y]]);
   for(const d of [45,55,65,75]){await send('touchMove',[[1,x-d,y],[2,x+d,y]]);await page.waitForTimeout(30);}
   await send('touchEnd',[]);await page.waitForTimeout(120);assert(parseInt(await zoom())>180,'pinch expands map');await page.screenshot({path:path.join(output,'pinch-expanded.png')});
-  const before=await page.locator('.map-scroll').evaluate(e=>({x:e.scrollLeft,y:e.scrollTop})),selected=await page.locator('#region-place').inputValue();
+  const before=await page.locator('.map-scroll').evaluate(e=>({x:e.scrollLeft,y:e.scrollTop})),selected=await page.locator('[data-map-node][aria-pressed="true"]').getAttribute('data-map-node');
   await send('touchStart',[[1,x,y]]);await send('touchMove',[[1,x-55,y-40]]);await send('touchEnd',[]);await page.waitForTimeout(100);
-  const after=await page.locator('.map-scroll').evaluate(e=>({x:e.scrollLeft,y:e.scrollTop}));assert(after.x>before.x+30&&after.y>before.y+20,'one finger pans');assert.equal(await page.locator('#region-place').inputValue(),selected);
+  const after=await page.locator('.map-scroll').evaluate(e=>({x:e.scrollLeft,y:e.scrollTop}));assert(after.x>before.x+30&&after.y>before.y+20,'one finger pans');assert.equal(await page.locator('[data-map-node][aria-pressed="true"]').getAttribute('data-map-node'),selected);
   await send('touchStart',[[1,x-75,y],[2,x+75,y]]);await send('touchMove',[[1,x-35,y],[2,x+35,y]]);await send('touchEnd',[]);await page.waitForTimeout(100);assert(parseInt(await zoom())<150,'pinch contracts map');await cdp.detach();
  }else{
   await page.mouse.move(x,y);await page.mouse.wheel(0,-350);await page.waitForTimeout(150);assert(parseInt(await zoom())>100);
@@ -42,7 +42,7 @@ async function zoomChecks(context,touch){
   await page.mouse.wheel(0,350);await page.waitForTimeout(100);assert(parseInt(await zoom())<180);
  }
  await page.screenshot({path:path.join(output,touch?'zoom-touch.png':'zoom-mouse.png')});
- await reset();await page.locator('[data-map-node="ville1"]').click();assert.equal(await page.locator('#region-place').inputValue(),'ville1');await page.locator('.map-scroll').focus();await page.keyboard.press('+');assert.equal(await zoom(),'125 %');await page.keyboard.press('0');assert.equal(await zoom(),'100 %');
+ await reset();await page.locator('[data-map-node="ville1"]').click();assert.equal(await page.locator('[data-map-node][aria-pressed="true"]').getAttribute('data-map-node'),'ville1');await page.locator('.map-scroll').focus();await page.keyboard.press('+');assert.equal(await zoom(),'125 %');await page.keyboard.press('0');assert.equal(await zoom(),'100 %');
  assert(await page.locator('.map-scroll').evaluate(e=>e.scrollLeft===0&&e.scrollTop===0));
 }
 (async()=>{try{
@@ -59,7 +59,7 @@ async function zoomChecks(context,touch){
   await page.setViewportSize({width,height});const panel=await page.locator('.region-panel').boundingBox();assert(panel.x>=0&&panel.x+panel.width<=width+1);assert(panel.y>=0&&panel.y+panel.height<=height+1);
   await page.screenshot({path:path.join(output,`map-${width}.png`)});
  }
- await page.setViewportSize({width:393,height:852});await page.locator('#region-place').selectOption('ville5');assert.match(await page.locator('.place-detail').innerText(),/Blanchecime/);
+ await page.setViewportSize({width:393,height:852});await page.locator('[data-map-node="ville5"]').click();assert.match(await page.locator('.place-detail').innerText(),/Blanchecime/);
  await zoomChecks(context,true);await page.locator('.region-close').click();
  await menu('pokedex');const search=page.locator('.dex-search input');await search.fill('129');await page.locator('[data-dex-location="129"]').click();await mapReady();
  assert.equal(await page.locator('[data-habitat-ping]').count(),6);assert.match(await page.locator('.place-detail').innerText(),/Pêche/);await page.locator('[data-map-zoom="in"]').click();assert.match(await page.locator('.map-zoom-level').innerText(),/125/);await page.locator('[data-map-zoom="reset"]').click();await page.screenshot({path:path.join(output,'fishing-393.png')});
@@ -79,7 +79,7 @@ async function zoomChecks(context,touch){
  page=await desktop.newPage();page.on('pageerror',e=>errors.push(e.message));await page.goto(base+'/game',{waitUntil:'networkidle'});await ready();await menu('minimap');await mapReady();
  assert(!await page.locator('.game-root').evaluate(e=>e.classList.contains('is-mobile')));
  await zoomChecks(desktop,false);await page.locator('.region-close').focus();await page.screenshot({path:path.join(output,'map-desktop.png')});
- await page.keyboard.press('Shift+Tab');assert(await page.locator('#region-place').evaluate(e=>e===document.activeElement));
+ await page.keyboard.press('Shift+Tab');assert(await page.locator('[data-map-zoom="in"]').evaluate(e=>e===document.activeElement));
  await page.keyboard.press('Escape');await page.waitForFunction(()=>document.activeElement===document.querySelector('.menu-toggle-btn'));
  await page.route('**/api/world-map',r=>r.fulfill({status:503,body:'Unavailable'}));await menu('minimap');await page.locator('.region-state button').waitFor();assert.match(await page.locator('.region-state').innerText(),/Impossible/);await page.unroute('**/api/world-map');await page.locator('.region-state button').click();await mapReady();await page.locator('.region-close').click();
  await page.goto(base+'/colosseum',{waitUntil:'networkidle'});await page.locator('[data-colosseum-start]:enabled').click();await page.locator('[data-starter-choice]').first().click();await page.locator('.starter-backdrop').waitFor({state:'hidden'});await ready();await menu('minimap');await mapReady();assert.equal(await page.locator('[data-current-marker]').count(),1);

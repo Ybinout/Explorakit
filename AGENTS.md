@@ -1,5 +1,13 @@
 # Contexte permanent — RiftMon
 
+## Minimap — suppression du menu « Explorer la carte » — 26 octobre 2026
+
+Le menu déroulant de navigation et son titre sont retirés de la minimap ordinaire. Choix d’une ville/route directement sur les repères, au clic/toucher ou au clavier Entrée/Espace ; repères focusables avec libellé et état sélectionné. Confirmation manette compatible avec les éléments SVG, qui n’ont pas de méthode native `click()`. Sélecteur « Localisations » du Pokédex conservé. Zoom, glissement, position, fiche de lieu et Module Vol gardent leurs règles. Aucun serveur, carte auteur ou état joueur modifié.
+
+Lint/build `e77346e3ec08fa4a`, huit régressions zoom/manette, syntaxe/diff valides. Recette Vol existante actualisée : absence du menu, sélection tactile/clavier/manette virtuelle, trois formats 320/393/1365, vrais vols avec sauvegarde/rechargement et chargement réseau retardé, Centre/arène/village, refus d’une ville inconnue, Localisations Pokédex conservées ; zéro erreur, capture mobile inspectée et compte jetable supprimé. Sélecteurs de l’ancienne recette régionale mis à jour, recette complète non relancée. Détails `docs/MINIMAP_DIRECT_SELECTION.json` ; pas de certification matérielle ni de suite globale.
+
+Publication statique 2026-10-26T11:58:18.785Z, client `981bb0f42b7e9cc74046cb3a8267abad2e67058d`, PID 1929536 conservé. Index/bundles publics identiques au build, sprite Clément et portraits conservés vérifiés ; anciens bundles gardés, Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-minimap-simple-2026-10-26T11-58-17-460Z`. Aucun redémarrage ou changement SQL/compte réel.
+
 ## Sprite Clément — contours sombres et blanc des yeux — 26 octobre 2026
 
 Retouche avec l’outil intégré imagegen, cible `clement-pixel-v1.png`, références du joueur et de l’atlas 6931. Contours charbon en blocs nets, yeux avec une touche ivoire de chaque côté des pupilles sombres ; cheveux bouclés, peau métisse, chemise claire et pantalon marine conservés. Export technique par le script existant : `pnj/clement-pixel-v2.png`, 32×32, contenu (7,6,17,24), alpha 0/255, dix couleurs, 298 pixels opaques, 685 octets. Même taille monde ×2 et pieds ancrés ; v1 conservée. Seuls le résolveur de `town_bastien` et la liste d’ancrage du rendu changent. Portrait illustré, positions, collisions, dialogues et combats inchangés. Prompt exact, source, palette et contrôles : `docs/CLEMENT_SPRITE_OUTLINES.json` ; aperçu `docs/art/clement-outline-comparison.png`.
