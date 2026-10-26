@@ -1,5 +1,11 @@
 # Audit technique et mémoire de RiftMon
 
+## Accueil — retrait de l’accroche — 26 octobre 2026
+
+Suppression du bloc d’introduction « À chaque envie, son aventure » et de son paragraphe « Prends ton temps… Choisis ton prochain départ », avec les styles devenus inutiles. Les trois cartes de modes commencent directement sous la navigation, avec un espacement de 20 px sur mobile / 28 px sur grand écran. Liens, descriptions et fonctionnalités conservés. Lint/build `c77fa5052f8df2d7` et diff valides ; aperçu navigateur anonyme sur 320/393/844/1365, aucun débordement/erreur et trois destinations inchangées. Recette ponctuelle `/tmp/riftmon-validate-menu-copy.cjs`, captures/contrôles `/tmp/riftmon-menu-copy-browser`, vue mobile inspectée ; aucune nouvelle suite de tests pour ce retrait de texte.
+
+Publication statique 2026-10-26T08:43:56.378Z, client `a1d214fb6794dc75f01e101d953eb5d1a95bead6`, PID 1893919 conservé. Index et bundles publics vérifiés à l’octet, anciens bundles conservés, Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-menu-copy-2026-10-26T08-43-55-076Z`. Aucun changement serveur/SQL ni redémarrage.
+
 ## Maria / Clément — reset admin et rue dégagée — 26 octobre 2026
 
 Maria et Clément conservent leurs vrais combats à victoire unique, sous les clés historiques `town_lina` et `town_bastien` : équipes, niveaux, textes, portraits et gains normaux inchangés. Leurs reçus de victoire existaient déjà sur binout, d’où les simples répliques après combat. Ajout des deux clés au catalogue des rencontres du reset admin existant. Contrôle d’identité exact binout/ID 4 conservé ; seules les rencontres déjà remportées sont réarmables. Rejouer consomme le flag admin, sans seconde récompense, XP/EV ou changement de progression normale. Pas de remise à zéro manuelle du compte : cliquer sur le bouton admin pour les préparer de nouveau. Autres joueurs isolés, même catalogue et contrôle que les autres rencontres de test.
@@ -3900,6 +3906,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 26 octobre 2026 — Accueil : accroche et paragraphe d’introduction retirés, modes remontés sous la navigation. Lint/build et quatre formats navigateur validés ; publication statique sans redémarrage, liens conservés.
 
 - 26 octobre 2026 — Maria/Clément ajoutés au reset admin, vrais combats conservés ; Clément fixé sur la rue dégagée (22,14), sans pixel de sprite masqué par le foreground. 14 tests, deux vrais duels SQL de replay et quatre formats navigateur validés ; publication serveur sauvegardée. Détails `docs/TOWN_TRAINERS_ADMIN.json`.
 
