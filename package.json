@@ -31,6 +31,7 @@
     "audit:balance": "node scripts/auditExperienceBalance.js",
     "test:recovery": "node --env-file-if-exists=.env scripts/validateReleaseJourneys.js",
     "audit:simulation": "node scripts/simulateBalance.js",
+    "audit:ai-finishing": "node scripts/validateHumanTrainerFinishing.js",
     "verify:release": "node --env-file-if-exists=.env scripts/verifyRelease.js",
     "test:release-browser": "node --env-file-if-exists=.env scripts/validateReleaseBrowser.js",
     "test:evolution-browser": "node --env-file-if-exists=.env scripts/validateEvolutionBrowser.js",

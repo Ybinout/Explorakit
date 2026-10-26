@@ -1159,3 +1159,25 @@ test('Human AI Adventure preserves a committed NPC switch when the player also s
   assert.equal(team.pokemons[0].uuid,grass.uuid);assert(!io.events.some(e=>e.eventName==='battleMoveAnimation'),'Both committed switches spend the round');
  }finally{tactics.chooseAction=original;if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
 });
+
+for(const command of [{action:'attack',number:0},{action:'change',number:1}])
+test(`Human AI finishing pressure Adventure: effective move locked before ${command.action}, no immunity gamble or late retarget`,{skip:!shouldRun},async()=>{
+ const pool=createTestPool();let userId;const tactics=require('../server/game/battle/trainerTactics'),original=tactics.chooseAction,choices=[];
+ try{
+  const {user,player}=await createPlayer(7);userId=user.id;
+  const factory=require('../server/game/drift/pokemonFactory');
+  const lead=factory.create(51,50,true),reserve=factory.create(130,50,true),npc=factory.create(26,50,true);
+  for(const p of [lead,reserve,npc]){p.passiveAbility=null;p.heldItem=null;}
+  lead.abilities=['Earthquake'];lead.movePp=[10];reserve.abilities=['Tackle'];reserve.movePp=[35];
+  npc.abilities=['Thunderbolt','Surf'];npc.movePp=[15,15];npc.currentHp=40;
+  player.equipe=createTeam(lead,reserve);const team=createTeam(npc);
+  tactics.chooseAction=function(...args){const d=original(...args);choices.push({...d});return d;};
+  class PromptSocket extends ScriptedSocket{emit(event,payload){if(event==='requestAction'&&!payload.replacementId)assert(choices.length,'Decision made before asking the player');return super.emit(event,payload);}}
+  const io=new RecordingIo({[player.id]:new PromptSocket([{action:'change',number:99},command,{action:'flee'}])});
+  await withFixedRandom(.5,()=>startTrainerBattle(player,team,io,userId));
+  assert.deepEqual(choices[0],{action:'attack',number:1},'Surf targets the current Ground Pokemon instead of guessing Thunderbolt into a switch');
+  const moves=io.events.filter(e=>e.eventName==='battleMoveAnimation'&&e.payload.actor==='opponent');
+  if(command.action==='change'){assert.equal(moves.length,1);assert.equal(moves[0].payload.moveName,'Surf');assert.equal(npc.movePp[1],14);assert.equal(npc.movePp[0],15);}
+  else {assert.equal(moves.length,0,'The player really can finish the trainer before it acts');assert.equal(choices.length,1,'Invalid input did not reroll the decision');}
+ }finally{tactics.chooseAction=original;if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
+});

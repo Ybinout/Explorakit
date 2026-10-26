@@ -3,7 +3,7 @@
 const engine = require('./battleEngine');
 const resources = require('./battleResources');
 const legacy = require('../drift/colosseumAI');
-const { getMoveFlags } = require('../abilities/abilityEngine');
+const { getMoveFlags, transformMoveForAbility } = require('../abilities/abilityEngine');
 const { createDeterministicRandom } = require('../abilities/abilityDex');
 const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
 const ratio = (n, p) => 100 * n / Math.max(1, p.maxHp);
@@ -11,6 +11,8 @@ const moveByName = engine.getMoveByName;
 const damageCaches = new WeakMap();
 const moveCaches = new WeakMap();
 const speedCaches = new WeakMap();
+const FIXED_DAMAGE = {'Dragon Rage':40,'Sonic Boom':20};
+const LEVEL_DAMAGE = new Set(['Seismic Toss','Night Shade']);
 const PUBLIC_VOLATILES = ['statStages','tempTypes','formTypes','abilityForm','tauntTurns','disableTurns',
     'disabledMove','encoreTurns','encoreMove','leechSeedSource','foresight','miracleEye','substituteHp',
     'trappedTurns','ingrain','chargeMove','chargeTurns','semiInvulnerable','rechargeMove','bideTurns',
@@ -83,7 +85,19 @@ function damage(a,b,move,side,field) {
     let cache=damageCaches.get(field);if(!cache){cache={ids:new WeakMap(),next:0,values:new Map()};damageCaches.set(field,cache);}
     for(const p of [a,b])if(!cache.ids.has(p))cache.ids.set(p,++cache.next);
     const key=`${cache.ids.get(a)}:${cache.ids.get(b)}:${move.ename}:${side===field.sides.player?'p':'e'}`;
-    if(!cache.values.has(key))cache.values.set(key,engine.estimateDamage(a,b,move,{battleState:field,defenderSide:side}));
+    if(!cache.values.has(key)) {
+        let resolved=engine.resolveWeatherMove(move,a,b,field);
+        if(field.field?.ionDelugeTurns>0&&resolved.type==='Normal')resolved={...resolved,type:'Electric'};
+        const preview=structuredClone(a),transformed=transformMoveForAbility(preview,resolved);
+        const fixed=FIXED_DAMAGE[move.ename] ?? (LEVEL_DAMAGE.has(move.ename)?Math.max(1,a.level):null);
+        if(fixed!==null) {
+            const types=b.__battle?.tempTypes?.length?b.__battle.tempTypes:b.__battle?.formTypes?.length?b.__battle.formTypes:[b.type1,b.type2];
+            const immune=types.filter(Boolean).some(type=>engine.getEffectiveness(transformed.move.type,type)===0
+                && !(type==='Ghost'&&['Normal','Fighting'].includes(transformed.move.type)
+                    && (b.__battle?.foresight || (a.passiveAbility==='Scrappy'&&!a.__battle?.abilitySuppressed))));
+            cache.values.set(key,immune?0:fixed);
+        } else cache.values.set(key,engine.estimateDamage(preview,b,transformed.move,{battleState:field,defenderSide:side,abilityPowerMultiplier:transformed.powerMultiplier}));
+    }
     return cache.values.get(key);
 }
 function weighted(list, temperature=22) {
@@ -125,6 +139,43 @@ function context(a,b,team,field,ownSide,enemySide,foeCount) {
         observed:{moves:b.abilities},moveByName,foeCount};
 }
 function canSwitch(p,field) {return !p.__battle.trappedTurns&&!p.__battle.ingrain&&!p.__battle.chargeTurns&&!p.__battle.bideTurns&&!p.__battle.rechargeMove&&!field.field.fairyLockTurns;}
+function orderChance(a,move,b,reply,ctx) {
+    const priority=engine.getMovePriority(move.ename,a)-engine.getMovePriority(reply.ename,b);
+    if(priority)return priority>0?1:0;
+    if(speed(a,ctx.ownSide,ctx.field)===speed(b,ctx.enemySide,ctx.field))return .5;
+    return actsFirst(a,move,b,reply,ctx)?1:0;
+}
+function knownIneffective(a,b,move,ctx) {
+    return ctx.memory?.seen?.[b.uuid]?.immuneMoves?.includes(move.ename)
+        || (move.combat?.damage_class!=='status' && (move.power>0 || FIXED_DAMAGE[move.ename] || LEVEL_DAMAGE.has(move.ename)) && damage(a,b,move,ctx.enemySide,ctx.field)===0);
+}
+function finishingPressure(a,b,ctx) {
+    // A player who can finish the active trainer has little reason to leave.
+    // Only visible moves/stages/status and inferred stats are used, never the
+    // submitted command, private stats, reserve order or hidden item/ability.
+    if(b.__battle.rechargeMove)return 0;
+    let pressure=0;
+    for(const reply of ctx.replies) {
+        if(reply.ename==='False Swipe'||engine.movePhase(b,reply.ename,ctx.field,a)==='prepare')continue;
+        const hit=damage(b,a,reply,ctx.ownSide,ctx.field);
+        if(hit<a.currentHp)continue;
+        let prevented=0;
+        for(const move of ctx.attacks)if(!knownIneffective(a,b,move,ctx)
+            && move.ename!=='False Swipe'
+            && engine.movePhase(a,move.ename,ctx.field,b)!=='prepare'
+            && damage(a,b,move,ctx.enemySide,ctx.field)>=b.currentHp) {
+            prevented=Math.max(prevented,orderChance(a,move,b,reply,ctx)*chance(move,a,b,ctx.field));
+        }
+        let reliable=chance(reply,b,a,ctx.field)*(1-prevented);
+        if(b.status==='paralyze')reliable*=.75;
+        if(b.status==='sleep')reliable*=.4;
+        if(b.status==='freeze')reliable*=.2;
+        if(reply.ename==='Sucker Punch')reliable*=.7;
+        if(['Explosion','Self-Destruct'].includes(reply.ename))reliable*=.65;
+        pressure=Math.max(pressure,reliable);
+    }
+    return pressure;
+}
 function forecast(a,foes,ctx,memory,skill=1) {
     const b=foes[0],reverse=context(b,a,foes,ctx.field,ctx.enemySide,ctx.ownSide,ctx.party.length);
     const ownBest=Math.max(0,...ctx.attacks.map(m=>damage(a,b,m,ctx.enemySide,ctx.field)));
@@ -145,7 +196,10 @@ function forecast(a,foes,ctx,memory,skill=1) {
     const advantage=Math.max(...reserves.map(x=>x.score));
     const history=memory.habits||{},rate=(history.switches||0)/Math.max(1,history.turns||0);
     // Never assumes a switch is certain. A risky prediction can be called out.
-    const switchChance=clamp((.06+Math.max(0,advantage)*.004+(rate-.2)*.18)*(.4+.6*clamp(skill,0,1)),.03,.58);
+    const baseline=clamp((.06+Math.max(0,advantage)*.004+(rate-.2)*.18)*(.4+.6*clamp(skill,0,1)),.03,.58);
+    // Habits cannot outweigh a credible immediate KO. Keep a small uncertainty
+    // rather than reading the player's actual choice or predicting certainty.
+    const switchChance=Math.max(.005,baseline*(1-.94*ctx.finishingPressure));
     return [...attacks.map(x=>({...x,probability:x.probability*(1-switchChance)})),
         ...weighted(reserves,20).map(x=>({...x,probability:x.probability*switchChance}))];
 }
@@ -188,9 +242,18 @@ function analyse({team,opponentTeam,field,ownSide,enemySide,memory={},round=1,sk
     const es=enemySide===field.sides?.enemy?safe.sides.enemy:safe.sides.player;
     const a=own[0],b=foes[0],ctx=context(a,b,own.filter(p=>p.currentHp>0),safe,os,es,foes.length);
     ctx.memory=memory;
+    ctx.finishingPressure=finishingPressure(a,b,ctx);
     const scenarios=forecast(a,foes,ctx,memory,skill);
     const aggregate=scores=>scores.reduce((v,x,i)=>v+x*scenarios[i].probability,0)*.88+Math.min(...scores)*.12;
-    const candidates=moves(a,safe).map(({number,move})=>({action:'attack',number,score:aggregate(scenarios.map(s=>scoreMove(a,move,s,ctx)))}));
+    const canAffectCurrent=ctx.attacks.some(move=>!knownIneffective(a,b,move,ctx)&&damage(a,b,move,es,safe)>0);
+    const candidates=moves(a,safe).map(({number,move})=>{
+        let score=aggregate(scenarios.map(s=>scoreMove(a,move,s,ctx)));
+        // When every stay-in line looks lost, their flat terminal score used to
+        // make even a tiny switch scenario dominate. Don't throw an immune hit
+        // while a live-target attack exists just to chase that unlikely escape.
+        if(canAffectCurrent && ctx.finishingPressure && knownIneffective(a,b,move,ctx))score-=40*ctx.finishingPressure;
+        return {action:'attack',number,score};
+    });
     if(canSwitch(a,safe)&&round-(memory.lastSwitchRound??-10)>1)for(let number=1;number<own.length;number++) {
         const p=resetEntry(own[number]);if(p.currentHp<=0)continue;
         const cost=legacy.entryDamage(p,os,safe);if(cost>=p.currentHp)continue;

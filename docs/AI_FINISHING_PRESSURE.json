@@ -1,0 +1,204 @@
+{
+  "date": "2026-10-26",
+  "request": "Reduce ineffective coverage predictions when the current human Pokemon can finish the trainer",
+  "scope": "Shared humanTrainerAI for Adventure, Rift NPCs and Colosseum; no wild random AI, rosters, battle mechanics, frontend/schema or real account reset",
+  "rootCause": "Switch forecast ignored a safe immediate KO opportunity; identical terminal scores in doomed stay-in branches let even a small switch chance dominate immune coverage",
+  "policy": {
+    "finishingPressure": "Max credible publicly estimated lethal reply, adjusted for accuracy, visible status, charge, and an earlier reliable counter-KO; priority and Trick Room respected, ties uncertain",
+    "switchWeight": "Existing habit/matchup forecast multiplied by 1 - 0.94 * pressure, minimum 0.005; no prediction of certainty",
+    "currentTarget": "When a damaging alternative can affect the current foe, learned/type immunity receives a 40 * pressure score cost so rare escape scenarios do not dominate",
+    "preserved": "Opponent roster/moves public; private stats/items/abilities and pending command excluded; historical observations, usable PP/items, ace rules, defensive switches, forced actions and pre-prompt commitment retained",
+    "previews": "Fixed/level damage, weather/Ion Deluge and own known move-type conversions; private clones for mutation-prone transformations such as Protean; existing per-analysis caches retained"
+  },
+  "validation": {
+    "targeted": {
+      "command": "node --test tests/human-trainer-finishing.test.js tests/human-trainer-ai.test.js tests/colosseum-ai.test.js tests/colosseum-variety.test.js tests/colosseum-ascension.test.js tests/drift-runtime.test.js tests/battle-order.test.js tests/battle-field.test.js tests/automatic-move-regressions.test.js",
+      "passed": 148,
+      "failed": 0,
+      "skipped": 0,
+      "log": "/tmp/riftmon-ai-finisher-regression.log"
+    },
+    "baseline": {
+      "command": "node --require /tmp/riftmon-ai-finisher-baseline.cjs --test tests/human-trainer-finishing.test.js",
+      "sourceCommit": "425b90f389601030ad838774163ef135f0531d54",
+      "newTests": 12,
+      "passed": 4,
+      "failed": 8,
+      "log": "/tmp/riftmon-ai-finisher-before-tests.log"
+    },
+    "mysql": {
+      "command": "RUN_MYSQL_TESTS=1 DB_NAME=<DB_TEST_NAME> node --test --test-name-pattern=\"Human AI\" tests/battle-runtime-integration.test.js",
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0,
+      "log": "/tmp/riftmon-ai-finisher-mysql.log",
+      "scope": "Disposable SQL players; real Adventure pre-prompt commitment/invalid input/switch/attack and PP execution, no late retarget; accounts deleted"
+    },
+    "sweep": {
+      "command": "npm run audit:ai-finishing",
+      "beforeCommand": "ALLOW_BASELINE_FAILURE=1 node --require /tmp/riftmon-ai-finisher-baseline.cjs scripts/validateHumanTrainerFinishing.js",
+      "before": {
+        "decisions": 126,
+        "immuneChoices": 71,
+        "maxSwitchProbability": 0.204,
+        "averageAnalysisAndChoiceMs": 2.3387628015873028,
+        "maxAnalysisAndChoiceMs": 8.053933,
+        "examples": [
+          {
+            "id": 51,
+            "hp": 10,
+            "ownSpeed": 70,
+            "trick": 0,
+            "habits": 0,
+            "chosen": "Thunderbolt",
+            "switchProbability": 0.03
+          },
+          {
+            "id": 51,
+            "hp": 10,
+            "ownSpeed": 70,
+            "trick": 0,
+            "habits": 10,
+            "chosen": "Thunderbolt",
+            "switchProbability": 0.204
+          },
+          {
+            "id": 51,
+            "hp": 10,
+            "ownSpeed": 70,
+            "trick": 3,
+            "habits": 0,
+            "chosen": "Surf",
+            "switchProbability": 0.03
+          },
+          {
+            "id": 51,
+            "hp": 10,
+            "ownSpeed": 70,
+            "trick": 3,
+            "habits": 10,
+            "chosen": "Surf",
+            "switchProbability": 0.204
+          }
+        ]
+      },
+      "after": {
+        "decisions": 126,
+        "immuneChoices": 0,
+        "maxSwitchProbability": 0.01224000000000001,
+        "averageAnalysisAndChoiceMs": 2.9836661031746057,
+        "maxAnalysisAndChoiceMs": 9.976816000000014,
+        "examples": [
+          {
+            "id": 51,
+            "hp": 10,
+            "ownSpeed": 70,
+            "trick": 0,
+            "habits": 0,
+            "chosen": "Surf",
+            "switchProbability": 0.005
+          },
+          {
+            "id": 51,
+            "hp": 10,
+            "ownSpeed": 70,
+            "trick": 0,
+            "habits": 10,
+            "chosen": "Surf",
+            "switchProbability": 0.01224000000000001
+          },
+          {
+            "id": 51,
+            "hp": 10,
+            "ownSpeed": 70,
+            "trick": 3,
+            "habits": 0,
+            "chosen": "Surf",
+            "switchProbability": 0.005
+          },
+          {
+            "id": 51,
+            "hp": 10,
+            "ownSpeed": 70,
+            "trick": 3,
+            "habits": 10,
+            "chosen": "Surf",
+            "switchProbability": 0.01224000000000001
+          }
+        ]
+      },
+      "coverage": "Four Ground species, three NPC HP states, three speed values, normal/Trick Room and switch habits; only inferred lethal situations without a reliable earlier counter-KO",
+      "logs": [
+        "/tmp/riftmon-ai-finisher-before-sweep.json",
+        "/tmp/riftmon-ai-finisher-sweep.json"
+      ]
+    },
+    "simulation": {
+      "command": "node scripts/validateHumanTrainerAI.js",
+      "result": {
+        "matches": 48,
+        "perPolicy": 16,
+        "stats": {
+          "human": {
+            "wins": 6,
+            "draws": 0,
+            "turns": 151,
+            "switches": 29,
+            "support": 18
+          },
+          "legacy": {
+            "wins": 5,
+            "draws": 0,
+            "turns": 134,
+            "switches": 18,
+            "support": 5
+          },
+          "random": {
+            "wins": 1,
+            "draws": 0,
+            "turns": 125,
+            "switches": 0,
+            "support": 31
+          }
+        },
+        "choices": 151,
+        "averageDecisionMs": 6.177734562913938,
+        "maxDecisionMs": 33.571436000000006
+      },
+      "log": "/tmp/riftmon-ai-finisher-simulation.json",
+      "limit": "48 fixed small-roster matches, 16 per policy; useful regression sample, not a general strength proof or concurrent-load benchmark"
+    },
+    "syntaxAndDiff": "pass",
+    "limits": [
+      "Public stat estimates remain uncertain; no guarantee of knowing private item/talent/K or the actual next move",
+      "No frontend rebuild necessary; public assets byte-verified unchanged",
+      "No physical hardware or full global suite claim"
+    ]
+  },
+  "deployment": {
+    "publishedAt": "2026-10-26T15:09:43.474Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-ai-finisher-2026-10-26T15-09-41-979Z",
+    "clientCommit": "0839eb3c89917ee3924f9ef5ba55ae6c65130107",
+    "clientBuild": "a40823df04715885",
+    "beforePid": "1975326",
+    "afterPid": "1993989",
+    "sourceSha256": "fd977ef2854658a4677aee819a149acec53f03183052e0e4dfb5d23489797125",
+    "activeRuns": 0,
+    "checkpointSaved": true,
+    "backendOnly": true,
+    "serverRestarted": true,
+    "gracefulCheckpoint": true,
+    "neighborsUnchanged": true,
+    "publicAssetsUnchanged": [
+      "js/account.701cc72b.js",
+      "js/app.f4edfd26.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.c4271c0e.js",
+      "js/game.420d2e81.js",
+      "css/account.71f45b55.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.e96afd3d.css"
+    ]
+  }
+}

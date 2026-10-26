@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## IA humaine — priorité à une menace de K.O. immédiat — 26 octobre 2026
+
+Défaut reproduit : Raichu avec Tonnerre/Surf face à un Triopikeur pouvant le mettre K.O., Léviator en réserve et habitudes de switch fortes. L’ancien modèle prévoyait encore 20,4 % de changements ; son score terminal identique pour les réponses perdantes faisait gagner le pari Tonnerre malgré l’immunité Sol. Le modèle tient désormais compte d’une occasion de finir le Pokémon actif : dégâts estimés, précision, priorités, Vitesse/Distorsion, charge, statut visible et éventuel contre-K.O. plus rapide. Les habitudes restent considérées, mais ce risque réduit fortement leur poids. Une pénalité supplémentaire évite que le scénario rare de switch favorise une attaque sans effet lorsqu’une attaque efficace existe. Une défense ou un changement de l’IA restent possibles, comme les anticipations hors danger ; les choix forcés ne sont pas interdits.
+
+Estimations bornées aux mêmes instantanés publics : équipe/capacités connues, états visibles et statistiques déduites. Aucun choix soumis, objet/talent privé ou vraie statistique adverse ajouté au modèle. Décision toujours verrouillée avant la commande humaine, conservée sur saisie invalide et reprise. Aperçus de dégâts cohérents pour dégâts fixes, météo et conversions de type/talents connus ; les transformations hypothétiques utilisent des copies pour ne pas contaminer un autre choix. Une seule politique mutualisée par tous les dresseurs Aventure/Rift/Colosseum ; équipes, réserves de champions et règles de combat conservées.
+
+Validation : 148 tests ciblés réussis, six recettes MySQL Aventure réussies, zéro échec/ignoré. Douze régressions nouvelles : huit échouent sur la référence précédente. Matrice publique de 126 situations de K.O. : 71 choix immunisés avant, zéro après ; exemple de swap estimé 20,4 %→1,224 %. Immunités révélées, dégâts fixes, talents/terrain, priorités/Distorsion, charge, états incertains, défenses, absence d’alternative, observation privée interdite, absence de mutation/RNG, verrouillage/reprise dans les deux modes expédition contrôlés. Recettes SQL : décision avant invite, aucune relance à saisie invalide, Surf conservé même si le joueur choisit finalement Léviator. Simulation existante : 48 combats terminés, tactiques/soins/switchs conservés ; ce petit lot ne constitue pas un équilibrage général. Moyenne de décision ≈6.18 ms sur cet échantillon. Syntaxe/diff valides. Pas de nouveau rendu, build client, matériel physique ou suite globale revendiqués. Preuves et commandes : docs/AI_FINISHING_PRESSURE.json.
+
+Publication serveur seule 2026-10-26T15:09:43.474Z, PID 1975326→1993989. Sauvegarde /home/ubuntu/dev/backups/riftmon-ai-finisher-2026-10-26T15-09-41-979Z ; checkpoint conservé et 0 expédition active relevée. Client 0839eb3c89917ee3924f9ef5ba55ae6c65130107 / build a40823df04715885 conservés, index/bundles HTTPS inchangés à l’octet, Knov/api-test inchangés. Aucun schéma SQL ni compte réel remis à zéro.
+
 ## Dresseur de base — palette liée aux options et partagée — 26 octobre 2026
 
 Seul sprite.png suit les quatre couleurs d’interface et leur mode clair/nocturne, soit huit palettes. Les cinq tons rouges précis de la casquette/tenue sont remplacés ; peau, blancs, yeux, contours, alpha, cadrage, dimensions et seize poses restent inchangés. Bleu nocturne devient bleu foncé. Tous les autres sprites joueurs/PNJ et les PNG sources sont conservés. Aperçu Apparence et portrait du profil utilisent la même palette.
@@ -4045,6 +4055,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 26 octobre 2026 — IA : une menace de K.O. immédiat réduit les paris sur un swap ; pénalité d’immunité sur cible actuelle pour éviter un biais des scénarios perdants. Informations publiques et décision avant commande conservées. 148 tests + six recettes SQL réussis ; matrice 126 cas, 71 attaques immunisées avant/zéro après ; 48 combats de contrôle terminés. Serveur publié seul avec checkpoint, client/voisins conservés. Rapport `docs/AI_FINISHING_PRESSURE.json`.
 
 - 26 octobre 2026 — Sprite du dresseur de base accordé aux options couleur/clair/nocturne : huit palettes exactes, cache borné et aperçus assortis. Palette persistée par migration 021, diffusée entre joueurs et namespaces ; autres apparences/PNJ intacts. 17 tests, migration rejouée et recette SQL/navigateur trois modes/quatre formats/neuf captures validés. Un stub historique de montage reproduit en échec sur référence. Serveur/client publiés, checkpoint et voisins conservés. Rapport `docs/TRAINER_THEME_PALETTE.json`.
 
