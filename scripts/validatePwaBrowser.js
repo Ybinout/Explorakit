@@ -23,7 +23,15 @@ fs.mkdirSync(output,{recursive:true});
     const origin=`http://127.0.0.1:${server.address().port}`,base=origin+mount;
     const otherProject=mount==='/'?`http://127.0.0.1:${other.address().port}/`:origin+'/other-project';
     browser=await chromium.launch({headless:true});
-    const context=await browser.newContext({viewport:{width:393,height:852},hasTouch:true});
+    // A narrow/touch-enabled PC remains a PC; viewport size is not eligibility.
+    const desktop=await browser.newContext({hasTouch:true,userAgent:'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0.0.0 Safari/537.36'});
+    const desktopPage=await desktop.newPage();
+    for(const width of [1365,393]){
+      await desktopPage.setViewportSize({width,height:900});await desktopPage.goto(base);await desktopPage.locator('[data-mode-menu]').waitFor();
+      assert.equal(await desktopPage.locator('[data-pwa-install]').count(),0,'PC installation card must stay hidden, even with touch / narrow window');
+    }
+    await desktop.close();
+    const context=await browser.newContext({viewport:{width:393,height:852},hasTouch:true,isMobile:true,userAgent:'Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Mobile Safari/537.36'});
     const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
     await page.goto(base+'api/probe');
     await page.evaluate(()=>caches.open('another-project-cache'));
@@ -55,6 +63,6 @@ fs.mkdirSync(output,{recursive:true});
     await context.setOffline(false);await page.goto(base);await page.locator('[data-mode-menu]').waitFor();
     await page.goto(otherProject);assert.equal(await page.evaluate(()=>navigator.serviceWorker.controller),null);
     assert.deepEqual(errors,[]);
-    console.log(JSON.stringify({pwa:true,installability,scope:base,nativePrompt:true,offlineFallback:true,apiNeverCached:true,otherProjectUnaffected:true,output}));
+    console.log(JSON.stringify({pwa:true,desktopCardHidden:[1365,393],touchPcHidden:true,mobileCardVisible:true,installability,scope:base,nativePrompt:true,offlineFallback:true,apiNeverCached:true,otherProjectUnaffected:true,output}));
   } finally {await browser?.close();await new Promise(r=>server.close(r));await new Promise(r=>other.close(r));}
 })().catch(error=>{console.error(error);process.exitCode=1;});

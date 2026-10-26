@@ -1,5 +1,14 @@
 # Contexte permanent — RiftMon
 
+## Installation proposée uniquement sur mobile — 26 octobre 2026
+
+La carte « Installer le jeu » de l’accueil ne s’affiche plus sur ordinateur, y compris sur PC tactile ou dans une fenêtre étroite. Détection de plateforme Android/iPhone/iPad, iPadOS en mode bureau et indication mobile du navigateur ; aucune règle fondée uniquement sur la largeur ou le tactile. Carte conservée sur mobile tant que l’application n’est pas installée. Manifeste, service worker, prompt natif et fonctionnement du jeu conservés.
+
+Validation : lint/syntaxe/diff valides, build `8391effccfce92d1`. Recette PWA existante actualisée avec un vrai profil Android de navigateur : absence PC tactile aux largeurs 1365/393, présence mobile, prompt déclenché une seule fois au clic, disparition après installation, manifeste/installabilité, cache privé et repli hors ligne conservés ; autre projet non contrôlé par le worker. Commande `RELEASE_PUBLIC_PATH=/ RELEASE_DIST_DIR=/tmp/riftmon-pwa-mobile-dist RELEASE_SCREENSHOTS=/tmp/riftmon-pwa-mobile-browser node scripts/validatePwaBrowser.js`, journal `/tmp/riftmon-pwa-mobile-browser.log`. Aucune nouvelle suite unitaire pour ce petit correctif d’affichage ; pas de téléphone physique utilisé.
+
+Publication statique 2026-10-26T09:32:24.656Z, client `cd48c09e0be743a9d9474141f325e7622ecfff63`, PID 1893919 conservé. Index/bundles HTTPS vérifiés à l’octet, anciens bundles conservés, Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-pwa-mobile-2026-10-26T09-32-23-302Z`. Aucun changement serveur, SQL ou compte réel, aucun redémarrage.
+
+
 ## Manette Chrome / AYN Thor — 26 octobre 2026
 
 Prise en charge commune via la Gamepad API dans App et UserMap : croix/stick gauche, A agir/confirmer/dialogue, B retour, X équipe, Y sac, Start menu, L1/R1 onglets. Navigation spatiale des contrôles visibles, focus contrasté, sélection native/volume au stick, confinement au panneau ou dialogue au-dessus, priorités évitant de confirmer automatiquement une fermeture ou le son de combat. Options Manette : activation, disposition Xbox standard ou Nintendo A/B et X/Y inversés, état de détection et indication pour les profils non standard. Préférences locales compatibles avec les anciennes ; tactile/clavier et règles de Chrome pour l’audio conservés. Pas de nouvelle dépendance ni d’image.
