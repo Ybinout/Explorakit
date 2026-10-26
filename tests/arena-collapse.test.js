@@ -23,7 +23,7 @@ test('each distinct silhouette matches its blocked tile centres, leaving concave
   const blocked=rules.contains(h,h.x+x,h.y+y);assert.equal(inside(h.outline,x+.5,y+.5),blocked,h.id+' '+x+','+y);
   if(!blocked){notches++;assert(!rules.blocked(1000,h.x+x,h.y+y,100000));}
  }
- assert.equal(notches,4);assert.equal(rules.snapshot(1000,100000).revision,2);
+ assert.equal(notches,4);assert.equal(rules.snapshot(1000,100000).revision,3);
  const cells=rules.config.holes.flatMap(h=>h.cells.map(([x,y])=>[h.x+x,h.y+y]));
  assert(cells.some(([x,y])=>!cells.some(([xx,yy])=>xx===27-x&&yy===y)),'layout must not be mirrored');
  assert(rules.contains({x:2,y:3,width:2,height:1},3,3),'legacy rectangle descriptors remain valid');
@@ -37,7 +37,7 @@ test('an occupant always finds a real neighbouring solid tile without using the 
 test('controller warns through its state, rescues on the deadline, restores and resets by a new epoch',async()=>{
  let time=100000,start=time,task,id=0;const frames=[],rescues=[];const p={currentmap:rules.config.map,x:7*32+16,y:9*32+16};
  const c=createArenaCollapseController({getPlayer:()=>p,loadStart:async()=>start,emit:s=>frames.push(s),rescue:(player,tile)=>{rescues.push(tile);player.x=tile.x*32+16;player.y=tile.y*32+16;},collision:()=>collision,occupied:()=>false,now:()=>time,setTimer:fn=>{task=fn;return ++id;},clearTimer:()=>{task=null;}});
- await c.enter();assert.equal(frames[0].elapsedMs,0);assert(!c.blocked(7,9));time+=12001;task();assert(c.blocked(7,9));assert.equal(rescues.length,1);
+ await c.enter();assert.equal(frames[0].elapsedMs,0);assert(!c.blocked(7,9));time+=rules.config.holes[0].atMs+1;task();assert(c.blocked(7,9));assert.equal(rescues.length,1);
  time+=90000;await c.enter();assert(c.blocked(7,9));assert(frames.at(-1).elapsedMs>90000);
  start=time;await c.enter();assert(!c.blocked(7,9));assert.equal(frames.at(-1).elapsedMs,0);p.currentmap='start';await c.enter();assert.equal(frames.at(-1),null);assert.equal(task,null);assert(!c.blocked(7,9));c.stop();
 });

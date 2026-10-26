@@ -1,5 +1,13 @@
 # Contexte permanent — RiftMon
 
+## Hoze — séquence de dégradation limitée à 30 secondes — 26 octobre 2026
+
+Les huit fissures se déploient désormais sur 19,5 secondes chacune, avec le décalage initial existant de 0 à 10,5 secondes : la dernière est entièrement ouverte à 30 secondes au lieu de 52,5. Les trois effondrements surviennent à 7/16/27 secondes ; chute de 1,2 seconde et poussière de 1,8 seconde conservées, dernière dissipation à 28,8 secondes. Formes, emplacements, centre praticable, rendu et ambiance continue des piliers/vent conservés. Révision de configuration 3 pour invalider le cache ; même clé de progression par joueur, mêmes horloges, reconnexion et reset admin, sans remise à zéro de compte.
+
+Validation : dix tests de collisions/contrôleur/Rift/Colosseum réussis, une recette MySQL/Socket réussie (persistance, sauvetage et reset isolé). Deux recettes Canvas réussies : huit fissures finies à 30 secondes, sol identique à la phase finale, aucun débris restant, confinement aux cases bloquées, structures masquantes, mouvement réduit et libération conservés. Recette navigateur SQL sur compte jetable supprimé : quatre formats 320/393/844/1365, reprise après masquage/combat, vraie réinitialisation et isolation ; zéro erreur. Lint, build c53b32fca4d88728 et diff valides. Aucun nouveau test physique ni suite globale revendiqués ; preuves et commandes dans docs/HOZE_OPENING_TIMING.json.
+
+Publication serveur/client 2026-10-26T17:48:02.773Z, client 1f38dbb9bcc4b9124059f25d77ac9bbb5c0a375e, PID 1993989→2024987. Checkpoint sauvegardé, 0 expédition active relevée, index/bundles et portraits publics vérifiés à l’octet, anciens bundles conservés ; Knov/api-test inchangés. Sauvegarde /home/ubuntu/dev/backups/riftmon-hoze-30s-2026-10-26T17-48-00-190Z. Aucune migration SQL ni modification de compte réel.
+
 ## IA humaine — priorité à une menace de K.O. immédiat — 26 octobre 2026
 
 Défaut reproduit : Raichu avec Tonnerre/Surf face à un Triopikeur pouvant le mettre K.O., Léviator en réserve et habitudes de switch fortes. L’ancien modèle prévoyait encore 20,4 % de changements ; son score terminal identique pour les réponses perdantes faisait gagner le pari Tonnerre malgré l’immunité Sol. Le modèle tient désormais compte d’une occasion de finir le Pokémon actif : dégâts estimés, précision, priorités, Vitesse/Distorsion, charge, statut visible et éventuel contre-K.O. plus rapide. Les habitudes restent considérées, mais ce risque réduit fortement leur poids. Une pénalité supplémentaire évite que le scénario rare de switch favorise une attaque sans effet lorsqu’une attaque efficace existe. Une défense ou un changement de l’IA restent possibles, comme les anticipations hors danger ; les choix forcés ne sont pas interdits.

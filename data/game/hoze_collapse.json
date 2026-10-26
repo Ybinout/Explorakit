@@ -1,6 +1,6 @@
 {
   "map": "ville_safe1_arene",
-  "revision": 2,
+  "revision": 3,
   "flag": "arena_collapse:hoze:v1",
   "fallMs": 1200,
   "warningMs": 1800,
@@ -11,7 +11,7 @@
       "y": 9,
       "width": 3,
       "height": 2,
-      "atMs": 12000,
+      "atMs": 7000,
       "cells": [
         [
           0,
@@ -133,7 +133,7 @@
       "y": 12,
       "width": 2,
       "height": 3,
-      "atMs": 28500,
+      "atMs": 16000,
       "cells": [
         [
           1,
@@ -243,7 +243,7 @@
       "y": 14,
       "width": 2,
       "height": 2,
-      "atMs": 44500,
+      "atMs": 27000,
       "cells": [
         [
           0,

@@ -1,0 +1,141 @@
+{
+  "date": "2026-10-26",
+  "scope": "Accélérer uniquement la séquence de dégradation de la salle de Hoze.",
+  "timeline": {
+    "previousFaultCompleteMs": 52500,
+    "faultDurationMs": 19500,
+    "lastFaultStartMs": 10500,
+    "faultCompleteMs": 30000,
+    "holesAtMs": [
+      7000,
+      16000,
+      27000
+    ],
+    "fallMs": 1200,
+    "warningMs": 1800,
+    "lastDustGoneMs": 28800,
+    "revision": 3
+  },
+  "preserved": [
+    "Géométrie et rendu finaux des fissures/trous",
+    "Couloir central, collisions autoritaires et sauvetage",
+    "Progression personnelle persistée et reset admin",
+    "Vent et oscillation continue des piliers",
+    "Cartes et fonds de combat inchangés"
+  ],
+  "validation": {
+    "unit": {
+      "command": "node --test tests/arena-collapse.test.js",
+      "passed": 10,
+      "failed": 0
+    },
+    "socket": {
+      "script": "tests/arena-collapse-socket.test.js",
+      "dedicatedDatabase": true,
+      "passed": 1,
+      "failed": 0,
+      "realAccountsModified": false
+    },
+    "canvas": {
+      "scripts": [
+        "node scripts/validateHozeArenaCanvas.js",
+        "node scripts/validateHozeCollapseCanvas.js"
+      ],
+      "faultChecks": {
+        "sequenceCompleteMs": 30000,
+        "outside": 0,
+        "left": 226823,
+        "right": 221668,
+        "faults": 8,
+        "extended": 3233,
+        "monotonic": true,
+        "slow": true,
+        "complete": true,
+        "persistent": true,
+        "startsOnEntry": true,
+        "halfway": true,
+        "retained": true,
+        "noRewind": true,
+        "pillarPixels": 1075,
+        "minMotion": 7541,
+        "occlusionErrors": 0,
+        "cracksOnBothSides": 2,
+        "reduced": true,
+        "throttled": true,
+        "released": true,
+        "isolated": true,
+        "averagePaintMs": 0.34083333412806194
+      },
+      "collapseChecks": {
+        "counts": [
+          0,
+          0,
+          1,
+          1,
+          2,
+          3,
+          3,
+          3
+        ],
+        "centre": 0,
+        "escaped": 0,
+        "areas": [
+          2610,
+          4068,
+          1745
+        ],
+        "revisionInvalidates": true,
+        "falling": true,
+        "noDebrisAt30": true,
+        "floorFinishedAt30": true,
+        "noMotionDebris": true,
+        "restored": true,
+        "futureClosed": true,
+        "reducedOpensOnTime": true,
+        "released": true
+      }
+    },
+    "browser": {
+      "command": "VALIDATE_COLLAPSE=1 RELEASE_DIST_DIR=/tmp/riftmon-hoze-30s-dist RELEASE_SCREENSHOTS=/tmp/riftmon-hoze-30s-browser node --env-file=.env scripts/validateHozeArenaBrowser.js",
+      "dedicatedDatabase": true,
+      "viewports": [
+        320,
+        393,
+        844,
+        1365
+      ],
+      "errors": [],
+      "realAccountsModified": false
+    },
+    "lint": "npm --prefix vue-explorakit run lint -- --no-fix",
+    "build": "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-hoze-30s-dist",
+    "buildHash": "c53b32fca4d88728",
+    "physicalDeviceTested": false,
+    "globalSuiteRun": false
+  },
+  "deployment": {
+    "publishedAt": "2026-10-26T17:48:02.773Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-hoze-30s-2026-10-26T17-48-00-190Z",
+    "clientCommit": "1f38dbb9bcc4b9124059f25d77ac9bbb5c0a375e",
+    "clientBuild": "c53b32fca4d88728",
+    "beforePid": "1993989",
+    "afterPid": "2024987",
+    "activeRuns": 0,
+    "checkpointSaved": true,
+    "serverRestarted": true,
+    "gracefulCheckpoint": true,
+    "neighborsUnchanged": true,
+    "preservedSpriteSha256": "0947bc3341b14da9ed55d5f2770a8b8cbffee6a6ff5dcdeb3dd6ac6a619a00dc",
+    "publicAssets": [
+      "js/account.701cc72b.js",
+      "js/app.9e96e1ce.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.5bf2d02e.js",
+      "css/account.71f45b55.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.e96afd3d.css"
+    ]
+  }
+}
