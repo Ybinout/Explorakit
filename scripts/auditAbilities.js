@@ -4,10 +4,14 @@ const pokedex = require('../data/game/pokedex.json');
 const pnjTeams = require('../data/game/pnj_teams.json');
 const { FAMILY_ABILITIES, SUPPORTED_ABILITIES } = require('../server/game/abilities/abilityEngine');
 const coverage=require('../server/game/abilities/abilityCoverage');
+const rules=require('../data/game/ability_rules.gen7.json');
 
 const errors = [];
 const abilityNames = new Set(abilities.abilities.map((ability) => ability.name));
 const mappedIds = Object.keys(pokemonAbilities.pokemon).map(Number).sort((a, b) => a - b);
+if (rules.generation!==7 || rules.version!=='0.10.11') errors.push('Reference de regles de talents incorrecte.');
+for(const name of abilityNames)if(!Object.hasOwn(rules.abilities,name))errors.push(`Talent sans regle de copie/neutralisation: ${name}.`);
+for(const name of Object.keys(rules.abilities))if(!abilityNames.has(name))errors.push(`Regle de talent inconnu: ${name}.`);
 
 if (pokedex.length !== 809) errors.push(`Pokedex attendu: 809, recu: ${pokedex.length}`);
 if (mappedIds.length !== 809) errors.push(`Mappings attendus: 809, recus: ${mappedIds.length}`);
@@ -58,6 +62,8 @@ const specialSlots = Object.values(pokemonAbilities.pokemon)
 
 const report = {
     generation: pokemonAbilities.generation,
+    generationRuleReference: rules.version,
+    classifiedAbilityRules: Object.keys(rules.abilities).length,
     pokemon: mappedIds.length,
     catalogAbilities: abilityNames.size,
     usedAbilities: usedAbilities.size,

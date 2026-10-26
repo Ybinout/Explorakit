@@ -5,7 +5,7 @@ const { gender } = require('../items/stoneEvolution');
 const traits = require('../../../data/game/ability_move_traits.gen7.json');
 const STATS = { atk:'attack', def:'defense', spa:'specialAttack', spd:'specialDefense', spe:'speed', accuracy:'accuracy', evasion:'evasion' };
 const STATUS = { brn:'burn', par:'paralyze', psn:'poison', tox:'badly_poison', slp:'sleep', frz:'freeze' };
-const UNCHANGEABLE = new Set(['Multitype','RKS System','Schooling','Shields Down','Stance Change','Disguise','Comatose','Power Construct','Battle Bond']);
+const { UNCHANGEABLE } = require('./abilityRules');
 const REACTION_ABILITIES = Object.freeze([
     'Aftermath','Anger Point','Aroma Veil','Aura Break','Bad Dreams','Beast Boost','Berserk',
     'Cheek Pouch','Color Change','Competitive','Contrary','Corrosion','Cursed Body','Cute Charm',
@@ -80,16 +80,16 @@ function afterMove(ctx,h,messages) {
         else if (!(a.__battle.healBlockTurns>0)) {const healed=h.heal(a,amount); if(healed) messages.push(`${label(a)} absorbe ${healed} PV.`);}
     }
     if (!(result.damage>0)) return;
-    const ability=getAbilityName(d);
+    const ability=getAbilityName(d), suppressed=hasAbility(a,'Sheer Force') && Boolean(getMoveFlags(move).secondary);
     if (alive(d)) {
-        if (ability==='Color Change' && !h.types(d).includes(move.type)) { d.__battle.tempTypes=[move.type]; announce(messages,d,ability); }
-        if (hpBefore>d.maxHp/2 && d.currentHp<=d.maxHp/2) {
-            if (ability==='Berserk' && !hasAbility(a,'Sheer Force')) h.stage(d,'specialAttack',1,messages,d);
+        if (!suppressed && ability==='Color Change' && !h.types(d).includes(move.type)) { d.__battle.tempTypes=[move.type]; announce(messages,d,ability); }
+        if (!suppressed && hpBefore>d.maxHp/2 && d.currentHp<=d.maxHp/2) {
+            if (ability==='Berserk') h.stage(d,'specialAttack',1,messages,d);
             if (['Wimp Out','Emergency Exit'].includes(ability)) {result.forceSwitch=true; announce(messages,d,ability);}
         }
     }
     if (hasAbility(a,'Magician')) transferItem(d,a,h,messages,'Magicien');
-    if (alive(d) && ability==='Pickpocket' && contact(a,move)) transferItem(a,d,h,messages,'Pickpocket');
+    if (!suppressed && alive(d) && ability==='Pickpocket' && contact(a,move)) transferItem(a,d,h,messages,'Pickpocket');
     if (['Thief','Covet'].includes(move.ename)) transferItem(d,a,h,messages,move.ename);
     if (!alive(d) && alive(a)) {
         if (hasAbility(a,'Moxie')) h.stage(a,'attack',1,messages,a);
@@ -143,7 +143,7 @@ function endTurn(p,opponent,state,h,messages) {
     if(!alive(p))return;
     const ability=getAbilityName(p),data=p.__battle;
     if(ability==='Speed Boost' && !(data.switchedInTurn===state.turn && data.lastActionTurn!==state.turn))h.stage(p,'speed',1,messages,p);
-    if(ability==='Shed Skin' && p.status!=='normal' && Math.random()<1/3)h.clearStatus(p,messages);
+    if(ability==='Shed Skin' && p.status!=='normal' && Math.random()<.33)(h.clearMajorStatus||h.clearStatus)(p,messages);
     if(ability==='Bad Dreams' && alive(opponent) && (opponent.status==='sleep'||hasAbility(opponent,'Comatose')))indirect(opponent,opponent.maxHp/8,h,messages,ability);
     if(ability==='Moody') {
         const stats=Object.values(STATS),up=stats.filter(s=>data.statStages[s]<6),down=stats.filter(s=>data.statStages[s]>-6);

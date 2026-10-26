@@ -1,0 +1,152 @@
+{
+  "date": "2026-10-26",
+  "scope": "Audit des talents référencés et des attributions, corrections des interactions reproductibles du moteur partagé.",
+  "reference": {
+    "generation": 7,
+    "package": "@pkmn/dex",
+    "version": "0.10.11",
+    "integrity": "sha512-htR2Etf3WCiu4k4ukmyYD94do97sTm9LfmxJ8tg2uuPGJsZ98ZZGlJFUZNltfXU0pO61ItiU6obRXTw05qipDQ==",
+    "primarySources": [
+      "https://github.com/smogon/pokemon-showdown/blob/master/data/abilities.ts",
+      "https://github.com/smogon/pokemon-showdown/blob/master/data/mods/gen7/abilities.ts"
+    ],
+    "metadata": "data/game/ability_rules.gen7.json",
+    "generatorCheck": "ABILITY_DEX_PATH=/tmp/explorakit-ability-source/node_modules/@pkmn/dex node scripts/generateAbilityRules.js --check",
+    "setupForReproduction": "npm install --prefix /tmp/riftmon-ability-reference @pkmn/dex@0.10.11 ; ABILITY_DEX_PATH=/tmp/riftmon-ability-reference/node_modules/@pkmn/dex node scripts/generateAbilityRules.js --check",
+    "runtimeNetworkDependency": false,
+    "speciesSlotsCompared": 809,
+    "speciesDifferences": 0
+  },
+  "assignments": {
+    "constructors": 809,
+    "expeditionFactory": 809,
+    "npcPokemon": 113,
+    "colosseumPokemon": 560,
+    "storedParty": 10,
+    "storedComputer": 7,
+    "errors": []
+  },
+  "assignmentsCommand": "node --env-file=.env scripts/auditAbilityAssignments.js --stored",
+  "productionDatabaseReadOnly": true,
+  "catalog": {
+    "generation": 7,
+    "generationRuleReference": "0.10.11",
+    "classifiedAbilityRules": 223,
+    "pokemon": 809,
+    "catalogAbilities": 223,
+    "usedAbilities": 223,
+    "specialEventSlotsExcludedFromRandomRolls": 3,
+    "implementedInFamilies1To4": 125,
+    "remainingForLaterFamilies": 0,
+    "implementedSingleBattleAbilities": 213,
+    "doublesOnly": [
+      "Battery",
+      "Friend Guard",
+      "Healer",
+      "Minus",
+      "Plus",
+      "Receiver",
+      "Symbiosis",
+      "Telepathy"
+    ],
+    "overworldPending": [
+      "Honey Gather",
+      "Illuminate"
+    ],
+    "errors": []
+  },
+  "corrected": [
+    "Neutralisation de talents selon les règles propres à chacun, notamment Comatose et No Guard",
+    "Peau Miracle : précision de base 50 avant les autres modificateurs",
+    "Griffe Dure : puissance au contact ×1,3",
+    "Torche : bonus inactif si talent supprimé/remplacé",
+    "Auras défensives et Brise Moule en génération 7",
+    "Feuille Garde/Flora-Voile : statuts majeurs, confusion, types temporaires et Repos personnel",
+    "Farceur : type Ténèbres courant",
+    "Intimidation : Clone protecteur",
+    "Télécharge : paliers défensifs, exclusion des bonus de talent/objet",
+    "Exclusions de copie/échange/transmission/suppression ; protection de Mode Transe",
+    "Calque : nouvelle tentative lorsqu’une cible devient copiable",
+    "Talents acquis : guérison de leurs statuts et nettoyage des compteurs",
+    "Tempo Perso/Benêt : troubles volatils existants retirés",
+    "Sans Limite : réactions de fin de coup supprimées uniquement pour une attaque renforcée",
+    "Baillement : refus initial par les immunités applicables",
+    "Mue : statut majeur seul, chance 33 %"
+  ],
+  "validation": {
+    "targetedTests": 328,
+    "targetedFailures": 0,
+    "skipped": 0,
+    "newRegressionTests": 40,
+    "beforeNewRegressionPassed": 1,
+    "beforeNewRegressionFailed": 39,
+    "baselineCommit": "3fbf2c8d443ee4e355a274ded9263bc137528250",
+    "baselineMethod": "Réinjection isolée des trois anciens modules via Module._compile, noms/chemins de modules réels ; sources de travail non remplacées.",
+    "unitCommand": "node --test tests/ability-system.test.js tests/ability-reactions.test.js tests/ability-audit-regression.test.js tests/two-turn-moves.test.js tests/battle-field.test.js tests/battle-accuracy.test.js tests/battle-engine.test.js tests/sleep-status.test.js tests/transform.test.js tests/castform.test.js tests/move-audit.test.js tests/move-behavior-audit.test.js tests/automatic-move-regressions.test.js tests/drift-runtime.test.js tests/colosseum-ai.test.js tests/human-trainer-ai.test.js tests/human-trainer-finishing.test.js",
+    "sql": {
+      "script": "tests/battle-runtime-integration.test.js",
+      "dedicatedDatabase": true,
+      "passed": 88,
+      "failed": 0
+    },
+    "structuralSmoke": {
+      "abilities": 223,
+      "moves": 14,
+      "weather": 5,
+      "roles": 2,
+      "cases": 31220,
+      "errors": []
+    },
+    "smokeCommand": "node scripts/auditAbilitySmoke.js",
+    "browser": {
+      "command": "RELEASE_PUBLIC_PATH= RELEASE_DIST_DIR=/tmp/riftmon-single-session-dist RELEASE_SCREENSHOTS=/tmp/riftmon-abilities-review-browser node --env-file=.env scripts/validateAbilitiesBrowser.js",
+      "result": {
+        "realWorrySeedWake": true,
+        "realSheerForceColorChange": true,
+        "realLevitateImmunity": true,
+        "realContactRetaliation": true,
+        "formAndSprite": true,
+        "checkpointAndReload": true,
+        "errors": [],
+        "output": "/tmp/riftmon-abilities-review-browser"
+      },
+      "dedicatedDatabase": true,
+      "realAccountModified": false
+    },
+    "syntaxAndDiff": true,
+    "newFrontendBuild": false,
+    "physicalDeviceTested": false,
+    "globalSuiteRun": false
+  },
+  "limits": [
+    "Les tests ciblés et le balayage ne prouvent pas chaque combinaison des cartouches.",
+    "Huit talents doubles sans effet pertinent en 1v1 ; aucun mode double exposé.",
+    "Honey Gather / Cherche Miel et Illuminate / Lumiattirance : effets hors combat encore non implémentés."
+  ],
+  "deployment": {
+    "publishedAt": "2026-10-26T19:40:04.067Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-abilities-review-2026-10-26T19-40-02-494Z",
+    "clientCommit": "ac0f717a56605e8c82bc4bdaea9afdcc24c60b6e",
+    "clientBuild": "e96cfb4d4510c500",
+    "beforePid": "2030660",
+    "afterPid": "2050066",
+    "sourceSha256": "6d6096d590c56e6311d454b4f1b30b5e8c3a17099d3d377c64a7f305959340e0",
+    "activeRuns": 0,
+    "checkpointSaved": true,
+    "backendOnly": true,
+    "serverRestarted": true,
+    "gracefulCheckpoint": true,
+    "neighborsUnchanged": true,
+    "publicAssetsUnchanged": [
+      "js/account.f0f65147.js",
+      "js/app.38482f64.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.66375d4d.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.aeaf1423.css"
+    ]
+  }
+}

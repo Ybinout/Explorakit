@@ -2,6 +2,7 @@ const { battleWeatherForMap } = require('../world/mapWeather');
 const heldItems = require('../items/heldItems');
 const reactions = require('../abilities/abilityReactions');
 const abilityForms = require('../abilities/abilityForms');
+const { abilityFlag } = require('../abilities/abilityRules');
 const twoTurn = require('./twoTurnMoves');
 const turnActions = require('./turnActions');
 const battleField = require('./battleField');
@@ -589,13 +590,13 @@ function canApplyStatus(target, status, targetSide, options = {}) {
     }
 
     if (status === 'burn' && hasType(target, 'Fire')) return false;
-    if (NON_VOLATILE_STATUSES.has(status) && target.data?.id===774 && hasPassiveAbility(target,'Shields Down')
+    if (NON_VOLATILE_STATUSES.has(status) && !ignoresDefenderAbility(options.attacker,target) && target.data?.id===774 && hasPassiveAbility(target,'Shields Down')
         && target.__battle?.abilityForm==='Minior-Meteor')return false;
     if ((status === 'poison' || status === 'badly_poison') && (hasType(target, 'Poison') || hasType(target, 'Steel')) && !hasPassiveAbility(options.attacker,'Corrosion')) return false;
     if (status === 'freeze' && hasType(target, 'Ice')) return false;
     if (status === 'paralyze' && hasType(target, 'Electric')) return false;
     const abilityState=isWeatherSuppressed(target,options.attacker)?{...options.battleState,weather:null}:options.battleState;
-    if (!ignoresDefenderAbility(options.attacker, target) && canAbilityBlockStatus(target, status, abilityState)) return false;
+    if (!ignoresDefenderAbility(options.attacker, target) && canAbilityBlockStatus(target, status, abilityState, options.attacker)) return false;
 
     const battleState = options.battleState;
     if (isGrounded(target, battleState)) {
@@ -654,7 +655,7 @@ function applyStatus(target, status, targetSide, messages, options = {}) {
     return true;
 }
 
-function clearStatus(target, messages, statusFilter = null) {
+function clearStatus(target, messages, statusFilter = null, clearVolatile = true) {
     if (!target) return false;
     const targetData = ensureBattleData(target);
     const currentStatus = target.status || 'normal';
@@ -673,12 +674,12 @@ function clearStatus(target, messages, statusFilter = null) {
         removed = true;
     }
 
-    if (targetData.confusionTurns > 0) {
+    if (clearVolatile && targetData.confusionTurns > 0) {
         targetData.confusionTurns = 0;
         removed = true;
     }
 
-    if (targetData.infatuationTurns > 0) {
+    if (clearVolatile && targetData.infatuationTurns > 0) {
         targetData.infatuationTurns = 0;
         removed = true;
     }
@@ -1532,6 +1533,9 @@ function applyEffect(effect, context, moveResult) {
             return;
 
         case 'delayed_status':
+            if (!canApplyStatus(effectTargetPokemon,effect.status,effectTargetSide,{battleState:context.battleState,attacker:context.attacker,move:context.move})) {
+                moveResult.success=false; messages.push(`${getPokemonDisplayName(effectTargetPokemon)} ne peut pas somnoler.`); return;
+            }
             targetData.delayedStatus = {
                 status: effect.status,
                 turns: Math.max(1, safeNumber(effect.turns, 1)) + 1
@@ -1832,16 +1836,18 @@ function applyEffect(effect, context, moveResult) {
             return;
 
         case 'set_ability':
-            if(reactions.UNCHANGEABLE.has(getAbilityName(effectTargetPokemon)))return;
+            if (abilityFlag(getAbilityName(effectTargetPokemon),'cantsuppress') || getAbilityName(effectTargetPokemon)==='Truant'
+                || getAbilityName(effectTargetPokemon)===effect.ability) return;
             snapshotPassiveAbility(effectTargetPokemon);
             effectTargetPokemon.passiveAbility = effect.ability || null;
             targetData.abilitySuppressed = false;
             messages.push(`${getPokemonDisplayName(effectTargetPokemon)} obtient le talent ${effect.ability}.`);
+            refreshChangedAbility(effectTargetPokemon, context.attacker, effectTargetSide, context.attackerSide, context.battleState, messages);
             return;
 
         case 'copy_ability':
-            if (!getPassiveAbility(context.defender) || reactions.UNCHANGEABLE.has(getAbilityName(context.defender))
-                || reactions.UNCHANGEABLE.has(getAbilityName(context.attacker))) {
+            if (!getPassiveAbility(context.defender) || abilityFlag(getAbilityName(context.defender),'failroleplay')
+                || abilityFlag(getAbilityName(context.attacker),'cantsuppress') || getAbilityName(context.attacker)===getAbilityName(context.defender)) {
                 messages.push(`Aucun talent ne peut etre copie.`);
                 return;
             }
@@ -1849,10 +1855,11 @@ function applyEffect(effect, context, moveResult) {
             context.attacker.passiveAbility = getPassiveAbility(context.defender);
             attackerData.abilitySuppressed = false;
             messages.push(`${getPokemonDisplayName(context.attacker)} copie le talent ${context.attacker.passiveAbility}.`);
+            refreshChangedAbility(context.attacker, context.defender, context.attackerSide, context.defenderSide, context.battleState, messages);
             return;
 
         case 'swap_ability': {
-            if([context.attacker,context.defender].some(p=>reactions.UNCHANGEABLE.has(getAbilityName(p))))return;
+            if([context.attacker,context.defender].some(p=>abilityFlag(getAbilityName(p),'failskillswap')))return;
             snapshotPassiveAbility(context.attacker);
             snapshotPassiveAbility(context.defender);
             const attackerAbility = context.attacker.passiveAbility || null;
@@ -1861,6 +1868,8 @@ function applyEffect(effect, context, moveResult) {
             attackerData.abilitySuppressed = false;
             targetData.abilitySuppressed = false;
             messages.push(`Les talents des deux Pokemon sont echanges.`);
+            refreshChangedAbility(context.attacker, context.defender, context.attackerSide, context.defenderSide, context.battleState, messages);
+            refreshChangedAbility(context.defender, context.attacker, context.defenderSide, context.attackerSide, context.battleState, messages);
             return;
         }
 
@@ -1871,7 +1880,9 @@ function applyEffect(effect, context, moveResult) {
             return;
 
         case 'entrainment':
-            if (!getPassiveAbility(context.attacker) || [context.attacker,context.defender].some(p=>reactions.UNCHANGEABLE.has(getAbilityName(p)))) {
+            if (!getPassiveAbility(context.attacker) || abilityFlag(getAbilityName(context.attacker),'noentrain')
+                || abilityFlag(getAbilityName(context.defender),'cantsuppress') || getAbilityName(context.defender)==='Truant'
+                || getAbilityName(context.attacker)===getAbilityName(context.defender)) {
                 messages.push(`Aucun talent ne peut etre transmis.`);
                 return;
             }
@@ -1879,6 +1890,7 @@ function applyEffect(effect, context, moveResult) {
             context.defender.passiveAbility = getPassiveAbility(context.attacker);
             targetData.abilitySuppressed = false;
             messages.push(`${getPokemonDisplayName(context.defender)} recoit le talent ${context.defender.passiveAbility}.`);
+            refreshChangedAbility(context.defender, context.attacker, context.defenderSide, context.attackerSide, context.battleState, messages);
             return;
 
         case 'magic_coat':
@@ -2384,6 +2396,8 @@ function processEndOfRound(playerPokemon, enemyPokemon, playerSide, enemySide, b
 
 function switchInAbilityHelpers(pokemon, ownSide, enemySide) {
     return {
+        downloadStat: (target, stat) => Math.floor(getBaseStatValue(target, stat) * stageMultiplier(ensureBattleData(target).statStages[stat] || 0)),
+        clearStatus: (target, messages) => clearStatus(target, messages, null, false),
         changeStage: (target,stat,stages,messages,source) => applyStageChange(target,stat,stages,messages,source,{side:target===pokemon?ownSide:enemySide}),
         snapshotAbility: snapshotPassiveAbility,
         snapshotMoveStats: snapshotMoveAndStatOverrides,
@@ -2398,6 +2412,15 @@ function switchInAbilityHelpers(pokemon, ownSide, enemySide) {
             return safeNumber(move.power, 0) > 0 && effectiveness > 1;
         }
     };
+}
+
+function refreshChangedAbility(pokemon, opponent, ownSide, enemySide, battleState, messages) {
+    abilityForms.sync(pokemon,'ability',messages,null,battleState,opponent);
+    messages.push(...applySwitchInAbility(pokemon,opponent,ownSide,enemySide,battleState,switchInAbilityHelpers(pokemon,ownSide,enemySide)));
+    if (opponent?.currentHp > 0 && hasPassiveAbility(opponent,'Trace')) {
+        messages.push(...applySwitchInAbility(opponent,pokemon,enemySide,ownSide,battleState,switchInAbilityHelpers(opponent,enemySide,ownSide)));
+    }
+    abilityForms.syncWeatherForms(pokemon,opponent,battleState,messages);
 }
 
 function applySwitchInEffects(pokemon, ownSide, enemySide, battleState, enemyPokemon = null) {
@@ -2468,6 +2491,9 @@ function applySwitchInEffects(pokemon, ownSide, enemySide, battleState, enemyPok
     battleData.endure = false;
 
     messages.push(...applySwitchInAbility(pokemon, enemyPokemon, ownSide, enemySide, battleState, switchInAbilityHelpers(pokemon,ownSide,enemySide)));
+    if (enemyPokemon?.currentHp > 0 && hasPassiveAbility(enemyPokemon,'Trace')) {
+        messages.push(...applySwitchInAbility(enemyPokemon,pokemon,enemySide,ownSide,battleState,switchInAbilityHelpers(enemyPokemon,enemySide,ownSide)));
+    }
     abilityForms.syncWeatherForms(pokemon,enemyPokemon,battleState,messages);
     activateHeldItem(pokemon,battleState,messages,'immediate',enemyPokemon);
     return messages;
@@ -2632,7 +2658,7 @@ function applyImplicitMoveEffect(move, context, moveResult) {
 }
 
 function reactionHelpers(context = {}) {
-    return {damage:applyDamage,heal:healPokemon,status:applyStatus,clearStatus,stage:(target,stat,stages,messages,source)=>applyStageChange(target,stat,stages,messages,source,{side:target===context.attacker?context.attackerSide:context.defenderSide}),
+    return {damage:applyDamage,heal:healPokemon,status:applyStatus,clearStatus,clearMajorStatus:(p,m)=>clearStatus(p,m,null,false),stage:(target,stat,stages,messages,source)=>applyStageChange(target,stat,stages,messages,source,{side:target===context.attacker?context.attackerSide:context.defenderSide}),
         types:getPokemonTypes,base:getBaseStatValue,snapshotAbility:snapshotPassiveAbility,snapshotItem:snapshotHeldItemForExchange,
         recycle:(p,messages)=>applyEffect({kind:'recycle'},{attacker:p,defender:p,move:{}},{messages})};
 }
@@ -3008,6 +3034,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         const lockOnActive = attackerData.lockOnTurns > 0 && attackerData.lockOnTargetId && attackerData.lockOnTargetId === (defender.uuid || getPokemonDisplayName(defender));
         if (!lockOnActive) {
             let baseAccuracy = accuracy / 100;
+            if (damageClass === 'status' && hasPassiveAbility(defender,'Wonder Skin') && !ignoresDefenderAbility(attacker,defender)) baseAccuracy = .5;
             if (move.combat?.power_type === 'ohko') {
                 const levelDifference = safeNumber(attacker.level, 1) - safeNumber(defender.level, 1);
                 baseAccuracy = levelDifference < 0 ? 0 : (30 + levelDifference) / 100;
@@ -3232,7 +3259,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
             moveResult.messages.push('Repos échoue.');
         } else {
             attacker.status = 'normal';
-            if (applyStatus(attacker, 'sleep', null, moveResult.messages, {battleState, turns:3, ignoreSafeguard:true})) {
+            if (applyStatus(attacker, 'sleep', null, moveResult.messages, {battleState, attacker, turns:3, ignoreSafeguard:true})) {
                 attackerData.toxicCounter = 0;
                 const healed = healPokemon(attacker, attacker.maxHp);
                 moveResult.messages.push(`${getPokemonDisplayName(attacker)} récupère ${healed} PV avec Repos.`);

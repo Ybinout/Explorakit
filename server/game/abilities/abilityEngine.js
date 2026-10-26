@@ -1,10 +1,13 @@
 const moveFlagData = require('../../../data/game/move_ability_flags.gen7.json');
+const { abilityFlag } = require('./abilityRules');
 
 const MOLD_BREAKER_ABILITIES = new Set(['Mold Breaker', 'Teravolt', 'Turboblaze']);
 const STAT_DROP_IMMUNITIES = new Set(['Clear Body', 'Full Metal Body', 'White Smoke']);
 const CRITICAL_IMMUNITIES = new Set(['Battle Armor', 'Shell Armor']);
 const WEATHER_SUPPRESSORS = new Set(['Air Lock', 'Cloud Nine']);
-const UNBREAKABLE_ABILITIES = new Set(['Full Metal Body', 'Prism Armor', 'Shadow Shield']);
+const MAJOR_STATUSES = new Set(['sleep', 'paralyze', 'poison', 'badly_poison', 'burn', 'freeze']);
+const currentTypes = p => p?.__battle?.tempTypes?.length ? p.__battle.tempTypes
+    : p?.__battle?.formTypes?.length ? p.__battle.formTypes : [p?.type1, p?.type2].filter(Boolean);
 
 const FAMILY_ABILITIES = Object.freeze({
     immunity_absorption: Object.freeze([
@@ -80,8 +83,8 @@ function hasAbility(pokemon, abilityName) {
 }
 
 function ignoresDefenderAbility(attacker, defender = null) {
-    if (defender && UNBREAKABLE_ABILITIES.has(getAbilityName(defender))) return false;
-    return MOLD_BREAKER_ABILITIES.has(getAbilityName(attacker));
+    return MOLD_BREAKER_ABILITIES.has(getAbilityName(attacker))
+        && (!defender || abilityFlag(getAbilityName(defender), 'breakable'));
 }
 
 function getMoveFlags(move) {
@@ -92,10 +95,10 @@ function isWeatherSuppressed(...pokemons) {
     return pokemons.some((pokemon) => pokemon?.currentHp > 0 && WEATHER_SUPPRESSORS.has(getAbilityName(pokemon)));
 }
 
-function canAbilityBlockStatus(target, status, battleState) {
+function canAbilityBlockStatus(target, status, battleState, source = null) {
     const ability = getAbilityName(target);
     if (!ability) return false;
-    if (ability === 'Comatose') return true;
+    if (ability === 'Comatose') return MAJOR_STATUSES.has(status);
     if (status === 'sleep' && ['Insomnia', 'Vital Spirit', 'Sweet Veil'].includes(ability)) return true;
     if (status === 'paralyze' && ability === 'Limber') return true;
     if (['poison', 'badly_poison'].includes(status) && ability === 'Immunity') return true;
@@ -104,8 +107,8 @@ function canAbilityBlockStatus(target, status, battleState) {
     if (status === 'confusion' && ability === 'Own Tempo') return true;
     if (status === 'infatuation' && ability === 'Oblivious') return true;
     if (status === 'infatuation' && ability === 'Aroma Veil') return true;
-    if (ability === 'Leaf Guard' && battleState?.weather?.kind === 'sun') return true;
-    if (ability === 'Flower Veil' && [target.type1, target.type2].includes('Grass')) return true;
+    if (MAJOR_STATUSES.has(status) && ability === 'Leaf Guard' && battleState?.weather?.kind === 'sun') return true;
+    if (MAJOR_STATUSES.has(status) && ability === 'Flower Veil' && source !== target && currentTypes(target).includes('Grass')) return true;
     return false;
 }
 
@@ -116,7 +119,7 @@ function blocksStatDrop(target, stat, stages, source = null) {
     if (ability === 'Hyper Cutter' && stat === 'attack') return true;
     if (ability === 'Big Pecks' && stat === 'defense') return true;
     if (ability === 'Keen Eye' && stat === 'accuracy') return true;
-    if (ability === 'Flower Veil' && [target.type1, target.type2].includes('Grass')) return true;
+    if (ability === 'Flower Veil' && currentTypes(target).includes('Grass')) return true;
     return false;
 }
 
@@ -171,11 +174,11 @@ function resolveMoveAbilityImmunity(context) {
     if (['Dazzling', 'Queenly Majesty'].includes(ability) && movePriority > 0) reason = ability;
     if (ability === 'Telepathy' && isAllyHit && move?.combat?.damage_class !== 'status') reason = 'Telepathy';
     if (ability === 'Wonder Guard' && move?.combat?.damage_class !== 'status' && effectiveness <= 1) reason = 'Wonder Guard';
-    const defenderFlying = [defender.type1, defender.type2].includes('Flying') || hasAbility(defender, 'Levitate');
+    const defenderFlying = currentTypes(defender).includes('Flying') || hasAbility(defender, 'Levitate');
     if (battleState?.terrain?.kind === 'psychic_terrain' && movePriority > 0
         && (context.grounded ?? (!defenderFlying || battleState?.field?.gravityTurns > 0))) reason = 'Psychic Terrain';
     if (hasAbility(attacker, 'Prankster') && move?.combat?.damage_class === 'status'
-        && [defender.type1, defender.type2].includes('Dark')) reason = 'son type Ténèbres';
+        && currentTypes(defender).includes('Dark')) reason = 'son type Ténèbres';
 
     const absorption = TYPE_ABSORPTIONS[ability];
     if (!reason && absorption?.type === move.type) {
@@ -217,7 +220,6 @@ function getAbilityAccuracyMultiplier(attacker, defender, move, battleState) {
         if (!isWeatherSuppressed(attacker, defender) && hasAbility(defender, 'Sand Veil') && battleState?.weather?.kind === 'sandstorm') multiplier *= 0.8;
         if (!isWeatherSuppressed(attacker, defender) && hasAbility(defender, 'Snow Cloak') && battleState?.weather?.kind === 'hail') multiplier *= 0.8;
         if (hasAbility(defender, 'Tangled Feet') && defender.__battle?.confusionTurns > 0) multiplier *= 0.5;
-        if (hasAbility(defender, 'Wonder Skin') && move?.combat?.damage_class === 'status') multiplier *= 0.5;
     }
     return multiplier;
 }
@@ -271,7 +273,7 @@ function getAbilityDamageMultiplier(context) {
     if (attackerAbility === 'Iron Fist' && flags.punch) multiplier *= 1.2;
     if (attackerAbility === 'Mega Launcher' && flags.pulse) multiplier *= 1.5;
     if (attackerAbility === 'Strong Jaw' && flags.bite) multiplier *= 1.5;
-    if (attackerAbility === 'Tough Claws' && flags.contact) multiplier *= 4 / 3;
+    if (attackerAbility === 'Tough Claws' && flags.contact) multiplier *= 1.3;
     if (attackerAbility === 'Reckless' && flags.recoil) multiplier *= 1.2;
     if (attackerAbility === 'Sheer Force' && flags.secondary) multiplier *= 1.3;
     if (attackerAbility === 'Steelworker' && move.type === 'Steel') multiplier *= 1.5;
@@ -287,11 +289,11 @@ function getAbilityDamageMultiplier(context) {
         const a = gender(attacker), d = gender(defender);
         if (['male','female'].includes(a) && ['male','female'].includes(d)) multiplier *= a === d ? 1.25 : 0.75;
     }
-    if ((move.type === 'Dark' && [attackerAbility, getAbilityName(defender)].includes('Dark Aura'))
-        || (move.type === 'Fairy' && [attackerAbility, getAbilityName(defender)].includes('Fairy Aura'))) {
-        multiplier *= [attackerAbility, getAbilityName(defender)].includes('Aura Break') ? 0.75 : 4 / 3;
+    if ((move.type === 'Dark' && [attackerAbility, defenderAbility].includes('Dark Aura'))
+        || (move.type === 'Fairy' && [attackerAbility, defenderAbility].includes('Fairy Aura'))) {
+        multiplier *= [attackerAbility, defenderAbility].includes('Aura Break') ? 0.75 : 4 / 3;
     }
-    if (attacker.__battle?.flashFireBoost && move.type === 'Fire') multiplier *= 1.5;
+    if (attackerAbility === 'Flash Fire' && attacker.__battle?.flashFireBoost && move.type === 'Fire') multiplier *= 1.5;
 
     if (defenderAbility === 'Fluffy') {
         if (flags.contact && attackerAbility !== 'Long Reach') multiplier *= 0.5;
@@ -345,16 +347,15 @@ function applySwitchInAbility(pokemon, opponent, ownSide, enemySide, battleState
         battleState.terrain.turns = 5;
         messages.push(`${ability} de ${name} cree le terrain ${battleState.terrain.kind}.`);
     }
-    if (ability === 'Intimidate' && opponent && typeof changeStage === 'function') {
+    if (ability === 'Intimidate' && opponent && !(opponent.__battle?.substituteHp > 0) && typeof changeStage === 'function') {
         changeStage(opponent, 'attack', -1, messages, pokemon);
     }
     if (ability === 'Download' && typeof changeStage === 'function' && opponent) {
-        const defense = safeNumber(opponent.currentDefense, opponent.defense);
-        const specialDefense = safeNumber(opponent.currentSpecialDefense, opponent.specialDefense);
+        const defense = helpers.downloadStat?.(opponent, 'defense') ?? safeNumber(opponent.currentDefense, opponent.defense);
+        const specialDefense = helpers.downloadStat?.(opponent, 'specialDefense') ?? safeNumber(opponent.currentSpecialDefense, opponent.specialDefense);
         changeStage(pokemon, defense < specialDefense ? 'attack' : 'specialAttack', 1, messages, pokemon);
     }
-    const uncopyable = new Set(['Forecast','Trace','Imposter','Illusion','Multitype','RKS System','Schooling','Shields Down','Stance Change','Disguise','Comatose','Power Construct','Battle Bond']);
-    if (ability === 'Trace' && opponent && getAbilityName(opponent) && !uncopyable.has(getAbilityName(opponent)) && typeof helpers.snapshotAbility === 'function') {
+    if (ability === 'Trace' && opponent && getAbilityName(opponent) && !abilityFlag(getAbilityName(opponent), 'notrace') && typeof helpers.snapshotAbility === 'function') {
         helpers.snapshotAbility(pokemon);
         pokemon.passiveAbility = getAbilityName(opponent);
         messages.push(`${name} copie ${getAbilityName(opponent)} avec Trace.`);
@@ -375,6 +376,16 @@ function applySwitchInAbility(pokemon, opponent, ownSide, enemySide, battleState
     if (ability === 'Imposter' && typeof helpers.transform === 'function' && helpers.transform(pokemon, opponent)) {
         messages.push(`${name} prend l'apparence et les aptitudes de ${enemyName} avec Imposter.`);
         if (getAbilityName(pokemon) !== 'Imposter') messages.push(...applySwitchInAbility(pokemon,opponent,ownSide,enemySide,battleState,helpers));
+    }
+    const curedStatuses = { Insomnia: ['sleep'], 'Vital Spirit': ['sleep'], Immunity: ['poison','badly_poison'],
+        Limber: ['paralyze'], 'Magma Armor': ['freeze'], 'Water Veil': ['burn'], 'Water Bubble': ['burn'] };
+    if (curedStatuses[getAbilityName(pokemon)]?.includes(pokemon.status)) helpers.clearStatus?.(pokemon, messages);
+    const data = pokemon.__battle;
+    if (data && getAbilityName(pokemon)==='Own Tempo' && data.confusionTurns > 0) {
+        data.confusionTurns=0; messages.push(`${name} n’est plus confus grâce à Tempo Perso.`);
+    }
+    if (data && getAbilityName(pokemon)==='Oblivious' && (data.infatuationTurns > 0 || data.tauntTurns > 0)) {
+        data.infatuationTurns=0; data.tauntTurns=0; messages.push(`${name} se libère grâce à Benêt.`);
     }
     return messages;
 }

@@ -1,0 +1,450 @@
+{
+  "generation": 7,
+  "source": "Pokemon Showdown via @pkmn/dex",
+  "version": "0.10.11",
+  "abilities": {
+    "Adaptability": {},
+    "Aftermath": {},
+    "Air Lock": {},
+    "Analytic": {},
+    "Anger Point": {},
+    "Anticipation": {},
+    "Arena Trap": {},
+    "Aroma Veil": {
+      "breakable": true
+    },
+    "Aura Break": {
+      "breakable": true
+    },
+    "Bad Dreams": {},
+    "Battery": {},
+    "Battle Armor": {
+      "breakable": true
+    },
+    "Battle Bond": {
+      "notrace": true,
+      "failroleplay": true,
+      "failskillswap": true,
+      "cantsuppress": true,
+      "noentrain": true
+    },
+    "Beast Boost": {},
+    "Berserk": {},
+    "Big Pecks": {
+      "breakable": true
+    },
+    "Blaze": {},
+    "Bulletproof": {
+      "breakable": true
+    },
+    "Cheek Pouch": {},
+    "Chlorophyll": {},
+    "Clear Body": {
+      "breakable": true
+    },
+    "Cloud Nine": {},
+    "Color Change": {},
+    "Comatose": {
+      "notrace": true,
+      "failroleplay": true,
+      "failskillswap": true,
+      "cantsuppress": true,
+      "noentrain": true
+    },
+    "Competitive": {},
+    "Compound Eyes": {},
+    "Contrary": {
+      "breakable": true
+    },
+    "Corrosion": {},
+    "Cursed Body": {},
+    "Cute Charm": {},
+    "Damp": {
+      "breakable": true
+    },
+    "Dancer": {},
+    "Dark Aura": {
+      "breakable": true
+    },
+    "Dazzling": {
+      "breakable": true
+    },
+    "Defeatist": {},
+    "Defiant": {},
+    "Disguise": {
+      "breakable": true,
+      "notrace": true,
+      "failroleplay": true,
+      "failskillswap": true,
+      "cantsuppress": true,
+      "noentrain": true,
+      "notransform": true
+    },
+    "Download": {},
+    "Drizzle": {},
+    "Drought": {},
+    "Dry Skin": {
+      "breakable": true
+    },
+    "Early Bird": {},
+    "Effect Spore": {},
+    "Electric Surge": {},
+    "Emergency Exit": {},
+    "Fairy Aura": {
+      "breakable": true
+    },
+    "Filter": {
+      "breakable": true
+    },
+    "Flame Body": {},
+    "Flare Boost": {},
+    "Flash Fire": {
+      "breakable": true
+    },
+    "Flower Gift": {
+      "breakable": true,
+      "notrace": true,
+      "failroleplay": true,
+      "noentrain": true
+    },
+    "Flower Veil": {
+      "breakable": true
+    },
+    "Fluffy": {
+      "breakable": true
+    },
+    "Forecast": {
+      "notrace": true,
+      "failroleplay": true,
+      "noentrain": true
+    },
+    "Forewarn": {},
+    "Friend Guard": {
+      "breakable": true
+    },
+    "Frisk": {},
+    "Full Metal Body": {},
+    "Fur Coat": {
+      "breakable": true
+    },
+    "Gale Wings": {},
+    "Gluttony": {},
+    "Gooey": {},
+    "Grass Pelt": {
+      "breakable": true
+    },
+    "Grassy Surge": {},
+    "Guts": {},
+    "Harvest": {},
+    "Healer": {},
+    "Heatproof": {
+      "breakable": true
+    },
+    "Heavy Metal": {
+      "breakable": true
+    },
+    "Honey Gather": {},
+    "Huge Power": {},
+    "Hustle": {},
+    "Hydration": {},
+    "Hyper Cutter": {
+      "breakable": true
+    },
+    "Ice Body": {},
+    "Illuminate": {},
+    "Illusion": {
+      "notrace": true,
+      "failroleplay": true,
+      "failskillswap": true,
+      "noentrain": true
+    },
+    "Immunity": {
+      "breakable": true
+    },
+    "Imposter": {
+      "notrace": true,
+      "failroleplay": true,
+      "noentrain": true
+    },
+    "Infiltrator": {},
+    "Innards Out": {},
+    "Inner Focus": {
+      "breakable": true
+    },
+    "Insomnia": {
+      "breakable": true
+    },
+    "Intimidate": {},
+    "Iron Barbs": {},
+    "Iron Fist": {},
+    "Justified": {},
+    "Keen Eye": {
+      "breakable": true
+    },
+    "Klutz": {},
+    "Leaf Guard": {
+      "breakable": true
+    },
+    "Levitate": {
+      "breakable": true
+    },
+    "Light Metal": {
+      "breakable": true
+    },
+    "Lightning Rod": {
+      "breakable": true
+    },
+    "Limber": {
+      "breakable": true
+    },
+    "Liquid Ooze": {},
+    "Liquid Voice": {},
+    "Long Reach": {},
+    "Magic Bounce": {
+      "breakable": true
+    },
+    "Magic Guard": {},
+    "Magician": {},
+    "Magma Armor": {
+      "breakable": true
+    },
+    "Magnet Pull": {},
+    "Marvel Scale": {
+      "breakable": true
+    },
+    "Mega Launcher": {},
+    "Merciless": {},
+    "Minus": {},
+    "Misty Surge": {},
+    "Mold Breaker": {},
+    "Moody": {},
+    "Motor Drive": {
+      "breakable": true
+    },
+    "Moxie": {},
+    "Multiscale": {
+      "breakable": true
+    },
+    "Multitype": {
+      "notrace": true,
+      "failroleplay": true,
+      "failskillswap": true,
+      "cantsuppress": true,
+      "noentrain": true
+    },
+    "Mummy": {},
+    "Natural Cure": {},
+    "No Guard": {},
+    "Normalize": {},
+    "Oblivious": {
+      "breakable": true
+    },
+    "Overcoat": {
+      "breakable": true
+    },
+    "Overgrow": {},
+    "Own Tempo": {
+      "breakable": true
+    },
+    "Pickpocket": {},
+    "Pickup": {},
+    "Pixilate": {},
+    "Plus": {},
+    "Poison Heal": {},
+    "Poison Point": {},
+    "Poison Touch": {},
+    "Power Construct": {
+      "notrace": true,
+      "failroleplay": true,
+      "failskillswap": true,
+      "cantsuppress": true,
+      "noentrain": true
+    },
+    "Prankster": {},
+    "Pressure": {},
+    "Prism Armor": {},
+    "Protean": {},
+    "Psychic Surge": {},
+    "Pure Power": {},
+    "Queenly Majesty": {
+      "breakable": true
+    },
+    "Quick Feet": {},
+    "RKS System": {
+      "notrace": true,
+      "failroleplay": true,
+      "failskillswap": true,
+      "cantsuppress": true,
+      "noentrain": true
+    },
+    "Rain Dish": {},
+    "Rattled": {},
+    "Receiver": {
+      "notrace": true,
+      "failroleplay": true,
+      "noentrain": true
+    },
+    "Reckless": {},
+    "Refrigerate": {},
+    "Regenerator": {},
+    "Rivalry": {},
+    "Rock Head": {},
+    "Rough Skin": {},
+    "Run Away": {},
+    "Sand Force": {},
+    "Sand Rush": {},
+    "Sand Stream": {},
+    "Sand Veil": {
+      "breakable": true
+    },
+    "Sap Sipper": {
+      "breakable": true
+    },
+    "Schooling": {
+      "notrace": true,
+      "failroleplay": true,
+      "failskillswap": true,
+      "cantsuppress": true,
+      "noentrain": true
+    },
+    "Scrappy": {},
+    "Serene Grace": {},
+    "Shadow Shield": {},
+    "Shadow Tag": {},
+    "Shed Skin": {},
+    "Sheer Force": {},
+    "Shell Armor": {
+      "breakable": true
+    },
+    "Shield Dust": {
+      "breakable": true
+    },
+    "Shields Down": {
+      "notrace": true,
+      "failroleplay": true,
+      "failskillswap": true,
+      "cantsuppress": true,
+      "noentrain": true
+    },
+    "Simple": {
+      "breakable": true
+    },
+    "Skill Link": {},
+    "Slow Start": {},
+    "Slush Rush": {},
+    "Sniper": {},
+    "Snow Cloak": {
+      "breakable": true
+    },
+    "Snow Warning": {},
+    "Solar Power": {},
+    "Solid Rock": {
+      "breakable": true
+    },
+    "Soul-Heart": {},
+    "Soundproof": {
+      "breakable": true
+    },
+    "Speed Boost": {},
+    "Stakeout": {},
+    "Stall": {},
+    "Stamina": {},
+    "Stance Change": {
+      "notrace": true,
+      "failroleplay": true,
+      "failskillswap": true,
+      "cantsuppress": true,
+      "noentrain": true
+    },
+    "Static": {},
+    "Steadfast": {},
+    "Steelworker": {},
+    "Stench": {},
+    "Sticky Hold": {
+      "breakable": true
+    },
+    "Storm Drain": {
+      "breakable": true
+    },
+    "Strong Jaw": {},
+    "Sturdy": {
+      "breakable": true
+    },
+    "Suction Cups": {
+      "breakable": true
+    },
+    "Super Luck": {},
+    "Swarm": {},
+    "Sweet Veil": {
+      "breakable": true
+    },
+    "Swift Swim": {},
+    "Symbiosis": {},
+    "Synchronize": {},
+    "Tangled Feet": {
+      "breakable": true
+    },
+    "Technician": {},
+    "Telepathy": {
+      "breakable": true
+    },
+    "Teravolt": {},
+    "Thick Fat": {
+      "breakable": true
+    },
+    "Tinted Lens": {},
+    "Torrent": {},
+    "Tough Claws": {},
+    "Toxic Boost": {},
+    "Trace": {
+      "notrace": true,
+      "failroleplay": true,
+      "noentrain": true
+    },
+    "Triage": {},
+    "Truant": {},
+    "Turboblaze": {},
+    "Unaware": {
+      "breakable": true
+    },
+    "Unburden": {},
+    "Unnerve": {},
+    "Victory Star": {},
+    "Vital Spirit": {
+      "breakable": true
+    },
+    "Volt Absorb": {
+      "breakable": true
+    },
+    "Water Absorb": {
+      "breakable": true
+    },
+    "Water Bubble": {
+      "breakable": true
+    },
+    "Water Compaction": {},
+    "Water Veil": {
+      "breakable": true
+    },
+    "Weak Armor": {},
+    "White Smoke": {
+      "breakable": true
+    },
+    "Wimp Out": {},
+    "Wonder Guard": {
+      "breakable": true,
+      "failroleplay": true,
+      "failskillswap": true
+    },
+    "Wonder Skin": {
+      "breakable": true
+    },
+    "Zen Mode": {
+      "notrace": true,
+      "failroleplay": true,
+      "failskillswap": true,
+      "cantsuppress": true,
+      "noentrain": true
+    }
+  }
+}
