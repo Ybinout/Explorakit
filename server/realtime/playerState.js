@@ -56,6 +56,7 @@ function toPublicPlayer(player) {
         x: player.x,
         y: player.y,
         sprite: player.sprite,
+        spritePalette: require('../game/world/trainerPalette').normalizeTrainerPalette(player.spritePalette),
         direction: player.direction,
         isMoving: Boolean(player.isMoving),
         animationFrame: Number(player.animationFrame) || 0,

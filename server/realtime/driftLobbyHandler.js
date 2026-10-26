@@ -7,10 +7,10 @@ const { isShopMap } = require('../game/world/shopCatalog');
 const checkpointCodec = require('../game/drift/checkpointCodec');
 const catalogue = require('../../data/game/drifts.json');
 const { resolveMoveChoice } = require('../game/models/moveLearning');
-const { loadUserSprite, saveUserSprite, sanitizeSpriteName } = require('../persistence/playerRepository');
+const { loadUserSprite, saveUserSprite, sanitizeSpriteName, loadUserSpritePalette, saveUserSpritePalette } = require('../persistence/playerRepository');
 
 // Separate namespace: never loads or writes Adventure teams, inventory or positions.
-function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, runtimeOptions = {}, accountRepository = null, colosseumRepository = null, checkpointRepository = null, initialCheckpoint = null, appearanceRepository = { loadUserSprite, saveUserSprite } } = {}) {
+function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, runtimeOptions = {}, accountRepository = null, colosseumRepository = null, checkpointRepository = null, initialCheckpoint = null, appearanceRepository = { loadUserSprite, saveUserSprite, loadUserSpritePalette, saveUserSpritePalette } } = {}) {
     const namespace = io.of('/drift');
     namespace.use(authenticateSocket);
     const runtime = createRunManager({ ...runtimeOptions, store, namespace, accountRepository, colosseumRepository });
@@ -114,12 +114,16 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
             }
         });
         socket.on('drift:enter', async (payload, acknowledge) => {
-            try { if(stopped)throw new LobbyError('restarting','Le serveur redémarre.'); socket.data.riftMovementPatches=payload?.movementPatches===1; const sprite = await appearanceRepository.loadUserSprite(user.id); if(stopped || !socket.connected) return; const state = runtime.enter(user, socket, sprite); if (typeof acknowledge === 'function') acknowledge({ success: true, state }); }
+            try { if(stopped)throw new LobbyError('restarting','Le serveur redémarre.'); socket.data.riftMovementPatches=payload?.movementPatches===1; const [sprite,palette] = await Promise.all([appearanceRepository.loadUserSprite(user.id),appearanceRepository.loadUserSpritePalette?.(user.id)]); if(stopped || !socket.connected) return; const state = runtime.enter(user, socket, sprite, palette); if (typeof acknowledge === 'function') acknowledge({ success: true, state }); }
             catch (error) { if (typeof acknowledge === 'function') acknowledge({ success: false, message: error.message }); }
         });
         gameCommand('drift:refresh', () => ({ success: true }), false);
         gameCommand('recoverPosition', p=>runtime.recoverPosition(p));
         gameCommand('drift:save', () => ({ success: true }), false);
+
+        require('./handlers/trainerPaletteHandlers').registerTrainerPaletteHandlers({socket,userId:user.id,save:appearanceRepository.saveUserSpritePalette,getPlayer:()=>{const p=runtime.playerFor(user);return p?.socketId===socket.id?p:null;},broadcast:(p,palette)=>{
+            for(const member of p.run.players.values())if(member.socketId)namespace.to(member.socketId).emit('playerPaletteUpdated',{id:p.socketId,palette});
+        }});
         let appearanceBusy = false;
         socket.on('setSprite', async (data = {}, acknowledge = () => {}) => {
             const reply = typeof acknowledge === 'function' ? acknowledge : () => {};

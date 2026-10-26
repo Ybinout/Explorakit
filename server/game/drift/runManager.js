@@ -400,10 +400,11 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
             players: [...run.players.values()].map(p => ({ id: p.userId, username: p.username })) }))
             .then(activate).catch(error => { lobby.starting=false;throw error; });
     }
-    function enter(user,socket,sprite) {
+    function enter(user,socket,sprite,palette) {
         const p=playerFor(user); if(!p) economy.fail('Aucune expédition active.');
         p.lucieDeparture=null; // Its permanent run flag already records a started disappearance.
         if (sprite) p.sprite = sprite;
+        if(palette!==undefined)p.spritePalette=require('../world/trainerPalette').normalizeTrainerPalette(palette);
         stopSpectating(p,'replaced');
         if(p.socketId && p.socketId!==socket.id) namespace.to(p.socketId).emit('drift:replaced',{});
         p.socketId=socket.id;p.disconnectedAt=null;

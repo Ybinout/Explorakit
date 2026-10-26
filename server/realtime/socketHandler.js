@@ -258,9 +258,10 @@ const socketHandler = (io) => {
             ? socket.data.user.username.trim()
             : '';
 
-        const [equipe, loadedSavedPosition] = await Promise.all([
+        const [equipe, loadedSavedPosition, spritePalette] = await Promise.all([
             loadEquipe(userId),
-            loadUserPosition(userId)
+            loadUserPosition(userId),
+            require('../persistence/playerRepository').loadUserSpritePalette(userId)
         ]);
         await synchronizeCaughtPokemon(userId, equipe?.pokemons).catch((error) => {
             console.error(`Erreur réconciliation Pokédex user ${userId}:`, error.message);
@@ -300,6 +301,7 @@ const socketHandler = (io) => {
             x: spawnPosition.x,
             y: spawnPosition.y,
             sprite: sanitizeSpriteName(savedPosition?.sprite || DEFAULT_SPRITE),
+            spritePalette,
             direction: 'down',
             isMoving: false,
             animationFrame: 0,
@@ -654,6 +656,9 @@ const socketHandler = (io) => {
         }
 
         registerPlayerProfileHandlers({ socket, io, players, userId });
+        require('./handlers/trainerPaletteHandlers').registerTrainerPaletteHandlers({socket,userId,getPlayer:()=>players[socket.id],broadcast:(p,palette)=>{
+            for(const peer of Object.values(players))if(peer.currentmap===p.currentmap)io.to(peer.id).emit('playerPaletteUpdated',{id:p.id,palette});
+        }});
         replaySessions.set(socket.id, {userId,
             pnjsForMap:getPnjsForMap,
             syncRaphTrial,

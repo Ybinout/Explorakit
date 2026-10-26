@@ -2,6 +2,19 @@ const { dbPool } = require('../config/database');
 const { normalizeCenterReturnPoint } = require('../game/world/pokemonCenterTravel');
 
 const DEFAULT_SPRITE = 'sprite.png';
+const {normalizeTrainerPalette}=require('../game/world/trainerPalette');
+
+async function loadUserSpritePalette(userId) {
+    try {
+        const [rows]=await dbPool.execute('SELECT sprite_palette FROM users WHERE id=? LIMIT 1',[userId]);
+        return normalizeTrainerPalette(rows[0]?.sprite_palette);
+    } catch(error) { if(error.code==='ER_BAD_FIELD_ERROR')return null;throw error; }
+}
+async function saveUserSpritePalette(userId,palette) {
+    const key=normalizeTrainerPalette(palette);if(!key)throw Error('Couleur invalide.');
+    await dbPool.execute('UPDATE users SET sprite_palette=? WHERE id=? AND NOT(sprite_palette <=> ?)',[key,userId,key]);
+    return key;
+}
 
 function sanitizeSpriteName(spriteName) {
     if (typeof spriteName !== 'string') {
@@ -112,6 +125,8 @@ async function saveUserRespawnPoint(userId, { x, y, map }) {
 }
 
 module.exports = {
+    loadUserSpritePalette,
+    saveUserSpritePalette,
     loadUserSprite,
     loadUserPosition,
     saveUserPosition,

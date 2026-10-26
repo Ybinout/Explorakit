@@ -7,12 +7,12 @@ function id(value) {
     if (!/^[1-9]\d*$/.test(String(value)) || !Number.isSafeInteger(Number(value)) || Number(value) > 2147483647) fail('Dresseur invalide.');
     return Number(value);
 }
-const select = `SELECT u.id,u.username,u.sprite,p.wins,p.losses,p.games_started,r.rating,r.games,a.title_key,a.frame_key
+const select = `SELECT u.id,u.username,u.sprite,u.sprite_palette,p.wins,p.losses,p.games_started,r.rating,r.games,a.title_key,a.frame_key
     FROM users u LEFT JOIN rift_profiles p ON p.user_id=u.id LEFT JOIN rift_ratings r ON r.user_id=u.id
     LEFT JOIN rift_appearance a ON a.user_id=u.id`;
 function publicTrainer(row) {
     const rating = row.rating == null ? INITIAL_RATING : Number(row.rating), games = Number(row.games) || 0;
-    return { id: Number(row.id), username: row.username, sprite: sanitizeSpriteName(row.sprite),
+    return { id: Number(row.id), username: row.username, sprite: sanitizeSpriteName(row.sprite), spritePalette:require('../game/world/trainerPalette').normalizeTrainerPalette(row.sprite_palette),
         title: cosmetics.find(c => c.key === row.title_key)?.name || null,
         frame: cosmetics.find(c => c.key === row.frame_key)?.color || null,
         rift: { wins: Number(row.wins) || 0, losses: Number(row.losses) || 0, gamesStarted: Number(row.games_started) || 0,
@@ -89,7 +89,7 @@ async function friendAction(viewer, target, action) {
 }
 async function leaderboard(viewer) {
     viewer=id(viewer);
-    const [rows]=await dbPool.execute(`SELECT ranked.position,u.id,u.username,u.sprite,p.wins,p.losses,p.games_started,r.rating,r.games,a.title_key,a.frame_key
+    const [rows]=await dbPool.execute(`SELECT ranked.position,u.id,u.username,u.sprite,u.sprite_palette,p.wins,p.losses,p.games_started,r.rating,r.games,a.title_key,a.frame_key
       FROM (SELECT user_id,ROW_NUMBER() OVER (ORDER BY rating DESC,user_id ASC) AS position FROM rift_ratings WHERE games>0) ranked
       JOIN users u ON u.id=ranked.user_id JOIN rift_ratings r ON r.user_id=u.id LEFT JOIN rift_profiles p ON p.user_id=u.id
       LEFT JOIN rift_appearance a ON a.user_id=u.id WHERE ranked.position<=50 OR u.id=? ORDER BY ranked.position`,[viewer]);

@@ -1,0 +1,185 @@
+{
+  "date": "2026-10-26",
+  "request": "Default trainer clothes/cap follow interface color and light/dark options, with the same colors visible to every player; other sprites excluded",
+  "implementation": {
+    "target": "sprite.png only, 256x256 / 16 poses; original PNG and all NPC/other appearance files unchanged",
+    "sourceColors": [
+      [
+        232,
+        112,
+        96
+      ],
+      [
+        176,
+        80,
+        72
+      ],
+      [
+        120,
+        64,
+        64
+      ],
+      [
+        192,
+        56,
+        56
+      ],
+      [
+        136,
+        40,
+        64
+      ]
+    ],
+    "palettes": [
+      "blue-light",
+      "blue-dark",
+      "sage-light",
+      "sage-dark",
+      "lavender-light",
+      "lavender-dark",
+      "sand-light",
+      "sand-dark"
+    ],
+    "preserved": "Every other pixel, all alpha, skin/white/eyes/outlines, frame crop/size/feet, walk frames; non-default sheets returned by identity",
+    "rendering": "Exact RGBA substitution into cached canvas; at most 8 variants, 2 MiB pixel storage; preview PNG cached once, no per-frame getImageData or new rendering loop; original red sheet remains safe fallback",
+    "authority": "Authenticated setTrainerPalette event, fixed-key validation, per-account ordered writes and cross-namespace publication, per-socket busy cap and disconnect listener cleanup; client coalesces rapid choices and retries on reconnect",
+    "persistence": "users.sprite_palette VARCHAR(24) nullable, migration 021 additive/rerunnable; metadata in public player snapshots and trainer profile, SQL loaded on enter; checkpoint compatible",
+    "multiSession": "Same-account sessions follow last confirmed palette; other users retain their own interface settings and render owner colors; no reactive echo loop",
+    "scope": "Adventure/Rift/Colosseum world avatars, Appearance preview, trainer profile; no gameplay/team/position changes"
+  },
+  "validation": {
+    "targeted": {
+      "command": "node --test tests/trainer-palette.test.js tests/player-appearance.test.js tests/drift-checkpoint.test.js tests/movement-patches-socket.test.js tests/world-movement.test.js",
+      "passed": 17,
+      "failed": 0,
+      "skipped": 0,
+      "log": "/tmp/riftmon-palette-tests.log",
+      "checks": "Client/server enum parity; exact RGBA replacement/nonmutation, eight distinct colors; authentication and no-op writes; same-account namespace convergence; queued ordering/busy cap; failure/disconnect isolation; public metadata; existing appearance/checkpoint/movement regressions; null/malformed event bodies rejected without throwing"
+    },
+    "migration": "021 executed twice successfully on dedicated test DB; production shape and recorded name verified during deployment",
+    "lint": {
+      "command": "npm --prefix vue-explorakit run lint",
+      "result": "pass",
+      "log": "/tmp/riftmon-palette-lint.log"
+    },
+    "build": {
+      "command": "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-palette-dist",
+      "hash": "a40823df04715885",
+      "log": "/tmp/riftmon-palette-build.log"
+    },
+    "browser": {
+      "command": "RELEASE_DIST_DIR=/tmp/riftmon-palette-dist RELEASE_SCREENSHOTS=/tmp/riftmon-palette-browser npm run test:trainer-palette-browser",
+      "result": {
+        "palettes": 8,
+        "changedPixelsPerSheet": 7016,
+        "unmodifiedOtherPixelsAndAlpha": true,
+        "otherSpritesUnchanged": true,
+        "viewports": 4,
+        "modes": [
+          "adventure",
+          "colosseum",
+          "rift"
+        ],
+        "crossNamespace": true,
+        "persistence": true,
+        "captures": [
+          "world-320.png",
+          "world-393.png",
+          "world-844.png",
+          "world-1365.png",
+          "appearance-preview.png",
+          "colosseum-palette.png",
+          "rift-owner.png",
+          "rift-observer.png",
+          "profile-palette.png"
+        ],
+        "checks": [
+          "Eight actual option choices persist/broadcast; both clients render identical exact pixel sheets independent of viewer theme; all non-red and alpha bytes untouched",
+          "Alternate sprites remain byte-identical; returning to default restores chosen palette and themed gallery preview",
+          "Reconnect/new observer and persistent profile keep owner palette; location/money/sprite preserved",
+          "Actual movement update retains palette for the remote observer",
+          "Real Colosseum/Rift, cross-namespace same-account broadcasts, checkpoint and namespace reconnect preserve palettes",
+          "Persistent profile portrait uses the owner palette too"
+        ],
+        "errors": []
+      },
+      "log": "/tmp/riftmon-palette-browser.log",
+      "visualInspection": [
+        "appearance-preview.png",
+        "world-393.png",
+        "rift-owner.png",
+        "rift-observer.png"
+      ],
+      "disposableAccountsCleaned": true
+    },
+    "broaderCheck": {
+      "command": "node --test tests/trainer-palette.test.js tests/player-appearance.test.js tests/drift-checkpoint.test.js tests/drift-connection.test.js tests/movement-patches-socket.test.js tests/world-movement.test.js",
+      "passed": 20,
+      "failed": 2,
+      "log": "/tmp/riftmon-palette-regression.log",
+      "failure": "One historical child plus its parent suite: drift-connection lifecycle stub omits attachGameFullscreen; identical result with baseline UserMap from client 19d6a9967c8e837cbbcdbd1c36035cc0d160173b",
+      "baselineCommand": "node --require /tmp/riftmon-palette-baseline-read.cjs --test tests/drift-connection.test.js",
+      "baselineLog": "/tmp/riftmon-palette-baseline-connection.log",
+      "notClaimedFixed": true
+    },
+    "syntaxAndDiff": "pass",
+    "limits": [
+      "Chromium, no physical phone/controller certification",
+      "No complete global suite claim"
+    ]
+  },
+  "deployment": {
+    "publishedAt": "2026-10-26T13:39:10.878Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-palette-final-2026-10-26T13-39-09-177Z",
+    "clientCommit": "0839eb3c89917ee3924f9ef5ba55ae6c65130107",
+    "clientBuild": "a40823df04715885",
+    "beforePid": "1974522",
+    "afterPid": "1975326",
+    "migration": "021_trainer_palette.sql",
+    "existingAvatarsPreserved": true,
+    "baseSpriteSha256": "a2469afa71ce73a6be7b6445b6240cbdf6b93fe26bae9bd59da07aab6de81b5d",
+    "activeRuns": 0,
+    "checkpointSaved": true,
+    "serverRestarted": true,
+    "gracefulCheckpoint": true,
+    "neighborsUnchanged": true,
+    "publicAssets": [
+      "js/account.701cc72b.js",
+      "js/app.f4edfd26.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.c4271c0e.js",
+      "js/game.420d2e81.js",
+      "css/account.71f45b55.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.e96afd3d.css"
+    ]
+  },
+  "initialDeployment": {
+    "publishedAt": "2026-10-26T13:35:51.608Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-palette-2026-10-26T13-35-49-054Z",
+    "clientCommit": "0839eb3c89917ee3924f9ef5ba55ae6c65130107",
+    "clientBuild": "a40823df04715885",
+    "beforePid": "1967257",
+    "afterPid": "1974522",
+    "migration": "021_trainer_palette.sql",
+    "existingAvatarsPreserved": true,
+    "baseSpriteSha256": "a2469afa71ce73a6be7b6445b6240cbdf6b93fe26bae9bd59da07aab6de81b5d",
+    "activeRuns": 0,
+    "checkpointSaved": true,
+    "serverRestarted": true,
+    "gracefulCheckpoint": true,
+    "neighborsUnchanged": true,
+    "publicAssets": [
+      "js/account.701cc72b.js",
+      "js/app.f4edfd26.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.c4271c0e.js",
+      "js/game.420d2e81.js",
+      "css/account.71f45b55.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.e96afd3d.css"
+    ]
+  }
+}
