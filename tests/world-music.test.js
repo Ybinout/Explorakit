@@ -68,9 +68,9 @@ test('returning from another theme restarts villages, routes and arenas, even af
  music.destroy();
 });
 
-test('Lucie battle theme only applies to the trainer encounter in her house',async()=>{
+test('Lucie and Professor share the battle theme only for their own trainer encounters',async()=>{
  const{battleMusicTrack}=await import('../vue-explorakit/src/services/battleMusic.js');
- assert.equal(battleMusicTrack('trainer','route2_maison'),'lucie');
+ for(const map of ['route2_maison','professor_lab']){assert.equal(battleMusicTrack('trainer',map),'lucie');for(const kind of ['wild','pvp','colosseum','arena'])assert.equal(battleMusicTrack(kind,map),kind);}
  for(const kind of ['wild','pvp','colosseum','arena'])assert.equal(battleMusicTrack(kind,'route2_maison'),kind);
  assert.equal(battleMusicTrack('trainer','route2'),'trainer');
 });

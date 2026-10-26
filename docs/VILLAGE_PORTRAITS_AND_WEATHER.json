@@ -1,0 +1,297 @@
+{
+  "date": "2026-10-26",
+  "tool": "Built-in image_gen.imagegen",
+  "prompts": {
+    "maria": "Use case: stylized-concept. Create Maria, a young adult Colombian woman aged about 22, as one character illustration for this monster-trainer RPG. References are STYLE ONLY: the same expressive black-and-white manga ink, confident hand-drawn outlines, grey screentone shadows and clean face as the existing trainer portraits. Do not copy either reference character. Maria has naturally dark long slightly wavy hair, a warm youthful face, and Latin American features rendered respectfully without stereotypes. She wears a simple rain jacket over a casual top, shorts or a knee-length skirt and everyday shoes. Relaxed friendly expression. She holds the handle of a clearly OPEN umbrella above her head with one hand; her other hand rests naturally near her side. Three-quarter standing full-body or generous three-quarter portrait, with the entire umbrella canopy and handle fully visible, balanced silhouette, eyes and face very clear at small dialogue size. The umbrella belongs to her rainy village. Monochrome black, white and grey only; no color, scenery, text, letters, signature, decorative frame or second character. Actual transparent background, clean silhouette including the umbrella; no dark rectangular backdrop or fake checkerboard. This is an illustrated portrait, NOT pixel art and NOT a chibi overworld sprite.",
+    "clement": "Use case: stylized-concept. Create Clément, a young adult man aged about 22, as a single character illustration for the same monster-trainer RPG. Reference images are STYLE ONLY: detailed but clean black-and-white manga ink, expressive face, grey screentones and strong readable silhouette. Do not copy either existing character. Clément is a mixed-heritage young man with medium warm skin represented by restrained grey screentone, short close curly dark hair with rounded curls, brown eyes rendered monochrome, clean-shaven face and a friendly quietly confident expression. Smart everyday clothing, stylish and relaxed: a light open-collar shirt with sleeves rolled to the forearms, dark tailored casual trousers, simple belt and clean low shoes. NO business suit, blazer, necktie, tuxedo or formal costume. He holds a small red/white-style capture ball, rendered monochrome, casually in one hand. Natural upright pose with a slight three-quarter turn, adult proportions, full body and entire head/feet in frame, spacious margin for use both in a small dialogue portrait and a battle entrance. Black, white and grey only. Actual transparent background. No background, typography, letters, logo, signature, aura or extra people. This is an illustrated portrait, NOT pixel art.",
+    "clementSprite": "Use case: style-transfer. Create exactly ONE simple front-idle RPG overworld sprite of Clément. Reference 1 is the actual player sprite sheet: use ONLY its upper-left idle character as the template and strictly preserve the same coarse logical pixels, huge head and extremely short compact body/feet, with a 17 by 24 native-pixel silhouette centered in a 32 by 32 cell. Reference 2 is the original NPC atlas, for matching proportions and simplicity. Character: young mixed-heritage man, medium warm brown skin, SHORT dark curly hair shown as a small rounded dark shape with only two or three chunky bumps, NO hat. Light ivory open-collar shirt, sleeves rolled at the hands, tiny dark navy trousers and tiny dark shoes. The face is two single-pixel dark eyes; no mouth detail, facial hair or wrinkles. A small red/white ball of two or three logical pixels in one hand. 10 to 12 flat colors maximum, one outline and one shadow tone per garment. Broad head about as large as the entire torso and legs combined, same tiny squat silhouette as the player. Absolutely no long legs, adult illustration proportions, antialiasing, gradients, texture, fingers, detailed curls, clothing folds or fine linework. Single character only, front-facing, idle stance, centered, actual transparent background, no shadow, floor, labels or sprite sheet. It must look like the original player reskinned with a curly-haired head and a simple smart shirt.",
+    "clementSpriteEyes": "Precise-object-edit of the supplied Clément RPG sprite. Keep exactly the same huge rounded curly dark head, warm brown skin, light ivory open-collar shirt, very short dark navy legs, tiny shoes, tiny capture ball, front-facing idle pose, flat restrained palette and transparent background. ONLY make the TWO EYES clearer at very low native game resolution: place two BLACK or darkest-charcoal rectangular eye blocks, each two logical pixels wide and three logical pixels high, spaced apart at the same height on the face. Both eyes must be strongly contrasted, symmetric and visible after shrinking the character to 17 pixels wide by 24 pixels high. Do not add mouth, nose marks, eyebrows, facial hair or extra face details. Remove the brown isolated nose-looking mark. Render as flat hard-edged integer logical pixel blocks, no antialiasing or texture. One single sprite only, on actual transparent background, no grid, labels, border, floor or other character. Keep the head and body proportions unchanged."
+  },
+  "preview": "docs/art/clement-player-based.png",
+  "previewLabels": [
+    "Joueur — référence",
+    "Clément"
+  ],
+  "alphaThreshold": 128,
+  "palette": [
+    "#211d27",
+    "#383641",
+    "#595662",
+    "#c98c62",
+    "#a56b49",
+    "#e4ac7d",
+    "#fff9e8",
+    "#ded7c5",
+    "#324058",
+    "#1e283b",
+    "#bd3e42"
+  ],
+  "sprites": [
+    {
+      "name": "clement",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-f1b869bc-8f03-4095-bedf-8395fa193528.png",
+      "destination": "vue-explorakit/src/assets/pnj/clement-pixel-v1.png",
+      "nativeContent": [
+        17,
+        24
+      ],
+      "nativeBox": {
+        "x": 7,
+        "y": 6,
+        "w": 17,
+        "h": 24
+      },
+      "firstSource": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-abc9a7eb-c411-4f67-9517-f50b22a1095a.png"
+    }
+  ],
+  "portraits": [
+    {
+      "name": "Maria",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-6630ca9f-c8a7-48ea-aaa8-475fbf4f8ff4.png",
+      "destination": "vue-explorakit/src/assets/image/maria-v1.png"
+    },
+    {
+      "name": "Clément",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-5b061ba8-b41f-4cba-a6e7-c12a3bf1a9a2.png",
+      "destination": "vue-explorakit/src/assets/image/clement-v1.png"
+    }
+  ],
+  "assets": [
+    {
+      "path": "vue-explorakit/src/assets/image/maria-v1.png",
+      "bytes": 2238205,
+      "size": [
+        1024,
+        1536
+      ],
+      "sha256": "653ebcf2a4f41f233a31d7013c70a7b8cacf5ffb42bf0239c0b2badd43e84755"
+    },
+    {
+      "path": "vue-explorakit/src/assets/image/clement-v1.png",
+      "bytes": 1863742,
+      "size": [
+        1024,
+        1536
+      ],
+      "sha256": "e43fc51db747a16d91eb872718c0aa836e75f4e3fdaf17fa85dd6d2169676bf8"
+    },
+    {
+      "path": "vue-explorakit/src/assets/pnj/clement-pixel-v1.png",
+      "bytes": 766,
+      "size": [
+        32,
+        32
+      ],
+      "sha256": "5cad99bdf24171b67c1ce4fc138c2f1b5de355232df8b0b3f5c9668e777426a8"
+    }
+  ],
+  "spriteExport": [
+    {
+      "name": "clement",
+      "destination": "vue-explorakit/src/assets/pnj/clement-pixel-v1.png",
+      "opaque": 293,
+      "bounds": {
+        "x": 7,
+        "y": 6,
+        "w": 17,
+        "h": 24
+      },
+      "colors": 11,
+      "alpha": [
+        0,
+        255
+      ],
+      "sourceBounds": {
+        "x": 398,
+        "y": 396,
+        "w": 461,
+        "h": 611
+      },
+      "bytes": 766,
+      "sha256": "5cad99bdf24171b67c1ce4fc138c2f1b5de355232df8b0b3f5c9668e777426a8"
+    }
+  ],
+  "scope": {
+    "professorMusic": "Le seul duel dresseur du laboratoire utilise la piste lucie-combat.mp3 existante, comme Lucie. Les modes JcJ/Colosseum gardent leur thème.",
+    "crystals": "Dix impacts dans chaque barrière de la maison de Lucie et du laboratoire : 550 + 770×i ms, i=0..9, durée 8030 ms. Interface et animation suivent la liste serveur, pas de phrase de fin au cinquième coup. Délai de secours augmenté, annulation et état personnel conservés ; anciens états ouverts ne sont pas réinitialisés.",
+    "compatibility": "Le client garde les cinq impacts de secours pour les anciens serveurs sans calendrier ; le nouveau serveur envoie les dix explicitement. Aucun changement de protocole ou de schéma SQL.",
+    "snow": "7p : climat partagé neige 2/3 et vent 1/3, 240 flocons dans la salle sur la surface bornée à 30 Hz existante ; hérité en combat comme grêle Gen7. Décor et thème de 7p conservés. Masquage en combat/chargement/onglet caché et mouvement réduit restent actifs.",
+    "maria": "Illustration manga monochrome : jeune adulte colombienne, cheveux sombres et parapluie ouvert. Sprite de carte original 6931 et son cadrage inchangés.",
+    "clement": "Illustration manga monochrome : jeune adulte métis, cheveux courts frisés, chemise claire col ouvert et pantalon sombre, sans costume/cravate. Nouveau sprite 32×32, contenu 17×24 placé en (7,6), onze couleurs, pied à la même hauteur que le joueur. Deuxième génération ciblée pour garder les deux yeux lisibles au format natif.",
+    "integration": "Portraits dans les dialogues avant/après et entrées illustrées réelles de town_lina/town_bastien à ville1, en conservant noms de progression, équipes, positions, patrouilles et gains. Apparence partagée entre les modes utilisant ces PNJ."
+  },
+  "validation": {
+    "unit": {
+      "command": "node --test tests/arena-entrance.test.js tests/world-music.test.js tests/world-weather.test.js tests/map-weather.test.js tests/room-obstacles.test.js tests/professor-finale.test.js tests/dialogue-portrait.test.js tests/lucie-departure.test.js",
+      "passed": 59,
+      "failed": 0,
+      "log": "/tmp/riftmon-village-polish-unit.log"
+    },
+    "mysql": {
+      "passed": 2,
+      "failed": 0,
+      "files": [
+        "tests/room-obstacles-socket.test.js",
+        "tests/professor-finale-mysql.test.js"
+      ],
+      "log": "/tmp/riftmon-village-polish-mysql.log",
+      "scope": "Dix impacts, refus du spam/déplacement, barrière conservée avant la fin, annulation après déconnexion, persistance et compte isolé ; finale/clé/admin sans régression.",
+      "fixtureCorrection": "L’ancienne assertion de victoire Lucie doit vérifier les barrières de sa maison seulement, et non les nouveaux cristaux du laboratoire."
+    },
+    "browser": {
+      "portraits": {
+        "actualDialogues": 2,
+        "actualTrainerEntrances": 2,
+        "mariaSpriteUnchanged": true,
+        "clementNativeSize": [
+          32,
+          32
+        ],
+        "worldScale": 2,
+        "afterBattlePortraits": true,
+        "arenaSnow": 240,
+        "arenaBattleWeather": "hail",
+        "arenaThemePreserved": true,
+        "reducedMotion": true,
+        "viewports": 4,
+        "artifacts": [
+          "town_lina-world-320.png",
+          "town_lina-world-393.png",
+          "town_lina-world-844.png",
+          "town_lina-world-1365.png",
+          "town_lina-dialogue-320.png",
+          "town_lina-dialogue-393.png",
+          "town_lina-dialogue-844.png",
+          "town_lina-dialogue-1365.png",
+          "town_lina-entrance-320.png",
+          "town_lina-entrance-393.png",
+          "town_lina-entrance-844.png",
+          "town_lina-entrance-1365.png",
+          "town_bastien-world-320.png",
+          "town_bastien-world-393.png",
+          "town_bastien-world-844.png",
+          "town_bastien-world-1365.png",
+          "town_bastien-dialogue-320.png",
+          "town_bastien-dialogue-393.png",
+          "town_bastien-dialogue-844.png",
+          "town_bastien-dialogue-1365.png",
+          "town_bastien-entrance-320.png",
+          "town_bastien-entrance-393.png",
+          "town_bastien-entrance-844.png",
+          "town_bastien-entrance-1365.png",
+          "sevenp-snow-320.png",
+          "sevenp-snow-393.png",
+          "sevenp-snow-844.png",
+          "sevenp-snow-1365.png",
+          "sevenp-battle-snow-320.png",
+          "sevenp-battle-snow-393.png",
+          "sevenp-battle-snow-844.png",
+          "sevenp-battle-snow-1365.png"
+        ],
+        "errors": []
+      },
+      "professor": {
+        "actualExit": true,
+        "personalWanda": true,
+        "doorRockKey": true,
+        "uniqueKey": true,
+        "newLab": true,
+        "realProfessorBattle": true,
+        "professorVoid": true,
+        "tenStrikeBarrier": true,
+        "lucieHome": true,
+        "motherStillHeals": true,
+        "persistentEnding": true,
+        "adminReplay": true,
+        "otherPlayerUnaffected": true,
+        "viewports": 4,
+        "artifacts": [
+          "wanda-320.png",
+          "wanda-393.png",
+          "wanda-844.png",
+          "wanda-1365.png",
+          "locked-door-393.png",
+          "lab-320.png",
+          "lab-393.png",
+          "lab-844.png",
+          "lab-1365.png",
+          "professor-splash-320.png",
+          "professor-splash-393.png",
+          "professor-splash-844.png",
+          "professor-splash-1365.png",
+          "professor-battle-320.png",
+          "professor-battle-393.png",
+          "professor-battle-844.png",
+          "professor-battle-1365.png",
+          "professor-void-393.png",
+          "lucie-rescued-393.png",
+          "family-320.png",
+          "family-393.png",
+          "family-844.png",
+          "family-1365.png"
+        ],
+        "errors": []
+      },
+      "commands": [
+        "RELEASE_DIST_DIR=/tmp/riftmon-village-polish-dist node --env-file=.env scripts/validateVillagePortraitsBrowser.js",
+        "RELEASE_DIST_DIR=/tmp/riftmon-village-polish-dist RELEASE_SCREENSHOTS=/tmp/riftmon-village-polish-professor-browser node --env-file=.env scripts/validateProfessorFinaleBrowser.js"
+      ],
+      "scope": "Vrais dialogues/duels Maria et Clément, avatar atlas Maria conservé, cellule sprite et échelle ×2 Clément, neige/temps de combat 7p et musique 7p conservée, puis vrai duel Professeur avec lecture de lucie-combat et libération après dix impacts. Comptes SQL jetables supprimés.",
+      "viewports": [
+        320,
+        393,
+        844,
+        1365
+      ],
+      "errors": [],
+      "inspection": [
+        "clement-player-based.png",
+        "sevenp-snow-393.png",
+        "town_bastien-world-393.png",
+        "town_lina-dialogue-393.png"
+      ],
+      "fixtureCorrection": "fieldState.weather est déjà une chaîne sur le client, et non un objet kind."
+    },
+    "lint": "No lint errors found; /tmp/riftmon-village-polish-lint.log",
+    "syntax": "node --check sur les scripts/serveur/tests modifiés, git diff --check dans les deux dépôts",
+    "build": {
+      "id": "f1da70f58e96cc87",
+      "directory": "/tmp/riftmon-village-polish-dist",
+      "publicPath": "/"
+    },
+    "limits": [
+      "Pas de téléphone physique.",
+      "Suite historique globale non relancée.",
+      "La neige dans l’arène a les effets de grêle déjà utilisés par les autres zones enneigées."
+    ]
+  },
+  "deployment": {
+    "publishedAt": "2026-10-26T07:45:05.382Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-village-polish-2026-10-26T07-45-02-639Z",
+    "clientBuild": "f1da70f58e96cc87",
+    "clientCommit": "a9e74ec4cf93b9f4b4fe0786b32d638fb16dfd85",
+    "beforePid": "1863425",
+    "afterPid": "1878831",
+    "activeRuns": 0,
+    "serverRestarted": true,
+    "checkpointSaved": true,
+    "neighborsUnchanged": true,
+    "publicAssets": [
+      "js/app.72c2b329.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/game.9d0dda75.js",
+      "css/app.8538ed5d.css",
+      "css/game.f8a72554.css",
+      "img/maria-v1.086d1ea4.png",
+      "img/clement-v1.dd8ca62b.png"
+    ],
+    "nativeSprite": {
+      "bytes": 766,
+      "sha256": "5cad99bdf24171b67c1ce4fc138c2f1b5de355232df8b0b3f5c9668e777426a8"
+    },
+    "crystalHits": 10,
+    "arenaSnow": true,
+    "professorMusic": "lucie",
+    "noSchemaChanges": true
+  }
+}

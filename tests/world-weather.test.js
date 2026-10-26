@@ -20,12 +20,14 @@ test('Routes 13/14 share maximum snowfall, bounded depth particles and no leaves
  r.draw(target,1e10+100,{wind:0,rain:0});assert.equal(r.canvas,null);r.destroy();assert.equal(s.canvas.width,0);
  assert.deepEqual(w.normalizeWorldWeather({snow:99}),{wind:0,rain:0,snow:3});
 });
-test('Blanchecime has shared moderate snowfall and light wind, never indoors',async()=>{
+test('Blanchecime has shared moderate snowfall in town and 7p’s arena, dry ordinary interiors',async()=>{
  const w=await weather(),get=require('../server/game/world/mapWeather').getMapWeather;
  assert.deepEqual(get('ville5'),{map:'ville5',kind:'snow',ambience:{wind:1,rain:0,snow:2}});
  assert.deepEqual(w.mapWorldWeather('ville5',get('ville5')),{wind:1,rain:0,snow:2});
  assert.equal(w.worldWeatherBudget(get('ville5').ambience).snow,240);
- for(const map of ['ville5_shop','ville5_arene','ville5_maison1','centre']){assert.equal(get(map).kind,null);assert(!w.worldWeatherEnabled(map));}
+ assert.deepEqual(w.mapWorldWeather('ville5_arene',get('ville5_arene')),{wind:1,rain:0,snow:2});
+ for(const reason of ['hidden','battle','loading'])assert(!w.worldWeatherEnabled('ville5_arene',{[reason]:true}));
+ for(const map of ['ville5_shop','ville5_maison1','centre']){assert.equal(get(map).kind,null);assert(!w.worldWeatherEnabled(map));}
 });
 test('weather intensity is authoritative for every map and accepts only bounded display levels',async()=>{
  const w=await weather(),{getMapWeather}=require('../server/game/world/mapWeather');

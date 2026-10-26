@@ -40,9 +40,9 @@ test('Action on the painted door/rock is spatially authoritative; the rock clue 
  assert.equal(story.interaction(rock,{flags:{lab_door_inspected:'true',professor_lab_key:'true'}}).dialogue,'professor_lab_rock_empty');
  assert.equal(story.interaction({...rock,currentmap:'route2'},{flags:{lab_door_inspected:'true'}}),null);
 });
-test('Laboratory crystals seal every route to Lucie, have five hits, and the exit remains reachable',()=>{
+test('Laboratory crystals seal every route to Lucie, have ten hits, and the exit remains reachable',()=>{
  const obstacle=room.obstacles.find(o=>o.id==='lab_crystals'),c=maps.loadCollisionData('professor_lab');
- assert.equal(obstacle.strikeTimes.length,5);assert.equal(obstacle.requiresFlag,'professor_defeated');
+ assert.equal(obstacle.strikeTimes.length,10);assert.equal(obstacle.requiresFlag,'professor_defeated');
  function reachable(progress){const q=[[13,16]],seen=new Set();for(const[x,y]of q){const key=x+':'+y;if(seen.has(key)||c[y]?.[x]!==0||obstacle.cells.some(p=>p.x===x&&p.y===y)&&room.isLocked(obstacle,progress))continue;seen.add(key);for(const[dx,dy]of [[1,0],[-1,0],[0,1],[0,-1]])q.push([x+dx,y+dy]);}return seen;}
  const blocked=reachable({flags:{professor_defeated:'true'}});assert(blocked.has('13:12'));assert(blocked.has('13:17'));assert(!blocked.has('13:6'));
  assert(reachable({flags:{professor_defeated:'true',lab_crystals_cleared:'true'}}).has('13:6'));

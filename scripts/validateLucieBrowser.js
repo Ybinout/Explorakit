@@ -51,15 +51,15 @@ async function pictures(label){for(const[width,height]of [[320,568],[393,852],[1
    await page.screenshot({path:path.join(output,`clearing-${index+1}.png`)});
    await page.locator('.room-obstacle-hits i.hit').first().waitFor();
    await page.screenshot({path:path.join(output,`strike-${index+1}.png`)});
-   assert.equal(await page.locator('.room-obstacle-hits i').count(),5);
+   assert.equal(await page.locator('.room-obstacle-hits i').count(),10);
    await page.waitForFunction(()=>document.querySelectorAll('.room-obstacle-hits i.hit').length===3);
    assert(await page.evaluate(()=>!v.progressionState.flags[v.roomObstacleAction.id+'_cleared']),'third hit does not clear the obstacle');
-   await page.waitForFunction(()=>document.querySelectorAll('.room-obstacle-hits i.hit').length===5);
-   await page.screenshot({path:path.join(output,`fifth-strike-${index+1}.png`)});
+   await page.waitForFunction(()=>document.querySelectorAll('.room-obstacle-hits i.hit').length===10);
+   await page.screenshot({path:path.join(output,`tenth-strike-${index+1}.png`)});
    await page.locator('.room-obstacle-action.is-complete').waitFor();
    assert.match(await page.locator('.room-obstacle-confirm').innerText(),/Passage dégagé/);
    await page.screenshot({path:path.join(output,`cleared-${index+1}.png`)});
-   await page.locator('.room-obstacle-action').waitFor({state:'hidden'});assert(Date.now()-started>=4050);
+   await page.locator('.room-obstacle-action').waitFor({state:'hidden'});assert(Date.now()-started>=7950);
    await page.waitForFunction(key=>v.progressionState.flags[key]==='true',`lucie_barricade_${index+1}_cleared`);
    await page.waitForTimeout(1150);
   }

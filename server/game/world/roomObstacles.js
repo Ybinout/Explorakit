@@ -2,8 +2,8 @@ const { loadCollisionData } = require('./mapRepository');
 const { hasCompletedBattle } = require('./storyProgression');
 const { npcBattles } = require('../../../data/game/progression.json');
 const map = 'route2_maison';
-const strikeTimes = Object.freeze([550, 1280, 2050, 2820, 3590]);
-const strikeDuration = 4140;
+const strikeTimes = Object.freeze(Array.from({ length: 10 }, (_, i) => 550 + i * 770));
+const strikeDuration = strikeTimes.at(-1) + 550;
 const collision = loadCollisionData(map);
 const obstacles = [
     { y: 15, done: 'Les cristaux éclatent. Un premier passage est ouvert.', doneEn: 'The crystals shatter. The first passage is open.' },

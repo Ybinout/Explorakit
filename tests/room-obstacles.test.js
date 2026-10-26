@@ -25,11 +25,11 @@ test('entry warning only appears at the entrance before the first barrier, never
  assert.match(dialogue.getSentenceForName('lucie_room_entry')[0][0].text,/n’entre pas/);
  assert.equal(dialogue.getEndSentenceInformation('lucie_room_entry'),undefined,'read-only dialogue cannot award a reward or launch a battle');
 });
-test('strike anticipation, hit feedback and actor pose share the same five timestamps and honor reduced motion',async()=>{
+test('strike anticipation, hit feedback and actor pose follow ten server timestamps, preserve five-hit legacy fallback and honor reduced motion',async()=>{
  const {STRIKE_TIMES,strikeState,roomStrikePose}=await import('../vue-explorakit/src/services/roomObstacleRenderer.js');
  const action={active:true,startedAt:1000,origin:{x:432,y:528},target:{x:13,y:15}};
  assert.equal(STRIKE_TIMES.length,5);
- for(const o of room.obstacles){assert.deepEqual(o.strikeTimes,STRIKE_TIMES);assert(o.duration>STRIKE_TIMES.at(-1)+220);}
+ for(const o of room.obstacles){assert.equal(o.strikeTimes.length,10);assert(o.duration>o.strikeTimes.at(-1)+220);const current={...action,strikeTimes:o.strikeTimes,duration:o.duration};for(const [i,t]of o.strikeTimes.entries()){assert.equal(strikeState(current,1000+t-1).hits,i);assert.equal(strikeState(current,1000+t).hits,i+1);assert.equal(roomStrikePose(current,1000+t,true).y,-8);assert.equal(Math.abs(roomStrikePose(current,1000+t,false).y),0);}}
  assert.equal(strikeState(action,1000).hits,0);
  for(const [i,t]of STRIKE_TIMES.entries()){
   assert.equal(strikeState(action,1000+t-1).hits,i);

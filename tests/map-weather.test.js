@@ -7,8 +7,8 @@ function end(a,b,s){return engine.processEndOfRound(a,b,s.sides.player,s.sides.e
 function actor(id,map='start'){return {userId:id,currentmap:map,equipe:{pokemons:[mon()]},drifts:[],equipped:[],items:{},defeated:new Set(),chain:0,money:0};}
 test('outdoor snowfall starts persistent ice weather before actions in Adventure, Rift and Colosseum',()=>{
  const expected={kind:'hail',turns:0,persistent:true,source:'map'};
- for(const map of ['route13','route14','ville5']){
-  assert.equal(getMapWeather(map).ambience.snow,map==='ville5'?2:3);
+ for(const map of ['route13','route14','ville5','ville5_arene']){
+  assert.equal(getMapWeather(map).ambience.snow,['ville5','ville5_arene'].includes(map)?2:3);
   const state=engine.createBattleState({mapName:map});assert.deepEqual(state.weather,expected);
   const a=mon(),b=mon(19);for(let i=0;i<8;i++)end(a,b,state);assert.deepEqual(state.weather,expected);
   for(const mode of ['rift','colosseum'])for(const npc of [true,false]){
@@ -23,10 +23,10 @@ test('outdoor snowfall starts persistent ice weather before actions in Adventure
   }
   assert.equal(engine.createBattleState({mapName:map,opponentMap:'centre'}).weather.kind,null);
  }
- for(const map of ['cave_rochebrume3','centre','gen_arene1','ville5_arene','ville5_shop'])assert.equal(engine.createBattleState({mapName:map}).weather.kind,null);
+ for(const map of ['cave_rochebrume3','centre','gen_arene1','ville5_shop'])assert.equal(engine.createBattleState({mapName:map}).weather.kind,null);
 });
 test('inherited snowfall activates ice abilities, Blizzard, Weather Ball and Forecast with normal hail damage and immunities',()=>{
- for(const mapName of ['route13','route14','ville5']){
+ for(const mapName of ['route13','route14','ville5','ville5_arene']){
   const field=engine.createBattleState({mapName}),dry=engine.createBattleState(),normal=mon(19),ice=mon(361);
   const normalHp=normal.currentHp,iceHp=ice.currentHp;end(normal,ice,field);
   assert.equal(normal.currentHp,normalHp-Math.floor(normal.maxHp/16));assert.equal(ice.currentHp,iceHp);
