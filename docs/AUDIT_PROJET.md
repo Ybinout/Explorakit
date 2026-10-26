@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## Sprite Clément — contours sombres et blanc des yeux — 26 octobre 2026
+
+Retouche avec l’outil intégré imagegen, cible `clement-pixel-v1.png`, références du joueur et de l’atlas 6931. Contours charbon en blocs nets, yeux avec une touche ivoire de chaque côté des pupilles sombres ; cheveux bouclés, peau métisse, chemise claire et pantalon marine conservés. Export technique par le script existant : `pnj/clement-pixel-v2.png`, 32×32, contenu (7,6,17,24), alpha 0/255, dix couleurs, 298 pixels opaques, 685 octets. Même taille monde ×2 et pieds ancrés ; v1 conservée. Seuls le résolveur de `town_bastien` et la liste d’ancrage du rendu changent. Portrait illustré, positions, collisions, dialogues et combats inchangés. Prompt exact, source, palette et contrôles : `docs/CLEMENT_SPRITE_OUTLINES.json` ; aperçu `docs/art/clement-outline-comparison.png`.
+
+Lint/build `2a899795fb8caa33`, syntaxe/diff valides. Recette existante SQL/Socket/navigateur : deux vrais dialogues et présentations de duel, quatre formats 320/393/844/1365, 32 captures, zéro erreur. Blanc des deux yeux vérifié à la résolution native en (12,19)/(18,19), adjacent aux pupilles sombres ; 298 pixels non masqués par le foreground. Capture mobile côte à côte et aperçu natif inspectés ; comptes jetables supprimés. Pas de nouveaux tests unitaires pour cette retouche réversible, ni de matériel physique ou suite globale revendiqués.
+
+Publication statique 2026-10-26T11:45:52.120Z, client `42d9a4db89af13389c9f53a4a457023de6417c89`, PID 1929536 conservé. Sprite exact embarqué dans `game.ecac2f2a.js`, index/bundles/portraits publics vérifiés à l’octet, anciens bundles conservés, Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-clement-outline-2026-10-26T11-45-50-621Z`. Aucun changement serveur/SQL ou compte réel ni redémarrage.
+
 ## Gwenn — ambiance maison et intro/boucle sans blanc — 26 octobre 2026
 
 Trois MP3 utilisateur importés sans réencodage depuis `pourtoi` : `entrence.mp3` → `msc/gwenn-entrance.mp3`, `intro.mp3` → `gwenn-intro.mp3`, `loop.mp3` → `gwenn-loop.mp3`. Copies sources/build/public comparées à l’octet, empreintes/durées dans `docs/GWENN_MUSIC.json`. Les originaux de `pourtoi` sont conservés. `route4_maison` utilise maintenant son propre thème d’ambiance `gwenn-room`, mix événement 0,34 du volume général, avec reprise après combat et redémarrage à la réentrée.
@@ -3995,6 +4003,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 26 octobre 2026 — Clément : sprite retouché par imagegen avec contours charbon et blanc des deux yeux, export natif/palette/alpha/ancrage conservés. Vrai rendu ×2, deux dialogues/entrées et quatre formats validés, 32 captures sans erreur. Publication statique vérifiée sans redémarrage ; source/prompt/aperçu dans `docs/CLEMENT_SPRITE_OUTLINES.json`.
 
 - 26 octobre 2026 — Gwenn : trois MP3 sans réencodage, ambiance dédiée et intro dès le défi, raccord audio programmé vers une boucle jusqu’à la fin du combat. Préchargement local, volumes/pause/reprise, annulation et libération mémoire ; trois modes communs. 21 tests et deux recettes audio/SQL navigateur réussis, vraie victoire Gwenn et Wanda, PCM sans blanc aux deux jonctions, zéro erreur. Publication statique sans redémarrage et MP3 publics vérifiés. Rapport `docs/GWENN_MUSIC.json`.
 

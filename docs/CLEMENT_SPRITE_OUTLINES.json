@@ -1,0 +1,286 @@
+{
+  "date": "2026-10-26",
+  "inputRoles": {
+    "target": "vue-explorakit/src/assets/pnj/clement-pixel-v1.png",
+    "playerReference": "docs/art/player-sprite-reference-384.png",
+    "atlasReference": "docs/art/player-npc-atlas-examples.png"
+  },
+  "runtime": "town_bastien uses clement-pixel-v2.png in npcFrames.js and the existing native x2 player-foot anchor in UserMap.vue. Portrait, position, collision and gameplay unchanged.",
+  "tool": "Built-in image_gen.imagegen",
+  "prompt": "Use case: precise-object-edit / identity-preserve. Asset: ONE tiny overworld RPG pixel sprite for RiftMon. Image 1 is the exact existing Clément sprite to edit (32x32 cell, visible character only 17 logical pixels wide and 24 tall); image 2 is the player's enlarged original sprite, and image 3 is the classic in-game NPC atlas reference. Correct ONLY Clément's OUTLINES and EYES to match those classic references. Give the entire character a clean continuous ONE LOGICAL PIXEL near-black charcoal outer contour (#211d27): curl silhouette, cheeks, arms, ivory shirt, short dark trousers and tiny shoes. Simplify the outlines to the same coarse stepped block edges as the player. Keep the face surrounded by the dark hair/side outline, without extra nose or mouth marks. Make BOTH EYES readable as two tiny WHITE eye blocks with a tiny darkest pixel pupil, just like image 2: white sclera is clearly visible adjacent to a black pupil in each eye, same symmetric height and spacing. Do NOT make all-black or skin-coloured eyes. Preserve Clément's short rounded tight curly dark hair, warm medium brown skin, simple ivory open-collar shirt, tiny dark navy trouser legs, shoes, tiny red/white ball, front-facing idle pose and EXACT player-like head/body proportions. Huge head about half the visible height, stubby body and arms; keep the 17x24 logical footprint, feet level, and 32x32 square canvas with transparent padding. Single final character ONLY, not a before/after pair, not a sprite sheet. Extremely restrained 8-11 flat colours, solid square logical pixels, one flat shadow at most. No gradients, antialiasing, texture, hair strands, fine clothing folds, necktie, jacket, facial hair, labels, grid, scenery, ground shadow or other characters. Actual transparent background; no drawn checkerboard. Return one enlarged but strictly coarse pixel sprite ready to downsample to the existing native 32x32 game cell.",
+  "intent": "Dark outlines and white sclera on Clement, preserving native size and identity",
+  "preview": "docs/art/clement-outline-comparison.png",
+  "previewLabels": [
+    "Joueur — référence",
+    "Clément — contours et yeux"
+  ],
+  "alphaThreshold": 128,
+  "palette": [
+    "#211d27",
+    "#383641",
+    "#595662",
+    "#c98c62",
+    "#a56b49",
+    "#e4ac7d",
+    "#fff9e8",
+    "#ded7c5",
+    "#324058",
+    "#1e283b",
+    "#bd3e42"
+  ],
+  "sprites": [
+    {
+      "name": "clement-outline-v2",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-3c279fcd-5712-4261-aaf8-b35413f9a0d6.png",
+      "destination": "vue-explorakit/src/assets/pnj/clement-pixel-v2.png",
+      "nativeContent": [
+        17,
+        24
+      ],
+      "nativeBox": {
+        "x": 7,
+        "y": 6,
+        "w": 17,
+        "h": 24
+      }
+    }
+  ],
+  "export": [
+    {
+      "name": "clement-outline-v2",
+      "destination": "vue-explorakit/src/assets/pnj/clement-pixel-v2.png",
+      "opaque": 298,
+      "bounds": {
+        "x": 7,
+        "y": 6,
+        "w": 17,
+        "h": 24
+      },
+      "colors": 10,
+      "alpha": [
+        0,
+        255
+      ],
+      "sourceBounds": {
+        "x": 294,
+        "y": 230,
+        "w": 666,
+        "h": 845
+      },
+      "bytes": 685,
+      "sha256": "0947bc3341b14da9ed55d5f2770a8b8cbffee6a6ff5dcdeb3dd6ac6a619a00dc"
+    }
+  ],
+  "nativeAnalysis": [
+    {
+      "version": "v1",
+      "boundary": 68,
+      "dark": 64,
+      "darkCoverage": 0.9411764705882353,
+      "eyeWhites": [],
+      "rows": [
+        "      ###        ",
+        "     ######      ",
+        "     ####### ##  ",
+        "   ############  ",
+        " ############### ",
+        "#################",
+        "#################",
+        " ############### ",
+        "##########s######",
+        "#####ss##ssss####",
+        " ###sssssssss### ",
+        " #sssssssssssss# ",
+        " #ssss#sss#ssss# ",
+        "   sss#sss#sss   ",
+        "   #sssssssss#   ",
+        "    ##sssss##    ",
+        "   #Ws#sss#sW#   ",
+        "  #Ws#WWsWW#sW#  ",
+        " #s#W#W#s#W#W##  ",
+        " #Wss#sW#Ws#sss# ",
+        " #ss##sWWWs##ss# ",
+        "  ## ####### ##  ",
+        "     #s# #s#     ",
+        "     ##   ##     "
+      ]
+    },
+    {
+      "version": "v2",
+      "boundary": 64,
+      "dark": 58,
+      "darkCoverage": 0.90625,
+      "eyeWhites": [
+        [
+          12,
+          19
+        ],
+        [
+          18,
+          19
+        ]
+      ],
+      "rows": [
+        "     ### ###     ",
+        "     ########    ",
+        "  ############   ",
+        " ##############  ",
+        " ############### ",
+        " ############### ",
+        " ############### ",
+        " ############### ",
+        "####s###s########",
+        "####s##sss#######",
+        " ###sssssssss### ",
+        " s#sssssssssss#s ",
+        " ssss#sssss#ssss ",
+        "  ##sW#sss#Ws##  ",
+        "   ##sssssss##   ",
+        "     sssssss     ",
+        "    ###sss###    ",
+        "  ##sWsW#WsWs##  ",
+        " #ss#WWssWWW#ss# ",
+        " #sssWWWWWWWs#s# ",
+        "  #s##ssWss##W#  ",
+        "   ###########   ",
+        "    #s## ##s#    ",
+        "     ##   ##     "
+      ]
+    }
+  ],
+  "notes": "Native eyes contain one clear white pixel adjacent to each dark pupil. Both versions keep 17x24 content in the same 32x32 player-based cell; this is not a sprite scale increase.",
+  "validation": {
+    "lint": {
+      "command": "npm --prefix vue-explorakit run lint",
+      "result": "pass",
+      "log": "/tmp/riftmon-clement-outline-lint.log"
+    },
+    "build": {
+      "command": "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-clement-outline-dist",
+      "hash": "2a899795fb8caa33",
+      "result": "pass",
+      "log": "/tmp/riftmon-clement-outline-build.log"
+    },
+    "browser": {
+      "command": "RELEASE_DIST_DIR=/tmp/riftmon-clement-outline-dist RELEASE_SCREENSHOTS=/tmp/riftmon-clement-outline-browser node --env-file=.env scripts/validateVillagePortraitsBrowser.js",
+      "log": "/tmp/riftmon-clement-outline-browser.log",
+      "result": {
+        "actualDialogues": 2,
+        "actualTrainerEntrances": 2,
+        "mariaSpriteUnchanged": true,
+        "clementNativeSize": [
+          32,
+          32
+        ],
+        "worldScale": 2,
+        "afterBattlePortraits": true,
+        "clementVisibility": {
+          "opaquePixels": 298,
+          "hiddenPixels": 0,
+          "whiteEyes": [
+            [
+              12,
+              19
+            ],
+            [
+              18,
+              19
+            ]
+          ],
+          "tile": [
+            22,
+            14
+          ],
+          "roamRadius": 0
+        },
+        "arenaSnow": 240,
+        "arenaBattleWeather": "hail",
+        "arenaThemePreserved": true,
+        "reducedMotion": true,
+        "viewports": 4,
+        "artifacts": [
+          "town_lina-world-320.png",
+          "town_lina-world-393.png",
+          "town_lina-world-844.png",
+          "town_lina-world-1365.png",
+          "town_lina-dialogue-320.png",
+          "town_lina-dialogue-393.png",
+          "town_lina-dialogue-844.png",
+          "town_lina-dialogue-1365.png",
+          "town_lina-entrance-320.png",
+          "town_lina-entrance-393.png",
+          "town_lina-entrance-844.png",
+          "town_lina-entrance-1365.png",
+          "town_bastien-world-320.png",
+          "town_bastien-world-393.png",
+          "town_bastien-world-844.png",
+          "town_bastien-world-1365.png",
+          "town_bastien-dialogue-320.png",
+          "town_bastien-dialogue-393.png",
+          "town_bastien-dialogue-844.png",
+          "town_bastien-dialogue-1365.png",
+          "town_bastien-entrance-320.png",
+          "town_bastien-entrance-393.png",
+          "town_bastien-entrance-844.png",
+          "town_bastien-entrance-1365.png",
+          "sevenp-snow-320.png",
+          "sevenp-snow-393.png",
+          "sevenp-snow-844.png",
+          "sevenp-snow-1365.png",
+          "sevenp-battle-snow-320.png",
+          "sevenp-battle-snow-393.png",
+          "sevenp-battle-snow-844.png",
+          "sevenp-battle-snow-1365.png"
+        ],
+        "errors": []
+      },
+      "visualInspection": [
+        "docs/art/clement-outline-comparison.png",
+        "/tmp/riftmon-clement-outline-browser/town_bastien-world-393.png"
+      ],
+      "disposableAccountsCleaned": true
+    },
+    "syntaxAndDiff": "pass",
+    "newUnitTests": false,
+    "globalSuiteClaimed": false,
+    "physicalHardware": false
+  },
+  "deployment": {
+    "sprite": {
+      "asset": "pnj/clement-pixel-v2.png",
+      "sha256": "0947bc3341b14da9ed55d5f2770a8b8cbffee6a6ff5dcdeb3dd6ac6a619a00dc",
+      "bytes": 685,
+      "embeddedIn": "game.ecac2f2a.js"
+    },
+    "publishedAt": "2026-10-26T11:45:52.120Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-clement-outline-2026-10-26T11-45-50-621Z",
+    "clientBuild": "2a899795fb8caa33",
+    "clientCommit": "42d9a4db89af13389c9f53a4a457023de6417c89",
+    "pid": "1929536",
+    "serverRestarted": false,
+    "neighborsUnchanged": true,
+    "publicAssets": [
+      "js/account.701cc72b.js",
+      "js/app.45878b6e.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/game.ecac2f2a.js",
+      "css/account.71f45b55.css",
+      "css/app.bbefd3a4.css",
+      "css/game.b2010575.css",
+      "img/maria-v2.564002d1.png",
+      "img/clement-v2.804e1f22.png"
+    ],
+    "portraits": [
+      {
+        "name": "maria",
+        "file": "maria-v2.564002d1.png",
+        "sha256": "0c850885294ffbbbbd8fb497b0d1f947a59cb61a770633a88ec9342f7864cdcb"
+      },
+      {
+        "name": "clement",
+        "file": "clement-v2.804e1f22.png",
+        "sha256": "2f8f501893f017b8590a1e2cde6c3b26c7d4b9cdee9624414c4ad03d7161d3ac"
+      }
+    ]
+  }
+}
