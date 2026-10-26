@@ -35,7 +35,7 @@ function usage(item) {
     if(item.key==='fishing_rod')return 'fish';
     if(item.key==='fly_module')return 'fly';
     if(item.key==='exp_share')return 'passive';
-    if(['clara_registry','clara_reunion_letter','route2_house_key'].includes(item.key))return 'story';
+    if(['clara_registry','clara_reunion_letter','route2_house_key','gwenn_house_key','professor_lab_key'].includes(item.key))return 'story';
     throw Error(`Unrouted item: ${item.key}`);
 }
 module.exports={items,targetFor,usage};

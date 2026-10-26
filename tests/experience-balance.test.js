@@ -37,7 +37,8 @@ test('les Pokémon sauvages effectivement générés respectent les nouvelles bo
                 Math.random = () => roll;
                 const pokemon = await CreatePokemon(name);
                 assert.equal(pokemon.level, byName.get(name).level[bound], `${name} ${bound}`);
-                assert.equal(pokemon.abilities.length, 4);
+                assert(pokemon.abilities.length>=1&&pokemon.abilities.length<=4);
+                assert.equal(new Set(pokemon.abilities).size,pokemon.abilities.length);
                 assert.ok(pokemon.movePp.every((pp) => pp > 0));
             }
         }

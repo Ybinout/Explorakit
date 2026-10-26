@@ -3,6 +3,20 @@ const { species } = require('../../../data/game/level_up_moves.json');
 const { getMoveDefinition, getMaxMovePp, normalizeMovePp } = require('../battle/battleResources');
 const evolutionRules = require('../../../data/game/evolutions.json').rules;
 
+// New encounters use their own species' natural progression, never a TM or a
+// future-level move picked merely for its power. Repeated entries stay unique.
+function availableLevelMoves(speciesId, level) {
+    const names=[];
+    for(const [learned,name]of species[speciesId]||[])if(learned<=level){const previous=names.indexOf(name);if(previous>=0)names.splice(previous,1);names.push(name);}
+    return names;
+}
+function assignNaturalMoves(pokemon) {
+    const available=availableLevelMoves(pokemon.data.id,pokemon.level);
+    if(!available.length)throw Error(`Aucune attaque naturelle pour #${pokemon.data.id} au niveau ${pokemon.level}.`);
+    pokemon.abilities=available.slice(-4);pokemon.movePp=pokemon.abilities.map(getMaxMovePp);
+    preserveWildEvolutionMove(pokemon);return pokemon;
+}
+
 // A late capture must not miss the only move that unlocks its evolution.
 // This only prepares new wild Pokémon; it never rewrites a player's chosen set.
 function preserveWildEvolutionMove(pokemon) {
@@ -44,4 +58,4 @@ function resolveMoveChoice(pokemon, { choiceId, slot } = {}) {
     return result;
 }
 
-module.exports = { queueLevelMoves, resolveMoveChoice, preserveWildEvolutionMove };
+module.exports = { queueLevelMoves, resolveMoveChoice, preserveWildEvolutionMove, availableLevelMoves, assignNaturalMoves };

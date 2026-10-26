@@ -3068,6 +3068,111 @@
       "id": 619,
       "versionGroup": 18,
       "text": "Le Pokémon transforme la puissance de la terre et attaque la cible avec une lame acérée."
+    },
+    "Origin Pulse": {
+      "id": 618,
+      "versionGroup": 18,
+      "text": "D’innombrables rayons lumineux d’un bleu étincelant s’abattent sur la cible."
+    },
+    "Precipice Blades": {
+      "id": 619,
+      "versionGroup": 18,
+      "text": "Le Pokémon transforme la puissance de la terre et attaque la cible avec une lame acérée."
+    },
+    "Dragon Ascent": {
+      "id": 620,
+      "versionGroup": 18,
+      "text": "Le Pokémon s’abat à toute vitesse sur la cible depuis les hautes couches de l’atmosphère. Baisse la Défense et la Défense Spéciale du lanceur."
+    },
+    "First Impression": {
+      "id": 660,
+      "versionGroup": 18,
+      "text": "Une capacité très puissante, mais qui ne fonctionne qu’au premier tour."
+    },
+    "High Horsepower": {
+      "id": 667,
+      "versionGroup": 18,
+      "text": "Le lanceur attaque violemment en utilisant tout son poids."
+    },
+    "Strength Sap": {
+      "id": 668,
+      "versionGroup": 18,
+      "text": "Rend au lanceur une quantité de PV équivalente à la stat d’Attaque de la cible, puis baisse celle-ci."
+    },
+    "Toxic Thread": {
+      "id": 672,
+      "versionGroup": 18,
+      "text": "Tisse un fil imprégné de venin. Empoisonne la cible et baisse sa Vitesse."
+    },
+    "Laser Focus": {
+      "id": 673,
+      "versionGroup": 18,
+      "text": "Le lanceur se concentre pour être sûr de porter un coup critique au tour suivant."
+    },
+    "Throat Chop": {
+      "id": 675,
+      "versionGroup": 18,
+      "text": "Inflige une douleur tellement violente à la cible qu’elle ne peut plus émettre de sons pendant deux tours."
+    },
+    "Psychic Terrain": {
+      "id": 678,
+      "versionGroup": 18,
+      "text": "Pendant cinq tours, les Pokémon au sol ne peuvent plus subir d’attaques prioritaires et la puissance des capacités de type Psy augmente."
+    },
+    "Lunge": {
+      "id": 679,
+      "versionGroup": 18,
+      "text": "Le lanceur se jette sur la cible de toutes ses forces pour lui infliger des dégâts et baisser son Attaque."
+    },
+    "Power Trip": {
+      "id": 681,
+      "versionGroup": 18,
+      "text": "Ivre de puissance, le lanceur attaque de toutes ses forces. Plus ses stats ont été augmentées, plus la puissance de l’attaque est élevée."
+    },
+    "Burn Up": {
+      "id": 682,
+      "versionGroup": 18,
+      "text": "Le Pokémon se consume et les flammes de son corps infligent des dégâts élevés à la cible. Le lanceur perd le type Feu."
+    },
+    "Smart Strike": {
+      "id": 684,
+      "versionGroup": 18,
+      "text": "Le lanceur transperce la cible avec sa corne effilée. Touche toujours l’ennemi."
+    },
+    "Dragon Hammer": {
+      "id": 692,
+      "versionGroup": 18,
+      "text": "Le lanceur utilise son corps comme un véritable marteau pour écraser la cible."
+    },
+    "Brutal Swing": {
+      "id": 693,
+      "versionGroup": 18,
+      "text": "Le lanceur pivote pour prendre de l’élan et infliger des dégâts."
+    },
+    "Aurora Veil": {
+      "id": 694,
+      "versionGroup": 18,
+      "text": "Réduit les dégâts causés par les capacités physiques et spéciales durant cinq tours. Ne peut être utilisé que lorsqu’il grêle."
+    },
+    "Psychic Fangs": {
+      "id": 706,
+      "versionGroup": 18,
+      "text": "Le lanceur mord la cible avec ses pouvoirs psychiques. Brise aussi les barrières comme Mur Lumière et Protection."
+    },
+    "Stomping Tantrum": {
+      "id": 707,
+      "versionGroup": 18,
+      "text": "Le lanceur attaque en utilisant sa frustration. S’il a utilisé une capacité qui a échoué au tour précédent, la puissance de Trépignement est doublée."
+    },
+    "Liquidation": {
+      "id": 710,
+      "versionGroup": 18,
+      "text": "Le lanceur utilise la force de l’eau pour attaquer. Peut aussi baisser la Défense de la cible."
+    },
+    "Tearful Look": {
+      "id": 715,
+      "versionGroup": 18,
+      "text": "Le lanceur jette un regard plein de larmes à la cible. Celle-ci perd toute velléité de combat et voit son Attaque et son Attaque Spéciale baisser."
     }
   },
   "abilities": {

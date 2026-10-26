@@ -37,7 +37,7 @@ function preparePokemon(pokemon, wave, index, version = 3) {
     pokemon.passiveAbility = chooseSpeciesAbility(pokemon.data.id, createDeterministicRandom(`colosseum:${wave}:${index}`), 0);
     if (tier < 3) return;
     const legal = new Set(learnsets[pokemon.data.id] || []);
-    const available = moveData.filter(m => legal.has(slug(m.ename))).map(m => engine.getMoveByName(m.ename));
+    const available = moveData.filter(m => !m.catalogueRevision && legal.has(slug(m.ename))).map(m => engine.getMoveByName(m.ename));
     const attacks = available.filter(m => m.power > 0 && m.power <= (tier >= 6 ? 120 : 100) && generationStandard(m)
         && !getMoveFlags(m).selfdestruct && !['Explosion', 'Self-Destruct'].includes(m.ename));
     const selected = [];

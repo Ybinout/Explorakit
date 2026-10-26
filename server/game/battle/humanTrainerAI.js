@@ -20,7 +20,7 @@ const LEVEL_DAMAGE = new Set(['Seismic Toss','Night Shade']);
 const PUBLIC_VOLATILES = ['statStages','tempTypes','formTypes','abilityForm','tauntTurns','disableTurns',
     'disabledMove','encoreTurns','encoreMove','leechSeedSource','foresight','miracleEye','substituteHp',
     'trappedTurns','ingrain','chargeMove','chargeTurns','semiInvulnerable','rechargeMove','bideTurns',
-    'activeMoveActions','protectStreak','protectionStreak','protectionTurn','transformed','transformSpeciesId','transformSpriteId'];
+    'activeMoveActions','laserFocusTurns','soundBlockedTurns','lastMoveFailed','lastMoveResultTurn','protectStreak','protectionStreak','protectionTurn','transformed','transformSpeciesId','transformSpriteId'];
 const OWN_VOLATILES = [...PUBLIC_VOLATILES,'sleepTurns','choiceMove','unburden','abilitySuppressed','flashFireBoost','healBlockTurns',
     'embargoTurns','confusionTurns','infatuationTurns','toxicCounter','activeTurns','loafing','stockpileCount','consumedHeldItem',
     'lastDamageTaken','lastDamageTurn','lastDamageSource','lastDamageClass','lastActionTurn','protectionStreak','protectionTurn','grounded'];
@@ -87,7 +87,9 @@ function moves(p, field) {
     if(cache.has(p))return cache.get(p);
     const forced = resources.getForcedMove(p);
     if (forced) return [{number:p.abilities.indexOf(forced), move:moveByName(forced)}].filter(x=>x.move);
-    const legal = legacy.legalIndexes(p, field);
+    let legal = legacy.legalIndexes(p, field);
+    const unblocked=legal.filter(i=>!(p.__battle.soundBlockedTurns>0 && getMoveFlags(moveByName(p.abilities[i])).sound));
+    if(unblocked.length)legal=unblocked;
     const result=legal.length ? legal.map(number=>({number,move:moveByName(p.abilities[number])})) : [{number:-1,move:moveByName('Struggle')}];
     cache.set(p,result);return result;
 }
@@ -121,7 +123,7 @@ function actsFirst(a,m,b,r,ctx) {
 }
 function damage(a,b,move,side,field) {
     if(!move || move.combat?.damage_class==='status')return 0;
-    if(move.ename==='Fake Out'&&a.__battle.activeMoveActions>0)return 0;
+    if(['Fake Out','First Impression'].includes(move.ename)&&a.__battle.activeMoveActions>0)return 0;
     let cache=damageCaches.get(field);if(!cache){cache={ids:new WeakMap(),next:0,values:new Map()};damageCaches.set(field,cache);}
     for(const p of [a,b])if(!cache.ids.has(p))cache.ids.set(p,++cache.next);
     const key=`${cache.ids.get(a)}:${cache.ids.get(b)}:${move.ename}:${side===field.sides.player?'p':'e'}`;
@@ -278,7 +280,7 @@ function futureValue(out,ctx) {
     return best;
 }
 function scoreMove(a,move,scenario,ctx,lookahead=false) {
-    if(move.ename==='Fake Out' && a.__battle.activeMoveActions>0)return -240;
+    if(['Fake Out','First Impression'].includes(move.ename) && a.__battle.activeMoveActions>0)return -240;
     const b=scenario.target,switched=scenario.kind==='change',reply=scenario.move;
     const local=context(a,b,ctx.party,ctx.field,ctx.ownSide,ctx.enemySide,ctx.foeCount);
     const incoming=switched?0:damage(b,a,reply,ctx.ownSide,ctx.field)*chance(reply,b,a,ctx.field);

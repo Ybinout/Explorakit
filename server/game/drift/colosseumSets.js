@@ -12,7 +12,7 @@ const cache = new Map();
 const slug = name => name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
 // These moves need conditions the planner does not yet model. Do not equip a
 // powerful-looking move that cannot actually be used in the intended role.
-const conditional = new Set(['Snore', 'Fake Out', 'Last Resort', 'Dream Eater', 'Rollout', 'Ice Ball', 'Fury Cutter', 'Belch', 'Focus Punch', 'Sucker Punch', 'Synchronoise']);
+const conditional = new Set(['First Impression', 'Burn Up', 'Snore', 'Fake Out', 'Last Resort', 'Dream Eater', 'Rollout', 'Ice Ball', 'Fury Cutter', 'Belch', 'Focus Punch', 'Sucker Punch', 'Synchronoise']);
 const physical = move => move.combat?.damage_class === 'physical';
 
 function itemFor(species, selected, ability, wave, index) {
@@ -53,7 +53,7 @@ function plan(id, wave, index, tactic = null) {
     let ability = chooseSpeciesAbility(id, createDeterministicRandom(`colosseum:${wave}:${index}`), 0);
     if (tactic?.abilities.length) ability = tactic.abilities.find(name=>getSpeciesAbilitySlots(id).some(a=>a.name===name&&!a.hidden&&!a.special)) || ability;
     if (ability === 'Klutz') ability = getSpeciesAbilitySlots(id).find(a => !a.hidden && !a.special && a.name !== 'Klutz')?.name || ability;
-    const available = moves.filter(m => legal.has(slug(m.ename))).map(m => engine.getMoveByName(m.ename));
+    const available = moves.filter(m => (tactic || !m.catalogueRevision) && legal.has(slug(m.ename))).map(m => engine.getMoveByName(m.ename));
     const cap = wave <= 5 ? 60 : wave <= 10 ? 80 : wave <= 15 ? 100 : 120;
     const attacks = available.filter(m => m.power > 0 && m.power <= cap && generationStandard(m)
         && !traits[m.ename]?.multihit && !conditional.has(m.ename) && !getMoveFlags(m).selfdestruct

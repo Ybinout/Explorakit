@@ -1133,6 +1133,59 @@
     },
     "Steam Eruption": {
       "secondary": true
-    }
+    },
+    "Origin Pulse": {
+      "pulse": true
+    },
+    "Precipice Blades": {},
+    "Dragon Ascent": {
+      "contact": true
+    },
+    "First Impression": {
+      "contact": true
+    },
+    "High Horsepower": {
+      "contact": true
+    },
+    "Strength Sap": {
+      "heal": true
+    },
+    "Toxic Thread": {},
+    "Laser Focus": {},
+    "Throat Chop": {
+      "contact": true,
+      "secondary": true
+    },
+    "Psychic Terrain": {},
+    "Lunge": {
+      "contact": true,
+      "secondary": true
+    },
+    "Power Trip": {
+      "contact": true
+    },
+    "Burn Up": {},
+    "Smart Strike": {
+      "contact": true
+    },
+    "Dragon Hammer": {
+      "contact": true
+    },
+    "Brutal Swing": {
+      "contact": true
+    },
+    "Aurora Veil": {},
+    "Psychic Fangs": {
+      "contact": true,
+      "bite": true
+    },
+    "Stomping Tantrum": {
+      "contact": true
+    },
+    "Liquidation": {
+      "contact": true,
+      "secondary": true
+    },
+    "Tearful Look": {}
   }
 }

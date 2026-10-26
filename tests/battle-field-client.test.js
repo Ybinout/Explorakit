@@ -6,7 +6,7 @@ test('client understands every serialized field timer, screen and capped hazard 
     Object.values(rules.FIELD_TIMERS).forEach(k=>state.field[k]=5);
     for(const side of Object.values(state.sides)){Object.values(rules.SIDE_TIMERS).forEach(k=>side.screens[k]=4);Object.values(rules.TEAM_GUARDS).forEach(k=>side.protectTeam[k]=1);Object.assign(side.hazards,{spikes:3,toxicSpikes:2,stealthRock:true,stickyWeb:true});}
     const snapshot=serializeFieldState(state),copy=JSON.stringify(snapshot),normalized=ui.normalizeBattleField(snapshot),entries=ui.battleFieldEntries(normalized);
-    assert.equal(entries.length,36);assert.equal(JSON.stringify(snapshot),copy);assert.equal(new Set(entries.map(e=>e.id)).size,36);assert(entries.every(e=>e.name&&e.description&&e.color));
+    assert.equal(entries.length,38);assert.equal(JSON.stringify(snapshot),copy);assert.equal(new Set(entries.map(e=>e.id)).size,38);assert(entries.every(e=>e.name&&e.description&&e.color));
     assert.equal(ui.battleFieldEntries(ui.normalizeBattleField()).length,0);
     assert.equal(ui.normalizeBattleField({field:{gravityTurns:Infinity},sides:{player:{hazards:{spikes:900}}}}).sides.player.hazards.spikes,3);
 });

@@ -10851,7 +10851,7 @@
         "type": "Psychic",
         "combat": {
             "damage_class": "special",
-            "power_type": "standard",
+            "power_type": "special_case",
             "priority": 0,
             "crit_stage": 0,
             "target": "single",
@@ -13330,6 +13330,473 @@
             "crit_stage": 0,
             "target": "single",
             "effects": []
+        }
+    },
+    {
+        "id": 620,
+        "sourceMoveId": 618,
+        "catalogueRevision": 2,
+        "ename": "Origin Pulse",
+        "type": "Water",
+        "category": "spe",
+        "power": 110,
+        "accuracy": 85,
+        "pp": 10,
+        "combat": {
+            "damage_class": "special",
+            "power_type": "standard",
+            "priority": 0,
+            "crit_stage": 0,
+            "target": "single",
+            "effects": []
+        }
+    },
+    {
+        "id": 621,
+        "sourceMoveId": 619,
+        "catalogueRevision": 2,
+        "ename": "Precipice Blades",
+        "type": "Ground",
+        "category": "phy",
+        "power": 120,
+        "accuracy": 85,
+        "pp": 10,
+        "combat": {
+            "damage_class": "physical",
+            "power_type": "standard",
+            "priority": 0,
+            "crit_stage": 0,
+            "target": "single",
+            "effects": []
+        }
+    },
+    {
+        "id": 622,
+        "sourceMoveId": 620,
+        "catalogueRevision": 2,
+        "ename": "Dragon Ascent",
+        "type": "Flying",
+        "category": "phy",
+        "power": 120,
+        "accuracy": 100,
+        "pp": 5,
+        "combat": {
+            "damage_class": "physical",
+            "power_type": "standard",
+            "priority": 0,
+            "crit_stage": 0,
+            "target": "single",
+            "effects": [
+                {
+                    "kind": "stat_stage",
+                    "target": "self",
+                    "stat": "defense",
+                    "stages": -1
+                },
+                {
+                    "kind": "stat_stage",
+                    "target": "self",
+                    "stat": "specialDefense",
+                    "stages": -1
+                }
+            ]
+        }
+    },
+    {
+        "id": 623,
+        "sourceMoveId": 660,
+        "catalogueRevision": 2,
+        "ename": "First Impression",
+        "type": "Bug",
+        "category": "phy",
+        "power": 90,
+        "accuracy": 100,
+        "pp": 10,
+        "combat": {
+            "damage_class": "physical",
+            "power_type": "standard",
+            "priority": 2,
+            "crit_stage": 0,
+            "target": "single",
+            "effects": []
+        }
+    },
+    {
+        "id": 624,
+        "sourceMoveId": 667,
+        "catalogueRevision": 2,
+        "ename": "High Horsepower",
+        "type": "Ground",
+        "category": "phy",
+        "power": 95,
+        "accuracy": 95,
+        "pp": 10,
+        "combat": {
+            "damage_class": "physical",
+            "power_type": "standard",
+            "priority": 0,
+            "crit_stage": 0,
+            "target": "single",
+            "effects": []
+        }
+    },
+    {
+        "id": 625,
+        "sourceMoveId": 668,
+        "catalogueRevision": 2,
+        "ename": "Strength Sap",
+        "type": "Grass",
+        "category": "sta",
+        "power": null,
+        "accuracy": 100,
+        "pp": 10,
+        "combat": {
+            "damage_class": "status",
+            "power_type": "status",
+            "priority": 0,
+            "crit_stage": 0,
+            "target": "single",
+            "effects": [
+                {
+                    "kind": "strength_sap"
+                }
+            ]
+        }
+    },
+    {
+        "id": 626,
+        "sourceMoveId": 672,
+        "catalogueRevision": 2,
+        "ename": "Toxic Thread",
+        "type": "Poison",
+        "category": "sta",
+        "power": null,
+        "accuracy": 100,
+        "pp": 20,
+        "combat": {
+            "damage_class": "status",
+            "power_type": "status",
+            "priority": 0,
+            "crit_stage": 0,
+            "target": "single",
+            "effects": [
+                {
+                    "kind": "stat_stage",
+                    "target": "opponent",
+                    "stat": "speed",
+                    "stages": -1
+                },
+                {
+                    "kind": "status",
+                    "target": "opponent",
+                    "status": "poison",
+                    "chance": 1
+                }
+            ]
+        }
+    },
+    {
+        "id": 627,
+        "sourceMoveId": 673,
+        "catalogueRevision": 2,
+        "ename": "Laser Focus",
+        "type": "Normal",
+        "category": "sta",
+        "power": null,
+        "accuracy": null,
+        "pp": 30,
+        "combat": {
+            "damage_class": "status",
+            "power_type": "status",
+            "priority": 0,
+            "crit_stage": 0,
+            "target": "self",
+            "effects": [
+                {
+                    "kind": "laser_focus",
+                    "target": "self",
+                    "turns": 2
+                }
+            ]
+        }
+    },
+    {
+        "id": 628,
+        "sourceMoveId": 675,
+        "catalogueRevision": 2,
+        "ename": "Throat Chop",
+        "type": "Dark",
+        "category": "phy",
+        "power": 80,
+        "accuracy": 100,
+        "pp": 15,
+        "combat": {
+            "damage_class": "physical",
+            "power_type": "standard",
+            "priority": 0,
+            "crit_stage": 0,
+            "target": "single",
+            "effects": [
+                {
+                    "kind": "sound_block",
+                    "turns": 2,
+                    "chance": 1,
+                    "secondary": true
+                }
+            ]
+        }
+    },
+    {
+        "id": 629,
+        "sourceMoveId": 678,
+        "catalogueRevision": 2,
+        "ename": "Psychic Terrain",
+        "type": "Psychic",
+        "category": "sta",
+        "power": null,
+        "accuracy": null,
+        "pp": 10,
+        "combat": {
+            "damage_class": "status",
+            "power_type": "status",
+            "priority": 0,
+            "crit_stage": 0,
+            "target": "field",
+            "effects": [
+                {
+                    "kind": "field",
+                    "field": "psychic_terrain",
+                    "turns": 5
+                }
+            ]
+        }
+    },
+    {
+        "id": 630,
+        "sourceMoveId": 679,
+        "catalogueRevision": 2,
+        "ename": "Lunge",
+        "type": "Bug",
+        "category": "phy",
+        "power": 80,
+        "accuracy": 100,
+        "pp": 15,
+        "combat": {
+            "damage_class": "physical",
+            "power_type": "standard",
+            "priority": 0,
+            "crit_stage": 0,
+            "target": "single",
+            "effects": []
+        }
+    },
+    {
+        "id": 631,
+        "sourceMoveId": 681,
+        "catalogueRevision": 2,
+        "ename": "Power Trip",
+        "type": "Dark",
+        "category": "phy",
+        "power": 20,
+        "accuracy": 100,
+        "pp": 10,
+        "combat": {
+            "damage_class": "physical",
+            "power_type": "special_case",
+            "priority": 0,
+            "crit_stage": 0,
+            "target": "single",
+            "effects": []
+        }
+    },
+    {
+        "id": 632,
+        "sourceMoveId": 682,
+        "catalogueRevision": 2,
+        "ename": "Burn Up",
+        "type": "Fire",
+        "category": "spe",
+        "power": 130,
+        "accuracy": 100,
+        "pp": 5,
+        "combat": {
+            "damage_class": "special",
+            "power_type": "special_case",
+            "priority": 0,
+            "crit_stage": 0,
+            "target": "single",
+            "effects": []
+        }
+    },
+    {
+        "id": 633,
+        "sourceMoveId": 684,
+        "catalogueRevision": 2,
+        "ename": "Smart Strike",
+        "type": "Steel",
+        "category": "phy",
+        "power": 70,
+        "accuracy": null,
+        "pp": 10,
+        "combat": {
+            "damage_class": "physical",
+            "power_type": "standard",
+            "priority": 0,
+            "crit_stage": 0,
+            "target": "single",
+            "effects": []
+        }
+    },
+    {
+        "id": 634,
+        "sourceMoveId": 692,
+        "catalogueRevision": 2,
+        "ename": "Dragon Hammer",
+        "type": "Dragon",
+        "category": "phy",
+        "power": 90,
+        "accuracy": 100,
+        "pp": 15,
+        "combat": {
+            "damage_class": "physical",
+            "power_type": "standard",
+            "priority": 0,
+            "crit_stage": 0,
+            "target": "single",
+            "effects": []
+        }
+    },
+    {
+        "id": 635,
+        "sourceMoveId": 693,
+        "catalogueRevision": 2,
+        "ename": "Brutal Swing",
+        "type": "Dark",
+        "category": "phy",
+        "power": 60,
+        "accuracy": 100,
+        "pp": 20,
+        "combat": {
+            "damage_class": "physical",
+            "power_type": "standard",
+            "priority": 0,
+            "crit_stage": 0,
+            "target": "single",
+            "effects": []
+        }
+    },
+    {
+        "id": 636,
+        "sourceMoveId": 694,
+        "catalogueRevision": 2,
+        "ename": "Aurora Veil",
+        "type": "Ice",
+        "category": "sta",
+        "power": null,
+        "accuracy": null,
+        "pp": 20,
+        "combat": {
+            "damage_class": "status",
+            "power_type": "status",
+            "priority": 0,
+            "crit_stage": 0,
+            "target": "self_side",
+            "effects": [
+                {
+                    "kind": "field",
+                    "field": "aurora_veil",
+                    "turns": 5
+                }
+            ]
+        }
+    },
+    {
+        "id": 637,
+        "sourceMoveId": 706,
+        "catalogueRevision": 2,
+        "ename": "Psychic Fangs",
+        "type": "Psychic",
+        "category": "phy",
+        "power": 85,
+        "accuracy": 100,
+        "pp": 10,
+        "combat": {
+            "damage_class": "physical",
+            "power_type": "standard",
+            "priority": 0,
+            "crit_stage": 0,
+            "target": "single",
+            "effects": []
+        }
+    },
+    {
+        "id": 638,
+        "sourceMoveId": 707,
+        "catalogueRevision": 2,
+        "ename": "Stomping Tantrum",
+        "type": "Ground",
+        "category": "phy",
+        "power": 75,
+        "accuracy": 100,
+        "pp": 10,
+        "combat": {
+            "damage_class": "physical",
+            "power_type": "special_case",
+            "priority": 0,
+            "crit_stage": 0,
+            "target": "single",
+            "effects": []
+        }
+    },
+    {
+        "id": 639,
+        "sourceMoveId": 710,
+        "catalogueRevision": 2,
+        "ename": "Liquidation",
+        "type": "Water",
+        "category": "phy",
+        "power": 85,
+        "accuracy": 100,
+        "pp": 10,
+        "combat": {
+            "damage_class": "physical",
+            "power_type": "standard",
+            "priority": 0,
+            "crit_stage": 0,
+            "target": "single",
+            "effects": []
+        }
+    },
+    {
+        "id": 640,
+        "sourceMoveId": 715,
+        "catalogueRevision": 2,
+        "ename": "Tearful Look",
+        "type": "Normal",
+        "category": "sta",
+        "power": null,
+        "accuracy": null,
+        "pp": 20,
+        "combat": {
+            "damage_class": "status",
+            "power_type": "status",
+            "priority": 0,
+            "crit_stage": 0,
+            "target": "single",
+            "effects": [
+                {
+                    "kind": "stat_stage",
+                    "target": "opponent",
+                    "stat": "attack",
+                    "stages": -1
+                },
+                {
+                    "kind": "stat_stage",
+                    "target": "opponent",
+                    "stat": "specialAttack",
+                    "stages": -1
+                }
+            ]
         }
     }
 ]

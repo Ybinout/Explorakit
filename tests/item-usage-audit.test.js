@@ -15,7 +15,7 @@ test('every catalogue item and every shop offer has a supported use or passive r
     assert.deepEqual(clientMachines,require('../data/game/machines.json').machines,'all CS compatibility rules match the server');
 });
 
-test('all 45 medicines/usable berries have a working field effect; all 101 CS teach their actual move',()=>{
+test('all 45 medicines/usable berries have a working field effect; all 263 CS teach their actual move',()=>{
     for(const item of items){
         const p=targetFor(item),before=JSON.stringify(p);
         if(usage(item)==='medicine'){

@@ -68,6 +68,7 @@ function damageTarget(p,amount,source,move,field) {
     return {hp:lost,total:lost};
 }
 function actionAvailability(p,move) {
+    if(p.__battle.soundBlockedTurns>0&&abilities.getMoveFlags(move).sound)return 0;
     if(p.__battle.rechargeMove||ability(p)==='Truant'&&p.__battle.loafing)return 0;
     if(p.status==='sleep'&&!['Sleep Talk','Snore'].includes(move.ename)&&ability(p)!=='Comatose')return 1-.65*(p.__battle.projectedStatusChance??1);
     if(p.status==='freeze')return .2;
@@ -92,7 +93,7 @@ function cast(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMoved=fa
             movePriority:engine.getMovePriority(move.ename,p),heal,changeStage:(target,stat,n)=>engine.applyStageChange(target,stat,n,[],target)});
         let raw=blocked?0:ctx.damage(p,other,move,otherSide,state);
         if(move.ename==='Sucker Punch'&&(!reply||reply.combat.damage_class==='status'||alreadyMoved))raw=0;
-        if(move.ename==='Fake Out'&&p.__battle.activeMoveActions>0)raw=0;
+        if(['Fake Out','First Impression'].includes(move.ename)&&p.__battle.activeMoveActions>0)raw=0;
         if(move.ename==='False Swipe')raw=Math.min(raw,Math.max(0,other.currentHp-1));
         if(move.ename==='Focus Punch'&&p.__battle.lastDamageTurn===state.turn&&p.__battle.lastDamageTaken>0)raw=0;
         const guardChance=guard.get(other)||0;
@@ -159,9 +160,12 @@ function cast(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMoved=fa
             const max=key==='spikes'?3:key==='toxicSpikes'?2:1;
             if(key&&(otherSide.hazards[key]||0)<max){otherSide.hazards[key]=(otherSide.hazards[key]||0)+1;useful=true;}
         }
+        if(effect.kind==='laser_focus'){recognized=true;p.__battle.laserFocusTurns=2;useful=true;}
+        if(effect.kind==='sound_block'&&inflicted>0&&ability(p)!=='Sheer Force'&&ability(other)!=='Shield Dust'){recognized=true;other.__battle.soundBlockedTurns=2;useful=true;}
+        if(effect.kind==='strength_sap'){recognized=true;if((other.__battle.statStages.attack||0)>-6&&!(p.__battle.healBlockTurns>0)){const amount=other.attack*((other.__battle.statStages.attack||0)>=0?(2+(other.__battle.statStages.attack||0))/2:2/(2-(other.__battle.statStages.attack||0)));engine.applyStageChange(other,'attack',-1,[],p);if(ability(other)==='Liquid Ooze'){if(ability(p)!=='Magic Guard')hp(p,p.currentHp-amount);}else heal(p,amount);useful=true;}}
         if(effect.kind==='field') {
-            const key={reflect:'reflectTurns',light_screen:'lightScreenTurns',tailwind:'tailwindTurns',safeguard:'safeguardTurns'}[effect.field];
-            if(key){recognized=true;if(!(side.screens[key]>1)){side.screens[key]=5;useful=true;}}
+            const key={reflect:'reflectTurns',aurora_veil:'auroraVeilTurns',light_screen:'lightScreenTurns',tailwind:'tailwindTurns',safeguard:'safeguardTurns'}[effect.field];
+            if(key){recognized=true;if(!(side.screens[key]>1)&&(effect.field!=='aurora_veil'||state.weather.kind==='hail')){side.screens[key]=5;useful=true;}}
             if(['rain','sun','hail','sandstorm'].includes(effect.field)){recognized=true;if(state.weather.kind!==effect.field){state.weather={kind:effect.field,turns:5};useful=true;}}
             const room={trick_room:'trickRoomTurns',magic_room:'magicRoomTurns',wonder_room:'wonderRoomTurns'}[effect.field];
             if(room){recognized=true;state.field[room]=state.field[room]>0?0:5;useful=true;}
@@ -169,6 +173,8 @@ function cast(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMoved=fa
         }
     }
     if(p.__battle.chargeMove===move.ename){p.__battle.chargeMove=null;p.__battle.chargeTurns=0;p.__battle.semiInvulnerable=null;}
+    if(move.ename==='Burn Up'&&inflicted>0){p.__battle.tempTypes=types(p).filter(t=>t!=='Fire');if(!p.__battle.tempTypes.length)p.__battle.tempTypes=['???'];}
+    p.__battle.lastMoveFailed=!useful&&!(guard.get(other)>0);p.__battle.lastMoveResultTurn=state.turn;
     activate(p,other,state);activate(other,p,state);
     p.__battle.activeMoveActions=(p.__battle.activeMoveActions||0)+1;
     return {useful,recognized,accuracy:hitChance,inflicted};
@@ -204,6 +210,7 @@ function project(a,b,move,reply,ctx,{switched=false,first=true,ownSwitched=false
     if(first) {action=cast(own,foe,move,reply,side,enemySide,field,ctx,guard);if(!switched)response=cast(foe,own,reply,move,enemySide,side,field,ctx,guard,{alreadyMoved:true});}
     else {if(!switched)response=cast(foe,own,reply,move,enemySide,side,field,ctx,guard);action=cast(own,foe,move,reply,side,enemySide,field,ctx,guard,{alreadyMoved:true});}
     endTurn(own,foe,field,{switched:ownSwitched});endTurn(foe,own,field,{switched});
+    for(const p of[own,foe])for(const key of['laserFocusTurns','soundBlockedTurns'])if(p.__battle[key]>0)p.__battle[key]--;
     for(const group of[field.field,side.screens,enemySide.screens])for(const key of Object.keys(group))if(key.endsWith('Turns')&&group[key]>0)group[key]--;
     for(const group of[field.weather,field.terrain])if(group.turns>0&&--group.turns===0)group.kind=null;
     field.turn++;

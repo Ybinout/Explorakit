@@ -2015,6 +2015,57 @@
           "status": "brn"
         }
       ]
+    },
+    "Origin Pulse": {},
+    "Precipice Blades": {},
+    "Dragon Ascent": {},
+    "First Impression": {},
+    "High Horsepower": {},
+    "Strength Sap": {
+      "reflectable": true
+    },
+    "Toxic Thread": {
+      "reflectable": true
+    },
+    "Laser Focus": {},
+    "Throat Chop": {
+      "secondaries": [
+        {
+          "chance": 100
+        }
+      ]
+    },
+    "Psychic Terrain": {},
+    "Lunge": {
+      "secondaries": [
+        {
+          "chance": 100,
+          "boosts": {
+            "atk": -1
+          }
+        }
+      ]
+    },
+    "Power Trip": {},
+    "Burn Up": {},
+    "Smart Strike": {},
+    "Dragon Hammer": {},
+    "Brutal Swing": {},
+    "Aurora Veil": {},
+    "Psychic Fangs": {},
+    "Stomping Tantrum": {},
+    "Liquidation": {
+      "secondaries": [
+        {
+          "chance": 20,
+          "boosts": {
+            "def": -1
+          }
+        }
+      ]
+    },
+    "Tearful Look": {
+      "reflectable": true
     }
   },
   "weights": {

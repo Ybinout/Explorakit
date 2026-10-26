@@ -92,6 +92,7 @@ function createSideState(name = 'side') {
         },
         screens: {
             reflectTurns: 0,
+            auroraVeilTurns: 0,
             lightScreenTurns: 0,
             safeguardTurns: 0,
             mistTurns: 0,
@@ -848,12 +849,12 @@ function calculateDamageDetailed(attacker, defender, move, context = {}) {
     const criticalBlocked = battleState?.field?.luckyChantTurns > 0
         || context.defenderSide?.screens?.luckyChantTurns > 0
         || criticalAbility.blocked;
-    const critical = !context.preview && !criticalBlocked
-        && (criticalAbility.alwaysCritical || Math.random() < getCriticalChance(critStage));
+    const critical = !criticalBlocked && (attackerData.laserFocusTurns>0
+        || !context.preview && (criticalAbility.alwaysCritical || Math.random() < getCriticalChance(critStage)));
     if (critical) {
         modifier *= 1.5;
     }
-    if (!critical && !hasPassiveAbility(attacker,'Infiltrator') && context.defenderSide?.screens?.[damageClass==='physical'?'reflectTurns':'lightScreenTurns']>0) modifier *= 0.5;
+    if (!critical && !hasPassiveAbility(attacker,'Infiltrator') && (context.defenderSide?.screens?.[damageClass==='physical'?'reflectTurns':'lightScreenTurns']>0 || context.defenderSide?.screens?.auroraVeilTurns>0)) modifier *= 0.5;
 
     modifier *= getAbilityDamageMultiplier({
         attacker,
@@ -1055,6 +1056,7 @@ function applyFieldEffect(effect, context, moveResult) {
     const fieldName=effect.field, messages=moveResult.messages, state=context.battleState;
     if(!fieldName || !state)return;
     const turns=Math.max(1,safeNumber(effect.turns,5)), label=battleField.LABELS[fieldName] || fieldName;
+    if(fieldName==='aurora_veil' && (state.weather?.kind!=='hail' || isWeatherSuppressed(context.attacker,context.defender))){moveResult.success=false;messages.push('Voile Aurore échoue : la grêle est nécessaire.');return;}
     let container,key;
     if(WEATHER_FIELDS.has(fieldName) || TERRAIN_FIELDS.has(fieldName)) {
         const kind=WEATHER_FIELDS.has(fieldName)?'weather':'terrain';
@@ -1141,6 +1143,28 @@ function applyEffect(effect, context, moveResult) {
     };
 
     switch (effect.kind) {
+        case 'laser_focus':
+            attackerData.laserFocusTurns=2;
+            messages.push(`${getPokemonDisplayName(context.attacker)} se concentre : ses prochains coups seront critiques !`);
+            return;
+        case 'sound_block':
+            targetData.soundBlockedTurns=Math.max(targetData.soundBlockedTurns||0,2);
+            messages.push(`${getPokemonDisplayName(effectTargetPokemon)} ne peut plus utiliser de capacités sonores pendant deux tours.`);
+            return;
+        case 'strength_sap': {
+            if((targetData.statStages.attack||0)<=-6){moveResult.success=false;messages.push('Vole-Force échoue : l’Attaque est déjà au minimum.');return;}
+            const amount=Math.max(1,Math.floor(getBaseStatValue(effectTargetPokemon,'attack')*stageMultiplier(targetData.statStages.attack||0)));
+            const old=targetData.statStages.attack||0;
+            applyStageChange(effectTargetPokemon,'attack',-1,messages,context.attacker,{side:effectTargetSide});
+            let healed=0;
+            if(hasPassiveAbility(effectTargetPokemon,'Liquid Ooze')) {
+                if(!hasPassiveAbility(context.attacker,'Magic Guard'))applyDamage(context.attacker,amount,{allowEndure:false});
+                messages.push('Suintement transforme le soin de Vole-Force en dégâts !');
+            } else healed=healPokemon(context.attacker,amount);
+            moveResult.success=healed>0||(targetData.statStages.attack||0)!==old;
+            if(healed)messages.push(`${getPokemonDisplayName(context.attacker)} récupère ${healed} PV avec Vole-Force.`);
+            return;
+        }
         case 'stat_stage':
             applyStageChange(
                 effectTargetPokemon,
@@ -2007,10 +2031,12 @@ function processTurnStart(pokemon, options = {}) {
     }
 
     if (pokemonData.healBlockTurns > 0 && Array.isArray(move?.combat?.effects)
-        && move.combat.effects.some((effect) => effect.kind === 'heal')) {
+        && move.combat.effects.some((effect) => ['heal','strength_sap'].includes(effect.kind))) {
         messages.push(`${pokemonName} ne peut pas utiliser ${move.ename} a cause d'Anti-Soin.`);
         return { canAct: false, messages };
     }
+
+    if(pokemonData.soundBlockedTurns>0 && getMoveFlags(move).sound){messages.push(`${pokemonName} ne peut pas utiliser de capacité sonore (Exécu-Son).`);return {canAct:false,messages};}
 
     if (pokemonData.powdered) {
         pokemonData.powdered = false;
@@ -2272,6 +2298,7 @@ function processPokemonEndTurn(pokemon, enemyPokemon, ownSide, battleState) {
             messages.push(`${pokemonName} tombe K.O. sous l'effet de Requiem.`);
         }
     }
+    for(const key of ['laserFocusTurns','soundBlockedTurns'])if(pokemonData[key]>0)pokemonData[key]--;
     if (pokemonData.disableTurns > 0) {
         pokemonData.disableTurns -= 1;
         if (pokemonData.disableTurns <= 0) {
@@ -2587,6 +2614,10 @@ function getSpecialMoveResolution(move, attacker, defender, options = {}) {
         }
         case 'Wring Out':
         case 'Crush Grip': return { power: Math.max(1, Math.floor(120 * defenderHp / defenderMaxHp) + 1) };
+        case 'Stored Power':
+        case 'Power Trip': return {power:20+20*Object.entries(attackerData.statStages).reduce((n,[key,v])=>n+(key==='critical'?0:Math.max(0,safeNumber(v,0))),0)};
+        case 'Burn Up': return hasType(attacker,'Fire')?{power:130}:{failMessage:'Flamme Ultime échoue : le lanceur doit être de type Feu.'};
+        case 'Stomping Tantrum': return {power:attackerData.lastMoveFailed && attackerData.lastMoveResultTurn===(options.battleState?.turn??1)-1?150:75};
         case 'Punishment': return { power: clamp(60 + positiveStages * 20, 60, 200) };
         case 'Magnitude': {
             const roll = Math.random();
@@ -2685,6 +2716,7 @@ function useattack(attackName, attacker, defender, options = {}) {
     const result=executeAttack(attackName,attacker,defender,options);
     if (result.moveName === 'Bide' && !result.success && attacker?.__battle) delete attacker.__battle.bideTurns;
     if (attacker?.__battle && !(attacker.__battle.bideTurns > 0)) delete attacker.__battle.bideDamage;
+    if(attacker && !options.calledDepth && !options.skipTurnStart){const data=ensureBattleData(attacker);data.lastMoveFailed=(!result.success||(result.move?.combat?.damage_class!=='status'&&result.effectiveness===0))&&!result.protected&&result.phase!=='prepare'&&!data.rechargeMove;data.lastMoveResultTurn=options.battleState.turn;}
     // Misses, protection and immunities return early but still cost the user its life.
     finishSelfDestruct(attacker,result);
     for (const [p,other] of [[attacker,defender],[defender,attacker]]) if (Number(p?.currentHp)<=0) twoTurn.clear(p,other,options.battleState.turn);
@@ -2863,10 +2895,10 @@ function executeAttack(attackName, attacker, defender, options = {}) {
     abilityForms.sync(attacker,'move',moveResult.messages,move,battleState,defender);
     if (!calledDepth && !options.skipTurnStart) heldItems.lockMove(attacker, move.ename, battleState);
 
-    if (move.ename === 'Fake Out' && attackerData.activeMoveActions > 1) {
+    if (['Fake Out','First Impression'].includes(move.ename) && attackerData.activeMoveActions > 1) {
         moveResult.blocked = true;
         attackerData.lastMoveUsed = move.ename;
-        moveResult.messages.push('Bluff échoue : utilisable uniquement lors de la première action après l’entrée en combat.');
+        moveResult.messages.push(`${move.ename==='Fake Out'?'Bluff':'Escarmouche'} échoue : utilisable uniquement lors de la première action après l’entrée en combat.`);
         return moveResult;
     }
     if (move.ename === 'Mat Block' && attackerData.activeMoveActions > 1) {
@@ -3003,7 +3035,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
     }
 
     if (moveTargetsPokemon && !chargeRule?.breaksProtect && isMoveBlockedByProtect(defender, defenderSide, move,attacker)) {
-        moveResult.blocked = true;
+        moveResult.blocked = true;moveResult.protected=true;
         moveResult.messages.push(`${getPokemonDisplayName(defender)} bloque l'attaque.`);
         if (safeNumber(defenderData.contactDamageFraction, 0) > 0 && damageClass !== 'status' && reactions.contact(attacker,move) && !hasPassiveAbility(attacker,'Magic Guard')) {
             const recoil = Math.max(1, Math.floor(safeNumber(attacker.maxHp, 1) * defenderData.contactDamageFraction));
@@ -3056,8 +3088,8 @@ function executeAttack(attackName, attacker, defender, options = {}) {
     }
 
     if (chargeRule?.breaksProtect) defenderData.protect = false;
-    if (move.ename === 'Brick Break' && getPokemonTypes(defender).every(type=>getEffectiveness(move.type,type)>0)) {
-        if(battleField.clearScreens(defenderSide,['reflectTurns','lightScreenTurns'])) moveResult.messages.push('Casse-Brique brise les écrans adverses !');
+    if (['Brick Break','Psychic Fangs'].includes(move.ename) && getPokemonTypes(defender).every(type=>getEffectiveness(move.type,type)>0)) {
+        if(battleField.clearScreens(defenderSide,['reflectTurns','lightScreenTurns','auroraVeilTurns'])) moveResult.messages.push(`${move.ename==='Brick Break'?'Casse-Brique':'Psycho-Croc'} brise les écrans adverses !`);
     }
 
     if (moveTargetsPokemon) {
@@ -3272,7 +3304,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
     }
     const sheerForce = hasPassiveAbility(attacker, 'Sheer Force') && getMoveFlags(move).secondary;
     const effects = move.ename !== 'Rest' && Array.isArray(move?.combat?.effects)
-        ? move.combat.effects.filter((effect) => !sheerForce || !['status_chance', 'flinch'].includes(effect.kind))
+        ? move.combat.effects.filter((effect) => !sheerForce || !effect.secondary && !['status_chance', 'flinch'].includes(effect.kind))
         : [];
     for (const effect of effects) {
         const callsMove = ['copy_last_move','me_first','copycat','random_move','nature_power','sleep_talk','assist'].includes(effect.kind);
@@ -3310,6 +3342,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         attackerData.trappedTurns=0;attackerData.leechSeedSource=null;
         if(cleared || bound)moveResult.messages.push('Tour Rapide libère le lanceur et dégage les pièges de son camp !');
     }
+    if(move.ename==='Burn Up'&&moveResult.damage+moveResult.substituteDamage>0){attackerData.tempTypes=getPokemonTypes(attacker).filter(t=>t!=='Fire');if(!attackerData.tempTypes.length)attackerData.tempTypes=['???'];moveResult.messages.push(`${getPokemonDisplayName(attacker)} perd son type Feu !`);}
     applyImplicitMoveEffect(move, effectContext, moveResult);
     // Grounding moves interrupt the airborne release; Gravity interrupts both
     // participants in Sky Drop. Keep this after the successful hit/effect.

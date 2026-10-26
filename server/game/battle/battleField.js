@@ -5,13 +5,13 @@ const FIELD_TIMERS = {
     water_sport:'waterSportTurns', fairy_lock:'fairyLockTurns'
 };
 const SIDE_TIMERS = {
-    reflect:'reflectTurns', light_screen:'lightScreenTurns', safeguard:'safeguardTurns',
+    reflect:'reflectTurns', aurora_veil:'auroraVeilTurns', light_screen:'lightScreenTurns', safeguard:'safeguardTurns',
     mist:'mistTurns', tailwind:'tailwindTurns', lucky_chant:'luckyChantTurns'
 };
 const LABELS = {
     gravity:'Gravité', trick_room:'Distorsion', magic_room:'Zone Magique', wonder_room:'Zone Étrange',
     ion_deluge:'Déluge Plasmique', mud_sport:'Lance-Boue', water_sport:'Tourniquet', fairy_lock:'Verrou Enchanté',
-    reflect:'Protection', light_screen:'Mur Lumière', safeguard:'Rune Protect', mist:'Brume',
+    reflect:'Protection', aurora_veil:'Voile Aurore', light_screen:'Mur Lumière', safeguard:'Rune Protect', mist:'Brume',
     tailwind:'Vent Arrière', lucky_chant:'Air Veinard',
     electric_terrain:'Champ Électrifié', grassy_terrain:'Champ Herbu', misty_terrain:'Champ Brumeux', psychic_terrain:'Champ Psychique',
     rain:'Pluie', sun:'Soleil', sandstorm:'Tempête de sable', hail:'Grêle',
@@ -22,7 +22,7 @@ const TEAM_GUARDS = {wide_guard:'wideGuardTurns',quick_guard:'quickGuardTurns',m
 Object.assign(LABELS,{wide_guard:'Garde Large',quick_guard:'Prévention',mat_block:'Tatamigaeshi',crafty_shield:'Vigilance'});
 const SPREAD_MOVES = new Set(require('../../../data/vendor/pokeapi/spread-moves.json').moves);
 const HAZARDS = {spikes:['spikes',3],toxic_spikes:['toxicSpikes',2],stealth_rock:['stealthRock',1],sticky_web:['stickyWeb',1]};
-const SCREEN_KEYS = ['reflectTurns','lightScreenTurns','safeguardTurns','mistTurns'];
+const SCREEN_KEYS = ['reflectTurns','lightScreenTurns','auroraVeilTurns','safeguardTurns','mistTurns'];
 function clearHazards(side) {
     if(!side?.hazards)return false;
     const had=Object.values(side.hazards).some(Boolean);

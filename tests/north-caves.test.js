@@ -119,7 +119,8 @@ test('northern caves use real cave combat scenery, dry weather and gradual wild 
                 const pokemon = await CreatePokemon(name);
                 assert.equal(pokemon.data.id, config.wildpokemon[i]);
                 assert(pokemon.level >= config.level.min && pokemon.level <= config.level.max);
-                assert.equal(pokemon.abilities.length, 4);
+                assert(pokemon.abilities.length>=1&&pokemon.abilities.length<=4);
+                assert.equal(new Set(pokemon.abilities).size,pokemon.abilities.length);
                 assert(pokemon.movePp.every(pp => pp > 0));
             }
         }

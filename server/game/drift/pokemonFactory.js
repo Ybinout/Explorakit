@@ -20,7 +20,7 @@ function create(id, level = 5, balanced = false, random = Math.random, minimumIv
     p.stoneEvolutions = true;
     p.gender = require('../items/stoneEvolution').gender(p);
     const slugs = new Set(pools[id] || []);
-    const possible = moves.filter(m => slugs.has(m.ename.toLowerCase().replace(/[^a-z0-9]+/g, '-')) && m.power > 0 && m.power <= Math.min(100, 45 + level) && generationStandard(m));
+    const possible = moves.filter(m => slugs.has(m.ename.toLowerCase().replace(/[^a-z0-9]+/g, '-')) && (!balanced || !m.catalogueRevision) && m.power > 0 && m.power <= Math.min(100, 45 + level) && generationStandard(m));
     possible.sort((a,b) => Number(species.type.includes(b.type)) - Number(species.type.includes(a.type)) || b.power - a.power);
     const chosen = possible.slice(0, 3).map(m => m.ename);
     if (!chosen.length) chosen.push('Tackle');
@@ -30,10 +30,10 @@ function create(id, level = 5, balanced = false, random = Math.random, minimumIv
 }
 function starterChoices(random = Math.random, minimumIv = 0) {
     const pool=[...STARTERS], choices=[];
-    for(let i=0;i<3;i++) { const index=Math.min(pool.length-1,Math.floor(random()*pool.length)); choices.push(create(pool.splice(index,1)[0],5,false,random,minimumIv)); }
+    for(let i=0;i<3;i++) { const index=Math.min(pool.length-1,Math.floor(random()*pool.length)); choices.push(require('../models/moveLearning').assignNaturalMoves(create(pool.splice(index,1)[0],5,false,random,minimumIv))); }
     return choices;
 }
-function starter(random = Math.random, minimumIv = 0) { return create(STARTERS[Math.min(STARTERS.length-1,Math.floor(random() * STARTERS.length))], 5, false, random, minimumIv); }
+function starter(random = Math.random, minimumIv = 0) { return require('../models/moveLearning').assignNaturalMoves(create(STARTERS[Math.min(STARTERS.length-1,Math.floor(random() * STARTERS.length))], 5, false, random, minimumIv)); }
 function wild(map, player, random = Math.random) {
     const zone = maps.find(m => m.mapName === map);
     const ids = zone?.wildpokemon?.filter(id => !legendary.has(id) && dex.some(p => p.id === id));
@@ -49,7 +49,7 @@ function wild(map, player, random = Math.random) {
     const opening = require('./openingBalance');
     const bounds = opening.levels[map] || zone.level;
     const min = bounds?.min || 5, max = bounds?.max || min;
-    const pokemon = opening.tuneWildMoves(create(speciesId, min + Math.floor(random() * (max - min + 1))));
+    const pokemon = opening.tuneWildMoves(require('../models/moveLearning').assignNaturalMoves(create(speciesId, min + Math.floor(random() * (max - min + 1)))));
     require('../models/moveLearning').preserveWildEvolutionMove(pokemon);
     return pokemon;
 }

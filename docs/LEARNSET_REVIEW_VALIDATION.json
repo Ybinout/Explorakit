@@ -1,0 +1,187 @@
+{
+  "date": "2026-10-26",
+  "audit": {
+    "species": 493,
+    "runtimeEncounterChecks": 2465,
+    "referenceSpecies": 809,
+    "catalogueMoves": 633,
+    "addedMoves": 21,
+    "levelEntriesAdded": 43,
+    "machines": 263,
+    "previousMachines": 101,
+    "newCompatibilities": 12837,
+    "errors": 0
+  },
+  "sources": {
+    "learnsets": "PokeAPI/pokeapi 81d20919845b6a445969b9265aab5cec6b04cece; generation 7 USUM for base species",
+    "numericMoves": "@pkmn/dex@0.10.11 mod gen7",
+    "semanticReview": "https://github.com/smogon/pokemon-showdown/blob/b354a81f11003a03f0dcd1dafd4edc641e6763bd/data/moves.ts"
+  },
+  "tests": {
+    "targetedPrimary": {
+      "pass": 323,
+      "fail": 0,
+      "skip": 0
+    },
+    "finalAdditions": {
+      "pass": 12,
+      "fail": 0,
+      "note": "11 overlap primary; Wide Guard/Smart Strike final check added afterwards; 324 distinct targeted cases"
+    },
+    "semanticBaselineSubset": {
+      "cases": 11,
+      "failBefore": 8,
+      "passBefore": 3
+    },
+    "mysql": {
+      "pass": 90,
+      "fail": 0,
+      "skip": 0,
+      "database": "explorakit_test"
+    },
+    "catalogueExecution": {
+      "scope": "Structural coverage and execution smoke checks; behavioral rules are tested separately.",
+      "executionChecks": 2532,
+      "executionFailures": [],
+      "totalMoves": 633,
+      "totalEffectKinds": 102,
+      "unknownEffectKinds": [],
+      "unsupportedSpecialCases": [],
+      "partialMoves": []
+    },
+    "baselineGlobal": {
+      "pass": 1250,
+      "fail": 25,
+      "skip": 148
+    },
+    "globalBeforeFinalAdditionalUnitCase": {
+      "pass": 1278,
+      "fail": 21,
+      "skip": 148
+    },
+    "globalComparison": {
+      "baseline": [
+        "rift: real Ana team sends Gardevoir last and announces once, including after checkpoint recovery",
+        "colosseum: real Ana team sends Gardevoir last and announces once, including after checkpoint recovery",
+        "Connexion au camp : distinguer un ancien serveur, une session refusée et une panne réseau",
+        "fishing: all six lakes have real shoreline targets and exact current author provenance",
+        "Gwenn moved to Route 4; old Rochebrume saves still have an ordinary usable house",
+        "every catalogue item and every shop offer has a supported use or passive role",
+        "all 45 medicines/usable berries have a working field effect; all 101 CS teach their actual move",
+        "rift: every consumable class works from inventory, without consuming twice",
+        "colosseum: every consumable class works from inventory, without consuming twice",
+        "late Adventure zones rise steadily from Ana to the level 63 final champion",
+        "Matthieu keeps the existing personal gate and victory keys",
+        "ordinary dialogue retains paging and Lucie timers are cancelled when sequence changes or closes",
+        "Lucie needs 7p then a new victory; the old reunion flag cannot skip her battle",
+        "shared client clears field weather and terrain when the server sends a dry state",
+        "Hoze opens Raphael then Ana at Clairfontaine, with old records preserved",
+        "rift: real Raphael team sends Cizayox last and announces once, including after checkpoint recovery",
+        "colosseum: real Raphael team sends Cizayox last and announces once, including after checkpoint recovery",
+        "RiftMon Socket : liste publique, trois joueurs, exemption spectatrice, confidentialité et fin réelle du duel",
+        "Route2 house uses a reachable painted door, safe bidirectional arrivals and a permanent victory gate",
+        "snow scenery follows snowy maps and outdoor hail, while gyms, caves and the Colosseum keep their environment",
+        "replay overlays close personal gates and crystals without erasing real victories",
+        "Hoze is the once-only main gym in Valpierre and the old optional guardian stays archived",
+        "rift: real Wanda team, individual IVs and unrestricted expert plan survive a checkpoint",
+        "colosseum: real Wanda team, individual IVs and unrestricted expert plan survive a checkpoint"
+      ],
+      "final": [
+        "rift: real Ana team sends Gardevoir last and announces once, including after checkpoint recovery",
+        "colosseum: real Ana team sends Gardevoir last and announces once, including after checkpoint recovery",
+        "Connexion au camp : distinguer un ancien serveur, une session refusée et une panne réseau",
+        "fishing: all six lakes have real shoreline targets and exact current author provenance",
+        "Gwenn moved to Route 4; old Rochebrume saves still have an ordinary usable house",
+        "late Adventure zones rise steadily from Ana to the level 63 final champion",
+        "Matthieu keeps the existing personal gate and victory keys",
+        "ordinary dialogue retains paging and Lucie timers are cancelled when sequence changes or closes",
+        "Lucie needs 7p then a new victory; the old reunion flag cannot skip her battle",
+        "shared client clears field weather and terrain when the server sends a dry state",
+        "Hoze opens Raphael then Ana at Clairfontaine, with old records preserved",
+        "rift: real Raphael team sends Cizayox last and announces once, including after checkpoint recovery",
+        "colosseum: real Raphael team sends Cizayox last and announces once, including after checkpoint recovery",
+        "RiftMon Socket : liste publique, trois joueurs, exemption spectatrice, confidentialité et fin réelle du duel",
+        "Route2 house uses a reachable painted door, safe bidirectional arrivals and a permanent victory gate",
+        "snow scenery follows snowy maps and outdoor hail, while gyms, caves and the Colosseum keep their environment",
+        "replay overlays close personal gates and crystals without erasing real victories",
+        "Hoze is the once-only main gym in Valpierre and the old optional guardian stays archived",
+        "rift: real Wanda team, individual IVs and unrestricted expert plan survive a checkpoint",
+        "colosseum: real Wanda team, individual IVs and unrestricted expert plan survive a checkpoint"
+      ],
+      "newFailures": [],
+      "resolvedFailures": [
+        "all 45 medicines/usable berries have a working field effect; all 101 CS teach their actual move",
+        "colosseum: every consumable class works from inventory, without consuming twice",
+        "every catalogue item and every shop offer has a supported use or passive role",
+        "rift: every consumable class works from inventory, without consuming twice"
+      ]
+    }
+  },
+  "browser": {
+    "machines": 263,
+    "purchaseAndReplace": true,
+    "incompatibleDisabled": true,
+    "cancelPreservesItem": true,
+    "reconnectAndSql": true,
+    "expeditionAppend": true,
+    "viewports": 3,
+    "errors": [],
+    "output": "/tmp/riftmon-learnset-review-browser"
+  },
+  "clientBuild": "63377203f6663302",
+  "lint": true,
+  "generatorsCheck": true,
+  "behavior": [
+    "21 new singles attacks; numeric IDs of all 612 existing moves preserved; Stored Power positive-stage scaling corrected.",
+    "Natural level tables cover 809 server species; full per-species review for the 493 playable Pokédex species.",
+    "43 level records restored/added; full Sandshrew table, Vise Grip aliases, new natural moves.",
+    "New wild encounters use at most four distinct natural moves already available at their level; no TM/future-level selection or invented duplicate slots.",
+    "Explicit Adventure starter sets and author-defined trainer teams remain unchanged; historical Colosseum v1–v4 generators keep their original catalog.",
+    "CS: 101 to 263, documented TM/tutor compatibility through generation 7; new additions also accept their actual USUM natural/egg compatibility as a RiftMon extension.",
+    "Store remains after Hoze, prices 3000/4000/5000; unrelated items, 101 old prices/compatibilities and saved move sets retained.",
+    "CS type filter/color label and Aurora Veil public timer/screen added; current animations reused for all three modes."
+  ],
+  "limits": [
+    "Spotlight is excluded because its mechanic requires doubles, absent in RiftMon. Four natural level entries concern it; explicitly reported per species.",
+    "Generation 5–7 species remain server-compatible but are outside the exhaustive playable 493-species review; this does not claim every later exclusive move is implemented.",
+    "No rewriting of already-owned Pokémon or retroactive pending moves; new natural offers occur at next eligible levels and new CS provide the extra teaching paths.",
+    "Global suite is not green: all 21 failures also reproduce on the baseline; four old inventory-audit failures were fixed by recognizing existing Gwenn/Professor keys in test fixtures. No unrelated story/map behavior changed.",
+    "No physical mobile device or exhaustive proof of every move combination; browser and real SQL on disposable accounts were used."
+  ],
+  "commands": [
+    "node scripts/auditLearnsets.js --write",
+    "python3 scripts/generateLevelUpMoves.py --check",
+    "python3 scripts/generateMachines.py --check",
+    "ABILITY_DEX_PATH=/tmp/explorakit-ability-source/node_modules/@pkmn/dex node scripts/generateMoveAdditions.js --check",
+    "node scripts/generatePokemonReference.js --check",
+    "npm test",
+    "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test node --env-file=.env --test tests/machines-mysql.test.js tests/item-usage-mysql.test.js tests/battle-runtime-integration.test.js",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-learnset-review-dist RELEASE_SCREENSHOTS=/tmp/riftmon-learnset-review-browser node --env-file=.env scripts/validateMachinesBrowser.js",
+    "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-learnset-review-dist"
+  ],
+  "deployment": {
+    "publishedAt": "2026-10-26T20:58:13.193Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-learnset-review-2026-10-26T20-58-10-214Z",
+    "clientCommit": "77933498b5ca1f635b94567d45a094b93db01833",
+    "clientBuild": "63377203f6663302",
+    "beforePid": "2061551",
+    "afterPid": "2076407",
+    "activeRuns": 0,
+    "checkpointSaved": true,
+    "serverRestarted": true,
+    "gracefulCheckpoint": true,
+    "neighborsUnchanged": true,
+    "preservedSpriteSha256": "0947bc3341b14da9ed55d5f2770a8b8cbffee6a6ff5dcdeb3dd6ac6a619a00dc",
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.4b8588e0.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.2a5f0f0a.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.0cafca49.css"
+    ]
+  }
+}
