@@ -1,0 +1,213 @@
+{
+  "date": "2026-10-26",
+  "scope": {
+    "pages": {
+      "connexion": {
+        "background": "#edf5fb",
+        "card": "#fbfdff",
+        "ink": "#254760",
+        "accent": "#2e6f9a"
+      },
+      "inscription": {
+        "background": "#f4f0f9",
+        "card": "#fffcff",
+        "ink": "#463c5b",
+        "accent": "#7d5a9a"
+      }
+    },
+    "change": "Image de fond et voile sombre retirés des deux pages. Bleu pour la connexion, lavande/rose pour la création, surfaces claires et texte foncé ; champs, états sélectionnés, erreurs et boutons adaptés.",
+    "preserved": "Templates et scripts des deux composants comparés identiques avant/après : authentification, validations, session, redirections, avatars et starters conservés.",
+    "responsive": "Retrait du minimum intrinsèque de la carte et retour à la ligne du nom dans le récapitulatif : les longs noms ne débordent plus sur téléphone.",
+    "assets": "Aucun nouvel asset ; backgroundmenu.webp n’est plus référencé par ces deux composants, ni téléchargé lors du parcours.",
+    "server": "Aucun changement serveur ou schéma SQL."
+  },
+  "validation": {
+    "browser": {
+      "command": "RELEASE_DIST_DIR=/tmp/riftmon-auth-light-dist node --env-file=.env scripts/validateAuthLightBrowser.js",
+      "realSignup": true,
+      "realLogin": true,
+      "validationErrorsVisible": true,
+      "expiredSessionNotice": true,
+      "steps": 4,
+      "viewports": 4,
+      "noPhotoBackgroundRequests": true,
+      "lightSurfaces": true,
+      "minimumContrast": 4.568322870349345,
+      "contrast": [
+        {
+          "label": "login",
+          "width": 320,
+          "minimum": 4.714594999404519
+        },
+        {
+          "label": "login",
+          "width": 393,
+          "minimum": 4.714594999404519
+        },
+        {
+          "label": "login",
+          "width": 844,
+          "minimum": 4.714594999404519
+        },
+        {
+          "label": "login",
+          "width": 1365,
+          "minimum": 4.714594999404519
+        },
+        {
+          "label": "signup-identity-error",
+          "width": 320,
+          "minimum": 5.021615169664579
+        },
+        {
+          "label": "signup-identity-error",
+          "width": 393,
+          "minimum": 5.021615169664579
+        },
+        {
+          "label": "signup-identity-error",
+          "width": 844,
+          "minimum": 5.021615169664579
+        },
+        {
+          "label": "signup-identity-error",
+          "width": 1365,
+          "minimum": 5.021615169664579
+        },
+        {
+          "label": "signup-avatar",
+          "width": 320,
+          "minimum": 4.568322870349345
+        },
+        {
+          "label": "signup-avatar",
+          "width": 393,
+          "minimum": 4.568322870349345
+        },
+        {
+          "label": "signup-avatar",
+          "width": 844,
+          "minimum": 4.9898423985793166
+        },
+        {
+          "label": "signup-avatar",
+          "width": 1365,
+          "minimum": 5.106027494424433
+        },
+        {
+          "label": "signup-starter",
+          "width": 320,
+          "minimum": 5.106027494424433
+        },
+        {
+          "label": "signup-starter",
+          "width": 393,
+          "minimum": 5.106027494424433
+        },
+        {
+          "label": "signup-starter",
+          "width": 844,
+          "minimum": 5.106027494424433
+        },
+        {
+          "label": "signup-starter",
+          "width": 1365,
+          "minimum": 5.106027494424433
+        },
+        {
+          "label": "signup-ready",
+          "width": 320,
+          "minimum": 5.524746570723273
+        },
+        {
+          "label": "signup-ready",
+          "width": 393,
+          "minimum": 5.524746570723273
+        },
+        {
+          "label": "signup-ready",
+          "width": 844,
+          "minimum": 5.524746570723273
+        },
+        {
+          "label": "signup-ready",
+          "width": 1365,
+          "minimum": 5.524746570723273
+        }
+      ],
+      "artifacts": [
+        "login-320.png",
+        "login-393.png",
+        "login-844.png",
+        "login-1365.png",
+        "signup-identity-error-320.png",
+        "signup-identity-error-393.png",
+        "signup-identity-error-844.png",
+        "signup-identity-error-1365.png",
+        "signup-avatar-320.png",
+        "signup-avatar-393.png",
+        "signup-avatar-844.png",
+        "signup-avatar-1365.png",
+        "signup-starter-320.png",
+        "signup-starter-393.png",
+        "signup-starter-844.png",
+        "signup-starter-1365.png",
+        "signup-ready-320.png",
+        "signup-ready-393.png",
+        "signup-ready-844.png",
+        "signup-ready-1365.png"
+      ],
+      "errors": [],
+      "directory": "/tmp/riftmon-auth-light-browser",
+      "testAccount": "Création réelle sur DB_TEST_NAME, puis connexion invalide/valide ; compte jetable supprimé en finally.",
+      "inspection": [
+        "login-393.png",
+        "signup-starter-1365.png"
+      ],
+      "contrastScope": "Rapports calculés sur les couleurs de texte et surfaces opaques échantillonnées (dont champs/placeholders, messages et boutons) ; ce contrôle ne constitue pas un audit WCAG global."
+    },
+    "lint": "No lint errors found; /tmp/riftmon-auth-light-lint.log",
+    "syntax": "node --check et git diff --check",
+    "build": {
+      "id": "3222462bd00f426b",
+      "path": "/tmp/riftmon-auth-light-dist",
+      "publicPath": "/"
+    },
+    "limits": [
+      "Pas de téléphone physique.",
+      "Suite globale non relancée pour ces changements CSS."
+    ]
+  },
+  "deployment": {
+    "publishedAt": "2026-10-26T09:00:17.737Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-auth-light-2026-10-26T09-00-16-390Z",
+    "clientBuild": "3222462bd00f426b",
+    "clientCommit": "71cba78a6b9114d11e97a9273f8da80f6636893a",
+    "pid": "1893919",
+    "serverRestarted": false,
+    "neighborsUnchanged": true,
+    "publicAssets": [
+      "js/account.701cc72b.js",
+      "js/app.abcf2d04.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/game.368e1db7.js",
+      "css/account.71f45b55.css",
+      "css/app.41ab07b2.css",
+      "css/game.f8a72554.css",
+      "img/maria-v2.564002d1.png",
+      "img/clement-v2.804e1f22.png"
+    ],
+    "portraits": [
+      {
+        "name": "maria",
+        "file": "maria-v2.564002d1.png",
+        "sha256": "0c850885294ffbbbbd8fb497b0d1f947a59cb61a770633a88ec9342f7864cdcb"
+      },
+      {
+        "name": "clement",
+        "file": "clement-v2.804e1f22.png",
+        "sha256": "2f8f501893f017b8590a1e2cde6c3b26c7d4b9cdee9624414c4ad03d7161d3ac"
+      }
+    ]
+  }
+}

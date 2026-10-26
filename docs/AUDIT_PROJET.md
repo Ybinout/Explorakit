@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## Connexion et création — fonds unis clairs — 26 octobre 2026
+
+L’écran « Bon retour, dresseur » quitte l’image de fond et le voile bleu sombre pour un fond bleu pâle `#edf5fb`, une carte presque blanche et des accents bleus. La création conserve sa famille violet/rose sur un fond lavande `#f4f0f9`, avec carte et champs clairs. Textes, placeholders, erreurs, actions, avatar sélectionné et starters adaptés ; contraste et focus restent visibles. Blur/backdrop supprimés, images des avatars et Pokémon conservées. Templates et scripts comparés strictement identiques avant/après : validations, session, API, redirections et choix restent en place. Un débordement de nom long dans le récapitulatif mobile est corrigé par min-width et retour à la ligne.
+
+Validation : lint/build `3222462bd00f426b`, syntaxe et diff valides. Nouvelle recette navigateur reproductible : vraie création sur base de test avec choix d’apparence/starter, puis vraie connexion refusée/acceptée ; compte jetable supprimé. Quatre étapes et connexion aux formats 320/393/844/1365, erreurs et message de session expirée visibles, aucun débordement, aucun appel à l’ancien fond photo et aucune erreur navigateur. Contraste des couleurs/surfaces échantillonnées au moins 4,57 (pas un audit WCAG global). Vues connexion mobile et choix du starter PC inspectées ; pas de téléphone physique, pas de nouvelle suite unitaire pour les seuls styles. Commande `RELEASE_DIST_DIR=/tmp/riftmon-auth-light-dist node --env-file=.env scripts/validateAuthLightBrowser.js`, preuves `/tmp/riftmon-auth-light-browser` et `docs/AUTH_LIGHT_FORMS.json`.
+
+Publication statique 2026-10-26T09:00:17.737Z, client `71cba78a6b9114d11e97a9273f8da80f6636893a`, PID 1893919 conservé. Index, bundles dont account JS/CSS et portraits conservés vérifiés HTTPS à l’octet ; anciens bundles gardés, Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-auth-light-2026-10-26T09-00-16-390Z`. Aucun changement serveur, SQL ou compte réel ; aucun redémarrage.
+
 ## Accueil — retrait de l’accroche — 26 octobre 2026
 
 Suppression du bloc d’introduction « À chaque envie, son aventure » et de son paragraphe « Prends ton temps… Choisis ton prochain départ », avec les styles devenus inutiles. Les trois cartes de modes commencent directement sous la navigation, avec un espacement de 20 px sur mobile / 28 px sur grand écran. Liens, descriptions et fonctionnalités conservés. Lint/build `c77fa5052f8df2d7` et diff valides ; aperçu navigateur anonyme sur 320/393/844/1365, aucun débordement/erreur et trois destinations inchangées. Recette ponctuelle `/tmp/riftmon-validate-menu-copy.cjs`, captures/contrôles `/tmp/riftmon-menu-copy-browser`, vue mobile inspectée ; aucune nouvelle suite de tests pour ce retrait de texte.
@@ -3906,6 +3914,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 26 octobre 2026 — Connexion/création : photo et voile sombres retirés, bleu pâle et lavande claire, champs/erreurs/sélections lisibles, nom long mobile contenu. Création et connexion réelles sur compte jetable, quatre étapes/quatre formats et contrastes échantillonnés validés ; publication statique sans redémarrage. Détails `docs/AUTH_LIGHT_FORMS.json`.
 
 - 26 octobre 2026 — Accueil : accroche et paragraphe d’introduction retirés, modes remontés sous la navigation. Lint/build et quatre formats navigateur validés ; publication statique sans redémarrage, liens conservés.
 
