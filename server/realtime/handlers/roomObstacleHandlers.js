@@ -9,7 +9,7 @@ async function clearNearbyRoomObstacle({ socket, userId, player, getPlayer, emit
     if (!socket.connected || getPlayer() !== player || player.inbattle || player.inventoryBusy) return true;
     const obstacle = obstacles.nearby(player, progress);
     if (!obstacle) return false;
-    if(obstacle.requiresFlag&&(progress.flags?.[obstacle.requiresFlag]!=='true'||require('../../game/world/testReplayState').active(progress,'professor_story'))){
+    if(obstacle.requiresFlag&&(require('../../game/world/labStory').view(progress).flags?.[obstacle.requiresFlag]!=='true'||require('../../game/world/testReplayState').active(progress,'professor_story'))){
         socket.emit('progressionNotice',{message:obstacle.requiresMessage||obstacle.blockedMessage});return true;
     }
     const origin = { map: player.currentmap, x: player.x, y: player.y };

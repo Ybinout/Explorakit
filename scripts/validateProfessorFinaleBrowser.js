@@ -56,7 +56,47 @@ function event(socket,name){return new Promise((resolve,reject)=>{const t=setTim
  await page.reload({waitUntil:'networkidle'});await ready();assert.equal(await page.evaluate(()=>v.progressionState.flags.story_complete),'true');assert(await page.evaluate(()=>v.pnjs.some(n=>n.name==='lucie_home')));
  const healed=(await require('../server/persistence/teamRepository').loadEquipe(a.user.id)).pokemons;assert(healed.every(p=>p.currentHp===p.maxHp&&p.status==='normal'));
  const normal=await require('../server/persistence/progressionRepository').loadProgressState(a.user.id);policy.isOwner=u=>u?.id===a.user.id&&u?.username===a.user.username;
- const reset=await page.evaluate(()=>new Promise(r=>v.socket.emit('admin:rearmArenas',{},r)));assert(reset.success);await at(a.user.id,'start',24,16);await page.evaluate(()=>v.socket.emit('Space'));await page.waitForFunction(()=>v.map==='professor_lab'&&!v.mapLoading);assert(await page.evaluate(()=>v.pnjs.some(n=>n.name==='professor_story')&&v.pnjs.some(n=>n.name==='lucie_lab')));assert(await page.evaluate(()=>v.progressionState.flags.admin_lab_rescued==='false'));
- const after=await require('../server/persistence/progressionRepository').loadProgressState(a.user.id);assert.equal(after.money,normal.money);assert.equal(after.flags.lucie_rescued,'true');assert.equal(after.quests.find(q=>q.key==='main_sister_search').status,'completed');assert.equal((await require('../server/persistence/progressionRepository').loadProgressState(b.user.id)).flags.story_complete,undefined);
- assert.deepEqual(errors,[]);passed=true;const result={actualExit:true,personalWanda:true,doorRockKey:true,uniqueKey:true,newLab:true,realProfessorBattle:true,professorVoid:true,tenStrikeBarrier:true,lucieHome:true,motherStillHeals:true,persistentEnding:true,adminReplay:true,otherPlayerUnaffected:true,viewports:4,artifacts,errors};fs.writeFileSync(path.join(out,'results.json'),JSON.stringify(result,null,2));console.log(JSON.stringify(result));
+ const reset=await page.evaluate(()=>new Promise(r=>v.socket.emit('admin:rearmArenas',{},r)));assert(reset.success);
+ let replay=await require('../server/persistence/progressionRepository').loadProgressState(a.user.id);
+ assert.equal(replay.flags.admin_professor_lab_key,'false');assert.equal(replay.flags.professor_lab_key,'true');
+ assert.equal(require('../server/game/world/roomObstacles').snapshot(replay).filter(o=>o.map==='route2_maison'&&o.locked).length,3);
+ // The original 10-hit blockers are covered above/in their own recipe. Place
+ // this replay fixture beyond them to focus on the two actual replay battles.
+ for(const o of require('../server/game/world/roomObstacles').obstacles.filter(o=>o.map==='route2_maison'))await db.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value)VALUES(?,?,'true') ON DUPLICATE KEY UPDATE flag_value='true'",[a.user.id,require('../server/game/world/testReplayState').obstacleFlag(o)]);
+ async function replayBattle(name){
+  await talk(name);await finishText();await page.locator('.action-attack:enabled').waitFor();
+  await page.evaluate(()=>v.updatePreferences({...v.preferences,animationsEnabled:false}));
+  for(let i=0;i<45;i++){
+   await page.waitForFunction(()=>v.battleResult||v.deferredBattleResult||document.querySelector('.action-attack:not(:disabled)'));if(await page.evaluate(()=>v.battleResult||v.deferredBattleResult))break;
+   const index=await page.evaluate(()=>{const id=v.$refs.battleOverlay.wildPokemon?.data?.id;return [450,445,398].includes(id)?2:[437,212].includes(id)?3:id===395?1:0;});
+   await page.locator('.action-attack:enabled').click();const choices=page.locator('.battle-grid-attacks button');if(await choices.nth(index).isEnabled())await choices.nth(index).click();else await page.locator('.battle-grid-attacks button:enabled').first().click();await page.waitForTimeout(100);
+  }
+  await page.waitForFunction(()=>v.battleResult||v.deferredBattleResult);assert.equal(await page.evaluate(()=>(v.battleResult||v.deferredBattleResult).outcome),'victory');
+  if(await page.evaluate(()=>v.battleResult))await page.locator('[data-battle-result-continue]').click();
+  await page.waitForFunction(name=>v.endSentences===name+'_after'&&v.textImageSequence.length>0,name);
+  await page.evaluate(()=>v.updatePreferences({...v.preferences,animationsEnabled:true}));await finishText();
+  await page.waitForFunction(name=>v.lucieDeparture?.actor===name,name);await page.waitForFunction(name=>!v.lucieDeparture&&!v.pnjs.some(n=>n.name===name),name);
+  if(await page.evaluate(()=>v.battleResult))await page.locator('[data-battle-result-continue]').click();
+ }
+ await at(a.user.id,'route2_maison',13,6);await replayBattle('lucie_route2');
+ await walk(13,16);await page.waitForTimeout(170);await page.evaluate(()=>v.socket.emit('playerAction','move_s'));
+ await page.waitForFunction(()=>v.map==='route2'&&!v.mapLoading&&v.renderedMap===v.map);
+ assert.equal(await page.evaluate(()=>v.progressionState.flags.admin_lucie_house_exited),'true');assert(await page.evaluate(()=>v.pnjs.some(n=>n.name==='wanda_professor')));assert(!peerActors.some(n=>n.name==='wanda_professor'));
+ await walk(14,8);await talk('wanda_professor');await snap('replay-wanda',false);await finishText();await page.waitForFunction(()=>v.progressionState.flags.admin_professor_lead==='true');
+ await at(a.user.id,'start',24,16);await talk('professor_lab_door');await finishText();await page.waitForFunction(()=>v.progressionState.flags.admin_lab_door_inspected==='true');
+ await walk(26,17);await talk('professor_lab_rock');await finishText();await page.waitForFunction(()=>v.progressionState.flags.admin_professor_lab_key==='true');
+ const [[sameKey]]=await db.execute("SELECT quantity FROM user_items WHERE user_id=? AND item_key='professor_lab_key'",[a.user.id]);assert.equal(sameKey.quantity,1);
+ await at(a.user.id,'route2',14,8);assert(!await page.evaluate(()=>v.pnjs.some(n=>n.name==='wanda_professor')));
+ await at(a.user.id,'start',24,16);await page.evaluate(()=>v.socket.emit('Space'));await page.waitForFunction(()=>v.map==='professor_lab'&&!v.mapLoading&&v.renderedMap===v.map);
+ assert(await page.evaluate(()=>v.pnjs.some(n=>n.name==='professor_story')&&v.pnjs.some(n=>n.name==='lucie_lab')));
+ await walk(13,12);await replayBattle('professor_story');await walk(13,9);await page.evaluate(()=>v.socket.emit('Space'));
+ await page.waitForFunction(()=>v.roomObstacleAction?.id==='lab_crystals');await page.waitForFunction(()=>v.progressionState.flags['admin_room_obstacle:lab_crystals']==='true');await page.locator('.room-obstacle-action').waitFor({state:'hidden'});
+ await walk(13,6);await talk('lucie_lab_rescue');await snap('replay-lucie-rescue',false);await finishText();
+ await page.waitForFunction(()=>v.progressionState.flags.admin_lab_rescued==='true'&&!v.pnjs.some(n=>n.name==='lucie_lab'));
+ await walk(13,16);await page.waitForTimeout(170);await page.evaluate(()=>v.socket.emit('playerAction','move_s'));await page.waitForFunction(()=>v.map==='start'&&!v.mapLoading&&v.renderedMap===v.map);
+ assert(await page.evaluate(()=>v.pnjs.some(n=>n.name==='lucie_home')));await walk(5,9);await talk('lucie_home');await snap('replay-family',false);await finishText();
+ const after=await require('../server/persistence/progressionRepository').loadProgressState(a.user.id);assert.equal(after.money,normal.money);assert.equal(after.flags.lucie_rescued,'true');assert.equal(after.quests.find(q=>q.key==='main_sister_search').status,'completed');
+ for(const key of ['lucie_freed','lucie_departure','lucie_house_exited','professor_lead','lab_door_inspected','professor_lab_key','professor_defeated','professor_departure','lab_crystals_cleared','lucie_rescued','story_complete'])assert.equal(after.flags[key],normal.flags[key]);
+ assert.equal((await require('../server/persistence/progressionRepository').loadProgressState(b.user.id)).flags.story_complete,undefined);
+ assert.deepEqual(errors,[]);passed=true;const result={actualExit:true,personalWanda:true,doorRockKey:true,uniqueKey:true,newLab:true,realProfessorBattle:true,professorVoid:true,tenStrikeBarrier:true,lucieHome:true,motherStillHeals:true,persistentEnding:true,adminReplay:true,realReplayLucieBattle:true,realReplayProfessorBattle:true,replayWandaReturns:true,replayKeyNotDuplicated:true,replayRescueAndHome:true,permanentProgressUnchanged:true,otherPlayerUnaffected:true,viewports:4,artifacts,errors};fs.writeFileSync(path.join(out,'results.json'),JSON.stringify(result,null,2));console.log(JSON.stringify(result));
 }finally{if(!passed&&page)await page.screenshot({path:path.join(out,'failure.png'),fullPage:true}).catch(()=>{});await browser?.close();peer?.disconnect();await new Promise(r=>io.close(r));await new Promise(r=>setTimeout(r,180));policy.isOwner=oldOwner;for(const id of ids)await db.execute('DELETE FROM users WHERE id=?',[id]);await db.end();}})().catch(e=>{console.error(e.stack);process.exitCode=1});

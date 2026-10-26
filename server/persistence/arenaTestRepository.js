@@ -29,6 +29,10 @@ async function rearm(user) {
         if(champions.some(c=>c.name==='professor_story')){
             for(const [key,value]of [['admin_professor_departure','armed'],['admin_lab_rescued','false']])await connection.execute('INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,?,?) ON DUPLICATE KEY UPDATE flag_value=VALUES(flag_value)',[owner.id,key,value]);
             for(const o of require('../game/world/roomObstacles').obstacles.filter(o=>o.map==='professor_lab'))await connection.execute('DELETE FROM player_story_flags WHERE user_id=? AND flag_key=?',[owner.id,require('../game/world/testReplayState').obstacleFlag(o)]);
+            if(champions.some(c=>c.name==='lucie_route2')&&progress.flags.lucie_rescued==='true'){
+                const values={admin_finale_replay:'full',admin_lucie_house_exited:'false',admin_professor_lead:'false',admin_lab_door_inspected:'false',admin_professor_lab_key:'false'};
+                for(const[key,value]of Object.entries(values))await connection.execute('INSERT INTO player_story_flags(user_id,flag_key,flag_value)VALUES(?,?,?) ON DUPLICATE KEY UPDATE flag_value=VALUES(flag_value)',[owner.id,key,value]);
+            }
         }
         await connection.execute('DELETE FROM player_story_flags WHERE user_id=? AND flag_key=?',[owner.id,require('../game/world/arenaCollapse').config.flag]);
         if(champions.some(c=>c.name==='champion_raphael'))await connection.execute('DELETE FROM player_story_flags WHERE user_id=? AND flag_key=?',[owner.id,require('../game/world/raphTrial').config.flag]);

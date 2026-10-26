@@ -1,0 +1,178 @@
+{
+  "date": "2026-10-26",
+  "request": "Wanda missing after replayed Lucie and Lucie stuck in laboratory after an admin replay",
+  "cause": {
+    "wanda": "Admin reset rearmed fights but permanent professor_lab_key kept Wanda hidden and bypassed the new clue sequence",
+    "lucie": "Dialogue selection used permanent lucie_rescued=true while actor visibility used admin_lab_rescued=false; the after-line had no story completion action",
+    "duplicatePresence": "Permanent rescued flag also rendered healthy Lucie at home while the replay captive remained in the laboratory"
+  },
+  "implementation": {
+    "privateSceneProjection": "labStory.view derives the effective finale only for existing admin replay states; persistent victory/quest/reward flags remain untouched",
+    "fullReplay": "After a completed normal ending, reset re-arms house exit, Wanda lead, door inspection, private lab key, professor, crystals and rescue",
+    "shadowFlags": [
+      "admin_finale_replay",
+      "admin_lucie_house_exited",
+      "admin_professor_lead",
+      "admin_lab_door_inspected",
+      "admin_professor_lab_key",
+      "admin_lab_rescued"
+    ],
+    "dialogueAndActors": "One projection for Wanda, lab door/rock, professor requirements, crystal guard, rescue dialogue, captive/home Lucie and mother",
+    "storyCompletion": "Transactions verify exact admin identity, order and idempotency. Replay updates only shadow flags; no extra real lab key, coins, XP, badge, victory or permanent quest rewards",
+    "legacyCompatibility": "Old replays with an already defeated professor remain at the rescue stage; no forced rewind or new normal-data migration",
+    "partialReplays": "Existing standalone professor/lucie replay support retained; normal first-time quest path remains unchanged",
+    "modes": "Narrative finale belongs to Adventure; other game modes and shared rendering/input unchanged",
+    "serverOnly": true
+  },
+  "validation": {
+    "reproducedBefore": {
+      "command": "node --test tests/finale-replay.test.js",
+      "failed": 2,
+      "passed": 1,
+      "log": "/tmp/riftmon-finale-replay-before.log"
+    },
+    "targeted": {
+      "command": "node --test tests/finale-replay.test.js tests/professor-finale.test.js tests/lucie-departure.test.js tests/arena-admin.test.js tests/arena-scenes.test.js tests/room-obstacles.test.js tests/interaction-authorization.test.js tests/pnj-regressions.test.js tests/raph-trial.test.js",
+      "passed": 38,
+      "failed": 0,
+      "skipped": 2,
+      "log": "/tmp/riftmon-finale-replay-targeted.log"
+    },
+    "sql": [
+      {
+        "file": "tests/professor-finale-mysql.test.js",
+        "result": "pass",
+        "log": "/tmp/riftmon-finale-replay-sql.log",
+        "coverage": [
+          "normal exit/clue order/unique key/ending",
+          "full replay reset and repeated reset",
+          "Wanda after actual replay departure/exit",
+          "door and key prerequisite order",
+          "concurrent key scene yields one private update and no duplicate inventory item",
+          "professor and crystals required before private rescue",
+          "rescue idempotent, captive removed and home actor restored",
+          "legacy stuck replay repaired without restarting story",
+          "other account rejected and all permanent story/money preserved"
+        ]
+      },
+      {
+        "file": "tests/lucie-departure-mysql.test.js",
+        "result": "pass",
+        "log": "/tmp/riftmon-finale-replay-departure-sql.log",
+        "coverage": "normal/private departure idempotency, reset, isolation and no repeat rewards"
+      }
+    ],
+    "browser": {
+      "command": "RELEASE_DIST_DIR=/tmp/riftmon-dialogue-frame-dist RELEASE_SCREENSHOTS=/tmp/riftmon-finale-replay-browser node --env-file=.env scripts/validateProfessorFinaleBrowser.js",
+      "actualExit": true,
+      "personalWanda": true,
+      "doorRockKey": true,
+      "uniqueKey": true,
+      "newLab": true,
+      "realProfessorBattle": true,
+      "professorVoid": true,
+      "tenStrikeBarrier": true,
+      "lucieHome": true,
+      "motherStillHeals": true,
+      "persistentEnding": true,
+      "adminReplay": true,
+      "realReplayLucieBattle": true,
+      "realReplayProfessorBattle": true,
+      "replayWandaReturns": true,
+      "replayKeyNotDuplicated": true,
+      "replayRescueAndHome": true,
+      "permanentProgressUnchanged": true,
+      "otherPlayerUnaffected": true,
+      "viewports": 4,
+      "artifacts": [
+        "wanda-320.png",
+        "wanda-393.png",
+        "wanda-844.png",
+        "wanda-1365.png",
+        "locked-door-393.png",
+        "lab-320.png",
+        "lab-393.png",
+        "lab-844.png",
+        "lab-1365.png",
+        "professor-splash-320.png",
+        "professor-splash-393.png",
+        "professor-splash-844.png",
+        "professor-splash-1365.png",
+        "professor-battle-320.png",
+        "professor-battle-393.png",
+        "professor-battle-844.png",
+        "professor-battle-1365.png",
+        "professor-void-393.png",
+        "lucie-rescued-393.png",
+        "family-320.png",
+        "family-393.png",
+        "family-844.png",
+        "family-1365.png",
+        "replay-wanda-393.png",
+        "replay-lucie-rescue-393.png",
+        "replay-family-393.png"
+      ],
+      "errors": [],
+      "log": "/tmp/riftmon-finale-replay-browser.log",
+      "notes": "Real normal professor victory plus two real admin replay victories (Lucie and professor), both vortices, Wanda/door/key, 10-hit lab barrier, rescue and return home. Replay house barriers are asserted rearmed, then cleared by fixture before positioning beside Lucie to concentrate on the whole narrative replay.",
+      "visuallyInspected": [
+        "replay-wanda-393.png",
+        "replay-family-393.png"
+      ]
+    },
+    "broader": {
+      "total": 53,
+      "passed": 46,
+      "failed": 4,
+      "skipped": 3,
+      "log": "/tmp/riftmon-finale-replay-tests.log",
+      "existingFailures": [
+        "lucie-scene-refresh: global Gwenn name assertion",
+        "lucie-scene: old instant paging expectation",
+        "lucie-tactics: obsolete old reunion flag expectation",
+        "story-replay-admin: every gate assertion predating lab barrier"
+      ],
+      "baselineProof": {
+        "log": "/tmp/riftmon-finale-replay-baseline-existing.log",
+        "method": "Same four unchanged test files with changed server modules compiled from pre-patch HEAD through a temporary require hook; same four failures reproduced",
+        "hook": "/tmp/riftmon-finale-replay-baseline.cjs"
+      },
+      "globalSuiteClaimedGreen": false
+    },
+    "syntaxAndDiff": "pass",
+    "limits": [
+      "No physical phone; real Chromium/Socket/MySQL accounts on isolated test DB",
+      "No new client build; current deployed static assets retained",
+      "Four pre-existing broader assertions remain outside this fix; failures confirmed on baseline"
+    ]
+  },
+  "deployment": {
+    "publishedAt": "2026-10-26T10:29:55.264Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-finale-replay-2026-10-26T10-29-53-528Z",
+    "clientCommit": "0d8931e64166fcb049996fa09dcb374f03c7344f",
+    "clientBuild": "c67ccfec74496e25",
+    "beforePid": "1917571",
+    "afterPid": "1923893",
+    "activeRuns": 0,
+    "storyFlagsBackedUp": 86,
+    "binoutReplayRepair": {
+      "attempted": true,
+      "handled": true,
+      "changed": true
+    },
+    "checkpointSaved": true,
+    "backendOnly": true,
+    "serverRestarted": true,
+    "gracefulCheckpoint": true,
+    "neighborsUnchanged": true,
+    "publicAssetsUnchanged": [
+      "js/account.701cc72b.js",
+      "js/app.d6650fcb.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/game.a4eeca93.js",
+      "css/account.71f45b55.css",
+      "css/app.bbefd3a4.css",
+      "css/game.2e24d295.css"
+    ]
+  }
+}

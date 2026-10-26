@@ -1,5 +1,16 @@
 # Audit technique et mémoire de RiftMon
 
+## Reset admin — Wanda et retour de Lucie débloqués — 26 octobre 2026
+
+Deux incohérences reproduites : le reset réarmait les combats mais gardait la clé normale du labo, donc Wanda restait masquée ; le sauvetage choisissait la réplique déjà terminée via `lucie_rescued`, alors que le PNJ captif attendait encore `admin_lab_rescued`. Une projection privée de la finale réunit désormais acteurs, dialogues, clé/porte/caillou, exigences du Professeur/cristaux et retour chez la mère. Reset d’une histoire déjà finie : sortie de la maison, Wanda, indice, porte, clé et sauvetage ont des drapeaux admin séparés, avec ordre et idempotence transactionnels. La clé réelle, les récompenses, XP, badges, victoires et quête normale ne sont pas rejoués ou effacés. Le sauvetage retire Lucie du labo et l’affiche au village avec sa mère ; elle n’est plus captive et réunie à la fois. Scénario normal conservé, replays anciens déjà après le Professeur repris à leur étape, sans redémarrer la quête.
+
+Validation : les deux assertions du bug échouaient avant correction ; groupe ciblé 38 réussites/2 variantes SQL ignorées, zéro échec. Deux recettes MySQL réelles réussies : séquence normale et privée, indices ordonnés, clé simultanée/idempotente sans duplication, victoire/cristaux avant sauvetage, reset répété, ancien replay bloqué, isolation et progression/argent réels intacts. Recette navigateur complète sur comptes jetables supprimés : victoire normale du Professeur, puis vraies victoires admin contre Lucie et le Professeur, deux failles, Wanda/porte/clé, barrière labo à dix coups, sauvetage et réunion finale. Quatre formats 320/393/844/1365, 26 captures, zéro erreur ; Wanda et famille mobile inspectées. Les trois barrières maison réarmées sont contrôlées puis préparées ouvertes par la fixture pour cibler le cycle narratif.
+
+La passe élargie compte 46 réussites, quatre échecs et trois variantes ignorées. Les quatre échecs sont reproduits à l’identique avec les modules serveur du commit précédent : assertions historiques sur le nom Gwenn, le défilement instantané, un ancien drapeau Lucie et « toutes les portes fermées ». Ils ne sont pas déclarés corrigés. Syntaxe/diff valides, aucun build frontend requis, pas de téléphone physique ni certification de suite globale. Commandes, détails et preuves : `docs/FINALE_ADMIN_REPLAY_FIX.json`.
+
+Publication serveur seule 2026-10-26T10:29:55.264Z, PID 1917571→1923893, checkpoint sauvegardé et 0 expédition active relevée. Sauvegarde sources/index/checkpoint et 86 drapeaux du compte de test : `/home/ubuntu/dev/backups/riftmon-finale-replay-2026-10-26T10-29-53-528Z`. La tentative binout déjà bloquée après victoire/disparition du Professeur et cristaux brisés est réparée par le chemin admin autorisé/idempotent : seul `admin_lab_rescued` passe à true ; le modèle vérifie Lucie au village et absente du labo. Aucun combat imposé de nouveau ni remise à zéro de progression normale. Client `0d8931e64166fcb049996fa09dcb374f03c7344f` / build `c67ccfec74496e25` conservés ; index/bundles HTTPS identiques, Knov/api-test inchangés. Pas de migration de schéma SQL.
+
+
 ## Raph — clones sans fin et révélation sur l’estrade — 26 octobre 2026
 
 Ce lot remplace la poursuite finie à quatre téléportations. Tant que le joueur parle aux reflets, un clone de Raph réapparaît ailleurs, sans terminer automatiquement le parcours. Six positions existantes, tirage éloigné d’au moins cinq cases, sans même position ni retour immédiat ; quatre répliques immersives tournantes sans fausse annonce de fin. Le vrai Raph reste caché sur l’estrade (13,4). Action sur son approche, même sans poursuivre de clone, le révèle : le clone s’efface, le champion apparaît et le combat démarre automatiquement après les 960 ms de transition, avec la présentation illustrée existante. Ancien accueil d’entrée conservé.
@@ -3954,6 +3965,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 26 octobre 2026 — Finale admin réparée : Wanda, indices/clé et sauvetage partagent une progression privée cohérente ; Lucie disparaît du labo puis rejoint sa mère. Deux bugs reproduits avant/après, deux recettes SQL et trois vraies victoires navigateur validés ; gains/progression normaux conservés. Ancienne tentative binout débloquée, serveur publié avec sauvegardes. Quatre assertions historiques plus larges reproduites sur la référence, hors correctif. Rapport `docs/FINALE_ADMIN_REPLAY_FIX.json`.
 
 - 26 octobre 2026 — Raph : reflets déplaçables indéfiniment, vrai champion caché sur l’estrade ; Action le révèle et lance automatiquement le duel après l’animation. État personnel v2 compatible v1, reprise/isolation/reset, gardes contre doubles départs et continuations périmées. 76 tests, deux recettes SQL et navigateur quatre formats validés ; serveur publié avec checkpoint sauvegardé. Rapport `docs/RAPH_MIRROR_DAIS.json`.
 

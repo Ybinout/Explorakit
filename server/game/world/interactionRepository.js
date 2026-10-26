@@ -38,6 +38,7 @@ function getSentenceForMapAndPosition(map, x, y = null, state = null) {
 }
 
 function getSentenceForName(name, state = null, { replayArena = require('./testReplayState').active(state, name) } = {}) {
+    state=require('./labStory').view(state);
     if(name==='dia0'&&state?.flags?.lucie_rescued==='true')name='dia0_final';
     let dialogueEntry = getDialogueEntryByName(name);
     const definition = catalog.npcBattles?.[name] || catalog.storyEvents?.[name];

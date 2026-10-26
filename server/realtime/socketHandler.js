@@ -1003,14 +1003,6 @@ const socketHandler = (io) => {
                 await require('./handlers/lucieDepartureHandlers').depart({socket,userId,player,getPlayer:()=>players[socket.id],setLeaving:value=>{lucieLeaving=value;},emitProgression:emitPlayerProgression,syncPeers:progress=>refreshReplaySessions(progress),profile:departure});
                 return;
             }
-            if(dialogueName==='lucie_lab_rescue'){
-                const progress=await loadProgressState(userId);
-                if(labStory.replay(progress)){
-                    await require('../persistence/labStoryRepository').rescueReplay(userId);
-                    refreshReplaySessions(await loadProgressState(userId));return;
-                }
-            }
-
             if (authorization.arenaEntry) {
                 await require('../persistence/arenaSceneRepository').acknowledge(userId, dialogueName);
                 return;
@@ -1024,7 +1016,7 @@ const socketHandler = (io) => {
                 const progress = await loadProgressState(userId);
                 if (!players[socket.id] || player.inbattle || player.inventoryBusy) return;
                 const testRematch = arenaTests.canReplay(socket.data.user, dialogueName, progress);
-                if (!meetsRequirements(battleDefinition, progress)) {
+                if (!meetsRequirements(battleDefinition, labStory.view(progress))) {
                     socket.emit('interactionRejected', { reason: 'story_requirements_not_met' });
                     return;
                 }
@@ -1127,6 +1119,8 @@ const socketHandler = (io) => {
 
                 console.log("Tous les Pokémon de l'équipe ont été soignés !");
             } else if (dialogueAction === 'story') {
+                const replay=await require('../persistence/labStoryRepository').completeReplay(userId,dialogueName);
+                if(replay.handled){refreshReplaySessions(await loadProgressState(userId));return;}
                 const completion = await completeStoryEvent(userId, dialogueName);
                 refreshReplaySessions(completion.progress);
                 if (completion.granted) socket.emit('progressionNotice', {
