@@ -31,9 +31,10 @@ const raphTrial = require('../world/raphTrial');
 const lucieScene = require('../world/lucieDeparture');
 const ROOM = 'ville1_arene';
 
-function createRunManager({ store, namespace, now = Date.now, random = Math.random, paceMs = 1800, durationMs = null, starterChoiceMs = 45000, accountRepository = null, colosseumRepository = null }) {
+function createRunManager({ store, namespace, now = Date.now, random = Math.random, paceMs = 1800, durationMs = null, starterChoiceMs = 45000, accountRepository = null, colosseumRepository = null, revealWait = ms => new Promise(resolve=>setTimeout(resolve,ms)) }) {
     const runs = new Map();
     const personalPnjs = new WeakMap();
+    const raphRevealing = new WeakSet();
     const lucieProgress=p=>({flags:{lucie_freed:p.defeated.has(lucieScene.config.actor)?'true':'false',lucie_departure:p.lucieDepartureSeen?'seen':''}});
     function pnjsFor(p) {
         if(!personalPnjs.has(p))personalPnjs.set(p,lucieScene.scopedStore(raphTrial.scopedStore(p.run.pnjs,()=>p.raphTrial),()=>lucieProgress(p),()=>p.lucieDeparture?.until>now()));
@@ -439,7 +440,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
     }
     function move(p,action) {
         if(getDirectionFromAction(action))fishing.cancel(p);
-        if(!p.alive||p.inbattle||p.dialogue?.arenaEntry||p.dialogue?.lucieDeparture||p.lucieDeparture?.until>now()||p.run.phase!=='exploration'||now()-p.lastMove<130) return;
+        if(!p.alive||p.inbattle||raphRevealing.has(p)||p.dialogue?.arenaEntry||p.dialogue?.lucieDeparture||p.lucieDeparture?.until>now()||p.run.phase!=='exploration'||now()-p.lastMove<130) return;
         const direction=getDirectionFromAction(action);if(!direction)return;
         const delta={move_z:[0,-32],move_s:[0,32],move_q:[-32,0],move_d:[32,0]}[action];
         const x=p.x+delta[0],y=p.y+delta[1],tx=Math.floor(x/32),ty=Math.floor(y/32);
@@ -470,7 +471,21 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
             if(wild&&!repelsWild(repelProtection,wild))battle(p,{npc:true,equipe:{pokemons:[wild]},drifts:[],equipped:[],chain:0},'wild');
         }
     }
+    async function revealRaph(p,state) {
+        raphRevealing.add(p);
+        const socketId=p.socketId;
+        try {
+            const wait=Math.max(0,state.availableAt-now());
+            if(wait)await revealWait(wait);
+            if(!p.alive||!p.socketId||p.socketId!==socketId||p.inbattle||p.run.phase!=='exploration'
+                || now()>=p.run.endsAt || p.currentmap!==raphTrial.config.map
+                || !raphTrial.ready(p.raphTrial,now())||!raphTrial.atDais(p))return;
+            p.dialogue=createDialogueAuthorization({name:raphTrial.config.champion,map:p.currentmap,x:Math.floor(p.x/32),y:Math.floor(p.y/32)},now());
+            endDialogue(p,raphTrial.config.champion);
+        } finally {raphRevealing.delete(p);}
+    }
     function interact(p) {
+        if(raphRevealing.has(p)||p.inbattle||!p.alive)return;
         if (p.dialogue?.arenaEntry || p.dialogue?.lucieDeparture || p.lucieDeparture?.until>now()) return;
         if(p.run.phase!=='exploration')return;
         if(fishing.current(p)){fishing.reel(p,fishing.current(p).id);return;}
@@ -478,12 +493,17 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         const x=Math.floor(p.x/32),y=Math.floor(p.y/32);
         for(const [dx,dy] of [[0,-1],[0,1],[-1,0],[1,0]]) {
             const tx=x+dx,ty=y+dy,pnj=pnjsFor(p).getPnjAtTile(p.currentmap,tx,ty);
-            if(pnj?.interactionName===raphTrial.config.champion && p.raphTrial && (p.raphTrial.step<4 || now()<p.raphTrial.availableAt)) {
-                const result=raphTrial.advance(p.raphTrial,p,now());p.raphTrial=result.state;
+            if(pnj?.interactionName===raphTrial.config.champion && p.raphTrial && !p.defeated.has(raphTrial.config.champion)) {
+                if(p.dialogue)return;
+                const result=raphTrial.advance(p.raphTrial,p,now(),random);p.raphTrial=result.state;
                 if(result.changed) {
                     p.dialogue=null;
                     emit(p,'pnjsList',{mapname:p.currentmap,pnjs:pnjsFor(p).getPnjsForMap(p.currentmap),teleport:result.transition});
-                    emit(p,'progressionNotice',{message:raphTrial.config.messages[result.state.step-1],messageEn:raphTrial.config.messagesEn[result.state.step-1]});
+                    if(!result.state.revealed){const i=(result.state.step+raphTrial.config.messages.length-1)%raphTrial.config.messages.length;
+                        emit(p,'progressionNotice',{message:raphTrial.config.messages[i],messageEn:raphTrial.config.messagesEn[i]});}
+                }
+                if(result.state?.revealed && raphTrial.atDais(p)) {
+                    return revealRaph(p,result.state);
                 }
                 return;
             }
@@ -505,7 +525,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
             p.arenaEntriesSeen ||= {}; p.arenaEntriesSeen[name]='true'; p.dialogue=null; send(p); return;
         }
         if(p.run.phase!=='exploration'||!isDialogueCompletionAllowed(p.dialogue,{name,map:p.currentmap,playerX:Math.floor(p.x/32),playerY:Math.floor(p.y/32)},now()))economy.fail('Dialogue expiré.');
-        if(name===raphTrial.config.champion && p.raphTrial && (p.raphTrial.step<4 || now()<p.raphTrial.availableAt))economy.fail('Retrouve d’abord Raph dans la salle.');
+        if(name===raphTrial.config.champion && !raphTrial.ready(p.raphTrial,now()))economy.fail('Retrouve d’abord Raph dans la salle.');
         p.dialogue=null;const trainer=trainers.find(name);
         if(trainer){if(p.defeated.has(name))economy.fail('Ce dresseur a déjà été vaincu dans cette expédition.');battle(p,trainers.opponent(trainer),'trainer',name);return;}
         const end=getEndSentenceInformation(name);

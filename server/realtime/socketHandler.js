@@ -973,7 +973,9 @@ const socketHandler = (io) => {
             closeChatSessionForSocket
         });
 
-        socket.on('onEndDialogue', guardInteraction(async (data) => {
+        // Reuse the same authoritative battle/reward path for normal dialogue
+        // completion and Raph's server-authorized reveal on the dais.
+        const finishDialogue = async (data) => {
             const player = players[socket.id];
             if (!player) return;
             if (player.inbattle || player.inventoryBusy) return;
@@ -1016,7 +1018,7 @@ const socketHandler = (io) => {
             const dialogueAction = getEndSentenceInformation(dialogueName);
             if (dialogueAction === 'battle') {
                 const battleDefinition = getNpcBattleDefinition(dialogueName);
-                if(dialogueName===raphTrial.config.champion && raphTrialState && (raphTrialState.step<4 || Date.now()<raphTrialState.availableAt)) {
+                if(dialogueName===raphTrial.config.champion && !raphTrial.ready(raphTrialState)) {
                     socket.emit('interactionRejected',{reason:'arena_trial_incomplete'});return;
                 }
                 const progress = await loadProgressState(userId);
@@ -1034,7 +1036,7 @@ const socketHandler = (io) => {
                     emitPlayerProgression(await loadProgressState(userId));
                     return;
                 }
-                if (testRematch && Object.values(players).some(p=>p.userId===userId&&p.inbattle)) {
+                if ((testRematch || dialogueName===raphTrial.config.champion) && Object.values(players).some(p=>p.userId===userId&&p.inbattle)) {
                     socket.emit('interactionRejected',{reason:'battle_already_running'});return;
                 }
                 const getFightTeamName = getTeamInformation(dialogueName);
@@ -1133,7 +1135,8 @@ const socketHandler = (io) => {
             } else if (dialogueAction === 'shop') {
                 await shopHandlers.openShop();
             }
-        }));
+        };
+        socket.on('onEndDialogue', guardInteraction(finishDialogue));
 
         socket.on('Space', guardInteraction(async () => {
             if (pendingDialogue?.arenaEntry || pendingDialogue?.lucieDeparture) return;
@@ -1190,11 +1193,28 @@ const socketHandler = (io) => {
                 if (pnj) {
                     interactionDetected = true;
                     const name = pnj.interactionName || pnj.name;
-                    if(name===raphTrial.config.champion && raphTrialState && (raphTrialState.step<4 || Date.now()<raphTrialState.availableAt)) {
+                    if(name===raphTrial.config.champion && raphTrialState
+                        && (progress.flags?.raphael_defeated!=='true'||arenaTests.canReplay(socket.data.user,name,progress))) {
                         if(pendingDialogue || transitionBusy)return;
                         const result=await raphTrialRepository.advance(userId,player);
                         for(const session of replaySessions.values())if(session.userId===userId)session.syncRaphTrial?.(result.state,result.transition);
-                        if(result.changed)socket.emit('progressionNotice',{message:raphTrial.config.messages[result.state.step-1],messageEn:raphTrial.config.messagesEn[result.state.step-1]});
+                        if(!result.state)return;
+                        if(!result.state.revealed) {
+                            if(result.changed){const i=(result.state.step+raphTrial.config.messages.length-1)%raphTrial.config.messages.length;
+                                socket.emit('progressionNotice',{message:raphTrial.config.messages[i],messageEn:raphTrial.config.messagesEn[i]});}
+                            return;
+                        }
+                        if(!raphTrial.atDais(player))return;
+                        transitionBusy=true;
+                        try {
+                            const wait=Math.max(0,result.state.availableAt-Date.now());
+                            if(wait)await new Promise(resolve=>setTimeout(resolve,wait));
+                            if(!socket.connected || players[socket.id]!==player || player.inbattle || player.inventoryBusy
+                                || currentmap!==raphTrial.config.map || !raphTrial.atDais(player) || !raphTrial.ready(raphTrialState))return;
+                            const tile=getPlayerTilePosition(player);
+                            pendingDialogue=createDialogueAuthorization({name,map:currentmap,x:tile.x,y:tile.y});
+                            await finishDialogue(name);
+                        } finally { transitionBusy=false; }
                         return;
                     }
                     const sentence = getSentenceForName(name, progress, {replayArena:arenaTests.canReplay(socket.data.user,name,progress)});

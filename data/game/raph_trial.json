@@ -14,15 +14,15 @@
     { "x": 15, "y": 7 }
   ],
   "messages": [
-    "Raph : Tu pensais déjà m’avoir trouvé ? Regarde ailleurs…",
-    "Raph : Pas mal ! Mais je ne reste jamais longtemps au même endroit.",
-    "Raph : Encore un petit effort. Garde les yeux ouverts !",
-    "Raph : Bien joué ! Retrouve-moi sur l’estrade. Cette fois, je reste."
+    "Raph : Tu n’as saisi qu’un reflet…",
+    "Raph : Tu regardes exactement là où je veux que tu regardes.",
+    "Raph : Un mouvement peut en cacher un autre.",
+    "Raph : Et si tu cessais de me suivre ?"
   ],
   "messagesEn": [
-    "Raph: Think you’ve already found me? Look elsewhere…",
-    "Raph: Not bad! But I never stay in one place for long.",
-    "Raph: One more effort. Keep your eyes open!",
-    "Raph: Well done! Meet me on the dais. This time, I’ll stay."
+    "Raph: All you caught was a reflection…",
+    "Raph: You are looking exactly where I want you to look.",
+    "Raph: One movement can conceal another.",
+    "Raph: What if you stopped following me?"
   ]
 }

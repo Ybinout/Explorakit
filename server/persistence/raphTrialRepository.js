@@ -14,7 +14,7 @@ async function update(userId,player,move) {
         const created=!state;
         state ||= rules.create(player);
         const result=move?rules.advance(state,player):{state,changed:false};
-        if(created||result.changed)await connection.execute('INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,?,?) ON DUPLICATE KEY UPDATE flag_value=VALUES(flag_value)',
+        if(created||result.changed||flags[rules.config.flag]!==JSON.stringify(result.state))await connection.execute('INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,?,?) ON DUPLICATE KEY UPDATE flag_value=VALUES(flag_value)',
             [userId,rules.config.flag,JSON.stringify(result.state)]);
         return result;
     });

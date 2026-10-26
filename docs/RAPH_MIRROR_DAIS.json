@@ -1,0 +1,138 @@
+{
+  "date": "2026-10-26",
+  "change": "Endless personal Raph clone pursuit; reveal the champion on the dais to start the duel automatically",
+  "modes": [
+    "Adventure",
+    "Rift exploration",
+    "Colosseum exploration"
+  ],
+  "rules": {
+    "map": "gen_arene5",
+    "actor": "raphael",
+    "champion": "champion_raphael",
+    "dais": {
+      "x": 13,
+      "y": 4,
+      "footprint": "two columns by two rows, with adjacent Action interaction"
+    },
+    "cloneStops": 6,
+    "infinite": true,
+    "cloneSelection": "At least five tiles away; avoids previous stop and immediate backtracking",
+    "reveal": "Action next to the concealed champion on the dais, no minimum number of clones; existing 960ms vanish/reappear animation, then automatic duel",
+    "savedState": {
+      "version": 2,
+      "fields": [
+        "version",
+        "stop",
+        "previous",
+        "step",
+        "revealed",
+        "availableAt"
+      ],
+      "storageFlag": "arena_trial:raph:v1",
+      "legacy": "unfinished v1 trail keeps its current stop; a completed v1 trail stays revealed; lazy transactionally persisted normalization"
+    },
+    "collision": "Only the clone is rendered before discovery; concealed dais interaction anchor remains personal and solid. Clone disappears from its old position on reveal.",
+    "messages": "four looping in-world lines, no promise of a final fourth encounter; historic entry speech untouched",
+    "onceAndRewards": "Existing requirements, victory/reward receipts, XP uniqueness, admin replay policy and follow-up dialogue retained; no account manually reset"
+  },
+  "implementation": {
+    "rendering": "Existing npcTeleport.js used unchanged; additive transition.kind clone/reveal and complete flag",
+    "adventure": "Transactional per-user state; same-account sessions synchronized; existing guarded battle-completion function reused with server-created authorization on verified dais proximity",
+    "expeditions": "Existing checkpoint carries personal state; transient reveal lock is a WeakSet outside serialization; revalidates socket, map, conscious/alive player, exploration phase and clock before duel",
+    "timing": "Existing cooldown, no background loop. One bounded await during the reveal. Stale async continuations cannot start a duel after disconnect/leave/expiry.",
+    "isolation": "Shared NPC store and Tiled/PNG maps untouched; clone positions and discovery isolated per player",
+    "client": "No client modification or rebuild needed; currently deployed dialogue frame/gamepad/PWA build retained"
+  },
+  "validation": {
+    "unit": {
+      "passed": 76,
+      "failed": 0,
+      "command": "node --test tests/interaction-authorization.test.js tests/pnj-regressions.test.js tests/raph-tactics.test.js tests/raph-trial.test.js tests/drift-runtime.test.js tests/expedition-contracts.test.js",
+      "log": "/tmp/riftmon-raph-dais-tests.log",
+      "coverage": [
+        "120 successive clone interactions remain unrevealed",
+        "dais discovery at 0 / 4 / 17 clone interactions",
+        "collision/rendering separation and two-account isolation",
+        "legacy partial/completed state normalization and bounded checkpoint size",
+        "Rift and Colosseum automatic duel after 9 clones, one trigger only",
+        "stale reveal aborted after disconnect, map leave or expedition expiry; reconnect can retry"
+      ]
+    },
+    "sql": {
+      "passed": true,
+      "recipe": "tests/raph-trial-socket.test.js",
+      "runtime": "RUN_MYSQL_TESTS=1 NODE_ENV=test BATTLE_DELAY_SCALE=0 DB_NAME=$DB_TEST_NAME node --test tests/raph-trial-socket.test.js",
+      "log": "/tmp/riftmon-raph-dais-sql.log",
+      "coverage": [
+        "real walking through authored arena",
+        "nine clone teleports, collision and no automatic completion",
+        "two same-account tabs synchronized, foreign account isolated",
+        "v1 partial state migrated and persisted as v2",
+        "mid-pursuit reconnect, forged completion rejected",
+        "dais reveal followed by real battle trigger after the 960ms animation",
+        "past winner and private admin reset"
+      ],
+      "integratedInto": "scripts/runMysqlTests.js",
+      "command": "node --env-file=.env -e 'if(!/test/i.test(process.env.DB_TEST_NAME||\"\"))throw Error(\"Dedicated test DB required\");process.env.DB_NAME=process.env.DB_TEST_NAME;process.env.NODE_ENV=\"test\";process.env.RUN_MYSQL_TESTS=\"1\";process.env.BATTLE_DELAY_SCALE=\"0\";require(\"./tests/raph-trial-socket.test.js\")'"
+    },
+    "otherTrainerRegression": {
+      "recipe": "tests/town-trainer-admin.test.js with RUN_MYSQL_TESTS=1 on test DB",
+      "passed": 2,
+      "log": "/tmp/riftmon-raph-dais-trainer-sql.log",
+      "coverage": "two actual trainer replay victories, no duplicate money/training/progression rewards after shared battle function extraction",
+      "command": "node --env-file=.env -e 'if(!/test/i.test(process.env.DB_TEST_NAME||\"\"))throw Error(\"Dedicated test DB required\");process.env.DB_NAME=process.env.DB_TEST_NAME;process.env.NODE_ENV=\"test\";process.env.RUN_MYSQL_TESTS=\"1\";process.env.BATTLE_DELAY_SCALE=\"0\";require(\"./tests/town-trainer-admin.test.js\")'"
+    },
+    "browser": {
+      "command": "RELEASE_DIST_DIR=/tmp/riftmon-dialogue-frame-dist RELEASE_SCREENSHOTS=/tmp/riftmon-raph-dais-browser node --env-file=.env scripts/validateRaphTrialBrowser.js",
+      "log": "/tmp/riftmon-raph-dais-browser.log",
+      "cloneTeleports": 8,
+      "viewports": [
+        320,
+        393,
+        844,
+        1365
+      ],
+      "reconnect": true,
+      "reducedMotion": true,
+      "daisReveal": true,
+      "actualBattleEntrance": true,
+      "errors": [],
+      "captures": "/tmp/riftmon-raph-dais-browser",
+      "visuallyInspected": [
+        "clone-6-1365.png",
+        "dais-reveal.png"
+      ]
+    },
+    "syntaxAndDiff": "pass",
+    "limits": [
+      "No physical phone used",
+      "Targeted regression suites; global historical test suite not claimed green",
+      "Original battle/team/AI balance unchanged"
+    ]
+  },
+  "deployment": {
+    "publishedAt": "2026-10-26T10:03:56.643Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-raph-dais-2026-10-26T10-03-55-010Z",
+    "clientCommit": "0d8931e64166fcb049996fa09dcb374f03c7344f",
+    "clientBuild": "c67ccfec74496e25",
+    "beforePid": "1893919",
+    "afterPid": "1917571",
+    "activeRuns": 0,
+    "raphStatesBackedUp": 1,
+    "checkpointSaved": true,
+    "backendOnly": true,
+    "serverRestarted": true,
+    "gracefulCheckpoint": true,
+    "neighborsUnchanged": true,
+    "publicAssetsUnchanged": [
+      "js/account.701cc72b.js",
+      "js/app.d6650fcb.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/game.a4eeca93.js",
+      "css/account.71f45b55.css",
+      "css/app.bbefd3a4.css",
+      "css/game.2e24d295.css"
+    ]
+  }
+}
