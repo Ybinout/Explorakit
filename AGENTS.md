@@ -1,5 +1,15 @@
 # Contexte permanent — RiftMon
 
+## Matthieu — proportions du splash allongées — 26 octobre 2026
+
+Retouche de l’illustration existante avec l’outil intégré imagegen : jambes plus longues, silhouette adulte moins tassée et tête un peu moins grande par rapport au corps. Le visage, le bonnet sans cheveux visibles, la barbe, le sweat/pantalon amples, les baskets et la Ball gardent l’identité du personnage et sa DA manga monochrome. Nouveau PNG RGBA 1 024×1 536, 2 276 579 octets : `src/assets/image/matthieu-v2.png`. Source générée copiée sans modification ; alpha conservé, quatre coins transparents et 932 175 pixels d’alpha nul. Ancienne illustration v1 conservée pour compatibilité. Prompt exact, cible d’édition et résultats : `docs/MATTHIEU_PORTRAIT_V2.json`.
+
+Seules les deux références du client changent : les trois dialogues de Matthieu dans `npcPortraits.js` et sa présentation de duel dans `arenaEntrance.js`. Les anciennes clés `gwenn_route8`, `_locked`, `_after` et la condition carte/type/clé demeurent identiques. Sprite pixel récemment refait, collisions, conditions, combats, textes, durées de présentation et autres portraits inchangés. Aucun serveur/SQL ni carte modifié.
+
+Validation : lint/build `2feb84a63872ed32`, trois tests d’entrée existants réussis, syntaxe/diff valides. Recette SQL/Socket/navigateur antérieure adaptée à v2 : `NODE_PATH=/home/ubuntu/dev/explorakit/node_modules RELEASE_DIST_DIR=/tmp/riftmon-matthieu-taller-dist node --env-file=.env /tmp/riftmon-validate-matthieu-taller.cjs`. Refus avant Hoze, autorisation après son badge, trois dialogues et vrai lancement du duel validés aux formats 320/393/844/1365, zéro erreur. Captures entrée mobile/PC et dialogue PC inspectées ; compte jetable de la base de test supprimé, aucun téléphone physique. Recette manuelle dans le manifeste.
+
+Publication statique 2026-10-26T03:44:44.483Z, client `7a9ae9839ee458c5e53c4970c8b29d0d5a5edfe0`, build `2feb84a63872ed32` : index, bundles et `matthieu-v2.92067b69.png` HTTPS vérifiés à l’octet. PID 1697717 conservé, aucun redémarrage ; Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-matthieu-taller-2026-10-26T03-44-43-010Z`, anciens bundles conservés. Recharger le jeu.
+
 ## Mathilde — splash manga dédié — 25 octobre 2026
 
 Illustration créée avec l’outil intégré imagegen dans la DA manga noir/blanc des autres dresseurs : femme adulte fine, très longs cheveux blonds représentés en aplats clairs, mini-short, haut avec petit éclair, cigarette au coin des lèvres, Ball en main et baskets. PNG RGBA 1 024×1 536, 2 208 407 octets, `src/assets/image/mathilde-v1.png` ; copie de la source générée sans modification, alpha conservé et vérifié sur le fond bleu du carnet. Prompts exacts, références Ana/Wayne, empreinte et validations : `docs/MATHILDE_PORTRAIT.json`. L’ancien échec de génération reste en historique dans `MATHILDE_CHARACTER_ASSETS.json`, dont le statut courant est maintenant livré.

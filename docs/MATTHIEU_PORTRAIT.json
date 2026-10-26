@@ -58,5 +58,11 @@
     "serverRestarted": false,
     "neighborsUnchanged": true,
     "publicGameBundle": true
+  },
+  "supersededBy": {
+    "date": "2026-10-26",
+    "manifest": "docs/MATTHIEU_PORTRAIT_V2.json",
+    "asset": "vue-explorakit/src/assets/image/matthieu-v2.png",
+    "reason": "Taller natural adult proportions; original design retained."
   }
 }

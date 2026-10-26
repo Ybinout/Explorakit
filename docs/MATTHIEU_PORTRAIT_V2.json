@@ -1,0 +1,75 @@
+{
+  "asset": "vue-explorakit/src/assets/image/matthieu-v2.png",
+  "generator": "Built-in image_gen.imagegen tool",
+  "date": "2026-10-26",
+  "transparentBackground": true,
+  "prompt": "Use case: identity-preserve.\nEdit target: the provided existing Matthieu splash illustration. Make a restrained PROPORTION CORRECTION ONLY: the user likes the design, but his legs/body look much too short under his large head.\nKeep the SAME adult man's identity, face, beard, bald scalp covered by the same beanie, confident expression, same oversized hoodie, baggy trousers, trainers, capture Ball in the raised hand, other hand in the pocket, three-quarter stance and exact black-and-white manga ink/screentone art direction.\nGive him a natural average-height ADULT silhouette: moderately lengthen the legs (about 25%) and torso (about 10-15%) relative to the current head; reduce the head slightly relative to the full figure. Aim for about 6 to 6.5 head-heights for the whole body, not the current very compact proportions. He must still look broad and casually dressed, with loose clothes; do not turn him into a very tall thin fashion model or muscular superhero.\nRecompose the complete character from the beanie to both shoes inside a portrait canvas, with comfortable transparent margins; preserve readable face and Ball and the character's pose. The requested taller stature must come from correct anatomy, not a uniform enlargement or cropping his feet.\nKeep the original clean monochrome linework, hatching and shading, genuine transparent background with no grey backdrop or halo, no floor/shadow, no text or watermark. Do not add hair, accessories, other characters or a scene.",
+  "editTarget": "vue-explorakit/src/assets/image/matthieu-v1.png",
+  "generationSource": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-4491a49b-37b6-482c-b963-e630d1d394a9.png",
+  "intent": "Moderately taller natural adult proportions, preserving Matthieu's identity, beanie, beard, oversized clothing, Ball, pose and monochrome drawing.",
+  "integration": {
+    "dialogues": [
+      "gwenn_route8",
+      "gwenn_route8_locked",
+      "gwenn_route8_after"
+    ],
+    "encounter": {
+      "map": "gen_route8",
+      "kind": "trainer",
+      "trainerKey": "gwenn_route8"
+    },
+    "worldSpriteChanged": false,
+    "progressionChanged": false,
+    "minimumEntranceMs": 3600,
+    "minimumPortraitMs": 2200
+  },
+  "manualRecipe": "Recharger le jeu puis parler à Matthieu au sud de la Route 8, approche 22,17. Vérifier le portrait avant Hoze, après son badge, et en dialogue après victoire ; terminer le dialogue autorisé pour observer l’entrée du vrai duel sur mobile et PC. Le personnage doit garder son visage, bonnet, barbe, tenue ample et Ball, avec des proportions plus élancées. Le sprite pixel sur carte reste identique.",
+  "bytes": 2276579,
+  "sha256": "330a0ad04beca1a3165bcb3d4105333febf8cc1e7f789c7cb23b5252510a2ed0",
+  "alphaChecks": {
+    "size": [
+      1024,
+      1536
+    ],
+    "transparentPixels": 932175,
+    "cornerAlpha": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "sourceCopiedWithoutModification": true,
+  "checks": {
+    "browser": {
+      "lockedDialogue": true,
+      "readyDialogue": true,
+      "postVictoryMapping": true,
+      "actualTrainerEntrance": true,
+      "viewports": 4,
+      "errors": [],
+      "out": "/tmp/riftmon-matthieu-taller-browser"
+    },
+    "arenaEntranceTestsPassed": 3,
+    "lint": true,
+    "build": "2feb84a63872ed32",
+    "visualReview": [
+      "entrance-393.png",
+      "entrance-1365.png",
+      "dialogue-1365.png"
+    ],
+    "phoneHardwareTested": false
+  },
+  "publication": {
+    "publishedAt": "2026-10-26T03:44:44.483Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-matthieu-taller-2026-10-26T03-44-43-010Z",
+    "clientBuild": "2feb84a63872ed32",
+    "clientCommit": "7a9ae9839ee458c5e53c4970c8b29d0d5a5edfe0",
+    "pid": "1697717",
+    "serverRestarted": false,
+    "neighborsUnchanged": true,
+    "publicGameBundle": true,
+    "publicPortrait": "matthieu-v2.92067b69.png",
+    "portraitSha256": "330a0ad04beca1a3165bcb3d4105333febf8cc1e7f789c7cb23b5252510a2ed0"
+  }
+}
