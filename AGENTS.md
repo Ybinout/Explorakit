@@ -1,5 +1,9 @@
 # Contexte permanent — RiftMon
 
+## Compte binout — Mangriff de test au PC — 26 octobre 2026
+
+À la demande du propriétaire, ajout ponctuel d’un Mangriff niveau 250 K4 au PC Aventure de `binout` (identité vérifiée ID 4), boîte 1 / case 4. UUID `6593e275-cf65-42f6-af6f-529936facc4d`. Créé avec le modèle/fabrique communs, XP correspondant au niveau et statistiques recalculées après passage K4 ; quatre capacités, PV pleins. Aucun remplacement de Pokémon ni changement d’argent, d’équipe ou de progression d’histoire. Entrée et Pokédex enregistrés ensemble sous verrou transactionnel utilisateur, emplacement libre recalculé dans la transaction. Relecture via le vrai décodeur du PC : espèce 335, niveau 250, K4 et PV vérifiés. Sauvegarde équipe/PC préalable privée : `/home/ubuntu/dev/backups/riftmon-binout-mangriff-2026-10-26T06-49-22-554Z`. Aucun changement applicatif, déploiement ou redémarrage nécessaire ; reçu local `/tmp/riftmon-binout-mangriff-receipt.json`.
+
 ## Finale de l’histoire — Wanda, laboratoire et Professeur — 26 octobre 2026
 
 Après la disparition de Lucie, sortir de sa maison Route 2 fait apparaître Wanda à gauche, uniquement pour ce joueur. Sa révélation mène au laboratoire du village de départ : A/Espace sur la porte fermée permet d’entendre les voix, puis sur le caillou inférieur droit permet de récupérer une clé unique. La clé retire Wanda et ouvre la porte par Action. État personnel, indices ordonnés, autorisations spatiales serveur et transaction avec verrou utilisateur ; autres joueurs et anciennes victoires préservés. La quête principale passe de neuf à treize jalons, puis se clôt réellement après le sauvetage. Les anciens gagnants poursuivent après leur scène de disparition/sortie, sans perdre leurs reçus.
