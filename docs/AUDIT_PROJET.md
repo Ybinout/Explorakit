@@ -1,5 +1,14 @@
 # Audit technique et mémoire de RiftMon
 
+## Dialogues PC — cadre et portrait assortis — 26 octobre 2026
+
+Les dialogues de carte sur ordinateur reçoivent un cadre à double liseré, quatre coins renforcés et une légère profondeur. Portrait bordé séparément, séparation fine avec le texte et marges ajustées. Toutes les couleurs viennent des variables du carnet : quatre palettes clair/nocturne. Les règles sont limitées à `.game-root:not(.is-mobile)` dans `worldViewport.css` ; ancrage au bas du canvas conservé, aucun template, texte, portrait source, timing, commande ou règle métier modifié. Décoration CSS statique sans interception de clic ni nouvel asset/timer.
+
+Validation : lint/syntaxe/diff valides, build `c67ccfec74496e25`. Vrai dialogue de Wayne sur compte SQL de test supprimé : trois formats PC 1024/1365/1920 et trois mobiles 320/393/844, huit thèmes, quatorze captures, zéro erreur ; texte entier et portrait dans le cadre, ancrage PC au jeu, styles mobiles de bordure/rayon/séparation inchangés et clic pour continuer fonctionnel. Captures PC clair/nocturne inspectées. Recette ponctuelle `RELEASE_DIST_DIR=/tmp/riftmon-dialogue-frame-dist node --env-file=.env /tmp/riftmon-validate-dialogue-frame.cjs`, contrôles/captures `/tmp/riftmon-dialogue-frame-browser`, journal `/tmp/riftmon-dialogue-frame-browser.log`. Pas de nouvelle suite unitaire pour ces seuls styles, pas de téléphone physique ni suite globale exécutés.
+
+Publication statique 2026-10-26T09:40:15.256Z, client `0d8931e64166fcb049996fa09dcb374f03c7344f`, PID 1893919 conservé. Index/bundles HTTPS et portraits conservés vérifiés à l’octet, anciens bundles gardés, Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-dialogue-frame-2026-10-26T09-40-13-872Z`. Aucun changement serveur, SQL ou compte réel ni redémarrage.
+
+
 ## Installation proposée uniquement sur mobile — 26 octobre 2026
 
 La carte « Installer le jeu » de l’accueil ne s’affiche plus sur ordinateur, y compris sur PC tactile ou dans une fenêtre étroite. Détection de plateforme Android/iPhone/iPad, iPadOS en mode bureau et indication mobile du navigateur ; aucune règle fondée uniquement sur la largeur ou le tactile. Carte conservée sur mobile tant que l’application n’est pas installée. Manifeste, service worker, prompt natif et fonctionnement du jeu conservés.
@@ -3934,6 +3943,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 26 octobre 2026 — Dialogues PC : double cadre à coins renforcés, portrait encadré et séparation du texte, couleurs liées aux huit thèmes. Wayne réel, six formats et clic validés, quatorze captures ; styles mobiles conservés. Publication statique sans redémarrage.
 
 - 26 octobre 2026 — Carte « Installer le jeu » réservée aux plateformes mobiles ; masquée sur PC, même tactile ou étroit. Recette PWA existante Android/PC, prompt, installabilité, cache et hors-ligne validés ; publication statique sans redémarrage.
 
