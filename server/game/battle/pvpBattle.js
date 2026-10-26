@@ -408,6 +408,7 @@ async function startPvpBattle(playerA, playerB, io) {
     }
 
     const battleState = createBattleState({ mapName: playerA.currentmap, opponentMap: playerB.currentmap ?? null });
+    require('./battleEvents').setFieldPlayers(battleState,playerA,playerB);
     require('../abilities/abilityForms').attachTeam(teamA);
     require('../abilities/abilityForms').attachTeam(teamB);
     const sideA = battleState.sides.player;

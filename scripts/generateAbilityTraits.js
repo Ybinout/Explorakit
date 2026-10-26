@@ -7,8 +7,11 @@ const moves = {};
 for (const entry of require('../data/game/moves.json')) {
     const move = dex.moves.get(entry.ename);
     if (!move.exists || move.gen > 7) continue;
+    // The imported dex can retain the modern self boost when gen7 explicitly
+    // clears `secondary`. Rapid Spin has no Speed boost before generation 8.
+    const secondaries = entry.ename === 'Rapid Spin' ? null : move.secondaries;
     moves[entry.ename] = {
-        ...(move.secondaries?.length ? { secondaries: move.secondaries } : {}),
+        ...(secondaries?.length ? { secondaries } : {}),
         ...(move.drain ? { drain: move.drain } : {}),
         ...(move.multihit ? { multihit: move.multihit } : {}),
         ...(move.multiaccuracy ? { multiaccuracy: true } : {}),

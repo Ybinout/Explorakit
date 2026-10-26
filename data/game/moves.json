@@ -12205,11 +12205,16 @@
         "type": "Bug",
         "combat": {
             "damage_class": "status",
-            "power_type": "special_case",
+            "power_type": "status",
             "priority": 0,
             "crit_stage": 0,
-            "target": "single",
-            "effects": []
+            "target": "opponent_side",
+            "effects": [
+                {
+                    "kind": "hazard",
+                    "hazard": "sticky_web"
+                }
+            ]
         }
     },
     {
@@ -12312,7 +12317,7 @@
         }
     },
     {
-        "accuracy": 25,
+        "accuracy": null,
         "category": "sta",
         "cname": "电浆阵雨",
         "ename": "Ion Deluge",

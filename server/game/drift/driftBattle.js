@@ -44,7 +44,7 @@ class DriftBattle {
             p.inbattle = true; p.battle = this;
             effects.attach(p.equipe.pokemons, p, type === 'pvp', random);
             p.equipe.pokemons.forEach(poke => { effects.states.get(poke).wild = index === 0 && type === 'wild'; });
-            if (!p.npc) emit(p, 'battletrigger', { trainerKey:this.npcKey, environment:this.environment, field:serializeFieldState(this.state), musicKind:this.musicKind(), battleType: type === 'arena' ? 'trainer' : type, message: type === 'pvp' ? 'Duel du tournoi Drift !' : 'Un combat Drift commence !' });
+            if (!p.npc) emit(p, 'battletrigger', { trainerKey:this.npcKey, environment:this.environment, field:serializeFieldState(this.state,index===0?'player':'enemy'), musicKind:this.musicKind(), battleType: type === 'arena' ? 'trainer' : type, message: type === 'pvp' ? 'Duel du tournoi Drift !' : 'Un combat Drift commence !' });
         }
         for (const index of [0,1]) this.enter(index, false, true);
         this.prune();
@@ -80,8 +80,8 @@ class DriftBattle {
         require('../abilities/abilityForms').syncWeatherForms(this.active(0),this.active(1),this.state);
         for (const [index,p] of [this.a,this.b].entries()) if (!p.npc) {
             const transitions = presentation.transitions(p,this.active(index),this.active(1-index),{initial:this.type!=='wild'});
+            this.emit(p, 'battleFieldState', serializeFieldState(this.state,index===0?'player':'enemy'));
             this.emit(p, 'introAnimation', { moveTypes:engine.battleMoveTypes(this.active(index),this.active(1-index),this.state), effortYield:this.type==='pvp'?null:effortYield(this.active(1-index)), musicKind:this.musicKind(), transitions:index===0&&this.b.npc?trainerTactics.decorateTransitions(transitions,this.b.equipe,this.aiMemory):transitions, player: { id: p.socketId, userId: p.userId, equipe: p.equipe }, wildPokemon: this.active(1-index) || null, battleType: this.type === 'arena' ? 'trainer' : this.type, usableMoveIndexes: getUsableMoveIndexes(this.active(index), this.state) });
-            this.emit(p, 'battleFieldState', serializeFieldState(this.state));
             this.emit(p, 'bagUpdated', { items: economy.bag(p) });
         }
         this.onUpdate?.(this);

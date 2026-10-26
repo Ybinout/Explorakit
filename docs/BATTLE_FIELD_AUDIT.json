@@ -1,0 +1,518 @@
+{
+  "date": "2026-10-26",
+  "scope": "33 existing battlefield/support moves; shared battle engine and renderer, Adventure/Rift/Colosseum; no authored map, schema, real account reset or absent move added",
+  "inventory": [
+    {
+      "move": "Mist",
+      "target": "self_side",
+      "effects": [
+        {
+          "kind": "field",
+          "field": "mist",
+          "turns": 5
+        }
+      ]
+    },
+    {
+      "move": "Light Screen",
+      "target": "self_side",
+      "effects": [
+        {
+          "kind": "field",
+          "field": "light_screen",
+          "turns": 5
+        }
+      ]
+    },
+    {
+      "move": "Haze",
+      "target": "field",
+      "effects": [
+        {
+          "kind": "reset_stat_stages",
+          "target": "all"
+        }
+      ]
+    },
+    {
+      "move": "Reflect",
+      "target": "self_side",
+      "effects": [
+        {
+          "kind": "field",
+          "field": "reflect",
+          "turns": 5
+        }
+      ]
+    },
+    {
+      "move": "Spikes",
+      "target": "opponent_side",
+      "effects": [
+        {
+          "kind": "hazard",
+          "hazard": "spikes"
+        }
+      ]
+    },
+    {
+      "move": "Sandstorm",
+      "target": "field",
+      "effects": [
+        {
+          "kind": "field",
+          "field": "sandstorm",
+          "turns": 5
+        }
+      ]
+    },
+    {
+      "move": "Safeguard",
+      "target": "self_side",
+      "effects": [
+        {
+          "kind": "field",
+          "field": "safeguard",
+          "turns": 5
+        }
+      ]
+    },
+    {
+      "move": "Rapid Spin",
+      "target": "single",
+      "effects": []
+    },
+    {
+      "move": "Rain Dance",
+      "target": "field",
+      "effects": [
+        {
+          "kind": "field",
+          "field": "rain",
+          "turns": 5
+        }
+      ]
+    },
+    {
+      "move": "Sunny Day",
+      "target": "field",
+      "effects": [
+        {
+          "kind": "field",
+          "field": "sun",
+          "turns": 5
+        }
+      ]
+    },
+    {
+      "move": "Hail",
+      "target": "field",
+      "effects": [
+        {
+          "kind": "field",
+          "field": "hail",
+          "turns": 5
+        }
+      ]
+    },
+    {
+      "move": "Brick Break",
+      "target": "single",
+      "effects": []
+    },
+    {
+      "move": "Mud Sport",
+      "target": "field",
+      "effects": [
+        {
+          "kind": "field",
+          "field": "mud_sport",
+          "turns": 5
+        }
+      ]
+    },
+    {
+      "move": "Water Sport",
+      "target": "field",
+      "effects": [
+        {
+          "kind": "field",
+          "field": "water_sport",
+          "turns": 5
+        }
+      ]
+    },
+    {
+      "move": "Gravity",
+      "target": "field",
+      "effects": [
+        {
+          "kind": "field",
+          "field": "gravity",
+          "turns": 5
+        }
+      ]
+    },
+    {
+      "move": "Tailwind",
+      "target": "self_side",
+      "effects": [
+        {
+          "kind": "field",
+          "field": "tailwind",
+          "turns": 4
+        }
+      ]
+    },
+    {
+      "move": "Lucky Chant",
+      "target": "self_side",
+      "effects": [
+        {
+          "kind": "field",
+          "field": "lucky_chant",
+          "turns": 5
+        }
+      ]
+    },
+    {
+      "move": "Toxic Spikes",
+      "target": "opponent_side",
+      "effects": [
+        {
+          "kind": "hazard",
+          "hazard": "toxic_spikes"
+        }
+      ]
+    },
+    {
+      "move": "Defog",
+      "target": "opponent_side",
+      "effects": [
+        {
+          "kind": "defog"
+        }
+      ]
+    },
+    {
+      "move": "Trick Room",
+      "target": "field",
+      "effects": [
+        {
+          "kind": "field",
+          "field": "trick_room",
+          "turns": 5
+        }
+      ]
+    },
+    {
+      "move": "Stealth Rock",
+      "target": "opponent_side",
+      "effects": [
+        {
+          "kind": "hazard",
+          "hazard": "stealth_rock"
+        }
+      ]
+    },
+    {
+      "move": "Wide Guard",
+      "target": "self_side",
+      "effects": [
+        {
+          "kind": "protect",
+          "scope": "team_wide"
+        }
+      ]
+    },
+    {
+      "move": "Wonder Room",
+      "target": "field",
+      "effects": [
+        {
+          "kind": "field",
+          "field": "wonder_room",
+          "turns": 5
+        }
+      ]
+    },
+    {
+      "move": "Magic Room",
+      "target": "field",
+      "effects": [
+        {
+          "kind": "field",
+          "field": "magic_room",
+          "turns": 5
+        }
+      ]
+    },
+    {
+      "move": "Quick Guard",
+      "target": "self_side",
+      "effects": [
+        {
+          "kind": "protect",
+          "scope": "quick_guard"
+        }
+      ]
+    },
+    {
+      "move": "Mat Block",
+      "target": "self_side",
+      "effects": [
+        {
+          "kind": "protect",
+          "scope": "mat_block"
+        }
+      ]
+    },
+    {
+      "move": "Sticky Web",
+      "target": "opponent_side",
+      "effects": [
+        {
+          "kind": "hazard",
+          "hazard": "sticky_web"
+        }
+      ]
+    },
+    {
+      "move": "Ion Deluge",
+      "target": "field",
+      "effects": [
+        {
+          "kind": "field",
+          "field": "ion_deluge",
+          "turns": 1
+        }
+      ]
+    },
+    {
+      "move": "Crafty Shield",
+      "target": "self_side",
+      "effects": [
+        {
+          "kind": "protect",
+          "scope": "crafty_shield"
+        }
+      ]
+    },
+    {
+      "move": "Grassy Terrain",
+      "target": "field",
+      "effects": [
+        {
+          "kind": "field",
+          "field": "grassy_terrain",
+          "turns": 5
+        }
+      ]
+    },
+    {
+      "move": "Misty Terrain",
+      "target": "field",
+      "effects": [
+        {
+          "kind": "field",
+          "field": "misty_terrain",
+          "turns": 5
+        }
+      ]
+    },
+    {
+      "move": "Fairy Lock",
+      "target": "field",
+      "effects": [
+        {
+          "kind": "fairy_lock",
+          "turns": 1
+        }
+      ]
+    },
+    {
+      "move": "Electric Terrain",
+      "target": "field",
+      "effects": [
+        {
+          "kind": "field",
+          "field": "electric_terrain",
+          "turns": 5
+        }
+      ]
+    }
+  ],
+  "fixes": {
+    "rooms": "Toggle on repeated use; expire on the fifth end turn; Wonder Room exchanges base defenses while keeping the right stages; Magic Room item suppression/restoration retained; Magic Room clears an existing choice lock so the next move can lock normally when items resume",
+    "hazards": "Correct opponent-side targeting bypasses Protect/substitute/semi-invulnerability/direct target ability checks; cap and fail at max; Magic Bounce retained; Toxic Spikes respects Misty Terrain and ignores Safeguard, grounded Poison absorbs; Web passes source and side to stat reactions",
+    "removal": "Defog removes both hazards and target screens, preserves Tailwind/Lucky Chant; Mist can stop its evasion drop before clearing. Rapid Spin removes own hazards/bindings/Leech Seed on successful nonimmune hit; no gen8 Speed boost. Brick Break removes screens before damage, respects Protect and Ghost immunity",
+    "screens": "Mist applies to move secondary drops and Intimidate, Infiltrator preserved. Criticals ignore Reflect/Light Screen. Wide Guard only spread offense, Mat Block does not stop status and is entry-only. All four guards expire and are displayed; Quick Guard includes priority granted by talents such as Prankster",
+    "terrain": "Electric/Grassy/Psychic boost grounded attackers by gen7 x1.5; Grassy reduces Earthquake/Bulldoze/Magnitude; Misty prevents grounded confusion; Psychic priority uses actual grounding. Gravity accuracy x5/3, grounding removed when expired. Mud/Water Sport exact one-third",
+    "other": "Ion Deluge accuracy corrected to always hit, same-turn Normal to Electric; Fairy Lock lasts through next turn with Ghost escape and no refresh. A dead entrant never runs further entry effects",
+    "generation": "Generator explicitly omits modern Rapid Spin secondary in gen7; no runtime dependency update"
+  },
+  "presentation": {
+    "state": "Bounded allowlist of field timers, hazard layers and team protections, per-viewer sides; unknown/missing fields safe for legacy clients, WeakMap player orientation in classic PvP, explicit viewer side in Drift and reconnect; no private teams/actions",
+    "visuals": "SVG ground rocks/spikes/toxic spikes/web, panels, wind, room grid, gravity/sports/lock; entry and clearing particles; compact optional inspector with effect, side and duration",
+    "timing": "Wire order preserved in shared queue, field deferred until move impact alongside HP, pending state discarded on cancellation; duration-only sync does not replay changes",
+    "compatibility": "Four sizes/two themes/reduced motion; no assets or JS animation loop, bounded DOM; old terrain text removed from action notices"
+  },
+  "primarySources": [
+    {
+      "url": "https://raw.githubusercontent.com/smogon/pokemon-showdown/master/data/moves.ts",
+      "purpose": "Room restart/duration, field/side effects, hazards and removal reference"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/smogon/pokemon-showdown/master/data/mods/gen7/moves.ts",
+      "purpose": "Generation 7 terrain multipliers, Defog and Rapid Spin rules"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/PokeAPI/pokeapi/81d20919845b6a445969b9265aab5cec6b04cece/data/v2/csv/",
+      "purpose": "Pinned moves.csv/move_targets.csv offensive spread list, matched by name; hashes and 40 names in vendor JSON"
+    }
+  ],
+  "validation": {
+    "before": {
+      "command": "node --test tests/battle-field.test.js",
+      "passed": 3,
+      "failed": 19,
+      "log": "/tmp/riftmon-field-before.log"
+    },
+    "regressions": {
+      "command": "node --test tests/battle-field.test.js tests/battle-field-client.test.js tests/battle-events.test.js tests/battle-engine.test.js tests/ability-system.test.js tests/ability-reactions.test.js tests/move-behavior-audit.test.js tests/automatic-move-regressions.test.js tests/battle-order.test.js tests/battle-runtime-integration.test.js tests/two-turn-moves.test.js tests/sleep-status.test.js tests/drift-runtime.test.js tests/colosseum-ai.test.js tests/human-trainer-ai.test.js tests/pokemon-reference.test.js",
+      "passed": 256,
+      "failed": 0,
+      "skipped": 85,
+      "log": "/tmp/riftmon-field-regression.log",
+      "skipReason": "Dedicated SQL variants not enabled in unit invocation; real SQL worlds exercised in browser recipe"
+    },
+    "structuralMoveAudit": {
+      "scope": "Structural coverage and execution smoke checks; behavioral rules are tested separately.",
+      "executionChecks": 2448,
+      "executionFailures": [],
+      "totalMoves": 612,
+      "totalEffectKinds": 99,
+      "unknownEffectKinds": [],
+      "unsupportedSpecialCases": [],
+      "partialMoves": []
+    },
+    "abilityAuditErrors": [],
+    "lint": {
+      "command": "npm --prefix vue-explorakit run lint",
+      "result": "pass",
+      "log": "/tmp/riftmon-field-lint.log"
+    },
+    "build": {
+      "command": "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-field-dist",
+      "hash": "9627a440ccc68ff9",
+      "log": "/tmp/riftmon-field-build.log"
+    },
+    "browser": {
+      "command": "RELEASE_DIST_DIR=/tmp/riftmon-field-dist RELEASE_SCREENSHOTS=/tmp/riftmon-field-browser npm run test:battle-field-browser",
+      "result": {
+        "modes": [
+          "adventure",
+          "colosseum",
+          "rift-pvp"
+        ],
+        "viewports": 4,
+        "themes": 2,
+        "captures": [
+          "adventure-fields.png",
+          "field-info-light-320.png",
+          "field-info-dark-320.png",
+          "field-info-light-393.png",
+          "field-info-dark-393.png",
+          "field-info-light-844.png",
+          "field-info-dark-844.png",
+          "field-info-light-1365.png",
+          "field-info-dark-1365.png",
+          "hazard-entry-mobile.png",
+          "reduced-motion.png",
+          "rift-pvp-host.png",
+          "rift-pvp-guest.png"
+        ],
+        "checks": [
+          "Actual Adventure Wayne battle: four field moves chosen through UI, authoritative effects and turn counters received",
+          "Field change shares presentation queue, entry pulse follows replacement, ground anchors and four hazards match correct side",
+          "Field activation waits for move impact; cancelling discards deferred field state",
+          "Real expedition reconnect restores field and correct sides without replaying activation captions",
+          "Actual multiplayer Rift round submitted from both browsers: hazards and screens are reversed correctly per viewer"
+        ],
+        "impact": [
+          {
+            "stage": "travel",
+            "timer": 0
+          },
+          {
+            "stage": "aura",
+            "timer": 3
+          }
+        ],
+        "reducedMotion": true,
+        "reconnect": true,
+        "errors": []
+      },
+      "log": "/tmp/riftmon-field-browser.log",
+      "visualInspection": [
+        "field-info-light-393.png",
+        "field-info-dark-1365.png",
+        "hazard-entry-mobile.png",
+        "rift-pvp-guest.png"
+      ],
+      "accountsCleaned": true
+    },
+    "syntaxDiffReferenceCheck": "pass",
+    "limits": [
+      "No physical phone/controller validation",
+      "No full global suite certification",
+      "Structural execution audit is not a behavioral proof for all 612 moves"
+    ]
+  },
+  "deployment": {
+    "publishedAt": "2026-10-26T13:09:11.374Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-field-final-2026-10-26T13-09-09-680Z",
+    "clientCommit": "19d6a9967c8e837cbbcdbd1c36035cc0d160173b",
+    "clientBuild": "9627a440ccc68ff9",
+    "beforePid": "1966289",
+    "afterPid": "1967257",
+    "activeRuns": 0,
+    "checkpointSaved": true,
+    "serverRestarted": true,
+    "gracefulCheckpoint": true,
+    "neighborsUnchanged": true,
+    "preservedSpriteSha256": "0947bc3341b14da9ed55d5f2770a8b8cbffee6a6ff5dcdeb3dd6ac6a619a00dc",
+    "publicAssets": [
+      "js/account.701cc72b.js",
+      "js/app.ac193f1c.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/game.00e0a2db.js",
+      "css/account.71f45b55.css",
+      "css/app.bbefd3a4.css",
+      "css/game.5783d942.css"
+    ]
+  },
+  "initialDeployment": {
+    "publishedAt": "2026-10-26T13:05:23.265Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-field-2026-10-26T13-05-20-736Z",
+    "clientCommit": "19d6a9967c8e837cbbcdbd1c36035cc0d160173b",
+    "clientBuild": "9627a440ccc68ff9",
+    "beforePid": "1929536",
+    "afterPid": "1966289",
+    "activeRuns": 0,
+    "checkpointSaved": true,
+    "serverRestarted": true,
+    "gracefulCheckpoint": true,
+    "neighborsUnchanged": true,
+    "preservedSpriteSha256": "0947bc3341b14da9ed55d5f2770a8b8cbffee6a6ff5dcdeb3dd6ac6a619a00dc",
+    "publicAssets": [
+      "js/account.701cc72b.js",
+      "js/app.ac193f1c.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/game.00e0a2db.js",
+      "css/account.71f45b55.css",
+      "css/app.bbefd3a4.css",
+      "css/game.5783d942.css"
+    ]
+  }
+}

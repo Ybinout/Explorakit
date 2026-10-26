@@ -72,3 +72,17 @@ test('les resultats solo et PVP respectent la perspective du joueur', () => {
     assert.equal(resultEvents[0].payload.actor, 'player');
     assert.equal(resultEvents[1].payload.actor, 'opponent');
 });
+
+test('field snapshots expose only public counters, reverse sides per viewer and never leak plans', () => {
+    const {serializeFieldState,setFieldPlayers}=require('../server/game/battle/battleEvents');
+    const state=require('../server/game/battle/battleEngine').createBattleState();
+    state.sides.player.hazards.spikes=2;state.sides.enemy.screens.reflectTurns=4;
+    state.sides.player.secretTeam=['secret'];state.field.trickRoomTurns=3;state.field.pendingMove='secret';
+    const snapshot=serializeFieldState(state,'enemy');
+    assert.equal(snapshot.sides.opponent.hazards.spikes,2);assert.equal(snapshot.sides.player.screens.reflectTurns,4);
+    assert.equal(snapshot.field.trickRoomTurns,3);assert(!JSON.stringify(snapshot).includes('secret'));
+    const io=createIoRecorder(),a={id:'a'},b={id:'b'};setFieldPlayers(state,a,b);
+    emitFieldState(io,['a','b','a'],state);assert.equal(io.events.length,2);
+    assert.equal(io.events[0].payload.sides.player.hazards.spikes,2);assert.equal(io.events[1].payload.sides.opponent.hazards.spikes,2);
+    snapshot.field.trickRoomTurns=0;assert.equal(state.field.trickRoomTurns,3);
+});

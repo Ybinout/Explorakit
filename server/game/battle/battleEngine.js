@@ -4,6 +4,7 @@ const reactions = require('../abilities/abilityReactions');
 const abilityForms = require('../abilities/abilityForms');
 const twoTurn = require('./twoTurnMoves');
 const turnActions = require('./turnActions');
+const battleField = require('./battleField');
 const drift = require('../drift/driftEffects');
 const {
     consumeMovePp,
@@ -55,25 +56,8 @@ const STAGE_MAX = 6;
 const NON_VOLATILE_STATUSES = new Set(['burn', 'poison', 'badly_poison', 'paralyze', 'sleep', 'freeze']);
 const PARTIAL_EFFECT_KINDS = new Set();
 
-const FIELD_TIMER_MAP = {
-    gravity: 'gravityTurns',
-    trick_room: 'trickRoomTurns',
-    magic_room: 'magicRoomTurns',
-    wonder_room: 'wonderRoomTurns',
-    ion_deluge: 'ionDelugeTurns',
-    mud_sport: 'mudSportTurns',
-    water_sport: 'waterSportTurns',
-    fairy_lock: 'fairyLockTurns'
-};
-
-const SIDE_FIELD_TIMER_MAP = {
-    reflect: 'reflectTurns',
-    light_screen: 'lightScreenTurns',
-    safeguard: 'safeguardTurns',
-    mist: 'mistTurns',
-    tailwind: 'tailwindTurns',
-    lucky_chant: 'luckyChantTurns'
-};
+const FIELD_TIMER_MAP = battleField.FIELD_TIMERS;
+const SIDE_FIELD_TIMER_MAP = battleField.SIDE_TIMERS;
 
 const WEATHER_FIELDS = new Set(['rain', 'sun', 'sandstorm', 'hail']);
 const TERRAIN_FIELDS = new Set(['electric_terrain', 'grassy_terrain', 'misty_terrain', 'psychic_terrain']);
@@ -441,7 +425,7 @@ function activateHeldItem(pokemon, battleState, messages, trigger = 'immediate',
 function isGrounded(pokemon, battleState) {
     if (!pokemon) return false;
     if (battleState?.field?.gravityTurns > 0) return true;
-    if (pokemon.__battle?.grounded) return true;
+    if (pokemon.__battle?.grounded || pokemon.__battle?.ingrain) return true;
     if (hasType(pokemon, 'Flying')) return false;
     if (hasPassiveAbility(pokemon, 'Levitate')) return false;
     const battleData = ensureBattleData(pokemon);
@@ -493,7 +477,9 @@ function getBaseStatValue(pokemon, statName) {
 }
 
 function getEffectiveStatValue(pokemon, statName, battleState = null, opponent = null, ignoreStages = false, ignoreAbility = false) {
-    const base = Math.max(1, getBaseStatValue(pokemon, statName));
+    const baseStat = battleState?.field?.wonderRoomTurns > 0
+        ? ({defense:'specialDefense',specialDefense:'defense'}[statName] || statName) : statName;
+    const base = Math.max(1, getBaseStatValue(pokemon, baseStat));
     const battleData = ensureBattleData(pokemon);
     const stage = ignoreStages ? 0 : battleData.statStages[statName] || 0;
     let value = base * stageMultiplier(stage);
@@ -598,7 +584,7 @@ function canApplyStatus(target, status, targetSide, options = {}) {
         return false;
     }
 
-    if (isNonVolatile && !options.ignoreSafeguard && !hasPassiveAbility(options.attacker,'Infiltrator') && targetSide?.screens?.safeguardTurns > 0) {
+    if ((isNonVolatile || status === 'confusion') && !options.ignoreSafeguard && !hasPassiveAbility(options.attacker,'Infiltrator') && targetSide?.screens?.safeguardTurns > 0) {
         return false;
     }
 
@@ -612,8 +598,8 @@ function canApplyStatus(target, status, targetSide, options = {}) {
     if (!ignoresDefenderAbility(options.attacker, target) && canAbilityBlockStatus(target, status, abilityState)) return false;
 
     const battleState = options.battleState;
-    if (isNonVolatile && isGrounded(target, battleState)) {
-        if (battleState?.terrain?.kind === 'misty_terrain') return false;
+    if (isGrounded(target, battleState)) {
+        if ((isNonVolatile || status === 'confusion') && battleState?.terrain?.kind === 'misty_terrain') return false;
         if (status === 'sleep' && battleState?.terrain?.kind === 'electric_terrain') return false;
     }
 
@@ -786,10 +772,6 @@ function calculateDamageDetailed(attacker, defender, move, context = {}) {
     const bypass=ignoresDefenderAbility(attacker,defender);
     const attackStat = Math.max(1, getEffectiveStatValue(attacker, attackStatName, battleState, defender, !bypass&&hasPassiveAbility(defender,'Unaware')));
     let defenseStat = Math.max(1, getEffectiveStatValue(defender, defenseStatName, battleState, attacker, hasPassiveAbility(attacker,'Unaware'),bypass));
-    if (battleState?.field?.wonderRoomTurns > 0) {
-        const swappedDefense = damageClass === 'physical' ? 'specialDefense' : 'defense';
-        defenseStat = Math.max(1, getEffectiveStatValue(defender, swappedDefense, battleState, attacker, hasPassiveAbility(attacker,'Unaware'),bypass));
-    }
 
     defenseStat = Math.max(1, drift.pierce(attacker, defenseStat));
     let baseDamage = (((((2 * level) / 5) + 2) * attackStat * power) / defenseStat) / 50 + 2;
@@ -830,27 +812,23 @@ function calculateDamageDetailed(attacker, defender, move, context = {}) {
     }
 
     if (battleState?.terrain?.kind === 'electric_terrain' && move.type === 'Electric' && isGrounded(attacker, battleState)) {
-        modifier *= 1.3;
+        modifier *= 1.5;
     }
     if (battleState?.terrain?.kind === 'grassy_terrain' && move.type === 'Grass' && isGrounded(attacker, battleState)) {
-        modifier *= 1.3;
+        modifier *= 1.5;
     }
+    if (battleState?.terrain?.kind === 'psychic_terrain' && move.type === 'Psychic' && isGrounded(attacker, battleState)) modifier *= 1.5;
     if (battleState?.terrain?.kind === 'misty_terrain' && move.type === 'Dragon' && isGrounded(defender, battleState)) {
         modifier *= 0.5;
     }
-    if (battleState?.field?.mudSportTurns > 0 && move.type === 'Electric') modifier *= 0.33;
-    if (battleState?.field?.waterSportTurns > 0 && move.type === 'Fire') modifier *= 0.33;
+    if (battleState?.terrain?.kind === 'grassy_terrain' && ['Earthquake','Bulldoze','Magnitude'].includes(move.ename) && isGrounded(defender,battleState)) modifier *= 0.5;
+    if (battleState?.field?.mudSportTurns > 0 && move.type === 'Electric') modifier *= 1/3;
+    if (battleState?.field?.waterSportTurns > 0 && move.type === 'Fire') modifier *= 1/3;
 
     if (damageClass === 'physical' && attacker.status === 'burn' && !hasPassiveAbility(attacker, 'Guts')) {
         modifier *= 0.5;
     }
 
-    if (damageClass === 'physical' && context.defenderSide?.screens?.reflectTurns > 0 && !hasPassiveAbility(attacker,'Infiltrator')) {
-        modifier *= 0.5;
-    }
-    if (damageClass === 'special' && context.defenderSide?.screens?.lightScreenTurns > 0 && !hasPassiveAbility(attacker,'Infiltrator')) {
-        modifier *= 0.5;
-    }
 
     const attackerData = ensureBattleData(attacker);
     if (attackerData.chargeElectric && move.type === 'Electric') {
@@ -874,6 +852,7 @@ function calculateDamageDetailed(attacker, defender, move, context = {}) {
     if (critical) {
         modifier *= 1.5;
     }
+    if (!critical && !hasPassiveAbility(attacker,'Infiltrator') && context.defenderSide?.screens?.[damageClass==='physical'?'reflectTurns':'lightScreenTurns']>0) modifier *= 0.5;
 
     modifier *= getAbilityDamageMultiplier({
         attacker,
@@ -996,9 +975,12 @@ function describeStageDelta(stat, appliedStages) {
     return `${label} baisse de ${Math.abs(appliedStages)}.`;
 }
 
-function applyStageChange(target, stat, stages, messages, source = null) {
+function applyStageChange(target, stat, stages, messages, source = null, options = {}) {
     const targetData = ensureBattleData(target);
     let resolvedStages = safeNumber(stages, 0);
+    if (resolvedStages < 0 && source && source !== target && options.side?.screens?.mistTurns > 0 && !hasPassiveAbility(source,'Infiltrator')) {
+        messages.push(`Brume protège les statistiques de ${getPokemonDisplayName(target)}.`); return;
+    }
     if (!ignoresDefenderAbility(source, target) && blocksStatDrop(target, stat, resolvedStages, source)) {
         messages.push(`${getPokemonDisplayName(target)} protege ses statistiques avec son talent.`);
         return;
@@ -1027,6 +1009,7 @@ function canSwitchOut(pokemon, opponent = null, battleState = null, { escape = f
     if (battleData.skyDropBy || (!escape && getForcedMove(pokemon))) return false;
     if (escape && hasPassiveAbility(pokemon,'Run Away')) return true;
     if (hasType(pokemon,'Ghost')) return true;
+    if (battleState?.field?.fairyLockTurns > 0) return false;
     if (battleData.trappedTurns > 0) return false;
     if (battleData.ingrain) return false;
     if(opponent?.currentHp>0) {
@@ -1037,15 +1020,15 @@ function canSwitchOut(pokemon, opponent = null, battleState = null, { escape = f
     return true;
 }
 
-function isMoveBlockedByProtect(defender, defenderSide, move) {
+function isMoveBlockedByProtect(defender, defenderSide, move, attacker = null) {
     const defenderData = ensureBattleData(defender);
     if (defenderData.protect) return true;
 
-    const movePriority = safeNumber(move?.combat?.priority, 0);
+    const movePriority = safeNumber(move?.combat?.priority, 0) + getAbilityPriority(attacker,move);
     if (movePriority > 0 && defenderSide?.protectTeam?.quickGuardTurns > 0) return true;
     if (move?.combat?.damage_class === 'status' && defenderSide?.protectTeam?.craftyShieldTurns > 0) return true;
-    if (defenderSide?.protectTeam?.wideGuardTurns > 0) return true;
-    if (defenderSide?.protectTeam?.matBlockTurns > 0) return true;
+    if (defenderSide?.protectTeam?.wideGuardTurns > 0 && move?.combat?.damage_class !== 'status' && battleField.SPREAD_MOVES.has(move.ename)) return true;
+    if (defenderSide?.protectTeam?.matBlockTurns > 0 && move?.combat?.damage_class !== 'status') return true;
     return false;
 }
 
@@ -1067,60 +1050,29 @@ function resolveHitCount(move, attacker) {
     return Math.floor(Math.random() * (maxHits - minHits + 1)) + minHits;
 }
 
-function applyFieldEffect(effect, context, messages) {
-    const fieldName = effect.field;
-    if (!fieldName || typeof fieldName !== 'string') return;
-
-    const turns = Math.max(1, safeNumber(effect.turns, 5));
-
-    if (WEATHER_FIELDS.has(fieldName)) {
-        context.battleState.weather = { kind: fieldName, turns };
-        messages.push(`La meteo change: ${fieldName} (${turns} tours).`);
+function applyFieldEffect(effect, context, moveResult) {
+    const fieldName=effect.field, messages=moveResult.messages, state=context.battleState;
+    if(!fieldName || !state)return;
+    const turns=Math.max(1,safeNumber(effect.turns,5)), label=battleField.LABELS[fieldName] || fieldName;
+    let container,key;
+    if(WEATHER_FIELDS.has(fieldName) || TERRAIN_FIELDS.has(fieldName)) {
+        const kind=WEATHER_FIELDS.has(fieldName)?'weather':'terrain';
+        if(state[kind]?.kind===fieldName){moveResult.success=false;messages.push(`${label} est déjà actif.`);return;}
+        state[kind]={kind:fieldName,turns};
+        messages.push(`${label} s’installe pour ${turns} tours.`);return;
+    }
+    if(SIDE_FIELD_TIMER_MAP[fieldName]){container=context.attackerSide?.screens;key=SIDE_FIELD_TIMER_MAP[fieldName];}
+    else {container=state.field;key=FIELD_TIMER_MAP[fieldName];}
+    if(!container || !key)return;
+    if(container[key]>0) {
+        if(battleField.ROOMS.has(fieldName)){container[key]=0;messages.push(`${label} se termine.`);}
+        else {moveResult.success=false;messages.push(`${label} est déjà actif.`);}
         return;
     }
-
-    if (TERRAIN_FIELDS.has(fieldName)) {
-        context.battleState.terrain.kind = fieldName;
-        context.battleState.terrain.turns = turns;
-        messages.push(`Le terrain change: ${fieldName} (${turns} tours).`);
-        return;
-    }
-
-    const sideTimer = SIDE_FIELD_TIMER_MAP[fieldName];
-    if (sideTimer && context.attackerSide?.screens) {
-        context.attackerSide.screens[sideTimer] = turns;
-        messages.push(`${getPokemonDisplayName(context.attacker)} active ${fieldName} (${turns} tours).`);
-        return;
-    }
-
-    const fieldTimer = FIELD_TIMER_MAP[fieldName];
-    if (fieldTimer && context.battleState?.field) {
-        context.battleState.field[fieldTimer] = turns;
-        messages.push(`Effet de terrain actif: ${fieldName} (${turns} tours).`);
-    }
+    container[key]=turns;messages.push(`${label} s’active pour ${turns} tours.`);
+    if(fieldName==='magic_room')for(const p of [context.attacker,context.defender])if(p?.__battle)delete p.__battle.choiceMove;
 }
 
-function applyHazard(effect, context, messages) {
-    if (!context.defenderSide?.hazards) return;
-    const hazard = effect.hazard;
-
-    if (hazard === 'spikes') {
-        context.defenderSide.hazards.spikes = clamp(context.defenderSide.hazards.spikes + 1, 0, 3);
-        messages.push(`Des pieges de type Spikes sont poses (${context.defenderSide.hazards.spikes}).`);
-        return;
-    }
-
-    if (hazard === 'toxic_spikes') {
-        context.defenderSide.hazards.toxicSpikes = clamp(context.defenderSide.hazards.toxicSpikes + 1, 0, 2);
-        messages.push(`Des Toxic Spikes sont poses (${context.defenderSide.hazards.toxicSpikes}).`);
-        return;
-    }
-
-    if (hazard === 'stealth_rock') {
-        context.defenderSide.hazards.stealthRock = true;
-        messages.push('Des Piege de Roc sont poses.');
-    }
-}
 function applyEffect(effect, context, moveResult) {
     const messages = moveResult.messages;
     const { pokemon: effectTargetPokemon, side: effectTargetSide } = resolveEffectTarget(
@@ -1194,7 +1146,8 @@ function applyEffect(effect, context, moveResult) {
                 effect.stat,
                 safeNumber(effect.stages, 0),
                 messages,
-                context.attacker
+                context.attacker,
+                {side: effectTargetSide}
             );
             return;
 
@@ -1256,11 +1209,11 @@ function applyEffect(effect, context, moveResult) {
         }
 
         case 'field':
-            applyFieldEffect(effect, context, messages);
+            applyFieldEffect(effect, context, moveResult);
             return;
 
         case 'hazard':
-            applyHazard(effect, context, messages);
+            moveResult.success = battleField.setHazard(effect.hazard, context.defenderSide, messages);
             return;
 
         case 'protect': {
@@ -1623,20 +1576,11 @@ function applyEffect(effect, context, moveResult) {
             return;
 
         case 'defog': {
-            const clearHazards = (side) => {
-                if (!side?.hazards) return;
-                side.hazards.spikes = 0;
-                side.hazards.toxicSpikes = 0;
-                side.hazards.stealthRock = false;
-                side.hazards.stickyWeb = false;
-            };
-            clearHazards(context.attackerSide);
-            clearHazards(context.defenderSide);
-            if (effectTargetSide?.screens) {
-                for (const key of Object.keys(effectTargetSide.screens)) effectTargetSide.screens[key] = 0;
-            }
-            applyStageChange(effectTargetPokemon, 'evasion', -1, messages);
-            messages.push(`Les obstacles et les ecrans sont dissipes.`);
+            applyStageChange(effectTargetPokemon, 'evasion', -1, messages, context.attacker, {side:effectTargetSide});
+            battleField.clearHazards(context.attackerSide);
+            battleField.clearHazards(context.defenderSide);
+            battleField.clearScreens(effectTargetSide);
+            messages.push('Les pièges des deux camps et les écrans adverses sont dissipés.');
             return;
         }
 
@@ -1654,8 +1598,9 @@ function applyEffect(effect, context, moveResult) {
             return;
 
         case 'fairy_lock':
-            if (context.battleState?.field) context.battleState.field.fairyLockTurns = Math.max(1, safeNumber(effect.turns, 1));
-            messages.push(`Aucun Pokemon ne peut fuir pendant ce tour.`);
+            if (context.battleState?.field?.fairyLockTurns > 0) { moveResult.success=false;messages.push('Verrou Enchanté est déjà actif.');return; }
+            if (context.battleState?.field) context.battleState.field.fairyLockTurns = 2;
+            messages.push(`Verrou Enchanté empêche les Pokémon de fuir jusqu’à la fin du prochain tour.`);
             return;
 
         case 'healing_wish':
@@ -1680,7 +1625,7 @@ function applyEffect(effect, context, moveResult) {
             }
             messages.push(`${getPokemonDisplayName(context.attacker)} se transforme en ${getPokemonDisplayName(context.defender)}.`);
             if (getPassiveAbility(context.attacker) !== 'Imposter') messages.push(...applySwitchInAbility(
-                context.attacker, context.defender, context.attackerSide, context.defenderSide, context.battleState, switchInAbilityHelpers()));
+                context.attacker, context.defender, context.attackerSide, context.defenderSide, context.battleState, switchInAbilityHelpers(context.attacker,context.attackerSide,context.defenderSide)));
             return;
         }
 
@@ -2400,32 +2345,21 @@ function advanceBattleState(battleState) {
     if (battleState.terrain?.kind) {
         battleState.terrain.turns -= 1;
         if (battleState.terrain.turns <= 0) {
-            messages.push(`Le terrain ${battleState.terrain.kind} disparait.`);
+            messages.push(`${battleField.LABELS[battleState.terrain.kind] || battleState.terrain.kind} se termine.`);
             battleState.terrain.kind = null;
             battleState.terrain.turns = 0;
         }
     }
 
-    for (const timerKey of Object.values(FIELD_TIMER_MAP)) {
-        if (battleState.field[timerKey] > 0) {
-            battleState.field[timerKey] -= 1;
-        }
-    }
+    battleField.tickTimers(battleState.field, FIELD_TIMER_MAP, messages);
 
     for (const sideKey of Object.keys(battleState.sides || {})) {
         const side = battleState.sides[sideKey];
         if (!side) continue;
 
-        for (const timerKey of Object.values(SIDE_FIELD_TIMER_MAP)) {
-            if (side.screens[timerKey] > 0) {
-                side.screens[timerKey] -= 1;
-            }
-        }
+        battleField.tickTimers(side.screens, SIDE_FIELD_TIMER_MAP, messages, true);
 
-        if (side.protectTeam.wideGuardTurns > 0) side.protectTeam.wideGuardTurns -= 1;
-        if (side.protectTeam.quickGuardTurns > 0) side.protectTeam.quickGuardTurns -= 1;
-        if (side.protectTeam.matBlockTurns > 0) side.protectTeam.matBlockTurns -= 1;
-        if (side.protectTeam.craftyShieldTurns > 0) side.protectTeam.craftyShieldTurns -= 1;
+        battleField.tickTimers(side.protectTeam,battleField.TEAM_GUARDS,messages,true);
         side.redirectionPokemonId = null;
         side.afterYouPokemonId = null;
     }
@@ -2448,9 +2382,9 @@ function processEndOfRound(playerPokemon, enemyPokemon, playerSide, enemySide, b
     return messages;
 }
 
-function switchInAbilityHelpers() {
+function switchInAbilityHelpers(pokemon, ownSide, enemySide) {
     return {
-        changeStage: applyStageChange,
+        changeStage: (target,stat,stages,messages,source) => applyStageChange(target,stat,stages,messages,source,{side:target===pokemon?ownSide:enemySide}),
         snapshotAbility: snapshotPassiveAbility,
         snapshotMoveStats: snapshotMoveAndStatOverrides,
         transform: transformPokemon,
@@ -2506,16 +2440,18 @@ function applySwitchInEffects(pokemon, ownSide, enemySide, battleState, enemyPok
             messages.push(`${pokemonName} absorbe les Toxic Spikes.`);
         } else if (!hasType(pokemon, 'Steel')) {
             const status = hazards.toxicSpikes >= 2 ? 'badly_poison' : 'poison';
-            applyStatus(pokemon, status, ownSide, messages);
+            applyStatus(pokemon, status, ownSide, messages, {battleState,ignoreSafeguard:true});
         }
     }
 
     if (hazards.stickyWeb && grounded && safeNumber(pokemon.currentHp, 0) > 0) {
-        applyStageChange(pokemon, 'speed', -1, messages);
+        applyStageChange(pokemon, 'speed', -1, messages, enemyPokemon, {side:ownSide});
         messages.push(`${pokemonName} est ralenti par la Toile Gluante.`);
     }
 
-    if (ownSide.pendingFullHeal && safeNumber(pokemon.currentHp, 0) > 0) {
+    if (safeNumber(pokemon.currentHp, 0) <= 0) return messages;
+
+    if (ownSide.pendingFullHeal) {
         const healed = healPokemon(pokemon, safeNumber(pokemon.maxHp, 1));
         clearStatus(pokemon, messages);
         ownSide.pendingFullHeal = null;
@@ -2531,7 +2467,7 @@ function applySwitchInEffects(pokemon, ownSide, enemySide, battleState, enemyPok
     battleData.protect = false;
     battleData.endure = false;
 
-    messages.push(...applySwitchInAbility(pokemon, enemyPokemon, ownSide, enemySide, battleState, switchInAbilityHelpers()));
+    messages.push(...applySwitchInAbility(pokemon, enemyPokemon, ownSide, enemySide, battleState, switchInAbilityHelpers(pokemon,ownSide,enemySide)));
     abilityForms.syncWeatherForms(pokemon,enemyPokemon,battleState,messages);
     activateHeldItem(pokemon,battleState,messages,'immediate',enemyPokemon);
     return messages;
@@ -2679,12 +2615,6 @@ function getSpecialMoveResolution(move, attacker, defender, options = {}) {
 }
 
 function applyImplicitMoveEffect(move, context, moveResult) {
-    if (move.ename === 'Sticky Web' && context.defenderSide?.hazards) {
-        context.defenderSide.hazards.stickyWeb = true;
-        moveResult.messages.push(`Une Toile Gluante recouvre le terrain adverse.`);
-        return;
-    }
-
     if (move.ename === 'Venom Drench') {
         if (['poison', 'badly_poison'].includes(context.defender.status)) {
             applyStageChange(context.defender, 'attack', -1, moveResult.messages);
@@ -2701,8 +2631,8 @@ function applyImplicitMoveEffect(move, context, moveResult) {
     }
 }
 
-function reactionHelpers() {
-    return {damage:applyDamage,heal:healPokemon,status:applyStatus,clearStatus,stage:applyStageChange,
+function reactionHelpers(context = {}) {
+    return {damage:applyDamage,heal:healPokemon,status:applyStatus,clearStatus,stage:(target,stat,stages,messages,source)=>applyStageChange(target,stat,stages,messages,source,{side:target===context.attacker?context.attackerSide:context.defenderSide}),
         types:getPokemonTypes,base:getBaseStatValue,snapshotAbility:snapshotPassiveAbility,snapshotItem:snapshotHeldItemForExchange,
         recycle:(p,messages)=>applyEffect({kind:'recycle'},{attacker:p,defender:p,move:{}},{messages})};
 }
@@ -2819,7 +2749,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
     }
     const hpBeforeMove=defender.currentHp;
     let lastHitDamage = 0;
-    const helper=reactionHelpers();
+    const helper=reactionHelpers({attacker,attackerSide,defenderSide});
     const hit=(amount,critical=false,resistBerry=null) => {
         const result=applyDamage(defender,amount,{allowEndure:true,attacker,battleState,
             bypassSubstitute:hasPassiveAbility(attacker,'Infiltrator')||getMoveFlags(move).sound});
@@ -2868,7 +2798,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         }
     }
 
-    if (attackerData.electrified) {
+    if (attackerData.electrified || (battleState.field?.ionDelugeTurns > 0 && move.type === 'Normal')) {
         attackerData.electrified = false;
         move = { ...move, type: 'Electric' };
         moveResult.move = move;
@@ -2912,6 +2842,9 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         attackerData.lastMoveUsed = move.ename;
         moveResult.messages.push('Bluff échoue : utilisable uniquement lors de la première action après l’entrée en combat.');
         return moveResult;
+    }
+    if (move.ename === 'Mat Block' && attackerData.activeMoveActions > 1) {
+        moveResult.blocked=true;moveResult.messages.push('Tatamigaeshi échoue : utilisable uniquement juste après l’entrée en combat.');return moveResult;
     }
     if (['Sleep Talk','Snore'].includes(move.ename) && attacker.status !== 'sleep' && !hasPassiveAbility(attacker,'Comatose')) {
         moveResult.messages.push('Cette capacité nécessite de dormir.');
@@ -2964,7 +2897,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         return moveResult;
     }
     if (move.combat?.power_type === 'charge' && !charging) {
-        if (move.ename === 'Sky Drop' && (defenderData.substituteHp > 0 || getPokemonMassProxy(defender) >= 200 || defenderData.semiInvulnerable || isMoveBlockedByProtect(defender,defenderSide,move))) {
+        if (move.ename === 'Sky Drop' && (defenderData.substituteHp > 0 || getPokemonMassProxy(defender) >= 200 || defenderData.semiInvulnerable || isMoveBlockedByProtect(defender,defenderSide,move,attacker))) {
             moveResult.blocked = true; moveResult.messages.push('Impossible d’emporter cet adversaire avec Chute Libre.'); return moveResult;
         }
         if (chargeRule?.defense) applyStageChange(attacker,'defense',1,moveResult.messages,attacker);
@@ -3001,6 +2934,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         'grass_grounded_allies'
     ].includes(moveTarget);
 
+    const moveTargetsPokemon = moveTargetsOpponent && moveTarget !== 'opponent_side';
     const magicBounce=hasPassiveAbility(defender,'Magic Bounce') && !ignoresDefenderAbility(attacker,defender)
         && reactions.traits.moves[move.ename]?.reflectable;
     if (damageClass === 'status' && moveTargetsOpponent && (defenderData.magicCoat || magicBounce) && !options.reflected) {
@@ -3042,7 +2976,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         return moveResult;
     }
 
-    if (moveTargetsOpponent && !chargeRule?.breaksProtect && isMoveBlockedByProtect(defender, defenderSide, move)) {
+    if (moveTargetsPokemon && !chargeRule?.breaksProtect && isMoveBlockedByProtect(defender, defenderSide, move,attacker)) {
         moveResult.blocked = true;
         moveResult.messages.push(`${getPokemonDisplayName(defender)} bloque l'attaque.`);
         if (safeNumber(defenderData.contactDamageFraction, 0) > 0 && damageClass !== 'status' && reactions.contact(attacker,move) && !hasPassiveAbility(attacker,'Magic Guard')) {
@@ -3062,7 +2996,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
     const noGuard = hasPassiveAbility(attacker,'No Guard') || (!ignoresDefenderAbility(attacker,defender) && hasPassiveAbility(defender,'No Guard'));
     const hiddenRule = twoTurn.rule(defenderData.chargeMove) || (defenderData.skyDropBy ? twoTurn.rule('Sky Drop') : null);
     const hitsHidden = !defenderData.semiInvulnerable || noGuard || lockedOn || hiddenRule?.hits?.[move.ename];
-    if (moveTargetsOpponent && !hitsHidden) {
+    if (moveTargetsPokemon && !hitsHidden) {
         moveResult.missed = true; attackerData.lastMoveUsed = move.ename;
         moveResult.messages.push(`${getPokemonDisplayName(defender)} est hors de portée de ${move.ename}.`); return moveResult;
     }
@@ -3081,7 +3015,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
             const abilityAccuracy = getAbilityAccuracyMultiplier(attacker, defender, move, battleState);
             const chance = abilityAccuracy === Infinity
                 ? 1
-                : clamp(baseAccuracy * getAccuracyModifier(attacker, defender) * abilityAccuracy + drift.accuracy(attacker), 0, 1);
+                : clamp(baseAccuracy * getAccuracyModifier(attacker, defender) * abilityAccuracy * (battleState.field?.gravityTurns > 0 && move.combat?.power_type !== 'ohko' ? 5/3 : 1) + drift.accuracy(attacker), 0, 1);
             hitChance = chance;
             attackHits = Math.random() < hitChance;
         }
@@ -3095,8 +3029,11 @@ function executeAttack(attackName, attacker, defender, options = {}) {
     }
 
     if (chargeRule?.breaksProtect) defenderData.protect = false;
+    if (move.ename === 'Brick Break' && getPokemonTypes(defender).every(type=>getEffectiveness(move.type,type)>0)) {
+        if(battleField.clearScreens(defenderSide,['reflectTurns','lightScreenTurns'])) moveResult.messages.push('Casse-Brique brise les écrans adverses !');
+    }
 
-    if (moveTargetsOpponent) {
+    if (moveTargetsPokemon) {
         const abilityEffectiveness = getPokemonTypes(defender)
             .reduce((value, type) => value * getEffectiveness(move.type, type), 1);
         const blockedByAbility = resolveMoveAbilityImmunity({
@@ -3105,6 +3042,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
             move,
             battleState,
             movePriority: getMovePriority(move.ename, attacker),
+            grounded: isGrounded(defender,battleState),
             effectiveness: abilityEffectiveness,
             isAllyHit: Boolean(options.isAllyHit),
             heal: healPokemon,
@@ -3311,7 +3249,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         : [];
     for (const effect of effects) {
         const callsMove = ['copy_last_move','me_first','copycat','random_move','nature_power','sleep_talk','assist'].includes(effect.kind);
-        const targetsEnemy=!callsMove && !['self','self_side','field','all'].includes(effect.target||moveTarget);
+        const targetsEnemy=!callsMove && !['self','self_side','field','all','opponent_side'].includes(effect.target||moveTarget);
         if(targetsEnemy && damageClass!=='status' && !moveResult.damage)continue;
         if(targetsEnemy && (defenderData.substituteHp>0 || moveResult.substituteDamage>0)
             && !hasPassiveAbility(attacker,'Infiltrator') && !getMoveFlags(move).sound)continue;
@@ -3339,6 +3277,12 @@ function executeAttack(attackName, attacker, defender, options = {}) {
             attackerData.rechargeMove = move.ename;
         }
     }
+    if (move.ename === 'Rapid Spin' && moveResult.effectiveness > 0 && moveResult.damage + moveResult.substituteDamage > 0 && attacker.currentHp > 0) {
+        const cleared=battleField.clearHazards(attackerSide);
+        const bound=attackerData.trappedTurns > 0 || Boolean(attackerData.leechSeedSource);
+        attackerData.trappedTurns=0;attackerData.leechSeedSource=null;
+        if(cleared || bound)moveResult.messages.push('Tour Rapide libère le lanceur et dégage les pièges de son camp !');
+    }
     applyImplicitMoveEffect(move, effectContext, moveResult);
     // Grounding moves interrupt the airborne release; Gravity interrupts both
     // participants in Sky Drop. Keep this after the successful hit/effect.
@@ -3347,7 +3291,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
             if (target.__battle?.semiInvulnerable === 'airborne') {
                 twoTurn.clear(target,other,battleState.turn);
                 if (target.__battle.skyDropBy) { delete target.__battle.skyDropBy; twoTurn.clear(other,target,battleState.turn); }
-                target.__battle.grounded = true;
+                if (move.ename !== 'Gravity') target.__battle.grounded = true;
                 target.__battle.chargeInterruptedTurn = battleState.turn;
                 moveResult.messages.push(`${getPokemonDisplayName(target)} est ramené au sol.`);
             }

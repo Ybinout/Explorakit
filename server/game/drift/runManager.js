@@ -416,7 +416,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
             emit(p,'mapWeatherState',getMapWeather(p.currentmap));
             emit(p,'worldDevicesState',devicesForMap(p.currentmap));
             emit(p,'pnjsList',{mapname:p.currentmap,pnjs:p.run.phase==='exploration'?pnjsFor(p).getPnjsForMap(p.currentmap):[]});
-            if(p.inbattle) {emit(p,'battletrigger',{trainerKey:p.battle.npcKey,battleType:p.battle.type,musicKind:p.battle.musicKind(),environment:p.battle.environment||null,field:require('../battle/battleEvents').serializeFieldState(p.battle.state)});p.battle.resume(p);}
+            if(p.inbattle) {emit(p,'battletrigger',{trainerKey:p.battle.npcKey,battleType:p.battle.type,musicKind:p.battle.musicKind(),environment:p.battle.environment||null,field:require('../battle/battleEvents').serializeFieldState(p.battle.state,p===p.battle.b?'enemy':'player')});p.battle.resume(p);}
         }
         syncCollapse(p,true);send(p);world(p.run);showArenaEntry(p);return state(p);
     }

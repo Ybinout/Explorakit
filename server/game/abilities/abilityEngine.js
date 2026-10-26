@@ -173,7 +173,7 @@ function resolveMoveAbilityImmunity(context) {
     if (ability === 'Wonder Guard' && move?.combat?.damage_class !== 'status' && effectiveness <= 1) reason = 'Wonder Guard';
     const defenderFlying = [defender.type1, defender.type2].includes('Flying') || hasAbility(defender, 'Levitate');
     if (battleState?.terrain?.kind === 'psychic_terrain' && movePriority > 0
-        && (!defenderFlying || battleState?.field?.gravityTurns > 0)) reason = 'Psychic Terrain';
+        && (context.grounded ?? (!defenderFlying || battleState?.field?.gravityTurns > 0))) reason = 'Psychic Terrain';
     if (hasAbility(attacker, 'Prankster') && move?.combat?.damage_class === 'status'
         && [defender.type1, defender.type2].includes('Dark')) reason = 'son type Ténèbres';
 

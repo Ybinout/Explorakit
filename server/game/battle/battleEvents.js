@@ -21,7 +21,10 @@ function afterActionMessages(result) {
     return messages;
 }
 
-function serializeFieldState(battleState = {}) {
+const fieldPlayers = new WeakMap();
+function setFieldPlayers(state, player, enemy) { fieldPlayers.set(state, {player,enemy}); }
+
+function serializeFieldState(battleState = {}, viewerSide = 'player') {
     return {
         turn: Number(battleState.turn) || 1,
         weather: {
@@ -29,6 +32,7 @@ function serializeFieldState(battleState = {}) {
             turns: Math.max(0, Number(battleState.weather?.turns) || 0),
             ...(battleState.weather?.persistent ? { persistent: true, source: 'map' } : {})
         },
+        ...require('./battleField').publicField(battleState, viewerSide),
         terrain: {
             kind: battleState.terrain?.kind || null,
             turns: Math.max(0, Number(battleState.terrain?.turns) || 0)
@@ -55,9 +59,13 @@ function serializeMoveResult(actor, result = {}) {
 
 function emitFieldState(io, socketIds, battleState) {
     const ids = Array.isArray(socketIds) ? socketIds : [socketIds];
-    const payload = serializeFieldState(battleState);
+    const players=fieldPlayers.get(battleState);
+    let payload;
     for (const socketId of new Set(ids.filter(Boolean))) {
-        io.to(socketId).emit('battleFieldState', payload);
+        const ownSide=socketId===players?.enemy?.id?'enemy':'player';
+        const current=serializeFieldState(battleState,ownSide);
+        payload ||= current;
+        io.to(socketId).emit('battleFieldState', current);
     }
     return payload;
 }
@@ -82,6 +90,7 @@ function emitPvpMoveResult(io, attackerPlayer, defenderPlayer, result, battleSta
 }
 
 module.exports = {
+    setFieldPlayers,
     prepareMoveAnimation,
     afterActionMessages,
     emitFieldState,

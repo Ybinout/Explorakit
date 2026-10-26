@@ -747,18 +747,7 @@
       "reflectable": true
     },
     "Pursuit": {},
-    "Rapid Spin": {
-      "secondaries": [
-        {
-          "chance": 100,
-          "self": {
-            "boosts": {
-              "spe": 1
-            }
-          }
-        }
-      ]
-    },
+    "Rapid Spin": {},
     "Sweet Scent": {
       "reflectable": true
     },
