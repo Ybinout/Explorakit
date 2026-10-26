@@ -25,19 +25,22 @@ function pokemonToRow(pokemon, teamId, position) {
     if (!pokemon?.data?.id || !pokemon?.iv) {
         throw new Error(`Pokémon invalide à la position ${position}`);
     }
-    const abilities = Array.isArray(pokemon.abilities) ? pokemon.abilities.slice(0, 4) : [];
+    // Temporary copied moves/stats must never become the saved party or PC set.
+    const original = pokemon.__moveAndStatOverrides;
+    const moveSource = original ? { abilities:[...(original.abilities || [])], movePp:[...(original.movePp || [])] } : pokemon;
+    const abilities = Array.isArray(moveSource.abilities) ? moveSource.abilities.slice(0, 4) : [];
     while (abilities.length < 4) abilities.push(null);
-    normalizeMovePp(pokemon);
-    const movePp = pokemon.movePp.slice(0, 4);
+    normalizeMovePp(moveSource);
+    const movePp = moveSource.movePp.slice(0, 4);
     while (movePp.length < 4) movePp.push(null);
     return [
         pokemon.uuid || uuidv4(), teamId, position, pokemon.data.id, pokemon.name,
         pokemon.level, pokemon.experience, pokemon.iv.attack, pokemon.iv.defense,
         pokemon.iv.hp, pokemon.iv.specialAttack, pokemon.iv.specialDefense,
         pokemon.iv.speed, pokemon.nature, pokemon.k, pokemon.currentHp, normalizePokemonStatus(pokemon.status),
-        pokemon.passiveAbility || null, pokemon.heldItem || null,
-        pokemon.currentAttack, pokemon.currentDefense, pokemon.currentSpecialAttack,
-        pokemon.currentSpecialDefense, pokemon.currentSpeed, ...abilities, pokemon.ev.hp, pokemon.ev.attack, pokemon.ev.defense, pokemon.ev.specialAttack, pokemon.ev.specialDefense, pokemon.ev.speed, ...movePp, JSON.stringify(pokemon.pendingMoves || []), pokemon.experienceRate
+        (Object.hasOwn(pokemon,'__passiveAbilityBeforeBattle') ? pokemon.__passiveAbilityBeforeBattle : pokemon.passiveAbility) || null, pokemon.heldItem || null,
+        original ? pokemon.attack : pokemon.currentAttack, original ? pokemon.defense : pokemon.currentDefense, original ? pokemon.specialAttack : pokemon.currentSpecialAttack,
+        original ? pokemon.specialDefense : pokemon.currentSpecialDefense, original ? pokemon.speed : pokemon.currentSpeed, ...abilities, pokemon.ev.hp, pokemon.ev.attack, pokemon.ev.defense, pokemon.ev.specialAttack, pokemon.ev.specialDefense, pokemon.ev.speed, ...movePp, JSON.stringify(pokemon.pendingMoves || []), pokemon.experienceRate
     ];
 }
 

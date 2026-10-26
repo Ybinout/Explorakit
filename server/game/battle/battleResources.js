@@ -34,12 +34,17 @@ function getMaxMovePp(moveName) {
     return Number.isFinite(value) && value > 0 ? Math.floor(value) : 1;
 }
 
+function getPokemonMoveMaxPp(pokemon, moveName) {
+    const max = getMaxMovePp(moveName);
+    return pokemon?.__battle?.transformed ? Math.min(5, max) : max;
+}
+
 function normalizeMovePp(pokemon) {
     if (!pokemon || typeof pokemon !== 'object') return [];
     const moves = Array.isArray(pokemon.abilities) ? pokemon.abilities.slice(0, 4) : [];
     const existing = Array.isArray(pokemon.movePp) ? pokemon.movePp : [];
     pokemon.movePp = moves.map((moveName, index) => {
-        const maxPp = getMaxMovePp(moveName);
+        const maxPp = getPokemonMoveMaxPp(pokemon, moveName);
         const currentPp = Number(existing[index]);
         return Number.isFinite(currentPp) ? Math.max(0, Math.min(maxPp, Math.floor(currentPp))) : maxPp;
     });
@@ -58,7 +63,7 @@ function getMovePp(pokemon, moveName) {
     return {
         slot,
         current: pokemon.movePp[slot],
-        max: getMaxMovePp(moveName)
+        max: getPokemonMoveMaxPp(pokemon, moveName)
     };
 }
 
@@ -83,12 +88,12 @@ function restoreMovePp(pokemon, moveName = null) {
     normalizeMovePp(pokemon);
     if (!moveName) {
         const moves = Array.isArray(pokemon?.abilities) ? pokemon.abilities : [];
-        pokemon.movePp = moves.map((name) => getMaxMovePp(name));
+        pokemon.movePp = moves.map((name) => getPokemonMoveMaxPp(pokemon, name));
         return true;
     }
     const slot = getMoveSlot(pokemon, moveName);
     if (slot < 0) return false;
-    pokemon.movePp[slot] = getMaxMovePp(moveName);
+    pokemon.movePp[slot] = getPokemonMoveMaxPp(pokemon, moveName);
     return true;
 }
 

@@ -327,6 +327,34 @@ function snapshotMoveAndStatOverrides(pokemon) {
     });
 }
 
+// Copy stored combat stats, never the target's item/status/side multipliers.
+// Identity, level, K, training, HP and held item continue to belong to the user.
+function transformPokemon(pokemon, target) {
+    if (!pokemon || !target || pokemon === target || !(pokemon.currentHp > 0) || !(target.currentHp > 0)) return false;
+    const own = ensureBattleData(pokemon), other = ensureBattleData(target);
+    if (own.transformed || own.illusion || other.transformed || other.substituteHp > 0 || other.illusion || other.semiInvulnerable) return false;
+    if (!Array.isArray(target.abilities) || !target.abilities.length) return false;
+    snapshotMoveAndStatOverrides(pokemon);
+    snapshotPassiveAbility(pokemon);
+    for (const stat of ['attack','defense','specialAttack','specialDefense','speed']) {
+        pokemon['current' + stat[0].toUpperCase() + stat.slice(1)] = getBaseStatValue(target, stat);
+    }
+    own.tempTypes = [...getPokemonTypes(target)];
+    own.statStages = { ...other.statStages };
+    own.transformed = true;
+    own.transformSpeciesId = target.data?.id || null;
+    own.transformSpriteId = other.formSpriteId || target.data?.id || null;
+    own.abilityForm = null;
+    own.formTypes = null;
+    own.formSpriteId = null;
+    own.formLabel = null;
+    pokemon.abilities = target.abilities.slice(0, 4);
+    pokemon.movePp = pokemon.abilities.map(name => Math.min(5, getMaxMovePp(name)));
+    pokemon.passiveAbility = target.passiveAbility || null;
+    if (own.choiceMove && !pokemon.abilities.includes(own.choiceMove)) delete own.choiceMove;
+    return true;
+}
+
 function consumeBerry(pokemon, battleState, messages) {
     consumeHeldItem(pokemon,battleState);
     if (pokemon.currentHp > 0 && hasPassiveAbility(pokemon,'Cheek Pouch') && !(pokemon.__battle?.healBlockTurns > 0)) {
@@ -446,7 +474,7 @@ function setPokemonHp(pokemon, nextHp) {
 }
 
 function getBaseStatValue(pokemon, statName) {
-    const formStat=abilityForms.stat(pokemon,statName);
+    const formStat=pokemon.__battle?.transformed ? null : abilityForms.stat(pokemon,statName);
     if(formStat!=null)return formStat;
     switch (statName) {
         case 'attack':
@@ -469,13 +497,14 @@ function getEffectiveStatValue(pokemon, statName, battleState = null, opponent =
     const battleData = ensureBattleData(pokemon);
     const stage = ignoreStages ? 0 : battleData.statStages[statName] || 0;
     let value = base * stageMultiplier(stage);
+    if (statName === 'speed') value = Math.floor(value);
     if (statName === 'speed' && pokemon.status === 'paralyze' && !hasPassiveAbility(pokemon,'Quick Feet')) {
         value *= 0.5;
     }
     if (!ignoreAbility) value *= getAbilityStatMultiplier(pokemon, statName, battleState, opponent);
     value *= heldItems.statMultiplier(pokemon, statName, battleState);
     value = drift.defense(pokemon, statName, value);
-    return Math.max(1, Math.round(value));
+    return Math.max(1, statName === 'speed' ? Math.floor(value) : Math.round(value));
 }
 
 function getAccuracyModifier(attacker, defender) {
@@ -491,7 +520,7 @@ function getBattleSpeed(pokemon, side = null, battleState = null, opponent = nul
     let speed = getEffectiveStatValue(pokemon, 'speed', battleState, opponent);
     if (side?.screens?.tailwindTurns > 0) speed *= 2;
     speed *= getAbilitySpeedMultiplier(pokemon, battleState, opponent);
-    return Math.max(1, Math.round(speed));
+    return Math.max(1, Math.floor(speed));
 }
 
 function applyDamage(target, damage, options = {}) {
@@ -1644,19 +1673,14 @@ function applyEffect(effect, context, moveResult) {
             return;
 
         case 'transform': {
-            snapshotMoveAndStatOverrides(context.attacker);
-            const copiedTypes = getPokemonTypes(context.defender);
-            attackerData.tempTypes = [...copiedTypes];
-            context.attacker.currentAttack = context.defender.currentAttack;
-            context.attacker.currentDefense = context.defender.currentDefense;
-            context.attacker.currentSpecialAttack = context.defender.currentSpecialAttack;
-            context.attacker.currentSpecialDefense = context.defender.currentSpecialDefense;
-            context.attacker.currentSpeed = context.defender.currentSpeed;
-            if (Array.isArray(context.defender.abilities)) {
-                context.attacker.abilities = [...context.defender.abilities];
-                context.attacker.movePp = context.attacker.abilities.map(() => 5);
+            if (!transformPokemon(context.attacker, context.defender)) {
+                moveResult.success = false;
+                messages.push('Morphing échoue.');
+                return;
             }
             messages.push(`${getPokemonDisplayName(context.attacker)} se transforme en ${getPokemonDisplayName(context.defender)}.`);
+            if (getPassiveAbility(context.attacker) !== 'Imposter') messages.push(...applySwitchInAbility(
+                context.attacker, context.defender, context.attackerSide, context.defenderSide, context.battleState, switchInAbilityHelpers()));
             return;
         }
 
@@ -2424,6 +2448,24 @@ function processEndOfRound(playerPokemon, enemyPokemon, playerSide, enemySide, b
     return messages;
 }
 
+function switchInAbilityHelpers() {
+    return {
+        changeStage: applyStageChange,
+        snapshotAbility: snapshotPassiveAbility,
+        snapshotMoveStats: snapshotMoveAndStatOverrides,
+        transform: transformPokemon,
+        getMove: getMoveByName,
+        isThreateningMove: (moveName, target) => {
+            const move = getMoveByName(moveName);
+            if (!move) return false;
+            if (move.combat?.power_type === 'ohko') return true;
+            const effectiveness = getPokemonTypes(target)
+                .reduce((value, type) => value * getEffectiveness(move.type, type), 1);
+            return safeNumber(move.power, 0) > 0 && effectiveness > 1;
+        }
+    };
+}
+
 function applySwitchInEffects(pokemon, ownSide, enemySide, battleState, enemyPokemon = null) {
     const messages = [];
     if (!pokemon || !ownSide?.hazards || safeNumber(pokemon.currentHp, 0) <= 0) {
@@ -2489,20 +2531,7 @@ function applySwitchInEffects(pokemon, ownSide, enemySide, battleState, enemyPok
     battleData.protect = false;
     battleData.endure = false;
 
-    messages.push(...applySwitchInAbility(pokemon, enemyPokemon, ownSide, enemySide, battleState, {
-        changeStage: applyStageChange,
-        snapshotAbility: snapshotPassiveAbility,
-        snapshotMoveStats: snapshotMoveAndStatOverrides,
-        getMove: getMoveByName,
-        isThreateningMove: (moveName, target) => {
-            const move = getMoveByName(moveName);
-            if (!move) return false;
-            if (move.combat?.power_type === 'ohko') return true;
-            const effectiveness = getPokemonTypes(target)
-                .reduce((value, type) => value * getEffectiveness(move.type, type), 1);
-            return safeNumber(move.power, 0) > 0 && effectiveness > 1;
-        }
-    }));
+    messages.push(...applySwitchInAbility(pokemon, enemyPokemon, ownSide, enemySide, battleState, switchInAbilityHelpers()));
     abilityForms.syncWeatherForms(pokemon,enemyPokemon,battleState,messages);
     activateHeldItem(pokemon,battleState,messages,'immediate',enemyPokemon);
     return messages;

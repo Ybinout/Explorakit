@@ -78,7 +78,7 @@ function ownView(p) {
 // Explicit observation boundary: no reserve, IV/EV, held item, ability, move list,
 // remaining PP or pending action is read from the human player's Pokémon.
 function observedView(p) {
-    const disguise=p.__battle?.illusion?.id;
+    const disguise=p.__battle?.illusion?.id || p.__battle?.transformSpeciesId;
     const visible=disguise?require('../../../data/game/pokedex.json').find(entry=>entry.id===disguise):null;
     const form=!disguise && require('../../../data/game/ability_move_traits.gen7.json').forms[p.__battle?.abilityForm];
     const base=visible?.base || (form?{HP:form.stats.hp,Attack:form.stats.atk,Defense:form.stats.def,'Sp. Attack':form.stats.spa,'Sp. Defense':form.stats.spd,Speed:form.stats.spe}:p.data.base);

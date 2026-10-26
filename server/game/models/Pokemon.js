@@ -172,9 +172,11 @@
             const previousHp = this.currentHp;
             const previousMax = this.maxHp;
             const ratios = {};
+            const transformedStats = this.__battle?.transformed ? {} : null;
             for (const stat of ['Attack', 'Defense', 'SpecialAttack', 'SpecialDefense', 'Speed']) {
                 const base = stat[0].toLowerCase() + stat.slice(1);
                 ratios[stat] = this[base] ? this['current' + stat] / this[base] : 1;
+                if (transformedStats) transformedStats[stat] = this['current' + stat];
             }
             this.attack = this.calculateStat(this.data.base.Attack, this.iv.attack, "attack");
             this.specialAttack = this.calculateStat(this.data.base["Sp. Attack"], this.iv.specialAttack, "specialAttack");
@@ -192,7 +194,7 @@
                 this.currentHp = previousHp <= 0 ? 0 : Math.max(1, Math.min(this.maxHp, previousHp + this.maxHp - previousMax));
                 for (const stat of Object.keys(ratios)) {
                     const base = stat[0].toLowerCase() + stat.slice(1);
-                    this['current' + stat] = Math.max(1, Math.floor(this[base] * ratios[stat] + 1e-9));
+                    this['current' + stat] = transformedStats ? transformedStats[stat] : Math.max(1, Math.floor(this[base] * ratios[stat] + 1e-9));
                 }
             }
         }

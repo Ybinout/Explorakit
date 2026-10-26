@@ -1,0 +1,162 @@
+{
+  "date": "2026-10-26",
+  "scope": [
+    "Aventure sauvage",
+    "Aventure dresseurs/arènes",
+    "JcJ partagé",
+    "Rift",
+    "Colosseum"
+  ],
+  "findings_before": [
+    "Le bonus de Vitesse du Mouchoir Choix fonctionnait sur la statistique copiée simple, mais arrondissait au plus proche au lieu de tronquer.",
+    "Morphing ne copiait ni les paliers, ni le talent, ni le sprite ; Imposteur avait une seconde implémentation incomplète.",
+    "Un objet Choix pouvait rester verrouillé sur Morphing après le remplacement des attaques.",
+    "Une sauvegarde en cours de transformation pouvait enregistrer les attaques et le talent copiés ; les recalculs EV/XP altéraient les statistiques empruntées."
+  ],
+  "mechanics": {
+    "copy": [
+      "cinq statistiques de combat hors PV avant modificateurs de talent/objet/statut/côté",
+      "paliers positifs et négatifs, types actuels, talent, apparence de la forme et quatre attaques au plus"
+    ],
+    "preserve": [
+      "espèce/UUID réels",
+      "niveau/K/IV/EV/nature propres",
+      "PV propres et statut propre",
+      "objet tenu propre"
+    ],
+    "speed": {
+      "example": {
+        "targetRaw": 200,
+        "dittoScarf": 300
+      },
+      "oddExample": {
+        "targetRaw": 201,
+        "dittoScarf": 301
+      },
+      "stageExample": {
+        "targetRaw": 201,
+        "stage": 1,
+        "afterStage": 301,
+        "dittoScarf": 451
+      },
+      "noDoubleCopyOfTargetScarf": true,
+      "ownTailwindParalysisKlutzMagicRoomEmbargoAndTrickRoomTested": true
+    },
+    "choice": "Libérer uniquement le verrou sur une capacité qui a disparu ; première capacité copiée utilisée ensuite verrouillée normalement.",
+    "pp": "Chaque capacité copiée reçoit min(5, PP de base), y compris après normalisation et restauration de PP.",
+    "entryAbility": "Morphing et Imposteur partagent le même moteur ; activer le talent d’entrée copié, sans réappliquer les pièges d’entrée ni reboucler sur Imposteur.",
+    "invalidTargets": [
+      "soi-même",
+      "K.O.",
+      "Clone",
+      "illusion",
+      "déjà transformé",
+      "semi-invulnérable"
+    ],
+    "restore": "Rappel et fin restaurent capacités, PP originaux et talent ; les statistiques permanentes gardent les gains propres EV/XP. SQL/PC écrivent le set permanent même durant le combat ; les checkpoints conservent la transformation et son snapshot restaurable.",
+    "presentation": "Sprite avant/arrière de la cible, identité réelle Métamorph inchangée pour capture/XP/EV/persistance. Les observateurs IA reconnaissent l’espèce visible sans lire ses IV/EV/objet cachés."
+  },
+  "files": [
+    "server/game/battle/battleEngine.js",
+    "server/game/abilities/abilityEngine.js",
+    "server/game/abilities/abilityForms.js",
+    "server/game/battle/battleResources.js",
+    "server/game/models/Pokemon.js",
+    "server/persistence/teamRepository.js",
+    "server/game/battle/humanTrainerAI.js",
+    "server/game/drift/colosseumAI.js",
+    "vue-explorakit/src/components/battle/BattleOverlay.vue"
+  ],
+  "references": [
+    "https://github.com/smogon/pokemon-showdown/blob/master/sim/pokemon.ts#L1211",
+    "https://github.com/smogon/pokemon-showdown/blob/master/data/items.ts#L991",
+    "https://github.com/smogon/pokemon-showdown/blob/master/data/conditions.ts#L322",
+    "https://github.com/smogon/pokemon-showdown/blob/master/data/abilities.ts#L2103",
+    "https://github.com/smogon/pokemon-showdown/blob/master/data/abilities.ts#L1460"
+  ],
+  "verification": {
+    "dedicatedTests": {
+      "command": "node --test tests/transform.test.js",
+      "passed": 25,
+      "failed": 0,
+      "includes": "quatre vrais combats DriftBattle, variantes Rift/Colosseum avec Morphing et Imposteur"
+    },
+    "regression": {
+      "command": "node --test tests/transform.test.js tests/battle-engine.test.js tests/battle-conditions.test.js tests/ability-system.test.js tests/ability-reactions.test.js tests/training.test.js tests/battle-team.test.js tests/expedition-strategy.test.js tests/battle-order.test.js tests/arena-experience.test.js tests/castform.test.js tests/human-trainer-ai.test.js tests/drift-runtime.test.js tests/wild-items.test.js tests/item-usage-audit.test.js",
+      "total": 244,
+      "passed": 240,
+      "failed": 4,
+      "preexistingFailures": "Les quatre cas item-usage-audit échouent sur Unrouted item: gwenn_house_key. Reproduits à l’identique sur HEAD 38d11ad dans un checkout temporaire sans ce patch. Aucun nouvel échec dans ce lot.",
+      "log": "/tmp/riftmon-transform-regression.log",
+      "baselineLog": "/tmp/riftmon-transform-baseline-items.log"
+    },
+    "sqlRuntime": {
+      "command": "DB_NAME=$DB_TEST_NAME RUN_MYSQL_TESTS=1 node --test --test-name-pattern=\"Morphing/Mouchoir\" tests/battle-runtime-integration.test.js",
+      "passed": 6,
+      "failed": 0,
+      "cases": "Sauvage, dresseur et JcJ × Morphing/Imposteur ; vrais événements de tours, 200→300, attaques/PP/talent restaurés et relecture SQL. Uniquement utilisateurs jetables de la base de test."
+    },
+    "browser": {
+      "command": "RELEASE_DIST_DIR=/tmp/riftmon-transform-dist node --env-file=.env scripts/validateTransformBrowser.js",
+      "result": {
+        "cases": [
+          {
+            "ability": "Limber",
+            "copiedSpeed": 200,
+            "effectiveSpeed": 300,
+            "viewports": 4,
+            "checkpointAndReload": true,
+            "ppAndChoiceLock": true,
+            "recallRestoresDitto": true
+          },
+          {
+            "ability": "Imposter",
+            "copiedSpeed": 200,
+            "effectiveSpeed": 300,
+            "viewports": 4,
+            "checkpointAndReload": true,
+            "ppAndChoiceLock": true,
+            "recallRestoresDitto": true
+          }
+        ],
+        "enemyFrontSprite": true,
+        "errors": [],
+        "output": "/tmp/riftmon-transform-browser"
+      },
+      "capturesInspected": [
+        "/tmp/riftmon-transform-browser/transform-Limber-393.png"
+      ],
+      "physicalPhone": false
+    },
+    "lint": "npm --prefix vue-explorakit run lint -- --no-fix : aucune erreur",
+    "build": {
+      "command": "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-transform-dist",
+      "hash": "6ab431d41ee7adeb"
+    },
+    "syntaxAndDiff": "Onze fichiers JS vérifiés avec node --check ; git diff --check dans les deux dépôts."
+  },
+  "deployment": {
+    "publishedAt": "2026-10-26T04:52:56.039Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-transform-2026-10-26T04-52-53-524Z",
+    "clientBuild": "6ab431d41ee7adeb",
+    "clientCommit": "4cae3af104ee5a89a13cdaf4c9052d7f346149c2",
+    "beforePid": "1827440",
+    "afterPid": "1835218",
+    "activeRuns": 0,
+    "serverRestarted": true,
+    "checkpointSaved": true,
+    "neighborsUnchanged": true,
+    "publicAssets": [
+      "js/app.a15f73cc.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/game.d2dc891a.js",
+      "css/app.8538ed5d.css",
+      "css/game.0d21a3a1.css"
+    ],
+    "mechanics": {
+      "copiedSpeed": 200,
+      "scarfSpeed": 300
+    },
+    "noSchemaChanges": true
+  }
+}

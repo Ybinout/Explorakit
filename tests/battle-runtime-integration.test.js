@@ -296,6 +296,42 @@ test.after(async () => {
     await dbPool.end();
 });
 
+for (const kind of ['wild','trainer','pvp']) for (const ability of ['Limber','Imposter']) {
+    test(`Morphing/Mouchoir Choix ${kind} ${ability}: vraie copie, ordre du tour suivant, PP et restauration SQL`, {skip:!shouldRun}, async()=>{
+        const pool=createTestPool(); let userId;
+        try {
+            const {user,player}=await createPlayer(7);userId=user.id;
+            const factory=require('../server/game/drift/pokemonFactory');
+            const ditto=factory.create(132,40,true),enemy=factory.create(94,40,true);
+            for(const p of [ditto,enemy]){p.currentHp=p.maxHp=10000;p.status='normal';p.heldItem=null;}
+            ditto.passiveAbility=ability;ditto.heldItem='choice_scarf';ditto.abilities=['Transform'];ditto.movePp=[10];ditto.currentSpeed=40;
+            enemy.passiveAbility='Levitate';enemy.abilities=['Tackle'];enemy.movePp=[35];enemy.currentSpeed=200;
+            player.equipe=createTeam(ditto);player.currentmap='route1';
+            const {editEquipe}=require('../server/persistence/teamRepository');await editEquipe(userId,player.equipe);
+            const rival={id:'transform-rival',equipe:createTeam(enemy)};
+            const io=new RecordingIo({[player.id]:new ScriptedSocket([{action:'attack',number:0},{action:'attack',number:0},{action:'flee'}]),
+                [rival.id]:new ScriptedSocket([{action:'attack',number:0},{action:'attack',number:0},{action:'flee'}])});
+            const emitTo=io.to.bind(io);let observedCopy=false;
+            io.to=target=>({emit:(event,payload)=>{
+                if(ditto.__battle?.transformed){
+                    observedCopy=true;assert.equal(ditto.currentSpeed,200);assert.equal(ditto.__battle.transformSpriteId,94);
+                    assert.equal(require('../server/game/battle/battleEngine').getBattleSpeed(ditto),300);
+                    assert.deepEqual(ditto.abilities,['Tackle']);assert(ditto.movePp[0]<=5);assert.equal(ditto.passiveAbility,'Levitate');
+                }
+                emitTo(target).emit(event,JSON.parse(JSON.stringify(payload)));
+            }});
+            await withFixedRandom(.5,()=>kind==='wild'?startWildBattle(player,enemy,io,userId):kind==='trainer'?startTrainerBattle(player,rival.equipe,io,userId):startPvpBattle(player,rival,io));
+            assert(observedCopy);
+            const animations=io.events.filter(e=>e.targetId===player.id&&e.eventName==='battleMoveAnimation').map(e=>e.payload.actor);
+            assert.deepEqual(animations.slice(0,4),ability==='Imposter'?['player','opponent','player','opponent']:['opponent','player','player','opponent']);
+            assert.equal(ditto.data.id,132);assert.deepEqual(ditto.abilities,['Transform']);assert.equal(ditto.passiveAbility,ability);assert.equal(ditto.heldItem,'choice_scarf');assert(!ditto.__battle);
+            assert.deepEqual(ditto.movePp,[ability==='Imposter'?10:9]);
+            await editEquipe(userId,player.equipe);const saved=(await loadEquipe(userId)).pokemons[0];
+            assert.equal(saved.data.id,132);assert.deepEqual(saved.abilities,['Transform']);assert.deepEqual(saved.movePp,ditto.movePp);assert.equal(saved.passiveAbility,ability);assert.equal(saved.heldItem,'choice_scarf');
+        } finally {if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
+    });
+}
+
 test('capture Aventure SQL : vrais badges uniquement, forte pénalité avant progression, capture normale après six badges et anti-usurpation', {skip:!shouldRun},async()=>{
  const pool=createTestPool();let id;
  try{

@@ -14,11 +14,11 @@ const speedCaches = new WeakMap();
 const PUBLIC_VOLATILES = ['statStages','tempTypes','formTypes','abilityForm','tauntTurns','disableTurns',
     'disabledMove','encoreTurns','encoreMove','leechSeedSource','foresight','miracleEye','substituteHp',
     'trappedTurns','ingrain','chargeMove','chargeTurns','semiInvulnerable','rechargeMove','bideTurns',
-    'activeMoveActions','protectStreak'];
+    'activeMoveActions','protectStreak','transformed','transformSpeciesId','transformSpriteId'];
 
 function publicPokemon(p) {
     const view = legacy.observedView(p);
-    view.data.id = p.__battle?.illusion?.id || p.data.id;
+    view.data.id = p.__battle?.illusion?.id || p.__battle?.transformSpeciesId || p.data.id;
     // Moves and team composition are deliberately public; PP, items, abilities,
     // IV/EV and exact combat stats are not consulted on the opposing team.
     view.abilities = [...(p.abilities || [])].filter(name => moveByName(name)).slice(0,4);

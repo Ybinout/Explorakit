@@ -1,5 +1,17 @@
 # Contexte permanent — RiftMon
 
+## Métamorph — Morphing, Imposteur et Mouchoir Choix — 26 octobre 2026
+
+Le bonus du Mouchoir Choix s’appliquait déjà à la Vitesse copiée simple. Le moteur commun copie maintenant correctement les cinq statistiques hors PV avant modificateurs, les paliers, types actuels, talent et forme visible, en conservant identité réelle, PV, statut, niveau/K/entraînement et objet propres. Vitesse tronquée aux bons endroits : 200 copiée → 300 avec le Mouchoir, 201 → 301 ; les paliers, paralysie, Vent Arrière, Distorsion et annulations d’objet restent séparés. Aucun double bonus si la cible porte aussi un Mouchoir.
+
+Morphing et Imposteur partagent la même fonction. Le verrou Choix sur Morphing est libéré uniquement si la capacité a disparu ; la première attaque copiée utilisée prend ensuite le verrou normal. PP copiés plafonnés à min(5, PP de base), y compris après recharge. Talent d’entrée copié activé une fois, pièges d’entrée non répétés ; cible avec Clone, illusion, transformation, K.O. ou semi-invulnérabilité refusée. Le sprite avant/arrière et l’espèce observée par l’IA suivent la copie, sans changer l’ID réel 132 ni exposer des informations cachées.
+
+Les recalculs EV/XP mettent à jour les statistiques permanentes sans modifier celles empruntées. Sauvegardes équipe/PC en cours de combat : set permanent, sans mutation du combat actif ; checkpoint/reconnexion : copie et mémoire de restauration conservées. Au rappel/à la fin, retour aux attaques, PP, talent et statistiques propres. Aventure sauvage/dresseurs/arènes, JcJ, Rift et Colosseum utilisent ces règles ; aucun schéma SQL, compte ou carte modifié.
+
+Validation : 25 tests dédiés réussis, dont quatre vrais combats Rift/Colosseum ; six scénarios SQL de combats sauvage/dresseur/JcJ × Morphing/Imposteur réussis. Régression élargie : 240 réussites sur 244, quatre échecs de catalogue d’objets déjà présents, reproduits sans le patch (`gwenn_house_key` non classée par la fixture d’audit). Lint/syntaxe/diff valides ; build `6ab431d41ee7adeb`. Recette Socket/SQL/navigateur sur comptes jetables : sprites avant/arrière, PP/verrou, rappel, checkpoint/rechargement et huit captures 320/393/844/1365, zéro erreur ; pas de téléphone physique. Règles, références primaires Pokémon Showdown et commandes dans `docs/DITTO_TRANSFORM.json`.
+
+Publication 2026-10-26T04:52:56.039Z, client `4cae3af104ee5a89a13cdaf4c9052d7f346149c2`, PID 1827440→1835218. Checkpoint et sources précédentes sauvegardés, zéro expédition active ; anciens bundles conservés, index et cinq bundles HTTPS vérifiés à l’octet, Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-transform-2026-10-26T04-52-53-524Z`.
+
 ## Matthieu — nouvelle équipe stratégique — 26 octobre 2026
 
 Remplacement de la seule équipe `gwenn_route8` : Staross 37 K3 (Médic Nature, Orbe Vie, Timide ; Surf/Laser Glace/Tonnerre/Soin), Tauros 38 K3 (Intimidation, Bandeau Choix, Jovial ; Retour/Séisme/Éboulement/Psykoud’Boul), Léviator 39 K3 (Intimidation, Restes, Rigide ; Danse Draco/Cascade/Séisme/Crocs Givre), Typhlosion 39 K4 (Brasier, Mouchoir Choix, Naïf ; Surchauffe/Lance-Flammes/Exploforce/Poing Éclair). Plage historique 37–39 conservée ; aucun changement de la Route 8 (35–41). IV 28 sur les trois K3, Attaque 0 sur Staross spécial ; IV 31 sur Typhlosion. 508 EV par partenaire, répartis entre attaque utile et vitesse, plus quatre EV ; Typhlosion garde son Attaque pour la couverture électrique mixte.

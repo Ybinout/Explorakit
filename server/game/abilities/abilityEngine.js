@@ -372,17 +372,9 @@ function applySwitchInAbility(pokemon, opponent, ownSide, enemySide, battleState
         const threat = opponent.abilities.find((moveName) => helpers.isThreateningMove(moveName, pokemon));
         if (threat) messages.push(`${name} fremit devant ${threat} grace a Anticipation.`);
     }
-    if (ability === 'Imposter' && opponent && typeof helpers.snapshotMoveStats === 'function') {
-        helpers.snapshotMoveStats(pokemon);
-        pokemon.abilities = Array.isArray(opponent.abilities) ? [...opponent.abilities] : [];
-        pokemon.movePp = pokemon.abilities.map(() => 5);
-        for (const stat of ['currentAttack', 'currentDefense', 'currentSpecialAttack', 'currentSpecialDefense', 'currentSpeed']) {
-            pokemon[stat] = opponent[stat];
-        }
-        if (!pokemon.__battle) pokemon.__battle = {};
-        pokemon.__battle.tempTypes = [opponent.type1, opponent.type2].filter(Boolean);
-        if(typeof helpers.snapshotAbility==='function') {helpers.snapshotAbility(pokemon);pokemon.passiveAbility=getAbilityName(opponent);}
+    if (ability === 'Imposter' && typeof helpers.transform === 'function' && helpers.transform(pokemon, opponent)) {
         messages.push(`${name} prend l'apparence et les aptitudes de ${enemyName} avec Imposter.`);
+        if (getAbilityName(pokemon) !== 'Imposter') messages.push(...applySwitchInAbility(pokemon,opponent,ownSide,enemySide,battleState,helpers));
     }
     return messages;
 }

@@ -27,6 +27,7 @@ function setForm(p,key,messages=[]) {
 function sync(p,phase,messages=[],move=null,battleState=null,opponent=null) {
     if(!p || p.currentHp<=0)return;
     const ability=getAbilityName(p),id=p.data?.id,data=p.__battle||(p.__battle={}),mem=memory(p),ratio=p.currentHp/p.maxHp;
+    if(data.transformed)return;
     let key=null;
     const forecast = id===351 && (ability==='Forecast' || data.abilityForm?.startsWith('Castform-'));
     if (id===351 && p.passiveAbility==='Forecast' && !data.forecastManaged) {
