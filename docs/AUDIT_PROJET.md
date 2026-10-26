@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Plein écran PC depuis les options — 26 octobre 2026
+
+Options → Affichage : bouton « Passer en plein écran », puis « Revenir en fenêtre ». API native sur la racine du jeu, pour garder tous les panneaux et combats dans la couche plein écran ; demande directement au clic, aucun démarrage forcé ni préférence persistée trompeuse. Échap natif conservé. État synchronisé par fullscreenchange, refus affiché avec possibilité de réessayer, option désactivée si indisponible. Détection de plateforme : visible aussi sur PC tactile, masquée sur Android/iOS. Retour à l’accueil : sortie du plein écran et nettoyage des écouteurs/observer.
+
+Le monde reste entier au ratio 7:5, agrandi selon la hauteur réelle de la barre d’outils (dont Rift/Colosseum), centré sans transformation CSS ni étirement. Le combat remplit la hauteur disponible au lieu de conserver son plafond de 670 px. ResizeObserver et calcul existants du canvas/panneaux réutilisés ; observer supplémentaire sur la seule barre, sans boucle de rendu/polling. Dialogues, thèmes, commandes, position, images et règles inchangés.
+
+Validation : lint/build `1f1f5ceec94ae1fa`, neuf régressions caméra/manette réussies, syntaxe/diff valides. Recette native Chromium/MySQL/Socket sur comptes jetables supprimés : quatre formats PC 1024/1365/1920/2560, refus/réessai, ouverture/fermeture, menus, vrai dialogue/entrée/attaque Wayne, vrais mondes Colosseum et Rift, nettoyage de navigation, disponibilité PC tactile/Android/navigateur non compatible. Douze captures, zéro erreur ; options, combat et Rift inspectés. Redimensionnements d’automatisation effectués en fenêtre entre les présentations : Chrome refuse de redimensionner sa fenêtre native déjà plein écran. Pas de certification sur matériel physique, Safari/Firefox ou suite globale. Commande `RELEASE_DIST_DIR=/tmp/riftmon-fullscreen-dist npm run test:fullscreen-browser`, détails `docs/DESKTOP_FULLSCREEN.json`.
+
+Publication statique 2026-10-26T11:11:02.801Z, client `4f50ffdd380876b00ea78c67dc2fa3d7460762a9`, PID 1929536 conservé. Index, bundles et portraits v2 HTTPS vérifiés à l’octet, anciens bundles gardés, Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-fullscreen-2026-10-26T11-11-01-337Z`. Aucun changement serveur/SQL ou compte réel ni redémarrage.
+
 ## Grand Comptoir — escaliers sans retour involontaire — 26 octobre 2026
 
 Les six raccords d’escalier utilisaient une case immédiatement devant l’arrivée du raccord inverse : maintenir Haut faisait osciller entre deux étages. Le marqueur auteur reste à sa place ; il faut désormais l’atteindre puis pousser encore vers le haut pour changer d’étage. Un garde d’arrivée personnel empêche de reprendre immédiatement l’escalier inverse tant qu’aucun vrai pas ne s’éloigne des marches. Ce pas réarme un retour volontaire, sans attente artificielle. Métadonnées `staircase`/`triggerOnExit` sur les six liens existants seulement ; modèle partagé Aventure/Rift/Colosseum. Garde WeakMap transitoire, absent des sauvegardes/checkpoints, supprimé aux autres déplacements de lieu. Cadence, collisions, portes ordinaires et plans Tiled/PNG conservés ; aucun nouveau timer ni changement client.
@@ -3973,6 +3983,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 26 octobre 2026 — Option plein écran PC commune aux trois modes : monde entier agrandi, combat adapté, menus/dialogues dans la couche native, retour en fenêtre et refus gérés. Neuf régressions et recette navigateur SQL native/quatre formats/douze captures validées, zéro erreur. Client publié sans redémarrage, sauvegarde/index/bundles/voisins contrôlés. Rapport `docs/DESKTOP_FULLSCREEN.json`.
 
 - 26 octobre 2026 — Grand Comptoir : passage déclenché plus haut dans les marches et retour inverse bloqué jusqu’à un pas volontaire d’éloignement. Six raccords existants, trois modes, aucun plan/client modifié. 75 tests et recette navigateur/SQL avec 18 passages au bouton mobile maintenu réussis, zéro rebond ; achats, badges, reprise et portes conservés. Serveur publié avec sauvegarde du checkpoint. Rapport `docs/STAIRCASE_LANDING_FIX.json`.
 

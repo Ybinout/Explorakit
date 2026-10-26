@@ -1,0 +1,415 @@
+{
+  "date": "2026-10-26",
+  "request": "Add a desktop fullscreen mode accessible from in-game Options",
+  "implementation": {
+    "ui": "Options > Affichage > Passer en plein écran / Revenir en fenêtre, French and English labels, themed controls",
+    "native": "Fullscreen API on .game-root keeps every descendant menu, dialogue and battle visible in the top layer",
+    "activation": "Only from a button click; request executes synchronously before awaiting the promise. No automatic/persisted request, no keyboard lock, native browser Escape kept.",
+    "state": "fullscreenchange/webkitfullscreenchange update the real active state. Rejection produces a retryable notice; unsupported or policy-disabled API disables the control.",
+    "platform": "Desktop platform rather than width/touch alone; touchscreen PC supported, Android/iOS hidden",
+    "layout": "Preserve the world 7:5 ratio, compute stage width from actual fullscreen dimensions minus actual toolbar height. Taller expedition headers supported. No CSS transforms or stretching.",
+    "combat": "Fullscreen-only battle bounds fill the available stage height instead of the old 670px maximum",
+    "lifecycle": "Release movement on changes, observe toolbar size without polling, reuse existing canvas and popup ResizeObservers. Destroy listeners/observer and exit own fullscreen on route destruction.",
+    "scope": "Common Adventure/Rift/Colosseum frontend only; no map, sprite, dialogue, rule, server, schema or real player mutation"
+  },
+  "validation": {
+    "lint": {
+      "command": "npm --prefix vue-explorakit run lint",
+      "result": "pass",
+      "log": "/tmp/riftmon-fullscreen-lint.log"
+    },
+    "build": {
+      "command": "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-fullscreen-dist",
+      "result": "pass",
+      "hash": "1f1f5ceec94ae1fa",
+      "log": "/tmp/riftmon-fullscreen-build.log"
+    },
+    "regressions": {
+      "command": "node --test tests/world-camera.test.js tests/gamepad.test.js",
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "log": "/tmp/riftmon-fullscreen-regressions.log"
+    },
+    "browser": {
+      "command": "RELEASE_DIST_DIR=/tmp/riftmon-fullscreen-dist npm run test:fullscreen-browser",
+      "log": "/tmp/riftmon-fullscreen-browser.log",
+      "result": {
+        "nativeChromiumFullscreen": true,
+        "modes": [
+          "adventure",
+          "colosseum",
+          "rift"
+        ],
+        "checks": [
+          "Browser refusal is visible, retry enabled, no fake fullscreen",
+          "Native fullscreen enlarges world at four PC sizes, including ultrawide; proportions, canvas, position and options preserved",
+          "Windowed button restores original game size",
+          "Team, Pokédex, bag and minimap usable inside native fullscreen",
+          "Actual Wayne dialogue, loading, battle HUD, attack selection and combat submission work in fullscreen",
+          "Leaving the world exits fullscreen and cleans up ownership",
+          "Real Colosseum world and its taller toolbar fit fullscreen",
+          "Real multiplayer Rift world uses the same fullscreen option",
+          "Shown on touchscreen PC, hidden on Android",
+          "Unsupported browser gets an explicit disabled option"
+        ],
+        "layouts": [
+          {
+            "label": "adventure-1365",
+            "window": {
+              "width": 1365,
+              "height": 900
+            },
+            "stage": {
+              "x": 97.5,
+              "y": 0.140625,
+              "width": 1170,
+              "height": 899.703125,
+              "right": 1267.5,
+              "bottom": 899.84375
+            },
+            "world": {
+              "x": 97.5,
+              "y": 64.140625,
+              "width": 1170,
+              "height": 835.703125,
+              "right": 1267.5,
+              "bottom": 899.84375
+            },
+            "toolbar": {
+              "x": 97.5,
+              "y": 0.140625,
+              "width": 1170,
+              "height": 64,
+              "right": 1267.5,
+              "bottom": 64.140625
+            },
+            "canvas": {
+              "width": 1170,
+              "height": 836
+            },
+            "frame": {
+              "width": 1170,
+              "height": 836,
+              "pixelRatio": 1
+            },
+            "map": "start",
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "active": true,
+            "overflow": false
+          },
+          {
+            "label": "adventure-1920",
+            "window": {
+              "width": 1920,
+              "height": 1080
+            },
+            "stage": {
+              "x": 249,
+              "y": 0.140625,
+              "width": 1422,
+              "height": 1079.703125,
+              "right": 1671,
+              "bottom": 1079.84375
+            },
+            "world": {
+              "x": 249,
+              "y": 64.140625,
+              "width": 1422,
+              "height": 1015.703125,
+              "right": 1671,
+              "bottom": 1079.84375
+            },
+            "toolbar": {
+              "x": 249,
+              "y": 0.140625,
+              "width": 1422,
+              "height": 64,
+              "right": 1671,
+              "bottom": 64.140625
+            },
+            "canvas": {
+              "width": 1422,
+              "height": 1016
+            },
+            "frame": {
+              "width": 1422,
+              "height": 1016,
+              "pixelRatio": 1
+            },
+            "map": "start",
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "active": true,
+            "overflow": false
+          },
+          {
+            "label": "adventure-2560",
+            "window": {
+              "width": 2560,
+              "height": 1080
+            },
+            "stage": {
+              "x": 569,
+              "y": 0.140625,
+              "width": 1422,
+              "height": 1079.703125,
+              "right": 1991,
+              "bottom": 1079.84375
+            },
+            "world": {
+              "x": 569,
+              "y": 64.140625,
+              "width": 1422,
+              "height": 1015.703125,
+              "right": 1991,
+              "bottom": 1079.84375
+            },
+            "toolbar": {
+              "x": 569,
+              "y": 0.140625,
+              "width": 1422,
+              "height": 64,
+              "right": 1991,
+              "bottom": 64.140625
+            },
+            "canvas": {
+              "width": 1422,
+              "height": 1016
+            },
+            "frame": {
+              "width": 1422,
+              "height": 1016,
+              "pixelRatio": 1
+            },
+            "map": "start",
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "active": true,
+            "overflow": false
+          },
+          {
+            "label": "adventure-1024",
+            "window": {
+              "width": 1024,
+              "height": 768
+            },
+            "stage": {
+              "x": 19.5,
+              "y": 0.21875,
+              "width": 985,
+              "height": 767.5625,
+              "right": 1004.5,
+              "bottom": 767.78125
+            },
+            "world": {
+              "x": 19.5,
+              "y": 64.21875,
+              "width": 985,
+              "height": 703.5625,
+              "right": 1004.5,
+              "bottom": 767.78125
+            },
+            "toolbar": {
+              "x": 19.5,
+              "y": 0.21875,
+              "width": 985,
+              "height": 64,
+              "right": 1004.5,
+              "bottom": 64.21875
+            },
+            "canvas": {
+              "width": 985,
+              "height": 704
+            },
+            "frame": {
+              "width": 985,
+              "height": 704,
+              "pixelRatio": 1
+            },
+            "map": "start",
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "active": true,
+            "overflow": false
+          },
+          {
+            "label": "colosseum",
+            "window": {
+              "width": 1365,
+              "height": 900
+            },
+            "stage": {
+              "x": 120,
+              "y": 0.015625,
+              "width": 1125,
+              "height": 899.953125,
+              "right": 1245,
+              "bottom": 899.96875
+            },
+            "world": {
+              "x": 120,
+              "y": 96.40625,
+              "width": 1125,
+              "height": 803.5625,
+              "right": 1245,
+              "bottom": 899.96875
+            },
+            "toolbar": {
+              "x": 120,
+              "y": 0.015625,
+              "width": 1125,
+              "height": 96.390625,
+              "right": 1245,
+              "bottom": 96.40625
+            },
+            "canvas": {
+              "width": 1125,
+              "height": 804
+            },
+            "frame": {
+              "width": 1125,
+              "height": 804,
+              "pixelRatio": 1
+            },
+            "map": "start",
+            "position": {
+              "x": 80,
+              "y": 208
+            },
+            "active": true,
+            "overflow": false
+          },
+          {
+            "label": "rift",
+            "window": {
+              "width": 1365,
+              "height": 900
+            },
+            "stage": {
+              "x": 120,
+              "y": 0.015625,
+              "width": 1125,
+              "height": 899.953125,
+              "right": 1245,
+              "bottom": 899.96875
+            },
+            "world": {
+              "x": 120,
+              "y": 96.40625,
+              "width": 1125,
+              "height": 803.5625,
+              "right": 1245,
+              "bottom": 899.96875
+            },
+            "toolbar": {
+              "x": 120,
+              "y": 0.015625,
+              "width": 1125,
+              "height": 96.390625,
+              "right": 1245,
+              "bottom": 96.40625
+            },
+            "canvas": {
+              "width": 1125,
+              "height": 804
+            },
+            "frame": {
+              "width": 1125,
+              "height": 804,
+              "pixelRatio": 1
+            },
+            "map": "start",
+            "position": {
+              "x": 80,
+              "y": 208
+            },
+            "active": true,
+            "overflow": false
+          }
+        ],
+        "screenshots": [
+          "adventure-options-1365.png",
+          "options-1920.png",
+          "options-2560.png",
+          "options-1024.png",
+          "fullscreen-pokemon.png",
+          "fullscreen-pokedex.png",
+          "fullscreen-bag.png",
+          "fullscreen-minimap.png",
+          "fullscreen-wayne-dialogue.png",
+          "fullscreen-wayne-battle.png",
+          "colosseum-fullscreen.png",
+          "rift-fullscreen.png"
+        ],
+        "errors": [],
+        "physicalHardware": false
+      },
+      "disposableAccountsCleaned": true,
+      "visualInspection": [
+        "adventure-options-1365.png",
+        "fullscreen-wayne-battle.png",
+        "rift-fullscreen.png"
+      ]
+    },
+    "automationNote": "Browser window bounds cannot be changed while native fullscreen is active; the four viewport sizes were set after exiting then fullscreen was re-entered. Browser-reserved OS Escape was not driven through system UI.",
+    "limits": [
+      "Native Chromium exercised; no physical PC or Safari/Firefox run",
+      "Not a certification of the global suite"
+    ],
+    "syntaxAndDiff": "Modified JS and git diff --check passed"
+  },
+  "sources": [
+    {
+      "title": "MDN Element.requestFullscreen",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Element/requestFullscreen",
+      "usedFor": "Transient user activation, promise rejection and fullscreenchange semantics"
+    },
+    {
+      "title": "MDN Document.fullscreenElement",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Document/fullscreenElement",
+      "usedFor": "Real active element and exit state"
+    }
+  ],
+  "deployment": {
+    "publishedAt": "2026-10-26T11:11:02.801Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-fullscreen-2026-10-26T11-11-01-337Z",
+    "clientBuild": "1f1f5ceec94ae1fa",
+    "clientCommit": "4f50ffdd380876b00ea78c67dc2fa3d7460762a9",
+    "pid": "1929536",
+    "serverRestarted": false,
+    "neighborsUnchanged": true,
+    "publicAssets": [
+      "js/account.701cc72b.js",
+      "js/app.f5f8c16e.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/game.c7c36697.js",
+      "css/account.71f45b55.css",
+      "css/app.bbefd3a4.css",
+      "css/game.cfefe6ba.css",
+      "img/maria-v2.564002d1.png",
+      "img/clement-v2.804e1f22.png"
+    ],
+    "portraits": [
+      {
+        "name": "maria",
+        "file": "maria-v2.564002d1.png",
+        "sha256": "0c850885294ffbbbbd8fb497b0d1f947a59cb61a770633a88ec9342f7864cdcb"
+      },
+      {
+        "name": "clement",
+        "file": "clement-v2.804e1f22.png",
+        "sha256": "2f8f501893f017b8590a1e2cde6c3b26c7d4b9cdee9624414c4ad03d7161d3ac"
+      }
+    ]
+  }
+}

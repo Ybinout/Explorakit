@@ -34,6 +34,7 @@
     "test:strategy-browser": "node --env-file-if-exists=.env scripts/validateStrategyBrowser.js",
     "test:colosseum-browser": "node --env-file-if-exists=.env scripts/validateColosseumBrowser.js",
     "test:player-options-browser": "node --env-file-if-exists=.env scripts/validatePlayerOptionsBrowser.js",
+    "test:fullscreen-browser": "node --env-file-if-exists=.env scripts/validateFullscreenBrowser.js",
     "test:npc-browser": "node --env-file-if-exists=.env scripts/validateClassicNpcBrowser.js",
     "test:riftmon-browser": "node --env-file-if-exists=.env scripts/validateRiftmonBrowser.js",
     "test:pwa-browser": "node scripts/validatePwaBrowser.js",
