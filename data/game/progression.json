@@ -478,6 +478,22 @@
         }
       },
       "experienceKind": "trainer"
+    },
+    "professor_story": {
+      "battleKey": "story_professor_final",
+      "once": true,
+      "requiresFlags": [
+        "professor_lab_key"
+      ],
+      "completionFlag": "professor_defeated",
+      "experienceKind": "trainer",
+      "uniqueExperience": true,
+      "reward": {
+        "money": 12000,
+        "flags": {
+          "professor_defeated": "true"
+        }
+      }
     }
   },
   "storySteps": [
@@ -531,12 +547,36 @@
     },
     {
       "flag": "lucie_freed",
-      "objective": "7p t’a confié la clé de la maison de la Route 2. Retrouve Lucie et libère-la de l’emprise de l’Aube Obscure.",
+      "objective": "Retrouve Lucie dans la maison de la Route 2 et gagne son duel pour tenter de la libérer.",
       "map": "route2_maison",
       "destination": "Lucie · Maison de la Route 2"
+    },
+    {
+      "flag": "professor_lead",
+      "objective": "Lucie a été emportée par une faille. Sors de la maison de la Route 2 et parle à Wanda, juste à gauche de la porte.",
+      "map": "route2",
+      "destination": "Wanda · Devant la maison de Lucie"
+    },
+    {
+      "flag": "professor_lab_key",
+      "objective": "Wanda soupçonne le Professeur. Examine la porte de son laboratoire au village de départ, puis cherche la clé dans les environs.",
+      "map": "start",
+      "destination": "Laboratoire du Professeur · Village de départ"
+    },
+    {
+      "flag": "professor_defeated",
+      "objective": "Tu as la clé. Entre dans le laboratoire du village de départ et affronte le Professeur pour rejoindre Lucie.",
+      "map": "professor_lab",
+      "destination": "Le Professeur · Laboratoire"
+    },
+    {
+      "flag": "lucie_rescued",
+      "objective": "Le Professeur a disparu. Brise les cristaux au fond du laboratoire et parle à Lucie pour la ramener auprès de maman.",
+      "map": "professor_lab",
+      "destination": "Lucie · Au fond du laboratoire"
     }
   ],
-  "chapterConclusion": "Le combat contre Lucie est terminé, mais l’Aube Obscure garde encore son emprise. La recherche continue.",
+  "chapterConclusion": "Lucie est rentrée au village auprès de maman. Elle va mieux, et l’Aube Obscure n’a plus d’emprise sur elle. Vous êtes enfin réunis.",
   "storyEvents": {
     "clara_letter": {
       "requiresFlags": [
@@ -608,6 +648,55 @@
       "reward": {
         "items": {
           "gwenn_house_key": 1
+        }
+      }
+    },
+    "wanda_professor": {
+      "requiresFlags": [
+        "lucie_house_exited"
+      ],
+      "completionFlag": "professor_lead",
+      "reward": {
+        "flags": {
+          "professor_lead": "true"
+        }
+      }
+    },
+    "professor_lab_door": {
+      "requiresFlags": [
+        "professor_lead"
+      ],
+      "completionFlag": "lab_door_inspected",
+      "reward": {
+        "flags": {
+          "lab_door_inspected": "true"
+        }
+      }
+    },
+    "professor_lab_rock": {
+      "requiresFlags": [
+        "lab_door_inspected"
+      ],
+      "completionFlag": "professor_lab_key",
+      "reward": {
+        "items": {
+          "professor_lab_key": 1
+        },
+        "flags": {
+          "professor_lab_key": "true"
+        }
+      }
+    },
+    "lucie_lab_rescue": {
+      "requiresFlags": [
+        "professor_defeated",
+        "lab_crystals_cleared"
+      ],
+      "completionFlag": "lucie_rescued",
+      "reward": {
+        "flags": {
+          "lucie_rescued": "true",
+          "story_complete": "true"
         }
       }
     }

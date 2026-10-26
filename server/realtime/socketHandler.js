@@ -127,7 +127,7 @@ function findNearbyInteractablePlayer(sourceSocketId) {
 }
 
 const socketHandler = (io) => {
-    startPnjMovement(io, () => players);
+    startPnjMovement(io, () => players, player=>replaySessions.get(player.id)?.pnjsForMap?.(player.currentmap)||defaultPnjStore.getPnjsForMap(player.currentmap));
     const clearPendingRequest = (requestId, reason = 'cancelled', { notify = false } = {}) => {
         const request = pendingInteractionRequests.get(requestId);
         if (!request) return null;
@@ -280,8 +280,10 @@ const socketHandler = (io) => {
         let currentmap = resolveMapName(savedPosition?.map || DEFAULT_MAP);
         let raphTrialState = currentmap === raphTrial.config.map ? await raphTrialRepository.ensure(userId,savedPosition) : null;
         const lucieScene=require('../game/world/lucieDeparture');
-        let lucieProgress=currentmap===lucieScene.config.map?await loadProgressState(userId):{flags:{}},lucieLeaving=false;
-        const {getPnjsForMap,getPnjAtTile,isPnjBlockingTile}=lucieScene.scopedStore(raphTrial.scopedStore(defaultPnjStore,()=>raphTrialState),()=>lucieProgress,()=>lucieLeaving);
+        const labStory=require('../game/world/labStory');
+        let initialStoryProgress=labStory.maps.has(currentmap)?await loadProgressState(userId):null;
+        let personalProgress=initialStoryProgress||{flags:{}},lucieLeaving=false;
+        const {getPnjsForMap,getPnjAtTile,isPnjBlockingTile}=lucieScene.scopedStore(labStory.scopedStore(raphTrial.scopedStore(defaultPnjStore,()=>raphTrialState),()=>personalProgress),()=>personalProgress,()=>lucieLeaving);
         let collisionData2D = loadCollisionData(currentmap);
         let changemap2D = changeMapData(currentmap);
         let battlemap2D = battleMapData(currentmap);
@@ -445,18 +447,19 @@ const socketHandler = (io) => {
         };
 
         const emitPlayerProgression = (progression) => {
-            lucieProgress=progression;
+            personalProgress=progression;
             socket.emit('progressionState', progression);
             socket.emit('storyGatesState', { gates: storyGates.snapshot(progression) });
             socket.emit('adminArenaState', arenaTests.publicState(socket.data.user, progression));
-            if(currentmap===lucieScene.config.map){currentPnjs=getPnjsForMap(currentmap);socket.emit('pnjsList',{mapname:currentmap,pnjs:currentPnjs});}
+            if(labStory.maps.has(currentmap)){currentPnjs=getPnjsForMap(currentmap);socket.emit('pnjsList',{mapname:currentmap,pnjs:currentPnjs});}
         };
         let roomEntryShown = false;
         const showRoomEntry = async (progression) => {
             const player = players[socket.id];
             if (!player || player.inbattle || pendingDialogue) return;
-            if(player.currentmap===lucieScene.config.map && lucieScene.pending(progression||lucieProgress)) {
-                const name=lucieScene.config.dialogue,sentence=getSentenceForName(name);
+            const pendingDeparture=lucieScene.profiles.find(scene=>player.currentmap===scene.map&&lucieScene.pending(progression||personalProgress,scene));
+            if(pendingDeparture) {
+                const name=pendingDeparture.dialogue,sentence=getSentenceForName(name);
                 pendingDialogue={...createDialogueAuthorization({name,map:player.currentmap,x:Math.floor(player.x/32),y:Math.floor(player.y/32)}),lucieDeparture:true};
                 socket.emit('dialogue',[...sentence,{entryMap:player.currentmap}]);return;
             }
@@ -486,8 +489,9 @@ const socketHandler = (io) => {
         let lastGateNotice = 0;
 
         const emitProgressionSnapshot = async () => {
+            const cached=initialStoryProgress;initialStoryProgress=null;
             const [progression, pokedex] = await Promise.all([
-                loadProgressState(userId),
+                cached||loadProgressState(userId),
                 loadPokedex(userId)
             ]);
             emitPlayerProgression(progression);
@@ -523,6 +527,11 @@ const socketHandler = (io) => {
             if (!player) return false;
 
             const oldMap = currentmap;
+            let storyExit=false;
+            if(oldMap==='route2_maison'&&destination?.map==='route2'){
+                storyExit=await require('../persistence/labStoryRepository').noteExit(userId);
+                if(storyExit)personalProgress=await loadProgressState(userId);
+            }
             currentmap = resolveMapName(destination?.map);
             if (oldMap !== currentmap) roomEntryShown = false;
             collisionData2D = loadCollisionData(currentmap);
@@ -560,6 +569,7 @@ const socketHandler = (io) => {
             socket.emit('mapWeatherState', getMapWeather(currentmap));
             socket.emit('worldDevicesState',devicesForMap(currentmap));
             socket.emit('pnjsList', { mapname: currentmap, pnjs: currentPnjs });
+            if(storyExit)refreshReplaySessions(personalProgress);
             schedulePositionSave({ immediate: true });
             await recordFlightVisit();
 
@@ -643,6 +653,7 @@ const socketHandler = (io) => {
 
         registerPlayerProfileHandlers({ socket, io, players, userId });
         replaySessions.set(socket.id, {userId,
+            pnjsForMap:getPnjsForMap,
             syncRaphTrial,
             canReset:()=>!interactionBusy&&!transitionBusy&&!pendingDialogue&&!socketToChatSession.has(socket.id)
                 && !players[socket.id]?.inbattle && !players[socket.id]?.inventoryBusy,
@@ -985,9 +996,17 @@ const socketHandler = (io) => {
             const authorization = pendingDialogue;
             pendingDialogue = null;
 
-            if(dialogueName===lucieScene.config.dialogue) {
-                await require('./handlers/lucieDepartureHandlers').depart({socket,userId,player,getPlayer:()=>players[socket.id],setLeaving:value=>{lucieLeaving=value;},emitProgression:emitPlayerProgression,syncPeers:progress=>refreshReplaySessions(progress)});
+            const departure=lucieScene.profiles.find(scene=>scene.dialogue===dialogueName);
+            if(departure) {
+                await require('./handlers/lucieDepartureHandlers').depart({socket,userId,player,getPlayer:()=>players[socket.id],setLeaving:value=>{lucieLeaving=value;},emitProgression:emitPlayerProgression,syncPeers:progress=>refreshReplaySessions(progress),profile:departure});
                 return;
+            }
+            if(dialogueName==='lucie_lab_rescue'){
+                const progress=await loadProgressState(userId);
+                if(labStory.replay(progress)){
+                    await require('../persistence/labStoryRepository').rescueReplay(userId);
+                    refreshReplaySessions(await loadProgressState(userId));return;
+                }
             }
 
             if (authorization.arenaEntry) {
@@ -1077,7 +1096,7 @@ const socketHandler = (io) => {
                             })) {
                                 const sentence = getSentenceForName(dialogueName, victoryProgress);
                                 if (sentence && sentence[1] !== dialogueName) {
-                                    pendingDialogue = {...createDialogueAuthorization({ ...authorization, name: sentence[1] }),...(dialogueName===lucieScene.config.actor?{lucieDeparture:true}:{})};
+                                    pendingDialogue = {...createDialogueAuthorization({ ...authorization, name: sentence[1] }),...(lucieScene.profiles.some(scene=>scene.actor===dialogueName)?{lucieDeparture:true}:{})};
                                     socket.emit('dialogue', [...sentence, {afterBattle:true}]);
                                 }
                             }
@@ -1107,7 +1126,7 @@ const socketHandler = (io) => {
                 console.log("Tous les Pokémon de l'équipe ont été soignés !");
             } else if (dialogueAction === 'story') {
                 const completion = await completeStoryEvent(userId, dialogueName);
-                emitPlayerProgression(completion.progress);
+                refreshReplaySessions(completion.progress);
                 if (completion.granted) socket.emit('progressionNotice', {
                     type: 'reward', message: completion.progress.objective?.text || 'Ton carnet de quêtes a été mis à jour.'
                 });
@@ -1123,7 +1142,13 @@ const socketHandler = (io) => {
             if (player.inbattle || player.inventoryBusy) return;
             if (fishing.current(player)) { fishing.reel(player,fishing.current(player).id); return; }
 
-            if (currentmap === 'route2_maison') {
+            if (currentmap === 'start' && (labStory.adjacent(player,labStory.config.door)||labStory.adjacent(player,labStory.config.rock))) {
+                if(transitionBusy||pendingDialogue)return;
+                const progress=await loadProgressState(userId),action=labStory.interaction(player,progress);
+                if(action?.enter){transitionBusy=true;try{await relocatePlayer(labStory.config.arrival,{reason:'story_entry'});}finally{transitionBusy=false;}return;}
+                if(action?.dialogue){const sentence=getSentenceForName(action.dialogue,progress);pendingDialogue=createDialogueAuthorization({name:sentence[1],map:currentmap,x:action.target.x,y:action.target.y});socket.emit('dialogue',sentence);return;}
+            }
+            if (['route2_maison','professor_lab'].includes(currentmap)) {
                 if (transitionBusy || pendingDialogue || socketToChatSession.has(socket.id)) return;
                 if (await require('./handlers/roomObstacleHandlers').clearNearbyRoomObstacle({
                     socket, userId, player, getPlayer: () => players[socket.id], emitProgression: emitPlayerProgression

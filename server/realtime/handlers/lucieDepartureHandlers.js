@@ -1,12 +1,13 @@
 const {randomUUID}=require('node:crypto');
-const {config}=require('../../game/world/lucieDeparture');
+const {config:defaultConfig}=require('../../game/world/lucieDeparture');
 const repository=require('../../persistence/lucieDepartureRepository');
 const {loadProgressState}=require('../../persistence/progressionRepository');
-async function depart({socket,userId,player,getPlayer,setLeaving,emitProgression,syncPeers}) {
+async function depart({socket,userId,player,getPlayer,setLeaving,emitProgression,syncPeers,profile=defaultConfig}) {
+ const config=profile;
  if(player.currentmap!==config.map||player.inbattle||player.inventoryBusy)return;
  player.inventoryBusy=true;player.isMoving=false;
  try {
-  if(!await repository.begin(userId))return;
+  if(!await repository.begin(userId,profile))return;
   const progress=await loadProgressState(userId);
   if(!socket.connected||getPlayer()!==player)return;
   setLeaving(true);

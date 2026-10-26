@@ -1,0 +1,480 @@
+{
+  "date": "2026-10-26",
+  "tool": "Built-in image_gen.imagegen",
+  "roomSource": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-da2b22a1-a45d-403c-853b-b47c2d18fde7.png",
+  "preview": "docs/art/professor-player-based.png",
+  "previewLabels": [
+    "Joueur — référence",
+    "Professeur"
+  ],
+  "alphaThreshold": 128,
+  "palette": [
+    "#25222b",
+    "#49313e",
+    "#646574",
+    "#a1a3af",
+    "#e5e6ef",
+    "#ffffff",
+    "#f5cbaa",
+    "#d49f79",
+    "#a36d58",
+    "#324764",
+    "#be4545"
+  ],
+  "sprites": [
+    {
+      "name": "professor",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-d4219f6b-00dc-47f3-a3f9-b6281e429bba.png",
+      "destination": "vue-explorakit/src/assets/pnj/professor-pixel-v1.png",
+      "nativeContent": [
+        17,
+        24
+      ],
+      "nativeBox": {
+        "x": 7,
+        "y": 6,
+        "w": 17,
+        "h": 24
+      }
+    }
+  ],
+  "prompts": {
+    "laboratory": "Use case: stylized-concept. Asset: an in-game top-down RPG professor laboratory interior map, matching the restrained pixel art of references 1 (healing center) and 2 (Lucie's room). Generate a new landscape map for a 28 by 20 grid of 16px tiles, final native canvas 448 by 320. Fixed overhead RPG perspective with small visible north faces like the references; never isometric, never cinematic perspective. Same simple large pixels, moderate detail, compact furniture scaled for a 17x24px character. Black void outside the room. Precise layout: room left wall at x=48..63, right wall at x=384..399, back wall y=32..63, front wall y=288..303. Open floor interior x=64..383 y=64..287, straight 16px tile grid. Front wall has a clear two-tile exit opening x=208..239 at the bottom center. A shady secret laboratory: muted blue-grey tile floor, cool teal monitor light, small violet energy accents, pale grey metal desks. All desks, bookcases, compact specimen tanks and consoles hug the left/right edges ONLY: left furniture x=80..143 and right furniture x=304..367 in small clusters around y=80..111, y=176..207, y=240..255. Back-center empty floor dais x=160..287 y=64..111 where a captive NPC will stand. Keep the entire horizontal floor strip y=128..143 completely empty: a dynamic crystal barrier will be rendered by the game there, do NOT draw this barrier. Keep central aisle x=160..287 from y=144 to y=287 completely unobstructed, including the empty standing spot x=216,y=184 for the professor. The lab feels secret and ominous but fully readable; two or three small controlled light pools, not dense machinery. No characters, sprites, text, labels, logos, doors elsewhere, UI or oversized furniture. No photorealism, painterly textures, anti-aliased illustration, decorative complexity or bevel-heavy 3D. Pixel art must blend naturally with the supplied simple game rooms.",
+    "professorSprite": "Use case: identity-preserve. Create one very simple RPG overworld professor sprite. Reference 1 is the actual player: strictly preserve its front idle pose, 17x24 native-pixel silhouette in a 32x32 cell, enormous head and tiny short body/feet. Reference 2 is the original game's atlas, for the same flat coarse pixel simplicity. Reference 3 is the existing Professor illustration: use only his grey swept hair, mature face and white lab coat as identity cues; DO NOT copy illustration detail or adult body proportions. Two eyes of one dark logical pixel each, small simple side-swept grey hair replacing the player's cap, no hat. Plain white coat over a dark top/tie represented by just a few dark pixels, very short navy trousers, tiny dark shoes. Tiny red/white Ball of two or three logical pixels in one hand at the player's original hand position. 10-12 flat colors maximum, hard square pixels, dark outline and one shadow tone per garment. No gradients, textures, wrinkles, lines on the face, fingers, long limbs, elaborate clothing or miniature anime illustration. Front-facing single character, centered, genuinely transparent background, no ground shadow, labels or frame. It should look like the original player simply dressed as an older scientist.",
+    "battleWide": "Use case: stylized-concept. Asset: wide landscape battle background for a 2D pixel-art monster RPG. Reference image shows the professor's secret laboratory in overhead map view; create the SAME place seen in a battle view, not another overhead map. Restrained crisp pixel-art matching that game, clean simple shapes and flat color areas, not a richly detailed painting. Dim blue-grey metal laboratory, back wall and two small side console clusters with soft cyan screens and violet specimen cylinders, dark ceiling beams. The center of the room is open. Most of the image (lower 75 percent) is an EMPTY clean blue-grey tiled battle floor, clearly lit enough for dark monster sprites. Back wall and machinery stay in the upper 25 percent and at the outer edges. Slight perspective depth, 2D RPG battle scene. Landscape composition suitable for desktop, with empty ground around the far-right opponent position and the lower-left player's position. IMPORTANT: do not draw any oval or circular platforms, rings, circles, people, creatures, NPCs, text, labels, UI or logos; the game renders its own enemy platform and sprites. Subtle sinister violet/cyan lighting, readable floor, very few laboratory details.",
+    "battleMobile": "Use case: stylized-concept. Asset: PORTRAIT mobile battle background for the same secret professor laboratory shown in the reference. Keep the exact restrained pixel-art style, blue-grey tiled floor, dark violet wall, cyan console lights and small violet specimen cylinders. Compose specifically for a tall phone screen: the back wall occupies only the top 18 percent; the lower 82 percent is uncluttered EMPTY blue-grey floor, with gentle perspective tiles and subtle violet/cyan reflections. Any machinery stays at the extreme upper corners and should be smaller and quieter than in the wide reference. The opponent sprite will stand on open floor around the middle-right, and our monster at the very bottom-left, so leave those areas clear. No people, creatures, characters, text, UI, logos, doors, rings, circles or ground platforms. The game draws its own enemy platform separately. Crisp moderate pixel-art detail, calm readable floor, not photorealistic or over-detailed. Tall portrait composition only."
+  },
+  "scope": "Finale Aventure personnelle : sortie de la maison après la disparition de Lucie, Wanda, clé cachée, laboratoire, Professeur, libération puis retour auprès de la mère.",
+  "assets": [
+    {
+      "path": "vue-explorakit/src/assets/professor_lab.png",
+      "bytes": 247742,
+      "sha256": "f2a507d8f2bef0545fc7f9ce5c8cbad6b2593b2dd0b2666111dc7364c72f7e5d",
+      "size": [
+        448,
+        320
+      ]
+    },
+    {
+      "path": "vue-explorakit/src/assets/professor_lab_f.png",
+      "bytes": 4034,
+      "sha256": "ceca7f8e80f7cb012c6631ca653b63d08ae93e7a80f65e871806d0f2c39625c8",
+      "size": [
+        448,
+        320
+      ]
+    },
+    {
+      "path": "vue-explorakit/src/assets/pnj/professor-pixel-v1.png",
+      "bytes": 822,
+      "sha256": "1a20d60703c06737616f4ab751fddad20d5c8e7437e45880e0a0056608f69ef6",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "path": "vue-explorakit/src/assets/battle/professor-lab-wide-v1.png",
+      "bytes": 1492197,
+      "sha256": "620a2b13d2cb92731900e019e97f137bd3ab7d3dae03e8f217e26c0be3cd771c",
+      "size": [
+        1672,
+        941
+      ]
+    },
+    {
+      "path": "vue-explorakit/src/assets/battle/professor-lab-mobile-v1.png",
+      "bytes": 1439873,
+      "sha256": "250e16b9854974b936de9b438d7e1a3d65c164ef0a39ebdc3350d2c048bd6ce5",
+      "size": [
+        941,
+        1672
+      ]
+    }
+  ],
+  "coordinates": {
+    "wanda": {
+      "map": "route2",
+      "x": 14,
+      "y": 7,
+      "visible": "lucie_house_exited=true et professor_lab_key absent"
+    },
+    "laboratoryDoor": {
+      "map": "start",
+      "x": 24,
+      "y": 15,
+      "actionFrom": [
+        24,
+        16
+      ]
+    },
+    "keyRock": {
+      "map": "start",
+      "x": 26,
+      "y": 18,
+      "actionFrom": [
+        26,
+        17
+      ]
+    },
+    "arrival": {
+      "map": "professor_lab",
+      "x": 13,
+      "y": 16
+    },
+    "exits": [
+      [
+        13,
+        17
+      ],
+      [
+        14,
+        17
+      ]
+    ],
+    "professor": {
+      "x": 13,
+      "y": 11
+    },
+    "lucie": {
+      "x": 13,
+      "y": 5
+    },
+    "crystals": {
+      "row": 8,
+      "fromX": 9,
+      "toX": 18,
+      "hits": 5
+    },
+    "family": {
+      "map": "start",
+      "mother": [
+        6,
+        8
+      ],
+      "lucie": [
+        5,
+        8
+      ]
+    }
+  },
+  "progression": {
+    "oldStepsRetained": 9,
+    "newTotal": 13,
+    "flags": [
+      "lucie_house_exited",
+      "professor_lead",
+      "lab_door_inspected",
+      "professor_lab_key",
+      "professor_defeated",
+      "professor_departure",
+      "lab_crystals_cleared",
+      "lucie_rescued",
+      "story_complete"
+    ],
+    "oldVictoryHandling": "Après la scène de disparition existante, sortir de la maison fait apparaître Wanda. Anciennes victoires/récompenses conservées ; la quête à neuf jalons est prolongée jusqu’à treize.",
+    "key": "Une seule clé, délivrée transactionnellement après la réplique du caillou, après inspection de la porte. Aucune entrée automatique sur la porte peinte.",
+    "ending": "Lucie disparaît du laboratoire et rejoint la mère. Le dialogue de la mère continue de soigner.",
+    "isolation": "PNJ, collisions, clé, obstacles et disparition privés. Les listes des patrouilles passent aussi par la vue personnelle du joueur ; la mère réunie reste à côté de Lucie pour ce joueur.",
+    "professorReward": "12000, une fois ; XP par emplacement unique comme Lucie, pas de nouvelle boucle de gains.",
+    "adminReplay": "Professeur réarmable après le sauvetage normal seulement. Flags admin distincts et cristaux remis ; aucun reçu, gain ou objectif normal effacé."
+  },
+  "professorTeam": {
+    "name": "professor_final",
+    "strategy": {
+      "name": "Le Professeur",
+      "ai": "expert",
+      "defeatLine": "Le Professeur : Ça ne peut pas se terminer ainsi."
+    },
+    "team": [
+      {
+        "pokemonId": 450,
+        "name": "Hippodocus",
+        "level": 90,
+        "k": 3,
+        "nature": "Impish",
+        "passiveAbility": "Sand Stream",
+        "heldItem": "leftovers",
+        "abilities": [
+          "Stealth Rock",
+          "Earthquake",
+          "Slack Off",
+          "Whirlwind"
+        ],
+        "givenIv": {
+          "hp": 31,
+          "attack": 31,
+          "defense": 31,
+          "specialAttack": 31,
+          "specialDefense": 31,
+          "speed": 31
+        },
+        "ev": {
+          "hp": 252,
+          "defense": 252,
+          "specialDefense": 4
+        }
+      },
+      {
+        "pokemonId": 437,
+        "name": "Archéodong",
+        "level": 90,
+        "k": 3,
+        "nature": "Sassy",
+        "passiveAbility": "Levitate",
+        "heldItem": "leftovers",
+        "abilities": [
+          "Reflect",
+          "Light Screen",
+          "Gyro Ball",
+          "Earthquake"
+        ],
+        "givenIv": {
+          "hp": 31,
+          "attack": 31,
+          "defense": 31,
+          "specialAttack": 31,
+          "specialDefense": 31,
+          "speed": 0
+        },
+        "ev": {
+          "hp": 252,
+          "specialDefense": 252,
+          "defense": 4
+        }
+      },
+      {
+        "pokemonId": 94,
+        "name": "Ectoplasma",
+        "level": 90,
+        "k": 3,
+        "nature": "Timid",
+        "passiveAbility": "Cursed Body",
+        "heldItem": "life_orb",
+        "abilities": [
+          "Shadow Ball",
+          "Thunderbolt",
+          "Focus Blast",
+          "Destiny Bond"
+        ],
+        "givenIv": {
+          "hp": 31,
+          "attack": 0,
+          "defense": 31,
+          "specialAttack": 31,
+          "specialDefense": 31,
+          "speed": 31
+        },
+        "ev": {
+          "specialAttack": 252,
+          "speed": 252,
+          "specialDefense": 4
+        }
+      },
+      {
+        "pokemonId": 121,
+        "name": "Staross",
+        "level": 90,
+        "k": 3,
+        "nature": "Timid",
+        "passiveAbility": "Natural Cure",
+        "heldItem": "expert_belt",
+        "abilities": [
+          "Surf",
+          "Ice Beam",
+          "Thunderbolt",
+          "Recover"
+        ],
+        "givenIv": {
+          "hp": 31,
+          "attack": 0,
+          "defense": 31,
+          "specialAttack": 31,
+          "specialDefense": 31,
+          "speed": 31
+        },
+        "ev": {
+          "specialAttack": 252,
+          "speed": 252,
+          "specialDefense": 4
+        }
+      },
+      {
+        "pokemonId": 212,
+        "name": "Cizayox",
+        "level": 90,
+        "k": 3,
+        "nature": "Adamant",
+        "passiveAbility": "Technician",
+        "heldItem": "choice_band",
+        "abilities": [
+          "Bullet Punch",
+          "U-turn",
+          "Superpower",
+          "Night Slash"
+        ],
+        "givenIv": {
+          "hp": 31,
+          "attack": 31,
+          "defense": 31,
+          "specialAttack": 31,
+          "specialDefense": 31,
+          "speed": 31
+        },
+        "ev": {
+          "attack": 252,
+          "hp": 248,
+          "speed": 8
+        }
+      },
+      {
+        "pokemonId": 445,
+        "name": "Carchacrok",
+        "level": 90,
+        "k": 3,
+        "nature": "Jolly",
+        "passiveAbility": "Rough Skin",
+        "heldItem": "yache_berry",
+        "abilities": [
+          "Swords Dance",
+          "Earthquake",
+          "Dragon Claw",
+          "Fire Fang"
+        ],
+        "givenIv": {
+          "hp": 31,
+          "attack": 31,
+          "defense": 31,
+          "specialAttack": 31,
+          "specialDefense": 31,
+          "speed": 31
+        },
+        "ev": {
+          "attack": 252,
+          "speed": 252,
+          "hp": 4
+        }
+      }
+    ]
+  },
+  "presentation": {
+    "art": "Outil intégré imagegen ; prompts exacts dans ce manifeste. Salle exportée en nearest-neighbour sur 448×320 ; nouveau sprite natif 32×32, contenu 17×24 à (7,6), palette bornée et alpha 0/255. PNG de combat copiés sans perte.",
+    "lab": "Mobilier latéral bloqué, zone de jeu dégagée et estrade arrière séparée par des cristaux. Aucun ancien Tiled/PNG modifié.",
+    "splash": "prof.png existant, présentation commune de 5,4 s minimum et portrait 3,6 s minimum, plus attente de décodage.",
+    "void": "Réutilisation de la faille Lucie, profil Professeur de 4,2 s ; persistance avant animation, récap différé, mouvement réduit et annulation existants.",
+    "audio": "Ambiance lucie-room pour le laboratoire, combat dresseur existant ; pas de nouvelle musique fournie.",
+    "platforms": "Socle ennemi uniquement, palette assortie au laboratoire ; fond portrait et paysage distincts."
+  },
+  "validation": {
+    "unit": {
+      "command": "node --test tests/professor-finale.test.js tests/story-content.test.js tests/story-progression.test.js tests/room-obstacles.test.js tests/arena-admin.test.js tests/lucie-departure.test.js tests/drift-runtime.test.js tests/pnj-movement.test.js",
+      "tests": 75,
+      "passed": 74,
+      "skipped": 1,
+      "failed": 0,
+      "log": "/tmp/riftmon-professor-unit.log"
+    },
+    "mysql": {
+      "file": "tests/professor-finale-mysql.test.js",
+      "passed": 1,
+      "failed": 0,
+      "log": "/tmp/riftmon-professor-mysql.log",
+      "command": "RUN_MYSQL_TESTS=1 DB_NAME=<DB_TEST_NAME> node --test tests/professor-finale-mysql.test.js",
+      "coverage": "Sortie réelle requise, indices dans l’ordre, concurrence sur la clé, comptes isolés, victoire unique, obstacles et sauvetage, clôture à treize jalons, replay privé sans nouveaux gains."
+    },
+    "browser": {
+      "command": "RELEASE_DIST_DIR=/tmp/riftmon-professor-finale-dist node --env-file=.env scripts/validateProfessorFinaleBrowser.js",
+      "actualExit": true,
+      "personalWanda": true,
+      "doorRockKey": true,
+      "uniqueKey": true,
+      "newLab": true,
+      "realProfessorBattle": true,
+      "professorVoid": true,
+      "fiveStrikeBarrier": true,
+      "lucieHome": true,
+      "motherStillHeals": true,
+      "persistentEnding": true,
+      "adminReplay": true,
+      "otherPlayerUnaffected": true,
+      "viewports": 4,
+      "artifacts": [
+        "wanda-320.png",
+        "wanda-393.png",
+        "wanda-844.png",
+        "wanda-1365.png",
+        "locked-door-393.png",
+        "lab-320.png",
+        "lab-393.png",
+        "lab-844.png",
+        "lab-1365.png",
+        "professor-splash-320.png",
+        "professor-splash-393.png",
+        "professor-splash-844.png",
+        "professor-splash-1365.png",
+        "professor-battle-320.png",
+        "professor-battle-393.png",
+        "professor-battle-844.png",
+        "professor-battle-1365.png",
+        "professor-void-393.png",
+        "lucie-rescued-393.png",
+        "family-320.png",
+        "family-393.png",
+        "family-844.png",
+        "family-1365.png"
+      ],
+      "errors": [],
+      "directory": "/tmp/riftmon-professor-finale-browser",
+      "testAccounts": "Jetables, supprimés en finally ; aucun compte de joueur réel modifié.",
+      "inspection": [
+        "wanda-393.png",
+        "lab-393.png",
+        "professor-battle-393.png",
+        "family-393.png"
+      ],
+      "fixtureNotes": "La marche automatisée respecte les deux lignes d’empreinte PNJ et les 130 ms serveur ; adaptations de recette, pas des erreurs en navigation normale."
+    },
+    "lint": "No lint errors found; /tmp/riftmon-professor-lint.log",
+    "build": {
+      "id": "b0053bc22c3ffb23",
+      "path": "/tmp/riftmon-professor-finale-dist",
+      "publicPath": "/",
+      "log": "/tmp/riftmon-professor-build.log"
+    },
+    "syntax": "node --check sur les fichiers JS du lot, git diff --check dans les deux dépôts",
+    "limits": [
+      "Pas de téléphone physique.",
+      "Pas de mesure d’équilibrage humain de la difficulté du Professeur.",
+      "Suite historique complète non relancée ; ses échecs Missing dialogue/Aspha et Lucie/Matthieu préexistants ne sont pas déclarés corrigés."
+    ],
+    "schemaChanges": false
+  },
+  "deployment": {
+    "publishedAt": "2026-10-26T06:40:23.112Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-professor-finale-2026-10-26T06-40-20-378Z",
+    "clientBuild": "b0053bc22c3ffb23",
+    "clientCommit": "f1ec65343b68d357e929806a06bd95a560254a94",
+    "beforePid": "1847354",
+    "afterPid": "1863425",
+    "activeRuns": 0,
+    "serverRestarted": true,
+    "checkpointSaved": true,
+    "neighborsUnchanged": true,
+    "publicAssets": [
+      "js/app.a921dbc5.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/game.703dbc32.js",
+      "css/app.8538ed5d.css",
+      "css/game.7740d709.css",
+      "img/professor_lab.83240019.png",
+      "img/professor-lab-wide-v1.67d714dc.png",
+      "img/professor-lab-mobile-v1.da19a26e.png"
+    ],
+    "storyFinale": true,
+    "nativeSprite": {
+      "bytes": 822,
+      "sha256": "1a20d60703c06737616f4ab751fddad20d5c8e7437e45880e0a0056608f69ef6"
+    },
+    "noSchemaChanges": true
+  }
+}

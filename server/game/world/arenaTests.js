@@ -6,7 +6,7 @@ function isOwner(user) { return user?.id === 4 && user?.username === 'binout'; }
 const champions = Object.entries(catalog.npcBattles)
     .filter(([, definition]) => definition.enabled !== false && definition.experienceKind === 'arena')
     .map(([name, definition]) => ({name, definition, flag:`admin_arena_replay:${definition.battleKey}`}));
-const storyNames = ['dia1', 'aspha_route2', 'gwenn_route8', 'mathilde_pikapika', 'gwenn_rochebrume', 'lucie_route2', 'nrv_noz', 'nrv_tom', 'nrv_cry'];
+const storyNames = ['dia1', 'aspha_route2', 'gwenn_route8', 'mathilde_pikapika', 'gwenn_rochebrume', 'lucie_route2', 'professor_story', 'nrv_noz', 'nrv_tom', 'nrv_cry'];
 const encounters = [...champions, ...storyNames.map(name => ({
     name, definition:catalog.npcBattles[name], flag:`admin_arena_replay:${catalog.npcBattles[name].battleKey}`
 }))];
@@ -15,7 +15,8 @@ function won(champion, progress = {}) {
         || Object.entries(champion.definition.reward?.flags || {}).some(([key,value]) => value === 'true' && progress.flags?.[key] === 'true');
 }
 function eligible(user, progress) {
-    return module.exports.isOwner(user) ? encounters.filter(c => won(c, progress) && meetsRequirements(c.definition, progress)) : [];
+    return module.exports.isOwner(user) ? encounters.filter(c => won(c, progress) && meetsRequirements(c.definition, progress)
+        && (c.name!=='professor_story'||progress.flags?.lucie_rescued==='true')) : [];
 }
 function canReplay(user, name, progress) {
     if (Array.isArray(progress?.testReplays) && !progress.testReplays.includes(name)) return false;

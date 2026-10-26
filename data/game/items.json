@@ -2295,6 +2295,12 @@
       "sell_price": 0,
       "unique": true,
       "description": "Remise par le père de Gwenn. Ouvre la maison au toit orange de la Route 4. Permanente."
+    },
+    {
+      "key": "professor_lab_key",
+      "name": "Clé du laboratoire",
+      "category": "key",
+      "description": "Trouvée sous le caillou près du laboratoire du Professeur. Ouvre sa porte et reste dans ton sac."
     }
   ]
 }

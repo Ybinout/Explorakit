@@ -35,6 +35,35 @@ test('les déplacements PNJ restent locaux, synchronisés avec collisions et int
     }
 });
 
+test('les mises à jour de patrouille conservent les PNJ propres à chaque joueur', t => {
+    const { startPnjMovement } = require('../server/game/world/pnjMovement');
+    const map = 'gen_ville5', originals = getPnjsForMap(map), frames = [];
+    const players = Object.fromEntries(['quest', 'other'].map(id => [id, { id, currentmap: map, x: 25 * 32 + 16, y: 17 * 32 + 16 }]));
+    let tick, now = 0, stopped = false;
+    t.mock.method(global, 'setInterval', fn => { tick = fn; return { unref() {} }; });
+    t.mock.method(global, 'clearInterval', () => { stopped = true; });
+    t.mock.method(Date, 'now', () => now);
+    t.mock.method(Math, 'random', () => 0);
+    const io = { to: id => ({ emit: (name, payload) => frames.push({ id, name, payload }) }) };
+    const stop = startPnjMovement(io, () => players, p => [
+        ...getPnjsForMap(p.currentmap), ...(p.id === 'quest' ? [{ name: 'personal-story-actor' }] : [])
+    ]);
+    try {
+        for (let i = 1; i <= 20 && !frames.length; i++) { now = i * 6000; tick(); }
+        assert(frames.length >= 2, 'une patrouille a réellement déplacé un PNJ');
+        for (const frame of frames) {
+            assert.equal(frame.name, 'pnjsList');
+            assert.equal(frame.payload.mapname, map);
+            assert.equal(frame.payload.walking, true);
+            assert.equal(frame.payload.pnjs.some(n => n.name === 'personal-story-actor'), frame.id === 'quest');
+        }
+    } finally {
+        stop();
+        for (const p of originals) movePnj(p.name, map, p.x, p.y);
+    }
+    assert(stopped);
+});
+
 test('les patrouilles évitent murs, portes, personnages et sortie de leur rayon', () => {
     const p = { name: 'test', map: 'empty', anchorX: 4, anchorY: 4, roamRadius: 2 };
     const blank = () => Array.from({ length: 10 }, () => Array(10).fill(0));

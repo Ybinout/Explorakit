@@ -4,7 +4,7 @@ const policy = require('../server/game/world/arenaTests');
 const owner = {id:4,username:'binout'};
 const {getSentenceForName} = require('../server/game/world/interactionRepository');
 function allWon() {
-    const flags = {route_guard_defeated:'true',aspha_route2_defeated:'true'};
+    const flags = {route_guard_defeated:'true',aspha_route2_defeated:'true',professor_lab_key:'true',lucie_rescued:'true'};
     for (const c of policy.encounters) Object.assign(flags,c.definition.reward.flags);
     return {flags,completedNpcBattles:policy.encounters.map(c=>({battleKey:c.definition.battleKey}))};
 }
@@ -13,7 +13,7 @@ test('arena admin is restricted to the exact existing owner identity', () => {
     for (const user of [null,{}, {id:162,username:'binout'},{id:4,username:'ybinout'},{id:'4',username:'binout'},{id:4,username:'Binout'}]) assert.equal(policy.isOwner(user),false);
 });
 test('only active, already won story encounters with access are replayable', () => {
-    assert.deepEqual(policy.encounters.map(c=>c.name).sort(),['moon','champion_hoze','champion_raphael','champion_ana','champion_wanda','champion_7p','dia1','aspha_route2','gwenn_route8','mathilde_pikapika','gwenn_rochebrume','lucie_route2','nrv_noz','nrv_tom','nrv_cry'].sort());
+    assert.deepEqual(policy.encounters.map(c=>c.name).sort(),['moon','champion_hoze','champion_raphael','champion_ana','champion_wanda','champion_7p','dia1','aspha_route2','gwenn_route8','mathilde_pikapika','gwenn_rochebrume','lucie_route2','professor_story','nrv_noz','nrv_tom','nrv_cry'].sort());
     const progress = allWon();
     assert.equal(policy.eligible(owner,progress).length,policy.encounters.length);
     assert.equal(policy.eligible(owner,{flags:{},completedNpcBattles:[]}).length,0);
@@ -49,7 +49,7 @@ test('real SQL/socket replay: authorization, persistence, victory, no rewards, c
     async function connect(u){await db.execute("UPDATE users SET map='ville1_arene',x=432,y=176 WHERE id=?",[u.user.id]);const s=client(base,{autoConnect:false,auth:{token:u.token},transports:['websocket'],reconnection:false});sockets.push(s);const state=event(s,'adminArenaState');s.connect();return{s,state:await state};}
     async function protectedState(id){
         const progress=await progression.loadProgressState(id);
-        const [xp]=await db.execute("SELECT flag_key,flag_value FROM player_story_flags WHERE user_id=? AND flag_key NOT LIKE 'admin_arena_replay:%' AND flag_key NOT LIKE 'arena_entry:%' AND flag_key NOT LIKE 'admin_room_obstacle:%' AND flag_key<>'admin_lucie_departure' ORDER BY flag_key",[id]);
+        const [xp]=await db.execute("SELECT flag_key,flag_value FROM player_story_flags WHERE user_id=? AND flag_key NOT LIKE 'admin_arena_replay:%' AND flag_key NOT LIKE 'arena_entry:%' AND flag_key NOT LIKE 'admin_room_obstacle:%' AND flag_key NOT IN ('admin_lucie_departure','admin_professor_departure','admin_lab_rescued') ORDER BY flag_key",[id]);
         const [items]=await db.execute('SELECT * FROM user_items WHERE user_id=? ORDER BY item_key',[id]);
         return {flags:xp,items,badges:progress.badges,battles:progress.completedNpcBattles,money:progress.money,quests:progress.quests};
     }
@@ -60,7 +60,7 @@ test('real SQL/socket replay: authorization, persistence, victory, no rewards, c
         policy.isOwner=u=>u?.id===admin.user.id&&u?.username===admin.user.username;
         await assert.rejects(repository.rearm(other.user),/réservé/);
         await assert.rejects(repository.rearm({...admin.user,username:'binout'}),/réservé/);
-        for(const key of ['route_guard_defeated','aspha_route2_defeated'])await db.execute('INSERT INTO player_story_flags(user_id,flag_key,flag_value)VALUES(?,?,?)',[admin.user.id,key,'true']);
+        for(const key of ['route_guard_defeated','aspha_route2_defeated','professor_lab_key','lucie_rescued'])await db.execute('INSERT INTO player_story_flags(user_id,flag_key,flag_value)VALUES(?,?,?)',[admin.user.id,key,'true']);
         for(const c of policy.encounters)await progression.completeNpcBattle(admin.user.id,c.name);
         const lead=require('../server/game/drift/pokemonFactory').create(150,200,true);lead.k=4;lead.recalculateStats();lead.currentHp=lead.maxHp;lead.abilities=[];lead.movePp=[];for(const move of ['Dark Pulse','Aura Sphere','Ice Beam','Recover'])lead.addAbility(move);
         await teamRepo.editEquipe(admin.user.id,{pokemons:[lead]});

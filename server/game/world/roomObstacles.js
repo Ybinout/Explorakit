@@ -19,7 +19,18 @@ const obstacles = [
     blockedMessageEn: 'Dark crystals block the way. Stand nearby and press A / Space to break them.',
     blockedMessage: 'Des cristaux sombres bloquent le passage. Appuie sur A / Espace à proximité pour les briser.'
 }));
+const labCollision=loadCollisionData('professor_lab');
+obstacles.push({id:'lab_crystals',requiredFlag:'lab_crystals_cleared',map:'professor_lab',kind:'barricade',appearance:'corrupted-crystal',name:'Champ de cristaux',duration:strikeDuration,strikeTimes,direction:'up',
+    tiles:{x:9,y:8,width:10,height:1},cells:Array.from({length:10},(_,i)=>({x:9+i,y:8})).filter(p=>labCollision[p.y]?.[p.x]===0),
+    requiresFlag:'professor_defeated',message:'Tu frappes de toutes tes forces !',messageEn:'You strike with all your strength!',done:'Les derniers cristaux éclatent. Tu peux enfin rejoindre Lucie.',doneEn:'The last crystals shatter. You can finally reach Lucie.',
+    requiresMessage:'Un champ sombre protège les cristaux. Le Professeur doit être arrêté.',
+    blockedMessage:'Des cristaux barrent le passage vers Lucie. Appuie sur A / Espace pour les briser.',blockedMessageEn:'Crystals block the way to Lucie. Press A / Space to break them.'});
+function progressFlag(obstacle,progress={}) {
+    const replay=obstacle.map==='professor_lab'?require('./labStory').replay(progress):require('./testReplayState').active(progress,'lucie_route2');
+    return replay?require('./testReplayState').obstacleFlag(obstacle):obstacle.requiredFlag;
+}
 function isLocked(obstacle, progress = {}) {
+    if(obstacle.map==='professor_lab')return !require('./labStory').rescued(progress)&&progress.flags?.[progressFlag(obstacle,progress)]!=='true';
     const replay = require('./testReplayState');
     if (replay.active(progress, 'lucie_route2')) return progress.flags?.[replay.obstacleFlag(obstacle)] !== 'true';
     return progress.flags?.[obstacle.requiredFlag] !== 'true'
@@ -42,4 +53,4 @@ function entryDialogue(player, progress) {
     if (player?.currentmap !== map || Math.floor(player.y / 32) < 16 || !isLocked(obstacles[0], progress)) return null;
     return 'lucie_room_entry';
 }
-module.exports = { obstacles, isLocked, candidates, nearby, snapshot, entryDialogue };
+module.exports = { obstacles, isLocked, progressFlag, candidates, nearby, snapshot, entryDialogue };

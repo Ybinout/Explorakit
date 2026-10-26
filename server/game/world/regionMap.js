@@ -13,6 +13,7 @@ function buildRegion() {
     const adjacency = new Map();
     for (const [name] of byName) {
         const links = new Set();
+        for(const next of byName.get(name).actionLinks||[])if(byName.has(next))links.add(next);
         try {
             const collision = terrain.loadCollisionData(name);
             terrain.changeMapData(name).forEach((row,y) => row.forEach((tile,x) => {

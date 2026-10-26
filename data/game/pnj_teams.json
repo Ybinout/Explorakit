@@ -2797,6 +2797,184 @@
         "name": "CRY",
         "ai": "expert"
       }
+    },
+    {
+      "name": "professor_final",
+      "strategy": {
+        "name": "Le Professeur",
+        "ai": "expert",
+        "defeatLine": "Le Professeur : Ça ne peut pas se terminer ainsi."
+      },
+      "team": [
+        {
+          "pokemonId": 450,
+          "name": "Hippodocus",
+          "level": 90,
+          "k": 3,
+          "nature": "Impish",
+          "passiveAbility": "Sand Stream",
+          "heldItem": "leftovers",
+          "abilities": [
+            "Stealth Rock",
+            "Earthquake",
+            "Slack Off",
+            "Whirlwind"
+          ],
+          "givenIv": {
+            "hp": 31,
+            "attack": 31,
+            "defense": 31,
+            "specialAttack": 31,
+            "specialDefense": 31,
+            "speed": 31
+          },
+          "ev": {
+            "hp": 252,
+            "defense": 252,
+            "specialDefense": 4
+          }
+        },
+        {
+          "pokemonId": 437,
+          "name": "Archéodong",
+          "level": 90,
+          "k": 3,
+          "nature": "Sassy",
+          "passiveAbility": "Levitate",
+          "heldItem": "leftovers",
+          "abilities": [
+            "Reflect",
+            "Light Screen",
+            "Gyro Ball",
+            "Earthquake"
+          ],
+          "givenIv": {
+            "hp": 31,
+            "attack": 31,
+            "defense": 31,
+            "specialAttack": 31,
+            "specialDefense": 31,
+            "speed": 0
+          },
+          "ev": {
+            "hp": 252,
+            "specialDefense": 252,
+            "defense": 4
+          }
+        },
+        {
+          "pokemonId": 94,
+          "name": "Ectoplasma",
+          "level": 90,
+          "k": 3,
+          "nature": "Timid",
+          "passiveAbility": "Cursed Body",
+          "heldItem": "life_orb",
+          "abilities": [
+            "Shadow Ball",
+            "Thunderbolt",
+            "Focus Blast",
+            "Destiny Bond"
+          ],
+          "givenIv": {
+            "hp": 31,
+            "attack": 0,
+            "defense": 31,
+            "specialAttack": 31,
+            "specialDefense": 31,
+            "speed": 31
+          },
+          "ev": {
+            "specialAttack": 252,
+            "speed": 252,
+            "specialDefense": 4
+          }
+        },
+        {
+          "pokemonId": 121,
+          "name": "Staross",
+          "level": 90,
+          "k": 3,
+          "nature": "Timid",
+          "passiveAbility": "Natural Cure",
+          "heldItem": "expert_belt",
+          "abilities": [
+            "Surf",
+            "Ice Beam",
+            "Thunderbolt",
+            "Recover"
+          ],
+          "givenIv": {
+            "hp": 31,
+            "attack": 0,
+            "defense": 31,
+            "specialAttack": 31,
+            "specialDefense": 31,
+            "speed": 31
+          },
+          "ev": {
+            "specialAttack": 252,
+            "speed": 252,
+            "specialDefense": 4
+          }
+        },
+        {
+          "pokemonId": 212,
+          "name": "Cizayox",
+          "level": 90,
+          "k": 3,
+          "nature": "Adamant",
+          "passiveAbility": "Technician",
+          "heldItem": "choice_band",
+          "abilities": [
+            "Bullet Punch",
+            "U-turn",
+            "Superpower",
+            "Night Slash"
+          ],
+          "givenIv": {
+            "hp": 31,
+            "attack": 31,
+            "defense": 31,
+            "specialAttack": 31,
+            "specialDefense": 31,
+            "speed": 31
+          },
+          "ev": {
+            "attack": 252,
+            "hp": 248,
+            "speed": 8
+          }
+        },
+        {
+          "pokemonId": 445,
+          "name": "Carchacrok",
+          "level": 90,
+          "k": 3,
+          "nature": "Jolly",
+          "passiveAbility": "Rough Skin",
+          "heldItem": "yache_berry",
+          "abilities": [
+            "Swords Dance",
+            "Earthquake",
+            "Dragon Claw",
+            "Fire Fang"
+          ],
+          "givenIv": {
+            "hp": 31,
+            "attack": 31,
+            "defense": 31,
+            "specialAttack": 31,
+            "specialDefense": 31,
+            "speed": 31
+          },
+          "ev": {
+            "attack": 252,
+            "speed": 252,
+            "hp": 4
+          }
+        }
+      ]
     }
   ]
 }

@@ -2352,5 +2352,211 @@
         }
       }
     ]
+  },
+  {
+    "name": "wanda_professor",
+    "sentences": [
+      {
+        "text": "Wanda : Quoi ?! Un trou noir ?! Alors… ça ne peut être que lui. Le Professeur.",
+        "imageName": "wanda.png"
+      },
+      {
+        "text": "Wanda : À l’Aube Obscure, il parlait de « mettre les sujets à l’abri ». Je n’avais pas compris ce que cela voulait dire.",
+        "imageName": "wanda.png"
+      },
+      {
+        "text": "Wanda : Son laboratoire est au village du départ. Va voir s’il y est. Et… ramène Lucie, je t’en prie.",
+        "imageName": "wanda.png"
+      }
+    ],
+    "end": "story",
+    "after": "wanda_professor_after"
+  },
+  {
+    "name": "wanda_professor_after",
+    "sentences": [
+      {
+        "text": "Wanda : Le laboratoire est au village du départ. Je reste ici un moment… j’ai un mauvais pressentiment.",
+        "imageName": "wanda.png"
+      }
+    ]
+  },
+  {
+    "name": "professor_lab_door",
+    "sentences": [
+      {
+        "text": "La porte du laboratoire est fermée à clé. Tu entends des pas… puis une voix, à l’intérieur.",
+        "imageName": "prof.png"
+      },
+      {
+        "text": "Le Professeur aurait-il caché une clé quelque part ?",
+        "imageName": "prof.png"
+      }
+    ],
+    "end": "story",
+    "locked": "professor_lab_door_unknown"
+  },
+  {
+    "name": "professor_lab_door_unknown",
+    "sentences": [
+      {
+        "text": "La porte du laboratoire est fermée à clé. Personne ne répond.",
+        "imageName": "prof.png"
+      }
+    ]
+  },
+  {
+    "name": "professor_lab_rock",
+    "sentences": [
+      {
+        "text": "Tu soulèves le caillou. Une petite clé est scotchée dessous.",
+        "imageName": "prof.png"
+      },
+      {
+        "text": "Tu récupères la clé du laboratoire du Professeur.",
+        "imageName": "prof.png"
+      }
+    ],
+    "end": "story"
+  },
+  {
+    "name": "professor_lab_rock_empty",
+    "sentences": [
+      {
+        "text": "Il n’y a plus rien sous ce caillou.",
+        "imageName": "prof.png"
+      }
+    ]
+  },
+  {
+    "name": "professor_story",
+    "sentences": [
+      {
+        "text": "Le Professeur : Wanda a toujours trop parlé. Et toi, tu as fini par ouvrir la bonne porte.",
+        "imageName": "prof.png"
+      },
+      {
+        "text": "Le Professeur : Lucie a voulu s’opposer à mes recherches. Elle a vu ce qu’elle n’aurait jamais dû voir.",
+        "imageName": "prof.png"
+      },
+      {
+        "text": "Le Professeur : Tu veux la ramener chez toi ? Alors viens la chercher.",
+        "imageName": "prof.png"
+      }
+    ],
+    "end": "battle",
+    "team": "professor_final",
+    "after": "professor_story_after",
+    "locked": "professor_story_locked"
+  },
+  {
+    "name": "professor_story_locked",
+    "sentences": [
+      {
+        "text": "Le Professeur : Tu n’as rien à faire ici. Sors.",
+        "imageName": "prof.png"
+      }
+    ]
+  },
+  {
+    "name": "professor_story_after",
+    "sentences": [
+      {
+        "text": "Le Professeur : Impossible… Toutes mes données, toutes ces années…",
+        "imageName": "prof.png"
+      },
+      {
+        "text": "Le Professeur : Tu as gagné ce combat. Mais je ne te laisserai pas m’enfermer ici.",
+        "imageName": "prof.png"
+      }
+    ]
+  },
+  {
+    "name": "lucie_lab_rescue",
+    "sentences": [
+      {
+        "text": "Lucie : C’est toi… Cette fois, je t’entends. La voix s’est arrêtée.",
+        "imageName": "lucie-v1.png"
+      },
+      {
+        "text": "Lucie : Je ne voulais pas te faire de mal. J’ai essayé de résister, mais… je n’y arrivais plus.",
+        "imageName": "lucie-v1.png"
+      },
+      {
+        "text": "Tu prends sa main. Elle tremble encore, puis serre doucement la tienne.",
+        "imageName": "lucie-v1.png"
+      },
+      {
+        "text": "Lucie : Je veux rentrer. Maman doit être morte d’inquiétude… Merci d’être venu me chercher.",
+        "imageName": "lucie-v1.png"
+      }
+    ],
+    "end": "story",
+    "after": "lucie_lab_rescue_after",
+    "locked": "lucie_lab_rescue_locked"
+  },
+  {
+    "name": "lucie_lab_rescue_locked",
+    "sentences": [
+      {
+        "text": "Lucie : Je suis là… De l’autre côté. Fais attention à lui.",
+        "imageName": "lucie-v1.png"
+      }
+    ]
+  },
+  {
+    "name": "lucie_lab_rescue_after",
+    "sentences": [
+      {
+        "text": "Lucie : Je rentre auprès de maman. On se retrouve au village.",
+        "imageName": "lucie-v1.png"
+      }
+    ]
+  },
+  {
+    "name": "lucie_home",
+    "sentences": [
+      {
+        "text": "Lucie : Maman ne m’a presque pas lâchée depuis mon retour. Je crois qu’elle vérifie encore que je suis bien là.",
+        "imageName": "lucie-v1.png"
+      },
+      {
+        "text": "Lucie : Je vais mieux. Je reprends mes forces, petit à petit. Merci de ne pas m’avoir abandonnée.",
+        "imageName": "lucie-v1.png"
+      }
+    ]
+  },
+  {
+    "name": "dia0_final",
+    "sentences": [
+      {
+        "text": "Maman : Lucie m’a tout raconté. J’ai encore du mal à croire que vous êtes rentrés tous les deux…",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 31
+        }
+      },
+      {
+        "text": "Maman : Ta sœur se repose près de moi. Elle va mieux. Cette maison avait besoin de retrouver vos voix.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 31
+        }
+      },
+      {
+        "text": "Maman : Vous avez assez couru pour aujourd’hui. Laisse-moi soigner tes Pokémon… Voilà. Bienvenue à la maison.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 31
+        }
+      }
+    ],
+    "end": "heal"
   }
 ]

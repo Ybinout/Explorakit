@@ -62,18 +62,18 @@ const data = file => 'data:image/png;base64,' + fs.readFileSync(file).toString('
       checks.push({ name: entry.name, destination: entry.destination, ...result,
         bytes: fs.statSync(destination).size, sha256: createHash('sha256').update(fs.readFileSync(destination)).digest('hex') });
     }
-    const gallery = await page.evaluate(async sources => {
+    const gallery = await page.evaluate(async ({sources,labels}) => {
       const images = await Promise.all(sources.map(async src => { const i = new Image(); i.src = src; await i.decode(); return i; }));
-      const c = document.createElement('canvas'); c.width = 768; c.height = 304;
+      const c = document.createElement('canvas'); c.width = labels ? sources.length * 256 : 768; c.height = 304;
       const g = c.getContext('2d', { willReadFrequently: true }); g.fillStyle = '#e5ede8'; g.fillRect(0, 0, c.width, c.height);
       g.imageSmoothingEnabled = false; g.textAlign = 'center'; g.font = '18px sans-serif';
       for (const [index, image] of images.entries()) {
         const sourceSize = index === 0 ? 64 : 32;
         g.drawImage(image, 0, 0, sourceSize, sourceSize, index * 256, 8, 256, 256);
-        g.fillStyle = '#263942'; g.fillText(['Joueur — référence', 'Gwenn', 'Matthieu'][index], index * 256 + 128, 291);
+        g.fillStyle = '#263942'; g.fillText((labels || ['Joueur — référence', 'Gwenn', 'Matthieu'])[index], index * 256 + 128, 291);
       }
       return c.toDataURL().split(',')[1];
-    }, [data(path.join(root, 'vue-explorakit/src/assets/sprite.png')), ...manifest.sprites.map(s => data(path.join(root, s.destination)))]);
+    }, {sources:[data(path.join(root, 'vue-explorakit/src/assets/sprite.png')), ...manifest.sprites.map(s => data(path.join(root, s.destination)))],labels:manifest.previewLabels});
     fs.mkdirSync(path.join(root, 'docs/art'), { recursive: true });
     fs.writeFileSync(path.join(root, manifest.preview || 'docs/art/gwenn-matthieu-sprites.png'), Buffer.from(gallery, 'base64'));
     console.log(JSON.stringify(checks, null, 2));

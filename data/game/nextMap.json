@@ -161,7 +161,10 @@
       "level": {
         "min": 2,
         "max": 5
-      }
+      },
+      "actionLinks": [
+        "professor_lab"
+      ]
     },
     {
       "mapName": "pk2",
@@ -2926,6 +2929,30 @@
         "min": 21,
         "max": 23
       }
+    },
+    {
+      "mapName": "professor_lab",
+      "wildpokemon": [],
+      "level": {
+        "min": 90,
+        "max": 90
+      },
+      "mapchange": [
+        {
+          "valX": 13,
+          "valY": 17,
+          "goto": "start",
+          "nexX": 768,
+          "nexY": 544
+        },
+        {
+          "valX": 14,
+          "valY": 17,
+          "goto": "start",
+          "nexX": 768,
+          "nexY": 544
+        }
+      ]
     }
   ]
 }

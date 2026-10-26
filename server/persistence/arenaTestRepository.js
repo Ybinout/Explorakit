@@ -21,11 +21,15 @@ async function rearm(user) {
         for (const scene of require('../game/world/arenaScenes').scenes.filter(s=>champions.some(c=>c.name===s.champion))) {
             await connection.execute('DELETE FROM player_story_flags WHERE user_id=? AND flag_key=?',[owner.id,scene.flag]);
         }
-        if (champions.some(c=>c.name==='lucie_route2')) for (const obstacle of require('../game/world/roomObstacles').obstacles) {
+        if (champions.some(c=>c.name==='lucie_route2')) for (const obstacle of require('../game/world/roomObstacles').obstacles.filter(o=>o.map==='route2_maison')) {
             await connection.execute('DELETE FROM player_story_flags WHERE user_id=? AND flag_key=?',
                 [owner.id,require('../game/world/testReplayState').obstacleFlag(obstacle)]);
         }
         if(champions.some(c=>c.name==='lucie_route2'))await connection.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,?,'armed') ON DUPLICATE KEY UPDATE flag_value='armed'",[owner.id,require('../game/world/lucieDeparture').config.adminFlag]);
+        if(champions.some(c=>c.name==='professor_story')){
+            for(const [key,value]of [['admin_professor_departure','armed'],['admin_lab_rescued','false']])await connection.execute('INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,?,?) ON DUPLICATE KEY UPDATE flag_value=VALUES(flag_value)',[owner.id,key,value]);
+            for(const o of require('../game/world/roomObstacles').obstacles.filter(o=>o.map==='professor_lab'))await connection.execute('DELETE FROM player_story_flags WHERE user_id=? AND flag_key=?',[owner.id,require('../game/world/testReplayState').obstacleFlag(o)]);
+        }
         await connection.execute('DELETE FROM player_story_flags WHERE user_id=? AND flag_key=?',[owner.id,require('../game/world/arenaCollapse').config.flag]);
         if(champions.some(c=>c.name==='champion_raphael'))await connection.execute('DELETE FROM player_story_flags WHERE user_id=? AND flag_key=?',[owner.id,require('../game/world/raphTrial').config.flag]);
         return {count:champions.length};
@@ -37,6 +41,7 @@ async function complete(user, name) {
     return authorizedTransaction(user, async (connection, owner) => {
         await connection.execute("DELETE FROM player_story_flags WHERE user_id=? AND flag_key=? AND flag_value='ready'",[owner.id,champion.flag]);
         if(name==='lucie_route2')await connection.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,?,'pending') ON DUPLICATE KEY UPDATE flag_value='pending'",[owner.id,require('../game/world/lucieDeparture').config.adminFlag]);
+        if(name==='professor_story')await connection.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,?,'pending') ON DUPLICATE KEY UPDATE flag_value='pending'",[owner.id,require('../game/world/lucieDeparture').professor.adminFlag]);
     });
 }
 module.exports = { rearm, complete };

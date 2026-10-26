@@ -57,14 +57,14 @@ function tickRoaming(players, now, deadlines, random = Math.random, store = defa
     return changed;
 }
 
-function startPnjMovement(io, getPlayers) {
+function startPnjMovement(io, getPlayers, actorsForPlayer=player=>getPnjsForMap(player.currentmap)) {
     const deadlines = new Map();
     const timer = setInterval(() => {
         const players = getPlayers();
         const changed = tickRoaming(players, Date.now(), deadlines);
         for (const player of Object.values(players)) {
             if (changed.has(player.currentmap)) io.to(player.id).emit('pnjsList', {
-                mapname: player.currentmap, pnjs: getPnjsForMap(player.currentmap), walking: true
+                mapname: player.currentmap, pnjs: actorsForPlayer(player), walking: true
             });
         }
     }, 500);

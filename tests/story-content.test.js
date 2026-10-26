@@ -59,7 +59,9 @@ test('les huit victoires ouvrent les indices, puis la rencontre de Lucie termine
     }
     assert.match(deriveStoryQuest(state).description,/Lucie/);
     assert.equal(deriveStoryQuest(state).map,'route2_maison');
-    state.flags.lucie_reunited='true';assert.equal(deriveStoryQuest(state).status,'active');state.flags.lucie_freed='true';assert.equal(deriveStoryQuest(state).status,'completed');assert.equal(deriveStoryQuest(state).progress,9);
+    state.flags.lucie_reunited='true';assert.equal(deriveStoryQuest(state).status,'active');state.flags.lucie_freed='true';assert.equal(deriveStoryQuest(state).status,'active');assert.equal(deriveStoryQuest(state).progress,9);
+    for(const [i,flag]of ['professor_lead','professor_lab_key','professor_defeated','lucie_rescued'].entries()){state.flags[flag]='true';assert.equal(deriveStoryQuest(state).progress,10+i);}
+    assert.equal(deriveStoryQuest(state).status,'completed');
     for(const name of ['clara_letter','ch2_iris','valpierre_gardien']) {
         assert.equal(getSentenceForName(name,state)[1],`${name}_locked`);
         assert.equal(getSentenceForName(name)[1],`${name}_locked`);
