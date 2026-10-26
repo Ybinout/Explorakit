@@ -354,8 +354,8 @@
       "name": "town_bastien",
       "interactionName": "town_bastien",
       "map": "ville1",
-      "x": 21,
-      "y": 12,
+      "x": 22,
+      "y": 14,
       "sprite": "townspeople.png",
       "block": true,
       "spriteFrame": {
@@ -363,7 +363,7 @@
         "rows": 4,
         "index": 20
       },
-      "roamRadius": 2
+      "roamRadius": 0
     },
     {
       "name": "town_nadir",

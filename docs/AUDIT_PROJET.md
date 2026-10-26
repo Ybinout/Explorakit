@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Maria / Clément — reset admin et rue dégagée — 26 octobre 2026
+
+Maria et Clément conservent leurs vrais combats à victoire unique, sous les clés historiques `town_lina` et `town_bastien` : équipes, niveaux, textes, portraits et gains normaux inchangés. Leurs reçus de victoire existaient déjà sur binout, d’où les simples répliques après combat. Ajout des deux clés au catalogue des rencontres du reset admin existant. Contrôle d’identité exact binout/ID 4 conservé ; seules les rencontres déjà remportées sont réarmables. Rejouer consomme le flag admin, sans seconde récompense, XP/EV ou changement de progression normale. Pas de remise à zéro manuelle du compte : cliquer sur le bouton admin pour les préparer de nouveau. Autres joueurs isolés, même catalogue et contrôle que les autres rencontres de test.
+
+Clément est déplacé de (21,12) à (22,14), sur la rue à droite du grand bâtiment de la Ville du Lac. Son rayon de promenade passe de deux cases à zéro : il ne peut plus revenir sous la toiture. Les deux lignes d’empreinte sont sur le vrai sol et trois approches restent ouvertes ; sprite 32×32, pieds, portrait et interaction restent alignés. Maria demeure à son emplacement. Aucun PNG/Tiled, transition, frontend ou schéma SQL modifié.
+
+Validation : 14 tests ciblés réussis, deux variantes SQL ignorées dans cette commande ; nouvelle recette MySQL/Socket réussie et intégrée au lanceur SQL. Deux vrais duels rejoués après reset, persistance à la reconnexion, consommation puis réarmement, argent et entraînement intacts, second joueur non autorisé et inchangé. Fixture corrigée pour écarter le joueur visiteur pendant le dialogue PNJ (sinon choix d’interaction entre joueurs), activer les délais de test et prendre l’instantané après découverte de la ville. Recette navigateur existante sur comptes jetables supprimés : vrais dialogues/combats, portraits et quatre formats, zéro erreur ; les 293 pixels opaques du sprite de Clément comparés au foreground ne sont masqués par aucun pixel. Capture mobile inspectée. Syntaxe/diff valides ; aucun téléphone physique, suite globale historique non déclarée corrigée. Commandes et résultats dans `docs/TOWN_TRAINERS_ADMIN.json`.
+
+Publication serveur 2026-10-26T08:36:50.771Z, PID 1878831→1893919. Client `6524db577ac9f8b886d1a5fdce2961e7539c0401` / build `0d0947a2c7ec9e78` conservés ; index/bundles publics inchangés vérifiés. Sources/index/checkpoint sauvegardés, 0 expédition active relevée, Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-town-trainers-2026-10-26T08-36-49-171Z`.
+
 ## Ana sans étoiles, pétales roses / oiseaux et mix Lucie / Professeur — 26 octobre 2026
 
 À la demande du créateur, le calque des 49 étoiles blanches/bleues pulsantes d’Ana est entièrement retiré : coordonnées, calcul d’opacité et passe de dessin supprimés. Les motifs peints du décor restent identiques. Pétales : budget 27→45, trois roses doux et taille native 1,6–2,2 ; mêmes courants, rotations, petites ombres et limites du sol évitant les luminaires. Oiseaux : trois groupes/sept partenaires→cinq groupes/dix-neuf, départs décalés et hauteurs/tailles variées derrière les vitres uniquement. Les 18 végétaux isolés gardent leur mouvement ; aucune architecture, position, collision, carte PNG/Tiled ou logique de duel modifiée. Même cache borné à 20 Hz, configurations de vols précréées, pas de boucle/timer supplémentaire ; mouvement réduit et libération des surfaces conservés.
@@ -3890,6 +3900,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 26 octobre 2026 — Maria/Clément ajoutés au reset admin, vrais combats conservés ; Clément fixé sur la rue dégagée (22,14), sans pixel de sprite masqué par le foreground. 14 tests, deux vrais duels SQL de replay et quatre formats navigateur validés ; publication serveur sauvegardée. Détails `docs/TOWN_TRAINERS_ADMIN.json`.
 
 - 26 octobre 2026 — Ana : étoiles pulsantes retirées, davantage de pétales roses et d’oiseaux derrière les vitres ; ambiances Lucie/laboratoire +47 % avec curseur général conservé. 13 tests, Canvas/confinement et navigateur réel/quatre formats validés ; publication sans redémarrage. Détails `docs/ANA_AMBIENCE_AND_EVENT_AUDIO.json`.
 

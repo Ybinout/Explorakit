@@ -1,0 +1,133 @@
+{
+  "date": "2026-10-26",
+  "scope": {
+    "roles": "Maria (town_lina) et Clément (town_bastien) étaient déjà des dresseurs à victoire unique. Équipes, niveaux, gains et identifiants existants conservés ; la présence des reçus de victoire de binout explique leurs dialogues après combat.",
+    "clement": {
+      "before": {
+        "map": "ville1",
+        "x": 21,
+        "y": 12,
+        "roamRadius": 2
+      },
+      "after": {
+        "map": "ville1",
+        "x": 22,
+        "y": 14,
+        "roamRadius": 0
+      },
+      "reason": "Rue dégagée à droite du bâtiment : les deux lignes de collision restent praticables et il ne peut plus retourner sous la toiture.",
+      "sprite": "clement-pixel-v1.png inchangé, illustration clement-v2 inchangée."
+    },
+    "admin": "Les deux identifiants rejoignent le catalogue des rencontres du reset existant, limité à binout id4 exact. Seules ses rencontres déjà gagnées sont réarmées ; flags de replay distincts, gains/XP/EV/reçus/victoires normaux préservés.",
+    "otherPlayers": "Victoire normale personnelle et unique, aucun reset des autres joueurs. Pas de réinitialisation manuelle du compte binout : utiliser son bouton admin pour réarmer."
+  },
+  "validation": {
+    "unit": {
+      "command": "node --test tests/arena-admin.test.js tests/pnj-regressions.test.js tests/pnj-movement.test.js tests/arena-entrance.test.js tests/town-trainer-admin.test.js",
+      "passed": 14,
+      "skipped": 2,
+      "failed": 0,
+      "log": "/tmp/riftmon-town-trainers-unit.log"
+    },
+    "mysql": {
+      "file": "tests/town-trainer-admin.test.js",
+      "unitPassed": 1,
+      "integrationPassed": 1,
+      "failed": 0,
+      "log": "/tmp/riftmon-town-trainers-mysql.log",
+      "coverage": "Refus du compte non propriétaire, dialogues après victoire puis reset, vrais duels Maria et Clément, victoire et réplique après, état après reconnexion, consommation/reprise du reset, argent et entraînement intacts, second compte inchangé.",
+      "fixtureNotes": "Le visiteur est déconnecté pendant les interactions PNJ pour ne pas déclencher le choix d’interaction entre joueurs ; NODE_ENV=test active les délais accélérés ; les instantanés sont pris après la première visite de la ville, pour conserver la vraie progression de découverte."
+    },
+    "browser": {
+      "command": "RELEASE_DIST_DIR=/tmp/riftmon-event-ambience-dist RELEASE_SCREENSHOTS=/tmp/riftmon-town-trainers-browser node --env-file=.env scripts/validateVillagePortraitsBrowser.js",
+      "actualDialogues": 2,
+      "actualTrainerEntrances": 2,
+      "mariaSpriteUnchanged": true,
+      "clementNativeSize": [
+        32,
+        32
+      ],
+      "worldScale": 2,
+      "afterBattlePortraits": true,
+      "clementVisibility": {
+        "opaquePixels": 293,
+        "hiddenPixels": 0,
+        "tile": [
+          22,
+          14
+        ],
+        "roamRadius": 0
+      },
+      "arenaSnow": 240,
+      "arenaBattleWeather": "hail",
+      "arenaThemePreserved": true,
+      "reducedMotion": true,
+      "viewports": 4,
+      "artifacts": [
+        "town_lina-world-320.png",
+        "town_lina-world-393.png",
+        "town_lina-world-844.png",
+        "town_lina-world-1365.png",
+        "town_lina-dialogue-320.png",
+        "town_lina-dialogue-393.png",
+        "town_lina-dialogue-844.png",
+        "town_lina-dialogue-1365.png",
+        "town_lina-entrance-320.png",
+        "town_lina-entrance-393.png",
+        "town_lina-entrance-844.png",
+        "town_lina-entrance-1365.png",
+        "town_bastien-world-320.png",
+        "town_bastien-world-393.png",
+        "town_bastien-world-844.png",
+        "town_bastien-world-1365.png",
+        "town_bastien-dialogue-320.png",
+        "town_bastien-dialogue-393.png",
+        "town_bastien-dialogue-844.png",
+        "town_bastien-dialogue-1365.png",
+        "town_bastien-entrance-320.png",
+        "town_bastien-entrance-393.png",
+        "town_bastien-entrance-844.png",
+        "town_bastien-entrance-1365.png",
+        "sevenp-snow-320.png",
+        "sevenp-snow-393.png",
+        "sevenp-snow-844.png",
+        "sevenp-snow-1365.png",
+        "sevenp-battle-snow-320.png",
+        "sevenp-battle-snow-393.png",
+        "sevenp-battle-snow-844.png",
+        "sevenp-battle-snow-1365.png"
+      ],
+      "errors": [],
+      "directory": "/tmp/riftmon-town-trainers-browser",
+      "inspection": "town_bastien-world-393.png : rue dégagée, sprite entier. 293 pixels opaques du sprite comparés au foreground, aucun masqué.",
+      "account": "Comptes jetables SQL supprimés."
+    },
+    "syntax": "node --check et git diff --check",
+    "client": "Client 6524db577ac9f8b886d1a5fdce2961e7539c0401 / build 0d0947a2c7ec9e78 conservé, aucune modification de frontend ou asset.",
+    "limits": [
+      "Pas de téléphone physique.",
+      "Anciennes recettes globales admin/histoire en échec non déclarées corrigées.",
+      "Suite globale non relancée."
+    ]
+  },
+  "deployment": {
+    "publishedAt": "2026-10-26T08:36:50.771Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-town-trainers-2026-10-26T08-36-49-171Z",
+    "clientBuild": "0d0947a2c7ec9e78",
+    "clientCommit": "6524db577ac9f8b886d1a5fdce2961e7539c0401",
+    "beforePid": "1878831",
+    "afterPid": "1893919",
+    "activeRuns": 0,
+    "serverRestarted": true,
+    "checkpointSaved": true,
+    "neighborsUnchanged": true,
+    "publicGameBundle": true,
+    "backendOnly": true,
+    "townTrainersReplay": true,
+    "clement": {
+      "x": 22,
+      "y": 14,
+      "roamRadius": 0
+    }
+  }
+}

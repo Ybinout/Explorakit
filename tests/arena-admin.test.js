@@ -13,7 +13,7 @@ test('arena admin is restricted to the exact existing owner identity', () => {
     for (const user of [null,{}, {id:162,username:'binout'},{id:4,username:'ybinout'},{id:'4',username:'binout'},{id:4,username:'Binout'}]) assert.equal(policy.isOwner(user),false);
 });
 test('only active, already won story encounters with access are replayable', () => {
-    assert.deepEqual(policy.encounters.map(c=>c.name).sort(),['moon','champion_hoze','champion_raphael','champion_ana','champion_wanda','champion_7p','dia1','aspha_route2','gwenn_route8','mathilde_pikapika','gwenn_rochebrume','lucie_route2','professor_story','nrv_noz','nrv_tom','nrv_cry'].sort());
+    assert.deepEqual(policy.encounters.map(c=>c.name).sort(),['moon','champion_hoze','champion_raphael','champion_ana','champion_wanda','champion_7p','dia1','aspha_route2','gwenn_route8','mathilde_pikapika','gwenn_rochebrume','lucie_route2','professor_story','nrv_noz','nrv_tom','nrv_cry','town_lina','town_bastien'].sort());
     const progress = allWon();
     assert.equal(policy.eligible(owner,progress).length,policy.encounters.length);
     assert.equal(policy.eligible(owner,{flags:{},completedNpcBattles:[]}).length,0);
