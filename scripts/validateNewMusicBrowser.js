@@ -75,11 +75,11 @@ const errors = [];
             await locate(map);assert((await playing(key)).time<3,'different theme must restart');
             assert(await page.evaluate(key=>window.restartAudio===window.musicVm._worldMusic.tracks.get(key),key));
         }
-        // Gwenn shares the village file but has the louder event-room mix.
+        // Gwenn has a dedicated house theme; re-entry restarts it.
         await locate('ville1');await playing('village');
         await page.evaluate(()=>{window.sharedVillage=window.musicVm._worldMusic.tracks.get('village');window.sharedVillage.currentTime=18;});
-        await locate('route4_maison');const event=await playing('village');assert(Math.abs(event.volume-.119)<1e-8);assert(event.time>=18);
-        assert(await page.evaluate(()=>window.sharedVillage===window.musicVm._worldMusic.tracks.get('village')));
+        await locate('route4_maison');const event=await playing('gwenn-room');assert(Math.abs(event.volume-.119)<1e-8);assert(event.time<3);
+        assert(await page.evaluate(()=>window.sharedVillage.paused&&window.musicVm._worldMusic.tracks.get('gwenn-room').src.includes('/gwenn-entrance.')));
         await locate('ville1');assert(Math.abs((await playing('village')).volume-.049)<1e-8);
         results.push(cave,snow,event);
         const cases=[['route2_maison','lucie_corrupted','lucie'],['ville3_arene','ana','ana'],['ville4_arene','wanda','wanda'],['ville5_arene','sevenp','7p'],['gen_arene5','raphael','raph'],['ville1_arene','moonpunch','mounir'],['ville_safe1_arene','hoze','hoze']];

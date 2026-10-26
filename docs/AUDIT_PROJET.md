@@ -1,5 +1,17 @@
 # Audit technique et mémoire de RiftMon
 
+## Gwenn — ambiance maison et intro/boucle sans blanc — 26 octobre 2026
+
+Trois MP3 utilisateur importés sans réencodage depuis `pourtoi` : `entrence.mp3` → `msc/gwenn-entrance.mp3`, `intro.mp3` → `gwenn-intro.mp3`, `loop.mp3` → `gwenn-loop.mp3`. Copies sources/build/public comparées à l’octet, empreintes/durées dans `docs/GWENN_MUSIC.json`. Les originaux de `pourtoi` sont conservés. `route4_maison` utilise maintenant son propre thème d’ambiance `gwenn-room`, mix événement 0,34 du volume général, avec reprise après combat et redémarrage à la réentrée.
+
+Seul le vrai dialogue de défi `gwenn_rochebrume` dans cette maison déclenche l’intro ; refus, après-victoire, père et Matthieu ne la déclenchent pas. Le prélude existant est mutualisé avec Wanda : même lecteur pendant dialogue, présentation et combat, ambiance suspendue sans superposition. Intro ≈19,93 s puis boucle ≈76,08 s jusqu’à la fin du combat. Sélection partagée Aventure/Rift/Colosseum, réservée aux combats dresseur dans la maison.
+
+Nouveau lecteur réutilisable `SequencedMusic` : deux buffers décodés pendant le séjour dans la maison, deux sources programmées ensemble sur l’horloge Web Audio, boucle native, aucun `ended`/timer/réseau à la jonction. Bords quasi silencieux mesurés évités à la lecture : 20 ms en fin d’intro et 20 ms au début de la boucle, chevauchement de 8 ms ; fichiers originaux inchangés. Pause/reprise conserve la position, sourdine et onglet masqué arrêtent les sources, fin/déconnexion annulent aussi la boucle programmée. Réentrée/répétition du défi repart à l’intro. Références PCM (≈32,3 Mio à 44,1 kHz stéréo) et contexte dédiés libérés au départ/destruction, sans cache global croissant.
+
+Validation : 21 tests ciblés réussis, lint/build `2a3339753f36351a`, syntaxe/diff valides. Recette MySQL/Socket/Chrome avec audio réel : défi tactile, refus, déconnexion, volumes/visibilité, intro entière jusque dans la boucle avec blocage volontaire du thread JS au raccord, continuité du chargement, vraie victoire Gwenn, retour au thème maison, libération et mêmes pistes dans les vrais mondes Rift/Colosseum. Rendu PCM hors ligne des fichiers réels : aucun échantillon silencieux consécutif mesuré aux deux jonctions (intro→boucle et répétition), RMS sur 5 ms >0,0005 au mix de test. Recette Wanda existante réussie : vraie victoire, prélude continu et Mounir inchangé. Zéro erreur navigateur, présentation Gwenn inspectée ; pas de matériel physique ou suite globale revendiqués. Commandes et preuves dans `docs/GWENN_MUSIC.json`.
+
+Publication statique 2026-10-26T11:30:32.851Z, client `f8907c86581da59daca3e222c751aba2b7b39c80`, PID 1929536 conservé. Index, bundles, trois MP3 et portraits v2 HTTPS vérifiés à l’octet ; anciens bundles gardés, Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-gwenn-music-2026-10-26T11-30-31-101Z`. Aucun changement serveur/SQL ou compte réel ni redémarrage.
+
 ## Plein écran PC depuis les options — 26 octobre 2026
 
 Options → Affichage : bouton « Passer en plein écran », puis « Revenir en fenêtre ». API native sur la racine du jeu, pour garder tous les panneaux et combats dans la couche plein écran ; demande directement au clic, aucun démarrage forcé ni préférence persistée trompeuse. Échap natif conservé. État synchronisé par fullscreenchange, refus affiché avec possibilité de réessayer, option désactivée si indisponible. Détection de plateforme : visible aussi sur PC tactile, masquée sur Android/iOS. Retour à l’accueil : sortie du plein écran et nettoyage des écouteurs/observer.
@@ -3983,6 +3995,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 26 octobre 2026 — Gwenn : trois MP3 sans réencodage, ambiance dédiée et intro dès le défi, raccord audio programmé vers une boucle jusqu’à la fin du combat. Préchargement local, volumes/pause/reprise, annulation et libération mémoire ; trois modes communs. 21 tests et deux recettes audio/SQL navigateur réussis, vraie victoire Gwenn et Wanda, PCM sans blanc aux deux jonctions, zéro erreur. Publication statique sans redémarrage et MP3 publics vérifiés. Rapport `docs/GWENN_MUSIC.json`.
 
 - 26 octobre 2026 — Option plein écran PC commune aux trois modes : monde entier agrandi, combat adapté, menus/dialogues dans la couche native, retour en fenêtre et refus gérés. Neuf régressions et recette navigateur SQL native/quatre formats/douze captures validées, zéro erreur. Client publié sans redémarrage, sauvegarde/index/bundles/voisins contrôlés. Rapport `docs/DESKTOP_FULLSCREEN.json`.
 

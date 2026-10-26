@@ -1,6 +1,6 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 const service=()=>import('../vue-explorakit/src/services/worldMusic.js');
-async function fixture(){const {WorldMusic}=await service(),audios=[];const music=new WorldMusic({'mounir-room':'mounir-arene.mp3','hoze-room':'hoze-arene.mp3',center:'center.mp3',village:'village.mp3',route:'start.mp3',cave:'cave.mp3',snow:'snow.mp3','wanda-room':'areneWanda.mp3','sevenp-room':'arene7p.mp3','raph-room':'areneraph.mp3','ana-room':'ana_arene.mp3','lucie-room':'lucie-maison.mp3'},src=>{const a={src,paused:true,currentTime:0,plays:0,pauses:0,loads:0,play(){this.plays++;this.paused=false;return Promise.resolve();},pause(){this.paused=true;this.pauses++;},removeAttribute(){this.src='';},load(){this.loads++;}};audios.push(a);return a;});return{music,audios};}
+async function fixture(){const {WorldMusic}=await service(),audios=[];const music=new WorldMusic({'gwenn-room':'gwenn-entrance.mp3','mounir-room':'mounir-arene.mp3','hoze-room':'hoze-arene.mp3',center:'center.mp3',village:'village.mp3',route:'start.mp3',cave:'cave.mp3',snow:'snow.mp3','wanda-room':'areneWanda.mp3','sevenp-room':'arene7p.mp3','raph-room':'areneraph.mp3','ana-room':'ana_arene.mp3','lucie-room':'lucie-maison.mp3'},src=>{const a={src,paused:true,currentTime:0,plays:0,pauses:0,loads:0,play(){this.plays++;this.paused=false;return Promise.resolve();},pause(){this.paused=true;this.pauses++;},removeAttribute(){this.src='';},load(){this.loads++;}};audios.push(a);return a;});return{music,audios};}
 const tick=()=>new Promise(resolve=>setImmediate(resolve));
 test('every Center has its own soft looping theme, paused on exit and restarted on return',async()=>{
  const {worldMusicTrack}=await service();assert.equal(worldMusicTrack('centre'),'center');
@@ -91,20 +91,28 @@ test('towns and routes are quieter; arenas and event houses are louder while hon
  }
  music.destroy();
 });
-test('entering Gwenn’s event house changes the mix without restarting the shared village track',async()=>{
+test('Gwenn house has its own event theme, reset on return without changing village music',async()=>{
+ const {worldMusicTrack}=await service();assert.equal(worldMusicTrack('route4_maison'),'gwenn-room');assert.equal(worldMusicTrack('route3_maison_nrv'),'village');
  const {music,audios}=await fixture();
- music.update({map:'ville1',active:true,volume:1});await tick();
- const a=audios[0];a.currentTime=23;
- music.update({map:'route4_maison',active:true,volume:1});await tick();
- assert.equal(audios.length,1);assert.equal(a.volume,.34);assert.equal(a.currentTime,23);assert.equal(a.plays,1);
- music.update({map:'ville1',active:true,volume:1});await tick();
- assert.equal(a.volume,.14);assert.equal(a.currentTime,23);assert.equal(a.plays,1);
- music.destroy();
+ music.update({map:'ville1',active:true,volume:1});await tick();const town=audios[0];town.currentTime=23;
+ music.update({map:'route4_maison',active:true,volume:1});await tick();const room=music.tracks.get('gwenn-room');assert(town.paused);assert(!room.paused);assert.equal(room.volume,.34);room.currentTime=18;
+ music.update({map:'route4_maison',active:false,volume:1});assert(room.paused);music.update({map:'route4_maison',active:true,volume:1});await tick();assert.equal(room.currentTime,18);
+ music.update({map:'ville1',active:true,volume:1});await tick();assert(room.paused);assert.equal(town.currentTime,0);
+ music.update({map:'route4_maison',active:true,volume:1});await tick();assert.equal(room.currentTime,0);assert.equal(audios.filter(a=>!a.paused).length,1);music.destroy();
 });
 
-test('only Wanda challenge dialogue can start a trainer theme before battle',async()=>{
+
+test('only the authorized Wanda and Gwenn challenges start their own prelude',async()=>{
  const {trainerPreludeMusicTrack}=await import('../vue-explorakit/src/services/battleMusic.js');
  assert.equal(trainerPreludeMusicTrack('champion_wanda','ville4_arene'),'wanda');
  for(const name of ['champion_wanda_locked','champion_wanda_after','arena_entry:champion_wanda','champion_ana','moon',null,undefined])assert.equal(trainerPreludeMusicTrack(name,'ville4_arene'),null);
  for(const map of ['ville3_arene','start',null,undefined])assert.equal(trainerPreludeMusicTrack('champion_wanda',map),null);
+});
+
+test('Gwenn sequence is isolated to his own trainer encounter and real challenge dialogue',async()=>{
+ const {battleMusicTrack,trainerPreludeMusicTrack}=await import('../vue-explorakit/src/services/battleMusic.js');
+ assert.equal(battleMusicTrack('trainer','route4_maison'),'gwenn');assert.equal(trainerPreludeMusicTrack('gwenn_rochebrume','route4_maison'),'gwenn');
+ for(const kind of ['wild','arena','pvp','colosseum'])assert.equal(battleMusicTrack(kind,'route4_maison'),kind);
+ for(const name of ['gwenn_rochebrume_locked','gwenn_rochebrume_after','gwenn_father','gwenn_route8',null])assert.equal(trainerPreludeMusicTrack(name,'route4_maison'),null);
+ assert.equal(trainerPreludeMusicTrack('gwenn_rochebrume','ville4'),null);assert.equal(battleMusicTrack('trainer','gen_route8'),'trainer');
 });

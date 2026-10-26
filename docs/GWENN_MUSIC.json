@@ -1,0 +1,344 @@
+{
+  "date": "2026-10-26",
+  "request": "Three supplied Gwenn songs: entrance for house, intro from challenge dialogue through battle loading, then seamless looping music until combat ends",
+  "sources": [
+    {
+      "name": "entrence",
+      "duration": 79.95997732426304,
+      "frames": 3526235,
+      "sampleRate": 44100,
+      "channels": 2,
+      "leadingBelow66dbMs": 90,
+      "trailingBelow66dbMs": 0,
+      "first100msRms": [
+        0.00037637934576432644,
+        0.00034995139059052903,
+        0.000258086761765581,
+        0.00018457026496749586,
+        9.643993977490842e-05,
+        7.006050146165001e-05,
+        2.695950417504963e-05,
+        3.25612707344001e-05,
+        1.313413527425216e-05,
+        0.0069030491680717385
+      ],
+      "last100msRms": [
+        9.477789217694261e-05,
+        9.959563800828398e-05,
+        0.00011595635819375296,
+        0.00015192894993228866,
+        0.00013075257286829426,
+        0.00020029717442076754,
+        0.0001967506387224376,
+        0.0001878851697985742,
+        0.00022032677127336258,
+        0.0005106127156224091
+      ],
+      "lastSecondRms": [
+        0.16584284979385178,
+        0.13806947899409744,
+        0.16762832995548346,
+        0.08162986940033914,
+        0.01779371903248196,
+        0.002797624091638408,
+        0.0006145708001317784,
+        0.0003412033907047054,
+        0.00012275478627271917,
+        9.477789217694261e-05
+      ],
+      "bytes": 1949639,
+      "sha256": "34a489887d8a3e831378bed2cf9d443d5d4214ce65c82455d10cf08670c10ce9"
+    },
+    {
+      "name": "intro",
+      "duration": 19.933492063492064,
+      "frames": 879067,
+      "sampleRate": 44100,
+      "channels": 2,
+      "leadingBelow66dbMs": 0,
+      "trailingBelow66dbMs": 20,
+      "first100msRms": [
+        0.026880598030674514,
+        0.004394152252213151,
+        0.0011362196759795462,
+        0.0003851594086139588,
+        0.00032119263184217524,
+        0.0002676047538288793,
+        0.00021897561412168368,
+        0.00018270783888255738,
+        0.00014991438669957312,
+        0.00012685241488551768
+      ],
+      "last100msRms": [
+        0.006247312826129005,
+        0.005978734194944654,
+        0.005614056291384281,
+        0.00606732956559282,
+        0.005228776338721079,
+        0.004849213198540026,
+        0.005016585393635584,
+        0.004130921752316833,
+        0.0003896203489915092,
+        0.00014939877494031905
+      ],
+      "lastSecondRms": [
+        0.1388364877378639,
+        0.179022123631609,
+        0.16178540265999247,
+        0.13279102973205573,
+        0.1746474490815076,
+        0.15727838530678934,
+        0.03561169073319554,
+        0.016878715304148112,
+        0.01024619812072184,
+        0.006247312826129005
+      ],
+      "bytes": 512584,
+      "sha256": "d51e1bae89aa8e2e1aeec547f090d539ce879a2a22b5539944bdc0a0805e0a39"
+    },
+    {
+      "name": "loop",
+      "duration": 76.07997732426304,
+      "frames": 3355127,
+      "sampleRate": 44100,
+      "channels": 2,
+      "leadingBelow66dbMs": 20,
+      "trailingBelow66dbMs": 0,
+      "first100msRms": [
+        0.00041139213313276144,
+        0.00040452108655955447,
+        0.06480715825524698,
+        0.15955425953705926,
+        0.13872182304205924,
+        0.1362405124707591,
+        0.13170685106182684,
+        0.12150121173958622,
+        0.12541878972401943,
+        0.12305128156425568
+      ],
+      "last100msRms": [
+        0.01858152026403516,
+        0.01670124095409143,
+        0.017772330384544812,
+        0.013540801548571672,
+        0.013428609862401466,
+        0.016281410677947607,
+        0.010040633948481117,
+        0.011948515416866885,
+        0.015634726923337183,
+        0.01194605449163651
+      ],
+      "lastSecondRms": [
+        0.03720880125878913,
+        0.03310831927445686,
+        0.023844553624683344,
+        0.03704331702042793,
+        0.028618860386773446,
+        0.019558680496771428,
+        0.019302078836423535,
+        0.01772881532237137,
+        0.019238214327461076,
+        0.01858152026403516
+      ],
+      "bytes": 1890741,
+      "sha256": "c3db37970dd5524cde33aab9686e97829a18d13622cb122f1f9d393f70798523"
+    }
+  ],
+  "implementation": {
+    "house": "route4_maison uses gwenn-room / gwenn-entrance.mp3 at the existing event room gain .34 times master. Normal room lifecycle and re-entry restart retained.",
+    "challenge": "Only gwenn_rochebrume in route4_maison, not locked/after/father/Matthieu lines. Existing Wanda prelude generalized; old Wanda and ordinary champion timing retained.",
+    "samePlayer": "SequencedMusic remains the same instance through dialogue, illustrated loading and combat; later battle state updates do not restart it.",
+    "seam": "Both decoded buffers scheduled on one AudioContext clock before starting. Intro end minus .020 s, loop offset .020 s, .008 s crossfade; subsequent repetitions use native loopStart/loopEnd. No network/ended callback/timer at the join.",
+    "files": "All three MP3 sources are byte-identical copies of supplied files, unchanged in build/public. Playback offsets only; no re-encoding or deletion from pourtoi.",
+    "paused": "Master volume, battle mute, tab visibility and disconnect stop sources. Pauses preserve the timeline and resume intro/loop at the correct offset. Finish resets it for the next challenge.",
+    "performance": "Only preloaded on this house; two buffers, two sources, no polling. About 32.3 MiB decoded at 44.1 kHz stereo. Cache/context disposed and references released on map leave/destruction.",
+    "scope": "Shared frontend in Adventure, Rift and Colosseum. PvP/wild/other trainer themes and real account/server/SQL data unchanged."
+  },
+  "validation": {
+    "targeted": {
+      "command": "node --test tests/sequenced-music.test.js tests/world-music.test.js",
+      "passed": 21,
+      "failed": 0,
+      "skipped": 0,
+      "log": "/tmp/riftmon-gwenn-music-tests.log"
+    },
+    "lint": {
+      "command": "npm --prefix vue-explorakit run lint",
+      "result": "pass",
+      "log": "/tmp/riftmon-gwenn-music-lint.log"
+    },
+    "build": {
+      "command": "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-gwenn-music-dist",
+      "result": "pass",
+      "hash": "2a3339753f36351a",
+      "log": "/tmp/riftmon-gwenn-music-build.log"
+    },
+    "browser": {
+      "command": "RELEASE_DIST_DIR=/tmp/riftmon-gwenn-music-dist npm run test:gwenn-music-browser",
+      "result": {
+        "room": {
+          "src": "http://127.0.0.1:46697/media/gwenn-entrance.62077359.mp3",
+          "duration": 79.96,
+          "volume": 0.119,
+          "loop": true
+        },
+        "sequence": {
+          "intro": 19.933492063492064,
+          "loop": 76.07997732426304,
+          "prelude": true,
+          "battle": false,
+          "roomPaused": true,
+          "volume": 0.13999999999999999,
+          "schedule": [
+            {
+              "loop": false,
+              "loopStart": 0,
+              "loopEnd": 0
+            },
+            {
+              "loop": true,
+              "loopStart": 0.02,
+              "loopEnd": 76.07997732426304
+            }
+          ]
+        },
+        "joins": {
+          "sampleRate": 44100,
+          "introToLoop": {
+            "at": 19.905492063492066,
+            "min5msRms": 0.0005297316814992056,
+            "maxSilentMs": 0
+          },
+          "loopToLoop": {
+            "at": 95.9654693877551,
+            "min5msRms": 0.0005026270974284211,
+            "maxSilentMs": 0
+          },
+          "renderedDuration": 96.11548752834467
+        },
+        "checks": [
+          "Entrance theme audible in house; both battle buffers prepared without playing",
+          "Locked and after-dialogue excluded from prelude",
+          "Disconnect stops the prelude with no late restart",
+          "Master mute and hidden tab pause/resume at the same cursor",
+          "Actual PCM has no silent gap at intro/loop or loop repetition",
+          "Real intro reaches the loop while the main thread is blocked",
+          "Same sequence continues through loading and actual battle, without restarting intro",
+          "Victory stops both sources and restores the house theme after recap",
+          "Leaving releases the decoded buffers and AudioContext",
+          "Gwenn soundtrack and return to room verified in real Colosseum and Rift runtimes"
+        ],
+        "modes": [
+          "adventure",
+          "colosseum",
+          "rift"
+        ],
+        "errors": [],
+        "out": "/tmp/riftmon-gwenn-music-browser"
+      },
+      "log": "/tmp/riftmon-gwenn-music-browser.log",
+      "disposableAccountsCleaned": true,
+      "visualInspection": "gwenn-loading.png"
+    },
+    "wandaRegression": {
+      "command": "RELEASE_DIST_DIR=/tmp/riftmon-gwenn-music-dist RELEASE_SCREENSHOTS=/tmp/riftmon-gwenn-wanda-regression node --env-file=.env scripts/validateWandaPreludeBrowser.js",
+      "result": {
+        "newAudio": {
+          "time": 0.222099,
+          "duration": 220.081625,
+          "src": "http://127.0.0.1:41849/media/wanda.caaf3d19.mp3",
+          "volume": 0.13999999999999999,
+          "loop": true,
+          "prelude": true,
+          "battle": false,
+          "roomPaused": true
+        },
+        "realTouchStartsWithDialogue": true,
+        "entryAndLockedExcluded": true,
+        "continuousIntoBattle": true,
+        "volumeMuteVisibility": true,
+        "disconnectCleanup": true,
+        "realWandaVictory": true,
+        "ordinaryChampionUnchanged": true,
+        "errors": [],
+        "out": "/tmp/riftmon-gwenn-wanda-regression"
+      },
+      "log": "/tmp/riftmon-gwenn-wanda-regression.log"
+    },
+    "syntaxAndDiff": "Changed JS and git diff --check passed",
+    "limits": [
+      "Real decoded/rendered PCM in Chromium, not a subjective physical speaker/phone listening session",
+      "No global test suite claim",
+      "The broader validateNewMusicBrowser Gwenn room expectation was updated; that entire historical script was not rerun"
+    ]
+  },
+  "technicalSources": [
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/AudioBufferSourceNode/start",
+      "usedFor": "Audio-clock start time, buffer offset/duration"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/AudioBufferSourceNode/loopStart",
+      "usedFor": "Native repeat offset"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/BaseAudioContext/decodeAudioData",
+      "usedFor": "Decode before scheduling"
+    }
+  ],
+  "deployment": {
+    "audio": [
+      {
+        "name": "gwenn-entrance",
+        "file": "gwenn-entrance.62077359.mp3",
+        "bytes": 1949639,
+        "sha256": "34a489887d8a3e831378bed2cf9d443d5d4214ce65c82455d10cf08670c10ce9"
+      },
+      {
+        "name": "gwenn-intro",
+        "file": "gwenn-intro.5218abf7.mp3",
+        "bytes": 512584,
+        "sha256": "d51e1bae89aa8e2e1aeec547f090d539ce879a2a22b5539944bdc0a0805e0a39"
+      },
+      {
+        "name": "gwenn-loop",
+        "file": "gwenn-loop.dee1c7ae.mp3",
+        "bytes": 1890741,
+        "sha256": "c3db37970dd5524cde33aab9686e97829a18d13622cb122f1f9d393f70798523"
+      }
+    ],
+    "publishedAt": "2026-10-26T11:30:32.851Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-gwenn-music-2026-10-26T11-30-31-101Z",
+    "clientBuild": "2a3339753f36351a",
+    "clientCommit": "f8907c86581da59daca3e222c751aba2b7b39c80",
+    "pid": "1929536",
+    "serverRestarted": false,
+    "neighborsUnchanged": true,
+    "publicAssets": [
+      "js/account.701cc72b.js",
+      "js/app.769279c5.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/game.a1e801da.js",
+      "css/account.71f45b55.css",
+      "css/app.bbefd3a4.css",
+      "css/game.42588a2c.css",
+      "media/gwenn-entrance.62077359.mp3",
+      "media/gwenn-intro.5218abf7.mp3",
+      "media/gwenn-loop.dee1c7ae.mp3",
+      "img/maria-v2.564002d1.png",
+      "img/clement-v2.804e1f22.png"
+    ],
+    "portraits": [
+      {
+        "name": "maria",
+        "file": "maria-v2.564002d1.png",
+        "sha256": "0c850885294ffbbbbd8fb497b0d1f947a59cb61a770633a88ec9342f7864cdcb"
+      },
+      {
+        "name": "clement",
+        "file": "clement-v2.804e1f22.png",
+        "sha256": "2f8f501893f017b8590a1e2cde6c3b26c7d4b9cdee9624414c4ad03d7161d3ac"
+      }
+    ]
+  }
+}
