@@ -196,5 +196,10 @@
         "delivery": "inline in game.c8d65054.js"
       }
     ]
+  },
+  "supersededBy": {
+    "date": "2026-10-26",
+    "manifest": "docs/GWENN_MATTHIEU_PLAYER_BASED_SPRITES.json",
+    "reason": "Direct player sprite reskins with fewer details and exact player size/feet."
   }
 }

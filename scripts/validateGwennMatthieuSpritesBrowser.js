@@ -6,8 +6,8 @@ if (!/test/i.test(process.env.DB_TEST_NAME || '')) throw Error('Dedicated test d
 process.env.DB_NAME = process.env.DB_TEST_NAME; process.env.NODE_ENV = 'test';
 const express = require('express'), { Server } = require('socket.io'), { chromium } = require('playwright');
 const { dbPool: db } = require('../server/config/database');
-const dist = process.env.RELEASE_DIST_DIR || '/tmp/riftmon-gwenn-matthieu-sprites-dist';
-const out = process.env.RELEASE_SCREENSHOTS || '/tmp/riftmon-gwenn-matthieu-browser';
+const dist = process.env.RELEASE_DIST_DIR || '/tmp/riftmon-player-based-npc-dist';
+const out = process.env.RELEASE_SCREENSHOTS || '/tmp/riftmon-player-based-npc-browser';
 fs.mkdirSync(out, { recursive: true });
 const app = express(), server = http.createServer(app), io = new Server(server);
 app.use(express.json()); app.use('/api', require('../server/http/routes')); app.use(express.static(dist));
@@ -39,8 +39,8 @@ async function ready() {
     page.on('response', r => { if (r.url().startsWith(base) && r.status() >= 400) errors.push(r.status() + ' ' + r.url()); });
     await page.goto(base + '/game', { waitUntil: 'networkidle' }); await ready();
     const actors = [
-      { name: 'gwenn_rochebrume', label: 'gwenn', map: 'route4_maison', x: 13, y: 10, direction: 'move_z', sprite: 'gwenn-pixel-v3.png', portrait: 'gwenn-v1', width: 20, height: 26 },
-      { name: 'gwenn_route8', label: 'matthieu', map: 'gen_route8', x: 22, y: 17, direction: 'move_d', sprite: 'matthieu-pixel-v1.png', portrait: 'matthieu-v1', width: 21, height: 25 }
+      { name: 'gwenn_rochebrume', label: 'gwenn', map: 'route4_maison', x: 13, y: 10, direction: 'move_z', sprite: 'gwenn-pixel-v4.png', portrait: 'gwenn-v1', width: 17, height: 24 },
+      { name: 'gwenn_route8', label: 'matthieu', map: 'gen_route8', x: 22, y: 17, direction: 'move_d', sprite: 'matthieu-pixel-v2.png', portrait: 'matthieu-v2', width: 17, height: 24 }
     ];
     for (const [index, actor] of actors.entries()) {
       if (index) {
@@ -61,7 +61,6 @@ async function ready() {
         if (calls.length !== 1) throw Error('Unexpected draw count');
         const a = calls[0].args;
         if (JSON.stringify(a.slice(0, 4)) !== '[0,0,32,32]' || a[6] !== 64 || a[7] !== 64 || calls[0].smoothing) throw Error('Blurred/incorrect scaling');
-        if (a[5] + a[7] !== npc.y * 32 + 26) throw Error('Feet anchor changed');
         g.clearRect(0, 0, c.width, c.height); g.drawImage(image, 0, 0);
         const pixels = g.getImageData(0, 0, 32, 32).data, colors = new Set();
         let left = 32, top = 32, right = 0, bottom = 0, whites = 0, reds = 0;
@@ -70,11 +69,18 @@ async function ready() {
           if (alpha !== 0 && alpha !== 255) throw Error('Soft alpha edge'); if (!alpha) continue;
           colors.add([...pixels.slice(i, i + 3)].join(',')); left = Math.min(left, x); top = Math.min(top, y);
           right = Math.max(right, x); bottom = Math.max(bottom, y);
-          if (y >= 17 && pixels[i] > 200 && pixels[i + 1] < 120) reds++;
+          if (y >= 17 && pixels[i] > 180 && pixels[i + 1] < 120) reds++;
           if (y >= 17 && pixels[i] > 230 && pixels[i + 1] > 220 && pixels[i + 2] > 220) whites++;
         }
-        if (right - left + 1 !== actor.width || bottom - top + 1 !== actor.height || bottom !== 31 || colors.size > 12 || !reds || !whites) throw Error('Native art contract failed');
-        return { source: a.slice(0, 4), scale: 2, feetY: a[5] + a[7], colors: colors.size, ballRedPixels: reds, ballWhitePixels: whites, bounds: [left, top, right - left + 1, bottom - top + 1] };
+        if (left !== 7 || top !== 6 || right - left + 1 !== actor.width || bottom - top + 1 !== actor.height || bottom !== 29 || colors.size > 10 || !reds || !whites) throw Error('Native art contract failed');
+        const feetY = a[5] + (bottom + 1) * 2;
+        const player = v.getSpriteSheetForPlayer(v.players[v.socket.id]); await player.decode();
+        g.clearRect(0, 0, c.width, c.height); g.drawImage(player, 0, 0, 64, 64, 0, 0, 64, 64);
+        const playerPixels = g.getImageData(0, 0, 64, 64).data; let playerBottom = -1;
+        for (let y = 0; y < 64; y++) for (let x = 0; x < 64; x++) if (playerPixels[(y * 64 + x) * 4 + 3] >= 128) playerBottom = Math.max(playerBottom, y);
+        const playerFeetY = npc.y * 32 + 16 - 42 + playerBottom + 1;
+        if (feetY !== playerFeetY) throw Error('Feet do not match the player: ' + feetY + '/' + playerFeetY);
+        return { source: a.slice(0, 4), scale: 2, feetY, playerFeetY, colors: colors.size, ballRedPixels: reds, ballWhitePixels: whites, bounds: [left, top, right - left + 1, bottom - top + 1] };
       }, actor);
       for (const [width, height] of [[320, 568], [393, 852], [844, 390], [1365, 900]]) {
         await page.setViewportSize({ width, height });

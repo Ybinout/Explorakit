@@ -4,7 +4,7 @@ const path = require('node:path');
 const { createHash } = require('node:crypto');
 const { chromium } = require('playwright');
 const root = path.resolve(__dirname, '..');
-const manifest = require('../docs/GWENN_MATTHIEU_SPRITES.json');
+const manifest = require(path.resolve(root, process.argv[2] || 'docs/GWENN_MATTHIEU_SPRITES.json'));
 const data = file => 'data:image/png;base64,' + fs.readFileSync(file).toString('base64');
 
 (async () => {
@@ -13,7 +13,7 @@ const data = file => 'data:image/png;base64,' + fs.readFileSync(file).toString('
     const page = await browser.newPage();
     const checks = [];
     for (const entry of manifest.sprites) {
-      const result = await page.evaluate(async ({ art, nativeContent, palette, threshold }) => {
+      const result = await page.evaluate(async ({ art, nativeContent, nativeBox, palette, threshold }) => {
         const image = new Image(); image.src = art; await image.decode();
         const source = document.createElement('canvas'); source.width = image.naturalWidth; source.height = image.naturalHeight;
         const sg = source.getContext('2d'); sg.drawImage(image, 0, 0);
@@ -27,7 +27,8 @@ const data = file => 'data:image/png;base64,' + fs.readFileSync(file).toString('
         const canvas = document.createElement('canvas'); canvas.width = canvas.height = 32;
         const g = canvas.getContext('2d'); g.imageSmoothingEnabled = false;
         const [w, h] = nativeContent;
-        g.drawImage(source, left, top, right - left + 1, bottom - top + 1, Math.floor((32 - w) / 2), 32 - h, w, h);
+        const box = nativeBox || { x: Math.floor((32 - w) / 2), y: 32 - h, w, h };
+        g.drawImage(source, left, top, right - left + 1, bottom - top + 1, box.x, box.y, box.w, box.h);
         const pixels = g.getImageData(0, 0, 32, 32);
         const colors = palette.map(hex => [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16)));
         const used = new Set(); let opaque = 0; const bounds = [32, 32, -1, -1];
@@ -43,7 +44,7 @@ const data = file => 'data:image/png;base64,' + fs.readFileSync(file).toString('
           bounds[0] = Math.min(bounds[0], x); bounds[1] = Math.min(bounds[1], y);
           bounds[2] = Math.max(bounds[2], x); bounds[3] = Math.max(bounds[3], y);
         }
-        if (opaque < 250 || opaque > 650 || bounds[3] !== 31) throw Error('Unexpected native footprint');
+        if (opaque < 250 || opaque > 650 || bounds[3] !== box.y + box.h - 1) throw Error('Unexpected native footprint');
         for (const [x, y] of [[0, 0], [31, 0], [0, 31], [31, 31]]) {
           if (pixels.data[(y * 32 + x) * 4 + 3]) throw Error('Opaque corner');
         }
@@ -53,7 +54,7 @@ const data = file => 'data:image/png;base64,' + fs.readFileSync(file).toString('
         return { png: canvas.toDataURL().split(',')[1], preview: preview.toDataURL().split(',')[1], opaque,
           bounds: { x: bounds[0], y: bounds[1], w: bounds[2] - bounds[0] + 1, h: bounds[3] - bounds[1] + 1 }, colors: used.size,
           alpha: [0, 255], sourceBounds: { x: left, y: top, w: right - left + 1, h: bottom - top + 1 } };
-      }, { art: data(entry.source), nativeContent: entry.nativeContent, palette: manifest.palette, threshold: manifest.alphaThreshold });
+      }, { art: data(entry.source), nativeContent: entry.nativeContent, nativeBox: entry.nativeBox, palette: manifest.palette, threshold: manifest.alphaThreshold });
       const destination = path.join(root, entry.destination);
       fs.writeFileSync(destination, Buffer.from(result.png, 'base64'));
       fs.writeFileSync('/tmp/riftmon-' + entry.name + '-native-preview.png', Buffer.from(result.preview, 'base64'));
@@ -74,7 +75,7 @@ const data = file => 'data:image/png;base64,' + fs.readFileSync(file).toString('
       return c.toDataURL().split(',')[1];
     }, [data(path.join(root, 'vue-explorakit/src/assets/sprite.png')), ...manifest.sprites.map(s => data(path.join(root, s.destination)))]);
     fs.mkdirSync(path.join(root, 'docs/art'), { recursive: true });
-    fs.writeFileSync(path.join(root, 'docs/art/gwenn-matthieu-sprites.png'), Buffer.from(gallery, 'base64'));
+    fs.writeFileSync(path.join(root, manifest.preview || 'docs/art/gwenn-matthieu-sprites.png'), Buffer.from(gallery, 'base64'));
     console.log(JSON.stringify(checks, null, 2));
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });

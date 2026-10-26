@@ -1,0 +1,224 @@
+{
+  "date": "2026-10-26",
+  "tool": "Built-in image_gen.imagegen",
+  "intent": "Direct player sprite reskins with atlas-level simplicity. No splash illustration used as a reference.",
+  "base": {
+    "asset": "vue-explorakit/src/assets/sprite.png",
+    "sourceFrame": [
+      0,
+      0,
+      64,
+      64
+    ],
+    "nativeCell": [
+      32,
+      32
+    ],
+    "nativeBounds": {
+      "x": 7,
+      "y": 6,
+      "w": 17,
+      "h": 24
+    },
+    "opaquePixels": 321,
+    "reference": "docs/art/player-sprite-reference-384.png",
+    "sha256": "a2469afa71ce73a6be7b6445b6240cbdf6b93fe26bae9bd59da07aab6de81b5d"
+  },
+  "atlasReference": {
+    "asset": "vue-explorakit/src/assets/6931.png",
+    "frames": [
+      1,
+      32,
+      33,
+      20
+    ],
+    "reference": "docs/art/player-npc-atlas-examples.png",
+    "sha256": "c52207adff88198d3d3c16fbaf728ed9a53e5013434b60f56ef3b29a5e9d5d81"
+  },
+  "preview": "docs/art/gwenn-matthieu-player-based.png",
+  "cell": [
+    32,
+    32
+  ],
+  "alphaThreshold": 128,
+  "palette": [
+    "#392e3f",
+    "#25222b",
+    "#54505b",
+    "#7b7d89",
+    "#adb1bf",
+    "#e9e8f0",
+    "#f5cbaa",
+    "#d49f79",
+    "#a36d58",
+    "#be4545"
+  ],
+  "sprites": [
+    {
+      "name": "gwenn",
+      "prompt": "Use case: identity-preserve. EDIT image 1 directly into a very simple RPG overworld character reskin. Image 1 is the ACTUAL PLAYER SPRITE, not just loose inspiration: copy its exact frontal standing pose, silhouette, head size, tiny short body, arm positions, feet and coarse pixel grid. Image 2 shows original in-game atlas NPCs and is only a simplicity/style check. Do not use any illustrated splash art. The real sprite occupies only 17 pixels wide by 24 pixels tall in a 32x32 cell, with a 14-pixel head and approximately 10-pixel body INCLUDING feet. Every logical pixel should be one large SOLID square, about 12 screen pixels like the reference. Head and body must NOT get taller or wider than the player. Keep the player sprite's feet positions. Two eyes are just ONE dark logical pixel each, no detailed face. Flat dark outlines, 8-10 flat colours, only one flat shadow colour per garment. No fabric folds, textures, gradients, hatching, laces, seams, fingers or expressive anime eyes. One character on a genuine transparent square background, no ground shadow, labels or backdrop. Reskin as Gwenn: keep the player's EXACT cap silhouette but recolour it charcoal black; replace the hat logo by plain flat black. Two very short simple black hair strands on the sides of the face, only one pixel wide. A black scarf covers the nose and mouth, leaving just two tiny eyes in a narrow skin strip, no face below. Plain black top and plain black short legs, tiny boots. Hands in the SAME positions as the player: a tiny red-and-white Ball of just TWO or THREE logical pixels in one hand, a single grey pixel suggesting a vape in the other. Black clothing is a simple flat shape, NOT a detailed coat. Do not add hair volume, accessories, pockets, belt or detailed shoes. This must look like the provided player sprite wearing a simple new outfit, not a miniature illustration.",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-60fb547e-ce22-4f8c-bb22-459ae1e04eef.png",
+      "destination": "vue-explorakit/src/assets/pnj/gwenn-pixel-v4.png",
+      "nativeContent": [
+        17,
+        24
+      ],
+      "nativeBox": {
+        "x": 7,
+        "y": 6,
+        "w": 17,
+        "h": 24
+      }
+    },
+    {
+      "name": "matthieu",
+      "prompt": "Use case: identity-preserve. EDIT image 1 directly into a very simple RPG overworld character reskin. Image 1 is the ACTUAL PLAYER SPRITE, not just loose inspiration: copy its exact frontal standing pose, silhouette, head size, tiny short body, arm positions, feet and coarse pixel grid. Image 2 shows original in-game atlas NPCs and is only a simplicity/style check. Do not use any illustrated splash art. The real sprite occupies only 17 pixels wide by 24 pixels tall in a 32x32 cell, with a 14-pixel head and approximately 10-pixel body INCLUDING feet. Every logical pixel should be one large SOLID square, about 12 screen pixels like the reference. Head and body must NOT get taller or wider than the player. Keep the player sprite's feet positions. Two eyes are just ONE dark logical pixel each, no detailed face. Flat dark outlines, 8-10 flat colours, only one flat shadow colour per garment. No fabric folds, textures, gradients, hatching, laces, seams, fingers or expressive anime eyes. One character on a genuine transparent square background, no ground shadow, labels or backdrop. Reskin as Matthieu: replace the player's red cap with a PLAIN rounded charcoal beanie within the same head area, no brim and NO knitted pattern. Bald: no visible hair. Keep the player's simple skin face and its two one-pixel eyes, add a very short beard using just 3-5 dark logical pixels around the lower face, not a detailed moustache. A plain medium-grey oversized top on the SAME short body as the player, one shadow shade only, plain charcoal short trousers, tiny dark shoes. A tiny red/white Ball of just TWO or THREE logical pixels at one of the player's existing hand positions. Absolutely no hoodie strings, seams, pockets, zip, facial expression details, shoe laces or long legs. It must be as simple as the original player, just with a beanie, a few beard pixels and different clothes.",
+      "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-a9bbc750-078a-4cf2-bc0c-389c6309ab34.png",
+      "destination": "vue-explorakit/src/assets/pnj/matthieu-pixel-v2.png",
+      "nativeContent": [
+        17,
+        24
+      ],
+      "nativeBox": {
+        "x": 7,
+        "y": 6,
+        "w": 17,
+        "h": 24
+      }
+    }
+  ],
+  "exportChecks": [
+    {
+      "name": "gwenn",
+      "destination": "vue-explorakit/src/assets/pnj/gwenn-pixel-v4.png",
+      "opaque": 323,
+      "bounds": {
+        "x": 7,
+        "y": 6,
+        "w": 17,
+        "h": 24
+      },
+      "colors": 8,
+      "alpha": [
+        0,
+        255
+      ],
+      "sourceBounds": {
+        "x": 272,
+        "y": 233,
+        "w": 671,
+        "h": 936
+      },
+      "bytes": 533,
+      "sha256": "b9e72bb0b5e3deb933da4596ce50511ec21267d99c6576725db9433109d9908c"
+    },
+    {
+      "name": "matthieu",
+      "destination": "vue-explorakit/src/assets/pnj/matthieu-pixel-v2.png",
+      "opaque": 299,
+      "bounds": {
+        "x": 7,
+        "y": 6,
+        "w": 17,
+        "h": 24
+      },
+      "colors": 9,
+      "alpha": [
+        0,
+        255
+      ],
+      "sourceBounds": {
+        "x": 294,
+        "y": 236,
+        "w": 667,
+        "h": 866
+      },
+      "bytes": 661,
+      "sha256": "a809ccaf1b816d72199881c44ebabb0da6595d4c54db258440001790887a85a0"
+    }
+  ],
+  "browserChecks": {
+    "results": [
+      {
+        "name": "gwenn_rochebrume",
+        "source": [
+          0,
+          0,
+          32,
+          32
+        ],
+        "scale": 2,
+        "feetY": 322,
+        "playerFeetY": 322,
+        "colors": 8,
+        "ballRedPixels": 1,
+        "ballWhitePixels": 3,
+        "bounds": [
+          7,
+          6,
+          17,
+          24
+        ],
+        "solid": true,
+        "illustratedPortrait": true,
+        "viewports": 4
+      },
+      {
+        "name": "gwenn_route8",
+        "source": [
+          0,
+          0,
+          32,
+          32
+        ],
+        "scale": 2,
+        "feetY": 578,
+        "playerFeetY": 578,
+        "colors": 9,
+        "ballRedPixels": 1,
+        "ballWhitePixels": 3,
+        "bounds": [
+          7,
+          6,
+          17,
+          24
+        ],
+        "solid": true,
+        "illustratedPortrait": true,
+        "viewports": 4
+      }
+    ],
+    "errors": [],
+    "out": "/tmp/riftmon-player-based-npc-browser"
+  },
+  "lint": true,
+  "build": "e2e54831f57b8912",
+  "phoneHardwareTested": false,
+  "referencePreparation": "Actual first 64x64 player frame sampled at native 32x32, then every individual logical pixel replicated 12x on an opaque neutral background. Atlas examples similarly replicated pixel by pixel at 4x. No splash illustration reference, no detail painting or interpolation.",
+  "runtime": "Both sprites use the exact player content box (7,6,17,24) inside 32x32 cells, drawn at 2x with the same frame origin as the player. New PNG names alone use drawY + 64 - size, preserving the same bottom padding as the player; other NPC render anchors remain unchanged. Actual opaque feet match the player at tileY*32+34. Server IDs, dialogues, illustrated portraits, positions, collisions and personal progression unchanged; common Adventure/Rift/Colosseum appearance resolver.",
+  "manualRecipe": "Recharger le jeu. Comparer Gwenn dans la maison de la Route 4 et Matthieu au sud de la Route 8 au joueur voisin : même hauteur de 48 pixels du monde, grosses têtes, petits corps, 8/9 couleurs, vêtements sans texture. Vérifier pieds au même niveau, Ball minuscule et solidité ; leur parler doit conserver les portraits illustrés existants. Tester 320/393/844/1365. Export reproductible : node scripts/exportGwennMatthieuSprites.js docs/GWENN_MATTHIEU_PLAYER_BASED_SPRITES.json ; recette navigateur sur base de test : RELEASE_DIST_DIR=/tmp/riftmon-player-based-npc-dist node --env-file=.env scripts/validateGwennMatthieuSpritesBrowser.js.",
+  "publication": {
+    "publishedAt": "2026-10-26T04:03:24.525Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-player-based-npc-2026-10-26T04-03-23-194Z",
+    "clientBuild": "e2e54831f57b8912",
+    "clientCommit": "c1ebeba620d94b08f17354a837360be112f5cea6",
+    "pid": "1697717",
+    "serverRestarted": false,
+    "neighborsUnchanged": true,
+    "publicGameBundle": true,
+    "sprites": [
+      {
+        "name": "gwenn-pixel-v4",
+        "bytes": 533,
+        "sha256": "b9e72bb0b5e3deb933da4596ce50511ec21267d99c6576725db9433109d9908c",
+        "delivery": "inline in game.e16f799a.js"
+      },
+      {
+        "name": "matthieu-pixel-v2",
+        "bytes": 661,
+        "sha256": "a809ccaf1b816d72199881c44ebabb0da6595d4c54db258440001790887a85a0",
+        "delivery": "inline in game.e16f799a.js"
+      }
+    ]
+  }
+}
