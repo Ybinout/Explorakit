@@ -27,7 +27,7 @@ async function validateArenaEntranceUi(page,output){
    assert(await page.locator('.action-attack').isDisabled());
    assert(await page.locator('.battle-action-shell').evaluate(el=>el.inert));
    await page.waitForTimeout(800);await page.screenshot({path:path.join(output,`champion-${i}-${width}.png`)});
-   await ready();assert(await page.evaluate(()=>performance.now()-window.arenaStartedAt>=2700));
+   await ready();assert(await page.evaluate(()=>performance.now()-window.arenaStartedAt>=3700));
   }
   for(const [width,height]of [[320,568],[844,390]]){
    await page.setViewportSize({width,height});await start('ville_safe1_arene');await page.locator('.portrait-ready').waitFor();
@@ -45,7 +45,7 @@ async function validateArenaEntranceUi(page,output){
   await page.route('**/*arena-art=late',async route=>{await new Promise(r=>setTimeout(r,2600));await route.continue();});
   await start('ville_safe1_arene','arena','?arena-art=late');await page.locator('.portrait-ready').waitFor();
   await page.waitForTimeout(700);assert.equal(await page.locator('[data-battle-entrance]').getAttribute('data-phase'),'holding');
-  await ready();assert(await page.evaluate(()=>performance.now()-window.arenaStartedAt>=4000));await page.unroute('**/*arena-art=late');
+  await ready();assert(await page.evaluate(()=>performance.now()-window.arenaStartedAt>=5000));await page.unroute('**/*arena-art=late');
   // A stalled image is bounded, and a cancelled reveal cannot affect a new battle.
   let release;await page.route('**/*arena-art=slow',async route=>{await new Promise(r=>{release=r;});await route.continue().catch(()=>{});});
   await start('ville_safe1_arene','arena','?arena-art=slow');await page.waitForTimeout(700);

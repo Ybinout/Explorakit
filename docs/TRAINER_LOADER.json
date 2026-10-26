@@ -1,0 +1,96 @@
+{
+  "date": "2026-10-26",
+  "request": "Une seconde supplémentaire sur les entrées illustrées et ajout de Wayne.",
+  "cause": "Le dialogue de Wayne utilisait déjà wayne-eyepatch-v1.png, mais arenaChampion ne référençait pas le vrai triplet start/trainer/dia1.",
+  "changes": {
+    "wayne": {
+      "map": "start",
+      "encounterKind": "trainer",
+      "trainerKey": "dia1",
+      "portrait": "wayne-eyepatch-v1.png",
+      "legacyTeamKey": "timmy"
+    },
+    "delay": {
+      "extraMs": 1000,
+      "appliesTo": "durée totale minimale et durée minimale de visibilité du portrait, appliquées une seule fois dans revealEntrance",
+      "champions": {
+        "minimumMs": 3800,
+        "portraitMs": 2600
+      },
+      "storyTrainers": {
+        "minimumMs": 4600,
+        "portraitMs": 3200
+      },
+      "lucie": {
+        "minimumMs": 5400,
+        "portraitMs": 3600
+      },
+      "reducedMotion": {
+        "minimumMs": 2200,
+        "portraitMs": 1900
+      }
+    },
+    "scope": "Présentation commune Aventure/Rift/Colosseum quand le vrai combat correspond au portrait. Aucune nouvelle attente sur sauvage/JcJ/vagues sans portrait. Aucune équipe, carte, récompense, musique ou donnée de joueur modifiée."
+  },
+  "verification": {
+    "unit": {
+      "command": "node --test tests/arena-entrance.test.js tests/battle-entrance.test.js",
+      "passed": 9,
+      "failed": 0
+    },
+    "lint": "npm --prefix vue-explorakit run lint -- --no-fix : aucune erreur",
+    "build": {
+      "command": "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-trainer-loader-dist",
+      "hash": "f32cff4bc3028ccd"
+    },
+    "browser": {
+      "command": "RELEASE_DIST_DIR=/tmp/riftmon-trainer-loader-dist node --env-file=.env scripts/validateTrainerLoaderBrowser.js",
+      "result": {
+        "actualWayneDuel": true,
+        "waynePortrait": "wayne-eyepatch-v1.png",
+        "wayneTiming": {
+          "elapsed": 6051.200000286102,
+          "visible": 5971.700000286102
+        },
+        "wayneViewports": 4,
+        "arenas": {
+          "champions": 6,
+          "viewports": 4,
+          "decodedArt": true,
+          "commandsQueued": true,
+          "boundedFailure": true,
+          "latePortraitReadable": true,
+          "cancellation": true,
+          "reducedMotion": true,
+          "otherEncountersUnchanged": true
+        },
+        "errors": [],
+        "output": "/tmp/riftmon-trainer-loader-browser"
+      },
+      "capturesInspected": [
+        "/tmp/riftmon-trainer-loader-browser/wayne-393.png"
+      ],
+      "physicalPhone": false,
+      "details": "Vrai compte jetable SQL/socket au pied de Wayne : interaction, achèvement de dialogue par le même chemin client, duel avec portrait, contrôles inertes jusqu’à la révélation, quatre formats. Recette existante des six arènes avec seuils de temps renforcés, échec/retard d’image, attente bornée, annulation et mouvement réduit. Compte de test supprimé."
+    },
+    "syntaxAndDiff": "node --check des trois fichiers de recette/tests ; git diff --check des deux dépôts."
+  },
+  "deployment": {
+    "publishedAt": "2026-10-26T05:03:26.379Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-trainer-loader-2026-10-26T05-03-25-187Z",
+    "clientBuild": "f32cff4bc3028ccd",
+    "clientCommit": "d56164a6f3b398f7ebbb34b5718a81262cafd23b",
+    "pid": "1835218",
+    "serverRestarted": false,
+    "neighborsUnchanged": true,
+    "publicAssets": [
+      "js/app.be17f21b.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/game.ff4c994a.js",
+      "css/app.8538ed5d.css",
+      "css/game.056032ac.css"
+    ],
+    "waynePortrait": "wayne-eyepatch-v1.ba7506f4.png",
+    "noSchemaChanges": true
+  }
+}

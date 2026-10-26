@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Présentation des dresseurs — seconde supplémentaire et Wayne — 26 octobre 2026
+
+La présentation illustrée ajoute 1 000 ms à la durée minimale totale et au temps minimal de visibilité du portrait, dans un seul point commun de `revealEntrance`. Champions : 3,8 s / portrait 2,6 s ; dresseurs spéciaux : 4,6 s / portrait 3,2 s ; Lucie : 5,4 s / portrait 3,6 s. Mouvement réduit : 2,2 s / portrait 1,9 s, toujours sans animation. Le temps de décodage, la fin d’introduction et la fermeture des volets peuvent prolonger ces minimums ; attente des ressources bornée et annulation conservées. Sauvages/JcJ/vagues sans illustration gardent leur préparation courte.
+
+Wayne utilisait déjà son image dans les dialogues, mais n’était pas enregistré dans le résolveur des entrées. Ajout strict `start` + `trainer` + `dia1`, avec `wayne-eyepatch-v1.png`, le nom Wayne et une légende de défi. La clé historique d’équipe `timmy` et la progression personnelle restent intactes. Présentation partagée par les modes concernés ; aucun changement serveur, SQL, carte, récompense ou musique.
+
+Validation : neuf tests d’entrée réussis, lint/build `f32cff4bc3028ccd`, syntaxe/diff valides. Nouveau scénario `scripts/validateTrainerLoaderBrowser.js` : vrai duel Wayne depuis son interaction Aventure sur compte jetable SQL/socket, portrait décodé, quatre formats et actions bloquées pendant le chargement. Recette existante des six champions avec seuils renforcés, images lentes/invalides, annulation et mouvement réduit : zéro erreur. Capture Wayne mobile inspectée ; pas de téléphone physique. Preuves, timings et commandes dans `docs/TRAINER_LOADER.json`.
+
+Publication statique 2026-10-26T05:03:26.379Z, client `d56164a6f3b398f7ebbb34b5718a81262cafd23b`, build `f32cff4bc3028ccd`. Index, cinq bundles et portrait Wayne vérifiés en HTTPS à l’octet ; PID 1835218 conservé, aucun redémarrage, Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-trainer-loader-2026-10-26T05-03-25-187Z` ; anciens bundles conservés.
+
 ## Métamorph — Morphing, Imposteur et Mouchoir Choix — 26 octobre 2026
 
 Le bonus du Mouchoir Choix s’appliquait déjà à la Vitesse copiée simple. Le moteur commun copie maintenant correctement les cinq statistiques hors PV avant modificateurs, les paliers, types actuels, talent et forme visible, en conservant identité réelle, PV, statut, niveau/K/entraînement et objet propres. Vitesse tronquée aux bons endroits : 200 copiée → 300 avec le Mouchoir, 201 → 301 ; les paliers, paralysie, Vent Arrière, Distorsion et annulations d’objet restent séparés. Aucun double bonus si la cible porte aussi un Mouchoir.
@@ -3820,6 +3830,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 26 octobre 2026 — Entrées illustrées prolongées d’une seconde, y compris portraits tardifs et mouvement réduit ; Wayne raccordé à son vrai duel avec le portrait au cache-œil. Neuf tests, vrai duel SQL/socket et six champions vérifiés sur quatre formats ; publication statique sans redémarrage. Détails dans `docs/TRAINER_LOADER.json`.
 
 - 26 octobre 2026 — Métamorph : Morphing/Imposteur unifiés, paliers/talent/sprite copiés, Mouchoir Choix fonctionnel sur la Vitesse empruntée sans verrou invalide ; PP, rappel, recalculs et sauvegardes permanentes protégés. 25 tests dédiés, six combats SQL et quatre formats navigateur validés ; publication client/serveur avec sauvegarde. Détails dans `docs/DITTO_TRANSFORM.json`.
 
