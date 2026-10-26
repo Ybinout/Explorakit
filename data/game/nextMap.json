@@ -2792,6 +2792,8 @@
         {
           "valX": 24,
           "valY": 4,
+          "staircase": true,
+          "triggerOnExit": "up",
           "goto": "tour_etage1",
           "nexX": 96,
           "nexY": 192
@@ -2823,6 +2825,8 @@
         {
           "valX": 3,
           "valY": 4,
+          "staircase": true,
+          "triggerOnExit": "up",
           "goto": "tour_rdc",
           "nexX": 768,
           "nexY": 192
@@ -2830,6 +2834,8 @@
         {
           "valX": 24,
           "valY": 4,
+          "staircase": true,
+          "triggerOnExit": "up",
           "goto": "tour_etage2",
           "nexX": 96,
           "nexY": 192
@@ -2847,6 +2853,8 @@
         {
           "valX": 3,
           "valY": 4,
+          "staircase": true,
+          "triggerOnExit": "up",
           "goto": "tour_etage1",
           "nexX": 768,
           "nexY": 192
@@ -2854,6 +2862,8 @@
         {
           "valX": 24,
           "valY": 4,
+          "staircase": true,
+          "triggerOnExit": "up",
           "goto": "tour_etage3",
           "nexX": 96,
           "nexY": 192
@@ -2871,6 +2881,8 @@
         {
           "valX": 3,
           "valY": 4,
+          "staircase": true,
+          "triggerOnExit": "up",
           "goto": "tour_etage2",
           "nexX": 768,
           "nexY": 192

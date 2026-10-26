@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## Grand Comptoir — escaliers sans retour involontaire — 26 octobre 2026
+
+Les six raccords d’escalier utilisaient une case immédiatement devant l’arrivée du raccord inverse : maintenir Haut faisait osciller entre deux étages. Le marqueur auteur reste à sa place ; il faut désormais l’atteindre puis pousser encore vers le haut pour changer d’étage. Un garde d’arrivée personnel empêche de reprendre immédiatement l’escalier inverse tant qu’aucun vrai pas ne s’éloigne des marches. Ce pas réarme un retour volontaire, sans attente artificielle. Métadonnées `staircase`/`triggerOnExit` sur les six liens existants seulement ; modèle partagé Aventure/Rift/Colosseum. Garde WeakMap transitoire, absent des sauvegardes/checkpoints, supprimé aux autres déplacements de lieu. Cadence, collisions, portes ordinaires et plans Tiled/PNG conservés ; aucun nouveau timer ni changement client.
+
+Validation : 75 tests ciblés réussis, aucun échec/ignoré. Recette existante MySQL/Socket/Chromium : 18 passages avec bouton mobile Haut réellement maintenu après l’arrivée, aucun rebond, montée/descente de tous les étages dans les trois modes. Retour volontaire, portes ville/Centre, quatre rayons, achats, badges débloqués/refusés, reprise SQL et inventaires isolés contrôlés. Quatre formats/clair-nocturne, zéro erreur ; capture mobile inspectée. Syntaxe/diff valides ; pas de téléphone physique ni suite globale revendiqués. Commandes et résultats : `docs/STAIRCASE_LANDING_FIX.json`.
+
+Publication serveur seule 2026-10-26T10:53:30.501Z, PID 1923893→1929536, checkpoint sauvegardé et 0 expédition active relevée. Sauvegarde sources/index/checkpoint : `/home/ubuntu/dev/backups/riftmon-stair-landing-2026-10-26T10-53-28-833Z`. Client `0d8931e64166fcb049996fa09dcb374f03c7344f` / build `c67ccfec74496e25` conservés ; index/bundles HTTPS identiques, Knov/api-test inchangés. Aucun compte réel ni schéma SQL modifié.
+
 ## Reset admin — Wanda et retour de Lucie débloqués — 26 octobre 2026
 
 Deux incohérences reproduites : le reset réarmait les combats mais gardait la clé normale du labo, donc Wanda restait masquée ; le sauvetage choisissait la réplique déjà terminée via `lucie_rescued`, alors que le PNJ captif attendait encore `admin_lab_rescued`. Une projection privée de la finale réunit désormais acteurs, dialogues, clé/porte/caillou, exigences du Professeur/cristaux et retour chez la mère. Reset d’une histoire déjà finie : sortie de la maison, Wanda, indice, porte, clé et sauvetage ont des drapeaux admin séparés, avec ordre et idempotence transactionnels. La clé réelle, les récompenses, XP, badges, victoires et quête normale ne sont pas rejoués ou effacés. Le sauvetage retire Lucie du labo et l’affiche au village avec sa mère ; elle n’est plus captive et réunie à la fois. Scénario normal conservé, replays anciens déjà après le Professeur repris à leur étape, sans redémarrer la quête.
@@ -3965,6 +3973,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 26 octobre 2026 — Grand Comptoir : passage déclenché plus haut dans les marches et retour inverse bloqué jusqu’à un pas volontaire d’éloignement. Six raccords existants, trois modes, aucun plan/client modifié. 75 tests et recette navigateur/SQL avec 18 passages au bouton mobile maintenu réussis, zéro rebond ; achats, badges, reprise et portes conservés. Serveur publié avec sauvegarde du checkpoint. Rapport `docs/STAIRCASE_LANDING_FIX.json`.
 
 - 26 octobre 2026 — Finale admin réparée : Wanda, indices/clé et sauvetage partagent une progression privée cohérente ; Lucie disparaît du labo puis rejoint sa mère. Deux bugs reproduits avant/après, deux recettes SQL et trois vraies victoires navigateur validés ; gains/progression normaux conservés. Ancienne tentative binout débloquée, serveur publié avec sauvegardes. Quatre assertions historiques plus larges reproduites sur la référence, hors correctif. Rapport `docs/FINALE_ADMIN_REPLAY_FIX.json`.
 

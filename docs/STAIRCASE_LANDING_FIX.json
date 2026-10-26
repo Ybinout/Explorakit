@@ -1,0 +1,83 @@
+{
+  "date": "2026-10-26",
+  "request": "Prevent immediate commercial tower stair reversal when holding movement; travel should require going farther up the stairs",
+  "cause": "Every stair arrived at y5 below the reciprocal y4 marker. Continuing Up entered that marker and immediately returned to the previous floor.",
+  "implementation": {
+    "markers": "Keep the six existing authored change tiles, link coordinates, destination coordinates, Tiled/PNG files and collision data unchanged",
+    "threshold": "Entering the stair marker no longer changes floors. A further Up command from the marker performs the transition.",
+    "arrivalGuard": "Per-player WeakMap guard blocks the reciprocal exit while movement continues towards the stairs. A successful step farther away re-arms an intentional return.",
+    "compatibility": "Ordinary doors and map transitions retain their entry behavior; no Socket protocol or client change",
+    "runtime": "Shared by Adventure, Rift and Colosseum; existing movement cadence and phase/battle locks retained",
+    "persistence": "Arrival guards are transient and never serialized. Other map relocation clears them. No schema migration or real account mutation.",
+    "performance": "No new interval or animation. Cached change tile is checked before looking up a departure link."
+  },
+  "validation": {
+    "targeted": {
+      "command": "node --test tests/stairways.test.js tests/department-store.test.js tests/player-state.test.js tests/market-layout.test.js tests/drift-runtime.test.js tests/raph-trial.test.js",
+      "passed": 75,
+      "failed": 0,
+      "skipped": 0,
+      "log": "/tmp/riftmon-stair-landing-tests.log"
+    },
+    "browser": {
+      "command": "RELEASE_DIST_DIR=/tmp/riftmon-dialogue-frame-dist RELEASE_SCREENSHOTS=/tmp/riftmon-stair-landing-browser node --env-file=.env scripts/validateDepartmentStoreBrowser.js",
+      "result": {
+        "heldStairChecks": 18,
+        "noBounceWhileHeld": true,
+        "deeperStairEntry": true,
+        "allStairsBothDirections": true,
+        "realWalking": true,
+        "cityRouteBothDirections": true,
+        "centerReturn": true,
+        "saleswomenDialogue": true,
+        "departments": 4,
+        "actualPurchases": true,
+        "badgeLocksFourFloors": true,
+        "earnedBadgeUnlocks": true,
+        "spoofedUnlocksRejected": true,
+        "spoofedDepartmentRejected": true,
+        "sqlReload": true,
+        "expeditionInventorySeparate": true,
+        "viewports": 4,
+        "themes": 2,
+        "modes": [
+          "adventure",
+          "rift",
+          "colosseum"
+        ],
+        "errors": [],
+        "output": "/tmp/riftmon-stair-landing-browser"
+      },
+      "coverage": "Existing real SQL/Socket recipe: all six stair directions in all three modes, 18 mobile pointer-held crossings with exactly one newmap per crossing; normal walking, shop purchases and badge security, stock reload, Center return and separate expedition inventory",
+      "visualInspection": "adventure-tour_etage1-393.png: landing at the top of the authored staircase, existing art preserved",
+      "physicalPhoneTested": false,
+      "disposableAccountsCleaned": true
+    },
+    "syntaxAndDiff": "node --check on modified JS, deployment helper and git diff --check passed",
+    "globalSuiteClaimed": false,
+    "clientBuildRequired": false
+  },
+  "deployment": {
+    "publishedAt": "2026-10-26T10:53:30.501Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-stair-landing-2026-10-26T10-53-28-833Z",
+    "clientCommit": "0d8931e64166fcb049996fa09dcb374f03c7344f",
+    "clientBuild": "c67ccfec74496e25",
+    "beforePid": "1923893",
+    "afterPid": "1929536",
+    "activeRuns": 0,
+    "checkpointSaved": true,
+    "backendOnly": true,
+    "serverRestarted": true,
+    "gracefulCheckpoint": true,
+    "neighborsUnchanged": true,
+    "publicAssetsUnchanged": [
+      "js/account.701cc72b.js",
+      "js/app.d6650fcb.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/game.a4eeca93.js",
+      "css/account.71f45b55.css",
+      "css/app.bbefd3a4.css",
+      "css/game.2e24d295.css"
+    ]
+  }
+}

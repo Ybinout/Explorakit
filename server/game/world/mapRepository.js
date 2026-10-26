@@ -156,6 +156,7 @@ function getNextMap(currentMap, posX, posY) {
                     // Si valX est défini et correspond à posX
                     return {
                         nextMap: change.goto,
+                        ...(change.staircase===true ? {staircase:true,triggerOnExit:change.triggerOnExit} : {}),
                         ...(change.blockedMessage ? { blockedMessage: change.blockedMessage } : {}),
                         ...(change.requiresStoryFlag ? { requiresStoryFlag: change.requiresStoryFlag, lockedMessage: change.lockedMessage } : {}),
                         nextX: Number.isFinite(change.nexX) ? change.nexX + 16 : posX * 32 + 16,

@@ -2,6 +2,7 @@ const { getMapWeather, battleWeatherForMap } = require('../game/world/mapWeather
 const { getPokemonCenterEntryReturn, getPokemonCenterExit } = require('../game/world/pokemonCenterTravel');
 const { startPnjMovement } = require('../game/world/pnjMovement');
 const { loadCollisionData, changeMapData, getNextMap, battleMapData, InteractMapData } = require('../game/world/mapRepository');
+const stairways=require('../game/world/stairways');
 const { loadEquipe, editEquipe } = require('../persistence/teamRepository');
 const CreatePokemon = require('../game/world/wildPokemonFactory');
 const { WILD_ENCOUNTER_CHANCE } = require('../game/world/encounterRate');
@@ -525,6 +526,7 @@ const socketHandler = (io) => {
             if (players[socket.id]) fishing.cancel(players[socket.id]);
             const player = players[socket.id];
             if (!player) return false;
+            stairways.clear(player);
 
             const oldMap = currentmap;
             let storyExit=false;
@@ -1273,6 +1275,17 @@ const socketHandler = (io) => {
                 player.animationFrame = 0;
             }
 
+            const stair=stairways.departure(player,direction);
+            if(stair){
+                const fromMap=currentmap;
+                canMove=false;transitionBusy=true;player.isMoving=false;
+                try {
+                    await relocatePlayer({map:stair.nextMap,x:stair.nextX,y:stair.nextY},{reason:'map_transition',saveCheckpoint:true});
+                    stairways.arrived(player,fromMap);
+                } finally {transitionBusy=false;setTimeout(()=>{canMove=true;},MOVE_DELAY);}
+                return;
+            }
+
             let newPlayerX = player.x;
             let newPlayerY = player.y;
 
@@ -1338,6 +1351,7 @@ const socketHandler = (io) => {
             if (collisionData2D[matrixY] && collisionData2D[matrixY][matrixX] === 0 && !blockedByPnj) {
                 player.x = newPlayerX;
                 player.y = newPlayerY;
+                stairways.moved(player,previousPosition);
                 repelProtection = stepRepel(player);
                 if (repelProtection) {
                     socket.emit('fieldEffectState', {repelSteps:player.repelSteps});
@@ -1415,6 +1429,7 @@ const socketHandler = (io) => {
 
             if (changemap2D[matrixY] && changemap2D[matrixY][matrixX] != 0) {
                 const nextMapData = getNextMap(currentmap, matrixX, matrixY);
+                if(nextMapData?.staircase && nextMapData.triggerOnExit)return;
                 if (nextMapData?.requiresStoryFlag) {
                     transitionBusy = true;
                     try {

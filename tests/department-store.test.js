@@ -66,9 +66,16 @@ for(const mode of['rift','colosseum'])test(mode+': departments enforce stock, ch
 });
 for(const mode of['rift','colosseum'])test(mode+': new city and stairs move in both directions and Center returns to its actual town',async()=>{
  const{createLobbyStore}=require('../server/game/drift/lobbyStore'),{createRunManager}=require('../server/game/drift/runManager');let now=1000;const store=createLobbyStore({now:()=>now}),runtime=createRunManager({starterChoiceMs:0,store,namespace:{to:()=>({emit(){}})},now:()=>now,random:()=>.99}),host={id:1,username:'store'},guest={id:2,username:'peer'};store.connect(host,'host');if(mode==='rift'){store.connect(guest,'guest');const{code}=store.create(host,{capacity:2,durationMinutes:30});store.join(guest,code);store.ready(host,true);store.ready(guest,true);await runtime.start(host);}else await runtime.startColosseum(host,{durationMinutes:30});runtime.enter(host,{id:'host'});const p=runtime.playerFor(host);
- function from(map,x,y,action,target,tx,ty){Object.assign(p,{currentmap:map,x:x*32+16,y:y*32+16,repelSteps:250});now+=200;runtime.move(p,action);assert.equal(p.currentmap,target);assert.deepEqual([p.x,p.y],[tx*32+16,ty*32+16]);}
+ function move(action,target,tx,ty){now+=200;runtime.move(p,action);assert.equal(p.currentmap,target);assert.deepEqual([p.x,p.y],[tx*32+16,ty*32+16]);}
+ function from(map,x,y,action,target,tx,ty){require('../server/game/world/stairways').clear(p);Object.assign(p,{currentmap:map,x:x*32+16,y:y*32+16,repelSteps:250});move(action,target,tx,ty);}
  from('route6',1,17,'move_q','ville_commerciale',26,17);from('ville_commerciale',26,17,'move_d','route6',1,17);from('ville_commerciale',13,12,'move_z','tour_rdc',13,16);
- for(let i=0;i<3;i++){from(floors[i],24,5,'move_z',floors[i+1],3,5);from(floors[i+1],3,5,'move_z',floors[i],24,5);}
+ for(let i=0;i<3;i++){
+  from(floors[i],24,5,'move_z',floors[i],24,4);move('move_z',floors[i+1],3,5);
+  for(let n=0;n<7;n++)move('move_z',floors[i+1],3,4);
+  move('move_s',floors[i+1],3,5);move('move_z',floors[i+1],3,4);move('move_z',floors[i],24,5);
+  for(let n=0;n<7;n++)move('move_z',floors[i],24,4);
+  move('move_s',floors[i],24,5);
+ }
  from('tour_rdc',13,16,'move_s','ville_commerciale',13,12);from('ville_commerciale',4,9,'move_z','centre',13,14);from('centre',13,14,'move_s','ville_commerciale',4,9);
 });
 

@@ -28,6 +28,7 @@ const {devicesForMap,isNearComputer}=require('../world/pokemonComputer');
 const computer=require('./pokemonComputer');
 const collapse = require('../world/arenaCollapse');
 const raphTrial = require('../world/raphTrial');
+const stairways = require('../world/stairways');
 const lucieScene = require('../world/lucieDeparture');
 const ROOM = 'ville1_arene';
 
@@ -170,6 +171,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
     }
     function moveTo(p,map,x,y) {
         fishing.cancel(p);
+        stairways.clear(p);
         if(p.currentmap!==map) report.visit(p,map);
         ensureRaphTrial(p,map,{x,y});
         const safe=sanitizeSpawnPosition(x,y,loadCollisionData(map),map,{allowTransition:true,blocked:pnjsFor(p).isPnjBlockingTile}); p.currentmap=map;p.x=safe.x;p.y=safe.y;p.dialogue=null;
@@ -442,17 +444,21 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         if(getDirectionFromAction(action))fishing.cancel(p);
         if(!p.alive||p.inbattle||raphRevealing.has(p)||p.dialogue?.arenaEntry||p.dialogue?.lucieDeparture||p.lucieDeparture?.until>now()||p.run.phase!=='exploration'||now()-p.lastMove<130) return;
         const direction=getDirectionFromAction(action);if(!direction)return;
+        const stair=stairways.departure(p,direction);
+        if(stair){const from=p.currentmap;p.lastMove=now();p.direction=direction;p.isMoving=false;moveTo(p,stair.nextMap,stair.nextX,stair.nextY);stairways.arrived(p,from);return;}
         const delta={move_z:[0,-32],move_s:[0,32],move_q:[-32,0],move_d:[32,0]}[action];
         const x=p.x+delta[0],y=p.y+delta[1],tx=Math.floor(x/32),ty=Math.floor(y/32);
         if(p.currentmap===collapse.config.map&&Number.isFinite(p.hozeCollapseStartedAt)&&collapse.blocked(p.hozeCollapseStartedAt,tx,ty,now()))return;
         if(loadCollisionData(p.currentmap)[ty]?.[tx]!==0||pnjsFor(p).isPnjBlockingTile(p.currentmap,tx,ty))return;
         const previous={x:p.x,y:p.y};p.x=x;p.y=y;p.direction=direction;p.lastMove=now();p.dialogue=null;
+        stairways.moved(p,previous);
         const repelProtection=stepRepel(p);
         if(repelProtection?.expired)emit(p,'progressionNotice',{message:'L’effet du Repousse est terminé.'});
         report.increment(p,'steps');
         for(const other of p.run.players.values()) if(other.alive&&other.currentmap===p.currentmap) emit(other,'playerMoved',{id:p.socketId,player:toPublicPlayer({...p,id:p.socketId})});
         if(changeMapData(p.currentmap)[ty]?.[tx]) {
             const next=getNextMap(p.currentmap,tx,ty);
+            if(next?.staircase && next.triggerOnExit)return;
             const flags=Object.fromEntries([...p.defeated].flatMap(name=>Object.entries(progression.npcBattles[name]?.reward?.flags || {})));
             // Expeditions have no Adventure gate actors or key handover scenes.
             // Preserve their existing access rule without granting an Adventure key.
