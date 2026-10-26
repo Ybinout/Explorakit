@@ -121,7 +121,7 @@ function emitMoveAnimationForBoth(io, attackerPlayer, defenderPlayer, movePayloa
     });
 }
 
-async function requestPlayerAction(io, player, message = 'Quelle est votre prochaine action ?') {
+async function requestPlayerAction(io, player, message = 'Quelle est votre prochaine action ?', peerSocket = null) {
     if (getForcedMove(player.equipe?.pokemons?.[0])) return { action:'attack', number:getUsableMoveIndexes(player.equipe.pokemons[0])[0] };
     const socket = getPlayerSocket(io, player);
     if (!socket) {
@@ -143,6 +143,7 @@ async function requestPlayerAction(io, player, message = 'Quelle est votre proch
             }
             socket.off('actionResponse', onResponse);
             socket.off('disconnect', onDisconnect);
+            peerSocket?.off('disconnect', onPeerDisconnect);
         };
 
         const onResponse = (response = {}) => {
@@ -158,9 +159,14 @@ async function requestPlayerAction(io, player, message = 'Quelle est votre proch
                 disconnected: true
             });
         };
+        const onPeerDisconnect = () => {
+            cleanup();
+            resolve({ action: 'cancelled' });
+        };
 
         socket.on('actionResponse', onResponse);
         socket.once('disconnect', onDisconnect);
+        peerSocket?.once('disconnect', onPeerDisconnect);
 
         timeoutId = setTimeout(() => {
             cleanup();
@@ -502,9 +508,12 @@ async function startPvpBattle(playerA, playerB, io) {
         }
 
         const [rawActionA, rawActionB] = await Promise.all([
-            requestPlayerAction(io, playerA),
-            requestPlayerAction(io, playerB)
+            requestPlayerAction(io, playerA, undefined, socketB),
+            requestPlayerAction(io, playerB, undefined, socketA)
         ]);
+        // Retire both prompts promptly on disconnect, then use the existing
+        // departure result. Never wait 90 s for an opponent's unused command.
+        if (!getPlayerSocket(io, playerA) || !getPlayerSocket(io, playerB)) continue;
 
         let actionA = normalizeAction(rawActionA, playerA);
         let actionB = normalizeAction(rawActionB, playerB);

@@ -1,3 +1,4 @@
+const { onAccountEvent } = require('../accountConnection');
 const {EventEmitter}=require('node:events');
 const {normalizeTrainerPalette}=require('../../game/world/trainerPalette');
 const {saveUserSpritePalette}=require('../../persistence/playerRepository');
@@ -18,7 +19,7 @@ function registerTrainerPaletteHandlers({socket,userId,getPlayer,broadcast,save=
     };
     changes.on('change',changed);
     socket.once('disconnect',()=>{closed=true;changes.off('change',changed);});
-    socket.on('setTrainerPalette',async(payload={},acknowledge)=>{
+    onAccountEvent(socket, 'setTrainerPalette',async(payload={},acknowledge)=>{
         const reply=typeof acknowledge==='function'?acknowledge:()=>{};
         const key=normalizeTrainerPalette(payload?.palette),p=getPlayer();
         if(closed||!p||!key||busy)return reply({success:false,message:'Couleur indisponible. Réessaie.'});

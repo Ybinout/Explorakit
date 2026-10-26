@@ -1,8 +1,9 @@
+const { onAccountEvent } = require('../accountConnection');
 const repository=require('../../persistence/flightRepository');
 const {flightDestination}=require('../../game/world/flightTravel');
 function registerFlightHandlers({socket,userId,getPlayer,canUse,setBusy,travel,loadState=repository.loadFlightState,now=Date.now}){
     let busy=false,lastFlight=-Infinity;
-    socket.on('flyToTown',async(data,ack)=>{
+    onAccountEvent(socket, 'flyToTown',async(data,ack)=>{
         const reply=typeof ack==='function'?ack:()=>{};const player=getPlayer();
         if(busy||!player||player.inbattle||player.inventoryBusy||player.isInteracting||!canUse())return reply({success:false,message:'Termine ton action avant de prendre ton envol.'});
         const target=flightDestination(data?.map);

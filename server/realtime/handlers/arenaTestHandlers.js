@@ -1,10 +1,11 @@
+const { onAccountEvent } = require('../accountConnection');
 const policy = require('../../game/world/arenaTests');
 const repository = require('../../persistence/arenaTestRepository');
 const { loadProgressState } = require('../../persistence/progressionRepository');
 
 function registerArenaTestHandlers({socket,getPlayer,getPeers,canUse,emitProgression,onRearmed}) {
     let busy = false;
-    socket.on('admin:rearmArenas', async (_payload, ack) => {
+    onAccountEvent(socket, 'admin:rearmArenas', async (_payload, ack) => {
         const reply = typeof ack === 'function' ? ack : () => {};
         const user = socket.data.user;
         if (!policy.isOwner(user)) return reply({success:false,message:'Accès réservé au compte de test.'});

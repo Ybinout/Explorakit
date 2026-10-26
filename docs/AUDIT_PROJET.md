@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Compte — une seule connexion de jeu active — 26 octobre 2026
+
+Exclusivité autoritaire par identifiant authentifié, commune au monde Aventure et au namespace Rift/Colosseum, salons inclus. La dernière arrivée déconnecte réellement la précédente et lui adresse `session:replaced` ; aucun identifiant de compte cible accepté du client. Jeton invalide et autre compte n’expulsent personne. Registre isolé par instance Socket.IO, sans nouvelle requête SQL ni boucle de surveillance. Les connexions successives attendent les écritures du monde précédent, même après déconnexion ordinaire ; arrivée pendant chargement, triple connexion et commandes précoces protégées. Les opérations des gestionnaires (équipe, PC, objets, apparence, progression) et combats détachés participent au drainage, puis la position finale est enregistrée et l’ancien joueur retiré. Amorçage interrompu sans joueur fantôme. Arrêt serveur : attendre ce drainage avant de fermer MySQL. En PvP, une déconnexion retire les deux invites en attente, puis conserve le résultat de départ existant ; plus d’attente de 90 secondes pour la commande adverse inutilisée.
+
+Message explicite sur la connexion, commun aux trois modes/salons, avec arrêt du client et sans reconnexion automatique. Ne pas effacer localStorage lors d’une expulsion : le nouvel onglet partage la même session navigateur. Les expéditions ne sont pas abandonnées par cette expulsion et restent reprises avec leur équipe/horloge selon les règles de reconnexion existantes. Cette règle remplace le support historique de plusieurs mondes simultanés pour un compte, décrit dans la livraison des palettes. Elle porte sur les connexions de jeu : navigation HTTP, signature/durée des JWT et formulaire de login sans ouverture du jeu inchangés. Mono-instance actuelle ; pas de coordination distribuée revendiquée.
+
+Validation : 66 tests ciblés réussis, dont huit nouvelles recettes Socket/client (véritable expulsion, namespaces, transport partagé, courses, sauvegarde, arrêt, isolation et stockage). Une recette MySQL/Socket supplémentaire : écriture volontairement retardée, nouvelle connexion bloquée jusqu’à sa fin, position relue identique en SQL/monde et reprise Colosseum ; comptes jetables supprimés. Quatre recettes moteur PvP réussies, dont nouvelle déconnexion sans réponse adverse et nettoyage des écouteurs. Navigateur SQL : deux onglets partageant le stockage, deux comptes, Aventure→Colosseum→Rift→reprise, message PC/mobile (393/1365), zéro erreur. Lint, syntaxe/diff et build e96cfb4d4510c500 valides ; aucune suite globale ou manette/téléphone physique revendiqués. Recette SQL ajoutée au lanceur MySQL. Commandes et preuves : docs/SINGLE_ACCOUNT_CONNECTION.json.
+
+Publication serveur/client 2026-10-26T18:08:38.689Z, client ac0f717a56605e8c82bc4bdaea9afdcc24c60b6e, PID 2024987→2030660. Sauvegarde /home/ubuntu/dev/backups/riftmon-single-session-2026-10-26T18-08-35-952Z, checkpoint conservé et 0 expédition active relevée. Index/bundles et portraits HTTPS vérifiés à l’octet, anciens bundles conservés ; Knov/api-test inchangés. Aucune migration SQL ni modification de compte réel.
+
 ## Hoze — séquence de dégradation limitée à 30 secondes — 26 octobre 2026
 
 Les huit fissures se déploient désormais sur 19,5 secondes chacune, avec le décalage initial existant de 0 à 10,5 secondes : la dernière est entièrement ouverte à 30 secondes au lieu de 52,5. Les trois effondrements surviennent à 7/16/27 secondes ; chute de 1,2 seconde et poussière de 1,8 seconde conservées, dernière dissipation à 28,8 secondes. Formes, emplacements, centre praticable, rendu et ambiance continue des piliers/vent conservés. Révision de configuration 3 pour invalider le cache ; même clé de progression par joueur, mêmes horloges, reconnexion et reset admin, sans remise à zéro de compte.
@@ -4063,6 +4073,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 26 octobre 2026 — Une seule connexion de jeu par compte, tous modes/salons : dernière arrivée prioritaire, ancienne socket coupée, message explicite et stockage partagé conservé. Drainage des écritures/position avant reprise et arrêt, invites PvP libérées à déconnexion. 66 tests + une recette SQL + quatre recettes PvP réussis ; navigateur deux comptes/deux onglets/PC-mobile sans erreur. Publication avec checkpoint et voisins conservés. Rapport `docs/SINGLE_ACCOUNT_CONNECTION.json`.
 
 - 26 octobre 2026 — Hoze : déploiement complet des fissures ramené de 52,5 à 30 secondes, effondrements à 7/16/27 secondes et poussière dissipée à 28,8 secondes. Rendu, collisions, progression personnelle et reset conservés. Dix tests + une recette SQL, deux recettes Canvas et navigateur quatre formats réussis ; serveur/client publiés, checkpoint et voisins conservés. Rapport `docs/HOZE_OPENING_TIMING.json`.
 

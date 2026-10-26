@@ -1,6 +1,7 @@
+const { onAccountEvent } = require('../accountConnection');
 function registerPositionRecoveryHandlers({socket,getPlayer,canUse,recover,now=Date.now}) {
     let busy=false;
-    socket.on('recoverPosition',async (data,ack) => {
+    onAccountEvent(socket, 'recoverPosition',async (data,ack) => {
         if (typeof data === 'function') ack=data;
         const reply=typeof ack==='function'?ack:()=>{};
         const player=getPlayer();

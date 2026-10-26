@@ -1,8 +1,9 @@
+const { onAccountEvent } = require('../accountConnection');
 const { useRepel } = require('../../persistence/repelRepository');
 const { loadUserItems } = require('../../persistence/itemRepository');
 const { validateRepel } = require('../../game/items/repel');
 function registerRepelHandlers({ socket, userId, getPlayer, canUse, flushPositionSave, schedulePositionSave }) {
-    socket.on('useRepel', async (payload, ack) => {
+    onAccountEvent(socket, 'useRepel', async (payload, ack) => {
         const reply = typeof ack === 'function' ? ack : () => {};
         const p = getPlayer();
         if (!p || p.inbattle || p.inventoryBusy || !canUse())

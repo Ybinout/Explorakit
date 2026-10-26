@@ -1,12 +1,13 @@
+const { onAccountEvent } = require('../accountConnection');
 const evolution = require('../../game/models/evolution');
 const { evolvePokemon, evolvePokemonWithStone } = require('../../persistence/evolutionRepository');
 
 function registerEvolutionHandlers({ socket, userId, getPlayer, canUse = () => true }) {
-    socket.on('getPokemonEvolutions', (payload, ack) => {
+    onAccountEvent(socket, 'getPokemonEvolutions', (payload, ack) => {
         const pokemon = getPlayer()?.equipe?.pokemons?.find(p => p.uuid === payload?.pokemonUuid);
         if (typeof ack === 'function') ack(pokemon ? { success: true, options: evolution.options(pokemon) } : { success: false, message: 'Ce Pokémon ne t’appartient pas.' });
     });
-    for (const event of ['evolvePokemon', 'useEvolutionStone']) socket.on(event, async (payload, ack) => {
+    for (const event of ['evolvePokemon', 'useEvolutionStone']) onAccountEvent(socket, event, async (payload, ack) => {
         const reply = typeof ack === 'function' ? ack : () => {}, p = getPlayer();
         if (!p || p.inbattle || p.inventoryBusy || !canUse()) return reply({ success: false, message: 'Attends la fin de l’action en cours.' });
         const pokemon = p.equipe?.pokemons?.find(poke => poke.uuid === payload?.pokemonUuid);

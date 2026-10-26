@@ -1,3 +1,4 @@
+const { exclusiveAccountConnection } = require('./accountConnection');
 const { authenticateSocket } = require('../http/authMiddleware');
 const { createLobbyStore, LobbyError, CAPACITIES, DURATIONS } = require('../game/drift/lobbyStore');
 const { createRunManager } = require('../game/drift/runManager');
@@ -56,7 +57,7 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
     const runtimeTimer = setInterval(() => runtime.tick(), 250);
     runtimeTimer.unref();
     timer.unref();
-    namespace.on('connection', socket => {
+    namespace.on('connection', exclusiveAccountConnection((socket, account) => {
         limitSocket(socket);
         require('./worldClock').registerWorldClock(socket);
         const user = socket.data.user;
@@ -74,7 +75,7 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
             'drift:start': () => runtime.start(user),
             'colosseum:start': payload => runtime.startColosseum(user, payload)
         })) {
-            socket.on(event, async (payload, acknowledge) => {
+            account.on(event, async (payload, acknowledge) => {
                 const reply = typeof acknowledge === 'function' ? acknowledge : () => {};
                 if (Date.now() - windowStart >= 10000) { windowStart = Date.now(); requests = 0; }
                 if (++requests > 30) { reply({ ok: false, code: 'rate_limit', message: 'Un instant entre chaque action, dresseur.' }); return; }
@@ -92,7 +93,7 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
                 }
             });
         }
-        const gameCommand = (name, handler, mutable = true) => socket.on(name, async (payload, acknowledge) => {
+        const gameCommand = (name, handler, mutable = true) => account.on(name, async (payload, acknowledge) => {
             if (typeof payload === 'function') { acknowledge = payload; payload = undefined; }
             const reply = typeof acknowledge === 'function' ? acknowledge : () => {};
             try {
@@ -113,7 +114,7 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
                 socket.emit('progressionNotice', { message });
             }
         });
-        socket.on('drift:enter', async (payload, acknowledge) => {
+        account.on('drift:enter', async (payload, acknowledge) => {
             try { if(stopped)throw new LobbyError('restarting','Le serveur redémarre.'); socket.data.riftMovementPatches=payload?.movementPatches===1; const [sprite,palette] = await Promise.all([appearanceRepository.loadUserSprite(user.id),appearanceRepository.loadUserSpritePalette?.(user.id)]); if(stopped || !socket.connected) return; const state = runtime.enter(user, socket, sprite, palette); if (typeof acknowledge === 'function') acknowledge({ success: true, state }); }
             catch (error) { if (typeof acknowledge === 'function') acknowledge({ success: false, message: error.message }); }
         });
@@ -125,7 +126,7 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
             for(const member of p.run.players.values())if(member.socketId)namespace.to(member.socketId).emit('playerPaletteUpdated',{id:p.socketId,palette});
         }});
         let appearanceBusy = false;
-        socket.on('setSprite', async (data = {}, acknowledge = () => {}) => {
+        account.on('setSprite', async (data = {}, acknowledge = () => {}) => {
             const reply = typeof acknowledge === 'function' ? acknowledge : () => {};
             if (appearanceBusy) return reply({ success: false, message: 'Changement en cours.' });
             appearanceBusy = true;
@@ -215,8 +216,8 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
             poke.heldItem = key; p.ready = false;
             return { success: true, heldItem: key, items: economy.bag(p) };
         });
-        socket.on('disconnect', () => { runtime.disconnect(user, socket); store.disconnect(user, socket.id); publish(); });
-    });
+        account.onClose(() => { runtime.disconnect(user, socket); store.disconnect(user, socket.id); publish(); });
+    }));
     const cleanup = () => { runtime.fishing.stop(); stopped=true; clearInterval(timer); clearInterval(runtimeTimer); clearInterval(checkpointTimer); };
     cleanup.checkpoint=checkpoint;
     cleanup.runtime = runtime;

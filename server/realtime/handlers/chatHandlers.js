@@ -1,3 +1,4 @@
+const { onAccountEvent } = require('../accountConnection');
 const { getPlayerDisplayName } = require('../playerState');
 
 function registerChatHandlers({
@@ -9,7 +10,7 @@ function registerChatHandlers({
     closeChatSession,
     closeChatSessionForSocket
 }) {
-    socket.on('chatMessage', (payload = {}) => {
+    onAccountEvent(socket, 'chatMessage', (payload = {}) => {
         const chatId = typeof payload.chatId === 'string'
             ? payload.chatId
             : socketToChatSession.get(socket.id);
@@ -33,7 +34,7 @@ function registerChatHandlers({
         });
     });
 
-    socket.on('leaveChat', (payload = {}) => {
+    onAccountEvent(socket, 'leaveChat', (payload = {}) => {
         const requestedChatId = typeof payload.chatId === 'string' ? payload.chatId : null;
         if (requestedChatId) {
             const session = activeChatSessions.get(requestedChatId);

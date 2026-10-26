@@ -1,3 +1,4 @@
+const { onAccountEvent } = require('../accountConnection');
 const repository = require('../../persistence/pokemonStorageRepository');
 const { requireComputer } = require('../../game/world/pokemonComputer');
 const { loadUserItems } = require('../../persistence/itemRepository');
@@ -26,8 +27,8 @@ function registerPokemonComputerHandlers({socket,io,userId,getPlayer,getPeers,ca
         } finally {for(const peer of peers)peer.inventoryBusy=false;}
     }
     const open=()=>access(undefined,undefined,false);
-    socket.on('pc:open',(_payload,ack)=>access(undefined,ack,false));
-    socket.on('pc:action',(payload,ack)=>access(payload,ack,true));
+    onAccountEvent(socket, 'pc:open',(_payload,ack)=>access(undefined,ack,false));
+    onAccountEvent(socket, 'pc:action',(payload,ack)=>access(payload,ack,true));
     return {open};
 }
 module.exports={registerPokemonComputerHandlers};

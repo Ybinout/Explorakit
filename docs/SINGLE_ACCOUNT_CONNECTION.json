@@ -1,0 +1,106 @@
+{
+  "date": "2026-10-26",
+  "scope": "Une seule connexion Socket.IO de jeu active par compte authentifié, dans le serveur mono-instance actuel.",
+  "behavior": {
+    "winner": "Dernière connexion authentifiée au jeu ou à un salon",
+    "namespaces": [
+      "/",
+      "/drift"
+    ],
+    "event": "session:replaced",
+    "oldSocketActuallyDisconnected": true,
+    "automaticReconnectStopped": true,
+    "sharedLocalStorageCleared": false,
+    "previousWritesDrainedBeforeLoading": true,
+    "serverShutdownWaitsForDrain": true,
+    "otherAccountsUnaffected": true,
+    "expeditionAbandonedOnReplacement": false
+  },
+  "boundaries": [
+    "Les routes HTTP et la durée/signature des JWT ne changent pas.",
+    "Se connecter au formulaire sans ouvrir une vue de jeu ne remplace pas la connexion du monde.",
+    "Pas de coordination multi-instance/Redis dans ce lot."
+  ],
+  "validation": {
+    "targeted": {
+      "command": "node --test tests/account-connection.test.js tests/drift-socket.test.js tests/security-and-onboarding.test.js tests/team-order-handler.test.js tests/trainer-palette.test.js tests/pokemon-computer.test.js tests/medicine.test.js tests/repel.test.js tests/machines.test.js tests/shop-training.test.js tests/arena-collapse.test.js",
+      "passed": 66,
+      "failed": 0,
+      "skipped": 0,
+      "newConnectionTests": 8
+    },
+    "sql": {
+      "script": "tests/account-connection-socket.test.js",
+      "dedicatedDatabase": true,
+      "passed": 1,
+      "failed": 0,
+      "checks": [
+        "Sauvegarde volontairement retardée",
+        "Expulsion réelle",
+        "Position finale relue par la nouvelle socket et dans SQL",
+        "Changement de namespace",
+        "Équipe et identifiant du Colosseum conservés"
+      ],
+      "includedInMysqlRunner": true
+    },
+    "pvp": {
+      "script": "tests/battle-runtime-integration.test.js",
+      "testNamePattern": "^combat PVP réel",
+      "passed": 4,
+      "failed": 0,
+      "newRegression": "Déconnexion en attente de commande ; invite adverse annulée sans délai de 90 s et écouteurs supprimés."
+    },
+    "browser": {
+      "command": "RELEASE_DIST_DIR=/tmp/riftmon-single-session-dist node --env-file=.env scripts/validateSingleSessionBrowser.js",
+      "checks": {
+        "adventure": true,
+        "riftLobby": true,
+        "colosseum": true,
+        "sameBrowserTabs": true,
+        "sharedTokenPreserved": true,
+        "otherAccountUnchanged": true,
+        "expeditionResumed": true,
+        "viewports": [
+          393,
+          1365
+        ],
+        "errors": []
+      },
+      "captures": [
+        "/tmp/riftmon-single-session-browser/replaced-mobile.png",
+        "/tmp/riftmon-single-session-browser/replaced-desktop.png"
+      ]
+    },
+    "lint": "npm --prefix vue-explorakit run lint -- --no-fix",
+    "build": "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-single-session-dist",
+    "buildHash": "e96cfb4d4510c500",
+    "physicalDeviceTested": false,
+    "globalSuiteRun": false,
+    "realAccountsModified": false
+  },
+  "deployment": {
+    "publishedAt": "2026-10-26T18:08:38.689Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-single-session-2026-10-26T18-08-35-952Z",
+    "clientCommit": "ac0f717a56605e8c82bc4bdaea9afdcc24c60b6e",
+    "clientBuild": "e96cfb4d4510c500",
+    "beforePid": "2024987",
+    "afterPid": "2030660",
+    "activeRuns": 0,
+    "checkpointSaved": true,
+    "serverRestarted": true,
+    "gracefulCheckpoint": true,
+    "neighborsUnchanged": true,
+    "preservedSpriteSha256": "0947bc3341b14da9ed55d5f2770a8b8cbffee6a6ff5dcdeb3dd6ac6a619a00dc",
+    "publicAssets": [
+      "js/account.f0f65147.js",
+      "js/app.38482f64.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.66375d4d.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.aeaf1423.css"
+    ]
+  }
+}

@@ -1,7 +1,8 @@
+const { onAccountEvent } = require('../accountConnection');
 const { editEquipe } = require('../../persistence/teamRepository');
 
 function registerTeamOrderHandlers({ socket, userId, getPlayer, canUse = () => true, persist = editEquipe }) {
-    socket.on('reorderTeam', async (payload, ack) => {
+    onAccountEvent(socket, 'reorderTeam', async (payload, ack) => {
         const reply = typeof ack === 'function' ? ack : () => {};
         const player = getPlayer();
         if (!player || player.inbattle || player.inventoryBusy || !canUse())

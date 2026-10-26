@@ -1,7 +1,8 @@
+const { onAccountEvent } = require('../accountConnection');
 const { useMedicine } = require('../../persistence/medicineRepository');
 const { loadUserItems } = require('../../persistence/itemRepository');
 function registerMedicineHandlers({ socket, userId, getPlayer, canUse = () => true }) {
-    socket.on('useMedicine', async (payload, ack) => {
+    onAccountEvent(socket, 'useMedicine', async (payload, ack) => {
         const reply = typeof ack === 'function' ? ack : () => {};
         const p = getPlayer();
         if (!p || p.inbattle || p.inventoryBusy || !canUse())

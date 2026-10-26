@@ -1,3 +1,4 @@
+const { onAccountEvent } = require('../accountConnection');
 const { loadUserItems, purchaseUserItem } = require('../../persistence/itemRepository');
 const { loadProgressState } = require('../../persistence/progressionRepository');
 const { getShopCatalog, getShopMeta, isShopMap } = require('../../game/world/shopCatalog');
@@ -44,9 +45,9 @@ function registerShopHandlers({ socket, userId, getPlayer }) {
         }
     };
 
-    socket.on('requestShop', openShop);
+    onAccountEvent(socket, 'requestShop', openShop);
 
-    socket.on('buyShopItem', async (payload = {}, acknowledge) => {
+    onAccountEvent(socket, 'buyShopItem', async (payload = {}, acknowledge) => {
         const reply = replyTo(acknowledge);
         const player = getPlayer();
         if (!player || !isShopMap(player.currentmap)) {

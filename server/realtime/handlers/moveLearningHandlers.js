@@ -1,7 +1,8 @@
+const { onAccountEvent } = require('../accountConnection');
 const { learnMove } = require('../../persistence/moveLearningRepository');
 
 function registerMoveLearningHandlers({ socket, userId, getPlayer, canUse = () => true }) {
-    socket.on('useMachine', async (payload, ack) => {
+    onAccountEvent(socket, 'useMachine', async (payload, ack) => {
         const reply = typeof ack === 'function' ? ack : () => {}, p = getPlayer();
         if (!p || p.inbattle || p.inventoryBusy || !canUse()) return reply({success:false,message:'Attends la fin de l’action en cours.'});
         const pokemon = p.equipe?.pokemons?.find(poke=>poke.uuid===payload?.pokemonUuid);
@@ -19,7 +20,7 @@ function registerMoveLearningHandlers({ socket, userId, getPlayer, canUse = () =
             reply({success:false,message:error.code?'Sauvegarde indisponible. Vérifie ton sac avant de réessayer.':error.message});
         } finally { p.inventoryBusy = false; }
     });
-    socket.on('learnMove', async (payload, ack) => {
+    onAccountEvent(socket, 'learnMove', async (payload, ack) => {
         const reply = typeof ack === 'function' ? ack : () => {};
         const p = getPlayer();
         if (!p || p.inbattle || p.inventoryBusy || !canUse())

@@ -1,3 +1,4 @@
+const { onAccountEvent } = require('../accountConnection');
 const { equipHeldItem, loadUserItems } = require('../../persistence/itemRepository');
 const { saveUserSprite, sanitizeSpriteName } = require('../../persistence/playerRepository');
 
@@ -5,7 +6,7 @@ const DEFAULT_SPRITE = 'sprite.png';
 
 function registerPlayerProfileHandlers({ socket, io, players, userId }) {
     let appearanceBusy = false;
-    socket.on('setSprite', async (payload = {}, acknowledge = () => {}) => {
+    onAccountEvent(socket, 'setSprite', async (payload = {}, acknowledge = () => {}) => {
         const reply = typeof acknowledge === 'function' ? acknowledge : () => {};
         const player = players[socket.id];
         if (!player || player.inbattle || appearanceBusy) return reply({ success: false, message: 'Apparence indisponible maintenant.' });
@@ -32,7 +33,7 @@ function registerPlayerProfileHandlers({ socket, io, players, userId }) {
         }
     });
 
-    socket.on('equipHeldItem', async (payload = {}, acknowledge = () => {}) => {
+    onAccountEvent(socket, 'equipHeldItem', async (payload = {}, acknowledge = () => {}) => {
         const reply = typeof acknowledge === 'function' ? acknowledge : () => {};
         const player = players[socket.id];
         if (!player || player.inbattle || player.inventoryBusy) {

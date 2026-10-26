@@ -42,7 +42,9 @@ async function stop() {
     if(stopping)return; stopping=true;
     drift?.();
     try { await drift?.checkpoint(); } catch(error) { console.error('Sauvegarde finale:',error.message); process.exitCode=1; }
-    io.close(); server.close();
+    await new Promise(resolve => io.close(resolve));
+    await require('./realtime/accountConnection').waitForAccountConnections(io);
+    server.close();
     await require('./config/database').dbPool.end();
     process.exit(process.exitCode || 0);
 }

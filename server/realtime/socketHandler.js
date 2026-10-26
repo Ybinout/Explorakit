@@ -1,3 +1,4 @@
+const { exclusiveAccountConnection, trackAccountTask } = require('./accountConnection');
 const { getMapWeather, battleWeatherForMap } = require('../game/world/mapWeather');
 const { getPokemonCenterEntryReturn, getPokemonCenterExit } = require('../game/world/pokemonCenterTravel');
 const { startPnjMovement } = require('../game/world/pnjMovement');
@@ -209,7 +210,7 @@ const socketHandler = (io) => {
         io.to(socketIdA).emit('battletrigger', { message: 'Combat PVP lance !', battleType: 'pvp', field });
         io.to(socketIdB).emit('battletrigger', { message: 'Combat PVP lance !', battleType: 'pvp', field });
 
-        (async () => {
+        const battleTask = (async () => {
             try {
                 await startPvpBattle(playerA, playerB, io);
             } catch (error) {
@@ -245,9 +246,10 @@ const socketHandler = (io) => {
                 }
             }
         })();
+        for (const id of [socketIdA,socketIdB]) trackAccountTask(io.sockets.sockets.get(id),battleTask);
     };
 
-    io.on('connection', async (socket) => {
+    io.on('connection', exclusiveAccountConnection(async (socket, account) => {
         const userId = Number.parseInt(socket.data.user?.id, 10);
         if (!Number.isInteger(userId) || userId <= 0) {
             socket.disconnect(true);
@@ -263,10 +265,12 @@ const socketHandler = (io) => {
             loadUserPosition(userId),
             require('../persistence/playerRepository').loadUserSpritePalette(userId)
         ]);
+        if (!account.active()) return;
         await synchronizeCaughtPokemon(userId, equipe?.pokemons).catch((error) => {
             console.error(`Erreur réconciliation Pokédex user ${userId}:`, error.message);
         });
 
+        if (!account.active()) return;
         let savedPosition = loadedSavedPosition;
         const hasLegacyMap =
             savedPosition &&
@@ -284,6 +288,7 @@ const socketHandler = (io) => {
         const lucieScene=require('../game/world/lucieDeparture');
         const labStory=require('../game/world/labStory');
         let initialStoryProgress=labStory.maps.has(currentmap)?await loadProgressState(userId):null;
+        if (!account.active()) return;
         let personalProgress=initialStoryProgress||{flags:{}},lucieLeaving=false;
         const {getPnjsForMap,getPnjAtTile,isPnjBlockingTile}=lucieScene.scopedStore(labStory.scopedStore(raphTrial.scopedStore(defaultPnjStore,()=>raphTrialState),()=>personalProgress),()=>personalProgress,()=>lucieLeaving);
         let collisionData2D = loadCollisionData(currentmap);
@@ -328,7 +333,7 @@ const socketHandler = (io) => {
                     const wild = await CreatePokemon.createAtLevel(encounter.id,encounter.level);
                     if (players[socket.id] !== p || !socket.connected) return;
                     socket.emit('battletrigger',{message:'Ça mord !',battleType:'wild',environment:'lake',field:{weather:battleWeatherForMap(p.currentmap)}});
-                    await startBattle(p,wild,io,userId,p.equipe);
+                    await account.track(startBattle(p,wild,io,userId,p.equipe));
                 } finally {
                     if (players[socket.id] === p) {
                         await handleBlackout().catch(error => console.error('Récupération après pêche :',error.message));
@@ -342,7 +347,7 @@ const socketHandler = (io) => {
             'fishing:start': (p,data) => fishing.start(p,data?.id),
             'fishing:reel': (p,data) => fishing.reel(p,data?.id),
             'fishing:cancel': p => fishing.cancel(p)
-        })) socket.on(event,(data,ack) => {
+        })) account.on(event,(data,ack) => {
             const p=players[socket.id];
             const success=Boolean(p && operation(p,data));
             if (typeof ack === 'function') ack({success});
@@ -421,6 +426,7 @@ const socketHandler = (io) => {
         };
 
         const schedulePositionSave = ({ immediate = false } = {}) => {
+            if (!account.active()) return;
             savePending = true;
 
             if (immediate) {
@@ -448,6 +454,26 @@ const socketHandler = (io) => {
                 }
             }, POSITION_SAVE_DELAY_MS);
         };
+
+        account.onClose(async () => {
+            arenaCollapse?.stop();
+            replaySessions.delete(socket.id);
+            fishing.stop();
+            if (saveTimer) {
+                clearTimeout(saveTimer);
+                saveTimer = null;
+            }
+
+            savePending = true;
+            await flushPositionSave();
+
+            cancelPendingRequestsForSocket(socket.id, 'player_disconnected');
+            closeChatSessionForSocket(socket.id, 'player_disconnected');
+            blackoutHandlers.delete(socket.id);
+
+            delete players[socket.id];
+            io.emit('playerDisconnected', { id: socket.id });
+        });
 
         const emitPlayerProgression = (progression) => {
             personalProgress=progression;
@@ -624,6 +650,7 @@ const socketHandler = (io) => {
             schedulePositionSave({ immediate: true });
         }
 
+        if (!account.active()) return;
         arenaCollapse = require('../game/world/arenaCollapseController').createArenaCollapseController({
             getPlayer:()=>players[socket.id],
             loadStart:()=>require('../persistence/arenaCollapseRepository').ensure(userId),
@@ -639,12 +666,14 @@ const socketHandler = (io) => {
         });
         socket.once('disconnect',()=>arenaCollapse.stop());
         await arenaCollapse.enter();
+        if (!account.active()) return;
         const sameMapPlayers = getPlayersInMap(players, currentmap);
         socket.emit('playersList', sameMapPlayers);
         socket.emit('mapWeatherState', getMapWeather(currentmap));
         socket.emit('worldDevicesState',devicesForMap(currentmap));
         socket.emit('pnjsList', { mapname: currentmap, pnjs: currentPnjs });
         await recordFlightVisit();
+        if (!account.active()) return;
         emitProgressionSnapshot().catch((error) => {
             console.error(`Erreur chargement progression user ${userId}:`, error.message);
         });
@@ -719,7 +748,7 @@ const socketHandler = (io) => {
             }
         });
 
-        socket.on('requestGameSave', async (acknowledge) => {
+        account.on('requestGameSave', async (acknowledge) => {
             const reply = typeof acknowledge === 'function' ? acknowledge : () => {};
             const player = players[socket.id];
             if (!player) {
@@ -754,7 +783,7 @@ const socketHandler = (io) => {
             }
         });
 
-        socket.on('playerInteractionChoice', (payload = {}) => {
+        account.on('playerInteractionChoice', (payload = {}) => {
             const player = players[socket.id];
             if (!player) return;
             if (player.inbattle || player.inventoryBusy) {
@@ -865,7 +894,7 @@ const socketHandler = (io) => {
             });
         });
 
-        socket.on('interactionRequestDecision', (payload = {}) => {
+        account.on('interactionRequestDecision', (payload = {}) => {
             const requestId = typeof payload.requestId === 'string' ? payload.requestId : '';
             if (!requestId) return;
 
@@ -1048,7 +1077,7 @@ const socketHandler = (io) => {
                 let victoryProgress = null;
                 player.inbattle = true;
                 socket.emit('battletrigger', { message: 'Le duel commence !', trainerKey: dialogueName, battleType: battleDefinition?.experienceKind || 'trainer', field: { weather: battleWeatherForMap(player.currentmap) } });
-                startTeamBattle(player, enemyteam, io, userId, {
+                account.track(startTeamBattle(player, enemyteam, io, userId, {
                     grantBaseMoney: !battleDefinition,
                     testRematch,
                     experienceKind: battleDefinition?.experienceKind || 'trainer',
@@ -1102,7 +1131,7 @@ const socketHandler = (io) => {
                                 }
                             }
                         }
-                    });
+                    }));
             } else if (dialogueAction === 'heal') {
                 if (!player.equipe || !Array.isArray(player.equipe.pokemons)) {
                     return;
@@ -1137,9 +1166,9 @@ const socketHandler = (io) => {
                 await shopHandlers.openShop();
             }
         };
-        socket.on('onEndDialogue', guardInteraction(finishDialogue));
+        account.on('onEndDialogue', guardInteraction(finishDialogue));
 
-        socket.on('Space', guardInteraction(async () => {
+        account.on('Space', guardInteraction(async () => {
             if (pendingDialogue?.arenaEntry || pendingDialogue?.lucieDeparture) return;
             const player = players[socket.id];
             if (!player) return;
@@ -1265,7 +1294,7 @@ const socketHandler = (io) => {
             }
         }));
 
-        socket.on('playerAction', async (action) => {
+        account.on('playerAction', async (action) => {
             if (getDirectionFromAction(action) && players[socket.id]) fishing.cancel(players[socket.id]);
             if (!canMove || interactionBusy || transitionBusy || pendingDialogue?.arenaEntry || pendingDialogue?.lucieDeparture) return;
             const player = players[socket.id];
@@ -1397,7 +1426,7 @@ const socketHandler = (io) => {
                         }
                     }
 
-                    utiliserCreatePokemon()
+                    account.track(utiliserCreatePokemon()
                         .then((pokemonsauvage) => {
                             if (!pokemonsauvage || repelsWild(repelProtection, pokemonsauvage)) {
                                 if (players[socket.id]) {
@@ -1428,7 +1457,7 @@ const socketHandler = (io) => {
                             if (players[socket.id]) {
                                 players[socket.id].inbattle = false;
                             }
-                        });
+                        }));
                 }
             }
 
@@ -1465,26 +1494,8 @@ const socketHandler = (io) => {
             }
         });
 
-        socket.on('disconnect', async () => {
-            arenaCollapse?.stop();
-            replaySessions.delete(socket.id);
-            fishing.stop();
-            if (saveTimer) {
-                clearTimeout(saveTimer);
-                saveTimer = null;
-            }
 
-            savePending = true;
-            await flushPositionSave();
-
-            cancelPendingRequestsForSocket(socket.id, 'player_disconnected');
-            closeChatSessionForSocket(socket.id, 'player_disconnected');
-            blackoutHandlers.delete(socket.id);
-
-            delete players[socket.id];
-            io.emit('playerDisconnected', { id: socket.id });
-        });
-    });
+    }));
 };
 
 module.exports = socketHandler;

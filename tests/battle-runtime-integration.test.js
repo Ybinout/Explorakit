@@ -609,6 +609,21 @@ test('combat PVP réel : abandon simultané produit un match nul explicite', { s
     assert.equal(io.lastEvent(playerB.id, 'endbattle')?.payload.draw, true);
 });
 
+test('combat PVP réel : une déconnexion retire aussi l’invite adverse sans attendre sa commande', { skip: !shouldRun, timeout: 5000 }, async () => {
+    const a = { id: 'pvp-disconnect-a', username: 'Alice', equipe: createTeam(createPokemon(1, 'A')) };
+    const b = { id: 'pvp-disconnect-b', username: 'Bob', equipe: createTeam(createPokemon(4, 'B')) };
+    class WaitingSocket extends EventEmitter {
+        emit(name, payload) {
+            if (name === 'requestAction' && this === first) setImmediate(() => { io.sockets.sockets.delete(a.id); super.emit('disconnect'); });
+            return super.emit(name, payload);
+        }
+    }
+    const first = new WaitingSocket(), second = new WaitingSocket(), io = new RecordingIo({ [a.id]: first, [b.id]: second });
+    assert.deepEqual(await startPvpBattle(a, b, io), { winnerId: b.id, reason: 'opponent_disconnected' });
+    assert.equal(first.listenerCount('actionResponse'), 0); assert.equal(second.listenerCount('actionResponse'), 0);
+    assert.equal(first.listenerCount('disconnect'), 0); assert.equal(second.listenerCount('disconnect'), 0);
+});
+
 
 
 test('dresseur : le dernier Pokémon rapporte son XP, une seule fois et jusque dans la sauvegarde', { skip: !shouldRun }, async () => {
