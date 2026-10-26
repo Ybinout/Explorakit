@@ -23,6 +23,8 @@
     "audit:abilities": "node scripts/auditAbilities.js",
     "audit:content": "node scripts/auditGameContent.js",
     "generate:i18n": "node scripts/generateFrenchGameNames.js",
+    "generate:reference": "node scripts/generatePokemonReference.js",
+    "test:pokemon-info-browser": "node --env-file-if-exists=.env scripts/validatePokemonInfoBrowser.js",
     "db:backfill:abilities": "node --env-file-if-exists=.env scripts/backfillPokemonAbilities.js",
     "audit:balance": "node scripts/auditExperienceBalance.js",
     "test:recovery": "node --env-file-if-exists=.env scripts/validateReleaseJourneys.js",

@@ -1,0 +1,38 @@
+{
+  "moves": {
+    "Sucker Punch": "Frappe en priorité, mais échoue si la cible ne prépare plus d’attaque offensive.",
+    "Fake Out": "Attaque prioritaire utilisable uniquement juste après l’entrée en combat du lanceur. Effraie la cible si son talent ou ses protections ne l’en empêchent pas.",
+    "Transform": "Copie l’apparence, les types, les statistiques de combat, le talent et les capacités de la cible. Les PV du lanceur restent inchangés ; les capacités copiées ont au maximum 5 PP.",
+    "Self-Destruct": "Le lanceur déclenche une puissante explosion et tombe K.O. Moiteur peut empêcher cette attaque.",
+    "Explosion": "Le lanceur déclenche une très puissante explosion et tombe K.O. Moiteur peut empêcher cette attaque.",
+    "Dragon Rage": "Inflige toujours 40 PV de dégâts à une cible qui n’est pas immunisée.",
+    "Sonic Boom": "Inflige toujours 20 PV de dégâts à une cible qui n’est pas immunisée.",
+    "Night Shade": "Inflige un nombre de PV de dégâts égal au niveau du lanceur, sauf immunité.",
+    "Seismic Toss": "Inflige un nombre de PV de dégâts égal au niveau du lanceur, sauf immunité."
+  },
+  "abilities": {
+    "Overgrow": "Augmente de 50 % la puissance des attaques Plante lorsque les PV du Pokémon sont au tiers ou moins de leur maximum.",
+    "Blaze": "Augmente de 50 % la puissance des attaques Feu lorsque les PV du Pokémon sont au tiers ou moins de leur maximum.",
+    "Torrent": "Augmente de 50 % la puissance des attaques Eau lorsque les PV du Pokémon sont au tiers ou moins de leur maximum.",
+    "Swarm": "Augmente de 50 % la puissance des attaques Insecte lorsque les PV du Pokémon sont au tiers ou moins de leur maximum.",
+    "Levitate": "Le Pokémon flotte au-dessus du sol et est immunisé aux attaques Sol, sauf si un effet annule ce talent ou le ramène au sol.",
+    "Intimidate": "À son entrée en combat, baisse l’Attaque de l’adversaire d’un cran, sauf protection contre cette baisse.",
+    "Speed Boost": "Augmente la Vitesse du Pokémon d’un cran à la fin de chaque tour.",
+    "Huge Power": "Double l’Attaque du Pokémon.",
+    "Pure Power": "Double l’Attaque du Pokémon.",
+    "Technician": "Augmente de 50 % la puissance des attaques dont la puissance de base est de 60 ou moins.",
+    "Compound Eyes": "Multiplie la précision des capacités du Pokémon par 1,3.",
+    "Natural Cure": "Soigne les problèmes de statut du Pokémon lorsqu’il quitte le combat.",
+    "Regenerator": "Restaure un tiers des PV maximum du Pokémon lorsqu’il quitte le combat.",
+    "Water Absorb": "Immunise aux attaques Eau et restaure un quart des PV maximum lorsqu’une de ces attaques touche le Pokémon.",
+    "Volt Absorb": "Immunise aux attaques Électrik et restaure un quart des PV maximum lorsqu’une de ces attaques touche le Pokémon.",
+    "Battle Armor": "Protège le Pokémon des coups critiques.",
+    "Shell Armor": "Protège le Pokémon des coups critiques.",
+    "Serene Grace": "Double les chances de déclencher les effets secondaires des capacités du Pokémon.",
+    "Skill Link": "Les attaques à plusieurs coups frappent toujours le nombre maximum de fois.",
+    "Magic Guard": "Protège des dégâts indirects, comme ceux du poison, des pièges ou de la météo. Les attaques adverses infligent toujours leurs dégâts.",
+    "Contrary": "Inverse les augmentations et les diminutions de statistiques : une hausse devient une baisse et inversement.",
+    "Forecast": "Morphéo prend sa forme Feu au soleil, Eau sous la pluie ou Glace sous la grêle. Il retrouve sa forme Normale sans ces météos ou si leurs effets sont annulés.",
+    "Imposter": "À son entrée en combat, le Pokémon se transforme automatiquement en son adversaire lorsque celui-ci peut être copié."
+  }
+}

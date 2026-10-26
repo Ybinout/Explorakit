@@ -1,0 +1,140 @@
+{
+  "date": "2026-10-26",
+  "request": "Show learned moves, their types, effects and power, and explain the Pokemon talent",
+  "implementation": {
+    "scope": "Shared PokemonDetails team and read-only PC sheet in Adventure, Rift and Colosseum; no server/schema/player change",
+    "rootCause": "Move list was only rendered when readOnly, excluding active party sheets",
+    "moves": "Learned order, at most four; type colour, category, base power/fixed damage or variable/status label, accuracy, actual/max PP, French effect; no invented exact damage estimate",
+    "ability": "Current passive ability description, existing unsupported/doubles-only notices retained",
+    "compatibility": "Party abilities, PC moves/details, legacy case-insensitive names and unknown data; exhausted PP zero retained, transformed max PP five",
+    "preserved": "Stats/IV/EV tabs, evolution and footer controls, focus return, stored held-item details; no mutation",
+    "runtime": "Bundled local lookup, no requests per Pokemon; Map lookup cache",
+    "catalog": {
+      "moves": 612,
+      "abilities": 223,
+      "bytes": 198208,
+      "gzipBytes": 31880
+    },
+    "source": "data/vendor/pokeapi/reference-texts.fr.json; revision 81d20919845b6a445969b9265aab5cec6b04cece; newest French text at version group <=18; hashes, per-entry group and BSD license retained",
+    "numbers": "Current data/game/moves.json, independent of source text; overrides in data/game/pokemon_reference_overrides.fr.json",
+    "generator": "npm run generate:reference; npm run generate:reference -- --check"
+  },
+  "validation": {
+    "unit": {
+      "command": "node --test tests/pokemon-reference.test.js",
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0,
+      "log": "/tmp/riftmon-pokemon-info-tests.log",
+      "coverage": "Catalog completeness and game numbers, generation bounds/staleness, zero PP, stored details, fixed/level/variable/status damage, transformed PP, unknowns/nonmutation, talent fallback and all type badge contrast >=4.5"
+    },
+    "lint": {
+      "command": "npm --prefix vue-explorakit run lint",
+      "result": "pass",
+      "log": "/tmp/riftmon-pokemon-info-lint.log"
+    },
+    "build": {
+      "command": "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-pokemon-info-dist",
+      "result": "pass",
+      "hash": "c4df7d67bfa78f3a",
+      "log": "/tmp/riftmon-pokemon-info-build.log"
+    },
+    "browser": {
+      "command": "RELEASE_DIST_DIR=/tmp/riftmon-pokemon-info-dist RELEASE_SCREENSHOTS=/tmp/riftmon-pokemon-info-browser npm run test:pokemon-info-browser",
+      "result": {
+        "modes": [
+          "adventure",
+          "colosseum",
+          "rift"
+        ],
+        "pc": true,
+        "catalog": {
+          "moves": 612,
+          "abilities": 223
+        },
+        "viewports": 4,
+        "themes": 2,
+        "captures": [
+          "ability-light-320.png",
+          "moves-light-320.png",
+          "ability-dark-320.png",
+          "moves-dark-320.png",
+          "ability-light-393.png",
+          "moves-light-393.png",
+          "ability-dark-393.png",
+          "moves-dark-393.png",
+          "ability-light-844.png",
+          "moves-light-844.png",
+          "ability-dark-844.png",
+          "moves-dark-844.png",
+          "ability-light-1365.png",
+          "moves-light-1365.png",
+          "ability-dark-1365.png",
+          "moves-dark-1365.png",
+          "pc-transform-details.png",
+          "colosseum-moves.png",
+          "rift-moves.png"
+        ],
+        "checks": [
+          "Party moves, real power, current/max PP including zero, French effects, type colour and talent; navigation updates both",
+          "Existing stats/IV/EV tabs preserved",
+          "Stored Pokemon uses same effect/talent descriptions; zero PP and read-only training/storage preserved, focus restored",
+          "Real Colosseum and multiplayer Rift use the same enriched sheet"
+        ],
+        "noTrainingOrPpMutation": true,
+        "externalReferenceRequests": 0,
+        "errors": []
+      },
+      "log": "/tmp/riftmon-pokemon-info-browser.log",
+      "visualInspection": [
+        "ability-light-393.png",
+        "moves-dark-1365.png"
+      ],
+      "disposableAccountsCleaned": true
+    },
+    "syntaxAndDiff": "pass",
+    "limits": [
+      "Chromium, no physical hardware certification",
+      "No global suite claim",
+      "UI reference only; no change to battle mechanics"
+    ]
+  },
+  "deployment": {
+    "sprite": {
+      "asset": "pnj/clement-pixel-v2.png",
+      "sha256": "0947bc3341b14da9ed55d5f2770a8b8cbffee6a6ff5dcdeb3dd6ac6a619a00dc",
+      "bytes": 685,
+      "embeddedIn": "game.055f59f5.js"
+    },
+    "publishedAt": "2026-10-26T12:26:21.068Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-pokemon-info-2026-10-26T12-26-19-593Z",
+    "clientBuild": "c4df7d67bfa78f3a",
+    "clientCommit": "abe8eb6ac2c831243840e7ba7fde758eed1650b7",
+    "pid": "1929536",
+    "serverRestarted": false,
+    "neighborsUnchanged": true,
+    "publicAssets": [
+      "js/account.701cc72b.js",
+      "js/app.86b10f5c.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/game.055f59f5.js",
+      "css/account.71f45b55.css",
+      "css/app.bbefd3a4.css",
+      "css/game.0ef7cb9e.css",
+      "img/maria-v2.564002d1.png",
+      "img/clement-v2.804e1f22.png"
+    ],
+    "portraits": [
+      {
+        "name": "maria",
+        "file": "maria-v2.564002d1.png",
+        "sha256": "0c850885294ffbbbbd8fb497b0d1f947a59cb61a770633a88ec9342f7864cdcb"
+      },
+      {
+        "name": "clement",
+        "file": "clement-v2.804e1f22.png",
+        "sha256": "2f8f501893f017b8590a1e2cde6c3b26c7d4b9cdee9624414c4ad03d7161d3ac"
+      }
+    ]
+  }
+}

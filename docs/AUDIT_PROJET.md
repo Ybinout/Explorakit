@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Fiches Pokémon — capacités et description du talent — 26 octobre 2026
+
+Le bloc des capacités n’était rendu que dans les fiches en lecture seule du PC. Il est désormais partagé par toutes les fiches de l’équipe et du PC, en Aventure/Rift/Colosseum. Les quatre attaques réellement apprises gardent leur ordre et leurs PP : type coloré, catégorie, puissance de base ou dégâts fixes, précision, PP actuels/max et effet français. Les attaques de statut, variables et inconnues ont un libellé adapté ; les PP épuisés restent à zéro et Morphing garde son plafond de cinq PP. La description du talent est affichée sous l’identité, avec les avertissements existants pour les effets indisponibles/doubles. Navigation, statistiques/IV/EV et actions conservées ; aucune mutation du Pokémon.
+
+Référence locale complète : 612 attaques et 223 talents, textes français PokeAPI épinglés à la révision 81d20919845b6a445969b9265aab5cec6b04cece, groupe de versions ≤18. Provenance, empreintes et licence conservées dans data/vendor/pokeapi ; adaptations dans data/game/pokemon_reference_overrides.fr.json. Nombres issus du catalogue réel du jeu. Générateur hors ligne déterministe et contrôle --check ; environ 32 Ko gzip embarqués dans le client, aucune requête externe à l’ouverture d’une fiche.
+
+Validation : six tests ciblés réussis, générateur --check, lint/build c4df7d67bfa78f3a et syntaxe/diff valides. Recette réelle MySQL/Socket/Chromium : équipe, navigation entre Pokémon, PC, PP à zéro, effets/talents, trois modes, quatre formats 320/393/844/1365 et deux thèmes, 19 captures ; zéro erreur/requête externe, équipe/PC/PP/IV/EV inchangés. Vues talent mobile et capacités PC inspectées ; comptes jetables supprimés. Pas de matériel physique ni de suite globale revendiqués. Commandes et preuves : docs/POKEMON_SHEET_REFERENCE.json.
+
+Publication statique 2026-10-26T12:26:21.068Z, client abe8eb6ac2c831243840e7ba7fde758eed1650b7, PID 1929536 conservé. Index/bundles publics, sprite Clément et portraits conservés vérifiés ; anciens bundles gardés, Knov/api-test inchangés. Sauvegarde /home/ubuntu/dev/backups/riftmon-pokemon-info-2026-10-26T12-26-19-593Z. Aucun changement serveur, schéma SQL ou compte réel, aucun redémarrage.
+
 ## Minimap — suppression du menu « Explorer la carte » — 26 octobre 2026
 
 Le menu déroulant de navigation et son titre sont retirés de la minimap ordinaire. Choix d’une ville/route directement sur les repères, au clic/toucher ou au clavier Entrée/Espace ; repères focusables avec libellé et état sélectionné. Confirmation manette compatible avec les éléments SVG, qui n’ont pas de méthode native `click()`. Sélecteur « Localisations » du Pokédex conservé. Zoom, glissement, position, fiche de lieu et Module Vol gardent leurs règles. Aucun serveur, carte auteur ou état joueur modifié.
@@ -4011,6 +4021,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 26 octobre 2026 — Fiches équipe/PC enrichies dans les trois modes : types colorés, puissance/dégâts fixes, précision, PP et effets des capacités, description du talent. Référence française locale complète 612/223, nombres du jeu et provenance épinglée. Six tests et recette navigateur 19 captures/quatre formats/deux thèmes validés, aucune mutation de données ni requête externe. Client publié sans redémarrage, voisins conservés. Rapport `docs/POKEMON_SHEET_REFERENCE.json`.
 
 - 26 octobre 2026 — Minimap : menu déroulant « Explorer la carte » supprimé, choix direct des repères tactile/clavier/manette et Localisations Pokédex conservées. Huit tests et vraie recette Vol/SQL trois formats validés, zéro erreur ; publication statique sans redémarrage. Rapport `docs/MINIMAP_DIRECT_SELECTION.json`.
 

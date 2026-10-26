@@ -1,0 +1,4190 @@
+{
+  "source": "https://raw.githubusercontent.com/PokeAPI/pokeapi/81d20919845b6a445969b9265aab5cec6b04cece/data/v2/csv/",
+  "revision": "81d20919845b6a445969b9265aab5cec6b04cece",
+  "language": "fr",
+  "maximumVersionGroup": 18,
+  "license": "BSD-3-Clause (PokeAPI project)",
+  "sourceSha256": {
+    "move_flavor_text.csv": "43177df8d76dac477fc837aa19b2a50d74ee2c94e47fb827506768c58b360087",
+    "ability_flavor_text.csv": "5ab2165547dce3897b1d88e654f0159511680b1d84f93fd4f265752b66904adb"
+  },
+  "moves": {
+    "Pound": {
+      "id": 1,
+      "versionGroup": 18,
+      "text": "Écrase l’ennemi avec les pattes avant ou la queue, par exemple."
+    },
+    "Karate Chop": {
+      "id": 2,
+      "versionGroup": 18,
+      "text": "L’ennemi est tranché violemment. Taux de critique élevé."
+    },
+    "Double Slap": {
+      "id": 3,
+      "versionGroup": 18,
+      "text": "Gifle rapidement l’ennemi de deux à cinq fois d’affilée."
+    },
+    "Comet Punch": {
+      "id": 4,
+      "versionGroup": 18,
+      "text": "Une tornade de coups de poing qui frappe de deux à cinq fois d’affilée."
+    },
+    "Mega Punch": {
+      "id": 5,
+      "versionGroup": 18,
+      "text": "L’ennemi reçoit un coup de poing d’une puissance incroyable."
+    },
+    "Pay Day": {
+      "id": 6,
+      "versionGroup": 18,
+      "text": "Des pièces sont lancées sur l’ennemi. Permet d’obtenir de l’argent à la fin du combat."
+    },
+    "Fire Punch": {
+      "id": 7,
+      "versionGroup": 18,
+      "text": "Un coup de poing enflammé vient frapper l’ennemi. Peut le brûler."
+    },
+    "Ice Punch": {
+      "id": 8,
+      "versionGroup": 18,
+      "text": "Un coup de poing glacé vient frapper l’ennemi. Peut le geler."
+    },
+    "Thunder Punch": {
+      "id": 9,
+      "versionGroup": 18,
+      "text": "Un coup de poing électrique vient frapper l’ennemi. Peut le paralyser."
+    },
+    "Scratch": {
+      "id": 10,
+      "versionGroup": 18,
+      "text": "Lacère l’ennemi avec des griffes acérées pour lui infliger des dégâts."
+    },
+    "Vise Grip": {
+      "id": 11,
+      "versionGroup": 18,
+      "text": "L’ennemi est attrapé et compressé par les côtés."
+    },
+    "Guillotine": {
+      "id": 12,
+      "versionGroup": 18,
+      "text": "Des pinces lacèrent violemment l’ennemi, le mettant K.O. sur le coup s’il est touché."
+    },
+    "Razor Wind": {
+      "id": 13,
+      "versionGroup": 18,
+      "text": "Attaque en deux tours. Des lames de vent frappent l’ennemi au second tour. Taux de critique élevé."
+    },
+    "Swords Dance": {
+      "id": 14,
+      "versionGroup": 18,
+      "text": "Danse frénétique qui exalte l’esprit combatif. Augmente beaucoup l’Attaque du lanceur."
+    },
+    "Cut": {
+      "id": 15,
+      "versionGroup": 18,
+      "text": "Coupe l’ennemi avec des lames ou des griffes."
+    },
+    "Gust": {
+      "id": 16,
+      "versionGroup": 18,
+      "text": "Le lanceur bat des ailes pour générer une bourrasque qui blesse l’ennemi."
+    },
+    "Wing Attack": {
+      "id": 17,
+      "versionGroup": 18,
+      "text": "L’ennemi est frappé par de larges ailes déployées pour infliger des dégâts."
+    },
+    "Whirlwind": {
+      "id": 18,
+      "versionGroup": 18,
+      "text": "Éjecte le Pokémon ennemi et le remplace par un autre. Lors d’un combat contre un Pokémon sauvage seul, met fin au combat."
+    },
+    "Fly": {
+      "id": 19,
+      "versionGroup": 18,
+      "text": "Le lanceur s’envole au premier tour et frappe au second."
+    },
+    "Bind": {
+      "id": 20,
+      "versionGroup": 18,
+      "text": "Ligote l’ennemi avec les tentacules ou le corps pour l’écraser durant quatre à cinq tours."
+    },
+    "Slam": {
+      "id": 21,
+      "versionGroup": 18,
+      "text": "Fouette l’ennemi avec la queue ou une liane, par exemple, pour infliger des dégâts."
+    },
+    "Vine Whip": {
+      "id": 22,
+      "versionGroup": 18,
+      "text": "Fouette l’ennemi avec de fines lianes pour infliger des dégâts."
+    },
+    "Stomp": {
+      "id": 23,
+      "versionGroup": 18,
+      "text": "Écrase l’ennemi avec un énorme pied. Peut aussi l’apeurer."
+    },
+    "Double Kick": {
+      "id": 24,
+      "versionGroup": 18,
+      "text": "Deux coups de pied qui frappent l’ennemi deux fois d’affilée."
+    },
+    "Mega Kick": {
+      "id": 25,
+      "versionGroup": 18,
+      "text": "Un coup de pied surpuissant qui frappe l’ennemi."
+    },
+    "Jump Kick": {
+      "id": 26,
+      "versionGroup": 18,
+      "text": "Le lanceur s’envole pour décocher un coup de pied sauté. S’il échoue, le lanceur se blesse."
+    },
+    "Rolling Kick": {
+      "id": 27,
+      "versionGroup": 18,
+      "text": "Le lanceur effectue un coup de pied tournoyant et extrêmement rapide. Peut apeurer l’ennemi."
+    },
+    "Sand Attack": {
+      "id": 28,
+      "versionGroup": 18,
+      "text": "Lance du sable au visage de l’ennemi pour baisser sa Précision."
+    },
+    "Headbutt": {
+      "id": 29,
+      "versionGroup": 18,
+      "text": "Le lanceur donne un coup de tête. Peut apeurer l’ennemi."
+    },
+    "Horn Attack": {
+      "id": 30,
+      "versionGroup": 18,
+      "text": "Frappe l’ennemi d’un coup de corne pointue pour infliger des dégâts."
+    },
+    "Fury Attack": {
+      "id": 31,
+      "versionGroup": 18,
+      "text": "Frappe l’ennemi deux à cinq fois d’affilée avec un bec ou une corne, par exemple."
+    },
+    "Horn Drill": {
+      "id": 32,
+      "versionGroup": 18,
+      "text": "Un coup de corne en vrille qui empale l’ennemi, le mettant K.O. sur le coup s’il est touché."
+    },
+    "Tackle": {
+      "id": 33,
+      "versionGroup": 18,
+      "text": "Le lanceur charge l’ennemi et le percute de tout son poids."
+    },
+    "Body Slam": {
+      "id": 34,
+      "versionGroup": 18,
+      "text": "Le lanceur se laisse tomber sur l’ennemi de tout son poids. Peut aussi le paralyser."
+    },
+    "Wrap": {
+      "id": 35,
+      "versionGroup": 18,
+      "text": "Le lanceur ligote l’ennemi avec des lianes ou son corps pour l’écraser durant quatre à cinq tours."
+    },
+    "Take Down": {
+      "id": 36,
+      "versionGroup": 18,
+      "text": "Une charge violente qui blesse aussi légèrement le lanceur."
+    },
+    "Thrash": {
+      "id": 37,
+      "versionGroup": 18,
+      "text": "Une attaque furieuse qui dure de deux à trois tours. Le lanceur devient confus."
+    },
+    "Double-Edge": {
+      "id": 38,
+      "versionGroup": 18,
+      "text": "Une charge dangereuse et imprudente. Blesse aussi gravement le lanceur."
+    },
+    "Tail Whip": {
+      "id": 39,
+      "versionGroup": 18,
+      "text": "Le lanceur remue son adorable queue pour tromper la vigilance de l’ennemi et baisser sa Défense."
+    },
+    "Poison Sting": {
+      "id": 40,
+      "versionGroup": 18,
+      "text": "Un dard toxique qui transperce l’ennemi. Peut aussi l’empoisonner."
+    },
+    "Twineedle": {
+      "id": 41,
+      "versionGroup": 18,
+      "text": "Un double coup de dard qui transperce l’ennemi deux fois d’affilée. Peut aussi l’empoisonner."
+    },
+    "Pin Missile": {
+      "id": 42,
+      "versionGroup": 18,
+      "text": "Envoie une rafale de dards. Peut toucher de deux à cinq fois."
+    },
+    "Leer": {
+      "id": 43,
+      "versionGroup": 18,
+      "text": "Le lanceur fait les gros yeux à l’ennemi pour l’intimider et baisser sa Défense."
+    },
+    "Bite": {
+      "id": 44,
+      "versionGroup": 18,
+      "text": "L’ennemi est mordu par de tranchantes canines. Peut l’apeurer."
+    },
+    "Growl": {
+      "id": 45,
+      "versionGroup": 18,
+      "text": "Le lanceur pousse un cri tout mimi pour tromper la vigilance de l’ennemi et baisser son Attaque."
+    },
+    "Roar": {
+      "id": 46,
+      "versionGroup": 18,
+      "text": "Effraie le Pokémon ennemi et le remplace par un autre. Lors d’un combat contre un Pokémon sauvage seul, met fin au combat."
+    },
+    "Sing": {
+      "id": 47,
+      "versionGroup": 18,
+      "text": "Une berceuse plonge l’ennemi dans un profond sommeil."
+    },
+    "Supersonic": {
+      "id": 48,
+      "versionGroup": 18,
+      "text": "Le lanceur produit d’étranges ondes sonores qui rendent la cible confuse."
+    },
+    "Sonic Boom": {
+      "id": 49,
+      "versionGroup": 18,
+      "text": "Une onde de choc destructrice qui inflige toujours 20 PV de dégâts."
+    },
+    "Disable": {
+      "id": 50,
+      "versionGroup": 18,
+      "text": "Empêche l’ennemi d’employer à nouveau sa dernière attaque. Dure quatre tours."
+    },
+    "Acid": {
+      "id": 51,
+      "versionGroup": 18,
+      "text": "Le lanceur attaque l’ennemi avec un jet d’acide corrosif. Peut aussi baisser sa Défense Spéciale."
+    },
+    "Ember": {
+      "id": 52,
+      "versionGroup": 18,
+      "text": "L’ennemi est attaqué par une faible flamme. Peut aussi le brûler."
+    },
+    "Flamethrower": {
+      "id": 53,
+      "versionGroup": 18,
+      "text": "L’ennemi reçoit un torrent de flammes. Peut aussi le brûler."
+    },
+    "Mist": {
+      "id": 54,
+      "versionGroup": 18,
+      "text": "Une brume blanche enveloppe l’équipe du lanceur et empêche la réduction des stats pour cinq tours."
+    },
+    "Water Gun": {
+      "id": 55,
+      "versionGroup": 18,
+      "text": "De l’eau est projetée avec force sur l’ennemi."
+    },
+    "Hydro Pump": {
+      "id": 56,
+      "versionGroup": 18,
+      "text": "Un puissant jet d’eau est dirigé sur l’ennemi."
+    },
+    "Surf": {
+      "id": 57,
+      "versionGroup": 18,
+      "text": "Une énorme vague s’abat sur le champ de bataille et inflige des dégâts à tous les Pokémon autour du lanceur."
+    },
+    "Ice Beam": {
+      "id": 58,
+      "versionGroup": 18,
+      "text": "Un rayon de glace frappe l’ennemi. Peut aussi le geler."
+    },
+    "Blizzard": {
+      "id": 59,
+      "versionGroup": 18,
+      "text": "Une violente tempête de neige s’abat sur l’ennemi. Peut aussi le geler."
+    },
+    "Psybeam": {
+      "id": 60,
+      "versionGroup": 18,
+      "text": "Un étrange rayon frappe l’ennemi. Peut aussi le rendre confus."
+    },
+    "Bubble Beam": {
+      "id": 61,
+      "versionGroup": 18,
+      "text": "Des bulles sont envoyées avec puissance sur l’ennemi. Peut aussi baisser sa Vitesse."
+    },
+    "Aurora Beam": {
+      "id": 62,
+      "versionGroup": 18,
+      "text": "Envoie un rayon arc-en-ciel sur l’ennemi. Peut aussi baisser son Attaque."
+    },
+    "Hyper Beam": {
+      "id": 63,
+      "versionGroup": 18,
+      "text": "Projette un puissant rayon sur l’ennemi. Le lanceur doit se reposer au tour suivant."
+    },
+    "Peck": {
+      "id": 64,
+      "versionGroup": 18,
+      "text": "Frappe l’ennemi d’un bec pointu ou d’une corne pour infliger des dégâts."
+    },
+    "Drill Peck": {
+      "id": 65,
+      "versionGroup": 18,
+      "text": "Une attaque utilisant le bec comme une perceuse."
+    },
+    "Submission": {
+      "id": 66,
+      "versionGroup": 18,
+      "text": "Le lanceur agrippe l’ennemi et l’écrase au sol. Blesse aussi légèrement le lanceur."
+    },
+    "Low Kick": {
+      "id": 67,
+      "versionGroup": 18,
+      "text": "Un puissant coup de pied bas qui fauche l’ennemi. Il est plus efficace contre les ennemis lourds."
+    },
+    "Counter": {
+      "id": 68,
+      "versionGroup": 18,
+      "text": "Une riposte qui répond à toute capacité physique en infligeant le double de dégâts."
+    },
+    "Seismic Toss": {
+      "id": 69,
+      "versionGroup": 18,
+      "text": "L’ennemi est projeté grâce au pouvoir de la gravité. Inflige des dégâts équivalents au niveau du lanceur."
+    },
+    "Strength": {
+      "id": 70,
+      "versionGroup": 18,
+      "text": "Le lanceur cogne l’ennemi de toutes ses forces."
+    },
+    "Absorb": {
+      "id": 71,
+      "versionGroup": 18,
+      "text": "Une attaque qui convertit la moitié des dégâts infligés en PV pour le lanceur."
+    },
+    "Mega Drain": {
+      "id": 72,
+      "versionGroup": 18,
+      "text": "Une attaque qui convertit la moitié des dégâts infligés en PV pour le lanceur."
+    },
+    "Leech Seed": {
+      "id": 73,
+      "versionGroup": 18,
+      "text": "Une graine est semée sur l’ennemi. À chaque tour, elle lui dérobe des PV que le lanceur récupère."
+    },
+    "Growth": {
+      "id": 74,
+      "versionGroup": 18,
+      "text": "Le corps du lanceur se développe. Augmente l’Attaque et l’Attaque Spéciale."
+    },
+    "Razor Leaf": {
+      "id": 75,
+      "versionGroup": 18,
+      "text": "Des feuilles aiguisées comme des rasoirs entaillent l’ennemi. Taux de critique élevé."
+    },
+    "Solar Beam": {
+      "id": 76,
+      "versionGroup": 18,
+      "text": "Absorbe la lumière au premier tour et envoie un rayon puissant au tour suivant."
+    },
+    "Poison Powder": {
+      "id": 77,
+      "versionGroup": 18,
+      "text": "Une poudre toxique empoisonne l’ennemi."
+    },
+    "Stun Spore": {
+      "id": 78,
+      "versionGroup": 18,
+      "text": "Le lanceur répand sur l’ennemi une poudre qui le paralyse."
+    },
+    "Sleep Powder": {
+      "id": 79,
+      "versionGroup": 18,
+      "text": "Le lanceur répand une poudre soporifique qui endort la cible."
+    },
+    "Petal Dance": {
+      "id": 80,
+      "versionGroup": 18,
+      "text": "Le lanceur attaque en projetant des pétales pendant deux à trois tours avant de céder à la confusion."
+    },
+    "String Shot": {
+      "id": 81,
+      "versionGroup": 18,
+      "text": "Le lanceur crache de la soie pour ligoter l’ennemi et beaucoup baisser sa Vitesse."
+    },
+    "Dragon Rage": {
+      "id": 82,
+      "versionGroup": 18,
+      "text": "La colère du lanceur déclenche une onde de choc destructrice qui inflige toujours 40 PV de dégâts."
+    },
+    "Fire Spin": {
+      "id": 83,
+      "versionGroup": 18,
+      "text": "Un tourbillon de flammes emprisonne l’ennemi pendant quatre à cinq tours."
+    },
+    "Thunder Shock": {
+      "id": 84,
+      "versionGroup": 18,
+      "text": "Une décharge électrique tombe sur l’ennemi. Peut aussi le paralyser."
+    },
+    "Thunderbolt": {
+      "id": 85,
+      "versionGroup": 18,
+      "text": "Une grosse décharge électrique tombe sur l’ennemi. Peut aussi le paralyser."
+    },
+    "Thunder Wave": {
+      "id": 86,
+      "versionGroup": 18,
+      "text": "Un faible choc électrique frappe l’ennemi. Si l’attaque le touche, celui-ci est paralysé."
+    },
+    "Thunder": {
+      "id": 87,
+      "versionGroup": 18,
+      "text": "La foudre tombe sur l’ennemi pour lui infliger des dégâts. Peut aussi le paralyser."
+    },
+    "Rock Throw": {
+      "id": 88,
+      "versionGroup": 18,
+      "text": "Le lanceur lâche une pierre sur l’ennemi."
+    },
+    "Earthquake": {
+      "id": 89,
+      "versionGroup": 18,
+      "text": "Le lanceur provoque un tremblement de terre touchant tous les Pokémon autour de lui."
+    },
+    "Fissure": {
+      "id": 90,
+      "versionGroup": 18,
+      "text": "Le lanceur fait tomber l’ennemi dans une crevasse. Si cette attaque réussit, elle met K.O. sur le coup."
+    },
+    "Dig": {
+      "id": 91,
+      "versionGroup": 18,
+      "text": "Le lanceur creuse au premier tour et frappe au second."
+    },
+    "Toxic": {
+      "id": 92,
+      "versionGroup": 18,
+      "text": "Empoisonne gravement l’ennemi. Les dégâts dus au poison augmentent à chaque tour."
+    },
+    "Confusion": {
+      "id": 93,
+      "versionGroup": 18,
+      "text": "Une faible vague télékinétique frappe l’ennemi. Peut aussi le plonger dans la confusion."
+    },
+    "Psychic": {
+      "id": 94,
+      "versionGroup": 18,
+      "text": "Une puissante force télékinétique frappe l’ennemi. Peut aussi faire baisser sa Défense Spéciale."
+    },
+    "Hypnosis": {
+      "id": 95,
+      "versionGroup": 18,
+      "text": "Le lanceur hypnotise l’ennemi pour le plonger dans un profond sommeil."
+    },
+    "Meditate": {
+      "id": 96,
+      "versionGroup": 18,
+      "text": "Le lanceur médite pour éveiller son pouvoir latent et augmenter son Attaque."
+    },
+    "Agility": {
+      "id": 97,
+      "versionGroup": 18,
+      "text": "Le lanceur se relaxe et allège son corps pour beaucoup augmenter sa Vitesse."
+    },
+    "Quick Attack": {
+      "id": 98,
+      "versionGroup": 18,
+      "text": "Le lanceur fonce sur l’ennemi si rapidement qu’on parvient à peine à le discerner. Frappe en priorité."
+    },
+    "Rage": {
+      "id": 99,
+      "versionGroup": 18,
+      "text": "Une fois activée, cette capacité augmente l’Attaque du lanceur à mesure que celui-ci subit des attaques."
+    },
+    "Teleport": {
+      "id": 100,
+      "versionGroup": 18,
+      "text": "Permet de fuir une rencontre avec un Pokémon sauvage."
+    },
+    "Night Shade": {
+      "id": 101,
+      "versionGroup": 18,
+      "text": "Le lanceur invoque un mirage. Inflige des dégâts équivalents au niveau du lanceur."
+    },
+    "Mimic": {
+      "id": 102,
+      "versionGroup": 18,
+      "text": "Le lanceur copie la dernière capacité utilisée par la cible et la conserve tant qu’il reste au combat."
+    },
+    "Screech": {
+      "id": 103,
+      "versionGroup": 18,
+      "text": "Cri strident qui baisse beaucoup la Défense de l’ennemi."
+    },
+    "Double Team": {
+      "id": 104,
+      "versionGroup": 18,
+      "text": "Le lanceur se déplace si vite qu’il crée des copies illusoires de lui-même, augmentant son Esquive."
+    },
+    "Recover": {
+      "id": 105,
+      "versionGroup": 18,
+      "text": "Un soin qui permet au lanceur de récupérer jusqu’à la moitié de ses PV max."
+    },
+    "Harden": {
+      "id": 106,
+      "versionGroup": 18,
+      "text": "Le lanceur contracte tous ses muscles pour augmenter sa Défense."
+    },
+    "Minimize": {
+      "id": 107,
+      "versionGroup": 18,
+      "text": "Le lanceur comprime son corps pour se faire tout petit et beaucoup augmenter son Esquive."
+    },
+    "Smokescreen": {
+      "id": 108,
+      "versionGroup": 18,
+      "text": "Le lanceur disperse un nuage d’encre ou de fumée. Réduit la Précision de l’ennemi."
+    },
+    "Confuse Ray": {
+      "id": 109,
+      "versionGroup": 18,
+      "text": "Un rayon sinistre qui plonge l’ennemi dans un état de confusion."
+    },
+    "Withdraw": {
+      "id": 110,
+      "versionGroup": 18,
+      "text": "Le lanceur se recroqueville dans sa carapace, ce qui augmente sa Défense."
+    },
+    "Defense Curl": {
+      "id": 111,
+      "versionGroup": 18,
+      "text": "Le lanceur s’enroule pour cacher ses points faibles, ce qui augmente sa Défense."
+    },
+    "Barrier": {
+      "id": 112,
+      "versionGroup": 18,
+      "text": "Le lanceur érige un mur solide qui augmente beaucoup sa Défense."
+    },
+    "Light Screen": {
+      "id": 113,
+      "versionGroup": 18,
+      "text": "Un fabuleux mur de lumière qui réduit les dégâts causés par les capacités spéciales durant cinq tours."
+    },
+    "Haze": {
+      "id": 114,
+      "versionGroup": 18,
+      "text": "Un brouillard qui annule les changements de stats de tous les Pokémon au combat."
+    },
+    "Reflect": {
+      "id": 115,
+      "versionGroup": 18,
+      "text": "Un fabuleux mur de lumière qui réduit les dégâts causés par les capacités physiques durant cinq tours."
+    },
+    "Focus Energy": {
+      "id": 116,
+      "versionGroup": 18,
+      "text": "Le lanceur prend une profonde inspiration et se concentre pour augmenter son taux de critique."
+    },
+    "Bide": {
+      "id": 117,
+      "versionGroup": 18,
+      "text": "Le lanceur encaisse les coups durant deux tours et réplique en infligeant le double des dégâts subis."
+    },
+    "Metronome": {
+      "id": 118,
+      "versionGroup": 18,
+      "text": "Le lanceur agite un doigt et stimule son cerveau pour utiliser presque n’importe quelle capacité au hasard."
+    },
+    "Mirror Move": {
+      "id": 119,
+      "versionGroup": 18,
+      "text": "Le lanceur riposte à l’attaque de l’ennemi avec la même attaque."
+    },
+    "Self-Destruct": {
+      "id": 120,
+      "versionGroup": 18,
+      "text": "Le lanceur explose en blessant tous les Pokémon autour de lui. Le lanceur tombe K.O."
+    },
+    "Egg Bomb": {
+      "id": 121,
+      "versionGroup": 18,
+      "text": "De toutes ses forces, le lanceur jette un gros œuf sur l’ennemi pour lui infliger des dégâts."
+    },
+    "Lick": {
+      "id": 122,
+      "versionGroup": 18,
+      "text": "Un grand coup de langue qui inflige des dégâts à l’ennemi. Peut aussi le paralyser."
+    },
+    "Smog": {
+      "id": 123,
+      "versionGroup": 18,
+      "text": "Le lanceur attaque à l’aide d’une éruption de gaz répugnants. Peut aussi empoisonner l’ennemi."
+    },
+    "Sludge": {
+      "id": 124,
+      "versionGroup": 18,
+      "text": "Des détritus toxiques sont projetés sur l’ennemi. Peut aussi l’empoisonner."
+    },
+    "Bone Club": {
+      "id": 125,
+      "versionGroup": 18,
+      "text": "Le lanceur frappe l’ennemi à grands coups d’os. Peut aussi l’apeurer."
+    },
+    "Fire Blast": {
+      "id": 126,
+      "versionGroup": 18,
+      "text": "Un déluge de flammes ardentes submerge l’ennemi. Peut aussi le brûler."
+    },
+    "Waterfall": {
+      "id": 127,
+      "versionGroup": 18,
+      "text": "Le lanceur charge l’ennemi à une vitesse remarquable, ce qui peut l’apeurer."
+    },
+    "Clamp": {
+      "id": 128,
+      "versionGroup": 18,
+      "text": "Le lanceur piège l’ennemi dans sa dure coquille et l’écrase pendant quatre à cinq tours."
+    },
+    "Swift": {
+      "id": 129,
+      "versionGroup": 18,
+      "text": "Le lanceur envoie des rayons d’étoiles. Touche toujours l’ennemi."
+    },
+    "Skull Bash": {
+      "id": 130,
+      "versionGroup": 18,
+      "text": "Le lanceur baisse la tête pour augmenter sa Défense au premier tour et percuter l’ennemi au second."
+    },
+    "Spike Cannon": {
+      "id": 131,
+      "versionGroup": 18,
+      "text": "Envoie une rafale de dards. Peut toucher de deux à cinq fois."
+    },
+    "Constrict": {
+      "id": 132,
+      "versionGroup": 18,
+      "text": "De longs tentacules ou lianes attaquent l’ennemi. Peut aussi baisser sa Vitesse."
+    },
+    "Amnesia": {
+      "id": 133,
+      "versionGroup": 18,
+      "text": "Le lanceur fait le vide dans son esprit pour oublier ses soucis. Augmente beaucoup sa Défense Spéciale."
+    },
+    "Kinesis": {
+      "id": 134,
+      "versionGroup": 18,
+      "text": "Le lanceur distrait l’ennemi en pliant une cuiller, ce qui baisse sa Précision."
+    },
+    "Soft-Boiled": {
+      "id": 135,
+      "versionGroup": 18,
+      "text": "Le lanceur récupère jusqu’à la moitié de ses PV max."
+    },
+    "High Jump Kick": {
+      "id": 136,
+      "versionGroup": 18,
+      "text": "Le lanceur s’élance pour effectuer un coup de genou sauté. S’il échoue, le lanceur se blesse."
+    },
+    "Glare": {
+      "id": 137,
+      "versionGroup": 18,
+      "text": "Le lanceur intimide l’ennemi grâce à son regard terrifiant pour le paralyser."
+    },
+    "Dream Eater": {
+      "id": 138,
+      "versionGroup": 18,
+      "text": "Le lanceur mange le rêve de l’ennemi endormi et récupère en PV la moitié des dégâts infligés."
+    },
+    "Poison Gas": {
+      "id": 139,
+      "versionGroup": 18,
+      "text": "Un nuage de gaz toxique est projeté au visage de l’ennemi pour l’empoisonner."
+    },
+    "Barrage": {
+      "id": 140,
+      "versionGroup": 18,
+      "text": "Projette de deux à cinq grosses boules sur l’ennemi."
+    },
+    "Leech Life": {
+      "id": 141,
+      "versionGroup": 18,
+      "text": "Une attaque qui aspire le sang de l’ennemi. La moitié des dégâts sont convertis en PV pour le lanceur."
+    },
+    "Lovely Kiss": {
+      "id": 142,
+      "versionGroup": 18,
+      "text": "Le lanceur fait un bisou à l’ennemi en prenant une mine effrayante. Endort l’ennemi."
+    },
+    "Sky Attack": {
+      "id": 143,
+      "versionGroup": 18,
+      "text": "Une attaque en deux tours au taux de critique élevé. Peut aussi apeurer l’ennemi."
+    },
+    "Transform": {
+      "id": 144,
+      "versionGroup": 18,
+      "text": "Le lanceur devient une copie de sa cible et obtient la même palette de capacités."
+    },
+    "Bubble": {
+      "id": 145,
+      "versionGroup": 18,
+      "text": "Des bulles frappent l’ennemi. Peut réduire sa Vitesse."
+    },
+    "Dizzy Punch": {
+      "id": 146,
+      "versionGroup": 18,
+      "text": "Un enchaînement de coups de poing cadencés frappe l’ennemi. Peut aussi le rendre confus."
+    },
+    "Spore": {
+      "id": 147,
+      "versionGroup": 18,
+      "text": "Le lanceur répand un nuage de spores qui endort."
+    },
+    "Flash": {
+      "id": 148,
+      "versionGroup": 18,
+      "text": "Explosion lumineuse qui fait baisser la Précision de l’ennemi."
+    },
+    "Psywave": {
+      "id": 149,
+      "versionGroup": 18,
+      "text": "Une étrange onde d’énergie chaude frappe l’ennemi. Cette attaque est d’intensité variable."
+    },
+    "Splash": {
+      "id": 150,
+      "versionGroup": 18,
+      "text": "Le lanceur barbote et éclabousse les environs. Cette capacité n’a aucun effet."
+    },
+    "Acid Armor": {
+      "id": 151,
+      "versionGroup": 18,
+      "text": "Le lanceur modifie sa structure moléculaire pour se liquéfier et beaucoup augmenter sa Défense."
+    },
+    "Crabhammer": {
+      "id": 152,
+      "versionGroup": 18,
+      "text": "Une grande pince martèle l’ennemi. Taux de critique élevé."
+    },
+    "Explosion": {
+      "id": 153,
+      "versionGroup": 18,
+      "text": "Le lanceur explose et inflige des dégâts à tous les Pokémon autour de lui. Met K.O. le lanceur."
+    },
+    "Fury Swipes": {
+      "id": 154,
+      "versionGroup": 18,
+      "text": "L’ennemi est lacéré par des faux ou des griffes de deux à cinq fois d’affilée."
+    },
+    "Bonemerang": {
+      "id": 155,
+      "versionGroup": 18,
+      "text": "Le lanceur projette son os comme un boomerang. Cette attaque frappe à l’aller et au retour."
+    },
+    "Rest": {
+      "id": 156,
+      "versionGroup": 18,
+      "text": "Le lanceur regagne tous ses PV et soigne ses problèmes de statut, puis il dort pendant deux tours."
+    },
+    "Rock Slide": {
+      "id": 157,
+      "versionGroup": 18,
+      "text": "Envoie de gros rochers sur l’ennemi pour infliger des dégâts. Peut aussi l’apeurer."
+    },
+    "Hyper Fang": {
+      "id": 158,
+      "versionGroup": 18,
+      "text": "Le lanceur mord l’ennemi à l’aide de ses incisives aiguisées. Peut aussi l’apeurer."
+    },
+    "Sharpen": {
+      "id": 159,
+      "versionGroup": 18,
+      "text": "Le lanceur réduit son nombre de polygones pour accentuer ses angles et augmenter son Attaque."
+    },
+    "Conversion": {
+      "id": 160,
+      "versionGroup": 18,
+      "text": "Le lanceur change de type pour prendre celui de la première capacité de sa liste."
+    },
+    "Tri Attack": {
+      "id": 161,
+      "versionGroup": 18,
+      "text": "Le lanceur envoie trois boules d’énergie simultanément. Peut aussi paralyser, brûler ou geler l’ennemi."
+    },
+    "Super Fang": {
+      "id": 162,
+      "versionGroup": 18,
+      "text": "Une vilaine morsure d’incisives qui réduit de moitié les PV de l’ennemi."
+    },
+    "Slash": {
+      "id": 163,
+      "versionGroup": 18,
+      "text": "Un coup de griffe ou autre tranche l’ennemi. Taux de critique élevé."
+    },
+    "Substitute": {
+      "id": 164,
+      "versionGroup": 18,
+      "text": "Le lanceur fait une copie de lui-même en sacrifiant quelques PV. La copie sert de leurre."
+    },
+    "Struggle": {
+      "id": 165,
+      "versionGroup": 18,
+      "text": "Une attaque désespérée, utilisée quand le lanceur n’a plus de PP. Le blesse aussi légèrement."
+    },
+    "Sketch": {
+      "id": 166,
+      "versionGroup": 18,
+      "text": "Le lanceur apprend la dernière capacité utilisée par la cible. Gribouille disparaît après utilisation."
+    },
+    "Triple Kick": {
+      "id": 167,
+      "versionGroup": 18,
+      "text": "Une salve de un à trois coups de pied dont la puissance augmente à chaque coup porté."
+    },
+    "Thief": {
+      "id": 168,
+      "versionGroup": 18,
+      "text": "Le lanceur attaque la cible et vole son objet. Le lanceur ne peut rien voler s’il tient déjà un objet."
+    },
+    "Spider Web": {
+      "id": 169,
+      "versionGroup": 18,
+      "text": "Le lanceur enserre l’ennemi à l’aide d’une fine soie gluante pour l’empêcher de fuir le combat."
+    },
+    "Mind Reader": {
+      "id": 170,
+      "versionGroup": 18,
+      "text": "Le lanceur analyse les mouvements de l’ennemi pour être sûr de toucher au coup suivant."
+    },
+    "Nightmare": {
+      "id": 171,
+      "versionGroup": 18,
+      "text": "Un cauchemar qui inflige des dégâts à chaque tour à un ennemi endormi."
+    },
+    "Flame Wheel": {
+      "id": 172,
+      "versionGroup": 18,
+      "text": "Le lanceur s’entoure de feu et charge l’ennemi. Peut aussi le brûler."
+    },
+    "Snore": {
+      "id": 173,
+      "versionGroup": 18,
+      "text": "Une attaque qui ne fonctionne que si le lanceur est endormi. Le boucan peut aussi apeurer l’ennemi."
+    },
+    "Curse": {
+      "id": 174,
+      "versionGroup": 18,
+      "text": "Une capacité à l’effet différent selon que le lanceur est un Pokémon Spectre ou non."
+    },
+    "Flail": {
+      "id": 175,
+      "versionGroup": 18,
+      "text": "Le lanceur fait tournoyer son fléau. Plus ses PV sont bas, plus l’attaque est puissante."
+    },
+    "Conversion 2": {
+      "id": 176,
+      "versionGroup": 18,
+      "text": "Le lanceur change de type pour être résistant au type de la dernière attaque lancée par sa cible."
+    },
+    "Aeroblast": {
+      "id": 177,
+      "versionGroup": 18,
+      "text": "Le lanceur projette une tornade sur l’ennemi pour infliger des dégâts. Taux de critique élevé."
+    },
+    "Cotton Spore": {
+      "id": 178,
+      "versionGroup": 18,
+      "text": "Le lanceur libère des spores cotonneuses qui collent à l’ennemi et baissent beaucoup sa Vitesse."
+    },
+    "Reversal": {
+      "id": 179,
+      "versionGroup": 18,
+      "text": "Le lanceur ne retient plus ses coups. Plus ses PV sont bas et plus l’attaque est puissante."
+    },
+    "Spite": {
+      "id": 180,
+      "versionGroup": 18,
+      "text": "Le lanceur exprime son ressentiment en retirant 4 PP de la dernière attaque de l’ennemi."
+    },
+    "Powder Snow": {
+      "id": 181,
+      "versionGroup": 18,
+      "text": "Le lanceur projette de la neige poudreuse. Peut aussi geler l’ennemi."
+    },
+    "Protect": {
+      "id": 182,
+      "versionGroup": 18,
+      "text": "Le lanceur esquive toutes les attaques. Le risque d’échec augmente lorsque la capacité est utilisée plusieurs fois de suite."
+    },
+    "Mach Punch": {
+      "id": 183,
+      "versionGroup": 18,
+      "text": "Coup de poing fulgurant. Frappe en priorité."
+    },
+    "Scary Face": {
+      "id": 184,
+      "versionGroup": 18,
+      "text": "Une grimace qui effraie l’ennemi et réduit beaucoup sa Vitesse."
+    },
+    "Feint Attack": {
+      "id": 185,
+      "versionGroup": 18,
+      "text": "Le lanceur s’approche l’air de rien avant de frapper par surprise. N’échoue jamais."
+    },
+    "Sweet Kiss": {
+      "id": 186,
+      "versionGroup": 18,
+      "text": "Le lanceur envoie un bisou si mignon et désarmant qu’il plonge l’ennemi dans la confusion."
+    },
+    "Belly Drum": {
+      "id": 187,
+      "versionGroup": 18,
+      "text": "Améliore l’Attaque au maximum en sacrifiant la moitié des PV max."
+    },
+    "Sludge Bomb": {
+      "id": 188,
+      "versionGroup": 18,
+      "text": "Des détritus toxiques sont projetés sur l’ennemi. Peut aussi l’empoisonner."
+    },
+    "Mud-Slap": {
+      "id": 189,
+      "versionGroup": 18,
+      "text": "Le lanceur envoie de la boue au visage de l’ennemi pour infliger des dégâts et baisser sa Précision."
+    },
+    "Octazooka": {
+      "id": 190,
+      "versionGroup": 18,
+      "text": "Le lanceur attaque en projetant de l’encre au visage de l’ennemi. Peut aussi baisser sa Précision."
+    },
+    "Spikes": {
+      "id": 191,
+      "versionGroup": 18,
+      "text": "Le lanceur disperse des piquants sur le sol pour blesser tout ennemi qui entre au combat."
+    },
+    "Zap Cannon": {
+      "id": 192,
+      "versionGroup": 18,
+      "text": "Un boulet de canon électrifié qui inflige des dégâts et paralyse l’ennemi."
+    },
+    "Foresight": {
+      "id": 193,
+      "versionGroup": 18,
+      "text": "Permet de toucher un Pokémon Spectre avec n’importe quelle capacité ou de toucher un ennemi insaisissable."
+    },
+    "Destiny Bond": {
+      "id": 194,
+      "versionGroup": 18,
+      "text": "Quand cette capacité est activée, elle met K.O. un ennemi qui porte un coup fatal au lanceur. Elle échoue si elle est réutilisée après activation."
+    },
+    "Perish Song": {
+      "id": 195,
+      "versionGroup": 18,
+      "text": "Tout Pokémon qui entend ce requiem est K.O. dans trois tours à moins qu’il ne soit remplacé."
+    },
+    "Icy Wind": {
+      "id": 196,
+      "versionGroup": 18,
+      "text": "Une bourrasque de vent froid blesse l’ennemi. Réduit aussi sa Vitesse."
+    },
+    "Detect": {
+      "id": 197,
+      "versionGroup": 18,
+      "text": "Le lanceur esquive toutes les attaques. Le risque d’échec augmente lorsque la capacité est utilisée plusieurs fois de suite."
+    },
+    "Bone Rush": {
+      "id": 198,
+      "versionGroup": 18,
+      "text": "Le lanceur frappe l’ennemi avec un os de deux à cinq fois d’affilée."
+    },
+    "Lock-On": {
+      "id": 199,
+      "versionGroup": 18,
+      "text": "Verrouille l’ennemi pour ne pas le rater au tour suivant."
+    },
+    "Outrage": {
+      "id": 200,
+      "versionGroup": 18,
+      "text": "Le lanceur enrage et attaque pendant deux ou trois tours avant de devenir confus."
+    },
+    "Sandstorm": {
+      "id": 201,
+      "versionGroup": 18,
+      "text": "Une tempête de sable qui blesse tous les Pokémon durant cinq tours, sauf ceux de type Roche, Sol ou Acier. Augmente la Déf. Spé. des Pokémon Roche."
+    },
+    "Giga Drain": {
+      "id": 202,
+      "versionGroup": 18,
+      "text": "Une attaque qui convertit la moitié des dégâts infligés en PV pour le lanceur."
+    },
+    "Endure": {
+      "id": 203,
+      "versionGroup": 18,
+      "text": "Le lanceur résiste aux attaques avec 1 PV. Peut échouer si utilisée plusieurs fois de suite."
+    },
+    "Charm": {
+      "id": 204,
+      "versionGroup": 18,
+      "text": "Le lanceur fait les yeux doux pour berner l’ennemi et beaucoup réduire son Attaque."
+    },
+    "Rollout": {
+      "id": 205,
+      "versionGroup": 18,
+      "text": "Un rocher roule sur l’ennemi pendant cinq tours. L’attaque gagne en puissance à chaque coup."
+    },
+    "False Swipe": {
+      "id": 206,
+      "versionGroup": 18,
+      "text": "Le lanceur retient ses coups pour que l’ennemi garde au moins 1 PV et ne tombe pas K.O."
+    },
+    "Swagger": {
+      "id": 207,
+      "versionGroup": 18,
+      "text": "Fait enrager la cible et la plonge dans la confusion, mais augmente beaucoup son Attaque."
+    },
+    "Milk Drink": {
+      "id": 208,
+      "versionGroup": 18,
+      "text": "Le lanceur récupère jusqu’à la moitié de ses PV max."
+    },
+    "Spark": {
+      "id": 209,
+      "versionGroup": 18,
+      "text": "Lance une charge électrique sur l’ennemi. Peut aussi le paralyser."
+    },
+    "Fury Cutter": {
+      "id": 210,
+      "versionGroup": 18,
+      "text": "Un coup de faux ou de griffe dont la force augmente quand il touche plusieurs fois d’affilée."
+    },
+    "Steel Wing": {
+      "id": 211,
+      "versionGroup": 18,
+      "text": "Le lanceur frappe l’ennemi avec des ailes d’acier. Peut aussi augmenter la Défense du lanceur."
+    },
+    "Mean Look": {
+      "id": 212,
+      "versionGroup": 18,
+      "text": "Le lanceur pétrifie l’ennemi en lui lançant un regard noir. Il devient incapable de s’enfuir."
+    },
+    "Attract": {
+      "id": 213,
+      "versionGroup": 18,
+      "text": "Si l’ennemi est du sexe opposé, il tombe amoureux et rechigne alors à attaquer."
+    },
+    "Sleep Talk": {
+      "id": 214,
+      "versionGroup": 18,
+      "text": "Le lanceur utilise une de ses capacités au hasard pendant qu’il dort."
+    },
+    "Heal Bell": {
+      "id": 215,
+      "versionGroup": 18,
+      "text": "Carillon apaisant qui soigne les problèmes de statut de tous les Pokémon de l’équipe."
+    },
+    "Return": {
+      "id": 216,
+      "versionGroup": 18,
+      "text": "Plus le Pokémon apprécie son Dresseur, plus la puissance de cette attaque furieuse augmente."
+    },
+    "Present": {
+      "id": 217,
+      "versionGroup": 18,
+      "text": "Le lanceur attaque en offrant un cadeau piégé à la cible. Peut cependant restaurer certains de ses PV."
+    },
+    "Frustration": {
+      "id": 218,
+      "versionGroup": 18,
+      "text": "Moins le Pokémon aime son Dresseur, plus cette attaque est puissante."
+    },
+    "Safeguard": {
+      "id": 219,
+      "versionGroup": 18,
+      "text": "Crée un champ protecteur qui empêche tous les problèmes de statut pendant cinq tours."
+    },
+    "Pain Split": {
+      "id": 220,
+      "versionGroup": 18,
+      "text": "Le lanceur ajoute ses PV à ceux de sa cible et les répartit équitablement."
+    },
+    "Sacred Fire": {
+      "id": 221,
+      "versionGroup": 18,
+      "text": "Le lanceur génère un feu mystique d’une intensité redoutable pour attaquer l’ennemi. Peut aussi le brûler."
+    },
+    "Magnitude": {
+      "id": 222,
+      "versionGroup": 18,
+      "text": "Provoque un tremblement de terre d’intensité variable qui affecte tous les Pokémon alentour. L’efficacité varie."
+    },
+    "Dynamic Punch": {
+      "id": 223,
+      "versionGroup": 18,
+      "text": "Le lanceur rassemble ses forces et envoie un coup de poing à l’ennemi. Rend ce dernier confus."
+    },
+    "Megahorn": {
+      "id": 224,
+      "versionGroup": 18,
+      "text": "Le lanceur utilise ses gigantesques cornes pour charger l’ennemi."
+    },
+    "Dragon Breath": {
+      "id": 225,
+      "versionGroup": 18,
+      "text": "Le lanceur souffle fort sur l’ennemi pour lui infliger des dégâts. Peut aussi le paralyser."
+    },
+    "Baton Pass": {
+      "id": 226,
+      "versionGroup": 18,
+      "text": "Le lanceur échange sa place et tout changement de stat avec un Pokémon de l’équipe."
+    },
+    "Encore": {
+      "id": 227,
+      "versionGroup": 18,
+      "text": "Oblige l’ennemi à répéter durant trois tours la dernière capacité utilisée."
+    },
+    "Pursuit": {
+      "id": 228,
+      "versionGroup": 18,
+      "text": "Une attaque qui inflige deux fois plus de dégâts à un ennemi qui s’apprête à être remplacé."
+    },
+    "Rapid Spin": {
+      "id": 229,
+      "versionGroup": 18,
+      "text": "Une attaque tournoyante pouvant aussi annuler par exemple Étreinte, Ligotage, Vampigraine ou Picots."
+    },
+    "Sweet Scent": {
+      "id": 230,
+      "versionGroup": 18,
+      "text": "Un doux parfum qui réduit beaucoup l’Esquive de l’ennemi."
+    },
+    "Iron Tail": {
+      "id": 231,
+      "versionGroup": 18,
+      "text": "Attaque l’ennemi avec une queue de fer. Peut aussi baisser sa Défense."
+    },
+    "Metal Claw": {
+      "id": 232,
+      "versionGroup": 18,
+      "text": "Attaque avec des griffes d’acier. Peut aussi augmenter l’Attaque du lanceur."
+    },
+    "Vital Throw": {
+      "id": 233,
+      "versionGroup": 18,
+      "text": "Le lanceur porte son coup en dernier. En échange, cette capacité n’échoue jamais."
+    },
+    "Morning Sun": {
+      "id": 234,
+      "versionGroup": 18,
+      "text": "Un soin qui restaure des PV au lanceur. Son efficacité varie en fonction de la météo."
+    },
+    "Synthesis": {
+      "id": 235,
+      "versionGroup": 18,
+      "text": "Un soin qui restaure des PV au lanceur. Son efficacité varie en fonction de la météo."
+    },
+    "Moonlight": {
+      "id": 236,
+      "versionGroup": 18,
+      "text": "Un soin qui restaure des PV au lanceur. Son efficacité varie en fonction de la météo."
+    },
+    "Hidden Power": {
+      "id": 237,
+      "versionGroup": 18,
+      "text": "Attaque dont le type dépend du Pokémon qui l’utilise."
+    },
+    "Cross Chop": {
+      "id": 238,
+      "versionGroup": 18,
+      "text": "Le lanceur délivre un coup double en croisant les avant-bras. Taux de critique élevé."
+    },
+    "Twister": {
+      "id": 239,
+      "versionGroup": 18,
+      "text": "Déclenche un terrible ouragan sur l’ennemi. Peut aussi l’apeurer."
+    },
+    "Rain Dance": {
+      "id": 240,
+      "versionGroup": 18,
+      "text": "Invoque de fortes pluies qui durent cinq tours, augmentant la puissance des capacités de type Eau et baissant celle des capacités de type Feu."
+    },
+    "Sunny Day": {
+      "id": 241,
+      "versionGroup": 18,
+      "text": "Fait briller le soleil pendant cinq tours, augmentant la puissance des capacités de type Feu et baissant celle des capacités de type Eau."
+    },
+    "Crunch": {
+      "id": 242,
+      "versionGroup": 18,
+      "text": "Le lanceur mord l’ennemi de ses crocs pointus. Peut aussi baisser sa Défense."
+    },
+    "Mirror Coat": {
+      "id": 243,
+      "versionGroup": 18,
+      "text": "Une riposte qui contre n’importe quelle capacité spéciale en infligeant le double des dégâts subis."
+    },
+    "Psych Up": {
+      "id": 244,
+      "versionGroup": 18,
+      "text": "Une autohypnose qui permet au lanceur de copier les changements de stats de la cible."
+    },
+    "Extreme Speed": {
+      "id": 245,
+      "versionGroup": 18,
+      "text": "Le lanceur charge à une vitesse renversante. Frappe en priorité."
+    },
+    "Ancient Power": {
+      "id": 246,
+      "versionGroup": 18,
+      "text": "Une attaque préhistorique qui peut augmenter toutes les stats du lanceur d’un seul coup."
+    },
+    "Shadow Ball": {
+      "id": 247,
+      "versionGroup": 18,
+      "text": "Projette une grande ombre sur l’ennemi. Peut aussi faire baisser sa Défense Spéciale."
+    },
+    "Future Sight": {
+      "id": 248,
+      "versionGroup": 18,
+      "text": "De l’énergie psychique vient frapper l’ennemi deux tours après l’utilisation de cette capacité."
+    },
+    "Rock Smash": {
+      "id": 249,
+      "versionGroup": 18,
+      "text": "Porte un coup de poing à l’ennemi qui peut baisser sa Défense."
+    },
+    "Whirlpool": {
+      "id": 250,
+      "versionGroup": 18,
+      "text": "Piège l’ennemi dans une trombe d’eau pendant quatre à cinq tours."
+    },
+    "Beat Up": {
+      "id": 251,
+      "versionGroup": 18,
+      "text": "Le lanceur appelle tous les Pokémon de son équipe à attaquer. Plus ils sont nombreux, plus il y a d’attaques."
+    },
+    "Fake Out": {
+      "id": 252,
+      "versionGroup": 18,
+      "text": "Permet de frapper en priorité et apeure l’ennemi. Ne fonctionne qu’au premier tour."
+    },
+    "Uproar": {
+      "id": 253,
+      "versionGroup": 18,
+      "text": "Le lanceur attaque en rugissant durant trois tours. Pendant ce temps, aucun Pokémon ne peut s’endormir."
+    },
+    "Stockpile": {
+      "id": 254,
+      "versionGroup": 18,
+      "text": "Le lanceur accumule de la puissance et augmente sa Défense et sa Défense Spéciale. Peut être utilisé trois fois."
+    },
+    "Spit Up": {
+      "id": 255,
+      "versionGroup": 18,
+      "text": "Libère dans une attaque la puissance précédemment accumulée avec Stockage."
+    },
+    "Swallow": {
+      "id": 256,
+      "versionGroup": 18,
+      "text": "Le lanceur absorbe la puissance accumulée avec Stockage pour restaurer ses PV."
+    },
+    "Heat Wave": {
+      "id": 257,
+      "versionGroup": 18,
+      "text": "Le lanceur provoque une vague de chaleur. Peut aussi brûler l’ennemi."
+    },
+    "Hail": {
+      "id": 258,
+      "versionGroup": 18,
+      "text": "Invoque une tempête de grêle qui dure cinq tours. Ne blesse pas les Pokémon de type Glace."
+    },
+    "Torment": {
+      "id": 259,
+      "versionGroup": 18,
+      "text": "Le lanceur irrite l’ennemi pour l’empêcher d’utiliser la même capacité deux fois de suite."
+    },
+    "Flatter": {
+      "id": 260,
+      "versionGroup": 18,
+      "text": "Rend la cible confuse, mais augmente son Attaque Spéciale."
+    },
+    "Will-O-Wisp": {
+      "id": 261,
+      "versionGroup": 18,
+      "text": "Lance un bouquet de flammes maléfiques à l’ennemi pour lui infliger une brûlure."
+    },
+    "Memento": {
+      "id": 262,
+      "versionGroup": 18,
+      "text": "Le lanceur est mis K.O., mais l’Attaque et l’Attaque Spéciale de l’ennemi baissent beaucoup."
+    },
+    "Facade": {
+      "id": 263,
+      "versionGroup": 18,
+      "text": "Une attaque dont la puissance double lorsque le lanceur est empoisonné, paralysé ou brûlé."
+    },
+    "Focus Punch": {
+      "id": 264,
+      "versionGroup": 18,
+      "text": "Le lanceur se concentre avant d’attaquer. Échoue s’il est touché avant d’avoir frappé."
+    },
+    "Smelling Salts": {
+      "id": 265,
+      "versionGroup": 18,
+      "text": "Cette attaque est doublement efficace sur les Pokémon paralysés, mais elle soigne leur paralysie."
+    },
+    "Follow Me": {
+      "id": 266,
+      "versionGroup": 18,
+      "text": "Attire l’attention des ennemis pour les forcer à n’attaquer que le lanceur."
+    },
+    "Nature Power": {
+      "id": 267,
+      "versionGroup": 18,
+      "text": "Une attaque qui tire sa force de la nature. Son type varie selon le terrain."
+    },
+    "Charge": {
+      "id": 268,
+      "versionGroup": 18,
+      "text": "Le lanceur concentre sa puissance pour sa prochaine attaque Électrik. Augmente sa Défense Spéciale."
+    },
+    "Taunt": {
+      "id": 269,
+      "versionGroup": 18,
+      "text": "Provoque l’ennemi. L’oblige à n’utiliser que des attaques pendant trois tours."
+    },
+    "Helping Hand": {
+      "id": 270,
+      "versionGroup": 18,
+      "text": "Une capacité qui augmente la puissance d’attaque d’un allié."
+    },
+    "Trick": {
+      "id": 271,
+      "versionGroup": 18,
+      "text": "Le lanceur prend la cible au dépourvu et l’oblige à échanger son objet contre le sien."
+    },
+    "Role Play": {
+      "id": 272,
+      "versionGroup": 18,
+      "text": "Imite la cible et copie son talent."
+    },
+    "Wish": {
+      "id": 273,
+      "versionGroup": 18,
+      "text": "Un vœu qui permet au lanceur ou au Pokémon entrant sur le terrain au tour suivant de récupérer la moitié des PV max du lanceur."
+    },
+    "Assist": {
+      "id": 274,
+      "versionGroup": 18,
+      "text": "Le lanceur se dépêche d’utiliser une capacité au hasard parmi celles des Pokémon de l’équipe."
+    },
+    "Ingrain": {
+      "id": 275,
+      "versionGroup": 18,
+      "text": "Le lanceur plante ses racines et récupère des PV à chaque tour. Une fois enraciné, il ne peut plus fuir."
+    },
+    "Superpower": {
+      "id": 276,
+      "versionGroup": 18,
+      "text": "Une attaque puissante, mais qui baisse l’Attaque et la Défense du lanceur."
+    },
+    "Magic Coat": {
+      "id": 277,
+      "versionGroup": 18,
+      "text": "Une barrière qui renvoie les capacités comme Vampigraine et celles affectant le statut et les stats."
+    },
+    "Recycle": {
+      "id": 278,
+      "versionGroup": 18,
+      "text": "Recycle un objet tenu à usage unique déjà utilisé lors du combat pour pouvoir l’utiliser à nouveau."
+    },
+    "Revenge": {
+      "id": 279,
+      "versionGroup": 18,
+      "text": "Une attaque deux fois plus puissante si le lanceur a été blessé par l’ennemi durant ce tour."
+    },
+    "Brick Break": {
+      "id": 280,
+      "versionGroup": 18,
+      "text": "Une attaque avec le tranchant de la main. Permet aussi de briser les barrières comme Mur Lumière et Protection."
+    },
+    "Yawn": {
+      "id": 281,
+      "versionGroup": 18,
+      "text": "Fait bâiller l’ennemi qui s’endort au tour suivant."
+    },
+    "Knock Off": {
+      "id": 282,
+      "versionGroup": 18,
+      "text": "Fait plus de dégâts aux cibles qui tiennent un objet. De plus, fait tomber cet objet et empêche la cible de l’utiliser jusqu’à la fin du combat."
+    },
+    "Endeavor": {
+      "id": 283,
+      "versionGroup": 18,
+      "text": "Une attaque qui réduit les PV de l’ennemi au niveau des PV du lanceur."
+    },
+    "Eruption": {
+      "id": 284,
+      "versionGroup": 18,
+      "text": "Le lanceur laisse exploser sa colère. Plus ses PV sont bas et moins l’attaque est puissante."
+    },
+    "Skill Swap": {
+      "id": 285,
+      "versionGroup": 18,
+      "text": "Le lanceur utilise ses pouvoirs psychiques pour échanger son talent avec la cible."
+    },
+    "Imprison": {
+      "id": 286,
+      "versionGroup": 18,
+      "text": "Si l’ennemi et le lanceur ont des capacités en commun, l’ennemi ne pourra pas les utiliser."
+    },
+    "Refresh": {
+      "id": 287,
+      "versionGroup": 18,
+      "text": "Le lanceur se repose pour guérir d’un empoisonnement, d’une brûlure ou d’une paralysie."
+    },
+    "Grudge": {
+      "id": 288,
+      "versionGroup": 18,
+      "text": "Si le lanceur est mis K.O., sa rancune épuise les PP de la capacité utilisée par l’ennemi pour le mettre K.O."
+    },
+    "Snatch": {
+      "id": 289,
+      "versionGroup": 18,
+      "text": "Lorsqu’une capacité de soin ou de changement de stats est utilisée, le lanceur vole ses effets."
+    },
+    "Secret Power": {
+      "id": 290,
+      "versionGroup": 18,
+      "text": "Les effets de cette attaque varient en fonction de l’environnement."
+    },
+    "Dive": {
+      "id": 291,
+      "versionGroup": 18,
+      "text": "Le lanceur plonge sous l’eau au premier tour et frappe au second."
+    },
+    "Arm Thrust": {
+      "id": 292,
+      "versionGroup": 18,
+      "text": "Un déluge de coups adressés avec la paume qui frappe de deux à cinq fois d’affilée."
+    },
+    "Camouflage": {
+      "id": 293,
+      "versionGroup": 18,
+      "text": "Modifie le type du lanceur en fonction du terrain, comme une berge, une grotte, l’herbe, etc."
+    },
+    "Tail Glow": {
+      "id": 294,
+      "versionGroup": 18,
+      "text": "Le lanceur regarde un flash lumineux fixement. Augmente énormément son Attaque Spéciale."
+    },
+    "Luster Purge": {
+      "id": 295,
+      "versionGroup": 18,
+      "text": "Le lanceur libère un éclair lumineux. Peut aussi baisser la Défense Spéciale de l’ennemi."
+    },
+    "Mist Ball": {
+      "id": 296,
+      "versionGroup": 18,
+      "text": "Une bulle de brume inflige des dégâts à l’ennemi. Peut aussi réduire son Attaque Spéciale."
+    },
+    "Feather Dance": {
+      "id": 297,
+      "versionGroup": 18,
+      "text": "Une montagne de plumes ensevelit l’ennemi et réduit beaucoup son Attaque."
+    },
+    "Teeter Dance": {
+      "id": 298,
+      "versionGroup": 18,
+      "text": "Danse qui rend confus tous les Pokémon autour du lanceur."
+    },
+    "Blaze Kick": {
+      "id": 299,
+      "versionGroup": 18,
+      "text": "Le lanceur envoie un coup de pied au taux de critique élevé. Peut aussi brûler la cible."
+    },
+    "Mud Sport": {
+      "id": 300,
+      "versionGroup": 18,
+      "text": "Asperge les alentours de boue. Affaiblit les capacités Électrik pendant cinq tours."
+    },
+    "Ice Ball": {
+      "id": 301,
+      "versionGroup": 18,
+      "text": "Frappe l’ennemi pendant cinq tours. L’attaque gagne en puissance à chaque coup."
+    },
+    "Needle Arm": {
+      "id": 302,
+      "versionGroup": 18,
+      "text": "Le lanceur attaque en fouettant l’ennemi de ses bras épineux. Peut aussi l’apeurer."
+    },
+    "Slack Off": {
+      "id": 303,
+      "versionGroup": 18,
+      "text": "Le lanceur se tourne les pouces et récupère jusqu’à la moitié de ses PV max."
+    },
+    "Hyper Voice": {
+      "id": 304,
+      "versionGroup": 18,
+      "text": "Le lanceur pousse un cri dont l’écho terrifiant a le pouvoir d’infliger des dégâts à l’ennemi."
+    },
+    "Poison Fang": {
+      "id": 305,
+      "versionGroup": 18,
+      "text": "Le lanceur mord l’ennemi de ses crocs toxiques. Peut aussi l’empoisonner gravement."
+    },
+    "Crush Claw": {
+      "id": 306,
+      "versionGroup": 18,
+      "text": "Lacère l’ennemi avec des griffes solides et aiguisées. Peut aussi baisser sa Défense."
+    },
+    "Blast Burn": {
+      "id": 307,
+      "versionGroup": 18,
+      "text": "Une explosion ardente souffle l’adversaire. Le lanceur doit se reposer au tour suivant."
+    },
+    "Hydro Cannon": {
+      "id": 308,
+      "versionGroup": 18,
+      "text": "Une trombe d’eau heurte l’ennemi. Le lanceur doit se reposer au tour suivant."
+    },
+    "Meteor Mash": {
+      "id": 309,
+      "versionGroup": 18,
+      "text": "Un coup de poing lancé à la vitesse d’un météore. Peut aussi augmenter l’Attaque du lanceur."
+    },
+    "Astonish": {
+      "id": 310,
+      "versionGroup": 18,
+      "text": "Le lanceur attaque l’ennemi en poussant un cri terrifiant. Peut aussi l’apeurer."
+    },
+    "Weather Ball": {
+      "id": 311,
+      "versionGroup": 18,
+      "text": "Une attaque dont la puissance et le type varient en fonction du temps qu’il fait."
+    },
+    "Aromatherapy": {
+      "id": 312,
+      "versionGroup": 18,
+      "text": "Le lanceur libère un parfum apaisant qui guérit tous les problèmes de statut de l’équipe."
+    },
+    "Fake Tears": {
+      "id": 313,
+      "versionGroup": 18,
+      "text": "Le lanceur fait semblant de pleurer pour troubler l’ennemi et beaucoup baisser sa Défense Spéciale."
+    },
+    "Air Cutter": {
+      "id": 314,
+      "versionGroup": 18,
+      "text": "Le lanceur appelle des vents tranchants qui lacèrent l’ennemi. Taux de critique élevé."
+    },
+    "Overheat": {
+      "id": 315,
+      "versionGroup": 18,
+      "text": "Attaque l’ennemi à pleine puissance. Le contrecoup baisse beaucoup l’Attaque Spéciale du lanceur."
+    },
+    "Odor Sleuth": {
+      "id": 316,
+      "versionGroup": 18,
+      "text": "Permet de toucher un Pokémon Spectre avec n’importe quelle capacité ou de toucher un ennemi insaisissable."
+    },
+    "Rock Tomb": {
+      "id": 317,
+      "versionGroup": 18,
+      "text": "Des rochers frappent l’ennemi. Réduit aussi sa Vitesse."
+    },
+    "Silver Wind": {
+      "id": 318,
+      "versionGroup": 18,
+      "text": "Vent qui projette des écailles poudreuses sur l’ennemi. Peut aussi monter toutes les stats du lanceur."
+    },
+    "Metal Sound": {
+      "id": 319,
+      "versionGroup": 18,
+      "text": "Un cri horrible tel un crissement métallique qui réduit beaucoup la Défense Spéciale de l’ennemi."
+    },
+    "Grass Whistle": {
+      "id": 320,
+      "versionGroup": 18,
+      "text": "Le lanceur joue une douce mélodie qui plonge l’ennemi dans un profond sommeil."
+    },
+    "Tickle": {
+      "id": 321,
+      "versionGroup": 18,
+      "text": "Le lanceur chatouille l’ennemi, ce qui baisse son Attaque et sa Défense."
+    },
+    "Cosmic Power": {
+      "id": 322,
+      "versionGroup": 18,
+      "text": "Le lanceur absorbe un pouvoir mystique spatial qui augmente sa Défense et sa Défense Spéciale."
+    },
+    "Water Spout": {
+      "id": 323,
+      "versionGroup": 18,
+      "text": "Le lanceur attaque avec un jet d’eau. Moins il a de PV et moins l’attaque est puissante."
+    },
+    "Signal Beam": {
+      "id": 324,
+      "versionGroup": 18,
+      "text": "Le lanceur projette un rayon de lumière sinistre. Peut aussi rendre l’ennemi confus."
+    },
+    "Shadow Punch": {
+      "id": 325,
+      "versionGroup": 18,
+      "text": "Le lanceur surgit des ombres et donne un coup de poing. N’échoue jamais."
+    },
+    "Extrasensory": {
+      "id": 326,
+      "versionGroup": 18,
+      "text": "Le lanceur attaque avec un pouvoir étrange et invisible. Peut aussi apeurer l’ennemi."
+    },
+    "Sky Uppercut": {
+      "id": 327,
+      "versionGroup": 18,
+      "text": "Le lanceur attaque avec un uppercut. Il envoie son poing vers le ciel de toutes ses forces."
+    },
+    "Sand Tomb": {
+      "id": 328,
+      "versionGroup": 18,
+      "text": "Le lanceur emprisonne l’ennemi dans une tempête de sable terrifiante qui dure de quatre à cinq tours."
+    },
+    "Sheer Cold": {
+      "id": 329,
+      "versionGroup": 18,
+      "text": "Une vague de froid glacial frappe l’ennemi pour le mettre K.O. en un coup. A peu de chances de réussir si le lanceur ne possède pas le type Glace."
+    },
+    "Muddy Water": {
+      "id": 330,
+      "versionGroup": 18,
+      "text": "Le lanceur attaque en projetant de l’eau boueuse. Peut aussi réduire la Précision de l’ennemi."
+    },
+    "Bullet Seed": {
+      "id": 331,
+      "versionGroup": 18,
+      "text": "Le lanceur mitraille l’ennemi avec une rafale de graines. De deux à cinq rafales sont lancées à la suite."
+    },
+    "Aerial Ace": {
+      "id": 332,
+      "versionGroup": 18,
+      "text": "Le lanceur prend l’ennemi de vitesse et le lacère. N’échoue jamais."
+    },
+    "Icicle Spear": {
+      "id": 333,
+      "versionGroup": 18,
+      "text": "Le lanceur jette des pics de glace sur l’ennemi, de deux à cinq fois de suite."
+    },
+    "Iron Defense": {
+      "id": 334,
+      "versionGroup": 18,
+      "text": "L’épiderme du lanceur devient dur comme du fer, ce qui augmente beaucoup sa Défense."
+    },
+    "Block": {
+      "id": 335,
+      "versionGroup": 18,
+      "text": "Le lanceur bloque la route de l’ennemi pour empêcher sa fuite."
+    },
+    "Howl": {
+      "id": 336,
+      "versionGroup": 18,
+      "text": "Le lanceur grogne pour se rassurer, ce qui augmente son Attaque."
+    },
+    "Dragon Claw": {
+      "id": 337,
+      "versionGroup": 18,
+      "text": "Le lanceur lacère l’ennemi de ses grandes griffes aiguisées."
+    },
+    "Frenzy Plant": {
+      "id": 338,
+      "versionGroup": 18,
+      "text": "Un violent coup de racines s’abat sur l’ennemi. Immobilise le lanceur au tour suivant."
+    },
+    "Bulk Up": {
+      "id": 339,
+      "versionGroup": 18,
+      "text": "Le lanceur tend ses muscles pour se gonfler, ce qui booste son Attaque et sa Défense."
+    },
+    "Bounce": {
+      "id": 340,
+      "versionGroup": 18,
+      "text": "Le lanceur bondit très haut et plonge sur l’ennemi au second tour. Peut aussi le paralyser."
+    },
+    "Mud Shot": {
+      "id": 341,
+      "versionGroup": 18,
+      "text": "Le lanceur attaque en projetant de la boue sur l’ennemi. Réduit aussi la Vitesse de la cible."
+    },
+    "Poison Tail": {
+      "id": 342,
+      "versionGroup": 18,
+      "text": "Attaque à taux de critique élevé. Peut aussi empoisonner l’ennemi."
+    },
+    "Covet": {
+      "id": 343,
+      "versionGroup": 18,
+      "text": "Le lanceur s’approche de la cible avec un air angélique afin de dérober l’objet qu’elle tient."
+    },
+    "Volt Tackle": {
+      "id": 344,
+      "versionGroup": 18,
+      "text": "Le lanceur électrifie son corps avant de charger. Le choc blesse aussi gravement le lanceur et peut paralyser l’ennemi."
+    },
+    "Magical Leaf": {
+      "id": 345,
+      "versionGroup": 18,
+      "text": "Le lanceur disperse d’étranges feuilles qui poursuivent l’ennemi. N’échoue jamais."
+    },
+    "Water Sport": {
+      "id": 346,
+      "versionGroup": 18,
+      "text": "Asperge d’eau les alentours. Affaiblit les capacités de type Feu pendant cinq tours."
+    },
+    "Calm Mind": {
+      "id": 347,
+      "versionGroup": 18,
+      "text": "Le lanceur se concentre et fait le vide dans son esprit pour augmenter son Attaque Spéciale et sa Défense Spéciale."
+    },
+    "Leaf Blade": {
+      "id": 348,
+      "versionGroup": 18,
+      "text": "Une feuille coupante comme une lame entaille l’ennemi. Taux de critique élevé."
+    },
+    "Dragon Dance": {
+      "id": 349,
+      "versionGroup": 18,
+      "text": "Une danse mystique dont le rythme effréné augmente l’Attaque et la Vitesse du lanceur."
+    },
+    "Rock Blast": {
+      "id": 350,
+      "versionGroup": 18,
+      "text": "Le lanceur projette un rocher sur l’ennemi de deux à cinq fois d’affilée."
+    },
+    "Shock Wave": {
+      "id": 351,
+      "versionGroup": 18,
+      "text": "Le lanceur envoie un choc électrique rapide à l’ennemi. Impossible à esquiver."
+    },
+    "Water Pulse": {
+      "id": 352,
+      "versionGroup": 18,
+      "text": "Le lanceur envoie un puissant jet d’eau sur l’ennemi. Peut le rendre confus."
+    },
+    "Doom Desire": {
+      "id": 353,
+      "versionGroup": 18,
+      "text": "Le lanceur génère une sphère lumineuse qu’il projette sur l’ennemi deux tours plus tard."
+    },
+    "Psycho Boost": {
+      "id": 354,
+      "versionGroup": 18,
+      "text": "Attaque l’ennemi à pleine puissance. Le contrecoup baisse beaucoup l’Attaque Spéciale du lanceur."
+    },
+    "Roost": {
+      "id": 355,
+      "versionGroup": 18,
+      "text": "Le lanceur atterrit et se repose. Restaure jusqu’à la moitié de ses PV max."
+    },
+    "Gravity": {
+      "id": 356,
+      "versionGroup": 18,
+      "text": "Pendant cinq tours, les Pokémon Vol ou qui ont Lévitation deviennent sensibles aux capacités Sol, et les capacités volantes deviennent inutilisables."
+    },
+    "Miracle Eye": {
+      "id": 357,
+      "versionGroup": 18,
+      "text": "Permet de toucher un Pokémon Ténèbres avec les capacités de type Psy ou de toucher un ennemi ayant beaucoup d’esquive."
+    },
+    "Wake-Up Slap": {
+      "id": 358,
+      "versionGroup": 18,
+      "text": "Cette attaque inflige d’importants dégâts à un Pokémon endormi. Mais elle le réveille également."
+    },
+    "Hammer Arm": {
+      "id": 359,
+      "versionGroup": 18,
+      "text": "Le lanceur donne un puissant coup de poing à l’ennemi. Réduit la Vitesse du lanceur."
+    },
+    "Gyro Ball": {
+      "id": 360,
+      "versionGroup": 18,
+      "text": "Le lanceur effectue une rotation et frappe l’ennemi. Plus la Vitesse du lanceur est basse, plus il fait de dégâts."
+    },
+    "Healing Wish": {
+      "id": 361,
+      "versionGroup": 18,
+      "text": "Le lanceur tombe K.O. pour soigner les PV et le statut du Pokémon qui passe après lui."
+    },
+    "Brine": {
+      "id": 362,
+      "versionGroup": 18,
+      "text": "Cette attaque est deux fois plus puissante lorsque l’ennemi a moins de la moitié de ses PV."
+    },
+    "Natural Gift": {
+      "id": 363,
+      "versionGroup": 18,
+      "text": "Avant d’attaquer, le lanceur rassemble ses forces grâce à sa Baie. Elle détermine le type et la puissance de l’attaque."
+    },
+    "Feint": {
+      "id": 364,
+      "versionGroup": 18,
+      "text": "Une attaque capable de toucher un ennemi qui utilise une capacité comme Détection ou Abri. Annule l’effet de ces capacités."
+    },
+    "Pluck": {
+      "id": 365,
+      "versionGroup": 18,
+      "text": "Le lanceur picore la cible. Si cette dernière tient une Baie, le lanceur la mange et profite de ses effets."
+    },
+    "Tailwind": {
+      "id": 366,
+      "versionGroup": 18,
+      "text": "Génère une rafale de vent qui augmente la Vitesse des Pokémon de l’équipe pendant 4 tours."
+    },
+    "Acupressure": {
+      "id": 367,
+      "versionGroup": 18,
+      "text": "Le lanceur utilise sa connaissance des points de pression pour beaucoup augmenter une stat."
+    },
+    "Metal Burst": {
+      "id": 368,
+      "versionGroup": 18,
+      "text": "Le lanceur attaque le dernier ennemi l’ayant blessé durant le même tour en frappant plus fort."
+    },
+    "U-turn": {
+      "id": 369,
+      "versionGroup": 18,
+      "text": "Après son attaque, le lanceur revient à toute vitesse et change de place avec un Pokémon de l’équipe prêt au combat."
+    },
+    "Close Combat": {
+      "id": 370,
+      "versionGroup": 18,
+      "text": "Le lanceur combat au corps à corps sans se protéger. Baisse aussi sa Défense et sa Défense Spéciale."
+    },
+    "Payback": {
+      "id": 371,
+      "versionGroup": 18,
+      "text": "Le lanceur charge son énergie, puis attaque. La puissance est doublée si le lanceur agit après l’ennemi."
+    },
+    "Assurance": {
+      "id": 372,
+      "versionGroup": 18,
+      "text": "Cette attaque est deux fois plus efficace si l’ennemi a déjà été blessé durant ce tour."
+    },
+    "Embargo": {
+      "id": 373,
+      "versionGroup": 18,
+      "text": "Empêche la cible d’utiliser un objet tenu et son Dresseur d’utiliser un objet sur lui pendant cinq tours."
+    },
+    "Fling": {
+      "id": 374,
+      "versionGroup": 18,
+      "text": "Le lanceur envoie l’objet qu’il tient sur l’ennemi. La puissance et les effets dépendent de l’objet."
+    },
+    "Psycho Shift": {
+      "id": 375,
+      "versionGroup": 18,
+      "text": "Le lanceur transfère ses problèmes de statut à l’ennemi grâce à son pouvoir de suggestion."
+    },
+    "Trump Card": {
+      "id": 376,
+      "versionGroup": 18,
+      "text": "Moins cette capacité possède de PP, plus elle est puissante."
+    },
+    "Heal Block": {
+      "id": 377,
+      "versionGroup": 18,
+      "text": "Le lanceur empêche l’ennemi de récupérer des PV à l’aide de capacités, talents ou objets tenus, pendant cinq tours."
+    },
+    "Wring Out": {
+      "id": 378,
+      "versionGroup": 18,
+      "text": "Le lanceur essore l’ennemi. Plus l’ennemi a de PV, plus cette attaque est puissante."
+    },
+    "Power Trick": {
+      "id": 379,
+      "versionGroup": 18,
+      "text": "Le lanceur utilise ses pouvoirs psychiques pour échanger sa Défense et son Attaque."
+    },
+    "Gastro Acid": {
+      "id": 380,
+      "versionGroup": 18,
+      "text": "Le lanceur répand ses sucs digestifs sur l’ennemi. Le fluide neutralise le talent de l’ennemi."
+    },
+    "Lucky Chant": {
+      "id": 381,
+      "versionGroup": 18,
+      "text": "Le lanceur envoie une incantation vers le ciel et protège l’équipe des coups critiques pendant cinq tours."
+    },
+    "Me First": {
+      "id": 382,
+      "versionGroup": 18,
+      "text": "Le lanceur vole la capacité prévue par l’ennemi et l’utilise en faisant plus de dégâts. Il doit frapper en premier."
+    },
+    "Copycat": {
+      "id": 383,
+      "versionGroup": 18,
+      "text": "Le lanceur imite la dernière capacité employée. Échoue si aucune capacité n’a été utilisée."
+    },
+    "Power Swap": {
+      "id": 384,
+      "versionGroup": 18,
+      "text": "Pouvoir qui échange les modifications de l’Attaque Spéciale et de l’Attaque du lanceur avec la cible."
+    },
+    "Guard Swap": {
+      "id": 385,
+      "versionGroup": 18,
+      "text": "Pouvoir qui échange les modifications de la Défense Spéciale et de la Défense avec la cible."
+    },
+    "Punishment": {
+      "id": 386,
+      "versionGroup": 18,
+      "text": "Plus l’ennemi a utilisé d’augmentations de stats et plus cette capacité est puissante."
+    },
+    "Last Resort": {
+      "id": 387,
+      "versionGroup": 18,
+      "text": "Cette capacité ne peut être utilisée qu’après que le lanceur a utilisé toutes les autres."
+    },
+    "Worry Seed": {
+      "id": 388,
+      "versionGroup": 18,
+      "text": "Plante sur la cible une graine qui la rend soucieuse et remplace son talent par Insomnia, l’empêchant ainsi de dormir."
+    },
+    "Sucker Punch": {
+      "id": 389,
+      "versionGroup": 18,
+      "text": "Permet au lanceur de frapper en priorité. Échoue si l’ennemi ne prépare pas une attaque."
+    },
+    "Toxic Spikes": {
+      "id": 390,
+      "versionGroup": 18,
+      "text": "Lance des pics autour de l’ennemi. Ils empoisonnent les ennemis qui entrent au combat."
+    },
+    "Heart Swap": {
+      "id": 391,
+      "versionGroup": 18,
+      "text": "Le lanceur utilise un pouvoir psychique pour échanger ses changements de stats avec la cible."
+    },
+    "Aqua Ring": {
+      "id": 392,
+      "versionGroup": 18,
+      "text": "Un voile d’eau recouvre le lanceur et régénère ses PV à chaque tour."
+    },
+    "Magnet Rise": {
+      "id": 393,
+      "versionGroup": 18,
+      "text": "Le lanceur utilise l’électricité pour générer un champ magnétique et léviter durant cinq tours."
+    },
+    "Flare Blitz": {
+      "id": 394,
+      "versionGroup": 18,
+      "text": "Le lanceur s’embrase avant de charger l’ennemi. Le choc blesse aussi gravement le lanceur. Peut brûler l’ennemi."
+    },
+    "Force Palm": {
+      "id": 395,
+      "versionGroup": 18,
+      "text": "Une onde de choc frappe l’ennemi. Peut aussi paralyser la cible."
+    },
+    "Aura Sphere": {
+      "id": 396,
+      "versionGroup": 18,
+      "text": "Le lanceur dégage une aura et projette de l’énergie. N’échoue jamais."
+    },
+    "Rock Polish": {
+      "id": 397,
+      "versionGroup": 18,
+      "text": "Le lanceur polit son corps pour diminuer sa résistance au vent. Augmente beaucoup la Vitesse."
+    },
+    "Poison Jab": {
+      "id": 398,
+      "versionGroup": 18,
+      "text": "Attaque l’ennemi avec un tentacule, un bras, ou un autre membre plein de poison. Peut aussi l’empoisonner."
+    },
+    "Dark Pulse": {
+      "id": 399,
+      "versionGroup": 18,
+      "text": "Le lanceur dégage une horrible aura chargée d’idées noires. Peut aussi apeurer l’ennemi."
+    },
+    "Night Slash": {
+      "id": 400,
+      "versionGroup": 18,
+      "text": "Le lanceur lacère l’ennemi à la première occasion. Taux de critique élevé."
+    },
+    "Aqua Tail": {
+      "id": 401,
+      "versionGroup": 18,
+      "text": "Le lanceur attaque en balançant sa queue comme une lame de fond en pleine tempête."
+    },
+    "Seed Bomb": {
+      "id": 402,
+      "versionGroup": 18,
+      "text": "Le lanceur fait pleuvoir un déluge de graines explosives sur l’ennemi."
+    },
+    "Air Slash": {
+      "id": 403,
+      "versionGroup": 18,
+      "text": "Le lanceur attaque avec une lame d’air qui fend tout. Peut aussi apeurer l’ennemi."
+    },
+    "X-Scissor": {
+      "id": 404,
+      "versionGroup": 18,
+      "text": "Le lanceur taillade l’ennemi en utilisant ses faux ou ses griffes comme une paire de ciseaux."
+    },
+    "Bug Buzz": {
+      "id": 405,
+      "versionGroup": 18,
+      "text": "Le lanceur fait vibrer son corps pour lancer une vague sonique. Peut aussi baisser la Défense Spéciale de l’ennemi."
+    },
+    "Dragon Pulse": {
+      "id": 406,
+      "versionGroup": 18,
+      "text": "Le lanceur ouvre la bouche pour envoyer une onde de choc qui frappe l’ennemi."
+    },
+    "Dragon Rush": {
+      "id": 407,
+      "versionGroup": 18,
+      "text": "Le lanceur frappe l’ennemi en prenant un air menaçant. Peut aussi l’apeurer."
+    },
+    "Power Gem": {
+      "id": 408,
+      "versionGroup": 18,
+      "text": "Le lanceur attaque avec un rayon de lumière qui scintille comme s’il était composé de gemmes."
+    },
+    "Drain Punch": {
+      "id": 409,
+      "versionGroup": 18,
+      "text": "Un coup de poing qui draine l’énergie. Convertit la moitié des dégâts infligés en PV pour le lanceur."
+    },
+    "Vacuum Wave": {
+      "id": 410,
+      "versionGroup": 18,
+      "text": "Le lanceur agite son poing pour projeter une onde de vide. Frappe en priorité."
+    },
+    "Focus Blast": {
+      "id": 411,
+      "versionGroup": 18,
+      "text": "Le lanceur rassemble ses forces et laisse éclater son pouvoir. Peut aussi baisser la Défense Spéciale de l’ennemi."
+    },
+    "Energy Ball": {
+      "id": 412,
+      "versionGroup": 18,
+      "text": "Utilise les pouvoirs de la nature pour attaquer l’ennemi. Peut aussi baisser sa Défense Spéciale."
+    },
+    "Brave Bird": {
+      "id": 413,
+      "versionGroup": 18,
+      "text": "Le lanceur replie ses ailes et charge en rase-mottes. Blesse gravement le lanceur."
+    },
+    "Earth Power": {
+      "id": 414,
+      "versionGroup": 18,
+      "text": "De terribles séismes secouent l’ennemi. Peut aussi baisser sa Défense Spéciale."
+    },
+    "Switcheroo": {
+      "id": 415,
+      "versionGroup": 18,
+      "text": "Le lanceur échange son objet avec celui de la cible à une vitesse que l’œil a du mal à suivre."
+    },
+    "Giga Impact": {
+      "id": 416,
+      "versionGroup": 18,
+      "text": "Le lanceur charge l’ennemi de toute sa puissance et doit ensuite se reposer au tour suivant."
+    },
+    "Nasty Plot": {
+      "id": 417,
+      "versionGroup": 18,
+      "text": "Stimule l’esprit par de mauvaises pensées. Augmente beaucoup l’Attaque Spéciale du lanceur."
+    },
+    "Bullet Punch": {
+      "id": 418,
+      "versionGroup": 18,
+      "text": "Le lanceur envoie des coups de poing aussi rapides que des balles de revolver. Frappe en priorité."
+    },
+    "Avalanche": {
+      "id": 419,
+      "versionGroup": 18,
+      "text": "Une attaque deux fois plus puissante si le lanceur a été blessé par l’ennemi durant le tour."
+    },
+    "Ice Shard": {
+      "id": 420,
+      "versionGroup": 18,
+      "text": "Le lanceur crée des éclats de glace qu’il envoie sur l’ennemi. Frappe en priorité."
+    },
+    "Shadow Claw": {
+      "id": 421,
+      "versionGroup": 18,
+      "text": "Attaque avec une griffe puissante faite d’ombres. Taux de critique élevé."
+    },
+    "Thunder Fang": {
+      "id": 422,
+      "versionGroup": 18,
+      "text": "Le lanceur utilise une morsure électrifiée. Peut aussi paralyser ou apeurer l’ennemi."
+    },
+    "Ice Fang": {
+      "id": 423,
+      "versionGroup": 18,
+      "text": "Le lanceur utilise une morsure glaciale. Peut aussi geler ou apeurer l’ennemi."
+    },
+    "Fire Fang": {
+      "id": 424,
+      "versionGroup": 18,
+      "text": "Le lanceur utilise une morsure enflammée. Peut aussi brûler ou apeurer l’ennemi."
+    },
+    "Shadow Sneak": {
+      "id": 425,
+      "versionGroup": 18,
+      "text": "Le lanceur étend son ombre pour frapper par-derrière. Frappe en priorité."
+    },
+    "Mud Bomb": {
+      "id": 426,
+      "versionGroup": 18,
+      "text": "Le lanceur attaque à l’aide d’une boule de boue solidifiée. Peut aussi baisser la Précision de l’ennemi."
+    },
+    "Psycho Cut": {
+      "id": 427,
+      "versionGroup": 18,
+      "text": "Le lanceur entaille l’ennemi grâce à des lames faites d’énergie psychique. Taux de critique élevé."
+    },
+    "Zen Headbutt": {
+      "id": 428,
+      "versionGroup": 18,
+      "text": "Le lanceur concentre sa volonté et donne un coup de tête. Peut aussi apeurer l’ennemi."
+    },
+    "Mirror Shot": {
+      "id": 429,
+      "versionGroup": 18,
+      "text": "Le corps poli du lanceur libère un éclair d’énergie. Peut aussi baisser la Précision de l’ennemi."
+    },
+    "Flash Cannon": {
+      "id": 430,
+      "versionGroup": 18,
+      "text": "Le lanceur concentre son énergie lumineuse et la fait exploser. Peut aussi baisser la Défense Spéciale de l’ennemi."
+    },
+    "Rock Climb": {
+      "id": 431,
+      "versionGroup": 18,
+      "text": "Le lanceur se jette violemment sur l’ennemi. Peut aussi le rendre confus."
+    },
+    "Defog": {
+      "id": 432,
+      "versionGroup": 18,
+      "text": "Un grand coup de vent qui disperse la Protection ou le Mur Lumière de l’ennemi. Diminue aussi son Esquive."
+    },
+    "Trick Room": {
+      "id": 433,
+      "versionGroup": 18,
+      "text": "Le lanceur crée une zone étrange où les Pokémon les plus lents frappent en priorité pendant cinq tours."
+    },
+    "Draco Meteor": {
+      "id": 434,
+      "versionGroup": 18,
+      "text": "Le lanceur invoque des comètes. Le contrecoup réduit beaucoup son Attaque Spéciale."
+    },
+    "Discharge": {
+      "id": 435,
+      "versionGroup": 18,
+      "text": "Un flamboiement d’électricité frappe tous les Pokémon autour du lanceur. Peut aussi les paralyser."
+    },
+    "Lava Plume": {
+      "id": 436,
+      "versionGroup": 18,
+      "text": "Des boules de feu s’abattent sur tous les Pokémon autour du lanceur. Peut aussi les brûler."
+    },
+    "Leaf Storm": {
+      "id": 437,
+      "versionGroup": 18,
+      "text": "Invoque une tempête de feuilles acérées. Le contrecoup réduit beaucoup l’Attaque Spéciale du lanceur."
+    },
+    "Power Whip": {
+      "id": 438,
+      "versionGroup": 18,
+      "text": "Le lanceur fait virevolter violemment ses lianes ou ses tentacules pour fouetter l’ennemi."
+    },
+    "Rock Wrecker": {
+      "id": 439,
+      "versionGroup": 18,
+      "text": "Le lanceur attaque en projetant un gros rocher sur l’ennemi. Il doit se reposer au tour suivant."
+    },
+    "Cross Poison": {
+      "id": 440,
+      "versionGroup": 18,
+      "text": "Un coup tranchant qui peut empoisonner l’ennemi. Taux de critique élevé."
+    },
+    "Gunk Shot": {
+      "id": 441,
+      "versionGroup": 18,
+      "text": "Le lanceur envoie des détritus sur l’ennemi. Peut aussi l’empoisonner."
+    },
+    "Iron Head": {
+      "id": 442,
+      "versionGroup": 18,
+      "text": "Le lanceur heurte l’ennemi avec sa tête dure comme de l’acier. Peut aussi l’apeurer."
+    },
+    "Magnet Bomb": {
+      "id": 443,
+      "versionGroup": 18,
+      "text": "Le lanceur projette des bombes d’acier qui collent à l’ennemi. N’échoue jamais."
+    },
+    "Stone Edge": {
+      "id": 444,
+      "versionGroup": 18,
+      "text": "Fait surgir des pierres aiguisées sous l’ennemi. Taux de critique élevé."
+    },
+    "Captivate": {
+      "id": 445,
+      "versionGroup": 18,
+      "text": "Si l’ennemi est de sexe opposé au lanceur, il est séduit et son Attaque Spéciale baisse beaucoup."
+    },
+    "Stealth Rock": {
+      "id": 446,
+      "versionGroup": 18,
+      "text": "Lance des pierres flottantes autour de l’ennemi, qui blessent tout adversaire entrant au combat."
+    },
+    "Grass Knot": {
+      "id": 447,
+      "versionGroup": 18,
+      "text": "L’ennemi est piégé dans de l’herbe qui le fait trébucher. Plus il est lourd, plus il subit de dégâts."
+    },
+    "Chatter": {
+      "id": 448,
+      "versionGroup": 18,
+      "text": "Attaque avec les ondes sonores assourdissantes qu’il émet en bavardant. Rend l’ennemi confus."
+    },
+    "Judgment": {
+      "id": 449,
+      "versionGroup": 18,
+      "text": "Le lanceur libère une myriade de rayons de lumière. Le type varie selon la Plaque que tient le lanceur."
+    },
+    "Bug Bite": {
+      "id": 450,
+      "versionGroup": 18,
+      "text": "Le lanceur pique l’ennemi. Si ce dernier tient une Baie, le lanceur la dévore et obtient son effet."
+    },
+    "Charge Beam": {
+      "id": 451,
+      "versionGroup": 18,
+      "text": "Le lanceur tire un rayon chargé d’électricité. Peut aussi augmenter son Attaque Spéciale."
+    },
+    "Wood Hammer": {
+      "id": 452,
+      "versionGroup": 18,
+      "text": "Le lanceur heurte l’ennemi de son corps robuste. Blesse aussi gravement le lanceur."
+    },
+    "Aqua Jet": {
+      "id": 453,
+      "versionGroup": 18,
+      "text": "Le lanceur fonce sur l’ennemi si rapidement qu’on parvient à peine à le discerner. Frappe en priorité."
+    },
+    "Attack Order": {
+      "id": 454,
+      "versionGroup": 18,
+      "text": "Le lanceur appelle ses sous-fifres pour frapper l’ennemi. Taux de critique élevé."
+    },
+    "Defend Order": {
+      "id": 455,
+      "versionGroup": 18,
+      "text": "Le lanceur appelle ses sous-fifres pour former un bouclier qui augmente sa Défense et sa Défense Spéciale."
+    },
+    "Heal Order": {
+      "id": 456,
+      "versionGroup": 18,
+      "text": "Le lanceur appelle ses sous-fifres pour le soigner. Il récupère jusqu’à la moitié de ses PV max."
+    },
+    "Head Smash": {
+      "id": 457,
+      "versionGroup": 18,
+      "text": "Le lanceur assène un coup de tête désespéré. Blesse aussi gravement le lanceur."
+    },
+    "Double Hit": {
+      "id": 458,
+      "versionGroup": 18,
+      "text": "Le lanceur frappe l’ennemi deux fois d’affilée à l’aide de sa queue, de lianes ou d’un autre membre."
+    },
+    "Roar of Time": {
+      "id": 459,
+      "versionGroup": 18,
+      "text": "Le lanceur frappe si fort qu’il affecte le cours du temps. Il se repose au tour suivant."
+    },
+    "Spacial Rend": {
+      "id": 460,
+      "versionGroup": 18,
+      "text": "Le lanceur déchire l’ennemi et l’espace autour de lui. Taux de critique élevé."
+    },
+    "Lunar Dance": {
+      "id": 461,
+      "versionGroup": 18,
+      "text": "Le lanceur tombe K.O. pour soigner le statut et les PV du Pokémon qui prendra sa place au combat."
+    },
+    "Crush Grip": {
+      "id": 462,
+      "versionGroup": 18,
+      "text": "Une force puissante écrase l’ennemi. Plus il lui reste de PV et plus l’attaque est puissante."
+    },
+    "Magma Storm": {
+      "id": 463,
+      "versionGroup": 18,
+      "text": "L’ennemi est pris dans un tourbillon de feu qui dure de quatre à cinq tours."
+    },
+    "Dark Void": {
+      "id": 464,
+      "versionGroup": 18,
+      "text": "L’ennemi est plongé dans les ténèbres. Il tombe dans un profond sommeil."
+    },
+    "Seed Flare": {
+      "id": 465,
+      "versionGroup": 18,
+      "text": "Le corps du lanceur émet une onde de choc. Peut aussi beaucoup baisser la Défense Spéciale de la cible."
+    },
+    "Ominous Wind": {
+      "id": 466,
+      "versionGroup": 18,
+      "text": "Le lanceur crée une violente bourrasque. Peut aussi augmenter toutes ses stats."
+    },
+    "Shadow Force": {
+      "id": 467,
+      "versionGroup": 18,
+      "text": "Le lanceur disparaît et frappe l’ennemi au second tour. Fonctionne même si l’ennemi se protège."
+    },
+    "Hone Claws": {
+      "id": 468,
+      "versionGroup": 18,
+      "text": "Le lanceur s’aiguise les griffes. Augmente l’Attaque et la Précision."
+    },
+    "Wide Guard": {
+      "id": 469,
+      "versionGroup": 18,
+      "text": "Annule les attaques visant toute l’équipe pendant un tour."
+    },
+    "Guard Split": {
+      "id": 470,
+      "versionGroup": 18,
+      "text": "Additionne la Défense et la Défense Spéciale du lanceur et de sa cible et les redistribue équitablement entre les deux."
+    },
+    "Power Split": {
+      "id": 471,
+      "versionGroup": 18,
+      "text": "Additionne l’Attaque Spéciale et l’Attaque du lanceur et de sa cible et les redistribue équitablement entre les deux."
+    },
+    "Wonder Room": {
+      "id": 472,
+      "versionGroup": 18,
+      "text": "Crée une zone étrange où pendant cinq tours, la Défense et la Défense Spéciale de tous les Pokémon sont inversées."
+    },
+    "Psyshock": {
+      "id": 473,
+      "versionGroup": 18,
+      "text": "Le lanceur matérialise des ondes mystérieuses qu’il projette sur l’ennemi. Inflige des dégâts physiques."
+    },
+    "Venoshock": {
+      "id": 474,
+      "versionGroup": 18,
+      "text": "Le lanceur inocule un poison spécial à l’ennemi. L’effet est doublé si l’ennemi est déjà empoisonné."
+    },
+    "Autotomize": {
+      "id": 475,
+      "versionGroup": 18,
+      "text": "Le lanceur se débarrasse des parties inutiles de son corps. Son poids diminue et sa Vitesse augmente beaucoup."
+    },
+    "Rage Powder": {
+      "id": 476,
+      "versionGroup": 18,
+      "text": "Le lanceur s’asperge d’une poudre irritante pour attirer l’attention. Il attire toutes les attaques ennemies."
+    },
+    "Telekinesis": {
+      "id": 477,
+      "versionGroup": 18,
+      "text": "Un pouvoir qui fait flotter l’ennemi dans les airs. Pendant trois tours, il devient plus facile à atteindre."
+    },
+    "Magic Room": {
+      "id": 478,
+      "versionGroup": 18,
+      "text": "Le lanceur crée une zone étrange. Pendant cinq tours, les objets tenus par tous les Pokémon n’ont plus aucun effet."
+    },
+    "Smack Down": {
+      "id": 479,
+      "versionGroup": 18,
+      "text": "Le lanceur jette toutes sortes de projectiles à un ennemi. Si ce dernier vole, il tombe au sol."
+    },
+    "Storm Throw": {
+      "id": 480,
+      "versionGroup": 18,
+      "text": "Un coup très puissant dont l’effet est toujours critique."
+    },
+    "Flame Burst": {
+      "id": 481,
+      "versionGroup": 18,
+      "text": "Quand l’attaque atteint sa cible, elle projette des flammes qui touchent tout ennemi situé à côté."
+    },
+    "Sludge Wave": {
+      "id": 482,
+      "versionGroup": 18,
+      "text": "Une vague de détritus attaque tous les Pokémon autour du lanceur. Peut aussi empoisonner."
+    },
+    "Quiver Dance": {
+      "id": 483,
+      "versionGroup": 18,
+      "text": "Une danse mystique dont le rythme parfait augmente l’Attaque Spéciale, la Défense Spéciale et la Vitesse du lanceur."
+    },
+    "Heavy Slam": {
+      "id": 484,
+      "versionGroup": 18,
+      "text": "Le lanceur se jette sur l’ennemi de tout son poids. S’il est plus lourd que l’ennemi, l’effet augmente en conséquence."
+    },
+    "Synchronoise": {
+      "id": 485,
+      "versionGroup": 18,
+      "text": "Des ondes mystérieuses blessent tous les Pokémon alentour qui sont du même type que le lanceur."
+    },
+    "Electro Ball": {
+      "id": 486,
+      "versionGroup": 18,
+      "text": "Le lanceur envoie une boule d’électricité. Si sa Vitesse est plus grande que celle de l’ennemi, les dégâts augmentent d’autant."
+    },
+    "Soak": {
+      "id": 487,
+      "versionGroup": 18,
+      "text": "Le lanceur projette beaucoup d’eau sur sa cible, qui devient de type Eau."
+    },
+    "Flame Charge": {
+      "id": 488,
+      "versionGroup": 18,
+      "text": "Le lanceur s’entoure de flammes pour attaquer l’ennemi. Il se concentre et sa Vitesse augmente."
+    },
+    "Coil": {
+      "id": 489,
+      "versionGroup": 18,
+      "text": "Le lanceur s’enroule sur lui-même et se concentre. Son Attaque, sa Défense et sa Précision augmentent."
+    },
+    "Low Sweep": {
+      "id": 490,
+      "versionGroup": 18,
+      "text": "Un coup rapide qui affecte la mobilité de l’ennemi et diminue sa Vitesse."
+    },
+    "Acid Spray": {
+      "id": 491,
+      "versionGroup": 18,
+      "text": "Projette un liquide acide qui fait fondre l’ennemi. Sa Défense Spéciale diminue beaucoup."
+    },
+    "Foul Play": {
+      "id": 492,
+      "versionGroup": 18,
+      "text": "Le lanceur utilise la force de l’ennemi. Plus l’Attaque de l’ennemi est élevée, plus le lanceur inflige de dégâts."
+    },
+    "Simple Beam": {
+      "id": 493,
+      "versionGroup": 18,
+      "text": "Le lanceur envoie des ondes mystérieuses à l’ennemi. Son talent devient Simple."
+    },
+    "Entrainment": {
+      "id": 494,
+      "versionGroup": 18,
+      "text": "Le lanceur danse sur un rythme étrange. Il force sa cible à l’imiter, ce qui lui fait adopter son talent."
+    },
+    "After You": {
+      "id": 495,
+      "versionGroup": 18,
+      "text": "S’il est le premier à agir, le lanceur permet à sa cible d’utiliser une capacité juste après lui."
+    },
+    "Round": {
+      "id": 496,
+      "versionGroup": 18,
+      "text": "Le lanceur attaque l’ennemi en chantant. Si plusieurs Pokémon déclenchent cette attaque à la suite, l’effet augmente."
+    },
+    "Echoed Voice": {
+      "id": 497,
+      "versionGroup": 18,
+      "text": "Un cri retentissant blesse l’ennemi. Si le lanceur ou d’autres Pokémon l’utilisent à chaque tour, l’effet augmente."
+    },
+    "Chip Away": {
+      "id": 498,
+      "versionGroup": 18,
+      "text": "Une attaque puissante quand l’ennemi baisse sa garde. Inflige des dégâts sans tenir compte des changements de stats."
+    },
+    "Clear Smog": {
+      "id": 499,
+      "versionGroup": 18,
+      "text": "Le lanceur jette un tas de détritus spéciaux sur la cible. Les changements de stats de la cible sont annulés."
+    },
+    "Stored Power": {
+      "id": 500,
+      "versionGroup": 18,
+      "text": "Le lanceur attaque l’ennemi avec une force accumulée. Plus les stats du lanceur sont augmentées, plus le coup est efficace."
+    },
+    "Quick Guard": {
+      "id": 501,
+      "versionGroup": 18,
+      "text": "Le lanceur et son équipe sont protégés contre les attaques prioritaires."
+    },
+    "Ally Switch": {
+      "id": 502,
+      "versionGroup": 18,
+      "text": "Le lanceur se téléporte à l’aide d’un pouvoir mystérieux. Il échange sa place avec celle d’un allié sur le terrain."
+    },
+    "Scald": {
+      "id": 503,
+      "versionGroup": 18,
+      "text": "L’ennemi est attaqué par un jet d’eau bouillante. Peut aussi le brûler."
+    },
+    "Shell Smash": {
+      "id": 504,
+      "versionGroup": 18,
+      "text": "Le lanceur brise sa coquille. Il baisse sa Défense et sa Défense Spéciale, mais augmente beaucoup son Attaque, son Attaque Spéciale et sa Vitesse."
+    },
+    "Heal Pulse": {
+      "id": 505,
+      "versionGroup": 18,
+      "text": "Une aura de bien-être fait récupérer la moitié de ses PV max à la cible."
+    },
+    "Hex": {
+      "id": 506,
+      "versionGroup": 18,
+      "text": "Attaque acharnée qui cause davantage de dégâts à l’ennemi s’il a un problème de statut."
+    },
+    "Sky Drop": {
+      "id": 507,
+      "versionGroup": 18,
+      "text": "Le lanceur emmène l’ennemi dans les airs au premier tour et le lâche dans le vide au second. L’ennemi saisi ne peut pas attaquer."
+    },
+    "Shift Gear": {
+      "id": 508,
+      "versionGroup": 18,
+      "text": "Le lanceur fait tourner ses engrenages. Cela augmente son Attaque et augmente beaucoup sa Vitesse."
+    },
+    "Circle Throw": {
+      "id": 509,
+      "versionGroup": 18,
+      "text": "Projette le Pokémon ennemi et le remplace par un autre. Lors d’un combat contre un Pokémon sauvage seul, met fin au combat."
+    },
+    "Incinerate": {
+      "id": 510,
+      "versionGroup": 18,
+      "text": "Des flammes calcinent l’ennemi. S’il tient un objet, une Baie par exemple, celui-ci est brûlé et devient inutilisable."
+    },
+    "Quash": {
+      "id": 511,
+      "versionGroup": 18,
+      "text": "Retient la cible de force, l’obligeant à agir en dernier."
+    },
+    "Acrobatics": {
+      "id": 512,
+      "versionGroup": 18,
+      "text": "Attaque agile. Si le lanceur ne tient pas d’objet, l’attaque inflige davantage de dégâts."
+    },
+    "Reflect Type": {
+      "id": 513,
+      "versionGroup": 18,
+      "text": "Le lanceur copie le type de la cible et devient du même type."
+    },
+    "Retaliate": {
+      "id": 514,
+      "versionGroup": 18,
+      "text": "Venge un Pokémon de l’équipe mis K.O. Si un Pokémon de l’équipe a été mis K.O. au tour d’avant, l’effet augmente."
+    },
+    "Final Gambit": {
+      "id": 515,
+      "versionGroup": 18,
+      "text": "Une attaque très risquée. Le lanceur perd tous ses PV restants et inflige autant de dégâts à l’ennemi."
+    },
+    "Bestow": {
+      "id": 516,
+      "versionGroup": 18,
+      "text": "Si la cible ne tient pas d’objet, le lanceur lui donne l’objet qu’il tient."
+    },
+    "Inferno": {
+      "id": 517,
+      "versionGroup": 18,
+      "text": "L’ennemi est entouré d’un torrent de flammes ardentes qui le brûlent."
+    },
+    "Water Pledge": {
+      "id": 518,
+      "versionGroup": 18,
+      "text": "Une masse d’eau s’abat sur l’ennemi. En l’utilisant avec Aire de Feu, l’effet augmente et un arc-en-ciel apparaît."
+    },
+    "Fire Pledge": {
+      "id": 519,
+      "versionGroup": 18,
+      "text": "Une masse de feu s’abat sur l’ennemi. En l’utilisant avec Aire d’Herbe, l’effet augmente et une mer de feu apparaît."
+    },
+    "Grass Pledge": {
+      "id": 520,
+      "versionGroup": 18,
+      "text": "Une masse végétale s’abat sur l’ennemi. En l’utilisant avec Aire d’Eau, l’effet augmente et un marécage apparaît."
+    },
+    "Volt Switch": {
+      "id": 521,
+      "versionGroup": 18,
+      "text": "Après son attaque, le lanceur revient à toute vitesse et change de place avec un Pokémon de l’équipe prêt au combat."
+    },
+    "Struggle Bug": {
+      "id": 522,
+      "versionGroup": 18,
+      "text": "Le lanceur se débat de toutes ses forces, et baisse l’Attaque Spéciale de l’ennemi."
+    },
+    "Bulldoze": {
+      "id": 523,
+      "versionGroup": 18,
+      "text": "Le lanceur piétine le sol et inflige des dégâts à tous les Pokémon autour de lui. Baisse aussi leur Vitesse."
+    },
+    "Frost Breath": {
+      "id": 524,
+      "versionGroup": 18,
+      "text": "Un souffle froid blesse l’ennemi. L’effet est toujours critique."
+    },
+    "Dragon Tail": {
+      "id": 525,
+      "versionGroup": 18,
+      "text": "Un coup puissant qui blesse la cible et l’envoie au loin. Lors d’un combat contre un Pokémon sauvage seul, met fin au combat."
+    },
+    "Work Up": {
+      "id": 526,
+      "versionGroup": 18,
+      "text": "Le lanceur se rengorge. Augmente l’Attaque et l’Attaque Spéciale."
+    },
+    "Electroweb": {
+      "id": 527,
+      "versionGroup": 18,
+      "text": "Attrape l’ennemi dans un filet électrique. Baisse aussi la Vitesse de l’ennemi."
+    },
+    "Wild Charge": {
+      "id": 528,
+      "versionGroup": 18,
+      "text": "Une charge électrique violente qui blesse aussi légèrement le lanceur."
+    },
+    "Drill Run": {
+      "id": 529,
+      "versionGroup": 18,
+      "text": "Le lanceur tourne sur lui-même comme une perceuse et se jette sur l’ennemi. Taux de critique élevé."
+    },
+    "Dual Chop": {
+      "id": 530,
+      "versionGroup": 18,
+      "text": "Le lanceur frappe l’ennemi deux fois d’affilée avec les parties les plus robustes de son corps."
+    },
+    "Heart Stamp": {
+      "id": 531,
+      "versionGroup": 18,
+      "text": "Déconcentre l’ennemi avec des mouvements mignons avant de le frapper violemment. Peut aussi l’apeurer."
+    },
+    "Horn Leech": {
+      "id": 532,
+      "versionGroup": 18,
+      "text": "Un coup de corne qui draine l’énergie de l’ennemi. Convertit la moitié des dégâts infligés en PV pour le lanceur."
+    },
+    "Sacred Sword": {
+      "id": 533,
+      "versionGroup": 18,
+      "text": "Un coup de corne violent qui lacère l’ennemi et lui inflige des dégâts quels que soient ses changements de stats."
+    },
+    "Razor Shell": {
+      "id": 534,
+      "versionGroup": 18,
+      "text": "Un coquillage aiguisé lacère l’ennemi. Peut aussi baisser sa Défense."
+    },
+    "Heat Crash": {
+      "id": 535,
+      "versionGroup": 18,
+      "text": "Le lanceur projette son corps enflammé contre l’ennemi. S’il est plus lourd que l’ennemi, l’effet augmente en conséquence."
+    },
+    "Leaf Tornado": {
+      "id": 536,
+      "versionGroup": 18,
+      "text": "L’ennemi est pris dans un tourbillon de feuilles acérées. Peut aussi baisser sa Précision."
+    },
+    "Steamroller": {
+      "id": 537,
+      "versionGroup": 18,
+      "text": "Le lanceur se roule en boule et écrase son ennemi. Peut aussi l’apeurer."
+    },
+    "Cotton Guard": {
+      "id": 538,
+      "versionGroup": 18,
+      "text": "Le lanceur se protège en s’emmitouflant dans du coton. Sa Défense augmente énormément."
+    },
+    "Night Daze": {
+      "id": 539,
+      "versionGroup": 18,
+      "text": "Le lanceur attaque l’ennemi avec une onde de choc ténébreuse. Peut aussi baisser sa Précision."
+    },
+    "Psystrike": {
+      "id": 540,
+      "versionGroup": 18,
+      "text": "Le lanceur matérialise des ondes mystérieuses qu’il projette sur l’ennemi. Inflige des dégâts physiques."
+    },
+    "Tail Slap": {
+      "id": 541,
+      "versionGroup": 18,
+      "text": "Le lanceur frappe l’ennemi de deux à cinq fois d’affilée avec sa queue robuste."
+    },
+    "Hurricane": {
+      "id": 542,
+      "versionGroup": 18,
+      "text": "Le lanceur déclenche une tempête de vents violents qui s’abat sur l’ennemi. Peut aussi le rendre confus."
+    },
+    "Head Charge": {
+      "id": 543,
+      "versionGroup": 18,
+      "text": "Le lanceur donne un coup avec sa tête couronnée d’une fière crinière. Blesse aussi légèrement le lanceur."
+    },
+    "Gear Grind": {
+      "id": 544,
+      "versionGroup": 18,
+      "text": "Le lanceur jette deux écrous d’acier qui frappent l’ennemi deux fois d’affilée."
+    },
+    "Searing Shot": {
+      "id": 545,
+      "versionGroup": 18,
+      "text": "Des boules de feu s’abattent sur tous les Pokémon autour du lanceur. Peut aussi les brûler."
+    },
+    "Techno Blast": {
+      "id": 546,
+      "versionGroup": 18,
+      "text": "Le lanceur projette un rayon lumineux sur l’ennemi. Le type varie selon le Module que tient le lanceur."
+    },
+    "Relic Song": {
+      "id": 547,
+      "versionGroup": 18,
+      "text": "Le lanceur attaque l’ennemi en lui chantant une chanson d’un autre temps. Peut l’endormir."
+    },
+    "Secret Sword": {
+      "id": 548,
+      "versionGroup": 18,
+      "text": "L’ennemi est lacéré par une longue corne. Son pouvoir mystérieux inflige des dégâts physiques."
+    },
+    "Glaciate": {
+      "id": 549,
+      "versionGroup": 18,
+      "text": "Un souffle de vent qui congèle tout sur son passage s’abat sur l’ennemi. Réduit aussi sa Vitesse."
+    },
+    "Bolt Strike": {
+      "id": 550,
+      "versionGroup": 18,
+      "text": "Le lanceur s’enveloppe d’une charge électrique surpuissante et se jette sur l’ennemi. Peut aussi le paralyser."
+    },
+    "Blue Flare": {
+      "id": 551,
+      "versionGroup": 18,
+      "text": "De magnifiques et redoutables flammes bleues fondent sur l’ennemi. Peut aussi le brûler."
+    },
+    "Fiery Dance": {
+      "id": 552,
+      "versionGroup": 18,
+      "text": "Le lanceur enveloppe l’ennemi de flammes. Peut aussi augmenter l’Attaque Spéciale du lanceur."
+    },
+    "Freeze Shock": {
+      "id": 553,
+      "versionGroup": 18,
+      "text": "Projette un bloc de glace électrifié sur l’ennemi au second tour. Peut aussi le paralyser."
+    },
+    "Ice Burn": {
+      "id": 554,
+      "versionGroup": 18,
+      "text": "Au second tour, le lanceur projette un souffle de vent glacial dévastateur sur l’ennemi. Peut aussi le brûler."
+    },
+    "Snarl": {
+      "id": 555,
+      "versionGroup": 18,
+      "text": "Le lanceur hurle sur l’ennemi. Baisse l’Attaque Spéciale de l’ennemi."
+    },
+    "Icicle Crash": {
+      "id": 556,
+      "versionGroup": 18,
+      "text": "Envoie de gros blocs de glace sur l’ennemi pour lui infliger des dégâts. Peut aussi l’apeurer."
+    },
+    "V-create": {
+      "id": 557,
+      "versionGroup": 18,
+      "text": "Le lanceur projette une flamme ardente de son front et se jette sur l’ennemi. Baisse la Défense, la Défense Spéciale et la Vitesse."
+    },
+    "Fusion Flare": {
+      "id": 558,
+      "versionGroup": 18,
+      "text": "Projette une boule de feu gigantesque. L’effet augmente sous l’influence d’Éclair Croix."
+    },
+    "Fusion Bolt": {
+      "id": 559,
+      "versionGroup": 18,
+      "text": "Projette un orbe électrique gigantesque. L’effet augmente sous l’influence de Flamme Croix."
+    },
+    "Flying Press": {
+      "id": 560,
+      "versionGroup": 18,
+      "text": "Une attaque en piqué depuis le ciel, à la fois de type Combat et de type Vol."
+    },
+    "Mat Block": {
+      "id": 561,
+      "versionGroup": 18,
+      "text": "Retourne un tatami pour bloquer, comme avec un bouclier, les capacités visant le lanceur ou ses alliés. N’a pas d’effet sur les attaques de statut."
+    },
+    "Belch": {
+      "id": 562,
+      "versionGroup": 18,
+      "text": "Le lanceur se tourne vers l’ennemi et lui éructe dessus, infligeant des dégâts. Ne fonctionne que si le lanceur consomme la Baie qu’il tient."
+    },
+    "Rototiller": {
+      "id": 563,
+      "versionGroup": 18,
+      "text": "Laboure le sol et le rend plus fertile. Augmente l’Attaque et l’Attaque Spéciale des Pokémon de type Plante."
+    },
+    "Sticky Web": {
+      "id": 564,
+      "versionGroup": 18,
+      "text": "Déploie une toile visqueuse autour de l’ennemi qui ralentit la Vitesse de tout adversaire entrant au combat."
+    },
+    "Fell Stinger": {
+      "id": 565,
+      "versionGroup": 18,
+      "text": "Augmente beaucoup l’Attaque du lanceur si un ennemi est mis K.O. avec cette capacité."
+    },
+    "Phantom Force": {
+      "id": 566,
+      "versionGroup": 18,
+      "text": "Le lanceur disparaît au premier tour et frappe au second. Cette attaque passe outre les protections."
+    },
+    "Trick-or-Treat": {
+      "id": 567,
+      "versionGroup": 18,
+      "text": "Insuffle à la cible l’esprit d’Halloween, et ajoute le type Spectre à ses types actuels."
+    },
+    "Noble Roar": {
+      "id": 568,
+      "versionGroup": 18,
+      "text": "Le lanceur pousse un rugissement qui intimide l’ennemi et diminue son Attaque et son Attaque Spéciale."
+    },
+    "Ion Deluge": {
+      "id": 569,
+      "versionGroup": 18,
+      "text": "Diffuse des particules saturées d’électricité qui transforment les capacités de type Normal en capacités de type Électrik."
+    },
+    "Parabolic Charge": {
+      "id": 570,
+      "versionGroup": 18,
+      "text": "Inflige des dégâts à tous les Pokémon autour du lanceur. Il récupère en PV la moitié des dégâts infligés."
+    },
+    "Forest's Curse": {
+      "id": 571,
+      "versionGroup": 18,
+      "text": "La cible est charmée par l’esprit de la forêt. Le type Plante est ajouté à ses types actuels."
+    },
+    "Petal Blizzard": {
+      "id": 572,
+      "versionGroup": 18,
+      "text": "Déclenche une violente tempête de fleurs qui inflige des dégâts à tous les Pokémon alentour."
+    },
+    "Freeze-Dry": {
+      "id": 573,
+      "versionGroup": 18,
+      "text": "Refroidit violemment l’ennemi et peut le geler. Super efficace sur les Pokémon de type Eau."
+    },
+    "Disarming Voice": {
+      "id": 574,
+      "versionGroup": 18,
+      "text": "Laisse s’échapper une voix enchanteresse qui inflige des dégâts psychiques à l’ennemi. Touche à coup sûr."
+    },
+    "Parting Shot": {
+      "id": 575,
+      "versionGroup": 18,
+      "text": "Menace l’ennemi dans une ultime tirade avant de changer de place avec un autre Pokémon. Réduit l’Attaque et l’Attaque Spéciale de l’ennemi."
+    },
+    "Topsy-Turvy": {
+      "id": 576,
+      "versionGroup": 18,
+      "text": "Inverse tous les changements de stats de la cible."
+    },
+    "Draining Kiss": {
+      "id": 577,
+      "versionGroup": 18,
+      "text": "Aspire la force vitale de l’ennemi par un baiser. Rend au lanceur un nombre de PV supérieur ou égal à la moitié des dégâts infligés."
+    },
+    "Crafty Shield": {
+      "id": 578,
+      "versionGroup": 18,
+      "text": "Utilise une force mystérieuse pour protéger l’équipe des capacités de statut. Ne protège pas des autres capacités."
+    },
+    "Flower Shield": {
+      "id": 579,
+      "versionGroup": 18,
+      "text": "Grâce à une force mystérieuse, la Défense de tous les Pokémon Plante au combat augmente."
+    },
+    "Grassy Terrain": {
+      "id": 580,
+      "versionGroup": 18,
+      "text": "Pendant cinq tours, les Pokémon au sol récupèrent quelques PV à chaque tour et la puissance des capacités de type Plante augmente."
+    },
+    "Misty Terrain": {
+      "id": 581,
+      "versionGroup": 18,
+      "text": "Pendant cinq tours, les Pokémon au sol ne peuvent pas subir d’altération de statut et la puissance des capacités de type Dragon est divisée par deux."
+    },
+    "Electrify": {
+      "id": 582,
+      "versionGroup": 18,
+      "text": "Si le lanceur attaque avant la cible, les capacités de celle-ci seront de type Électrik jusqu’à la fin du tour."
+    },
+    "Play Rough": {
+      "id": 583,
+      "versionGroup": 18,
+      "text": "Attaque l’ennemi avec un câlin. Peut diminuer son Attaque."
+    },
+    "Fairy Wind": {
+      "id": 584,
+      "versionGroup": 18,
+      "text": "Déchaîne un vent magique qui cingle l’ennemi."
+    },
+    "Moonblast": {
+      "id": 585,
+      "versionGroup": 18,
+      "text": "Attaque l’ennemi grâce au pouvoir de la lune. Peut diminuer son Attaque Spéciale."
+    },
+    "Boomburst": {
+      "id": 586,
+      "versionGroup": 18,
+      "text": "Attaque les Pokémon alentour grâce à une onde sonore assourdissante qui détruit tout sur son passage."
+    },
+    "Fairy Lock": {
+      "id": 587,
+      "versionGroup": 18,
+      "text": "Des chaînes entourent la zone de combat, empêchant tous les Pokémon de fuir au prochain tour."
+    },
+    "King's Shield": {
+      "id": 588,
+      "versionGroup": 18,
+      "text": "Prend une posture défensive pour bloquer les dégâts. Diminue beaucoup l’Attaque de tout Pokémon qui entre en contact avec le lanceur."
+    },
+    "Play Nice": {
+      "id": 589,
+      "versionGroup": 18,
+      "text": "L’ennemi se lie d’amitié avec le lanceur et perd sa combativité, diminuant son Attaque."
+    },
+    "Confide": {
+      "id": 590,
+      "versionGroup": 18,
+      "text": "Dévoile des secrets à l’ennemi, qui perd alors sa concentration et voit son Attaque Spéciale diminuer."
+    },
+    "Water Shuriken": {
+      "id": 594,
+      "versionGroup": 18,
+      "text": "Attaque l’ennemi avec des shuriken de mucus. Frappe en priorité deux à cinq fois d’affilée en un tour."
+    },
+    "Mystical Fire": {
+      "id": 595,
+      "versionGroup": 18,
+      "text": "Attaque avec des flammes brûlantes soufflées de la bouche du lanceur. Diminue l’Attaque Spéciale de l’ennemi."
+    },
+    "Spiky Shield": {
+      "id": 596,
+      "versionGroup": 18,
+      "text": "Protège des attaques, et diminue les PV de tout attaquant qui entre en contact avec le lanceur."
+    },
+    "Aromatic Mist": {
+      "id": 597,
+      "versionGroup": 18,
+      "text": "Grâce à un parfum mystérieux, augmente la Défense Spéciale d’un allié."
+    },
+    "Eerie Impulse": {
+      "id": 598,
+      "versionGroup": 18,
+      "text": "Le corps du lanceur produit des ondes anormales qui enveloppent l’ennemi et diminuent beaucoup son Attaque Spéciale."
+    },
+    "Venom Drench": {
+      "id": 599,
+      "versionGroup": 18,
+      "text": "Sécrète un liquide empoisonné. Diminue l’Attaque, l’Attaque Spéciale et la Vitesse de l’ennemi empoisonné."
+    },
+    "Powder": {
+      "id": 600,
+      "versionGroup": 18,
+      "text": "L’ennemi est pris dans un nuage de poudre. S’il utilise une capacité de type Feu lors du même tour, le nuage explose et lui inflige des dégâts."
+    },
+    "Geomancy": {
+      "id": 601,
+      "versionGroup": 18,
+      "text": "Le lanceur absorbe de l’énergie au premier tour et augmente beaucoup son Attaque Spéciale, sa Défense Spéciale et sa Vitesse au second."
+    },
+    "Magnetic Flux": {
+      "id": 602,
+      "versionGroup": 18,
+      "text": "Manipule les champs magnétiques pour augmenter la Défense et la Défense Spéciale des Pokémon alliés dotés du talent Plus ou du talent Minus."
+    },
+    "Happy Hour": {
+      "id": 603,
+      "versionGroup": 18,
+      "text": "Utilisé pendant un combat, multiplie par deux l’argent gagné à la fin."
+    },
+    "Electric Terrain": {
+      "id": 604,
+      "versionGroup": 18,
+      "text": "Pendant cinq tours, le terrain se charge d’électricité. Les Pokémon au sol ne peuvent pas s’endormir et la puissance des capacités de type Électrik augmente."
+    },
+    "Dazzling Gleam": {
+      "id": 605,
+      "versionGroup": 18,
+      "text": "Libère une puissante décharge lumineuse qui inflige des dégâts à l’ennemi."
+    },
+    "Celebration": {
+      "id": 606,
+      "versionGroup": 18,
+      "text": "Le Pokémon vous souhaite plein de bonnes choses pour cet événement spécial."
+    },
+    "Baby-Doll Eyes": {
+      "id": 608,
+      "versionGroup": 18,
+      "text": "Fixe l’ennemi d’un air très attendrissant qui le touche et diminue son Attaque. Agit en priorité."
+    },
+    "Nuzzle": {
+      "id": 609,
+      "versionGroup": 18,
+      "text": "Le lanceur attaque en frottant ses bajoues chargées d’électricité. Paralyse l’ennemi."
+    },
+    "Infestation": {
+      "id": 611,
+      "versionGroup": 18,
+      "text": "Cette attaque perdure pendant quatre à cinq tours. L’ennemi ne peut pas fuir au cours de cette période."
+    },
+    "Power-Up Punch": {
+      "id": 612,
+      "versionGroup": 18,
+      "text": "À force de frapper, les poings deviennent plus durs. Augmente l’Attaque du lanceur si l’ennemi est touché."
+    },
+    "Oblivion Wing": {
+      "id": 613,
+      "versionGroup": 18,
+      "text": "Vole l’énergie de la cible. Rend au lanceur un nombre de PV supérieur ou égal à la moitié des dégâts infligés."
+    },
+    "Land's Wrath": {
+      "id": 616,
+      "versionGroup": 18,
+      "text": "Utilise la puissance du sol et la concentre sur l’ennemi pour infliger des dégâts."
+    },
+    "Diamond Storm": {
+      "id": 617,
+      "versionGroup": 18,
+      "text": "Utilise la puissance de la fleur Éternelle pour lancer un formidable rayon d’énergie. Blesse aussi gravement le lanceur."
+    },
+    "Hyperspace Hole": {
+      "id": 618,
+      "versionGroup": 18,
+      "text": "D’innombrables rayons lumineux d’un bleu étincelant s’abattent sur la cible."
+    },
+    "Steam Eruption": {
+      "id": 619,
+      "versionGroup": 18,
+      "text": "Le Pokémon transforme la puissance de la terre et attaque la cible avec une lame acérée."
+    }
+  },
+  "abilities": {
+    "Adaptability": {
+      "id": 91,
+      "versionGroup": 18,
+      "text": "Quand le Pokémon utilise une capacité du même type que lui, le bonus de puissance qu'elle reçoit est encore plus important que normalement."
+    },
+    "Aftermath": {
+      "id": 106,
+      "versionGroup": 18,
+      "text": "Si le Pokémon est mis K.O. par une attaque directe, il inflige des dégâts à l'attaquant avant de s'évanouir."
+    },
+    "Air Lock": {
+      "id": 76,
+      "versionGroup": 18,
+      "text": "Annule tous les effets de la météo."
+    },
+    "Analytic": {
+      "id": 148,
+      "versionGroup": 18,
+      "text": "Augmente la puissance des capacités du Pokémon s’il attaque en dernier."
+    },
+    "Anger Point": {
+      "id": 83,
+      "versionGroup": 18,
+      "text": "Si le Pokémon subit un coup critique, il entre dans une colère noire qui augmente son Attaque au maximum."
+    },
+    "Anticipation": {
+      "id": 107,
+      "versionGroup": 18,
+      "text": "Le Pokémon devine si l'adversaire connaît une capacité dangereuse pour lui."
+    },
+    "Arena Trap": {
+      "id": 71,
+      "versionGroup": 18,
+      "text": "Empêche l'ennemi de s'enfuir."
+    },
+    "Aroma Veil": {
+      "id": 165,
+      "versionGroup": 18,
+      "text": "Protège l’équipe des effets limitant le libre arbitre."
+    },
+    "Aura Break": {
+      "id": 188,
+      "versionGroup": 18,
+      "text": "Inverse l’effet des auras en baissant leur puissance."
+    },
+    "Bad Dreams": {
+      "id": 123,
+      "versionGroup": 18,
+      "text": "Inflige des dégâts aux ennemis endormis."
+    },
+    "Battery": {
+      "id": 217,
+      "versionGroup": 18,
+      "text": "Augmente la puissance des capacités spéciales des alliés."
+    },
+    "Battle Armor": {
+      "id": 4,
+      "versionGroup": 18,
+      "text": "Le Pokémon est protégé des coups critiques par une solide carapace."
+    },
+    "Battle Bond": {
+      "id": 210,
+      "versionGroup": 18,
+      "text": "En battant un ennemi, ce Pokémon renforce ses liens avec son Dresseur. Il prend alors sa Forme Sacha et ses Sheauriken gagnent en puissance."
+    },
+    "Beast Boost": {
+      "id": 224,
+      "versionGroup": 18,
+      "text": "Augmente la stat la plus élevée du Pokémon s’il met K.O. un autre Pokémon pendant son tour."
+    },
+    "Berserk": {
+      "id": 201,
+      "versionGroup": 18,
+      "text": "Augmente l'Attaque Spéciale du Pokémon lorsqu'il tombe à la moitié de ses PV à cause d'une attaque."
+    },
+    "Big Pecks": {
+      "id": 145,
+      "versionGroup": 18,
+      "text": "Empêche les capacités adverses de baisser la Défense."
+    },
+    "Blaze": {
+      "id": 66,
+      "versionGroup": 18,
+      "text": "Augmente la puissance des capacités de type Feu du Pokémon quand il a perdu une certaine quantité de PV."
+    },
+    "Bulletproof": {
+      "id": 171,
+      "versionGroup": 18,
+      "text": "Protège de certaines capacités projetant des bombes, balles..."
+    },
+    "Cheek Pouch": {
+      "id": 167,
+      "versionGroup": 18,
+      "text": "Restaure des PV lorsque le Pokémon consomme une Baie, quelle qu’elle soit."
+    },
+    "Chlorophyll": {
+      "id": 34,
+      "versionGroup": 18,
+      "text": "Augmente la Vitesse du Pokémon s'il y a du soleil."
+    },
+    "Clear Body": {
+      "id": 29,
+      "versionGroup": 18,
+      "text": "Empêche les stats du Pokémon de baisser à cause d'une capacité ou d'un talent."
+    },
+    "Cloud Nine": {
+      "id": 13,
+      "versionGroup": 18,
+      "text": "Annule tous les effets liés à la météo."
+    },
+    "Color Change": {
+      "id": 16,
+      "versionGroup": 18,
+      "text": "Lorsque le Pokémon est touché par une capacité, il prend le type de celle-ci."
+    },
+    "Comatose": {
+      "id": 213,
+      "versionGroup": 18,
+      "text": "Le Pokémon rêve en permanence et ne se réveille jamais. Il est capable d’attaquer normalement tout en dormant."
+    },
+    "Competitive": {
+      "id": 172,
+      "versionGroup": 18,
+      "text": "Augmente beaucoup l’Attaque Spéciale du Pokémon quand ses stats baissent."
+    },
+    "Compound Eyes": {
+      "id": 14,
+      "versionGroup": 18,
+      "text": "Les yeux à facettes du Pokémon augmentent sa Précision."
+    },
+    "Contrary": {
+      "id": 126,
+      "versionGroup": 18,
+      "text": "Inverse les changements de stats : les augmentations de stats se transforment en baisses, et vice-versa."
+    },
+    "Corrosion": {
+      "id": 212,
+      "versionGroup": 18,
+      "text": "Permet d’empoisonner les Pokémon de type Acier ou Poison."
+    },
+    "Cursed Body": {
+      "id": 130,
+      "versionGroup": 18,
+      "text": "Quand le Pokémon est touché par une capacité, il inflige parfois Entrave sur celle-ci."
+    },
+    "Cute Charm": {
+      "id": 56,
+      "versionGroup": 18,
+      "text": "Peut séduire l'attaquant lorsque le Pokémon subit une attaque directe."
+    },
+    "Damp": {
+      "id": 6,
+      "versionGroup": 18,
+      "text": "Le Pokémon augmente l'humidité de l'air, ce qui empêche tous les Pokémon d'utiliser des capacités explosives telles que Destruction."
+    },
+    "Dancer": {
+      "id": 216,
+      "versionGroup": 18,
+      "text": "Si n’importe quel Pokémon utilise une capacité dansante, ce Pokémon peut se mettre aussi à danser."
+    },
+    "Dark Aura": {
+      "id": 186,
+      "versionGroup": 18,
+      "text": "Augmente la puissance des attaques de type Ténèbres de tous les Pokémon."
+    },
+    "Dazzling": {
+      "id": 219,
+      "versionGroup": 18,
+      "text": "L’adversaire est abasourdi par le Pokémon et ne peut pas le viser avec une capacité prioritaire."
+    },
+    "Defeatist": {
+      "id": 129,
+      "versionGroup": 18,
+      "text": "Le Pokémon devient défaitiste quand ses PV tombent à la moitié, et son Attaque et son Attaque Spéciale sont divisées par deux."
+    },
+    "Defiant": {
+      "id": 128,
+      "versionGroup": 18,
+      "text": "Augmente beaucoup l'Attaque du Pokémon quand ses stats baissent."
+    },
+    "Disguise": {
+      "id": 209,
+      "versionGroup": 18,
+      "text": "Le déguisement qui recouvre le corps du Pokémon est capable de le protéger d’une attaque."
+    },
+    "Download": {
+      "id": 88,
+      "versionGroup": 18,
+      "text": "Le Pokémon compare la Défense et la Défense Spéciale de l'adversaire et augmente son Attaque ou son Attaque Spéciale en conséquence."
+    },
+    "Drizzle": {
+      "id": 2,
+      "versionGroup": 18,
+      "text": "Le Pokémon invoque la pluie quand il entre au combat."
+    },
+    "Drought": {
+      "id": 70,
+      "versionGroup": 18,
+      "text": "Le soleil se met à briller quand le Pokémon entre au combat."
+    },
+    "Dry Skin": {
+      "id": 87,
+      "versionGroup": 18,
+      "text": "Le Pokémon regagne des PV sous la pluie ou s'il est touché par une capacité Eau, mais il déteste les capacités Feu ou quand le soleil brille."
+    },
+    "Early Bird": {
+      "id": 48,
+      "versionGroup": 18,
+      "text": "Le Pokémon se réveille deux fois plus rapidement que les autres."
+    },
+    "Effect Spore": {
+      "id": 27,
+      "versionGroup": 18,
+      "text": "Peut paralyser, empoisonner ou endormir l'attaquant lorsque le Pokémon subit une attaque directe."
+    },
+    "Electric Surge": {
+      "id": 226,
+      "versionGroup": 18,
+      "text": "Le Pokémon crée un Champ Électrifié au moment où il entre au combat."
+    },
+    "Emergency Exit": {
+      "id": 194,
+      "versionGroup": 18,
+      "text": "Le Pokémon évite les situations inutilement dangereuses. Quand ses PV tombent à la moitié, il se réfugie dans sa Poké Ball."
+    },
+    "Fairy Aura": {
+      "id": 187,
+      "versionGroup": 18,
+      "text": "Augmente la puissance des attaques de type Fée de tous les Pokémon."
+    },
+    "Filter": {
+      "id": 111,
+      "versionGroup": 18,
+      "text": "Réduit les dégâts subis lorsque le Pokémon est touché par une capacité super efficace."
+    },
+    "Flame Body": {
+      "id": 49,
+      "versionGroup": 18,
+      "text": "Peut brûler l'attaquant lorsque le Pokémon subit une attaque directe."
+    },
+    "Flare Boost": {
+      "id": 138,
+      "versionGroup": 18,
+      "text": "Augmente la puissance des capacités spéciales quand le Pokémon est brûlé."
+    },
+    "Flash Fire": {
+      "id": 18,
+      "versionGroup": 18,
+      "text": "Lorsque le Pokémon est touché par une capacité de type Feu, il absorbe la chaleur pour renforcer ses propres capacités Feu."
+    },
+    "Flower Gift": {
+      "id": 122,
+      "versionGroup": 18,
+      "text": "Augmente l'Attaque et la Défense Spéciale du Pokémon et de ses alliés lorsque le soleil brille."
+    },
+    "Flower Veil": {
+      "id": 166,
+      "versionGroup": 18,
+      "text": "Empêche les alliés de type Plante de subir des baisses de stats et des altérations de statut."
+    },
+    "Fluffy": {
+      "id": 218,
+      "versionGroup": 18,
+      "text": "Divise par deux les dégâts des attaques directes subies par le Pokémon, mais double les dégâts des capacités de type Feu."
+    },
+    "Forecast": {
+      "id": 59,
+      "versionGroup": 18,
+      "text": "Le Pokémon prend le type Eau, Feu ou Glace en fonction de la météo."
+    },
+    "Forewarn": {
+      "id": 108,
+      "versionGroup": 18,
+      "text": "Révèle l'une des capacités de l'ennemi quand le combat commence."
+    },
+    "Friend Guard": {
+      "id": 132,
+      "versionGroup": 18,
+      "text": "Diminue les dégâts subis par les alliés."
+    },
+    "Frisk": {
+      "id": 119,
+      "versionGroup": 18,
+      "text": "Permet de connaître l'objet tenu par l'ennemi quand le combat commence."
+    },
+    "Full Metal Body": {
+      "id": 230,
+      "versionGroup": 18,
+      "text": "Empêche les stats du Pokémon de baisser à cause d’une capacité ou d’un talent."
+    },
+    "Fur Coat": {
+      "id": 169,
+      "versionGroup": 18,
+      "text": "Divise par deux les dégâts des capacités physiques subies par le Pokémon."
+    },
+    "Gale Wings": {
+      "id": 177,
+      "versionGroup": 18,
+      "text": "Quand les PV du Pokémon sont au maximum, ses capacités de type Vol sont prioritaires."
+    },
+    "Gluttony": {
+      "id": 82,
+      "versionGroup": 18,
+      "text": "Si le Pokémon tient une Baie à manger en cas de PV bas, il la mange dès qu'il a perdu la moitié de ses PV."
+    },
+    "Gooey": {
+      "id": 183,
+      "versionGroup": 18,
+      "text": "Baisse la Vitesse de l’attaquant lorsque le Pokémon subit une attaque directe."
+    },
+    "Grass Pelt": {
+      "id": 179,
+      "versionGroup": 18,
+      "text": "Augmente la Défense du Pokémon si Champ Herbu est actif."
+    },
+    "Grassy Surge": {
+      "id": 229,
+      "versionGroup": 18,
+      "text": "Le Pokémon crée un Champ Herbu au moment où il entre au combat."
+    },
+    "Guts": {
+      "id": 62,
+      "versionGroup": 18,
+      "text": "Augmente l'Attaque du Pokémon s'il est affecté par une altération de statut."
+    },
+    "Harvest": {
+      "id": 139,
+      "versionGroup": 18,
+      "text": "Permet de réutiliser une même Baie plusieurs fois."
+    },
+    "Healer": {
+      "id": 131,
+      "versionGroup": 18,
+      "text": "Soigne parfois une altération de statut d’un allié proche."
+    },
+    "Heatproof": {
+      "id": 85,
+      "versionGroup": 18,
+      "text": "Diminue de moitié les dégâts infligés au Pokémon par les capacités de type Feu."
+    },
+    "Heavy Metal": {
+      "id": 134,
+      "versionGroup": 18,
+      "text": "Double le poids du Pokémon."
+    },
+    "Honey Gather": {
+      "id": 118,
+      "versionGroup": 18,
+      "text": "Le Pokémon peut parfois trouver du Miel après un combat."
+    },
+    "Huge Power": {
+      "id": 37,
+      "versionGroup": 18,
+      "text": "Double l'Attaque du Pokémon."
+    },
+    "Hustle": {
+      "id": 55,
+      "versionGroup": 18,
+      "text": "Améliore l'Attaque du Pokémon mais diminue la Précision."
+    },
+    "Hydration": {
+      "id": 93,
+      "versionGroup": 18,
+      "text": "Soigne les altérations de statut du Pokémon quand il pleut."
+    },
+    "Hyper Cutter": {
+      "id": 52,
+      "versionGroup": 18,
+      "text": "Le Pokémon est armé de lames tranchantes qui font sa fierté et empêchent son Attaque de baisser."
+    },
+    "Ice Body": {
+      "id": 115,
+      "versionGroup": 18,
+      "text": "Régénère les PV du Pokémon lors des tempêtes de grêle."
+    },
+    "Illuminate": {
+      "id": 35,
+      "versionGroup": 18,
+      "text": "Émet une lumière spécifique qui facilite les rencontres avec les Pokémon sauvages."
+    },
+    "Illusion": {
+      "id": 149,
+      "versionGroup": 18,
+      "text": "Donne au Pokémon l’apparence du dernier membre de l’équipe pour tromper l’adversaire."
+    },
+    "Immunity": {
+      "id": 17,
+      "versionGroup": 18,
+      "text": "Le Pokémon est naturellement immunisé contre toute forme de poison."
+    },
+    "Imposter": {
+      "id": 150,
+      "versionGroup": 18,
+      "text": "Donne l’apparence du Pokémon adverse."
+    },
+    "Infiltrator": {
+      "id": 151,
+      "versionGroup": 18,
+      "text": "Traverse les barrières et les clones de l’ennemi pour attaquer directement."
+    },
+    "Innards Out": {
+      "id": 215,
+      "versionGroup": 18,
+      "text": "Le Pokémon inflige à l’adversaire l’ayant mis K.O. des dégâts égaux au nombre de PV qu’il lui restait avant le coup de grâce."
+    },
+    "Inner Focus": {
+      "id": 39,
+      "versionGroup": 18,
+      "text": "Le Pokémon a un mental à toute épreuve qui empêche les capacités ennemies de lui faire peur."
+    },
+    "Insomnia": {
+      "id": 15,
+      "versionGroup": 18,
+      "text": "Le Pokémon est incapable de dormir."
+    },
+    "Intimidate": {
+      "id": 22,
+      "versionGroup": 18,
+      "text": "Le Pokémon rugit lorsqu'il arrive au combat, ce qui intimide l'ennemi et baisse son Attaque."
+    },
+    "Iron Barbs": {
+      "id": 160,
+      "versionGroup": 18,
+      "text": "Inflige des dégâts à l’attaquant lorsque le Pokémon subit une attaque directe."
+    },
+    "Iron Fist": {
+      "id": 89,
+      "versionGroup": 18,
+      "text": "Augmente la puissance des capacités coups de poing."
+    },
+    "Justified": {
+      "id": 154,
+      "versionGroup": 18,
+      "text": "Réveille la noblesse du Pokémon lorsqu’il subit une capacité de type Ténèbres, ce qui augmente son Attaque."
+    },
+    "Keen Eye": {
+      "id": 51,
+      "versionGroup": 18,
+      "text": "Les yeux perçants du Pokémon empêchent sa Précision de baisser."
+    },
+    "Klutz": {
+      "id": 103,
+      "versionGroup": 18,
+      "text": "Le Pokémon ne peut utiliser aucun objet tenu."
+    },
+    "Leaf Guard": {
+      "id": 102,
+      "versionGroup": 18,
+      "text": "Protège le Pokémon contre les altérations de statut quand le soleil brille."
+    },
+    "Levitate": {
+      "id": 26,
+      "versionGroup": 18,
+      "text": "Le Pokémon flotte, ce qui l'immunise contre les capacités de type Sol."
+    },
+    "Light Metal": {
+      "id": 135,
+      "versionGroup": 18,
+      "text": "Divise par deux le poids du Pokémon."
+    },
+    "Lightning Rod": {
+      "id": 31,
+      "versionGroup": 18,
+      "text": "Le Pokémon détourne sur lui les capacités de type Électrik et les neutralise, tout en montant son Attaque Spéciale."
+    },
+    "Limber": {
+      "id": 7,
+      "versionGroup": 18,
+      "text": "Le Pokémon s'est suffisamment échauffé, ce qui l'immunise contre la paralysie."
+    },
+    "Liquid Ooze": {
+      "id": 64,
+      "versionGroup": 18,
+      "text": "Le Pokémon suinte un liquide toxique qui blesse tous ceux qui tentent de voler ses PV."
+    },
+    "Liquid Voice": {
+      "id": 204,
+      "versionGroup": 18,
+      "text": "Toutes les attaques sonores du Pokémon prennent le type Eau."
+    },
+    "Long Reach": {
+      "id": 203,
+      "versionGroup": 18,
+      "text": "Le Pokémon est capable d’utiliser toutes ses capacités sans entrer en contact direct avec sa cible."
+    },
+    "Magic Bounce": {
+      "id": 156,
+      "versionGroup": 18,
+      "text": "Annule les effets des capacités de statut subies par le Pokémon et les retourne à l’envoyeur."
+    },
+    "Magic Guard": {
+      "id": 98,
+      "versionGroup": 18,
+      "text": "Seules les attaques peuvent blesser le Pokémon."
+    },
+    "Magician": {
+      "id": 170,
+      "versionGroup": 18,
+      "text": "Les capacités volent aussi l’objet tenu par la cible."
+    },
+    "Magma Armor": {
+      "id": 40,
+      "versionGroup": 18,
+      "text": "Le magma qui recouvre le corps du Pokémon le protège contre le gel."
+    },
+    "Magnet Pull": {
+      "id": 42,
+      "versionGroup": 18,
+      "text": "Attire les Pokémon Acier grâce à un champ magnétique, ce qui les empêche de fuir."
+    },
+    "Marvel Scale": {
+      "id": 63,
+      "versionGroup": 18,
+      "text": "Les écailles mystérieuses du Pokémon réagissent aux altérations de statut en augmentant sa Défense."
+    },
+    "Mega Launcher": {
+      "id": 178,
+      "versionGroup": 18,
+      "text": "Augmente la puissance de certaines capacités de type aura."
+    },
+    "Merciless": {
+      "id": 196,
+      "versionGroup": 18,
+      "text": "Lorsque le Pokémon attaque un adversaire empoisonné, le coup sera forcément critique."
+    },
+    "Minus": {
+      "id": 58,
+      "versionGroup": 18,
+      "text": "L'Attaque Spéciale du Pokémon augmente si un Pokémon allié a le talent Minus ou Plus."
+    },
+    "Misty Surge": {
+      "id": 228,
+      "versionGroup": 18,
+      "text": "Le Pokémon crée un Champ Brumeux au moment où il entre au combat."
+    },
+    "Mold Breaker": {
+      "id": 104,
+      "versionGroup": 18,
+      "text": "Le Pokémon ignore les talents adverses qui auraient un effet sur ses capacités."
+    },
+    "Moody": {
+      "id": 141,
+      "versionGroup": 18,
+      "text": "Augmente beaucoup une stat du Pokémon et en baisse une autre au hasard à chaque tour."
+    },
+    "Motor Drive": {
+      "id": 78,
+      "versionGroup": 18,
+      "text": "Si le Pokémon est touché par une capacité Électrik, il ne subit aucun dégât et sa Vitesse augmente."
+    },
+    "Moxie": {
+      "id": 153,
+      "versionGroup": 18,
+      "text": "Quand le Pokémon met un ennemi K.O., sa confiance en lui ne connaît plus de limite et son Attaque augmente."
+    },
+    "Multiscale": {
+      "id": 136,
+      "versionGroup": 18,
+      "text": "Le Pokémon reçoit moins de dégâts quand ses PV sont au maximum."
+    },
+    "Multitype": {
+      "id": 121,
+      "versionGroup": 18,
+      "text": "Modifie le type du Pokémon en fonction de la plaque ou du Cristal Z qu’il tient."
+    },
+    "Mummy": {
+      "id": 152,
+      "versionGroup": 18,
+      "text": "Remplace le talent de l’attaquant par « Momie » lorsque le Pokémon subit une attaque directe."
+    },
+    "Natural Cure": {
+      "id": 30,
+      "versionGroup": 18,
+      "text": "Le Pokémon soigne ses altérations de statut en quittant le combat."
+    },
+    "No Guard": {
+      "id": 99,
+      "versionGroup": 18,
+      "text": "Les capacités du Pokémon touchent l'ennemi à coup sûr, et vice-versa."
+    },
+    "Normalize": {
+      "id": 96,
+      "versionGroup": 18,
+      "text": "Toutes les capacités du Pokémon deviennent de type Normal, quel que soit leur type original. Leur puissance augmente légèrement."
+    },
+    "Oblivious": {
+      "id": 12,
+      "versionGroup": 18,
+      "text": "Le Pokémon est un grand benêt, ce qui l'immunise contre l'attraction ou la provocation."
+    },
+    "Overcoat": {
+      "id": 142,
+      "versionGroup": 18,
+      "text": "Protège des dégâts occasionnés par les tempêtes de sable ou la grêle, et neutralise les attaques à base de poudre."
+    },
+    "Overgrow": {
+      "id": 65,
+      "versionGroup": 18,
+      "text": "Augmente la puissance des capacités de type Plante du Pokémon quand il a perdu une certaine quantité de PV."
+    },
+    "Own Tempo": {
+      "id": 20,
+      "versionGroup": 18,
+      "text": "Le Pokémon vit sa vie à son propre rythme, ce qui l'immunise contre la confusion."
+    },
+    "Pickpocket": {
+      "id": 124,
+      "versionGroup": 18,
+      "text": "Vole l’objet que tient l’attaquant quand le Pokémon subit une attaque directe."
+    },
+    "Pickup": {
+      "id": 53,
+      "versionGroup": 18,
+      "text": "Permet parfois au Pokémon de ramasser les objets que ses ennemis ont utilisés. Il lui arrive aussi d’en trouver hors des combats."
+    },
+    "Pixilate": {
+      "id": 182,
+      "versionGroup": 18,
+      "text": "Les capacités de type Normal deviennent de type Fée. Leur puissance augmente légèrement."
+    },
+    "Plus": {
+      "id": 57,
+      "versionGroup": 18,
+      "text": "L'Attaque Spéciale du Pokémon augmente si un Pokémon allié a le talent Minus ou Plus."
+    },
+    "Poison Heal": {
+      "id": 90,
+      "versionGroup": 18,
+      "text": "Quand le Pokémon est empoisonné, il regagne des PV au lieu d'en perdre."
+    },
+    "Poison Point": {
+      "id": 38,
+      "versionGroup": 18,
+      "text": "Peut empoisonner l'attaquant lorsque le Pokémon subit une attaque directe."
+    },
+    "Poison Touch": {
+      "id": 143,
+      "versionGroup": 18,
+      "text": "Peut empoisonner l’ennemi par simple contact."
+    },
+    "Power Construct": {
+      "id": 211,
+      "versionGroup": 18,
+      "text": "Lorsque le Pokémon perd la moitié de ses PV, ses Cellules se rassemblent pour l’encourager, ce qui lui permet de prendre sa Forme Parfaite."
+    },
+    "Prankster": {
+      "id": 158,
+      "versionGroup": 18,
+      "text": "Rend les capacités de statut prioritaires."
+    },
+    "Pressure": {
+      "id": 46,
+      "versionGroup": 18,
+      "text": "Force l’ennemi à dépenser plus de PP."
+    },
+    "Prism Armor": {
+      "id": 232,
+      "versionGroup": 18,
+      "text": "Réduit les dégâts subis lorsque le Pokémon est touché par une capacité super efficace."
+    },
+    "Protean": {
+      "id": 168,
+      "versionGroup": 18,
+      "text": "Le Pokémon prend le type de la capacité qu’il utilise."
+    },
+    "Psychic Surge": {
+      "id": 227,
+      "versionGroup": 18,
+      "text": "Le Pokémon crée un Champ Psychique au moment où il entre au combat."
+    },
+    "Pure Power": {
+      "id": 74,
+      "versionGroup": 18,
+      "text": "Le Pokémon utilise sa maîtrise du yoga pour doubler la puissance de ses capacités physiques."
+    },
+    "Queenly Majesty": {
+      "id": 214,
+      "versionGroup": 18,
+      "text": "L’adversaire est impressionné par la majesté du Pokémon et ne peut pas le viser avec une attaque prioritaire."
+    },
+    "Quick Feet": {
+      "id": 95,
+      "versionGroup": 18,
+      "text": "Augmente la Vitesse du Pokémon en cas d'altération de statut."
+    },
+    "RKS System": {
+      "id": 225,
+      "versionGroup": 18,
+      "text": "Change le type du Pokémon en fonction de la ROM équipée."
+    },
+    "Rain Dish": {
+      "id": 44,
+      "versionGroup": 18,
+      "text": "Le Pokémon récupère progressivement des PV lorsqu'il pleut."
+    },
+    "Rattled": {
+      "id": 155,
+      "versionGroup": 18,
+      "text": "Si le Pokémon est touché par une capacité de type Ténèbres, Spectre ou Insecte, sa phobie se révèle et sa Vitesse augmente."
+    },
+    "Receiver": {
+      "id": 222,
+      "versionGroup": 18,
+      "text": "Le Pokémon reçoit le talent d’un allié mis K.O."
+    },
+    "Reckless": {
+      "id": 120,
+      "versionGroup": 18,
+      "text": "Augmente la puissance des capacités occasionnant un contrecoup."
+    },
+    "Refrigerate": {
+      "id": 174,
+      "versionGroup": 18,
+      "text": "Les capacités de type Normal deviennent de type Glace. Leur puissance augmente légèrement."
+    },
+    "Regenerator": {
+      "id": 144,
+      "versionGroup": 18,
+      "text": "Restaure un peu de PV si le Pokémon est retiré du combat."
+    },
+    "Rivalry": {
+      "id": 79,
+      "versionGroup": 18,
+      "text": "Le Pokémon déteste la concurrence et inflige plus de dégâts si l'ennemi est du même sexe. Par contre, il en inflige moins si l'ennemi est du sexe opposé."
+    },
+    "Rock Head": {
+      "id": 69,
+      "versionGroup": 18,
+      "text": "Le Pokémon peut utiliser des capacités occasionnant un contrecoup sans perdre de PV."
+    },
+    "Rough Skin": {
+      "id": 24,
+      "versionGroup": 18,
+      "text": "Blesse l'attaquant lorsque le Pokémon subit une attaque directe."
+    },
+    "Run Away": {
+      "id": 50,
+      "versionGroup": 18,
+      "text": "Permet de fuir n'importe quel Pokémon sauvage."
+    },
+    "Sand Force": {
+      "id": 159,
+      "versionGroup": 18,
+      "text": "Augmente la puissance des capacités de type Roche, Sol et Acier en cas de tempête de sable."
+    },
+    "Sand Rush": {
+      "id": 146,
+      "versionGroup": 18,
+      "text": "Augmente la Vitesse lors des tempêtes de sable."
+    },
+    "Sand Stream": {
+      "id": 45,
+      "versionGroup": 18,
+      "text": "Le Pokémon invoque une tempête de sable quand il entre au combat."
+    },
+    "Sand Veil": {
+      "id": 8,
+      "versionGroup": 18,
+      "text": "Augmente l'Esquive du Pokémon lors des tempêtes de sable."
+    },
+    "Sap Sipper": {
+      "id": 157,
+      "versionGroup": 18,
+      "text": "Annule les attaques de type Plante subies par le Pokémon et augmente son Attaque."
+    },
+    "Schooling": {
+      "id": 208,
+      "versionGroup": 18,
+      "text": "Le Pokémon se rassemble avec ses congénères quand ses PV sont élevés. Plus ses PV baissent, plus le banc s’amenuise."
+    },
+    "Scrappy": {
+      "id": 113,
+      "versionGroup": 18,
+      "text": "Permet aux capacités de type Normal ou Combat du Pokémon de toucher les Pokémon de type Spectre."
+    },
+    "Serene Grace": {
+      "id": 32,
+      "versionGroup": 18,
+      "text": "Augmente les chances d'infliger des effets additionnels."
+    },
+    "Shadow Shield": {
+      "id": 231,
+      "versionGroup": 18,
+      "text": "Le Pokémon reçoit moins de dégâts quand ses PV sont au maximum."
+    },
+    "Shadow Tag": {
+      "id": 23,
+      "versionGroup": 18,
+      "text": "Empêche le Pokémon ennemi de quitter le combat."
+    },
+    "Shed Skin": {
+      "id": 61,
+      "versionGroup": 18,
+      "text": "Le Pokémon soigne parfois ses altérations de statut en muant."
+    },
+    "Sheer Force": {
+      "id": 125,
+      "versionGroup": 18,
+      "text": "Les capacités ayant un effet additionnel perdent celui-ci, mais leur puissance augmente."
+    },
+    "Shell Armor": {
+      "id": 75,
+      "versionGroup": 18,
+      "text": "Le Pokémon est protégé des coups critiques par sa carapace."
+    },
+    "Shield Dust": {
+      "id": 19,
+      "versionGroup": 18,
+      "text": "Le Pokémon dispose d'un écran naturel qui le protège des effets additionnels des attaques ennemies."
+    },
+    "Shields Down": {
+      "id": 197,
+      "versionGroup": 18,
+      "text": "Lorsque le Pokémon perd la moitié de ses PV, son enveloppe se brise, mais son Attaque et son Attaque Spéciale augmentent."
+    },
+    "Simple": {
+      "id": 86,
+      "versionGroup": 18,
+      "text": "Les variations de stats sont deux fois plus importantes pour le Pokémon."
+    },
+    "Skill Link": {
+      "id": 92,
+      "versionGroup": 18,
+      "text": "Les capacités pouvant frapper plusieurs fois frappent toujours le nombre maximum de coups."
+    },
+    "Slow Start": {
+      "id": 112,
+      "versionGroup": 18,
+      "text": "Divise la Vitesse et l’Attaque du Pokémon par deux pendant les cinq premiers tours du combat."
+    },
+    "Slush Rush": {
+      "id": 202,
+      "versionGroup": 18,
+      "text": "Augmente la Vitesse du Pokémon quand il grêle."
+    },
+    "Sniper": {
+      "id": 97,
+      "versionGroup": 18,
+      "text": "Lorsque le Pokémon porte un coup critique, les dégâts infligés augmentent encore plus que d'habitude."
+    },
+    "Snow Cloak": {
+      "id": 81,
+      "versionGroup": 18,
+      "text": "Augmente l'Esquive du Pokémon durant les tempêtes de grêle."
+    },
+    "Snow Warning": {
+      "id": 117,
+      "versionGroup": 18,
+      "text": "Déclenche une tempête de grêle quand le Pokémon entre au combat."
+    },
+    "Solar Power": {
+      "id": 94,
+      "versionGroup": 18,
+      "text": "Quand le soleil brille, l'Attaque Spéciale du Pokémon augmente mais il perd des PV à chaque tour."
+    },
+    "Solid Rock": {
+      "id": 116,
+      "versionGroup": 18,
+      "text": "Réduit les dégâts subis lorsque le Pokémon est touché par une capacité super efficace."
+    },
+    "Soul-Heart": {
+      "id": 220,
+      "versionGroup": 18,
+      "text": "Augmente l’Attaque Spéciale du Pokémon lorsqu’un autre Pokémon est mis K.O."
+    },
+    "Soundproof": {
+      "id": 43,
+      "versionGroup": 18,
+      "text": "Protège le Pokémon de toutes les capacités sonores."
+    },
+    "Speed Boost": {
+      "id": 3,
+      "versionGroup": 18,
+      "text": "La Vitesse du Pokémon augmente à chaque tour."
+    },
+    "Stakeout": {
+      "id": 198,
+      "versionGroup": 18,
+      "text": "Lorsque le Pokémon attaque une cible qui vient d’entrer sur le terrain en remplacement d’un autre Pokémon, les dégâts infligés sont doublés."
+    },
+    "Stall": {
+      "id": 100,
+      "versionGroup": 18,
+      "text": "Le Pokémon utilise toujours sa capacité en dernier."
+    },
+    "Stamina": {
+      "id": 192,
+      "versionGroup": 18,
+      "text": "Augmente la Défense du Pokémon lorsqu’il subit une attaque."
+    },
+    "Stance Change": {
+      "id": 176,
+      "versionGroup": 18,
+      "text": "Le Pokémon prend la Forme Assaut lorsqu’il utilise une attaque, et la Forme Parade lorsqu’il utilise Bouclier Royal."
+    },
+    "Static": {
+      "id": 9,
+      "versionGroup": 18,
+      "text": "Le Pokémon charge son corps en électricité statique, et tout contact avec lui peut paralyser."
+    },
+    "Steadfast": {
+      "id": 80,
+      "versionGroup": 18,
+      "text": "Augmente la Vitesse du Pokémon quand il a peur."
+    },
+    "Steelworker": {
+      "id": 200,
+      "versionGroup": 18,
+      "text": "Augmente la puissance des attaques de type Acier."
+    },
+    "Stench": {
+      "id": 1,
+      "versionGroup": 18,
+      "text": "Le Pokémon émet une odeur si nauséabonde qu'il peut effrayer sa cible."
+    },
+    "Sticky Hold": {
+      "id": 60,
+      "versionGroup": 18,
+      "text": "Les objets sont collés au corps gluant du Pokémon, ce qui empêche ses adversaires de les dérober."
+    },
+    "Storm Drain": {
+      "id": 114,
+      "versionGroup": 18,
+      "text": "Le Pokémon détourne sur lui les capacités de type Eau et les neutralise, tout en montant son Attaque Spéciale."
+    },
+    "Strong Jaw": {
+      "id": 173,
+      "versionGroup": 18,
+      "text": "Le Pokémon a une mâchoire robuste qui augmente la puissance de ses capacités à base de morsures."
+    },
+    "Sturdy": {
+      "id": 5,
+      "versionGroup": 18,
+      "text": "Le Pokémon encaisse toujours au moins une attaque s’il a tous ses PV. Il est également immunisé contre les capacités pouvant mettre K.O. en un coup."
+    },
+    "Suction Cups": {
+      "id": 21,
+      "versionGroup": 18,
+      "text": "Le Pokémon est solidement fixé au sol, ce qui le protège des capacités ou objets qui font changer de Pokémon."
+    },
+    "Super Luck": {
+      "id": 105,
+      "versionGroup": 18,
+      "text": "Le Pokémon est tellement chanceux qu'il inflige plus fréquemment des coups critiques."
+    },
+    "Swarm": {
+      "id": 68,
+      "versionGroup": 18,
+      "text": "Augmente la puissance des capacités de type Insecte du Pokémon quand il a perdu une certaine quantité de PV."
+    },
+    "Sweet Veil": {
+      "id": 175,
+      "versionGroup": 18,
+      "text": "Les Pokémon de l’équipe ne peuvent pas s’endormir."
+    },
+    "Swift Swim": {
+      "id": 33,
+      "versionGroup": 18,
+      "text": "Augmente la Vitesse du Pokémon s'il pleut."
+    },
+    "Symbiosis": {
+      "id": 180,
+      "versionGroup": 18,
+      "text": "Quand les alliés utilisent l’objet qu’ils tiennent, le Pokémon leur donne l’objet qu’il tient en remplacement."
+    },
+    "Synchronize": {
+      "id": 28,
+      "versionGroup": 18,
+      "text": "Quand le Pokémon est brûlé, paralysé ou empoisonné par un autre Pokémon, il partage ce statut avec celui-ci."
+    },
+    "Tangled Feet": {
+      "id": 77,
+      "versionGroup": 18,
+      "text": "Augmente l'Esquive du Pokémon s'il est confus."
+    },
+    "Technician": {
+      "id": 101,
+      "versionGroup": 18,
+      "text": "Augmente la puissance des capacités les plus faibles."
+    },
+    "Telepathy": {
+      "id": 140,
+      "versionGroup": 18,
+      "text": "Le Pokémon anticipe et évite les attaques de ses alliés."
+    },
+    "Teravolt": {
+      "id": 164,
+      "versionGroup": 18,
+      "text": "Le Pokémon ignore les talents adverses qui auraient un effet sur ses capacités."
+    },
+    "Thick Fat": {
+      "id": 47,
+      "versionGroup": 18,
+      "text": "Le Pokémon est protégé par une épaisse couche de graisse qui diminue de moitié les dégâts qu'il subit des capacités de types Feu et Glace."
+    },
+    "Tinted Lens": {
+      "id": 110,
+      "versionGroup": 18,
+      "text": "Permet à une capacité « pas très efficace » d'infliger des dégâts comme si elle était efficace normalement."
+    },
+    "Torrent": {
+      "id": 67,
+      "versionGroup": 18,
+      "text": "Augmente la puissance des capacités de type Eau du Pokémon quand il a perdu une certaine quantité de PV."
+    },
+    "Tough Claws": {
+      "id": 181,
+      "versionGroup": 18,
+      "text": "Augmente la puissance des attaques directes du Pokémon."
+    },
+    "Toxic Boost": {
+      "id": 137,
+      "versionGroup": 18,
+      "text": "Augmente la puissance des capacités physiques quand le Pokémon est empoisonné."
+    },
+    "Trace": {
+      "id": 36,
+      "versionGroup": 18,
+      "text": "Lorsque le Pokémon entre au combat, il calque le talent d'un ennemi pour remplacer le sien."
+    },
+    "Triage": {
+      "id": 205,
+      "versionGroup": 18,
+      "text": "Toutes les capacités qui soignent le Pokémon directement deviennent prioritaires."
+    },
+    "Truant": {
+      "id": 54,
+      "versionGroup": 18,
+      "text": "Lorsque le Pokémon utilise une capacité, il passe le tour suivant à paresser."
+    },
+    "Turboblaze": {
+      "id": 163,
+      "versionGroup": 18,
+      "text": "Le Pokémon ignore les talents adverses qui auraient un effet sur ses capacités."
+    },
+    "Unaware": {
+      "id": 109,
+      "versionGroup": 18,
+      "text": "Quand il attaque, le Pokémon ignore les changements de stats de l'ennemi."
+    },
+    "Unburden": {
+      "id": 84,
+      "versionGroup": 18,
+      "text": "Augmente la Vitesse du Pokémon s'il perd ou utilise l'objet qu'il tenait au début du combat."
+    },
+    "Unnerve": {
+      "id": 127,
+      "versionGroup": 18,
+      "text": "Fait stresser l’ennemi, ce qui l’empêche de manger des Baies."
+    },
+    "Victory Star": {
+      "id": 162,
+      "versionGroup": 18,
+      "text": "Augmente la Précision des Pokémon de l’équipe."
+    },
+    "Vital Spirit": {
+      "id": 72,
+      "versionGroup": 18,
+      "text": "Empêche le Pokémon de s'endormir."
+    },
+    "Volt Absorb": {
+      "id": 10,
+      "versionGroup": 18,
+      "text": "Si le Pokémon est touché par une capacité Électrik, il ne subit aucun dégât et regagne des PV à la place."
+    },
+    "Water Absorb": {
+      "id": 11,
+      "versionGroup": 18,
+      "text": "Si le Pokémon est touché par une capacité Eau, il ne subit aucun dégât et regagne des PV à la place."
+    },
+    "Water Bubble": {
+      "id": 199,
+      "versionGroup": 18,
+      "text": "Réduit les dégâts des capacités de type Feu subies par le Pokémon. Il est également immunisé contre les brûlures."
+    },
+    "Water Compaction": {
+      "id": 195,
+      "versionGroup": 18,
+      "text": "Augmente beaucoup la Défense du Pokémon quand il subit une capacité de type Eau."
+    },
+    "Water Veil": {
+      "id": 41,
+      "versionGroup": 18,
+      "text": "Le voile qui recouvre le Pokémon le protège des brûlures."
+    },
+    "Weak Armor": {
+      "id": 133,
+      "versionGroup": 18,
+      "text": "Quand le Pokémon est touché par une capacité physique, sa Défense baisse mais sa Vitesse augmente beaucoup."
+    },
+    "White Smoke": {
+      "id": 73,
+      "versionGroup": 18,
+      "text": "Un écran de fumée empêche l'ennemi de baisser les stats du Pokémon."
+    },
+    "Wimp Out": {
+      "id": 193,
+      "versionGroup": 18,
+      "text": "Le Pokémon perd confiance quand ses PV tombent à la moitié et s’enfuit dans sa Poké Ball."
+    },
+    "Wonder Guard": {
+      "id": 25,
+      "versionGroup": 18,
+      "text": "Une puissance mystérieuse protège le Pokémon contre toutes les capacités, sauf celles « super efficaces »."
+    },
+    "Wonder Skin": {
+      "id": 147,
+      "versionGroup": 18,
+      "text": "Le Pokémon résiste mieux aux capacités de statut."
+    },
+    "Zen Mode": {
+      "id": 161,
+      "versionGroup": 18,
+      "text": "Quand le Pokémon perd la moitié de ses PV, il se transforme."
+    }
+  }
+}
