@@ -2965,6 +2965,30 @@
           "nexY": 544
         }
       ]
+    },
+    {
+      "mapName": "void_arena",
+      "mapchange": [
+        {
+          "valX": 13,
+          "valY": 19,
+          "goto": "professor_lab",
+          "nexX": 416,
+          "nexY": 512
+        },
+        {
+          "valX": 14,
+          "valY": 19,
+          "goto": "professor_lab",
+          "nexX": 416,
+          "nexY": 512
+        }
+      ],
+      "wildpokemon": [],
+      "level": {
+        "min": 1,
+        "max": 1
+      }
     }
   ]
 }

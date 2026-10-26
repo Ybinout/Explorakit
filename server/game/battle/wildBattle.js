@@ -115,7 +115,9 @@ async function performAttackWithNarration(attacker, defender, moveIndex, player,
     const moveName = getMoveName(attacker, moveIndex);
 
     const animation = prepareMoveAnimation(attacker, defender, moveName, battleContext.battleState);
+    const own=attacker===player.equipe.pokemons[0],ppBefore=require('./voidCharge').totalPp(attacker);
     const attackResult = performAttack(attacker, defender, moveIndex, battleContext);
+    if(own)await battleContext.battleState.voidCharge?.(attackResult,ppBefore,attacker);
     await narrateMessages(player, io, attackResult.beforeActionMessages, 950);
     if (!attackResult.actionPrevented) {
         displayMoveAnimation(player, attacker, io, animation);
@@ -465,6 +467,7 @@ async function startBattle(player, wildPokemon, io, userId) {
         }, 'wild');
     };
     const battleState = createBattleState({ mapName: player.currentmap });
+    Object.defineProperty(battleState,'voidCharge',{value:require('./voidCharge').recorder(userId,player,io)});
     try {
         // Snapshot earned SQL badges for this Adventure battle. No client
         // count, map, active Pokémon level or profile payload can unlock it.

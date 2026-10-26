@@ -19,6 +19,7 @@ const result = spawnSync(
         path.resolve(__dirname, '..', 'tests', 'account-connection-socket.test.js'),
         path.resolve(__dirname, '..', 'tests', 'lucie-departure-mysql.test.js'),
         path.resolve(__dirname, '..', 'tests', 'professor-finale-mysql.test.js'),
+        path.resolve(__dirname, '..', 'tests', 'void-ending-mysql.test.js'),
         path.resolve(__dirname, '..', 'tests', 'town-trainer-admin.test.js'),
         path.resolve(__dirname, '..', 'tests', 'story-gates-socket.test.js'),
         path.resolve(__dirname, '..', 'tests', 'raph-trial-socket.test.js'),

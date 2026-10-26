@@ -22,6 +22,7 @@ function hydrateItems(rows) {
             cure: itemFromCatalog.cure || null,
             revive: Boolean(itemFromCatalog.revive),
             fieldUse: itemFromCatalog.fieldUse || null,
+            ...(itemFromCatalog.voidTravel ? { voidTravel: true } : {}),
             repelSteps: itemFromCatalog.repelSteps || null,
             unique: Boolean(itemFromCatalog.unique),
             dropOnly: Boolean(itemFromCatalog.dropOnly)
@@ -48,7 +49,7 @@ async function hydrateUserItems(userId, rows, executor = dbPool) {
             item.evolutions = Object.fromEntries(team.map(p => [p.uuid, stones.target(p, item.key)]).filter(([, target]) => target));
         }
     }
-    return items;
+    return require('./voidEndingRepository').decorateItems(userId,items,executor);
 }
 
 async function loadUserItems(userId, executor = dbPool) {

@@ -287,10 +287,11 @@ const socketHandler = (io) => {
         let raphTrialState = currentmap === raphTrial.config.map ? await raphTrialRepository.ensure(userId,savedPosition) : null;
         const lucieScene=require('../game/world/lucieDeparture');
         const labStory=require('../game/world/labStory');
+        const voidEnding=require('../game/world/voidEnding');
         let initialStoryProgress=labStory.maps.has(currentmap)?await loadProgressState(userId):null;
         if (!account.active()) return;
         let personalProgress=initialStoryProgress||{flags:{}},lucieLeaving=false;
-        const {getPnjsForMap,getPnjAtTile,isPnjBlockingTile}=lucieScene.scopedStore(labStory.scopedStore(raphTrial.scopedStore(defaultPnjStore,()=>raphTrialState),()=>personalProgress),()=>personalProgress,()=>lucieLeaving);
+        const {getPnjsForMap,getPnjAtTile,isPnjBlockingTile}=lucieScene.scopedStore(voidEnding.scopedStore(labStory.scopedStore(raphTrial.scopedStore(defaultPnjStore,()=>raphTrialState),()=>personalProgress),()=>personalProgress),()=>personalProgress,()=>lucieLeaving);
         let collisionData2D = loadCollisionData(currentmap);
         let changemap2D = changeMapData(currentmap);
         let battlemap2D = battleMapData(currentmap);
@@ -477,6 +478,7 @@ const socketHandler = (io) => {
 
         const emitPlayerProgression = (progression) => {
             personalProgress=progression;
+            socket.emit('voidEndingState',voidEnding.state(progression));
             socket.emit('progressionState', progression);
             socket.emit('storyGatesState', { gates: storyGates.snapshot(progression) });
             socket.emit('adminArenaState', arenaTests.publicState(socket.data.user, progression));
@@ -706,6 +708,24 @@ const socketHandler = (io) => {
             canUse:()=>[...replaySessions.values()].filter(s=>s.userId===userId).every(s=>s.canReset()),
             emitProgression:emitPlayerProgression,onRearmed:progress=>refreshReplaySessions(progress,true)});
         registerMedicineHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!interactionBusy&&!transitionBusy});
+        let lastVoidTravel=0;
+        account.on('void:travel',async(_data,ack)=>{
+            const reply=typeof ack==='function'?ack:()=>{},player=players[socket.id];
+            if(!player||transitionBusy||interactionBusy||pendingDialogue||player.inbattle||player.inventoryBusy||socketToChatSession.has(socket.id)||Date.now()-lastVoidTravel<3000)return reply({success:false,message:'L’objet ne réagit pas pour le moment.'});
+            transitionBusy=true;player.inventoryBusy=true;
+            try{
+                const r=await require('../persistence/voidEndingRepository').read(userId);
+                if(!r.owned||!r.state.available||!r.state.found||r.state.charge!==5||currentmap===voidEnding.config.map)return reply({success:false,message:'L’objet ne réagit pas.'});
+                if(!account.active()||players[socket.id]!==player||player.inbattle)return;
+                pendingDialogue=null;fishing.cancel(player);cancelPendingRequestsForSocket(socket.id,'void_travel');
+                player.direction='up';player.isMoving=false;player.animationFrame=0;
+                personalProgress=await loadProgressState(userId);
+                await relocatePlayer(voidEnding.config.arrival,{reason:'void_travel'});
+                if(!await flushPositionSave())throw Error('Position non sauvegardée.');
+                canMove=true;lastVoidTravel=Date.now();reply({success:true,map:voidEnding.config.map});
+            }catch(error){console.error('Passage indisponible:',error.message);reply({success:false,message:'Le passage a été interrompu. Vérifie ta position après reconnexion.'});}
+            finally{player.inventoryBusy=false;transitionBusy=false;}
+        });
         const computerHandlers=registerPokemonComputerHandlers({socket,io,userId,getPlayer:()=>players[socket.id],getPeers:()=>Object.values(players).filter(p=>p.userId===userId),canUse:()=>!transitionBusy});
         registerRepelHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!interactionBusy&&!transitionBusy,flushPositionSave,schedulePositionSave});
         socket.emit('fieldEffectState',{repelSteps:remainingRepel(players[socket.id])});
@@ -1043,6 +1063,16 @@ const socketHandler = (io) => {
                 await require('../persistence/arenaSceneRepository').acknowledge(userId, dialogueName);
                 return;
             }
+            if(authorization.voidFinale){
+                const r=await require('../persistence/voidEndingRepository').read(userId);
+                if(!r.owned||!r.state.available||!r.state.found||r.state.charge!==5||r.state.defeated||!voidEnding.adjacent(player,voidEnding.config.professor)||!hasConsciousPokemon(player.equipe))return;
+                player.inbattle=true;
+                socket.emit('battletrigger',{battleType:'trainer',musicKind:'void',environment:'void-arena',trainerKey:'professor_final'});
+                account.track(require('../game/battle/professorFinale').start(player,io,userId,{onVictory:()=>require('../persistence/voidEndingRepository').defeat(userId)})
+                    .catch(error=>console.error('Confrontation interrompue:',error.message))
+                    .finally(async()=>{if(players[socket.id]===player){player.inbattle=false;emitPlayerProgression(await loadProgressState(userId));socket.emit('teamStateChanged',{reason:'finale',equipe:player.equipe});}}));
+                return;
+            }
             const dialogueAction = getEndSentenceInformation(dialogueName);
             if (dialogueAction === 'battle') {
                 const battleDefinition = getNpcBattleDefinition(dialogueName);
@@ -1174,6 +1204,28 @@ const socketHandler = (io) => {
             if (!player) return;
             if (player.inbattle || player.inventoryBusy) return;
             if (fishing.current(player)) { fishing.reel(player,fishing.current(player).id); return; }
+
+            if(!transitionBusy&&!pendingDialogue&&(currentmap==='professor_lab'||currentmap===voidEnding.config.map)){
+                const target=currentmap==='professor_lab'?voidEnding.config.pickup:voidEnding.config.professor;
+                if(voidEnding.adjacent(player,target)){
+                    const repository=require('../persistence/voidEndingRepository'),r=await repository.read(userId);
+                    if(r.state.available){
+                        if(currentmap==='professor_lab'){
+                            if(await repository.pickup(userId)){emitPlayerProgression(await loadProgressState(userId));socket.emit('bagUpdated',{items:await require('../persistence/itemRepository').loadUserItems(userId)});socket.emit('progressionNotice',{message:'Tu récupères un téléporteur déchargé.'});}
+                            return;
+                        }
+                        if(r.state.found&&r.owned&&r.state.charge===5){
+                            if(r.state.defeated){
+                                const claimed=await repository.badge(userId);emitPlayerProgression(await loadProgressState(userId));
+                                const name='professor_final_silence';pendingDialogue=createDialogueAuthorization({name,map:currentmap,x:target.x,y:target.y});
+                                socket.emit('dialogue',[[{text:claimed?'Tu récupères le Badge Violence.\n\nLe silence retombe. Cette fois, c’est terminé.':'Le Professeur reste au sol. Plus rien ne bouge.',typewriterMs:45}],name]);return;
+                            }
+                            const name='professor_final';pendingDialogue={...createDialogueAuthorization({name,map:currentmap,x:target.x,y:target.y}),voidFinale:true};
+                            socket.emit('dialogue',[[{image:'prof.png',text:'Le Professeur : Tu m’as donc retrouvé…\n\nMe rendre ? Jamais. Tu ne me prendras rien de plus.',typewriterMs:45}],name]);return;
+                        }
+                    }
+                }
+            }
 
             if (currentmap === 'start' && (labStory.adjacent(player,labStory.config.door)||labStory.adjacent(player,labStory.config.rock))) {
                 if(transitionBusy||pendingDialogue)return;

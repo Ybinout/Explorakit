@@ -279,6 +279,7 @@ async function performAttack(io, attackerPlayer, defenderPlayer, moveIndex, atta
 
     const animation = prepareMoveAnimation(attackerPokemon, defenderPokemon, moveName, battleState);
 
+    const ppBefore=require('./voidCharge').totalPp(attackerPokemon);
     const attackResult = useattack(moveName, attackerPokemon, defenderPokemon, {
         battleState,
         attackerSide,
@@ -286,6 +287,7 @@ async function performAttack(io, attackerPlayer, defenderPlayer, moveIndex, atta
         attackerTeam: attackerPlayer.equipe.pokemons,
         defenderTeam: defenderPlayer.equipe.pokemons
     });
+    await battleState.voidCharge?.get(attackerPlayer)?.(attackResult,ppBefore,attackerPokemon);
 
     for (const message of attackResult.beforeActionMessages || []) {
         await narrateToBoth(io, attackerPlayer, defenderPlayer, message, 900);
@@ -414,6 +416,7 @@ async function startPvpBattle(playerA, playerB, io) {
     }
 
     const battleState = createBattleState({ mapName: playerA.currentmap, opponentMap: playerB.currentmap ?? null });
+    Object.defineProperty(battleState,'voidCharge',{value:new Map([playerA,playerB].map(p=>[p,require('./voidCharge').recorder(p.userId,p,io)]))});
     require('./battleEvents').setFieldPlayers(battleState,playerA,playerB);
     require('../abilities/abilityForms').attachTeam(teamA);
     require('../abilities/abilityForms').attachTeam(teamB);

@@ -95,6 +95,7 @@ async function loadProgressState(userId) {
         };
     });
     const badges = (progressionCatalog.badges || [])
+        .filter(definition=>!definition.hidden||storedBadges.has(definition.key))
         .map((definition) => ({
             ...definition,
             earned: storedBadges.has(definition.key),

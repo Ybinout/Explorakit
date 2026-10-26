@@ -3759,6 +3759,14 @@
       "sell_price": 0,
       "description": "Apprend Larme à l’Œil à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
       "machineMove": "Tearful Look"
+    },
+    {
+      "key": "void_teleporter",
+      "name": "Téléporteur déchargé",
+      "category": "key",
+      "unique": true,
+      "description": "Semble se charger à proximité de l’électricité. 0/5",
+      "voidTravel": true
     }
   ]
 }

@@ -27,6 +27,7 @@ async function rearm(user) {
         }
         if(champions.some(c=>c.name==='lucie_route2'))await connection.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,?,'armed') ON DUPLICATE KEY UPDATE flag_value='armed'",[owner.id,require('../game/world/lucieDeparture').config.adminFlag]);
         if(champions.some(c=>c.name==='professor_story')){
+            if(progress.flags.void_found==='true')await require('./voidEndingRepository').resetReplay(connection,owner.id);
             for(const [key,value]of [['admin_professor_departure','armed'],['admin_lab_rescued','false']])await connection.execute('INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,?,?) ON DUPLICATE KEY UPDATE flag_value=VALUES(flag_value)',[owner.id,key,value]);
             for(const o of require('../game/world/roomObstacles').obstacles.filter(o=>o.map==='professor_lab'))await connection.execute('DELETE FROM player_story_flags WHERE user_id=? AND flag_key=?',[owner.id,require('../game/world/testReplayState').obstacleFlag(o)]);
             if(champions.some(c=>c.name==='lucie_route2')&&progress.flags.lucie_rescued==='true'){

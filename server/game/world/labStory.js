@@ -1,6 +1,6 @@
 const departure=require('./lucieDeparture');
 const config=Object.freeze({map:'professor_lab',door:{map:'start',x:24,y:15},rock:{map:'start',x:26,y:18},wanda:{map:'route2',x:14,y:7},arrival:{map:'professor_lab',x:432,y:528}});
-const maps=new Set(['start','route2','route2_maison',config.map]);
+const maps=new Set(['start','route2','route2_maison',config.map,'void_arena']);
 const replay=p=>Boolean(p.flags?.admin_professor_departure);
 const fullReplay=p=>p.flags?.admin_finale_replay==='full'
  || Boolean(p.flags?.lucie_rescued==='true'&&p.flags?.admin_lucie_departure&&p.flags?.admin_professor_departure);

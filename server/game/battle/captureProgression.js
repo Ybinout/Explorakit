@@ -1,5 +1,5 @@
 const balance = require('../../../data/game/capture_balance.json');
-const knownBadges = new Set(require('../../../data/game/progression.json').badges.map(b => b.key));
+const knownBadges = new Set(require('../../../data/game/progression.json').badges.filter(b=>b.countsForCapture!==false).map(b => b.key));
 
 function captureProgress(badges = []) {
     const earned = new Set(badges.filter(b => b.earned === true && knownBadges.has(b.key)).map(b => b.key));

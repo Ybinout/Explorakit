@@ -96,7 +96,9 @@ async function performAttackWithNarration(attacker, defender, moveIndex, player,
     const moveName = getMoveName(attacker, moveIndex);
 
     const animation = prepareMoveAnimation(attacker, defender, moveName, battleContext.battleState);
+    const own=attacker===player.equipe.pokemons[0],ppBefore=require('./voidCharge').totalPp(attacker);
     const result = performAttack(attacker, defender, moveIndex, battleContext);
+    if(own)await battleContext.battleState.voidCharge?.(result,ppBefore,attacker);
     await narrateMessages(player, io, result.beforeActionMessages, 950);
     if (!result.actionPrevented) {
         displayMoveAnimation(player, attacker, io, animation);
@@ -305,6 +307,7 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
         ? require('./arenaExperience').createArenaExperience(options.arenaBattleKey, enemyTeam.pokemons) : null;
     const usedPokemons = [];
     const battleState = createBattleState({ mapName: player.currentmap });
+    Object.defineProperty(battleState,'voidCharge',{value:require('./voidCharge').recorder(userId,player,io)});
     battleState.adventureExperience = new AdventureExperience({expShare:'equipped'});
     battleState.trainerTeam = enemyTeam;
     battleState.trainerMemory = trainerTactics.createMemory();

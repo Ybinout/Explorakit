@@ -1,0 +1,199 @@
+{
+  "scope": "True hidden Adventure ending after Lucie's rescue",
+  "dateParis": "2026-10-26",
+  "implementation": {
+    "item": "void_teleporter",
+    "counter": "5 actual PP-consuming Electric moves, server-side only",
+    "clue": "Semble se charger à proximité de l’électricité. 0/5",
+    "discovery": "Discreet unlit object at the back of professor_lab; no quest marker or objective",
+    "travel": "Charged key item, reusable, black-hole transition; fixed destination controlled by server",
+    "arena": "void_arena, ruined unlit gym, private Professor standing/KO actor, safe exit to the lab",
+    "music": "lucie-maison.mp3",
+    "confrontation": "Professor himself; first damaging move removes all 100 HP, status moves do not, no Pokémon XP/EV/money/capture rewards",
+    "badge": "violence_badge, hidden until awarded by manual Action on KO Professor; excluded from ordinary capture badge tiers",
+    "persistence": "Per-account flags and unique item; user row locks, action receipts, five-charge cap; no schema migration",
+    "admin": "Private shadow replay state; normal story, inventory, money and earned badge preserved"
+  },
+  "assets": {
+    "tool": "Built-in image_gen__imagegen",
+    "pipeline": "Image generation from existing gym/professor references; native pixel masters prepared with nearest-neighbor Canvas and transparent trimming. Versioned lossless masters outside runtime client; WebP quality .96. Exports verified byte-identical after switching to these masters.",
+    "export": "node scripts/exportVoidEndingAssets.js --check",
+    "entries": [
+      {
+        "asset": "vue-explorakit/src/assets/void_arena.png",
+        "pixelMaster": "docs/art/void-ending/void_arena.png",
+        "original": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-0ce08b8b-b83a-4265-8ae4-19e80b7037b8.png",
+        "prompt": "Use case: precise-object-edit. Asset: a new top-down RiftMon RPG ARENA MAP, using the attached intact 7p arena as an exact layout/style reference. Transform it into a DESERTED RUINED ARENA: all lamps extinguished, broken stained glass with dark empty panes, torn faded plum/charcoal hanging flags, cracked floor, fallen pillar sections and a few stone rubble piles at the SIDES. Moody desaturated dark slate, charcoal and dusty purple, readable unlit room under weak cold ambient light, no glowing crystals and no dramatic beam. Keep the authentic SIMPLE handheld pixel-art treatment, compact chunky outlined shapes and 2-3 shades per material; do not produce a photorealistic detailed painting. Entire room seen straight top-down, same 7:5 aspect, no perspective view. Logical canvas 448x320: keep outer walls at the edges, raised back dais x145..303,y58..100 and central stairs x145..303,y82..101. Keep the diamond marker on the dais around x216,y72 so a separate character stands there. Central route x164..283,y102..294 must be clear and walkable; floor markings worn and incomplete, faded simple plum runner along x208..239. Bottom entrance gap x208..239,y288..319 remains open. Place collapsed pillars only in side zones x32..140 and x306..416,y117..267; leave all center tiles free. Tattered banners hang from remaining side columns. Cracks irregular and sparse, flat floor depth, no giant square holes and no extra inaccessible corridors. Broken glass is part of the walls/side debris, not blocking the center. Black void outside room, complete room outline stays in frame. No people, no Pokémon, no letters, no emblems containing readable text, no UI, no floor platforms (those are for battles only). The feeling is a silent final confrontation in a forgotten gym; keep it recognizably the same family of art as the reference.",
+        "assetSha256": "14a0694956d6b55e482d3820696358b4951f5cc0166cbcd1fb3550f80a97001e",
+        "assetBytes": 348961,
+        "pixelMasterSha256": "14a0694956d6b55e482d3820696358b4951f5cc0166cbcd1fb3550f80a97001e",
+        "pixelMasterBytes": 348961
+      },
+      {
+        "asset": "vue-explorakit/src/assets/battle/void-arena-wide-v1.webp",
+        "pixelMaster": "docs/art/void-ending/void-arena-wide-v1.png",
+        "original": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-936f5340-8056-48b3-affb-330219f21164.png",
+        "prompt": "Use case: stylized-concept. Asset: battle background for a pixel-art RPG, landscape 3:2. Use the attached ruined top-down arena ONLY as environment/style reference. Show the INSIDE of this same dark abandoned gym from a LOW FRONT battle view, not a map view: broken violet/black stained-glass windows across the upper wall, torn plum banners, fallen stone columns along the far side walls, modest irregular cracks and rubble by the edges. Dim cold ambient light, lamps unlit, no magical lighting effects. SIMPLE coherent handheld RPG pixel art, dark readable slate stone floor, charcoal walls and muted purple; compact outlined shapes, no photoreal texture. Composition must leave 65 percent of the image as empty open stone floor below the wall for the battle UI and character sprites. The middle-right ground around 75% width,65% height must be fully clear; the foreground-left around 20% width,90% height must be fully clear. No characters, no creatures, no text, no HUD, no baked platforms or discs, no circular light effects. Keep the scene readable on phones and consistent with the reference. Strong horizontal floor and distant interior wall, no perspective room furniture. Environment art only.",
+        "assetSha256": "b5f4ad8f18867b03f28f94340b0f75524b34712e7ac5d45c3c1cf08e2d547f86",
+        "assetBytes": 197730,
+        "pixelMasterSha256": "7baf6ccf5e282a5a9623c781314bada58b008c9ca62eee47fdbb55759dbb39cc",
+        "pixelMasterBytes": 1311652
+      },
+      {
+        "asset": "vue-explorakit/src/assets/battle/void-arena-mobile-v1.webp",
+        "pixelMaster": "docs/art/void-ending/void-arena-mobile-v1.png",
+        "original": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-7fed9b4f-0b7a-49ba-8c04-0b34ca3cb193.png",
+        "prompt": "Use case: precise-object-edit. Asset: PORTRAIT MOBILE battle background, 2:3 vertical aspect ratio. Recompose the attached dark ruined gym battle environment into portrait, keeping the same slate stone, broken violet glass, tattered plum banners and fallen side columns. The broken stained-glass wall takes the TOP 30 percent ONLY; below that, 70 percent must be open flat dark stone floor extending to the bottom. Keep the background dark and readable, lamps extinguished, simple crisp handheld RPG pixel art, same modest level of detail as reference. A separate standing human sprite will occupy the middle-right at 75% width,58% height; leave this area entirely empty. The player's Pokémon will occupy the bottom-left at 20% width,95% height; keep it empty too. Ruins and rubble stay along the far sides and top, never in either sprite's footprint. Worn narrow purple runner may cross the middle but no upright objects on the floor. No characters, no creatures, no text, no HUD, no platforms or discs, no glowing lights, no vignette obscuring floor. Composition is an interior battle scene, not a top-down map or an isometric room.",
+        "assetSha256": "40dc6f8f10fe14000d2cb114c7aaa0410c458ed7031fdd59f2a63890bf8192e4",
+        "assetBytes": 199960,
+        "pixelMasterSha256": "a19cc6d2345cf6089963423c84bb22491773fb61900475892ca90f1826c379be",
+        "pixelMasterBytes": 1305740
+      },
+      {
+        "asset": "vue-explorakit/src/assets/battle/professor-final-v1.png",
+        "pixelMaster": "docs/art/void-ending/professor-final-v1.png",
+        "original": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-c93b79d9-db8e-4bf3-b652-96b2ede13a53.png",
+        "prompt": "Use case: identity-preserve character asset. Use the attached professor portrait ONLY for his identity: mature stern man, swept-back silver-gray hair, strong brows, clean-shaven, pale skin, long white lab coat over charcoal waistcoat, white shirt and muted plum tie. Create a COLORED FULL-BODY RPG TRAINER BATTLE SPRITE/ILLUSTRATION of this professor, standing three-quarter facing slightly left with BOTH HANDS IN HIS COAT POCKETS, feet planted apart, defiant expression. No ball, no creature, no lab equipment. Style: classic Pokémon handheld trainer battle art, bold dark outer outlines, clean colored cel shading, simple deliberate shapes, modest detail; not the highly textured black-and-white manga portrait and not a large-head overworld chibi. Natural adult body proportions, entire hair/head, coat hem, dark trousers and shoes in frame. He must read clearly at 140 pixels tall in battle; avoid tiny details, glow, particles, ground shadow, circles or scenery. Transparent background with true alpha, generous empty transparent margin around all sides, one single isolated character. Pose should look self-assured and motionless, hands remain hidden in pockets. Full height vertical composition.",
+        "assetSha256": "d59078ddc13619dd29f0eb8a1d410ebfc6357f456aa306aa6847891fa171ef72",
+        "assetBytes": 92402,
+        "pixelMasterSha256": "d59078ddc13619dd29f0eb8a1d410ebfc6357f456aa306aa6847891fa171ef72",
+        "pixelMasterBytes": 92402
+      },
+      {
+        "asset": "vue-explorakit/src/assets/pnj/professor-ko-pixel-v1.png",
+        "pixelMaster": "docs/art/void-ending/professor-ko-pixel-v1.png",
+        "original": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-cf96b9e1-17e5-493e-b447-37b3ac14f9d4.png",
+        "prompt": "Use case: stylized-concept. Asset: one tiny game-ready overworld KO sprite, TRUE TRANSPARENT background. Image 1 is the existing professor sprite and identity reference; image 2 is the game's classic trainer atlas, STYLE ONLY. Draw exactly ONE Professor lying on his side on the floor, unconscious/K.O. but uninjured, no blood. Silver-gray swept hair, white lab coat over dark clothes. Same VERY SIMPLE chunky handheld pixel-art style and proportions as the atlas: head approximately as large as torso, bold dark outline, simple face with closed eyes, tiny hands and shoes, limited colors, no realistic texture. This is a 32x32 logical-pixel sprite, horizontal lying pose occupying about 28 pixels wide and 18 pixels high, centered with empty transparent space above, feet and head fully present. View slightly from above, head to the left, body/feet to the right, white coat readable. Do not draw a floor, shadow, circle, glow, pillow, letters, extra figures, sprite sheet or standing figure. Deliberate crisp large square pixel clusters appropriate to a truly tiny sprite; not an illustrated miniature. Only the one lying character on alpha transparency.",
+        "assetSha256": "a97efff66a8b7af991c30749f7d8d5cd5cf55731d2f7102ec6a14d53f30254a5",
+        "assetBytes": 1131,
+        "pixelMasterSha256": "a97efff66a8b7af991c30749f7d8d5cd5cf55731d2f7102ec6a14d53f30254a5",
+        "pixelMasterBytes": 1131
+      }
+    ],
+    "runtimeBytes": 840184
+  },
+  "validation": {
+    "targeted": {
+      "pass": 85,
+      "fail": 0,
+      "skip": 1,
+      "log": "/tmp/riftmon-void-regression-final.log"
+    },
+    "mysql": {
+      "distinctPass": 92,
+      "fail": 0,
+      "skip": 0,
+      "logs": [
+        "/tmp/riftmon-void-mysql-final.log",
+        "/tmp/riftmon-void-owned-charge-mysql.log"
+      ],
+      "details": "88 existing real battle runtime cases + four new SQL tests: concurrency/admin/private progress, real wild/finale, trainer ownership, PvP ownership"
+    },
+    "global": {
+      "pass": 1284,
+      "fail": 21,
+      "skip": 150,
+      "log": "/tmp/riftmon-void-all-final.log",
+      "note": "Full suite before the two additional SQL integration cases. Same 21 known failing test names as the documented baseline; four temporary new failures fixed by classifying teleporter as a key action and using the canonical map source name.",
+      "newFailures": []
+    },
+    "browser": {
+      "log": "/tmp/riftmon-void-browser-release.log",
+      "results": "/tmp/riftmon-void-browser-release/results.json",
+      "widths": [
+        320,
+        393,
+        844,
+        1365
+      ],
+      "captures": 33,
+      "errors": [],
+      "checks": [
+        "real secret pickup",
+        "no early forged travel",
+        "actual five Electric moves in wild battle",
+        "unique key pocket action without medicine controls",
+        "black-hole travel and 800ms delayed map",
+        "new room and Lucie house music",
+        "Professor on enemy platform, no level or K star",
+        "one-hit KO",
+        "no automatic badge",
+        "manual badge, reload persistence and private state",
+        "safe return to lab"
+      ]
+    },
+    "build": {
+      "hash": "fa8b48bd2323b56c",
+      "directory": "/tmp/riftmon-void-dist",
+      "log": "/tmp/riftmon-void-build.log"
+    },
+    "lint": "/tmp/riftmon-void-lint-final.log",
+    "limitations": [
+      "Chromium desktop/touch viewports, no physical phone/AYN device test",
+      "Existing global suite failures remain outside this patch"
+    ]
+  },
+  "publication": {
+    "publishedAt": "2026-10-26T22:45:34.686Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-void-ending-2026-10-26T22-45-31-918Z",
+    "sourceBaseline": "2a21586ab16f3fc68567cb4be4d68bbce2d09276",
+    "sourceHashes": {
+      "data/game/items.json": "66bca8656ad509b5246bf21f1b758ea58f93c4747b67ed7e510fc30bf64978ec",
+      "data/game/nextMap.json": "bf41d9d622ada89fc348254df09ab4d4a7a79e47e1a9c4ebd9fa1139457e3f88",
+      "data/game/progression.json": "650d049ad50102f73c05232c3e3a500bd3a33c25c6672e934bf1dc0e0c74b319",
+      "server/game/battle/captureProgression.js": "1355c07b6855cbbc3f1a3139bea68718ce47efeb1ce7c5fc0f89ba4368ca8810",
+      "server/game/battle/pvpBattle.js": "e23ccf494979a5f8b2e2fccd8fa19a04e8340afcaeed2f8710f591f3b6760813",
+      "server/game/battle/trainerBattle.js": "37daa3d2a25303c981708de2cb07b1479e2f0b71c3235ec4ace1514813dc9a79",
+      "server/game/battle/wildBattle.js": "2120a6fedf63e057e02a45a19e97f5ffcef676d95dfd7bd4997f8e03920175bf",
+      "server/game/world/labStory.js": "5c5262a3a50e181c38c2f141f4853d297987e9ca597ea51cebb1cd11e865104f",
+      "server/persistence/arenaTestRepository.js": "499af852fbefae50470b834e3a1921fa1118749a292523ed11f7d469550175de",
+      "server/persistence/itemRepository.js": "67db1b8b54cb01f9ff2869438146ceae80f11e835791ec0ef05ce426962d290d",
+      "server/persistence/progressionRepository.js": "f28df8a84dfaa320de120c0342f59369f84a01bad6c302c2f83cc4357725b45b",
+      "server/realtime/socketHandler.js": "e23930ddb2661fde1ff1b6f1f59acfc859370a837656752db21c095a491a74ae",
+      "data/maps/void_arena.json": "83303865402696c944d9c5f60cf0a7611727a72e8d94bfc062d852765960303a",
+      "data/maps/void_arena.tmx": "975678d622007afa117e17c1293efc691bc85a1d15cd217b0c3a865b7731cf93",
+      "server/game/battle/professorFinale.js": "0619d42617db11519fed8b3ad562b130da6311bd3eaca2a6e285f0bbaddcb068",
+      "server/game/battle/voidCharge.js": "b5d340fbed67aa47d1248286184019e90afa2c44d29879e3a819482d67f3f987",
+      "server/game/world/voidEnding.js": "c9cb3542fa5d27c4b556e37e73f3aedf30470b6c862cfcdb83633c43b080655c",
+      "server/persistence/voidEndingRepository.js": "b1d2f08be568de64d41f71333058ba0443d001b712ad0b041f740f39d28d6d9a"
+    },
+    "clientCommit": "35e8801a5ddd78cbe5365fc25e3aa77bd61445b8",
+    "clientBuild": "fa8b48bd2323b56c",
+    "beforePid": "2092573",
+    "afterPid": "2110900",
+    "activeRuns": 0,
+    "checkpointSaved": true,
+    "serverRestarted": true,
+    "gracefulCheckpoint": true,
+    "neighborsUnchanged": true,
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.cf4db1e3.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.cfd0c723.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.ca0c95c6.css",
+      "img/void_arena.81b98364.png",
+      "img/void-arena-wide-v1.d9b69b7c.webp",
+      "img/void-arena-mobile-v1.77b11be3.webp",
+      "img/professor-final-v1.8f99bbd8.png",
+      "img/route2_maison.3916584e.png",
+      "img/tour_rdc.e03e0f06.png",
+      "img/tour_etage1.8ec612be.png",
+      "img/tour_etage2.18713452.png",
+      "img/tour_etage3.ac05c302.png",
+      "img/maria-v2.564002d1.png",
+      "img/clement-v2.804e1f22.png"
+    ],
+    "embedded": [
+      "pnj/professor-ko-pixel-v1.png",
+      "pnj/clement-pixel-v2.png"
+    ],
+    "oldHashedAssetsRetained": true,
+    "sqlMigration": false,
+    "realAccountsModified": false
+  }
+}

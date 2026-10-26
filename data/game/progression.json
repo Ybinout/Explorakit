@@ -86,6 +86,14 @@
       "key": "summit_badge",
       "name": "Badge Sommet",
       "order": 5
+    },
+    {
+      "key": "violence_badge",
+      "name": "Badge Violence",
+      "description": "Le silence est retombé.",
+      "order": 7,
+      "hidden": true,
+      "countsForCapture": false
     }
   ],
   "npcBattles": {

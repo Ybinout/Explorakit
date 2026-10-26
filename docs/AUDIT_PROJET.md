@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Vraie fin cachée — téléporteur et Badge Violence — 26 octobre 2026
+
+Épilogue Aventure accessible après le sauvetage de Lucie : petit objet non lumineux au fond du laboratoire, sans objectif, marqueur ou dialogue indiquant son emplacement. Objet clé unique « Téléporteur déchargé », seul indice « Semble se charger à proximité de l’électricité. 0/5 ». Cinq capacités Électrik réellement utilisées avec consommation de PP le chargent ; ni action empêchée, ni capacité d'un adversaire, ni commande client inventée ne comptent. Observateur commun aux vrais combats Aventure sauvages/dresseurs/PvP ; propriété relue en SQL, reçus limités à cinq et transactions par compte. L'objet n'est ni un soin, ni vendu, ni trouvé dans le butin ordinaire. Les règles de combat Rift/Colosseum sont conservées.
+
+Utilisation chargée depuis le sac : disparition dans un trou noir, couverture pendant le décodage du décor, arrivée dans `void_arena`, nouvelle salle avec état du Professeur propre à chacun, vitres brisées, drapeaux déchirés et piliers effondrés sur les côtés. Thème `lucie-maison.mp3`, chemin central libre et sortie sûre vers le laboratoire. Nouveaux décors de combat PC/mobile, Professeur debout les mains dans les poches sur le seul socle adverse et sprite pixel à grosse tête couché après K.O. Confrontation narrative isolée du moteur : première capacité offensive enlève ses 100 PV ; pas de Pokémon créé, capture, XP, EV ou argent attribué. Le Badge Violence s'obtient par Action sur le Professeur au sol, jamais automatiquement ; il reste caché jusque-là et ne change pas les paliers de capture. Charge, objet, K.O. et badge persistent personnellement, sans migration ni changement d'un compte réel. Reset admin : état de répétition séparé, vrais badge/progression/inventaire conservés.
+
+Art imagegen intégré, sources/prompts au rapport et cinq masters PNG natifs sans perte hors client ; export reproductible `node scripts/exportVoidEndingAssets.js --check`, octets identiques aux exports validés. Seuls ≈821 Kio d'images finales supplémentaires chargés selon le lieu/la vue ; pas de nouvelle boucle monde. Les animations temporaires respectent la réduction des mouvements. Validation : 85 tests ciblés et 92 recettes SQL distinctes réussis ; lint/build `fa8b48bd2323b56c`, syntaxe/diff et navigateur SQL sur quatre tailles réussis, images lentes, vrai chargement Électrik/combat/K.O./badge/reconnexion/retour compris. Suite globale : 1 284 réussites, 21 échecs connus sur la référence et 150 ignorés, avant les deux dernières recettes SQL ajoutées ; aucune nouvelle régression. Pas de téléphone physique revendiqué. Rapport, assets et commandes : `docs/VOID_ENDING.json`.
+
+Publication serveur/client 2026-10-26T22:45:34.686Z (23 h 45 Paris), client 35e8801a5ddd78cbe5365fc25e3aa77bd61445b8, PID 2092573→2110900. Sauvegarde `/home/ubuntu/dev/backups/riftmon-void-ending-2026-10-26T22-45-31-918Z`, checkpoint conservé, zéro expédition active relevée. Index, bundles, nouveaux décors et sprites, anciens intérieurs/portraits publics contrôlés ; anciens assets hachés gardés et Knov/api-test inchangés.
+
 ## Objets sauvages — une chance sur six, victoire et capture — 26 octobre 2026
 
 Taux de base commun Aventure/Rift/Colosseum : `CHANCE = ADVENTURE_CHANCE = 1/6` (≈16,67 %), tirage indépendant par Pokémon sauvage battu ou capturé ; aucun compteur imposant le sixième. Les bonus de butin d'objet des Drifts sont conservés et plafonnés à 100 %. Le taux séparé des Drifts, les pondérations de rareté et l'historique des objets uniques ne changent pas.
@@ -4153,6 +4163,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 26 octobre 2026 — Fin cachée : téléporteur discret chargé par cinq capacités Électrik, trou noir vers une arène délabrée, Professeur lui-même vaincu en un coup puis Badge Violence récupéré par Action. État privé persistant et répétition admin sans perte ; art PC/mobile et deux sprites, export reproductible. 85 tests + 92 recettes SQL et navigateur quatre formats réussis ; 21 anciens échecs de suite globale conservés. Publication avec checkpoint/sauvegarde, anciens assets et Knov préservés. Rapport `docs/VOID_ENDING.json`.
 
 - 26 octobre 2026 — Objets sauvages : taux de base 1/6 dans les trois modes, captures réussies désormais éligibles comme les victoires. Raretés, uniques, bonus et taux des Drifts conservés ; pas de récompense doublée/fuite/défaite. 137 tests + cinq recettes SQL réussis, publication serveur avec checkpoint et client/voisins inchangés. Rapport `docs/WILD_LOOT_SIX.json`.
 
