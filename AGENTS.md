@@ -1,5 +1,15 @@
 # Contexte permanent — RiftMon
 
+## Grand Comptoir — sol continu et sens des escaliers — 26 octobre 2026
+
+Les quatre décors statiques partagent un carrelage bleu continu : les rectangles de sol de teintes différentes issus des anciens exports sous les meubles sont remplacés sur toute la surface. Les silhouettes du mobilier existant sont recomposées sans leur fond bleu, aux mêmes dimensions et positions dans les collisions. Plantes, porte du rez-de-chaussée, murs et limites conservés. À gauche, descente navy sombre identique aux étages 2/3/4 ; à droite, montée aux marches bleu pâle/ivoire identiques aux étages 1/2/3. Aucun escalier ajouté aux niveaux terminaux.
+
+Retouche imagegen intégré puis export local reproductible `node scripts/exportDepartmentStoreFloorAssets.js --check`, au plus proche voisin ; source versionnée `docs/art/department-store-room-master.png`. Le contrôle vérifie les empreintes de meubles dans les collisions, les pixels conservés hors sol/escaliers et le contraste des marches (luminosité moyenne 39 en descente contre 167 en montée). Quatre PNG 448×320 aux chemins existants uniquement : même rendu Aventure/Rift/Colosseum, aucune couche de rendu ni boucle supplémentaire. JSON/TMX, liens, règles des paliers sans rebond, catalogues, prix et progression inchangés. Cet export remplace le précédent export compact pour la reproduction de ces quatre PNG ; ne pas réintroduire les rectangles de sol de l'ancien export.
+
+Validation : 16 tests boutiques/cartes/positions réussis, export `--check`, syntaxe/diff et build `26ca346b9e6b48f1` valides. Recette MySQL/Socket/navigateur dédiée : quatre vendeuses, 60 bords de mobilier bloqués, vraie marche, six escaliers aller/retour et sortie vers la ville, formats 320/393/844/1365 ; zéro erreur. Captures natives et navigateur PC/mobile inspectées ; comptes jetables supprimés, aucun téléphone physique ni suite globale revendiqués. Prompts, sources, empreintes et résultats : `docs/DEPARTMENT_STORE_FLOOR_STAIRS.json`.
+
+Publication statique 2026-10-26T21:26:40.325Z, client d497729d5e209e4eb3cffbc3823bab4f05fb390d. Index, bundles et quatre images publics vérifiés à l'octet, anciens assets gardés, Knov/api-test inchangés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-store-floor-2026-10-26T21-26-38-643Z`. PID 2076407 conservé ; aucun redémarrage, changement SQL ou compte réel.
+
 ## Nuit à 18 h et fenêtres derrière les personnages — 26 octobre 2026
 
 À 18 h, heure Europe/Paris, la nuit est désormais complètement installée ; crépuscule continu de 17 h à 18 h, jour 8 h–17 h et aube 6 h–8 h conservée. Même horloge serveur pour tous les joueurs, offsets été/hiver automatiques et indépendance du fuseau de l’appareil. Aucune modification d’heure système, de réglage joueur ou de sauvegarde.

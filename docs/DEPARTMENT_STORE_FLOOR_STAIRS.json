@@ -1,0 +1,520 @@
+{
+  "request": "Carrelage continu sans raccords de couleur sous les meubles ; escaliers clairs pour monter et foncés pour descendre.",
+  "date": "2026-10-26",
+  "generation": {
+    "mode": "built-in image_gen",
+    "prompt": "Use case: precise-object-edit. Asset: existing pixel-art RPG department store map, currently 448 by 320 logical pixels, exact 7:5 aspect ratio. Edit target: the attached shop map. Produce a CLEAN EMPTY MASTER ROOM that we will use to fix floor seams and confusing stairs. Remove ALL free-standing shelves, counters, products, cash register, furniture and their shadows from the blue tiled floor. Replace the ENTIRE blue floor with one consistent uninterrupted slate blue brick-tile pattern: same hue, same tile size and consistent illumination from edge to edge; no rectangular repair patches or different-colored islands. Preserve the outer wall geometry and black margins exactly, cream wall x30..420,y38..67, blue floor x30..419,y70..267, bottom wall y268..284. Preserve staircase outer footprints and orientation: left at x30..81,y43..95, right x366..416,y43..95. IMPORTANT staircase conventions: LEFT stairs go DOWN, make a visibly DARK navy stairwell, steps sinking into deep shadow toward the top of the image. RIGHT stairs go UP, make visibly LIGHT pale blue/ivory stair treads, rising brightly toward the top cream wall; show clearly spaced light steps with blue risers. Keep blue-and-cream narrow railings like original. No extra stairs, no arrows, no signs, no labels, no people, no text, no gradients, no dramatic lighting, no new props. Crisp simple coherent small pixel art, preserve the exact shop art style, no higher detail or photorealism. Empty traversable landings directly below the stairs. Entire room stays aligned to the reference, no perspective change or reframing.",
+    "input": "vue-explorakit/src/assets/tour_etage1.png at a9ca1cfbd1e7e4bbc81d7c7c2ff46e8b1677e84c",
+    "generatedOriginal": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-545cf5fe-e458-413f-a633-ddf43299f228.png",
+    "repositoryMaster": "docs/art/department-store-room-master.png",
+    "export": "scripts/exportDepartmentStoreFloorAssets.js",
+    "sampling": "nearest-neighbor"
+  },
+  "implementation": {
+    "floor": "One continuous generated floor replaces the complete floor surface; no rectangular object-background patches are copied.",
+    "objects": "Original furniture silhouettes, sizes and positions retained. Only edge-connected blue floor made transparent during export; dark outlines protect blue products and counters. Original plants and entrance preserved.",
+    "stairs": "Identical dark descent left on floors 2/3/4; identical pale ascent right on floors 1/2/3. No extra staircase on either terminal floor.",
+    "runtime": "Four existing static PNG assets only, shared by Adventure/Rift/Colosseum. No renderer, timers, server, collisions, map links, catalogues, prices or saved data changes."
+  },
+  "assets": [
+    {
+      "path": "docs/art/department-store-room-master.png",
+      "bytes": 221348,
+      "sha256": "2588dccae7df7fe0e878e705f2a5f79d9a33cee78517dd176030fd590c9e5904",
+      "dimensions": [
+        448,
+        320
+      ]
+    },
+    {
+      "path": "vue-explorakit/src/assets/tour_rdc.png",
+      "bytes": 227023,
+      "sha256": "026bdbc2801f05a73249271a5d862468e4e84f1d30073878967b47b62932c6cf",
+      "dimensions": [
+        448,
+        320
+      ]
+    },
+    {
+      "path": "vue-explorakit/src/assets/tour_etage1.png",
+      "bytes": 228150,
+      "sha256": "75d3621de13fd2c33cc8f2fdfb596cc6d00bf7ae3e799a5325a8fa366f52c34d",
+      "dimensions": [
+        448,
+        320
+      ]
+    },
+    {
+      "path": "vue-explorakit/src/assets/tour_etage2.png",
+      "bytes": 219454,
+      "sha256": "ded15f031167517a00f2c8536072f03ae820d6f0cb478c36dac13be55641330e",
+      "dimensions": [
+        448,
+        320
+      ]
+    },
+    {
+      "path": "vue-explorakit/src/assets/tour_etage3.png",
+      "bytes": 220784,
+      "sha256": "494a91fd49977649af49491eb49c8d96b3deaecbc0f4c8cb67e6596cc0db1ea5",
+      "dimensions": [
+        448,
+        320
+      ]
+    }
+  ],
+  "exportProof": {
+    "source": "docs/art/department-store-room-master.png",
+    "baseCommit": "a9ca1cfbd1e7e4bbc81d7c7c2ff46e8b1677e84c",
+    "results": [
+      {
+        "map": "tour_rdc",
+        "outside": 0,
+        "masks": [
+          {
+            "name": "leftCounter",
+            "rect": [
+              118,
+              102,
+              52,
+              37
+            ],
+            "transparentFloor": 430,
+            "preservedPixels": 1494
+          },
+          {
+            "name": "rightCounter",
+            "rect": [
+              212,
+              102,
+              40,
+              37
+            ],
+            "transparentFloor": 329,
+            "preservedPixels": 1151
+          },
+          {
+            "name": "display",
+            "rect": [
+              294,
+              118,
+              36,
+              37
+            ],
+            "transparentFloor": 94,
+            "preservedPixels": 1238
+          },
+          {
+            "name": "leftLower",
+            "rect": [
+              38,
+              181,
+              36,
+              38
+            ],
+            "transparentFloor": 120,
+            "preservedPixels": 1248
+          },
+          {
+            "name": "rightLower",
+            "rect": [
+              374,
+              181,
+              36,
+              38
+            ],
+            "transparentFloor": 94,
+            "preservedPixels": 1274
+          },
+          {
+            "name": "leftUpper",
+            "rect": [
+              38,
+              118,
+              36,
+              37
+            ],
+            "transparentFloor": 106,
+            "preservedPixels": 1226
+          },
+          {
+            "name": "plant",
+            "rect": [
+              33,
+              61,
+              25,
+              35
+            ],
+            "transparentFloor": 359,
+            "preservedPixels": 516
+          },
+          {
+            "name": "door",
+            "rect": [
+              192,
+              253,
+              64,
+              34
+            ],
+            "transparentFloor": 626,
+            "preservedPixels": 1550
+          }
+        ],
+        "stairs": [
+          {
+            "direction": "up",
+            "rect": [
+              366,
+              43,
+              51,
+              53
+            ],
+            "brightness": 167.2519181585678
+          }
+        ]
+      },
+      {
+        "map": "tour_etage1",
+        "outside": 0,
+        "masks": [
+          {
+            "name": "leftCounter",
+            "rect": [
+              118,
+              102,
+              52,
+              37
+            ],
+            "transparentFloor": 349,
+            "preservedPixels": 1575
+          },
+          {
+            "name": "rightCounter",
+            "rect": [
+              212,
+              102,
+              40,
+              37
+            ],
+            "transparentFloor": 294,
+            "preservedPixels": 1186
+          },
+          {
+            "name": "display",
+            "rect": [
+              294,
+              118,
+              36,
+              37
+            ],
+            "transparentFloor": 62,
+            "preservedPixels": 1270
+          },
+          {
+            "name": "leftLower",
+            "rect": [
+              38,
+              181,
+              36,
+              38
+            ],
+            "transparentFloor": 74,
+            "preservedPixels": 1294
+          },
+          {
+            "name": "rightLower",
+            "rect": [
+              374,
+              181,
+              36,
+              38
+            ],
+            "transparentFloor": 122,
+            "preservedPixels": 1246
+          }
+        ],
+        "stairs": [
+          {
+            "direction": "down",
+            "rect": [
+              30,
+              43,
+              52,
+              53
+            ],
+            "brightness": 38.651747655583954
+          },
+          {
+            "direction": "up",
+            "rect": [
+              366,
+              43,
+              51,
+              53
+            ],
+            "brightness": 167.2519181585678
+          }
+        ]
+      },
+      {
+        "map": "tour_etage2",
+        "outside": 0,
+        "masks": [
+          {
+            "name": "leftCounter",
+            "rect": [
+              118,
+              102,
+              52,
+              37
+            ],
+            "transparentFloor": 327,
+            "preservedPixels": 1597
+          },
+          {
+            "name": "rightCounter",
+            "rect": [
+              212,
+              102,
+              40,
+              37
+            ],
+            "transparentFloor": 335,
+            "preservedPixels": 1145
+          },
+          {
+            "name": "display",
+            "rect": [
+              294,
+              118,
+              36,
+              37
+            ],
+            "transparentFloor": 55,
+            "preservedPixels": 1277
+          },
+          {
+            "name": "leftLower",
+            "rect": [
+              38,
+              181,
+              36,
+              38
+            ],
+            "transparentFloor": 73,
+            "preservedPixels": 1295
+          },
+          {
+            "name": "rightLower",
+            "rect": [
+              374,
+              181,
+              36,
+              38
+            ],
+            "transparentFloor": 72,
+            "preservedPixels": 1296
+          }
+        ],
+        "stairs": [
+          {
+            "direction": "down",
+            "rect": [
+              30,
+              43,
+              52,
+              53
+            ],
+            "brightness": 38.651747655583954
+          },
+          {
+            "direction": "up",
+            "rect": [
+              366,
+              43,
+              51,
+              53
+            ],
+            "brightness": 167.2519181585678
+          }
+        ]
+      },
+      {
+        "map": "tour_etage3",
+        "outside": 0,
+        "masks": [
+          {
+            "name": "leftCounter",
+            "rect": [
+              118,
+              102,
+              52,
+              37
+            ],
+            "transparentFloor": 401,
+            "preservedPixels": 1523
+          },
+          {
+            "name": "rightCounter",
+            "rect": [
+              212,
+              102,
+              40,
+              37
+            ],
+            "transparentFloor": 570,
+            "preservedPixels": 910
+          },
+          {
+            "name": "display",
+            "rect": [
+              294,
+              118,
+              36,
+              37
+            ],
+            "transparentFloor": 50,
+            "preservedPixels": 1282
+          },
+          {
+            "name": "leftLower",
+            "rect": [
+              38,
+              181,
+              36,
+              38
+            ],
+            "transparentFloor": 103,
+            "preservedPixels": 1265
+          },
+          {
+            "name": "rightLower",
+            "rect": [
+              374,
+              181,
+              36,
+              38
+            ],
+            "transparentFloor": 84,
+            "preservedPixels": 1284
+          },
+          {
+            "name": "rightUpper",
+            "rect": [
+              374,
+              118,
+              36,
+              37
+            ],
+            "transparentFloor": 96,
+            "preservedPixels": 1236
+          },
+          {
+            "name": "plant",
+            "rect": [
+              389,
+              46,
+              26,
+              36
+            ],
+            "transparentFloor": 199,
+            "preservedPixels": 737
+          }
+        ],
+        "stairs": [
+          {
+            "direction": "down",
+            "rect": [
+              30,
+              43,
+              52,
+              53
+            ],
+            "brightness": 38.651747655583954
+          }
+        ]
+      }
+    ]
+  },
+  "validation": {
+    "unitCommand": "node --test tests/department-store.test.js tests/market-layout.test.js tests/player-state.test.js",
+    "unitResult": {
+      "passed": 16,
+      "failed": 0,
+      "skipped": 0
+    },
+    "exportCommand": "node scripts/exportDepartmentStoreFloorAssets.js --check",
+    "outsideRetouchPixelsChanged": 0,
+    "stairBrightness": {
+      "dark": 38.651747655583954,
+      "light": 167.2519181585678
+    },
+    "buildCommand": "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-store-floor-dist",
+    "build": "26ca346b9e6b48f1",
+    "browserCommand": "DB_TEST_NAME=explorakit_test RELEASE_FURNITURE_ONLY=1 RELEASE_DIST_DIR=/tmp/riftmon-store-floor-dist RELEASE_SCREENSHOTS=/tmp/riftmon-store-floor-browser node --env-file=.env scripts/validateDepartmentStoreBrowser.js",
+    "browserStatus": "passed",
+    "limits": [
+      "No physical handset used.",
+      "No global test suite claimed for a static art correction."
+    ],
+    "browserResult": {
+      "floors": 4,
+      "blockedFurnitureEdges": 60,
+      "realWalking": true,
+      "saleswomen": true,
+      "allStairsBothDirections": true,
+      "exit": true,
+      "viewports": 4,
+      "errors": [],
+      "output": "/tmp/riftmon-store-floor-browser"
+    },
+    "browserAccounts": "Disposable test-database accounts removed by the recipe finally block",
+    "visualInspection": [
+      "Four native maps",
+      "Ground-floor PC and mobile browser capture",
+      "Third-floor PC browser capture"
+    ]
+  },
+  "deployment": {
+    "sprite": {
+      "asset": "pnj/clement-pixel-v2.png",
+      "sha256": "0947bc3341b14da9ed55d5f2770a8b8cbffee6a6ff5dcdeb3dd6ac6a619a00dc",
+      "bytes": 685,
+      "embeddedIn": "game.4ad1bf8d.js"
+    },
+    "publishedAt": "2026-10-26T21:26:40.325Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-store-floor-2026-10-26T21-26-38-643Z",
+    "clientBuild": "26ca346b9e6b48f1",
+    "clientCommit": "d497729d5e209e4eb3cffbc3823bab4f05fb390d",
+    "pid": "2076407",
+    "serverRestarted": false,
+    "neighborsUnchanged": true,
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.d762bbe1.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/game.4ad1bf8d.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/game.022a9d9e.css",
+      "img/tour_rdc.e03e0f06.png",
+      "img/tour_etage1.8ec612be.png",
+      "img/tour_etage2.18713452.png",
+      "img/tour_etage3.ac05c302.png",
+      "img/maria-v2.564002d1.png",
+      "img/clement-v2.804e1f22.png"
+    ],
+    "portraits": [
+      {
+        "name": "maria",
+        "file": "maria-v2.564002d1.png",
+        "sha256": "0c850885294ffbbbbd8fb497b0d1f947a59cb61a770633a88ec9342f7864cdcb"
+      },
+      {
+        "name": "clement",
+        "file": "clement-v2.804e1f22.png",
+        "sha256": "2f8f501893f017b8590a1e2cde6c3b26c7d4b9cdee9624414c4ad03d7161d3ac"
+      }
+    ]
+  }
+}
