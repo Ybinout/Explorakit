@@ -1949,84 +1949,115 @@
       "name": "gwenn_route8",
       "team": [
         {
-          "pokemonId": 164,
-          "name": "Noarfang",
+          "pokemonId": 121,
+          "name": "Staross",
           "level": 37,
           "abilities": [
-            "Air Slash",
-            "Extrasensory",
-            "Reflect",
-            "Roost"
+            "Surf",
+            "Ice Beam",
+            "Thunderbolt",
+            "Recover"
           ],
-          "passiveAbility": "Keen Eye",
-          "heldItem": "sitrus_berry",
-          "k": 1,
-          "nature": "Calm",
+          "passiveAbility": "Natural Cure",
+          "heldItem": "life_orb",
+          "k": 3,
+          "nature": "Timid",
           "givenIv": {
-            "hp": 18,
-            "attack": 18,
-            "defense": 18,
-            "specialAttack": 18,
-            "specialDefense": 18,
-            "speed": 18
+            "hp": 28,
+            "attack": 0,
+            "defense": 28,
+            "specialAttack": 28,
+            "specialDefense": 28,
+            "speed": 28
           },
           "ev": {
-            "hp": 64,
-            "specialAttack": 64
+            "specialAttack": 252,
+            "speed": 252,
+            "specialDefense": 4
           }
         },
         {
-          "pokemonId": 181,
-          "name": "Pharamp",
+          "pokemonId": 128,
+          "name": "Tauros",
           "level": 38,
           "abilities": [
-            "Thunderbolt",
-            "Power Gem",
-            "Thunder Wave",
-            "Light Screen"
+            "Return",
+            "Earthquake",
+            "Rock Slide",
+            "Zen Headbutt"
           ],
-          "passiveAbility": "Static",
-          "heldItem": "leftovers",
-          "k": 1,
-          "nature": "Modest",
+          "passiveAbility": "Intimidate",
+          "heldItem": "choice_band",
+          "k": 3,
+          "nature": "Jolly",
           "givenIv": {
-            "hp": 18,
-            "attack": 18,
-            "defense": 18,
-            "specialAttack": 18,
-            "specialDefense": 18,
-            "speed": 18
+            "hp": 28,
+            "attack": 28,
+            "defense": 28,
+            "specialAttack": 28,
+            "specialDefense": 28,
+            "speed": 28
           },
           "ev": {
-            "hp": 84,
-            "specialAttack": 84
+            "attack": 252,
+            "speed": 252,
+            "hp": 4
           }
         },
         {
-          "pokemonId": 214,
-          "name": "Scarhino",
+          "pokemonId": 130,
+          "name": "Léviator",
           "level": 39,
           "abilities": [
-            "Brick Break",
-            "Aerial Ace",
-            "Rock Slide",
-            "Bulk Up"
+            "Dragon Dance",
+            "Waterfall",
+            "Earthquake",
+            "Ice Fang"
           ],
-          "passiveAbility": "Guts",
-          "heldItem": "expert_belt",
-          "k": 2,
-          "nature": "Jolly",
+          "passiveAbility": "Intimidate",
+          "heldItem": "leftovers",
+          "k": 3,
+          "nature": "Adamant",
           "givenIv": {
-            "hp": 18,
-            "attack": 18,
-            "defense": 18,
-            "specialAttack": 18,
-            "specialDefense": 18,
-            "speed": 18
+            "hp": 28,
+            "attack": 28,
+            "defense": 28,
+            "specialAttack": 28,
+            "specialDefense": 28,
+            "speed": 28
           },
           "ev": {
-            "attack": 96,
-            "speed": 96
+            "attack": 252,
+            "speed": 252,
+            "specialDefense": 4
+          }
+        },
+        {
+          "pokemonId": 157,
+          "name": "Typhlosion",
+          "level": 39,
+          "abilities": [
+            "Overheat",
+            "Flamethrower",
+            "Focus Blast",
+            "Thunder Punch"
+          ],
+          "passiveAbility": "Blaze",
+          "heldItem": "choice_scarf",
+          "k": 4,
+          "nature": "Naive",
+          "givenIv": {
+            "hp": 31,
+            "attack": 31,
+            "defense": 31,
+            "specialAttack": 31,
+            "specialDefense": 31,
+            "speed": 31
+          },
+          "ev": {
+            "specialAttack": 252,
+            "speed": 252,
+            "attack": 4
           }
         }
       ],
@@ -2328,9 +2359,9 @@
         "name": "Lucie",
         "ai": "expert",
         "entryLines": {
-          "395": "Ne t’approche pas. Je… je dois protéger cette maison.",
           "196": "Ces souvenirs ne sont pas à toi. Tais-toi… tais-toi !",
-          "350": "Je connais cette voix… Non. L’Aube m’a donné un ordre."
+          "350": "Je connais cette voix… Non. L’Aube m’a donné un ordre.",
+          "395": "Ne t’approche pas. Je… je dois protéger cette maison."
         },
         "defeatLine": "Lucie : Pars… tant que je peux encore te le demander. Ne les laisse pas te prendre aussi."
       }

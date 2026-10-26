@@ -1,0 +1,175 @@
+{
+  "date": "2026-10-26",
+  "trainerKey": "gwenn_route8",
+  "displayName": "Matthieu",
+  "scope": "Replace only Matthieu's roster; preserve original 37–39 levels, expert human AI, prerequisites, personal victory and portraits.",
+  "levels": [
+    37,
+    38,
+    39,
+    39
+  ],
+  "zone": {
+    "min": 35,
+    "max": 41
+  },
+  "onlyMatthieuTeamChanged": true,
+  "totalTeams": 35,
+  "roles": [
+    {
+      "pokemon": "Staross",
+      "id": 121,
+      "k": 3,
+      "level": 37,
+      "role": "Fast special coverage with Recover to offset Life Orb chip",
+      "nature": "Timid",
+      "heldItem": "life_orb",
+      "moves": [
+        "Surf",
+        "Ice Beam",
+        "Thunderbolt",
+        "Recover"
+      ],
+      "iv": "28 except Attack 0",
+      "ev": {
+        "specialAttack": 252,
+        "speed": 252,
+        "specialDefense": 4
+      }
+    },
+    {
+      "pokemon": "Tauros",
+      "id": 128,
+      "k": 3,
+      "level": 38,
+      "role": "Physical pressure and Intimidate with Choice Band",
+      "nature": "Jolly",
+      "heldItem": "choice_band",
+      "moves": [
+        "Return",
+        "Earthquake",
+        "Rock Slide",
+        "Zen Headbutt"
+      ],
+      "iv": 28,
+      "ev": {
+        "attack": 252,
+        "speed": 252,
+        "hp": 4
+      }
+    },
+    {
+      "pokemon": "Léviator",
+      "id": 130,
+      "k": 3,
+      "level": 39,
+      "role": "Intimidate pivot and Dragon Dance setup with Leftovers",
+      "nature": "Adamant",
+      "heldItem": "leftovers",
+      "moves": [
+        "Dragon Dance",
+        "Waterfall",
+        "Earthquake",
+        "Ice Fang"
+      ],
+      "iv": 28,
+      "ev": {
+        "attack": 252,
+        "speed": 252,
+        "specialDefense": 4
+      }
+    },
+    {
+      "pokemon": "Typhlosion",
+      "id": 157,
+      "k": 4,
+      "level": 39,
+      "role": "Fast predominantly special finisher; Thunder Punch covers Water targets",
+      "nature": "Naive",
+      "heldItem": "choice_scarf",
+      "moves": [
+        "Overheat",
+        "Flamethrower",
+        "Focus Blast",
+        "Thunder Punch"
+      ],
+      "iv": 31,
+      "ev": {
+        "specialAttack": 252,
+        "speed": 252,
+        "attack": 4
+      }
+    }
+  ],
+  "checks": {
+    "targetedTests": 42,
+    "failed": 0,
+    "command": "node --test tests/matthieu-tactics.test.js tests/pnj-regressions.test.js tests/human-trainer-ai.test.js tests/expedition-strategy.test.js",
+    "independentTeams": true,
+    "allMovesLegalForSpecies": true,
+    "allPassivesCanonical": true,
+    "allItemsAndPPValid": true,
+    "totalEVEach": 508,
+    "noForcedAceReservation": true,
+    "riftAndColosseumCheckpoint": true,
+    "browser": {
+      "lockedDialogue": true,
+      "readyDialogue": true,
+      "postVictoryMapping": true,
+      "actualTrainerEntrance": true,
+      "newStarossLead": {
+        "id": 121,
+        "level": 37,
+        "k": 3
+      },
+      "viewports": 4,
+      "errors": [],
+      "fixture": "/tmp/riftmon-validate-matthieu-team.cjs",
+      "output": "/tmp/riftmon-matthieu-team-browser"
+    },
+    "phoneHardwareTested": false
+  },
+  "manualRecipe": "Rejouer Matthieu au sud de la Route 8 après Hoze. Le prochain duel doit commencer par Staross 37 K3 et proposer Tauros 38 K3, Léviator 39 K3, Typhlosion 39 K4. Sur compte admin déjà vainqueur, utiliser le reset existant si souhaité. Aucun drapeau réel de joueur n'a été remis à zéro pour cette livraison.",
+  "followUp": "Eruption remains configured as fixed power 150 in the existing move catalog, so it was deliberately not included in this set. Review HP-dependent power separately; no global move or AI rule was changed in this delivery.",
+  "publication": {
+    "publishedAt": "2026-10-26T04:22:22.285Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-matthieu-team-2026-10-26T04-22-20-709Z",
+    "clientBuild": "e2e54831f57b8912",
+    "clientCommit": "c1ebeba620d94b08f17354a837360be112f5cea6",
+    "beforePid": "1697717",
+    "afterPid": "1827440",
+    "activeRuns": 0,
+    "serverRestarted": true,
+    "checkpointSaved": true,
+    "neighborsUnchanged": true,
+    "publicGameBundle": true,
+    "backendOnly": true,
+    "matthieuTeamUpdated": true,
+    "roster": [
+      [
+        121,
+        37,
+        3,
+        "life_orb"
+      ],
+      [
+        128,
+        38,
+        3,
+        "choice_band"
+      ],
+      [
+        130,
+        39,
+        3,
+        "leftovers"
+      ],
+      [
+        157,
+        39,
+        4,
+        "choice_scarf"
+      ]
+    ]
+  }
+}
