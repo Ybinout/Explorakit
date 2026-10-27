@@ -38,7 +38,8 @@ function pokemonToRow(pokemon, teamId, position) {
         pokemon.level, pokemon.experience, pokemon.iv.attack, pokemon.iv.defense,
         pokemon.iv.hp, pokemon.iv.specialAttack, pokemon.iv.specialDefense,
         pokemon.iv.speed, pokemon.nature, pokemon.k, pokemon.currentHp, normalizePokemonStatus(pokemon.status),
-        (Object.hasOwn(pokemon,'__passiveAbilityBeforeBattle') ? pokemon.__passiveAbilityBeforeBattle : pokemon.passiveAbility) || null, pokemon.heldItem || null,
+        (Object.hasOwn(pokemon,'__passiveAbilityBeforeBattle') ? pokemon.__passiveAbilityBeforeBattle : pokemon.passiveAbility) || null,
+        (Object.hasOwn(pokemon,'__heldItemBeforeExchange') ? pokemon.__heldItemBeforeExchange : pokemon.heldItem) || null,
         original ? pokemon.attack : pokemon.currentAttack, original ? pokemon.defense : pokemon.currentDefense, original ? pokemon.specialAttack : pokemon.currentSpecialAttack,
         original ? pokemon.specialDefense : pokemon.currentSpecialDefense, original ? pokemon.speed : pokemon.currentSpeed, ...abilities, pokemon.ev.hp, pokemon.ev.attack, pokemon.ev.defense, pokemon.ev.specialAttack, pokemon.ev.specialDefense, pokemon.ev.speed, ...movePp, JSON.stringify(pokemon.pendingMoves || []), pokemon.experienceRate
     ];

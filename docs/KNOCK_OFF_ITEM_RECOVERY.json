@@ -1,0 +1,96 @@
+{
+  "date": "2026-10-27",
+  "feature": "Sabotage : retrait temporaire et restitution des objets tenus",
+  "diagnosis": "La capacité infligeait les dégâts, mais son catalogue ne contenait aucun effet de retrait. Reproduction sur la référence : Restes reste tenu après le coup.",
+  "implementation": {
+    "scope": "Moteur partagé Aventure, Rift et Colosseum ; aucun changement de client, carte, équipe, musique ou migration SQL.",
+    "move": "Effet knock_off ; puissance multipliée par 1,5 si la cible possède un objet amovible. Après un vrai impact, objet retiré et effets désactivés jusqu’à la fin du combat.",
+    "ownership": "Réutilisation des instantanés et références de propriétaire existants des échanges. Le survivant retrouve son propre équipement à la fin, y compris en cas de fuite, déconnexion ou expiration. Le joueur adverse ne reçoit pas l’objet.",
+    "permanentLoss": "Si le propriétaire est définitivement retiré en Rift/Colosseum, son objet retiré par Sabotage rejoint son sac une seule fois, avec notification et rafraîchissement. Aucun remboursement des autres équipements perdus.",
+    "consumption": "Un retrait n’est pas une consommation : Recyclage ne le récupère pas en combat. Les véritables consommations (baie, Ceinture Force) restent consommées.",
+    "rules": "Échec, immunité, protection et clone empêchent le retrait. Glue protège une cible encore apte, Brise Moule le contourne ; Délestage est activé. Le talisman de Rift reste protégé selon les règles existantes du jeu.",
+    "persistence": "La sauvegarde SQL écrit le propriétaire et l’équipement permanents, sans rééquiper le Pokémon vivant en plein combat. Les instantanés/relations sont conservés par le codec de checkpoint existant ; gain XP d’arène pendant le combat vérifié.",
+    "ai": "Modèle humain : retrait simulé uniquement sur ses copies après un impact réel projeté, sans nouvelle lecture d’information cachée ni de commande future du joueur."
+  },
+  "reference": {
+    "url": "https://raw.githubusercontent.com/smogon/pokemon-showdown/master/data/moves.ts",
+    "description": "Implémentation primaire Pokémon Showdown de Knock Off : puissance 65, bonus 1,5 et retrait après impact. Restitution et talisman adaptés aux règles de RiftMon."
+  },
+  "validation": {
+    "targeted": {
+      "passed": 92,
+      "failed": 0,
+      "skipped": 0,
+      "newTests": 20,
+      "command": "node --test tests/knock-off.test.js tests/battle-outcome.test.js tests/human-trainer-items.test.js tests/human-trainer-model.test.js tests/move-behavior-audit.test.js"
+    },
+    "regression": {
+      "passed": 111,
+      "failed": 0,
+      "skipped": 0,
+      "command": "node --test tests/move-selection.test.js tests/human-trainer-ai.test.js tests/human-trainer-finishing.test.js tests/drift-runtime.test.js tests/battle-order.test.js tests/colosseum-variety.test.js tests/colosseum-ascension.test.js tests/teleport.test.js"
+    },
+    "mysql": {
+      "passed": 17,
+      "failed": 0,
+      "skipped": 0,
+      "newTests": 5,
+      "database": "explorakit_test",
+      "command": "DB_NAME=explorakit_test RUN_MYSQL_TESTS=1 NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file=.env --test tests/knock-off-mysql.test.js tests/release-features-mysql.test.js",
+      "checks": "Vrais orchestrateurs sauvage/dresseur Aventure, sauvegarde SQL pendant retrait, fuite/déconnexion et XP d’arène. Comptes jetables supprimés."
+    },
+    "baseline": {
+      "commit": "61420ef3e1e709ab023fe208ad313e342c20fd51",
+      "expectedFailures": 1,
+      "checks": "Ancien catalogue et moteur rechargés isolément : heldItem reste leftovers au lieu de null. La même recette passe après correction."
+    },
+    "movesAudit": {
+      "command": "npm run audit:moves",
+      "executionChecks": 2532,
+      "executionFailures": 0,
+      "moves": 633,
+      "unknownEffectKinds": 0,
+      "unsupportedSpecialCases": 0,
+      "partialMoves": 0
+    },
+    "referenceCheck": "node scripts/generatePokemonReference.js --check : valide ; la description française existante couvrait déjà le retrait jusqu’à la fin du combat.",
+    "syntaxAndDiff": "Valides",
+    "postDeployment": {
+      "sourceHashesMatch": true,
+      "serverErrorCount": 0,
+      "testUsersRemaining": 0
+    },
+    "limits": "Pas de nouvelle interface ni build client ; aucune nouvelle recette navigateur, téléphone physique ou suite globale revendiqués."
+  },
+  "deployment": {
+    "publishedAt": "2026-10-27T15:52:21.621Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-knockoff-2026-10-27T15-52-19-771Z",
+    "sourceBaseline": "61420ef3e1e709ab023fe208ad313e342c20fd51",
+    "sourceHashes": {
+      "data/game/moves.json": "1717ba7d5e13e4447f246aa4ad9ec4e252771287ebe5e2fc8c90781013c53577",
+      "server/game/battle/battleEngine.js": "856033231be02106393351a8b6e9e9aa4b0b993fda778e941446f8bd04aac02a",
+      "server/game/battle/battleOutcome.js": "35f390533b7b98ccd92ce6073c55c21eeb38f0f4bf9aeae84b150b3a8029ecea",
+      "server/game/battle/humanTrainerModel.js": "a2420f43f2b2b6d3de7b111e9eb1fea75a2fe80a48b71455e3ca3dabbb1f94fd",
+      "server/game/drift/driftBattle.js": "face3f19c19d7e6aef23be23898ba46e480a96bb7136d5d4695ccb929889fb68",
+      "server/persistence/teamRepository.js": "ea20c53c153b4cb598961bd46272d75beedc31747dc1edff4f3a1b84ee5d7ff4"
+    },
+    "clientCommit": "7b9ab600ebe0bf328327d734243a516cefecefb2",
+    "clientBuild": "7a1dc730ab97e07a",
+    "clientUnchanged": true,
+    "publicAssets": [
+      "js/app.8daaaac3.js",
+      "js/game.fc8fe9ba.js",
+      "css/app.bbefd3a4.css",
+      "css/game.2a085063.css"
+    ],
+    "beforePid": "2316388",
+    "afterPid": "2322880",
+    "serverRestarted": true,
+    "checkpointSaved": true,
+    "gracefulCheckpoint": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "sqlMigration": false,
+    "realAccountsModified": false
+  }
+}

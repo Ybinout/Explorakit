@@ -286,6 +286,25 @@ function snapshotHeldItemForExchange(pokemon) {
     });
 }
 
+function canKnockOffItem(pokemon) {
+    const item=getItemDefinition(pokemon?.heldItem);
+    return Boolean(item?.category==='held'&&!item.unremovable&&item.key!=='rift_talisman');
+}
+function knockOffHeldItem(attacker,target,messages=[]) {
+    if(!canKnockOffItem(target))return null;
+    if(target.currentHp>0&&hasPassiveAbility(target,'Sticky Hold')&&!ignoresDefenderAbility(attacker,target)){
+        messages.push('Glue empêche Sabotage de faire tomber l’objet.');return null;
+    }
+    snapshotHeldItemForExchange(target);
+    const item=target.heldItem,origin=target.__heldItemOrigin||target;
+    itemOwner(origin,'__heldItemKnockedOff',item);
+    itemOwner(target,'__heldItemOrigin',null);
+    target.heldItem=null;
+    if(hasPassiveAbility(target,'Unburden'))ensureBattleData(target).unburden=true;
+    messages.push(`Sabotage fait tomber ${getItemDefinition(item).name} de ${getPokemonDisplayName(target)} !`);
+    return item;
+}
+
 function snapshotPassiveAbility(pokemon) {
     if (!pokemon || Object.prototype.hasOwnProperty.call(pokemon, '__passiveAbilityBeforeBattle')) return;
     Object.defineProperty(pokemon, '__passiveAbilityBeforeBattle', {
@@ -760,7 +779,7 @@ function calculateDamageDetailed(attacker, defender, move, context = {}) {
     }
 
     const level = Math.max(1, safeNumber(attacker.level, 1));
-    const power = Math.max(0, safeNumber(move.power, 0));
+    const power = Math.max(0, safeNumber(move.power, 0))*(move.ename==='Knock Off'&&canKnockOffItem(defender)?1.5:1);
     if (power <= 0) {
         return {
             damage: 0,
@@ -1822,6 +1841,10 @@ function applyEffect(effect, context, moveResult) {
         case 'embargo':
             targetData.embargoTurns = Math.max(targetData.embargoTurns, Math.max(1, safeNumber(effect.turns, 5)));
             messages.push(`${getPokemonDisplayName(effectTargetPokemon)} ne peut plus utiliser son objet tenu.`);
+            return;
+
+        case 'knock_off':
+            knockOffHeldItem(context.attacker,effectTargetPokemon,messages);
             return;
 
         case 'swap_item': {
@@ -3413,6 +3436,8 @@ function executeAttack(attackName, attacker, defender, options = {}) {
 }
 
 module.exports = {
+    canKnockOffItem,
+    knockOffHeldItem,
     movePhase,
     PARTIAL_EFFECT_KINDS,
     applyStatus,

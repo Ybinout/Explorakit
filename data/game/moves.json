@@ -6184,7 +6184,11 @@
             "priority": 0,
             "crit_stage": 0,
             "target": "single",
-            "effects": []
+            "effects": [
+                {
+                    "kind": "knock_off"
+                }
+            ]
         }
     },
     {

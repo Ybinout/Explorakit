@@ -373,6 +373,14 @@ class DriftBattle {
         if(this.finished) return; this.finished=true; this.awaiting=false;
         if(reason==='finished')this.sync();
         for (const p of [this.a,this.b]) p.equipe.pokemons = p.equipe.pokemons.filter(poke=>!effects.isDead(poke) || poke.riftFainted);
+        for(const p of [this.a,this.b].filter(p=>!p.npc)){
+            const initialTeam=this.originalTeams?.get(p)||this.resultTrackers?.get(p)?.initial.map(e=>e.pokemon)||[];
+            for(const key of require('../battle/battleOutcome').recoverLostKnockedOffItems(p,initialTeam)){
+                const name=getItemDefinition(key)?.name||key;
+                this.say(`${name} est récupéré dans le sac.`);
+                report.event(p,'item',`${name} récupéré après Sabotage.`);
+            }
+        }
         clearBattleTransientState(this.originals);
         for (const p of [this.a,this.b]) if (!p.npc) require('../battle/partyOrder').restorePartyOrder(p.equipe);
         for (const p of [this.a,this.b]) { p.inbattle=false; p.battle=null; }
@@ -401,6 +409,7 @@ class DriftBattle {
         require('./contracts').record(this.a,this,winner,reason);
         effects.detach(this.originals);
         for(const p of [this.a,this.b]) if(!p.npc) {
+            this.emit(p,'bagUpdated',{items:economy.bag(p)});
             require('./fusion').consolidate(p);
             const payload = {
                 playerWon: p === winner,

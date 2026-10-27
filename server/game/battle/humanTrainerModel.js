@@ -99,6 +99,7 @@ function cast(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMoved=fa
         const guardChance=guard.get(other)||0;
         const hit=damageTarget(other,raw*hitChance*(1-guardChance),p,move,state);
         inflicted=hit.total;useful=inflicted>0;
+        if(move.ename==='Knock Off'&&hit.hp>0)engine.knockOffHeldItem(p,other);
         const item=resources.getItemDefinition(other.heldItem);
         if(hit.hp>0&&held.effect(other,state)==='type_resist'&&item.resist_type===resolved.type
             &&(effectiveness>1||resolved.type==='Normal')&&ability(p)!=='Unnerve')consume(other);

@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Sabotage — objet retiré en combat et récupéré à la fin — 27 octobre 2026
+
+Le catalogue n’appliquait aucun retrait : ajout de l’effet partagé `knock_off` et du bonus de puissance ×1,5 sur objet amovible. L’objet cesse d’agir après un vrai impact ; protection, clone, immunité, Glue/Brise Moule et Délestage sont pris en compte. Le talisman de Rift conserve sa protection existante. Les véritables baies/Ceintures Force consommées restent consommées, et Recyclage ne récupère pas un objet simplement retiré.
+
+Restitution au propriétaire original à chaque fin de combat, même après échange d’objets, fuite, déconnexion ou expiration. En Rift/Colosseum, si ce propriétaire est définitivement perdu, l’objet retiré rejoint son sac une seule fois. Sauvegarde SQL de la propriété permanente sans rééquiper en plein combat ; checkpoint et XP d’arène conservés. L’IA simule le retrait sur ses copies, sans lecture nouvelle de données cachées ou d’intention du joueur.
+
+Validation : 203 tests ciblés et 17 recettes MySQL réussis, zéro échec/ignoré ; 20 tests unitaires et cinq SQL nouveaux. Une reproduction échoue sur la référence (Restes reste tenu) et passe après patch. Audit des capacités : 2 532 exécutions sans échec ; référence française, syntaxe/diff valides. Pas de nouvelle interface, build client, navigateur, matériel physique ou suite globale revendiqués. Rapport et commandes : `docs/KNOCK_OFF_ITEM_RECOVERY.json`.
+
+Publication serveur seule 2026-10-27T15:52:21.621Z, PID 2316388→2322880. Sauvegarde `/home/ubuntu/dev/backups/riftmon-knockoff-2026-10-27T15-52-19-771Z`, checkpoint conservé et 0 expédition active relevée. Client 7b9ab600ebe0bf328327d734243a516cefecefb2/build `7a1dc730ab97e07a`, index/bundles et Knov/api-test inchangés. Empreintes source identiques après publication, aucun compte de recette restant et zéro erreur serveur relevée.
+
 ## IA — capacités conditionnelles et répétitions évitées — 27 octobre 2026
 
 Deux chemins concernés : sauvages qui retiraient au hasard Bluff après sa première utilisation, et IA humaine qui conservait cette attaque dans les candidats malgré sa pénalité. Reproduction supplémentaire sur ancien état : `lastActionTurn>0` sans `activeMoveActions` était compris différemment par le moteur et l’IA. Normalisation des instantanés propres selon la même règle que le moteur ; compteur explicite 0 d’une vraie entrée conservé.
@@ -4255,6 +4265,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 27 octobre 2026 — Sabotage : retrait effectif et bonus de puissance, restitution au propriétaire original en fin de combat ou dans son sac après perte définitive. Consommations réelles préservées, sauvegarde SQL/checkpoints et IA compatibles. 203 tests et 17 recettes SQL réussis, reproduction en échec avant patch ; serveur publié avec sauvegarde, client et voisins conservés. Rapport `docs/KNOCK_OFF_ITEM_RECOVERY.json`.
 
 - 27 octobre 2026 — IA : préférence partagée pour les capacités compatibles, fin des répétitions évitables de Bluff et autres capacités conditionnelles, historique ancien reconnu comme par le moteur. PP/Choix/Lutte, entrées, engagement et informations privées conservés. 192 tests et neuf recettes SQL réussis, trois reproductions en échec avant patch ; serveur publié avec sauvegarde/checkpoint, client et voisins inchangés. Rapport `docs/AI_MOVE_SELECTION.json`.
 
