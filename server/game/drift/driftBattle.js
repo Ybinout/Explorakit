@@ -29,7 +29,7 @@ class DriftBattle {
         this.contractContributors = new Set();
         this.effortParticipants = new Map(); this.effortRewarded = new Set();
         this.aiMemory = { seen: {}, lastSwitchRound: -10 };
-        this.state = engine.createBattleState({ mapName: a.currentmap, opponentMap: b.npc ? a.currentmap : b.currentmap ?? null }); this.sides = [this.state.sides.player, this.state.sides.enemy];
+        this.state = engine.createBattleState({ mapName: a.currentmap, opponentMap: b.npc ? a.currentmap : b.currentmap ?? null, battleType:type }); this.sides = [this.state.sides.player, this.state.sides.enemy];
         this.pending = new Map(); this.round = 0; this.finished = false; this.rewarded = new Set(); this.awaiting = false;
         for (const p of [a,b]) if (!p.npc) require('../battle/partyOrder').rememberPartyOrder(p.equipe);
         this.originals = [...a.equipe.pokemons, ...b.equipe.pokemons];
@@ -282,6 +282,8 @@ class DriftBattle {
     resolve() {
         if (this.finished || !this.awaiting || this.replacementPhase) return;
         this.awaiting = false;
+        // The encounter kind is authoritative even for a pre-patch checkpoint.
+        this.state.battleType=this.type;
         const actors = [this.a,this.b];
         for (const p of actors) if (this.pending.get(p)?.action === 'flee') {
             if (this.type === 'pvp') this.finish(p === this.a ? this.b : this.a, 'forfeit');
@@ -355,7 +357,7 @@ class DriftBattle {
             const switched = resolveMoveSwitches(result,p.equipe,actors[1-index].equipe);
             if(switched.attacker) this.enter(index); if(switched.defender) this.enter(1-index);
             this.prune(); this.sync(); if(this.checkEnd()) return;
-            if(result.escape && this.type!=='pvp') {this.finish(null,'fled'); return;}
+            if(result.escape && this.type==='wild') {this.escapeActor=index===0?'player':'opponent';this.finish(null,'fled'); return;}
         }
         this.withDriftSignals(()=>engine.processEndOfRound(this.active(0),this.active(1),this.sides[0],this.sides[1],this.state)).forEach(m=>this.say(m));
         this.withDriftSignals(()=>{effects.endTurn(this.active(0));effects.endTurn(this.active(1));});this.prune();
@@ -403,6 +405,7 @@ class DriftBattle {
                 playerWon: p === winner,
                 battleType: this.type === 'arena' ? 'trainer' : this.type,
                 reason,
+                ...(this.escapeActor?{escapeActor:this.escapeActor}:{}),
                 draw: !winner && reason === 'finished'
             };
             payload.summary = buildBattleSummary(payload, this.resultTrackers.get(p)

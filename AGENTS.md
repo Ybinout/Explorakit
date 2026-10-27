@@ -1,5 +1,15 @@
 # Contexte permanent — RiftMon
 
+## Téléport — fuite sauvage réellement résolue — 27 octobre 2026
+
+L’Aventure ignorait `result.escape`, tandis que Rift/Colosseum terminaient aussi les combats de dresseurs et ne distinguaient pas celui qui fuyait. Le moteur n’autorise désormais cet effet qu’en rencontre sauvage et consulte les règles de piège existantes. Téléport conserve sa priorité 0 et son effet de fuite du catalogue ; aucun passage en pivot moderne. Sommeil, peur et autres restrictions d’action restent prioritaires.
+
+Arrêt immédiat de toutes les branches Aventure : attaque en premier/deuxième, riposte après changement ou capture ratée ; aucune attaque ou météo résiduelle après la fuite. Résultat `fled` compatible, sans victoire, défaite, XP, EV, argent ou butin. Équipe/ordre et vrais coûts de PP/Ball conservés. Champ facultatif `escapeActor` : le bilan dit clairement « Le Pokémon sauvage a fui » et cite Téléport. Rift/Colosseum partagent ces règles ; les anciennes sauvegardes de combat rétablissent le type depuis `DriftBattle.type` lors de la résolution.
+
+Validation : 145 tests ciblés et sept scénarios MySQL réussis, zéro échec/ignoré. Huit tests dédiés couvrent moteur, pièges, sommeil/peur, PP, dresseurs et anciens états d’expédition ; SQL couvre les deux ordres d’action pour chaque camp, switch, Ball ratée et sommeil. Deux anciennes attentes de capture, déjà en échec sur la référence à cause des trois nouveaux cristaux, adaptées au butin actuel. Navigateur SQL réel sur les trois modes et quatre formats : bon acteur, absence de gain/perte, retour au monde et mouvement débloqué, zéro erreur. Captures 320/393/844 inspectées ; lint/build `7a1dc730ab97e07a`, syntaxe/diff valides. Pas de téléphone physique ni suite globale revendiqués. Rapport et commandes : `docs/TELEPORT_WILD_ESCAPE.json`.
+
+Publication serveur/client 2026-10-27T14:24:29.998Z, client 7b9ab600ebe0bf328327d734243a516cefecefb2, PID 2293859→2302705. Sauvegarde `/home/ubuntu/dev/backups/riftmon-teleport-2026-10-27T14-24-26-976Z` et checkpoint conservé ; 0 expédition active relevée. Index/bundles et décors publics contrôlés, anciens assets hachés et Knov/api-test conservés.
+
 ## Cristaux sauvages et vente en boutique — 27 octobre 2026
 
 Trois trésors répétables, uniquement après victoire/capture sauvage, pêche incluse, dans les trois modes : Éclat fissuré (25 %, 50 ₽), Cristal limpide (10 %, 150 ₽), Prisme d’aurore (5 %, 500 ₽). Tirages indépendants, plusieurs résultats possibles, aucun bonus Drift ni remplacement du butin ordinaire à 1/6. Aucune offre d’achat ; pas de cristaux contre dresseurs/arènes/PvP, sur fuite ou défaite. Poche Trésors et trois icônes vectorielles, sans nouvelle image raster.

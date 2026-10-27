@@ -1,0 +1,125 @@
+{
+  "date": "2026-10-27",
+  "feature": "Téléport : fin immédiate de rencontre sauvage et identité de celui qui fuit",
+  "diagnosis": [
+    "Le moteur produisait result.escape sans type de combat ni contrôle de piège.",
+    "Aventure : les orchestrateurs de tours, changements et captures ratées ignoraient ce résultat.",
+    "Rift/Colosseum : la fuite était appliquée également aux dresseurs/arènes ; le résultat ne disait pas qui avait fui."
+  ],
+  "behavior": {
+    "wild": "Téléport réussi termine immédiatement la rencontre, pour le sauvage ou le Pokémon du joueur. Aucune seconde action ni dégâts de fin de tour après la fuite.",
+    "nonWild": "Téléport échoue en combat de dresseur, arène ou PvP. Règle du catalogue déjà en place (priorité 0, effet escape) conservée, sans changement en pivot moderne.",
+    "prevention": "Sommeil, peur, restrictions de capacités et pièges contrôlés par le moteur. PP consommés selon les règles existantes ; un talent ou type autorisant la fuite conserve son comportement.",
+    "rewards": "Fuite sans victoire, défaite, K.O., XP, EV, argent, capture, Drift ou cristaux ; équipe et ordre conservés. Les consommables réellement utilisés avant la fuite restent consommés.",
+    "ui": "Raison compatible fled, champ facultatif escapeActor player/opponent. Nouveau bilan : Le Pokémon sauvage a fui / Il s’est échappé avec Téléport. Ancien serveur ou fuite ordinaire : ancien affichage conservé.",
+    "checkpoint": "Le type de combat est rétabli depuis DriftBattle.type au début de la résolution, pour les checkpoints antérieurs au champ battleType. Aucune migration ni changement de compte réel."
+  },
+  "validation": {
+    "targeted": {
+      "passed": 75,
+      "failed": 0,
+      "skipped": 0,
+      "newTests": 8,
+      "command": "node --test tests/teleport.test.js tests/battle-order.test.js tests/battle-outcome.test.js tests/battle-result-client.test.js tests/sleep-status.test.js tests/move-behavior-audit.test.js"
+    },
+    "regression": {
+      "passed": 70,
+      "failed": 0,
+      "skipped": 0,
+      "command": "node --test tests/human-trainer-ai.test.js tests/human-trainer-finishing.test.js tests/drift-runtime.test.js tests/move-audit.test.js",
+      "fixtureUpdate": "Deux assertions de capture ne comptaient pas les cristaux du patch précédent : échecs reproduits en rechargeant les trois modules de référence HEAD. Attentes adaptées au nouveau butin, aucun réglage de butin modifié."
+    },
+    "mysql": {
+      "passed": 7,
+      "failed": 0,
+      "skipped": 0,
+      "database": "explorakit_test",
+      "scenarios": [
+        "sauvage plus rapide",
+        "sauvage moins rapide",
+        "joueur Téléport plus rapide",
+        "joueur Téléport moins rapide",
+        "après switch volontaire",
+        "après capture ratée",
+        "sauvage endormi"
+      ],
+      "command": "DB_NAME=explorakit_test RUN_MYSQL_TESTS=1 NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file=.env --test tests/teleport-mysql.test.js"
+    },
+    "browser": {
+      "modes": [
+        "adventure",
+        "colosseum",
+        "rift"
+      ],
+      "authoritativeEncounter": true,
+      "immediateEscape": true,
+      "opponentNamedCorrectly": true,
+      "noRewardsOrLoss": true,
+      "returnToWorld": true,
+      "viewports": 4,
+      "errors": [],
+      "out": "/tmp/riftmon-teleport-browser"
+    },
+    "build": "7a1dc730ab97e07a",
+    "lint": "Réussi sans correction automatique",
+    "syntaxAndDiff": "Valides",
+    "visualInspection": [
+      "Aventure 393 px",
+      "Rift 320 px",
+      "Colosseum paysage 844 px"
+    ],
+    "limits": "Chromium local, quatre formats dont 1365 px ; pas de téléphone physique ni de suite globale revendiqués. La recette navigateur injecte un Abra connu dans le seul processus de test avant le chargement du gestionnaire, puis utilise le vrai déplacement, Socket.IO, moteur, SQL et interface. Comptes jetables supprimés."
+  },
+  "reproduce": [
+    "npm --prefix vue-explorakit run lint -- --no-fix",
+    "cd vue-explorakit && NODE_ENV=production BABEL_ENV=production VUE_APP_PUBLIC_PATH=/ npm run build -- --dest /tmp/riftmon-teleport-dist",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-teleport-dist node --env-file=.env scripts/validateTeleportBrowser.js"
+  ],
+  "ruleReferences": [
+    "https://pokemondb.net/move/teleport",
+    "https://bulbapedia.bulbagarden.net/wiki/Teleport_(move)"
+  ],
+  "deployment": {
+    "publishedAt": "2026-10-27T14:24:29.998Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-teleport-2026-10-27T14-24-26-976Z",
+    "sourceBaseline": "746a7fac6f9871769dab609f22332edc6ab21ea2",
+    "sourceHashes": {
+      "server/game/battle/battleEngine.js": "ece26fd1439a5c1f21d1e134292ea4a1e7ea106557365d7da42d17f14e6649e5",
+      "server/game/battle/wildBattle.js": "526db4fc08727e2dbeaecee2e31b09a9378f67b840a7922a1a227ade8f8aed4d",
+      "server/game/drift/driftBattle.js": "f38612974c27aaf22b69638ae03cabb8bf0559dd95072a610e1dcbbddb0578d0"
+    },
+    "clientCommit": "7b9ab600ebe0bf328327d734243a516cefecefb2",
+    "clientBuild": "7a1dc730ab97e07a",
+    "beforePid": "2293859",
+    "afterPid": "2302705",
+    "activeRuns": 0,
+    "checkpointSaved": true,
+    "serverRestarted": true,
+    "gracefulCheckpoint": true,
+    "neighborsUnchanged": true,
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.8daaaac3.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.fc8fe9ba.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.2a085063.css",
+      "img/ville4_arene.4d111715.png",
+      "img/tour_rdc.e03e0f06.png",
+      "img/tour_etage1.8ec612be.png",
+      "img/tour_etage2.18713452.png",
+      "img/tour_etage3.ac05c302.png",
+      "img/6931.30769aa5.png"
+    ],
+    "embedded": [
+      "pnj/professor-ko-pixel-v1.png",
+      "pnj/clement-pixel-v2.png"
+    ],
+    "oldHashedAssetsRetained": true,
+    "sqlMigration": false,
+    "realAccountsModified": false
+  }
+}

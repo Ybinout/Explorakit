@@ -128,6 +128,8 @@ async function performAttackWithNarration(attacker, defender, moveIndex, player,
     await sleep(SHORT_DELAY_MS);
     await narrateMessages(player, io, afterActionMessages(attackResult), 950);
 
+    if(attackResult.escape)battleContext.battleState.escapeActor=own?'player':'opponent';
+
     const switches = resolveMoveSwitches(
         attackResult,
         battleContext?.attackerTeam,
@@ -316,6 +318,7 @@ async function runAttackTurn(player, wildPokemon, response, io, battleState, pla
                 defenderTeam: [wildPokemon]
             }
         );
+        if(battleState.escapeActor)return 'escaped';
         if (wildPokemon.currentHp <= 0) return hasAlivePokemon(player.equipe.pokemons) ? 'wild_ko' : 'player_ko';
         if (player.equipe.pokemons[0].currentHp <= 0) return 'player_ko';
 
@@ -335,6 +338,7 @@ async function runAttackTurn(player, wildPokemon, response, io, battleState, pla
             }
         );
 
+        if(battleState.escapeActor)return 'escaped';
         if (player.equipe.pokemons[0].currentHp <= 0) return 'player_ko';
         if (wildPokemon.currentHp <= 0) return hasAlivePokemon(player.equipe.pokemons) ? 'wild_ko' : 'player_ko';
         return resolveRoundEnd(player, wildPokemon, io, battleState, playerSide, enemySide);
@@ -355,6 +359,7 @@ async function runAttackTurn(player, wildPokemon, response, io, battleState, pla
             defenderTeam: player.equipe.pokemons
         }
     );
+    if(battleState.escapeActor)return 'escaped';
     if (player.equipe.pokemons[0].currentHp <= 0) return 'player_ko';
     if (wildPokemon.currentHp <= 0) return hasAlivePokemon(player.equipe.pokemons) ? 'wild_ko' : 'player_ko';
     if (wildResult?.switches?.defender) {
@@ -377,6 +382,7 @@ async function runAttackTurn(player, wildPokemon, response, io, battleState, pla
         }
     );
 
+    if(battleState.escapeActor)return 'escaped';
     if (wildPokemon.currentHp <= 0) return hasAlivePokemon(player.equipe.pokemons) ? 'wild_ko' : 'player_ko';
     if (player.equipe.pokemons[0].currentHp <= 0) return 'player_ko';
     return resolveRoundEnd(player, wildPokemon, io, battleState, playerSide, enemySide);
@@ -466,7 +472,12 @@ async function startBattle(player, wildPokemon, io, userId) {
             summary: resultTracker.snapshot(player.equipe.pokemons, extra.captured ? wildPokemon : null)
         }, 'wild');
     };
-    const battleState = createBattleState({ mapName: player.currentmap });
+    const battleState = createBattleState({ mapName: player.currentmap, battleType:'wild' });
+    const finishTeleport=async()=>{
+        await endBattle(false,{fled:true,escapeActor:battleState.escapeActor});
+        await editEquipe(userId,player.equipe);
+        return false;
+    };
     Object.defineProperty(battleState,'voidCharge',{value:require('./voidCharge').recorder(userId,player,io)});
     try {
         // Snapshot earned SQL badges for this Adventure battle. No client
@@ -629,6 +640,7 @@ async function startBattle(player, wildPokemon, io, userId) {
                             defenderTeam: player.equipe.pokemons
                         }
                     );
+                    if(battleState.escapeActor)return finishTeleport();
                 }
 
                 if (wildPokemon.currentHp > 0 && player.equipe.pokemons[0].currentHp > 0) {
@@ -697,6 +709,7 @@ async function startBattle(player, wildPokemon, io, userId) {
                             defenderTeam: player.equipe.pokemons
                         }
                     );
+                    if(battleState.escapeActor)return finishTeleport();
                 }
 
                 if (wildPokemon.currentHp > 0 && player.equipe.pokemons[0].currentHp > 0) {
@@ -720,6 +733,8 @@ async function startBattle(player, wildPokemon, io, userId) {
 
             if (actionPlayer === 'attack') {
                 const attackResult = await runAttackTurn(player, wildPokemon, response, io, battleState, playerSide, enemySide);
+
+                if(attackResult==='escaped')return finishTeleport();
 
                 if (attackResult === 'wild_ko') {
                     await grantWildXp();

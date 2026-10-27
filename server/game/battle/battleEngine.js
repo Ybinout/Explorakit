@@ -116,6 +116,7 @@ function createSideState(name = 'side') {
 function createBattleState(options = {}) {
     return {
         turn: 1,
+        battleType: ['wild','trainer','arena','pvp'].includes(options?.battleType) ? options.battleType : null,
         weather: battleWeatherForMap(options?.mapName, options?.opponentMap),
         terrain: {
             kind: null,
@@ -1552,8 +1553,14 @@ function applyEffect(effect, context, moveResult) {
             return;
 
         case 'escape':
+            if(context.battleState?.battleType!=='wild'){
+                moveResult.success=false;messages.push('Téléport échoue dans ce combat.');return;
+            }
+            if(!canSwitchOut(context.attacker,context.defender,context.battleState,{escape:true})){
+                moveResult.success=false;messages.push(`${getPokemonDisplayName(context.attacker)} est piégé et ne peut pas se téléporter.`);return;
+            }
             moveResult.escape = true;
-            messages.push(`${getPokemonDisplayName(context.attacker)} peut s'echapper.`);
+            messages.push(`${getPokemonDisplayName(context.attacker)} s’échappe avec Téléport !`);
             return;
 
         case 'delayed_status':
