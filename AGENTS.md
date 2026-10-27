@@ -1,5 +1,15 @@
 # Contexte permanent — RiftMon
 
+## Wanda — gravité perturbée et cristaux suspendus — 27 octobre 2026
+
+Six pierres/fragments de piliers et huit cristaux lévitent doucement sur les côtés de `ville4_arene`, avec ombres séparées et lumière violette discrète. Deux vagues parcourent les gravures existantes vers l’estrade ; masque préparé sur les 7 896 pixels clairs du sol, hors tapis, escalier et entrée. Le couloir central reste libre. Objets figés 1,1 s au début des répliques de Wanda (accueil, refus, défi, suite), puis reprise sans saut pendant que le dialogue reste ouvert ; lumière au sol continue. Particules blanches génériques retirées uniquement de cette arène.
+
+Module `wandaArena.js` dans le rendu commun Aventure/Rift/Colosseum, sans nouvelle boucle ni image raster. Textures petites et réutilisées, surface native 448×320, mise à jour au plus à 20 Hz ; environ 1,66 Mio de surfaces et 0,45 ms par peinture dans la micro-mesure Chromium locale. Pose fixe si animations réduites, libération en combat, onglet masqué, changement de lieu et démontage. PNG, collisions, transitions, PNJ, équipes, dialogues, musique et données réelles conservés.
+
+Validation : 10 tests réussis/une recette SQL optionnelle ignorée ; trois tests dédiés de géométrie/horloge. Canvas réel : zéro pixel d’effet hors zones autorisées, mouvement, pause/reprise et réduction contrôlés ; 15 scènes communes toujours validées. Navigateur SQL jetable : les trois modes sur quatre formats (320/393/844/1365), 3–4 cristaux visibles même sur téléphone centré, pause réelle des répliques, marche centrale, masquage et changement de carte ; PC clavier/souris distinct. Vrai combat/victoire Wanda : surfaces monde libérées et musique continue, autres champions inchangés. Zéro erreur navigateur, lint/build `6eeea9611c3aea13` et syntaxe/diff valides. Captures inspectées ; pas de téléphone physique ni suite globale revendiqués. Rapport et commandes : `docs/WANDA_GRAVITY.json`.
+
+Publication client seule 2026-10-27T10:06:29.600Z, client 504c5f697ee0c0d6840618993ce2a80c031bd4d9. Sauvegarde `/home/ubuntu/dev/backups/riftmon-wanda-gravity-2026-10-27T10-06-28-163Z` ; PID 2191147 conservé sans redémarrage. Index/bundles et carte/atlas publics vérifiés, anciens assets hachés et Knov/api-test conservés.
+
 ## Village de départ — admirateur naïf du Professeur — 27 octobre 2026
 
 Nouveau PNJ fixe `village_professor_fan` en (16,8) de `start`, près des maisons et hors portes/transitions. Il raconte que le Prof était le plus fort des champions avant de préférer travailler avec les Pokémon, puis ajoute naïvement « Il doit vraiment les aimer ! ». Simple conversation répétable, sans combat, récompense, jalon de quête ou condition d'histoire. Personnage solide comme les autres ; portes et axes de passage conservés.

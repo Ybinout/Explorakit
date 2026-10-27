@@ -1,0 +1,464 @@
+{
+  "date": "2026-10-27",
+  "feature": "Arène de Wanda : gravité perturbée",
+  "map": "ville4_arene",
+  "implementation": {
+    "renderer": "vue-explorakit/src/services/wandaArena.js",
+    "integration": [
+      "vue-explorakit/src/services/placeAmbience.js",
+      "vue-explorakit/src/components/UserMap.vue"
+    ],
+    "props": "Six pierres/fragments de piliers et huit cristaux suspendus, positions fixes sur les côtés, ombres au sol séparées et léger halo violet.",
+    "floor": "Deux vagues lentes vers l’estrade, masquées aux 7 896 pixels des gravures claires existantes. Tapis, escaliers et entrée exclus.",
+    "speech": "Pause des objets pendant 1 100 ms au début d’une réplique de Wanda, reprise durant le dialogue ; la lumière du sol continue. Accueil, refus, défi et après-combat couverts.",
+    "style": "Formes pixel natives et proportions du décor conservées ; anciennes particules blanches génériques retirées seulement chez Wanda.",
+    "lifecycle": "Boucle monde existante, rendu en cache à 20 Hz maximum ; préparation une fois par image. Surfaces libérées en combat, changement de lieu, onglet masqué et démontage. Réduction des mouvements : pose et éclairage fixes.",
+    "unchanged": [
+      "PNG/foreground de carte",
+      "JSON/TMX/collisions/transitions",
+      "PNJ et passage central",
+      "dialogues, équipes, récompenses et musique",
+      "règles serveur et BDD"
+    ],
+    "modes": [
+      "Aventure",
+      "Rift",
+      "Colosseum"
+    ]
+  },
+  "validation": {
+    "unit": {
+      "passed": 10,
+      "skipped": 1,
+      "failed": 0,
+      "command": "node --test tests/wanda-gravity.test.js tests/arena-scenes.test.js tests/arena-entrance.test.js",
+      "newTests": 3,
+      "note": "La recette SQL optionnelle du lot est ignorée ; les navigateurs utilisent bien explorakit_test."
+    },
+    "canvas": {
+      "inlayPixels": 7896,
+      "props": 14,
+      "movingFrames": [
+        21,
+        21,
+        20,
+        22,
+        17,
+        21,
+        22,
+        21,
+        19,
+        17,
+        19,
+        21,
+        22,
+        20
+      ],
+      "escaped": 0,
+      "flowEscaped": 0,
+      "flowPixels": 429029,
+      "paused": true,
+      "resumed": true,
+      "reduced": true,
+      "throttled": true,
+      "released": true,
+      "destroyed": true,
+      "isolated": true,
+      "surfaceBytes": 1735556,
+      "averagePaintMs": 0.4515000009536743
+    },
+    "sharedCanvas": {
+      "scenes": [
+        "gen_ville5",
+        "route4",
+        "ville5",
+        "ville1",
+        "cave1",
+        "cave2",
+        "cave_rochebrume1",
+        "cave_rochebrume2",
+        "cave_rochebrume3",
+        "ville1_arene",
+        "ville_safe1_arene",
+        "gen_arene5",
+        "ville3_arene",
+        "ville4_arene",
+        "ville5_arene"
+      ],
+      "water": {
+        "escaped": 0,
+        "lit": 438
+      },
+      "averagePaintMs": 0.5925,
+      "lifecycle": true,
+      "reducedMotion": true
+    },
+    "browser": {
+      "modes": [
+        "aventure",
+        "colosseum",
+        "rift"
+      ],
+      "views": [
+        {
+          "mode": "aventure",
+          "width": 320,
+          "height": 568,
+          "overflow": false,
+          "crystals": 4,
+          "props": 14,
+          "inlays": 7896,
+          "camera": {
+            "scale": 1,
+            "x": 272,
+            "y": 171,
+            "visibleWidth": 320,
+            "visibleHeight": 330
+          },
+          "position": {
+            "x": 432,
+            "y": 336
+          },
+          "canvas": {
+            "width": 320,
+            "height": 330
+          }
+        },
+        {
+          "mode": "aventure",
+          "width": 393,
+          "height": 852,
+          "overflow": false,
+          "crystals": 4,
+          "props": 14,
+          "inlays": 7896,
+          "camera": {
+            "scale": 1,
+            "x": 235.5,
+            "y": 26,
+            "visibleWidth": 393,
+            "visibleHeight": 614
+          },
+          "position": {
+            "x": 432,
+            "y": 336
+          },
+          "canvas": {
+            "width": 393,
+            "height": 614
+          }
+        },
+        {
+          "mode": "aventure",
+          "width": 844,
+          "height": 390,
+          "overflow": false,
+          "crystals": 4,
+          "props": 14,
+          "inlays": 7896,
+          "camera": {
+            "scale": 1,
+            "x": 94,
+            "y": 169.5,
+            "visibleWidth": 676,
+            "visibleHeight": 333
+          },
+          "position": {
+            "x": 432,
+            "y": 336
+          },
+          "canvas": {
+            "width": 676,
+            "height": 333
+          }
+        },
+        {
+          "mode": "aventure",
+          "width": 1365,
+          "height": 900,
+          "overflow": false,
+          "crystals": 8,
+          "props": 14,
+          "inlays": 7896,
+          "camera": {
+            "scale": 1.3359375,
+            "x": 0,
+            "y": 8.982456140350905,
+            "visibleWidth": 896,
+            "visibleHeight": 631.0175438596491
+          },
+          "position": {
+            "x": 432,
+            "y": 336
+          },
+          "canvas": {
+            "width": 1197,
+            "height": 843
+          }
+        },
+        {
+          "mode": "colosseum",
+          "width": 320,
+          "height": 568,
+          "overflow": false,
+          "crystals": 3,
+          "props": 14,
+          "inlays": 7896,
+          "camera": {
+            "scale": 1,
+            "x": 272,
+            "y": 205,
+            "visibleWidth": 320,
+            "visibleHeight": 262
+          },
+          "position": {
+            "x": 432,
+            "y": 336
+          },
+          "canvas": {
+            "width": 320,
+            "height": 262
+          }
+        },
+        {
+          "mode": "colosseum",
+          "width": 393,
+          "height": 852,
+          "overflow": false,
+          "crystals": 4,
+          "props": 14,
+          "inlays": 7896,
+          "camera": {
+            "scale": 1,
+            "x": 235.5,
+            "y": 37,
+            "visibleWidth": 393,
+            "visibleHeight": 598
+          },
+          "position": {
+            "x": 432,
+            "y": 336
+          },
+          "canvas": {
+            "width": 393,
+            "height": 598
+          }
+        },
+        {
+          "mode": "colosseum",
+          "width": 844,
+          "height": 390,
+          "overflow": false,
+          "crystals": 4,
+          "props": 14,
+          "inlays": 7896,
+          "camera": {
+            "scale": 1,
+            "x": 94,
+            "y": 189,
+            "visibleWidth": 676,
+            "visibleHeight": 294
+          },
+          "position": {
+            "x": 432,
+            "y": 336
+          },
+          "canvas": {
+            "width": 676,
+            "height": 294
+          }
+        },
+        {
+          "mode": "colosseum",
+          "width": 1365,
+          "height": 900,
+          "overflow": false,
+          "crystals": 8,
+          "props": 14,
+          "inlays": 7896,
+          "camera": {
+            "scale": 1,
+            "x": 0,
+            "y": 0,
+            "visibleWidth": 896,
+            "visibleHeight": 640
+          },
+          "position": {
+            "x": 432,
+            "y": 336
+          },
+          "canvas": {
+            "width": 896,
+            "height": 640
+          }
+        },
+        {
+          "mode": "rift",
+          "width": 320,
+          "height": 568,
+          "overflow": false,
+          "crystals": 3,
+          "props": 14,
+          "inlays": 7896,
+          "camera": {
+            "scale": 1,
+            "x": 272,
+            "y": 205,
+            "visibleWidth": 320,
+            "visibleHeight": 262
+          },
+          "position": {
+            "x": 432,
+            "y": 336
+          },
+          "canvas": {
+            "width": 320,
+            "height": 262
+          }
+        },
+        {
+          "mode": "rift",
+          "width": 393,
+          "height": 852,
+          "overflow": false,
+          "crystals": 4,
+          "props": 14,
+          "inlays": 7896,
+          "camera": {
+            "scale": 1,
+            "x": 235.5,
+            "y": 37,
+            "visibleWidth": 393,
+            "visibleHeight": 598
+          },
+          "position": {
+            "x": 432,
+            "y": 336
+          },
+          "canvas": {
+            "width": 393,
+            "height": 598
+          }
+        },
+        {
+          "mode": "rift",
+          "width": 844,
+          "height": 390,
+          "overflow": false,
+          "crystals": 4,
+          "props": 14,
+          "inlays": 7896,
+          "camera": {
+            "scale": 1,
+            "x": 94,
+            "y": 189,
+            "visibleWidth": 676,
+            "visibleHeight": 294
+          },
+          "position": {
+            "x": 432,
+            "y": 336
+          },
+          "canvas": {
+            "width": 676,
+            "height": 294
+          }
+        },
+        {
+          "mode": "rift",
+          "width": 1365,
+          "height": 900,
+          "overflow": false,
+          "crystals": 8,
+          "props": 14,
+          "inlays": 7896,
+          "camera": {
+            "scale": 1,
+            "x": 0,
+            "y": 0,
+            "visibleWidth": 896,
+            "visibleHeight": 640
+          },
+          "position": {
+            "x": 432,
+            "y": 336
+          },
+          "canvas": {
+            "width": 896,
+            "height": 640
+          }
+        }
+      ],
+      "desktopKeyboard": true,
+      "speechPause": true,
+      "speechResume": true,
+      "floorKeepsFlowing": true,
+      "reducedMotion": true,
+      "hidden": true,
+      "centralMovement": true,
+      "mapChangeReleases": true,
+      "errors": [],
+      "out": "/tmp/riftmon-wanda-gravity-browser"
+    },
+    "musicAndBattle": {
+      "newAudio": {
+        "time": 0.206178,
+        "duration": 220.081625,
+        "src": "http://127.0.0.1:33603/media/wanda.caaf3d19.mp3",
+        "volume": 0.13999999999999999,
+        "loop": true,
+        "prelude": true,
+        "battle": false,
+        "roomPaused": true
+      },
+      "realTouchStartsWithDialogue": true,
+      "entryAndLockedExcluded": true,
+      "continuousIntoBattle": true,
+      "volumeMuteVisibility": true,
+      "disconnectCleanup": true,
+      "realWandaVictory": true,
+      "ordinaryChampionUnchanged": true,
+      "errors": [],
+      "out": "/tmp/riftmon-wanda-gravity-prelude"
+    },
+    "lint": "Réussi sans correction automatique",
+    "build": "6eeea9611c3aea13",
+    "visualInspection": [
+      "Canvas plein décor à 2 s",
+      "Aventure tactile 393 et 1365 px",
+      "Colosseum 320 px",
+      "PC clavier/souris 1365 px"
+    ],
+    "limits": "Chromium local, pas de téléphone physique. Le coût Canvas est une micro-mesure locale du seul effet, pas une mesure des FPS de tout le jeu. Suite globale non relancée ; aucune nouvelle règle serveur ou BDD."
+  },
+  "reproduce": [
+    "npm --prefix vue-explorakit run lint -- --no-fix",
+    "node scripts/validateWandaGravityCanvas.js",
+    "node scripts/validatePlaceAmbienceCanvas.js",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-wanda-gravity-dist node --env-file=.env scripts/validateWandaGravityBrowser.js",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-wanda-gravity-dist node --env-file=.env scripts/validateWandaPreludeBrowser.js",
+    "cd vue-explorakit && NODE_ENV=production BABEL_ENV=production VUE_APP_PUBLIC_PATH=/ npm run build -- --dest /tmp/riftmon-wanda-gravity-dist"
+  ],
+  "deployment": {
+    "publishedAt": "2026-10-27T10:06:29.600Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-wanda-gravity-2026-10-27T10-06-28-163Z",
+    "clientBuild": "6eeea9611c3aea13",
+    "clientCommit": "504c5f697ee0c0d6840618993ce2a80c031bd4d9",
+    "pid": "2191147",
+    "serverRestarted": false,
+    "neighborsUnchanged": true,
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.ab3834c1.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.ce9a5c8c.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.d271e55a.css",
+      "img/ville4_arene.4d111715.png",
+      "img/6931.30769aa5.png"
+    ]
+  }
+}
