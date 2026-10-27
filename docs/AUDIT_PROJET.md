@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Route 1 — vieil habitant et origine récente du village — 27 octobre 2026
+
+Nouveau civil fixe `route1_old_villager`, sur `route1` en (5,14), hors herbes/portes/transitions. Réplique naïve : « Le village n’existe que depuis quelques années. Tout a été construit récemment… Ça sent encore le bois neuf, tu ne trouves pas ? ». Conversation répétable, aucun combat, quête, récompense ou drapeau. Sprite exact déjà découpé dans `6931.png` : index 8, rectangle (462,290,17,24), affichage ×2 ; portrait illustré existant à chapeau et barbe grise (`civilian-portraits-a`, cellule 8). Aucune image ni découpe client modifiée ; total de civils 70→71.
+
+Validation : 14 tests existants réussis/une recette SQL optionnelle ignorée ; navigateur réel sur compte SQL jetable, découpe/échelle observées, dialogue par Action, portrait décodé, répétition, PNJ solide, passage libre et progression/argent/badges inchangés. Huit captures 320/393/844/1365, zéro erreur ; petites captures inspectées. Syntaxe/diff valides, client inchangé. Rapport : `docs/ROUTE1_OLD_VILLAGER.json`.
+
+
+Publication serveur seule le 27 octobre 2026 à 21 h 47 (Europe/Paris), PID 2372214→2377001. Sauvegarde `/home/ubuntu/dev/backups/riftmon-old-villager-2026-10-27T20-47-57-806Z`, checkpoint conservé et zéro expédition active relevée. Client/build `30b9525c848d189f`, images, index/bundles et Knov/api-test inchangés ; empreintes runtime vérifiées, zéro erreur serveur relevée et aucun compte de recette restant. Autres PNJ/dialogues conservés par comparaison avec la référence ; aucune migration ou mutation de compte réel.
+
+
 ## Épilogue secret — faille et reflet violet dans la maison de Lucie — 27 octobre 2026
 
 Accès privé : six badges d’arène réellement acquis et Violence ou Pardon. Action derrière la bibliothèque gauche, depuis (7,4), sur son dos (7,5). Le parquet s’ouvre près de (10,6) en 8,6 s : secousses, éclats de planches, poussière et faille violette. Une seconde action à proximité fait émerger un double à (12,7), pendant 2,8 s. Action près du double : duel silencieux, sans réplique de PNJ. Trou et clone sont solides ; la porte et le reste de la salle restent accessibles. Le nouveau client annonce une capacité Socket optionnelle pour éviter qu’un ancien client déclenche une scène qu’il ne sait pas afficher.
@@ -4333,6 +4343,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 27 octobre 2026 — Vieil habitant de la Route 1 : remarque naïve sur le village construit récemment, sprite et portrait assortis repris de l’atlas existant. Conversation sans combat/récompense ; 14 tests et recette navigateur quatre formats validés. Rapport `docs/ROUTE1_OLD_VILLAGER.json`.
 
 - 27 octobre 2026 — Épilogue caché de la maison de Lucie : faille, reflet violet avec copie exacte de l’équipe, duel, fermeture et réveil chez soi. Maison personnellement délabrée, reprise SQL et reset admin privés. 122 tests ciblés, 23 scénarios SQL et navigateur tactile/PC validés. Rapport `docs/MIRROR_RIFT_EPILOGUE.json`.
 

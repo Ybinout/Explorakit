@@ -2560,6 +2560,20 @@
     "end": "heal"
   },
   {
+    "name": "route1_old_villager",
+    "sentences": [
+      {
+        "text": "Le village n’existe que depuis quelques années. Tout a été construit récemment… Ça sent encore le bois neuf, tu ne trouves pas ?",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 8
+        }
+      }
+    ]
+  },
+  {
     "name": "village_professor_fan",
     "sentences": [
       {

@@ -1,0 +1,108 @@
+{
+  "dateParis": "2026-10-27",
+  "actor": {
+    "name": "route1_old_villager",
+    "map": "route1",
+    "x": 5,
+    "y": 14,
+    "block": true,
+    "roaming": false
+  },
+  "dialogue": "Le village n’existe que depuis quelques années. Tout a été construit récemment… Ça sent encore le bois neuf, tu ne trouves pas ?",
+  "art": {
+    "source": "vue-explorakit/src/assets/6931.png",
+    "frame": 8,
+    "rect": [
+      462,
+      290,
+      17,
+      24
+    ],
+    "scale": 2,
+    "portrait": "civilian-portraits-a.png, cell 8",
+    "newImages": false
+  },
+  "validation": {
+    "tests": {
+      "pass": 14,
+      "fail": 0,
+      "skip": 1
+    },
+    "browser": {
+      "exactAtlasCrop": [
+        462,
+        290,
+        17,
+        24
+      ],
+      "integerScale": 2,
+      "location": [
+        5,
+        14
+      ],
+      "npcBlocks": true,
+      "talkViaAction": true,
+      "illustratedPortrait": true,
+      "repeatable": true,
+      "noBattleOrProgressReward": true,
+      "freePassage": true,
+      "widths": [
+        320,
+        393,
+        844,
+        1365
+      ],
+      "screens": [
+        "route1-sprite-320.png",
+        "route1-sprite-393.png",
+        "route1-sprite-844.png",
+        "route1-sprite-1365.png",
+        "elder-dialogue-320.png",
+        "elder-dialogue-393.png",
+        "elder-dialogue-844.png",
+        "elder-dialogue-1365.png"
+      ],
+      "errors": []
+    },
+    "commands": [
+      "node --test tests/dialogue-portrait.test.js tests/world-content.test.js tests/arena-scenes.test.js",
+      "DB_TEST_NAME=explorakit_test node --env-file=.env /tmp/riftmon-old-villager-browser.cjs"
+    ],
+    "browserScript": "const root='/home/ubuntu/dev/explorakit';\nconst req=require('node:module').createRequire(root+'/package.json');\nconst assert=req('node:assert/strict'),fs=req('node:fs'),http=req('node:http'),{once}=req('node:events'),{randomUUID}=req('node:crypto');\nif(!/test/i.test(process.env.DB_TEST_NAME||''))throw Error('Dedicated test database required');\nprocess.env.DB_NAME=process.env.DB_TEST_NAME;process.env.NODE_ENV='test';\nconst express=req('express'),{Server}=req('socket.io'),{chromium}=req('playwright'),{dbPool:db}=req('./server/config/database');\nconst dist='/tmp/riftmon-mirror-dist',out='/tmp/riftmon-old-villager-browser';fs.mkdirSync(out,{recursive:true});\nconst app=express(),server=http.createServer(app),io=new Server(server);app.use(express.json());app.use('/api',req('./server/http/routes'));app.use(express.static(dist));app.get('*',(_q,r)=>r.sendFile(dist+'/index.html'));io.use(req('./server/http/authMiddleware').authenticateSocket);req('./server/realtime/socketHandler')(io);\nlet browser,page,userId,passed=false;const errors=[],screens=[];\nasync function pictures(label){for(const[width,height]of[[320,568],[393,852],[844,390],[1365,900]]){await page.setViewportSize({width,height});await page.evaluate(async width=>{v.showMobileControls=width<=920;await v.$nextTick();v.resizeWorldViewport();},width);await page.waitForTimeout(100);assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));const file=label+'-'+width+'.png';await page.screenshot({path:out+'/'+file});screens.push(file);}await page.setViewportSize({width:393,height:852});await page.evaluate(()=>v.showMobileControls=true);}\n(async()=>{try{\n server.listen(0,'127.0.0.1');await once(server,'listening');const base='http://127.0.0.1:'+server.address().port;\n const r=await fetch(base+'/api/users',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:'elder_'+randomUUID(),password:randomUUID(),starterId:7})});assert.equal(r.status,201);const f=await r.json();userId=f.user.id;\n await db.execute(\"UPDATE users SET map='route1',x=208,y=464 WHERE id=?\",[userId]);\n browser=await chromium.launch({headless:true,args:['--no-sandbox']});const context=await browser.newContext({viewport:{width:393,height:852},hasTouch:true});await context.addInitScript(s=>{if(location.protocol==='http:')localStorage.setItem('explorakit.user',JSON.stringify(s));},{...f.user,token:f.token});page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.url().startsWith(base)&&r.status()>=400)errors.push(r.status()+' '+r.url());});\n await page.goto(base+'/game',{waitUntil:'networkidle'});await page.waitForFunction(()=>{const v=document.querySelector('.game-root')?.__vue__;if(!v?.socket?.connected||v.mapLoading||v.renderedMap!==v.map||!v.pnjs.some(p=>p.name==='route1_old_villager'))return false;window.v=v;return true;});\n await page.evaluate(async()=>{await v.ensurePnjSpriteSheet('townspeople.png').decode();});const draw=await page.evaluate(()=>{const c=document.createElement('canvas');c.width=896;c.height=640;const g=c.getContext('2d'),real=g.drawImage.bind(g),calls=[];g.drawImage=(im,...a)=>{if(a[0]===462&&a[1]===290)calls.push(a);real(im,...a);};v.drawPnjs(g,performance.now());return calls;});assert.equal(draw.length,1);assert.deepEqual(draw[0].slice(0,4),[462,290,17,24]);assert.deepEqual(draw[0].slice(6),[34,48]);\n await pictures('route1-sprite');const before=await req('./server/persistence/progressionRepository').loadProgressState(userId);\n await page.evaluate(()=>v.socket.emit('playerAction','move_q'));await page.waitForTimeout(200);assert.deepEqual(await page.evaluate(()=>{const p=v.players[v.socket.id];return[p.x,p.y];}),[208,464]);\n await page.evaluate(()=>v.triggerMobileActionA());await page.waitForFunction(()=>v.endSentences==='route1_old_villager'&&v.textImageSequence.length);assert(await page.evaluate(()=>v.textImageSequence[0].text.includes('quelques années')&&v.textImageSequence[0].text.includes('bois neuf')));await page.waitForFunction(()=>document.querySelector('.dialogue-layer canvas.portrait-atlas')?.dataset.portraitReady==='true');assert(await page.evaluate(()=>v.textImageSequence[0].image.includes('civilian-portraits-a.')&&v.textImageSequence[0].portraitFrame.index===8));await pictures('elder-dialogue');\n await page.evaluate(()=>v.clearSequence());await page.waitForTimeout(200);assert(!await page.evaluate(()=>v.battle));const after=await req('./server/persistence/progressionRepository').loadProgressState(userId);delete after.syncedAt;delete before.syncedAt;assert.deepEqual(after,before);\n await page.evaluate(()=>v.triggerMobileActionA());await page.waitForFunction(()=>v.endSentences==='route1_old_villager'&&v.textImageSequence.length);await page.evaluate(()=>v.clearSequence());await page.waitForTimeout(200);await page.evaluate(()=>v.socket.emit('playerAction','move_d'));await page.waitForFunction(()=>v.players[v.socket.id].x===240);\n assert.deepEqual(errors,[]);passed=true;const result={exactAtlasCrop:[462,290,17,24],integerScale:2,location:[5,14],npcBlocks:true,talkViaAction:true,illustratedPortrait:true,repeatable:true,noBattleOrProgressReward:true,freePassage:true,widths:[320,393,844,1365],screens,errors};fs.writeFileSync(out+'/results.json',JSON.stringify(result,null,2));console.log(JSON.stringify(result));\n}finally{if(!passed&&page)await page.screenshot({path:out+'/failure.png'}).catch(()=>{});await browser?.close();await new Promise(r=>io.close(r));await new Promise(r=>setTimeout(r,200));if(userId)await db.execute('DELETE FROM users WHERE id=?',[userId]);await db.end();}})().catch(e=>{console.error(e.stack);process.exitCode=1});\n",
+    "clientBuildUnchanged": "30b9525c848d189f",
+    "physicalPhoneTest": false
+  },
+  "deployment": {
+    "publishedAt": "2026-10-27T20:47:59.244Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-old-villager-2026-10-27T20-47-57-806Z",
+    "sourceBaseline": "2cfd81ec4630b9aa92e4c6bc404c6f9f8ab27996",
+    "sourceHashes": {
+      "data/game/interact.json": "b8f9f88772537efbad4b4752e7e9ac581cce61f41580fdae9476792086089fed",
+      "data/game/pnjs.jsonc": "92f35651c985b5151fda724bb0496e8635402d3d1364a3adddd1e9523e5ff028"
+    },
+    "clientCommit": "2d81ccc58e454152b63ff4460cefb9752d42a19f",
+    "clientBuild": "30b9525c848d189f",
+    "clientUnchanged": true,
+    "publicAssets": [
+      "js/app.758b340d.js",
+      "js/game.af56866d.js",
+      "css/app.bbefd3a4.css",
+      "css/game.805c7b52.css"
+    ],
+    "beforePid": "2372214",
+    "afterPid": "2377001",
+    "serverRestarted": true,
+    "checkpointSaved": true,
+    "gracefulCheckpoint": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "sqlMigration": false,
+    "realAccountsModified": false
+  },
+  "postDeployment": {
+    "runtimeHashesMatch": true,
+    "serverErrors": 0,
+    "fixtureRemainders": 0,
+    "otherActorsAndDialoguesPreserved": true
+  }
+}
