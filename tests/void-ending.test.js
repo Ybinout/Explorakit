@@ -22,7 +22,7 @@ test('ruined arena central approach and return to the laboratory are connected a
  assert(!maps.battleMapData('void_arena').flat().some(Boolean));
 });
 test('secret badge remains out of ordinary capture progression and the object is not sold or dropped',()=>{
- const catalog=require('../data/game/progression.json'),badge=catalog.badges.find(b=>b.key==='violence_badge');assert(badge.hidden);assert.equal(badge.countsForCapture,false);
+ const catalog=require('../data/game/progression.json'),badge=catalog.badges.find(b=>b.key==='violence_badge');assert(!badge.hidden);assert.equal(badge.countsForCapture,false);
  const item=require('../data/game/items.json').items.find(i=>i.key==='void_teleporter');assert(item.unique);assert.equal(item.category,'key');assert(!item.wildLoot);assert(!item.buy_price);
 });
 test('charge observer ignores prevented, non-electric and PP-free actions, caps at five and updates only its owner',async()=>{

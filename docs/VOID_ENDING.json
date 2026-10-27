@@ -10,7 +10,7 @@
     "arena": "void_arena, ruined unlit gym, private Professor standing/KO actor, safe exit to the lab",
     "music": "lucie-maison.mp3",
     "confrontation": "Professor himself; first damaging move removes all 100 HP, status moves do not, no Pokémon XP/EV/money/capture rewards",
-    "badge": "violence_badge, hidden until awarded by manual Action on KO Professor; excluded from ordinary capture badge tiers",
+    "badge": "violence_badge, visible from the start as unearned, earned by manual Action on KO Professor; excluded from ordinary capture badge tiers",
     "persistence": "Per-account flags and unique item; user row locks, action receipts, five-charge cap; no schema migration",
     "admin": "Private shadow replay state; normal story, inventory, money and earned badge preserved"
   },
@@ -195,5 +195,48 @@
     "oldHashedAssetsRetained": true,
     "sqlMigration": false,
     "realAccountsModified": false
+  },
+  "badgeVisibilityUpdate": {
+    "dateParis": "2026-10-27",
+    "change": "Visible in the complete and unearned badge collection before the secret ending, earned only by the existing reward",
+    "dataOnly": true,
+    "clientUnchanged": true,
+    "tests": {
+      "pass": 17,
+      "fail": 0
+    },
+    "mysql": {
+      "pass": 4,
+      "fail": 0
+    },
+    "browser": "/tmp/riftmon-visible-badge-browser/results.json",
+    "publication": {
+      "sourceHashes": {
+        "data/game/progression.json": "fafd8cb6f23e12780813ecdc8754e61711bf510cfe4c48faf8c2b2a2fdeaf5d5"
+      },
+      "publishedAt": "2026-10-27T04:00:07.998Z",
+      "backup": "/home/ubuntu/dev/backups/riftmon-visible-badge-2026-10-27T04-00-06-457Z",
+      "clientCommit": "35e8801a5ddd78cbe5365fc25e3aa77bd61445b8",
+      "clientBuild": "fa8b48bd2323b56c",
+      "beforePid": "2110900",
+      "afterPid": "2170893",
+      "activeRuns": 0,
+      "checkpointSaved": true,
+      "backendOnly": true,
+      "serverRestarted": true,
+      "gracefulCheckpoint": true,
+      "neighborsUnchanged": true,
+      "publicAssetsUnchanged": [
+        "js/account.161ce126.js",
+        "js/app.cf4db1e3.js",
+        "js/chunk-vendors.3cf1258a.js",
+        "js/community.00fadb68.js",
+        "js/game.cfd0c723.js",
+        "css/account.e4a31390.css",
+        "css/app.bbefd3a4.css",
+        "css/community.553e140c.css",
+        "css/game.ca0c95c6.css"
+      ]
+    }
   }
 }

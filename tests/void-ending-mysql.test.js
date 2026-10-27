@@ -14,7 +14,7 @@ test('SQL secret finale: ownership, unique discovery, concurrent five-charge cap
   await flags(a.id,Object.fromEntries(require('../data/game/progression.json').storySteps.map(s=>[s.flag,'true'])));await flags(a.id,{professor_departure:'seen',lucie_departure:'seen'});
   const claims=await Promise.all([repo.pickup(a.id),repo.pickup(a.id)]);assert.equal(claims.filter(Boolean).length,1);
   let item=(await loadUserItems(a.id)).find(i=>i.key===ending.config.item);assert.equal(item.quantity,1);assert.equal(item.usable,false);assert.match(item.description,/0\/5/);
-  const beforeProgress=await progress.loadProgressState(a.id);assert(!beforeProgress.badges.some(b=>b.key===ending.config.badge));
+  const beforeProgress=await progress.loadProgressState(a.id);assert.equal(beforeProgress.badges.find(b=>b.key===ending.config.badge)?.earned,false);
   const repeated=await Promise.all([repo.charge(a.id,'same'),repo.charge(a.id,'same')]);assert.equal(repeated.filter(r=>r.changed).length,1);
   assert.equal((await repo.read(a.id)).state.charge,1);assert.equal((await repo.charge(b.id,'fake')).changed,false);
   assert.equal(await repo.badge(a.id),false);assert.equal(await repo.defeat(a.id),false);
@@ -24,7 +24,7 @@ test('SQL secret finale: ownership, unique discovery, concurrent five-charge cap
   assert.equal(await repo.badge(a.id),false);assert(await repo.defeat(a.id));
   const rewards=await Promise.all([repo.badge(a.id),repo.badge(a.id)]);assert.equal(rewards.filter(Boolean).length,1);
   const normal=await progress.loadProgressState(a.id);assert(normal.badges.find(b=>b.key===ending.config.badge).earned);assert.equal(normal.flags.true_ending,'true');assert.equal(normal.capture.badgeCount,beforeProgress.capture.badgeCount);
-  assert(!(await progress.loadProgressState(b.id)).badges.some(b=>b.key===ending.config.badge));
+  assert.equal((await progress.loadProgressState(b.id)).badges.find(b=>b.key===ending.config.badge)?.earned,false);
   const money=normal.money,quantity=item.quantity;policy.isOwner=u=>u?.id===a.id&&u?.username===a.username;
   await require('../server/persistence/arenaTestRepository').rearm(a);let replay=await repo.read(a.id);assert(replay.state.replay);assert(!replay.state.found);assert.equal(replay.state.charge,0);assert.equal(replay.state.available,false);assert(!(await loadUserItems(a.id)).some(i=>i.key===ending.config.item));
   await flags(a.id,{admin_professor_departure:'seen',admin_lab_rescued:'true'});assert(await repo.pickup(a.id));
@@ -52,7 +52,7 @@ test('SQL real battles: own electric PP uses charge five times, then a single da
   const won=await require('../server/game/battle/professorFinale').start(player,io,user.id,{onVictory:()=>repo.defeat(user.id)});
   assert(won);assert.equal(mon.movePp[0],before.pp-1);assert.equal(mon.experience,before.xp);assert.equal(JSON.stringify(mon.ev),before.ev);assert.equal((await progress.loadProgressState(user.id)).money,before.money);
   assert.equal(events.filter(e=>e.event==='battleMoveResult'&&e.data.damage===100).length,1);assert(events.filter(e=>e.event==='introAnimation').at(-1).data.wildPokemon.currentHp===0);
-  assert.equal((await repo.read(user.id)).state.defeated,true);assert(!(await progress.loadProgressState(user.id)).badges.some(b=>b.key===ending.config.badge));
+  assert.equal((await repo.read(user.id)).state.defeated,true);assert.equal((await progress.loadProgressState(user.id)).badges.find(b=>b.key===ending.config.badge)?.earned,false);
  }finally{Math.random=oldRandom;if(user)await db.execute('DELETE FROM users WHERE id=?',[user.id]);}
 });
 for(const kind of ['trainer','pvp'])test(`SQL ${kind}: only the owner of an actual Electric move receives its charge`,{skip:!enabled},async()=>{

@@ -92,7 +92,6 @@
       "name": "Badge Violence",
       "description": "Le silence est retombé.",
       "order": 7,
-      "hidden": true,
       "countsForCapture": false
     }
   ],
