@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Retour en trou noir et portrait du Professeur — 27 octobre 2026
+
+Les deux cases de sortie de l'Arène oubliée déclenchent désormais le même passage en trou noir que le téléporteur : disparition locale, couverture noire pendant le décodage des deux couches du labo, puis réapparition en (432,496). Destination fixe contrôlée et sauvegardée par le serveur, mouvement verrouillé pendant le passage. Le serveur attend la couverture de départ avec un ACK `voidExit` borné à 1,8 s ; un ancien client sans gestionnaire conserve une sortie fonctionnelle. Réduction des animations : couverture du chargement sans rotation ; déconnexion : overlay supprimé et continuation ancienne annulée par identifiant de voyage. Vol ordinaire et cartes conservés.
+
+Le dialogue de refus dans l'arène envoyait `image` au lieu du champ attendu `imageName`. Il réutilise maintenant correctement `prof.png` dans le cadre de dialogue ; portrait existant inchangé. Aucun asset ou fichier de carte modifié, aucune migration ni donnée réelle attribuée.
+
+Validation : 23 tests ciblés et cinq recettes SQL réussis, lint/build `4244b1fe07a47862` et syntaxe/diff valides. Navigateur SQL quatre tailles : portrait réellement décodé, combat/fin, retour avec image du labo retardée de 800 ms et couverture opaque, position sauvegardée, animations réduites, absence d'ACK, déconnexion/reconnexion, reset admin et récupération privée conservés. Captures du portrait et de la couverture inspectées ; zéro erreur, portrait public HTTPS vérifié à l'octet. Pas de téléphone physique ni suite globale relancés. Rapport `docs/VOID_ENDING.json`, entrée `returnAndPortraitUpdate`.
+
+Publication serveur/client 2026-10-27T04:21:51.831Z, client 31ccede4f2b96172df966bba9eb37b0d98180281, PID 2173766→2177170. Sauvegarde `/home/ubuntu/dev/backups/riftmon-void-return-2026-10-27T04-21-49-074Z`, checkpoint conservé, 0 expédition active relevée. Index/bundles et décors publics vérifiés, anciens assets hachés et Knov/api-test conservés.
+
 ## Téléporteur physiquement visible et reset admin complet — 27 octobre 2026
 
 Le boîtier était minuscule, sombre et placé dans le mur arrière (16,4). Il est maintenant posé sur une vraie case de sol accessible (16,9), à droite du fond du laboratoire : petite coque métallique pixel art, écran éteint, contact en laiton et ombre courte, sans halo, repère ou texte. Dessin statique 24×18 pixels monde, avant les personnages, sans asset raster ou boucle supplémentaire. Les coordonnées viennent de l'état serveur ; collecte et rendu utilisent le même emplacement. Présent comme élément du décor dès la visite, même avant le sauvetage de Lucie, puis retiré après récupération ; la condition narrative de collecte reste inchangée.
@@ -4181,6 +4191,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 27 octobre 2026 — Arène oubliée : trou noir aussi à la sortie, retour sauvegardé dans le labo, couverture des ressources lentes, reprise sans ACK et annulation à la déconnexion. Portrait du Professeur réparé via le champ `imageName`. 23 tests, cinq recettes SQL et navigateur quatre formats réussis ; publication serveur/client avec sauvegarde et voisins conservés. Rapport `docs/VOID_ENDING.json`, entrée `returnAndPortraitUpdate`.
 
 - 27 octobre 2026 — Téléporteur : petit boîtier pixel visible au sol (16,9), présent comme décor avant sauvetage et retiré à la collecte. Reset admin systématique, y compris replays sans découverte normale ; présence/charge réarmées et vraies données conservées. 25 tests, cinq recettes SQL et navigateur quatre formats avec le vrai bouton admin validés ; serveur/client publiés avec sauvegarde et voisins conservés. Rapport `docs/VOID_ENDING.json`, entrée `physicalObjectUpdate`.
 

@@ -1221,7 +1221,7 @@ const socketHandler = (io) => {
                                 socket.emit('dialogue',[[{text:claimed?'Tu récupères le Badge Violence.\n\nLe silence retombe. Cette fois, c’est terminé.':'Le Professeur reste au sol. Plus rien ne bouge.',typewriterMs:45}],name]);return;
                             }
                             const name='professor_final';pendingDialogue={...createDialogueAuthorization({name,map:currentmap,x:target.x,y:target.y}),voidFinale:true};
-                            socket.emit('dialogue',[[{image:'prof.png',text:'Le Professeur : Tu m’as donc retrouvé…\n\nMe rendre ? Jamais. Tu ne me prendras rien de plus.',typewriterMs:45}],name]);return;
+                            socket.emit('dialogue',[[{imageName:'prof.png',text:'Le Professeur : Tu m’as donc retrouvé…\n\nMe rendre ? Jamais. Tu ne me prendras rien de plus.',typewriterMs:45}],name]);return;
                         }
                     }
                 }
@@ -1538,7 +1538,16 @@ const socketHandler = (io) => {
                     }
                     transitionBusy = true;
                     try {
-                        await relocatePlayer(destination, { reason: 'map_transition', saveCheckpoint: true });
+                        const voidReturn = currentmap === voidEnding.config.map && destination.map === voidEnding.config.exit.map;
+                        if (voidReturn) {
+                            // Wait for the local departure cover, bounded for old or disconnected clients.
+                            player.isMoving = false;
+                            await new Promise(resolve => socket.timeout(1800).emit('voidExit', { map: voidEnding.config.exit.map }, () => resolve()));
+                            if (!account.active() || players[socket.id] !== player) return;
+                            destination = voidEnding.config.exit;
+                        }
+                        await relocatePlayer(destination, { reason: voidReturn ? 'void_return' : 'map_transition', saveCheckpoint: true });
+                        if (voidReturn) await flushPositionSave();
                     } finally {
                         transitionBusy = false;
                     }

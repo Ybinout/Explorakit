@@ -6,7 +6,7 @@
     "counter": "5 actual PP-consuming Electric moves, server-side only",
     "clue": "Semble se charger à proximité de l’électricité. 0/5",
     "discovery": "Discreet but visible silver pixel casing on reachable lab floor (16,9), present before rescue as scenery, no quest marker or objective; collectable after Lucie rescue and removed once picked up.",
-    "travel": "Charged key item, reusable, black-hole transition; fixed destination controlled by server",
+    "travel": "Charged key item outbound; stepping through the forgotten arena exit returns to the lab (432,496) with the same black-hole departure/load/arrival cover. Destinations controlled by server, return position persisted.",
     "arena": "void_arena, ruined unlit gym, private Professor standing/KO actor, safe exit to the lab",
     "music": "lucie-maison.mp3",
     "confrontation": "Professor himself; first damaging move removes all 100 HP, status moves do not, no Pokémon XP/EV/money/capture rewards",
@@ -313,6 +313,99 @@
         "css/app.bbefd3a4.css",
         "css/community.553e140c.css",
         "css/game.a7810f3f.css",
+        "img/void_arena.81b98364.png",
+        "img/void-arena-wide-v1.d9b69b7c.webp",
+        "img/void-arena-mobile-v1.77b11be3.webp",
+        "img/professor-final-v1.8f99bbd8.png",
+        "img/route2_maison.3916584e.png",
+        "img/tour_rdc.e03e0f06.png",
+        "img/tour_etage1.8ec612be.png",
+        "img/tour_etage2.18713452.png",
+        "img/tour_etage3.ac05c302.png",
+        "img/maria-v2.564002d1.png",
+        "img/clement-v2.804e1f22.png"
+      ],
+      "embedded": [
+        "pnj/professor-ko-pixel-v1.png",
+        "pnj/clement-pixel-v2.png"
+      ],
+      "oldHashedAssetsRetained": true,
+      "sqlMigration": false,
+      "realAccountsModified": false
+    }
+  },
+  "returnAndPortraitUpdate": {
+    "dateParis": "2026-10-27",
+    "return": "Server emits voidExit on the existing safe exit; movement stays locked while the client closes the departure cover, then fixed lab destination is saved. Client keeps the black cover until both map layers decode, then plays arrival.",
+    "compatibility": "Departure ACK bounded to 1800ms: missing/legacy client handlers cannot trap a player. Reduced movement retains the resource cover; disconnect clears the overlay and the old continuation is isolated by a per-travel epoch.",
+    "portrait": "Final refusal dialogue now sends imageName: prof.png, matching the existing dialogue loader. Existing portrait art and other dialogues unchanged.",
+    "validation": {
+      "tests": {
+        "pass": 23,
+        "fail": 0,
+        "skip": 0,
+        "log": "/tmp/riftmon-void-return-tests.log"
+      },
+      "mysql": {
+        "pass": 5,
+        "fail": 0,
+        "skip": 0,
+        "log": "/tmp/riftmon-void-return-mysql.log"
+      },
+      "browser": {
+        "results": "/tmp/riftmon-void-return-browser/results.json",
+        "widths": [
+          320,
+          393,
+          844,
+          1365
+        ],
+        "professorImageDecoded": true,
+        "returnAnimation": true,
+        "slowLabImage800msCovered": true,
+        "reducedMotionReturn": true,
+        "legacyNoAckFallback": true,
+        "savedLabPosition": true,
+        "disconnectAndReconnect": true,
+        "errors": []
+      },
+      "build": "4244b1fe07a47862",
+      "lint": "/tmp/riftmon-void-return-lint.log",
+      "commands": [
+        "node --test tests/void-ending.test.js tests/flight-travel.test.js tests/dialogue-portrait.test.js tests/house-exits.test.js tests/professor-finale.test.js",
+        "DB_NAME=explorakit_test RUN_MYSQL_TESTS=1 NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file=.env --test tests/void-ending-mysql.test.js",
+        "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-void-return-dist RELEASE_SCREENSHOTS=/tmp/riftmon-void-return-browser node --env-file=.env scripts/validateVoidEndingBrowser.js"
+      ],
+      "limitations": [
+        "Chromium desktop/touch; no physical phone or full suite rerun for this focused change."
+      ]
+    },
+    "publication": {
+      "publishedAt": "2026-10-27T04:21:51.831Z",
+      "backup": "/home/ubuntu/dev/backups/riftmon-void-return-2026-10-27T04-21-49-074Z",
+      "sourceBaseline": "961122f3825aa86e50dc0373c93a41eb3deabc7a",
+      "sourceHashes": {
+        "server/realtime/socketHandler.js": "754d4a83c089a51c15887e526ad909239c111fc76cb05fa53e64d4fa83bca760"
+      },
+      "clientCommit": "31ccede4f2b96172df966bba9eb37b0d98180281",
+      "clientBuild": "4244b1fe07a47862",
+      "beforePid": "2173766",
+      "afterPid": "2177170",
+      "activeRuns": 0,
+      "checkpointSaved": true,
+      "serverRestarted": true,
+      "gracefulCheckpoint": true,
+      "neighborsUnchanged": true,
+      "publicAssets": [
+        "js/account.161ce126.js",
+        "js/app.816bc7e0.js",
+        "js/chunk-vendors.3cf1258a.js",
+        "js/community.00fadb68.js",
+        "js/game.310dd9b8.js",
+        "css/account.e4a31390.css",
+        "css/app.bbefd3a4.css",
+        "css/community.553e140c.css",
+        "css/game.71754987.css",
         "img/void_arena.81b98364.png",
         "img/void-arena-wide-v1.d9b69b7c.webp",
         "img/void-arena-mobile-v1.77b11be3.webp",
