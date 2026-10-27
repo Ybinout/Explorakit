@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## Faille de la Route 2 — carnet sur l’origine des cristaux — 27 octobre 2026
+
+Septième cahier de l’arène oubliée : `rift_origin`, en (7,11), deux pages de notes de terrain. Il situe explicitement la faille sur la Route 2 et établit que les cristaux utilisés au laboratoire en proviennent. Lecteur, action et petits livres existants réutilisés ; ajout narratif uniquement, sans nouvelle faille, transition, quête ou récompense. Validation : les 15 tests existants de `node --test tests/pardon-ending.test.js` réussissent ; case praticable hors transitions, interaction et rendu des sept livres contrôlés. Effectifs du validateur navigateur actualisés à sept, sans nouvelle exécution de son parcours complet pour cet ajout de texte. Syntaxe et diff valides.
+
+
+Publication serveur seule le 27 octobre 2026 à 20 h 45 (Europe/Paris), PID 2358475→2359547. Sauvegarde `/home/ubuntu/dev/backups/riftmon-rift-journal-2026-10-27T19-45-54-328Z`, checkpoint conservé, zéro expédition active relevée. Client/build `461e8e3a3d97bd49`, index/bundles et Knov/api-test inchangés ; empreinte du catalogue vérifiée et zéro erreur serveur relevée. Aucune migration ou mutation de compte réel.
+
+
 ## Aube Obscure — carnet de fondation et rupture avec Wanda — 27 octobre 2026
 
 Sixième livre dans l’arène oubliée : `foundation`, en (8,6), deux pages. Le Professeur raconte la fondation de l’Aube Obscure avec Wanda pour soigner le monde et restaurer l’équilibre avec la nature, puis leur désaccord sur les expériences dangereuses et le départ de Wanda. Ton de notes de recherche conservé, cohérent avec son récit existant. Anciennes pages et quêtes conservées ; réutilise l’action et le lecteur sans portrait, aucun nouveau rendu client, carte ou compte réel modifié. Les effectifs des recettes existantes passent à six.
@@ -4309,6 +4317,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 27 octobre 2026 — Ajout du carnet « La faille de la Route 2 » dans l’arène oubliée : lieu de la faille et origine des cristaux, deux pages. Sept livres au total ; 15 vérifications existantes réussies.
 
 - 27 octobre 2026 — Sixième cahier de l’arène oubliée : fondation de l’Aube Obscure pour soigner le monde, puis rupture du Professeur avec Wanda sur leurs méthodes. Lecteur et rendu existants réutilisés ; aucune quête ou récompense changée.
 

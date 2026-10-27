@@ -56,6 +56,17 @@
       ]
     },
     {
+      "id": "rift_origin",
+      "title": "Carnet de terrain · La faille de la Route 2",
+      "x": 7,
+      "y": 11,
+      "cover": "#556b7e",
+      "pages": [
+        "Journal du Professeur — Reconnaissance de la Route 2.\n\nLa faille située sur la Route 2 n’est pas une simple fracture du terrain. Des cristaux en émergent, pris dans une matière étrangère aux roches de la région. L’origine des échantillons du laboratoire est désormais établie : ils proviennent de cette faille.",
+        "Relevé de prélèvement — Origine commune.\n\nLes fragments retrouvés ailleurs émettent la même vibration que ceux recueillis sur la Route 2. Leur dispersion ne doit pas nous faire oublier leur source. Pour comprendre les cristaux, il faudra d’abord comprendre cette ouverture.\n\nEn marge, une mention soulignée deux fois : « Route 2 — origine des cristaux »."
+      ]
+    },
+    {
       "id": "lastnote",
       "title": "Feuillets · Dernière note lisible",
       "x": 17,
