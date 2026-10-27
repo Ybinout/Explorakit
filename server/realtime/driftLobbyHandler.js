@@ -206,6 +206,7 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
             const state = economy.shop(p); socket.emit('shopOpened', state); return state;
         });
         gameCommand('buyShopItem', (p, data) => economy.buy(p, data?.itemKey, data?.quantity));
+        gameCommand('sellShopItem', (p, data) => economy.sell(p, data?.itemKey, data?.quantity));
         gameCommand('equipHeldItem', (p, data) => {
             economy.requireMutable(p);
             const poke = p.equipe.pokemons.find(poke => poke.uuid === data?.pokemonUuid);

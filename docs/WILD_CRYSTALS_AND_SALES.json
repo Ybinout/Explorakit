@@ -1,0 +1,164 @@
+{
+  "date": "2026-10-27",
+  "feature": "Cristaux sauvages et vente d’objets dans les boutiques",
+  "crystals": [
+    {
+      "key": "crystal_shard",
+      "name": "Éclat fissuré",
+      "chance": 0.25,
+      "salePrice": 50
+    },
+    {
+      "key": "clear_crystal",
+      "name": "Cristal limpide",
+      "chance": 0.1,
+      "salePrice": 150
+    },
+    {
+      "key": "aurora_prism",
+      "name": "Prisme d’aurore",
+      "chance": 0.05,
+      "salePrice": 500
+    }
+  ],
+  "rules": {
+    "scope": "Aventure, Rift et Colosseum : seulement victoire ou capture d’un Pokémon sauvage, pêche comprise. Aucun cristal pour fuite, défaite, dresseur, arène ou PvP.",
+    "rolls": "Trois tirages indépendants ; plusieurs cristaux peuvent tomber ensemble. Taux fixes, sans bonus de butin Drift ; cumulables sans limite de découverte. Tirage ordinaire à 1/6 conservé et indépendant.",
+    "storage": "Catégorie treasure, poche Trésors, icônes SVG distinctes. Inventaire Aventure en SQL ; inventaires et argent d’expédition isolés, conservés dans les checkpoints.",
+    "shops": "Aucun achat possible de cristal, à aucun étage ni palier. Revente au même prix dans toutes les boutiques, tous les étages du Grand Comptoir compris.",
+    "sales": "Acheter / Vendre, catégories du sac, recherche et quantité bornée au stock et à 99. Récapitulatif du montant et confirmation ; annulation par bouton ou Échap. Vente des autres objets achetés à la moitié du plus bas prix de boutique, sauf prix de revente explicite.",
+    "protected": "Objets clés, canne unique et objets sans prix de revente indisponibles. Objets tenus vendables seulement s’ils sont dans le sac ; aucun retrait automatique d’un Pokémon. Historique des équipements uniques conservé après vente.",
+    "authority": "Contrôle serveur du lieu, du combat, de la phase, de la quantité et du stock. Prix envoyé par le client ignoré. Aventure : verrou joueur et transaction retrait/crédit/lecture du sac ; dépassement monétaire refusé avant retrait. Expédition : modification synchrone, puis checkpoint existant. Pas de migration."
+  },
+  "files": [
+    "data/game/items.json",
+    "server/game/items/wildCrystals.js",
+    "server/game/items/itemSales.js",
+    "server/persistence/wildLootRepository.js",
+    "server/persistence/itemRepository.js",
+    "server/realtime/handlers/shopHandlers.js",
+    "server/game/battle/wildBattle.js",
+    "server/game/drift/economy.js",
+    "server/realtime/driftLobbyHandler.js",
+    "vue-explorakit/src/components/shop/ShopPanel.vue",
+    "vue-explorakit/src/components/menu/BagItemIcon.vue",
+    "vue-explorakit/src/services/bagPockets.js",
+    "vue-explorakit/src/components/UserMap.vue"
+  ],
+  "validation": {
+    "unit": {
+      "passed": 68,
+      "failed": 0,
+      "skipped": 0,
+      "newTests": 6,
+      "command": "node --test tests/crystal-sales.test.js tests/wild-items.test.js tests/shop-training.test.js"
+    },
+    "mysql": {
+      "passed": 16,
+      "failed": 0,
+      "skipped": 0,
+      "newTests": 4,
+      "database": "explorakit_test",
+      "command": "DB_NAME=explorakit_test RUN_MYSQL_TESTS=1 NODE_ENV=test node --env-file=.env --test tests/crystal-sales-mysql.test.js tests/release-features-mysql.test.js",
+      "checks": [
+        "seuils et trois tirages simultanés avec objet ordinaire",
+        "concurrence : un seul crédit pour le dernier exemplaire",
+        "prix falsifié ignoré et compte voisin isolé",
+        "quantités, lieu, stock et objets protégés",
+        "vente dans toutes les boutiques",
+        "historique unique conservé et objet tenu intact"
+      ]
+    },
+    "browser": {
+      "modes": [
+        "adventure",
+        "colosseum",
+        "rift"
+      ],
+      "realWildVictory": true,
+      "realWildCapture": true,
+      "simultaneousLoot": true,
+      "saleAndPurchase": true,
+      "cancelBeforeSale": true,
+      "ordinaryAndDepartmentCounter": true,
+      "checkpointAndReconnect": true,
+      "outsideShopRefused": true,
+      "viewports": 4,
+      "themes": 2,
+      "screens": [
+        "sales-light-320.png",
+        "sales-light-393.png",
+        "sales-light-844.png",
+        "sales-light-1365.png",
+        "sales-dark-320.png",
+        "sales-dark-393.png",
+        "sales-dark-844.png",
+        "sales-dark-1365.png"
+      ],
+      "errors": [],
+      "out": "/tmp/riftmon-wild-crystal-sales-browser"
+    },
+    "lint": "Réussi sans correction automatique",
+    "build": "4119af648e7e2e20",
+    "syntaxAndDiff": "Valides",
+    "visualInspection": [
+      "Vente claire en 393 px : trois cristaux, quantités et prix",
+      "Vente nocturne en 320×480 : défilement et contrôles accessibles"
+    ],
+    "limits": "Chromium local avec formats 320×480, 393×852, 844×390 et 1365×900. Pas de téléphone physique ni de suite globale revendiqués ; comptes de test jetables supprimés, aucun compte réel modifié."
+  },
+  "reproduce": [
+    "npm --prefix vue-explorakit run lint -- --no-fix",
+    "cd vue-explorakit && NODE_ENV=production BABEL_ENV=production VUE_APP_PUBLIC_PATH=/ npm run build -- --dest /tmp/riftmon-crystals-dist",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-crystals-dist node --env-file=.env scripts/validateCrystalSalesBrowser.js"
+  ],
+  "deployment": {
+    "publishedAt": "2026-10-27T13:49:19.312Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-wild-crystal-sales-2026-10-27T13-49-16-518Z",
+    "sourceBaseline": "43294204d5de987730d9583e8234a9b7694211b2",
+    "sourceHashes": {
+      "data/game/items.json": "95ce8cd354e20a4efe69055abe9f6622c2282839a4b2d67e09e45dbfdcb7bb26",
+      "server/game/battle/wildBattle.js": "41ab228b8d8700665afb104f47e70251fa90051c02e1aa1091739558edef514a",
+      "server/game/drift/economy.js": "6358a22c043642884306bdf9873e7c72a2315dbc0d0ac96761e243ed4ae8c0a8",
+      "server/persistence/itemRepository.js": "4c826eb4703c452e082605b681abd06f322db35cc228f6c45960662909cd8728",
+      "server/persistence/wildLootRepository.js": "e0d3eddc7ee0ef8f00eb739ca174972ab0351eede087f5074ae06b9994e3c1d8",
+      "server/realtime/driftLobbyHandler.js": "9c4dc8e5c5da832c7354bee63ee8719e815df2c774680557951ed7ca0abbbe9d",
+      "server/realtime/handlers/shopHandlers.js": "95568d0cfc8028404d973ae515e98a8321ecd5fc25c4b6bcd790b7fdfa7f95b5",
+      "server/game/items/itemSales.js": "7f2d0f54ca962f1935427ff01aaabdb33c38115b2ea2678b54407bb6bb8ca3bb",
+      "server/game/items/wildCrystals.js": "e85c11ad41cc4488c495f00e9e70ae711c648ce682cd2574822003044aedd43c"
+    },
+    "clientCommit": "c77efe08a0d0c00bd7a43ec62a44f9bb1f1a2459",
+    "clientBuild": "4119af648e7e2e20",
+    "beforePid": "2191147",
+    "afterPid": "2293859",
+    "activeRuns": 0,
+    "checkpointSaved": true,
+    "serverRestarted": true,
+    "gracefulCheckpoint": true,
+    "neighborsUnchanged": true,
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.938a87e3.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.8af095f3.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.7936a2aa.css",
+      "img/ville4_arene.4d111715.png",
+      "img/tour_rdc.e03e0f06.png",
+      "img/tour_etage1.8ec612be.png",
+      "img/tour_etage2.18713452.png",
+      "img/tour_etage3.ac05c302.png",
+      "img/6931.30769aa5.png"
+    ],
+    "embedded": [
+      "pnj/professor-ko-pixel-v1.png",
+      "pnj/clement-pixel-v2.png"
+    ],
+    "oldHashedAssetsRetained": true,
+    "sqlMigration": false,
+    "realAccountsModified": false
+  }
+}

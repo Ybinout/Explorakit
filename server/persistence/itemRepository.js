@@ -17,6 +17,7 @@ function hydrateItems(rows) {
             description: itemFromCatalog.description || null,
             catch_multiplier: itemFromCatalog.catch_multiplier || null,
             buyPrice: Number(itemFromCatalog.buy_price) || null,
+            sellPrice: require('../game/items/itemSales').getSellPrice(row.item_key),
             quantity: Number(row.quantity) || 0,
             heal: itemFromCatalog.heal || null,
             cure: itemFromCatalog.cure || null,
@@ -223,10 +224,29 @@ async function equipHeldItem(userId, teamId, pokemonUuid, itemKey) {
     });
 }
 
+async function sellUserItem(userId,itemKey,quantity=1,context={}){
+    if(!Number.isInteger(userId)||userId<=0)return {success:false,reason:'invalid_user'};
+    if(!Number.isInteger(quantity)||quantity<1||quantity>99)return {success:false,reason:'invalid_quantity'};
+    if(!require('../game/world/shopCatalog').isShopMap(context.mapName))return {success:false,reason:'not_in_shop'};
+    const unitPrice=require('../game/items/itemSales').getSellPrice(itemKey);
+    if(!unitPrice)return {success:false,reason:'item_not_sellable'};
+    return withTransaction(async c=>{
+        const [[user]]=await c.execute('SELECT money FROM users WHERE id=? FOR UPDATE',[userId]);
+        if(!user)return {success:false,reason:'invalid_user'};
+        const totalPrice=unitPrice*quantity,money=Number(user.money);
+        if(!Number.isSafeInteger(money+totalPrice))return {success:false,reason:'money_limit'};
+        const [removed]=await c.execute('UPDATE user_items SET quantity=quantity-? WHERE user_id=? AND item_key=? AND quantity>=?',[quantity,userId,itemKey,quantity]);
+        if(!removed.affectedRows)return {success:false,reason:'not_enough_items'};
+        await c.execute('UPDATE users SET money=money+? WHERE id=?',[totalPrice,userId]);
+        return {success:true,itemKey,quantity,unitPrice,totalPrice,money:money+totalPrice,items:await loadUserItems(userId,c)};
+    });
+}
+
 module.exports = {
     equipHeldItem,
     getPurchasableItem,
     loadUserItems,
     consumeUserItem,
-    purchaseUserItem
+    purchaseUserItem,
+    sellUserItem
 };

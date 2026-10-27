@@ -9,13 +9,14 @@ const report = require('./runReport');
 const stones = require('../items/stoneEvolution');
 const merchant = require('./merchant');
 const { validateRepel } = require('../items/repel');
+const {getSellPrice}=require('../items/itemSales');
 const SLOT_LIMIT = 5;
 const prices = { common: 50, rare: 120, epic: 300, legendary: 800, mythic: 2000 };
 const types = ['Normal','Fire','Water','Electric','Grass','Ice','Fighting','Poison','Ground','Flying','Psychic','Bug','Rock','Ghost','Dragon','Dark','Steel','Fairy'];
 const potions = [{ key: 'drift_potion', name: 'Potion', category: 'heal', price: 100, amount: 20, description: 'Soigne 20 PV hors combat, uniquement un survivant.' },
     { key: 'drift_super_potion', name: 'Super Potion', category: 'heal', price: 300, amount: 60, description: 'Soigne 60 PV hors combat.' }];
 const fail = message => { throw new LobbyError('drift_invalid', message); };
-function bag(p) { return [...baseItems, ...potions].filter(i => p.items[i.key] > 0).map(i => ({ ...i, quantity: p.items[i.key], ...(i.category==='evolution'?{evolutions:Object.fromEntries(p.equipe.pokemons.map(poke=>[poke.uuid,stones.target(poke,i.key)]).filter(([,target])=>target))}:{}) })); }
+function bag(p) { return [...baseItems, ...potions].filter(i => p.items[i.key] > 0).map(i => ({ ...i, sellPrice:getSellPrice(i.key), quantity: p.items[i.key], ...(i.category==='evolution'?{evolutions:Object.fromEntries(p.equipe.pokemons.map(poke=>[poke.uuid,stones.target(poke,i.key)]).filter(([,target])=>target))}:{}) })); }
 function shop(p) {
     const department=getDepartment(p.currentmap),supplies=!department||department.number===1;
     return { success: true, catalog: [...getShopCatalog({expedition:true,mapName:p.currentmap}).filter(i => i.key !== 'revive'), ...(supplies?potions:[])], items: bag(p), money: p.money, shopMeta:require('../world/shopCatalog').getShopMeta({expedition:true,mapName:p.currentmap}), merchant:supplies?merchant.view(p):null };
@@ -63,6 +64,19 @@ function buy(p, key, quantity) {
     p.money -= cost; p.items[key] = (p.items[key] || 0) + quantity;
     report.increment(p,'moneySpent',cost);report.event(p,'purchase',`${quantity} × ${item.name} acheté${quantity>1?'s':''} · −${cost} ₽.`);
     return { ...shop(p), progression: { money: p.money } };
+}
+function sell(p,key,quantity){
+    requireMutable(p);
+    if(p.run.phase!=='exploration'||!isShopMap(p.currentmap))fail('Rejoins une boutique.');
+    if(!Number.isInteger(quantity)||quantity<1||quantity>99)fail('Quantité invalide.');
+    const price=getSellPrice(key),item=bag(p).find(i=>i.key===key);
+    if(!price)fail('Cet objet ne peut pas être vendu.');
+    if(!item||item.quantity<quantity)fail('Tu ne possèdes pas assez de cet objet.');
+    const totalPrice=price*quantity;
+    if(!Number.isSafeInteger(p.money+totalPrice))fail('Tu ne peux plus recevoir d’argent.');
+    p.items[key]-=quantity;p.money+=totalPrice;
+    report.increment(p,'moneyEarned',totalPrice);report.event(p,'sale',`${quantity} × ${item.name} vendu${quantity>1?'s':''} · +${totalPrice} ₽.`);
+    return {...shop(p),itemKey:key,quantity,unitPrice:price,totalPrice,progression:{money:p.money}};
 }
 function usePotion(p, key, uuid, random = Math.random, quantity=1) {
     requireMutable(p);
@@ -135,6 +149,9 @@ function drop(p, source, random = Math.random) {
     if (source === 'wild' || source === 'capture') {
         const item = require('../items/wildLoot').awardExpedition(p, random,1+value(p,45)/100);
         if (item) { loot.push(item.name); report.event(p,'item',`Objet trouvé : ${item.name}${item.unique?' · unique':''}.`); }
+        for(const crystal of require('../items/wildCrystals').awardExpedition(p,random)){
+            loot.push(crystal.name);report.event(p,'item',`Objet trouvé : ${crystal.name}.`);
+        }
     }
     return loot;
 }
@@ -146,4 +163,4 @@ function evolve(p,key,uuid) {
     const evolution=stones.evolve(pokemon,key);p.items[key]--;p.ready=false;report.syncTeam(p);
     return {success:true,evolution,equipe:p.equipe,items:bag(p)};
 }
-module.exports = { useMachine, useRepel, salePrice, replace, evolve, SLOT_LIMIT, prices, bag, shop, equip, remove, buy, usePotion, drop, requireMutable, fail };
+module.exports = { useMachine, useRepel, salePrice, replace, evolve, SLOT_LIMIT, prices, bag, shop, equip, remove, buy, sell, usePotion, drop, requireMutable, fail };

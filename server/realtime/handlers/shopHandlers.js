@@ -1,5 +1,5 @@
 const { onAccountEvent } = require('../accountConnection');
-const { loadUserItems, purchaseUserItem } = require('../../persistence/itemRepository');
+const { loadUserItems, purchaseUserItem, sellUserItem } = require('../../persistence/itemRepository');
 const { loadProgressState } = require('../../persistence/progressionRepository');
 const { getShopCatalog, getShopMeta, isShopMap } = require('../../game/world/shopCatalog');
 
@@ -78,6 +78,22 @@ function registerShopHandlers({ socket, userId, getPlayer }) {
             console.error(`Erreur achat boutique user ${userId}:`, error.message);
             reply({ success: false, reason: 'shop_unavailable' });
         } finally {player.inventoryBusy=false;}
+    });
+
+    onAccountEvent(socket,'sellShopItem',async(payload={},acknowledge)=>{
+        const reply=replyTo(acknowledge),player=getPlayer();
+        if(!player||!isShopMap(player.currentmap))return reply({success:false,reason:'not_in_shop'});
+        if(player.inbattle)return reply({success:false,reason:'battle_active'});
+        if(player.inventoryBusy)return reply({success:false,reason:'inventory_busy'});
+        player.inventoryBusy=true;
+        try{
+            const result=await sellUserItem(userId,payload?.itemKey,payload?.quantity,{mapName:player.currentmap});
+            if(!result.success)return reply(result);
+            const progression=await loadProgressState(userId);
+            socket.emit('bagUpdated',{items:result.items});socket.emit('progressionState',progression);
+            reply({...result,progression});
+        }catch(error){console.error(`Erreur vente boutique user ${userId}:`,error.message);reply({success:false,reason:'shop_unavailable'});}
+        finally{player.inventoryBusy=false;}
     });
 
     return { openShop };

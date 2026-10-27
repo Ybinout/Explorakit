@@ -449,11 +449,11 @@ async function startBattle(player, wildPokemon, io, userId) {
         if (playerWon && !hasAlivePokemon(player.equipe.pokemons)) playerWon = false;
         if (playerWon && (extra.captured || wildPokemon.currentHp <= 0) && !wildLootAttempted) {
             wildLootAttempted = true;
-            const item = await require('../../persistence/wildLootRepository').awardWildLoot(userId);
-            if (item) {
-                resultTracker.loot.push(item.name);
+            const items = await require('../../persistence/wildLootRepository').awardWildBattleLoot(userId);
+            if (items.length) {
+                resultTracker.loot.push(...items.map(i=>i.name));
                 io.to(player.id).emit('bagUpdated', {items:await loadUserItems(userId)});
-                await narrate(player,io,`Objet trouvé : ${item.name}${item.unique?' · unique':''} !`,900);
+                await narrate(player,io,`${items.length>1?'Objets trouvés':'Objet trouvé'} : ${items.map(i=>i.name).join(', ')} !`,900);
             }
         }
         if (playerWon && (extra.captured || wildPokemon.currentHp <= 0) && !wildMoneyGranted) {

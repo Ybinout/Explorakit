@@ -1,5 +1,17 @@
 # Contexte permanent — RiftMon
 
+## Cristaux sauvages et vente en boutique — 27 octobre 2026
+
+Trois trésors répétables, uniquement après victoire/capture sauvage, pêche incluse, dans les trois modes : Éclat fissuré (25 %, 50 ₽), Cristal limpide (10 %, 150 ₽), Prisme d’aurore (5 %, 500 ₽). Tirages indépendants, plusieurs résultats possibles, aucun bonus Drift ni remplacement du butin ordinaire à 1/6. Aucune offre d’achat ; pas de cristaux contre dresseurs/arènes/PvP, sur fuite ou défaite. Poche Trésors et trois icônes vectorielles, sans nouvelle image raster.
+
+Toutes les boutiques et les quatre étages du Grand Comptoir disposent du choix Acheter / Vendre. Le sac fournit catégories/recherche/stock et prix ; quantité bornée au stock et à 99, récapitulatif à confirmer ou annuler. Autres objets repris à la moitié du plus bas prix de boutique, sauf prix explicite ; clés, canne et objets sans valeur de revente conservés. Seul le stock du sac est vendu, jamais un objet actuellement tenu. Historique des équipements uniques gardé après revente.
+
+Serveur autoritaire : lieu/phase/combat/stock/quantité/prix contrôlés. Aventure : verrou joueur, retrait et crédit dans la même transaction, concurrence du dernier exemplaire vérifiée ; réception des butins groupée dans une transaction. Expéditions : inventaires et argent isolés, mutation synchrone et checkpoint existant. Aucune migration ni modification de compte réel.
+
+Validation : 68 tests ciblés et 16 recettes MySQL réussis, zéro échec/ignoré ; six tests unitaires et quatre SQL dédiés ajoutés. Vraies victoires et captures dans les trois modes, butins simultanés, vente/achat/annulation, marché ordinaire et rayon Baies, sauvegarde/reconnexion et refus hors boutique. Huit captures sur quatre formats et deux thèmes, petites interfaces inspectées ; zéro erreur navigateur. Lint/build `4119af648e7e2e20`, syntaxe/diff valides. Ancienne recette d’objets sauvages adaptée au butin supplémentaire. Pas de téléphone physique ni suite globale revendiqués. Rapport : `docs/WILD_CRYSTALS_AND_SALES.json`.
+
+Publication serveur/client 2026-10-27T13:49:19.312Z, client c77efe08a0d0c00bd7a43ec62a44f9bb1f1a2459, PID 2191147→2293859. Sauvegarde `/home/ubuntu/dev/backups/riftmon-wild-crystal-sales-2026-10-27T13-49-16-518Z` et checkpoint conservé ; 0 expédition active relevée. Index/bundles et décors publics vérifiés ; anciens assets hachés et Knov/api-test conservés.
+
 ## Wanda — gravité perturbée et cristaux suspendus — 27 octobre 2026
 
 Six pierres/fragments de piliers et huit cristaux lévitent doucement sur les côtés de `ville4_arene`, avec ombres séparées et lumière violette discrète. Deux vagues parcourent les gravures existantes vers l’estrade ; masque préparé sur les 7 896 pixels clairs du sol, hors tapis, escalier et entrée. Le couloir central reste libre. Objets figés 1,1 s au début des répliques de Wanda (accueil, refus, défi, suite), puis reprise sans saut pendant que le dialogue reste ouvert ; lumière au sol continue. Particules blanches génériques retirées uniquement de cette arène.
