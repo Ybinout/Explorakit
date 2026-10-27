@@ -1,5 +1,13 @@
 # Contexte permanent — RiftMon
 
+## Aube Obscure — carnet de fondation et rupture avec Wanda — 27 octobre 2026
+
+Sixième livre dans l’arène oubliée : `foundation`, en (8,6), deux pages. Le Professeur raconte la fondation de l’Aube Obscure avec Wanda pour soigner le monde et restaurer l’équilibre avec la nature, puis leur désaccord sur les expériences dangereuses et le départ de Wanda. Ton de notes de recherche conservé, cohérent avec son récit existant. Anciennes pages et quêtes conservées ; réutilise l’action et le lecteur sans portrait, aucun nouveau rendu client, carte ou compte réel modifié. Les effectifs des recettes existantes passent à six.
+
+
+Validation : 15 tests existants réussis ; parcours navigateur réel sur compte SQL jetable, lecture des six carnets par déplacement/action, deux fins et reset admin, quatre formats, zéro erreur. Commandes : `node --test tests/pardon-ending.test.js` ; `DB_TEST_NAME=explorakit_test RELEASE_SCREENSHOTS=/tmp/riftmon-aube-journal-browser node --env-file=.env scripts/validatePardonEndingBrowser.js`. Aucun compte de recette restant ; syntaxe et diff valides. Publication serveur seule le 27 octobre 2026 à 20 h 42 (Europe/Paris), PID 2356251→2358475, sauvegarde `/home/ubuntu/dev/backups/riftmon-aube-journal-2026-10-27T19-42-47-969Z`, checkpoint conservé et zéro expédition active relevée. Client `204b65da23920a190c2a4bf54dd09cf958ef8935`/build `461e8e3a3d97bd49`, index/bundles et voisins inchangés ; empreinte runtime vérifiée et zéro erreur serveur relevée.
+
+
 ## Fin secrète — Pardon, Purification et cahiers du Professeur — 27 octobre 2026
 
 Le Professeur humain de l’arène oubliée porte le statut narratif violet `corrupted` (Corrompu). Une attaque offensive conserve l’issue Violence ; la capacité réellement connue Purify/Purification, avec PP et contraintes d’action valides, apaise le Professeur, le laisse debout et déclenche ses excuses. Pardon est remis immédiatement dans la transaction qui verrouille l’issue. Un seul badge de fin est possible par compte : les deux restent visibles, l’autre se fissure, et le maximum de collection est de sept (six champions + une issue). Aucun effet sur les paliers de capture, aucun gain XP/EV/argent/butin dans cette scène humaine.

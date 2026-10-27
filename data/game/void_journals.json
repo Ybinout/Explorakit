@@ -45,6 +45,17 @@
       ]
     },
     {
+      "id": "foundation",
+      "title": "Dossier · Fondation de l’Aube Obscure",
+      "x": 8,
+      "y": 6,
+      "cover": "#696583",
+      "pages": [
+        "Carnet du Professeur — Séance fondatrice.\n\nWanda et moi avons créé l’Aube Obscure pour répondre aux maux du monde : terres épuisées, eaux malades, habitats détruits. Les cristaux devaient nous aider à rétablir l’équilibre entre les humains, les Pokémon et la nature. Nous partagions alors le même espoir.",
+        "Compte rendu — Désaccord avec Wanda.\n\nWanda exige l’arrêt des essais qui mettent des vies en danger. Je soutiens que l’urgence nous impose de poursuivre. Elle refuse qu’on sacrifie les êtres que nous prétendons sauver et quitte l’organisation.\n\nNote ultérieure : j’ai appelé cela de la faiblesse. Était-ce simplement la limite que j’avais cessé de voir ?"
+      ]
+    },
+    {
       "id": "lastnote",
       "title": "Feuillets · Dernière note lisible",
       "x": 17,

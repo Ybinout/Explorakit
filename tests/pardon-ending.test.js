@@ -40,9 +40,9 @@ test('admin preview has its own choice, apology and discovery while the permanen
  const flags={...found,void_defeated:'true',void_claimed:'true',void_resolution:'violence',admin_void_replay:'true',admin_void_found:'true',admin_void_charge:'5',admin_void_resolution:'pardon',admin_void_defeated:'true',admin_professor_departure:'seen',admin_lab_rescued:'true'};
  assert.equal(ending.state({flags}).resolution,'pardon');assert.equal(ending.entryDialogue({flags}).name,'professor_pardoned');flags.admin_void_pardon_seen='true';assert.equal(ending.entryDialogue({flags}),null);assert.equal(flags.void_resolution,'violence');
 });
-test('five different research journals lie on reachable floor away from doors and the Professor, and remain read-only',()=>{
- const c=terrain.loadCollisionData('void_arena'),change=terrain.changeMapData('void_arena');assert.equal(ending.journals.length,5);assert.equal(new Set(ending.journals.map(b=>b.id)).size,5);
- const p={flags:found},before=JSON.stringify(p);assert.equal(ending.state(p).journals.length,5);assert.equal(ending.state({}).journals.length,0);
+test('six different research journals lie on reachable floor away from doors and the Professor, and remain read-only',()=>{
+ const c=terrain.loadCollisionData('void_arena'),change=terrain.changeMapData('void_arena');assert.equal(ending.journals.length,6);assert.equal(new Set(ending.journals.map(b=>b.id)).size,6);
+ const p={flags:found},before=JSON.stringify(p);assert.equal(ending.state(p).journals.length,6);assert.equal(ending.state({}).journals.length,0);
  for(const book of ending.journals){assert.equal(c[book.y][book.x],0);assert.equal(change[book.y][book.x],0);assert.notEqual(book.x,13);assert(book.pages.length>=2);assert(book.pages.every(s=>s.length>100));assert.equal(ending.journalAt({currentmap:'void_arena',x:book.x*32+16,y:book.y*32+16}).id,book.id);}
  assert.equal(ending.journalAt({currentmap:'start',x:0,y:0}),null);assert.equal(JSON.stringify(p),before);
  const text=ending.journals.flatMap(b=>b.pages).join(' ');for(const term of ['soigner','copier','violette','purification','Lucie'])assert(text.includes(term));assert(!/Badge Pardon|lance.*Purification|appuie|clic/i.test(text));
@@ -51,7 +51,7 @@ test('journal renderer uses the supplied floor positions without a loop or inter
  const {drawVoidJournals}=await import('../vue-explorakit/src/services/voidJournals.js'),rects=[],positions=[];
  const c={save(){},restore(){},translate:(x,y)=>positions.push([x,y]),fillRect:(...r)=>rects.push(r)};
  assert.equal(drawVoidJournals(c,'start',ending.state({flags:found})),0);assert.equal(rects.length,0);
- assert.equal(drawVoidJournals(c,'void_arena',ending.state({flags:found})),5);assert.equal(positions.length,5);assert(rects.every(r=>r.every(Number.isFinite)));assert(rects.length<=70);
+ assert.equal(drawVoidJournals(c,'void_arena',ending.state({flags:found})),6);assert.equal(positions.length,6);assert(rects.every(r=>r.every(Number.isFinite)));assert(rects.length<=84);
 });
 test('Corrompu is a violet presentation status for the human, not an ordinary Pokémon ailment',async()=>{
  const {getBattleStatus}=await import('../vue-explorakit/src/services/gameView.js');assert.deepEqual(getBattleStatus('corrupted'),{key:'corrupted',code:'Corrompu',label:'Corruption'});const a=mon(),b=mon();b.status='corrupted';assert.equal(cast(a,b).success,false);assert.equal(b.status,'corrupted');
