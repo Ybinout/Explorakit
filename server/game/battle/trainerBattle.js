@@ -339,8 +339,10 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
     };
 
     try {
-        await Promise.all(enemyTeam.pokemons.map((pokemon) => markPokemonSeen(userId, pokemon)));
-        io.to(player.id).emit('pokedexChanged', { reason: 'trainer_seen' });
+        if(options.recordPokedex!==false){
+            await Promise.all(enemyTeam.pokemons.map((pokemon) => markPokemonSeen(userId, pokemon)));
+            io.to(player.id).emit('pokedexChanged', { reason: 'trainer_seen' });
+        }
     } catch (error) {
         console.error(`Erreur Pokédex combat dresseur user ${userId}:`, error.message);
     }
@@ -363,7 +365,7 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
     const experienceMultiplier = options.experienceKind === 'arena'
         ? BATTLE_EXPERIENCE_MULTIPLIERS.arena : BATTLE_EXPERIENCE_MULTIPLIERS.trainer;
     const grantDefeatedExperience = async () => {
-        if (options.testRematch) return; // Owner-only replay: preserve training and original arena XP receipts.
+        if (options.testRematch || options.grantExperience===false) return; // Narrative mirrors and owner replays grant no training rewards.
         // Inclut le dernier K.O. et ceux survenus lors d'un changement forcé.
         // Les instances sont suivies même si leur ordre dans l'équipe change.
         for (const defeated of enemyTeam.pokemons) {

@@ -284,6 +284,17 @@ const socketHandler = (io) => {
         }
 
         let currentmap = resolveMapName(savedPosition?.map || DEFAULT_MAP);
+        const mirrorRift=require('../game/world/mirrorRift');
+        const supportsMirrorRift=socket.handshake?.auth?.mirrorRift===true;
+        // A won duel survives a lost socket or restart during the closing cinematic.
+        if(['route2_maison','maison'].includes(currentmap)){
+            const pending=await require('../persistence/mirrorRiftRepository').read(userId);
+            if(pending.state.stage==='won'){
+                healTeam(equipe);await editEquipe(userId,equipe);
+                await require('../persistence/mirrorRiftRepository').completeWake(userId);
+                savedPosition={...savedPosition,...require('../game/world/playerRecovery').HOME_RESPAWN_POINT};currentmap='maison';
+            }
+        }
         let raphTrialState = currentmap === raphTrial.config.map ? await raphTrialRepository.ensure(userId,savedPosition) : null;
         const lucieScene=require('../game/world/lucieDeparture');
         const labStory=require('../game/world/labStory');
@@ -292,13 +303,14 @@ const socketHandler = (io) => {
         if (!account.active()) return;
         let personalProgress=initialStoryProgress||{flags:{}},lucieLeaving=false;
         const {getPnjsForMap,getPnjAtTile,isPnjBlockingTile}=lucieScene.scopedStore(voidEnding.scopedStore(labStory.scopedStore(raphTrial.scopedStore(defaultPnjStore,()=>raphTrialState),()=>personalProgress),()=>personalProgress),()=>personalProgress,()=>lucieLeaving);
+        const personalTileBlocked=(map,x,y)=>isPnjBlockingTile(map,x,y)||mirrorRift.blocked(map,x,y,personalProgress);
         let collisionData2D = loadCollisionData(currentmap);
         let changemap2D = changeMapData(currentmap);
         let battlemap2D = battleMapData(currentmap);
         let interactmap = InteractMapData(currentmap);
         let currentPnjs = getPnjsForMap(currentmap);
 
-        const spawnPosition = sanitizeSpawnPosition(savedPosition?.x, savedPosition?.y, collisionData2D, currentmap,{blocked:isPnjBlockingTile});
+        const spawnPosition = sanitizeSpawnPosition(savedPosition?.x, savedPosition?.y, collisionData2D, currentmap,{blocked:personalTileBlocked});
 
         players[socket.id] = {
             id: socket.id,
@@ -479,6 +491,7 @@ const socketHandler = (io) => {
         const emitPlayerProgression = (progression) => {
             personalProgress=progression;
             socket.emit('voidEndingState',voidEnding.state(progression));
+            socket.emit('mirrorRiftState',mirrorRift.state(progression));
             socket.emit('progressionState', progression);
             socket.emit('storyGatesState', { gates: storyGates.snapshot(progression) });
             socket.emit('adminArenaState', arenaTests.publicState(socket.data.user, progression));
@@ -585,7 +598,7 @@ const socketHandler = (io) => {
                 destination?.y,
                 collisionData2D,
                 currentmap,
-                {allowTransition:reason === 'map_transition',blocked:isPnjBlockingTile}
+                {allowTransition:reason === 'map_transition',blocked:personalTileBlocked}
             );
 
             player.x = safeDestination.x;
@@ -709,6 +722,12 @@ const socketHandler = (io) => {
         const refreshReplaySessions = (progress, reset = false) => {
             for (const session of replaySessions.values()) if(session.userId===userId) session.refresh(progress,reset);
         };
+        const mirrorHandlers=require('./handlers/mirrorRiftHandlers').createMirrorRiftHandlers({socket,io,userId,
+            getPlayer:()=>players[socket.id],canUse:()=>!transitionBusy&&!pendingDialogue&&!socketToChatSession.has(socket.id),
+            setBusy:value=>{transitionBusy=value;},emitProgression:emitPlayerProgression,blackout:handleBlackout,
+            travel:async destination=>{await relocatePlayer(destination,{reason:'mirror_awakened'});await flushPositionSave();}
+        });
+        account.on('mirrorRiftWake',guardInteraction(async()=>{if(mirrorRift.state(personalProgress).stage==='won')await mirrorHandlers.awaken();}));
         registerTeamOrderHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!interactionBusy&&!transitionBusy});
         require('./handlers/arenaTestHandlers').registerArenaTestHandlers({socket,getPlayer:()=>players[socket.id],
             getPeers:()=>Object.values(players).filter(p=>p.userId===userId),
@@ -764,7 +783,7 @@ const socketHandler = (io) => {
             recover:async player=>{
                 transitionBusy=true;
                 try {
-                    const destination=sanitizeSpawnPosition(player.x,player.y,collisionData2D,currentmap,{manual:true,blocked:isPnjBlockingTile});
+                    const destination=sanitizeSpawnPosition(player.x,player.y,collisionData2D,currentmap,{manual:true,blocked:personalTileBlocked});
                     pendingDialogue=null;
                     cancelPendingRequestsForSocket(socket.id,'position_recovered');
                     player.isInteracting=false; player.interactionAsset=null; player.animationFrame=0;
@@ -1230,6 +1249,7 @@ const socketHandler = (io) => {
             if (!player) return;
             if (player.inbattle || player.inventoryBusy) return;
             if (fishing.current(player)) { fishing.reel(player,fishing.current(player).id); return; }
+            if(supportsMirrorRift&&!pendingDialogue&&currentmap===mirrorRift.config.map&&mirrorRift.interaction(player,personalProgress)&&await mirrorHandlers.interact())return;
 
             if(!transitionBusy&&!pendingDialogue&&currentmap===voidEnding.config.map){
                 const book=voidEnding.journalAt(player);
@@ -1477,7 +1497,7 @@ const socketHandler = (io) => {
 
             let repelProtection = null;
             const previousPosition = { x: player.x, y: player.y };
-            const blockedByPnj = isPnjBlockingTile(currentmap, matrixX, matrixY);
+            const blockedByPnj = personalTileBlocked(currentmap, matrixX, matrixY);
             if (collisionData2D[matrixY] && collisionData2D[matrixY][matrixX] === 0 && !blockedByPnj) {
                 player.x = newPlayerX;
                 player.y = newPlayerY;

@@ -1,5 +1,21 @@
 # Audit technique et mémoire de RiftMon
 
+## Épilogue secret — faille et reflet violet dans la maison de Lucie — 27 octobre 2026
+
+Accès privé : six badges d’arène réellement acquis et Violence ou Pardon. Action derrière la bibliothèque gauche, depuis (7,4), sur son dos (7,5). Le parquet s’ouvre près de (10,6) en 8,6 s : secousses, éclats de planches, poussière et faille violette. Une seconde action à proximité fait émerger un double à (12,7), pendant 2,8 s. Action près du double : duel silencieux, sans réplique de PNJ. Trou et clone sont solides ; la porte et le reste de la salle restent accessibles. Le nouveau client annonce une capacité Socket optionnelle pour éviter qu’un ancien client déclenche une scène qu’il ne sait pas afficher.
+
+Le double copie au lancement les compagnons de l’équipe, PV actuels (K.O. compris), PP, attaques, objets tenus, talents, nature, K, IV, EV et statistiques ; UUID distincts et copie profonde avec prototypes conservés. Les œufs restent hors combat. IA humaine forte commune, sans lecture du choix futur, aucune réserve forcée. Même moteur de dresseur, avec options internes `grantExperience:false`, `grantBaseMoney:false`, `recordPokedex:false` : aucune XP/EV, argent, butin ou copie dans le PC ; les règles normales de combat et consommation/restitution des vrais objets s’appliquent. Ordre de l’équipe conservé.
+
+Victoire SQL verrouillée avant le bilan ; le joueur peut lire et fermer son résultat. Ensuite fermeture 6,2 s, fondu, chargement masqué et réveil dans `maison` (272,432), équipe soignée. Défaite : retour de soin Aventure habituel si nécessaire, double conservé pour un nouvel essai. Reconnexion après victoire interrompue : réveil récupéré sans refaire le combat. États personnels `mirror_stage`, `mirror_ruined`, `mirror_appearance`, sans migration ; doubles commandes et accès hors conditions refusés. Le reset admin crée une projection `admin_mirror_*`, préserve les badges et la ruine permanente.
+
+Rendu commun Canvas, aucun PNG/Tiled/collision de carte remplacé. Le double reprend les six sprites jouables, avec masque alpha et cinq tons violets calculés une fois par image. Dégâts persistants du parquet, tuiles manquantes, fissures et fenêtres brisées sur la maison de Route 2 ; dégâts du toit dessinés après son foreground pour rester visibles. Pas de nouvelle boucle d’animation ni téléchargement d’images ; gestes bloqués pendant les séquences, secousses/poussière réduites selon les préférences, son synthétisé réutilisant `BattleAudio`, volume maître respecté et arrêt au masquage/déconnexion/démontage.
+
+Validation : 122 tests ciblés réussis et 23 scénarios SQL réussis (trois contrôles unitaires réexécutés dans le lot de 26), zéro échec final dans ces lots. Sept tests unitaires et six SQL propres au reflet, incluant un véritable combat gagné/perdu, le réveil à la reconnexion, le double envoi et le reset privé. Navigateur compilé : parcours tactile aux formats 320/393/844/1365 et vrai contexte PC au clavier ; 32 captures + émergence/clavier, palettes des six apparences, rendu, collisions, bilan avant fermeture, réveil, maison persistante et autre compte intact, zéro erreur. Syntaxe/diff, lint et build `30b9525c848d189f` validés. Trois attentes historiques de recettes Lucie/Matthieu réconciliées avec les contenus déjà livrés, sans changement de récit : lecture ordinaire progressive, Gwenn distinct et quête continuant au laboratoire. Un ancien test extrait `mounted` sans fournir `attachGameFullscreen` reste en échec identique sur le client de référence ; connexion Aventure complète validée au navigateur, pas de correction du faux environnement dans ce lot. Pas de téléphone physique ni certification exhaustive de toutes les compositions revendiqués. Rapport et commandes : `docs/MIRROR_RIFT_EPILOGUE.json`.
+
+
+Publication serveur/client le 27 octobre 2026 à 21 h 30 (Europe/Paris), client `2d81ccc58e454152b63ff4460cefb9752d42a19f`, build `30b9525c848d189f`, PID 2359547→2372214. Sauvegarde `/home/ubuntu/dev/backups/riftmon-mirror-2026-10-27T20-30-22-668Z`, checkpoint conservé, zéro expédition active relevée. Index/bundles et décors publics vérifiés, anciens assets et Knov/api-test conservés ; empreintes runtime identiques, zéro erreur serveur relevée et aucun compte de recette restant. Aucune migration ou mutation manuelle de compte réel.
+
+
 ## Faille de la Route 2 — carnet sur l’origine des cristaux — 27 octobre 2026
 
 Septième cahier de l’arène oubliée : `rift_origin`, en (7,11), deux pages de notes de terrain. Il situe explicitement la faille sur la Route 2 et établit que les cristaux utilisés au laboratoire en proviennent. Lecteur, action et petits livres existants réutilisés ; ajout narratif uniquement, sans nouvelle faille, transition, quête ou récompense. Validation : les 15 tests existants de `node --test tests/pardon-ending.test.js` réussissent ; case praticable hors transitions, interaction et rendu des sept livres contrôlés. Effectifs du validateur navigateur actualisés à sept, sans nouvelle exécution de son parcours complet pour cet ajout de texte. Syntaxe et diff valides.
@@ -4317,6 +4333,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 27 octobre 2026 — Épilogue caché de la maison de Lucie : faille, reflet violet avec copie exacte de l’équipe, duel, fermeture et réveil chez soi. Maison personnellement délabrée, reprise SQL et reset admin privés. 122 tests ciblés, 23 scénarios SQL et navigateur tactile/PC validés. Rapport `docs/MIRROR_RIFT_EPILOGUE.json`.
 
 - 27 octobre 2026 — Ajout du carnet « La faille de la Route 2 » dans l’arène oubliée : lieu de la faille et origine des cristaux, deux pages. Sept livres au total ; 15 vérifications existantes réussies.
 

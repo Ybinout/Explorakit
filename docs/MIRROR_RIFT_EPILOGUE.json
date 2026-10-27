@@ -1,0 +1,220 @@
+{
+  "date": "2026-10-27",
+  "sourceBaseline": "1ff62af6e1c0b28ef220faa75cb3185beaf367d1",
+  "clientCommit": "2d81ccc58e454152b63ff4460cefb9752d42a19f",
+  "clientBuild": "30b9525c848d189f",
+  "rules": {
+    "badges": "Six earned gym badges and one of Violence/Pardon",
+    "hiddenAction": {
+      "map": "route2_maison",
+      "playerTile": [
+        7,
+        4
+      ],
+      "bookshelfTile": [
+        7,
+        5
+      ]
+    },
+    "riftTile": [
+      10,
+      6
+    ],
+    "cloneTile": [
+      12,
+      7
+    ],
+    "durationsMs": {
+      "opening": 8600,
+      "emerging": 2800,
+      "closing": 6200,
+      "awakening": 1800
+    },
+    "snapshot": "Current battle-capable party at duel start, including KO HP; exact permanent stats, moves, PP, major statuses, held items and abilities; independent identities and data",
+    "ai": "Existing strongest human trainer evaluation, committed before submitted action",
+    "rewards": {
+      "xp": 0,
+      "ev": 0,
+      "money": 0,
+      "loot": []
+    },
+    "victory": "Close after recap, mask home image loading, heal and wake at maison (272,432)",
+    "defeat": "No completion; same clone available for retry, ordinary blackout if needed",
+    "persistence": "Per-player flags; user-row transaction locks; committed win recovered on reconnect; ruins persist inside and outside",
+    "admin": "Private projection, permanent badges and completion preserved",
+    "legacyClients": "Optional handshake capability prevents starting an unsupported cinematic"
+  },
+  "implementation": {
+    "world": "server/game/world/mirrorRift.js",
+    "persistence": "server/persistence/mirrorRiftRepository.js",
+    "controller": "server/realtime/handlers/mirrorRiftHandlers.js",
+    "team": "server/game/battle/mirrorTeam.js",
+    "renderer": "vue-explorakit/src/services/mirrorRiftRenderer.js",
+    "noMapOrArtReplacement": true,
+    "noNewAnimationLoop": true,
+    "noSqlMigration": true,
+    "realAccountsModified": false
+  },
+  "validation": {
+    "unitPassed": 122,
+    "newUnitTests": 7,
+    "sqlIntegrationPassed": 23,
+    "unitChecksRepeatedInSql": 3,
+    "newSqlTests": 6,
+    "postReviewNewSqlPassed": 6,
+    "browser": {
+      "realHiddenAction": true,
+      "desktopKeyboard": true,
+      "allBadgesRequired": true,
+      "openingAndDust": true,
+      "movementBlockedDuringScene": true,
+      "riftCellsSolid": true,
+      "silentCloneDuel": true,
+      "exactInitialHpPpItems": true,
+      "violetAppearances": 6,
+      "reconnect": true,
+      "winClosesRift": true,
+      "wakeAtHome": true,
+      "teamHealedAndOrderPreserved": true,
+      "noTrainingOrMoneyRewards": true,
+      "ruinsPersistentInsideAndOutside": true,
+      "perPlayerIsolation": true,
+      "privateAdminReplay": true,
+      "viewports": 4,
+      "screens": [
+        "floor-tearing-320.png",
+        "floor-tearing-393.png",
+        "floor-tearing-844.png",
+        "floor-tearing-1365.png",
+        "violet-rift-open-320.png",
+        "violet-rift-open-393.png",
+        "violet-rift-open-844.png",
+        "violet-rift-open-1365.png",
+        "violet-clone-320.png",
+        "violet-clone-393.png",
+        "violet-clone-844.png",
+        "violet-clone-1365.png",
+        "mirror-battle-320.png",
+        "mirror-battle-393.png",
+        "mirror-battle-844.png",
+        "mirror-battle-1365.png",
+        "rift-closing-320.png",
+        "rift-closing-393.png",
+        "rift-closing-844.png",
+        "rift-closing-1365.png",
+        "awakened-home-320.png",
+        "awakened-home-393.png",
+        "awakened-home-844.png",
+        "awakened-home-1365.png",
+        "house-exterior-ruined-320.png",
+        "house-exterior-ruined-393.png",
+        "house-exterior-ruined-844.png",
+        "house-exterior-ruined-1365.png",
+        "house-interior-ruined-320.png",
+        "house-interior-ruined-393.png",
+        "house-interior-ruined-844.png",
+        "house-interior-ruined-1365.png"
+      ],
+      "errors": []
+    },
+    "additionalScreens": [
+      "clone-emerging.png",
+      "desktop-keyboard-1365.png"
+    ],
+    "inspectedScreens": [
+      "floor-tearing-393.png",
+      "violet-rift-open-1365.png",
+      "violet-clone-393.png",
+      "mirror-battle-393.png",
+      "house-exterior-ruined-1365.png",
+      "house-interior-ruined-393.png",
+      "awakened-home-320.png"
+    ],
+    "lint": "/tmp/riftmon-mirror-lint.log",
+    "build": "/tmp/riftmon-mirror-build.log",
+    "remainingMirrorFixtures": 0
+  },
+  "commands": [
+    "node --test tests/mirror-rift.test.js tests/pardon-ending.test.js tests/void-ending.test.js tests/room-obstacles.test.js tests/lucie-departure.test.js tests/lucie-scene.test.js tests/lucie-scene-refresh.test.js tests/lucie-tactics.test.js tests/player-recovery.test.js tests/position-recovery.test.js tests/party-order.test.js tests/battle-order.test.js tests/choice-items.test.js tests/human-trainer-ai.test.js tests/human-trainer-model.test.js tests/account-connection.test.js",
+    "NODE_ENV=test RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test BATTLE_DELAY_SCALE=0 node --env-file=.env --test --test-concurrency=1 tests/mirror-rift-mysql.test.js tests/pardon-ending-mysql.test.js tests/void-ending-mysql.test.js tests/arena-admin.test.js tests/professor-finale-mysql.test.js tests/lucie-departure-mysql.test.js tests/room-obstacles-socket.test.js",
+    "DB_TEST_NAME=explorakit_test node --env-file=.env scripts/validateMirrorRiftBrowser.js",
+    "npm --prefix vue-explorakit run lint",
+    "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-mirror-dist"
+  ],
+  "knownUnrelatedTestFixture": {
+    "command": "node --test tests/drift-connection.test.js",
+    "error": "attachGameFullscreen is not defined in the extracted mounted stub",
+    "current": {
+      "pass": 3,
+      "fail": 2
+    },
+    "baseline": {
+      "client": "204b65da23920a190c2a4bf54dd09cf958ef8935",
+      "pass": 3,
+      "fail": 2
+    },
+    "logs": [
+      "/tmp/riftmon-mirror-connection.log",
+      "/tmp/riftmon-mirror-connection-baseline.log"
+    ],
+    "realBrowserConnectionPassed": true
+  },
+  "limitations": [
+    "Browser emulation and desktop Chromium, no physical device test",
+    "Audio synthesis wired to volume and lifecycle, no speaker listening test",
+    "No claim of exhaustive battle coverage for all mirror compositions",
+    "Ordinary real item costs and consumptions remain in effect"
+  ],
+  "deployment": {
+    "publishedAt": "2026-10-27T20:30:25.393Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-mirror-2026-10-27T20-30-22-668Z",
+    "sourceBaseline": "1ff62af6e1c0b28ef220faa75cb3185beaf367d1",
+    "sourceHashes": {
+      "server/game/battle/trainerBattle.js": "b8ef8f94b4199b82c69ff5377598c57b08feee499807b4453214a828717fb9f2",
+      "server/persistence/arenaTestRepository.js": "02b71d395c404ac0a766bdd550abeccbd7354e5bf943a343a332f9875f301788",
+      "server/realtime/socketHandler.js": "01cd0d3254f6a546b3d76a373438eb341ee2ef1d8e99fc6345353572238d16f7",
+      "server/game/battle/mirrorTeam.js": "ce897cb6e0d673c7cd088c90723d78772b965ebc23c7764c99131295dc3a7e81",
+      "server/game/world/mirrorRift.js": "a578429ac17c95317e77749e1e0ebd418c3b01894918386f390b855f1dce4a70",
+      "server/persistence/mirrorRiftRepository.js": "c836d62f6b97630321c4734c4b88a8d84bbb3847db43d78e86402a6119f7c289",
+      "server/realtime/handlers/mirrorRiftHandlers.js": "0dc19e541ff9ff52ecda22e3411c1bb2a00c3643e1503b10d3f36972f05eb132"
+    },
+    "clientCommit": "2d81ccc58e454152b63ff4460cefb9752d42a19f",
+    "clientBuild": "30b9525c848d189f",
+    "beforePid": "2359547",
+    "afterPid": "2372214",
+    "activeRuns": 0,
+    "checkpointSaved": true,
+    "serverRestarted": true,
+    "gracefulCheckpoint": true,
+    "neighborsUnchanged": true,
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.758b340d.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.af56866d.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.805c7b52.css",
+      "img/ville4_arene.4d111715.png",
+      "img/tour_rdc.e03e0f06.png",
+      "img/tour_etage1.8ec612be.png",
+      "img/tour_etage2.18713452.png",
+      "img/tour_etage3.ac05c302.png",
+      "img/6931.30769aa5.png"
+    ],
+    "embedded": [
+      "pnj/professor-ko-pixel-v1.png",
+      "pnj/clement-pixel-v2.png"
+    ],
+    "oldHashedAssetsRetained": true,
+    "sqlMigration": false,
+    "realAccountsModified": false
+  },
+  "postDeployment": {
+    "runtimeHashesMatch": true,
+    "serverErrorsObserved": 0,
+    "fixtureRemainders": 0
+  }
+}

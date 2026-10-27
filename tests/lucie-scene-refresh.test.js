@@ -28,7 +28,8 @@ test('Lucie uses an indoor combat scene, including weather-changing moves; actua
 
 test('Matthieu keeps the existing personal gate and victory keys', () => {
   const gates=require('../data/game/story_gates.json');
-  const serialized=JSON.stringify(gates);
+  const personalGate=gates.gates.filter(g=>g.npcBattle==='gwenn_route8');assert(personalGate.length>0);
+  const serialized=JSON.stringify(personalGate);
   assert(serialized.includes('Matthieu'));assert(!serialized.includes('Gwenn'));
   const battle=require('../data/game/progression.json').npcBattles.gwenn_route8;
   assert.equal(battle.completionFlag,'gwenn_route8_defeated');

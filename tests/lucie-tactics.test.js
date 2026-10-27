@@ -31,14 +31,17 @@ test('Lucie expert choices are legal, independent of private opponent IVs and it
 test('Lucie needs 7p then a new victory; the old reunion flag cannot skip her battle',()=>{
  const{deriveStoryQuest}=require('../server/game/world/storyProgression');
  assert.equal(dialogues.getSentenceForName('lucie_route2',{flags:{}})[1],'lucie_route2_locked');
- const flags=Object.fromEntries(catalog.storySteps.slice(0,-1).map(s=>[s.flag,'true']));flags.lucie_reunited='true';
+ const beforeLucie=catalog.storySteps.findIndex(s=>s.flag==='lucie_freed');assert(beforeLucie>0);
+ const flags=Object.fromEntries(catalog.storySteps.slice(0,beforeLucie).map(s=>[s.flag,'true']));flags.lucie_reunited='true';
  assert.equal(dialogues.getSentenceForName('lucie_route2',{flags})[1],'lucie_route2');
  assert.equal(dialogues.getEndSentenceInformation('lucie_route2'),'battle');assert.equal(deriveStoryQuest({flags}).status,'active');
  assert.equal(catalog.storyEvents.lucie_route2,undefined);
  assert(catalog.npcBattles.lucie_route2.once&&catalog.npcBattles.lucie_route2.uniqueExperience);
- flags.lucie_freed='true';assert.equal(deriveStoryQuest({flags}).status,'completed');
+ flags.lucie_freed='true';assert.equal(deriveStoryQuest({flags}).status,'active');
  assert.equal(dialogues.getSentenceForName('lucie_route2',{flags})[1],'lucie_route2_after');
  assert.notEqual(dialogues.getEndSentenceInformation('lucie_route2_after'),'battle');
+ for(const step of catalog.storySteps.slice(beforeLucie+1))flags[step.flag]='true';
+ assert.equal(deriveStoryQuest({flags}).status,'completed');
 });
 for(const mode of ['rift','colosseum'])test(`${mode}: Lucie expert team survives the shared encounter/checkpoint path`,()=>{
  const p={userId:1,currentmap:'route2_maison',run:{mode},equipe:{pokemons:[factory.create(9,80,true)]},drifts:[],equipped:[],chain:0,items:{},defeated:new Set(),money:0};

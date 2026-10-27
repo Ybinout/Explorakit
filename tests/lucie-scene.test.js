@@ -17,9 +17,9 @@ test('Lucie types slowly with punctuation pauses; action reveals then advances, 
  c.advanceText();assert.deepEqual(c.events,['sequence-end']);assert.equal(timers.size,0);
 });
 test('ordinary dialogue retains paging and Lucie timers are cancelled when sequence changes or closes',()=>{
- const{c,def,timers}=dialogue([{text:'Bonjour monde'}]);c.advanceText();assert.equal(c.displayedText,'Bonjour monde');assert.equal(timers.size,0);
+ const{c,def,timers}=dialogue([{text:'Bonjour monde'}]);c.advanceText();assert.equal(c.displayedText,'B');assert.equal(timers.size,1);c.advanceText();assert.equal(c.displayedText,'Bonjour monde');assert.equal(timers.size,0);
  c.sequence=[{text:'Lucie',typewriterMs:45}];def.watch.sequence.call(c);assert.equal(c.displayedText,'L');assert.equal(timers.size,1);
- c.sequence=[{text:'Nouveau'}];def.watch.sequence.call(c);assert.equal(c.displayedText,'Nouveau');assert.equal(timers.size,0);
+ c.sequence=[{text:'Nouveau'}];def.watch.sequence.call(c);assert.equal(c.displayedText,'N');c.advanceText();assert.equal(c.displayedText,'Nouveau');assert.equal(timers.size,0);
  c.sequence=[{text:'Lucie',typewriterMs:45}];def.watch.sequence.call(c);c.resetText();assert.equal(timers.size,0);
 });
 test('Lucie portrait is only attached to her story trainer encounter; other modes and gyms stay scoped',async()=>{
