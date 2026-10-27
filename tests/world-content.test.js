@@ -144,7 +144,7 @@ test('les champions conservent leurs planches et les civils utilisent les portra
     assert.deepEqual(usedSprites, expectedSprites);
 
     const civilians = pnjs.filter(pnj => pnj.sprite === 'townspeople.png');
-    assert.equal(civilians.length, 69);
+    assert.equal(civilians.length, 70);
     const lucie = pnjs.find(pnj => pnj.name === 'lucie_route2');
     assert.equal(lucie.sprite, 'lucie-pixel-v2.png');
     assert.deepEqual(lucie.spriteFrame, {columns:1, rows:1, index:0});

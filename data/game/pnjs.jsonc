@@ -1127,6 +1127,21 @@
         "index": 9
       },
       "roamRadius": 0
+    },
+    {
+      "name": "village_professor_fan",
+      "interactionName": "village_professor_fan",
+      "map": "start",
+      "x": 16,
+      "y": 8,
+      "sprite": "townspeople.png",
+      "block": true,
+      "roamRadius": 0,
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 29
+      }
     }
   ]
 }

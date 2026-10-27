@@ -2558,5 +2558,19 @@
       }
     ],
     "end": "heal"
+  },
+  {
+    "name": "village_professor_fan",
+    "sentences": [
+      {
+        "text": "Avant, le Prof était champion d’arène. C’était le plus fort ! Mais bon, maintenant, il préfère travailler avec les Pokémon. Il doit vraiment les aimer !",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 29
+        }
+      }
+    ]
   }
 ]

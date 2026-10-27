@@ -1,0 +1,111 @@
+{
+  "dateParis": "2026-10-27",
+  "actor": {
+    "name": "village_professor_fan",
+    "map": "start",
+    "x": 16,
+    "y": 8,
+    "roaming": false,
+    "block": true,
+    "role": "Friendly villager, no battle/reward/quest"
+  },
+  "dialogue": "Avant, le Prof était champion d’arène. C’était le plus fort ! Mais bon, maintenant, il préfère travailler avec les Pokémon. Il doit vraiment les aimer !",
+  "art": {
+    "source": "vue-explorakit/src/assets/6931.png",
+    "sourceSha256": "c52207adff88198d3d3c16fbaf728ed9a53e5013434b60f56ef3b29a5e9d5d81",
+    "frame": 39,
+    "rect": {
+      "x": 1036,
+      "y": 417,
+      "w": 18,
+      "h": 25,
+      "pixels": 339
+    },
+    "worldScale": 2,
+    "description": "Exact requested green-cap / teal-shirt sprite reused directly from the atlas, one connected crop without neighbouring feet. Existing frames unchanged.",
+    "portrait": "Existing illustrated green-cap portrait, civilian-portraits-b.png, index 11. Legacy frame 29 supplied in the dialogue; the new actor name selects world frame 39 only. No new bitmap."
+  },
+  "validation": {
+    "tests": {
+      "pass": 14,
+      "fail": 0,
+      "skip": 1,
+      "log": "/tmp/riftmon-professor-fan-tests.log"
+    },
+    "browser": {
+      "results": "/tmp/riftmon-professor-fan-browser/results.json",
+      "widths": [
+        320,
+        393,
+        844,
+        1365
+      ],
+      "exactActualRenderCrop": true,
+      "integerScale": true,
+      "actionDialogue": true,
+      "illustratedPortrait": true,
+      "nonTraversableNpc": true,
+      "freePassage": true,
+      "repeatable": true,
+      "noProgressOrReward": true,
+      "errors": []
+    },
+    "build": "c6063574dc65a20b",
+    "lint": "/tmp/riftmon-professor-fan-lint.log",
+    "commands": [
+      "node --test tests/dialogue-portrait.test.js tests/world-content.test.js tests/arena-scenes.test.js",
+      "DB_TEST_NAME=explorakit_test node --env-file=.env /tmp/riftmon-professor-fan-browser.cjs"
+    ],
+    "browserScript": "const root='/home/ubuntu/dev/explorakit';\nconst req=require('node:module').createRequire(root+'/package.json');\nconst assert=req('node:assert/strict'),fs=req('node:fs'),http=req('node:http'),{once}=req('node:events'),{randomUUID}=req('node:crypto');\nif(!/test/i.test(process.env.DB_TEST_NAME||''))throw Error('Dedicated test database required');\nprocess.env.DB_NAME=process.env.DB_TEST_NAME;process.env.NODE_ENV='test';\nconst express=req('express'),{Server}=req('socket.io'),{chromium}=req('playwright'),{dbPool:db}=req('./server/config/database');\nconst dist='/tmp/riftmon-professor-fan-dist',out='/tmp/riftmon-professor-fan-browser';fs.mkdirSync(out,{recursive:true});\nconst app=express(),server=http.createServer(app),io=new Server(server);app.use(express.json());app.use('/api',req('./server/http/routes'));app.use(express.static(dist));app.get('*',(_q,r)=>r.sendFile(dist+'/index.html'));io.use(req('./server/http/authMiddleware').authenticateSocket);req('./server/realtime/socketHandler')(io);\nlet browser,page,userId,passed=false;const errors=[],screens=[];\nasync function pictures(label){for(const[width,height]of[[320,568],[393,852],[844,390],[1365,900]]){await page.setViewportSize({width,height});await page.evaluate(async width=>{v.showMobileControls=width<=920;await v.$nextTick();v.resizeWorldViewport();},width);await page.waitForTimeout(100);assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));const file=label+'-'+width+'.png';await page.screenshot({path:out+'/'+file});screens.push(file);}await page.setViewportSize({width:393,height:852});await page.evaluate(()=>v.showMobileControls=true);}\n(async()=>{try{\n server.listen(0,'127.0.0.1');await once(server,'listening');const base='http://127.0.0.1:'+server.address().port;\n const r=await fetch(base+'/api/users',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:'fan_'+randomUUID(),password:randomUUID(),starterId:7})});assert.equal(r.status,201);const f=await r.json();userId=f.user.id;\n await db.execute(\"UPDATE users SET map='start',x=560,y=272 WHERE id=?\",[userId]);\n browser=await chromium.launch({headless:true,args:['--no-sandbox']});const context=await browser.newContext({viewport:{width:393,height:852},hasTouch:true});await context.addInitScript(s=>{if(location.protocol==='http:')localStorage.setItem('explorakit.user',JSON.stringify(s));},{...f.user,token:f.token});page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.url().startsWith(base)&&r.status()>=400)errors.push(r.status()+' '+r.url());});\n await page.goto(base+'/game',{waitUntil:'networkidle'});await page.waitForFunction(()=>{const v=document.querySelector('.game-root')?.__vue__;if(!v?.socket?.connected||v.mapLoading||v.renderedMap!==v.map||!v.pnjs.some(p=>p.name==='village_professor_fan'))return false;window.v=v;return true;});\n await page.evaluate(async()=>{await v.ensurePnjSpriteSheet('townspeople.png').decode();});const draw=await page.evaluate(()=>{const c=document.createElement('canvas');c.width=896;c.height=640;const g=c.getContext('2d'),real=g.drawImage.bind(g),calls=[];g.drawImage=(im,...a)=>{if(a[0]===1036&&a[1]===417)calls.push(a);real(im,...a);};v.drawPnjs(g,performance.now());return calls;});assert.equal(draw.length,1);assert.deepEqual(draw[0].slice(0,4),[1036,417,18,25]);assert.deepEqual(draw[0].slice(6),[36,50]);\n await pictures('village-sprite');const before=await req('./server/persistence/progressionRepository').loadProgressState(userId);\n await page.evaluate(()=>v.socket.emit('playerAction','move_q'));await page.waitForTimeout(200);assert.deepEqual(await page.evaluate(()=>{const p=v.players[v.socket.id];return[p.x,p.y];}),[560,272]);\n await page.evaluate(()=>v.triggerMobileActionA());await page.waitForFunction(()=>v.endSentences==='village_professor_fan'&&v.textImageSequence.length);assert(await page.evaluate(()=>v.textImageSequence[0].text.includes('champion d’arène')&&v.textImageSequence[0].text.includes('Il doit vraiment les aimer')));await page.waitForFunction(()=>document.querySelector('.dialogue-layer canvas.portrait-atlas')?.dataset.portraitReady==='true');assert(await page.evaluate(()=>v.textImageSequence[0].image.includes('civilian-portraits-b.')&&v.textImageSequence[0].portraitFrame.index===11));await pictures('fan-dialogue');\n await page.evaluate(()=>v.clearSequence());await page.waitForTimeout(200);assert(!await page.evaluate(()=>v.battle));const after=await req('./server/persistence/progressionRepository').loadProgressState(userId);delete after.syncedAt;delete before.syncedAt;assert.deepEqual(after,before);\n await page.evaluate(()=>v.triggerMobileActionA());await page.waitForFunction(()=>v.endSentences==='village_professor_fan'&&v.textImageSequence.length);await page.evaluate(()=>v.clearSequence());await page.waitForTimeout(200);await page.evaluate(()=>v.socket.emit('playerAction','move_d'));await page.waitForFunction(()=>v.players[v.socket.id].x===592);\n assert.deepEqual(errors,[]);passed=true;const result={exactAtlasCrop:[1036,417,18,25],integerScale:2,location:[16,8],npcBlocks:true,talkViaAction:true,illustratedPortrait:true,repeatable:true,noBattleOrProgressReward:true,freePassage:true,widths:[320,393,844,1365],screens,errors};fs.writeFileSync(out+'/results.json',JSON.stringify(result,null,2));console.log(JSON.stringify(result));\n}finally{if(!passed&&page)await page.screenshot({path:out+'/failure.png'}).catch(()=>{});await browser?.close();await new Promise(r=>io.close(r));await new Promise(r=>setTimeout(r,200));if(userId)await db.execute('DELETE FROM users WHERE id=?',[userId]);await db.end();}})().catch(e=>{console.error(e.stack);process.exitCode=1});\n",
+    "limits": [
+      "Chromium desktop/touch formats; no physical phone or full suite rerun."
+    ]
+  },
+  "publication": {
+    "publishedAt": "2026-10-27T05:20:39.427Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-professor-fan-2026-10-27T05-20-36-771Z",
+    "sourceBaseline": "ee57636ecb0ba7b82f9d61454a136a0e9d681742",
+    "sourceHashes": {
+      "data/game/interact.json": "e49802c377426fc88f9a61a5e84c2c24e6dddf33527b0acc79596d54a4b2552c",
+      "data/game/pnjs.jsonc": "9be7c1d5697e5f758285a5b2c3f9c717d9744cf065ef8f2ed87add1690690a64"
+    },
+    "clientCommit": "f97ec385739658d591418094525df5f308a10e27",
+    "clientBuild": "c6063574dc65a20b",
+    "beforePid": "2180551",
+    "afterPid": "2191147",
+    "activeRuns": 0,
+    "checkpointSaved": true,
+    "serverRestarted": true,
+    "gracefulCheckpoint": true,
+    "neighborsUnchanged": true,
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.20fda7bd.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.afb4cb0a.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.df9c9ce6.css",
+      "img/void_arena.81b98364.png",
+      "img/void-arena-wide-v1.d9b69b7c.webp",
+      "img/void-arena-mobile-v1.77b11be3.webp",
+      "img/professor-final-v1.8f99bbd8.png",
+      "img/route2_maison.3916584e.png",
+      "img/tour_rdc.e03e0f06.png",
+      "img/tour_etage1.8ec612be.png",
+      "img/tour_etage2.18713452.png",
+      "img/tour_etage3.ac05c302.png",
+      "img/maria-v2.564002d1.png",
+      "img/clement-v2.804e1f22.png"
+    ],
+    "embedded": [
+      "pnj/professor-ko-pixel-v1.png",
+      "pnj/clement-pixel-v2.png"
+    ],
+    "oldHashedAssetsRetained": true,
+    "sqlMigration": false,
+    "realAccountsModified": false
+  }
+}

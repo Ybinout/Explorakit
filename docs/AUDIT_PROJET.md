@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Village de départ — admirateur naïf du Professeur — 27 octobre 2026
+
+Nouveau PNJ fixe `village_professor_fan` en (16,8) de `start`, près des maisons et hors portes/transitions. Il raconte que le Prof était le plus fort des champions avant de préférer travailler avec les Pokémon, puis ajoute naïvement « Il doit vraiment les aimer ! ». Simple conversation répétable, sans combat, récompense, jalon de quête ou condition d'histoire. Personnage solide comme les autres ; portes et axes de passage conservés.
+
+Sprite exact fourni retrouvé dans `6931.png` : chapeau vert et haut turquoise, rectangle connecté (1036,417,18,25), 339 pixels opaques, nouvel index 39 à l'échelle entière ×2. Atlas bitmap inchangé et anciennes découpes conservées ; sélection locale par nom du PNJ. Le dialogue réutilise le portrait illustré existant à casquette verte (index 29 classique, soit index 11 de `civilian-portraits-b`), sans agrandir de pixel art. Référence héritée 29 compatible avec l'ancien client ; le rôle du nouveau client choisit sa découpe exacte sur carte.
+
+Validation : 14 tests existants réussis/une recette SQL ignorée ; effectif de civils de la fixture 69→70. Recette navigateur/SQL sur compte jetable : arguments réels de dessin et facteur 2, coordonnées/collision, vraie action pour parler, portrait décodé, répétition, déplacement libre et progression/argent/badges/flags inchangés, hors horodatage de synchronisation. Huit captures PC/mobile aux formats 320/393/844/1365 inspectées, zéro erreur. Lint/build `c6063574dc65a20b`, syntaxe/diff valides ; pas de carte, autre dialogue ou compte réel modifié. Pas de téléphone physique ni suite globale relancés. Rapport et recette reproductible : `docs/VILLAGE_PROFESSOR_FAN.json`.
+
+Publication serveur/client 2026-10-27T05:20:39.427Z, client f97ec385739658d591418094525df5f308a10e27, PID 2180551→2191147. Sauvegarde `/home/ubuntu/dev/backups/riftmon-professor-fan-2026-10-27T05-20-36-771Z`, checkpoint conservé, 0 expédition active relevée. Index/bundles et décors publics vérifiés, anciens assets hachés et Knov/api-test conservés.
+
 ## Professeur — arrivée et confrontation enrichies — 27 octobre 2026
 
 Nouveau catalogue éditable `data/game/void_dialogues.json` : deux répliques automatiques à l'arrivée dans l'Arène oubliée (« Alors… tu m'as suivi jusqu'ici… », « Si tu savais ce que j'ai découvert, tu ferais comme moi… »), puis quatre répliques en interagissant avec le Professeur. Il évoque les traces et souvenirs au-delà de la faille, justifie ses actes envers Lucie et refuse de se rendre. Portrait `prof.png` sur chaque page et défilement 40 ms ; aucun commentaire de mécanique, récompense ou solution du téléporteur.
@@ -4201,6 +4211,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 27 octobre 2026 — Village : PNJ admirateur du Professeur en (16,8), sprite exact vert/turquoise issu de l’atlas, dialogue naïf répétable sans effet de progression. Découpe connectée à ×2 et portrait illustré existant ; 14 tests et navigateur SQL quatre formats validés. Serveur/client publiés, sauvegarde et voisins conservés. Rapport `docs/VILLAGE_PROFESSOR_FAN.json`.
 
 - 27 octobre 2026 — Professeur : deux répliques à l’arrivée après le trou noir et quatre avant combat, catalogue dédié, portrait et défilement. Lecture privée persistante, aucun combat à l’accueil et reset admin indépendant. 17 tests, cinq recettes SQL et navigateur quatre formats réussis ; publication serveur/client sauvegardée, voisins conservés. Rapport `docs/VOID_ENDING.json`, entrée `professorDialogueUpdate`.
 
