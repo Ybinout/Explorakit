@@ -1,0 +1,42 @@
+{
+  "entry": {
+    "name": "professor_void_entry",
+    "sentences": [
+      {
+        "text": "Le Professeur : Alors… tu m’as suivi jusqu’ici. Tu as traversé la faille pour m’arrêter ? Je ne m’arrêterai pas.",
+        "imageName": "prof.png",
+        "typewriterMs": 40
+      },
+      {
+        "text": "Le Professeur : Si tu savais ce que j’ai découvert, tu ferais comme moi. Mais tu préfères me condamner sans comprendre.",
+        "imageName": "prof.png",
+        "typewriterMs": 40
+      }
+    ]
+  },
+  "challenge": {
+    "name": "professor_final",
+    "sentences": [
+      {
+        "text": "Le Professeur : Tu crois que tout est terminé parce que tu as ramené Lucie chez vous ? Ce n’était que le début.",
+        "imageName": "prof.png",
+        "typewriterMs": 40
+      },
+      {
+        "text": "Le Professeur : Au-delà de cette faille, j’ai vu un monde où rien ne disparaît vraiment. Les êtres, les souvenirs… tout laisse une trace.",
+        "imageName": "prof.png",
+        "typewriterMs": 40
+      },
+      {
+        "text": "Le Professeur : Lucie l’a entendu, elle aussi. Elle avait peur. Toi, tu appelles ça de la cruauté ; moi, j’appelle ça une découverte.",
+        "imageName": "prof.png",
+        "typewriterMs": 40
+      },
+      {
+        "text": "Le Professeur : Me rendre ? Jamais. J’ai sacrifié trop de choses pour reculer maintenant. Si tu veux m’arrêter, viens donc me chercher.",
+        "imageName": "prof.png",
+        "typewriterMs": 40
+      }
+    ]
+  }
+}

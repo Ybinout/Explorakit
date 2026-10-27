@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Professeur — arrivée et confrontation enrichies — 27 octobre 2026
+
+Nouveau catalogue éditable `data/game/void_dialogues.json` : deux répliques automatiques à l'arrivée dans l'Arène oubliée (« Alors… tu m'as suivi jusqu'ici… », « Si tu savais ce que j'ai découvert, tu ferais comme moi… »), puis quatre répliques en interagissant avec le Professeur. Il évoque les traces et souvenirs au-delà de la faille, justifie ses actes envers Lucie et refuse de se rendre. Portrait `prof.png` sur chaque page et défilement 40 ms ; aucun commentaire de mécanique, récompense ou solution du téléporteur.
+
+L'accueil se place dans la file `entryMap` et attend le décor et la fin du trou noir. Autorisation de dialogue en lecture seule : mouvements bloqués pendant l'accueil, aucune bataille au seul acquittement. Lecture enregistrée personnellement et de façon idempotente dans `void_intro` ; accueil repris après interruption et absent après lecture/reconnexion ou K.O. du Professeur. Reset admin : `admin_void_intro=false` réarme uniquement la répétition, vraie lecture/progression/objet/badge conservés. Tables existantes, aucune migration ni modification d'un compte réel.
+
+Validation : 17 tests ciblés réussis/une recette SQL ignorée dans ce lot ; cinq recettes SQL dédiées réussies, dont acquittements concurrents, propriété et reset séparé. Navigateur SQL quatre tailles : accueil après arrivée, portrait, déplacement refusé et faux acquittement incapable de lancer le combat, vraies actions à travers les pages, reconnexion sans répétition, réarmement et nouvelle lecture après le vrai bouton admin. Fin complète, retour/vortex/chargement lent et unicité conservés, zéro erreur ; captures d'accueil inspectées. Lint/build `0cfa32e3afc5cdf5`, syntaxe/diff valides. Pas de téléphone physique ni suite globale relancés. Rapport `docs/VOID_ENDING.json`, entrée `professorDialogueUpdate`.
+
+Publication serveur/client 2026-10-27T04:33:52.172Z, client 8008dbf0e8b78ce3e69bb45eec5159f7b316255b, PID 2177170→2180551. Sauvegarde `/home/ubuntu/dev/backups/riftmon-professor-dialogue-2026-10-27T04-33-49-297Z`, checkpoint conservé, 0 expédition active relevée. Index/bundles et décors publics vérifiés, anciens assets hachés et Knov/api-test conservés.
+
 ## Retour en trou noir et portrait du Professeur — 27 octobre 2026
 
 Les deux cases de sortie de l'Arène oubliée déclenchent désormais le même passage en trou noir que le téléporteur : disparition locale, couverture noire pendant le décodage des deux couches du labo, puis réapparition en (432,496). Destination fixe contrôlée et sauvegardée par le serveur, mouvement verrouillé pendant le passage. Le serveur attend la couverture de départ avec un ACK `voidExit` borné à 1,8 s ; un ancien client sans gestionnaire conserve une sortie fonctionnelle. Réduction des animations : couverture du chargement sans rotation ; déconnexion : overlay supprimé et continuation ancienne annulée par identifiant de voyage. Vol ordinaire et cartes conservés.
@@ -4191,6 +4201,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 27 octobre 2026 — Professeur : deux répliques à l’arrivée après le trou noir et quatre avant combat, catalogue dédié, portrait et défilement. Lecture privée persistante, aucun combat à l’accueil et reset admin indépendant. 17 tests, cinq recettes SQL et navigateur quatre formats réussis ; publication serveur/client sauvegardée, voisins conservés. Rapport `docs/VOID_ENDING.json`, entrée `professorDialogueUpdate`.
 
 - 27 octobre 2026 — Arène oubliée : trou noir aussi à la sortie, retour sauvegardé dans le labo, couverture des ressources lentes, reprise sans ACK et annulation à la déconnexion. Portrait du Professeur réparé via le champ `imageName`. 23 tests, cinq recettes SQL et navigateur quatre formats réussis ; publication serveur/client avec sauvegarde et voisins conservés. Rapport `docs/VOID_ENDING.json`, entrée `returnAndPortraitUpdate`.
 

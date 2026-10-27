@@ -17,9 +17,11 @@ async function charge(id,receipt){return withTransaction(async c=>{const r=await
  await flag(c,id,key,'true');await flag(c,id,ending.key(r.progress,'charge'),r.state.charge+1);return{...r.state,changed:true,charge:r.state.charge+1};});}
 async function defeat(id){return withTransaction(async c=>{const r=await read(id,c,true);if(!r.owned||!r.state.available||!r.state.found||r.state.charge!==5)return false;
  if(r.state.defeated)return true;await flag(c,id,ending.key(r.progress,'defeated'),'true');return true;});}
+async function acknowledgeEntry(id){return withTransaction(async c=>{const r=await read(id,c,true);if(!r.owned||!ending.entryDialogue(r.progress))return false;
+ await flag(c,id,ending.key(r.progress,'intro'),'true');return true;});}
 async function badge(id){return withTransaction(async c=>{const r=await read(id,c,true);if(!r.state.available||!r.owned||!r.state.found||!r.state.defeated||r.state.claimed)return false;
  if(!r.state.replay){await c.execute('INSERT IGNORE INTO player_badges(user_id,badge_key)VALUES(?,?)',[id,ending.config.badge]);await flag(c,id,'true_ending','true');}
  await flag(c,id,ending.key(r.progress,'claimed'),'true');return true;});}
 async function decorateItems(id,items,c=dbPool){if(!items.some(i=>i.key===ending.config.item))return items;const r=await read(id,c);return items.filter(i=>i.key!==ending.config.item||r.state.found).map(i=>i.key===ending.config.item?{...i,...ending.itemView(r.state)}:i);}
-async function resetReplay(c,id){for(const[name,value]of Object.entries({replay:'true',found:'false',charge:0,defeated:'false',claimed:'false'}))await flag(c,id,'admin_void_'+name,value);await c.execute("DELETE FROM player_story_flags WHERE user_id=? AND flag_key LIKE 'admin_void_use_%'",[id]);}
-module.exports={read,pickup,charge,defeat,badge,decorateItems,resetReplay};
+async function resetReplay(c,id){for(const[name,value]of Object.entries({replay:'true',found:'false',charge:0,intro:'false',defeated:'false',claimed:'false'}))await flag(c,id,'admin_void_'+name,value);await c.execute("DELETE FROM player_story_flags WHERE user_id=? AND flag_key LIKE 'admin_void_use_%'",[id]);}
+module.exports={read,pickup,charge,acknowledgeEntry,defeat,badge,decorateItems,resetReplay};

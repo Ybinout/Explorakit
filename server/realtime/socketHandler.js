@@ -494,6 +494,13 @@ const socketHandler = (io) => {
                 pendingDialogue={...createDialogueAuthorization({name,map:player.currentmap,x:Math.floor(player.x/32),y:Math.floor(player.y/32)}),lucieDeparture:true};
                 socket.emit('dialogue',[...sentence,{entryMap:player.currentmap}]);return;
             }
+            if(player.currentmap===voidEnding.config.map){
+                const map=player.currentmap,progress=progression||await loadProgressState(userId);
+                if(!socket.connected||players[socket.id]!==player||player.currentmap!==map||player.inbattle||pendingDialogue)return;
+                const scene=voidEnding.entryDialogue(progress);if(!scene)return;
+                pendingDialogue={...createDialogueAuthorization({name:scene.name,map,x:Math.floor(player.x/32),y:Math.floor(player.y/32)}),arenaEntry:true,voidEntry:true};
+                socket.emit('dialogue',[scene.sentences,scene.name,{entryMap:map}]);return;
+            }
             const arenaScenes = require('../game/world/arenaScenes');
             if (arenaScenes.scenes.some(s => s.map === player.currentmap)) {
                 const map = player.currentmap;
@@ -1060,7 +1067,10 @@ const socketHandler = (io) => {
                 return;
             }
             if (authorization.arenaEntry) {
-                await require('../persistence/arenaSceneRepository').acknowledge(userId, dialogueName);
+                if(authorization.voidEntry){
+                    await require('../persistence/voidEndingRepository').acknowledgeEntry(userId);
+                    emitPlayerProgression(await loadProgressState(userId));
+                }else await require('../persistence/arenaSceneRepository').acknowledge(userId, dialogueName);
                 return;
             }
             if(authorization.voidFinale){
@@ -1220,8 +1230,8 @@ const socketHandler = (io) => {
                                 const name='professor_final_silence';pendingDialogue=createDialogueAuthorization({name,map:currentmap,x:target.x,y:target.y});
                                 socket.emit('dialogue',[[{text:claimed?'Tu récupères le Badge Violence.\n\nLe silence retombe. Cette fois, c’est terminé.':'Le Professeur reste au sol. Plus rien ne bouge.',typewriterMs:45}],name]);return;
                             }
-                            const name='professor_final';pendingDialogue={...createDialogueAuthorization({name,map:currentmap,x:target.x,y:target.y}),voidFinale:true};
-                            socket.emit('dialogue',[[{imageName:'prof.png',text:'Le Professeur : Tu m’as donc retrouvé…\n\nMe rendre ? Jamais. Tu ne me prendras rien de plus.',typewriterMs:45}],name]);return;
+                            const {name,sentences}=voidEnding.dialogues.challenge;pendingDialogue={...createDialogueAuthorization({name,map:currentmap,x:target.x,y:target.y}),voidFinale:true};
+                            socket.emit('dialogue',[sentences,name]);return;
                         }
                     }
                 }

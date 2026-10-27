@@ -10,7 +10,7 @@ test('SQL secret finale: ownership, unique discovery, concurrent five-charge cap
  const users=[],policy=require('../server/game/world/arenaTests'),owner=policy.isOwner;
  try{
   const a=await fixture(),b=await fixture();users.push(a,b);
-  assert.equal(await repo.pickup(a.id),false);assert.equal(await repo.defeat(a.id),false);assert.equal(await repo.badge(a.id),false);
+  assert.equal(await repo.pickup(a.id),false);assert.equal(await repo.defeat(a.id),false);assert.equal(await repo.badge(a.id),false);assert.equal(await repo.acknowledgeEntry(a.id),false);
   await flags(a.id,Object.fromEntries(require('../data/game/progression.json').storySteps.map(s=>[s.flag,'true'])));await flags(a.id,{professor_departure:'seen',lucie_departure:'seen'});
   const claims=await Promise.all([repo.pickup(a.id),repo.pickup(a.id)]);assert.equal(claims.filter(Boolean).length,1);
   let item=(await loadUserItems(a.id)).find(i=>i.key===ending.config.item);assert.equal(item.quantity,1);assert.equal(item.usable,false);assert.match(item.description,/0\/5/);
@@ -21,17 +21,19 @@ test('SQL secret finale: ownership, unique discovery, concurrent five-charge cap
   await Promise.all(Array.from({length:15},(_,i)=>repo.charge(a.id,'action-'+i)));assert.equal((await repo.read(a.id)).state.charge,5);
   const[[count]]=await db.execute("SELECT COUNT(*) n FROM player_story_flags WHERE user_id=? AND flag_key LIKE 'void_use_%'",[a.id]);assert.equal(count.n,5);
   item=(await loadUserItems(a.id)).find(i=>i.key===ending.config.item);assert.equal(item.name,'Téléporteur chargé');assert.equal(item.usable,true);assert.match(item.description,/5\/5/);
+  assert.equal(await repo.acknowledgeEntry(b.id),false);
+  const intros=await Promise.all([repo.acknowledgeEntry(a.id),repo.acknowledgeEntry(a.id)]);assert.equal(intros.filter(Boolean).length,1);assert.equal((await repo.read(a.id)).state.introduced,true);
   assert.equal(await repo.badge(a.id),false);assert(await repo.defeat(a.id));
   const rewards=await Promise.all([repo.badge(a.id),repo.badge(a.id)]);assert.equal(rewards.filter(Boolean).length,1);
   const normal=await progress.loadProgressState(a.id);assert(normal.badges.find(b=>b.key===ending.config.badge).earned);assert.equal(normal.flags.true_ending,'true');assert.equal(normal.capture.badgeCount,beforeProgress.capture.badgeCount);
   assert.equal((await progress.loadProgressState(b.id)).badges.find(b=>b.key===ending.config.badge)?.earned,false);
   const money=normal.money,quantity=item.quantity;policy.isOwner=u=>u?.id===a.id&&u?.username===a.username;
-  await require('../server/persistence/arenaTestRepository').rearm(a);let replay=await repo.read(a.id);assert(replay.state.replay);assert(!replay.state.found);assert.equal(replay.state.charge,0);assert.equal(replay.state.available,false);assert(!(await loadUserItems(a.id)).some(i=>i.key===ending.config.item));
+  await require('../server/persistence/arenaTestRepository').rearm(a);let replay=await repo.read(a.id);assert(replay.state.replay);assert(!replay.state.found);assert.equal(replay.state.charge,0);assert.equal(replay.state.introduced,false);assert.equal(replay.state.available,false);assert(!(await loadUserItems(a.id)).some(i=>i.key===ending.config.item));
   await flags(a.id,{admin_professor_departure:'seen',admin_lab_rescued:'true'});assert(await repo.pickup(a.id));
-  for(let i=0;i<5;i++)await repo.charge(a.id,'replay-'+i);assert(await repo.defeat(a.id));assert(await repo.badge(a.id));
+  for(let i=0;i<5;i++)await repo.charge(a.id,'replay-'+i);assert(await repo.acknowledgeEntry(a.id));assert(await repo.defeat(a.id));assert(await repo.badge(a.id));
   const after=await progress.loadProgressState(a.id);assert.equal(after.money,money);assert.equal((await loadUserItems(a.id)).find(i=>i.key===ending.config.item).quantity,quantity);
   const[[badges]]=await db.execute('SELECT COUNT(*) n FROM player_badges WHERE user_id=? AND badge_key=?',[a.id,ending.config.badge]);assert.equal(badges.n,1);
-  for(const k of ['void_found','void_charge','void_defeated','void_claimed','true_ending'])assert.equal(after.flags[k],normal.flags[k]);
+  for(const k of ['void_found','void_charge','void_intro','void_defeated','void_claimed','true_ending'])assert.equal(after.flags[k],normal.flags[k]);
  }finally{policy.isOwner=owner;for(const u of users)await db.execute('DELETE FROM users WHERE id=?',[u.id]);}
 });
 test('SQL admin reset also rearms the physical object before any permanent discovery and on repeated replays',{skip:!enabled},async()=>{

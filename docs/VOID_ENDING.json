@@ -12,7 +12,8 @@
     "confrontation": "Professor himself; first damaging move removes all 100 HP, status moves do not, no Pokémon XP/EV/money/capture rewards",
     "badge": "violence_badge, visible from the start as unearned, earned by manual Action on KO Professor; excluded from ordinary capture badge tiers",
     "persistence": "Per-account flags and unique item; user row locks, action receipts, five-charge cap; no schema migration",
-    "admin": "Private shadow replay state; normal story, inventory, money and earned badge preserved"
+    "admin": "Private shadow replay state; normal story, inventory, money and earned badge preserved",
+    "dialogues": "Two automatic arrival lines after the portal; four interaction lines before the confrontation, portrait and 40ms typewriter. Arrival acknowledgment is personal and rearmed by admin replay."
   },
   "assets": {
     "tool": "Built-in image_gen__imagegen",
@@ -406,6 +407,105 @@
         "css/app.bbefd3a4.css",
         "css/community.553e140c.css",
         "css/game.71754987.css",
+        "img/void_arena.81b98364.png",
+        "img/void-arena-wide-v1.d9b69b7c.webp",
+        "img/void-arena-mobile-v1.77b11be3.webp",
+        "img/professor-final-v1.8f99bbd8.png",
+        "img/route2_maison.3916584e.png",
+        "img/tour_rdc.e03e0f06.png",
+        "img/tour_etage1.8ec612be.png",
+        "img/tour_etage2.18713452.png",
+        "img/tour_etage3.ac05c302.png",
+        "img/maria-v2.564002d1.png",
+        "img/clement-v2.804e1f22.png"
+      ],
+      "embedded": [
+        "pnj/professor-ko-pixel-v1.png",
+        "pnj/clement-pixel-v2.png"
+      ],
+      "oldHashedAssetsRetained": true,
+      "sqlMigration": false,
+      "realAccountsModified": false
+    }
+  },
+  "professorDialogueUpdate": {
+    "dateParis": "2026-10-27",
+    "catalog": "data/game/void_dialogues.json",
+    "arrivalLines": 2,
+    "challengeLines": 4,
+    "tone": "Defiant Professor who believes his discoveries justify what happened to Lucie; no mechanics, rewards, team or teleporter solution explained.",
+    "entry": "Queued with entryMap and displayed after map decode and portal completion. Read-only authorized dialogue; movement blocked, no automatic battle. Acknowledged only on completion, no replay on reconnect; unavailable before the secret ending or after the Professor is KO.",
+    "persistence": "void_intro / admin_void_intro in existing story flags. Transactional, owner checks, idempotent acknowledgment. Reset clears only the replay introduction and preserves the normal one.",
+    "validation": {
+      "tests": {
+        "pass": 17,
+        "fail": 0,
+        "skip": 1,
+        "log": "/tmp/riftmon-professor-dialogue-tests.log"
+      },
+      "mysql": {
+        "pass": 5,
+        "fail": 0,
+        "skip": 0,
+        "log": "/tmp/riftmon-professor-dialogue-mysql.log"
+      },
+      "browser": {
+        "results": "/tmp/riftmon-professor-dialogue-browser/results.json",
+        "widths": [
+          320,
+          393,
+          844,
+          1365
+        ],
+        "automaticEntryAfterVortex": true,
+        "entryDoesNotStartBattleOrAllowMovement": true,
+        "wrongCompletionRejected": true,
+        "realClicksThroughFourChallengePages": true,
+        "introductionAcknowledgedAndNotRepeatedAfterReconnect": true,
+        "adminReplayIntroductionRestored": true,
+        "normalProgressRetained": true,
+        "errors": []
+      },
+      "build": "0cfa32e3afc5cdf5",
+      "lint": "/tmp/riftmon-professor-dialogue-lint.log",
+      "commands": [
+        "node --test tests/void-ending.test.js tests/arena-scenes.test.js tests/finale-replay.test.js tests/dialogue-portrait.test.js",
+        "DB_NAME=explorakit_test RUN_MYSQL_TESTS=1 NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file=.env --test tests/void-ending-mysql.test.js",
+        "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-professor-dialogue-dist RELEASE_SCREENSHOTS=/tmp/riftmon-professor-dialogue-browser node --env-file=.env scripts/validateVoidEndingBrowser.js"
+      ],
+      "limitations": [
+        "Chromium desktop/touch formats; no physical phone or full suite rerun for this focused dialogue change."
+      ]
+    },
+    "publication": {
+      "publishedAt": "2026-10-27T04:33:52.172Z",
+      "backup": "/home/ubuntu/dev/backups/riftmon-professor-dialogue-2026-10-27T04-33-49-297Z",
+      "sourceBaseline": "ffa0159d1c8b87b2eaea6c80f47409c1d6a3cd6c",
+      "sourceHashes": {
+        "server/game/world/voidEnding.js": "620cec76f9523bbf922b6510953fe990115c8c62b13ac6394ed2dac2fe2ebb24",
+        "server/persistence/voidEndingRepository.js": "a38c1ebf15eb986881c472fdfde420bbf09a910bf3c07f34a73b8c96481dd03d",
+        "server/realtime/socketHandler.js": "694638459978fc005798ee796b6de3871b1d9bfa5c6f2df43107c0a7ea40d319",
+        "data/game/void_dialogues.json": "481d3e2ec8b03a00c69e6c3bdfe355005a7d1671314413d7148493f1f1e57e4e"
+      },
+      "clientCommit": "8008dbf0e8b78ce3e69bb45eec5159f7b316255b",
+      "clientBuild": "0cfa32e3afc5cdf5",
+      "beforePid": "2177170",
+      "afterPid": "2180551",
+      "activeRuns": 0,
+      "checkpointSaved": true,
+      "serverRestarted": true,
+      "gracefulCheckpoint": true,
+      "neighborsUnchanged": true,
+      "publicAssets": [
+        "js/account.161ce126.js",
+        "js/app.3a3ab1a9.js",
+        "js/chunk-vendors.3cf1258a.js",
+        "js/community.00fadb68.js",
+        "js/game.a9385427.js",
+        "css/account.e4a31390.css",
+        "css/app.bbefd3a4.css",
+        "css/community.553e140c.css",
+        "css/game.df9c9ce6.css",
         "img/void_arena.81b98364.png",
         "img/void-arena-wide-v1.d9b69b7c.webp",
         "img/void-arena-mobile-v1.77b11be3.webp",
