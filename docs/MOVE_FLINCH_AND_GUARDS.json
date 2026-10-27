@@ -1,0 +1,123 @@
+{
+  "date": "2026-10-27",
+  "feature": "Vérification de Morsure et corrections des attaques face aux protections",
+  "diagnosis": {
+    "bite": "Aucune panne générale de dégâts, PP, animation ou apeurement reproduite. Ces comportements passaient déjà avant modification. Le catalogue et les traits prévoient Morsure physique Ténèbres, puissance 60, 25 PP et 30 % d’apeurement ; le talent Sérénité double le taux. Une cible ayant déjà joué ne perd pas sa prochaine action.",
+    "feedback": "Sans Limite et Écran Poudre pouvaient empêcher l’apeurement de Morsure sans le dire ; seules les répliques de Bluff étaient détaillées.",
+    "guards": "Ruse et Trou Dimensionnel restaient bloqués par les protections. Trou Dimensionnel ne traversait pas Clone. Hantise/Revenant ignoraient les gardes d’équipe mais les laissaient actifs."
+  },
+  "implementation": {
+    "feedback": "Annonce de Sans Limite/Écran Poudre étendue aux capacités d’apeurement concernées. Dégâts, chances et règles d’immunité conservés ; aucun message de faux échec quand le tirage aléatoire ne déclenche simplement pas l’effet.",
+    "sharedRules": "moveGuards.js mutualise les exceptions. Ruse/Trou Dimensionnel/Hantise/Revenant ignorent puis enlèvent les protections concernées après une frappe valide ; compteur de protection réinitialisé, Ténacité conservée. Échec, raté, incapacité et immunité ne suppriment pas la garde.",
+    "substitute": "Trou Dimensionnel inflige les dégâts au Pokémon sans endommager le clone. Les autres attaques de morsure gardent leurs règles ordinaires, et les capacités sonores/Infiltration conservent leur contournement existant.",
+    "planner": "Même contournement sur les copies de projection de l’IA ; deux recettes indépendantes confrontent PV et état du clone au vrai moteur. Aucune nouvelle information privée ou action soumise lue.",
+    "scope": "Trois modes et PvP via moteur commun. Données des attaques, puissance, apprentissage/CS, cartes, équipes, ressources client et comptes réels inchangés. Aucune migration SQL."
+  },
+  "references": [
+    {
+      "url": "https://raw.githubusercontent.com/smogon/pokemon-showdown/master/data/moves.ts",
+      "description": "Source primaire Showdown : Morsure, Crocs, Ruse, Trou Dimensionnel et règles des protections."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/smogon/pokemon-showdown/master/sim/battle-actions.ts",
+      "description": "Source primaire : précision/immunité avant suppression d’Abri et gardes d’équipe."
+    }
+  ],
+  "validation": {
+    "targeted": {
+      "passed": 251,
+      "failed": 0,
+      "skipped": 0,
+      "newTests": 54,
+      "command": "node --test tests/attack-regressions.test.js tests/ability-reactions.test.js tests/move-audit.test.js tests/battle-engine.test.js tests/ability-system.test.js tests/ability-audit-regression.test.js tests/move-behavior-audit.test.js tests/automatic-move-regressions.test.js tests/two-turn-moves.test.js tests/battle-order.test.js tests/battle-field.test.js",
+      "checks": "26 capacités d’apeurement, 100 tirages régulièrement espacés donnant 30/60 succès pour Morsure/Sérénité, ordre d’action, PP, talents, clone/Abri, 20 cas de gardes et conservation sur raté/immunité/sommeil. Vraie file deux joueurs Rift/Colosseum sur deux tours."
+    },
+    "regression": {
+      "passed": 225,
+      "failed": 0,
+      "skipped": 0,
+      "newOracleTests": 2,
+      "command": "node --test tests/choice-items.test.js tests/knock-off.test.js tests/expedition-strategy.test.js tests/transform.test.js tests/human-trainer-ai.test.js tests/human-trainer-model.test.js tests/human-trainer-items.test.js tests/human-trainer-finishing.test.js tests/move-selection.test.js tests/drift-runtime.test.js tests/battle-outcome.test.js tests/teleport.test.js tests/colosseum-variety.test.js tests/colosseum-ascension.test.js"
+    },
+    "mysql": {
+      "passed": 31,
+      "failed": 0,
+      "skipped": 0,
+      "newTests": 10,
+      "database": "explorakit_test",
+      "command": "DB_NAME=explorakit_test RUN_MYSQL_TESTS=1 NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file=.env --test --test-concurrency=1 tests/attack-regressions-mysql.test.js tests/choice-items-mysql.test.js tests/knock-off-mysql.test.js tests/move-selection-mysql.test.js tests/teleport-mysql.test.js",
+      "checks": "Vrais combats sauvage/dresseur : Morsure avant/après, avec/sans apeurement, Ruse contre Abri et Trou Dimensionnel après Clone. PP/PV/sauvegarde SQL et fin unique. Choix, Sabotage, Téléport et IA conditionnelle conservés ; comptes jetables nettoyés."
+    },
+    "baseline": {
+      "commit": "8be87fb4d2d3442e7ac91a010a0272ecb57722bc",
+      "passed": 33,
+      "expectedFailures": 20,
+      "command": "node --test tests/attack-regressions.test.js (version initiale à 53 cas, avant le dernier cas de conservation des gardes)",
+      "checks": "18 échecs de protections/clone et deux annonces de talents absentes reproduits. Les tests de fonctionnement propre de Morsure passaient déjà. Ces mêmes cas passent après patch."
+    },
+    "browser": {
+      "modes": [
+        "adventure",
+        "colosseum",
+        "rift"
+      ],
+      "move": "Bite",
+      "realBattleSockets": true,
+      "unchangedClient": true,
+      "damageAndPp": true,
+      "biteAnimation": true,
+      "actualFlinchPreventsAction": true,
+      "noStaleFlinchNextRound": true,
+      "viewports": 4,
+      "errors": [],
+      "out": "/tmp/riftmon-attacks-browser",
+      "command": "DB_TEST_NAME=explorakit_test node --env-file=.env scripts/validateAttackRegressionsBrowser.js",
+      "checks": "Client compilé existant, vraies sockets et dégâts/PP, groupe de mâchoires SVG présent, action adverse réellement bloquée puis possible au tour suivant. Trois modes/quatre tailles, 15 captures, zéro erreur. Captures Morsure Aventure et Colosseum 393 inspectées."
+    },
+    "movesAudit": {
+      "command": "npm run audit:moves",
+      "executionChecks": 2532,
+      "executionFailures": 0,
+      "unknownEffectKinds": 0,
+      "unsupportedSpecialCases": 0,
+      "partialMoves": 0
+    },
+    "referenceCheck": "node scripts/generatePokemonReference.js --check : valide ; 633 capacités et 223 talents.",
+    "syntaxAndDiff": "Valides",
+    "postDeployment": {
+      "sourceHashesMatch": true,
+      "serverErrorCount": 0,
+      "testUsersRemaining": 0
+    },
+    "limits": "Panne particulière de Morsure non reproduite faute de contexte détaillé ; aucune garantie exhaustive de conformité de toutes les 633 attaques. Vérifications sémantiques ciblées et smoke audit distingués. Pas de téléphone physique, nouveau build client ou suite globale revendiqués."
+  },
+  "deployment": {
+    "publishedAt": "2026-10-27T16:31:10.459Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-attacks-2026-10-27T16-31-09-064Z",
+    "sourceBaseline": "8be87fb4d2d3442e7ac91a010a0272ecb57722bc",
+    "sourceHashes": {
+      "server/game/abilities/abilityReactions.js": "65c8daded75553d036f34da83bd05ee355f6b2f00585b993e37238ad46db0ebd",
+      "server/game/battle/battleEngine.js": "e1241754e2a74ef46ae8dc4f65c3a3e18c5711c1243fef119dc9bd61ab71a7a6",
+      "server/game/battle/humanTrainerModel.js": "ab56cf334d8d72d28a10cfbf1b715b200a8874e75c2692a6a7fcd49a49930a9c",
+      "server/game/battle/moveGuards.js": "1e68d49005fdd2662749fb8685db2d9695e56a05443a52df8d4949b3788791ee"
+    },
+    "clientCommit": "7b9ab600ebe0bf328327d734243a516cefecefb2",
+    "clientBuild": "7a1dc730ab97e07a",
+    "clientUnchanged": true,
+    "publicAssets": [
+      "js/app.8daaaac3.js",
+      "js/game.fc8fe9ba.js",
+      "css/app.bbefd3a4.css",
+      "css/game.2a085063.css"
+    ],
+    "beforePid": "2327884",
+    "afterPid": "2334709",
+    "serverRestarted": true,
+    "checkpointSaved": true,
+    "gracefulCheckpoint": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "sqlMigration": false,
+    "realAccountsModified": false
+  }
+}

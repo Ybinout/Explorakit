@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Morsure, apeurement et attaques qui brisent les protections — 27 octobre 2026
+
+Morsure vérifiée sans panne générale reproduite : dégâts Ténèbres physiques, un PP, 30 % d’apeurement (60 % avec Sérénité), première/deuxième action, talents et animation. Ces règles passaient déjà avant patch. Sans Limite/Écran Poudre signalent désormais pourquoi l’apeurement est empêché, également pour les autres capacités concernées ; probabilités et dégâts conservés.
+
+Erreurs reproduites puis corrigées : Ruse et Trou Dimensionnel traversent et enlèvent Abri/les gardes ; Trou Dimensionnel touche le porteur sans abîmer son clone. Hantise/Revenant retirent aussi les gardes d’équipe. Règles communes `moveGuards.js`, reprises sur les copies du modèle IA ; Ténacité conservée, aucun retrait sur raté, incapacité ou immunité. Données des capacités/puissances/apprentissages, équipes, cartes et client inchangés, aucune migration ou mutation de compte réel.
+
+Validation : 476 tests ciblés et 31 recettes MySQL réussis, zéro échec/ignoré ; 56 tests unitaires (deux oracles inclus) et dix SQL nouveaux. Avant patch, 18 cas de protection/clone et deux annonces échouaient ; les contrôles Morsure passaient. Les 26 capacités d’apeurement, ordre, PP, statut, talents et deux tours réels d’expédition sont couverts. Vrais combats SQL sauvage/dresseur et navigateur trois modes/quatre tailles, groupe SVG Morsure, PV/PP et retour de l’action adverse au tour suivant ; zéro erreur et captures inspectées. Audit 2 532 exécutions, référence, syntaxe/diff valides. Pas de téléphone physique, nouveau build client, conformité exhaustive des 633 capacités ou suite globale revendiqués. Rapport : `docs/MOVE_FLINCH_AND_GUARDS.json`.
+
+Publication serveur seule 2026-10-27T16:31:10.459Z, PID 2327884→2334709. Sauvegarde `/home/ubuntu/dev/backups/riftmon-attacks-2026-10-27T16-31-09-064Z`, checkpoint conservé et 0 expédition active relevée. Client 7b9ab600ebe0bf328327d734243a516cefecefb2/build `7a1dc730ab97e07a`, index/bundles et Knov/api-test inchangés. Empreintes source identiques, aucun compte de recette restant et zéro erreur serveur relevée après publication.
+
 ## Objets Choix — attaques grisées et choix refusé sans perdre de tour — 27 octobre 2026
 
 Les bonus et le verrou moteur fonctionnaient déjà, mais les instantanés Aventure sauvage/dresseur/PvP ne transmettaient pas `usableMoveIndexes` : le client permettait de sélectionner les autres attaques. Le champ compatible existant est maintenant transmis à chaque synchronisation. Contrôle partagé des index dans les invites Aventure et les expéditions ; commande incompatible réinvitée sans consommer tour/PP, changer le délai ou recalculer la décision adverse engagée. Aucun nouveau client nécessaire.
@@ -4275,6 +4285,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 27 octobre 2026 — Morsure vérifiée sans panne générale reproduite ; blocages de talents mieux signalés. Ruse/Trou Dimensionnel/Hantise/Revenant corrigés face aux protections et Clone, modèle IA cohérent. 476 tests, 31 recettes SQL et navigateur trois modes/quatre tailles réussis ; serveur publié avec sauvegarde, client/voisins conservés. Rapport `docs/MOVE_FLINCH_AND_GUARDS.json`.
 
 - 27 octobre 2026 — Objets Choix : restrictions de sélection transmises au client Aventure/PvP, commandes invalides refusées sans perte de tour et Lutte cohérente si le choix est épuisé. Trois modes, bonus/switch/Sabotage préservés. 310 tests, 21 recettes SQL et navigateur trois modes/quatre formats réussis ; serveur publié avec sauvegarde, client/voisins conservés. Rapport `docs/CHOICE_ITEM_SELECTION.json`.
 

@@ -6,6 +6,7 @@ const { abilityFlag } = require('../abilities/abilityRules');
 const twoTurn = require('./twoTurnMoves');
 const turnActions = require('./turnActions');
 const battleField = require('./battleField');
+const moveGuards = require('./moveGuards');
 const drift = require('../drift/driftEffects');
 const {
     consumeMovePp,
@@ -2840,7 +2841,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
     const helper=reactionHelpers({attacker,attackerSide,defenderSide});
     const hit=(amount,critical=false,resistBerry=null) => {
         const result=applyDamage(defender,amount,{allowEndure:true,attacker,battleState,
-            bypassSubstitute:hasPassiveAbility(attacker,'Infiltrator')||getMoveFlags(move).sound});
+            bypassSubstitute:moveGuards.bypassesSubstitute(attacker,move)});
         if (resistBerry && result.damageToHp > 0 && defender.heldItem === resistBerry) {
             const name = getItemDefinition(resistBerry).name;
             consumeBerry(defender,battleState,moveResult.messages);
@@ -3067,7 +3068,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         return moveResult;
     }
 
-    if (moveTargetsPokemon && !chargeRule?.breaksProtect && isMoveBlockedByProtect(defender, defenderSide, move,attacker)) {
+    if (moveTargetsPokemon && !moveGuards.breaksProtection(move) && isMoveBlockedByProtect(defender, defenderSide, move,attacker)) {
         moveResult.blocked = true;moveResult.protected=true;
         moveResult.messages.push(`${getPokemonDisplayName(defender)} bloque l'attaque.`);
         if (safeNumber(defenderData.contactDamageFraction, 0) > 0 && damageClass !== 'status' && reactions.contact(attacker,move) && !hasPassiveAbility(attacker,'Magic Guard')) {
@@ -3120,7 +3121,6 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         return moveResult;
     }
 
-    if (chargeRule?.breaksProtect) defenderData.protect = false;
     if (['Brick Break','Psychic Fangs'].includes(move.ename) && getPokemonTypes(defender).every(type=>getEffectiveness(move.type,type)>0)) {
         if(battleField.clearScreens(defenderSide,['reflectTurns','lightScreenTurns','auroraVeilTurns'])) moveResult.messages.push(`${move.ename==='Brick Break'?'Casse-Brique':'Psycho-Croc'} brise les écrans adverses !`);
     }
@@ -3303,6 +3303,9 @@ function executeAttack(attackName, attacker, defender, options = {}) {
     // Successful explosions sacrifice before post-move healing/reactions.
     finishSelfDestruct(attacker,moveResult);
 
+    if (moveGuards.breaksProtection(move) && moveResult.hits>0 && moveResult.effectiveness>0 && moveGuards.clearProtection(defender,defenderSide)) {
+        moveResult.messages.push(`${move.ename==='Feint'?'Ruse':move.ename==='Hyperspace Hole'?'Trou Dimensionnel':move.ename==='Phantom Force'?'Hantise':'Revenant'} brise la protection adverse !`);
+    }
     const effectContext = {
         attacker,
         defender,
@@ -3344,7 +3347,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         const targetsEnemy=!callsMove && !['self','self_side','field','all','opponent_side'].includes(effect.target||moveTarget);
         if(targetsEnemy && damageClass!=='status' && !moveResult.damage)continue;
         if(targetsEnemy && (defenderData.substituteHp>0 || moveResult.substituteDamage>0)
-            && !hasPassiveAbility(attacker,'Infiltrator') && !getMoveFlags(move).sound)continue;
+            && !moveGuards.bypassesSubstitute(attacker,move))continue;
         if(targetsEnemy && hasPassiveAbility(attacker,'Infiltrator'))effectContext.ignoreSafeguard=true;
         if(targetsEnemy && damageClass!=='status' && effect.chance!=null && !ignoresDefenderAbility(attacker,defender) && hasPassiveAbility(defender,'Shield Dust'))continue;
         const resolved=damageClass!=='status' && effect.chance!=null && hasPassiveAbility(attacker,'Serene Grace') ? {...effect,chance:Math.min(1,effect.chance*2)} : effect;

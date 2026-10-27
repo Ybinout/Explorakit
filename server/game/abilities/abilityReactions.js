@@ -104,16 +104,16 @@ function afterMove(ctx,h,messages) {
 function secondaryEffects(ctx,h,messages) {
     const {attacker:a,defender:d,move,result,battleState:state,attackerSide,defenderSide}=ctx;
     if (!(result.damage + (result.substituteDamage || 0) > 0)) return;
+    const effects=traits.moves[move.ename]?.secondaries || [];
     if (hasAbility(a,'Sheer Force')) {
-        if (move.ename === 'Fake Out' && result.damage > 0 && alive(d)) messages.push('Sans Limite renforce Bluff mais supprime son effet d’apeurement.');
+        if (effects.some(e=>e.volatileStatus==='flinch') && result.damage > 0 && alive(d)) messages.push('Sans Limite renforce l’attaque mais supprime son effet d’apeurement.');
         return;
     }
-    const effects=traits.moves[move.ename]?.secondaries || [];
     for(const secondary of effects) {
         const recipient=secondary.self?a:d;
         if (!alive(recipient) || (recipient===d && !(result.damage>0))) continue;
         if (recipient===d && !ignoresDefenderAbility(a,d) && hasAbility(d,'Shield Dust')) {
-            if (move.ename === 'Fake Out') messages.push(`Écran Poudre de ${label(d)} empêche l’apeurement.`);
+            if (secondary.volatileStatus === 'flinch') messages.push(`Écran Poudre de ${label(d)} empêche l’apeurement.`);
             continue;
         }
         if(Math.random()>=Math.min(1,(secondary.chance||100)/100*(hasAbility(a,'Serene Grace')?2:1)))continue;

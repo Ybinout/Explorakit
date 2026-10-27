@@ -4,6 +4,7 @@ const engine=require('./battleEngine'),resources=require('./battleResources');
 const held=require('../items/heldItems'),abilities=require('../abilities/abilityEngine');
 const traits=require('../../../data/game/ability_move_traits.gen7.json').moves;
 const twoTurn=require('./twoTurnMoves');
+const moveGuards=require('./moveGuards');
 const clamp=(x,l,h)=>Math.max(l,Math.min(h,x)),alive=p=>p.currentHp>0;
 const ability=p=>abilities.getAbilityName(p);
 const types=p=>p.__battle?.tempTypes?.length?p.__battle.tempTypes:p.__battle?.formTypes?.length?p.__battle.formTypes:[p.type1,p.type2].filter(Boolean);
@@ -52,8 +53,8 @@ function applyStatus(p,status,source,side,field) {
     activate(p,source,field);return true;
 }
 function damageTarget(p,amount,source,move,field) {
-    const before=p.currentHp,sub=p.__battle.substituteHp||0,flags=abilities.getMoveFlags(move);
-    if(sub>0&&ability(source)!=='Infiltrator'&&!flags.sound) {
+    const before=p.currentHp,sub=p.__battle.substituteHp||0;
+    if(sub>0&&!moveGuards.bypassesSubstitute(source,move)) {
         p.__battle.substituteHp=Math.max(0,sub-amount);return {hp:0,total:Math.min(sub,amount)};
     }
     const hits=traits[move.ename]?.multihit;
@@ -96,7 +97,8 @@ function cast(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMoved=fa
         if(['Fake Out','First Impression'].includes(move.ename)&&p.__battle.activeMoveActions>0)raw=0;
         if(move.ename==='False Swipe')raw=Math.min(raw,Math.max(0,other.currentHp-1));
         if(move.ename==='Focus Punch'&&p.__battle.lastDamageTurn===state.turn&&p.__battle.lastDamageTaken>0)raw=0;
-        const guardChance=guard.get(other)||0;
+        if(moveGuards.breaksProtection(move)&&raw>0&&hitChance>0){guard.delete(other);moveGuards.clearProtection(other,otherSide);}
+        const guardChance=moveGuards.breaksProtection(move)?0:guard.get(other)||0;
         const hit=damageTarget(other,raw*hitChance*(1-guardChance),p,move,state);
         inflicted=hit.total;useful=inflicted>0;
         if(move.ename==='Knock Off'&&hit.hp>0)engine.knockOffHeldItem(p,other);

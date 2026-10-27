@@ -24,7 +24,9 @@ for(const [label,id,move,props,foeMove,foeProps,first,weather] of [
     ['Haze through Substitute',110,'Haze',{__battle:{statStages:{defense:2}}},'Splash',{__battle:{statStages:{attack:4},substituteHp:100}},true],
     ['Rain Dance through Substitute',61,'Rain Dance',{},'Splash',{__battle:{statStages:{},substituteHp:100}},true],
     ['no secondary on an immune target',112,'Mud Shot',{},'Splash',{type1:'Flying'},true],
-    ['healing blocked',143,'Recover',{currentHp:100,__battle:{statStages:{},healBlockTurns:2}},'Splash',{},true]
+    ['healing blocked',143,'Recover',{currentHp:100,__battle:{statStages:{},healBlockTurns:2}},'Splash',{},true],
+    ['Feint breaks Protect',143,'Feint',{},'Protect',{},false],
+    ['Hyperspace Hole bypasses Substitute',143,'Hyperspace Hole',{},'Substitute',{},false]
 ]) test(`turn projection agrees with actual item/HP mechanics: ${label}`,()=>{
     const a=mon(id,move,props),b=mon(143,foeMove,foeProps),field=engine.createBattleState();if(weather)field.weather={kind:weather,turns:4};
     const ctx={field,ownSide:field.sides.player,enemySide:field.sides.enemy,chance:()=>1,
