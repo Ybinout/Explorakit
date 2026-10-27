@@ -2,6 +2,7 @@
 // All evaluation runs on snapshots; the orchestrators commit before prompting.
 const engine = require('./battleEngine');
 const resources = require('./battleResources');
+const selection = require('./moveSelection');
 const legacy = require('../drift/colosseumAI');
 const model = require('./humanTrainerModel');
 const { getMoveFlags, transformMoveForAbility, getAbilityAccuracyMultiplier, ignoresDefenderAbility, resolveMoveAbilityImmunity } = require('../abilities/abilityEngine');
@@ -20,9 +21,9 @@ const LEVEL_DAMAGE = new Set(['Seismic Toss','Night Shade']);
 const PUBLIC_VOLATILES = ['statStages','tempTypes','formTypes','abilityForm','tauntTurns','disableTurns',
     'disabledMove','encoreTurns','encoreMove','leechSeedSource','foresight','miracleEye','substituteHp',
     'trappedTurns','ingrain','chargeMove','chargeTurns','semiInvulnerable','rechargeMove','bideTurns',
-    'activeMoveActions','laserFocusTurns','soundBlockedTurns','lastMoveFailed','lastMoveResultTurn','protectStreak','protectionStreak','protectionTurn','transformed','transformSpeciesId','transformSpriteId'];
+    'activeMoveActions','stockpileCount','laserFocusTurns','soundBlockedTurns','lastMoveFailed','lastMoveResultTurn','protectStreak','protectionStreak','protectionTurn','transformed','transformSpeciesId','transformSpriteId'];
 const OWN_VOLATILES = [...PUBLIC_VOLATILES,'sleepTurns','choiceMove','unburden','abilitySuppressed','flashFireBoost','healBlockTurns',
-    'embargoTurns','confusionTurns','infatuationTurns','toxicCounter','activeTurns','loafing','stockpileCount','consumedHeldItem',
+    'embargoTurns','confusionTurns','infatuationTurns','toxicCounter','activeTurns','loafing','consumedHeldItem',
     'lastDamageTaken','lastDamageTurn','lastDamageSource','lastDamageClass','lastActionTurn','protectionStreak','protectionTurn','grounded'];
 const STATS=['attack','defense','specialAttack','specialDefense','speed','accuracy','evasion','critical'];
 function battleView(data={},own=false) {
@@ -64,12 +65,14 @@ function ownPokemon(p) {
         passiveAbility:p.passiveAbility,heldItem:p.heldItem,__battle:battleView(p.__battle,true)};
     view.abilities = [...p.abilities]; view.movePp = [...(p.movePp || p.abilities.map(resources.getMaxMovePp))];
     view.__battle.sleepTurns ??= 1;
+    view.__battle.activeMoveActions=selection.entryActions(p);
     return view;
 }
 function publicField(field) {
     // In particular: no turnActions, trainerTeam, callbacks or pending payloads.
     const result = engine.createBattleState();
     result.turn=field.turn;
+    result.battleType=['wild','trainer','arena','pvp'].includes(field.battleType)?field.battleType:null;
     for(const key of ['weather','terrain','field'])for(const name of Object.keys(result[key]||{})) {
         const value=field[key]?.[name];if(value===null||['string','number','boolean'].includes(typeof value))result[key][name]=value;
     }
@@ -90,6 +93,7 @@ function moves(p, field) {
     let legal = legacy.legalIndexes(p, field);
     const unblocked=legal.filter(i=>!(p.__battle.soundBlockedTurns>0 && getMoveFlags(moveByName(p.abilities[i])).sound));
     if(unblocked.length)legal=unblocked;
+    legal=selection.preferMoves(p,field,legal,{privateKnown:Object.hasOwn(p,'heldItem')});
     const result=legal.length ? legal.map(number=>({number,move:moveByName(p.abilities[number])})) : [{number:-1,move:moveByName('Struggle')}];
     cache.set(p,result);return result;
 }
@@ -361,7 +365,13 @@ function analyse({team,opponentTeam,field,ownSide,enemySide,memory={},round=1,sk
 function chooseAction(options) {
     const {team,field,memory={},round=1,skill=1}=options;
     if(resources.getForcedMove(team[0]))return {action:'attack',number:resources.getUsableMoveIndexes(team[0],field)[0]};
-    const {candidates}=analyse(options);if(!candidates.length)return {action:'attack',number:-1};
+    const analysis=analyse(options);
+    // If every remaining move fails a known condition (e.g. Choice-locked
+    // Bluff), a legal switch is preferable to repeating that failure forever.
+    const viable=analysis.candidates.filter(c=>c.action==='change'||c.number<0
+        ||!selection.failureReason(team[0],moveByName(team[0].abilities[c.number]),field));
+    const candidates=viable.length?viable:analysis.candidates;
+    if(!candidates.length)return {action:'attack',number:-1};
     const best=candidates[0];
     // Mix only credible close choices. No intentional throw, arbitrary immunity
     // attack or second lottery when an invalid player command is retried.

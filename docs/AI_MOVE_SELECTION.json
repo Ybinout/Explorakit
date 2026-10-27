@@ -1,0 +1,98 @@
+{
+  "date": "2026-10-27",
+  "feature": "Éviter les répétitions de capacités inutilisables dans les choix automatiques",
+  "diagnosis": [
+    "La sélection sauvage tirait parmi les capacités ayant des PP, y compris Bluff après sa première action.",
+    "L’IA humaine pénalisait Bluff/Escarmouche au score, sans les retirer des hypothèses.",
+    "Un ancien état avec lastActionTurn positif mais sans activeMoveActions était reconnu comme déjà joué par le moteur, mais comme une première action par l’évaluation IA. Cas reproduit avec Bluff / Griffe."
+  ],
+  "implementation": {
+    "sharedSelection": "server/game/battle/moveSelection.js : préférence pour des capacités compatibles avec l’état courant, à partir des seuls index autorisés existants. Utilisé par sauvage Aventure, choix automatiques Rift/Colosseum et simulations de l’IA humaine.",
+    "entryMoves": [
+      "Fake Out",
+      "First Impression",
+      "Mat Block"
+    ],
+    "otherOwnConditions": [
+      "Sleep Talk / Snore sans sommeil, sauf Comatose",
+      "Spit Up / Swallow sans Stockage",
+      "Fling sans objet connu",
+      "Natural Gift sans baie appropriée",
+      "Burn Up sans type Feu, sauf Protéen actif",
+      "Teleport hors rencontre sauvage",
+      "Provoc, Entrave, Encore et blocage du son"
+    ],
+    "oldStates": "Même déduction que le moteur : activeMoveActions explicite prioritaire, sinon lastActionTurn > 0 signifie qu’une action a déjà été tentée. Un vrai switch-in remet l’éligibilité à zéro ; le remplacement du seul adversaire ne la remet pas.",
+    "fallback": "S’il n’existe aucune attaque compatible mais un changement évalué possible, l’IA privilégie ce changement. Sans alternative, les index restants sont conservés ; pas de Lutte gratuite tant qu’une capacité conserve des PP. Objets Choix, réserves de champions, charge/recharge/Patience et contrôle des vraies actions du joueur conservés.",
+    "fairness": "Choix toujours engagé avant la saisie humaine. Aucun accès supplémentaire à l’action soumise, aux PP/IV/EV/objets/talents privés adverses. Stockage et type de combat sont des informations publiques ; objet/talent inconnu dans une hypothèse adverse reste inconnu, pas considéré absent.",
+    "scope": "Trois modes. Moteur de résolution, dégâts, règles des capacités, données, équipes et client inchangés. Aucune migration ni modification de compte réel."
+  },
+  "validation": {
+    "targeted": {
+      "passed": 72,
+      "failed": 0,
+      "skipped": 0,
+      "newTests": 13,
+      "command": "node --test tests/move-selection.test.js tests/human-trainer-ai.test.js tests/human-trainer-model.test.js tests/human-trainer-items.test.js tests/human-trainer-finishing.test.js tests/teleport.test.js"
+    },
+    "regression": {
+      "passed": 120,
+      "failed": 0,
+      "skipped": 0,
+      "command": "node --test tests/drift-runtime.test.js tests/battle-order.test.js tests/move-behavior-audit.test.js tests/sleep-status.test.js tests/colosseum-variety.test.js tests/colosseum-ascension.test.js"
+    },
+    "mysql": {
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "newTests": 2,
+      "database": "explorakit_test",
+      "command": "DB_NAME=explorakit_test RUN_MYSQL_TESTS=1 NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file=.env --test tests/move-selection-mysql.test.js tests/teleport-mysql.test.js",
+      "checks": "Cinq tours réellement résolus par orchestrateurs Aventure sauvage et dresseur, disparition volontaire du compteur récent après chaque action pour simuler un ancien état. Aucun nouveau Bluff à partir du deuxième tour ; PP et sauvegarde conservés. Sept cas Téléport toujours valides."
+    },
+    "baseline": {
+      "commit": "596d24338ffb884cb4321f85b625bf041a59f9c6",
+      "expectedFailures": 3,
+      "comparison": "Rechargement isolé depuis git show HEAD des trois modules modifiés avant le patch ; trois recettes échouent : ancien historique dresseur et répétitions sauvages Rift/Colosseum. Après patch, mêmes recettes réussies."
+    },
+    "additionalChecks": [
+      "Réinitialisation à une vraie entrée et absence de réinitialisation sur arrivée adverse",
+      "Objets Choix : switch ou contrainte maintenue sans Lutte gratuite",
+      "Exception Comatose et Protean actif/supprimé",
+      "Hypothèses publiques sans lecture des objets/talents/PP ni intentions cachés",
+      "Choix conservé sur saisie invalide et reprise/checkpoint",
+      "Budget existant d’évaluation six contre six toujours respecté"
+    ],
+    "syntaxAndDiff": "Valides",
+    "limits": "Tests moteur/orchestrateurs/SQL locaux ; pas de nouvelle recette navigateur ou téléphone physique ni de suite globale revendiqués. Le client et son build existant sont conservés."
+  },
+  "deployment": {
+    "publishedAt": "2026-10-27T15:26:44.647Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-ai-selection-2026-10-27T15-26-40-247Z",
+    "sourceBaseline": "596d24338ffb884cb4321f85b625bf041a59f9c6",
+    "sourceHashes": {
+      "server/game/battle/humanTrainerAI.js": "441d762073869c90bee95ce56f4e6054949a2d444cbc3bff4e00c0e7ea624ff7",
+      "server/game/battle/wildBattle.js": "528bc81bb2ef7442c5ca7e4e55b4c2119cde8c8347190be9957349ba9e04af3e",
+      "server/game/drift/driftBattle.js": "948ed75d905fb0ddd63c139e292364c3181c2f148e1839125725ce351090f32d",
+      "server/game/battle/moveSelection.js": "73e7c95fd2a66720068d89e5a0bcf35fa75a7819636d0c622f290b03eea916e0"
+    },
+    "clientCommit": "7b9ab600ebe0bf328327d734243a516cefecefb2",
+    "clientBuild": "7a1dc730ab97e07a",
+    "clientUnchanged": true,
+    "publicAssets": [
+      "js/app.8daaaac3.js",
+      "js/game.fc8fe9ba.js",
+      "css/app.bbefd3a4.css",
+      "css/game.2a085063.css"
+    ],
+    "beforePid": "2302705",
+    "afterPid": "2316388",
+    "serverRestarted": true,
+    "checkpointSaved": true,
+    "gracefulCheckpoint": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "sqlMigration": false,
+    "realAccountsModified": false
+  }
+}

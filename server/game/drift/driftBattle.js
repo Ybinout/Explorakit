@@ -5,6 +5,7 @@ const presentation = require('../battle/presentationState');
 const { randomUUID } = require('node:crypto');
 const engine = require('../battle/battleEngine');
 const { canFleeWildBattle } = require('../battle/wildEscape');
+const {preferMoves}=require('../battle/moveSelection');
 const effects = require('./driftEffects');
 const { getUsableMoveIndexes, getItemDefinition, getForcedMove, selectedMoveName } = require('../battle/battleResources');
 const { clearBattleTransientState, buildBattleSummary, createBattleSummaryTracker } = require('../battle/battleOutcome');
@@ -124,7 +125,7 @@ class DriftBattle {
             return trainerTactics.chooseAction(p.equipe,this.active(0),this.state,this.aiMemory,this.round,this.a.equipe.pokemons,skill);
         }
         const active = p.equipe.pokemons[0];
-        const usable = active ? getUsableMoveIndexes(active, this.state) : [];
+        const usable = active ? preferMoves(active, this.state) : [];
         const damaging = usable.filter(i => engine.getMoveByName(active.abilities[i])?.power > 0);
         const pool = damaging.length ? damaging : usable;
         return { action: 'attack', number: pool.length ? pool[Math.floor(this.random()*pool.length)] : -1 };

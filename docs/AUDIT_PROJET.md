@@ -1,5 +1,17 @@
 # Audit technique et mémoire de RiftMon
 
+## IA — capacités conditionnelles et répétitions évitées — 27 octobre 2026
+
+Deux chemins concernés : sauvages qui retiraient au hasard Bluff après sa première utilisation, et IA humaine qui conservait cette attaque dans les candidats malgré sa pénalité. Reproduction supplémentaire sur ancien état : `lastActionTurn>0` sans `activeMoveActions` était compris différemment par le moteur et l’IA. Normalisation des instantanés propres selon la même règle que le moteur ; compteur explicite 0 d’une vraie entrée conservé.
+
+Nouveau module `moveSelection.js` pour les choix automatiques des trois modes. Bluff/Escarmouche/Tatamigaeshi après première action, capacités réservées au sommeil, énergie/objet/baie manquants, Flamme Ultime sans type adapté, Téléport hors sauvage et restrictions visibles filtrés quand une autre capacité existe. Exceptions Comatose et Protéen actif conservées. Si les seules attaques échouent à une condition, un changement évalué possible passe avant leur répétition ; sans alternative, PP et index existants restent contraignants, aucune Lutte gratuite. Pas de modification des règles de résolution ni des commandes manuelles.
+
+Toujours aucun accès au choix humain à venir ou aux données privées adverses. Stockage et type de combat publics ; un objet/talent inconnu dans une hypothèse n’est pas assimilé à une absence. Objets Choix, réserves de champions, charge/recharge/Patience et engagement avant l’invite conservés. Pas de nouvelle BDD, migration, équipe, carte ou ressource graphique.
+
+Validation : 192 tests ciblés et neuf recettes MySQL réussis, zéro échec/ignoré ; treize tests unitaires et deux SQL nouveaux. Trois recettes de reproduction échouent sur les modules de référence et passent après correction. Cinq tours réels pour sauvage/dresseur Aventure et sauvage/dresseur des deux modes expédition, ancien historique, choix figé, PP, sommeil, objets et budgets IA contrôlés ; Téléport conserve ses sept scénarios SQL. Syntaxe/diff valides. Client/build `7a1dc730ab97e07a` inchangés ; pas de nouveau navigateur, matériel physique ou suite globale revendiqués. Rapport : `docs/AI_MOVE_SELECTION.json`.
+
+Publication serveur seule 2026-10-27T15:26:44.647Z, PID 2302705→2316388. Sauvegarde `/home/ubuntu/dev/backups/riftmon-ai-selection-2026-10-27T15-26-40-247Z`, checkpoint conservé et 0 expédition active relevée. Index/bundles et client 7b9ab600ebe0bf328327d734243a516cefecefb2 inchangés, Knov/api-test conservés.
+
 ## Téléport — fuite sauvage réellement résolue — 27 octobre 2026
 
 L’Aventure ignorait `result.escape`, tandis que Rift/Colosseum terminaient aussi les combats de dresseurs et ne distinguaient pas celui qui fuyait. Le moteur n’autorise désormais cet effet qu’en rencontre sauvage et consulte les règles de piège existantes. Téléport conserve sa priorité 0 et son effet de fuite du catalogue ; aucun passage en pivot moderne. Sommeil, peur et autres restrictions d’action restent prioritaires.
@@ -4243,6 +4255,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 27 octobre 2026 — IA : préférence partagée pour les capacités compatibles, fin des répétitions évitables de Bluff et autres capacités conditionnelles, historique ancien reconnu comme par le moteur. PP/Choix/Lutte, entrées, engagement et informations privées conservés. 192 tests et neuf recettes SQL réussis, trois reproductions en échec avant patch ; serveur publié avec sauvegarde/checkpoint, client et voisins inchangés. Rapport `docs/AI_MOVE_SELECTION.json`.
 
 - 27 octobre 2026 — Téléport : fuite sauvage résolue immédiatement dans les trois modes, dresseurs/arènes/PvP exclus, bon acteur nommé dans le bilan et aucune récompense sur fuite. Branches switch/capture ratée, sommeil/peur/pièges et anciens checkpoints couverts. 145 tests et sept recettes SQL, navigateur trois modes/quatre formats réussis ; publication sauvegardée et voisins conservés. Rapport `docs/TELEPORT_WILD_ESCAPE.json`.
 
