@@ -16,6 +16,15 @@ test('professor standing and KO actors are personal, retain the dais and block i
  assert(store.isPnjBlockingTile('void_arena',13,4));assert(!store.isPnjBlockingTile('void_arena',13,5));
  progress={flags:{...found.flags,void_defeated:'true'}};assert.equal(store.getPnjsForMap('void_arena')[0].sprite,'professor-ko-pixel-v1.png');assert.equal(ending.actors('void_arena',rescued).length,0);
 });
+test('the physical teleporter is on a reachable floor tile, including before replay rescue',()=>{
+ const s=ending.state({flags:{lucie_rescued:'true',admin_professor_departure:'armed',admin_void_replay:'true'}});
+ assert.equal(s.available,false);assert.equal(s.found,false);
+ assert.deepEqual(s.pickup,{map:'professor_lab',x:16,y:9});
+ const c=maps.loadCollisionData(s.pickup.map);
+ assert.equal(c[s.pickup.y][s.pickup.x],0,'the prop must not be drawn inside the wall');
+ assert.equal(c[s.pickup.y][s.pickup.x+1],0,'the player can approach from the side without covering it');
+ assert.equal(maps.changeMapData(s.pickup.map)[s.pickup.y][s.pickup.x],0);
+});
 test('ruined arena central approach and return to the laboratory are connected and safe',()=>{
  const c=maps.loadCollisionData('void_arena');for(let y=4;y<=19;y++)assert.equal(c[y][13],0);
  for(const x of [13,14]){const link=maps.getNextMap('void_arena',x,19);assert.equal(link.nextMap,'professor_lab');assert.deepEqual([link.nextX,link.nextY],[432,496]);assert.equal(maps.loadCollisionData(link.nextMap)[15][13],0);assert.equal(maps.changeMapData(link.nextMap)[15][13],0);}

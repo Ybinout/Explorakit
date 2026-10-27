@@ -5,7 +5,7 @@
     "item": "void_teleporter",
     "counter": "5 actual PP-consuming Electric moves, server-side only",
     "clue": "Semble se charger à proximité de l’électricité. 0/5",
-    "discovery": "Discreet unlit object at the back of professor_lab; no quest marker or objective",
+    "discovery": "Discreet but visible silver pixel casing on reachable lab floor (16,9), present before rescue as scenery, no quest marker or objective; collectable after Lucie rescue and removed once picked up.",
     "travel": "Charged key item, reusable, black-hole transition; fixed destination controlled by server",
     "arena": "void_arena, ruined unlit gym, private Professor standing/KO actor, safe exit to the lab",
     "music": "lucie-maison.mp3",
@@ -237,6 +237,101 @@
         "css/community.553e140c.css",
         "css/game.ca0c95c6.css"
       ]
+    }
+  },
+  "physicalObjectUpdate": {
+    "dateParis": "2026-10-27",
+    "cause": "Original tiny dark rectangle was drawn at wall tile (16,4), visually lost in the back panel; drawing also required rescue so it vanished during admin replay.",
+    "floorTile": {
+      "map": "professor_lab",
+      "x": 16,
+      "y": 9
+    },
+    "render": "Static 24x18 world-pixel metal casing, dark screen, brass contact, compact floor shadow. Shared authoritative pickup coordinates, drawn before characters, no glow, marker, caption, image asset or additional loop. Immediate redraw when personal state changes.",
+    "visibility": "Visible in the lab whenever not collected, including before the replay rescue; pickup remains gated by the story.",
+    "admin": "Always reset shadow epilogue state with an eligible Professor replay, including before any normal discovery and on repeated replays. Charge 0, found/defeated/claimed false. Normal item, earned badge and permanent story flags preserved.",
+    "validation": {
+      "tests": {
+        "pass": 25,
+        "fail": 0,
+        "skip": 1,
+        "log": "/tmp/riftmon-physical-teleporter-tests.log"
+      },
+      "mysql": {
+        "pass": 5,
+        "fail": 0,
+        "skip": 0,
+        "log": "/tmp/riftmon-physical-teleporter-mysql.log"
+      },
+      "browser": {
+        "results": "/tmp/riftmon-physical-teleporter-browser/results.json",
+        "widths": [
+          320,
+          393,
+          844,
+          1365
+        ],
+        "actualAdminButton": true,
+        "beforeAfterPickupAndResetInspected": true,
+        "errors": []
+      },
+      "build": "b3daca3aa69fa7a8",
+      "lint": "/tmp/riftmon-physical-teleporter-lint.log",
+      "commands": [
+        "node --test tests/void-ending.test.js tests/capture-progression.test.js tests/professor-finale.test.js tests/finale-replay.test.js tests/arena-admin.test.js",
+        "DB_NAME=explorakit_test RUN_MYSQL_TESTS=1 NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file=.env --test tests/void-ending-mysql.test.js",
+        "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-physical-teleporter-dist RELEASE_SCREENSHOTS=/tmp/riftmon-physical-teleporter-browser node --env-file=.env scripts/validateVoidEndingBrowser.js"
+      ],
+      "limitations": [
+        "No physical phone or global suite rerun for this focused change."
+      ]
+    },
+    "publication": {
+      "publishedAt": "2026-10-27T04:09:54.571Z",
+      "backup": "/home/ubuntu/dev/backups/riftmon-physical-teleporter-2026-10-27T04-09-51-541Z",
+      "sourceBaseline": "2085dd38e2d4d5282fac197daf2c3f68fd00d7eb",
+      "sourceHashes": {
+        "server/game/world/voidEnding.js": "8090df1b1a83b785413783d88ac84a40f3e6d9cfb440644bf814d1de5b333d8a",
+        "server/persistence/arenaTestRepository.js": "363d1a65ca3e0efd2916e2e21fe7d8728587c962d842e27691c35bc5d5d4d9bd"
+      },
+      "clientCommit": "3a6de0fd28ed3b09997334dfd171ad2679fcfb1c",
+      "clientBuild": "b3daca3aa69fa7a8",
+      "beforePid": "2170893",
+      "afterPid": "2173766",
+      "activeRuns": 0,
+      "checkpointSaved": true,
+      "serverRestarted": true,
+      "gracefulCheckpoint": true,
+      "neighborsUnchanged": true,
+      "publicAssets": [
+        "js/account.161ce126.js",
+        "js/app.2dc6e264.js",
+        "js/chunk-vendors.3cf1258a.js",
+        "js/community.00fadb68.js",
+        "js/game.4211f0e5.js",
+        "css/account.e4a31390.css",
+        "css/app.bbefd3a4.css",
+        "css/community.553e140c.css",
+        "css/game.a7810f3f.css",
+        "img/void_arena.81b98364.png",
+        "img/void-arena-wide-v1.d9b69b7c.webp",
+        "img/void-arena-mobile-v1.77b11be3.webp",
+        "img/professor-final-v1.8f99bbd8.png",
+        "img/route2_maison.3916584e.png",
+        "img/tour_rdc.e03e0f06.png",
+        "img/tour_etage1.8ec612be.png",
+        "img/tour_etage2.18713452.png",
+        "img/tour_etage3.ac05c302.png",
+        "img/maria-v2.564002d1.png",
+        "img/clement-v2.804e1f22.png"
+      ],
+      "embedded": [
+        "pnj/professor-ko-pixel-v1.png",
+        "pnj/clement-pixel-v2.png"
+      ],
+      "oldHashedAssetsRetained": true,
+      "sqlMigration": false,
+      "realAccountsModified": false
     }
   }
 }

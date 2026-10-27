@@ -34,6 +34,23 @@ test('SQL secret finale: ownership, unique discovery, concurrent five-charge cap
   for(const k of ['void_found','void_charge','void_defeated','void_claimed','true_ending'])assert.equal(after.flags[k],normal.flags[k]);
  }finally{policy.isOwner=owner;for(const u of users)await db.execute('DELETE FROM users WHERE id=?',[u.id]);}
 });
+test('SQL admin reset also rearms the physical object before any permanent discovery and on repeated replays',{skip:!enabled},async()=>{
+ let user;const policy=require('../server/game/world/arenaTests'),original=policy.isOwner;
+ try{
+  user=await fixture();policy.isOwner=u=>u?.id===user.id&&u?.username===user.username;
+  await flags(user.id,Object.fromEntries(require('../data/game/progression.json').storySteps.map(s=>[s.flag,'true'])));
+  await flags(user.id,{lucie_departure:'seen',professor_departure:'seen'});
+  const admin=require('../server/persistence/arenaTestRepository');await admin.rearm(user);
+  let r=await repo.read(user.id);assert(r.state.replay);assert.equal(r.state.found,false);assert.equal(r.state.charge,0);assert.equal(r.progress.flags.void_found,undefined);
+  await flags(user.id,{admin_professor_departure:'seen',admin_lab_rescued:'true'});assert(await repo.pickup(user.id));await repo.charge(user.id,'replay-once');
+  assert.equal((await repo.read(user.id)).state.charge,1);
+  for(let i=0;i<2;i++){
+   await admin.rearm(user);r=await repo.read(user.id);assert.equal(r.state.found,false);assert.equal(r.state.charge,0);assert.equal(r.state.available,false);assert.equal(r.progress.flags.void_found,undefined);
+   assert(!(await loadUserItems(user.id)).some(i=>i.key===ending.config.item));
+  }
+  const[[item]]=await db.execute('SELECT quantity FROM user_items WHERE user_id=? AND item_key=?',[user.id,ending.config.item]);assert.equal(item.quantity,1);
+ }finally{policy.isOwner=original;if(user)await db.execute('DELETE FROM users WHERE id=?',[user.id]);}
+});
 class Socket extends EventEmitter{constructor(actions){super();this.actions=actions;this.connected=true;}emit(event,data){if(event==='requestAction'){const a=this.actions.shift()||{action:'flee'};setImmediate(()=>super.emit('actionResponse',{...a,...(data.turnId?{turnId:data.turnId}:{})}));return true;}return super.emit(event,data);}}
 test('SQL real battles: own electric PP uses charge five times, then a single damaging move defeats the human without XP/EV/money',{skip:!enabled},async()=>{
  let user;const oldRandom=Math.random;

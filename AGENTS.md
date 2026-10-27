@@ -1,5 +1,15 @@
 # Contexte permanent — RiftMon
 
+## Téléporteur physiquement visible et reset admin complet — 27 octobre 2026
+
+Le boîtier était minuscule, sombre et placé dans le mur arrière (16,4). Il est maintenant posé sur une vraie case de sol accessible (16,9), à droite du fond du laboratoire : petite coque métallique pixel art, écran éteint, contact en laiton et ombre courte, sans halo, repère ou texte. Dessin statique 24×18 pixels monde, avant les personnages, sans asset raster ou boucle supplémentaire. Les coordonnées viennent de l'état serveur ; collecte et rendu utilisent le même emplacement. Présent comme élément du décor dès la visite, même avant le sauvetage de Lucie, puis retiré après récupération ; la condition narrative de collecte reste inchangée.
+
+Le reset admin réarme systématiquement la présence et la charge du téléporteur avec le Professeur, y compris si la découverte initiale avait été faite uniquement pendant un replay. État temporaire distinct : présence rétablie, charge 0/5, confrontation et récupération à refaire ; vrais drapeaux, badge gagné et exemplaire unique conservés. Redessin immédiat à la réception de l'état privé. Aucun compte réel modifié pour la recette.
+
+Validation : 25 tests ciblés réussis/une recette SQL ignorée dans ce lot sans accès BDD ; cinq recettes SQL dédiées réussies, dont reset répété avant toute découverte permanente. Parcours navigateur complet aux formats 320/393/844/1365 : objet avant collecte, retrait, vrai bouton admin, réapparition visible même avec les cristaux réarmés, nouvelle collecte à 0/5 sans doublon et conservation des vrais drapeaux. Captures inspectées, zéro erreur ; lint/build `b3daca3aa69fa7a8` et syntaxe/diff valides. Pas de téléphone physique ni suite globale relancés. Rapport `docs/VOID_ENDING.json`, entrée `physicalObjectUpdate`.
+
+Publication serveur/client 2026-10-27T04:09:54.571Z, client 3a6de0fd28ed3b09997334dfd171ad2679fcfb1c, PID 2170893→2173766. Sauvegarde `/home/ubuntu/dev/backups/riftmon-physical-teleporter-2026-10-27T04-09-51-541Z`, checkpoint conservé, 0 expédition active relevée. Index/bundles et décors publics vérifiés, anciens assets hachés et Knov/api-test conservés.
+
 ## Badge Violence visible avant obtention — 27 octobre 2026
 
 Le Badge Violence figure désormais dès le départ dans la collection, au même titre que les six badges des champions : état « À obtenir » avant la récupération sur le Professeur, puis « Obtenu ». Seul le masquage de sa définition a été retiré ; aucun badge attribué automatiquement, aucune modification de compte ni des paliers de capture. La découverte du téléporteur et sa méthode de charge ne sont toujours pas annoncées au joueur. Client existant/build `fa8b48bd2323b56c` conservés ; changement serveur de catalogue uniquement.
