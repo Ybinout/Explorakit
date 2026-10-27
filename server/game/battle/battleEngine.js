@@ -2855,6 +2855,9 @@ function executeAttack(attackName, attacker, defender, options = {}) {
     if(!options.skipTurnStart)attackerData.lastActionTurn = safeNumber(battleState.turn, 1);
 
     if (!calledDepth && !options.skipTurnStart && !heldItems.allowsMove(attacker, move.ename, battleState)) {
+        if (options.consumePp !== false && getUsableMoveIndexes(attacker, battleState).length === 0) {
+            return useattack('Struggle', attacker, defender, { ...options, consumePp:false });
+        }
         moveResult.blocked = true; moveResult.messages.push('Cette capacité est bloquée par l’objet tenu.'); return moveResult;
     }
 

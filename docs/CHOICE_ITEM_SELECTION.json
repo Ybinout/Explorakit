@@ -1,0 +1,128 @@
+{
+  "date": "2026-10-27",
+  "feature": "Objets Choix : sélection visible et refus sans perte de tour",
+  "diagnosis": [
+    "Les trois bonus et le verrou moteur existaient déjà : une seconde capacité était bloquée à la résolution. En Aventure sauvage/dresseur et en PvP Aventure, les instantanés ne contenaient pas usableMoveIndexes ; le client laissait donc toutes les capacités sélectionnables.",
+    "En sauvage/PvP Aventure, un choix incompatible pouvait consommer le tour avant son refus par le moteur. En expédition, le refus ne renvoyait pas systématiquement une invite.",
+    "Si la capacité verrouillée n’avait plus de PP mais les autres en avaient encore, la préparation visuelle et certaines résolutions échouaient à choisir Lutte."
+  ],
+  "implementation": {
+    "adventure": "Ajout du champ usableMoveIndexes déjà compris par le client dans les instantanés sauvage/dresseur/PvP. Les autres attaques sont grisées après utilisation ; restrictions recalculées depuis l’état réel, sans nouvelle version client.",
+    "validation": "isMoveSelectionValid dans battleResources : index entier autorisé, ou case zéro pour Lutte si aucune capacité n’est disponible. Validation dans les écouteurs Aventure avant de résoudre le tour et dans DriftBattle. Réinvitation sans changer de tour, délai, PP ou décision adverse déjà engagée.",
+    "lock": "Verrou existant conservé : première capacité utilisée, changement de Pokémon pour le libérer ; un nouvel adversaire seul ne le libère pas. Objets et multiplicateurs restent identiques.",
+    "struggle": "Sans PP sur le choix verrouillé, Lutte est choisie même si une autre case a des PP ; résultat, animation et intentions privées de tour cohérents. Aucun PP d’une autre attaque consommé, pas de Lutte gratuite tant qu’un choix autorisé existe.",
+    "scope": "Aventure, Rift, Colosseum et PvP. Sabotage, suppression des objets, Métamorph, charges/recharges et nettoyage de fin conservés. Pas de carte, d’équipe, de migration SQL ou de modification de compte réel."
+  },
+  "references": [
+    {
+      "url": "https://raw.githubusercontent.com/smogon/pokemon-showdown/master/data/items.ts",
+      "description": "Source primaire Showdown : multiplicateurs et objets Choix."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/smogon/pokemon-showdown/master/data/conditions.ts",
+      "description": "Source primaire Showdown : verrou de capacité, suppression et restrictions de sélection."
+    }
+  ],
+  "validation": {
+    "targeted": {
+      "passed": 116,
+      "failed": 0,
+      "skipped": 0,
+      "newTests": 14,
+      "command": "node --test tests/choice-items.test.js tests/knock-off.test.js tests/expedition-strategy.test.js tests/transform.test.js tests/battle-field.test.js"
+    },
+    "regression": {
+      "passed": 194,
+      "failed": 0,
+      "skipped": 0,
+      "command": "node --test tests/move-selection.test.js tests/human-trainer-ai.test.js tests/human-trainer-model.test.js tests/human-trainer-items.test.js tests/human-trainer-finishing.test.js tests/drift-runtime.test.js tests/battle-order.test.js tests/teleport.test.js tests/battle-outcome.test.js tests/move-behavior-audit.test.js tests/automatic-move-regressions.test.js tests/sleep-status.test.js"
+    },
+    "mysql": {
+      "passed": 21,
+      "failed": 0,
+      "skipped": 0,
+      "newTests": 7,
+      "database": "explorakit_test",
+      "command": "DB_NAME=explorakit_test RUN_MYSQL_TESTS=1 NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file=.env --test --test-concurrency=1 tests/choice-items-mysql.test.js tests/knock-off-mysql.test.js tests/teleport-mysql.test.js tests/move-selection-mysql.test.js",
+      "checks": "Les trois objets en vrais combats sauvage et dresseur, refus sans PP/PV/action adverse supplémentaire, PvP à deux propriétaires et choix déjà engagé, sauvegarde SQL. Recettes Sabotage, Téléport et IA conditionnelle conservées.",
+      "executionNote": "Un premier lancement concurrent avec la recette navigateur a rencontré un interblocage lors de la création d’un utilisateur jetable Téléport ; le lot est entièrement réussi avec les fichiers SQL séquentiels. Aucun changement des transactions de production."
+    },
+    "baseline": {
+      "commit": "eb27e228d26bd722bcba95067fd8dc730d603f91",
+      "unitFailures": 3,
+      "sqlFailures": 6,
+      "checks": "Avant patch : trois variantes de Lutte préparent Tackle au lieu de Struggle ; six variantes sauvage/dresseur ne fournissent aucun usableMoveIndexes. Les tests initiaux de verrou moteur et changement passaient déjà."
+    },
+    "browser": {
+      "modes": [
+        "adventure",
+        "colosseum",
+        "rift"
+      ],
+      "items": [
+        "choice_band",
+        "choice_specs",
+        "choice_scarf"
+      ],
+      "realBattleSockets": true,
+      "unchangedClient": true,
+      "disabledChoices": true,
+      "rejectedInputNoTurnCost": true,
+      "switchResetsLock": true,
+      "viewports": 4,
+      "errors": [],
+      "out": "/tmp/riftmon-choice-browser",
+      "command": "DB_TEST_NAME=explorakit_test node --env-file=.env scripts/validateChoiceItemsBrowser.js",
+      "checks": "Vraies sockets, client compilé existant, 12 captures. Trois modes : grisage après le premier coup, paquet incompatible refusé, réserve accessible, retour sur le meneur libéré puis verrou sur sa nouvelle capacité. Captures Aventure 320 et Rift 1365 inspectées."
+    },
+    "movesAudit": {
+      "command": "npm run audit:moves",
+      "executionChecks": 2532,
+      "executionFailures": 0,
+      "unknownEffectKinds": 0,
+      "unsupportedSpecialCases": 0,
+      "partialMoves": 0
+    },
+    "referenceCheck": "node scripts/generatePokemonReference.js --check : 633 capacités et 223 talents, valide.",
+    "syntaxAndDiff": "Valides",
+    "postDeployment": {
+      "sourceHashesMatch": true,
+      "serverErrorCount": 0,
+      "testUsersRemaining": 0
+    },
+    "limits": "Recette navigateur locale sur client inchangé ; pas de téléphone physique, nouveau build client ou suite globale revendiqués."
+  },
+  "deployment": {
+    "publishedAt": "2026-10-27T16:09:09.110Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-choice-2026-10-27T16-09-07-654Z",
+    "sourceBaseline": "eb27e228d26bd722bcba95067fd8dc730d603f91",
+    "sourceHashes": {
+      "server/game/battle/battleEngine.js": "2317c6a41a9230df526bbdfcd3376e20001b2d75b29d037ba00b47d525a9ad6b",
+      "server/game/battle/battleEvents.js": "f6ac8dbdac98bd4864e01c3b82d3b08e6eb8aa7ce244d61d9ebde20d161b3a8f",
+      "server/game/battle/battleResources.js": "a1d272fb38aba316b0cb19ae07a43b518461f93818e3a4e23da16c5fc9b9d343",
+      "server/game/battle/pvpBattle.js": "64eaa666ddd9767bb80a31f4c35bc2fb094837aba384e87db39dce5c9875e342",
+      "server/game/battle/trainerBattle.js": "a7790a1c665db119a224153ed94cb7d0a4e616be5a35e0e692719754c47f223e",
+      "server/game/battle/turnActions.js": "e89e0e1048cb184b6ac3f9aaa6a0bef0c35b164cbc8abd5b2899306cd9922ce2",
+      "server/game/battle/wildBattle.js": "d8ba41fbeec4e95cafb39762b947ff9bd090613dc1fc6ab874226ce414e67ce0",
+      "server/game/drift/driftBattle.js": "829a3c9fe7e7ca906162479ca2d5844274b63852863e2a8f00f8cf875c51063d"
+    },
+    "clientCommit": "7b9ab600ebe0bf328327d734243a516cefecefb2",
+    "clientBuild": "7a1dc730ab97e07a",
+    "clientUnchanged": true,
+    "publicAssets": [
+      "js/app.8daaaac3.js",
+      "js/game.fc8fe9ba.js",
+      "css/app.bbefd3a4.css",
+      "css/game.2a085063.css"
+    ],
+    "beforePid": "2322880",
+    "afterPid": "2327884",
+    "serverRestarted": true,
+    "checkpointSaved": true,
+    "gracefulCheckpoint": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "sqlMigration": false,
+    "realAccountsModified": false
+  }
+}

@@ -1,5 +1,15 @@
 # Contexte permanent — RiftMon
 
+## Objets Choix — attaques grisées et choix refusé sans perdre de tour — 27 octobre 2026
+
+Les bonus et le verrou moteur fonctionnaient déjà, mais les instantanés Aventure sauvage/dresseur/PvP ne transmettaient pas `usableMoveIndexes` : le client permettait de sélectionner les autres attaques. Le champ compatible existant est maintenant transmis à chaque synchronisation. Contrôle partagé des index dans les invites Aventure et les expéditions ; commande incompatible réinvitée sans consommer tour/PP, changer le délai ou recalculer la décision adverse engagée. Aucun nouveau client nécessaire.
+
+Lutte corrigée lorsque le choix verrouillé n’a plus de PP mais que d’autres cases en ont encore : animation, résultat et intention privée du tour cohérents, sans consommer ces autres PP. Les trois multiplicateurs, changement de Pokémon, nouvel adversaire sans déverrouillage, suppression d’objet, Sabotage et restitution conservés. Aucune carte/équipe, migration ou donnée réelle modifiée.
+
+Validation : 310 tests ciblés et 21 recettes MySQL réussis, zéro échec/ignoré ; 14 tests unitaires et sept SQL nouveaux. Avant patch, trois variantes de Lutte et six synchronisations SQL échouaient. Un interblocage de création de compte jetable au premier lancement concurrent a conduit à exécuter les fichiers SQL séquentiellement, tous réussis. Navigateur réel trois modes/quatre formats : boutons gris, commande invalide sans coût, sortie/retour et nouveau verrou ; zéro erreur, captures 320/1365 inspectées. Audit 2 532 exécutions, référence, syntaxe/diff valides. Pas de téléphone physique, nouveau build client ou suite globale revendiqués. Rapport : `docs/CHOICE_ITEM_SELECTION.json`.
+
+Publication serveur seule 2026-10-27T16:09:09.110Z, PID 2322880→2327884. Sauvegarde `/home/ubuntu/dev/backups/riftmon-choice-2026-10-27T16-09-07-654Z`, checkpoint conservé et 0 expédition active relevée. Client 7b9ab600ebe0bf328327d734243a516cefecefb2/build `7a1dc730ab97e07a`, index/bundles et Knov/api-test inchangés. Empreintes source identiques après publication, aucun compte de recette restant et zéro erreur serveur relevée.
+
 ## Sabotage — objet retiré en combat et récupéré à la fin — 27 octobre 2026
 
 Le catalogue n’appliquait aucun retrait : ajout de l’effet partagé `knock_off` et du bonus de puissance ×1,5 sur objet amovible. L’objet cesse d’agir après un vrai impact ; protection, clone, immunité, Glue/Brise Moule et Délestage sont pris en compte. Le talisman de Rift conserve sa protection existante. Les véritables baies/Ceintures Force consommées restent consommées, et Recyclage ne récupère pas un objet simplement retiré.

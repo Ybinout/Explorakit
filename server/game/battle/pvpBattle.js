@@ -10,7 +10,7 @@ const {
     applySwitchInEffects,
     canSwitchOut
 } = require('./battleEngine');
-const { getUsableMoveIndexes, getForcedMove, selectedMoveName } = require('./battleResources');
+const { getUsableMoveIndexes, getForcedMove, selectedMoveName, isMoveSelectionValid } = require('./battleResources');
 const { editEquipe } = require('../../persistence/teamRepository');
 const { emitPvpBattleEnd } = require('./battleOutcome');
 const { emitFieldState, emitPvpMoveResult, prepareMoveAnimation, afterActionMessages } = require('./battleEvents');
@@ -86,6 +86,7 @@ function emitBattleStateForBoth(io, playerA, playerB, battleState) {
     if (!playerA || !playerB) return;
 
     io.to(playerA.id).emit('introAnimation', {
+        usableMoveIndexes:getUsableMoveIndexes(playerA.equipe.pokemons[0],battleState),
         moveTypes:battleMoveTypes(playerA.equipe.pokemons[0],playerB.equipe.pokemons[0],battleState),
         player: playerA,
         transitions:presentation.transitions(playerA,playerA.equipe.pokemons[0],playerB.equipe.pokemons[0]),
@@ -98,6 +99,7 @@ function emitBattleStateForBoth(io, playerA, playerB, battleState) {
     });
 
     io.to(playerB.id).emit('introAnimation', {
+        usableMoveIndexes:getUsableMoveIndexes(playerB.equipe.pokemons[0],battleState),
         moveTypes:battleMoveTypes(playerB.equipe.pokemons[0],playerA.equipe.pokemons[0],battleState),
         player: playerB,
         transitions:presentation.transitions(playerB,playerB.equipe.pokemons[0],playerA.equipe.pokemons[0]),
@@ -121,7 +123,7 @@ function emitMoveAnimationForBoth(io, attackerPlayer, defenderPlayer, movePayloa
     });
 }
 
-async function requestPlayerAction(io, player, message = 'Quelle est votre prochaine action ?', peerSocket = null) {
+async function requestPlayerAction(io, player, message = 'Quelle est votre prochaine action ?', peerSocket = null, battleState = null) {
     if (getForcedMove(player.equipe?.pokemons?.[0])) return { action:'attack', number:getUsableMoveIndexes(player.equipe.pokemons[0])[0] };
     const socket = getPlayerSocket(io, player);
     if (!socket) {
@@ -148,6 +150,10 @@ async function requestPlayerAction(io, player, message = 'Quelle est votre proch
 
         const onResponse = (response = {}) => {
             if (response?.replacementId) return;
+            if (response.action === 'attack' && !isMoveSelectionValid(player.equipe.pokemons[0], response.number, battleState)) {
+                socket.emit('requestAction', { message:'Cette capacité n’est pas disponible. Choisis une autre action.' });
+                return;
+            }
             cleanup();
             resolve(response);
         };
@@ -511,8 +517,8 @@ async function startPvpBattle(playerA, playerB, io) {
         }
 
         const [rawActionA, rawActionB] = await Promise.all([
-            requestPlayerAction(io, playerA, undefined, socketB),
-            requestPlayerAction(io, playerB, undefined, socketA)
+            requestPlayerAction(io, playerA, undefined, socketB, battleState),
+            requestPlayerAction(io, playerB, undefined, socketA, battleState)
         ]);
         // Retire both prompts promptly on disconnect, then use the existing
         // departure result. Never wait 90 s for an opponent's unused command.

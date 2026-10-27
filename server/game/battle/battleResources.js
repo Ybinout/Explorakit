@@ -109,6 +109,12 @@ function getUsableMoveIndexes(pokemon, battleState = null) {
         .filter((index) => index >= 0);
 }
 
+function isMoveSelectionValid(pokemon, index, battleState = null) {
+    if (!Number.isInteger(index)) return false;
+    const usable = getUsableMoveIndexes(pokemon, battleState);
+    return usable.length ? usable.includes(index) : index === 0;
+}
+
 function getChargingMove(pokemon) {
     const data = pokemon?.__battle;
     return Number(pokemon?.currentHp) > 0 && data?.chargeTurns > 0 && getMoveDefinition(data.chargeMove)
@@ -132,6 +138,7 @@ module.exports = {
     getMovePp,
     getMoveSlot,
     getUsableMoveIndexes,
+    isMoveSelectionValid,
     getChargingMove,
     getForcedMove,
     selectedMoveName,

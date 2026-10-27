@@ -7,7 +7,7 @@ const engine = require('../battle/battleEngine');
 const { canFleeWildBattle } = require('../battle/wildEscape');
 const {preferMoves}=require('../battle/moveSelection');
 const effects = require('./driftEffects');
-const { getUsableMoveIndexes, getItemDefinition, getForcedMove, selectedMoveName } = require('../battle/battleResources');
+const { getUsableMoveIndexes, getItemDefinition, getForcedMove, selectedMoveName, isMoveSelectionValid } = require('../battle/battleResources');
 const { clearBattleTransientState, buildBattleSummary, createBattleSummaryTracker } = require('../battle/battleOutcome');
 const { switchPokemonByIndex, resolveMoveSwitches, autoSwitchPokemon, hasAlivePokemon } = require('../battle/battleTeam');
 const { serializeMoveResult, serializeFieldState, prepareMoveAnimation, afterActionMessages } = require('../battle/battleEvents');
@@ -182,7 +182,10 @@ class DriftBattle {
         if (!['attack','change','bag','flee'].includes(kind)) return false;
         if (kind === 'change' && (!Number.isInteger(payload.number) || payload.number <= 0 || !p.equipe.pokemons[payload.number] || effects.isDead(p.equipe.pokemons[payload.number]) || !engine.canSwitchOut(active, this.active(p === this.a ? 1 : 0), this.state))) return false;
         if (kind === 'flee' && this.type === 'wild' && !canFleeWildBattle(active, this.active(p === this.a ? 1 : 0), this.state)) return false;
-        if (kind === 'attack' && !(getUsableMoveIndexes(active, this.state).includes(payload.number) || !getUsableMoveIndexes(active, this.state).length)) return false;
+        if (kind === 'attack' && !isMoveSelectionValid(active, payload.number, this.state)) {
+            this.emit(p,'requestAction',{ message:'Cette capacité n’est pas disponible. Choisis une autre action.', turnId:this.token });
+            return false;
+        }
         if (kind === 'bag' && (this.type !== 'wild' || p !== this.a || (p.equipe.pokemons.length >= 6 && (p.storage || []).length >= require('../storage/pokemonStorage').CAPACITY) || !(p.items[payload.itemKey] > 0) || getItemDefinition(payload.itemKey)?.category !== 'ball')) return false;
         this.pending.set(p, { action: kind, number: payload.number, itemKey: payload.itemKey });
         if (this.pending.size === 2) this.resolve();

@@ -4,8 +4,7 @@ function prepareMoveAnimation(attacker, defender, moveName, battleState) {
     const resources = require('./battleResources');
     const forced = resources.getForcedMove(attacker);
     if (forced) moveName = forced;
-    else if (resources.getMovePp(attacker, moveName)?.current === 0
-        && resources.getUsableMoveIndexes(attacker, battleState).length === 0) moveName = 'Struggle';
+    else if (resources.getUsableMoveIndexes(attacker, battleState).length === 0) moveName = 'Struggle';
     const move = engine.resolveWeatherMove(engine.getMoveByName(moveName), attacker, defender, battleState);
     return { moveName, phase: engine.movePhase(attacker, moveName, battleState, defender),
         moveType: move?.type || 'Normal', moveTarget: move?.combat?.target || 'opponent',

@@ -13,7 +13,7 @@ const {
     applySwitchInEffects,
     canSwitchOut
 } = require('./battleEngine');
-const { getUsableMoveIndexes, getForcedMove, selectedMoveName } = require('./battleResources');
+const { getUsableMoveIndexes, getForcedMove, selectedMoveName, isMoveSelectionValid } = require('./battleResources');
 const { BATTLE_EXPERIENCE_MULTIPLIERS } = require('../models/progression');
 const { emitSoloBattleEnd, createBattleSummaryTracker } = require('./battleOutcome');
 const { emitFieldState, emitSoloMoveResult, prepareMoveAnimation, afterActionMessages } = require('./battleEvents');
@@ -70,7 +70,7 @@ function displayIntroAnimation(player, currentEnemy, io, battleState) {
     // Forecast is a weather form, not an entry hazard: reveal the correct sprite
     // from the first send-out frame, before narrating entry damage/abilities.
     require('../abilities/abilityForms').syncWeatherForms(player.equipe.pokemons[0],currentEnemy,battleState);
-    io.to(player.id).emit('introAnimation', { player, wildPokemon: currentEnemy, moveTypes:battleMoveTypes(player.equipe.pokemons[0],currentEnemy,battleState), effortYield:effortYield(currentEnemy), transitions:trainerTactics.decorateTransitions(presentation.transitions(player,player.equipe.pokemons[0],currentEnemy,{initial:true}),battleState.trainerTeam,battleState.trainerMemory) });
+    io.to(player.id).emit('introAnimation', { player, wildPokemon: currentEnemy, usableMoveIndexes:getUsableMoveIndexes(player.equipe.pokemons[0],battleState), moveTypes:battleMoveTypes(player.equipe.pokemons[0],currentEnemy,battleState), effortYield:effortYield(currentEnemy), transitions:trainerTactics.decorateTransitions(presentation.transitions(player,player.equipe.pokemons[0],currentEnemy,{initial:true}),battleState.trainerTeam,battleState.trainerMemory) });
 }
 
 function displayMoveAnimation(player, attacker, io, details) {
@@ -190,7 +190,7 @@ function playerChangePokemonByIndex(equipe, index) {
     return switchPokemonByIndex(equipe, index);
 }
 
-function playerTurn(player, io) {
+function playerTurn(player, io, battleState) {
     if (getForcedMove(player.equipe?.pokemons?.[0])) return Promise.resolve({ action:'attack', number:getUsableMoveIndexes(player.equipe.pokemons[0])[0] });
     return new Promise((resolve) => {
         const playerSocket = io.sockets.sockets.get(player.id);
@@ -221,6 +221,10 @@ function playerTurn(player, io) {
 
         const responseListener = (response = {}) => {
             if (response?.replacementId) return; // A delayed replacement must not consume the next turn.
+            if (response.action === 'attack' && !isMoveSelectionValid(player.equipe.pokemons[0], response.number, battleState)) {
+                playerSocket.emit('requestAction', { message:'Cette capacité n’est pas disponible. Choisis une autre action.' });
+                return;
+            }
             switch (response.action) {
                 case 'attack':
                 case 'flee':
@@ -470,7 +474,7 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
         committedDecision ||= enemyDecision();
         let response;
         try {
-            response = await playerTurn(player, io);
+            response = await playerTurn(player, io, battleState);
         } catch (error) {
             console.log('Erreur pendant le tour du joueur :', error.message);
             break;

@@ -14,7 +14,7 @@ const {
     applySwitchInEffects,
     canSwitchOut
 } = require('./battleEngine');
-const { getUsableMoveIndexes, getForcedMove, selectedMoveName } = require('./battleResources');
+const { getUsableMoveIndexes, getForcedMove, selectedMoveName, isMoveSelectionValid } = require('./battleResources');
 const { BATTLE_EXPERIENCE_MULTIPLIERS } = require('../models/progression');
 const { emitSoloBattleEnd, createBattleSummaryTracker, clearBattleTransientState } = require('./battleOutcome');
 const { emitFieldState, emitSoloMoveResult, prepareMoveAnimation, afterActionMessages } = require('./battleEvents');
@@ -82,7 +82,7 @@ async function narrate(player, io, message, delayMs = TEXT_DELAY_MS) {
 }
 
 function displayIntroAnimation(player, wildPokemon, io, battleState) {
-    io.to(player.id).emit('introAnimation', { player, wildPokemon, capturePolicy:captureAssessment(battleState?.captureProgress,wildPokemon?.level), moveTypes:battleMoveTypes(player.equipe.pokemons[0],wildPokemon,battleState), effortYield:effortYield(wildPokemon), transitions:presentation.transitions(player,player.equipe.pokemons[0],wildPokemon) });
+    io.to(player.id).emit('introAnimation', { player, wildPokemon, usableMoveIndexes:getUsableMoveIndexes(player.equipe.pokemons[0],battleState), capturePolicy:captureAssessment(battleState?.captureProgress,wildPokemon?.level), moveTypes:battleMoveTypes(player.equipe.pokemons[0],wildPokemon,battleState), effortYield:effortYield(wildPokemon), transitions:presentation.transitions(player,player.equipe.pokemons[0],wildPokemon) });
 }
 
 function displayMoveAnimation(player, attacker, io, details) {
@@ -389,7 +389,7 @@ async function runAttackTurn(player, wildPokemon, response, io, battleState, pla
     return resolveRoundEnd(player, wildPokemon, io, battleState, playerSide, enemySide);
 }
 
-function playerTurn(player, io) {
+function playerTurn(player, io, battleState) {
     if (getForcedMove(player.equipe?.pokemons?.[0])) return Promise.resolve({ action:'attack', number:getUsableMoveIndexes(player.equipe.pokemons[0])[0] });
     return new Promise((resolve) => {
         const playerSocket = io.sockets.sockets.get(player.id);
@@ -420,6 +420,10 @@ function playerTurn(player, io) {
 
         const responseListener = (response = {}) => {
             if (response?.replacementId) return; // A delayed replacement must not consume the next turn.
+            if (response.action === 'attack' && !isMoveSelectionValid(player.equipe.pokemons[0], response.number, battleState)) {
+                playerSocket.emit('requestAction', { message:'Cette capacité n’est pas disponible. Choisis une autre action.' });
+                return;
+            }
             switch (response.action) {
                 case 'attack':
                 case 'flee':
@@ -583,7 +587,7 @@ async function startBattle(player, wildPokemon, io, userId) {
         }
 
         try {
-            const response = await playerTurn(player, io);
+            const response = await playerTurn(player, io, battleState);
             const actionPlayer = response.action;
 
             if (actionPlayer === 'disconnect' || actionPlayer === 'timeout') {
