@@ -59,7 +59,7 @@
   "badges": [
     {
       "key": "lake_badge",
-      "name": "Badge du Lac",
+      "name": "Badge du Sang-Froid",
       "order": 0
     },
     {
@@ -69,17 +69,17 @@
     },
     {
       "key": "bloom_badge",
-      "name": "Badge Floraison",
+      "name": "Badge Illusion",
       "order": 2
     },
     {
       "key": "ore_badge",
-      "name": "Badge Minerai",
+      "name": "Badge Noblesse",
       "order": 3
     },
     {
       "key": "tide_badge",
-      "name": "Badge Marée",
+      "name": "Badge Force",
       "order": 4
     },
     {

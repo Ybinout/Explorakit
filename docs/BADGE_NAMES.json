@@ -1,0 +1,100 @@
+{
+  "dateParis": "2026-10-27",
+  "names": {
+    "lake_badge": "Badge du Sang-Froid",
+    "dune_badge": "Badge Dune",
+    "bloom_badge": "Badge Illusion",
+    "ore_badge": "Badge Noblesse",
+    "tide_badge": "Badge Force",
+    "summit_badge": "Badge Sommet",
+    "violence_badge": "Badge Violence",
+    "pardon_badge": "Badge Pardon"
+  },
+  "scope": [
+    "badge display names",
+    "four award dialogue names",
+    "French and English shop labels"
+  ],
+  "preserved": [
+    "badge keys",
+    "earned badges and dates",
+    "badge order and emblems",
+    "all other badge names",
+    "capture progression",
+    "rewards",
+    "shop stock and prices"
+  ],
+  "validation": {
+    "tests": {
+      "pass": 55,
+      "fail": 0,
+      "skip": 0
+    },
+    "browser": {
+      "names": {
+        "lake_badge": "Badge du Sang-Froid",
+        "dune_badge": "Badge Dune",
+        "bloom_badge": "Badge Illusion",
+        "ore_badge": "Badge Noblesse",
+        "tide_badge": "Badge Force",
+        "summit_badge": "Badge Sommet",
+        "violence_badge": "Badge Violence",
+        "pardon_badge": "Badge Pardon"
+      },
+      "earnedBadgeAndTimestampPreserved": true,
+      "otherBadgesUnchanged": true,
+      "viewports": 4,
+      "screens": [
+        "renamed-badges-320.png",
+        "renamed-badges-393.png",
+        "renamed-badges-844.png",
+        "renamed-badges-1365.png"
+      ],
+      "errors": []
+    },
+    "onlyRequestedCatalogueNamesChanged": true,
+    "commands": [
+      "node --test tests/capture-progression.test.js tests/department-store.test.js tests/shop-training.test.js tests/mirror-rift.test.js tests/pardon-ending.test.js",
+      "DB_TEST_NAME=explorakit_test node --env-file=.env /tmp/riftmon-badge-names-browser.cjs",
+      "node --check server/game/world/shopCatalog.js",
+      "git diff --check"
+    ],
+    "browserScript": "const root='/home/ubuntu/dev/explorakit';\nconst req=require('node:module').createRequire(root+'/package.json');\nconst assert=req('node:assert/strict'),fs=req('node:fs'),http=req('node:http'),{once}=req('node:events'),{randomUUID}=req('node:crypto');\nif(!/test/i.test(process.env.DB_TEST_NAME||''))throw Error('Dedicated test database required');\nprocess.env.DB_NAME=process.env.DB_TEST_NAME;process.env.NODE_ENV='test';\nconst express=req('express'),{Server}=req('socket.io'),{chromium}=req('playwright'),{dbPool:db}=req('./server/config/database');\nconst dist='/tmp/riftmon-mirror-dist',out='/tmp/riftmon-badge-names-browser';fs.mkdirSync(out,{recursive:true});\nconst app=express(),server=http.createServer(app),io=new Server(server);app.use(express.json());app.use('/api',req('./server/http/routes'));app.use(express.static(dist));app.get('*',(_q,r)=>r.sendFile(dist+'/index.html'));io.use(req('./server/http/authMiddleware').authenticateSocket);req('./server/realtime/socketHandler')(io);\nlet browser,page,userId,passed=false;const errors=[],screens=[];\nasync function pictures(label){for(const[width,height]of[[320,568],[393,852],[844,390],[1365,900]]){await page.setViewportSize({width,height});await page.evaluate(async width=>{v.showMobileControls=width<=920;await v.$nextTick();v.resizeWorldViewport();},width);await page.waitForTimeout(100);assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));const file=label+'-'+width+'.png';await page.screenshot({path:out+'/'+file});screens.push(file);}await page.setViewportSize({width:393,height:852});await page.evaluate(()=>v.showMobileControls=true);}\n(async()=>{try{\n server.listen(0,'127.0.0.1');await once(server,'listening');const base='http://127.0.0.1:'+server.address().port;\n const response=await fetch(base+'/api/users',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:'badge_names_'+randomUUID(),password:randomUUID(),starterId:7})});assert.equal(response.status,201);const f=await response.json();userId=f.user.id;\n await db.execute(\"INSERT INTO player_badges(user_id,badge_key,awarded_at)VALUES(?,'lake_badge','2026-01-02 12:00:00')\",[userId]);\n const [before]=await db.execute('SELECT badge_key,awarded_at FROM player_badges WHERE user_id=?',[userId]);\n browser=await chromium.launch({headless:true,args:['--no-sandbox']});const context=await browser.newContext({viewport:{width:393,height:852},hasTouch:true});await context.addInitScript(s=>{if(location.protocol==='http:')localStorage.setItem('explorakit.user',JSON.stringify(s));},{...f.user,token:f.token});page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));\n await page.goto(base+'/game',{waitUntil:'networkidle'});await page.waitForFunction(()=>{const v=document.querySelector('.game-root')?.__vue__;if(!v?.socket?.connected||v.mapLoading||!v.progressionState?.badges?.length)return false;window.v=v;return true;});await page.evaluate(()=>v.handleMenuAction('badges'));await page.locator('[data-badge-key=\"lake_badge\"]').waitFor();\n const names={lake_badge:'Badge du Sang-Froid',dune_badge:'Badge Dune',bloom_badge:'Badge Illusion',ore_badge:'Badge Noblesse',tide_badge:'Badge Force',summit_badge:'Badge Sommet',violence_badge:'Badge Violence',pardon_badge:'Badge Pardon'};\n for(const[key,name]of Object.entries(names))assert.equal(await page.locator(`[data-badge-key=\"${key}\"] h4`).innerText(),name);\n assert.equal(await page.locator('[data-badge-key=\"lake_badge\"]').getAttribute('data-badge-earned'),'true');await pictures('renamed-badges');\n const [after]=await db.execute('SELECT badge_key,awarded_at FROM player_badges WHERE user_id=?',[userId]);assert.deepEqual(after,before);assert.deepEqual(errors,[]);passed=true;const result={names,earnedBadgeAndTimestampPreserved:true,otherBadgesUnchanged:true,viewports:4,screens,errors};fs.writeFileSync(out+'/results.json',JSON.stringify(result,null,2));console.log(JSON.stringify(result));\n}finally{if(!passed&&page)await page.screenshot({path:out+'/failure.png'}).catch(()=>{});await browser?.close();await new Promise(r=>io.close(r));await new Promise(r=>setTimeout(r,200));if(userId)await db.execute('DELETE FROM users WHERE id=?',[userId]);await db.end();}})().catch(e=>{console.error(e.stack);process.exitCode=1});\n",
+    "existingFixtureReconciled": "EV/IV stock 282 -> 283 accounts for previously shipped CS Purification; runtime stock unchanged",
+    "clientBuildUnchanged": "30b9525c848d189f",
+    "physicalPhoneTest": false
+  },
+  "deployment": {
+    "publishedAt": "2026-10-27T20:57:25.398Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-badge-names-2026-10-27T20-57-24-081Z",
+    "sourceBaseline": "20636960c85f549189d54acd30c82a14ce1679ce",
+    "sourceHashes": {
+      "data/game/interact.json": "37ffc41e8c0083f63fc660771c10eceaa8ddbf3ce5664dce538f6d5f390ee7c3",
+      "data/game/progression.json": "9661992c434b294645906f925596b8a8d5caa22fe29d9337085b933fdc48182e",
+      "server/game/world/shopCatalog.js": "2ebe092f2b5279a71fd02e2f6a6061b18cf4db2e1b543f87916e76d59c274908"
+    },
+    "clientCommit": "2d81ccc58e454152b63ff4460cefb9752d42a19f",
+    "clientBuild": "30b9525c848d189f",
+    "clientUnchanged": true,
+    "publicAssets": [
+      "js/app.758b340d.js",
+      "js/game.af56866d.js",
+      "css/app.bbefd3a4.css",
+      "css/game.805c7b52.css"
+    ],
+    "beforePid": "2377001",
+    "afterPid": "2379644",
+    "serverRestarted": true,
+    "checkpointSaved": true,
+    "gracefulCheckpoint": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "sqlMigration": false,
+    "realAccountsModified": false
+  },
+  "postDeployment": {
+    "runtimeHashesMatch": true,
+    "serverErrors": 0,
+    "fixtureRemainders": 0
+  }
+}

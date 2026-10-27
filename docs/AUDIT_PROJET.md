@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## Noms des badges — 27 octobre 2026
+
+Mounir : **Badge du Sang-Froid** (`lake_badge`) ; Raphael : **Badge Illusion** (`bloom_badge`) ; Ana : **Badge Noblesse** (`ore_badge`) ; Wanda : **Badge Force** (`tide_badge`). Les quatre noms sont cohérents dans la collection, les répliques de remise et les indications des boutiques (français/anglais). Tous les autres badges, emblèmes, identifiants, ordres, récompenses et conditions restent identiques ; les sauvegardes acquises ne demandent aucune migration.
+
+Validation : 55 tests existants réussis, comparaison intégrale des deux catalogues avec la référence pour vérifier les seuls renommages, navigateur authentifié sur compte SQL jetable aux formats 320/393/844/1365, huit noms vérifiés, badge acquis/date conservés, zéro erreur. L’attente historique du stock EV/IV passe de 282 à 283 pour compter la CS Purification déjà livrée ; aucun catalogue de vente ajouté ici. Client et build inchangés. Rapport : `docs/BADGE_NAMES.json`.
+
+Publication serveur seule le 27 octobre 2026 à 21 h 57 (Europe/Paris), PID 2377001→2379644. Sauvegarde `/home/ubuntu/dev/backups/riftmon-badge-names-2026-10-27T20-57-24-081Z`, checkpoint conservé, zéro expédition active relevée. Client/build `30b9525c848d189f`, index/bundles et Knov/api-test inchangés ; empreintes runtime vérifiées, zéro erreur serveur relevée et aucun compte de recette restant. Aucune migration ou mutation de compte réel.
+
 ## Route 1 — vieil habitant et origine récente du village — 27 octobre 2026
 
 Nouveau civil fixe `route1_old_villager`, sur `route1` en (5,14), hors herbes/portes/transitions. Réplique naïve : « Le village n’existe que depuis quelques années. Tout a été construit récemment… Ça sent encore le bois neuf, tu ne trouves pas ? ». Conversation répétable, aucun combat, quête, récompense ou drapeau. Sprite exact déjà découpé dans `6931.png` : index 8, rectangle (462,290,17,24), affichage ×2 ; portrait illustré existant à chapeau et barbe grise (`civilian-portraits-a`, cellule 8). Aucune image ni découpe client modifiée ; total de civils 70→71.
@@ -4343,6 +4351,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 27 octobre 2026 — Renommage de quatre badges : Sang-Froid (Mounir), Illusion (Raphael), Noblesse (Ana), Force (Wanda). Collection, remise et boutiques cohérentes ; identifiants/sauvegardes et autres badges préservés. 55 tests et navigateur SQL sur quatre formats réussis. Rapport `docs/BADGE_NAMES.json`.
 
 - 27 octobre 2026 — Vieil habitant de la Route 1 : remarque naïve sur le village construit récemment, sprite et portrait assortis repris de l’atlas existant. Conversation sans combat/récompense ; 14 tests et recette navigateur quatre formats validés. Rapport `docs/ROUTE1_OLD_VILLAGER.json`.
 

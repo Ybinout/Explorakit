@@ -353,7 +353,7 @@
     "name": "moon_after",
     "sentences": [
       {
-        "text": "Mounir : Tu as gagné. Je te remets le Badge du Lac ! Je vais être franc : je ne sais pas où est Lucie, ni ce qui lui est arrivé.",
+        "text": "Mounir : Tu as gagné. Je te remets le Badge du Sang-Froid ! Je vais être franc : je ne sais pas où est Lucie, ni ce qui lui est arrivé.",
         "imageName": "moonpunch.png"
       },
       {
@@ -434,7 +434,7 @@
     "name": "champion_raphael_after",
     "sentences": [
       {
-        "text": "Raphael : Tu as prouvé ta valeur. Voici le Badge Floraison. Quant à Lucie… elle voulait comprendre pourquoi des Pokémon quittaient leur habitat.",
+        "text": "Raphael : Tu as prouvé ta valeur. Voici le Badge Illusion. Quant à Lucie… elle voulait comprendre pourquoi des Pokémon quittaient leur habitat.",
         "imageName": "raph.png"
       },
       {
@@ -477,7 +477,7 @@
     "name": "champion_ana_after",
     "sentences": [
       {
-        "text": "Ana : Tu es plus persévérant que je ne le pensais. Tu mérites le Badge Minerai. Lucie s’est retrouvée mêlée à une organisation dangereuse : l’Aube Obscure.",
+        "text": "Ana : Tu es plus persévérant que je ne le pensais. Tu mérites le Badge Noblesse. Lucie s’est retrouvée mêlée à une organisation dangereuse : l’Aube Obscure.",
         "imageName": "ana.png"
       },
       {
@@ -520,7 +520,7 @@
     "name": "champion_wanda_after",
     "sentences": [
       {
-        "text": "Wanda : Impressionnant. Une seule autre personne m’avait déjà battue. Prends le Badge Marée… et écoute bien.",
+        "text": "Wanda : Impressionnant. Une seule autre personne m’avait déjà battue. Prends le Badge Force… et écoute bien.",
         "imageName": "wanda.png"
       },
       {
