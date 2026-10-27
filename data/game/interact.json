@@ -1818,11 +1818,13 @@
       },
       {
         "text": "Des cristaux sombres barrent le passage. Derrière eux, Lucie recule et serre sa Poké Ball. Tu refuses de la laisser seule.",
+        "narration": true,
         "imageName": "lucie-v1.png",
         "typewriterMs": 42
       },
       {
         "text": "Les cristaux craquent sous ta main. Ils ne sont pas aussi solides qu’ils en ont l’air.",
+        "narration": true,
         "imageName": "lucie-v1.png",
         "typewriterMs": 35
       }
@@ -1833,6 +1835,7 @@
     "sentences": [
       {
         "text": "Lucie se tient au fond de la pièce, immobile. Elle serre une Poké Ball si fort que ses doigts tremblent. Quand elle relève la tête, son regard passe à travers toi.",
+        "narration": true,
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1851,6 +1854,7 @@
       },
       {
         "text": "Tu prononces son nom. Elle recule, une main contre sa tempe.",
+        "narration": true,
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1878,6 +1882,7 @@
       },
       {
         "text": "Pendant un instant, elle te regarde vraiment. « Si je n’arrive plus à m’arrêter… arrête-moi. S’il te plaît. » Puis elle lève sa Poké Ball.",
+        "narration": true,
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -1905,6 +1910,7 @@
     "sentences": [
       {
         "text": "Lucie recule. Sa main se crispe sur sa Poké Ball ; son regard se trouble de nouveau.",
+        "narration": true,
         "imageName": "lucie-v1.png",
         "typewriterMs": 45
       },
@@ -1920,6 +1926,7 @@
     "sentences": [
       {
         "text": "La maison est fermée. La clé est entre de bonnes mains.",
+        "narration": true,
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,

@@ -1,5 +1,13 @@
 # Contexte permanent — RiftMon
 
+## Narration de la chambre de Lucie — 27 octobre 2026
+
+Les sept passages narratifs d’entrée, d’avant/après combat et de porte fermée portent `narration:true` dans `interact.json`. Le client transmet ce booléen explicite à `TextWithImage`, qui utilise une balise `em` pour le narrateur ; les répliques de Lucie gardent leur style normal. La ligne invisible réservant la hauteur pendant le défilement reçoit la même inclinaison. Texte brut interpolé, aucun HTML fourni par le serveur ; textes, portraits, vitesses, progression et déclenchements inchangés. Les autres dialogues sans ce champ gardent leur rendu habituel.
+
+Validation : 17 tests existants réussis, lint/build `08b93787969b65e4`, navigateur authentifié sur base SQL dédiée : entrée réelle de la chambre, 13 passages vérifiés (sept narratifs), huit captures aux quatre formats 320/393/844/1365, texte normal rétabli entre les lignes, hauteur stable pendant le défilement et zéro erreur. Comparaison du catalogue : seuls les sept marqueurs ont été ajoutés. Rapport : `docs/LUCIE_NARRATION.json`.
+
+Publication serveur/client le 27 octobre 2026 à 22 h 04 (Europe/Paris), client `fe3404d794a56ae83ff3d82a6c376946ceed27a1`, build `08b93787969b65e4`, PID 2379644→2382414. Sauvegarde `/home/ubuntu/dev/backups/riftmon-lucie-narration-2026-10-27T21-04-19-901Z`, checkpoint conservé et zéro expédition active relevée. Index/bundles et décors publics vérifiés, anciens assets et Knov/api-test conservés ; empreinte runtime identique, zéro erreur serveur relevée et aucun compte de recette restant. Aucune migration ou mutation de compte réel.
+
 ## Noms des badges — 27 octobre 2026
 
 Mounir : **Badge du Sang-Froid** (`lake_badge`) ; Raphael : **Badge Illusion** (`bloom_badge`) ; Ana : **Badge Noblesse** (`ore_badge`) ; Wanda : **Badge Force** (`tide_badge`). Les quatre noms sont cohérents dans la collection, les répliques de remise et les indications des boutiques (français/anglais). Tous les autres badges, emblèmes, identifiants, ordres, récompenses et conditions restent identiques ; les sauvegardes acquises ne demandent aucune migration.

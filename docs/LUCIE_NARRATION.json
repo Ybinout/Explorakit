@@ -1,0 +1,97 @@
+{
+  "dateParis": "2026-10-27",
+  "narrationMarker": "narration:true",
+  "dialogues": [
+    "lucie_room_entry",
+    "lucie_route2",
+    "lucie_route2_after",
+    "lucie_route2_locked"
+  ],
+  "narratorParagraphs": 7,
+  "textsAndGameplayPreserved": true,
+  "validation": {
+    "tests": {
+      "pass": 17,
+      "fail": 0,
+      "skip": 0
+    },
+    "browser": {
+      "realSocketEntry": true,
+      "narratorItalic": true,
+      "spokenTextNormal": true,
+      "sentencesChecked": 13,
+      "narrationCount": 7,
+      "typingAndActionPreserved": true,
+      "stableTypewriterHeight": true,
+      "otherDialogueNormal": true,
+      "viewports": 4,
+      "screens": [
+        "entry-narration-320.png",
+        "entry-narration-393.png",
+        "entry-narration-844.png",
+        "entry-narration-1365.png",
+        "lucie-spoken-320.png",
+        "lucie-spoken-393.png",
+        "lucie-spoken-844.png",
+        "lucie-spoken-1365.png"
+      ],
+      "errors": []
+    },
+    "lint": true,
+    "build": "08b93787969b65e4",
+    "physicalPhoneTest": false,
+    "commands": [
+      "node --test tests/lucie-scene.test.js tests/lucie-departure.test.js tests/mirror-rift.test.js tests/dialogue-portrait.test.js",
+      "npm --prefix vue-explorakit run lint -- --no-fix",
+      "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-lucie-narration-dist",
+      "DB_TEST_NAME=explorakit_test node --env-file=.env /tmp/riftmon-lucie-narration-browser.cjs"
+    ],
+    "browserScript": "const root='/home/ubuntu/dev/explorakit';\nconst req=require('node:module').createRequire(root+'/package.json');\nconst assert=req('node:assert/strict'),fs=req('node:fs'),http=req('node:http'),{once}=req('node:events'),{randomUUID}=req('node:crypto');\nif(!/test/i.test(process.env.DB_TEST_NAME||''))throw Error('Dedicated test database required');\nprocess.env.DB_NAME=process.env.DB_TEST_NAME;process.env.NODE_ENV='test';\nconst express=req('express'),{Server}=req('socket.io'),{chromium}=req('playwright'),{dbPool:db}=req('./server/config/database');\nconst dist='/tmp/riftmon-lucie-narration-dist',out='/tmp/riftmon-lucie-narration-browser';fs.mkdirSync(out,{recursive:true});\nconst app=express(),server=http.createServer(app),io=new Server(server);app.use(express.json());app.use('/api',req('./server/http/routes'));app.use(express.static(dist));app.get('*',(_q,r)=>r.sendFile(dist+'/index.html'));io.use(req('./server/http/authMiddleware').authenticateSocket);req('./server/realtime/socketHandler')(io);\nlet browser,page,userId,passed=false;const errors=[],screens=[];\nasync function pictures(label){for(const[width,height]of[[320,568],[393,852],[844,390],[1365,900]]){await page.setViewportSize({width,height});await page.evaluate(async width=>{v.showMobileControls=width<=920;await v.$nextTick();v.resizeWorldViewport();},width);await page.waitForTimeout(100);assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));const file=label+'-'+width+'.png';await page.screenshot({path:out+'/'+file});screens.push(file);}await page.setViewportSize({width:393,height:852});await page.evaluate(()=>v.showMobileControls=true);}\n(async()=>{try{\n server.listen(0,'127.0.0.1');await once(server,'listening');const base='http://127.0.0.1:'+server.address().port;\n const response=await fetch(base+'/api/users',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:'lucie_nar_'+randomUUID(),password:randomUUID(),starterId:7})});assert.equal(response.status,201);const fixture=await response.json();userId=fixture.user.id;\n const catalog=req('./data/game/progression.json'),idx=catalog.storySteps.findIndex(s=>s.flag==='lucie_freed');assert(idx>0);\n for(const flag of catalog.storySteps.slice(0,idx).map(s=>s.flag))await db.execute('INSERT INTO player_story_flags(user_id,flag_key,flag_value)VALUES(?,?,?)',[userId,flag,'true']);\n await db.execute(\"UPDATE users SET map='route2_maison',x=432,y=528 WHERE id=?\",[userId]);\n browser=await chromium.launch({headless:true,args:['--no-sandbox']});const context=await browser.newContext({viewport:{width:393,height:852},hasTouch:true});await context.addInitScript(s=>{if(location.protocol==='http:')localStorage.setItem('explorakit.user',JSON.stringify(s));},{...fixture.user,token:fixture.token});page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));\n await page.goto(base+'/game',{waitUntil:'networkidle'});await page.waitForFunction(()=>{const v=document.querySelector('.game-root')?.__vue__;if(!v?.socket?.connected||v.mapLoading||v.endSentences!=='lucie_room_entry'||!v.textImageSequence.length)return false;window.v=v;return true;});\n const state=()=>page.locator('.dialogue-visible').evaluate(e=>({style:getComputedStyle(e).fontStyle,tag:e.tagName,reserved:document.querySelector('.dialogue-reserved')?getComputedStyle(document.querySelector('.dialogue-reserved')).fontStyle:null,text:e.textContent}));\n assert.equal((await state()).style,'normal');await page.locator('.dialogue-layer .text').click();await page.locator('.dialogue-layer .text').click();await page.waitForTimeout(120);assert.equal((await state()).style,'italic');assert.equal((await state()).reserved,'italic');assert.equal((await state()).tag,'EM');\n const typing=await page.evaluate(()=>{const d=document.querySelector('.dialogue-shell').__vue__;return d.displayedText.length<d.currentText.length;});assert(typing);\n const initialHeight=await page.locator('.text-with-image').evaluate(e=>e.getBoundingClientRect().height);await page.locator('.dialogue-layer .text').click();assert(Math.abs(await page.locator('.text-with-image').evaluate(e=>e.getBoundingClientRect().height)-initialHeight)<1);await pictures('entry-narration');\n let checked=0;const entries=req('./data/game/interact.json').filter(e=>['lucie_room_entry','lucie_route2','lucie_route2_after','lucie_route2_locked'].includes(e.name));\n for(const entry of entries){await page.evaluate(e=>{v.updateTextImageSequence(e.sentences,e.name);v.endSentences=e.name;},entry);for(let i=0;i<entry.sentences.length;i++){\n  assert.equal((await state()).style,entry.sentences[i].narration?'italic':'normal');assert.equal((await state()).tag,entry.sentences[i].narration?'EM':'SPAN');checked++;\n  if((await state()).text!==entry.sentences[i].text)await page.locator('.dialogue-layer .text').click();assert.equal((await state()).text,entry.sentences[i].text);\n  if(entry.name==='lucie_route2'&&i===1)await pictures('lucie-spoken');\n  if(i<entry.sentences.length-1)await page.locator('.dialogue-layer .text').click();\n }}\n await page.evaluate(()=>{v.updateTextImageSequence([{text:'Wayne : Tu cherches ta sœur Lucie ?',imageName:'wayne-eyepatch-v1.png',typewriterMs:0}],'dia1');v.endSentences='dia1';});assert.equal((await state()).style,'normal');assert.deepEqual(errors,[]);\n passed=true;const result={realSocketEntry:true,narratorItalic:true,spokenTextNormal:true,sentencesChecked:checked,narrationCount:entries.flatMap(e=>e.sentences).filter(s=>s.narration).length,typingAndActionPreserved:true,stableTypewriterHeight:true,otherDialogueNormal:true,viewports:4,screens,errors};fs.writeFileSync(out+'/results.json',JSON.stringify(result,null,2));console.log(JSON.stringify(result));\n}finally{if(!passed&&page)await page.screenshot({path:out+'/failure.png'}).catch(()=>{});await browser?.close();await new Promise(r=>io.close(r));await new Promise(r=>setTimeout(r,200));if(userId)await db.execute('DELETE FROM users WHERE id=?',[userId]);await db.end();}})().catch(e=>{console.error(e.stack);process.exitCode=1});\n"
+  },
+  "deployment": {
+    "publishedAt": "2026-10-27T21:04:22.684Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-lucie-narration-2026-10-27T21-04-19-901Z",
+    "sourceBaseline": "ba74643109b2205fec9c91618146e6e5a9280626",
+    "sourceHashes": {
+      "data/game/interact.json": "e4498895d73bd7bdc6f3dfbefbba62bd35ce436759cb282aead13f655f10f1e0"
+    },
+    "clientCommit": "fe3404d794a56ae83ff3d82a6c376946ceed27a1",
+    "clientBuild": "08b93787969b65e4",
+    "beforePid": "2379644",
+    "afterPid": "2382414",
+    "activeRuns": 0,
+    "checkpointSaved": true,
+    "serverRestarted": true,
+    "gracefulCheckpoint": true,
+    "neighborsUnchanged": true,
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.7b1f94b8.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.7b921008.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.92482ce1.css",
+      "img/ville4_arene.4d111715.png",
+      "img/tour_rdc.e03e0f06.png",
+      "img/tour_etage1.8ec612be.png",
+      "img/tour_etage2.18713452.png",
+      "img/tour_etage3.ac05c302.png",
+      "img/6931.30769aa5.png"
+    ],
+    "embedded": [
+      "pnj/professor-ko-pixel-v1.png",
+      "pnj/clement-pixel-v2.png"
+    ],
+    "oldHashedAssetsRetained": true,
+    "sqlMigration": false,
+    "realAccountsModified": false
+  },
+  "postDeployment": {
+    "runtimeHashesMatch": true,
+    "serverErrors": 0,
+    "fixtureRemainders": 0
+  }
+}
