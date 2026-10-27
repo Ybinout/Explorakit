@@ -74,6 +74,7 @@ async function loadProgressState(userId) {
     const effectiveFlags = effectiveStoryFlags({ flags });
     const storedQuests = new Map(questRows.map((row) => [row.quest_key, row]));
     const storedBadges = new Map(badgeRows.map((row) => [row.badge_key, row]));
+    const endingResolution=storedBadges.has('violence_badge')?'violence':storedBadges.has('pardon_badge')?'pardon':['violence','pardon'].includes(flags.void_resolution)?flags.void_resolution:flags.void_defeated==='true'?'violence':null;
     const quests = (progressionCatalog.quests || []).filter(definition=>meetsRequirements(definition,{flags})).map((definition) => {
         const stored = storedQuests.get(definition.key);
         return {
@@ -99,6 +100,7 @@ async function loadProgressState(userId) {
         .map((definition) => ({
             ...definition,
             earned: storedBadges.has(definition.key),
+            ...(definition.exclusiveGroup==='professor_finale'?{cracked:Boolean(endingResolution&&definition.ending!==endingResolution)}:{}),
             awardedAt: storedBadges.get(definition.key)?.awarded_at || null
         }))
         .sort((left, right) => Number(left.order) - Number(right.order));

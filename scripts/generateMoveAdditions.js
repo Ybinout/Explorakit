@@ -3,7 +3,7 @@ const fs=require('node:fs'),path=require('node:path');
 const {Dex}=require(process.env.ABILITY_DEX_PATH||'@pkmn/dex'),dex=Dex.mod('gen7');
 const root=path.resolve(__dirname,'..'),file=path.join(root,'data/game/moves.json');
 const catalog=JSON.parse(fs.readFileSync(file)),source=require('../data/vendor/pokeapi/learnsets.gen7.json');
-const ids=[618,619,620,660,667,668,672,673,675,678,679,681,682,684,692,693,694,706,707,710,715];
+const ids=[618,619,620,660,667,668,672,673,675,678,679,681,682,684,685,692,693,694,706,707,710,715];
 const stat={atk:'attack',def:'defense',spa:'specialAttack',spd:'specialDefense',spe:'speed',accuracy:'accuracy',evasion:'evasion'};
 const normalize=name=>name.toLowerCase().replace(/[^a-z0-9]/g,'');
 let next=Math.max(...catalog.map(m=>m.id))+1;
@@ -16,6 +16,7 @@ for(const sourceId of ids){
  for(const[key,stages]of Object.entries(move.self?.boosts||{}))effects.push({kind:'stat_stage',target:'self',stat:stat[key],stages});
  if(move.name==='Toxic Thread')effects.push({kind:'status',target:'opponent',status:'poison',chance:1});
  if(move.name==='Strength Sap')effects.push({kind:'strength_sap'});
+ if(move.name==='Purify')effects.push({kind:'purify'});
  if(move.name==='Laser Focus')effects.push({kind:'laser_focus',target:'self',turns:2});
  if(move.name==='Throat Chop')effects.push({kind:'sound_block',turns:2,chance:1,secondary:true});
  if(move.name==='Psychic Terrain')effects.push({kind:'field',field:'psychic_terrain',turns:5});
@@ -36,6 +37,9 @@ if(process.argv.includes('--check')){if(fs.readFileSync(file,'utf8')!==bytes)thr
 const flagsFile=path.join(root,'data/game/move_ability_flags.gen7.json'),flags=JSON.parse(fs.readFileSync(flagsFile));
 for(const name of added){const m=dex.moves.get(name),value={};for(const k of ['contact','punch','bite','sound','bullet','pulse','powder','heal'])if(m.flags[k])value[k]=true;if(m.secondaries?.length)value.secondary=true;flags.moves[name]=value;}
 const flagBytes=JSON.stringify(flags,null,2)+'\n';if(process.argv.includes('--check')){if(fs.readFileSync(flagsFile,'utf8')!==flagBytes)throw Error('Stale move flags');}else fs.writeFileSync(flagsFile,flagBytes);
+const traitsFile=path.join(root,'data/game/ability_move_traits.gen7.json'),traits=JSON.parse(fs.readFileSync(traitsFile));
+for(const name of added)if(dex.moves.get(name).flags.reflectable)traits.moves[name]={...(traits.moves[name]||{}),reflectable:true};
+const traitBytes=JSON.stringify(traits,null,2)+'\n';if(process.argv.includes('--check')){if(fs.readFileSync(traitsFile,'utf8')!==traitBytes)throw Error('Stale move traits');}else fs.writeFileSync(traitsFile,traitBytes);
 const spreadFile=path.join(root,'data/vendor/pokeapi/spread-moves.json'),spread=JSON.parse(fs.readFileSync(spreadFile));
 spread.moves=[...new Set([...spread.moves,...added.filter(name=>['allAdjacent','allAdjacentFoes','all'].includes(dex.moves.get(name).target)&&dex.moves.get(name).category!=='Status')])].sort();
 const spreadBytes=JSON.stringify(spread,null,2)+'\n';if(process.argv.includes('--check')){if(fs.readFileSync(spreadFile,'utf8')!==spreadBytes)throw Error('Stale spread moves');}else fs.writeFileSync(spreadFile,spreadBytes);

@@ -1,5 +1,21 @@
 # Audit technique et mémoire de RiftMon
 
+## Fin secrète — Pardon, Purification et cahiers du Professeur — 27 octobre 2026
+
+Le Professeur humain de l’arène oubliée porte le statut narratif violet `corrupted` (Corrompu). Une attaque offensive conserve l’issue Violence ; la capacité réellement connue Purify/Purification, avec PP et contraintes d’action valides, apaise le Professeur, le laisse debout et déclenche ses excuses. Pardon est remis immédiatement dans la transaction qui verrouille l’issue. Un seul badge de fin est possible par compte : les deux restent visibles, l’autre se fissure, et le maximum de collection est de sept (six champions + une issue). Aucun effet sur les paliers de capture, aucun gain XP/EV/argent/butin dans cette scène humaine.
+
+Les anciennes fins Violence sont conservées. Verrou joueur SQL, appels répétés et issues concurrentes contrôlés ; reconnexion reprend les excuses non terminées. Le reset admin conserve les acquis permanents et réinitialise uniquement une répétition privée, y compris son choix et ses répliques. Ne pas autoriser le client à transmettre directement une issue ou renommer les flags historiques.
+
+Purification est une nouvelle CS à 3 000, au rayon EV/IV du Grand Comptoir après Hoze, compatible avec les 66 espèces Poison des données existantes. Exception intentionnelle, sans modifier les autres compatibilités ; apprentissage et consommation transactionnels existants. En combat ordinaire des trois modes, elle soigne le statut majeur adverse puis rend la moitié des PV max au lanceur. Clone, Abri, Anti-Soin, sommeil, objets Choix et Miroir Magik couverts. Catalogue 634 capacités/264 CS, ID existants conservés, générateurs et modèle IA mis à jour.
+
+Cinq cahiers scientifiques distincts sont posés sur le sol de l’arène, hors portes et axe central. Action à proximité : deux pages chacun, lecture pleine largeur sans portrait ni défilement lettre par lettre, sans mutation de progression. Recherches sur guérison du monde, mémoire des capacités, exposition violette et responsabilité envers Lucie ; la solution n’est pas donnée comme une consigne de jeu. Dessin Canvas statique de petits livres, aucune carte ni image de décor modifiée.
+
+Validation : 270 tests ciblés réussis (une recette SQL optionnelle ignorée dans le lancement unitaire, exécutée avec succès séparément), 23 scénarios MySQL réussis et trois contrôles unitaires répétés dans le lot SQL ; zéro échec final. Achat/apprentissage réels, deux issues, concurrence, PP/Choix, absence de récompenses ordinaires, reconnexion et bouton admin sur comptes jetables. Navigateur compilé sur quatre formats 320/393/844/1365 : 40 captures et une capture d’effet, zéro erreur ; carnet, statut et badges inspectés. Générateurs vérifiés, audit 2 536 exécutions sans échec, apprentissages de 493 espèces/2 465 rencontres vérifiés ; lint/build `461e8e3a3d97bd49`, syntaxe/diff valides. Les anciennes attentes des tests machines/catalogue et filtres des seuls flags de replay admin ont été actualisés. Pas de matériel physique ni de conformité exhaustive de toutes les capacités revendiqués. Rapport et commandes : `docs/PARDON_ENDING.json`.
+
+
+Publication serveur/client le 27 octobre 2026 à 20 h 37 (Europe/Paris), client `204b65da23920a190c2a4bf54dd09cf958ef8935`, build `461e8e3a3d97bd49`, PID 2334709→2356251. Sauvegarde `/home/ubuntu/dev/backups/riftmon-pardon-2026-10-27T19-36-57-527Z`, checkpoint conservé, zéro expédition active relevée. Index/bundles et décors publics vérifiés, anciens assets et Knov/api-test conservés ; empreintes runtime identiques, zéro erreur serveur relevée après publication et aucun compte de recette restant. Aucune migration ou mutation de compte réel.
+
+
 ## Morsure, apeurement et attaques qui brisent les protections — 27 octobre 2026
 
 Morsure vérifiée sans panne générale reproduite : dégâts Ténèbres physiques, un PP, 30 % d’apeurement (60 % avec Sérénité), première/deuxième action, talents et animation. Ces règles passaient déjà avant patch. Sans Limite/Écran Poudre signalent désormais pourquoi l’apeurement est empêché, également pour les autres capacités concernées ; probabilités et dégâts conservés.
@@ -4285,6 +4301,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 27 octobre 2026 — Fin alternative Pardon et statut Corrompu ; Purification en CS pour tous les types Poison, cinq cahiers de recherche, choix de badge exclusif et autre badge fissuré. Sauvegardes Violence et reset admin privé conservés. 270 tests, 23 scénarios SQL et navigateur quatre formats validés. Rapport `docs/PARDON_ENDING.json`.
 
 - 27 octobre 2026 — Morsure vérifiée sans panne générale reproduite ; blocages de talents mieux signalés. Ruse/Trou Dimensionnel/Hantise/Revenant corrigés face aux protections et Clone, modèle IA cohérent. 476 tests, 31 recettes SQL et navigateur trois modes/quatre tailles réussis ; serveur publié avec sauvegarde, client/voisins conservés. Rapport `docs/MOVE_FLINCH_AND_GUARDS.json`.
 

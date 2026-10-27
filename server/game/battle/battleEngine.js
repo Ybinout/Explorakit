@@ -1357,6 +1357,16 @@ function applyEffect(effect, context, moveResult) {
             clearStatus(effectTargetPokemon, messages, Array.isArray(effect.statuses) ? effect.statuses : null);
             return;
 
+        case 'purify': {
+            if (!NON_VOLATILE_STATUSES.has(effectTargetPokemon.status)) {
+                moveResult.success=false;messages.push('Purification échoue : la cible ne souffre d’aucun problème de statut.');return;
+            }
+            clearStatus(effectTargetPokemon,messages,null,false);
+            const healed=healPokemon(context.attacker,Math.ceil(context.attacker.maxHp/2));
+            if(healed)messages.push(`${getPokemonDisplayName(context.attacker)} récupère ${healed} PV grâce à Purification.`);
+            return;
+        }
+
         case 'cure_status_team':
             if (Array.isArray(context.attackerTeam)) {
                 for (const pokemon of context.attackerTeam) {
@@ -2062,7 +2072,7 @@ function processTurnStart(pokemon, options = {}) {
     }
 
     if (pokemonData.healBlockTurns > 0 && Array.isArray(move?.combat?.effects)
-        && move.combat.effects.some((effect) => ['heal','strength_sap'].includes(effect.kind))) {
+        && move.combat.effects.some((effect) => ['heal','strength_sap','purify'].includes(effect.kind))) {
         messages.push(`${pokemonName} ne peut pas utiliser ${move.ename} a cause d'Anti-Soin.`);
         return { canAct: false, messages };
     }
@@ -3347,7 +3357,10 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         const targetsEnemy=!callsMove && !['self','self_side','field','all','opponent_side'].includes(effect.target||moveTarget);
         if(targetsEnemy && damageClass!=='status' && !moveResult.damage)continue;
         if(targetsEnemy && (defenderData.substituteHp>0 || moveResult.substituteDamage>0)
-            && !moveGuards.bypassesSubstitute(attacker,move))continue;
+            && !moveGuards.bypassesSubstitute(attacker,move)){
+            if(effect.kind==='purify'){moveResult.success=false;moveResult.blocked=true;moveResult.messages.push('Le clone empêche Purification d’atteindre sa cible.');}
+            continue;
+        }
         if(targetsEnemy && hasPassiveAbility(attacker,'Infiltrator'))effectContext.ignoreSafeguard=true;
         if(targetsEnemy && damageClass!=='status' && effect.chance!=null && !ignoresDefenderAbility(attacker,defender) && hasPassiveAbility(defender,'Shield Dust'))continue;
         const resolved=damageClass!=='status' && effect.chance!=null && hasPassiveAbility(attacker,'Serene Grace') ? {...effect,chance:Math.min(1,effect.chance*2)} : effect;

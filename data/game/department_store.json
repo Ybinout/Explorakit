@@ -1227,6 +1227,10 @@
           "price": 3000,
           "requiredTier": 2
         },
+        "cs_purify": {
+          "price": 3000,
+          "requiredTier": 2
+        },
         "cs_dragon_hammer": {
           "price": 4000,
           "requiredTier": 2

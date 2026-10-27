@@ -166,6 +166,12 @@ function cast(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMoved=fa
         if(effect.kind==='laser_focus'){recognized=true;p.__battle.laserFocusTurns=2;useful=true;}
         if(effect.kind==='sound_block'&&inflicted>0&&ability(p)!=='Sheer Force'&&ability(other)!=='Shield Dust'){recognized=true;other.__battle.soundBlockedTurns=2;useful=true;}
         if(effect.kind==='strength_sap'){recognized=true;if((other.__battle.statStages.attack||0)>-6&&!(p.__battle.healBlockTurns>0)){const amount=other.attack*((other.__battle.statStages.attack||0)>=0?(2+(other.__battle.statStages.attack||0))/2:2/(2-(other.__battle.statStages.attack||0)));engine.applyStageChange(other,'attack',-1,[],p);if(ability(other)==='Liquid Ooze'){if(ability(p)!=='Magic Guard')hp(p,p.currentHp-amount);}else heal(p,amount);useful=true;}}
+        if(effect.kind==='purify'){
+            recognized=true;
+            if(['burn','poison','badly_poison','paralyze','sleep','freeze'].includes(other.status)&&!(p.__battle.healBlockTurns>0)&&!(guard.get(other)>0)&&(!wasSubstitute||moveGuards.bypassesSubstitute(p,move))){
+                other.status='normal';other.__battle.sleepTurns=0;other.__battle.toxicCounter=1;heal(p,Math.ceil(p.maxHp/2));useful=true;
+            }
+        }
         if(effect.kind==='field') {
             const key={reflect:'reflectTurns',aurora_veil:'auroraVeilTurns',light_screen:'lightScreenTurns',tailwind:'tailwindTurns',safeguard:'safeguardTurns'}[effect.field];
             if(key){recognized=true;if(!(side.screens[key]>1)&&(effect.field!=='aurora_veil'||state.weather.kind==='hail')){side.screens[key]=5;useful=true;}}

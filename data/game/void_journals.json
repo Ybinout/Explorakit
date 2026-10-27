@@ -1,0 +1,59 @@
+{
+  "journals": [
+    {
+      "id": "lattice",
+      "title": "Cahier I · Échantillon C-03",
+      "x": 8,
+      "y": 9,
+      "cover": "#647b70",
+      "pages": [
+        "Carnet du Professeur — Observation 04.\n\nUn fragment de cristal trouvé près de la faille émet une vibration faible, régulière. Au contact d’une feuille desséchée, les nervures ont repris leur couleur. Aucun apport d’eau. Aucune variation mesurable de température.",
+        "Hypothèse : le cristal ne produit pas de vie ; il conserve la trace d’un état antérieur et la restitue. Si nous apprenions à guider ce phénomène, des terres malades pourraient retrouver leur équilibre. Pour la première fois depuis longtemps, j’entrevois une manière de soigner ce monde."
+      ]
+    },
+    {
+      "id": "imprint",
+      "title": "Cahier II · Mémoire de résonance",
+      "x": 19,
+      "y": 8,
+      "cover": "#69768d",
+      "pages": [
+        "Carnet du Professeur — Protocole 11.\n\nAprès exposition à une capacité électrique, le fragment a reproduit une décharge comparable, de moindre intensité. Un second essai avec une capacité Eau a remplacé cette empreinte. Le cristal semble copier l’énergie des capacités, sans la comprendre.",
+        "Un Pokémon choisit quand agir. Le cristal, lui, répète. Il faudra distinguer la mémoire d’un geste de la volonté de celui qui l’a accompli. Je refuse que mes recherches réduisent les Pokémon à des instruments. Cette phrase doit rester en tête de chaque protocole."
+      ]
+    },
+    {
+      "id": "exposure",
+      "title": "Cahier III · Exposition prolongée",
+      "x": 8,
+      "y": 14,
+      "cover": "#8c7560",
+      "pages": [
+        "Carnet du Professeur — Suivi clinique personnel.\n\nExposition quotidienne : durée désormais difficile à estimer. Troubles du sommeil, sensation de froid dans les mains, échos de paroles non prononcées. Les fragments ont pris une teinte violette. Je me surprends à leur répondre.",
+        "J’ai déplacé l’échantillon pour ne plus l’entendre. Une heure plus tard, il était de nouveau sur mon bureau. J’ai dû le rapporter moi-même. Je n’en garde aucun souvenir.\n\nNote ajoutée en marge : suspendre les essais. Prévenir quelqu’un. Ne pas rester seul."
+      ]
+    },
+    {
+      "id": "counterphase",
+      "title": "Cahier IV · Essai de contrephase",
+      "x": 19,
+      "y": 14,
+      "cover": "#80698c",
+      "pages": [
+        "Carnet du Professeur — Essai 27.\n\nLa chaleur et les chocs brisent les fragments, mais dispersent leur résonance. Ce procédé ne soigne rien. Une sécrétion issue d’un Pokémon Poison a, au contraire, fixé les impuretés sans détruire la structure. La coloration violette a reculé.",
+        "Le phénomène ressemble à une purification : retirer ce qui altère un être, sans effacer ce qu’il est. Les Pokémon Poison ne font pas que contaminer ; certains savent aussi séparer et neutraliser. Je dois retrouver ce geste. Tant que je peux encore écrire cette phrase, il doit rester quelque chose à sauver."
+      ]
+    },
+    {
+      "id": "lastnote",
+      "title": "Feuillets · Dernière note lisible",
+      "x": 17,
+      "y": 6,
+      "cover": "#7d555d",
+      "pages": [
+        "La rigueur m’oblige à l’écrire : j’ai confondu ce que je pouvais faire avec ce que j’avais le droit de faire. Lucie avait peur. Je l’ai entendu et j’ai continué. Aucune découverte ne rend cela acceptable.",
+        "Si quelqu’un retrouve ces cahiers, ne prenez pas mon silence pour un consentement. Les cristaux me montrent un monde réparé, puis réclament toujours davantage. Je ne sais plus quelle voix est la mienne.\n\nLe reste de la page est couvert de traits violets."
+      ]
+    }
+  ]
+}

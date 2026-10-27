@@ -498,7 +498,7 @@ const socketHandler = (io) => {
                 const map=player.currentmap,progress=progression||await loadProgressState(userId);
                 if(!socket.connected||players[socket.id]!==player||player.currentmap!==map||player.inbattle||pendingDialogue)return;
                 const scene=voidEnding.entryDialogue(progress);if(!scene)return;
-                pendingDialogue={...createDialogueAuthorization({name:scene.name,map,x:Math.floor(player.x/32),y:Math.floor(player.y/32)}),arenaEntry:true,voidEntry:true};
+                pendingDialogue={...createDialogueAuthorization({name:scene.name,map,x:Math.floor(player.x/32),y:Math.floor(player.y/32)}),arenaEntry:true,voidEntry:scene.name===voidEnding.dialogues.entry.name,voidPardon:scene.name===voidEnding.dialogues.pardon.name};
                 socket.emit('dialogue',[scene.sentences,scene.name,{entryMap:map}]);return;
             }
             const arenaScenes = require('../game/world/arenaScenes');
@@ -1061,6 +1061,12 @@ const socketHandler = (io) => {
             const authorization = pendingDialogue;
             pendingDialogue = null;
 
+            if(authorization.voidJournal)return;
+            if(authorization.voidPardon){
+                await require('../persistence/voidEndingRepository').acknowledgePardon(userId);
+                emitPlayerProgression(await loadProgressState(userId));return;
+            }
+
             const departure=lucieScene.profiles.find(scene=>scene.dialogue===dialogueName);
             if(departure) {
                 await require('./handlers/lucieDepartureHandlers').depart({socket,userId,player,getPlayer:()=>players[socket.id],setLeaving:value=>{lucieLeaving=value;},emitProgression:emitPlayerProgression,syncPeers:progress=>refreshReplaySessions(progress),profile:departure});
@@ -1078,9 +1084,19 @@ const socketHandler = (io) => {
                 if(!r.owned||!r.state.available||!r.state.found||r.state.charge!==5||r.state.defeated||!voidEnding.adjacent(player,voidEnding.config.professor)||!hasConsciousPokemon(player.equipe))return;
                 player.inbattle=true;
                 socket.emit('battletrigger',{battleType:'trainer',musicKind:'void',environment:'void-arena',trainerKey:'professor_final'});
-                account.track(require('../game/battle/professorFinale').start(player,io,userId,{onVictory:()=>require('../persistence/voidEndingRepository').defeat(userId)})
+                let resolution=null;
+                account.track(require('../game/battle/professorFinale').start(player,io,userId,{onResolve:async choice=>{
+                    const result=await require('../persistence/voidEndingRepository').resolveOutcome(userId,choice);if(result)resolution=choice;return result;
+                }})
                     .catch(error=>console.error('Confrontation interrompue:',error.message))
-                    .finally(async()=>{if(players[socket.id]===player){player.inbattle=false;emitPlayerProgression(await loadProgressState(userId));socket.emit('teamStateChanged',{reason:'finale',equipe:player.equipe});}}));
+                    .finally(async()=>{if(players[socket.id]===player){
+                        player.inbattle=false;emitPlayerProgression(await loadProgressState(userId));socket.emit('teamStateChanged',{reason:'finale',equipe:player.equipe});
+                        if(resolution==='pardon'&&socket.connected&&player.currentmap===voidEnding.config.map){
+                            const scene=voidEnding.dialogues.pardon;
+                            pendingDialogue={...createDialogueAuthorization({name:scene.name,map:currentmap,x:voidEnding.config.professor.x,y:voidEnding.config.professor.y}),arenaEntry:true,voidPardon:true};
+                            socket.emit('dialogue',[scene.sentences,scene.name,{afterBattle:true}]);
+                        }
+                    }}));
                 return;
             }
             const dialogueAction = getEndSentenceInformation(dialogueName);
@@ -1215,6 +1231,19 @@ const socketHandler = (io) => {
             if (player.inbattle || player.inventoryBusy) return;
             if (fishing.current(player)) { fishing.reel(player,fishing.current(player).id); return; }
 
+            if(!transitionBusy&&!pendingDialogue&&currentmap===voidEnding.config.map){
+                const book=voidEnding.journalAt(player);
+                if(book){
+                    const r=await require('../persistence/voidEndingRepository').read(userId);
+                    if(r.owned&&r.state.available&&r.state.found&&r.state.charge===5){
+                        const name='void_journal_'+book.id;
+                        pendingDialogue={...createDialogueAuthorization({name,map:currentmap,x:book.x,y:book.y}),arenaEntry:true,voidJournal:true};
+                        socket.emit('dialogue',[book.pages.map((text,index)=>({text:book.title+' · '+(index+1)+'/'+book.pages.length+'\n\n'+text,typewriterMs:0})),name]);
+                    }
+                    return;
+                }
+            }
+
             if(!transitionBusy&&!pendingDialogue&&(currentmap==='professor_lab'||currentmap===voidEnding.config.map)){
                 const target=currentmap==='professor_lab'?voidEnding.config.pickup:voidEnding.config.professor;
                 if(voidEnding.adjacent(player,target)){
@@ -1226,6 +1255,11 @@ const socketHandler = (io) => {
                         }
                         if(r.state.found&&r.owned&&r.state.charge===5){
                             if(r.state.defeated){
+                                if(r.state.resolution==='pardon'){
+                                    const scene=r.state.pardonSeen?voidEnding.dialogues.pardonedReturn:voidEnding.dialogues.pardon;
+                                    pendingDialogue={...createDialogueAuthorization({name:scene.name,map:currentmap,x:target.x,y:target.y}),arenaEntry:true,voidPardon:true};
+                                    socket.emit('dialogue',[scene.sentences,scene.name]);return;
+                                }
                                 const claimed=await repository.badge(userId);emitPlayerProgression(await loadProgressState(userId));
                                 const name='professor_final_silence';pendingDialogue=createDialogueAuthorization({name,map:currentmap,x:target.x,y:target.y});
                                 socket.emit('dialogue',[[{text:claimed?'Tu récupères le Badge Violence.\n\nLe silence retombe. Cette fois, c’est terminé.':'Le Professeur reste au sol. Plus rien ne bouge.',typewriterMs:45}],name]);return;

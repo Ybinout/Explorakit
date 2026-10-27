@@ -2066,6 +2066,9 @@
     },
     "Tearful Look": {
       "reflectable": true
+    },
+    "Purify": {
+      "reflectable": true
     }
   },
   "weights": {

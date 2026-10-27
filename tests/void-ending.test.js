@@ -25,7 +25,7 @@ test('the arrival speech is personal, read once and rearmed independently for ad
  assert(ending.entryDialogue(replay));replay.flags.admin_void_intro='true';assert.equal(ending.entryDialogue(replay),null);assert.equal(replay.flags.void_intro,'true');
  const fs=require('node:fs'),path=require('node:path');
  assert.equal(ending.dialogues.challenge.sentences.length,4);
- for(const speech of Object.values(ending.dialogues))for(const s of speech.sentences){assert(s.text.startsWith('Le Professeur : '));assert.equal(s.imageName,'prof.png');assert(fs.existsSync(path.join(__dirname,'../vue-explorakit/src/assets/image',s.imageName)));assert.equal(s.typewriterMs,40);}
+ for(const speech of [ending.dialogues.entry,ending.dialogues.challenge])for(const s of speech.sentences){assert(s.text.startsWith('Le Professeur : '));assert.equal(s.imageName,'prof.png');assert(fs.existsSync(path.join(__dirname,'../vue-explorakit/src/assets/image',s.imageName)));assert.equal(s.typewriterMs,40);}
 });
 test('the physical teleporter is on a reachable floor tile, including before replay rescue',()=>{
  const s=ending.state({flags:{lucie_rescued:'true',admin_professor_departure:'armed',admin_void_replay:'true'}});

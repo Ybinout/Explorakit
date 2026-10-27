@@ -92,7 +92,18 @@
       "name": "Badge Violence",
       "description": "Le silence est retombé.",
       "order": 7,
-      "countsForCapture": false
+      "countsForCapture": false,
+      "exclusiveGroup": "professor_finale",
+      "ending": "violence"
+    },
+    {
+      "key": "pardon_badge",
+      "name": "Badge Pardon",
+      "description": "Ce qui était corrompu peut encore être sauvé.",
+      "order": 8,
+      "countsForCapture": false,
+      "exclusiveGroup": "professor_finale",
+      "ending": "pardon"
     }
   ],
   "npcBattles": {

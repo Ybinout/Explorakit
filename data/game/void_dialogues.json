@@ -38,5 +38,50 @@
         "typewriterMs": 40
       }
     ]
+  },
+  "pardon": {
+    "name": "professor_pardoned",
+    "sentences": [
+      {
+        "text": "Le Professeur : Le bruit… Il s’arrête. Je peux enfin entendre ma propre voix. C’est toi qui as fait ça ?",
+        "imageName": "prof.png",
+        "typewriterMs": 45
+      },
+      {
+        "text": "Le Professeur : Lucie… Je lui ai fait peur. Je vous ai séparés et je l’ai retenue pour mes expériences. Je le savais, au fond. J’ai continué quand même. Je suis désolé.",
+        "imageName": "prof.png",
+        "typewriterMs": 45
+      },
+      {
+        "text": "Le Professeur : Au début, je voulais soigner les terres abîmées. Puis les cristaux ont commencé à me montrer tout ce que je pouvais accomplir. Chaque limite me semblait être un obstacle de plus à briser.",
+        "imageName": "prof.png",
+        "typewriterMs": 45
+      },
+      {
+        "text": "Le Professeur : Ce que j’ai fait ne disparaît pas avec cette couleur violette. Je vais rendre mes notes, répondre de mes actes et avertir les autres. Plus personne ne doit s’approcher de ces cristaux sans savoir.",
+        "imageName": "prof.png",
+        "typewriterMs": 45
+      },
+      {
+        "text": "Le Professeur : Tu aurais pu me laisser ici. Tu as essayé autre chose. Je n’oublierai pas ce geste. Prends ce badge… C’est le seul que je puisse encore te remettre honnêtement.",
+        "imageName": "prof.png",
+        "typewriterMs": 45
+      },
+      {
+        "text": "Tu reçois le Badge Pardon.\n\nLe Professeur baisse les yeux. La salle reste en ruine, mais sa voix ne résonne plus à travers les cristaux.",
+        "imageName": "prof.png",
+        "typewriterMs": 45
+      }
+    ]
+  },
+  "pardonedReturn": {
+    "name": "professor_pardoned_return",
+    "sentences": [
+      {
+        "text": "Le Professeur : Lucie ne me doit rien. Vous ne me devez rien. C’est à moi, maintenant, de réparer ce qui peut encore l’être.",
+        "imageName": "prof.png",
+        "typewriterMs": 40
+      }
+    ]
   }
 }

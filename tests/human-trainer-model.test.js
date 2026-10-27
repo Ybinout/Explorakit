@@ -26,7 +26,9 @@ for(const [label,id,move,props,foeMove,foeProps,first,weather] of [
     ['no secondary on an immune target',112,'Mud Shot',{},'Splash',{type1:'Flying'},true],
     ['healing blocked',143,'Recover',{currentHp:100,__battle:{statStages:{},healBlockTurns:2}},'Splash',{},true],
     ['Feint breaks Protect',143,'Feint',{},'Protect',{},false],
-    ['Hyperspace Hole bypasses Substitute',143,'Hyperspace Hole',{},'Substitute',{},false]
+    ['Hyperspace Hole bypasses Substitute',143,'Hyperspace Hole',{},'Substitute',{},false],
+    ['Purify cures target and heals user',1,'Purify',{currentHp:80},'Splash',{status:'poison'},true],
+    ['Purify fails on a healthy target',1,'Purify',{currentHp:80},'Splash',{},true]
 ]) test(`turn projection agrees with actual item/HP mechanics: ${label}`,()=>{
     const a=mon(id,move,props),b=mon(143,foeMove,foeProps),field=engine.createBattleState();if(weather)field.weather={kind:weather,turns:4};
     const ctx={field,ownSide:field.sides.player,enemySide:field.sides.enemy,chance:()=>1,

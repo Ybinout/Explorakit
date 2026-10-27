@@ -13802,5 +13802,28 @@
                 }
             ]
         }
+    },
+    {
+        "id": 641,
+        "sourceMoveId": 685,
+        "catalogueRevision": 2,
+        "ename": "Purify",
+        "type": "Poison",
+        "category": "sta",
+        "power": null,
+        "accuracy": null,
+        "pp": 20,
+        "combat": {
+            "damage_class": "status",
+            "power_type": "status",
+            "priority": 0,
+            "crit_stage": 0,
+            "target": "single",
+            "effects": [
+                {
+                    "kind": "purify"
+                }
+            ]
+        }
     }
 ]

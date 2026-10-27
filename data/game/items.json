@@ -1394,6 +1394,44 @@
       "description": "Trouvée sous le caillou près du laboratoire du Professeur. Ouvre sa porte et reste dans ton sac."
     },
     {
+      "key": "void_teleporter",
+      "name": "Téléporteur déchargé",
+      "category": "key",
+      "unique": true,
+      "description": "Semble se charger à proximité de l’électricité. 0/5",
+      "voidTravel": true
+    },
+    {
+      "key": "crystal_shard",
+      "name": "Éclat fissuré",
+      "category": "treasure",
+      "buy_price": 0,
+      "sell_price": 50,
+      "dropOnly": true,
+      "wildCrystalChance": 0.25,
+      "description": "Un fragment de cristal aux arêtes brisées. Les boutiques le rachètent 50 ₽."
+    },
+    {
+      "key": "clear_crystal",
+      "name": "Cristal limpide",
+      "category": "treasure",
+      "buy_price": 0,
+      "sell_price": 150,
+      "dropOnly": true,
+      "wildCrystalChance": 0.1,
+      "description": "Un cristal intact aux reflets azurés. Les boutiques le rachètent 150 ₽."
+    },
+    {
+      "key": "aurora_prism",
+      "name": "Prisme d’aurore",
+      "category": "treasure",
+      "buy_price": 0,
+      "sell_price": 500,
+      "dropOnly": true,
+      "wildCrystalChance": 0.05,
+      "description": "Un cristal d’une pureté rare, traversé de reflets irisés. Les boutiques le rachètent 500 ₽."
+    },
+    {
       "key": "cs_mega_punch",
       "name": "CS Ultimapoing",
       "category": "machine",
@@ -3698,6 +3736,15 @@
       "machineMove": "Smart Strike"
     },
     {
+      "key": "cs_purify",
+      "name": "CS Purification",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Purification à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Purify"
+    },
+    {
       "key": "cs_dragon_hammer",
       "name": "CS Draco-Marteau",
       "category": "machine",
@@ -3759,44 +3806,6 @@
       "sell_price": 0,
       "description": "Apprend Larme à l’Œil à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
       "machineMove": "Tearful Look"
-    },
-    {
-      "key": "void_teleporter",
-      "name": "Téléporteur déchargé",
-      "category": "key",
-      "unique": true,
-      "description": "Semble se charger à proximité de l’électricité. 0/5",
-      "voidTravel": true
-    },
-    {
-      "key": "crystal_shard",
-      "name": "Éclat fissuré",
-      "category": "treasure",
-      "buy_price": 0,
-      "sell_price": 50,
-      "dropOnly": true,
-      "wildCrystalChance": 0.25,
-      "description": "Un fragment de cristal aux arêtes brisées. Les boutiques le rachètent 50 ₽."
-    },
-    {
-      "key": "clear_crystal",
-      "name": "Cristal limpide",
-      "category": "treasure",
-      "buy_price": 0,
-      "sell_price": 150,
-      "dropOnly": true,
-      "wildCrystalChance": 0.1,
-      "description": "Un cristal intact aux reflets azurés. Les boutiques le rachètent 150 ₽."
-    },
-    {
-      "key": "aurora_prism",
-      "name": "Prisme d’aurore",
-      "category": "treasure",
-      "buy_price": 0,
-      "sell_price": 500,
-      "dropOnly": true,
-      "wildCrystalChance": 0.05,
-      "description": "Un cristal d’une pureté rare, traversé de reflets irisés. Les boutiques le rachètent 500 ₽."
     }
   ]
 }

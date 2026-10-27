@@ -1186,6 +1186,9 @@
       "contact": true,
       "secondary": true
     },
-    "Tearful Look": {}
+    "Tearful Look": {},
+    "Purify": {
+      "heal": true
+    }
   }
 }

@@ -23,6 +23,9 @@ for m in catalog:
         if i in learn['egg'] + learn['tutor'] + learn['machine'] or any(move == i for level, move in learn['level']):
             compatible.setdefault(i, set()).add(int(p))
 machines = {}
+# Deliberate RiftMon exception. Other CS keep their documented compatibility.
+purify_id = source_ids['purify']
+compatible[purify_id] = {p['id'] for p in json.loads((ROOT / 'data/game/pokedex.json').read_text()) if 'Poison' in p['type']}
 for i, pokemon in sorted(compatible.items()):
     source = ref['moves'][str(i)]
     m = by_name.get(normalize(source['name']))
@@ -32,7 +35,7 @@ for i, pokemon in sorted(compatible.items()):
     key = 'cs_' + source['slug'].replace('-', '_')
     machines[key] = {'move': m['ename'], 'moveId': i, 'name': 'CS ' + french[i], 'type': m['type'],
                      'price': 5000 if power >= 100 else 4000 if power >= 80 else 3000, 'species': sorted(pokemon)}
-metadata = {'source': ref['source'], 'scope': 'Legal TM/tutor compatibility through generation 7; new singles additions also accept documented USUM level/egg methods. Base forms only; no field traversal effects.', 'machines': machines}
+metadata = {'source': ref['source'], 'scope': 'Legal TM/tutor compatibility through generation 7; new singles additions also accept documented USUM level/egg methods. Purify is a RiftMon exception available to every Poison species. Base forms only; no field traversal effects.', 'machines': machines}
 outputs = {'data/game/machines.json': json.dumps(metadata, ensure_ascii=False, indent=2) + '\n',
            'vue-explorakit/src/data/machines.json': json.dumps(machines, ensure_ascii=False, separators=(',', ':')) + '\n'}
 items = json.loads((ROOT / 'data/game/items.json').read_text())
