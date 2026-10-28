@@ -1212,6 +1212,9 @@ test('Piège Sable Aventure : changement refusé, décision IA conservée et vic
     try {
         const {user,player}=await createPlayer(7);userId=user.id;
         const lead=player.equipe.pokemons[0];lead.abilities=['Tackle'];lead.movePp=[35];lead.currentAttack=9999;lead.currentSpeed=999;
+        // This fixture tests a rejected escape, not survival against a possible
+        // Sucker Punch selected by the trainer's UUID-seeded close-choice mix.
+        lead.currentDefense=9999;lead.currentHp=lead.maxHp=5000;
         player.equipe.ajouterPokemon(createPokemon(130,'Relève',['Waterfall']));
         const enemy=require('../server/game/world/pnjTeamFactory').getPnjTeam('sevenp').pokemons[0];
         enemy.currentHp=1;enemy.heldItem=null;
@@ -1252,4 +1255,42 @@ test('Coup Bas IA Aventure : échec face au soin, autre attaque au tour suivant,
   assert.equal(enemy.movePp[0],4);assert.equal(enemy.movePp[1],19);
   const saved=await loadEquipe(userId);assert.equal(saved.pokemons[0].uuid,own.uuid);assert.equal(saved.pokemons[0].currentHp,own.currentHp);
  }finally{policy.chooseAction=original;if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
+});
+
+for(const kind of ['wild','trainer','pvp'])for(const [roll,length]of[[.4,2],[.9,3]])
+test(`Colère Aventure ${kind} : ${length} tours automatiques avec le dernier PP, confusion puis reprise des commandes`,{skip:!shouldRun},async()=>{
+ const pool=createTestPool(),ids=[];
+ try {
+  const {user,player}=await createPlayer(7);ids.push(user.id);
+  const factory=require('../server/game/drift/pokemonFactory'),resources=require('../server/game/battle/battleResources');
+  const lead=factory.create(149,50,true),foe=factory.create(143,50,true);
+  for(const [p,moves]of [[lead,['Outrage','Tackle']],[foe,['Splash']]]){p.passiveAbility=null;p.heldItem=null;p.maxHp=p.currentHp=5000;p.abilities=moves;p.movePp=moves.map(resources.getMaxMovePp);}
+  lead.movePp[0]=1;player.equipe=createTeam(lead);
+  const socket=new ScriptedSocket([{action:'attack',number:0},{action:'flee'}]),io=new RecordingIo({[player.id]:socket});
+  if(kind==='pvp'){
+   const opponent=await createPlayer(7);ids.push(opponent.user.id);opponent.player.equipe=createTeam(foe);
+   io.sockets.sockets.set(opponent.player.id,new ScriptedSocket(Array.from({length:4},()=>({action:'attack',number:0}))));
+   await withFixedRandom(roll,()=>startPvpBattle(player,opponent.player,io));
+  }else if(kind==='trainer')await withFixedRandom(roll,()=>startTrainerBattle(player,createTeam(foe),io,user.id));
+  else await withFixedRandom(roll,()=>startWildBattle(player,foe,io,user.id));
+  const moves=io.events.filter(e=>e.targetId===player.id&&e.eventName==='battleMoveResult'&&e.payload.actor==='player');
+  assert.equal(moves.length,length);assert(moves.every(e=>e.payload.moveName==='Outrage'&&e.payload.damage>0));
+  assert.equal(socket.outgoing.filter(e=>e.eventName==='requestAction').length,2,'continuations need no input, then the normal prompt returns');
+  assert(io.events.some(e=>e.targetId===player.id&&e.eventName==='battleText'&&/est confus/.test(e.payload.message)));
+  const saved=(await loadEquipe(user.id)).pokemons[0];assert.equal(saved.uuid,lead.uuid);assert.deepEqual(saved.movePp,[0,35]);assert.equal(saved.__battle,undefined);
+ }finally{for(const id of ids)await pool.execute('DELETE FROM users WHERE id=?',[id]);await pool.end();}
+});
+for(const kind of ['wild','trainer'])test(`Colère adversaire ${kind} : continue à zéro PP et ne devient pas Lutte avant la fin`,{skip:!shouldRun},async()=>{
+ const pool=createTestPool();let userId;
+ try {
+  const {user,player}=await createPlayer(7);userId=user.id;
+  const factory=require('../server/game/drift/pokemonFactory'),lead=factory.create(143,50,true),foe=factory.create(149,50,true);
+  for(const [p,move]of [[lead,'Splash'],[foe,'Outrage']]){p.passiveAbility=null;p.heldItem=null;p.maxHp=p.currentHp=5000;p.abilities=[move];p.movePp=[move==='Outrage'?1:40];}
+  player.equipe=createTeam(lead);const socket=new ScriptedSocket([...Array.from({length:3},()=>({action:'attack',number:0})),{action:'flee'}]),io=new RecordingIo({[player.id]:socket});
+  if(kind==='trainer')await withFixedRandom(.9,()=>startTrainerBattle(player,createTeam(foe),io,user.id));
+  else await withFixedRandom(.9,()=>startWildBattle(player,foe,io,user.id));
+  const moves=io.events.filter(e=>e.targetId===player.id&&e.eventName==='battleMoveResult'&&e.payload.actor==='opponent');
+  assert.equal(moves.length,3);assert(moves.every(e=>e.payload.moveName==='Outrage'&&e.payload.damage>0));assert.equal(foe.movePp[0],0);
+  assert((await loadEquipe(user.id)).pokemons[0].currentHp>0);
+ }finally{if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
 });

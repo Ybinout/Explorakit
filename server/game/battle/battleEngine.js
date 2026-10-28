@@ -4,6 +4,7 @@ const reactions = require('../abilities/abilityReactions');
 const abilityForms = require('../abilities/abilityForms');
 const { abilityFlag } = require('../abilities/abilityRules');
 const twoTurn = require('./twoTurnMoves');
+const rampage = require('./rampageMoves');
 const turnActions = require('./turnActions');
 const battleField = require('./battleField');
 const moveGuards = require('./moveGuards');
@@ -2458,6 +2459,7 @@ function processEndOfRound(playerPokemon, enemyPokemon, playerSide, enemySide, b
     const before=[playerPokemon?.currentHp,enemyPokemon?.currentHp];
     messages.push(...processPokemonEndTurn(playerPokemon, enemyPokemon, playerSide, battleState));
     messages.push(...processPokemonEndTurn(enemyPokemon, playerPokemon, enemySide, battleState));
+    for (const p of [playerPokemon,enemyPokemon]) if (p?.status==='sleep'||Number(p?.currentHp)<=0) rampage.clear(p);
     for (const [p,other] of [[playerPokemon,enemyPokemon],[enemyPokemon,playerPokemon]]) if (Number(p?.currentHp)<=0) twoTurn.clear(p,other,battleState.turn);
     for(const [p,other,hp]of [[playerPokemon,enemyPokemon,before[1]],[enemyPokemon,playerPokemon,before[0]]]) {
         if(p?.currentHp>0 && hp>0 && other?.currentHp<=0 && hasPassiveAbility(p,'Soul-Heart'))applyStageChange(p,'specialAttack',1,messages,p);
@@ -2750,6 +2752,7 @@ function finishSelfDestruct(attacker, result) {
 
 function useattack(attackName, attacker, defender, options = {}) {
     options={...options,battleState:options.battleState||createBattleState()};
+    const rampageBefore=rampage.current(attacker);
     if (!options.calledDepth && !options.skipTurnStart) turnActions.spendTurnAction(options.battleState, attacker);
     // Called moves and the internal Struggle fallback are part of the same action.
     if (attacker && !options.calledDepth && !options.skipTurnStart && !options.actionCounted) {
@@ -2760,12 +2763,20 @@ function useattack(attackName, attacker, defender, options = {}) {
     const before=[];
     abilityForms.syncWeatherForms(attacker,defender,options.battleState,before);
     const result=executeAttack(attackName,attacker,defender,options);
+    rampage.finish(attacker,result.moveName,{before:rampageBefore,
+        hit:result.success&&result.hits>0&&result.effectiveness>0&&!result.missed&&!result.blocked&&!result.actionPrevented,
+        eligible:!options.danced&&options.sourceMove!=='Sleep Talk',messages:result.messages,
+        confuse:()=>{
+            applyStatus(attacker,'confusion',options.attackerSide,result.messages,{attacker,battleState:options.battleState,
+                ignoreSafeguard:true,turns:1+Math.floor(Math.random()*4)});
+            activateHeldItem(attacker,options.battleState,result.messages,'immediate',defender);
+        }});
     if (result.moveName === 'Bide' && !result.success && attacker?.__battle) delete attacker.__battle.bideTurns;
     if (attacker?.__battle && !(attacker.__battle.bideTurns > 0)) delete attacker.__battle.bideDamage;
     if(attacker && !options.calledDepth && !options.skipTurnStart){const data=ensureBattleData(attacker);data.lastMoveFailed=(!result.success||(result.move?.combat?.damage_class!=='status'&&result.effectiveness===0))&&!result.protected&&result.phase!=='prepare'&&!data.rechargeMove;data.lastMoveResultTurn=options.battleState.turn;}
     // Misses, protection and immunities return early but still cost the user its life.
     finishSelfDestruct(attacker,result);
-    for (const [p,other] of [[attacker,defender],[defender,attacker]]) if (Number(p?.currentHp)<=0) twoTurn.clear(p,other,options.battleState.turn);
+    for (const [p,other] of [[attacker,defender],[defender,attacker]]) if (Number(p?.currentHp)<=0) {twoTurn.clear(p,other,options.battleState.turn);rampage.clear(p);}
     result.messages.unshift(...before);
     abilityForms.syncWeatherForms(attacker,defender,options.battleState,result.messages);
     return result;
@@ -2787,8 +2798,10 @@ function executeAttack(attackName, attacker, defender, options = {}) {
     const defenderTeam = options.defenderTeam || null;
     const calledDepth = Math.max(0, safeNumber(options.calledDepth, 0));
     const charging = !calledDepth && !options.skipTurnStart && getChargingMove(attacker);
+    const rampaging = !calledDepth && !options.skipTurnStart && rampage.current(attacker);
     const biding = !calledDepth && !options.skipTurnStart && attacker?.__battle?.bideTurns > 0;
     if (charging) attackName = charging;
+    else if (rampaging) attackName = rampaging.move;
     else if (biding) attackName = 'Bide';
 
     const moveResult = {
@@ -2883,7 +2896,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         return moveResult;
     }
 
-    if (options.consumePp !== false && !charging && !biding) {
+    if (options.consumePp !== false && !charging && !biding && !rampaging) {
         const ppState = getMovePp(attacker, move.ename);
         if (ppState && ppState.current <= 0) {
             if (getUsableMoveIndexes(attacker, battleState).length === 0 && move.ename !== 'Struggle') {
@@ -2923,7 +2936,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         defenderSide,
         battleState,
         ignoreSleep: Boolean(options.ignoreSleep),
-        charging: Boolean(charging)
+        charging: Boolean(charging||rampaging)
     });
     moveResult.beforeActionMessages = [...startTurn.messages];
     moveResult.messages.push(...startTurn.messages);
@@ -2934,7 +2947,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         attackerData.lastMoveUsed = move.ename;
         return moveResult;
     }
-    if(options.consumePp!==false && !charging && !biding) {
+    if(options.consumePp!==false && !charging && !biding && !rampaging) {
         const consumed=consumeMovePp(attacker,move.ename);
         if(consumed.consumed) {
             attackerData.lastMoveSlot=consumed.slot;

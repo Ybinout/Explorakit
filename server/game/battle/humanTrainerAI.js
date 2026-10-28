@@ -22,10 +22,10 @@ const LEVEL_DAMAGE = new Set(['Seismic Toss','Night Shade']);
 const PUBLIC_VOLATILES = ['statStages','tempTypes','formTypes','abilityForm','tauntTurns','disableTurns',
     'disabledMove','encoreTurns','encoreMove','leechSeedSource','foresight','miracleEye','substituteHp',
     'trappedTurns','ingrain','grounded','magnetRiseTurns','telekinesisTurns','abilitySuppressed','chargeMove','chargeTurns','semiInvulnerable','rechargeMove','bideTurns',
-    'activeMoveActions','stockpileCount','laserFocusTurns','soundBlockedTurns','lastMoveFailed','lastMoveResultTurn','lastMoveUsed','protectStreak','protectionStreak','protectionTurn','transformed','transformSpeciesId','transformSpriteId'];
+    'activeMoveActions','stockpileCount','laserFocusTurns','soundBlockedTurns','lastMoveFailed','lastMoveResultTurn','lastMoveUsed','protectStreak','protectionStreak','protectionTurn','transformed','transformSpeciesId','transformSpriteId','rampageMove'];
 const OWN_VOLATILES = [...PUBLIC_VOLATILES,'sleepTurns','choiceMove','unburden','abilitySuppressed','flashFireBoost','healBlockTurns',
     'embargoTurns','confusionTurns','infatuationTurns','toxicCounter','activeTurns','loafing','consumedHeldItem',
-    'lastDamageTaken','lastDamageTurn','lastDamageSource','lastDamageClass','lastActionTurn','protectionStreak','protectionTurn','grounded'];
+    'lastDamageTaken','lastDamageTurn','lastDamageSource','lastDamageClass','lastActionTurn','protectionStreak','protectionTurn','grounded','rampageTurns'];
 const STATS=['attack','defense','specialAttack','specialDefense','speed','accuracy','evasion','critical'];
 function battleView(data={},own=false) {
     const view={statStages:{}};
@@ -57,6 +57,8 @@ function publicPokemon(p) {
     view.movePp = view.abilities.map(resources.getMaxMovePp);
     view.__battle=battleView(p.__battle);
     view.__battle.sleepTurns = 1; // Never sample hidden sleep duration while evaluating.
+    // The active lock is visible; its random remaining duration is private.
+    if(view.__battle.rampageMove)view.__battle.rampageTurns=1;
     return view;
 }
 function ownPokemon(p) {

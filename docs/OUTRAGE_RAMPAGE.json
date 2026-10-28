@@ -1,0 +1,138 @@
+{
+  "date": "2026-10-28",
+  "diagnosis": "Colère exécutait des dégâts simples sans enchaînement forcé ni confusion de fatigue.",
+  "sharedMoves": [
+    "Outrage",
+    "Thrash",
+    "Petal Dance"
+  ],
+  "modes": [
+    "Aventure",
+    "Rift",
+    "Colosseum"
+  ],
+  "numericCatalogueChanged": false,
+  "changes": [
+    "Deux ou trois attaques forcées, PP au premier coup uniquement",
+    "Verrou compatible avec zéro PP et emplacement de capacité appelée (-1)",
+    "Interruption et fatigue finale, immunités et baies de confusion",
+    "Fin du verrou au K.O./changement forcé/nettoyage, sauvegarde checkpoint",
+    "Projection IA déterministe et durée aléatoire adverse restant privée"
+  ],
+  "references": [
+    "https://github.com/smogon/pokemon-showdown/blob/master/data/conditions.ts#L253",
+    "https://github.com/smogon/pokemon-showdown/blob/master/data/moves.ts#L13079",
+    "https://github.com/smogon/pokemon-showdown/blob/master/sim/battle-actions.ts#L336"
+  ],
+  "validation": {
+    "unitTests": 216,
+    "mysqlRuntimeTests": 27,
+    "newUnitTests": 36,
+    "newMysqlTests": 8,
+    "failures": 0,
+    "skips": 0,
+    "commands": [
+      "node --test --test-concurrency=1 tests/human-trainer-*.test.js tests/two-turn-moves.test.js tests/battle-order.test.js tests/move-selection.test.js tests/*-tactics.test.js tests/colosseum-ai.test.js tests/rampage-moves.test.js tests/automatic-move-regressions.test.js",
+      "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test node --env-file=.env --test --test-concurrency=1 --test-name-pattern='Colère|Coup Bas|Recharge|Human AI|Piège Sable|Tunnel|Vol poursuit|Sommeil trainer|Bluff trainer' tests/battle-runtime-integration.test.js",
+      "npm run audit:moves",
+      "node scripts/validateHumanTrainerFinishing.js"
+    ],
+    "moveAudit": {
+      "scope": "Structural coverage and execution smoke checks; behavioral rules are tested separately.",
+      "executionChecks": 2536,
+      "executionFailures": [],
+      "totalMoves": 634,
+      "totalEffectKinds": 104,
+      "unknownEffectKinds": [],
+      "unsupportedSpecialCases": [],
+      "partialMoves": []
+    },
+    "finishingSweep": {
+      "decisions": 126,
+      "immuneChoices": 0,
+      "maxSwitchProbability": 0.01224000000000001,
+      "averageAnalysisAndChoiceMs": 5.936734238095244,
+      "maxAnalysisAndChoiceMs": 19.94014999999999,
+      "examples": [
+        {
+          "id": 51,
+          "hp": 10,
+          "ownSpeed": 70,
+          "trick": 0,
+          "habits": 0,
+          "chosen": "Surf",
+          "switchProbability": 0.005
+        },
+        {
+          "id": 51,
+          "hp": 10,
+          "ownSpeed": 70,
+          "trick": 0,
+          "habits": 10,
+          "chosen": "Surf",
+          "switchProbability": 0.01224000000000001
+        },
+        {
+          "id": 51,
+          "hp": 10,
+          "ownSpeed": 70,
+          "trick": 3,
+          "habits": 0,
+          "chosen": "Surf",
+          "switchProbability": 0.005
+        },
+        {
+          "id": 51,
+          "hp": 10,
+          "ownSpeed": 70,
+          "trick": 3,
+          "habits": 10,
+          "chosen": "Surf",
+          "switchProbability": 0.01224000000000001
+        }
+      ]
+    },
+    "fixtureNote": "Première passe élargie interrompue dans la fixture Piège Sable ; sa survie a été rendue indépendante du choix entre capacités proches. Fixture jetable résiduelle supprimée sur explorakit_test, puis 27 parcours passés."
+  },
+  "limits": [
+    "Les chiffres du catalogue historique sont conservés (Colère : 120 de puissance, 100 de précision, 15 PP maximum)",
+    "Projections IA approximatives : premier verrou simulé sur trois attaques ; durée adverse privée remplacée par un tour restant",
+    "Aucune recette navigateur, appareil physique, nouveau build client ou test de charge"
+  ],
+  "deployment": {
+    "publishedAt": "2026-10-28T17:47:37.209Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-outrage-2026-10-28T17-47-35-799Z",
+    "sourceBaseline": "62d4036008dcfe3448b33b9e6ac13fc92df42b4d",
+    "sourceHashes": {
+      "server/game/battle/battleEngine.js": "12531d5c4094e9e21ea8556ea0987b4cfbcfc1adf2e5b7cce68ee22eaeba770d",
+      "server/game/battle/battleResources.js": "89edadf6d9350d35668e85948458e37553bce34073c09d5c9e0458e7eb5e405d",
+      "server/game/battle/humanTrainerAI.js": "41942d313cbd234f42d337240753610044362dfa533af673f3464d1d542bac13",
+      "server/game/battle/humanTrainerModel.js": "f37abf82898366209e1bc70df33eed065d7b8a4395f385614094353af23cbd79",
+      "server/game/battle/rampageMoves.js": "2bce111c30be9072517e563bcec93d0da265554de9285c3667e22a67ab543fab"
+    },
+    "clientCommit": "81914d7029c4ee40488aa0686dd0c70ca8fc7d63",
+    "clientBuild": "819bbc5bc922488c",
+    "clientUnchanged": true,
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.6d89ba19.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.dc533f29.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.699eedbd.css"
+    ],
+    "beforePid": "2771026",
+    "afterPid": "2785214",
+    "serverRestarted": true,
+    "checkpointSaved": true,
+    "gracefulCheckpoint": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "sqlMigration": false,
+    "realAccountsModified": false,
+    "warningEntries": 0
+  }
+}

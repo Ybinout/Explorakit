@@ -1,5 +1,19 @@
 # Audit technique et mémoire de RiftMon
 
+## Colère — enchaînement forcé et fatigue — 28 octobre 2026
+
+Diagnostic : Colère était traitée comme une attaque physique simple, sans verrou, durée ni fatigue. Module partagé `rampageMoves.js` pour Colère, Mania et Danse Fleurs : tirage de deux ou trois attaques, une seule dépense de PP à l’activation (Pression comprise), poursuite automatique avec zéro PP et confusion à la fin. Attaque différente et changement volontaire impossibles pendant le verrou ; un remplaçant adverse reste une cible valable. Puissance, précision et PP maximum du catalogue conservés, dont Colère 120/100/15 ; aucun changement d’équilibrage des fiches.
+
+Interruption par échec, Abri, immunité ou incapacité à agir : libération du verrou, fatigue seulement si c’était son action finale prévue, sauf sommeil. K.O., changement forcé, sommeil persistant en fin de tour et nettoyage du combat retirent le verrou. Confusion de fatigue via le moteur commun : Tempo Perso, Champ Brumeux au sol, baies Prine/Kika et Tension respectés ; clonage du lanceur et Rune Protect ne bloquent pas sa propre fatigue. Une capacité appelée peut démarrer l’enchaînement sans emplacement appris ; Blabla Dodo et la copie Danseuse restent sans verrou.
+
+L’IA conserve la contrainte dans ses projections déterministes et ne dépense pas de PP au second coup. Elle voit le verrou adverse mais pas sa durée aléatoire restante (hypothèse minimale d’un tour) ; première projection de son propre verrou sur trois attaques, sans toucher au RNG réel. Les cures de confusion Prine/Kika sont aussi simulées. Les demandes d’action automatiques existantes et les checkpoints reprennent cette contrainte sans modifier le protocole, les orchestrateurs ou le client.
+
+Validation : 216 tests unitaires/équipes/IA et 27 SQL réussis sans saut, dont 36 nouveaux cas unitaires et huit combats SQL. Deux/trois coups, dernier PP, fatigue/interruption, immunités/baies, capacité appelée, confidentialité, K.O./remplacement, reprise Rift/Colosseum, adversaires sauvages/dresseurs et joueur Aventure sauvage/dresseur/PvP testés. Une fixture SQL Piège Sable pouvait laisser son acteur scripté mourir sur une priorité ; sa survie est désormais garantie pour tester le refus de changement, sans dépendre du choix entre capacités proches. La première passe élargie s’était interrompue dans cette fixture ; compte jetable résiduel supprimé de la seule base de test, puis les 27 parcours sont passés. Audit des 634 capacités : 2 536 vérifications d’exécution, aucune erreur. Balayage de 126 décisions sous menace létale : zéro attaque sur immunité. Aucun nouveau build, navigateur, téléphone physique ou test de charge revendiqué. Rapport : `docs/OUTRAGE_RAMPAGE.json`.
+
+Références d’implémentation : [durée/verrou et fatigue Pokémon Showdown](https://github.com/smogon/pokemon-showdown/blob/master/data/conditions.ts#L253), [définition de Colère](https://github.com/smogon/pokemon-showdown/blob/master/data/moves.ts#L13079), [paiement initial des PP](https://github.com/smogon/pokemon-showdown/blob/master/sim/battle-actions.ts#L336). Les règles d’interruption suivent le moteur génération 7 déjà utilisé ; les chiffres du catalogue du jeu restent inchangés.
+
+Publication serveur seule le 28 octobre 2026 à 18 h 47 (Europe/Paris), PID 2771026→2785214. Sauvegarde `/home/ubuntu/dev/backups/riftmon-outrage-2026-10-28T17-47-35-799Z`, checkpoint conservé et zéro expédition active relevée. Client/build `819bbc5bc922488c`, index/bundles publics et Knov/api-test inchangés ; service actif, zéro redémarrage automatique et aucun avertissement serveur relevé après publication. Aucune migration ou modification manuelle de compte réel.
+
 ## Revente des cristaux doublée — 28 octobre 2026
 
 Prix unitaires des trois trésors : Éclat fissuré 150→300 ₽, Cristal limpide 450→900 ₽, Prisme d’aurore 3 000→6 000 ₽. Descriptions actualisées. Les marchands des trois modes appliquent les nouveaux prix au stock déjà possédé et aux futurs objets. Comparaison structurée du catalogue : seuls ces trois prix et leurs descriptions changent ; probabilités de butin, autres objets et prix d’achat identiques.
@@ -4637,6 +4651,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 28 octobre 2026 — Colère/Mania/Danse Fleurs : verrou de deux ou trois attaques, PP initiaux seulement, fatigue et interruptions, IA et checkpoints adaptés. 243 tests réussis ; rapport `docs/OUTRAGE_RAMPAGE.json`.
 
 - 28 octobre 2026 — Revente des trois cristaux doublée : 300/900/6 000 ₽, descriptions et recettes alignées. Dix tests réussis ; rapport `docs/CRYSTAL_SALE_PRICES_DOUBLED.json`.
 

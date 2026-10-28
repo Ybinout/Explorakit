@@ -4,6 +4,7 @@ const engine=require('./battleEngine'),resources=require('./battleResources');
 const held=require('../items/heldItems'),abilities=require('../abilities/abilityEngine');
 const traits=require('../../../data/game/ability_move_traits.gen7.json').moves;
 const twoTurn=require('./twoTurnMoves');
+const rampage=require('./rampageMoves');
 const moveGuards=require('./moveGuards');
 const clamp=(x,l,h)=>Math.max(l,Math.min(h,x)),alive=p=>p.currentHp>0;
 const ability=p=>abilities.getAbilityName(p);
@@ -18,9 +19,12 @@ function activate(p,other,field) {
     const item=resources.getItemDefinition(p.heldItem);if(!item)return;
     if(p.heldItem.endsWith('_berry')&&alive(other)&&ability(other)==='Unnerve')return;
     const cures=item.cure||item.fieldUse?.cure||[];
-    if(item.battle_effect==='cure_status'&&cures.includes(p.status)) {
-        p.status='normal';p.__battle.sleepTurns=0;p.__battle.toxicCounter=1;consume(p);return;
+    if(item.battle_effect==='cure_status'&&(cures.includes(p.status)||item.key==='lum_berry'&&p.__battle.confusionTurns>0)) {
+        p.status='normal';p.__battle.sleepTurns=0;p.__battle.toxicCounter=1;
+        if(item.key==='lum_berry')p.__battle.confusionTurns=0;
+        consume(p);return;
     }
+    if(item.battle_effect==='cure_confusion'&&p.__battle.confusionTurns>0){p.__battle.confusionTurns=0;consume(p);return;}
     const limit=ability(p)==='Gluttony'&&item.trigger_hp_ratio===.25?.5:item.trigger_hp_ratio;
     if(p.currentHp/p.maxHp<=limit) {
         if(item.battle_effect==='heal_flat'||item.battle_effect==='heal_fraction') {
@@ -76,6 +80,13 @@ function actionAvailability(p,move) {
     return p.status==='paralyze'?1-.25*(p.__battle.projectedStatusChance??1):1;
 }
 function cast(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMoved=false}={}) {
+    const before=rampage.current(p);
+    const result=castMove(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMoved});
+    rampage.finish(p,move?.ename,{before,hit:result.inflicted>0,random:()=>.5,
+        confuse:()=>{engine.applyStatus(p,'confusion',side,[],{attacker:p,battleState:state,ignoreSafeguard:true,turns:2});activate(p,other,state);}});
+    return result;
+}
+function castMove(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMoved=false}={}) {
     if(!alive(p)||!alive(other)||!move)return {useful:false,accuracy:0};
     if(move.combat.damage_class==='status'&&p.__battle.tauntTurns>0)return {useful:false,accuracy:0};
     if(p.__battle.encoreTurns>0&&p.__battle.encoreMove&&p.__battle.encoreMove!==move.ename)return {useful:false,accuracy:0};
@@ -84,7 +95,7 @@ function cast(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMoved=fa
     if(engine.movePhase(p,move.ename,state,other)==='prepare'){const rule=twoTurn.rule(move.ename);p.__battle.chargeMove=move.ename;p.__battle.chargeTurns=1;if(rule?.state)p.__battle.semiInvulnerable=rule.state;return {useful:true,recognized:true,accuracy:hitChance};}
     const flags=abilities.getMoveFlags(move),damaging=move.combat.damage_class!=='status',wasSubstitute=other.__battle.substituteHp>0;
     let useful=false,inflicted=0,recognized=damaging||move.ename==='Rest';
-    const slot=p.abilities.indexOf(move.ename);if(slot>=0)p.movePp[slot]=Math.max(0,(p.movePp[slot]??1)-1);
+    const slot=p.abilities.indexOf(move.ename);if(slot>=0&&!rampage.current(p))p.movePp[slot]=Math.max(0,(p.movePp[slot]??1)-1);
     p.__battle.lastMoveUsed=move.ename;
     if(held.effect(p,state)?.startsWith('choice_'))p.__battle.choiceMove ||= move.ename;
     if(damaging) {

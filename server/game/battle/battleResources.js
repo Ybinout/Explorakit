@@ -1,5 +1,6 @@
 const fs = require('node:fs');
 const path = require('node:path');
+const rampage = require('./rampageMoves');
 
 const MOVES_PATH = path.resolve(__dirname, '..', '..', '..', 'data', 'game', 'moves.json');
 const ITEMS_PATH = path.resolve(__dirname, '..', '..', '..', 'data', 'game', 'items.json');
@@ -122,7 +123,7 @@ function getChargingMove(pokemon) {
 }
 
 function getForcedMove(pokemon) {
-    return getChargingMove(pokemon) || (Number(pokemon?.currentHp) > 0 && pokemon?.__battle?.bideTurns > 0 ? 'Bide' : null) || (Number(pokemon?.currentHp) > 0 && pokemon?.__battle?.rechargeMove
+    return getChargingMove(pokemon) || rampage.current(pokemon)?.move || (Number(pokemon?.currentHp) > 0 && pokemon?.__battle?.bideTurns > 0 ? 'Bide' : null) || (Number(pokemon?.currentHp) > 0 && pokemon?.__battle?.rechargeMove
         ? pokemon.__battle.rechargeMove : null);
 }
 
