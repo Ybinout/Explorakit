@@ -1,7 +1,7 @@
 const {randomUUID}=require('node:crypto');
 const scene=require('../../game/world/mirrorRift'),repository=require('../../persistence/mirrorRiftRepository');
 const {loadProgressState}=require('../../persistence/progressionRepository');
-const {healTeam,HOME_RESPAWN_POINT}=require('../../game/world/playerRecovery');
+const {healTeam}=require('../../game/world/playerRecovery');
 const {editEquipe}=require('../../persistence/teamRepository');
 const sleep=ms=>new Promise(r=>setTimeout(r,process.env.NODE_ENV==='test'?ms*Math.max(0,Number(process.env.MIRROR_SCENE_SCALE??1)):ms));
 function createMirrorRiftHandlers({socket,io,userId,getPlayer,canUse,setBusy,emitProgression,travel,blackout}){
@@ -44,8 +44,8 @@ function createMirrorRiftHandlers({socket,io,userId,getPlayer,canUse,setBusy,emi
             cinematic('closing',scene.config.closingMs);await sleep(scene.config.closingMs);
             if(!live(player))return false;
             healTeam(player.equipe);await editEquipe(userId,player.equipe);
-            await travel(HOME_RESPAWN_POINT);await repository.completeWake(userId);await refresh();
-            if(live(player)){socket.emit('teamStateChanged',{reason:'mirror_awakened',equipe:player.equipe});socket.emit('mirrorRiftScene',{id:randomUUID(),map:HOME_RESPAWN_POINT.map,phase:'awakening',duration:scene.config.awakeningMs});}
+            await travel(scene.config.wake);await repository.completeWake(userId);await refresh();
+            if(live(player)){socket.emit('teamStateChanged',{reason:'mirror_awakened',equipe:player.equipe});socket.emit('mirrorRiftScene',{id:randomUUID(),map:scene.config.wake.map,phase:'awakening',duration:scene.config.awakeningMs});}
             return true;
         }finally{player.inventoryBusy=false;busy=false;setBusy(false);}
     }

@@ -23,7 +23,7 @@ test('SQL mirror: committed win survives reconnect, wake persists home and the r
  let u;try{u=await fixture('violence_badge');await flags(u.id,{mirror_stage:'clone',mirror_ruined:'true'});
   assert.equal((await Promise.all([repo.win(u.id),repo.win(u.id)])).filter(Boolean).length,1);assert.equal((await repo.read(u.id)).state.stage,'won');
   assert(await repo.completeWake(u.id));assert.equal(await repo.completeWake(u.id),false);
-  const r=await repo.read(u.id);assert.equal(r.state.stage,'complete');assert(r.state.ruined);assert.equal(r.owner.map,'maison');assert.equal(r.owner.x,272);assert.equal(r.owner.y,432);
+  const r=await repo.read(u.id);assert.equal(r.state.stage,'complete');assert(r.state.ruined);assert(scene.blocked(scene.config.map,13,10,r.progress));assert.equal(r.owner.map,'etage');assert.equal(r.owner.x,592);assert.equal(r.owner.y,336);
   assert.equal(await repo.advance(u.id,'open',at(u.id,7,4)),false);
  }finally{if(u)await db.execute('DELETE FROM users WHERE id=?',[u.id]);}
 });
@@ -35,15 +35,15 @@ test('SQL mirror: admin replay has its own stage and preserves permanent complet
   await require('../server/config/database').withTransaction(c=>repo.resetReplay(c,u.id));assert.equal((await repo.read(u.id)).state.stage,'sealed');
  }finally{if(u)await db.execute('DELETE FROM users WHERE id=?',[u.id]);}
 });
-test('SQL/socket mirror: reconnect after a committed win recovers home and heals the real team once',{skip:!enabled},async()=>{
+for(const savedMap of ['route2_maison','etage'])test(`SQL/socket mirror: reconnect from ${savedMap} after a committed win recovers the upstairs bed once`,{skip:!enabled},async()=>{
  let u,socket,server,io;try{
-  u=await fixture();await flags(u.id,{mirror_stage:'won',mirror_ruined:'true'});await db.execute("UPDATE users SET map='route2_maison',x=400,y=208 WHERE id=?",[u.id]);
+  u=await fixture();await flags(u.id,{mirror_stage:'won',mirror_ruined:'true'});await db.execute('UPDATE users SET map=?,x=?,y=? WHERE id=?',[savedMap,savedMap==='etage'?592:400,savedMap==='etage'?336:208,u.id]);
   const p=factory.create(1,12,true);p.currentHp=0;p.abilities=['Tackle'];p.movePp=[0];await teams.editEquipe(u.id,{pokemons:[p]});
   server=require('node:http').createServer();io=new(require('socket.io').Server)(server);io.use(require('../server/http/authMiddleware').authenticateSocket);require('../server/realtime/socketHandler')(io);server.listen(0,'127.0.0.1');await require('node:events').once(server,'listening');
   const token=require('../server/config/auth').signAccessToken(u),client=require('../vue-explorakit/node_modules/socket.io-client').io;
   socket=client('http://127.0.0.1:'+server.address().port,{autoConnect:false,auth:{token},transports:['websocket'],reconnection:false});
   const state=new Promise((resolve,reject)=>{const timer=setTimeout(()=>reject(Error('No recovered state')),10000);socket.on('mirrorRiftState',s=>{if(s.stage==='complete'){clearTimeout(timer);resolve(s);}});});socket.connect();assert((await state).ruined);
-  const r=await repo.read(u.id);assert.equal(r.owner.map,'maison');assert.equal(r.owner.x,272);const saved=(await teams.loadEquipe(u.id)).pokemons[0];assert.equal(saved.currentHp,saved.maxHp);assert.equal(saved.movePp[0],35);assert.equal(await repo.completeWake(u.id),false);
+  const r=await repo.read(u.id);assert.equal(r.owner.map,'etage');assert.equal(r.owner.x,592);assert.equal(r.owner.y,336);const saved=(await teams.loadEquipe(u.id)).pokemons[0];assert.equal(saved.currentHp,saved.maxHp);assert.equal(saved.movePp[0],35);assert.equal(await repo.completeWake(u.id),false);
  }finally{socket?.disconnect();if(io)await new Promise(r=>io.close(r));await new Promise(r=>setTimeout(r,100));if(u)await db.execute('DELETE FROM users WHERE id=?',[u.id]);}
 });
 class Socket extends EventEmitter{
@@ -62,7 +62,7 @@ for(const win of [true,false])test(`SQL mirror real duel: ${win?'victory and awa
   const result=socket.events.find(e=>e.event==='endbattle').data;assert.equal(result.playerWon,win);assert.deepEqual(result.summary.experience,[]);assert.equal(result.summary.money,0);assert.deepEqual(result.summary.loot,[]);
   assert.deepEqual(player.equipe.pokemons.map(p=>({uuid:p.uuid,experience:p.experience,ev:p.ev,level:p.level})),training);assert.equal((await db.execute('SELECT money FROM users WHERE id=?',[u.id]))[0][0].money,before.money);
   assert.equal((await repo.read(u.id)).state.stage,win?'won':'clone');assert.equal(await handlers.awaken(),win);
-  if(win){assert.equal(traveled.map,'maison');assert.equal((await repo.read(u.id)).state.stage,'complete');for(const p of player.equipe.pokemons)assert.equal(p.currentHp,p.maxHp);}else{assert.equal(traveled,null);assert.equal(blackouts,1);}
+  if(win){assert.equal(traveled.map,'etage');assert.equal(traveled.x,592);assert.equal(traveled.y,336);assert.equal((await repo.read(u.id)).state.stage,'complete');for(const p of player.equipe.pokemons)assert.equal(p.currentHp,p.maxHp);}else{assert.equal(traveled,null);assert.equal(blackouts,1);}
   assert.deepEqual(player.equipe.pokemons.map(p=>p.heldItem),['choice_band','leftovers']);
  }finally{Math.random=old;if(u)await db.execute('DELETE FROM users WHERE id=?',[u.id]);}
 });

@@ -1,0 +1,192 @@
+{
+  "dateParis": "2026-10-28",
+  "floor": {
+    "sampledFrom": "vue-explorakit/src/assets/route2_maison.png",
+    "worldBoardHeight": 22,
+    "worldBoardWidths": [
+      96,
+      80
+    ],
+    "maximumSlideWorldPixels": 8,
+    "protectFurnitureRects": [
+      [
+        256,
+        350,
+        66,
+        70
+      ],
+      [
+        516,
+        350,
+        60,
+        70
+      ]
+    ],
+    "imageSmoothing": false,
+    "mapArtModified": false
+  },
+  "closedHoleStillSolid": true,
+  "wake": {
+    "map": "etage",
+    "x": 592,
+    "y": 336,
+    "bed": "blue upstairs bed"
+  },
+  "ordinaryBlackoutHomeUnchanged": true,
+  "night": "Lucie Route 2 house has no emitting windows",
+  "sqlMigration": false,
+  "validation": {
+    "tests": {
+      "pass": 37,
+      "fail": 0,
+      "skip": 0
+    },
+    "sql": {
+      "pass": 7,
+      "fail": 0,
+      "skip": 0
+    },
+    "browser": {
+      "realHiddenAction": true,
+      "desktopKeyboard": true,
+      "allBadgesRequired": true,
+      "openingAndDust": true,
+      "openingCaption": true,
+      "centralRift": true,
+      "eightSecondOpening": true,
+      "movementBlockedDuringScene": true,
+      "riftCellsSolid": true,
+      "silentCloneDuel": true,
+      "exactInitialHpPpItems": true,
+      "violetAppearances": 6,
+      "reconnect": true,
+      "winClosesRift": true,
+      "wakeAtHome": true,
+      "wakeInUpstairsBed": true,
+      "bedExitReachable": true,
+      "closedHoleStillSolid": true,
+      "teamHealedAndOrderPreserved": true,
+      "noTrainingOrMoneyRewards": true,
+      "ruinsPersistentInsideAndOutside": true,
+      "perPlayerIsolation": true,
+      "privateAdminReplay": true,
+      "viewports": 4,
+      "screens": [
+        "floor-tearing-320.png",
+        "floor-tearing-393.png",
+        "floor-tearing-844.png",
+        "floor-tearing-1365.png",
+        "violet-rift-open-320.png",
+        "violet-rift-open-393.png",
+        "violet-rift-open-844.png",
+        "violet-rift-open-1365.png",
+        "violet-clone-320.png",
+        "violet-clone-393.png",
+        "violet-clone-844.png",
+        "violet-clone-1365.png",
+        "mirror-battle-320.png",
+        "mirror-battle-393.png",
+        "mirror-battle-844.png",
+        "mirror-battle-1365.png",
+        "rift-closing-320.png",
+        "rift-closing-393.png",
+        "rift-closing-844.png",
+        "rift-closing-1365.png",
+        "awakened-bed-320.png",
+        "awakened-bed-393.png",
+        "awakened-bed-844.png",
+        "awakened-bed-1365.png",
+        "house-exterior-ruined-320.png",
+        "house-exterior-ruined-393.png",
+        "house-exterior-ruined-844.png",
+        "house-exterior-ruined-1365.png",
+        "house-interior-ruined-320.png",
+        "house-interior-ruined-393.png",
+        "house-interior-ruined-844.png",
+        "house-interior-ruined-1365.png"
+      ],
+      "errors": []
+    },
+    "canvas": {
+      "furniturePixelsPreserved": true,
+      "closedPitVisible": true,
+      "holePixel": [
+        8,
+        10,
+        20,
+        255
+      ],
+      "averageWorldAndEffectMs": 2.427499997615814,
+      "animatedChannelsChanged": 30356,
+      "reducedChannelsChanged": 0,
+      "releaseAndRecreate": true
+    },
+    "night": {
+      "lucieHouseNightLightPixels": 0,
+      "otherRouteHouseLightPixels": 2177
+    },
+    "commands": [
+      "node --test tests/mirror-rift.test.js tests/player-recovery.test.js tests/position-recovery.test.js tests/lucie-departure.test.js tests/lucie-scene.test.js tests/world-daynight.test.js",
+      "DB_NAME=explorakit_test RUN_MYSQL_TESTS=1 node --env-file=.env --test --test-concurrency=1 tests/mirror-rift-mysql.test.js",
+      "DB_TEST_NAME=explorakit_test node --env-file=.env scripts/validateMirrorRiftBrowser.js",
+      "node /tmp/riftmon-mirror-floor-canvas.cjs",
+      "node /tmp/riftmon-mirror-floor-night.cjs",
+      "npm --prefix vue-explorakit run lint -- --no-fix",
+      "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-mirror-floor-dist"
+    ],
+    "canvasScript": "const root='/home/ubuntu/dev/explorakit',req=require('node:module').createRequire(root+'/package.json'),{chromium}=req('playwright'),fs=req('node:fs'),assert=req('node:assert/strict');\n(async()=>{const browser=await chromium.launch({headless:true,args:['--no-sandbox']});try{const page=await browser.newPage({viewport:{width:896,height:640}});await page.setContent('<style>html,body{margin:0;background:#080812}canvas{display:block;image-rendering:pixelated}</style><canvas width=\"896\" height=\"640\"></canvas>');const source=fs.readFileSync(root+'/vue-explorakit/src/services/mirrorRiftRenderer.js').toString('base64'),art=fs.readFileSync(root+'/vue-explorakit/src/assets/route2_maison.png').toString('base64');await page.evaluate(async({source,art})=>{window.m=await import('data:text/javascript;base64,'+source);window.image=new Image();image.src='data:image/png;base64,'+art;await image.decode();window.c=document.querySelector('canvas').getContext('2d');c.imageSmoothingEnabled=false;window.state={ruined:true,stage:'open',rift:{x:13,y:10},clone:{x:13,y:13}};window.paint=(time,scene,motion=true)=>{c.clearRect(0,0,896,640);c.drawImage(image,0,0,896,640);m.drawMirrorGround(c,'route2_maison',state,scene,time,motion,image);};},{source,art});const out='/tmp/riftmon-mirror-floor-canvas';fs.mkdirSync(out,{recursive:true});for(const ms of [800,2600,4800,7400]){await page.evaluate(ms=>paint(ms,{map:'route2_maison',phase:'opening',startedAt:0,duration:8000}),ms);await page.screenshot({path:out+'/opening-'+ms+'.png'});}await page.evaluate(()=>paint(16000,null));await page.screenshot({path:out+'/open.png'});await page.evaluate(()=>paint(16000,null,false));await page.screenshot({path:out+'/reduced.png'});\nconst result=await page.evaluate(()=>{\n paint(16000,null);const active=c.getImageData(0,0,896,640).data;\n state.stage='complete';paint(17000,null);const closed=c.getImageData(0,0,896,640).data;\n c.clearRect(0,0,896,640);c.drawImage(image,0,0,896,640);const original=c.getImageData(0,0,896,640).data;\n for(const[x,y,w,h]of[[256,350,66,70],[516,350,60,70]])for(let dy=y;dy<y+h;dy++)for(let dx=x;dx<x+w;dx++)for(let k=0;k<4;k++){const i=(dy*896+dx)*4+k;if(active[i]!==original[i]||closed[i]!==original[i])throw Error('Furniture overpainted at '+dx+','+dy);}\n const holePixel=[...closed.slice((336*896+432)*4,(336*896+432)*4+4)];if(holePixel[0]>12||holePixel[1]>12)throw Error('Closed pit covered by floor');\n state.stage='open';let start=performance.now();for(let i=0;i<120;i++)paint(20000+i*34,null);const average=(performance.now()-start)/120;paint(30000,null);const moving=c.getImageData(0,0,896,640).data;paint(31000,null);const later=c.getImageData(0,0,896,640).data;let changed=0;for(let i=0;i<moving.length;i++)if(moving[i]!==later[i])changed++;paint(32000,null,false);const reduced=c.getImageData(0,0,896,640).data;paint(40000,null,false);const still=c.getImageData(0,0,896,640).data;let reducedChanges=0;for(let i=0;i<still.length;i++)if(still[i]!==reduced[i])reducedChanges++;m.releaseMirrorEffects();paint(40000,null);return{furniturePixelsPreserved:true,closedPitVisible:true,holePixel,averageWorldAndEffectMs:average,animatedChannelsChanged:changed,reducedChannelsChanged:reducedChanges,releaseAndRecreate:true};});assert(result.animatedChannelsChanged>100);assert.equal(result.reducedChannelsChanged,0);fs.writeFileSync(out+'/results.json',JSON.stringify(result,null,2));console.log(JSON.stringify(result));}finally{await browser.close();}})().catch(e=>{console.error(e);process.exitCode=1});\n",
+    "nightScript": "const root='/home/ubuntu/dev/explorakit',req=require('node:module').createRequire(root+'/package.json'),{chromium}=req('playwright'),express=req('express'),fs=req('node:fs'),assert=req('node:assert/strict');\n(async()=>{const app=express();app.use(express.static(root+'/vue-explorakit/src'));const server=app.listen(0,'127.0.0.1');await new Promise(r=>server.once('listening',r));let browser;try{browser=await chromium.launch({headless:true,args:['--no-sandbox']});const page=await browser.newPage({viewport:{width:896,height:640}});await page.goto('http://127.0.0.1:'+server.address().port+'/services/worldNight.js');const result=await page.evaluate(async()=>{document.body.innerHTML='<canvas width=\"896\" height=\"640\"></canvas>';document.body.style='margin:0;background:#070b17';const{WorldNightRenderer}=await import('/services/worldNight.js'),c=document.querySelector('canvas').getContext('2d');c.imageSmoothingEnabled=false;const counts={};window.nightPictures={};for(const map of ['route2','route3']){const image=new Image();image.src='/assets/'+map+'.png';await image.decode();const night=new WorldNightRenderer();c.drawImage(image,0,0,896,640);night.drawGround(c,map,0,{night:1,lamps:1,warmth:0},{},false,image);night.draw(c,map,0,{night:1,lamps:1,warmth:0},{},false,image);const d=night.fixtures.getContext('2d').getImageData(0,0,448,320).data;let pixels=0;for(let i=3;i<d.length;i+=4)if(d[i])pixels++;counts[map]=pixels;nightPictures[map]=c.canvas.toDataURL();night.destroy();}return counts;});assert.equal(result.route2,0);assert(result.route3>0);const out='/tmp/riftmon-mirror-floor-night';fs.mkdirSync(out,{recursive:true});for(const map of ['route2','route3']){const data=await page.evaluate(map=>nightPictures[map],map);fs.writeFileSync(out+'/'+map+'.png',Buffer.from(data.split(',')[1],'base64'));}fs.writeFileSync(out+'/results.json',JSON.stringify({lucieHouseNightLightPixels:0,otherRouteHouseLightPixels:result.route3},null,2));console.log(JSON.stringify(result));}finally{await browser?.close();await new Promise(r=>server.close(r));}})().catch(e=>{console.error(e);process.exitCode=1});\n",
+    "lint": true,
+    "clientBuild": "6a363178819b14d0",
+    "physicalPhoneTest": false
+  },
+  "deployment": {
+    "publishedAt": "2026-10-28T04:31:10.442Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-mirror-floor-2026-10-28T04-31-08-016Z",
+    "sourceBaseline": "2377a43f8467d5fbe641f2863030e25240fad6ed",
+    "sourceHashes": {
+      "server/game/world/mirrorRift.js": "55f7c3231549c56f65b6dc34a90b8ecd006edd60354b05b4002950db790ff131",
+      "server/persistence/mirrorRiftRepository.js": "2eaba1c3e89e09b490f39efaa565882ecfd71607913b3ce011b69602445afaeb",
+      "server/realtime/handlers/mirrorRiftHandlers.js": "2b885e25aa07f892b1427f4ee47289be71c54c3390769d0cc87fdef1521d41b7",
+      "server/realtime/socketHandler.js": "1293b91f21e494dc4aeba71a67e19971b683372e34ac1cf98d4a713884a98e62"
+    },
+    "clientCommit": "2fc4513f8764244a48b446a61fe5bf742ddb6ae6",
+    "clientBuild": "6a363178819b14d0",
+    "beforePid": "2469675",
+    "afterPid": "2478591",
+    "activeRuns": 0,
+    "checkpointSaved": true,
+    "serverRestarted": true,
+    "gracefulCheckpoint": true,
+    "neighborsUnchanged": true,
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.d561def1.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.fd208c18.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.d17eb514.css",
+      "img/ville4_arene.4d111715.png",
+      "img/tour_rdc.e03e0f06.png",
+      "img/tour_etage1.8ec612be.png",
+      "img/tour_etage2.18713452.png",
+      "img/tour_etage3.ac05c302.png",
+      "img/6931.30769aa5.png"
+    ],
+    "embedded": [
+      "pnj/professor-ko-pixel-v1.png",
+      "pnj/clement-pixel-v2.png"
+    ],
+    "oldHashedAssetsRetained": true,
+    "sqlMigration": false,
+    "realAccountsModified": false
+  },
+  "postDeployment": {
+    "runtimeHashesMatch": true,
+    "serverErrors": 0,
+    "testFixtureRemainders": 0
+  }
+}

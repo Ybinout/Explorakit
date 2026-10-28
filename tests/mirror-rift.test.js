@@ -19,11 +19,11 @@ test('rift cells and clone are solid, leaving the room exit and the route open',
   const p=progress();p.flags.mirror_stage='clone';
   for(const[x,y]of[[13,9],[12,10],[13,10],[14,10],[13,11],[11,10],[15,10],[13,13]])assert(scene.blocked(scene.config.map,x,y,p));
   assert(!scene.blocked('route2',13,10,p));assert(!scene.blocked(scene.config.map,13,18,p));
-  p.flags.mirror_stage='complete';assert(!scene.blocked(scene.config.map,13,10,p));
+  p.flags.mirror_stage='complete';assert(scene.blocked(scene.config.map,13,10,p));assert(!scene.blocked(scene.config.map,13,13,p));
 });
 test('private admin preview does not rewrite the completed permanent ruin',()=>{
   const p=progress();Object.assign(p.flags,{mirror_stage:'complete',mirror_ruined:'true',admin_mirror_replay:'true',admin_mirror_stage:'sealed',admin_mirror_ruined:'false'});
-  assert.equal(scene.state(p).stage,'sealed');assert.equal(scene.state(p).ruined,false);delete p.flags.admin_mirror_replay;assert.equal(scene.state(p).stage,'complete');assert(scene.state(p).ruined);
+  assert.equal(scene.state(p).stage,'sealed');assert.equal(scene.state(p).ruined,false);assert(!scene.blocked(scene.config.map,13,10,p));delete p.flags.admin_mirror_replay;assert.equal(scene.state(p).stage,'complete');assert(scene.state(p).ruined);
 });
 test('mirror copies exact HP, PP, IV, EV, nature, K, ability, items and stats without sharing objects or identities',()=>{
   const a=factory.create(94,250,true),b=factory.create(9,42,true);a.currentHp=13;a.heldItem='choice_scarf';a.status='burn';a.abilities=['Shadow Ball','Sludge Bomb'];a.movePp=[3,0];a.k=4;a.iv.speed=31;a.ev.speed=252;a.nature='Timid';a.__battle={statStages:{speed:6}};b.currentHp=0;b.heldItem='leftovers';
@@ -51,8 +51,11 @@ test('central rift and clone use free terrain, with a reachable southern action 
   assert.equal(c[scene.config.rift.y][scene.config.rift.x],0);assert.equal(c[scene.config.clone.y][scene.config.clone.x],0);
   assert(!scene.blocked(scene.config.map,13,12,p));assert.equal(scene.interaction({currentmap:scene.config.map,x:432,y:400},p),'emerge');
   assert(!scene.blocked(scene.config.map,7,4,p));assert(!scene.blocked(scene.config.map,13,17,p));
-  const spawn=require('../server/realtime/playerState').sanitizeSpawnPosition(432,336,c,scene.config.map,{blocked:(map,x,y)=>scene.blocked(map,x,y,p)});
-  assert(!scene.blocked(scene.config.map,Math.floor(spawn.x/32),Math.floor(spawn.y/32),p));
+  for(const stage of ['open','complete']){
+    p.flags.mirror_stage=stage;
+    const spawn=require('../server/realtime/playerState').sanitizeSpawnPosition(432,336,c,scene.config.map,{blocked:(map,x,y)=>scene.blocked(map,x,y,p)});
+    assert(!scene.blocked(scene.config.map,Math.floor(spawn.x/32),Math.floor(spawn.y/32),p));
+  }
 });
 test('opening keeps moving late in the sequence and camera returns to the player without changing world coordinates',async()=>{
   const {mirrorScenePose,mirrorCameraTarget,riftCenter}=await import('../vue-explorakit/src/services/mirrorRiftRenderer.js');
@@ -62,4 +65,17 @@ test('opening keeps moving late in the sequence and camera returns to the player
   assert.deepEqual(mirrorCameraTarget(s,0,player,state),player);assert.deepEqual(mirrorCameraTarget(s,8000,player,state),player);
   assert.deepEqual(mirrorCameraTarget(s,4000,player,state),{x:432,y:336});
   assert.deepEqual(mirrorCameraTarget(null,4000,player,state),player);assert.deepEqual(player,{x:240,y:144});
+});
+
+test('mirror awakening is in the upstairs blue bed, with a free exit and unchanged ordinary blackout destination',()=>{
+  const wake=scene.config.wake,c=terrain.loadCollisionData(wake.map),safe=require('../server/realtime/playerState').sanitizeSpawnPosition(wake.x,wake.y,c,wake.map);
+  assert.deepEqual(wake,{map:'etage',x:592,y:336});assert.deepEqual(safe,{x:wake.x,y:wake.y});assert.equal(c[10][17],0);
+  assert.deepEqual(require('../server/game/world/playerRecovery').HOME_RESPAWN_POINT,{map:'maison',x:272,y:432});
+});
+test('floor fragments use the authored board height and bounded offsets, never sample furniture',async()=>{
+  const{mirrorFloorBoards,riftCenter}=await import('../vue-explorakit/src/services/mirrorRiftRenderer.js'),center=riftCenter({rift:scene.config.rift});
+  for(const spread of [0,.2,.5,.8,1])for(const b of mirrorFloorBoards(center,spread)){
+    assert.equal(b.height,22);assert([80,96].includes(b.width));assert(Math.abs(b.dx)<=8);assert(b.y>=290&&b.y+b.height<=378);
+    assert(b.x>=336&&b.x+b.width<=528);if(b.y+b.height>350)assert(b.x+b.width<=512);
+  }
 });

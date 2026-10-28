@@ -287,12 +287,12 @@ const socketHandler = (io) => {
         const mirrorRift=require('../game/world/mirrorRift');
         const supportsMirrorRift=socket.handshake?.auth?.mirrorRift===true;
         // A won duel survives a lost socket or restart during the closing cinematic.
-        if(['route2_maison','maison'].includes(currentmap)){
+        if(['route2_maison','maison',mirrorRift.config.wake.map].includes(currentmap)){
             const pending=await require('../persistence/mirrorRiftRepository').read(userId);
             if(pending.state.stage==='won'){
                 healTeam(equipe);await editEquipe(userId,equipe);
                 await require('../persistence/mirrorRiftRepository').completeWake(userId);
-                savedPosition={...savedPosition,...require('../game/world/playerRecovery').HOME_RESPAWN_POINT};currentmap='maison';
+                savedPosition={...savedPosition,...mirrorRift.config.wake};currentmap=mirrorRift.config.wake.map;
             }
         }
         let raphTrialState = currentmap === raphTrial.config.map ? await raphTrialRepository.ensure(userId,savedPosition) : null;

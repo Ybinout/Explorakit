@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Maison de Lucie — parquet, trou permanent et réveil à l’étage — 28 octobre 2026
+
+Le parquet animé reprend directement la texture de la carte : rangées de 11 pixels source (22 pixels monde), lames de 96 pixels monde, tronquées à 80 sous le meuble droit, glissement maximal de huit pixels. Échantillonnage sans lissage ; aucun petit motif de planche inventé. Deux masques excluent les tables et leurs ombres de toute la composition de la faille. Le trou reste visible et solide au stade `complete`, pour chaque joueur ; le reset admin conserve sa projection privée, et les anciens points sauvegardés dans le trou sont normalisés vers une case libre.
+
+Point de réveil propre au reflet : `mirrorRift.config.wake={map:'etage',x:592,y:336}`, dans le lit bleu au véritable étage de la maison du joueur. Le retour ordinaire après K.O. reste `maison` (272,432). Voyage, transaction de fin et récupération après reconnexion utilisent le même point ; une interruption après le voyage à l’étage mais avant la validation finale est aussi récupérée. Le joueur peut sortir du lit par sa gauche puis rejoindre l’escalier. Suppression des deux fenêtres nocturnes de la maison de Lucie sur Route 2 ; le voile de nuit, les lucioles autorisées et les autres maisons restent inchangés. Cartes et PNG auteur conservés.
+
+Validation : 37 tests ciblés et sept scénarios MySQL réussis, dont reprise depuis la chambre de Lucie et depuis l’étage. Parcours navigateur complet sur compte jetable, quatre formats tactiles et clavier PC : huit secondes, reflet, duel, réveil dans le lit, sortie du lit, trou fermé infranchissable, reconnexion et reset privés, zéro erreur. Contrôle Canvas : pixels des deux meubles strictement conservés avec faille active/fermée, trou noir visible, réduction des mouvements et libération ; environ 2,43 ms par recalcul complet sur Chromium local. Lumières Canvas : zéro pixel lumineux pour Route 2, 2 177 conservés sur la Route 3 témoin. Lint/build `6a363178819b14d0`, syntaxe et diff valides. Captures parquet/lit/trou/nuit inspectées ; pas de téléphone physique. Rapport : `docs/MIRROR_RIFT_FLOOR_AND_WAKE.json`.
+
+Publication serveur/client le 28 octobre 2026 à 05 h 31 (Europe/Paris), client `2fc4513f8764244a48b446a61fe5bf742ddb6ae6`, build `6a363178819b14d0`, PID 2469675→2478591. Sauvegarde `/home/ubuntu/dev/backups/riftmon-mirror-floor-2026-10-28T04-31-08-016Z`, checkpoint conservé et zéro expédition active relevée. Index/bundles et décors publics vérifiés, anciens assets et Knov/api-test conservés ; empreintes runtime identiques, zéro erreur serveur relevée et aucun compte de recette restant dans la base dédiée. Aucune migration ou manipulation manuelle de compte réel.
+
 ## Étui de badges — noms révélés après victoire — 28 octobre 2026
 
 `BadgesPanel.placeLabel` garde seulement le lieu pour un badge non acquis : « Rochebrume » avant Wanda, puis « Rochebrume · Wanda » après obtention. Le nom n’est pas présent dans le texte DOM des badges non obtenus. Une fin alternative fissurée révèle aussi le Professeur, puisque cette rencontre est déjà résolue. Aucun changement des noms/dessins de badges, des lieux, des acquis ou de la progression serveur.
@@ -4385,6 +4395,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 28 octobre 2026 — Maison de Lucie : vrai parquet échantillonné, tables protégées, trou restant solide et réveil dans le lit de l’étage (reconnexion comprise). Fenêtres extérieures éteintes la nuit. 37 tests, sept scénarios SQL et parcours navigateur complet réussis. Rapport `docs/MIRROR_RIFT_FLOOR_AND_WAKE.json`.
 
 - 28 octobre 2026 — Liste des badges : seul le lieu apparaît avant victoire, puis le nom du champion après acquisition. Fin alternative déjà résolue reconnue ; badges et progression conservés. Lint/build et navigateur SQL quatre formats réussis. Rapport `docs/BADGE_CHAMPION_REVEAL.json`.
 

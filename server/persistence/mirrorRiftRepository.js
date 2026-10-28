@@ -22,7 +22,7 @@ async function win(id){return withTransaction(async c=>{const r=await read(id,c,
     await flag(c,id,scene.key(r.progress,'stage'),'won');return true;
 });}
 async function completeWake(id){return withTransaction(async c=>{const r=await read(id,c,true);if(!r.owner||r.state.stage!=='won')return false;
-    const home=require('../game/world/playerRecovery').HOME_RESPAWN_POINT;
+    const home=scene.config.wake;
     await c.execute('UPDATE users SET map=?,x=?,y=? WHERE id=?',[home.map,home.x,home.y,id]);
     await flag(c,id,scene.key(r.progress,'stage'),'complete');return true;
 });}

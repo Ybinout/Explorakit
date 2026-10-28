@@ -98,3 +98,8 @@ test('night renderer caches lighting, limits animation, clears in daytime/interi
     renderer.draw(target,'cave1',7200,night);assert.equal(renderer.canvas,null);
     renderer.destroy(); assert(surfaces.every(s=>s.width===0&&s.height===0));renderer.draw(target,'route4',7300,night);assert.equal(renderer.canvas,null);
 });
+
+test('Lucie house windows remain unlit while the other route houses keep their lamps',async()=>{
+ const {townLights,outdoorMap}=await import('../vue-explorakit/src/data/nightLights.js');
+ assert(outdoorMap('route2'));assert.equal(townLights.route2?.windows?.length||0,0);assert(townLights.route3.windows.length>0);assert(townLights.start.windows.length>0);
+});

@@ -1,6 +1,6 @@
 const {badges}=require('../../../data/game/progression.json');
 const config=Object.freeze({map:'route2_maison',outside:'route2',switch:{x:7,y:5},rift:{x:13,y:10},clone:{x:13,y:13},
-    openingMs:8000,emergingMs:2800,closingMs:6200,awakeningMs:1800});
+    wake:{map:'etage',x:592,y:336},openingMs:8000,emergingMs:2800,closingMs:6200,awakeningMs:1800});
 const requiredBadges=badges.filter(b=>!b.exclusiveGroup&&b.countsForCapture!==false&&!b.hidden).map(b=>b.key);
 const endingBadges=['violence_badge','pardon_badge'];
 const stages=new Set(['sealed','open','clone','won','complete']);
@@ -19,7 +19,7 @@ function interaction(player,p){
     if(s.stage==='open'&&distance(player,config.rift)<=2)return 'emerge';
     if(s.stage==='clone'&&distance(player,config.clone)<=1)return 'battle';return null;
 }
-function blocked(map,x,y,p={}){if(map!==config.map)return false;const stage=p.flags?.[key(p,'stage')];if(!['open','clone','won'].includes(stage))return false;
+function blocked(map,x,y,p={}){if(map!==config.map)return false;const stage=p.flags?.[key(p,'stage')];if(!['open','clone','won','complete'].includes(stage))return false;
     const dx=Math.abs(x-config.rift.x),dy=Math.abs(y-config.rift.y);
     return(dy<=1&&dx<=1)||(dy===0&&dx===2)||(stage==='clone'&&x===config.clone.x&&y===config.clone.y);
 }
