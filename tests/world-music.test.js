@@ -80,8 +80,11 @@ test('towns and routes are quieter; arenas and event houses are louder while hon
  const {music}=await fixture();
  for(const [maps,gain] of [
   [['start','ville1','ville_safe1','ville3','ville4','ville5','route1','route8','route13','route14','ville_commerciale'],.14],
-  [['ville1_arene','ville_safe1_arene','gen_arene5','ville3_arene','ville4_arene','ville5_arene','route4_maison'],.34],
-  [['route2_maison','professor_lab'],.5],
+  [['ville3_arene'],.85],
+  [['ville1_arene','gen_arene5'],.65],
+  [['ville_safe1_arene','ville4_arene','ville5_arene'],.55],
+  [['route4_maison'],.34],
+  [['route2_maison','professor_lab','void_arena'],.7],
   [['centre','cave1'],.22]
  ]) for(const map of maps) for(const volume of [0,.35,1]){
   music.update({map,active:true,volume});await tick();

@@ -1,0 +1,386 @@
+{
+  "date": "2026-10-28",
+  "changes": [
+    {
+      "maps": [
+        "ville3_arene"
+      ],
+      "before": 0.34,
+      "after": 0.85
+    },
+    {
+      "maps": [
+        "ville1_arene",
+        "gen_arene5"
+      ],
+      "before": 0.34,
+      "after": 0.65
+    },
+    {
+      "maps": [
+        "ville_safe1_arene",
+        "ville4_arene",
+        "ville5_arene"
+      ],
+      "before": 0.34,
+      "after": 0.55
+    },
+    {
+      "maps": [
+        "professor_lab",
+        "route2_maison",
+        "void_arena"
+      ],
+      "before": 0.5,
+      "after": 0.7
+    }
+  ],
+  "unchanged": [
+    "village/routes/neige : .14",
+    "Gwenn : .34",
+    "centres/grottes : .22",
+    "MP3 originaux",
+    "volume de combat"
+  ],
+  "masterSliderPreserved": true,
+  "sourceMeasurement": {
+    "method": "Décodage Web Audio Chromium ; RMS/peak numériques par canal, sans lecture subjective ni LUFS",
+    "levels": [
+      {
+        "name": "village",
+        "duration": 89.53614512471655,
+        "whole": {
+          "rmsDb": -12.292680217072514,
+          "peakDb": -0.06046265099904496
+        },
+        "first20": {
+          "rmsDb": -13.109229710453796,
+          "peakDb": -0.08123402538064241
+        }
+      },
+      {
+        "name": "ana_arene",
+        "duration": 155.27183673469386,
+        "whole": {
+          "rmsDb": -15.986896308032883,
+          "peakDb": -0.4891546926979545
+        },
+        "first20": {
+          "rmsDb": -27.36359211833816,
+          "peakDb": -10.960546755235063
+        }
+      },
+      {
+        "name": "mounir-arene",
+        "duration": 177.37142857142857,
+        "whole": {
+          "rmsDb": -11.491609987041485,
+          "peakDb": 0
+        },
+        "first20": {
+          "rmsDb": -26.28665577036493,
+          "peakDb": -3.5026258256176175
+        }
+      },
+      {
+        "name": "hoze-arene",
+        "duration": 129.72408163265305,
+        "whole": {
+          "rmsDb": -13.83729778583736,
+          "peakDb": 0
+        },
+        "first20": {
+          "rmsDb": -15.647048918740666,
+          "peakDb": 0
+        }
+      },
+      {
+        "name": "areneraph",
+        "duration": 174.31510204081633,
+        "whole": {
+          "rmsDb": -18.50697624437543,
+          "peakDb": -0.27558238558990666
+        },
+        "first20": {
+          "rmsDb": -23.97087134556841,
+          "peakDb": -8.46397692417421
+        }
+      },
+      {
+        "name": "areneWanda",
+        "duration": 159.13795918367347,
+        "whole": {
+          "rmsDb": -11.76026717151788,
+          "peakDb": 0
+        },
+        "first20": {
+          "rmsDb": -16.13470211061976,
+          "peakDb": -1.287241369855464
+        }
+      },
+      {
+        "name": "arene7p",
+        "duration": 295.18367346938777,
+        "whole": {
+          "rmsDb": -12.637418761880205,
+          "peakDb": 0
+        },
+        "first20": {
+          "rmsDb": -18.770578589924607,
+          "peakDb": -4.759122625400665
+        }
+      },
+      {
+        "name": "lucie-maison",
+        "duration": 162.3248979591837,
+        "whole": {
+          "rmsDb": -12.043486161593378,
+          "peakDb": 0
+        },
+        "first20": {
+          "rmsDb": -25.123233799454017,
+          "peakDb": -6.8458477563136535
+        }
+      }
+    ],
+    "anaVsVillageFirst20Db": {
+      "before": -6.547344780604025,
+      "after": 1.4114553928367286
+    }
+  },
+  "validation": {
+    "existingUnitTests": 21,
+    "failures": 0,
+    "skips": 0,
+    "lint": true,
+    "build": "8140e11d472c0599",
+    "browser": {
+      "browser": "Chromium headless, vrai client construit et HTMLAudioElement",
+      "maps": 10,
+      "sliderChecks": 30,
+      "viewports": [
+        393,
+        1365
+      ],
+      "hiddenPauseResume": true,
+      "rows": [
+        {
+          "map": "ville1",
+          "masterVolume": 60,
+          "actualVolume": 0.084,
+          "paused": false
+        },
+        {
+          "map": "ville1",
+          "masterVolume": 0,
+          "actualVolume": 0,
+          "paused": true
+        },
+        {
+          "map": "ville1",
+          "masterVolume": 100,
+          "actualVolume": 0.14,
+          "paused": false
+        },
+        {
+          "map": "ville3_arene",
+          "masterVolume": 60,
+          "actualVolume": 0.51,
+          "paused": false
+        },
+        {
+          "map": "ville3_arene",
+          "masterVolume": 0,
+          "actualVolume": 0,
+          "paused": true
+        },
+        {
+          "map": "ville3_arene",
+          "masterVolume": 100,
+          "actualVolume": 0.85,
+          "paused": false
+        },
+        {
+          "map": "ville1_arene",
+          "masterVolume": 60,
+          "actualVolume": 0.39,
+          "paused": false
+        },
+        {
+          "map": "ville1_arene",
+          "masterVolume": 0,
+          "actualVolume": 0,
+          "paused": true
+        },
+        {
+          "map": "ville1_arene",
+          "masterVolume": 100,
+          "actualVolume": 0.65,
+          "paused": false
+        },
+        {
+          "map": "gen_arene5",
+          "masterVolume": 60,
+          "actualVolume": 0.39,
+          "paused": false
+        },
+        {
+          "map": "gen_arene5",
+          "masterVolume": 0,
+          "actualVolume": 0,
+          "paused": true
+        },
+        {
+          "map": "gen_arene5",
+          "masterVolume": 100,
+          "actualVolume": 0.65,
+          "paused": false
+        },
+        {
+          "map": "ville_safe1_arene",
+          "masterVolume": 60,
+          "actualVolume": 0.33,
+          "paused": false
+        },
+        {
+          "map": "ville_safe1_arene",
+          "masterVolume": 0,
+          "actualVolume": 0,
+          "paused": true
+        },
+        {
+          "map": "ville_safe1_arene",
+          "masterVolume": 100,
+          "actualVolume": 0.55,
+          "paused": false
+        },
+        {
+          "map": "ville4_arene",
+          "masterVolume": 60,
+          "actualVolume": 0.33,
+          "paused": false
+        },
+        {
+          "map": "ville4_arene",
+          "masterVolume": 0,
+          "actualVolume": 0,
+          "paused": true
+        },
+        {
+          "map": "ville4_arene",
+          "masterVolume": 100,
+          "actualVolume": 0.55,
+          "paused": false
+        },
+        {
+          "map": "ville5_arene",
+          "masterVolume": 60,
+          "actualVolume": 0.33,
+          "paused": false
+        },
+        {
+          "map": "ville5_arene",
+          "masterVolume": 0,
+          "actualVolume": 0,
+          "paused": true
+        },
+        {
+          "map": "ville5_arene",
+          "masterVolume": 100,
+          "actualVolume": 0.55,
+          "paused": false
+        },
+        {
+          "map": "professor_lab",
+          "masterVolume": 60,
+          "actualVolume": 0.42,
+          "paused": false
+        },
+        {
+          "map": "professor_lab",
+          "masterVolume": 0,
+          "actualVolume": 0,
+          "paused": true
+        },
+        {
+          "map": "professor_lab",
+          "masterVolume": 100,
+          "actualVolume": 0.7,
+          "paused": false
+        },
+        {
+          "map": "route2_maison",
+          "masterVolume": 60,
+          "actualVolume": 0.42,
+          "paused": false
+        },
+        {
+          "map": "route2_maison",
+          "masterVolume": 0,
+          "actualVolume": 0,
+          "paused": true
+        },
+        {
+          "map": "route2_maison",
+          "masterVolume": 100,
+          "actualVolume": 0.7,
+          "paused": false
+        },
+        {
+          "map": "void_arena",
+          "masterVolume": 60,
+          "actualVolume": 0.42,
+          "paused": false
+        },
+        {
+          "map": "void_arena",
+          "masterVolume": 0,
+          "actualVolume": 0,
+          "paused": true
+        },
+        {
+          "map": "void_arena",
+          "masterVolume": 100,
+          "actualVolume": 0.7,
+          "paused": false
+        }
+      ],
+      "errors": []
+    },
+    "commands": [
+      "node --test tests/world-music.test.js tests/sequenced-music.test.js",
+      "npm --prefix vue-explorakit run lint",
+      "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-room-audio-dist",
+      "DB_TEST_NAME=explorakit_test node --env-file=.env /tmp/riftmon-room-audio-browser.cjs"
+    ],
+    "newUnitTests": false,
+    "physicalDevice": false,
+    "globalSuiteRun": false
+  },
+  "clientCommit": "dea6eaa141d283f153247e0bbba6a167bbdc127e",
+  "deployment": {
+    "publishedAt": "2026-10-28T18:30:23.751Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-room-audio-2026-10-28T18-30-22-395Z",
+    "sourceBaseline": "d8b8c4f9f63dc98efd6d2f240e0db81df28bcf3c",
+    "clientCommit": "dea6eaa141d283f153247e0bbba6a167bbdc127e",
+    "clientBuild": "8140e11d472c0599",
+    "sourceHash": "e99fb35cd646d6c61b11b0d8244a90da7bad780994a53fbc7cd36e56c3e91e6b",
+    "pid": "2785214",
+    "serverRestarted": false,
+    "neighborsUnchanged": true,
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.d733547b.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.866a6bb9.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.699eedbd.css"
+    ],
+    "hashedAssetsRetained": true,
+    "sqlMigration": false,
+    "realAccountsModified": false
+  }
+}

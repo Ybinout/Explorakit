@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Musiques d’ambiance — arènes et pièces du récit — 28 octobre 2026
+
+Volume renforcé par piste : Ana 0,34→0,85 ; Mounir/Raphael 0,34→0,65 ; Hoze/Wanda/7p et autres arènes 0,34→0,55 ; maison de Lucie/laboratoire/arène oubliée 0,50→0,70. Réglages village/routes/neige 0,14, Gwenn 0,34 et centre/grottes 0,22 conservés. Le volume maître reste multiplicatif, sans dépassement de 1 ; silence, pauses/reprise et continuité des pistes conservés. Pas de modification des MP3 ou des musiques de combat.
+
+Les fichiers ont été décodés dans Chromium : les 20 premières secondes d’Ana mesurent environ −27,4 dB RMS contre −13,1 pour le village. Avec les gains, cette introduction passait environ 6,5 dB sous le village ; le nouveau réglage la place environ 1,4 dB au-dessus. Mounir et Raphael ont eux aussi des introductions discrètes, justifiant leur renfort spécifique. Mesure RMS numérique, pas une mesure LUFS ou une écoute sur téléphone ; dynamique originale préservée.
+
+Validation : 21 tests existants du lecteur/du mix et des séquences réussis, lint et build `8140e11d472c0599` valides. Client construit servi localement sur compte jetable SQL supprimé : dix lieux, 30 contrôles de vrais HTMLAudioElement aux volumes 0/60/100, pause/reprise au masquage et formats 393/1365 ; zéro erreur. Recette musicale existante alignée sur les nouveaux gains. Aucun nouveau test unitaire ajouté pour cette retouche réversible ; aucun téléphone physique, nouvelle image ou suite globale revendiqué. Rapport : `docs/ROOM_AMBIENCE_VOLUME.json`.
+
+Publication client seule le 28 octobre 2026 à 19 h 30 (Europe/Paris), build `8140e11d472c0599`. Sauvegarde `/home/ubuntu/dev/backups/riftmon-room-audio-2026-10-28T18-30-22-395Z`, index et bundles publics vérifiés à l’octet, anciens assets conservés. PID 2785214 conservé, aucun redémarrage serveur ; Knov/api-test inchangés. Aucune migration ou modification manuelle de compte réel.
+
 ## Colère — enchaînement forcé et fatigue — 28 octobre 2026
 
 Diagnostic : Colère était traitée comme une attaque physique simple, sans verrou, durée ni fatigue. Module partagé `rampageMoves.js` pour Colère, Mania et Danse Fleurs : tirage de deux ou trois attaques, une seule dépense de PP à l’activation (Pression comprise), poursuite automatique avec zéro PP et confusion à la fin. Attaque différente et changement volontaire impossibles pendant le verrou ; un remplaçant adverse reste une cible valable. Puissance, précision et PP maximum du catalogue conservés, dont Colère 120/100/15 ; aucun changement d’équilibrage des fiches.
@@ -4651,6 +4661,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 28 octobre 2026 — Musiques d’ambiance renforcées dans les arènes et pièces du Professeur/Lucie, correction plus marquée pour les introductions discrètes d’Ana/Mounir/Raphael. 21 tests et 30 contrôles navigateur réussis ; rapport `docs/ROOM_AMBIENCE_VOLUME.json`.
 
 - 28 octobre 2026 — Colère/Mania/Danse Fleurs : verrou de deux ou trois attaques, PP initiaux seulement, fatigue et interruptions, IA et checkpoints adaptés. 243 tests réussis ; rapport `docs/OUTRAGE_RAMPAGE.json`.
 
