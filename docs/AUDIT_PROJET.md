@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## CS en boutique — effets et caractéristiques — 28 octobre 2026
+
+Les cartes de CS dans `ShopPanel.vue` montrent la description de l’attaque, sa catégorie physique/spéciale/statut, sa puissance, sa précision et ses PP, avec le type déjà coloré. Le catalogue de référence et le formateur des fiches Pokémon sont réutilisés : dégâts fixes en PV, puissance variable et capacités de statut restent distingués, sans annoncer des dégâts réellement garantis. Présentation commune à l’achat et à la revente, boutiques Aventure et expéditions ; prix, compatibilité, moteur, inventaires et progression inchangés. Aucun appel réseau supplémentaire.
+
+Recette existante `validateMachinesBrowser.js` enrichie : les descriptions des 264 CS correspondent à leur attaque, cinq cas de puissance vérifiés (Surf, Poing Feu, Abri, Frappe Atlas, Draco-Rage). Huit captures boutique en 320×480/393×852/844×390/1365×900, clair/sombre, sans débordement ou chevauchement des descriptions/commandes ; captures inspectées. Achat réel, annulation, remplacement/apprentissage, compatibilité, sauvegarde/reconnexion et achat/apprentissage en expédition repassés sur compte jetable supprimé. Zéro erreur navigateur, lint et build isolé valides. Aucun nouveau test unitaire, téléphone physique ou suite globale revendiqués. Rapport : `docs/SHOP_CS_DETAILS.json`.
+
+Publication client seul le 28 octobre 2026 à 21 h 56 (Europe/Paris), build `fe82e188efab2565`, client `0b3e40bec83d00c449cba798e16425b78f39b55b`. Ancien client sauvegardé dans `/home/ubuntu/dev/backups/riftmon-shop-cs-2026-10-28T20-56-07-176Z`, assets hachés conservés et index/bundles publics comparés à l’octet. Service actif, PID 2864996 conservé, zéro redémarrage automatique ; aucune migration ou donnée réelle modifiée. Knov/api-test inchangés.
+
 ## Échanges entre amis en Aventure — 28 octobre 2026
 
 Le carnet Amis propose « Échanger » pour un ami connecté. Périmètre explicitement choisi : Aventure seulement ; pas de transfert avec Rift/Colosseum. Invitation consentie, composition de chaque offre, validation des deux offres puis confirmation finale des deux joueurs. Changer une offre retire les validations ; les anciennes confirmations sont refusées. Un Pokémon de l’équipe ou du PC et jusqu’à six types d’objets, quantités 1–99 ; les dons sont permis. Sélecteurs illustrés, recherche et poches, fiches Pokémon consultables, interface journal claire/sombre, défilement mobile avec actions accessibles. Objets clés, canne et Multi Exp restent personnels ; un Pokémon qui en tient un doit le retirer avant échange.
@@ -4715,6 +4723,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 28 octobre 2026 — Boutique : description des attaques de CS, catégorie, puissance/dégâts fixes ou variables, précision et PP. 264 descriptions et cinq cas de puissance vérifiés ; achat/apprentissage/reconnexion Aventure et expédition, quatre formats et deux thèmes. Client seul publié ; rapport `docs/SHOP_CS_DETAILS.json`.
 
 - 28 octobre 2026 — Échanges Aventure entre amis : Pokémon équipe/PC, objets et dons, double accord, reçus transactionnels contre les doublons, inventaires protégés et récupération après coupure. 68 tests ciblés et deux parcours navigateur réussis ; migration additive sauvegardée/vérifiée. Rapport `docs/FRIEND_TRADES.json`.
 
