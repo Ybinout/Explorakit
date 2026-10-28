@@ -21,7 +21,7 @@ const LEVEL_DAMAGE = new Set(['Seismic Toss','Night Shade']);
 const PUBLIC_VOLATILES = ['statStages','tempTypes','formTypes','abilityForm','tauntTurns','disableTurns',
     'disabledMove','encoreTurns','encoreMove','leechSeedSource','foresight','miracleEye','substituteHp',
     'trappedTurns','ingrain','chargeMove','chargeTurns','semiInvulnerable','rechargeMove','bideTurns',
-    'activeMoveActions','stockpileCount','laserFocusTurns','soundBlockedTurns','lastMoveFailed','lastMoveResultTurn','protectStreak','protectionStreak','protectionTurn','transformed','transformSpeciesId','transformSpriteId'];
+    'activeMoveActions','stockpileCount','laserFocusTurns','soundBlockedTurns','lastMoveFailed','lastMoveResultTurn','lastMoveUsed','protectStreak','protectionStreak','protectionTurn','transformed','transformSpeciesId','transformSpriteId'];
 const OWN_VOLATILES = [...PUBLIC_VOLATILES,'sleepTurns','choiceMove','unburden','abilitySuppressed','flashFireBoost','healBlockTurns',
     'embargoTurns','confusionTurns','infatuationTurns','toxicCounter','activeTurns','loafing','consumedHeldItem',
     'lastDamageTaken','lastDamageTurn','lastDamageSource','lastDamageClass','lastActionTurn','protectionStreak','protectionTurn','grounded'];
@@ -190,6 +190,10 @@ function support(a,b,move,ctx,incoming,bestDamage) {
             score=Math.max(score,incoming*.6+b.maxHp*.1);
         if(e.kind==='substitute' && !a.__battle.substituteHp && a.currentHp>a.maxHp*.55 && incoming<a.maxHp*.15)
             score=Math.max(score,b.maxHp*.25);
+        // The last completed move is visible history, never a submitted command.
+        if(e.kind==='encore' && !b.__battle.encoreTurns && incoming<a.currentHp*.8
+            && moveByName(b.__battle.lastMoveUsed)?.combat?.damage_class==='status')
+            score=Math.max(score,b.maxHp*.35);
     }
     return score<=-999?-100:ratio(score,b);
 }
@@ -297,6 +301,13 @@ function scoreMove(a,move,scenario,ctx,lookahead=false) {
         if(out.own.currentHp<=0)return score;
         if(out.foe.currentHp<=0)score-=100*(1-out.action.accuracy);
         score-=(1-out.action.accuracy)*ratio(Math.min(incoming,a.currentHp),a)*.7;
+        if(move.ename==='Rapid Spin' && out.action.useful) {
+            // Value the entry damage the surviving team will avoid. Only reward
+            // a real projected clear: a Ghost, Protect or a K.O. can stop it.
+            const saved=ctx.party.reduce((n,p)=>n+ratio(Math.max(0,
+                legacy.entryDamage(p,ctx.ownSide,ctx.field)-legacy.entryDamage(p,out.side,out.field)),p),0);
+            score+=Math.min(40,saved*.35);
+        }
         if(move.combat.damage_class==='status') {
             const utility=support(a,b,move,local,incoming,Math.max(0,...local.attacks.map(m=>damage(a,b,m,ctx.enemySide,ctx.field))));
             if(!out.action.recognized)score+=Math.max(-35,utility)*.6;

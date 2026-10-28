@@ -1,0 +1,264 @@
+{
+  "date": "2026-10-28",
+  "scope": "Wanda — composition retravaillée approuvée, Staross à la place de Tentacruel",
+  "team": {
+    "name": "wanda",
+    "team": [
+      {
+        "pokemonId": 373,
+        "name": "Drattak",
+        "level": 52,
+        "k": 3,
+        "nature": "Naive",
+        "passiveAbility": "Intimidate",
+        "heldItem": "lum_berry",
+        "abilities": [
+          "Dragon Dance",
+          "Dragon Claw",
+          "Earthquake",
+          "Fire Blast"
+        ],
+        "givenIv": {
+          "hp": 28,
+          "attack": 30,
+          "defense": 26,
+          "specialAttack": 24,
+          "specialDefense": 27,
+          "speed": 29
+        },
+        "ev": {
+          "attack": 252,
+          "speed": 252,
+          "specialDefense": 4
+        }
+      },
+      {
+        "pokemonId": 68,
+        "name": "Mackogneur",
+        "level": 52,
+        "k": 3,
+        "nature": "Adamant",
+        "passiveAbility": "No Guard",
+        "heldItem": "assault_vest",
+        "abilities": [
+          "Dynamic Punch",
+          "Knock Off",
+          "Ice Punch",
+          "Bullet Punch"
+        ],
+        "givenIv": {
+          "hp": 29,
+          "attack": 30,
+          "defense": 27,
+          "specialAttack": 24,
+          "specialDefense": 28,
+          "speed": 25
+        },
+        "ev": {
+          "hp": 248,
+          "attack": 252,
+          "specialDefense": 8
+        }
+      },
+      {
+        "pokemonId": 121,
+        "name": "Staross",
+        "level": 53,
+        "k": 3,
+        "nature": "Timid",
+        "passiveAbility": "Natural Cure",
+        "heldItem": "leftovers",
+        "abilities": [
+          "Surf",
+          "Thunderbolt",
+          "Ice Beam",
+          "Rapid Spin"
+        ],
+        "givenIv": {
+          "hp": 29,
+          "attack": 24,
+          "defense": 28,
+          "specialAttack": 27,
+          "specialDefense": 30,
+          "speed": 28
+        },
+        "ev": {
+          "specialAttack": 252,
+          "speed": 252,
+          "defense": 4
+        }
+      },
+      {
+        "pokemonId": 65,
+        "name": "Alakazam",
+        "level": 53,
+        "k": 4,
+        "nature": "Timid",
+        "passiveAbility": "Magic Guard",
+        "heldItem": "focus_sash",
+        "abilities": [
+          "Psyshock",
+          "Focus Blast",
+          "Shadow Ball",
+          "Encore"
+        ],
+        "givenIv": {
+          "hp": 27,
+          "attack": 24,
+          "defense": 25,
+          "specialAttack": 30,
+          "specialDefense": 28,
+          "speed": 30
+        },
+        "ev": {
+          "specialAttack": 252,
+          "speed": 252,
+          "specialDefense": 4
+        }
+      },
+      {
+        "pokemonId": 6,
+        "name": "Dracaufeu",
+        "level": 54,
+        "k": 4,
+        "nature": "Timid",
+        "passiveAbility": "Blaze",
+        "heldItem": "life_orb",
+        "abilities": [
+          "Fire Blast",
+          "Air Slash",
+          "Focus Blast",
+          "Roost"
+        ],
+        "givenIv": {
+          "hp": 28,
+          "attack": 24,
+          "defense": 27,
+          "specialAttack": 30,
+          "specialDefense": 26,
+          "speed": 29
+        },
+        "ev": {
+          "specialAttack": 252,
+          "speed": 252,
+          "defense": 4
+        }
+      },
+      {
+        "pokemonId": 376,
+        "name": "Métalosse",
+        "level": 54,
+        "k": 4,
+        "nature": "Adamant",
+        "passiveAbility": "Clear Body",
+        "heldItem": "shuca_berry",
+        "abilities": [
+          "Meteor Mash",
+          "Earthquake",
+          "Bullet Punch",
+          "Stealth Rock"
+        ],
+        "givenIv": {
+          "hp": 31,
+          "attack": 31,
+          "defense": 31,
+          "specialAttack": 31,
+          "specialDefense": 31,
+          "speed": 31
+        },
+        "ev": {
+          "hp": 252,
+          "attack": 252,
+          "specialDefense": 4
+        }
+      }
+    ],
+    "strategy": {
+      "name": "Wanda",
+      "ai": "expert"
+    }
+  },
+  "preserved": [
+    "niveaux",
+    "K de chaque emplacement",
+    "IV de chaque emplacement",
+    "IV parfaits de Métalosse",
+    "autres équipes",
+    "absence de réserve obligatoire"
+  ],
+  "aiChanges": [
+    "Dernier mouvement exécuté public pour Encore, projection du verrouillage et de sa durée",
+    "Projection du retrait des pièges par Tour Rapide, valeur du soutien à l’équipe",
+    "Aucune lecture de l’action soumise, aucun changement du moteur réel"
+  ],
+  "validation": {
+    "tests": 97,
+    "regressionTests": 16,
+    "failures": 0,
+    "skips": 0,
+    "commands": [
+      "node --test --test-concurrency=1 tests/wanda-tactics.test.js tests/human-trainer-ai.test.js tests/human-trainer-model.test.js tests/human-trainer-items.test.js tests/battle-field.test.js tests/world-content.test.js tests/experience-balance.test.js",
+      "BATTLE_DELAY_SCALE=0 NODE_ENV=test RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test node --env-file-if-exists=.env --test --test-concurrency=1 tests/human-trainer-finishing.test.js tests/arena-admin.test.js",
+      "node --env-file-if-exists=.env scripts/validateWandaBrowser.js"
+    ],
+    "browser": {
+      "realWandaTeam": true,
+      "formsPreserved": true,
+      "noReservedAce": true,
+      "mixedIv": true,
+      "metagrossPerfect": true,
+      "viewports": 2,
+      "errors": [],
+      "output": "/tmp/riftmon-wanda-rework-browser"
+    },
+    "browserLimit": "Compte jetable sur base de test, Tortank surpuissant pour vérifier toutes les espèces, pas une mesure d’équilibrage",
+    "screens": [
+      "/tmp/riftmon-wanda-rework-browser/opening-393.png",
+      "/tmp/riftmon-wanda-rework-browser/opening-1365.png"
+    ],
+    "physicalDeviceTested": false,
+    "globalSuiteRun": false,
+    "frontendBuildRun": false
+  },
+  "deployment": {
+    "publishedAt": "2026-10-28T11:28:15.860Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-wanda-rework-2026-10-28T11-28-14-454Z",
+    "sourceBaseline": "e36d598717853aa6f4589f7775c2aef8e713efaa",
+    "sourceHashes": {
+      "data/game/pnj_teams.json": "97ffeffc7075810526d9fde268383abb6e3d8f94ffedf4e75692e00b2cf5fb19",
+      "server/game/battle/humanTrainerAI.js": "5c64e0504359766dc73b1389512bd8a716fbebea111712fae3cc548631a0e6b9",
+      "server/game/battle/humanTrainerModel.js": "f53d5067da8cb4e441cab2ae71db97840318edbd657c2ee131a70ba318fefe2f"
+    },
+    "clientCommit": "81914d7029c4ee40488aa0686dd0c70ca8fc7d63",
+    "clientBuild": "819bbc5bc922488c",
+    "clientUnchanged": true,
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.6d89ba19.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.dc533f29.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.699eedbd.css"
+    ],
+    "beforePid": "2594816",
+    "afterPid": "2632198",
+    "serverRestarted": true,
+    "checkpointSaved": true,
+    "gracefulCheckpoint": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "sqlMigration": false,
+    "realAccountsModified": false
+  },
+  "references": [
+    "https://www.smogon.com/dex/dp/pokemon/starmie/",
+    "https://www.smogon.com/dex/dp/pokemon/metagross/",
+    "https://www.smogon.com/dex/dp/pokemon/alakazam/",
+    "https://www.smogon.com/dex/dp/pokemon/charizard/",
+    "https://www.smogon.com/dex/dp/pokemon/salamence/",
+    "https://www.smogon.com/dp/articles/ou_threat_list"
+  ]
+}

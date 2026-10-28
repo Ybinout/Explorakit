@@ -814,14 +814,14 @@
           "name": "Drattak",
           "level": 52,
           "k": 3,
-          "nature": "Jolly",
+          "nature": "Naive",
           "passiveAbility": "Intimidate",
           "heldItem": "lum_berry",
           "abilities": [
             "Dragon Dance",
             "Dragon Claw",
             "Earthquake",
-            "Roost"
+            "Fire Blast"
           ],
           "givenIv": {
             "hp": 28,
@@ -848,8 +848,8 @@
           "abilities": [
             "Dynamic Punch",
             "Knock Off",
-            "Stone Edge",
-            "Ice Punch"
+            "Ice Punch",
+            "Bullet Punch"
           ],
           "givenIv": {
             "hp": 29,
@@ -866,18 +866,18 @@
           }
         },
         {
-          "pokemonId": 73,
-          "name": "Tentacruel",
+          "pokemonId": 121,
+          "name": "Staross",
           "level": 53,
           "k": 3,
-          "nature": "Calm",
-          "passiveAbility": "Liquid Ooze",
+          "nature": "Timid",
+          "passiveAbility": "Natural Cure",
           "heldItem": "leftovers",
           "abilities": [
-            "Scald",
-            "Sludge Bomb",
+            "Surf",
+            "Thunderbolt",
             "Ice Beam",
-            "Haze"
+            "Rapid Spin"
           ],
           "givenIv": {
             "hp": 29,
@@ -888,9 +888,9 @@
             "speed": 28
           },
           "ev": {
-            "hp": 252,
-            "defense": 96,
-            "specialDefense": 160
+            "specialAttack": 252,
+            "speed": 252,
+            "defense": 4
           }
         },
         {
@@ -905,7 +905,7 @@
             "Psyshock",
             "Focus Blast",
             "Shadow Ball",
-            "Dazzling Gleam"
+            "Encore"
           ],
           "givenIv": {
             "hp": 27,
@@ -930,7 +930,7 @@
           "passiveAbility": "Blaze",
           "heldItem": "life_orb",
           "abilities": [
-            "Flamethrower",
+            "Fire Blast",
             "Air Slash",
             "Focus Blast",
             "Roost"
@@ -956,12 +956,12 @@
           "k": 4,
           "nature": "Adamant",
           "passiveAbility": "Clear Body",
-          "heldItem": "choice_band",
+          "heldItem": "shuca_berry",
           "abilities": [
             "Meteor Mash",
-            "Zen Headbutt",
             "Earthquake",
-            "Bullet Punch"
+            "Bullet Punch",
+            "Stealth Rock"
           ],
           "givenIv": {
             "hp": 31,

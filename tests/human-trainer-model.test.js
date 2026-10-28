@@ -50,3 +50,43 @@ for(const [label,id,move,props,foeMove,foeProps,first,weather] of [
     }
     assert.equal(projected.field.weather.kind,state.weather.kind);
 });
+
+test('Rapid Spin projection clears the correct hazards only after a surviving hit, matching the real engine',()=>{
+ for(const condition of ['hit','ghost','contact-ko','protect']) {
+  const ghost=condition==='ghost';
+  const a=mon(121,'Rapid Spin'),b=mon(ghost?94:143,'Splash'),field=engine.createBattleState();
+  if(condition==='contact-ko'){a.currentHp=1;b.passiveAbility='Rough Skin';}
+  if(condition==='protect')b.abilities=['Protect'];
+  Object.assign(field.sides.player.hazards,{stealthRock:true,spikes:2,toxicSpikes:1,stickyWeb:true});field.sides.enemy.hazards.stealthRock=true;
+  const ctx={field,ownSide:field.sides.player,enemySide:field.sides.enemy,chance:()=>1,
+   damage:(p,q,m,side,state)=>engine.estimateDamage(p,q,m,{battleState:state,defenderSide:side})};
+  const projected=model.project(a,b,engine.getMoveByName('Rapid Spin'),engine.getMoveByName(b.abilities[0]),ctx,{first:condition!=='protect'});
+  const actual=structuredClone(field),own=structuredClone(a),foe=structuredClone(b),random=Math.random;Math.random=()=>.5;
+  try{
+   if(condition==='protect')engine.useattack('Protect',foe,own,{battleState:actual,attackerSide:actual.sides.enemy,defenderSide:actual.sides.player});
+   engine.useattack('Rapid Spin',own,foe,{battleState:actual,attackerSide:actual.sides.player,defenderSide:actual.sides.enemy});
+  }finally{Math.random=random;}
+  assert.deepEqual(projected.side.hazards,actual.sides.player.hazards);
+  assert.deepEqual(projected.enemySide.hazards,actual.sides.enemy.hazards);
+  assert.equal(Boolean(projected.side.hazards.stealthRock),condition!=='hit');
+ }
+});
+
+test('Encore projection uses completed move history, prevents a different reply, and expires with the real engine',()=>{
+ for(const last of [null,'Recover']) {
+  const a=mon(65,'Encore'),b=mon(143,'Body Slam'),field=engine.createBattleState();
+  b.abilities.push('Recover');b.movePp.push(resources.getMaxMovePp('Recover'));b.__battle.lastMoveUsed=last;
+  const ctx={field,ownSide:field.sides.player,enemySide:field.sides.enemy,chance:()=>1,
+   damage:(p,q,m,side,state)=>engine.estimateDamage(p,q,m,{battleState:state,defenderSide:side})};
+  const projected=model.project(a,b,engine.getMoveByName('Encore'),engine.getMoveByName('Body Slam'),ctx,{first:true});
+  const actual=structuredClone(field),own=structuredClone(a),foe=structuredClone(b),random=Math.random;Math.random=()=>.5;
+  try {
+   for(const [p,q,name,side,otherSide]of[[own,foe,'Encore',actual.sides.player,actual.sides.enemy],[foe,own,'Body Slam',actual.sides.enemy,actual.sides.player]])
+    engine.useattack(name,p,q,{battleState:actual,attackerSide:side,defenderSide:otherSide});
+   engine.processEndOfRound(own,foe,actual.sides.player,actual.sides.enemy,actual);
+  }finally{Math.random=random;}
+  assert.equal(projected.foe.__battle.encoreTurns||0,foe.__battle.encoreTurns||0);
+  assert.equal(projected.foe.__battle.encoreMove||null,foe.__battle.encoreMove||null);
+  if(last)assert.equal(projected.own.currentHp,a.currentHp,'the newly locked foe cannot use Body Slam');
+ }
+});

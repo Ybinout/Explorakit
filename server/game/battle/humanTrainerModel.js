@@ -78,12 +78,14 @@ function actionAvailability(p,move) {
 function cast(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMoved=false}={}) {
     if(!alive(p)||!alive(other)||!move)return {useful:false,accuracy:0};
     if(move.combat.damage_class==='status'&&p.__battle.tauntTurns>0)return {useful:false,accuracy:0};
+    if(p.__battle.encoreTurns>0&&p.__battle.encoreMove&&p.__battle.encoreMove!==move.ename)return {useful:false,accuracy:0};
     const availability=actionAvailability(p,move),hitChance=ctx.chance(move,p,other,state)*availability;
     if(!availability)return {useful:false,accuracy:0};
     if(engine.movePhase(p,move.ename,state,other)==='prepare'){const rule=twoTurn.rule(move.ename);p.__battle.chargeMove=move.ename;p.__battle.chargeTurns=1;if(rule?.state)p.__battle.semiInvulnerable=rule.state;return {useful:true,recognized:true,accuracy:hitChance};}
     const flags=abilities.getMoveFlags(move),damaging=move.combat.damage_class!=='status',wasSubstitute=other.__battle.substituteHp>0;
     let useful=false,inflicted=0,recognized=damaging||move.ename==='Rest';
     const slot=p.abilities.indexOf(move.ename);if(slot>=0)p.movePp[slot]=Math.max(0,(p.movePp[slot]??1)-1);
+    p.__battle.lastMoveUsed=move.ename;
     if(held.effect(p,state)?.startsWith('choice_'))p.__battle.choiceMove ||= move.ename;
     if(damaging) {
         let resolved=engine.resolveWeatherMove(move,p,other,state);
@@ -109,6 +111,10 @@ function cast(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMoved=fa
             let recoil=0;if(['Rough Skin','Iron Barbs'].includes(ability(other)))recoil+=p.maxHp/8;
             if(held.effect(other,state)==='rocky_helmet')recoil+=p.maxHp/6;
             hp(p,p.currentHp-recoil*hitChance);
+        }
+        if(move.ename==='Rapid Spin'&&inflicted>0&&alive(p)) {
+            for(const key of Object.keys(side.hazards))side.hazards[key]=typeof side.hazards[key]==='boolean'?false:0;
+            p.__battle.trappedTurns=0;p.__battle.leechSeedSource=null;
         }
         const drain=traits[move.ename]?.drain;
         if(drain&&inflicted>0) {
@@ -155,6 +161,14 @@ function cast(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMoved=fa
             const cost=Math.floor(p.maxHp*.25);hp(p,p.currentHp-cost);p.__battle.substituteHp=cost;useful=true;
         }
         if(effect.kind==='taunt'&&!(other.__battle.tauntTurns>0)&&ability(other)!=='Oblivious'&&ability(other)!=='Aroma Veil') {other.__battle.tauntTurns=3;useful=true;}
+        if(effect.kind==='encore') {
+            recognized=true;
+            if(other.__battle.lastMoveUsed&&!(other.__battle.encoreTurns>0)&&ability(other)!=='Aroma Veil'
+                &&hitChance>0&&!(guard.get(other)>0)&&(!wasSubstitute||moveGuards.bypassesSubstitute(p,move))) {
+                other.__battle.encoreMove=other.__battle.lastMoveUsed;
+                other.__battle.encoreTurns=effect.turns||3;useful=true;
+            }
+        }
         if(effect.kind==='leech_seed'&&!other.__battle.leechSeedSource&&!types(other).includes('Grass')) {other.__battle.leechSeedSource=true;useful=true;}
         if(effect.kind==='reset_stat_stages') {for(const t of[p,other]){if(Object.values(t.__battle.statStages).some(Boolean))useful=true;t.__battle.statStages={};}}
         if(effect.kind==='hazard') {
@@ -219,7 +233,7 @@ function project(a,b,move,reply,ctx,{switched=false,first=true,ownSwitched=false
     if(first) {action=cast(own,foe,move,reply,side,enemySide,field,ctx,guard);if(!switched)response=cast(foe,own,reply,move,enemySide,side,field,ctx,guard,{alreadyMoved:true});}
     else {if(!switched)response=cast(foe,own,reply,move,enemySide,side,field,ctx,guard);action=cast(own,foe,move,reply,side,enemySide,field,ctx,guard,{alreadyMoved:true});}
     endTurn(own,foe,field,{switched:ownSwitched});endTurn(foe,own,field,{switched});
-    for(const p of[own,foe])for(const key of['laserFocusTurns','soundBlockedTurns'])if(p.__battle[key]>0)p.__battle[key]--;
+    for(const p of[own,foe])for(const key of['laserFocusTurns','soundBlockedTurns','encoreTurns'])if(p.__battle[key]>0)p.__battle[key]--;
     for(const group of[field.field,side.screens,enemySide.screens])for(const key of Object.keys(group))if(key.endsWith('Turns')&&group[key]>0)group[key]--;
     for(const group of[field.weather,field.terrain])if(group.turns>0&&--group.turns===0)group.kind=null;
     field.turn++;

@@ -7,13 +7,13 @@ process.env.DB_NAME = process.env.DB_TEST_NAME;
 process.env.NODE_ENV = 'test';
 const express = require('express'), { Server } = require('socket.io'), { chromium } = require('playwright');
 const { dbPool } = require('../server/config/database');
-const output = process.env.RELEASE_SCREENSHOTS || '/tmp/explorakit-wanda-team-browser';
-const dist = process.env.RELEASE_DIST_DIR || '/tmp/explorakit-wanda-team-dist';
+const output = process.env.RELEASE_SCREENSHOTS || '/tmp/riftmon-wanda-rework-browser';
+const dist = process.env.RELEASE_DIST_DIR || '/tmp/riftmon-opening-dist';
 fs.mkdirSync(output, { recursive: true });
-const app = express(), server = http.createServer(app), io = new Server(server, { path: '/explorakit/socket.io' });
+const app = express(), server = http.createServer(app), io = new Server(server);
 app.use(express.json());
-app.use('/explorakit/api', require('../server/http/routes'));
-app.use('/explorakit', express.static(dist));
+app.use('/api', require('../server/http/routes'));
+app.use(express.static(dist));
 app.get('*', (_req, res) => res.sendFile(path.join(dist, 'index.html')));
 const cleanup = require('../server/realtime/driftLobbyHandler').registerDriftLobbies(io, { runtimeOptions: { random: () => .9, paceMs: 0 } });
 let browser, page, userId, success = false;
@@ -21,7 +21,7 @@ const errors = [];
 (async () => {
     try {
         server.listen(0, '127.0.0.1'); await once(server, 'listening');
-        const base = `http://127.0.0.1:${server.address().port}/explorakit`;
+        const base = `http://127.0.0.1:${server.address().port}`;
         const response = await fetch(base + '/api/users', { method: 'POST', headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username: 'wanda_' + randomUUID(), password: randomUUID(), starterId: 7 }) });
         assert.equal(response.status, 201);
@@ -74,7 +74,7 @@ const errors = [];
             if(!battle.finished)await page.waitForFunction(()=>!window.wandaVm.battle||!!document.querySelector('.action-attack:not(:disabled)'));
         }
         await page.waitForFunction(() => !window.wandaVm.battle);
-        assert.deepEqual([...encountered].sort((a,b)=>a-b),[6,65,68,73,373,376]);assert.equal(speeches.length,0);
+        assert.deepEqual([...encountered].sort((a,b)=>a-b),[6,65,68,121,373,376]);assert.equal(speeches.length,0);
         for(const p of opponent.equipe.pokemons)assert(Object.values(p.iv).every(n=>p.data.id===376?n===31:n>=24&&n<=30));
         assert(battle.finished);
         assert.deepEqual(errors, []);

@@ -1,5 +1,18 @@
 # Contexte permanent — RiftMon
 
+## Wanda — composition retravaillée et Staross — 28 octobre 2026
+
+Wanda conserve les niveaux, K et IV de chaque emplacement : Drattak 52/K3, Mackogneur 52/K3, Staross 53/K3 remplaçant Tentacruel, Alakazam 53/K4, Dracaufeu 54/K4 et Métalosse 54/K4 avec IV parfaits. Comparaison structurée : aucune autre équipe du catalogue modifiée. Les six restent disponibles à l’IA sans réserve obligatoire.
+
+Drattak reçoit Déflagration et une nature Naïve pour conserver son Attaque Spéciale ; Mackogneur gagne Pisto-Poing ; Staross Timide/Médic Nature/Restes joue Surf, Tonnerre, Laser Glace, Tour Rapide avec EV offensifs/vitesse. Alakazam remplace Éclat Magique par Encore ; Dracaufeu remplace Lance-Flammes par Déflagration ; Métalosse remplace Psykoud’Boul par Piège de Roc et son Bandeau Choix par une Baie Jouca. Les autres répartitions d’EV sont conservées. Pisto-Poing de Mackogneur est légal par héritage de l’attaque œuf de Machoc, déjà présente dans le catalogue.
+
+Ajustement du planificateur partagé : Encore utilise le dernier mouvement réellement exécuté, sans lire l’action soumise ; sa projection respecte le verrouillage et la durée. Tour Rapide simule le retrait des pièges après un coup réussi, avec échec contre Spectre/Abri ou K.O. au contact, et valorise les dégâts d’entrée évités pour l’équipe. Ces améliorations concernent les dresseurs utilisant ces capacités dans les trois modes ; aucune règle du moteur de combat changée.
+
+Validation : 97 tests ciblés équipes/IA/objets/terrain/contenu/progression et 16 tests de régression finition/admin dont SQL, tous réussis sans saut. Oracles contre le moteur réel pour Encore et Tour Rapide ; choix IA, information privée, légalité, K/IV/EV et checkpoints Rift/Colosseum vérifiés. Combat Colosseum navigateur complet sur compte jetable supprimé : six espèces rencontrées, aucun as réservé, captures 393/1365 et zéro erreur. Adversaire de recette volontairement surpuissant pour parcourir les six espèces : ce parcours ne mesure pas l’équilibrage. Pas de nouveau build client, de test sur appareil physique ou de suite globale revendiqués. Rapport : `docs/WANDA_TEAM_REWORK.json`.
+
+Publication serveur seule le 28 octobre 2026 à 12 h 28 (Europe/Paris), PID 2594816→2632198, checkpoint conservé et zéro expédition active relevée. Sauvegarde `/home/ubuntu/dev/backups/riftmon-wanda-rework-2026-10-28T11-28-14-454Z`. Client/build `819bbc5bc922488c`, index/bundles publics et Knov/api-test inchangés ; service actif, zéro redémarrage automatique et aucun avertissement serveur relevé après publication. Aucune migration ni manipulation manuelle de compte réel.
+
+
 ## Dialogues après le sauvetage de Lucie — 28 octobre 2026
 
 Wanda ne renvoie plus vers Gwenn. Les répliques du père, la remise de sa clé et le blocage du tunnel pour ses propres raisons restent identiques. Ana présente directement le lien avec sa famille, sans attribuer à Raphael un avertissement absent de ses dialogues.
