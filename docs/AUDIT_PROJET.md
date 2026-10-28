@@ -1,5 +1,17 @@
 # Audit technique et mémoire de RiftMon
 
+## Talents sauvages — périmètre réellement utilisé — 28 octobre 2026
+
+Périmètre confirmé : Pokémon présents dans RiftMon, sans ajout des générations suivantes. L’audit réutilise les cartes réellement accessibles et les sources de pêche/légendaires de `auditPokemonAvailability` : 326 espèces capturables directement, 167 par évolution, soit les 493 espèces des générations I–IV déjà intégrées. Les anciennes cartes et espèces seulement présentes dans les données techniques ne comptent pas. Règles de talents génération 7 du moteur conservées. Comparaison indépendante avec @pkmn/dex 0.10.11 : 493 espèces, aucun slot normal/caché manquant ou différent. Aucun talent ni Pokémon supplémentaire nécessaire.
+
+Le tirage sauvage était déjà complet : talent caché à 5 % lorsqu’il existe, reste réparti également entre les talents normaux ; sans talent caché, tous les talents normaux se partagent 100 %. Aucun changement de fréquence. Nouveau audit reproductible `npm run audit:wild-abilities` : 807 attributions pour les 326 espèces sauvages, dont 293 avec talent caché, définitions/descriptions et atteignabilité de chaque slot ; grille de tirages indépendants, pas de simulation aléatoire susceptible d’échouer par hasard. Liste détaillée par espèce, chances et portée des effets dans `docs/WILD_ABILITY_AVAILABILITY.json`.
+
+Défaut trouvé et corrigé dans `evolveSpeciesAbility` : quand le deuxième slot normal disparaissait, l’évolution relançait le tirage de rencontre, avec une possibilité indue de talent caché. Évoli Adaptabilité → Aquali pouvait ainsi devenir Hydratation au lieu d’Absorb Eau ; Kirlia Calque → Gallame Cœur Noble au lieu d’Impassible. Le slot exact reste prioritaire, puis un slot du même statut normal/caché, puis le premier normal si la nouvelle espèce n’a aucun caché (ex. Munja). Pas de nouveau tirage pour une évolution connue, ni de modification des talents valides déjà sauvegardés. Fonction commune aux trois modes, sans modification de statistiques, rencontres, capacités, objets ou progression.
+
+Validation : 107 tests unitaires/régression et deux SQL ciblés réussis sans saut ; sept nouveaux scénarios d’attribution/évolution/capture, et deux SQL. Les sept scénarios sont repassés après l’extension finale aux légendaires des expéditions. Chaque attribution sauvage créée dans les vraies fabriques Aventure/expédition et relue via sérialisation équipe/PC/checkpoint ; les évolutions implémentées des espèces utilisées gardent leur statut lorsque le slot existe. Captures réelles pour les 154 talents sauvages distincts en Rift et Colosseum (308 captures), équipe pleine puis PC/checkpoint, notamment Calque/Imposteur. Aventure : 22 captures SQL vers équipe ou PC, dépôt/retrait/échange et relecture, plus quatre évolutions par Pierre Eau d’Évoli normal/caché. Défaut reproduit avec l’ancien module chargé en mémoire, sans réécrire les sources. Comptes jetables supprimés ; aucune donnée réelle changée manuellement. Syntaxe et audits valides ; aucun build client, navigateur, téléphone physique ou suite globale revendiqués. Les effets réservés aux doubles et les deux anciens effets hors combat en attente ne sont pas une nouvelle livraison de cette passe.
+
+Publication serveur seule le 28 octobre 2026 à 22 h 13 (Europe/Paris), PID 2864996→2876561. Sauvegarde `/home/ubuntu/dev/backups/riftmon-wild-abilities-2026-10-28T21-13-07-988Z`, checkpoint conservé et zéro expédition active relevée. Client `0b3e40bec83d00c449cba798e16425b78f39b55b`, build `fe82e188efab2565`, index/bundles publics inchangés à l’octet ; Knov/api-test inchangés. Service actif, zéro redémarrage automatique et aucune entrée d’avertissement relevée. Aucune migration SQL.
+
 ## CS en boutique — effets et caractéristiques — 28 octobre 2026
 
 Les cartes de CS dans `ShopPanel.vue` montrent la description de l’attaque, sa catégorie physique/spéciale/statut, sa puissance, sa précision et ses PP, avec le type déjà coloré. Le catalogue de référence et le formateur des fiches Pokémon sont réutilisés : dégâts fixes en PV, puissance variable et capacités de statut restent distingués, sans annoncer des dégâts réellement garantis. Présentation commune à l’achat et à la revente, boutiques Aventure et expéditions ; prix, compatibilité, moteur, inventaires et progression inchangés. Aucun appel réseau supplémentaire.
@@ -4723,6 +4735,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 28 octobre 2026 — Audit des talents limité aux 493 espèces utilisées, dont 326 sauvages et 807 attributions possibles ; cachés déjà accessibles à 5 %, aucun manquant. Correction du nouveau tirage indu quand un slot normal disparaît à l’évolution. 107 tests de régression et deux SQL réussis ; 330 captures vérifiées. Rapport `docs/WILD_ABILITY_AVAILABILITY.json`.
 
 - 28 octobre 2026 — Boutique : description des attaques de CS, catégorie, puissance/dégâts fixes ou variables, précision et PP. 264 descriptions et cinq cas de puissance vérifiés ; achat/apprentissage/reconnexion Aventure et expédition, quatre formats et deux thèmes. Client seul publié ; rapport `docs/SHOP_CS_DETAILS.json`.
 

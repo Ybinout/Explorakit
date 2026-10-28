@@ -65,12 +65,20 @@ function evolveSpeciesAbility(previousPokemonId, nextPokemonId, currentAbility, 
         .find((slot) => slot.name.toLowerCase() === String(currentAbility || '').toLowerCase());
     if (!previousSlot || previousSlot.special) return chooseSpeciesAbility(nextPokemonId, random);
 
-    const matchingSlot = getSpeciesAbilitySlots(nextPokemonId).find((slot) =>
+    const nextSlots = getSpeciesAbilitySlots(nextPokemonId).filter(slot => !slot.special);
+    const matchingSlot = nextSlots.find((slot) =>
         !slot.special
         && slot.hidden === previousSlot.hidden
         && slot.slot === previousSlot.slot
     );
-    return matchingSlot?.name || chooseSpeciesAbility(nextPokemonId, random);
+    if (matchingSlot) return matchingSlot.name;
+    // A second ordinary slot can disappear (Eevee -> Vaporeon, Kirlia ->
+    // Gallade). Evolution is not a new encounter: never reroll a hidden ability.
+    const sameKind = nextSlots.find(slot => slot.hidden === previousSlot.hidden);
+    if (sameKind) return sameKind.name;
+    // Some evolutions have no hidden slot at all, e.g. Shedinja. Fall back to
+    // their first ordinary ability without changing valid saved companions.
+    return nextSlots.find(slot => !slot.hidden)?.name || chooseSpeciesAbility(nextPokemonId, random);
 }
 
 module.exports = {

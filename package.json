@@ -21,6 +21,7 @@
     "test:visual": "node --env-file-if-exists=.env scripts/validateBattleViewports.js",
     "audit:moves": "node scripts/auditMoves.js",
     "audit:abilities": "node scripts/auditAbilities.js",
+    "audit:wild-abilities": "node scripts/auditWildAbilities.js",
     "audit:content": "node scripts/auditGameContent.js",
     "generate:i18n": "node scripts/generateFrenchGameNames.js",
     "generate:reference": "node scripts/generatePokemonReference.js",
