@@ -1,5 +1,15 @@
 # Contexte permanent — RiftMon
 
+## Aspha — sprite fidèle à la référence et chien conservé — 28 octobre 2026
+
+Nouveau personnage à partir du chauve de l’atlas `6931.png`, rectangle (652,33,21,25), conforme à l’image fournie : grosse tête, visage simple, épaules courtes et larges, gilet gris, maillot rouge, pantalon bleu et Ball lisible. Imagegen intégré, puis export au plus proche voisin sur la palette classique de treize couleurs. Canvas transparent 40×32 conservé, contenu humain 23×26 ; aucune modification de l’échelle de rendu ni de l’ancrage du duo.
+
+Le chien et sa laisse sont recopiés directement depuis l’ancien asset et vérifiés après réencodage PNG : 492 cases protégées, transparence comprise, strictement identiques. 451 pixels du personnage changent. Fichier historique `pnj/aspha-pixel-v2.png` remplacé à la demande explicite ; portrait illustré, position, collisions, deux voies, équipe et combat unique conservés. Asset 2 229→1 363 octets, aucune ressource ou boucle de rendu supplémentaire.
+
+Validation : export/checksum des pixels protégés, quatre tests de passages, lint et build `044091fdc942b304` réussis. Navigateur sur compte SQL jetable : le PNG compilé correspond exactement à l’export, quatre formats 320/393/844/1365, six captures, aperçus PC/mobile inspectés, dialogue/portrait/chargement, vrai combat, victoire, sortie et retour par les deux voies réussis, zéro erreur. Aucun compte de recette restant, aucune migration ou manipulation de compte réel. Pas de téléphone physique ou suite globale revendiqués. Source, prompt et commande d’export : `docs/ASPHA_REFERENCE_SPRITE.json` et `scripts/exportAsphaReferenceSprite.js`.
+
+Publication client seule le 28 octobre 2026 à 06 h 44 (Europe/Paris), client `c2ba7c60bde0ae638f2794df2208eec7c4c57bde`, build `044091fdc942b304`. Sauvegarde `/home/ubuntu/dev/backups/riftmon-aspha-reference-2026-10-28T05-44-37-114Z`. Index/bundles publics et nouveau PNG embarqué contrôlés, anciens assets conservés. PID 2488376 inchangé, zéro redémarrage ou erreur serveur ; Knov/api-test inchangés. Aucun compte de recette restant, aucune migration ou modification manuelle de compte réel.
+
 ## Maison de Lucie — parquet brisé visible après la faille — 28 octobre 2026
 
 Le trou était dessiné après les huit lames écartées et masquait leurs extrémités. Le vide passe désormais sous les fragments, découpés avec des cassures irrégulières. Les lames reprennent la texture et les dimensions du vrai parquet (22 pixels monde de haut, largeur 96/80) et glissent toujours de huit pixels au maximum. Léger soulèvement, chants visibles et six petits éclats permanents rendent l’arrachement lisible au stade `complete`, après le retour et la reconnexion. Les deux tables et leurs ombres restent exclues du dessin.

@@ -1,0 +1,197 @@
+{
+  "dateParis": "2026-10-28",
+  "mode": "built-in image_gen",
+  "useCase": "precise-object-edit",
+  "asset": "vue-explorakit/src/assets/pnj/aspha-pixel-v2.png",
+  "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-251015ea-99ad-4196-b900-49eed91b39a0.png",
+  "sourceSha256": "a8b4dcab0b0ae63362f549e37d3abe2b7691c882c6f1b08048553ad8f23eac3b",
+  "references": [
+    "vue-explorakit/src/assets/pnj/aspha-pixel-v2.png",
+    "/tmp/aspha-classic-reference.png"
+  ],
+  "referenceAtlas": "vue-explorakit/src/assets/6931.png",
+  "referenceCrop": [
+    652,
+    33,
+    21,
+    25
+  ],
+  "sourceCrop": [
+    62,
+    67,
+    806,
+    929
+  ],
+  "nativeBox": [
+    2,
+    6,
+    23,
+    26
+  ],
+  "canvas": [
+    40,
+    32
+  ],
+  "preservedRects": [
+    [
+      25,
+      0,
+      15,
+      32
+    ],
+    [
+      23,
+      26,
+      2,
+      6
+    ]
+  ],
+  "baselineClient": "7130cf6f8c473a02e619cf4ffb7969793768de58",
+  "baselineAssetSha256": "c8bcdfb92640e457a8be145d6b1c1bbc14247c9b295a4e48a527ce13c59a4338",
+  "alphaThreshold": 128,
+  "palette": [
+    [
+      120,
+      64,
+      64
+    ],
+    [
+      216,
+      152,
+      112
+    ],
+    [
+      248,
+      208,
+      184
+    ],
+    [
+      232,
+      232,
+      248
+    ],
+    [
+      0,
+      0,
+      0
+    ],
+    [
+      80,
+      80,
+      88
+    ],
+    [
+      192,
+      192,
+      208
+    ],
+    [
+      136,
+      136,
+      168
+    ],
+    [
+      160,
+      64,
+      56
+    ],
+    [
+      104,
+      112,
+      136
+    ],
+    [
+      208,
+      80,
+      64
+    ],
+    [
+      56,
+      56,
+      72
+    ],
+    [
+      72,
+      88,
+      160
+    ]
+  ],
+  "prompt": "Use case: precise-object-edit. Asset type: a single native low resolution pixel-art overworld NPC sprite for RiftMon. Input image 1 is the edit target: existing Aspha trainer standing on the LEFT and his German shepherd dog on the RIGHT. Input image 2 is the strict trainer style/shape reference from the game's 6931.png atlas, the same bald stocky trainer the user attached. Rework ONLY the human trainer in image 1 so he looks very close to the bald trainer in image 2: very large round bald head, dark stepped pixel outline, broad short shoulders, chunky stocky little body, short legs, simple stern eyes with tiny whites, gray/charcoal open sleeveless vest, dark red shirt, blue trousers and black boots. Very few details, crisp square pixel clusters, absolutely no smoothing, gradients or detailed muscles. Preserve the reference's large head to tiny body proportions and recognizable face. One tiny red-and-white capture ball in his outer hand, short leash in the hand next to the dog. Keep the man in the LEFT 26 logical columns of the existing 40 by 32 sprite, with the existing feet baseline. The native logical human should be about 21 pixels wide by 25 pixels tall. The dog on the RIGHT, the dog's pose, colors, ears, size, all of its pixel clusters and the trainer/dog positions MUST remain exactly unchanged from input image 1. This is a tiny top-down RPG sprite, not a portrait or illustration. Output the same whole sprite composition enlarged using hard nearest-neighbor square pixels, with genuinely transparent background and no ground shadow, no text, no border, no extra views.",
+  "technicalExport": "Nearest-neighbor crop of the generated human, palette of the provided classic reference; original dog/leash pixels copied verbatim from baseline asset.",
+  "sourceArtKeptOutsideRepository": true,
+  "dogAndLeashUnchanged": true,
+  "serverAndGameplayUnchanged": true,
+  "sqlMigration": false,
+  "realAccountsModified": false,
+  "clientCommit": "c2ba7c60bde0ae638f2794df2208eec7c4c57bde",
+  "build": "044091fdc942b304",
+  "export": {
+    "preservedPixels": 492,
+    "changedTrainerPixels": 451,
+    "dogAndLeashUnchanged": true,
+    "preservedRgbaSha256": "98641d0a89c635614ca86a620ef473fe54e5750d6713e331889efaab920f3fc8",
+    "assetSha256": "3a3a22dbcd710c9c6b139af63437e3908e315085f75e7976df40cca634448988",
+    "width": 40,
+    "height": 32,
+    "bytes": 1363
+  },
+  "validation": {
+    "unit": {
+      "pass": 4,
+      "fail": 0,
+      "command": "node --test tests/story-gates.test.js"
+    },
+    "lint": "pass",
+    "nativeAssetLoadedExactly": true,
+    "testFixturesRemaining": 0,
+    "browser": {
+      "sprite": true,
+      "dialogue": true,
+      "realVictory": true,
+      "exitOpen": true,
+      "returnOpen": true,
+      "bothLanes": true,
+      "trainerSplash": true,
+      "viewports": 4,
+      "errors": [],
+      "out": "/tmp/riftmon-aspha-reference-browser"
+    },
+    "physicalPhoneTested": false,
+    "commands": [
+      "node scripts/exportAsphaReferenceSprite.js",
+      "RELEASE_DIST_DIR=/tmp/riftmon-aspha-reference-dist RELEASE_SCREENSHOTS=/tmp/riftmon-aspha-reference-browser DB_TEST_NAME=explorakit_test node --env-file=.env /tmp/riftmon-aspha-reference-browser.cjs",
+      "npm --prefix vue-explorakit run lint -- --no-fix",
+      "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-aspha-reference-dist"
+    ]
+  },
+  "deployment": {
+    "publishedAt": "2026-10-28T05:44:38.546Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-aspha-reference-2026-10-28T05-44-37-114Z",
+    "clientBuild": "044091fdc942b304",
+    "clientCommit": "c2ba7c60bde0ae638f2794df2208eec7c4c57bde",
+    "pid": "2488376",
+    "serverRestarted": false,
+    "neighborsUnchanged": true,
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.e95ac044.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.a6837023.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.d17eb514.css",
+      "img/route2_maison.3916584e.png",
+      "img/ville4_arene.4d111715.png",
+      "img/6931.30769aa5.png"
+    ]
+  },
+  "postDeployment": {
+    "serverPidUnchanged": true,
+    "serverErrors": 0,
+    "testFixturesRemaining": 0,
+    "publicBuildVerified": true,
+    "newSpriteEmbeddedInVerifiedBundle": true
+  }
+}
