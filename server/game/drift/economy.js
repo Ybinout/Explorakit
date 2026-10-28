@@ -78,12 +78,14 @@ function sell(p,key,quantity){
     report.increment(p,'moneyEarned',totalPrice);report.event(p,'sale',`${quantity} × ${item.name} vendu${quantity>1?'s':''} · +${totalPrice} ₽.`);
     return {...shop(p),itemKey:key,quantity,unitPrice:price,totalPrice,progression:{money:p.money}};
 }
-function usePotion(p, key, uuid, random = Math.random, quantity=1) {
+function usePotion(p, key, uuid, random = Math.random, quantity=1, ivConfirmation=null) {
     requireMutable(p);
     const item = [...potions, ...baseItems].find(i => i.key === key), pokemon = p.equipe.pokemons.find(a => a.uuid === uuid);
     if (p.run.phase !== 'exploration' && !((item?.fieldUse?.effort || item?.fieldUse?.ivReroll || item?.fieldUse?.effortReset) && ['preparation','tournament','colosseum_ready'].includes(p.run.phase))) fail('Soins automatiques entre les rounds.');
     if (!item || item.revive || !pokemon || (pokemon.currentHp <= 0 && !pokemon.riftFainted) || !(p.items[key] > 0)) fail('Ce soin est inutilisable.');
     if(!Number.isInteger(quantity)||quantity<1||quantity>99||quantity>1&&!(item.fieldUse?.effort?.amount>0))fail('Quantité invalide.');
+    try { require('../items/ivRerollConfirmation').requireIvRerollConfirmation(pokemon,key,ivConfirmation); }
+    catch(error){const refusal=new LobbyError('iv_confirmation_required',error.message);refusal.ivConfirmationRequired=error.ivConfirmationRequired;throw refusal;}
     let result;
     if (pokemon.riftFainted && pokemon.currentHp <= 0) {
         const effect=item.fieldUse || item;

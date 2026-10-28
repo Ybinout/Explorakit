@@ -55,14 +55,14 @@ test('mixed-rarity fusion raises the actual stat continuously, persists and dele
 });
 test('Wild income gains 20% in all modes, including caps and reward bonuses',()=>{
  const {wildMoneyReward,adventureMoneyReward}=require('../server/game/battle/wildReward');
- for(const [level,wild,adventure]of [[1,26,39],[5,36,54],[15,60,90],[40,120,180],[50,144,216]]){assert.equal(wildMoneyReward({level}),wild);assert.equal(adventureMoneyReward({level}),adventure);}
- assert.equal(adventureMoneyReward({level:5}),54);assert.equal(wildMoneyReward({level:5}),36);
- for(const [level,money]of [[40,180],[50,216],[57,241],[60,252],[70,288],[73,298],[74,300],[100,300],[1000,300]])assert.equal(adventureMoneyReward({level}),money);
+ for(const [level,wild,adventure]of [[1,31,47],[5,43,64],[15,72,108],[40,144,216],[50,172,259]]){assert.equal(wildMoneyReward({level}),wild);assert.equal(adventureMoneyReward({level}),adventure);}
+ assert.equal(adventureMoneyReward({level:5}),64);assert.equal(wildMoneyReward({level:5}),43);
+ for(const [level,money]of [[40,216],[50,259],[57,289],[60,302],[70,345],[73,358],[74,360],[100,360],[1000,360]])assert.equal(adventureMoneyReward({level}),money);
  for(let level=2;level<=100;level++)assert(adventureMoneyReward({level})>=adventureMoneyReward({level:level-1}));
- assert.equal(adventureMoneyReward({level:60},2),504);
- assert.equal(adventureMoneyReward({level:100},1.5),450);
- for(const invalid of [undefined,NaN,Infinity,-1])assert.equal(adventureMoneyReward({level:60},invalid),252);
- assert.equal(wildMoneyReward({level:100}),144);
+ assert.equal(adventureMoneyReward({level:60},2),604);
+ assert.equal(adventureMoneyReward({level:100},1.5),540);
+ for(const invalid of [undefined,NaN,Infinity,-1])assert.equal(adventureMoneyReward({level:60},invalid),302);
+ assert.equal(wildMoneyReward({level:100}),172);
 
 });
 

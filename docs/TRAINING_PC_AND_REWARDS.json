@@ -1,0 +1,267 @@
+{
+  "date": "2026-10-28",
+  "modes": [
+    "Aventure",
+    "Rift",
+    "Colosseum"
+  ],
+  "moveDescriptions": {
+    "choices": [
+      "niveau",
+      "CS"
+    ],
+    "includesCurrentMoves": true,
+    "source": "pokemonReference.fr.json",
+    "catalogueRegenerated": false
+  },
+  "training": {
+    "visibleBeforeAfter": [
+      "iv",
+      "ev",
+      "evReset"
+    ],
+    "ivConfirmationFrom": 26,
+    "requiresExactCurrentStatAndValue": true,
+    "serverEnforced": [
+      "SQL Adventure transaction",
+      "Rift/Colosseum economy"
+    ],
+    "cancelConsumesNothing": true,
+    "staleValueReconfirms": true,
+    "rollRange": [
+      0,
+      31
+    ],
+    "potentialUnchanged": true,
+    "resultsRemainUntilDismissed": true
+  },
+  "pc": {
+    "mobilePartyGrid": [
+      3,
+      2
+    ],
+    "horizontalScrollNeeded": false,
+    "portraitIndicators": [
+      "potential star",
+      "held item if equipped"
+    ],
+    "existingDragAndDetailsPreserved": true
+  },
+  "balance": {
+    "ivRerollPrices": {
+      "before": 1000,
+      "after": 800,
+      "stats": 6,
+      "departmentStoreIncluded": true
+    },
+    "wildMoney": {
+      "previousMultiplier": 1.2,
+      "multiplier": 1.44,
+      "additionalIncrease": 0.2,
+      "roundAfterBonuses": true,
+      "level5": {
+        "adventure": [
+          54,
+          64
+        ],
+        "expedition": [
+          36,
+          43
+        ]
+      },
+      "caps": {
+        "adventure": 360,
+        "expedition": 172
+      }
+    },
+    "crystals": {
+      "crystal_shard": 0.45,
+      "clear_crystal": 0.35,
+      "aurora_prism": 0.15,
+      "independentRolls": true
+    },
+    "unchanged": [
+      "experience",
+      "trainer/arena income",
+      "crystal sale prices",
+      "ordinary loot chance 1/6"
+    ]
+  },
+  "validation": {
+    "unitTests": 112,
+    "targetedSqlTests": 18,
+    "targetedFailures": 0,
+    "targetedSkips": 0,
+    "newUnitCases": 2,
+    "catalogueStructuredDiff": true,
+    "lint": true,
+    "build": "eed1708a1b65e215",
+    "qaBuild": "9cce0a602669d2dd",
+    "browser": {
+      "shop": {
+        "progressionAndSpoofRefused": true,
+        "snowSpecialty": true,
+        "trainingItems": 19,
+        "realPurchasesAndSqlReceipts": true,
+        "bulkOnlyUseful": true,
+        "ivRerollMayDecrease": true,
+        "visibleTrainingResults": true,
+        "highIvConfirmationAndCancellation": true,
+        "staleIvReconfirmation": true,
+        "serverEnforcesConfirmationInBothPaths": true,
+        "evResetAndPersistence": true,
+        "keyboardAndFocus": true,
+        "viewports": 4,
+        "themes": 2,
+        "expeditionMerchantAndTraining": true,
+        "errors": [],
+        "output": "/tmp/riftmon-training-shop-browser"
+      },
+      "pc": {
+        "opening": {
+          "coldAssetsMasked": true,
+          "decodedBeforeReveal": true,
+          "closeAndFocus": true,
+          "cachedReopening": true,
+          "escapeCancels": true,
+          "boundedTimeout": true,
+          "reducedMotion": true,
+          "hiddenTabCancelsAndResumes": true,
+          "desktopAndMobile": true
+        },
+        "drag": {
+          "mouse": true,
+          "touch": true,
+          "exactSlots": true,
+          "exchanges": true,
+          "partyOrder": true,
+          "cancel": true,
+          "crossBoxWhileDragging": true,
+          "autoScroll": true,
+          "tapStillSelects": true,
+          "restored": true
+        },
+        "privateDrag": {
+          "mouse": false,
+          "touch": true,
+          "exactSlots": true,
+          "exchanges": false,
+          "partyOrder": false,
+          "cancel": false,
+          "crossBoxWhileDragging": true,
+          "autoScroll": false,
+          "tapStillSelects": true,
+          "restored": true
+        },
+        "nearbyActionOpens": true,
+        "remoteAccessRejected": true,
+        "slots": 30,
+        "boxes": 8,
+        "swap": true,
+        "deposit": true,
+        "withdrawWithoutHealing": true,
+        "releaseConfirmedAndItemReturned": true,
+        "reconnect": true,
+        "colosseumBoxesIndependent": true,
+        "tournamentPcDenied": true,
+        "detailsForTeamAndBox": true,
+        "detailsForColosseum": true,
+        "normalTeamSheetPreserved": true,
+        "keyboard": true,
+        "viewports": 4,
+        "themeModes": 2,
+        "errors": [],
+        "output": "/tmp/riftmon-training-pc-browser"
+      },
+      "move": {
+        "machines": 264,
+        "descriptionsForOfferedAndCurrentMoves": true,
+        "levelUpDescriptions": true,
+        "purchaseAndReplace": true,
+        "incompatibleDisabled": true,
+        "cancelPreservesItem": true,
+        "reconnectAndSql": true,
+        "expeditionAppend": true,
+        "viewports": 3,
+        "errors": [],
+        "output": "/tmp/riftmon-training-move-browser"
+      }
+    },
+    "viewports": [
+      [
+        320,
+        480
+      ],
+      [
+        393,
+        852
+      ],
+      [
+        844,
+        390
+      ],
+      [
+        1365,
+        900
+      ]
+    ],
+    "physicalPhone": false,
+    "globalSuiteRun": false,
+    "broaderSqlAttempt": {
+      "tests": 113,
+      "initialPass": 110,
+      "initialFail": 3,
+      "resolvedStaleLootAssertion": true,
+      "remainingHistoricalFixtures": [
+        "Wanda roster still expects Tentacruel, existing roster uses Staross",
+        "Story quest completion predates Professor/final ending"
+      ],
+      "historicalFailuresReproducedWithHeadTestFiles": 2
+    },
+    "commands": [
+      "node --test tests/shop-training.test.js tests/department-store.test.js tests/crystal-sales.test.js tests/combat-feedback.test.js tests/exploration-balance.test.js tests/drift-runtime.test.js tests/pokemon-storage.test.js",
+      "RUN_MYSQL_TESTS=1 NODE_ENV=test BATTLE_DELAY_SCALE=0 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test node --env-file=.env --test --test-concurrency=1 --test-name-pattern='boutique et entraînement|actual stats|strategic shop|Grand Comptoir|crystal|sale|price|training|Butin sauvage|capture|Capture|récompense|reward|PC|pc|stockage|boîte' tests/mysql-integration.test.js tests/crystal-sales-mysql.test.js tests/pokemon-storage-mysql.test.js tests/battle-runtime-integration.test.js",
+      "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-training-qa-dist node --env-file=.env scripts/validateShopTrainingBrowser.js",
+      "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-training-qa-dist node --env-file=.env scripts/validatePokemonComputerBrowser.js",
+      "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-training-dist node --env-file=.env scripts/validateMachinesBrowser.js",
+      "npm --prefix vue-explorakit run lint",
+      "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-training-dist"
+    ]
+  },
+  "deployment": {
+    "publishedAt": "2026-10-28T19:48:11.360Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-training-2026-10-28T19-48-08-796Z",
+    "sourceBaseline": "a30a875f680883d8c2bef242a790386146f53bdc",
+    "sourceHashes": {
+      "data/game/department_store.json": "23600dd366f8ec84d1dd0c73b3c07ab0448e280eb009971dbcdb27b1579e3293",
+      "data/game/items.json": "c9f0350c56e0f453828fc74f10886d65680c81b4a20652dc1aca62002e5d166f",
+      "server/game/battle/wildReward.js": "6ea2847036917ed58fd1c7b9f7de42b9ab477932f14d4e6e08b7ad4d84bbcea9",
+      "server/game/drift/economy.js": "5c717910e88f1bc244f2f20f162b90968ba49228282a68ca7459b5dcbc9e5f35",
+      "server/persistence/medicineRepository.js": "faba4f02819c049ad221d650ee28046ca62ba80de4ce6c508f0784c7b38b751d",
+      "server/realtime/driftLobbyHandler.js": "2df8ccfe5b344f8d68498b57b59502e991decd18b74871b74dd48f5acde213c2",
+      "server/realtime/handlers/medicineHandlers.js": "773bcbd77bac79cae0a4edfa53451372283f211f63e17cd779be8e7563ccd526",
+      "server/game/items/ivRerollConfirmation.js": "39aebf862491595742445e2de97c337145d6c7f302e3b321c34c7555bc1352ba"
+    },
+    "clientCommit": "56138c2554e7620ba6d23871980fb1c9c80dcb50",
+    "clientBuild": "eed1708a1b65e215",
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.1dbd06fc.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.c9df78b2.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.69bd2ca8.css"
+    ],
+    "beforePid": "2810753",
+    "afterPid": "2836641",
+    "serverRestarted": true,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "sqlMigration": false,
+    "realAccountsManuallyModified": false
+  }
+}

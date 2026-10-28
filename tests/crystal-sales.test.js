@@ -6,11 +6,11 @@ const {SHOP_MAPS,getShopCatalog}=require('../server/game/world/shopCatalog');
 const sequence=(...values)=>()=>values.shift()??.99;
 const fixture=mode=>({alive:true,inbattle:false,currentmap:'ville1_shop',money:1000,run:{mode,phase:'exploration'},items:{},equipe:{pokemons:[]},storage:[],drifts:[],equipped:[]});
 test('three repeatable treasures have exact independent thresholds, including simultaneous and absent drops',()=>{
- assert.deepEqual(crystals.map(i=>[i.key,i.wildCrystalChance,getSellPrice(i.key)]),[['crystal_shard',.45,300],['clear_crystal',.25,900],['aurora_prism',.15,6000]]);
- assert.equal(roll(sequence(.45,.25,.15)).length,0);assert.equal(roll(sequence(.45-1e-8,.25-1e-8,.15-1e-8)).length,3);
+ assert.deepEqual(crystals.map(i=>[i.key,i.wildCrystalChance,getSellPrice(i.key)]),[['crystal_shard',.45,300],['clear_crystal',.35,900],['aurora_prism',.15,6000]]);
+ assert.equal(roll(sequence(.45,.35,.15)).length,0);assert.equal(roll(sequence(.45-1e-8,.35-1e-8,.15-1e-8)).length,3);
  assert.deepEqual(roll(sequence(.9,0,.01)).map(i=>i.key),['clear_crystal','aurora_prism']);assert.deepEqual(roll(sequence(0,.9,.9)).map(i=>i.key),['crystal_shard']);
  const count=[0,0,0];for(let n=0;n<10000;n++)for(const i of roll(()=> (n+.5)/10000))count[crystals.indexOf(i)]++;
- assert.deepEqual(count,[4500,2500,1500]);
+ assert.deepEqual(count,[4500,3500,1500]);
  for(const i of crystals){assert(i.dropOnly&&!i.unique&&!i.wildLoot);assert(!i.fieldUse);}
 });
 test('crystals stay outside all purchase catalogs and cannot replace ordinary item rewards',()=>{

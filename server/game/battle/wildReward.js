@@ -1,6 +1,6 @@
 // Capture and victory pay the same reward for a given wild Pokémon.
-// Existing curves get 20% more money, including their caps and reward bonuses.
-const WILD_MONEY_BOOST = 1.2;
+// Two successive 20% increases apply before rounding, including caps and bonuses.
+const WILD_MONEY_BOOST = 1.44;
 function wildMoneyReward(pokemon, multiplier = 1) {
     const level = Math.max(1, Math.floor(Number(pokemon?.level) || 1));
     const base = Math.min(120, 20 + level * 2);

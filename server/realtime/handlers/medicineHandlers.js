@@ -10,7 +10,7 @@ function registerMedicineHandlers({ socket, userId, getPlayer, canUse = () => tr
         const pokemon = p.equipe?.pokemons?.find((p) => p.uuid === payload?.pokemonUuid);
         p.inventoryBusy = true;
         try {
-            const result = await useMedicine(userId, pokemon, payload?.itemKey,payload?.quantity??1);
+            const result = await useMedicine(userId, pokemon, payload?.itemKey,payload?.quantity??1,payload?.ivConfirmation);
             const {trainingChange,consumed,...updated}=result;Object.assign(pokemon,updated);
             socket.emit('teamStateChanged', { equipe: p.equipe, reason: 'medicine' });
             const items = await loadUserItems(userId);
@@ -18,7 +18,8 @@ function registerMedicineHandlers({ socket, userId, getPlayer, canUse = () => tr
             reply({ success: true, items, equipe: p.equipe,trainingChange,consumed });
         } catch (e) {
             if (e.code) console.error('Soin impossible:', e.message);
-            reply({ success: false, message: e.code ? 'Le soin est temporairement indisponible.' : e.message });
+            reply({ success: false, message: e.code ? 'Le soin est temporairement indisponible.' : e.message,
+                ...(e.ivConfirmationRequired?{ivConfirmationRequired:e.ivConfirmationRequired}:{}) });
         } finally {
             p.inventoryBusy = false;
         }

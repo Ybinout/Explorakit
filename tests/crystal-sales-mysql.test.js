@@ -6,7 +6,7 @@ const sequence=(...values)=>()=>values.shift()??.99;
 async function fixture(){return users.createUserWithStarter('crystals_'+randomUUID(),'Crystal-test-password-2026',{starterId:7,sprite:'sprite.png'});}
 test('SQL: ordinary and three crystal rolls commit together, repeat, hydrate and never enter purchase offers',{skip:!enabled},async()=>{
  const u=await fixture();try{
-  assert.deepEqual(await loot.awardWildBattleLoot(u.id,sequence(1,.45,.25,.15)),[]);
+  assert.deepEqual(await loot.awardWildBattleLoot(u.id,sequence(1,.45,.35,.15)),[]);
   for(let n=0;n<2;n++)assert.deepEqual((await loot.awardWildBattleLoot(u.id,()=>0)).map(i=>i.key),['oran_berry','crystal_shard','clear_crystal','aurora_prism']);
   const [[initial]]=await db.execute('SELECT money FROM users WHERE id=?',[u.id]);let credited=0;
   const bag=await items.loadUserItems(u.id);for(const [key,price]of[['crystal_shard',300],['clear_crystal',900],['aurora_prism',6000]]){

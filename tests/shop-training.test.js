@@ -36,7 +36,7 @@ test('Whitepeak training: exact location and Wanda victory; expedition supplies 
         assert(catalog({},'ville5_shop',true).some(i=>i.key===key));
     }
     for(const mapName of ['ville5_shop','tour_etage1'])for(const expedition of [false,true])for(const key of ['hp_up','protein','iron','calcium','zinc','carbos'])assert.equal(catalog(flags,mapName,expedition).find(i=>i.key===key).price,800);
-    for(const mapName of ['ville5_shop','tour_etage1'])for(const expedition of [false,true])for(const item of catalog(flags,mapName,expedition).filter(i=>i.fieldUse?.ivReroll||i.fieldUse?.effortReset))assert.equal(item.price,item.fieldUse.ivReroll?1000:5000);
+    for(const mapName of ['ville5_shop','tour_etage1'])for(const expedition of [false,true])for(const item of catalog(flags,mapName,expedition).filter(i=>i.fieldUse?.ivReroll||i.fieldUse?.effortReset))assert.equal(item.price,item.fieldUse.ivReroll?800:5000);
     assert.equal(getShopMeta({mapName:'ville5_shop'}).trainingAvailable,false);
     for(const expedition of [false,true])for(const item of items.filter(i=>i.unique&&i.dropOnly))assert(!catalog(flags,'ville5_shop',expedition).some(i=>i.key===item.key));
     assert(catalog({},'ville1_shop',true).some(i=>i.key==='thunder_stone'));
@@ -76,9 +76,9 @@ test('vitamin batches consume only useful stock, respect 252/510 including last 
 
 for(const mode of ['rift','colosseum'])test(`${mode}: training uses own stock, persists checkpoint, works between rounds and cannot heal KO or refund IV`,()=>{
     const p={alive:true,currentmap:'ville5_shop',money:10000,run:{mode,phase:'exploration'},equipe:{pokemons:[pokemon()]},items:{},drifts:[],equipped:[]};
-    economy.buy(p,'iv_randomizer_attack',2);assert.equal(p.money,8000);p.run.phase='colosseum_ready';
+    economy.buy(p,'iv_randomizer_attack',2);assert.equal(p.money,8400);p.run.phase='colosseum_ready';
     const result=economy.usePotion(p,'iv_randomizer_attack',p.equipe.pokemons[0].uuid,()=>.9999);assert.equal(result.trainingChange.after,31);assert.equal(p.items.iv_randomizer_attack,1);
-    economy.usePotion(p,'iv_randomizer_attack',p.equipe.pokemons[0].uuid,()=>0);assert.equal(p.equipe.pokemons[0].iv.attack,0);assert.equal(p.items.iv_randomizer_attack,0);
+    economy.usePotion(p,'iv_randomizer_attack',p.equipe.pokemons[0].uuid,()=>0,1,{stat:'attack',before:31});assert.equal(p.equipe.pokemons[0].iv.attack,0);assert.equal(p.items.iv_randomizer_attack,0);
     p.items.protein=25;assert.equal(economy.usePotion(p,'protein',p.equipe.pokemons[0].uuid,()=>0,25).consumed,25);
     p.items.ev_reset_all=1;economy.usePotion(p,'ev_reset_all',p.equipe.pokemons[0].uuid);assert(Object.values(p.equipe.pokemons[0].ev).every(n=>n===0));
     const saved=codec.decode(codec.encode(p));assert.equal(saved.equipe.pokemons[0].iv.attack,0);assert.equal(saved.items.protein,0);
@@ -102,7 +102,7 @@ for (const stat of STAT_KEYS) test(`${stat}: actual stats follow IV/EV items imm
         const base=2*mon.data.base[baseKeys[stat]]+(stat==='hp'?110:5);
         const use=(key,expected,random=()=>0,quantity=1)=>{
             player.items[key]=quantity;
-            const response=economy.usePotion(player,key,mon.uuid,random,quantity);
+            const response=economy.usePotion(player,key,mon.uuid,random,quantity,key.startsWith('iv_randomizer_')?{stat:key.slice(14),before:mon.iv[key.slice(14)]}:null);
             for(const actual of [response.equipe.pokemons[0],codec.decode(codec.encode(player)).equipe.pokemons[0]]){
                 assert.equal(actual[field],expected,`${mode} ${key} permanent`);
                 if(stat!=='hp')assert.equal(actual['current'+stat[0].toUpperCase()+stat.slice(1)],expected,`${mode} ${key} combat`);
@@ -117,4 +117,20 @@ for (const stat of STAT_KEYS) test(`${stat}: actual stats follow IV/EV items imm
         use(vitamin,base+62,()=>0,25);
         use('ev_reset_all',base);
     }
+});
+
+for (const mode of ['rift','colosseum']) test(`${mode}: high IV rerolls require the exact current value, before RNG or stock mutation`,()=>{
+ const mon=pokemon(),p={alive:true,currentmap:'ville5_shop',money:10000,run:{mode,phase:'exploration'},equipe:{pokemons:[mon]},items:{iv_randomizer_attack:8},drifts:[],equipped:[]};
+ let rolls=0;const random=()=>{rolls++;return 0;};
+ for(const value of [26,30,31]){
+  mon.iv.attack=value;mon.recalculateStats(true);const before=codec.encode(p);
+  for(const consent of [undefined,true,{stat:'speed',before:value},{stat:'attack',before:value-1}]){
+   assert.throws(()=>economy.usePotion(p,'iv_randomizer_attack',mon.uuid,random,1,consent),e=>e.code==='iv_confirmation_required'&&e.ivConfirmationRequired.before===value);
+   assert.deepEqual(codec.encode(p),before);assert.equal(rolls,0);
+  }
+ }
+ const result=economy.usePotion(p,'iv_randomizer_attack',mon.uuid,random,1,{stat:'attack',before:31});
+ assert.deepEqual(result.trainingChange,{kind:'iv',stat:'attack',before:31,rolled:0,after:0});assert.equal(rolls,1);assert.equal(p.items.iv_randomizer_attack,7);
+ mon.iv.attack=25;mon.recalculateStats(true);economy.usePotion(p,'iv_randomizer_attack',mon.uuid,random);assert.equal(rolls,2);assert.equal(p.items.iv_randomizer_attack,6);
+ assert.equal(codec.decode(codec.encode(p)).equipe.pokemons[0].iv.attack,0);
 });

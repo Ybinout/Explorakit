@@ -294,17 +294,24 @@ test('boutique et entraînement SQL : progression, localisation, prix serveur, I
   assert.equal((await purchaseUserItem(id,'life_orb',1,context)).reason,'item_unavailable');
   assert.equal((await purchaseUserItem(id,'zinc',1)).reason,'item_unavailable');
   const buys=await Promise.all([purchaseUserItem(id,'iv_randomizer_attack',2,context),purchaseUserItem(id,'protein',25,context)]);
-  assert(buys.every(r=>r.success));assert.deepEqual(buys.map(r=>r.totalPrice),[2000,20000]);
+  assert(buys.every(r=>r.success));assert.deepEqual(buys.map(r=>r.totalPrice),[1600,20000]);
   const resetPurchase=await purchaseUserItem(id,'ev_reset_all',1,context);assert(resetPurchase.success);assert.equal(resetPurchase.totalPrice,5000);
-  const [[trainingWallet]]=await pool.execute('SELECT money FROM users WHERE id=?',[id]);assert.equal(Number(trainingWallet.money),23000);
+  const [[trainingWallet]]=await pool.execute('SELECT money FROM users WHERE id=?',[id]);assert.equal(Number(trainingWallet.money),23400);
   const team=await loadEquipe(id),p=team.pokemons[0];p.iv.attack=30;p.ev.attack=247;p.recalculateStats();p.currentHp-=2;await editEquipe(id,team);
   const oldK=p.k,oldWound=p.maxHp-p.currentHp;
   const r=await useMedicine(id,p,'protein',25);assert.equal(r.consumed,1);assert.equal(r.ev.attack,252);
   assert.equal((await loadUserItems(id)).find(i=>i.key==='protein').quantity,24);
   await assert.rejects(useMedicine(ids[1],p,'iv_randomizer_attack'),/appartient/);
-  await useMedicine(id,p,'iv_randomizer_attack');let saved=(await loadEquipe(id)).pokemons[0];assert(saved.iv.attack>=0&&saved.iv.attack<=31);assert.equal(saved.k,oldK);assert.equal(saved.maxHp-saved.currentHp,oldWound);
+  for(const confirmation of [null,{stat:'attack',before:29}]){
+   await assert.rejects(useMedicine(id,p,'iv_randomizer_attack',1,confirmation),e=>e.ivConfirmationRequired.before===30);
+   assert.equal((await loadUserItems(id)).find(i=>i.key==='iv_randomizer_attack').quantity,2);
+   assert.equal((await loadEquipe(id)).pokemons[0].iv.attack,30);
+  }
+  await useMedicine(id,p,'iv_randomizer_attack',1,{stat:'attack',before:30});let saved=(await loadEquipe(id)).pokemons[0];assert(saved.iv.attack>=0&&saved.iv.attack<=31);assert.equal(saved.k,oldK);assert.equal(saved.maxHp-saved.currentHp,oldWound);
   await pool.execute('UPDATE pokemons SET iv_attack=31 WHERE uuid=?',[p.uuid]);
-  const rolled=await useMedicine(id,p,'iv_randomizer_attack');assert.equal(rolled.trainingChange.before,31);assert.equal((await loadUserItems(id)).find(i=>i.key==='iv_randomizer_attack'),undefined);
+  await assert.rejects(useMedicine(id,p,'iv_randomizer_attack',1,{stat:'attack',before:30}),e=>e.ivConfirmationRequired.before===31);
+  assert.equal((await loadUserItems(id)).find(i=>i.key==='iv_randomizer_attack').quantity,1);
+  const rolled=await useMedicine(id,p,'iv_randomizer_attack',1,{stat:'attack',before:31});assert.equal(rolled.trainingChange.before,31);assert.equal((await loadUserItems(id)).find(i=>i.key==='iv_randomizer_attack'),undefined);
   await useMedicine(id,p,'ev_reset_all');saved=(await loadEquipe(id)).pokemons[0];assert(Object.values(saved.ev).every(n=>n===0));assert.equal(saved.iv.attack,rolled.iv.attack);
   assert.equal((await loadUserItems(id)).find(i=>i.key==='ev_reset_all'),undefined);
   await pool.execute('UPDATE users SET money=800 WHERE id=?',[id]);
@@ -439,7 +446,7 @@ test('Grand Comptoir unlocks every floor after Hoze, charges unchanged prices an
   assert((await purchaseUserItem(id,'pokeball',1,{mapName:'tour_rdc'})).success);
   await pool.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,'hoze_defeated','true')",[id]);
   assert((await purchaseUserItem(id,'fire_stone',1,{mapName:'tour_rdc'})).success);
-  for(const [mapName,key,price]of [['tour_etage1','iv_randomizer_attack',1000],['tour_etage1','ev_reset_all',5000],['tour_etage3','leppa_berry',450]]){
+  for(const [mapName,key,price]of [['tour_etage1','iv_randomizer_attack',800],['tour_etage1','ev_reset_all',5000],['tour_etage3','leppa_berry',450]]){
    const result=await purchaseUserItem(id,key,1,{mapName,price:1});assert(result.success,key);assert.equal(result.totalPrice,price);
   }
   const bought=await purchaseUserItem(id,'choice_scarf',1,{mapName:'tour_etage2',price:1});

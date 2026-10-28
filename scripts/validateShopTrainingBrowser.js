@@ -17,7 +17,22 @@ async function leave(){if(await page.locator('.game-root').count()){assert((awai
 async function locate(map){await leave();await dbPool.execute('UPDATE users SET map=?,x=432,y=464 WHERE id=?',[map,userId]);await page.goto(base+'/game',{waitUntil:'networkidle'});await ready();}
 async function shop(){await page.locator('.location-shop-btn').click();await page.locator('.shop-item').first().waitFor();await page.waitForFunction(()=>!window.shopVm.shop.loading);}
 async function buy(key,quantity=1){const row=page.locator(`[data-shop-item="${key}"]`);await row.locator('select').selectOption(String(quantity));const before=await page.evaluate(key=>window.shopVm.bagItems.find(i=>i.key===key)?.quantity||0,key);await row.locator('button').click();await page.waitForFunction(({key,before,quantity})=>!window.shopVm.shop.loading&&window.shopVm.bagItems.some(i=>i.key===key&&i.quantity===before+quantity),{key,before,quantity});}
-async function use(key,uuid,quantity=1){const row=page.locator(`[data-item-key="${key}"]`);if(await row.locator('.bag-item-select').getAttribute('aria-expanded')!=='true')await row.locator('.bag-item-select').click();await row.locator('[data-medicine-target]').selectOption(uuid);if(quantity>1)await row.locator('[data-medicine-quantity]').selectOption(String(quantity));await row.locator('.bag-use-button:enabled').click();await page.waitForFunction(()=>!window.shopVm.medicineBusy);assert.equal(await page.locator('.pack-error').count(),0);}
+async function use(key,uuid,quantity=1){const row=page.locator(`[data-item-key="${key}"]`);if(await row.locator('.bag-item-select').getAttribute('aria-expanded')!=='true')await row.locator('.bag-item-select').click();await row.locator('[data-medicine-target]').selectOption(uuid);if(quantity>1)await row.locator('[data-medicine-quantity]').selectOption(String(quantity));await row.locator('.bag-use-button:enabled').click();await page.waitForFunction(()=>!window.shopVm.medicineBusy);
+ if(await page.locator('[data-iv-confirm]').count()){
+  await page.locator('[data-iv-confirm]').click();
+  await page.waitForFunction(()=>!window.shopVm.medicineBusy&&window.shopVm.trainingFeedback?.kind==='result');
+ }
+ const feedback=page.locator('[data-training-feedback]');await feedback.waitFor();
+ assert(await feedback.evaluate(n=>n.contains(document.activeElement)));
+ const change=await page.evaluate(()=>window.shopVm.trainingFeedback.change);
+ if(change.kind==='iv')assert.match(await page.locator('[data-training-result]').innerText(),new RegExp(`→\\s*${change.after}`));
+ for(const [width,height]of [[320,480],[393,852],[844,390],[1365,900]]){
+  await page.setViewportSize({width,height});const box=await feedback.boundingBox();assert(box.x>=0&&box.y>=0&&box.x+box.width<=width+1&&box.y+box.height<=height+1);
+  assert(await feedback.evaluate(n=>n.scrollWidth<=n.clientWidth+1));
+ }
+ await page.screenshot({path:path.join(output,`training-${change.kind}.png`)});
+ await page.setViewportSize({width:393,height:852});await page.locator('[data-training-close]').click();
+ assert.equal(await page.locator('.pack-error').count(),0);}
 async function views(){for(const [width,height]of [[320,480],[393,852],[844,390],[1365,900]]){
  await page.setViewportSize({width,height});await page.waitForTimeout(250);await page.evaluate(width=>{window.shopVm.showMobileControls=width<=920;},width);await page.waitForTimeout(80);
  for(const themeMode of ['light','dark']){await page.evaluate(themeMode=>window.shopVm.updatePreferences({...window.shopVm.preferences,themeMode}),themeMode);
@@ -46,14 +61,33 @@ async function views(){for(const [width,height]of [[320,480],[393,852],[844,390]
  await page.locator('[data-shop-category="balls"]').focus();await page.keyboard.press('ArrowRight');assert.equal(await page.locator('[data-shop-category="medicine"]').getAttribute('aria-selected'),'true');await page.keyboard.press('End');assert.equal(await page.locator('[data-shop-category="training"]').getAttribute('aria-selected'),'true');
  await page.locator('.shop-close').focus();await page.keyboard.press('Shift+Tab');assert(await page.locator('.shop-card').evaluate(n=>n.contains(document.activeElement)));await page.keyboard.press('Tab');assert(await page.locator('.shop-close').evaluate(n=>n===document.activeElement));await page.keyboard.press('Escape');
  await page.locator('.menu-toggle-btn').click();await page.locator('[data-menu-action="bag"]').click();await page.locator('[data-bag-pocket="training"]').click();await use('protein',lead.uuid,25);
- let saved=(await repo.loadEquipe(userId)).pokemons[0];assert.equal(saved.ev.attack,252);assert.equal(await page.evaluate(()=>window.shopVm.bagItems.find(i=>i.key==='protein').quantity),24);assert.match(await page.locator('.pack-notice').innerText(),/1 vitamine/);
- await use('iv_randomizer_attack',lead.uuid);saved=(await repo.loadEquipe(userId)).pokemons[0];assert(saved.iv.attack>=0&&saved.iv.attack<=31);assert.equal(saved.k,lead.k);assert.match(await page.locator('.pack-notice').innerText(),/tirage/);
+ let saved=(await repo.loadEquipe(userId)).pokemons[0];assert.equal(saved.ev.attack,252);assert.equal(await page.evaluate(()=>window.shopVm.bagItems.find(i=>i.key==='protein').quantity),24);assert.match(await page.evaluate(()=>window.shopVm.medicineNotice),/1 vitamine/);
+ await use('iv_randomizer_attack',lead.uuid);saved=(await repo.loadEquipe(userId)).pokemons[0];assert(saved.iv.attack>=0&&saved.iv.attack<=31);assert.equal(saved.k,lead.k);assert.match(await page.evaluate(()=>window.shopVm.medicineNotice),/tirage/);
+ // Local high-IV confirmation can be cancelled without sending a use command.
+ await dbPool.execute('UPDATE pokemons SET iv_attack=31 WHERE uuid=?',[lead.uuid]);
+ await page.evaluate(()=>{window.shopVm.teamPokemons[0].iv.attack=26;});
+ const stock=await page.evaluate(()=>window.shopVm.bagItems.find(i=>i.key==='iv_randomizer_attack').quantity);
+ await page.locator('[data-item-key="iv_randomizer_attack"] .bag-use-button').click();await page.locator('[data-iv-current]').waitFor();
+ assert.match(await page.locator('[data-iv-current]').innerText(),/26/);assert(await page.locator('[data-iv-cancel]').evaluate(n=>n===document.activeElement));
+ await page.keyboard.press('Escape');assert.equal(await page.locator('[data-training-feedback]').count(),0);assert.equal(await page.locator('.bag-panel').count(),1);
+ assert.equal((await require('../server/persistence/itemRepository').loadUserItems(userId)).find(i=>i.key==='iv_randomizer_attack').quantity,stock);
+ const row=page.locator('[data-item-key="iv_randomizer_attack"]');await row.locator('.bag-use-button').click();await page.locator('[data-iv-confirm]').click();
+ await page.waitForFunction(()=>!window.shopVm.medicineBusy&&window.shopVm.trainingFeedback?.before===31);
+ assert.match(await page.locator('[data-iv-current]').innerText(),/31/);
+ assert.equal((await require('../server/persistence/itemRepository').loadUserItems(userId)).find(i=>i.key==='iv_randomizer_attack').quantity,stock);
+ await page.locator('[data-iv-confirm]').click();await page.waitForFunction(()=>!window.shopVm.medicineBusy&&window.shopVm.trainingFeedback?.kind==='result');
+ saved=(await repo.loadEquipe(userId)).pokemons[0];const shown=await page.evaluate(()=>window.shopVm.trainingFeedback.change);
+ assert.equal(shown.before,31);assert.equal(shown.after,saved.iv.attack);assert.equal(shown.rolled,saved.iv.attack);
+ await page.screenshot({path:path.join(output,'training-confirmed-iv.png')});await page.locator('[data-training-close]').click();
  await use('ev_reset_all',lead.uuid);assert(Object.values((await repo.loadEquipe(userId)).pokemons[0].ev).every(n=>n===0));await use('zinc',lead.uuid,5);assert.equal((await repo.loadEquipe(userId)).pokemons[0].ev.specialDefense,50);
  await page.keyboard.press('Escape');await page.reload({waitUntil:'networkidle'});await ready();assert.equal(await page.evaluate(()=>window.shopVm.teamPokemons[0].ev.specialDefense),50);
  // Existing expedition merchant and stock remain session-local.
  await page.goto(base+'/colosseum',{waitUntil:'networkidle'});await page.locator('[data-colosseum-start]:enabled').click();await page.locator('[data-starter-choice]').first().click();await page.locator('.starter-backdrop').waitFor({state:'hidden'});await ready();
- const p=cleanup.runtime.playerFor(fixture.user);p.currentmap='ville5_shop';p.money=10000;p.items.zinc=5;p.equipe.pokemons[0].ev.specialDefense=0;p.equipe.pokemons[0].recalculateStats();
+ const p=cleanup.runtime.playerFor(fixture.user);p.currentmap='ville5_shop';p.money=10000;p.items.zinc=5;p.items.iv_randomizer_speed=1;p.equipe.pokemons[0].iv.speed=26;p.equipe.pokemons[0].ev.specialDefense=0;p.equipe.pokemons[0].recalculateStats();
  await page.reload({waitUntil:'networkidle'});await ready();await shop();await page.locator('[data-shop-category="drifts"]').click();await page.locator('[data-merchant-offer]').first().waitFor();await page.locator('.shop-close').click();
- p.run.phase='colosseum_ready';await page.locator('.menu-toggle-btn').click();await page.locator('[data-menu-action="bag"]').click();await page.locator('[data-bag-pocket="training"]').click();await use('zinc',p.equipe.pokemons[0].uuid,5);assert.equal(p.equipe.pokemons[0].ev.specialDefense,50);assert.equal(p.items.zinc,0);assert.equal((await repo.loadEquipe(userId)).pokemons[0].ev.specialDefense,50,'Adventure unchanged');
- assert.deepEqual(errors,[]);success=true;console.log(JSON.stringify({progressionAndSpoofRefused:true,snowSpecialty:true,trainingItems:19,realPurchasesAndSqlReceipts:true,bulkOnlyUseful:true,ivRerollMayDecrease:true,evResetAndPersistence:true,keyboardAndFocus:true,viewports:4,themes:2,expeditionMerchantAndTraining:true,errors,output}));
+ p.run.phase='colosseum_ready';await command('drift:refresh',{});await page.getByRole('button',{name:'Fermer le carnet Drift',exact:true}).click();await page.locator('.menu-toggle-btn').click();await page.locator('[data-menu-action="bag"]').click();await page.locator('[data-bag-pocket="training"]').click();await use('zinc',p.equipe.pokemons[0].uuid,5);assert.equal(p.equipe.pokemons[0].ev.specialDefense,50);assert.equal(p.items.zinc,0);assert.equal((await repo.loadEquipe(userId)).pokemons[0].ev.specialDefense,50,'Adventure unchanged');
+ const refusal=await command('drift:heal',{itemKey:'iv_randomizer_speed',pokemonUuid:p.equipe.pokemons[0].uuid});
+ assert.equal(refusal.success,false);assert.equal(refusal.ivConfirmationRequired.before,26);assert.equal(p.items.iv_randomizer_speed,1);
+ await use('iv_randomizer_speed',p.equipe.pokemons[0].uuid);assert.equal(p.items.iv_randomizer_speed,0);
+ assert.deepEqual(errors,[]);success=true;console.log(JSON.stringify({progressionAndSpoofRefused:true,snowSpecialty:true,trainingItems:19,realPurchasesAndSqlReceipts:true,bulkOnlyUseful:true,ivRerollMayDecrease:true,visibleTrainingResults:true,highIvConfirmationAndCancellation:true,staleIvReconfirmation:true,serverEnforcesConfirmationInBothPaths:true,evResetAndPersistence:true,keyboardAndFocus:true,viewports:4,themes:2,expeditionMerchantAndTraining:true,errors,output}));
 }finally{if(!success&&page)await page.screenshot({path:path.join(output,'failure.png'),fullPage:true}).catch(()=>{});await browser?.close();await new Promise(r=>setTimeout(r,400));cleanup();await new Promise(r=>io.close(r));if(userId)await dbPool.execute('DELETE FROM users WHERE id=?',[userId]);await dbPool.end();}})().catch(e=>{console.error(e.stack);process.exitCode=1});

@@ -1150,7 +1150,7 @@
       "key": "iv_randomizer_hp",
       "name": "Relance IV · PV",
       "category": "medicine",
-      "buy_price": 1000,
+      "buy_price": 800,
       "description": "Relance l’IV PV entre 0 et 31. La nouvelle valeur remplace l’ancienne, même si elle est inférieure. Ne change ni le potentiel K ni les autres IV.",
       "fieldUse": {
         "ivReroll": "hp"
@@ -1170,7 +1170,7 @@
       "key": "iv_randomizer_attack",
       "name": "Relance IV · Attaque",
       "category": "medicine",
-      "buy_price": 1000,
+      "buy_price": 800,
       "description": "Relance l’IV Attaque entre 0 et 31. La nouvelle valeur remplace l’ancienne, même si elle est inférieure. Ne change ni le potentiel K ni les autres IV.",
       "fieldUse": {
         "ivReroll": "attack"
@@ -1190,7 +1190,7 @@
       "key": "iv_randomizer_defense",
       "name": "Relance IV · Défense",
       "category": "medicine",
-      "buy_price": 1000,
+      "buy_price": 800,
       "description": "Relance l’IV Défense entre 0 et 31. La nouvelle valeur remplace l’ancienne, même si elle est inférieure. Ne change ni le potentiel K ni les autres IV.",
       "fieldUse": {
         "ivReroll": "defense"
@@ -1210,7 +1210,7 @@
       "key": "iv_randomizer_specialAttack",
       "name": "Relance IV · Attaque Spéciale",
       "category": "medicine",
-      "buy_price": 1000,
+      "buy_price": 800,
       "description": "Relance l’IV Attaque Spéciale entre 0 et 31. La nouvelle valeur remplace l’ancienne, même si elle est inférieure. Ne change ni le potentiel K ni les autres IV.",
       "fieldUse": {
         "ivReroll": "specialAttack"
@@ -1230,7 +1230,7 @@
       "key": "iv_randomizer_specialDefense",
       "name": "Relance IV · Défense Spéciale",
       "category": "medicine",
-      "buy_price": 1000,
+      "buy_price": 800,
       "description": "Relance l’IV Défense Spéciale entre 0 et 31. La nouvelle valeur remplace l’ancienne, même si elle est inférieure. Ne change ni le potentiel K ni les autres IV.",
       "fieldUse": {
         "ivReroll": "specialDefense"
@@ -1250,7 +1250,7 @@
       "key": "iv_randomizer_speed",
       "name": "Relance IV · Vitesse",
       "category": "medicine",
-      "buy_price": 1000,
+      "buy_price": 800,
       "description": "Relance l’IV Vitesse entre 0 et 31. La nouvelle valeur remplace l’ancienne, même si elle est inférieure. Ne change ni le potentiel K ni les autres IV.",
       "fieldUse": {
         "ivReroll": "speed"
@@ -1418,7 +1418,7 @@
       "buy_price": 0,
       "sell_price": 900,
       "dropOnly": true,
-      "wildCrystalChance": 0.25,
+      "wildCrystalChance": 0.35,
       "description": "Un cristal intact aux reflets azurés. Les boutiques le rachètent 900 ₽."
     },
     {

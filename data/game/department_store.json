@@ -152,7 +152,7 @@
           "requiredTier": 2
         },
         "iv_randomizer_hp": {
-          "price": 1000,
+          "price": 800,
           "requiredTier": 2
         },
         "ev_reset_hp": {
@@ -160,7 +160,7 @@
           "requiredTier": 2
         },
         "iv_randomizer_attack": {
-          "price": 1000,
+          "price": 800,
           "requiredTier": 2
         },
         "ev_reset_attack": {
@@ -168,7 +168,7 @@
           "requiredTier": 2
         },
         "iv_randomizer_defense": {
-          "price": 1000,
+          "price": 800,
           "requiredTier": 2
         },
         "ev_reset_defense": {
@@ -176,7 +176,7 @@
           "requiredTier": 2
         },
         "iv_randomizer_specialAttack": {
-          "price": 1000,
+          "price": 800,
           "requiredTier": 2
         },
         "ev_reset_specialAttack": {
@@ -184,7 +184,7 @@
           "requiredTier": 2
         },
         "iv_randomizer_specialDefense": {
-          "price": 1000,
+          "price": 800,
           "requiredTier": 2
         },
         "ev_reset_specialDefense": {
@@ -192,7 +192,7 @@
           "requiredTier": 2
         },
         "iv_randomizer_speed": {
-          "price": 1000,
+          "price": 800,
           "requiredTier": 2
         },
         "ev_reset_speed": {
