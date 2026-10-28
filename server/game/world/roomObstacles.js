@@ -29,6 +29,14 @@ function progressFlag(obstacle,progress={}) {
     const replay=obstacle.map==='professor_lab'?require('./labStory').replay(progress):require('./testReplayState').active(progress,'lucie_route2');
     return replay?require('./testReplayState').obstacleFlag(obstacle):obstacle.requiredFlag;
 }
+function hitFlag(obstacle, progress = {}) {
+    return `room_obstacle_hits:${progressFlag(obstacle, progress)}`;
+}
+function hitCount(obstacle, progress = {}) {
+    if (!isLocked(obstacle, progress)) return 10;
+    const value = Number(progress.flags?.[hitFlag(obstacle, progress)]);
+    return Number.isInteger(value) ? Math.max(0, Math.min(9, value)) : 0;
+}
 function isLocked(obstacle, progress = {}) {
     if(obstacle.map==='professor_lab')return !require('./labStory').rescued(progress)&&progress.flags?.[progressFlag(obstacle,progress)]!=='true';
     const replay = require('./testReplayState');
@@ -47,10 +55,11 @@ function nearby(player, progress) {
 }
 function snapshot(progress) {
     return obstacles.map(o => ({ id: o.id, map: o.map, name: o.name, kind: o.kind, appearance: o.appearance,
-        direction: o.direction, tiles: o.tiles, cells: o.cells, locked: isLocked(o, progress) }));
+        direction: o.direction, tiles: o.tiles, cells: o.cells, locked: isLocked(o, progress),
+        manual: true, hits: hitCount(o, progress), requiredHits: 10 }));
 }
 function entryDialogue(player, progress) {
     if (player?.currentmap !== map || Math.floor(player.y / 32) < 16 || !isLocked(obstacles[0], progress)) return null;
     return 'lucie_room_entry';
 }
-module.exports = { obstacles, isLocked, progressFlag, candidates, nearby, snapshot, entryDialogue };
+module.exports = { obstacles, isLocked, progressFlag, hitFlag, hitCount, candidates, nearby, snapshot, entryDialogue };

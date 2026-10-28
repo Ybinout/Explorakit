@@ -1,5 +1,15 @@
 # Contexte permanent — RiftMon
 
+## Cristaux — dix coups manuels par barrière — 28 octobre 2026
+
+Maison de Lucie (trois barrières) et laboratoire (une) : chaque appui réel A/Espace/manette compte exactement un coup, le premier inclus ; ouverture au dixième. Aucun coup produit par un timer, le maintien d’une touche ou du doigt. Les appuis rapides sont sérialisés dans une file bornée, les identifiants de paquets répétés ignorés ; une entrée liée à une position quittée ou à une session retirée est annulée. Prérequis du Professeur, proximité et droits vérifiés côté serveur, compteur et passage enregistrés dans une transaction verrouillant le propriétaire.
+
+Compteur personnel conservé entre deux visites/reconnexions dans les flags existants (`room_obstacle_hits:<flag de passage>`), sans migration. Les replays utilisent une clé distincte et le reset admin efface uniquement leurs compteurs/flags ; progression permanente et anciens passages ouverts conservés. Client : compteur 0/10 près des cristaux, animation locale par coup, A disponible pendant l’impact, fissures persistantes entre les appuis, éclatement au dernier ; aucun intervalle du compteur manuel. Le protocole Space reste accepté pour les clients précédents, un coup par action.
+
+Validation : 22 tests ciblés/SQL/socket réussis, incluant attente supérieure à l’ancien délai, neuf coups bloquants, dixième ouverture, paquets forgés/répétés, rafale de dix appuis, reconnexion, isolation, prérequis labo et reset privé après de vrais coups. Lint/build `11690e812a3290cb` réussis ; navigateur compilé sur quatre formats, tactile/clavier/manette, maintien sans répétition, trois barrières maison et laboratoire, zéro erreur. Aperçus PC/mobile inspectés. Recettes longues Lucie et finale adaptées aux dix appuis, parcours ciblé exécuté ici. Aucune manipulation manuelle de compte réel, test sur téléphone physique ou suite globale revendiqués. Rapport : `docs/MANUAL_CRYSTAL_STRIKES.json`.
+
+Publication serveur/client le 28 octobre 2026 à 07 h 51 (Europe/Paris), PID 2509799→2516303, build `11690e812a3290cb`. Sauvegarde `/home/ubuntu/dev/backups/riftmon-manual-crystals-2026-10-28T06-51-12-692Z`, checkpoint conservé et zéro expédition active relevée. Index/bundles publics vérifiés, anciens assets conservés, Knov/api-test inchangés ; aucune migration ou manipulation manuelle de compte réel.
+
 ## Raphael — indice sur les choses cachées — 28 octobre 2026
 
 Ajout en dernière page de `champion_raphael_after` : « Raphael : Et rappelle-toi… la vérité se trouve parfois sous les choses. », avec son portrait `raph.png`. La phrase apparaît après la victoire du joueur et lorsqu’il reparle au champion. Trois anciennes pages, introduction, prérequis, combat, récompenses et autres dialogues conservés.

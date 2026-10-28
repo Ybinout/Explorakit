@@ -1,0 +1,92 @@
+{
+  "request": "Dix appuis réels par barrière de cristaux, aucun enchaînement automatique.",
+  "scope": [
+    "route2_maison: trois barrières",
+    "professor_lab: barrière vers Lucie"
+  ],
+  "behavior": {
+    "requiredHits": 10,
+    "onePressOneHit": true,
+    "noAutomaticHits": true,
+    "persistentPersonalHits": true,
+    "adminReplayCountersSeparateAndReset": true,
+    "firstPressCountsAsFirstHit": true,
+    "heldKeyAndPointerDoNotRepeat": true,
+    "rapidTapsQueued": true,
+    "duplicatePressIdsIgnored": true,
+    "serverControlsProximityAndStoryPrerequisites": true
+  },
+  "implementation": {
+    "sqlMigration": false,
+    "newData": "Au plus quatre compteurs de flags par parcours, quatre autres pour les replays administrateur.",
+    "animation": "Un impact local de 380 ms par appui ; éclatement final existant, mouvement réduit conservé.",
+    "frontendCounterPolling": false,
+    "legacySpace": "Un appui Space reste un coup ; anciennes sauvegardes et flags de passage conservés."
+  },
+  "validation": {
+    "targetedTests": 22,
+    "failed": 0,
+    "lint": "passed",
+    "build": "11690e812a3290cb",
+    "browser": {
+      "tenDiscreteHits": true,
+      "noTimedHits": true,
+      "noHeldInputs": true,
+      "mobileKeyboardGamepad": true,
+      "partialReconnect": true,
+      "allFourBarriers": true,
+      "viewports": 4,
+      "screenshots": [
+        "/tmp/riftmon-manual-crystals-browser/two-real-hits-320.png",
+        "/tmp/riftmon-manual-crystals-browser/two-real-hits-393.png",
+        "/tmp/riftmon-manual-crystals-browser/two-real-hits-844.png",
+        "/tmp/riftmon-manual-crystals-browser/two-real-hits-1365.png"
+      ],
+      "errors": []
+    },
+    "screenshotsReviewed": [
+      "two-real-hits-393.png",
+      "two-real-hits-1365.png"
+    ],
+    "realAccountsManuallyModified": false,
+    "physicalPhoneTested": false,
+    "entireTestSuiteClaimed": false
+  },
+  "recipes": [
+    "DB_NAME=explorakit_test RUN_MYSQL_TESTS=1 NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file=.env --test --test-concurrency=1 tests/room-obstacles.test.js tests/room-obstacles-socket.test.js tests/professor-lab-collisions.test.js tests/professor-finale.test.js tests/arena-admin.test.js",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-manual-crystals-dist node --env-file=.env scripts/validateManualCrystalBrowser.js"
+  ],
+  "deployment": {
+    "publishedAt": "2026-10-28T06:51:15.387Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-manual-crystals-2026-10-28T06-51-12-692Z",
+    "sourceBaseline": "5c8453bdc3001adc4a02fb645eaf5078f75664c9",
+    "sourceHashes": {
+      "server/game/world/roomObstacles.js": "7a22288ed87fcea1fa1eb222db882baddbf7a64e1bc2601f81e3aaaa85157faf",
+      "server/persistence/arenaTestRepository.js": "2ec84492e50209609e8f6ebb4e28019e898c9aa2839ba1c6f9a3d2c997155576",
+      "server/realtime/handlers/roomObstacleHandlers.js": "50b2620e41ca5afb336fbe27183f700912e2685beac030ee6ec3c19f7336892a",
+      "server/realtime/socketHandler.js": "482d8e3ceb8ff9ea32219854ef17bfa23a49bbd5ad5dc988b46d5612cf785c7b",
+      "server/persistence/roomObstacleRepository.js": "7c97936770e4e081a4b91b79bd4e57fed1038f81f4631ba02b159d4ef6621322"
+    },
+    "clientCommit": "d09c0e2f0c0f028cc851cf232f86d01ae1e16204",
+    "clientBuild": "11690e812a3290cb",
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.e45bc762.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.2a8101b0.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.0c88a228.css"
+    ],
+    "beforePid": "2509799",
+    "afterPid": "2516303",
+    "serverRestarted": true,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "sqlMigration": false,
+    "realAccountsManuallyModified": false
+  }
+}

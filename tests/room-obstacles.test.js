@@ -44,3 +44,16 @@ test('strike anticipation, hit feedback and actor pose follow ten server timesta
  assert.equal(strikeState({...action,strikeTimes:[100,200],duration:500},1250).hits,2,'explicit server timing is authoritative');
  assert.equal(strikeState({...action,strikeTimes:[300,100],duration:4140},1550).hits,1,'invalid timeline falls back safely');
 });
+test('manual strikes never advance with time and preserve separate personal/replay counters',async()=>{
+ const {strikeState,roomStrikePose}=await import('../vue-explorakit/src/services/roomObstacleRenderer.js');
+ const o=lucieObstacles[0],progress={flags:{[room.hitFlag(o)]:'6'}};
+ assert.equal(room.hitCount(o,progress),6);assert.equal(room.snapshot(progress).find(g=>g.id===o.id).hits,6);
+ const replay={...progress,testReplays:['lucie_route2']};assert.equal(room.hitCount(o,replay),0);
+ assert.notEqual(room.hitFlag(o,replay),room.hitFlag(o,progress));
+ for(const invalid of ['-1','200','1.5','nan'])assert(room.hitCount(o,{flags:{[room.hitFlag(o)]:invalid}})<10);
+ const action={manual:true,active:true,hits:6,requiredHits:10,startedAt:1000,origin:{x:432,y:528},target:{x:13,y:15}};
+ for(const time of [1000,1080,1400,10000,1000000])assert.equal(strikeState(action,time).hits,6);
+ assert.equal(strikeState(action,1080).impact,1);assert.equal(strikeState(action,1400).impact,0);
+ assert.equal(roomStrikePose(action,1080).y,-8);assert.equal(Math.abs(roomStrikePose(action,1080,false).y),0);
+ assert.equal(strikeState({...action,active:false},1080).impact,0);
+});

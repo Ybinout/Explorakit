@@ -1252,6 +1252,10 @@ const socketHandler = (io) => {
         };
         account.on('onEndDialogue', guardInteraction(finishDialogue));
 
+        require('./handlers/roomObstacleHandlers').registerRoomObstacleHits({
+            account, socket, userId, getPlayer: () => players[socket.id], emitProgression: emitPlayerProgression,
+            canUse: () => !interactionBusy && !transitionBusy && !pendingDialogue && !socketToChatSession.has(socket.id)
+        });
         account.on('Space', guardInteraction(async () => {
             if (pendingDialogue?.arenaEntry || pendingDialogue?.lucieDeparture || pendingDialogue?.storyEntry) return;
             const player = players[socket.id];

@@ -45,24 +45,17 @@ async function pictures(label){for(const[width,height]of [[320,568],[393,852],[1
    if(index===1){await page.setViewportSize({width:1365,height:900});await page.evaluate(()=>v.showMobileControls=false);}
    else{await page.setViewportSize({width:393,height:852});await page.evaluate(()=>v.showMobileControls=true);}
    if(index===2)await page.evaluate(()=>v.updatePreferences({...v.preferences,animationsEnabled:false}));
-   const started=Date.now();if(index===1)await page.keyboard.press('Space');else await page.locator('.mobile-action-a').click();await page.locator('.room-obstacle-action').waitFor();
-   assert(await page.evaluate(()=>v.movementBlocked));
-   assert.match(await page.locator('.room-obstacle-label').innerText(),/toutes tes forces/);
-   await page.waitForFunction(()=>{const a=v._worldMusic?.tracks.get('lucie-room');return a&&!a.paused&&a.currentTime>.1;});
-   const before=await page.evaluate(()=>v._worldMusic.tracks.get('lucie-room').currentTime);await page.waitForTimeout(350);
-   assert(await page.evaluate(t=>v._worldMusic.tracks.get('lucie-room').currentTime>t,before));
-   await page.screenshot({path:path.join(output,`clearing-${index+1}.png`)});
-   await page.locator('.room-obstacle-hits i.hit').first().waitFor();
-   await page.screenshot({path:path.join(output,`strike-${index+1}.png`)});
+   const press=async()=>{if(index===1)await page.keyboard.press('Space');else await page.locator('.mobile-action-a').click();};
+   await press();await page.waitForFunction(()=>v.displayedRoomObstacleAction?.hits===1);
    assert.equal(await page.locator('.room-obstacle-hits i').count(),10);
-   await page.waitForFunction(()=>document.querySelectorAll('.room-obstacle-hits i.hit').length===3);
-   assert(await page.evaluate(()=>!v.progressionState.flags[v.roomObstacleAction.id+'_cleared']),'third hit does not clear the obstacle');
-   await page.waitForFunction(()=>document.querySelectorAll('.room-obstacle-hits i.hit').length===10);
-   await page.screenshot({path:path.join(output,`tenth-strike-${index+1}.png`)});
-   await page.locator('.room-obstacle-action.is-complete').waitFor();
+   await page.waitForTimeout(8500);assert.equal(await page.locator('.room-obstacle-hits i.hit').count(),1,'idle time cannot add strikes');
+   await page.screenshot({path:path.join(output,`strike-${index+1}.png`)});
+   for(let n=2;n<=9;n++){await press();await page.waitForFunction(n=>v.displayedRoomObstacleAction?.hits===n,n);}
+   assert(await page.evaluate(i=>!v.progressionState.flags[`lucie_barricade_${i+1}_cleared`],index),'nine hits keep the barrier locked');
+   await press();await page.locator('.room-obstacle-action.is-complete').waitFor();
    assert.match(await page.locator('.room-obstacle-confirm').innerText(),/Passage dégagé/);
    await page.screenshot({path:path.join(output,`cleared-${index+1}.png`)});
-   await page.locator('.room-obstacle-action').waitFor({state:'hidden'});assert(Date.now()-started>=7950);
+   await page.locator('.room-obstacle-action').waitFor({state:'hidden'});
    await page.waitForFunction(key=>v.progressionState.flags[key]==='true',`lucie_barricade_${index+1}_cleared`);
    await page.waitForTimeout(1150);
   }
