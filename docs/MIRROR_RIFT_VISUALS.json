@@ -1,0 +1,165 @@
+{
+  "dateParis": "2026-10-28",
+  "message": "Il se passe quelque chose…",
+  "riftTile": [
+    13,
+    10
+  ],
+  "riftWorldCenter": [
+    432,
+    336
+  ],
+  "cloneTile": [
+    13,
+    13
+  ],
+  "openingMs": 8000,
+  "floorTearingMs": 7360,
+  "implementation": {
+    "canvas": "vue-explorakit/src/services/mirrorRiftRenderer.js",
+    "cacheSize": [
+      384,
+      384
+    ],
+    "maxTextureHz": 30,
+    "orbitingMotes": 64,
+    "drawnDebris": 10,
+    "newLoops": 0,
+    "newImages": 0,
+    "mapEdits": 0,
+    "sameHiddenTriggerAndProgression": true
+  },
+  "validation": {
+    "tests": {
+      "pass": 16,
+      "fail": 0,
+      "skip": 0
+    },
+    "sqlTests": {
+      "pass": 6,
+      "fail": 0,
+      "skip": 0
+    },
+    "browser": {
+      "realHiddenAction": true,
+      "desktopKeyboard": true,
+      "allBadgesRequired": true,
+      "openingAndDust": true,
+      "openingCaption": true,
+      "centralRift": true,
+      "eightSecondOpening": true,
+      "movementBlockedDuringScene": true,
+      "riftCellsSolid": true,
+      "silentCloneDuel": true,
+      "exactInitialHpPpItems": true,
+      "violetAppearances": 6,
+      "reconnect": true,
+      "winClosesRift": true,
+      "wakeAtHome": true,
+      "teamHealedAndOrderPreserved": true,
+      "noTrainingOrMoneyRewards": true,
+      "ruinsPersistentInsideAndOutside": true,
+      "perPlayerIsolation": true,
+      "privateAdminReplay": true,
+      "viewports": 4,
+      "screens": [
+        "floor-tearing-320.png",
+        "floor-tearing-393.png",
+        "floor-tearing-844.png",
+        "floor-tearing-1365.png",
+        "violet-rift-open-320.png",
+        "violet-rift-open-393.png",
+        "violet-rift-open-844.png",
+        "violet-rift-open-1365.png",
+        "violet-clone-320.png",
+        "violet-clone-393.png",
+        "violet-clone-844.png",
+        "violet-clone-1365.png",
+        "mirror-battle-320.png",
+        "mirror-battle-393.png",
+        "mirror-battle-844.png",
+        "mirror-battle-1365.png",
+        "rift-closing-320.png",
+        "rift-closing-393.png",
+        "rift-closing-844.png",
+        "rift-closing-1365.png",
+        "awakened-home-320.png",
+        "awakened-home-393.png",
+        "awakened-home-844.png",
+        "awakened-home-1365.png",
+        "house-exterior-ruined-320.png",
+        "house-exterior-ruined-393.png",
+        "house-exterior-ruined-844.png",
+        "house-exterior-ruined-1365.png",
+        "house-interior-ruined-320.png",
+        "house-interior-ruined-393.png",
+        "house-interior-ruined-844.png",
+        "house-interior-ruined-1365.png"
+      ],
+      "errors": []
+    },
+    "canvas": {
+      "averageWorldAndEffectMs": 2.646666669845581,
+      "animatedChannelsChanged": 30843,
+      "reducedChannelsChanged": 0,
+      "releaseAndRecreate": true
+    },
+    "commands": [
+      "node --test tests/mirror-rift.test.js tests/lucie-departure.test.js tests/lucie-scene.test.js",
+      "DB_NAME=explorakit_test RUN_MYSQL_TESTS=1 node --env-file=.env --test --test-concurrency=1 tests/mirror-rift-mysql.test.js",
+      "DB_TEST_NAME=explorakit_test node --env-file=.env scripts/validateMirrorRiftBrowser.js",
+      "npm --prefix vue-explorakit run lint -- --no-fix",
+      "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-mirror-polish-dist"
+    ],
+    "canvasScript": "const root='/home/ubuntu/dev/explorakit',req=require('node:module').createRequire(root+'/package.json'),{chromium}=req('playwright'),fs=req('node:fs'),assert=req('node:assert/strict');\n(async()=>{const browser=await chromium.launch({headless:true,args:['--no-sandbox']});try{const page=await browser.newPage({viewport:{width:896,height:640}});await page.setContent('<style>html,body{margin:0;background:#080812}canvas{display:block;image-rendering:pixelated}</style><canvas width=\"896\" height=\"640\"></canvas>');const source=fs.readFileSync(root+'/vue-explorakit/src/services/mirrorRiftRenderer.js').toString('base64'),art=fs.readFileSync(root+'/vue-explorakit/src/assets/route2_maison.png').toString('base64');await page.evaluate(async({source,art})=>{window.m=await import('data:text/javascript;base64,'+source);window.image=new Image();image.src='data:image/png;base64,'+art;await image.decode();window.c=document.querySelector('canvas').getContext('2d');window.state={ruined:true,stage:'open',rift:{x:13,y:10},clone:{x:13,y:13}};window.paint=(time,scene,motion=true)=>{c.clearRect(0,0,896,640);c.drawImage(image,0,0,896,640);m.drawMirrorGround(c,'route2_maison',state,scene,time,motion);};},{source,art});const out='/tmp/riftmon-mirror-polish-canvas';fs.mkdirSync(out,{recursive:true});for(const ms of [800,2600,4800,7400]){await page.evaluate(ms=>paint(ms,{map:'route2_maison',phase:'opening',startedAt:0,duration:8000}),ms);await page.screenshot({path:out+'/opening-'+ms+'.png'});}await page.evaluate(()=>paint(16000,null));await page.screenshot({path:out+'/open.png'});await page.evaluate(()=>paint(16000,null,false));await page.screenshot({path:out+'/reduced.png'});\nconst result=await page.evaluate(()=>{let start=performance.now();for(let i=0;i<120;i++)paint(20000+i*34,null);const average=(performance.now()-start)/120;paint(30000,null);const moving=c.getImageData(0,0,896,640).data;paint(31000,null);const later=c.getImageData(0,0,896,640).data;let changed=0;for(let i=0;i<moving.length;i++)if(moving[i]!==later[i])changed++;paint(32000,null,false);const reduced=c.getImageData(0,0,896,640).data;paint(40000,null,false);const still=c.getImageData(0,0,896,640).data;let reducedChanges=0;for(let i=0;i<still.length;i++)if(still[i]!==reduced[i])reducedChanges++;m.releaseMirrorEffects();paint(40000,null);return{averageWorldAndEffectMs:average,animatedChannelsChanged:changed,reducedChannelsChanged:reducedChanges,releaseAndRecreate:true};});assert(result.animatedChannelsChanged>100);assert.equal(result.reducedChannelsChanged,0);fs.writeFileSync(out+'/results.json',JSON.stringify(result,null,2));console.log(JSON.stringify(result));}finally{await browser.close();}})().catch(e=>{console.error(e);process.exitCode=1});\n",
+    "lint": true,
+    "clientBuild": "42944d8aeea28cce",
+    "physicalPhoneTest": false
+  },
+  "deployment": {
+    "publishedAt": "2026-10-28T04:03:15.120Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-mirror-polish-2026-10-28T04-03-12-193Z",
+    "sourceBaseline": "6d54caad5103c3c83dec395a98c97cab87cbeecd",
+    "sourceHashes": {
+      "server/game/world/mirrorRift.js": "b92ca91db997d59c9786cbdff999f902cdaef3fa8759a6f0e66e3651686987a9"
+    },
+    "clientCommit": "abd646c6bdd35c3fc80886b959fc17de5251e2d8",
+    "clientBuild": "42944d8aeea28cce",
+    "beforePid": "2382414",
+    "afterPid": "2469675",
+    "activeRuns": 0,
+    "checkpointSaved": true,
+    "serverRestarted": true,
+    "gracefulCheckpoint": true,
+    "neighborsUnchanged": true,
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.9f3dfce1.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.8c86b9f0.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.4656a6dd.css",
+      "img/ville4_arene.4d111715.png",
+      "img/tour_rdc.e03e0f06.png",
+      "img/tour_etage1.8ec612be.png",
+      "img/tour_etage2.18713452.png",
+      "img/tour_etage3.ac05c302.png",
+      "img/6931.30769aa5.png"
+    ],
+    "embedded": [
+      "pnj/professor-ko-pixel-v1.png",
+      "pnj/clement-pixel-v2.png"
+    ],
+    "oldHashedAssetsRetained": true,
+    "sqlMigration": false,
+    "realAccountsModified": false
+  },
+  "postDeployment": {
+    "runtimeHashesMatch": true,
+    "serverErrors": 0,
+    "fixtureRemainders": 0
+  }
+}

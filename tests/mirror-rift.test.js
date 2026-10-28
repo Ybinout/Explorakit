@@ -11,15 +11,15 @@ test('opening is a hidden action behind the actual bookshelf; approach and clone
   const p=progress(),player={currentmap:scene.config.map,x:7*32+16,y:4*32+16};
   assert.equal(terrain.loadCollisionData(player.currentmap)[4][7],0);assert.equal(scene.interaction(player,p),'open');
   assert.equal(scene.interaction({...player,y:8*32+16},p),null);assert.equal(scene.interaction({...player,currentmap:'route2'},p),null);
-  p.flags.mirror_stage='open';assert.equal(scene.interaction({...player,x:12*32+16,y:6*32+16},p),'emerge');
-  p.flags.mirror_stage='clone';assert.equal(scene.interaction({...player,x:12*32+16,y:6*32+16},p),'battle');
+  p.flags.mirror_stage='open';assert.equal(scene.interaction({...player,x:13*32+16,y:12*32+16},p),'emerge');
+  p.flags.mirror_stage='clone';assert.equal(scene.interaction({...player,x:13*32+16,y:12*32+16},p),'battle');
   p.flags.mirror_stage='complete';assert.equal(scene.interaction(player,p),null);
 });
 test('rift cells and clone are solid, leaving the room exit and the route open',()=>{
   const p=progress();p.flags.mirror_stage='clone';
-  for(const[x,y]of[[10,5],[9,6],[10,6],[11,6],[10,7],[12,7]])assert(scene.blocked(scene.config.map,x,y,p));
-  assert(!scene.blocked('route2',10,6,p));assert(!scene.blocked(scene.config.map,13,18,p));
-  p.flags.mirror_stage='complete';assert(!scene.blocked(scene.config.map,10,6,p));
+  for(const[x,y]of[[13,9],[12,10],[13,10],[14,10],[13,11],[11,10],[15,10],[13,13]])assert(scene.blocked(scene.config.map,x,y,p));
+  assert(!scene.blocked('route2',13,10,p));assert(!scene.blocked(scene.config.map,13,18,p));
+  p.flags.mirror_stage='complete';assert(!scene.blocked(scene.config.map,13,10,p));
 });
 test('private admin preview does not rewrite the completed permanent ruin',()=>{
   const p=progress();Object.assign(p.flags,{mirror_stage:'complete',mirror_ruined:'true',admin_mirror_replay:'true',admin_mirror_stage:'sealed',admin_mirror_ruined:'false'});
@@ -43,4 +43,23 @@ test('cinematic has bounded shake, persistent endpoints and a motion-free altern
   for(const phase of ['opening','emerging','closing'])for(const now of [0,1500,5000,10000]){const scene={phase,startedAt:0,duration:8600},p=mirrorScenePose(scene,now);assert(p.t>=0&&p.t<=1);assert(Math.abs(p.shakeX)<=6.1);assert(Math.abs(p.shakeY)<=4.3);const reduced=mirrorScenePose(scene,now,false);assert.equal(reduced.shakeX,0);assert.equal(reduced.shakeY,0);}
   assert.equal(mirrorScenePose({phase:'opening',startedAt:0,duration:8600},8600).spread,1);
   assert.equal(mirrorScenePose({phase:'closing',startedAt:0,duration:6200},6200).spread,0);
+});
+
+test('central rift and clone use free terrain, with a reachable southern action tile',()=>{
+  assert.deepEqual(scene.config.rift,{x:13,y:10});assert.equal(scene.config.openingMs,8000);
+  const c=terrain.loadCollisionData(scene.config.map),p=progress();p.flags.mirror_stage='open';
+  assert.equal(c[scene.config.rift.y][scene.config.rift.x],0);assert.equal(c[scene.config.clone.y][scene.config.clone.x],0);
+  assert(!scene.blocked(scene.config.map,13,12,p));assert.equal(scene.interaction({currentmap:scene.config.map,x:432,y:400},p),'emerge');
+  assert(!scene.blocked(scene.config.map,7,4,p));assert(!scene.blocked(scene.config.map,13,17,p));
+  const spawn=require('../server/realtime/playerState').sanitizeSpawnPosition(432,336,c,scene.config.map,{blocked:(map,x,y)=>scene.blocked(map,x,y,p)});
+  assert(!scene.blocked(scene.config.map,Math.floor(spawn.x/32),Math.floor(spawn.y/32),p));
+});
+test('opening keeps moving late in the sequence and camera returns to the player without changing world coordinates',async()=>{
+  const {mirrorScenePose,mirrorCameraTarget,riftCenter}=await import('../vue-explorakit/src/services/mirrorRiftRenderer.js');
+  const s={phase:'opening',map:scene.config.map,startedAt:0,duration:8000},player={x:240,y:144},state={rift:scene.config.rift};
+  assert.deepEqual(riftCenter(state),{x:432,y:336});
+  assert(mirrorScenePose(s,6400).spread<.95);assert(mirrorScenePose(s,7600).spread>mirrorScenePose(s,6400).spread);
+  assert.deepEqual(mirrorCameraTarget(s,0,player,state),player);assert.deepEqual(mirrorCameraTarget(s,8000,player,state),player);
+  assert.deepEqual(mirrorCameraTarget(s,4000,player,state),{x:432,y:336});
+  assert.deepEqual(mirrorCameraTarget(null,4000,player,state),player);assert.deepEqual(player,{x:240,y:144});
 });

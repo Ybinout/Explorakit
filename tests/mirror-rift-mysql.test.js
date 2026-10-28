@@ -15,8 +15,8 @@ test('SQL mirror: real badge ownership, exact hidden action and duplicate packet
   assert.equal(await repo.advance(u.id,'open',at(u.id+1,7,4)),false);assert.equal(await repo.advance(u.id,'open',at(u.id,7,8)),false);
   const result=await Promise.all([repo.advance(u.id,'open',at(u.id,7,4)),repo.advance(u.id,'open',at(u.id,7,4))]);assert.equal(result.filter(Boolean).length,1);
   let r=await repo.read(u.id);assert.equal(r.state.stage,'open');assert(r.state.ruined);assert.equal(await repo.win(u.id),false);assert.equal(await repo.completeWake(u.id),false);
-  assert(await repo.advance(u.id,'emerge',at(u.id,12,6)));r=await repo.read(u.id);assert.deepEqual(r.state.appearance,{sprite:'sprite.png'});
-  assert.equal(await repo.advance(u.id,'emerge',at(u.id,12,6)),false);assert.equal(scene.interaction(at(u.id,12,6),r.progress),'battle');
+  assert(await repo.advance(u.id,'emerge',at(u.id,13,12)));r=await repo.read(u.id);assert.deepEqual(r.state.appearance,{sprite:'sprite.png'});
+  assert.equal(await repo.advance(u.id,'emerge',at(u.id,13,12)),false);assert.equal(scene.interaction(at(u.id,13,12),r.progress),'battle');
  }finally{if(u)await db.execute('DELETE FROM users WHERE id=?',[u.id]);}
 });
 test('SQL mirror: committed win survives reconnect, wake persists home and the ruined house remains',{skip:!enabled},async()=>{
@@ -53,7 +53,7 @@ class Socket extends EventEmitter{
 for(const win of [true,false])test(`SQL mirror real duel: ${win?'victory and awakening':'defeat without false completion'}`,{skip:!enabled},async()=>{
  let u;const old=Math.random;try{u=await fixture();await flags(u.id,{mirror_stage:'clone',mirror_ruined:'true',mirror_appearance:'{"sprite":"sprite.png"}'});
   const lead=factory.create(151,35,true),reserve=factory.create(9,35,true);lead.currentHp=1;reserve.currentHp=0;lead.passiveAbility=reserve.passiveAbility=null;lead.heldItem='choice_band';reserve.heldItem='leftovers';lead.abilities=['Tackle'];lead.movePp=[7];reserve.abilities=['Splash'];reserve.movePp=[4];
-  const player={...at(u.id,12,6),id:'mirror-owner',equipe:{pokemons:[lead,reserve]}};await teams.editEquipe(u.id,player.equipe);
+  const player={...at(u.id,13,12),id:'mirror-owner',equipe:{pokemons:[lead,reserve]}};await teams.editEquipe(u.id,player.equipe);
   const [[before]]=await db.execute('SELECT money FROM users WHERE id=?',[u.id]);const training=player.equipe.pokemons.map(p=>({uuid:p.uuid,experience:p.experience,ev:structuredClone(p.ev),level:p.level}));
   const socket=new Socket(),io={sockets:{sockets:new Map([[player.id,socket]])},to:()=>({emit:socket.emit.bind(socket)})};let traveled=null,blackouts=0,busy=false;
   const handlers=require('../server/realtime/handlers/mirrorRiftHandlers').createMirrorRiftHandlers({socket,io,userId:u.id,getPlayer:()=>player,canUse:()=>!busy,setBusy:v=>{busy=v;},emitProgression:()=>{},blackout:async()=>{blackouts++;},travel:async d=>{traveled=d;Object.assign(player,{currentmap:d.map,x:d.x,y:d.y});}});
