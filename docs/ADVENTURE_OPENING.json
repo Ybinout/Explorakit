@@ -1,0 +1,97 @@
+{
+  "date": "2026-10-28",
+  "feature": "First Adventure: black fade, wake in upstairs bed and mother callout on first house exit.",
+  "scope": {
+    "newAccountsOnly": true,
+    "spawn": {
+      "map": "etage",
+      "x": 592,
+      "y": 336
+    },
+    "persistentStage": "adventure_opening: sleeping → awake → outside → complete",
+    "motherDialogue": "adventure_mother_departure: four pages about Lucie, the last letter and Wayne; no heal, item or money reward.",
+    "compatibility": "Existing saves have no flag and remain untouched. Older clients without capability start in bed without a blocking cinematic. Rift/Colosseum do not run this sequence.",
+    "presentation": "0.5 s fade to black, wait for decoded bedroom, 0.65 s black hold, 1.4 s reveal. Reduced motion uses a static black cover. Input locked during cinematic and mother dialogue.",
+    "recovery": "Interrupted wake or mother conversation resumes; acknowledged scenes do not repeat. Loading error exposes retry; component timers and listeners clean up on unmount."
+  },
+  "validation": {
+    "focusedTests": 2,
+    "regressionTests": 17,
+    "commands": [
+      "BATTLE_DELAY_SCALE=0 NODE_ENV=test RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test node --env-file-if-exists=.env --test tests/adventure-opening.test.js",
+      "BATTLE_DELAY_SCALE=0 NODE_ENV=test RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test node --env-file-if-exists=.env --test --test-concurrency=1 tests/wanda-callout-socket.test.js tests/pardon-ending-mysql.test.js tests/mirror-rift-mysql.test.js",
+      "npm --prefix vue-explorakit run lint",
+      "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-opening-dist",
+      "RELEASE_DIST_DIR=/tmp/riftmon-opening-dist node --env-file-if-exists=.env scripts/validateAdventureOpeningBrowser.js"
+    ],
+    "browser": {
+      "newAdventureBed": true,
+      "slowImageCovered": true,
+      "movementLocked": true,
+      "realStairsAndExit": true,
+      "automaticMother": true,
+      "noHealing": true,
+      "resumeDialogue": true,
+      "noRepeatOnReconnect": true,
+      "reducedMotion": true,
+      "viewports": 4,
+      "screens": [
+        "black-320.png",
+        "bed-320.png",
+        "mother-320.png",
+        "black-393.png",
+        "bed-393.png",
+        "mother-393.png",
+        "black-844.png",
+        "bed-844.png",
+        "mother-844.png",
+        "black-1365.png",
+        "bed-1365.png",
+        "mother-1365.png"
+      ],
+      "errors": []
+    },
+    "artifacts": "/tmp/riftmon-opening-browser",
+    "inspected": [
+      "bed-393.png",
+      "mother-1365.png"
+    ],
+    "testAccountsRemaining": 0,
+    "limits": [
+      "No full test suite or physical mobile device claimed. No real account manually changed. Existing assets and maps retained."
+    ]
+  },
+  "deployment": {
+    "publishedAt": "2026-10-28T08:36:06.473Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-opening-2026-10-28T08-36-04-001Z",
+    "sourceBaseline": "4b489968d0eac654d98f16bc29a0f16c62657300",
+    "sourceHashes": {
+      "data/game/interact.json": "1dbc3749accf4ec7fcb637f894630bb3de813b64c516243202c1eba70f5b9e6d",
+      "server/persistence/userRepository.js": "a36671d8997d3de209ba0a145f1c7e6c8b2da0494d9ff9fb8e16a6b73d104120",
+      "server/realtime/socketHandler.js": "4d55e1fbf25389d994090eff64d1780a449d34029b45ee0f85cf56a98d7b4a6c",
+      "server/game/world/adventureOpening.js": "0f474185d347795256622935af959451d6917ae7ed8ac36cb36f708ef82d660c",
+      "server/persistence/adventureOpeningRepository.js": "4714de421b1c416a978c0d0bbfb4fbe2f148ced7aa730e3336f9f89d5d255f01"
+    },
+    "clientCommit": "81914d7029c4ee40488aa0686dd0c70ca8fc7d63",
+    "clientBuild": "819bbc5bc922488c",
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.6d89ba19.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.dc533f29.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.699eedbd.css"
+    ],
+    "beforePid": "2549760",
+    "afterPid": "2563480",
+    "serverRestarted": true,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "sqlMigration": false,
+    "realAccountsManuallyModified": false
+  }
+}

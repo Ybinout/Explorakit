@@ -300,7 +300,15 @@ const socketHandler = (io) => {
         const lucieScene=require('../game/world/lucieDeparture');
         const labStory=require('../game/world/labStory');
         const voidEnding=require('../game/world/voidEnding');
-        let initialStoryProgress=labStory.maps.has(currentmap)||storyGates.gates.some(g=>g.map===currentmap&&g.actor)?await loadProgressState(userId):null;
+        const adventureOpening=require('../game/world/adventureOpening');
+        const openingRepository=require('../persistence/adventureOpeningRepository');
+        let initialStoryProgress=labStory.maps.has(currentmap)||['etage','maison'].includes(currentmap)||storyGates.gates.some(g=>g.map===currentmap&&g.actor)?await loadProgressState(userId):null;
+        let openingPending=adventureOpening.waking(currentmap,initialStoryProgress)&&socket.handshake?.auth?.adventureOpening===true;
+        if(adventureOpening.waking(currentmap,initialStoryProgress)&&!openingPending){
+            // Older clients can leave the bed without implementing the cinematic.
+            await openingRepository.awaken(userId);
+            initialStoryProgress.flags[adventureOpening.config.flag]='awake';
+        }
         if (!account.active()) return;
         let personalProgress=initialStoryProgress||{flags:{}},lucieLeaving=false;
         const {getPnjsForMap,getPnjAtTile,isPnjBlockingTile}=lucieScene.scopedStore(voidEnding.scopedStore(labStory.scopedStore(raphTrial.scopedStore(defaultPnjStore,()=>raphTrialState),()=>personalProgress),()=>personalProgress),()=>personalProgress,()=>lucieLeaving);
@@ -502,6 +510,12 @@ const socketHandler = (io) => {
         const showRoomEntry = async (progression) => {
             const player = players[socket.id];
             if (!player || player.inbattle || pendingDialogue) return;
+            const motherEntry=adventureOpening.entryDialogue(player.currentmap,progression||personalProgress);
+            if(motherEntry){
+                const sentence=getSentenceForName(motherEntry);
+                pendingDialogue={...createDialogueAuthorization({name:motherEntry,map:player.currentmap,x:Math.floor(player.x/32),y:Math.floor(player.y/32)}),storyEntry:true,openingMother:true};
+                socket.emit('dialogue',[...sentence,{entryMap:player.currentmap}]);return;
+            }
             const pendingDeparture=lucieScene.profiles.find(scene=>player.currentmap===scene.map&&lucieScene.pending(progression||personalProgress,scene));
             if(pendingDeparture) {
                 const name=pendingDeparture.dialogue,sentence=getSentenceForName(name);
@@ -613,6 +627,9 @@ const socketHandler = (io) => {
             player.y = safeDestination.y;
             player.currentmap = currentmap;
             player.isMoving = false;
+            if(oldMap==='maison'&&currentmap==='start'&&reason==='map_transition'){
+                if(await openingRepository.noteExit(userId))emitPlayerProgression(await loadProgressState(userId));
+            }
 
             for (const id in players) {
                 if (id === socket.id) continue;
@@ -698,6 +715,17 @@ const socketHandler = (io) => {
         await arenaCollapse.enter();
         if (!account.active()) return;
         const sameMapPlayers = getPlayersInMap(players, currentmap);
+        account.on('adventureOpeningDone',async acknowledge=>{
+            const reply=typeof acknowledge==='function'?acknowledge:()=>{};
+            if(!openingPending)return reply({success:adventureOpening.stage(personalProgress)==='awake'});
+            if(players[socket.id]?.currentmap!==adventureOpening.config.bed.map)return reply({success:false});
+            try{
+                await openingRepository.awaken(userId);
+                if(!account.active())return;
+                emitPlayerProgression(await loadProgressState(userId));openingPending=false;reply({success:true});
+            }catch(error){console.error('Réveil Aventure :',error.message);reply({success:false});}
+        });
+        if(openingPending)socket.emit('adventureOpening',{map:currentmap});
         socket.emit('playersList', sameMapPlayers);
         socket.emit('mapWeatherState', getMapWeather(currentmap));
         socket.emit('worldDevicesState',devicesForMap(currentmap));
@@ -1089,6 +1117,12 @@ const socketHandler = (io) => {
             const authorization = pendingDialogue;
             pendingDialogue = null;
 
+            if(authorization.openingMother){
+                try{await openingRepository.finishMother(userId);emitPlayerProgression(await loadProgressState(userId));}
+                catch(error){pendingDialogue=authorization;throw error;}
+                return;
+            }
+
             if(authorization.voidJournal)return;
             if(authorization.voidPardon){
                 await require('../persistence/voidEndingRepository').acknowledgePardon(userId);
@@ -1257,7 +1291,7 @@ const socketHandler = (io) => {
             canUse: () => !interactionBusy && !transitionBusy && !pendingDialogue && !socketToChatSession.has(socket.id)
         });
         account.on('Space', guardInteraction(async () => {
-            if (pendingDialogue?.arenaEntry || pendingDialogue?.lucieDeparture || pendingDialogue?.storyEntry) return;
+            if (openingPending || pendingDialogue?.arenaEntry || pendingDialogue?.lucieDeparture || pendingDialogue?.storyEntry) return;
             const player = players[socket.id];
             if (!player) return;
             if (player.inbattle || player.inventoryBusy) return;
@@ -1425,7 +1459,7 @@ const socketHandler = (io) => {
 
         account.on('playerAction', async (action) => {
             if (getDirectionFromAction(action) && players[socket.id]) fishing.cancel(players[socket.id]);
-            if (!canMove || interactionBusy || transitionBusy || pendingDialogue?.arenaEntry || pendingDialogue?.lucieDeparture || pendingDialogue?.storyEntry) return;
+            if (openingPending || !canMove || interactionBusy || transitionBusy || pendingDialogue?.arenaEntry || pendingDialogue?.lucieDeparture || pendingDialogue?.storyEntry) return;
             const player = players[socket.id];
             if (!player) return;
             if (player.inbattle || player.inventoryBusy) return;

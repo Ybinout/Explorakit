@@ -47,9 +47,10 @@ async function createUserWithStarter(username, password, options = {}) {
     const passwordHash = await bcrypt.hash(credentials.password, 10);
 
     return withTransaction(async (connection) => {
+        const opening = require('../game/world/adventureOpening').config;
         const [userResult] = await connection.execute(
             'INSERT INTO users (username, password_hash, x, y, map, sprite) VALUES (?, ?, ?, ?, ?, ?)',
-            [credentials.username, passwordHash, 80, 208, 'start', sprite]
+            [credentials.username, passwordHash, opening.bed.x, opening.bed.y, opening.bed.map, sprite]
         );
         const userId = userResult.insertId;
         const [teamResult] = await connection.execute(
@@ -70,6 +71,10 @@ async function createUserWithStarter(username, password, options = {}) {
             );
         }
         await ensureInitialProgress(userId, connection);
+        await connection.execute(
+            'INSERT INTO player_story_flags (user_id, flag_key, flag_value) VALUES (?, ?, ?)',
+            [userId, opening.flag, 'sleeping']
+        );
         await markPokemonCaught(userId, starter, connection);
         return { id: userId, username: credentials.username, money: 0 };
     });

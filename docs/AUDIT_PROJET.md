@@ -1,5 +1,16 @@
 # Audit technique et mémoire de RiftMon
 
+## Première Aventure — réveil et appel de maman — 28 octobre 2026
+
+Les nouveaux comptes commencent dans le lit de l’étage (`etage`, 592,336), avec un état personnel `adventure_opening=sleeping`. Premier client compatible : fondu noir 0,5 s, attente de la chambre réellement chargée, pause 0,65 s puis révélation 1,4 s. Réduction des animations : noir fixe. Déplacements/Action bloqués côté serveur et interface inerte pendant le réveil ; acquittement persistant et idempotent. Une interruption reprend la scène, un réveil acquitté ne se rejoue pas. Les anciens clients sans capacité peuvent quitter le lit sans blocage ; comptes existants sans marqueur et modes Rift/Colosseum inchangés.
+
+Première transition réelle `maison → start` : maman interpelle automatiquement le joueur après chargement de la carte. Quatre pages dédiées : départ à la recherche de Lucie, dernière lettre sur l’Aube Obscure, piste de Wayne et demande de nouvelles. Aucun soin de PV/PP, objet, argent ou dialogue `heal` déclenché par cette scène ; les soins ordinaires de maman restent disponibles ensuite. Déplacements bloqués pendant la lecture, validation liée au dialogue réellement envoyé, reprise après déconnexion jusqu’à acquittement. États `awake`, `outside`, puis `complete`, sans migration ni reset de sauvegardes existantes.
+
+Validation : deux tests ciblés dont un parcours SQL/socket complet, puis 17 tests de régression Wanda/fins/miroir réussis. Inscription, lit praticable, réveil interrompu, acquittement répété, vraie sortie, faux dialogue refusé, immobilisation, interruption de lecture, PV/PP inchangés, seconde sortie silencieuse et anciennes sauvegardes/clients couverts. Lint et build `819bbc5bc922488c` réussis. Navigateur : quatre nouveaux comptes jetables, vrais déplacements tactile/clavier du lit vers les escaliers et la sortie, image de chambre retardée de 2,4 s masquée, mouvement réduit, reprise du dialogue, reconnexion sans répétition ; 12 captures, zéro erreur. Lit mobile et dialogue PC inspectés, comptes supprimés. Rapport : `docs/ADVENTURE_OPENING.json`.
+
+Publication serveur/client le 28 octobre 2026 à 09 h 36 (Europe/Paris), client `81914d7029c4ee40488aa0686dd0c70ca8fc7d63`, PID 2549760→2563480. Sauvegarde `/home/ubuntu/dev/backups/riftmon-opening-2026-10-28T08-36-04-001Z`, checkpoint conservé et zéro expédition active relevée. Index/bundles publics vérifiés, anciens assets conservés et Knov/api-test inchangés. Aucune migration ou manipulation manuelle de compte réel.
+
+
 ## Reset admin — badges Pardon et Violence — 28 octobre 2026
 
 Le replay enregistrait bien Pardon dans `admin_void_resolution`, mais l’étui reprenait le badge permanent de la première fin. Projection partagée `endingBadges.effectiveEndingBadges` : pour le propriétaire autorisé en replay, seul le choix courant est obtenu après sa remise ; l’autre est fissuré. Le reset remet les deux à obtenir, sans fissure ni ancienne date. Utilisation identique dans la progression affichée et la validation SQL du secret de Lucie. Pardon reste immédiat après Purification ; Violence demande toujours l’interaction avec le Professeur K.O. Les récompenses/dates permanentes et les joueurs ordinaires restent intacts ; aucune migration ni mutation manuelle de compte réel. Le Pardon déjà enregistré de binout sera reconnu à la reconnexion.
@@ -4520,6 +4531,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 28 octobre 2026 — Nouvelle Aventure : fondu/réveil dans le lit et interpellation unique de maman à la première sortie, sans soin. 19 tests et parcours navigateur quatre formats réussis. Rapport `docs/ADVENTURE_OPENING.json`.
 
 - 28 octobre 2026 — Reset admin : badges Pardon/Violence alignés sur la fin rejouée, choix opposé fissuré et accès au secret cohérent. Récompense permanente conservée ; 49 tests ciblés et navigateur quatre formats validés. Rapport `docs/ADMIN_ENDING_BADGES.json`.
 

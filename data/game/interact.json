@@ -1,5 +1,30 @@
 [
   {
+    "name": "adventure_mother_departure",
+    "sentences": [
+      {
+        "text": "Maman : Attends ! Tu pars chercher Lucie, c’est ça ? Tu comptais filer sans me dire au revoir ?",
+        "imageName": "townspeople.png",
+        "portraitFrame": { "columns": 8, "rows": 4, "index": 31 }
+      },
+      {
+        "text": "Maman : Sa dernière lettre parlait de l’Aube Obscure, un groupe qui protégeait les Pokémon. Elle avait l’air pleine d’espoir… Puis ses lettres ont cessé d’arriver.",
+        "imageName": "townspeople.png",
+        "portraitFrame": { "columns": 8, "rows": 4, "index": 31 }
+      },
+      {
+        "text": "Maman : Va voir Wayne, près de la sortie du village. Il connaît les dresseurs des premières routes ; peut-être qu’il saura par où commencer.",
+        "imageName": "townspeople.png",
+        "portraitFrame": { "columns": 8, "rows": 4, "index": 31 }
+      },
+      {
+        "text": "Maman : Et donne-moi de tes nouvelles, d’accord ? Je vous attends tous les deux à la maison.",
+        "imageName": "townspeople.png",
+        "portraitFrame": { "columns": 8, "rows": 4, "index": 31 }
+      }
+    ]
+  },
+  {
     "name": "dia0",
     "sentences": [
       {
