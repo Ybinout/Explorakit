@@ -24,6 +24,12 @@ function view(progress) {
  return {...progress,flags};
 }
 const rescued=p=>view(p)?.flags?.lucie_rescued==='true';
+function entryDialogue(map,p={}) {
+ const f=view(p)?.flags||{};
+ return map===config.wanda.map&&f.lucie_departure==='seen'&&f.lucie_house_exited==='true'
+  &&f.professor_lead!=='true'&&f.professor_lab_key!=='true'&&f.lucie_rescued!=='true'
+  ?'wanda_professor':null;
+}
 function actors(map,p={}) {
  const flags=view(p)?.flags||{},result=[];
  if(map==='route2'&&flags.lucie_house_exited==='true'&&flags.professor_lab_key!=='true')result.push({name:'wanda_professor',interactionName:'wanda_professor',sprite:'wanda.png',map,x:14,y:7,block:true,blockingWidth:1});
@@ -57,4 +63,4 @@ function interaction(player,progress={}) {
  if(adjacent(player,config.rock)&&f.lab_door_inspected==='true')return {dialogue:f.professor_lab_key==='true'?'professor_lab_rock_empty':'professor_lab_rock',target:config.rock};
  return null;
 }
-module.exports={config,maps,replay,fullReplay,replayFlags,view,rescued,actors,scopedStore,adjacent,interaction};
+module.exports={config,maps,replay,fullReplay,replayFlags,view,rescued,entryDialogue,actors,scopedStore,adjacent,interaction};

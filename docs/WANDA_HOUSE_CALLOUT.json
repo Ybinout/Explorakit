@@ -1,0 +1,129 @@
+{
+  "dateParis": "2026-10-28",
+  "sourceBaseline": "b15fb41901b29164f6af8caaf099b2fe197607a1",
+  "dialogue": "wanda_professor",
+  "sentences": [
+    {
+      "text": "Wanda : Hé ! Attends… Tu as retrouvé Lucie ? Pourquoi tu es sans elle ?",
+      "imageName": "wanda.png"
+    },
+    {
+      "text": "Tu lui racontes le combat, puis le trou noir qui a emporté Lucie.",
+      "narration": true,
+      "imageName": "wanda.png"
+    },
+    {
+      "text": "Wanda : Un trou noir… Le Professeur a vraiment réussi à fabriquer son téléporteur ? Je croyais qu’il avait abandonné…",
+      "imageName": "wanda.png"
+    },
+    {
+      "text": "Wanda : Il voulait reproduire Téléport. À l’Aube Obscure, il parlait souvent de cet Abra qu’il gardait près de ses machines… Le pauvre Abra…",
+      "imageName": "wanda.png"
+    },
+    {
+      "text": "Wanda : Son laboratoire est au village de départ. S’il a emmené Lucie quelque part, c’est là qu’il faut chercher. Ramène-la… s’il te plaît.",
+      "imageName": "wanda.png"
+    }
+  ],
+  "trigger": "Lucie departure seen + actual house exit + Route 2, until professor lead is acknowledged.",
+  "entryQueue": "Existing entryMap queue, after map decoding",
+  "storyFlag": "professor_lead (existing)",
+  "permanentAndPrivateReplayPreserved": true,
+  "otherDialogueEntriesUnchanged": true,
+  "sqlMigration": false,
+  "realAccountsModified": false,
+  "client": {
+    "changed": false,
+    "commit": "c2ba7c60bde0ae638f2794df2208eec7c4c57bde",
+    "build": "044091fdc942b304"
+  },
+  "validation": {
+    "unit": {
+      "pass": 18,
+      "fail": 0,
+      "command": "node --test tests/professor-finale.test.js tests/finale-replay.test.js tests/lucie-departure.test.js tests/interaction-authorization.test.js"
+    },
+    "sql": {
+      "pass": 5,
+      "fail": 0,
+      "includesRepeatedUnit": true,
+      "command": "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RUN_MYSQL_TESTS=1 NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file=.env --test --test-concurrency=1 tests/wanda-callout-socket.test.js tests/professor-finale-mysql.test.js tests/arena-scenes.test.js"
+    },
+    "browser": {
+      "actualHouseExit": true,
+      "automaticWandaWithoutAction": true,
+      "speechAfterMapReady": true,
+      "movementPinned": true,
+      "teleporterReaction": true,
+      "subtleAbraHint": true,
+      "narrationItalic": true,
+      "unfinishedSpeechResumes": true,
+      "completedSpeechDoesNotRepeat": true,
+      "labClueAndKeyStillWork": true,
+      "wandaDisappearsAfterKey": true,
+      "privateAdminReplay": true,
+      "permanentProgressPreserved": true,
+      "otherAccountUnaffected": true,
+      "viewports": 4,
+      "artifacts": [
+        "wanda-calls-320.png",
+        "wanda-calls-393.png",
+        "wanda-calls-844.png",
+        "wanda-calls-1365.png",
+        "player-recounts-393.png",
+        "teleporter-reaction-320.png",
+        "teleporter-reaction-393.png",
+        "teleporter-reaction-844.png",
+        "teleporter-reaction-1365.png",
+        "abra-hint-320.png",
+        "abra-hint-393.png",
+        "abra-hint-844.png",
+        "abra-hint-1365.png",
+        "private-replay-393.png"
+      ],
+      "errors": []
+    },
+    "browserCommand": "node --env-file=.env /tmp/riftmon-wanda-callout-browser.cjs",
+    "testFixturesRemaining": 0,
+    "physicalPhoneTested": false,
+    "syntaxAndWhitespace": "pass"
+  },
+  "deployment": {
+    "publishedAt": "2026-10-28T06:21:48.013Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-wanda-callout-2026-10-28T06-21-46-549Z",
+    "sourceBaseline": "b15fb41901b29164f6af8caaf099b2fe197607a1",
+    "sourceHashes": {
+      "data/game/interact.json": "a07add248e032d19bffe9ace126e43c941b337b48eb1c2c63cd37aa3a941c003",
+      "server/game/world/labStory.js": "934aada4ebe6b6903b0885409f9d55f9dc0a6c14d5db09306da3efefd9e8e002",
+      "server/realtime/socketHandler.js": "b0a541ff34031d00f8943c36ae0754b1b4d8d9d11122b1852f52e3516cef9f69"
+    },
+    "clientCommit": "c2ba7c60bde0ae638f2794df2208eec7c4c57bde",
+    "clientBuild": "044091fdc942b304",
+    "clientUnchanged": true,
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.e95ac044.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.a6837023.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.d17eb514.css"
+    ],
+    "beforePid": "2502866",
+    "afterPid": "2507857",
+    "serverRestarted": true,
+    "checkpointSaved": true,
+    "gracefulCheckpoint": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "sqlMigration": false,
+    "realAccountsModified": false
+  },
+  "postDeployment": {
+    "runtimeHashesMatch": true,
+    "serverErrors": 0,
+    "testFixturesRemaining": 0
+  }
+}

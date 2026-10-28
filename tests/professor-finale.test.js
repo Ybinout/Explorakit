@@ -2,6 +2,16 @@ const test=require('node:test'),assert=require('node:assert/strict'),fs=require(
 const story=require('../server/game/world/labStory'),departure=require('../server/game/world/lucieDeparture');
 const base=require('../server/game/world/pnjStore'),maps=require('../server/game/world/mapRepository');
 const room=require('../server/game/world/roomObstacles'),dialogues=require('../server/game/world/interactionRepository');
+test('Wanda calls out only after Lucie vanishes and the player exits, including private replays',()=>{
+ const ready={flags:{lucie_departure:'seen',lucie_house_exited:'true'}};
+ assert.equal(story.entryDialogue('route2',ready),'wanda_professor');
+ for(const map of ['route2_maison','start','professor_lab'])assert.equal(story.entryDialogue(map,ready),null);
+ for(const patch of [{lucie_departure:'pending'},{lucie_house_exited:'false'},{professor_lead:'true'},{professor_lab_key:'true'},{lucie_rescued:'true'}])assert.equal(story.entryDialogue('route2',{flags:{...ready.flags,...patch}}),null);
+ assert.equal(story.entryDialogue('route2',{}),null);
+ const replay={flags:{...ready.flags,professor_lead:'true',professor_lab_key:'true',lucie_rescued:'true',admin_finale_replay:'full',admin_lucie_departure:'seen',admin_professor_departure:'armed',admin_lucie_house_exited:'true',admin_professor_lead:'false',admin_professor_lab_key:'false',admin_lab_rescued:'false'}};
+ const before=JSON.stringify(replay);assert.equal(story.entryDialogue('route2',replay),'wanda_professor');assert.equal(JSON.stringify(replay),before);
+ replay.flags.admin_professor_lead='true';assert.equal(story.entryDialogue('route2',replay),null);
+});
 test('Wanda, captive Lucie and healthy Lucie are personal and follow the actual quest stages',()=>{
  let p={flags:{}},leaving=false;
  const own=departure.scopedStore(story.scopedStore(base,()=>p),()=>p,()=>leaving);

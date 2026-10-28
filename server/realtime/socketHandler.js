@@ -508,6 +508,13 @@ const socketHandler = (io) => {
                 pendingDialogue={...createDialogueAuthorization({name,map:player.currentmap,x:Math.floor(player.x/32),y:Math.floor(player.y/32)}),lucieDeparture:true};
                 socket.emit('dialogue',[...sentence,{entryMap:player.currentmap}]);return;
             }
+            const storyEntry = labStory.entryDialogue(player.currentmap, progression || personalProgress);
+            if (storyEntry) {
+                const sentence = getSentenceForName(storyEntry, progression || personalProgress);
+                pendingDialogue = {...createDialogueAuthorization({name:storyEntry,map:player.currentmap,x:Math.floor(player.x/32),y:Math.floor(player.y/32)}),storyEntry:true};
+                socket.emit('dialogue', [...sentence, {entryMap:player.currentmap}]);
+                return;
+            }
             if(player.currentmap===voidEnding.config.map){
                 const map=player.currentmap,progress=progression||await loadProgressState(userId);
                 if(!socket.connected||players[socket.id]!==player||player.currentmap!==map||player.inbattle||pendingDialogue)return;
@@ -1065,9 +1072,10 @@ const socketHandler = (io) => {
 
             const dialogueName = typeof data === 'string' ? data : '';
             const playerTile = getPlayerTilePosition(player);
-            // This entry speech is read-only: a long listening pause must not leave it locked by the reward-dialogue TTL.
-            const readOnlyEntry = (pendingDialogue?.name === 'lucie_room_entry' || pendingDialogue?.arenaEntry || pendingDialogue?.lucieDeparture) && dialogueName === pendingDialogue.name && player.currentmap === pendingDialogue.map;
-            const dialogueIsValid = readOnlyEntry || isDialogueCompletionAllowed(pendingDialogue, {
+            // Entry speeches pin the player: allow time to read, even beyond
+            // the ordinary dialogue TTL. Story rewards still verify SQL progress.
+            const pinnedEntry = (pendingDialogue?.name === 'lucie_room_entry' || pendingDialogue?.arenaEntry || pendingDialogue?.lucieDeparture || pendingDialogue?.storyEntry) && dialogueName === pendingDialogue.name && player.currentmap === pendingDialogue.map;
+            const dialogueIsValid = pinnedEntry || isDialogueCompletionAllowed(pendingDialogue, {
                 name: dialogueName,
                 map: player.currentmap,
                 playerX: playerTile.x,
@@ -1245,7 +1253,7 @@ const socketHandler = (io) => {
         account.on('onEndDialogue', guardInteraction(finishDialogue));
 
         account.on('Space', guardInteraction(async () => {
-            if (pendingDialogue?.arenaEntry || pendingDialogue?.lucieDeparture) return;
+            if (pendingDialogue?.arenaEntry || pendingDialogue?.lucieDeparture || pendingDialogue?.storyEntry) return;
             const player = players[socket.id];
             if (!player) return;
             if (player.inbattle || player.inventoryBusy) return;
@@ -1413,7 +1421,7 @@ const socketHandler = (io) => {
 
         account.on('playerAction', async (action) => {
             if (getDirectionFromAction(action) && players[socket.id]) fishing.cancel(players[socket.id]);
-            if (!canMove || interactionBusy || transitionBusy || pendingDialogue?.arenaEntry || pendingDialogue?.lucieDeparture) return;
+            if (!canMove || interactionBusy || transitionBusy || pendingDialogue?.arenaEntry || pendingDialogue?.lucieDeparture || pendingDialogue?.storyEntry) return;
             const player = players[socket.id];
             if (!player) return;
             if (player.inbattle || player.inventoryBusy) return;

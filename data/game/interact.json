@@ -2364,15 +2364,24 @@
     "name": "wanda_professor",
     "sentences": [
       {
-        "text": "Wanda : Quoi ?! Un trou noir ?! Alors… ça ne peut être que lui. Le Professeur.",
+        "text": "Wanda : Hé ! Attends… Tu as retrouvé Lucie ? Pourquoi tu es sans elle ?",
         "imageName": "wanda.png"
       },
       {
-        "text": "Wanda : À l’Aube Obscure, il parlait de « mettre les sujets à l’abri ». Je n’avais pas compris ce que cela voulait dire.",
+        "text": "Tu lui racontes le combat, puis le trou noir qui a emporté Lucie.",
+        "narration": true,
         "imageName": "wanda.png"
       },
       {
-        "text": "Wanda : Son laboratoire est au village du départ. Va voir s’il y est. Et… ramène Lucie, je t’en prie.",
+        "text": "Wanda : Un trou noir… Le Professeur a vraiment réussi à fabriquer son téléporteur ? Je croyais qu’il avait abandonné…",
+        "imageName": "wanda.png"
+      },
+      {
+        "text": "Wanda : Il voulait reproduire Téléport. À l’Aube Obscure, il parlait souvent de cet Abra qu’il gardait près de ses machines… Le pauvre Abra…",
+        "imageName": "wanda.png"
+      },
+      {
+        "text": "Wanda : Son laboratoire est au village de départ. S’il a emmené Lucie quelque part, c’est là qu’il faut chercher. Ramène-la… s’il te plaît.",
         "imageName": "wanda.png"
       }
     ],

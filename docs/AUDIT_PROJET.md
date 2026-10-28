@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Wanda — interpellation à la sortie de la maison de Lucie — 28 octobre 2026
+
+Après la disparition de Lucie et la première vraie sortie sur la Route 2, Wanda interpelle automatiquement le joueur. Cinq courtes pages : elle demande où est Lucie, le joueur raconte sa disparition (narrateur en italique), Wanda s’étonne que le Professeur ait fabriqué son téléporteur, évoque Téléport et l’Abra près de ses machines (« Le pauvre Abra… »), puis oriente vers le laboratoire. Allusion sans affirmer le sort d’Abra ni révéler la clé ou la charge du téléporteur secret. Métadonnées, autres dialogues, portraits et événements de progression conservés.
+
+La scène utilise la file `entryMap` existante et attend le décor chargé. Déplacements et nouvelle interaction bloqués pendant la lecture ; validation liée au dialogue émis et à sa carte, encore possible après une longue pause. Le vrai événement `wanda_professor` attribue toujours `professor_lead` via les contrôles SQL existants. Conversation reprise après interruption, absente une fois acquittée, jamais avant la disparition/sortie ni après la conclusion. Projection privée du replay admin conservée ; Wanda disparaît toujours après la clé. Aucun nouveau flag, schéma, artwork ou calcul par image ; client inchangé.
+
+Validation : 18 tests ciblés et cinq tests SQL/socket réussis (dont la vérification unitaire des accueils répétée dans le lot SQL). Sortie réelle, déclenchement sans Action, immobilisation, faux acquittements, lecture au-delà du TTL, reconnexion, isolation et reset admin couverts. Navigateur compilé : quatorze captures sur quatre formats, réaction au téléporteur, allusion à Abra et italique, reprise, lecture complète, indices/clé du labo, disparition de Wanda et replay privé ; zéro erreur, aperçus PC/mobile inspectés. Catalogue comparé intégralement : seules les cinq répliques de `wanda_professor` changent. Recette longue finale adaptée au déclenchement automatique ; parcours navigateur ciblé exécuté ici. Aucun compte réel manipulé, aucune migration ou nouveau build. Rapport : `docs/WANDA_HOUSE_CALLOUT.json`.
+
+Publication serveur seule le 28 octobre 2026 à 07 h 21 (Europe/Paris), PID 2502866→2507857. Sauvegarde `/home/ubuntu/dev/backups/riftmon-wanda-callout-2026-10-28T06-21-46-549Z`, checkpoint conservé et zéro expédition active relevée. Client/build `044091fdc942b304`, index/bundles et Knov/api-test inchangés ; empreintes runtime vérifiées et zéro erreur serveur. Aucun compte de recette restant, aucune migration ou manipulation manuelle de compte réel.
+
 ## Abra — rencontre garantie en Aventure sur la Route 2 — 28 octobre 2026
 
 Abra (63) appartient uniquement au pool sauvage de la Route 2, niveaux 11–15. Lors d’une vraie rencontre dans ses herbes, le premier tirage ordinaire devient Abra si le Pokédex SQL personnel ne le compte ni vu ni capturé. Le niveau déjà tiré est conservé ; PV, IV, nature, K, talent, PP et attaques naturelles viennent du constructeur habituel. Après l’avoir vu, les tirages ordinaires reprennent, y compris les chances naturelles de revoir Abra. Valable aussi pour les anciens comptes ; aucun drapeau ajouté, remise à zéro ou migration.
@@ -4447,6 +4457,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 28 octobre 2026 — Wanda interpelle automatiquement le joueur après la disparition de Lucie, évoque le téléporteur et l’Abra du Professeur, puis le laboratoire. Lecture, reprise et replay privés protégés ; tests, SQL/socket et navigateur quatre formats validés. Rapport `docs/WANDA_HOUSE_CALLOUT.json`.
 
 - 28 octobre 2026 — Abra garanti sur la première rencontre ordinaire de la Route 2 pour les joueurs qui ne l’ont jamais vu. Niveau de zone, Repousse, légendaires, autres modes et Pokédex existant conservés ; tests, SQL/socket et navigateur quatre formats validés. Rapport `docs/ABRA_GUARANTEED_ENCOUNTER.json`.
 
