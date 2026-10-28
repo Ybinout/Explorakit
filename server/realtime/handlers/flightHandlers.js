@@ -12,7 +12,7 @@ function registerFlightHandlers({socket,userId,getPlayer,canUse,setBusy,travel,l
         busy=true;setBusy(true);player.inventoryBusy=true;
         try{
             const state=await loadState(userId);
-            if(!state.unlocked)return reply({success:false,message:'Wanda te confiera le module Vol après ta victoire.'});
+            if(!state.unlocked)return reply({success:false,message:'Raphael te confiera le module Vol après ta victoire.'});
             if(!state.visited.includes(target.map))return reply({success:false,message:'Tu dois d’abord visiter cette ville.'});
             if(getPlayer()!==player||!socket.connected||player.inbattle)return;
             await travel(target,player);lastFlight=now();

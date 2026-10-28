@@ -341,6 +341,8 @@ const socketHandler = (io) => {
             centerReturnPoint: savedPosition?.centerReturnPoint || null,
             inbattle: false
         };
+        await require('./handlers/socialHandlers').registerSocialHandlers({io,socket,getLocation:()=>{const p=players[socket.id];return p?{map:p.currentmap,centerReturnPoint:p.centerReturnPoint,mode:'adventure'}:null;}});
+
 
         const fishing = require('../game/world/fishingController').createFishingController({
             ownsRod: async () => (await require('../persistence/itemRepository').loadUserItems(userId)).some(i => i.key === 'fishing_rod' && i.quantity > 0),

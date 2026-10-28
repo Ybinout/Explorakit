@@ -176,7 +176,11 @@
           "bloom_badge"
         ],
         "flags": {
-          "raphael_defeated": "true"
+          "raphael_defeated": "true",
+          "fly_module_received": "true"
+        },
+        "items": {
+          "fly_module": 1
         }
       },
       "experienceKind": "arena"
@@ -210,11 +214,7 @@
           "tide_badge"
         ],
         "flags": {
-          "wanda_defeated": "true",
-          "fly_module_received": "true"
-        },
-        "items": {
-          "fly_module": 1
+          "wanda_defeated": "true"
         }
       },
       "experienceKind": "arena"

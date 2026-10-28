@@ -1,0 +1,267 @@
+{
+  "date": "2026-10-28",
+  "features": {
+    "pokemonNavigation": "Top sticky previous/next shared with PC",
+    "flight": {
+      "champion": "Raphael",
+      "existingDialoguePreserved": true,
+      "retroactiveSources": [
+        "badge",
+        "battle receipt",
+        "story flag",
+        "later champion evidence"
+      ],
+      "quantity": 1,
+      "visitedDestinationsOnly": true
+    },
+    "heldItems": {
+      "fromBag": true,
+      "searchablePicker": true,
+      "filters": [
+        "all",
+        "strategy",
+        "berries"
+      ],
+      "replacedItemReturned": true,
+      "existingServerRulesPreserved": true,
+      "inventoriesSeparate": true
+    },
+    "friends": {
+      "existingFriendshipsReused": true,
+      "nearbyRequest": true,
+      "search": true,
+      "presenceInGame": true,
+      "directMessagesPersistent": true,
+      "historyPageSize": 40,
+      "textLimit": 500,
+      "retryIdempotency": true,
+      "unreadReadCursors": true,
+      "acceptedFriendsOnly": true
+    },
+    "groups": {
+      "limit": 6,
+      "explicitInvitationAcceptance": true,
+      "invitationLifetimeSeconds": 90,
+      "reconnectGraceSeconds": 120,
+      "temporaryAcrossServerRestart": true,
+      "groupChatInMemoryLimit": 100,
+      "locations": "Regional node and mode, group members only; offline members hidden",
+      "crossNamespace": true
+    }
+  },
+  "performance": {
+    "presenceTickMs": 1000,
+    "periodicSqlQueries": false,
+    "unchangedStatesRepublished": false,
+    "indexedMessageQueries": true,
+    "serializedUnreadRefresh": true
+  },
+  "validation": {
+    "unitTests": 47,
+    "mysqlAndSocketTests": 10,
+    "failures": 0,
+    "skipped": 0,
+    "browser": {
+      "browser-final": {
+        "nearbyFriendRequest": true,
+        "searchByTrainerName": true,
+        "heldCategoryFilters": true,
+        "acceptanceAndPresence": true,
+        "offlineMessagesPersist": true,
+        "twoWayChat": true,
+        "privateHistoryRejected": true,
+        "noMessagesForThirdAccount": true,
+        "messageTextEscaped": true,
+        "groupInvitationRequiresConsent": true,
+        "groupMessages": true,
+        "groupLocationsAndRealFlight": true,
+        "leavingRemovesMarker": true,
+        "crossNamespaceSocial": true,
+        "heldItemsFromBagAndSearchablePicker": true,
+        "previousItemReturned": true,
+        "adventureInventoryIsolatedFromExpedition": true,
+        "pokemonNavigationAtTop": true,
+        "legacyRaphaelFlight": true,
+        "viewports": 4,
+        "themes": 2,
+        "errors": [],
+        "output": "/tmp/riftmon-social-browser"
+      },
+      "pc-browser": {
+        "opening": {
+          "coldAssetsMasked": true,
+          "decodedBeforeReveal": true,
+          "closeAndFocus": true,
+          "cachedReopening": true,
+          "escapeCancels": true,
+          "boundedTimeout": true,
+          "reducedMotion": true,
+          "hiddenTabCancelsAndResumes": true,
+          "desktopAndMobile": true
+        },
+        "drag": {
+          "mouse": true,
+          "touch": true,
+          "exactSlots": true,
+          "exchanges": true,
+          "partyOrder": true,
+          "cancel": true,
+          "crossBoxWhileDragging": true,
+          "autoScroll": true,
+          "tapStillSelects": true,
+          "restored": true
+        },
+        "privateDrag": {
+          "mouse": false,
+          "touch": true,
+          "exactSlots": true,
+          "exchanges": false,
+          "partyOrder": false,
+          "cancel": false,
+          "crossBoxWhileDragging": true,
+          "autoScroll": false,
+          "tapStillSelects": true,
+          "restored": true
+        },
+        "allSixPartySlotsWithoutHorizontalScroll": true,
+        "portraitPotentialAndHeldItem": true,
+        "nearbyActionOpens": true,
+        "remoteAccessRejected": true,
+        "slots": 30,
+        "boxes": 8,
+        "swap": true,
+        "deposit": true,
+        "withdrawWithoutHealing": true,
+        "releaseConfirmedAndItemReturned": true,
+        "reconnect": true,
+        "colosseumBoxesIndependent": true,
+        "tournamentPcDenied": true,
+        "detailsForTeamAndBox": true,
+        "detailsForColosseum": true,
+        "normalTeamSheetPreserved": true,
+        "keyboard": true,
+        "viewports": 4,
+        "themeModes": 2,
+        "errors": [],
+        "output": "/tmp/riftmon-social-pc-browser"
+      },
+      "training-browser": {
+        "progressionAndSpoofRefused": true,
+        "snowSpecialty": true,
+        "trainingItems": 19,
+        "realPurchasesAndSqlReceipts": true,
+        "bulkOnlyUseful": true,
+        "ivRerollMayDecrease": true,
+        "visibleTrainingResults": true,
+        "highIvConfirmationAndCancellation": true,
+        "staleIvReconfirmation": true,
+        "serverEnforcesConfirmationInBothPaths": true,
+        "evResetAndPersistence": true,
+        "keyboardAndFocus": true,
+        "viewports": 4,
+        "themes": 2,
+        "expeditionMerchantAndTraining": true,
+        "errors": [],
+        "output": "/tmp/riftmon-social-training-browser"
+      }
+    },
+    "viewports": [
+      [
+        320,
+        480
+      ],
+      [
+        393,
+        852
+      ],
+      [
+        844,
+        390
+      ],
+      [
+        1365,
+        900
+      ]
+    ],
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "lint": true,
+    "build": "538a0985c0c7e76c",
+    "qaBuild": "b7b362d35cb2ca35",
+    "dialogueStructuredDiff": true,
+    "physicalPhone": false,
+    "loadTest": false,
+    "globalSuite": false,
+    "fixtureUpdates": [
+      "Public spritePalette field already existed; added to friend DTO test allowlist",
+      "PC detail recipe now navigates using the new top buttons"
+    ],
+    "commands": [
+      "node --test tests/flight-travel.test.js tests/social-groups.test.js tests/shop-training.test.js tests/pokemon-storage.test.js tests/department-store.test.js",
+      "RUN_MYSQL_TESTS=1 DB_TEST_NAME=explorakit_test DB_NAME=explorakit_test NODE_ENV=test node --env-file=.env --test --test-concurrency=1 tests/social-messages-mysql.test.js tests/flight-mysql.test.js tests/trainers-mysql.test.js",
+      "RUN_MYSQL_TESTS=1 DB_TEST_NAME=explorakit_test DB_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file=.env --test --test-concurrency=1 tests/account-connection-socket.test.js tests/pokemon-storage-mysql.test.js",
+      "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-social-dist node --env-file=.env scripts/validateSocialGameBrowser.js",
+      "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-social-qa-dist node --env-file=.env scripts/validatePokemonComputerBrowser.js",
+      "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-social-qa-dist node --env-file=.env scripts/validateShopTrainingBrowser.js",
+      "npm --prefix vue-explorakit run lint",
+      "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-social-dist"
+    ]
+  },
+  "deployment": {
+    "publishedAt": "2026-10-28T20:19:07.733Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-social-2026-10-28T20-19-04-547Z",
+    "sourceBaseline": "dd0bffc22be462256a7fea2473f5fe3758cc2b59",
+    "sourceHashes": {
+      "data/game/interact.json": "0ab1b6d8f1d9e82a1d18482b047bafcea4bd8c6249c547d7df5b32f3669be4e4",
+      "data/game/items.json": "2fee2041cd00239cff6c4efa0b3f8a285d5efe0cc87bf96e23fa0ef247778baa",
+      "data/game/progression.json": "210a3e1e2058d45a7360f332cc517b0e37a6cb34e11f463e59b71b45786e9a0d",
+      "database/schema.sql": "e0fca75063214ec22c1f34e9d7a20d03ea3840f4a96ea7bc7e1c0578b8ddf6b1",
+      "server/http/trainerRoutes.js": "62aafcabb554ee5d97c51678efbf4f7052378e6de82d969180e07b9cbdfa0112",
+      "server/persistence/flightRepository.js": "4da95f4112d74f1a8665f7ddd85651f388460a2b1769c794cee7af7c2f5a66f4",
+      "server/persistence/trainerRepository.js": "0fdfa933a0b66a956837a84b6b5052ac1bd7f28f54016c7f6f908f956be62b4c",
+      "server/realtime/driftLobbyHandler.js": "3f6d9fcad75a74398d7925c68fcb369c0bb540cc30055f09327a75292c8acfaf",
+      "server/realtime/handlers/flightHandlers.js": "ff131e7c77d3bace26e5afe362425ac6485c49d511b26e7f908cfa76daaaaf96",
+      "server/realtime/socketHandler.js": "781fee1f26280b714014ffa537fb3efc63eec002e916e962fb52af653008c47f",
+      "database/migrations/022_social_messages.sql": "5ca5b3b906d34fdf76edd93188639254ecbea6cf2c315a58eac0cbfb63d5ce01",
+      "server/persistence/socialMessageRepository.js": "570281cbff31f7898b79d1db824dc2e0626ce0bd3cd195bd32ec5f568b7f3d98",
+      "server/realtime/handlers/socialHandlers.js": "d6a5cfdbe6c766ee05dca2793ab24ab3b3d8c6235fe9757765c90f830d9d60de",
+      "server/realtime/socialHub.js": "c14052fd7ee47a2f693253457fdd2dcec0685e3d0f53c048ef95a1d0e0dac67e"
+    },
+    "clientCommit": "085deda5ab36092cd7b28c3ce122cf707d46290f",
+    "clientBuild": "538a0985c0c7e76c",
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.e25d1ef8.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.441f3938.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.bbaf0ca9.css"
+    ],
+    "beforePid": "2836641",
+    "afterPid": "2851707",
+    "serverRestarted": true,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "sqlMigration": {
+      "migration": "022_social_messages.sql",
+      "additiveOnly": true,
+      "backupBytes": 921015,
+      "backupGzipBytes": 133380,
+      "verified": true
+    },
+    "realAccountsManuallyModified": false,
+    "hashedAssetsRetained": true
+  },
+  "postDeployment": {
+    "unauthenticatedFriendEndpoint": 401,
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsObserved": 0
+  }
+}

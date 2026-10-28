@@ -23,7 +23,8 @@ const migrationFiles = [
     '018_repel_steps.sql',
     '019_pokemon_storage.sql',
     '020_unique_item_discoveries.sql',
-    '021_trainer_palette.sql'
+    '021_trainer_palette.sql',
+    '022_social_messages.sql'
 ];
 
 async function applyMigrations() {

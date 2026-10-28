@@ -52,7 +52,7 @@ test('friend SQL/HTTP: reciprocal requests require consent, authorization, remov
         assert.equal((await trainers.friends(c.id)).accepted.length,0);
         assert.equal((await http(a,path,'POST',{action:'cancel'})).status,403);
         const profile=await http(a,'/community/profiles/'+b.id);assert.equal(profile.status,200);assert.equal(profile.headers.get('cache-control'),'no-store');assert.equal(profile.data.relationship,'friends');
-        assert.deepEqual(Object.keys(profile.data).sort(),['colosseum','frame','id','relationship','rift','sprite','title','username']);
+        assert.deepEqual(Object.keys(profile.data).sort(),['colosseum','frame','id','relationship','rift','sprite','spritePalette','title','username']);
         assert(!JSON.stringify(profile.data).includes('private'));assert(!('coins' in profile.data.rift));
         assert.equal((await http(a,'/community/profiles/1abc')).status,400);
         const search=await http(a,'/community/search?q='+encodeURIComponent(f.prefix));assert.equal(search.data.entries.length,4);

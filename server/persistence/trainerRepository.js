@@ -97,4 +97,4 @@ async function leaderboard(viewer) {
     return { entries:entries.filter(p=>p.position<=50),personal:entries.find(p=>p.id===viewer)||null,
         rules:{initialRating:INITIAL_RATING,eloThresholds,colosseumThresholds} };
 }
-module.exports={profile,search,friends,friendAction,leaderboard,publicTrainer};
+module.exports={profile,search,friends,friendAction,leaderboard,publicTrainer,relationship};

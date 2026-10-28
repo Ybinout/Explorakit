@@ -14,6 +14,6 @@ router.use(rateLimit({limit:90}));
 router.get('/profiles/:id',route(req=>repository.profile(req.user.id,req.params.id)));
 router.get('/search',route(req=>repository.search(req.user.id,req.query.q,req.query.offset===undefined?0:Number(req.query.offset))));
 router.get('/friends',route(req=>repository.friends(req.user.id)));
-router.post('/friends/:id',rateLimit({limit:20}),route(req=>repository.friendAction(req.user.id,req.params.id,req.body?.action)));
+router.post('/friends/:id',rateLimit({limit:20}),route(async req=>{const result=await repository.friendAction(req.user.id,req.params.id,req.body?.action);await require('../realtime/socialHub').notifyFriendsChanged(req.user.id,Number(req.params.id));return result;}));
 router.get('/leaderboard',route(req=>repository.leaderboard(req.user.id)));
 module.exports=router;

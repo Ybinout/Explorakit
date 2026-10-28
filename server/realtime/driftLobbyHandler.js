@@ -57,11 +57,13 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
     const runtimeTimer = setInterval(() => runtime.tick(), 250);
     runtimeTimer.unref();
     timer.unref();
-    namespace.on('connection', exclusiveAccountConnection((socket, account) => {
+    namespace.on('connection', exclusiveAccountConnection(async (socket, account) => {
         limitSocket(socket);
         require('./worldClock').registerWorldClock(socket);
         const user = socket.data.user;
         store.connect(user, socket.id);
+        await require('./handlers/socialHandlers').registerSocialHandlers({io,socket,getLocation:()=>{const p=runtime.playerFor(user);return p?{map:p.currentmap,centerReturnPoint:p.centerReturnPoint,mode:p.run.mode}:null;}});
+
         socket.emit('drift:bootstrap', { capacities: CAPACITIES, durations: DURATIONS, catalogue, launchAvailable: true });
         publish();
         let windowStart = Date.now(), requests = 0;

@@ -22,8 +22,8 @@ async function validateComputerDetails(page,output,expected,{source='box',fullCa
   }
   await page.evaluate(()=>document.documentElement.setAttribute('data-game-theme-mode','light'));await page.setViewportSize({width:393,height:852});
  }
- const next=page.locator('.companion-footer button').last();if(await next.isEnabled()){
-  const previousTitle=await page.locator('.companion-heading h2').innerText();await next.click();assert.notEqual(await page.locator('.companion-heading h2').innerText(),previousTitle);assert.equal(await page.locator('#companion-tab-ev').getAttribute('aria-selected'),'true');await page.locator('.companion-footer button').first().click();assert.equal(await page.locator('.companion-heading h2').innerText(),previousTitle);
+ const next=page.locator('[data-companion-next]');if(await next.isEnabled()){
+  const previousTitle=await page.locator('.companion-heading h2').innerText();await next.click();assert.notEqual(await page.locator('.companion-heading h2').innerText(),previousTitle);assert.equal(await page.locator('#companion-tab-ev').getAttribute('aria-selected'),'true');await page.locator('[data-companion-previous]').click();assert.equal(await page.locator('.companion-heading h2').innerText(),previousTitle);
  }
  await page.locator('.companion-close').focus();await page.keyboard.press('Shift+Tab');assert(await page.locator('.companion-sheet').evaluate(n=>n.contains(document.activeElement)));await page.keyboard.press('Escape');await page.locator('.companion-sheet').waitFor({state:'hidden'});assert(await page.locator('.pc-terminal').isVisible());assert(await page.locator('[data-pc-details]').evaluate(n=>n===document.activeElement));
  assert.deepEqual(await page.evaluate(()=>({count:window.pcVm.pc.state.count,team:window.pcVm.pc.state.team.map(p=>p.uuid),entries:window.pcVm.pc.state.entries.map(e=>e.pokemon.uuid)})),before);

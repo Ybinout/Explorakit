@@ -19,8 +19,13 @@ test('legacy Wanda victories grant exactly one module and reconstruct only prove
  await f.recordTownVisit(a,'tour_etage1');await f.recordTownVisit(a,'tour_etage1');assert((await f.loadFlightState(a)).visited.includes('ville_commerciale'));assert(!(await f.loadFlightState(b)).visited.includes('ville_commerciale'));
  await f.recordTownVisit(a,'centre',{map:'ville3',x:752,y:240});assert((await f.loadFlightState(a)).visited.includes('ville3'));
 });
-test('new Wanda victory grants module atomically; reconnect and repeated wins never duplicate it',{skip:!enabled},async()=>{
- const id=await user();await flag(id,'ana_defeated');assert(!(await progress.loadProgressState(id)).flight.unlocked);
- const r=await progress.completeNpcBattle(id,'champion_wanda');assert(r.granted);assert(r.progress.flight.unlocked);assert.equal(await quantity(id),1);
- const again=await progress.completeNpcBattle(id,'champion_wanda');assert(!again.granted);await progress.loadProgressState(id);assert.equal(await quantity(id),1);
+test('new Raphael victory grants module atomically; reconnect and repeated wins never duplicate it',{skip:!enabled},async()=>{
+ const id=await user();await flag(id,'hoze_defeated');assert(!(await progress.loadProgressState(id)).flight.unlocked);
+ const r=await progress.completeNpcBattle(id,'champion_raphael');assert(r.granted);assert(r.progress.flight.unlocked);assert.equal(await quantity(id),1);
+ const again=await progress.completeNpcBattle(id,'champion_raphael');assert(!again.granted);await progress.loadProgressState(id);assert.equal(await quantity(id),1);
+});
+
+test('legacy Raphael badge, battle or flag qualifies independently; earlier badges never grant flight',{skip:!enabled},async()=>{
+ for(const source of ['flag','battle','badge']){const id=await user();if(source==='flag')await flag(id,'raphael_defeated');if(source==='battle')await dbPool.execute("INSERT INTO user_npc_battles(user_id,battle_key,dialogue_name,reward_json) VALUES(?,'story_champion_raphael','champion_raphael','{}')",[id]);if(source==='badge')await dbPool.execute("INSERT INTO player_badges(user_id,badge_key) VALUES(?,'bloom_badge')",[id]);await Promise.all([f.reconcileFlightProgress(id),f.reconcileFlightProgress(id)]);assert.equal(await quantity(id),1);assert((await f.loadFlightState(id)).visited.includes('gen_ville5'));}
+ const id=await user();await flag(id,'hoze_defeated');await f.reconcileFlightProgress(id);assert.equal(await quantity(id),0);
 });

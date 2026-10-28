@@ -15,7 +15,7 @@ async function reconcileFlightProgress(userId){
             if(flags[VISIT_PREFIX+town]==='true')continue;
             await connection.execute("INSERT IGNORE INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,?,'true')",[userId,VISIT_PREFIX+town]);
         }
-        if(flags.fly_module_received==='true'||!(flags.wanda_defeated==='true'||won.has('story_champion_wanda')||earned.has('tide_badge')))return false;
+        if(flags.fly_module_received==='true'||!victories.slice(2).some(([flag,battle,,badge])=>flags[flag]==='true'||won.has(battle)||earned.has(badge)))return false;
         await connection.execute("INSERT INTO user_items(user_id,item_key,quantity) VALUES(?,'fly_module',1) ON DUPLICATE KEY UPDATE quantity=GREATEST(quantity,1)",[userId]);
         await connection.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,'fly_module_received','true') ON DUPLICATE KEY UPDATE flag_value='true'",[userId]);
         return true;
