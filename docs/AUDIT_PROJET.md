@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Faille de Lucie — interaction sur toute la bordure — 28 octobre 2026
+
+La proximité était mesurée à deux cases du seul centre, alors que le trou solide en occupe onze : certains côtés/coins restaient hors portée, et après apparition du reflet seul son emplacement au sud permettait le duel. `mirrorRift` partage désormais le calcul exact de l’empreinte entre la collision et l’interaction. Action A/Espace répond depuis toutes les cases adjacentes, coins compris, devant, derrière et de côté, sans contrainte d’orientation. La même bordure permet d’invoquer le reflet au stade `open`, puis de le défier au stade `clone` ; l’interaction directe près du reflet reste disponible.
+
+Le trou ne devient pas traversable : ses cases intérieures sont exclues de la nouvelle zone d’action, et son empreinte de collision reste identique. Le meuble déclencheur, les badges requis, le lieu, les états terminés, les animations, le duel, la fin/réveil et le replay admin privé conservent leurs règles. Aucune nouvelle entrée réseau, carte, image, donnée de joueur ou interface modifiée. Aucun besoin de reset pour profiter du correctif.
+
+Validation : douze tests unitaires et huit SQL/socket réussis sans saut, dont deux nouveaux cas. Tour complet des cases libres de bordure, refus au loin/dans le trou/sans badge/dans un autre lieu ou état terminé. Validation transactionnelle à l’arrière et des deux côtés avec deux demandes simultanées : une seule apparition, propriétaire vérifié ; véritable duel victorieux lancé de derrière (12,8). Huit refus de l’ancien module reproduits en mémoire, tous autorisés après correctif. Recette navigateur complète sur comptes jetables supprimés : marche réelle derrière la faille, Action, apparition, reconnexion et duel depuis la même position, fermeture, fin et réveil au lit, trou toujours solide, isolation par joueur et reset admin/clavier PC. Quatre formats tactiles/PC, zéro erreur navigateur ; captures représentatives derrière la faille et en duel inspectées. Syntaxe/diff valides ; pas de nouveau build client, téléphone physique ou suite globale revendiqués. Rapport : `docs/MIRROR_RIFT_INTERACTION_PERIMETER.json`.
+
+Publication serveur seule le 28 octobre 2026 à 23 h 32 (Europe/Paris), PID 2886718→2909886. Sauvegarde `/home/ubuntu/dev/backups/riftmon-rift-perimeter-2026-10-28T22-31-59-990Z`, checkpoint conservé et zéro expédition active relevée. Client `9ef1ee450e00d8282414aab494d1e7198bdbefbd`, build `43f71feecc148c95` et bundles publics inchangés à l’octet ; Knov/api-test inchangés. Service actif, zéro redémarrage automatique et aucun avertissement relevé. Aucune migration SQL ou modification manuelle de compte réel.
+
 ## Pilule Nature — 28 octobre 2026
 
 Nouvelle `nature_capsule`, Pilule Nature à 800 ₽ dans les mêmes boutiques que la Pilule Talent : comptoirs ordinaires après Hoze et étage Entraînement du Grand Comptoir, filtre/poche Natures/Entraînement. Fournitures et stocks séparés en expédition. La description annonce un tirage uniforme parmi les 25 natures, y compris la nature actuelle ; un résultat identique consomme aussi une pilule et est explicitement annoncé. Usage individuel hors combat sur un compagnon apte, sans tirage/dépense pour un Œuf, un K.O., une quantité incorrecte ou un stock vide. Aucun ancien objet/prix modifié, aucun butin ajouté.
@@ -4757,6 +4767,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 28 octobre 2026 — Faille de Lucie utilisable depuis toute sa bordure, derrière/côtés/coins compris, pour l’apparition et le duel. Vingt tests ciblés et recette complète navigateur réussis ; collision, sauvegarde et reset privé conservés. Rapport `docs/MIRROR_RIFT_INTERACTION_PERIMETER.json`.
 
 - 28 octobre 2026 — Pilule Nature à 800 ₽ : 25 natures équiprobables, statistiques immédiatement recalculées, résultat identique possible et annoncé, sauvegarde/PC/checkpoint conservés. 33 tests ciblés et deux recettes navigateur réussis ; rapport `docs/NATURE_CAPSULE.json`.
 

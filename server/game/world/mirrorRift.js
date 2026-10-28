@@ -13,6 +13,15 @@ function state(p={}){
     return {map:config.map,unlocked:unlocked(p),stage,replay:replay(p),ruined:p.flags?.[key(p,'ruined')]==='true',appearance,rift:config.rift,clone:config.clone};
 }
 function distance(p,t){return Math.abs(Math.floor(p.x/32)-t.x)+Math.abs(Math.floor(p.y/32)-t.y);}
+function riftCell(x,y){const dx=Math.abs(x-config.rift.x),dy=Math.abs(y-config.rift.y);return(dy<=1&&dx<=1)||(dy===0&&dx===2);}
+function besideRift(player){
+    const x=Math.floor(player.x/32),y=Math.floor(player.y/32);
+    if(riftCell(x,y))return false;
+    // The solid tear is wider than its centre tile. Every accessible edge and
+    // corner can be used, without requiring the player to face the front.
+    for(let dx=-1;dx<=1;dx++)for(let dy=-1;dy<=1;dy++)if(riftCell(x+dx,y+dy))return true;
+    return false;
+}
 function besideBookshelf(player){
     const x=Math.floor(player.x/32),y=Math.floor(player.y/32),s=config.switch;
     const dx=Math.max(s.x-x,0,x-(s.x+s.width-1)),dy=Math.max(s.y-y,0,y-(s.y+s.height-1));
@@ -21,11 +30,10 @@ function besideBookshelf(player){
 function interaction(player,p){
     if(player?.currentmap!==config.map)return null;const s=state(p);if(!s.unlocked)return null;
     if(s.stage==='sealed'&&besideBookshelf(player))return 'open';
-    if(s.stage==='open'&&distance(player,config.rift)<=2)return 'emerge';
-    if(s.stage==='clone'&&distance(player,config.clone)<=1)return 'battle';return null;
+    if(s.stage==='open'&&besideRift(player))return 'emerge';
+    if(s.stage==='clone'&&(besideRift(player)||distance(player,config.clone)<=1))return 'battle';return null;
 }
 function blocked(map,x,y,p={}){if(map!==config.map)return false;const stage=p.flags?.[key(p,'stage')];if(!['open','clone','won','complete'].includes(stage))return false;
-    const dx=Math.abs(x-config.rift.x),dy=Math.abs(y-config.rift.y);
-    return(dy<=1&&dx<=1)||(dy===0&&dx===2)||(stage==='clone'&&x===config.clone.x&&y===config.clone.y);
+    return riftCell(x,y)||(stage==='clone'&&x===config.clone.x&&y===config.clone.y);
 }
 module.exports={config,requiredBadges,endingBadges,replay,key,unlocked,state,interaction,blocked};

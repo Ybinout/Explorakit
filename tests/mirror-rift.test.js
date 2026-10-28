@@ -28,6 +28,20 @@ test('rift cells and clone are solid, leaving the room exit and the route open',
   assert(!scene.blocked('route2',13,10,p));assert(!scene.blocked(scene.config.map,13,18,p));
   p.flags.mirror_stage='complete';assert(scene.blocked(scene.config.map,13,10,p));assert(!scene.blocked(scene.config.map,13,13,p));
 });
+test('rift actions work around its complete solid footprint, including behind/corners, before and after the clone emerges',()=>{
+  const p=progress(),collision=terrain.loadCollisionData(scene.config.map),occupied=[[12,9],[13,9],[14,9],[11,10],[12,10],[13,10],[14,10],[15,10],[12,11],[13,11],[14,11]];
+  const at=(x,y)=>({currentmap:scene.config.map,x:x*32+16,y:y*32+16});let reachable=0;
+  for(let y=7;y<=13;y++)for(let x=9;x<=17;x++){
+    if(collision[y][x]||occupied.some(([a,b])=>a===x&&b===y))continue;
+    const adjacent=occupied.some(([a,b])=>Math.max(Math.abs(a-x),Math.abs(b-y))===1);
+    p.flags.mirror_stage='open';assert.equal(scene.interaction(at(x,y),p),adjacent?'emerge':null,`open ${x},${y}`);
+    if(adjacent){reachable++;p.flags.mirror_stage='clone';assert.equal(scene.interaction(at(x,y),p),'battle',`clone ${x},${y}`);}
+  }
+  assert(reachable>=14);
+  for(const[x,y]of[[12,8],[14,8],[10,10],[16,10]]){assert.equal(collision[y][x],0);p.flags.mirror_stage='open';assert.equal(scene.interaction(at(x,y),p),'emerge');assert.equal(scene.interaction({...at(x,y),currentmap:'route2'},p),null);assert.equal(scene.interaction(at(x,y),{flags:p.flags,badges:[]}),null);}
+  for(const stage of['sealed','won','complete']){p.flags.mirror_stage=stage;assert.equal(scene.interaction(at(12,8),p),null);}
+  p.flags.mirror_stage='open';for(const[x,y]of occupied)assert.equal(scene.interaction(at(x,y),p),null,'the solid hole remains unusable from inside');
+});
 test('private admin preview does not rewrite the completed permanent ruin',()=>{
   const p=progress();Object.assign(p.flags,{mirror_stage:'complete',mirror_ruined:'true',admin_mirror_replay:'true',admin_mirror_stage:'sealed',admin_mirror_ruined:'false'});
   assert.equal(scene.state(p).stage,'sealed');assert.equal(scene.state(p).ruined,false);assert(!scene.blocked(scene.config.map,13,10,p));delete p.flags.admin_mirror_replay;assert.equal(scene.state(p).stage,'complete');assert(scene.state(p).ruined);

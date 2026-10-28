@@ -1,0 +1,202 @@
+{
+  "feature": "Lucie house rift interaction perimeter",
+  "scope": {
+    "map": "route2_maison",
+    "actions": [
+      "summon clone",
+      "challenge emerged clone"
+    ],
+    "approach": "Every accessible adjacent edge/corner including behind",
+    "insideSolidHoleAllowed": false,
+    "facingRequired": false,
+    "originalCloneProximityPreserved": true,
+    "collisionFootprintChanged": false,
+    "storyGatesChanged": false,
+    "clientChanged": false
+  },
+  "verification": {
+    "unitPassed": 12,
+    "sqlAndSocketPassed": 8,
+    "newRegressionCases": 2,
+    "skipped": 0,
+    "oldVsNew": {
+      "cases": [
+        {
+          "stage": "open",
+          "x": 12,
+          "y": 8,
+          "before": null,
+          "after": "emerge"
+        },
+        {
+          "stage": "open",
+          "x": 14,
+          "y": 8,
+          "before": null,
+          "after": "emerge"
+        },
+        {
+          "stage": "open",
+          "x": 10,
+          "y": 10,
+          "before": null,
+          "after": "emerge"
+        },
+        {
+          "stage": "open",
+          "x": 16,
+          "y": 10,
+          "before": null,
+          "after": "emerge"
+        },
+        {
+          "stage": "clone",
+          "x": 12,
+          "y": 8,
+          "before": null,
+          "after": "battle"
+        },
+        {
+          "stage": "clone",
+          "x": 14,
+          "y": 8,
+          "before": null,
+          "after": "battle"
+        },
+        {
+          "stage": "clone",
+          "x": 10,
+          "y": 10,
+          "before": null,
+          "after": "battle"
+        },
+        {
+          "stage": "clone",
+          "x": 16,
+          "y": 10,
+          "before": null,
+          "after": "battle"
+        }
+      ],
+      "oldSourceLoadedInMemoryOnly": true
+    },
+    "browser": {
+      "realHiddenAction": true,
+      "desktopKeyboard": true,
+      "allBadgesRequired": true,
+      "openingAndDust": true,
+      "openingCaption": true,
+      "centralRift": true,
+      "behindRiftSummonAndDuel": true,
+      "eightSecondOpening": true,
+      "movementBlockedDuringScene": true,
+      "riftCellsSolid": true,
+      "silentCloneDuel": true,
+      "exactInitialHpPpItems": true,
+      "violetAppearances": 6,
+      "reconnect": true,
+      "winClosesRift": true,
+      "automaticEnding": true,
+      "fullScreenBlack": true,
+      "centeredFin": true,
+      "slowBedroomLoadHidden": true,
+      "reducedMotionEnding": true,
+      "endingViewports": 4,
+      "wakeAtHome": true,
+      "wakeInUpstairsBed": true,
+      "bedExitReachable": true,
+      "closedHoleStillSolid": true,
+      "teamHealedAndOrderPreserved": true,
+      "noTrainingOrMoneyRewards": true,
+      "ruinsPersistentInsideAndOutside": true,
+      "perPlayerIsolation": true,
+      "privateAdminReplay": true,
+      "viewports": 4,
+      "screens": [
+        "floor-tearing-320.png",
+        "floor-tearing-393.png",
+        "floor-tearing-844.png",
+        "floor-tearing-1365.png",
+        "violet-rift-open-320.png",
+        "violet-rift-open-393.png",
+        "violet-rift-open-844.png",
+        "violet-rift-open-1365.png",
+        "violet-clone-320.png",
+        "violet-clone-393.png",
+        "violet-clone-844.png",
+        "violet-clone-1365.png",
+        "mirror-battle-320.png",
+        "mirror-battle-393.png",
+        "mirror-battle-844.png",
+        "mirror-battle-1365.png",
+        "ending-real-393.png",
+        "ending-loading-black.png",
+        "awakened-bed-320.png",
+        "awakened-bed-393.png",
+        "awakened-bed-844.png",
+        "awakened-bed-1365.png",
+        "ending-normal-320.png",
+        "ending-normal-393.png",
+        "ending-normal-844.png",
+        "ending-normal-1365.png",
+        "ending-reduced-320.png",
+        "ending-reduced-393.png",
+        "ending-reduced-844.png",
+        "ending-reduced-1365.png",
+        "house-exterior-ruined-320.png",
+        "house-exterior-ruined-393.png",
+        "house-exterior-ruined-844.png",
+        "house-exterior-ruined-1365.png",
+        "house-interior-ruined-320.png",
+        "house-interior-ruined-393.png",
+        "house-interior-ruined-844.png",
+        "house-interior-ruined-1365.png"
+      ],
+      "errors": []
+    },
+    "representativeCapturesInspected": true,
+    "physicalPhone": false,
+    "newClientBuild": false,
+    "globalSuiteClaimed": false
+  },
+  "commands": [
+    "node --test tests/mirror-rift.test.js",
+    "RUN_MYSQL_TESTS=1 NODE_ENV=test DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test node --env-file=.env --test --test-concurrency=1 tests/mirror-rift-mysql.test.js",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-nature-capsule-dist RELEASE_SCREENSHOTS=/tmp/riftmon-rift-perimeter-browser node --env-file=.env scripts/validateMirrorRiftBrowser.js"
+  ],
+  "deployment": {
+    "publishedAt": "2026-10-28T22:32:01.518Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-rift-perimeter-2026-10-28T22-31-59-990Z",
+    "clientCommit": "9ef1ee450e00d8282414aab494d1e7198bdbefbd",
+    "clientBuild": "43f71feecc148c95",
+    "beforePid": "2886718",
+    "afterPid": "2909886",
+    "sourceSha256": "23d60386abe19b6902ef37d187d405f16e63015bad7892b8ba67110e60369547",
+    "activeRuns": 0,
+    "checkpointSaved": true,
+    "sourceBaseline": "1f6ae4d618edbf952b7d3646bb0192cfd5e817e0",
+    "scope": "Lucie house rift interaction perimeter",
+    "databaseChanged": false,
+    "realAccountsManuallyModified": false,
+    "backendOnly": true,
+    "serverRestarted": true,
+    "gracefulCheckpoint": true,
+    "neighborsUnchanged": true,
+    "publicAssetsUnchanged": [
+      "js/account.161ce126.js",
+      "js/app.d6a62584.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.fd27c694.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.af298e3e.css"
+    ]
+  },
+  "postDeployment": {
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningJournalEntries": 0
+  }
+}

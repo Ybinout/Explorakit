@@ -27,6 +27,16 @@ test('SQL mirror: committed win survives reconnect, wake persists home and the r
   assert.equal(await repo.advance(u.id,'open',at(u.id,7,4)),false);
  }finally{if(u)await db.execute('DELETE FROM users WHERE id=?',[u.id]);}
 });
+test('SQL mirror: behind and both sides can summon and challenge the clone, without duplicate summons or ownership bypass',{skip:!enabled},async()=>{
+ let u;try{u=await fixture();
+  for(const[x,y]of[[12,8],[14,8],[10,10],[16,10]]){
+   await flags(u.id,{mirror_stage:'open',mirror_ruined:'true'});
+   assert.equal(await repo.advance(u.id,'emerge',at(u.id+1,x,y)),false);
+   const results=await Promise.all([repo.advance(u.id,'emerge',at(u.id,x,y)),repo.advance(u.id,'emerge',at(u.id,x,y))]);assert.equal(results.filter(Boolean).length,1);
+   const r=await repo.read(u.id);assert.equal(r.state.stage,'clone');assert.equal(scene.interaction(at(u.id,x,y),r.progress),'battle');assert.equal(await repo.advance(u.id,'emerge',at(u.id,x,y)),false);
+  }
+ }finally{if(u)await db.execute('DELETE FROM users WHERE id=?',[u.id]);}
+});
 test('SQL mirror: admin replay has its own stage and preserves permanent completion, damage and badges',{skip:!enabled},async()=>{
  let u;try{u=await fixture();await flags(u.id,{mirror_stage:'complete',mirror_ruined:'true'});const before=(await repo.read(u.id)).progress.badges;
   await require('../server/config/database').withTransaction(c=>repo.resetReplay(c,u.id));let r=await repo.read(u.id);assert.equal(r.state.stage,'sealed');assert(!r.state.ruined);
@@ -53,7 +63,7 @@ class Socket extends EventEmitter{
 for(const win of [true,false])test(`SQL mirror real duel: ${win?'victory and awakening':'defeat without false completion'}`,{skip:!enabled},async()=>{
  let u;const old=Math.random;try{u=await fixture();await flags(u.id,{mirror_stage:'clone',mirror_ruined:'true',mirror_appearance:'{"sprite":"sprite.png"}'});
   const lead=factory.create(151,35,true),reserve=factory.create(9,35,true);lead.currentHp=1;reserve.currentHp=0;lead.passiveAbility=reserve.passiveAbility=null;lead.heldItem='choice_band';reserve.heldItem='leftovers';lead.abilities=['Tackle'];lead.movePp=[7];reserve.abilities=['Splash'];reserve.movePp=[4];
-  const player={...at(u.id,13,12),id:'mirror-owner',equipe:{pokemons:[lead,reserve]}};await teams.editEquipe(u.id,player.equipe);
+  const player={...at(u.id,win?12:13,win?8:12),id:'mirror-owner',equipe:{pokemons:[lead,reserve]}};await teams.editEquipe(u.id,player.equipe);
   const [[before]]=await db.execute('SELECT money FROM users WHERE id=?',[u.id]);const training=player.equipe.pokemons.map(p=>({uuid:p.uuid,experience:p.experience,ev:structuredClone(p.ev),level:p.level}));
   const socket=new Socket(),io={sockets:{sockets:new Map([[player.id,socket]])},to:()=>({emit:socket.emit.bind(socket)})};let traveled=null,blackouts=0,busy=false;
   const handlers=require('../server/realtime/handlers/mirrorRiftHandlers').createMirrorRiftHandlers({socket,io,userId:u.id,getPlayer:()=>player,canUse:()=>!busy,setBusy:v=>{busy=v;},emitProgression:()=>{},blackout:async()=>{blackouts++;},travel:async d=>{traveled=d;Object.assign(player,{currentmap:d.map,x:d.x,y:d.y});}});
