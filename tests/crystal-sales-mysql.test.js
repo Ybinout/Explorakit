@@ -9,7 +9,7 @@ test('SQL: ordinary and three crystal rolls commit together, repeat, hydrate and
   assert.deepEqual(await loot.awardWildBattleLoot(u.id,sequence(1,.25,.1,.05)),[]);
   for(let n=0;n<2;n++)assert.deepEqual((await loot.awardWildBattleLoot(u.id,()=>0)).map(i=>i.key),['oran_berry','crystal_shard','clear_crystal','aurora_prism']);
   const [[initial]]=await db.execute('SELECT money FROM users WHERE id=?',[u.id]);let credited=0;
-  const bag=await items.loadUserItems(u.id);for(const [key,price]of[['crystal_shard',150],['clear_crystal',450],['aurora_prism',1500]]){
+  const bag=await items.loadUserItems(u.id);for(const [key,price]of[['crystal_shard',150],['clear_crystal',450],['aurora_prism',3000]]){
    const item=bag.find(i=>i.key===key);assert.equal(item.quantity,2);assert.equal(item.sellPrice,price);assert.equal(item.category,'treasure');
    assert.equal((await items.purchaseUserItem(u.id,key,1,{mapName:'tour_etage1'})).success,false);
    const sale=await items.sellUserItem(u.id,key,1,{mapName:'ville1_shop',price:1});assert(sale.success);assert.equal(sale.unitPrice,price);assert.equal(sale.totalPrice,price);credited+=price;
@@ -22,8 +22,8 @@ test('SQL: one remaining item sold concurrently is credited once, forged price i
   await db.execute('UPDATE users SET money=1000 WHERE id IN (?,?)',[a.id,b.id]);await db.execute("INSERT INTO user_items(user_id,item_key,quantity)VALUES(?,'aurora_prism',1)",[a.id]);
   const result=await Promise.all(Array.from({length:5},()=>items.sellUserItem(a.id,'aurora_prism',1,{mapName:'ville1_shop',price:999999})));
   assert.equal(result.filter(r=>r.success).length,1);assert.equal(result.filter(r=>r.reason==='not_enough_items').length,4);
-  assert.equal(result.find(r=>r.success).totalPrice,1500);assert.equal((await items.sellUserItem(b.id,'aurora_prism',1,{mapName:'ville1_shop'})).success,false);
-  const [rows]=await db.execute('SELECT id,money FROM users WHERE id IN (?,?)',[a.id,b.id]);assert.equal(Number(rows.find(r=>r.id===a.id).money),2500);assert.equal(Number(rows.find(r=>r.id===b.id).money),1000);
+  assert.equal(result.find(r=>r.success).totalPrice,3000);assert.equal((await items.sellUserItem(b.id,'aurora_prism',1,{mapName:'ville1_shop'})).success,false);
+  const [rows]=await db.execute('SELECT id,money FROM users WHERE id IN (?,?)',[a.id,b.id]);assert.equal(Number(rows.find(r=>r.id===a.id).money),4000);assert.equal(Number(rows.find(r=>r.id===b.id).money),1000);
  }finally{await db.execute('DELETE FROM users WHERE id IN (?,?)',[a.id,b.id]);}
 });
 test('SQL: wrong map, invalid quantity, protected key and insufficient stock cannot change inventory/money',{skip:!enabled},async()=>{

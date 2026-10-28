@@ -1,5 +1,14 @@
 # Contexte permanent — RiftMon
 
+## Prisme d’aurore — revente doublée — 28 octobre 2026
+
+Prix unitaire du Prisme d’aurore porté de 1 500 à 3 000 ₽ et description actualisée. Le stock existant et les nouveaux prismes utilisent ce tarif dans les trois modes. Comparaison structurée du catalogue : seul le prix et la description du prisme changent ; Éclat fissuré 150 ₽, Cristal limpide 450 ₽ et probabilités de butin conservés.
+
+Dix tests existants réussis dont quatre SQL : montants hydratés et effectivement crédités, concurrence/prix forgés, vendeurs et ventes Rift/Colosseum avec checkpoint. Recette navigateur alignée sur les montants, sans exécution navigateur ni nouveau build client. Rapport : `docs/AURORA_PRISM_SALE_PRICE.json`.
+
+Publication serveur seule le 28 octobre 2026 à 16 h 06 (Europe/Paris), PID 2688315→2717218. Sauvegarde `/home/ubuntu/dev/backups/riftmon-prism-price-2026-10-28T15-06-37-716Z`, checkpoint conservé, zéro expédition active relevée. Client/build `819bbc5bc922488c`, index/bundles et Knov/api-test inchangés ; service actif, zéro redémarrage automatique et aucun avertissement serveur relevé après publication. Aucune migration ou manipulation manuelle de compte réel.
+
+
 ## Revente des cristaux ×3 — 28 octobre 2026
 
 Prix unitaires de revente : Éclat fissuré 50→150 ₽, Cristal limpide 150→450 ₽, Prisme d’aurore 500→1 500 ₽. Descriptions accordées au catalogue. Le calcul partagé des vendeurs applique ces prix au stock existant et aux nouveaux objets en Aventure, Rift et Colosseum. Comparaison structurée : seuls les prix et descriptions des trois trésors changent ; probabilités, autres objets et prix d’achat identiques.

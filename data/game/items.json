@@ -1426,10 +1426,10 @@
       "name": "Prisme d’aurore",
       "category": "treasure",
       "buy_price": 0,
-      "sell_price": 1500,
+      "sell_price": 3000,
       "dropOnly": true,
       "wildCrystalChance": 0.05,
-      "description": "Un cristal d’une pureté rare, traversé de reflets irisés. Les boutiques le rachètent 1500 ₽."
+      "description": "Un cristal d’une pureté rare, traversé de reflets irisés. Les boutiques le rachètent 3000 ₽."
     },
     {
       "key": "cs_mega_punch",

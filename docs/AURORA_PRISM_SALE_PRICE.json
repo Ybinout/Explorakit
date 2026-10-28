@@ -1,0 +1,55 @@
+{
+  "date": "2026-10-28",
+  "item": "aurora_prism",
+  "before": 1500,
+  "after": 3000,
+  "modes": [
+    "Aventure",
+    "Rift",
+    "Colosseum"
+  ],
+  "existingStockUsesNewPrice": true,
+  "otherItemsAndDropRatesUnchanged": true,
+  "validation": {
+    "unitTests": 6,
+    "mysqlTests": 4,
+    "failures": 0,
+    "skips": 0,
+    "command": "NODE_ENV=test RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test node --env-file-if-exists=.env --test --test-concurrency=1 tests/crystal-sales.test.js tests/crystal-sales-mysql.test.js",
+    "browserScriptUpdated": true,
+    "browserRun": false,
+    "frontendBuildRun": false,
+    "globalSuiteRun": false
+  },
+  "deployment": {
+    "publishedAt": "2026-10-28T15:06:39.151Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-prism-price-2026-10-28T15-06-37-716Z",
+    "sourceBaseline": "f889e08f9c799d6257f2bedf03a9b0bb2c337209",
+    "sourceHashes": {
+      "data/game/items.json": "e0a71dad38f853a57ae76049fd66e619c7cac8dc53ab1fdb397455522c87a471"
+    },
+    "clientCommit": "81914d7029c4ee40488aa0686dd0c70ca8fc7d63",
+    "clientBuild": "819bbc5bc922488c",
+    "clientUnchanged": true,
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.6d89ba19.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.dc533f29.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.699eedbd.css"
+    ],
+    "beforePid": "2688315",
+    "afterPid": "2717218",
+    "serverRestarted": true,
+    "checkpointSaved": true,
+    "gracefulCheckpoint": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "sqlMigration": false,
+    "realAccountsModified": false
+  }
+}

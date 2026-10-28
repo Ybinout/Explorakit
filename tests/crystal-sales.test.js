@@ -6,7 +6,7 @@ const {SHOP_MAPS,getShopCatalog}=require('../server/game/world/shopCatalog');
 const sequence=(...values)=>()=>values.shift()??.99;
 const fixture=mode=>({alive:true,inbattle:false,currentmap:'ville1_shop',money:1000,run:{mode,phase:'exploration'},items:{},equipe:{pokemons:[]},storage:[],drifts:[],equipped:[]});
 test('three repeatable treasures have exact independent thresholds, including simultaneous and absent drops',()=>{
- assert.deepEqual(crystals.map(i=>[i.key,i.wildCrystalChance,getSellPrice(i.key)]),[['crystal_shard',.25,150],['clear_crystal',.1,450],['aurora_prism',.05,1500]]);
+ assert.deepEqual(crystals.map(i=>[i.key,i.wildCrystalChance,getSellPrice(i.key)]),[['crystal_shard',.25,150],['clear_crystal',.1,450],['aurora_prism',.05,3000]]);
  assert.equal(roll(sequence(.25,.1,.05)).length,0);assert.equal(roll(sequence(.25-1e-8,.1-1e-8,.05-1e-8)).length,3);
  assert.deepEqual(roll(sequence(.9,0,.01)).map(i=>i.key),['clear_crystal','aurora_prism']);assert.deepEqual(roll(sequence(0,.9,.9)).map(i=>i.key),['crystal_shard']);
  const count=[0,0,0];for(let n=0;n<10000;n++)for(const i of roll(()=> (n+.5)/10000))count[crystals.indexOf(i)]++;
@@ -29,8 +29,8 @@ test('key items, unique rod, unknown keys and explicitly unsellable objects have
 for(const mode of['rift','colosseum'])test(`${mode}: repeatable loot, ordinary item coexistence, sale and checkpoint stock/money`,()=>{
  const p=fixture(mode);awardExpedition(p,()=>0);awardExpedition(p,()=>0);
  assert.deepEqual(crystals.map(i=>p.items[i.key]),[2,2,2]);
- const result=economy.sell(p,'aurora_prism',2);assert.equal(result.totalPrice,3000);assert.equal(p.money,4000);assert.equal(p.items.aurora_prism,0);assert(!result.items.some(i=>i.key==='aurora_prism'));
- const saved=codec.decode(codec.encode(p));assert.equal(saved.money,4000);assert.equal(saved.items.crystal_shard,2);assert.throws(()=>economy.sell(p,'aurora_prism',1),/assez/);
+ const result=economy.sell(p,'aurora_prism',2);assert.equal(result.totalPrice,6000);assert.equal(p.money,7000);assert.equal(p.items.aurora_prism,0);assert(!result.items.some(i=>i.key==='aurora_prism'));
+ const saved=codec.decode(codec.encode(p));assert.equal(saved.money,7000);assert.equal(saved.items.crystal_shard,2);assert.throws(()=>economy.sell(p,'aurora_prism',1),/assez/);
  const fresh=fixture(mode),loot=economy.drop(fresh,'wild',()=>0);assert(crystals.every(i=>loot.includes(i.name)));assert(loot.includes('Baie Oran'));
  for(const source of['capture','wild']){const q=fixture(mode);economy.drop(q,source,()=>0);assert(crystals.every(i=>q.items[i.key]===1));}
  for(const source of['trainer','arena','unknown']){const q=fixture(mode);economy.drop(q,source,()=>0);assert(crystals.every(i=>!q.items[i.key]));}
