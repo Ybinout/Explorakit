@@ -1,0 +1,241 @@
+{
+  "date": "2026-10-28",
+  "scope": "IA des dresseurs — talents de piégeage",
+  "abilities": [
+    "Arena Trap",
+    "Magnet Pull",
+    "Shadow Tag"
+  ],
+  "modes": [
+    "Aventure",
+    "Rift",
+    "Colosseum"
+  ],
+  "behavior": [
+    "Prévisions des changements conformes aux règles du moteur sur copies assainies",
+    "Hypothèses des talents ennemis déduites de l’espèce visible, sans lecture du talent réel",
+    "Bonus borné pour une situation de piégeage favorable au tour suivant",
+    "Aucun changement aux équipes, aux talents du moteur ou aux règles de combat"
+  ],
+  "validation": {
+    "unitTests": 106,
+    "mysqlRuntimeTests": 6,
+    "failures": 0,
+    "skips": 0,
+    "commands": [
+      "node --test --test-concurrency=1 tests/human-trainer-trapping.test.js tests/human-trainer-ai.test.js tests/human-trainer-finishing.test.js tests/human-trainer-items.test.js tests/human-trainer-model.test.js tests/sevenp-tactics.test.js tests/wanda-tactics.test.js tests/ability-reactions.test.js",
+      "BATTLE_DELAY_SCALE=0 NODE_ENV=test RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test node --env-file-if-exists=.env --test --test-concurrency=1 --test-name-pattern='Piège Sable|combat dresseur réel|Sommeil trainer|Bluff trainer' tests/battle-runtime-integration.test.js",
+      "node scripts/validateHumanTrainerFinishing.js"
+    ],
+    "finishingSweep": {
+      "decisions": 126,
+      "immuneChoices": 0,
+      "maxSwitchProbability": 0.01224000000000001,
+      "averageAnalysisAndChoiceMs": 5.619508015873013,
+      "maxAnalysisAndChoiceMs": 18.792292000000003,
+      "examples": [
+        {
+          "id": 51,
+          "hp": 10,
+          "ownSpeed": 70,
+          "trick": 0,
+          "habits": 0,
+          "chosen": "Surf",
+          "switchProbability": 0.005
+        },
+        {
+          "id": 51,
+          "hp": 10,
+          "ownSpeed": 70,
+          "trick": 0,
+          "habits": 10,
+          "chosen": "Surf",
+          "switchProbability": 0.01224000000000001
+        },
+        {
+          "id": 51,
+          "hp": 10,
+          "ownSpeed": 70,
+          "trick": 3,
+          "habits": 0,
+          "chosen": "Surf",
+          "switchProbability": 0.005
+        },
+        {
+          "id": 51,
+          "hp": 10,
+          "ownSpeed": 70,
+          "trick": 3,
+          "habits": 10,
+          "chosen": "Surf",
+          "switchProbability": 0.01224000000000001
+        }
+      ]
+    },
+    "performance": {
+      "before": {
+        "cases": 8,
+        "samplesPerCase": 12,
+        "meanOfCaseMeansMs": 38.42617404166666,
+        "rows": [
+          {
+            "name": "sevenp",
+            "opponent": "wanda",
+            "weather": "none",
+            "meanMs": 52.94071450000001,
+            "p95Ms": 91.478352
+          },
+          {
+            "name": "sevenp",
+            "opponent": "wanda",
+            "weather": "rain",
+            "meanMs": 37.40237833333334,
+            "p95Ms": 40.5217540000001
+          },
+          {
+            "name": "wanda",
+            "opponent": "sevenp",
+            "weather": "none",
+            "meanMs": 47.02280341666667,
+            "p95Ms": 58.628963999999996
+          },
+          {
+            "name": "wanda",
+            "opponent": "sevenp",
+            "weather": "rain",
+            "meanMs": 43.626842416666626,
+            "p95Ms": 62.450357999999596
+          },
+          {
+            "name": "ana",
+            "opponent": "sevenp",
+            "weather": "none",
+            "meanMs": 34.727319833333354,
+            "p95Ms": 37.999357000000145
+          },
+          {
+            "name": "ana",
+            "opponent": "sevenp",
+            "weather": "rain",
+            "meanMs": 33.091797583333346,
+            "p95Ms": 37.5197619999999
+          },
+          {
+            "name": "raphael",
+            "opponent": "sevenp",
+            "weather": "none",
+            "meanMs": 30.391733333333338,
+            "p95Ms": 38.096676000000116
+          },
+          {
+            "name": "raphael",
+            "opponent": "sevenp",
+            "weather": "rain",
+            "meanMs": 28.205802916666624,
+            "p95Ms": 30.95311999999967
+          }
+        ]
+      },
+      "after": {
+        "cases": 8,
+        "samplesPerCase": 12,
+        "meanOfCaseMeansMs": 40.030254958333316,
+        "rows": [
+          {
+            "name": "sevenp",
+            "opponent": "wanda",
+            "weather": "none",
+            "meanMs": 59.14177558333335,
+            "p95Ms": 92.52406499999998
+          },
+          {
+            "name": "sevenp",
+            "opponent": "wanda",
+            "weather": "rain",
+            "meanMs": 38.20153741666667,
+            "p95Ms": 41.611421000000064
+          },
+          {
+            "name": "wanda",
+            "opponent": "sevenp",
+            "weather": "none",
+            "meanMs": 44.18945566666665,
+            "p95Ms": 49.42939799999999
+          },
+          {
+            "name": "wanda",
+            "opponent": "sevenp",
+            "weather": "rain",
+            "meanMs": 41.34933050000001,
+            "p95Ms": 64.88583599999993
+          },
+          {
+            "name": "ana",
+            "opponent": "sevenp",
+            "weather": "none",
+            "meanMs": 35.013248416666706,
+            "p95Ms": 44.75779999999986
+          },
+          {
+            "name": "ana",
+            "opponent": "sevenp",
+            "weather": "rain",
+            "meanMs": 29.46902124999997,
+            "p95Ms": 31.248053000000255
+          },
+          {
+            "name": "raphael",
+            "opponent": "sevenp",
+            "weather": "none",
+            "meanMs": 29.447926416666633,
+            "p95Ms": 36.79276299999992
+          },
+          {
+            "name": "raphael",
+            "opponent": "sevenp",
+            "weather": "rain",
+            "meanMs": 43.42974441666657,
+            "p95Ms": 76.98467699999992
+          }
+        ]
+      },
+      "limit": "Mesure locale de 8 situations fixes, 12 échantillons chacune ; démarrage à froid et bruit, aucune garantie de performance en charge"
+    },
+    "browserRun": false,
+    "physicalDeviceTested": false,
+    "globalSuiteRun": false,
+    "frontendBuildRun": false
+  },
+  "deployment": {
+    "publishedAt": "2026-10-28T11:43:38.182Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-ai-trapping-2026-10-28T11-43-36-790Z",
+    "sourceBaseline": "ce114f030d5e834a322ccbd9d3c8489cf4703fc0",
+    "sourceHashes": {
+      "server/game/battle/humanTrainerAI.js": "99ca27f7bb8731f1751eebc0e697fb7486630556b40b25c66d0e2d4161944f36",
+      "server/game/battle/trainerSwitching.js": "5c96fe4af4c9c7d5675ceb291bc3f1799ab200a1345b3ededd469f2b10c1f1b2"
+    },
+    "clientCommit": "81914d7029c4ee40488aa0686dd0c70ca8fc7d63",
+    "clientBuild": "819bbc5bc922488c",
+    "clientUnchanged": true,
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.6d89ba19.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.dc533f29.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.699eedbd.css"
+    ],
+    "beforePid": "2632198",
+    "afterPid": "2638916",
+    "serverRestarted": true,
+    "checkpointSaved": true,
+    "gracefulCheckpoint": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "sqlMigration": false,
+    "realAccountsModified": false
+  }
+}

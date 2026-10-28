@@ -1,5 +1,18 @@
 # Contexte permanent — RiftMon
 
+## IA — talents de piégeage — 28 octobre 2026
+
+Le moteur appliquait déjà Piège Sable, Magnépiège et Marque Ombre, mais le planificateur imaginait encore des changements adverses interdits. Nouveau calcul `trainerSwitching.chance` sur des copies assainies, réutilisant `canSwitchOut` : talents connus de l’IA pour ses propres partenaires, hypothèses du Pokédex pour les talents adverses inconnus. Aucun accès aux talents/objets/IV/EV privés ou à la commande soumise. Les espèces à talent ambigu conservent une probabilité d’évasion ; Vol, Spectre, Lévitation, Gravité, enracinement, champ de verrouillage, effets aériens et suppression de talent suivent les règles du moteur.
+
+Les prévisions excluent les changements effectivement interdits et réduisent ceux qui sont incertains. L’IA valorise légèrement un piège sûr pour conserver une cible favorable au tour suivant, y compris lors d’un choix d’entrée/remplacement ; aucun bonus si son Pokémon ne survit pas, si la cible n’a pas de partenaire pour fuir ou si elle était déjà bloquée. Le joueur peut toujours partir le tour où le piégeur arrive : seule la situation du tour suivant bénéficie du piège. Comportement partagé en Aventure/Rift/Colosseum, sans modification des équipes, du moteur ou des états persistants.
+
+Validation : 106 tests équipes/IA/talents/modèle et six tests SQL du combat Aventure réussis sans saut. Nouveau parcours avec le vrai Triopikeur de 7p : tentative de changement refusée, décision IA conservée, victoire puis sauvegarde. Deux parcours Rift/Colosseum vérifient refus et checkpoint ; hypothèses de talents cachés, immutabilité et absence d’usage du RNG réel vérifiées. Balayage de 126 décisions sous menace létale : zéro attaque sur immunité et probabilité de changement maximale <4 %. Comparaison de huit situations identiques en six contre six, 12 mesures par cas : moyennes des cas 38.4 ms avant / 40.0 ms après, échantillon local avec bruit et démarrage à froid, pas une mesure en charge. Aucun nouveau test navigateur ou appareil physique, aucune suite globale revendiquée.
+
+Deux anciennes assertions de recette remises en accord avec leur objet : la quête de 7p tient compte de Gwenn et du retour vers Wanda après Lucie ; le champ propre de Staross contrôle le classement des scores plutôt qu’un tirage aléatoire entre attaques proches. Aucun dialogue ou changement d’histoire livré. Rapport : `docs/AI_TRAPPING_ABILITIES.json`.
+
+Publication serveur seule le 28 octobre 2026 à 12 h 43 (Europe/Paris), PID 2632198→2638916. Sauvegarde `/home/ubuntu/dev/backups/riftmon-ai-trapping-2026-10-28T11-43-36-790Z`, checkpoint conservé et zéro expédition active relevée. Client/build `819bbc5bc922488c`, index/bundles publics et Knov/api-test inchangés ; service actif, zéro redémarrage automatique et aucune entrée journal d’avertissement depuis publication. Aucune migration ou modification manuelle de compte réel.
+
+
 ## Wanda — composition retravaillée et Staross — 28 octobre 2026
 
 Wanda conserve les niveaux, K et IV de chaque emplacement : Drattak 52/K3, Mackogneur 52/K3, Staross 53/K3 remplaçant Tentacruel, Alakazam 53/K4, Dracaufeu 54/K4 et Métalosse 54/K4 avec IV parfaits. Comparaison structurée : aucune autre équipe du catalogue modifiée. Les six restent disponibles à l’IA sans réserve obligatoire.

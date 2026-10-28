@@ -1203,3 +1203,24 @@ test(`Human AI finishing pressure Adventure: effective move locked before ${comm
   else {assert.equal(moves.length,0,'The player really can finish the trainer before it acts');assert.equal(choices.length,1,'Invalid input did not reroll the decision');}
  }finally{tactics.chooseAction=original;if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
 });
+
+test('Piège Sable Aventure : changement refusé, décision IA conservée et victoire sauvegardée', {skip:!shouldRun}, async()=>{
+    const pool=createTestPool();let userId;
+    const policy=require('../server/game/battle/humanTrainerAI'),original=policy.chooseAction,decisions=[];
+    try {
+        const {user,player}=await createPlayer(7);userId=user.id;
+        const lead=player.equipe.pokemons[0];lead.abilities=['Tackle'];lead.movePp=[35];lead.currentAttack=9999;lead.currentSpeed=999;
+        player.equipe.ajouterPokemon(createPokemon(130,'Relève',['Waterfall']));
+        const enemy=require('../server/game/world/pnjTeamFactory').getPnjTeam('sevenp').pokemons[0];
+        enemy.currentHp=1;enemy.heldItem=null;
+        policy.chooseAction=options=>{const analysis=policy.analyse(options);decisions.push(analysis);return original(options);};
+        const socket=new ScriptedSocket([{action:'change',number:1},{action:'attack',number:0}]);
+        const io=new RecordingIo({[player.id]:socket});
+        const result=await withFixedRandom(.5,()=>startTrainerBattle(player,createTeam(enemy),io,userId));
+        assert.equal(result,true);assert.equal(io.lastEvent(player.id,'endbattle')?.payload.reason,'victory');
+        assert(io.events.some(e=>e.eventName==='battleText'&&/piege.*ne peut pas changer/.test(e.payload.message)));
+        assert.equal(decisions.length,1,'invalid escape must not cause a new trainer decision');
+        assert(!decisions[0].predictions.some(p=>p.action==='change'));
+        assert.equal((await loadEquipe(userId)).pokemons[0].uuid,lead.uuid);
+    }finally{policy.chooseAction=original;if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
+});

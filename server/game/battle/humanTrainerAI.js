@@ -5,6 +5,7 @@ const resources = require('./battleResources');
 const selection = require('./moveSelection');
 const legacy = require('../drift/colosseumAI');
 const model = require('./humanTrainerModel');
+const switching = require('./trainerSwitching');
 const { getMoveFlags, transformMoveForAbility, getAbilityAccuracyMultiplier, ignoresDefenderAbility, resolveMoveAbilityImmunity } = require('../abilities/abilityEngine');
 const { createDeterministicRandom } = require('../abilities/abilityDex');
 const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
@@ -20,7 +21,7 @@ const FIXED_DAMAGE = {'Dragon Rage':40,'Sonic Boom':20};
 const LEVEL_DAMAGE = new Set(['Seismic Toss','Night Shade']);
 const PUBLIC_VOLATILES = ['statStages','tempTypes','formTypes','abilityForm','tauntTurns','disableTurns',
     'disabledMove','encoreTurns','encoreMove','leechSeedSource','foresight','miracleEye','substituteHp',
-    'trappedTurns','ingrain','chargeMove','chargeTurns','semiInvulnerable','rechargeMove','bideTurns',
+    'trappedTurns','ingrain','grounded','magnetRiseTurns','telekinesisTurns','abilitySuppressed','chargeMove','chargeTurns','semiInvulnerable','rechargeMove','bideTurns',
     'activeMoveActions','stockpileCount','laserFocusTurns','soundBlockedTurns','lastMoveFailed','lastMoveResultTurn','lastMoveUsed','protectStreak','protectionStreak','protectionTurn','transformed','transformSpeciesId','transformSpriteId'];
 const OWN_VOLATILES = [...PUBLIC_VOLATILES,'sleepTurns','choiceMove','unburden','abilitySuppressed','flashFireBoost','healBlockTurns',
     'embargoTurns','confusionTurns','infatuationTurns','toxicCounter','activeTurns','loafing','consumedHeldItem',
@@ -203,7 +204,6 @@ function context(a,b,team,field,ownSide,enemySide,foeCount) {
     return {field,ownSide,enemySide,attacks,replies,party:team.filter(p=>p.currentHp>0).map(p=>({...p,moves:moves(p,field).map(x=>x.move).filter(m=>m.power>0)})),
         observed:{moves:b.abilities},moveByName,foeCount};
 }
-function canSwitch(p,field) {return !p.__battle.trappedTurns&&!p.__battle.ingrain&&!p.__battle.chargeTurns&&!p.__battle.bideTurns&&!p.__battle.rechargeMove&&!field.field.fairyLockTurns;}
 function orderChance(a,move,b,reply,ctx) {
     const priority=engine.getMovePriority(move.ename,a)-engine.getMovePriority(reply.ename,b);
     if(priority)return priority>0?1:0;
@@ -251,7 +251,8 @@ function forecast(a,foes,ctx,memory,skill=1) {
         score+=Math.min(9,count*2); // Historical preference, never the pending move.
         return {kind:'attack',target:b,move,score};
     }));
-    const reserves=canSwitch(b,ctx.field)?foes.slice(1).map(resetEntry).map(target=>{
+    const escapeChance=switching.chance(b,a,ctx.field);
+    const reserves=escapeChance>0?foes.slice(1).map(resetEntry).map(target=>{
         const cost=legacy.entryDamage(target,ctx.enemySide,ctx.field);
         const threatened=Math.max(0,...ctx.attacks.map(m=>damage(a,target,m,ctx.enemySide,ctx.field)));
         const offense=Math.max(0,...moves(target,ctx.field).map(x=>damage(target,a,x.move,ctx.ownSide,ctx.field)));
@@ -264,7 +265,7 @@ function forecast(a,foes,ctx,memory,skill=1) {
     const baseline=clamp((.06+Math.max(0,advantage)*.004+(rate-.2)*.18)*(.4+.6*clamp(skill,0,1)),.03,.58);
     // Habits cannot outweigh a credible immediate KO. Keep a small uncertainty
     // rather than reading the player's actual choice or predicting certainty.
-    const switchChance=Math.max(.005,baseline*(1-.94*ctx.finishingPressure));
+    const switchChance=escapeChance*Math.max(.005,baseline*(1-.94*ctx.finishingPressure));
     return [...attacks.map(x=>({...x,probability:x.probability*(1-switchChance)})),
         ...weighted(reserves,20).map(x=>({...x,probability:x.probability*switchChance}))];
 }
@@ -284,6 +285,14 @@ function futureValue(out,ctx) {
         if(getMoveFlags(move).charge&&!resources.getForcedMove(a))value*=.52;
         if(a.__battle.rechargeMove)value=-ratio(Math.min(threat,a.currentHp),a);
         best=Math.max(best,value);
+    }
+    // A safe trap keeps a favourable target from escaping next turn. Reward
+    // only real escape routes denied by the holder's own ability, and never
+    // enough to make a losing matchup worth sacrificing a Pokémon for.
+    const exits=(ctx.opponentParty||[]).filter(p=>p.uuid!==b.uuid&&p.currentHp>0);
+    if(exits.length&&a.currentHp>threat&&best>0) {
+        const denied=switching.chance(b,null,field)-switching.chance(b,a,field);
+        best+=Math.max(0,denied)*Math.min(12,best*.2);
     }
     return best;
 }
@@ -334,6 +343,7 @@ function analyse({team,opponentTeam,field,ownSide,enemySide,memory={},round=1,sk
     const es=enemySide===field.sides?.enemy?safe.sides.enemy:safe.sides.player;
     const a=own[0],b=foes[0],ctx=context(a,b,own.filter(p=>p.currentHp>0),safe,os,es,foes.length);
     ctx.memory=memory;
+    ctx.opponentParty=foes;
     ctx.finishingPressure=finishingPressure(a,b,ctx);
     const scenarios=forecast(a,foes,ctx,memory,skill);
     // All legal hypotheses get a first-turn projection. A fixed three-branch
@@ -349,7 +359,8 @@ function analyse({team,opponentTeam,field,ownSide,enemySide,memory={},round=1,sk
         if(canAffectCurrent && ctx.finishingPressure && knownIneffective(a,b,move,ctx))score-=40*ctx.finishingPressure;
         return {action:'attack',number,score};
     });
-    if(canSwitch(a,safe)&&(round-(memory.lastSwitchRound??-10)>1||ctx.finishingPressure>=.75))for(let number=1;number<own.length;number++) {
+    const ownEscapeChance=switching.chance(a,b,safe);
+    if(ownEscapeChance>0&&(round-(memory.lastSwitchRound??-10)>1||ctx.finishingPressure>=.75))for(let number=1;number<own.length;number++) {
         const p=resetEntry(own[number]);if(p.currentHp<=0)continue;
         const cost=legacy.entryDamage(p,os,safe);if(cost>=p.currentHp)continue;
         const currentThreat=Math.max(0,...ctx.replies.map(m=>damage(b,a,m,os,safe)));
@@ -368,7 +379,7 @@ function analyse({team,opponentTeam,field,ownSide,enemySide,memory={},round=1,sk
             const repeatPenalty=round-(memory.lastSwitchRound??-10)<=1?15:0;
             return out.score+.65*offense-ratio(cost,p)-12-repeatPenalty+recovery+cure;
         }));
-        candidates.push({action:'change',number,score});
+        candidates.push({action:'change',number,score:score-20*(1-ownEscapeChance)});
     }
     candidates.sort((x,y)=>y.score-x.score||x.number-y.number);
     return {candidates,predictions:scenarios.map(s=>({action:s.kind,pokemonUuid:s.target.uuid,move:s.move?.ename,probability:s.probability})),skill};

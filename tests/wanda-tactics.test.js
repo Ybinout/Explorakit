@@ -41,7 +41,7 @@ test('Wanda protects her team from rocks with Staross and uses Encore against a 
  foe.abilities=['Splash'];foe.movePp=[40];foe.currentHp=foe.maxHp=2000;engine.ensureBattleData(foe);
  const field=engine.createBattleState(),options={team:[star,...team.filter(p=>p!==star)],opponentTeam:[foe],field,
   ownSide:field.sides.enemy,enemySide:field.sides.player,memory:{},round:1};
- assert.notEqual(ai.chooseAction(options).number,3,'do not waste a turn spinning a clear field');
+ assert.notEqual(ai.analyse(options).candidates[0].number,3,'spinning a clear field has no utility bonus');
  field.sides.enemy.hazards.stealthRock=true;const before=JSON.stringify(options);
  assert.deepEqual(ai.chooseAction(options),{action:'attack',number:3});assert.equal(JSON.stringify(options),before);
  foe.abilities=['Recover','Body Slam'];foe.movePp=foe.abilities.map(getMaxMovePp);foe.__battle.lastMoveUsed='Recover';foe.currentHp=1500;
