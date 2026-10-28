@@ -1,5 +1,13 @@
 # Contexte permanent — RiftMon
 
+## Revente des cristaux doublée — 28 octobre 2026
+
+Prix unitaires des trois trésors : Éclat fissuré 150→300 ₽, Cristal limpide 450→900 ₽, Prisme d’aurore 3 000→6 000 ₽. Descriptions actualisées. Les marchands des trois modes appliquent les nouveaux prix au stock déjà possédé et aux futurs objets. Comparaison structurée du catalogue : seuls ces trois prix et leurs descriptions changent ; probabilités de butin, autres objets et prix d’achat identiques.
+
+Dix tests existants réussis sans saut, dont quatre SQL : métadonnées du sac, ventes et argent effectivement crédité, concurrence sans double paiement, prix forgés ignorés, vendeurs ordinaires/Grand Comptoir et ventes Rift/Colosseum avec checkpoint. Recette navigateur alignée sur les nouveaux montants, sans exécution navigateur ni nouveau build client. Rapport : `docs/CRYSTAL_SALE_PRICES_DOUBLED.json`.
+
+Publication serveur seule le 28 octobre 2026 à 18 h 15 (Europe/Paris), PID 2761415→2771026. Sauvegarde `/home/ubuntu/dev/backups/riftmon-crystals-double-2026-10-28T17-15-17-720Z`, checkpoint conservé et zéro expédition active relevée. Client/build `819bbc5bc922488c`, index/bundles publics et Knov/api-test inchangés ; service actif, zéro redémarrage automatique et aucun avertissement serveur relevé après publication. Aucune migration ou modification manuelle de compte réel.
+
 ## IA — Coup Bas moins répétitif — 28 octobre 2026
 
 Le planificateur surestimait Coup Bas au tour suivant : ses dégâts et son bonus de K.O. étaient attribués même face à des capacités de statut ou à une priorité adverse plus rapide. La projection pondère désormais sa réussite par les réponses plausibles, leur ordre et le risque de changement. Le court horizon réutilise le risque de changement du plateau courant pour éviter de recalculer tous les matchs des réserves. La projection immédiate respecte également la recharge de la cible et l’exception Moi d’Abord déjà gérées dans le vrai moteur.

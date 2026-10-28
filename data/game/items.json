@@ -1406,30 +1406,30 @@
       "name": "Éclat fissuré",
       "category": "treasure",
       "buy_price": 0,
-      "sell_price": 150,
+      "sell_price": 300,
       "dropOnly": true,
       "wildCrystalChance": 0.25,
-      "description": "Un fragment de cristal aux arêtes brisées. Les boutiques le rachètent 150 ₽."
+      "description": "Un fragment de cristal aux arêtes brisées. Les boutiques le rachètent 300 ₽."
     },
     {
       "key": "clear_crystal",
       "name": "Cristal limpide",
       "category": "treasure",
       "buy_price": 0,
-      "sell_price": 450,
+      "sell_price": 900,
       "dropOnly": true,
       "wildCrystalChance": 0.1,
-      "description": "Un cristal intact aux reflets azurés. Les boutiques le rachètent 450 ₽."
+      "description": "Un cristal intact aux reflets azurés. Les boutiques le rachètent 900 ₽."
     },
     {
       "key": "aurora_prism",
       "name": "Prisme d’aurore",
       "category": "treasure",
       "buy_price": 0,
-      "sell_price": 3000,
+      "sell_price": 6000,
       "dropOnly": true,
       "wildCrystalChance": 0.05,
-      "description": "Un cristal d’une pureté rare, traversé de reflets irisés. Les boutiques le rachètent 3000 ₽."
+      "description": "Un cristal d’une pureté rare, traversé de reflets irisés. Les boutiques le rachètent 6000 ₽."
     },
     {
       "key": "cs_mega_punch",

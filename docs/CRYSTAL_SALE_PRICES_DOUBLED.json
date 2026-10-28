@@ -1,0 +1,74 @@
+{
+  "date": "2026-10-28",
+  "prices": [
+    {
+      "key": "crystal_shard",
+      "name": "Éclat fissuré",
+      "before": 150,
+      "after": 300
+    },
+    {
+      "key": "clear_crystal",
+      "name": "Cristal limpide",
+      "before": 450,
+      "after": 900
+    },
+    {
+      "key": "aurora_prism",
+      "name": "Prisme d’aurore",
+      "before": 3000,
+      "after": 6000
+    }
+  ],
+  "modes": [
+    "Aventure",
+    "Rift",
+    "Colosseum"
+  ],
+  "existingStockUsesNewPrice": true,
+  "otherItemsAndDropRatesUnchanged": true,
+  "validation": {
+    "unitTests": 6,
+    "mysqlTests": 4,
+    "failures": 0,
+    "skips": 0,
+    "structuredCatalogueDiffPassed": true,
+    "command": "NODE_ENV=test RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test node --env-file=.env --test --test-concurrency=1 tests/crystal-sales.test.js tests/crystal-sales-mysql.test.js",
+    "browserScriptUpdated": true,
+    "browserRun": false,
+    "frontendBuildRun": false,
+    "globalSuiteRun": false
+  },
+  "deployment": {
+    "publishedAt": "2026-10-28T17:15:19.287Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-crystals-double-2026-10-28T17-15-17-720Z",
+    "sourceBaseline": "402907ab011f3700d03f6c37d45fa4b300d2f4e2",
+    "sourceHashes": {
+      "data/game/items.json": "6ab89049217db807672ea0f85408713b30e7d310a0a538c6596d32532182dad2"
+    },
+    "clientCommit": "81914d7029c4ee40488aa0686dd0c70ca8fc7d63",
+    "clientBuild": "819bbc5bc922488c",
+    "clientUnchanged": true,
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.6d89ba19.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.dc533f29.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.699eedbd.css"
+    ],
+    "beforePid": "2761415",
+    "afterPid": "2771026",
+    "serverRestarted": true,
+    "checkpointSaved": true,
+    "gracefulCheckpoint": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "sqlMigration": false,
+    "realAccountsModified": false,
+    "warningEntries": 0
+  }
+}
