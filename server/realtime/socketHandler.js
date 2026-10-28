@@ -744,6 +744,19 @@ const socketHandler = (io) => {
             }
         }
 
+        const synchronizeTradeInventory=async()=>{
+            const p=players[socket.id];if(!p)return;
+            socket.emit('teamStateChanged',{equipe:p.equipe,reason:'trade'});
+            socket.emit('bagUpdated',{items:await require('../persistence/itemRepository').loadUserItems(userId)});
+            socket.emit('pcUpdated',await require('../persistence/pokemonStorageRepository').loadStorage(userId));
+            emitPlayerProgression(await loadProgressState(userId));
+        };
+        require('./handlers/tradeHandlers').registerTradeHandlers({io,socket,mode:'adventure',getPlayer:()=>players[socket.id],
+            available:tradeId=>{const p=players[socket.id];return !!p&&!p.inbattle&&(!p.inventoryBusy||tradeId&&p.__tradeId===tradeId)&&!transitionBusy&&!interactionBusy&&!pendingDialogue&&!p.isInteracting&&!socketToChatSession.has(socket.id);},
+            apply:plan=>{const p=players[socket.id];if(p){p.equipe.pokemons=plan.team;socket.emit('teamStateChanged',{equipe:p.equipe,reason:'trade'});}},
+            reload:async()=>{const team=await loadEquipe(userId);const p=players[socket.id];if(p){p.equipe=team;await synchronizeTradeInventory();}},
+            synchronize:synchronizeTradeInventory
+        });
         registerPlayerProfileHandlers({ socket, io, players, userId });
         require('./handlers/trainerPaletteHandlers').registerTrainerPaletteHandlers({socket,userId,getPlayer:()=>players[socket.id],broadcast:(p,palette)=>{
             for(const peer of Object.values(players))if(peer.currentmap===p.currentmap)io.to(peer.id).emit('playerPaletteUpdated',{id:p.id,palette});

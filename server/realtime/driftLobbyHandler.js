@@ -219,6 +219,7 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
             poke.heldItem = key; p.ready = false;
             return { success: true, heldItem: key, items: economy.bag(p) };
         });
+        require('./handlers/tradeHandlers').registerTradeHandlers({io,socket,mode:'expedition',getPlayer:()=>runtime.playerFor(user),available:()=>false,apply:()=>{},reload:async()=>{},synchronize:async()=>{}});
         account.onClose(() => { runtime.disconnect(user, socket); store.disconnect(user, socket.id); publish(); });
     }));
     const cleanup = () => { runtime.fishing.stop(); stopped=true; clearInterval(timer); clearInterval(runtimeTimer); clearInterval(checkpointTimer); };

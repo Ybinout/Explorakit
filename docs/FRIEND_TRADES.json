@@ -1,0 +1,148 @@
+{
+  "feature": "Adventure-only friend trades",
+  "date": "2026-10-28",
+  "userConfirmedScope": "Aventure seulement",
+  "limits": {
+    "pokemonPerSide": 1,
+    "itemTypesPerSide": 6,
+    "quantityPerType": 99,
+    "invitationSeconds": 90,
+    "negotiationSeconds": 300,
+    "personalItemsExcluded": [
+      "key items",
+      "fishing rod",
+      "exp_share"
+    ]
+  },
+  "verification": {
+    "unitAndSocket": 56,
+    "mysql": 12,
+    "skipped": 0,
+    "newUnitAndSocket": 10,
+    "newMysql": 5,
+    "browserJourneys": {
+      "trade": {
+        "realFriendInvitation": true,
+        "twoStageConsent": true,
+        "partyToPcAndPcToParty": true,
+        "permanentPokemonAndHeldItemPreserved": true,
+        "itemGift": true,
+        "offerChangesResetBothValidations": true,
+        "staleConfirmationRejected": true,
+        "noTransferBeforeBothConfirm": true,
+        "ownershipAndThirdPartyProtected": true,
+        "httpInventoryWriteLocked": true,
+        "receiptRecoveryWithoutDuplication": true,
+        "cancelAndDisconnectSafe": true,
+        "adventureOnly": true,
+        "viewports": 4,
+        "themes": 2,
+        "errors": [],
+        "output": "/tmp/riftmon-trade-browser"
+      },
+      "socialRegression": {
+        "nearbyFriendRequest": true,
+        "searchByTrainerName": true,
+        "heldCategoryFilters": true,
+        "acceptanceAndPresence": true,
+        "offlineMessagesPersist": true,
+        "twoWayChat": true,
+        "privateHistoryRejected": true,
+        "noMessagesForThirdAccount": true,
+        "messageTextEscaped": true,
+        "groupInvitationRequiresConsent": true,
+        "groupMessages": true,
+        "groupLocationsAndRealFlight": true,
+        "leavingRemovesMarker": true,
+        "crossNamespaceSocial": true,
+        "heldItemsFromBagAndSearchablePicker": true,
+        "previousItemReturned": true,
+        "adventureInventoryIsolatedFromExpedition": true,
+        "pokemonNavigationAtTop": true,
+        "legacyRaphaelFlight": true,
+        "viewports": 4,
+        "themes": 2,
+        "errors": [],
+        "output": "/tmp/riftmon-trade-social-browser"
+      }
+    },
+    "lint": true,
+    "build": "b7267bc4c6714b83",
+    "screenshotsInspected": true,
+    "physicalPhone": false,
+    "globalSuiteClaimed": false,
+    "knownLegacyFixtureFailure": {
+      "error": "Unrouted item: crystal_shard",
+      "failedTests": 5,
+      "filesUnchangedFromBaseline": [
+        "tests/item-usage-audit.test.js",
+        "tests/item-usage-mysql.test.js",
+        "scripts/lib/itemUsageFixtures.js",
+        "data/game/items.json"
+      ]
+    }
+  },
+  "commands": [
+    "node --test tests/friend-trade.test.js tests/social-groups.test.js tests/account-connection.test.js tests/pokemon-storage.test.js tests/pokemon-storage-drag.test.js tests/shop-training.test.js",
+    "RUN_MYSQL_TESTS=1 NODE_ENV=test DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test node --env-file=.env --test --test-concurrency=1 tests/friend-trade-mysql.test.js tests/social-messages-mysql.test.js tests/trainers-mysql.test.js tests/account-connection-socket.test.js",
+    "npm --prefix vue-explorakit run lint",
+    "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-trade-dist",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-trade-dist node --env-file=.env scripts/validateFriendTradeBrowser.js",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-trade-dist node --env-file=.env scripts/validateSocialGameBrowser.js"
+  ],
+  "deployment": {
+    "publishedAt": "2026-10-28T20:48:49.058Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-trade-2026-10-28T20-48-45-467Z",
+    "sourceBaseline": "d20a014a331d5431509ec5215ee08c873983a0b3",
+    "sourceHashes": {
+      "database/schema.sql": "0d311f2826c0232578f46ff73015a5c900af08ccf8c63326abc99048c0d0532a",
+      "server/http/routes.js": "f20e37e44766f9bf02ac6cf04f39104dc420ed77d45705c04aeaae4b5eef28fc",
+      "server/persistence/itemRepository.js": "6d15cef47d57a488f57aa48512614f435a3d8a6fed53fb31767ab59199408408",
+      "server/realtime/driftLobbyHandler.js": "bafd7c4703cf2fa750b09a517df17452cc85d3c1987e6d20be88d994b896b7be",
+      "server/realtime/socialHub.js": "4c2f66ecee119369323c447a45d034907c99247cb351abd4475cc441d70b3cc3",
+      "server/realtime/socketHandler.js": "eb3630459da1236a608b9e88b249c8c8792d170e7f893c762e10f87747800cf6",
+      "database/migrations/023_friend_trades.sql": "138c3b7e227b58a5b6ff4da24617f1dc88508e34ed34e1922f32891c090f068e",
+      "server/game/social/tradeLocks.js": "a04b86f9353d9e9b1dd8791b8eda21eec0fbc247761f4106adb37b0375e4fd6a",
+      "server/game/social/tradeRules.js": "8ad579faf62d8a2c070ca6da79bae738e78c6ac4b17eafed0d85a9c8ec59c102",
+      "server/persistence/tradeRepository.js": "ab05f8abc9ec339536c1bcdc728f32b9e8db58a8c985b798e4f58c755da7bcc3",
+      "server/realtime/handlers/tradeHandlers.js": "a4d5e698ee380b0704d4e46e628d4ca0f9a1e4fc120462f62f0f44822fa59d5b",
+      "server/realtime/tradeManager.js": "930654085eb9e04b7c7e2583324939fa8d02025f56444152b6287959e261192c"
+    },
+    "clientCommit": "ff19703a3bf8b4834c0d1b88091b25ab2018d68f",
+    "clientBuild": "b7267bc4c6714b83",
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.0d1a6db5.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.81fb330d.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.478f77e8.css"
+    ],
+    "beforePid": "2851707",
+    "afterPid": "2864996",
+    "serverRestarted": true,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "sqlMigration": {
+      "migration": "023_friend_trades.sql",
+      "additiveOnly": true,
+      "backupBytes": 923452,
+      "backupGzipBytes": 133640,
+      "verified": true
+    },
+    "realAccountsManuallyModified": false,
+    "hashedAssetsRetained": true
+  },
+  "postDeployment": {
+    "schemaValid": true,
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningJournalEntries": 0,
+    "unauthenticatedTradeSocketRejected": true,
+    "unauthenticatedFriendsStatus": 401
+  }
+}

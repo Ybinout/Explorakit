@@ -5,7 +5,7 @@ const {regionLocation}=require('../game/world/regionMap');
 const hubs=new WeakMap(),instances=new Set();
 const fail=message=>{throw Object.assign(Error(message),{statusCode:400});};
 const GROUP_LIMIT=6,INVITE_MS=90000,RECONNECT_MS=120000;
-function createSocialHub({now=Date.now,repository=trainers,messageRepository=messages,tickMs=1000}={}){
+function createSocialHub({now=Date.now,repository=trainers,messageRepository=messages,tickMs=1000,onFriendshipChanged=()=>{}}={}){
  const sessions=new Map(),groups=new Map(),membership=new Map(),invitations=new Map(),inboxQueues=new Map();
  let stopped=false;
  const online=id=>!!sessions.get(id)?.socket.connected;
@@ -35,6 +35,7 @@ function createSocialHub({now=Date.now,repository=trainers,messageRepository=mes
  async function friendsChanged(a,b){
   for(const[k,i]of invitations)if(i.from===a&&i.to===b||i.from===b&&i.to===a)invitations.delete(k);
   const relationship=await repository.relationship(a,b);
+  if(relationship!=='friends')onFriendshipChanged(a,b);
   if(relationship!=='friends'&&membership.get(a)&&membership.get(a)===membership.get(b)){
    const g=groupFor(a);removeMember(g.leaderId===a?b:a);
   }
@@ -101,7 +102,7 @@ function createSocialHub({now=Date.now,repository=trainers,messageRepository=mes
  return{attach,state,reload,friendsChanged,invite,answerInvite,leave,kick,groupMessage,directMessage,read,tick,stop(){stopped=true;if(timer)clearInterval(timer);sessions.clear();groups.clear();membership.clear();invitations.clear();}};
 }
 function getSocialHub(io){
- const server=io.server||io;if(!hubs.has(server)){const hub=createSocialHub();hubs.set(server,hub);instances.add(hub);server.httpServer?.once('close',()=>{hub.stop();instances.delete(hub);hubs.delete(server);});}return hubs.get(server);
+ const server=io.server||io;if(!hubs.has(server)){const hub=createSocialHub({onFriendshipChanged:(a,b)=>require('./tradeManager').getTradeManager(server).friendshipChanged(a,b)});hubs.set(server,hub);instances.add(hub);server.httpServer?.once('close',()=>{hub.stop();instances.delete(hub);hubs.delete(server);});}return hubs.get(server);
 }
 async function notifyFriendsChanged(a,b){await Promise.all([...instances].map(h=>h.friendsChanged(a,b)));}
 module.exports={createSocialHub,getSocialHub,notifyFriendsChanged,GROUP_LIMIT,INVITE_MS,RECONNECT_MS};

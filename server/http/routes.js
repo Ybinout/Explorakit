@@ -65,6 +65,10 @@ router.post('/login', async (req, res) => {
 });
 
 router.use(authenticateHttp);
+router.use((req,res,next)=>{
+    if(req.method==='PUT'&&req.path.startsWith('/teams/')&&require('../game/social/tradeLocks').locked(req.user.id))return res.status(409).send({message:'Termine ou annule ton échange avant de modifier ton équipe.'});
+    next();
+});
 router.get('/world-map', (_req, res) => res.send(require('../game/world/regionMap').getRegionMap()));
 router.use('/community',require('./trainerRoutes'));
 router.use('/rift',rateLimit({limit:90}),require('./riftRoutes'));
@@ -149,6 +153,8 @@ router.put('/teams/:teamId/pokemons/reorder', async (req, res) => {
 
     try {
         await withTransaction(async (connection) => {
+            await connection.execute('SELECT id FROM users WHERE id=? FOR UPDATE',[req.user.id]);
+            require('../game/social/tradeLocks').assertUnlocked(req.user.id);
             const team = await getOwnedTeam(teamId, req.user.id, connection);
             if (!team) {
                 const error = new Error('Équipe introuvable.');

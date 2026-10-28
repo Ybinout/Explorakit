@@ -11,7 +11,7 @@ async function verifyMigration() {
                  'users', 'teams', 'pokemons', 'user_items', 'player_story_flags',
                  'player_quests', 'player_badges', 'user_pokedex', 'user_npc_battles',
                  'rift_profiles', 'rift_runs', 'rift_run_entries',
-                 'rift_checkpoints', 'rift_reports', 'rift_cosmetics', 'rift_appearance', 'colosseum_runs', 'colosseum_bests', 'rift_ratings', 'rift_rating_results', 'trainer_friendships', 'pokemon_storage', 'user_item_discoveries', 'trainer_messages', 'trainer_message_reads'
+                 'rift_checkpoints', 'rift_reports', 'rift_cosmetics', 'rift_appearance', 'colosseum_runs', 'colosseum_bests', 'rift_ratings', 'rift_rating_results', 'trainer_friendships', 'pokemon_storage', 'user_item_discoveries', 'trainer_messages', 'trainer_message_reads', 'trainer_trade_receipts'
                )
              ORDER BY TABLE_NAME`
         );
@@ -41,7 +41,7 @@ async function verifyMigration() {
                  'uniq_team_user', 'uniq_team_position', 'fk_teams_user',
                  'fk_pokemons_team', 'fk_user_items_user',
                  'fk_rift_profiles_user', 'fk_rift_entries_user', 'fk_rift_entries_run',
-                 'fk_rating_user', 'fk_rating_result_run', 'fk_rating_result_user', 'fk_friends_low', 'fk_friends_high', 'fk_friends_requester', 'fk_storage_user', 'uniq_storage_slot', 'fk_item_discovery_user', 'fk_message_sender', 'fk_message_recipient', 'fk_message_read_user', 'fk_message_read_peer'
+                 'fk_rating_user', 'fk_rating_result_run', 'fk_rating_result_user', 'fk_friends_low', 'fk_friends_high', 'fk_friends_requester', 'fk_storage_user', 'uniq_storage_slot', 'fk_item_discovery_user', 'fk_message_sender', 'fk_message_recipient', 'fk_message_read_user', 'fk_message_read_peer', 'fk_trade_low', 'fk_trade_high'
                )
              ORDER BY CONSTRAINT_NAME`
         );
@@ -66,10 +66,11 @@ async function verifyMigration() {
              WHERE CONSTRAINT_SCHEMA=DATABASE() AND TABLE_NAME='colosseum_bests'
                AND CONSTRAINT_NAME='PRIMARY' ORDER BY ORDINAL_POSITION`
         );
-        const valid = tables.length === 25
+        const valid = tables.length === 26
             && migrations.some(migration=>migration.name==='022_social_messages.sql')
+            && migrations.some(migration=>migration.name==='023_friend_trades.sql')
             && tables.every((table) => table.ENGINE === 'InnoDB')
-            && constraints.length === 21
+            && constraints.length === 23
             && migrations.some((migration) => migration.name === '010_rift_accounts.sql')
             && migrations.some((migration) => migration.name === '011_rift_reward_duration.sql')
             && migrations.some((migration) => migration.name === '012_rift_durability_cosmetics.sql')
