@@ -1,10 +1,12 @@
 const {dbPool,withTransaction}=require('../config/database');
 const scene=require('../game/world/mirrorRift');
+const {effectiveEndingBadges}=require('../game/world/endingBadges');
 async function read(id,c=dbPool,lock=false){
     const [[owner]]=await c.execute('SELECT id,username,map,x,y,sprite FROM users WHERE id=?'+(lock?' FOR UPDATE':''),[id]);
     const[flags]=await c.execute('SELECT flag_key,flag_value FROM player_story_flags WHERE user_id=?',[id]);
     const[badges]=await c.execute('SELECT badge_key FROM player_badges WHERE user_id=?',[id]);
     const progress={flags:Object.fromEntries(flags.map(f=>[f.flag_key,f.flag_value])),badges:badges.map(b=>({key:b.badge_key,earned:true}))};
+    progress.badges=effectiveEndingBadges(progress.badges,progress.flags,owner);
     return {owner,progress,state:scene.state(progress)};
 }
 async function flag(c,id,key,value){await c.execute('INSERT INTO player_story_flags(user_id,flag_key,flag_value)VALUES(?,?,?) ON DUPLICATE KEY UPDATE flag_value=VALUES(flag_value)',[id,key,String(value)]);}

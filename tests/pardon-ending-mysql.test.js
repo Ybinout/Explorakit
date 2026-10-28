@@ -29,13 +29,25 @@ test('SQL legacy Violence saves remain valid and retain the original badge times
   assert.deepEqual(after.badges,before.badges);assert(after.badges.find(b=>b.key==='pardon_badge').cracked);assert.equal(after.flags.void_resolution,undefined);
  }finally{if(u)await db.execute('DELETE FROM users WHERE id=?',[u.id]);}
 });
-test('SQL admin reset permits the other scene as a private preview, without changing permanent badges or ending',{skip:!enabled},async()=>{
+for(const originalChoice of ['violence','pardon'])test(`SQL admin reset displays the replay ending over saved ${originalChoice}, with matching secret gates and untouched original reward`,{skip:!enabled},async()=>{
  let u;const policy=require('../server/game/world/arenaTests'),original=policy.isOwner;
- try{u=await fixture();assert(await repo.defeat(u.id));assert(await repo.badge(u.id));const before=await progress.loadProgressState(u.id);policy.isOwner=user=>user?.id===u.id;
-  await require('../server/config/database').withTransaction(c=>repo.resetReplay(c,u.id));await flags(u.id,{admin_professor_departure:'seen',admin_lab_rescued:'true'});assert(await repo.pickup(u.id));for(let i=0;i<5;i++)await repo.charge(u.id,'replay-'+i);
-  assert(await repo.resolveOutcome(u.id,'pardon'));assert.equal((await repo.read(u.id)).state.resolution,'pardon');assert(await repo.acknowledgePardon(u.id));assert.deepEqual(await earned(u.id),['violence_badge']);
-  const after=await progress.loadProgressState(u.id);assert.equal(after.flags.void_resolution,'violence');assert.equal(after.flags.admin_void_resolution,'pardon');assert.equal(after.flags.void_pardon_seen,undefined);assert.deepEqual(after.badges,before.badges);
-  await require('../server/config/database').withTransaction(c=>repo.resetReplay(c,u.id));const reset=(await repo.read(u.id)).state;assert.equal(reset.resolution,null);assert.equal(reset.pardonSeen,false);assert.equal(reset.found,false);assert.deepEqual(await earned(u.id),['violence_badge']);
+ try{u=await fixture();assert(await repo.resolveOutcome(u.id,originalChoice));if(originalChoice==='violence')assert(await repo.badge(u.id));
+  const mirror=require('../server/persistence/mirrorRiftRepository');
+  for(const key of require('../server/game/world/mirrorRift').requiredBadges)await db.execute('INSERT IGNORE INTO player_badges(user_id,badge_key)VALUES(?,?)',[u.id,key]);
+  const before=await progress.loadProgressState(u.id);const [storedBefore]=await db.execute('SELECT badge_key,awarded_at FROM player_badges WHERE user_id=? ORDER BY badge_key',[u.id]);policy.isOwner=user=>user?.id===u.id;
+  await require('../server/config/database').withTransaction(c=>repo.resetReplay(c,u.id));
+  const resetProgress=await progress.loadProgressState(u.id);assert(resetProgress.badges.filter(b=>b.exclusiveGroup==='professor_finale').every(b=>!b.earned&&!b.cracked));assert.equal((await mirror.read(u.id)).state.unlocked,false);
+  await flags(u.id,{admin_professor_departure:'seen',admin_lab_rescued:'true'});assert(await repo.pickup(u.id));for(let i=0;i<5;i++)await repo.charge(u.id,'replay-'+i);
+  const choice=originalChoice==='violence'?'pardon':'violence';assert(await repo.resolveOutcome(u.id,choice));assert.equal((await repo.read(u.id)).state.resolution,choice);
+  if(choice==='pardon')assert(await repo.acknowledgePardon(u.id));else {assert.equal((await mirror.read(u.id)).state.unlocked,false);assert(await repo.badge(u.id));}
+  for(let reconnect=0;reconnect<2;reconnect++){
+   const after=await progress.loadProgressState(u.id);assert.equal(after.flags.void_resolution,originalChoice);assert.equal(after.flags.admin_void_resolution,choice);
+   assert(after.badges.find(b=>b.key===choice+'_badge').earned);assert(!after.badges.find(b=>b.key===choice+'_badge').cracked);
+   assert(!after.badges.find(b=>b.key===originalChoice+'_badge').earned);assert(after.badges.find(b=>b.key===originalChoice+'_badge').cracked);
+   assert.deepEqual(after.badges.filter(b=>b.exclusiveGroup!=='professor_finale'),before.badges.filter(b=>b.exclusiveGroup!=='professor_finale'));assert.equal((await mirror.read(u.id)).state.unlocked,true);
+  }
+  await require('../server/config/database').withTransaction(c=>repo.resetReplay(c,u.id));const reset=(await repo.read(u.id)).state;assert.equal(reset.resolution,null);assert.equal(reset.pardonSeen,false);assert.equal(reset.found,false);assert.equal((await mirror.read(u.id)).state.unlocked,false);
+  assert.deepEqual(await earned(u.id),[originalChoice+'_badge']);const [storedAfter]=await db.execute('SELECT badge_key,awarded_at FROM player_badges WHERE user_id=? ORDER BY badge_key',[u.id]);assert.deepEqual(storedAfter,storedBefore);
  }finally{policy.isOwner=original;if(u)await db.execute('DELETE FROM users WHERE id=?',[u.id]);}
 });
 class Socket extends EventEmitter{constructor(actions){super();this.actions=actions;this.connected=true;}emit(event,data){if(event==='requestAction'){const action=this.actions.shift()||{action:'flee'};setImmediate(()=>super.emit('actionResponse',{...action,turnId:data.turnId}));return true;}return super.emit(event,data);}}

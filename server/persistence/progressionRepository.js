@@ -1,6 +1,7 @@
 const progressionCatalog = require('../../data/game/progression.json');
 const pokedexCatalog = require('../../data/game/pokedex.json');
 const { dbPool, withTransaction } = require('../config/database');
+const { effectiveEndingBadges } = require('../game/world/endingBadges');
 const { meetsRequirements, hasCompletedBattle, effectiveStoryFlags, deriveStoryQuest, deriveChapter2, deriveGwennQuest } = require('../game/world/storyProgression');
 
 const QUEST_STATUSES = new Set(['active', 'completed']);
@@ -95,14 +96,14 @@ async function loadProgressState(userId) {
             } : {})
         };
     });
-    const badges = (progressionCatalog.badges || [])
+    const badges = effectiveEndingBadges((progressionCatalog.badges || [])
         .filter(definition=>!definition.hidden||storedBadges.has(definition.key))
         .map((definition) => ({
             ...definition,
             earned: storedBadges.has(definition.key),
             ...(definition.exclusiveGroup==='professor_finale'?{cracked:Boolean(endingResolution&&definition.ending!==endingResolution)}:{}),
             awardedAt: storedBadges.get(definition.key)?.awarded_at || null
-        }))
+        })), flags, moneyRows[0])
         .sort((left, right) => Number(left.order) - Number(right.order));
 
     const objective=quests.find(q=>q.key==='main_sister_search'&&q.status==='active')||quests.find(q=>q.key==='clara_chapter2'&&q.status==='active');

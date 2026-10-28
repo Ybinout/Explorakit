@@ -1,5 +1,14 @@
 # Audit technique et mémoire de RiftMon
 
+## Reset admin — badges Pardon et Violence — 28 octobre 2026
+
+Le replay enregistrait bien Pardon dans `admin_void_resolution`, mais l’étui reprenait le badge permanent de la première fin. Projection partagée `endingBadges.effectiveEndingBadges` : pour le propriétaire autorisé en replay, seul le choix courant est obtenu après sa remise ; l’autre est fissuré. Le reset remet les deux à obtenir, sans fissure ni ancienne date. Utilisation identique dans la progression affichée et la validation SQL du secret de Lucie. Pardon reste immédiat après Purification ; Violence demande toujours l’interaction avec le Professeur K.O. Les récompenses/dates permanentes et les joueurs ordinaires restent intacts ; aucune migration ni mutation manuelle de compte réel. Le Pardon déjà enregistré de binout sera reconnu à la reconnexion.
+
+Validation : 29 tests unitaires et 20 SQL/socket réussis (dont quatre contrôles unitaires admin dans ce lot). Choix opposés, reset, reconnexion, privilège propriétaire, transactions exclusives, date originale et accès au secret vérifiés. Navigateur réel sur comptes jetables supprimés : achat/apprentissage/usage de Purification, deux fins normales et les deux sens du replay via le vrai bouton admin ; 48 captures référencées sur quatre formats, zéro erreur. Pardon après reconnexion inspecté sur PC/mobile. Recette navigateur du miroir adaptée à sa condition d’accès ; parcours complet miroir non réexécuté ici, suite SQL validée. Client inchangé, pas de nouveau build ni de suite globale revendiqués. Rapport et commandes : `docs/ADMIN_ENDING_BADGES.json`.
+
+Publication serveur seule le 28 octobre 2026 à 09 h 03 (Europe/Paris), PID 2520586→2549760. Sauvegarde `/home/ubuntu/dev/backups/riftmon-replay-badges-2026-10-28T08-03-51-438Z`, checkpoint conservé et zéro expédition active relevée. Client/build `e8fa3da1bc10bc2d`, index/bundles publics et Knov/api-test inchangés.
+
+
 ## Wayne — splashart complet — 28 octobre 2026
 
 L’image source coupait les cheveux, la main et les chaussures ; l’affichage était déjà en `object-fit:contain`. Retouche avec l’outil intégré imagegen : même personnage monochrome, cache-œil, pose plongeante, tenue et Ball, silhouette désormais entière avec transparence autour. Nouveau `image/wayne-eyepatch-v2.png` (1 122 × 1 402, 1 464 044 octets), copie intacte du résultat ; source précédente conservée. Résolveurs d’entrée en combat et de dialogue raccordés à cette version. Aucun changement de sprite de carte, CSS partagé, serveur ou progression.
@@ -4511,6 +4520,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 28 octobre 2026 — Reset admin : badges Pardon/Violence alignés sur la fin rejouée, choix opposé fissuré et accès au secret cohérent. Récompense permanente conservée ; 49 tests ciblés et navigateur quatre formats validés. Rapport `docs/ADMIN_ENDING_BADGES.json`.
 
 - 28 octobre 2026 — Wayne : illustration entière avec cache-œil et alpha conservés, entrée de combat et dialogues raccordés. Cinq tests et huit captures navigateur sur quatre formats validés ; rapport `docs/WAYNE_FULL_SPLASH.json`.
 
