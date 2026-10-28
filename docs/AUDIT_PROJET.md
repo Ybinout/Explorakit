@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Duel du clone — écran Fin et réveil — 28 octobre 2026
+
+Après une victoire du clone confirmée par `mirror_stage=won`, le client attend la fin de la présentation du combat, puis enchaîne automatiquement sans panneau Continuer. Les autres victoires/défaites conservent leur résultat. Le voile de fermeture couvre désormais toute la fenêtre, y compris menu et commandes ; « Fin » apparaît au centre sur noir, puis disparaît avant le réveil. Interface sous-jacente inerte pendant la séquence.
+
+Durées serveur conservées : fermeture de 6,2 s (fondu entre 28 et 48 %, titre visible entre 51 et 100 %, avec entrée/sortie douces), puis révélation du lit en 1,8 s. Le noir reste opaque pendant le chargement réel de la chambre. Version statique lisible si les animations sont désactivées ou le mouvement réduit. Aucun changement de serveur, carte, état permanent, récompense ou reset admin.
+
+Validation : lint/build `b1d3f30bb86c3497`, 11 tests unitaires et sept SQL/socket réussis. Recette `scripts/validateMirrorRiftBrowser.js` adaptée : vraie victoire automatique, titre sur noir, chargement de chambre retardé de 2,2 s masqué, réveil dans le lit de l’étage (592,336), sortie possible, ruines et replay privé conservés. 38 captures référencées sur quatre formats, dont huit aperçus du titre à temps CSS fixe avec/sans animations ; zéro erreur. Vues PC/mobile et lit inspectés. Comptes jetables supprimés ; aucun compte réel manipulé, aucune recette sur téléphone physique revendiquée. Rapport : `docs/MIRROR_ENDING_FADE.json`.
+
+Publication client seule le 28 octobre 2026 à 08 h 38 (Europe/Paris), sans redémarrage (PID 2520586). Sauvegarde `/home/ubuntu/dev/backups/riftmon-mirror-ending-2026-10-28T07-38-05-755Z`, index et bundles publics vérifiés, anciens assets conservés ; Knov/api-test inchangés.
+
 ## Professeur — statut Corrompu plus lisible — 28 octobre 2026
 
 La pastille utilisait déjà le mot complet et un fond violet. Sa présentation est renforcée : « Corrompu » en casse normale, 12 px au lieu de 10, hauteur minimale 22 px, texte clair et bordure mauve. Elle ne se comprime plus ; la ligne du nom peut se répartir sur deux lignes sur un téléphone étroit. Styles limités à `status-corrupted`, aucun changement de moteur, de statut serveur ou de persistance.
@@ -4493,6 +4503,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 28 octobre 2026 — Épilogue du clone : victoire automatique, fondu noir plein écran, Fin centré puis lit révélé après chargement. 18 tests et parcours navigateur quatre formats validés, version statique incluse. Rapport `docs/MIRROR_ENDING_FADE.json`.
 
 - 28 octobre 2026 — Statut Corrompu : pastille violette agrandie, mot complet sans compression sur mobile. 15 tests et 32 contrôles navigateur réussis, déploiement client sans redémarrage. Rapport `docs/CORRUPTED_STATUS_PRESENTATION.json`.
 
