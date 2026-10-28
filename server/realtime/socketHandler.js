@@ -6,6 +6,7 @@ const { loadCollisionData, changeMapData, getNextMap, battleMapData, InteractMap
 const stairways=require('../game/world/stairways');
 const { loadEquipe, editEquipe } = require('../persistence/teamRepository');
 const CreatePokemon = require('../game/world/wildPokemonFactory');
+const { applyEncounterGuarantee } = require('../persistence/adventureEncounterRepository');
 const { WILD_ENCOUNTER_CHANCE } = require('../game/world/encounterRate');
 const startBattle = require('../game/battle/wildBattle');
 const startTeamBattle = require('../game/battle/trainerBattle');
@@ -1529,10 +1530,12 @@ const socketHandler = (io) => {
             if (battlemap2D[matrixY] && battlemap2D[matrixY][matrixX] != 0 && !changemap2D[matrixY]?.[matrixX] && !player.inbattle) {
                 if (Math.random() < WILD_ENCOUNTER_CHANCE) {
                     player.inbattle = true;
+                    const encounterMap = player.currentmap;
+                    const encounterActive = () => account.active() && players[socket.id] === player && player.currentmap === encounterMap;
 
                     async function utiliserCreatePokemon() {
                         try {
-                            const pokemonsauvage = await CreatePokemon(currentmap);
+                            const pokemonsauvage = await CreatePokemon(encounterMap);
                             if (!pokemonsauvage) {
                                 return null;
                             }
@@ -1544,15 +1547,17 @@ const socketHandler = (io) => {
                     }
 
                     account.track(utiliserCreatePokemon()
-                        .then((pokemonsauvage) => {
-                            if (!pokemonsauvage || repelsWild(repelProtection, pokemonsauvage)) {
+                        .then(async (pokemonsauvage) => {
+                            if (!encounterActive() || !pokemonsauvage || repelsWild(repelProtection, pokemonsauvage)) {
                                 if (players[socket.id]) {
                                     players[socket.id].inbattle = false;
                                 }
                                 return;
                             }
+                            const wild = await applyEncounterGuarantee(userId, encounterMap, pokemonsauvage);
+                            if (!encounterActive()) { player.inbattle = false; return; }
                             socket.emit('battletrigger', { message: 'Un Pokémon sauvage apparaît !', battleType: 'wild', field: { weather: battleWeatherForMap(player.currentmap) } });
-                            return startBattle(player, pokemonsauvage, io, userId, equipe)
+                            return startBattle(player, wild, io, userId, equipe)
                                 .catch((erreur) => {
                                     console.error(erreur);
                                 })

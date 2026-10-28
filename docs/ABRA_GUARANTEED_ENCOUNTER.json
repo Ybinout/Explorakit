@@ -1,0 +1,112 @@
+{
+  "dateParis": "2026-10-28",
+  "sourceBaseline": "bb0c4536e815ae2ad433a693514545fc2562fc98",
+  "species": {
+    "id": 63,
+    "name": "Abra"
+  },
+  "map": "route2",
+  "levels": [
+    11,
+    15
+  ],
+  "mode": "Adventure",
+  "policy": "First actual non-legendary grass encounter becomes Abra when neither seen_count nor caught_count is positive.",
+  "persistentSource": "user_pokedex (existing primary key user_id, pokemon_id)",
+  "stateMutation": "Only the normal battle marks the Pokémon seen. Selection is read-only.",
+  "preserved": [
+    "encounter frequency",
+    "Repel including the final protected step",
+    "legendary draws",
+    "natural level range",
+    "random IV/nature/K/ability",
+    "natural moves including Teleport",
+    "normal capture",
+    "other maps",
+    "fishing",
+    "Rift",
+    "Colosseum",
+    "existing Pokédex history"
+  ],
+  "sqlMigration": false,
+  "realAccountsModified": false,
+  "client": {
+    "changed": false,
+    "commit": "c2ba7c60bde0ae638f2794df2208eec7c4c57bde",
+    "build": "044091fdc942b304"
+  },
+  "validation": {
+    "unit": {
+      "pass": 35,
+      "fail": 0,
+      "command": "node --test tests/abra-encounter.test.js tests/legendary-encounters.test.js tests/repel.test.js tests/teleport.test.js tests/account-connection.test.js"
+    },
+    "sql": {
+      "pass": 2,
+      "fail": 0,
+      "command": "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RUN_MYSQL_TESTS=1 NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file=.env --test --test-concurrency=1 tests/abra-encounter-socket.test.js tests/account-connection-socket.test.js"
+    },
+    "browser": {
+      "actualRoute2GrassRoll": true,
+      "guaranteedAbra": true,
+      "zoneLevelPreserved": true,
+      "normalCapture": true,
+      "captureAndPokedexPersisted": true,
+      "reconnect": true,
+      "laterDrawIsNormal": true,
+      "viewports": 4,
+      "screenshots": [
+        "abra-320.png",
+        "abra-393.png",
+        "abra-844.png",
+        "abra-1365.png"
+      ],
+      "errors": []
+    },
+    "browserCommand": "DB_TEST_NAME=explorakit_test node --env-file=.env scripts/validateAbraEncounterBrowser.js",
+    "physicalPhoneTested": false,
+    "testFixturesRemaining": 0,
+    "pokedexPrimaryKeyVerified": [
+      "user_id",
+      "pokemon_id"
+    ],
+    "syntaxAndWhitespace": "pass"
+  },
+  "deployment": {
+    "publishedAt": "2026-10-28T06:01:30.332Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-abra-2026-10-28T06-01-28-875Z",
+    "sourceBaseline": "bb0c4536e815ae2ad433a693514545fc2562fc98",
+    "sourceHashes": {
+      "server/realtime/socketHandler.js": "3b1004fbd8ec561bf14c503bdc2f3480a70870bfae34bb0286721fcbb85e3475",
+      "server/persistence/adventureEncounterRepository.js": "c2d6cad96c8e58d74b86e1f08bb821a83c3326afa8a63a1c9a090ebf830795e6"
+    },
+    "clientCommit": "c2ba7c60bde0ae638f2794df2208eec7c4c57bde",
+    "clientBuild": "044091fdc942b304",
+    "clientUnchanged": true,
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.e95ac044.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.a6837023.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.d17eb514.css"
+    ],
+    "beforePid": "2488376",
+    "afterPid": "2502866",
+    "serverRestarted": true,
+    "checkpointSaved": true,
+    "gracefulCheckpoint": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "sqlMigration": false,
+    "realAccountsModified": false
+  },
+  "postDeployment": {
+    "runtimeHashesMatch": true,
+    "serverErrors": 0,
+    "testFixturesRemaining": 0
+  }
+}

@@ -1,5 +1,15 @@
 # Contexte permanent — RiftMon
 
+## Abra — rencontre garantie en Aventure sur la Route 2 — 28 octobre 2026
+
+Abra (63) appartient uniquement au pool sauvage de la Route 2, niveaux 11–15. Lors d’une vraie rencontre dans ses herbes, le premier tirage ordinaire devient Abra si le Pokédex SQL personnel ne le compte ni vu ni capturé. Le niveau déjà tiré est conservé ; PV, IV, nature, K, talent, PP et attaques naturelles viennent du constructeur habituel. Après l’avoir vu, les tirages ordinaires reprennent, y compris les chances naturelles de revoir Abra. Valable aussi pour les anciens comptes ; aucun drapeau ajouté, remise à zéro ou migration.
+
+Le test se fait après le Repousse, sur un combat réellement tiré, sans augmenter la fréquence des rencontres. Légendaires prioritaires, autres cartes, pêche, Rift et Colosseum conservés. Le compte et le lieu sont recontrôlés avant l’affichage après la génération/lecture SQL : une déconnexion pendant la sélection ne consomme rien. La sélection est en lecture seule ; le vrai combat enregistre la rencontre dans le Pokédex. Téléport et la capture restent normaux : rencontrer Abra ne garantit pas sa capture. Une seule lecture indexée de deux compteurs, uniquement pour les candidats ordinaires concernés ; aucune requête ajoutée à chaque pas ni par image.
+
+Validation : 35 tests ciblés et deux recettes SQL/socket réussis : garantie sur six comptes jetables et compatibilité des connexions exclusives. Cas couverts (Téléport réel sans récompense, reconnexion, isolation, ancien capturé, dernier pas de Repousse, légendaire conservé puis Abra, interruption pendant la lecture). Navigateur compilé : vraie rencontre, capture, Pokédex/équipe conservés à la reconnexion puis tirage ordinaire ; quatre formats 320/393/844/1365, quatre captures, zéro erreur. Rendu PC/mobile inspecté. Client/build `044091fdc942b304` inchangés, aucun compte réel manipulé, aucune migration. Suite globale et téléphone physique non revendiqués. Rapport : `docs/ABRA_GUARANTEED_ENCOUNTER.json`.
+
+Publication serveur seule le 28 octobre 2026 à 07 h 01 (Europe/Paris), PID 2488376→2502866. Sauvegarde `/home/ubuntu/dev/backups/riftmon-abra-2026-10-28T06-01-28-875Z`, checkpoint conservé et zéro expédition active relevée. Index/bundles et client/build `044091fdc942b304` inchangés, Knov/api-test conservés ; empreintes runtime identiques et zéro erreur serveur. Aucun compte de recette restant, aucune migration ou manipulation manuelle de compte réel.
+
 ## Aspha — sprite fidèle à la référence et chien conservé — 28 octobre 2026
 
 Nouveau personnage à partir du chauve de l’atlas `6931.png`, rectangle (652,33,21,25), conforme à l’image fournie : grosse tête, visage simple, épaules courtes et larges, gilet gris, maillot rouge, pantalon bleu et Ball lisible. Imagegen intégré, puis export au plus proche voisin sur la palette classique de treize couleurs. Canvas transparent 40×32 conservé, contenu humain 23×26 ; aucune modification de l’échelle de rendu ni de l’ancrage du duo.
