@@ -95,7 +95,7 @@ function cast(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMoved=fa
         const blocked=abilities.resolveMoveAbilityImmunity({attacker:p,defender:other,move:resolved,battleState:state,effectiveness,
             movePriority:engine.getMovePriority(move.ename,p),heal,changeStage:(target,stat,n)=>engine.applyStageChange(target,stat,n,[],target)});
         let raw=blocked?0:ctx.damage(p,other,move,otherSide,state);
-        if(move.ename==='Sucker Punch'&&(!reply||reply.combat.damage_class==='status'||alreadyMoved))raw=0;
+        if(move.ename==='Sucker Punch'&&(!reply||(reply.combat.damage_class==='status'&&reply.ename!=='Me First')||alreadyMoved||other.__battle.rechargeMove))raw=0;
         if(['Fake Out','First Impression'].includes(move.ename)&&p.__battle.activeMoveActions>0)raw=0;
         if(move.ename==='False Swipe')raw=Math.min(raw,Math.max(0,other.currentHp-1));
         if(move.ename==='Focus Punch'&&p.__battle.lastDamageTurn===state.turn&&p.__battle.lastDamageTaken>0)raw=0;

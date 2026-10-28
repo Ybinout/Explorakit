@@ -1,0 +1,206 @@
+{
+  "date": "2026-10-28",
+  "request": "Réduire le spam de Coup Bas par les dresseurs",
+  "modes": [
+    "Aventure",
+    "Rift",
+    "Colosseum"
+  ],
+  "sourceBaseline": "5d791a330bc864287e80f33fb97556fcef1d2fe5",
+  "changes": [
+    "Projection du tour suivant conditionne dégâts/K.O. de Coup Bas aux réponses et à leur priorité",
+    "Quatre dernières capacités exécutées par adversaire ; influence bornée à 45 % de la prévision quand Coup Bas est disponible",
+    "Recharge et exception Moi d’Abord alignées sur le moteur existant",
+    "Compatibilité des anciennes mémoires et conservation dans les checkpoints"
+  ],
+  "privacy": {
+    "known": [
+      "équipe",
+      "attaques",
+      "talents"
+    ],
+    "unread": [
+      "commande soumise",
+      "objets adverses",
+      "PP adverses",
+      "IV/EV",
+      "statistiques adverses exactes"
+    ],
+    "usesLiveRng": false
+  },
+  "validation": {
+    "unitTests": 159,
+    "mysqlRuntimeTests": 12,
+    "newUnitTests": 16,
+    "newMysqlTests": 1,
+    "failures": 0,
+    "skips": 0,
+    "commands": [
+      "node --test --test-concurrency=1 tests/human-trainer-*.test.js tests/battle-order.test.js tests/move-selection.test.js tests/*-tactics.test.js tests/colosseum-ai.test.js",
+      "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test node --env-file=.env --test --test-concurrency=1 --test-name-pattern='Coup Bas|Human AI|Piège Sable' tests/battle-runtime-integration.test.js",
+      "node scripts/validateHumanTrainerFinishing.js"
+    ],
+    "finishingSweep": {
+      "decisions": 126,
+      "immuneChoices": 0,
+      "maxSwitchProbability": 0.01224000000000001,
+      "averageAnalysisAndChoiceMs": 5.338130547619051,
+      "maxAnalysisAndChoiceMs": 20.30098000000001,
+      "examples": [
+        {
+          "id": 51,
+          "hp": 10,
+          "ownSpeed": 70,
+          "trick": 0,
+          "habits": 0,
+          "chosen": "Surf",
+          "switchProbability": 0.005
+        },
+        {
+          "id": 51,
+          "hp": 10,
+          "ownSpeed": 70,
+          "trick": 0,
+          "habits": 10,
+          "chosen": "Surf",
+          "switchProbability": 0.01224000000000001
+        },
+        {
+          "id": 51,
+          "hp": 10,
+          "ownSpeed": 70,
+          "trick": 3,
+          "habits": 0,
+          "chosen": "Surf",
+          "switchProbability": 0.005
+        },
+        {
+          "id": 51,
+          "hp": 10,
+          "ownSpeed": 70,
+          "trick": 3,
+          "habits": 10,
+          "chosen": "Surf",
+          "switchProbability": 0.01224000000000001
+        }
+      ]
+    },
+    "staleTest": "Une ancienne assertion interdisant la lecture du talent échoue aussi sur HEAD. Alignée sur la politique explicite de talents connus, tout en conservant la protection des objets/PP.",
+    "performance": {
+      "samplesPerCase": 12,
+      "fixture": "/tmp/riftmon-ai-performance-fixtures.gz",
+      "rows": [
+        {
+          "name": "sevenp",
+          "opponent": "wanda",
+          "weather": "none",
+          "beforeMeanMs": 51.364375583333334,
+          "afterMeanMs": 52.51344641666668,
+          "beforeP95Ms": 101.026317,
+          "afterP95Ms": 100.137408
+        },
+        {
+          "name": "sevenp",
+          "opponent": "wanda",
+          "weather": "rain",
+          "beforeMeanMs": 36.006488666666655,
+          "afterMeanMs": 44.86937908333332,
+          "beforeP95Ms": 36.922534999999925,
+          "afterP95Ms": 55.71579899999995
+        },
+        {
+          "name": "wanda",
+          "opponent": "sevenp",
+          "weather": "none",
+          "beforeMeanMs": 54.69233949999997,
+          "afterMeanMs": 46.941318333333335,
+          "beforeP95Ms": 87.8927349999999,
+          "afterP95Ms": 62.15010200000006
+        },
+        {
+          "name": "wanda",
+          "opponent": "sevenp",
+          "weather": "rain",
+          "beforeMeanMs": 37.82039725000004,
+          "afterMeanMs": 34.847446666666634,
+          "beforeP95Ms": 44.46796500000028,
+          "afterP95Ms": 36.358180000000175
+        },
+        {
+          "name": "ana",
+          "opponent": "sevenp",
+          "weather": "none",
+          "beforeMeanMs": 17.635292416666555,
+          "afterMeanMs": 16.673312499999952,
+          "beforeP95Ms": 24.891309999999976,
+          "afterP95Ms": 19.075710000000072
+        },
+        {
+          "name": "ana",
+          "opponent": "sevenp",
+          "weather": "rain",
+          "beforeMeanMs": 16.455173333333352,
+          "afterMeanMs": 18.471773999999982,
+          "beforeP95Ms": 17.53673600000002,
+          "afterP95Ms": 20.493219999999837
+        },
+        {
+          "name": "raphael",
+          "opponent": "sevenp",
+          "weather": "none",
+          "beforeMeanMs": 18.929142499999973,
+          "afterMeanMs": 20.372067333333423,
+          "beforeP95Ms": 19.899296999999933,
+          "afterP95Ms": 22.28681600000027
+        },
+        {
+          "name": "raphael",
+          "opponent": "sevenp",
+          "weather": "rain",
+          "beforeMeanMs": 19.388474583333352,
+          "afterMeanMs": 19.28284425000004,
+          "beforeP95Ms": 20.393976999999722,
+          "afterP95Ms": 21.227574999999888
+        }
+      ],
+      "limitation": "Mesure locale avec bruit/démarrage à froid, pas un test de charge."
+    }
+  },
+  "limits": [
+    "Prévision du second tour approximative, avec le risque de changement du plateau actuel réutilisé",
+    "Aucun test navigateur, matériel physique ou nouveau build client"
+  ],
+  "deployment": {
+    "publishedAt": "2026-10-28T16:52:34.374Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-sucker-2026-10-28T16-52-32-776Z",
+    "sourceBaseline": "5d791a330bc864287e80f33fb97556fcef1d2fe5",
+    "sourceHashes": {
+      "server/game/battle/humanTrainerAI.js": "314e533f20139b1fd2975b03535b76d6e8ecb46c776afc78fd477c649fd62813",
+      "server/game/battle/humanTrainerModel.js": "14b4191331bdbeaae1c6ef46f4c5b71da09d0a2ec6e7c447231af7e61e1d8f80"
+    },
+    "clientCommit": "81914d7029c4ee40488aa0686dd0c70ca8fc7d63",
+    "clientBuild": "819bbc5bc922488c",
+    "clientUnchanged": true,
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.6d89ba19.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.dc533f29.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.699eedbd.css"
+    ],
+    "beforePid": "2746466",
+    "afterPid": "2761415",
+    "serverRestarted": true,
+    "checkpointSaved": true,
+    "gracefulCheckpoint": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "sqlMigration": false,
+    "realAccountsModified": false,
+    "warningEntries": 0
+  }
+}

@@ -30,10 +30,10 @@ test('own conditions: no awake Snore/Sleep Talk, empty stockpile/item/berry, wro
  p.abilities=['Burn Up','Tackle'];p.passiveAbility='Protean';assert.deepEqual(selection.preferMoves(p,field),[0,1]);p.__battle.abilitySuppressed=true;assert.deepEqual(selection.preferMoves(p,field),[1]);
  p.abilities=['Teleport','Tackle'];field.battleType='wild';assert.deepEqual(selection.preferMoves(p,field),[0,1]);
 });
-test('public forecasts never assume an unknown opposing held item/ability is absent',()=>{
+test('incomplete forecasts preserve unknown item/ability; trainer AI knows abilities but never private items or PP',()=>{
  const p=mon(9,['Natural Gift','Snore']);delete p.heldItem;delete p.passiveAbility;const field=engine.createBattleState();
  for(const name of p.abilities)assert.equal(selection.failureReason(p,engine.getMoveByName(name),field,{privateKnown:false}),null);
- const a=mon(),b=mon(143,['Fling','Snore']),o=options(a,b);for(const key of['heldItem','passiveAbility','movePp'])Object.defineProperty(b,key,{get(){throw Error('Private opponent read '+key);}});
+ const a=mon(),b=mon(143,['Fling','Snore']),o=options(a,b);for(const key of['heldItem','movePp'])Object.defineProperty(b,key,{get(){throw Error('Private opponent read '+key);}});
  Object.defineProperty(o.field,'turnActions',{get(){throw Error('Pending action read');}});assert(ai.chooseAction(o));
 });
 test('taunt, disabled, encore and throat-chop restrictions improve the automated fallback',()=>{

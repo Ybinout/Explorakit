@@ -1226,3 +1226,30 @@ test('Piège Sable Aventure : changement refusé, décision IA conservée et vic
         assert.equal((await loadEquipe(userId)).pokemons[0].uuid,lead.uuid);
     }finally{policy.chooseAction=original;if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
 });
+
+test('Coup Bas IA Aventure : échec face au soin, autre attaque au tour suivant, commande engagée et sauvegarde', {skip:!shouldRun}, async()=>{
+ const pool=createTestPool();let userId;
+ const policy=require('../server/game/battle/humanTrainerAI'),original=policy.chooseAction,decisions=[];
+ try {
+  const {user,player}=await createPlayer(7);userId=user.id;
+  const factory=require('../server/game/drift/pokemonFactory'),resources=require('../server/game/battle/battleResources');
+  const own=factory.create(94,50,true),enemy=factory.create(51,50,true);
+  for(const [p,id,moves]of [[own,94,['Recover','Shadow Ball']],[enemy,51,['Sucker Punch','Knock Off','Swords Dance']]]) {
+   p.uuid=`sucker-${id}`;p.passiveAbility=null;p.heldItem=null;p.abilities=moves;p.movePp=moves.map(resources.getMaxMovePp);
+  }
+  own.maxHp=own.currentHp=150;player.equipe=createTeam(own);const team=createTeam(enemy);
+  policy.chooseAction=options=>{const result=original(options);decisions.push({...result});return result;};
+  class PromptSocket extends ScriptedSocket {
+   emit(name,payload){if(name==='requestAction')assert(decisions.length>0,'decision precedes the player command');return super.emit(name,payload);}
+  }
+  const io=new RecordingIo({[player.id]:new PromptSocket([{action:'attack',number:0},{action:'change',number:99},{action:'attack',number:0},{action:'flee'}])});
+  await withFixedRandom(.5,()=>startTrainerBattle(player,team,io,userId));
+  assert.deepEqual(decisions.slice(0,2),[{action:'attack',number:0},{action:'attack',number:1}]);
+  assert.equal(decisions.length,3,'invalid input does not reroll the committed attack');
+  const results=io.events.filter(e=>e.eventName==='battleMoveResult'&&e.payload.actor==='opponent').map(e=>e.payload);
+  assert.equal(results.length,2);assert.equal(results[0].moveName,'Sucker Punch');assert.equal(results[0].damage,0);
+  assert.equal(results[1].moveName,'Knock Off');assert(results[1].damage>0);
+  assert.equal(enemy.movePp[0],4);assert.equal(enemy.movePp[1],19);
+  const saved=await loadEquipe(userId);assert.equal(saved.pokemons[0].uuid,own.uuid);assert.equal(saved.pokemons[0].currentHp,own.currentHp);
+ }finally{policy.chooseAction=original;if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
+});

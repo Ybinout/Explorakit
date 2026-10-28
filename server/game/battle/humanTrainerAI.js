@@ -242,7 +242,7 @@ function finishingPressure(a,b,ctx) {
     }
     return pressure;
 }
-function forecast(a,foes,ctx,memory,skill=1) {
+function forecastMoves(a,foes,ctx,memory) {
     const b=foes[0],reverse=context(b,a,foes,ctx.field,ctx.enemySide,ctx.ownSide,ctx.party.length);
     const ownBest=Math.max(0,...ctx.attacks.map(m=>damage(a,b,m,ctx.enemySide,ctx.field)));
     const enemyBest=Math.max(0,...reverse.attacks.map(m=>damage(b,a,m,ctx.ownSide,ctx.field)));
@@ -252,6 +252,20 @@ function forecast(a,foes,ctx,memory,skill=1) {
         score+=Math.min(9,count*2); // Historical preference, never the pending move.
         return {kind:'attack',target:b,move,score};
     }));
+    if(!ctx.attacks.some(m=>m.ename==='Sucker Punch'))return attacks;
+    // A human can deliberately deny Sucker Punch with setup or recovery.
+    // Recent completed moves matter more than a theoretical damaging KO;
+    // retain the tactical forecast so a previous failure never bans priority.
+    const recent=(memory.habits?.recentMoves?.[b.uuid]||[]).filter(name=>attacks.some(x=>x.move.ename===name));
+    if(!recent.length)return attacks;
+    const weight=Math.min(.45,.2+.08*(recent.length-1));
+    return attacks.map(x=>({...x,probability:x.probability*(1-weight)
+        +weight*recent.filter(name=>name===x.move.ename).length/recent.length}));
+}
+function forecast(a,foes,ctx,memory,skill=1) {
+    const b=foes[0],attacks=forecastMoves(a,foes,ctx,memory);
+    const ownBest=Math.max(0,...ctx.attacks.map(m=>damage(a,b,m,ctx.enemySide,ctx.field)));
+    const enemyBest=Math.max(0,...ctx.replies.map(m=>damage(b,a,m,ctx.ownSide,ctx.field)));
     const escapeChance=switching.chance(b,a,ctx.field);
     const reserves=escapeChance>0?foes.slice(1).map(resetEntry).map(target=>{
         const cost=legacy.entryDamage(target,ctx.enemySide,ctx.field);
@@ -276,13 +290,29 @@ function futureValue(out,ctx) {
     const next={...ctx,field,ownSide:side,enemySide};
     const replies=moves(b,field).map(x=>x.move).filter(m=>m.combat.damage_class!=='status');
     const threat=Math.max(0,...replies.map(m=>damage(b,a,m,side,field)*chance(m,b,a,field)));
+    let suckerSuccess;
     let best=-40;
     for(const {move}of moves(a,field)) {
         if(move.combat.damage_class==='status'||ctx.memory?.seen?.[b.uuid]?.immuneMoves?.includes(move.ename))continue;
         const amount=damage(a,b,move,enemySide,field),accuracy=chance(move,a,b,field);
+        let success=1;
+        if(move.ename==='Sucker Punch') {
+            if(suckerSuccess===undefined) {
+                const foes=[b,...(ctx.opponentParty||[]).filter(p=>p.uuid!==b.uuid&&p.currentHp>0)];
+                const prediction={...next,attacks:moves(a,field).map(x=>x.move).filter(m=>m.combat.damage_class!=='status')};
+                // Reuse the current board's switch prior for this short lookahead;
+                // don't expand every reserve matchup again for each candidate.
+                const stay=foes.length>1?1-(ctx.switchProbability||0)*switching.chance(b,a,field):1;
+                suckerSuccess=b.__battle.rechargeMove?0:stay*forecastMoves(a,foes,prediction,ctx.memory||{}).reduce((total,s)=>total+
+                    ((s.move.combat.damage_class!=='status'||s.move.ename==='Me First')
+                        ?s.probability*orderChance(a,move,b,s.move,next):0),0);
+            }
+            success=suckerSuccess;
+        }
+        const reliability=accuracy*success;
         const canFinish=amount>=b.currentHp&&replies.every(reply=>actsFirst(a,move,b,reply,next));
-        let value=ratio(Math.min(amount,b.currentHp),b)*accuracy+(canFinish?35*accuracy:0)
-            -ratio(Math.min(threat,a.currentHp),a)*(canFinish?1-accuracy:.6);
+        let value=ratio(Math.min(amount,b.currentHp),b)*reliability+(canFinish?35*reliability:0)
+            -ratio(Math.min(threat,a.currentHp),a)*(canFinish?1-reliability:.6);
         if(getMoveFlags(move).charge&&!resources.getForcedMove(a))value*=.52;
         if(a.__battle.rechargeMove)value=-ratio(Math.min(threat,a.currentHp),a);
         best=Math.max(best,value);
@@ -347,6 +377,7 @@ function analyse({team,opponentTeam,field,ownSide,enemySide,memory={},round=1,sk
     ctx.opponentParty=foes;
     ctx.finishingPressure=finishingPressure(a,b,ctx);
     const scenarios=forecast(a,foes,ctx,memory,skill);
+    ctx.switchProbability=scenarios.filter(s=>s.kind==='change').reduce((sum,s)=>sum+s.probability,0);
     // All legal hypotheses get a first-turn projection. A fixed three-branch
     // beam extends the most probable ones; no wall-clock budget or live RNG.
     const deeper=new Set([...scenarios].sort((x,y)=>y.probability-x.probability).slice(0,3));
@@ -432,5 +463,7 @@ function observeTurn(memory, beforeUuid, after, action, moveName) {
 function observeMove(memory,uuid,moveName) {
     const h=memory.habits ||= {turns:0,switches:0,moves:{}};
     const entry=h.moves[uuid] ||= {};entry[moveName]=Math.min(20,(entry[moveName]||0)+1);
+    const recent=h.recentMoves ||= {};
+    recent[uuid]=[...(recent[uuid]||[]),moveName].slice(-4);
 }
 module.exports={chooseAction,analyse,observeTurn,observeMove,publicField,publicPokemon,chooseReplacement};
