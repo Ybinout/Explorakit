@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Maison de Lucie — parquet brisé visible après la faille — 28 octobre 2026
+
+Le trou était dessiné après les huit lames écartées et masquait leurs extrémités. Le vide passe désormais sous les fragments, découpés avec des cassures irrégulières. Les lames reprennent la texture et les dimensions du vrai parquet (22 pixels monde de haut, largeur 96/80) et glissent toujours de huit pixels au maximum. Léger soulèvement, chants visibles et six petits éclats permanents rendent l’arrachement lisible au stade `complete`, après le retour et la reconnexion. Les deux tables et leurs ombres restent exclues du dessin.
+
+Correctif de rendu client uniquement : cinématique de huit secondes, vortex, collision du trou, progression privée, reset admin, réveil dans le lit et images auteur conservés. Texture 384×384 existante ; zéro nouveau calcul de texture sur cinquante images de la salle terminée, rendu fixe identique avec réduction des mouvements. Aucune ressource graphique supplémentaire, mutation de compte réel ou migration.
+
+Validation : 22 tests ciblés, lint et build `238e1188f49d5212` réussis. Nouvelle recette Canvas reproductible `node scripts/validateMirrorFloorRendering.js` : quatre extrémités visibles, centre noir, meubles préservés, persistance après recréation et cache vérifiés ; échec reproduit sur le module de référence. Parcours complet sur deux comptes SQL jetables : ouverture, clone, duel, fermeture, lit de l’étage, retour dans les ruines, reconnexion, isolation et reset privé ; 32 captures sur quatre formats et une capture clavier PC, zéro erreur. Captures PC/mobile inspectées. Pas de téléphone physique ou suite globale revendiqués. Rapport : `docs/MIRROR_RIFT_VISIBLE_RUINS.json`.
+
+Publication client seule le 28 octobre 2026 à 06 h 31 (Europe/Paris), client `7130cf6f8c473a02e619cf4ffb7969793768de58`, build `238e1188f49d5212`. Sauvegarde `/home/ubuntu/dev/backups/riftmon-ruins-2026-10-28T05-31-05-391Z`. Index, bundles et décors publics vérifiés, anciens assets conservés ; PID 2488376 inchangé, zéro redémarrage ou erreur serveur. Knov/api-test inchangés, aucune migration ou manipulation de compte réel ; aucun compte de recette restant dans la base dédiée.
+
 ## Laboratoire du Professeur — collisions des meubles — 28 octobre 2026
 
 Onze cases de sol réellement praticables sont libérées devant les consoles du fond et près des sièges latéraux. Cuves, consoles, armoires, chaises et murs restent solides ; la marge tient compte des pieds du sprite sous son point de déplacement. Les petits espaces sans dégagement derrière les sièges restent fermés. Seule la couche `coll` de `professor_lab.json` change : dimensions, autres couches, sorties, positions des personnages et images conservées.
@@ -4417,6 +4427,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 28 octobre 2026 — Maison de Lucie : les lames déplacées, bords cassés et débris restent au-dessus du trou après la fermeture. Meubles protégés, texture du parquet et collisions conservées ; 22 tests, Canvas, build et parcours navigateur complet validés. Rapport `docs/MIRROR_RIFT_VISIBLE_RUINS.json`.
 
 - 28 octobre 2026 — Laboratoire : collisions latérales ajustées au mobilier, onze cases praticables récupérées ; barrière personnelle et absence de contournement vérifiées. Carte hors collisions et images conservées ; tests ciblés et SQL/socket réussis. Rapport `docs/PROFESSOR_LAB_COLLISIONS.json`.
 

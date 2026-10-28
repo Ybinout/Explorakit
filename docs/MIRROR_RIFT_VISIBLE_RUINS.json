@@ -1,0 +1,185 @@
+{
+  "dateParis": "2026-10-28",
+  "sourceBaseline": "23ea8447b9320bb07d7d3d8124c181d2949917d0",
+  "clientBaseline": "f0465ec6adefc1d95c9e5c9de5d970bca049df30",
+  "clientCommit": "7130cf6f8c473a02e619cf4ffb7969793768de58",
+  "build": "238e1188f49d5212",
+  "change": "Draw the permanent, textured and splintered floorboards over the pit rather than under it.",
+  "worldBoardHeight": 22,
+  "worldBoardWidths": [
+    96,
+    80
+  ],
+  "maximumBoardSlide": 8,
+  "permanentSplinters": 6,
+  "nativeTextureSize": [
+    384,
+    384
+  ],
+  "mapArtworkModified": false,
+  "gameplayAndServerUnchanged": true,
+  "realAccountsModified": false,
+  "sqlMigration": false,
+  "validation": {
+    "unit": {
+      "pass": 22,
+      "fail": 0,
+      "command": "node --test tests/mirror-rift.test.js tests/lucie-scene.test.js tests/position-recovery.test.js"
+    },
+    "negativeControl": "Original renderer fails the broken plank visibility check.",
+    "canvas": {
+      "brokenEndsVisible": true,
+      "probes": [
+        {
+          "x": 373,
+          "y": 320,
+          "rgba": [
+            45,
+            59,
+            87,
+            255
+          ]
+        },
+        {
+          "x": 488,
+          "y": 320,
+          "rgba": [
+            43,
+            57,
+            83,
+            255
+          ]
+        },
+        {
+          "x": 385,
+          "y": 367,
+          "rgba": [
+            46,
+            61,
+            89,
+            255
+          ]
+        },
+        {
+          "x": 495,
+          "y": 344,
+          "rgba": [
+            46,
+            60,
+            89,
+            255
+          ]
+        }
+      ],
+      "hole": [
+        8,
+        10,
+        20,
+        255
+      ],
+      "furniturePreserved": true,
+      "persistentAfterRecreation": true,
+      "completedTextureRebuildsFor50Frames": 0,
+      "reducedMotionPreservesRuins": true
+    },
+    "browser": {
+      "realHiddenAction": true,
+      "desktopKeyboard": true,
+      "allBadgesRequired": true,
+      "openingAndDust": true,
+      "openingCaption": true,
+      "centralRift": true,
+      "eightSecondOpening": true,
+      "movementBlockedDuringScene": true,
+      "riftCellsSolid": true,
+      "silentCloneDuel": true,
+      "exactInitialHpPpItems": true,
+      "violetAppearances": 6,
+      "reconnect": true,
+      "winClosesRift": true,
+      "wakeAtHome": true,
+      "wakeInUpstairsBed": true,
+      "bedExitReachable": true,
+      "closedHoleStillSolid": true,
+      "teamHealedAndOrderPreserved": true,
+      "noTrainingOrMoneyRewards": true,
+      "ruinsPersistentInsideAndOutside": true,
+      "perPlayerIsolation": true,
+      "privateAdminReplay": true,
+      "viewports": 4,
+      "screens": [
+        "floor-tearing-320.png",
+        "floor-tearing-393.png",
+        "floor-tearing-844.png",
+        "floor-tearing-1365.png",
+        "violet-rift-open-320.png",
+        "violet-rift-open-393.png",
+        "violet-rift-open-844.png",
+        "violet-rift-open-1365.png",
+        "violet-clone-320.png",
+        "violet-clone-393.png",
+        "violet-clone-844.png",
+        "violet-clone-1365.png",
+        "mirror-battle-320.png",
+        "mirror-battle-393.png",
+        "mirror-battle-844.png",
+        "mirror-battle-1365.png",
+        "rift-closing-320.png",
+        "rift-closing-393.png",
+        "rift-closing-844.png",
+        "rift-closing-1365.png",
+        "awakened-bed-320.png",
+        "awakened-bed-393.png",
+        "awakened-bed-844.png",
+        "awakened-bed-1365.png",
+        "house-exterior-ruined-320.png",
+        "house-exterior-ruined-393.png",
+        "house-exterior-ruined-844.png",
+        "house-exterior-ruined-1365.png",
+        "house-interior-ruined-320.png",
+        "house-interior-ruined-393.png",
+        "house-interior-ruined-844.png",
+        "house-interior-ruined-1365.png"
+      ],
+      "errors": []
+    },
+    "testFixturesRemaining": 0,
+    "lint": "pass",
+    "physicalPhoneTested": false,
+    "commands": [
+      "node scripts/validateMirrorFloorRendering.js",
+      "RELEASE_DIST_DIR=/tmp/riftmon-ruins-dist RELEASE_SCREENSHOTS=/tmp/riftmon-ruins-browser DB_TEST_NAME=explorakit_test node --env-file=.env scripts/validateMirrorRiftBrowser.js",
+      "npm --prefix vue-explorakit run lint -- --no-fix",
+      "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-ruins-dist"
+    ]
+  },
+  "deployment": {
+    "publishedAt": "2026-10-28T05:31:06.724Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-ruins-2026-10-28T05-31-05-391Z",
+    "clientBuild": "238e1188f49d5212",
+    "clientCommit": "7130cf6f8c473a02e619cf4ffb7969793768de58",
+    "pid": "2488376",
+    "serverRestarted": false,
+    "neighborsUnchanged": true,
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.adc620d9.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.ca5cb4f8.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.d17eb514.css",
+      "img/route2_maison.3916584e.png",
+      "img/ville4_arene.4d111715.png",
+      "img/6931.30769aa5.png"
+    ]
+  },
+  "postDeployment": {
+    "serverPidUnchanged": true,
+    "serverErrors": 0,
+    "testFixturesRemaining": 0,
+    "publicBuildAndArtworkMatch": true
+  }
+}
