@@ -9,11 +9,11 @@ async function fixture(ending='pardon_badge'){
  for(const b of [...scene.requiredBadges,ending])await db.execute('INSERT INTO player_badges(user_id,badge_key)VALUES(?,?)',[u.id,b]);return u;
 }
 const at=(id,x,y)=>({userId:id,currentmap:'route2_maison',x:x*32+16,y:y*32+16,sprite:'sprite.png'});
-test('SQL mirror: real badge ownership, exact hidden action and duplicate packets are authoritative',{skip:!enabled},async()=>{
+test('SQL mirror: badge ownership, full bookshelf proximity and duplicate packets are authoritative',{skip:!enabled},async()=>{
  let u;try{u=await fixture();await db.execute("DELETE FROM player_badges WHERE user_id=? AND badge_key='pardon_badge'",[u.id]);
   assert.equal(await repo.advance(u.id,'open',at(u.id,7,4)),false);await db.execute("INSERT INTO player_badges(user_id,badge_key)VALUES(?,'violence_badge')",[u.id]);
   assert.equal(await repo.advance(u.id,'open',at(u.id+1,7,4)),false);assert.equal(await repo.advance(u.id,'open',at(u.id,7,8)),false);
-  const result=await Promise.all([repo.advance(u.id,'open',at(u.id,7,4)),repo.advance(u.id,'open',at(u.id,7,4))]);assert.equal(result.filter(Boolean).length,1);
+  const result=await Promise.all([repo.advance(u.id,'open',at(u.id,7,7)),repo.advance(u.id,'open',at(u.id,9,6))]);assert.equal(result.filter(Boolean).length,1);
   let r=await repo.read(u.id);assert.equal(r.state.stage,'open');assert(r.state.ruined);assert.equal(await repo.win(u.id),false);assert.equal(await repo.completeWake(u.id),false);
   assert(await repo.advance(u.id,'emerge',at(u.id,13,12)));r=await repo.read(u.id);assert.deepEqual(r.state.appearance,{sprite:'sprite.png'});
   assert.equal(await repo.advance(u.id,'emerge',at(u.id,13,12)),false);assert.equal(scene.interaction(at(u.id,13,12),r.progress),'battle');

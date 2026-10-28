@@ -7,9 +7,16 @@ test('secret requires the six earned gym badges and either actual ending badge',
   for(const missing of [...scene.requiredBadges,'pardon_badge']){const p=progress();p.badges=p.badges.filter(b=>b.key!==missing);assert(!scene.unlocked(p));}
   assert(!scene.unlocked({flags:{true_ending:'true'},badges:[]}));assert(!scene.unlocked({badges:progress().badges.map(b=>({...b,earned:false}))}));
 });
-test('opening is a hidden action behind the actual bookshelf; approach and clone require their own positions',()=>{
+test('opening works along the entire bookshelf perimeter; approach and clone retain their own positions',()=>{
   const p=progress(),player={currentmap:scene.config.map,x:7*32+16,y:4*32+16};
   assert.equal(terrain.loadCollisionData(player.currentmap)[4][7],0);assert.equal(scene.interaction(player,p),'open');
+  const collision=terrain.loadCollisionData(player.currentmap);
+  for(const [x,y]of [[7,4],[8,4],[9,5],[9,6],[7,7],[8,7]]){
+    assert.equal(collision[y][x],0,`accessible beside the shelf: ${x},${y}`);
+    assert.equal(scene.interaction({...player,x:x*32+16,y:y*32+16},p),'open',`${x},${y}`);
+    assert.equal(scene.interaction({...player,x:x*32+16,y:y*32+16},{flags:{professor_defeated:'true'},badges:[]}),null,'professor flags alone cannot bypass the ending badges');
+  }
+  for(const [x,y]of [[7,5],[8,6],[6,4],[9,4],[10,6],[7,8]])assert.equal(scene.interaction({...player,x:x*32+16,y:y*32+16},p),null,'inside furniture, diagonal corners and distant cells cannot trigger');
   assert.equal(scene.interaction({...player,y:8*32+16},p),null);assert.equal(scene.interaction({...player,currentmap:'route2'},p),null);
   p.flags.mirror_stage='open';assert.equal(scene.interaction({...player,x:13*32+16,y:12*32+16},p),'emerge');
   p.flags.mirror_stage='clone';assert.equal(scene.interaction({...player,x:13*32+16,y:12*32+16},p),'battle');

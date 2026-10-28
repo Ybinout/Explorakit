@@ -1,5 +1,15 @@
 # Contexte permanent — RiftMon
 
+## Maison de Lucie — mécanisme sur tout le meuble — 28 octobre 2026
+
+La bibliothèque au fond à gauche occupe les cases (7–8,5–6). Action ouvre maintenant la faille depuis toute sa bordure adjacente : devant (7–8,7), sur la droite (9,5–6) et derrière (7–8,4), au lieu d’un point derrière le meuble. Pas d’activation à distance, à l’intérieur ou depuis un coin diagonal ; le mur à gauche reste solide. Les six badges d’arène et l’une des deux conclusions du Professeur restent requis, ainsi que l’état `sealed`. Aucun changement de carte, d’image, de collision ou de sauvegarde.
+
+Le texte narratif en italique au début de l’ouverture devient « Un mécanisme vient d’être actionné… » (anglais adapté). Il n’apparaît qu’après la vraie activation validée par la transaction serveur. Animation centrale de huit secondes, particules/parquet, duel, ruines, réveil à l’étage et reset admin privé conservés.
+
+Validation : 24 tests ciblés/SQL/socket réussis : six cases accessibles, positions refusées, badges, validation du propriétaire, activation concurrente devant/côté une seule fois, replay et suite du secret. Lint/build `9c188512e9a77e48` réussis. Parcours navigateur complet sur quatre formats : activation mobile devant le meuble (8,7), ouverture/message, double violet, duel réel, ruines, réveil et nouvelle activation clavier sur le côté (9,6) en replay ; 32 captures et aperçu PC, zéro erreur. Visuels mobile/PC inspectés ; aucun compte réel manipulé, aucune migration, suite globale ou téléphone physique revendiqués. Rapport : `docs/BOOKSHELF_RIFT_MECHANISM.json`.
+
+Publication serveur/client le 28 octobre 2026 à 08 h 01 (Europe/Paris), PID 2516303→2520586, build `9c188512e9a77e48`. Sauvegarde `/home/ubuntu/dev/backups/riftmon-bookshelf-2026-10-28T07-01-08-174Z`, checkpoint conservé et zéro expédition active relevée. Index/bundles publics vérifiés, anciens assets conservés et Knov/api-test inchangés. Aucune migration ou manipulation manuelle de compte réel.
+
 ## Cristaux — dix coups manuels par barrière — 28 octobre 2026
 
 Maison de Lucie (trois barrières) et laboratoire (une) : chaque appui réel A/Espace/manette compte exactement un coup, le premier inclus ; ouverture au dixième. Aucun coup produit par un timer, le maintien d’une touche ou du doigt. Les appuis rapides sont sérialisés dans une file bornée, les identifiants de paquets répétés ignorés ; une entrée liée à une position quittée ou à une session retirée est annulée. Prérequis du Professeur, proximité et droits vérifiés côté serveur, compteur et passage enregistrés dans une transaction verrouillant le propriétaire.

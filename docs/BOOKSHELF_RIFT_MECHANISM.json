@@ -1,0 +1,167 @@
+{
+  "request": "Activer la faille depuis tout le meuble et confirmer le mécanisme.",
+  "geometry": {
+    "map": "route2_maison",
+    "bookshelf": {
+      "x": 7,
+      "y": 5,
+      "width": 2,
+      "height": 2
+    },
+    "accessibleActionTiles": [
+      [
+        7,
+        4
+      ],
+      [
+        8,
+        4
+      ],
+      [
+        9,
+        5
+      ],
+      [
+        9,
+        6
+      ],
+      [
+        7,
+        7
+      ],
+      [
+        8,
+        7
+      ]
+    ],
+    "rule": "Action à une case de son périmètre ; pas depuis un coin diagonal, une case intérieure ou une position éloignée."
+  },
+  "eligibility": "Six badges d’arène acquis et une des deux conclusions du Professeur, conditions existantes conservées.",
+  "message": {
+    "fr": "Un mécanisme vient d’être actionné…",
+    "en": "A mechanism has been activated…",
+    "narratorItalic": true,
+    "onlyAfterSuccessfulActivation": true
+  },
+  "preserved": [
+    "Animation centrale de huit secondes",
+    "Terrain, images, mobilier et collisions",
+    "Progression individuelle, anti-rejeu transactionnel et replay privé",
+    "Duel, ruines et réveil à l’étage"
+  ],
+  "validation": {
+    "targetedTests": 24,
+    "failures": 0,
+    "lint": "passed",
+    "build": "9c188512e9a77e48",
+    "browser": {
+      "realHiddenAction": true,
+      "desktopKeyboard": true,
+      "allBadgesRequired": true,
+      "openingAndDust": true,
+      "openingCaption": true,
+      "centralRift": true,
+      "eightSecondOpening": true,
+      "movementBlockedDuringScene": true,
+      "riftCellsSolid": true,
+      "silentCloneDuel": true,
+      "exactInitialHpPpItems": true,
+      "violetAppearances": 6,
+      "reconnect": true,
+      "winClosesRift": true,
+      "wakeAtHome": true,
+      "wakeInUpstairsBed": true,
+      "bedExitReachable": true,
+      "closedHoleStillSolid": true,
+      "teamHealedAndOrderPreserved": true,
+      "noTrainingOrMoneyRewards": true,
+      "ruinsPersistentInsideAndOutside": true,
+      "perPlayerIsolation": true,
+      "privateAdminReplay": true,
+      "viewports": 4,
+      "screens": [
+        "floor-tearing-320.png",
+        "floor-tearing-393.png",
+        "floor-tearing-844.png",
+        "floor-tearing-1365.png",
+        "violet-rift-open-320.png",
+        "violet-rift-open-393.png",
+        "violet-rift-open-844.png",
+        "violet-rift-open-1365.png",
+        "violet-clone-320.png",
+        "violet-clone-393.png",
+        "violet-clone-844.png",
+        "violet-clone-1365.png",
+        "mirror-battle-320.png",
+        "mirror-battle-393.png",
+        "mirror-battle-844.png",
+        "mirror-battle-1365.png",
+        "rift-closing-320.png",
+        "rift-closing-393.png",
+        "rift-closing-844.png",
+        "rift-closing-1365.png",
+        "awakened-bed-320.png",
+        "awakened-bed-393.png",
+        "awakened-bed-844.png",
+        "awakened-bed-1365.png",
+        "house-exterior-ruined-320.png",
+        "house-exterior-ruined-393.png",
+        "house-exterior-ruined-844.png",
+        "house-exterior-ruined-1365.png",
+        "house-interior-ruined-320.png",
+        "house-interior-ruined-393.png",
+        "house-interior-ruined-844.png",
+        "house-interior-ruined-1365.png"
+      ],
+      "errors": []
+    },
+    "realMobileFrontAction": [
+      8,
+      7
+    ],
+    "realDesktopSideAction": [
+      9,
+      6
+    ],
+    "reviewedScreenshots": [
+      "floor-tearing-393.png",
+      "desktop-keyboard-1365.png"
+    ],
+    "physicalPhoneTested": false,
+    "realAccountsManuallyModified": false,
+    "sqlMigration": false
+  },
+  "recipes": [
+    "DB_NAME=explorakit_test RUN_MYSQL_TESTS=1 NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file=.env --test --test-concurrency=1 tests/mirror-rift.test.js tests/mirror-rift-mysql.test.js tests/room-obstacles.test.js",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-bookshelf-dist RELEASE_SCREENSHOTS=/tmp/riftmon-bookshelf-browser node --env-file=.env scripts/validateMirrorRiftBrowser.js"
+  ],
+  "deployment": {
+    "publishedAt": "2026-10-28T07:01:18.950Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-bookshelf-2026-10-28T07-01-08-174Z",
+    "sourceBaseline": "c261ff25b92bcd547240ddc0010bd02a9fe13323",
+    "sourceHashes": {
+      "server/game/world/mirrorRift.js": "96b7f8da5f5113c5d9d0cd37094aacf29b33912272f0d19987bba6f8533a02bd"
+    },
+    "clientCommit": "07620505787ba0dce8c437a2590be9ed0abbe9f5",
+    "clientBuild": "9c188512e9a77e48",
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.81720a26.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.1a0946b4.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.008a28e8.css"
+    ],
+    "beforePid": "2516303",
+    "afterPid": "2520586",
+    "serverRestarted": true,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "sqlMigration": false,
+    "realAccountsManuallyModified": false
+  }
+}
