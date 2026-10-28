@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Laboratoire du Professeur — collisions des meubles — 28 octobre 2026
+
+Onze cases de sol réellement praticables sont libérées devant les consoles du fond et près des sièges latéraux. Cuves, consoles, armoires, chaises et murs restent solides ; la marge tient compte des pieds du sprite sous son point de déplacement. Les petits espaces sans dégagement derrière les sièges restent fermés. Seule la couche `coll` de `professor_lab.json` change : dimensions, autres couches, sorties, positions des personnages et images conservées.
+
+La barrière `lab_crystals` reste inchangée : les meubles ferment toujours ses deux côtés et les dix cases centrales restent protégées, même en replay admin. Même identifiant, dix coups, prérequis de victoire et drapeaux personnels ; les joueurs qui ont déjà libéré Lucie conservent leur passage. Aucun changement de schéma ou de compte réel, aucune nouvelle ressource ou boucle de rendu.
+
+Validation : 35 tests ciblés et deux recettes SQL/socket sur base dédiée. Le test du sol libre échoue sur la carte de référence et réussit après patch. Accès à Lucie, téléporteur secret, sorties, absence de poche isolée et récupération de position contrôlés. Navigateur compilé sur quatre formats 320/393/844/1365 : 13 captures, vrais déplacements autorisés/refusés des deux côtés, passage avant/après cristaux, Lucie, téléporteur, sauvegarde/reconnexion, sortie et récupération hors d’un siège, zéro erreur. Captures PC/mobile inspectées ; aucun build client nécessaire. Pas de téléphone physique ou suite globale revendiqués. Rapport : `docs/PROFESSOR_LAB_COLLISIONS.json`.
+
+Publication serveur seule le 28 octobre 2026 à 06 h 07 (Europe/Paris), PID 2483515→2488376. Sauvegarde `/home/ubuntu/dev/backups/riftmon-lab-hitboxes-2026-10-28T05-07-05-023Z`, checkpoint conservé et zéro expédition active relevée. Index, bundles, image publique et foreground transparent embarqué vérifiés ; client/build `3ccfb22544c227eb` conservés. Knov/api-test disponibles, aucune configuration voisine modifiée ; zéro erreur serveur et aucun compte de recette restant dans la base dédiée. Empreinte de la carte contrôlée, aucune migration ou modification manuelle de compte réel.
+
 ## Première grotte, dresseurs de la Ville du Lac et éclairage — 28 octobre 2026
 
 Nouveau gardien privé `first_cave_badge` devant l’entrée existante Route 3→`cave1` : acteur `first_cave_guard` en (21,3), masque (21,2) sur deux cases, atlas classique 6931 index 14 et portrait illustré existant. Refus courtois sans combat ; disparition après le vrai `lake_badge` gagné. Les passages partagés acceptent désormais `requiredBadge`, sans confiance dans des flags client. Le replay admin de Mounir réarme ce contrôle comme les autres passages. Expéditions sans ce verrou Aventure. PNJ de passage pris en compte dans les collisions et la normalisation des positions ; lecture initiale de progression réutilisée sur leurs cartes, cache personnel mis à jour lors du contrôle serveur. Les anciens joueurs déjà en grotte peuvent ressortir et sont placés hors du gardien, sans modifier la carte ni le raccord.
@@ -4407,6 +4417,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 28 octobre 2026 — Laboratoire : collisions latérales ajustées au mobilier, onze cases praticables récupérées ; barrière personnelle et absence de contournement vérifiées. Carte hors collisions et images conservées ; tests ciblés et SQL/socket réussis. Rapport `docs/PROFESSOR_LAB_COLLISIONS.json`.
 
 - 28 octobre 2026 — Gardien devant la première grotte jusqu’au premier badge, anciens retours préservés. Morphéo 22, Maria Roucool/Rondoudou 14, Clément Psykokwak 15/Pikachu 16 ; lumières renforcées en Ville du Lac. Tests ciblés, SQL/socket et navigateur validés. Rapport `docs/FIRST_CAVE_AND_LAKE_BALANCE.json`.
 

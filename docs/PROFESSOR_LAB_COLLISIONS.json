@@ -1,0 +1,210 @@
+{
+  "date": "2026-10-28",
+  "scope": "Professor lab side furniture collision correction",
+  "sourceBaseline": "f48a396c0cfc316c171f83da1013de2c80cb8b74",
+  "map": {
+    "name": "professor_lab",
+    "size": [
+      28,
+      20
+    ],
+    "tileSize": [
+      16,
+      16
+    ],
+    "worldTileSize": 32,
+    "changedCells": [
+      {
+        "x": 4,
+        "y": 8,
+        "before": 21001,
+        "after": 0
+      },
+      {
+        "x": 5,
+        "y": 8,
+        "before": 21001,
+        "after": 0
+      },
+      {
+        "x": 6,
+        "y": 8,
+        "before": 21001,
+        "after": 0
+      },
+      {
+        "x": 8,
+        "y": 8,
+        "before": 21001,
+        "after": 0
+      },
+      {
+        "x": 19,
+        "y": 8,
+        "before": 21001,
+        "after": 0
+      },
+      {
+        "x": 20,
+        "y": 8,
+        "before": 21001,
+        "after": 0
+      },
+      {
+        "x": 21,
+        "y": 8,
+        "before": 21001,
+        "after": 0
+      },
+      {
+        "x": 22,
+        "y": 8,
+        "before": 21001,
+        "after": 0
+      },
+      {
+        "x": 23,
+        "y": 8,
+        "before": 21001,
+        "after": 0
+      },
+      {
+        "x": 8,
+        "y": 13,
+        "before": 21001,
+        "after": 0
+      },
+      {
+        "x": 19,
+        "y": 13,
+        "before": 21001,
+        "after": 0
+      }
+    ],
+    "allOtherMapDataUnchanged": true,
+    "clearance": "Keep console tops solid because feet extend below the movement anchor; keep tight pockets behind the stools closed."
+  },
+  "story": {
+    "barrierId": "lab_crystals",
+    "row": 8,
+    "bounds": {
+      "x": 9,
+      "width": 10
+    },
+    "walkableBarrierCells": 10,
+    "hits": 10,
+    "flagsAndRequirementsUnchanged": true,
+    "privateAdminReplayPreserved": true,
+    "barrierUnchanged": true
+  },
+  "artworkUnchanged": {
+    "professor_lab.png": "f2a507d8f2bef0545fc7f9ce5c8cbad6b2593b2dd0b2666111dc7364c72f7e5d",
+    "professor_lab_f.png": "ceca7f8e80f7cb012c6631ca653b63d08ae93e7a80f65e871806d0f2c39625c8"
+  },
+  "validation": {
+    "unit": {
+      "command": "node --test tests/professor-lab-collisions.test.js tests/professor-finale.test.js tests/position-recovery.test.js tests/room-obstacles.test.js tests/void-ending.test.js tests/finale-replay.test.js",
+      "pass": 35,
+      "fail": 0
+    },
+    "regressionBeforePatch": {
+      "command": "node --test tests/professor-lab-collisions.test.js (against baseline map)",
+      "pass": 3,
+      "fail": 1,
+      "failure": "painted floor 4,8 was incorrectly blocked"
+    },
+    "mysql": {
+      "command": "DB_NAME=explorakit_test RUN_MYSQL_TESTS=1 NODE_ENV=test node --env-file=.env --test --test-concurrency=1 tests/professor-finale-mysql.test.js tests/room-obstacles-socket.test.js",
+      "pass": 2,
+      "fail": 0
+    },
+    "browser": {
+      "furnitureSolid": true,
+      "sideAislesWalkable": true,
+      "lockedBarrierCannotBeBypassed": true,
+      "clearedBarrierPassable": true,
+      "lucieAccessible": true,
+      "secretDeviceAccessible": true,
+      "saveReconnectStable": true,
+      "recoveryOffStool": true,
+      "exitWorking": true,
+      "viewports": 4,
+      "artifacts": [
+        "left-furniture-393.png",
+        "right-furniture-393.png",
+        "left-upper-approach-320.png",
+        "left-upper-approach-393.png",
+        "left-upper-approach-844.png",
+        "left-upper-approach-1365.png",
+        "right-upper-approach-320.png",
+        "right-upper-approach-393.png",
+        "right-upper-approach-844.png",
+        "right-upper-approach-1365.png",
+        "locked-side-aisles-393.png",
+        "unlocked-right-aisle-393.png",
+        "lucie-access-393.png"
+      ],
+      "errors": [],
+      "command": "node --env-file=.env /tmp/riftmon-lab-hitboxes-browser.cjs",
+      "report": "/tmp/riftmon-lab-hitboxes-browser/results.json"
+    },
+    "physicalPhoneTested": false,
+    "wholeSuiteClaimed": false,
+    "syntaxAndWhitespace": true,
+    "testFixturesRemaining": 0,
+    "serverErrorsAfterRestart": 0
+  },
+  "client": {
+    "changed": false,
+    "commit": "f0465ec6adefc1d95c9e5c9de5d970bca049df30",
+    "build": "3ccfb22544c227eb"
+  },
+  "sqlMigration": false,
+  "realAccountsModified": false,
+  "deployment": {
+    "publishedAt": "2026-10-28T05:08:25.742Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-lab-hitboxes-2026-10-28T05-07-05-023Z",
+    "sourceBaseline": "f48a396c0cfc316c171f83da1013de2c80cb8b74",
+    "sourceHashes": {
+      "data/maps/professor_lab.json": "d04a81bc8fabba0cd2df08f733a9961a5af87cd926fb17fd04c0562bdcd8f6e9"
+    },
+    "clientCommit": "f0465ec6adefc1d95c9e5c9de5d970bca049df30",
+    "clientBuild": "3ccfb22544c227eb",
+    "clientUnchanged": true,
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.0f8ee79c.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.3d009ad5.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.d17eb514.css",
+      "img/professor_lab.83240019.png"
+    ],
+    "embeddedAssets": [
+      "professor_lab_f.png"
+    ],
+    "beforePid": "2483515",
+    "afterPid": "2488376",
+    "serverRestarted": true,
+    "checkpointSaved": true,
+    "gracefulCheckpoint": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "neighborChecks": {
+      "https://app.binout.fr/": {
+        "status": 200,
+        "hash": "9dea3d291b478681bfbd6582557e2b7b7cf99889be081983c0f84d2fd889aeba"
+      },
+      "https://api-test.binout.fr/": {
+        "status": 200,
+        "hash": "9dea3d291b478681bfbd6582557e2b7b7cf99889be081983c0f84d2fd889aeba"
+      }
+    },
+    "sqlMigration": false,
+    "realAccountsModified": false,
+    "verificationNote": "Transparent lab foreground is embedded in compiled JavaScript, not a standalone image."
+  }
+}
