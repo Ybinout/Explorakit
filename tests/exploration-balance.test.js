@@ -13,9 +13,9 @@ function battleFixture(mode,random=()=>.17){
  return {a,b,target,battle,events};
 }
 test('wild pocket money grows modestly, is capped, and respects reward bonuses',()=>{
- assert.equal(wildMoneyReward({level:5}),30);assert.equal(wildMoneyReward({level:15}),50);
- assert.equal(wildMoneyReward({level:50}),120);assert.equal(wildMoneyReward({level:1000}),120);
- assert.equal(wildMoneyReward({level:5},1.6),48);
+ assert.equal(wildMoneyReward({level:5}),36);assert.equal(wildMoneyReward({level:15}),60);
+ assert.equal(wildMoneyReward({level:50}),144);assert.equal(wildMoneyReward({level:1000}),144);
+ assert.equal(wildMoneyReward({level:5},1.6),57);
 });
 test('Poké Ball gains 15% relative odds, better Balls and 95% ceiling remain',()=>{
  const ball=getItemDefinition('pokeball'),player={level:5};
@@ -32,15 +32,15 @@ for(const mode of ['rift','colosseum-30','colosseum-60']){
   const {a,target,battle,events}=battleFixture(mode,()=>.30);
   // 30% fails against the old 18.4% odds but succeeds with the opening bonus (32.2%).
   battle.action(a,{action:'bag',itemKey:'pokeball',turnId:battle.token});
-  assert(battle.finished);assert.equal(a.equipe.pokemons[1],target);assert.equal(a.items.pokeball,1);assert.equal(a.money,530);
-  assert.equal(events.find(e=>e.name==='endbattle').payload.summary.money,30);
-  battle.finish(a,'captured');assert.equal(a.money,530);
-  const restored=decode(encode(battle));restored.finish(restored.a,'captured');assert.equal(restored.a.money,530);
+  assert(battle.finished);assert.equal(a.equipe.pokemons[1],target);assert.equal(a.items.pokeball,1);assert.equal(a.money,536);
+  assert.equal(events.find(e=>e.name==='endbattle').payload.summary.money,36);
+  battle.finish(a,'captured');assert.equal(a.money,536);
+  const restored=decode(encode(battle));restored.finish(restored.a,'captured');assert.equal(restored.a.money,536);
  });
  test(`${mode}: wild KO pays the same reward; repeated rewards/finish never double it`,()=>{
   const {a,target,battle,events}=battleFixture(mode);target.currentHp=0;battle.prune();battle.checkEnd();
-  assert.equal(a.money,530);battle.reward(target);battle.finish(a,'finished');assert.equal(a.money,530);
-  assert.equal(events.filter(e=>e.name==='endbattle').length,1);assert.equal(events.find(e=>e.name==='endbattle').payload.summary.money,30);
+  assert.equal(a.money,536);battle.reward(target);battle.finish(a,'finished');assert.equal(a.money,536);
+  assert.equal(events.filter(e=>e.name==='endbattle').length,1);assert.equal(events.find(e=>e.name==='endbattle').payload.summary.money,36);
  });
  test(`${mode}: failed capture, flee and timeout give no money`,()=>{
   const {a,battle}=battleFixture(mode,()=>.99);

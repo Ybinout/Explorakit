@@ -1408,7 +1408,7 @@
       "buy_price": 0,
       "sell_price": 300,
       "dropOnly": true,
-      "wildCrystalChance": 0.25,
+      "wildCrystalChance": 0.45,
       "description": "Un fragment de cristal aux arêtes brisées. Les boutiques le rachètent 300 ₽."
     },
     {
@@ -1418,7 +1418,7 @@
       "buy_price": 0,
       "sell_price": 900,
       "dropOnly": true,
-      "wildCrystalChance": 0.1,
+      "wildCrystalChance": 0.25,
       "description": "Un cristal intact aux reflets azurés. Les boutiques le rachètent 900 ₽."
     },
     {
@@ -1428,7 +1428,7 @@
       "buy_price": 0,
       "sell_price": 6000,
       "dropOnly": true,
-      "wildCrystalChance": 0.05,
+      "wildCrystalChance": 0.15,
       "description": "Un cristal d’une pureté rare, traversé de reflets irisés. Les boutiques le rachètent 6000 ₽."
     },
     {

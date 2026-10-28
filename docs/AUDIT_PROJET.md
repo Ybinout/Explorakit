@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Nature — Pokédollars +20 % et cristaux plus fréquents — 28 octobre 2026
+
+Les victoires et captures sauvages gagnent un multiplicateur de 1,2 avant l’arrondi inférieur, dans les trois modes. Courbes et bonus existants conservés ; plafond effectif hors bonus porté de 250 à 300 ₽ en Aventure et de 120 à 144 ₽ en Rift/Colosseum. Exemple niveau 5 sans bonus : 45→54 ₽ en Aventure, 30→36 ₽ en expédition. Les rémunérations de dresseurs/arènes, primes de compte et XP gardent leur calcul.
+
+Probabilités indépendantes des cristaux : Éclat fissuré 25→45 %, Cristal limpide 10→25 %, Prisme d’aurore 5→15 %. Victoires et captures sauvages, pêche comprise, utilisent le même tirage ; plusieurs cristaux possibles. Prix de revente 300/900/6 000 ₽, stock existant et butin ordinaire à 1/6 conservés. Comparaison structurée du catalogue : seules les trois probabilités changent.
+
+Validation : 135 tests unitaires/expéditions et dix SQL réussis sans saut. Seuils inclus/exclus et 10 000 tirages uniformes donnent 4 500/2 500/1 500 résultats ; indépendance, récompenses multiples, butin ordinaire, bonus, plafonds, absence de gain en fuite/défaite, anti-rejeu et checkpoints couverts. Combats Aventure réels : capture/victoire créditées et persistées, capture vers PC, échec/fuite/défaite sans argent ; dresseur inchangé, ventes/concurrence validées. Deux anciennes assertions de butin Aventure ont été alignées sur les trois cristaux déjà possibles et leur annonce groupée ; la capture vérifie aussi leur stock persisté. Aucun nouveau test, build client, navigateur, téléphone physique ou suite globale revendiqué. Rapport : `docs/WILD_INCOME_AND_CRYSTAL_DROPS.json`.
+
+Publication serveur seule le 28 octobre 2026 à 19 h 49 (Europe/Paris), PID 2785214→2810753. Sauvegarde `/home/ubuntu/dev/backups/riftmon-wild-economy-2026-10-28T18-49-02-353Z`, checkpoint conservé et zéro expédition active relevée. Client/build `8140e11d472c0599`, index/bundles publics et Knov/api-test inchangés ; service actif, zéro redémarrage automatique et aucun avertissement serveur relevé après publication. Aucune migration ou modification manuelle de compte réel.
+
 ## Musiques d’ambiance — arènes et pièces du récit — 28 octobre 2026
 
 Volume renforcé par piste : Ana 0,34→0,85 ; Mounir/Raphael 0,34→0,65 ; Hoze/Wanda/7p et autres arènes 0,34→0,55 ; maison de Lucie/laboratoire/arène oubliée 0,50→0,70. Réglages village/routes/neige 0,14, Gwenn 0,34 et centre/grottes 0,22 conservés. Le volume maître reste multiplicatif, sans dépassement de 1 ; silence, pauses/reprise et continuité des pistes conservés. Pas de modification des MP3 ou des musiques de combat.
@@ -4661,6 +4671,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 28 octobre 2026 — Nature : Pokédollars +20 % dans les trois modes et cristaux 45/25/15 %. 145 tests réussis ; rapport `docs/WILD_INCOME_AND_CRYSTAL_DROPS.json`.
 
 - 28 octobre 2026 — Musiques d’ambiance renforcées dans les arènes et pièces du Professeur/Lucie, correction plus marquée pour les introductions discrètes d’Ana/Mounir/Raphael. 21 tests et 30 contrôles navigateur réussis ; rapport `docs/ROOM_AMBIENCE_VOLUME.json`.
 

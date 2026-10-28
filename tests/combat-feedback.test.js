@@ -53,16 +53,16 @@ test('mixed-rarity fusion raises the actual stat continuously, persists and dele
  restored.inbattle=true;assert.throws(()=>economy.remove(restored,'d2'));restored.inbattle=false;assert.throws(()=>economy.remove(restored,'foreign'));
  economy.remove(restored,'d2');assert.equal(restored.drifts.length,0);assert.deepEqual(restored.equipped,[]);assert.equal(effects.value(restored,2),0);assert.throws(()=>economy.remove(restored,'d2'));
 });
-test('Adventure income continues past level 40 to 250 while expedition income retains its curve',()=>{
+test('Wild income gains 20% in all modes, including caps and reward bonuses',()=>{
  const {wildMoneyReward,adventureMoneyReward}=require('../server/game/battle/wildReward');
- for(const level of [1,5,15,40,50])for(const multiplier of [1,2])assert.equal(adventureMoneyReward({level},multiplier),Math.floor(wildMoneyReward({level},multiplier)*1.5));
- assert.equal(adventureMoneyReward({level:5}),45);assert.equal(wildMoneyReward({level:5}),30);
- for(const [level,money]of [[40,150],[50,180],[57,201],[60,210],[70,240],[73,249],[74,250],[100,250],[1000,250]])assert.equal(adventureMoneyReward({level}),money);
+ for(const [level,wild,adventure]of [[1,26,39],[5,36,54],[15,60,90],[40,120,180],[50,144,216]]){assert.equal(wildMoneyReward({level}),wild);assert.equal(adventureMoneyReward({level}),adventure);}
+ assert.equal(adventureMoneyReward({level:5}),54);assert.equal(wildMoneyReward({level:5}),36);
+ for(const [level,money]of [[40,180],[50,216],[57,241],[60,252],[70,288],[73,298],[74,300],[100,300],[1000,300]])assert.equal(adventureMoneyReward({level}),money);
  for(let level=2;level<=100;level++)assert(adventureMoneyReward({level})>=adventureMoneyReward({level:level-1}));
- assert.equal(adventureMoneyReward({level:60},2),420);
- assert.equal(adventureMoneyReward({level:100},1.5),375);
- for(const invalid of [undefined,NaN,Infinity,-1])assert.equal(adventureMoneyReward({level:60},invalid),210);
- assert.equal(wildMoneyReward({level:100}),120);
+ assert.equal(adventureMoneyReward({level:60},2),504);
+ assert.equal(adventureMoneyReward({level:100},1.5),450);
+ for(const invalid of [undefined,NaN,Infinity,-1])assert.equal(adventureMoneyReward({level:60},invalid),252);
+ assert.equal(wildMoneyReward({level:100}),144);
 
 });
 

@@ -384,10 +384,14 @@ test('combat sauvage réel : capture, objet consommé et équipe persistée', { 
         assert.equal(summary.mode, 'adventure');
         assert.equal(summary.capturedPokemon.uuid, wildPokemon.uuid);
         assert.equal(summary.capturedPokemon.pokemonId, 19);
-        assert.deepEqual(summary.loot, ['Baie Oran']);
+        assert.deepEqual(summary.loot, ['Baie Oran', ...require('../server/game/items/wildCrystals').crystals.map(i=>i.name)]);
         assert.equal((await loadUserItems(userId)).find(item=>item.key==='oran_berry')?.quantity,beforeOran+1);
-        assert.equal(io.events.filter(e=>e.eventName==='battleText'&&/Objet trouvé/.test(e.payload.message)).length,1);
-        assert.equal(summary.money, Math.floor((20 + wildPokemon.level * 2) * 1.5));
+        const foundItems=io.events.filter(e=>e.eventName==='battleText'&&/^Objets trouvés :/.test(e.payload.message));
+        assert.equal(foundItems.length,1);
+        for(const name of summary.loot)assert(foundItems[0].payload.message.includes(name));
+        const bag=await loadUserItems(userId);
+        for(const crystal of require('../server/game/items/wildCrystals').crystals)assert.equal(bag.find(i=>i.key===crystal.key)?.quantity,1);
+        assert.equal(summary.money, Math.floor((20 + wildPokemon.level * 2) * 1.5 * 1.2));
         const [[wallet]] = await pool.execute('SELECT money FROM users WHERE id=?',[userId]);
         assert.equal(wallet.money, summary.money);
         assert.deepEqual(summary.experience, []);
@@ -432,10 +436,10 @@ test('combat sauvage réel : attaque, victoire, expérience et PP persistés', {
         assert.equal(persistedPokemon.movePp[0], initialPp - 1);
         const summary = io.lastEvent(player.id, 'endbattle').payload.summary;
         assert.equal(summary.outcome, 'victory');
-        assert.deepEqual(summary.loot, ['Baie Oran']);
+        assert.deepEqual(summary.loot, ['Baie Oran', ...require('../server/game/items/wildCrystals').crystals.map(i=>i.name)]);
         assert.equal((await loadUserItems(userId)).find(item=>item.key==='oran_berry')?.quantity,beforeOran+1);
         assert.equal(summary.experience[0].xpGained, persistedPokemon.experience - initialExperience);
-        assert.equal(summary.money, Math.floor((20 + wildPokemon.level * 2) * 1.5));
+        assert.equal(summary.money, Math.floor((20 + wildPokemon.level * 2) * 1.5 * 1.2));
         const [[wallet]] = await pool.execute('SELECT money FROM users WHERE id=?',[userId]);
         assert.equal(wallet.money, summary.money);
     } finally {
@@ -715,11 +719,11 @@ test('wild failed capture gives no money; successful capture with six companions
   };
   let io=await run(.99);assert.equal(io.lastEvent(player.id,'endbattle').payload.summary.money,0);
   let [[wallet]]=await pool.execute('SELECT money FROM users WHERE id=?',[userId]);assert.equal(wallet.money,0);
-  io=await run(.17);assert.equal(io.lastEvent(player.id,'endbattle').payload.summary.outcome,'captured');assert.equal(io.lastEvent(player.id,'endbattle').payload.summary.money,45);
+  io=await run(.17);assert.equal(io.lastEvent(player.id,'endbattle').payload.summary.outcome,'captured');assert.equal(io.lastEvent(player.id,'endbattle').payload.summary.money,54);
   while(player.equipe.pokemons.length<6)player.equipe.pokemons.push(createPokemon(7,'Full team'));
-  io=await run(0,true);assert.equal(io.lastEvent(player.id,'endbattle').payload.summary.money,45);
+  io=await run(0,true);assert.equal(io.lastEvent(player.id,'endbattle').payload.summary.money,54);
   assert.equal(player.equipe.pokemons.length,6);const stored=await require('../server/persistence/pokemonStorageRepository').loadEntries(userId);assert.equal(stored.length,1);assert.equal(stored[0].pokemon.data.id,19);assert.equal(stored[0].pokemon.passiveAbility,io.originalAbility);assert.equal(stored[0].pokemon.heldItem,null);assert.deepEqual(stored[0].pokemon.abilities,['Growl']);
-  [[wallet]]=await pool.execute('SELECT money FROM users WHERE id=?',[userId]);assert.equal(wallet.money,90);
+  [[wallet]]=await pool.execute('SELECT money FROM users WHERE id=?',[userId]);assert.equal(wallet.money,108);
  }finally{if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
 });
 

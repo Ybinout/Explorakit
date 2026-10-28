@@ -1,0 +1,113 @@
+{
+  "date": "2026-10-28",
+  "modes": [
+    "Aventure",
+    "Rift",
+    "Colosseum"
+  ],
+  "wildMoney": {
+    "multiplier": 1.2,
+    "rounding": "Arrondi inférieur après bonus et multiplicateur",
+    "level5": {
+      "adventure": {
+        "before": 45,
+        "after": 54
+      },
+      "expedition": {
+        "before": 30,
+        "after": 36
+      }
+    },
+    "capsBeforeOtherBonuses": {
+      "adventure": 300,
+      "expedition": 144
+    }
+  },
+  "crystalChances": [
+    {
+      "key": "crystal_shard",
+      "before": 0.25,
+      "after": 0.45
+    },
+    {
+      "key": "clear_crystal",
+      "before": 0.1,
+      "after": 0.25
+    },
+    {
+      "key": "aurora_prism",
+      "before": 0.05,
+      "after": 0.15
+    }
+  ],
+  "independentRolls": true,
+  "unchanged": {
+    "salePrices": [
+      300,
+      900,
+      6000
+    ],
+    "ordinaryWildItemChance": "1/6",
+    "trainerArenaRewards": true,
+    "accountPrizes": true,
+    "experience": true
+  },
+  "validation": {
+    "unitTests": 135,
+    "mysqlTests": 10,
+    "failures": 0,
+    "skips": 0,
+    "structuredCatalogueDiffPassed": true,
+    "uniformThresholdSweep": {
+      "rolls": 10000,
+      "counts": [
+        4500,
+        2500,
+        1500
+      ]
+    },
+    "commands": [
+      "node --test tests/crystal-sales.test.js tests/combat-feedback.test.js tests/exploration-balance.test.js tests/drift-runtime.test.js tests/wild-items.test.js tests/rift-reward.test.js tests/teleport.test.js",
+      "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test node --env-file=.env --test --test-concurrency=1 --test-name-pattern='combat sauvage réel|wild failed capture|combat dresseur réel : victoire|SQL:' tests/battle-runtime-integration.test.js tests/crystal-sales-mysql.test.js"
+    ],
+    "newTests": false,
+    "fixtureUpdate": "Butin complet et annonce groupée déjà présents, vérification du stock de cristaux après capture.",
+    "frontendBuild": false,
+    "browserRun": false,
+    "physicalDevice": false,
+    "globalSuiteRun": false
+  },
+  "deployment": {
+    "publishedAt": "2026-10-28T18:49:13.483Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-wild-economy-2026-10-28T18-49-02-353Z",
+    "sourceBaseline": "793e3ad838d8bd9a02a1277e27db5e1deb92ad0c",
+    "sourceHashes": {
+      "data/game/items.json": "493d78386fced54823d8fefc0cb1d24cd0297dfe247b791ee295617a764a296c",
+      "server/game/battle/wildReward.js": "46fa9db5392aa0aaea55867b99665e84c5375224b7991aae83ce10737a959395"
+    },
+    "clientCommit": "dea6eaa141d283f153247e0bbba6a167bbdc127e",
+    "clientBuild": "8140e11d472c0599",
+    "clientUnchanged": true,
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.d733547b.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.866a6bb9.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.699eedbd.css"
+    ],
+    "beforePid": "2785214",
+    "afterPid": "2810753",
+    "serverRestarted": true,
+    "checkpointSaved": true,
+    "gracefulCheckpoint": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "sqlMigration": false,
+    "realAccountsModified": false,
+    "warningEntries": 0
+  }
+}
