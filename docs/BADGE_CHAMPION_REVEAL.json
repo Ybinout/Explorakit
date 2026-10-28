@@ -1,0 +1,72 @@
+{
+  "dateParis": "2026-10-28",
+  "beforeExample": "Rochebrume",
+  "afterExample": "Rochebrume · Wanda",
+  "revealCondition": "badge.earned || badge.cracked",
+  "scope": "Badge collection champion labels only",
+  "preserved": [
+    "badge names",
+    "badge emblems",
+    "locations",
+    "progression and rewards",
+    "earned badges and award dates"
+  ],
+  "validation": {
+    "browser": {
+      "unearnedChampionsHidden": true,
+      "earnedChampionVisible": true,
+      "allChampionsRevealWithEarnedBadges": true,
+      "resolvedAlternativeEndingVisible": true,
+      "citiesPreserved": true,
+      "earnedBadgeAndTimestampPreserved": true,
+      "reloadPreserved": true,
+      "viewports": 4,
+      "screens": [
+        "before-champion-victories-320.png",
+        "before-champion-victories-393.png",
+        "before-champion-victories-844.png",
+        "before-champion-victories-1365.png",
+        "after-champion-victories-320.png",
+        "after-champion-victories-393.png",
+        "after-champion-victories-844.png",
+        "after-champion-victories-1365.png"
+      ],
+      "errors": []
+    },
+    "lint": true,
+    "clientBuild": "7dc1618338092979",
+    "commands": [
+      "npm --prefix vue-explorakit run lint -- --no-fix",
+      "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-badge-spoilers-dist",
+      "DB_TEST_NAME=explorakit_test node --env-file=.env /tmp/riftmon-badge-spoilers-browser.cjs"
+    ],
+    "browserScript": "const root='/home/ubuntu/dev/explorakit';\nconst req=require('node:module').createRequire(root+'/package.json');\nconst assert=req('node:assert/strict'),fs=req('node:fs'),http=req('node:http'),{once}=req('node:events'),{randomUUID}=req('node:crypto');\nif(!/test/i.test(process.env.DB_TEST_NAME||''))throw Error('Dedicated test database required');\nprocess.env.DB_NAME=process.env.DB_TEST_NAME;process.env.NODE_ENV='test';\nconst express=req('express'),{Server}=req('socket.io'),{chromium}=req('playwright'),{dbPool:db}=req('./server/config/database');\nconst dist='/tmp/riftmon-badge-spoilers-dist',out='/tmp/riftmon-badge-spoilers-browser';fs.mkdirSync(out,{recursive:true});\nconst app=express(),server=http.createServer(app),io=new Server(server);app.use(express.json());app.use('/api',req('./server/http/routes'));app.use(express.static(dist));app.get('*',(_q,r)=>r.sendFile(dist+'/index.html'));io.use(req('./server/http/authMiddleware').authenticateSocket);req('./server/realtime/socketHandler')(io);\nlet browser,page,userId,passed=false;const errors=[],screens=[];\nasync function pictures(label){for(const[width,height]of[[320,568],[393,852],[844,390],[1365,900]]){await page.setViewportSize({width,height});await page.evaluate(async width=>{v.showMobileControls=width<=920;await v.$nextTick();v.resizeWorldViewport();},width);await page.waitForTimeout(100);assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));const file=label+'-'+width+'.png';await page.screenshot({path:out+'/'+file});screens.push(file);}await page.setViewportSize({width:393,height:852});await page.evaluate(()=>v.showMobileControls=true);}\n(async()=>{try{\n server.listen(0,'127.0.0.1');await once(server,'listening');const base='http://127.0.0.1:'+server.address().port;\n const response=await fetch(base+'/api/users',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:'badge_hide_'+randomUUID(),password:randomUUID(),starterId:7})});assert.equal(response.status,201);const f=await response.json();userId=f.user.id;\n await db.execute(\"INSERT INTO player_badges(user_id,badge_key,awarded_at)VALUES(?,'lake_badge','2026-01-02 12:00:00')\",[userId]);\n const [before]=await db.execute('SELECT badge_key,awarded_at FROM player_badges WHERE user_id=?',[userId]);\n browser=await chromium.launch({headless:true,args:['--no-sandbox']});const context=await browser.newContext({viewport:{width:393,height:852},hasTouch:true});await context.addInitScript(s=>{if(location.protocol==='http:')localStorage.setItem('explorakit.user',JSON.stringify(s));},{...f.user,token:f.token});page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));\n await page.goto(base+'/game',{waitUntil:'networkidle'});await page.waitForFunction(()=>{const v=document.querySelector('.game-root')?.__vue__;if(!v?.socket?.connected||v.mapLoading||!v.progressionState?.badges?.length)return false;window.v=v;return true;});await page.evaluate(()=>v.handleMenuAction('badges'));await page.locator('[data-badge-key=\"lake_badge\"]').waitFor();\n const names={lake_badge:'Badge du Sang-Froid',dune_badge:'Badge Dune',bloom_badge:'Badge Illusion',ore_badge:'Badge Noblesse',tide_badge:'Badge Force',summit_badge:'Badge Sommet',violence_badge:'Badge Violence',pardon_badge:'Badge Pardon'};\n for(const[key,name]of Object.entries(names))assert.equal(await page.locator(`[data-badge-key=\"${key}\"] h4`).innerText(),name);\n const places={lake_badge:'Ville du Lac · Mounir',dune_badge:'Valpierre · Hoze',bloom_badge:'Ocreville · Raphael',ore_badge:'Clairfontaine · Ana',tide_badge:'Rochebrume · Wanda',summit_badge:'Blanchecime · 7p',violence_badge:'Arène oubliée · Le Professeur',pardon_badge:'Arène oubliée · Le Professeur'};\n for(const[key,place]of Object.entries(places))assert.equal(await page.locator(`[data-badge-key=\"${key}\"] .badge-case-place`).innerText(),key==='lake_badge'?place:place.split(' · ')[0]);\n const hidden=await page.locator('.badge-case').textContent();for(const name of ['Hoze','Raphael','Ana','Wanda','7p','Le Professeur'])assert(!hidden.includes(name));assert(hidden.includes('Mounir'));\n await pictures('before-champion-victories');\n await page.evaluate(()=>{v.progressionState.badges=v.progressionState.badges.map(b=>({...b,earned:b.key!=='pardon_badge',cracked:b.key==='pardon_badge'}));});\n for(const[key,place]of Object.entries(places))assert.equal(await page.locator(`[data-badge-key=\"${key}\"] .badge-case-place`).innerText(),place);\n assert.equal(await page.locator('[data-badge-key=\"pardon_badge\"]').getAttribute('data-badge-cracked'),'true');await pictures('after-champion-victories');\n await page.reload({waitUntil:'networkidle'});await page.waitForFunction(()=>{const v=document.querySelector('.game-root')?.__vue__;if(!v?.socket?.connected||v.mapLoading||!v.progressionState?.badges?.length)return false;window.v=v;return true;});await page.evaluate(()=>v.handleMenuAction('badges'));\n assert.equal(await page.locator('[data-badge-key=\"tide_badge\"] .badge-case-place').innerText(),'Rochebrume');\n const [after]=await db.execute('SELECT badge_key,awarded_at FROM player_badges WHERE user_id=?',[userId]);assert.deepEqual(after,before);assert.deepEqual(errors,[]);passed=true;const result={unearnedChampionsHidden:true,earnedChampionVisible:true,allChampionsRevealWithEarnedBadges:true,resolvedAlternativeEndingVisible:true,citiesPreserved:true,earnedBadgeAndTimestampPreserved:true,reloadPreserved:true,viewports:4,screens,errors};fs.writeFileSync(out+'/results.json',JSON.stringify(result,null,2));console.log(JSON.stringify(result));\n}finally{if(!passed&&page)await page.screenshot({path:out+'/failure.png'}).catch(()=>{});await browser?.close();await new Promise(r=>io.close(r));await new Promise(r=>setTimeout(r,200));if(userId)await db.execute('DELETE FROM users WHERE id=?',[userId]);await db.end();}})().catch(e=>{console.error(e.stack);process.exitCode=1});\n",
+    "physicalPhoneTest": false
+  },
+  "deployment": {
+    "publishedAt": "2026-10-28T04:14:14.803Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-badge-spoilers-2026-10-28T04-14-13-661Z",
+    "clientBuild": "7dc1618338092979",
+    "clientCommit": "0bfa2e87ed281ad46f117c5aef3a9f0d0ad2897b",
+    "pid": "2469675",
+    "serverRestarted": false,
+    "neighborsUnchanged": true,
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.ba13c95a.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.679355d7.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.a8d50f67.css",
+      "img/ville4_arene.4d111715.png",
+      "img/6931.30769aa5.png"
+    ]
+  },
+  "postDeployment": {
+    "serverHealthyWithoutRestart": true,
+    "testFixtureRemainders": 0
+  }
+}

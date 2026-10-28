@@ -1,5 +1,13 @@
 # Contexte permanent — RiftMon
 
+## Étui de badges — noms révélés après victoire — 28 octobre 2026
+
+`BadgesPanel.placeLabel` garde seulement le lieu pour un badge non acquis : « Rochebrume » avant Wanda, puis « Rochebrume · Wanda » après obtention. Le nom n’est pas présent dans le texte DOM des badges non obtenus. Une fin alternative fissurée révèle aussi le Professeur, puisque cette rencontre est déjà résolue. Aucun changement des noms/dessins de badges, des lieux, des acquis ou de la progression serveur.
+
+Validation : lint/build `7dc1618338092979`, navigateur authentifié sur compte SQL jetable avec un seul badge : Mounir visible, six autres noms absents du panneau. États de présentation acquis/fissuré vérifiés pour les huit badges, retour aux données réelles après rechargement, dates et lignes SQL conservées. Huit captures sur quatre formats, zéro erreur ; rendu mobile inspecté. Rapport : `docs/BADGE_CHAMPION_REVEAL.json`.
+
+Publication client seule le 28 octobre 2026 à 05 h 14 (Europe/Paris), client `0bfa2e87ed281ad46f117c5aef3a9f0d0ad2897b`, build `7dc1618338092979`. Sauvegarde `/home/ubuntu/dev/backups/riftmon-badge-spoilers-2026-10-28T04-14-13-661Z`. Index/bundles et deux assets publics contrôlés, anciens bundles conservés. Serveur actif, PID 2469675 conservé sans redémarrage ; Knov/api-test inchangés. Aucun compte de recette restant dans la base dédiée, aucune donnée de compte réel modifiée.
+
 ## Emblèmes Illusion, Noblesse et Force — 28 octobre 2026
 
 Trois dessins SVG natifs remplacent les anciens motifs : œil et éclat sur émail améthyste pour Illusion (`bloom_badge`), couronne à joyau sur bleu royal pour Noblesse (`ore_badge`), poing fermé sur rouge cuivré pour Force (`tide_badge`). Monture dorée commune et dimensions 76×76 conservées. Ajout de deux couches SVG optionnelles (incrustation et gravure) uniquement pour ces emblèmes ; aucun raster, téléchargement, filtre animé ou boucle supplémentaire. Les cinq autres dessins et le motif de secours historique sont identiques. Noms, identifiants, acquis, dates et récompenses inchangés.
