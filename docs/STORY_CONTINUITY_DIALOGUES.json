@@ -1,0 +1,139 @@
+{
+  "date": "2026-10-28",
+  "scope": "Raccords narratifs Aventure",
+  "changes": [
+    "Wanda ne mentionne plus Gwenn ; père, clé et tunnel inchangés",
+    "Ana introduit elle-même le sujet familial",
+    "Six champions reconnaissent le sauvetage au laboratoire, avec prise en compte des replays admin",
+    "Indice secret de Raphael conservé"
+  ],
+  "validation": {
+    "tests": 9,
+    "failures": 0,
+    "skips": 0,
+    "testCommand": "BATTLE_DELAY_SCALE=0 NODE_ENV=test RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test node --env-file-if-exists=.env --test --test-concurrency=1 tests/champion-rescue-dialogues.test.js tests/arena-admin.test.js tests/wanda-callout-socket.test.js",
+    "browserCommand": "node --env-file-if-exists=.env scripts/validateChampionRescueBrowser.js",
+    "browser": {
+      "champions": 6,
+      "conversations": [
+        {
+          "name": "moon",
+          "rescued": false,
+          "dialogue": "moon_after"
+        },
+        {
+          "name": "champion_hoze",
+          "rescued": false,
+          "dialogue": "champion_hoze_after"
+        },
+        {
+          "name": "champion_raphael",
+          "rescued": false,
+          "dialogue": "champion_raphael_after"
+        },
+        {
+          "name": "champion_ana",
+          "rescued": false,
+          "dialogue": "champion_ana_after"
+        },
+        {
+          "name": "champion_wanda",
+          "rescued": false,
+          "dialogue": "champion_wanda_after"
+        },
+        {
+          "name": "champion_7p",
+          "rescued": false,
+          "dialogue": "champion_7p_after"
+        },
+        {
+          "name": "moon",
+          "rescued": true,
+          "dialogue": "moon_rescued"
+        },
+        {
+          "name": "champion_hoze",
+          "rescued": true,
+          "dialogue": "champion_hoze_rescued"
+        },
+        {
+          "name": "champion_raphael",
+          "rescued": true,
+          "dialogue": "champion_raphael_rescued"
+        },
+        {
+          "name": "champion_ana",
+          "rescued": true,
+          "dialogue": "champion_ana_rescued"
+        },
+        {
+          "name": "champion_wanda",
+          "rescued": true,
+          "dialogue": "champion_wanda_rescued"
+        },
+        {
+          "name": "champion_7p",
+          "rescued": true,
+          "dialogue": "champion_7p_rescued"
+        }
+      ],
+      "realActions": true,
+      "postRescueOnly": true,
+      "wandaNoGwenn": true,
+      "portraitsDecoded": true,
+      "noRepeatedRewards": true,
+      "viewports": 4,
+      "screens": [
+        "champion_ana-320.png",
+        "champion_ana-393.png",
+        "champion_ana-844.png",
+        "champion_ana-1365.png",
+        "champion_wanda-320.png",
+        "champion_wanda-393.png",
+        "champion_wanda-844.png",
+        "champion_wanda-1365.png",
+        "champion_7p-320.png",
+        "champion_7p-393.png",
+        "champion_7p-844.png",
+        "champion_7p-1365.png"
+      ],
+      "errors": []
+    },
+    "testAccountsRemaining": 0,
+    "physicalDeviceTested": false,
+    "globalSuiteRun": false,
+    "frontendBuildRun": false
+  },
+  "deployment": {
+    "publishedAt": "2026-10-28T09:52:19.684Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-story-continuity-2026-10-28T09-52-18-324Z",
+    "sourceBaseline": "3e821fe35f363f6c6c4715dc7dce08ad126eea5d",
+    "sourceHashes": {
+      "data/game/interact.json": "92d94e49d0f53bffd06c23d7d664886fd5bd3346cd4db48ef295be00fd81f975",
+      "server/game/world/interactionRepository.js": "1ef6f2ae82dbbe5095ae484cac7a28f63c996aa4c52913e062ed265b249653e4"
+    },
+    "clientCommit": "81914d7029c4ee40488aa0686dd0c70ca8fc7d63",
+    "clientBuild": "819bbc5bc922488c",
+    "clientUnchanged": true,
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.6d89ba19.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.dc533f29.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.699eedbd.css"
+    ],
+    "beforePid": "2563480",
+    "afterPid": "2594816",
+    "serverRestarted": true,
+    "checkpointSaved": true,
+    "gracefulCheckpoint": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "sqlMigration": false,
+    "realAccountsModified": false
+  }
+}

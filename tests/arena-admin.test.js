@@ -28,7 +28,7 @@ test('only active, already won story encounters with access are replayable', () 
 test('replay dialogue override preserves normal post-victory dialogues and story flags', () => {
     const progress = allWon(), before = structuredClone(progress);
     for (const c of policy.encounters) {
-        assert.equal(getSentenceForName(c.name,progress)[1],c.name+'_after');
+        assert.equal(getSentenceForName(c.name,progress)[1],require('../data/game/interact.json').find(d=>d.name===c.name).afterRescue||c.name+'_after');
         assert.equal(getSentenceForName(c.name,progress,{replayArena:true})[1],c.name);
     }
     assert.deepEqual(progress,before);

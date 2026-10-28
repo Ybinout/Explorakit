@@ -47,7 +47,11 @@ function getSentenceForName(name, state = null, { replayArena = require('./testR
     } else if (dialogueEntry && state) {
         const completed = hasCompletedBattle(catalog.npcBattles?.[name], state)
             || (definition?.completionFlag && state.flags?.[definition.completionFlag] === 'true');
-        if (completed && dialogueEntry.after && !replayArena) dialogueEntry = getDialogueEntryByName(dialogueEntry.after);
+        if (completed && dialogueEntry.after && !replayArena) {
+            const followUp = state.flags?.lucie_rescued === 'true' && dialogueEntry.afterRescue
+                ? dialogueEntry.afterRescue : dialogueEntry.after;
+            dialogueEntry = getDialogueEntryByName(followUp);
+        }
         else if (!meetsRequirements(definition, state) && dialogueEntry.locked) {
             dialogueEntry = getDialogueEntryByName(dialogueEntry.locked);
         }

@@ -105,7 +105,8 @@
     "end": "battle",
     "team": "moonpunch",
     "after": "moon_after",
-    "locked": "moon_locked"
+    "locked": "moon_locked",
+    "afterRescue": "moon_rescued"
   },
   {
     "name": "route_guide_1",
@@ -406,7 +407,8 @@
     "end": "battle",
     "team": "hoze",
     "after": "champion_hoze_after",
-    "locked": "champion_hoze_locked"
+    "locked": "champion_hoze_locked",
+    "afterRescue": "champion_hoze_rescued"
   },
   {
     "name": "champion_hoze_after",
@@ -453,7 +455,8 @@
     "end": "battle",
     "team": "raphael",
     "after": "champion_raphael_after",
-    "locked": "champion_raphael_locked"
+    "locked": "champion_raphael_locked",
+    "afterRescue": "champion_raphael_rescued"
   },
   {
     "name": "champion_raphael_after",
@@ -489,7 +492,7 @@
     "name": "champion_ana",
     "sentences": [
       {
-        "text": "Ana : Alors, c’est toi qui cherches Lucie. Raphael a dû te prévenir : ce que je sais touche aussi à ma famille.",
+        "text": "Ana : Alors, c’est toi qui cherches Lucie. Ce que je sais touche aussi à ma famille… Ce n’est pas facile d’en parler.",
         "imageName": "ana.png"
       },
       {
@@ -500,7 +503,8 @@
     "end": "battle",
     "team": "ana",
     "after": "champion_ana_after",
-    "locked": "champion_ana_locked"
+    "locked": "champion_ana_locked",
+    "afterRescue": "champion_ana_rescued"
   },
   {
     "name": "champion_ana_after",
@@ -543,7 +547,8 @@
     "end": "battle",
     "team": "wanda",
     "after": "champion_wanda_after",
-    "locked": "champion_wanda_locked"
+    "locked": "champion_wanda_locked",
+    "afterRescue": "champion_wanda_rescued"
   },
   {
     "name": "champion_wanda_after",
@@ -558,10 +563,6 @@
       },
       {
         "text": "Wanda : J’ai quitté l’organisation. Cela n’efface pas ma responsabilité. Lucie a découvert ce qu’ils faisaient ; elle pourrait être en grand danger.",
-        "imageName": "wanda.png"
-      },
-      {
-        "text": "Wanda : Avant de prendre le tunnel vers Blanchecime, parle au père de Gwenn, au nord de la ville. Son fils ne sort plus de chez lui ; je crois qu’il cherche quelqu’un pour le secouer un peu.",
         "imageName": "wanda.png"
       },
       {
@@ -1809,7 +1810,8 @@
     "end": "battle",
     "team": "sevenp",
     "after": "champion_7p_after",
-    "locked": "champion_7p_locked"
+    "locked": "champion_7p_locked",
+    "afterRescue": "champion_7p_rescued"
   },
   {
     "name": "champion_7p_after",
@@ -2643,6 +2645,88 @@
           "rows": 4,
           "index": 14
         }
+      }
+    ]
+  },
+  {
+    "name": "moon_rescued",
+    "sentences": [
+      {
+        "text": "Mounir : Lucie est rentrée ? Voilà une nouvelle qui fait plaisir. J’espère qu’elle pourra enfin souffler un peu.",
+        "imageName": "moonpunch.png"
+      },
+      {
+        "text": "Mounir : Tu as veillé sur elle et sur tes compagnons. Maintenant, pense aussi à prendre soin de toi.",
+        "imageName": "moonpunch.png"
+      }
+    ]
+  },
+  {
+    "name": "champion_hoze_rescued",
+    "sentences": [
+      {
+        "text": "Hoze : Tu as retrouvé Lucie. Tu peux être fier du chemin parcouru. Il fallait du courage pour aller la chercher jusque-là.",
+        "imageName": "hoze.png"
+      },
+      {
+        "text": "Hoze : Profitez de vous retrouver. Les autres défis peuvent attendre un peu.",
+        "imageName": "hoze.png"
+      }
+    ]
+  },
+  {
+    "name": "champion_raphael_rescued",
+    "sentences": [
+      {
+        "text": "Raphael : Lucie est de retour auprès de votre mère… Je suis content de l’apprendre. Tu ne l’as pas abandonnée.",
+        "imageName": "raph.png"
+      },
+      {
+        "text": "Raphael : Et rappelle-toi… la vérité se trouve parfois sous les choses.",
+        "imageName": "raph.png"
+      }
+    ]
+  },
+  {
+    "name": "champion_ana_rescued",
+    "sentences": [
+      {
+        "text": "Ana : Tu as ramené Lucie ! Quel soulagement… J’espère qu’elle retrouvera un peu de tranquillité auprès de vous.",
+        "imageName": "ana.png"
+      },
+      {
+        "text": "Ana : Dis-lui qu’elle sera toujours la bienvenue ici. Même si elle veut seulement s’asseoir près du bassin.",
+        "imageName": "ana.png"
+      }
+    ]
+  },
+  {
+    "name": "champion_wanda_rescued",
+    "sentences": [
+      {
+        "text": "Wanda : Lucie est rentrée. Merci d’être allé la chercher.",
+        "imageName": "wanda.png"
+      },
+      {
+        "text": "Wanda : J’ai quitté l’Aube Obscure, mais cela n’efface pas ce que j’ai contribué à créer. J’aurais dû agir plus tôt.",
+        "imageName": "wanda.png"
+      },
+      {
+        "text": "Wanda : Pour l’instant, reste auprès de ta sœur. Elle aura besoin de vous.",
+        "imageName": "wanda.png"
+      }
+    ]
+  },
+  {
+    "name": "champion_7p_rescued",
+    "sentences": [
+      {
+        "text": "7p : Alors, tu l’as retrouvée. Bien. Qu’elle prenne le temps de récupérer.",
+        "imageName": "7ps.png"
+      },
+      {
+        "text": "7p : Et toi aussi, repose ton équipe. Tu n’as plus rien à me prouver.",
+        "imageName": "7ps.png"
       }
     ]
   }

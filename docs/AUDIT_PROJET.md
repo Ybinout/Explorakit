@@ -1,5 +1,16 @@
 # Audit technique et mémoire de RiftMon
 
+## Dialogues après le sauvetage de Lucie — 28 octobre 2026
+
+Wanda ne renvoie plus vers Gwenn. Les répliques du père, la remise de sa clé et le blocage du tunnel pour ses propres raisons restent identiques. Ana présente directement le lien avec sa famille, sans attribuer à Raphael un avertissement absent de ses dialogues.
+
+Les six champions disposent d’un dialogue `afterRescue`, sélectionné seulement après leur défaite et le sauvetage effectif de Lucie au laboratoire (`lucie_rescued`). La victoire dans sa maison ne suffit pas. Les anciennes pistes restent disponibles avant ce sauvetage ; les nouvelles répliques ne distribuent aucune récompense. L’indice de Raphael sur la vérité sous les choses est conservé. Les replays admin gardent leurs introductions et utilisent la progression projetée du laboratoire, sans modifier les états permanents.
+
+Validation : neuf tests réussis, dont les parcours SQL/socket existants. Navigateur avec compte jetable supprimé : douze conversations par les vraies Actions, six champions avant/après sauvetage, portraits chargés et aucune récompense répétée ; douze captures sur quatre dimensions (320, 393, 844, 1365), zéro erreur. Wanda inspectée visuellement. Pas de test sur appareil physique, de suite globale ou de nouveau build client revendiqués. Rapport : `docs/STORY_CONTINUITY_DIALOGUES.json`.
+
+Publication serveur seule le 28 octobre 2026 à 10 h 52 (Europe/Paris), PID 2563480→2594816, checkpoint conservé et zéro expédition active relevée. Sauvegarde `/home/ubuntu/dev/backups/riftmon-story-continuity-2026-10-28T09-52-18-324Z`. Client/build `819bbc5bc922488c`, index/bundles publics et Knov/api-test inchangés. Service actif, zéro redémarrage automatique et aucune entrée journal de niveau avertissement depuis la publication. Aucune migration ni manipulation manuelle de compte réel.
+
+
 ## Première Aventure — réveil et appel de maman — 28 octobre 2026
 
 Les nouveaux comptes commencent dans le lit de l’étage (`etage`, 592,336), avec un état personnel `adventure_opening=sleeping`. Premier client compatible : fondu noir 0,5 s, attente de la chambre réellement chargée, pause 0,65 s puis révélation 1,4 s. Réduction des animations : noir fixe. Déplacements/Action bloqués côté serveur et interface inerte pendant le réveil ; acquittement persistant et idempotent. Une interruption reprend la scène, un réveil acquitté ne se rejoue pas. Les anciens clients sans capacité peuvent quitter le lit sans blocage ; comptes existants sans marqueur et modes Rift/Colosseum inchangés.
@@ -4532,6 +4543,7 @@ Le socle pourra être considéré stable lorsque :
 
 ## 11. Journal de suivi
 
+- 28 octobre 2026 — Raccords narratifs : Wanda sans référence à Gwenn, avertissement d’Ana corrigé, six champions adaptés au sauvetage de Lucie. Neuf tests et douze conversations navigateur réussis. Rapport `docs/STORY_CONTINUITY_DIALOGUES.json`.
 - 28 octobre 2026 — Nouvelle Aventure : fondu/réveil dans le lit et interpellation unique de maman à la première sortie, sans soin. 19 tests et parcours navigateur quatre formats réussis. Rapport `docs/ADVENTURE_OPENING.json`.
 
 - 28 octobre 2026 — Reset admin : badges Pardon/Violence alignés sur la fin rejouée, choix opposé fissuré et accès au secret cohérent. Récompense permanente conservée ; 49 tests ciblés et navigateur quatre formats validés. Rapport `docs/ADMIN_ENDING_BADGES.json`.
