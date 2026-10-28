@@ -1,4 +1,4 @@
-// Open-team-sheet trainer AI. It knows species and moves, not a submitted action.
+// Open-team-sheet trainer AI. It knows species, moves and abilities, not a submitted action.
 // All evaluation runs on snapshots; the orchestrators commit before prompting.
 const engine = require('./battleEngine');
 const resources = require('./battleResources');
@@ -49,9 +49,10 @@ function publicPokemon(p) {
     const stat=key=>Math.max(1,Math.floor(((2*base[key]+30)*level/100+5)*scaling));
     const view={uuid:p.uuid,level,currentHp:p.currentHp,maxHp:p.maxHp,status:p.status,
         type1:visibleTypes[0],type2:visibleTypes[1],data:{id:visible.id,type:[...visibleTypes]},
+        passiveAbility:typeof p.passiveAbility==='string'?p.passiveAbility:null,
         attack:stat('Attack'),defense:stat('Defense'),specialAttack:stat('Sp. Attack'),specialDefense:stat('Sp. Defense'),speed:stat('Speed')};
-    // Moves and team composition are deliberately public; PP, items, abilities,
-    // IV/EV and exact combat stats are not consulted on the opposing team.
+    // Team, moves and current ability are deliberately known to the planner.
+    // PP, held items, IV/EV and exact opposing combat stats remain private.
     view.abilities = [...(p.abilities || [])].filter(name => moveByName(name)).slice(0,4);
     view.movePp = view.abilities.map(resources.getMaxMovePp);
     view.__battle=battleView(p.__battle);
@@ -217,7 +218,7 @@ function knownIneffective(a,b,move,ctx) {
 function finishingPressure(a,b,ctx) {
     // A player who can finish the active trainer has little reason to leave.
     // Only visible moves/stages/status and inferred stats are used, never the
-    // submitted command, private stats, reserve order or hidden item/ability.
+    // submitted command, private stats, reserve order or hidden item.
     if(b.__battle.rechargeMove)return 0;
     let pressure=0;
     for(const reply of ctx.replies) {

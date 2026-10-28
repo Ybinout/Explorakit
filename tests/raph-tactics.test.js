@@ -49,7 +49,7 @@ test('Raphael: expert decisions avoid an immune STAB, reserve Cizayox by identit
         if (d.action === 'attack') assert(!['Earthquake','Dragon Claw'].includes(team.pokemons[0].abilities[d.number]));
         else assert.notEqual(team.pokemons[d.number].data.id, 212);
     }
-    const hidden = {...enemy, movePp:[0], heldItem:'focus_sash', iv:{}, ev:{}, passiveAbility:'Wonder Guard'};
+    const hidden = {...enemy, movePp:[0], heldItem:'focus_sash', iv:{}, ev:{}};
     assert.deepEqual(tactics.chooseAction(team,enemy,field,memory,1), tactics.chooseAction(team,hidden,field,memory,1));
     [team.pokemons[1],team.pokemons[4]] = [team.pokemons[4],team.pokemons[1]];
     team.pokemons[0].currentHp = 0;
@@ -62,10 +62,13 @@ for (const mode of ['rift','colosseum']) test(`${mode}: real Raphael team sends 
     const events = [], player = {userId:1,currentmap:'gen_arene5',run:{mode},equipe:{pokemons:[factory.create(9,42,true)]},drifts:[],equipped:[],items:{},defeated:new Set(),money:0,chain:0};
     const opponent = {npc:true,equipe:getPnjTeam('raphael'),drifts:[],equipped:[],chain:0};
     const battle = new DriftBattle(player,opponent,{type:'arena',npcKey:'champion_raphael',paceMs:0,emit:(_p,event,payload) => events.push({event,payload:JSON.parse(JSON.stringify(payload))})});
-    for (const id of [55,359,330,212]) {
+    const encountered=[battle.active(1).data.id];
+    for (let i=0;i<4;i++) {
         opponent.equipe.pokemons[0].currentHp = 0; battle.prune();
-        assert.equal(battle.active(1).data.id, id);
+        const id=battle.active(1).data.id;encountered.push(id);
+        assert.equal(id===212,i===3,'only the ace must be saved for last; ordinary partners follow the matchup');
     }
+    assert.deepEqual(encountered.sort((a,b)=>a-b),[55, 158, 212, 330, 359]);
     const speeches = () => events.filter(e => e.event === 'introAnimation').flatMap(e => e.payload.transitions).filter(t => t.trainerSpeech);
     assert.equal(speeches().length, 1);
     assert.equal(speeches()[0].trainerSpeech.name, 'Raphael');

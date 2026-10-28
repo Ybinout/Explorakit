@@ -19,7 +19,7 @@ test('7p: Arena Trap respects grounded/airborne/Ghost exceptions; Turbo raises s
  for(const id of [130,94])assert.equal(engine.canSwitchOut(factory.create(id,55,true),team.pokemons[0],field),true);
  const blaze=team.pokemons[1];engine.ensureBattleData(blaze);const speed=engine.getBattleSpeed(blaze,field.sides.enemy,field);engine.processEndOfRound(blaze,foe,field.sides.enemy,field.sides.player,field);assert(engine.getBattleSpeed(blaze,field.sides.enemy,field)>speed);
  const flying=factory.create(468,55,true),memory=tactics.createMemory();const d=tactics.chooseAction(team,flying,field,memory,1);assert(d);if(d.action==='attack')assert.notEqual(team.pokemons[0].abilities[d.number],'Earthquake');
- const hidden={...flying,heldItem:'focus_sash',iv:{},ev:{},passiveAbility:'Wonder Guard'};assert.deepEqual(d,tactics.chooseAction(team,hidden,field,memory,1));
+ const hidden={...flying,heldItem:'focus_sash',iv:{},ev:{}};assert.deepEqual(d,tactics.chooseAction(team,hidden,field,memory,1));
  assert.equal(JSON.stringify(team).includes('__trainerPlan'),false);
 });
 test('7p can immediately switch to his final slot when its matchup is best, even with four other partners alive',()=>{

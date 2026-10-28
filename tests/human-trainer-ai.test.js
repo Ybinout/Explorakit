@@ -11,7 +11,7 @@ test('open sheets include the opposing roster and attacks, but exclude pending i
  Math.random=()=>{throw Error('Decision consumed battle RNG');};let result;
  try{result=ai.analyse(o);assert.deepEqual(ai.analyse(o),result);}finally{Math.random=original;}
  assert.equal(JSON.stringify(o),before);
- for(const enemy of [b,reserve])for(const key of ['movePp','iv','ev','heldItem','passiveAbility','attack','defense','speed','k'])
+ for(const enemy of [b,reserve])for(const key of ['movePp','iv','ev','heldItem','attack','defense','speed','k'])
   Object.defineProperty(enemy,key,{get(){throw Error('Private data read: '+key);},configurable:true});
  Object.defineProperty(o.field,'turnActions',{get(){throw Error('Read player intention');}});
  assert.deepEqual(ai.analyse(o),result);

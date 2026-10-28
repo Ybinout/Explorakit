@@ -1,0 +1,120 @@
+{
+  "date": "2026-10-28",
+  "scope": "Talents adverses connus de l’IA sur instruction explicite du joueur",
+  "supersedes": "Politique de talents adverses inconnus de docs/AI_TRAPPING_ABILITIES.json",
+  "modes": [
+    "Aventure",
+    "Rift",
+    "Colosseum"
+  ],
+  "known": [
+    "espèces et composition",
+    "attaques",
+    "talents actuels de toute l’équipe"
+  ],
+  "stillPrivate": [
+    "commande à venir",
+    "objets tenus",
+    "PP restants",
+    "IV/EV",
+    "statistiques exactes"
+  ],
+  "changes": [
+    "Nom du talent ajouté à la vue assainie de l’adversaire",
+    "Modèles existants de dégâts/immunités/réactions/piégeage utilisent les talents connus",
+    "Tests de confidentialité et d’ordre des remplaçants adaptés à la nouvelle politique"
+  ],
+  "validation": {
+    "unitTests": 109,
+    "mysqlRuntimeTests": 6,
+    "failures": 0,
+    "skips": 0,
+    "newAbilityCases": 7,
+    "commands": [
+      "node --test --test-concurrency=1 tests/human-trainer-known-abilities.test.js tests/human-trainer-ai.test.js tests/human-trainer-finishing.test.js tests/human-trainer-trapping.test.js tests/human-trainer-items.test.js tests/human-trainer-model.test.js tests/wanda-tactics.test.js tests/sevenp-tactics.test.js tests/ana-tactics.test.js tests/hoze-tactics.test.js tests/raph-tactics.test.js tests/mounir-tactics.test.js tests/lucie-tactics.test.js tests/matthieu-tactics.test.js",
+      "BATTLE_DELAY_SCALE=0 NODE_ENV=test RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test node --env-file-if-exists=.env --test --test-concurrency=1 --test-name-pattern='Piège Sable|combat dresseur réel|Sommeil trainer|Bluff trainer' tests/battle-runtime-integration.test.js",
+      "node scripts/validateHumanTrainerFinishing.js"
+    ],
+    "finishingSweep": {
+      "decisions": 126,
+      "immuneChoices": 0,
+      "maxSwitchProbability": 0.01224000000000001,
+      "averageAnalysisAndChoiceMs": 5.6452726904761885,
+      "maxAnalysisAndChoiceMs": 32.405542,
+      "examples": [
+        {
+          "id": 51,
+          "hp": 10,
+          "ownSpeed": 70,
+          "trick": 0,
+          "habits": 0,
+          "chosen": "Surf",
+          "switchProbability": 0.005
+        },
+        {
+          "id": 51,
+          "hp": 10,
+          "ownSpeed": 70,
+          "trick": 0,
+          "habits": 10,
+          "chosen": "Surf",
+          "switchProbability": 0.01224000000000001
+        },
+        {
+          "id": 51,
+          "hp": 10,
+          "ownSpeed": 70,
+          "trick": 3,
+          "habits": 0,
+          "chosen": "Surf",
+          "switchProbability": 0.005
+        },
+        {
+          "id": 51,
+          "hp": 10,
+          "ownSpeed": 70,
+          "trick": 3,
+          "habits": 10,
+          "chosen": "Surf",
+          "switchProbability": 0.01224000000000001
+        }
+      ]
+    },
+    "browserRun": false,
+    "physicalDeviceTested": false,
+    "globalSuiteRun": false,
+    "frontendBuildRun": false
+  },
+  "deployment": {
+    "publishedAt": "2026-10-28T12:59:43.451Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-ai-known-abilities-2026-10-28T12-59-42-004Z",
+    "sourceBaseline": "e0288f000588c818de73856ac8705b7e81719dcd",
+    "sourceHashes": {
+      "server/game/battle/humanTrainerAI.js": "e9cb99d3500ed9202d6ed73aa6ad20418d18dfdda541dbc4ea817828eb079da1",
+      "server/game/battle/trainerSwitching.js": "81340b5be401b8c4e54c395e32e05f9c753fbc3fca9a7f3370eea0bbd395d8f2"
+    },
+    "clientCommit": "81914d7029c4ee40488aa0686dd0c70ca8fc7d63",
+    "clientBuild": "819bbc5bc922488c",
+    "clientUnchanged": true,
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.6d89ba19.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.dc533f29.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.699eedbd.css"
+    ],
+    "beforePid": "2638916",
+    "afterPid": "2668767",
+    "serverRestarted": true,
+    "checkpointSaved": true,
+    "gracefulCheckpoint": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "sqlMigration": false,
+    "realAccountsModified": false
+  }
+}

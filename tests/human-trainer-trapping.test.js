@@ -22,7 +22,7 @@ test('grounding, Gravity, airborne effects and Ghost escape use the same rules a
  for(const target of [mon(25),mon(130),mon(94),mon(330,['Earthquake'],'Levitate'),mon(25,['Splash'],'Levitate')]){
   assert.equal(switching.chance(target,holder,field),Number(engine.canSwitchOut(structuredClone(target),structuredClone(holder),structuredClone(field))));
  }
- const air=ai.publicPokemon(mon(330));assert.equal(switching.chance(air,holder,field),1,'Flygon always has Levitate; infer from species only');
+ const air=ai.publicPokemon(mon(330,['Earthquake'],'Levitate'));assert.equal(switching.chance(air,holder,field),1,'the actual Levitate ability is known');
  field.field.gravityTurns=3;assert.equal(switching.chance(air,holder,field),0);
  assert.equal(switching.chance(ai.publicPokemon(mon(130)),holder,field),0);
  assert.equal(switching.chance(ai.publicPokemon(mon(94)),holder,field),1,'Ghost remains free even when grounded');
@@ -31,12 +31,13 @@ test('grounding, Gravity, airborne effects and Ghost escape use the same rules a
  floating.__battle.grounded=true;assert.equal(switching.chance(floating,holder,field),0);
 });
 
-test('ambiguous Levitate is a species-based hypothesis, independent of hidden ability and selected action',()=>{
+test('known Levitate changes escape predictions without consulting private stats or the selected action',()=>{
  const holder=mon(51,['Earthquake'],'Arena Trap'),foe=mon(437,['Psychic'],'Levitate'),reserve=mon(130,['Waterfall']);
  const o=options([holder],[foe,reserve]),before=JSON.stringify(o),expected=ai.analyse(o);
- const probability=switching.chance(ai.publicPokemon(foe),holder,o.field);assert(probability>0&&probability<1);
+ const probability=switching.chance(ai.publicPokemon(foe),holder,o.field);assert.equal(probability,1);
+ foe.passiveAbility='Heatproof';assert.equal(switching.chance(ai.publicPokemon(foe),holder,o.field),0);assert.equal(escapes(o),0);foe.passiveAbility='Levitate';
  assert(escapes(o)>0);assert.equal(JSON.stringify(o),before);
- for(const p of [foe,reserve])for(const key of ['passiveAbility','heldItem','iv','ev','k','currentAttack','currentDefense','currentSpeed','currentSpecialAttack','currentSpecialDefense'])
+ for(const p of [foe,reserve])for(const key of ['heldItem','iv','ev','k','currentAttack','currentDefense','currentSpeed','currentSpecialAttack','currentSpecialDefense'])
   Object.defineProperty(p,key,{get(){throw Error('Private property read: '+key);}});
  Object.defineProperty(o.field,'turnActions',{get(){throw Error('Pending player choice read');}});
  const random=Math.random;Math.random=()=>{throw Error('Live RNG used');};

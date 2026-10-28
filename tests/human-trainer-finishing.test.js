@@ -34,9 +34,9 @@ test('fixed damage can finish too, and known own type conversion is respected wh
     const fly=mon(127,['Quick Attack','Seismic Toss']),ghost=mon(94,['Sludge Bomb']);fly.passiveAbility='Refrigerate';fly.currentHp=10;
     assert.equal(ai.chooseAction({...o,team:[fly],opponentTeam:[ghost]}).number,0,'Refrigerate makes Quick Attack able to hit Ghost, and its priority is useful');
 });
-test('a previously revealed immunity is also avoided under lethal pressure, without consulting the hidden ability',()=>{
+test('a previously revealed immunity is also avoided under lethal pressure, using observed results as well as the known ability',()=>{
     const {b,o}=fixture();b.type1='Water';b.type2=null;o.memory.seen={[b.uuid]:{immuneMoves:['Thunderbolt']}};
-    b.abilities=['Earthquake'];b.movePp=[10];Object.defineProperty(b,'passiveAbility',{get(){throw Error('Hidden ability read');}});
+    b.abilities=['Earthquake'];b.movePp=[10];
     assert.equal(ai.chooseAction(o).number,1);
 });
 test('a viable defensive switch remains available; no effective alternative still yields a legal move',()=>{
@@ -47,7 +47,7 @@ test('lethal-pressure decisions remain deterministic, read-only and blind to pen
     const {b,reserve,o}=fixture(),before=JSON.stringify(o),expected=ai.analyse(o),original=Math.random;
     Math.random=()=>{throw Error('Combat RNG consumed');};try{assert.deepEqual(ai.analyse(o),expected);}finally{Math.random=original;}
     assert.equal(JSON.stringify(o),before);
-    for(const p of[b,reserve])for(const key of['heldItem','passiveAbility','iv','ev','k','currentAttack','currentDefense','currentSpeed','currentSpecialAttack','currentSpecialDefense'])Object.defineProperty(p,key,{get(){throw Error('Private property read: '+key);}});
+    for(const p of[b,reserve])for(const key of['heldItem','iv','ev','k','currentAttack','currentDefense','currentSpeed','currentSpecialAttack','currentSpecialDefense'])Object.defineProperty(p,key,{get(){throw Error('Private property read: '+key);}});
     Object.defineProperty(o.field,'turnActions',{get(){throw Error('Submitted action read');}});assert.deepEqual(ai.analyse(o),expected);
 });
 test('type-changing previews do not contaminate the other candidate moves',()=>{

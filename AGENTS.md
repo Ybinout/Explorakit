@@ -1,5 +1,16 @@
 # Contexte permanent — RiftMon
 
+## IA — talents adverses connus — 28 octobre 2026
+
+À la demande explicite du joueur, la connaissance du planificateur comprend désormais le talent actuel de chaque Pokémon adverse, actif comme remplaçant. `publicPokemon` copie seulement le nom du talent dans la vue assainie ; suppression et changements temporaires restent pris en compte. Cette règle remplace la politique précédente de talents adverses inconnus. Les objets tenus, PP restants, IV/EV, statistiques exactes et commandes soumises ne sont toujours pas consultés. Les orchestrateurs conservent leur décision avant de demander celle du joueur.
+
+Les calculs existants d’immunité, de dégâts, de précision, de réactions au contact, de statut et de piégeage peuvent donc exploiter le talent réellement présent. Lévitation et Ignifugé d’un même Archéodong produisent des choix différents ; les talents d’absorption et Peau Dure sont respectés dans les tests ciblés. `trainerSwitching` utilise le talent fourni plutôt qu’une hypothèse d’espèce ; le repli existe encore pour les vues incomplètes. Aucun changement aux équipes, K, règles réelles des talents, événements réseau ou sauvegardes. Politique commune aux dresseurs en Aventure/Rift/Colosseum.
+
+Validation : 109 tests unitaires/équipes/IA et six tests SQL du combat Aventure réussis sans saut, plus balayage de 126 décisions sous menace létale sans attaque sur immunité. Sept nouveaux cas couvrent connaissance de toute l’équipe, données restant privées, commandes inconnues, Lévitation/Ignifugé/suppression, Absorb Eau, Absorb Volt, Torche, Herbivore et contact Peau Dure. Les anciennes assertions de confidentialité ne masquent plus le talent ; les parcours Ana/Raphael vérifient tous les partenaires et la pièce maîtresse en dernier sans imposer l’ordre des partenaires ordinaires, désormais choisi selon le match. Aucun test navigateur, appareil physique, nouveau build client ou suite globale revendiqué. Rapport : `docs/AI_KNOWN_ABILITIES.json`.
+
+Publication serveur seule le 28 octobre 2026 à 13 h 59 (Europe/Paris), PID 2638916→2668767. Sauvegarde `/home/ubuntu/dev/backups/riftmon-ai-known-abilities-2026-10-28T12-59-42-004Z`, checkpoint conservé et zéro expédition active relevée. Client/build `819bbc5bc922488c`, index/bundles publics et Knov/api-test inchangés ; service actif, zéro redémarrage automatique et aucun avertissement serveur relevé depuis publication. Aucune migration ou manipulation manuelle de compte réel.
+
+
 ## IA — talents de piégeage — 28 octobre 2026
 
 Le moteur appliquait déjà Piège Sable, Magnépiège et Marque Ombre, mais le planificateur imaginait encore des changements adverses interdits. Nouveau calcul `trainerSwitching.chance` sur des copies assainies, réutilisant `canSwitchOut` : talents connus de l’IA pour ses propres partenaires, hypothèses du Pokédex pour les talents adverses inconnus. Aucun accès aux talents/objets/IV/EV privés ou à la commande soumise. Les espèces à talent ambigu conservent une probabilité d’évasion ; Vol, Spectre, Lévitation, Gravité, enracinement, champ de verrouillage, effets aériens et suppression de talent suivent les règles du moteur.

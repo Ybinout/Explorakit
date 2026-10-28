@@ -21,11 +21,11 @@ test('Wanda: six arena-level partners, three K3/three K4, good imperfect IVs exc
  team.pokemons[0].currentHp=0;team.pokemons[0].movePp[0]=0;assert(other.pokemons[0].currentHp>0);assert(other.pokemons[0].movePp[0]>0);
  for(let i=1;i<6;i++){const t=getPnjTeam('wanda');[t.pokemons[1],t.pokemons[i]]=[t.pokemons[i],t.pokemons[1]];t.pokemons[0].currentHp=0;assert.equal(tactics.replacementIndex(t),1,'every member is immediately eligible, including Metagross');}
 });
-test('Wanda can immediately send her last slot against a bad matchup, with four others alive and no reading of hidden moves/items',()=>{
+test('Wanda can immediately send her last slot against a bad matchup, with four others alive and no reading of private items/stats',()=>{
  const team=getPnjTeam('wanda');for(let i=1;i<5;i++)team.pokemons[i].currentHp=1;
  const enemy=factory.create(468,49,true),field=engine.createBattleState(),memory=tactics.createMemory();
  assert.deepEqual(tactics.chooseAction(team,enemy,field,memory,1),{action:'change',number:5});assert.equal(team.pokemons[5].data.id,376);
- const hidden={...enemy,movePp:[0],heldItem:'focus_sash',iv:{},ev:{},passiveAbility:'Wonder Guard'};
+ const hidden={...enemy,movePp:[0],heldItem:'focus_sash',iv:{},ev:{}};
  assert.deepEqual(tactics.chooseAction(team,enemy,field,memory,1),tactics.chooseAction(team,hidden,field,memory,1));
 });
 for(const mode of ['rift','colosseum'])test(`${mode}: real Wanda team, individual IVs and unrestricted expert plan survive a checkpoint`,()=>{

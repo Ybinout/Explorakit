@@ -48,7 +48,7 @@ test('Ana: expert decisions avoid an immune STAB, reserve Gardevoir by identity 
         if (d.action === 'attack') assert(!['Double-Edge'].includes(team.pokemons[0].abilities[d.number]));
         else assert.notEqual(team.pokemons[d.number].data.id, 282);
     }
-    const hidden = {...enemy, movePp:[0], heldItem:'focus_sash', iv:{}, ev:{}, passiveAbility:'Wonder Guard'};
+    const hidden = {...enemy, movePp:[0], heldItem:'focus_sash', iv:{}, ev:{}};
     assert.deepEqual(tactics.chooseAction(team,enemy,field,memory,1), tactics.chooseAction(team,hidden,field,memory,1));
     [team.pokemons[1],team.pokemons[5]] = [team.pokemons[5],team.pokemons[1]];
     team.pokemons[0].currentHp = 0;
@@ -61,10 +61,13 @@ for (const mode of ['rift','colosseum']) test(`${mode}: real Ana team sends Gard
     const events = [], player = {userId:1,currentmap:'ville3_arene',run:{mode},equipe:{pokemons:[factory.create(9,46,true)]},drifts:[],equipped:[],items:{},defeated:new Set(),money:0,chain:0};
     const opponent = {npc:true,equipe:getPnjTeam('ana'),drifts:[],equipped:[],chain:0};
     const battle = new DriftBattle(player,opponent,{type:'arena',npcKey:'champion_ana',paceMs:0,emit:(_p,event,payload) => events.push({event,payload:JSON.parse(JSON.stringify(payload))})});
-    for (const id of [154,78,148,407,282]) {
+    const encountered=[battle.active(1).data.id];
+    for (let i=0;i<5;i++) {
         opponent.equipe.pokemons[0].currentHp = 0; battle.prune();
-        assert.equal(battle.active(1).data.id, id);
+        const id=battle.active(1).data.id;encountered.push(id);
+        assert.equal(id===282,i===4,'only the ace must be saved for last; ordinary partners follow the matchup');
     }
+    assert.deepEqual(encountered.sort((a,b)=>a-b),[53, 78, 148, 154, 282, 407]);
     const speeches = () => events.filter(e => e.event === 'introAnimation').flatMap(e => e.payload.transitions).filter(t => t.trainerSpeech);
     assert.equal(speeches().length, 1);
     assert.equal(speeches()[0].trainerSpeech.name, 'Ana');

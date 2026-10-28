@@ -25,7 +25,7 @@ test('Lucie expert choices are legal, independent of private opponent IVs and it
  const team=getPnjTeam('lucie_corrupted'),foe=factory.create(445,80,true),field=engine.createBattleState(),memory=tactics.createMemory();
  tactics.observe(team,memory,foe,'Earthquake');
  const choice=tactics.chooseAction(team,foe,field,memory,1);assert(choice);
- assert.deepEqual(choice,tactics.chooseAction(team,{...foe,heldItem:'focus_sash',iv:{},ev:{},passiveAbility:'Wonder Guard'},field,memory,1));
+ assert.deepEqual(choice,tactics.chooseAction(team,{...foe,heldItem:'focus_sash',iv:{},ev:{}},field,memory,1));
  assert(choice.action==='attack'?team.pokemons[0].abilities[choice.number]:team.pokemons[choice.number]);
 });
 test('Lucie needs 7p then a new victory; the old reunion flag cannot skip her battle',()=>{

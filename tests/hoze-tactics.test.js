@@ -48,7 +48,7 @@ test('Hoze: expert decisions avoid an immune STAB, reserve Carchacrok by identit
         if (d.action === 'attack') assert.notEqual(team.pokemons[0].abilities[d.number], 'Aura Sphere');
         else assert.notEqual(team.pokemons[d.number].data.id, 445);
     }
-    const hidden = {...enemy, movePp:[0], heldItem:'focus_sash', iv:{}, ev:{}, passiveAbility:'Wonder Guard'};
+    const hidden = {...enemy, movePp:[0], heldItem:'focus_sash', iv:{}, ev:{}};
     assert.deepEqual(tactics.chooseAction(team,enemy,field,memory,1), tactics.chooseAction(team,hidden,field,memory,1));
     [team.pokemons[1],team.pokemons[3]] = [team.pokemons[3],team.pokemons[1]];
     team.pokemons[0].currentHp = 0;

@@ -1,5 +1,5 @@
-// Switching estimates on sanitized planner views only. Opposing abilities are
-// hypotheses from the visible species, never reads of a player's private data.
+// Switching estimates on sanitized planner views only. Current abilities are
+// known; incomplete legacy views fall back to hypotheses from the species.
 const engine = require('./battleEngine');
 const { getSpeciesAbilitySlots } = require('../abilities/abilityDex');
 const pools = new Map();
