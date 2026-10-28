@@ -1,0 +1,81 @@
+{
+  "date": "2026-10-28",
+  "scope": "Prix de revente des trois trésors sauvages ×3",
+  "prices": [
+    {
+      "key": "crystal_shard",
+      "name": "Éclat fissuré",
+      "before": 50,
+      "after": 150
+    },
+    {
+      "key": "clear_crystal",
+      "name": "Cristal limpide",
+      "before": 150,
+      "after": 450
+    },
+    {
+      "key": "aurora_prism",
+      "name": "Prisme d’aurore",
+      "before": 500,
+      "after": 1500
+    }
+  ],
+  "modes": [
+    "Aventure",
+    "Rift",
+    "Colosseum"
+  ],
+  "existingStockUsesNewPrices": true,
+  "dropRatesUnchanged": true,
+  "otherItemsUnchanged": true,
+  "validation": {
+    "unitTests": 6,
+    "mysqlTests": 4,
+    "failures": 0,
+    "skips": 0,
+    "command": "NODE_ENV=test RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test node --env-file-if-exists=.env --test --test-concurrency=1 tests/crystal-sales.test.js tests/crystal-sales-mysql.test.js",
+    "coverage": [
+      "hydratation du sac",
+      "vente des trois trésors et argent crédité",
+      "concurrence et prix forgés",
+      "cartes boutiques et protections des objets",
+      "ventes Rift/Colosseum et checkpoint"
+    ],
+    "browserScriptUpdated": true,
+    "browserRun": false,
+    "frontendBuildRun": false,
+    "globalSuiteRun": false
+  },
+  "deployment": {
+    "publishedAt": "2026-10-28T13:50:29.530Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-crystal-prices-2026-10-28T13-50-26-852Z",
+    "sourceBaseline": "05c1e2ad2661cf37d15b414ea0a3e17fd6cac03f",
+    "sourceHashes": {
+      "data/game/items.json": "77dde695ebf1bbafb55d7a6c5d5712ddec407315606faadb1eb3fa188e9386b2"
+    },
+    "clientCommit": "81914d7029c4ee40488aa0686dd0c70ca8fc7d63",
+    "clientBuild": "819bbc5bc922488c",
+    "clientUnchanged": true,
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.6d89ba19.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.dc533f29.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.699eedbd.css"
+    ],
+    "beforePid": "2668767",
+    "afterPid": "2688315",
+    "serverRestarted": true,
+    "checkpointSaved": true,
+    "gracefulCheckpoint": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "sqlMigration": false,
+    "realAccountsModified": false
+  }
+}

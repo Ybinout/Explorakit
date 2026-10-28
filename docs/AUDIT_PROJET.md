@@ -1,5 +1,14 @@
 # Audit technique et mémoire de RiftMon
 
+## Revente des cristaux ×3 — 28 octobre 2026
+
+Prix unitaires de revente : Éclat fissuré 50→150 ₽, Cristal limpide 150→450 ₽, Prisme d’aurore 500→1 500 ₽. Descriptions accordées au catalogue. Le calcul partagé des vendeurs applique ces prix au stock existant et aux nouveaux objets en Aventure, Rift et Colosseum. Comparaison structurée : seuls les prix et descriptions des trois trésors changent ; probabilités, autres objets et prix d’achat identiques.
+
+Dix tests existants réussis, dont quatre SQL : métadonnées du sac, vente réelle des trois objets, argent crédité, concurrence sans double paiement, prix forgé ignoré, commerces ordinaires et Grand Comptoir, ventes en expédition et checkpoint. Assertions de la recette navigateur adaptées aux nouveaux montants, sans exécution navigateur ni nouveau build client pour ce changement de catalogue. Rapport : `docs/CRYSTAL_SALE_PRICES.json`.
+
+Publication serveur seule le 28 octobre 2026 à 14 h 50 (Europe/Paris), PID 2668767→2688315. Sauvegarde `/home/ubuntu/dev/backups/riftmon-crystal-prices-2026-10-28T13-50-26-852Z`, checkpoint conservé et zéro expédition active relevée. Client/build `819bbc5bc922488c`, index/bundles publics et Knov/api-test inchangés. Service actif, zéro redémarrage automatique et aucun avertissement serveur relevé après publication ; aucune migration ou manipulation manuelle de compte réel.
+
+
 ## IA — talents adverses connus — 28 octobre 2026
 
 À la demande explicite du joueur, la connaissance du planificateur comprend désormais le talent actuel de chaque Pokémon adverse, actif comme remplaçant. `publicPokemon` copie seulement le nom du talent dans la vue assainie ; suppression et changements temporaires restent pris en compte. Cette règle remplace la politique précédente de talents adverses inconnus. Les objets tenus, PP restants, IV/EV, statistiques exactes et commandes soumises ne sont toujours pas consultés. Les orchestrateurs conservent leur décision avant de demander celle du joueur.
@@ -4580,6 +4589,7 @@ Le socle pourra être considéré stable lorsque :
 
 ## 11. Journal de suivi
 
+- 28 octobre 2026 — Prix de revente des trois cristaux triplés : 150/450/1 500 ₽, descriptions et recettes adaptées. Dix tests réussis. Rapport `docs/CRYSTAL_SALE_PRICES.json`.
 - 28 octobre 2026 — IA : talents adverses désormais connus sur instruction du joueur, intentions toujours inconnues. 115 tests et balayage de 126 décisions réussis. Rapport `docs/AI_KNOWN_ABILITIES.json`.
 - 28 octobre 2026 — IA : prévisions et choix d’entrée exploitent Piège Sable, Magnépiège et Marque Ombre sans consulter les intentions ou talents cachés. 112 tests et balayage de 126 décisions réussis. Rapport `docs/AI_TRAPPING_ABILITIES.json`.
 - 28 octobre 2026 — Wanda : six sets retravaillés, Staross remplace Tentacruel en conservant niveau/K/IV, IA Encore/Tour Rapide adaptée. 113 tests et combat navigateur réussis. Rapport `docs/WANDA_TEAM_REWORK.json`.
