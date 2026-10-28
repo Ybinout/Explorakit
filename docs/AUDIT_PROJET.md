@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## Raphael — indice sur les choses cachées — 28 octobre 2026
+
+Ajout en dernière page de `champion_raphael_after` : « Raphael : Et rappelle-toi… la vérité se trouve parfois sous les choses. », avec son portrait `raph.png`. La phrase apparaît après la victoire du joueur et lorsqu’il reparle au champion. Trois anciennes pages, introduction, prérequis, combat, récompenses et autres dialogues conservés.
+
+Validation : comparaison intégrale du catalogue (un seul ajout), résolution effective du dialogue après victoire et neuf tests de l’épreuve de Raphael réussis. Le lot tactique plus large conserve deux échecs préexistants d’attente du Pokémon entrant (359 au lieu de 55, Rift/Colosseum), reproduits avec le catalogue de référence ; aucune IA modifiée ici. Aucun nouveau test, navigateur ou build pour cet ajout de texte ; client/build `044091fdc942b304` inchangés. Rapport : `docs/RAPHAEL_HIDDEN_TRUTH_HINT.json`.
+
+Publication serveur seule le 28 octobre 2026 à 07 h 27 (Europe/Paris), PID 2507857→2509799. Sauvegarde `/home/ubuntu/dev/backups/riftmon-raph-hint-2026-10-28T06-27-57-352Z`, checkpoint conservé et zéro expédition active relevée. Client/build `044091fdc942b304`, index/bundles et Knov/api-test inchangés ; empreinte du catalogue vérifiée, zéro erreur serveur, aucune migration ou manipulation de compte réel.
+
 ## Wanda — interpellation à la sortie de la maison de Lucie — 28 octobre 2026
 
 Après la disparition de Lucie et la première vraie sortie sur la Route 2, Wanda interpelle automatiquement le joueur. Cinq courtes pages : elle demande où est Lucie, le joueur raconte sa disparition (narrateur en italique), Wanda s’étonne que le Professeur ait fabriqué son téléporteur, évoque Téléport et l’Abra près de ses machines (« Le pauvre Abra… »), puis oriente vers le laboratoire. Allusion sans affirmer le sort d’Abra ni révéler la clé ou la charge du téléporteur secret. Métadonnées, autres dialogues, portraits et événements de progression conservés.
@@ -4457,6 +4465,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 28 octobre 2026 — Raphael donne après victoire un indice discret : « la vérité se trouve parfois sous les choses ». Ajout unique vérifié, neuf contrôles de l’épreuve réussis ; deux attentes tactiques déjà en échec sur la référence documentées. Rapport `docs/RAPHAEL_HIDDEN_TRUTH_HINT.json`.
 
 - 28 octobre 2026 — Wanda interpelle automatiquement le joueur après la disparition de Lucie, évoque le téléporteur et l’Abra du Professeur, puis le laboratoire. Lecture, reprise et replay privés protégés ; tests, SQL/socket et navigateur quatre formats validés. Rapport `docs/WANDA_HOUSE_CALLOUT.json`.
 

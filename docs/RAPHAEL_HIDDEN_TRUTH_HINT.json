@@ -1,0 +1,77 @@
+{
+  "dateParis": "2026-10-28",
+  "sourceBaseline": "030ffa2e8f3f86303a7e2a21c728e958b0c45996",
+  "dialogue": "champion_raphael_after",
+  "text": "Raphael : Et rappelle-toi… la vérité se trouve parfois sous les choses.",
+  "portrait": "raph.png",
+  "availability": [
+    "after player victory",
+    "subsequent conversations"
+  ],
+  "validation": {
+    "onlyOneAppendedSentence": true,
+    "allOtherCatalogDataPreserved": true,
+    "postVictoryDialogueResolved": true,
+    "targetedTests": {
+      "pass": 9,
+      "fail": 0,
+      "command": "node --test tests/raph-trial.test.js"
+    },
+    "broaderTests": {
+      "pass": 11,
+      "fail": 2,
+      "baselinePass": 11,
+      "baselineFail": 2,
+      "preExistingFailures": [
+        "Rift Raphael incoming Pokémon: expected 55, got 359",
+        "Colosseum Raphael incoming Pokémon: expected 55, got 359"
+      ],
+      "command": "node --test tests/raph-trial.test.js tests/raph-tactics.test.js"
+    },
+    "noNewTests": true,
+    "browserRun": false,
+    "syntaxAndWhitespace": "pass"
+  },
+  "client": {
+    "changed": false,
+    "commit": "c2ba7c60bde0ae638f2794df2208eec7c4c57bde",
+    "build": "044091fdc942b304"
+  },
+  "sqlMigration": false,
+  "realAccountsModified": false,
+  "deployment": {
+    "publishedAt": "2026-10-28T06:27:58.772Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-raph-hint-2026-10-28T06-27-57-352Z",
+    "sourceBaseline": "030ffa2e8f3f86303a7e2a21c728e958b0c45996",
+    "sourceHashes": {
+      "data/game/interact.json": "ea3d23d4cafa27ff6af5bf0f5ee59a81d22450b471713aa022f7e29e75a44265"
+    },
+    "clientCommit": "c2ba7c60bde0ae638f2794df2208eec7c4c57bde",
+    "clientBuild": "044091fdc942b304",
+    "clientUnchanged": true,
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.e95ac044.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.a6837023.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.d17eb514.css"
+    ],
+    "beforePid": "2507857",
+    "afterPid": "2509799",
+    "serverRestarted": true,
+    "checkpointSaved": true,
+    "gracefulCheckpoint": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "sqlMigration": false,
+    "realAccountsModified": false
+  },
+  "postDeployment": {
+    "runtimeHashesMatch": true,
+    "serverErrors": 0
+  }
+}
