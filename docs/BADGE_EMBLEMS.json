@@ -1,0 +1,99 @@
+{
+  "dateParis": "2026-10-28",
+  "designs": {
+    "bloom_badge": {
+      "name": "Badge Illusion",
+      "motif": "eye and glint",
+      "color": "#8870b4"
+    },
+    "ore_badge": {
+      "name": "Badge Noblesse",
+      "motif": "crown and jewel",
+      "color": "#536d9a"
+    },
+    "tide_badge": {
+      "name": "Badge Force",
+      "motif": "clenched fist",
+      "color": "#b76461"
+    }
+  },
+  "nativeSvg": true,
+  "dimensions": [
+    76,
+    76
+  ],
+  "newImages": 0,
+  "preserved": [
+    "five other badge designs",
+    "historical fallback gem",
+    "gold setting",
+    "badge keys and names",
+    "earned badges and award dates",
+    "gameplay and rewards"
+  ],
+  "validation": {
+    "onlyThreeDesignsChanged": true,
+    "lint": true,
+    "clientBuild": "c7fa6d70b9f1274a",
+    "browser": {
+      "names": {
+        "lake_badge": "Badge du Sang-Froid",
+        "dune_badge": "Badge Dune",
+        "bloom_badge": "Badge Illusion",
+        "ore_badge": "Badge Noblesse",
+        "tide_badge": "Badge Force",
+        "summit_badge": "Badge Sommet",
+        "violence_badge": "Badge Violence",
+        "pardon_badge": "Badge Pardon"
+      },
+      "earnedBadgesAndDatesPreserved": true,
+      "colors": {
+        "bloom_badge": "#8870b4",
+        "ore_badge": "#536d9a",
+        "tide_badge": "#b76461"
+      },
+      "unearnedGrayscalePreserved": true,
+      "viewports": 4,
+      "screens": [
+        "new-badge-designs-320.png",
+        "new-badge-designs-393.png",
+        "new-badge-designs-844.png",
+        "new-badge-designs-1365.png"
+      ],
+      "errors": []
+    },
+    "commands": [
+      "npm --prefix vue-explorakit run lint -- --no-fix",
+      "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-badge-art-dist",
+      "DB_TEST_NAME=explorakit_test node --env-file=.env /tmp/riftmon-badge-art-browser.cjs"
+    ],
+    "browserScript": "const root='/home/ubuntu/dev/explorakit';\nconst req=require('node:module').createRequire(root+'/package.json');\nconst assert=req('node:assert/strict'),fs=req('node:fs'),http=req('node:http'),{once}=req('node:events'),{randomUUID}=req('node:crypto');\nif(!/test/i.test(process.env.DB_TEST_NAME||''))throw Error('Dedicated test database required');\nprocess.env.DB_NAME=process.env.DB_TEST_NAME;process.env.NODE_ENV='test';\nconst express=req('express'),{Server}=req('socket.io'),{chromium}=req('playwright'),{dbPool:db}=req('./server/config/database');\nconst dist='/tmp/riftmon-badge-art-dist',out='/tmp/riftmon-badge-art-browser';fs.mkdirSync(out,{recursive:true});\nconst app=express(),server=http.createServer(app),io=new Server(server);app.use(express.json());app.use('/api',req('./server/http/routes'));app.use(express.static(dist));app.get('*',(_q,r)=>r.sendFile(dist+'/index.html'));io.use(req('./server/http/authMiddleware').authenticateSocket);req('./server/realtime/socketHandler')(io);\nlet browser,page,userId,passed=false;const errors=[],screens=[];\nasync function pictures(label){for(const[width,height]of[[320,568],[393,852],[844,390],[1365,900]]){await page.setViewportSize({width,height});await page.evaluate(async width=>{v.showMobileControls=width<=920;await v.$nextTick();v.resizeWorldViewport();},width);await page.waitForTimeout(100);assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));const file=label+'-'+width+'.png';await page.screenshot({path:out+'/'+file});screens.push(file);}await page.setViewportSize({width:393,height:852});await page.evaluate(()=>v.showMobileControls=true);}\n(async()=>{try{\n server.listen(0,'127.0.0.1');await once(server,'listening');const base='http://127.0.0.1:'+server.address().port;\n const response=await fetch(base+'/api/users',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:'badge_art_'+randomUUID(),password:randomUUID(),starterId:7})});assert.equal(response.status,201);const f=await response.json();userId=f.user.id;\n for(const key of req('./server/game/world/mirrorRift').requiredBadges)await db.execute(\"INSERT INTO player_badges(user_id,badge_key,awarded_at)VALUES(?,?,'2026-01-02 12:00:00')\",[userId,key]);\n const [before]=await db.execute('SELECT badge_key,awarded_at FROM player_badges WHERE user_id=?',[userId]);\n browser=await chromium.launch({headless:true,args:['--no-sandbox']});const context=await browser.newContext({viewport:{width:393,height:852},hasTouch:true});await context.addInitScript(s=>{if(location.protocol==='http:')localStorage.setItem('explorakit.user',JSON.stringify(s));},{...f.user,token:f.token});page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));\n await page.goto(base+'/game',{waitUntil:'networkidle'});await page.waitForFunction(()=>{const v=document.querySelector('.game-root')?.__vue__;if(!v?.socket?.connected||v.mapLoading||!v.progressionState?.badges?.length)return false;window.v=v;return true;});await page.evaluate(()=>v.handleMenuAction('badges'));await page.locator('[data-badge-key=\"lake_badge\"]').waitFor();\n const names={lake_badge:'Badge du Sang-Froid',dune_badge:'Badge Dune',bloom_badge:'Badge Illusion',ore_badge:'Badge Noblesse',tide_badge:'Badge Force',summit_badge:'Badge Sommet',violence_badge:'Badge Violence',pardon_badge:'Badge Pardon'};\n for(const[key,name]of Object.entries(names))assert.equal(await page.locator(`[data-badge-key=\"${key}\"] h4`).innerText(),name);\n assert.equal(await page.locator('[data-badge-key=\"lake_badge\"]').getAttribute('data-badge-earned'),'true');\n const colors={bloom_badge:'#8870b4',ore_badge:'#536d9a',tide_badge:'#b76461'};\n for(const[key,color]of Object.entries(colors)){assert.equal(await page.locator(`[data-badge-key=\"${key}\"] .badge-emblem`).evaluate(e=>e.style.getPropertyValue('--badge-color')),color);assert.equal(await page.locator(`[data-badge-key=\"${key}\"]`).getAttribute('data-badge-earned'),'true');}\n await page.evaluate(()=>document.querySelector('.badge-case-scroll').scrollTop=290);await pictures('new-badge-designs');\n await page.setViewportSize({width:1365,height:900});await page.evaluate(()=>v.showMobileControls=false);await page.waitForTimeout(150);await page.locator('[data-badge-key=\"bloom_badge\"]').scrollIntoViewIfNeeded();await page.screenshot({path:out+'/desktop-new-badges.png'});\n for(const key of Object.keys(colors))await page.locator(`[data-badge-key=\"${key}\"] .badge-emblem`).screenshot({path:out+'/'+key+'.png'});\n await page.evaluate(()=>{v.progressionState.badges=v.progressionState.badges.map(b=>['bloom_badge','ore_badge','tide_badge'].includes(b.key)?{...b,earned:false}:b);});await page.waitForTimeout(100);\n for(const key of Object.keys(colors))assert.equal(await page.locator(`[data-badge-key=\"${key}\"] .badge-case-display`).evaluate(e=>getComputedStyle(e).filter),'grayscale(1)');\n await page.screenshot({path:out+'/unearned-new-badges.png'});\n\n const [after]=await db.execute('SELECT badge_key,awarded_at FROM player_badges WHERE user_id=?',[userId]);assert.deepEqual(after,before);assert.deepEqual(errors,[]);passed=true;const result={names,earnedBadgesAndDatesPreserved:true,colors,unearnedGrayscalePreserved:true,viewports:4,screens,errors};fs.writeFileSync(out+'/results.json',JSON.stringify(result,null,2));console.log(JSON.stringify(result));\n}finally{if(!passed&&page)await page.screenshot({path:out+'/failure.png'}).catch(()=>{});await browser?.close();await new Promise(r=>io.close(r));await new Promise(r=>setTimeout(r,200));if(userId)await db.execute('DELETE FROM users WHERE id=?',[userId]);await db.end();}})().catch(e=>{console.error(e.stack);process.exitCode=1});\n",
+    "physicalPhoneTest": false
+  },
+  "deployment": {
+    "publishedAt": "2026-10-28T04:09:27.750Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-badge-art-2026-10-28T04-09-26-270Z",
+    "clientBuild": "c7fa6d70b9f1274a",
+    "clientCommit": "9b63a7738db18074fd76216ed6c1df112078dabe",
+    "pid": "2469675",
+    "serverRestarted": false,
+    "neighborsUnchanged": true,
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.5f33af24.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.a543d655.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.0718bd6f.css",
+      "img/ville4_arene.4d111715.png",
+      "img/6931.30769aa5.png"
+    ]
+  },
+  "postDeployment": {
+    "serverHealthyWithoutRestart": true,
+    "testFixtureRemainders": 0
+  }
+}

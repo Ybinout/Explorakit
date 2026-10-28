@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## Emblèmes Illusion, Noblesse et Force — 28 octobre 2026
+
+Trois dessins SVG natifs remplacent les anciens motifs : œil et éclat sur émail améthyste pour Illusion (`bloom_badge`), couronne à joyau sur bleu royal pour Noblesse (`ore_badge`), poing fermé sur rouge cuivré pour Force (`tide_badge`). Monture dorée commune et dimensions 76×76 conservées. Ajout de deux couches SVG optionnelles (incrustation et gravure) uniquement pour ces emblèmes ; aucun raster, téléchargement, filtre animé ou boucle supplémentaire. Les cinq autres dessins et le motif de secours historique sont identiques. Noms, identifiants, acquis, dates et récompenses inchangés.
+
+Validation : comparaison des huit définitions avec la référence (exactement trois modifiées), lint/build `c7fa6d70b9f1274a`, navigateur authentifié sur compte jetable : noms et trois couleurs, badges obtenus/grisés et dates préservés, quatre formats et affichage PC, zéro erreur. Captures mobile/PC inspectées. Aucun test supplémentaire écrit pour cette modification graphique réversible. Rapport : `docs/BADGE_EMBLEMS.json`.
+
+Publication client seule le 28 octobre 2026 à 05 h 09 (Europe/Paris), client `9b63a7738db18074fd76216ed6c1df112078dabe`, build `c7fa6d70b9f1274a`. Sauvegarde `/home/ubuntu/dev/backups/riftmon-badge-art-2026-10-28T04-09-26-270Z`. Index/bundles et deux assets publics contrôlés, anciens bundles conservés. Serveur actif, PID 2469675 conservé sans redémarrage ; Knov/api-test inchangés. Aucun compte de recette restant dans la base dédiée, aucune donnée de compte réel modifiée.
+
 ## Faille de Lucie — ouverture centrale et vortex — 28 octobre 2026
 
 L’action secrète derrière la bibliothèque reste en (7,4)/(7,5), avec les mêmes six badges et une fin requise. Elle affiche maintenant « Il se passe quelque chose… » en italique, sans dialogue à fermer. Faille déplacée au centre de la chambre, case (13,10), centre visuel (432,336), double au sud en (13,13). Le masque solide suit la nouvelle ouverture (11 cases) ; l’approche (13,12), la sortie et la bibliothèque restent accessibles. La normalisation existante d’apparition reloge les positions sauvegardées devenues bloquées. Aucun flag, acquis ou critère de duel renommé.
@@ -4369,6 +4377,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 28 octobre 2026 — Nouveaux emblèmes des badges Illusion (œil violet), Noblesse (couronne bleue) et Force (poing rouge), dans la monture SVG commune. Cinq autres badges et sauvegardes conservés ; lint/build et navigateur quatre formats validés. Rapport `docs/BADGE_EMBLEMS.json`.
 
 - 28 octobre 2026 — Faille centrale dans la chambre de Lucie : message narratif, ouverture réellement étalée sur huit secondes, vortex avec aspiration et cadrage mobile. Coordonnées/collisions et double alignés, cache Canvas borné, mouvements réduits respectés. 16 tests, six scénarios SQL et parcours navigateur complet réussis. Rapport `docs/MIRROR_RIFT_VISUALS.json`.
 
