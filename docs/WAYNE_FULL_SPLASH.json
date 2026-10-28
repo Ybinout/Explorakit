@@ -1,0 +1,114 @@
+{
+  "date": "2026-10-28",
+  "request": "Retoucher le splashart de Wayne pour que le personnage soit complet.",
+  "finding": "La source 512 × 512 coupait le haut des cheveux, la main gauche de l’image et les chaussures ; le composant affichait déjà l’image avec object-fit:contain.",
+  "imageGeneration": {
+    "tool": "Built-in image_gen, identity-preserve edit",
+    "reference": "vue-explorakit/src/assets/image/wayne-eyepatch-v1.png",
+    "generatedSource": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-a7a3890f-1f15-4dba-a989-b4d953db10b4.png",
+    "destination": "vue-explorakit/src/assets/image/wayne-eyepatch-v2.png",
+    "prompt": "Use case: identity-preserve. Asset type: full character splash illustration for the RiftMon game. Edit target: the attached existing Wayne illustration. Repair the cropped framing by completing and slightly zooming out the SAME character. Preserve the exact monochrome manga ink style, cheerful face, spiky dark hair, black eyepatch over the eye on the VIEWER'S LEFT, white shirt with black collar, backpack straps, dark shorts, sneakers, raised hand holding the ball on the VIEWER'S LEFT, and the distinctive high-angle perspective. The COMPLETE silhouette must be visible: every hair tip, the full raised hand and all visible fingers, the entire ball, both arms, legs and both shoes. Extend the drawing naturally only where the original image cuts it off. Keep the subject identity, pose and clothing; do not redesign him or change the camera angle. Center the whole character in a portrait composition with clear transparent padding on ALL four sides (at least 5 percent), no edge touching. True transparent background, grayscale only, clean crisp black outlines and manga shading. No text, no frame, no extra characters, no floor or cast shadow.",
+    "export": "Copie intacte du PNG RGBA généré, 1122 × 1402 ; alpha conservé, aucun recadrage ni redimensionnement supplémentaire.",
+    "sha256": "364e4196db202bf7a23ca9e40d804d266cab1e58ad01aefe1114fed6dac6f922",
+    "alphaInspection": [
+      {
+        "name": "wayne-eyepatch-v1.png",
+        "bytes": 393466,
+        "width": 512,
+        "height": 512,
+        "bounds": {
+          "minX": 0,
+          "minY": 0,
+          "maxX": 486,
+          "maxY": 511
+        },
+        "padding": {
+          "left": 0,
+          "top": 0,
+          "right": 25,
+          "bottom": 0
+        },
+        "transparentPixels": 99218
+      },
+      {
+        "name": "wayne-eyepatch-v2.png",
+        "bytes": 1464044,
+        "width": 1122,
+        "height": 1402,
+        "bounds": {
+          "minX": 104,
+          "minY": 26,
+          "maxX": 957,
+          "maxY": 1363
+        },
+        "padding": {
+          "left": 104,
+          "top": 26,
+          "right": 164,
+          "bottom": 38
+        },
+        "transparentPixels": 969418
+      }
+    ]
+  },
+  "integration": [
+    "Nouvelle version dans les résolveurs arenaEntrance et npcPortraits, pour entrée en combat et dialogues Wayne.",
+    "Cache-œil, pose plongeante, tenue, Ball et DA manga monochrome conservés.",
+    "Original conservé ; aucun changement de sprite de carte, de CSS partagé, de serveur ou de progression."
+  ],
+  "validation": {
+    "unit": {
+      "command": "node --test tests/arena-entrance.test.js",
+      "pass": 5,
+      "fail": 0
+    },
+    "lint": "passed",
+    "build": "e8fa3da1bc10bc2d",
+    "browser": {
+      "actualWayneDuel": true,
+      "waynePortrait": "wayne-eyepatch-v2.png",
+      "wayneTiming": {
+        "elapsed": 6130.400000095367,
+        "visible": 6041.099999904633
+      },
+      "wayneViewports": 4,
+      "dialogueViewports": 4,
+      "wholeIllustration": true,
+      "arenas": null,
+      "errors": [],
+      "output": "/tmp/riftmon-wayne-full-browser"
+    },
+    "command": "DB_TEST_NAME=explorakit_test WAYNE_PORTRAIT_ONLY=1 RELEASE_DIST_DIR=/tmp/riftmon-wayne-full-dist RELEASE_SCREENSHOTS=/tmp/riftmon-wayne-full-browser node --env-file=.env scripts/validateTrainerLoaderBrowser.js",
+    "visualReview": [
+      "Splash mobile 393 px",
+      "Splash PC 1365 px",
+      "Dialogue PC 1365 px"
+    ],
+    "isolation": "Compte SQL jetable sur explorakit_test supprimé après la recette.",
+    "limitations": [
+      "Les six champions ne sont pas retestés dans cette passe ciblée Wayne.",
+      "Pas de téléphone physique ni de suite globale."
+    ]
+  },
+  "deployment": {
+    "publishedAt": "2026-10-28T07:47:59.311Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-wayne-full-2026-10-28T07-47-57-894Z",
+    "clientBuild": "e8fa3da1bc10bc2d",
+    "clientCommit": "2aafdc2dfb1bb37b1d4a878a4226fdde04553540",
+    "pid": "2520586",
+    "serverRestarted": false,
+    "neighborsUnchanged": true,
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.e6da9e77.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.05f53029.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.3497b175.css",
+      "img/wayne-eyepatch-v2.d0b5c5f5.png"
+    ]
+  }
+}

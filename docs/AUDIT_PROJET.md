@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## Wayne — splashart complet — 28 octobre 2026
+
+L’image source coupait les cheveux, la main et les chaussures ; l’affichage était déjà en `object-fit:contain`. Retouche avec l’outil intégré imagegen : même personnage monochrome, cache-œil, pose plongeante, tenue et Ball, silhouette désormais entière avec transparence autour. Nouveau `image/wayne-eyepatch-v2.png` (1 122 × 1 402, 1 464 044 octets), copie intacte du résultat ; source précédente conservée. Résolveurs d’entrée en combat et de dialogue raccordés à cette version. Aucun changement de sprite de carte, CSS partagé, serveur ou progression.
+
+Contrôle alpha : ancien sujet contre trois bords, nouveau sujet à 104/26/164/38 px des bords gauche/haut/droit/bas (seuil alpha >16). Lint/build `e8fa3da1bc10bc2d` et cinq tests d’entrées réussis. Recette ciblée `WAYNE_PORTRAIT_ONLY=1 scripts/validateTrainerLoaderBrowser.js` : vrai dialogue puis duel Wayne sur compte jetable supprimé, huit captures sur quatre formats, portrait décodé et commandes bloquées durant le chargement ; zéro erreur. Splash PC/mobile et dialogue PC inspectés. Pas de suite globale ou matériel physique revendiqués. Prompt exact, image et preuves : `docs/WAYNE_FULL_SPLASH.json`.
+
+Publication client seule le 28 octobre 2026 à 08 h 47 (Europe/Paris), PID 2520586 conservé. Sauvegarde `/home/ubuntu/dev/backups/riftmon-wayne-full-2026-10-28T07-47-57-894Z`, index, bundles et nouvelle image publics vérifiés à l’octet ; anciens assets conservés, Knov/api-test inchangés.
+
 ## Duel du clone — écran Fin et réveil — 28 octobre 2026
 
 Après une victoire du clone confirmée par `mirror_stage=won`, le client attend la fin de la présentation du combat, puis enchaîne automatiquement sans panneau Continuer. Les autres victoires/défaites conservent leur résultat. Le voile de fermeture couvre désormais toute la fenêtre, y compris menu et commandes ; « Fin » apparaît au centre sur noir, puis disparaît avant le réveil. Interface sous-jacente inerte pendant la séquence.
@@ -4503,6 +4511,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 28 octobre 2026 — Wayne : illustration entière avec cache-œil et alpha conservés, entrée de combat et dialogues raccordés. Cinq tests et huit captures navigateur sur quatre formats validés ; rapport `docs/WAYNE_FULL_SPLASH.json`.
 
 - 28 octobre 2026 — Épilogue du clone : victoire automatique, fondu noir plein écran, Fin centré puis lit révélé après chargement. 18 tests et parcours navigateur quatre formats validés, version statique incluse. Rapport `docs/MIRROR_ENDING_FADE.json`.
 

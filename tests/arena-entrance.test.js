@@ -23,7 +23,7 @@ test('Wayne uses his eyepatch portrait only for his actual opening trainer encou
  const dialogue=require('../data/game/interact.json').find(entry=>entry.name==='dia1');
  assert.equal(dialogue.map,'start');assert.equal(dialogue.end,'battle');assert.equal(dialogue.team,'timmy');
  const portrait=arenaChampion(dialogue.map,'trainer',dialogue.name);
- assert.equal(portrait.name,'Wayne');assert.equal(portrait.portrait,'wayne-eyepatch-v1.png');
+ assert.equal(portrait.name,'Wayne');assert.equal(portrait.portrait,'wayne-eyepatch-v2.png');
  assert(fs.existsSync(path.join(__dirname,'../vue-explorakit/src/assets/image',portrait.portrait)));
  for(const key of [undefined,null,'timmy','dia1_after','challenge_start'])assert.equal(arenaChampion('start','trainer',key),null);
  for(const kind of ['wild','pvp','colosseum','arena'])assert.equal(arenaChampion('start',kind,'dia1'),null);
