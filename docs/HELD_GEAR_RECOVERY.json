@@ -1,0 +1,99 @@
+{
+  "date": "2026-10-28",
+  "scope": "Ceinture Force consommée pour le combat et récupérée ensuite ; restitution autorisée à gab",
+  "diagnosis": [
+    "Ceinture Force consommée définitivement par le moteur avant ce patch",
+    "Casque Brut retrouvé sur Excelangue dans le PC, non perdu"
+  ],
+  "behavior": [
+    "Ceinture indisponible après activation, récupérée en fin de combat",
+    "Propriétaire original conservé à travers échanges, consommation, sauvegarde et Ramassage",
+    "Ceinture consommée récupérée dans le sac si porteur définitivement perdu en expédition",
+    "Baies et talisman toujours consommables"
+  ],
+  "validation": {
+    "unitTests": 83,
+    "mysqlTests": 14,
+    "failures": 0,
+    "skips": 0,
+    "commands": [
+      "node --test --test-concurrency=1 tests/focus-sash-recovery.test.js tests/knock-off.test.js tests/battle-outcome.test.js tests/ability-reactions.test.js tests/human-trainer-items.test.js",
+      "NODE_ENV=test BATTLE_DELAY_SCALE=0 RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test node --env-file-if-exists=.env --test --test-concurrency=1 tests/focus-sash-recovery-mysql.test.js tests/knock-off-mysql.test.js"
+    ],
+    "browserRun": false,
+    "physicalDeviceTested": false,
+    "frontendBuildRun": false,
+    "globalSuiteRun": false
+  },
+  "authorizedAccountRepair": {
+    "username": "gab",
+    "authorization": "Demande explicite de restitution du joueur, corrigée vers gab",
+    "actions": [
+      {
+        "item": "focus_sash",
+        "action": "missing_item_replaced",
+        "quantity": 1
+      },
+      {
+        "item": "rocky_helmet",
+        "action": "transferred_from_pc",
+        "quantity": 1
+      }
+    ],
+    "verifiedBag": [
+      {
+        "item_key": "focus_sash",
+        "quantity": 1
+      },
+      {
+        "item_key": "rocky_helmet",
+        "quantity": 1
+      }
+    ],
+    "backup": "/home/ubuntu/dev/backups/riftmon-gab-held-gear-2026-10-28T16-19-54-988Z",
+    "completedAt": "2026-10-28T16:19:54.999Z",
+    "retryWithoutAdditionalWrite": true,
+    "moneyAndOtherPokemonFieldsPreserved": true
+  },
+  "deployment": {
+    "publishedAt": "2026-10-28T16:19:16.004Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-held-gear-2026-10-28T16-19-14-595Z",
+    "sourceBaseline": "d25644751006692eadc84d883746a2dd75a987ab",
+    "sourceHashes": {
+      "data/game/items.json": "9c2a3206b38208b3dd7f2c1217eba16441a9159ba7c94d3967dcc7a198e517d3",
+      "server/game/battle/battleEngine.js": "a528313dc0e1e7a8302ca6a20e613d3863e4f288323a650f0d10c12c9acd4059",
+      "server/game/battle/battleOutcome.js": "3db1aa9d91e3049f32e869a21baec2b429aba470b0be7f9a4debcba05e1228f8",
+      "server/game/drift/driftBattle.js": "55ba0190261884808e9bd52e17b1604211af474e284094a9f099fa76a8a76d46"
+    },
+    "clientCommit": "81914d7029c4ee40488aa0686dd0c70ca8fc7d63",
+    "clientBuild": "819bbc5bc922488c",
+    "clientUnchanged": true,
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.6d89ba19.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.dc533f29.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.699eedbd.css"
+    ],
+    "beforePid": "2736310",
+    "afterPid": "2746466",
+    "serverRestarted": true,
+    "checkpointSaved": true,
+    "gracefulCheckpoint": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "sqlMigration": false,
+    "realAccountsModified": true,
+    "authorizedRepair": {
+      "username": "gab",
+      "backup": "/home/ubuntu/dev/backups/riftmon-gab-held-gear-2026-10-28T16-19-54-988Z",
+      "focusSashReplaced": true,
+      "rockyHelmetTransferredFromPc": true,
+      "completedAt": "2026-10-28T16:19:54.999Z"
+    }
+  }
+}

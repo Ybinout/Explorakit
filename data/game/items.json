@@ -240,7 +240,7 @@
       "buy_price": 10000,
       "battle_effect": "focus_sash",
       "riftOnly": true,
-      "description": "À pleine vie, survit à une attaque fatale avec 1 PV. Consommée après activation.",
+      "description": "À pleine vie, survit à une attaque fatale avec 1 PV. Se consume à l’activation et est récupérée à la fin du combat.",
       "unique": true,
       "dropOnly": true,
       "wildLoot": {

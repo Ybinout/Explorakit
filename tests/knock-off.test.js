@@ -27,9 +27,9 @@ test('Unburden activates immediately and a knocked berry cannot be Recycled duri
  const a=mon(),b=mon(143,['Recycle']);b.passiveAbility='Unburden';b.heldItem='oran_berry';const field=engine.createBattleState(),before=engine.getBattleSpeed(b,field.sides.enemy,field);strike(a,b,field);assert.equal(engine.getBattleSpeed(b,field.sides.enemy,field),before*2);
  fixed(()=>engine.useattack('Recycle',b,a,{battleState:field}));assert.equal(b.heldItem,null);clearBattleTransientState([b]);assert.equal(b.heldItem,'oran_berry');
 });
-test('a berry or Focus Sash actually consumed by the hit is not refunded as a knocked item',()=>{
+test('a consumed berry stays spent; Focus Sash returns only after battle, without a Knock Off refund',()=>{
  for(const key of['oran_berry','focus_sash']){const a=mon(),b=mon(143,['Splash']);b.heldItem=key;if(key==='oran_berry')b.currentHp=1000;else{a.currentAttack=99999;b.currentHp=b.maxHp;}
-  strike(a,b);assert.equal(b.heldItem,null);assert(!Object.hasOwn(b,'__heldItemKnockedOff'));clearBattleTransientState([b]);assert.equal(b.heldItem,null);
+  strike(a,b);assert.equal(b.heldItem,null);assert(!Object.hasOwn(b,'__heldItemKnockedOff'));clearBattleTransientState([b]);assert.equal(b.heldItem,key==='focus_sash'?'focus_sash':null);
  }
 });
 test('Trick ownership: the original player recovers its item, including in the bag after permanent loss',()=>{

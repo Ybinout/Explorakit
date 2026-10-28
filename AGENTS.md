@@ -1,5 +1,18 @@
 # Contexte permanent — RiftMon
 
+## Ceinture Force récupérable et restitution à gab — 28 octobre 2026
+
+Diagnostic du compte demandé (gab, pas binout) : la Ceinture Force était absente ; le Casque Brut était encore équipé sur Excelangue dans le PC. La consommation définitive de la Ceinture était la règle existante du moteur. Elle devient temporaire : une fois déclenchée, elle reste indisponible pendant le combat, y compris après un soin, puis revient au propriétaire d’origine lors du nettoyage de fin. Les attaques multiples gardent leur efficacité et Recyclage/Ramassage suivent leurs règles. Baies et talisman restent consommables. Description de la Ceinture actualisée ; aucun changement des autres objets.
+
+La mémoire d’origine des échanges sert aussi à préserver la Ceinture lors d’une sauvegarde en cours de combat. Objet consommé chez un autre porteur : restauration au propriétaire initial, sans conserver l’objet emprunté. Si le porteur est perdu définitivement en expédition après consommation, la Ceinture revient une seule fois dans le sac. `recoverLostHeldItems` conserve l’ancien alias `recoverLostKnockedOffItems` ; narration de récupération généralisée à la fin du combat. Le modèle de décision IA continue de considérer l’objet consommé pendant le combat.
+
+Validation : 83 tests unitaires et 14 SQL réussis sans saut. Quatorze nouveaux cas unitaires et neuf nouveaux parcours SQL couvrent activation/non-réactivation, soin, multi-coups, Tourmagik, Ramassage, Dégommage, baies/Casque Brut, checkpoints et perte définitive Rift/Colosseum, victoire/défaite/fuite/déconnexion sauvages et dresseurs, sauvegarde pendant le combat et entraînement XP d’arène. Aucun test navigateur, appareil physique, nouveau build client ou suite globale revendiqué. Rapport : `docs/HELD_GEAR_RECOVERY.json`.
+
+Restitution explicitement autorisée et effectuée après publication, seulement pour gab : Ceinture manquante remplacée par une unité ; Casque Brut transféré du PC vers le sac, sans en créer une seconde copie. Transaction avec verrou joueur/stock/PC, sauvegarde protégée `/home/ubuntu/dev/backups/riftmon-gab-held-gear-2026-10-28T16-19-54-988Z`, champs restants d’Excelangue et argent conservés. Contrôle frais : une unité de chaque objet dans le sac, casque retiré du PC ; seconde invocation sans nouvelle écriture grâce au reçu local. Script et reçu personnels restent hors Git.
+
+Publication serveur seule le 28 octobre 2026 à 17 h 19 (Europe/Paris), PID 2736310→2746466. Sauvegarde `/home/ubuntu/dev/backups/riftmon-held-gear-2026-10-28T16-19-14-595Z`, checkpoint conservé et zéro expédition active relevée. Client/build `819bbc5bc922488c`, index/bundles et Knov/api-test inchangés ; service actif, zéro redémarrage automatique et aucun avertissement serveur relevé après publication. Aucune migration ; restitution manuelle limitée au compte demandé, sans toucher binout.
+
+
 ## Capture Aventure — paliers +5 niveaux — 28 octobre 2026
 
 Les seuils de capture confortable pour zéro à six badges passent de `[22,35,40,45,50,60,100]` à `[27,40,45,50,55,65,105]`. La table serveur alimente le combat et l’étui de badges, y compris les sauvegardes existantes. Facteur de pénalité au-dessus du seuil (0,8 par niveau), bonus initial et force des Balls conservés ; calculs Rift/Colosseum sans contexte de badges identiques.

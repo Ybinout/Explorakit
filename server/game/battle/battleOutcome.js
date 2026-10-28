@@ -20,19 +20,21 @@ function clearBattleTransientState(team) {
             delete pokemon.__heldItemOrigin;
             delete pokemon.__consumedHeldItemOrigin;
             delete pokemon.__heldItemKnockedOff;
+            delete pokemon.__heldItemConsumedForBattle;
             delete pokemon.__battle;
             pokemon.resetCombatStats?.();
         }
     }
 }
 
-function recoverLostKnockedOffItems(player,initialTeam=[]) {
+function recoverLostHeldItems(player,initialTeam=[]) {
     const recovered=[];
     for(const pokemon of initialTeam){
-        const key=pokemon.__heldItemKnockedOff;
+        const key=pokemon.__heldItemKnockedOff || pokemon.__heldItemConsumedForBattle;
         if(!key||player.equipe.pokemons.includes(pokemon))continue;
         player.items[key]=(player.items[key]||0)+1;
         delete pokemon.__heldItemKnockedOff;
+        delete pokemon.__heldItemConsumedForBattle;
         recovered.push(key);
     }
     return recovered;
@@ -150,7 +152,8 @@ function emitPvpBattleEnd(io, playerA, playerB, winnerId = null, reason = 'finis
 }
 
 module.exports = {
-    recoverLostKnockedOffItems,
+    recoverLostHeldItems,
+    recoverLostKnockedOffItems: recoverLostHeldItems,
     BattleSummaryTracker,
     clearBattleTransientState,
     buildBattleSummary,

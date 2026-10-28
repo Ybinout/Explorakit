@@ -378,10 +378,10 @@ class DriftBattle {
         for (const p of [this.a,this.b]) p.equipe.pokemons = p.equipe.pokemons.filter(poke=>!effects.isDead(poke) || poke.riftFainted);
         for(const p of [this.a,this.b].filter(p=>!p.npc)){
             const initialTeam=this.originalTeams?.get(p)||this.resultTrackers?.get(p)?.initial.map(e=>e.pokemon)||[];
-            for(const key of require('../battle/battleOutcome').recoverLostKnockedOffItems(p,initialTeam)){
+            for(const key of require('../battle/battleOutcome').recoverLostHeldItems(p,initialTeam)){
                 const name=getItemDefinition(key)?.name||key;
                 this.say(`${name} est récupéré dans le sac.`);
-                report.event(p,'item',`${name} récupéré après Sabotage.`);
+                report.event(p,'item',`${name} récupéré après le combat.`);
             }
         }
         clearBattleTransientState(this.originals);
