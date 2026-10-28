@@ -16,7 +16,7 @@ const types = ['Normal','Fire','Water','Electric','Grass','Ice','Fighting','Pois
 const potions = [{ key: 'drift_potion', name: 'Potion', category: 'heal', price: 100, amount: 20, description: 'Soigne 20 PV hors combat, uniquement un survivant.' },
     { key: 'drift_super_potion', name: 'Super Potion', category: 'heal', price: 300, amount: 60, description: 'Soigne 60 PV hors combat.' }];
 const fail = message => { throw new LobbyError('drift_invalid', message); };
-function bag(p) { return [...baseItems, ...potions].filter(i => p.items[i.key] > 0).map(i => ({ ...i, sellPrice:getSellPrice(i.key), quantity: p.items[i.key], ...(i.category==='evolution'?{evolutions:Object.fromEntries(p.equipe.pokemons.map(poke=>[poke.uuid,stones.target(poke,i.key)]).filter(([,target])=>target))}:{}) })); }
+function bag(p) { return [...baseItems, ...potions].filter(i => p.items[i.key] > 0).map(i => ({ ...i, sellPrice:getSellPrice(i.key), quantity: p.items[i.key], ...(i.fieldUse?.abilityReroll?{abilityOptions:require('../items/abilityCapsule').decorate(i,p.equipe.pokemons).abilityOptions}:{}), ...(i.category==='evolution'?{evolutions:Object.fromEntries(p.equipe.pokemons.map(poke=>[poke.uuid,stones.target(poke,i.key)]).filter(([,target])=>target))}:{}) })); }
 function shop(p) {
     const department=getDepartment(p.currentmap),supplies=!department||department.number===1;
     return { success: true, catalog: [...getShopCatalog({expedition:true,mapName:p.currentmap}).filter(i => i.key !== 'revive'), ...(supplies?potions:[])], items: bag(p), money: p.money, shopMeta:require('../world/shopCatalog').getShopMeta({expedition:true,mapName:p.currentmap}), merchant:supplies?merchant.view(p):null };
@@ -81,7 +81,7 @@ function sell(p,key,quantity){
 function usePotion(p, key, uuid, random = Math.random, quantity=1, ivConfirmation=null) {
     requireMutable(p);
     const item = [...potions, ...baseItems].find(i => i.key === key), pokemon = p.equipe.pokemons.find(a => a.uuid === uuid);
-    if (p.run.phase !== 'exploration' && !((item?.fieldUse?.effort || item?.fieldUse?.ivReroll || item?.fieldUse?.effortReset) && ['preparation','tournament','colosseum_ready'].includes(p.run.phase))) fail('Soins automatiques entre les rounds.');
+    if (p.run.phase !== 'exploration' && !((item?.fieldUse?.effort || item?.fieldUse?.ivReroll || item?.fieldUse?.effortReset || item?.fieldUse?.abilityReroll) && ['preparation','tournament','colosseum_ready'].includes(p.run.phase))) fail('Soins automatiques entre les rounds.');
     if (!item || item.revive || !pokemon || (pokemon.currentHp <= 0 && !pokemon.riftFainted) || !(p.items[key] > 0)) fail('Ce soin est inutilisable.');
     if(!Number.isInteger(quantity)||quantity<1||quantity>99||quantity>1&&!(item.fieldUse?.effort?.amount>0))fail('Quantité invalide.');
     try { require('../items/ivRerollConfirmation').requireIvRerollConfirmation(pokemon,key,ivConfirmation); }
@@ -99,7 +99,7 @@ function usePotion(p, key, uuid, random = Math.random, quantity=1, ivConfirmatio
     } else {
         try { result = medicineBatch(pokemon,key,quantity,p.items[key],random); } catch (error) { fail(error.message); }
     }
-    if (result.ev || result.iv || result.movePp) {
+    if (result.ev || result.iv || result.movePp || result.passiveAbility) {
         const {trainingChange,consumed,...updated}=result;Object.assign(pokemon,updated); p.items[key]-=consumed||1; p.ready=false; report.syncTeam(p);
         report.event(p,'item',`${consumed||1} × ${item.name} utilisé sur ${pokemon.truename || pokemon.name}.`);
         return {success:true,items:bag(p),equipe:p.equipe,trainingChange,consumed:consumed||1};

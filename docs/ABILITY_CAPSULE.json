@@ -1,0 +1,102 @@
+{
+  "feature": "Pilule Talent",
+  "itemKey": "ability_capsule",
+  "price": 10000,
+  "availability": {
+    "ordinaryShops": "After Hoze",
+    "departmentStore": "Floor 2 Training, after Hoze",
+    "expeditions": "Own supplies and inventory"
+  },
+  "effect": {
+    "legalOrdinaryAndHidden": true,
+    "uniformAmongAlternatives": true,
+    "excludeCurrent": true,
+    "uniqueNames": true,
+    "excludeEventOnlySlots": true,
+    "singleAbilityUnusable": true,
+    "quantityPerUse": 1,
+    "inBattle": false,
+    "consumedOnlyOnSuccess": true,
+    "healingConservationBonusApplies": false
+  },
+  "verification": {
+    "unitAndRegressionPassed": 32,
+    "mysqlPassed": 1,
+    "newUnitCases": 5,
+    "newMysqlCases": 1,
+    "finalFocusedPassed": 5,
+    "focusedAlreadyIncludedInRegression": true,
+    "speciesExhaustivelyChecked": 493,
+    "lastStockConcurrencyTested": true,
+    "ownershipAndNoOpProtected": true,
+    "pcAndReloadPreserveAbility": true,
+    "expeditionCheckpointPreservesAbility": true,
+    "browser": {
+      "price": 10000,
+      "realPurchaseAndUse": true,
+      "uniqueAbilityDisabledAndServerRefused": true,
+      "neverSameTalent": true,
+      "visibleBeforeAfterAndDescription": true,
+      "sqlPersistenceAndReload": true,
+      "expeditionInventoryIsolated": true,
+      "viewports": 4,
+      "themes": 2,
+      "errors": [],
+      "output": "/tmp/riftmon-ability-capsule-browser"
+    },
+    "lint": true,
+    "build": "bb095fa0c02bea0a",
+    "capturesInspected": 16,
+    "existingCatalogEntriesAndPricesUnchanged": true,
+    "physicalPhone": false,
+    "globalSuiteClaimed": false
+  },
+  "commands": [
+    "node --test tests/ability-capsule.test.js tests/shop-training.test.js tests/wild-ability-availability.test.js",
+    "RUN_MYSQL_TESTS=1 NODE_ENV=test DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test node --env-file=.env --test --test-concurrency=1 tests/ability-capsule-mysql.test.js",
+    "npm --prefix vue-explorakit run lint",
+    "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-ability-capsule-dist",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-ability-capsule-dist node --env-file=.env scripts/validateAbilityCapsuleBrowser.js"
+  ],
+  "deployment": {
+    "publishedAt": "2026-10-28T21:22:54.597Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-ability-capsule-2026-10-28T21-22-52-041Z",
+    "sourceBaseline": "500168d38d9139203bf76d64963e7c2cf355d233",
+    "sourceHashes": {
+      "data/game/department_store.json": "cebf48b2de2b1c85d24f65fd6b449a0319cbd966f391502bfde9413a076e9e58",
+      "data/game/items.json": "27a93e0770f5542748633504b5a52a96a7356ed4e3669a58e65bb9b9c7621f03",
+      "data/game/shop_offers.json": "492f48fb3e3d93168915095f60c393c197b3575a1f4ca1a5a96a7d552ac04ad7",
+      "server/game/drift/economy.js": "ace0c5f9c321b5959e68f456c5df8495880b5b75e4818b12adf79f575369c80d",
+      "server/game/items/medicineEffects.js": "1997518e52ac732ac22a259b1494e94b56d5a61e5aa4612c6ff1bbabd0507aa5",
+      "server/persistence/itemRepository.js": "1329b0d8b4e78fd947262d87f6dbe1b19b42b8fd861a95951dedca40dff97c46",
+      "server/persistence/medicineRepository.js": "919c3bb69a5865b956d3ca6f11b4ffbbb961037bb9946ccc030cd9b40293ba34",
+      "server/game/items/abilityCapsule.js": "3bcd26f505ca2fd053d487f222cc6bfe435516b77ad6500edd86d622eb8cece9"
+    },
+    "clientCommit": "04e496fd35e2a0312d9ad6345d13a6e48cd0f531",
+    "clientBuild": "bb095fa0c02bea0a",
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.797c8ebf.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.b6506d4d.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.732a0617.css"
+    ],
+    "beforePid": "2876561",
+    "afterPid": "2881678",
+    "serverRestarted": true,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "sqlMigration": false,
+    "realAccountsManuallyModified": false
+  },
+  "postDeployment": {
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningJournalEntries": 0
+  }
+}

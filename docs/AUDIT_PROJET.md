@@ -1,5 +1,17 @@
 # Audit technique et mémoire de RiftMon
 
+## Pilule Talent — 28 octobre 2026
+
+Nouvelle `ability_capsule`, Pilule Talent à 10 000 ₽ dans les boutiques ordinaires dès Hoze et au deuxième étage Entraînement du Grand Comptoir, même palier que le catalogue avancé. Disponible dans les fournitures des expéditions sans utiliser les badges Aventure. Rayon/poche Entraînement, filtre Talents. Aucun ancien objet/prix modifié, aucun butin sauvage ajouté.
+
+Usage à l’unité hors combat sur un compagnon apte de l’équipe. Tire uniformément parmi les autres talents normaux/cachés légaux de son espèce : talent actuel exclu avant tirage, noms dédoublonnés et talents événementiels spéciaux exclus. Aucun autre talent, Œuf, K.O., stock vide ou quantité invalide : refus sans consommation ni tirage. Les profils à talent unique sont grisés dans le sac avec une explication ; aperçu du talent actuel et des alternatives. Après usage, résultat français ancien→nouveau avec description du talent et confirmation de sauvegarde. Défilement/focus et couleurs journal conservés.
+
+La transaction Aventure relit le propriétaire, le Pokémon et le stock sous verrou, puis consomme et écrit `passive_ability` ensemble. Ne se fie pas au talent périmé envoyé par le client. Équipe, PC, rechargement et évolution conservent le résultat. Rift/Colosseum utilisent leur propre stock et leur propre état/checkpoint, y compris entre deux combats ; une pilule est toujours consommée après réussite, sans le bonus de conservation des soins. Métadonnées d’éligibilité construites côté serveur avec les mêmes slots ; si des pierres sont présentes, leur lecture d’équipe est réutilisée. Ni PV, K, IV/EV, capacités, objets tenus ou statistiques recalculés/changés.
+
+Validation : 32 tests unitaires/régression et un SQL réussis sans saut, dont cinq nouveaux cas et un SQL. Pour chacune des 493 espèces utilisées et chacun de leurs talents, toutes les alternatives sont effectivement atteignables et différentes ; les talents uniques/refus ne changent rien. Concurrence sur le dernier exemplaire : une seule réussite, refus de propriété, prix/stock et PC/relecture couverts. Recette navigateur avec compte jetable supprimé : achat réel 10 000 ₽, ciblage impossible grisé et refus serveur, deux changements consécutifs distincts, description/résultat sauvegardé et reprise, usage en Colosseum sans toucher l’Aventure. Quatre formats et deux thèmes, 16 captures boutique/résultat inspectées, zéro erreur navigateur. Tests de conservation de soins renforcés avec DRF-052 réellement équipé. Lint, build isolé et comparaison structurée des trois catalogues valides. Aucun téléphone physique ou suite globale revendiqué. Rapport : `docs/ABILITY_CAPSULE.json`.
+
+Publication client/serveur le 28 octobre 2026 à 22 h 22 (Europe/Paris), client `bb095fa0c02bea0a`, PID 2876561→2881678. Sauvegarde `/home/ubuntu/dev/backups/riftmon-ability-capsule-2026-10-28T21-22-52-041Z`, checkpoint conservé et zéro expédition active relevée. Index/bundles publics comparés à l’octet, anciens assets conservés, Knov/api-test inchangés. Service actif, zéro redémarrage automatique et aucun avertissement relevé ; aucune migration ou modification manuelle de compte réel.
+
 ## Talents sauvages — périmètre réellement utilisé — 28 octobre 2026
 
 Périmètre confirmé : Pokémon présents dans RiftMon, sans ajout des générations suivantes. L’audit réutilise les cartes réellement accessibles et les sources de pêche/légendaires de `auditPokemonAvailability` : 326 espèces capturables directement, 167 par évolution, soit les 493 espèces des générations I–IV déjà intégrées. Les anciennes cartes et espèces seulement présentes dans les données techniques ne comptent pas. Règles de talents génération 7 du moteur conservées. Comparaison indépendante avec @pkmn/dex 0.10.11 : 493 espèces, aucun slot normal/caché manquant ou différent. Aucun talent ni Pokémon supplémentaire nécessaire.
@@ -4735,6 +4747,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 28 octobre 2026 — Pilule Talent à 10 000 ₽ : autre talent légal normal/caché, aucun doublon, refus sans consommation si talent unique. Sac/filtre Talents, résultat illustré, persistance Aventure et stock/checkpoint distincts des expéditions. 33 tests ciblés et recette navigateur quatre formats/deux thèmes réussis ; rapport `docs/ABILITY_CAPSULE.json`.
 
 - 28 octobre 2026 — Audit des talents limité aux 493 espèces utilisées, dont 326 sauvages et 807 attributions possibles ; cachés déjà accessibles à 5 %, aucun manquant. Correction du nouveau tirage indu quand un slot normal disparaît à l’évolution. 107 tests de régression et deux SQL réussis ; 330 captures vérifiées. Rapport `docs/WILD_ABILITY_AVAILABILITY.json`.
 

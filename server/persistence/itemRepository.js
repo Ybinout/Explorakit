@@ -40,7 +40,7 @@ function getPurchasableItem(itemKey, context = {}) {
 
 async function hydrateUserItems(userId, rows, executor = dbPool) {
     const items = hydrateItems(rows);
-    if (items.some(item => item.category === 'evolution')) {
+    if (items.some(item => item.category === 'evolution' || item.fieldUse?.abilityReroll)) {
         const { rowToPokemon } = require('./teamRepository');
         const stones = require('../game/items/stoneEvolution');
         const [teamRows] = await executor.execute(
@@ -49,6 +49,7 @@ async function hydrateUserItems(userId, rows, executor = dbPool) {
         for (const item of items) if (item.category === 'evolution') {
             item.evolutions = Object.fromEntries(team.map(p => [p.uuid, stones.target(p, item.key)]).filter(([, target]) => target));
         }
+        for(const item of items)if(item.fieldUse?.abilityReroll)Object.assign(item,require('../game/items/abilityCapsule').decorate(item,team));
     }
     return require('./voidEndingRepository').decorateItems(userId,items,executor);
 }

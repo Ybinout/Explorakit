@@ -254,6 +254,10 @@
       "maps": [
         "tour_rdc"
       ]
+    },
+    "ability_capsule": {
+      "tier": 2,
+      "price": 10000
     }
   }
 }

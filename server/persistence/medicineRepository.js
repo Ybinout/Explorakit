@@ -21,6 +21,7 @@ async function useMedicine(userId, pokemon, itemKey, quantity=1, ivConfirmation=
             pokemon.uuid,
         ]);
         if(result.iv)await c.execute('UPDATE pokemons SET iv_hp=?,iv_attack=?,iv_defense=?,iv_special_attack=?,iv_special_defense=?,iv_speed=? WHERE uuid=?',[result.iv.hp,result.iv.attack,result.iv.defense,result.iv.specialAttack,result.iv.specialDefense,result.iv.speed,pokemon.uuid]);
+        if(result.passiveAbility)await c.execute('UPDATE pokemons SET passive_ability=? WHERE uuid=?',[result.passiveAbility,pokemon.uuid]);
         if (result.ev) await c.execute('UPDATE pokemons SET ev_hp=?,ev_attack=?,ev_defense=?,ev_special_attack=?,ev_special_defense=?,ev_speed=? WHERE uuid=?',
             [result.ev.hp,result.ev.attack,result.ev.defense,result.ev.specialAttack,result.ev.specialDefense,result.ev.speed,pokemon.uuid]);
         if (result.movePp) await c.execute('UPDATE pokemons SET move1_pp=?,move2_pp=?,move3_pp=?,move4_pp=? WHERE uuid=?',

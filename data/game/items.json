@@ -3806,6 +3806,16 @@
       "sell_price": 0,
       "description": "Apprend Larme à l’Œil à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
       "machineMove": "Tearful Look"
+    },
+    {
+      "key": "ability_capsule",
+      "name": "Pilule Talent",
+      "category": "medicine",
+      "buy_price": 10000,
+      "description": "Remplace le talent par un autre talent de l’espèce, tiré au hasard parmi les talents normaux et cachés. Ne redonne jamais le talent actuel. Inutilisable si le Pokémon n’a qu’un talent. Consommée après utilisation, hors combat.",
+      "fieldUse": {
+        "abilityReroll": true
+      }
     }
   ]
 }
