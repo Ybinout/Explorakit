@@ -1,5 +1,14 @@
 # Audit technique et mémoire de RiftMon
 
+## Capture Aventure — paliers +5 niveaux — 28 octobre 2026
+
+Les seuils de capture confortable pour zéro à six badges passent de `[22,35,40,45,50,60,100]` à `[27,40,45,50,55,65,105]`. La table serveur alimente le combat et l’étui de badges, y compris les sauvegardes existantes. Facteur de pénalité au-dessus du seuil (0,8 par niveau), bonus initial et force des Balls conservés ; calculs Rift/Colosseum sans contexte de badges identiques.
+
+Sept tests unitaires existants et un parcours SQL Aventure réussis sans saut : comptage des vrais badges distincts, anciens comptes, seuil inclus et premier niveau au-delà, pénalité progressive, influence des PV/Balls et anti-usurpation. Combat réel sur compte jetable : palier 27 sans badge puis 105 après six badges, échec/capture, consommation des Balls et équipe persistés. Assertions de recette navigateur alignées, sans exécution navigateur ni nouveau build client. Rapport : `docs/CAPTURE_BADGE_TIERS_PLUS_FIVE.json`.
+
+Publication serveur seule le 28 octobre 2026 à 16 h 55 (Europe/Paris), PID 2717218→2736310. Sauvegarde `/home/ubuntu/dev/backups/riftmon-capture-tiers-2026-10-28T15-55-34-246Z`, checkpoint conservé et zéro expédition active relevée. Client/build `819bbc5bc922488c`, index/bundles et Knov/api-test inchangés ; service actif, zéro redémarrage automatique et aucun avertissement serveur relevé après publication. Aucune migration ou manipulation manuelle de compte réel.
+
+
 ## Prisme d’aurore — revente doublée — 28 octobre 2026
 
 Prix unitaire du Prisme d’aurore porté de 1 500 à 3 000 ₽ et description actualisée. Le stock existant et les nouveaux prismes utilisent ce tarif dans les trois modes. Comparaison structurée du catalogue : seul le prix et la description du prisme changent ; Éclat fissuré 150 ₽, Cristal limpide 450 ₽ et probabilités de butin conservés.
@@ -4598,6 +4607,7 @@ Le socle pourra être considéré stable lorsque :
 
 ## 11. Journal de suivi
 
+- 28 octobre 2026 — Capture Aventure : +5 niveaux par palier de zéro à six badges. Huit tests dont parcours SQL réussis. Rapport `docs/CAPTURE_BADGE_TIERS_PLUS_FIVE.json`.
 - 28 octobre 2026 — Prisme d’aurore : revente 1 500→3 000 ₽. Dix tests réussis. Rapport `docs/AURORA_PRISM_SALE_PRICE.json`.
 - 28 octobre 2026 — Prix de revente des trois cristaux triplés : 150/450/1 500 ₽, descriptions et recettes adaptées. Dix tests réussis. Rapport `docs/CRYSTAL_SALE_PRICES.json`.
 - 28 octobre 2026 — IA : talents adverses désormais connus sur instruction du joueur, intentions toujours inconnues. 115 tests et balayage de 126 décisions réussis. Rapport `docs/AI_KNOWN_ABILITIES.json`.

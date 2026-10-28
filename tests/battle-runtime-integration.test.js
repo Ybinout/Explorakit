@@ -347,10 +347,12 @@ test('capture Aventure SQL : vrais badges uniquement, forte pénalité avant pro
   const first=await run(),low=first.lastEvent(p.id,'captureAnimation').payload;
   assert.equal(low.success,false);assert(low.chance>0&&low.chance<.001);assert.equal(first.lastEvent(p.id,'endbattle').payload.reason,'fled');
   assert.equal(first.lastEvent(p.id,'introAnimation').payload.capturePolicy.badgeCount,0);
+  assert.equal(first.lastEvent(p.id,'introAnimation').payload.capturePolicy.comfortableLevel,27);
   assert.equal((await loadUserItems(id)).find(i=>i.key==='hyperball').quantity,4);assert.equal((await loadEquipe(id)).pokemons.length,1);
   for(const key of ['lake_badge','dune_badge','bloom_badge','ore_badge','tide_badge','summit_badge'])await pool.execute('INSERT INTO player_badges(user_id,badge_key) VALUES(?,?)',[id,key]);
   const second=await run(),high=second.lastEvent(p.id,'captureAnimation').payload;
   assert.equal(high.success,true);assert(high.chance>.5);assert.equal(second.lastEvent(p.id,'introAnimation').payload.capturePolicy.badgeCount,6);
+  assert.equal(second.lastEvent(p.id,'introAnimation').payload.capturePolicy.comfortableLevel,105);
   assert.equal((await loadUserItems(id)).find(i=>i.key==='hyperball').quantity,3);assert.equal((await loadEquipe(id)).pokemons.length,2);
  }finally{if(id)await pool.execute('DELETE FROM users WHERE id=?',[id]);await pool.end();}
 });

@@ -1,0 +1,86 @@
+{
+  "date": "2026-10-28",
+  "scope": "Paliers de capture en Aventure +5 niveaux",
+  "before": [
+    22,
+    35,
+    40,
+    45,
+    50,
+    60,
+    100
+  ],
+  "after": [
+    27,
+    40,
+    45,
+    50,
+    55,
+    65,
+    105
+  ],
+  "badgeCounts": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "existingSavesUseNewTiers": true,
+  "excessLevelPenaltyAndEarlyGameUnchanged": true,
+  "riftAndColosseumUnchanged": true,
+  "validation": {
+    "unitTests": 7,
+    "mysqlRuntimeTests": 1,
+    "failures": 0,
+    "skips": 0,
+    "commands": [
+      "node --test --test-concurrency=1 tests/capture.test.js tests/capture-progression.test.js",
+      "BATTLE_DELAY_SCALE=0 NODE_ENV=test RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test node --env-file-if-exists=.env --test --test-concurrency=1 --test-name-pattern='capture Aventure SQL' tests/battle-runtime-integration.test.js"
+    ],
+    "coverage": [
+      "vrais badges distincts",
+      "seuils inclus et pénalité au niveau suivant",
+      "probabilités et PV/Balls",
+      "capture réelle, consommation et persistance SQL",
+      "commande forgée ignorée"
+    ],
+    "browserScriptUpdated": true,
+    "browserRun": false,
+    "frontendBuildRun": false,
+    "globalSuiteRun": false
+  },
+  "deployment": {
+    "publishedAt": "2026-10-28T15:55:35.853Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-capture-tiers-2026-10-28T15-55-34-246Z",
+    "sourceBaseline": "014f9711f4892cc441a86959c4683357ed22afe2",
+    "sourceHashes": {
+      "data/game/capture_balance.json": "032c31663a0720ea1ad4be4aa1dba5384428e8d8843ccfa61e1bb31424e3d4b0"
+    },
+    "clientCommit": "81914d7029c4ee40488aa0686dd0c70ca8fc7d63",
+    "clientBuild": "819bbc5bc922488c",
+    "clientUnchanged": true,
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.6d89ba19.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.dc533f29.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.699eedbd.css"
+    ],
+    "beforePid": "2717218",
+    "afterPid": "2736310",
+    "serverRestarted": true,
+    "checkpointSaved": true,
+    "gracefulCheckpoint": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "sqlMigration": false,
+    "realAccountsModified": false
+  }
+}

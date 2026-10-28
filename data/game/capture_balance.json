@@ -1,5 +1,5 @@
 {
-  "comfortableLevelsByBadges": [22, 35, 40, 45, 50, 60, 100],
+  "comfortableLevelsByBadges": [27, 40, 45, 50, 55, 65, 105],
   "multiplierPerExcessLevel": 0.8,
   "earlyGame": { "fullBonusThroughLevel": 10, "noBonusFromLevel": 25, "baseChanceBonus": 0.12 }
 }
