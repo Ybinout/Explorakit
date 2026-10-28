@@ -98,6 +98,37 @@
       },
       "message": "Le père de Gwenn : Un instant ! Viens me parler. Mon fils ne sort plus de chez lui et j’ai un service à te demander.",
       "messageEn": "Gwenn’s father: One moment! Come talk to me. My son never leaves home and I need a favour."
+    },
+    {
+      "id": "first_cave_badge",
+      "map": "route3",
+      "nextMap": "cave1",
+      "npcBattle": "moon",
+      "requiredBadge": "lake_badge",
+      "direction": "up",
+      "tiles": {
+        "x": 21,
+        "y": 2,
+        "width": 1,
+        "height": 2
+      },
+      "name": "Le gardien des grottes",
+      "kind": "npc",
+      "actor": {
+        "name": "first_cave_guard",
+        "interactionName": "first_cave_guard",
+        "map": "route3",
+        "x": 21,
+        "y": 3,
+        "sprite": "6931.png",
+        "spriteFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 14
+        }
+      },
+      "message": "Le gardien : Les pierres tombent vite là-dedans. Reviens avec ton premier badge, je te laisserai passer.",
+      "messageEn": "Cave warden: Falling rocks are no joke. Come back with your first badge and I will let you through."
     }
   ]
 }

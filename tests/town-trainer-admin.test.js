@@ -7,6 +7,9 @@ test('Maria and Clément have real unique trainer encounters, personal admin ret
  assert.equal(p.roamRadius,0,'Clément cannot wander back behind the building');
  for(const y of [p.y,p.y-1]){assert.equal(terrain[y][p.x],0);assert.equal(store.getPnjAtTile(p.map,p.x,y).name,p.name);assert(store.isPnjBlockingTile(p.map,p.x,y));}
  assert([[0,1],[1,0],[-1,0]].every(([dx,dy])=>terrain[p.y+dy][p.x+dx]===0));
+ const factory=require('../server/game/world/pnjTeamFactory');
+ assert.deepEqual(factory.getPnjTeam('town_lina').pokemons.map(p=>[p.data.id,p.level]),[[16,14],[39,14]]);
+ assert.deepEqual(factory.getPnjTeam('town_bastien').pokemons.map(p=>[p.data.id,p.level]),[[54,15],[25,16]]);
  const progress={flags:{},completedNpcBattles:names.map(battleKey=>({battleKey}))};
  for(const name of names){
   assert.equal(catalog.npcBattles[name].once,true);assert.equal(catalog.npcBattles[name].experienceKind,'trainer');

@@ -299,11 +299,11 @@ const socketHandler = (io) => {
         const lucieScene=require('../game/world/lucieDeparture');
         const labStory=require('../game/world/labStory');
         const voidEnding=require('../game/world/voidEnding');
-        let initialStoryProgress=labStory.maps.has(currentmap)?await loadProgressState(userId):null;
+        let initialStoryProgress=labStory.maps.has(currentmap)||storyGates.gates.some(g=>g.map===currentmap&&g.actor)?await loadProgressState(userId):null;
         if (!account.active()) return;
         let personalProgress=initialStoryProgress||{flags:{}},lucieLeaving=false;
         const {getPnjsForMap,getPnjAtTile,isPnjBlockingTile}=lucieScene.scopedStore(voidEnding.scopedStore(labStory.scopedStore(raphTrial.scopedStore(defaultPnjStore,()=>raphTrialState),()=>personalProgress),()=>personalProgress),()=>personalProgress,()=>lucieLeaving);
-        const personalTileBlocked=(map,x,y)=>isPnjBlockingTile(map,x,y)||mirrorRift.blocked(map,x,y,personalProgress);
+        const personalTileBlocked=(map,x,y)=>isPnjBlockingTile(map,x,y)||mirrorRift.blocked(map,x,y,personalProgress)||Boolean(storyGates.actorAtTile(map,x,y,personalProgress));
         let collisionData2D = loadCollisionData(currentmap);
         let changemap2D = changeMapData(currentmap);
         let battlemap2D = battleMapData(currentmap);
@@ -1471,6 +1471,7 @@ const socketHandler = (io) => {
                     const progress = await loadProgressState(userId);
                     if (players[socket.id] !== player || !socket.connected || player.inbattle || player.inventoryBusy || interactionBusy
                         || player.currentmap !== origin.map || player.x !== origin.x || player.y !== origin.y) return;
+                    personalProgress = progress;
                     socket.emit('storyGatesState', { gates: storyGates.snapshot(progress) });
                     const gate = gateCandidates.find(g => storyGates.isLocked(g, progress));
                     if (gate) {

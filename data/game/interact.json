@@ -657,7 +657,7 @@
     "name": "town_lina",
     "sentences": [
       {
-        "text": "Maria : Un petit duel ? Mon compagnon déborde d’énergie, et moi aussi !",
+        "text": "Maria : Un petit duel ? Mes compagnons débordent d’énergie, et moi aussi !",
         "imageName": "townspeople.png",
         "portraitFrame": {
           "columns": 8,
@@ -2590,6 +2590,20 @@
           "columns": 8,
           "rows": 4,
           "index": 29
+        }
+      }
+    ]
+  },
+  {
+    "name": "first_cave_guard",
+    "sentences": [
+      {
+        "text": "Le gardien : Les pierres tombent vite là-dedans. Reviens avec ton premier badge, je te laisserai passer.",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 14
         }
       }
     ]

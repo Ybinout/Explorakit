@@ -16,10 +16,10 @@ function reachable(map,start,progress){
 test('configured story barriers seal every authored exit without blocking their trainer or the return journey',()=>{
  assert.equal(new Set(gates.gates.map(g=>g.id)).size,gates.gates.length);
  for(const g of gates.gates){
-  assert(catalog.npcBattles[g.npcBattle]);assert.equal(catalog.npcBattles[g.npcBattle].reward.flags[g.requiredFlag],'true');
-  const fixtures={wayne_route1:{start:[19,7],talk:'18:3'},aspha_lake:{start:[25,18],talk:'25:6'},gwenn_ocreville:{start:[18,1],talk:'22:17'},mathilde_route5:{start:[1,8],talk:'25:8'},gwenn_rochebrume_tunnel:{start:[22,17],talk:'13:5'}};
+  assert(catalog.npcBattles[g.npcBattle]);if(g.requiredBadge)assert(catalog.npcBattles[g.npcBattle].reward.badges.includes(g.requiredBadge));else assert.equal(catalog.npcBattles[g.npcBattle].reward.flags[g.requiredFlag],'true');
+  const fixtures={first_cave_badge:{start:[21,5],talk:'21:4'},wayne_route1:{start:[19,7],talk:'18:3'},aspha_lake:{start:[25,18],talk:'25:6'},gwenn_ocreville:{start:[18,1],talk:'22:17'},mathilde_route5:{start:[1,8],talk:'25:8'},gwenn_rochebrume_tunnel:{start:[22,17],talk:'13:5'}};
   const {start,talk}=fixtures[g.id];
-  const locked=reachable(g.map,start,{}),open=reachable(g.map,start,{flags:{[g.requiredFlag]:'true'}});
+  const locked=reachable(g.map,start,{}),open=reachable(g.map,start,g.requiredBadge?{badges:[{key:g.requiredBadge,earned:true}]}:{flags:{[g.requiredFlag]:'true'}});
   assert(locked.has(talk),g.name+' remains reachable');
   const exits=[];maps.changeMapData(g.map).forEach((row,y)=>row.forEach((v,x)=>{if(v&&maps.getNextMap(g.map,x,y)?.nextMap===g.nextMap)exits.push([x,y]);}));
   assert(exits.length);const baseline=reachable(g.map,start,null);assert.deepEqual(open,baseline,'victory restores the original walkable area');assert(exits.some(([x,y])=>open.has(x+':'+y)));
@@ -28,7 +28,7 @@ test('configured story barriers seal every authored exit without blocking their 
  }
 });
 test('story barriers unlock only from authoritative victories, support old advanced saves and stay player-specific',()=>{
- for(const g of gates.gates){
+ for(const g of gates.gates.filter(g=>!g.requiredBadge)){
   for(const flags of [{},{[g.requiredFlag]:'false'},{unrelated:'true'}])assert(gates.isLocked(g,{flags}));
   assert(!gates.isLocked(g,{flags:{[g.requiredFlag]:'true'}}));
   assert(!gates.isLocked(g,{completedNpcBattles:[{battleKey:catalog.npcBattles[g.npcBattle].battleKey}]}));
@@ -50,4 +50,15 @@ test('barrier opening waits for world rendering, survives duplicate snapshots an
  renderer.sync(closed);renderer.pulse(g.id);assert(renderer.gates.get(g.id).pulsePending);
  renderer.sync(open);renderer.draw(ctx,'start',8000,false);assert(!renderer.gates.get(g.id).opening);
  renderer.destroy();assert.equal(renderer.gates.size,0);
+});
+
+test('the first cave guard requires the actual first badge, remains private, and leaves safe returns from the cave',()=>{
+ const g=gates.gates.find(g=>g.id==='first_cave_badge');assert(g);const owned={badges:[{key:'lake_badge',earned:true}]};
+ for(const p of [{},{flags:{moonpunch_defeated:'true'}},{badges:[{key:'lake_badge',earned:false}]},{badges:[{key:'dune_badge',earned:true}]}])assert(gates.isLocked(g,p));
+ assert(!gates.isLocked(g,owned));assert(gates.isLocked(g,{...owned,testReplays:['moon']}));assert(gates.actorAtTile('route3',21,3,{}));assert.equal(gates.actorAtTile('route3',21,3,owned),null);
+ assert(gates.snapshot({}).find(x=>x.id===g.id).locked);assert(!gates.snapshot(owned).find(x=>x.id===g.id).locked);
+ const link=maps.getNextMap('cave1',14,19),c=maps.loadCollisionData('route3');
+ const safe=require('../server/realtime/playerState').sanitizeSpawnPosition(link.nextX,link.nextY,c,'route3',{blocked:(m,x,y)=>Boolean(gates.actorAtTile(m,x,y,{}))});
+ assert(!gates.actorAtTile('route3',Math.floor(safe.x/32),Math.floor(safe.y/32),{}));assert(Math.floor(safe.y/32)>=3);
+ assert.equal(require('../server/game/world/interactionRepository').getEndSentenceInformation('first_cave_guard'),undefined);
 });

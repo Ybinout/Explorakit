@@ -55,6 +55,19 @@ test('real Adventure sockets: Wayne, Aspha, Gwenn and Mathilde deny passage befo
   await move('move_d',26,8);await pause(370);const route5=event(socket,'newmap');socket.emit('playerAction','move_d');await route5;
   assert.equal((await savePosition()).map,'route5');
   const mathilde=await at('ville_safe1',25,8);assert(!mathilde.gates.find(g=>g.id==='mathilde_route5').locked);await move('move_d',26,8);
+  // A badge gate must not strand old saves that were already inside the cave.
+  await db.execute("DELETE FROM player_story_flags WHERE user_id=? AND flag_key='moonpunch_defeated'",[fixture.user.id]);
+  await db.execute("DELETE FROM player_badges WHERE user_id=? AND badge_key='lake_badge'",[fixture.user.id]);
+  const caveGate=await at('route3',21,4);assert(caveGate.gates.find(g=>g.id==='first_cave_badge').locked);
+  const beforeCave=await savePosition();await blocked('move_z','first_cave_badge');assert.deepEqual(await savePosition(),beforeCave);
+  const warden=event(socket,'dialogue');socket.emit('Space');const speech=await warden;assert.equal(speech[1],'first_cave_guard');assert.match(speech[0][0].text,/premier badge/);socket.emit('onEndDialogue',speech[1]);await pause(100);
+  await at('cave1',14,18);const outside=event(socket,'newmap',m=>m.mapname==='route3');await move('move_s',14,19);await outside;
+  const returned=await savePosition();assert.equal(returned.map,'route3');assert(!(returned.x===688&&[80,112].includes(returned.y)),'return does not overlap the warden');
+  await at('route3',21,4);const onlineGate=event(socket,'storyGatesState',s=>!s.gates.find(g=>g.id==='first_cave_badge').locked);
+  await db.execute("INSERT INTO player_badges(user_id,badge_key)VALUES(?,'lake_badge')",[fixture.user.id]);
+  await move('move_z',21,3);await onlineGate;await pause(370);const inside=event(socket,'newmap',m=>m.mapname==='cave1');socket.emit('playerAction','move_z');await inside;assert.equal((await savePosition()).map,'cave1');
+  const badgeReconnect=await at('route3',21,4);assert(!badgeReconnect.gates.find(g=>g.id==='first_cave_badge').locked);await move('move_z',21,3);
+
  }finally{
   socket?.disconnect();if(child.exitCode===null){const stopped=once(child,'exit');child.kill('SIGTERM');await stopped;}
   for(const id of ids)await db.execute('DELETE FROM users WHERE id=?',[id]);await db.end();

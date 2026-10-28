@@ -103,7 +103,7 @@
         {
           "pokemonId": 351,
           "name": "Morphéo",
-          "level": 23,
+          "level": 22,
           "abilities": [
             "Weather Ball",
             "Thunder",
@@ -989,13 +989,36 @@
         {
           "pokemonId": 16,
           "name": "Roucool",
-          "level": 11,
+          "level": 14,
           "abilities": [
             "Gust",
             "Quick Attack",
             "Sand Attack"
           ],
           "passiveAbility": "Keen Eye",
+          "heldItem": null,
+          "k": 1,
+          "nature": "Hardy",
+          "givenIv": {
+            "hp": 12,
+            "attack": 12,
+            "defense": 12,
+            "specialAttack": 12,
+            "specialDefense": 12,
+            "speed": 12
+          }
+        },
+        {
+          "pokemonId": 39,
+          "name": "Rondoudou",
+          "level": 14,
+          "abilities": [
+            "Disarming Voice",
+            "Pound",
+            "Sing",
+            "Defense Curl"
+          ],
+          "passiveAbility": "Cute Charm",
           "heldItem": null,
           "k": 1,
           "nature": "Hardy",
@@ -1016,7 +1039,7 @@
         {
           "pokemonId": 54,
           "name": "Psykokwak",
-          "level": 12,
+          "level": 15,
           "abilities": [
             "Water Gun",
             "Confusion",
@@ -1038,7 +1061,7 @@
         {
           "pokemonId": 25,
           "name": "Pikachu",
-          "level": 13,
+          "level": 16,
           "abilities": [
             "Thunder Shock",
             "Quick Attack",

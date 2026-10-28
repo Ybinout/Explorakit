@@ -1,0 +1,182 @@
+{
+  "dateParis": "2026-10-28",
+  "caveGuard": {
+    "id": "first_cave_badge",
+    "map": "route3",
+    "nextMap": "cave1",
+    "actorTile": [
+      21,
+      3
+    ],
+    "requiredBadge": "lake_badge",
+    "adventureOnly": true,
+    "oldCaveReturnsSafe": true
+  },
+  "teams": {
+    "Mounir": [
+      [
+        "Lombre",
+        17
+      ],
+      [
+        "Steelix",
+        18
+      ],
+      [
+        "Morphéo",
+        22
+      ]
+    ],
+    "Maria": [
+      [
+        "Roucool",
+        14
+      ],
+      [
+        "Rondoudou",
+        14
+      ]
+    ],
+    "Clément": [
+      [
+        "Psykokwak",
+        15
+      ],
+      [
+        "Pikachu",
+        16
+      ]
+    ]
+  },
+  "clementLevelAssumption": "+3 as stated before implementation",
+  "nightLighting": {
+    "map": "ville1",
+    "place": "Ville du Lac",
+    "brightness": 1.5,
+    "initialVillageUnchanged": true,
+    "choice": "Ville du Lac chosen by default from the requested trainers location"
+  },
+  "noMapsOrImagesChanged": true,
+  "validation": {
+    "unit": {
+      "pass": 34,
+      "fail": 0,
+      "skip": 1
+    },
+    "extraFatherUnit": {
+      "pass": 2,
+      "fail": 0,
+      "skip": 0
+    },
+    "sqlBatch": {
+      "pass": 3,
+      "fail": 0,
+      "skip": 0,
+      "actualIntegrationTestDefinitions": 2,
+      "repeatedUnitTest": 1
+    },
+    "browser": {
+      "guardVisibleBeforeBadge": true,
+      "entryDenied": true,
+      "dialoguePortrait": true,
+      "noGuardFight": true,
+      "guardRemovedAfterOwnBadge": true,
+      "actualCaveEntry": true,
+      "noMoneyReward": true,
+      "viewports": 4,
+      "screens": [
+        "cave-guard-locked-320.png",
+        "cave-guard-locked-393.png",
+        "cave-guard-locked-844.png",
+        "cave-guard-locked-1365.png",
+        "cave-guard-dialogue-320.png",
+        "cave-guard-dialogue-393.png",
+        "cave-guard-dialogue-844.png",
+        "cave-guard-dialogue-1365.png",
+        "cave-guard-unlocked-320.png",
+        "cave-guard-unlocked-393.png",
+        "cave-guard-unlocked-844.png",
+        "cave-guard-unlocked-1365.png"
+      ],
+      "errors": []
+    },
+    "night": {
+      "ville1": {
+        "previousEmittedAlpha": 400231,
+        "currentEmittedAlpha": 560644,
+        "changedChannels": 233592
+      },
+      "start": {
+        "previousEmittedAlpha": 142939,
+        "currentEmittedAlpha": 142939,
+        "changedChannels": 0
+      }
+    },
+    "onlyRequestedTeamsChanged": true,
+    "existingGatesPreserved": true,
+    "lint": true,
+    "clientBuild": "3ccfb22544c227eb",
+    "commands": [
+      "node --test tests/story-gates.test.js tests/mounir-tactics.test.js tests/town-trainer-admin.test.js tests/story-content.test.js tests/position-recovery.test.js tests/world-daynight.test.js",
+      "DB_NAME=explorakit_test RUN_MYSQL_TESTS=1 node --env-file=.env --test --test-concurrency=1 tests/story-gates-socket.test.js tests/town-trainer-admin.test.js",
+      "node --test --test-name-pattern=\"Route 4 house has safe|father dialogue\" tests/gwenn.test.js",
+      "DB_TEST_NAME=explorakit_test node --env-file=.env /tmp/riftmon-first-cave-browser.cjs",
+      "node /tmp/riftmon-first-cave-night.cjs",
+      "npm --prefix vue-explorakit run lint -- --no-fix",
+      "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-first-cave-dist"
+    ],
+    "browserScript": "const root='/home/ubuntu/dev/explorakit';\nconst req=require('node:module').createRequire(root+'/package.json');\nconst assert=req('node:assert/strict'),fs=req('node:fs'),http=req('node:http'),{once}=req('node:events'),{randomUUID}=req('node:crypto');\nif(!/test/i.test(process.env.DB_TEST_NAME||''))throw Error('Dedicated test database required');\nprocess.env.DB_NAME=process.env.DB_TEST_NAME;process.env.NODE_ENV='test';\nconst express=req('express'),{Server}=req('socket.io'),{chromium}=req('playwright'),{dbPool:db}=req('./server/config/database');\nconst dist='/tmp/riftmon-first-cave-dist',out='/tmp/riftmon-first-cave-browser';fs.mkdirSync(out,{recursive:true});\nconst app=express(),server=http.createServer(app),io=new Server(server);app.use(express.json());app.use('/api',req('./server/http/routes'));app.use(express.static(dist));app.get('*',(_q,r)=>r.sendFile(dist+'/index.html'));io.use(req('./server/http/authMiddleware').authenticateSocket);req('./server/realtime/socketHandler')(io);\nlet browser,page,userId,passed=false;const errors=[],screens=[];\nasync function pictures(label){for(const[width,height]of[[320,568],[393,852],[844,390],[1365,900]]){await page.setViewportSize({width,height});await page.evaluate(async width=>{v.showMobileControls=width<=920;await v.$nextTick();v.resizeWorldViewport();},width);await page.waitForTimeout(100);assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));const file=label+'-'+width+'.png';await page.screenshot({path:out+'/'+file});screens.push(file);}await page.setViewportSize({width:393,height:852});await page.evaluate(()=>v.showMobileControls=true);}\n(async()=>{try{\n server.listen(0,'127.0.0.1');await once(server,'listening');const base='http://127.0.0.1:'+server.address().port;\n const response=await fetch(base+'/api/users',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:'cave_ui_'+randomUUID(),password:randomUUID(),starterId:7})});assert.equal(response.status,201);const fixture=await response.json();userId=fixture.user.id;\n await db.execute(\"UPDATE users SET map='route3',x=688,y=144,repel_steps=100 WHERE id=?\",[userId]);const [[before]]=await db.execute('SELECT money FROM users WHERE id=?',[userId]);\n browser=await chromium.launch({headless:true,args:['--no-sandbox']});const context=await browser.newContext({viewport:{width:393,height:852},hasTouch:true});await context.addInitScript(s=>{if(location.protocol==='http:')localStorage.setItem('explorakit.user',JSON.stringify(s));},{...fixture.user,token:fixture.token});page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));\n await page.goto(base+'/game',{waitUntil:'networkidle'});await page.waitForFunction(()=>{const v=document.querySelector('.game-root')?.__vue__;if(!v?.socket?.connected||v.mapLoading||v.map!=='route3'||!v.personalGateActors.some(p=>p.name==='first_cave_guard'))return false;window.v=v;return v.pnjSpriteSheets['6931.png']?.complete;});\n const denied=await page.evaluate(()=>new Promise(resolve=>{v.socket.once('storyGateBlocked',resolve);v.socket.emit('playerAction','move_z');}));assert.equal(denied.id,'first_cave_badge');assert.equal(await page.evaluate(()=>v.players[v.socket.id].y),144);await pictures('cave-guard-locked');\n await page.evaluate(()=>v.triggerMobileActionA());await page.waitForFunction(()=>v.endSentences==='first_cave_guard'&&v.textImageSequence.length);assert.match(await page.evaluate(()=>v.textImageSequence[0].text),/premier badge/);await page.locator('.dialogue-layer .text').click();await pictures('cave-guard-dialogue');await page.evaluate(()=>v.clearSequence());await page.waitForTimeout(200);assert(!await page.evaluate(()=>v.battle));\n await db.execute(\"INSERT INTO player_badges(user_id,badge_key)VALUES(?,'lake_badge')\",[userId]);await page.evaluate(()=>v.socket.emit('playerAction','move_z'));await page.waitForFunction(()=>v.players[v.socket.id].y===112&&!v.personalGateActors.some(p=>p.name==='first_cave_guard'));await pictures('cave-guard-unlocked');\n await page.waitForTimeout(350);await page.evaluate(()=>v.socket.emit('playerAction','move_z'));await page.waitForFunction(()=>v.map==='cave1'&&!v.mapLoading&&v.renderedMap==='cave1');\n assert.equal((await db.execute('SELECT money FROM users WHERE id=?',[userId]))[0][0].money,before.money);assert.deepEqual(errors,[]);passed=true;const result={guardVisibleBeforeBadge:true,entryDenied:true,dialoguePortrait:true,noGuardFight:true,guardRemovedAfterOwnBadge:true,actualCaveEntry:true,noMoneyReward:true,viewports:4,screens,errors};fs.writeFileSync(out+'/results.json',JSON.stringify(result,null,2));console.log(JSON.stringify(result));\n}finally{if(!passed&&page)await page.screenshot({path:out+'/failure.png'}).catch(()=>{});await browser?.close();await new Promise(r=>io.close(r));await new Promise(r=>setTimeout(r,200));if(userId)await db.execute('DELETE FROM users WHERE id=?',[userId]);await db.end();}})().catch(e=>{console.error(e.stack);process.exitCode=1});\n",
+    "nightScript": "const root='/home/ubuntu/dev/explorakit',req=require('node:module').createRequire(root+'/package.json'),{chromium}=req('playwright'),express=req('express'),fs=req('node:fs'),assert=req('node:assert/strict'),{execFileSync}=req('node:child_process');\n(async()=>{const old=execFileSync('git',['-C',root+'/vue-explorakit','show','HEAD:src/services/worldNight.js'],{encoding:'utf8'}),app=express();app.get('/services/__oldNight.js',(_q,r)=>r.type('application/javascript').send(old));app.use(express.static(root+'/vue-explorakit/src'));const server=app.listen(0,'127.0.0.1');await new Promise(r=>server.once('listening',r));let browser;try{browser=await chromium.launch({headless:true,args:['--no-sandbox']});const page=await browser.newPage({viewport:{width:896,height:640}});await page.goto('http://127.0.0.1:'+server.address().port+'/services/worldNight.js');const result=await page.evaluate(async()=>{document.body.innerHTML='<canvas width=\"896\" height=\"640\"></canvas>';document.body.style='margin:0;background:#070b17';const {WorldNightRenderer:Current}=await import('/services/worldNight.js'),{WorldNightRenderer:Previous}=await import('/services/__oldNight.js'),c=document.querySelector('canvas').getContext('2d');c.imageSmoothingEnabled=false;const result={};window.pictures={};for(const map of ['ville1','start']){const image=new Image();image.src='/assets/'+map+'.png';await image.decode();const versions=[];for(const [name,Renderer]of[['previous',Previous],['current',Current]]){const n=new Renderer();c.clearRect(0,0,896,640);c.drawImage(image,0,0,896,640);n.drawGround(c,map,0,{night:1,lamps:1,warmth:0},{},false,image);n.draw(c,map,0,{night:1,lamps:1,warmth:0},{},false,image);const rgba=c.getImageData(0,0,896,640).data,fixtures=n.fixtures.getContext('2d').getImageData(0,0,448,320).data;let sumAlpha=0;for(let i=3;i<fixtures.length;i+=4)sumAlpha+=fixtures[i];pictures[map+'-'+name]=c.canvas.toDataURL();versions.push({rgba,sumAlpha});n.destroy();}let changed=0;for(let i=0;i<versions[0].rgba.length;i++)if(versions[0].rgba[i]!==versions[1].rgba[i])changed++;result[map]={previousEmittedAlpha:versions[0].sumAlpha,currentEmittedAlpha:versions[1].sumAlpha,changedChannels:changed};}return result;});assert(result.ville1.currentEmittedAlpha>result.ville1.previousEmittedAlpha);assert(result.ville1.changedChannels>100);assert.equal(result.start.changedChannels,0);const out='/tmp/riftmon-first-cave-night';fs.mkdirSync(out,{recursive:true});for(const name of ['ville1-previous','ville1-current']){const data=await page.evaluate(name=>pictures[name],name);fs.writeFileSync(out+'/'+name+'.png',Buffer.from(data.split(',')[1],'base64'));}fs.writeFileSync(out+'/results.json',JSON.stringify(result,null,2));console.log(JSON.stringify(result));}finally{await browser?.close();await new Promise(r=>server.close(r));}})().catch(e=>{console.error(e);process.exitCode=1});\n",
+    "physicalPhoneTest": false
+  },
+  "deployment": {
+    "publishedAt": "2026-10-28T04:50:18.921Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-first-cave-2026-10-28T04-50-16-292Z",
+    "sourceBaseline": "3b900180055dea15e89e2698bb4b34487582bee8",
+    "sourceHashes": {
+      "data/game/interact.json": "a23cba4539e9254152615c0611cf1ef760254e90c00bc923329d2f14b5d4f29c",
+      "data/game/pnj_teams.json": "1927a73e9fce8431ad0bf0fdace0e7be4344e917850b15281b68aab6fb474daa",
+      "data/game/story_gates.json": "d0ce8ce6021283bb0b2b156a6d589d0d70d4b58060d00f41d3a6208e4e5a065c",
+      "server/game/world/storyGates.js": "e2ee41aa9da539b33629a1896c359791d061b62593d000d083dcdf983bab65a8",
+      "server/realtime/socketHandler.js": "bb46d751965abedf16f5f15d975526be3a2014fdd6b81a44575cf3acdc65e5c2"
+    },
+    "clientCommit": "f0465ec6adefc1d95c9e5c9de5d970bca049df30",
+    "clientBuild": "3ccfb22544c227eb",
+    "beforePid": "2478591",
+    "afterPid": "2483515",
+    "activeRuns": 0,
+    "checkpointSaved": true,
+    "serverRestarted": true,
+    "gracefulCheckpoint": true,
+    "neighborsUnchanged": true,
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.0f8ee79c.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.3d009ad5.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.d17eb514.css",
+      "img/ville4_arene.4d111715.png",
+      "img/tour_rdc.e03e0f06.png",
+      "img/tour_etage1.8ec612be.png",
+      "img/tour_etage2.18713452.png",
+      "img/tour_etage3.ac05c302.png",
+      "img/6931.30769aa5.png"
+    ],
+    "embedded": [
+      "pnj/professor-ko-pixel-v1.png",
+      "pnj/clement-pixel-v2.png"
+    ],
+    "oldHashedAssetsRetained": true,
+    "sqlMigration": false,
+    "realAccountsModified": false
+  },
+  "postDeployment": {
+    "runtimeHashesMatch": true,
+    "serverErrors": 0,
+    "testFixtureRemainders": 0
+  }
+}

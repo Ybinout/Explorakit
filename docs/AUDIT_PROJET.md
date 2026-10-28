@@ -1,5 +1,17 @@
 # Audit technique et mémoire de RiftMon
 
+## Première grotte, dresseurs de la Ville du Lac et éclairage — 28 octobre 2026
+
+Nouveau gardien privé `first_cave_badge` devant l’entrée existante Route 3→`cave1` : acteur `first_cave_guard` en (21,3), masque (21,2) sur deux cases, atlas classique 6931 index 14 et portrait illustré existant. Refus courtois sans combat ; disparition après le vrai `lake_badge` gagné. Les passages partagés acceptent désormais `requiredBadge`, sans confiance dans des flags client. Le replay admin de Mounir réarme ce contrôle comme les autres passages. Expéditions sans ce verrou Aventure. PNJ de passage pris en compte dans les collisions et la normalisation des positions ; lecture initiale de progression réutilisée sur leurs cartes, cache personnel mis à jour lors du contrôle serveur. Les anciens joueurs déjà en grotte peuvent ressortir et sont placés hors du gardien, sans modifier la carte ni le raccord.
+
+Morphéo de Mounir passe 23→22, K4/IV/EV, attaques, pluie et réserve inchangés (84 Attaque Spéciale, 90 PV recalculés). Maria : Roucool 11→14 et nouveau Rondoudou 14, K1/IV12, Joli Sourire, Voix Enjôleuse/Écras’Face/Berceuse/Boul’Armure. Phrase d’introduction accordée au pluriel. Clément : Psykokwak 12→15 et Pikachu 13→16 ; +3 niveaux retenus comme pour Maria. Équipes partagées entre les trois modes, victoires uniques et récompenses conservées.
+
+Éclairage retenu par défaut : **Ville du Lac**, où se trouvent Maria et Clément. `townLights.ville1.brightness=1.5` : halos, pavés et vitres renforcés, alpha borné à 1, même position, ordre des couches et cache. Village de départ et autres lieux inchangés ; lumière des fenêtres de Lucie toujours éteinte. Aucun nouvel asset ou timer.
+
+Validation : 34 tests ciblés réussis, une recette SQL optionnelle ignorée dans le lot unitaire puis exécutée ; deux autres contrôles ciblés du père de Gwenn réussis. Lot SQL/socket : trois tests réussis, dont un contrôle unitaire répété et deux parcours d’intégration (passages et vrais duels Maria/Clément, anti-rejeu/reset/isolation). Entrée refusée, dialogue, sortie d’une ancienne sauvegarde depuis la grotte, badge acquis en ligne, disparition du gardien et reconnexion couverts. Navigateur compilé : 12 captures sur quatre formats, portrait/action et vraie entrée en grotte, zéro erreur. Canvas comparé à la référence : émission cumulée 400 231→560 644 en Ville du Lac ; village de départ strictement identique. Lint/build `3ccfb22544c227eb`, syntaxe/diff valides ; autres équipes et cinq anciens passages préservés par comparaison intégrale. Pas de téléphone physique ou suite globale revendiqués. Rapport : `docs/FIRST_CAVE_AND_LAKE_BALANCE.json`.
+
+Publication serveur/client le 28 octobre 2026 à 05 h 50 (Europe/Paris), client `f0465ec6adefc1d95c9e5c9de5d970bca049df30`, build `3ccfb22544c227eb`, PID 2478591→2483515. Sauvegarde `/home/ubuntu/dev/backups/riftmon-first-cave-2026-10-28T04-50-16-292Z`, checkpoint conservé et zéro expédition active relevée. Index/bundles et décors publics vérifiés, anciens assets et Knov/api-test conservés ; empreintes runtime identiques, zéro erreur serveur relevée et aucun compte de recette restant dans la base dédiée. Aucune migration ou manipulation manuelle de compte réel.
+
 ## Maison de Lucie — parquet, trou permanent et réveil à l’étage — 28 octobre 2026
 
 Le parquet animé reprend directement la texture de la carte : rangées de 11 pixels source (22 pixels monde), lames de 96 pixels monde, tronquées à 80 sous le meuble droit, glissement maximal de huit pixels. Échantillonnage sans lissage ; aucun petit motif de planche inventé. Deux masques excluent les tables et leurs ombres de toute la composition de la faille. Le trou reste visible et solide au stade `complete`, pour chaque joueur ; le reset admin conserve sa projection privée, et les anciens points sauvegardés dans le trou sont normalisés vers une case libre.
@@ -4395,6 +4407,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 28 octobre 2026 — Gardien devant la première grotte jusqu’au premier badge, anciens retours préservés. Morphéo 22, Maria Roucool/Rondoudou 14, Clément Psykokwak 15/Pikachu 16 ; lumières renforcées en Ville du Lac. Tests ciblés, SQL/socket et navigateur validés. Rapport `docs/FIRST_CAVE_AND_LAKE_BALANCE.json`.
 
 - 28 octobre 2026 — Maison de Lucie : vrai parquet échantillonné, tables protégées, trou restant solide et réveil dans le lit de l’étage (reconnexion comprise). Fenêtres extérieures éteintes la nuit. 37 tests, sept scénarios SQL et parcours navigateur complet réussis. Rapport `docs/MIRROR_RIFT_FLOOR_AND_WAKE.json`.
 
