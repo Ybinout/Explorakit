@@ -3816,6 +3816,16 @@
       "fieldUse": {
         "abilityReroll": true
       }
+    },
+    {
+      "key": "nature_capsule",
+      "name": "Pilule Nature",
+      "category": "medicine",
+      "buy_price": 800,
+      "description": "Tire une nature au hasard parmi les 25 natures. Peut redonner la nature actuelle. Les statistiques sont recalculées immédiatement ; les IV, EV, le niveau, le potentiel K et le talent sont conservés. Consommée après utilisation, hors combat.",
+      "fieldUse": {
+        "natureReroll": true
+      }
     }
   ]
 }

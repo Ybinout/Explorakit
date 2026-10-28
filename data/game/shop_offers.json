@@ -258,6 +258,10 @@
     "ability_capsule": {
       "tier": 2,
       "price": 10000
+    },
+    "nature_capsule": {
+      "tier": 2,
+      "price": 800
     }
   }
 }

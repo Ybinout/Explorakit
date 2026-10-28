@@ -35,6 +35,7 @@ const result = spawnSync(
         path.resolve(__dirname, '..', 'tests', 'friend-trade-mysql.test.js'),
         path.resolve(__dirname, '..', 'tests', 'wild-ability-availability-mysql.test.js'),
         path.resolve(__dirname, '..', 'tests', 'ability-capsule-mysql.test.js'),
+        path.resolve(__dirname, '..', 'tests', 'nature-capsule-mysql.test.js'),
         path.resolve(__dirname, '..', 'tests', 'fishing-mysql.test.js'),
         path.resolve(__dirname, '..', 'tests', 'machines-mysql.test.js'),
         path.resolve(__dirname, '..', 'tests', 'item-usage-mysql.test.js')

@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Pilule Nature — 28 octobre 2026
+
+Nouvelle `nature_capsule`, Pilule Nature à 800 ₽ dans les mêmes boutiques que la Pilule Talent : comptoirs ordinaires après Hoze et étage Entraînement du Grand Comptoir, filtre/poche Natures/Entraînement. Fournitures et stocks séparés en expédition. La description annonce un tirage uniforme parmi les 25 natures, y compris la nature actuelle ; un résultat identique consomme aussi une pilule et est explicitement annoncé. Usage individuel hors combat sur un compagnon apte, sans tirage/dépense pour un Œuf, un K.O., une quantité incorrecte ou un stock vide. Aucun ancien objet/prix modifié, aucun butin ajouté.
+
+Réutilise `Pokemon.randomNature` et le recalcul permanent déjà employé pour IV/EV. Nouvelle nature et statistiques de combat applicables immédiatement ; pas de soin, ni changement de PV max, IV/EV, K, niveau/XP, capacités/PP, talent ou objet tenu. Écriture de `nature` et consommation dans la transaction Aventure existante, avec relecture du propriétaire et du stock. Les statistiques sont reconstruites depuis la nature sauvegardée à chaque lecture d’équipe/PC. Rift/Colosseum appliquent le résultat au compagnon et au checkpoint, y compris entre deux manches ; le bonus de conservation des soins ne s’applique pas. Le résultat montre les noms français avant→après et les effets +10 %/−10 % ou le caractère neutre. La table française déjà utilisée par la fiche Pokémon est partagée sans en changer le contenu.
+
+Validation : 31 tests unitaires/régression et deux SQL ciblés réussis sans saut, dont six nouveaux cas et un SQL. Grille de 625 tirages : 25 occurrences pour chacune des 25 natures, résultat identique compris. Bonus/malus Attaque/Attaque Spéciale/Vitesse, statistiques courantes, PV blessés et traits conservés vérifiés. Achat réel à 800 ₽, concurrence sur le dernier stock, propriété, nature fraîche malgré un modèle client périmé, passage au PC et relecture SQL couverts. Deux recettes navigateur avec comptes jetables supprimés : nouvelle pilule et régression de la Pilule Talent. Boutique/résultat en quatre formats et deux thèmes, absence de débordement horizontal, prix/bouton accessibles après défilement ; captures représentatives inspectées. Nature Rigide obtenue avec effet réel sur l’Attaque, résultat identique explicite au second usage, reprise et usage Colosseum sans toucher l’Aventure. Zéro erreur navigateur. Lint, build isolé, conservation des 25 traductions et comparaison structurée des catalogues valides. Aucun téléphone physique ou suite globale revendiqués. Rapport : `docs/NATURE_CAPSULE.json`.
+
+Publication client/serveur le 28 octobre 2026 à 22 h 32 (Europe/Paris), client `43f71feecc148c95`, PID 2881678→2886718. Sauvegarde `/home/ubuntu/dev/backups/riftmon-nature-capsule-2026-10-28T21-32-14-699Z`, checkpoint conservé et zéro expédition active relevée. Index/bundles publics comparés à l’octet, anciens assets conservés, Knov/api-test inchangés. Service actif, zéro redémarrage automatique et aucun avertissement relevé ; aucune migration ou modification manuelle de compte réel.
+
 ## Pilule Talent — 28 octobre 2026
 
 Nouvelle `ability_capsule`, Pilule Talent à 10 000 ₽ dans les boutiques ordinaires dès Hoze et au deuxième étage Entraînement du Grand Comptoir, même palier que le catalogue avancé. Disponible dans les fournitures des expéditions sans utiliser les badges Aventure. Rayon/poche Entraînement, filtre Talents. Aucun ancien objet/prix modifié, aucun butin sauvage ajouté.
@@ -4747,6 +4757,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 28 octobre 2026 — Pilule Nature à 800 ₽ : 25 natures équiprobables, statistiques immédiatement recalculées, résultat identique possible et annoncé, sauvegarde/PC/checkpoint conservés. 33 tests ciblés et deux recettes navigateur réussis ; rapport `docs/NATURE_CAPSULE.json`.
 
 - 28 octobre 2026 — Pilule Talent à 10 000 ₽ : autre talent légal normal/caché, aucun doublon, refus sans consommation si talent unique. Sac/filtre Talents, résultat illustré, persistance Aventure et stock/checkpoint distincts des expéditions. 33 tests ciblés et recette navigateur quatre formats/deux thèmes réussis ; rapport `docs/ABILITY_CAPSULE.json`.
 

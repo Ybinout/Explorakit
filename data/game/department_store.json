@@ -1262,6 +1262,10 @@
         "ability_capsule": {
           "price": 10000,
           "requiredTier": 2
+        },
+        "nature_capsule": {
+          "price": 800,
+          "requiredTier": 2
         }
       }
     },

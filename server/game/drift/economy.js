@@ -81,7 +81,7 @@ function sell(p,key,quantity){
 function usePotion(p, key, uuid, random = Math.random, quantity=1, ivConfirmation=null) {
     requireMutable(p);
     const item = [...potions, ...baseItems].find(i => i.key === key), pokemon = p.equipe.pokemons.find(a => a.uuid === uuid);
-    if (p.run.phase !== 'exploration' && !((item?.fieldUse?.effort || item?.fieldUse?.ivReroll || item?.fieldUse?.effortReset || item?.fieldUse?.abilityReroll) && ['preparation','tournament','colosseum_ready'].includes(p.run.phase))) fail('Soins automatiques entre les rounds.');
+    if (p.run.phase !== 'exploration' && !((item?.fieldUse?.effort || item?.fieldUse?.ivReroll || item?.fieldUse?.effortReset || item?.fieldUse?.abilityReroll || item?.fieldUse?.natureReroll) && ['preparation','tournament','colosseum_ready'].includes(p.run.phase))) fail('Soins automatiques entre les rounds.');
     if (!item || item.revive || !pokemon || (pokemon.currentHp <= 0 && !pokemon.riftFainted) || !(p.items[key] > 0)) fail('Ce soin est inutilisable.');
     if(!Number.isInteger(quantity)||quantity<1||quantity>99||quantity>1&&!(item.fieldUse?.effort?.amount>0))fail('Quantité invalide.');
     try { require('../items/ivRerollConfirmation').requireIvRerollConfirmation(pokemon,key,ivConfirmation); }
@@ -99,7 +99,7 @@ function usePotion(p, key, uuid, random = Math.random, quantity=1, ivConfirmatio
     } else {
         try { result = medicineBatch(pokemon,key,quantity,p.items[key],random); } catch (error) { fail(error.message); }
     }
-    if (result.ev || result.iv || result.movePp || result.passiveAbility) {
+    if (result.ev || result.iv || result.movePp || result.passiveAbility || result.nature) {
         const {trainingChange,consumed,...updated}=result;Object.assign(pokemon,updated); p.items[key]-=consumed||1; p.ready=false; report.syncTeam(p);
         report.event(p,'item',`${consumed||1} × ${item.name} utilisé sur ${pokemon.truename || pokemon.name}.`);
         return {success:true,items:bag(p),equipe:p.equipe,trainingChange,consumed:consumed||1};

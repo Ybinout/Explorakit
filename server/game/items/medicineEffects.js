@@ -5,6 +5,12 @@ function medicineResult(pokemon, itemKey, random = Math.random) {
     if (!item || !pokemon) throw Error('Objet ou Pokémon invalide.');
     const effect = item.fieldUse || item;
     if(effect.abilityReroll)return require('./abilityCapsule').result(pokemon,random);
+    if(effect.natureReroll){
+        if(pokemon.currentHp<=0 || pokemon.isEgg)throw Error('Choisis un Pokémon apte à s’entraîner.');
+        const draw=random();if(!Number.isFinite(draw)||draw<0||draw>=1)throw Error('Tirage de nature invalide.');
+        const after=require('../models/Pokemon').randomNature(()=>draw);
+        return {...trainingResult(pokemon,{nature:after}),trainingChange:{kind:'nature',before:pokemon.nature,after}};
+    }
     if(effect.ivReroll || effect.effortReset){
         if(pokemon.currentHp<=0||pokemon.isEgg)throw Error('Choisis un Pokémon apte à s’entraîner.');
         const {STAT_KEYS,normalizeEffort}=require('../models/training');
