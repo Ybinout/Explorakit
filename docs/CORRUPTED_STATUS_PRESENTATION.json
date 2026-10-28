@@ -1,0 +1,69 @@
+{
+  "date": "2026-10-28",
+  "request": "Statut du Professeur violet et écrit en toutes lettres",
+  "finding": "Le code fournissait déjà Corrompu et un fond violet. La pastille était petite (10 px), en capitales et compressible dans la ligne du nom.",
+  "changes": [
+    "Pastille Corrompu de 12 px, hauteur minimale 22 px, texte clair sur violet #7446a5.",
+    "Texte non comprimé et retour à la ligne du statut si le nom occupe la largeur du téléphone.",
+    "Règles CSS limitées au statut corrupted ; aucun changement de logique de combat, serveur ou persistance."
+  ],
+  "validation": {
+    "lint": "passed",
+    "build": "bff1b97e22e8f5bf",
+    "unit": {
+      "command": "node --test tests/pardon-ending.test.js",
+      "pass": 15,
+      "fail": 0
+    },
+    "browser": {
+      "text": "Corrompu",
+      "background": "rgb(116, 70, 165)",
+      "fontSize": 12,
+      "viewports": 4,
+      "themeModes": 2,
+      "themeColors": 4,
+      "checks": 32,
+      "purificationClearsStatus": true,
+      "screens": [
+        "corrompu-light-320.png",
+        "corrompu-light-393.png",
+        "corrompu-light-844.png",
+        "corrompu-light-1365.png",
+        "corrompu-dark-320.png",
+        "corrompu-dark-393.png",
+        "corrompu-dark-844.png",
+        "corrompu-dark-1365.png"
+      ],
+      "errors": []
+    },
+    "visualReview": [
+      "320 px nocturne",
+      "1365 px clair"
+    ],
+    "isolation": "Compte jetable sur explorakit_test supprimé ; aucun compte réel manipulé.",
+    "limitations": [
+      "Chromium à dimensions mobile, pas de téléphone physique.",
+      "Suite globale non relancée pour cette modification CSS."
+    ]
+  },
+  "deployment": {
+    "publishedAt": "2026-10-28T07:17:30.167Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-corrupted-2026-10-28T07-17-28-756Z",
+    "clientBuild": "bff1b97e22e8f5bf",
+    "clientCommit": "ac04baf2704bde953406858c96d4d4c741640990",
+    "pid": "2520586",
+    "serverRestarted": false,
+    "neighborsUnchanged": true,
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.fa50570b.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.65e137b6.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.228ff50a.css"
+    ]
+  }
+}

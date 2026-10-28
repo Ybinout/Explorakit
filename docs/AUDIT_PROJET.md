@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## Professeur — statut Corrompu plus lisible — 28 octobre 2026
+
+La pastille utilisait déjà le mot complet et un fond violet. Sa présentation est renforcée : « Corrompu » en casse normale, 12 px au lieu de 10, hauteur minimale 22 px, texte clair et bordure mauve. Elle ne se comprime plus ; la ligne du nom peut se répartir sur deux lignes sur un téléphone étroit. Styles limités à `status-corrupted`, aucun changement de moteur, de statut serveur ou de persistance.
+
+Validation : lint/build `bff1b97e22e8f5bf`, 15 tests de la finale réussis et 32 contrôles navigateur (quatre formats, deux modes clair/nocturne, quatre couleurs). Mot complet et violet vérifiés, aucun débordement/chevauchement ; une vraie Purification retire toujours le statut. Huit captures, aperçus mobile nocturne et PC clair inspectés. Compte jetable supprimé sur base isolée, aucun compte réel manipulé. Rapport : `docs/CORRUPTED_STATUS_PRESENTATION.json`.
+
+Publication client seule le 28 octobre 2026 à 08 h 17 (Europe/Paris), sans redémarrage serveur (PID 2520586). Sauvegarde `/home/ubuntu/dev/backups/riftmon-corrupted-2026-10-28T07-17-28-756Z`, index et bundles publics vérifiés, anciens assets conservés ; Knov/api-test inchangés.
+
 ## Maison de Lucie — mécanisme sur tout le meuble — 28 octobre 2026
 
 La bibliothèque au fond à gauche occupe les cases (7–8,5–6). Action ouvre maintenant la faille depuis toute sa bordure adjacente : devant (7–8,7), sur la droite (9,5–6) et derrière (7–8,4), au lieu d’un point derrière le meuble. Pas d’activation à distance, à l’intérieur ou depuis un coin diagonal ; le mur à gauche reste solide. Les six badges d’arène et l’une des deux conclusions du Professeur restent requis, ainsi que l’état `sealed`. Aucun changement de carte, d’image, de collision ou de sauvegarde.
@@ -4485,6 +4493,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 28 octobre 2026 — Statut Corrompu : pastille violette agrandie, mot complet sans compression sur mobile. 15 tests et 32 contrôles navigateur réussis, déploiement client sans redémarrage. Rapport `docs/CORRUPTED_STATUS_PRESENTATION.json`.
 
 - 28 octobre 2026 — Bibliothèque de Lucie : mécanisme accessible depuis toute la bordure du meuble, message explicite en italique ; conditions de fin, faille, ruines et replay conservés. 24 contrôles et parcours navigateur complet quatre formats validés. Rapport `docs/BOOKSHELF_RIFT_MECHANISM.json`.
 
