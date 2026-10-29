@@ -1797,7 +1797,7 @@
         {
           "pokemonId": 51,
           "name": "Triopikeur",
-          "level": 60,
+          "level": 63,
           "nature": "Jolly",
           "passiveAbility": "Arena Trap",
           "heldItem": "focus_sash",
@@ -1825,7 +1825,7 @@
         {
           "pokemonId": 257,
           "name": "Braségali",
-          "level": 61,
+          "level": 64,
           "nature": "Adamant",
           "passiveAbility": "Speed Boost",
           "heldItem": "life_orb",
@@ -1853,7 +1853,7 @@
         {
           "pokemonId": 94,
           "name": "Ectoplasma",
-          "level": 61,
+          "level": 64,
           "nature": "Timid",
           "passiveAbility": "Cursed Body",
           "heldItem": "life_orb",
@@ -1881,7 +1881,7 @@
         {
           "pokemonId": 80,
           "name": "Flagadoss",
-          "level": 61,
+          "level": 64,
           "nature": "Bold",
           "passiveAbility": "Regenerator",
           "heldItem": "leftovers",
@@ -1909,7 +1909,7 @@
         {
           "pokemonId": 135,
           "name": "Voltali",
-          "level": 62,
+          "level": 65,
           "nature": "Timid",
           "passiveAbility": "Volt Absorb",
           "heldItem": "choice_specs",
@@ -1937,7 +1937,7 @@
         {
           "pokemonId": 130,
           "name": "Léviator",
-          "level": 63,
+          "level": 66,
           "nature": "Jolly",
           "passiveAbility": "Intimidate",
           "heldItem": "lum_berry",

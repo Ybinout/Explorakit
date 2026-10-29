@@ -1,0 +1,81 @@
+{
+  "date": "2026-10-29",
+  "team": "sevenp",
+  "levelsBefore": [
+    60,
+    61,
+    61,
+    61,
+    62,
+    63
+  ],
+  "levelsAfter": [
+    63,
+    64,
+    64,
+    64,
+    65,
+    66
+  ],
+  "onlySixRuntimeLevelFieldsChanged": true,
+  "preserved": [
+    "K",
+    "IV",
+    "EV",
+    "moves",
+    "abilities",
+    "held items",
+    "nature",
+    "team order",
+    "expert strategy",
+    "wild zones",
+    "progression"
+  ],
+  "validation": {
+    "existingTestsPassed": 13,
+    "failures": 0,
+    "skipped": 0,
+    "command": "node --test tests/sevenp-tactics.test.js tests/experience-balance.test.js tests/late-game-levels.test.js",
+    "baselineStaleTestRepaired": "late-game-levels expected old Route 11/12/Rochebrume and Ana levels; source content not changed",
+    "newTests": false,
+    "browserRun": false,
+    "sqlTestsRun": false,
+    "clientChanged": false
+  },
+  "deployment": {
+    "publishedAt": "2026-10-29T10:58:01.266Z",
+    "restartedAt": "2026-10-29T10:58:00.011Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-sevenp-levels-2026-10-29T10-57-59-809Z",
+    "sourceBaseline": "d1f3adf67544651b1b553ece696ef14f0044db87",
+    "clientCommit": "429b79456db351dd414d5a53e6e70e7bbb671c7e",
+    "clientBuild": "5d89ddf722416796",
+    "beforePid": "3197025",
+    "afterPid": "3200613",
+    "sourceSha256": {
+      "data/game/pnj_teams.json": "5bb08e6606a02da0f50d91870ab750e260fbee434d44ba1fba2a885ac3adc054"
+    },
+    "activeRuns": 0,
+    "checkpointSaved": true,
+    "backendOnly": true,
+    "serverRestarted": true,
+    "gracefulCheckpoint": true,
+    "schemaChanged": false,
+    "realAccountsManuallyModified": false,
+    "neighborsUnchanged": true,
+    "publicAssetsUnchanged": [
+      "js/account.161ce126.js",
+      "js/app.8b282642.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.d6b0fb9d.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.c16355d1.css"
+    ],
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0
+  },
+  "publishedAtEuropeParis": "2026-10-29T11:58:01.266000+01:00"
+}

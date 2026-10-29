@@ -5,7 +5,7 @@ const codec=require('../server/game/drift/checkpointCodec'),{DriftBattle}=requir
 const learnsets=require('../data/game/pokemonData.json'),{getCanonicalSpeciesAbility}=require('../server/game/abilities/abilityDex');
 test('7p: six maximally trained legal K4 partners, coherent items, full expert policy and no reserved ace',()=>{
  const team=getPnjTeam('sevenp'),other=getPnjTeam('sevenp');
- assert.deepEqual(team.pokemons.map(p=>[p.data.id,p.level]),[[51,60],[257,61],[94,61],[80,61],[135,62],[130,63]]);
+ assert.deepEqual(team.pokemons.map(p=>[p.data.id,p.level]),[[51,63],[257,64],[94,64],[80,64],[135,65],[130,66]]);
  assert.deepEqual(team.pokemons.map(p=>p.heldItem),['focus_sash','life_orb','life_orb','leftovers','choice_specs','lum_berry']);
  assert.equal(team.__trainerPlan.ai,'expert');assert.equal(team.__trainerPlan.aceUuid,undefined);
  for(const p of team.pokemons){assert.equal(p.k,4);assert(Object.values(p.iv).every(v=>v===31));assert.equal(Object.values(p.ev).reduce((s,n)=>s+n,0),508);assert(Object.values(p.ev).every(v=>v<=252));assert.equal(getCanonicalSpeciesAbility(p.data.id,p.passiveAbility),p.passiveAbility);assert.equal(p.abilities.length,4);assert(p.movePp.every(v=>v>0));for(const n of p.abilities){assert(learnsets[p.data.id].includes(n.toLowerCase().replace(/[^a-z0-9]+/g,'-')));assert(engine.getMoveByName(n));}}

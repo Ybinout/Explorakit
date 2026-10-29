@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## 7p — équipe augmentée de trois niveaux — 29 octobre 2026
+
+Équipe `sevenp` : Triopikeur 60→63, Braségali 61→64, Ectoplasma 61→64, Flagadoss 61→64, Voltali 62→65 et Léviator 63→66. Seuls ces six niveaux changent dans le catalogue ; K4, IV/EV, talents, objets, capacités, ordre et stratégie expert conservés. `pnjTeamFactory` reconstruit XP/statistiques à ces niveaux pour les prochains combats Aventure/Rift/Colosseum. Aucune zone sauvage, récompense, progression ou équipe déjà sauvegardée modifiée.
+
+Validation : comparaison structurée du catalogue confirmant uniquement les six hausses ; 13 tests existants de tactique 7p, reprise Rift/Colosseum et progression des niveaux réussis sans saut. Attentes du sommet actualisées à 66 et écart maximal de cinq niveaux avec Route 14. L’ancien test des zones finales échouait déjà avant le patch : ses attentes Route 11/12/Rochebrume et Ana sont remises en accord avec les données actuellement livrées, sans modifier ces lieux ou cette équipe. Pas de nouveau test, build client, SQL ou recette navigateur pour ce réglage de contenu. Rapport : `docs/SEVENP_LEVELS_PLUS_THREE.json`.
+
+Publication serveur seule le 29 octobre 2026 à 11 h 58 (Europe/Paris), PID 3197025→3200613. Sauvegarde `/home/ubuntu/dev/backups/riftmon-sevenp-levels-2026-10-29T10-57-59-809Z`, checkpoint conservé, zéro expédition active relevée. Client `429b79456db351dd414d5a53e6e70e7bbb671c7e`, build `5d89ddf722416796` et fichiers publics inchangés à l’octet ; Knov/api-test inchangés. Service actif, zéro redémarrage automatique et aucun avertissement relevé depuis le redémarrage. Aucune migration ou modification manuelle de compte réel.
+
 ## IA — effets déjà actifs et adaptation de Coup Bas — 29 octobre 2026
 
 `moveRedundancy.js` centralise le filtrage tactique des effets sans utilité actuelle : même météo/terrain, écrans encore actifs, pièges/stats à leur maximum, Encore déjà posé, Entrave portant sur la même attaque, statuts/effets persistants et Vœu en attente. Appliqué aux dresseurs Aventure, PNJ Rift/Colosseum, anciennes variantes Colosseum et sélections sauvages/automatiques. Un effet redevenu utile revient au choix. Les attaques mixtes partiellement utiles, l’annulation volontaire des Distorsions, les attaques offensives pertinentes et les mouvements forcés/objets Choix restent possibles. Le planificateur conserve aussi un soin après une attaque adverse ou le renouvellement d’un clone susceptible d’être brisé ; les hypothèses adverses gardent les soins à PV pleins qui peuvent déjouer Coup Bas.
@@ -4825,6 +4833,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 29 octobre 2026 — Six Pokémon de 7p augmentés de trois niveaux (63–66), sets/entraînement/IA préservés. 13 tests existants réussis, attentes historiques remises en phase ; serveur seul publié et client inchangé. Rapport `docs/SEVENP_LEVELS_PLUS_THREE.json`.
 
 - 29 octobre 2026 — IA des trois modes : effets déjà actifs évités et Coup Bas adapté aux échecs/choix adverses terminés, sans lire leur action en attente. 224 tests, 14 SQL et recette navigateur avec reconnexion réussis ; serveur seul publié, client inchangé. Rapport `docs/AI_REPETITION_GUARDS.json`.
 

@@ -53,7 +53,7 @@ test('les arènes prolongent les routes précédentes et possèdent leur propre 
     ]) {
         const maxWild = byName.get(road).level.max;
         const levels = getPnjTeam(team).pokemons.map((pokemon) => pokemon.level);
-        assert.ok(Math.max(...levels) > maxWild && Math.max(...levels) <= maxWild + (name === 'moon' ? 8 : 4), name);
+        assert.ok(Math.max(...levels) > maxWild && Math.max(...levels) <= maxWild + (name === 'moon' ? 8 : name === 'champion_7p' ? 5 : 4), name);
         assert.equal(progression.npcBattles[name].experienceKind, 'arena');
     }
     for (const [name, definition] of Object.entries(progression.npcBattles)) {
@@ -98,7 +98,7 @@ test('après Raph, les routes restent proches du dernier champion et les champio
         assert.ok(Math.min(...levels) > previousAce, champion);
         previousAce = Math.max(...levels);
     }
-    assert.equal(previousAce, 63, 'le sommet de 7p reste au niveau 63');
+    assert.equal(previousAce, 66, 'le sommet de 7p atteint le niveau 66');
     for (const [city, road] of [['ville3', 'gen_route6'], ['ville4', 'route12'], ['ville5', 'route14'], ['ville_commerciale', 'route6']]) {
         assert.deepEqual(byName.get(city).level, byName.get(road).level, `${city} : cohérence des rencontres de pêche`);
     }
