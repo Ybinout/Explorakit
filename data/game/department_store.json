@@ -1266,6 +1266,10 @@
         "nature_capsule": {
           "price": 800,
           "requiredTier": 2
+        },
+        "rare_candy": {
+          "price": 5000,
+          "requiredTier": 2
         }
       }
     },

@@ -1,0 +1,162 @@
+{
+  "date": "2026-10-29",
+  "scope": [
+    "Adventure",
+    "Rift",
+    "Colosseum"
+  ],
+  "item": {
+    "key": "rare_candy",
+    "name": "Super Bonbon",
+    "price": 5000,
+    "departments": [
+      {
+        "map": "tour_etage1",
+        "requiredTier": 2
+      },
+      {
+        "map": "ville5_shop",
+        "requiredTier": 5
+      }
+    ],
+    "pocket": "training",
+    "filter": "levels",
+    "consumedPerUse": 1,
+    "levelGain": 1,
+    "maximumLevel": 100,
+    "wildLootAdded": false
+  },
+  "implementation": {
+    "modelXpCurveUsed": true,
+    "workingCopyBeforeCommit": true,
+    "noReserveXp": true,
+    "noBattleXpMultiplier": true,
+    "woundsStatusAndPpPreserved": true,
+    "evolutionDeferredAndCancellable": true,
+    "naturalMovesQueued": true,
+    "everstoneSupported": true,
+    "fullSqlLevelXpMovesEvolutionPersistence": true,
+    "ownerAndStockLocked": true,
+    "expeditionStocksAndCheckpointsIsolated": true,
+    "betweenRoundsTrainingSupported": true,
+    "noPotionConservationBonus": true,
+    "sixStatRecapBeforeEvolutionAndLearning": true
+  },
+  "validation": {
+    "unitAndRegression": {
+      "passed": 39,
+      "failed": 0,
+      "skipped": 0,
+      "newCases": 4
+    },
+    "sql": {
+      "database": "explorakit_test",
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "newCases": 1,
+      "covers": [
+        "badge and real purchase price",
+        "owner",
+        "level/XP/moves/evolution persistence",
+        "pending evolution refusal",
+        "last-stock concurrent uses",
+        "reserve unchanged"
+      ]
+    },
+    "browser": {
+      "purchasePrice": 5000,
+      "bought": 2,
+      "trainingLevelsFilter": true,
+      "oneLevelEach": true,
+      "sixStatRecap": true,
+      "noOverlappingDialogs": true,
+      "evolutionCancelledThenReoffered": true,
+      "evolutionAccepted": true,
+      "naturalMovePrompt": true,
+      "reconnectPersisted": true,
+      "woundsAndPpPreserved": true,
+      "reserveUnchanged": true,
+      "stockConsumedExactly": true,
+      "viewports": 4,
+      "themes": 2,
+      "errors": [],
+      "output": "/tmp/riftmon-rare-candy-browser"
+    },
+    "screenshotsInspected": [
+      "level-320-light.png",
+      "shop-393.png"
+    ],
+    "lint": true,
+    "javascriptSyntaxFiles": 9,
+    "build": "9f694269c54682a1",
+    "diff": true,
+    "commands": [
+      "node --test tests/rare-candy.test.js tests/evolution-decisions.test.js tests/department-store.test.js tests/shop-training.test.js",
+      "RUN_MYSQL_TESTS=1 DB_TEST_NAME=explorakit_test DB_NAME=explorakit_test node --env-file=.env --test tests/rare-candy-mysql.test.js",
+      "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-rare-candy-dist node --env-file=.env scripts/validateRareCandyBrowser.js",
+      "npm --prefix vue-explorakit run lint",
+      "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-rare-candy-dist"
+    ],
+    "limitations": [
+      "Targeted regression suite, not the entire historical project suite.",
+      "Chromium mobile emulation; no physical phone test.",
+      "Adventure browser/SQL exercises real transactions. Rift and Colosseum item use/checkpoints tested via shared model and expedition economy unit paths, not separate full browser runs."
+    ]
+  },
+  "deployment": {
+    "publishedAt": "2026-10-29T14:30:15.855Z",
+    "restartedAt": "2026-10-29T14:30:14.278Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-rare-candy-2026-10-29T14-30-12-846Z",
+    "sourceBaseline": "2df4607969f654980257b44e1f3102b9f4ce4176",
+    "sourceHashes": {
+      "data/game/department_store.json": "7b18554c67e2dc32f8bd1150bb5921e451102e33ad75bd86f5fa3cb27e209e23",
+      "data/game/items.json": "d0cb5fe391ffb76cb06486ae5ca012e7f815f5a82adb41b638a3924ce3e64914",
+      "data/game/shop_offers.json": "66b1e7acdba12bcc2218b1b02c9ea31ff811520c8e0f650c20d775bbcfae2fdc",
+      "server/game/drift/economy.js": "fa26c0ab6793cd849bdafe7e660f1b93cc8025fa878b2a88a352ca04276c03e1",
+      "server/game/items/medicineEffects.js": "9af44eb98ad6285708e5738082dbc44ad9fbb45aca4d21088fc36cf92dc16988",
+      "server/persistence/medicineRepository.js": "6822b0c4d0b1af36587e1efc1e2659e5089572f3575538b0cfa09e3d70cff089",
+      "server/game/items/rareCandy.js": "e04c8a6fc4d70d265d22387bb28bfed5cb2c2cf9504051e6729b616b2c80441b"
+    },
+    "clientCommit": "c9021523caad82373bb29399eabccef6a224efaf",
+    "clientBuild": "9f694269c54682a1",
+    "beforePid": "3286449",
+    "afterPid": "3293061",
+    "serverRestarted": true,
+    "schemaChanged": false,
+    "databaseChanged": false,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "realAccountsManuallyModified": false,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.7e4d7ba6.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.9d525781.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.9273caec.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.00fadb68.js",
+      "js/drift.5b8720d7.js",
+      "js/game.556ed717.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.553e140c.css",
+      "css/drift.57f62eee.css",
+      "css/game.bde7cd1d.css",
+      "css/test-view.7568246d.css"
+    ],
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0
+  },
+  "publishedAtEuropeParis": "2026-10-29T15:30:15.855000+01:00"
+}

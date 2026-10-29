@@ -263,6 +263,13 @@
     "nature_capsule": {
       "tier": 2,
       "price": 800
+    },
+    "rare_candy": {
+      "tier": 5,
+      "maps": [
+        "ville5_shop"
+      ],
+      "price": 5000
     }
   }
 }

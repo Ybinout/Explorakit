@@ -81,7 +81,7 @@ function sell(p,key,quantity){
 function usePotion(p, key, uuid, random = Math.random, quantity=1, ivConfirmation=null) {
     requireMutable(p);
     const item = [...potions, ...baseItems].find(i => i.key === key), pokemon = p.equipe.pokemons.find(a => a.uuid === uuid);
-    if (p.run.phase !== 'exploration' && !((item?.fieldUse?.effort || item?.fieldUse?.ivReroll || item?.fieldUse?.effortReset || item?.fieldUse?.abilityReroll || item?.fieldUse?.natureReroll) && ['preparation','tournament','colosseum_ready'].includes(p.run.phase))) fail('Soins automatiques entre les rounds.');
+    if (p.run.phase !== 'exploration' && !((item?.fieldUse?.levelUp || item?.fieldUse?.effort || item?.fieldUse?.ivReroll || item?.fieldUse?.effortReset || item?.fieldUse?.abilityReroll || item?.fieldUse?.natureReroll) && ['preparation','tournament','colosseum_ready'].includes(p.run.phase))) fail('Soins automatiques entre les rounds.');
     if (!item || item.revive || !pokemon || (pokemon.currentHp <= 0 && !pokemon.riftFainted) || !(p.items[key] > 0)) fail('Ce soin est inutilisable.');
     if(!Number.isInteger(quantity)||quantity<1||quantity>99||quantity>1&&!(item.fieldUse?.effort?.amount>0))fail('Quantité invalide.');
     try { require('../items/ivRerollConfirmation').requireIvRerollConfirmation(pokemon,key,ivConfirmation); }

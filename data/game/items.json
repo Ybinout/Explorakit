@@ -3858,6 +3858,16 @@
       "fieldUse": {
         "natureReroll": true
       }
+    },
+    {
+      "key": "rare_candy",
+      "name": "Super Bonbon",
+      "category": "medicine",
+      "buy_price": 5000,
+      "fieldUse": {
+        "levelUp": true
+      },
+      "description": "Fait gagner un niveau à un Pokémon conscient, jusqu’au niveau 100. À utiliser hors combat. Les attaques et évolutions restent à choisir."
     }
   ]
 }
