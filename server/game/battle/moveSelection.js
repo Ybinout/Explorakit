@@ -8,7 +8,7 @@ function entryActions(pokemon){
     const data=pokemon.__battle||{};
     return Number.isFinite(data.activeMoveActions)?Math.max(0,data.activeMoveActions):Number(data.lastActionTurn)>0?1:0;
 }
-function failureReason(pokemon,move,field,{privateKnown=true}={}){
+function failureReason(pokemon,move,field,{privateKnown=true,ownTeam}={}){
     if(!move)return 'unknown_move';
     const data=pokemon.__battle||{},name=move.ename;
     if(FIRST_ACTION.has(name)&&entryActions(pokemon)>0)return 'first_action_only';
@@ -16,7 +16,10 @@ function failureReason(pokemon,move,field,{privateKnown=true}={}){
     if(data.disableTurns>0&&data.disabledMove===name)return 'disabled';
     if(data.encoreTurns>0&&data.encoreMove&&data.encoreMove!==name)return 'encore';
     if(data.soundBlockedTurns>0&&getMoveFlags(move).sound)return 'sound_blocked';
-    if(name==='Teleport'&&field?.battleType!=='wild')return 'not_wild';
+    if(name==='Teleport'&&field?.battleType!=='wild'){
+        if(!['trainer','arena','pvp'].includes(field?.battleType))return 'unsupported_battle';
+        if(ownTeam&&!ownTeam.some(p=>p.uuid!==pokemon.uuid&&p.currentHp>0))return 'no_reserve';
+    }
     if(['Spit Up','Swallow'].includes(name)&&!(data.stockpileCount>0))return 'no_stockpile';
     // Opposing items/abilities are deliberately absent from public snapshots.
     // An unknown item must never be treated as a known empty item slot.

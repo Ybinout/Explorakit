@@ -61,8 +61,8 @@ function getReplacementIndex(teamOrPokemons, excludedPokemon = null) {
 function switchToNextAlive(teamOrPokemons, options = {}) {
     const pokemons = getPokemonList(teamOrPokemons);
     const outgoing = pokemons[0] || null;
-    const index = getReplacementIndex(pokemons, outgoing);
-    if (index < 0) return null;
+    const index = options.index ?? getReplacementIndex(pokemons, outgoing);
+    if (!Number.isInteger(index) || index <= 0 || !(pokemons[index]?.currentHp > 0)) return null;
 
     const batonState = options.batonPass && outgoing?.__battle
         ? {
@@ -86,14 +86,15 @@ function switchToNextAlive(teamOrPokemons, options = {}) {
     return { outgoing, incoming, index };
 }
 
-function resolveMoveSwitches(moveResult, attackerTeam, defenderTeam) {
+function resolveMoveSwitches(moveResult, attackerTeam, defenderTeam, { attackerIndex } = {}) {
     const resolution = { attacker: null, defender: null };
     if (moveResult?.forceSwitch && Number(getPokemonList(defenderTeam)[0]?.currentHp) > 0) {
         resolution.defender = switchToNextAlive(defenderTeam);
     }
-    if (moveResult?.switchSelf && Number(getPokemonList(attackerTeam)[0]?.currentHp) > 0) {
+    if (moveResult?.switchSelf && Number(getPokemonList(attackerTeam)[0]?.currentHp) > 0
+        && (!moveResult.chooseSwitch || Number.isInteger(attackerIndex))) {
         resolution.attacker = switchToNextAlive(attackerTeam, {
-            batonPass: Boolean(moveResult.batonPass)
+            batonPass: Boolean(moveResult.batonPass), index: attackerIndex
         });
     }
     return resolution;

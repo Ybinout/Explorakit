@@ -1,0 +1,161 @@
+{
+  "date": "2026-10-29",
+  "request": "Modern priority -6 Teleport to a selected teammate against trainers, retain wild flee",
+  "behavior": {
+    "priority": -6,
+    "pp": 20,
+    "wild": "caster escapes; encounter ends without rewards",
+    "trainerArenaPvp": "choose a living reserve; fail if none",
+    "transferBoosts": false,
+    "ordinarySwitchTrapsPreventPivot": false,
+    "timeoutSeconds": 60,
+    "sharedModes": [
+      "Adventure",
+      "Rift",
+      "Colosseum",
+      "PvP"
+    ],
+    "teamOrderAfterBattle": "preserved"
+  },
+  "implementation": {
+    "humanChoice": "existing owner-bound replacement prompt with replacement/turn token",
+    "npcChoice": "eligible living reserve, existing replacement planner and reserved ace policy",
+    "expeditionContinuation": "UUID action records; pause exactly after pivot and resume remaining actions before end of turn",
+    "checkpointReconnect": true,
+    "entryHazardKoRechoice": true,
+    "oldLivingMemberRetained": true,
+    "noNewUiOrAssets": true,
+    "aiNoFutureActionRead": true
+  },
+  "validation": {
+    "unit": {
+      "passed": 86,
+      "failed": 0,
+      "skipped": 0,
+      "log": "/tmp/riftmon-teleport-modern-unit.log"
+    },
+    "sql": {
+      "passed": 13,
+      "failed": 0,
+      "skipped": 0,
+      "database": "explorakit_test",
+      "log": "/tmp/riftmon-teleport-modern-sql-final.log",
+      "newCases": 4
+    },
+    "browser": {
+      "modes": [
+        "adventure",
+        "colosseum",
+        "rift"
+      ],
+      "pivotModes": [
+        "colosseum",
+        "rift"
+      ],
+      "selectedReserve": true,
+      "priorityMinus6": true,
+      "outgoingRetained": true,
+      "authoritativeEncounter": true,
+      "immediateEscape": true,
+      "opponentNamedCorrectly": true,
+      "noRewardsOrLoss": true,
+      "returnToWorld": true,
+      "viewports": 4,
+      "errors": [],
+      "out": "/tmp/riftmon-teleport-modern-browser"
+    },
+    "syntaxFiles": 12,
+    "lint": true,
+    "generators": true,
+    "diffCheck": true,
+    "build": "870c3380b2f4fab3",
+    "limits": [
+      "No physical phone",
+      "No global historical suite",
+      "Adventure trainer/arena and PvP owner choices validated through real SQL orchestrators; browser pivot validated through shared expedition overlay"
+    ],
+    "resolvedFixtures": [
+      "Arena test requires arenaBattleKey",
+      "PvP export is startPvpBattle and its existing post-turn disconnect resolves as fled",
+      "PvP test owner needs items/money fields"
+    ]
+  },
+  "commands": [
+    "node --test tests/teleport.test.js tests/replacement-choice.test.js tests/battle-team.test.js tests/move-selection.test.js tests/weather-healing.test.js tests/human-trainer-ai.test.js tests/human-trainer-model.test.js tests/move-audit.test.js",
+    "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file=.env --test tests/teleport-pivot-mysql.test.js tests/teleport-mysql.test.js tests/move-selection-mysql.test.js",
+    "DB_TEST_NAME=explorakit_test DB_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-teleport-modern-dist RELEASE_SCREENSHOTS=/tmp/riftmon-teleport-modern-browser node --env-file=.env scripts/validateTeleportBrowser.js",
+    "node scripts/generatePokemonReference.js --check",
+    "python3 scripts/generateMachines.py --check",
+    "npm --prefix vue-explorakit run lint",
+    "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-teleport-modern-dist"
+  ],
+  "sources": [
+    {
+      "url": "https://github.com/smogon/pokemon-showdown/blob/master/data/moves.ts",
+      "section": "teleport: priority -6, selfSwitch, canSwitch guard",
+      "verified": "2026-10-29"
+    },
+    {
+      "url": "https://www.pokepedia.fr/T%C3%A9l%C3%A9port",
+      "role": "User-provided modern behavior; primary implementation verified in Pokemon Showdown"
+    }
+  ],
+  "deployment": {
+    "publishedAt": "2026-10-29T17:08:00.467Z",
+    "restartedAt": "2026-10-29T17:07:58.918Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-teleport-modern-2026-10-29T17-07-57-329Z",
+    "sourceBaseline": "5a92d0c3b8fbefceb87608aef8745f87f0ccc3d8",
+    "sourceHashes": {
+      "data/game/moves.json": "a70ec3dbb00880a16aeda4f6e63e14597ebda40d15afbe58f2b2cef6f769199c",
+      "data/game/pokemon_reference_overrides.fr.json": "5b188351d2df62a5fa4a06e03b85a6128e3d20e02cd2e264ac12751d26234b09",
+      "data/vendor/pokeapi/README.md": "8977b85b4cc6319024203d3d99f239ef8069df5ee888d327ad211749a2e65958",
+      "server/game/battle/battleEngine.js": "79ae440cbb6717eee527583bb7367a619862497cc51651b8b1669bf37d873fb3",
+      "server/game/battle/battleTeam.js": "413f43a8f8e98582080add0b3396d8585396be0e9643fe20e630f7dfcc35e45d",
+      "server/game/battle/humanTrainerAI.js": "e0bf387783d08390fdc12468935221f4af11b9ee4835204a02df80e087a26260",
+      "server/game/battle/moveSelection.js": "3333ec79500e6cb08acd6f86c0901194577c08e3e605ef2dcbfa004148e8fd99",
+      "server/game/battle/pvpBattle.js": "d27df4a869fc7dafb3052c4d01a749f002625737e0baeb2c7d3910e7634d9dba",
+      "server/game/battle/trainerBattle.js": "242a0b3cca1fa79e2dde26b7b10a0738f445d4722417b4eda64d7015c1dcff96",
+      "server/game/battle/trainerTactics.js": "ccd44a2533b3602ef4a289e85d70533ca4084d8cdab5f80f873a98072a09564f",
+      "server/game/drift/driftBattle.js": "b9f61cd5d88b4b549b7703a406a6cfd81ca9a27b0a3cd78e5502953753fd02a5"
+    },
+    "clientCommit": "a0ca472a7753aa2e8dbf35f18aade4aedd0a5a92",
+    "clientBuild": "870c3380b2f4fab3",
+    "beforePid": "3356988",
+    "afterPid": "3364334",
+    "serverRestarted": true,
+    "schemaChanged": false,
+    "databaseChanged": false,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "realAccountsManuallyModified": false,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.7e4d7ba6.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.58f7d27d.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.e218b490.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.00fadb68.js",
+      "js/drift.5b8720d7.js",
+      "js/game.673a3a73.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.553e140c.css",
+      "css/drift.57f62eee.css",
+      "css/game.53e94784.css",
+      "css/test-view.7568246d.css"
+    ],
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0
+  }
+}

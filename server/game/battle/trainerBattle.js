@@ -114,10 +114,21 @@ async function performAttackWithNarration(attacker, defender, moveIndex, player,
     await sleep(SHORT_DELAY_MS);
     await narrateMessages(player, io, afterActionMessages(result), 950);
 
+    let attackerIndex;
+    if (result.chooseSwitch && result.switchSelf && attacker.currentHp > 0) {
+        if (own) {
+            const response = await requestReplacement(io, player);
+            if (response.action === 'change') attackerIndex = response.number;
+            else battleContext.battleState.switchDisconnected = player.id;
+        } else attackerIndex = trainerTactics.pivotIndex(battleContext.battleState.trainerTeam, {
+            opponentTeam: player.equipe.pokemons, field, ownSide:battleContext.attackerSide,
+            enemySide:battleContext.defenderSide, memory:field.trainerMemory
+        });
+    }
     const switches = resolveMoveSwitches(
         result,
         battleContext?.attackerTeam,
-        battleContext?.defenderTeam
+        battleContext?.defenderTeam, { attackerIndex }
     );
     result.switches = switches;
     const opponentTeam = attacker === player.equipe.pokemons[0] || battleContext.attackerTeam === player.equipe.pokemons
@@ -312,7 +323,7 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
     const arenaRewards = options.experienceKind === 'arena' || options.arenaBattleKey
         ? require('./arenaExperience').createArenaExperience(options.arenaBattleKey, enemyTeam.pokemons) : null;
     const usedPokemons = [];
-    const battleState = createBattleState({ mapName: player.currentmap });
+    const battleState = createBattleState({ mapName: player.currentmap, battleType: options.experienceKind === 'arena' ? 'arena' : 'trainer' });
     Object.defineProperty(battleState,'voidCharge',{value:require('./voidCharge').recorder(userId,player,io)});
     battleState.adventureExperience = new AdventureExperience({expShare:'equipped'});
     battleState.trainerTeam = enemyTeam;
@@ -613,7 +624,7 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
             );
             currentEnemy = enemyTeam.pokemons[0];
 
-            if (decision.action === 'attack' && !enemySwitched && !playerResult?.switches?.defender
+            if (!battleState.switchDisconnected && decision.action === 'attack' && !enemySwitched && !playerResult?.switches?.defender
                 && currentEnemy.currentHp > 0
                 && player.equipe.pokemons[0].currentHp > 0) {
                 await performAttackWithNarration(
@@ -651,7 +662,7 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
             );
             currentEnemy = enemyTeam.pokemons[0];
 
-            if (!enemyResult?.switches?.defender
+            if (!battleState.switchDisconnected && !enemyResult?.switches?.defender
                 && player.equipe.pokemons[0].currentHp > 0
                 && currentEnemy.currentHp > 0) {
                 await performAttackWithNarration(
@@ -673,6 +684,11 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
             }
         }
 
+        if (battleState.switchDisconnected) {
+            endBattle(false, { interrupted:true, reason:'player_disconnected' });
+            await editEquipe(userId, player.equipe);
+            return false;
+        }
         if (currentEnemy.currentHp > 0 && player.equipe.pokemons[0].currentHp > 0) {
             const roundResult = await resolveRoundEnd(player, currentEnemy, io, battleState, playerSide, enemySide);
             if (roundResult === 'player_ko') {

@@ -2132,7 +2132,7 @@
         "combat": {
             "damage_class": "status",
             "power_type": "status",
-            "priority": 0,
+            "priority": -6,
             "crit_stage": 0,
             "target": "self",
             "effects": [

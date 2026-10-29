@@ -318,10 +318,16 @@ async function performAttack(io, attackerPlayer, defenderPlayer, moveIndex, atta
         }
     }
 
+    let attackerIndex;
+    if (attackResult.chooseSwitch && attackResult.switchSelf && attackerPokemon.currentHp > 0) {
+        const response = await requestReplacement(io, attackerPlayer);
+        if (response.action === 'change') attackerIndex = response.number;
+        else battleState.switchDisconnected = attackerPlayer.id;
+    }
     const switches = resolveMoveSwitches(
         attackResult,
         attackerPlayer.equipe.pokemons,
-        defenderPlayer.equipe.pokemons
+        defenderPlayer.equipe.pokemons, { attackerIndex }
     );
     attackResult.switches = switches;
 
@@ -423,7 +429,7 @@ async function startPvpBattle(playerA, playerB, io) {
         console.error('Erreur Pokédex combat PVP:', error.message);
     }
 
-    const battleState = createBattleState({ mapName: playerA.currentmap, opponentMap: playerB.currentmap ?? null });
+    const battleState = createBattleState({ mapName: playerA.currentmap, opponentMap: playerB.currentmap ?? null, battleType:'pvp' });
     Object.defineProperty(battleState,'voidCharge',{value:new Map([playerA,playerB].map(p=>[p,require('./voidCharge').recorder(p.userId,p,io)]))});
     require('./battleEvents').setFieldPlayers(battleState,playerA,playerB);
     require('../abilities/abilityForms').attachTeam(teamA);
@@ -641,12 +647,12 @@ async function startPvpBattle(playerA, playerB, io) {
 
             if (firstActor === 'A') {
                 const resultA = await performAttack(io, playerA, playerB, actionA.moveIndex, sideA, sideB, battleState);
-                if (!resultA?.switches?.defender && Number(teamB[0]?.currentHp || 0) > 0) {
+                if (!battleState.switchDisconnected && !resultA?.switches?.defender && Number(teamB[0]?.currentHp || 0) > 0) {
                     await performAttack(io, playerB, playerA, actionB.moveIndex, sideB, sideA, battleState);
                 }
             } else {
                 const resultB = await performAttack(io, playerB, playerA, actionB.moveIndex, sideB, sideA, battleState);
-                if (!resultB?.switches?.defender && Number(teamA[0]?.currentHp || 0) > 0) {
+                if (!battleState.switchDisconnected && !resultB?.switches?.defender && Number(teamA[0]?.currentHp || 0) > 0) {
                     await performAttack(io, playerA, playerB, actionA.moveIndex, sideA, sideB, battleState);
                 }
             }
@@ -660,6 +666,12 @@ async function startPvpBattle(playerA, playerB, io) {
             }
         }
 
+        if (battleState.switchDisconnected) {
+            const winner = battleState.switchDisconnected === playerA.id ? playerB : playerA;
+            emitBattleEnd(io, playerA, playerB, winner.id, 'opponent_disconnected');
+            await persistTeams(playerA, playerB);
+            return { winnerId:winner.id, reason:'opponent_disconnected' };
+        }
         if (hasAlivePokemon(teamA) && hasAlivePokemon(teamB)) {
             const activeAfterTurnA = teamA[0];
             const activeAfterTurnB = teamB[0];

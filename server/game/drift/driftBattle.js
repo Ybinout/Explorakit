@@ -163,6 +163,16 @@ class DriftBattle {
         this.emit(p,'requestAction',{ message:'Choisis le Pokémon à envoyer au combat.', turnId:this.token,
             replacement:true, replacementId:this.token, allowedPokemonIndexes:replacementIndexes(p.equipe) });
     }
+    requestPivot(p, continuation) {
+        this.turnContinuation = continuation;
+        this.replacementPhase = true;
+        this.replacementPlayers = new Set([p]);
+        this.token = `${this.id}:pivot:${randomUUID()}`;
+        this.pending.clear(); this.awaiting = true;
+        this.deadline = this.now() + 60000;
+        this.promptReplacement(p);
+        this.onUpdate?.(this);
+    }
     resume(p) {
         if (this.finished) return;
         this.recordEffortParticipation();
@@ -217,12 +227,19 @@ class DriftBattle {
             const old = p.equipe.pokemons[0], action = this.pending.get(p);
             if (!switchPokemonByIndex(p.equipe,action?.number)) continue;
             // Permanent death is recorded at K.O.; retain its slot only until a choice is made.
-            if (!old.riftFainted) p.equipe.pokemons = p.equipe.pokemons.filter(poke=>poke!==old);
+            if (effects.isDead(old) && !old.riftFainted) p.equipe.pokemons = p.equipe.pokemons.filter(poke=>poke!==old);
         }
         this.sync();
         for (const p of replacements) this.enter(p===this.a?0:1);
         this.prune();
-        if (!this.checkEnd()) { this.sync(); this.request(); }
+        if (!this.checkEnd()) {
+            this.sync();
+            if (this.turnContinuation && ![this.a,this.b].some(p=>!p.npc && effects.isDead(p.equipe.pokemons[0]))) {
+                const continuation = this.turnContinuation;
+                delete this.turnContinuation;
+                this.resolveAttacks(continuation);
+            } else this.request();
+        }
     }
     prune() {
         if ([0,1].some(i=>this.active(i) && effects.isDead(this.active(i)))) this.sync();
@@ -342,9 +359,14 @@ class DriftBattle {
             const name = getForcedMove(pokemon) || (getUsableMoveIndexes(pokemon, this.state).length ? selectedMoveName(pokemon,action?.number) : 'Struggle');
             return { p, index, pokemon, name, moveName: name, side: this.sides[index], driftPriority: action?.action === 'attack' ? this.withDriftSignals(()=>effects.priority(pokemon,engine.getMoveByName(name))) : 0 };
         }), this.state, this.random);
-        for (const action of ordered) {
-            const { p, index, pokemon, name } = action;
-            if (this.pending.get(p)?.action !== 'attack' || this.active(index) !== pokemon || effects.isDead(pokemon)) continue;
+        this.resolveAttacks(ordered.filter(a=>this.pending.get(a.p)?.action==='attack')
+            .map(a=>({index:a.index,pokemonUuid:a.pokemon.uuid,name:a.name})));
+    }
+    resolveAttacks(actions) {
+        const actors = [this.a,this.b];
+        for (const [offset, action] of actions.entries()) {
+            const { index, pokemonUuid, name } = action, p = actors[index], pokemon = this.active(index);
+            if (pokemon?.uuid !== pokemonUuid || effects.isDead(pokemon)) continue;
             const defender = this.active(1-index); if (!defender || effects.isDead(defender)) continue;
             const animation = prepareMoveAnimation(pokemon,defender,name,this.state);
             const result = this.withDriftSignals(()=>engine.useattack(name,pokemon,defender,{ battleState:this.state, attackerSide:this.sides[index],defenderSide:this.sides[1-index],attackerTeam:p.equipe.pokemons,defenderTeam:actors[1-index].equipe.pokemons }), resolved => {
@@ -364,7 +386,18 @@ class DriftBattle {
             afterActionMessages(result).forEach(m=>this.say(m));
             for (const [view,viewer] of actors.entries()) if(!viewer.npc) this.emit(viewer,'battleMoveResult',serializeMoveResult(view===index?'player':'opponent',result));
             this.sync(); // Damage and K.O. belong to the outgoing sprites, before XP or replacement.
-            const switched = resolveMoveSwitches(result,p.equipe,actors[1-index].equipe);
+            let attackerIndex;
+            if (result.chooseSwitch && result.switchSelf && !effects.isDead(pokemon)) {
+                if (!p.npc) {
+                    this.requestPivot(p, actions.slice(offset+1));
+                    return;
+                }
+                attackerIndex = trainerTactics.pivotIndex(p.equipe, {
+                    opponentTeam:actors[1-index].equipe.pokemons, field:this.state,
+                    ownSide:this.sides[index], enemySide:this.sides[1-index], memory:this.aiMemory
+                });
+            }
+            const switched = resolveMoveSwitches(result,p.equipe,actors[1-index].equipe,{attackerIndex});
             if(switched.attacker) this.enter(index); if(switched.defender) this.enter(1-index);
             this.prune(); this.sync(); if(this.checkEnd()) return;
             if(result.escape && this.type==='wild') {this.escapeActor=index===0?'player':'opponent';this.finish(null,'fled'); return;}

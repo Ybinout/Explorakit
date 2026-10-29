@@ -20,7 +20,7 @@ test('trainer repeats of obsolete Bluff history are excluded for every later dec
  finally{Math.random=random;}
  assert.equal(JSON.stringify(o),before);
 });
-test('own conditions: no awake Snore/Sleep Talk, empty stockpile/item/berry, wrong Burn Up type or trainer Teleport if alternatives exist',()=>{
+test('own conditions: no awake Snore/Sleep Talk, empty stockpile/item/berry, wrong Burn Up type or unknown-context Teleport if alternatives exist',()=>{
  for(const name of['Snore','Sleep Talk','Spit Up','Swallow','Fling','Natural Gift','Burn Up','Teleport']){
   const p=mon(9,[name,'Tackle']),field=engine.createBattleState();assert.deepEqual(selection.preferMoves(p,field),[1],name);
  }
@@ -29,6 +29,15 @@ test('own conditions: no awake Snore/Sleep Talk, empty stockpile/item/berry, wro
  p.abilities=['Spit Up','Tackle'];p.__battle.stockpileCount=1;assert.deepEqual(selection.preferMoves(p,field),[0,1]);
  p.abilities=['Burn Up','Tackle'];p.passiveAbility='Protean';assert.deepEqual(selection.preferMoves(p,field),[0,1]);p.__battle.abilitySuppressed=true;assert.deepEqual(selection.preferMoves(p,field),[1]);
  p.abilities=['Teleport','Tackle'];field.battleType='wild';assert.deepEqual(selection.preferMoves(p,field),[0,1]);
+});
+test('modern Teleport is available to automated trainer/arena/PvP choices only with a living reserve',()=>{
+ const p=mon(63,['Teleport','Tackle']),reserve=mon(7,['Splash']);
+ for(const kind of['trainer','arena','pvp']){
+  const field=engine.createBattleState({battleType:kind});
+  assert.deepEqual(selection.preferMoves(p,field,undefined,{ownTeam:[p,reserve]}),[0,1]);
+  assert.deepEqual(selection.preferMoves(p,field,undefined,{ownTeam:[p]}),[1]);
+  assert.deepEqual(selection.preferMoves(p,field,undefined,{ownTeam:[p,{...reserve,currentHp:0}]}),[1]);
+ }
 });
 test('incomplete forecasts preserve unknown item/ability; trainer AI knows abilities but never private items or PP',()=>{
  const p=mon(9,['Natural Gift','Snore']);delete p.heldItem;delete p.passiveAbility;const field=engine.createBattleState();

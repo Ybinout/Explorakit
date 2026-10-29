@@ -26,6 +26,14 @@ function replacementIndex(team,context) {
     const selected=humanAI.chooseReplacement({...context,team:indexes.map(i=>team.pokemons[i])});
     return indexes[selected]??indexes[0]??-1;
 }
+function pivotIndex(team,context) {
+    const reserves=team.pokemons.flatMap((p,i)=>i>0&&p.currentHp>0?[i]:[]);
+    const ordinary=eligibleIndexes(team).filter(i=>i>0);
+    const indexes=ordinary.length?ordinary:reserves;
+    if(!context||indexes.length<2)return indexes[0]??-1;
+    const selected=humanAI.chooseReplacement({...context,team:indexes.map(i=>team.pokemons[i])});
+    return indexes[selected]??indexes[0]??-1;
+}
 function chooseAction(team, opponent, field, memory, round, opponentTeam = [opponent], skill = 1) {
     const resources = require('./battleResources');
     if (resources.getForcedMove(team.pokemons[0])) return {action:'attack',number:resources.getUsableMoveIndexes(team.pokemons[0],field)[0]};
@@ -53,4 +61,4 @@ function decorateTransitions(events, team, memory) {
         return { ...event, trainerSpeech: { name: plan.name, text } };
     });
 }
-module.exports = { attachPlan, createMemory, replacementIndex, chooseAction, observe, decorateTransitions };
+module.exports = { attachPlan, createMemory, replacementIndex, pivotIndex, chooseAction, observe, decorateTransitions };

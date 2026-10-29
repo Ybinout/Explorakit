@@ -11,7 +11,7 @@ const factoryPath=require.resolve('../server/game/world/wildPokemonFactory'),ori
 const dist=process.env.RELEASE_DIST_DIR||'/tmp/riftmon-teleport-dist',out=process.env.RELEASE_SCREENSHOTS||'/tmp/riftmon-teleport-browser';fs.mkdirSync(out,{recursive:true});
 const app=express(),server=http.createServer(app),io=new Server(server);app.use(express.json());app.use('/api',require('../server/http/routes'));app.use(express.static(dist));app.get('*',(_q,r)=>r.sendFile(path.join(dist,'index.html')));io.use(require('../server/http/authMiddleware').authenticateSocket);require('../server/realtime/socketHandler')(io);
 const store=require('../server/game/drift/lobbyStore').createLobbyStore(),cleanup=require('../server/realtime/driftLobbyHandler').registerDriftLobbies(io,{store,checkpointRepository:{async save(){}},runtimeOptions:{random:()=>.9,paceMs:0}});
-let browser,page,success=false;const ids=[],errors=[],modes=[],oldRandom=Math.random;
+let browser,page,success=false;const ids=[],errors=[],modes=[],pivotModes=[],oldRandom=Math.random;
 async function ready(){await page.waitForFunction(()=>{const v=document.querySelector('.game-root')?.__vue__;if(!v?.socket?.connected||!v.players[v.socket.id]||v.mapLoading||v.renderedMap!==v.map)return false;window.v=v;if(window.listened!==v.socket){window.listened=v.socket;v.socket.on('endbattle',data=>window.lastEnd=data);}return true;});}
 async function create(base){const r=await fetch(base+'/api/users',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:'teleport_ui_'+randomUUID(),password:randomUUID(),starterId:7})});assert.equal(r.status,201);const f=await r.json();ids.push(f.user.id);return f;}
 async function attack(){await page.locator('.action-attack:enabled').waitFor({timeout:20000});await page.locator('.action-attack:enabled').click();await page.locator('.battle-grid-attacks button:enabled').first().click();}
@@ -31,9 +31,23 @@ async function outcome(mode){await page.locator('[data-battle-result-continue]')
   const hp=p.equipe.pokemons[0].currentHp,money=p.money,items=JSON.stringify(p.items),xp=p.equipe.pokemons[0].experience;
   const battle=cleanup.runtime.battle(p,{npc:true,equipe:{pokemons:[mon('Teleport',999)]},drifts:[],equipped:[]},'wild');await attack();await outcome(mode);assert(battle.finished&&p.alive&&!p.inbattle);assert.equal(p.money,money);assert.equal(JSON.stringify(p.items),items);assert.equal(p.equipe.pokemons[0].experience,xp);assert.equal(p.equipe.pokemons[0].currentHp,hp);
  }
- await expedition('colosseum');const p=cleanup.runtime.playerFor(a.user);cleanup.runtime.abandon(p);store.leave(a.user);await page.goto(base+'/colosseum',{waitUntil:'networkidle'});
+ async function pivot(mode){
+  const p=cleanup.runtime.playerFor(a.user),outgoing=mon('Teleport',999),chosen=mon('Splash',1);
+  p.equipe.pokemons=[outgoing,mon('Splash',1),chosen];
+  const battle=cleanup.runtime.battle(p,{npc:true,equipe:{pokemons:[mon('Splash',1)]},drifts:[],equipped:[]},'arena');
+  await attack();await page.locator('[data-replacement-choice="true"]').waitFor();
+  assert(battle.replacementPhase);assert.equal(battle.active(0),outgoing);assert.equal(outgoing.movePp[0],19);
+  for(const[width,height]of[[320,568],[393,852],[844,390],[1365,900]]){
+   await page.setViewportSize({width,height});assert(await page.locator('[data-battle-index="2"]').isEnabled());assert(await page.locator('[data-battle-index="0"]').isDisabled());
+   assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));await page.screenshot({path:path.join(out,mode+'-pivot-'+width+'.png')});
+  }
+  await page.locator('[data-battle-index="2"]').click();await page.waitForFunction(uuid=>v.$refs.battleOverlay.currentPokemon.uuid===uuid,chosen.uuid);
+  assert.equal(battle.active(0),chosen);assert(p.equipe.pokemons.includes(outgoing));assert.equal(chosen.movePp[0],40);assert.equal(battle.state.turn,2);assert(!battle.finished);
+  battle.finish(null,'fled');await page.locator('[data-battle-result-continue]').waitFor();await page.locator('[data-battle-result-continue]').click();await page.waitForFunction(()=>!v.battle&&!v.battleResult&&!v.pendingBattleResult);pivotModes.push(mode);
+ }
+ await expedition('colosseum');await pivot('colosseum');const p=cleanup.runtime.playerFor(a.user);cleanup.runtime.abandon(p);store.leave(a.user);await page.goto(base+'/colosseum',{waitUntil:'networkidle'});
  store.connect(a.user,'teleport-host');store.connect(b.user,'teleport-guest');const lobby=store.create(a.user,{capacity:2,durationMinutes:30});store.join(b.user,lobby.code);for(const f of[a,b])store.ready(f.user,true);await cleanup.runtime.start(a.user);for(const f of[a,b]){const p=cleanup.runtime.playerFor(f.user);cleanup.runtime.chooseStarter(p,p.starterChoices[0].uuid);}
- await page.goto(base+'/drift/game',{waitUntil:'networkidle'});await ready();await expedition('rift');
- assert.deepEqual(errors,[]);success=true;const result={modes,authoritativeEncounter:true,immediateEscape:true,opponentNamedCorrectly:true,noRewardsOrLoss:true,returnToWorld:true,viewports:4,errors,out};fs.writeFileSync(path.join(out,'checks.json'),JSON.stringify(result,null,2));console.log(JSON.stringify(result));
+ await page.goto(base+'/drift/game',{waitUntil:'networkidle'});await ready();await expedition('rift');await pivot('rift');
+ assert.deepEqual(errors,[]);success=true;const result={modes,pivotModes,selectedReserve:true,priorityMinus6:true,outgoingRetained:true,authoritativeEncounter:true,immediateEscape:true,opponentNamedCorrectly:true,noRewardsOrLoss:true,returnToWorld:true,viewports:4,errors,out};fs.writeFileSync(path.join(out,'checks.json'),JSON.stringify(result,null,2));console.log(JSON.stringify(result));
 }finally{Math.random=oldRandom;require.cache[factoryPath].exports=originalFactory;if(!success&&page&&!page.isClosed()){await page.screenshot({path:path.join(out,'failure.png'),fullPage:true}).catch(()=>{});console.error(await page.evaluate(()=>({map:window.v?.map,battle:window.v?.battle,result:window.lastEnd,text:document.body.innerText.slice(-1000)})).catch(()=>null));}await browser?.close();cleanup();await new Promise(r=>io.close(r));await new Promise(r=>setTimeout(r,200));for(const id of ids)await db.execute('DELETE FROM users WHERE id=?',[id]);await db.end();}
 })().catch(e=>{console.error(e.stack);process.exitCode=1});

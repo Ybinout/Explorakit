@@ -390,7 +390,7 @@ function analyse({team,opponentTeam,field,ownSide,enemySide,memory={},round=1,sk
     const aggregate=scores=>scores.reduce((v,x,i)=>v+x*scenarios[i].probability,0)*.88+Math.min(...scores)*.12;
     const canAffectCurrent=ctx.attacks.some(move=>!knownIneffective(a,b,move,ctx)&&damage(a,b,move,es,safe)>0);
     const incomingDamage=Math.max(0,...ctx.replies.map(move=>damage(b,a,move,os,safe)));
-    const allMoves=moves(a,safe),utilityContext={opponent:b,ownSide:os,enemySide:es,incomingDamage};
+    const allMoves=moves(a,safe),utilityContext={opponent:b,ownTeam:ctx.party,ownSide:os,enemySide:es,incomingDamage};
     const preferred=new Set(selection.preferMoves(a,safe,allMoves.map(x=>x.number),utilityContext));
     const candidates=allMoves.filter(x=>preferred.has(x.number)).map(({number,move})=>{
         let score=aggregate(scenarios.map(s=>scoreMove(a,move,s,ctx,deeper.has(s))));
@@ -440,7 +440,7 @@ function chooseAction(options) {
     // If every remaining move fails a known condition (e.g. Choice-locked
     // Bluff), a legal switch is preferable to repeating that failure forever.
     const viable=analysis.candidates.filter(c=>c.action==='change'||c.number<0
-        ||!c.redundant&&!selection.failureReason(team[0],moveByName(team[0].abilities[c.number]),field));
+        ||!c.redundant&&!selection.failureReason(team[0],moveByName(team[0].abilities[c.number]),field,{ownTeam:team}));
     const candidates=viable.length?viable:analysis.candidates;
     if(!candidates.length)return {action:'attack',number:-1};
     const best=candidates[0];

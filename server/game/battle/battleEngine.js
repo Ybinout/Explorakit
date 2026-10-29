@@ -1162,7 +1162,7 @@ function applyEffect(effect, context, moveResult) {
         moveResult.calledMoveResolved = true;
         moveResult.damage += safeNumber(nestedResult.damage, 0);
         moveResult.substituteDamage += safeNumber(nestedResult.substituteDamage, 0);
-        for (const key of ['critical','effectiveness','switchSelf','forceSwitch','batonPass','escape','phase']) {
+        for (const key of ['critical','effectiveness','switchSelf','chooseSwitch','forceSwitch','batonPass','escape','phase']) {
             if (nestedResult[key] !== undefined) moveResult[key] = nestedResult[key];
         }
         moveResult.hits += safeNumber(nestedResult.hits, 0);
@@ -1593,7 +1593,14 @@ function applyEffect(effect, context, moveResult) {
 
         case 'escape':
             if(context.battleState?.battleType!=='wild'){
-                moveResult.success=false;messages.push('Téléport échoue dans ce combat.');return;
+                if (!['trainer','arena','pvp'].includes(context.battleState?.battleType)
+                    || !context.attackerTeam?.some(p => p !== context.attacker && p.currentHp > 0)) {
+                    moveResult.success=false;messages.push('Téléport échoue : aucun équipier ne peut prendre le relais.');return;
+                }
+                moveResult.switchSelf=true;
+                moveResult.chooseSwitch=true;
+                messages.push(`${getPokemonDisplayName(context.attacker)} se téléporte pour laisser place à un équipier !`);
+                return;
             }
             if(!canSwitchOut(context.attacker,context.defender,context.battleState,{escape:true})){
                 moveResult.success=false;messages.push(`${getPokemonDisplayName(context.attacker)} est piégé et ne peut pas se téléporter.`);return;
