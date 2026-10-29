@@ -1,0 +1,93 @@
+{
+  "date": "2026-10-29",
+  "item": "rare_candy",
+  "oldPrice": 5000,
+  "newPrice": 20000,
+  "derivedSellPrice": 10000,
+  "locations": [
+    "tour_etage1",
+    "ville5_shop"
+  ],
+  "scope": [
+    "Adventure",
+    "Rift",
+    "Colosseum"
+  ],
+  "otherPricesAndGameplayUnchanged": true,
+  "validation": {
+    "structuredCatalogDiffOnlyThreeValues": true,
+    "shopAndModeCombinations": 4,
+    "unitPassed": 39,
+    "sqlPassed": 1,
+    "failed": 0,
+    "skipped": 0,
+    "sqlChecks": [
+      "forged price ignored",
+      "insufficient funds at 10000",
+      "two units debit 40000",
+      "level/consumption persistence retained"
+    ],
+    "syntaxFiles": 3,
+    "diff": true,
+    "newTests": 0,
+    "newBuild": false,
+    "browserRerun": false,
+    "existingBrowserRecipeUpdated": true,
+    "commands": [
+      "node --test tests/rare-candy.test.js tests/evolution-decisions.test.js tests/department-store.test.js tests/shop-training.test.js",
+      "RUN_MYSQL_TESTS=1 DB_TEST_NAME=explorakit_test DB_NAME=explorakit_test node --env-file=.env --test tests/rare-candy-mysql.test.js"
+    ]
+  },
+  "deployment": {
+    "publishedAt": "2026-10-29T14:35:38.566Z",
+    "restartedAt": "2026-10-29T14:35:37.084Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-rare-candy-price-2026-10-29T14-35-36-737Z",
+    "sourceBaseline": "2fcff88014d07861ccd16473af610ee5e5c2d283",
+    "sourceHashes": {
+      "data/game/department_store.json": "118faa248bf88d17209706f6496037a51208d476093dbaf3f3042c67ee1e09a4",
+      "data/game/items.json": "7527d7150d58cff47656a424d629d9eed332f8c3b2571f8042a423b6e3f094ec",
+      "data/game/shop_offers.json": "44ad57593f2fb2e6c677ef71bfd23d9f253038c306731220d8e59adcdeda21fe"
+    },
+    "clientCommit": "c9021523caad82373bb29399eabccef6a224efaf",
+    "clientBuild": "9f694269c54682a1",
+    "beforePid": "3293061",
+    "afterPid": "3295782",
+    "serverRestarted": true,
+    "clientChanged": false,
+    "schemaChanged": false,
+    "databaseChanged": false,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "realAccountsManuallyModified": false,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.7e4d7ba6.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.9d525781.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.9273caec.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.00fadb68.js",
+      "js/drift.5b8720d7.js",
+      "js/game.556ed717.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.553e140c.css",
+      "css/drift.57f62eee.css",
+      "css/game.bde7cd1d.css",
+      "css/test-view.7568246d.css"
+    ],
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0
+  },
+  "publishedAtEuropeParis": "2026-10-29T15:35:38.566000+01:00"
+}

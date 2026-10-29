@@ -1268,7 +1268,7 @@
           "requiredTier": 2
         },
         "rare_candy": {
-          "price": 5000,
+          "price": 20000,
           "requiredTier": 2
         }
       }

@@ -1,5 +1,13 @@
 # Contexte permanent — RiftMon
 
+## Super Bonbon à 20 000 ₽ — 29 octobre 2026
+
+Prix de `rare_candy` augmenté de 5 000 à 20 000 ₽ dans le catalogue, la boutique d’entraînement de Blanchecime et le rayon Entraînement du Grand Comptoir. Même tarif en Aventure/Rift/Colosseum. La revente dérivée reste la moitié du prix d’achat, soit 10 000 ₽. Conditions de badges, usages, stock existant et tous les autres prix conservés ; aucune donnée de joueur réécrite. Les anciens montants de la section précédente décrivent la première livraison.
+
+Validation : comparaison structurée des trois catalogues, seules ces trois valeurs changent. Quatre combinaisons boutique/mode à 20 000 ₽ et revente à 10 000 ₽ vérifiées. 39 tests existants et un SQL réussis sans saut ; recettes et soldes alignés sur le nouveau tarif. SQL : prix client forgé ignoré, achat refusé avec 10 000 ₽, deux exemplaires débités 40 000 ₽ ; progression/consommation conservées. Trois fichiers JS en syntaxe et diff valides. Aucun nouveau test, build client ou parcours navigateur pour ce réglage de prix ; la recette navigateur existante est actualisée pour sa prochaine exécution. Rapport : `docs/RARE_CANDY_PRICE.json`.
+
+Publication serveur seule le 29 octobre 2026 à 15 h 35 (Europe/Paris), PID 3293061→3295782. Sauvegarde `/home/ubuntu/dev/backups/riftmon-rare-candy-price-2026-10-29T14-35-36-737Z`, checkpoint conservé et zéro expédition active relevée. Client `c9021523caad82373bb29399eabccef6a224efaf`, build `9f694269c54682a1` et index/tous les bundles publics inchangés à l’octet ; Knov/api-test inchangés. Service actif, zéro redémarrage automatique et aucun avertissement depuis le redémarrage. Aucune migration ou modification manuelle de compte réel.
+
 ## Super Bonbon à 5 000 ₽ — 29 octobre 2026
 
 `rare_candy`, Super Bonbon, vendu 5 000 ₽ au deuxième étage Entraînement du Grand Comptoir après Hoze, et dans la boutique d’entraînement de Blanchecime après Wanda. Même prix et catalogues en expédition. Objet consommable non tenu, rangé dans Sac → Entraînement → Niveaux ; filtre Niveaux ajouté aussi aux boutiques, icône SVG dédiée. Un usage individuel hors combat fait gagner exactement un niveau, jusqu’à 100. Œuf, K.O., niveau 100+, évolution à résoudre ou stock vide refusés sans consommation ; le gain n’est pas partagé avec les réserves et ne dépend pas des multiplicateurs d’XP de combat.

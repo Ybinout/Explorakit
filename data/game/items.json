@@ -3863,7 +3863,7 @@
       "key": "rare_candy",
       "name": "Super Bonbon",
       "category": "medicine",
-      "buy_price": 5000,
+      "buy_price": 20000,
       "fieldUse": {
         "levelUp": true
       },
