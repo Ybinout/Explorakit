@@ -5,7 +5,7 @@ if(!/test/i.test(process.env.DB_TEST_NAME||''))throw Error('Dedicated test datab
 process.env.DB_NAME=process.env.DB_TEST_NAME;process.env.NODE_ENV='test';process.env.BATTLE_DELAY_SCALE='0';
 const express=require('express'),{Server}=require('socket.io'),{chromium}=require('playwright'),{io:client}=require('../vue-explorakit/node_modules/socket.io-client');
 const {dbPool}=require('../server/config/database'),{flightDestination}=require('../server/game/world/flightTravel');
-const dist=process.env.RELEASE_DIST_DIR||'/tmp/riftmon-online-count-dist',output=process.env.RELEASE_SCREENSHOTS||'/tmp/riftmon-online-count-browser';fs.mkdirSync(output,{recursive:true});
+const dist=process.env.RELEASE_DIST_DIR||'/tmp/riftmon-online-count-compact-dist',output=process.env.RELEASE_SCREENSHOTS||'/tmp/riftmon-online-count-compact-browser';fs.mkdirSync(output,{recursive:true});
 const app=express(),server=http.createServer(app),io=new Server(server);app.use(express.json());app.use('/api',require('../server/http/routes'));app.use(express.static(dist));app.get('*',(_q,r)=>r.sendFile(path.join(dist,'index.html')));io.use(require('../server/http/authMiddleware').authenticateSocket);require('../server/realtime/socketHandler')(io);
 const cleanup=require('../server/realtime/driftLobbyHandler').registerDriftLobbies(io,{checkpointRepository:{async save(){}},runtimeOptions:{random:()=>.9,paceMs:0}});
 const made=[],sockets=[],errors=[];let browser,base,pageA,pageB,success=false;
@@ -14,13 +14,15 @@ async function count(page,n){await page.waitForFunction(n=>window.onlineVm?.onli
 async function raw(user,namespace='/drift'){
  const s=client(base+(namespace==='/drift'?'/drift':''),{auth:{token:user.token},autoConnect:false,transports:['websocket'],forceNew:true,reconnection:false});sockets.push(s);const event=once(s,namespace==='/drift'?'drift:bootstrap':'playersList');s.connect();await event;return s;
 }
-async function headers(page,mode){for(const[width,height]of[[320,480],[393,852],[844,390],[1365,900]]){
+async function headers(page,mode){for(const[width,height]of[[320,480],[360,800],[393,852],[412,915],[844,390],[1365,900]]){
  await page.setViewportSize({width,height});await page.waitForTimeout(150);
  for(const theme of['light','dark']){
   await page.evaluate(theme=>document.documentElement.setAttribute('data-game-theme-mode',theme),theme);
   for(const value of[3,1234]){
    await page.evaluate(value=>{window.onlineVm.onlinePlayerCount=value;},value);
    const check=await page.evaluate(()=>{const nodes=[...document.querySelectorAll('.header-actions > *')],badge=document.querySelector('[data-online-count]'),bar=document.querySelector('.world-toolbar');return{badge:badge.getBoundingClientRect().toJSON(),bar:bar.getBoundingClientRect().toJSON(),rects:nodes.map(n=>n.getBoundingClientRect().toJSON()),overflow:bar.scrollWidth>bar.clientWidth+1};});
+   const heights=await page.evaluate(()=>{const bar=document.querySelector('.world-toolbar'),height=bar.getBoundingClientRect().height,baseline=document.createElement('style');baseline.textContent='.online-player-count{display:none!important}.game-root .location-meta{display:contents!important}.game-root .location-meta .location-eyebrow{display:block!important}';document.head.append(baseline);const withoutCounter=bar.getBoundingClientRect().height;baseline.remove();return{height,withoutCounter};});
+   assert(heights.height<=heights.withoutCounter+.5,JSON.stringify({mode,width,value,heights}));
    assert(!check.overflow,JSON.stringify({width,mode,check}));assert(check.badge.x>=0&&check.badge.right<=width+1);assert(check.badge.y>=check.bar.y-1&&check.badge.bottom<=check.bar.bottom+1);
    for(let i=1;i<check.rects.length;i++)assert(check.rects[i].left>=check.rects[i-1].right-1,JSON.stringify(check.rects));
    if(value===3)await page.screenshot({path:path.join(output,`${mode}-${theme}-${width}.png`)});
@@ -42,6 +44,6 @@ async function headers(page,mode){for(const[width,height]of[[320,480],[393,852],
  await pageA.evaluate(()=>window.onlineVm.socket.disconnect());await pageA.waitForFunction(()=>window.onlineVm.onlinePlayerCount===null);assert.equal((await pageA.locator('[data-online-count]').innerText()).trim(),'—');await count(pageB,2);await pageA.evaluate(()=>window.onlineVm.socket.connect());await ready(pageA);await count(pageA,3);
  await pageB.goto(base+'/colosseum',{waitUntil:'networkidle'});await pageB.locator('[data-colosseum-start]:enabled').click();await pageB.locator('[data-starter-choice]').first().click();await pageB.locator('.starter-backdrop').waitFor({state:'hidden'});await ready(pageB);await count(pageB,3);await count(pageA,3);await headers(pageB,'colosseum');
  await pageB.close();await count(pageA,2);third.disconnect();await count(pageA,1);assert.deepEqual(errors,[]);
- success=true;console.log(JSON.stringify({initialCountAndSelf:true,joinsLeavesAndReconnect:true,anonymousCountOnly:true,uniqueAccountsAcrossNamespaces:true,allModesAndLobby:true,invalidSessionExcluded:true,staleNumberClearedWhenOffline:true,fourDigitLayout:true,viewports:4,themes:2,errors,output}));
+ success=true;console.log(JSON.stringify({initialCountAndSelf:true,joinsLeavesAndReconnect:true,anonymousCountOnly:true,uniqueAccountsAcrossNamespaces:true,allModesAndLobby:true,invalidSessionExcluded:true,staleNumberClearedWhenOffline:true,fourDigitLayout:true,noAdditionalToolbarHeight:true,viewports:6,themes:2,errors,output}));
  }finally{sockets.forEach(s=>s.disconnect());await browser?.close();await require('../server/realtime/accountConnection').waitForAccountConnections(io);cleanup();await new Promise(r=>io.close(r));for(const u of made)await dbPool.execute('DELETE FROM users WHERE id=?',[u.user.id]);await dbPool.end();if(!success)console.error('Online count browser recipe failed');}
 })().catch(e=>{console.error(e.stack);process.exitCode=1});

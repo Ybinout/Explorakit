@@ -1,0 +1,80 @@
+{
+  "change": "Keep the mobile toolbar height with a small online count beside the location eyebrow",
+  "scope": "Presentation only; existing authenticated presence logic unchanged",
+  "validation": {
+    "browser": {
+      "initialCountAndSelf": true,
+      "joinsLeavesAndReconnect": true,
+      "anonymousCountOnly": true,
+      "uniqueAccountsAcrossNamespaces": true,
+      "allModesAndLobby": true,
+      "invalidSessionExcluded": true,
+      "staleNumberClearedWhenOffline": true,
+      "fourDigitLayout": true,
+      "noAdditionalToolbarHeight": true,
+      "viewports": 6,
+      "themes": 2,
+      "errors": [],
+      "output": "/tmp/riftmon-online-count-compact-browser"
+    },
+    "heightAssertion": "Toolbar height with count <= height without count + 0.5 CSS px",
+    "countValues": [
+      3,
+      1234
+    ],
+    "widths": [
+      320,
+      360,
+      393,
+      412,
+      844,
+      1365
+    ],
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "screenshotsInspected": [
+      "adventure-light-320.png",
+      "colosseum-light-393.png"
+    ],
+    "lint": true,
+    "build": "97d7bcabea41b29d",
+    "newUnitTests": false,
+    "command": "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-online-count-compact-dist RELEASE_SCREENSHOTS=/tmp/riftmon-online-count-compact-browser node --env-file=.env scripts/validateOnlineCountBrowser.js",
+    "limitations": [
+      "No physical phone or complete suite claimed"
+    ]
+  },
+  "deployment": {
+    "publishedAt": "2026-10-29T08:53:08.442Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-online-count-compact-2026-10-29T08-53-07-195Z",
+    "sourceBaseline": "6a8e9c78d692912e77ec09ed2a46c39ee84d0250",
+    "clientCommit": "3dff91f14ed5be34e693c8c027b82a5cfab18942",
+    "clientBuild": "97d7bcabea41b29d",
+    "pid": "3142183",
+    "serverRestarted": false,
+    "databaseChanged": false,
+    "realAccountsManuallyModified": false,
+    "neighborsUnchanged": true,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.6e7bae1a.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.46ada5b6.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.bf87b5d1.css"
+    ]
+  },
+  "publishedAtEuropeParis": "2026-10-29T09:53:08.442000+01:00",
+  "verification": {
+    "serviceActive": true,
+    "pidUnchanged": true,
+    "automaticRestarts": 0,
+    "warningEntries": 0
+  }
+}

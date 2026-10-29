@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## Compteur connecté — hauteur mobile conservée — 29 octobre 2026
+
+Correction du compteur livré juste avant : son emplacement à côté de Pokémon faisait passer des éléments à la ligne et agrandissait la barre. Il est désormais intégré en petit à la ligne supérieure du nom de lieu, sans bordure ni espace supplémentaire dans les commandes. Le retour à la ligne ajouté pour l’Aventure à 380 px est retiré. À cette largeur, le compteur remplace seulement le libellé « Tu es ici » ; nom du lieu et boutons restent présents. Mise à jour et périmètre du compteur inchangés, aucun serveur ou SQL modifié.
+
+Recette navigateur existante renforcée : hauteur de la barre avec compteur ≤ hauteur sans compteur (tolérance sous-pixel 0,5 px), nombres à un et quatre chiffres, Aventure/Colosseum, six formats 320/360/393/412/844/1365 px et deux thèmes. Arrivées/départs/reconnexion et unicité toujours validés, comptes jetables supprimés, zéro erreur. Captures 320 px Aventure et 393 px Colosseum inspectées. Lint, build isolé et diff valides ; pas de nouveaux tests unitaires pour ce changement visuel. Rapport : `docs/ONLINE_PLAYER_COUNT_COMPACT.json`.
+
+Publication client seul le 29 octobre 2026 à 09 h 53 (Europe/Paris), build `97d7bcabea41b29d`, client `3dff91f14ed5be34e693c8c027b82a5cfab18942`. Sauvegarde `/home/ubuntu/dev/backups/riftmon-online-count-compact-2026-10-29T08-53-07-195Z`, index et bundles publics vérifiés à l’octet, anciens assets conservés. Service actif PID 3142183 conservé, zéro redémarrage automatique et aucun avertissement relevé ; Knov/api-test inchangés. Aucune donnée réelle modifiée manuellement.
+
 ## Compteur de dresseurs connectés — 29 octobre 2026
 
 Petit pictogramme de joueur avec nombre dans la barre, à côté de Menu/Pokémon. Nombre global des comptes authentifiés connectés au jeu, Aventure/Rift/Colosseum et salons d’expédition confondus, joueur courant compris ; chaque compte compte une seule fois même lors d’un remplacement de connexion ou de namespace. Réutilise les sessions du hub social partagé, sans nouvelle requête SQL, sondage client ou minuterie. Événement `presence:count` limité à `{count}` : aucune identité, carte ou liste publique supplémentaire. Publication immédiate à l’attachement/déconnexion, avant la lecture des amis ; cadence existante de présence en secours, sans émission si le nombre est identique.
@@ -4777,6 +4785,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 29 octobre 2026 — Compteur connecté compact placé au-dessus du lieu ; retour à la ligne mobile retiré et hauteur comparée avec/sans compteur dans les deux modes, six formats/deux thèmes. Client seul publié ; rapport `docs/ONLINE_PLAYER_COUNT_COMPACT.json`.
 
 - 29 octobre 2026 — Compteur global de joueurs connectés dans la barre : comptes uniques des trois modes, temps réel sans SQL supplémentaire, nombre effacé pendant une coupure. Seize tests ciblés et deux recettes navigateur réussis, quatre formats/deux thèmes ; rapport `docs/ONLINE_PLAYER_COUNT.json`.
 
