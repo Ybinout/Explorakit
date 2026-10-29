@@ -1,0 +1,111 @@
+{
+  "date": "2026-10-29",
+  "feature": "team-potential-and-types",
+  "component": "TeamPokemonTraits",
+  "panels": [
+    "UserMap quick team (Adventure/Rift/Colosseum)",
+    "DriftRunPanel team (Rift/Colosseum)"
+  ],
+  "behavior": {
+    "existingPotentialStarReused": true,
+    "starMovedBelowNameInQuickTeam": true,
+    "potentialAddedToExpeditionTeam": true,
+    "singleAndDualTypes": true,
+    "typesFromActualPokemonData": true,
+    "duplicateTypesRemoved": true,
+    "eggsDoNotRevealTypes": true,
+    "sharedTypeColorsAndReadableInk": true,
+    "quickPanelLanguageRespected": true,
+    "wrapOnSmallScreens": true,
+    "noSavedPokemonDataChanged": true
+  },
+  "validation": {
+    "browser": {
+      "realMedicineOnce": true,
+      "reloadSilent": true,
+      "realPcOpen": true,
+      "duplicatePcOpenSilent": true,
+      "realNurseHeal": true,
+      "sixKStars": [
+        1,
+        2,
+        3,
+        4,
+        1,
+        2
+      ],
+      "singleAndDualTypes": true,
+      "frenchTypeLabels": true,
+      "adventureAndColosseumQuickTeams": true,
+      "expeditionTeamTraits": true,
+      "viewports": 4,
+      "themes": 2,
+      "mute": true,
+      "backgroundStopsAudio": true,
+      "errors": [],
+      "output": "/tmp/riftmon-team-traits-browser"
+    },
+    "sixthCompanionVisibleAfterScrolling": true,
+    "screenshotsInspected": [
+      "team-320-light.png",
+      "team-393-dark.png",
+      "expedition-team-320-light.png",
+      "expedition-team-1365-dark.png",
+      "expedition-last-393-dark.png"
+    ],
+    "lint": true,
+    "build": true,
+    "recipeSyntax": true,
+    "diff": true,
+    "newUnitTests": 0,
+    "standaloneSqlTestRun": false,
+    "testAccountDeleted": true,
+    "physicalPhoneTested": false,
+    "fullHistoricalSuiteRun": false,
+    "commands": [
+      "npm --prefix vue-explorakit run lint",
+      "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-team-traits-dist",
+      "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-team-traits-dist RELEASE_SCREENSHOTS=/tmp/riftmon-team-traits-browser node --env-file=.env scripts/validateWorldFeedbackBrowser.js"
+    ]
+  },
+  "deployment": {
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "publishedAt": "2026-10-29T15:16:22.085Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-team-traits-2026-10-29T15-16-20-638Z",
+    "sourceBaseline": "4c081befef866871373fba4ba7b76f5a5ce8e452",
+    "clientCommit": "44b9265e94fef40883edaec6c4942994f67fc4c7",
+    "clientBuild": "2dd9d2c290bec036",
+    "pid": "3309555",
+    "serverRestarted": false,
+    "databaseChanged": false,
+    "realAccountsManuallyModified": false,
+    "neighborsUnchanged": true,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.7e4d7ba6.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.9d525781.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.737e5529.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.00fadb68.js",
+      "js/drift.5b8720d7.js",
+      "js/game.e03a65ff.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.553e140c.css",
+      "css/drift.57f62eee.css",
+      "css/game.4cb94588.css",
+      "css/test-view.7568246d.css"
+    ]
+  },
+  "publishedAtEuropeParis": "2026-10-29T16:16:22.085000+01:00"
+}
