@@ -72,3 +72,19 @@ test('group chat is member-only, bounded and plain text; leaving removes access 
  f.hub.leave(2);assert.throws(()=>f.hub.groupMessage(2,'Bye'),/groupe/);
  }finally{f.hub.stop();}
 });
+
+test('online directory is paginated, public-only, self-free and current across modes without extra SQL or idle emissions',async()=>{
+ const f=fixture();try{
+  for(let id=1;id<=25;id++)await f.connect(id,'route'+id,['adventure','rift','colosseum'][id%3]);
+  const reads=f.queries(),first=f.hub.onlineDirectory(1),second=f.hub.onlineDirectory(1,20);
+  assert.equal(first.total,24);assert.equal(first.entries.length,20);assert(first.hasMore);assert.equal(second.entries.length,4);assert(!second.hasMore);
+  const all=[...first.entries,...second.entries];assert.equal(new Set(all.map(p=>p.id)).size,24);assert(!all.some(p=>p.id===1));
+  assert(all.every(p=>p.online&&JSON.stringify(Object.keys(p).sort())===JSON.stringify(['id','online','username'])));
+  first.entries[0].username='mutated';assert(!f.hub.onlineDirectory(1).entries.some(p=>p.username==='mutated'));
+  for(const offset of [-1,1.2,'20',10001,Infinity])assert.throws(()=>f.hub.onlineDirectory(1,offset),/Page/);
+  const events=f.sockets.get(1).events.length;f.hub.tick();f.hub.tick();assert.equal(f.queries(),reads);assert.equal(f.sockets.get(1).events.length,events);
+  f.sockets.get(2).socket.disconnect();assert.equal(f.hub.onlineDirectory(1).total,23);assert(!f.hub.isOnline(2));
+  const old=f.sockets.get(3).socket;await f.connect(3,'start','rift');old.disconnect();assert(f.hub.isOnline(3));assert.equal(f.hub.onlineDirectory(1).total,23);
+  const notifications=f.sockets.get(1).events.filter(e=>e.e==='social:presenceChanged');assert(notifications.length>0);assert.deepEqual(Object.keys(notifications.at(-1).p),['revision']);
+ }finally{f.hub.stop();}
+});

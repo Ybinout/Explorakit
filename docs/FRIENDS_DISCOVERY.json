@@ -1,0 +1,141 @@
+{
+  "date": "2026-10-29",
+  "feature": "friends-trainer-discovery",
+  "scope": [
+    "Adventure",
+    "Rift",
+    "Colosseum"
+  ],
+  "behavior": {
+    "liveOnlineDirectory": true,
+    "excludeSelf": true,
+    "explicitFriendRequestsAndAcceptance": true,
+    "onlineAndOfflinePrefixSearch": true,
+    "minimumSearchCharacters": 2,
+    "pageSize": 20,
+    "relationshipAndPresenceVisible": true,
+    "crossModePresence": true,
+    "oneIdentityPerAccount": true,
+    "friendsMessagesGroupsAndTradesRetained": true
+  },
+  "implementation": {
+    "publicTrainerFields": [
+      "id",
+      "username",
+      "online"
+    ],
+    "cacheRebuiltOnPresenceIdentityChange": true,
+    "newSqlReadsPerPresenceTick": 0,
+    "revisionOnlyPresenceNotification": true,
+    "authenticatedCommands": true,
+    "forgedViewerIgnored": true,
+    "offsetsValidated": true,
+    "searchLikeCharactersEscaped": true,
+    "existingCommandRateLimitsRetained": true,
+    "staleResponsesDiscarded": true,
+    "debounceMilliseconds": {
+      "online": 180,
+      "search": 300
+    },
+    "disconnectClearsDirectory": true,
+    "timersAndListenersCleanedUp": true,
+    "privateLocationsAndMessagesExcludedFromDirectory": true,
+    "oldClientsCompatible": true
+  },
+  "validation": {
+    "unitPassed": 20,
+    "sqlPassed": 3,
+    "newUnitCases": 2,
+    "failed": 0,
+    "skipped": 0,
+    "syntaxFiles": 6,
+    "lint": true,
+    "build": true,
+    "diff": true,
+    "browser": {
+      "onlineDiscovery": true,
+      "selfExcluded": true,
+      "privateFieldsExcluded": true,
+      "requestFromOnlineList": true,
+      "explicitAcceptance": true,
+      "chatStillWorks": true,
+      "offlineSearchAndRequest": true,
+      "pagedSearch": 25,
+      "lastQueryWins": true,
+      "disconnectRemovesPresence": true,
+      "crossModeReconnect": true,
+      "noDuplicateAccounts": true,
+      "offlineControlsDisabled": true,
+      "reconnectRefresh": true,
+      "viewports": 4,
+      "themes": 2,
+      "errors": [],
+      "output": "/tmp/riftmon-friends-discovery-browser"
+    },
+    "screenshotsInspected": [
+      "online-320-light.png",
+      "online-1365-dark.png",
+      "search-pages-393.png"
+    ],
+    "physicalPhoneTested": false,
+    "fullHistoricalSuiteRun": false,
+    "testUsersDeleted": true,
+    "commands": [
+      "node --test tests/social-groups.test.js tests/online-count-client.test.js tests/friend-trade.test.js",
+      "RUN_MYSQL_TESTS=1 DB_TEST_NAME=explorakit_test DB_NAME=explorakit_test node --env-file=.env --test tests/social-messages-mysql.test.js",
+      "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-friends-discovery-dist node --env-file=.env scripts/validateFriendsDiscoveryBrowser.js",
+      "npm --prefix vue-explorakit run lint",
+      "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-friends-discovery-dist"
+    ]
+  },
+  "deployment": {
+    "publishedAt": "2026-10-29T14:58:11.579Z",
+    "restartedAt": "2026-10-29T14:58:10.264Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-friends-discovery-2026-10-29T14-58-08-904Z",
+    "sourceBaseline": "52bd7e2fbd3a18e70d502921f2aebc33fa354507",
+    "sourceHashes": {
+      "server/realtime/handlers/socialHandlers.js": "2c4d909bcca88e575418c1f268a1e870e1227cdcd4956264637e6f72be3a7161",
+      "server/realtime/socialHub.js": "2b8ef0f7c439dff48e49452e22cc2304d6a1a64011d04a260e8115d5f7215dd6"
+    },
+    "clientCommit": "ead7e380cb4a9b9d5f12de15c947e75d17410910",
+    "clientBuild": "4531623c8a1a8dd6",
+    "beforePid": "3295782",
+    "afterPid": "3306006",
+    "serverRestarted": true,
+    "schemaChanged": false,
+    "databaseChanged": false,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "realAccountsManuallyModified": false,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.7e4d7ba6.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.9d525781.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.dc913fde.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.00fadb68.js",
+      "js/drift.5b8720d7.js",
+      "js/game.f71f34b0.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.553e140c.css",
+      "css/drift.57f62eee.css",
+      "css/game.f4619349.css",
+      "css/test-view.7568246d.css"
+    ],
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0
+  },
+  "publishedAtEuropeParis": "2026-10-29T15:58:11.579000+01:00"
+}

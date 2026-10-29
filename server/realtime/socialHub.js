@@ -7,7 +7,7 @@ const fail=message=>{throw Object.assign(Error(message),{statusCode:400});};
 const GROUP_LIMIT=6,INVITE_MS=90000,RECONNECT_MS=120000;
 function createSocialHub({now=Date.now,repository=trainers,messageRepository=messages,tickMs=1000,onFriendshipChanged=()=>{}}={}){
  const sessions=new Map(),groups=new Map(),membership=new Map(),invitations=new Map(),inboxQueues=new Map();
- let stopped=false;
+ let stopped=false,presenceKey=null,presenceRevision=0,onlineTrainers=[];
  const online=id=>!!sessions.get(id)?.socket.connected;
  const emit=(id,event,payload)=>{const s=sessions.get(id);if(s?.socket.connected)s.socket.emit(event,payload);};
  function memberView(member){
@@ -27,7 +27,20 @@ function createSocialHub({now=Date.now,repository=trainers,messageRepository=mes
  function publish(id,force=false){const s=sessions.get(id);if(!s?.socket.connected)return;const key=signature(id);if(force||s.signature!==key){s.signature=key;emit(id,'social:state',state(id));}}
  function publishPresence(){
   const connected=[...sessions.values()].filter(s=>s.socket.connected),count=connected.length;
-  for(const s of connected)if(s.onlineCount!==count){s.onlineCount=count;s.socket.emit('presence:count',{count});}
+  const key=JSON.stringify(connected.map(s=>[Number(s.socket.data.user.id),s.username]));
+  const changed=key!==presenceKey;
+  if(changed){presenceKey=key;presenceRevision++;onlineTrainers=connected.map(s=>({id:Number(s.socket.data.user.id),username:s.username,online:true})).sort((a,b)=>a.username.localeCompare(b.username,'fr')||a.id-b.id);}
+  for(const s of connected){
+   if(s.onlineCount!==count){s.onlineCount=count;s.socket.emit('presence:count',{count});}
+   if(changed)s.socket.emit('social:presenceChanged',{revision:presenceRevision});
+  }
+ }
+ // Public discovery has no positions, socket identifiers or private profile data.
+ // Reuse the cached list; pagination and joins never read SQL on the presence tick.
+ function onlineDirectory(id,offset=0){
+  if(!Number.isSafeInteger(offset)||offset<0||offset>10000)fail('Page invalide.');
+  const entries=onlineTrainers.filter(p=>p.id!==id);
+  return{entries:entries.slice(offset,offset+20).map(p=>({...p})),hasMore:offset+20<entries.length&&offset<10000,total:entries.length,revision:presenceRevision};
  }
  function publishAll(){publishPresence();for(const id of sessions.keys())publish(id);}
  async function refreshUnread(id){
@@ -104,7 +117,7 @@ function createSocialHub({now=Date.now,repository=trainers,messageRepository=mes
   publishAll();
  }
  const timer=tickMs?setInterval(tick,tickMs):null;timer?.unref();
- return{attach,state,reload,friendsChanged,invite,answerInvite,leave,kick,groupMessage,directMessage,read,tick,stop(){stopped=true;if(timer)clearInterval(timer);sessions.clear();groups.clear();membership.clear();invitations.clear();}};
+ return{attach,state,reload,onlineDirectory,isOnline:online,friendsChanged,invite,answerInvite,leave,kick,groupMessage,directMessage,read,tick,stop(){stopped=true;if(timer)clearInterval(timer);sessions.clear();groups.clear();membership.clear();invitations.clear();}};
 }
 function getSocialHub(io){
  const server=io.server||io;if(!hubs.has(server)){const hub=createSocialHub({onFriendshipChanged:(a,b)=>require('./tradeManager').getTradeManager(server).friendshipChanged(a,b)});hubs.set(server,hub);instances.add(hub);server.httpServer?.once('close',()=>{hub.stop();instances.delete(hub);hubs.delete(server);});}return hubs.get(server);

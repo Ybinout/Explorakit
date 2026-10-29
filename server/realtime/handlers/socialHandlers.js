@@ -16,7 +16,8 @@ async function registerSocialHandlers({io,socket,getLocation}){
   }catch(error){if(!error.statusCode)console.error('Carnet social :',error.message);reply({success:false,message:error.statusCode?error.message:'Le carnet est temporairement indisponible.'});}
  });}
  command('social:refresh',async()=>{await hub.reload(userId);return{state:hub.state(userId)};});
- command('social:search',async d=>repository.search(userId,d.query));
+ command('social:online',d=>{const result=hub.onlineDirectory(userId,d.offset??0);if(d.targetId!=null){const targetId=messages.userId(d.targetId);result.target={id:targetId,online:hub.isOnline(targetId)};}return result;});
+ command('social:search',async d=>{const result=await repository.search(userId,d.query,d.offset??0);return{...result,entries:result.entries.filter(p=>p.id!==userId).map(p=>({...p,online:hub.isOnline(p.id)}))};});
  command('social:friend',async d=>{const target=messages.userId(d.targetId),result=await repository.friendAction(userId,target,d.action);await hub.friendsChanged(userId,target);return{...result,state:hub.state(userId)};});
  command('social:history',d=>messages.history(userId,d.targetId,d.before));
  command('social:send',async d=>({message:await hub.directMessage(userId,d)}),true);

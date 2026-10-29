@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Annuaire des dresseurs dans le menu Amis — 29 octobre 2026
+
+Le carnet affiche les autres dresseurs connectés dans les trois modes, avec ajout direct, acceptation d’une demande et état de la relation. Recherche par début de pseudo dès deux caractères, joueurs hors ligne compris ; listes paginées par vingt et bouton Afficher plus. Soi-même exclu, noms triés, point de présence et état de la conversation actualisés. Les demandes, messages, groupes et échanges existants sont conservés. Petit écran : navigation liste/conversation et commandes tactiles inchangées, sans débordement horizontal.
+
+`socialHub` met en cache uniquement identifiant public, pseudo et présence ; aucun lieu, socket, inventaire ou message privé dans l’annuaire. Cache mis à jour lors d’un changement réel des comptes connectés ; aucune lecture SQL ajoutée au tick de présence. `social:presenceChanged` envoie seulement une révision et le panneau ouvert recharge avec regroupement court des événements. Une identité par compte, tous modes confondus. `social:online` est authentifié, paginé, valide ses offsets et ignore un identifiant de lecteur fourni par le client. Recherche paramétrée existante, échappement des caractères LIKE et limites de débit conservés ; présence ajoutée depuis le cache. Réponses obsolètes ignorées, requêtes différées/écouteurs nettoyés à la fermeture, annuaire vidé et commandes désactivées hors connexion. Anciens événements et payload du compteur inchangés.
+
+Validation : 20 tests unitaires/régression et trois SQL réussis sans saut, dont deux nouveaux cas unitaires (pagination/payload/cache/changements de présence et cycle des écouteurs). Recette navigateur sur comptes jetables supprimés : ajout depuis l’annuaire, acceptation explicite, vrai message privé, recherche hors ligne avec demande, 25 résultats en deux pages sans doublon, changement rapide de requête, déconnexion/reconnexion et présence Aventure→Colosseum. Quatre formats 320/393/844/1365, deux thèmes, zéro erreur ; captures mobile/PC et recherche inspectées. Correction vérifiée d’une lecture de présence sans conversation sélectionnée. Lint, six fichiers JS en syntaxe, build isolé et diff valides ; pas de téléphone physique ni de suite globale revendiqués. Rapport et commandes : `docs/FRIENDS_DISCOVERY.json`.
+
+Publication le 29 octobre 2026 à 15 h 58 (Europe/Paris), client `ead7e380cb4a9b9d5f12de15c947e75d17410910`, build `4531623c8a1a8dd6`, PID 3295782→3306006. Sauvegarde `/home/ubuntu/dev/backups/riftmon-friends-discovery-2026-10-29T14-58-08-904Z` : sources/index précédents et checkpoint, zéro expédition active relevée. Index et tous les bundles publics comparés à l’octet, anciens assets conservés, Knov/api-test inchangés. Service actif, zéro redémarrage automatique et aucun avertissement depuis le redémarrage. Aucun changement de schéma, de règles de jeu ou modification manuelle de compte réel.
+
 ## Super Bonbon à 20 000 ₽ — 29 octobre 2026
 
 Prix de `rare_candy` augmenté de 5 000 à 20 000 ₽ dans le catalogue, la boutique d’entraînement de Blanchecime et le rayon Entraînement du Grand Comptoir. Même tarif en Aventure/Rift/Colosseum. La revente dérivée reste la moitié du prix d’achat, soit 10 000 ₽. Conditions de badges, usages, stock existant et tous les autres prix conservés ; aucune donnée de joueur réécrite. Les anciens montants de la section précédente décrivent la première livraison.
@@ -4909,6 +4919,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 29 octobre 2026 — Menu Amis : annuaire des dresseurs connectés tous modes, ajout/acceptation et recherche paginée hors ligne. Cache public minimal, aucune lecture SQL ajoutée au tick, présence et reconnexion raccordées. 20 tests, trois SQL et recette navigateur quatre formats/deux thèmes réussis ; client/serveur publiés sans migration. Rapport `docs/FRIENDS_DISCOVERY.json`.
 
 - 29 octobre 2026 — Super Bonbon : achat 5 000→20 000 ₽ dans les deux boutiques et trois modes, revente dérivée 10 000 ₽. 39 tests et un SQL réussis, serveur seul publié ; client et règles de progression conservés. Rapport `docs/RARE_CANDY_PRICE.json`.
 

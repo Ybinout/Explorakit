@@ -9,3 +9,11 @@ test('online badge accepts only valid counts, clears stale numbers on disconnect
  socket.connected=true;socket.emit('connect');assert.equal(vm.onlinePlayerCount,null);socket.emit('presence:count',{count:1});assert.match(mixin.computed.onlineCountLabel.call(vm),/1 dresseur en ligne/);
  mixin.methods.bindSocialSocket.call(vm);assert.equal(socket.listenerCount('presence:count'),1);mixin.beforeDestroy.call(vm);assert.equal(socket.listenerCount('presence:count'),0);assert.equal(socket.listenerCount('disconnect'),0);
 });
+
+test('directory presence revisions bind once, validate payloads and release the listener',async()=>{
+ const {default:mixin}=await import('../vue-explorakit/src/services/socialGame.js');const {EventEmitter}=require('node:events');
+ const socket=new EventEmitter();socket.connected=true;const vm={...mixin.data(),socket,preferences:{language:'fr'}};
+ mixin.methods.bindSocialSocket.call(vm);socket.emit('social:presenceChanged',{revision:4});assert.equal(vm.socialPresenceRevision,4);
+ for(const revision of [-1,'5',NaN,Infinity,1.5])socket.emit('social:presenceChanged',{revision});assert.equal(vm.socialPresenceRevision,4);
+ mixin.methods.bindSocialSocket.call(vm);assert.equal(socket.listenerCount('social:presenceChanged'),1);mixin.beforeDestroy.call(vm);assert.equal(socket.listenerCount('social:presenceChanged'),0);
+});
