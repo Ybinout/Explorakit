@@ -1,5 +1,13 @@
 # Contexte permanent — RiftMon
 
+## Wanda — équipe augmentée de deux niveaux — 29 octobre 2026
+
+Équipe `wanda` : Drattak 52→54, Mackogneur 52→54, Staross 53→55, Alakazam 53→55, Dracaufeu 54→56 et Métalosse 54→56. Seuls les six niveaux changent dans le catalogue. K/IV/EV, natures, objets, talents, capacités, ordre et stratégie expert conservés ; les prochains combats Aventure/Rift/Colosseum reconstruisent XP/statistiques depuis ces niveaux. Rencontres sauvages et autres équipes inchangées, dont 7p à 63–66.
+
+Validation : comparaison structurée du catalogue confirmant uniquement ces six hausses ; 18 tests existants réussis sans saut (tactiques Wanda/7p, checkpoints Rift/Colosseum, niveaux/XP). Attentes de Wanda actualisées à 54/54/55/55/56/56 ; le contrôle des zones tient compte de son supplément de difficulté de deux niveaux, sans relever les grottes suivantes. Aucun nouveau test, build client, SQL ou parcours navigateur pour ce réglage. Rapport : `docs/WANDA_LEVELS_PLUS_TWO.json`.
+
+Publication serveur seule le 29 octobre 2026 à 12 h 01 (Europe/Paris), PID 3200613→3202596. Sauvegarde `/home/ubuntu/dev/backups/riftmon-wanda-levels-2026-10-29T11-01-48-658Z`, checkpoint conservé et zéro expédition active relevée. Client `429b79456db351dd414d5a53e6e70e7bbb671c7e`, build `5d89ddf722416796` et fichiers publics inchangés à l’octet ; Knov/api-test inchangés. Service actif, zéro redémarrage automatique et aucun avertissement relevé depuis le redémarrage. Aucune migration ou modification manuelle de compte réel.
+
 ## 7p — équipe augmentée de trois niveaux — 29 octobre 2026
 
 Équipe `sevenp` : Triopikeur 60→63, Braségali 61→64, Ectoplasma 61→64, Flagadoss 61→64, Voltali 62→65 et Léviator 63→66. Seuls ces six niveaux changent dans le catalogue ; K4, IV/EV, talents, objets, capacités, ordre et stratégie expert conservés. `pnjTeamFactory` reconstruit XP/statistiques à ces niveaux pour les prochains combats Aventure/Rift/Colosseum. Aucune zone sauvage, récompense, progression ou équipe déjà sauvegardée modifiée.

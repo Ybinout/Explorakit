@@ -5,7 +5,7 @@ const codec=require('../server/game/drift/checkpointCodec'),{DriftBattle}=requir
 const learnsets=require('../data/game/pokemonData.json'),{getCanonicalSpeciesAbility}=require('../server/game/abilities/abilityDex'),{getMaxMovePp}=require('../server/game/battle/battleResources');
 test('Wanda: six arena-level partners, three K3/three K4, good imperfect IVs except Metagross, legal trained sets and no reserved ace',()=>{
  const team=getPnjTeam('wanda'),other=getPnjTeam('wanda'),items=new Set(require('../data/game/items.json').items.map(i=>i.key));
- assert.deepEqual(team.pokemons.map(p=>[p.data.id,p.level,p.k]),[[373,52,3],[68,52,3],[121,53,3],[65,53,4],[6,54,4],[376,54,4]]);
+ assert.deepEqual(team.pokemons.map(p=>[p.data.id,p.level,p.k]),[[373,54,3],[68,54,3],[121,55,3],[65,55,4],[6,56,4],[376,56,4]]);
  for(const [i,p]of team.pokemons.entries()){
   const ivs=Object.values(p.iv);assert(ivs.every(n=>i===5?n===31:n>=24&&n<=30));if(i<5)assert(new Set(ivs).size>=3);
   assert.equal(Object.values(p.ev).reduce((s,n)=>s+n,0),508);assert(Object.values(p.ev).every(n=>n>=0&&n<=252));

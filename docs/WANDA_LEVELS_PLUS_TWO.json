@@ -1,0 +1,69 @@
+{
+  "date": "2026-10-29",
+  "team": "wanda",
+  "levelsBefore": [
+    52,
+    52,
+    53,
+    53,
+    54,
+    54
+  ],
+  "levelsAfter": [
+    54,
+    54,
+    55,
+    55,
+    56,
+    56
+  ],
+  "onlySixRuntimeLevelFieldsChanged": true,
+  "validation": {
+    "existingTestsPassed": 18,
+    "failures": 0,
+    "skipped": 0,
+    "command": "node --test tests/wanda-tactics.test.js tests/sevenp-tactics.test.js tests/experience-balance.test.js tests/late-game-levels.test.js",
+    "newTests": false,
+    "browserRun": false,
+    "sqlTestsRun": false,
+    "clientChanged": false,
+    "otherTeamsChanged": false,
+    "wildZonesChanged": false
+  },
+  "deployment": {
+    "publishedAt": "2026-10-29T11:01:50.048Z",
+    "restartedAt": "2026-10-29T11:01:48.849Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-wanda-levels-2026-10-29T11-01-48-658Z",
+    "sourceBaseline": "7df7798e7ddb06bd1e8bb91451cf23fa35930ce8",
+    "clientCommit": "429b79456db351dd414d5a53e6e70e7bbb671c7e",
+    "clientBuild": "5d89ddf722416796",
+    "beforePid": "3200613",
+    "afterPid": "3202596",
+    "sourceSha256": {
+      "data/game/pnj_teams.json": "335e3d70676fc90bd97bbf55ad7efe90c240ea3715d633ad62a516e3558e29fe"
+    },
+    "activeRuns": 0,
+    "checkpointSaved": true,
+    "backendOnly": true,
+    "serverRestarted": true,
+    "gracefulCheckpoint": true,
+    "schemaChanged": false,
+    "realAccountsManuallyModified": false,
+    "neighborsUnchanged": true,
+    "publicAssetsUnchanged": [
+      "js/account.161ce126.js",
+      "js/app.8b282642.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.d6b0fb9d.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.c16355d1.css"
+    ],
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0
+  },
+  "publishedAtEuropeParis": "2026-10-29T12:01:50.048000+01:00"
+}

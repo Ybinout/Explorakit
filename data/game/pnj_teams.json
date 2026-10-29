@@ -812,7 +812,7 @@
         {
           "pokemonId": 373,
           "name": "Drattak",
-          "level": 52,
+          "level": 54,
           "k": 3,
           "nature": "Naive",
           "passiveAbility": "Intimidate",
@@ -840,7 +840,7 @@
         {
           "pokemonId": 68,
           "name": "Mackogneur",
-          "level": 52,
+          "level": 54,
           "k": 3,
           "nature": "Adamant",
           "passiveAbility": "No Guard",
@@ -868,7 +868,7 @@
         {
           "pokemonId": 121,
           "name": "Staross",
-          "level": 53,
+          "level": 55,
           "k": 3,
           "nature": "Timid",
           "passiveAbility": "Natural Cure",
@@ -896,7 +896,7 @@
         {
           "pokemonId": 65,
           "name": "Alakazam",
-          "level": 53,
+          "level": 55,
           "k": 4,
           "nature": "Timid",
           "passiveAbility": "Magic Guard",
@@ -924,7 +924,7 @@
         {
           "pokemonId": 6,
           "name": "Dracaufeu",
-          "level": 54,
+          "level": 56,
           "k": 4,
           "nature": "Timid",
           "passiveAbility": "Blaze",
@@ -952,7 +952,7 @@
         {
           "pokemonId": 376,
           "name": "Métalosse",
-          "level": 54,
+          "level": 56,
           "k": 4,
           "nature": "Adamant",
           "passiveAbility": "Clear Body",
