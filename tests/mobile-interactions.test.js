@@ -49,7 +49,7 @@ test('map loading: both layers decode before publication; absent foreground and 
     assert.equal((await retry).foreground, null);
 });
 
-test('battle sounds: trusted unlock, distinct attacks, mute, suspended context and cleanup', async () => {
+test('damage impacts: trusted unlock, mute, suspended context and cleanup', async () => {
     const { BattleAudio } = await import('../vue-explorakit/src/services/battleAudio.js');
     const sources = [];
     const param = () => ({ value: 0, setValueAtTime() {}, exponentialRampToValueAtTime() {} });
@@ -60,15 +60,14 @@ test('battle sounds: trusted unlock, distinct attacks, mute, suspended context a
         createBuffer: () => ({ getChannelData: () => new Float32Array(100) }),
         async resume() { this.state = 'running'; }, async close() { this.state = 'closed'; } };
     const audio = new BattleAudio(() => context); audio.setVolume(.35);
-    audio.move(); assert.equal(sources.length, 0, 'Never queue attacks before a gesture');
-    await audio.unlock(); audio.move({ damageClass: 'physical' });
+    audio.impact({damage:10,maxHp:100}); assert.equal(sources.length, 0, 'Never queue damage sounds before a gesture');
+    await audio.unlock(); audio.impact({damage:10,maxHp:100});
     assert(sources.some(s=>s.kind==='noise')&&sources.some(s=>s.kind==='tone'));
-    let count=sources.length;audio.move({ moveType: 'Water', damageClass: 'special' });assert(sources.length>count);
-    count=sources.length;audio.move({ damageClass: 'status' });assert(sources.length>count);
+    let count=sources.length;audio.impact({damage:0,maxHp:100});assert.equal(sources.length,count);
     audio.setVolume(0);assert(sources.every(s=>s.stops>=2));assert.equal(audio.voices.size,0);
-    count=sources.length;audio.move();assert.equal(sources.length,count);
-    audio.setVolume(.5);context.state='suspended';audio.move();assert.equal(sources.length,count);
-    await audio.unlock();audio.move();assert(sources.length>count);count=sources.length;
+    count=sources.length;audio.impact({damage:60,maxHp:100});assert.equal(sources.length,count);
+    audio.setVolume(.5);context.state='suspended';audio.impact({damage:60,maxHp:100});assert.equal(sources.length,count);
+    await audio.unlock();audio.impact({damage:60,maxHp:100});assert(sources.length>count);count=sources.length;
     audio.dispose(); assert.equal(context.state, 'closed');
-    await audio.unlock(); audio.move(); assert.equal(sources.length,count);
+    await audio.unlock(); audio.impact({damage:60,maxHp:100}); assert.equal(sources.length,count);
 });

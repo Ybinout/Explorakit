@@ -1,0 +1,317 @@
+{
+  "date": "2026-10-29",
+  "scope": [
+    "Adventure",
+    "Rift",
+    "Colosseum"
+  ],
+  "features": {
+    "attackSoundsRemoved": true,
+    "damageImpacts": {
+      "basis": "actual HP loss / maximum HP",
+      "light": "0 < fraction < 0.2",
+      "medium": "0.2 <= fraction < 0.5",
+      "heavy": "fraction >= 0.5",
+      "durationsSeconds": [
+        0.1,
+        0.16,
+        0.24
+      ],
+      "voicesPerImpact": 2,
+      "timing": "authoritative HP change after visual travel",
+      "overkillCappedByActualLoss": true,
+      "criticalAndKoExtraSoundsRemoved": true,
+      "aggregatedMultihit": "one impact based on actual total HP lost",
+      "nonDamageMovesSilent": true,
+      "noTypeOrMoveFamilySounds": true
+    },
+    "world": {
+      "healConfirmation": true,
+      "pcOpenConfirmation": true,
+      "noDuplicatePcRefreshSound": true,
+      "restorationTrackedByUuid": true,
+      "initialLoadingReorderingAndLevelHpGainsSilent": true,
+      "masterVolumeAndBackgroundSupported": true,
+      "trustedGestureUnlock": true,
+      "stopsAndDisposes": true
+    },
+    "teamKStars": {
+      "component": "PotentialStar",
+      "compactPixels": 24,
+      "tiers": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "localizedAccessibleLabels": true,
+      "savedPotentialUnchanged": true
+    },
+    "newAudioAssets": 0,
+    "additionalNetworkRequests": false,
+    "combatRulesAndMusicUnchanged": true
+  },
+  "validation": {
+    "unitAndRegression": {
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0,
+      "newCases": 1
+    },
+    "battleBrowser": {
+      "trustedGestureUnlock": true,
+      "realTurnSynchronized": [
+        {
+          "stage": "launch",
+          "name": "Splash",
+          "time": 3786.300000190735,
+          "voices": 0
+        },
+        {
+          "stage": "launch",
+          "name": "Water Gun",
+          "time": 4944.300000190735,
+          "voices": 0
+        },
+        {
+          "stage": "impact",
+          "damage": 26,
+          "maxHp": 1000,
+          "time": 5613.200000286102,
+          "voices": 2,
+          "visualStage": "impact",
+          "enemyHp": 974
+        }
+      ],
+      "frames": {
+        "bothSides": true,
+        "threeWeights": true,
+        "noDuplicateFrames": true,
+        "launchAndFailedMovesSilent": true,
+        "switchSilent": true,
+        "overkillUsesActualLoss": true
+      },
+      "offlineProfiles": [
+        {
+          "name": "light",
+          "peak": 0.13414205610752106,
+          "rms": 0.0070731064888468155,
+          "tail": 0,
+          "voicesRemaining": 0
+        },
+        {
+          "name": "medium",
+          "peak": 0.22130087018013,
+          "rms": 0.013862451424517936,
+          "tail": 0,
+          "voicesRemaining": 0
+        },
+        {
+          "name": "heavy",
+          "peak": 0.2888198494911194,
+          "rms": 0.022491452417431276,
+          "tail": 0,
+          "voicesRemaining": 0
+        }
+      ],
+      "animationsOffStillAudible": true,
+      "reducedMotionStillAudible": true,
+      "mute": true,
+      "masterVolume": true,
+      "backgroundSilence": true,
+      "cancellation": true,
+      "timeline": {
+        "viewports": [
+          {
+            "width": 320,
+            "capture": true,
+            "switch": true,
+            "koBeforeXpAndEntry": true,
+            "cancellation": true,
+            "conditionOrder": true,
+            "criticalOrder": true
+          },
+          {
+            "width": 844,
+            "capture": true,
+            "switch": true,
+            "koBeforeXpAndEntry": true,
+            "cancellation": true,
+            "conditionOrder": true,
+            "criticalOrder": true
+          }
+        ],
+        "reducedMotion": true
+      },
+      "moveLibrary": {
+        "families": [
+          {
+            "width": 393,
+            "family": "bite",
+            "hpSynchronized": true
+          },
+          {
+            "width": 393,
+            "family": "claw",
+            "hpSynchronized": true
+          },
+          {
+            "width": 393,
+            "family": "punch",
+            "hpSynchronized": true
+          },
+          {
+            "width": 393,
+            "family": "charge",
+            "hpSynchronized": true
+          },
+          {
+            "width": 393,
+            "family": "beam",
+            "hpSynchronized": true
+          },
+          {
+            "width": 393,
+            "family": "projectile",
+            "hpSynchronized": true
+          },
+          {
+            "width": 393,
+            "family": "drain",
+            "hpSynchronized": true
+          },
+          {
+            "width": 393,
+            "family": "zone",
+            "hpSynchronized": true
+          },
+          {
+            "width": 1365,
+            "family": "bite",
+            "hpSynchronized": true
+          },
+          {
+            "width": 1365,
+            "family": "claw",
+            "hpSynchronized": true
+          },
+          {
+            "width": 1365,
+            "family": "punch",
+            "hpSynchronized": true
+          },
+          {
+            "width": 1365,
+            "family": "charge",
+            "hpSynchronized": true
+          },
+          {
+            "width": 1365,
+            "family": "beam",
+            "hpSynchronized": true
+          },
+          {
+            "width": 1365,
+            "family": "projectile",
+            "hpSynchronized": true
+          },
+          {
+            "width": 1365,
+            "family": "drain",
+            "hpSynchronized": true
+          },
+          {
+            "width": 1365,
+            "family": "zone",
+            "hpSynchronized": true
+          }
+        ],
+        "persistent": true,
+        "reducedMotion": true
+      },
+      "errors": [],
+      "output": "/tmp/riftmon-damage-impacts-browser"
+    },
+    "worldBrowser": {
+      "realMedicineOnce": true,
+      "reloadSilent": true,
+      "realPcOpen": true,
+      "duplicatePcOpenSilent": true,
+      "realNurseHeal": true,
+      "sixKStars": [
+        1,
+        2,
+        3,
+        4,
+        1,
+        2
+      ],
+      "viewports": 4,
+      "themes": 2,
+      "mute": true,
+      "backgroundStopsAudio": true,
+      "errors": [],
+      "output": "/tmp/riftmon-world-feedback-browser"
+    },
+    "screenshotsInspected": [
+      "team-320-light.png",
+      "team-393-dark.png"
+    ],
+    "javascriptSyntaxFiles": 7,
+    "lint": true,
+    "build": "b02e6c7682fa78b2",
+    "diff": true,
+    "commands": [
+      "node --test tests/move-sounds.test.js tests/mobile-interactions.test.js tests/move-visuals.test.js",
+      "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-damage-impacts-dist node --env-file=.env scripts/validateBattleSoundsBrowser.js",
+      "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-damage-impacts-dist node --env-file=.env scripts/validateWorldFeedbackBrowser.js",
+      "npm --prefix vue-explorakit run lint",
+      "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-damage-impacts-dist"
+    ],
+    "limitations": [
+      "Web Audio rendering/signals measured in Chromium; no physical speaker output or human listening panel claimed.",
+      "Four emulated sizes and two themes; no physical phone test.",
+      "Targeted regression and real disposable-account SQL-backed browser flows; no standalone SQL suite or full historical project suite."
+    ]
+  },
+  "deployment": {
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "publishedAt": "2026-10-29T14:00:44.688Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-damage-impacts-2026-10-29T14-00-43-243Z",
+    "sourceBaseline": "196266e83a64b6c3bbc1f3e8c8033b44d1c35d69",
+    "clientCommit": "a0ac3d8b8bb8b1110c0b29f977cb0a0d453a731f",
+    "clientBuild": "b02e6c7682fa78b2",
+    "pid": "3269379",
+    "serverRestarted": false,
+    "databaseChanged": false,
+    "realAccountsManuallyModified": false,
+    "neighborsUnchanged": true,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.7e4d7ba6.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.9d525781.js",
+      "js/689.ea67c21b.js",
+      "js/737.91c774d9.js",
+      "js/account.161ce126.js",
+      "js/app.a828f01a.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.00fadb68.js",
+      "js/drift.5b8720d7.js",
+      "js/game.ff7a91bf.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.553e140c.css",
+      "css/drift.57f62eee.css",
+      "css/game.574e223e.css",
+      "css/test-view.7568246d.css"
+    ]
+  },
+  "publishedAtEuropeParis": "2026-10-29T15:00:44.688000+01:00"
+}
