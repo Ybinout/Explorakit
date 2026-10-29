@@ -52,7 +52,7 @@ test('each saleswoman is reachable, opens her own department, and every floor ha
  assert.equal(worldMusicTrack('ville_commerciale'),'village');
 });
 test('four server-authoritative departments provide distinct legal stock without unlocking other shops or special keys',()=>{
- const stock=floors.map(mapName=>shops.getShopCatalog({mapName}));assert.deepEqual(stock.map(s=>s.length),[28,286,13,39]);
+ const stock=floors.map(mapName=>shops.getShopCatalog({mapName}));assert.deepEqual(stock.map(s=>s.length),[28,287,13,39]);
  for(let i=0;i<stock.length;i++)for(const item of stock[i]){assert(Number.isSafeInteger(item.price)&&item.price>0);assert(items.some(i=>i.key===item.key));for(let j=0;j<stock.length;j++)if(j!==i)assert(!stock[j].some(i=>i.key===item.key));}
  for(const key of['pokeball','hyperball','repel','super_repel','max_repel','thunder_stone'])assert(stock[0].some(i=>i.key===key));
  assert.equal(stock[1].filter(i=>i.fieldUse?.ivReroll).length,6);assert.equal(stock[1].filter(i=>i.fieldUse?.effortReset).length,7);assert.equal(stock[1].filter(i=>i.fieldUse?.effort?.amount>0).length,6);

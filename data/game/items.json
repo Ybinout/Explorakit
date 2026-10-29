@@ -3868,6 +3868,15 @@
         "levelUp": true
       },
       "description": "Fait gagner un niveau à un Pokémon conscient, jusqu’au niveau 100. À utiliser hors combat. Les attaques et évolutions restent à choisir."
+    },
+    {
+      "key": "cs_morning_sun",
+      "name": "CS Aurore",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Aurore à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Morning Sun"
     }
   ]
 }

@@ -1,5 +1,8 @@
 {
   "moves": {
+    "Morning Sun": "Rend au lanceur la moitié de ses PV maximum, environ deux tiers sous le soleil et un quart sous la pluie, la grêle ou une tempête de sable.",
+    "Synthesis": "Rend au lanceur la moitié de ses PV maximum, environ deux tiers sous le soleil et un quart sous la pluie, la grêle ou une tempête de sable.",
+    "Moonlight": "Rend au lanceur la moitié de ses PV maximum, environ deux tiers sous le soleil et un quart sous la pluie, la grêle ou une tempête de sable.",
     "Purify": "Soigne le problème de statut de la cible, puis rend au lanceur la moitié de ses PV maximum. Échoue si la cible n’a aucun problème de statut.",
     "Sucker Punch": "Frappe en priorité, mais échoue si la cible ne prépare plus d’attaque offensive.",
     "Fake Out": "Attaque prioritaire utilisable uniquement juste après l’entrée en combat du lanceur. Effraie la cible si son talent ou ses protections ne l’en empêchent pas.",

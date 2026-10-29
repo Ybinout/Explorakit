@@ -1270,6 +1270,10 @@
         "rare_candy": {
           "price": 20000,
           "requiredTier": 2
+        },
+        "cs_morning_sun": {
+          "price": 3000,
+          "requiredTier": 2
         }
       }
     },
@@ -1279,7 +1283,10 @@
       "description": "Objets tenus pour construire ta stratégie de combat.",
       "specialty": "held",
       "offers": {
-        "everstone": {"price": 10000, "requiredTier": 2},
+        "everstone": {
+          "price": 10000,
+          "requiredTier": 2
+        },
         "leftovers": {
           "price": 10000,
           "requiredTier": 2

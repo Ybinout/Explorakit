@@ -8,6 +8,7 @@ const rampage = require('./rampageMoves');
 const turnActions = require('./turnActions');
 const battleField = require('./battleField');
 const moveGuards = require('./moveGuards');
+const { weatherHealingAmount } = require('./weatherHealing');
 const drift = require('../drift/driftEffects');
 const {
     consumeMovePp,
@@ -1249,12 +1250,14 @@ function applyEffect(effect, context, moveResult) {
             if (effect.mode === 'full') {
                 healAmount = safeNumber(effectTargetPokemon.maxHp, 1);
             } else if (effect.mode === 'fraction') {
-                healAmount = Math.floor(safeNumber(effectTargetPokemon.maxHp, 1) * safeNumber(effect.fraction, 0));
+                healAmount = weatherHealingAmount(context.move, effectTargetPokemon, context.defender, context.battleState)
+                    ?? Math.floor(safeNumber(effectTargetPokemon.maxHp, 1) * safeNumber(effect.fraction, 0));
             }
             const healed = healPokemon(effectTargetPokemon, healAmount);
             if (healed > 0) {
                 messages.push(`${getPokemonDisplayName(effectTargetPokemon)} recupere ${healed} PV.`);
             } else {
+                moveResult.success = false;
                 messages.push(`${getPokemonDisplayName(effectTargetPokemon)} est deja au max de PV.`);
             }
             return;

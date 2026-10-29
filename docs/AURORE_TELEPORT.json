@@ -1,0 +1,163 @@
+{
+  "date": "2026-10-29",
+  "scope": "Aurore availability and weather healing; existing Teleport verification",
+  "changes": {
+    "cs": {
+      "key": "cs_morning_sun",
+      "price": 3000,
+      "map": "tour_etage1",
+      "requiredTier": 2,
+      "compatibleSpecies": [
+        48,
+        49,
+        58,
+        59,
+        77,
+        78,
+        175,
+        176,
+        191,
+        192,
+        196,
+        267,
+        420,
+        421,
+        468
+      ]
+    },
+    "healing": {
+      "moves": [
+        "Morning Sun",
+        "Synthesis",
+        "Moonlight"
+      ],
+      "normal": "1/2",
+      "sun": "approximately 2/3",
+      "rainHailSand": "1/4",
+      "rounding": "Gen 7 fixed point, nearest integer, ties down",
+      "weatherSuppressingAbilities": true,
+      "sharedAiCalculation": true,
+      "fullHpFails": true
+    },
+    "teleport": {
+      "implementationChanged": false,
+      "wildEscape": true,
+      "trainerArenaPvpFail": true,
+      "priority": 0,
+      "pp": 20,
+      "noRewardsOnEscape": true
+    },
+    "existingItemPricesAndValuesUnchanged": true
+  },
+  "tests": {
+    "unit": {
+      "passed": 62,
+      "failed": 0,
+      "skipped": 0,
+      "log": "/tmp/riftmon-aurore-unit.log"
+    },
+    "sql": {
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "database": "explorakit_test",
+      "log": "/tmp/riftmon-aurore-sql-final.log"
+    },
+    "browser": {
+      "modes": [
+        "adventure",
+        "colosseum",
+        "rift"
+      ],
+      "authoritativeEncounter": true,
+      "immediateEscape": true,
+      "opponentNamedCorrectly": true,
+      "noRewardsOrLoss": true,
+      "returnToWorld": true,
+      "viewports": 4,
+      "errors": [],
+      "out": "/tmp/riftmon-aurore-teleport-browser"
+    },
+    "lint": true,
+    "generatorsChecked": true,
+    "build": "02c5eea92bd6ca94",
+    "syntaxFiles": 5,
+    "diffCheck": true,
+    "limits": [
+      "No physical phone",
+      "No global historical suite",
+      "No new dedicated visual animation; existing shared healing feedback retained"
+    ],
+    "resolvedTestFixture": "New SQL test initially used non-starter Growlithe in registration; corrected to register valid Squirtle and persist a separate test team, final combined SQL run fully passes."
+  },
+  "commands": [
+    "node --test tests/weather-healing.test.js tests/teleport.test.js tests/machines.test.js tests/department-store.test.js tests/human-trainer-model.test.js tests/map-weather.test.js tests/move-audit.test.js",
+    "RUN_MYSQL_TESTS=1 DB_TEST_NAME=explorakit_test DB_NAME=explorakit_test node --env-file=.env --test tests/teleport-mysql.test.js tests/machines-mysql.test.js",
+    "DB_TEST_NAME=explorakit_test DB_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-aurore-teleport-dist RELEASE_SCREENSHOTS=/tmp/riftmon-aurore-teleport-browser node --env-file=.env scripts/validateTeleportBrowser.js",
+    "python3 scripts/generateMachines.py --check",
+    "node scripts/generatePokemonReference.js --check",
+    "npm --prefix vue-explorakit run lint",
+    "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-aurore-teleport-dist"
+  ],
+  "sources": [
+    "https://github.com/smogon/pokemon-showdown/blob/master/data/moves.ts",
+    "https://github.com/smogon/pokemon-showdown/blob/master/sim/battle.ts",
+    "https://github.com/smogon/pokemon-showdown/blob/master/data/mods/gen7/moves.ts",
+    "data/vendor/pokeapi/learnsets.gen7.json"
+  ],
+  "deployment": {
+    "publishedAt": "2026-10-29T16:53:26.930Z",
+    "restartedAt": "2026-10-29T16:53:25.328Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-aurore-2026-10-29T16-53-23-894Z",
+    "sourceBaseline": "31c248f2f4136cd6780647885e8078229aa12863",
+    "sourceHashes": {
+      "data/game/department_store.json": "97233c801213a07c6fc189d2abd02022e8ced5e3ace54277dbf84ae22cd8fe82",
+      "data/game/items.json": "8c18889a5bb530ed872c2cbeb8378f7f0dcdd7273cd762bda428c056ad17d867",
+      "data/game/machines.json": "e65c10c32cc09c4bce4c2abd9011a9c8546a1e1d9d34d0e9b3caf8e84e567ab9",
+      "data/game/pokemon_reference_overrides.fr.json": "656fce417e0b4fbd9c8f2fb359af1d0cc611581c16b47967f5c214ad9d5d5727",
+      "data/vendor/pokeapi/README.md": "f459b6b799ae21fea25c0a898d33df7611600b42743f71a784da941320603690",
+      "server/game/battle/battleEngine.js": "54b49f9f6bda8a7e8dc62a6ff4ee05eb116418b90bf027a92f657a8896e20818",
+      "server/game/battle/humanTrainerModel.js": "8117333d2f996b0860bfc40c1258822231ccae77631c149bf54d4ed8d98521ee",
+      "server/game/battle/weatherHealing.js": "bd81be50b45b1d4515c1bc67b805cb4f1f6a3055cd5697e5795a1599b1a42152"
+    },
+    "clientCommit": "14efd5397ea2157b69982f385177ce43feb4ae01",
+    "clientBuild": "02c5eea92bd6ca94",
+    "beforePid": "3328754",
+    "afterPid": "3356988",
+    "serverRestarted": true,
+    "schemaChanged": false,
+    "databaseChanged": false,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "realAccountsManuallyModified": false,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.7e4d7ba6.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.58f7d27d.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.ac4644a5.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.00fadb68.js",
+      "js/drift.5b8720d7.js",
+      "js/game.ee76252b.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.553e140c.css",
+      "css/drift.57f62eee.css",
+      "css/game.53e94784.css",
+      "css/test-view.7568246d.css"
+    ],
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0
+  }
+}

@@ -6,6 +6,7 @@ const traits=require('../../../data/game/ability_move_traits.gen7.json').moves;
 const twoTurn=require('./twoTurnMoves');
 const rampage=require('./rampageMoves');
 const moveGuards=require('./moveGuards');
+const {weatherHealingAmount}=require('./weatherHealing');
 const clamp=(x,l,h)=>Math.max(l,Math.min(h,x)),alive=p=>p.currentHp>0;
 const ability=p=>abilities.getAbilityName(p);
 const types=p=>p.__battle?.tempTypes?.length?p.__battle.tempTypes:p.__battle?.formTypes?.length?p.__battle.formTypes:[p.type1,p.type2].filter(Boolean);
@@ -157,7 +158,9 @@ function castMove(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMove
             &&(damaging&&inflicted<=0||wasSubstitute&&ability(p)!=='Infiltrator'&&!flags.sound))continue;
         if(effect.kind==='protect') {guard.set(p,protectionChance(p,state)*availability);useful=true;}
         if(effect.kind==='heal'&&self&&p.currentHp<p.maxHp&&!(p.__battle.healBlockTurns>0)) {
-            heal(p,p.maxHp*(effect.mode==='full'?1:effect.fraction||.5)*availability);useful=true;
+            const amount=weatherHealingAmount(move,p,other,state)
+                ?? p.maxHp*(effect.mode==='full'?1:effect.fraction||.5);
+            heal(p,amount*availability);useful=true;
         }
         if(effect.kind==='stat_stage'&&effect.target!=='opponent_contact'&&(effect.chance==null||effect.chance===1)) {
             const old=target.__battle.statStages[effect.stat]||0;

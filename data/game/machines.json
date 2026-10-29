@@ -1,6 +1,6 @@
 {
   "source": "https://github.com/PokeAPI/pokeapi/tree/81d20919845b6a445969b9265aab5cec6b04cece/data/v2/csv",
-  "scope": "Legal TM/tutor compatibility through generation 7; new singles additions also accept documented USUM level/egg methods. Purify is a RiftMon exception available to every Poison species. Base forms only; no field traversal effects.",
+  "scope": "Legal TM/tutor compatibility through generation 7; new singles additions also accept documented USUM level/egg methods. Morning Sun also accepts native learners and their evolutions within species 1–493. Purify is a RiftMon exception available to every Poison species. Base forms only; no field traversal effects.",
   "machines": {
     "cs_mega_punch": {
       "move": "Mega Punch",
@@ -23180,6 +23180,30 @@
         803,
         804,
         807
+      ]
+    },
+    "cs_morning_sun": {
+      "move": "Morning Sun",
+      "moveId": 234,
+      "name": "CS Aurore",
+      "type": "Normal",
+      "price": 3000,
+      "species": [
+        48,
+        49,
+        58,
+        59,
+        77,
+        78,
+        175,
+        176,
+        191,
+        192,
+        196,
+        267,
+        420,
+        421,
+        468
       ]
     },
     "cs_synthesis": {
