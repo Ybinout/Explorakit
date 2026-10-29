@@ -462,7 +462,7 @@
     },
     "route3": {
       "source": "route3",
-      "imageSha256": "dd33644f785670afe76e968a2db5198a552812e48b0e1d9bfb234c553b051039",
+      "imageSha256": "f5b7ae08ddb7cddec21d9bb17c1f03400497b6cbf551160a6fb91b45d192635e",
       "mapSha256": "58051b366ce12648b76476c794a2313f3f5147e137158f6911fb3da786efaf1e",
       "cells": [
         {

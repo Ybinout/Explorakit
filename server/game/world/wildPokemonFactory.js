@@ -110,7 +110,7 @@ function chooseWildPokemonForMap(mapName, mapData, random = Math.random) {
     };
 }
 
-async function CreatePokemon(mapName, random = Math.random) {
+async function CreatePokemon(mapName, random = Math.random, { experienceModuleActive = false } = {}) {
     try {
         const rawMapData = await fs.readFile(MAP_CONFIG_PATH, 'utf8');
         const mapData = JSON.parse(rawMapData);
@@ -124,9 +124,10 @@ async function CreatePokemon(mapName, random = Math.random) {
         const zoneLevel = chooseLevelForZone(wildSelection.mapConfig, random);
 
         if (zoneLevel !== null) {
-            applyTargetLevel(poke, zoneLevel);
+            applyTargetLevel(poke, require('../items/experienceModule').encounterLevel(zoneLevel,experienceModuleActive));
         } else {
             applyLegacyLevelCurve(poke);
+            if(experienceModuleActive===true)applyTargetLevel(poke,require('../items/experienceModule').encounterLevel(poke.level,true));
         }
 
         await assignAutomaticMoves(poke);
@@ -137,10 +138,10 @@ async function CreatePokemon(mapName, random = Math.random) {
     }
 }
 
-CreatePokemon.createAtLevel = async function(id, level) {
+CreatePokemon.createAtLevel = async function(id, level, {experienceModuleActive=false}={}) {
     if (!Number.isInteger(id) || !Number.isInteger(level) || level < 1 || level > 100) throw new Error('Rencontre invalide.');
     const poke = new Pokemon(id, 'test', 0, 0, null, Pokemon.randomNature(), null);
-    applyTargetLevel(poke, level);
+    applyTargetLevel(poke, require('../items/experienceModule').encounterLevel(level,experienceModuleActive));
     await assignAutomaticMoves(poke);
     return poke;
 };

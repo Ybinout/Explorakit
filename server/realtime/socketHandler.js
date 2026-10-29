@@ -354,7 +354,7 @@ const socketHandler = (io) => {
                 if (!encounter) return;
                 p.inbattle = true;
                 try {
-                    const wild = await CreatePokemon.createAtLevel(encounter.id,encounter.level);
+                    const wild = await CreatePokemon.createAtLevel(encounter.id,encounter.level,{experienceModuleActive:p.experienceModuleActive});
                     if (players[socket.id] !== p || !socket.connected) return;
                     socket.emit('battletrigger',{message:'Ça mord !',battleType:'wild',environment:'lake',field:{weather:battleWeatherForMap(p.currentmap)}});
                     await account.track(startBattle(p,wild,io,userId,p.equipe));
@@ -501,6 +501,7 @@ const socketHandler = (io) => {
 
         const emitPlayerProgression = (progression) => {
             personalProgress=progression;
+            require('../game/items/experienceModule').initializePlayer(players[socket.id],progression.experienceModule);
             socket.emit('voidEndingState',voidEnding.state(progression));
             socket.emit('mirrorRiftState',mirrorRift.state(progression));
             socket.emit('progressionState', progression);
@@ -808,6 +809,7 @@ const socketHandler = (io) => {
         socket.emit('fieldEffectState',{repelSteps:remainingRepel(players[socket.id])});
         registerMoveLearningHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!interactionBusy&&!transitionBusy});
         registerEvolutionHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!interactionBusy&&!transitionBusy});
+        require('./handlers/experienceModuleHandlers').registerExperienceModuleHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!interactionBusy&&!transitionBusy});
         const shopHandlers = registerShopHandlers({
             socket,
             userId,
@@ -1596,7 +1598,7 @@ const socketHandler = (io) => {
 
                     async function utiliserCreatePokemon() {
                         try {
-                            const pokemonsauvage = await CreatePokemon(encounterMap);
+                            const pokemonsauvage = await CreatePokemon(encounterMap,Math.random,{experienceModuleActive:player.experienceModuleActive});
                             if (!pokemonsauvage) {
                                 return null;
                             }

@@ -23,6 +23,7 @@ function hydrateItems(rows) {
             cure: itemFromCatalog.cure || null,
             revive: Boolean(itemFromCatalog.revive),
             fieldUse: itemFromCatalog.fieldUse || null,
+            ...(itemFromCatalog.experienceModule ? {experienceModule:true} : {}),
             ...(itemFromCatalog.voidTravel ? { voidTravel: true } : {}),
             repelSteps: itemFromCatalog.repelSteps || null,
             unique: Boolean(itemFromCatalog.unique),
@@ -51,6 +52,7 @@ async function hydrateUserItems(userId, rows, executor = dbPool) {
         }
         for(const item of items)if(item.fieldUse?.abilityReroll)Object.assign(item,require('../game/items/abilityCapsule').decorate(item,team));
     }
+    if(items.some(item=>item.experienceModule)){const state=await require('./experienceModuleRepository').loadState(userId,executor);for(const item of items)if(item.experienceModule)Object.assign(item,{active:state.active,levelBonus:state.levelBonus});}
     return require('./voidEndingRepository').decorateItems(userId,items,executor);
 }
 

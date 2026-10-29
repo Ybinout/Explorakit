@@ -1377,6 +1377,16 @@
       "description": "Une canne solide pour tous les lacs. Approche-toi de l’eau et utilise Action pour pêcher. Achat unique, réutilisable à volonté."
     },
     {
+      "key": "experience_module",
+      "name": "Module d’expérience",
+      "category": "key",
+      "buy_price": 0,
+      "sell_price": 0,
+      "unique": true,
+      "experienceModule": true,
+      "description": "Offert par 7p. Activé, il augmente de 10 niveaux les Pokémon sauvages rencontrés, pêche comprise. Active ou désactive ce module depuis le sac. Permanent et sans consommation."
+    },
+    {
       "key": "fly_module",
       "name": "Module Vol",
       "category": "key",

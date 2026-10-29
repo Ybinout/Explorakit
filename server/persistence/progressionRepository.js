@@ -62,6 +62,7 @@ async function loadProgressState(userId) {
     await require('./flightRepository').reconcileFlightProgress(id);
     await require('./hozeRewardRepository').reconcileHozeExpShare(id);
     await require('./gwennKeyRepository').reconcile(id);
+    await require('./experienceModuleRepository').reconcile(id);
     const [[flagRows], [questRows], [badgeRows], [battleRows], [moneyRows]] = await Promise.all([
         dbPool.execute('SELECT flag_key, flag_value, updated_at FROM player_story_flags WHERE user_id = ?', [id]),
         dbPool.execute('SELECT quest_key, status, progress, updated_at, completed_at FROM player_quests WHERE user_id = ?', [id]),
@@ -113,6 +114,7 @@ async function loadProgressState(userId) {
         }).filter(c=>flags[c.flag]==='ready').map(c=>c.name),
         objective:objective?{title:objective.title,text:objective.description,destination:objective.destination||null,map:objective.map||null}:null,
         flags,
+        experienceModule: await require('./experienceModuleRepository').loadState(id),
         quests,
         badges,
         flight: require('../game/world/flightTravel').flightState(flags),
@@ -240,6 +242,7 @@ async function grantReward(id, reward, connection) {
     for(const [key,count]of Object.entries(reward.items||{})) {
         if(!Number.isSafeInteger(count)||count<1||count>99)throw Error('Récompense objet invalide.');
         if (key === 'gwenn_house_key') { await require('./gwennKeyRepository').grant(id,connection); continue; }
+        if (key === 'experience_module') { await require('./experienceModuleRepository').grant(id,connection); continue; }
         if (key === 'exp_share') { await require('./hozeRewardRepository').grantHozeExpShare(id,connection); continue; }
         await connection.execute('INSERT INTO user_items(user_id,item_key,quantity) VALUES (?,?,?) ON DUPLICATE KEY UPDATE quantity=quantity+VALUES(quantity)',[id,key,count]);
     }

@@ -1,0 +1,177 @@
+{
+  "date": "2026-10-29",
+  "scope": [
+    "Adventure"
+  ],
+  "feature": {
+    "itemKey": "experience_module",
+    "name": "Module d’expérience",
+    "reward": "champion_7p",
+    "unique": true,
+    "consumed": false,
+    "sellable": false,
+    "defaultActive": false,
+    "persistentToggle": true,
+    "ui": "Sac → Objets clés",
+    "levelBonus": 10,
+    "appliesTo": [
+      "wild",
+      "fishing"
+    ],
+    "trainersUnchanged": true,
+    "expeditionsUnchanged": true,
+    "existingPokemonUnchanged": true,
+    "capturedLevelPreserved": true,
+    "xpMultiplierUnchanged": true,
+    "repelUsesActualLevel": true,
+    "guaranteedAbraBonusAppliedOnce": true,
+    "speciesAndTraitRngUnchanged": true,
+    "level100Becomes110": true
+  },
+  "implementation": {
+    "rewardTransactionAndUserLock": true,
+    "backfillEvidence": [
+      "sevenp_defeated flag",
+      "story_champion_7p victory",
+      "summit_badge",
+      "permanent module receipt"
+    ],
+    "reconciliationIdempotent": true,
+    "explicitBooleanChoice": true,
+    "guards": [
+      "authenticated owner",
+      "outside battle",
+      "inventory free",
+      "no transition/interaction"
+    ],
+    "cacheInitializedOnceThenUpdatedAfterCommit": true,
+    "staleProgressDoesNotRevertNewChoice": true,
+    "noSqlPerMovementOrEncounter": true,
+    "additiveSocketPayloads": true,
+    "schemaChanged": false
+  },
+  "validation": {
+    "unitAndRegression": {
+      "passed": 46,
+      "failed": 0,
+      "skipped": 0,
+      "newCases": 6
+    },
+    "sql": {
+      "database": "explorakit_test",
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "newCases": 3
+    },
+    "browser": {
+      "legacyReward": true,
+      "defaultOff": true,
+      "bagToggle": true,
+      "persistedAcrossReconnect": true,
+      "combatToggleRefused": true,
+      "levels": {
+        "grassOn": 12,
+        "grassOff": 2,
+        "fishingOn": 15,
+        "fishingOff": 5
+      },
+      "captureKeepsBoostedLevel": true,
+      "existingTeamUnchanged": true,
+      "viewports": 4,
+      "themes": 2,
+      "errors": [],
+      "output": "/tmp/riftmon-experience-module-browser"
+    },
+    "screenshotsInspected": [
+      "module-393-dark.png",
+      "module-320-light.png"
+    ],
+    "lint": true,
+    "javascriptSyntaxFiles": 10,
+    "diff": true,
+    "build": "a0012d32beacec67",
+    "commands": [
+      "node --test tests/experience-module.test.js tests/sevenp-tactics.test.js tests/legendary-encounters.test.js tests/fishing.test.js tests/repel.test.js tests/champion-rescue-dialogues.test.js tests/story-content.test.js",
+      "RUN_MYSQL_TESTS=1 DB_TEST_NAME=explorakit_test DB_NAME=explorakit_test node --env-file=.env --test tests/experience-module-mysql.test.js",
+      "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-experience-module-dist node --env-file=.env scripts/validateExperienceModuleBrowser.js",
+      "npm --prefix vue-explorakit run lint",
+      "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-experience-module-dist"
+    ],
+    "fixtureMetadataReconciliation": {
+      "file": "data/game/fishing_waters.json",
+      "reason": "Route 3 image provenance hash was stale after the previously delivered NRV roof tag. Only its hash now matches existing artwork; water cells, assets, maps and transitions are unchanged.",
+      "previousImageSha256": "dd33644f785670afe76e968a2db5198a552812e48b0e1d9bfb234c553b051039",
+      "currentImageSha256": "f5b7ae08ddb7cddec21d9bb17c1f03400497b6cbf551160a6fb91b45d192635e"
+    },
+    "limitations": [
+      "Chromium mobile emulation, no physical phone validation.",
+      "Targeted regression suite, not the entire historical project suite.",
+      "Browser covers real movement, fishing and capture on a disposable SQL account; new victory reward transaction covered separately by SQL."
+    ]
+  },
+  "deployment": {
+    "publishedAt": "2026-10-29T13:39:29.765Z",
+    "restartedAt": "2026-10-29T13:39:28.269Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-experience-module-2026-10-29T13-39-26-712Z",
+    "sourceBaseline": "beca345b993222f122a9d7deece95116de4352ba",
+    "sourceHashes": {
+      "data/game/fishing_waters.json": "e3780722270965f2143f53806245e1785941123cff2aebfad87bc2975b39294a",
+      "data/game/interact.json": "43df9076ccb4c6c42014060b2d7dc606a85a4aa6701d51d0dc98826599ab030a",
+      "data/game/items.json": "cec96cf29e0763f8c229b60a3b3290c581f9dea31805de8ebc8646a3c2bb5868",
+      "data/game/progression.json": "55b6560d2711aa23e928b3ceca31d2176651ace78589b8031cdbaf69f7273008",
+      "server/game/world/wildPokemonFactory.js": "365ecdfd743894826ac1993cb309e69b9ab1fd4b8ce53536ffb1ab3002b5538f",
+      "server/persistence/itemRepository.js": "26687f085f0df556c1e83a9d9c6760e8d4d96e3998fe52326e07c3f3158a7572",
+      "server/persistence/progressionRepository.js": "1643754fcedb235f8517ee7c5b2bc3ddc76b3a72f115f883dfa6839462aa095a",
+      "server/realtime/socketHandler.js": "772538933912efcd9c710c072cddb106430622a62be3325ae45979f34eb688ea",
+      "server/game/items/experienceModule.js": "9fe6d6ebb2f0295a3eddb7ea35bc0de931afd8ea5842281050be347fdb57e98f",
+      "server/persistence/experienceModuleRepository.js": "acf70d0c3263128f587dfea8ab6839f7d4a5119734d53d80e305736352aa477f",
+      "server/realtime/handlers/experienceModuleHandlers.js": "b608c0541cd9805a5e14ded708333836a2526e68f03c56dfab6ee396ccf8e01f"
+    },
+    "clientCommit": "6c4c7d44534943dd67b77dd4a5fd81000710b5ef",
+    "clientBuild": "a0012d32beacec67",
+    "beforePid": "3251027",
+    "afterPid": "3269379",
+    "serverRestarted": true,
+    "schemaChanged": false,
+    "legacyRewardBackfill": {
+      "eligibleCount": 2,
+      "rewardsAdded": 2,
+      "backedUp": true,
+      "defaultActive": false
+    },
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "realAccountsManuallyModified": false,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.7e4d7ba6.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.9d525781.js",
+      "js/689.ea67c21b.js",
+      "js/737.91c774d9.js",
+      "js/account.161ce126.js",
+      "js/app.c9b7171d.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.00fadb68.js",
+      "js/drift.5b8720d7.js",
+      "js/game.d02b7f76.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f54369e6.css",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.553e140c.css",
+      "css/drift.57f62eee.css",
+      "css/game.6e538a48.css",
+      "css/test-view.7568246d.css"
+    ],
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0
+  },
+  "publishedAtEuropeParis": "2026-10-29T14:39:29.765000+01:00"
+}

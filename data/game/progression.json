@@ -383,7 +383,8 @@
           "summit_badge"
         ],
         "items": {
-          "route2_house_key": 1
+          "route2_house_key": 1,
+          "experience_module": 1
         },
         "flags": {
           "sevenp_defeated": "true"
