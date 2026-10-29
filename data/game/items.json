@@ -1399,7 +1399,7 @@
       "sell_price": 0,
       "unique": true,
       "experienceModule": true,
-      "description": "Offert par 7p. Activé, il augmente de 10 niveaux les Pokémon sauvages rencontrés, pêche comprise. Active ou désactive ce module depuis le sac. Permanent et sans consommation."
+      "description": "Offert par 7p. Activé, il augmente de 15 niveaux les Pokémon sauvages rencontrés, pêche comprise. Active ou désactive ce module depuis le sac. Permanent et sans consommation."
     },
     {
       "key": "fly_module",

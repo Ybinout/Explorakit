@@ -8,7 +8,7 @@ test.after(async()=>{if(enabled){for(const id of ids)await dbPool.execute('DELET
 test('7p victory grants one inactive key atomically; repeats and reconciliation preserve the active switch',{skip:!enabled},async()=>{
  const id=await user();await flag(id,'wanda_defeated');assert.equal(await count(id),0);assert.equal((await progress.loadProgressState(id)).experienceModule.owned,false);
  const result=await progress.completeNpcBattle(id,'champion_7p');assert(result.granted);assert.deepEqual(result.progress.experienceModule,{owned:true,active:false,levelBonus:0});assert.equal(await count(id),1);
- assert.deepEqual(await repo.setActive(id,true),{owned:true,active:true,levelBonus:10});assert.equal((await progress.completeNpcBattle(id,'champion_7p')).granted,false);await Promise.all([repo.reconcile(id),repo.reconcile(id)]);assert.equal(await count(id),1);assert.equal((await repo.loadState(id)).active,true);
+ assert.deepEqual(await repo.setActive(id,true),{owned:true,active:true,levelBonus:15});assert.equal((await progress.completeNpcBattle(id,'champion_7p')).granted,false);await Promise.all([repo.reconcile(id),repo.reconcile(id)]);assert.equal(await count(id),1);assert.equal((await repo.loadState(id)).active,true);
  const item=(await require('../server/persistence/itemRepository').loadUserItems(id)).find(i=>i.key==='experience_module');assert(item.experienceModule&&item.unique&&item.active);assert.equal(item.sellPrice,0);
  assert.deepEqual(await repo.setActive(id,false),{owned:true,active:false,levelBonus:0});assert.equal((await progress.loadProgressState(id)).experienceModule.active,false);
 });

@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## Module de 7p : bonus porté à +15 niveaux — 29 octobre 2026
+
+`experienceModule.LEVEL_BONUS` passe de 10 à 15. Les nouvelles rencontres sauvages et la pêche Aventure utilisent déjà ce calcul partagé avant XP/statistiques/capacités ; un Pokémon de niveau 5 apparaît au niveau 20. Description d’objet, état replié du sac, détail actif et confirmation d’activation sont raccordés en français/anglais. Cadeau rétroactif, état personnel activé/désactivé, inventaire unique et règles des autres modes/dresseurs conservés ; aucun recalcul des Pokémon déjà possédés ou déjà rencontrés.
+
+Validation : 33 tests unitaires/régression existants et trois SQL sur `explorakit_test` réussis sans saut, sans nouveau test autonome. Recette navigateur existante mise à jour : textes +15, activation/reconnexion, herbes à 17 puis 2, pêche à 20 puis 5, capture au niveau augmenté, refus de désactiver en combat et équipe initiale intacte. Quatre formats/deux thèmes, zéro erreur. Lint, quatre fichiers JS en syntaxe, diff et build isolé valides ; pas de téléphone physique ni de suite globale revendiqués. Rapport : `docs/EXPERIENCE_MODULE_15.json`.
+
+Publication le 29 octobre 2026 à 20 h 43 (Europe/Paris), client `9a6924be6d3309e69700cee6ca258cf1655f00e7`, build `ea93df6a402b88c3`, PID 3364334→3423799. Sauvegarde `/home/ubuntu/dev/backups/riftmon-module15-2026-10-29T19-43-35-436Z` avec sources/index précédents et checkpoint, zéro expédition active relevée. Index et tous les bundles publics comparés à l’octet, anciens assets conservés, Knov/api-test inchangés. Service actif, zéro redémarrage automatique et aucun avertissement depuis le redémarrage. Aucune migration ou modification manuelle de compte réel.
+
 ## Téléport moderne contre les dresseurs — 29 octobre 2026
 
 À la demande du joueur, Téléport adopte la priorité −6 et permet un remplacement contre dresseur, arène et PvP. Une réserve apte est obligatoire ; le joueur choisit explicitement son équipier via le panneau de remplacement existant, sans tour/attaque/PP supplémentaire du Pokémon entrant. Aucun transfert de boosts comme Relais. Les pièges de changement ordinaire n’empêchent pas ce pivot. En rencontre sauvage, Téléport conserve la fuite du lanceur et sa fin sans récompenses ; sa nouvelle priorité s’y applique aussi. Statuts/Provoc/K.O. et PP restent validés par le moteur commun. La CS, ses compatibilités et ses prix ne changent pas.
@@ -4985,6 +4993,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 29 octobre 2026 — Module de 7p porté de +10 à +15 niveaux pour les nouvelles rencontres sauvages et pêche Aventure, textes du sac raccordés. 33 tests, trois SQL et recette navigateur quatre formats/deux thèmes réussis ; client/serveur publiés sans migration. Rapport `docs/EXPERIENCE_MODULE_15.json`.
 
 - 29 octobre 2026 — Téléport moderne : priorité −6, réserve choisie contre dresseur/arène/PvP, continuation du tour et reprise checkpoint ; fuite sauvage conservée. 86 tests, 13 SQL et recette navigateur quatre formats validés ; client/serveur publiés sans migration. Rapport `docs/TELEPORT_PIVOT.json`.
 

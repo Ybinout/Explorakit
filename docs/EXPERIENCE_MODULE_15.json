@@ -1,0 +1,116 @@
+{
+  "date": "2026-10-29",
+  "request": "7p experience module encounter bonus +15 instead of +10",
+  "changes": {
+    "previousBonus": 10,
+    "levelBonus": 15,
+    "scope": "new Adventure wild and fishing encounters while activated",
+    "existingCompanionsChanged": false,
+    "existingToggleAndRetroactiveRewardPreserved": true,
+    "labels": [
+      "item description",
+      "collapsed bag status FR/EN",
+      "active detail FR/EN",
+      "activation notice"
+    ]
+  },
+  "validation": {
+    "unit": {
+      "passed": 33,
+      "failed": 0,
+      "skipped": 0,
+      "log": "/tmp/riftmon-module15-unit.log"
+    },
+    "sql": {
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "database": "explorakit_test",
+      "log": "/tmp/riftmon-module15-sql.log"
+    },
+    "browser": {
+      "legacyReward": true,
+      "defaultOff": true,
+      "bagToggle": true,
+      "bonusLabels15": true,
+      "persistedAcrossReconnect": true,
+      "combatToggleRefused": true,
+      "levels": {
+        "grassOn": 17,
+        "grassOff": 2,
+        "fishingOn": 20,
+        "fishingOff": 5
+      },
+      "captureKeepsBoostedLevel": true,
+      "existingTeamUnchanged": true,
+      "viewports": 4,
+      "themes": 2,
+      "errors": [],
+      "output": "/tmp/riftmon-module15-browser"
+    },
+    "lint": true,
+    "syntaxFiles": 4,
+    "diffCheck": true,
+    "newStandaloneTests": 0,
+    "limits": [
+      "No physical phone",
+      "No global historical suite"
+    ]
+  },
+  "commands": [
+    "node --test tests/experience-module.test.js tests/legendary-encounters.test.js tests/abra-encounter.test.js tests/fishing.test.js tests/repel.test.js",
+    "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test node --env-file=.env --test tests/experience-module-mysql.test.js",
+    "DB_TEST_NAME=explorakit_test DB_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-module15-dist RELEASE_SCREENSHOTS=/tmp/riftmon-module15-browser node --env-file=.env scripts/validateExperienceModuleBrowser.js",
+    "npm --prefix vue-explorakit run lint",
+    "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-module15-dist"
+  ],
+  "deployment": {
+    "publishedAt": "2026-10-29T19:43:38.012Z",
+    "restartedAt": "2026-10-29T19:43:36.773Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-module15-2026-10-29T19-43-35-436Z",
+    "sourceBaseline": "fcbc1619e64792531ce5a78b8ae61e86484de6fb",
+    "sourceHashes": {
+      "data/game/items.json": "37eb145059ece286570a8aa9f03b668f74b5e2d1ee6e339854285445d7d347c6",
+      "server/game/items/experienceModule.js": "15a009db46ccc00b4ca71e15c0a903496795695c604b86c5f10e0c5d413f475c"
+    },
+    "clientCommit": "9a6924be6d3309e69700cee6ca258cf1655f00e7",
+    "clientBuild": "ea93df6a402b88c3",
+    "beforePid": "3364334",
+    "afterPid": "3423799",
+    "serverRestarted": true,
+    "schemaChanged": false,
+    "databaseChanged": false,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "realAccountsManuallyModified": false,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.7e4d7ba6.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.58f7d27d.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.53b33a0a.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.00fadb68.js",
+      "js/drift.5b8720d7.js",
+      "js/game.4ade72c9.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.553e140c.css",
+      "css/drift.57f62eee.css",
+      "css/game.e0fc1cf8.css",
+      "css/test-view.7568246d.css"
+    ],
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0
+  }
+}
