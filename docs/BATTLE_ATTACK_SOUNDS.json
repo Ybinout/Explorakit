@@ -1,0 +1,488 @@
+{
+  "feature": "Original synthesized attack sounds with synchronized impacts",
+  "scope": [
+    "Adventure",
+    "Rift",
+    "Colosseum"
+  ],
+  "implementation": [
+    "vue-explorakit/src/services/moveSounds.js",
+    "vue-explorakit/src/services/battleAudio.js",
+    "vue-explorakit/src/components/battle/BattleOverlay.vue"
+  ],
+  "design": {
+    "canonicalTypes": 18,
+    "gestureProfiles": 10,
+    "separateLaunchAndImpact": true,
+    "prepareTurnDistinct": true,
+    "multihitAudioCap": 6,
+    "hitRequiresActualConnectedDamage": true,
+    "audioIndependentOfVisualAnimationPreference": true,
+    "honorsExistingVolumeAndMute": true,
+    "newAudioAssets": 0,
+    "additionalNetworkRequests": false,
+    "voiceLimit": 48,
+    "sharedNoiseBuffer": true,
+    "stopDisconnectsNodes": true,
+    "gameplayOrMusicChanged": false
+  },
+  "validation": {
+    "unitPassed": 9,
+    "unitFailed": 0,
+    "unitSkipped": 0,
+    "newUnitCases": 3,
+    "browser": {
+      "trustedGestureUnlock": true,
+      "realTurnSynchronized": {
+        "cast": {
+          "stage": "move",
+          "name": "Water Gun",
+          "type": "Water",
+          "time": 4762.5,
+          "audioTime": 3.4017233560090703,
+          "voices": 7,
+          "visualStage": "aura",
+          "enemyHp": 1000
+        },
+        "impact": {
+          "stage": "impact",
+          "name": "Water Gun",
+          "type": "Water",
+          "time": 5449.400000095367,
+          "audioTime": 4.072199546485261,
+          "voices": 2,
+          "visualStage": "impact",
+          "enemyHp": 1000
+        }
+      },
+      "signals": [
+        {
+          "moveName": "Tackle",
+          "peak": 0.09210989624261856,
+          "rms": 0.007709998238281576,
+          "voices": 0,
+          "visual": true
+        },
+        {
+          "moveName": "Flamethrower",
+          "peak": 0.14295265078544617,
+          "rms": 0.03411517230879004,
+          "voices": 0,
+          "visual": true
+        },
+        {
+          "moveName": "Surf",
+          "peak": 0.13467930257320404,
+          "rms": 0.03045033396126194,
+          "voices": 2,
+          "visual": true
+        },
+        {
+          "moveName": "Thunderbolt",
+          "peak": 0.14910155534744263,
+          "rms": 0.03487982190299817,
+          "voices": 0,
+          "visual": true
+        },
+        {
+          "moveName": "Ice Beam",
+          "peak": 0.13571928441524506,
+          "rms": 0.034450635773749745,
+          "voices": 1,
+          "visual": true
+        },
+        {
+          "moveName": "Crunch",
+          "peak": 0.11178527772426605,
+          "rms": 0.008502159933222514,
+          "voices": 0,
+          "visual": true
+        },
+        {
+          "moveName": "Giga Drain",
+          "peak": 0.11349425464868546,
+          "rms": 0.012515288864258074,
+          "voices": 0,
+          "visual": true
+        },
+        {
+          "moveName": "Protect",
+          "peak": 0.05028107389807701,
+          "rms": 0.011353832586818085,
+          "voices": 1,
+          "visual": true
+        }
+      ],
+      "offlineProfiles": [
+        {
+          "name": "Normal",
+          "peak": 0.24494121968746185,
+          "rms": 0.014408288030877589,
+          "tail": 0,
+          "voicesRemaining": 0
+        },
+        {
+          "name": "Fighting",
+          "peak": 0.39232778549194336,
+          "rms": 0.016380551509734966,
+          "tail": 0,
+          "voicesRemaining": 0
+        },
+        {
+          "name": "Fire",
+          "peak": 0.33290573954582214,
+          "rms": 0.018841699736310922,
+          "tail": 0,
+          "voicesRemaining": 0
+        },
+        {
+          "name": "Water",
+          "peak": 0.2971136271953583,
+          "rms": 0.024422141200369164,
+          "tail": 0,
+          "voicesRemaining": 0
+        },
+        {
+          "name": "Electric",
+          "peak": 0.37515729665756226,
+          "rms": 0.02320459213209203,
+          "tail": 0,
+          "voicesRemaining": 0
+        },
+        {
+          "name": "Grass",
+          "peak": 0.35118699073791504,
+          "rms": 0.01876610074447051,
+          "tail": 0,
+          "voicesRemaining": 0
+        },
+        {
+          "name": "Ice",
+          "peak": 0.32948943972587585,
+          "rms": 0.018469501484796924,
+          "tail": 0,
+          "voicesRemaining": 0
+        },
+        {
+          "name": "Flying",
+          "peak": 0.3601829409599304,
+          "rms": 0.02442541803965148,
+          "tail": 0,
+          "voicesRemaining": 0
+        },
+        {
+          "name": "Poison",
+          "peak": 0.31206047534942627,
+          "rms": 0.018812348896465728,
+          "tail": 0,
+          "voicesRemaining": 0
+        },
+        {
+          "name": "Ground",
+          "peak": 0.3620080351829529,
+          "rms": 0.020543833976449558,
+          "tail": 0,
+          "voicesRemaining": 0
+        },
+        {
+          "name": "Rock",
+          "peak": 0.32077673077583313,
+          "rms": 0.01716125801631412,
+          "tail": 0,
+          "voicesRemaining": 0
+        },
+        {
+          "name": "Bug",
+          "peak": 0.3387063145637512,
+          "rms": 0.017031437845483444,
+          "tail": 0,
+          "voicesRemaining": 0
+        },
+        {
+          "name": "Psychic",
+          "peak": 0.29750531911849976,
+          "rms": 0.016719679225058494,
+          "tail": 0,
+          "voicesRemaining": 0
+        },
+        {
+          "name": "Ghost",
+          "peak": 0.36844944953918457,
+          "rms": 0.02328942366680663,
+          "tail": 0,
+          "voicesRemaining": 0
+        },
+        {
+          "name": "Dark",
+          "peak": 0.36337345838546753,
+          "rms": 0.017778645497853882,
+          "tail": 0,
+          "voicesRemaining": 0
+        },
+        {
+          "name": "Dragon",
+          "peak": 0.303392231464386,
+          "rms": 0.020281380028009097,
+          "tail": 0,
+          "voicesRemaining": 0
+        },
+        {
+          "name": "Steel",
+          "peak": 0.3348878026008606,
+          "rms": 0.018892856017481734,
+          "tail": 0,
+          "voicesRemaining": 0
+        },
+        {
+          "name": "Fairy",
+          "peak": 0.29387742280960083,
+          "rms": 0.019733924543352554,
+          "tail": 0,
+          "voicesRemaining": 0
+        },
+        {
+          "name": "Crunch",
+          "peak": 0.2500499486923218,
+          "rms": 0.012592903766741236,
+          "tail": 0,
+          "voicesRemaining": 0
+        },
+        {
+          "name": "Slash",
+          "peak": 0.1993364691734314,
+          "rms": 0.010320429133767585,
+          "tail": 0,
+          "voicesRemaining": 0
+        },
+        {
+          "name": "Mach Punch",
+          "peak": 0.2620181441307068,
+          "rms": 0.013247093398999349,
+          "tail": 0,
+          "voicesRemaining": 0
+        },
+        {
+          "name": "Tackle",
+          "peak": 0.2548872232437134,
+          "rms": 0.014357237713867942,
+          "tail": 0,
+          "voicesRemaining": 0
+        },
+        {
+          "name": "Ice Beam",
+          "peak": 0.40471652150154114,
+          "rms": 0.059488668241654816,
+          "tail": 0,
+          "voicesRemaining": 0
+        },
+        {
+          "name": "Shadow Ball",
+          "peak": 0.2945839762687683,
+          "rms": 0.014363343398152073,
+          "tail": 0,
+          "voicesRemaining": 0
+        },
+        {
+          "name": "Giga Drain",
+          "peak": 0.18530108034610748,
+          "rms": 0.01776911022610393,
+          "tail": 0,
+          "voicesRemaining": 0
+        },
+        {
+          "name": "Earthquake",
+          "peak": 0.3580971956253052,
+          "rms": 0.05101271288009054,
+          "tail": 0,
+          "voicesRemaining": 0
+        },
+        {
+          "name": "Purify",
+          "peak": 0.15830036997795105,
+          "rms": 0.024607345843658257,
+          "tail": 0,
+          "voicesRemaining": 0
+        },
+        {
+          "name": "Protect",
+          "peak": 0.2215716540813446,
+          "rms": 0.014002310233746689,
+          "tail": 0,
+          "voicesRemaining": 0
+        },
+        {
+          "name": "multi-hit",
+          "peak": 0.13598744571208954,
+          "rms": 0.013773367102255232,
+          "tail": 0,
+          "voicesRemaining": 0
+        },
+        {
+          "name": "charge-turn",
+          "peak": 0.27093255519866943,
+          "rms": 0.050781144922064494,
+          "tail": 0,
+          "voicesRemaining": 0
+        }
+      ],
+      "animationsOffStillAudible": true,
+      "reducedMotionStillAudible": true,
+      "mute": true,
+      "masterVolume": true,
+      "backgroundSilence": true,
+      "cancellation": true,
+      "timeline": {
+        "viewports": [
+          {
+            "width": 320,
+            "capture": true,
+            "switch": true,
+            "koBeforeXpAndEntry": true,
+            "cancellation": true,
+            "conditionOrder": true,
+            "criticalOrder": true
+          },
+          {
+            "width": 844,
+            "capture": true,
+            "switch": true,
+            "koBeforeXpAndEntry": true,
+            "cancellation": true,
+            "conditionOrder": true,
+            "criticalOrder": true
+          }
+        ],
+        "reducedMotion": true
+      },
+      "moveLibrary": {
+        "families": [
+          {
+            "width": 393,
+            "family": "bite",
+            "hpSynchronized": true
+          },
+          {
+            "width": 393,
+            "family": "claw",
+            "hpSynchronized": true
+          },
+          {
+            "width": 393,
+            "family": "punch",
+            "hpSynchronized": true
+          },
+          {
+            "width": 393,
+            "family": "charge",
+            "hpSynchronized": true
+          },
+          {
+            "width": 393,
+            "family": "beam",
+            "hpSynchronized": true
+          },
+          {
+            "width": 393,
+            "family": "projectile",
+            "hpSynchronized": true
+          },
+          {
+            "width": 393,
+            "family": "drain",
+            "hpSynchronized": true
+          },
+          {
+            "width": 393,
+            "family": "zone",
+            "hpSynchronized": true
+          },
+          {
+            "width": 1365,
+            "family": "bite",
+            "hpSynchronized": true
+          },
+          {
+            "width": 1365,
+            "family": "claw",
+            "hpSynchronized": true
+          },
+          {
+            "width": 1365,
+            "family": "punch",
+            "hpSynchronized": true
+          },
+          {
+            "width": 1365,
+            "family": "charge",
+            "hpSynchronized": true
+          },
+          {
+            "width": 1365,
+            "family": "beam",
+            "hpSynchronized": true
+          },
+          {
+            "width": 1365,
+            "family": "projectile",
+            "hpSynchronized": true
+          },
+          {
+            "width": 1365,
+            "family": "drain",
+            "hpSynchronized": true
+          },
+          {
+            "width": 1365,
+            "family": "zone",
+            "hpSynchronized": true
+          }
+        ],
+        "persistent": true,
+        "reducedMotion": true
+      },
+      "errors": [],
+      "output": "/tmp/riftmon-battle-sounds-browser"
+    },
+    "lint": true,
+    "build": "5d89ddf722416796",
+    "diff": true,
+    "commands": [
+      "node --test tests/move-sounds.test.js tests/mobile-interactions.test.js tests/move-visuals.test.js",
+      "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-battle-sounds-dist node --env-file=.env scripts/validateBattleSoundsBrowser.js",
+      "npm --prefix vue-explorakit run lint",
+      "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-battle-sounds-dist"
+    ],
+    "limitations": [
+      "Web Audio signal/render tests in Chromium, not a physical phone or human listening panel.",
+      "No full test suite or measurement of the physical speaker output claimed."
+    ]
+  },
+  "deployment": {
+    "publishedAt": "2026-10-29T10:08:27.246Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-battle-sounds-2026-10-29T10-08-26-020Z",
+    "sourceBaseline": "5001dada7f5ee81658c1d7e214c8cde347a90ddd",
+    "clientCommit": "429b79456db351dd414d5a53e6e70e7bbb671c7e",
+    "clientBuild": "5d89ddf722416796",
+    "pid": "3159800",
+    "serverRestarted": false,
+    "databaseChanged": false,
+    "realAccountsManuallyModified": false,
+    "neighborsUnchanged": true,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.8b282642.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.d6b0fb9d.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.c16355d1.css"
+    ]
+  },
+  "publishedAtEuropeParis": "2026-10-29T11:08:27.246000+01:00",
+  "serviceActive": true,
+  "automaticRestarts": 0,
+  "warningEntries": 0
+}
