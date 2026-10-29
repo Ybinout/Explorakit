@@ -1148,7 +1148,12 @@ const socketHandler = (io) => {
 
             const departure=lucieScene.profiles.find(scene=>scene.dialogue===dialogueName);
             if(departure) {
-                await require('./handlers/lucieDepartureHandlers').depart({socket,userId,player,getPlayer:()=>players[socket.id],setLeaving:value=>{lucieLeaving=value;},emitProgression:emitPlayerProgression,syncPeers:progress=>refreshReplaySessions(progress),profile:departure});
+                const completed=await require('./handlers/lucieDepartureHandlers').depart({socket,userId,player,getPlayer:()=>players[socket.id],setLeaving:value=>{lucieLeaving=value;},emitProgression:emitPlayerProgression,syncPeers:progress=>refreshReplaySessions(progress),profile:departure});
+                if(completed&&departure.afterDialogue&&socket.connected&&players[socket.id]===player&&player.currentmap===departure.map){
+                    const name=departure.afterDialogue;
+                    pendingDialogue={...createDialogueAuthorization({name,map:player.currentmap,x:Math.floor(player.x/32),y:Math.floor(player.y/32)}),storyEntry:true};
+                    socket.emit('dialogue',[...getSentenceForName(name),{afterBattle:true}]);
+                }
                 return;
             }
             if (authorization.arenaEntry) {

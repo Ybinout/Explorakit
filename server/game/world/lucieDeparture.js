@@ -1,6 +1,6 @@
 const {hasCompletedBattle}=require('./storyProgression');
 const {npcBattles}=require('../../../data/game/progression.json');
-const config=Object.freeze({map:'route2_maison',actor:'lucie_route2',dialogue:'lucie_route2_after',flag:'lucie_departure',adminFlag:'admin_lucie_departure',duration:4200,x:13,y:5});
+const config=Object.freeze({map:'route2_maison',actor:'lucie_route2',dialogue:'lucie_route2_after',afterDialogue:'lucie_departure_outside',flag:'lucie_departure',adminFlag:'admin_lucie_departure',duration:4200,x:13,y:5});
 const professor=Object.freeze({map:'professor_lab',actor:'professor_story',dialogue:'professor_story_after',flag:'professor_departure',adminFlag:'admin_professor_departure',duration:4200,x:13,y:11});
 const profiles=Object.freeze([config,professor]);
 function flag(progress={},scene=config) {return progress.flags?.[scene.adminFlag] ? scene.adminFlag : scene.flag;}

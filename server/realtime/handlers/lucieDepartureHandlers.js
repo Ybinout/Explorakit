@@ -14,6 +14,7 @@ async function depart({socket,userId,player,getPlayer,setLeaving,emitProgression
   socket.emit('lucieDeparture',{...config,id:randomUUID(),active:true});
   syncPeers(progress); // The originating socket retains the actor until the vortex ends.
   await new Promise(resolve=>setTimeout(resolve,config.duration));
+  return true;
  } finally {
   setLeaving(false);player.inventoryBusy=false;
   if(socket.connected&&getPlayer()===player){emitProgression(await loadProgressState(userId));socket.emit('lucieDeparture',{map:config.map,active:false});}

@@ -1957,6 +1957,16 @@
     ]
   },
   {
+    "name": "lucie_departure_outside",
+    "sentences": [
+      {
+        "text": "Un bruit de pas retentit dehors… Tu devrais sortir voir ce qui se passe.",
+        "narration": true,
+        "typewriterMs": 35
+      }
+    ]
+  },
+  {
     "name": "lucie_route2_locked",
     "sentences": [
       {

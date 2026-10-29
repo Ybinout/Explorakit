@@ -44,6 +44,10 @@ for(const mode of ['rift','colosseum'])test(`${mode}: Lucie departure is persona
  assert(!f.messages.some(m=>m.id===other.socketId&&m.event==='lucieDeparture'));
  const saved=require('../server/game/drift/checkpointCodec').decode(require('../server/game/drift/checkpointCodec').encode(p));assert(saved.lucieDepartureSeen);
  f.advance(4300);assert.equal(p.lucieDeparture,null);
+ const hint=f.messages.filter(m=>m.id===p.socketId&&m.event==='dialogue').at(-1).payload;
+ assert.equal(hint[1],'lucie_departure_outside');assert.equal(hint[0][0].narration,true);
+ assert(!f.messages.some(m=>m.id===other.socketId&&m.event==='dialogue'&&m.payload[1]==='lucie_departure_outside'));
+ f.runtime.endDialogue(p,'lucie_departure_outside');assert.equal(p.dialogue,null);
  const npcs=f.messages.filter(m=>m.id===p.socketId&&m.event==='pnjsList').at(-1).payload.pnjs;assert(!npcs.some(n=>n.name==='lucie_route2'));
  f.runtime.move(p,'move_z');assert.equal(p.y,176,'the vanished NPC no longer blocks the tile');
 });

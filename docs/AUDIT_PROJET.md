@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## Lucie — invitation à sortir après sa disparition — 29 octobre 2026
+
+Après la fermeture de son vortex, une narration en italique apparaît : « Un bruit de pas retentit dehors… Tu devrais sortir voir ce qui se passe. » Aucun portrait ni révélation de Wanda/du Professeur. Nouveau dialogue `lucie_departure_outside` dans le catalogue commun, référencé uniquement par le profil de Lucie ; disparition du Professeur inchangée. En Aventure, la fin effective de `depart` autorise personnellement cette lecture avant de rendre le récapitulatif du combat. Pas de ligne si la scène n’a pas démarré, si le joueur s’est déconnecté ou a changé de carte. Rift/Colosseum reprennent le même indice après leur scène personnelle. Aucun téléportage ou changement de quête : le joueur sort lui-même, puis Wanda conserve son interpellation existante.
+
+Validation : 57 tests unitaires/régression et deux SQL réussis sans saut. Les deux cas existants Rift/Colosseum vérifient aussi l’indice privé et son acquittement. SQL : concurrence/isolation/reset de disparition et sortie/interpellation de Wanda conservés. Recette navigateur existante avec vrai combat de Lucie et compte jetable supprimé : nouvel indice après vortex/retirage du PNJ, italique, aucun récapitulatif superposé, lecture puis mouvement libéré ; reconnexion avant/pendant/après la scène conservée. Quatre formats, zéro erreur, captures mobile/PC inspectées. Comparaison structurée : un seul dialogue ajouté, tous les anciens inchangés ; six fichiers JS en syntaxe et diff valides. Aucun nouveau test ou build client requis, pas de téléphone physique ni de suite globale revendiqués. Rapport : `docs/LUCIE_OUTSIDE_HINT.json`.
+
+Publication serveur seule le 29 octobre 2026 à 16 h 05 (Europe/Paris), PID 3306006→3309555. Sauvegarde `/home/ubuntu/dev/backups/riftmon-lucie-outside-2026-10-29T15-05-15-536Z`, checkpoint conservé et zéro expédition active relevée. Client `ead7e380cb4a9b9d5f12de15c947e75d17410910`, build `4531623c8a1a8dd6` et index/tous les bundles publics inchangés à l’octet ; Knov/api-test inchangés. Service actif, zéro redémarrage automatique et aucun avertissement depuis le redémarrage. Aucune migration ou modification manuelle de compte réel.
+
 ## Annuaire des dresseurs dans le menu Amis — 29 octobre 2026
 
 Le carnet affiche les autres dresseurs connectés dans les trois modes, avec ajout direct, acceptation d’une demande et état de la relation. Recherche par début de pseudo dès deux caractères, joueurs hors ligne compris ; listes paginées par vingt et bouton Afficher plus. Soi-même exclu, noms triés, point de présence et état de la conversation actualisés. Les demandes, messages, groupes et échanges existants sont conservés. Petit écran : navigation liste/conversation et commandes tactiles inchangées, sans débordement horizontal.
@@ -4919,6 +4927,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 29 octobre 2026 — Lucie : court indice narratif après sa disparition pour inviter à sortir, sans dévoiler Wanda. Commun aux scènes personnelles des trois modes, Professeur inchangé. 57 tests, deux SQL et recette navigateur quatre formats réussis ; serveur seul publié. Rapport `docs/LUCIE_OUTSIDE_HINT.json`.
 
 - 29 octobre 2026 — Menu Amis : annuaire des dresseurs connectés tous modes, ajout/acceptation et recherche paginée hors ligne. Cache public minimal, aucune lecture SQL ajoutée au tick, présence et reconnexion raccordées. 20 tests, trois SQL et recette navigateur quatre formats/deux thèmes réussis ; client/serveur publiés sans migration. Rapport `docs/FRIENDS_DISCOVERY.json`.
 

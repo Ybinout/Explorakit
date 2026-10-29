@@ -626,7 +626,14 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
                 advance(run);
             }
             if (!run.lastPublished || now()-run.lastPublished>=1000) {run.lastPublished=now();publish(run);}
-            for(const p of run.players.values())if(p.lucieDeparture&&now()>=p.lucieDeparture.until){p.lucieDeparture=null;emit(p,'lucieDeparture',{map:lucieScene.config.map,active:false});emit(p,'pnjsList',{mapname:p.currentmap,pnjs:pnjsFor(p).getPnjsForMap(p.currentmap)});}
+            for(const p of run.players.values())if(p.lucieDeparture&&now()>=p.lucieDeparture.until){
+                p.lucieDeparture=null;emit(p,'lucieDeparture',{map:lucieScene.config.map,active:false});emit(p,'pnjsList',{mapname:p.currentmap,pnjs:pnjsFor(p).getPnjsForMap(p.currentmap)});
+                if(p.currentmap===lucieScene.config.map&&p.run.phase==='exploration'&&p.alive&&p.socketId){
+                    const name=lucieScene.config.afterDialogue;
+                    p.dialogue={...createDialogueAuthorization({name,map:p.currentmap,x:Math.floor(p.x/32),y:Math.floor(p.y/32)},now()),arenaVictory:true};
+                    emit(p,'dialogue',[...getSentenceForName(name),{afterBattle:true}]);
+                }
+            }
         }
     }
     async function reconcileSettlements() {
