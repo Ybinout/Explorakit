@@ -1,0 +1,123 @@
+{
+  "date": "2026-10-29",
+  "feature": "captured-pokemon-stays-in-ball",
+  "component": "BattleOverlay",
+  "scope": [
+    "Adventure",
+    "Rift",
+    "Colosseum"
+  ],
+  "behavior": {
+    "caughtTerminalVisualState": true,
+    "capturedTargetHiddenUntilBattleCloses": true,
+    "closedBallRemainsOnGround": true,
+    "sameBallTypePreserved": true,
+    "failedCaptureRestoresTarget": true,
+    "staticResultWithAnimationsDisabled": true,
+    "successPreservedOnBackground": true,
+    "positionUpdatedOnResize": true,
+    "fullCleanupOnNextEncounter": true,
+    "captureRunningLabelClearedOnSuccess": true,
+    "captureCalculationsInventoryAndSavedPokemonUnchanged": true
+  },
+  "validation": {
+    "browser": {
+      "actualHighLevelEncounter": true,
+      "low": {
+        "itemKey": "hyperball",
+        "itemName": "Hyperball",
+        "success": false,
+        "shakes": 0,
+        "chance": 0.0003174197102971492,
+        "wildPokemonName": "Cochignon"
+      },
+      "high": {
+        "itemKey": "hyperball",
+        "itemName": "Hyperball",
+        "success": true,
+        "shakes": 3,
+        "chance": 0.40064,
+        "wildPokemonName": "Cochignon"
+      },
+      "sqlBadges": true,
+      "warningBeforeThrow": true,
+      "badgeMenuTier": true,
+      "lowFailsHighSucceeds": true,
+      "stockAndTeamPersist": true,
+      "colosseumUnchangedAndNoStaleWarning": true,
+      "viewports": 4,
+      "themes": 2,
+      "stableActions": true,
+      "capturedStaysContained": true,
+      "closedBallPersists": true,
+      "failedCaptureReleases": true,
+      "reducedMotionCapture": true,
+      "backgroundKeepsCaptured": true,
+      "nextEncounterReset": true,
+      "errors": [],
+      "output": "/tmp/riftmon-capture-contained-browser"
+    },
+    "postAnimationAndXpConclusionTemporarilyHeldForInspection": true,
+    "targetOpacityAfterSuccess": "0",
+    "remainingCaptureTimers": 0,
+    "screenshotsInspected": [
+      "caught-393.png",
+      "caught-1365.png",
+      "caught-reduced-motion.png"
+    ],
+    "lint": true,
+    "build": true,
+    "recipeSyntax": true,
+    "diff": true,
+    "newUnitTests": 0,
+    "standaloneSqlTestRun": false,
+    "testAccountDeleted": true,
+    "physicalPhoneTested": false,
+    "fullHistoricalSuiteRun": false,
+    "commands": [
+      "npm --prefix vue-explorakit run lint",
+      "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-capture-contained-dist",
+      "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-capture-contained-dist RELEASE_PUBLIC_PATH=/ RELEASE_SCREENSHOTS=/tmp/riftmon-capture-contained-browser node --env-file=.env scripts/validateCaptureBadgesBrowser.js"
+    ]
+  },
+  "deployment": {
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "publishedAt": "2026-10-29T15:26:56.366Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-capture-contained-2026-10-29T15-26-54-850Z",
+    "sourceBaseline": "84096df56763185df22115f31727da60a028516a",
+    "clientCommit": "4160035663f81d966e765a407c0a7b4dfd52d6a9",
+    "clientBuild": "41b5922e208ba737",
+    "pid": "3309555",
+    "serverRestarted": false,
+    "databaseChanged": false,
+    "realAccountsManuallyModified": false,
+    "neighborsUnchanged": true,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.7e4d7ba6.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.9d525781.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.389ecdb0.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.00fadb68.js",
+      "js/drift.5b8720d7.js",
+      "js/game.265ae517.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.553e140c.css",
+      "css/drift.57f62eee.css",
+      "css/game.97a75c81.css",
+      "css/test-view.7568246d.css"
+    ]
+  },
+  "publishedAtEuropeParis": "2026-10-29T16:26:56.366000+01:00"
+}
