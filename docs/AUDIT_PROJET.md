@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## CS du sac — couleur du type et catégorie — 29 octobre 2026
+
+Le nom des CS dans le sac utilise la palette du type déjà commune aux fiches/boutiques/combats, avec une encre noire ou blanche lisible. Le type écrit et la catégorie Physique/Spéciale/Statut sont affichés sous le nom dès la liste, même quand la CS est fermée. Le choix de l’attaque à oublier indique également la catégorie pour l’attaque proposée et les quatre capacités actuelles. Sources locales `machines.json`, `pokemonReference.fr.json` et `typeBadgeStyle` réutilisées ; aucun appel réseau, prix, compatibilité, apprentissage ou inventaire modifié. `BagPanel` commun à l’Aventure, au Rift et au Colosseum.
+
+Validation : recette CS existante enrichie et réussie. Présentation des 264 CS vérifiée dans le navigateur contre le catalogue (liste temporaire du client de test, restaurée avant les actions). Achat réel de Surf, Poing Feu et Abri, types/catégories visibles dans le sac, contraste des noms ≥4,5:1, quatre formats et deux thèmes sans débordement ; captures 320 px clair et 393 px sombre inspectées. Achat/apprentissage/remplacement/annulation, incompatibilité, descriptions, sauvegarde/reconnexion SQL et usage en Colosseum avec inventaire séparé repassés sur compte jetable supprimé. Zéro erreur, lint/build isolé/diff valides. Pas de nouveaux tests unitaires pour cet affichage ni de téléphone physique/suite globale revendiqués. Rapport : `docs/BAG_CS_TYPE_CATEGORY.json`.
+
+Publication client seul le 29 octobre 2026 à 10 h 48 (Europe/Paris), build `1e0b68d9b2a58d84`, client `faeddb54a226631df46bd470caecd21e834d4219`. Sauvegarde `/home/ubuntu/dev/backups/riftmon-bag-cs-types-2026-10-29T09-48-14-666Z`, index/bundles publics vérifiés à l’octet et anciens assets conservés. Service actif PID 3159800 conservé, zéro redémarrage automatique et aucun avertissement relevé ; Knov/api-test inchangés. Aucune migration SQL ou donnée réelle modifiée manuellement.
+
 ## Équipe adverse — petites Poké Balls de suivi — 29 octobre 2026
 
 Les combats de dresseur montrent une petite Ball par Pokémon adverse sous son cadre de PV : rouge/blanc tant qu’il est apte, gris quand il est K.O. Nombre réel de membres, six au maximum, Balls aptes puis K.O. ; aucun nom, espèce, attaque, objet ou ordre secret des réserves transmis. `partyIndicator.js` produit seulement un tableau de booléens. Présent dans les arènes/dresseurs Aventure, Rift, Colosseum et les duels entre joueurs, absent en rencontre sauvage et face à l’acteur humain du professeur final.
@@ -4795,6 +4803,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 29 octobre 2026 — CS du sac colorées par type, catégorie Physique/Spéciale/Statut visible sans ouvrir et lors du remplacement d’attaque. Catalogue 264 CS et parcours d’apprentissage réels vérifiés, quatre formats/deux thèmes ; client seul publié. Rapport `docs/BAG_CS_TYPE_CATEGORY.json`.
 
 - 29 octobre 2026 — Petites Poké Balls adverses : aptes en couleur, K.O. en gris, total maintenu après mort permanente et reconnexion. Commun aux combats de dresseurs/PvP des trois modes, aucun déplacement des commandes. Douze tests ciblés et recette navigateur quatre formats/deux thèmes réussis ; rapport `docs/TRAINER_PARTY_INDICATOR.json`.
 

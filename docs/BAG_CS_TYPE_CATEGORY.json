@@ -1,0 +1,97 @@
+{
+  "feature": "Type colors and physical/special/status categories in the bag CS list",
+  "scope": [
+    "Adventure bag",
+    "Rift bag",
+    "Colosseum bag",
+    "CS move replacement comparison"
+  ],
+  "reference": [
+    "src/data/machines.json",
+    "src/data/pokemonReference.fr.json",
+    "src/services/pokemonTypes.js"
+  ],
+  "rendering": {
+    "coloredMoveName": true,
+    "readableBlackOrWhiteInk": true,
+    "explicitTypeAndCategoryInCollapsedRows": true,
+    "comparisonCategories": true
+  },
+  "rulesChanged": false,
+  "additionalNetworkRequests": false,
+  "verification": {
+    "browser": {
+      "bagCsTypes": 264,
+      "bagCsCategories": 264,
+      "bagCsReadableContrast": true,
+      "bagCsViewports": 4,
+      "bagCsThemes": 2,
+      "machineComparisonCategories": true,
+      "machines": 264,
+      "descriptionsForOfferedAndCurrentMoves": true,
+      "levelUpDescriptions": true,
+      "purchaseAndReplace": true,
+      "incompatibleDisabled": true,
+      "cancelPreservesItem": true,
+      "reconnectAndSql": true,
+      "expeditionAppend": true,
+      "viewports": 3,
+      "shopCsDescriptions": 264,
+      "shopCsPowerCases": 5,
+      "shopCsViewports": 4,
+      "shopCsThemes": 2,
+      "errors": [],
+      "output": "/tmp/riftmon-bag-cs-types-browser"
+    },
+    "catalogChecks": "264 CS rendered with a temporary client-only fixture, then original test inventory restored",
+    "purchasedCases": [
+      "cs_surf",
+      "cs_fire_punch",
+      "cs_protect"
+    ],
+    "screenshotsInspected": [
+      "bag-cs-dark-393.png",
+      "bag-cs-light-320.png"
+    ],
+    "lint": true,
+    "build": "1e0b68d9b2a58d84",
+    "diff": true,
+    "newUnitTests": false,
+    "commands": [
+      "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-bag-cs-types-dist RELEASE_SCREENSHOTS=/tmp/riftmon-bag-cs-types-browser node --env-file=.env scripts/validateMachinesBrowser.js",
+      "npm --prefix vue-explorakit run lint",
+      "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-bag-cs-types-dist"
+    ],
+    "limitations": [
+      "No physical phone or complete test suite claimed"
+    ]
+  },
+  "deployment": {
+    "publishedAt": "2026-10-29T09:48:16.092Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-bag-cs-types-2026-10-29T09-48-14-666Z",
+    "sourceBaseline": "6a7b101d193ea766682bb11651417db1a08424ba",
+    "clientCommit": "faeddb54a226631df46bd470caecd21e834d4219",
+    "clientBuild": "1e0b68d9b2a58d84",
+    "pid": "3159800",
+    "serverRestarted": false,
+    "databaseChanged": false,
+    "realAccountsManuallyModified": false,
+    "neighborsUnchanged": true,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.06b685e7.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.cb15fcb3.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.672b43a4.css"
+    ]
+  },
+  "publishedAtEuropeParis": "2026-10-29T10:48:16.092000+01:00",
+  "serviceActive": true,
+  "automaticRestarts": 0,
+  "warningEntries": 0
+}
