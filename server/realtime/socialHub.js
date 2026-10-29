@@ -25,7 +25,11 @@ function createSocialHub({now=Date.now,repository=trainers,messageRepository=mes
  // Only presence/region/invitation changes are inspected each second, without SQL.
  function signature(id){const s=sessions.get(id);if(!s)return '';const g=groupFor(id);return JSON.stringify({friends:s.contacts.accepted.map(p=>[p.id,online(p.id)]),group:g?{id:g.id,leaderId:g.leaderId,members:[...g.members.values()].map(memberView),lastMessage:g.messages.at(-1)?.id}:null,invites:[...invitations.values()].filter(i=>i.to===id).map(i=>i.id)});}
  function publish(id,force=false){const s=sessions.get(id);if(!s?.socket.connected)return;const key=signature(id);if(force||s.signature!==key){s.signature=key;emit(id,'social:state',state(id));}}
- function publishAll(){for(const id of sessions.keys())publish(id);}
+ function publishPresence(){
+  const connected=[...sessions.values()].filter(s=>s.socket.connected),count=connected.length;
+  for(const s of connected)if(s.onlineCount!==count){s.onlineCount=count;s.socket.emit('presence:count',{count});}
+ }
+ function publishAll(){publishPresence();for(const id of sessions.keys())publish(id);}
  async function refreshUnread(id){
   const previous=inboxQueues.get(id)||Promise.resolve();
   const task=previous.catch(()=>{}).then(async()=>{const s=sessions.get(id);if(!s)return;const counts=await messageRepository.unread(id);if(sessions.get(id)===s){s.unread=counts;publish(id,true);}});
@@ -91,6 +95,7 @@ function createSocialHub({now=Date.now,repository=trainers,messageRepository=mes
   const id=messages.userId(socket.data.user.id),s={socket,getLocation,username:socket.data.user.username,contacts:{accepted:[],incoming:[],outgoing:[]},unread:{},signature:null};sessions.set(id,s);
   const g=groupFor(id);if(g?.members.has(id))delete g.members.get(id).disconnectedAt;
   socket.once('disconnect',()=>{if(sessions.get(id)!==s)return;sessions.delete(id);const group=groupFor(id);if(group?.members.has(id))group.members.get(id).disconnectedAt=now();publishAll();});
+  publishPresence();
   await reload(id);publishAll();
  }
  function tick(){

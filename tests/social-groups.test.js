@@ -22,6 +22,23 @@ test('presence is limited to accepted contacts; location requires a separately a
  const count=f.queries(),events=f.sockets.get(1).events.length;f.hub.tick();f.hub.tick();assert.equal(f.queries(),count);assert.equal(f.sockets.get(1).events.length,events,'no recurring publication without a visible change');
  }finally{f.hub.stop();}
 });
+test('global online count is anonymous, unique per account, shared across modes and updated without SQL or idle emissions',async()=>{
+ const f=fixture(),counts=id=>f.sockets.get(id).events.filter(e=>e.e==='presence:count');
+ try{
+  const first=await f.connect(1,'route1','adventure');assert.deepEqual(counts(1).at(-1).p,{count:1});
+  await f.connect(2,'route14','colosseum');assert.deepEqual(counts(1).at(-1).p,{count:2});assert.deepEqual(counts(2).at(-1).p,{count:2});
+  await f.connect(3,'route4','rift');assert.deepEqual(counts(1).at(-1).p,{count:3});assert.deepEqual(Object.keys(counts(3).at(-1).p),['count']);
+  const queries=f.queries(),emissions=counts(1).length;f.hub.tick();f.hub.tick();assert.equal(f.queries(),queries);assert.equal(counts(1).length,emissions);
+  // A new namespace/connection for the same account never counts as two people.
+  await f.connect(1,'route4','rift');assert.deepEqual(counts(1).at(-1).p,{count:3});first.disconnect();assert.deepEqual(counts(2).at(-1).p,{count:3});
+  f.sockets.get(3).socket.disconnect();assert.deepEqual(counts(1).at(-1).p,{count:2});f.sockets.get(2).socket.disconnect();assert.deepEqual(counts(1).at(-1).p,{count:1});assert.equal(f.queries(),queries+2,'only replacing a session reads its contacts and inbox');
+ }finally{f.hub.stop();}
+});
+test('online count is delivered before social SQL reads and remains available if the contacts database fails',async()=>{
+ let reads=0;const events=[],socket={connected:true,data:{user:{id:1,username:'Test'}},once(){},emit(e,p){events.push({e,p});}};
+ const hub=createSocialHub({tickMs:0,repository:{async friends(){reads++;throw Error('Database unavailable');}}});
+ try{await assert.rejects(hub.attach(socket,()=>null),/Database unavailable/);assert.deepEqual(events.find(e=>e.e==='presence:count').p,{count:1});hub.tick();assert.equal(reads,1);assert.equal(events.filter(e=>e.e==='presence:count').length,1);}finally{hub.stop();}
+});
 test('leader-only invitations, six-person capacity and refusal never silently join or replace another group',async()=>{
  const f=fixture();try{for(let id=2;id<=8;id++){f.friend(1,id);await f.connect(id);}await f.connect(1);
  for(let id=2;id<=7;id++)await f.hub.invite(1,id);

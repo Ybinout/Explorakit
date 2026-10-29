@@ -1,0 +1,132 @@
+{
+  "feature": "Online player count in the game header",
+  "scope": {
+    "modes": [
+      "adventure",
+      "rift",
+      "colosseum"
+    ],
+    "lobbiesIncluded": true,
+    "uniqueAuthenticatedAccountIds": true,
+    "includesSelf": true,
+    "perMap": false,
+    "payload": {
+      "count": "nonnegative safe integer"
+    },
+    "sqlPolling": false,
+    "additionalTimer": false,
+    "offlineDisplay": "—"
+  },
+  "implementation": [
+    "server/realtime/socialHub.js",
+    "vue-explorakit/src/services/socialGame.js",
+    "vue-explorakit/src/components/UserMap.vue",
+    "vue-explorakit/src/components/menu/JournalIcon.vue",
+    "vue-explorakit/src/components/adventure.css"
+  ],
+  "validation": {
+    "unitSocketTests": 16,
+    "failed": 0,
+    "skipped": 0,
+    "newTests": 3,
+    "browser": {
+      "initialCountAndSelf": true,
+      "joinsLeavesAndReconnect": true,
+      "anonymousCountOnly": true,
+      "uniqueAccountsAcrossNamespaces": true,
+      "allModesAndLobby": true,
+      "invalidSessionExcluded": true,
+      "staleNumberClearedWhenOffline": true,
+      "fourDigitLayout": true,
+      "viewports": 4,
+      "themes": 2,
+      "errors": [],
+      "output": "/tmp/riftmon-online-count-browser"
+    },
+    "socialRegression": {
+      "nearbyFriendRequest": true,
+      "searchByTrainerName": true,
+      "heldCategoryFilters": true,
+      "acceptanceAndPresence": true,
+      "offlineMessagesPersist": true,
+      "twoWayChat": true,
+      "privateHistoryRejected": true,
+      "noMessagesForThirdAccount": true,
+      "messageTextEscaped": true,
+      "groupInvitationRequiresConsent": true,
+      "groupMessages": true,
+      "groupLocationsAndRealFlight": true,
+      "leavingRemovesMarker": true,
+      "crossNamespaceSocial": true,
+      "heldItemsFromBagAndSearchablePicker": true,
+      "previousItemReturned": true,
+      "adventureInventoryIsolatedFromExpedition": true,
+      "pokemonNavigationAtTop": true,
+      "legacyRaphaelFlight": true,
+      "viewports": 4,
+      "themes": 2,
+      "errors": [],
+      "output": "/tmp/riftmon-online-count-social-browser"
+    },
+    "representativeScreenshotsInspected": [
+      "adventure-light-320.png",
+      "adventure-dark-393.png",
+      "colosseum-light-393.png"
+    ],
+    "lint": true,
+    "build": "bc3abfa24dc08889",
+    "syntaxAndDiff": true,
+    "commands": [
+      "node --test tests/social-groups.test.js tests/account-connection.test.js tests/online-count-client.test.js",
+      "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-online-count-dist node --env-file=.env scripts/validateOnlineCountBrowser.js",
+      "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-online-count-dist node --env-file=.env scripts/validateSocialGameBrowser.js",
+      "npm --prefix vue-explorakit run lint",
+      "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-online-count-dist"
+    ],
+    "notes": [
+      "Final header browser recipe ran against build bc3abfa24dc08889; social regression ran against the first build before the <=380px CSS adjustment.",
+      "Browser fixtures used disposable accounts in explorakit_test, deleted afterward.",
+      "No physical phone, load test or complete test suite claimed."
+    ]
+  },
+  "deployment": {
+    "publishedAt": "2026-10-29T08:44:35.581Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-online-count-2026-10-29T08-44-32-856Z",
+    "sourceBaseline": "09384e4a0ff05764701373131f856d8dede6e814",
+    "sourceHashes": {
+      "server/realtime/socialHub.js": "fae9ea5dc769f635ff84e6c9d67d2e2bc8057e9fbfa36223fb967ea73e34d624"
+    },
+    "clientCommit": "89b81e4436d17e4c4230a8ccb0784e14166b1bf0",
+    "clientBuild": "bc3abfa24dc08889",
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.4f4f00e2.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.91b57b6a.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.adca859e.css"
+    ],
+    "beforePid": "2909886",
+    "afterPid": "3142183",
+    "serverRestarted": true,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "sqlMigration": false,
+    "realAccountsManuallyModified": false
+  },
+  "publishedAtEuropeParis": "2026-10-29T09:44:35.581000+01:00",
+  "verification": {
+    "service": [
+      "MainPID=3142183",
+      "NRestarts=0",
+      "ActiveState=active"
+    ],
+    "warningEntries": 0,
+    "sourceHashesMatch": true,
+    "verifiedAt": "2026-10-29T08:45:06.262859+00:00"
+  }
+}
