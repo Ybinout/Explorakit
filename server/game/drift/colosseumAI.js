@@ -90,7 +90,7 @@ function observedView(p) {
         type1: visibleTypes[0], type2: visibleTypes[1], data: { type: visibleTypes },
         attack: estimate('Attack'), defense: estimate('Defense'), specialAttack: estimate('Sp. Attack'),
         specialDefense: estimate('Sp. Defense'), speed: estimate('Speed'),
-        __battle: { statStages: { ...p.__battle?.statStages }, leechSeedSource:Boolean(p.__battle?.leechSeedSource), tauntTurns:p.__battle?.tauntTurns || 0, foresight: Boolean(p.__battle?.foresight), miracleEye: Boolean(p.__battle?.miracleEye) } };
+        __battle: { ...require('../battle/moveRedundancy').publicEffects(p.__battle), statStages: { ...p.__battle?.statStages }, encoreTurns:p.__battle?.encoreTurns||0,encoreMove:p.__battle?.encoreMove,lastMoveUsed:p.__battle?.lastMoveUsed,disableTurns:p.__battle?.disableTurns||0,disabledMove:p.__battle?.disabledMove, leechSeedSource:Boolean(p.__battle?.leechSeedSource), tauntTurns:p.__battle?.tauntTurns || 0, foresight: Boolean(p.__battle?.foresight), miracleEye: Boolean(p.__battle?.miracleEye) } };
 }
 
 function legalIndexes(p, field) {
@@ -189,7 +189,7 @@ function chooseAction({ team, opponent, field, ownSide, enemySide, wave, memory,
     const tier = difficulty(wave, version).tier + (version >= 3 ? 2 : 0), active = team[0];
     if (tier === 1 || !active || !opponent) return null;
     const a=ownView(active), b=observedView(opponent), observed=memory.seen?.[b.uuid];
-    const indexes=legalIndexes(active,field);if (!indexes.length) return {action:'attack',number:-1};
+    const indexes=require('../battle/moveSelection').preferMoves(active,field,legalIndexes(active,field),{opponent:b,ownSide,enemySide,avoidStalePriority:true});if (!indexes.length) return {action:'attack',number:-1};
     const replies=threats(b,observed);
     const attacks=indexes.map(i=>engine.getMoveByName(active.abilities[i])).filter(m=>m.power>0 && !observed?.immuneMoves?.includes(m.ename));
     const ctx={field,ownSide,enemySide,attacks,replies,observed,moveByName:engine.getMoveByName,

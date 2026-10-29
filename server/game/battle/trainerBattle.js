@@ -107,7 +107,7 @@ async function performAttackWithNarration(attacker, defender, moveIndex, player,
     }
     const field = battleContext.battleState;
     if (!result.actionPrevented && attacker === player.equipe.pokemons[0]) trainerTactics.observe(field.trainerTeam, field.trainerMemory, attacker, moveName);
-    else if (!result.actionPrevented && attacker !== player.equipe.pokemons[0]) trainerTactics.observe(field.trainerTeam, field.trainerMemory, defender, moveName, result);
+    else if (!result.actionPrevented && attacker !== player.equipe.pokemons[0]) trainerTactics.observe(field.trainerTeam, field.trainerMemory, defender, moveName, result, attacker);
     emitSoloMoveResult(io, player, attacker, result, battleContext?.battleState);
     displayIntroAnimation(player, currentEnemy, io, battleContext.battleState);
     await sleep(SHORT_DELAY_MS);

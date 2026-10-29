@@ -6,6 +6,7 @@ const selection = require('./moveSelection');
 const legacy = require('../drift/colosseumAI');
 const model = require('./humanTrainerModel');
 const switching = require('./trainerSwitching');
+const {publicEffects}=require('./moveRedundancy');
 const { getMoveFlags, transformMoveForAbility, getAbilityAccuracyMultiplier, ignoresDefenderAbility, resolveMoveAbilityImmunity } = require('../abilities/abilityEngine');
 const { createDeterministicRandom } = require('../abilities/abilityDex');
 const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
@@ -37,6 +38,7 @@ function battleView(data={},own=false) {
         if(['tempTypes','formTypes'].includes(key)){if(Array.isArray(value))view[key]=value.filter(x=>typeof x==='string').slice(0,2);continue;}
         if(value===null||['string','number','boolean'].includes(typeof value))view[key]=value;
     }
+    Object.assign(view,publicEffects(data,own));
     return view;
 }
 
@@ -97,7 +99,7 @@ function moves(p, field) {
     let legal = legacy.legalIndexes(p, field);
     const unblocked=legal.filter(i=>!(p.__battle.soundBlockedTurns>0 && getMoveFlags(moveByName(p.abilities[i])).sound));
     if(unblocked.length)legal=unblocked;
-    legal=selection.preferMoves(p,field,legal,{privateKnown:Object.hasOwn(p,'heldItem')});
+    legal=selection.preferMoves(p,field,legal,{privateKnown:Object.hasOwn(p,'heldItem'),avoidRedundant:false});
     const result=legal.length ? legal.map(number=>({number,move:moveByName(p.abilities[number])})) : [{number:-1,move:moveByName('Struggle')}];
     cache.set(p,result);return result;
 }
@@ -260,7 +262,9 @@ function forecastMoves(a,foes,ctx,memory) {
     // retain the tactical forecast so a previous failure never bans priority.
     const recent=(memory.habits?.recentMoves?.[b.uuid]||[]).filter(name=>attacks.some(x=>x.move.ename===name));
     if(!recent.length)return attacks;
-    const weight=Math.min(.45,.2+.08*(recent.length-1));
+    const pressure=memory.suckerPressure;
+    const failures=pressure?.attackerUuid===a.uuid&&pressure.targetUuid===b.uuid?pressure.failures:0;
+    const weight=Math.min(.85,.30+.12*(recent.length-1)+.10*failures);
     return attacks.map(x=>({...x,probability:x.probability*(1-weight)
         +weight*recent.filter(name=>name===x.move.ename).length/recent.length}));
 }
@@ -385,13 +389,24 @@ function analyse({team,opponentTeam,field,ownSide,enemySide,memory={},round=1,sk
     const deeper=new Set([...scenarios].sort((x,y)=>y.probability-x.probability).slice(0,3));
     const aggregate=scores=>scores.reduce((v,x,i)=>v+x*scenarios[i].probability,0)*.88+Math.min(...scores)*.12;
     const canAffectCurrent=ctx.attacks.some(move=>!knownIneffective(a,b,move,ctx)&&damage(a,b,move,es,safe)>0);
-    const candidates=moves(a,safe).map(({number,move})=>{
+    const incomingDamage=Math.max(0,...ctx.replies.map(move=>damage(b,a,move,os,safe)));
+    const allMoves=moves(a,safe),utilityContext={opponent:b,ownSide:os,enemySide:es,incomingDamage};
+    const preferred=new Set(selection.preferMoves(a,safe,allMoves.map(x=>x.number),utilityContext));
+    const candidates=allMoves.filter(x=>preferred.has(x.number)).map(({number,move})=>{
         let score=aggregate(scenarios.map(s=>scoreMove(a,move,s,ctx,deeper.has(s))));
+        const redundant=selection.redundantReason(a,move,safe,utilityContext);
+        if(move.ename==='Sucker Punch'){
+            const pressure=memory.suckerPressure;
+            const failures=pressure?(pressure.attackerUuid===a.uuid&&pressure.targetUuid===b.uuid?pressure.failures:0)
+                :a.__battle.lastMoveUsed==='Sucker Punch'&&a.__battle.lastMoveFailed?1:0;
+            const success=b.__battle.rechargeMove?0:scenarios.reduce((n,s)=>n+(s.kind==='attack'&&(s.move.combat.damage_class!=='status'||s.move.ename==='Me First')?s.probability*orderChance(a,move,b,s.move,ctx):0),0);
+            score-=Math.min(4,failures)*24*(1-success);
+        }
         // When every stay-in line looks lost, their flat terminal score used to
         // make even a tiny switch scenario dominate. Don't throw an immune hit
         // while a live-target attack exists just to chase that unlikely escape.
         if(canAffectCurrent && ctx.finishingPressure && knownIneffective(a,b,move,ctx))score-=40*ctx.finishingPressure;
-        return {action:'attack',number,score};
+        return {action:'attack',number,score,...(redundant?{redundant}: {})};
     });
     const ownEscapeChance=switching.chance(a,b,safe);
     if(ownEscapeChance>0&&(round-(memory.lastSwitchRound??-10)>1||ctx.finishingPressure>=.75))for(let number=1;number<own.length;number++) {
@@ -425,7 +440,7 @@ function chooseAction(options) {
     // If every remaining move fails a known condition (e.g. Choice-locked
     // Bluff), a legal switch is preferable to repeating that failure forever.
     const viable=analysis.candidates.filter(c=>c.action==='change'||c.number<0
-        ||!selection.failureReason(team[0],moveByName(team[0].abilities[c.number]),field));
+        ||!c.redundant&&!selection.failureReason(team[0],moveByName(team[0].abilities[c.number]),field));
     const candidates=viable.length?viable:analysis.candidates;
     if(!candidates.length)return {action:'attack',number:-1};
     const best=candidates[0];
@@ -468,4 +483,10 @@ function observeMove(memory,uuid,moveName) {
     const recent=h.recentMoves ||= {};
     recent[uuid]=[...(recent[uuid]||[]),moveName].slice(-4);
 }
-module.exports={chooseAction,analyse,observeTurn,observeMove,publicField,publicPokemon,chooseReplacement};
+function observeOutcome(memory,attacker,defender,moveName,result){
+    if(!attacker||!defender||result?.actionPrevented)return;
+    if(moveName!=='Sucker Punch'||(Number(result?.damage)||0)+(Number(result?.substituteDamage)||0)>0){memory.suckerPressure=null;return;}
+    const previous=memory.suckerPressure,same=previous?.attackerUuid===attacker.uuid&&previous.targetUuid===defender.uuid;
+    memory.suckerPressure={attackerUuid:attacker.uuid,targetUuid:defender.uuid,failures:Math.min(4,(same?previous.failures:0)+1)};
+}
+module.exports={chooseAction,analyse,observeTurn,observeMove,observeOutcome,publicField,publicPokemon,chooseReplacement};

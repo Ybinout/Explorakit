@@ -23,7 +23,7 @@ function supportScore(a,b,move,ctx,incoming,bestDamage,{damage,speed,accuracy,be
             score=Math.max(score,b.maxHp*.42*accuracy(move,a,b));
         if(effect.kind!=='field')continue;
         const screen={reflect:['reflectTurns','physical'],light_screen:['lightScreenTurns','special']}[effect.field];
-        if(screen && !(ctx.ownSide.screens?.[screen[0]]>1) && healthy) {
+        if(screen && !(ctx.ownSide.screens?.[screen[0]]>0) && healthy) {
             const danger=Math.max(0,...ctx.replies.filter(m=>m.combat?.damage_class===screen[1]).map(m=>damage(b,a,m,ctx.ownSide,ctx.field)));
             if(danger>a.maxHp*.07)score=Math.max(score,danger*1.4+a.maxHp*.035*Math.min(4,ctx.party.length));
         }

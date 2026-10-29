@@ -117,6 +117,21 @@ function createTeam(...pokemons) {
     return team;
 }
 
+for(const kind of ['wild','trainer'])test(`AI active weather Adventure ${kind}: rain is not recast across real turns`,{skip:!shouldRun},async()=>{
+ const pool=createTestPool();let userId;
+ try{
+  const {user,player}=await createPlayer(7);userId=user.id;player.currentmap='route1';
+  const lead=createPokemon(7,'Patient',['Splash']),enemy=createPokemon(19,'Rain caster',['Rain Dance','Tackle']);
+  for(const p of[lead,enemy]){p.passiveAbility=null;p.heldItem=null;p.maxHp=p.currentHp=1000;}
+  lead.currentSpeed=999;player.equipe=createTeam(lead);
+  const io=new RecordingIo({[player.id]:new ScriptedSocket([{action:'attack',number:0},{action:'attack',number:0},{action:'flee'}])});
+  await withFixedRandom(.5,()=>kind==='wild'?startWildBattle(player,enemy,io,userId):startTrainerBattle(player,createTeam(enemy),io,userId));
+  const moves=io.events.filter(e=>e.eventName==='battleMoveAnimation'&&e.payload.actor==='opponent').map(e=>e.payload.moveName);
+  assert(moves.length>=2);assert(moves.every(name=>name==='Tackle'));assert.equal(enemy.movePp[0],resourcesMax('Rain Dance'));
+ }finally{if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
+});
+function resourcesMax(name){return require('../server/game/battle/battleResources').getMaxMovePp(name);}
+
 test('Trainer party indicator: actual remaining count after a real knockout, without revealing reserves', {skip:!shouldRun},async()=>{
  const pool=createTestPool();let userId;
  try{
@@ -968,12 +983,12 @@ test('Wanda Aventure : six partenaires réels, IV distincts, aucun as réservé 
         const to=io.to.bind(io); io.to=id=>({emit:(event,payload)=>{if(event==='introAnimation')snapshots.push(JSON.parse(JSON.stringify(payload)));to(id).emit(event,payload);}});
         await withFixedRandom(.5,()=>startTrainerBattle(player,team,io,userId,{experienceKind:'arena',arenaBattleKey:'test_arena'}));
         assert.equal(io.lastEvent(player.id,'endbattle').payload.playerWon,true);
-        assert.deepEqual([...new Set(snapshots.map(s=>s.wildPokemon.data.id))].sort((a,b)=>a-b),[6,65,68,73,373,376]);
+        assert.deepEqual([...new Set(snapshots.map(s=>s.wildPokemon.data.id))].sort((a,b)=>a-b),[6,65,68,121,373,376]);
         const entries=snapshots.flatMap(s=>s.transitions).filter(e=>e.kind==='enter'&&e.side==='opponent');
         assert.equal(team.__trainerPlan.ai,'expert');assert.equal(team.__trainerPlan.aceUuid,undefined);
         assert.equal(entries.filter(e=>e.trainerSpeech).length,0);
         assert.equal(snapshots[0].wildPokemon.data.id,373);
-        for(const id of [373,68,73,65,6,376]){const p=snapshots.find(s=>s.wildPokemon.data.id===id).wildPokemon;assert(Object.values(p.iv).every(n=>id===376?n===31:n>=24&&n<=30));assert.equal(Object.values(p.ev).reduce((s,n)=>s+n,0),508);}
+        for(const id of [373,68,121,65,6,376]){const p=snapshots.find(s=>s.wildPokemon.data.id===id).wildPokemon;assert(Object.values(p.iv).every(n=>id===376?n===31:n>=24&&n<=30));assert.equal(Object.values(p.ev).reduce((s,n)=>s+n,0),508);}
         assert.equal((await loadEquipe(userId)).pokemons[0].uuid,lead.uuid);
         const [[row]]=await pool.execute('SELECT money FROM users WHERE id=?',[userId]);assert(Number(row.money)>0);
     } finally {if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}

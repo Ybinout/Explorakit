@@ -1,5 +1,17 @@
 # Audit technique et mémoire de RiftMon
 
+## IA — effets déjà actifs et adaptation de Coup Bas — 29 octobre 2026
+
+`moveRedundancy.js` centralise le filtrage tactique des effets sans utilité actuelle : même météo/terrain, écrans encore actifs, pièges/stats à leur maximum, Encore déjà posé, Entrave portant sur la même attaque, statuts/effets persistants et Vœu en attente. Appliqué aux dresseurs Aventure, PNJ Rift/Colosseum, anciennes variantes Colosseum et sélections sauvages/automatiques. Un effet redevenu utile revient au choix. Les attaques mixtes partiellement utiles, l’annulation volontaire des Distorsions, les attaques offensives pertinentes et les mouvements forcés/objets Choix restent possibles. Le planificateur conserve aussi un soin après une attaque adverse ou le renouvellement d’un clone susceptible d’être brisé ; les hypothèses adverses gardent les soins à PV pleins qui peuvent déjouer Coup Bas.
+
+Coup Bas : historique borné des échecs réellement résolus, attaché au couple lanceur/cible ; pondération des quatre dernières capacités adverses renforcée et pénalité proportionnelle au risque d’échec. Un changement de tactique ou une frappe réussie réinitialise la pression ; un match différent ne l’hérite pas. Les choix simples préfèrent une alternative après un échec si elle existe. Les dresseurs restent probabilistes et peuvent conserver la priorité face à une attaque probable ou forcée. Ne jamais transformer cela en interdiction de répéter une attaque qui inflige des dégâts, ni donner Lutte gratuitement si une capacité légale conserve des PP.
+
+Aucune lecture de l’action humaine en attente : décision engagée avant le prompt, mémoire alimentée uniquement par les événements terminés et conservée dans le checkpoint existant. Les nouveaux champs publics sont limités à des effets observables ; durées aléatoires restantes de confusion/attraction masquées. Règles de combat, objets, équipes, récompenses, rendu et protocole client conservés.
+
+Validation : 224 tests unitaires/régression et 14 SQL/socket réussis, sans saut ; onze nouveaux cas de régression, 37 capacités installées par le vrai moteur, deux nouveaux parcours SQL de météo sauvage/dresseur et cinq champions. Deux attentes historiques de tests remises en phase avec la livraison précédente : Staross chez Wanda et délégation météo différée du client, sans modification de ces fonctionnalités. Recette navigateur sur compte jetable supprimé : deux tours sans renouveler pluie/Encore, vrai Coup Bas déjoué par Soin puis choix de Sabotage, mémoire/décision identiques à la reconnexion, zéro erreur. Capture mobile représentative inspectée. Cas six contre six : médiane 47,97→43,43 ms sur dix décisions par version, état inchangé ; ce n’est pas un essai de charge. Syntaxe/diff valides ; aucun nouveau build client ou téléphone physique/suite globale revendiqué. Commandes et limites : `docs/AI_REPETITION_GUARDS.json`.
+
+Publication serveur seule le 29 octobre 2026 à 11 h 50 (Europe/Paris), PID 3159800→3197025. Sauvegarde `/home/ubuntu/dev/backups/riftmon-ai-repetition-2026-10-29T10-50-48-982Z`, checkpoint conservé et zéro expédition active relevée. Client `429b79456db351dd414d5a53e6e70e7bbb671c7e`, build `5d89ddf722416796` et index/bundles publics inchangés à l’octet ; Knov/api-test inchangés. Service actif, zéro redémarrage automatique et aucun avertissement relevé depuis le redémarrage. Aucune migration SQL ou modification manuelle de compte réel.
+
 ## Bruitages d’attaques — bibliothèque originale — 29 octobre 2026
 
 `moveSounds.js` compose des effets Web Audio originaux, sans nouveaux fichiers sonores ni téléchargement : gestes distincts pour morsures, griffures, poings, charges, rayons, projectiles, drains, zones, statuts et Purification, complétés par les textures des 18 types. Préparation d’une capacité sur deux tours séparée de sa frappe. Impacts et rafales de multi-coups (six sons maximum) reposent sur le résultat réel : aucun impact pour échec, Abri, immunité ou zéro dégât. Le souffle/départ reste audible même quand l’attaque manque. Aucune musique, attaque, règle de combat ou cadence de jeu changée.
@@ -4813,6 +4825,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 29 octobre 2026 — IA des trois modes : effets déjà actifs évités et Coup Bas adapté aux échecs/choix adverses terminés, sans lire leur action en attente. 224 tests, 14 SQL et recette navigateur avec reconnexion réussis ; serveur seul publié, client inchangé. Rapport `docs/AI_REPETITION_GUARDS.json`.
 
 - 29 octobre 2026 — Bruitages originaux par geste/type, impact synchronisé avec les PV ; correction du silence quand les animations sont coupées. Neuf tests, trente rendus audio et recette navigateur de sons/timelines/animations réussis ; client seul publié. Rapport `docs/BATTLE_ATTACK_SOUNDS.json`.
 

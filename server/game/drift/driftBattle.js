@@ -130,7 +130,8 @@ class DriftBattle {
             return trainerTactics.chooseAction(p.equipe,this.active(0),this.state,this.aiMemory,this.round,this.a.equipe.pokemons,skill);
         }
         const active = p.equipe.pokemons[0];
-        const usable = active ? preferMoves(active, this.state) : [];
+        const index=p===this.a?0:1;
+        const usable = active ? preferMoves(active, this.state,undefined,{opponent:this.active(1-index),ownSide:this.sides[index],enemySide:this.sides[1-index],avoidStalePriority:true}) : [];
         const damaging = usable.filter(i => engine.getMoveByName(active.abilities[i])?.power > 0);
         const pool = damaging.length ? damaging : usable;
         return { action: 'attack', number: pool.length ? pool[Math.floor(this.random()*pool.length)] : -1 };
@@ -355,7 +356,7 @@ class DriftBattle {
             if(p===this.a&&result.damage>0)(this.contractContributors ||= new Set()).add(pokemon.uuid);
             if (this.b.npc && !result.actionPrevented) {
                 if (p === this.a) trainerTactics.observe(this.b.equipe,this.aiMemory,pokemon,name);
-                else trainerTactics.observe(this.b.equipe,this.aiMemory,defender,name,result);
+                else trainerTactics.observe(this.b.equipe,this.aiMemory,defender,name,result,pokemon);
             }
             this.withDriftSignals(()=>effects.afterMove(pokemon,defender,result,{ contact: Boolean(getMoveFlags(result.move).contact),
                 status:(target,status,source)=>engine.applyStatus(target,status,target===pokemon?this.sides[index]:this.sides[1-index],result.messages,{attacker:source,battleState:this.state}),

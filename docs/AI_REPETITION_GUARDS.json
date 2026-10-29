@@ -1,0 +1,113 @@
+{
+  "scope": "Automated battle decisions in Adventure, Rift and Colosseum; no combat engine legality or human action changes",
+  "date": "2026-10-29",
+  "changes": [
+    "Shared status-effect pruning: weather/terrain, screens, capped hazards/stages, existing Encore/Disable, persistent flags, pending Wish, clone, statuses and pointless Haze.",
+    "Reconsider effects after expiration; allow room cancellation, slower first Encore/Disable, partial stat boosts and anticipatory recovery or clone renewal when public incoming damage warrants it.",
+    "Bounded completed-action Sucker Punch failure history per attacker and target, recent opposing move weighting up to 85%, risk-weighted penalty; retain legal forced moves, priority finishes and damaging alternatives.",
+    "Advanced trainer planning retains legal opposing hypotheses including full-HP recovery. No pending command, private opponent item/PP/IV/EV or random outcome inspected.",
+    "Simple wild/automatic selectors and legacy Colosseum tiers avoid active effects and prefer alternatives after an unproductive Sucker Punch when available.",
+    "Public snapshots expose effect presence, not the random remaining confusion/infatuation duration; completed memory and committed choice survive checkpoints."
+  ],
+  "validation": {
+    "unitRegression": {
+      "pass": 224,
+      "fail": 0,
+      "skipped": 0,
+      "newCases": 11,
+      "realEffectMovesCovered": 37
+    },
+    "sqlIntegration": {
+      "database": "explorakit_test",
+      "pass": 14,
+      "fail": 0,
+      "skipped": 0,
+      "realUsersModified": false,
+      "disposableAccountsDeleted": true
+    },
+    "browser": {
+      "alreadyActiveWeatherAndEncore": true,
+      "decisions": [
+        "Tackle",
+        "Tackle"
+      ],
+      "noWeatherPpWasted": true,
+      "realFailedSuckerPunch": true,
+      "reliableAttackAfterFailure": true,
+      "reconnectKeepsMemoryAndChoice": true,
+      "errors": [],
+      "output": "/tmp/riftmon-ai-repetition-browser"
+    },
+    "screenshotInspected": "adapted-priority-393.png",
+    "performance": {
+      "baseline": "875f6bcf1d1d674bfae32e78e3f376ad839ccd74",
+      "sixOnSix": true,
+      "iterations": 10,
+      "medianBeforeMs": 47.97205900000006,
+      "medianAfterMs": 43.42994299999998,
+      "maxAfterMs": 46.23997400000002,
+      "readOnly": true
+    },
+    "fixtureRepairs": [
+      "Wanda integration expected Starmie (121) instead of obsolete Tentacruel (73), matching the already deployed team; NPC data untouched.",
+      "Map-weather test now extracts existing applyFieldState and updateFieldState, and verifies deferred updates and clearing dry weather; frontend source untouched."
+    ],
+    "commands": [
+      "node --test tests/ai-redundancy.test.js tests/human-trainer*.test.js tests/move-selection.test.js tests/colosseum-ai.test.js tests/*-tactics.test.js tests/sucker-punch.test.js tests/battle-field.test.js tests/map-weather.test.js tests/battle-order.test.js tests/battle-party.test.js",
+      "RUN_MYSQL_TESTS=1 DB_TEST_NAME=explorakit_test DB_NAME=explorakit_test node --env-file=.env --test --test-name-pattern='AI active weather Adventure|Coup Bas IA Aventure|Human AI commits|Human AI Adventure|Human AI finishing pressure|Mounir Aventure|Hoze Aventure|Raphael Aventure|Ana Aventure|Wanda Aventure' tests/battle-runtime-integration.test.js",
+      "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-battle-sounds-dist node --env-file=.env scripts/validateAiRepetitionBrowser.js"
+    ],
+    "syntaxAndDiff": true,
+    "limitations": [
+      "Targeted regression suite, not every possible state of every Pokemon or a full project suite.",
+      "Chromium mobile emulation, no physical phone validation or visual redesign.",
+      "Representative six-versus-six planning timings, not a production load test or a global speedup claim.",
+      "A sole legal or forced move may still repeat; no free Struggle granted when legal PP remain."
+    ]
+  },
+  "deployment": {
+    "publishedAt": "2026-10-29T10:50:50.376Z",
+    "restartedAt": "2026-10-29T10:50:49.192Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-ai-repetition-2026-10-29T10-50-48-982Z",
+    "sourceBaseline": "875f6bcf1d1d674bfae32e78e3f376ad839ccd74",
+    "clientCommit": "429b79456db351dd414d5a53e6e70e7bbb671c7e",
+    "clientBuild": "5d89ddf722416796",
+    "beforePid": "3159800",
+    "afterPid": "3197025",
+    "sourceSha256": {
+      "server/game/battle/humanTrainerAI.js": "99592fefc9efe80b7afaa72cb2abaea0b7fe75a9e54a6aa9c6d5aebe36459eeb",
+      "server/game/battle/humanTrainerModel.js": "6cfc8c76fd5e700372755d006c6bb9d3b1569526ac70814d4f7e27335cf8d395",
+      "server/game/battle/moveSelection.js": "0b6563e1b9f224fc43f91331ba88b0c6e90e0ff9e4e5542554bbd0f195699f8f",
+      "server/game/battle/trainerBattle.js": "7297609b30c3a99e48aefdc255ffa200d92b34918d0542cd8d516c7bda324fe9",
+      "server/game/battle/trainerTactics.js": "79cc34390829ba66ec632e75d627c70df20dc0472dc3685253cc690cb8a21836",
+      "server/game/battle/wildBattle.js": "710fb062d798680215b6a5ec817053d5675fc1882134093a863ad3ec0c0904db",
+      "server/game/drift/colosseumAI.js": "f2959df4122c130496486baeb5cc76d63ec065eef6df761c895e98c79e297247",
+      "server/game/drift/colosseumTactics.js": "5be5c2b72066cf1c42bfc2f1246a50b5335bf190fad178a144f1d064e3d4cc2a",
+      "server/game/drift/driftBattle.js": "bdbeaf8e5dd7f998ec8f72c068722b9ed4023f609cdf353670d4e4267d20ad32",
+      "server/game/battle/moveRedundancy.js": "a6623524536d68dfd67a8f5f6a3542daeb968b8ddcccf810e2ff4da3a87deaa7"
+    },
+    "activeRuns": 0,
+    "checkpointSaved": true,
+    "backendOnly": true,
+    "serverRestarted": true,
+    "gracefulCheckpoint": true,
+    "schemaChanged": false,
+    "realAccountsManuallyModified": false,
+    "neighborsUnchanged": true,
+    "publicAssetsUnchanged": [
+      "js/account.161ce126.js",
+      "js/app.8b282642.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.d6b0fb9d.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.c16355d1.css"
+    ],
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0
+  },
+  "publishedAtEuropeParis": "2026-10-29T11:50:50.376000+01:00"
+}

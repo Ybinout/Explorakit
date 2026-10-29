@@ -2,6 +2,7 @@
 // players retain their moves, PP costs and forced/Choice-item restrictions.
 const resources=require('./battleResources');
 const {getMoveFlags,getAbilityName}=require('../abilities/abilityEngine');
+const {redundantReason}=require('./moveRedundancy');
 const FIRST_ACTION=new Set(['Fake Out','First Impression','Mat Block']);
 function entryActions(pokemon){
     const data=pokemon.__battle||{};
@@ -29,10 +30,18 @@ function failureReason(pokemon,move,field,{privateKnown=true}={}){
     }
     return null;
 }
-function preferMoves(pokemon,field,indexes=resources.getUsableMoveIndexes(pokemon,field),options){
+function preferMoves(pokemon,field,indexes=resources.getUsableMoveIndexes(pokemon,field),options={}){
     if(resources.getForcedMove(pokemon))return indexes;
     const available=indexes.filter(i=>!failureReason(pokemon,resources.getMoveDefinition(pokemon.abilities[i]),field,options));
     // A failed condition does not grant free Struggle while moves still have PP.
-    return available.length?available:indexes;
+    let pool=available.length?available:indexes;
+    if(options.avoidRedundant!==false){const useful=pool.filter(i=>!redundantReason(pokemon,resources.getMoveDefinition(pokemon.abilities[i]),field,options));if(useful.length)pool=useful;}
+    if(options.avoidStalePriority){
+        const data=pokemon.__battle||{},foe=options.opponent?.__battle||{};
+        const forced=foe.encoreTurns>0?resources.getMoveDefinition(foe.encoreMove):null;
+        const forcedDamage=forced?.combat?.damage_class!=='status'&&forced!=null||Boolean(foe.rampageMove);
+        if(data.lastMoveUsed==='Sucker Punch'&&data.lastMoveFailed&&!forcedDamage){const alternative=pool.filter(i=>pokemon.abilities[i]!=='Sucker Punch');if(alternative.length)pool=alternative;}
+    }
+    return pool;
 }
-module.exports={entryActions,failureReason,preferMoves};
+module.exports={entryActions,failureReason,preferMoves,redundantReason};

@@ -37,9 +37,10 @@ function chooseAction(team, opponent, field, memory, round, opponentTeam = [oppo
         memory, round, skill });
     return decision?.action === 'change' ? { ...decision, number: indexes[decision.number] } : decision;
 }
-function observe(team, memory, actor, move, result) {
+function observe(team, memory, actor, move, result, attacker=team.pokemons[0]) {
     ai.observe(memory, actor, move, result);
     if (!result) humanAI.observeMove(memory,actor.uuid,move);
+    else humanAI.observeOutcome(memory,attacker,actor,move,result);
 }
 function decorateTransitions(events, team, memory) {
     const plan = team?.__trainerPlan;

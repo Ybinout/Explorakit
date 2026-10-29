@@ -55,8 +55,8 @@ function clamp(value, min, max) {
     return Math.min(max, Math.max(min, value));
 }
 
-function getRandomNumber(pokemon,battleState=null) {
-    const indexes = preferMoves(pokemon,battleState);
+function getRandomNumber(pokemon,battleState=null,opponent=null,ownSide=battleState?.sides?.enemy) {
+    const indexes = preferMoves(pokemon,battleState,undefined,{opponent,ownSide,enemySide:ownSide===battleState?.sides?.enemy?battleState?.sides?.player:battleState?.sides?.enemy,avoidStalePriority:true});
     if (indexes.length === 0) return 0;
     return indexes[Math.floor(Math.random() * indexes.length)];
 }
@@ -292,8 +292,8 @@ async function handleBagAction(player, wildPokemon, io, userId, itemKey, progres
 
 async function runAttackTurn(player, wildPokemon, response, io, battleState, playerSide, enemySide) {
     const playerPokemon = player.equipe.pokemons[0];
-    const playerMoveIndex = Number.isInteger(response?.number) ? response.number : getRandomNumber(playerPokemon,battleState);
-    const wildMoveIndex = getRandomNumber(wildPokemon,battleState);
+    const playerMoveIndex = Number.isInteger(response?.number) ? response.number : getRandomNumber(playerPokemon,battleState,wildPokemon,playerSide);
+    const wildMoveIndex = getRandomNumber(wildPokemon,battleState,playerPokemon);
 
     const playerMoveName = selectedMoveName(playerPokemon, playerMoveIndex);
     const wildMoveName = selectedMoveName(wildPokemon, wildMoveIndex);
@@ -633,7 +633,7 @@ async function startBattle(player, wildPokemon, io, userId) {
                     await performAttackWithNarration(
                         wildPokemon,
                         player.equipe.pokemons[0],
-                        getRandomNumber(wildPokemon,battleState),
+                        getRandomNumber(wildPokemon,battleState,player.equipe.pokemons[0]),
                         player,
                         wildPokemon,
                         io,
@@ -702,7 +702,7 @@ async function startBattle(player, wildPokemon, io, userId) {
                     await performAttackWithNarration(
                         wildPokemon,
                         player.equipe.pokemons[0],
-                        getRandomNumber(wildPokemon,battleState),
+                        getRandomNumber(wildPokemon,battleState,player.equipe.pokemons[0]),
                         player,
                         wildPokemon,
                         io,

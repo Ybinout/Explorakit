@@ -48,7 +48,7 @@ test('Choice lock and a single Sucker Punch keep a legal move, never a free Stru
 test('recent observations are bounded, uncertain, expire, and accept old memory',()=>{
  const {b,o}=fixture();const baseline=statusProbability(o);
  for(let i=0;i<20;i++)ai.observeMove(o.memory,b.uuid,'Recover');
- assert.equal(o.memory.habits.recentMoves[b.uuid].length,4);assert(statusProbability(o)>baseline+.4);assert(statusProbability(o)<.6);
+ assert.equal(o.memory.habits.recentMoves[b.uuid].length,4);assert(statusProbability(o)>baseline+.6);assert(statusProbability(o)<.9);
  for(let i=0;i<4;i++)ai.observeMove(o.memory,b.uuid,'Shadow Ball');assert(statusProbability(o)<.1);
  o.memory={habits:{turns:4,switches:0,moves:{[b.uuid]:{Recover:4}}}};assert(ai.chooseAction(o));
 });
@@ -84,10 +84,12 @@ for(const mode of ['rift','colosseum'])test(`${mode}: completed failed Sucker Pu
  assert.deepEqual(battle.pending.get(npc),{action:'attack',number:0});
  assert(battle.action(player,{action:'attack',number:0,turnId:battle.token}));battle.tick();
  assert.equal(b.currentHp,150,'Sucker Punch really failed against recovery');assert.equal(a.movePp[0],4);
+ assert.deepEqual(battle.aiMemory.suckerPressure,{attackerUuid:a.uuid,targetUuid:b.uuid,failures:1});
  assert.deepEqual(battle.aiMemory.habits.recentMoves[b.uuid],['Recover']);
  const committed={...battle.pending.get(npc)};assert.deepEqual(committed,{action:'attack',number:1});
  const saved=codec.decode(codec.encode(battle));saved.emit=()=>{};saved.resume(saved.a);
  assert.deepEqual(saved.aiMemory.habits.recentMoves,battle.aiMemory.habits.recentMoves);assert.deepEqual(saved.pending.get(saved.b),committed);
+ assert.deepEqual(saved.aiMemory.suckerPressure,battle.aiMemory.suckerPressure);
  assert.equal(saved.action(saved.a,{action:'change',number:99,turnId:saved.token}),false);assert.deepEqual(saved.pending.get(saved.b),committed);
  battle.finished=saved.finished=true;
 });

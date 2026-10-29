@@ -199,7 +199,7 @@ function castMove(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMove
         }
         if(effect.kind==='field') {
             const key={reflect:'reflectTurns',aurora_veil:'auroraVeilTurns',light_screen:'lightScreenTurns',tailwind:'tailwindTurns',safeguard:'safeguardTurns'}[effect.field];
-            if(key){recognized=true;if(!(side.screens[key]>1)&&(effect.field!=='aurora_veil'||state.weather.kind==='hail')){side.screens[key]=5;useful=true;}}
+            if(key){recognized=true;if(!(side.screens[key]>0)&&(effect.field!=='aurora_veil'||state.weather.kind==='hail')){side.screens[key]=5;useful=true;}}
             if(['rain','sun','hail','sandstorm'].includes(effect.field)){recognized=true;if(state.weather.kind!==effect.field){state.weather={kind:effect.field,turns:5};useful=true;}}
             const room={trick_room:'trickRoomTurns',magic_room:'magicRoomTurns',wonder_room:'wonderRoomTurns'}[effect.field];
             if(room){recognized=true;state.field[room]=state.field[room]>0?0:5;useful=true;}
