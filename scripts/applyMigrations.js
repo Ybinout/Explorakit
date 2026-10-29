@@ -25,10 +25,13 @@ const migrationFiles = [
     '020_unique_item_discoveries.sql',
     '021_trainer_palette.sql',
     '022_social_messages.sql',
-    '023_friend_trades.sql'
+    '023_friend_trades.sql',
+    '024_evolution_decisions.sql'
 ];
 
-async function applyMigrations() {
+async function applyMigrations({ only } = {}) {
+    if (only && !migrationFiles.includes(only)) throw new Error('Migration inconnue.');
+    const selectedFiles = only ? [only] : migrationFiles;
     const connection = await mysql.createConnection({ ...getDatabaseConfig(), multipleStatements: true });
     let lockAcquired = false;
     try {
@@ -43,7 +46,7 @@ async function applyMigrations() {
              ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci`
         );
 
-        for (const filename of migrationFiles) {
+        for (const filename of selectedFiles) {
             const [rows] = await connection.execute('SELECT name FROM schema_migrations WHERE name = ? LIMIT 1', [filename]);
             if (rows.length) {
                 console.log(`Déjà appliquée : ${filename}`);
@@ -62,7 +65,7 @@ async function applyMigrations() {
 }
 
 if (require.main === module) {
-    applyMigrations().catch((error) => {
+    applyMigrations({ only: process.argv.find(arg => arg.startsWith('--only='))?.slice(7) }).catch((error) => {
         console.error(`Migration interrompue : ${error.message}`);
         process.exitCode = 1;
     });

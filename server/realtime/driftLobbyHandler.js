@@ -175,7 +175,7 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
             if (!['exploration','preparation','tournament','colosseum_ready'].includes(p.run.phase)) economy.fail('Évolution indisponible maintenant.');
             const pokemon = p.equipe.pokemons.find(poke => poke.uuid === data?.pokemonUuid);
             let result;
-            try { result = require('../game/models/evolution').evolve(pokemon, data); }
+            try { result = (data?.promptId ? require('../game/models/evolution').resolvePending(pokemon, data) : require('../game/models/evolution').evolve(pokemon, data)); }
             catch (error) { economy.fail(error.message); }
             p.ready = false;
             require('../game/drift/runReport').syncTeam(p);

@@ -1,6 +1,13 @@
 {
   "items": [
     {
+      "key": "everstone",
+      "name": "Pierre Stase",
+      "category": "held",
+      "buy_price": 10000,
+      "description": "Empêche les évolutions par niveau tant que le Pokémon la tient. Retire-la pour lui permettre d’évoluer à nouveau."
+    },
+    {
       "key": "pokeball",
       "name": "Pokeball",
       "category": "ball",

@@ -1,0 +1,193 @@
+{
+  "date": "2026-10-29",
+  "scope": [
+    "Adventure",
+    "Rift",
+    "Colosseum"
+  ],
+  "features": {
+    "bag": [
+      "Badge buttons animate a short tilt and glint; reduced motion uses a short opacity feedback, keyboard focus stays trapped.",
+      "Training filters: vitamins, IV rolls, EV resets, abilities and natures.",
+      "Item header/chevron toggles its details.",
+      "CS type/category/power/accuracy/PP use bold stats; stable sorting by localized name or type then name.",
+      "Existing SVG item shapes receive restrained colors, shared by bag, shops and held-item picker."
+    ],
+    "departmentStore": {
+      "removedEmptyAuthorColumns": [
+        5,
+        6,
+        21,
+        22
+      ],
+      "keptColumns": 24,
+      "originalColumns": 28,
+      "centeredPadding": 2,
+      "sourceTiledAndArtUnchanged": true,
+      "furnitureProportionsPreserved": true,
+      "cachedNativeComposition": true,
+      "stairsAndCollisionProjected": true,
+      "directSellButton": true
+    },
+    "evolution": {
+      "deferredPlayerXp": true,
+      "pendingAndDeclinedLevelPersisted": true,
+      "cancelDoesNotEvolve": true,
+      "reoffersOnNextLevel": true,
+      "stoneConsumptionOnlyAfterConfirmation": true,
+      "branchChoicePreview": true,
+      "staleOffersPruned": true,
+      "endedRunsNotBlocked": true,
+      "everstone": {
+        "name": "Pierre Stase",
+        "price": 10000,
+        "ordinaryShopTier": 2,
+        "department": "tour_etage2",
+        "heldBlocksLevelEvolution": true
+      }
+    },
+    "experience": "Touch, Space/A/Enter or gamepad confirm completes only the current Pokemon XP playback; queued Pokemon retain their own steps.",
+    "wildDitto": {
+      "alreadyPresent": true,
+      "map": "route6",
+      "hiddenAbility": "Imposter",
+      "chanceConditionalOnDitto": 0.05,
+      "abilityEngineUnchanged": true
+    }
+  },
+  "validation": {
+    "unitAndRegression": {
+      "passed": 146,
+      "failed": 0,
+      "skipped": 0,
+      "newCases": 5
+    },
+    "sql": {
+      "database": "explorakit_test",
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0,
+      "scenarios": [
+        "onboarding/save",
+        "PC transfers",
+        "PC drag/drop",
+        "strategic item prices",
+        "Grand Comptoir unlocks"
+      ]
+    },
+    "browser": {
+      "trainingGroups": 5,
+      "csSort": true,
+      "csBoldStats": true,
+      "collapse": true,
+      "coloredIcons": true,
+      "badgeAnimation": true,
+      "realSale": true,
+      "compactRooms": 4,
+      "realStairs": true,
+      "everstonePurchaseAndEquip": true,
+      "stoneCancelAndConfirm": true,
+      "cancelSurvivesSqlAndReconnect": true,
+      "reoffersNextLevel": true,
+      "realMultiExpCombat": true,
+      "touchAndKeyboardXpAdvanceOneByOne": true,
+      "colosseumEvolutionCancelAndCheckpoint": true,
+      "viewports": 4,
+      "themes": 2,
+      "errors": [],
+      "output": "/tmp/riftmon-bag-upgrade-browser"
+    },
+    "screenshotsInspected": [
+      "department-4-1365.png",
+      "department-1-393.png",
+      "bag-cs-393-dark.png",
+      "bag-cs-320-dark.png"
+    ],
+    "migrationScopedAndIdempotent": true,
+    "lint": true,
+    "build": "5c76155b160451e0",
+    "javascriptSyntaxFiles": 19,
+    "diff": true,
+    "commands": [
+      "node --test tests/evolution-decisions.test.js tests/evolution.test.js tests/experience-playback.test.js tests/evolution-presentation.test.js tests/department-store.test.js tests/market-layout.test.js tests/player-state.test.js tests/transform.test.js tests/wild-ability-availability.test.js tests/adventure-experience.test.js tests/rift-experience.test.js tests/training.test.js tests/move-learning.test.js tests/level-growth.test.js tests/pokemon-storage.test.js tests/friend-trade.test.js tests/shop-training.test.js",
+      "RUN_MYSQL_TESTS=1 DB_TEST_NAME=explorakit_test DB_NAME=explorakit_test node --env-file=.env --test --test-name-pattern='parcours réel crée|PC SQL|Grand Comptoir|strategic shop' tests/mysql-integration.test.js",
+      "DB_NAME=explorakit_test node --env-file=.env scripts/applyMigrations.js --only=024_evolution_decisions.sql",
+      "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-bag-upgrade-dist node --env-file=.env scripts/validateBagUpgradeBrowser.js",
+      "npm --prefix vue-explorakit run lint",
+      "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-bag-upgrade-dist"
+    ],
+    "limitations": [
+      "Chromium emulates phones; no physical phone/gamepad validation.",
+      "Targeted regression suite, not the entire historical project suite.",
+      "Real Adventure SQL and Colosseum combat/decision browser flows; Rift uses the shared reward/decision paths and checkpoint coverage.",
+      "The existing test database is initialized from the full schema without historical migration receipts. The full migration runner encountered an already existing 001 index; scoped --only now applies only the validated 024 migration, leaving historical receipts alone.",
+      "Department source artwork must keep these four removed columns free of furniture; test guard checks the collision footprint."
+    ]
+  },
+  "deployment": {
+    "publishedAt": "2026-10-29T12:55:52.949Z",
+    "restartedAt": "2026-10-29T12:55:51.522Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-bag-upgrade-2026-10-29T12-55-49-719Z",
+    "sourceBaseline": "a887e357b493da82cfbea905fed185d9ca62154e",
+    "sourceHashes": {
+      "data/game/department_store.json": "112f25d05e936352022eab15dc5c2788e539605eb3404404be42f961a6aba4f5",
+      "data/game/items.json": "2abb4918d5bfaf3cc1178bb568fbad6d1938ba98faadeef2179269b097e49321",
+      "data/game/shop_offers.json": "ce5f29ab560000c63ce936c5f56b0eb29880d36ead781287bf9abbd69ce18524",
+      "database/schema.sql": "c5645a6eedb837cedcdaa521ca33673f745cf53e2e83bd7abcc598b7ddac4449",
+      "scripts/applyMigrations.js": "72830f2a650a95c2a597edc73aa0414c9185dbf9282079b115a8bcf0f1461520",
+      "server/game/drift/contracts.js": "7a0a5549fb47ee451410e1994fe5f8ace19008bcb69ef55b0156aabc8198f5f7",
+      "server/game/drift/driftBattle.js": "1fe4ccaa098483d5b855be9fd26cf5ff8266657d56e9e1c7ce1458e7a3591599",
+      "server/game/models/Pokemon.js": "7012707a3197836dd656e734b879bc0b0d4732806e22ce3c65510dad0dbe1629",
+      "server/game/models/evolution.js": "c82dda563c4c8ef4270085438dacf91067e34ca5cedb92de1355ca3c72594ff5",
+      "server/game/models/training.js": "623418d0df71ac23c8a8dd6b2a51b9a1f70b5925545f65d8600ad611a9e14473",
+      "server/game/world/mapRepository.js": "43e01db44f6daa4df5cc2050bd5a3a7f49e74b2b98f008f54da6f12c8607ce25",
+      "server/persistence/evolutionRepository.js": "26c1dcef3997cca21fd2fad7aee58215a7597cb52fded83465e60d2b079fcb65",
+      "server/persistence/teamRepository.js": "21a46173482209954ff5554f674760f69885a52ed41b1afca5a1d077f72410db",
+      "server/realtime/driftLobbyHandler.js": "0b512e08132ccf070064ebd29d5f45a19f4d06a99dc8647d84294198850ae90d",
+      "database/migrations/024_evolution_decisions.sql": "9a6a4613c3f5a2320b40401cc8c65aba47b4917769bb6c402519e6ff70659804",
+      "server/game/world/departmentLayout.js": "60737fb0f71926ba8b6cd0dd6a10c3891acf810ba6f8aca828c1f4300dc6d7f7"
+    },
+    "clientCommit": "0211769e9ec5c1a489353fec61bacbdec36ddda2",
+    "clientBuild": "5c76155b160451e0",
+    "beforePid": "3202596",
+    "afterPid": "3251027",
+    "serverRestarted": true,
+    "migration": "024_evolution_decisions.sql",
+    "migrationRecorded": true,
+    "additiveNullableColumn": "pokemons.evolution_state",
+    "pokemonRowsBackedUp": true,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "realAccountsManuallyModified": false,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.7e4d7ba6.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.9d525781.js",
+      "js/689.ea67c21b.js",
+      "js/737.91c774d9.js",
+      "js/account.161ce126.js",
+      "js/app.89698bfa.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.00fadb68.js",
+      "js/drift.5b8720d7.js",
+      "js/game.60fe4ab5.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f54369e6.css",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.553e140c.css",
+      "css/drift.57f62eee.css",
+      "css/game.d0004ad6.css",
+      "css/test-view.7568246d.css"
+    ],
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0
+  },
+  "publishedAtEuropeParis": "2026-10-29T13:55:52.949000+01:00"
+}

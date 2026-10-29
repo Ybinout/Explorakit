@@ -1275,6 +1275,7 @@
       "description": "Objets tenus pour construire ta stratégie de combat.",
       "specialty": "held",
       "offers": {
+        "everstone": {"price": 10000, "requiredTier": 2},
         "leftovers": {
           "price": 10000,
           "requiredTier": 2

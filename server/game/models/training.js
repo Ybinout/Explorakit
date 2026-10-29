@@ -37,7 +37,7 @@ function rewardTraining(pokemon, defeated, xp, io, playerId, options = {}) {
     const previousExperience = pokemon.experience;
     const effortGained = options.effortGained ?? grantEffort(pokemon, defeated);
     const beforeGrowth = growthSnapshot(pokemon);
-    pokemon.gainExperience(xp);
+    pokemon.gainExperience(xp, {deferEvolution:true});
     io.to(playerId).emit('battleExperience', { pokemon, xpGained: xp, previousLevel, previousExperience, effortGained, levelGrowth:levelGrowth(pokemon,beforeGrowth) });
 }
 

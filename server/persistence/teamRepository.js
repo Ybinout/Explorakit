@@ -18,7 +18,7 @@ const POKEMON_COLUMNS = [
     'current_special_attack', 'current_special_defense', 'current_speed',
     'ability1', 'ability2', 'ability3', 'ability4',
     'ev_hp', 'ev_attack', 'ev_defense', 'ev_special_attack', 'ev_special_defense', 'ev_speed',
-    'move1_pp', 'move2_pp', 'move3_pp', 'move4_pp', 'pending_moves', 'experience_rate'
+    'move1_pp', 'move2_pp', 'move3_pp', 'move4_pp', 'pending_moves', 'experience_rate', 'evolution_state'
 ];
 
 function pokemonToRow(pokemon, teamId, position) {
@@ -41,7 +41,7 @@ function pokemonToRow(pokemon, teamId, position) {
         (Object.hasOwn(pokemon,'__passiveAbilityBeforeBattle') ? pokemon.__passiveAbilityBeforeBattle : pokemon.passiveAbility) || null,
         (Object.hasOwn(pokemon,'__heldItemBeforeExchange') ? pokemon.__heldItemBeforeExchange : pokemon.heldItem) || null,
         original ? pokemon.attack : pokemon.currentAttack, original ? pokemon.defense : pokemon.currentDefense, original ? pokemon.specialAttack : pokemon.currentSpecialAttack,
-        original ? pokemon.specialDefense : pokemon.currentSpecialDefense, original ? pokemon.speed : pokemon.currentSpeed, ...abilities, pokemon.ev.hp, pokemon.ev.attack, pokemon.ev.defense, pokemon.ev.specialAttack, pokemon.ev.specialDefense, pokemon.ev.speed, ...movePp, JSON.stringify(pokemon.pendingMoves || []), pokemon.experienceRate
+        original ? pokemon.specialDefense : pokemon.currentSpecialDefense, original ? pokemon.speed : pokemon.currentSpeed, ...abilities, pokemon.ev.hp, pokemon.ev.attack, pokemon.ev.defense, pokemon.ev.specialAttack, pokemon.ev.specialDefense, pokemon.ev.speed, ...movePp, JSON.stringify(pokemon.pendingMoves || []), pokemon.experienceRate, JSON.stringify(pokemon.evolutionState || null)
     ];
 }
 
@@ -71,6 +71,7 @@ function rowToPokemon(row) {
         .slice(0, pokemon.abilities.length);
     normalizeMovePp(pokemon);
     pokemon.pendingMoves = typeof row.pending_moves === 'string' ? JSON.parse(row.pending_moves) : row.pending_moves || [];
+    pokemon.evolutionState = typeof row.evolution_state === 'string' ? JSON.parse(row.evolution_state) : row.evolution_state || null;
     return pokemon;
 }
 

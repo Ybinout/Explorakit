@@ -23,7 +23,7 @@ async function saveEvolution(userId, pokemonUuid, apply) {
 }
 
 function evolvePokemon(userId, pokemonUuid, choice) {
-    return saveEvolution(userId, pokemonUuid, pokemon => evolution.evolve(pokemon, choice));
+    return saveEvolution(userId, pokemonUuid, pokemon => choice?.promptId ? evolution.resolvePending(pokemon, choice) : evolution.evolve(pokemon, choice));
 }
 
 async function evolvePokemonWithStone(userId, pokemonUuid, itemKey) {

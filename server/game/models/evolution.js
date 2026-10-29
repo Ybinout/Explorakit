@@ -9,7 +9,7 @@ for (const rule of rules) bySpecies.set(rule.from, [...(bySpecies.get(rule.from)
 const exclusiveBranches = new Set([236, 265, 412]); // stats, stable personality, gender
 
 function matches(pokemon, rule) {
-    if (!pokemon || pokemon.currentHp <= 0 || pokemon.data.id !== rule.from || pokemon.level < rule.level) return false;
+    if (!pokemon || pokemon.isEgg || (Object.hasOwn(pokemon,'__heldItemBeforeExchange')?pokemon.__heldItemBeforeExchange:pokemon.heldItem) === 'everstone' || pokemon.currentHp <= 0 || pokemon.data.id !== rule.from || pokemon.level < rule.level) return false;
     if (rule.gender && gender(pokemon) !== rule.gender) return false;
     if (rule.relativeStats != null && Math.sign(pokemon.attack - pokemon.defense) !== rule.relativeStats) return false;
     if (rule.personalityBranch != null && createHash('sha256').update(pokemon.uuid).digest()[0] % 2 !== rule.personalityBranch) return false;
@@ -32,9 +32,11 @@ function automatic(pokemon) {
 }
 
 function apply(pokemon, rule) {
-    const from = pokemon.data.id;
+    const from = pokemon.data.id, deferred=Boolean(pokemon.evolutionState?.pending);
+    pokemon.evolutionState = null;
     pokemon.gender = gender(pokemon);
     pokemon.updatePokemon(rule.to);
+    if(deferred)require('./moveLearning').queueLevelMoves(pokemon,rule.level);
     return { from, to: rule.to, name: pokemon.truename };
 }
 
@@ -67,4 +69,18 @@ function options(pokemon) {
     ];
 }
 
-module.exports = { matches, automatic, apply, evolve, options, needsChoice };
+function offer(pokemon) {
+    const rule=automatic(pokemon),state=pokemon.evolutionState||{};
+    if(!rule||state.declinedLevel>=pokemon.level){if(state.pending)pokemon.evolutionState={...state,pending:null};return null;}
+    if(state.pending?.from===pokemon.data.id&&state.pending?.level===pokemon.level&&state.pending?.targetId===rule.to)return state.pending;
+    const pending={id:require('node:crypto').randomUUID(),from:pokemon.data.id,targetId:rule.to,level:pokemon.level};
+    pokemon.evolutionState={...state,pending};return pending;
+}
+function resolvePending(pokemon,{promptId,cancel}={}) {
+    const pending=pokemon?.evolutionState?.pending;
+    if(!pending||pending.id!==promptId||pending.from!==pokemon.data.id||pending.level!==pokemon.level)throw Error('Ce choix d’évolution n’est plus disponible.');
+    if(typeof cancel!=='boolean')throw Error('Choisis de poursuivre ou d’annuler cette évolution.');
+    if(cancel){pokemon.evolutionState={declinedLevel:pokemon.level,pending:null};return {cancelled:true};}
+    const result=evolve(pokemon,{fromSpeciesId:pending.from,targetId:pending.targetId});offer(pokemon);return result;
+}
+module.exports = { matches, automatic, apply, evolve, options, needsChoice, offer, resolvePending };

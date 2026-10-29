@@ -9,7 +9,7 @@ async function validateBagUi(page,output,width){
   for(const tab of await page.locator('[data-bag-pocket]').all())assert((await tab.boundingBox()).height>=44);
   assert.deepEqual(await page.locator('.bag-item-row').evaluateAll(nodes=>nodes.map(n=>n.dataset.itemKey)),keys);
   assert.equal(await page.locator('[role="tab"][aria-selected="true"]').getAttribute('data-bag-pocket'),pocket);
-  for(const key of keys){await page.locator(`[data-item-key="${key}"] .bag-item-select`).click();assert.equal(await page.locator('.bag-item-detail').count(),1);assert(await page.locator(`[data-item-key="${key}"] .bag-item-description`).isVisible());}
+  for(const key of keys){if(await page.locator(`[data-item-key="${key}"] .bag-item-select`).getAttribute('aria-expanded')!=='true')await page.locator(`[data-item-key="${key}"] .bag-item-select`).click();assert.equal(await page.locator('.bag-item-detail').count(),1);assert(await page.locator(`[data-item-key="${key}"] .bag-item-description`).isVisible());}
   assert(await page.locator('.bag-panel').evaluate(n=>n.scrollWidth<=n.clientWidth+1));
   assert(await page.locator('.pack-pockets').evaluate(n=>n.scrollWidth<=n.clientWidth+1));
  }

@@ -83,7 +83,7 @@ function claim(p,data,now=Date.now()) {
     const reserves=p.equipe.pokemons.slice(1).filter(poke=>!effects.isDead(poke)&&poke.level<100);
     if(data.reward==='training'&&!reserves.length)fail('Ajoute un Pokémon vivant sous le niveau 100 en réserve ou choisis une autre récompense.');
     const growth=[];
-    if(data.reward==='training')for(const poke of reserves){const beforeGrowth=growthSnapshot(poke),before=poke.level,xp=poke.getNextLevelExpForLevel(Math.min(100,before+d.levels))-poke.experience;poke.gainExperience(xp);const entry=levelGrowth(poke,beforeGrowth);if(entry)growth.push(entry);report.increment(p,'xpGained',xp);report.increment(p,'levelsGained',poke.level-before);}
+    if(data.reward==='training')for(const poke of reserves){const beforeGrowth=growthSnapshot(poke),before=poke.level,xp=poke.getNextLevelExpForLevel(Math.min(100,before+d.levels))-poke.experience;poke.gainExperience(xp,{deferEvolution:true});const entry=levelGrowth(poke,beforeGrowth);if(entry)growth.push(entry);report.increment(p,'xpGained',xp);report.increment(p,'levelsGained',poke.level-before);}
     if(data.reward==='supplies'){p.items[d.ball]=(p.items[d.ball]||0)+d.balls;p.items[d.potion]=(p.items[d.potion]||0)+d.potions;}
     if(data.reward==='item')p.items[d.item]=(p.items[d.item]||0)+1;
     p.money+=d.money;report.increment(p,'moneyEarned',d.money);

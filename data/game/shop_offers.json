@@ -32,6 +32,7 @@
     }
   ],
   "offers": {
+    "everstone": {"price": 10000, "tier": 2},
     "superball": {
       "tier": 1
     },

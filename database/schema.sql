@@ -86,6 +86,7 @@ CREATE TABLE IF NOT EXISTS `pokemons` (
   `move4_pp` smallint unsigned DEFAULT NULL,
   `pending_moves` JSON DEFAULT NULL,
   `experience_rate` DECIMAL(10,6) DEFAULT NULL,
+  `evolution_state` JSON DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uuid` (`uuid`),

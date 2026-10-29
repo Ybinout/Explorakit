@@ -231,7 +231,7 @@
             return this.getNextLevelExpForLevel(nextLevel);
         }
 
-        gainExperience(expGained) {
+        gainExperience(expGained, { deferEvolution = false } = {}) {
             const gain = Number.isFinite(Number(expGained)) ? Math.max(0, Math.floor(Number(expGained))) : 0;
             this.experience += gain;
             const targetLevel = this.calculateLevelFromExperience(this.experience);
@@ -241,7 +241,7 @@
                 const previousLevel = this.level++;
                 require('./moveLearning').queueLevelMoves(this, previousLevel);
                 this.recalculateStats(true);
-                this.checkEvolution();
+                this.checkEvolution({ deferEvolution });
             }
             if (targetLevel > this.level) {
                 const previousLevel = this.level;
@@ -249,10 +249,11 @@
                 require('./moveLearning').queueLevelMoves(this, previousLevel);
                 this.recalculateStats(true);
             }
-            if (gain > 0) this.checkEvolution();
+            if (gain > 0) this.checkEvolution({ deferEvolution });
         }
 
-        checkEvolution() {
+        checkEvolution({ deferEvolution = false } = {}) {
+            if (deferEvolution) { require('./evolution').offer(this); return; }
             const evolution = require('./evolution');
             // Also catches up old companions already above a threshold. Branch choices
             // remain available in the companion sheet, never selected by iteration order.
@@ -264,6 +265,7 @@
         }
 
         updatePokemon(newId) {
+            this.evolutionState=null;
             const oldName = this.truename;
             const rate = this.experienceRate;
             const baseAbility = Object.hasOwn(this, '__passiveAbilityBeforeBattle') ? this.__passiveAbilityBeforeBattle : this.passiveAbility;

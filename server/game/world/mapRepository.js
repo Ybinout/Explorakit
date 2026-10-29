@@ -36,7 +36,7 @@ function readMap(mapName) {
     if (!mapCache.has(safeMapName)) {
         mapCache.set(
             safeMapName,
-            JSON.parse(fs.readFileSync(path.join(MAPS_DIR, `${safeMapName}.json`), 'utf8'))
+            require('./departmentLayout').project(safeMapName, JSON.parse(fs.readFileSync(path.join(MAPS_DIR, `${safeMapName}.json`), 'utf8')))
         );
     }
     return mapCache.get(safeMapName);
@@ -136,7 +136,7 @@ function buildBattleMapData(mapName) {
 
 
 
-function getNextMap(currentMap, posX, posY) {
+function getSourceNextMap(currentMap, posX, posY) {
     // Lire le fichier
     // console.log('test next map poxX', posX, posY);
     if (!nextMapConfig) {
@@ -177,6 +177,14 @@ function getNextMap(currentMap, posX, posY) {
     return null;
 }
 
+
+function getNextMap(currentMap,posX,posY) {
+    const layout=require('./departmentLayout');
+    const link=getSourceNextMap(currentMap,layout.sourceTile(currentMap,posX),posY);
+    if(!link)return null;
+    const x=Math.floor(link.nextX/32);
+    return {...link,nextX:layout.compactTile(link.nextMap,x)*32+(link.nextX%32)};
+}
 
 // Tiled files are already immutable for the lifetime of this process. Cache
 // the derived grids too: expeditions read three layers on every walking step.

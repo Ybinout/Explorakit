@@ -274,12 +274,12 @@ class DriftBattle {
         const xp = reduceActiveOverlevelExperience(fighterAward, defeated, active);
         const previousLevel = active.level, previousExperience = active.experience;
         const beforeGrowth = growthSnapshot(active);
-        active.gainExperience(xp);
+        active.gainExperience(xp, {deferEvolution:true});
         this.emit(this.a,'battleExperience',{ pokemon: active, xpGained: xp, previousLevel, previousExperience, effortGained:effort.get(active.uuid)||{},levelGrowth:levelGrowth(active,beforeGrowth) });
         for (const [reserve, reserveXp] of reserveAwards) {
             const beforeLevel=reserve.level,beforeExperience=reserve.experience;
             const reserveGrowth=growthSnapshot(reserve);
-            reserve.gainExperience(reserveXp);
+            reserve.gainExperience(reserveXp, {deferEvolution:true});
             if (expShare && reserveXp > 0) this.emit(this.a,'battleExperience',{pokemon:reserve,xpGained:reserveXp,previousLevel:beforeLevel,previousExperience:beforeExperience,effortGained:effort.get(reserve.uuid)||{},levelGrowth:levelGrowth(reserve,reserveGrowth)});
         }
         this.a.chain = Math.min(5,(this.a.chain || 0)+1);
