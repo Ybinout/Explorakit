@@ -331,6 +331,21 @@
       }
     },
     {
+      "key": "heavy_duty_boots",
+      "name": "Grosses Bottes",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "heavy_duty_boots",
+      "riftOnly": true,
+      "description": "Tenues, elles protègent de Piège de Roc, des Picots, des Pics Toxik et de la Toile Gluante à l’entrée en combat. Réutilisables.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      }
+    },
+    {
       "key": "rift_talisman",
       "name": "Talisman de sauvegarde",
       "category": "held",

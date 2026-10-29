@@ -120,6 +120,7 @@ function threats(enemy, observed) {
         combat: { damage_class: enemy.attack >= enemy.specialAttack ? 'physical' : 'special', priority: 0 } }));
 }
 function entryDamage(p, side, field) {
+    if (require('../items/heldItems').effect(p,field) === 'heavy_duty_boots') return 0;
     if (p.passiveAbility === 'Magic Guard') return 0;
     const grounded = field.field?.gravityTurns > 0 || (!types(p).includes('Flying') && p.passiveAbility !== 'Levitate');
     const spikes = grounded ? [0,1/8,1/6,1/4][Math.min(3, side?.hazards?.spikes || 0)] : 0;

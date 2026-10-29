@@ -2507,10 +2507,11 @@ function applySwitchInEffects(pokemon, ownSide, enemySide, battleState, enemyPok
     const pokemonName = getPokemonDisplayName(pokemon);
     const grounded = isGrounded(pokemon, battleState);
     const hazards = ownSide.hazards;
+    const bootsActive = heldItems.effect(pokemon, battleState) === 'heavy_duty_boots';
 
     const indirectDamageBlocked = hasPassiveAbility(pokemon, 'Magic Guard');
 
-    if (hazards.spikes > 0 && grounded && !indirectDamageBlocked) {
+    if (hazards.spikes > 0 && grounded && !indirectDamageBlocked && !bootsActive) {
         const spikesDamageRatios = [0, 1 / 8, 1 / 6, 1 / 4];
         const ratio = spikesDamageRatios[clamp(hazards.spikes, 0, 3)];
         const damage = Math.max(1, Math.floor(safeNumber(pokemon.maxHp, 1) * ratio));
@@ -2520,7 +2521,7 @@ function applySwitchInEffects(pokemon, ownSide, enemySide, battleState, enemyPok
         }
     }
 
-    if (hazards.stealthRock && !indirectDamageBlocked) {
+    if (hazards.stealthRock && !indirectDamageBlocked && !bootsActive) {
         let effectiveness = 1;
         for (const type of getPokemonTypes(pokemon)) {
             effectiveness *= getEffectiveness('Rock', type);
@@ -2536,13 +2537,13 @@ function applySwitchInEffects(pokemon, ownSide, enemySide, battleState, enemyPok
         if (hasType(pokemon, 'Poison')) {
             hazards.toxicSpikes = 0;
             messages.push(`${pokemonName} absorbe les Toxic Spikes.`);
-        } else if (!hasType(pokemon, 'Steel')) {
+        } else if (!hasType(pokemon, 'Steel') && !bootsActive) {
             const status = hazards.toxicSpikes >= 2 ? 'badly_poison' : 'poison';
             applyStatus(pokemon, status, ownSide, messages, {battleState,ignoreSafeguard:true});
         }
     }
 
-    if (hazards.stickyWeb && grounded && safeNumber(pokemon.currentHp, 0) > 0) {
+    if (hazards.stickyWeb && grounded && safeNumber(pokemon.currentHp, 0) > 0 && !bootsActive) {
         applyStageChange(pokemon, 'speed', -1, messages, enemyPokemon, {side:ownSide});
         messages.push(`${pokemonName} est ralenti par la Toile Gluante.`);
     }

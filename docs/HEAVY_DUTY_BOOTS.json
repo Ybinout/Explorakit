@@ -1,0 +1,156 @@
+{
+  "date": "2026-10-29",
+  "scope": [
+    "Adventure",
+    "Rift",
+    "Colosseum"
+  ],
+  "item": {
+    "key": "heavy_duty_boots",
+    "name": "Grosses Bottes",
+    "category": "held",
+    "buyPrice": 10000,
+    "sellPrice": 5000,
+    "department": "tour_etage2",
+    "requiredTier": 2,
+    "unlock": "hoze_defeated",
+    "wildLoot": {
+      "group": "equipment",
+      "weight": 1,
+      "uniqueDiscovery": true,
+      "globalChanceUnchanged": "1/6"
+    },
+    "consumed": false,
+    "initialAccountGrant": false
+  },
+  "mechanics": {
+    "blocks": [
+      "Stealth Rock damage",
+      "Spikes damage",
+      "Toxic Spikes poisoning",
+      "Sticky Web speed reduction"
+    ],
+    "poisonTypesStillAbsorbToxicSpikes": true,
+    "hazardsNotRemovedByProtection": true,
+    "entryAbilitiesAndHealingWishRetained": true,
+    "suppressedBy": [
+      "Embargo",
+      "Magic Room",
+      "active Klutz"
+    ],
+    "knockOffDisablesUntilExistingEndOfBattleRecovery": true,
+    "aiEntryDamageAndClientContactAdapted": true,
+    "npcTeamsUnchanged": true
+  },
+  "sources": [
+    {
+      "title": "Pokémon Showdown item data: Heavy-Duty Boots",
+      "url": "https://github.com/smogon/pokemon-showdown/blob/master/data/items.ts",
+      "accessed": "2026-10-29"
+    },
+    {
+      "title": "Pokémon Showdown hazard implementation: Spikes, Stealth Rock, Sticky Web, Toxic Spikes",
+      "url": "https://github.com/smogon/pokemon-showdown/blob/master/data/moves.ts",
+      "accessed": "2026-10-29"
+    }
+  ],
+  "validation": {
+    "unitAndRegression": {
+      "passed": 86,
+      "failed": 0,
+      "skipped": 0,
+      "newCases": 4
+    },
+    "browser": {
+      "purchasePrice": 10000,
+      "realBagEquip": true,
+      "persistedAcrossReconnect": true,
+      "heldDescription": true,
+      "sellPrice": 5000,
+      "realProtectedSwitch": true,
+      "hazardsPreserved": true,
+      "noFalseContactAnimation": true,
+      "viewports": 4,
+      "themes": 2,
+      "errors": [],
+      "output": "/tmp/riftmon-heavy-boots-browser"
+    },
+    "screenshotsInspected": [
+      "shop-393-dark.png",
+      "equipped-393.png"
+    ],
+    "lint": true,
+    "javascriptSyntaxFiles": 7,
+    "build": "45bb69263f9cd198",
+    "diff": true,
+    "baselineReconciliation": {
+      "focusSashTest": "Reproduced with HEAD battleEngine.js via /tmp/riftmon-heavy-boots-baseline.cjs; old expectation destroyed recoverable exchanged Sash. Assertion now preserves exactly one copy on the original owner with/without Recycle. Gameplay unchanged.",
+      "clientFocusSashDescription": "Aligned stale client text with already delivered recoverable Sash rule.",
+      "departmentItemCount": "12 → 13 strategic entries"
+    },
+    "commands": [
+      "node --test tests/heavy-duty-boots.test.js tests/battle-field.test.js tests/battle-field-client.test.js tests/department-store.test.js tests/expedition-strategy.test.js tests/human-trainer-items.test.js",
+      "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-heavy-boots-dist node --env-file=.env scripts/validateHeavyBootsBrowser.js",
+      "npm --prefix vue-explorakit run lint",
+      "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-heavy-boots-dist"
+    ],
+    "limitations": [
+      "Targeted regression suite, not the entire historical project suite.",
+      "SQL-backed browser Adventure purchases/equipment and real Colosseum switching; no standalone SQL suite.",
+      "Rift uses the same item/effect/shop paths; no separate full Rift browser run.",
+      "Chromium phone emulation, no physical phone test."
+    ]
+  },
+  "deployment": {
+    "publishedAt": "2026-10-29T14:16:29.968Z",
+    "restartedAt": "2026-10-29T14:16:28.443Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-heavy-boots-2026-10-29T14-16-27-015Z",
+    "sourceBaseline": "abf58c291b6f8b8390891d91871fbb6bb76dc826",
+    "sourceHashes": {
+      "data/game/department_store.json": "7087db24325edf5db594d34fd416bbef298d2ff82f8683172c603cdc6cb3ad5b",
+      "data/game/items.json": "0c5e30cad55bdffc1cf2099b217833fa5ecc3f6698d4fa003ecd1759bfb53aa8",
+      "server/game/battle/battleEngine.js": "a14a8bccf58d83159899dd556e66a29548bf79feb7dba98f63482a3dee3a232e",
+      "server/game/drift/colosseumAI.js": "949cd0864269daa43b76c4809c6a31262c10607747697e715fbe0a471d37c0bc"
+    },
+    "clientCommit": "d8ee0b2614b1231d4a08a6b0ce1b73000c46ee0c",
+    "clientBuild": "45bb69263f9cd198",
+    "beforePid": "3269379",
+    "afterPid": "3286449",
+    "serverRestarted": true,
+    "schemaChanged": false,
+    "databaseChanged": false,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "realAccountsManuallyModified": false,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.7e4d7ba6.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.9d525781.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.60b308b7.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.00fadb68.js",
+      "js/drift.5b8720d7.js",
+      "js/game.9e192a9a.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.553e140c.css",
+      "css/drift.57f62eee.css",
+      "css/game.dc72e71f.css",
+      "css/test-view.7568246d.css"
+    ],
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0
+  },
+  "publishedAtEuropeParis": "2026-10-29T15:16:29.968000+01:00"
+}

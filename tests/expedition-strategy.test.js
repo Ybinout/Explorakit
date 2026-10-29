@@ -150,14 +150,14 @@ test('Socket strategy commands are owner-checked and checkpointed; stale choices
  assert.equal((await command(a,'drift:exchange',{uuids})).success,true);assert.equal((await command(a,'drift:exchange',{uuids})).success,false);assert.equal(p.drifts.length,1);
  }finally{sockets.forEach(s=>s.disconnect());cleanup();await new Promise(resolve=>io.close(resolve));}
 });
-test('consuming an exchanged Sash cannot duplicate it on cleanup; Recycle restores its actual owner',()=>{
+test('an exchanged Sash returns to its original owner after battle, consumed or recycled, without duplication',()=>{
  const old=Math.random;Math.random=()=>.5;
  try{for(const recycle of [false,true]){
   let a=fighter(),b=fighter();a.heldItem='focus_sash';b.abilities.push('Trick','Recycle');b.movePp.push(10,10);
   const state=engine.createBattleState();engine.useattack('Trick',b,a,{battleState:state});assert.equal(b.heldItem,'focus_sash');assert.doesNotThrow(()=>JSON.stringify([a,b]));
   [a,b]=decode(encode([a,b]));b.maxHp=b.currentHp=1;engine.useattack('Tackle',a,b,{battleState:state});assert.equal(b.currentHp,1);assert.equal(b.heldItem,null);
   if(recycle)engine.useattack('Recycle',b,a,{battleState:state});
-  require('../server/game/battle/battleOutcome').clearBattleTransientState([a,b]);assert.equal(a.heldItem,recycle?'focus_sash':null);assert.equal(b.heldItem,null);
+  require('../server/game/battle/battleOutcome').clearBattleTransientState([a,b]);assert.equal(a.heldItem,'focus_sash');assert.equal(b.heldItem,null);
  }}finally{Math.random=old;}
 });
 

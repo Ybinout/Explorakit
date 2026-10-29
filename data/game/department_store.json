@@ -1324,6 +1324,10 @@
           "price": 10000,
           "expeditionOnly": true,
           "requiredTier": 0
+        },
+        "heavy_duty_boots": {
+          "price": 10000,
+          "requiredTier": 2
         }
       }
     },
