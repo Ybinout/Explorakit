@@ -1,0 +1,128 @@
+{
+  "date": "2026-10-29",
+  "feature": "in-game-menu-colors",
+  "scope": [
+    "Adventure",
+    "Rift",
+    "Colosseum"
+  ],
+  "semanticColors": {
+    "pokedex": "coral",
+    "progress/contracts": "green",
+    "badges": "gold",
+    "appearance/learning": "lavender",
+    "bag": "ochre",
+    "drifts": "violet",
+    "options": "slate",
+    "friends": "blue",
+    "minimap": "turquoise",
+    "quit": "brick"
+  },
+  "behavior": {
+    "existingSvgIconsReused": true,
+    "softColoredIconBackgrounds": true,
+    "matchingHoverAndKeyboardFocus": true,
+    "lightAndDarkVariants": true,
+    "neutralTextPreserved": true,
+    "quickPokemonIconCoral": true,
+    "toolbarDimensionsUnchanged": true,
+    "menuWidthAndMinimumRowHeightPreserved": true,
+    "noGameplayOrDataChanges": true
+  },
+  "validation": {
+    "browser": {
+      "menuColors": true,
+      "menuPalettes": 4,
+      "menuModes": [
+        "adventure",
+        "colosseum"
+      ],
+      "iconContrastAtLeast": 3,
+      "textContrastAtLeast": 4.5,
+      "toolbarHeightUnchanged": true,
+      "lastMenuActionReachable": true,
+      "realMedicineOnce": true,
+      "reloadSilent": true,
+      "realPcOpen": true,
+      "duplicatePcOpenSilent": true,
+      "realNurseHeal": true,
+      "sixKStars": [
+        1,
+        2,
+        3,
+        4,
+        1,
+        2
+      ],
+      "singleAndDualTypes": true,
+      "frenchTypeLabels": true,
+      "adventureAndColosseumQuickTeams": true,
+      "expeditionTeamTraits": true,
+      "viewports": 4,
+      "themes": 2,
+      "mute": true,
+      "backgroundStopsAudio": true,
+      "errors": [],
+      "output": "/tmp/riftmon-menu-colors-browser"
+    },
+    "screenshotsInspected": [
+      "menu-adventure-393-light.png",
+      "menu-adventure-393-dark.png",
+      "menu-colosseum-1365-light.png"
+    ],
+    "lint": true,
+    "build": true,
+    "recipeSyntax": true,
+    "diff": true,
+    "newUnitTests": 0,
+    "standaloneSqlTestRun": false,
+    "testAccountDeleted": true,
+    "physicalPhoneTested": false,
+    "fullHistoricalSuiteRun": false,
+    "commands": [
+      "npm --prefix vue-explorakit run lint",
+      "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-menu-colors-dist",
+      "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-menu-colors-dist RELEASE_SCREENSHOTS=/tmp/riftmon-menu-colors-browser node --env-file=.env scripts/validateWorldFeedbackBrowser.js"
+    ]
+  },
+  "deployment": {
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "publishedAt": "2026-10-29T16:03:47.639Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-menu-colors-2026-10-29T16-03-46-406Z",
+    "sourceBaseline": "df41f709ceac1c79833b730ec3d27dae9369bc64",
+    "clientCommit": "5a8f0451ae968aa98664804bba02fc57e65af673",
+    "clientBuild": "f748b8e18b2f03e8",
+    "pid": "3328754",
+    "serverRestarted": false,
+    "databaseChanged": false,
+    "realAccountsManuallyModified": false,
+    "neighborsUnchanged": true,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.7e4d7ba6.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.58f7d27d.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.9201817e.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.00fadb68.js",
+      "js/drift.5b8720d7.js",
+      "js/game.358f2c88.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.553e140c.css",
+      "css/drift.57f62eee.css",
+      "css/game.53e94784.css",
+      "css/test-view.7568246d.css"
+    ]
+  },
+  "publishedAtEuropeParis": "2026-10-29T17:03:47.639000+01:00"
+}

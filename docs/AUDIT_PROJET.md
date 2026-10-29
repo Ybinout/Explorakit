@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## Couleurs du menu en jeu — 29 octobre 2026
+
+Le menu déroulant garde sa DA de carnet bleu pâle et ses libellés neutres. Chaque icône reçoit une teinte et un fond doux : Pokédex corail, quêtes/contrats verts, badges dorés, apparence/apprentissage lavande, sac ocre, Drifts violets, options ardoise, amis bleus, minimap turquoise et sortie brique. Survol/focus reprend le fond de la rubrique ; variante claire/nocturne pour chaque teinte. La Poké Ball du bouton d’accès rapide reçoit aussi le corail. Icônes SVG et fonctions existantes conservées, aucun asset raster ou animation ajouté. Largeur du menu et hauteur minimale des lignes conservées ; la barre du haut garde ses dimensions. Attribut de style ajouté à l’entrée d’apprentissage sans changer son action.
+
+Validation : recette navigateur existante étendue sur compte SQL jetable supprimé. Menus Aventure et Colosseum (partagé avec Rift), quatre formats 320/393/844/1365, quatre palettes et deux modes clair/nocturne : plusieurs couleurs réellement distinctes, contraste icône/fond au moins 3:1 et texte au moins 4,5:1, cibles de 44 px minimum, aucun débordement horizontal, dernière action accessible par défilement et barre non agrandie. Captures Aventure mobile clair/sombre et Colosseum PC inspectées ; zéro erreur. Les parcours existants d’équipe, six étoiles/types, soin et PC de cette recette restent valides. Lint, syntaxe de la recette, build isolé et diff valides ; aucun nouveau test unitaire/SQL autonome, pas de téléphone physique ni de suite globale revendiqués. Rapport : `docs/MENU_COLORS.json`.
+
+Publication client seule le 29 octobre 2026 à 17 h 03 (Europe/Paris), client `5a8f0451ae968aa98664804bba02fc57e65af673`, build `f748b8e18b2f03e8`. Sauvegarde `/home/ubuntu/dev/backups/riftmon-menu-colors-2026-10-29T16-03-46-406Z`, index et tous les bundles publics comparés à l’octet, anciens assets conservés ; Knov/api-test inchangés. PID 3328754 conservé, service actif et zéro redémarrage automatique. Aucun redémarrage serveur, migration ou modification manuelle de compte réel.
+
 ## Accélérer aussi les messages de gains du bas — 29 octobre 2026
 
 Les lectures d’XP Multi Exp, de victoire, d’argent, de capture confirmée et de butin deviennent accélérables dans la boîte de texte inférieure, en plus des barres d’XP existantes. Clic/toucher, A/Espace/Entrée et confirmation de manette passent l’attente du gain actuel, une seule par geste ; le clic consécutif au pointerdown est consommé pour éviter un double passage ou une attaque accidentelle. Sans intervention, le temps de lecture automatique reste présent. Le résultat final attend toujours la file complète, toutes les récompenses restent acquises. Curseur/infobulle de lecture sur PC ; aucune modification de taille ou déplacement des boutons.
@@ -4953,6 +4961,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 29 octobre 2026 — Menu en jeu : icônes colorées par rubrique, fonds doux et survol/focus adaptés au jour/nocturne, sans agrandir la barre. Contrastes, quatre formats/quatre palettes/deux modes et défilement Aventure/Colosseum vérifiés ; client seul publié. Rapport `docs/MENU_COLORS.json`.
 
 - 29 octobre 2026 — Messages de gains inférieurs accélérables au clic/toucher/A/Espace/Entrée/confirmation, sans passer plusieurs lectures ni lancer d’action. Pauses locales négociées, anciens clients préservés. 21 tests, vrai Multi Exp six bénéficiaires avec XP SQL exacte, butin Colosseum et régression capture réussis ; publication client/serveur sans migration. Limite du vieux test de montage documentée. Rapport `docs/REWARD_TEXT_ADVANCE.json`.
 
