@@ -91,6 +91,7 @@ function emitBattleStateForBoth(io, playerA, playerB, battleState) {
         player: playerA,
         transitions:presentation.transitions(playerA,playerA.equipe.pokemons[0],playerB.equipe.pokemons[0]),
         wildPokemon: playerB?.equipe?.pokemons?.[0] || null,
+        opponentParty: require('./partyIndicator').partyIndicator(playerB.equipe?.pokemons),
         battleType: 'pvp',
         enemyPlayer: {
             id: playerB.id,
@@ -104,6 +105,7 @@ function emitBattleStateForBoth(io, playerA, playerB, battleState) {
         player: playerB,
         transitions:presentation.transitions(playerB,playerB.equipe.pokemons[0],playerA.equipe.pokemons[0]),
         wildPokemon: playerA?.equipe?.pokemons?.[0] || null,
+        opponentParty: require('./partyIndicator').partyIndicator(playerA.equipe?.pokemons),
         battleType: 'pvp',
         enemyPlayer: {
             id: playerA.id,

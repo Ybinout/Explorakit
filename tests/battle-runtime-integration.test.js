@@ -117,6 +117,21 @@ function createTeam(...pokemons) {
     return team;
 }
 
+test('Trainer party indicator: actual remaining count after a real knockout, without revealing reserves', {skip:!shouldRun},async()=>{
+ const pool=createTestPool();let userId;
+ try{
+  const {user,player}=await createPlayer(7);userId=user.id;
+  const lead=createPokemon(7,'Lead',['Dragon Rage']),enemies=[19,16,25].map((id,i)=>createPokemon(id,'Secret'+i,['Splash']));
+  lead.currentSpeed=999;lead.currentHp=lead.maxHp=1000;lead.passiveAbility=null;player.equipe=createTeam(lead);
+  for(const p of enemies){p.currentHp=1;p.passiveAbility=null;p.heldItem=null;}
+  const io=new RecordingIo({[player.id]:new ScriptedSocket([{action:'attack',number:0},{action:'flee'}])});
+  await withFixedRandom(.5,()=>startTrainerBattle(player,createTeam(...enemies),io,userId));
+  const rows=io.events.filter(e=>e.eventName==='introAnimation').map(e=>e.payload.opponentParty);
+  assert.deepEqual(rows[0],[true,true,true]);assert(rows.some(row=>JSON.stringify(row)==='[true,true,false]'));
+  assert(rows.every(row=>row.length===3&&row.every(value=>typeof value==='boolean')));
+ }finally{if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
+});
+
 for(const kind of ['wild','trainer'])test(`Régression ${kind}: Miroir Magik au switch ne consomme pas le premier Bluff`,{skip:!shouldRun},async()=>{
     const pool=createTestPool();let userId;
     try {

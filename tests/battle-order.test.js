@@ -16,6 +16,7 @@ for(const pivot of [false,true])test(`PVP ${pivot?'pivot attack then replacement
     assert.deepEqual(a.equipe.pokemons.map(p=>p.uuid),[lead.uuid,reserve.uuid]);
     for(const viewer of ['left','right']){
         const list=events.filter(e=>e.target===viewer),side=viewer==='left'?'player':'opponent';
+        for(const event of list.filter(e=>e.name==='introAnimation'))assert.deepEqual(event.payload.opponentParty,Array(viewer==='left'?1:2).fill(true));
         const entry=list.findIndex(e=>e.name==='introAnimation'&&e.payload.transitions.some(t=>t.kind==='enter'&&t.uuid===reserve.uuid&&t.side===side));
         const attack=list.findIndex(e=>e.name==='battleMoveAnimation'&&e.payload.actor!==(viewer==='left'?'player':'opponent'));
         assert(entry>=0&&attack>entry);const snapshot=list.slice(0,attack).filter(e=>e.name==='introAnimation').at(-1).payload;

@@ -1,0 +1,151 @@
+{
+  "feature": "Anonymous opposing party progress in trainer battles",
+  "scope": [
+    "Adventure trainers and gyms",
+    "Adventure PvP",
+    "Rift trainers and PvP",
+    "Colosseum"
+  ],
+  "notShown": [
+    "wild encounters",
+    "final professor human actor"
+  ],
+  "wireField": "opponentParty",
+  "wireType": "boolean[] | null",
+  "maxSize": 6,
+  "order": "healthy balls followed by KO balls; no reserve identity/order revealed",
+  "rendering": {
+    "svg": true,
+    "ready": "red/white",
+    "fainted": "grey",
+    "fixedActions": true,
+    "accessibleCount": true
+  },
+  "validation": {
+    "unitSocketPassed": 11,
+    "newUnitCases": 5,
+    "sqlPassed": 1,
+    "newSqlCases": 1,
+    "failed": 0,
+    "skipped": 0,
+    "browser": {
+      "realSixMemberTrainer": true,
+      "realKnockout": true,
+      "removedMembersRetainGreyBall": true,
+      "reconnect": true,
+      "wildHasNoBalls": true,
+      "newBattleResets": true,
+      "controlsStayFixed": true,
+      "viewports": 4,
+      "themes": 2,
+      "geometry": [
+        {
+          "width": 320,
+          "theme": "light",
+          "height": 22,
+          "actionsUnchanged": true
+        },
+        {
+          "width": 320,
+          "theme": "dark",
+          "height": 22,
+          "actionsUnchanged": true
+        },
+        {
+          "width": 393,
+          "theme": "light",
+          "height": 22,
+          "actionsUnchanged": true
+        },
+        {
+          "width": 393,
+          "theme": "dark",
+          "height": 22,
+          "actionsUnchanged": true
+        },
+        {
+          "width": 844,
+          "theme": "light",
+          "height": 22,
+          "actionsUnchanged": true
+        },
+        {
+          "width": 844,
+          "theme": "dark",
+          "height": 22,
+          "actionsUnchanged": true
+        },
+        {
+          "width": 1365,
+          "theme": "light",
+          "height": 22,
+          "actionsUnchanged": true
+        },
+        {
+          "width": 1365,
+          "theme": "dark",
+          "height": 22,
+          "actionsUnchanged": true
+        }
+      ],
+      "errors": [],
+      "output": "/tmp/riftmon-trainer-party-browser"
+    },
+    "representativeScreenshotsInspected": [
+      "party-dark-393.png",
+      "party-light-844.png"
+    ],
+    "lint": true,
+    "build": "d1a66f528dbd8b1c",
+    "syntaxAndDiff": true,
+    "commands": [
+      "node --test tests/battle-party.test.js tests/battle-order.test.js",
+      "RUN_MYSQL_TESTS=1 DB_TEST_NAME=explorakit_test DB_NAME=explorakit_test node --env-file=.env --test --test-name-pattern='Trainer party indicator:' tests/battle-runtime-integration.test.js",
+      "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-trainer-party-dist node --env-file=.env scripts/validateBattlePartyBrowser.js",
+      "npm --prefix vue-explorakit run lint",
+      "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-trainer-party-dist"
+    ],
+    "limitations": [
+      "No physical phone or complete test suite claimed"
+    ]
+  },
+  "deployment": {
+    "publishedAt": "2026-10-29T09:24:43.904Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-trainer-party-2026-10-29T09-24-41-363Z",
+    "sourceBaseline": "efcf4fe1f0fbb8e85fad30d66887a5cc01701bcd",
+    "sourceHashes": {
+      "server/game/battle/pvpBattle.js": "924e2974e17d72bca4409510c8c11c91e9ad29f77a9d4cfbda6988fd82304543",
+      "server/game/battle/trainerBattle.js": "4bd49c64f0d8cf0d5078fae2de0635d1f11757c376f4383638f37bb38a40c234",
+      "server/game/drift/driftBattle.js": "7be98ec95d93ed48dbbee414c9f32298a480a7d3958f713b7e2ace5e4daa05d3",
+      "server/game/battle/partyIndicator.js": "a6f945faa1adcf2d9c4cad07f1847b9c0e3c27a00ef0bb13ed04238ce84ac47b"
+    },
+    "clientCommit": "991e9a05bcac5fcf5b3d76e39eded6a1406a7575",
+    "clientBuild": "d1a66f528dbd8b1c",
+    "publicAssets": [
+      "js/account.161ce126.js",
+      "js/app.5f6014ca.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/community.00fadb68.js",
+      "js/game.81f5c64e.js",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/community.553e140c.css",
+      "css/game.9835f2f0.css"
+    ],
+    "beforePid": "3142183",
+    "afterPid": "3159800",
+    "serverRestarted": true,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "sqlMigration": false,
+    "realAccountsManuallyModified": false
+  },
+  "publishedAtEuropeParis": "2026-10-29T10:24:43.904000+01:00",
+  "verification": {
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "sourceHashesMatch": true,
+    "warningEntries": 0
+  }
+}
