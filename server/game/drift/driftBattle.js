@@ -54,11 +54,11 @@ class DriftBattle {
     }
     active(i) { return [this.a,this.b][i].equipe.pokemons[0]; }
     both(event, payload) { for (const p of [this.a,this.b]) if (!p.npc) this.emit(p,event,payload); }
-    say(message) {
+    say(message, reward = false) {
         if (!message) return;
         this.publicLog.push(String(message));
         this.publicLog = this.publicLog.slice(-20);
-        this.both('battleText', { message });
+        this.both('battleText', { message, ...(reward ? {reward:true,readMs:900} : {}) });
         this.onUpdate?.(this);
     }
     spectatorView() {
@@ -376,7 +376,7 @@ class DriftBattle {
     grantLoot(source) {
         const loot = economy.drop(this.a, source, this.random);
         this.resultTrackers.get(this.a).loot.push(...loot);
-        if (loot.length) this.say(`Butin : ${loot.join(', ')}.`);
+        if (loot.length) this.say(`Butin : ${loot.join(', ')}.`,true);
     }
     finish(winner = null, reason = 'timer') {
         if(this.finished) return; this.finished=true; this.awaiting=false;
@@ -386,7 +386,7 @@ class DriftBattle {
             const initialTeam=this.originalTeams?.get(p)||this.resultTrackers?.get(p)?.initial.map(e=>e.pokemon)||[];
             for(const key of require('../battle/battleOutcome').recoverLostHeldItems(p,initialTeam)){
                 const name=getItemDefinition(key)?.name||key;
-                this.say(`${name} est récupéré dans le sac.`);
+                this.say(`${name} est récupéré dans le sac.`,true);
                 report.event(p,'item',`${name} récupéré après le combat.`);
             }
         }

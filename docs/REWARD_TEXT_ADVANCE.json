@@ -1,0 +1,183 @@
+{
+  "date": "2026-10-29",
+  "feature": "advance-lower-reward-text",
+  "scope": [
+    "Adventure",
+    "Rift",
+    "Colosseum"
+  ],
+  "behavior": {
+    "rewardMessages": [
+      "XP",
+      "victory",
+      "money",
+      "capture confirmation",
+      "loot",
+      "returned held items"
+    ],
+    "oneReadingPerClickOrTouch": true,
+    "keyboard": [
+      "A",
+      "Space",
+      "Enter"
+    ],
+    "gamepadConfirmUsesExistingHandler": true,
+    "automaticReadingPreserved": true,
+    "xpBarSkippingRetained": true,
+    "resultWaitsForCompleteQueue": true,
+    "combatActionsAndAnimationsUnchanged": true,
+    "noRewardAmountsInventoryOrPersistenceChanged": true
+  },
+  "protocol": {
+    "capability": "rewardPlayback",
+    "rewardTextFields": [
+      "message",
+      "reward",
+      "readMs"
+    ],
+    "localPresentationForCapableAdventureClients": true,
+    "originalDelayAndPayloadForLegacyAdventureClients": true,
+    "noNewCommandOrSqlPerClick": true,
+    "timersReleasedOnResetDisconnectHideDestroy": true
+  },
+  "validation": {
+    "unitPassed": 21,
+    "failedInTargetedUnitSet": 0,
+    "skipped": 0,
+    "newUnitCases": 1,
+    "rewardBrowser": {
+      "actualMultiExpVictory": true,
+      "recipients": 6,
+      "allRewardsPersisted": true,
+      "lowerClickAccelerates": true,
+      "oneMessagePerClick": true,
+      "exactXpPersisted": true,
+      "defaultReadingPreserved": true,
+      "noExtraBattleActions": true,
+      "colosseumLoot": true,
+      "keyboard": true,
+      "gamepadConfirm": true,
+      "cancellationClearsWait": true,
+      "viewports": 4,
+      "errors": [],
+      "output": "/tmp/riftmon-reward-advance-browser"
+    },
+    "captureRegressionBrowser": {
+      "actualHighLevelEncounter": true,
+      "low": {
+        "itemKey": "hyperball",
+        "itemName": "Hyperball",
+        "success": false,
+        "shakes": 0,
+        "chance": 0.0003174197102971492,
+        "wildPokemonName": "Cochignon"
+      },
+      "high": {
+        "itemKey": "hyperball",
+        "itemName": "Hyperball",
+        "success": true,
+        "shakes": 3,
+        "chance": 0.40064,
+        "wildPokemonName": "Cochignon"
+      },
+      "sqlBadges": true,
+      "warningBeforeThrow": true,
+      "badgeMenuTier": true,
+      "lowFailsHighSucceeds": true,
+      "stockAndTeamPersist": true,
+      "colosseumUnchangedAndNoStaleWarning": true,
+      "viewports": 4,
+      "themes": 2,
+      "stableActions": true,
+      "capturedStaysContained": true,
+      "closedBallPersists": true,
+      "failedCaptureReleases": true,
+      "reducedMotionCapture": true,
+      "backgroundKeepsCaptured": true,
+      "nextEncounterReset": true,
+      "errors": [],
+      "output": "/tmp/riftmon-reward-advance-capture-browser"
+    },
+    "screenshotsInspected": [
+      "reward-393.png",
+      "reward-1365.png"
+    ],
+    "lint": true,
+    "build": true,
+    "syntaxFiles": 7,
+    "diff": true,
+    "standaloneSqlTestRun": false,
+    "testAccountsDeleted": true,
+    "physicalPhoneOrGamepadTested": false,
+    "fullHistoricalSuiteRun": false,
+    "additionalConnectionTest": {
+      "passed": 3,
+      "failed": 2,
+      "sameSingleChildFailureAlsoFailsParent": true,
+      "reason": "GameFeedbackAudio is not defined in legacy mounted-hook fixture",
+      "baselineClient": "4160035663f81d966e765a407c0a7b4dfd52d6a9",
+      "baselineSourceAndRealtimeLoaderReplay": "/tmp/riftmon-reward-advance-connections-baseline.log",
+      "sameFailureOnBaseline": true
+    },
+    "commands": [
+      "node --test tests/reward-text.test.js tests/battle-presentation.test.js tests/experience-playback.test.js tests/adventure-experience.test.js tests/combat-feedback.test.js",
+      "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-reward-advance-dist node --env-file=.env scripts/validateRewardAdvanceBrowser.js",
+      "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-reward-advance-dist RELEASE_PUBLIC_PATH=/ RELEASE_SCREENSHOTS=/tmp/riftmon-reward-advance-capture-browser node --env-file=.env scripts/validateCaptureBadgesBrowser.js",
+      "npm --prefix vue-explorakit run lint",
+      "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-reward-advance-dist",
+      "node --test tests/drift-connection.test.js"
+    ]
+  },
+  "deployment": {
+    "publishedAt": "2026-10-29T15:46:11.536Z",
+    "restartedAt": "2026-10-29T15:46:10.277Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-reward-advance-2026-10-29T15-46-08-841Z",
+    "sourceBaseline": "3699f5a2eefb60889dd531f9083811bc81f7722a",
+    "sourceHashes": {
+      "server/game/battle/trainerBattle.js": "3f63c051110d3561a3b9c4cac07a4b3b48d795effa8ef616790fb9b60e039e76",
+      "server/game/battle/wildBattle.js": "db7cda8f6c351df3e4f046446855f028b53792ee5fd3eb8467ca30cc9d0eba45",
+      "server/game/drift/driftBattle.js": "94ae68b7d2e58b356d5e386898c3e6f07f03861ff9a33b5a889dc2e5d0de413f",
+      "server/game/battle/rewardText.js": "4d7a09657eed2b22f43f451232d2ecfff1e0b8d1dfbeda45d881b2ced576e492"
+    },
+    "clientCommit": "fc4ca959abf8dd3092f7ab0155e910d88088a6b7",
+    "clientBuild": "d17f1266b0482d96",
+    "beforePid": "3309555",
+    "afterPid": "3328754",
+    "serverRestarted": true,
+    "schemaChanged": false,
+    "databaseChanged": false,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "realAccountsManuallyModified": false,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.7e4d7ba6.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.768f1f14.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.95b10794.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.00fadb68.js",
+      "js/drift.5b8720d7.js",
+      "js/game.6374b6dc.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.553e140c.css",
+      "css/drift.57f62eee.css",
+      "css/game.4393d785.css",
+      "css/test-view.7568246d.css"
+    ],
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0
+  },
+  "publishedAtEuropeParis": "2026-10-29T16:46:11.536000+01:00"
+}

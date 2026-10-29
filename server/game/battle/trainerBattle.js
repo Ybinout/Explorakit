@@ -1,4 +1,5 @@
 const { requestReplacement } = require('./replacementChoice');
+const { rewardText } = require('./rewardText');
 const presentation = require('./presentationState');
 const { partyIndicator } = require('./partyIndicator');
 const trainerTactics = require('./trainerTactics');
@@ -284,7 +285,7 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
                 progressionReward = await options.onVictory();
                 if (progressionReward?.granted && progressionReward.money > 0) {
                     resultTracker.money += progressionReward.money;
-                    await narrate(player, io, `Tu reçois ${progressionReward.money} Pokédollars !`, 900);
+                    await rewardText(player, io, `Tu reçois ${progressionReward.money} Pokédollars !`, sleep);
                 }
             } catch (error) {
                 console.error(`Erreur récompense de progression user ${userId}:`, error.message);
@@ -301,7 +302,7 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
 
     if (!enemyTeam || !Array.isArray(enemyTeam.pokemons) || enemyTeam.pokemons.length === 0) {
         await narrate(player, io, "Le dresseur n'a aucun Pokemon valide.");
-        await narrate(player, io, 'Victoire !', 700);
+        await rewardText(player, io, 'Victoire !', sleep, 700);
         await finalizeVictory();
         endBattle(true);
         await editEquipe(userId, player.equipe);
@@ -335,7 +336,7 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
         moneyRewardGranted = true;
         await awardUserMoney(userId, reward);
         resultTracker.money += reward;
-        await narrate(player, io, `Tu remportes ${reward} Pokédollars !`, 900);
+        await rewardText(player, io, `Tu remportes ${reward} Pokédollars !`, sleep);
         return reward;
     };
 
@@ -350,7 +351,7 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
 
     const initialEnemyIndex = trainerTactics.replacementIndex(enemyTeam);
     if (initialEnemyIndex === -1) {
-        await narrate(player, io, 'Victoire !', 700);
+        await rewardText(player, io, 'Victoire !', sleep, 700);
         await finalizeVictory();
         endBattle(true);
         await editEquipe(userId, player.equipe);
@@ -382,8 +383,8 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
                 endBattle(false, { interrupted: true, reason: 'error' });
                 throw error;
             }
-            if (arenaRewards && awards.alreadyClaimed) await narrate(player, io, `${getPokemonDisplayName(defeated)} a déjà donné son XP lors d’un précédent défi.`, 900);
-            for (const {pokemon, xp} of awards) await narrate(player, io, `${getPokemonDisplayName(pokemon)} gagne ${xp} XP !`, 900);
+            if (arenaRewards && awards.alreadyClaimed) await rewardText(player, io, `${getPokemonDisplayName(defeated)} a déjà donné son XP lors d’un précédent défi.`, sleep);
+            for (const {pokemon, xp} of awards) await rewardText(player, io, `${getPokemonDisplayName(pokemon)} gagne ${xp} XP !`, sleep);
         }
     };
 
@@ -454,7 +455,7 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
             const nextEnemyIndex = trainerTactics.replacementIndex(enemyTeam,{opponentTeam:player.equipe.pokemons,
                 field:battleState,ownSide:enemySide,enemySide:playerSide,memory:battleState.trainerMemory,round:round+1});
             if (nextEnemyIndex === -1) {
-                await narrate(player, io, 'Victoire !');
+                await rewardText(player, io, 'Victoire !', sleep, TEXT_DELAY_MS);
                 await grantMoneyReward();
                 await finalizeVictory();
                 endBattle(true);
@@ -686,7 +687,7 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
     const enemyHasPokemonAlive = hasAlivePokemon(enemyTeam.pokemons);
 
     if (!enemyHasPokemonAlive && playerHasPokemonAlive) {
-        await narrate(player, io, 'Victoire !');
+        await rewardText(player, io, 'Victoire !', sleep, TEXT_DELAY_MS);
         await grantMoneyReward();
         await finalizeVictory();
         endBattle(true);
