@@ -231,7 +231,7 @@ function endTurn(p,other,state,{switched=false}={}) {
     const magic=ability(p)==='Magic Guard',poisoned=['poison','badly_poison'].includes(p.status);
     if(poisoned&&ability(p)==='Poison Heal')heal(p,p.maxHp/8);
     else if(!magic) {
-        if(p.status==='burn')hp(p,p.currentHp-Math.floor(p.maxHp/16));
+        if(p.status==='burn')hp(p,p.currentHp-Math.max(1,Math.floor(p.maxHp/(ability(p)==='Heatproof'?32:16))));
         if(p.status==='poison')hp(p,p.currentHp-Math.floor(p.maxHp/8));
         if(p.status==='badly_poison'){hp(p,p.currentHp-Math.floor(p.maxHp*(p.__battle.toxicCounter||1)/16));p.__battle.toxicCounter=(p.__battle.toxicCounter||1)+1;}
     }

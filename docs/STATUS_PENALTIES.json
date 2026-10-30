@@ -1,0 +1,104 @@
+{
+  "feature": "Malus de paralysie et de brûlure, exceptions et prévisions IA",
+  "date": "2026-10-30",
+  "baseline": "61f37da04c2ed4eb7fd377efda0c47647226a409",
+  "rules": {
+    "paralysis": {
+      "speedMultiplier": 0.5,
+      "fullParalysisChance": 0.25,
+      "quickFeet": "Vitesse ×1,5 sans ralentissement, mais blocage à 25 % conservé"
+    },
+    "burn": {
+      "physicalDamageMultiplier": 0.5,
+      "specialDamageMultiplier": 1,
+      "residualHpFraction": "1/16",
+      "guts": "Bonus Attaque ×1,5 et absence du malus physique",
+      "facade": "Puissance 70→140 sous brûlure/poison/poison grave/paralysie ; absence du malus de brûlure",
+      "heatproof": "Résiduel 1/32 au lieu de 1/16, minimum 1 PV",
+      "magicGuard": "Résiduels bloqués mais malus physique conservé"
+    }
+  },
+  "changes": [
+    "Malus généraux déjà présents confirmés",
+    "Façade : doublement de puissance manquant et exemption de brûlure",
+    "Ignifugé : réduction des dégâts résiduels manquante, prévision IA alignée et minimum 1 PV",
+    "Vitesse : paralysie appliquée après les autres multiplicateurs/arrondis ; un point perdu à tort sous Vent Arrière corrigé",
+    "Gyroballe/Boule Élek et IA utilisent la même vitesse effective que les priorités de combat, avec les camps corrects"
+  ],
+  "checks": {
+    "unit": {
+      "passed": 431,
+      "failed": 0,
+      "skipped": 0,
+      "log": "/tmp/riftmon-status-penalties-unit.log"
+    },
+    "mysql": {
+      "passed": 154,
+      "failed": 0,
+      "skipped": 0,
+      "log": "/tmp/riftmon-status-penalties-mysql.log"
+    }
+  },
+  "newTests": {
+    "shared": 38,
+    "adventureSql": 12,
+    "modes": [
+      "Aventure sauvage",
+      "Aventure dresseur",
+      "Aventure PvP",
+      "Rift sauvage",
+      "Rift PvP",
+      "Colosseum",
+      "Super Tournoi"
+    ]
+  },
+  "beforePatchReplay": {
+    "method": "Anciens modules compilés en mémoire dans un processus isolé, aucun remplacement du runtime ni du dépôt",
+    "sourceCommit": "61f37da04c2ed4eb7fd377efda0c47647226a409",
+    "tests": 38,
+    "passed": 29,
+    "failed": 9,
+    "log": "/tmp/riftmon-status-penalties-before-final.log"
+  },
+  "limitations": [
+    "Pas de changement de rendu : client compilé actuel conservé, aucune nouvelle recette navigateur ni téléphone physique",
+    "Aucune modification de données de compte réel, schéma, XP, difficulté, équipement ou stat persistée"
+  ],
+  "primaryReferences": [
+    "https://github.com/smogon/pokemon-showdown/blob/master/data/conditions.ts",
+    "https://github.com/smogon/pokemon-showdown/blob/master/sim/battle-actions.ts",
+    "https://github.com/smogon/pokemon-showdown/blob/master/data/abilities.ts",
+    "https://github.com/smogon/pokemon-showdown/blob/master/data/moves.ts"
+  ],
+  "reproduce": [
+    "node --test tests/status-penalties.test.js tests/battle-engine.test.js tests/ability-system.test.js tests/ability-audit-regression.test.js tests/ability-reactions.test.js tests/human-trainer-ai.test.js tests/human-trainer-model.test.js tests/human-trainer-items.test.js tests/human-trainer-known-abilities.test.js tests/ai-preview-performance.test.js tests/move-behavior-audit.test.js tests/choice-items.test.js tests/transform.test.js tests/end-of-round.test.js tests/drift-runtime.test.js tests/super-tournament.test.js tests/super-tournament-order.test.js tests/super-tournament-rewards.test.js tests/super-tournament-abandon.test.js",
+    "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test node --env-file-if-exists=.env --test --test-concurrency=1 tests/battle-runtime-integration.test.js"
+  ],
+  "deployment": {
+    "publishedAt": "2026-10-30T20:08:34.331Z",
+    "restartedAt": "2026-10-30T20:08:33.260Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-status-penalties-2026-10-30T20-08-32-892Z",
+    "sourceBaseline": "61f37da04c2ed4eb7fd377efda0c47647226a409",
+    "sourceHashes": {
+      "server/game/battle/battleEngine.js": "f76fd07ba3402dd9d9e843e78d933d53590889687dd90a2a94b4f919af4e08d8",
+      "server/game/battle/humanTrainerAI.js": "012398414bb6854613f911ede328622c760c6eece56996a51c145cb98aa174d7",
+      "server/game/battle/humanTrainerModel.js": "6432bb944ea741754305be6effb3102d497f5bf9bcb886143081a640cc8aa287"
+    },
+    "clientCommit": "8363de3f6dfece8d10fa1523627e357ebd745e02",
+    "clientBuild": "97a53d67d03822bd",
+    "clientChanged": false,
+    "beforePid": "3530417",
+    "afterPid": "3531751",
+    "serverRestarted": true,
+    "databaseSchemaChanged": false,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "publicIndexUnchanged": true,
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0
+  }
+}

@@ -144,7 +144,8 @@ function damage(a,b,move,side,field) {
         let special=null;
         if(resolved.combat?.power_type==='special_case') {
             special=move.ename==='Psywave'?{fixedDamage:Math.max(1,a.level)}:move.ename==='Magnitude'?{power:71}
-                :move.ename==='Present'?{power:52}:engine.getSpecialMoveResolution(resolved,preview,target,{battleState:field});
+                :move.ename==='Present'?{power:52}:engine.getSpecialMoveResolution(resolved,preview,target,{battleState:field,
+                    attackerSide:side===field.sides.player?field.sides.enemy:field.sides.player,defenderSide:side});
             if(special?.power!==undefined)resolved={...resolved,power:special.power};
         }
         const transformed=transformMoveForAbility(preview,resolved);

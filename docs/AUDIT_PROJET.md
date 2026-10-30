@@ -1,5 +1,16 @@
 # Audit technique et mémoire de RiftMon
 
+
+## Paralysie et brûlure : malus et exceptions — 30 octobre 2026
+
+Les malus de base étaient présents : Vitesse ×0,5 et 25 % d’impossibilité d’agir pour la paralysie ; dégâts physiques ×0,5 et perte de 1/16 des PV maximum pour la brûlure, sans réduction des dégâts spéciaux. Vérification sur le moteur partagé et les orchestrateurs réels. Les stats enregistrées restent intactes ; le soin supprime les malus immédiatement. Cran, Pied Véloce, Garde Magik, Rage Brûlure, immunités et talents neutralisés contrôlés avec leurs différences.
+
+Corrections : Façade avait une puissance fixe et subissait la brûlure ; puissance désormais doublée sous brûlure/poison/paralysie et exemption du malus physique. Ignifugé réduit les résiduels à 1/32 des PV maximum, avec minimum 1 PV ; prévision IA alignée. Paralysie appliquée après les autres multiplicateurs de Vitesse pour corriger l’arrondi sous Vent Arrière. Gyroballe/Boule Élek réutilisent la vitesse du moteur, avec les effets des camps et le même contexte dans l’IA. Aucun accès ajouté à une action humaine ni changement de profondeur.
+
+Validation : 431 tests unitaires/régression et 154 SQL sans échec ni saut, dont 38 cas partagés et 12 cas Aventure ajoutés. Puissance réelle, coups critiques, dégâts fixes, ordre/priorité/Distorsion, neutralisation des talents, guérison, PP non dépensés en paralysie totale, minimum à 1 PV, prévisions IA, vraie commande Rift/Colosseum/Super Tournoi et persistance Aventure sauvage/dresseur/PvP. Ancien moteur rejoué en mémoire : neuf échecs sur les 38 cas, contre zéro après correction. Comptes SQL jetables supprimés. Syntaxe et diff valides. Client actuel conservé : pas de nouveau build/rendu ni de recette navigateur/téléphone physique revendiqués. Rapport, commandes et références primaires : `docs/STATUS_PENALTIES.json`.
+
+Serveur publié le 30 octobre 2026 à 21 h 08 (Europe/Paris), PID 3530417→3531751, service actif, zéro redémarrage automatique/avertissement. Client `8363de3f6dfece8d10fa1523627e357ebd745e02` et build `97a53d67d03822bd` conservés, index public identique. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-status-penalties-2026-10-30T20-08-32-892Z`, zéro expédition active au contrôle. Pas de migration ni modification manuelle de compte réel ; Knov/api-test inchangés.
+
 ## Abandon du Super Tournoi à tout moment — 30 octobre 2026
 
 Drapeau blanc en haut à droite, cible tactile 44×44 et libellé accessible, hors du canvas et des conteneurs inertes. Affiché pendant le parcours, y compris chargement d’entrée, combat, choix du remplaçant, bilan et récompenses. Même confirmation pour le drapeau, l’ancien bouton du combat et les cartes ; annuler conserve la tentative. Barre mobile sans hausse de hauteur, lieu ellipsé et météo décalée pour éviter le chevauchement. SVG/CSS natifs, aucun nouveau raster ou timer.
@@ -5225,6 +5236,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 30 octobre 2026 — Paralysie/brûlure vérifiées ; Façade, Ignifugé et arrondi de Vitesse sous Vent Arrière corrigés, prévisions IA alignées. 431 tests + 154 SQL réussis, neuf régressions reproduites sur l’ancien moteur ; rapport `docs/STATUS_PENALTIES.json`.
 
 - 30 octobre 2026 — Drapeau d’abandon Super Tournoi disponible dans toutes les phases, retour durable au dernier Centre et bonne ville de sortie, score/équipe préservés, aucune ancienne fenêtre de combat réouverte. 42 tests, six SQL et 13 scénarios Chromium/WebKit par moteur réussis ; rapport `docs/SUPER_TOURNAMENT_ABANDON.json`.
 

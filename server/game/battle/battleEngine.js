@@ -514,9 +514,6 @@ function getEffectiveStatValue(pokemon, statName, battleState = null, opponent =
     const stage = ignoreStages ? 0 : battleData.statStages[statName] || 0;
     let value = base * stageMultiplier(stage);
     if (statName === 'speed') value = Math.floor(value);
-    if (statName === 'speed' && pokemon.status === 'paralyze' && !hasPassiveAbility(pokemon,'Quick Feet')) {
-        value *= 0.5;
-    }
     if (!ignoreAbility) value *= getAbilityStatMultiplier(pokemon, statName, battleState, opponent);
     value *= heldItems.statMultiplier(pokemon, statName, battleState);
     value = drift.defense(pokemon, statName, value);
@@ -536,6 +533,10 @@ function getBattleSpeed(pokemon, side = null, battleState = null, opponent = nul
     let speed = getEffectiveStatValue(pokemon, 'speed', battleState, opponent);
     if (side?.screens?.tailwindTurns > 0) speed *= 2;
     speed *= getAbilitySpeedMultiplier(pokemon, battleState, opponent);
+    // Apply paralysis after the other modifiers and their rounding, so an odd
+    // Speed under Tailwind is not rounded down twice.
+    speed = Math.floor(speed);
+    if (pokemon.status === 'paralyze' && !hasPassiveAbility(pokemon, 'Quick Feet')) speed = Math.floor(speed / 2);
     return Math.max(1, Math.floor(speed));
 }
 
@@ -792,7 +793,8 @@ function calculateDamageDetailed(attacker, defender, move, context = {}) {
     }
 
     const level = Math.max(1, safeNumber(attacker.level, 1));
-    const power = Math.max(0, safeNumber(move.power, 0))*(move.ename==='Knock Off'&&canKnockOffItem(defender)?1.5:1);
+    let power = Math.max(0, safeNumber(move.power, 0))*(move.ename==='Knock Off'&&canKnockOffItem(defender)?1.5:1);
+    if (move.ename === 'Facade' && ['burn', 'poison', 'badly_poison', 'paralyze'].includes(attacker.status)) power *= 2;
     if (power <= 0) {
         return {
             damage: 0,
@@ -860,7 +862,7 @@ function calculateDamageDetailed(attacker, defender, move, context = {}) {
     if (battleState?.field?.mudSportTurns > 0 && move.type === 'Electric') modifier *= 1/3;
     if (battleState?.field?.waterSportTurns > 0 && move.type === 'Fire') modifier *= 1/3;
 
-    if (damageClass === 'physical' && attacker.status === 'burn' && !hasPassiveAbility(attacker, 'Guts')) {
+    if (damageClass === 'physical' && attacker.status === 'burn' && move.ename !== 'Facade' && !hasPassiveAbility(attacker, 'Guts')) {
         modifier *= 0.5;
     }
 
@@ -2254,7 +2256,7 @@ function processPokemonEndTurn(pokemon, enemyPokemon, ownSide, battleState) {
     const indirectDamageBlocked = hasPassiveAbility(pokemon, 'Magic Guard');
 
     if (pokemon.status === 'burn' && !indirectDamageBlocked) {
-        const damage = Math.max(1, Math.floor(maxHp / 16));
+        const damage = Math.max(1, Math.floor(maxHp / (hasPassiveAbility(pokemon, 'Heatproof') ? 32 : 16)));
         const dmgResult = applyDamage(pokemon, damage, { allowEndure: false });
         if (dmgResult.damageToHp > 0) {
             messages.push(`${pokemonName} souffre de sa brulure (${dmgResult.damageToHp} PV).`);
@@ -2645,8 +2647,8 @@ function getSpecialMoveResolution(move, attacker, defender, options = {}) {
     const attackerData = ensureBattleData(attacker);
     const defenderHp = Math.max(0, safeNumber(defender.currentHp, 0));
     const defenderMaxHp = Math.max(1, safeNumber(defender.maxHp, 1));
-    const attackerSpeed = getEffectiveStatValue(attacker, 'speed');
-    const defenderSpeed = getEffectiveStatValue(defender, 'speed');
+    const attackerSpeed = getBattleSpeed(attacker, options.attackerSide, options.battleState, defender);
+    const defenderSpeed = getBattleSpeed(defender, options.defenderSide, options.battleState, attacker);
     const positiveStages = Object.values(ensureBattleData(defender).statStages)
         .reduce((sum, stage) => sum + Math.max(0, safeNumber(stage, 0)), 0);
 
@@ -3212,7 +3214,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         }
     }
 
-    const specialResolution = getSpecialMoveResolution(move, attacker, defender, { attackerTeam, defenderTeam, battleState, sourceMove: options.sourceMove });
+    const specialResolution = getSpecialMoveResolution(move, attacker, defender, { attackerTeam, defenderTeam, attackerSide, defenderSide, battleState, sourceMove: options.sourceMove });
 
     if (damageClass !== 'status') {
         if (move.combat?.power_type === 'ohko') {

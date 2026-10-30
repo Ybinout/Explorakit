@@ -132,6 +132,40 @@ for(const kind of ['wild','trainer'])test(`AI active weather Adventure ${kind}: 
 });
 function resourcesMax(name){return require('../server/game/battle/battleResources').getMaxMovePp(name);}
 
+for (const kind of ['wild', 'trainer', 'pvp']) for (const condition of ['burn', 'facade', 'paralyze', 'blocked']) {
+    test(`Status penalties Adventure ${kind}/${condition}: damage, speed, residuals and PP`, {skip: !shouldRun}, async () => {
+        const pool = createTestPool(); let userId;
+        try {
+            const {user, player} = await createPlayer(7); userId = user.id; player.currentmap = 'centre';
+            const name = condition === 'facade' ? 'Facade' : 'Pound';
+            const own = createPokemon(19, 'Lanceur', [name]), foe = createPokemon(143, 'Cible', ['Splash']);
+            for (const p of [own, foe]) Object.assign(p, {passiveAbility: null, heldItem: null, currentHp: 320, maxHp: 320,
+                currentAttack: 100, currentDefense: 100, currentSpecialAttack: 100, currentSpecialDefense: 100,
+                currentSpeed: 100, type1: 'Normal', type2: null, status: 'normal'});
+            own.currentSpeed = 150; own.status = ['burn', 'facade'].includes(condition) ? 'burn' : 'paralyze';
+            player.equipe = createTeam(own);
+            const rival = {id: 'status-rival', equipe: createTeam(foe)};
+            const io = new RecordingIo({[player.id]: new ScriptedSocket([{action: 'attack', number: 0}, {action: 'flee'}]),
+                [rival.id]: new ScriptedSocket([{action: 'attack', number: 0}, {action: 'flee'}])});
+            const pp = own.movePp[0], engine = require('../server/game/battle/battleEngine');
+            const expected = condition === 'blocked' ? 0 : engine.estimateDamage(own, foe, engine.getMoveByName(name));
+            await withFixedRandom(condition === 'blocked' ? 0 : .5, () => kind === 'wild' ? startWildBattle(player, foe, io, userId)
+                : kind === 'trainer' ? startTrainerBattle(player, rival.equipe, io, userId) : startPvpBattle(player, rival, io));
+            const events = io.events.filter(e => e.targetId === player.id);
+            const results = events.filter(e => e.eventName === 'battleMoveResult' && e.payload.actor === 'player');
+            assert.equal(results.length, 1); assert.equal(results[0].payload.damage, expected);
+            assert.equal(own.movePp[0], pp - (condition === 'blocked' ? 0 : 1));
+            const order = events.filter(e => e.eventName === 'battleMoveAnimation').map(e => e.payload.actor);
+            assert.deepEqual(order, condition === 'blocked' ? ['opponent']
+                : condition === 'paralyze' ? ['opponent', 'player'] : ['player', 'opponent']);
+            assert.equal(own.currentHp, ['burn', 'facade'].includes(condition) ? 300 : 320);
+            const restored = await loadEquipe(userId);
+            assert.equal(restored.pokemons[0].status, own.status);
+            assert.equal(restored.pokemons[0].currentHp, own.currentHp);
+        } finally {if (userId) await pool.execute('DELETE FROM users WHERE id=?', [userId]); await pool.end();}
+    });
+}
+
 for (const kind of ['wild', 'trainer', 'pvp']) test(`Curse Adventure ${kind}: opponent residual, half-HP sacrifice and no duplicate cost`, {skip: !shouldRun}, async () => {
     const pool = createTestPool(); let userId;
     try {
