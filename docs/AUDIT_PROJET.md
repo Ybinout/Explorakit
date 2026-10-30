@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Sexes par espèce et symboles en combat — 30 octobre 2026
+
+Le résolveur partagé donne désormais priorité aux espèces exclusivement mâles, femelles ou asexuées, même si un ancien champ enregistré les contredit. Espèces mixtes : sexe légal conservé ou calcul stable par UUID, sans nouveau tirage. Contrôle des 493 espèces contre le CSV PokéAPI épinglé utilisé par le générateur : aucun écart ; 12 exclusivement mâles, 16 femelles, 54 asexuées. Aucun changement des ratios, statistiques, stockage ou données réelles.
+
+Ajout compatible de `genders` dans toutes les synchronisations de combat : sauvage/dresseur/PvP Aventure, moteur partagé Rift/Colosseum/Super Tournoi et confrontation finale. Valeurs propres à chaque point de vue et aux combattants actifs ; aucune mutation des modèles/checkpoints. Les listes privées d’expédition normalisent aussi leur vue. ♂/♀ et marque neutre affichés près des deux noms ; Métamorph conserve son sexe sous Morphing, Œufs et adversaires humains sans symbole. En-tête repliable pour préserver la lisibilité des noms avec un statut sur petit écran.
+
+Validation : 129 tests sans échec/saut (espèces fixes et champs contradictoires, stabilité, projections sans mutation, orchestrateur réel, changements et perspectives PvP, talents/évolutions/régressions). Client compilé avec vrais paquets du synchroniseur et compte SQL jetable : Chromium/WebKit, 320×480, 393×852 et PC 1365×900, sexes/switchs, Métamorph, masquage humains/Œufs, noms longs et statut, aucune erreur/débordement. Comptes supprimés ; pas de téléphone physique testé. Lint/build, syntaxe et diff valides. Recettes : `tests/battle-gender.test.js`, `scripts/validateBattleGenderBrowser.js` ; provenance, commandes et résultats : `docs/BATTLE_GENDER.json`.
+
+Publié le 30 octobre 2026 à 19 h 11 (Europe/Paris), client `54e842d3ca006bce16603cee1925c71262bbb21b`, build `bcb66deb2c454cd7`. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-battle-gender-2026-10-30T18-11-12-486Z`, zéro expédition active au contrôle. PID 3507053→3510940, service actif, zéro redémarrage automatique/avertissement. Index/bundles publics vérifiés, anciens assets conservés ; aucune migration ni modification manuelle de compte réel, applications voisines inchangées.
+
 ## Panoramas et portes du Super Tournoi — 30 octobre 2026
 
 Les ouvertures nord du SAS et de la salle de duel montrent désormais un passage intérieur sombre, avec une profondeur et un dallage discrets. Correctif statique maintenu lorsque les animations sont désactivées. Le moteur du ciel de l’accueil couvre maintenant les trois salles : six nuages issus du décor original, quatre groupes d’oiseaux, réfraction/reflets de mer. Les fenêtres latérales du SAS ont aussi leur couche d’eau. Masques définis par salle et érodés sur l’eau pour préserver les berges et le décor ; couches sous les acteurs. Aucun PNG, JSON/Tiled, raccord, collision ou règle du tournoi modifié.
@@ -5135,6 +5145,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 30 octobre 2026 — Sexes imposés par espèce et symboles dans les deux encadrés de combat, tous orchestrateurs. 493 espèces vérifiées, 129 tests et recettes Chromium/WebKit trois formats réussis ; client/serveur publiés avec sauvegarde, voisins inchangés. Rapport `docs/BATTLE_GENDER.json`.
 
 - 30 octobre 2026 — Super Tournoi : passages intérieurs sombres du SAS/duel et ciel/mer animés dans les trois salles. Recettes Canvas et parcours client Chromium/WebKit, lint/build réussis ; client seul publié. Rapport `docs/TOURNAMENT_SCENERY.json`.
 

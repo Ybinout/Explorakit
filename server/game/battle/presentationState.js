@@ -1,5 +1,10 @@
 // Visual history only: weak references never enter saves or public player DTOs.
 const viewers = new WeakMap();
+const {gender}=require('../items/stoneEvolution');
+function genders(own,enemy) {
+    const visible=p=>p?.storyActor||p?.isEgg?null:gender(p);
+    return {player:visible(own),opponent:visible(enemy)};
+}
 function reset(viewer) { viewers.delete(viewer); }
 function transitions(viewer, own, enemy, { initial = false } = {}) {
     const previous=viewers.get(viewer)||{}, next={}, events=[];
@@ -13,4 +18,4 @@ function transitions(viewer, own, enemy, { initial = false } = {}) {
     }
     viewers.set(viewer,next);return events;
 }
-module.exports={reset,transitions};
+module.exports={reset,transitions,genders};

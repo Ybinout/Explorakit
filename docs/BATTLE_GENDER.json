@@ -1,0 +1,157 @@
+{
+  "feature": "Sexes imposés par espèce et affichage en combat",
+  "species": {
+    "scope": "Species 1–493",
+    "speciesChecked": 493,
+    "mismatches": [],
+    "source": "https://raw.githubusercontent.com/PokeAPI/pokeapi/81d20919845b6a445969b9265aab5cec6b04cece/data/v2/csv/pokemon_species.csv",
+    "maleOnly": 12,
+    "femaleOnly": 16,
+    "genderless": 54
+  },
+  "rules": [
+    "Espèce exclusivement mâle/femelle ou asexuée prioritaire sur un ancien champ contradictoire.",
+    "Sexe explicite légal conservé pour les espèces mixtes ; sinon résolution stable par UUID, aucun nouveau tirage.",
+    "Métamorph conserve son sexe original sous Morphing ; Œufs et adversaires humains sans symbole.",
+    "Métadonnée optionnelle genders pour chaque point de vue et synchronisation, sans mutation du modèle ni écriture SQL."
+  ],
+  "surfaces": [
+    "Combat sauvage Aventure",
+    "Dresseurs Aventure",
+    "PvP Aventure",
+    "Rift",
+    "Colosseum",
+    "Super Tournoi",
+    "Confrontation finale humaine (symbole masqué)",
+    "Listes privées Rift/Colosseum"
+  ],
+  "checks": {
+    "unitPassed": 129,
+    "unitFailed": 0,
+    "unitSkipped": 0,
+    "browsers": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "views": [
+          {
+            "width": 320,
+            "height": 480,
+            "type": "wild"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "type": "arena"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "type": "pvp"
+          }
+        ],
+        "checks": [
+          "Both combat HUDs use authoritative male/female/genderless values despite invalid raw fields",
+          "Sex follows replacements; transformed Ditto stays genderless; human and egg badges are hidden",
+          "Shared combat UI fits mobile and desktop, including long names and status labels"
+        ],
+        "errors": [],
+        "physicalHardware": false
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "views": [
+          {
+            "width": 320,
+            "height": 480,
+            "type": "wild"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "type": "arena"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "type": "pvp"
+          }
+        ],
+        "checks": [
+          "Both combat HUDs use authoritative male/female/genderless values despite invalid raw fields",
+          "Sex follows replacements; transformed Ditto stays genderless; human and egg badges are hidden",
+          "Shared combat UI fits mobile and desktop, including long names and status labels"
+        ],
+        "errors": [],
+        "physicalHardware": false
+      }
+    },
+    "lint": true,
+    "isolatedBuild": true,
+    "physicalHardware": false
+  },
+  "commands": [
+    "node --test tests/battle-gender.test.js tests/pokemon-gender-view.test.js tests/ability-reactions.test.js tests/evolution.test.js tests/expedition-strategy.test.js tests/combat-feedback.test.js tests/drift-runtime.test.js",
+    "npm --prefix vue-explorakit run lint -- --no-fix",
+    "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-battle-gender-dist",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-battle-gender-dist node --env-file-if-exists=.env scripts/validateBattleGenderBrowser.js",
+    "PRESENTATION_BROWSER=webkit DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-battle-gender-dist node --env-file-if-exists=.env scripts/validateBattleGenderBrowser.js"
+  ],
+  "deployment": {
+    "publishedAt": "2026-10-30T18:11:21.346Z",
+    "restartedAt": "2026-10-30T18:11:13.877Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-battle-gender-2026-10-30T18-11-12-486Z",
+    "sourceBaseline": "e4ab25554541a15197618fba5fb914a00e10a362",
+    "sourceHashes": {
+      "server/game/battle/presentationState.js": "8d7ba87b4822ac483ec95dec73ec5010f03ca6c01c378c191121c3c13749c673",
+      "server/game/battle/professorFinale.js": "ec7224f7e416e2869716148fa1614b47053cff803ad30db605cbd95073ee4eab",
+      "server/game/battle/pvpBattle.js": "b5d7e6d8f392bedd2bc075681d7157117e3a411ff2327a5ad5542b710a311d2e",
+      "server/game/battle/trainerBattle.js": "5b69f166e2a6d4508c624d56ca50e55581379044cea6c9af056b34899ed1cff2",
+      "server/game/battle/wildBattle.js": "a3355d8812c2c9fe5610fbf25582342a87fd78b9263300324b7195f28e7b1f2c",
+      "server/game/drift/driftBattle.js": "7cf4a8995f74cf8620044a50fd73d5d730d5dc45188977f08a842bd3f8d22963",
+      "server/game/drift/runManager.js": "0012e180bb33000536bbfff3697daf440810c3773e0c6258667afb87e71b4adb",
+      "server/game/items/stoneEvolution.js": "ddae2f7154d65b898e69ee8adbe2d2aeed8f396cbb218c28d6359076829ed780"
+    },
+    "clientCommit": "54e842d3ca006bce16603cee1925c71262bbb21b",
+    "clientBuild": "bcb66deb2c454cd7",
+    "beforePid": "3507053",
+    "afterPid": "3510940",
+    "serverRestarted": true,
+    "schemaChanged": false,
+    "databaseChanged": false,
+    "existingPlayerDataChanged": false,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "realAccountsManuallyModified": false,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.f5ca3bcb.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.7d65f73e.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.00fadb68.js",
+      "js/drift.5b8720d7.js",
+      "js/game.ffcf14e5.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.553e140c.css",
+      "css/drift.57f62eee.css",
+      "css/game.6ae0e12e.css",
+      "css/test-view.7568246d.css"
+    ],
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0
+  }
+}

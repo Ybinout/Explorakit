@@ -83,7 +83,7 @@ async function narrate(player, io, message, delayMs = TEXT_DELAY_MS) {
 }
 
 function displayIntroAnimation(player, wildPokemon, io, battleState) {
-    io.to(player.id).emit('introAnimation', { player, wildPokemon, usableMoveIndexes:getUsableMoveIndexes(player.equipe.pokemons[0],battleState), capturePolicy:captureAssessment(battleState?.captureProgress,wildPokemon?.level), moveTypes:battleMoveTypes(player.equipe.pokemons[0],wildPokemon,battleState), effortYield:effortYield(wildPokemon), transitions:presentation.transitions(player,player.equipe.pokemons[0],wildPokemon) });
+    io.to(player.id).emit('introAnimation', { player, wildPokemon, genders:presentation.genders(player.equipe.pokemons[0],wildPokemon), usableMoveIndexes:getUsableMoveIndexes(player.equipe.pokemons[0],battleState), capturePolicy:captureAssessment(battleState?.captureProgress,wildPokemon?.level), moveTypes:battleMoveTypes(player.equipe.pokemons[0],wildPokemon,battleState), effortYield:effortYield(wildPokemon), transitions:presentation.transitions(player,player.equipe.pokemons[0],wildPokemon) });
 }
 
 function displayMoveAnimation(player, attacker, io, details) {

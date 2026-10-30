@@ -1,3 +1,4 @@
+const {gender:pokemonGender}=require('../items/stoneEvolution');
 const { getMapWeather } = require('../world/mapWeather');
 const { WILD_ENCOUNTER_CHANCE } = require('../world/encounterRate');
 const { randomUUID } = require('node:crypto');
@@ -93,7 +94,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         return { id:run.id, mode:run.mode || 'rift', durationMinutes:run.lobby.rules.durationMinutes, colosseum:run.colosseum ? { ...run.colosseum, ...(run.report ? { resultTeam:colosseum.recordTeam(run.report), defeat:colosseum.recordDefeat(run.report) } : {}) } : null, phase:run.phase, starterChoices:p.starterChoices || [], selectionEndsAt:run.selectionEndsAt || null, serverNow:now(), endsAt:run.endsAt, preparationEndsAt:run.preparationEndsAt,
             alive:p.alive, winnerId:run.winnerId, reason:p.eliminationReason, currentRound:run.round, ready:p.ready,spectatingAvailable:run.mode !== 'colosseum',
             storagePaused:storagePausedAt !== null, recoveredAt:run.recoveredAt || null, recoveryWaiting:Boolean(run.recoveryWaiting), slot:p.slot, slotLimit:economy.SLOT_LIMIT, money:p.money, drifts:p.drifts.map(d=>({...d,...require('./driftStrength').summary(d),salePrice:economy.salePrice(d)})), equipped:p.equipped, lastDriftFusion:p.lastDriftFusion || null,
-            repelSteps:remainingRepel(p), team:p.equipe.pokemons, contracts:contracts.view(p), trainers:trainers.list(p), items:economy.bag(p), merchant:isShopMap(p.currentmap)&&run.phase==='exploration'?require('./merchant').view(p):null,
+            repelSteps:remainingRepel(p), team:p.equipe.pokemons.map(pokemon=>({...pokemon,gender:pokemonGender(pokemon)})), contracts:contracts.view(p), trainers:trainers.list(p), items:economy.bag(p), merchant:isShopMap(p.currentmap)&&run.phase==='exploration'?require('./merchant').view(p):null,
             players:[...run.players.values()].map(a=>({id:a.userId,username:a.username,alive:a.alive,ready:a.ready,
                 connected:Boolean(a.socketId&&playerFor({id:a.userId})===a),inBattle:Boolean(a.inbattle),reason:a.eliminationReason||null})),
             matches:run.matches.map(m=>({id:m.id,round:m.round,players:m.players,status:m.status,winnerId:m.winnerId})),

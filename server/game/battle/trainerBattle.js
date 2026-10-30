@@ -72,7 +72,7 @@ function displayIntroAnimation(player, currentEnemy, io, battleState) {
     // Forecast is a weather form, not an entry hazard: reveal the correct sprite
     // from the first send-out frame, before narrating entry damage/abilities.
     require('../abilities/abilityForms').syncWeatherForms(player.equipe.pokemons[0],currentEnemy,battleState);
-    io.to(player.id).emit('introAnimation', { player, wildPokemon: currentEnemy, opponentParty:partyIndicator(battleState.trainerTeam?.pokemons), usableMoveIndexes:getUsableMoveIndexes(player.equipe.pokemons[0],battleState), moveTypes:battleMoveTypes(player.equipe.pokemons[0],currentEnemy,battleState), effortYield:effortYield(currentEnemy), transitions:trainerTactics.decorateTransitions(presentation.transitions(player,player.equipe.pokemons[0],currentEnemy,{initial:true}),battleState.trainerTeam,battleState.trainerMemory) });
+    io.to(player.id).emit('introAnimation', { player, wildPokemon: currentEnemy, genders:presentation.genders(player.equipe.pokemons[0],currentEnemy), opponentParty:partyIndicator(battleState.trainerTeam?.pokemons), usableMoveIndexes:getUsableMoveIndexes(player.equipe.pokemons[0],battleState), moveTypes:battleMoveTypes(player.equipe.pokemons[0],currentEnemy,battleState), effortYield:effortYield(currentEnemy), transitions:trainerTactics.decorateTransitions(presentation.transitions(player,player.equipe.pokemons[0],currentEnemy,{initial:true}),battleState.trainerTeam,battleState.trainerMemory) });
 }
 
 function displayMoveAnimation(player, attacker, io, details) {

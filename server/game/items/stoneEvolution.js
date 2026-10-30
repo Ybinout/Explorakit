@@ -2,9 +2,13 @@ const { createHash } = require('node:crypto');
 const { rules, genderRates } = require('../../../data/game/stone_evolutions.json');
 const dex = new Map(require('../../../data/game/pokedex.json').map(p => [p.id,p]));
 function gender(pokemon) {
-    if (['male','female','genderless'].includes(pokemon.gender)) return pokemon.gender;
-    const rate = genderRates[pokemon.data.id];
+    const rate = genderRates[pokemon?.data?.id];
     if (rate < 0) return 'genderless';
+    if (rate === 0) return 'male';
+    if (rate === 8) return 'female';
+    // Species restrictions override stale fields (e.g. an evolved Shedinja).
+    if (['male','female'].includes(pokemon?.gender)) return pokemon.gender;
+    if (!Number.isInteger(rate) || typeof pokemon?.uuid !== 'string' || !pokemon.uuid) return null;
     // Stable for legacy expeditions too: reopening the bag cannot reroll a condition.
     const roll = createHash('sha256').update(pokemon.uuid).digest().readUInt32BE(0) % 8;
     return roll < rate ? 'female' : 'male';

@@ -18,7 +18,7 @@ async function start(player,io,userId,{onVictory,onResolve}={}){
  const socket=io.sockets.sockets.get(player.id);if(!socket||socket.connected===false)return false;
  const enemy={uuid:randomUUID(),storyActor:'professor',data:{id:0,name:{french:'Le Professeur'}},name:'Le Professeur',truename:'Le Professeur',maxHp:100,currentHp:100,level:1,status:'corrupted',abilities:[],movePp:[]};
  const field=engine.createBattleState({battleType:'trainer'});
- const send=(event,data)=>io.to(player.id).emit(event,data),sync=()=>send('introAnimation',{player,wildPokemon:enemy,usableMoveIndexes:resources.getUsableMoveIndexes(player.equipe.pokemons[0],field),moveTypes:(player.equipe.pokemons[0]?.abilities||[]).map(n=>engine.getMoveByName(n)?.type||'Normal')});
+ const send=(event,data)=>io.to(player.id).emit(event,data),sync=()=>send('introAnimation',{player,wildPokemon:enemy,genders:require('./presentationState').genders(player.equipe.pokemons[0],enemy),usableMoveIndexes:resources.getUsableMoveIndexes(player.equipe.pokemons[0],field),moveTypes:(player.equipe.pokemons[0]?.abilities||[]).map(n=>engine.getMoveByName(n)?.type||'Normal')});
  let victory=false,resolution=null;
  const lead=player.equipe.pokemons.findIndex(p=>p.currentHp>0&&!p.isEgg);
  if(lead<0)return false;
