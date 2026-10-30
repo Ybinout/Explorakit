@@ -575,12 +575,10 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
 
             require('./humanTrainerAI').observeTurn(battleState.trainerMemory,outgoingUuid,player.equipe.pokemons[0],'change');
 
-            if (currentEnemy.currentHp > 0 && player.equipe.pokemons[0].currentHp > 0) {
-                const roundResult = await resolveRoundEnd(player, currentEnemy, io, battleState, playerSide, enemySide);
-                if (roundResult === 'player_ko') {
-                    const canContinue = await handleForcedPlayerSwitch();
-                    if (!canContinue) return false;
-                }
+            const roundResult = await resolveRoundEnd(player, currentEnemy, io, battleState, playerSide, enemySide);
+            if (roundResult === 'player_ko') {
+                const canContinue = await handleForcedPlayerSwitch();
+                if (!canContinue) return false;
             }
 
             continue;
@@ -599,7 +597,10 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
         const enemySwitched = await executeEnemySwitch(decision);
         require('./humanTrainerAI').observeTurn(battleState.trainerMemory,playerPokemon.uuid,playerPokemon,'attack');
 
-        if (currentEnemy.currentHp <= 0 || playerPokemon.currentHp <= 0) continue;
+        if (currentEnemy.currentHp <= 0 || playerPokemon.currentHp <= 0) {
+            await resolveRoundEnd(player, currentEnemy, io, battleState, playerSide, enemySide);
+            continue;
+        }
         planTurnActions(battleState, [
             { pokemon: playerPokemon, action: 'attack', moveName: playerMoveName },
             { pokemon: currentEnemy, action: decision.action, moveName: enemyMoveName }
@@ -689,12 +690,10 @@ async function startTeamBattle(player, enemyTeam, io, userId, options = {}) {
             await editEquipe(userId, player.equipe);
             return false;
         }
-        if (currentEnemy.currentHp > 0 && player.equipe.pokemons[0].currentHp > 0) {
-            const roundResult = await resolveRoundEnd(player, currentEnemy, io, battleState, playerSide, enemySide);
-            if (roundResult === 'player_ko') {
-                const canContinue = await handleForcedPlayerSwitch();
-                if (!canContinue) return false;
-            }
+        const roundResult = await resolveRoundEnd(player, currentEnemy, io, battleState, playerSide, enemySide);
+        if (roundResult === 'player_ko') {
+            const canContinue = await handleForcedPlayerSwitch();
+            if (!canContinue) return false;
         }
     }
 

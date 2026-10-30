@@ -1,5 +1,17 @@
 # Audit technique et mémoire de RiftMon
 
+## Fin de tour après K.O. et sacrifice à 1 PV — 30 octobre 2026
+
+La première correction de Malédiction traitait bien son effet dans le moteur, mais plusieurs chemins Aventure sautaient toute la fin de tour dès qu’un actif tombait K.O. Le moteur partagé pouvait aussi conclure le combat ou envoyer un remplaçant PNJ avant cette phase. Les tours consommés passent désormais par les résiduels avant les remplacements forcés et le résultat, même après le sacrifice de Malédiction à exactement 1 PV ou le K.O. du dernier combattant. Le lanceur mort n’agit plus et ne perd aucun PP supplémentaire ; sa cible encore vivante subit toujours sa malédiction. Doubles K.O. résiduels pris en compte selon les équipes restantes.
+
+Même correction pour poison/poison grave, brûlure, météo, pièges, soins et durées déjà gérés : pas de modification des formules, seulement de la phase appelée. Attaques de statut, sommeil, changement volontaire, piège mortel à l’entrée et Ball ratée ferment correctement le tour. Attente/choix obligatoire ne rejouent pas la phase. Fuite/capture réussie/déconnexion et commandes refusées conservent leur traitement. Résolution reprise après un pivot, y compris son entrant K.O. par pièges. Les nouveaux PNJ attendent la fin des résiduels : pas de dégât gratuit sur leur remplaçant, ni de tour retiré à leur météo d’entrée.
+
+Vampigraine ne disparaît plus au K.O. de son utilisateur : dégâts annoncés même sans receveur vivant, puis soin du nouvel actif du camp opposé aux tours suivants. Aucun soin ne relève un Pokémon K.O. Deux anciennes attentes « sans XP » des tests de capture Rift alignées sur l’XP de capture déjà livrée ; pas de nouvelle règle de récompense.
+
+Validation : 428 tests unitaires/régression et 142 SQL réussis sans saut/échec, dont 82 nouveaux cas partagés et 34 cas Aventure sauvage/dresseur/PvP. Rejeu des seuls modules précédents dans un processus de test isolé : 48/82 cas échouent avant le patch, aucun fichier de travail ou service remplacé. Tests de talent Garde Magik, sommeil, effets persistants, Restes/Anneau Hydro/Racines, Requiem, météo/durées, pièges, choix de remplacement et pivots. Recette client compilé/Socket/SQL Chromium et WebKit : six scénarios par moteur, 320×480/393×852/1365×900, vraie action depuis l’interface, K.O. à 1 PV/poison, message et PV avant le choix, aucun tick à la sélection, reprise au tour suivant. Aucune erreur/débordement, captures mobiles inspectées, comptes jetables supprimés ; pas de téléphone physique testé. Syntaxe/diff valides ; client existant conservé, aucune migration ni nouveau format de checkpoint. Commandes et résultats : `docs/BATTLE_RESIDUAL_PHASE.json`.
+
+Serveur publié le 30 octobre 2026 à 20 h 39 (Europe/Paris), PID 3522444→3527248, service actif, zéro redémarrage automatique/avertissement. Client `a2e4ad17ab35150e8c7b372a9c2352d0b161fc9a` et build `6615a4ccaf5b0c2e` conservés, index public strictement identique. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-residual-2026-10-30T19-39-00-540Z`, 0 expédition active au contrôle. Aucune modification manuelle de compte réel ni migration, Knov/api-test inchangés.
+
 ## Cartes colorées du Super Tournoi — 30 octobre 2026
 
 Fonds sémantiques par rareté : sable, vert, bleu, violet et doré, avec cinq variantes nocturnes. Rareté écrite conservée pour ne pas dépendre de la seule couleur. Double cadre, emblèmes SVG existants mieux encadrés, titres plus lisibles ; sélection renforcée par une coche, un contour et un pied inversé sur grand écran, couleur propre à la carte conservée. Mobile : grille compacte à icône latérale, coche visible, correction de la règle de faible hauteur pour ne plus imposer les grandes cartes PC au petit format portrait. Pas de nouveau bitmap, timer, règle de soin, tirage, sauvegarde, schéma ou logique serveur.
@@ -5203,6 +5215,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 30 octobre 2026 — Boucle de fin de tour corrigée après K.O. : Malédiction à 1 PV, poison/brûlure/météo/soins, remplacement PNJ et pivots, persistance/visibilité de Vampigraine. 428 tests + 142 SQL, recettes Chromium/WebKit réussis ; rapport `docs/BATTLE_RESIDUAL_PHASE.json`.
 
 - 30 octobre 2026 — Cartes du Super Tournoi : cinq fonds colorés et variantes nuit, cadre/emblèmes/sélection, mobile compact. Recette Chromium/WebKit étendue aux cinq raretés et contrastes, 21 soins appliqués ; lint/build réussis. Rapport `docs/SUPER_TOURNAMENT_REWARD_DESIGN.json`.
 

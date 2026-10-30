@@ -156,6 +156,100 @@ for (const kind of ['wild', 'trainer', 'pvp']) test(`Curse Adventure ${kind}: op
     } finally {if (userId) await pool.execute('DELETE FROM users WHERE id=?', [userId]); await pool.end();}
 });
 
+for (const kind of ['wild', 'trainer', 'pvp']) for (const condition of ['curse_1hp', 'curse_existing', 'poison', 'burn', 'toxic', 'sandstorm', 'hail', 'leftovers']) {
+    test(`Residual loop Adventure ${kind}/${condition}: active KO cannot skip end of turn or damage the replacement`, {skip: !shouldRun}, async () => {
+        const pool = createTestPool(); let userId;
+        try {
+            const {user, player} = await createPlayer(7); userId = user.id; player.currentmap = 'centre';
+            const curse = condition === 'curse_1hp';
+            const own = createPokemon(94, 'Lanceur', [curse ? 'Curse' : 'Splash']);
+            const bench = createPokemon(25, 'Réserve', ['Splash']);
+            const foe = createPokemon(143, 'Cible', [curse ? 'Splash' : 'Dragon Rage']);
+            for (const p of [own, bench, foe]) {p.truename = p.name; p.passiveAbility = null; p.heldItem = null; p.maxHp = p.currentHp = 160;}
+            own.currentHp = 1; own.currentSpeed = curse ? 999 : 1; foe.currentSpeed = curse ? 1 : 999;
+            let expected = 160;
+            if (curse || condition === 'curse_existing') {expected = 120; if (!curse) foe.__battle = {curseSource: 'earlier-source'};}
+            if (condition === 'poison') {foe.status = 'poison'; expected = 140;}
+            if (condition === 'burn') {foe.status = 'burn'; expected = 150;}
+            if (condition === 'toxic') {foe.status = 'badly_poison'; expected = 150;}
+            if (condition === 'sandstorm') {foe.passiveAbility = 'Sand Stream'; expected = 150;}
+            if (condition === 'hail') {foe.passiveAbility = 'Snow Warning'; expected = 150;}
+            if (condition === 'leftovers') {foe.heldItem = 'leftovers'; foe.currentHp = 80; expected = 90;}
+            player.equipe = createTeam(own, bench);
+            const rival = {id: 'residual-rival', currentmap: 'centre', equipe: createTeam(foe)};
+            const io = new RecordingIo({[player.id]: new ScriptedSocket([{action: 'attack', number: 0}, {action: 'change', number: 1}, {action: 'flee'}]),
+                [rival.id]: new ScriptedSocket([{action: 'attack', number: 0}, {action: 'flee'}])});
+            const socket = io.sockets.sockets.get(player.id), emit = socket.emit.bind(socket), replacementHp = [];
+            socket.emit = (event, payload) => {
+                if (event === 'requestAction' && payload.replacementId) replacementHp.push(foe.currentHp);
+                return emit(event, payload);
+            };
+            await withFixedRandom(.5, () => kind === 'wild' ? startWildBattle(player, foe, io, userId)
+                : kind === 'trainer' ? startTrainerBattle(player, rival.equipe, io, userId) : startPvpBattle(player, rival, io));
+            assert.equal(own.currentHp, 0);
+            assert.equal(foe.currentHp, expected);
+            assert.equal(bench.currentHp, 160);
+            assert.equal(own.movePp[0], resourcesMax(curse ? 'Curse' : 'Splash') - (curse ? 1 : 0));
+            assert.deepEqual(replacementHp, [expected], 'residual HP must be resolved before the replacement prompt');
+        } finally {if (userId) await pool.execute('DELETE FROM users WHERE id=?', [userId]); await pool.end();}
+    });
+}
+
+for (const kind of ['wild', 'trainer', 'pvp']) test(`Residual loop Adventure ${kind}: switching is a turn, mandatory replacement is not`, {skip: !shouldRun}, async () => {
+    const pool = createTestPool(); let userId;
+    try {
+        const {user, player} = await createPlayer(7); userId = user.id; player.currentmap = 'centre';
+        const own = createPokemon(94, 'Premier', ['Splash']), fragile = createPokemon(25, 'Fragile', ['Splash']), foe = createPokemon(143, 'Cible', ['Dragon Rage']);
+        for (const p of [own, fragile, foe]) {p.passiveAbility = null; p.heldItem = null; p.maxHp = p.currentHp = 160;}
+        fragile.currentHp = 1; foe.status = 'poison'; player.equipe = createTeam(own, fragile);
+        const rival = {id: 'residual-switch-rival', currentmap: 'centre', equipe: createTeam(foe)};
+        const io = new RecordingIo({[player.id]: new ScriptedSocket([{action: 'change', number: 1}, {action: 'change', number: 1}, {action: 'flee'}]),
+            [rival.id]: new ScriptedSocket([{action: 'attack', number: 0}, {action: 'flee'}])});
+        await withFixedRandom(.5, () => kind === 'wild' ? startWildBattle(player, foe, io, userId)
+            : kind === 'trainer' ? startTrainerBattle(player, rival.equipe, io, userId) : startPvpBattle(player, rival, io));
+        assert.equal(fragile.currentHp, 0); assert.equal(own.currentHp, 160); assert.equal(foe.currentHp, 140);
+        assert.equal(foe.movePp[0], resourcesMax('Dragon Rage') - 1);
+    } finally {if (userId) await pool.execute('DELETE FROM users WHERE id=?', [userId]); await pool.end();}
+});
+
+test('Residual loop Adventure wild: failed capture followed by KO still applies poison', {skip: !shouldRun}, async () => {
+    const pool = createTestPool(); let userId;
+    try {
+        const {user, player} = await createPlayer(7); userId = user.id; player.currentmap = 'centre';
+        const own = createPokemon(94, 'Premier', ['Splash']), bench = createPokemon(25, 'Réserve', ['Splash']), foe = createPokemon(143, 'Cible', ['Dragon Rage']);
+        for (const p of [own, bench, foe]) {p.passiveAbility = null; p.heldItem = null; p.maxHp = p.currentHp = 160;}
+        own.currentHp = 1; foe.status = 'poison'; player.equipe = createTeam(own, bench);
+        await pool.execute('INSERT INTO user_items(user_id,item_key,quantity) VALUES(?,?,1) ON DUPLICATE KEY UPDATE quantity=1', [userId, 'pokeball']);
+        const io = new RecordingIo({[player.id]: new ScriptedSocket([{action: 'bag', itemKey: 'pokeball'}, {action: 'change', number: 1}, {action: 'flee'}])});
+        await withFixedRandom(.99, () => startWildBattle(player, foe, io, userId));
+        assert.equal(own.currentHp, 0); assert.equal(bench.currentHp, 160); assert.equal(foe.currentHp, 140);
+        assert.equal(foe.movePp[0], resourcesMax('Dragon Rage') - 1);
+    } finally {if (userId) await pool.execute('DELETE FROM users WHERE id=?', [userId]); await pool.end();}
+});
+
+for (const kind of ['wild', 'trainer', 'pvp']) for (const curse of [false, true]) test(`Residual loop Adventure ${kind}: terminal ${curse ? '1 HP Curse' : 'poison double KO'} finishes after residuals`, {skip: !shouldRun}, async () => {
+    const pool = createTestPool(); let userId;
+    try {
+        const {user, player} = await createPlayer(7); userId = user.id; player.currentmap = 'centre';
+        const own = createPokemon(94, 'Lanceur', [curse ? 'Curse' : 'Splash']), foe = createPokemon(143, 'Cible', [curse ? 'Splash' : 'Dragon Rage']);
+        for (const p of [own, foe]) {p.truename = p.name; p.passiveAbility = null; p.heldItem = null; p.maxHp = p.currentHp = 160;}
+        own.currentHp = 1; own.currentSpeed = curse ? 999 : 1; foe.currentSpeed = curse ? 1 : 999;
+        if (!curse) {foe.status = 'poison'; foe.currentHp = 20;}
+        player.equipe = createTeam(own);
+        const rival = {id: 'residual-terminal-rival', currentmap: 'centre', equipe: createTeam(foe)};
+        const io = new RecordingIo({[player.id]: new ScriptedSocket([{action: 'attack', number: 0}]),
+            [rival.id]: new ScriptedSocket([{action: 'attack', number: 0}])});
+        await withFixedRandom(.5, () => kind === 'wild' ? startWildBattle(player, foe, io, userId)
+            : kind === 'trainer' ? startTrainerBattle(player, rival.equipe, io, userId) : startPvpBattle(player, rival, io));
+        assert.equal(own.currentHp, 0); assert.equal(foe.currentHp, curse ? 120 : 0);
+        const events = io.events.filter(e => e.targetId === player.id);
+        const residual = events.findIndex(e => e.eventName === 'battleText' && /souffre (de la malediction|du poison)/.test(e.payload.message));
+        const end = events.findIndex(e => e.eventName === 'endbattle');
+        assert(residual >= 0 && end > residual);
+        assert.equal(events.filter(e => e.eventName === 'endbattle').length, 1);
+    } finally {if (userId) await pool.execute('DELETE FROM users WHERE id=?', [userId]); await pool.end();}
+});
+
 test('Trainer party indicator: actual remaining count after a real knockout, without revealing reserves', {skip:!shouldRun},async()=>{
  const pool=createTestPool();let userId;
  try{

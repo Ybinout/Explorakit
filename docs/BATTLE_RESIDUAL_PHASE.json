@@ -1,0 +1,226 @@
+{
+  "feature": "Phase de fin de tour après K.O., indépendante du lanceur encore vivant",
+  "cause": [
+    "Aventure : retours/conditions exigeaient deux actifs vivants avant processEndOfRound",
+    "Rift/Colosseum/Super Tournoi : résultat et remplacement PNJ pouvaient précéder les résiduels ; pause de pivot pouvait prolonger un tour après un entrant K.O.",
+    "Vampigraine : effet retiré si son lanceur mourait, soin lié à son ancienne référence plutôt qu’au nouvel actif, et texte des dégâts absent sans receveur vivant"
+  ],
+  "changes": [
+    "Fin de tour exécutée après les actions consommées même si un actif tombe K.O., y compris sacrifice à exactement 1 PV et dernier combattant",
+    "Poison, poison grave, brûlure, malédiction, météo, soins, pièges et durées existants passent une seule fois avant résultat/remplacement forcé",
+    "Acteurs K.O. ne rejouent pas, ne perdent pas de PP ; retrait du combat/capture réussie/déconnexion/commandes refusées ne gagnent pas de phase gratuite",
+    "PNJ remplaçant envoyé après les résiduels, sans dégât périodique gratuit ; météo d’entrée conserve sa durée entière",
+    "Changement volontaire/capacité de pivot, Ball ratée et action empêchée consomment leur fin de tour ; choix obligatoire et attente ne consomment aucun tour",
+    "Vampigraine persiste après K.O./sortie de son utilisateur, dégâts annoncés sans soin possible et soin reçu par le nouvel actif adverse lorsqu’il vit",
+    "Double K.O. possible à la clôture ; résultat déterminé sur les équipes restantes, jamais un Pokémon déjà K.O. soigné par cette phase",
+    "Deux attentes de tests Rift anciennes sans XP à la capture mises en accord avec le correctif déjà livré ; aucune nouvelle règle d’XP"
+  ],
+  "checks": {
+    "unit": {
+      "passed": 428,
+      "failed": 0,
+      "skipped": 0,
+      "newRoundCases": 82
+    },
+    "mysql": {
+      "passed": 142,
+      "failed": 0,
+      "skipped": 0,
+      "newRoundCases": 34,
+      "orchestrators": [
+        "wild",
+        "trainer",
+        "pvp"
+      ]
+    },
+    "beforePatchReplay": {
+      "sourceCommit": "78c0a8f67f4c1dc790a4ec5a29cf7a15eea59b3a",
+      "method": "Old battleEngine and DriftBattle compiled into the isolated test process through Module; no workspace/runtime files replaced",
+      "counts": {
+        "tests": 82,
+        "pass": 34,
+        "fail": 48
+      }
+    },
+    "browsers": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "views": [
+          {
+            "width": 320,
+            "height": 480,
+            "type": "wild",
+            "effect": "curse",
+            "residualBeforeReplacement": true,
+            "noExtraTickOnChoice": true,
+            "persistsNextTurn": true
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "type": "wild",
+            "effect": "poison",
+            "residualBeforeReplacement": true,
+            "noExtraTickOnChoice": true,
+            "persistsNextTurn": true
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "type": "arena",
+            "effect": "curse",
+            "residualBeforeReplacement": true,
+            "noExtraTickOnChoice": true,
+            "persistsNextTurn": true
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "type": "arena",
+            "effect": "poison",
+            "residualBeforeReplacement": true,
+            "noExtraTickOnChoice": true,
+            "persistsNextTurn": true
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "type": "trainer",
+            "effect": "curse",
+            "residualBeforeReplacement": true,
+            "noExtraTickOnChoice": true,
+            "persistsNextTurn": true
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "type": "trainer",
+            "effect": "poison",
+            "residualBeforeReplacement": true,
+            "noExtraTickOnChoice": true,
+            "persistsNextTurn": true
+          }
+        ],
+        "checks": [
+          "Real client action: 1 HP Curse / opponent kill; residual HP and text resolve before the replacement UI",
+          "Choosing the reserve consumes no turn or extra residual; Curse/poison tick once on the following non-damaging action",
+          "Current compiled client reused in wild/arena/trainer presentation, mobile/desktop, without overflow or browser errors"
+        ],
+        "errors": [],
+        "physicalHardware": false,
+        "compiledClientChanged": false
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "views": [
+          {
+            "width": 320,
+            "height": 480,
+            "type": "wild",
+            "effect": "curse",
+            "residualBeforeReplacement": true,
+            "noExtraTickOnChoice": true,
+            "persistsNextTurn": true
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "type": "wild",
+            "effect": "poison",
+            "residualBeforeReplacement": true,
+            "noExtraTickOnChoice": true,
+            "persistsNextTurn": true
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "type": "arena",
+            "effect": "curse",
+            "residualBeforeReplacement": true,
+            "noExtraTickOnChoice": true,
+            "persistsNextTurn": true
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "type": "arena",
+            "effect": "poison",
+            "residualBeforeReplacement": true,
+            "noExtraTickOnChoice": true,
+            "persistsNextTurn": true
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "type": "trainer",
+            "effect": "curse",
+            "residualBeforeReplacement": true,
+            "noExtraTickOnChoice": true,
+            "persistsNextTurn": true
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "type": "trainer",
+            "effect": "poison",
+            "residualBeforeReplacement": true,
+            "noExtraTickOnChoice": true,
+            "persistsNextTurn": true
+          }
+        ],
+        "checks": [
+          "Real client action: 1 HP Curse / opponent kill; residual HP and text resolve before the replacement UI",
+          "Choosing the reserve consumes no turn or extra residual; Curse/poison tick once on the following non-damaging action",
+          "Current compiled client reused in wild/arena/trainer presentation, mobile/desktop, without overflow or browser errors"
+        ],
+        "errors": [],
+        "physicalHardware": false,
+        "compiledClientChanged": false
+      }
+    },
+    "syntax": true,
+    "diff": true,
+    "compiledClientChanged": false,
+    "clientCommit": "a2e4ad17ab35150e8c7b372a9c2352d0b161fc9a",
+    "clientBuild": "6615a4ccaf5b0c2e",
+    "physicalHardware": false,
+    "realAccountsManuallyModified": false
+  },
+  "reproduction": [
+    "node --test tests/end-of-round.test.js tests/curse.test.js tests/replacement-choice.test.js tests/two-turn-moves.test.js tests/battle-engine.test.js tests/automatic-move-regressions.test.js tests/move-behavior-audit.test.js tests/human-trainer-ai.test.js tests/human-trainer-model.test.js tests/drift-runtime.test.js tests/battle-field.test.js tests/ability-system.test.js tests/ability-audit-regression.test.js tests/ability-reactions.test.js tests/human-trainer-items.test.js tests/human-trainer-known-abilities.test.js tests/super-tournament.test.js tests/super-tournament-order.test.js tests/super-tournament-rewards.test.js",
+    "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test node --env-file-if-exists=.env --test --test-concurrency=1 tests/battle-runtime-integration.test.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=chromium RELEASE_DIST_DIR=/tmp/riftmon-reward-colors-dist node --env-file-if-exists=.env scripts/validateResidualTurnBrowser.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=webkit RELEASE_DIST_DIR=/tmp/riftmon-reward-colors-dist node --env-file-if-exists=.env scripts/validateResidualTurnBrowser.js"
+  ],
+  "deployment": {
+    "publishedAt": "2026-10-30T19:39:02.176Z",
+    "restartedAt": "2026-10-30T19:39:01.089Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-residual-2026-10-30T19-39-00-540Z",
+    "sourceBaseline": "78c0a8f67f4c1dc790a4ec5a29cf7a15eea59b3a",
+    "sourceHashes": {
+      "server/game/battle/battleEngine.js": "3c83693e4a0714e238d860530c9c8063869d494beb714dd2bd4e27324c4f6223",
+      "server/game/battle/pvpBattle.js": "8ab5c18be699b02ad8e6d144f4aa5fd33a3eb15697deb7263910c91ce037c96b",
+      "server/game/battle/trainerBattle.js": "fb9d0e00805616f94ab6ad4a289bf04a2bee6a8c382246582861122324f5e4f8",
+      "server/game/battle/wildBattle.js": "03ad7583e929c440ddd899c467ad8bea2f65cc9a15eab96440056a35705beceb",
+      "server/game/drift/driftBattle.js": "cb0ab1db04fc1586d8ca26b8e44733a3ae34e0e40e141bc49720abf151fafbb7"
+    },
+    "clientCommit": "a2e4ad17ab35150e8c7b372a9c2352d0b161fc9a",
+    "clientBuild": "6615a4ccaf5b0c2e",
+    "clientChanged": false,
+    "beforePid": "3522444",
+    "afterPid": "3527248",
+    "serverRestarted": true,
+    "databaseSchemaChanged": false,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "publicIndexUnchanged": true,
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0
+  }
+}

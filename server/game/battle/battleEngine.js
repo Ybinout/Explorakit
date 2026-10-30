@@ -2286,13 +2286,17 @@ function processPokemonEndTurn(pokemon, enemyPokemon, ownSide, battleState) {
 
     if (pokemonData.leechSeedSource && safeNumber(pokemon.currentHp, 0) > 0 && !indirectDamageBlocked) {
         const drain = Math.max(1, Math.floor(maxHp / 8));
-        const source = pokemonData.leechSeedSource;
+        // The seeded Pokémon stays seeded when the original user faints or
+        // switches; the opposing active receives the healing when alive.
+        const source = enemyPokemon || pokemonData.leechSeedSource;
         const dmgResult = applyDamage(pokemon, drain, { allowEndure: false });
+        if (dmgResult.damageToHp > 0) {
+            messages.push(`${pokemonName} perd ${dmgResult.damageToHp} PV a cause de Vampigraine.`);
+        }
         if (dmgResult.damageToHp > 0 && source && safeNumber(source.currentHp, 0) > 0) {
             const ooze=hasPassiveAbility(pokemon,'Liquid Ooze');
             if(ooze && !hasPassiveAbility(source,'Magic Guard'))applyDamage(source,dmgResult.damageToHp,{allowEndure:false});
             const healed = ooze || source.__battle?.healBlockTurns>0 ? 0 : healPokemon(source, dmgResult.damageToHp);
-            messages.push(`${pokemonName} perd ${dmgResult.damageToHp} PV a cause de Vampigraine.`);
             if (healed > 0) {
                 messages.push(`${getPokemonDisplayName(source)} recupere ${healed} PV avec Vampigraine.`);
             }
@@ -2416,10 +2420,6 @@ function processPokemonEndTurn(pokemon, enemyPokemon, ownSide, battleState) {
             );
             pokemonData.delayedStatus = null;
         }
-    }
-
-    if (enemyPokemon && safeNumber(enemyPokemon.currentHp, 0) <= 0) {
-        pokemonData.leechSeedSource = null;
     }
 
     pokemonData.protect = false;

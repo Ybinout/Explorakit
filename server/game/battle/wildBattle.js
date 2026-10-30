@@ -320,8 +320,9 @@ async function runAttackTurn(player, wildPokemon, response, io, battleState, pla
             }
         );
         if(battleState.escapeActor)return 'escaped';
-        if (wildPokemon.currentHp <= 0) return hasAlivePokemon(player.equipe.pokemons) ? 'wild_ko' : 'player_ko';
-        if (player.equipe.pokemons[0].currentHp <= 0) return 'player_ko';
+        if (wildPokemon.currentHp <= 0 || player.equipe.pokemons[0].currentHp <= 0) {
+            return resolveRoundEnd(player, wildPokemon, io, battleState, playerSide, enemySide);
+        }
 
         await performAttackWithNarration(
             wildPokemon,
@@ -340,8 +341,6 @@ async function runAttackTurn(player, wildPokemon, response, io, battleState, pla
         );
 
         if(battleState.escapeActor)return 'escaped';
-        if (player.equipe.pokemons[0].currentHp <= 0) return 'player_ko';
-        if (wildPokemon.currentHp <= 0) return hasAlivePokemon(player.equipe.pokemons) ? 'wild_ko' : 'player_ko';
         return resolveRoundEnd(player, wildPokemon, io, battleState, playerSide, enemySide);
     }
 
@@ -361,8 +360,9 @@ async function runAttackTurn(player, wildPokemon, response, io, battleState, pla
         }
     );
     if(battleState.escapeActor)return 'escaped';
-    if (player.equipe.pokemons[0].currentHp <= 0) return 'player_ko';
-    if (wildPokemon.currentHp <= 0) return hasAlivePokemon(player.equipe.pokemons) ? 'wild_ko' : 'player_ko';
+    if (wildPokemon.currentHp <= 0 || player.equipe.pokemons[0].currentHp <= 0) {
+        return resolveRoundEnd(player, wildPokemon, io, battleState, playerSide, enemySide);
+    }
     if (wildResult?.switches?.defender) {
         return resolveRoundEnd(player, wildPokemon, io, battleState, playerSide, enemySide);
     }
@@ -384,8 +384,6 @@ async function runAttackTurn(player, wildPokemon, response, io, battleState, pla
     );
 
     if(battleState.escapeActor)return 'escaped';
-    if (wildPokemon.currentHp <= 0) return hasAlivePokemon(player.equipe.pokemons) ? 'wild_ko' : 'player_ko';
-    if (player.equipe.pokemons[0].currentHp <= 0) return 'player_ko';
     return resolveRoundEnd(player, wildPokemon, io, battleState, playerSide, enemySide);
 }
 
@@ -649,15 +647,13 @@ async function startBattle(player, wildPokemon, io, userId) {
                     if(battleState.escapeActor)return finishTeleport();
                 }
 
-                if (wildPokemon.currentHp > 0 && player.equipe.pokemons[0].currentHp > 0) {
-                    const roundResult = await resolveRoundEnd(player, wildPokemon, io, battleState, playerSide, enemySide);
-                    if (roundResult === 'wild_ko') {
-                        await grantWildXp();
-                        await rewardText(player, io, 'Victoire !', sleep, TEXT_DELAY_MS);
-                        await endBattle(true);
-                        await editEquipe(userId, player.equipe);
-                        return true;
-                    }
+                const roundResult = await resolveRoundEnd(player, wildPokemon, io, battleState, playerSide, enemySide);
+                if (roundResult === 'wild_ko') {
+                    await grantWildXp();
+                    await rewardText(player, io, 'Victoire !', sleep, TEXT_DELAY_MS);
+                    await endBattle(true);
+                    await editEquipe(userId, player.equipe);
+                    return true;
                 }
 
                 if (player.equipe.pokemons[0].currentHp <= 0) {
@@ -693,12 +689,6 @@ async function startBattle(player, wildPokemon, io, userId) {
                     battleState
                 );
 
-                if (player.equipe.pokemons[0].currentHp <= 0) {
-                    const canContinue = await handleForcedSwitch();
-                    if (!canContinue) return false;
-                    continue;
-                }
-
                 if (wildPokemon.currentHp > 0 && player.equipe.pokemons[0].currentHp > 0) {
                     await performAttackWithNarration(
                         wildPokemon,
@@ -718,15 +708,13 @@ async function startBattle(player, wildPokemon, io, userId) {
                     if(battleState.escapeActor)return finishTeleport();
                 }
 
-                if (wildPokemon.currentHp > 0 && player.equipe.pokemons[0].currentHp > 0) {
-                    const roundResult = await resolveRoundEnd(player, wildPokemon, io, battleState, playerSide, enemySide);
-                    if (roundResult === 'wild_ko') {
-                        await grantWildXp();
-                        await rewardText(player, io, 'Victoire !', sleep, TEXT_DELAY_MS);
-                        await endBattle(true);
-                        await editEquipe(userId, player.equipe);
-                        return true;
-                    }
+                const roundResult = await resolveRoundEnd(player, wildPokemon, io, battleState, playerSide, enemySide);
+                if (roundResult === 'wild_ko') {
+                    await grantWildXp();
+                    await rewardText(player, io, 'Victoire !', sleep, TEXT_DELAY_MS);
+                    await endBattle(true);
+                    await editEquipe(userId, player.equipe);
+                    return true;
                 }
 
                 if (player.equipe.pokemons[0].currentHp <= 0) {

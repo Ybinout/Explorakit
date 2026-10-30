@@ -674,21 +674,16 @@ async function startPvpBattle(playerA, playerB, io) {
             await persistTeams(playerA, playerB);
             return { winnerId:winner.id, reason:'opponent_disconnected' };
         }
-        if (hasAlivePokemon(teamA) && hasAlivePokemon(teamB)) {
-            const activeAfterTurnA = teamA[0];
-            const activeAfterTurnB = teamB[0];
-
-            if (Number(activeAfterTurnA?.currentHp || 0) > 0 && Number(activeAfterTurnB?.currentHp || 0) > 0) {
-                const endTurnMessages = processEndOfRound(activeAfterTurnA, activeAfterTurnB, sideA, sideB, battleState);
-                emitFieldState(io, [playerA?.id, playerB?.id], battleState);
-                if (Array.isArray(endTurnMessages) && endTurnMessages.length > 0) {
-                    emitBattleStateForBoth(io, playerA, playerB, battleState);
-                    await sleep(SHORT_DELAY_MS);
-                    for (const message of endTurnMessages) {
-                        if (!message) continue;
-                        await narrateToBoth(io, playerA, playerB, message, 900);
-                    }
-                }
+        // Residuals belong to the turn just played, even if one active fainted.
+        // Forced replacements and the final result are resolved afterwards.
+        const endTurnMessages = processEndOfRound(teamA[0], teamB[0], sideA, sideB, battleState);
+        emitFieldState(io, [playerA?.id, playerB?.id], battleState);
+        if (Array.isArray(endTurnMessages) && endTurnMessages.length > 0) {
+            emitBattleStateForBoth(io, playerA, playerB, battleState);
+            await sleep(SHORT_DELAY_MS);
+            for (const message of endTurnMessages) {
+                if (!message) continue;
+                await narrateToBoth(io, playerA, playerB, message, 900);
             }
         }
     }

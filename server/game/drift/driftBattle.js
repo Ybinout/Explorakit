@@ -234,17 +234,22 @@ class DriftBattle {
         }
         this.sync();
         for (const p of replacements) this.enter(p===this.a?0:1);
-        this.prune();
+        const continuation = this.turnContinuation;
+        this.prune({deferReplacement: Boolean(continuation)});
+        // A pivot pauses an unfinished turn. Resume it even if its hit ended
+        // the opposing team, or its entrant fainted to hazards: residuals must
+        // still run before a result or a new mandatory replacement.
+        if (continuation) {
+            delete this.turnContinuation;
+            this.resolveAttacks(continuation);
+            return;
+        }
         if (!this.checkEnd()) {
             this.sync();
-            if (this.turnContinuation && ![this.a,this.b].some(p=>!p.npc && effects.isDead(p.equipe.pokemons[0]))) {
-                const continuation = this.turnContinuation;
-                delete this.turnContinuation;
-                this.resolveAttacks(continuation);
-            } else this.request();
+            this.request();
         }
     }
-    prune() {
+    prune({deferReplacement = false} = {}) {
         if ([0,1].some(i=>this.active(i) && effects.isDead(this.active(i)))) this.sync();
         for (const [index,p] of [this.a,this.b].entries()) {
             const old = this.active(index);
@@ -261,15 +266,15 @@ class DriftBattle {
                 effects.fainted(poke);
             }
             const needsChoice = !p.npc && effects.isDead(old) && hasAlivePokemon(p.equipe);
-            p.equipe.pokemons = p.equipe.pokemons.filter(poke => this.rules?.permanentDeaths === false || !effects.isDead(poke) || poke.riftFainted || (needsChoice && poke===old));
+            p.equipe.pokemons = p.equipe.pokemons.filter(poke => this.rules?.permanentDeaths === false || !effects.isDead(poke) || poke.riftFainted || ((needsChoice || deferReplacement) && poke===old));
             if (p === this.b && this.type !== 'pvp') for (const defeated of fainted) this.reward(defeated);
             if (this.type === 'pvp' && fainted.length) [this.a,this.b][1-index].chain = Math.min(5, ([this.a,this.b][1-index].chain || 0) + fainted.length);
-            if (p.npc && effects.isDead(old)) switchPokemonByIndex(p.equipe,trainerTactics.replacementIndex(p.equipe,{
+            if (!deferReplacement && p.npc && effects.isDead(old)) switchPokemonByIndex(p.equipe,trainerTactics.replacementIndex(p.equipe,{
                 opponentTeam:[this.a,this.b][1-index].equipe.pokemons,field:this.state,ownSide:this.sides[index],enemySide:this.sides[1-index],
                 memory:this.aiMemory,round:this.round,skill:this.trainerSkill(p)}));
             if (old !== this.active(index) && this.active(index)) this.enter(index);
         }
-        if ([this.a,this.b].some(p=>p.equipe.pokemons.some(poke=>effects.isDead(poke) && !poke.riftFainted && !this.processedFaints.has(poke.uuid)))) this.prune();
+        if ([this.a,this.b].some(p=>p.equipe.pokemons.some(poke=>effects.isDead(poke) && !poke.riftFainted && !this.processedFaints.has(poke.uuid)))) this.prune({deferReplacement});
     }
     reward(defeated, {captured = false} = {}) {
         if (this.rewarded.has(defeated.uuid) || this.experienceRewarded?.has(defeated.uuid)) return;
@@ -338,7 +343,7 @@ class DriftBattle {
             const action = this.pending.get(p);
             if (action?.action === 'change' && engine.canSwitchOut(this.active(i), this.active(1-i), this.state)) {
                 if (p === this.b && p.npc && this.aiMemory) this.aiMemory.lastSwitchRound = this.round;
-                switchPokemonByIndex(p.equipe, action.number); this.enter(i,true); this.prune(); this.sync(); if(this.checkEnd()) return;
+                switchPokemonByIndex(p.equipe, action.number); this.enter(i,true); this.prune({deferReplacement:true}); this.sync();
             }
             if (action?.action === 'bag') {
                 p.items[action.itemKey]--;
@@ -407,7 +412,9 @@ class DriftBattle {
             }
             const switched = resolveMoveSwitches(result,p.equipe,actors[1-index].equipe,{attackerIndex});
             if(switched.attacker) this.enter(index); if(switched.defender) this.enter(1-index);
-            this.prune(); this.sync(); if(this.checkEnd()) return;
+            // Retain the outgoing fainted fighters until residuals have run;
+            // neither an NPC reserve nor the result may skip this phase.
+            this.prune({deferReplacement:true}); this.sync();
             if(result.escape && this.type==='wild') {this.escapeActor=index===0?'player':'opponent';this.finish(null,'fled'); return;}
         }
         this.withDriftSignals(()=>engine.processEndOfRound(this.active(0),this.active(1),this.sides[0],this.sides[1],this.state)).forEach(m=>this.say(m));
