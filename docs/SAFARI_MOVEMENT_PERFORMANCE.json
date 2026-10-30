@@ -1,0 +1,2796 @@
+{
+  "date": "2026-10-30",
+  "request": "Improve Safari map movement on a recent iPhone, retain visual quality",
+  "changes": {
+    "sourceRead": "One disposable CPU reader per source; no readback on the animated surface",
+    "coordinates": "Rows/owners/flex cached without formula approximation",
+    "upload": "Native dirty rectangle for local effects; direct full upload when animated bounds cover more than half the surface",
+    "coherentRgbaBeforeCamera": true,
+    "surfaceCleanup": true,
+    "newUserAgentHeuristic": false,
+    "unchanged": [
+      "art",
+      "weather/particle counts",
+      "foliage poses",
+      "water renderer",
+      "world canvas density policy",
+      "frame cadence",
+      "movement commands",
+      "server",
+      "database schema"
+    ]
+  },
+  "validation": {
+    "unit": {
+      "passed": 35,
+      "failed": 0,
+      "skipped": 0,
+      "newCases": 3,
+      "log": "/tmp/riftmon-safari-unit.log"
+    },
+    "nativeCanvas": [
+      {
+        "engine": "webkit",
+        "compared": 162,
+        "different": [],
+        "cleanupChecks": 18,
+        "rows": [
+          {
+            "map": "start",
+            "layer": "foreground",
+            "view": "native",
+            "patchPixels": 6750,
+            "fullPixels": 143360
+          },
+          {
+            "map": "start",
+            "layer": "foreground",
+            "view": "mobile",
+            "patchPixels": 6750,
+            "fullPixels": 143360
+          },
+          {
+            "map": "route1",
+            "layer": "foreground",
+            "view": "native",
+            "patchPixels": 12673,
+            "fullPixels": 143360
+          },
+          {
+            "map": "route1",
+            "layer": "background",
+            "view": "native",
+            "patchPixels": 14336,
+            "fullPixels": 143360
+          },
+          {
+            "map": "route2",
+            "layer": "foreground",
+            "view": "native",
+            "patchPixels": 136640,
+            "fullPixels": 143360
+          },
+          {
+            "map": "route5",
+            "layer": "foreground",
+            "view": "native",
+            "patchPixels": 8526,
+            "fullPixels": 143360
+          },
+          {
+            "map": "route5",
+            "layer": "foreground",
+            "view": "mobile",
+            "patchPixels": 8526,
+            "fullPixels": 143360
+          },
+          {
+            "map": "route13",
+            "layer": "foreground",
+            "view": "native",
+            "patchPixels": 103104,
+            "fullPixels": 143360
+          },
+          {
+            "map": "route14",
+            "layer": "foreground",
+            "view": "native",
+            "patchPixels": 97376,
+            "fullPixels": 143360
+          },
+          {
+            "map": "ville5",
+            "layer": "foreground",
+            "view": "native",
+            "patchPixels": 90944,
+            "fullPixels": 143360
+          },
+          {
+            "map": "ville5",
+            "layer": "foreground",
+            "view": "mobile",
+            "patchPixels": 90944,
+            "fullPixels": 143360
+          },
+          {
+            "map": "start",
+            "layer": "water",
+            "patchPixels": 0,
+            "fullPixels": 143360
+          },
+          {
+            "map": "route3",
+            "layer": "water",
+            "patchPixels": 0,
+            "fullPixels": 143360
+          },
+          {
+            "map": "ville1",
+            "layer": "water",
+            "patchPixels": 0,
+            "fullPixels": 143360
+          },
+          {
+            "map": "ville3",
+            "layer": "water",
+            "patchPixels": 0,
+            "fullPixels": 143360
+          },
+          {
+            "map": "ville_safe1",
+            "layer": "water",
+            "patchPixels": 0,
+            "fullPixels": 143360
+          },
+          {
+            "map": "gen_ville5",
+            "layer": "water",
+            "patchPixels": 0,
+            "fullPixels": 143360
+          },
+          {
+            "map": "ville1_arene",
+            "layer": "water",
+            "patchPixels": 0,
+            "fullPixels": 143360
+          }
+        ],
+        "bench": [
+          {
+            "map": "start",
+            "layer": "foreground",
+            "beforeMs": 1.52,
+            "afterMs": 0.35
+          },
+          {
+            "map": "route1",
+            "layer": "foreground",
+            "beforeMs": 0.86,
+            "afterMs": 0.11
+          },
+          {
+            "map": "route1",
+            "layer": "background",
+            "beforeMs": 4.4,
+            "afterMs": 1.14
+          },
+          {
+            "map": "route2",
+            "layer": "foreground",
+            "beforeMs": 2.64,
+            "afterMs": 1.63
+          },
+          {
+            "map": "route5",
+            "layer": "foreground",
+            "beforeMs": 1.32,
+            "afterMs": 0.12
+          },
+          {
+            "map": "route13",
+            "layer": "foreground",
+            "beforeMs": 5.59,
+            "afterMs": 2.81
+          },
+          {
+            "map": "route14",
+            "layer": "foreground",
+            "beforeMs": 4.85,
+            "afterMs": 3.06
+          },
+          {
+            "map": "ville5",
+            "layer": "foreground",
+            "beforeMs": 1.85,
+            "afterMs": 0.96
+          }
+        ]
+      },
+      {
+        "engine": "chromium",
+        "compared": 162,
+        "different": [],
+        "cleanupChecks": 18,
+        "rows": [
+          {
+            "map": "start",
+            "layer": "foreground",
+            "view": "native",
+            "patchPixels": 6750,
+            "fullPixels": 143360
+          },
+          {
+            "map": "start",
+            "layer": "foreground",
+            "view": "mobile",
+            "patchPixels": 6750,
+            "fullPixels": 143360
+          },
+          {
+            "map": "route1",
+            "layer": "foreground",
+            "view": "native",
+            "patchPixels": 12673,
+            "fullPixels": 143360
+          },
+          {
+            "map": "route1",
+            "layer": "background",
+            "view": "native",
+            "patchPixels": 14336,
+            "fullPixels": 143360
+          },
+          {
+            "map": "route2",
+            "layer": "foreground",
+            "view": "native",
+            "patchPixels": 136640,
+            "fullPixels": 143360
+          },
+          {
+            "map": "route5",
+            "layer": "foreground",
+            "view": "native",
+            "patchPixels": 8526,
+            "fullPixels": 143360
+          },
+          {
+            "map": "route5",
+            "layer": "foreground",
+            "view": "mobile",
+            "patchPixels": 8526,
+            "fullPixels": 143360
+          },
+          {
+            "map": "route13",
+            "layer": "foreground",
+            "view": "native",
+            "patchPixels": 103104,
+            "fullPixels": 143360
+          },
+          {
+            "map": "route14",
+            "layer": "foreground",
+            "view": "native",
+            "patchPixels": 97376,
+            "fullPixels": 143360
+          },
+          {
+            "map": "ville5",
+            "layer": "foreground",
+            "view": "native",
+            "patchPixels": 90944,
+            "fullPixels": 143360
+          },
+          {
+            "map": "ville5",
+            "layer": "foreground",
+            "view": "mobile",
+            "patchPixels": 90944,
+            "fullPixels": 143360
+          },
+          {
+            "map": "start",
+            "layer": "water",
+            "patchPixels": 0,
+            "fullPixels": 143360
+          },
+          {
+            "map": "route3",
+            "layer": "water",
+            "patchPixels": 0,
+            "fullPixels": 143360
+          },
+          {
+            "map": "ville1",
+            "layer": "water",
+            "patchPixels": 0,
+            "fullPixels": 143360
+          },
+          {
+            "map": "ville3",
+            "layer": "water",
+            "patchPixels": 0,
+            "fullPixels": 143360
+          },
+          {
+            "map": "ville_safe1",
+            "layer": "water",
+            "patchPixels": 0,
+            "fullPixels": 143360
+          },
+          {
+            "map": "gen_ville5",
+            "layer": "water",
+            "patchPixels": 0,
+            "fullPixels": 143360
+          },
+          {
+            "map": "ville1_arene",
+            "layer": "water",
+            "patchPixels": 0,
+            "fullPixels": 143360
+          }
+        ],
+        "bench": [
+          {
+            "map": "start",
+            "layer": "foreground",
+            "beforeMs": 0.23,
+            "afterMs": 0.10700000286102294
+          },
+          {
+            "map": "route1",
+            "layer": "foreground",
+            "beforeMs": 0.29200000286102296,
+            "afterMs": 0.10199999809265137
+          },
+          {
+            "map": "route1",
+            "layer": "background",
+            "beforeMs": 0.3040000009536743,
+            "afterMs": 0.15
+          },
+          {
+            "map": "route2",
+            "layer": "foreground",
+            "beforeMs": 0.425,
+            "afterMs": 0.1909999990463257
+          },
+          {
+            "map": "route5",
+            "layer": "foreground",
+            "beforeMs": 0.16200000286102295,
+            "afterMs": 0.07699999809265137
+          },
+          {
+            "map": "route13",
+            "layer": "foreground",
+            "beforeMs": 0.4809999990463257,
+            "afterMs": 0.21400000095367433
+          },
+          {
+            "map": "route14",
+            "layer": "foreground",
+            "beforeMs": 0.49200000286102297,
+            "afterMs": 0.20800000190734863
+          },
+          {
+            "map": "ville5",
+            "layer": "foreground",
+            "beforeMs": 0.26199999809265134,
+            "afterMs": 0.12699999809265136
+          }
+        ]
+      }
+    ],
+    "nativeIdenticalFrames": 324,
+    "cleanupChecks": 36,
+    "browserProfiles": {
+      "webkit": {
+        "before": [
+          {
+            "format": "mobile",
+            "map": "start",
+            "draw": {
+              "n": 119,
+              "avg": 7.470588235294118,
+              "p95": 14,
+              "max": 18
+            },
+            "frames": {
+              "n": 118,
+              "avg": 35.8728813559322,
+              "p95": 54,
+              "max": 137,
+              "over25ms": 104
+            },
+            "updated": 42,
+            "packets": 25,
+            "sent": 25,
+            "parts": {
+              "_villageWater.draw": {
+                "n": 119,
+                "avg": 1.6470588235294117,
+                "p95": 8,
+                "max": 11
+              },
+              "_grassRustle.draw": {
+                "n": 119,
+                "avg": 0.06722689075630252,
+                "p95": 1,
+                "max": 1
+              },
+              "_dirtFootprints.draw": {
+                "n": 119,
+                "avg": 0.025210084033613446,
+                "p95": 0,
+                "max": 1
+              },
+              "weather.paint": {
+                "n": 81,
+                "avg": 0.691358024691358,
+                "p95": 3,
+                "max": 7
+              },
+              "weather.prepare": {
+                "n": 238,
+                "avg": 0.25630252100840334,
+                "p95": 1,
+                "max": 7
+              },
+              "_worldWeather.drawGround": {
+                "n": 119,
+                "avg": 0.6050420168067226,
+                "p95": 2,
+                "max": 7
+              },
+              "_worldNight.drawGround": {
+                "n": 119,
+                "avg": 0.03361344537815126,
+                "p95": 0,
+                "max": 1
+              },
+              "_foregroundWind.draw": {
+                "n": 119,
+                "avg": 4.226890756302521,
+                "p95": 10,
+                "max": 15
+              },
+              "_worldWeather.draw": {
+                "n": 119,
+                "avg": 0.29411764705882354,
+                "p95": 1,
+                "max": 2
+              },
+              "_worldNight.draw": {
+                "n": 119,
+                "avg": 0.03361344537815126,
+                "p95": 0,
+                "max": 1
+              }
+            },
+            "cadence": {
+              "n": 24,
+              "avg": 161.95833333333334,
+              "p95": 188,
+              "max": 230
+            },
+            "canvas": [
+              393,
+              635
+            ],
+            "renderFailures": 0
+          },
+          {
+            "format": "mobile",
+            "map": "ville1",
+            "draw": {
+              "n": 138,
+              "avg": 3.1956521739130435,
+              "p95": 8,
+              "max": 14
+            },
+            "frames": {
+              "n": 136,
+              "avg": 30.264705882352942,
+              "p95": 40,
+              "max": 67,
+              "over25ms": 118
+            },
+            "updated": 43,
+            "packets": 26,
+            "sent": 26,
+            "parts": {
+              "_villageWater.draw": {
+                "n": 138,
+                "avg": 1.2826086956521738,
+                "p95": 5,
+                "max": 13
+              },
+              "_placeAmbience.drawGround": {
+                "n": 138,
+                "avg": 0,
+                "p95": 0,
+                "max": 0
+              },
+              "_dirtFootprints.draw": {
+                "n": 138,
+                "avg": 0.7536231884057971,
+                "p95": 6,
+                "max": 8
+              },
+              "_worldNight.drawGround": {
+                "n": 138,
+                "avg": 0.043478260869565216,
+                "p95": 0,
+                "max": 1
+              },
+              "place.paint": {
+                "n": 69,
+                "avg": 0.5507246376811594,
+                "p95": 2,
+                "max": 6
+              },
+              "_placeAmbience.draw": {
+                "n": 138,
+                "avg": 0.38405797101449274,
+                "p95": 1,
+                "max": 6
+              },
+              "_worldNight.draw": {
+                "n": 138,
+                "avg": 0.036231884057971016,
+                "p95": 0,
+                "max": 3
+              }
+            },
+            "cadence": {
+              "n": 25,
+              "avg": 154.28,
+              "p95": 167,
+              "max": 186
+            },
+            "canvas": [
+              393,
+              635
+            ],
+            "renderFailures": 0
+          },
+          {
+            "format": "mobile",
+            "map": "ville5",
+            "draw": {
+              "n": 86,
+              "avg": 8.965116279069768,
+              "p95": 13,
+              "max": 15
+            },
+            "frames": {
+              "n": 85,
+              "avg": 49.48235294117647,
+              "p95": 62,
+              "max": 69,
+              "over25ms": 85
+            },
+            "updated": 41,
+            "packets": 24,
+            "sent": 24,
+            "parts": {
+              "_placeAmbience.drawGround": {
+                "n": 86,
+                "avg": 0,
+                "p95": 0,
+                "max": 0
+              },
+              "_snowFootprints.draw": {
+                "n": 86,
+                "avg": 0.6976744186046512,
+                "p95": 1,
+                "max": 7
+              },
+              "weather.paint": {
+                "n": 86,
+                "avg": 0.627906976744186,
+                "p95": 1,
+                "max": 4
+              },
+              "weather.prepare": {
+                "n": 172,
+                "avg": 0.3430232558139535,
+                "p95": 1,
+                "max": 4
+              },
+              "_worldWeather.drawGround": {
+                "n": 86,
+                "avg": 0.6511627906976745,
+                "p95": 1,
+                "max": 4
+              },
+              "_worldNight.drawGround": {
+                "n": 86,
+                "avg": 0.05813953488372093,
+                "p95": 0,
+                "max": 3
+              },
+              "_foregroundWind.draw": {
+                "n": 86,
+                "avg": 6.604651162790698,
+                "p95": 11,
+                "max": 14
+              },
+              "_worldWeather.draw": {
+                "n": 86,
+                "avg": 0.26744186046511625,
+                "p95": 1,
+                "max": 2
+              },
+              "place.paint": {
+                "n": 57,
+                "avg": 0.08771929824561403,
+                "p95": 1,
+                "max": 1
+              },
+              "_placeAmbience.draw": {
+                "n": 86,
+                "avg": 0.10465116279069768,
+                "p95": 1,
+                "max": 2
+              },
+              "_worldNight.draw": {
+                "n": 86,
+                "avg": 0.011627906976744186,
+                "p95": 0,
+                "max": 1
+              }
+            },
+            "cadence": {
+              "n": 23,
+              "avg": 170.52173913043478,
+              "p95": 188,
+              "max": 189
+            },
+            "canvas": [
+              393,
+              635
+            ],
+            "renderFailures": 0
+          },
+          {
+            "format": "mobile",
+            "map": "route5",
+            "draw": {
+              "n": 136,
+              "avg": 6.0661764705882355,
+              "p95": 12,
+              "max": 25
+            },
+            "frames": {
+              "n": 135,
+              "avg": 30.6,
+              "p95": 43,
+              "max": 58,
+              "over25ms": 111
+            },
+            "updated": 43,
+            "packets": 26,
+            "sent": 26,
+            "parts": {
+              "_grassRustle.draw": {
+                "n": 136,
+                "avg": 0.08823529411764706,
+                "p95": 1,
+                "max": 5
+              },
+              "_dirtFootprints.draw": {
+                "n": 136,
+                "avg": 0.21323529411764705,
+                "p95": 1,
+                "max": 1
+              },
+              "weather.paint": {
+                "n": 82,
+                "avg": 0.4024390243902439,
+                "p95": 1,
+                "max": 5
+              },
+              "weather.prepare": {
+                "n": 272,
+                "avg": 0.13602941176470587,
+                "p95": 1,
+                "max": 6
+              },
+              "_worldWeather.drawGround": {
+                "n": 136,
+                "avg": 0.27205882352941174,
+                "p95": 1,
+                "max": 6
+              },
+              "_worldNight.drawGround": {
+                "n": 136,
+                "avg": 0.029411764705882353,
+                "p95": 0,
+                "max": 1
+              },
+              "_foregroundWind.draw": {
+                "n": 136,
+                "avg": 4.963235294117647,
+                "p95": 11,
+                "max": 23
+              },
+              "_worldWeather.draw": {
+                "n": 136,
+                "avg": 0.09558823529411764,
+                "p95": 1,
+                "max": 1
+              },
+              "_worldNight.draw": {
+                "n": 136,
+                "avg": 0.058823529411764705,
+                "p95": 0,
+                "max": 3
+              }
+            },
+            "cadence": {
+              "n": 25,
+              "avg": 154.12,
+              "p95": 166,
+              "max": 167
+            },
+            "canvas": [
+              393,
+              635
+            ],
+            "renderFailures": 0
+          },
+          {
+            "format": "mobile",
+            "map": "ville_safe1_arene",
+            "draw": {
+              "n": 116,
+              "avg": 2.2241379310344827,
+              "p95": 5,
+              "max": 6
+            },
+            "frames": {
+              "n": 115,
+              "avg": 35.869565217391305,
+              "p95": 67,
+              "max": 138,
+              "over25ms": 112
+            },
+            "updated": 42,
+            "packets": 25,
+            "sent": 25,
+            "parts": {
+              "hoze.paint": {
+                "n": 62,
+                "avg": 0.8064516129032258,
+                "p95": 4,
+                "max": 4
+              },
+              "_placeAmbience.drawGround": {
+                "n": 116,
+                "avg": 1.3017241379310345,
+                "p95": 4,
+                "max": 6
+              },
+              "weather.paint": {
+                "n": 73,
+                "avg": 0.4246575342465753,
+                "p95": 1,
+                "max": 4
+              },
+              "weather.prepare": {
+                "n": 232,
+                "avg": 0.14655172413793102,
+                "p95": 1,
+                "max": 4
+              },
+              "_worldWeather.drawGround": {
+                "n": 116,
+                "avg": 0.3103448275862069,
+                "p95": 1,
+                "max": 4
+              },
+              "_worldWeather.draw": {
+                "n": 116,
+                "avg": 0.10344827586206896,
+                "p95": 1,
+                "max": 2
+              },
+              "place.paint": {
+                "n": 62,
+                "avg": 0.04838709677419355,
+                "p95": 0,
+                "max": 1
+              },
+              "_placeAmbience.draw": {
+                "n": 116,
+                "avg": 0.08620689655172414,
+                "p95": 1,
+                "max": 1
+              }
+            },
+            "cadence": {
+              "n": 24,
+              "avg": 163.08333333333334,
+              "p95": 195,
+              "max": 244
+            },
+            "canvas": [
+              393,
+              635
+            ],
+            "renderFailures": 0
+          }
+        ],
+        "after": [
+          {
+            "engine": "webkit",
+            "format": "mobile",
+            "map": "start",
+            "draw": {
+              "n": 135,
+              "avg": 3.888888888888889,
+              "p95": 10,
+              "max": 12
+            },
+            "frames": {
+              "n": 134,
+              "avg": 30.597014925373134,
+              "p95": 41,
+              "max": 47,
+              "over25ms": 114
+            },
+            "updated": 43,
+            "packets": 26,
+            "sent": 26,
+            "parts": {
+              "_villageWater.draw": {
+                "n": 135,
+                "avg": 0.4,
+                "p95": 1,
+                "max": 6
+              },
+              "_grassRustle.draw": {
+                "n": 135,
+                "avg": 0.06666666666666667,
+                "p95": 1,
+                "max": 2
+              },
+              "_dirtFootprints.draw": {
+                "n": 135,
+                "avg": 0.02962962962962963,
+                "p95": 0,
+                "max": 1
+              },
+              "weather.paint": {
+                "n": 84,
+                "avg": 0.5714285714285714,
+                "p95": 1,
+                "max": 4
+              },
+              "weather.prepare": {
+                "n": 270,
+                "avg": 0.1925925925925926,
+                "p95": 1,
+                "max": 4
+              },
+              "_worldWeather.drawGround": {
+                "n": 135,
+                "avg": 0.4888888888888889,
+                "p95": 1,
+                "max": 4
+              },
+              "_worldNight.drawGround": {
+                "n": 135,
+                "avg": 0.05185185185185185,
+                "p95": 0,
+                "max": 3
+              },
+              "_foregroundWind.draw": {
+                "n": 135,
+                "avg": 1.8222222222222222,
+                "p95": 7,
+                "max": 9
+              },
+              "_worldWeather.draw": {
+                "n": 135,
+                "avg": 0.34814814814814815,
+                "p95": 1,
+                "max": 4
+              },
+              "_worldNight.draw": {
+                "n": 135,
+                "avg": 0.037037037037037035,
+                "p95": 0,
+                "max": 1
+              }
+            },
+            "cadence": {
+              "n": 25,
+              "avg": 156.08,
+              "p95": 168,
+              "max": 177
+            },
+            "canvas": [
+              393,
+              635
+            ],
+            "renderFailures": 0,
+            "lifecycle": {
+              "released": true,
+              "restored": true,
+              "reduced": true
+            },
+            "touchMoved": true
+          },
+          {
+            "engine": "webkit",
+            "format": "mobile",
+            "map": "ville1",
+            "draw": {
+              "n": 135,
+              "avg": 3.0592592592592593,
+              "p95": 9,
+              "max": 12
+            },
+            "frames": {
+              "n": 133,
+              "avg": 30.706766917293233,
+              "p95": 38,
+              "max": 45,
+              "over25ms": 115
+            },
+            "updated": 42,
+            "packets": 25,
+            "sent": 25,
+            "parts": {
+              "_villageWater.draw": {
+                "n": 135,
+                "avg": 1.5407407407407407,
+                "p95": 6,
+                "max": 8
+              },
+              "_placeAmbience.drawGround": {
+                "n": 135,
+                "avg": 0,
+                "p95": 0,
+                "max": 0
+              },
+              "_dirtFootprints.draw": {
+                "n": 135,
+                "avg": 0.37777777777777777,
+                "p95": 3,
+                "max": 8
+              },
+              "_worldNight.drawGround": {
+                "n": 135,
+                "avg": 0.06666666666666667,
+                "p95": 0,
+                "max": 3
+              },
+              "_placeAmbience.draw": {
+                "n": 135,
+                "avg": 0.2740740740740741,
+                "p95": 1,
+                "max": 4
+              },
+              "_worldNight.draw": {
+                "n": 135,
+                "avg": 0.007407407407407408,
+                "p95": 0,
+                "max": 1
+              },
+              "place.paint": {
+                "n": 66,
+                "avg": 0.4393939393939394,
+                "p95": 3,
+                "max": 4
+              }
+            },
+            "cadence": {
+              "n": 24,
+              "avg": 157.5,
+              "p95": 174,
+              "max": 174
+            },
+            "canvas": [
+              393,
+              635
+            ],
+            "renderFailures": 0,
+            "lifecycle": {
+              "released": true,
+              "restored": true,
+              "reduced": true
+            },
+            "touchMoved": true
+          },
+          {
+            "engine": "webkit",
+            "format": "mobile",
+            "map": "ville5",
+            "draw": {
+              "n": 81,
+              "avg": 8.679012345679013,
+              "p95": 14,
+              "max": 17
+            },
+            "frames": {
+              "n": 80,
+              "avg": 52.3125,
+              "p95": 73,
+              "max": 86,
+              "over25ms": 80
+            },
+            "updated": 42,
+            "packets": 25,
+            "sent": 25,
+            "parts": {
+              "_placeAmbience.drawGround": {
+                "n": 81,
+                "avg": 0.024691358024691357,
+                "p95": 0,
+                "max": 1
+              },
+              "_snowFootprints.draw": {
+                "n": 81,
+                "avg": 0.5555555555555556,
+                "p95": 1,
+                "max": 3
+              },
+              "weather.paint": {
+                "n": 81,
+                "avg": 0.8395061728395061,
+                "p95": 4,
+                "max": 5
+              },
+              "weather.prepare": {
+                "n": 162,
+                "avg": 0.4382716049382716,
+                "p95": 1,
+                "max": 5
+              },
+              "_worldWeather.drawGround": {
+                "n": 81,
+                "avg": 0.8518518518518519,
+                "p95": 4,
+                "max": 5
+              },
+              "_worldNight.drawGround": {
+                "n": 81,
+                "avg": 0.1111111111111111,
+                "p95": 1,
+                "max": 3
+              },
+              "_foregroundWind.draw": {
+                "n": 81,
+                "avg": 5.901234567901234,
+                "p95": 10,
+                "max": 14
+              },
+              "_worldWeather.draw": {
+                "n": 81,
+                "avg": 0.3950617283950617,
+                "p95": 1,
+                "max": 4
+              },
+              "place.paint": {
+                "n": 62,
+                "avg": 0.12903225806451613,
+                "p95": 1,
+                "max": 3
+              },
+              "_placeAmbience.draw": {
+                "n": 81,
+                "avg": 0.19753086419753085,
+                "p95": 1,
+                "max": 3
+              },
+              "_worldNight.draw": {
+                "n": 81,
+                "avg": 0.06172839506172839,
+                "p95": 1,
+                "max": 1
+              }
+            },
+            "cadence": {
+              "n": 24,
+              "avg": 163.91666666666666,
+              "p95": 188,
+              "max": 195
+            },
+            "canvas": [
+              393,
+              635
+            ],
+            "renderFailures": 0,
+            "lifecycle": {
+              "released": true,
+              "restored": true,
+              "reduced": true
+            },
+            "touchMoved": true
+          },
+          {
+            "engine": "webkit",
+            "format": "mobile",
+            "map": "route5",
+            "draw": {
+              "n": 139,
+              "avg": 2.841726618705036,
+              "p95": 9,
+              "max": 13
+            },
+            "frames": {
+              "n": 138,
+              "avg": 29.702898550724637,
+              "p95": 37,
+              "max": 49,
+              "over25ms": 121
+            },
+            "updated": 42,
+            "packets": 25,
+            "sent": 25,
+            "parts": {
+              "_grassRustle.draw": {
+                "n": 139,
+                "avg": 0.02877697841726619,
+                "p95": 0,
+                "max": 1
+              },
+              "_dirtFootprints.draw": {
+                "n": 139,
+                "avg": 0.7985611510791367,
+                "p95": 6,
+                "max": 8
+              },
+              "weather.paint": {
+                "n": 81,
+                "avg": 0.37037037037037035,
+                "p95": 1,
+                "max": 1
+              },
+              "weather.prepare": {
+                "n": 278,
+                "avg": 0.12949640287769784,
+                "p95": 1,
+                "max": 1
+              },
+              "_worldWeather.drawGround": {
+                "n": 139,
+                "avg": 0.2446043165467626,
+                "p95": 1,
+                "max": 1
+              },
+              "_worldNight.drawGround": {
+                "n": 139,
+                "avg": 0.050359712230215826,
+                "p95": 0,
+                "max": 2
+              },
+              "_foregroundWind.draw": {
+                "n": 139,
+                "avg": 0.9424460431654677,
+                "p95": 7,
+                "max": 10
+              },
+              "_worldWeather.draw": {
+                "n": 139,
+                "avg": 0.1366906474820144,
+                "p95": 1,
+                "max": 3
+              },
+              "_worldNight.draw": {
+                "n": 139,
+                "avg": 0.02158273381294964,
+                "p95": 0,
+                "max": 1
+              }
+            },
+            "cadence": {
+              "n": 24,
+              "avg": 156.04166666666666,
+              "p95": 170,
+              "max": 173
+            },
+            "canvas": [
+              393,
+              635
+            ],
+            "renderFailures": 0,
+            "lifecycle": {
+              "released": true,
+              "restored": true,
+              "reduced": true
+            },
+            "touchMoved": true
+          },
+          {
+            "engine": "webkit",
+            "format": "mobile",
+            "map": "ville_safe1_arene",
+            "draw": {
+              "n": 132,
+              "avg": 1.7196969696969697,
+              "p95": 4,
+              "max": 6
+            },
+            "frames": {
+              "n": 131,
+              "avg": 31.12213740458015,
+              "p95": 38,
+              "max": 44,
+              "over25ms": 123
+            },
+            "updated": 41,
+            "packets": 24,
+            "sent": 25,
+            "parts": {
+              "_placeAmbience.drawGround": {
+                "n": 132,
+                "avg": 0.8484848484848485,
+                "p95": 4,
+                "max": 4
+              },
+              "weather.paint": {
+                "n": 74,
+                "avg": 0.3918918918918919,
+                "p95": 1,
+                "max": 4
+              },
+              "weather.prepare": {
+                "n": 264,
+                "avg": 0.12121212121212122,
+                "p95": 1,
+                "max": 4
+              },
+              "_worldWeather.drawGround": {
+                "n": 132,
+                "avg": 0.24242424242424243,
+                "p95": 1,
+                "max": 4
+              },
+              "_worldWeather.draw": {
+                "n": 132,
+                "avg": 0.06060606060606061,
+                "p95": 1,
+                "max": 1
+              },
+              "_placeAmbience.draw": {
+                "n": 132,
+                "avg": 0.09848484848484848,
+                "p95": 1,
+                "max": 1
+              },
+              "hoze.paint": {
+                "n": 65,
+                "avg": 0.6923076923076923,
+                "p95": 2,
+                "max": 4
+              },
+              "place.paint": {
+                "n": 66,
+                "avg": 0.07575757575757576,
+                "p95": 1,
+                "max": 1
+              }
+            },
+            "cadence": {
+              "n": 23,
+              "avg": 166,
+              "p95": 186,
+              "max": 322
+            },
+            "canvas": [
+              393,
+              635
+            ],
+            "renderFailures": 0,
+            "lifecycle": {
+              "released": true,
+              "restored": true,
+              "reduced": true
+            }
+          }
+        ]
+      },
+      "chromium": {
+        "before": [
+          {
+            "format": "mobile",
+            "map": "start",
+            "draw": {
+              "n": 248,
+              "avg": 2.1653225960270053,
+              "p95": 5.300000190734863,
+              "max": 9.200000286102295
+            },
+            "frames": {
+              "n": 247,
+              "avg": 16.733198380566805,
+              "p95": 16.700000000000728,
+              "max": 33.40000000000009,
+              "over25ms": 1
+            },
+            "updated": 43,
+            "packets": 26,
+            "sent": 26,
+            "parts": {
+              "_villageWater.draw": {
+                "n": 248,
+                "avg": 0.2548387050628662,
+                "p95": 1,
+                "max": 4.200000286102295
+              },
+              "_grassRustle.draw": {
+                "n": 248,
+                "avg": 0.02217741935483871,
+                "p95": 0.09999990463256836,
+                "max": 0.10000038146972656
+              },
+              "_dirtFootprints.draw": {
+                "n": 248,
+                "avg": 0.02338709754328574,
+                "p95": 0.09999990463256836,
+                "max": 0.5999999046325684
+              },
+              "weather.prepare": {
+                "n": 496,
+                "avg": 0.08608871121560374,
+                "p95": 0.5,
+                "max": 1.4000000953674316
+              },
+              "_worldWeather.drawGround": {
+                "n": 248,
+                "avg": 0.26693547348822316,
+                "p95": 0.6000003814697266,
+                "max": 1.5
+              },
+              "_worldNight.drawGround": {
+                "n": 248,
+                "avg": 0.04072581183525824,
+                "p95": 0.10000038146972656,
+                "max": 3.1999998092651367
+              },
+              "_foregroundWind.draw": {
+                "n": 248,
+                "avg": 0.15806452305086197,
+                "p95": 0.5,
+                "max": 1.8000001907348633
+              },
+              "_worldWeather.draw": {
+                "n": 248,
+                "avg": 0.9588709685110277,
+                "p95": 2.799999713897705,
+                "max": 5.900000095367432
+              },
+              "_worldNight.draw": {
+                "n": 248,
+                "avg": 0.022580640931283275,
+                "p95": 0.09999990463256836,
+                "max": 0.40000009536743164
+              },
+              "weather.paint": {
+                "n": 95,
+                "avg": 0.4000000050193385,
+                "p95": 0.6999998092651367,
+                "max": 1.4000000953674316
+              }
+            },
+            "cadence": {
+              "n": 25,
+              "avg": 152.79200000762938,
+              "p95": 186,
+              "max": 189.90000009536743
+            },
+            "canvas": [
+              786,
+              1270
+            ],
+            "renderFailures": 0
+          },
+          {
+            "format": "mobile",
+            "map": "ville1",
+            "draw": {
+              "n": 248,
+              "avg": 1.5584677400127533,
+              "p95": 4.200000286102295,
+              "max": 10.599999904632568
+            },
+            "frames": {
+              "n": 246,
+              "avg": 16.665853658536577,
+              "p95": 16.799999999999727,
+              "max": 16.800000000000182,
+              "over25ms": 0
+            },
+            "updated": 43,
+            "packets": 26,
+            "sent": 26,
+            "parts": {
+              "_villageWater.draw": {
+                "n": 248,
+                "avg": 0.44395160290502733,
+                "p95": 2,
+                "max": 6.199999809265137
+              },
+              "_placeAmbience.drawGround": {
+                "n": 248,
+                "avg": 0.004032258064516129,
+                "p95": 0,
+                "max": 0.10000038146972656
+              },
+              "_dirtFootprints.draw": {
+                "n": 248,
+                "avg": 0.052016135184995586,
+                "p95": 0.20000028610229492,
+                "max": 1.0999999046325684
+              },
+              "_worldNight.drawGround": {
+                "n": 248,
+                "avg": 0.05887096158919796,
+                "p95": 0.09999990463256836,
+                "max": 8
+              },
+              "_placeAmbience.draw": {
+                "n": 248,
+                "avg": 0.5830645118990252,
+                "p95": 2.200000286102295,
+                "max": 4.099999904632568
+              },
+              "_worldNight.draw": {
+                "n": 248,
+                "avg": 0.017741930100225633,
+                "p95": 0.09999990463256836,
+                "max": 0.3000001907348633
+              },
+              "place.paint": {
+                "n": 72,
+                "avg": 1.3027777804268732,
+                "p95": 2.3000001907348633,
+                "max": 3.3000001907348633
+              }
+            },
+            "cadence": {
+              "n": 25,
+              "avg": 151.2239999961853,
+              "p95": 165.69999980926514,
+              "max": 166
+            },
+            "canvas": [
+              786,
+              1270
+            ],
+            "renderFailures": 0
+          },
+          {
+            "format": "mobile",
+            "map": "ville5",
+            "draw": {
+              "n": 247,
+              "avg": 2.057894737614311,
+              "p95": 4.899999618530273,
+              "max": 19.699999809265137
+            },
+            "frames": {
+              "n": 246,
+              "avg": 16.66585365853658,
+              "p95": 16.700000000000728,
+              "max": 16.800000000000182,
+              "over25ms": 0
+            },
+            "updated": 43,
+            "packets": 26,
+            "sent": 26,
+            "parts": {
+              "_placeAmbience.drawGround": {
+                "n": 247,
+                "avg": 0.0024291532724975092,
+                "p95": 0,
+                "max": 0.10000038146972656
+              },
+              "_snowFootprints.draw": {
+                "n": 247,
+                "avg": 0.12793523193853587,
+                "p95": 0.3000001907348633,
+                "max": 0.8000001907348633
+              },
+              "weather.prepare": {
+                "n": 494,
+                "avg": 0.10040485907180106,
+                "p95": 0.5,
+                "max": 1.200000286102295
+              },
+              "_worldWeather.drawGround": {
+                "n": 247,
+                "avg": 0.19878542664562643,
+                "p95": 0.6000003814697266,
+                "max": 1.3000001907348633
+              },
+              "_worldNight.drawGround": {
+                "n": 247,
+                "avg": 0.03684210873808456,
+                "p95": 0.10000038146972656,
+                "max": 3.299999713897705
+              },
+              "_foregroundWind.draw": {
+                "n": 247,
+                "avg": 0.2437247013756138,
+                "p95": 0.8000001907348633,
+                "max": 3.700000286102295
+              },
+              "_worldWeather.draw": {
+                "n": 247,
+                "avg": 0.850202425288768,
+                "p95": 2.5,
+                "max": 6.700000286102295
+              },
+              "_placeAmbience.draw": {
+                "n": 247,
+                "avg": 0.12793522614699143,
+                "p95": 0.40000009536743164,
+                "max": 0.5999999046325684
+              },
+              "_worldNight.draw": {
+                "n": 247,
+                "avg": 0.012955459023294178,
+                "p95": 0.09999990463256836,
+                "max": 0.40000009536743164
+              },
+              "weather.paint": {
+                "n": 92,
+                "avg": 0.48695653417836066,
+                "p95": 0.8000001907348633,
+                "max": 1.200000286102295
+              },
+              "place.paint": {
+                "n": 71,
+                "avg": 0.11549296177608866,
+                "p95": 0.20000028610229492,
+                "max": 0.20000028610229492
+              }
+            },
+            "cadence": {
+              "n": 25,
+              "avg": 151.51200000762938,
+              "p95": 165.5,
+              "max": 166.19999980926514
+            },
+            "canvas": [
+              786,
+              1270
+            ],
+            "renderFailures": 0
+          },
+          {
+            "format": "mobile",
+            "map": "route5",
+            "draw": {
+              "n": 248,
+              "avg": 1.2822580779752424,
+              "p95": 3.0999999046325684,
+              "max": 5.799999713897705
+            },
+            "frames": {
+              "n": 247,
+              "avg": 16.665991902833998,
+              "p95": 16.700000000000728,
+              "max": 16.800000000000182,
+              "over25ms": 0
+            },
+            "updated": 43,
+            "packets": 26,
+            "sent": 26,
+            "parts": {
+              "_grassRustle.draw": {
+                "n": 248,
+                "avg": 0.03145161944050943,
+                "p95": 0.10000038146972656,
+                "max": 0.20000028610229492
+              },
+              "_dirtFootprints.draw": {
+                "n": 248,
+                "avg": 0.14072579145431519,
+                "p95": 0.40000009536743164,
+                "max": 2.0999999046325684
+              },
+              "weather.prepare": {
+                "n": 496,
+                "avg": 0.07177420104703595,
+                "p95": 0.40000009536743164,
+                "max": 0.7000002861022949
+              },
+              "_worldWeather.drawGround": {
+                "n": 248,
+                "avg": 0.13951614402955578,
+                "p95": 0.40000009536743164,
+                "max": 0.7000002861022949
+              },
+              "_worldNight.drawGround": {
+                "n": 248,
+                "avg": 0.0383064535356337,
+                "p95": 0.10000038146972656,
+                "max": 2.5
+              },
+              "_foregroundWind.draw": {
+                "n": 248,
+                "avg": 0.16854839940224925,
+                "p95": 0.5,
+                "max": 2.8000001907348633
+              },
+              "_worldWeather.draw": {
+                "n": 248,
+                "avg": 0.42741934907051826,
+                "p95": 1.200000286102295,
+                "max": 3.8999996185302734
+              },
+              "_worldNight.draw": {
+                "n": 248,
+                "avg": 0.020564515744486162,
+                "p95": 0.09999990463256836,
+                "max": 0.20000028610229492
+              },
+              "weather.paint": {
+                "n": 93,
+                "avg": 0.3354839048077983,
+                "p95": 0.5,
+                "max": 0.5999999046325684
+              }
+            },
+            "cadence": {
+              "n": 25,
+              "avg": 153.4839999961853,
+              "p95": 170.7999997138977,
+              "max": 179.80000019073486
+            },
+            "canvas": [
+              786,
+              1270
+            ],
+            "renderFailures": 0
+          },
+          {
+            "format": "mobile",
+            "map": "ville_safe1_arene",
+            "draw": {
+              "n": 248,
+              "avg": 2.246774202392947,
+              "p95": 6.100000381469727,
+              "max": 9.900000095367432
+            },
+            "frames": {
+              "n": 247,
+              "avg": 16.665991902833998,
+              "p95": 16.799999999999727,
+              "max": 16.800000000000182,
+              "over25ms": 0
+            },
+            "updated": 43,
+            "packets": 26,
+            "sent": 26,
+            "parts": {
+              "hoze.paint": {
+                "n": 73,
+                "avg": 0.47397261449735456,
+                "p95": 0.7000002861022949,
+                "max": 0.9000000953674316
+              },
+              "_placeAmbience.drawGround": {
+                "n": 248,
+                "avg": 1.1564516232859703,
+                "p95": 4.300000190734863,
+                "max": 8
+              },
+              "weather.paint": {
+                "n": 92,
+                "avg": 0.3413043695947398,
+                "p95": 0.5999999046325684,
+                "max": 0.6000003814697266
+              },
+              "weather.prepare": {
+                "n": 496,
+                "avg": 0.07177420104703595,
+                "p95": 0.40000009536743164,
+                "max": 0.6000003814697266
+              },
+              "_worldWeather.drawGround": {
+                "n": 248,
+                "avg": 0.14153226729362242,
+                "p95": 0.5,
+                "max": 0.6000003814697266
+              },
+              "_worldWeather.draw": {
+                "n": 248,
+                "avg": 0.3947580572097532,
+                "p95": 1.299999713897705,
+                "max": 1.8999996185302734
+              },
+              "place.paint": {
+                "n": 73,
+                "avg": 0.08630140513589937,
+                "p95": 0.20000028610229492,
+                "max": 0.20000028610229492
+              },
+              "_placeAmbience.draw": {
+                "n": 248,
+                "avg": 0.1887096878020994,
+                "p95": 0.6999998092651367,
+                "max": 1.0999999046325684
+              }
+            },
+            "cadence": {
+              "n": 25,
+              "avg": 151.1679999923706,
+              "p95": 161.7000002861023,
+              "max": 172.5
+            },
+            "canvas": [
+              786,
+              1270
+            ],
+            "renderFailures": 0
+          }
+        ],
+        "after": [
+          {
+            "engine": "chromium",
+            "format": "pc",
+            "map": "start",
+            "draw": {
+              "n": 247,
+              "avg": 2.753036443038508,
+              "p95": 6.400000095367432,
+              "max": 9.800000190734863
+            },
+            "frames": {
+              "n": 246,
+              "avg": 16.665853658536584,
+              "p95": 16.700000000000728,
+              "max": 16.800000000000182,
+              "over25ms": 0
+            },
+            "updated": 27,
+            "packets": 26,
+            "sent": 26,
+            "parts": {
+              "_villageWater.draw": {
+                "n": 247,
+                "avg": 0.34615384808436095,
+                "p95": 1.5,
+                "max": 2.700000286102295
+              },
+              "_grassRustle.draw": {
+                "n": 247,
+                "avg": 0.030364362817061574,
+                "p95": 0.09999990463256836,
+                "max": 0.20000028610229492
+              },
+              "_dirtFootprints.draw": {
+                "n": 247,
+                "avg": 0.0263157875431694,
+                "p95": 0.09999990463256836,
+                "max": 0.20000028610229492
+              },
+              "weather.prepare": {
+                "n": 494,
+                "avg": 0.11275303315537179,
+                "p95": 0.5999999046325684,
+                "max": 1.1000003814697266
+              },
+              "_worldWeather.drawGround": {
+                "n": 247,
+                "avg": 0.3574898889672901,
+                "p95": 0.8000001907348633,
+                "max": 1.3000001907348633
+              },
+              "_worldNight.drawGround": {
+                "n": 247,
+                "avg": 0.062348174662725166,
+                "p95": 0.10000038146972656,
+                "max": 4.599999904632568
+              },
+              "_foregroundWind.draw": {
+                "n": 247,
+                "avg": 0.11943319645005199,
+                "p95": 0.39999961853027344,
+                "max": 2.0999999046325684
+              },
+              "_worldWeather.draw": {
+                "n": 247,
+                "avg": 1.246558706770059,
+                "p95": 3.700000286102295,
+                "max": 5.200000286102295
+              },
+              "_worldNight.draw": {
+                "n": 247,
+                "avg": 0.02712550723118338,
+                "p95": 0.10000038146972656,
+                "max": 0.2999997138977051
+              },
+              "weather.paint": {
+                "n": 92,
+                "avg": 0.5304347743158755,
+                "p95": 0.8000001907348633,
+                "max": 1
+              }
+            },
+            "cadence": {
+              "n": 25,
+              "avg": 151.2560000038147,
+              "p95": 163.5,
+              "max": 164.69999980926514
+            },
+            "canvas": [
+              896,
+              640
+            ],
+            "renderFailures": 0,
+            "lifecycle": {
+              "released": true,
+              "restored": true,
+              "reduced": true
+            }
+          },
+          {
+            "engine": "chromium",
+            "format": "pc",
+            "map": "ville1",
+            "draw": {
+              "n": 245,
+              "avg": 1.9938775607517787,
+              "p95": 6.199999809265137,
+              "max": 9.5
+            },
+            "frames": {
+              "n": 243,
+              "avg": 16.66584362139917,
+              "p95": 16.700000000000728,
+              "max": 16.800000000000182,
+              "over25ms": 0
+            },
+            "updated": 27,
+            "packets": 26,
+            "sent": 26,
+            "parts": {
+              "_villageWater.draw": {
+                "n": 245,
+                "avg": 0.6595918441305355,
+                "p95": 3.200000286102295,
+                "max": 8.600000381469727
+              },
+              "_placeAmbience.drawGround": {
+                "n": 245,
+                "avg": 0.004081630706787109,
+                "p95": 0,
+                "max": 0.10000038146972656
+              },
+              "_dirtFootprints.draw": {
+                "n": 245,
+                "avg": 0.06163263904805086,
+                "p95": 0.19999980926513672,
+                "max": 1.4000000953674316
+              },
+              "_worldNight.drawGround": {
+                "n": 245,
+                "avg": 0.05387755218817263,
+                "p95": 0.10000038146972656,
+                "max": 4
+              },
+              "_placeAmbience.draw": {
+                "n": 245,
+                "avg": 0.7440816314852967,
+                "p95": 3.200000286102295,
+                "max": 4.699999809265137
+              },
+              "_worldNight.draw": {
+                "n": 245,
+                "avg": 0.030204072290537308,
+                "p95": 0.09999990463256836,
+                "max": 0.39999961853027344
+              },
+              "place.paint": {
+                "n": 72,
+                "avg": 1.5930555529064603,
+                "p95": 2.700000286102295,
+                "max": 3.8000001907348633
+              }
+            },
+            "cadence": {
+              "n": 25,
+              "avg": 151.8480000114441,
+              "p95": 164.2000002861023,
+              "max": 166.09999990463257
+            },
+            "canvas": [
+              896,
+              640
+            ],
+            "renderFailures": 0,
+            "lifecycle": {
+              "released": true,
+              "restored": true,
+              "reduced": true
+            }
+          },
+          {
+            "engine": "chromium",
+            "format": "pc",
+            "map": "ville5",
+            "draw": {
+              "n": 246,
+              "avg": 2.61544714129068,
+              "p95": 6.799999713897705,
+              "max": 11
+            },
+            "frames": {
+              "n": 245,
+              "avg": 16.66612244897958,
+              "p95": 16.700000000000273,
+              "max": 16.800000000000182,
+              "over25ms": 0
+            },
+            "updated": 27,
+            "packets": 26,
+            "sent": 26,
+            "parts": {
+              "_placeAmbience.drawGround": {
+                "n": 246,
+                "avg": 0.00365853697303834,
+                "p95": 0,
+                "max": 0.10000038146972656
+              },
+              "_snowFootprints.draw": {
+                "n": 246,
+                "avg": 0.16869918117678262,
+                "p95": 0.5,
+                "max": 1.1999998092651367
+              },
+              "weather.paint": {
+                "n": 94,
+                "avg": 0.7212765724100965,
+                "p95": 1.0999999046325684,
+                "max": 1.4000000953674316
+              },
+              "weather.prepare": {
+                "n": 492,
+                "avg": 0.15182926208992314,
+                "p95": 0.8999996185302734,
+                "max": 1.5
+              },
+              "_worldWeather.drawGround": {
+                "n": 246,
+                "avg": 0.3028455187634724,
+                "p95": 1,
+                "max": 1.5
+              },
+              "_worldNight.drawGround": {
+                "n": 246,
+                "avg": 0.041869923351256826,
+                "p95": 0.10000038146972656,
+                "max": 3.4000000953674316
+              },
+              "_foregroundWind.draw": {
+                "n": 246,
+                "avg": 0.1991869860548314,
+                "p95": 0.5999999046325684,
+                "max": 3.5
+              },
+              "_worldWeather.draw": {
+                "n": 246,
+                "avg": 1.2686991614054859,
+                "p95": 4,
+                "max": 5.700000286102295
+              },
+              "_placeAmbience.draw": {
+                "n": 246,
+                "avg": 0.16504064808046914,
+                "p95": 0.5999999046325684,
+                "max": 0.8000001907348633
+              },
+              "_worldNight.draw": {
+                "n": 246,
+                "avg": 0.024390241964076593,
+                "p95": 0.10000038146972656,
+                "max": 0.3000001907348633
+              },
+              "place.paint": {
+                "n": 71,
+                "avg": 0.15492960432885397,
+                "p95": 0.2999997138977051,
+                "max": 0.5
+              }
+            },
+            "cadence": {
+              "n": 25,
+              "avg": 152.16,
+              "p95": 173.90000009536743,
+              "max": 184.5
+            },
+            "canvas": [
+              896,
+              640
+            ],
+            "renderFailures": 0,
+            "lifecycle": {
+              "released": true,
+              "restored": true,
+              "reduced": true
+            }
+          },
+          {
+            "engine": "chromium",
+            "format": "pc",
+            "map": "route5",
+            "draw": {
+              "n": 248,
+              "avg": 1.5766129128394588,
+              "p95": 4,
+              "max": 9.299999713897705
+            },
+            "frames": {
+              "n": 247,
+              "avg": 16.733603238866394,
+              "p95": 16.700000000000728,
+              "max": 33.19999999999982,
+              "over25ms": 1
+            },
+            "updated": 27,
+            "packets": 26,
+            "sent": 26,
+            "parts": {
+              "_grassRustle.draw": {
+                "n": 248,
+                "avg": 0.029838719675617832,
+                "p95": 0.10000038146972656,
+                "max": 0.19999980926513672
+              },
+              "_dirtFootprints.draw": {
+                "n": 248,
+                "avg": 0.1883064277710453,
+                "p95": 0.5,
+                "max": 1.8000001907348633
+              },
+              "weather.paint": {
+                "n": 95,
+                "avg": 0.4600000180696186,
+                "p95": 0.7999997138977051,
+                "max": 1.1000003814697266
+              },
+              "weather.prepare": {
+                "n": 496,
+                "avg": 0.10100806624658647,
+                "p95": 0.5999999046325684,
+                "max": 1.1000003814697266
+              },
+              "_worldWeather.drawGround": {
+                "n": 248,
+                "avg": 0.20201613249317293,
+                "p95": 0.6000003814697266,
+                "max": 1.200000286102295
+              },
+              "_worldNight.drawGround": {
+                "n": 248,
+                "avg": 0.0411290334117028,
+                "p95": 0.10000038146972656,
+                "max": 1.799999713897705
+              },
+              "_foregroundWind.draw": {
+                "n": 248,
+                "avg": 0.1379032250373594,
+                "p95": 0.40000009536743164,
+                "max": 2.6999998092651367
+              },
+              "_worldWeather.draw": {
+                "n": 248,
+                "avg": 0.565725814911627,
+                "p95": 1.799999713897705,
+                "max": 7.699999809265137
+              },
+              "_worldNight.draw": {
+                "n": 248,
+                "avg": 0.02983870429377402,
+                "p95": 0.10000038146972656,
+                "max": 0.20000028610229492
+              }
+            },
+            "cadence": {
+              "n": 25,
+              "avg": 152.3079999923706,
+              "p95": 162.69999980926514,
+              "max": 180.40000009536743
+            },
+            "canvas": [
+              896,
+              640
+            ],
+            "renderFailures": 0,
+            "lifecycle": {
+              "released": true,
+              "restored": true,
+              "reduced": true
+            }
+          },
+          {
+            "engine": "chromium",
+            "format": "pc",
+            "map": "ville_safe1_arene",
+            "draw": {
+              "n": 245,
+              "avg": 2.9269387790134975,
+              "p95": 9,
+              "max": 11.799999713897705
+            },
+            "frames": {
+              "n": 244,
+              "avg": 16.666393442622944,
+              "p95": 16.799999999999955,
+              "max": 16.800000000000182,
+              "over25ms": 0
+            },
+            "updated": 27,
+            "packets": 26,
+            "sent": 26,
+            "parts": {
+              "_placeAmbience.drawGround": {
+                "n": 245,
+                "avg": 1.5281632598565549,
+                "p95": 6.299999713897705,
+                "max": 8.100000381469727
+              },
+              "weather.paint": {
+                "n": 93,
+                "avg": 0.4956989031966015,
+                "p95": 0.7999997138977051,
+                "max": 1
+              },
+              "weather.prepare": {
+                "n": 490,
+                "avg": 0.10653060309740962,
+                "p95": 0.5999999046325684,
+                "max": 1
+              },
+              "_worldWeather.drawGround": {
+                "n": 245,
+                "avg": 0.21142855663688814,
+                "p95": 0.7000002861022949,
+                "max": 1
+              },
+              "_worldWeather.draw": {
+                "n": 245,
+                "avg": 0.4853061306233309,
+                "p95": 1.5999999046325684,
+                "max": 2
+              },
+              "_placeAmbience.draw": {
+                "n": 245,
+                "avg": 0.2420408093199438,
+                "p95": 0.8999996185302734,
+                "max": 1.5
+              },
+              "hoze.paint": {
+                "n": 71,
+                "avg": 0.6802816861112353,
+                "p95": 1,
+                "max": 1.200000286102295
+              },
+              "place.paint": {
+                "n": 71,
+                "avg": 0.15774648961886553,
+                "p95": 0.3000001907348633,
+                "max": 0.40000009536743164
+              }
+            },
+            "cadence": {
+              "n": 25,
+              "avg": 150.7319999885559,
+              "p95": 165.89999961853027,
+              "max": 166
+            },
+            "canvas": [
+              896,
+              640
+            ],
+            "renderFailures": 0,
+            "lifecycle": {
+              "released": true,
+              "restored": true,
+              "reduced": true
+            }
+          },
+          {
+            "engine": "chromium",
+            "format": "mobile",
+            "map": "start",
+            "draw": {
+              "n": 248,
+              "avg": 1.9512096758811706,
+              "p95": 4.399999618530273,
+              "max": 8.599999904632568
+            },
+            "frames": {
+              "n": 247,
+              "avg": 16.665991902833998,
+              "p95": 16.700000000000728,
+              "max": 16.800000000000182,
+              "over25ms": 0
+            },
+            "updated": 43,
+            "packets": 26,
+            "sent": 26,
+            "parts": {
+              "_villageWater.draw": {
+                "n": 248,
+                "avg": 0.24233872852017802,
+                "p95": 1,
+                "max": 3.4000000953674316
+              },
+              "_grassRustle.draw": {
+                "n": 248,
+                "avg": 0.026612902841260357,
+                "p95": 0.10000038146972656,
+                "max": 0.10000038146972656
+              },
+              "_dirtFootprints.draw": {
+                "n": 248,
+                "avg": 0.02056451189902521,
+                "p95": 0.09999990463256836,
+                "max": 0.20000028610229492
+              },
+              "weather.paint": {
+                "n": 95,
+                "avg": 0.3821052300302606,
+                "p95": 0.5999999046325684,
+                "max": 0.5999999046325684
+              },
+              "weather.prepare": {
+                "n": 496,
+                "avg": 0.08205644257606999,
+                "p95": 0.5,
+                "max": 0.7000002861022949
+              },
+              "_worldWeather.drawGround": {
+                "n": 248,
+                "avg": 0.26451610749767673,
+                "p95": 0.6000003814697266,
+                "max": 1
+              },
+              "_worldNight.drawGround": {
+                "n": 248,
+                "avg": 0.03790323195918914,
+                "p95": 0.10000038146972656,
+                "max": 2.0999999046325684
+              },
+              "_foregroundWind.draw": {
+                "n": 248,
+                "avg": 0.08508064285401375,
+                "p95": 0.3000001907348633,
+                "max": 1.1999998092651367
+              },
+              "_worldWeather.draw": {
+                "n": 248,
+                "avg": 0.8544354881009748,
+                "p95": 2.5,
+                "max": 4.100000381469727
+              },
+              "_worldNight.draw": {
+                "n": 248,
+                "avg": 0.016129032258064516,
+                "p95": 0.09999990463256836,
+                "max": 0.20000028610229492
+              }
+            },
+            "cadence": {
+              "n": 25,
+              "avg": 150.24,
+              "p95": 163.30000019073486,
+              "max": 165.59999990463257
+            },
+            "canvas": [
+              786,
+              1270
+            ],
+            "renderFailures": 0,
+            "lifecycle": {
+              "released": true,
+              "restored": true,
+              "reduced": true
+            },
+            "touchMoved": true
+          },
+          {
+            "engine": "chromium",
+            "format": "mobile",
+            "map": "ville1",
+            "draw": {
+              "n": 248,
+              "avg": 1.5169354811791451,
+              "p95": 3.9000000953674316,
+              "max": 12.800000190734863
+            },
+            "frames": {
+              "n": 246,
+              "avg": 16.665853658536587,
+              "p95": 16.799999999999272,
+              "max": 16.800000000000182,
+              "over25ms": 0
+            },
+            "updated": 43,
+            "packets": 26,
+            "sent": 26,
+            "parts": {
+              "_villageWater.draw": {
+                "n": 248,
+                "avg": 0.43790322157644457,
+                "p95": 1.9000000953674316,
+                "max": 5.900000095367432
+              },
+              "_placeAmbience.drawGround": {
+                "n": 248,
+                "avg": 0.0028225798760690996,
+                "p95": 0,
+                "max": 0.10000038146972656
+              },
+              "_dirtFootprints.draw": {
+                "n": 248,
+                "avg": 0.07056452189722369,
+                "p95": 0.20000028610229492,
+                "max": 1.6999998092651367
+              },
+              "_worldNight.drawGround": {
+                "n": 248,
+                "avg": 0.03911289284306188,
+                "p95": 0.09999990463256836,
+                "max": 3.9000000953674316
+              },
+              "_placeAmbience.draw": {
+                "n": 248,
+                "avg": 0.5854838798123021,
+                "p95": 2.200000286102295,
+                "max": 4.599999904632568
+              },
+              "_worldNight.draw": {
+                "n": 248,
+                "avg": 0.02016128263165874,
+                "p95": 0.09999990463256836,
+                "max": 0.2999997138977051
+              },
+              "place.paint": {
+                "n": 72,
+                "avg": 1.2986111044883728,
+                "p95": 2,
+                "max": 3.6999998092651367
+              }
+            },
+            "cadence": {
+              "n": 25,
+              "avg": 150.85200000762939,
+              "p95": 163.7000002861023,
+              "max": 196.90000009536743
+            },
+            "canvas": [
+              786,
+              1270
+            ],
+            "renderFailures": 0,
+            "lifecycle": {
+              "released": true,
+              "restored": true,
+              "reduced": true
+            },
+            "touchMoved": true
+          },
+          {
+            "engine": "chromium",
+            "format": "mobile",
+            "map": "ville5",
+            "draw": {
+              "n": 247,
+              "avg": 2.033603257013236,
+              "p95": 5.199999809265137,
+              "max": 9
+            },
+            "frames": {
+              "n": 246,
+              "avg": 16.733739837398364,
+              "p95": 16.799999999999727,
+              "max": 33.40000000000009,
+              "over25ms": 1
+            },
+            "updated": 43,
+            "packets": 26,
+            "sent": 26,
+            "parts": {
+              "_placeAmbience.drawGround": {
+                "n": 247,
+                "avg": 0.005263160597457577,
+                "p95": 0.09999990463256836,
+                "max": 0.10000038146972656
+              },
+              "_snowFootprints.draw": {
+                "n": 247,
+                "avg": 0.15020241331957612,
+                "p95": 0.5,
+                "max": 1.3000001907348633
+              },
+              "weather.paint": {
+                "n": 94,
+                "avg": 0.5042553201634833,
+                "p95": 0.8000001907348633,
+                "max": 1.299999713897705
+              },
+              "weather.prepare": {
+                "n": 494,
+                "avg": 0.10748987834945864,
+                "p95": 0.5999999046325684,
+                "max": 1.3999996185302734
+              },
+              "_worldWeather.drawGround": {
+                "n": 247,
+                "avg": 0.21093117177245105,
+                "p95": 0.6999998092651367,
+                "max": 1.3999996185302734
+              },
+              "_worldNight.drawGround": {
+                "n": 247,
+                "avg": 0.03481780758753479,
+                "p95": 0.09999990463256836,
+                "max": 2.9000000953674316
+              },
+              "_foregroundWind.draw": {
+                "n": 247,
+                "avg": 0.14696356159472754,
+                "p95": 0.40000009536743164,
+                "max": 2.3000001907348633
+              },
+              "_worldWeather.draw": {
+                "n": 247,
+                "avg": 0.9400809766792575,
+                "p95": 3,
+                "max": 5.799999713897705
+              },
+              "_placeAmbience.draw": {
+                "n": 247,
+                "avg": 0.13562752650334284,
+                "p95": 0.5,
+                "max": 0.9000000953674316
+              },
+              "_worldNight.draw": {
+                "n": 247,
+                "avg": 0.01862348525630318,
+                "p95": 0.09999990463256836,
+                "max": 0.3000001907348633
+              },
+              "place.paint": {
+                "n": 71,
+                "avg": 0.1183098403500839,
+                "p95": 0.20000028610229492,
+                "max": 0.39999961853027344
+              }
+            },
+            "cadence": {
+              "n": 25,
+              "avg": 152.7439999961853,
+              "p95": 189.69999980926514,
+              "max": 213
+            },
+            "canvas": [
+              786,
+              1270
+            ],
+            "renderFailures": 0,
+            "lifecycle": {
+              "released": true,
+              "restored": true,
+              "reduced": true
+            },
+            "touchMoved": true
+          },
+          {
+            "engine": "chromium",
+            "format": "mobile",
+            "map": "route5",
+            "draw": {
+              "n": 246,
+              "avg": 1.2077235632795629,
+              "p95": 2.9000000953674316,
+              "max": 4.899999618530273
+            },
+            "frames": {
+              "n": 245,
+              "avg": 16.665714285714273,
+              "p95": 16.700000000000728,
+              "max": 16.800000000000182,
+              "over25ms": 0
+            },
+            "updated": 43,
+            "packets": 26,
+            "sent": 26,
+            "parts": {
+              "_grassRustle.draw": {
+                "n": 246,
+                "avg": 0.027235769644016174,
+                "p95": 0.10000038146972656,
+                "max": 0.20000028610229492
+              },
+              "_dirtFootprints.draw": {
+                "n": 246,
+                "avg": 0.15284552806761206,
+                "p95": 0.40000009536743164,
+                "max": 1.6999998092651367
+              },
+              "weather.paint": {
+                "n": 95,
+                "avg": 0.3399999819303814,
+                "p95": 0.6999998092651367,
+                "max": 1.0999999046325684
+              },
+              "weather.prepare": {
+                "n": 492,
+                "avg": 0.07459349457810564,
+                "p95": 0.40000009536743164,
+                "max": 1.0999999046325684
+              },
+              "_worldWeather.drawGround": {
+                "n": 246,
+                "avg": 0.14796747424738194,
+                "p95": 0.5,
+                "max": 1.1999998092651367
+              },
+              "_worldNight.drawGround": {
+                "n": 246,
+                "avg": 0.03780488076248789,
+                "p95": 0.10000038146972656,
+                "max": 2.8000001907348633
+              },
+              "_foregroundWind.draw": {
+                "n": 246,
+                "avg": 0.09593495120847129,
+                "p95": 0.3000001907348633,
+                "max": 2.3000001907348633
+              },
+              "_worldWeather.draw": {
+                "n": 246,
+                "avg": 0.4178861854522209,
+                "p95": 1.200000286102295,
+                "max": 1.8000001907348633
+              },
+              "_worldNight.draw": {
+                "n": 246,
+                "avg": 0.014634142077066065,
+                "p95": 0.09999990463256836,
+                "max": 0.3000001907348633
+              }
+            },
+            "cadence": {
+              "n": 25,
+              "avg": 150.4239999961853,
+              "p95": 162.30000019073486,
+              "max": 164.80000019073486
+            },
+            "canvas": [
+              786,
+              1270
+            ],
+            "renderFailures": 0,
+            "lifecycle": {
+              "released": true,
+              "restored": true,
+              "reduced": true
+            },
+            "touchMoved": true
+          },
+          {
+            "engine": "chromium",
+            "format": "mobile",
+            "map": "ville_safe1_arene",
+            "draw": {
+              "n": 245,
+              "avg": 2.214693902463329,
+              "p95": 6,
+              "max": 8.400000095367432
+            },
+            "frames": {
+              "n": 244,
+              "avg": 16.665983606557372,
+              "p95": 16.799999999999727,
+              "max": 16.800000000000182,
+              "over25ms": 0
+            },
+            "updated": 43,
+            "packets": 26,
+            "sent": 26,
+            "parts": {
+              "hoze.paint": {
+                "n": 72,
+                "avg": 0.36388887299431694,
+                "p95": 0.5,
+                "max": 0.5999999046325684
+              },
+              "_placeAmbience.drawGround": {
+                "n": 245,
+                "avg": 1.133061222154267,
+                "p95": 4.299999713897705,
+                "max": 5.799999713897705
+              },
+              "weather.paint": {
+                "n": 92,
+                "avg": 0.34130431776461395,
+                "p95": 0.5,
+                "max": 0.6999998092651367
+              },
+              "weather.prepare": {
+                "n": 490,
+                "avg": 0.07326529755884287,
+                "p95": 0.40000009536743164,
+                "max": 0.6999998092651367
+              },
+              "_worldWeather.drawGround": {
+                "n": 245,
+                "avg": 0.14897958015909,
+                "p95": 0.5,
+                "max": 0.7000002861022949
+              },
+              "_worldWeather.draw": {
+                "n": 245,
+                "avg": 0.38775509425571986,
+                "p95": 1.1999998092651367,
+                "max": 1.700000286102295
+              },
+              "place.paint": {
+                "n": 72,
+                "avg": 0.09861109654108684,
+                "p95": 0.19999980926513672,
+                "max": 0.2999997138977051
+              },
+              "_placeAmbience.draw": {
+                "n": 245,
+                "avg": 0.18857144530938597,
+                "p95": 0.6000003814697266,
+                "max": 0.8000001907348633
+              }
+            },
+            "cadence": {
+              "n": 25,
+              "avg": 150.7639999961853,
+              "p95": 158.7000002861023,
+              "max": 169.59999990463257
+            },
+            "canvas": [
+              786,
+              1270
+            ],
+            "renderFailures": 0,
+            "lifecycle": {
+              "released": true,
+              "restored": true,
+              "reduced": true
+            }
+          }
+        ]
+      }
+    },
+    "webkitDrawComparison": [
+      {
+        "map": "start",
+        "drawBeforeMs": 7.470588235294118,
+        "drawAfterMs": 3.888888888888889,
+        "drawReductionPercent": 47.94400699912511,
+        "frameIntervalBeforeMs": 35.8728813559322,
+        "frameIntervalAfterMs": 30.597014925373134,
+        "controlWithoutFoliageChange": false
+      },
+      {
+        "map": "ville1",
+        "drawBeforeMs": 3.1956521739130435,
+        "drawAfterMs": 3.0592592592592593,
+        "drawReductionPercent": 4.268077601410935,
+        "frameIntervalBeforeMs": 30.264705882352942,
+        "frameIntervalAfterMs": 30.706766917293233,
+        "controlWithoutFoliageChange": true
+      },
+      {
+        "map": "ville5",
+        "drawBeforeMs": 8.965116279069768,
+        "drawAfterMs": 8.679012345679013,
+        "drawReductionPercent": 3.191301980752914,
+        "frameIntervalBeforeMs": 49.48235294117647,
+        "frameIntervalAfterMs": 52.3125,
+        "controlWithoutFoliageChange": false
+      },
+      {
+        "map": "route5",
+        "drawBeforeMs": 6.0661764705882355,
+        "drawAfterMs": 2.841726618705036,
+        "drawReductionPercent": 53.15456725528668,
+        "frameIntervalBeforeMs": 30.6,
+        "frameIntervalAfterMs": 29.702898550724637,
+        "controlWithoutFoliageChange": false
+      },
+      {
+        "map": "ville_safe1_arene",
+        "drawBeforeMs": 2.2241379310344827,
+        "drawAfterMs": 1.7196969696969697,
+        "drawReductionPercent": 22.680291284942445,
+        "frameIntervalBeforeMs": 35.869565217391305,
+        "frameIntervalAfterMs": 31.12213740458015,
+        "controlWithoutFoliageChange": true
+      }
+    ],
+    "lint": true,
+    "syntaxFiles": 4,
+    "diffCheck": true,
+    "limits": [
+      "No physical iPhone test",
+      "Linux WebKit headless is not iOS Safari hardware",
+      "No uniform FPS improvement claimed; snowy town frame intervals remain slow in the Linux WebKit harness",
+      "Control maps also fluctuate between runs",
+      "No new standalone MySQL or full historical suite",
+      "Touch pointers and visibility are simulated by the browser harness"
+    ]
+  },
+  "commands": [
+    "node --test tests/pixel-upload-patch.test.js tests/foreground-wind.test.js tests/village-water.test.js tests/world-render-budget.test.js tests/world-movement.test.js tests/world-weather.test.js",
+    "node scripts/validateSafariWorldCanvas.js",
+    "DB_TEST_NAME=explorakit_test PROFILE_BROWSER=webkit PROFILE_FORMATS=mobile PROFILE_MAPS=start,ville1,ville5,route5,ville_safe1_arene PROFILE_LEGS=8 PROFILE_VALIDATE_LIFECYCLE=1 RELEASE_DIST_DIR=/tmp/riftmon-safari-dist MOVEMENT_PROFILE_OUT=/tmp/riftmon-safari-final-webkit node --env-file=.env scripts/measureWorldMovementBrowser.js",
+    "DB_TEST_NAME=explorakit_test PROFILE_BROWSER=chromium PROFILE_FORMATS=mobile,pc PROFILE_MAPS=start,ville1,ville5,route5,ville_safe1_arene PROFILE_LEGS=8 PROFILE_VALIDATE_LIFECYCLE=1 RELEASE_DIST_DIR=/tmp/riftmon-safari-dist MOVEMENT_PROFILE_OUT=/tmp/riftmon-safari-final-chromium node --env-file=.env scripts/measureWorldMovementBrowser.js",
+    "npm --prefix vue-explorakit run lint",
+    "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-safari-dist"
+  ],
+  "sources": [
+    {
+      "url": "https://webkit.org/blog/15865/webkit-features-in-safari-18-0/",
+      "role": "Primary WebKit documentation: willReadFrequently selects a software-backed context for frequent readback; only the disposable reader receives this hint."
+    },
+    {
+      "url": "https://developer.apple.com/documentation/webkitjs/canvasrenderingcontext2d/1632656-getimagedata",
+      "role": "Primary pixel readback API documentation."
+    },
+    {
+      "url": "https://webkit.github.io/explainers/animation-frame-rate/",
+      "role": "Primary frame scheduling context; no frame-rate policy changed in this patch."
+    }
+  ],
+  "deployment": {
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "publishedAt": "2026-10-30T06:11:11.937Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-safari-2026-10-30T06-11-10-569Z",
+    "sourceBaseline": "136f9c1e02122fa2774572422758895948725ebb",
+    "clientCommit": "45bd1ca1ca2ea7a6ff05924a43d418225a8c9014",
+    "clientBuild": "6ff862b2aedb40c1",
+    "pid": "3423799",
+    "serverRestarted": false,
+    "databaseChanged": false,
+    "realAccountsManuallyModified": false,
+    "neighborsUnchanged": true,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.7e4d7ba6.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.58f7d27d.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.4a1dae2a.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.00fadb68.js",
+      "js/drift.5b8720d7.js",
+      "js/game.6567720a.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.553e140c.css",
+      "css/drift.57f62eee.css",
+      "css/game.e0fc1cf8.css",
+      "css/test-view.7568246d.css"
+    ]
+  }
+}

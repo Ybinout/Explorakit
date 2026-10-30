@@ -1,7 +1,8 @@
 // Repeatable real Socket/Canvas movement profile; temporary accounts, dedicated DB.
 const assert=require('assert/strict'),fs=require('fs'),path=require('path'),http=require('http'),{once}=require('events'),{randomUUID}=require('crypto');
 if(!/test/i.test(process.env.DB_TEST_NAME||''))throw Error('Test database required');process.env.DB_NAME=process.env.DB_TEST_NAME;process.env.NODE_ENV='test';
-const express=require('express'),{Server}=require('socket.io'),{chromium}=require('playwright'),{dbPool:db}=require('../server/config/database');
+const express=require('express'),{Server}=require('socket.io'),engines=require('playwright'),{dbPool:db}=require('../server/config/database');
+const engineName=process.env.PROFILE_BROWSER||'chromium';if(!['chromium','webkit'].includes(engineName))throw Error('Unsupported profile engine');
 const terrain=require('../server/game/world/mapRepository'),pnjs=require('../server/game/world/pnjStore');
 const profileFormats=(process.env.PROFILE_FORMATS||'pc,mobile-cpu4').split(',');
 const profileLegs=Math.max(1,Math.min(64,Number(process.env.PROFILE_LEGS)||8));
@@ -10,9 +11,10 @@ const app=express(),server=http.createServer(app),io=new Server(server);app.use(
 let browser,user,page;const results=[],errors=[];
 function corridor(map){const col=terrain.loadCollisionData(map),change=terrain.changeMapData(map),battle=terrain.battleMapData(map);const runs=[];for(let y=1;y<19;y++){let start=null;for(let x=0;x<=28;x++){const free=x<28&&col[y]?.[x]===0&&!change[y]?.[x]&&!battle[y]?.[x]&&!pnjs.isPnjBlockingTile(map,x,y);if(free&&start===null)start=x;if(!free&&start!==null){if(x-start>=7)runs.push({x:start+2,y,length:x-start});start=null;}}}runs.sort((a,b)=>b.length-a.length);assert(runs[0],map+' needs a safe corridor');return runs[0];}
 (async()=>{try{server.listen(0,'127.0.0.1');await once(server,'listening');const base='http://127.0.0.1:'+server.address().port;const response=await fetch(base+'/api/users',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:'profile_'+randomUUID(),password:randomUUID(),starterId:7})});assert.equal(response.status,201);user=await response.json();await db.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value)VALUES(?,'arena_entry:champion_hoze','true')",[user.user.id]);
-browser=await chromium.launch({headless:true,args:['--no-sandbox']});
-for(const format of [{label:'pc',width:1365,height:900,cpu:1,scale:1},{label:'mobile-cpu4',width:393,height:852,cpu:4,scale:3}].filter(f=>profileFormats.includes(f.label))){
- const context=await browser.newContext({viewport:{width:format.width,height:format.height},deviceScaleFactor:format.scale,hasTouch:format.scale>1,isMobile:format.scale>1});await context.addInitScript(u=>{if(location.protocol==='http:')localStorage.setItem('explorakit.user',JSON.stringify(u));},{...user.user,token:user.token});page=await context.newPage();const cdp=await context.newCDPSession(page);await cdp.send('Emulation.setCPUThrottlingRate',{rate:format.cpu});page.on('pageerror',e=>errors.push(e.message));
+await db.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value)VALUES(?,'adventure_opening','complete') ON DUPLICATE KEY UPDATE flag_value=VALUES(flag_value)",[user.user.id]);
+browser=await engines[engineName].launch({headless:true,...(engineName==='chromium'?{args:['--no-sandbox']}:{})});
+for(const format of [{label:'pc',width:1365,height:900,cpu:1,scale:1},{label:'mobile-cpu4',width:393,height:852,cpu:4,scale:3},{label:'mobile',width:393,height:852,cpu:1,scale:3}].filter(f=>profileFormats.includes(f.label))){
+ const context=await browser.newContext({viewport:{width:format.width,height:format.height},deviceScaleFactor:format.scale,hasTouch:format.scale>1,isMobile:format.scale>1});await context.addInitScript(u=>{if(location.protocol==='http:')localStorage.setItem('explorakit.user',JSON.stringify(u));},{...user.user,token:user.token});page=await context.newPage();if(engineName==='chromium'){const cdp=await context.newCDPSession(page);await cdp.send('Emulation.setCPUThrottlingRate',{rate:format.cpu});}else assert.equal(format.cpu,1,'WebKit has no matching CDP CPU throttle');page.on('pageerror',e=>errors.push(e.message));
  for(const map of (process.env.PROFILE_MAPS||'start,ville5,route5,ville_safe1_arene').split(',')){
   const spot=corridor(map);await db.execute('UPDATE users SET map=?,x=?,y=?,repel_steps=250 WHERE id=?',[map,spot.x*32+16,spot.y*32+16,user.user.id]);await page.goto(base+'/game',{waitUntil:'networkidle'});await page.waitForFunction(()=>{const v=document.querySelector('.game-root')?.__vue__;if(v?.socket?.connected&&!v.mapLoading&&v.map===v.renderedMap&&v.players[v.socket.id]){window.v=v;return true;}return false;});await page.evaluate(()=>{v.updatePreferences({...v.preferences,masterVolume:0});v.textImageSequence=[];});if(process.env.PROFILE_ANIMATIONS==='0')await page.evaluate(()=>v.updatePreferences({...v.preferences,animationsEnabled:false}));if(process.env.PROFILE_PIXEL_RATIO)await page.evaluate(ratio=>{v.worldFrame={...v.worldFrame,pixelRatio:ratio};v.$refs.monCanvas.width=Math.round(v.worldFrame.width*ratio);v.$refs.monCanvas.height=Math.round(v.worldFrame.height*ratio);},Number(process.env.PROFILE_PIXEL_RATIO));await page.waitForTimeout(700);
   await page.evaluate(()=>{
@@ -22,7 +24,29 @@ for(const format of [{label:'pc',width:1365,height:900,cpu:1,scale:1},{label:'mo
    v.$options.updated=[...(v.$options.updated||[]),()=>p.updated++];v.socket.on('playerMoved',({id,player})=>{if(id===v.socket.id)p.packets.push({t:performance.now(),x:player.x,y:player.y});});v.socket.onAnyOutgoing(name=>{if(name==='playerAction')p.sent.push(performance.now());});let previous=null;p.running=true;const sample=t=>{if(!p.running)return;if(previous!==null)p.frames.push(t-previous);previous=t;const me=v.visualPlayer?v.visualPlayer(v.socket.id,v.players[v.socket.id],t):v.players[v.socket.id];p.x.push({t,x:me.x,y:me.y});requestAnimationFrame(sample);};requestAnimationFrame(sample);
   });
   for(let n=0;n<profileLegs;n++){await page.keyboard.down(n%2?'ArrowLeft':'ArrowRight');await page.waitForTimeout(470);await page.keyboard.up(n%2?'ArrowLeft':'ArrowRight');}
-  await page.waitForTimeout(220);const measured=await page.evaluate(()=>{profile.running=false;const summary=a=>{const s=a.slice().sort((a,b)=>a-b);return{n:s.length,avg:s.reduce((a,b)=>a+b,0)/(s.length||1),p95:s[Math.floor(s.length*.95)]||0,max:s.at(-1)||0};};return{draw:summary(profile.draw),frames:{...summary(profile.frames),over25ms:profile.frames.filter(n=>n>25).length},updated:profile.updated,packets:profile.packets.length,sent:profile.sent.length,parts:Object.fromEntries(Object.entries(profile.parts).map(([k,a])=>[k,summary(a)])),raw:profile.x,cadence:summary(profile.packets.slice(1).map((p,i)=>p.t-profile.packets[i].t)),canvas:[v.$refs.monCanvas.width,v.$refs.monCanvas.height],map:v.map,renderFailures:v._worldRenderFailures||0};});results.push({format:format.label,map,...measured});fs.writeFileSync(path.join(out,'results.json'),JSON.stringify(results,null,2));console.log(JSON.stringify({format:format.label,map,draw:measured.draw,frames:measured.frames,updated:measured.updated,packets:measured.packets,sent:measured.sent}));await page.screenshot({path:path.join(out,map+'-'+format.label+'.png')});await page.evaluate(()=>v.socket.disconnect());await page.goto('about:blank');await page.waitForTimeout(180);
+  await page.waitForTimeout(220);const measured=await page.evaluate(()=>{profile.running=false;const summary=a=>{const s=a.slice().sort((a,b)=>a-b);return{n:s.length,avg:s.reduce((a,b)=>a+b,0)/(s.length||1),p95:s[Math.floor(s.length*.95)]||0,max:s.at(-1)||0};};return{draw:summary(profile.draw),frames:{...summary(profile.frames),over25ms:profile.frames.filter(n=>n>25).length},updated:profile.updated,packets:profile.packets.length,sent:profile.sent.length,parts:Object.fromEntries(Object.entries(profile.parts).map(([k,a])=>[k,summary(a)])),raw:profile.x,cadence:summary(profile.packets.slice(1).map((p,i)=>p.t-profile.packets[i].t)),canvas:[v.$refs.monCanvas.width,v.$refs.monCanvas.height],map:v.map,renderFailures:v._worldRenderFailures||0};});
+  assert.equal(measured.renderFailures,0);
+  if(process.env.PROFILE_VALIDATE_LIFECYCLE==='1'){
+   measured.lifecycle=await page.evaluate(async()=>{
+    const pause=ms=>new Promise(r=>setTimeout(r,ms)),r=v._foregroundWind;
+    const old=[r?.canvas,r?.patch?.canvas].filter(Boolean);
+    Object.defineProperty(document,'hidden',{configurable:true,value:true});document.dispatchEvent(new Event('visibilitychange'));await pause(80);
+    const released=old.every(c=>c.width===0&&c.height===0);delete document.hidden;document.dispatchEvent(new Event('visibilitychange'));await pause(180);
+    const restored=!!v.$refs.monCanvas.width&&!v.worldContextLost&&!v.mapLoading;
+    v.updatePreferences({...v.preferences,animationsEnabled:false});await pause(150);
+    const reduced=!v._foregroundWind?.canvas;v.updatePreferences({...v.preferences,animationsEnabled:true});await pause(150);
+    return {released,restored,reduced};
+   });
+   assert(Object.values(measured.lifecycle).every(Boolean));
+   if(format.scale>1&&!map.includes('arene')){
+    const canvas=page.locator('canvas.test'),box=await canvas.boundingBox(),x=box.x+box.width/2,y=box.y+box.height/2;
+    const before=await page.evaluate(()=>v.players[v.socket.id].x);
+    const gesture={pointerId:33,pointerType:'touch',isPrimary:true,buttons:1,button:0,clientX:x,clientY:y};
+    await canvas.dispatchEvent('pointerdown',gesture);await canvas.dispatchEvent('pointermove',{...gesture,clientX:x+50});await page.waitForTimeout(340);await canvas.dispatchEvent('pointerup',{...gesture,buttons:0,clientX:x+50});
+    measured.touchMoved=await page.evaluate(x=>v.players[v.socket.id].x>x&&!v._touchGesture&&Object.values(v.keysPressed).every(k=>!k),before);assert(measured.touchMoved,'Touch movement and release');
+   }
+  }
+  results.push({engine:engineName,format:format.label,map,...measured});fs.writeFileSync(path.join(out,'results.json'),JSON.stringify(results,null,2));console.log(JSON.stringify({engine:engineName,format:format.label,map,draw:measured.draw,frames:measured.frames,updated:measured.updated,packets:measured.packets,sent:measured.sent,lifecycle:measured.lifecycle,touchMoved:measured.touchMoved}));await page.screenshot({path:path.join(out,map+'-'+format.label+'.png')});await page.evaluate(()=>v.socket.disconnect());await page.goto('about:blank');await page.waitForTimeout(180);
  }
  await context.close();
 }
