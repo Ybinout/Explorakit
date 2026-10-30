@@ -1,0 +1,179 @@
+{
+  "feature": "Sexe dans la fiche et la liste des Pokémon",
+  "presentation": {
+    "values": [
+      "male",
+      "female",
+      "genderless"
+    ],
+    "symbols": [
+      "♂",
+      "♀",
+      "—"
+    ],
+    "labels": [
+      "Mâle",
+      "Femelle",
+      "Asexué"
+    ],
+    "sources": "Résolveur existant stoneEvolution.gender ; champ explicite conservé ou calcul stable UUID/espèce, aucun nouveau tirage.",
+    "surfaces": [
+      "Liste équipe Aventure/Rift/Colosseum",
+      "Fiche partagée équipe et PC",
+      "Équipe inscrite au Super Tournoi, snapshots antérieurs compris"
+    ],
+    "unknownOrEgg": "Aucun symbole inventé ; sexe masqué pour les Œufs."
+  },
+  "checks": {
+    "unitPassed": 29,
+    "unitFailed": 0,
+    "unitSkipped": 0,
+    "browsers": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "views": [
+          {
+            "width": 320,
+            "height": 480,
+            "theme": "light"
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "theme": "dark"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "theme": "light"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "theme": "dark"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "theme": "light"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "theme": "dark"
+          }
+        ],
+        "checks": [
+          "Legacy Adventure Pokémon expose stable male, female and genderless values in team lists and sheets, including navigation",
+          "PC sheet shares the badge; owned Pokémon, stats and stored data are unchanged",
+          "Real Colosseum and Rift use the shared list and sheet"
+        ],
+        "errors": [],
+        "physicalHardware": false
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "views": [
+          {
+            "width": 320,
+            "height": 480,
+            "theme": "light"
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "theme": "dark"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "theme": "light"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "theme": "dark"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "theme": "light"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "theme": "dark"
+          }
+        ],
+        "checks": [
+          "Legacy Adventure Pokémon expose stable male, female and genderless values in team lists and sheets, including navigation",
+          "PC sheet shares the badge; owned Pokémon, stats and stored data are unchanged",
+          "Real Colosseum and Rift use the shared list and sheet"
+        ],
+        "errors": [],
+        "physicalHardware": false
+      }
+    }
+  },
+  "commands": [
+    "node --test tests/pokemon-gender-view.test.js tests/pokemon-storage.test.js tests/super-tournament.test.js tests/super-tournament-rewards.test.js",
+    "DB_TEST_NAME=explorakit_test node --env-file-if-exists=.env scripts/validatePokemonGenderBrowser.js",
+    "PRESENTATION_BROWSER=webkit DB_TEST_NAME=explorakit_test node --env-file-if-exists=.env scripts/validatePokemonGenderBrowser.js",
+    "npm --prefix vue-explorakit run lint -- --no-fix",
+    "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-gender-dist"
+  ],
+  "limits": "Chromium/WebKit Linux, sans téléphone physique. Comptes SQL jetables supprimés et données de fixture équipe/PC inchangées. Seules les vues privées exposent le sexe manquant ; modèle, persistance, ratios, stats et conditions d’évolution inchangés.",
+  "deployment": {
+    "publishedAt": "2026-10-30T17:46:33.611Z",
+    "restartedAt": "2026-10-30T17:46:32.005Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-gender-2026-10-30T17-46-30-594Z",
+    "sourceBaseline": "3588fc2e57b191782b12c88c7cc4b8e9f4a415a1",
+    "sourceHashes": {
+      "server/game/storage/pokemonStorage.js": "e55eb2af46196c9a1f430ea162178d72cb997673492b07634d9e4ccc860dff5e",
+      "server/game/superTournament/content.js": "c284c418f98391062e0e778f833cae2c84c80b018ca1fc7f5f1851e81c2c4102",
+      "server/http/routes.js": "1ea56980b81acbc9a9142269cc9f82ba575775e6a455d95d4faccfb680b80f5c"
+    },
+    "clientCommit": "53644ee836282c271579419c541bd0d305af8509",
+    "clientBuild": "d296c43ffacf2895",
+    "beforePid": "3497350",
+    "afterPid": "3507053",
+    "serverRestarted": true,
+    "schemaChanged": false,
+    "databaseChanged": false,
+    "existingPlayerDataChanged": false,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "realAccountsManuallyModified": false,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.f5ca3bcb.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.2648960d.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.00fadb68.js",
+      "js/drift.5b8720d7.js",
+      "js/game.c355f16b.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.553e140c.css",
+      "css/drift.57f62eee.css",
+      "css/game.6f1e4a41.css",
+      "css/test-view.7568246d.css"
+    ],
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0
+  }
+}

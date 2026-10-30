@@ -4,6 +4,7 @@ const { signAccessToken } = require('../config/auth');
 const { authenticateHttp } = require('./authMiddleware');
 const { authenticateUser, createUserWithStarter } = require('../persistence/userRepository');
 const { getTeamPokemons, getTeamRecord, rowToPokemon } = require('../persistence/teamRepository');
+const { gender: pokemonGender } = require('../game/items/stoneEvolution');
 const { equipHeldItem, loadUserItems } = require('../persistence/itemRepository');
 const { loadPokedex, loadProgressState } = require('../persistence/progressionRepository');
 const { getProfile: getRiftProfile } = require('../persistence/riftAccountRepository');
@@ -101,7 +102,10 @@ router.get('/users/:id/team', async (req, res) => {
         const team = await getTeamRecord(req.user.id);
         if (!team) return res.status(404).send({ message: 'Équipe introuvable.' });
         const pokemons = await getTeamPokemons(team.id);
-        return res.send({ ...team, pokemons: pokemons.map(row => ({ ...row, ...rowToPokemon(row) })) });
+        return res.send({ ...team, pokemons: pokemons.map(row => {
+            const pokemon = rowToPokemon(row);
+            return { ...row, ...pokemon, gender: pokemonGender(pokemon) };
+        }) });
     } catch (error) {
         console.error('Erreur équipe:', error.message);
         return res.status(500).send({ message: "Impossible de charger l'équipe." });

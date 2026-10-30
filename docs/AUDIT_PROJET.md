@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## Sexe dans les fiches et listes Pokémon — 30 octobre 2026
+
+Badge partagé : ♂ bleu, ♀ rose, marque neutre pour les espèces asexuées, avec libellé accessible et intitulé complet dans la fiche. Ajout dans `TeamPokemonTraits` (listes Aventure/Rift/Colosseum) et `PokemonDetails` (équipe et PC). Sexe inconnu ou Œuf : aucun symbole inventé. Le serveur expose le résultat du résolveur existant dans la vue HTTP privée d’équipe, la projection PC et l’équipe présentée du Super Tournoi, anciens snapshots compris. Aucun changement du modèle, des ratios, du stockage, des statistiques ou des règles d’évolution ; pas de nouveau tirage ni de mutation des Pokémon pour l’affichage.
+
+Validation : 29 tests unitaires/régression sans échec ni saut, dont projections PC et ancien tournoi sans mutation, identité stable, sexe explicite et asexué. Recette réelle client/Socket/SQL Chromium et WebKit : anciens Pokémon sans champ enregistré, trois sexes, navigation, fiches du PC, Aventure, Colosseum et Rift ; formats 320×480, 393×852 et PC 1365×900, clair/nocturne, aucun débordement/erreur. Données équipe/PC identiques avant/après, comptes jetables supprimés. Lint/build isolé, syntaxe et diff valides. Pas de téléphone physique testé. Commandes et résultats : `docs/POKEMON_GENDER_PRESENTATION.json`, `scripts/validatePokemonGenderBrowser.js`.
+
+Publié le 30 octobre 2026 à 18 h 46 (Europe/Paris), client `53644ee836282c271579419c541bd0d305af8509`, build `d296c43ffacf2895`. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-gender-2026-10-30T17-46-30-594Z`, zéro expédition active au contrôle. PID 3497350→3507053, service actif, zéro redémarrage automatique/avertissement. Index/bundles publics vérifiés, anciens assets conservés ; aucune migration/modification manuelle de compte réel, applications voisines inchangées.
+
 ## Menus mobiles et accueil du Super Tournoi — 30 octobre 2026
 
 L’hôtesse ouvre uniquement l’inscription et le panneau mural uniquement le classement. Onglets retirés, titres et boutons adaptés ; la vue suit directement le payload pour éviter un état local périmé. Routes et autorisations serveur conservées. Panneau borné à l’espace disponible, en-tête et pied non rétrécissables, contenu central défilant, pseudos longs contenus. Centrage PC intégré à la règle commune, réservée aux vrais contextes PC. Menu déroulant partagé : hauteur restante calculée sous son ancrage réel et réactualisée via ResizeObserver/VisualViewport, défilement vertical tactile.
@@ -5119,6 +5127,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 30 octobre 2026 — Sexe affiché dans fiches et listes : résolveur du moteur et vues privées sans nouveau tirage. 29 tests et recettes Chromium/WebKit trois modes + PC réussis ; client/serveur publiés sans migration. Rapport `docs/POKEMON_GENDER_PRESENTATION.json`.
 
 - 30 octobre 2026 — Menus mobiles bornés et défilants ; hôtesse réservée à l’inscription, panneau au classement. Recette ciblée Chromium/WebKit quatre tailles/deux thèmes, inscription réelle et lint/build réussis ; client seul publié. Rapport `docs/TOURNAMENT_MENUS.json`.
 

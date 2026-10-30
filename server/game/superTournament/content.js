@@ -2,6 +2,7 @@ const Pokemon=require('../models/Pokemon');
 const {getTotalExperienceForLevel,getExperienceRate}=require('../models/progression');
 const {pnjTeams}=require('../world/pnjTeamFactory');
 const {healTeam}=require('../world/playerRecovery');
+const {gender:pokemonGender}=require('../items/stoneEvolution');
 const MAPS={lobby:'super_tournament_lobby',sas:'super_tournament_sas',room:'super_tournament_room'};
 const PASS='super_tournament_pass',POINTS_PER_KO=100;
 const roster=[
@@ -57,5 +58,5 @@ const invitationLines=[
  'Lucie : Après tous ceux que tu as battus, ils te réservent une place. Tiens, ton PASS Super Tournoi. Tu peux l’utiliser depuis ton sac pour rejoindre l’accueil.',
  'Lucie : Repose-toi encore si tu en as besoin. Moi, je compte bien être prête quand on se retrouvera là-bas !'
 ].map(text=>({text,imageName:'lucie-v1.png',typewriterMs:40}));
-function state(run){return run?{active:true,endless:true,phase:run.phase,room:run.room+1,cycle:Math.floor(run.room/roster.length)+1,cycleRoom:run.room%roster.length+1,total:roster.length,score:run.score,opponent:entryFor(run.room).name,team:run.player.equipe.pokemons,reward:require('./rewards').viewOffer(run.reward,run.player.equipe.pokemons)}: {active:false};}
+function state(run){return run?{active:true,endless:true,phase:run.phase,room:run.room+1,cycle:Math.floor(run.room/roster.length)+1,cycleRoom:run.room%roster.length+1,total:roster.length,score:run.score,opponent:entryFor(run.room).name,team:run.player.equipe.pokemons.map(p=>({...p,gender:p.data?.id&&p.uuid?pokemonGender(p):p.gender||null})),reward:require('./rewards').viewOffer(run.reward,run.player.equipe.pokemons)}: {active:false};}
 module.exports={MAPS,PASS,roster,entryFor,createTeam,POINTS_PER_KO,eligible,invitation,invitationLines,state};
