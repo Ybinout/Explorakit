@@ -18,13 +18,13 @@ async function loadWorldMount(createGameSocket, createDriftSocket) {
     const ast = require('../vue-explorakit/node_modules/@babel/parser').parse(script, { sourceType: 'module' });
     const component = ast.program.body.find(node => node.type === 'ExportDefaultDeclaration').declaration;
     const mounted = component.properties.find(node => node.key.name === 'mounted');
-    return new Function('createGameSocket', 'createDriftSocket', 'document', 'window', 'console', 'WORLD_WIDTH', 'WORLD_HEIGHT', 'ResizeObserver', 'attachGamePopupLayout', 'WorldMusic', 'require',
+    return new Function('createGameSocket', 'createDriftSocket', 'document', 'window', 'console', 'WORLD_WIDTH', 'WORLD_HEIGHT', 'ResizeObserver', 'attachGamePopupLayout', 'WorldMusic', 'GameFeedbackAudio', 'attachGameFullscreen', 'WorldClock', 'bindWorldClock', 'GAMEPAD_EVENT', 'bindSessionReplacement', 'require',
         `return ({${script.slice(mounted.start, mounted.end)}}).mounted;`)(
         createGameSocket, createDriftSocket, { body: { classList: { add() {} } }, addEventListener() {} },
         { addEventListener() {} }, { log() {}, error() {} }, WORLD_WIDTH, WORLD_HEIGHT,
         class { observe(element) { assert(element, 'The world viewport must be mounted'); } },
         () => () => {}, // Layout is exercised in the browser recipe, alongside real DOM geometry.
-        WorldMusic, asset => asset
+        WorldMusic, class {}, () => ({}), class {}, () => () => {}, 'gamepad-action', () => () => {}, asset => asset
     );
 }
 
@@ -93,7 +93,7 @@ test('Connexion au camp : distinguer un ancien serveur, une session refusée et 
         await t.test('le bouton solo ouvre le monde Aventure après un camp ayant désactivé autoConnect', async () => {
             io.use(authenticateSocket).on('connection', client => client.emit('adventure:ready', { userId: client.data.user.id }));
             const instance = {
-                isDrift: false, pc:{visible:false}, saveState: { lastSyncedAt: null }, $refs: { monCanvas: { addEventListener() {} }, worldViewport: {} },
+                isDrift: false, players:{}, pc:{visible:false}, $el:{querySelector(){}}, saveState: { lastSyncedAt: null }, $refs: { monCanvas: { addEventListener() {} }, worldViewport: {} },
                 $nextTick: callback => callback(),
                 getStoredUserId: () => 73, getStoredUsername: () => 'Dresseur', getStoredToken: () => token,
                 ensureSpriteSheet: () => ({ complete: true })
@@ -101,7 +101,7 @@ test('Connexion au camp : distinguer un ancien serveur, une session refusée et 
             instance.syncWorldMusic = () => {};
             for (const name of ['loadMapImage', 'loadForegroundImage', 'loadAvailableSprites', 'loadPnjSpriteSources',
                 'handleKeydown', 'handleKeyup', 'handleOutsideMenuClick', 'updateMobileControlsVisibility',
-                'cancelFishing', 'releaseAllMovementKeys', 'startGameLoop', 'startMovementLoop', 'resizeWorldViewport']) instance[name] = () => {};
+                'bindSocialSocket','bindTradeSocket','cancelFishing', 'releaseAllMovementKeys', 'startGameLoop', 'startMovementLoop', 'resizeWorldViewport']) instance[name] = () => {};
             (await loadWorldMount(createGameSocket, createDriftSocket)).call(instance);
             const socket = instance.socket;
             sockets.push(socket);

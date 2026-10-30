@@ -1,0 +1,167 @@
+{
+  "version": 1,
+  "feature": "Super Tournoi",
+  "artifacts": [
+    {
+      "path": "vue-explorakit/src/assets/super_tournament_lobby.png",
+      "mode": "built-in imagegen",
+      "prompt": "Create a production game background asset for RiftMon, a polished French monster-catching RPG. LANDSCAPE 7:5 frame, exact top-down / slight front-wall view like a Game Boy Advance / Nintendo DS monster RPG interior, clear large pixels, crisp dark outlines, restrained 16-bit palette, simple chunky furnishings sized for a chibi trainer whose head is as large as torso. NO CHARACTERS, NO text or UI. This is the RECEPTION LOBBY of the elite Super Tournoi on an island. Match an established blue stone arena style: slate blue square tiles, pale blue and silver trim, warm gold lanterns, a few bright cyan crystals. Enclosed rectangular room fills the image with dark navy void outside the outer wall. Broad unobstructed blue tiled floor and a short central carpet. One SMALL reception desk near upper middle at approximately 48% x, 34% y, with an empty spot for the hostess immediately above it; two modest columns at the sides and tasteful flowers. A narrow display board mounted on the upper-right wall for leaderboard interaction; no lettering. A clearly walkable doorway centered at the BOTTOM edge (50% x, 94% y). Rear top wall with large daylight windows looking onto ocean, distant island arena silhouette, discreet blue tournament pennants. Do not add any other door, stairs or furniture on the central walking route. Sophisticated, welcoming and clearly readable. Strong pixel art coherence, no photorealistic textures, no excessive micro detail, no modern sci-fi, no perspective/isometric floor. Keep furnishing footprints rectangular and obvious for a tile collision grid."
+    },
+    {
+      "path": "vue-explorakit/src/assets/super_tournament_sas.png",
+      "mode": "built-in imagegen",
+      "prompt": "Production background RiftMon Super Tournoi entry vestibule (SAS). Landscape 7:5 top-down GBA/NDS pixel RPG interior, crisp pixel outlines, chunky restrained simple blue slate stone architecture, pale cyan silver and warm gold. NO characters, letters, words or UI. Rectangular small ceremonial hall filling frame, navy void outside, wide empty central blue tile floor, carpet from bottom center entrance to top center open doorway, two symmetrical short blue columns near sidewalls, modest warm lanterns, glass windows showing sea. Clear doorway bottom center at 50%x94%y and doorway top center50%x12%y, no stairs, no clutter obstructing central corridor, limited elegant decoration and chibi sprite scale. Match a polished old handheld monster RPG with big readable tiles and minimal fine detail."
+    },
+    {
+      "path": "vue-explorakit/src/assets/super_tournament_room.png",
+      "mode": "built-in imagegen",
+      "prompt": "Create game map background for RiftMon Super Tournoi battle room, landscape 7:5. Polished GBA/NDS top-down pixel RPG arena, simple bold chunky sprites/tile architecture, crisp dark outlines, restrained visible pixels, no characters, no lettering, no HUD. Match a blue slate/cyan/gold island tournament hall. Rectangular room fills frame with dark navy outside. Broad clear rectangular battle floor with restrained pale blue/gold geometrical diamond emblem centered at50%x50%y. Opposing trainer will stand center floor50%x47%y so leave all center walkable/empty. Small north arch exit center50%x13%y, clear south entrance center50%x94%y; walkway vertical unobstructed, no dais, no stairs. Along side walls ONLY four chunky blue pillars, blue tournament banners, small golden lamps; ocean and distant sky visible through large upper wall windows. Readable regular large blue square floor tiles and simple shapes, no finely detailed filigree, no foreground furniture, no dramatic perspective, no platforms on this map."
+    }
+  ],
+  "rules": {
+    "rooms": 16,
+    "levels": [
+      85,
+      95,
+      100
+    ],
+    "k": 4,
+    "iv": 31,
+    "pointsPerKO": 100,
+    "maximumScore": 4800,
+    "ranking": "best score per player",
+    "partyLimit": 6,
+    "healing": "once at registration",
+    "betweenRooms": "HP, status and PP persist; no healing",
+    "bag": false,
+    "heldItems": true,
+    "sealedCopies": true,
+    "adventureRewards": false
+  },
+  "verification": {
+    "unit": 204,
+    "additionalUniqueItemFeedback": 1,
+    "newUnit": 9,
+    "mysql": 2,
+    "browser": "scripts/validateSuperTournamentBrowser.js",
+    "browserReport": "/tmp/riftmon-super-tourney-browser/report.json",
+    "viewports": [
+      320,
+      393,
+      844,
+      1365
+    ],
+    "physicalDevice": false,
+    "completeHumanPlaythrough": false,
+    "limitations": [
+      "The 16-room completion test drives authoritative KO fixtures; it does not establish human balance or completion difficulty.",
+      "Chromium mobile emulation is not a physical phone."
+    ]
+  },
+  "deployment": {
+    "publishedAt": "2026-10-30T06:52:44.100Z",
+    "restartedAt": "2026-10-30T06:52:42.425Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-super-tourney-2026-10-30T06-52-40-831Z",
+    "sourceBaseline": "467876d333406a031668c92f0839543f390ff93b",
+    "sourceHashes": {
+      "data/game/interact.json": "e2059ef2daa418369c741b5b3d20d429ef588ac5829dbec3188407660c55b0b4",
+      "data/game/items.json": "b07750af7c1d1b8732ee68526c69bd95ba74dff7b43c950a4fe55a3e92d5e5f7",
+      "data/game/nextMap.json": "d65b33f6d3b9c3aa70eb4c1bb3063113716f351f553acf6a255949a0046af4ac",
+      "data/game/region_map.json": "9f27ac376cd42b6cd4fb2b58714abe35b38a7ec4926119c5c97d73d4720bffb2",
+      "database/schema.sql": "a6ebda08322d676cd505a2a992992b3a1ff475e444ae64e5821e7fb0c4cd49f7",
+      "server/game/drift/driftBattle.js": "202717c6867eb86679006cee02079ac5d28041df8440bb1dd00ad1ead4940e89",
+      "server/game/world/interactionRepository.js": "95c7bfd59eeae653a8e4990f77b68c639ebdb1cafa0b1e3a4461cc5293a622d5",
+      "server/game/world/regionMap.js": "e01580cb2ad059cc66ef9c7060bc07c0d6f4dcc70a4e0f760571d6fb50ca9ec2",
+      "server/persistence/itemRepository.js": "3d8bd7f6f445303dd259ccb87962ea1e8def8fb5bb49fc9623cc41bb5da6dd43",
+      "server/realtime/socketHandler.js": "1bea4cda6b18caf3e490a99ade03842f114b10db19ecbcbd322e168290878072",
+      "data/maps/super_tournament_lobby.json": "4b360cbd1dbb6930f40cbfcb306888985930b337a66c14e3daa0a915cd1d0a97",
+      "data/maps/super_tournament_room.json": "72b5bc86046821f0ca37ec139629e8f874ed73185c070f55d37e601013dd28d4",
+      "data/maps/super_tournament_sas.json": "4b79bb1cb7a9a0d90d468529f7bbe37c4dfe8caa9d052469d1543aaf00c75ad8",
+      "database/migrations/025_super_tournament.sql": "30d61f7b0b59886cd79aadba49ece614b74412a76dee56547efc062cb670bf0f",
+      "server/game/superTournament/content.js": "3553c33d89aa67c496ff40b6a5eaea71a4118748b6cebdb3a81eebc3b040ab3f",
+      "server/game/superTournament/controller.js": "01b2deff16f7700521750c60d8b87aee78ef9032beca98ea8fd3a5623b883f7f",
+      "server/persistence/superTournamentRepository.js": "82bc0752689442b0bb639491b5d23f7c3c5018bdc66fa3ce309a5649ca259bd1",
+      "server/realtime/handlers/superTournamentHandlers.js": "dce346a78a108a202951dfdae4837f3dedc2398bff7573b83f8b3c6cadca7be5",
+      "server/realtime/uniqueItemFeedback.js": "0e7b7b1f21e0c0c31fe2c713fa8c5467756d9cba1aded7f31a22e0b431fd9308"
+    },
+    "clientCommit": "9ae7d1fcaf30e74b8b8f7c882dd5c53e95944a0d",
+    "clientBuild": "265a7a17699427c9",
+    "beforePid": "3423799",
+    "afterPid": "3478006",
+    "serverRestarted": true,
+    "schemaChanged": true,
+    "migration": "025_super_tournament.sql",
+    "databaseChanged": true,
+    "existingPlayerDataChanged": false,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "realAccountsManuallyModified": false,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.f5ca3bcb.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.58f7d27d.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.5daca509.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.00fadb68.js",
+      "js/drift.5b8720d7.js",
+      "js/game.3d15d0e2.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.553e140c.css",
+      "css/drift.57f62eee.css",
+      "css/game.dbd9ffe1.css",
+      "css/test-view.7568246d.css"
+    ],
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0
+  },
+  "browser": {
+    "success": true,
+    "errors": [],
+    "viewports": [
+      320,
+      393,
+      844,
+      1365
+    ],
+    "checks": [
+      "invitation",
+      "unique pass",
+      "black-hole travel",
+      "counter offer",
+      "forged offer rejection",
+      "registration",
+      "SAS door",
+      "sealed inventory",
+      "trainer portrait",
+      "battle",
+      "reconnect",
+      "PP persistence",
+      "abandon",
+      "original party unchanged"
+    ]
+  },
+  "source": {
+    "client": "9ae7d1fcaf30e74b8b8f7c882dd5c53e95944a0d",
+    "serverBaseline": "467876d333406a031668c92f0839543f390ff93b"
+  },
+  "commands": [
+    "node --test tests/super-tournament.test.js tests/unique-item-feedback.test.js",
+    "node --test tests/drift-*.test.js tests/replacement-choice.test.js tests/party-order.test.js tests/teleport-pivot.test.js tests/ai-redundancy.test.js tests/attack-regressions.test.js tests/move-sounds.test.js",
+    "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test node --env-file-if-exists=.env --test tests/super-tournament-mysql.test.js",
+    "DB_TEST_NAME=explorakit_test node --env-file-if-exists=.env scripts/validateSuperTournamentBrowser.js",
+    "npm --prefix vue-explorakit run lint -- --no-fix",
+    "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-super-tourney-dist"
+  ]
+}

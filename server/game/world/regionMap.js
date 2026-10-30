@@ -38,8 +38,8 @@ function buildRegion() {
         }
     }
     const edges = new Map();
-    for (const node of nodes) for (const next of adjacency.get(node.id) || []) {
-        if (nodeIds.has(next)) { const pair = [node.id,next].sort(); edges.set(pair.join(':'),pair); }
+    for (const node of nodes.filter(n=>n.kind!=='event')) for (const next of adjacency.get(node.id) || []) {
+        if (nodeIds.has(next) && atlas.nodes.find(n=>n.id===next)?.kind!=='event') { const pair = [node.id,next].sort(); edges.set(pair.join(':'),pair); }
     }
     const habitats = new Map(), legendaryHabitats = [];
     const add = (id, location) => habitats.set(id, [...(habitats.get(id) || []), location]);

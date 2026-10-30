@@ -5,22 +5,38 @@
       {
         "text": "Maman : Attends ! Tu pars chercher Lucie, c’est ça ? Tu comptais filer sans me dire au revoir ?",
         "imageName": "townspeople.png",
-        "portraitFrame": { "columns": 8, "rows": 4, "index": 31 }
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 31
+        }
       },
       {
         "text": "Maman : Sa dernière lettre parlait de l’Aube Obscure, un groupe qui protégeait les Pokémon. Elle avait l’air pleine d’espoir… Puis ses lettres ont cessé d’arriver.",
         "imageName": "townspeople.png",
-        "portraitFrame": { "columns": 8, "rows": 4, "index": 31 }
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 31
+        }
       },
       {
         "text": "Maman : Va voir Wayne, près de la sortie du village. Il connaît les dresseurs des premières routes ; peut-être qu’il saura par où commencer.",
         "imageName": "townspeople.png",
-        "portraitFrame": { "columns": 8, "rows": 4, "index": 31 }
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 31
+        }
       },
       {
         "text": "Maman : Et donne-moi de tes nouvelles, d’accord ? Je vous attends tous les deux à la maison.",
         "imageName": "townspeople.png",
-        "portraitFrame": { "columns": 8, "rows": 4, "index": 31 }
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 31
+        }
       }
     ]
   },
@@ -2585,6 +2601,32 @@
         "text": "Lucie : Je vais mieux. Je reprends mes forces, petit à petit. Merci de ne pas m’avoir abandonnée.",
         "imageName": "lucie-v1.png"
       }
+    ],
+    "variants": [
+      [
+        {
+          "text": "Lucie : Alors, comment tu te sens aujourd’hui ? Moi, j’ai repris l’entraînement. Pas question de te laisser prendre trop d’avance !",
+          "imageName": "lucie-v1.png"
+        }
+      ],
+      [
+        {
+          "text": "Lucie : Maman a encore préparé à manger pour dix. Tu restes un peu ? Sinon, je vais devoir tout finir toute seule.",
+          "imageName": "lucie-v1.png"
+        }
+      ],
+      [
+        {
+          "text": "Lucie : Ça fait du bien de te voir passer. Raconte-moi un peu : tu as croisé des Pokémon intéressants ?",
+          "imageName": "lucie-v1.png"
+        }
+      ],
+      [
+        {
+          "text": "Lucie : Je pensais sortir marcher un peu. Tu viens ? Promis, cette fois, je te dis où je vais.",
+          "imageName": "lucie-v1.png"
+        }
+      ]
     ]
   },
   {

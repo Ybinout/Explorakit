@@ -57,7 +57,8 @@ function getSentenceForName(name, state = null, { replayArena = require('./testR
         }
     }
     if (dialogueEntry && Array.isArray(dialogueEntry.sentences) && dialogueEntry.sentences.length > 0) {
-        return [dialogueEntry.sentences, dialogueEntry.name];
+        const variants=dialogueEntry.variants;
+        return [Array.isArray(variants)&&variants.length ? variants[Math.floor(Math.random()*variants.length)] : dialogueEntry.sentences, dialogueEntry.name];
     }
 
     return null;

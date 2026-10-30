@@ -90,7 +90,7 @@ function buildId(prefix = 'id') {
 }
 
 function canPlayerEnterPvp(player) {
-    return hasAlivePokemon(player?.equipe?.pokemons);
+    return !player?.superTournamentActive && hasAlivePokemon(player?.equipe?.pokemons);
 }
 
 function hasPendingRequestForSocket(socketId) {
@@ -261,12 +261,15 @@ const socketHandler = (io) => {
             ? socket.data.user.username.trim()
             : '';
 
-        const [equipe, loadedSavedPosition, spritePalette] = await Promise.all([
+        const [equipe, loadedSavedPosition, spritePalette, initialItems] = await Promise.all([
             loadEquipe(userId),
             loadUserPosition(userId),
-            require('../persistence/playerRepository').loadUserSpritePalette(userId)
+            require('../persistence/playerRepository').loadUserSpritePalette(userId),
+            require('../persistence/itemRepository').loadUserItems(userId)
         ]);
         if (!account.active()) return;
+        const unbindUniqueItems=require('./uniqueItemFeedback').bindUniqueItemFeedback(socket,initialItems);
+        account.onClose(unbindUniqueItems);
         await synchronizeCaughtPokemon(userId, equipe?.pokemons).catch((error) => {
             console.error(`Erreur réconciliation Pokédex user ${userId}:`, error.message);
         });
@@ -311,7 +314,8 @@ const socketHandler = (io) => {
         }
         if (!account.active()) return;
         let personalProgress=initialStoryProgress||{flags:{}},lucieLeaving=false;
-        const {getPnjsForMap,getPnjAtTile,isPnjBlockingTile}=lucieScene.scopedStore(voidEnding.scopedStore(labStory.scopedStore(raphTrial.scopedStore(defaultPnjStore,()=>raphTrialState),()=>personalProgress),()=>personalProgress),()=>personalProgress,()=>lucieLeaving);
+        let tournament=null;
+        const {getPnjsForMap,getPnjAtTile,isPnjBlockingTile}=require('./handlers/superTournamentHandlers').scopedStore(lucieScene.scopedStore(voidEnding.scopedStore(labStory.scopedStore(raphTrial.scopedStore(defaultPnjStore,()=>raphTrialState),()=>personalProgress),()=>personalProgress),()=>personalProgress,()=>lucieLeaving),()=>tournament?.controller.run);
         const personalTileBlocked=(map,x,y)=>isPnjBlockingTile(map,x,y)||mirrorRift.blocked(map,x,y,personalProgress)||Boolean(storyGates.actorAtTile(map,x,y,personalProgress));
         let collisionData2D = loadCollisionData(currentmap);
         let changemap2D = changeMapData(currentmap);
@@ -481,6 +485,7 @@ const socketHandler = (io) => {
 
         account.onClose(async () => {
             arenaCollapse?.stop();
+            await tournament?.stop();
             replaySessions.delete(socket.id);
             fishing.stop();
             if (saveTimer) {
@@ -513,6 +518,10 @@ const socketHandler = (io) => {
         const showRoomEntry = async (progression) => {
             const player = players[socket.id];
             if (!player || player.inbattle || pendingDialogue) return;
+            if(player.currentmap==='start'&&require('../game/superTournament/content').invitation(progression||personalProgress)){
+                pendingDialogue={...createDialogueAuthorization({name:'lucie_super_tournament',map:'start',x:Math.floor(player.x/32),y:Math.floor(player.y/32)}),storyEntry:true,tournamentInvitation:true};
+                socket.emit('dialogue',[require('../game/superTournament/content').invitationLines,'lucie_super_tournament',{entryMap:'start'}]);return;
+            }
             const motherEntry=adventureOpening.entryDialogue(player.currentmap,progression||personalProgress);
             if(motherEntry){
                 const sentence=getSentenceForName(motherEntry);
@@ -753,7 +762,7 @@ const socketHandler = (io) => {
             emitPlayerProgression(await loadProgressState(userId));
         };
         require('./handlers/tradeHandlers').registerTradeHandlers({io,socket,mode:'adventure',getPlayer:()=>players[socket.id],
-            available:tradeId=>{const p=players[socket.id];return !!p&&!p.inbattle&&(!p.inventoryBusy||tradeId&&p.__tradeId===tradeId)&&!transitionBusy&&!interactionBusy&&!pendingDialogue&&!p.isInteracting&&!socketToChatSession.has(socket.id);},
+            available:tradeId=>{const p=players[socket.id];return !tournament?.controller.active&&!!p&&!p.inbattle&&(!p.inventoryBusy||tradeId&&p.__tradeId===tradeId)&&!transitionBusy&&!interactionBusy&&!pendingDialogue&&!p.isInteracting&&!socketToChatSession.has(socket.id);},
             apply:plan=>{const p=players[socket.id];if(p){p.equipe.pokemons=plan.team;socket.emit('teamStateChanged',{equipe:p.equipe,reason:'trade'});}},
             reload:async()=>{const team=await loadEquipe(userId);const p=players[socket.id];if(p){p.equipe=team;await synchronizeTradeInventory();}},
             synchronize:synchronizeTradeInventory
@@ -780,16 +789,16 @@ const socketHandler = (io) => {
             travel:async destination=>{await relocatePlayer(destination,{reason:'mirror_awakened'});await flushPositionSave();}
         });
         account.on('mirrorRiftWake',guardInteraction(async()=>{if(mirrorRift.state(personalProgress).stage==='won')await mirrorHandlers.awaken();}));
-        registerTeamOrderHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!interactionBusy&&!transitionBusy});
+        registerTeamOrderHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!tournament?.controller.active&&!interactionBusy&&!transitionBusy});
         require('./handlers/arenaTestHandlers').registerArenaTestHandlers({socket,getPlayer:()=>players[socket.id],
             getPeers:()=>Object.values(players).filter(p=>p.userId===userId),
             canUse:()=>[...replaySessions.values()].filter(s=>s.userId===userId).every(s=>s.canReset()),
             emitProgression:emitPlayerProgression,onRearmed:progress=>refreshReplaySessions(progress,true)});
-        registerMedicineHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!interactionBusy&&!transitionBusy});
+        registerMedicineHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!tournament?.controller.active&&!interactionBusy&&!transitionBusy});
         let lastVoidTravel=0;
         account.on('void:travel',async(_data,ack)=>{
             const reply=typeof ack==='function'?ack:()=>{},player=players[socket.id];
-            if(!player||transitionBusy||interactionBusy||pendingDialogue||player.inbattle||player.inventoryBusy||socketToChatSession.has(socket.id)||Date.now()-lastVoidTravel<3000)return reply({success:false,message:'L’objet ne réagit pas pour le moment.'});
+            if(!player||tournament?.controller.active||transitionBusy||interactionBusy||pendingDialogue||player.inbattle||player.inventoryBusy||socketToChatSession.has(socket.id)||Date.now()-lastVoidTravel<3000)return reply({success:false,message:'L’objet ne réagit pas pour le moment.'});
             transitionBusy=true;player.inventoryBusy=true;
             try{
                 const r=await require('../persistence/voidEndingRepository').read(userId);
@@ -804,12 +813,19 @@ const socketHandler = (io) => {
             }catch(error){console.error('Passage indisponible:',error.message);reply({success:false,message:'Le passage a été interrompu. Vérifie ta position après reconnexion.'});}
             finally{player.inventoryBusy=false;transitionBusy=false;}
         });
+        tournament=require('./handlers/superTournamentHandlers').createHandlers({socket,account,userId,
+            getPlayer:()=>players[socket.id],canUse:()=>!interactionBusy&&!transitionBusy&&!pendingDialogue,
+            refreshActors:()=>{currentPnjs=getPnjsForMap(currentmap);socket.emit('pnjsList',{mapname:currentmap,pnjs:currentPnjs});},
+            travel:async destination=>{transitionBusy=true;try{await relocatePlayer(destination,{reason:'super_tournament'});await flushPositionSave();}finally{transitionBusy=false;}}
+        });
+        await tournament.initialize();
+        if(!account.active())return;
         const computerHandlers=registerPokemonComputerHandlers({socket,io,userId,getPlayer:()=>players[socket.id],getPeers:()=>Object.values(players).filter(p=>p.userId===userId),canUse:()=>!transitionBusy});
-        registerRepelHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!interactionBusy&&!transitionBusy,flushPositionSave,schedulePositionSave});
+        registerRepelHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!tournament?.controller.active&&!interactionBusy&&!transitionBusy,flushPositionSave,schedulePositionSave});
         socket.emit('fieldEffectState',{repelSteps:remainingRepel(players[socket.id])});
-        registerMoveLearningHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!interactionBusy&&!transitionBusy});
-        registerEvolutionHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!interactionBusy&&!transitionBusy});
-        require('./handlers/experienceModuleHandlers').registerExperienceModuleHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!interactionBusy&&!transitionBusy});
+        registerMoveLearningHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!tournament?.controller.active&&!interactionBusy&&!transitionBusy});
+        registerEvolutionHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!tournament?.controller.active&&!interactionBusy&&!transitionBusy});
+        require('./handlers/experienceModuleHandlers').registerExperienceModuleHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!tournament?.controller.active&&!interactionBusy&&!transitionBusy});
         const shopHandlers = registerShopHandlers({
             socket,
             userId,
@@ -818,7 +834,7 @@ const socketHandler = (io) => {
 
         require('./handlers/flightHandlers').registerFlightHandlers({
             socket,userId,getPlayer:()=>players[socket.id],
-            canUse:()=>!interactionBusy&&!transitionBusy&&!pendingDialogue&&!socketToChatSession.has(socket.id),
+            canUse:()=>!tournament?.controller.active&&!interactionBusy&&!transitionBusy&&!pendingDialogue&&!socketToChatSession.has(socket.id),
             setBusy:value=>{transitionBusy=value;},
             travel:async (destination,player)=>{
                 pendingDialogue=null;fishing.cancel(player);
@@ -1134,6 +1150,10 @@ const socketHandler = (io) => {
             const authorization = pendingDialogue;
             pendingDialogue = null;
 
+            if(authorization.tournamentInvitation){
+                try{await require('../persistence/superTournamentRepository').grantPass(userId);emitPlayerProgression(await loadProgressState(userId));socket.emit('bagUpdated',{items:await require('../persistence/itemRepository').loadUserItems(userId)});}
+                catch(error){pendingDialogue=authorization;throw error;}return;
+            }
             if(authorization.openingMother){
                 try{await openingRepository.finishMother(userId);emitPlayerProgression(await loadProgressState(userId));}
                 catch(error){pendingDialogue=authorization;throw error;}
@@ -1317,6 +1337,7 @@ const socketHandler = (io) => {
             const player = players[socket.id];
             if (!player) return;
             if (player.inbattle || player.inventoryBusy) return;
+            if(await tournament?.interact())return;
             if (fishing.current(player)) { fishing.reel(player,fishing.current(player).id); return; }
             if(supportsMirrorRift&&!pendingDialogue&&currentmap===mirrorRift.config.map&&mirrorRift.interaction(player,personalProgress)&&await mirrorHandlers.interact())return;
 
@@ -1594,6 +1615,8 @@ const socketHandler = (io) => {
                 player.isMoving = false;
                 return;
             }
+
+            if(await tournament?.step())return;
 
             if (battlemap2D[matrixY] && battlemap2D[matrixY][matrixX] != 0 && !changemap2D[matrixY]?.[matrixX] && !player.inbattle) {
                 if (Math.random() < WILD_ENCOUNTER_CHANCE) {

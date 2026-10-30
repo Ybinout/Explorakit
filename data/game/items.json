@@ -3877,6 +3877,16 @@
       "sell_price": 0,
       "description": "Apprend Aurore à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
       "machineMove": "Morning Sun"
+    },
+    {
+      "key": "super_tournament_pass",
+      "name": "PASS Super Tournoi",
+      "description": "Invitation personnelle au Super Tournoi. Utiliser ce pass pour rejoindre l’accueil de l’île.",
+      "category": "key",
+      "unique": true,
+      "buy_price": 0,
+      "sell_price": 0,
+      "superTournamentTravel": true
     }
   ]
 }

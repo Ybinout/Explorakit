@@ -157,6 +157,12 @@
       "x": 60,
       "y": 144,
       "kind": "town"
+    },
+    {
+      "id": "super_tournament_lobby",
+      "x": 454,
+      "y": 98,
+      "kind": "event"
     }
   ]
 }

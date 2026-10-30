@@ -22,7 +22,8 @@ const trainerTactics = require('../battle/trainerTactics');
 const { wildMoneyReward } = require('../battle/wildReward');
 
 class DriftBattle {
-    constructor(a, b, { type = 'wild', emit, now = Date.now, random = Math.random, onFinish, onUpdate, npcKey = null, environment = null, paceMs = 1800 }) {
+    constructor(a, b, { type = 'wild', emit, now = Date.now, random = Math.random, onFinish, onUpdate, npcKey = null, environment = null, paceMs = 1800, rules = {} }) {
+        this.rules = rules;
         presentation.reset(a);presentation.reset(b);
         this.id = randomUUID(); this.a = a; this.b = b; this.type = type; this.emit = emit; this.now = now;
         this.random = random; this.onFinish = onFinish; this.onUpdate = onUpdate; this.npcKey = npcKey; this.paceMs = paceMs;
@@ -32,6 +33,7 @@ class DriftBattle {
         this.effortParticipants = new Map(); this.effortRewarded = new Set();
         this.aiMemory = { seen: {}, lastSwitchRound: -10 };
         this.state = engine.createBattleState({ mapName: a.currentmap, opponentMap: b.npc ? a.currentmap : b.currentmap ?? null, battleType:type }); this.sides = [this.state.sides.player, this.state.sides.enemy];
+        if (rules.weather) this.state.weather = {...rules.weather};
         this.pending = new Map(); this.round = 0; this.finished = false; this.rewarded = new Set(); this.awaiting = false;
         for (const p of [a,b]) if (!p.npc) require('../battle/partyOrder').rememberPartyOrder(p.equipe);
         this.originals = [...a.equipe.pokemons, ...b.equipe.pokemons];
@@ -39,14 +41,14 @@ class DriftBattle {
         this.resultTrackers = new Map([a, b].filter(p => !p.npc)
             .map(p => [p, createBattleSummaryTracker(p.equipe.pokemons, 'drift')]));
         for (const [index, p] of [a,b].entries()) {
-            if (!p.npc) report.battleStarted(p,this);
+            if (!p.npc && this.rules.report !== false) report.battleStarted(p,this);
             if (p.npc) switchPokemonByIndex(p.equipe,trainerTactics.replacementIndex(p.equipe));
             else autoSwitchPokemon(p.equipe);
             require('../abilities/abilityForms').attachTeam(p.equipe.pokemons);
             p.inbattle = true; p.battle = this;
             effects.attach(p.equipe.pokemons, p, type === 'pvp', random);
             p.equipe.pokemons.forEach(poke => { effects.states.get(poke).wild = index === 0 && type === 'wild'; });
-            if (!p.npc) emit(p, 'battletrigger', { trainerKey:this.npcKey, environment:this.environment, field:serializeFieldState(this.state,index===0?'player':'enemy'), musicKind:this.musicKind(), battleType: type === 'arena' ? 'trainer' : type, message: type === 'pvp' ? 'Duel du tournoi Drift !' : 'Un combat Drift commence !' });
+            if (!p.npc) emit(p, 'battletrigger', { trainerKey:this.npcKey, environment:this.environment, field:serializeFieldState(this.state,index===0?'player':'enemy'), musicKind:this.musicKind(), bagAllowed:this.rules.bagAllowed !== false, fleeAllowed:this.rules.fleeAllowed !== false, tournamentEntrance:this.rules.entrance || null, battleType: type === 'arena' ? 'trainer' : type, message: this.rules.entrance ? 'Le duel du Super Tournoi commence !' : type === 'pvp' ? 'Duel du tournoi Drift !' : 'Un combat Drift commence !' });
         }
         for (const index of [0,1]) this.enter(index, false, true);
         this.prune();
@@ -77,7 +79,7 @@ class DriftBattle {
         if(captured.effects.length)for(const viewer of [this.a,this.b])if(!viewer.npc)this.emit(viewer,'battleDriftEffects',{effects:captured.effects.map(({owner,...effect})=>({...effect,side:owner===viewer?'player':'opponent'}))});
         return captured.result;
     }
-    musicKind() { return this.a.run?.mode==='colosseum' && this.npcKey?.startsWith('colosseum_') ? 'colosseum' : this.type; }
+    musicKind() { if(this.rules?.musicKind) return this.rules.musicKind; return this.a.run?.mode==='colosseum' && this.npcKey?.startsWith('colosseum_') ? 'colosseum' : this.type; }
     sync() {
         require('../abilities/abilityForms').syncWeatherForms(this.active(0),this.active(1),this.state);
         for (const [index,p] of [this.a,this.b].entries()) if (!p.npc) {
@@ -88,7 +90,7 @@ class DriftBattle {
                 || (ownInitial && this.originals ? this.originals.filter(pokemon=>!ownInitial.includes(pokemon)) : opponent.equipe.pokemons);
             this.emit(p, 'battleFieldState', serializeFieldState(this.state,index===0?'player':'enemy'));
             this.emit(p, 'introAnimation', { opponentParty:this.type==='wild'?null:partyIndicator(opponentRoster), moveTypes:engine.battleMoveTypes(this.active(index),this.active(1-index),this.state), effortYield:this.type==='pvp'?null:effortYield(this.active(1-index)), musicKind:this.musicKind(), transitions:index===0&&this.b.npc?trainerTactics.decorateTransitions(transitions,this.b.equipe,this.aiMemory):transitions, player: { id: p.socketId, userId: p.userId, equipe: p.equipe }, wildPokemon: this.active(1-index) || null, battleType: this.type === 'arena' ? 'trainer' : this.type, usableMoveIndexes: getUsableMoveIndexes(this.active(index), this.state) });
-            this.emit(p, 'bagUpdated', { items: economy.bag(p) });
+            if(this.rules?.report !== false) this.emit(p, 'bagUpdated', { items: economy.bag(p) });
         }
         this.onUpdate?.(this);
     }
@@ -196,6 +198,7 @@ class DriftBattle {
         const active = p.equipe.pokemons[0];
         const kind = payload.action;
         if (!['attack','change','bag','flee'].includes(kind)) return false;
+        if(kind==='bag' && this.rules?.bagAllowed===false || kind==='flee' && this.rules?.fleeAllowed===false) return false;
         if (kind === 'change' && (!Number.isInteger(payload.number) || payload.number <= 0 || !p.equipe.pokemons[payload.number] || effects.isDead(p.equipe.pokemons[payload.number]) || !engine.canSwitchOut(active, this.active(p === this.a ? 1 : 0), this.state))) return false;
         if (kind === 'flee' && this.type === 'wild' && !canFleeWildBattle(active, this.active(p === this.a ? 1 : 0), this.state)) return false;
         if (kind === 'attack' && !isMoveSelectionValid(active, payload.number, this.state)) {
@@ -227,7 +230,7 @@ class DriftBattle {
             const old = p.equipe.pokemons[0], action = this.pending.get(p);
             if (!switchPokemonByIndex(p.equipe,action?.number)) continue;
             // Permanent death is recorded at K.O.; retain its slot only until a choice is made.
-            if (effects.isDead(old) && !old.riftFainted) p.equipe.pokemons = p.equipe.pokemons.filter(poke=>poke!==old);
+            if (this.rules?.permanentDeaths !== false && effects.isDead(old) && !old.riftFainted) p.equipe.pokemons = p.equipe.pokemons.filter(poke=>poke!==old);
         }
         this.sync();
         for (const p of replacements) this.enter(p===this.a?0:1);
@@ -249,16 +252,16 @@ class DriftBattle {
             const fainted = p.equipe.pokemons.filter(poke => effects.isDead(poke) && !poke.riftFainted && !this.processedFaints.has(poke.uuid));
             for (const poke of fainted) {
                 this.processedFaints.add(poke.uuid);
-                const protectedKO = !p.npc && require('../items/heldItems').effect(poke, this.state) === 'rift_protection';
+                const protectedKO = this.rules?.permanentDeaths !== false && !p.npc && require('../items/heldItems').effect(poke, this.state) === 'rift_protection';
                 if (protectedKO) {
                     poke.heldItem = null; poke.currentHp = 0; poke.riftFainted = true;
                     this.say(`${poke.truename || poke.name} est sauvé par son talisman ! Il reste K.O. jusqu’à un soin hors combat.`);
                     report.event(p,'protection',`Talisman consommé : ${poke.truename || poke.name} reste dans l’équipe à 0 PV.`);
-                } else if (!p.npc) report.lost(p,poke);
+                } else if (!p.npc && this.rules?.report !== false) report.lost(p,poke);
                 effects.fainted(poke);
             }
             const needsChoice = !p.npc && effects.isDead(old) && hasAlivePokemon(p.equipe);
-            p.equipe.pokemons = p.equipe.pokemons.filter(poke => !effects.isDead(poke) || poke.riftFainted || (needsChoice && poke===old));
+            p.equipe.pokemons = p.equipe.pokemons.filter(poke => this.rules?.permanentDeaths === false || !effects.isDead(poke) || poke.riftFainted || (needsChoice && poke===old));
             if (p === this.b && this.type !== 'pvp') for (const defeated of fainted) this.reward(defeated);
             if (this.type === 'pvp' && fainted.length) [this.a,this.b][1-index].chain = Math.min(5, ([this.a,this.b][1-index].chain || 0) + fainted.length);
             if (p.npc && effects.isDead(old)) switchPokemonByIndex(p.equipe,trainerTactics.replacementIndex(p.equipe,{
@@ -270,6 +273,7 @@ class DriftBattle {
     }
     reward(defeated) {
         if (this.rewarded.has(defeated.uuid)) return; this.rewarded.add(defeated.uuid);
+        if(this.rules?.rewards === false) return;
         const effort = this.rewardEffort(defeated);
         const active = this.a.equipe.pokemons.find(p=>!effects.isDead(p)); if (!active) return;
         const isColosseum = this.a.run?.mode === 'colosseum';
@@ -414,19 +418,19 @@ class DriftBattle {
     finish(winner = null, reason = 'timer') {
         if(this.finished) return; this.finished=true; this.awaiting=false;
         if(reason==='finished')this.sync();
-        for (const p of [this.a,this.b]) p.equipe.pokemons = p.equipe.pokemons.filter(poke=>!effects.isDead(poke) || poke.riftFainted);
+        for (const p of [this.a,this.b]) p.equipe.pokemons = p.equipe.pokemons.filter(poke=>this.rules?.permanentDeaths === false || !effects.isDead(poke) || poke.riftFainted);
         for(const p of [this.a,this.b].filter(p=>!p.npc)){
             const initialTeam=this.originalTeams?.get(p)||this.resultTrackers?.get(p)?.initial.map(e=>e.pokemon)||[];
             for(const key of require('../battle/battleOutcome').recoverLostHeldItems(p,initialTeam)){
                 const name=getItemDefinition(key)?.name||key;
                 this.say(`${name} est récupéré dans le sac.`,true);
-                report.event(p,'item',`${name} récupéré après le combat.`);
+                if(this.rules?.report !== false) report.event(p,'item',`${name} récupéré après le combat.`);
             }
         }
         clearBattleTransientState(this.originals);
         for (const p of [this.a,this.b]) if (!p.npc) require('../battle/partyOrder').restorePartyOrder(p.equipe);
         for (const p of [this.a,this.b]) { p.inbattle=false; p.battle=null; }
-        if (winner === this.a && this.type === 'wild' && ['captured', 'finished'].includes(reason)) {
+        if (this.rules?.rewards !== false && winner === this.a && this.type === 'wild' && ['captured', 'finished'].includes(reason)) {
             const target = this.capturedPokemon || this.originals.find(p => this.rewarded.has(p.uuid));
             if (target) {
                 const money = wildMoneyReward(target, 1 + effects.value(this.a,46) / 100);
@@ -434,8 +438,8 @@ class DriftBattle {
                 this.resultTrackers.get(this.a).money += money;
             }
         }
-        if (winner === this.a && reason === 'captured' && this.type === 'wild') this.grantLoot('capture');
-        if(winner===this.a && !['captured','timer','fled'].includes(reason) && this.type!=='pvp') {
+        if (this.rules?.rewards !== false && winner === this.a && reason === 'captured' && this.type === 'wild') this.grantLoot('capture');
+        if(this.rules?.rewards !== false && winner===this.a && !['captured','timer','fled'].includes(reason) && this.type!=='pvp') {
             const first = !this.npcKey || !this.a.defeated.has(this.npcKey);
             if(this.npcKey) this.a.defeated.add(this.npcKey);
             if(first) {
@@ -448,11 +452,11 @@ class DriftBattle {
             }
             for(const p of this.a.equipe.pokemons) effects.heal(p,p.maxHp*effects.value(this.a,49)/100);
         }
-        require('./contracts').record(this.a,this,winner,reason);
+        if(this.rules?.report !== false) require('./contracts').record(this.a,this,winner,reason);
         effects.detach(this.originals);
         for(const p of [this.a,this.b]) if(!p.npc) {
-            this.emit(p,'bagUpdated',{items:economy.bag(p)});
-            require('./fusion').consolidate(p);
+            if(this.rules?.report !== false) this.emit(p,'bagUpdated',{items:economy.bag(p)});
+            if(this.rules?.report !== false) require('./fusion').consolidate(p);
             const payload = {
                 playerWon: p === winner,
                 battleType: this.type === 'arena' ? 'trainer' : this.type,
@@ -462,7 +466,7 @@ class DriftBattle {
             };
             payload.summary = buildBattleSummary(payload, this.resultTrackers.get(p)
                 .snapshot(p.equipe.pokemons, p === winner ? this.capturedPokemon : null));
-            report.battleFinished(p,this,payload.summary);
+            if(this.rules?.report !== false) report.battleFinished(p,this,payload.summary);
             this.emit(p,'endbattle',payload);
             this.emit(p,'teamStateChanged',{equipe:p.equipe,reason:'drift_battle_end'});
         }
