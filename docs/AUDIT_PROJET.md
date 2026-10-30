@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Ordre des capacités dans les fiches Pokémon — 30 octobre 2026
+
+Les fiches de l’équipe et du PC permettent de monter/descendre chaque capacité avec deux flèches accessibles et des cibles tactiles de 44 px. Positions numérotées, sauvegarde automatique, attente/confirmation/erreur dans la fiche ; boutons de bord désactivés. Réorganisation réservée aux Pokémon possédés, hors combat, sans modifier les capacités apprises ni leurs PP (zéro conservé). Chaque requête contient une permutation d’indices et la liste attendue : listes périmées, doublons d’indices, capacités étrangères et requêtes incomplètes refusés.
+
+Aventure : transaction sur le propriétaire, verrou d’inventaire/échange et sauvegarde de huit colonnes seulement avant publication. PC : accès existant au terminal, même validation ; huit champs du JSON changent, autres champs et métadonnées inconnues conservés. Rift/Colosseum : état/checkpoint habituel et remise à zéro de la préparation. Super Tournoi : réorganisation de la copie inscrite hors combat, sauvegarde atomique avec restauration sur erreur ; mutation ordinaire de l’Aventure bloquée tant que l’inscription est active. Aucun changement d’XP, soin, apprentissage en attente, objet, identité, effectif ou ordre d’équipe.
+
+Validation : 47 tests sans échec/saut, dont permutations et PP, refus en combat/propriétaire étranger, sauvegardes retardées/échouées, PC d’expédition et checkpoint, copie scellée du tournoi et rollback. Client compilé/Socket/SQL réels sur comptes jetables : Chromium/WebKit, 320×480, 393×852, PC 1365×900, clair/nocturne ; flèches tactiles/souris, limites, ordre conservé après reconnexion puis repris par les boutons de combat, PP épuisés toujours inutilisables, requêtes forgées/périmées refusées. PC sans transfert, identité/statistiques/objet et métadonnée opaque préservés ; commandes réelles Rift/Colosseum et Super Tournoi, reprise du tournoi, séparation des inventaires vérifiées. Aucune erreur/débordement, comptes supprimés ; pas de téléphone physique testé. Lint/build isolé, syntaxe/diff valides. Recettes : `tests/move-order.test.js`, `scripts/validateMoveOrderBrowser.js` ; commandes et résultats : `docs/POKEMON_MOVE_ORDER.json`.
+
+Publié le 30 octobre 2026 à 19 h 25 (Europe/Paris), client `c03406c7cfdb0fac0eff839584549b3f03c1683c`, build `b09bf867358045ed`. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-move-order-2026-10-30T18-25-18-167Z`, zéro expédition active au contrôle. PID 3510940→3513868, service actif, zéro redémarrage automatique/avertissement. Index/bundles publics vérifiés, anciens assets conservés ; aucune migration ni modification manuelle de compte réel, applications voisines inchangées.
+
 ## Sexes par espèce et symboles en combat — 30 octobre 2026
 
 Le résolveur partagé donne désormais priorité aux espèces exclusivement mâles, femelles ou asexuées, même si un ancien champ enregistré les contredit. Espèces mixtes : sexe légal conservé ou calcul stable par UUID, sans nouveau tirage. Contrôle des 493 espèces contre le CSV PokéAPI épinglé utilisé par le générateur : aucun écart ; 12 exclusivement mâles, 16 femelles, 54 asexuées. Aucun changement des ratios, statistiques, stockage ou données réelles.
@@ -5145,6 +5155,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 30 octobre 2026 — Ordre des capacités modifiable dans les fiches équipe/PC, sauvegarde automatique et PP conservés, Aventure/Rift/Colosseum/Super Tournoi. 47 tests et recettes Chromium/WebKit trois formats/deux thèmes réussis ; client/serveur publiés avec sauvegarde, voisins inchangés. Rapport `docs/POKEMON_MOVE_ORDER.json`.
 
 - 30 octobre 2026 — Sexes imposés par espèce et symboles dans les deux encadrés de combat, tous orchestrateurs. 493 espèces vérifiées, 129 tests et recettes Chromium/WebKit trois formats réussis ; client/serveur publiés avec sauvegarde, voisins inchangés. Rapport `docs/BATTLE_GENDER.json`.
 

@@ -46,6 +46,22 @@ async function mutateStorage(userId, payload) {
         const record = await getTeamRecord(userId,c); if (!record) throw Error('Équipe introuvable.');
         const [rows] = await c.execute('SELECT * FROM pokemons WHERE team_id=? ORDER BY position FOR UPDATE',[record.id]);
         const entries = await loadEntries(userId,c,true);
+        if(payload?.action==='reorderMoves'){
+            require('../game/social/tradeLocks').assertUnlocked(userId);
+            const team=rows.map(rowToPokemon),stored=entries.find(e=>e.pokemon.uuid===payload.pokemonUuid);
+            const pokemon=team.find(p=>p.uuid===payload.pokemonUuid) || stored?.pokemon;
+            if(!pokemon)throw Error('Ce Pokémon ne t’appartient pas.');
+            Object.assign(pokemon,require('../game/models/moveOrder').reorderMoves(pokemon,payload));
+            if(team.includes(pokemon))await require('./moveOrderRepository').saveMoveOrder(c,pokemon.uuid,pokemon);
+            else {
+                const [[row]]=await c.execute('SELECT pokemon_data FROM pokemon_storage WHERE user_id=? AND uuid=? FOR UPDATE',[userId,pokemon.uuid]);
+                const data=typeof row.pokemon_data==='string'?JSON.parse(row.pokemon_data):{...row.pokemon_data};
+                // Preserve all other stored fields, including metadata unknown to this version.
+                for(let i=0;i<4;i++){data[`ability${i+1}`]=pokemon.abilities[i] || null;data[`move${i+1}_pp`]=pokemon.movePp[i] ?? null;}
+                await c.execute('UPDATE pokemon_storage SET pokemon_data=? WHERE user_id=? AND uuid=?',[JSON.stringify(data),userId,pokemon.uuid]);
+            }
+            return {success:true,state:storage.view(team,entries),equipe:{pokemons:team}};
+        }
         const plan = storage.planAction(rows.map(rowToPokemon),entries,payload);
         // Both sides of a transfer are committed together. Never reuse editEquipe's separate transaction.
         await c.execute('DELETE FROM pokemons WHERE team_id=?',[record.id]);

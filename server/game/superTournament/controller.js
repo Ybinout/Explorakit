@@ -47,6 +47,14 @@ class TournamentController {
  async action(payload){if(!this.run?.battle)return false;return this.atomic(()=>{const accepted=this.run.battle.action(this.run.player,payload);if(!accepted)return false;this.reconcile();return true;});}
  async tick(){const b=this.run?.battle;if(!b||b.finished||b.awaiting&&this.now()<b.deadline||!b.awaiting&&this.now()<b.nextRoundAt)return false;return this.atomic(()=>{b.tick();this.reconcile();});}
  async claimReward(data){if(this.run?.phase!=='reward')throw Error('Aucune récompense à choisir.');return this.atomic(()=>{const r=this.run,result=rewards.applyChoice(r.reward,r.player.equipe.pokemons,data);r.reward=null;r.phase='cleared';this.buffer('superTournamentRewardApplied',result);return true;});}
+ async reorderMoves(data){
+  if(!this.run || this.run.battle || !['sas','ready','reward','cleared'].includes(this.run.phase))throw Error('Attends la fin du combat.');
+  return this.atomic(()=>{
+   const pokemon=this.run.player.equipe.pokemons.find(p=>p.uuid===data?.pokemonUuid);
+   if(!pokemon)throw Error('Ce Pokémon ne participe pas au tournoi.');
+   Object.assign(pokemon,require('../models/moveOrder').reorderMoves(pokemon,data));return true;
+  });
+ }
  async next(){const r=this.run;if(!r||!['sas','cleared'].includes(r.phase))return false;return this.atomic(()=>{if(r.phase==='cleared')r.room++;r.credited=new Set();r.enemySlots=null;r.phase='ready';});}
  async abandon(){if(!this.run)return false;return this.atomic(()=>{this.run.battle?.finish(null,'fled');this.run.outcome='abandoned';});}
  async resume(){this.bind();const b=this.run?.battle;if(b){const entry=content.entryFor(this.run.room);this.emit('battletrigger',{battleType:'trainer',trainerKey:entry.key,musicKind:entry.music,tournamentEntrance:{name:entry.name,portrait:entry.portrait},bagAllowed:false,fleeAllowed:false,message:'Le duel du Super Tournoi reprend.'});b.deadline=this.now()+30000;if(!b.awaiting)b.nextRoundAt=this.now()+1000;b.resume(this.run.player);const events=this.events;this.events=[];for(const[e,d]of events)this.emit(e,d);}this.publish();}

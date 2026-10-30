@@ -10,6 +10,13 @@ function requireAccess(p) {
 function open(p) { requireAccess(p); return storage.view(p.equipe.pokemons,p.storage || [],true); }
 function mutate(p, payload) {
     requireAccess(p);
+    if(payload?.action==='reorderMoves'){
+        const pokemon=p.equipe.pokemons.find(poke=>poke.uuid===payload.pokemonUuid) || p.storage?.find(e=>e.pokemon.uuid===payload.pokemonUuid)?.pokemon;
+        if(!pokemon)economy.fail('Ce Pokémon ne t’appartient pas.');
+        try{Object.assign(pokemon,require('../models/moveOrder').reorderMoves(pokemon,payload));}catch(e){economy.fail(e.message);}
+        p.ready=false;report.syncTeam(p);
+        return {success:true,state:open(p),equipe:p.equipe};
+    }
     let plan;
     try { plan = storage.planAction(p.equipe.pokemons,p.storage || [],payload); } catch(e) { economy.fail(e.message); }
     p.equipe.pokemons=plan.team;p.storage=plan.entries;p.ready=false;

@@ -1,0 +1,181 @@
+{
+  "feature": "Réorganiser les capacités depuis la fiche Pokémon",
+  "interface": [
+    "Flèches monter/descendre avec cibles tactiles de 44 px et libellés accessibles",
+    "Positions numérotées, sauvegarde automatique confirmée, erreurs dans la fiche",
+    "Fiches équipe et PC ; controls réservés aux propriétaires hors combat"
+  ],
+  "invariants": [
+    "Permutation complète des indices existants, contrôle de la liste attendue contre les requêtes périmées",
+    "Chaque capacité conserve ses PP, y compris zéro ; aucune modification des apprentissages en attente, statistiques, objets, niveau ou identité",
+    "SQL Aventure limité à huit colonnes ; PC limité aux huit champs JSON des capacités/PP, autres métadonnées conservées",
+    "PC accessible au terminal existant ; refus des Pokémon étrangers et garde de négociation/transaction",
+    "Rift/Colosseum conservent leurs frontières de checkpoint ; Super Tournoi ne modifie que son équipe inscrite avec rollback atomique"
+  ],
+  "checks": {
+    "unitPassed": 47,
+    "unitFailed": 0,
+    "unitSkipped": 0,
+    "browsers": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "views": [
+          {
+            "width": 320,
+            "height": 480,
+            "theme": "light"
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "theme": "dark"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "theme": "light"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "theme": "dark"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "theme": "light"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "theme": "dark"
+          }
+        ],
+        "checks": [
+          "Touch/mouse arrows, boundaries, descriptions and PP work in three sizes and both themes; each change is already in SQL",
+          "Order persists across reconnect and drives the real combat buttons; exhausted PP stay at zero; forged/foreign/stale requests fail",
+          "PC box edits survive reconnect and retain identity, HP, stats, item, box and all other data; team SQL unchanged after round trip",
+          "Real Colosseum/Rift commands and publication preserve PP and checkpoint data without touching Adventure",
+          "Super Tournament changes only its sealed team, persists across reconnect, and blocks the ordinary Adventure mutation"
+        ],
+        "errors": [],
+        "physicalHardware": false
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "views": [
+          {
+            "width": 320,
+            "height": 480,
+            "theme": "light"
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "theme": "dark"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "theme": "light"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "theme": "dark"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "theme": "light"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "theme": "dark"
+          }
+        ],
+        "checks": [
+          "Touch/mouse arrows, boundaries, descriptions and PP work in three sizes and both themes; each change is already in SQL",
+          "Order persists across reconnect and drives the real combat buttons; exhausted PP stay at zero; forged/foreign/stale requests fail",
+          "PC box edits survive reconnect and retain identity, HP, stats, item, box and all other data; team SQL unchanged after round trip",
+          "Real Colosseum/Rift commands and publication preserve PP and checkpoint data without touching Adventure",
+          "Super Tournament changes only its sealed team, persists across reconnect, and blocks the ordinary Adventure mutation"
+        ],
+        "errors": [],
+        "physicalHardware": false
+      }
+    },
+    "lint": true,
+    "isolatedBuild": true,
+    "syntax": true,
+    "diff": true,
+    "physicalHardware": false
+  },
+  "commands": [
+    "node --test tests/move-order.test.js tests/move-learning.test.js tests/pokemon-storage.test.js tests/pokemon-storage-drag.test.js tests/team-order-handler.test.js tests/super-tournament.test.js tests/super-tournament-rewards.test.js",
+    "npm --prefix vue-explorakit run lint -- --no-fix",
+    "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-move-order-dist",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-move-order-dist node --env-file-if-exists=.env scripts/validateMoveOrderBrowser.js",
+    "PRESENTATION_BROWSER=webkit DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-move-order-dist node --env-file-if-exists=.env scripts/validateMoveOrderBrowser.js"
+  ],
+  "deployment": {
+    "publishedAt": "2026-10-30T18:25:24.025Z",
+    "restartedAt": "2026-10-30T18:25:19.833Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-move-order-2026-10-30T18-25-18-167Z",
+    "sourceBaseline": "6ce20815a72236be035ac7fdbc92aa496c235b1e",
+    "sourceHashes": {
+      "server/game/drift/pokemonComputer.js": "e748c7e5624e85471dd7e4cf7023017662c3658ce80f2f442b6a6655035f4799",
+      "server/game/superTournament/controller.js": "a5b6f31b6fd23de2acca677c30cd4dd4ed166936e40311e6a6635e79cff7d1ec",
+      "server/persistence/pokemonStorageRepository.js": "1265af984e9921a7ba8fc5cb5936c394c9cb8c578789fd60bfa160ae948ac52c",
+      "server/realtime/driftLobbyHandler.js": "77244809a721e2644a69dba1711011e61a4fbca3566d221ad178266acbc55c81",
+      "server/realtime/handlers/superTournamentHandlers.js": "036dd94e3742c2f43259a14ff550210c9c8eb9a2b18c49af587c6b2694132edb",
+      "server/realtime/socketHandler.js": "43069027488490c99c5b560901cedb661f636bcf8a73b944928c4bdc8f082e01",
+      "server/game/models/moveOrder.js": "d6aba4988af441a097ebc46d5279c71bceb2f89536f9f4618a4327db10dca272",
+      "server/persistence/moveOrderRepository.js": "8097375b93217eafce07d6b436f43d72d2f7582b61462923a99ddfa523a0ca1b",
+      "server/realtime/handlers/moveOrderHandlers.js": "61e859a13ac94e5d8e551c7ec01ab722b81c69e0e481a5059da3531444dae7af"
+    },
+    "clientCommit": "c03406c7cfdb0fac0eff839584549b3f03c1683c",
+    "clientBuild": "b09bf867358045ed",
+    "beforePid": "3510940",
+    "afterPid": "3513868",
+    "serverRestarted": true,
+    "schemaChanged": false,
+    "databaseChanged": false,
+    "existingPlayerDataChanged": false,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "realAccountsManuallyModified": false,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.f5ca3bcb.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.07b5c7ba.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.00fadb68.js",
+      "js/drift.5b8720d7.js",
+      "js/game.27031da4.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.553e140c.css",
+      "css/drift.57f62eee.css",
+      "css/game.5ac8ae3e.css",
+      "css/test-view.7568246d.css"
+    ],
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0
+  }
+}

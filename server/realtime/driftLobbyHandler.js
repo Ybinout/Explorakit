@@ -199,6 +199,14 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
             catch (error) { economy.fail(error.message); }
             p.ready = false;
         });
+        gameCommand('drift:reorderMoves',(p,data)=>{
+            economy.requireMutable(p);
+            const pokemon=p.equipe.pokemons.find(poke=>poke.uuid===data?.pokemonUuid);
+            if(!pokemon)economy.fail('Ce Pokémon ne t’appartient pas.');
+            try{Object.assign(pokemon,require('../game/models/moveOrder').reorderMoves(pokemon,data));}catch(e){economy.fail(e.message);}
+            p.ready=false;require('../game/drift/runReport').syncTeam(p);
+            return {success:true,equipe:p.equipe};
+        });
         gameCommand('drift:roundReady', p => runtime.ready(p));
         gameCommand('colosseum:reward', (p, data) => require('../game/drift/colosseum').chooseReward(p, data));
         gameCommand('drift:exit', p => { runtime.abandon(p); store.leave(user); }, false);
