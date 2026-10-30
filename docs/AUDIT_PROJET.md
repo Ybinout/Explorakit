@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## Menus mobiles et accueil du Super Tournoi — 30 octobre 2026
+
+L’hôtesse ouvre uniquement l’inscription et le panneau mural uniquement le classement. Onglets retirés, titres et boutons adaptés ; la vue suit directement le payload pour éviter un état local périmé. Routes et autorisations serveur conservées. Panneau borné à l’espace disponible, en-tête et pied non rétrécissables, contenu central défilant, pseudos longs contenus. Centrage PC intégré à la règle commune, réservée aux vrais contextes PC. Menu déroulant partagé : hauteur restante calculée sous son ancrage réel et réactualisée via ResizeObserver/VisualViewport, défilement vertical tactile.
+
+Recette ciblée Chromium/WebKit avec sockets, SQL et client compilé : tailles 320×480, 393×852, 844×390 et PC 1365×900, clair/nocturne, équipe complète et classement de 50 lignes avec longs pseudos. Fermeture/inscription/bas du menu accessibles, aucun débordement/erreur. Interactions réelles distinctes hôtesse/panneau, record SQL, refus d’offre forgée, inscription SAS et abandon vérifiés. Glissement tactile synthétique Chromium ; défilement programmatique WebKit mobile (limite du pilote), pas de téléphone physique. Comptes jetables supprimés ; recettes SQL séquentielles. Lint/build, syntaxe/diff valides. Recette historique adaptée aux nouvelles interactions, sans relancer son parcours complet. Commandes et résultats : `docs/TOURNAMENT_MENUS.json`, `scripts/validateTournamentMenusBrowser.js`.
+
+Client `471584d7fd1e470b8125ddd38d3ea17e6ca92921`, build `995c7753c7245a37`, publié le 30 octobre 2026 à 18 h 31 (Europe/Paris). Index/bundles publics vérifiés ; sauvegarde `/home/ubuntu/dev/backups/riftmon-tournament-menu-2026-10-30T17-30-58-768Z`, anciens assets conservés. Aucun changement serveur/schéma ni redémarrage ; comptes réels et applications voisines inchangés.
+
 ## Ciel animé de l’accueil du Super Tournoi — 30 octobre 2026
 
 Cinq nuages dérivent à des vitesses différentes et quatre petits groupes d’oiseaux battent des ailes derrière les trois ouvertures vitrées. Les textures des nuages viennent de l’image d’origine, prélevées une seule fois. Masque borné aux vitres, excluant la silhouette de l’île et du bâtiment lointain ; aucune modification du PNG, des collisions, du mobilier ou du jeu. Rendu dans la couche du décor avant les personnages.
@@ -5111,6 +5119,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 30 octobre 2026 — Menus mobiles bornés et défilants ; hôtesse réservée à l’inscription, panneau au classement. Recette ciblée Chromium/WebKit quatre tailles/deux thèmes, inscription réelle et lint/build réussis ; client seul publié. Rapport `docs/TOURNAMENT_MENUS.json`.
 
 - 30 octobre 2026 — Accueil du Super Tournoi : nuages et oiseaux masqués derrière les vitres, cache et suspension. Recettes Canvas/client compilé Chromium/WebKit, lint/build réussis ; client seul publié. Rapport `docs/TOURNAMENT_LOBBY_SKY.json`.
 

@@ -1,0 +1,168 @@
+{
+  "feature": "Menus mobiles et interactions séparées de l’accueil du Super Tournoi",
+  "changes": [
+    "Hôtesse : inscription et équipe uniquement",
+    "Panneau mural : classement et record uniquement",
+    "Vue calculée depuis le payload, sans onglets ni état local périmé",
+    "Panneau borné à l’espace disponible avec en-tête/pied fixes et contenu défilant",
+    "Menu déroulant borné sous la hauteur réelle de sa barre, recalculé au redimensionnement et avec VisualViewport"
+  ],
+  "checks": {
+    "chromium": {
+      "success": true,
+      "engine": "chromium",
+      "views": [
+        {
+          "width": 320,
+          "height": 480,
+          "theme": "light"
+        },
+        {
+          "width": 320,
+          "height": 480,
+          "theme": "dark"
+        },
+        {
+          "width": 393,
+          "height": 852,
+          "theme": "light"
+        },
+        {
+          "width": 393,
+          "height": 852,
+          "theme": "dark"
+        },
+        {
+          "width": 844,
+          "height": 390,
+          "theme": "light"
+        },
+        {
+          "width": 844,
+          "height": 390,
+          "theme": "dark"
+        },
+        {
+          "width": 1365,
+          "height": 900,
+          "theme": "light"
+        },
+        {
+          "width": 1365,
+          "height": 900,
+          "theme": "dark"
+        }
+      ],
+      "checks": [
+        "Dropdown stays inside the screen and last action is reachable at four sizes",
+        "Host opens registration only; wall opens leaderboard only, with real personal score",
+        "Six-member entry and 50-row long-name leaderboard scroll; close and footer controls stay visible",
+        "Light/dark, mobile portrait/landscape, desktop and live payload changes verified",
+        "Actual registration and abandonment still work; forged offer rejected"
+      ],
+      "errors": [],
+      "physicalHardware": false
+    },
+    "webkit": {
+      "success": true,
+      "engine": "webkit",
+      "views": [
+        {
+          "width": 320,
+          "height": 480,
+          "theme": "light"
+        },
+        {
+          "width": 320,
+          "height": 480,
+          "theme": "dark"
+        },
+        {
+          "width": 393,
+          "height": 852,
+          "theme": "light"
+        },
+        {
+          "width": 393,
+          "height": 852,
+          "theme": "dark"
+        },
+        {
+          "width": 844,
+          "height": 390,
+          "theme": "light"
+        },
+        {
+          "width": 844,
+          "height": 390,
+          "theme": "dark"
+        },
+        {
+          "width": 1365,
+          "height": 900,
+          "theme": "light"
+        },
+        {
+          "width": 1365,
+          "height": 900,
+          "theme": "dark"
+        }
+      ],
+      "checks": [
+        "Dropdown stays inside the screen and last action is reachable at four sizes",
+        "Host opens registration only; wall opens leaderboard only, with real personal score",
+        "Six-member entry and 50-row long-name leaderboard scroll; close and footer controls stay visible",
+        "Light/dark, mobile portrait/landscape, desktop and live payload changes verified",
+        "Actual registration and abandonment still work; forged offer rejected"
+      ],
+      "errors": [],
+      "physicalHardware": false
+    }
+  },
+  "commands": [
+    "npm --prefix vue-explorakit run lint -- --no-fix",
+    "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-tournament-menu-dist",
+    "DB_TEST_NAME=explorakit_test node --env-file-if-exists=.env scripts/validateTournamentMenusBrowser.js",
+    "PRESENTATION_BROWSER=webkit DB_TEST_NAME=explorakit_test node --env-file-if-exists=.env scripts/validateTournamentMenusBrowser.js"
+  ],
+  "limits": "Navigateurs Linux, sans appareil physique. Glissement tactile synthétique Chromium ; défilement programmatique et touch-action vérifiés sur WebKit mobile, son pilote ne proposant pas de geste de défilement fiable. Recettes SQL exécutées séquentiellement et comptes jetables supprimés. La recette historique complète a été adaptée à la suppression des onglets, mais seule la recette ciblée a été exécutée pour ce patch.",
+  "deployment": {
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "publishedAt": "2026-10-30T17:31:00.665Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-tournament-menu-2026-10-30T17-30-58-768Z",
+    "sourceBaseline": "1ed9e90ad55d775699ec26a7831427d0325f3a70",
+    "clientCommit": "471584d7fd1e470b8125ddd38d3ea17e6ca92921",
+    "clientBuild": "995c7753c7245a37",
+    "pid": "3497350",
+    "serverRestarted": false,
+    "databaseChanged": false,
+    "realAccountsManuallyModified": false,
+    "neighborsUnchanged": true,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.f5ca3bcb.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.94a2708b.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.00fadb68.js",
+      "js/drift.5b8720d7.js",
+      "js/game.f5142f39.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.553e140c.css",
+      "css/drift.57f62eee.css",
+      "css/game.4fbe4a0d.css",
+      "css/test-view.7568246d.css"
+    ]
+  }
+}
