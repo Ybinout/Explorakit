@@ -1,0 +1,422 @@
+{
+  "feature": "Super Tournoi : +10 niveaux adverses par cycle de seize dresseurs",
+  "date": "2026-10-30",
+  "baseline": "aa4d0c41f66b903b540ac9ceefde3b6a9471dd0e",
+  "rule": {
+    "rosterSize": 16,
+    "formula": "[85,95,100][slot] + 10 * floor(roomIndexZeroBased / 16)",
+    "examples": [
+      {
+        "cycle": 1,
+        "rooms": [
+          1,
+          16
+        ],
+        "levels": [
+          85,
+          95,
+          100
+        ]
+      },
+      {
+        "cycle": 2,
+        "rooms": [
+          17,
+          32
+        ],
+        "levels": [
+          95,
+          105,
+          110
+        ]
+      },
+      {
+        "cycle": 3,
+        "rooms": [
+          33,
+          48
+        ],
+        "levels": [
+          105,
+          115,
+          120
+        ]
+      },
+      {
+        "cycle": 10,
+        "rooms": [
+          145,
+          160
+        ],
+        "levels": [
+          175,
+          185,
+          190
+        ]
+      }
+    ],
+    "level100Cap": false
+  },
+  "changes": [
+    "Bonus appliqué lors de la génération de chaque équipe adverse, avec les courbes XP et statistiques habituelles du modèle",
+    "Tous les seize adversaires de chaque cycle concernés ; même composition, K4, IV, EV, objets, capacités, nature et IA",
+    "Règles de l’hôtesse mises à jour avec les trois premiers cycles",
+    "Combat déjà généré conservé à la reprise ; bonus déduit de la salle pour le prochain combat, jamais ajouté à nouveau aux stats sauvegardées"
+  ],
+  "unchanged": [
+    "Aucune XP, EV, argent ni objet gagné pendant le tournoi",
+    "100 points par K.O. et cartes de récupération existantes",
+    "PV, statuts, PP et objets consommés suivent le parcours",
+    "Équipe Aventure et autres modes",
+    "Scores existants conservés, aucun reset de classement",
+    "Décor, musique et animations du tournoi"
+  ],
+  "checks": {
+    "unit": {
+      "passed": 40,
+      "failed": 0,
+      "skipped": 0,
+      "newCases": 1,
+      "details": "64 générations de rangs pour les seize équipes sur les cycles 1/2/3/10, statistiques réellement supérieures, ressources complètes, invalides refusés ; scénario existant de 32 salles renforcé"
+    },
+    "mysql": {
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0,
+      "details": "Cycle 2 depuis récompense persistée, vraie équipe >100 créée puis rechargée à l’identique, pas de second bonus à la reconnexion"
+    },
+    "before": {
+      "passed": 8,
+      "failed": 2,
+      "log": "/tmp/riftmon-tournament-cycle-levels-before.log"
+    },
+    "browsers": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "views": [
+          {
+            "width": 320,
+            "height": 480,
+            "mode": "light",
+            "deck": "basic"
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "mode": "light",
+            "deck": "special"
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "mode": "dark",
+            "deck": "basic"
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "mode": "dark",
+            "deck": "special"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "mode": "light",
+            "deck": "basic"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "mode": "light",
+            "deck": "special"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "mode": "dark",
+            "deck": "basic"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "mode": "dark",
+            "deck": "special"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "mode": "light",
+            "deck": "basic"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "mode": "light",
+            "deck": "special"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "mode": "dark",
+            "deck": "basic"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "mode": "dark",
+            "deck": "special"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "mode": "light",
+            "deck": "basic"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "mode": "light",
+            "deck": "special"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "mode": "dark",
+            "deck": "basic"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "mode": "dark",
+            "deck": "special"
+          }
+        ],
+        "palettes": {
+          "light:common": "rgb(239, 228, 205)",
+          "light:uncommon": "rgb(212, 232, 223)",
+          "light:rare": "rgb(209, 229, 245)",
+          "light:epic": "rgb(229, 218, 241)",
+          "light:legendary": "rgb(243, 220, 159)",
+          "dark:common": "rgb(53, 52, 46)",
+          "dark:uncommon": "rgb(32, 63, 53)",
+          "dark:rare": "rgb(33, 59, 83)",
+          "dark:epic": "rgb(58, 43, 77)",
+          "dark:legendary": "rgb(73, 57, 28)"
+        },
+        "minimumContrast": 4.610084818073512,
+        "cardsApplied": 21,
+        "reconnectStable": true,
+        "onceOnly": true,
+        "forgeryRejected": true,
+        "healthySkip": true,
+        "abandonCancel": true,
+        "realGateLoop": true,
+        "cycle2Levels": [
+          95,
+          105,
+          110
+        ],
+        "cycle2ReconnectStable": true,
+        "zeroXpEffortMoney": true,
+        "adventurePreserved": true,
+        "errors": []
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "views": [
+          {
+            "width": 320,
+            "height": 480,
+            "mode": "light",
+            "deck": "basic"
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "mode": "light",
+            "deck": "special"
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "mode": "dark",
+            "deck": "basic"
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "mode": "dark",
+            "deck": "special"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "mode": "light",
+            "deck": "basic"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "mode": "light",
+            "deck": "special"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "mode": "dark",
+            "deck": "basic"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "mode": "dark",
+            "deck": "special"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "mode": "light",
+            "deck": "basic"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "mode": "light",
+            "deck": "special"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "mode": "dark",
+            "deck": "basic"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "mode": "dark",
+            "deck": "special"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "mode": "light",
+            "deck": "basic"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "mode": "light",
+            "deck": "special"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "mode": "dark",
+            "deck": "basic"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "mode": "dark",
+            "deck": "special"
+          }
+        ],
+        "palettes": {
+          "light:common": "rgb(239, 228, 205)",
+          "light:uncommon": "rgb(212, 232, 223)",
+          "light:rare": "rgb(209, 229, 245)",
+          "light:epic": "rgb(229, 218, 241)",
+          "light:legendary": "rgb(243, 220, 159)",
+          "dark:common": "rgb(53, 52, 46)",
+          "dark:uncommon": "rgb(32, 63, 53)",
+          "dark:rare": "rgb(33, 59, 83)",
+          "dark:epic": "rgb(58, 43, 77)",
+          "dark:legendary": "rgb(73, 57, 28)"
+        },
+        "minimumContrast": 4.610084818073512,
+        "cardsApplied": 21,
+        "reconnectStable": true,
+        "onceOnly": true,
+        "forgeryRejected": true,
+        "healthySkip": true,
+        "abandonCancel": true,
+        "realGateLoop": true,
+        "cycle2Levels": [
+          95,
+          105,
+          110
+        ],
+        "cycle2ReconnectStable": true,
+        "zeroXpEffortMoney": true,
+        "adventurePreserved": true,
+        "errors": []
+      }
+    },
+    "lint": "passed",
+    "build": {
+      "hash": "ac0bceb3462b31a6",
+      "destination": "/tmp/riftmon-tournament-cycle-levels-dist"
+    },
+    "screenshotInspected": "/tmp/riftmon-tournament-cycle-levels-webkit/cycle2-levels-mobile.png",
+    "physicalHardwareTested": false
+  },
+  "reproduce": [
+    "node --test tests/super-tournament.test.js tests/super-tournament-rewards.test.js tests/super-tournament-order.test.js tests/super-tournament-abandon.test.js tests/pnj-regressions.test.js",
+    "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test node --env-file-if-exists=.env --test --test-concurrency=1 tests/super-tournament-mysql.test.js",
+    "npm --prefix vue-explorakit run lint",
+    "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-tournament-cycle-levels-dist",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-tournament-cycle-levels-dist RELEASE_SCREENSHOTS=/tmp/riftmon-tournament-cycle-levels-chromium node --env-file-if-exists=.env scripts/validateTournamentRewardsBrowser.js",
+    "PRESENTATION_BROWSER=webkit DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-tournament-cycle-levels-dist RELEASE_SCREENSHOTS=/tmp/riftmon-tournament-cycle-levels-webkit node --env-file-if-exists=.env scripts/validateTournamentRewardsBrowser.js"
+  ],
+  "deployment": {
+    "publishedAt": "2026-10-30T20:38:56.955Z",
+    "restartedAt": "2026-10-30T20:38:55.411Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-tournament-cycle-levels-2026-10-30T20-38-53-873Z",
+    "sourceBaseline": "aa4d0c41f66b903b540ac9ceefde3b6a9471dd0e",
+    "sourceHashes": {
+      "server/game/superTournament/content.js": "212e244c29a4f79663eba11fde440fa7afebeee1b679c31b0b4173727ef61ea0"
+    },
+    "clientCommit": "c61902c35650ab8bea64ba0fcfe81b585d9c41a3",
+    "clientBuild": "ac0bceb3462b31a6",
+    "beforePid": "3532904",
+    "afterPid": "3537332",
+    "serverRestarted": true,
+    "schemaChanged": false,
+    "databaseChanged": false,
+    "existingPlayerDataChanged": false,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "realAccountsManuallyModified": false,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.f5ca3bcb.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.038997d7.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.00fadb68.js",
+      "js/drift.5b8720d7.js",
+      "js/game.84cb0b04.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.553e140c.css",
+      "css/drift.57f62eee.css",
+      "css/game.35635e08.css",
+      "css/test-view.7568246d.css"
+    ],
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0
+  }
+}

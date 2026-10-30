@@ -35,12 +35,13 @@ const sets={
 function entryFor(index){if(!Number.isSafeInteger(index)||index<0)throw Error('Salle inconnue.');return roster[index%roster.length];}
 function createTeam(index){
  const entry=entryFor(index);
+ const levelBonus=Math.floor(index/roster.length)*10;
  const source=pnjTeams.get(entry.source)?.team||[];
  const pokemons=entry.species.map((id,slot)=>{
   const original=source.find(p=>p.pokemonId===id)||{};
   const data=require('../../../data/game/pokedex.json').find(p=>p.id===id);
   const physical=['Fighting','Normal','Flying','Dark','Ground','Steel'].includes(data.type[0]);
-  const pokemon=new Pokemon(id,null,null,getTotalExperienceForLevel([85,95,100][slot],getExperienceRate(data.exp)),Object.fromEntries(['hp','attack','defense','specialAttack','specialDefense','speed'].map(k=>[k,31])),original.nature||(physical?'Jolly':'Timid'),4,original.ev||{[physical?'attack':'specialAttack']:252,speed:252,hp:4});
+  const pokemon=new Pokemon(id,null,null,getTotalExperienceForLevel([85,95,100][slot]+levelBonus,getExperienceRate(data.exp)),Object.fromEntries(['hp','attack','defense','specialAttack','specialDefense','speed'].map(k=>[k,31])),original.nature||(physical?'Jolly':'Timid'),4,original.ev||{[physical?'attack':'specialAttack']:252,speed:252,hp:4});
   for(const move of sets[id]||original.abilities||[])pokemon.addAbility(move);
   pokemon.passiveAbility=original.passiveAbility||pokemon.passiveAbility;
   pokemon.heldItem=original.heldItem||(['leftovers','life_orb','focus_sash'][slot]);

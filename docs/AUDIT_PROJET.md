@@ -1,6 +1,16 @@
 # Audit technique et mémoire de RiftMon
 
 
+## Niveaux du Super Tournoi par cycle — 30 octobre 2026
+
+Les seize dresseurs reviennent avec dix niveaux supplémentaires à chaque cycle complet : combats 1–16 = 85/95/100, 17–32 = 95/105/110, 33–48 = 105/115/120, puis +10 à chaque nouveau passage. Bonus calculé depuis l’indice absolu de salle, sans plafond au niveau 100. Construction par XP au niveau visé : PV et statistiques calculés normalement, aucune simple modification du libellé. Composition, K4/IV/EV, objets, capacités, nature, IA, score et récupération restent identiques. Le tournoi ne donne toujours aucune XP/EV/argent/butin. Règles de l’hôtesse mises à jour.
+
+Les équipes déjà générées restent intactes à la reprise ; seules les équipes créées ensuite utilisent la règle. Aucun bonus ajouté au chargement d’un snapshot, aucune hausse des niveaux alliés ni reset des records. Validation : 40 tests unitaires/régression et six SQL sans échec ni saut. Test ajouté sur les seize équipes des cycles 1/2/3/10, vraie hausse des stats jusqu’au niveau 190 et absence de mutation des sets ; scénario de 32 salles renforcé, score/XP conservés. Deux assertions échouaient avant le patch. SQL : passage depuis la récompense de Lucie au cycle 2, création puis reprise de l’équipe 95/105/110 sans second bonus ni changement de PV/PP/stats.
+
+Recette existante des récompenses étendue, Chromium/WebKit et client compilé : règles visibles, vraie porte du 16e au 17e combat, Wayne avec équipe 95/105/110, niveau affiché et reconnexion au même combat ; 21 cartes réellement appliquées, 16 vues de récompense par moteur/quatre formats/deux thèmes. Anti-rejeu, offre stable, absence de soin gratuit/XP/EV/argent et équipe Aventure préservée contrôlés ; zéro erreur navigateur, comptes SQL jetables supprimés. Capture finale du cycle 2 inspectée après réception des Pokémon et chargement des images. Lint/build isolé, syntaxe et diff valides ; pas de téléphone physique ni de longue partie humaine revendiqués. Rapport/commandes : `docs/SUPER_TOURNAMENT_LEVEL_SCALING.json`.
+
+Publié le 30 octobre 2026 à 21 h 38 (Europe/Paris), client `c61902c35650ab8bea64ba0fcfe81b585d9c41a3`, build `ac0bceb3462b31a6`. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-tournament-cycle-levels-2026-10-30T20-38-53-873Z`, zéro expédition active au contrôle. PID 3532904→3537332, service actif, zéro redémarrage automatique/avertissement. Index/bundles publics vérifiés à l’octet, anciens assets conservés. Aucun changement de schéma ni modification manuelle de compte réel ; Knov/api-test inchangés.
+
 ## Décor de combat du Super Tournoi — 30 octobre 2026
 
 Salle de duel distincte du Colosseum : architecture bleue et or, fenêtres sur la mer et les îlots, sol dégagé. Deux illustrations imagegen intégrées, cadrages PC 1536×1024 et mobile 1024×1536 ; PNG originaux préservés sans retouche/compression destructive. Préchargement du seul format courant en entrant dans la salle, attente des ressources lors de l’entrée de combat conservée. Socle adverse assorti et lié à l’ancre du Pokémon ; aucun socle allié ajouté. Les autres modes, musiques, règles et météo restent inchangés.
@@ -5254,6 +5264,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 30 octobre 2026 — Super Tournoi : +10 niveaux adverses par cycle de seize dresseurs, stats recalculées au-delà de 100 et règles d’inscription alignées. 40 tests, six SQL et recettes Chromium/WebKit avec passage 16→17/reconnexion réussis ; `docs/SUPER_TOURNAMENT_LEVEL_SCALING.json`.
 
 - 30 octobre 2026 — Décor de combat Super Tournoi PC/mobile, mouettes derrière les vitrages et mer animée à 20 Hz, préchargement et arrêt/nettoyage contrôlés. Lint/build, 29 tests et recettes Chromium/WebKit réussis ; prompts/rapport `docs/SUPER_TOURNAMENT_BATTLE_ART.json`.
 

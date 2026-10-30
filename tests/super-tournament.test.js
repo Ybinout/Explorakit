@@ -15,6 +15,21 @@ test('fixed sixteen-room order, full K4 IV31 trios, levels 85/95/100 and held it
  for(let i=0;i<16;i++){const t=content.createTeam(i);assert.deepEqual(t.pokemons.map(p=>p.level),[85,95,100]);for(const p of t.pokemons){assert.equal(p.k,4);assert.ok(Object.values(p.iv).every(v=>v===31));assert.ok(p.heldItem);assert.equal(p.abilities.length,4);}assert.notEqual(t.pokemons[0].uuid,content.createTeam(i).pokemons[0].uuid);}
  assert.deepEqual(content.createTeam(0).pokemons.map(p=>p.data.id),[19,19,20]);
 });
+test('all sixteen opponents gain ten levels each new cycle, with real stat growth above level 100',()=>{
+ for(const [cycle,levels] of [[0,[85,95,100]],[1,[95,105,110]],[2,[105,115,120]],[9,[175,185,190]]]){
+  for(let room=0;room<16;room++){
+   const base=content.createTeam(room).pokemons,team=content.createTeam(cycle*16+room).pokemons;
+   assert.deepEqual(team.map(p=>p.level),levels,`cycle ${cycle+1}, room ${room+1}`);
+   for(const [slot,p] of team.entries()){
+    const old=base[slot];assert.equal(p.data.id,old.data.id);assert.equal(p.k,4);
+    for(const key of ['iv','ev','abilities','heldItem','nature'])assert.deepEqual(p[key],old[key],key);
+    assert.equal(p.currentHp,p.maxHp);
+    if(cycle>0)for(const key of ['maxHp','attack','defense','specialAttack','specialDefense','speed'])assert(p[key]>old[key],key);
+   }
+  }
+ }
+ for(const room of [-1,1.5,NaN,Infinity])assert.throws(()=>content.createTeam(room),/Salle inconnue/);
+});
 test('registration heals sealed clones once; original party remains identical',async()=>{const {c}=setup(),team=makeTeam();team.pokemons[0].currentHp=1;team.pokemons[0].status='poison';const before=codec.encode(team);await c.register(team);assert.equal(c.run.phase,'sas');assert.equal(c.run.player.equipe.pokemons[0].currentHp,c.run.player.equipe.pokemons[0].maxHp);assert.equal(c.run.player.equipe.pokemons[0].status,'normal');assert.deepEqual(codec.encode(team),before);await assert.rejects(()=>c.register(team));});
 test('no bag/flee commands; dead partners retained for explicit replacement; zero XP/money',async()=>{const {c}=setup();await c.register(makeTeam());await c.next();await c.atomic(()=>c.startBattle());const b=c.run.battle,p=c.run.player,experience=p.equipe.pokemons.map(p=>p.experience);assert.equal(await c.action({action:'bag',itemKey:'potion',turnId:b.token}),false);assert.equal(await c.action({action:'flee',turnId:b.token}),false);
  await c.atomic(()=>{p.equipe.pokemons[0].currentHp=0;b.prune();b.request();});assert.equal(b.replacementPhase,true);assert.equal(p.equipe.pokemons.length,6);assert.equal(await c.action({action:'change',number:2,turnId:b.token}),true);assert.equal(p.equipe.pokemons.length,6);
@@ -24,7 +39,7 @@ test('injuries, status and used PP survive next room and full checkpoint restora
 test('score is durable and credited once; rejected stale turn adds nothing',async()=>{const f=setup(),c=f.c;await c.register(makeTeam());await c.next();await c.atomic(()=>c.startBattle());const b=c.run.battle;await c.atomic(()=>{b.b.equipe.pokemons[0].currentHp=0;b.prune();c.reconcile();c.reconcile();});assert.equal(c.run.score,100);assert.equal(f.best,100);const other=f.create();await other.load();assert.equal(other.run.score,100);assert.equal(await other.action({action:'attack',number:0,turnId:'forged'}),false);assert.equal(other.run.score,100);});
 test('failed checkpoint restores HP, PP, score and action prompt before retry',async()=>{const f=setup(),c=f.c;await c.register(makeTeam());await c.next();await c.atomic(()=>c.startBattle());const before=codec.encode(c.run),token=c.run.battle.token;f.fail();await assert.rejects(()=>c.atomic(()=>{c.run.player.equipe.pokemons[0].currentHp=1;c.run.score=999;}),/disk/);assert.equal(c.run.score,0);assert.equal(c.run.battle.token,token);assert.equal(c.run.player.equipe.pokemons[0].currentHp,codec.decode(before).player.equipe.pokemons[0].currentHp);assert.ok(f.events.some(([e])=>e==='requestAction'));});
 test('two full cycles continue with Wayne, cumulative score and bounded credit memory; no XP',async()=>{const f=setup(),c=f.c;await c.register(makeTeam());const xp=c.run.player.equipe.pokemons.map(p=>p.experience);
- for(let i=0;i<32;i++){assert.equal(await c.next(),true);await c.atomic(()=>c.startBattle());assert.equal(c.run.battle.npcKey,content.entryFor(i).key);await c.atomic(()=>{const b=c.run.battle;for(const p of b.b.equipe.pokemons)p.currentHp=0;b.prune();b.checkEnd();c.reconcile();});assert.equal(c.run.phase,'reward');assert.equal(await c.next(),false);assert(c.run.credited.size<=3);assert.deepEqual(c.run.player.equipe.pokemons.map(p=>p.experience),xp);await c.claimReward({offerId:c.run.reward.id,skip:true});}
+ for(let i=0;i<32;i++){assert.equal(await c.next(),true);await c.atomic(()=>c.startBattle());assert.equal(c.run.battle.npcKey,content.entryFor(i).key);assert.deepEqual(c.run.battle.b.equipe.pokemons.map(p=>p.level).sort((a,b)=>a-b),i<16?[85,95,100]:[95,105,110]);await c.atomic(()=>{const b=c.run.battle;for(const p of b.b.equipe.pokemons)p.currentHp=0;b.prune();b.checkEnd();c.reconcile();});assert.equal(c.run.phase,'reward');assert.equal(await c.next(),false);assert(c.run.credited.size<=3);assert.deepEqual(c.run.player.equipe.pokemons.map(p=>p.experience),xp);await c.claimReward({offerId:c.run.reward.id,skip:true});}
  assert.equal(c.run.score,9600);assert.equal(f.best,9600);assert.equal(c.run.cleared,32);assert.equal(f.travel.length,0);await c.next();assert.equal(content.state(c.run).cycle,3);assert.equal(content.state(c.run).opponent,'Wayne');await c.load();assert.equal(c.run.room,32);await c.abandon();assert.equal(c.run,null);assert.equal(f.best,9600);
 });
 test('Mounir starts with real persistent rain and a working Forecast Castform',async()=>{const f=setup(),c=f.c;await c.register(makeTeam());await c.atomic(()=>{c.run.room=7;c.run.phase='ready';c.startBattle();});assert.equal(c.run.battle.state.weather.kind,'rain');assert.equal(c.run.battle.state.weather.persistent,true);assert.equal(c.run.battle.b.equipe.pokemons.find(p=>p.data.id===351).passiveAbility,'Forecast');});

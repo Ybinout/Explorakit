@@ -16,7 +16,10 @@ else {
   await assert.rejects(()=>a.claimReward({offerId:'sql-offer',cardKey:'full_reset',pokemonUuid:uuid}));
   const data={offerId:'sql-offer',cardKey:'heal_10',pokemonUuid:uuid};await a.claimReward(data);await assert.rejects(()=>b.claimReward(data),/tentative a changé/);
   const loaded=await repo.load(other);assert.equal(loaded.run.phase,'cleared');assert.equal(loaded.run.reward,null);assert.equal(loaded.run.player.equipe.pokemons[0].currentHp,1+Math.floor(loaded.run.player.equipe.pokemons[0].maxHp*.1));
-  await b.load();await assert.rejects(()=>b.claimReward(data));await b.next();assert.equal(content.state(b.run).cycle,2);assert.equal(content.state(b.run).opponent,'Wayne');await b.abandon();
+  await b.load();await assert.rejects(()=>b.claimReward(data));await b.next();assert.equal(content.state(b.run).cycle,2);assert.equal(content.state(b.run).opponent,'Wayne');
+  await b.atomic(()=>b.startBattle());assert.deepEqual(b.run.battle.b.equipe.pokemons.map(p=>p.level).sort((a,b)=>a-b),[95,105,110]);
+  const enemy=b.run.battle.b.equipe.pokemons.map(p=>[p.uuid,p.level,p.maxHp,p.attack,p.defense,p.speed,[...p.movePp]]);
+  const resumed=create();await resumed.load();assert.deepEqual(resumed.run.battle.b.equipe.pokemons.map(p=>[p.uuid,p.level,p.maxHp,p.attack,p.defense,p.speed,[...p.movePp]]),enemy,'reconnect does not add the bonus again');await resumed.abandon();
  });
  test('endless leaderboard stores more than 65535 rooms and 32-bit points without losing existing records',async()=>{const current=await repo.load(other);await repo.save(other,null,current.version,{score:5000000000,rooms:70000});const rank=await repo.leaderboard(other);assert.equal(Number(rank.personal.score),5000000000);assert.equal(Number(rank.personal.rooms),70000);assert.equal(Number((await repo.leaderboard(id)).personal.score),300);});
 
