@@ -1,0 +1,23 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),http=require('node:http'),{once}=require('node:events'),{randomUUID}=require('node:crypto');
+if(process.env.DB_TEST_NAME!=='explorakit_test')throw Error('Dedicated database required');process.env.DB_NAME=process.env.DB_TEST_NAME;process.env.NODE_ENV='test';
+const express=require('express'),{Server}=require('socket.io'),playwright=require('playwright'),{dbPool:db}=require('../server/config/database');
+const engine=process.env.NETWORK_BROWSER||'chromium',dist='/tmp/riftmon-network-dist',out='/tmp/riftmon-network-browser-'+engine;fs.mkdirSync(out,{recursive:true});
+const app=express(),server=http.createServer(app),io=new Server(server,{transports:['polling']});app.use(express.json());app.use('/api',require('../server/http/routes'));app.use(express.static(dist));app.get('*',(_q,r)=>r.sendFile(path.join(dist,'index.html')));io.use(require('../server/http/authMiddleware').authenticateSocket);require('../server/realtime/socketHandler')(io);
+let id,browser,page,success=false;const errors=[],checks=[];
+async function ready(){await page.waitForFunction(()=>{const v=document.querySelector('.game-root')?.__vue__;if(v?.socket?.connected&&v.players[v.socket.id]&&!v.mapLoading&&v.renderedMap===v.map){window.v=v;return true;}});}
+(async()=>{try{server.listen(0,'127.0.0.1');await once(server,'listening');const base='http://127.0.0.1:'+server.address().port;
+ const response=await fetch(base+'/api/users',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:'netui_'+randomUUID(),password:randomUUID(),starterId:7})});assert.equal(response.status,201);const u=await response.json();id=u.user.id;
+ await db.execute("UPDATE users SET map='centre',x=304,y=432 WHERE id=?",[id]);await db.execute("UPDATE player_story_flags SET flag_value='complete' WHERE user_id=? AND flag_key='adventure_opening'",[id]);
+ browser=await playwright[engine].launch({headless:true,...(engine==='chromium'?{args:['--no-sandbox']}: {})});const context=await browser.newContext({viewport:{width:393,height:852},hasTouch:true,isMobile:true});await context.addInitScript(u=>localStorage.setItem('explorakit.user',JSON.stringify(u)),{...u.user,token:u.token});page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));await page.goto(base+'/game');await ready();
+ for(const [width,height]of [[393,852],[1365,900]]){
+  await page.setViewportSize({width,height});assert.equal(await page.evaluate(()=>v.socket.io.engine.transport.name),'polling');
+  await page.waitForTimeout(200);const previous=await page.evaluate(()=>({id:v.socket.id,map:v.map,x:v.players[v.socket.id].x,y:v.players[v.socket.id].y}));
+  await page.evaluate(()=>{v.updatePreferences({...v.preferences,masterVolume:0});v.shop.visible=true;v.shop.loading=true;});
+  await context.setOffline(true);io.sockets.sockets.get(previous.id).conn.close();await page.waitForFunction(()=>!v.socket.connected);
+  assert.equal(await page.evaluate(()=>v.shop.visible),false);assert.equal(await page.evaluate(()=>v.shop.loading),false);
+  await page.evaluate(()=>{for(let i=0;i<5;i++){v.espace();v.updatePlayerPosition();}});assert.equal(await page.evaluate(()=>v.socket.sendBuffer.length),0);await page.screenshot({path:path.join(out,'offline-'+width+'.png')});
+  await context.setOffline(false);await ready();await page.waitForFunction(old=>v.socket.id!==old,previous.id);const next=await page.evaluate(()=>({id:v.socket.id,map:v.map,x:v.players[v.socket.id].x,y:v.players[v.socket.id].y}));assert.equal(next.map,previous.map);assert.equal(next.x,previous.x);assert.equal(next.y,previous.y);assert.equal(await page.evaluate(()=>v.socket.sendBuffer.length),0);await page.screenshot({path:path.join(out,'reconnected-'+width+'.png')});checks.push({width,height,pollingFallback:true,reconnected:true,positionPreserved:true,offlineActionsNotBuffered:true,shopUnstuck:true});
+ }
+ assert.deepEqual(errors,[]);success=true;fs.writeFileSync(path.join(out,'report.json'),JSON.stringify({success,engine,checks,errors,limits:'WebSocket disabled on the private server, network loss simulated by Playwright. No physical mobile-network test.'},null,2));
+}catch(e){console.error(e.stack);await page?.screenshot({path:path.join(out,'failure.png')}).catch(()=>{});process.exitCode=1;}
+finally{await browser?.close();await new Promise(r=>io.close(r));await require('../server/realtime/accountConnection').waitForAccountConnections(io);if(id)await db.execute('DELETE FROM users WHERE id=?',[id]);await db.end();console.log(JSON.stringify({success,errors,testUserDeleted:true}));}})();

@@ -1,4 +1,5 @@
 const { exclusiveAccountConnection, trackAccountTask } = require('./accountConnection');
+const {worldRoom,moveWorldRoom}=require('./worldRooms');
 const { getMapWeather, battleWeatherForMap } = require('../game/world/mapWeather');
 const { getPokemonCenterEntryReturn, getPokemonCenterExit } = require('../game/world/pokemonCenterTravel');
 const { startPnjMovement } = require('../game/world/pnjMovement');
@@ -345,9 +346,6 @@ const socketHandler = (io) => {
             centerReturnPoint: savedPosition?.centerReturnPoint || null,
             inbattle: false
         };
-        await require('./handlers/socialHandlers').registerSocialHandlers({io,socket,getLocation:()=>{const p=players[socket.id];return p?{map:p.currentmap,centerReturnPoint:p.centerReturnPoint,mode:'adventure'}:null;}});
-
-
         const fishing = require('../game/world/fishingController').createFishingController({
             ownsRod: async () => (await require('../persistence/itemRepository').loadUserItems(userId)).some(i => i.key === 'fishing_rod' && i.quantity > 0),
             available: p => players[socket.id] === p && socket.connected && !p.inbattle && !p.inventoryBusy && !transitionBusy && hasConsciousPokemon(p.equipe),
@@ -500,9 +498,17 @@ const socketHandler = (io) => {
             closeChatSessionForSocket(socket.id, 'player_disconnected');
             blackoutHandlers.delete(socket.id);
 
+            const departed=players[socket.id];
             delete players[socket.id];
-            io.emit('playerDisconnected', { id: socket.id });
+            if(departed)io.to(worldRoom(departed.currentmap)).emit('playerDisconnected', { id: socket.id });
         });
+
+        // Register cleanup before the first asynchronous social load: a failed
+        // or interrupted connection must not leave a player in the world.
+        await moveWorldRoom(socket,null,currentmap);
+        if(!account.active())return;
+        await require('./handlers/socialHandlers').registerSocialHandlers({io,socket,getLocation:()=>{const p=players[socket.id];return p?{map:p.currentmap,centerReturnPoint:p.centerReturnPoint,mode:'adventure'}:null;}});
+        if(!account.active())return;
 
         const emitPlayerProgression = (progression) => {
             personalProgress=progression;
@@ -643,15 +649,10 @@ const socketHandler = (io) => {
                 if(await openingRepository.noteExit(userId))emitPlayerProgression(await loadProgressState(userId));
             }
 
-            for (const id in players) {
-                if (id === socket.id) continue;
-                if (players[id].currentmap === oldMap) {
-                    io.to(id).emit('playerLeft', { id: socket.id });
-                }
-                if (players[id].currentmap === currentmap) {
-                    io.to(id).emit('playerJoined', { id: socket.id, player: toPublicPlayer(player) });
-                }
-            }
+            io.to(worldRoom(oldMap)).except(socket.id).emit('playerLeft', { id: socket.id });
+            await moveWorldRoom(socket,oldMap,currentmap);
+            if(!account.active())return false;
+            io.to(worldRoom(currentmap)).except(socket.id).emit('playerJoined', { id: socket.id, player: toPublicPlayer(player) });
 
             const sameMapPlayers = getPlayersInMap(players, currentmap);
             socket.emit('newmap', { mapname: currentmap, playersList: sameMapPlayers, reason });
@@ -718,7 +719,7 @@ const socketHandler = (io) => {
             occupied:(x,y)=>isPnjBlockingTile(currentmap,x,y),
             rescue:(player,tile)=>{
                 player.x=tile.x*TILE_SIZE+16;player.y=tile.y*TILE_SIZE+16;player.isMoving=false;
-                for(const id in players)if(players[id].currentmap===currentmap)io.to(id).emit('playerMoved',{id:socket.id,player:toPublicPlayer(player)});
+                io.to(worldRoom(currentmap)).emit('playerMoved',{id:socket.id,player:toPublicPlayer(player)});
                 socket.emit('progressionNotice',{message:'Le sol cède ! Tu te mets à l’abri sur une dalle solide.'});
                 schedulePositionSave({immediate:true});
             }
@@ -748,11 +749,7 @@ const socketHandler = (io) => {
             console.error(`Erreur chargement progression user ${userId}:`, error.message);
         });
 
-        for (const id in players) {
-            if (players[id].currentmap === currentmap) {
-                io.to(id).emit('newPlayer', { id: socket.id, player: toPublicPlayer(players[socket.id]) });
-            }
-        }
+        io.to(worldRoom(currentmap)).emit('newPlayer', { id: socket.id, player: toPublicPlayer(players[socket.id]) });
 
         const synchronizeTradeInventory=async()=>{
             const p=players[socket.id];if(!p)return;
@@ -1599,11 +1596,7 @@ const socketHandler = (io) => {
                     if (repelProtection.expired) socket.emit('progressionNotice', {message:'L’effet du Repousse est terminé.'});
                 }
 
-                for (const id in players) {
-                    if (players[id].currentmap === currentmap) {
-                        io.to(id).emit('playerMoved', { id: socket.id, player: toPublicPlayer(player) });
-                    }
-                }
+                io.to(worldRoom(currentmap)).emit('playerMoved', { id: socket.id, player: toPublicPlayer(player) });
 
                 schedulePositionSave();
 

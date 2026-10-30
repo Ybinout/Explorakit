@@ -1,5 +1,18 @@
 # Audit technique et mémoire de RiftMon
 
+## Multijoueur et coupures réseau — 30 octobre 2026
+
+Aventure : déplacements/arrivées/départs publiés par salons Socket.IO de carte dans le namespace racine, projection et encodage uniques par envoi au lieu d’une reconstruction par destinataire. Paquets fiables, même contenu, mêmes destinataires ; PNJ personnels, captures complètes et cadence de marche conservés. Départ annoncé avant l’attente de changement de salon pour éviter un fantôme si la connexion coupe pendant la transition. Nettoyage inscrit avant le chargement social asynchrone. Rift : instantané de déplacement calculé une fois avant sa boucle de destinataires. Salons : annuaire public calculé une fois par publication, états inchangés supprimés, instantané initial/nouvelles modifications toujours envoyés. Checkpoints et durabilité SQL inchangés.
+
+Client Socket.IO 4.7.2 : HTTP polling d’abord, puis montée WebSocket automatique ; repli utilisable quand un réseau refuse WebSocket. Pas d’option récente non prise en charge par la version installée. Coupure : boutique en attente fermée et indicateur libéré ; Action hors ligne ignorée, aucun rejeu automatique d’achat/commande métier ajouté. Aucun asset, effet, règle, résolution, index ou réglage MariaDB/pool modifié.
+
+Mesure locale isolée : 16/64/128 connexions, 30 envois. Encodages 480/1920/3840→30 ; à 64 destinataires coût moyen de diffusion ~3,32→0,81 ms, à 128 ~4,37→1,65 ms. Trafic fiable par destinataire conservé. Ce banc n’est pas un nombre maximal de joueurs réels ni une charge complète avec IA/SQL. Les principales lectures équipe/quêtes/PC sont déjà indexées ; aucun changement de schéma justifié par cette passe. Restent à profiler les combats IA simultanés et la concentration de nombreux joueurs sur une carte avant tout hébergement multi-processus.
+
+Validation : 35 tests unitaires/régression, trois SQL dédiés réussis sans saut. Six clients Aventure simultanés sur deux cartes, un encodage réel, isolation des audiences, reconnexion et sauvegarde ; bascule de compte entre modes et sept origines Centre, reconnexion/redémarrage/retour contrôlés. Recette Chromium/WebKit Linux : WebSocket désactivé côté serveur, coupure réseau simulée, reprise sans déplacement/rejeu d’Action et boutique débloquée, formats 393×852/1365×900, zéro erreur. Test de présence privée adapté à la suppression volontaire des doublons. Utilisateurs SQL jetables supprimés ; pas de téléphone physique revendiqué. Lint, build isolé, syntaxe et diff valides. Audit SQL production en lecture seule.
+
+Publié le 30 octobre 2026 à 17 h 10 (Europe/Paris), client `a4dc73dcebd2cb2a3a81355f75b18c9a933bcc53`, build `8cd639f7389cec15`. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-network-2026-10-30T16-10-36-053Z`, PID 3492323→3495513, service actif, zéro redémarrage automatique/avertissement. Pas de migration ni de modification manuelle de compte réel ; zéro expédition active au contrôle du checkpoint. Bundles/index publics vérifiés, anciens assets conservés, test HTTP polling HTTPS public fermé proprement sans utiliser de compte ; Knov/api-test inchangés. Rapport : `docs/NETWORK_MULTIPLAYER_2026-10-30.json`.
+
+
 ## Super Tournoi infini et cartes de récupération — 30 octobre 2026
 
 Les seize dresseurs se répètent sans fin : après Lucie, Wayne ouvre le cycle suivant. Niveaux 85/95/100 et équipes/thèmes conservés ; score cumulatif de 100 points par K.O., compteur de salles absolu et cycle affichés. Aucun gain d’XP, EV, argent ou butin. Les Pokémon K.O. restent dans l’équipe inscrite ; l’Aventure et son inventaire demeurent isolés. Mémoire des crédits bornée à la salle courante. Défaite/abandon terminent la tentative et conservent le record.
@@ -5059,6 +5072,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 30 octobre 2026 — Multijoueur/réseau : diffusion par carte, suppression des doublons de salons, repli HTTP et reprise sans Action différée/boutique bloquée. 35 tests, trois SQL et recettes Chromium/WebKit ; client/serveur publiés sans migration. Rapport `docs/NETWORK_MULTIPLAYER_2026-10-30.json`.
 
 - 30 octobre 2026 — Super Tournoi infini : cycles de seize dresseurs, 21 cartes de récupération persistantes et choix de cible/PP, aucune XP. 42 tests, quatre SQL et recettes Chromium/WebKit quatre formats/deux thèmes. Publié avec sauvegarde/migration 026 ; voisins inchangés. Rapport `docs/SUPER_TOURNAMENT_ENDLESS.json`.
 

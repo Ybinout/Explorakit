@@ -1,0 +1,290 @@
+{
+  "date": "2026-10-30",
+  "scope": "Small multiplayer/network performance review; keep existing render, commands, rules and save durability.",
+  "patch": [
+    "Adventure movement, arrival, map departure and disconnection use native map rooms in the root namespace; one public-player projection and one packet encoding per broadcast, instead of one per recipient. Reliable delivery retained; no volatile final-position drops.",
+    "Rooms are joined during initialization and changed at relocation. Departure announcement precedes asynchronous join to prevent stale avatars if a socket disappears mid-transition. Disconnect is scoped to its map. Personal PNJ/story payloads remain per owner.",
+    "Cleanup is registered before awaiting social initialization. Interrupted initialization cannot leave an unowned world player.",
+    "Rift movement computes its public snapshot once for the existing loop; run isolation unchanged.",
+    "Lobby publication builds the public list once per sweep, sends each newly connected viewer the current state and suppresses unchanged lobby/directory payloads. Meaningful changes still publish immediately. Periodic run checkpoints and complete run-state publication unchanged.",
+    "Installed socket.io-client 4.7.2 / engine.io-client 6.5.2 now starts with HTTP polling and upgrades to WebSocket. The old WebSocket-first order did not try polling after a failed handshake in this installed version.",
+    "Network disconnection closes the pending shop and resets its loading flag. Action input is ignored while offline instead of entering the Socket.IO send buffer. No automatic retry of inventory mutations added."
+  ],
+  "database": {
+    "readOnlyAudit": "/tmp/riftmon-network-database.json",
+    "queries": [
+      {
+        "query": "SELECT * FROM pokemons WHERE team_id=1 ORDER BY position",
+        "plan": [
+          {
+            "id": 1,
+            "select_type": "SIMPLE",
+            "table": "pokemons",
+            "type": "ref",
+            "possible_keys": "uniq_team_position,team_id",
+            "key": "uniq_team_position",
+            "key_len": "4",
+            "ref": "const",
+            "rows": "1",
+            "Extra": "Using where"
+          }
+        ]
+      },
+      {
+        "query": "SELECT flag_key,flag_value FROM player_story_flags WHERE user_id=1",
+        "plan": [
+          {
+            "id": 1,
+            "select_type": "SIMPLE",
+            "table": "player_story_flags",
+            "type": "ref",
+            "possible_keys": "PRIMARY",
+            "key": "PRIMARY",
+            "key_len": "4",
+            "ref": "const",
+            "rows": "1",
+            "Extra": ""
+          }
+        ]
+      },
+      {
+        "query": "SELECT uuid,box_index,slot_index,pokemon_data FROM pokemon_storage WHERE user_id=1 ORDER BY box_index,slot_index",
+        "plan": [
+          {
+            "id": 1,
+            "select_type": "SIMPLE",
+            "table": "pokemon_storage",
+            "type": "ref",
+            "possible_keys": "uniq_storage_slot",
+            "key": "uniq_storage_slot",
+            "key_len": "4",
+            "ref": "const",
+            "rows": "1",
+            "Extra": "Using where"
+          }
+        ]
+      },
+      {
+        "query": "SELECT id,score,wins,finished_at FROM colosseum_runs WHERE user_id=1 ORDER BY finished_at DESC LIMIT 20",
+        "plan": [
+          {
+            "id": 1,
+            "select_type": "SIMPLE",
+            "table": "colosseum_runs",
+            "type": "ref",
+            "possible_keys": "fk_colosseum_run_user",
+            "key": "fk_colosseum_run_user",
+            "key_len": "4",
+            "ref": "const",
+            "rows": "1",
+            "Extra": "Using where; Using filesort"
+          }
+        ]
+      }
+    ],
+    "finding": "Main team/flags/PC reads use existing indexes. Colosseum history is indexed by owner with a small result sort. No schema, MariaDB/pool tuning or SQL durability change justified by this snapshot."
+  },
+  "measurement": {
+    "report": [
+      {
+        "clients": 16,
+        "mode": "previous",
+        "iterations": 30,
+        "encodes": 480,
+        "meanMs": 2.921566933333344,
+        "p95Ms": 1.9885020000000395
+      },
+      {
+        "clients": 16,
+        "mode": "map-room",
+        "iterations": 30,
+        "encodes": 30,
+        "meanMs": 0.5786958999999892,
+        "p95Ms": 0.6654690000000301
+      },
+      {
+        "clients": 64,
+        "mode": "previous",
+        "iterations": 30,
+        "encodes": 1920,
+        "meanMs": 3.3232467666666707,
+        "p95Ms": 3.9979920000000675
+      },
+      {
+        "clients": 64,
+        "mode": "map-room",
+        "iterations": 30,
+        "encodes": 30,
+        "meanMs": 0.8119476999999885,
+        "p95Ms": 0.9377150000000256
+      },
+      {
+        "clients": 128,
+        "mode": "previous",
+        "iterations": 30,
+        "encodes": 3840,
+        "meanMs": 4.372113499999974,
+        "p95Ms": 5.688621000000012
+      },
+      {
+        "clients": 128,
+        "mode": "map-room",
+        "iterations": 30,
+        "encodes": 30,
+        "meanMs": 1.645293433333351,
+        "p95Ms": 1.8350070000001324
+      }
+    ],
+    "limits": "Synthetic local broadcast cost only; not full game/AI/SQL capacity, not a maximum-player guarantee. All reliable packets and recipient bytes retained."
+  },
+  "verification": {
+    "unit": {
+      "passed": 35,
+      "failed": 0,
+      "skipped": 0
+    },
+    "sql": {
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0
+    },
+    "commands": [
+      "node --test tests/network-delivery.test.js tests/player-state.test.js tests/performance-regressions.test.js tests/drift-connection.test.js tests/drift-socket.test.js tests/movement-patches-socket.test.js tests/account-connection.test.js tests/rate-limit.test.js tests/world-movement.test.js",
+      "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test node --env-file-if-exists=.env --test --test-concurrency=1 tests/network-world-mysql.test.js tests/account-connection-socket.test.js tests/pokemon-center-socket-integration.test.js",
+      "node scripts/measureNetworkFanout.js",
+      "npm --prefix vue-explorakit run lint -- --no-fix",
+      "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-network-dist",
+      "DB_TEST_NAME=explorakit_test NETWORK_BROWSER=chromium node --env-file-if-exists=.env scripts/validateNetworkBrowser.js",
+      "DB_TEST_NAME=explorakit_test NETWORK_BROWSER=webkit node --env-file-if-exists=.env scripts/validateNetworkBrowser.js"
+    ],
+    "browsers": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "checks": [
+          {
+            "width": 393,
+            "height": 852,
+            "pollingFallback": true,
+            "reconnected": true,
+            "positionPreserved": true,
+            "offlineActionsNotBuffered": true,
+            "shopUnstuck": true
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "pollingFallback": true,
+            "reconnected": true,
+            "positionPreserved": true,
+            "offlineActionsNotBuffered": true,
+            "shopUnstuck": true
+          }
+        ],
+        "errors": [],
+        "limits": "WebSocket disabled on the private server, network loss simulated by Playwright. No physical mobile-network test."
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "checks": [
+          {
+            "width": 393,
+            "height": 852,
+            "pollingFallback": true,
+            "reconnected": true,
+            "positionPreserved": true,
+            "offlineActionsNotBuffered": true,
+            "shopUnstuck": true
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "pollingFallback": true,
+            "reconnected": true,
+            "positionPreserved": true,
+            "offlineActionsNotBuffered": true,
+            "shopUnstuck": true
+          }
+        ],
+        "errors": [],
+        "limits": "WebSocket disabled on the private server, network loss simulated by Playwright. No physical mobile-network test."
+      }
+    },
+    "sqlScenarios": [
+      "Six simultaneous Adventure clients split across two maps; public payloads contain no private party/inventory; one actual encoder call per movement; off-map peers receive no movement/disconnect event.",
+      "Account takeover waits for the old save and works across Adventure/Rift.",
+      "Seven Pokémon Centre origins, reconnect, private server restart, re-entry and blackout preserve correct return location."
+    ],
+    "fixtureNotes": "Old privacy test awaited a redundant null lobby heartbeat; changed to assert that no private lobby is disclosed. Lifecycle fixture extended for shop cleanup. An attempted unit run with SQL environment left historical fake-user test pools open; stopped only that runner and reran the unit suite with its original non-SQL environment. Final 35 cases passed. Dedicated SQL/browser users deleted.",
+    "publicProbe": {
+      "publicPolling": true,
+      "status": 200,
+      "probeClosed": true,
+      "authenticatedAccountUsed": false
+    },
+    "limits": "Synthetic broadcast burst cost is not full-game capacity or a real-player guarantee. No physical mobile network tested. Network bytes required by the same-map audience remain unchanged; no rendering simplification."
+  },
+  "futurePriorities": [
+    "Profile several simultaneous hard AI fights: AI calculations still share the Node event loop. Worker isolation needs a separate correctness/performance patch.",
+    "Many players concentrated on one map still require one delivery per viewer; interest management is a larger gameplay/visibility decision.",
+    "Multi-process hosting would need shared presence, account leases and authoritative run ownership. Do not enable clustering blindly."
+  ],
+  "sources": [
+    "https://socket.io/docs/v4/client-options/#transports",
+    "https://socket.io/docs/v4/performance-tuning/",
+    "Installed engine.io-client/build/esm/socket.js open() and onError()"
+  ],
+  "deployment": {
+    "publishedAt": "2026-10-30T16:10:40.228Z",
+    "restartedAt": "2026-10-30T16:10:37.486Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-network-2026-10-30T16-10-36-053Z",
+    "sourceBaseline": "75e108534861d175689a40935e9b8e14f7facbe4",
+    "sourceHashes": {
+      "server/game/drift/runManager.js": "779b80702101eea640e135e6bfdef85c4b4be5d9d1c02f2ff75a6b37e01631e3",
+      "server/realtime/driftLobbyHandler.js": "3de9817cdefd5e84a592d760b4b6edb75954fc0886c0a44fc434e4a506d9aa5f",
+      "server/realtime/socketHandler.js": "9d959fa53d4a063226c75498433e4dcb539a6b64fd8c2af37bf8af7c9a16a93a",
+      "server/realtime/worldRooms.js": "b220a0219349ef70d5fb4708e600e768270dafcf37cc16edf510886975a4900d"
+    },
+    "clientCommit": "a4dc73dcebd2cb2a3a81355f75b18c9a933bcc53",
+    "clientBuild": "8cd639f7389cec15",
+    "beforePid": "3492323",
+    "afterPid": "3495513",
+    "serverRestarted": true,
+    "schemaChanged": false,
+    "databaseChanged": false,
+    "existingPlayerDataChanged": false,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "realAccountsManuallyModified": false,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.f5ca3bcb.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d6849396.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.7822be5b.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.00fadb68.js",
+      "js/drift.5b8720d7.js",
+      "js/game.06d9cd27.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.553e140c.css",
+      "css/drift.57f62eee.css",
+      "css/game.46085206.css",
+      "css/test-view.7568246d.css"
+    ],
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0
+  }
+}

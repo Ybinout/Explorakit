@@ -47,11 +47,12 @@ test('Socket Drift réel : authentification, groupe synchronisé, confidentialit
             socket.connect();
             assert.equal((await ready).catalogue.definitions.length, 59);
         }
-        const privateState = event(c, 'drift:lobby');
+        const privateStates=[];c.on('drift:lobby',state=>privateStates.push(state));
         const created = await command(a, 'drift:create', { capacity: 2, durationMinutes: 20, userId: 999 });
         assert.equal(created.ok, true);
         assert.equal(created.lobby.hostId, 71, 'identité issue du jeton');
-        assert.equal(await privateState, null, 'le tiers ne reçoit pas le salon privé');
+        await new Promise(resolve=>setTimeout(resolve,30));
+        assert(privateStates.every(state=>state===null), 'le tiers ne reçoit pas le salon privé ; les instantanés inchangés ne sont plus répétés');
         const joined = event(a, 'drift:lobby', lobby => lobby?.players.length === 2);
         assert.equal((await command(b, 'drift:join', { code: created.lobby.code })).ok, true);
         assert.equal((await joined).players[1].username, 'Bob');

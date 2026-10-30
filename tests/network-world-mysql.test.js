@@ -1,0 +1,21 @@
+const test=require('node:test'),assert=require('node:assert/strict'),http=require('node:http'),{once}=require('node:events'),{randomUUID}=require('node:crypto');
+test('parallel Adventure users: isolated map delivery, one movement encoding and durable reconnect',{skip:process.env.RUN_MYSQL_TESTS!=='1',timeout:30000},async()=>{
+ assert.equal(process.env.DB_NAME,'explorakit_test');process.env.NODE_ENV='test';
+ const express=require('express'),{Server}=require('socket.io'),{io:client}=require('../vue-explorakit/node_modules/socket.io-client');
+ const {dbPool:db}=require('../server/config/database'),terrain=require('../server/game/world/mapRepository'),pnjs=require('../server/game/world/pnjStore');
+ const app=express(),server=http.createServer(app),io=new Server(server);app.use(express.json());app.use('/api',require('../server/http/routes'));io.use(require('../server/http/authMiddleware').authenticateSocket);require('../server/realtime/socketHandler')(io);
+ const users=[],sockets=[],moves=[],departures=[];
+ function event(s,name,predicate=()=>true){return new Promise((r,j)=>{const timer=setTimeout(()=>{s.off(name,listener);j(Error('Missing '+name));},6000);const listener=v=>{if(predicate(v)){clearTimeout(timer);s.off(name,listener);r(v);}};s.on(name,listener);});}
+ try{server.listen(0,'127.0.0.1');await once(server,'listening');const base='http://127.0.0.1:'+server.address().port;
+  for(let i=0;i<6;i++){const r=await fetch(base+'/api/users',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:'net_'+randomUUID(),password:randomUUID(),starterId:7})});assert.equal(r.status,201);const u=await r.json();users.push(u);const map=i<3?'centre':'ville1_shop',col=terrain.loadCollisionData(map),change=terrain.changeMapData(map);let tile;
+   for(let y=3;y<col.length-2&&!tile;y++)for(let x=3;x<col[y].length-3;x++)if(col[y][x]===0&&col[y][x+1]===0&&!change[y][x]&&!change[y][x+1]&&!pnjs.isPnjBlockingTile(map,x,y)&&!pnjs.isPnjBlockingTile(map,x+1,y)){tile={x:x*32+16,y:y*32+16};break;}
+   assert(tile);await db.execute('UPDATE users SET map=?,x=?,y=? WHERE id=?',[map,tile.x,tile.y,u.user.id]);await db.execute("UPDATE player_story_flags SET flag_value='complete' WHERE user_id=? AND flag_key='adventure_opening'",[u.user.id]);
+  }
+  await Promise.all(users.map(async(u,i)=>{const s=client(base,{autoConnect:false,forceNew:true,reconnection:false,transports:['polling','websocket'],auth:{token:u.token}});sockets[i]=s;moves[i]=[];departures[i]=[];s.on('playerMoved',v=>moves[i].push(v));s.on('playerDisconnected',v=>departures[i].push(v));const ready=event(s,'playersList');s.connect();const snapshot=await ready;assert(snapshot[s.id]);for(const p of Object.values(snapshot)){assert.equal(p.currentmap,i<3?'centre':'ville1_shop');assert(!p.equipe&&!p.items);}}));
+  await new Promise(r=>setTimeout(r,150));let encodes=0;const encode=io.encoder.encode.bind(io.encoder);io.encoder.encode=p=>{if(p.data?.[0]==='playerMoved')encodes++;return encode(p);};
+  const oldId=sockets[0].id,moved=event(sockets[0],'playerMoved',v=>v.id===oldId);sockets[0].emit('playerAction','move_d');const accepted=await moved;await new Promise(r=>setTimeout(r,100));assert.equal(encodes,1);for(let i=0;i<6;i++)assert.equal(moves[i].filter(m=>m.id===oldId).length,i<3?1:0);
+  sockets[0].disconnect();const replacement=client(base,{autoConnect:false,forceNew:true,reconnection:false,transports:['polling'],auth:{token:users[0].token}});sockets.push(replacement);const ready=event(replacement,'playersList');replacement.connect();const restored=(await ready)[replacement.id];assert.equal(restored.x,accepted.player.x);assert.equal(restored.y,accepted.player.y);await new Promise(r=>setTimeout(r,50));
+  assert(!io.sockets.adapter.rooms.get(require('../server/realtime/worldRooms').worldRoom('centre')).has(oldId));for(let i=1;i<6;i++)assert.equal(departures[i].filter(m=>m.id===oldId).length,i<3?1:0);
+  const [[saved]]=await db.execute('SELECT x,y,map FROM users WHERE id=?',[users[0].user.id]);assert.equal(saved.x,restored.x);assert.equal(saved.map,'centre');
+ }finally{sockets.forEach(s=>s?.disconnect());await new Promise(r=>io.close(r));await require('../server/realtime/accountConnection').waitForAccountConnections(io);for(const u of users)await db.execute('DELETE FROM users WHERE id=?',[u.user.id]);await db.end();}
+});

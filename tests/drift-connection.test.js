@@ -93,7 +93,7 @@ test('Connexion au camp : distinguer un ancien serveur, une session refusée et 
         await t.test('le bouton solo ouvre le monde Aventure après un camp ayant désactivé autoConnect', async () => {
             io.use(authenticateSocket).on('connection', client => client.emit('adventure:ready', { userId: client.data.user.id }));
             const instance = {
-                isDrift: false, players:{}, pc:{visible:false}, $el:{querySelector(){}}, saveState: { lastSyncedAt: null }, $refs: { monCanvas: { addEventListener() {} }, worldViewport: {} },
+                isDrift: false, players:{}, pc:{visible:false},shop:{visible:false,loading:false}, $el:{querySelector(){}}, saveState: { lastSyncedAt: null }, $refs: { monCanvas: { addEventListener() {} }, worldViewport: {} },
                 $nextTick: callback => callback(),
                 getStoredUserId: () => 73, getStoredUsername: () => 'Dresseur', getStoredToken: () => token,
                 ensureSpriteSheet: () => ({ complete: true })
@@ -101,7 +101,7 @@ test('Connexion au camp : distinguer un ancien serveur, une session refusée et 
             instance.syncWorldMusic = () => {};
             for (const name of ['loadMapImage', 'loadForegroundImage', 'loadAvailableSprites', 'loadPnjSpriteSources',
                 'handleKeydown', 'handleKeyup', 'handleOutsideMenuClick', 'updateMobileControlsVisibility',
-                'bindSocialSocket','bindTradeSocket','cancelFishing', 'releaseAllMovementKeys', 'startGameLoop', 'startMovementLoop', 'resizeWorldViewport']) instance[name] = () => {};
+                'bindSocialSocket','bindTradeSocket','cancelFishing','closeShop', 'releaseAllMovementKeys', 'startGameLoop', 'startMovementLoop', 'resizeWorldViewport']) instance[name] = () => {};
             (await loadWorldMount(createGameSocket, createDriftSocket)).call(instance);
             const socket = instance.socket;
             sockets.push(socket);

@@ -456,7 +456,8 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
         const repelProtection=stepRepel(p);
         if(repelProtection?.expired)emit(p,'progressionNotice',{message:'L’effet du Repousse est terminé.'});
         report.increment(p,'steps');
-        for(const other of p.run.players.values()) if(other.alive&&other.currentmap===p.currentmap) emit(other,'playerMoved',{id:p.socketId,player:toPublicPlayer({...p,id:p.socketId})});
+        const movement={id:p.socketId,player:toPublicPlayer({...p,id:p.socketId})};
+        for(const other of p.run.players.values()) if(other.alive&&other.currentmap===p.currentmap) emit(other,'playerMoved',movement);
         if(changeMapData(p.currentmap)[ty]?.[tx]) {
             const next=getNextMap(p.currentmap,tx,ty);
             if(next?.staircase && next.triggerOnExit)return;

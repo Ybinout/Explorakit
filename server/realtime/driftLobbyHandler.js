@@ -47,10 +47,17 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
         checkpointBusy=true; checkpoint().catch(e=>console.error('Sauvegarde RiftMon:',e.message)).finally(()=>{checkpointBusy=false;});
     },1000);
     checkpointTimer.unref();
+    const publishedLobbies=new WeakMap();
     const publish = () => {
+        let publicLobbies,directory;
         for (const socket of namespace.sockets.values()) {
-            socket.emit('drift:lobby', store.snapshot(socket.data.user));
-            socket.emit('drift:lobbies', store.listOpen(socket.data.user));
+            // The public directory is identical for all authenticated users.
+            if(!publicLobbies){publicLobbies=store.listOpen(socket.data.user);directory=JSON.stringify(publicLobbies);}
+            const lobby=store.snapshot(socket.data.user),key=JSON.stringify(lobby);
+            const previous=publishedLobbies.get(socket);
+            if(!previous||previous.lobby!==key)socket.emit('drift:lobby',lobby);
+            if(!previous||previous.directory!==directory)socket.emit('drift:lobbies',publicLobbies);
+            if(!previous||previous.lobby!==key||previous.directory!==directory)publishedLobbies.set(socket,{lobby:key,directory});
         }
     };
     const timer = setInterval(() => { store.sweep(); publish(); }, sweepMs);
