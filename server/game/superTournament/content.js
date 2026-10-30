@@ -31,8 +31,9 @@ const sets={
 55:['Scald','Ice Beam','Psychic','Calm Mind'],474:['Tri Attack','Ice Beam','Thunderbolt','Dark Pulse'],398:['Brave Bird','Return','Close Combat','U-turn'],
 430:['Brave Bird','Sucker Punch','Superpower','Roost'],472:['Earthquake','Roost','Knock Off','Swords Dance'],461:['Icicle Crash','Knock Off','Ice Shard','Low Kick'],
 462:['Thunderbolt','Flash Cannon','Volt Switch','Hidden Power'],405:['Wild Charge','Crunch','Ice Fang','Superpower'],184:['Waterfall','Play Rough','Aqua Jet','Superpower'],121:['Surf','Ice Beam','Thunderbolt','Recover'],365:['Surf','Ice Beam','Toxic','Protect'],66:['Dynamic Punch','Knock Off','Ice Punch','Bullet Punch']};
+function entryFor(index){if(!Number.isSafeInteger(index)||index<0)throw Error('Salle inconnue.');return roster[index%roster.length];}
 function createTeam(index){
- const entry=roster[index];if(!entry)throw Error('Salle inconnue.');
+ const entry=entryFor(index);
  const source=pnjTeams.get(entry.source)?.team||[];
  const pokemons=entry.species.map((id,slot)=>{
   const original=source.find(p=>p.pokemonId===id)||{};
@@ -56,5 +57,5 @@ const invitationLines=[
  'Lucie : Après tous ceux que tu as battus, ils te réservent une place. Tiens, ton PASS Super Tournoi. Tu peux l’utiliser depuis ton sac pour rejoindre l’accueil.',
  'Lucie : Repose-toi encore si tu en as besoin. Moi, je compte bien être prête quand on se retrouvera là-bas !'
 ].map(text=>({text,imageName:'lucie-v1.png',typewriterMs:40}));
-function state(run){return run?{active:true,phase:run.phase,room:run.room+1,total:roster.length,score:run.score,opponent:roster[run.room]?.name,team:run.player.equipe.pokemons}: {active:false};}
-module.exports={MAPS,PASS,roster,createTeam,POINTS_PER_KO,eligible,invitation,invitationLines,state};
+function state(run){return run?{active:true,endless:true,phase:run.phase,room:run.room+1,cycle:Math.floor(run.room/roster.length)+1,cycleRoom:run.room%roster.length+1,total:roster.length,score:run.score,opponent:entryFor(run.room).name,team:run.player.equipe.pokemons,reward:require('./rewards').viewOffer(run.reward,run.player.equipe.pokemons)}: {active:false};}
+module.exports={MAPS,PASS,roster,entryFor,createTeam,POINTS_PER_KO,eligible,invitation,invitationLines,state};

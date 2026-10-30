@@ -1,5 +1,16 @@
 # Audit technique et mémoire de RiftMon
 
+## Super Tournoi infini et cartes de récupération — 30 octobre 2026
+
+Les seize dresseurs se répètent sans fin : après Lucie, Wayne ouvre le cycle suivant. Niveaux 85/95/100 et équipes/thèmes conservés ; score cumulatif de 100 points par K.O., compteur de salles absolu et cycle affichés. Aucun gain d’XP, EV, argent ou butin. Les Pokémon K.O. restent dans l’équipe inscrite ; l’Aventure et son inventaire demeurent isolés. Mémoire des crédits bornée à la salle courante. Défaite/abandon terminent la tentative et conservent le record.
+
+Après chaque victoire : tirage serveur de trois cartes distinctes parmi 21 soins, restaurations de PP/statut et rappels. Cinq raretés pondérées 55/30/11/3,5/0,5 avant filtrage et tirage sans remise ; cartes utiles favorisées. Choix immédiat d’une carte puis d’une cible/capacité quand nécessaire, aperçu exact avant confirmation. Aucun soin automatique supplémentaire ni restitution d’objet consommé. Équipe intacte : continuation sans carte possible. Fermeture/Échap ouvre la confirmation d’abandon, retour possible au même tirage. Offre identifiée et persistée avec le score avant publication, pas de nouveau tirage à la reconnexion ; faux choix/cible/PP ou double utilisation refusés. Échec de sauvegarde : restauration des ressources et de l’offre. Anciens snapshots déjà à la porte suivante convertis une fois sans soin gratuit ni perte de score. Les scènes de combat/résultat s’achèvent avant l’ouverture des cartes.
+
+Validation : 42 tests unitaires/régression et quatre SQL réussis. Deux cycles de 16 salles vérifiés sur K.O. autoritaires de fixture, mémoire bornée et XP inchangée ; migration testée au-delà de 65 535 salles/4 milliards de points. Recette Socket.IO/SQL Chromium et WebKit Linux : 21 cartes appliquées par la vraie interface, double utilisation/falsification refusées, tirage stable après reconnexion, équipe déjà prête, annulation d’abandon, passage réel de la porte Lucie→Wayne et ressources conservées. Quatre formats 320×480/393×852/844×390/1365×900, clair/nocturne, zéro erreur ; vues mobile/PC inspectées. Comptes SQL jetables supprimés. Pas de téléphone physique ni de parcours humain intégral/garantie d’équilibrage revendiqués. Lint, build isolé, syntaxe et diff valides.
+
+Publication le 30 octobre 2026 à 16 h 08 (Europe/Paris), client `db96fee40ec0d199e83bae6668bd8121bb10d090`, build `c03da1fee927bdc0`. Migration additive 026 élargissant les compteurs du tournoi ; anciennes données conservées. Sauvegarde SQL/sources/index/checkpoint dans `/home/ubuntu/dev/backups/riftmon-endless-2026-10-30T15-08-16-417Z`. PID 3478006→3492323, service actif, zéro redémarrage automatique/avertissement. Index/bundles publics vérifiés à l’octet, anciens assets conservés ; Knov/api-test inchangés. Aucun compte réel modifié manuellement, aucune tentative de tournoi active au contrôle préalable. Liste complète, règles et vérifications : `docs/SUPER_TOURNAMENT_ENDLESS.json`.
+
+
 ## Dessins des objets du sac — 30 octobre 2026
 
 Bibliothèque SVG partagée enrichie dans le style du module XP conservé : neuf objets clés reconnaissables, dix pierres avec couleurs/symboles propres, quinze équipements hors baies (Grosses Bottes existantes conservées). Vitamines en flacons avec repère de stat, relances d’IV en dés et resets d’EV en gommes ; capsules Talent/Nature différenciées. Les six vitamines affichent leur statistique entre parenthèses dans le sac et les boutiques, y compris recherche/libellés accessibles/confirmation de vente. Les autres écrans partageant les icônes (choix d’objet tenu, PC, échanges) en bénéficient automatiquement. Pas de raster, téléchargement d’image, filtre ou boucle d’animation ajouté ; commandes, prix, effets, possessions et format des sauvegardes inchangés.
@@ -5048,6 +5059,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 30 octobre 2026 — Super Tournoi infini : cycles de seize dresseurs, 21 cartes de récupération persistantes et choix de cible/PP, aucune XP. 42 tests, quatre SQL et recettes Chromium/WebKit quatre formats/deux thèmes. Publié avec sauvegarde/migration 026 ; voisins inchangés. Rapport `docs/SUPER_TOURNAMENT_ENDLESS.json`.
 
 - 30 octobre 2026 — Objets du sac : dessins SVG clés/pierres/équipements, silhouettes d’entraînement et statistiques des vitamines. Recette Chromium/WebKit quatre formats/deux thèmes, lint/build valides. Client seul publié, PID et voisins conservés. Rapport `docs/BAG_ITEM_DESIGN.json`.
 

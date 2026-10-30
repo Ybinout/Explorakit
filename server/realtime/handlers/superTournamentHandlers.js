@@ -4,7 +4,7 @@ const {TournamentController}=require('../../game/superTournament/controller');
 const pnjStore=require('../../game/world/pnjStore');
 const npcMaps=['start','route2','ville1','route3_maison_nrv','ville1_arene','ville_safe1_arene','gen_route8','gen_arene5','ville3_arene','ville4_arene','route4_maison','ville5_arene','route2_maison'];
 const npcs=npcMaps.flatMap(m=>pnjStore.getPnjsForMap(m));
-function actor(run){const e=content.roster[run?.room||0];const source=npcs.find(n=>[e.source,e.key,...(e.source==='lucie_corrupted'?['lucie_route2']:[])].includes(n.name));return {...source,name:source?.name||e.source,interactionName:'super_tournament_challenger',sprite:source?.sprite||'sprite.png',spriteFrame:source?.spriteFrame||null,map:content.MAPS.room,x:13,y:9,block:true,roamRadius:0};}
+function actor(run){const e=content.entryFor(run?.room||0);const source=npcs.find(n=>[e.source,e.key,...(e.source==='lucie_corrupted'?['lucie_route2']:[])].includes(n.name));return {...source,name:source?.name||e.source,interactionName:'super_tournament_challenger',sprite:source?.sprite||'sprite.png',spriteFrame:source?.spriteFrame||null,map:content.MAPS.room,x:13,y:9,block:true,roamRadius:0};}
 function actors(map,run){if(map===content.MAPS.lobby)return [{name:'super_tournament_host',interactionName:'super_tournament_host',sprite:'townspeople.png',spriteFrame:{columns:8,rows:4,index:19},map,x:13,y:5,block:true,roamRadius:0}];if(map===content.MAPS.room&&run)return [actor(run)];return [];}
 function scopedStore(base,getRun){return {...base,getPnjsForMap:map=>[...base.getPnjsForMap(map),...actors(map,getRun())],getPnjAtTile:(map,x,y)=>actors(map,getRun()).find(n=>n.x===x&&n.y===y)||base.getPnjAtTile(map,x,y),isPnjBlockingTile:(map,x,y)=>actors(map,getRun()).some(n=>n.x===x&&n.y===y)||base.isPnjBlockingTile(map,x,y)};}
 function createHandlers({socket,account,userId,getPlayer,canUse,travel,refreshActors}){
@@ -17,6 +17,7 @@ function createHandlers({socket,account,userId,getPlayer,canUse,travel,refreshAc
   p.inventoryBusy=true;try{const teams=require('../../persistence/teamRepository'),team=await teams.loadEquipe(userId);if(!team.pokemons.length||team.pokemons.some(p=>p.isEgg))throw Error('Présente une équipe sans Œuf.');require('../../game/world/playerRecovery').healTeam(team);await teams.editEquipe(userId,team);p.equipe=team;await controller.register(team);await travel({map:content.MAPS.sas,x:448,y:496});refreshActors();}finally{p.inventoryBusy=false;}
  });
  command('superTournament:abandon',async()=>{if(!controller.active)throw Error('Aucune tentative en cours.');await controller.abandon();refreshActors();});
+ command('superTournament:reward',async data=>{const p=valid();if(p.currentmap!==content.MAPS.room)throw Error('Rejoins la salle du tournoi.');await controller.claimReward(data);});
  command('superTournament:board',async()=>{const p=getPlayer();if(!p||p.currentmap!==content.MAPS.lobby||Date.now()-lastBoard<1000)return;lastBoard=Date.now();return {leaderboard:await repository.leaderboard(userId)};});
  account.on('actionResponse',payload=>{if(!controller.run?.battle)return;account.track(controller.execute(()=>controller.action(payload)).catch(e=>socket.emit('progressionNotice',{message:e.message})));});
  const blockedEvents=new Set(['flyToTown','void:travel','pc:open','pc:action','useMedicine','useItem','useEvolutionItem','useRepel','setTeamOrder','equipHeldItem','setHeldItem','useTrainingItem','evolvePokemon','learnMove','experienceModule:set','admin:resetArenas','useMachine','useEvolutionStone','admin:rearmArenas','reorderTeam','requestShop','buyShopItem','sellShopItem']);
@@ -36,7 +37,7 @@ function createHandlers({socket,account,userId,getPlayer,canUse,travel,refreshAc
   async step(){const p=getPlayer();if(!p)return false;const x=Math.floor(p.x/32),y=Math.floor(p.y/32);if(!Object.values(content.MAPS).includes(p.currentmap))return false;
    if(p.currentmap===content.MAPS.lobby&&y>=18&&x>=12&&x<=15){await travel({map:'start',x:176,y:304});return true;}
    if(controller.active&&[content.MAPS.room,content.MAPS.sas].includes(p.currentmap)&&y<=4&&x>=12&&x<=15){
-    if(!['sas','cleared'].includes(controller.run.phase)){socket.emit('progressionNotice',{message:'Remporte ce duel pour ouvrir la salle suivante.'});return true;}
+    if(!['sas','cleared'].includes(controller.run.phase)){socket.emit('progressionNotice',{message:controller.run.phase==='reward'?'Choisis ta carte de récupération avant de continuer.':'Remporte ce duel pour ouvrir la salle suivante.'});return true;}
     await controller.execute(()=>controller.next());await travel({map:content.MAPS.room,x:448,y:528});refreshActors();return true;
    }return false;
   }
