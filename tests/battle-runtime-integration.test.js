@@ -132,6 +132,30 @@ for(const kind of ['wild','trainer'])test(`AI active weather Adventure ${kind}: 
 });
 function resourcesMax(name){return require('../server/game/battle/battleResources').getMaxMovePp(name);}
 
+for (const kind of ['wild', 'trainer', 'pvp']) test(`Curse Adventure ${kind}: opponent residual, half-HP sacrifice and no duplicate cost`, {skip: !shouldRun}, async () => {
+    const pool = createTestPool(); let userId;
+    try {
+        const {user, player} = await createPlayer(7); userId = user.id; player.currentmap = 'centre';
+        const lead = createPokemon(94, 'Lanceur', ['Curse']), enemy = createPokemon(143, 'Cible', ['Splash']);
+        for (const p of [lead, enemy]) {p.truename = p.name; p.passiveAbility = null; p.heldItem = null; p.currentHp = p.maxHp = 200;}
+        lead.currentSpeed = 999; player.equipe = createTeam(lead);
+        const rival = {id: 'curse-rival', equipe: createTeam(enemy)};
+        const actions = [{action: 'attack', number: 0}, {action: 'attack', number: 0}, {action: 'flee'}];
+        const io = new RecordingIo({[player.id]: new ScriptedSocket(actions),
+            [rival.id]: new ScriptedSocket([{action: 'attack', number: 0}, {action: 'attack', number: 0}, {action: 'flee'}])});
+        await withFixedRandom(.5, () => kind === 'wild' ? startWildBattle(player, enemy, io, userId)
+            : kind === 'trainer' ? startTrainerBattle(player, rival.equipe, io, userId) : startPvpBattle(player, rival, io));
+        assert.equal(lead.currentHp, 100);
+        assert.equal(enemy.currentHp, 100);
+        assert.equal(lead.movePp[0], 8);
+        const results = io.events.filter(e => e.targetId === player.id && e.eventName === 'battleMoveResult' && e.payload.actor === 'player');
+        assert.deepEqual(results.map(e => e.payload.success), [true, false]);
+        const residuals = io.events.filter(e => e.targetId === player.id && e.eventName === 'battleText' && /souffre de la malediction/.test(e.payload.message));
+        assert.equal(residuals.length, 2);
+        assert(residuals.every(e => /Cible/.test(e.payload.message)));
+    } finally {if (userId) await pool.execute('DELETE FROM users WHERE id=?', [userId]); await pool.end();}
+});
+
 test('Trainer party indicator: actual remaining count after a real knockout, without revealing reserves', {skip:!shouldRun},async()=>{
  const pool=createTestPool();let userId;
  try{

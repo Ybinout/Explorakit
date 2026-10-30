@@ -68,6 +68,7 @@ function switchToNextAlive(teamOrPokemons, options = {}) {
         ? {
             statStages: { ...(outgoing.__battle.statStages || {}) },
             substituteHp: Number(outgoing.__battle.substituteHp || 0),
+            curseSource: outgoing.__battle.curseSource || null,
             aquaRing: Boolean(outgoing.__battle.aquaRing),
             ingrain: Boolean(outgoing.__battle.ingrain)
         }

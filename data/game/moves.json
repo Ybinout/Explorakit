@@ -3788,14 +3788,14 @@
         "id": 174,
         "jname": "のろい",
         "power": null,
-        "pp": null,
+        "pp": 10,
         "type": "Ghost",
         "combat": {
             "damage_class": "status",
             "power_type": "special_case",
             "priority": 0,
             "crit_stage": 0,
-            "target": "self",
+            "target": "single",
             "effects": [
                 {
                     "kind": "curse"

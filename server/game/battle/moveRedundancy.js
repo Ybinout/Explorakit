@@ -5,11 +5,12 @@ const TARGET_FLAGS={taunt:'tauntTurns',heal_block:'healBlockTurns',embargo:'emba
     leech_seed:'leechSeedSource',telekinesis:'telekinesisTurns',trap:'trappedTurns',foresight:'foresight',miracle_eye:'miracleEye'};
 const OWN_FLAGS={aqua_ring:'aquaRing',ingrain:'ingrain',magnet_rise:'magnetRiseTurns',laser_focus:'laserFocusTurns'};
 const PUBLIC_EFFECT_KEYS=[...new Set([...Object.values(TARGET_FLAGS),...Object.values(OWN_FLAGS),
-    'confusionTurns','infatuationTurns','lockOnTurns','lockOnTargetId'])];
+    'confusionTurns','infatuationTurns','lockOnTurns','lockOnTargetId','curseSource'])];
 function publicEffects(data={},own=false) {
     data=data||{};
     const result={};
     for(const key of PUBLIC_EFFECT_KEYS){const value=data[key];if(value===undefined)continue;
+        if(key==='curseSource'){result[key]=Boolean(value);continue;}
         // Presence is public; random remaining confusion/infatuation is not.
         result[key]=!own&&['confusionTurns','infatuationTurns'].includes(key)?Number(value)>0?1:0
             :['string','number','boolean'].includes(typeof value)?value:Boolean(value);
@@ -19,6 +20,13 @@ function publicEffects(data={},own=false) {
 function redundantReason(pokemon,move,field,{opponent,ownSide,enemySide,incomingDamage=0}={}) {
     if(move?.combat?.damage_class!=='status')return null;
     const own=pokemon.__battle||{},other=opponent?.__battle||{};
+    if(move.ename==='Curse') {
+        const types=own.tempTypes?.length?own.tempTypes:own.formTypes?.length?own.formTypes:[pokemon.type1,pokemon.type2];
+        if(types.includes('Ghost'))return other.curseSource?'effect_already_active':null;
+        const contrary=getAbilityName(pokemon)==='Contrary'?-1:1;
+        return [['speed',-1],['attack',1],['defense',1]].every(([stat,delta])=>
+            delta*contrary>0?(own.statStages?.[stat]||0)>=6:(own.statStages?.[stat]||0)<=-6)?'stage_at_limit':null;
+    }
     if(move.ename==='Rest')return own.healBlockTurns>0?'no_healing':incomingDamage<=0&&pokemon.currentHp>=pokemon.maxHp&&(!pokemon.status||pokemon.status==='normal')?'already_healthy':null;
     const effects=move.combat.effects||[];if(!effects.length)return null;
     const reasons=effects.map(effect=>{

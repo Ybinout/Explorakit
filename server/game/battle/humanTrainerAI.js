@@ -21,7 +21,7 @@ const speedCaches = new WeakMap();
 const FIXED_DAMAGE = {'Dragon Rage':40,'Sonic Boom':20};
 const LEVEL_DAMAGE = new Set(['Seismic Toss','Night Shade']);
 const PUBLIC_VOLATILES = ['statStages','tempTypes','formTypes','abilityForm','tauntTurns','disableTurns',
-    'disabledMove','encoreTurns','encoreMove','leechSeedSource','foresight','miracleEye','substituteHp',
+    'disabledMove','encoreTurns','encoreMove','leechSeedSource','curseSource','foresight','miracleEye','substituteHp',
     'trappedTurns','ingrain','grounded','magnetRiseTurns','telekinesisTurns','abilitySuppressed','chargeMove','chargeTurns','semiInvulnerable','rechargeMove','bideTurns',
     'activeMoveActions','stockpileCount','laserFocusTurns','soundBlockedTurns','lastMoveFailed','lastMoveResultTurn','lastMoveUsed','protectStreak','protectionStreak','protectionTurn','transformed','transformSpeciesId','transformSpriteId','rampageMove'];
 const OWN_VOLATILES = [...PUBLIC_VOLATILES,'sleepTurns','choiceMove','unburden','abilitySuppressed','flashFireBoost','healBlockTurns',
@@ -34,7 +34,7 @@ function battleView(data={},own=false) {
     for(const key of own?OWN_VOLATILES:PUBLIC_VOLATILES) {
         if(key==='statStages')continue;
         const value=data[key];
-        if(key==='leechSeedSource'){view[key]=Boolean(value);continue;}
+        if(key==='leechSeedSource'||key==='curseSource'){view[key]=Boolean(value);continue;}
         if(['tempTypes','formTypes'].includes(key)){if(Array.isArray(value))view[key]=value.filter(x=>typeof x==='string').slice(0,2);continue;}
         if(value===null||['string','number','boolean'].includes(typeof value))view[key]=value;
     }

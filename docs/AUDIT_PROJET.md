@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Malédiction : cible, sacrifice, PP et prévisions IA — 30 octobre 2026
+
+La cible statique « soi-même » appliquait la malédiction au lanceur Spectre. Cible désormais résolue selon les types actuels, y compris types temporaires/Morphing, pour le moteur et la préparation de l’animation sans modifier le catalogue partagé. Spectre : sacrifice de la moitié des PV maximum et malédiction adverse, quart des PV maximum à chaque fin de tour. Cible déjà maudite : échec sans nouveau sacrifice ; PP dépensé normalement. Non-Spectre : Vitesse −1, Attaque/Défense +1 sur soi, source personnelle correcte pour les talents, limites et succès réel. Catalogue et deux références client régénérées avec 10 PP ; aucun remplissage forcé des PP déjà sauvegardés.
+
+Abri/Clonage ne bloquent pas cet effet ; réflexion/vol exclus pour cette seule capacité. Garde Magik protège des dégâts résiduels, pas du sacrifice ; K.O./sortie du lanceur sans dissipation adverse, sortie normale de la cible nettoyée, Relais transmissif. Présence publique de la malédiction et projection déterministe des coûts/dégâts sur copies dans l’IA ; pas d’accès à une commande humaine ni de changement de profondeur. Moteur partagé aux modes Aventure/Rift/Colosseum/Super Tournoi. Référence primaire et commandes : `docs/CURSE_FIX.json`.
+
+Validation : 167 tests unitaires/régression (22 cas dédiés) et 108 SQL, sans échec/saut. Les trois orchestrateurs Aventure sauvage/dresseur/PvP vérifient deux utilisations réelles, coût unique, PP et dégâts résiduels. Recettes Chromium/WebKit avec client compilé et véritable orchestrateur partagé : cible d’animation, badge adverse seul, PV/sacrifice, répétition et boosts non-Spectre ; formats 320×480/393×852/1365×900, aucune erreur/débordement, vue mobile inspectée. Comptes SQL jetables supprimés ; pas de téléphone physique testé. Lint/build isolé, références générées, syntaxe/diff valides. Aucun changement de schéma ni modification manuelle de compte réel.
+
+Publié le 30 octobre 2026 à 20 h 12 (Europe/Paris), client `b2f08c1f36cb7bde55a4797ea8c8fb7352c20215`, build `b7be98f816015e58`. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-curse-2026-10-30T19-11-59-535Z`, zéro expédition active au contrôle. PID 3518118→3522444, service actif, zéro redémarrage automatique/avertissement. Index et bundles publics vérifiés à l’octet, anciens assets conservés ; aucune migration ni modification manuelle de compte réel, Knov/api-test inchangés.
+
 ## Onglets du menu Amis — 30 octobre 2026
 
 « Tes amis » devient le premier onglet, ouvert par défaut même lorsqu’une invitation de groupe est en attente. Les amis acceptés passent avant les demandes reçues/envoyées. L’annuaire et la recherche globale sont déplacés dans « Dresseurs connectés » ; « Groupe » reste le troisième onglet. Appel à découvrir les dresseurs lorsqu’aucun ami n’est encore ajouté. Les ouvertures ciblées depuis le monde gardent leur conversation explicite.
@@ -5185,6 +5195,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 30 octobre 2026 — Malédiction : cible Spectre corrigée, sacrifice unique, effets non-Spectre/talents, 10 PP, protections/Relais et projection IA. 167 tests et 108 SQL plus recettes Chromium/WebKit réussis ; voir `docs/CURSE_FIX.json`.
 
 - 30 octobre 2026 — Menu Amis : Tes amis en premier/par défaut, annuaire connecté/recherche séparés et Groupe conservé ; conversations, lectures et présence préservées. Recettes Chromium/WebKit quatre formats/deux thèmes, lint/build réussis ; client seul publié. Rapport `docs/FRIENDS_TABS.json`.
 

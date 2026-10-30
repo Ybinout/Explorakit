@@ -1,0 +1,172 @@
+{
+  "feature": "Correction de Malédiction / Curse",
+  "mechanics": [
+    "Résolution de cible selon le type actuel, commune à la préparation visuelle et au moteur, sans mutation du catalogue",
+    "Spectre : coût de la moitié des PV maximum, cible adverse maudite, quart des PV maximum par fin de tour ; arrondis inférieurs, minimum un",
+    "Cible déjà maudite : échec avec coût normal de PP mais aucun nouveau sacrifice ; aucun empilement",
+    "Non-Spectre : Vitesse -1, Attaque +1, Défense +1 sur le lanceur ; Simple, Contestation, limites et talents de protection respectés",
+    "Abri/Clonage ne bloquent pas Malédiction ; ni Reflet Magik/Miroir Magik ni Saisie ne la renvoient ou la volent",
+    "Garde Magik bloque les dégâts résiduels, pas le sacrifice ; changement du lanceur/K.O. ne dissipe pas la malédiction adverse ; changement normal de la cible la dissipe, Relais la transmet",
+    "IA : état public booléen, coût et dégâts projetés sur copies, répétition inutile évitée, aucune lecture d’intention humaine",
+    "10 PP dans le catalogue, les fiches et l’apprentissage générés ; PP courants enregistrés conservés jusqu’au soin habituel"
+  ],
+  "source": {
+    "primary": "https://github.com/smogon/pokemon-showdown/blob/master/data/moves.ts",
+    "move": "curse",
+    "consulted": "2026-10-30",
+    "referenceScope": "Shared simulator move implementation; game uses its existing generation-7 combat engine"
+  },
+  "checks": {
+    "unit": {
+      "passed": 167,
+      "failed": 0,
+      "skipped": 0,
+      "newCurseCases": 22
+    },
+    "mysql": {
+      "passed": 108,
+      "failed": 0,
+      "skipped": 0,
+      "newCurseCases": [
+        "wild",
+        "trainer",
+        "pvp"
+      ]
+    },
+    "browsers": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "views": [
+          {
+            "width": 320,
+            "height": 480,
+            "type": "wild",
+            "ghost": true
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "type": "arena",
+            "ghost": false
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "type": "pvp",
+            "ghost": true
+          }
+        ],
+        "checks": [
+          "Actual shared orchestrator: Ghost half-HP sacrifice, opponent-only Curse badge and quarter-HP residual",
+          "Second use against a cursed opponent costs PP without another HP sacrifice; residual remains single",
+          "Non-Ghost self boosts display on the correct fighter without HP loss or curse"
+        ],
+        "errors": [],
+        "physicalHardware": false
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "views": [
+          {
+            "width": 320,
+            "height": 480,
+            "type": "wild",
+            "ghost": true
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "type": "arena",
+            "ghost": false
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "type": "pvp",
+            "ghost": true
+          }
+        ],
+        "checks": [
+          "Actual shared orchestrator: Ghost half-HP sacrifice, opponent-only Curse badge and quarter-HP residual",
+          "Second use against a cursed opponent costs PP without another HP sacrifice; residual remains single",
+          "Non-Ghost self boosts display on the correct fighter without HP loss or curse"
+        ],
+        "errors": [],
+        "physicalHardware": false
+      }
+    },
+    "lint": true,
+    "isolatedBuild": "b7be98f816015e58",
+    "generatedReferencesCheck": true,
+    "diffCheck": true,
+    "physicalDevice": false,
+    "realAccountsManuallyModified": false
+  },
+  "reproduction": [
+    "node --test tests/curse.test.js tests/battle-engine.test.js tests/automatic-move-regressions.test.js tests/move-behavior-audit.test.js tests/human-trainer-ai.test.js tests/human-trainer-model.test.js tests/human-trainer-items.test.js tests/human-trainer-known-abilities.test.js tests/human-trainer-sucker-punch.test.js tests/human-trainer-trapping.test.js",
+    "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test node --env-file-if-exists=.env --test --test-concurrency=1 tests/battle-runtime-integration.test.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=chromium RELEASE_DIST_DIR=/tmp/riftmon-curse-dist node --env-file-if-exists=.env scripts/validateCurseBrowser.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=webkit RELEASE_DIST_DIR=/tmp/riftmon-curse-dist node --env-file-if-exists=.env scripts/validateCurseBrowser.js",
+    "node scripts/generatePokemonReference.js --check",
+    "python3 scripts/generateLevelUpMoves.py --check",
+    "npm --prefix vue-explorakit run lint",
+    "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-curse-dist"
+  ],
+  "deployment": {
+    "publishedAt": "2026-10-30T19:12:02.342Z",
+    "restartedAt": "2026-10-30T19:12:00.863Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-curse-2026-10-30T19-11-59-535Z",
+    "sourceBaseline": "16e71528eea45a8f8f94254fe9db9f231243bc71",
+    "sourceHashes": {
+      "data/game/moves.json": "4c2a66ad951a3383ba50452e46bc3e006e1bb00b10b97cf4ef5a8d67a2dfa0e0",
+      "server/game/battle/battleEngine.js": "d482030989ec841104e0daaa0725c748672aa8e83af76e765fd603282908eb8a",
+      "server/game/battle/battleTeam.js": "8b3c173d113f38bf9cd4eea09686ff6e7909855d668c93c2cfc7e0135b736965",
+      "server/game/battle/humanTrainerAI.js": "428cff813fae66bfa8de268605a9ef67bffd9ecee3eb073a96c7ec2c6c8e5d41",
+      "server/game/battle/humanTrainerModel.js": "6a59c1bcd5888479e0c8a357b3372bd4d5ddb33011e5a67eefcdb6805e3d9806",
+      "server/game/battle/moveGuards.js": "ba136da0f8b17083f2a80617edeaba113305889d9e988d73a80a49092274bd2a",
+      "server/game/battle/moveRedundancy.js": "1a9fc3f0ae00672e98e01ccbb4eac5570acd19d19dd43882799345c669e988ae"
+    },
+    "clientCommit": "b2f08c1f36cb7bde55a4797ea8c8fb7352c20215",
+    "clientBuild": "b7be98f816015e58",
+    "beforePid": "3518118",
+    "afterPid": "3522444",
+    "serverRestarted": true,
+    "schemaChanged": false,
+    "databaseChanged": false,
+    "existingPlayerDataChanged": false,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "realAccountsManuallyModified": false,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.f5ca3bcb.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.9cd07c03.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.00fadb68.js",
+      "js/drift.5b8720d7.js",
+      "js/game.d03092fa.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.553e140c.css",
+      "css/drift.57f62eee.css",
+      "css/game.39bb7afc.css",
+      "css/test-view.7568246d.css"
+    ],
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0
+  }
+}

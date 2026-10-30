@@ -762,6 +762,11 @@ function resolveRedirectedTarget(originalTarget, targetSide, activeTargets = [],
 }
 
 function resolveWeatherMove(move, attacker, defender, battleState) {
+    // Keep user-dependent targeting identical for execution and animation,
+    // without modifying the shared catalogue (including temporary types).
+    if (move?.ename === 'Curse') {
+        return {...move, combat: {...move.combat, target: hasType(attacker, 'Ghost') ? 'single' : 'self'}};
+    }
     if (move?.ename !== 'Weather Ball' || move.__weatherResolved) return move;
     const weather=isWeatherSuppressed(attacker,defender)?null:battleState?.weather?.kind;
     const type=({sun:'Fire',rain:'Water',hail:'Ice',sandstorm:'Rock'})[weather];
@@ -1058,6 +1063,7 @@ function canSwitchOut(pokemon, opponent = null, battleState = null, { escape = f
 }
 
 function isMoveBlockedByProtect(defender, defenderSide, move, attacker = null) {
+    if (move?.ename === 'Curse') return false;
     const defenderData = ensureBattleData(defender);
     if (defenderData.protect) return true;
 
@@ -1672,18 +1678,29 @@ function applyEffect(effect, context, moveResult) {
             return;
         }
 
-        case 'curse':
+        case 'curse': {
             if (hasType(context.attacker, 'Ghost')) {
+                if (targetData.curseSource || effectTargetPokemon.currentHp <= 0) {
+                    moveResult.success = false;
+                    messages.push(`${getPokemonDisplayName(effectTargetPokemon)} est déjà maudit ou hors de combat.`);
+                    return;
+                }
                 const hpCost = Math.max(1, Math.floor(safeNumber(context.attacker.maxHp, 1) / 2));
-                applyDamage(context.attacker, hpCost, { allowEndure: false });
-                targetData.curseSource = context.attacker;
-                messages.push(`${getPokemonDisplayName(context.defender)} est maudit.`);
+                const paid = applyDamage(context.attacker, hpCost, { allowEndure: false });
+                // Only presence is needed; do not retain a mutable Pokémon graph.
+                targetData.curseSource = context.attacker.uuid || true;
+                messages.push(`${getPokemonDisplayName(context.attacker)} sacrifie ${paid.damageToHp} PV.`);
+                messages.push(`${getPokemonDisplayName(effectTargetPokemon)} est maudit.`);
             } else {
-                applyStageChange(context.attacker, 'attack', 1, messages);
-                applyStageChange(context.attacker, 'defense', 1, messages);
-                applyStageChange(context.attacker, 'speed', -1, messages);
+                const before = {...attackerData.statStages};
+                for (const [stat, stages] of [['speed', -1], ['attack', 1], ['defense', 1]]) {
+                    applyStageChange(context.attacker, stat, stages, messages, context.attacker);
+                }
+                moveResult.success = ['speed', 'attack', 'defense'].some(stat =>
+                    (before[stat] || 0) !== attackerData.statStages[stat]);
             }
             return;
+        }
 
         case 'fairy_lock':
             if (context.battleState?.field?.fairyLockTurns > 0) { moveResult.success=false;messages.push('Verrou Enchanté est déjà actif.');return; }
@@ -3075,7 +3092,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
     const moveTargetsPokemon = moveTargetsOpponent && moveTarget !== 'opponent_side';
     const magicBounce=hasPassiveAbility(defender,'Magic Bounce') && !ignoresDefenderAbility(attacker,defender)
         && reactions.traits.moves[move.ename]?.reflectable;
-    if (damageClass === 'status' && moveTargetsOpponent && (defenderData.magicCoat || magicBounce) && !options.reflected) {
+    if (damageClass === 'status' && move.ename !== 'Curse' && moveTargetsOpponent && (defenderData.magicCoat || magicBounce) && !options.reflected) {
         if(!magicBounce)defenderData.magicCoat = false;
         moveResult.success = true;
         moveResult.messages.push(`${getPokemonDisplayName(defender)} renvoie ${move.ename} avec ${magicBounce?'Miroir Magik':'Reflet Magik'}.`);
@@ -3095,7 +3112,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
     }
 
     const beneficialSelfMove = damageClass === 'status' && ['self', 'self_side'].includes(moveTarget);
-    if (beneficialSelfMove && defenderData.snatch && !options.snatched) {
+    if (beneficialSelfMove && move.ename !== 'Curse' && defenderData.snatch && !options.snatched) {
         defenderData.snatch = false;
         moveResult.success = true;
         moveResult.messages.push(`${getPokemonDisplayName(defender)} vole ${move.ename}.`);

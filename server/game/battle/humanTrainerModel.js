@@ -153,6 +153,16 @@ function castMove(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMove
         } else p.status=old;
     } else for(const effect of move.combat.effects||[]) {
         const self=['self','self_side'].includes(effect.target||move.combat.target),target=self?p:other;
+        if(effect.kind==='curse') {
+            recognized=true;
+            if(types(p).includes('Ghost')) {
+                if(!other.__battle.curseSource){hp(p,p.currentHp-Math.max(1,Math.floor(p.maxHp/2)));other.__battle.curseSource=true;useful=true;}
+            } else for(const[stat,delta]of [['speed',-1],['attack',1],['defense',1]]) {
+                const old=p.__battle.statStages[stat]||0;
+                engine.applyStageChange(p,stat,delta,[],p);
+                if(old!==p.__battle.statStages[stat])useful=true;
+            }
+        }
         if(['protect','heal','stat_stage','status','substitute','taunt','leech_seed','reset_stat_stages'].includes(effect.kind))recognized=true;
         if(!self&&['status','stat_stage','taunt','leech_seed'].includes(effect.kind)
             &&(damaging&&inflicted<=0||wasSubstitute&&ability(p)!=='Infiltrator'&&!flags.sound))continue;
@@ -226,6 +236,7 @@ function endTurn(p,other,state,{switched=false}={}) {
         if(p.status==='badly_poison'){hp(p,p.currentHp-Math.floor(p.maxHp*(p.__battle.toxicCounter||1)/16));p.__battle.toxicCounter=(p.__battle.toxicCounter||1)+1;}
     }
     if(alive(p)&&!magic&&p.__battle.leechSeedSource){const loss=Math.min(p.currentHp,Math.floor(p.maxHp/8));hp(p,p.currentHp-loss);heal(other,loss);}
+    if(alive(p)&&!magic&&p.__battle.curseSource)hp(p,p.currentHp-Math.max(1,Math.floor(p.maxHp/4)));
     if(!abilities.isWeatherSuppressed(p,other)) {
         const weather=state.weather.kind;
         if(!magic&&weather==='sandstorm'&&!types(p).some(t=>['Rock','Ground','Steel'].includes(t))&&!['Overcoat','Sand Rush','Sand Veil','Sand Force'].includes(ability(p)))hp(p,p.currentHp-Math.floor(p.maxHp/16));
