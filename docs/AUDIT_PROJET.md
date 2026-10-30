@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## Raccourci plein écran sur PC — 30 octobre 2026
+
+La touche P active ou quitte le plein écran natif du jeu, dans le monde comme dans les menus et combats. Écoute en capture dans `UserMap.vue`, retirée à sa destruction ; même commande que le bouton existant, mêmes erreurs et libération des déplacements. Répétition de touche, composition, champs de saisie/édition, Ctrl/Alt/Cmd, appareils mobiles et navigateurs non compatibles ignorés. L’aide des options affiche P ; Échap reste disponible pour quitter.
+
+Validation ciblée Chromium avec le véritable client compilé et un compte SQL jetable : entrée/sortie natives, P majuscule, maintien de touche, saisie et modificateurs, menu Pokédex bloquant la propagation, nettoyage à la sortie, absence d’activation mobile/non compatible. Huit contrôles réussis sans erreur navigateur, proportions et position conservées ; compte supprimé. Lint `npm --prefix vue-explorakit run lint -- --no-fix` et build isolé réussis. Pas de matériel physique testé.
+
+Client `2da7ad2936fb2a05f3022340b21b284943d947d1`, build `09b635baacda2f22`, publié le 30 octobre 2026 à 18 h 06 (Europe/Paris). Index/bundles publics vérifiés, anciens assets conservés ; sauvegarde `/home/ubuntu/dev/backups/riftmon-fullscreen-key-2026-10-30T17-06-52-900Z`. Serveur sans redémarrage, données réelles et applications voisines inchangées.
+
 ## Volume des combats sauvages — 30 octobre 2026
 
 Musique des rencontres sauvages réduite de 25 % dans le composant partagé `BattleOverlay.vue` : coefficient 0,4 → 0,3, toujours multiplié par le volume choisi dans les options. Validation de la méthode réelle pour les différentes musiques, volumes, sourdine et onglet masqué ; lint et build isolé réussis. Les musiques des dresseurs et les effets sonores conservent leur réglage.
@@ -5089,6 +5097,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 30 octobre 2026 — Raccourci P du plein écran PC avec gardes de saisie/répétition et aide dans les options ; huit contrôles navigateur, lint/build réussis. Client seul publié.
 
 - 30 octobre 2026 — Musique des combats sauvages −25 % ; contrôles du volume/sourdine, lint et build réussis. Client seul publié, autres musiques et effets conservés.
 
