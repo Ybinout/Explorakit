@@ -1,5 +1,11 @@
 # Audit technique et mémoire de RiftMon
 
+## Volume des combats sauvages — 30 octobre 2026
+
+Musique des rencontres sauvages réduite de 25 % dans le composant partagé `BattleOverlay.vue` : coefficient 0,4 → 0,3, toujours multiplié par le volume choisi dans les options. Validation de la méthode réelle pour les différentes musiques, volumes, sourdine et onglet masqué ; lint et build isolé réussis. Les musiques des dresseurs et les effets sonores conservent leur réglage.
+
+Client `0683ef92d7e45bb7572f0ce51a1834e59f53c835`, build `9268ac0207665c76`, publié le 30 octobre 2026 à 18 h 02 (Europe/Paris). Index et bundles publics vérifiés ; anciens assets conservés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-wild-volume-2026-10-30T17-02-19-264Z`. Serveur sans redémarrage, données et applications voisines inchangées.
+
 ## Charge de plusieurs IA simultanées — 30 octobre 2026
 
 Profil CPU et banc isolé de décisions synchronisées 1/4/8/16/32, avec requête HTTP concurrente. Les copies profondes de vues déjà isolées et les résolutions répétées du module d’objets tenus étaient coûteuses. Ajout interne `estimateDamageOnCopies` : Pokémon jetables du planificateur et terrain privé en lecture seule, même formule et mode preview. L’API générale `estimateDamage` garde toutes ses copies défensives. Copie légère du planificateur pour sa vitesse ; import `heldItems` réutilisé dans les vérifications de légalité/coût d’entrée. Aucun cache inter-combats, diminution de profondeur, accès aux intentions humaines, modification de score ni consommation de RNG de combat.
@@ -5083,6 +5089,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 30 octobre 2026 — Musique des combats sauvages −25 % ; contrôles du volume/sourdine, lint et build réussis. Client seul publié, autres musiques et effets conservés.
 
 - 30 octobre 2026 — IA simultanées : profil CPU, copies privées allégées et import d’objets réutilisé ; parité exacte 48 situations. 191 tests et 101 SQL réussis ; serveur seul publié, client/règles inchangés. Rapport `docs/CONCURRENT_TRAINER_AI_2026-10-30.json`.
 
