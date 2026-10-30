@@ -1226,7 +1226,7 @@ const socketHandler = (io) => {
                     socket.emit('interactionRejected',{reason:'battle_already_running'});return;
                 }
                 const getFightTeamName = getTeamInformation(dialogueName);
-                const enemyteam = getPnjTeam(getFightTeamName);
+                const enemyteam = getPnjTeam(getFightTeamName, { mode: 'adventure' });
                 if (!enemyteam || !Array.isArray(enemyteam.pokemons) || enemyteam.pokemons.length === 0) {
                     socket.emit('interactionRejected', { reason: 'trainer_team_unavailable' });
                     return;

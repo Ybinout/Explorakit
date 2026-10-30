@@ -1,5 +1,14 @@
 # Audit technique et mémoire de RiftMon
 
+## Matthieu : deux niveaux de moins en Aventure — 30 octobre 2026
+
+Prochains duels Aventure : Staross 35, Tauros 36, Léviator 37 et Typhlosion 37, soit −2 chacun. Surcharge explicite `adventureLevel` dans sa seule équipe ; la fabrique reçoit le mode depuis le lancement Aventure et construit normalement l’XP et les statistiques au niveau cible. K, IV/EV, talents, objets, capacités, IA, conditions de passage et victoires personnelles conservés. Équipes Rift/Colosseum et niveaux propres du Super Tournoi inchangés ; aucune modification des combats déjà commencés, cartes, dialogues, assets, données de compte ou client.
+
+Validation : 22 tests existants réussis, zéro échec/saut (`node --test tests/matthieu-tactics.test.js tests/pnj-regressions.test.js tests/story-gates.test.js tests/super-tournament.test.js`). Contrôle de la fabrique réelle sur les 36 équipes : seules les quatre surcharges de Matthieu ajoutées au catalogue, niveaux Aventure 35/36/37/37 contre 37/38/39/39 ailleurs, statistiques recalculées et sets/entraînement identiques. Super Tournoi 85/95/100 puis 95/105/110 conservé. Vérification directe reproductible : `getPnjTeam('gwenn_route8', { mode: 'adventure' }).pokemons.map(p => p.level)`. Syntaxe et diff valides ; pas de nouveau test miroir de configuration ni de recette navigateur/SQL ou build client pour ce réglage de contenu.
+
+
+
+Serveur publié le 30 octobre 2026 à 22 h 13 (Europe/Paris), PID 3539719→3540481, service actif et zéro redémarrage automatique/avertissement. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-matthieu-levels-2026-10-30T21-13-51-367Z`, zéro expédition active au contrôle. Client/build et index public conservés ; aucun changement de schéma ni modification manuelle de compte réel ; Knov/api-test inchangés.
 
 ## Balance : résultat, réflexion et IA — 30 octobre 2026
 
@@ -5274,6 +5283,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 30 octobre 2026 — Matthieu : −2 niveaux uniquement en Aventure (35/36/37/37), stats recalculées, sets/IA et autres modes conservés ; 22 tests ciblés et fabrique réelle vérifiés.
 
 - 30 octobre 2026 — Balance : échec explicite sous Clonage, réflexion limitée aux capacités canoniques et prévision IA des PV/baies/protections. 467 tests + 163 SQL réussis, 28 régressions reproduites sur l’ancien moteur ; `docs/PAIN_SPLIT_FIX.json`.
 

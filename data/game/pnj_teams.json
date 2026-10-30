@@ -1975,6 +1975,7 @@
           "pokemonId": 121,
           "name": "Staross",
           "level": 37,
+          "adventureLevel": 35,
           "abilities": [
             "Surf",
             "Ice Beam",
@@ -2003,6 +2004,7 @@
           "pokemonId": 128,
           "name": "Tauros",
           "level": 38,
+          "adventureLevel": 36,
           "abilities": [
             "Return",
             "Earthquake",
@@ -2031,6 +2033,7 @@
           "pokemonId": 130,
           "name": "Léviator",
           "level": 39,
+          "adventureLevel": 37,
           "abilities": [
             "Dragon Dance",
             "Waterfall",
@@ -2059,6 +2062,7 @@
           "pokemonId": 157,
           "name": "Typhlosion",
           "level": 39,
+          "adventureLevel": 37,
           "abilities": [
             "Overheat",
             "Flamethrower",

@@ -12,7 +12,7 @@ const pnjTeamsByName = new Map(
     pnjTeamsData.pnjs.map((pnj) => [pnj.name, pnj])
 );
 
-function getPnjTeam(pnjName) {
+function getPnjTeam(pnjName, { mode } = {}) {
     const pnjData = pnjTeamsByName.get(pnjName);
     if (!pnjData) {
         console.log(`Le PNJ ${pnjName} n'a pas d'équipe enregistrée.`);
@@ -25,8 +25,9 @@ function getPnjTeam(pnjName) {
 
     pnjData.team.forEach(pokemonData => {
         const species = pokedex.find((entry) => entry.id === pokemonData.pokemonId);
-        const experience = Number.isInteger(pokemonData.level) && pokemonData.level > 0
-            ? getTotalExperienceForLevel(pokemonData.level, getExperienceRate(species?.exp))
+        const level = mode === 'adventure' ? (pokemonData.adventureLevel ?? pokemonData.level) : pokemonData.level;
+        const experience = Number.isInteger(level) && level > 0
+            ? getTotalExperienceForLevel(level, getExperienceRate(species?.exp))
             : pokemonData.experience;
         const pokemon = new Pokemon(
             pokemonData.pokemonId,
