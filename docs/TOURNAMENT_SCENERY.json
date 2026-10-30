@@ -1,0 +1,323 @@
+{
+  "feature": "Super Tournoi — passages intérieurs et panoramas animés",
+  "maps": [
+    "super_tournament_lobby",
+    "super_tournament_sas",
+    "super_tournament_room"
+  ],
+  "presentation": {
+    "northDoors": "Passage sombre dessiné dans les ouvertures du SAS et du duel, même sans animation.",
+    "sky": "Nuages extraits des images d’origine et oiseaux en groupes, derrière les vitres.",
+    "sea": "Réfraction horizontale d’un pixel et crêtes/reflets masqués, y compris les deux fenêtres latérales du SAS.",
+    "maxRepaintFps": 20,
+    "newTimers": false,
+    "assetsOrMapDataChanged": false,
+    "movementCollisionOrProgressionChanged": false
+  },
+  "checks": {
+    "chromium": {
+      "canvas": {
+        "success": true,
+        "engine": "chromium",
+        "scenes": [
+          {
+            "map": "super_tournament_lobby",
+            "skyPixels": 11471,
+            "escaped": 0,
+            "birds": 5522,
+            "birdFrames": 64,
+            "cloudFrames": 64,
+            "waterFrames": [
+              64
+            ],
+            "throttled": true,
+            "reduced": true,
+            "darkPassage": true,
+            "released": true,
+            "integrated": true,
+            "isolated": true,
+            "averagePaintMs": 0.4066666642824809
+          },
+          {
+            "map": "super_tournament_sas",
+            "skyPixels": 5154,
+            "escaped": 0,
+            "birds": 2707,
+            "birdFrames": 62,
+            "cloudFrames": 64,
+            "waterFrames": [
+              64,
+              64,
+              64
+            ],
+            "throttled": true,
+            "reduced": true,
+            "darkPassage": true,
+            "released": true,
+            "integrated": true,
+            "isolated": true,
+            "averagePaintMs": 0.7716666658719381
+          },
+          {
+            "map": "super_tournament_room",
+            "skyPixels": 8212,
+            "escaped": 0,
+            "birds": 4543,
+            "birdFrames": 64,
+            "cloudFrames": 64,
+            "waterFrames": [
+              64
+            ],
+            "throttled": true,
+            "reduced": true,
+            "darkPassage": true,
+            "released": true,
+            "integrated": true,
+            "isolated": true,
+            "averagePaintMs": 0.42916666666666664
+          }
+        ],
+        "errors": []
+      },
+      "compiledGame": {
+        "success": true,
+        "engine": "chromium",
+        "scenes": [
+          {
+            "map": "super_tournament_lobby",
+            "layouts": [
+              {
+                "width": 393,
+                "height": 852
+              },
+              {
+                "width": 1365,
+                "height": 900
+              }
+            ],
+            "animation": true,
+            "positionPreserved": true,
+            "reducedMotion": true,
+            "hiddenCleanup": true
+          },
+          {
+            "map": "super_tournament_sas",
+            "layouts": [
+              {
+                "width": 393,
+                "height": 852
+              },
+              {
+                "width": 1365,
+                "height": 900
+              }
+            ],
+            "animation": true,
+            "positionPreserved": true,
+            "reducedMotion": true,
+            "hiddenCleanup": true
+          },
+          {
+            "map": "super_tournament_room",
+            "layouts": [
+              {
+                "width": 393,
+                "height": 852
+              },
+              {
+                "width": 1365,
+                "height": 900
+              }
+            ],
+            "animation": true,
+            "positionPreserved": true,
+            "reducedMotion": true,
+            "hiddenCleanup": true
+          }
+        ],
+        "registration": true,
+        "realNorthDoor": true,
+        "unclearedGateStillLocked": true,
+        "abandon": true,
+        "errors": [],
+        "physicalHardware": false
+      }
+    },
+    "webkit": {
+      "canvas": {
+        "success": true,
+        "engine": "webkit",
+        "scenes": [
+          {
+            "map": "super_tournament_lobby",
+            "skyPixels": 11492,
+            "escaped": 0,
+            "birds": 5690,
+            "birdFrames": 64,
+            "cloudFrames": 64,
+            "waterFrames": [
+              64
+            ],
+            "throttled": true,
+            "reduced": true,
+            "darkPassage": true,
+            "released": true,
+            "integrated": true,
+            "isolated": true,
+            "averagePaintMs": 0.30833333333333335
+          },
+          {
+            "map": "super_tournament_sas",
+            "skyPixels": 5154,
+            "escaped": 0,
+            "birds": 2785,
+            "birdFrames": 62,
+            "cloudFrames": 64,
+            "waterFrames": [
+              64,
+              64,
+              64
+            ],
+            "throttled": true,
+            "reduced": true,
+            "darkPassage": true,
+            "released": true,
+            "integrated": true,
+            "isolated": true,
+            "averagePaintMs": 0.5083333333333333
+          },
+          {
+            "map": "super_tournament_room",
+            "skyPixels": 8224,
+            "escaped": 0,
+            "birds": 4672,
+            "birdFrames": 64,
+            "cloudFrames": 64,
+            "waterFrames": [
+              64
+            ],
+            "throttled": true,
+            "reduced": true,
+            "darkPassage": true,
+            "released": true,
+            "integrated": true,
+            "isolated": true,
+            "averagePaintMs": 0.3
+          }
+        ],
+        "errors": []
+      },
+      "compiledGame": {
+        "success": true,
+        "engine": "webkit",
+        "scenes": [
+          {
+            "map": "super_tournament_lobby",
+            "layouts": [
+              {
+                "width": 393,
+                "height": 852
+              },
+              {
+                "width": 1365,
+                "height": 900
+              }
+            ],
+            "animation": true,
+            "positionPreserved": true,
+            "reducedMotion": true,
+            "hiddenCleanup": true
+          },
+          {
+            "map": "super_tournament_sas",
+            "layouts": [
+              {
+                "width": 393,
+                "height": 852
+              },
+              {
+                "width": 1365,
+                "height": 900
+              }
+            ],
+            "animation": true,
+            "positionPreserved": true,
+            "reducedMotion": true,
+            "hiddenCleanup": true
+          },
+          {
+            "map": "super_tournament_room",
+            "layouts": [
+              {
+                "width": 393,
+                "height": 852
+              },
+              {
+                "width": 1365,
+                "height": 900
+              }
+            ],
+            "animation": true,
+            "positionPreserved": true,
+            "reducedMotion": true,
+            "hiddenCleanup": true
+          }
+        ],
+        "registration": true,
+        "realNorthDoor": true,
+        "unclearedGateStillLocked": true,
+        "abandon": true,
+        "errors": [],
+        "physicalHardware": false
+      }
+    }
+  },
+  "commands": [
+    "node scripts/validateTournamentLobbySkyCanvas.js",
+    "SKY_BROWSER=webkit node scripts/validateTournamentLobbySkyCanvas.js",
+    "DB_TEST_NAME=explorakit_test node --env-file-if-exists=.env scripts/validateTournamentSceneryBrowser.js",
+    "PRESENTATION_BROWSER=webkit DB_TEST_NAME=explorakit_test node --env-file-if-exists=.env scripts/validateTournamentSceneryBrowser.js",
+    "npm --prefix vue-explorakit run lint -- --no-fix",
+    "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-tournament-sea-dist"
+  ],
+  "limits": "Navigateurs Linux et mesures Canvas locales, pas de téléphone physique ni de garantie de FPS sur matériel particulier. Comptes SQL jetables supprimés.",
+  "deployment": {
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "publishedAt": "2026-10-30T17:57:28.815Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-tournament-sea-2026-10-30T17-57-27-056Z",
+    "sourceBaseline": "9f4a651e274dee55454e86e4b8c1f059619d14fc",
+    "clientCommit": "d3c086925f35094f16657f2ae45a2c2ede23c956",
+    "clientBuild": "0539aaf85cea5c81",
+    "pid": "3507053",
+    "serverRestarted": false,
+    "databaseChanged": false,
+    "realAccountsManuallyModified": false,
+    "neighborsUnchanged": true,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.f5ca3bcb.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.5590bdf6.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.00fadb68.js",
+      "js/drift.5b8720d7.js",
+      "js/game.bed6a6f1.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.553e140c.css",
+      "css/drift.57f62eee.css",
+      "css/game.6f1e4a41.css",
+      "css/test-view.7568246d.css"
+    ]
+  }
+}

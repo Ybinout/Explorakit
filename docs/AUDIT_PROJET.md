@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## Panoramas et portes du Super Tournoi — 30 octobre 2026
+
+Les ouvertures nord du SAS et de la salle de duel montrent désormais un passage intérieur sombre, avec une profondeur et un dallage discrets. Correctif statique maintenu lorsque les animations sont désactivées. Le moteur du ciel de l’accueil couvre maintenant les trois salles : six nuages issus du décor original, quatre groupes d’oiseaux, réfraction/reflets de mer. Les fenêtres latérales du SAS ont aussi leur couche d’eau. Masques définis par salle et érodés sur l’eau pour préserver les berges et le décor ; couches sous les acteurs. Aucun PNG, JSON/Tiled, raccord, collision ou règle du tournoi modifié.
+
+Surfaces locales mises en cache à 20 Hz maximum, réutilisation de la boucle du jeu, aucun nouveau timer. Libération au changement de carte, masquage, combat et destruction ; arrêt du mouvement avec les préférences. Recettes Canvas Chromium/WebKit : 64 états par salle, ciel et mer distincts, oiseaux visibles dans 62–64 états, zéro pixel hors des zones autorisées, passage sombre conservé sans mouvement, cache/nettoyage vérifiés. Coût local moyen de peinture ~0,3–0,8 ms, sans garantie matérielle. Client compilé avec véritables parcours et contextes mobile 393×852/PC 1365×900 sur les deux moteurs : inscription, accueil→SAS→duel, reprise des scènes après reconnexion, position conservée, porte suivante toujours verrouillée avant victoire, abandon et nettoyage. Aucune erreur/débordement, comptes jetables supprimés. Lint/build, syntaxe/diff valides. Pas de téléphone physique testé. Commandes et résultats : `docs/TOURNAMENT_SCENERY.json`, `scripts/validateTournamentLobbySkyCanvas.js` et `scripts/validateTournamentSceneryBrowser.js`.
+
+Client `d3c086925f35094f16657f2ae45a2c2ede23c956`, build `0539aaf85cea5c81`, publié le 30 octobre 2026 à 18 h 57 (Europe/Paris). Index/bundles publics vérifiés, anciens assets conservés ; sauvegarde `/home/ubuntu/dev/backups/riftmon-tournament-sea-2026-10-30T17-57-27-056Z`. Serveur sans redémarrage, base/comptes réels et applications voisines inchangés.
+
 ## Sexe dans les fiches et listes Pokémon — 30 octobre 2026
 
 Badge partagé : ♂ bleu, ♀ rose, marque neutre pour les espèces asexuées, avec libellé accessible et intitulé complet dans la fiche. Ajout dans `TeamPokemonTraits` (listes Aventure/Rift/Colosseum) et `PokemonDetails` (équipe et PC). Sexe inconnu ou Œuf : aucun symbole inventé. Le serveur expose le résultat du résolveur existant dans la vue HTTP privée d’équipe, la projection PC et l’équipe présentée du Super Tournoi, anciens snapshots compris. Aucun changement du modèle, des ratios, du stockage, des statistiques ou des règles d’évolution ; pas de nouveau tirage ni de mutation des Pokémon pour l’affichage.
@@ -5127,6 +5135,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 30 octobre 2026 — Super Tournoi : passages intérieurs sombres du SAS/duel et ciel/mer animés dans les trois salles. Recettes Canvas et parcours client Chromium/WebKit, lint/build réussis ; client seul publié. Rapport `docs/TOURNAMENT_SCENERY.json`.
 
 - 30 octobre 2026 — Sexe affiché dans fiches et listes : résolveur du moteur et vues privées sans nouveau tirage. 29 tests et recettes Chromium/WebKit trois modes + PC réussis ; client/serveur publiés sans migration. Rapport `docs/POKEMON_GENDER_PRESENTATION.json`.
 

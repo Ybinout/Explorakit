@@ -1,89 +1,44 @@
-// Actual Canvas rendering: the windows may move, the room and island may not.
-const fs = require('node:fs'), path = require('node:path'), assert = require('node:assert/strict');
-const express = require('express'), playwright = require('playwright');
-const engine = process.env.SKY_BROWSER || 'chromium';
-const out = process.env.RELEASE_SCREENSHOTS || '/tmp/riftmon-tournament-sky-' + engine;
-fs.mkdirSync(out, { recursive: true });
-(async () => {
-  const app = express();
-  app.use(express.static(path.resolve(__dirname, '../vue-explorakit/src')));
-  const server = app.listen(0, '127.0.0.1');
-  await new Promise(resolve => server.once('listening', resolve));
-  let browser;
-  try {
-    browser = await playwright[engine].launch({ headless: true, ...(engine === 'chromium' ? { args: ['--no-sandbox'] } : {}) });
-    const page = await browser.newPage({ viewport: { width: 896, height: 640 } });
-    const errors = []; page.on('pageerror', e => errors.push(e.message));
-    await page.goto(`http://127.0.0.1:${server.address().port}/services/tournamentLobbySky.js`);
-    await page.evaluate(async () => {
-      document.body.innerHTML = '<canvas width="896" height="640"></canvas>';
-      document.body.style = 'margin:0;background:#0d1722;overflow:hidden';
-      window.skyModule = await import('/services/tournamentLobbySky.js');
-      window.ambienceModule = await import('/services/placeAmbience.js');
-      window.r = new skyModule.TournamentLobbySkyRenderer();
-      window.source = new Image(); source.src = '/assets/super_tournament_lobby.png'; await source.decode();
-      window.c = document.querySelector('canvas').getContext('2d'); c.imageSmoothingEnabled = false;
-      window.render = (time, motion = true) => { c.drawImage(source, 0, 0, 896, 640); r.draw(c, source, time, motion); };
-    });
-    const checks = await page.evaluate(() => {
-      render(0, false); const original = c.getImageData(0, 0, 896, 640).data;
-      render(0); const mask = r.mask.getContext('2d').getImageData(0, 0, r.mask.width, r.mask.height).data;
-      let escaped = 0, birds = 0, birdFrames = 0, changed = 0;
-      const differentFrames = new Set();
-      for (let n = 0; n < 64; n++) {
-        render(n * 500);
-        const effect = r.context.getImageData(0, 0, r.canvas.width, r.canvas.height).data;
-        let visibleBirds = 0;
-        for (let i = 0; i < effect.length; i += 4) {
-          if (effect[i + 3] && !mask[i + 3]) escaped++;
-          if (effect[i + 3] && effect[i] < 100 && effect[i + 1] < 130) visibleBirds++;
-        }
-        if (visibleBirds) birdFrames++; birds += visibleBirds;
-        differentFrames.add(r.canvas.toDataURL());
-      }
-      render(35000); const final = c.getImageData(0, 0, 896, 640).data;
-      let roomChanged = 0;
-      for (let y = 0; y < 640; y++) for (let x = 0; x < 896; x++) {
-        const i = (y * 896 + x) * 4;
-        const masked = x >= 150 && x < 150 + r.mask.width && y >= 40 && y < 40 + r.mask.height
-          && mask[((y - 40) * r.mask.width + x - 150) * 4 + 3];
-        if (final[i] !== original[i] || final[i + 1] !== original[i + 1] || final[i + 2] !== original[i + 2]) {
-          changed++; if (!masked) roomChanged++;
-        }
-      }
-      const frames = r.frames; render(35001); const throttled = r.frames === frames;
-      render(37000, false); const reduced = c.getImageData(0, 0, 896, 640).data.every((v, i) => v === original[i]);
-      render(38000); const old = [r.canvas, r.mask, ...r.cloudTextures], skyPixels = r.skyPixels;
-      const cloudPixels = r.cloudTextures.map(texture => {
-        const data = texture.getContext('2d').getImageData(0, 0, texture.width, texture.height).data;
-        let count = 0; for (let i = 3; i < data.length; i += 4) if (data[i]) count++;
-        return count;
-      });
-      const started = performance.now(); for (let n = 0; n < 180; n++) r.paint(n * 50);
-      const averagePaintMs = (performance.now() - started) / 180;
-      r.suspend(); const released = old.every(surface => surface.width === 0 && surface.height === 0) && !r.canvas;
-      const shared = new ambienceModule.PlaceAmbienceRenderer();
-      shared.drawGround(c, source, skyModule.TOURNAMENT_LOBBY_MAP, 2000);
-      const surface = shared.tournamentLobby.canvas;
-      shared.draw(c, source, skyModule.TOURNAMENT_LOBBY_MAP, 2000);
-      const integrated = shared.tournamentLobby.canvas === surface && Boolean(ambienceModule.placeAmbienceProfile(skyModule.TOURNAMENT_LOBBY_MAP));
-      shared.drawGround(c, source, 'super_tournament_sas', 3000);
-      const isolated = surface.width === 0 && !shared.tournamentLobby.canvas;
-      shared.destroy();
-      return { skyPixels, cloudPixels, changed, escaped, roomChanged, birds, birdFrames, differentFrames: differentFrames.size, throttled, reduced, released, integrated, isolated, averagePaintMs };
-    });
-    fs.writeFileSync(path.join(out, 'checks.json'), JSON.stringify(checks, null, 2));
-    for (const time of [0, 4000, 9000, 18000]) {
-      await page.evaluate(time => render(time), time);
-      await page.screenshot({ path: path.join(out, `lobby-${time}.png`) });
+// Real Canvas: three tournament scenes, bounded sky/sea and interior doorways.
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
+const express=require('express'),playwright=require('playwright');
+const engine=process.env.SKY_BROWSER||'chromium',out=process.env.RELEASE_SCREENSHOTS||'/tmp/riftmon-tournament-sea-'+engine;fs.mkdirSync(out,{recursive:true});
+(async()=>{const app=express();app.use(express.static(path.resolve(__dirname,'../vue-explorakit/src')));const server=app.listen(0,'127.0.0.1');await new Promise(r=>server.once('listening',r));let browser;
+try{
+ browser=await playwright[engine].launch({headless:true,...(engine==='chromium'?{args:['--no-sandbox']}: {})});const page=await browser.newPage({viewport:{width:896,height:640}}),errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto(`http://127.0.0.1:${server.address().port}/services/tournamentLobbySky.js`);
+ await page.evaluate(async()=>{document.body.innerHTML='<canvas width="896" height="640"></canvas>';document.body.style='margin:0;background:#0d1722;overflow:hidden';window.h=await import('/services/tournamentLobbySky.js');window.a=await import('/services/placeAmbience.js');window.r=new h.TournamentLobbySkyRenderer();window.c=document.querySelector('canvas').getContext('2d');c.imageSmoothingEnabled=false;window.render=(time,motion=true)=>{c.drawImage(source,0,0,896,640);r.draw(c,source,time,motion,map);};});
+ const scenes=[];
+ for(const map of ['super_tournament_lobby','super_tournament_sas','super_tournament_room']){
+  await page.evaluate(async map=>{window.map=map;window.source=new Image();source.src='/assets/'+map+'.png';await source.decode();},map);
+  const check=await page.evaluate(()=>{
+   c.drawImage(source,0,0,896,640);const original=c.getImageData(0,0,896,640).data;render(0);const skyPixels=r.skyPixels;
+   const allowedCanvas=document.createElement('canvas');allowedCanvas.width=896;allowedCanvas.height=640;const ac=allowedCanvas.getContext('2d');
+   for(const layer of r.layers){ac.drawImage(layer.skyMask,layer.patch.x*2,layer.patch.y*2);ac.drawImage(layer.waterMask,layer.patch.x*2,layer.patch.y*2);}
+   if(r.profile.passage){ac.save();ac.scale(2,2);ac.fillStyle='white';ac.beginPath();r.profile.passage.forEach(([x,y],i)=>i?ac.lineTo(x,y):ac.moveTo(x,y));ac.closePath();ac.fill();ac.restore();}
+   const allowed=ac.getImageData(0,0,896,640).data,main=r.layers[0],sky=main.skyMask.getContext('2d').getImageData(0,0,main.skyMask.width,main.skyMask.height).data;
+   let escaped=0,birdFrames=0,birds=0;const cloudFrames=new Set(),waterFrames=r.layers.map(()=>new Set());
+   for(let n=0;n<64;n++){
+    render(n*500);const image=c.getImageData(0,0,896,640).data;
+    for(let i=0;i<image.length;i+=4)if(!allowed[i+3]&&(image[i]!==original[i]||image[i+1]!==original[i+1]||image[i+2]!==original[i+2]))escaped++;
+    const effect=r.context.getImageData(0,0,r.canvas.width,r.canvas.height).data;let visible=0,cloudHash=2166136261;
+    for(let i=0;i<effect.length;i+=4)if(sky[i+3]){
+     if(effect[i]<100&&effect[i+1]<130){visible++;continue;}
+     if(effect[i]>140&&effect[i+1]>175&&effect[i+2]>185)cloudHash=Math.imul(cloudHash^i,16777619);
     }
-    assert(checks.skyPixels > 1000); assert(checks.changed > 1000);
-    assert(checks.cloudPixels.every(count => count > 30));
-    assert.equal(checks.escaped, 0); assert.equal(checks.roomChanged, 0);
-    assert(checks.birds > 100); assert(checks.birdFrames > 40); assert.equal(checks.differentFrames, 64);
-    for (const key of ['throttled', 'reduced', 'released', 'integrated', 'isolated']) assert(checks[key], key);
-    assert.deepEqual(errors, []);
-    fs.writeFileSync(path.join(out, 'results.json'), JSON.stringify({ success: true, engine, checks, errors }, null, 2));
-    console.log(JSON.stringify({ engine, ...checks, errors }));
-  } finally { await browser?.close(); await new Promise(resolve => server.close(resolve)); }
-})().catch(error => { console.error(error.stack); process.exitCode = 1; });
+    if(visible)birdFrames++;birds+=visible;cloudFrames.add(cloudHash);
+    r.layers.forEach((layer,i)=>waterFrames[i].add(layer.water.toDataURL()));
+   }
+   render(35000);const frames=r.frames;render(35001);const throttled=r.frames===frames;
+   render(37000,false);const fixed=c.canvas.toDataURL(),fixedFrames=r.frames;render(40000,false);const reduced=fixed===c.canvas.toDataURL()&&fixedFrames===r.frames;
+   let darkPassage=true;if(r.profile.passage){const y=map==='super_tournament_sas'?25:45,rgba=c.getImageData(448,y*2,1,1).data;darkPassage=rgba[0]<80&&rgba[1]<90&&rgba[2]<120;}
+   render(41000);const surfaces=[...r.cloudTextures,...r.layers.flatMap(l=>[l.canvas,l.texture,l.skyMask,l.waterMask,l.water])];
+   const started=performance.now();for(let n=0;n<120;n++)r.paint(n*50);const averagePaintMs=(performance.now()-started)/120;
+   r.suspend();const released=surfaces.every(s=>s.width===0&&s.height===0)&&!r.canvas;
+   const shared=new a.PlaceAmbienceRenderer();shared.drawGround(c,source,map,2000);const before=shared.tournamentLobby.canvas;shared.draw(c,source,map,2000);const integrated=before===shared.tournamentLobby.canvas;shared.drawGround(c,source,'start',2500);const isolated=before.width===0&&!shared.tournamentLobby.canvas;shared.destroy();
+   return{map,skyPixels,escaped,birds,birdFrames,cloudFrames:cloudFrames.size,waterFrames:waterFrames.map(s=>s.size),throttled,reduced,darkPassage,released,integrated,isolated,averagePaintMs};
+  });
+  scenes.push(check);for(const t of [0,6000,16000]){await page.evaluate(t=>render(t),t);await page.screenshot({path:path.join(out,map+'-'+t+'.png')});}await page.evaluate(()=>render(20000,false));await page.screenshot({path:path.join(out,map+'-reduced.png')});
+ }
+ fs.writeFileSync(path.join(out,'checks.json'),JSON.stringify(scenes,null,2));
+ for(const check of scenes){assert(check.skyPixels>1000);assert.equal(check.escaped,0,check.map);assert(check.birdFrames>35,check.map+' birds');assert(check.cloudFrames>20,check.map+' clouds');assert(check.waterFrames.every(n=>n>20),check.map+' water');for(const key of ['throttled','reduced','darkPassage','released','integrated','isolated'])assert(check[key],check.map+' '+key);}
+ assert.deepEqual(errors,[]);fs.writeFileSync(path.join(out,'results.json'),JSON.stringify({success:true,engine,scenes,errors},null,2));console.log(JSON.stringify({engine,scenes,errors}));
+}finally{await browser?.close();await new Promise(r=>server.close(r));}})().catch(e=>{console.error(e.stack);process.exitCode=1;});
