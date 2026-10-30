@@ -1,0 +1,293 @@
+{
+  "feature": "Stat change presentation and interactive battle weather help",
+  "date": "2026-10-30",
+  "scope": [
+    "shared battle overlay: Adventure, Rift, Colosseum and Super Tournament"
+  ],
+  "source": {
+    "client": "1d3a3cd3ba2cfab8da4b38b86baf58d4b1213dd0",
+    "baseline": "29a886662b5a3d8f65a5d5398c648ea9f43272ca"
+  },
+  "changes": {
+    "stats": [
+      "Rising gold chevrons, light trails and sparks for increases; descending blue chevrons for decreases.",
+      "Intensity follows actual clamped stage deltas, up to three visual tiers.",
+      "One or two stat changes are named; larger changes use compact direction/count labels, with exact stage values retained in existing battle notices and status badges.",
+      "Presentation queue reserves 1240 ms for stat animation; reduced motion keeps the textual state.",
+      "Label geometry stays in the scene and reserves the compact enemy health/weather corner.",
+      "Native stroked SVG outlines, no new raster assets, no CSS blur filters on the new effect."
+    ],
+    "weather": [
+      "44px accessible button; mouse hover, keyboard focus, click and touch.",
+      "Touch is committed on pointerup; the compatibility click is ignored so Safari does not immediately toggle it again.",
+      "Descriptions for rain, sun, sandstorm and snow/hail reflect current RiftMon mechanics.",
+      "Map persistence and remaining turn counts use server metadata; older messages can omit duration.",
+      "Outside interaction, Escape, weather changes, visibility and battle reset dismiss the help.",
+      "Constrained scrollable content, French/English and journal palettes.",
+      "Weather interaction does not fast-forward experience rewards."
+    ]
+  },
+  "verification": {
+    "unitTests": 20,
+    "newTests": 3,
+    "unitLog": "/tmp/riftmon-stat-weather-unit.log",
+    "browserRuns": {
+      "chromium": {
+        "success": true,
+        "browserName": "chromium",
+        "fixture": "Authoritative engine stat changes and serialized weather, private presentation fixtures",
+        "presentationLayouts": [
+          "adventure",
+          "colosseum",
+          "rift-pvp"
+        ],
+        "checks": [
+          {
+            "width": 320,
+            "height": 480,
+            "statLabelsInside": true,
+            "actionsStable": true,
+            "hover": true,
+            "touch": true,
+            "keyboard": true,
+            "outsideDismiss": true,
+            "weatherChangeDismiss": true,
+            "weatherInfoBounded": true
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "statLabelsInside": true,
+            "actionsStable": true,
+            "hover": true,
+            "touch": true,
+            "keyboard": true,
+            "outsideDismiss": true,
+            "weatherChangeDismiss": true,
+            "weatherInfoBounded": true
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "statLabelsInside": true,
+            "actionsStable": true,
+            "hover": true,
+            "touch": true,
+            "keyboard": true,
+            "outsideDismiss": true,
+            "weatherChangeDismiss": true,
+            "weatherInfoBounded": true
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "statLabelsInside": true,
+            "actionsStable": true,
+            "hover": true,
+            "touch": true,
+            "keyboard": true,
+            "outsideDismiss": true,
+            "weatherChangeDismiss": true,
+            "weatherInfoBounded": true
+          }
+        ],
+        "captures": [
+          "stats-320.png",
+          "multi-stats-320.png",
+          "colosseum-stats-320.png",
+          "enemy-multi-weather-320.png",
+          "weather-rain-320.png",
+          "weather-sun-320.png",
+          "weather-sandstorm-320.png",
+          "weather-hail-320.png",
+          "stats-393.png",
+          "multi-stats-393.png",
+          "colosseum-stats-393.png",
+          "enemy-multi-weather-393.png",
+          "weather-rain-393.png",
+          "weather-sun-393.png",
+          "weather-sandstorm-393.png",
+          "weather-hail-393.png",
+          "stats-844.png",
+          "multi-stats-844.png",
+          "colosseum-stats-844.png",
+          "enemy-multi-weather-844.png",
+          "weather-rain-844.png",
+          "weather-sun-844.png",
+          "weather-sandstorm-844.png",
+          "weather-hail-844.png",
+          "stats-1365.png",
+          "multi-stats-1365.png",
+          "colosseum-stats-1365.png",
+          "enemy-multi-weather-1365.png",
+          "weather-rain-1365.png",
+          "weather-sun-1365.png",
+          "weather-sandstorm-1365.png",
+          "weather-hail-1365.png",
+          "weather-english-dark.png"
+        ],
+        "reducedMotion": true,
+        "animationsDisabled": true,
+        "englishDark": true,
+        "errors": []
+      },
+      "webkit": {
+        "success": true,
+        "browserName": "webkit",
+        "fixture": "Authoritative engine stat changes and serialized weather, private presentation fixtures",
+        "presentationLayouts": [
+          "adventure",
+          "colosseum",
+          "rift-pvp"
+        ],
+        "checks": [
+          {
+            "width": 320,
+            "height": 480,
+            "statLabelsInside": true,
+            "actionsStable": true,
+            "hover": true,
+            "touch": true,
+            "keyboard": true,
+            "outsideDismiss": true,
+            "weatherChangeDismiss": true,
+            "weatherInfoBounded": true
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "statLabelsInside": true,
+            "actionsStable": true,
+            "hover": true,
+            "touch": true,
+            "keyboard": true,
+            "outsideDismiss": true,
+            "weatherChangeDismiss": true,
+            "weatherInfoBounded": true
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "statLabelsInside": true,
+            "actionsStable": true,
+            "hover": true,
+            "touch": true,
+            "keyboard": true,
+            "outsideDismiss": true,
+            "weatherChangeDismiss": true,
+            "weatherInfoBounded": true
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "statLabelsInside": true,
+            "actionsStable": true,
+            "hover": true,
+            "touch": true,
+            "keyboard": true,
+            "outsideDismiss": true,
+            "weatherChangeDismiss": true,
+            "weatherInfoBounded": true
+          }
+        ],
+        "captures": [
+          "stats-320.png",
+          "multi-stats-320.png",
+          "colosseum-stats-320.png",
+          "enemy-multi-weather-320.png",
+          "weather-rain-320.png",
+          "weather-sun-320.png",
+          "weather-sandstorm-320.png",
+          "weather-hail-320.png",
+          "stats-393.png",
+          "multi-stats-393.png",
+          "colosseum-stats-393.png",
+          "enemy-multi-weather-393.png",
+          "weather-rain-393.png",
+          "weather-sun-393.png",
+          "weather-sandstorm-393.png",
+          "weather-hail-393.png",
+          "stats-844.png",
+          "multi-stats-844.png",
+          "colosseum-stats-844.png",
+          "enemy-multi-weather-844.png",
+          "weather-rain-844.png",
+          "weather-sun-844.png",
+          "weather-sandstorm-844.png",
+          "weather-hail-844.png",
+          "stats-1365.png",
+          "multi-stats-1365.png",
+          "colosseum-stats-1365.png",
+          "enemy-multi-weather-1365.png",
+          "weather-rain-1365.png",
+          "weather-sun-1365.png",
+          "weather-sandstorm-1365.png",
+          "weather-hail-1365.png",
+          "weather-english-dark.png"
+        ],
+        "reducedMotion": true,
+        "animationsDisabled": true,
+        "englishDark": true,
+        "errors": []
+      }
+    },
+    "lint": "passed",
+    "build": "8af7de07733a454c",
+    "checks": [
+      "syntax",
+      "git diff --check",
+      "public index and every JS/CSS bundle compared byte-for-byte"
+    ],
+    "limits": [
+      "Browser fixtures use authoritative engine stage changes and serialized weather on a private server with disposable SQL users, not full human battle playthroughs.",
+      "Chromium and Linux WebKit are not physical Android/iPhone devices.",
+      "One earlier WPE compositor run crashed during a screenshot; chevron drop-shadow filters were replaced with native SVG outlines, followed by successful final WebKit and Chromium runs."
+    ]
+  },
+  "commands": [
+    "node --test tests/battle-weather-info.test.js tests/battle-conditions.test.js tests/battle-field-client.test.js tests/weather-healing.test.js tests/battle-rain.test.js tests/battle-snow.test.js",
+    "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=webkit node --env-file-if-exists=.env scripts/validateStatWeatherBrowser.js",
+    "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=chromium node --env-file-if-exists=.env scripts/validateStatWeatherBrowser.js",
+    "npm --prefix vue-explorakit run lint -- --no-fix",
+    "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-stat-weather-dist"
+  ],
+  "deployment": {
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "publishedAt": "2026-10-30T08:57:25.426Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-stat-weather-2026-10-30T08-57-23-337Z",
+    "sourceBaseline": "29a886662b5a3d8f65a5d5398c648ea9f43272ca",
+    "clientCommit": "1d3a3cd3ba2cfab8da4b38b86baf58d4b1213dd0",
+    "clientBuild": "8af7de07733a454c",
+    "pid": "3478006",
+    "serverRestarted": false,
+    "databaseChanged": false,
+    "realAccountsManuallyModified": false,
+    "neighborsUnchanged": true,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.f5ca3bcb.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.58f7d27d.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.c8e2b2b0.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.00fadb68.js",
+      "js/drift.5b8720d7.js",
+      "js/game.f57397e6.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.553e140c.css",
+      "css/drift.57f62eee.css",
+      "css/game.f9653725.css",
+      "css/test-view.7568246d.css"
+    ]
+  }
+}
