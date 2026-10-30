@@ -9,6 +9,7 @@ const checkpointRepository = require('./persistence/riftCheckpointRepository');
 const riftAccountRepository = require('./persistence/riftAccountRepository');
 const { authenticateSocket } = require('./http/authMiddleware');
 const { DIST_DIR } = require('./config/paths');
+const { expeditionsAvailable } = require('../data/game/modeAvailability.json');
 
 const app = express();
 app.set('trust proxy','loopback');
@@ -31,10 +32,18 @@ app.get('*', (req, res) => {
 socketHandler(io);
 let drift;
 async function start() {
-    const durable=process.env.NODE_ENV!=='test' || process.env.RIFT_DURABILITY==='1';
-    const initialCheckpoint=durable?await checkpointRepository.load():null;
-    drift=registerDriftLobbies(io, { accountRepository: riftAccountRepository, colosseumRepository: require('./persistence/colosseumRepository'), checkpointRepository:durable?checkpointRepository:null, initialCheckpoint });
-    await drift.runtime.reconcileSettlements();
+    if (expeditionsAvailable) {
+        const durable=process.env.NODE_ENV!=='test' || process.env.RIFT_DURABILITY==='1';
+        const initialCheckpoint=durable?await checkpointRepository.load():null;
+        drift=registerDriftLobbies(io, { accountRepository: riftAccountRepository, colosseumRepository: require('./persistence/colosseumRepository'), checkpointRepository:durable?checkpointRepository:null, initialCheckpoint });
+        await drift.runtime.reconcileSettlements();
+    } else {
+        io.of('/drift').use((_socket, next) => {
+            const error = new Error('Rift et Colosseum : Soon.');
+            error.data = { code: 'mode_unavailable' };
+            next(error);
+        });
+    }
     server.listen(PORT, process.env.HOST || '127.0.0.1', () => console.log(`Server is running on port ${PORT}`));
 }
 let stopping=false;

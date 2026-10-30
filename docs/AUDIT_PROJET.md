@@ -1,5 +1,17 @@
 # Audit technique et mémoire de RiftMon
 
+## Rift et Colosseum en attente — 30 octobre 2026
+
+À la demande du propriétaire, seule l’Aventure est accessible depuis la sélection. Rift multijoueur et Rift Colosseum restent visibles en gris avec « Soon » : cartes non interactives, sans lien ni arrêt de tabulation. Leurs quatre routes directes reviennent à l’accueil, avant le contrôle de connexion. Les classements historiques restent consultables ; leurs boutons de lancement affichent aussi « Soon ». Le Super Tournoi appartient toujours à l’Aventure et reste disponible.
+
+Interrupteur partagé `data/game/modeAvailability.json` (`expeditionsAvailable: false`), importé par le client et lu au démarrage serveur. Le namespace `/drift` refuse toute connexion avec `mode_unavailable`, y compris depuis un ancien client, avant l’enregistrement d’une présence de compte. Les expéditions fermées ne sont pas restaurées/exécutées et leur checkpoint n’est pas réécrit ; équipes, classements et sauvegardes existants conservés. Pour rouvrir les deux modes : remettre la valeur à `true`, reconstruire le client et redémarrer le service.
+
+Validation : deux tests de domaine existants, lint, build isolé `59f6c9133d238330`, syntaxe et diff valides. Recette sur le vrai point d’entrée serveur isolé, base `explorakit_test`, Chromium et WebKit Linux : quatre formats 320×568/393×852/844×390/1365×900, cartes grisées/inertes et défilement sans débordement, navigation clavier, quatre liens directs avec/sans session, classements et leur bouton grisé. Connexion Aventure et sauvegarde réelles réussies ; un essai de connexion au mode fermé avec le même compte ne déconnecte pas l’Aventure et ne change pas son équipe. Zéro erreur navigateur, captures mobile/PC inspectées, comptes jetables supprimés ; pas de téléphone physique. Recette manuelle reproductible : cliquer les deux cartes fermées, saisir chacune des quatre routes, consulter les classements, puis lancer et sauvegarder l’Aventure.
+
+
+
+Client et serveur publiés le 30 octobre 2026 à 23 h 29 (Europe/Paris), client `9bd65c634fc1632298d34046d1eb8c0f82add276`, build `59f6c9133d238330`. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-modes-soon-2026-10-30T22-29-44-818Z`, zéro expédition active au contrôle ; checkpoint stable après fermeture. PID 3556525→3558086, service actif et zéro redémarrage automatique/avertissement. Index et 22 bundles/CSS publics vérifiés à l’octet, refus réel du namespace HTTPS contrôlé, anciens assets conservés. Aucun changement de schéma ni modification manuelle de compte réel ; Knov/api-test inchangés.
+
 ## Lucie : indice discret avant la faille — 30 octobre 2026
 
 Après le Badge Violence ou Pardon et le retour de Lucie, lui parler au village affiche une seule réplique : « Les voix se sont calmées… Mais quand je passe près de cette maison, j’ai l’impression de ne plus être tout à fait moi-même. » Elle remplace les variantes ordinaires uniquement tant que la faille est encore scellée ; aucun nom de mécanisme, indication d’Action, marqueur de quête ou déclenchement automatique ajouté. Portrait illustré existant conservé. L’étape de faille est personnelle, y compris en replay admin ; une ancienne possession du badge ne révèle pas l’indice avant de l’avoir récupéré dans le replay du professeur. Joueurs historiques avec badge et sans ancien flag de faille pris en charge.
@@ -5305,6 +5317,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 30 octobre 2026 — Rift et Colosseum grisés « Soon », routes et namespace fermés par un interrupteur partagé ; données/classements et Aventure conservés. Lint/build, deux tests et recettes Chromium/WebKit réussis.
 
 - 30 octobre 2026 — Lucie donne un indice discret après le badge final du professeur et avant la découverte de la faille ; 38 tests narratifs et 19 états directs validés, variantes ordinaires conservées ensuite.
 
