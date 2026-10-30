@@ -9,7 +9,7 @@ const repo=require('../server/persistence/superTournamentRepository'),content=re
 const handlers=require('../server/realtime/handlers/superTournamentHandlers'),originalCreate=handlers.createHandlers,controllers=new Map();
 handlers.createHandlers=options=>{const h=originalCreate(options);controllers.set(options.userId,h.controller);return h;};
 const engine=process.env.PRESENTATION_BROWSER||'chromium';if(!['chromium','webkit'].includes(engine))throw Error('Unsupported browser');
-const dist=process.env.RELEASE_DIST_DIR||'/tmp/riftmon-endless-dist',out='/tmp/riftmon-endless-browser-'+engine;fs.mkdirSync(out,{recursive:true});
+const dist=process.env.RELEASE_DIST_DIR||'/tmp/riftmon-endless-dist',out=process.env.RELEASE_SCREENSHOTS||'/tmp/riftmon-endless-browser-'+engine;fs.mkdirSync(out,{recursive:true});
 const app=express(),server=http.createServer(app),io=new Server(server);app.use(express.json());app.use('/api',require('../server/http/routes'));app.use(express.static(dist));app.get('*',(_q,r)=>r.sendFile(path.join(dist,'index.html')));io.use(require('../server/http/authMiddleware').authenticateSocket);require('../server/realtime/socketHandler')(io);
 let browser,page,id,success=false;const errors=[],views=[],used=[];
 const controller=()=>controllers.get(id);
@@ -41,14 +41,37 @@ async function pick(key){
  await finish();const first=(await repo.load(id)).run.reward;assert.equal(new Set(first.cards).size,3);assert.equal(await controller().next(),false);
  await page.reload();await ready();await page.locator('.tournament-reward-panel').waitFor();assert.deepEqual((await repo.load(id)).run.reward,first);
  const sealed=codec.decode(codec.encode(controller().run.player.equipe));
- // Inspect all rarities and target/PP selection at four real viewport sizes.
- for(const [width,height]of [[320,480],[393,852],[844,390],[1365,900]])for(const mode of ['light','dark']){
+ // Review all five colour palettes, readable selections and actual target controls.
+ const palettes=new Map(),contrastChecks=[];
+ for(const [width,height]of [[320,480],[393,852],[844,390],[1365,900]])for(const mode of ['light','dark'])for(const [deck,cards]of [
+  ['basic',['heal_25','heal_50','heal_100']],['special',['revive_100','full_restore','full_reset']]
+ ]){
   await page.setViewportSize({width,height});await page.evaluate(mode=>v.updatePreferences({...v.preferences,themeMode:mode}),mode);
-  await controller().execute(()=>controller().atomic(()=>{const r=controller().run;r.player.equipe=codec.decode(codec.encode(sealed));r.reward={id:randomUUID(),afterRoom:1,cards:['heal_25','revive_100','full_reset']};}));
-  await page.locator('[data-reward-card="full_reset"]').click();const target=content.state(controller().run).reward.choices[2].targets[0];await page.locator(`[data-reward-target="${target.uuid}"]`).click();
+  await controller().execute(()=>controller().atomic(()=>{const r=controller().run;r.player.equipe=codec.decode(codec.encode(sealed));r.reward={id:randomUUID(),afterRoom:1,cards};}));
+  await page.waitForFunction(key=>v.superTournament.reward?.choices[0]?.key===key,cards[0]);
+  const chosen=content.state(controller().run).reward.choices.find(c=>c.usable);
+  await page.locator(`[data-reward-card="${chosen.key}"]`).click();
+  if(chosen.target!=='team')await page.locator(`[data-reward-target="${chosen.targets[0].uuid}"]`).click();
+  assert(await page.locator('[data-reward-confirm]').isEnabled());
+  assert(await page.locator(`[data-reward-card="${chosen.key}"] .reward-check`).isVisible());
+  const colours=await page.locator('.reward-card').evaluateAll(nodes=>{
+   const rgb=value=>(value.match(/[\d.]+/g)||[]).slice(0,3).map(Number);
+   const luminance=c=>c.map(n=>{n/=255;return n<=.04045?n/12.92:((n+.055)/1.055)**2.4;}).reduce((n,v,i)=>n+v*[.2126,.7152,.0722][i],0);
+   const ratio=(a,b)=>{const x=luminance(a),y=luminance(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05);};
+   return nodes.map(n=>{
+    const c=getComputedStyle(n),bg=rgb(c.backgroundColor),surface=bg.map(v=>v*(1-36/255)+36);
+    const texts=[...n.querySelectorAll('.reward-rarity,strong,.reward-description')];
+    const contrast=Math.min(...texts.flatMap(t=>{const ink=rgb(getComputedStyle(t).color);return [ratio(ink,bg),ratio(ink,surface)];}));
+    const footer=n.querySelector('.reward-selected'),f=getComputedStyle(footer),selected=n.getAttribute('aria-pressed')==='true';
+    return {rarity:n.dataset.rarity,background:c.backgroundColor,selected,contrast,selectedContrast:selected?ratio(rgb(f.color),rgb(f.backgroundColor)):null};
+   });
+  });
+  for(const c of colours){palettes.set(mode+':'+c.rarity,c.background);assert(c.contrast>=4.5,'Card text contrast '+JSON.stringify(c));if(c.selected)assert(c.selectedContrast>=4.5,'Selected footer contrast');contrastChecks.push(c.contrast);}
   assert(await page.locator('.tournament-reward-panel').evaluate(n=>n.scrollWidth<=n.clientWidth+1));assert(await page.locator('.reward-content').evaluate(n=>n.scrollWidth<=n.clientWidth+1));for(const n of await page.locator('.reward-card,[data-reward-confirm]').all())assert((await n.boundingBox()).height>=44);
-  await page.locator('[data-reward-confirm]').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(out,`cards-${width}-${mode}.png`)});views.push({width,height,mode});
+  await page.locator('.reward-content').evaluate(n=>{n.scrollTop=0;});await page.screenshot({path:path.join(out,`cards-${width}-${mode}-${deck}.png`)});
+  await page.locator('[data-reward-confirm]').scrollIntoViewIfNeeded();assert(await page.locator('[data-reward-confirm]').evaluate(n=>{const r=n.getBoundingClientRect();return r.top>=0&&r.bottom<=innerHeight+1;}));views.push({width,height,mode,deck});
  }
+ assert.equal(palettes.size,10);assert.equal(new Set(palettes.values()).size,10,'Every rarity has a distinct background in both modes');
  await page.setViewportSize({width:393,height:852});await page.evaluate(()=>v.updatePreferences({...v.preferences,themeMode:'light'}));
  // Every card applies through its production Socket.IO handler and SQL save.
  for(const card of rewards.cards){
@@ -68,6 +91,6 @@ async function pick(key){
  await walk('move_z',7);await ready();assert.equal(controller().run.room,16);assert.equal(content.state(controller().run).cycle,2);assert.equal(content.state(controller().run).opponent,'Wayne');assert.deepEqual(controller().run.player.equipe.pokemons.map(p=>[p.uuid,p.currentHp,p.status,[...p.movePp]]),resources);
  await walk('move_z',6);await page.evaluate(()=>v.socket.emit('Space'));await page.waitForFunction(()=>v.battle&&v.$refs.battleOverlay.canChooseAction);assert.equal(controller().run.battle.npcKey,'dia1');assert.deepEqual(controller().run.battle.b.equipe.pokemons.map(p=>p.level).sort((a,b)=>a-b),[85,95,100]);
  assert.equal((await command('superTournament:abandon',{})).success,true);await page.waitForFunction(()=>!v.superTournament.active&&v.map==='super_tournament_lobby');assert.deepEqual(codec.encode(await teams.loadEquipe(id)),original);assert.equal(Number((await repo.leaderboard(id)).personal.score),4800);assert.deepEqual(errors,[]);success=true;
- fs.writeFileSync(path.join(out,'report.json'),JSON.stringify({success,engine,views,cardsApplied:used.length,reconnectStable:true,onceOnly:true,forgeryRejected:true,healthySkip:true,abandonCancel:true,realGateLoop:true,cycle2Levels:[85,95,100],zeroXpEffortMoney:true,adventurePreserved:true,errors},null,2));
+ fs.writeFileSync(path.join(out,'report.json'),JSON.stringify({success,engine,views,palettes:Object.fromEntries(palettes),minimumContrast:Math.min(...contrastChecks),cardsApplied:used.length,reconnectStable:true,onceOnly:true,forgeryRejected:true,healthySkip:true,abandonCancel:true,realGateLoop:true,cycle2Levels:[85,95,100],zeroXpEffortMoney:true,adventurePreserved:true,errors},null,2));
 }catch(e){console.error(e.stack);try{console.error(await page?.evaluate(()=>({map:window.v?.map,phase:window.v?.superTournament?.phase,text:document.body.innerText.slice(-1500)})));await page?.screenshot({path:path.join(out,'failure.png')});}catch{}process.exitCode=1;}
 finally{await browser?.close();io.close();await new Promise(r=>server.close(r));if(id)await db.execute('DELETE FROM users WHERE id=?',[id]);await db.end();console.log(JSON.stringify({success,errors,testUserDeleted:true}));}})();

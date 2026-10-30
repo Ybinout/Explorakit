@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## Cartes colorées du Super Tournoi — 30 octobre 2026
+
+Fonds sémantiques par rareté : sable, vert, bleu, violet et doré, avec cinq variantes nocturnes. Rareté écrite conservée pour ne pas dépendre de la seule couleur. Double cadre, emblèmes SVG existants mieux encadrés, titres plus lisibles ; sélection renforcée par une coche, un contour et un pied inversé sur grand écran, couleur propre à la carte conservée. Mobile : grille compacte à icône latérale, coche visible, correction de la règle de faible hauteur pour ne plus imposer les grandes cartes PC au petit format portrait. Pas de nouveau bitmap, timer, règle de soin, tirage, sauvegarde, schéma ou logique serveur.
+
+Recette existante `scripts/validateTournamentRewardsBrowser.js` étendue : cinq raretés, deux modes et quatre formats (320×480/393×852/844×390/1365×900), deux offres par vue, Chromium/WebKit. Dix fonds distincts mesurés, contraste texte actif ≥4,5:1 y compris éclaircissement maximal du fond, état choisi/confirmation accessibles et absence de débordement. Les 21 cartes appliquées via les vrais handlers Socket/SQL, choix unique, reprise stable, faux choix refusé, équipe saine, annulation et passage au cycle suivant ; aucune XP/EV/argent, équipe Aventure préservée. Comptes jetables supprimés ; pas de téléphone physique testé. Vues mobile/PC et Safari inspectées. Lint/build isolé et diff valides, pas de nouveau test unitaire pour ce changement visuel. Rapport et commandes : `docs/SUPER_TOURNAMENT_REWARD_DESIGN.json`.
+
+Client `a2e4ad17ab35150e8c7b372a9c2352d0b161fc9a`, build `6615a4ccaf5b0c2e`, publié le 30 octobre 2026 à 20 h 19 (Europe/Paris). Sauvegarde `/home/ubuntu/dev/backups/riftmon-reward-colors-2026-10-30T19-19-37-890Z`, index/bundles publics vérifiés à l’octet, anciens assets conservés. Serveur sans redémarrage (PID 3522444), base/comptes réels et applications Knov/api-test inchangés.
+
 ## Malédiction : cible, sacrifice, PP et prévisions IA — 30 octobre 2026
 
 La cible statique « soi-même » appliquait la malédiction au lanceur Spectre. Cible désormais résolue selon les types actuels, y compris types temporaires/Morphing, pour le moteur et la préparation de l’animation sans modifier le catalogue partagé. Spectre : sacrifice de la moitié des PV maximum et malédiction adverse, quart des PV maximum à chaque fin de tour. Cible déjà maudite : échec sans nouveau sacrifice ; PP dépensé normalement. Non-Spectre : Vitesse −1, Attaque/Défense +1 sur soi, source personnelle correcte pour les talents, limites et succès réel. Catalogue et deux références client régénérées avec 10 PP ; aucun remplissage forcé des PP déjà sauvegardés.
@@ -5195,6 +5203,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 30 octobre 2026 — Cartes du Super Tournoi : cinq fonds colorés et variantes nuit, cadre/emblèmes/sélection, mobile compact. Recette Chromium/WebKit étendue aux cinq raretés et contrastes, 21 soins appliqués ; lint/build réussis. Rapport `docs/SUPER_TOURNAMENT_REWARD_DESIGN.json`.
 
 - 30 octobre 2026 — Malédiction : cible Spectre corrigée, sacrifice unique, effets non-Spectre/talents, 10 PP, protections/Relais et projection IA. 167 tests et 108 SQL plus recettes Chromium/WebKit réussis ; voir `docs/CURSE_FIX.json`.
 

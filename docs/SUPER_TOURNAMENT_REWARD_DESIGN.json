@@ -1,0 +1,328 @@
+{
+  "feature": "Cartes de récupération colorées du Super Tournoi",
+  "changes": [
+    "Fond sable/vert/bleu/violet/doré selon les cinq raretés, libellés conservés",
+    "Cinq palettes nocturnes distinctes ; couleurs indépendantes de l’accent choisi pour les menus",
+    "Double cadre, emblèmes SVG encadrés et titres plus lisibles",
+    "Sélection avec coche et bordure renforcée ; pied de carte inversé sur PC",
+    "Cartes compactes sur mobile, sélection visible et contrôles tactiles conservés",
+    "CSS et SVG existants uniquement ; aucun asset bitmap, timer, règle, tirage ou coût serveur ajouté"
+  ],
+  "checks": {
+    "browsers": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "views": [
+          {
+            "width": 320,
+            "height": 480,
+            "mode": "light",
+            "deck": "basic"
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "mode": "light",
+            "deck": "special"
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "mode": "dark",
+            "deck": "basic"
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "mode": "dark",
+            "deck": "special"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "mode": "light",
+            "deck": "basic"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "mode": "light",
+            "deck": "special"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "mode": "dark",
+            "deck": "basic"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "mode": "dark",
+            "deck": "special"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "mode": "light",
+            "deck": "basic"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "mode": "light",
+            "deck": "special"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "mode": "dark",
+            "deck": "basic"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "mode": "dark",
+            "deck": "special"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "mode": "light",
+            "deck": "basic"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "mode": "light",
+            "deck": "special"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "mode": "dark",
+            "deck": "basic"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "mode": "dark",
+            "deck": "special"
+          }
+        ],
+        "palettes": {
+          "light:common": "rgb(239, 228, 205)",
+          "light:uncommon": "rgb(212, 232, 223)",
+          "light:rare": "rgb(209, 229, 245)",
+          "light:epic": "rgb(229, 218, 241)",
+          "light:legendary": "rgb(243, 220, 159)",
+          "dark:common": "rgb(53, 52, 46)",
+          "dark:uncommon": "rgb(32, 63, 53)",
+          "dark:rare": "rgb(33, 59, 83)",
+          "dark:epic": "rgb(58, 43, 77)",
+          "dark:legendary": "rgb(73, 57, 28)"
+        },
+        "minimumContrast": 4.610084818073512,
+        "cardsApplied": 21,
+        "reconnectStable": true,
+        "onceOnly": true,
+        "forgeryRejected": true,
+        "healthySkip": true,
+        "abandonCancel": true,
+        "realGateLoop": true,
+        "cycle2Levels": [
+          85,
+          95,
+          100
+        ],
+        "zeroXpEffortMoney": true,
+        "adventurePreserved": true,
+        "errors": []
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "views": [
+          {
+            "width": 320,
+            "height": 480,
+            "mode": "light",
+            "deck": "basic"
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "mode": "light",
+            "deck": "special"
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "mode": "dark",
+            "deck": "basic"
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "mode": "dark",
+            "deck": "special"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "mode": "light",
+            "deck": "basic"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "mode": "light",
+            "deck": "special"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "mode": "dark",
+            "deck": "basic"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "mode": "dark",
+            "deck": "special"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "mode": "light",
+            "deck": "basic"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "mode": "light",
+            "deck": "special"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "mode": "dark",
+            "deck": "basic"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "mode": "dark",
+            "deck": "special"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "mode": "light",
+            "deck": "basic"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "mode": "light",
+            "deck": "special"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "mode": "dark",
+            "deck": "basic"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "mode": "dark",
+            "deck": "special"
+          }
+        ],
+        "palettes": {
+          "light:common": "rgb(239, 228, 205)",
+          "light:uncommon": "rgb(212, 232, 223)",
+          "light:rare": "rgb(209, 229, 245)",
+          "light:epic": "rgb(229, 218, 241)",
+          "light:legendary": "rgb(243, 220, 159)",
+          "dark:common": "rgb(53, 52, 46)",
+          "dark:uncommon": "rgb(32, 63, 53)",
+          "dark:rare": "rgb(33, 59, 83)",
+          "dark:epic": "rgb(58, 43, 77)",
+          "dark:legendary": "rgb(73, 57, 28)"
+        },
+        "minimumContrast": 4.610084818073512,
+        "cardsApplied": 21,
+        "reconnectStable": true,
+        "onceOnly": true,
+        "forgeryRejected": true,
+        "healthySkip": true,
+        "abandonCancel": true,
+        "realGateLoop": true,
+        "cycle2Levels": [
+          85,
+          95,
+          100
+        ],
+        "zeroXpEffortMoney": true,
+        "adventurePreserved": true,
+        "errors": []
+      }
+    },
+    "lint": true,
+    "isolatedBuild": "6615a4ccaf5b0c2e",
+    "diffCheck": true,
+    "physicalDevice": false,
+    "sqlTestAccountsDeleted": true,
+    "realAccountsManuallyModified": false,
+    "newUnitTests": false,
+    "existingBrowserRecipeExtended": true
+  },
+  "reproduction": [
+    "npm --prefix vue-explorakit run lint",
+    "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-reward-colors-dist",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=chromium RELEASE_DIST_DIR=/tmp/riftmon-reward-colors-dist RELEASE_SCREENSHOTS=/tmp/riftmon-reward-colors-chromium node --env-file-if-exists=.env scripts/validateTournamentRewardsBrowser.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=webkit RELEASE_DIST_DIR=/tmp/riftmon-reward-colors-dist RELEASE_SCREENSHOTS=/tmp/riftmon-reward-colors-webkit node --env-file-if-exists=.env scripts/validateTournamentRewardsBrowser.js"
+  ],
+  "deployment": {
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "publishedAt": "2026-10-30T19:19:39.020Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-reward-colors-2026-10-30T19-19-37-890Z",
+    "sourceBaseline": "f63bfc4019dd94841e1e4e56d559fbdaef24d142",
+    "clientCommit": "a2e4ad17ab35150e8c7b372a9c2352d0b161fc9a",
+    "clientBuild": "6615a4ccaf5b0c2e",
+    "pid": "3522444",
+    "serverRestarted": false,
+    "databaseChanged": false,
+    "realAccountsManuallyModified": false,
+    "neighborsUnchanged": true,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.f5ca3bcb.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.dcf4b1c1.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.00fadb68.js",
+      "js/drift.5b8720d7.js",
+      "js/game.8f9596f2.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.553e140c.css",
+      "css/drift.57f62eee.css",
+      "css/game.67a04316.css",
+      "css/test-view.7568246d.css"
+    ]
+  }
+}
