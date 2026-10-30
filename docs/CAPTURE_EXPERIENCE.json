@@ -1,0 +1,90 @@
+{
+  "feature": "XP après une capture réussie",
+  "behavior": [
+    "Aventure : chemin normal des récompenses sauvages, participants vivants et partage/Multi Exp existants ; EVs toujours attribués une seule fois aux participants",
+    "Rift/Colosseum : même calcul que le K.O. avec leurs bonus et parts de réserve habituels ; récompense avant ajout de la capture à l’équipe/au PC",
+    "Le nouveau compagnon ne reçoit jamais l’XP/les EV de sa propre capture ; ses PV et son XP initiale restent conservés",
+    "Une tentative ratée seule ou une fuite ne rapporte pas d’XP ; pas de double attribution après reprise/checkpoint",
+    "Captures distinctes du registre des K.O. et du compteur de chaîne : contrats, argent, butin et score inchangés",
+    "Super Tournoi toujours sans XP et sans capture"
+  ],
+  "checks": {
+    "unitPassed": 104,
+    "unitFailed": 0,
+    "unitSkipped": 0,
+    "sqlPassed": 105,
+    "sqlFailed": 0,
+    "sqlSkipped": 0,
+    "browsers": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "checks": [
+          "Real Adventure capture into PC gives six persisted Multi Exp awards, level growth and no XP to the captured Pokémon",
+          "Real Colosseum and Rift captures award active/reserve XP with their normal scaling and keep the new teammate unchanged",
+          "Capture animation finishes before the XP bar, caught sprite stays hidden, and results wait for all XP messages"
+        ],
+        "errors": [],
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "compiledClientChanged": false,
+        "physicalHardware": false
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "checks": [
+          "Real Adventure capture into PC gives six persisted Multi Exp awards, level growth and no XP to the captured Pokémon",
+          "Real Colosseum and Rift captures award active/reserve XP with their normal scaling and keep the new teammate unchanged",
+          "Capture animation finishes before the XP bar, caught sprite stays hidden, and results wait for all XP messages"
+        ],
+        "errors": [],
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "compiledClientChanged": false,
+        "physicalHardware": false
+      }
+    },
+    "syntax": true,
+    "diff": true,
+    "clientBuildReused": "129e33c237f556d8",
+    "physicalHardware": false
+  },
+  "commands": [
+    "node --test tests/capture-experience.test.js tests/adventure-experience.test.js tests/rift-experience.test.js tests/effort-participation.test.js tests/exp-share-equipment.test.js tests/active-overlevel-experience.test.js tests/super-tournament.test.js tests/super-tournament-rewards.test.js tests/capture.test.js",
+    "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test node --env-file-if-exists=.env --test --test-concurrency=1 tests/battle-runtime-integration.test.js",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-tournament-order-dist node --env-file-if-exists=.env scripts/validateCaptureExperienceBrowser.js",
+    "PRESENTATION_BROWSER=webkit DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-tournament-order-dist node --env-file-if-exists=.env scripts/validateCaptureExperienceBrowser.js"
+  ],
+  "deployment": {
+    "publishedAt": "2026-10-30T18:47:55.472Z",
+    "restartedAt": "2026-10-30T18:47:54.259Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-capture-xp-2026-10-30T18-47-53-868Z",
+    "sourceBaseline": "6d82c6651c5f89bbc2367074a78d0fb6b041c601",
+    "sourceHashes": {
+      "server/game/battle/adventureExperience.js": "e2c6258d7a9d1b3f67f636bcc71295314d9d52deae058eddbf3e65be94f59c58",
+      "server/game/battle/wildBattle.js": "3c5d62d3e2f53c88e5e0accfbdf660674bc031a644549e3b5b53f80115e02d55",
+      "server/game/drift/driftBattle.js": "054d0c6d24eef1e4000ba5f89776c1a3bb778b3b115516712c7bebcfd8a5c168"
+    },
+    "clientCommit": "1c79c3234187151605a8d4c9bf06db8f108275c2",
+    "clientBuild": "129e33c237f556d8",
+    "clientChanged": false,
+    "beforePid": "3516972",
+    "afterPid": "3518118",
+    "serverRestarted": true,
+    "databaseSchemaChanged": false,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "publicIndexUnchanged": true,
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0
+  }
+}

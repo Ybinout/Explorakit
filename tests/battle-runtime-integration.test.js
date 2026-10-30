@@ -397,6 +397,7 @@ test('combat sauvage réel : capture, objet consommé et équipe persistée', { 
         player.currentmap = 'start';
         const beforeOran = (await loadUserItems(userId)).find(item=>item.key==='oran_berry')?.quantity || 0;
         const beforeEv = { ...player.equipe.pokemons[0].ev };
+        const beforeXp = player.equipe.pokemons[0].experience;
         const wildPokemon = createPokemon(19, 'Rattata');
         wildPokemon.maxHp = 100;
         wildPokemon.currentHp = 1;
@@ -424,10 +425,14 @@ test('combat sauvage réel : capture, objet consommé et équipe persistée', { 
         assert.equal(summary.money, Math.floor((20 + wildPokemon.level * 2) * 1.5 * 1.44));
         const [[wallet]] = await pool.execute('SELECT money FROM users WHERE id=?',[userId]);
         assert.equal(wallet.money, summary.money);
-        assert.deepEqual(summary.experience, []);
+        assert.equal(summary.experience.length,1);
+        assert(summary.experience[0].xpGained>0);
+        assert.equal(summary.experience[0].uuid,player.equipe.pokemons[0].uuid);
         const saved=await loadEquipe(userId);
         assert.equal(saved.pokemons.length, 2);
         assert.equal(saved.pokemons[0].ev.speed,beforeEv.speed+1);
+        assert.equal(saved.pokemons[0].experience,beforeXp+summary.experience[0].xpGained);
+        assert.equal(saved.pokemons[1].experience,wildPokemon.experience);
         assert.equal(saved.pokemons[1].ev.speed,0);
         assert.deepEqual(io.events.find(e=>e.eventName==='introAnimation').payload.effortYield,{speed:1});
         const hyperBall = (await loadUserItems(userId)).find((item) => item.key === 'hyperball');
@@ -737,7 +742,7 @@ test('arène : tous les K.O. donnent le bonus prévu, fuite sans K.O. sans XP', 
     }
 });
 
-test('wild failed capture gives no money; successful capture with six companions goes to the PC and rewards normally', {skip:!shouldRun},async()=>{
+test('wild failed capture gives no money/XP; successful capture with six companions goes to the PC and rewards normally', {skip:!shouldRun},async()=>{
  const pool=createTestPool();let userId;
  try{
   const {user,player}=await createPlayer(1);userId=user.id;
@@ -747,13 +752,36 @@ test('wild failed capture gives no money; successful capture with six companions
    const io=new RecordingIo({[player.id]:new ScriptedSocket([{action:'bag',itemKey:'pokeball'},{action:'flee'}])});
    io.originalAbility=originalAbility;await withFixedRandom(random,()=>startWildBattle(player,target,io,userId));return io;
   };
-  let io=await run(.99);assert.equal(io.lastEvent(player.id,'endbattle').payload.summary.money,0);
+  let io=await run(.99);assert.equal(io.lastEvent(player.id,'endbattle').payload.summary.money,0);assert.deepEqual(io.lastEvent(player.id,'endbattle').payload.summary.experience,[]);
   let [[wallet]]=await pool.execute('SELECT money FROM users WHERE id=?',[userId]);assert.equal(wallet.money,0);
   io=await run(.17);assert.equal(io.lastEvent(player.id,'endbattle').payload.summary.outcome,'captured');assert.equal(io.lastEvent(player.id,'endbattle').payload.summary.money,64);
   while(player.equipe.pokemons.length<6)player.equipe.pokemons.push(createPokemon(7,'Full team'));
-  io=await run(0,true);assert.equal(io.lastEvent(player.id,'endbattle').payload.summary.money,64);
+  io=await run(0,true);assert.equal(io.lastEvent(player.id,'endbattle').payload.summary.money,64);assert(io.lastEvent(player.id,'endbattle').payload.summary.experience[0].xpGained>0);
   assert.equal(player.equipe.pokemons.length,6);const stored=await require('../server/persistence/pokemonStorageRepository').loadEntries(userId);assert.equal(stored.length,1);assert.equal(stored[0].pokemon.data.id,19);assert.equal(stored[0].pokemon.passiveAbility,io.originalAbility);assert.equal(stored[0].pokemon.heldItem,null);assert.deepEqual(stored[0].pokemon.abilities,['Growl']);
   [[wallet]]=await pool.execute('SELECT money FROM users WHERE id=?',[userId]);assert.equal(wallet.money,128);
+ }finally{if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
+});
+
+for(const size of [3,6])for(const expShare of [false,true])test(`capture Adventure SQL: ${size} companions, switch, Multi Exp ${expShare}, exact XP/EVs and catch exclusion`,{skip:!shouldRun},async()=>{
+ const pool=createTestPool();let userId;
+ try{
+  const {user,player}=await createPlayer(7);userId=user.id;
+  const owned=Array.from({length:size},(_,i)=>createPokemon(i===0?7:1,`Member ${i}`,['Splash'])),enemy=createPokemon(19,'Rattata',['Splash']);
+  for(const p of [...owned,enemy]){p.passiveAbility=null;p.heldItem=null;}
+  owned.at(-1).currentHp=0;if(expShare)owned[0].heldItem='exp_share';player.equipe=createTeam(...owned);
+  const {calculateBattleExperience,reduceActiveOverlevelExperience,BATTLE_EXPERIENCE_MULTIPLIERS:rates}=require('../server/game/models/progression');
+  const share=require('../data/game/experience_balance.json').adventureReserveShare;
+  const before=owned.map(p=>p.experience),targetXp=enemy.experience;
+  const expected=owned.map((p,i)=>i===size-1 || !expShare&&i>1?0:Math.max(1,Math.floor(calculateBattleExperience(enemy,rates.wild,p)*(expShare?(i===1?1:share):.5))));
+  expected[1]=reduceActiveOverlevelExperience(expected[1],enemy,owned[1]);
+  const io=new RecordingIo({[player.id]:new ScriptedSocket([{action:'change',number:1},{action:'bag',itemKey:'hyperball'}])});
+  assert(await withFixedRandom(0,()=>startWildBattle(player,enemy,io,userId)));
+  const saved=await loadEquipe(userId),byId=id=>saved.pokemons.find(p=>p.uuid===id);
+  assert.deepEqual(owned.map((p,i)=>byId(p.uuid).experience-before[i]),expected);
+  assert.deepEqual(owned.map(p=>byId(p.uuid).ev.speed),owned.map((_,i)=>i<2?1:0));assert.equal(byId(owned.at(-1).uuid).currentHp,0);
+  const caught=size===6?(await require('../server/persistence/pokemonStorageRepository').loadEntries(userId))[0].pokemon:byId(enemy.uuid);
+  assert.equal(caught.experience,targetXp);assert.equal(caught.ev.speed,0);assert(caught.currentHp>0);
+  const summary=io.lastEvent(player.id,'endbattle').payload.summary;assert.equal(summary.outcome,'captured');assert.equal(summary.experience.length,expected.filter(Boolean).length);assert(!summary.experience.some(p=>p.uuid===enemy.uuid));
  }finally{if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
 });
 

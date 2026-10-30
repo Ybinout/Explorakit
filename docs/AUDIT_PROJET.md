@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## XP à la capture — 30 octobre 2026
+
+Une capture réussie donne désormais l’XP d’une victoire sauvage en Aventure, Rift et Colosseum. L’Aventure appelle le calcul partagé avec un indicateur de capture confirmé par le serveur, en conservant la participation, le Multi Exp équipé, les coefficients et pénalités de niveau. Le Pokémon qui rejoint l’équipe est explicitement exclu du gain de sa propre capture. L’attribution des EV passe dans la même récompense pour conserver une seule attribution et les détails de progression. Le transfert au PC suit le même chemin.
+
+Le moteur Rift/Colosseum appelle sa récompense habituelle avant d’intégrer le nouveau compagnon, avec les bonus et le partage des réserves existants. Registre d’XP distinct des K.O. : capture sans faux K.O. ni hausse de la chaîne ; butin, argent, contrats et score conservent leurs règles. Registre sérialisable et garde compatible avec les anciens checkpoints pour empêcher une double attribution. Aucune XP pour une simple tentative ratée ou une fuite ; Super Tournoi toujours sans XP et sans capture. PV/XP/EV du Pokémon capturé conservés.
+
+Validation : 104 tests unitaires/régression et 105 intégrations SQL, sans échec/saut. Participation après switch, Multi Exp équipé ou absent, parts et pénalités exactes, capture en équipe ou PC, partenaires K.O./Œufs exclus de l’XP, EV uniques, cible intacte, absence de double récompense après checkpoint, registres/chaîne inchangés. Recette client compilé actuel/Socket/SQL réels sur Chromium/WebKit mobile 393×852 : capture naturelle en Aventure avec six gains persistés et montée de niveau, capture réelle Rift et Colosseum avec réserves, barres et récapitulatif visibles. Capture terminée avant l’animation d’XP, sprite adverse toujours contenu dans la Ball, résultat après tous les messages. Comptes jetables supprimés ; aucun téléphone physique testé. Syntaxe/diff valides ; client compilé réutilisé sans modification ni nouvelle compilation. Recettes : `tests/capture-experience.test.js`, `tests/battle-runtime-integration.test.js`, `scripts/validateCaptureExperienceBrowser.js`. Commandes et résultats : `docs/CAPTURE_EXPERIENCE.json`.
+
+Serveur publié le 30 octobre 2026 à 19 h 47 (Europe/Paris). Client `1c79c3234187151605a8d4c9bf06db8f108275c2`, build `129e33c237f556d8` inchangés. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-capture-xp-2026-10-30T18-47-53-868Z`. PID 3516972→3518118, service actif, zéro redémarrage automatique/avertissement ; index public identique. Aucune migration ni modification manuelle de compte réel ; applications voisines inchangées.
+
 ## Ordre de l’équipe du Super Tournoi — 30 octobre 2026
 
 Le menu utilisait encore `reorderTeam`, la commande de l’Aventure, refusée par le garde de l’inscription. Ajout de `superTournament:reorderTeam` : tri de la copie inscrite dans les phases SAS/prêt/récompense/salle terminée, hors combat et dans les salles du tournoi. Liste exacte de tous les UUID inscrits, sans doublon ni compagnon étranger ; les K.O. restent présents. Sauvegarde atomique et publication via le contrôleur, rollback sur erreur. Aucun soin, PP, statut, objet, score ou effectif modifié ; l’équipe Aventure demeure séparée et son ancien événement reste bloqué pendant la tentative. L’ordre choisi sert au prochain combat et survit à la restauration de l’ordre après les switches.
@@ -5165,6 +5175,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 30 octobre 2026 — XP à la capture en Aventure/Rift/Colosseum, partage existant et cible exclue, EV uniques et registre distinct des K.O. 104 tests, 105 SQL et recettes Chromium/WebKit réussis ; serveur seul publié avec sauvegarde, client/voisins inchangés. Rapport `docs/CAPTURE_EXPERIENCE.json`.
 
 - 30 octobre 2026 — Ordre d’équipe dans le SAS/duel du Super Tournoi : commande et sauvegarde dédiées à la copie inscrite, ressources conservées, reprise/salle suivante et séparation Aventure. 39 tests et recettes Chromium/WebKit trois formats réussis ; client/serveur publiés avec sauvegarde, voisins inchangés. Rapport `docs/SUPER_TOURNAMENT_TEAM_ORDER.json`.
 

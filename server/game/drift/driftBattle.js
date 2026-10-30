@@ -271,8 +271,12 @@ class DriftBattle {
         }
         if ([this.a,this.b].some(p=>p.equipe.pokemons.some(poke=>effects.isDead(poke) && !poke.riftFainted && !this.processedFaints.has(poke.uuid)))) this.prune();
     }
-    reward(defeated) {
-        if (this.rewarded.has(defeated.uuid)) return; this.rewarded.add(defeated.uuid);
+    reward(defeated, {captured = false} = {}) {
+        if (this.rewarded.has(defeated.uuid) || this.experienceRewarded?.has(defeated.uuid)) return;
+        this.experienceRewarded ||= new Set();
+        this.experienceRewarded.add(defeated.uuid);
+        // Captures earn training without becoming KOs for contracts, streaks or scores.
+        if (!captured) this.rewarded.add(defeated.uuid);
         if(this.rules?.rewards === false) return;
         const effort = this.rewardEffort(defeated);
         const active = this.a.equipe.pokemons.find(p=>!effects.isDead(p)); if (!active) return;
@@ -286,7 +290,7 @@ class DriftBattle {
         // catch up, while a high-level reserve cannot bypass the overlevel rule.
         const fighterXp = p => isColosseum ? Math.max(1,Math.floor(Math.floor(sharingBaseFor(p)*9/10)*4/5)) : sharingBaseFor(p);
         const expShare = require('../items/expShare').hasEquippedExpShare(this.a.equipe.pokemons);
-        const reserveAwards = this.a.equipe.pokemons.filter(p=>p!==active && !effects.isDead(p) && !p.isEgg).map(p=>[p,
+        const reserveAwards = this.a.equipe.pokemons.filter(p=>p!==active && p.uuid!==defeated.uuid && !effects.isDead(p) && !p.isEgg).map(p=>[p,
             Math.max(Math.floor(sharingBaseFor(p) * ((isColosseum ? 40 : 0) + effects.value(this.a,50))/100),
                 expShare ? Math.max(1,Math.floor(fighterXp(p)/2)) : 0)]);
         const sharingBase = sharingBaseFor(active);
@@ -303,7 +307,7 @@ class DriftBattle {
             reserve.gainExperience(reserveXp, {deferEvolution:true});
             if (expShare && reserveXp > 0) this.emit(this.a,'battleExperience',{pokemon:reserve,xpGained:reserveXp,previousLevel:beforeLevel,previousExperience:beforeExperience,effortGained:effort.get(reserve.uuid)||{},levelGrowth:levelGrowth(reserve,reserveGrowth)});
         }
-        this.a.chain = Math.min(5,(this.a.chain || 0)+1);
+        if (!captured) this.a.chain = Math.min(5,(this.a.chain || 0)+1);
     }
     checkEnd() {
         const aliveA = hasAlivePokemon(this.a.equipe), aliveB = hasAlivePokemon(this.b.equipe);
@@ -344,7 +348,7 @@ class DriftBattle {
                 const success = this.random() < chance;
                 this.emit(p,'captureAnimation',{ success, shakes: success ? 3 : 1, itemKey: action.itemKey });
                 if (success) {
-                    this.rewardEffort(target);
+                    this.reward(target,{captured:true});
                     this.capturedPokemon = target; this.b.equipe.pokemons = []; effects.detach([target]);
                     let destination = 'team';
                     if (p.equipe.pokemons.length < 6) p.equipe.pokemons.push(target);

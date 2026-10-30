@@ -226,7 +226,7 @@ async function emitBagUpdate(player, io, userId) {
     }
 }
 
-async function handleBagAction(player, wildPokemon, io, userId, itemKey, progress, participation) {
+async function handleBagAction(player, wildPokemon, io, userId, itemKey, progress) {
     const ball = ballItemsByKey[itemKey];
     if (!ball) {
         await narrate(player, io, 'Cet objet ne peut pas etre utilise en combat.');
@@ -280,7 +280,6 @@ async function handleBagAction(player, wildPokemon, io, userId, itemKey, progres
     let stored=null;
     if(player.equipe.pokemons.length>=6)stored=await pokemonStorage.storeCapturedPokemon(userId,wildPokemon);
     else player.equipe.pokemons.push(wildPokemon);
-    participation.rewardEffort(player, wildPokemon);
     try {
         if(!stored)await markPokemonCaught(userId, wildPokemon);
         io.to(player.id).emit('pokedexChanged', { reason: 'captured', pokemonId: wildPokemon?.data?.id });
@@ -506,8 +505,8 @@ async function startBattle(player, wildPokemon, io, userId) {
         console.error(`Erreur Pokédex combat sauvage user ${userId}:`, error.message);
     }
 
-    const grantWildXp = async () => {
-        const awards = battleState.adventureExperience.reward(player, wildPokemon, BATTLE_EXPERIENCE_MULTIPLIERS.wild, io);
+    const grantWildXp = async (options = {}) => {
+        const awards = battleState.adventureExperience.reward(player, wildPokemon, BATTLE_EXPERIENCE_MULTIPLIERS.wild, io, options);
         for (const {pokemon, xp} of awards) await rewardText(player, io, `${getPokemonDisplayName(pokemon)} gagne ${xp} XP !`, sleep);
     };
 
@@ -617,9 +616,10 @@ async function startBattle(player, wildPokemon, io, userId) {
             }
 
             if (actionPlayer === 'bag') {
-                const bagResult = await handleBagAction(player, wildPokemon, io, userId, response.itemKey, battleState.captureProgress, battleState.adventureExperience);
+                const bagResult = await handleBagAction(player, wildPokemon, io, userId, response.itemKey, battleState.captureProgress);
 
                 if (bagResult.caught) {
+                    await grantWildXp({captured:true});
                     await rewardText(player, io, 'Victoire !', sleep, TEXT_DELAY_MS);
                     await endBattle(true, { captured: true });
                     await editEquipe(userId, player.equipe);
