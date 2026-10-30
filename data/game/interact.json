@@ -2591,6 +2591,15 @@
     ]
   },
   {
+    "name": "lucie_home_unsettled",
+    "sentences": [
+      {
+        "text": "Lucie : Les voix se sont calmées… Mais quand je passe près de cette maison, j’ai l’impression de ne plus être tout à fait moi-même.",
+        "imageName": "lucie-v1.png"
+      }
+    ]
+  },
+  {
     "name": "lucie_home",
     "sentences": [
       {

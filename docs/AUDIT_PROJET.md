@@ -1,5 +1,14 @@
 # Audit technique et mémoire de RiftMon
 
+## Lucie : indice discret avant la faille — 30 octobre 2026
+
+Après le Badge Violence ou Pardon et le retour de Lucie, lui parler au village affiche une seule réplique : « Les voix se sont calmées… Mais quand je passe près de cette maison, j’ai l’impression de ne plus être tout à fait moi-même. » Elle remplace les variantes ordinaires uniquement tant que la faille est encore scellée ; aucun nom de mécanisme, indication d’Action, marqueur de quête ou déclenchement automatique ajouté. Portrait illustré existant conservé. L’étape de faille est personnelle, y compris en replay admin ; une ancienne possession du badge ne révèle pas l’indice avant de l’avoir récupéré dans le replay du professeur. Joueurs historiques avec badge et sans ancien flag de faille pris en charge.
+
+Validation : 38 tests narratifs/régression existants réussis sans échec ni saut (`node --test tests/champion-rescue-dialogues.test.js tests/professor-finale.test.js tests/finale-replay.test.js tests/mirror-rift.test.js tests/super-tournament.test.js`). Contrôle direct de 19 états : deux badges et six étapes, absence de badge/non obtenu/Lucie non sauvée/état absent, puis trois étapes admin. Aucun état d’entrée modifié ; portrait présent, réplique unique et sans révélation de la faille. Syntaxe/JSON/diff valides. Serveur seul : pas de build client, recette navigateur, test SQL ni nouvelle mécanique de jeu pour ce réglage narratif.
+
+
+Serveur publié le 30 octobre 2026 à 23 h 15 (Europe/Paris), PID 3555823→3556525, service actif et zéro redémarrage automatique/avertissement. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-lucie-hint-2026-10-30T22-15-54-601Z`, zéro expédition active au contrôle. Client `097ee75a5d0e42e372f8ff64e03de5f0b57f82d6`, build `bb5776e6c12a9c5b` et index public conservés. Aucun changement de schéma ni modification manuelle de compte réel ; Knov/api-test inchangés.
+
 ## Revue des 634 attaques et Retour — 30 octobre 2026
 
 Retour/Frustration conservent leur puissance réelle de 102 pour joueurs et IA. Le planificateur applique désormais aux attaques à puissance variable la même pénalité d’immunité connue qu’aux attaques fixes, sans lire une commande humaine ni les IV/objets/PP privés. Les ripostes conditionnelles sont exemptées jusqu’à la simulation du coup reçu. Sélection automatique sauvage corrigée pour reconnaître les attaques offensives à puissance non numérique. Les descriptions françaises de Retour/Frustration annoncent la règle existante sans bonheur persistant.
@@ -5296,6 +5305,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 30 octobre 2026 — Lucie donne un indice discret après le badge final du professeur et avant la découverte de la faille ; 38 tests narratifs et 19 états directs validés, variantes ordinaires conservées ensuite.
 
 - 30 octobre 2026 — Revue des 634 attaques : Retour/IA, puissances conditionnelles, types, statistiques, critiques, conditions et OHKO ; 43 attaques corrigées, 803 tests + 181 SQL et 12 046 contrôles catalogue/IA. Six anomalies restantes reproduites et explicitement recensées ; `docs/MOVE_REVIEW_2026-10-30.json`.
 

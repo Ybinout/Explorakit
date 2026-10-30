@@ -40,6 +40,11 @@ function getSentenceForMapAndPosition(map, x, y = null, state = null) {
 function getSentenceForName(name, state = null, { replayArena = require('./testReplayState').active(state, name) } = {}) {
     state=require('./labStory').view(state);
     if(name==='dia0'&&state?.flags?.lucie_rescued==='true')name='dia0_final';
+    if(name==='lucie_home'&&state?.flags?.lucie_rescued==='true'){
+        const mirror=require('./mirrorRift'),ending=require('./voidEnding');
+        const hasEndingBadge=state.badges?.some(badge=>badge.earned&&mirror.endingBadges.includes(badge.key));
+        if(hasEndingBadge&&mirror.state(state).stage==='sealed'&&(!ending.replay(state)||ending.state(state).claimed))name='lucie_home_unsettled';
+    }
     let dialogueEntry = getDialogueEntryByName(name);
     const definition = catalog.npcBattles?.[name] || catalog.storyEvents?.[name];
     if (definition?.enabled === false && dialogueEntry?.locked) {
