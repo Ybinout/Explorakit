@@ -925,6 +925,13 @@ function estimateDamage(attacker, defender, move, context = {}) {
         { ...structuredClone(context), preview: true }).damage;
 }
 
+// Internal planner fast path: callers must own disposable Pokémon copies and
+// an isolated field. The formula may normalize/consume flags on those copies;
+// it only reads the field. Live combat callers keep using estimateDamage above.
+function estimateDamageOnCopies(attacker, defender, move, context = {}) {
+    return calculateDamageDetailed(attacker, defender, move, { ...context, preview: true }).damage;
+}
+
 function weatherMoveAccuracy(move, attacker, defender, battleState) {
     const weather = isWeatherSuppressed(attacker, defender) ? null : battleState?.weather?.kind;
     if (['Thunder', 'Hurricane'].includes(move?.ename)) {
@@ -3501,6 +3508,7 @@ module.exports = {
     resolveRedirectedTarget,
     calculateDamage,
     estimateDamage,
+    estimateDamageOnCopies,
     getSpecialMoveResolution,
     createBattleState,
     createSideState,

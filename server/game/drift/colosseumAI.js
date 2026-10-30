@@ -3,6 +3,7 @@ const engine = require('../battle/battleEngine');
 const { getMaxMovePp, getForcedMove, getUsableMoveIndexes } = require('../battle/battleResources');
 const { createDeterministicRandom, chooseSpeciesAbility } = require('../abilities/abilityDex');
 const { getMoveFlags } = require('../abilities/abilityEngine');
+const heldItems = require('../items/heldItems');
 const moveData = require('../../../data/game/moves.json');
 const learnsets = require('../../../data/game/pokemonData.json');
 
@@ -96,7 +97,7 @@ function observedView(p) {
 function legalIndexes(p, field) {
     const state = p.__battle || {};
     return p.abilities.map((name,i) => ({ name, i, move: engine.getMoveByName(name) })).filter(({name,i,move}) =>
-        move && require('../items/heldItems').allowsMove(p,name,field) && (p.movePp?.[i] ?? getMaxMovePp(name)) > 0
+        move && heldItems.allowsMove(p,name,field) && (p.movePp?.[i] ?? getMaxMovePp(name)) > 0
         && !(state.tauntTurns > 0 && move.combat?.damage_class === 'status')
         && !(state.disableTurns > 0 && state.disabledMove === name)
         && !(state.encoreTurns > 0 && state.encoreMove && state.encoreMove !== name)).map(entry => entry.i);
@@ -120,7 +121,7 @@ function threats(enemy, observed) {
         combat: { damage_class: enemy.attack >= enemy.specialAttack ? 'physical' : 'special', priority: 0 } }));
 }
 function entryDamage(p, side, field) {
-    if (require('../items/heldItems').effect(p,field) === 'heavy_duty_boots') return 0;
+    if (heldItems.effect(p,field) === 'heavy_duty_boots') return 0;
     if (p.passiveAbility === 'Magic Guard') return 0;
     const grounded = field.field?.gravityTurns > 0 || (!types(p).includes('Flying') && p.passiveAbility !== 'Levitate');
     const spikes = grounded ? [0,1/8,1/6,1/4][Math.min(3, side?.hazards?.spikes || 0)] : 0;
@@ -175,7 +176,7 @@ function project(a,b,move,reply,ctx) {
     if (nextB.currentHp > 0) {
         const locked = { ...nextA, __battle: { ...nextA.__battle, choiceMove: move.ename } };
         const followup = ctx.attacks.filter(next=>(next.ename!==move.ename || ctx.remainingPp[move.ename]>1)
-            && require('../items/heldItems').allowsMove(locked,next.ename,ctx.field)).map(next => {
+            && heldItems.allowsMove(locked,next.ename,ctx.field)).map(next => {
             const hit=damage(nextA,nextB,next,ctx.enemySide,ctx.field), actsFirst=before(nextA,next,nextB,reply,ctx);
             if (!actsFirst && enemy >= remaining) return -remaining;
             return Math.min(nextB.currentHp,hit)*accuracy(next,nextA,nextB) - (actsFirst && hit>=nextB.currentHp ? 0 : enemy*.8);

@@ -122,7 +122,7 @@ function speed(pokemon, side, field) {
     if(!cache){cache=new WeakMap();speedCaches.set(field,cache);}
     let sides=cache.get(pokemon);
     if(!sides){sides=new Map();cache.set(pokemon,sides);}
-    if(!sides.has(side))sides.set(side,engine.getBattleSpeed(structuredClone(pokemon),side,field));
+    if(!sides.has(side))sides.set(side,engine.getBattleSpeed(model.copy(pokemon),side,field));
     return sides.get(side);
 }
 function actsFirst(a,m,b,r,ctx) {
@@ -162,7 +162,9 @@ function damage(a,b,move,side,field) {
             const hits=traits.moves[move.ename]?.multihit;
             const count=move.ename==='Water Shuriken'&&a.__battle.abilityForm==='Greninja-Ash'?3:Number.isInteger(hits)?hits:Array.isArray(hits)
                 ?(a.passiveAbility==='Skill Link'?hits[1]:hits[0]===2&&hits[1]===5?3.1:(hits[0]+hits[1])/2):1;
-            cache.values.set(key,blocked||special?.failMessage||special?.unsupported||special?.statusOnly?0:count*engine.estimateDamage(preview,target,transformed.move,{battleState:field,defenderSide:side,abilityPowerMultiplier:transformed.powerMultiplier}));
+            // Both Pokémon were copied above; the field belongs to this one
+            // analysis/projection. Avoid cloning the same private graph again.
+            cache.values.set(key,blocked||special?.failMessage||special?.unsupported||special?.statusOnly?0:count*engine.estimateDamageOnCopies(preview,target,transformed.move,{battleState:field,defenderSide:side,abilityPowerMultiplier:transformed.powerMultiplier}));
         }
     }
     return cache.values.get(key);

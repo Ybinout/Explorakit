@@ -1,0 +1,442 @@
+{
+  "date": "2026-10-30",
+  "baselineCommit": "2fe5281675858a4de13ef384c454c9b6fef31122",
+  "scope": "Profile simultaneous trainer AI decisions and remove redundant private-view copies without changing policy.",
+  "findings": [
+    "The main Node event loop executes AI decisions synchronously; aligned decisions delay a competing local HTTP request.",
+    "CPU profile showed repeated structuredClone of already isolated planner Pokémon/field copies and repeated require resolution in held-item legality checks."
+  ],
+  "patch": [
+    "Keep the defensive public estimateDamage API unchanged. Add estimateDamageOnCopies for disposable, already-sanitized planner views, with preview=true and a read-only isolated field.",
+    "Use the planner copy helper for its speed calculation cache. Caches remain scoped to each analysis/field, never shared live battles.",
+    "Cache the held-items module import in the shared Colosseum legality/entry helpers, without changing item rules."
+  ],
+  "unchanged": [
+    "Search depth/three-branch lookahead",
+    "Candidate scores, predictions and deterministic close-choice randomness",
+    "Knowledge of public opponent team/moves/abilities, exclusion of pending actions and private data",
+    "Live combat damage formulas, physical move effects, rewards and XP",
+    "Client/render/music/assets",
+    "SQL schema, persistence cadence and durability"
+  ],
+  "measurements": {
+    "fixture": "/tmp/riftmon-concurrent-ai-fixtures.gz",
+    "currentTeams": [
+      "7p vs Wanda",
+      "Wanda vs 7p",
+      "Ana vs 7p",
+      "Raphael vs 7p"
+    ],
+    "weather": [
+      "none",
+      "rain"
+    ],
+    "batchSizes": [
+      1,
+      4,
+      8,
+      16,
+      32
+    ],
+    "repeatsPerBatchPerPass": 4,
+    "sequentialBeforeAfterPasses": 2,
+    "summary": [
+      {
+        "simultaneousDecisions": 1,
+        "beforeMeanMs": 49.75599399999999,
+        "afterMeanMs": 23.53122350000001,
+        "reductionPercent": 52.70675629553292,
+        "competingHttpBeforeMs": 50.77672162500002,
+        "competingHttpAfterMs": 24.72228312499999
+      },
+      {
+        "simultaneousDecisions": 4,
+        "beforeMeanMs": 173.55053475,
+        "afterMeanMs": 73.72368137500001,
+        "reductionPercent": 57.520337530968035,
+        "competingHttpBeforeMs": 174.78707749999998,
+        "competingHttpAfterMs": 74.76941574999998
+      },
+      {
+        "simultaneousDecisions": 8,
+        "beforeMeanMs": 238.23477075,
+        "afterMeanMs": 100.378638875,
+        "reductionPercent": 57.865663958710776,
+        "competingHttpBeforeMs": 240.09021749999988,
+        "competingHttpAfterMs": 101.32224987499998
+      },
+      {
+        "simultaneousDecisions": 16,
+        "beforeMeanMs": 449.47217775,
+        "afterMeanMs": 182.980399375,
+        "reductionPercent": 59.28993863625189,
+        "competingHttpBeforeMs": 450.44683962499994,
+        "competingHttpAfterMs": 184.056473375
+      },
+      {
+        "simultaneousDecisions": 32,
+        "beforeMeanMs": 812.5312368750001,
+        "afterMeanMs": 347.6283895000001,
+        "reductionPercent": 57.216612269950275,
+        "competingHttpBeforeMs": 813.671838625,
+        "competingHttpAfterMs": 348.70587
+      }
+    ],
+    "rawPasses": [
+      {
+        "before": [
+          {
+            "simultaneousDecisions": 1,
+            "decisionBatch": {
+              "meanMs": 53.011258999999995,
+              "p95Ms": 57.16579100000001,
+              "maxMs": 57.16579100000001
+            },
+            "competingHttpPing": {
+              "meanMs": 54.08924875000005,
+              "p95Ms": 58.11028800000008,
+              "maxMs": 58.11028800000008
+            }
+          },
+          {
+            "simultaneousDecisions": 4,
+            "decisionBatch": {
+              "meanMs": 184.38205124999993,
+              "p95Ms": 197.11134700000002,
+              "maxMs": 197.11134700000002
+            },
+            "competingHttpPing": {
+              "meanMs": 185.74110649999992,
+              "p95Ms": 198.3835869999998,
+              "maxMs": 198.3835869999998
+            }
+          },
+          {
+            "simultaneousDecisions": 8,
+            "decisionBatch": {
+              "meanMs": 245.19922975000003,
+              "p95Ms": 262.5291600000003,
+              "maxMs": 262.5291600000003
+            },
+            "competingHttpPing": {
+              "meanMs": 246.90795424999988,
+              "p95Ms": 264.529679,
+              "maxMs": 264.529679
+            }
+          },
+          {
+            "simultaneousDecisions": 16,
+            "decisionBatch": {
+              "meanMs": 447.0383682500001,
+              "p95Ms": 481.2187050000002,
+              "maxMs": 481.2187050000002
+            },
+            "competingHttpPing": {
+              "meanMs": 448.0355659999999,
+              "p95Ms": 482.3954789999998,
+              "maxMs": 482.3954789999998
+            }
+          },
+          {
+            "simultaneousDecisions": 32,
+            "decisionBatch": {
+              "meanMs": 793.2522325000002,
+              "p95Ms": 827.9510090000003,
+              "maxMs": 827.9510090000003
+            },
+            "competingHttpPing": {
+              "meanMs": 794.1603755000001,
+              "p95Ms": 828.7901750000001,
+              "maxMs": 828.7901750000001
+            }
+          }
+        ],
+        "after": [
+          {
+            "simultaneousDecisions": 1,
+            "decisionBatch": {
+              "meanMs": 24.500959500000008,
+              "p95Ms": 30.860314000000017,
+              "maxMs": 30.860314000000017
+            },
+            "competingHttpPing": {
+              "meanMs": 25.520094249999985,
+              "p95Ms": 31.82694600000002,
+              "maxMs": 31.82694600000002
+            }
+          },
+          {
+            "simultaneousDecisions": 4,
+            "decisionBatch": {
+              "meanMs": 73.7742995,
+              "p95Ms": 82.718505,
+              "maxMs": 82.718505
+            },
+            "competingHttpPing": {
+              "meanMs": 74.83068899999996,
+              "p95Ms": 83.82163399999996,
+              "maxMs": 83.82163399999996
+            }
+          },
+          {
+            "simultaneousDecisions": 8,
+            "decisionBatch": {
+              "meanMs": 104.01929575000003,
+              "p95Ms": 115.71398499999998,
+              "maxMs": 115.71398499999998
+            },
+            "competingHttpPing": {
+              "meanMs": 105.03310349999992,
+              "p95Ms": 116.70358899999985,
+              "maxMs": 116.70358899999985
+            }
+          },
+          {
+            "simultaneousDecisions": 16,
+            "decisionBatch": {
+              "meanMs": 179.15728199999995,
+              "p95Ms": 185.09098399999993,
+              "maxMs": 185.09098399999993
+            },
+            "competingHttpPing": {
+              "meanMs": 180.38656449999996,
+              "p95Ms": 186.02565099999993,
+              "maxMs": 186.02565099999993
+            }
+          },
+          {
+            "simultaneousDecisions": 32,
+            "decisionBatch": {
+              "meanMs": 356.71685800000023,
+              "p95Ms": 411.48142800000005,
+              "maxMs": 411.48142800000005
+            },
+            "competingHttpPing": {
+              "meanMs": 357.6968852500001,
+              "p95Ms": 412.4575990000001,
+              "maxMs": 412.4575990000001
+            }
+          }
+        ],
+        "baselinePing": {
+          "meanMs": 0.7249231499999965,
+          "p95Ms": 2.439296999999982,
+          "maxMs": 2.439296999999982
+        },
+        "patchedPing": {
+          "meanMs": 0.5480314999999976,
+          "p95Ms": 1.4237479999999891,
+          "maxMs": 1.4237479999999891
+        }
+      },
+      {
+        "before": [
+          {
+            "simultaneousDecisions": 1,
+            "decisionBatch": {
+              "meanMs": 46.50072899999998,
+              "p95Ms": 52.01541199999997,
+              "maxMs": 52.01541199999997
+            },
+            "competingHttpPing": {
+              "meanMs": 47.46419449999999,
+              "p95Ms": 53.36609499999997,
+              "maxMs": 53.36609499999997
+            }
+          },
+          {
+            "simultaneousDecisions": 4,
+            "decisionBatch": {
+              "meanMs": 162.71901825000006,
+              "p95Ms": 180.06746700000008,
+              "maxMs": 180.06746700000008
+            },
+            "competingHttpPing": {
+              "meanMs": 163.83304850000005,
+              "p95Ms": 181.753822,
+              "maxMs": 181.753822
+            }
+          },
+          {
+            "simultaneousDecisions": 8,
+            "decisionBatch": {
+              "meanMs": 231.27031174999996,
+              "p95Ms": 247.90749900000014,
+              "maxMs": 247.90749900000014
+            },
+            "competingHttpPing": {
+              "meanMs": 233.2724807499999,
+              "p95Ms": 248.96076900000003,
+              "maxMs": 248.96076900000003
+            }
+          },
+          {
+            "simultaneousDecisions": 16,
+            "decisionBatch": {
+              "meanMs": 451.90598724999995,
+              "p95Ms": 466.0545109999998,
+              "maxMs": 466.0545109999998
+            },
+            "competingHttpPing": {
+              "meanMs": 452.85811325,
+              "p95Ms": 467.10954100000026,
+              "maxMs": 467.10954100000026
+            }
+          },
+          {
+            "simultaneousDecisions": 32,
+            "decisionBatch": {
+              "meanMs": 831.81024125,
+              "p95Ms": 856.7431299999998,
+              "maxMs": 856.7431299999998
+            },
+            "competingHttpPing": {
+              "meanMs": 833.1833017499998,
+              "p95Ms": 859.0808469999993,
+              "maxMs": 859.0808469999993
+            }
+          }
+        ],
+        "after": [
+          {
+            "simultaneousDecisions": 1,
+            "decisionBatch": {
+              "meanMs": 22.561487500000013,
+              "p95Ms": 25.249803999999983,
+              "maxMs": 25.249803999999983
+            },
+            "competingHttpPing": {
+              "meanMs": 23.924471999999994,
+              "p95Ms": 26.169977999999958,
+              "maxMs": 26.169977999999958
+            }
+          },
+          {
+            "simultaneousDecisions": 4,
+            "decisionBatch": {
+              "meanMs": 73.67306325000001,
+              "p95Ms": 87.60775100000001,
+              "maxMs": 87.60775100000001
+            },
+            "competingHttpPing": {
+              "meanMs": 74.70814249999998,
+              "p95Ms": 88.63188500000001,
+              "maxMs": 88.63188500000001
+            }
+          },
+          {
+            "simultaneousDecisions": 8,
+            "decisionBatch": {
+              "meanMs": 96.73798199999996,
+              "p95Ms": 103.38929000000007,
+              "maxMs": 103.38929000000007
+            },
+            "competingHttpPing": {
+              "meanMs": 97.61139625000004,
+              "p95Ms": 104.2694140000001,
+              "maxMs": 104.2694140000001
+            }
+          },
+          {
+            "simultaneousDecisions": 16,
+            "decisionBatch": {
+              "meanMs": 186.80351675000003,
+              "p95Ms": 202.99780199999987,
+              "maxMs": 202.99780199999987
+            },
+            "competingHttpPing": {
+              "meanMs": 187.72638225000003,
+              "p95Ms": 203.99774300000013,
+              "maxMs": 203.99774300000013
+            }
+          },
+          {
+            "simultaneousDecisions": 32,
+            "decisionBatch": {
+              "meanMs": 338.53992099999994,
+              "p95Ms": 366.0392320000001,
+              "maxMs": 366.0392320000001
+            },
+            "competingHttpPing": {
+              "meanMs": 339.71485474999986,
+              "p95Ms": 366.9358769999999,
+              "maxMs": 366.9358769999999
+            }
+          }
+        ],
+        "baselinePing": {
+          "meanMs": 0.5946030000000008,
+          "p95Ms": 1.5096200000000124,
+          "maxMs": 1.5096200000000124
+        },
+        "patchedPing": {
+          "meanMs": 0.5989035999999999,
+          "p95Ms": 1.5495420000000024,
+          "maxMs": 1.5495420000000024
+        }
+      }
+    ],
+    "parity": {
+      "scenarios": 48,
+      "equalScoresPredictionsChoicesAndReplacements": true,
+      "sourceInputsUnchanged": true,
+      "checksSha256": "a6c5cc04c17572742708a7f5d98af320875956e620ab0d21ba975ab527453f33",
+      "variants": [
+        "Full party",
+        "Damaged parties, Stealth Rock and Spikes",
+        "Trick Room, paralysis and stat boosts",
+        "Sand, Choice item lock and Substitute",
+        "Hail, Reflect and sleep",
+        "Electric terrain, speed boosts and charge/helping-hand flags"
+      ]
+    },
+    "profiles": [
+      "/tmp/riftmon-ai-before.cpuprofile",
+      "/tmp/riftmon-ai-after.cpuprofile"
+    ],
+    "limits": "Synthetic synchronized decision bursts beside a local HTTP probe, not sustained full-game capacity. Four samples per batch per pass. Other users/host work can affect timing. Calculations still share the Node event loop: a sufficiently large aligned burst can still delay networking. No worker pool or reduction in AI strength introduced."
+  },
+  "validation": {
+    "unitPassed": 191,
+    "sqlPassed": 101,
+    "failed": 0,
+    "skipped": 0,
+    "newTests": "tests/ai-preview-performance.test.js checks 100 fast-path/public-API damage equivalences with frozen field and no live RNG; checks planner source immutability and no use of redundant deep-clone API.",
+    "commands": [
+      "PERF_AI_FIXTURE=/tmp/riftmon-concurrent-ai-fixtures.gz node --cpu-prof --cpu-prof-dir=/tmp --cpu-prof-name=riftmon-ai-before.cpuprofile scripts/measureTrainerAi.js",
+      "PROFILE_AI_REF=2fe5281675858a4de13ef384c454c9b6fef31122 PROFILE_AI_OUTPUT=/tmp/riftmon-ai-concurrent-before.json node scripts/profileConcurrentTrainerAi.js",
+      "PROFILE_AI_OUTPUT=/tmp/riftmon-ai-concurrent-after.json node scripts/profileConcurrentTrainerAi.js",
+      "node --test tests/ai-preview-performance.test.js tests/human-trainer-ai.test.js tests/human-trainer-items.test.js tests/human-trainer-model.test.js tests/human-trainer-finishing.test.js tests/human-trainer-trapping.test.js tests/human-trainer-sucker-punch.test.js tests/human-trainer-known-abilities.test.js tests/colosseum-ai.test.js tests/ai-redundancy.test.js tests/choice-items.test.js tests/two-turn-moves.test.js tests/rampage-moves.test.js tests/weather-healing.test.js tests/super-tournament.test.js",
+      "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test node --env-file-if-exists=.env --test tests/battle-runtime-integration.test.js"
+    ],
+    "fixtureCorrection": "The initial no-RNG test also created randomized Pokémon inside its RNG guard. Move fixture creation before the guard; no production workaround. Final runs passed.",
+    "browserAndBuild": "No new browser/build run: backend-only 16-line net change; deployed frontend byte-identical. SQL suite exercises actual wild/trainer/PvP combat handlers; unit suite also covers Rift/Colosseum/Super Tournament. No human full-game or physical-phone test claimed."
+  },
+  "deployment": {
+    "publishedAt": "2026-10-30T16:38:42.711Z",
+    "restartedAt": "2026-10-30T16:38:41.693Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-ai-load-2026-10-30T16-38-41-313Z",
+    "sourceBaseline": "2fe5281675858a4de13ef384c454c9b6fef31122",
+    "sourceHashes": {
+      "server/game/battle/battleEngine.js": "f73ec5c3b4ddaeeda7541e3f61c7b135332c13705cab9c07661eb5f4ebea1aef",
+      "server/game/battle/humanTrainerAI.js": "092d53ade3b944f3735adabd922df2f0fa7afae9db69ffc9b8066a217e0041af",
+      "server/game/drift/colosseumAI.js": "d900f2c62f142049ff9a8f4437dbecfceeabe6369db1729325641cefc6c4f421"
+    },
+    "clientCommit": "a4dc73dcebd2cb2a3a81355f75b18c9a933bcc53",
+    "clientBuild": "8cd639f7389cec15",
+    "clientChanged": false,
+    "beforePid": "3495513",
+    "afterPid": "3497350",
+    "serverRestarted": true,
+    "databaseSchemaChanged": false,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "publicIndexUnchanged": true,
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0
+  }
+}
