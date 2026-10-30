@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## Ciel animé de l’accueil du Super Tournoi — 30 octobre 2026
+
+Cinq nuages dérivent à des vitesses différentes et quatre petits groupes d’oiseaux battent des ailes derrière les trois ouvertures vitrées. Les textures des nuages viennent de l’image d’origine, prélevées une seule fois. Masque borné aux vitres, excluant la silhouette de l’île et du bâtiment lointain ; aucune modification du PNG, des collisions, du mobilier ou du jeu. Rendu dans la couche du décor avant les personnages.
+
+Cache local de 534×48 pixels, rafraîchi au plus à 20 images/s par la boucle existante, sans nouveau timer. Préférence animations désactivées : image d’origine ; buffers libérés en combat, onglet masqué, changement de lieu et sortie du jeu. Canvas Chromium/WebKit : 64 états distincts, oiseaux visibles dans les 64 états, aucun pixel hors masque, décor extérieur au masque identique ; cache, nettoyage et mode sans animation contrôlés. Coût local moyen du dessin environ 0,08/0,13 ms, sans garantie matérielle. Client compilé testé sur les deux moteurs en 393×852, 844×390 et véritable contexte PC 1365×900, sans erreur/débordement ni changement de position. Comptes SQL jetables supprimés ; pas de téléphone physique testé. Lint, build isolé, syntaxe et diff valides. Recette reproductible : `node scripts/validateTournamentLobbySkyCanvas.js`, puis `SKY_BROWSER=webkit node scripts/validateTournamentLobbySkyCanvas.js`. Rapport : `docs/TOURNAMENT_LOBBY_SKY.json`.
+
+Client `63cbaff904c4445c2ddb289aad8514759a85df38`, build `c00306f4368c8951`, publié le 30 octobre 2026 à 18 h 21 (Europe/Paris). Index et bundles publics vérifiés ; sauvegarde `/home/ubuntu/dev/backups/riftmon-tournament-sky-2026-10-30T17-21-35-486Z`, anciens assets conservés. Serveur sans redémarrage, base/comptes réels et applications voisines inchangés.
+
 ## Nouvelle baisse de la musique sauvage — 30 octobre 2026
 
 Musique des combats sauvages réduite de 20 % supplémentaires : coefficient 0,30 → 0,24 dans `BattleOverlay.vue`, soit 0,30 × 0,80. Le volume des options reste appliqué. Contrôle de la méthode réelle à plusieurs volumes, autres pistes et sourdine ; lint/build isolé réussis.
@@ -5103,6 +5111,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 30 octobre 2026 — Accueil du Super Tournoi : nuages et oiseaux masqués derrière les vitres, cache et suspension. Recettes Canvas/client compilé Chromium/WebKit, lint/build réussis ; client seul publié. Rapport `docs/TOURNAMENT_LOBBY_SKY.json`.
 
 - 30 octobre 2026 — Musique sauvage −20 % supplémentaires (0,30 → 0,24) ; contrôle du volume, lint/build et publication client réussis.
 
