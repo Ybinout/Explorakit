@@ -6,7 +6,16 @@ const npcMaps=['start','route2','ville1','route3_maison_nrv','ville1_arene','vil
 const npcs=npcMaps.flatMap(m=>pnjStore.getPnjsForMap(m));
 function actor(run){const e=content.entryFor(run?.room||0);const source=npcs.find(n=>[e.source,e.key,...(e.source==='lucie_corrupted'?['lucie_route2']:[])].includes(n.name));return {...source,name:source?.name||e.source,interactionName:'super_tournament_challenger',sprite:source?.sprite||'sprite.png',spriteFrame:source?.spriteFrame||null,map:content.MAPS.room,x:13,y:9,block:true,roamRadius:0};}
 function actors(map,run){if(map===content.MAPS.lobby)return [{name:'super_tournament_host',interactionName:'super_tournament_host',sprite:'townspeople.png',spriteFrame:{columns:8,rows:4,index:19},map,x:13,y:5,block:true,roamRadius:0}];if(map===content.MAPS.room&&run)return [actor(run)];return [];}
-function scopedStore(base,getRun){return {...base,getPnjsForMap:map=>[...base.getPnjsForMap(map),...actors(map,getRun())],getPnjAtTile:(map,x,y)=>actors(map,getRun()).find(n=>n.x===x&&n.y===y)||base.getPnjAtTile(map,x,y),isPnjBlockingTile:(map,x,y)=>actors(map,getRun()).some(n=>n.x===x&&n.y===y)||base.isPnjBlockingTile(map,x,y)};}
+function scopedStore(base,getRun){
+ // Use the same two-row footprint as ordinary NPCs, including the upper body.
+ // Resolve from this player's current run so another room/player cannot leak in.
+ const at=(map,x,y)=>actors(map,getRun()).find(n=>x>=n.x&&x<n.x+(n.blockingWidth||1)&&(y===n.y||y===n.y-1));
+ return {...base,
+  getPnjsForMap:map=>[...base.getPnjsForMap(map),...actors(map,getRun())],
+  getPnjAtTile:(map,x,y)=>at(map,x,y)||base.getPnjAtTile(map,x,y),
+  isPnjBlockingTile:(map,x,y)=>Boolean(at(map,x,y))||base.isPnjBlockingTile(map,x,y)
+ };
+}
 function createHandlers({socket,account,userId,getPlayer,canUse,travel,refreshActors}){
  const controller=new TournamentController({userId,getPlayer,emit:(e,d)=>{if(socket.connected)socket.emit(e,d);},travel});let timer=null,lastBoard=0,offer=null;
  const near=(x,y,d=2)=>{const p=getPlayer();return p&&Math.abs(Math.floor(p.x/32)-x)+Math.abs(Math.floor(p.y/32)-y)<=d;};

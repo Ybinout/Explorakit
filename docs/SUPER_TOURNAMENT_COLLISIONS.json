@@ -1,0 +1,121 @@
+{
+  "feature": "Collisions des personnages personnels du Super Tournoi",
+  "date": "2026-10-30",
+  "baseline": "d184f9eeb9ffe6b7b889b9593f5bc4abe18a0e4d",
+  "cause": "Les acteurs dynamiques bloquaient seulement leur case de pieds, contrairement aux PNJ ordinaires qui occupent deux rangées.",
+  "changes": [
+    "Même empreinte corps/pieds et largeur du PNJ pour collision et recherche d’interaction",
+    "Présence calculée depuis la tentative personnelle courante ; aucun PNJ ajouté aux autres joueurs",
+    "Pas de modification des cartes, sprites, déplacement client, positions ou règles du tournoi"
+  ],
+  "checks": {
+    "unit": {
+      "passed": 46,
+      "failed": 0,
+      "skipped": 0,
+      "newCases": 2,
+      "coverage": "Hôtesse, seize dresseurs sur deux cycles, phases ready/battle/reward/cleared, cases adjacentes, isolation personnelle, disparition en sortie et PNJ du monde"
+    },
+    "before": {
+      "passed": 2,
+      "failed": 2,
+      "method": "Tests PNJ avant le correctif, sans modification de service"
+    },
+    "browsers": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "errors": [],
+        "viewports": [
+          320,
+          393,
+          844,
+          1365
+        ],
+        "checks": [
+          "invitation",
+          "unique pass",
+          "black-hole travel",
+          "counter offer",
+          "forged offer rejection",
+          "registration",
+          "SAS door",
+          "sealed inventory",
+          "trainer body collisions from all directions",
+          "free surrounding tiles",
+          "trainer Action still starts battle",
+          "trainer portrait",
+          "battle",
+          "reconnect",
+          "PP persistence",
+          "abandon",
+          "original party unchanged"
+        ]
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "errors": [],
+        "viewports": [
+          320,
+          393,
+          844,
+          1365
+        ],
+        "checks": [
+          "invitation",
+          "unique pass",
+          "black-hole travel",
+          "counter offer",
+          "forged offer rejection",
+          "registration",
+          "SAS door",
+          "sealed inventory",
+          "trainer body collisions from all directions",
+          "free surrounding tiles",
+          "trainer Action still starts battle",
+          "trainer portrait",
+          "battle",
+          "reconnect",
+          "PP persistence",
+          "abandon",
+          "original party unchanged"
+        ]
+      }
+    },
+    "compiledClientChanged": false,
+    "physicalHardwareTested": false,
+    "browserCollisionViewport": "393×852 ; fenêtres du parcours aussi contrôlées en 320/393/844/1365 px",
+    "sql": "Vrais handlers Socket.IO et compte jetable dans explorakit_test, puis compte supprimé"
+  },
+  "reproduce": [
+    "node --test tests/pnj-regressions.test.js tests/pnj-movement.test.js tests/world-movement.test.js tests/super-tournament.test.js tests/super-tournament-order.test.js tests/super-tournament-rewards.test.js tests/super-tournament-abandon.test.js",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-tournament-exit-dist RELEASE_SCREENSHOTS=/tmp/riftmon-tournament-collisions-chromium node --env-file-if-exists=.env scripts/validateSuperTournamentBrowser.js",
+    "PRESENTATION_BROWSER=webkit DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-tournament-exit-dist RELEASE_SCREENSHOTS=/tmp/riftmon-tournament-collisions-webkit node --env-file-if-exists=.env scripts/validateSuperTournamentBrowser.js"
+  ],
+  "deployment": {
+    "publishedAt": "2026-10-30T20:14:05.666Z",
+    "restartedAt": "2026-10-30T20:14:03.623Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-tournament-collisions-2026-10-30T20-14-03-329Z",
+    "sourceBaseline": "d184f9eeb9ffe6b7b889b9593f5bc4abe18a0e4d",
+    "sourceHashes": {
+      "server/realtime/handlers/superTournamentHandlers.js": "b846bd62cba1616eadf56289d7f8ff6804d54687f7ffdd70d8a08f59ab645c1c"
+    },
+    "clientCommit": "8363de3f6dfece8d10fa1523627e357ebd745e02",
+    "clientBuild": "97a53d67d03822bd",
+    "clientChanged": false,
+    "beforePid": "3531751",
+    "afterPid": "3532904",
+    "serverRestarted": true,
+    "databaseSchemaChanged": false,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "publicIndexUnchanged": true,
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0
+  }
+}

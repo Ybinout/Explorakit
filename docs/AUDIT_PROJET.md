@@ -1,6 +1,14 @@
 # Audit technique et mémoire de RiftMon
 
 
+## Collisions des personnages du Super Tournoi — 30 octobre 2026
+
+Les acteurs personnels du tournoi bloquaient seulement leurs pieds. La case du corps est désormais occupée comme pour les PNJ ordinaires, avec leur largeur existante. Même recherche pour collision et interaction ; calcul sur la tentative courante de chaque joueur, sans cache partagé ni lecture SQL au déplacement. Hôtesse et dresseurs concernés ; cases voisines, portes et Action conservées. Aucune carte, position, règle de tournoi ou asset modifié.
+
+Validation : 46 tests unitaires/régression sans échec/saut, dont deux nouveaux couvrant l’hôtesse, les seize dresseurs sur deux cycles, les phases, l’isolation et les sorties. Ces deux cas échouaient avant le correctif. Recette existante du tournoi étendue et passée sur Chromium/WebKit, vrais handlers Socket/SQL et client compilé actuel : seize pas autour de Wayne, refus de traverser pieds/corps depuis les quatre directions, cases libres, Action et combat, reconnexion/PP, abandon et équipe réelle préservée. Parcours mobile 393×852, fenêtres également contrôlées à quatre largeurs ; zéro erreur navigateur, capture mobile inspectée, comptes jetables supprimés. Syntaxe/diff valides ; aucun nouveau build ni téléphone physique. Rapport et commandes : `docs/SUPER_TOURNAMENT_COLLISIONS.json`.
+
+Serveur publié le 30 octobre 2026 à 21 h 14 (Europe/Paris), PID 3531751→3532904, service actif, zéro redémarrage automatique/avertissement. Client `8363de3f6dfece8d10fa1523627e357ebd745e02` et build `97a53d67d03822bd` conservés, index public identique. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-tournament-collisions-2026-10-30T20-14-03-329Z`, zéro expédition active au contrôle. Aucun changement de schéma ni modification manuelle de compte réel ; Knov/api-test inchangés.
+
 ## Paralysie et brûlure : malus et exceptions — 30 octobre 2026
 
 Les malus de base étaient présents : Vitesse ×0,5 et 25 % d’impossibilité d’agir pour la paralysie ; dégâts physiques ×0,5 et perte de 1/16 des PV maximum pour la brûlure, sans réduction des dégâts spéciaux. Vérification sur le moteur partagé et les orchestrateurs réels. Les stats enregistrées restent intactes ; le soin supprime les malus immédiatement. Cran, Pied Véloce, Garde Magik, Rage Brûlure, immunités et talents neutralisés contrôlés avec leurs différences.
@@ -5236,6 +5244,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 30 octobre 2026 — Collisions corps/pieds des PNJ du Super Tournoi alignées sur le monde, interactions et passages voisins conservés. 46 tests et parcours Socket/SQL Chromium/WebKit réussis ; rapport `docs/SUPER_TOURNAMENT_COLLISIONS.json`.
 
 - 30 octobre 2026 — Paralysie/brûlure vérifiées ; Façade, Ignifugé et arrondi de Vitesse sous Vent Arrière corrigés, prévisions IA alignées. 431 tests + 154 SQL réussis, neuf régressions reproduites sur l’ancien moteur ; rapport `docs/STATUS_PENALTIES.json`.
 
