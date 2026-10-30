@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Abandon du Super Tournoi à tout moment — 30 octobre 2026
+
+Drapeau blanc en haut à droite, cible tactile 44×44 et libellé accessible, hors du canvas et des conteneurs inertes. Affiché pendant le parcours, y compris chargement d’entrée, combat, choix du remplaçant, bilan et récompenses. Même confirmation pour le drapeau, l’ancien bouton du combat et les cartes ; annuler conserve la tentative. Barre mobile sans hausse de hauteur, lieu ellipsé et météo décalée pour éviter le chevauchement. SVG/CSS natifs, aucun nouveau raster ou timer.
+
+L’abandon est sérialisé par le contrôleur et conclut la tentative une seule fois, avec score conservé. Position du Centre commun enregistrée dans la transaction du record et de la suppression du snapshot ; verrou utilisateur avant profil et version optimiste, rollback sur conflit. Provenance `centerReturnPoint` conservée pour sortir dans la dernière ville réellement visitée ; aucun nouveau champ de sauvegarde. La reprise après perte du paquet de carte retrouve donc le Centre. Défaite ordinaire toujours à l’accueil du tournoi, équipe/inventaire Aventure inchangés. Nettoyage de la présentation/du bilan en attente, signal de fin annoté pour ne pas rouvrir un ancien popup et aucune publication tardive de l’équipe scellée à la sortie.
+
+Validation : 42 tests unitaires (neuf nouveaux) et six SQL (deux nouveaux) sans échec/saut. Six phases, sauvegarde échouée et retry, double demande, action/tick tardifs, perte du transport après commit, version périmée, score et équipe réelle préservés ; sorties Ville du Lac/Route 4/Blanchecime vérifiées en SQL. Client compilé et vrais handlers Socket/SQL sur Chromium/WebKit : 13 scénarios par moteur, quatre formats 320×480/393×852/844×390/1365×900, annulation clavier et focus, erreur de sauvegarde affichée puis retry, neuf états du parcours, ancien résultat retardé libéré après la sortie sans réapparition, retour/reconnexion au Centre et sortie réelle dans Ville du Lac/Route 4. Aucun débordement/erreur navigateur, drapeau cliquable et barre non agrandie ; captures mobile/PC inspectées. Comptes jetables supprimés, pas de téléphone physique testé. Lint/build isolé, syntaxe/diff valides. Quatre anciennes recettes alignées sur la destination Centre sans relancer leurs parcours complets. Commandes/résultats : `docs/SUPER_TOURNAMENT_ABANDON.json`.
+
+Publié le 30 octobre 2026 à 20 h 59 (Europe/Paris), client `8363de3f6dfece8d10fa1523627e357ebd745e02`, build `97a53d67d03822bd`. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-tournament-exit-2026-10-30T19-59-13-349Z`, 0 expédition active au contrôle. PID 3527248→3530417, service actif, zéro redémarrage automatique/avertissement. Index et bundles publics vérifiés à l’octet, anciens assets conservés ; aucune migration ni modification manuelle de compte réel, Knov/api-test inchangés.
+
 ## Fin de tour après K.O. et sacrifice à 1 PV — 30 octobre 2026
 
 La première correction de Malédiction traitait bien son effet dans le moteur, mais plusieurs chemins Aventure sautaient toute la fin de tour dès qu’un actif tombait K.O. Le moteur partagé pouvait aussi conclure le combat ou envoyer un remplaçant PNJ avant cette phase. Les tours consommés passent désormais par les résiduels avant les remplacements forcés et le résultat, même après le sacrifice de Malédiction à exactement 1 PV ou le K.O. du dernier combattant. Le lanceur mort n’agit plus et ne perd aucun PP supplémentaire ; sa cible encore vivante subit toujours sa malédiction. Doubles K.O. résiduels pris en compte selon les équipes restantes.
@@ -5215,6 +5225,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 30 octobre 2026 — Drapeau d’abandon Super Tournoi disponible dans toutes les phases, retour durable au dernier Centre et bonne ville de sortie, score/équipe préservés, aucune ancienne fenêtre de combat réouverte. 42 tests, six SQL et 13 scénarios Chromium/WebKit par moteur réussis ; rapport `docs/SUPER_TOURNAMENT_ABANDON.json`.
 
 - 30 octobre 2026 — Boucle de fin de tour corrigée après K.O. : Malédiction à 1 PV, poison/brûlure/météo/soins, remplacement PNJ et pivots, persistance/visibilité de Vampigraine. 428 tests + 142 SQL, recettes Chromium/WebKit réussis ; rapport `docs/BATTLE_RESIDUAL_PHASE.json`.
 

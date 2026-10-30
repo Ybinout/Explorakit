@@ -1,0 +1,313 @@
+{
+  "feature": "Drapeau blanc permanent et abandon du Super Tournoi vers le dernier Centre Pokémon",
+  "behavior": [
+    "Bouton 44×44 en haut à droite, SVG de drapeau blanc, accessible au clavier et hors du canvas/inert",
+    "Confirmation commune disponible au SAS, entre salles, pendant entrée/combat/remplacement, bilan et cartes ; annuler ne modifie pas la tentative",
+    "Abandon sérialisé dans la file du contrôleur, fin du combat et tentative unique, meilleur score conservé",
+    "Retour dans la carte Centre commune en conservant centerReturnPoint existant pour sortir dans la bonne ville",
+    "Position Centre et score final validés dans la même transaction, version optimiste/ligne utilisateur verrouillée ; retour durable même sans paquet de carte",
+    "Annulation de la file visuelle et des bilans en attente, ancien endbattle marqué tournamentAbandoned ignoré, équipe scellée non republiée à la sortie",
+    "Équipe/inventaire Aventure conservés ; défaite normale toujours renvoyée à l’accueil du tournoi",
+    "Drapeau ne grossissant pas la barre mobile, nom du lieu ellipsé pendant le parcours et icône météo décalée en combat mobile"
+  ],
+  "checks": {
+    "unit": {
+      "passed": 42,
+      "failed": 0,
+      "skipped": 0,
+      "newAbandonCases": 9
+    },
+    "mysql": {
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0,
+      "newTests": 2,
+      "origins": [
+        "ville1",
+        "route4",
+        "ville5"
+      ],
+      "staleCommitRollback": true,
+      "lostMapDeliveryRecovery": true,
+      "adventurePreserved": true
+    },
+    "browsers": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "views": [
+          {
+            "width": 393,
+            "height": 852,
+            "phase": "sas",
+            "origin": "ville1",
+            "score": 100
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "phase": "ready",
+            "origin": "route4",
+            "score": 200
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "phase": "loading",
+            "origin": "ville1",
+            "score": 300
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "phase": "battle",
+            "origin": "route4",
+            "score": 400
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "phase": "replacement",
+            "origin": "ville1",
+            "score": 500
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "phase": "result",
+            "origin": "route4",
+            "score": 600
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "phase": "reward",
+            "origin": "ville1",
+            "score": 700
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "phase": "pending",
+            "origin": "route4",
+            "score": 800
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "phase": "cleared",
+            "origin": "ville1",
+            "score": 900
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "phase": "reward",
+            "origin": "route4",
+            "score": 1000
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "phase": "sas",
+            "origin": "ville1",
+            "score": 1100
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "phase": "battle",
+            "origin": "route4",
+            "score": 1200
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "phase": "result",
+            "origin": "ville1",
+            "score": 1300
+          }
+        ],
+        "checks": [
+          "White flag accessible in SAS, between rooms, battle entrance, combat, forced replacement, result, recovery cards and pending presentation",
+          "Confirmation cancels without changing the run; failed save stays playable; retry abandons; no stale result reappears",
+          "Final score and original Adventure team preserved; return to last visited Center and real exit city verified, including reconnect"
+        ],
+        "errors": [],
+        "physicalHardware": false,
+        "headerNotEnlarged": true
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "views": [
+          {
+            "width": 393,
+            "height": 852,
+            "phase": "sas",
+            "origin": "ville1",
+            "score": 100
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "phase": "ready",
+            "origin": "route4",
+            "score": 200
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "phase": "loading",
+            "origin": "ville1",
+            "score": 300
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "phase": "battle",
+            "origin": "route4",
+            "score": 400
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "phase": "replacement",
+            "origin": "ville1",
+            "score": 500
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "phase": "result",
+            "origin": "route4",
+            "score": 600
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "phase": "reward",
+            "origin": "ville1",
+            "score": 700
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "phase": "pending",
+            "origin": "route4",
+            "score": 800
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "phase": "cleared",
+            "origin": "ville1",
+            "score": 900
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "phase": "reward",
+            "origin": "route4",
+            "score": 1000
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "phase": "sas",
+            "origin": "ville1",
+            "score": 1100
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "phase": "battle",
+            "origin": "route4",
+            "score": 1200
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "phase": "result",
+            "origin": "ville1",
+            "score": 1300
+          }
+        ],
+        "checks": [
+          "White flag accessible in SAS, between rooms, battle entrance, combat, forced replacement, result, recovery cards and pending presentation",
+          "Confirmation cancels without changing the run; failed save stays playable; retry abandons; no stale result reappears",
+          "Final score and original Adventure team preserved; return to last visited Center and real exit city verified, including reconnect"
+        ],
+        "errors": [],
+        "physicalHardware": false,
+        "headerNotEnlarged": true
+      }
+    },
+    "lint": true,
+    "build": "97a53d67d03822bd",
+    "syntax": true,
+    "diff": true,
+    "physicalDevices": false,
+    "sqlTestAccountsDeleted": true,
+    "realAccountsManuallyModified": false,
+    "previousBrowserRecipes": "Four expected abandonment destinations aligned to Centre; their full historical journeys were not rerun"
+  },
+  "reproduction": [
+    "node --test tests/super-tournament-abandon.test.js tests/super-tournament.test.js tests/super-tournament-order.test.js tests/super-tournament-rewards.test.js tests/pokemon-center-travel.test.js tests/player-recovery.test.js",
+    "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test node --env-file-if-exists=.env --test --test-concurrency=1 tests/super-tournament-mysql.test.js",
+    "npm --prefix vue-explorakit run lint",
+    "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-tournament-exit-dist",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=chromium RELEASE_DIST_DIR=/tmp/riftmon-tournament-exit-dist node --env-file-if-exists=.env scripts/validateTournamentAbandonBrowser.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=webkit RELEASE_DIST_DIR=/tmp/riftmon-tournament-exit-dist node --env-file-if-exists=.env scripts/validateTournamentAbandonBrowser.js"
+  ],
+  "deployment": {
+    "publishedAt": "2026-10-30T19:59:16.283Z",
+    "restartedAt": "2026-10-30T19:59:14.867Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-tournament-exit-2026-10-30T19-59-13-349Z",
+    "sourceBaseline": "3b5e6823132640f540127c706f459976c4b7e818",
+    "sourceHashes": {
+      "server/game/superTournament/controller.js": "16faedef82e081f48a0b51727d782b1298b37b8cfcec523d782dc950f2a98f66",
+      "server/persistence/superTournamentRepository.js": "254c7681e530da88e7cf91ecc2a760bf5b2a2ee0045bd7b73ea2d393c9d44111"
+    },
+    "clientCommit": "8363de3f6dfece8d10fa1523627e357ebd745e02",
+    "clientBuild": "97a53d67d03822bd",
+    "beforePid": "3527248",
+    "afterPid": "3530417",
+    "serverRestarted": true,
+    "schemaChanged": false,
+    "databaseChanged": false,
+    "existingPlayerDataChanged": false,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "realAccountsManuallyModified": false,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.f5ca3bcb.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.881b9444.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.00fadb68.js",
+      "js/drift.5b8720d7.js",
+      "js/game.45d3b603.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.553e140c.css",
+      "css/drift.57f62eee.css",
+      "css/game.330e8ba8.css",
+      "css/test-view.7568246d.css"
+    ],
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0
+  }
+}

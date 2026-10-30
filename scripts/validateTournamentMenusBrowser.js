@@ -98,7 +98,7 @@ async function scrollContent(){
   await locate(13,8);await page.evaluate(()=>v.socket.emit('Space'));await page.locator('[data-tournament-view="entry"]').waitFor();
   await page.locator('.tournament-panel footer .primary').click();await page.waitForFunction(()=>v.map==='super_tournament_sas'&&!v.flight);
   assert.equal((await repo.load(id)).run.phase,'sas');assert.equal((await command('superTournament:abandon')).success,true);
-  await page.waitForFunction(()=>v.map==='super_tournament_lobby'&&!v.superTournament.active);checks.push('Actual registration and abandonment still work; forged offer rejected');
+  await page.waitForFunction(()=>v.map==='centre'&&!v.superTournament.active);checks.push('Actual registration and abandonment still work; forged offer rejected');
   assert.deepEqual(errors,[]);success=true;
   fs.writeFileSync(path.join(out,'results.json'),JSON.stringify({success,engine,views,checks,errors,physicalHardware:false},null,2));console.log(JSON.stringify({success,engine,checks,errors}));
 }finally{

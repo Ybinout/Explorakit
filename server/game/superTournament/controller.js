@@ -2,7 +2,7 @@ const {randomUUID}=require('node:crypto');
 const {DriftBattle}=require('../drift/driftBattle');
 const codec=require('../drift/checkpointCodec');
 const content=require('./content');
-const {healTeam}=require('../world/playerRecovery');
+const {healTeam,getPokemonCenterRespawnPoint}=require('../world/playerRecovery');
 const repository=require('../../persistence/superTournamentRepository');
 const rewards=require('./rewards');
 class TournamentController {
@@ -12,17 +12,25 @@ class TournamentController {
   if(this.run&&!this.run.rewardVersion)await this.atomic(()=>{this.run.rewardVersion=1;if(this.run.phase==='cleared'){this.run.reward=rewards.createOffer(this.run.player.equipe.pokemons,this.run.room+1,this.random);this.run.phase='reward';}return true;});
   this.publish();return this.run;}
  bind(){const b=this.run?.battle;if(!b)return;b.now=this.now;b.random=this.random;b.emit=(_p,event,data)=>this.buffer(event,data);b.onUpdate=null;b.onFinish=null;this.run.player.socketId=this.getPlayer()?.id;}
- buffer(event,data){this.events.push([event,JSON.parse(JSON.stringify(data))]);}
+ buffer(event,data){
+  const abandoned=this.run?.outcome==='abandoned';
+  // The registered copy must not replace the real Adventure team on exit.
+  if(abandoned&&event==='teamStateChanged')return;
+  if(abandoned&&event==='endbattle')data={...data,tournamentAbandoned:true};
+  this.events.push([event,JSON.parse(JSON.stringify(data))]);
+ }
  publish(){const p=this.getPlayer();if(p){p.superTournamentActive=this.active;p.inbattle=Boolean(this.run?.battle&&!this.run.battle.finished);}this.emit('superTournamentState',content.state(this.run));}
  async atomic(change){
   const previous=this.run?codec.encode(this.run):null;let committed=false;this.events=[];
   try{const result=await change();if(result===false){this.events=[];return false;}
-   const final=this.run?.outcome?{score:this.run.score,rooms:this.run.cleared}:null;
+   const reason=this.run?.outcome;
+   const final=reason?{score:this.run.score,rooms:this.run.cleared,...(reason==='abandoned'?{returnToCenter:true}:{})}:null;
+   const destination=final?.returnToCenter?getPokemonCenterRespawnPoint():{map:content.MAPS.lobby,x:448,y:496};
    const next=final?null:this.run;
    this.version=await this.persist.save(this.userId,next,this.version,final||{});committed=true;
-   if(final){this.run=null;this.buffer('superTournamentFinished',final);}
+   if(final){this.run=null;this.buffer('superTournamentFinished',{score:final.score,rooms:final.rooms,reason,destination});}
    const events=this.events;this.events=[];this.publish();for(const[e,d]of events)this.emit(e,d);
-   if(final)await this.travel({map:content.MAPS.lobby,x:448,y:496});return true;
+   if(final)await this.travel(destination);return true;
   }catch(error){if(committed){this.publish();throw error;}this.run=previous?codec.decode(previous):null;this.events=[];this.bind();this.publish();if(this.run?.battle){this.run.battle.resume(this.run.player);const restored=this.events;this.events=[];for(const[e,d]of restored)this.emit(e,d);}throw error;}
  }
  execute(fn){const task=this.queue.then(()=>{if(this.closed)return false;return fn();});this.queue=task.catch(()=>{});return task;}
@@ -65,7 +73,7 @@ class TournamentController {
   });
  }
  async next(){const r=this.run;if(!r||!['sas','cleared'].includes(r.phase))return false;return this.atomic(()=>{if(r.phase==='cleared')r.room++;r.credited=new Set();r.enemySlots=null;r.phase='ready';});}
- async abandon(){if(!this.run)return false;return this.atomic(()=>{this.run.battle?.finish(null,'fled');this.run.outcome='abandoned';});}
+ async abandon(){if(!this.run)return false;return this.atomic(()=>{this.run.outcome='abandoned';this.run.battle?.finish(null,'fled');});}
  async resume(){this.bind();const b=this.run?.battle;if(b){const entry=content.entryFor(this.run.room);this.emit('battletrigger',{battleType:'trainer',trainerKey:entry.key,musicKind:entry.music,tournamentEntrance:{name:entry.name,portrait:entry.portrait},bagAllowed:false,fleeAllowed:false,message:'Le duel du Super Tournoi reprend.'});b.deadline=this.now()+30000;if(!b.awaiting)b.nextRoundAt=this.now()+1000;b.resume(this.run.player);const events=this.events;this.events=[];for(const[e,d]of events)this.emit(e,d);}this.publish();}
  async close(){this.closed=true;await this.queue;this.events=[];}
 }
