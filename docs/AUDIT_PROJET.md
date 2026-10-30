@@ -1,5 +1,11 @@
 # Audit technique et mémoire de RiftMon
 
+## Nouvelle baisse de la musique sauvage — 30 octobre 2026
+
+Musique des combats sauvages réduite de 20 % supplémentaires : coefficient 0,30 → 0,24 dans `BattleOverlay.vue`, soit 0,30 × 0,80. Le volume des options reste appliqué. Contrôle de la méthode réelle à plusieurs volumes, autres pistes et sourdine ; lint/build isolé réussis.
+
+Client `2cb724e1b27e2768c5e9c71cf8e533fc46ce08ae`, build `325dfd124ba3b886`, publié à 18 h 09 (Europe/Paris). Index/bundles publics vérifiés ; sauvegarde `/home/ubuntu/dev/backups/riftmon-wild-volume-20-2026-10-30T17-09-25-989Z`, anciens assets conservés. Serveur, base, comptes réels et applications voisines inchangés.
+
 ## Raccourci plein écran sur PC — 30 octobre 2026
 
 La touche P active ou quitte le plein écran natif du jeu, dans le monde comme dans les menus et combats. Écoute en capture dans `UserMap.vue`, retirée à sa destruction ; même commande que le bouton existant, mêmes erreurs et libération des déplacements. Répétition de touche, composition, champs de saisie/édition, Ctrl/Alt/Cmd, appareils mobiles et navigateurs non compatibles ignorés. L’aide des options affiche P ; Échap reste disponible pour quitter.
@@ -5097,6 +5103,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 30 octobre 2026 — Musique sauvage −20 % supplémentaires (0,30 → 0,24) ; contrôle du volume, lint/build et publication client réussis.
 
 - 30 octobre 2026 — Raccourci P du plein écran PC avec gardes de saisie/répétition et aide dans les options ; huit contrôles navigateur, lint/build réussis. Client seul publié.
 
