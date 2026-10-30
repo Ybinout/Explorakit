@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## Nettoyage des builds temporaires — 30 octobre 2026
+
+Nettoyage expressément demandé après présentation du gain estimé. Suppression de 170 anciens dossiers générés `/tmp/(riftmon|explorakit)-*dist`, soit 267,314 fichiers et 30.35 Gio effectivement libérés. Espace disponible du disque principal : 12.62→42.97 Gio. Les trois builds les plus récents restent présents : `/tmp/riftmon-module15-dist`, `/tmp/riftmon-teleport-modern-dist` et `/tmp/riftmon-aurore-teleport-dist`. L’index du premier correspond à la version publiée.
+
+Avant suppression : inventaire par index/dossier JS, contrôle des chemins sous `/tmp`, absence de symlinks, fichiers spéciaux, sous-montages ou références de configuration/processus/fichiers ouverts. Revalidation des identités de dossiers et de tous les inventaires avant le premier effacement. Après suppression : les 3407 fichiers du `dist` publié sont identiques par SHA-256, les trois builds conservés sont intacts et les réponses publiques RiftMon/Knov/api-test ont les mêmes empreintes. Service actif PID 3423799 conservé, zéro redémarrage automatique ; aucun redémarrage, changement applicatif ou accès d’écriture à la BDD. Données des joueurs, sources, assets publiés et sauvegardes techniques conservés.
+
+Terminé le 30 octobre 2026 à 06 h 45 (Europe/Paris). Opération ponctuelle, sans nouvelle tâche planifiée ni test applicatif/build nécessaire. Rapport et liste exacte : `docs/TEMP_BUILD_CLEANUP_2026-10-30.json`. Préparation complète et outil de contrôle locaux : `/tmp/riftmon-temp-build-cleanup-2026-10-30-plan.json` et `/tmp/riftmon-temp-build-cleanup-2026-10-30.py`. Aucune nouvelle version du client à publier.
+
 ## Module de 7p : bonus porté à +15 niveaux — 29 octobre 2026
 
 `experienceModule.LEVEL_BONUS` passe de 10 à 15. Les nouvelles rencontres sauvages et la pêche Aventure utilisent déjà ce calcul partagé avant XP/statistiques/capacités ; un Pokémon de niveau 5 apparaît au niveau 20. Description d’objet, état replié du sac, détail actif et confirmation d’activation sont raccordés en français/anglais. Cadeau rétroactif, état personnel activé/désactivé, inventaire unique et règles des autres modes/dresseurs conservés ; aucun recalcul des Pokémon déjà possédés ou déjà rencontrés.
@@ -4993,6 +5001,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 30 octobre 2026 — Nettoyage autorisé de 170 anciens builds temporaires RiftMon, trois plus récents conservés. 30.35 Gio libérés ; disque principal à 42.97 Gio disponibles. Intégrité complète du client publié et sites voisins vérifiés, aucun redémarrage ni donnée joueur/sauvegarde technique touchée. Rapport `docs/TEMP_BUILD_CLEANUP_2026-10-30.json`.
 
 - 29 octobre 2026 — Module de 7p porté de +10 à +15 niveaux pour les nouvelles rencontres sauvages et pêche Aventure, textes du sac raccordés. 33 tests, trois SQL et recette navigateur quatre formats/deux thèmes réussis ; client/serveur publiés sans migration. Rapport `docs/EXPERIENCE_MODULE_15.json`.
 
