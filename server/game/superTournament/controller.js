@@ -55,6 +55,15 @@ class TournamentController {
    Object.assign(pokemon,require('../models/moveOrder').reorderMoves(pokemon,data));return true;
   });
  }
+ async reorderTeam(data){
+  if(!this.run || this.run.battle || !['sas','ready','reward','cleared'].includes(this.run.phase))throw Error('Attends la fin du combat pour réorganiser ton équipe.');
+  return this.atomic(()=>{
+   const team=this.run.player.equipe,ids=data?.orderedUuids;
+   if(!Array.isArray(ids) || !ids.length || ids.length>6 || ids.length!==team.pokemons.length || new Set(ids).size!==ids.length ||
+      ids.some(id=>typeof id!=='string' || !team.pokemons.some(p=>p.uuid===id)))throw Error('Ordre d’équipe invalide.');
+   team.pokemons=ids.map(id=>team.pokemons.find(p=>p.uuid===id));return true;
+  });
+ }
  async next(){const r=this.run;if(!r||!['sas','cleared'].includes(r.phase))return false;return this.atomic(()=>{if(r.phase==='cleared')r.room++;r.credited=new Set();r.enemySlots=null;r.phase='ready';});}
  async abandon(){if(!this.run)return false;return this.atomic(()=>{this.run.battle?.finish(null,'fled');this.run.outcome='abandoned';});}
  async resume(){this.bind();const b=this.run?.battle;if(b){const entry=content.entryFor(this.run.room);this.emit('battletrigger',{battleType:'trainer',trainerKey:entry.key,musicKind:entry.music,tournamentEntrance:{name:entry.name,portrait:entry.portrait},bagAllowed:false,fleeAllowed:false,message:'Le duel du Super Tournoi reprend.'});b.deadline=this.now()+30000;if(!b.awaiting)b.nextRoundAt=this.now()+1000;b.resume(this.run.player);const events=this.events;this.events=[];for(const[e,d]of events)this.emit(e,d);}this.publish();}

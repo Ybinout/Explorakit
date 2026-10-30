@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Ordre de l’équipe du Super Tournoi — 30 octobre 2026
+
+Le menu utilisait encore `reorderTeam`, la commande de l’Aventure, refusée par le garde de l’inscription. Ajout de `superTournament:reorderTeam` : tri de la copie inscrite dans les phases SAS/prêt/récompense/salle terminée, hors combat et dans les salles du tournoi. Liste exacte de tous les UUID inscrits, sans doublon ni compagnon étranger ; les K.O. restent présents. Sauvegarde atomique et publication via le contrôleur, rollback sur erreur. Aucun soin, PP, statut, objet, score ou effectif modifié ; l’équipe Aventure demeure séparée et son ancien événement reste bloqué pendant la tentative. L’ordre choisi sert au prochain combat et survit à la restauration de l’ordre après les switches.
+
+Le client utilise la commande du tournoi quand une inscription est active ; flèches désactivées en combat/transport, messages de refus conservés. Les réponses de tri d’équipe/capacités utilisent la vue privée normalisée, ce qui préserve aussi les symboles de sexe après un accusé de réception.
+
+Validation : 39 tests sans échec/saut, dont quatre phases, liste invalide/étrangère/incomplète, sauvegarde échouée puis nouvelle tentative, ressources inchangées, reprise, choix du Pokémon de départ, victoire et salle suivante. Recette réelle client/Socket/SQL sur Chromium/WebKit en 320×480, 393×852 et PC 1365×900 : inscription, flèches dans le SAS et le duel (sixième compagnon compris), reconnexion, passage réel de la porte nord, PV/statuts/PP épuisés/objets/K.O. conservés et équipe Aventure inchangée. Fixtures privées `ready`/`cleared` pour les états blessés et le franchissement de porte ; victoire testée dans le moteur unitaire. Refus des commandes forgées et de la mutation Aventure pendant la tentative, tri Aventure encore fonctionnel après abandon. Symboles de sexe présents après tri, aucune erreur ; comptes SQL jetables supprimés, pas de téléphone physique testé. Lint/build isolé, syntaxe/diff valides. Recettes : `tests/super-tournament-order.test.js`, `scripts/validateTournamentTeamOrderBrowser.js` ; commandes/résultats : `docs/SUPER_TOURNAMENT_TEAM_ORDER.json`.
+
+Publié le 30 octobre 2026 à 19 h 36 (Europe/Paris), client `1c79c3234187151605a8d4c9bf06db8f108275c2`, build `129e33c237f556d8`. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-tournament-order-2026-10-30T18-36-40-465Z`. PID 3513868→3516972, service actif, zéro redémarrage automatique/avertissement ; index/bundles publics vérifiés et anciens assets conservés. Aucune migration ni modification manuelle de compte réel ; applications voisines inchangées.
+
 ## Ordre des capacités dans les fiches Pokémon — 30 octobre 2026
 
 Les fiches de l’équipe et du PC permettent de monter/descendre chaque capacité avec deux flèches accessibles et des cibles tactiles de 44 px. Positions numérotées, sauvegarde automatique, attente/confirmation/erreur dans la fiche ; boutons de bord désactivés. Réorganisation réservée aux Pokémon possédés, hors combat, sans modifier les capacités apprises ni leurs PP (zéro conservé). Chaque requête contient une permutation d’indices et la liste attendue : listes périmées, doublons d’indices, capacités étrangères et requêtes incomplètes refusés.
@@ -5155,6 +5165,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 30 octobre 2026 — Ordre d’équipe dans le SAS/duel du Super Tournoi : commande et sauvegarde dédiées à la copie inscrite, ressources conservées, reprise/salle suivante et séparation Aventure. 39 tests et recettes Chromium/WebKit trois formats réussis ; client/serveur publiés avec sauvegarde, voisins inchangés. Rapport `docs/SUPER_TOURNAMENT_TEAM_ORDER.json`.
 
 - 30 octobre 2026 — Ordre des capacités modifiable dans les fiches équipe/PC, sauvegarde automatique et PP conservés, Aventure/Rift/Colosseum/Super Tournoi. 47 tests et recettes Chromium/WebKit trois formats/deux thèmes réussis ; client/serveur publiés avec sauvegarde, voisins inchangés. Rapport `docs/POKEMON_MOVE_ORDER.json`.
 

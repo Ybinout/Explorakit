@@ -11,6 +11,7 @@ function createHandlers({socket,account,userId,getPlayer,canUse,travel,refreshAc
  const controller=new TournamentController({userId,getPlayer,emit:(e,d)=>{if(socket.connected)socket.emit(e,d);},travel});let timer=null,lastBoard=0,offer=null;
  const near=(x,y,d=2)=>{const p=getPlayer();return p&&Math.abs(Math.floor(p.x/32)-x)+Math.abs(Math.floor(p.y/32)-y)<=d;};
  const valid=()=>{const p=getPlayer();if(!p||p.inbattle||p.inventoryBusy||!canUse())throw Error('Termine ton action avant de continuer.');return p;};
+ const teamState=()=>({equipe:{...controller.run.player.equipe,pokemons:content.state(controller.run).team}});
  const command=(name,fn)=>account.on(name,(data,ack)=>controller.execute(async()=>{try{const r=await fn(data||{});if(typeof ack==='function')ack({success:true,...r});}catch(e){if(typeof ack==='function')ack({success:false,message:e.message});else socket.emit('progressionNotice',{message:e.message});}}));
  command('superTournament:travel',async()=>{valid();if(controller.active)throw Error('Ta tentative est déjà en cours.');if(!await repository.ownsPass(userId))throw Error('Un PASS Super Tournoi est nécessaire.');await travel({map:content.MAPS.lobby,x:448,y:496});});
  command('superTournament:register',async data=>{const p=valid();if(p.currentmap!==content.MAPS.lobby||!near(13,8,3)||!offer||data.offerId!==offer.id||offer.until<Date.now())throw Error('Adresse-toi à l’hôtesse pour t’inscrire.');offer=null;if(!await repository.ownsPass(userId))throw Error('Présente ton PASS Super Tournoi.');
@@ -18,7 +19,8 @@ function createHandlers({socket,account,userId,getPlayer,canUse,travel,refreshAc
  });
  command('superTournament:abandon',async()=>{if(!controller.active)throw Error('Aucune tentative en cours.');await controller.abandon();refreshActors();});
  command('superTournament:reward',async data=>{const p=valid();if(p.currentmap!==content.MAPS.room)throw Error('Rejoins la salle du tournoi.');await controller.claimReward(data);});
- command('superTournament:reorderMoves',async data=>{valid();await controller.reorderMoves(data);return {equipe:controller.run.player.equipe};});
+ command('superTournament:reorderMoves',async data=>{valid();await controller.reorderMoves(data);return teamState();});
+ command('superTournament:reorderTeam',async data=>{const p=valid();if(![content.MAPS.sas,content.MAPS.room].includes(p.currentmap))throw Error('Rejoins les salles du Super Tournoi.');await controller.reorderTeam(data);return teamState();});
  command('superTournament:board',async()=>{const p=getPlayer();if(!p||p.currentmap!==content.MAPS.lobby||Date.now()-lastBoard<1000)return;lastBoard=Date.now();return {leaderboard:await repository.leaderboard(userId)};});
  account.on('actionResponse',payload=>{if(!controller.run?.battle)return;account.track(controller.execute(()=>controller.action(payload)).catch(e=>socket.emit('progressionNotice',{message:e.message})));});
  const blockedEvents=new Set(['flyToTown','void:travel','pc:open','pc:action','useMedicine','useItem','useEvolutionItem','useRepel','setTeamOrder','equipHeldItem','setHeldItem','useTrainingItem','evolvePokemon','learnMove','experienceModule:set','admin:resetArenas','useMachine','useEvolutionStone','admin:rearmArenas','reorderTeam','requestShop','buyShopItem','sellShopItem']);

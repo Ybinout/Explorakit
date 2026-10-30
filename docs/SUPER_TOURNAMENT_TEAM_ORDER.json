@@ -1,0 +1,139 @@
+{
+  "feature": "Ordre d’équipe dans les salles du Super Tournoi",
+  "cause": "Le client appelait reorderTeam, destiné à l’Aventure et volontairement bloqué pendant une inscription au tournoi.",
+  "fix": [
+    "Nouvelle commande superTournament:reorderTeam pour la copie inscrite, dans le SAS et la salle de duel, hors combat",
+    "Permutation exacte de tous les UUID inscrits, un à six compagnons, sans remplacement, doublon ou perte de K.O.",
+    "Sauvegarde atomique dans la file du contrôleur avec rollback et publication du nouvel ordre ; aucune écriture dans l’équipe Aventure",
+    "PV, statuts, PP, objets, score et récompense conservés ; ordre utilisé au combat suivant et restauré après les changements en combat",
+    "Réponses de réorganisation d’équipe/capacités issues de la vue privée du tournoi pour conserver notamment les symboles de sexe",
+    "Flèches indisponibles en combat/transport ; messages de refus utiles conservés"
+  ],
+  "checks": {
+    "unitPassed": 39,
+    "unitFailed": 0,
+    "unitSkipped": 0,
+    "browsers": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "views": [
+          {
+            "width": 320,
+            "height": 480
+          },
+          {
+            "width": 393,
+            "height": 852
+          },
+          {
+            "width": 1365,
+            "height": 900
+          }
+        ],
+        "checks": [
+          "Real team arrows save in SAS and duel room on touch and desktop, including the sixth Pokémon",
+          "Reconnection and actual transition to the next room retain order, HP, status, zero PP, items and KO members",
+          "Foreign/duplicate/incomplete orders and ordinary Adventure mutations are blocked during the run; Adventure ordering works after abandonment"
+        ],
+        "errors": [],
+        "physicalHardware": false,
+        "phaseFixtures": [
+          "ready",
+          "cleared"
+        ]
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "views": [
+          {
+            "width": 320,
+            "height": 480
+          },
+          {
+            "width": 393,
+            "height": 852
+          },
+          {
+            "width": 1365,
+            "height": 900
+          }
+        ],
+        "checks": [
+          "Real team arrows save in SAS and duel room on touch and desktop, including the sixth Pokémon",
+          "Reconnection and actual transition to the next room retain order, HP, status, zero PP, items and KO members",
+          "Foreign/duplicate/incomplete orders and ordinary Adventure mutations are blocked during the run; Adventure ordering works after abandonment"
+        ],
+        "errors": [],
+        "physicalHardware": false,
+        "phaseFixtures": [
+          "ready",
+          "cleared"
+        ]
+      }
+    },
+    "lint": true,
+    "isolatedBuild": true,
+    "syntax": true,
+    "diff": true,
+    "physicalHardware": false
+  },
+  "commands": [
+    "node --test tests/super-tournament-order.test.js tests/super-tournament.test.js tests/super-tournament-rewards.test.js tests/party-order.test.js tests/team-order-handler.test.js tests/move-order.test.js",
+    "npm --prefix vue-explorakit run lint -- --no-fix",
+    "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-tournament-order-dist",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-tournament-order-dist node --env-file-if-exists=.env scripts/validateTournamentTeamOrderBrowser.js",
+    "PRESENTATION_BROWSER=webkit DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-tournament-order-dist node --env-file-if-exists=.env scripts/validateTournamentTeamOrderBrowser.js"
+  ],
+  "deployment": {
+    "publishedAt": "2026-10-30T18:36:48.876Z",
+    "restartedAt": "2026-10-30T18:36:42.103Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-tournament-order-2026-10-30T18-36-40-465Z",
+    "sourceBaseline": "0edae430ad6445fbde0e6fb964729f80b5029608",
+    "sourceHashes": {
+      "server/game/superTournament/controller.js": "526d2d09d9673d839687f5551f77ef3c20c6ced04fbfcd114f4c21ce613d2641",
+      "server/realtime/handlers/superTournamentHandlers.js": "7603656cde8536c1cf10115888514a007affe8a665acb464e2b9e318995b6151"
+    },
+    "clientCommit": "1c79c3234187151605a8d4c9bf06db8f108275c2",
+    "clientBuild": "129e33c237f556d8",
+    "beforePid": "3513868",
+    "afterPid": "3516972",
+    "serverRestarted": true,
+    "schemaChanged": false,
+    "databaseChanged": false,
+    "existingPlayerDataChanged": false,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "realAccountsManuallyModified": false,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.f5ca3bcb.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.f05e3f57.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.00fadb68.js",
+      "js/drift.5b8720d7.js",
+      "js/game.c8f19e8c.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.553e140c.css",
+      "css/drift.57f62eee.css",
+      "css/game.4cdd847d.css",
+      "css/test-view.7568246d.css"
+    ],
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0
+  }
+}
