@@ -1,0 +1,245 @@
+{
+  "date": "2026-10-30",
+  "scope": "Shared item presentation only: bag, shop, held-item picker, PC and trade icons",
+  "changes": {
+    "keyItems": "9 key items have their own illustrations; existing experience-module icon preserved; keys, flight module, teleporter, pass, registry and letter are distinct.",
+    "evolution": "10 evolution stones have individual colours and elemental symbols.",
+    "heldItems": "15 non-berry held items have equipment silhouettes; existing Heavy-Duty Boots preserved.",
+    "training": "Vitamins are bottles with a stat mark, IV rerolls are dice, EV resets are erasers; ability and nature capsules also differ.",
+    "statNames": {
+      "PV Plus": "PV",
+      "Protéine": "Attaque",
+      "Fer": "Défense",
+      "Calcium": "Attaque spéciale",
+      "Zinc": "Défense spéciale",
+      "Carbone": "Vitesse"
+    },
+    "shop": "Same vitamin labels in titles, search, accessibility labels and sale confirmation.",
+    "rendering": "Code-native SVG, shared 48-unit viewBox and outlines; no raster assets, image downloads, filters or animation loop added."
+  },
+  "unchanged": [
+    "Server logic",
+    "Item ownership/effects/prices",
+    "Save data",
+    "Pocket categories",
+    "Use/equip/buy/sell commands",
+    "Existing XP module drawing"
+  ],
+  "validation": {
+    "lint": "passed",
+    "build": "9b734d892c8b2c87",
+    "browserScript": "scripts/validateBagDesignBrowser.js",
+    "commands": [
+      "npm --prefix vue-explorakit run lint -- --no-fix",
+      "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-bag-design-dist",
+      "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=chromium node --env-file-if-exists=.env scripts/validateBagDesignBrowser.js",
+      "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=webkit node --env-file-if-exists=.env scripts/validateBagDesignBrowser.js"
+    ],
+    "browsers": {
+      "chromium": {
+        "success": true,
+        "browserName": "chromium",
+        "checks": [
+          {
+            "width": 320,
+            "height": 480,
+            "mode": "light",
+            "noOverflow": true,
+            "touchTargets": true,
+            "collapse": true
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "mode": "dark",
+            "noOverflow": true,
+            "touchTargets": true,
+            "collapse": true
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "mode": "light",
+            "noOverflow": true,
+            "touchTargets": true,
+            "collapse": true
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "mode": "dark",
+            "noOverflow": true,
+            "touchTargets": true,
+            "collapse": true
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "mode": "light",
+            "noOverflow": true,
+            "touchTargets": true,
+            "collapse": true
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "mode": "dark",
+            "noOverflow": true,
+            "touchTargets": true,
+            "collapse": true
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "mode": "light",
+            "noOverflow": true,
+            "touchTargets": true,
+            "collapse": true
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "mode": "dark",
+            "noOverflow": true,
+            "touchTargets": true,
+            "collapse": true
+          }
+        ],
+        "reviewedItems": 55,
+        "stones": 10,
+        "keyItems": 9,
+        "trainingSilhouettes": true,
+        "vitaminStatNames": true,
+        "shopShared": true,
+        "english": true,
+        "errors": []
+      },
+      "webkit": {
+        "success": true,
+        "browserName": "webkit",
+        "checks": [
+          {
+            "width": 320,
+            "height": 480,
+            "mode": "light",
+            "noOverflow": true,
+            "touchTargets": true,
+            "collapse": true
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "mode": "dark",
+            "noOverflow": true,
+            "touchTargets": true,
+            "collapse": true
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "mode": "light",
+            "noOverflow": true,
+            "touchTargets": true,
+            "collapse": true
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "mode": "dark",
+            "noOverflow": true,
+            "touchTargets": true,
+            "collapse": true
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "mode": "light",
+            "noOverflow": true,
+            "touchTargets": true,
+            "collapse": true
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "mode": "dark",
+            "noOverflow": true,
+            "touchTargets": true,
+            "collapse": true
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "mode": "light",
+            "noOverflow": true,
+            "touchTargets": true,
+            "collapse": true
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "mode": "dark",
+            "noOverflow": true,
+            "touchTargets": true,
+            "collapse": true
+          }
+        ],
+        "reviewedItems": 55,
+        "stones": 10,
+        "keyItems": 9,
+        "trainingSilhouettes": true,
+        "vitaminStatNames": true,
+        "shopShared": true,
+        "english": true,
+        "errors": []
+      }
+    },
+    "visualInspection": [
+      "icon-review.png",
+      "evolution-393-light.png",
+      "training-iv.png",
+      "held-393-dark.png"
+    ],
+    "testData": "Private ephemeral HTTP/Socket server and disposable explorakit_test users deleted; catalogue fixture in browser memory; no real account modified.",
+    "fixtureAdjustment": "First run waited for a row in the initially empty Medicine pocket. Fixed the review script to wait for bag loading, then supply its presentation fixture; both final runs passed.",
+    "limits": "No physical phone test, gameplay balance change or new unit/SQL suite claimed; this patch changes presentation only."
+  },
+  "deployment": {
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "publishedAt": "2026-10-30T13:59:01.440Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-bag-design-2026-10-30T13-59-00-009Z",
+    "sourceBaseline": "8df8e161a6ba9d5edf062257e3716c768edb17e4",
+    "clientCommit": "64d7f23e57defa526e85a5943f5197355f91612e",
+    "clientBuild": "9b734d892c8b2c87",
+    "pid": "3478006",
+    "serverRestarted": false,
+    "databaseChanged": false,
+    "realAccountsManuallyModified": false,
+    "neighborsUnchanged": true,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.f5ca3bcb.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.58f7d27d.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.4eb44aed.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.00fadb68.js",
+      "js/drift.5b8720d7.js",
+      "js/game.2d3953c1.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.553e140c.css",
+      "css/drift.57f62eee.css",
+      "css/game.722936ff.css",
+      "css/test-view.7568246d.css"
+    ]
+  }
+}

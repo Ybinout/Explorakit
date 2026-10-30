@@ -1,5 +1,14 @@
 # Contexte permanent — RiftMon
 
+## Dessins des objets du sac — 30 octobre 2026
+
+Bibliothèque SVG partagée enrichie dans le style du module XP conservé : neuf objets clés reconnaissables, dix pierres avec couleurs/symboles propres, quinze équipements hors baies (Grosses Bottes existantes conservées). Vitamines en flacons avec repère de stat, relances d’IV en dés et resets d’EV en gommes ; capsules Talent/Nature différenciées. Les six vitamines affichent leur statistique entre parenthèses dans le sac et les boutiques, y compris recherche/libellés accessibles/confirmation de vente. Les autres écrans partageant les icônes (choix d’objet tenu, PC, échanges) en bénéficient automatiquement. Pas de raster, téléchargement d’image, filtre ou boucle d’animation ajouté ; commandes, prix, effets, possessions et format des sauvegardes inchangés.
+
+Validation : lint/build isolé et recette Chromium/WebKit Linux réussis. Quatre formats 320×480/393×852/844×390/1365×900, clair/nocturne, 55 icônes réellement rendues, bornes SVG sans découpe, absence de débordement horizontal, cibles tactiles de 44 px, repli/dépli et libellés français/anglais vérifiés. Recherche boutique par statistique contrôlée. Planche des icônes et vues mobiles inspectées ; zéro erreur navigateur. Serveur privé/comptes SQL jetables supprimés ; pas de téléphone physique ni de nouvelle suite métier revendiqués.
+
+Publication client seule le 30 octobre 2026 à 14 h 59 (Europe/Paris), client `64d7f23e57defa526e85a5943f5197355f91612e`, build `9b734d892c8b2c87`. Sauvegarde `/home/ubuntu/dev/backups/riftmon-bag-design-2026-10-30T13-59-00-009Z`, index/bundles publics vérifiés à l’octet, anciens assets conservés. PID 3478006 conservé, service actif, aucun redémarrage/migration ni modification manuelle d’un compte réel ; Knov/api-test inchangés. Rapport : `docs/BAG_ITEM_DESIGN.json`.
+
+
 ## Statistiques en combat et aide météo — 30 octobre 2026
 
 Le composant de combat partagé présente les hausses par des chevrons/traînées dorés ascendants et les baisses par un flux bleu descendant. L’intensité suit la variation réelle de palier, plafonnée visuellement à trois degrés. Une ou deux stats sont nommées ; les modifications plus nombreuses sont regroupées par direction/nombre pour éviter des pavés au-dessus des sprites. Les valeurs exactes restent dans les annonces et indicateurs persistants. Animation de 1,24 s intégrée à la file de présentation ; aucune variation inventée aux limites, changements de Pokémon ou snapshots identiques. Les libellés restent dans la scène, avec réserve pour les PV et l’icône météo sur écran court. Tracés SVG natifs et particules bornées, sans nouveau raster ni filtre de flou. Options de réduction des animations respectées.
