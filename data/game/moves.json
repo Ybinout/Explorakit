@@ -538,7 +538,7 @@
         "ename": "Jump Kick",
         "id": 26,
         "jname": "とびげり",
-        "power": 130,
+        "power": 100,
         "pp": 10,
         "type": "Fighting",
         "combat": {

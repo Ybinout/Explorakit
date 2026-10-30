@@ -48,7 +48,8 @@
       "wildLoot": {
         "group": "berries",
         "weight": 24
-      }
+      },
+      "natural_gift_type": "Poison"
     },
     {
       "key": "sitrus_berry",
@@ -67,7 +68,8 @@
       "wildLoot": {
         "group": "berries",
         "weight": 12
-      }
+      },
+      "natural_gift_type": "Psychic"
     },
     {
       "key": "lum_berry",
@@ -91,7 +93,8 @@
       "wildLoot": {
         "group": "berries",
         "weight": 4
-      }
+      },
+      "natural_gift_type": "Flying"
     },
     {
       "key": "leftovers",
@@ -193,7 +196,8 @@
       "wildLoot": {
         "group": "equipment",
         "weight": 1
-      }
+      },
+      "fling_power": 30
     },
     {
       "key": "choice_band",
@@ -208,7 +212,8 @@
       "wildLoot": {
         "group": "equipment",
         "weight": 1
-      }
+      },
+      "fling_power": 10
     },
     {
       "key": "choice_specs",
@@ -223,7 +228,8 @@
       "wildLoot": {
         "group": "equipment",
         "weight": 1
-      }
+      },
+      "fling_power": 10
     },
     {
       "key": "choice_scarf",
@@ -238,7 +244,8 @@
       "wildLoot": {
         "group": "equipment",
         "weight": 1
-      }
+      },
+      "fling_power": 10
     },
     {
       "key": "focus_sash",
@@ -253,7 +260,8 @@
       "wildLoot": {
         "group": "equipment",
         "weight": 1
-      }
+      },
+      "fling_power": 10
     },
     {
       "key": "assault_vest",
@@ -268,7 +276,8 @@
       "wildLoot": {
         "group": "equipment",
         "weight": 1
-      }
+      },
+      "fling_power": 80
     },
     {
       "key": "eviolite",
@@ -283,7 +292,8 @@
       "wildLoot": {
         "group": "equipment",
         "weight": 1
-      }
+      },
+      "fling_power": 40
     },
     {
       "key": "expert_belt",
@@ -298,7 +308,8 @@
       "wildLoot": {
         "group": "equipment",
         "weight": 1
-      }
+      },
+      "fling_power": 10
     },
     {
       "key": "shell_bell",
@@ -313,7 +324,8 @@
       "wildLoot": {
         "group": "equipment",
         "weight": 1
-      }
+      },
+      "fling_power": 30
     },
     {
       "key": "rocky_helmet",
@@ -328,7 +340,8 @@
       "wildLoot": {
         "group": "equipment",
         "weight": 1
-      }
+      },
+      "fling_power": 60
     },
     {
       "key": "heavy_duty_boots",
@@ -343,7 +356,8 @@
       "wildLoot": {
         "group": "equipment",
         "weight": 1
-      }
+      },
+      "fling_power": 80
     },
     {
       "key": "rift_talisman",
@@ -360,7 +374,8 @@
       "category": "evolution",
       "buy_price": 800,
       "riftOnly": true,
-      "description": "Fait évoluer une espèce compatible hors combat. Consommée uniquement si l’évolution réussit."
+      "description": "Fait évoluer une espèce compatible hors combat. Consommée uniquement si l’évolution réussit.",
+      "fling_power": 30
     },
     {
       "key": "water_stone",
@@ -368,7 +383,8 @@
       "category": "evolution",
       "buy_price": 800,
       "riftOnly": true,
-      "description": "Fait évoluer une espèce compatible hors combat. Consommée uniquement si l’évolution réussit."
+      "description": "Fait évoluer une espèce compatible hors combat. Consommée uniquement si l’évolution réussit.",
+      "fling_power": 30
     },
     {
       "key": "thunder_stone",
@@ -376,7 +392,8 @@
       "category": "evolution",
       "buy_price": 800,
       "riftOnly": true,
-      "description": "Fait évoluer une espèce compatible hors combat. Consommée uniquement si l’évolution réussit."
+      "description": "Fait évoluer une espèce compatible hors combat. Consommée uniquement si l’évolution réussit.",
+      "fling_power": 30
     },
     {
       "key": "leaf_stone",
@@ -384,7 +401,8 @@
       "category": "evolution",
       "buy_price": 800,
       "riftOnly": true,
-      "description": "Fait évoluer une espèce compatible hors combat. Consommée uniquement si l’évolution réussit."
+      "description": "Fait évoluer une espèce compatible hors combat. Consommée uniquement si l’évolution réussit.",
+      "fling_power": 30
     },
     {
       "key": "moon_stone",
@@ -392,7 +410,8 @@
       "category": "evolution",
       "buy_price": 800,
       "riftOnly": true,
-      "description": "Fait évoluer une espèce compatible hors combat. Consommée uniquement si l’évolution réussit."
+      "description": "Fait évoluer une espèce compatible hors combat. Consommée uniquement si l’évolution réussit.",
+      "fling_power": 30
     },
     {
       "key": "sun_stone",
@@ -400,7 +419,8 @@
       "category": "evolution",
       "buy_price": 800,
       "riftOnly": true,
-      "description": "Fait évoluer une espèce compatible hors combat. Consommée uniquement si l’évolution réussit."
+      "description": "Fait évoluer une espèce compatible hors combat. Consommée uniquement si l’évolution réussit.",
+      "fling_power": 30
     },
     {
       "key": "shiny_stone",
@@ -408,7 +428,8 @@
       "category": "evolution",
       "buy_price": 800,
       "riftOnly": true,
-      "description": "Fait évoluer une espèce compatible hors combat. Consommée uniquement si l’évolution réussit."
+      "description": "Fait évoluer une espèce compatible hors combat. Consommée uniquement si l’évolution réussit.",
+      "fling_power": 80
     },
     {
       "key": "dusk_stone",
@@ -416,7 +437,8 @@
       "category": "evolution",
       "buy_price": 800,
       "riftOnly": true,
-      "description": "Fait évoluer une espèce compatible hors combat. Consommée uniquement si l’évolution réussit."
+      "description": "Fait évoluer une espèce compatible hors combat. Consommée uniquement si l’évolution réussit.",
+      "fling_power": 80
     },
     {
       "key": "dawn_stone",
@@ -424,7 +446,8 @@
       "category": "evolution",
       "buy_price": 800,
       "riftOnly": true,
-      "description": "Fait évoluer une espèce compatible hors combat. Consommée uniquement si l’évolution réussit."
+      "description": "Fait évoluer une espèce compatible hors combat. Consommée uniquement si l’évolution réussit.",
+      "fling_power": 80
     },
     {
       "key": "ice_stone",
@@ -432,7 +455,8 @@
       "category": "evolution",
       "buy_price": 800,
       "riftOnly": true,
-      "description": "Fait évoluer une espèce compatible hors combat. Consommée uniquement si l’évolution réussit."
+      "description": "Fait évoluer une espèce compatible hors combat. Consommée uniquement si l’évolution réussit.",
+      "fling_power": 30
     },
     {
       "key": "cheri_berry",
@@ -454,7 +478,8 @@
           "paralyze"
         ]
       },
-      "description": "Tenue ou utilisée depuis le sac, soigne la paralysie. Consommée après utilisation."
+      "description": "Tenue ou utilisée depuis le sac, soigne la paralysie. Consommée après utilisation.",
+      "natural_gift_type": "Fire"
     },
     {
       "key": "chesto_berry",
@@ -476,7 +501,8 @@
           "sleep"
         ]
       },
-      "description": "Tenue ou utilisée depuis le sac, soigne le sommeil. Consommée après utilisation."
+      "description": "Tenue ou utilisée depuis le sac, soigne le sommeil. Consommée après utilisation.",
+      "natural_gift_type": "Water"
     },
     {
       "key": "pecha_berry",
@@ -500,7 +526,8 @@
           "badly_poison"
         ]
       },
-      "description": "Tenue ou utilisée depuis le sac, soigne le poison. Consommée après utilisation."
+      "description": "Tenue ou utilisée depuis le sac, soigne le poison. Consommée après utilisation.",
+      "natural_gift_type": "Electric"
     },
     {
       "key": "rawst_berry",
@@ -522,7 +549,8 @@
           "burn"
         ]
       },
-      "description": "Tenue ou utilisée depuis le sac, soigne la brûlure. Consommée après utilisation."
+      "description": "Tenue ou utilisée depuis le sac, soigne la brûlure. Consommée après utilisation.",
+      "natural_gift_type": "Grass"
     },
     {
       "key": "aspear_berry",
@@ -544,7 +572,8 @@
           "freeze"
         ]
       },
-      "description": "Tenue ou utilisée depuis le sac, soigne le gel. Consommée après utilisation."
+      "description": "Tenue ou utilisée depuis le sac, soigne le gel. Consommée après utilisation.",
+      "natural_gift_type": "Ice"
     },
     {
       "key": "persim_berry",
@@ -558,7 +587,8 @@
       },
       "fling_power": 10,
       "natural_gift_power": 80,
-      "description": "Tenue, soigne la confusion. Consommée après utilisation."
+      "description": "Tenue, soigne la confusion. Consommée après utilisation.",
+      "natural_gift_type": "Ground"
     },
     {
       "key": "leppa_berry",
@@ -576,7 +606,8 @@
       "fieldUse": {
         "restorePp": 10
       },
-      "description": "Restaure 10 PP à la première capacité épuisée, sinon à la première capacité incomplète depuis le sac. Tenue, s’active quand une capacité arrive à 0 PP."
+      "description": "Restaure 10 PP à la première capacité épuisée, sinon à la première capacité incomplète depuis le sac. Tenue, s’active quand une capacité arrive à 0 PP.",
+      "natural_gift_type": "Fighting"
     },
     {
       "key": "liechi_berry",
@@ -589,10 +620,11 @@
         "weight": 2
       },
       "fling_power": 10,
-      "natural_gift_power": 80,
+      "natural_gift_power": 100,
       "stat": "attack",
       "trigger_hp_ratio": 0.25,
-      "description": "Tenue, augmente l’Attaque d’un cran à 25 % des PV ou moins. Consommée après utilisation."
+      "description": "Tenue, augmente l’Attaque d’un cran à 25 % des PV ou moins. Consommée après utilisation.",
+      "natural_gift_type": "Grass"
     },
     {
       "key": "ganlon_berry",
@@ -605,10 +637,11 @@
         "weight": 2
       },
       "fling_power": 10,
-      "natural_gift_power": 80,
+      "natural_gift_power": 100,
       "stat": "defense",
       "trigger_hp_ratio": 0.25,
-      "description": "Tenue, augmente la Défense d’un cran à 25 % des PV ou moins. Consommée après utilisation."
+      "description": "Tenue, augmente la Défense d’un cran à 25 % des PV ou moins. Consommée après utilisation.",
+      "natural_gift_type": "Ice"
     },
     {
       "key": "salac_berry",
@@ -621,10 +654,11 @@
         "weight": 2
       },
       "fling_power": 10,
-      "natural_gift_power": 80,
+      "natural_gift_power": 100,
       "stat": "speed",
       "trigger_hp_ratio": 0.25,
-      "description": "Tenue, augmente la Vitesse d’un cran à 25 % des PV ou moins. Consommée après utilisation."
+      "description": "Tenue, augmente la Vitesse d’un cran à 25 % des PV ou moins. Consommée après utilisation.",
+      "natural_gift_type": "Fighting"
     },
     {
       "key": "petaya_berry",
@@ -637,10 +671,11 @@
         "weight": 2
       },
       "fling_power": 10,
-      "natural_gift_power": 80,
+      "natural_gift_power": 100,
       "stat": "specialAttack",
       "trigger_hp_ratio": 0.25,
-      "description": "Tenue, augmente l’Attaque Spéciale d’un cran à 25 % des PV ou moins. Consommée après utilisation."
+      "description": "Tenue, augmente l’Attaque Spéciale d’un cran à 25 % des PV ou moins. Consommée après utilisation.",
+      "natural_gift_type": "Poison"
     },
     {
       "key": "apicot_berry",
@@ -653,10 +688,11 @@
         "weight": 2
       },
       "fling_power": 10,
-      "natural_gift_power": 80,
+      "natural_gift_power": 100,
       "stat": "specialDefense",
       "trigger_hp_ratio": 0.25,
-      "description": "Tenue, augmente la Défense Spéciale d’un cran à 25 % des PV ou moins. Consommée après utilisation."
+      "description": "Tenue, augmente la Défense Spéciale d’un cran à 25 % des PV ou moins. Consommée après utilisation.",
+      "natural_gift_type": "Ground"
     },
     {
       "key": "occa_berry",
@@ -671,7 +707,8 @@
       "fling_power": 10,
       "natural_gift_power": 80,
       "resist_type": "Fire",
-      "description": "Tenue, divise par deux les dégâts de la première attaque Feu super efficace qui touche le porteur. Consommée après utilisation."
+      "description": "Tenue, divise par deux les dégâts de la première attaque Feu super efficace qui touche le porteur. Consommée après utilisation.",
+      "natural_gift_type": "Fire"
     },
     {
       "key": "passho_berry",
@@ -686,7 +723,8 @@
       "fling_power": 10,
       "natural_gift_power": 80,
       "resist_type": "Water",
-      "description": "Tenue, divise par deux les dégâts de la première attaque Eau super efficace qui touche le porteur. Consommée après utilisation."
+      "description": "Tenue, divise par deux les dégâts de la première attaque Eau super efficace qui touche le porteur. Consommée après utilisation.",
+      "natural_gift_type": "Water"
     },
     {
       "key": "wacan_berry",
@@ -701,7 +739,8 @@
       "fling_power": 10,
       "natural_gift_power": 80,
       "resist_type": "Electric",
-      "description": "Tenue, divise par deux les dégâts de la première attaque Électrik super efficace qui touche le porteur. Consommée après utilisation."
+      "description": "Tenue, divise par deux les dégâts de la première attaque Électrik super efficace qui touche le porteur. Consommée après utilisation.",
+      "natural_gift_type": "Electric"
     },
     {
       "key": "rindo_berry",
@@ -716,7 +755,8 @@
       "fling_power": 10,
       "natural_gift_power": 80,
       "resist_type": "Grass",
-      "description": "Tenue, divise par deux les dégâts de la première attaque Plante super efficace qui touche le porteur. Consommée après utilisation."
+      "description": "Tenue, divise par deux les dégâts de la première attaque Plante super efficace qui touche le porteur. Consommée après utilisation.",
+      "natural_gift_type": "Grass"
     },
     {
       "key": "yache_berry",
@@ -731,7 +771,8 @@
       "fling_power": 10,
       "natural_gift_power": 80,
       "resist_type": "Ice",
-      "description": "Tenue, divise par deux les dégâts de la première attaque Glace super efficace qui touche le porteur. Consommée après utilisation."
+      "description": "Tenue, divise par deux les dégâts de la première attaque Glace super efficace qui touche le porteur. Consommée après utilisation.",
+      "natural_gift_type": "Ice"
     },
     {
       "key": "chople_berry",
@@ -746,7 +787,8 @@
       "fling_power": 10,
       "natural_gift_power": 80,
       "resist_type": "Fighting",
-      "description": "Tenue, divise par deux les dégâts de la première attaque Combat super efficace qui touche le porteur. Consommée après utilisation."
+      "description": "Tenue, divise par deux les dégâts de la première attaque Combat super efficace qui touche le porteur. Consommée après utilisation.",
+      "natural_gift_type": "Fighting"
     },
     {
       "key": "kebia_berry",
@@ -761,7 +803,8 @@
       "fling_power": 10,
       "natural_gift_power": 80,
       "resist_type": "Poison",
-      "description": "Tenue, divise par deux les dégâts de la première attaque Poison super efficace qui touche le porteur. Consommée après utilisation."
+      "description": "Tenue, divise par deux les dégâts de la première attaque Poison super efficace qui touche le porteur. Consommée après utilisation.",
+      "natural_gift_type": "Poison"
     },
     {
       "key": "shuca_berry",
@@ -776,7 +819,8 @@
       "fling_power": 10,
       "natural_gift_power": 80,
       "resist_type": "Ground",
-      "description": "Tenue, divise par deux les dégâts de la première attaque Sol super efficace qui touche le porteur. Consommée après utilisation."
+      "description": "Tenue, divise par deux les dégâts de la première attaque Sol super efficace qui touche le porteur. Consommée après utilisation.",
+      "natural_gift_type": "Ground"
     },
     {
       "key": "coba_berry",
@@ -791,7 +835,8 @@
       "fling_power": 10,
       "natural_gift_power": 80,
       "resist_type": "Flying",
-      "description": "Tenue, divise par deux les dégâts de la première attaque Vol super efficace qui touche le porteur. Consommée après utilisation."
+      "description": "Tenue, divise par deux les dégâts de la première attaque Vol super efficace qui touche le porteur. Consommée après utilisation.",
+      "natural_gift_type": "Flying"
     },
     {
       "key": "payapa_berry",
@@ -806,7 +851,8 @@
       "fling_power": 10,
       "natural_gift_power": 80,
       "resist_type": "Psychic",
-      "description": "Tenue, divise par deux les dégâts de la première attaque Psy super efficace qui touche le porteur. Consommée après utilisation."
+      "description": "Tenue, divise par deux les dégâts de la première attaque Psy super efficace qui touche le porteur. Consommée après utilisation.",
+      "natural_gift_type": "Psychic"
     },
     {
       "key": "tanga_berry",
@@ -821,7 +867,8 @@
       "fling_power": 10,
       "natural_gift_power": 80,
       "resist_type": "Bug",
-      "description": "Tenue, divise par deux les dégâts de la première attaque Insecte super efficace qui touche le porteur. Consommée après utilisation."
+      "description": "Tenue, divise par deux les dégâts de la première attaque Insecte super efficace qui touche le porteur. Consommée après utilisation.",
+      "natural_gift_type": "Bug"
     },
     {
       "key": "charti_berry",
@@ -836,7 +883,8 @@
       "fling_power": 10,
       "natural_gift_power": 80,
       "resist_type": "Rock",
-      "description": "Tenue, divise par deux les dégâts de la première attaque Roche super efficace qui touche le porteur. Consommée après utilisation."
+      "description": "Tenue, divise par deux les dégâts de la première attaque Roche super efficace qui touche le porteur. Consommée après utilisation.",
+      "natural_gift_type": "Rock"
     },
     {
       "key": "kasib_berry",
@@ -851,7 +899,8 @@
       "fling_power": 10,
       "natural_gift_power": 80,
       "resist_type": "Ghost",
-      "description": "Tenue, divise par deux les dégâts de la première attaque Spectre super efficace qui touche le porteur. Consommée après utilisation."
+      "description": "Tenue, divise par deux les dégâts de la première attaque Spectre super efficace qui touche le porteur. Consommée après utilisation.",
+      "natural_gift_type": "Ghost"
     },
     {
       "key": "haban_berry",
@@ -866,7 +915,8 @@
       "fling_power": 10,
       "natural_gift_power": 80,
       "resist_type": "Dragon",
-      "description": "Tenue, divise par deux les dégâts de la première attaque Dragon super efficace qui touche le porteur. Consommée après utilisation."
+      "description": "Tenue, divise par deux les dégâts de la première attaque Dragon super efficace qui touche le porteur. Consommée après utilisation.",
+      "natural_gift_type": "Dragon"
     },
     {
       "key": "colbur_berry",
@@ -881,7 +931,8 @@
       "fling_power": 10,
       "natural_gift_power": 80,
       "resist_type": "Dark",
-      "description": "Tenue, divise par deux les dégâts de la première attaque Ténèbres super efficace qui touche le porteur. Consommée après utilisation."
+      "description": "Tenue, divise par deux les dégâts de la première attaque Ténèbres super efficace qui touche le porteur. Consommée après utilisation.",
+      "natural_gift_type": "Dark"
     },
     {
       "key": "babiri_berry",
@@ -896,7 +947,8 @@
       "fling_power": 10,
       "natural_gift_power": 80,
       "resist_type": "Steel",
-      "description": "Tenue, divise par deux les dégâts de la première attaque Acier super efficace qui touche le porteur. Consommée après utilisation."
+      "description": "Tenue, divise par deux les dégâts de la première attaque Acier super efficace qui touche le porteur. Consommée après utilisation.",
+      "natural_gift_type": "Steel"
     },
     {
       "key": "roseli_berry",
@@ -911,7 +963,8 @@
       "fling_power": 10,
       "natural_gift_power": 80,
       "resist_type": "Fairy",
-      "description": "Tenue, divise par deux les dégâts de la première attaque Fée super efficace qui touche le porteur. Consommée après utilisation."
+      "description": "Tenue, divise par deux les dégâts de la première attaque Fée super efficace qui touche le porteur. Consommée après utilisation.",
+      "natural_gift_type": "Fairy"
     },
     {
       "key": "chilan_berry",
@@ -926,7 +979,8 @@
       "fling_power": 10,
       "natural_gift_power": 80,
       "resist_type": "Normal",
-      "description": "Tenue, divise par deux les dégâts de la première attaque Normal qui touche le porteur. Consommée après utilisation."
+      "description": "Tenue, divise par deux les dégâts de la première attaque Normal qui touche le porteur. Consommée après utilisation.",
+      "natural_gift_type": "Normal"
     },
     {
       "key": "pomeg_berry",
@@ -939,14 +993,15 @@
         "weight": 3
       },
       "fling_power": 10,
-      "natural_gift_power": 80,
+      "natural_gift_power": 90,
       "fieldUse": {
         "effort": {
           "stat": "hp",
           "amount": -10
         }
       },
-      "description": "Depuis le sac, retire jusqu’à 10 EV en PV pour réorienter l’entraînement. Aucun effet si cette statistique n’a pas d’EV. Consommée après utilisation."
+      "description": "Depuis le sac, retire jusqu’à 10 EV en PV pour réorienter l’entraînement. Aucun effet si cette statistique n’a pas d’EV. Consommée après utilisation.",
+      "natural_gift_type": "Ice"
     },
     {
       "key": "kelpsy_berry",
@@ -959,14 +1014,15 @@
         "weight": 3
       },
       "fling_power": 10,
-      "natural_gift_power": 80,
+      "natural_gift_power": 90,
       "fieldUse": {
         "effort": {
           "stat": "attack",
           "amount": -10
         }
       },
-      "description": "Depuis le sac, retire jusqu’à 10 EV en Attaque pour réorienter l’entraînement. Aucun effet si cette statistique n’a pas d’EV. Consommée après utilisation."
+      "description": "Depuis le sac, retire jusqu’à 10 EV en Attaque pour réorienter l’entraînement. Aucun effet si cette statistique n’a pas d’EV. Consommée après utilisation.",
+      "natural_gift_type": "Fighting"
     },
     {
       "key": "qualot_berry",
@@ -979,14 +1035,15 @@
         "weight": 3
       },
       "fling_power": 10,
-      "natural_gift_power": 80,
+      "natural_gift_power": 90,
       "fieldUse": {
         "effort": {
           "stat": "defense",
           "amount": -10
         }
       },
-      "description": "Depuis le sac, retire jusqu’à 10 EV en Défense pour réorienter l’entraînement. Aucun effet si cette statistique n’a pas d’EV. Consommée après utilisation."
+      "description": "Depuis le sac, retire jusqu’à 10 EV en Défense pour réorienter l’entraînement. Aucun effet si cette statistique n’a pas d’EV. Consommée après utilisation.",
+      "natural_gift_type": "Poison"
     },
     {
       "key": "hondew_berry",
@@ -999,14 +1056,15 @@
         "weight": 3
       },
       "fling_power": 10,
-      "natural_gift_power": 80,
+      "natural_gift_power": 90,
       "fieldUse": {
         "effort": {
           "stat": "specialAttack",
           "amount": -10
         }
       },
-      "description": "Depuis le sac, retire jusqu’à 10 EV en Attaque Spéciale pour réorienter l’entraînement. Aucun effet si cette statistique n’a pas d’EV. Consommée après utilisation."
+      "description": "Depuis le sac, retire jusqu’à 10 EV en Attaque Spéciale pour réorienter l’entraînement. Aucun effet si cette statistique n’a pas d’EV. Consommée après utilisation.",
+      "natural_gift_type": "Ground"
     },
     {
       "key": "grepa_berry",
@@ -1019,14 +1077,15 @@
         "weight": 3
       },
       "fling_power": 10,
-      "natural_gift_power": 80,
+      "natural_gift_power": 90,
       "fieldUse": {
         "effort": {
           "stat": "specialDefense",
           "amount": -10
         }
       },
-      "description": "Depuis le sac, retire jusqu’à 10 EV en Défense Spéciale pour réorienter l’entraînement. Aucun effet si cette statistique n’a pas d’EV. Consommée après utilisation."
+      "description": "Depuis le sac, retire jusqu’à 10 EV en Défense Spéciale pour réorienter l’entraînement. Aucun effet si cette statistique n’a pas d’EV. Consommée après utilisation.",
+      "natural_gift_type": "Flying"
     },
     {
       "key": "tamato_berry",
@@ -1039,14 +1098,15 @@
         "weight": 3
       },
       "fling_power": 10,
-      "natural_gift_power": 80,
+      "natural_gift_power": 90,
       "fieldUse": {
         "effort": {
           "stat": "speed",
           "amount": -10
         }
       },
-      "description": "Depuis le sac, retire jusqu’à 10 EV en Vitesse pour réorienter l’entraînement. Aucun effet si cette statistique n’a pas d’EV. Consommée après utilisation."
+      "description": "Depuis le sac, retire jusqu’à 10 EV en Vitesse pour réorienter l’entraînement. Aucun effet si cette statistique n’a pas d’EV. Consommée après utilisation.",
+      "natural_gift_type": "Psychic"
     },
     {
       "key": "hp_up",

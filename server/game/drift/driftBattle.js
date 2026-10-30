@@ -134,7 +134,7 @@ class DriftBattle {
         const active = p.equipe.pokemons[0];
         const index=p===this.a?0:1;
         const usable = active ? preferMoves(active, this.state,undefined,{opponent:this.active(1-index),ownSide:this.sides[index],enemySide:this.sides[1-index],avoidStalePriority:true}) : [];
-        const damaging = usable.filter(i => engine.getMoveByName(active.abilities[i])?.power > 0);
+        const damaging = usable.filter(i => engine.getMoveByName(active.abilities[i])?.combat?.damage_class !== 'status');
         const pool = damaging.length ? damaging : usable;
         return { action: 'attack', number: pool.length ? pool[Math.floor(this.random()*pool.length)] : -1 };
     }

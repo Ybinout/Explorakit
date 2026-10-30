@@ -13,7 +13,9 @@
     "Sonic Boom": "Inflige toujours 20 PV de dégâts à une cible qui n’est pas immunisée.",
     "Night Shade": "Inflige un nombre de PV de dégâts égal au niveau du lanceur, sauf immunité.",
     "Seismic Toss": "Inflige un nombre de PV de dégâts égal au niveau du lanceur, sauf immunité.",
-    "Teleport": "Avec une priorité très basse, laisse sa place à un équipier apte choisi par le joueur contre un dresseur. En rencontre sauvage, permet au lanceur de fuir."
+    "Teleport": "Avec une priorité très basse, laisse sa place à un équipier apte choisi par le joueur contre un dresseur. En rencontre sauvage, permet au lanceur de fuir.",
+    "Return": "Attaque physique de type Normal. Dans RiftMon, sa puissance est fixée à 102 pour tous les Pokémon, sans condition de bonheur.",
+    "Frustration": "Attaque physique de type Normal. Dans RiftMon, sa puissance est fixée à 102 pour tous les Pokémon, sans condition de bonheur."
   },
   "abilities": {
     "Overgrow": "Augmente de 50 % la puissance des attaques Plante lorsque les PV du Pokémon sont au tiers ou moins de leur maximum.",

@@ -6,6 +6,7 @@ const traits=require('../../../data/game/ability_move_traits.gen7.json').moves;
 const twoTurn=require('./twoTurnMoves');
 const rampage=require('./rampageMoves');
 const moveGuards=require('./moveGuards');
+const moveDamageRules=require('./moveDamageRules');
 const {weatherHealingAmount}=require('./weatherHealing');
 const clamp=(x,l,h)=>Math.max(l,Math.min(h,x)),alive=p=>p.currentHp>0;
 const ability=p=>abilities.getAbilityName(p);
@@ -14,7 +15,7 @@ const copy=p=>({...p,abilities:[...(p.abilities||[])],movePp:[...(p.movePp||[])]
 const hp=(p,x)=>{p.currentHp=clamp(x,0,p.maxHp);};
 const heal=(p,x)=>{if(alive(p)&&!(p.__battle.healBlockTurns>0))hp(p,p.currentHp+Math.max(0,x));};
 const grounded=(p,f)=>f.field.gravityTurns>0||p.__battle.grounded||p.__battle.ingrain||(!types(p).includes('Flying')&&ability(p)!=='Levitate');
-function consume(p) { const berry=p.heldItem?.endsWith('_berry');p.heldItem=null;if(ability(p)==='Unburden')p.__battle.unburden=true;if(berry&&ability(p)==='Cheek Pouch')heal(p,Math.floor(p.maxHp/3)); }
+function consume(p,field,{eaten=true}={}) { const item=p.heldItem,berry=eaten&&item?.endsWith('_berry');p.heldItem=null;p.__battle.consumedHeldItem=item;if(berry&&field){field.berryEaters ||= [];if(!field.berryEaters.includes(p.uuid))field.berryEaters.push(p.uuid);}if(ability(p)==='Unburden')p.__battle.unburden=true;if(berry&&ability(p)==='Cheek Pouch')heal(p,Math.floor(p.maxHp/3)); }
 function activate(p,other,field) {
     if(!alive(p)||!held.enabled(p,field))return;
     const item=resources.getItemDefinition(p.heldItem);if(!item)return;
@@ -23,16 +24,16 @@ function activate(p,other,field) {
     if(item.battle_effect==='cure_status'&&(cures.includes(p.status)||item.key==='lum_berry'&&p.__battle.confusionTurns>0)) {
         p.status='normal';p.__battle.sleepTurns=0;p.__battle.toxicCounter=1;
         if(item.key==='lum_berry')p.__battle.confusionTurns=0;
-        consume(p);return;
+        consume(p,field);return;
     }
-    if(item.battle_effect==='cure_confusion'&&p.__battle.confusionTurns>0){p.__battle.confusionTurns=0;consume(p);return;}
+    if(item.battle_effect==='cure_confusion'&&p.__battle.confusionTurns>0){p.__battle.confusionTurns=0;consume(p,field);return;}
     const limit=ability(p)==='Gluttony'&&item.trigger_hp_ratio===.25?.5:item.trigger_hp_ratio;
     if(p.currentHp/p.maxHp<=limit) {
         if(item.battle_effect==='heal_flat'||item.battle_effect==='heal_fraction') {
             if(p.__battle.healBlockTurns>0)return;
-            heal(p,item.battle_effect==='heal_flat'?item.amount:Math.floor(p.maxHp*item.fraction));consume(p);
+            heal(p,item.battle_effect==='heal_flat'?item.amount:Math.floor(p.maxHp*item.fraction));consume(p,field);
         } else if(item.battle_effect==='stat_berry'&&(p.__battle.statStages[item.stat]||0)<6) {
-            engine.applyStageChange(p,item.stat,1,[],p);consume(p);
+            engine.applyStageChange(p,item.stat,1,[],p);consume(p,field);
         }
     }
 }
@@ -66,11 +67,11 @@ function damageTarget(p,amount,source,move,field) {
     const multiple=Array.isArray(hits)||Number(hits)>1;
     if(amount>=before&&before===p.maxHp&&!multiple&&(held.effect(p,field)==='focus_sash'
         ||ability(p)==='Sturdy'&&!abilities.ignoresDefenderAbility(source,p))) {
-        amount=before-1;if(held.effect(p,field)==='focus_sash')consume(p);
+        amount=before-1;if(held.effect(p,field)==='focus_sash')consume(p,field);
     }
     hp(p,before-amount);const lost=before-p.currentHp;
-    p.__battle.lastDamageTaken=lost;p.__battle.lastDamageClass=move.combat.damage_class;
-    p.__battle.lastDamageTurn=field.turn;p.__battle.lastDamageSource=source.uuid;
+    if(lost>0){p.__battle.lastHurtTurn=field.turn;p.__battle.lastDamageTaken=lost;p.__battle.lastDamageClass=move.combat.damage_class;
+        p.__battle.lastDamageTurn=field.turn;p.__battle.lastDamageSource=source.uuid;}
     return {hp:lost,total:lost};
 }
 function actionAvailability(p,move) {
@@ -99,14 +100,17 @@ function castMove(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMove
     const slot=p.abilities.indexOf(move.ename);if(slot>=0&&!rampage.current(p))p.movePp[slot]=Math.max(0,(p.movePp[slot]??1)-1);
     p.__battle.lastMoveUsed=move.ename;
     if(held.effect(p,state)?.startsWith('choice_'))p.__battle.choiceMove ||= move.ename;
+    const failure=moveDamageRules.failure(move,p,other,state,{types});
+    p.__battle.usedMoves=(p.__battle.usedMoves||[]).filter(name=>p.abilities.includes(name));if(p.abilities.includes(move.ename)&&!p.__battle.usedMoves.includes(move.ename))p.__battle.usedMoves.push(move.ename);
+    if(failure){p.__battle.lastMoveFailed=true;p.__battle.lastMoveResultTurn=state.turn;return {useful:false,recognized:true,accuracy:hitChance,inflicted:0};}
     if(damaging) {
         let resolved=engine.resolveWeatherMove(move,p,other,state);
         if(state.field.ionDelugeTurns>0&&resolved.type==='Normal')resolved={...resolved,type:'Electric'};
         resolved=abilities.transformMoveForAbility(p,resolved).move;
-        const effectiveness=types(other).reduce((n,t)=>n*engine.getEffectiveness(resolved.type,t),1);
+        const effectiveness=engine.getMoveEffectiveness(resolved,p,other,state);
         const blocked=abilities.resolveMoveAbilityImmunity({attacker:p,defender:other,move:resolved,battleState:state,effectiveness,
             movePriority:engine.getMovePriority(move.ename,p),heal,changeStage:(target,stat,n)=>engine.applyStageChange(target,stat,n,[],target)});
-        let raw=blocked?0:ctx.damage(p,other,move,otherSide,state);
+        let raw=blocked?0:ctx.damage(p,other,move,otherSide,state,{movedLast:alreadyMoved});
         if(move.ename==='Sucker Punch'&&(!reply||(reply.combat.damage_class==='status'&&reply.ename!=='Me First')||alreadyMoved||other.__battle.rechargeMove))raw=0;
         if(['Fake Out','First Impression'].includes(move.ename)&&p.__battle.activeMoveActions>0)raw=0;
         if(move.ename==='False Swipe')raw=Math.min(raw,Math.max(0,other.currentHp-1));
@@ -115,10 +119,16 @@ function castMove(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMove
         const guardChance=moveGuards.breaksProtection(move)?0:guard.get(other)||0;
         const hit=damageTarget(other,raw*hitChance*(1-guardChance),p,move,state);
         inflicted=hit.total;useful=inflicted>0;
+        if(inflicted>0&&['Fling','Natural Gift'].includes(move.ename))consume(p,state,{eaten:false});
+        if(moveDamageRules.CRASH_MOVES.has(move.ename)&&ability(p)!=='Magic Guard') {
+            const crashChance=Math.max(0,availability-(raw>0?hitChance*(1-guardChance):0));
+            hp(p,p.currentHp-Math.max(1,Math.floor(p.maxHp/2))*crashChance);
+        }
         if(move.ename==='Knock Off'&&hit.hp>0)engine.knockOffHeldItem(p,other);
         const item=resources.getItemDefinition(other.heldItem);
         if(hit.hp>0&&held.effect(other,state)==='type_resist'&&item.resist_type===resolved.type
-            &&(effectiveness>1||resolved.type==='Normal')&&ability(p)!=='Unnerve')consume(other);
+            &&(effectiveness>1||resolved.type==='Normal')&&ability(p)!=='Unnerve')consume(other,state);
+        if(hit.hp>0&&other.status===moveDamageRules.curedStatus(move)){other.status='normal';other.__battle.sleepTurns=0;other.__battle.nightmare=false;}
         if(hit.hp>0&&flags.contact&&ability(p)!=='Long Reach'&&ability(p)!=='Magic Guard') {
             let recoil=0;if(['Rough Skin','Iron Barbs'].includes(ability(other)))recoil+=p.maxHp/8;
             if(held.effect(other,state)==='rocky_helmet')recoil+=p.maxHp/6;
@@ -191,7 +201,8 @@ function castMove(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMove
         }
         if(effect.kind==='stat_stage'&&effect.target!=='opponent_contact'&&(effect.chance==null||effect.chance===1)) {
             const old=target.__battle.statStages[effect.stat]||0;
-            engine.applyStageChange(target,effect.stat,effect.stages,[],p);
+            const stages=effect.stages*(move.ename==='Growth'&&state.weather.kind==='sun'&&!abilities.isWeatherSuppressed(p,other)?2:1);
+            engine.applyStageChange(target,effect.stat,stages,[],p);
             if((target.__battle.statStages[effect.stat]||0)!==old)useful=true;
         }
         if(effect.kind==='status'&&!self&&hitChance>0&&!(guard.get(other)>0)&&(effect.chance==null||effect.chance===1)
@@ -268,7 +279,7 @@ function endTurn(p,other,state,{switched=false}={}) {
     activate(p,other,state);
 }
 function project(a,b,move,reply,ctx,{switched=false,first=true,ownSwitched=false}={}) {
-    const own=copy(a),foe=copy(b),field={...ctx.field,weather:{...ctx.field.weather},terrain:{...ctx.field.terrain},field:{...ctx.field.field},sides:{}};
+    const own=copy(a),foe=copy(b),field={...ctx.field,...(Array.isArray(ctx.field.berryEaters)?{berryEaters:[...ctx.field.berryEaters]}:{}),weather:{...ctx.field.weather},terrain:{...ctx.field.terrain},field:{...ctx.field.field},sides:{}};
     for(const key of ['player','enemy']){const side=ctx.field.sides[key];field.sides[key]={...side,screens:{...side.screens},hazards:{...side.hazards},protectTeam:{...side.protectTeam},wish:side.wish?{...side.wish}:null};}
     const side=ctx.ownSide===ctx.field.sides.player?field.sides.player:field.sides.enemy,enemySide=side===field.sides.player?field.sides.enemy:field.sides.player;
     const guard=new Map();let action={useful:false,accuracy:1},response={useful:false,accuracy:1};

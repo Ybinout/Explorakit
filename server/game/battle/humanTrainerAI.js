@@ -6,8 +6,9 @@ const selection = require('./moveSelection');
 const legacy = require('../drift/colosseumAI');
 const model = require('./humanTrainerModel');
 const switching = require('./trainerSwitching');
+const moveDamageRules = require('./moveDamageRules');
 const {publicEffects}=require('./moveRedundancy');
-const { getMoveFlags, transformMoveForAbility, getAbilityAccuracyMultiplier, ignoresDefenderAbility, resolveMoveAbilityImmunity } = require('../abilities/abilityEngine');
+const { getMoveFlags, transformMoveForAbility, ignoresDefenderAbility, resolveMoveAbilityImmunity } = require('../abilities/abilityEngine');
 const { createDeterministicRandom } = require('../abilities/abilityDex');
 const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
 const ratio = (n, p) => 100 * n / Math.max(1, p.maxHp);
@@ -23,7 +24,7 @@ const LEVEL_DAMAGE = new Set(['Seismic Toss','Night Shade']);
 const PUBLIC_VOLATILES = ['statStages','tempTypes','formTypes','abilityForm','tauntTurns','disableTurns',
     'disabledMove','encoreTurns','encoreMove','leechSeedSource','curseSource','foresight','miracleEye','substituteHp',
     'trappedTurns','ingrain','grounded','magnetRiseTurns','telekinesisTurns','abilitySuppressed','chargeMove','chargeTurns','semiInvulnerable','rechargeMove','bideTurns',
-    'activeMoveActions','stockpileCount','laserFocusTurns','soundBlockedTurns','lastMoveFailed','lastMoveResultTurn','lastMoveUsed','protectStreak','protectionStreak','protectionTurn','transformed','transformSpeciesId','transformSpriteId','rampageMove'];
+    'activeMoveActions','stockpileCount','laserFocusTurns','soundBlockedTurns','lockOnTurns','lockOnTargetId','lastHurtTurn','revealedHiddenPowerType','lastMoveFailed','lastMoveResultTurn','lastMoveUsed','usedMoves','protectStreak','protectionStreak','protectionTurn','transformed','transformSpeciesId','transformSpriteId','rampageMove'];
 const OWN_VOLATILES = [...PUBLIC_VOLATILES,'sleepTurns','choiceMove','unburden','abilitySuppressed','flashFireBoost','healBlockTurns',
     'embargoTurns','confusionTurns','infatuationTurns','toxicCounter','activeTurns','loafing','consumedHeldItem',
     'lastDamageTaken','lastDamageTurn','lastDamageSource','lastDamageClass','lastActionTurn','protectionStreak','protectionTurn','grounded','rampageTurns'];
@@ -35,6 +36,7 @@ function battleView(data={},own=false) {
         if(key==='statStages')continue;
         const value=data[key];
         if(key==='leechSeedSource'||key==='curseSource'){view[key]=Boolean(value);continue;}
+        if(key==='usedMoves'){if(Array.isArray(value))view[key]=value.filter(x=>typeof x==='string').slice(0,4);continue;}
         if(['tempTypes','formTypes'].includes(key)){if(Array.isArray(value))view[key]=value.filter(x=>typeof x==='string').slice(0,2);continue;}
         if(value===null||['string','number','boolean'].includes(typeof value))view[key]=value;
     }
@@ -69,6 +71,7 @@ function ownPokemon(p) {
         attack:p.currentAttack??p.attack,defense:p.currentDefense??p.defense,specialAttack:p.currentSpecialAttack??p.specialAttack,
         specialDefense:p.currentSpecialDefense??p.specialDefense,speed:p.currentSpeed??p.speed,
         passiveAbility:p.passiveAbility,heldItem:p.heldItem,__battle:battleView(p.__battle,true)};
+    if(p.abilities.includes('Hidden Power'))view.hiddenPowerType=moveDamageRules.hiddenPowerType(p);
     view.abilities = [...p.abilities]; view.movePp = [...(p.movePp || p.abilities.map(resources.getMaxMovePp))];
     view.__battle.sleepTurns ??= 1;
     view.__battle.activeMoveActions=selection.entryActions(p);
@@ -78,6 +81,7 @@ function publicField(field) {
     // In particular: no turnActions, trainerTeam, callbacks or pending payloads.
     const result = engine.createBattleState();
     result.turn=field.turn;
+    if (Array.isArray(field.berryEaters)) result.berryEaters = [...field.berryEaters];
     result.battleType=['wild','trainer','arena','pvp'].includes(field.battleType)?field.battleType:null;
     for(const key of ['weather','terrain','field'])for(const name of Object.keys(result[key]||{})) {
         const value=field[key]?.[name];if(value===null||['string','number','boolean'].includes(typeof value))result[key][name]=value;
@@ -105,14 +109,7 @@ function moves(p, field) {
 }
 function resetEntry(p) { return {...p,__battle:{statStages:{},sleepTurns:1}}; }
 function chance(move,a,b,field) {
-    const accuracy=engine.weatherMoveAccuracy(move,a,b,field);
-    const stage=n=>n>=0?(2+n)/2:2/(2-n);
-    const ability=getAbilityAccuracyMultiplier(a,b,move,field);
-    if(accuracy<=0||ability===Infinity)return 1;
-    const base=move.combat?.power_type==='ohko'?(a.level<b.level?0:(30+a.level-b.level)/100)
-        :move.combat?.damage_class==='status'&&b.passiveAbility==='Wonder Skin'&&!ignoresDefenderAbility(a,b) ? .5 : accuracy/100;
-    return clamp(base*stage(a.__battle.statStages?.accuracy||0)/stage(b.__battle.statStages?.evasion||0)*ability
-        *(field.field?.gravityTurns>0&&move.combat?.power_type!=='ohko'?5/3:1),0,1);
+    return engine.getMoveHitChance(move,a,b,field);
 }
 // Every analysis owns immutable public snapshots and a private field copy.
 // Repeated priority/support evaluations can share speed for that exact snapshot,
@@ -131,12 +128,13 @@ function actsFirst(a,m,b,r,ctx) {
     const delta=speed(a,ctx.ownSide,ctx.field)-speed(b,ctx.enemySide,ctx.field);
     return ctx.field.field.trickRoomTurns>0?delta<0:delta>=0;
 }
-function damage(a,b,move,side,field) {
+function damage(a,b,move,side,field,{movedLast=false}={}) {
     if(!move || move.combat?.damage_class==='status')return 0;
     if(['Fake Out','First Impression'].includes(move.ename)&&a.__battle.activeMoveActions>0)return 0;
+    if(moveDamageRules.failure(move,a,b,field,{types:model.types}))return 0;
     let cache=damageCaches.get(field);if(!cache){cache={ids:new WeakMap(),next:0,values:new Map()};damageCaches.set(field,cache);}
     for(const p of [a,b])if(!cache.ids.has(p))cache.ids.set(p,++cache.next);
-    const key=`${cache.ids.get(a)}:${cache.ids.get(b)}:${move.ename}:${side===field.sides.player?'p':'e'}`;
+    const key=`${cache.ids.get(a)}:${cache.ids.get(b)}:${move.ename}:${side===field.sides.player?'p':'e'}:${field.turn}:${movedLast}`;
     if(!cache.values.has(key)) {
         let resolved=engine.resolveWeatherMove(move,a,b,field);
         if(field.field?.ionDelugeTurns>0&&resolved.type==='Normal')resolved={...resolved,type:'Electric'};
@@ -148,24 +146,26 @@ function damage(a,b,move,side,field) {
                     attackerSide:side===field.sides.player?field.sides.enemy:field.sides.player,defenderSide:side});
             if(special?.power!==undefined)resolved={...resolved,power:special.power};
         }
+        if(special?.consumeHeldItem)preview.heldItem=null;
         const transformed=transformMoveForAbility(preview,resolved);
-        const effectiveness=model.types(target).reduce((n,t)=>n*engine.getEffectiveness(transformed.move.type,t),1);
+        const effectiveness=engine.getMoveEffectiveness(transformed.move,preview,target,field);
         const blocked=resolveMoveAbilityImmunity({attacker:preview,defender:target,move:transformed.move,battleState:field,
             effectiveness,movePriority:engine.getMovePriority(move.ename,preview)});
-        const fixed=special?.fixedDamage ?? FIXED_DAMAGE[move.ename] ?? (LEVEL_DAMAGE.has(move.ename)?Math.max(1,a.level):null);
+        const fixed=special?.fixedDamage ?? FIXED_DAMAGE[move.ename] ?? (LEVEL_DAMAGE.has(move.ename)?Math.max(1,a.level)
+            :move.combat?.power_type==='ohko'?target.currentHp:null);
         if(fixed!==null) {
             const types=b.__battle?.tempTypes?.length?b.__battle.tempTypes:b.__battle?.formTypes?.length?b.__battle.formTypes:[b.type1,b.type2];
             const immune=types.filter(Boolean).some(type=>engine.getEffectiveness(transformed.move.type,type)===0
                 && !(type==='Ghost'&&['Normal','Fighting'].includes(transformed.move.type)
                     && (b.__battle?.foresight || (a.passiveAbility==='Scrappy'&&!a.__battle?.abilitySuppressed))));
-            cache.values.set(key,immune||blocked?0:fixed);
+            cache.values.set(key,immune||blocked||move.combat?.power_type==='ohko'&&target.passiveAbility==='Sturdy'&&!ignoresDefenderAbility(preview,target)?0:fixed);
         } else {
             const hits=traits.moves[move.ename]?.multihit;
             const count=move.ename==='Water Shuriken'&&a.__battle.abilityForm==='Greninja-Ash'?3:Number.isInteger(hits)?hits:Array.isArray(hits)
                 ?(a.passiveAbility==='Skill Link'?hits[1]:hits[0]===2&&hits[1]===5?3.1:(hits[0]+hits[1])/2):1;
             // Both Pokémon were copied above; the field belongs to this one
             // analysis/projection. Avoid cloning the same private graph again.
-            cache.values.set(key,blocked||special?.failMessage||special?.unsupported||special?.statusOnly?0:count*engine.estimateDamageOnCopies(preview,target,transformed.move,{battleState:field,defenderSide:side,abilityPowerMultiplier:transformed.powerMultiplier}));
+            cache.values.set(key,blocked||special?.failMessage||special?.unsupported||special?.statusOnly?0:count*engine.estimateDamageOnCopies(preview,target,transformed.move,{battleState:field,defenderSide:side,movedLast,abilityPowerMultiplier:transformed.powerMultiplier}));
         }
     }
     return cache.values.get(key);
@@ -209,7 +209,7 @@ function support(a,b,move,ctx,incoming,bestDamage) {
 function context(a,b,team,field,ownSide,enemySide,foeCount) {
     const attacks=moves(a,field).map(x=>x.move).filter(m=>m.combat?.damage_class!=='status');
     const replies=moves(b,field).map(x=>x.move).filter(m=>m.combat?.damage_class!=='status');
-    return {field,ownSide,enemySide,attacks,replies,party:team.filter(p=>p.currentHp>0).map(p=>({...p,moves:moves(p,field).map(x=>x.move).filter(m=>m.power>0)})),
+    return {field,ownSide,enemySide,attacks,replies,party:team.filter(p=>p.currentHp>0).map(p=>({...p,moves:moves(p,field).map(x=>x.move).filter(m=>m.combat?.damage_class!=='status')})),
         observed:{moves:b.abilities},moveByName,foeCount};
 }
 function orderChance(a,move,b,reply,ctx) {
@@ -220,7 +220,12 @@ function orderChance(a,move,b,reply,ctx) {
 }
 function knownIneffective(a,b,move,ctx) {
     return ctx.memory?.seen?.[b.uuid]?.immuneMoves?.includes(move.ename)
-        || (move.combat?.damage_class!=='status' && (move.power>0 || FIXED_DAMAGE[move.ename] || LEVEL_DAMAGE.has(move.ename)) && damage(a,b,move,ctx.enemySide,ctx.field)===0);
+        // Reactive moves can become effective after the hypothesized incoming hit.
+        // Other variable-power attacks (notably Return) must obey the same
+        // immunity penalty as attacks whose catalogue power is a fixed number.
+        || (move.combat?.damage_class!=='status' && move.combat?.power_type!=='ohko'
+            && !['Counter','Mirror Coat','Metal Burst','Bide'].includes(move.ename)
+            && damage(a,b,move,ctx.enemySide,ctx.field)===0);
 }
 function finishingPressure(a,b,ctx) {
     // A player who can finish the active trainer has little reason to leave.

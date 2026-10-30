@@ -1527,3 +1527,24 @@ for(const kind of ['wild','trainer'])test(`Colère adversaire ${kind} : continue
   assert((await loadEquipe(user.id)).pokemons[0].currentHp>0);
  }finally{if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
 });
+
+for(const kind of ['wild','trainer','pvp'])for(const move of ['Return','Brine','Eruption','Freeze-Dry','High Jump Kick','Focus Punch'])test(`Move review Adventure ${kind}/${move}: real damage, PP, failure and persistence`,{skip:!shouldRun},async()=>{
+ const pool=createTestPool();let userId;
+ try{
+  const {user,player}=await createPlayer(7);userId=user.id;player.currentmap='centre';
+  const own=createPokemon(143,'Lanceur',[move]),foe=createPokemon(9,'Cible',[move==='Focus Punch'?'Tackle':'Splash']);
+  for(const p of [own,foe])Object.assign(p,{passiveAbility:null,heldItem:null,currentHp:1000,maxHp:1000,status:'normal'});
+  own.currentSpeed=move==='Focus Punch'?1:999;foe.currentSpeed=move==='Focus Punch'?999:1;
+  if(['Return','High Jump Kick'].includes(move))foe.type1='Ghost';if(move==='Brine')foe.currentHp=500;if(move==='Eruption')own.currentHp=250;if(move==='Freeze-Dry')foe.type1='Water';
+  const engine=require('../server/game/battle/battleEngine'),definition=engine.getMoveByName(move);
+  const expected=await withFixedRandom(.5,()=>['Return','High Jump Kick','Focus Punch'].includes(move)?0:engine.calculateDamage(structuredClone(own),structuredClone(foe),{...definition,ename:move==='Freeze-Dry'?move:'Oracle',power:move==='Eruption'?37:move==='Brine'?130:70}));
+  player.equipe=createTeam(own);const rival={id:'review-rival',equipe:createTeam(foe)};
+  const io=new RecordingIo({[player.id]:new ScriptedSocket([{action:'attack',number:0},{action:'flee'}]),[rival.id]:new ScriptedSocket([{action:'attack',number:0},{action:'flee'}])});
+  await withFixedRandom(.5,()=>kind==='wild'?startWildBattle(player,foe,io,userId):kind==='trainer'?startTrainerBattle(player,rival.equipe,io,userId):startPvpBattle(player,rival,io));
+  const events=io.events.filter(e=>e.targetId===player.id),result=events.find(e=>e.eventName==='battleMoveResult'&&e.payload.actor==='player').payload;
+  assert.equal(result.damage,expected);assert.equal(own.movePp[0],definition.pp-1);
+  if(move==='High Jump Kick'){assert.equal(own.currentHp,500);assert(events.some(e=>e.eventName==='battleText'&&e.payload.message.includes('retombant')));}
+  if(move==='Focus Punch')assert(result.blocked);
+  const saved=(await loadEquipe(userId)).pokemons[0];assert.equal(saved.currentHp,own.currentHp);assert.equal(saved.movePp[0],definition.pp-1);
+ }finally{if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
+});
