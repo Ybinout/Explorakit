@@ -1,0 +1,274 @@
+{
+  "feature": "Décor de combat propre au Super Tournoi et oiseaux derrière les fenêtres",
+  "date": "2026-10-30",
+  "baseline": "71840c46b598878ba5c8f891ace2b0c177c25b9b",
+  "mode": "Client uniquement",
+  "imageGeneration": {
+    "skill": "/home/ubuntu/.codex/skills/.system/imagegen/SKILL.md",
+    "tool": "image_gen.imagegen (outil intégré)",
+    "cliFallbackUsed": false,
+    "assets": {
+      "wide": {
+        "path": "vue-explorakit/src/assets/battle/tournament-wide-v1.png",
+        "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-b479e908-adde-416e-a429-9e9c92633f61.png",
+        "bytes": 1994818,
+        "sha256": "20ae2b1875358298583b615bc8024f121ef8f49d765008369f6e2f948e848536",
+        "dimensions": [
+          1536,
+          1024
+        ],
+        "originalPixelsPreserved": true
+      },
+      "mobile": {
+        "path": "vue-explorakit/src/assets/battle/tournament-mobile-v1.png",
+        "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-ca983f8b-0ec2-4340-8a05-c8e055c3e106.png",
+        "bytes": 2038792,
+        "sha256": "c60888bf1dcd8741863a6937fa42ad38e3baa473d941ac8033d5a318ecb78f53",
+        "dimensions": [
+          1024,
+          1536
+        ],
+        "originalPixelsPreserved": true
+      }
+    },
+    "prompts": {
+      "wide": "Use case: stylized-concept. Create a finished landscape 1536x1024 battle BACKGROUND for RiftMon, a polished pixel-art monster-catching RPG. Scene: the Super Tournament's island duel hall seen from a low frontal battle camera, NOT an overhead map. Rich sapphire/azure blue stone walls and slate blue tiled floor, restrained warm gold diamond inlays, four solid pale stone pillars with dark-blue pennants and simple gold diamond emblems, small warm brass lanterns. The back wall fills the TOP 40 percent of the frame only. Across this back wall are THREE VERY LARGE rectangular glass windows separated by the pillars, showing a clear turquoise sky, a few chunky white clouds, deep blue ocean and tiny faraway green islands. Glass is nearly invisible. Windows provide broad unobstructed outdoor sky for birds to be animated later, but DO NOT draw birds into the image. The BOTTOM 60 percent is a spacious continuous calm blue tiled battle floor in perspective with sparse gold trim; clear uncluttered standing space at lower left and mid-right. No people, no creatures, no furniture, no UI, no text, no circular platforms or podiums (the game draws its own enemy platform). Match a classic 2D handheld RPG: crisp clustered pixel-like shapes, controlled texture, dark clean outlines, limited blue/gold palette, simple readable architecture; not photorealistic, not intricate painterly illustration, no bloom or depth-of-field. Front-facing broad hall, clean balanced composition, inviting daylight, high-quality production game art.",
+      "mobile": "Edit this Super Tournament battle background into a matching PORTRAIT 1024x1536 mobile battle background. Keep exactly the same game-art style, sapphire blue floor, gold diamond trim, pale stone pillars and blue pennants with simple diamond emblems, warm brass lanterns, large rectangular glass windows overlooking bright blue sky, fluffy clouds, ocean and far green islands. Recompose for a tall mobile combat screen: the back wall and its windows must occupy ONLY THE UPPER 30 PERCENT of the portrait canvas; the lower 70 PERCENT is spacious calm continuous blue tiled floor in perspective, with sparse elegant gold inlays and no obstacles. Three windows across the upper strip, wide clear sky and visible sea, four narrow pillars separating them. No birds baked into the image, no monsters or humans, no furniture, no text or interface, NO platforms, NO circles or podiums. Preserve the crisp clustered pixel-art look and simple clean architecture of the reference, no additional texture or photorealistic detail. The bottom-left foreground and mid-right floor must remain uncluttered for the player's and opponent's separate sprites. Make a coherent tall battle backdrop, NOT a top-down map."
+    }
+  },
+  "implementation": [
+    "Environnement super-tournament pour la salle de duel, indépendant du Colosseum et des thèmes des champions",
+    "Choix du cadrage par picture et préchargement du seul format courant à l’entrée dans la salle",
+    "Canvas pixel art natif à 20 images/s, trois petits groupes de mouettes et scintillements discrets sur la mer, strictement masqués dans les fenêtres",
+    "Socle adverse bleu et or aligné avec le sprite ; aucun socle allié ajouté",
+    "Arrêt pendant le chargement, avec animations désactivées, préférence OS de mouvements réduits et onglet caché ; canvas et écouteurs libérés en sortie",
+    "Aucune modification serveur, carte, règle de combat, météo, équipe, musique ou sauvegarde"
+  ],
+  "checks": {
+    "unit": {
+      "passed": 29,
+      "failed": 0,
+      "skipped": 0
+    },
+    "staleTestMaintenance": {
+      "baselinePassed": 4,
+      "baselineFailed": 2,
+      "beforeLog": "/tmp/riftmon-tournament-battle-baseline.log",
+      "details": [
+        "Ancien test neige attendait aucune neige dans l’arène de 7p, alors que ce réglage est déjà livré ; attente alignée sur hail",
+        "Test de Valpierre imposait neuf étapes d’histoire, contre treize déjà présentes ; vérification ciblée sur l’étape Hoze plutôt que taille globale, autres contrôles conservés"
+      ],
+      "gameContentChanged": false
+    },
+    "browsers": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "views": [
+          {
+            "width": 393,
+            "height": 852,
+            "kind": "mobile",
+            "canvas": [
+              512,
+              768
+            ],
+            "enemyPlatformOnly": true,
+            "platformAligned": true
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "kind": "wide",
+            "canvas": [
+              768,
+              512
+            ],
+            "enemyPlatformOnly": true,
+            "platformAligned": true
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "kind": "wide",
+            "canvas": [
+              768,
+              512
+            ],
+            "enemyPlatformOnly": true,
+            "platformAligned": true
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "kind": "mobile",
+            "canvas": [
+              512,
+              768
+            ],
+            "enemyPlatformOnly": true,
+            "platformAligned": true
+          }
+        ],
+        "canvases": [
+          {
+            "kind": "wide",
+            "escaped": 0,
+            "birdFrames": 49,
+            "pixels": 20291,
+            "frames": 50,
+            "averagePaintMs": 0.06333333253860474
+          },
+          {
+            "kind": "mobile",
+            "escaped": 0,
+            "birdFrames": 50,
+            "pixels": 18200,
+            "frames": 50,
+            "averagePaintMs": 0.09666666587193808
+          }
+        ],
+        "reducedMotion": true,
+        "hiddenCleanup": true,
+        "unmountCleanup": true,
+        "rainPreserved": true,
+        "otherEnvironmentsPreserved": true,
+        "errors": [],
+        "physicalHardware": false
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "views": [
+          {
+            "width": 393,
+            "height": 852,
+            "kind": "mobile",
+            "canvas": [
+              512,
+              768
+            ],
+            "enemyPlatformOnly": true,
+            "platformAligned": true
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "kind": "wide",
+            "canvas": [
+              768,
+              512
+            ],
+            "enemyPlatformOnly": true,
+            "platformAligned": true
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "kind": "wide",
+            "canvas": [
+              768,
+              512
+            ],
+            "enemyPlatformOnly": true,
+            "platformAligned": true
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "kind": "mobile",
+            "canvas": [
+              512,
+              768
+            ],
+            "enemyPlatformOnly": true,
+            "platformAligned": true
+          }
+        ],
+        "canvases": [
+          {
+            "kind": "wide",
+            "escaped": 0,
+            "birdFrames": 49,
+            "pixels": 20291,
+            "frames": 50,
+            "averagePaintMs": 0.20833333333333334
+          },
+          {
+            "kind": "mobile",
+            "escaped": 0,
+            "birdFrames": 50,
+            "pixels": 18200,
+            "frames": 50,
+            "averagePaintMs": 0.21666666666666667
+          }
+        ],
+        "reducedMotion": true,
+        "hiddenCleanup": true,
+        "unmountCleanup": true,
+        "rainPreserved": true,
+        "otherEnvironmentsPreserved": true,
+        "errors": [],
+        "physicalHardware": false
+      }
+    },
+    "lint": "passed",
+    "build": {
+      "hash": "27379f9e1a575930",
+      "destination": "/tmp/riftmon-tournament-battle-dist"
+    },
+    "screenshotsInspected": [
+      "393-battle.png",
+      "1365-battle.png"
+    ],
+    "physicalHardware": false
+  },
+  "reproduce": [
+    "node --test tests/snow-background.test.js tests/lucie-scene-refresh.test.js tests/professor-finale.test.js tests/valpierre.test.js tests/north-caves.test.js tests/super-tournament.test.js",
+    "npm --prefix vue-explorakit run lint",
+    "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-tournament-battle-dist",
+    "DB_TEST_NAME=explorakit_test node --env-file-if-exists=.env scripts/validateTournamentBattleBrowser.js",
+    "PRESENTATION_BROWSER=webkit DB_TEST_NAME=explorakit_test node --env-file-if-exists=.env scripts/validateTournamentBattleBrowser.js"
+  ],
+  "deployment": {
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "publishedAt": "2026-10-30T20:29:37.585Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-tournament-battle-2026-10-30T20-29-36-029Z",
+    "sourceBaseline": "71840c46b598878ba5c8f891ace2b0c177c25b9b",
+    "clientCommit": "51c1e0252c7de75744abf89119510f2f6d9314fa",
+    "clientBuild": "27379f9e1a575930",
+    "pid": "3532904",
+    "serverRestarted": false,
+    "databaseChanged": false,
+    "realAccountsManuallyModified": false,
+    "neighborsUnchanged": true,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.f5ca3bcb.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.118f0f12.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.00fadb68.js",
+      "js/drift.5b8720d7.js",
+      "js/game.7bdee5df.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.bbefd3a4.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.553e140c.css",
+      "css/drift.57f62eee.css",
+      "css/game.6608806b.css",
+      "css/test-view.7568246d.css",
+      "img/tournament-mobile-v1.46ac7c7d.png",
+      "img/tournament-wide-v1.1019a5e7.png"
+    ]
+  }
+}

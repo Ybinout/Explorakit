@@ -1,6 +1,16 @@
 # Audit technique et mémoire de RiftMon
 
 
+## Décor de combat du Super Tournoi — 30 octobre 2026
+
+Salle de duel distincte du Colosseum : architecture bleue et or, fenêtres sur la mer et les îlots, sol dégagé. Deux illustrations imagegen intégrées, cadrages PC 1536×1024 et mobile 1024×1536 ; PNG originaux préservés sans retouche/compression destructive. Préchargement du seul format courant en entrant dans la salle, attente des ressources lors de l’entrée de combat conservée. Socle adverse assorti et lié à l’ancre du Pokémon ; aucun socle allié ajouté. Les autres modes, musiques, règles et météo restent inchangés.
+
+Oiseaux en pixel art et reflets discrets sur la mer dans un Canvas borné à 20 Hz : masques dédiés aux vitres et exclusion des piliers, cadres et îlots. Aucun pixel animé sur le sol/meubles. Pause pendant l’entrée de combat, animations désactivées, préférence OS et onglet masqué ; écouteurs/rAF/surface libérés en sortie. Aucun nouveau calcul serveur, paquet réseau, timer de jeu ou lecture SQL.
+
+Validation : lint/build isolé valides, 29 tests unitaires/régression réussis sans saut. Deux attentes historiques échouaient aussi avant le patch : neige déjà active chez 7p et nombre d’étapes de l’histoire passé à treize ; attentes alignées sur le contenu livré, test de Hoze rendu spécifique à son étape plutôt qu’à la longueur globale. Aucune donnée de jeu modifiée pour cela. Recette client compilé et vrais handlers Socket/SQL sur Chromium/WebKit : quatre formats 320×480/393×852/844×390/1365×900, inscription et reprise de combat, format d’image correct, socle adverse seul/aligné, image et Canvas superposés, aucun débordement, pluie conservée et autres environnements inchangés. Cinquante positions de vol par cadrage : zéro pixel hors des fenêtres, oiseaux visibles dans 49/50 images PC et 50/50 mobile. Coût moyen local de dessin ~0,06–0,22 ms, indicatif hors matériel physique. Arrêt/réactivation mouvement réduit et onglet caché, nettoyage après abandon vérifiés. Zéro erreur navigateur, captures mobile/PC inspectées, comptes SQL jetables supprimés ; pas de téléphone physique testé. Rapport, prompts complets et commandes : `docs/SUPER_TOURNAMENT_BATTLE_ART.json`.
+
+Client publié le 30 octobre 2026 à 21 h 29 (Europe/Paris), commit `51c1e0252c7de75744abf89119510f2f6d9314fa`, build `27379f9e1a575930`. Index, bundles et deux nouveaux décors publics vérifiés à l’octet ; anciens assets hachés conservés. Sauvegarde `/home/ubuntu/dev/backups/riftmon-tournament-battle-2026-10-30T20-29-36-029Z`. Serveur sans redémarrage, PID 3532904 conservé, service actif et zéro redémarrage automatique ; base/comptes réels et applications Knov/api-test inchangés.
+
 ## Collisions des personnages du Super Tournoi — 30 octobre 2026
 
 Les acteurs personnels du tournoi bloquaient seulement leurs pieds. La case du corps est désormais occupée comme pour les PNJ ordinaires, avec leur largeur existante. Même recherche pour collision et interaction ; calcul sur la tentative courante de chaque joueur, sans cache partagé ni lecture SQL au déplacement. Hôtesse et dresseurs concernés ; cases voisines, portes et Action conservées. Aucune carte, position, règle de tournoi ou asset modifié.
@@ -5244,6 +5254,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 30 octobre 2026 — Décor de combat Super Tournoi PC/mobile, mouettes derrière les vitrages et mer animée à 20 Hz, préchargement et arrêt/nettoyage contrôlés. Lint/build, 29 tests et recettes Chromium/WebKit réussis ; prompts/rapport `docs/SUPER_TOURNAMENT_BATTLE_ART.json`.
 
 - 30 octobre 2026 — Collisions corps/pieds des PNJ du Super Tournoi alignées sur le monde, interactions et passages voisins conservés. 46 tests et parcours Socket/SQL Chromium/WebKit réussis ; rapport `docs/SUPER_TOURNAMENT_COLLISIONS.json`.
 
