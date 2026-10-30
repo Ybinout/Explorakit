@@ -132,6 +132,25 @@ for(const kind of ['wild','trainer'])test(`AI active weather Adventure ${kind}: 
 });
 function resourcesMax(name){return require('../server/game/battle/battleResources').getMaxMovePp(name);}
 
+for(const kind of ['wild','trainer','pvp'])for(const condition of ['normal','substitute','magic-coat'])test(`Pain Split Adventure ${kind}/${condition}: real HP, PP and failure payload`,{skip:!shouldRun},async()=>{
+ const pool=createTestPool();let userId;
+ try{
+  const {user,player}=await createPlayer(7);userId=user.id;player.currentmap='centre';
+  const own=createPokemon(19,'Lanceur',['Pain Split']),foe=createPokemon(143,'Cible',['Splash']);
+  for(const p of [own,foe])Object.assign(p,{passiveAbility:null,heldItem:null,currentHp:200,maxHp:200,status:'normal'});
+  own.currentHp=40;own.currentSpeed=999;foe.currentHp=160;
+  if(condition==='substitute')foe.__battle={substituteHp:50};if(condition==='magic-coat')foe.__battle={magicCoat:true};
+  player.equipe=createTeam(own);const rival={id:'pain-rival',equipe:createTeam(foe)};
+  const io=new RecordingIo({[player.id]:new ScriptedSocket([{action:'attack',number:0},{action:'flee'}]),[rival.id]:new ScriptedSocket([{action:'attack',number:0},{action:'flee'}])});
+  await withFixedRandom(.5,()=>kind==='wild'?startWildBattle(player,foe,io,userId):kind==='trainer'?startTrainerBattle(player,rival.equipe,io,userId):startPvpBattle(player,rival,io));
+  const events=io.events.filter(e=>e.targetId===player.id),result=events.find(e=>e.eventName==='battleMoveResult'&&e.payload.actor==='player').payload;
+  assert.equal(result.success,condition!=='substitute');assert.deepEqual([own.currentHp,foe.currentHp],condition==='substitute'?[40,160]:[100,100]);assert.equal(own.movePp[0],19);
+  if(condition==='substitute'){assert(result.blocked);assert(events.some(e=>e.eventName==='battleText'&&/clone.*Balance/.test(e.payload.message)));}
+  assert(!events.some(e=>e.eventName==='battleText'&&e.payload.message.includes('renvoie')));
+  const saved=await loadEquipe(userId);assert.equal(saved.pokemons[0].currentHp,own.currentHp);assert.equal(saved.pokemons[0].movePp[0],19);
+ }finally{if(userId)await pool.execute('DELETE FROM users WHERE id=?',[userId]);await pool.end();}
+});
+
 for (const kind of ['wild', 'trainer', 'pvp']) for (const condition of ['burn', 'facade', 'paralyze', 'blocked']) {
     test(`Status penalties Adventure ${kind}/${condition}: damage, speed, residuals and PP`, {skip: !shouldRun}, async () => {
         const pool = createTestPool(); let userId;

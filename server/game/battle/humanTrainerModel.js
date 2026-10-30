@@ -95,7 +95,7 @@ function castMove(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMove
     if(!availability)return {useful:false,accuracy:0};
     if(engine.movePhase(p,move.ename,state,other)==='prepare'){const rule=twoTurn.rule(move.ename);p.__battle.chargeMove=move.ename;p.__battle.chargeTurns=1;if(rule?.state)p.__battle.semiInvulnerable=rule.state;return {useful:true,recognized:true,accuracy:hitChance};}
     const flags=abilities.getMoveFlags(move),damaging=move.combat.damage_class!=='status',wasSubstitute=other.__battle.substituteHp>0;
-    let useful=false,inflicted=0,recognized=damaging||move.ename==='Rest';
+    let useful=false,inflicted=0,painSplitApplied=false,recognized=damaging||move.ename==='Rest';
     const slot=p.abilities.indexOf(move.ename);if(slot>=0&&!rampage.current(p))p.movePp[slot]=Math.max(0,(p.movePp[slot]??1)-1);
     p.__battle.lastMoveUsed=move.ename;
     if(held.effect(p,state)?.startsWith('choice_'))p.__battle.choiceMove ||= move.ename;
@@ -153,6 +153,23 @@ function castMove(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMove
         } else p.status=old;
     } else for(const effect of move.combat.effects||[]) {
         const self=['self','self_side'].includes(effect.target||move.combat.target),target=self?p:other;
+        if(effect.kind==='pain_split') {
+            recognized=true;
+            const noGuard=ability(p)==='No Guard'||ability(other)==='No Guard'&&!abilities.ignoresDefenderAbility(p,other);
+            const locked=p.__battle.lockOnTurns>0&&p.__battle.lockOnTargetId===other.uuid;
+            const reachable=!other.__battle.semiInvulnerable||noGuard||locked;
+            const probability=hitChance*(1-(guard.get(other)||0));
+            if(probability>0&&reachable&&(!wasSubstitute||moveGuards.bypassesSubstitute(p,move))
+                &&!abilities.resolveMoveAbilityImmunity({attacker:p,defender:other,move,battleState:state,
+                    movePriority:engine.getMovePriority(move.ename,p),grounded:grounded(other,state),effectiveness:1})) {
+                const average=Math.max(1,Math.floor((p.currentHp+other.currentHp)/2));
+                const ownChange=Math.min(p.maxHp,average)-p.currentHp,foeChange=Math.min(other.maxHp,average)-other.currentHp;
+                // HP redistribution bypasses Heal Block and is not direct damage:
+                // no Focus Sash, Life Orb, drain or contact reaction is involved.
+                hp(p,p.currentHp+ownChange*probability);hp(other,other.currentHp+foeChange*probability);
+                painSplitApplied=true;useful=ownChange!==0||foeChange!==0;
+            }
+        }
         if(effect.kind==='curse') {
             recognized=true;
             if(types(p).includes('Ghost')) {
@@ -221,7 +238,7 @@ function castMove(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMove
     }
     if(p.__battle.chargeMove===move.ename){p.__battle.chargeMove=null;p.__battle.chargeTurns=0;p.__battle.semiInvulnerable=null;}
     if(move.ename==='Burn Up'&&inflicted>0){p.__battle.tempTypes=types(p).filter(t=>t!=='Fire');if(!p.__battle.tempTypes.length)p.__battle.tempTypes=['???'];}
-    p.__battle.lastMoveFailed=!useful&&!(guard.get(other)>0);p.__battle.lastMoveResultTurn=state.turn;
+    p.__battle.lastMoveFailed=move.ename==='Pain Split'?!painSplitApplied:!useful&&!(guard.get(other)>0);p.__battle.lastMoveResultTurn=state.turn;
     activate(p,other,state);activate(other,p,state);
     p.__battle.activeMoveActions=(p.__battle.activeMoveActions||0)+1;
     return {useful,recognized,accuracy:hitChance,inflicted};

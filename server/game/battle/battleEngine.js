@@ -3092,9 +3092,9 @@ function executeAttack(attackName, attacker, defender, options = {}) {
     ].includes(moveTarget);
 
     const moveTargetsPokemon = moveTargetsOpponent && moveTarget !== 'opponent_side';
-    const magicBounce=hasPassiveAbility(defender,'Magic Bounce') && !ignoresDefenderAbility(attacker,defender)
-        && reactions.traits.moves[move.ename]?.reflectable;
-    if (damageClass === 'status' && move.ename !== 'Curse' && moveTargetsOpponent && (defenderData.magicCoat || magicBounce) && !options.reflected) {
+    const reflectable=Boolean(reactions.traits.moves[move.ename]?.reflectable);
+    const magicBounce=reflectable && hasPassiveAbility(defender,'Magic Bounce') && !ignoresDefenderAbility(attacker,defender);
+    if (reflectable && damageClass === 'status' && move.ename !== 'Curse' && moveTargetsOpponent && (defenderData.magicCoat || magicBounce) && !options.reflected) {
         if(!magicBounce)defenderData.magicCoat = false;
         moveResult.success = true;
         moveResult.messages.push(`${getPokemonDisplayName(defender)} renvoie ${move.ename} avec ${magicBounce?'Miroir Magik':'Reflet Magik'}.`);
@@ -3413,7 +3413,10 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         if(targetsEnemy && damageClass!=='status' && !moveResult.damage)continue;
         if(targetsEnemy && (defenderData.substituteHp>0 || moveResult.substituteDamage>0)
             && !moveGuards.bypassesSubstitute(attacker,move)){
-            if(effect.kind==='purify'){moveResult.success=false;moveResult.blocked=true;moveResult.messages.push('Le clone empêche Purification d’atteindre sa cible.');}
+            if(['purify','pain_split'].includes(effect.kind)){
+                moveResult.success=false;moveResult.blocked=true;
+                moveResult.messages.push(`Le clone empêche ${effect.kind==='pain_split'?'Balance':'Purification'} d’atteindre sa cible.`);
+            }
             continue;
         }
         if(targetsEnemy && hasPassiveAbility(attacker,'Infiltrator'))effectContext.ignoreSafeguard=true;

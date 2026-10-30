@@ -1,0 +1,88 @@
+{
+  "feature": "Balance : Clonage, Reflet Magik et simulation IA",
+  "date": "2026-10-30",
+  "baseline": "e8d01950f50dc06769ee51db18943e393484c1c5",
+  "changes": [
+    "Balance bloquée par Clonage annonce son échec, succès=false et blocked=true ; coût normal de 1 PP, PV du clone et des Pokémon inchangés ; Infiltration conserve son contournement",
+    "Reflet Magik et Miroir Magik utilisent le même drapeau canonique reflectable ; Balance ne déclenche plus de renvoi et ne consomme pas Reflet Magik, Toxic/Cage Éclair/Piège de Roc restent renvoyés",
+    "IA : moyenne des PV courants, arrondi inférieur et plafonds propres, changement direct des PV sans effets de dégâts ; ni Anti-Soin ni Fermeté/Ceinture Force ne détournent le calcul",
+    "IA : protections/clone, priorité farceur contre Ténèbres, demi-invulnérabilité/Annule Garde/Verrouillage et probabilité de paralysie pris en compte ; succès à PV égaux distinct d’un échec sous Abri",
+    "Prédictions sur copies privées, aucun nouveau tirage RNG ni accès à l’action humaine ; le planificateur choisit Balance quand elle est profitable et évite de soigner l’adversaire"
+  ],
+  "unchanged": [
+    "Formule réelle de moyenne et plafonds, déjà correcte",
+    "Statistiques, XP, équipes et objets possédés",
+    "Client compilé, cartes, assets, musiques et structures Socket.IO"
+  ],
+  "checks": {
+    "unit": {
+      "passed": 467,
+      "failed": 0,
+      "skipped": 0,
+      "dedicatedPainSplitCases": 40,
+      "independentProjectionOracleCasesAdded": 12
+    },
+    "mysql": {
+      "passed": 163,
+      "failed": 0,
+      "skipped": 0,
+      "newAdventureCases": 9,
+      "modes": [
+        "wild",
+        "trainer",
+        "pvp"
+      ],
+      "details": "Vrais tours, résultat envoyé, message du clone, PV, coût PP et équipe sauvegardée"
+    },
+    "sharedOrchestrators": [
+      "Rift sauvage",
+      "Rift PvP",
+      "Colosseum",
+      "Super Tournoi"
+    ],
+    "beforePatchReplay": {
+      "sourceCommit": "e8d01950f50dc06769ee51db18943e393484c1c5",
+      "tests": 74,
+      "passed": 46,
+      "failed": 28,
+      "method": "Anciens modules compilés en mémoire dans un processus isolé, aucun fichier du runtime remplacé",
+      "log": "/tmp/riftmon-pain-split-before.log"
+    },
+    "syntax": "passed",
+    "gitDiffCheck": "passed",
+    "clientChanged": false,
+    "browserRecipeRun": false,
+    "physicalHardware": false
+  },
+  "primaryReference": "https://github.com/smogon/pokemon-showdown/blob/master/data/moves.ts",
+  "reproduce": [
+    "node --test tests/pain-split.test.js tests/human-trainer-model.test.js tests/human-trainer-ai.test.js tests/human-trainer-items.test.js tests/human-trainer-known-abilities.test.js tests/human-trainer-finishing.test.js tests/human-trainer-sucker-punch.test.js tests/human-trainer-trapping.test.js tests/ai-redundancy.test.js tests/ai-preview-performance.test.js tests/battle-engine.test.js tests/ability-system.test.js tests/ability-audit-regression.test.js tests/ability-reactions.test.js tests/curse.test.js tests/pardon-ending.test.js tests/move-behavior-audit.test.js tests/automatic-move-regressions.test.js tests/end-of-round.test.js tests/status-penalties.test.js tests/super-tournament.test.js",
+    "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test node --env-file-if-exists=.env --test --test-concurrency=1 tests/battle-runtime-integration.test.js"
+  ],
+  "deployment": {
+    "publishedAt": "2026-10-30T21:10:06.780Z",
+    "restartedAt": "2026-10-30T21:10:05.488Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-pain-split-2026-10-30T21-10-05-128Z",
+    "sourceBaseline": "e8d01950f50dc06769ee51db18943e393484c1c5",
+    "sourceHashes": {
+      "server/game/battle/battleEngine.js": "7fdd804d0118cc094624ba62c89d4605b29ef1c19df24a36dd36f4af5195ab2c",
+      "server/game/battle/humanTrainerModel.js": "c439f97cd4dc848b4b2f9357e61226e27df8a6329aebff9d99b6d79cdd9789b6"
+    },
+    "clientCommit": "c61902c35650ab8bea64ba0fcfe81b585d9c41a3",
+    "clientBuild": "ac0bceb3462b31a6",
+    "clientChanged": false,
+    "beforePid": "3537332",
+    "afterPid": "3539719",
+    "serverRestarted": true,
+    "databaseSchemaChanged": false,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "publicIndexUnchanged": true,
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0
+  }
+}

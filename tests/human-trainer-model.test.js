@@ -28,7 +28,19 @@ for(const [label,id,move,props,foeMove,foeProps,first,weather] of [
     ['Feint breaks Protect',143,'Feint',{},'Protect',{},false],
     ['Hyperspace Hole bypasses Substitute',143,'Hyperspace Hole',{},'Substitute',{},false],
     ['Purify cures target and heals user',1,'Purify',{currentHp:80},'Splash',{status:'poison'},true],
-    ['Purify fails on a healthy target',1,'Purify',{currentHp:80},'Splash',{},true]
+    ['Purify fails on a healthy target',1,'Purify',{currentHp:80},'Splash',{},true],
+    ['Pain Split average',19,'Pain Split',{currentHp:40},'Splash',{currentHp:160},true],
+    ['Pain Split rounds down',19,'Pain Split',{currentHp:1},'Splash',{currentHp:200},true],
+    ['Pain Split individual caps',19,'Pain Split',{currentHp:10,maxHp:50},'Splash',{currentHp:190},true],
+    ['Pain Split at one HP each',19,'Pain Split',{currentHp:1},'Splash',{currentHp:1},true],
+    ['Pain Split through Heal Block',19,'Pain Split',{currentHp:40,__battle:{statStages:{},healBlockTurns:3}},'Splash',{currentHp:160,__battle:{statStages:{},healBlockTurns:3}},true],
+    ['Pain Split blocked by Substitute',19,'Pain Split',{currentHp:40},'Splash',{currentHp:160,__battle:{statStages:{},substituteHp:100}},true],
+    ['Pain Split Infiltrator',19,'Pain Split',{currentHp:40,passiveAbility:'Infiltrator'},'Splash',{currentHp:160,__battle:{statStages:{},substituteHp:100}},true],
+    ['Pain Split blocked by Protect',19,'Pain Split',{currentHp:40},'Protect',{currentHp:160},false],
+    ['Pain Split not reflected',19,'Pain Split',{currentHp:40},'Magic Coat',{currentHp:160},false],
+    ['Pain Split activates both Sitrus berries',19,'Pain Split',{currentHp:1,heldItem:'sitrus_berry'},'Splash',{currentHp:199,heldItem:'sitrus_berry'},true],
+    ['Pain Split Ghost target',19,'Pain Split',{currentHp:40},'Splash',{currentHp:160,type1:'Ghost'},true],
+    ['Pain Split after damage',19,'Pain Split',{currentHp:80},'Pound',{currentHp:300},false]
 ]) test(`turn projection agrees with actual item/HP mechanics: ${label}`,()=>{
     const a=mon(id,move,props),b=mon(143,foeMove,foeProps),field=engine.createBattleState();if(weather)field.weather={kind:weather,turns:4};
     const ctx={field,ownSide:field.sides.player,enemySide:field.sides.enemy,chance:()=>1,

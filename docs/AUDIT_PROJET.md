@@ -1,6 +1,16 @@
 # Audit technique et mémoire de RiftMon
 
 
+## Balance : résultat, réflexion et IA — 30 octobre 2026
+
+Le partage réel des PV était correct. Face à Clonage, Balance renvoie désormais un échec explicite et un message, avec un seul PP consommé et aucun changement de PV ; Infiltration continue de fonctionner. Reflet Magik consulte le même drapeau canonique `reflectable` que Miroir Magik : Balance ne provoque plus de renvoi et ne consomme pas l’effet de Reflet Magik. Les capacités réfléchissables usuelles restent renvoyées. Changement limité à Balance pour l’annonce d’échec du clone ; Purification conserve sa règle.
+
+Le simulateur IA traite le partage de PV : moyenne courante arrondie à l’inférieur, plafond de chaque Pokémon, effets des baies puis phase de fin de tour. Redistribution directe, sans activation d’Orbe Vie, Ceinture Force ou Vampipoing et sans blocage par Anti-Soin. Abri, Clonage/Infiltration, Farceur contre Ténèbres, demi-invulnérabilité et ses contournements, disponibilité sous paralysie sont pris en compte. Succès sans variation à PV égaux distinct de l’échec sous protection. Le planificateur favorise les échanges de PV profitables et évite de soigner son adversaire. Copies privées et hypothèses publiques conservées, aucun nouveau RNG de combat ni accès à l’action du joueur.
+
+Validation : 467 tests unitaires/régression et 163 SQL sans échec/saut, dont 40 cas dédiés, douze comparaisons indépendantes projection/moteur et neuf cas Aventure sauvage/dresseur/PvP. Les vrais orchestrateurs Rift/Colosseum/Super Tournoi vérifient les résultats et PV ; SQL vérifie en plus PP, message et sauvegarde. Formule normale/arrondi/plafonds/1 PV/Spectre, garde/clones, renvois autorisés, Cran/statuts/résiduels et confidentialité de l’IA couverts par la passe de régression. Rejeu isolé de l’ancien moteur/simulateur : 28 échecs sur les 74 cas ciblés, aucun fichier de runtime remplacé. Comptes SQL jetables supprimés, syntaxe/diff valides. Serveur seul : client actuel conservé, aucun nouveau build ni recette navigateur/téléphone physique revendiqués. Commandes et référence primaire : `docs/PAIN_SPLIT_FIX.json`.
+
+Serveur publié le 30 octobre 2026 à 22 h 10 (Europe/Paris), PID 3537332→3539719, service actif, zéro redémarrage automatique/avertissement. Client `c61902c35650ab8bea64ba0fcfe81b585d9c41a3` et build `ac0bceb3462b31a6` conservés, index public identique. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-pain-split-2026-10-30T21-10-05-128Z`, zéro expédition active au contrôle. Aucun changement de schéma ni modification manuelle de compte réel ; Knov/api-test inchangés.
+
 ## Niveaux du Super Tournoi par cycle — 30 octobre 2026
 
 Les seize dresseurs reviennent avec dix niveaux supplémentaires à chaque cycle complet : combats 1–16 = 85/95/100, 17–32 = 95/105/110, 33–48 = 105/115/120, puis +10 à chaque nouveau passage. Bonus calculé depuis l’indice absolu de salle, sans plafond au niveau 100. Construction par XP au niveau visé : PV et statistiques calculés normalement, aucune simple modification du libellé. Composition, K4/IV/EV, objets, capacités, nature, IA, score et récupération restent identiques. Le tournoi ne donne toujours aucune XP/EV/argent/butin. Règles de l’hôtesse mises à jour.
@@ -5264,6 +5274,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 30 octobre 2026 — Balance : échec explicite sous Clonage, réflexion limitée aux capacités canoniques et prévision IA des PV/baies/protections. 467 tests + 163 SQL réussis, 28 régressions reproduites sur l’ancien moteur ; `docs/PAIN_SPLIT_FIX.json`.
 
 - 30 octobre 2026 — Super Tournoi : +10 niveaux adverses par cycle de seize dresseurs, stats recalculées au-delà de 100 et règles d’inscription alignées. 40 tests, six SQL et recettes Chromium/WebKit avec passage 16→17/reconnexion réussis ; `docs/SUPER_TOURNAMENT_LEVEL_SCALING.json`.
 
