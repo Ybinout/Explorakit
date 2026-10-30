@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Onglets du menu Amis — 30 octobre 2026
+
+« Tes amis » devient le premier onglet, ouvert par défaut même lorsqu’une invitation de groupe est en attente. Les amis acceptés passent avant les demandes reçues/envoyées. L’annuaire et la recherche globale sont déplacés dans « Dresseurs connectés » ; « Groupe » reste le troisième onglet. Appel à découvrir les dresseurs lorsqu’aucun ami n’est encore ajouté. Les ouvertures ciblées depuis le monde gardent leur conversation explicite.
+
+Les deux listes partagent la conversation : le choix d’un dresseur ne renvoie plus automatiquement vers l’autre onglet, et le retour mobile nomme la liste d’origine. Lecture des messages autorisée dans les deux vues, sélection/réponses d’historique invalidées au changement de vue. Présence des amis conservée en temps réel ; découverte/recherche rafraîchies uniquement dans leur onglet, timers/réponses invalidés en sortie. Trois boutons souples sur petite largeur, même DA.
+
+Recette existante `scripts/validateFriendsDiscoveryBrowser.js` adaptée et étendue : vrais comptes/SQL/Socket sur Chromium et WebKit, quatre formats 320×480/393×852/844×390/1365×900, clair/nocturne. Premier onglet et amis avant demandes, séparation des listes, annuaire non chargé à l’ouverture des amis ni après déconnexion d’un ami dans cette vue, requête/acceptation, conversations depuis les deux listes et accusé de lecture dans les connectés, invitation/adhésion de groupe sans détourner le prochain défaut, présence Aventure→Colosseum, pagination 25 résultats sans doublon, dernière recherche prioritaire et reprise réseau. Aucun débordement, boutons d’onglet d’au moins 44 px, aucune erreur navigateur. Trois comptes et 23 profils de recherche jetables supprimés ; téléphone physique non testé. Lint/build isolé, syntaxe/diff valides ; aucun changement serveur/base. Commandes/résultats : `docs/FRIENDS_TABS.json`.
+
+Client `8222c4bc901b683d576069a3864b592f8c0ab5d3`, build `69f3e4f72aa8641f`, publié le 30 octobre 2026 à 19 h 58 (Europe/Paris). Index/bundles publics vérifiés, anciens assets conservés ; sauvegarde `/home/ubuntu/dev/backups/riftmon-friends-tabs-2026-10-30T18-58-35-270Z`. Serveur sans redémarrage (PID 3518118), comptes réels et applications voisines inchangés.
+
 ## XP à la capture — 30 octobre 2026
 
 Une capture réussie donne désormais l’XP d’une victoire sauvage en Aventure, Rift et Colosseum. L’Aventure appelle le calcul partagé avec un indicateur de capture confirmé par le serveur, en conservant la participation, le Multi Exp équipé, les coefficients et pénalités de niveau. Le Pokémon qui rejoint l’équipe est explicitement exclu du gain de sa propre capture. L’attribution des EV passe dans la même récompense pour conserver une seule attribution et les détails de progression. Le transfert au PC suit le même chemin.
@@ -5175,6 +5185,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 30 octobre 2026 — Menu Amis : Tes amis en premier/par défaut, annuaire connecté/recherche séparés et Groupe conservé ; conversations, lectures et présence préservées. Recettes Chromium/WebKit quatre formats/deux thèmes, lint/build réussis ; client seul publié. Rapport `docs/FRIENDS_TABS.json`.
 
 - 30 octobre 2026 — XP à la capture en Aventure/Rift/Colosseum, partage existant et cible exclue, EV uniques et registre distinct des K.O. 104 tests, 105 SQL et recettes Chromium/WebKit réussis ; serveur seul publié avec sauvegarde, client/voisins inchangés. Rapport `docs/CAPTURE_EXPERIENCE.json`.
 
