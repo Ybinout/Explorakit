@@ -52,6 +52,7 @@ const {
 } = require('./playerState');
 const { DEFAULT_SPRITE, registerPlayerProfileHandlers } = require('./handlers/playerProfileHandlers');
 const { registerChatHandlers } = require('./handlers/chatHandlers');
+const { registerWorldChatHandlers } = require('./handlers/worldChatHandlers');
 const {registerMedicineHandlers}=require('./handlers/medicineHandlers');
 const {devicesForMap,isNearComputer}=require('../game/world/pokemonComputer');
 const {registerPokemonComputerHandlers}=require('./handlers/pokemonComputerHandlers');
@@ -1120,6 +1121,9 @@ const socketHandler = (io) => {
             socketToChatSession,
             closeChatSession,
             closeChatSessionForSocket
+        });
+        registerWorldChatHandlers({ socket, io, getPlayer: () => players[socket.id],
+            available: () => !openingPending && !transitionBusy && !pendingDialogue && !socketToChatSession.has(socket.id)
         });
 
         // Reuse the same authoritative battle/reward path for normal dialogue

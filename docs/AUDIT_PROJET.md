@@ -1,5 +1,19 @@
 # Audit technique et mémoire de RiftMon
 
+## Chat local et bulles éphémères — 31 octobre 2026
+
+En Aventure, Entrée ouvre une saisie locale, Entrée envoie et Échap ferme. Les champs, menus, dialogues, combats et compositions IME conservent leurs commandes. Les déplacements et actions clavier/manette sont suspendus pendant la saisie ; le canvas reprend le focus lors de la marche. Sur mobile, petit bouton de bulle sur la carte, sans agrandir l’en-tête ; le dock de déplacement s’efface seulement pendant la composition.
+
+Les joueurs de la même carte, émetteur compris, voient une bulle au-dessus du personnage pendant sept secondes. Position issue de l’interpolation et de la caméra existantes ; dessin après les effets du décor pour rester lisible. Couleurs du thème local, retour à la ligne et placement évitant les superpositions. Une bulle par joueur ; dans une foule remplissant une très petite vue, une bulle sans place disponible attend dans sa durée restante. Nettoyage à l’expiration, départ, combat, changement de carte ou déconnexion ; aucune reprise d’historique à la reconnexion.
+
+Nouveaux événements `world:chat` / `world:speech`, gardés par la connexion de compte authentifiée. Auteur et room déterminés par le serveur, jamais par le payload. Texte de 160 caractères maximum, contrôles/bidi normalisés et délai de deux secondes entre envois. Refus conservant le brouillon. Texte brut dans canvas/Vue, sans interprétation HTML. Aucun historique serveur ni écriture SQL pour ces messages ; discussions privées/amis existantes conservées.
+
+Rendu créé au premier message, bitmaps réutilisés pendant les déplacements, cache invalidé seulement sur texte/thème/résolution/largeur et borné à 32 acteurs. Pas de nouveau cycle d’animation ; un seul minuteur d’annonce accessible. Vérifications : 27 tests unitaires/régression réussis, dont sept nouveaux, sans échec/saut ; lint, syntaxe/diff et build isolé valides. Vrai serveur isolé et `explorakit_test`, Chromium/WebKit Linux : deux joueurs sur la même carte et troisième socket sur une autre, commandes réelles, envoi simultané, contrôles d’identité/map, refus de cadence, brouillon conservé, expiration, reconnexion sans historique et nettoyage au départ. Instantanés SQL équipe/inventaire identiques, comptes jetables supprimés. PC 1365×900 et mobile 393×852, clair/nocturne, zéro erreur navigateur, captures inspectées ; aucun téléphone physique revendiqué.
+
+Rapport et commandes : `docs/WORLD_CHAT_2026-10-31.json`, `DB_TEST_NAME=explorakit_test npm run test:world-chat-browser` (ajouter `PRESENTATION_BROWSER=webkit`). Rift et Colosseum restent fermés « Soon » ; aucun changement de schéma, de règles de combat ni de données de compte réel.
+
+Client et serveur publiés le 31 octobre 2026 à 11 h 45 (Europe/Paris), client `5ca92850ffbb9c25ab949b1020ed43742e35df6f`, build `cb46e2f0c077c025`. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-world-chat-2026-10-31T10-45-02-563Z`. PID 3570955→3579326, service actif, zéro redémarrage automatique/avertissement. Index et 22 bundles/CSS HTTPS vérifiés à l’octet, anciens assets conservés. Aucun changement de schéma/durabilité ni modification manuelle de compte réel ; Knov/api-test inchangés. Namespace Rift toujours fermé, checkpoint conservé et zéro expédition active au contrôle.
+
 ## Menus PC et réorganisation de l’équipe — 31 octobre 2026
 
 Apprentissage naturel : fenêtre PC élargie, nouvelle capacité à gauche et quatre capacités existantes à droite. Descriptions conservées, couleurs issues du thème choisi. En-tête et boutons « Plus tard / Ne pas apprendre » restent fixes ; le contenu peut défiler dans une petite fenêtre sans masquer les décisions. Échap ne ferme plus une sauvegarde en cours. Pas de changement des règles d’apprentissage, CS, PP ou choix serveur.
@@ -5367,6 +5381,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 31 octobre 2026 — Chat local avec Entrée, bulles de sept secondes liées aux personnages et bouton mobile. Identité/room serveur, texte brut, cooldown et cache de rendu ; 27 tests et recettes multi-clients Chromium/WebKit sans historique ni mutation d’équipe ; `docs/WORLD_CHAT_2026-10-31.json`.
 
 - 31 octobre 2026 — Menus PC élargis et rubriques de fiche, boutons d’apprentissage visibles, six compagnons sur deux rangées et tri par glisser-déposer autosauvegardé. 27 tests, lint/build et recettes Chromium/WebKit avec SQL/reconnexion ; `docs/DESKTOP_TEAM_2026-10-31.json`.
 

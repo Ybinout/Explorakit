@@ -1,0 +1,197 @@
+{
+  "date": "2026-10-31",
+  "baseline": {
+    "root": "c82b737a3671b6aec66fcdddb86ee7c25164f863",
+    "client": "085d56ca32049ab3810650a302e71709380d4805"
+  },
+  "clientCommit": "5ca92850ffbb9c25ab949b1020ed43742e35df6f",
+  "clientBuild": "cb46e2f0c077c025",
+  "scope": "Local transient overhead chat in Adventure. Existing private/friend chats, battle rules and closed Rift/Colosseum modes retained.",
+  "behavior": {
+    "keyboard": "Enter/Numpad Enter in the available world opens the composer, Enter sends once, Escape closes; native form/control focus and IME composition respected. Walking focuses the world canvas. Typing suspends movement, NPC actions and controller navigation.",
+    "mobile": "A small speech button on the map opens the same composer without enlarging the header. The movement dock is hidden only during composition, restoring map space while the keyboard is open.",
+    "visibility": "One latest bubble per player, seven seconds after receipt, following the same interpolated actor/camera coordinates. Bubbles drawn over foreground/weather/night tint, in the viewer theme. Nearby text boxes avoid overlap; very crowded tiny viewports may defer an unplaceable bubble until space becomes free.",
+    "network": "Authenticated world:chat handler uses authoritative sender identity/map. Broadcast world:speech to that Adventure map room only, including the sender. Max 160 Unicode code points server-side and 160 UTF-16 units in the native input; 2-second per-connection cooldown. Control/bidi characters normalized; text is canvas/Vue text, never HTML.",
+    "ephemeral": "No server history/DB write. No catch-up on reload. Renderer discards expired, departed, other-map and fighting actors; local speech/composer clear on map/disconnect/unmount. Existing private chats are separate.",
+    "performance": "Lazy renderer, one cached high-resolution bitmap per speaking player; no new canvas allocation on ordinary movement frames. Cache invalidation only for text/palette/scale/width changes, bounded to 32 actors. No independent animation loop, only one bounded live-announcement timer."
+  },
+  "runtimeSourceSha256": {
+    "server/realtime/socketHandler.js": "46ebff96b88f0833068b854b0ff3675c177a48161f3f32a04937a54520601d84",
+    "server/realtime/handlers/worldChatHandlers.js": "62ef02146e8aab720cd603f8313b0094bc7e5a0690ac3ab1e264b31f6784ad71"
+  },
+  "clientSourceSha256": {
+    "src/components/UserMap.vue": "47223681ac582901203b5a8d1b4a71fe1b77fc5a68ec8f7b184a61a31e066c80",
+    "src/components/world/WorldChatInput.vue": "90e47ecfd62cedc3a0a9093d7bf63628ca72dedf40d794f3b68476f0d9551c6c",
+    "src/services/worldSpeech.js": "c015b5ded90d754660dc05bd56ae152c59de20fbe0117b226ebfeb1ab86b84d1"
+  },
+  "validation": {
+    "unit": {
+      "pass": 27,
+      "fail": 0,
+      "skipped": 0,
+      "newCases": 7,
+      "command": "node --test --test-concurrency=1 tests/world-chat.test.js tests/network-delivery.test.js tests/world-movement.test.js tests/account-connection.test.js tests/team-drag-client.test.js",
+      "coverage": "Text/Unicode/limits/control characters, authoritative identity/rooms, cooldown/unavailable states, wrapping without truncation, bitmap allocation reuse, palette/scale changes, expiry/replacement/departure/memory bound, non-overlapping boxes; existing account/network/movement/drag regressions."
+    },
+    "browsers": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "enterOpensAndSends": true,
+        "escapeCancels": true,
+        "emptyAndImeIgnored": true,
+        "gamepadConsumedWhileTyping": true,
+        "noMovementOrActionsWhileTyping": true,
+        "realSameMapBroadcast": true,
+        "simultaneousBubbles": true,
+        "serverIdentityAndMap": true,
+        "rateLimitKeepsDraft": true,
+        "plainTextHtml": true,
+        "expires": true,
+        "noReplayOnReload": true,
+        "mobileToggle": true,
+        "movementResumes": true,
+        "disconnectCleanup": true,
+        "teamAndInventoryUnchanged": true,
+        "closedModesPreserved": true,
+        "views": [
+          {
+            "width": 1365,
+            "height": 900,
+            "themeMode": "light"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "themeMode": "dark"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "themeMode": "light"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "themeMode": "dark"
+          }
+        ],
+        "errors": [],
+        "output": "/tmp/riftmon-world-chat-chromium"
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "enterOpensAndSends": true,
+        "escapeCancels": true,
+        "emptyAndImeIgnored": true,
+        "gamepadConsumedWhileTyping": true,
+        "noMovementOrActionsWhileTyping": true,
+        "realSameMapBroadcast": true,
+        "simultaneousBubbles": true,
+        "serverIdentityAndMap": true,
+        "rateLimitKeepsDraft": true,
+        "plainTextHtml": true,
+        "expires": true,
+        "noReplayOnReload": true,
+        "mobileToggle": true,
+        "movementResumes": true,
+        "disconnectCleanup": true,
+        "teamAndInventoryUnchanged": true,
+        "closedModesPreserved": true,
+        "views": [
+          {
+            "width": 1365,
+            "height": 900,
+            "themeMode": "light"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "themeMode": "dark"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "themeMode": "light"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "themeMode": "dark"
+          }
+        ],
+        "errors": [],
+        "output": "/tmp/riftmon-world-chat-webkit"
+      }
+    },
+    "browserCommand": "DB_TEST_NAME=explorakit_test [PRESENTATION_BROWSER=webkit] node --env-file-if-exists=.env scripts/validateWorldChatBrowser.js",
+    "integration": "Two real browser sessions on one map, third authenticated socket on another map; actual server and explorakit_test. Real keyboard open/send/cancel, empty and IME guards, gamepad event consumption, no movement/action while typing, simultaneous speech, sender/map forgery rejected by authority, draft preserved after rate rejection, expiry, reload without history, movement resumes, disconnect cleanup. Team and inventory SQL snapshots identical. Test users removed.",
+    "viewports": [
+      "1365x900",
+      "393x852"
+    ],
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "lint": "No lint errors",
+    "syntaxAndDiff": true,
+    "screenshotsInspected": [
+      "/tmp/riftmon-world-chat-chromium/peer-bubble.png",
+      "/tmp/riftmon-world-chat-chromium/bubble-393-dark.png"
+    ],
+    "physicalPhoneTested": false
+  },
+  "publication": {
+    "publishedAt": "2026-10-31T10:45:06.937Z",
+    "restartedAt": "2026-10-31T10:45:04.119Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-world-chat-2026-10-31T10-45-02-563Z",
+    "sourceBaseline": "c82b737a3671b6aec66fcdddb86ee7c25164f863",
+    "sourceHashes": {
+      "server/realtime/socketHandler.js": "46ebff96b88f0833068b854b0ff3675c177a48161f3f32a04937a54520601d84",
+      "server/realtime/handlers/worldChatHandlers.js": "62ef02146e8aab720cd603f8313b0094bc7e5a0690ac3ab1e264b31f6784ad71"
+    },
+    "clientCommit": "5ca92850ffbb9c25ab949b1020ed43742e35df6f",
+    "clientBuild": "cb46e2f0c077c025",
+    "beforePid": "3570955",
+    "afterPid": "3579326",
+    "serverRestarted": true,
+    "schemaChanged": false,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "checkpointUnchangedWhileDisabled": true,
+    "namespaceClosed": true,
+    "neighborsUnchanged": true,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.f5ca3bcb.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.12e48862.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.2fd32f7c.js",
+      "js/drift.5b8720d7.js",
+      "js/game.d614f70d.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.de3bb7ec.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.132b0fcd.css",
+      "css/test-view.7568246d.css"
+    ],
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0
+  }
+}
