@@ -7,6 +7,7 @@ const stones=require('../server/game/items/stoneEvolution');
 const learning=require('../server/game/models/moveLearning');
 const {getMoveDefinition,getMaxMovePp}=require('../server/game/battle/battleResources');
 const {maps}=require('../data/game/nextMap.json');
+const {encounterChances}=require('../server/game/world/wildEncounterPool');
 const rules=require('../data/game/evolutions.json').rules;
 const stoneRules=require('../data/game/stone_evolutions.json').rules;
 
@@ -23,7 +24,9 @@ test('Adventure rolls every configured grass species; fishing species create val
  const report=buildReport(),oldRandom=Math.random;
  try {
   for(const map of maps.filter(m=>report.zones.includes(m.mapName)))for(let i=0;i<map.wildpokemon.length;i++){
-   Math.random=()=>(i+.5)/map.wildpokemon.length;
+   const chances=encounterChances(map);
+   const midpoint=(chances.slice(0,i).reduce((sum,[,rate])=>sum+rate,0)+chances[i][1]/2)/100;
+   Math.random=()=>midpoint;
    const p=await wild(map.mapName);
    assert.equal(p.data.id,map.wildpokemon[i]);assert(p.currentHp>0);assert.equal(p.level>=map.level.min&&p.level<=map.level.max,true);
    assert(p.abilities.length>0&&p.abilities.length<=4);

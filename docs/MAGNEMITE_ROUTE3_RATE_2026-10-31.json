@@ -1,0 +1,74 @@
+{
+  "date": "2026-10-31",
+  "sourceBaseline": "858c6e7e6175b7ba15b66479625be6867485f28d",
+  "mode": "Adventure",
+  "map": "route3",
+  "speciesId": 81,
+  "pokemon": "Magnéti",
+  "ordinaryPercent": 7,
+  "otherSpecies": 27,
+  "otherOrdinaryPercentEach": 3.4444444444444446,
+  "legendaryOneIn": 3000,
+  "percentIncludingLegendaryCategory": 6.997666666666667,
+  "level": {
+    "min": 19,
+    "max": 23
+  },
+  "mechanism": "Optional adventureEncounterRates map; explicit ordinary percentages and uniformly shared remainder, no duplicated pool entries",
+  "unchanged": [
+    "All unconfigured route draws and species indexes",
+    "28 distinct species in Route 3",
+    "Legendary category and selection",
+    "Encounter frequency per movement step",
+    "Levels, ability/IV/K rolls and natural moves",
+    "Fishing and expedition rarity weights",
+    "Species availability, capture and loot rules"
+  ],
+  "validation": {
+    "passed": 46,
+    "failed": 0,
+    "skipped": 0,
+    "newTests": 8,
+    "stratifiedOrdinaryDraws": 10000,
+    "magnemiteDraws": 700,
+    "otherDrawCounts": [
+      344,
+      345
+    ],
+    "allUnconfiguredRoutesComparedAt1000PointsEach": true,
+    "realFactoryAndExperienceModuleTested": true,
+    "legendaryPrecedenceTested": true,
+    "invalidConfigurationFallbackTested": true,
+    "emptyPoolsAndBoundaryTested": true,
+    "all493SpeciesStillObtainable": true,
+    "syntaxAndDiff": true,
+    "browserRequired": false
+  },
+  "deployment": {
+    "publishedAt": "2026-10-31T19:39:50.955Z",
+    "restartedAt": "2026-10-31T19:39:49.567Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-magnemite-rate-2026-10-31T19-39-49-251Z",
+    "sourceBaseline": "858c6e7e6175b7ba15b66479625be6867485f28d",
+    "sourceHashes": {
+      "data/game/nextMap.json": "4de5b0e7e8a3e49d1b69b308426fd18fcfa9400425dc84c6f80e225004ba13bd",
+      "server/game/world/wildPokemonFactory.js": "be2499765664f6ab331d4016405bd5dffbf681bb89d616f83aaa973a67d4c5af",
+      "server/game/world/wildEncounterPool.js": "1214a0ace2075aa7b1150931d9a266951ff35d8580f53fd98d4021b21406b22d"
+    },
+    "clientCommit": "1f2ff7096d3389d01f6f4a937277301baf7e1abe",
+    "clientBuild": "87abb4cfb71a4066",
+    "clientChanged": false,
+    "beforePid": "3608875",
+    "afterPid": "3611882",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "schemaChanged": false,
+    "realAccountsManuallyModified": false,
+    "publicIndexUnchanged": true,
+    "neighborsUnchanged": true,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0
+  },
+  "command": "node --test --test-concurrency=1 tests/wild-encounter-rates.test.js tests/pokemon-availability.test.js tests/legendary-encounters.test.js tests/encounter-variety.test.js tests/experience-module.test.js tests/abra-encounter.test.js tests/exploration-balance.test.js"
+}

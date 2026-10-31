@@ -2,18 +2,11 @@ const fs = require('fs').promises;
 const path = require('node:path');
 const Pokemon = require('../models/Pokemon');
 const { rollLegendary } = require('./legendaryEncounters');
+const { chooseOrdinarySpecies } = require('./wildEncounterPool');
 
 const GAME_DATA_DIR = path.resolve(__dirname, '..', '..', '..', 'data', 'game');
 const MAP_CONFIG_PATH = path.join(GAME_DATA_DIR, 'nextMap.json');
 const LEGACY_WILD_EXPERIENCE = 505000;
-
-function chooseRandomItem(items, random = Math.random) {
-    if (!Array.isArray(items) || items.length === 0) {
-        return null;
-    }
-    const randomIndex = Math.floor(random() * items.length);
-    return items[randomIndex];
-}
 
 function sanitizeLevel(rawLevel) {
     const parsedLevel = Number(rawLevel);
@@ -99,7 +92,7 @@ function chooseWildPokemonForMap(mapName, mapData, random = Math.random) {
     }
 
     if (!Array.isArray(mapConfig.wildpokemon) || !mapConfig.wildpokemon.length) return null;
-    const pokemonId = rollLegendary(random) ?? chooseRandomItem(mapConfig.wildpokemon, random);
+    const pokemonId = rollLegendary(random) ?? chooseOrdinarySpecies(mapConfig, random);
     if (pokemonId === null) {
         return null;
     }

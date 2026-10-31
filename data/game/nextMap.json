@@ -459,6 +459,9 @@
         1,
         7
       ],
+      "adventureEncounterRates": {
+        "81": 7
+      },
       "level": {
         "min": 19,
         "max": 23

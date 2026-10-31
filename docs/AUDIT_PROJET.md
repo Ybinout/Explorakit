@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## Magnéti à 7 % sur la Route 3 — 31 octobre 2026
+
+`route3.adventureEncounterRates[81] = 7` fixe Magnéti à 7 % des rencontres ordinaires en Aventure, contre 1/28 auparavant. Les 27 autres espèces se partagent uniformément les 93 % restants (3,444… % chacune), sans duplication ni retrait de la liste de 28 espèces. Petit sélecteur partagé par la fabrique Aventure : les routes sans réglage conservent exactement leur ancien tirage/index ; configuration invalide ramenée à la distribution uniforme. Le tirage légendaire indépendant 1/3000 reste prioritaire : en le comptant, le taux marginal de Magnéti vaut 6,997666… %, arrondi à 7 %. Fréquence des combats, niveaux 19–23, capture, traits, butin, pêche et raretés des expéditions inchangés.
+
+Validation : 46 tests réussis sans échec/saut, dont huit nouveaux. Dix mille tirages équiprobables donnent exactement 700 Magnéti ; toutes les autres espèces restent présentes avec 344/345 tirages. Mille valeurs comparées par route non configurée reproduisent les anciens résultats et le même nombre de tirages RNG. Bornes, taux nuls, configuration invalide, génération réelle avec attaques/PP/niveaux, bonus +15 et priorité légendaire vérifiés. Le test exhaustif d’obtention choisit désormais les centres des intervalles pondérés et conserve sa vérification de chaque espèce, de ses attaques et niveaux ; couverture des 493 espèces maintenue. Syntaxe/diff valides, aucune interface ou persistance changée nécessitant une recette navigateur/SQL supplémentaire. Rapport : `docs/MAGNEMITE_ROUTE3_RATE_2026-10-31.json`.
+
+Publié le 31 octobre 2026 à 20 h 39 (Europe/Paris), PID 3608875→3611882, service actif, zéro redémarrage automatique/avertissement. Client `1f2ff7096d3389d01f6f4a937277301baf7e1abe` et build `87abb4cfb71a4066` conservés, index HTTPS inchangé. Sauvegarde SQL/source/index/checkpoint `/home/ubuntu/dev/backups/riftmon-magnemite-rate-2026-10-31T19-39-49-251Z`. Aucune migration ni modification manuelle de compte réel ; modes fermés et checkpoint inchangés. Knov/api-test vérifiés inchangés.
+
 ## Zoom de page mobile désactivé — 31 octobre 2026
 
 Viewport plafonné à 1 (`maximum-scale=1`, `user-scalable=no`) et `touch-action: pan-x pan-y` sur les racines : le défilement natif reste permis, le pincement/double appui ne zoome plus la page. Safari : deux gestionnaires `gesturestart`/`gesturechange` annulent le comportement natif sur les appareils à pointeur tactile, avec retrait au démontage ; pas de nouveau gestionnaire global `touchstart`/`touchmove` susceptible de ralentir chaque mouvement. Les champs, listes et zones de texte passent à 16 px sur ces appareils pour éviter le zoom de focus d’iPhone. Les événements de pointeur restent disponibles pour les déplacements, les appuis et le zoom interne de la minimap. Aucun raccourci de zoom du navigateur PC intercepté.
@@ -5517,6 +5525,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 31 octobre 2026 — Magnéti : 7 % des rencontres ordinaires de la Route 3, reliquat uniforme, sans doublon ni changement des autres routes/légendaires. Quarante-six tests réussis, publication serveur seule ; `docs/MAGNEMITE_ROUTE3_RATE_2026-10-31.json`.
 
 - 31 octobre 2026 — Zoom de page mobile bloqué, garde Safari et champs 16 px ; défilement, saisie, commandes et zoom interne de minimap conservés. Douze tests, lint/build et Chromium/WebKit validés ; publication client seule sans redémarrage serveur. `docs/MOBILE_ZOOM_2026-10-31.json`.
 
