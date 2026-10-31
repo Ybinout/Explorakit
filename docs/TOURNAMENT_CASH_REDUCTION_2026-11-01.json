@@ -1,0 +1,215 @@
+{
+  "date": "2026-11-01",
+  "change": "Primes de salles et bonus de cycle du Super Tournoi réduits de 20 %",
+  "tiers": [
+    {
+      "from": 1,
+      "to": 4,
+      "before": 10000,
+      "amount": 8000
+    },
+    {
+      "from": 5,
+      "to": 8,
+      "before": 20000,
+      "amount": 16000
+    },
+    {
+      "from": 9,
+      "to": 12,
+      "before": 30000,
+      "amount": 24000
+    },
+    {
+      "from": 13,
+      "to": 16,
+      "before": 40000,
+      "amount": 32000
+    }
+  ],
+  "cycleBonus": {
+    "before": 100000,
+    "amount": 80000
+  },
+  "cycleTotals": [
+    400000,
+    800000,
+    1200000,
+    1600000
+  ],
+  "cycleScaling": "Numéro de cycle de seize salles, sans plafond",
+  "economicCardsUnchanged": {
+    "prize_money_10k": 2500,
+    "prize_money_25k": 12500,
+    "prize_money_50k": 25000
+  },
+  "previouslyReceivedEarningsPreserved": true,
+  "clientChanged": false,
+  "clientCommit": "1a942c6c8d3e8c4e1261f803378f02585535e0df",
+  "clientBuild": "e06807b523bb7893",
+  "runtimeSourceSha256": {
+    "server/game/superTournament/cashPrizes.js": "c4fc894f6cfc5eed6c7ca2124c7f59b9fed102d19d723e796192d13db530f5a1"
+  },
+  "validation": {
+    "unitPassed": 11,
+    "sqlPassed": 21,
+    "failed": 0,
+    "skipped": 0,
+    "browser": {
+      "success": true,
+      "engine": "chromium",
+      "views": [
+        {
+          "kind": "entry",
+          "width": 320,
+          "height": 480,
+          "mode": "light"
+        },
+        {
+          "kind": "entry",
+          "width": 320,
+          "height": 480,
+          "mode": "dark"
+        },
+        {
+          "kind": "entry",
+          "width": 393,
+          "height": 852,
+          "mode": "light"
+        },
+        {
+          "kind": "entry",
+          "width": 393,
+          "height": 852,
+          "mode": "dark"
+        },
+        {
+          "kind": "entry",
+          "width": 844,
+          "height": 390,
+          "mode": "light"
+        },
+        {
+          "kind": "entry",
+          "width": 844,
+          "height": 390,
+          "mode": "dark"
+        },
+        {
+          "kind": "entry",
+          "width": 1536,
+          "height": 680,
+          "mode": "light"
+        },
+        {
+          "kind": "entry",
+          "width": 1536,
+          "height": 680,
+          "mode": "dark"
+        },
+        {
+          "kind": "reward",
+          "width": 320,
+          "height": 480,
+          "mode": "light"
+        },
+        {
+          "kind": "reward",
+          "width": 320,
+          "height": 480,
+          "mode": "dark"
+        },
+        {
+          "kind": "reward",
+          "width": 393,
+          "height": 852,
+          "mode": "light"
+        },
+        {
+          "kind": "reward",
+          "width": 393,
+          "height": 852,
+          "mode": "dark"
+        },
+        {
+          "kind": "reward",
+          "width": 844,
+          "height": 390,
+          "mode": "light"
+        },
+        {
+          "kind": "reward",
+          "width": 844,
+          "height": 390,
+          "mode": "dark"
+        },
+        {
+          "kind": "reward",
+          "width": 1536,
+          "height": 680,
+          "mode": "light"
+        },
+        {
+          "kind": "reward",
+          "width": 1536,
+          "height": 680,
+          "mode": "dark"
+        }
+      ],
+      "payments": [
+        {
+          "room": 1,
+          "amount": 8000,
+          "balance": 8000
+        },
+        {
+          "room": 16,
+          "amount": 112000,
+          "balance": 120000
+        },
+        {
+          "room": 17,
+          "amount": 16000,
+          "balance": 136000
+        }
+      ],
+      "staleProgressResponse": true,
+      "reconnectNoDoubleCredit": true,
+      "adventureTeamAndXpPreserved": true,
+      "abandonKeepsMoney": true,
+      "errors": []
+    },
+    "limitations": [
+      "Chromium Linux sur serveur privé avec compte SQL jetable ; pas de téléphone physique."
+    ]
+  },
+  "commands": [
+    "node --test --test-concurrency=1 tests/super-tournament-cash.test.js tests/super-tournament-augments.test.js",
+    "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test node --env-file=.env --test --test-concurrency=1 tests/super-tournament-cash-mysql.test.js tests/super-tournament-augments-mysql.test.js tests/super-tournament-powers-mysql.test.js",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/home/ubuntu/dev/explorakit/dist RELEASE_SCREENSHOTS=/tmp/riftmon-cash-reduction-browser PRESENTATION_BROWSER=chromium node --env-file=.env scripts/validateTournamentCashBrowser.js"
+  ],
+  "deployment": {
+    "publishedAt": "2026-10-31T23:20:11.881Z",
+    "restartedAt": "2026-10-31T23:20:10.521Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-cash-reduction-2026-10-31T23-20-10-142Z",
+    "sourceBaseline": "bf42a91a7478ace05533e1bf220c7e375f6bf69c",
+    "sourceHashes": {
+      "server/game/superTournament/cashPrizes.js": "c4fc894f6cfc5eed6c7ca2124c7f59b9fed102d19d723e796192d13db530f5a1"
+    },
+    "clientCommit": "1a942c6c8d3e8c4e1261f803378f02585535e0df",
+    "clientBuild": "e06807b523bb7893",
+    "clientChanged": false,
+    "beforePid": "3627290",
+    "afterPid": "3628807",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "schemaChanged": false,
+    "realAccountsManuallyModified": false,
+    "publicIndexUnchanged": true,
+    "neighborsUnchanged": true,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0
+  }
+}

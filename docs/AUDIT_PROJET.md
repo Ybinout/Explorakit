@@ -1,5 +1,14 @@
 # Audit technique et mémoire de RiftMon
 
+## Primes de salles réduites de 20 % — 1er novembre 2026
+
+Les primes fixes du Super Tournoi passent à 8 000 / 16 000 / 24 000 / 32 000 ₽ par salle selon les quatre groupes de quatre du premier cycle. Bonus de Lucie réduit à 80 000 ₽. Total 400 000 ₽ sur seize salles, puis 800 000 / 1,2 M / 1,6 M ₽, toujours multiplié par le numéro du cycle sans plafond. Les cartes économiques restent aux bases 2 500 / 12 500 / 25 000 ₽ du correctif précédent. Aucun recalcul des primes déjà versées : le reçu de l’ancien tarif reste intact et seule la prochaine victoire applique le nouveau prix. Description chez l’hôtesse et récapitulatifs lisent déjà le serveur ; client/build inchangés.
+
+Validation : 11 tests unitaires/régression et 21 SQL réussis sans échec/saut. Cycles 1–5/20 et millionième salle, deux cycles complets à 1,2 M ₽ cumulés, bonus, reprise d’un reçu à 10 000 ₽, concurrence, échec transactionnel, plafond du solde, conservation après abandon/défaite et indépendance cartes/pouvoirs vérifiés. Recette Chromium privée avec client distribué et `explorakit_test` : barème affiché, gains exacts aux salles 1/16/17 (8 000 / 112 000 / 16 000 ₽), bonus 80 000 ₽, reprise, rejet du rejeu, ancienne réponse HTTP retardée et abandon à 136 000 ₽ pour la fixture. Quatre formats/deux thèmes, seize vues sans erreur, compte jetable supprimé. Anciennes recettes économiques ajustées au seul montant initial de salle ; cartes inchangées. Syntaxe/diff valides ; aucun téléphone physique revendiqué. Rapport et commandes : `docs/TOURNAMENT_CASH_REDUCTION_2026-11-01.json`.
+
+Serveur publié le 1er novembre 2026 à 00 h 20 (Europe/Paris), PID 3627290→3628807, service actif sans redémarrage automatique/avertissement. Sauvegarde SQL/source/index/checkpoint `/home/ubuntu/dev/backups/riftmon-cash-reduction-2026-10-31T23-20-10-142Z`. Client et index public conservés ; Knov/api-test, modes fermés et checkpoint préservés. Aucune migration ni modification manuelle de compte réel.
+
+
 ## Réduction des cartes de Pokédollars — 31 octobre 2026
 
 À la demande du créateur, les trois cartes d’argent sont divisées par deux : Bourse du challenger 2 500 ₽, Prime du public 12 500 ₽, Coffre du champion 25 000 ₽ au premier cycle. Multiplication par le numéro de cycle de seize salles conservée. Les clés techniques historiques restent inchangées, de même que les gains déjà versés, chances de tirage, bonbons, pouvoirs et récupérations. Le barème fixe des salles reste à 500 000 / 1 M / 1,5 M / 2 M ₽ par cycle. Montants et descriptions issus du serveur : aucun changement de client ou de build nécessaire.
@@ -5622,6 +5631,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 1er novembre 2026 — Primes de salles/bonus du Super Tournoi réduits de 20 % : 400 000 ₽ au premier cycle, puis 800 000 / 1,2 M / 1,6 M ₽. Cartes et anciens gains préservés ; 11 tests unitaires, 21 SQL et recette Chromium validés. `docs/TOURNAMENT_CASH_REDUCTION_2026-11-01.json`.
 
 - 31 octobre 2026 — Trois cartes de Pokédollars divisées par deux : bases 2 500 / 12 500 / 25 000 ₽, progression par cycle de seize salles préservée. Primes fixes et gains déjà perçus conservés ; 11 tests unitaires, 14 SQL et recette Chromium validés. `docs/TOURNAMENT_CARD_PRIZES_REDUCTION_2026-10-31.json`.
 

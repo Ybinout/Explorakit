@@ -44,8 +44,8 @@ test('SQL room prize, augmentation and following room stay separate across a rec
  for(const key of ['prize_money_10k','prize_mega_candy']){const f=await fixture(key);try{
   await f.c.atomic(()=>{f.c.run.phase='sas';f.c.run.room=0;f.c.run.cleared=0;f.c.run.reward=null;});
   const win=async()=>{await f.c.next();await f.c.atomic(()=>f.c.startBattle());await f.c.atomic(()=>{const b=f.c.run.battle;for(const p of b.b.equipe.pokemons)p.currentHp=0;b.prune();b.checkEnd();f.c.reconcile();});};
-  await win();assert.equal(await f.balance(),10000);await f.c.atomic(()=>{f.c.run.reward.cards=[key,'heal_10','cure'];});await f.c.claimReward({offerId:f.c.run.reward.id,cardKey:key});
-  await win();assert.equal(await f.balance(),key==='prize_money_10k'?22500:20000);assert.equal(f.c.run.cash.earned,await f.balance());assert.equal(f.c.run.cash.paidThrough,2);assert.equal(await f.stock('mega_candy'),key==='prize_mega_candy'?1:0);
-  const resumed=f.create();await resumed.load();assert.equal(resumed.run.lastAugment.offerId,f.c.run.lastAugment.offerId);assert.equal(await f.balance(),key==='prize_money_10k'?22500:20000);
+  await win();assert.equal(await f.balance(),8000);await f.c.atomic(()=>{f.c.run.reward.cards=[key,'heal_10','cure'];});await f.c.claimReward({offerId:f.c.run.reward.id,cardKey:key});
+  await win();assert.equal(await f.balance(),key==='prize_money_10k'?18500:16000);assert.equal(f.c.run.cash.earned,await f.balance());assert.equal(f.c.run.cash.paidThrough,2);assert.equal(await f.stock('mega_candy'),key==='prize_mega_candy'?1:0);
+  const resumed=f.create();await resumed.load();assert.equal(resumed.run.lastAugment.offerId,f.c.run.lastAugment.offerId);assert.equal(await f.balance(),key==='prize_money_10k'?18500:16000);
  }finally{await f.cleanup();}}
 });
