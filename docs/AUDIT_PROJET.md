@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## Solde de Pokédollars dans le sac — 31 octobre 2026
+
+L’en-tête du sac affiche le solde actuel avec séparateurs locaux et symbole ₽. Valeur issue de `progressionState.money` en Aventure/Super Tournoi et de `driftState.money` en expédition, sans requête supplémentaire ni copie locale périmée. Le solde suit les mises à jour déjà envoyées par le serveur après achat, vente et récompense. Sur PC, montant à droite du titre ; sur mobile, sous le titre, avec bouton de fermeture de 44 px conservé. Thèmes et langue respectés ; aucune modification des prix, ressources, règles ou sauvegardes.
+
+Validation : lint et build isolé réussis ; contrôle ad hoc sur serveur privé et compte jetable `explorakit_test`, Chromium/WebKit Linux. Solde initial authentifié de 72 345 ₽, fixtures réactives 0/2 147 483 647/72 345, français/anglais et achat réel d’une Poké Ball : nouveau solde 72 195 ₽ visible dans le sac. Quatre formats 320×480/393×852/844×390/1536×680, clair/nocturne : montant non coupé, sans chevauchement avec titre/fermeture ni débordement horizontal. Captures mobiles inspectées, zéro erreur navigateur, comptes jetables supprimés ; aucun test sur téléphone physique ou dans les modes fermés revendiqué. Rapport et procédure : `docs/BAG_WALLET_2026-10-31.json`.
+
+Publication client seule le 31 octobre 2026 à 16 h 07 (Europe/Paris), client `dc79f9a697fb7e39ed81741abd811995d03607e1`, build `e782ae5ba0f1ab5a`. Sauvegarde `/home/ubuntu/dev/backups/riftmon-bag-wallet-2026-10-31T15-07-53-581Z`. Index et 22 bundles/CSS HTTPS vérifiés à l’octet, anciens assets conservés ; PID 3594374 inchangé, service actif, zéro redémarrage automatique. Aucune migration ni donnée de production modifiée ; Knov/api-test inchangés.
+
 ## Vente directe des trésors — 31 octobre 2026
 
 Les trésors (Éclat fissuré, Cristal limpide, Prisme d’aurore) présélectionnent la quantité maximale vendable : stock possédé, avec la limite existante de 99 par vente. Le joueur peut toujours choisir une quantité inférieure. Un appui sur Vendre envoie directement la commande habituelle, sans confirmation intermédiaire. Après actualisation du stock ou réouverture, le maximum restant est de nouveau sélectionné ; l’ouverture directe en mode Vente choisit bien la première poche vendable, même si ce mode était déjà actif. Les autres objets gardent leur sélection et leur confirmation, les achats sont inchangés. Classification par poche d’objet, y compris dans les résultats de recherche. Prix, limites et validation transactionnelle serveur conservés ; aucune commande, sauvegarde ou donnée de production modifiée.
@@ -5453,6 +5461,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 31 octobre 2026 — Solde de Pokédollars dans l’en-tête du sac, réactif et adapté au mobile. Lint/build, Chromium/WebKit, montants extrêmes et mise à jour après achat réel ; `docs/BAG_WALLET_2026-10-31.json`.
 
 - 31 octobre 2026 — Trésors : quantité maximale présélectionnée, vente directe sans confirmation et réouverture en poche vendable ; limite de 99, quantités personnalisées et confirmations des autres objets conservées. Recettes de ventes SQL réelles Chromium/WebKit, lint/build ; `docs/TREASURE_SALES_2026-10-31.json`.
 

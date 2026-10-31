@@ -1,0 +1,192 @@
+{
+  "date": "2026-10-31",
+  "scope": "Client-only current balance in bag header",
+  "sourceBaseline": "371d1ebe2f478a72576ef2790e71be74aa2cce13",
+  "clientBaseline": "dd0e9db1d14f7d60f78d8031a3fd11ab22ebbd5f",
+  "clientCommit": "dc79f9a697fb7e39ed81741abd811995d03607e1",
+  "clientBuild": "e782ae5ba0f1ab5a",
+  "sources": {
+    "adventure": "progressionState.money, including Super Tournament",
+    "expeditions": "driftState.money; modes remain closed"
+  },
+  "behavior": {
+    "header": "Pokedollar amount with locale grouping and currency symbol",
+    "mobile": "Amount below the title; desktop amount next to the close button",
+    "liveUpdates": true,
+    "newNetworkRequests": false,
+    "pricesAndBalancesChanged": false
+  },
+  "validation": {
+    "lint": "passed",
+    "isolatedBuild": "/tmp/riftmon-bag-wallet-dist",
+    "browser": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "initialAuthoritativeBalance": true,
+        "reactiveZeroAndMaximum": true,
+        "updatedAfterRealPurchase": true,
+        "englishAndFrench": true,
+        "views": [
+          {
+            "width": 320,
+            "height": 480,
+            "themeMode": "light"
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "themeMode": "dark"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "themeMode": "light"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "themeMode": "dark"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "themeMode": "light"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "themeMode": "dark"
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "themeMode": "light"
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "themeMode": "dark"
+          }
+        ],
+        "headerInsideViewport": true,
+        "amountNotClipped": true,
+        "closeButtonPreserved": true,
+        "errors": [],
+        "physicalHardware": false
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "initialAuthoritativeBalance": true,
+        "reactiveZeroAndMaximum": true,
+        "updatedAfterRealPurchase": true,
+        "englishAndFrench": true,
+        "views": [
+          {
+            "width": 320,
+            "height": 480,
+            "themeMode": "light"
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "themeMode": "dark"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "themeMode": "light"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "themeMode": "dark"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "themeMode": "light"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "themeMode": "dark"
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "themeMode": "light"
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "themeMode": "dark"
+          }
+        ],
+        "headerInsideViewport": true,
+        "amountNotClipped": true,
+        "closeButtonPreserved": true,
+        "errors": [],
+        "physicalHardware": false
+      }
+    }
+  },
+  "checks": [
+    "Open the bag on an authenticated disposable test account with 72345 Pokedollars",
+    "Render 0, 2147483647 and 72345 through the existing reactive progression field",
+    "Check header amount, no clipping/title/close overlap, 44px close target in four viewports and both themes",
+    "Switch French/English formatting",
+    "Buy a real Poke Ball on the private test server and check bag balance changes to 72195"
+  ],
+  "commands": [
+    "npm --prefix vue-explorakit run lint",
+    "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-bag-wallet-dist",
+    "DB_TEST_NAME=explorakit_test node --env-file-if-exists=.env /tmp/riftmon-bag-wallet-qa.cjs",
+    "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=webkit node --env-file-if-exists=.env /tmp/riftmon-bag-wallet-qa.cjs"
+  ],
+  "serverChanged": false,
+  "schemaChanged": false,
+  "productionDatabaseChanged": false,
+  "physicalPhoneTest": false,
+  "deployment": {
+    "publishedAt": "2026-10-31T15:07:55.179Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-bag-wallet-2026-10-31T15-07-53-581Z",
+    "sourceBaseline": "371d1ebe2f478a72576ef2790e71be74aa2cce13",
+    "clientCommit": "dc79f9a697fb7e39ed81741abd811995d03607e1",
+    "clientBuild": "e782ae5ba0f1ab5a",
+    "beforePid": "3594374",
+    "afterPid": "3594374",
+    "serverRestarted": false,
+    "schemaChanged": false,
+    "databaseModified": false,
+    "neighborsUnchanged": true,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.f5ca3bcb.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.9e77c854.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.2fd32f7c.js",
+      "js/drift.5b8720d7.js",
+      "js/game.ed64c673.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.de3bb7ec.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.7d7245fd.css",
+      "css/test-view.7568246d.css"
+    ],
+    "serviceActive": true,
+    "automaticRestarts": 0
+  }
+}
