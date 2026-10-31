@@ -1,5 +1,19 @@
 # Audit technique et mémoire de RiftMon
 
+## Grand Comptoir : navigation par rayon et par objectif — 31 octobre 2026
+
+Les quatre rayons sont commandables depuis n’importe quel comptoir de la tour : Fournitures, Entraînement, Équipement et Baies. L’interface les présente sous forme de boutons explicites ; les étages physiques, leurs vendeuses, escaliers, collisions et illustrations restent inchangés. Entraînement propose sept objectifs : monter de niveau, apprendre une attaque, renforcer les stats, relancer un IV, réinitialiser les EV, changer de talent ou de nature. Les catégories intermédiaires redondantes disparaissent ; retour direct aux objectifs, argent et bascule Acheter/Vendre restent visibles. Les sept objectifs tiennent sans défilement sur la fenêtre PC 1536×680 testée ; le contenu défile normalement sur les petits mobiles.
+
+La recherche couvre tout le magasin, ignore accents et casse, et indique le rayon d’origine dans les résultats. Un ancien filtre de type de CS ne masque plus un article recherché dans un autre rayon. Les descriptions, statistiques des CS, quantités, confirmations de vente, objets possédés et achats uniques sont conservés. Catalogue des CS limité à 40 lignes rendues avant « Afficher la suite ». Après Hoze, le conseil de déblocage devenu inutile n’est plus affiché. Les boutiques ordinaires conservent leur progression et leur navigation.
+
+Protocole compatible : `catalog` reste le catalogue de l’étage physique ; `departmentCatalog` ajoute seulement les autres rayons, sans dupliquer les 735 références actuelles. Navigation et recherche locales après cette réponse. L’achat peut indiquer un numéro `department` ; le serveur ne le résout que si le joueur est réellement dans la tour, valide son type et choisit lui-même le catalogue/prix. Les badges sont relus sous verrou SQL, pas depuis les données du client. Tarifs, limites, exclusions de mode, stocks et mécanismes transactionnels inchangés. Hors tour, les demandes de rayon sont refusées ; anciens clients et demandes sans numéro gardent leur fonctionnement.
+
+Validation : 33 tests unitaires/régression et quatre SQL réussis sans échec/saut. Comparaison exhaustive des quatre catalogues, contrôles de présence/rayon/badge/prix, achats depuis les quatre comptoirs, achat unique concurrent et revente vérifiés. Une ancienne assertion du rayon Entraînement attendait encore 287 références ; le code du commit de départ en fournissait déjà 655 après les 633 CS livrées. L’assertion est alignée sur les définitions de CS et vérifie désormais toutes leurs clés. Recette sur vrai serveur isolé et `explorakit_test`, Chromium/WebKit Linux : achats réels dans d’autres rayons sans déplacement, objectifs, CS et descriptions, recherche globale et accents, vente avec annulation/confirmation, rechargement SQL, interface avant Hoze, requête falsifiée et boutique ordinaire. Quatre formats 320×480/393×852/844×390/1536×680, clair/nocturne, zéro erreur navigateur ; équipe inchangée, comptes jetables supprimés, captures inspectées. Ancienne recette de tour adaptée à l’accueil Entraînement ; ses modes fermés ne sont pas exécutés ni rouverts. Pas de téléphone physique revendiqué. Lint, build isolé et syntaxe/diff valides.
+
+Rapport : `docs/STORE_BROWSE_2026-10-31.json`. Recette : `DB_TEST_NAME=explorakit_test npm run test:store-browse-browser` (ajouter `PRESENTATION_BROWSER=webkit`). SQL : `RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test node --env-file-if-exists=.env --test tests/store-browse-mysql.test.js`. Aucune migration, modification d’assets ou modification manuelle de compte réel.
+
+Client et serveur publiés le 31 octobre 2026 à 15 h 38 (Europe/Paris), client `fb9b1ee61aad2078a9a9f1ad10add3873559c327`, build `7ea8cb0d01496630`. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-store-simple-2026-10-31T14-38-12-439Z`. PID 3590542→3594374, service actif, zéro redémarrage automatique/avertissement. Index et 22 bundles/CSS HTTPS vérifiés à l’octet, anciens assets conservés ; namespace Rift fermé, checkpoint inchangé et zéro expédition active au contrôle. Knov/api-test inchangés.
+
 ## Repères de capture et Balls adverses blessées — 31 octobre 2026
 
 Une petite Poké Ball est affichée avant le nom d’un sauvage dont l’espèce a déjà été capturée en Aventure. Le repère utilise l’historique `caught` du Pokédex, pas la possession actuelle ni le simple état « vu » ; il reste donc valable après un dépôt au PC ou un relâcher. Il suit les mises à jour du Pokédex sans ouvrir son menu, et l’identifiant de l’espèce originale, y compris les transformations temporaires. Il ne s’affiche pas contre un dresseur ni un personnage narratif. Réutilisation du snapshot déjà chargé et d’un Set calculé côté Vue ; aucune requête SQL par tour ni lecture de sauvegarde supplémentaire.
@@ -5417,6 +5431,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 31 octobre 2026 — Grand Comptoir unifié : quatre rayons depuis un comptoir, recherche globale et entraînement par objectifs ; prix/badges conservés et validation serveur des rayons. 33 tests unitaires, quatre SQL et recettes Chromium/WebKit ; `docs/STORE_BROWSE_2026-10-31.json`.
 
 - 31 octobre 2026 — Poké Ball de capture historique près du nom des sauvages, Balls PNJ orange si blessés et grises à K.O. ; compatibilité des paquets, 19 tests unitaires et deux SQL, recettes Chromium/WebKit clair/nocturne et mobile/PC. `docs/BATTLE_INDICATORS_2026-10-31.json`.
 

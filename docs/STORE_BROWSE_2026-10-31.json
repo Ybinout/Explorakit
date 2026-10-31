@@ -1,0 +1,355 @@
+{
+  "date": "2026-10-31",
+  "scope": "Grand Comptoir: four departments from any counter, global search and training by player goal.",
+  "sourceBaseline": "13e7c6c38cfa7751e010961f73219b4fba09f293",
+  "clientCommit": "fb9b1ee61aad2078a9a9f1ad10add3873559c327",
+  "clientBuild": "7ea8cb0d01496630",
+  "runtimeSourceSha256": {
+    "server/game/world/shopCatalog.js": "f55eeb5ee35ad7ffc01e222fc5a5a36f472ab8eb77c685294b4d14bb31efb142",
+    "server/persistence/itemRepository.js": "d6f78094f1da752cd1e9c0c8019d5a47504d1b6dcfc15db09a6a025f3ab1a3f7",
+    "server/realtime/handlers/shopHandlers.js": "82c858ce20f8caeb5cccad8a26f765ceabe55799a9874a20958914563d5e4584"
+  },
+  "unchangedDataSha256": {
+    "data/game/items.json": "2b7953b20870f360b0dfb5f4cc942dde818b81bfb77f059dcbfcb3558536ad18",
+    "data/game/department_store.json": "f690218be114df734df99c3484ebbdb01ef86da0a678573d6bc83e9f396a3716",
+    "data/game/shop_offers.json": "44ad57593f2fb2e6c677ef71bfd23d9f253038c306731220d8e59adcdeda21fe"
+  },
+  "interface": {
+    "departments": [
+      "Fournitures",
+      "Entraînement",
+      "Équipement",
+      "Baies"
+    ],
+    "trainingGoals": [
+      "Monter de niveau",
+      "Apprendre une attaque",
+      "Renforcer les stats",
+      "Relancer un IV",
+      "Réinitialiser les EV",
+      "Changer de talent",
+      "Changer de nature"
+    ],
+    "search": "All departments, accent/case insensitive; origin shown; ignores a stale CS type filter for global results.",
+    "reducedLayers": "No redundant category sidebar for single-pocket departments, goal navigation instead of categories plus six training filters, compact operations/wallet bar.",
+    "csDetails": "Power, category, accuracy, PP, description, type filter and existing 40-row rendering budget retained.",
+    "physicalBuilding": "Maps, stairs, furniture, sellers and assets preserved; changing department does not teleport the player."
+  },
+  "protocol": {
+    "legacy": "catalog remains the original physical-floor catalog. Requests without department retain old behavior.",
+    "extension": "departmentCatalog carries only the other departments. 735 current SKUs sent once across both fields; navigation/search require no new request.",
+    "purchase": "Optional numeric department is resolved only from an authoritative tower location. SQL flags, prices and purchase limits remain authoritative. Wrong department, fake types, outside locations and bypassed badges rejected.",
+    "ordinaryShops": "Original location-based catalogs and badge progression retained.",
+    "transactions": "Existing user row lock, inventory lock, stock/currency debit, purchase limits and sale confirmations preserved."
+  },
+  "validation": {
+    "unit": {
+      "passed": 33,
+      "failed": 0,
+      "skipped": 0,
+      "command": "node --test --test-concurrency=1 tests/store-browse.test.js tests/department-store.test.js tests/shop-training.test.js"
+    },
+    "sql": {
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0,
+      "command": "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test node --env-file-if-exists=.env --test tests/store-browse-mysql.test.js"
+    },
+    "browser": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "views": [
+          {
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "x": 8,
+            "y": 8,
+            "right": 312,
+            "bottom": 472,
+            "bodyHeight": 210,
+            "horizontal": 0
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "x": 8,
+            "y": 8,
+            "right": 312,
+            "bottom": 472,
+            "bodyHeight": 210,
+            "horizontal": 0
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "x": 8,
+            "y": 8,
+            "right": 385,
+            "bottom": 844,
+            "bodyHeight": 531,
+            "horizontal": 0
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "x": 8,
+            "y": 8,
+            "right": 385,
+            "bottom": 844,
+            "bodyHeight": 531,
+            "horizontal": 0
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "x": 24,
+            "y": 24,
+            "right": 820,
+            "bottom": 374,
+            "bodyHeight": 100,
+            "horizontal": 0
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "x": 24,
+            "y": 24,
+            "right": 820,
+            "bottom": 374,
+            "bodyHeight": 100,
+            "horizontal": 0
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "x": 366,
+            "y": 24.28125,
+            "right": 1170,
+            "bottom": 655.703125,
+            "bodyHeight": 294,
+            "horizontal": 0
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "x": 366,
+            "y": 24.28125,
+            "right": 1170,
+            "bottom": 655.703125,
+            "bodyHeight": 294,
+            "horizontal": 0
+          }
+        ],
+        "allDepartmentsAtOneCounter": true,
+        "noDuplicateCatalogPayload": true,
+        "trainingGoals": 7,
+        "globalAccentInsensitiveSearch": true,
+        "searchIgnoresStaleTypeFilter": true,
+        "realPurchases": true,
+        "realConfirmedSale": true,
+        "pricesAndBadgeLocksPreserved": true,
+        "ordinaryShopsPreserved": true,
+        "forgedDepartmentRejected": true,
+        "reloadPersisted": true,
+        "teamUnchanged": true,
+        "physicalMapUnchanged": true,
+        "closedModesPreserved": true,
+        "errors": [],
+        "physicalHardware": false
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "views": [
+          {
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "x": 8,
+            "y": 8,
+            "right": 312,
+            "bottom": 472,
+            "bodyHeight": 198,
+            "horizontal": 0
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "x": 8,
+            "y": 8,
+            "right": 312,
+            "bottom": 472,
+            "bodyHeight": 198,
+            "horizontal": 0
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "x": 8,
+            "y": 8,
+            "right": 385,
+            "bottom": 844,
+            "bodyHeight": 531,
+            "horizontal": 0
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "x": 8,
+            "y": 8,
+            "right": 385,
+            "bottom": 844,
+            "bodyHeight": 531,
+            "horizontal": 0
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "x": 24,
+            "y": 24,
+            "right": 820,
+            "bottom": 374,
+            "bodyHeight": 100,
+            "horizontal": 0
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "x": 24,
+            "y": 24,
+            "right": 820,
+            "bottom": 374,
+            "bodyHeight": 100,
+            "horizontal": 0
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "x": 366,
+            "y": 24.28125,
+            "right": 1170,
+            "bottom": 655.703125,
+            "bodyHeight": 294,
+            "horizontal": 0
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "x": 366,
+            "y": 24.28125,
+            "right": 1170,
+            "bottom": 655.703125,
+            "bodyHeight": 294,
+            "horizontal": 0
+          }
+        ],
+        "allDepartmentsAtOneCounter": true,
+        "noDuplicateCatalogPayload": true,
+        "trainingGoals": 7,
+        "globalAccentInsensitiveSearch": true,
+        "searchIgnoresStaleTypeFilter": true,
+        "realPurchases": true,
+        "realConfirmedSale": true,
+        "pricesAndBadgeLocksPreserved": true,
+        "ordinaryShopsPreserved": true,
+        "forgedDepartmentRejected": true,
+        "reloadPersisted": true,
+        "teamUnchanged": true,
+        "physicalMapUnchanged": true,
+        "closedModesPreserved": true,
+        "errors": [],
+        "physicalHardware": false
+      }
+    },
+    "testDatabase": "explorakit_test",
+    "testAccountsDeleted": true,
+    "lint": "passed",
+    "build": "passed",
+    "syntax": "passed",
+    "diff": "passed",
+    "screenshotsInspected": [
+      "training-light-1536.png",
+      "training-light-393.png",
+      "training-dark-393.png"
+    ],
+    "staleFixture": "Old department test expected 287 training SKUs; replaying the HEAD shop module already returned 655. Updated to 22 non-CS items plus the current machine definitions and exact CS key coverage."
+  },
+  "limits": [
+    "Headless Chromium/WebKit Linux and simulated viewport sizes; no physical phone tested.",
+    "Old multi-mode department browser recipe adapted to the new training landing page, but not run because expedition modes remain closed."
+  ],
+  "reproduce": [
+    "DB_TEST_NAME=explorakit_test npm run test:store-browse-browser",
+    "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=webkit npm run test:store-browse-browser"
+  ],
+  "schemaChanges": false,
+  "realAccountsManuallyModified": false,
+  "deployment": {
+    "publishedAt": "2026-10-31T14:38:16.987Z",
+    "restartedAt": "2026-10-31T14:38:13.827Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-store-simple-2026-10-31T14-38-12-439Z",
+    "sourceBaseline": "13e7c6c38cfa7751e010961f73219b4fba09f293",
+    "sourceHashes": {
+      "server/game/world/shopCatalog.js": "f55eeb5ee35ad7ffc01e222fc5a5a36f472ab8eb77c685294b4d14bb31efb142",
+      "server/persistence/itemRepository.js": "d6f78094f1da752cd1e9c0c8019d5a47504d1b6dcfc15db09a6a025f3ab1a3f7",
+      "server/realtime/handlers/shopHandlers.js": "82c858ce20f8caeb5cccad8a26f765ceabe55799a9874a20958914563d5e4584"
+    },
+    "clientCommit": "fb9b1ee61aad2078a9a9f1ad10add3873559c327",
+    "clientBuild": "7ea8cb0d01496630",
+    "beforePid": "3590542",
+    "afterPid": "3594374",
+    "serverRestarted": true,
+    "schemaChanged": false,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "checkpointUnchangedWhileDisabled": true,
+    "namespaceClosed": true,
+    "neighborsUnchanged": true,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.f5ca3bcb.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.d9c98ebb.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.2fd32f7c.js",
+      "js/drift.5b8720d7.js",
+      "js/game.f787ea55.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.de3bb7ec.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.5bf13ffc.css",
+      "css/test-view.7568246d.css"
+    ],
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0
+  }
+}

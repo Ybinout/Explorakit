@@ -1,7 +1,7 @@
 const { onAccountEvent } = require('../accountConnection');
 const { loadUserItems, purchaseUserItem, sellUserItem } = require('../../persistence/itemRepository');
 const { loadProgressState } = require('../../persistence/progressionRepository');
-const { getShopCatalog, getShopMeta, isShopMap } = require('../../game/world/shopCatalog');
+const { getShopCatalog, getShopMeta, getDepartmentCatalog, isShopMap } = require('../../game/world/shopCatalog');
 
 function registerShopHandlers({ socket, userId, getPlayer }) {
     const replyTo = (acknowledge) => (typeof acknowledge === 'function' ? acknowledge : () => {});
@@ -27,10 +27,14 @@ function registerShopHandlers({ socket, userId, getPlayer }) {
                 loadProgressState(userId)
             ]);
             if(getPlayer()!==player||player.currentmap!==mapName||player.inbattle){const response={success:false,reason:'not_in_shop'};reply(response);return response;}
+            const shopMeta = getShopMeta({mapName,flags:progression.flags});
+            const allDepartments = getDepartmentCatalog({mapName,flags:progression.flags});
             const response = {
                 success: true,
-                catalog: getShopCatalog({mapName,flags:progression.flags}),
-                shopMeta:getShopMeta({mapName,flags:progression.flags}),
+                catalog: allDepartments ? allDepartments.filter(i=>i.department===shopMeta.department).map(({department,...item})=>item) : getShopCatalog({mapName,flags:progression.flags}),
+                // Send every SKU once, retaining the original current-floor field.
+                departmentCatalog: allDepartments ? allDepartments.filter(i=>i.department!==shopMeta.department) : null,
+                shopMeta,
                 items,
                 money: progression.money
             };
@@ -62,7 +66,7 @@ function registerShopHandlers({ socket, userId, getPlayer }) {
         if(player.inventoryBusy){reply({success:false,reason:'inventory_busy'});return;}
         player.inventoryBusy=true;
         try {
-            const result = await purchaseUserItem(userId, payload.itemKey, payload.quantity,{mapName:player.currentmap});
+            const result = await purchaseUserItem(userId, payload.itemKey, payload.quantity,{mapName:player.currentmap,department:payload.department});
             if (!result.success) {
                 reply(result);
                 return;

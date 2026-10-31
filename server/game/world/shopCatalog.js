@@ -34,4 +34,16 @@ function getShopCatalog(context = {}) {
         return expedition || tier>=(offer?.tier||0);
     }).map(item=>({key:item.key,name:item.name,category:item.category,description:item.description||'',price:Math.floor(Number(offers[item.key]?.price ?? item.buy_price)),fieldUse:item.fieldUse||null,...(item.purchaseLimit?{purchaseLimit:item.purchaseLimit}:{})}));
 }
-module.exports = { getShopCatalog, getShopMeta, shopTier, isShopMap, SHOP_MAPS, getDepartment };
+// Any counter inside the tower can order from its four departments. Keep the
+// historical floor-specific catalog for old clients and ordinary shops.
+function getDepartmentCatalog(context = {}) {
+    if (!getDepartment(context.mapName)) return null;
+    return Object.entries(departmentStore.floors).flatMap(([mapName, floor]) =>
+        getShopCatalog({ ...context, mapName }).map(item => ({ ...item, department: floor.number })));
+}
+function resolvePurchaseMap(mapName, department) {
+    if (department === undefined) return mapName;
+    if (!getDepartment(mapName) || !Number.isInteger(department)) return null;
+    return Object.keys(departmentStore.floors).find(map => departmentStore.floors[map].number === department) || null;
+}
+module.exports = { getShopCatalog, getShopMeta, getDepartmentCatalog, resolvePurchaseMap, shopTier, isShopMap, SHOP_MAPS, getDepartment };

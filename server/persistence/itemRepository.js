@@ -108,7 +108,9 @@ async function purchaseUserItem(userId, itemKey, quantity = 1, context = {}) {
     if (!Number.isInteger(normalizedQuantity) || normalizedQuantity <= 0 || normalizedQuantity > 99) {
         return { success: false, reason: 'invalid_quantity' };
     }
-    if (!itemCatalogByKey[itemKey] || !require('../game/world/shopCatalog').isShopMap(context.mapName))return {success:false,reason:'item_unavailable'};
+    const shopCatalog = require('../game/world/shopCatalog');
+    const purchaseMap = shopCatalog.resolvePurchaseMap(context.mapName, context.department);
+    if (!itemCatalogByKey[itemKey] || !shopCatalog.isShopMap(context.mapName) || !purchaseMap)return {success:false,reason:'item_unavailable'};
     return withTransaction(async (connection) => {
         const [userRows] = await connection.execute(
             'SELECT money FROM users WHERE id = ? FOR UPDATE',
@@ -120,9 +122,9 @@ async function purchaseUserItem(userId, itemKey, quantity = 1, context = {}) {
 
         const [flagRows]=await connection.execute('SELECT flag_key,flag_value FROM player_story_flags WHERE user_id=?',[normalizedUserId]);
         const flags=Object.fromEntries(flagRows.map(r=>[r.flag_key,r.flag_value]));
-        const offered=require('../game/world/shopCatalog').getShopCatalog({mapName:context.mapName,flags}).find(item=>item.key===itemKey);
+        const offered=shopCatalog.getShopCatalog({mapName:purchaseMap,flags}).find(item=>item.key===itemKey);
         if(offered?.locked)return {success:false,reason:'badge_required',unlockLabel:offered.unlockLabel};
-        const item=getPurchasableItem(itemKey,{mapName:context.mapName,flags});
+        const item=getPurchasableItem(itemKey,{mapName:purchaseMap,flags});
         if(!item)return {success:false,reason:'item_unavailable'};
         if (item.purchaseLimit) {
             const [owned] = await connection.execute('SELECT quantity FROM user_items WHERE user_id=? AND item_key=?', [normalizedUserId, item.key]);
