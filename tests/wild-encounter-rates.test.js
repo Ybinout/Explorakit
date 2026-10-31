@@ -71,7 +71,7 @@ test('real Adventure factory uses the weighted pool, unchanged zone levels, natu
     const draw=(chances.slice(0,index).reduce((sum,[,rate])=>sum+rate,0)+3.5)/100;
     for (const active of [false,true]) for (const [levelDraw,expected] of [[0,19],[1-Number.EPSILON,23]]) {
         const p=await wild('route3',sequence(.5,draw,levelDraw),{experienceModuleActive:active});
-        assert.equal(p.data.id,81);assert.equal(p.level,expected+(active?15:0));assert(p.currentHp>0&&p.abilities.length>0);
+        assert.equal(p.data.id,81);assert.equal(p.level,expected+(active?18:0));assert(p.currentHp>0&&p.abilities.length>0);
     }
 });
 

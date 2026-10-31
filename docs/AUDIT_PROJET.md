@@ -1,5 +1,14 @@
 # Audit technique et mémoire de RiftMon
 
+## Module de 7p à +18 niveaux — 31 octobre 2026
+
+Le bonus du Module d’expérience activé passe de +15 à +18 niveaux, pour les nouvelles rencontres sauvages en Aventure, pêche comprise. Constante serveur unique et description du catalogue mises à jour ; le sac et la notification affichent désormais la valeur reçue du serveur au lieu d’un +15 écrit en dur. Attribution par 7p, rattrapage des anciens détenteurs, propriété unique, activation personnelle et absence de consommation inchangés. Les détenteurs existants gardent leur interrupteur et bénéficient du nouveau bonus sans réattribution ni modification manuelle de compte. Ni niveau de l’équipe possédée/déjà apparue, ni équipes de dresseurs, ni modes d’expédition modifiés ; pas de migration.
+
+Validation : 14 tests unitaires/régression et trois SQL réussis sans échec/saut. Carapuce 5→23 et 100→118, statistiques/XP/attaques naturelles cohérentes, rencontres ordinaires/légendaires/grottes, pêche et garantie Abra sans double bonus, refus en combat, conservation des traits/équipe et interrupteur personnel vérifiés. Recette Chromium existante sur serveur privé et `explorakit_test`, sans namespace d’expédition : libellés +18 dans le sac, activer/désactiver, quatre tailles/deux thèmes, reprise, refus en combat, vraie rencontre herbe 2→20, pêche 5→23 et capture conservant son niveau, équipe existante intacte. Zéro erreur navigateur, compte jetable supprimé. Lint/build isolé/syntaxe/diff valides. Pas de téléphone physique ni de nouvelle recette WebKit revendiqués. Rapport et commandes : `docs/EXPERIENCE_MODULE_18_2026-10-31.json`.
+
+Serveur et client publiés le 31 octobre 2026 à 23 h 29 (Europe/Paris), client `1a942c6c8d3e8c4e1261f803378f02585535e0df`, build `e06807b523bb7893`. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-module18-2026-10-31T22-29-27-109Z`. PID 3624110→3625275, service actif, aucun redémarrage automatique/avertissement. Index et 22 bundles/CSS HTTPS vérifiés, anciens assets conservés. Aucune migration ni modification manuelle de compte ; modes fermés/checkpoint et Knov/api-test préservés. Recharger pour actualiser les libellés du sac.
+
+
 ## Quatre choix et cartes mythiques du Super Tournoi — 31 octobre 2026
 
 Chaque victoire propose désormais quatre cartes distinctes, dont une seule est choisie. Catalogues de vingt et une récupérations, cinq récompenses économiques et huit nouvelles mythiques, soit 34 cartes. Tirages distincts : économie inchangée (argent 30 %, Super Bonbon 2 %, Méga Bonbon 0,2 %) ; au maximum une carte mythique, sans prendre l’emplacement économique, donc toujours au moins deux récupérations ordinaires. Mythiques à probabilités absolues conditionnées à leur utilité/non-possession, sans relance lorsqu’une carte est déjà active ou n’aurait aucun effet : Miracle 0,2 %, Phénix 0,3 %, chacune des six autres 0,5 %. Maximum 3,5 % des victoires avec une mythique. Les anciennes offres à trois cartes gardent leur ID et leurs choix ; une récupération normale distincte est ajoutée et sauvegardée une seule fois, sans nouvelle prime ni relance de leurs cartes rares.
@@ -5595,6 +5604,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 31 octobre 2026 — Module d’expérience de 7p : +18 niveaux au lieu de +15 pour les nouvelles rencontres sauvages et la pêche. Affichages liés à la valeur serveur, anciens détenteurs/interrupteur préservés ; 14 tests unitaires et trois SQL, recette Chromium validés. `docs/EXPERIENCE_MODULE_18_2026-10-31.json`.
 
 - 31 octobre 2026 — Super Tournoi : quatre choix, huit mythiques (cinq passifs privés, trois récupérations exceptionnelles), menu/récapitulatif et reprise préservée. Effets partagés isolés au propriétaire du tournoi ; 118 tests unitaires et 27 SQL, Chromium/WebKit validés. `docs/SUPER_TOURNAMENT_POWERS_2026-10-31.json`.
 

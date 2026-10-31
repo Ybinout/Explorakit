@@ -1,0 +1,106 @@
+{
+  "date": "2026-10-31",
+  "change": "Module d’expérience de 7p : +15 vers +18 niveaux",
+  "levelBonus": 18,
+  "appliesTo": [
+    "nouvelles rencontres sauvages Aventure",
+    "pêche"
+  ],
+  "existingOwnershipAndSwitchPreserved": true,
+  "noManualAccountChanges": true,
+  "schemaChanged": false,
+  "clientBuild": "e06807b523bb7893",
+  "clientCommit": "1a942c6c8d3e8c4e1261f803378f02585535e0df",
+  "runtimeSourceSha256": {
+    "data/game/items.json": "738f134a515e5be4eac0e54acc789062f35ec99f5bd52c20d14f4af201836b9b",
+    "server/game/items/experienceModule.js": "c3d0a169c8db666189e416f7af9f249d1aa83be28e879d5134c3d100ba5e07de"
+  },
+  "validation": {
+    "unitPassed": 14,
+    "sqlPassed": 3,
+    "failed": 0,
+    "skipped": 0,
+    "browser": {
+      "legacyReward": true,
+      "defaultOff": true,
+      "bagToggle": true,
+      "bonusLabels18": true,
+      "persistedAcrossReconnect": true,
+      "combatToggleRefused": true,
+      "levels": {
+        "grassOn": 20,
+        "grassOff": 2,
+        "fishingOn": 23,
+        "fishingOff": 5
+      },
+      "captureKeepsBoostedLevel": true,
+      "existingTeamUnchanged": true,
+      "viewports": 4,
+      "themes": 2,
+      "errors": [],
+      "output": "/tmp/riftmon-module18-browser"
+    },
+    "lint": true,
+    "build": true,
+    "limitations": [
+      "Chromium Linux sur compte jetable et serveur privé ; pas de téléphone physique ni de nouveau parcours WebKit."
+    ]
+  },
+  "commands": [
+    "node --test --test-concurrency=1 tests/experience-module.test.js tests/wild-encounter-rates.test.js",
+    "RUN_MYSQL_TESTS=1 DB_TEST_NAME=explorakit_test DB_NAME=explorakit_test node --env-file=.env --test tests/experience-module-mysql.test.js",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-module18-dist RELEASE_SCREENSHOTS=/tmp/riftmon-module18-browser node --env-file=.env scripts/validateExperienceModuleBrowser.js"
+  ],
+  "deployment": {
+    "publishedAt": "2026-10-31T22:29:31.380Z",
+    "restartedAt": "2026-10-31T22:29:28.526Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-module18-2026-10-31T22-29-27-109Z",
+    "sourceBaseline": "5e4aaf97a6923aee16a0b9715c2a0e6dfeb18aee",
+    "sourceHashes": {
+      "data/game/items.json": "738f134a515e5be4eac0e54acc789062f35ec99f5bd52c20d14f4af201836b9b",
+      "server/game/items/experienceModule.js": "c3d0a169c8db666189e416f7af9f249d1aa83be28e879d5134c3d100ba5e07de"
+    },
+    "clientCommit": "1a942c6c8d3e8c4e1261f803378f02585535e0df",
+    "clientBuild": "e06807b523bb7893",
+    "beforePid": "3624110",
+    "afterPid": "3625275",
+    "serverRestarted": true,
+    "schemaChanged": false,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 0,
+    "checkpointUnchangedWhileDisabled": true,
+    "namespaceClosed": true,
+    "neighborsUnchanged": true,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.f5ca3bcb.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.1ead97de.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.2fd32f7c.js",
+      "js/drift.5b8720d7.js",
+      "js/game.50e65c96.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.4fff4c7e.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.d791e04e.css",
+      "css/test-view.7568246d.css"
+    ],
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0
+  }
+}
