@@ -1,0 +1,278 @@
+{
+  "date": "2026-10-31",
+  "sourceBaseline": "659acc23549dafe572fcdaec4d672f65c3059fe2",
+  "clientCommit": "04e278b5ac8c58344b95d39107156791f885cccb",
+  "clientBuild": "565fddbac9661be5",
+  "changes": [
+    "Shared BattleTraits row on both combat cards",
+    "Current type priority: temporary override, weather/form override, model type1/type2, legacy species fallback",
+    "Localized type badges reuse the existing type palette and contrast ink",
+    "Localized ability stays visible on mobile and when stat-stage badges are present",
+    "Suppressed abilities marked with strikethrough and an accessible explanation",
+    "Human story actors have no Pokemon type/ability row",
+    "Short portrait HUD spacing tightened to preserve room for sprites; themed header text readable in night mode"
+  ],
+  "validation": {
+    "unit": {
+      "passed": 16,
+      "failed": 0,
+      "skipped": 0
+    },
+    "lint": true,
+    "isolatedBuild": true,
+    "browser": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "views": [
+          {
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "typesFit": true,
+            "abilityVisibleAndUncut": true,
+            "noCardOverlap": true,
+            "controlsUnchanged": true
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "typesFit": true,
+            "abilityVisibleAndUncut": true,
+            "noCardOverlap": true,
+            "controlsUnchanged": true
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "typesFit": true,
+            "abilityVisibleAndUncut": true,
+            "noCardOverlap": true,
+            "controlsUnchanged": true
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "typesFit": true,
+            "abilityVisibleAndUncut": true,
+            "noCardOverlap": true,
+            "controlsUnchanged": true
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "typesFit": true,
+            "abilityVisibleAndUncut": true,
+            "noCardOverlap": true,
+            "controlsUnchanged": true
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "typesFit": true,
+            "abilityVisibleAndUncut": true,
+            "noCardOverlap": true,
+            "controlsUnchanged": true
+          },
+          {
+            "width": 1024,
+            "height": 600,
+            "theme": "light",
+            "typesFit": true,
+            "abilityVisibleAndUncut": true,
+            "noCardOverlap": true,
+            "controlsUnchanged": true
+          },
+          {
+            "width": 1024,
+            "height": 600,
+            "theme": "dark",
+            "typesFit": true,
+            "abilityVisibleAndUncut": true,
+            "noCardOverlap": true,
+            "controlsUnchanged": true
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "typesFit": true,
+            "abilityVisibleAndUncut": true,
+            "noCardOverlap": true,
+            "controlsUnchanged": true
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "typesFit": true,
+            "abilityVisibleAndUncut": true,
+            "noCardOverlap": true,
+            "controlsUnchanged": true
+          }
+        ],
+        "activeFormTypes": true,
+        "temporaryMoveTypes": true,
+        "transformedTypesAndTalent": true,
+        "suppressionIndicated": true,
+        "buffsDoNotHideTalent": true,
+        "typelessLabel": true,
+        "humanHasNoPokemonTypes": true,
+        "resourcesUnchanged": true,
+        "closedModesPreserved": true,
+        "errors": [],
+        "physicalDevice": false
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "views": [
+          {
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "typesFit": true,
+            "abilityVisibleAndUncut": true,
+            "noCardOverlap": true,
+            "controlsUnchanged": true
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "typesFit": true,
+            "abilityVisibleAndUncut": true,
+            "noCardOverlap": true,
+            "controlsUnchanged": true
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "typesFit": true,
+            "abilityVisibleAndUncut": true,
+            "noCardOverlap": true,
+            "controlsUnchanged": true
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "typesFit": true,
+            "abilityVisibleAndUncut": true,
+            "noCardOverlap": true,
+            "controlsUnchanged": true
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "typesFit": true,
+            "abilityVisibleAndUncut": true,
+            "noCardOverlap": true,
+            "controlsUnchanged": true
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "typesFit": true,
+            "abilityVisibleAndUncut": true,
+            "noCardOverlap": true,
+            "controlsUnchanged": true
+          },
+          {
+            "width": 1024,
+            "height": 600,
+            "theme": "light",
+            "typesFit": true,
+            "abilityVisibleAndUncut": true,
+            "noCardOverlap": true,
+            "controlsUnchanged": true
+          },
+          {
+            "width": 1024,
+            "height": 600,
+            "theme": "dark",
+            "typesFit": true,
+            "abilityVisibleAndUncut": true,
+            "noCardOverlap": true,
+            "controlsUnchanged": true
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "typesFit": true,
+            "abilityVisibleAndUncut": true,
+            "noCardOverlap": true,
+            "controlsUnchanged": true
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "typesFit": true,
+            "abilityVisibleAndUncut": true,
+            "noCardOverlap": true,
+            "controlsUnchanged": true
+          }
+        ],
+        "activeFormTypes": true,
+        "temporaryMoveTypes": true,
+        "transformedTypesAndTalent": true,
+        "suppressionIndicated": true,
+        "buffsDoNotHideTalent": true,
+        "typelessLabel": true,
+        "humanHasNoPokemonTypes": true,
+        "resourcesUnchanged": true,
+        "closedModesPreserved": true,
+        "errors": [],
+        "physicalDevice": false
+      }
+    },
+    "sharedHarness": "Internal DriftBattle synchronizer with trainer packets, no disabled mode reopened",
+    "screenshotsInspected": [
+      "320x480 Chromium compact light HUD",
+      "393x852 WebKit dark HUD"
+    ],
+    "physicalDevice": false,
+    "dedicatedDatabase": "explorakit_test",
+    "disposableUsersCleaned": true
+  },
+  "deployment": {
+    "publishedAt": "2026-10-31T21:29:26.050Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-battle-traits-2026-10-31T21-29-24-452Z",
+    "sourceBaseline": "659acc23549dafe572fcdaec4d672f65c3059fe2",
+    "clientCommit": "04e278b5ac8c58344b95d39107156791f885cccb",
+    "clientBuild": "565fddbac9661be5",
+    "publicAssets": 22,
+    "oldAssetsRetained": true,
+    "atomicIndex": true,
+    "serverRestarted": false,
+    "serverPid": "3611882",
+    "schemaChanged": false,
+    "realAccountsManuallyModified": false,
+    "neighborsUnchanged": true,
+    "worldDataUnchanged": true,
+    "workerUnchanged": true,
+    "closedModesPreserved": true
+  },
+  "commands": {
+    "unit": "node --test --test-concurrency=1 tests/battle-conditions.test.js tests/battle-gender.test.js tests/pokemon-gender-view.test.js tests/ability-system.test.js",
+    "lint": "npm --prefix vue-explorakit run lint",
+    "build": "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-battle-traits-dist",
+    "chromium": "DB_TEST_NAME=explorakit_test node --env-file=.env scripts/validateBattleTraitsBrowser.js",
+    "webkit": "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=webkit node --env-file=.env scripts/validateBattleTraitsBrowser.js"
+  },
+  "limitations": [
+    "No physical phone test",
+    "Geometry checks use the documented Pokemon fixtures, not every possible nickname and type combination",
+    "Visual state transitions use the real engine and synchronizer on an isolated fixture; no complete player adventure claimed"
+  ]
+}

@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## Types et talents visibles en combat — 31 octobre 2026
+
+Composant partagé `BattleTraits` dans les deux fiches du HUD : types colorés avec la palette/contraste des capacités et talent traduit, désormais visible sur mobile et même lorsque les boosts/malus sont affichés. Priorité des types identique au moteur : `tempTypes`, puis `formTypes`, puis `type1/type2` ; repli ancien snapshot sur les types d’espèce. Les doublons sont supprimés, « ??? » devient « Sans type ». Morphéo/Morphing/les capacités qui modifient les types suivent leurs états réellement reçus. Talent neutralisé barré avec explication accessible, acteurs humains narratifs exclus. Suppression des anciennes règles qui masquaient le talent dans les détails de PV. Fiches resserrées sur les petits écrans portrait pour ménager les sprites ; texte d’en-tête relié à la couleur de thème pour rester lisible la nuit. Commandes et positions de combat conservées.
+
+Validation : 16 régressions existantes réussies (effets/stats, sexe et talents), lint/build isolé valides. Recette `scripts/validateBattleTraitsBrowser.js` sur vrai serveur privé et `explorakit_test`, Chromium/WebKit Linux : cinq formats 320×480/393×852/844×390/1024×600/1536×680 et clair/nocturne, types aux couleurs distinctes, talent lisible sans troncature pour les fixtures, cartes sans chevauchement/débordement et commandes de géométrie inchangée. Vrais paquets du synchroniseur partagé avec une équipe adverse de six Pokémon ; buffs, suppression, Morphéo pluie/neige/normal, Détrempage et Morphing résolus par le moteur puis reflétés dans l’interface. État sans type et exclusion du professeur vérifiés ; équipe SQL intacte, comptes jetables supprimés, captures compactes/nocturnes inspectées, zéro erreur navigateur. Aucun téléphone physique ni parcours humain intégral revendiqué ; aucune réouverture des modes Rift/Colosseum pour cette recette interne. Rapport : `docs/BATTLE_TRAITS_2026-10-31.json`.
+
+Client publié le 31 octobre 2026 à 22 h 29 (Europe/Paris), `04e278b5ac8c58344b95d39107156791f885cccb`, build `565fddbac9661be5`. Vingt-deux bundles/CSS HTTPS vérifiés avant bascule atomique de l’index, anciens assets conservés. Sauvegarde index/sources `/home/ubuntu/dev/backups/riftmon-battle-traits-2026-10-31T21-29-24-452Z`. Aucun redémarrage serveur (PID 3611882 conservé), changement de protocole/règle/météo, migration ou modification manuelle de compte réel. Données de rencontres, zoom mobile et service worker conservés ; Knov/api-test vérifiés inchangés. Les fenêtres ouvertes prennent la version au prochain rechargement.
+
 ## Magnéti à 7 % sur la Route 3 — 31 octobre 2026
 
 `route3.adventureEncounterRates[81] = 7` fixe Magnéti à 7 % des rencontres ordinaires en Aventure, contre 1/28 auparavant. Les 27 autres espèces se partagent uniformément les 93 % restants (3,444… % chacune), sans duplication ni retrait de la liste de 28 espèces. Petit sélecteur partagé par la fabrique Aventure : les routes sans réglage conservent exactement leur ancien tirage/index ; configuration invalide ramenée à la distribution uniforme. Le tirage légendaire indépendant 1/3000 reste prioritaire : en le comptant, le taux marginal de Magnéti vaut 6,997666… %, arrondi à 7 %. Fréquence des combats, niveaux 19–23, capture, traits, butin, pêche et raretés des expéditions inchangés.
@@ -5525,6 +5533,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 31 octobre 2026 — Types actifs colorés et talents visibles sur les deux fiches de combat, mobile inclus ; transformations/météo/suppression suivies, petits écrans resserrés sans déplacer les commandes. Seize tests, lint/build et Chromium/WebKit sur cinq formats/deux thèmes ; publication client seule. `docs/BATTLE_TRAITS_2026-10-31.json`.
 
 - 31 octobre 2026 — Magnéti : 7 % des rencontres ordinaires de la Route 3, reliquat uniforme, sans doublon ni changement des autres routes/légendaires. Quarante-six tests réussis, publication serveur seule ; `docs/MAGNEMITE_ROUTE3_RATE_2026-10-31.json`.
 
