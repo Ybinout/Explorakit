@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Vente directe des trésors — 31 octobre 2026
+
+Les trésors (Éclat fissuré, Cristal limpide, Prisme d’aurore) présélectionnent la quantité maximale vendable : stock possédé, avec la limite existante de 99 par vente. Le joueur peut toujours choisir une quantité inférieure. Un appui sur Vendre envoie directement la commande habituelle, sans confirmation intermédiaire. Après actualisation du stock ou réouverture, le maximum restant est de nouveau sélectionné ; l’ouverture directe en mode Vente choisit bien la première poche vendable, même si ce mode était déjà actif. Les autres objets gardent leur sélection et leur confirmation, les achats sont inchangés. Classification par poche d’objet, y compris dans les résultats de recherche. Prix, limites et validation transactionnelle serveur conservés ; aucune commande, sauvegarde ou donnée de production modifiée.
+
+Validation : lint et build isolé réussis. Recette serveur privé et `explorakit_test`, Chromium/WebKit Linux, vrais achats/ventes SQL : les trois trésors vendus sans confirmation, lot de 123 écoulé en 99 puis quantité personnalisée de 5 puis reliquat de 19, totaux exacts, quantité maximale rétablie après vente/réouverture, vente directe en boutique ordinaire. Vente de Zinc toujours soumise à confirmation et annulation sans effet. Rechargement persistant, équipe inchangée, comptes jetables supprimés, zéro erreur navigateur. Quatre formats 320×480/393×852/844×390/1536×680 et deux thèmes ; captures mobiles inspectées. Les contrôles existants de rayons, CS, prix, badges et requêtes falsifiées passent aussi. Pas de téléphone physique ni de nouvelle suite unitaire/métier serveur revendiqués.
+
+Rapport : `docs/TREASURE_SALES_2026-10-31.json`. Recette : `DB_TEST_NAME=explorakit_test npm run test:store-browse-browser` (ajouter `PRESENTATION_BROWSER=webkit`).
+
+Publication client seule le 31 octobre 2026 à 16 h 01 (Europe/Paris), client `dd0e9db1d14f7d60f78d8031a3fd11ab22ebbd5f`, build `f6defc6dc76d7088`. Sauvegarde `/home/ubuntu/dev/backups/riftmon-treasure-sale-2026-10-31T15-01-40-855Z`. Index et 22 bundles/CSS HTTPS vérifiés à l’octet, anciens assets conservés. PID 3594374 inchangé, service actif, zéro redémarrage automatique ; aucune migration ni modification manuelle de compte réel. Knov/api-test inchangés.
+
 ## Notifications sociales sonores et visibles — 31 octobre 2026
 
 Petit carillon synthétisé à deux notes pour les nouveaux messages privés/de groupe, demandes d’ami et invitations de groupe/d’échange. Réutilisation du moteur audio déjà déverrouillé par un geste utilisateur, volume général et silence en arrière-plan conservés ; pas de permission de notification système, téléchargement ou nouveau contexte audio. Un son au maximum toutes les 1,2 seconde, sans file de rejeu. Échos personnels, conversation actuellement visible, historique initial/reconnexion, instantanés de présence et événements répétés restent silencieux. Les invitations d’échange restaurées sont aussi silencieuses. Deux caches bornés à 256 identifiants et nettoyage des abonnements à la destruction ; aucun nouveau timer, polling ou changement serveur/SQL.
@@ -5443,6 +5453,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 31 octobre 2026 — Trésors : quantité maximale présélectionnée, vente directe sans confirmation et réouverture en poche vendable ; limite de 99, quantités personnalisées et confirmations des autres objets conservées. Recettes de ventes SQL réelles Chromium/WebKit, lint/build ; `docs/TREASURE_SALES_2026-10-31.json`.
 
 - 31 octobre 2026 — Carillon des nouvelles notifications sociales, compteurs ambrés et pulsation Menu/Amis sans agrandir la barre. Déduplication, conversation visible silencieuse, volume et réduction des animations respectés ; 17 tests et recette à deux joueurs Chromium/WebKit. `docs/SOCIAL_NOTIFICATIONS_2026-10-31.json`.
 
