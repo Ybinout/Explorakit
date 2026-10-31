@@ -5,12 +5,12 @@ const catalog=require('../data/game/moves.json'),levels=require('../data/game/le
 const dex=require('../data/game/pokedex.json'),wild=require('../server/game/world/wildPokemonFactory');
 const {getMoveDefinition}=require('../server/game/battle/battleResources');
 const baseline='7ce05b59ca2a9037a40e39a7b3f8f7cf1de8138e';
-const itemBaseline='7c3e1fbac11cbead341188c185d633e8c6b1eafe';
+const itemBaseline='0c240c3d40c5f4c531a7b995a7466e95c22e800a';
 const oldFile=(name,revision=baseline)=>JSON.parse(execFileSync('git',['show',`${revision}:${name}`],{cwd:root,encoding:'utf8',maxBuffer:8*1024*1024}));
 const oldLevels=oldFile('data/game/level_up_moves.json').species,oldMachines=oldFile('data/game/machines.json').machines;
 assert.deepEqual(require('../data/game/items.json').items.filter(i=>i.category!=='machine'),oldFile('data/game/items.json',itemBaseline).items.filter(i=>i.category!=='machine'),'Unrelated items changed');
 for(const old of oldFile('data/game/moves.json'))assert.equal(catalog.find(m=>m.ename===old.ename)?.id,old.id,`Stable move identifier: ${old.ename}`);
-function normalize(name){const n=name.toLowerCase().replace(/[^a-z0-9]/g,'');return {vicegrip:'visegrip',hijumpkick:'highjumpkick',smellingsalt:'smellingsalts'}[n]||n;}
+function normalize(name){const n=name.toLowerCase().replace(/[^a-z0-9]/g,'');return {vicegrip:'visegrip',hijumpkick:'highjumpkick',smellingsalt:'smellingsalts',celebration:'celebrate'}[n]||n;}
 const byName=new Map(catalog.map(m=>[normalize(m.ename),m])),byId=new Map(Object.entries(ref.moves).map(([id,m])=>[+id,m]));
 const excluded=new Set([671]),errors=[],species=[],unavailable=new Map();
 const key=entry=>JSON.stringify(entry),newNames=catalog.filter(m=>m.catalogueRevision===2).map(m=>m.ename);
@@ -35,21 +35,13 @@ let runtimeChecks=0,levelAdditions=0,machineAdditions=0;
    assert.equal(p.abilities.length,p.movePp.length);runtimeChecks++;
   }
  }
- for(const [key,m]of Object.entries(machines)) {
-  const source=ref.moves[m.moveId],known=source&&byName.get(normalize(source.name));
-  if(known?.ename!==m.move)errors.push(`Wrong machine ID/name ${key}`);
-  for(const id of m.species){const p=ref.species[id];const technical=ref.technical[m.moveId]?.includes(id);
-   const extension=known?.catalogueRevision===2&&p&&(p.egg.includes(m.moveId)||p.machine.includes(m.moveId)||p.tutor.includes(m.moveId)||p.level.some(e=>e[1]===m.moveId));
-   const storyException=m.move==='Purify'&&m.moveId===685&&dex.find(p=>p.id===id)?.type.includes('Poison');
-   if(!technical&&!extension&&!storyException)errors.push(`Illegal machine ${key} for #${id}`);
-  }
- }
+ const machineAudit=require('./auditMachines').auditMachines();
  for(const [key,old]of Object.entries(oldMachines)){
   if(!machines[key])errors.push(`Removed existing CS ${key}`);
   if(machines[key]?.price!==old.price)errors.push(`Price changed ${key}`);
   for(const id of old.species)if(!machines[key]?.species.includes(id))errors.push(`Lost existing CS compatibility ${key} #${id}`);
  }
- const report={date:'2026-10-27',baseline,itemBaseline,source:{revision:ref.revision,url:ref.source,sha256:ref.sha256},scope:'493 playable base species; USUM natural level-up progression, legal TM/tutor transfers through generation 7, with Purify explicitly available to all Poison species. Tables for later existing species are retained.',
+ const report={date:'2026-10-31',baseline,itemBaseline,source:{revision:ref.revision,url:ref.source,sha256:ref.sha256},scope:'493 playable base species; USUM natural level-up progression unchanged. CS accept every recorded permanent method/version, pre-evolutions and Sketch; Purify additionally accepts Poison species. Tables for later existing species are retained.',machineAudit,
   summary:{species:species.length,runtimeEncounterChecks:runtimeChecks,referenceSpecies:Object.keys(ref.species).length,catalogueMoves:catalog.length,addedMoves:newNames.length,levelEntriesAdded:levelAdditions,machines:Object.keys(machines).length,previousMachines:Object.keys(oldMachines).length,newCompatibilities:machineAdditions,errors:errors.length},
   addedMoves:newNames,excluded:[...unavailable].map(([id,info])=>({id,...info,reason:excluded.has(id)?'Spotlight requires double battles, which RiftMon does not expose.':'Unimplemented'})),errors,species};
  if(process.argv.includes('--write'))fs.writeFileSync(path.join(root,'docs/LEARNSET_REVIEW.json'),JSON.stringify(report,null,2)+'\n');

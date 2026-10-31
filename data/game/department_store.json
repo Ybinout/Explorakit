@@ -1278,6 +1278,1474 @@
         "cs_aqua_jet": {
           "price": 3000,
           "requiredTier": 2
+        },
+        "cs_pound": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_karate_chop": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_double_slap": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_comet_punch": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_scratch": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_vice_grip": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_guillotine": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_gust": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_wing_attack": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_slam": {
+          "price": 4000,
+          "requiredTier": 2
+        },
+        "cs_vine_whip": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_stomp": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_double_kick": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_jump_kick": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_rolling_kick": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_sand_attack": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_horn_attack": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_fury_attack": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_tackle": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_wrap": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_thrash": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_tail_whip": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_poison_sting": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_twineedle": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_pin_missile": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_leer": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_bite": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_growl": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_sing": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_supersonic": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_sonic_boom": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_disable": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_acid": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_ember": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_mist": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_hydro_pump": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_psybeam": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_aurora_beam": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_peck": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_drill_peck": {
+          "price": 4000,
+          "requiredTier": 2
+        },
+        "cs_absorb": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_leech_seed": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_growth": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_razor_leaf": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_poison_powder": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_stun_spore": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_sleep_powder": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_petal_dance": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_fire_spin": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_thunder_shock": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_rock_throw": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_confusion": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_meditate": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_agility": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_quick_attack": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_screech": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_recover": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_harden": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_minimize": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_smokescreen": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_confuse_ray": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_withdraw": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_barrier": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_haze": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_focus_energy": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_mirror_move": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_lick": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_smog": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_sludge": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_bone_club": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_clamp": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_spike_cannon": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_constrict": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_amnesia": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_kinesis": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_high_jump_kick": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_glare": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_poison_gas": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_barrage": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_lovely_kiss": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_transform": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_bubble": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_dizzy_punch": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_spore": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_splash": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_acid_armor": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_crabhammer": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_fury_swipes": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_bonemerang": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_hyper_fang": {
+          "price": 4000,
+          "requiredTier": 2
+        },
+        "cs_sharpen": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_conversion": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_slash": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_sketch": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_triple_kick": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_spider_web": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_mind_reader": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_flame_wheel": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_flail": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_conversion_2": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_aeroblast": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_cotton_spore": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_reversal": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_powder_snow": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_mach_punch": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_scary_face": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_sweet_kiss": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_belly_drum": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_octazooka": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_spikes": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_foresight": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_destiny_bond": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_perish_song": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_bone_rush": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_lock_on": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_charm": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_milk_drink": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_spark": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_mean_look": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_present": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_sacred_fire": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_magnitude": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_megahorn": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_baton_pass": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_encore": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_pursuit": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_rapid_spin": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_metal_claw": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_vital_throw": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_moonlight": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_cross_chop": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_crunch": {
+          "price": 4000,
+          "requiredTier": 2
+        },
+        "cs_mirror_coat": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_extreme_speed": {
+          "price": 4000,
+          "requiredTier": 2
+        },
+        "cs_future_sight": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_beat_up": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_stockpile": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_spit_up": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_swallow": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_flatter": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_memento": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_smelling_salts": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_follow_me": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_charge": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_wish": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_assist": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_ingrain": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_revenge": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_yawn": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_eruption": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_imprison": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_refresh": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_grudge": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_arm_thrust": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_camouflage": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_tail_glow": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_luster_purge": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_mist_ball": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_feather_dance": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_teeter_dance": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_blaze_kick": {
+          "price": 4000,
+          "requiredTier": 2
+        },
+        "cs_mud_sport": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_ice_ball": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_needle_arm": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_slack_off": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_poison_fang": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_crush_claw": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_meteor_mash": {
+          "price": 4000,
+          "requiredTier": 2
+        },
+        "cs_astonish": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_weather_ball": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_aromatherapy": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_fake_tears": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_odor_sleuth": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_metal_sound": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_grass_whistle": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_tickle": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_cosmic_power": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_water_spout": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_shadow_punch": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_extrasensory": {
+          "price": 4000,
+          "requiredTier": 2
+        },
+        "cs_sky_uppercut": {
+          "price": 4000,
+          "requiredTier": 2
+        },
+        "cs_sand_tomb": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_sheer_cold": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_muddy_water": {
+          "price": 4000,
+          "requiredTier": 2
+        },
+        "cs_icicle_spear": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_howl": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_mud_shot": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_poison_tail": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_magical_leaf": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_water_sport": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_leaf_blade": {
+          "price": 4000,
+          "requiredTier": 2
+        },
+        "cs_dragon_dance": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_rock_blast": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_doom_desire": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_psycho_boost": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_miracle_eye": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_wake_up_slap": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_hammer_arm": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_healing_wish": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_feint": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_acupressure": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_metal_burst": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_close_combat": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_assurance": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_psycho_shift": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_trump_card": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_heal_block": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_wring_out": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_power_trick": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_lucky_chant": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_me_first": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_copycat": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_power_swap": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_guard_swap": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_punishment": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_toxic_spikes": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_heart_swap": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_aqua_ring": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_flare_blitz": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_force_palm": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_aura_sphere": {
+          "price": 4000,
+          "requiredTier": 2
+        },
+        "cs_night_slash": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_air_slash": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_bug_buzz": {
+          "price": 4000,
+          "requiredTier": 2
+        },
+        "cs_dragon_rush": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_power_gem": {
+          "price": 4000,
+          "requiredTier": 2
+        },
+        "cs_brave_bird": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_switcheroo": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_nasty_plot": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_bullet_punch": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_ice_shard": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_thunder_fang": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_ice_fang": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_fire_fang": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_shadow_sneak": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_mud_bomb": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_psycho_cut": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_mirror_shot": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_discharge": {
+          "price": 4000,
+          "requiredTier": 2
+        },
+        "cs_lava_plume": {
+          "price": 4000,
+          "requiredTier": 2
+        },
+        "cs_leaf_storm": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_power_whip": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_rock_wrecker": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_cross_poison": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_magnet_bomb": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_chatter": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_judgment": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_wood_hammer": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_attack_order": {
+          "price": 4000,
+          "requiredTier": 2
+        },
+        "cs_defend_order": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_heal_order": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_head_smash": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_double_hit": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_roar_of_time": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_spacial_rend": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_lunar_dance": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_crush_grip": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_magma_storm": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_dark_void": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_seed_flare": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_shadow_force": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_wide_guard": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_guard_split": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_power_split": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_autotomize": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_rage_powder": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_storm_throw": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_flame_burst": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_quiver_dance": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_heavy_slam": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_synchronoise": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_electro_ball": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_soak": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_coil": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_acid_spray": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_simple_beam": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_entrainment": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_chip_away": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_clear_smog": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_stored_power": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_quick_guard": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_shell_smash": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_heal_pulse": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_hex": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_shift_gear": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_circle_throw": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_reflect_type": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_final_gambit": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_bestow": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_inferno": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_heart_stamp": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_horn_leech": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_sacred_sword": {
+          "price": 4000,
+          "requiredTier": 2
+        },
+        "cs_razor_shell": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_heat_crash": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_leaf_tornado": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_steamroller": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_cotton_guard": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_night_daze": {
+          "price": 4000,
+          "requiredTier": 2
+        },
+        "cs_psystrike": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_tail_slap": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_hurricane": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_head_charge": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_gear_grind": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_searing_shot": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_techno_blast": {
+          "price": 4000,
+          "requiredTier": 2
+        },
+        "cs_relic_song": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_secret_sword": {
+          "price": 4000,
+          "requiredTier": 2
+        },
+        "cs_glaciate": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_bolt_strike": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_blue_flare": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_fiery_dance": {
+          "price": 4000,
+          "requiredTier": 2
+        },
+        "cs_freeze_shock": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_ice_burn": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_icicle_crash": {
+          "price": 4000,
+          "requiredTier": 2
+        },
+        "cs_v_create": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_fusion_flare": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_fusion_bolt": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_flying_press": {
+          "price": 4000,
+          "requiredTier": 2
+        },
+        "cs_mat_block": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_belch": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_rototiller": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_sticky_web": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_fell_stinger": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_phantom_force": {
+          "price": 4000,
+          "requiredTier": 2
+        },
+        "cs_trick_or_treat": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_noble_roar": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_ion_deluge": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_parabolic_charge": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_forests_curse": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_petal_blizzard": {
+          "price": 4000,
+          "requiredTier": 2
+        },
+        "cs_freeze_dry": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_disarming_voice": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_parting_shot": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_topsy_turvy": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_draining_kiss": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_crafty_shield": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_flower_shield": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_grassy_terrain": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_misty_terrain": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_electrify": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_play_rough": {
+          "price": 4000,
+          "requiredTier": 2
+        },
+        "cs_fairy_wind": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_moonblast": {
+          "price": 4000,
+          "requiredTier": 2
+        },
+        "cs_boomburst": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_fairy_lock": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_kings_shield": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_play_nice": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_diamond_storm": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_steam_eruption": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_hyperspace_hole": {
+          "price": 4000,
+          "requiredTier": 2
+        },
+        "cs_water_shuriken": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_mystical_fire": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_spiky_shield": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_aromatic_mist": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_eerie_impulse": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_venom_drench": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_powder": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_geomancy": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_magnetic_flux": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_happy_hour": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_electric_terrain": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_celebrate": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_baby_doll_eyes": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_nuzzle": {
+          "price": 3000,
+          "requiredTier": 2
+        },
+        "cs_oblivion_wing": {
+          "price": 4000,
+          "requiredTier": 2
+        },
+        "cs_lands_wrath": {
+          "price": 4000,
+          "requiredTier": 2
         }
       }
     },

@@ -1,5 +1,19 @@
 # Audit technique et mémoire de RiftMon
 
+## Toutes les CS et méthodes d’apprentissage — 31 octobre 2026
+
+633 CS pour les 634 attaques du moteur, soit 367 ajouts. Seule Lutte reste exclue : capacité automatique sans apprentissage permanent. Union de toutes les méthodes et versions enregistrées pour les espèces existantes : niveau, reproduction, CT/CS, tuteur, événements, transferts et méthodes spéciales. Les évolutions conservent les possibilités de leurs pré-évolutions ; Queulorior bénéficie de Gribouille, y compris ses possibilités historiques. Aucune compatibilité générale déduite du type ou des copies temporaires Morphing/Copie/Métronome. Purification conserve son exception pour tous les types Poison et accepte aussi ses apprenants natifs, qui étaient omis par l’ancien remplacement de liste.
+
+67 191 compatibilités sur les 809 espèces historiques, 512 097 couples contrôlés. Pokédex jouable 1–493, rencontres et progression naturelle inchangés. Les 266 anciennes CS gardent leurs identifiants, prix et compatibilités ; les objets/offres hors CS et les possessions restent identiques. Catalogue serveur/client et étage Entraînement synchronisés. Prix de 3 000/4 000/5 000 conservés. Les combinaisons d’événements des formats de compétition officiels ne sont pas imposées : chaque attaque est compatible individuellement.
+
+Référence compacte hors ligne PokeAPI/Showdown, révisions/empreintes et licences conservées ; pas de requête externe pendant le jeu. Import vérifié puis génération déterministe. Audit indépendant par ancêtres plutôt que la propagation descendante du générateur : `node scripts/auditMachines.js`. `auditLearnsets.js` conserve le contrôle exact des niveaux USUM et délègue les compatibilités CS à ce nouvel audit. Détection explicite de toute perte d’ancienne compatibilité, prix, objet ou offre hors périmètre.
+
+Affichage progressif du rayon CS par 40 articles pour éviter de construire 633 cartes à l’ouverture ; recherche et filtres portent toujours sur le catalogue complet. Mesures indicatives Chromium Linux : 793–1 014 ms auparavant, 172–406 ms ensuite ; WebKit 303–528 ms ensuite. Ce sont des temps de recette sur le même serveur, pas une mesure sur iPhone physique.
+
+Validation : 149 tests unitaires/régression et 19 SQL réussis sans échec/saut. Achat/apprentissage réels en Chromium et WebKit sur serveur isolé et `explorakit_test` : Morsure naturelle, Vol événementiel, Hydrocanon événementiel de Magicarpe, Célébration héritée de Pikachu pour Raichu, Trou Noir par Gribouille ; consommation unique, prix, PP, incompatibilités et reconnexion vérifiés. Trois formats et deux thèmes, zéro erreur navigateur, captures mobile/PC inspectées. Audit des 493 espèces : 2 465 rencontres initiales valides, aucun changement de niveaux. Import/générateurs, syntaxe/diff, lint et build isolé valides. Un essai SQL auxiliaire d’inventaire général retrouve sa fixture ancienne non routée `experience_module` ; ce défaut indépendant est documenté et non masqué. Rapport et commandes : `docs/ALL_CS_2026-10-31.json`. Rift et Colosseum restent fermés « Soon ».
+
+Client et serveur publiés le 31 octobre 2026 à 10 h 18 (Europe/Paris), client `b40e18debd00944bbd5269c67a7cee87170cf36a`, build `ae803cb31f85e94d`. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-all-cs-2026-10-31T09-18-51-238Z`. PID 3568428→3570955, service actif, zéro redémarrage automatique/avertissement. Index et 22 bundles/CSS HTTPS vérifiés à l’octet, anciens assets conservés. Aucun changement de schéma ni modification manuelle de compte réel ; Knov/api-test inchangés. Namespace des expéditions toujours fermé et checkpoint conservé.
+
 ## Attaques successives, Poursuite, baies et CS Aqua-Jet — 31 octobre 2026
 
 Les six anomalies restantes de la revue du 30 octobre sont corrigées dans le moteur commun. Roulade/Ball’Glace : cinq coups 30/60/120/240/480, un seul coût initial en PP, verrouillage et interruption, bonus de Boul’Armure ; le K.O. adverse conserve la chaîne. Taillade : 40/80/160, retour à zéro après interruption ou rupture de la succession. Écho : 40→200 sur le terrain commun, un gain par tour même si les deux camps l’utilisent ; les tentatives ratées comptent, un tour sans tentative remet la puissance à zéro.
@@ -5339,6 +5353,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 31 octobre 2026 — Toutes les attaques apprenables du moteur en CS (633, hors Lutte), méthodes permanentes/anciennes versions/évolutions/Gribouille ; 512 097 compatibilités possibles contrôlées, 149 tests et 19 SQL, recettes Chromium/WebKit. Rayon affiché progressivement ; `docs/ALL_CS_2026-10-31.json`.
 
 - 31 octobre 2026 — Six anomalies d’attaques restantes corrigées, Vengeance/Croix alignées sur l’historique, prévisions IA sans intentions humaines et CS Aqua-Jet native à 3 000. 929 tests + 71 SQL, Technicien sur la puissance réelle et recettes Chromium/WebKit ; `docs/MOVE_SEQUENCES_2026-10-31.json`.
 

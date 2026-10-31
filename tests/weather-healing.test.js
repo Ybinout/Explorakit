@@ -74,7 +74,8 @@ test('trainer projections match real weather healing on private copies', () => {
 });
 
 test('CS Aurore includes documented native learners and retained evolutions, excludes unrelated species', () => {
-    assert.deepEqual(machines.cs_morning_sun.species, [48, 49, 58, 59, 77, 78, 175, 176, 191, 192, 196, 267, 420, 421, 468]);
+    for (const id of [48, 49, 58, 59, 77, 78, 175, 176, 191, 192, 196, 267, 420, 421, 468]) assert(machines.cs_morning_sun.species.includes(id));
+    assert(machines.cs_morning_sun.species.includes(235), 'Permanent Sketch compatibility');
     assert.equal(machines.cs_morning_sun.price, 3000);
     for (const id of machines.cs_morning_sun.species) {
         const p = factory.create(id, 40, true); p.abilities = ['Tackle']; p.movePp = [2];

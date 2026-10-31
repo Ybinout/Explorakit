@@ -155,7 +155,7 @@ test('Aqua Jet is a 40-power physical Water priority move with 20 PP; CS teaches
  assert.equal(engine.orderBattleActions([{pokemon:f.b,moveName:'Tackle'},{pokemon:f.a,moveName:'Aqua Jet'}],f.field)[0].pokemon,f.a);
  assert.equal(f.cast().damage,oracle(f.a,f.b,'Aqua Jet',40));assert.equal(f.a.movePp[0],19);
  const {machines,teachMachine}=require('../server/game/items/machines'),machine=machines.cs_aqua_jet;assert.equal(machine.name,'CS Aqua-Jet');assert.equal(machine.price,3000);
- for(const id of machine.species){assert(id<=493);const p=mon(id,['Tackle']);assert.equal(teachMachine(p,'cs_aqua_jet',{slot:1,expectedMoves:p.abilities}).abilities[1],'Aqua Jet');}
+ for(const id of machine.species){assert(id>=1&&id<=809);const p=mon(id,['Tackle']);assert.equal(teachMachine(p,'cs_aqua_jet',{slot:1,expectedMoves:p.abilities}).abilities[1],'Aqua Jet');}
  for(const id of [25,129,130])assert(!machine.species.includes(id));assert(machine.species.includes(7));assert(machine.species.includes(395));
 }));
 test('sequence histories survive checkpoints; planner copies only completed public events and never reads live intentions',()=>fixed(()=>{

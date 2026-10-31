@@ -1,0 +1,368 @@
+{
+  "date": "2026-10-31",
+  "baseline": {
+    "root": "0c240c3d40c5f4c531a7b995a7466e95c22e800a",
+    "client": "47afaeb2dcdcd996659a729eb32f6efed116c6dd"
+  },
+  "scope": "Every learnable engine move has a CS; any recorded permanent learning method/version for existing base species; no new species or natural level-up changes. Rift and Colosseum remain closed Soon.",
+  "coverage": {
+    "engineMoves": 634,
+    "machines": 633,
+    "species": 809,
+    "checkedPairs": 512097,
+    "compatibilities": 67191,
+    "excluded": [
+      "Struggle"
+    ],
+    "baseline": "0c240c3d40c5f4c531a7b995a7466e95c22e800a",
+    "preservedMachines": 266,
+    "existingPricesAndCompatibilityPreserved": true,
+    "naturalProgressionAndOtherItemsUnchanged": true
+  },
+  "addedMachines": 367,
+  "additionalCompatibilities": 21874,
+  "playableSpecies": 493,
+  "playableCompatibilities": 44624,
+  "sources": {
+    "pokeapi": {
+      "source": "https://github.com/PokeAPI/pokeapi/tree/81d20919845b6a445969b9265aab5cec6b04cece/data/v2/csv",
+      "revision": "81d20919845b6a445969b9265aab5cec6b04cece",
+      "license": "BSD-3-Clause",
+      "sha256": {
+        "pokemon_moves.csv": "22a807cef26891eeac0d0c900bd363e66baf421f7ee795bc7bc3e718f23b939e",
+        "pokemon_species.csv": "e66e2eeb25fd3836b0ebab6bf87bbf01960aa3c0555e2bac495fa8393c5e0c45",
+        "pokemon_move_methods.csv": "78b75acfcf6dca4c82da9d4851357cbbd65e61b08154eddfc2ace0efd00e408e"
+      }
+    },
+    "showdown": {
+      "source": "https://github.com/smogon/pokemon-showdown/blob/master/data/learnsets.ts",
+      "gitBlobSha": "75488936bdf90a2b42d05b56697809cb5332fa34",
+      "sha256": "26969c5e9ca7310b701612da8c9cea217b7d43efb8cd22a7e46783a6ca9b386e",
+      "license": "MIT"
+    }
+  },
+  "methods": [
+    "dream_world",
+    "egg",
+    "event",
+    "form_change",
+    "level_up",
+    "light_ball_egg",
+    "machine",
+    "special",
+    "stadium_surfing_pikachu",
+    "train",
+    "transfer",
+    "tutor",
+    "xd_purification",
+    "zygarde_cube"
+  ],
+  "rules": {
+    "permanentMethods": "Union of natural, egg, tutor, machine, event, Dream World, transfer and special learning sources; forward pre-evolution inheritance. Existing species 1–809 only, playable roster stays 1–493.",
+    "sketch": "Smeargle accepts every engine move except Struggle, including historically sketchable moves such as pre-generation-7 Dark Void. Temporary Transform/Mimic/Metronome do not confer general compatibility.",
+    "purify": "All Poison species retain the story exception; native Pyukumuku and permanent Sketch learners are also compatible.",
+    "exception": "Struggle is an automatic, unlearnable fallback and has no CS. No other engine move is excluded.",
+    "individualCompatibility": "Each move is legal on its own; event combination restrictions of official competitive formats are not imposed. Base species only; regional forms are not merged.",
+    "economy": "Existing keys, ordering, prices (3000/4000/5000), stock conditions, possession and consumption rules preserved. All CS remain on the Training floor.",
+    "shopRendering": "40 initial rows, explicit Show more adds 40; name/type searches use the full catalogue and reset the display limit. No item is removed from search."
+  },
+  "validation": {
+    "unit": {
+      "passed": 149,
+      "failed": 0,
+      "skipped": 0,
+      "command": "node --test --test-concurrency=1 tests/all-machines.test.js tests/machines.test.js tests/weather-healing.test.js tests/move-sequences.test.js tests/learnset-review.test.js"
+    },
+    "mysql": {
+      "passed": 19,
+      "failed": 0,
+      "skipped": 0,
+      "database": "explorakit_test",
+      "command": "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RUN_MYSQL_TESTS=1 NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file-if-exists=.env --test --test-concurrency=1 tests/machines-mysql.test.js tests/move-sequences-mysql.test.js",
+      "scope": "Purchases/ownership/stale requests/concurrent consumption/PP/SQL reload. New natural, egg, event, inherited, Sketch and Purify cases; incompatible teaching retains the item."
+    },
+    "learnsets": {
+      "species": 493,
+      "runtimeEncounterChecks": 2465,
+      "referenceSpecies": 809,
+      "catalogueMoves": 634,
+      "addedMoves": 22,
+      "levelEntriesAdded": 43,
+      "machines": 633,
+      "previousMachines": 101,
+      "newCompatibilities": 26923,
+      "errors": 0
+    },
+    "generatorCommands": [
+      "python3 scripts/importMachineLearnability.py /tmp/riftmon-learnsets /tmp/riftmon-all-cs-reference --check",
+      "python3 scripts/generateMachines.py --check",
+      "python3 scripts/generateLevelUpMoves.py --check",
+      "node scripts/generatePokemonReference.js --check",
+      "node scripts/auditMachines.js",
+      "node scripts/auditLearnsets.js"
+    ],
+    "browsers": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "machines": 633,
+        "learned": [
+          {
+            "species": 7,
+            "key": "cs_bite",
+            "price": 3000
+          },
+          {
+            "species": 25,
+            "key": "cs_fly",
+            "price": 4000
+          },
+          {
+            "species": 129,
+            "key": "cs_hydro_pump",
+            "price": 5000
+          },
+          {
+            "species": 26,
+            "key": "cs_celebrate",
+            "price": 3000
+          },
+          {
+            "species": 235,
+            "key": "cs_dark_void",
+            "price": 3000
+          }
+        ],
+        "progressiveRendering": true,
+        "incompatibleDisabled": true,
+        "sqlAndReload": true,
+        "closedModesPreserved": true,
+        "views": [
+          {
+            "width": 320,
+            "height": 640,
+            "themeMode": "light"
+          },
+          {
+            "width": 320,
+            "height": 640,
+            "themeMode": "dark"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "themeMode": "light"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "themeMode": "dark"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "themeMode": "light"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "themeMode": "dark"
+          }
+        ],
+        "timings": [
+          {
+            "step": "openAllCS",
+            "ms": 172
+          },
+          {
+            "step": "openAllCS",
+            "ms": 406
+          },
+          {
+            "step": "openAllCS",
+            "ms": 273
+          },
+          {
+            "step": "openAllCS",
+            "ms": 401
+          },
+          {
+            "step": "openAllCS",
+            "ms": 222
+          }
+        ],
+        "errors": [],
+        "output": "/tmp/riftmon-all-cs-chromium"
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "machines": 633,
+        "learned": [
+          {
+            "species": 7,
+            "key": "cs_bite",
+            "price": 3000
+          },
+          {
+            "species": 25,
+            "key": "cs_fly",
+            "price": 4000
+          },
+          {
+            "species": 129,
+            "key": "cs_hydro_pump",
+            "price": 5000
+          },
+          {
+            "species": 26,
+            "key": "cs_celebrate",
+            "price": 3000
+          },
+          {
+            "species": 235,
+            "key": "cs_dark_void",
+            "price": 3000
+          }
+        ],
+        "progressiveRendering": true,
+        "incompatibleDisabled": true,
+        "sqlAndReload": true,
+        "closedModesPreserved": true,
+        "views": [
+          {
+            "width": 320,
+            "height": 640,
+            "themeMode": "light"
+          },
+          {
+            "width": 320,
+            "height": 640,
+            "themeMode": "dark"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "themeMode": "light"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "themeMode": "dark"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "themeMode": "light"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "themeMode": "dark"
+          }
+        ],
+        "timings": [
+          {
+            "step": "openAllCS",
+            "ms": 361
+          },
+          {
+            "step": "openAllCS",
+            "ms": 528
+          },
+          {
+            "step": "openAllCS",
+            "ms": 389
+          },
+          {
+            "step": "openAllCS",
+            "ms": 303
+          },
+          {
+            "step": "openAllCS",
+            "ms": 373
+          }
+        ],
+        "errors": [],
+        "output": "/tmp/riftmon-all-cs-webkit"
+      }
+    },
+    "browserCommand": "DB_TEST_NAME=explorakit_test [PRESENTATION_BROWSER=webkit] node --env-file-if-exists=.env scripts/validateAllMachinesBrowser.js",
+    "lint": "No lint errors",
+    "clientBuild": "ae803cb31f85e94d",
+    "syntaxAndDiff": true,
+    "screenshotsInspected": [
+      "/tmp/riftmon-all-cs-chromium/cs-dark-393.png",
+      "/tmp/riftmon-all-cs-chromium/cs-light-1365.png"
+    ],
+    "physicalPhoneTested": false
+  },
+  "knownUnrelatedFailure": {
+    "test": "tests/item-usage-mysql.test.js",
+    "error": "Unrouted item: experience_module",
+    "reason": "Old general inventory fixture does not route this already existing key item. All non-CS item definitions exactly match the pre-patch baseline. Not changed or masked by this CS patch."
+  },
+  "sourceSha256": {
+    "data/game/department_store.json": "f690218be114df734df99c3484ebbdb01ef86da0a678573d6bc83e9f396a3716",
+    "data/game/items.json": "2b7953b20870f360b0dfb5f4cc942dde818b81bfb77f059dcbfcb3558536ad18",
+    "data/game/machines.json": "4311246c129b74df27fedabef213c304065b283fbc7f5e426dc6a01aa08b83de",
+    "data/vendor/pokeapi/README.md": "c3f1667d3e04be897e54fd7908550f978e08ecfd41b0bc4d6f2c28e7f6aba1cf",
+    "data/vendor/machine_learnability.json": "a934aebe2667d1e0b69df6bd6b6850a449e8f83c3b7c749ad8e28ddaa366a97d",
+    "data/vendor/pokemon-showdown/LICENSE": "b2002a9fd52ba8db3783a05fbdebfb09c34fd09513b90f6b390a2c0dfbc93ed0"
+  },
+  "publication": {
+    "publishedAt": "2026-10-31T09:18:55.388Z",
+    "restartedAt": "2026-10-31T09:18:52.658Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-all-cs-2026-10-31T09-18-51-238Z",
+    "sourceBaseline": "0c240c3d40c5f4c531a7b995a7466e95c22e800a",
+    "sourceHashes": {
+      "data/game/department_store.json": "f690218be114df734df99c3484ebbdb01ef86da0a678573d6bc83e9f396a3716",
+      "data/game/items.json": "2b7953b20870f360b0dfb5f4cc942dde818b81bfb77f059dcbfcb3558536ad18",
+      "data/game/machines.json": "4311246c129b74df27fedabef213c304065b283fbc7f5e426dc6a01aa08b83de",
+      "data/vendor/pokeapi/README.md": "c3f1667d3e04be897e54fd7908550f978e08ecfd41b0bc4d6f2c28e7f6aba1cf",
+      "data/vendor/machine_learnability.json": "a934aebe2667d1e0b69df6bd6b6850a449e8f83c3b7c749ad8e28ddaa366a97d",
+      "data/vendor/pokemon-showdown/LICENSE": "b2002a9fd52ba8db3783a05fbdebfb09c34fd09513b90f6b390a2c0dfbc93ed0"
+    },
+    "clientCommit": "b40e18debd00944bbd5269c67a7cee87170cf36a",
+    "clientBuild": "ae803cb31f85e94d",
+    "beforePid": "3568428",
+    "afterPid": "3570955",
+    "serverRestarted": true,
+    "schemaChanged": false,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "checkpointUnchangedWhileDisabled": true,
+    "namespaceClosed": true,
+    "neighborsUnchanged": true,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.f5ca3bcb.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.100a5314.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.2fd32f7c.js",
+      "js/drift.5b8720d7.js",
+      "js/game.eb7d332a.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.de3bb7ec.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.d12b2203.css",
+      "css/test-view.7568246d.css"
+    ],
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0
+  }
+}

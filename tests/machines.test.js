@@ -6,7 +6,7 @@ const create=()=>{const p=factory.create(7,20,true);p.abilities=['Tackle','Tail 
 const choice=(p,slot=2)=>({pokemonUuid:p.uuid,itemKey:'cs_surf',slot,expectedMoves:[...p.abilities]});
 test('CS catalogue: expanded French moves, shared compatibility and floor 2 stock only',()=>{
  assert.deepEqual([...new Set(Object.values(machines).map(m=>m.price))].sort((a,b)=>a-b),[3000,4000,5000]);
- assert.equal(Object.keys(machines).length,266);assert.deepEqual(require('../vue-explorakit/src/data/machines.json'),machines);
+ assert.equal(Object.keys(machines).length,633);assert.deepEqual(require('../vue-explorakit/src/data/machines.json'),machines);
  for(const [key,m] of Object.entries(machines)){assert(items.some(i=>i.key===key&&i.name===m.name&&i.category==='machine'));assert.match(m.name,/^CS /);assert(m.species.length>0);assert(shops.getShopCatalog({mapName:'tour_etage1'}).some(i=>i.key===key&&i.price===m.price));for(const mapName of ['tour_rdc','tour_etage2','tour_etage3','ville1_shop','ville5_shop'])assert(!shops.getShopCatalog({mapName,expedition:true}).some(i=>i.key===key));}
  assert(machines.cs_thunderbolt.species.includes(25));assert(!machines.cs_surf.species.includes(4));assert(!machines.cs_surf.species.includes(129),'Magikarp water type is insufficient');
 });
