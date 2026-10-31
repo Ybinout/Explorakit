@@ -12,7 +12,8 @@
     "Pursuit": "40 normally, 80 before a committed manual withdrawal or a faster pivot, against the outgoing Pokemon. Interception ignores accuracy/evasion, consumes the queued action once, preserves KO/replacement/residual/presentation order. No double hit on the replacement. Already-used Pursuit does not intercept again. Transient Symbol is excluded from checkpoint serialization.",
     "Fling": "Existing berries apply their HP/status/confusion/PP/stat effect to the hit target, without consuming its equipment. Substitute/protection/immunity block the effect; a KO target is not healed. Eaten-berry history, Cheek Pouch, Unnerve and Heal Block are handled; current failed-throw item-retention adaptation is retained.",
     "Retaliate": "Doubles only following a KO on the same side in the preceding round. Direct damage, residual damage, recoil and entry hazards count. A second KO in the current round does not erase a preceding-round KO.",
-    "Fusion Bolt / Fusion Flare": "Second complementary move doubles only if the last successful move in this same turn was the other one; no previous-turn or failed-move carryover."
+    "Fusion Bolt / Fusion Flare": "Second complementary move doubles only if the last successful move in this same turn was the other one; no previous-turn or failed-move carryover.",
+    "Technician": "Use resolved conditional base power for the <=60 threshold: early rolling/Fury Cutter/Echoed Voice hits are eligible, stronger later hits, switching Pursuit (80) and unheld Acrobatics (110) are not. Regular low-power moves retain their boost. Shared real/AI damage formula."
   },
   "aquaJet": {
     "move": "Aqua Jet",
@@ -73,12 +74,12 @@
   },
   "checks": {
     "unit": {
-      "tests": 913,
-      "pass": 913,
+      "tests": 929,
+      "pass": 929,
       "fail": 0,
       "skipped": 0
     },
-    "newUnitCases": 96,
+    "newUnitCases": 112,
     "mysql": {
       "tests": 71,
       "pass": 71,
@@ -93,14 +94,15 @@
       "pass": 29,
       "fail": 54,
       "skipped": 0,
-      "scope": "Original nine modified runtime modules and original catalogs loaded in memory from the baseline; selected semantic cases only, no missing-new-API errors. No production source was replaced."
+      "scope": "Original nine modified runtime modules and original catalogs loaded in memory from the baseline; selected semantic cases only, no missing-new-API errors. No production source was replaced.",
+      "testRevision": "4dfd787296688022c5fad9644e03cbdac36d969f"
     },
     "catalogueSmoke": {
-      "totalMoves": 634,
       "executionChecks": 10144,
       "executionFailures": [],
       "aiChecks": 1902,
-      "aiFailures": []
+      "aiFailures": [],
+      "totalMoves": 634
     },
     "generatedMachinesChecked": true,
     "lint": true,
@@ -267,7 +269,15 @@
       "node scripts/auditMoves.js",
       "npm --prefix vue-explorakit run lint",
       "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-move-sequences-dist"
-    ]
+    ],
+    "technicianBeforeReplay": {
+      "tests": 16,
+      "pass": 6,
+      "fail": 10,
+      "skipped": 0,
+      "baseline": "4dfd787296688022c5fad9644e03cbdac36d969f",
+      "scope": "Previous battleEngine loaded alone in memory for the 16 new Technician scenarios; ten assertion failures, no source replacement."
+    }
   },
   "references": {
     "moves.ts": {
@@ -286,13 +296,18 @@
       "url": "https://raw.githubusercontent.com/smogon/pokemon-showdown/master/data/items.ts",
       "sha256": "6a9c7eeb9cfda861d9fb22084b10af46d03da4729981424ff155399907b66ed4"
     },
-    "nativeLearnsets": "https://github.com/PokeAPI/pokeapi/tree/81d20919845b6a445969b9265aab5cec6b04cece/data/v2/csv"
+    "nativeLearnsets": "https://github.com/PokeAPI/pokeapi/tree/81d20919845b6a445969b9265aab5cec6b04cece/data/v2/csv",
+    "Technician": {
+      "url": "https://raw.githubusercontent.com/smogon/pokemon-showdown/master/data/abilities.ts",
+      "accessed": "2026-10-31",
+      "rule": "Technician onBasePower evaluates the resolved power against 60."
+    }
   },
   "runtimeSourceSha256": {
     "data/game/department_store.json": "5ca5e4e2b46b13336a9ebee04e606992d2f8f2ad2ddc74821a6d05a964f8aa29",
     "data/game/items.json": "8d6d8de30cbf58a2a493636496201b3ff25d2f1278e12b8f3dd7632f33c59681",
     "data/game/machines.json": "af53642b370bcae744b846355ff510c615e6e0e4c90ca218c343f7ab9c12944a",
-    "server/game/battle/battleEngine.js": "293c45484eb038c22284cae3a7466c358f62b69044599eae3d269c655adbe843",
+    "server/game/battle/battleEngine.js": "33e5d5bc4f07a7ad9178d5475bba1618a57b7880e5212a4062b26a4075f4b489",
     "server/game/battle/battleResources.js": "f0d4a4a907264d394ffd9654e279a35b5c698d74d2b34480d11c7cac8ea243dd",
     "server/game/battle/humanTrainerAI.js": "eed7a1441b4409e5421810388b943ecd7c128ad59fbc7841e1740988e09753cb",
     "server/game/battle/humanTrainerModel.js": "3572f111512226e474356483c171f05c4b976715d296756d36e92d9cf040d6d5",
@@ -310,6 +325,31 @@
     "Existing unsuccessful-Fling item-retention adaptation is preserved."
   ],
   "deployment": {
+    "publishedAt": "2026-10-31T08:58:54.082Z",
+    "restartedAt": "2026-10-31T08:58:52.616Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-technician-2026-10-31T08-58-52-264Z",
+    "sourceBaseline": "4dfd787296688022c5fad9644e03cbdac36d969f",
+    "sourceHashes": {
+      "server/game/battle/battleEngine.js": "33e5d5bc4f07a7ad9178d5475bba1618a57b7880e5212a4062b26a4075f4b489"
+    },
+    "clientCommit": "47afaeb2dcdcd996659a729eb32f6efed116c6dd",
+    "clientBuild": "3e96b40eeb3b42cf",
+    "clientChanged": false,
+    "beforePid": "3567322",
+    "afterPid": "3568428",
+    "serverRestarted": true,
+    "databaseSchemaChanged": false,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "neighborsUnchanged": true,
+    "publicIndexUnchanged": true,
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0
+  },
+  "firstDeployment": {
     "publishedAt": "2026-10-31T08:54:11.504Z",
     "restartedAt": "2026-10-31T08:54:08.645Z",
     "backup": "/home/ubuntu/dev/backups/riftmon-move-sequences-2026-10-31T08-54-07-055Z",

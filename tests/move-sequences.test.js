@@ -240,3 +240,19 @@ test('AI Fling preserves a berry behind Protect and never grants its effects thr
   assert.equal(projected.own.heldItem,protection==='protect'?'oran_berry':null);assert.equal(projected.foe.currentHp,5000);assert(!projected.field.berryEaters?.includes(f.b.uuid));
  }
 });
+const technicianCases=[
+ ...[0,1,2,3,4].map(hits=>['Rollout',hits,30*2**hits]),['Ice Ball',2,120],
+ ...[0,1,2].map(hits=>['Fury Cutter',hits,40*2**hits]),
+ ...[1,2,5].map(count=>['Echoed Voice',count,40*count]),
+ ['Pursuit',0,40],['Pursuit',1,80],['Acrobatics',0,110],['Acrobatics',1,55]
+];
+for(const [name,count,power]of technicianCases)test(`${name} Technician uses the resolved ${power} power, without boosting above 60`,()=>fixed(()=>{
+ const f=board(name);f.a.passiveAbility='Technician';f.field.turn=2;
+ if(sequences.ROLLING.has(name))Object.assign(f.a.__battle,{rollingMove:name,rollingHits:count});
+ if(name==='Fury Cutter')Object.assign(f.a.__battle,{furyCutterTurn:1,furyCutterHits:count});
+ if(name==='Echoed Voice')f.field.echoedVoice={turn:2,count};
+ if(name==='Acrobatics'&&count)f.a.heldItem='life_orb';
+ const expected=oracle(f.a,f.b,name,power);let result;
+ if(name==='Pursuit'&&count){planTurnActions(f.field,[{pokemon:f.a,action:'attack',moveName:name}]);pursuit.intercept(f.field,f.b,f.a,()=>{result=f.cast();});}
+ else result=f.cast();assert.equal(result.damage,expected);
+}));

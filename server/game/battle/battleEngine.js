@@ -948,7 +948,8 @@ function calculateDamageDetailed(attacker, defender, move, context = {}) {
     modifier *= getAbilityDamageMultiplier({
         attacker,
         defender,
-        move,
+        // Technician tests the actual base power after conditional bonuses.
+        move: power === Number(move.power) ? move : { ...move, power },
         effectiveness,
         critical,
         battleState,
