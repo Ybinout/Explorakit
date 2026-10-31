@@ -1,0 +1,282 @@
+{
+  "date": "2026-10-31",
+  "change": "Réduction de moitié des trois cartes de Pokédollars du Super Tournoi",
+  "moneyCards": [
+    {
+      "key": "prize_money_10k",
+      "name": "Bourse du challenger",
+      "before": 5000,
+      "baseAmount": 2500
+    },
+    {
+      "key": "prize_money_25k",
+      "name": "Prime du public",
+      "before": 25000,
+      "baseAmount": 12500
+    },
+    {
+      "key": "prize_money_50k",
+      "name": "Coffre du champion",
+      "before": 50000,
+      "baseAmount": 25000
+    }
+  ],
+  "scaling": "Base × numéro du cycle de seize salles, sans plafond de cycle",
+  "baseRoomPrizesByCycle": [
+    500000,
+    1000000,
+    1500000,
+    2000000
+  ],
+  "fixedRoomPrizesUnchanged": true,
+  "legacyCardKeysPreserved": true,
+  "previouslyReceivedEarningsPreserved": true,
+  "economicOfferOddsUnchanged": {
+    "money": 0.3,
+    "superCandy": 0.02,
+    "megaCandy": 0.002
+  },
+  "clientChanged": false,
+  "clientCommit": "1a942c6c8d3e8c4e1261f803378f02585535e0df",
+  "clientBuild": "e06807b523bb7893",
+  "runtimeSourceSha256": {
+    "server/game/superTournament/augmentations.js": "6a00ebcf6aab44b2ae888b4bce047b6000f279dbf29d5b9b760057bc3f84bc1d"
+  },
+  "validation": {
+    "unitPassed": 11,
+    "sqlPassed": 14,
+    "failed": 0,
+    "skipped": 0,
+    "browser": {
+      "success": true,
+      "engine": "chromium",
+      "views": [
+        {
+          "key": "prize_money_10k",
+          "width": 320,
+          "height": 480,
+          "mode": "light"
+        },
+        {
+          "key": "prize_money_10k",
+          "width": 320,
+          "height": 480,
+          "mode": "dark"
+        },
+        {
+          "key": "prize_money_10k",
+          "width": 393,
+          "height": 852,
+          "mode": "light"
+        },
+        {
+          "key": "prize_money_10k",
+          "width": 393,
+          "height": 852,
+          "mode": "dark"
+        },
+        {
+          "key": "prize_money_10k",
+          "width": 844,
+          "height": 390,
+          "mode": "light"
+        },
+        {
+          "key": "prize_money_10k",
+          "width": 844,
+          "height": 390,
+          "mode": "dark"
+        },
+        {
+          "key": "prize_money_10k",
+          "width": 1536,
+          "height": 680,
+          "mode": "light"
+        },
+        {
+          "key": "prize_money_10k",
+          "width": 1536,
+          "height": 680,
+          "mode": "dark"
+        },
+        {
+          "key": "prize_super_candy",
+          "width": 320,
+          "height": 480,
+          "mode": "light"
+        },
+        {
+          "key": "prize_super_candy",
+          "width": 320,
+          "height": 480,
+          "mode": "dark"
+        },
+        {
+          "key": "prize_super_candy",
+          "width": 393,
+          "height": 852,
+          "mode": "light"
+        },
+        {
+          "key": "prize_super_candy",
+          "width": 393,
+          "height": 852,
+          "mode": "dark"
+        },
+        {
+          "key": "prize_super_candy",
+          "width": 844,
+          "height": 390,
+          "mode": "light"
+        },
+        {
+          "key": "prize_super_candy",
+          "width": 844,
+          "height": 390,
+          "mode": "dark"
+        },
+        {
+          "key": "prize_super_candy",
+          "width": 1536,
+          "height": 680,
+          "mode": "light"
+        },
+        {
+          "key": "prize_super_candy",
+          "width": 1536,
+          "height": 680,
+          "mode": "dark"
+        },
+        {
+          "key": "prize_mega_candy",
+          "width": 320,
+          "height": 480,
+          "mode": "light"
+        },
+        {
+          "key": "prize_mega_candy",
+          "width": 320,
+          "height": 480,
+          "mode": "dark"
+        },
+        {
+          "key": "prize_mega_candy",
+          "width": 393,
+          "height": 852,
+          "mode": "light"
+        },
+        {
+          "key": "prize_mega_candy",
+          "width": 393,
+          "height": 852,
+          "mode": "dark"
+        },
+        {
+          "key": "prize_mega_candy",
+          "width": 844,
+          "height": 390,
+          "mode": "light"
+        },
+        {
+          "key": "prize_mega_candy",
+          "width": 844,
+          "height": 390,
+          "mode": "dark"
+        },
+        {
+          "key": "prize_mega_candy",
+          "width": 1536,
+          "height": 680,
+          "mode": "light"
+        },
+        {
+          "key": "prize_mega_candy",
+          "width": 1536,
+          "height": 680,
+          "mode": "dark"
+        }
+      ],
+      "claims": [
+        {
+          "key": "prize_money_10k",
+          "room": 1,
+          "money": 2500,
+          "item": null,
+          "balance": 12500
+        },
+        {
+          "key": "prize_money_25k",
+          "room": 1,
+          "money": 12500,
+          "item": null,
+          "balance": 25000
+        },
+        {
+          "key": "prize_money_50k",
+          "room": 17,
+          "money": 50000,
+          "item": null,
+          "balance": 75000
+        },
+        {
+          "key": "prize_super_candy",
+          "room": 17,
+          "money": 0,
+          "item": "rare_candy",
+          "balance": 75000
+        },
+        {
+          "key": "prize_mega_candy",
+          "room": 17,
+          "money": 0,
+          "item": "mega_candy",
+          "balance": 75000
+        }
+      ],
+      "itemStocks": {
+        "rare_candy": 1,
+        "mega_candy": 1
+      },
+      "staleInventoryResponseIgnored": true,
+      "reconnectStable": true,
+      "replayRejected": true,
+      "bagUseBlockedDuringRun": true,
+      "noHealingOrXp": true,
+      "adventureTeamPreserved": true,
+      "keptAfterAbandon": true,
+      "errors": []
+    },
+    "limitations": [
+      "Chromium Linux sur serveur privé avec utilisateur SQL jetable, pas de téléphone physique."
+    ]
+  },
+  "commands": [
+    "node --test --test-concurrency=1 tests/super-tournament-augments.test.js tests/super-tournament-cash.test.js",
+    "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test node --env-file=.env --test --test-concurrency=1 tests/super-tournament-augments-mysql.test.js tests/super-tournament-cash-mysql.test.js",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/home/ubuntu/dev/explorakit/dist RELEASE_SCREENSHOTS=/tmp/riftmon-card-prizes-browser PRESENTATION_BROWSER=chromium node --env-file=.env scripts/validateTournamentAugmentsBrowser.js"
+  ],
+  "deployment": {
+    "publishedAt": "2026-10-31T22:45:40.736Z",
+    "restartedAt": "2026-10-31T22:45:39.507Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-card-prizes-2026-10-31T22-45-39-166Z",
+    "sourceBaseline": "ec8238a4d145b52cadaea91540aaa8465f524bc7",
+    "sourceHashes": {
+      "server/game/superTournament/augmentations.js": "6a00ebcf6aab44b2ae888b4bce047b6000f279dbf29d5b9b760057bc3f84bc1d"
+    },
+    "clientCommit": "1a942c6c8d3e8c4e1261f803378f02585535e0df",
+    "clientBuild": "e06807b523bb7893",
+    "clientChanged": false,
+    "beforePid": "3626392",
+    "afterPid": "3627290",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "schemaChanged": false,
+    "realAccountsManuallyModified": false,
+    "publicIndexUnchanged": true,
+    "neighborsUnchanged": true,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0
+  }
+}

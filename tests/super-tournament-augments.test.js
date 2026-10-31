@@ -20,7 +20,7 @@ test('at most one economic card, still four distinct choices; rarity does not ri
  }
 });
 test('cash follows the cycle; candy uses existing level-limited items and cannot increase tournament XP',()=>{
- for(const [key,n]of [['prize_money_10k',5000],['prize_money_25k',25000],['prize_money_50k',50000]])for(const [room,mult]of [[1,1],[16,1],[17,2],[320,20]])assert.equal(aug.grant(key,room).amount,n*mult);
+ for(const [key,n]of [['prize_money_10k',2500],['prize_money_25k',12500],['prize_money_50k',25000]])for(const [room,mult]of [[1,1],[16,1],[17,2],[320,20]])assert.equal(aug.grant(key,room).amount,n*mult);
  for(const [key,item,max]of [['prize_super_candy','rare_candy',100],['prize_mega_candy','mega_candy',200]]){assert.equal(aug.grant(key,1).itemKey,item);assert.equal(getItemDefinition(item).fieldUse.maxLevel,max);}
  assert.equal(aug.grant('forged',1),null);assert.throws(()=>aug.grant('prize_money_10k',0));
 });

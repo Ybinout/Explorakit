@@ -1,5 +1,14 @@
 # Audit technique et mémoire de RiftMon
 
+## Réduction des cartes de Pokédollars — 31 octobre 2026
+
+À la demande du créateur, les trois cartes d’argent sont divisées par deux : Bourse du challenger 2 500 ₽, Prime du public 12 500 ₽, Coffre du champion 25 000 ₽ au premier cycle. Multiplication par le numéro de cycle de seize salles conservée. Les clés techniques historiques restent inchangées, de même que les gains déjà versés, chances de tirage, bonbons, pouvoirs et récupérations. Le barème fixe des salles reste à 500 000 / 1 M / 1,5 M / 2 M ₽ par cycle. Montants et descriptions issus du serveur : aucun changement de client ou de build nécessaire.
+
+Validation : 11 tests unitaires/régression et 14 SQL réussis sans échec/saut. Prix autoritaires, cycles jusqu’au vingtième, séparation des primes fixes/cartes, reprise, concurrence, rejeu, échec transactionnel, plafonds et conservation après abandon vérifiés. Recette Chromium sur le client distribué, serveur privé et `explorakit_test` : cinq cartes réellement choisies, trois crédits exacts (2 500 / 12 500 / 50 000 ₽, dernier au cycle 2), cumul de fixture 75 000 ₽ avec la prime initiale. Quatre formats/deux thèmes, 24 vues sans erreur, reprise/sac/réponse HTTP retardée contrôlés ; utilisateur jetable supprimé. Syntaxe/diff valides ; aucun téléphone physique revendiqué. Rapport : `docs/TOURNAMENT_CARD_PRIZES_REDUCTION_2026-10-31.json`.
+
+Serveur publié le 31 octobre 2026 à 23 h 45 (Europe/Paris), PID 3626392→3627290, service actif sans redémarrage automatique/avertissement. Sauvegarde SQL/source/index/checkpoint `/home/ubuntu/dev/backups/riftmon-card-prizes-2026-10-31T22-45-39-166Z`. Client et build conservés, index public identique ; Knov/api-test, modes fermés et checkpoint préservés. Aucune migration ni modification manuelle de compte réel.
+
+
 ## Bourse commune à 5 000 ₽ — 31 octobre 2026
 
 La Bourse du challenger (carte commune) passe de 10 000 à 5 000 ₽ de base. Son identifiant historique `prize_money_10k` reste inchangé pour préserver les tirages sauvegardés et reçus existants. Multiplication par le cycle de seize salles conservée : 5 000 / 10 000 / 15 000 / 20 000 ₽, puis même progression sans plafond. Les autres cartes, chances, pouvoirs et montants déjà versés sont conservés. Le barème fixe des salles était déjà progressif à chaque bloc de seize : 500 000 / 1 M / 1,5 M / 2 M ₽, etc., en supplément des cartes. Description et aperçu de la bourse restent calculés par le serveur ; aucun changement/build client nécessaire.
@@ -5613,6 +5622,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 31 octobre 2026 — Trois cartes de Pokédollars divisées par deux : bases 2 500 / 12 500 / 25 000 ₽, progression par cycle de seize salles préservée. Primes fixes et gains déjà perçus conservés ; 11 tests unitaires, 14 SQL et recette Chromium validés. `docs/TOURNAMENT_CARD_PRIZES_REDUCTION_2026-10-31.json`.
 
 - 31 octobre 2026 — Bourse commune réduite à 5 000 ₽ × cycle, identifiant et anciens gains préservés. Progression des primes fixes tous les seize combats confirmée ; 11 tests unitaires, 14 SQL et recette Chromium sur le client existant validés. `docs/TOURNAMENT_COMMON_PURSE_2026-10-31.json`.
 
