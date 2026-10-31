@@ -4,7 +4,7 @@ function medicineResult(pokemon, itemKey, random = Math.random) {
     const item = catalog.find(i => i.key === itemKey && (i.category === 'medicine' || i.fieldUse));
     if (!item || !pokemon) throw Error('Objet ou Pokémon invalide.');
     const effect = item.fieldUse || item;
-    if(effect.levelUp)return require('./rareCandy').result(pokemon);
+    if(effect.levelUp)return require('./rareCandy').result(pokemon,{maxLevel:effect.maxLevel??100,name:item.name});
     if(effect.abilityReroll)return require('./abilityCapsule').result(pokemon,random);
     if(effect.natureReroll){
         if(pokemon.currentHp<=0 || pokemon.isEgg)throw Error('Choisis un Pokémon apte à s’entraîner.');

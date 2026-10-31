@@ -1,8 +1,9 @@
 const { growthSnapshot, levelGrowth } = require('../models/levelGrowth');
 const MAX_LEVEL = 100;
-function result(pokemon) {
+function result(pokemon, { maxLevel = MAX_LEVEL, name = 'Super Bonbon' } = {}) {
     if (!pokemon || pokemon.isEgg || pokemon.currentHp <= 0) throw Error('Choisis un Pokémon conscient.');
-    if (!Number.isInteger(pokemon.level) || pokemon.level >= MAX_LEVEL) throw Error('Le Super Bonbon ne peut plus augmenter ce niveau.');
+    if (!Number.isInteger(maxLevel) || maxLevel < 1 || maxLevel > 200) throw Error('Plafond de bonbon invalide.');
+    if (!Number.isInteger(pokemon.level) || pokemon.level >= maxLevel) throw Error(`Le ${name} ne peut plus augmenter ce niveau (maximum ${maxLevel}).`);
     if (pokemon.evolutionState?.pending) throw Error('Termine d’abord l’évolution proposée.');
     const nextExperience = pokemon.getNextLevelExpForLevel(pokemon.level + 1);
     const gain = nextExperience - pokemon.experience;

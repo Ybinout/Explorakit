@@ -270,6 +270,13 @@
         "ville5_shop"
       ],
       "price": 20000
+    },
+    "mega_candy": {
+      "tier": 5,
+      "maps": [
+        "ville5_shop"
+      ],
+      "price": 50000
     }
   }
 }

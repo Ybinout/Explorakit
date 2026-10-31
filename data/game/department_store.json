@@ -1271,6 +1271,10 @@
           "price": 20000,
           "requiredTier": 2
         },
+        "mega_candy": {
+          "price": 50000,
+          "requiredTier": 2
+        },
         "cs_morning_sun": {
           "price": 3000,
           "requiredTier": 2

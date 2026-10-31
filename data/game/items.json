@@ -3925,9 +3925,21 @@
       "category": "medicine",
       "buy_price": 20000,
       "fieldUse": {
-        "levelUp": true
+        "levelUp": true,
+        "maxLevel": 100
       },
       "description": "Fait gagner un niveau à un Pokémon conscient, jusqu’au niveau 100. À utiliser hors combat. Les attaques et évolutions restent à choisir."
+    },
+    {
+      "key": "mega_candy",
+      "name": "Méga Bonbon",
+      "category": "medicine",
+      "buy_price": 50000,
+      "fieldUse": {
+        "levelUp": true,
+        "maxLevel": 200
+      },
+      "description": "Fait gagner un niveau à un Pokémon conscient, jusqu’au niveau 200. À utiliser hors combat. Les attaques et évolutions restent à choisir."
     },
     {
       "key": "cs_morning_sun",

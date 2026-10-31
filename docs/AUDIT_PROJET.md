@@ -1,5 +1,17 @@
 # Audit technique et mémoire de RiftMon
 
+## Méga Bonbon et plafonds des bonbons — 31 octobre 2026
+
+Le plafond préexistant de 100 du Super Bonbon est conservé et explicité dans `fieldUse.maxLevel` ; son prix reste 20 000 ₽. Ajout de `mega_candy`, Méga Bonbon : 50 000 ₽, un niveau par utilisation jusqu’à 200 inclus (199→200 autorisé, 200+ refusé). Il fonctionne aussi en dessous de 100. Même rayon/déblocage que le Super Bonbon : Grand Comptoir Entraînement après Hoze et boutique de Blanchecime après Wanda. Revente commune à 25 000 ₽ ; pas de butin, unicité ou équipement tenu ajouté. Icône de bonbon violet étoilé distincte, poche Entraînement → Niveaux et objectif boutique mis à jour. Catalogue du Grand Comptoir : 736 références, dont 656 dans le rayon Entraînement ; tarifs et offres antérieurs conservés.
+
+Calcul commun des bonbons paramétré par le catalogue serveur, toujours autoritaire. Le client utilise le même plafond reçu pour les cibles et « Niveau maximum » ; ancien objet sans champ explicite reste plafonné à 100. Aucun gain partagé, changement du niveau maximal global ou bonus d’XP. Pokémon conscient, non Œuf, sans évolution à résoudre ; emploi individuel hors combat, sac toujours bloqué au Super Tournoi. Les attaques et évolutions passent par les files existantes. Traits, IV/EV/K, équipement, PP, statut et blessures conservés. Le dépôt relit le Pokémon et le stock sous verrou SQL : cible falsifiée, plafond atteint, stock insuffisant ou double utilisation concurrente sont refusés sans perte d’objet. Pas de migration ni réécriture d’inventaire existant. Moteur d’expédition commun couvert en tests internes, modes fermés conservés.
+
+Validation : 49 tests unitaires/régression et six SQL réussis sans échec/saut. Frontières 99/100/101/199/200/250, refus Œuf/K.O./évolution/lot/stock vide, prix et badges des boutiques, revente, gain/statistiques/XP exacts et absence de mutation de la source. SQL : achat au vrai prix malgré prix client falsifié, 99→100 puis 100→101 et 199→200, plafonds relus depuis SQL malgré faux niveau client, stock conservé au refus et concurrence sur le dernier bonbon. Catalogues existants comparés avec une référence supplémentaire ; anciennes assertions de taille actualisées. Recette sur vrai serveur privé et `explorakit_test`, Chromium/WebKit Linux : achats de trois Méga et deux Super Bonbons, solde exact, options de cibles, usages réels, récapitulatif de six statistiques, refus de commandes falsifiées, sauvegarde/rechargement, traits/blessures/PP conservés. Quatre formats 320×480/393×852/844×390/1536×680 et deux thèmes, icônes distinctes et captures mobiles inspectées ; zéro erreur navigateur, comptes jetables supprimés. Pas de téléphone physique ni de parcours dans les modes fermés revendiqué. Lint/build, syntaxe et diff valides.
+
+Rapport : `docs/MEGA_CANDY_2026-10-31.json`. Recette : `DB_TEST_NAME=explorakit_test npm run test:mega-candy-browser` (ajouter `PRESENTATION_BROWSER=webkit`).
+
+Client et serveur publiés le 31 octobre 2026 à 18 h 06 (Europe/Paris), client `5157f375c92b248671002d7702a8d30d95408bc1`, build `92b29565b1e2fb6e`. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-mega-candy-2026-10-31T17-05-50-488Z`. PID 3603144→3604889, service actif, zéro redémarrage automatique/avertissement. Index et 22 bundles/CSS publics vérifiés à l’octet, anciens assets conservés ; namespace Rift fermé, checkpoint inchangé et zéro expédition active au contrôle. Aucune migration, modification de durabilité ou modification manuelle de compte réel ; Knov/api-test inchangés.
+
 ## Niveaux de départ du Super Tournoi — 31 octobre 2026
 
 Les trois Pokémon de chaque adversaire commencent désormais aux niveaux 75/85/90 au premier cycle. Le bonus de dix niveaux par cycle de seize dresseurs est conservé : 85/95/100 au deuxième, 95/105/110 au troisième, puis même progression. Texte de l’hôtesse aligné. Espèces, ordre des dresseurs, sets, objets, K4/IV31, IA, cartes de récupération, absence d’XP/soin automatique, scores et records inchangés. Les adversaires des combats déjà engagés restent ceux du snapshot sauvegardé ; les prochains combats générés utilisent les nouveaux niveaux. Aucune réécriture des tentatives ou des comptes existants.
@@ -5481,6 +5493,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 31 octobre 2026 — Méga Bonbon à 50 000 ₽ jusqu’au niveau 200 ; Super Bonbon maintenu à 100. Plafonds serveur/client, boutique/sac/icônes et atomicité validés : 49 tests unitaires, six SQL, recettes Chromium/WebKit. `docs/MEGA_CANDY_2026-10-31.json`.
 
 - 31 octobre 2026 — Super Tournoi : départ 75/85/90, bonus +10 par cycle conservé et hôtesse alignée ; 36 tests unitaires, six SQL, recettes Chromium/WebKit. `docs/SUPER_TOURNAMENT_LEVELS_2026-10-31.json`.
 

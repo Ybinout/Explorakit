@@ -95,7 +95,8 @@
     "test:stone-evolution-browser": "node --env-file-if-exists=.env scripts/validateStoneEvolutionBrowser.js",
     "test:item-usage-browser": "node --env-file-if-exists=.env scripts/validateItemUsageBrowser.js",
     "test:social-notifications-browser": "node --env-file-if-exists=.env scripts/validateSocialNotificationsBrowser.js",
-    "test:teleporter-charge-browser": "node --env-file-if-exists=.env scripts/validateTeleporterChargeBrowser.js"
+    "test:teleporter-charge-browser": "node --env-file-if-exists=.env scripts/validateTeleporterChargeBrowser.js",
+    "test:mega-candy-browser": "node --env-file-if-exists=.env scripts/validateMegaCandyBrowser.js"
   },
   "keywords": [],
   "author": "",

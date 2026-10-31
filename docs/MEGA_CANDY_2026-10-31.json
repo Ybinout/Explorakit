@@ -1,0 +1,247 @@
+{
+  "date": "2026-10-31",
+  "scope": "Super Candy cap 100, new Mega Candy cap 200 for 50000 Pokedollars",
+  "sourceBaseline": "fe1e8dc843b3bdac66d096e07036b957ebd0165b",
+  "clientBaseline": "fc67be9c6fb47dc9658fd32793ca868ef58034c1",
+  "clientCommit": "5157f375c92b248671002d7702a8d30d95408bc1",
+  "clientBuild": "92b29565b1e2fb6e",
+  "runtimeSourceSha256": {
+    "data/game/department_store.json": "d43f393b610489f1b8047879033d8f06130c31ec79871151119b0ccc340dc054",
+    "data/game/items.json": "3af916e3e879ae384f368e9a54d60871a0b9ccd08e03ea72669d3dfebc56fa4d",
+    "data/game/shop_offers.json": "4f52bbaf7e30d9d43048b674ddec779d6c80f88cbd643862438b62a13139a16b",
+    "server/game/items/medicineEffects.js": "d565e22dba1a35f0f20288e9852b5e6aa97e1f32c4030f5e575d90d1b8819e61",
+    "server/game/items/rareCandy.js": "667b8fae7a1292cd1348976136902d572c787329dfda36e519a26b67a0f2dfd8"
+  },
+  "items": {
+    "rare_candy": {
+      "name": "Super Bonbon",
+      "price": 20000,
+      "maxLevel": 100,
+      "previousCapPreserved": true
+    },
+    "mega_candy": {
+      "name": "Méga Bonbon",
+      "price": 50000,
+      "maxLevel": 200,
+      "sellPrice": 25000
+    }
+  },
+  "rules": {
+    "levelsPerItem": 1,
+    "maxLevelIsReachable": true,
+    "levelAtOrAboveCap": "refused without consumption",
+    "koEggPendingEvolution": "refused",
+    "bulkUse": false,
+    "woundsStatusMovesPpTraits": "preserved",
+    "sharedExperience": false,
+    "naturalLearningEvolution": "existing deferred prompts",
+    "shop": "Same training shops as Super Candy: Grand Comptoir after Hoze, Blanchecime after Wanda",
+    "wildDrop": false,
+    "superTournamentBag": "still unavailable",
+    "modes": "Shared economy supports the item; Rift and Colosseum remain closed"
+  },
+  "validation": {
+    "unitTests": 49,
+    "sqlTests": 6,
+    "failures": 0,
+    "skipped": 0,
+    "lint": "passed",
+    "browser": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "realPurchase50000": true,
+        "rareCap100": true,
+        "megaCap200": true,
+        "realLevels": [
+          100,
+          101,
+          200,
+          200
+        ],
+        "capsEnforcedWithForgedPayloads": true,
+        "stockNotSpentAtCap": true,
+        "correctTargetOptions": true,
+        "sixStatRecap": true,
+        "distinctCandyIcons": true,
+        "reloadPersisted": true,
+        "traitsWoundsPpPreserved": true,
+        "views": [
+          {
+            "width": 320,
+            "height": 480,
+            "themeMode": "light"
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "themeMode": "dark"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "themeMode": "light"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "themeMode": "dark"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "themeMode": "light"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "themeMode": "dark"
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "themeMode": "light"
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "themeMode": "dark"
+          }
+        ],
+        "errors": [],
+        "closedModesPreserved": true,
+        "physicalHardware": false
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "realPurchase50000": true,
+        "rareCap100": true,
+        "megaCap200": true,
+        "realLevels": [
+          100,
+          101,
+          200,
+          200
+        ],
+        "capsEnforcedWithForgedPayloads": true,
+        "stockNotSpentAtCap": true,
+        "correctTargetOptions": true,
+        "sixStatRecap": true,
+        "distinctCandyIcons": true,
+        "reloadPersisted": true,
+        "traitsWoundsPpPreserved": true,
+        "views": [
+          {
+            "width": 320,
+            "height": 480,
+            "themeMode": "light"
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "themeMode": "dark"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "themeMode": "light"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "themeMode": "dark"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "themeMode": "light"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "themeMode": "dark"
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "themeMode": "light"
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "themeMode": "dark"
+          }
+        ],
+        "errors": [],
+        "closedModesPreserved": true,
+        "physicalHardware": false
+      }
+    }
+  },
+  "commands": [
+    "node --test --test-concurrency=1 tests/rare-candy.test.js tests/medicine.test.js tests/training.test.js tests/shop-training.test.js tests/department-store.test.js tests/store-browse.test.js",
+    "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test node --env-file-if-exists=.env --test --test-concurrency=1 tests/rare-candy-mysql.test.js tests/store-browse-mysql.test.js",
+    "npm --prefix vue-explorakit run lint",
+    "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-mega-candy-dist",
+    "DB_TEST_NAME=explorakit_test npm run test:mega-candy-browser",
+    "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=webkit npm run test:mega-candy-browser"
+  ],
+  "schemaChanged": false,
+  "existingInventoryRewritten": false,
+  "physicalPhoneTest": false,
+  "deployment": {
+    "publishedAt": "2026-10-31T17:06:05.578Z",
+    "restartedAt": "2026-10-31T17:05:51.923Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-mega-candy-2026-10-31T17-05-50-488Z",
+    "sourceBaseline": "fe1e8dc843b3bdac66d096e07036b957ebd0165b",
+    "sourceHashes": {
+      "data/game/department_store.json": "d43f393b610489f1b8047879033d8f06130c31ec79871151119b0ccc340dc054",
+      "data/game/items.json": "3af916e3e879ae384f368e9a54d60871a0b9ccd08e03ea72669d3dfebc56fa4d",
+      "data/game/shop_offers.json": "4f52bbaf7e30d9d43048b674ddec779d6c80f88cbd643862438b62a13139a16b",
+      "server/game/items/medicineEffects.js": "d565e22dba1a35f0f20288e9852b5e6aa97e1f32c4030f5e575d90d1b8819e61",
+      "server/game/items/rareCandy.js": "667b8fae7a1292cd1348976136902d572c787329dfda36e519a26b67a0f2dfd8"
+    },
+    "clientCommit": "5157f375c92b248671002d7702a8d30d95408bc1",
+    "clientBuild": "92b29565b1e2fb6e",
+    "beforePid": "3603144",
+    "afterPid": "3604889",
+    "serverRestarted": true,
+    "schemaChanged": false,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "checkpointUnchangedWhileDisabled": true,
+    "namespaceClosed": true,
+    "neighborsUnchanged": true,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.f5ca3bcb.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.6409d43c.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.2fd32f7c.js",
+      "js/drift.5b8720d7.js",
+      "js/game.90ff127b.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.de3bb7ec.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.a76ca6c8.css",
+      "css/test-view.7568246d.css"
+    ],
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0
+  }
+}
