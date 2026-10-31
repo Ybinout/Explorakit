@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## Zoom de page mobile désactivé — 31 octobre 2026
+
+Viewport plafonné à 1 (`maximum-scale=1`, `user-scalable=no`) et `touch-action: pan-x pan-y` sur les racines : le défilement natif reste permis, le pincement/double appui ne zoome plus la page. Safari : deux gestionnaires `gesturestart`/`gesturechange` annulent le comportement natif sur les appareils à pointeur tactile, avec retrait au démontage ; pas de nouveau gestionnaire global `touchstart`/`touchmove` susceptible de ralentir chaque mouvement. Les champs, listes et zones de texte passent à 16 px sur ces appareils pour éviter le zoom de focus d’iPhone. Les événements de pointeur restent disponibles pour les déplacements, les appuis et le zoom interne de la minimap. Aucun raccourci de zoom du navigateur PC intercepté.
+
+Validation : 12 tests existants des interactions mobiles, du zoom de minimap et des manettes réussis, lint et build isolé valides. Recette authentifiée `scripts/validateMobileZoomBrowser.js` sur `explorakit_test`, Chromium/WebKit Linux : page connexion, champs éditables, chat, menu défilant 320×480, minimap 393×852 et garde inactive en contexte PC 1365×900. Chromium : même pincement réel par CDP agrandit une page témoin à ~1,80, mais laisse le jeu à 1 ; double appui sans zoom, défilement natif à un doigt conservé et pincement interne de minimap encore fonctionnel. WebKit : annulation des événements de geste, CSS, saisie et boutons de minimap contrôlés ; pas de pincement WebKit natif automatisé ni de téléphone physique revendiqués. Zéro erreur navigateur, captures connexion/minimap inspectées et comptes SQL jetables supprimés. Rapport : `docs/MOBILE_ZOOM_2026-10-31.json`.
+
+Client publié le 31 octobre 2026 à 20 h 16 (Europe/Paris), `1f2ff7096d3389d01f6f4a937277301baf7e1abe`, build `87abb4cfb71a4066`. Vingt-deux bundles/CSS HTTPS vérifiés avant remplacement atomique de l’index ; anciens assets conservés. Sauvegarde de l’index et des sources client `/home/ubuntu/dev/backups/riftmon-mobile-zoom-2026-10-31T19-16-48-925Z`. Aucun redémarrage serveur (PID 3608875 conservé), migration, modification manuelle de compte réel, de la Route 9 ou du service worker. Modes fermés conservés ; Knov/api-test vérifiés inchangés. Les fenêtres déjà ouvertes prennent le changement au prochain rechargement, sans recharge forcée pendant un combat.
+
 ## Rencontres de la Route 9 réparties — 31 octobre 2026
 
 Sept échanges individuels retirent la concentration d’espèces recherchées sur `gen_route7` (Route 9) : Minidraco rejoint la Route 10 contre Élektek ; Gardevoir et Griknot la Route 11 contre Gravalanch/Hippopotas ; Roserade, Ptéra et Spiritomb la Route 12 contre Machopeur/Simularbre/Mysdibule ; Terhal la Route 13 contre Archéomire. Draby, Riolu et Mentali restent parmi les trouvailles de la Route 9. Vingt espèces et niveaux 42–44 conservés. Chaque destination conserve son nombre d’espèces et ses niveaux ; aucun doublon, espèce perdue, modification de taux de rencontre, légendaires, K/IV/talents, pêche, capture ou transition. Les données des cartes auteur et le client ne changent pas.
@@ -5509,6 +5517,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 31 octobre 2026 — Zoom de page mobile bloqué, garde Safari et champs 16 px ; défilement, saisie, commandes et zoom interne de minimap conservés. Douze tests, lint/build et Chromium/WebKit validés ; publication client seule sans redémarrage serveur. `docs/MOBILE_ZOOM_2026-10-31.json`.
 
 - 31 octobre 2026 — Route 9 : sept échanges de rencontres vers les routes 10–13 ; Draby/Riolu/Mentali conservés, niveaux 42–44 inchangés. Couverture des 493 espèces et 326 habitats validée, 69 rencontres générées, 37 régressions réussies ; ancien décompte régional obsolète documenté. Publication serveur seule ; `docs/ROUTE9_ENCOUNTERS_2026-10-31.json`.
 

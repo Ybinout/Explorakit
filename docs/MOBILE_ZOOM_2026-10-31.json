@@ -1,0 +1,95 @@
+{
+  "date": "2026-10-31",
+  "sourceBaseline": "16b9532e4e5fdaaeaeb97823feefeb2d81d0bfaa",
+  "clientCommit": "1f2ff7096d3389d01f6f4a937277301baf7e1abe",
+  "clientBuild": "87abb4cfb71a4066",
+  "changes": [
+    "Viewport maximum-scale=1 and user-scalable=no",
+    "Native scrolling allowed with touch-action pan-x pan-y; browser pinch and double-tap zoom excluded",
+    "Safari gesturestart/gesturechange default cancelled only on coarse-pointer devices; listeners removed on teardown",
+    "Mobile form controls use at least 16px text to avoid focus zoom",
+    "Custom minimap zoom, pointer controls, text editing and desktop gesture handling preserved"
+  ],
+  "validation": {
+    "unit": {
+      "passed": 12,
+      "failed": 0,
+      "skipped": 0
+    },
+    "lint": true,
+    "isolatedBuild": true,
+    "browser": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "checks": {
+          "unrestrictedControlScale": 1.7971199750900269,
+          "nativePinchAndDoubleTapBlocked": true,
+          "nativeMenuScrollPreserved": true,
+          "customMinimapPinchPreserved": true,
+          "mobileFormsAndChatEditable": true,
+          "minimapZoomButtonsPreserved": true,
+          "desktopGesturesNotCancelled": true
+        },
+        "errors": [],
+        "physicalDevice": false,
+        "webkitNativePinchTested": false,
+        "closedModesPreserved": true
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "checks": {
+          "menuScrollLayoutPreserved": true,
+          "mobileFormsAndChatEditable": true,
+          "minimapZoomButtonsPreserved": true,
+          "desktopGesturesNotCancelled": true
+        },
+        "errors": [],
+        "physicalDevice": false,
+        "webkitNativePinchTested": false,
+        "closedModesPreserved": true
+      }
+    },
+    "screenshotsInspected": [
+      "WebKit mobile login",
+      "Chromium custom minimap pinch"
+    ],
+    "dedicatedDatabase": "explorakit_test",
+    "disposableUsersCleaned": true
+  },
+  "deployment": {
+    "publishedAt": "2026-10-31T19:16:50.594Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-mobile-zoom-2026-10-31T19-16-48-925Z",
+    "sourceBaseline": "16b9532e4e5fdaaeaeb97823feefeb2d81d0bfaa",
+    "clientCommit": "1f2ff7096d3389d01f6f4a937277301baf7e1abe",
+    "clientBuild": "87abb4cfb71a4066",
+    "publicAssets": 22,
+    "oldAssetsRetained": true,
+    "atomicIndex": true,
+    "serverRestarted": false,
+    "serverPid": "3608875",
+    "schemaChanged": false,
+    "realAccountsManuallyModified": false,
+    "neighborsUnchanged": true,
+    "route9DataUnchanged": true,
+    "workerUnchanged": true,
+    "closedModesPreserved": true
+  },
+  "commands": {
+    "unit": "node --test --test-concurrency=1 tests/mobile-interactions.test.js tests/region-map-zoom.test.js tests/gamepad.test.js",
+    "lint": "npm --prefix vue-explorakit run lint",
+    "build": "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-mobile-zoom-dist",
+    "chromium": "DB_TEST_NAME=explorakit_test node --env-file=.env scripts/validateMobileZoomBrowser.js",
+    "webkit": "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=webkit node --env-file=.env scripts/validateMobileZoomBrowser.js"
+  },
+  "references": [
+    "https://www.w3.org/TR/pointerevents/",
+    "https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariWebContent/HandlingEvents/HandlingEvents.html"
+  ],
+  "limitations": [
+    "No physical iPhone/Android test",
+    "WebKit Linux checks CSS, synthetic gesture cancellation, editable controls and minimap buttons; native WebKit pinch not automated",
+    "System accessibility magnification is outside the game"
+  ]
+}
