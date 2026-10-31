@@ -1,0 +1,57 @@
+{
+  "date": "2026-10-31",
+  "sourceBaseline": "bc073e5cc81e791d9412803ca8b84bb374302428",
+  "reportedScenario": "Adventure: player's Yanmega uses Pursuit as Matthieu recalls Staross",
+  "result": "not_reproduced",
+  "runtimeChanged": false,
+  "productionRestarted": false,
+  "productionClientBuildPreserved": "92b29565b1e2fb6e",
+  "regressionsAdded": [
+    "Pursuit in slot 1 on the first turn, real trainer party and items",
+    "Pursuit after Detect, with an Intimidate switch-in",
+    "Pursuit knocks out the outgoing Staross before replacement",
+    "Last Pursuit PP is spent once and persists to SQL",
+    "Successive switches are intercepted once per turn"
+  ],
+  "validation": {
+    "engineSuite": {"passed": 112, "failed": 0, "skipped": 0},
+    "sqlSuite": {"passed": 21, "failed": 0, "skipped": 0},
+    "mutationCheck": {
+      "description": "Disable pursuit.intercept in a separate test process without editing production sources",
+      "expectedFailures": 5,
+      "observedFailures": 5
+    },
+    "exploratoryOnly": {
+      "slotTurnAndPpMatrix": 24,
+      "realAiVariants": 16,
+      "realAiSwitchesObserved": 2
+    },
+    "browser": {
+      "engines": ["chromium", "webkit"],
+      "viewport": {"width": 393, "height": 852},
+      "scenariosPerEngine": ["direct", "detect", "ko"],
+      "standardFixtureDamage": 83,
+      "knockoutFixtureDamage": 1,
+      "displayedOnOutgoingBeforeReplacement": true,
+      "oneActionAndOnePp": true,
+      "errors": [],
+      "physicalDevice": false
+    },
+    "dedicatedDatabase": "explorakit_test",
+    "disposableUsersCleaned": true,
+    "productionAccountModified": false,
+    "closedModesPreserved": true
+  },
+  "commands": {
+    "engine": "node --test --test-concurrency=1 tests/move-sequences.test.js",
+    "sql": "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test node --env-file=.env --test --test-concurrency=1 tests/move-sequences-mysql.test.js",
+    "browser": "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-mega-candy-dist node --env-file=.env scripts/validatePursuitTrainerBrowser.js",
+    "webkit": "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-mega-candy-dist PRESENTATION_BROWSER=webkit node --env-file=.env scripts/validatePursuitTrainerBrowser.js"
+  },
+  "limitations": [
+    "No historical per-turn log of the reported battle is available",
+    "Exploratory real-AI variants did not cover every possible battle state",
+    "Browser checks use a scripted pre-choice switch to exercise the real executor and presentation",
+    "No claim that the intermittent reported issue has been fixed"
+  ]
+}

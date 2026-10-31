@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## Poursuite contre les changements de Matthieu — 31 octobre 2026
+
+Signalement ciblé : Yanmega utilise Poursuite pendant que le Staross de Matthieu est rappelé en Aventure. **Le problème n’a pas été reproduit. Aucun correctif du moteur ni de l’IA n’est revendiqué.** Ajout de cinq régressions SQL avec l’équipe réelle de Matthieu, Yanmega K1/Tinted Lens/Orbe Vie et Poursuite en deuxième emplacement : premier tour, après Détection, K.O. du sortant, dernier PP et changements successifs avec Intimidation. Les décisions de changement de ces tests sont fixées avant la demande d’action du joueur ; les sets, objets et effets d’entrée restent réels. Dégâts publiés sur le sortant avant l’arrivée du remplaçant, une seule attaque et un PP, réserves indemnes et sauvegarde vérifiés.
+
+Validation : suite existante de 112 tests du moteur et suite SQL étendue à 21 tests réussies sans échec/saut. Les cinq nouveaux tests échouent tous si l’interception est désactivée dans un processus de test isolé. Deux matrices exploratoires supplémentaires, non intégrées au dépôt : 24 variantes d’emplacement/tour/PP et 16 variantes avec décisions de la véritable IA, dont deux changements effectifs ; aucune anomalie détectée. Recette authentifiée `scripts/validatePursuitTrainerBrowser.js`, exclusivement sur `explorakit_test` : trois scénarios par moteur Chromium/WebKit Linux, vraie interface et exécuteur Aventure, équipe réelle, dégâts affichés sur Staross avant le retrait, 83 PV pour la fixture standard et 1 PV pour le K.O. Zéro erreur navigateur, comptes jetables supprimés. Pas de téléphone physique ni de reproduction du combat historique exact revendiqués.
+
+Rapport et commandes : `docs/PURSUIT_TRAINER_CHECK_2026-10-31.json`. Changements limités aux tests, recette et documentation ; aucune modification de compte réel, du client distribué, du moteur, des règles, des cartes ou de SQL production. Aucun build ni redémarrage nécessaire ; service et client publiés précédemment conservés. Les modes Rift/Colosseum restent fermés.
+
 ## Méga Bonbon et plafonds des bonbons — 31 octobre 2026
 
 Le plafond préexistant de 100 du Super Bonbon est conservé et explicité dans `fieldUse.maxLevel` ; son prix reste 20 000 ₽. Ajout de `mega_candy`, Méga Bonbon : 50 000 ₽, un niveau par utilisation jusqu’à 200 inclus (199→200 autorisé, 200+ refusé). Il fonctionne aussi en dessous de 100. Même rayon/déblocage que le Super Bonbon : Grand Comptoir Entraînement après Hoze et boutique de Blanchecime après Wanda. Revente commune à 25 000 ₽ ; pas de butin, unicité ou équipement tenu ajouté. Icône de bonbon violet étoilé distincte, poche Entraînement → Niveaux et objectif boutique mis à jour. Catalogue du Grand Comptoir : 736 références, dont 656 dans le rayon Entraînement ; tarifs et offres antérieurs conservés.
@@ -5493,6 +5501,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 31 octobre 2026 — Poursuite/Yanmega contre le Staross de Matthieu : signalement non reproduit ; cinq régressions SQL et recette Chromium/WebKit ajoutées, contrôle de mutation probant. 112 tests moteur et 21 SQL réussis ; aucun changement de règles ou de production. `docs/PURSUIT_TRAINER_CHECK_2026-10-31.json`.
 
 - 31 octobre 2026 — Méga Bonbon à 50 000 ₽ jusqu’au niveau 200 ; Super Bonbon maintenu à 100. Plafonds serveur/client, boutique/sac/icônes et atomicité validés : 49 tests unitaires, six SQL, recettes Chromium/WebKit. `docs/MEGA_CANDY_2026-10-31.json`.
 

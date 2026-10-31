@@ -31,6 +31,65 @@ test('SQL player Pursuit intercepts an AI switch committed before the player pro
   assert(out.currentHp<10000);assert.equal(next.currentHp,10000);assert.equal(lead.movePp[0],19);assert.equal(events.filter(e=>e.event==='battleMoveResult'&&e.data.moveName==='Pursuit').length,1);
  }finally{tactics.chooseAction=choose;Math.random=original;await f?.cleanup();}
 });
+for (const scenario of ['direct', 'after-detect', 'knockout', 'last-pp', 'successive-switches']) {
+ test(`SQL Yanmega Pursuit against Matthieu's real party: ${scenario}`, {skip:!enabled,timeout:15000}, async()=>{
+  const random = Math.random, choose = tactics.chooseAction;
+  let fixture;
+  try {
+   const Pokemon = require('../server/game/models/Pokemon');
+   const base = factory.create(469,45,true);
+   const lead = new Pokemon(469,null,45,base.experience,base.iv,'Lonely',1);
+   for (const name of ['Ancient Power','Pursuit','Slash','Detect']) lead.addAbility(name);
+   lead.passiveAbility = 'Tinted Lens';
+   lead.heldItem = 'life_orb';
+   if (scenario === 'last-pp') lead.movePp[1] = 1;
+   const enemy = require('../server/game/world/pnjTeamFactory').getPnjTeam('gwenn_route8',{mode:'adventure'});
+   const staross = enemy.pokemons[0], tauros = enemy.pokemons[1], gyarados = enemy.pokemons[2];
+   assert.equal(staross.data.id,121);
+   assert.equal(staross.passiveAbility,'Natural Cure');
+   assert.equal(tauros.passiveAbility,'Intimidate');
+   if (scenario === 'knockout') staross.currentHp = 1;
+   const initialHp = staross.currentHp, initialPp = lead.movePp[1];
+   const switches = scenario === 'successive-switches' ? [tauros,gyarados,tauros] : [tauros];
+   const steps = [...(scenario === 'after-detect' ? [{action:'attack',number:3}] : []),
+    ...switches.map(()=>({action:'attack',number:1})), {action:'disconnect'}];
+   fixture = await setup([lead],steps);
+   const events = [], io = ioFor([fixture],events);
+   let decision = 0;
+   // Choose a switch before each prompt, independently of the player's answer.
+   // The original sets, stats, items and entry abilities remain in use.
+   tactics.chooseAction = () => {
+    if (scenario === 'after-detect' && decision++ === 0) return {action:'attack',number:0};
+    const incoming = switches.shift() || tauros;
+    return {action:'change',number:enemy.pokemons.indexOf(incoming)};
+   };
+   Math.random = () => .5;
+   await require('../server/game/battle/trainerBattle')(fixture.player,enemy,io,fixture.u.id,
+    {recordPokedex:false,grantBaseMoney:false,grantExperience:false});
+   if (fixture.socket.failure) throw fixture.socket.failure;
+   const hits = events.filter(e=>e.event==='battleMoveResult' && e.data.moveName==='Pursuit');
+   const count = scenario === 'successive-switches' ? 3 : 1;
+   assert.equal(hits.length,count);
+   assert(hits.every(e=>e.data.damage>0));
+   assert.equal(lead.movePp[1],initialPp-count);
+   assert(staross.currentHp < initialHp);
+   const impact = events.findIndex(e=>e.event==='battleMoveResult' && e.data.moveName==='Pursuit');
+   const damaged = events.findIndex((e,index)=>index>impact && e.event==='introAnimation'
+    && e.data.wildPokemon.uuid===staross.uuid && e.data.wildPokemon.currentHp<initialHp);
+   const replacement = events.findIndex(e=>e.event==='introAnimation' && e.data.wildPokemon.uuid!==staross.uuid);
+   assert(damaged>impact && replacement>damaged,'Settle Pursuit on Staross before replacing its sprite');
+   if (scenario !== 'successive-switches') assert.equal(tauros.currentHp,tauros.maxHp);
+   if (scenario === 'knockout') assert.equal(staross.currentHp,0);
+   const saved = (await teams.loadEquipe(fixture.u.id)).pokemons[0];
+   assert.equal(saved.movePp[1],initialPp-count);
+   assert.equal(saved.heldItem,'life_orb');
+  } finally {
+   tactics.chooseAction = choose;
+   Math.random = random;
+   await fixture?.cleanup();
+  }
+ });
+}
 for(const side of ['A','B'])for(const method of ['manual','pivot','ko'])test(`SQL PvP ${side} Pursuit ${method}: intercept once before switching and save both parties`,{skip:!enabled,timeout:15000},async()=>{
  const original=Math.random;let fa,fb;try{
   const pursuer=mon(7,'Pursuit'),out=mon(19,method==='pivot'?'Baton Pass':'Splash'),next=mon(4,'Splash');out.currentSpeed=999;pursuer.currentSpeed=1;if(method==='ko')out.currentHp=1;
