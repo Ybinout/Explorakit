@@ -9,6 +9,8 @@ const turnActions = require('./turnActions');
 const battleField = require('./battleField');
 const moveGuards = require('./moveGuards');
 const moveDamageRules = require('./moveDamageRules');
+const sequences = require('./moveSequences');
+const pursuit = require('./pursuit');
 const { weatherHealingAmount } = require('./weatherHealing');
 const drift = require('../drift/driftEffects');
 const {
@@ -372,6 +374,10 @@ function transformPokemon(pokemon, target) {
 
 function consumeBerry(pokemon, battleState, messages) {
     consumeHeldItem(pokemon,battleState);
+    markBerryEaten(pokemon,battleState,messages);
+}
+
+function markBerryEaten(pokemon, battleState, messages) {
     if (battleState && pokemon.uuid) {
         battleState.berryEaters ||= [];
         if (!battleState.berryEaters.includes(pokemon.uuid)) battleState.berryEaters.push(pokemon.uuid);
@@ -380,6 +386,34 @@ function consumeBerry(pokemon, battleState, messages) {
         const healed = healPokemon(pokemon,Math.max(1,Math.floor(pokemon.maxHp/3)));
         if (healed) messages.push(`${getPokemonDisplayName(pokemon)} récupère ${healed} PV avec Bajoues.`);
     }
+}
+
+function applyThrownBerry(pokemon, item, battleState, messages) {
+    if (!item?.key.endsWith('_berry') || !(pokemon?.currentHp > 0)) return;
+    const data = ensureBattleData(pokemon);
+    messages.push(`${getPokemonDisplayName(pokemon)} reçoit les effets de ${item.name}.`);
+    if (item.battle_effect === 'cure_status') {
+        const cures = item.cure || item.fieldUse?.cure || [];
+        if (cures.includes(pokemon.status)) clearStatus(pokemon,messages,null,false);
+        if (item.key === 'lum_berry') data.confusionTurns = 0;
+    }
+    if (item.battle_effect === 'cure_confusion') data.confusionTurns = 0;
+    if (['heal_flat','heal_fraction'].includes(item.battle_effect) && !(data.healBlockTurns > 0)) {
+        const amount = item.battle_effect === 'heal_flat' ? item.amount : Math.max(1,Math.floor(pokemon.maxHp * item.fraction));
+        const healed = healPokemon(pokemon,amount);
+        if (healed) messages.push(`${getPokemonDisplayName(pokemon)} récupère ${healed} PV.`);
+    }
+    if (item.battle_effect === 'stat_berry') applyStageChange(pokemon,item.stat,1,messages,pokemon);
+    if (item.battle_effect === 'restore_pp') {
+        normalizeMovePp(pokemon);
+        let slot = pokemon.abilities.indexOf(data.lastMoveUsed);
+        if (slot < 0 || pokemon.movePp[slot] >= getMaxMovePp(pokemon.abilities[slot])) {
+            slot = pokemon.abilities.findIndex((name,i) => pokemon.movePp[i] < getMaxMovePp(name));
+        }
+        if (slot >= 0) pokemon.movePp[slot] = Math.min(getMaxMovePp(pokemon.abilities[slot]),pokemon.movePp[slot] + item.restore_pp);
+    }
+    // A thrown berry never removes or replaces the target's own equipment.
+    markBerryEaten(pokemon,battleState,messages);
 }
 
 function resistanceBerry(defender, attacker, move, effectiveness, state) {
@@ -2538,15 +2572,17 @@ function advanceBattleState(battleState) {
 
 function processEndOfRound(playerPokemon, enemyPokemon, playerSide, enemySide, battleState) {
     const messages = [];
+    for (const [p,side] of [[playerPokemon,playerSide],[enemyPokemon,enemySide]]) sequences.recordFaint(p,side,battleState);
     abilityForms.syncWeatherForms(playerPokemon,enemyPokemon,battleState,messages);
     const before=[playerPokemon?.currentHp,enemyPokemon?.currentHp];
     messages.push(...processPokemonEndTurn(playerPokemon, enemyPokemon, playerSide, battleState));
     messages.push(...processPokemonEndTurn(enemyPokemon, playerPokemon, enemySide, battleState));
-    for (const p of [playerPokemon,enemyPokemon]) if (p?.status==='sleep'||Number(p?.currentHp)<=0) rampage.clear(p);
+    for (const p of [playerPokemon,enemyPokemon]) if (p?.status==='sleep'||Number(p?.currentHp)<=0) { rampage.clear(p); sequences.clearRolling(p); }
     for (const [p,other] of [[playerPokemon,enemyPokemon],[enemyPokemon,playerPokemon]]) if (Number(p?.currentHp)<=0) twoTurn.clear(p,other,battleState.turn);
     for(const [p,other,hp]of [[playerPokemon,enemyPokemon,before[1]],[enemyPokemon,playerPokemon,before[0]]]) {
         if(p?.currentHp>0 && hp>0 && other?.currentHp<=0 && hasPassiveAbility(p,'Soul-Heart'))applyStageChange(p,'specialAttack',1,messages,p);
     }
+    for (const [p,side] of [[playerPokemon,playerSide],[enemyPokemon,enemySide]]) sequences.recordFaint(p,side,battleState);
     messages.push(...advanceBattleState(battleState));
     abilityForms.syncWeatherForms(playerPokemon,enemyPokemon,battleState,messages);
     return messages;
@@ -2631,6 +2667,7 @@ function applySwitchInEffects(pokemon, ownSide, enemySide, battleState, enemyPok
         messages.push(`${pokemonName} est ralenti par la Toile Gluante.`);
     }
 
+    sequences.recordFaint(pokemon,ownSide,battleState);
     if (safeNumber(pokemon.currentHp, 0) <= 0) return messages;
 
     if (ownSide.pendingFullHeal) {
@@ -2836,6 +2873,7 @@ function finishSelfDestruct(attacker, result) {
 
 function useattack(attackName, attacker, defender, options = {}) {
     options={...options,battleState:options.battleState||createBattleState()};
+    for (const [p,side] of [[attacker,options.attackerSide],[defender,options.defenderSide]]) sequences.recordFaint(p,side,options.battleState);
     const rampageBefore=rampage.current(attacker);
     if (!options.calledDepth && !options.skipTurnStart) turnActions.spendTurnAction(options.battleState, attacker);
     // Called moves and the internal Struggle fallback are part of the same action.
@@ -2847,6 +2885,7 @@ function useattack(attackName, attacker, defender, options = {}) {
     const before=[];
     abilityForms.syncWeatherForms(attacker,defender,options.battleState,before);
     const result=executeAttack(attackName,attacker,defender,options);
+    sequences.finish(attacker,result,options.battleState,{called:options.sourceMove==='Sleep Talk'||Boolean(options.danced)});
     if (result.attempted && moveDamageRules.CRASH_MOVES.has(result.moveName)
         && result.damage + result.substituteDamage === 0 && !hasPassiveAbility(attacker,'Magic Guard')) {
         const crash = applyDamage(attacker,Math.max(1,Math.floor(attacker.maxHp/2)),{allowEndure:false,battleState:options.battleState});
@@ -2865,7 +2904,8 @@ function useattack(attackName, attacker, defender, options = {}) {
     if(attacker && !options.calledDepth && !options.skipTurnStart){const data=ensureBattleData(attacker);data.lastMoveFailed=(!result.success||(result.move?.combat?.damage_class!=='status'&&result.effectiveness===0))&&!result.protected&&result.phase!=='prepare'&&!data.rechargeMove;data.lastMoveResultTurn=options.battleState.turn;}
     // Misses, protection and immunities return early but still cost the user its life.
     finishSelfDestruct(attacker,result);
-    for (const [p,other] of [[attacker,defender],[defender,attacker]]) if (Number(p?.currentHp)<=0) {twoTurn.clear(p,other,options.battleState.turn);rampage.clear(p);}
+    for (const [p,other] of [[attacker,defender],[defender,attacker]]) if (Number(p?.currentHp)<=0) {twoTurn.clear(p,other,options.battleState.turn);rampage.clear(p);sequences.clearRolling(p);}
+    for (const [p,side] of [[attacker,options.attackerSide],[defender,options.defenderSide]]) sequences.recordFaint(p,side,options.battleState);
     result.messages.unshift(...before);
     abilityForms.syncWeatherForms(attacker,defender,options.battleState,result.messages);
     return result;
@@ -2888,9 +2928,11 @@ function executeAttack(attackName, attacker, defender, options = {}) {
     const calledDepth = Math.max(0, safeNumber(options.calledDepth, 0));
     const charging = !calledDepth && !options.skipTurnStart && getChargingMove(attacker);
     const rampaging = !calledDepth && !options.skipTurnStart && rampage.current(attacker);
+    const rolling = !calledDepth && !options.skipTurnStart && sequences.rolling(attacker);
     const biding = !calledDepth && !options.skipTurnStart && attacker?.__battle?.bideTurns > 0;
     if (charging) attackName = charging;
     else if (rampaging) attackName = rampaging.move;
+    else if (rolling) attackName = rolling.move;
     else if (biding) attackName = 'Bide';
 
     const moveResult = {
@@ -2985,7 +3027,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         return moveResult;
     }
 
-    if (options.consumePp !== false && !charging && !biding && !rampaging) {
+    if (options.consumePp !== false && !charging && !biding && !rampaging && !rolling) {
         const ppState = getMovePp(attacker, move.ename);
         if (ppState && ppState.current <= 0) {
             if (getUsableMoveIndexes(attacker, battleState).length === 0 && move.ename !== 'Struggle') {
@@ -3025,7 +3067,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         defenderSide,
         battleState,
         ignoreSleep: Boolean(options.ignoreSleep),
-        charging: Boolean(charging||rampaging)
+        charging: Boolean(charging||rampaging||rolling)
     });
     moveResult.beforeActionMessages = [...startTurn.messages];
     moveResult.messages.push(...startTurn.messages);
@@ -3036,7 +3078,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         attackerData.lastMoveUsed = move.ename;
         return moveResult;
     }
-    if(options.consumePp!==false && !charging && !biding && !rampaging) {
+    if(options.consumePp!==false && !charging && !biding && !rampaging && !rolling) {
         const consumed=consumeMovePp(attacker,move.ename);
         if(consumed.consumed) {
             attackerData.lastMoveSlot=consumed.slot;
@@ -3111,6 +3153,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         }
     }
 
+    sequences.begin(move,battleState);
     const chargeRule = twoTurn.rule(move.ename);
     if (chargeRule?.gravity && battleState.field?.gravityTurns > 0) {
         moveResult.blocked = true;
@@ -3221,7 +3264,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         moveResult.missed = true; attackerData.lastMoveUsed = move.ename;
         moveResult.messages.push(`${getPokemonDisplayName(defender)} est hors de portée de ${move.ename}.`); return moveResult;
     }
-    const accuracy = weatherMoveAccuracy(move, attacker, defender, battleState);
+    const accuracy = move.ename === 'Pursuit' && pursuit.switching(battleState,defender) ? 0 : weatherMoveAccuracy(move, attacker, defender, battleState);
     let attackHits = true;
     let hitChance = 1;
     let perHitSecondaries = false;
@@ -3269,10 +3312,12 @@ function executeAttack(attackName, attacker, defender, options = {}) {
     }
 
     const specialResolution = getSpecialMoveResolution(move, attacker, defender, { attackerTeam, defenderTeam, attackerSide, defenderSide, battleState, sourceMove: options.sourceMove });
+    let thrownItem = null;
     // Resolve the item's power/type first, then remove it before damage: a
     // thrown Choice Band or Life Orb must not boost its own Fling damage.
     if (specialResolution?.consumeHeldItem && getMoveEffectiveness(move,attacker,defender,battleState) > 0) {
         const consumedItem = consumeHeldItem(attacker,battleState);
+        if (move.ename === 'Fling') thrownItem = getItemDefinition(consumedItem);
         if (consumedItem) moveResult.messages.push(`${getPokemonDisplayName(attacker)} consomme son objet avec ${move.ename}.`);
     }
 
@@ -3506,6 +3551,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
     }
     if(move.ename==='Burn Up'&&moveResult.damage+moveResult.substituteDamage>0){attackerData.tempTypes=getPokemonTypes(attacker).filter(t=>t!=='Fire');if(!attackerData.tempTypes.length)attackerData.tempTypes=['???'];moveResult.messages.push(`${getPokemonDisplayName(attacker)} perd son type Feu !`);}
     if (moveResult.damage > 0 && defender.status === moveDamageRules.curedStatus(move)) clearStatus(defender, moveResult.messages, null, false);
+    if (moveResult.damage > 0 && !moveResult.substituteDamage) applyThrownBerry(defender,thrownItem,battleState,moveResult.messages);
     applyImplicitMoveEffect(move, effectContext, moveResult);
     // Grounding moves interrupt the airborne release; Gravity interrupts both
     // participants in Sky Drop. Keep this after the successful hit/effect.
@@ -3569,6 +3615,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
 }
 
 module.exports = {
+    applyThrownBerry,
     canKnockOffItem,
     knockOffHeldItem,
     movePhase,

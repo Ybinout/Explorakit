@@ -22,19 +22,20 @@ for m in catalog:
     for p, learn in ref['species'].items():
         if i in learn['egg'] + learn['tutor'] + learn['machine'] or any(move == i for level, move in learn['level']):
             compatible.setdefault(i, set()).add(int(p))
-# Aurore: documented native methods, including evolutions retaining the move.
+# Aurore/Aqua-Jet: documented native methods, including evolutions retaining the move.
 # Keep this addition within the playable Gen 1–4 species, never infer by type.
-morning_sun = source_ids['morningsun']
-compatible[morning_sun] = {int(p) for p, learn in ref['species'].items() if int(p) <= 493 and (
-    morning_sun in learn['egg'] + learn['tutor'] + learn['machine']
-    or any(move == morning_sun for level, move in learn['level']))}
 evolutions = [r for file in ['evolutions.json', 'stone_evolutions.json']
               for r in json.loads((ROOT / 'data/game' / file).read_text())['rules']]
-while True:
-    descendants = {r['to'] for r in evolutions if r['from'] in compatible[morning_sun] and r['to'] <= 493}
-    if descendants <= compatible[morning_sun]:
-        break
-    compatible[morning_sun].update(descendants)
+for native_name in ['morningsun', 'aquajet']:
+    native_id = source_ids[native_name]
+    compatible[native_id] = {int(p) for p, learn in ref['species'].items() if int(p) <= 493 and (
+        native_id in learn['egg'] + learn['tutor'] + learn['machine']
+        or any(move == native_id for level, move in learn['level']))}
+    while True:
+        descendants = {r['to'] for r in evolutions if r['from'] in compatible[native_id] and r['to'] <= 493}
+        if descendants <= compatible[native_id]:
+            break
+        compatible[native_id].update(descendants)
 machines = {}
 # Deliberate RiftMon exception. Other CS keep their documented compatibility.
 purify_id = source_ids['purify']
@@ -48,7 +49,7 @@ for i, pokemon in sorted(compatible.items()):
     key = 'cs_' + source['slug'].replace('-', '_')
     machines[key] = {'move': m['ename'], 'moveId': i, 'name': 'CS ' + french[i], 'type': m['type'],
                      'price': 5000 if power >= 100 else 4000 if power >= 80 else 3000, 'species': sorted(pokemon)}
-metadata = {'source': ref['source'], 'scope': 'Legal TM/tutor compatibility through generation 7; new singles additions also accept documented USUM level/egg methods. Morning Sun also accepts native learners and their evolutions within species 1–493. Purify is a RiftMon exception available to every Poison species. Base forms only; no field traversal effects.', 'machines': machines}
+metadata = {'source': ref['source'], 'scope': 'Legal TM/tutor compatibility through generation 7; new singles additions also accept documented USUM level/egg methods. Morning Sun and Aqua Jet also accept native learners and their evolutions within species 1–493. Purify is a RiftMon exception available to every Poison species. Base forms only; no field traversal effects.', 'machines': machines}
 outputs = {'data/game/machines.json': json.dumps(metadata, ensure_ascii=False, indent=2) + '\n',
            'vue-explorakit/src/data/machines.json': json.dumps(machines, ensure_ascii=False, separators=(',', ':')) + '\n'}
 items = json.loads((ROOT / 'data/game/items.json').read_text())

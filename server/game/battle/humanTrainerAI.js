@@ -24,7 +24,8 @@ const LEVEL_DAMAGE = new Set(['Seismic Toss','Night Shade']);
 const PUBLIC_VOLATILES = ['statStages','tempTypes','formTypes','abilityForm','tauntTurns','disableTurns',
     'disabledMove','encoreTurns','encoreMove','leechSeedSource','curseSource','foresight','miracleEye','substituteHp',
     'trappedTurns','ingrain','grounded','magnetRiseTurns','telekinesisTurns','abilitySuppressed','chargeMove','chargeTurns','semiInvulnerable','rechargeMove','bideTurns',
-    'activeMoveActions','stockpileCount','laserFocusTurns','soundBlockedTurns','lockOnTurns','lockOnTargetId','lastHurtTurn','revealedHiddenPowerType','lastMoveFailed','lastMoveResultTurn','lastMoveUsed','usedMoves','protectStreak','protectionStreak','protectionTurn','transformed','transformSpeciesId','transformSpriteId','rampageMove'];
+    'activeMoveActions','stockpileCount','laserFocusTurns','soundBlockedTurns','lockOnTurns','lockOnTargetId','lastHurtTurn','revealedHiddenPowerType','lastMoveFailed','lastMoveResultTurn','lastMoveUsed','usedMoves','protectStreak','protectionStreak','protectionTurn','transformed','transformSpeciesId','transformSpriteId','rampageMove',
+    'rollingMove','rollingHits','defenseCurl','furyCutterHits','furyCutterTurn'];
 const OWN_VOLATILES = [...PUBLIC_VOLATILES,'sleepTurns','choiceMove','unburden','abilitySuppressed','flashFireBoost','healBlockTurns',
     'embargoTurns','confusionTurns','infatuationTurns','toxicCounter','activeTurns','loafing','consumedHeldItem',
     'lastDamageTaken','lastDamageTurn','lastDamageSource','lastDamageClass','lastActionTurn','protectionStreak','protectionTurn','grounded','rampageTurns'];
@@ -81,6 +82,8 @@ function publicField(field) {
     // In particular: no turnActions, trainerTeam, callbacks or pending payloads.
     const result = engine.createBattleState();
     result.turn=field.turn;
+    if (Number.isInteger(field.echoedVoice?.turn) && Number.isInteger(field.echoedVoice?.count)) result.echoedVoice={turn:field.echoedVoice.turn,count:Math.max(1,Math.min(5,field.echoedVoice.count))};
+    if (Number.isInteger(field.lastSuccessfulMove?.turn) && typeof field.lastSuccessfulMove?.name==='string') result.lastSuccessfulMove={turn:field.lastSuccessfulMove.turn,name:field.lastSuccessfulMove.name};
     if (Array.isArray(field.berryEaters)) result.berryEaters = [...field.berryEaters];
     result.battleType=['wild','trainer','arena','pvp'].includes(field.battleType)?field.battleType:null;
     for(const key of ['weather','terrain','field'])for(const name of Object.keys(result[key]||{})) {
@@ -88,6 +91,8 @@ function publicField(field) {
     }
     for (const side of ['player','enemy']) {
         const source = field.sides?.[side] || {};
+        if (Number.isInteger(source.lastFaintTurn)) result.sides[side].lastFaintTurn=source.lastFaintTurn;
+        if (Number.isInteger(source.previousFaintTurn)) result.sides[side].previousFaintTurn=source.previousFaintTurn;
         for(const key of ['screens','hazards','protectTeam'])for(const name of Object.keys(result.sides[side][key])) {
             const value=source[key]?.[name];if(['number','boolean'].includes(typeof value))result.sides[side][key][name]=value;
         }
@@ -165,7 +170,7 @@ function damage(a,b,move,side,field,{movedLast=false}={}) {
                 ?(a.passiveAbility==='Skill Link'?hits[1]:hits[0]===2&&hits[1]===5?3.1:(hits[0]+hits[1])/2):1;
             // Both Pokémon were copied above; the field belongs to this one
             // analysis/projection. Avoid cloning the same private graph again.
-            cache.values.set(key,blocked||special?.failMessage||special?.unsupported||special?.statusOnly?0:count*engine.estimateDamageOnCopies(preview,target,transformed.move,{battleState:field,defenderSide:side,movedLast,abilityPowerMultiplier:transformed.powerMultiplier}));
+            cache.values.set(key,blocked||special?.failMessage||special?.unsupported||special?.statusOnly?0:count*engine.estimateDamageOnCopies(preview,target,transformed.move,{battleState:field,attackerSide:side===field.sides.player?field.sides.enemy:field.sides.player,defenderSide:side,movedLast,abilityPowerMultiplier:transformed.powerMultiplier}));
         }
     }
     return cache.values.get(key);
@@ -346,11 +351,12 @@ function scoreMove(a,move,scenario,ctx,lookahead=false) {
     const b=scenario.target,switched=scenario.kind==='change',reply=scenario.move;
     const local=context(a,b,ctx.party,ctx.field,ctx.ownSide,ctx.enemySide,ctx.foeCount);
     const incoming=switched?0:damage(b,a,reply,ctx.ownSide,ctx.field)*chance(reply,b,a,ctx.field);
-    const knownImmune=ctx.memory?.seen?.[b.uuid]?.immuneMoves?.includes(move.ename);
+    const hitTarget=switched&&move.ename==='Pursuit'&&ctx.opponentParty?.[0] || b;
+    const knownImmune=ctx.memory?.seen?.[hitTarget.uuid]?.immuneMoves?.includes(move.ename);
     if(knownImmune)return -240;
     const first=switched?1:orderChance(a,move,b,reply,ctx),projectionContext={...ctx,damage,chance};
     function evaluate(before) {
-        const out=model.project(a,b,move,reply,projectionContext,{switched,first:before});
+        const out=model.project(a,b,move,reply,projectionContext,{switched,first:before,foeOutgoing:ctx.opponentParty?.[0]});
         let score=out.score;
         if(out.own.currentHp<=0)return score;
         if(out.foe.currentHp<=0)score-=100*(1-out.action.accuracy);
@@ -426,7 +432,7 @@ function analyse({team,opponentTeam,field,ownSide,enemySide,memory={},round=1,sk
         if(!currentThreat&&!currentOffense&&!nextOffense)continue;
         const entered=model.copy(p);entered.currentHp-=cost;
         const score=aggregate(scenarios.map(s=>{
-            const out=model.project(entered,s.target,null,s.move,{...ctx,damage,chance},{switched:s.kind==='change',first:false,ownSwitched:true});
+            const out=model.project(entered,s.target,null,s.move,{...ctx,damage,chance},{switched:s.kind==='change',first:false,ownSwitched:true,ownOutgoing:a});
             if(out.own.currentHp<=0)return -240;
             const offense=deeper.has(s)?futureValue(out,ctx):0;
             // The reserve spends this turn entering. Recovery on departure is

@@ -1,5 +1,23 @@
 # Audit technique et mémoire de RiftMon
 
+## Attaques successives, Poursuite, baies et CS Aqua-Jet — 31 octobre 2026
+
+Les six anomalies restantes de la revue du 30 octobre sont corrigées dans le moteur commun. Roulade/Ball’Glace : cinq coups 30/60/120/240/480, un seul coût initial en PP, verrouillage et interruption, bonus de Boul’Armure ; le K.O. adverse conserve la chaîne. Taillade : 40/80/160, retour à zéro après interruption ou rupture de la succession. Écho : 40→200 sur le terrain commun, un gain par tour même si les deux camps l’utilisent ; les tentatives ratées comptent, un tour sans tentative remet la puissance à zéro.
+
+Poursuite intercepte le Pokémon sortant avant le retrait manuel ou le pivot plus rapide, à 80 de puissance, puis ne frappe pas le remplaçant une seconde fois. À vitesse/priorité normale avant un Téléport plus lent, elle reste à 40 et ne se répète pas. Échecs de statut, coût en PP, K.O., choix du remplaçant, résiduels et annonces restent dans leur ordre. Le marqueur temporaire utilise un Symbol et ne fuit ni vers les clients ni dans les checkpoints pris pendant une animation. Dégommage applique à la cible les effets des baies présentes : PV, statut/confusion, PP et statistiques ; son propre objet reste intact, un clone bloque l’effet et la baie ne ressuscite pas une cible K.O. Bajoues, Anti-Soin, Tension et historique des baies consommées vérifiés. L’adaptation existante qui conserve l’objet sur un lancer empêché est préservée.
+
+Vengeance reconnaît les K.O. du camp au tour précédent, y compris poison, recul et pièges ; un autre K.O. au tour actuel n’efface pas ce droit. Flamme Croix/Éclair Croix doublent seulement après l’attaque complémentaire réussie dans le même tour. Historiques bornés et propres au combat, remis à zéro par les nettoyages existants. Prévisions IA alignées : mêmes copies isolées, même profondeur, historiques publics terminés et hypothèses de retrait ; aucune lecture de la commande humaine ou des objets/PP/IV privés adverses, aucun RNG de combat pendant la projection.
+
+Aqua-Jet existait déjà dans le moteur : Eau physique, puissance 40, précision 100, 20 PP et priorité +1. Ajout de la CS Aqua-Jet à 3 000 ₽ dans l’étage Entraînement du Grand Comptoir. Trente espèces jouables compatibles, issues des méthodes natives USUM et de leurs évolutions, sans attribuer la capacité à tous les types Eau. Générateur, catalogue serveur/client, item consommable et offre synchronisés ; 266 CS, 45 317 compatibilités au total. Prix, stocks et compatibilités des autres articles conservés. Rift et Colosseum restent fermés « Soon ».
+
+Validation : 913 tests unitaires/régression et 71 SQL réussis sans échec/saut, dont 96 nouveaux cas unitaires et 16 nouveaux cas SQL. Roulade au dernier PP sur cinq vrais tours, retraits manuels/pivots/K.O. avec Poursuite en Aventure sauvage/dresseur/PvP, trois modes du moteur à états avec reprise de checkpoint, sauvegardes d’équipe/PP et achat/apprentissage Aqua-Jet vérifiés. SQL exécuté avec la politique séquentielle du lanceur existant : l’essai parallèle avait provoqué trois deadlocks de fixtures, sans changement des transactions pour les masquer. Rejeu en mémoire de 83 cas sur les anciens modules/catalogues : 54 échecs contre zéro sur le correctif, sans erreur d’API manquante ni remplacement d’un fichier live. Audit des 634 capacités : 10 144 exécutions et 1 902 prévisions sans erreur. Générateur, syntaxe/diff, lint et build isolé `3e96b40eeb3b42cf` valides.
+
+Recette client compilé sur le vrai serveur isolé et base `explorakit_test`, Chromium/WebKit Linux : achat réel à 3 000, descriptions Eau/Physique/40/100/20, incompatibilité désactivée, remplacement d’attaque, consommation unique et rechargement SQL. Trois formats 320×640/393×852/1365×900, clair/nocturne, zéro erreur ; captures mobile/PC inspectées. Comptes jetables supprimés, pas de téléphone physique ni de toutes les combinaisons de talents/objets revendiqués. Les nouveaux cas SQL rejoignent `scripts/runMysqlTests.js`. Règles, sources primaires, empreintes et commandes reproductibles : `docs/MOVE_SEQUENCES_2026-10-31.json`.
+
+
+
+Client et serveur publiés le 31 octobre 2026 à 09 h 54 (Europe/Paris), client `47afaeb2dcdcd996659a729eb32f6efed116c6dd`, build `3e96b40eeb3b42cf`. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-move-sequences-2026-10-31T08-54-07-055Z`. PID 3558086→3567322, service actif, zéro redémarrage automatique/avertissement. Index et 22 bundles/CSS publics vérifiés à l’octet, anciens assets conservés. Aucun changement de schéma/durabilité ni modification manuelle de compte réel ; Knov/api-test inchangés. Namespace des expéditions toujours fermé, zéro tentative active et checkpoint conservé.
+
 ## Rift et Colosseum en attente — 30 octobre 2026
 
 À la demande du propriétaire, seule l’Aventure est accessible depuis la sélection. Rift multijoueur et Rift Colosseum restent visibles en gris avec « Soon » : cartes non interactives, sans lien ni arrêt de tabulation. Leurs quatre routes directes reviennent à l’accueil, avant le contrôle de connexion. Les classements historiques restent consultables ; leurs boutons de lancement affichent aussi « Soon ». Le Super Tournoi appartient toujours à l’Aventure et reste disponible.
@@ -5317,6 +5335,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 31 octobre 2026 — Six anomalies d’attaques restantes corrigées, Vengeance/Croix alignées sur l’historique, prévisions IA sans intentions humaines et CS Aqua-Jet native à 3 000. 913 tests + 71 SQL, recettes Chromium/WebKit ; `docs/MOVE_SEQUENCES_2026-10-31.json`.
 
 - 30 octobre 2026 — Rift et Colosseum grisés « Soon », routes et namespace fermés par un interrupteur partagé ; données/classements et Aventure conservés. Lint/build, deux tests et recettes Chromium/WebKit réussis.
 

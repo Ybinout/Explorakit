@@ -1,6 +1,6 @@
 {
   "source": "https://github.com/PokeAPI/pokeapi/tree/81d20919845b6a445969b9265aab5cec6b04cece/data/v2/csv",
-  "scope": "Legal TM/tutor compatibility through generation 7; new singles additions also accept documented USUM level/egg methods. Morning Sun also accepts native learners and their evolutions within species 1–493. Purify is a RiftMon exception available to every Poison species. Base forms only; no field traversal effects.",
+  "scope": "Legal TM/tutor compatibility through generation 7; new singles additions also accept documented USUM level/egg methods. Morning Sun and Aqua Jet also accept native learners and their evolutions within species 1–493. Purify is a RiftMon exception available to every Poison species. Base forms only; no field traversal effects.",
   "machines": {
     "cs_mega_punch": {
       "move": "Mega Punch",
@@ -41046,6 +41046,45 @@
         796,
         800,
         801
+      ]
+    },
+    "cs_aqua_jet": {
+      "move": "Aqua Jet",
+      "moveId": 453,
+      "name": "CS Aqua-Jet",
+      "type": "Water",
+      "price": 3000,
+      "species": [
+        7,
+        8,
+        9,
+        55,
+        86,
+        87,
+        140,
+        141,
+        147,
+        148,
+        149,
+        158,
+        159,
+        160,
+        183,
+        184,
+        211,
+        283,
+        284,
+        318,
+        319,
+        341,
+        342,
+        347,
+        348,
+        370,
+        395,
+        400,
+        418,
+        419
       ]
     },
     "cs_ominous_wind": {

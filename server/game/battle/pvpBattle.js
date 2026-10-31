@@ -1,6 +1,7 @@
 const { requestReplacement } = require('./replacementChoice');
 const presentation = require('./presentationState');
-const { planTurnActions } = require('./turnActions');
+const { planTurnActions, hasActedThisTurn } = require('./turnActions');
+const pursuit = require('./pursuit');
 const {
     useattack,
     battleMoveTypes,
@@ -274,6 +275,8 @@ async function performAttack(io, attackerPlayer, defenderPlayer, moveIndex, atta
     const attackerPokemon = attackerPlayer?.equipe?.pokemons?.[0];
     const defenderPokemon = defenderPlayer?.equipe?.pokemons?.[0];
 
+    if (hasActedThisTurn(battleState,attackerPokemon)) return;
+
     if (!attackerPokemon || !defenderPokemon) {
         return;
     }
@@ -320,6 +323,10 @@ async function performAttack(io, attackerPlayer, defenderPlayer, moveIndex, atta
         }
     }
 
+    if (attackResult.switchSelf && attackerPlayer.equipe.pokemons.some(p => p !== attackerPokemon && p.currentHp > 0)) {
+        await pursuit.intercept(battleState,attackerPokemon,defenderPokemon,() => performAttack(
+            io,defenderPlayer,attackerPlayer,defenderPokemon.abilities.indexOf('Pursuit'),defenderSide,attackerSide,battleState));
+    }
     let attackerIndex;
     if (attackResult.chooseSwitch && attackResult.switchSelf && attackerPokemon.currentHp > 0) {
         const response = await requestReplacement(io, attackerPlayer);
@@ -614,7 +621,9 @@ async function startPvpBattle(playerA, playerB, io) {
             { pokemon: activeB, action: actionB.action, moveName: selectedMoveName(activeB, actionB.moveIndex) }
         ]);
 
-        if (canSwitchA) {
+        if (canSwitchA) await pursuit.intercept(battleState,activeA,activeB,() => performAttack(
+            io,playerB,playerA,actionB.moveIndex,sideB,sideA,battleState));
+        if (canSwitchA && activeA.currentHp > 0) {
             const previousName = getPokemonDisplayName(teamA[0]);
             swapToIndex(teamA, actionA.index);
             await narrateToBoth(
@@ -628,7 +637,9 @@ async function startPvpBattle(playerA, playerB, io) {
             await applySwitchInNarration(io, playerA, playerB, teamA[0], sideA, sideB, battleState);
         }
 
-        if (canSwitchB) {
+        if (canSwitchB) await pursuit.intercept(battleState,activeB,activeA,() => performAttack(
+            io,playerA,playerB,actionA.moveIndex,sideA,sideB,battleState));
+        if (canSwitchB && activeB.currentHp > 0) {
             const previousName = getPokemonDisplayName(teamB[0]);
             swapToIndex(teamB, actionB.index);
             await narrateToBoth(

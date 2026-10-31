@@ -1274,6 +1274,10 @@
         "cs_morning_sun": {
           "price": 3000,
           "requiredTier": 2
+        },
+        "cs_aqua_jet": {
+          "price": 3000,
+          "requiredTier": 2
         }
       }
     },

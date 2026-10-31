@@ -5,6 +5,8 @@ const SPECIAL_DEFENSE_OVERRIDES = new Set(['Psyshock', 'Psystrike', 'Secret Swor
 const IGNORE_DEFENSE_STAGES = new Set(['Chip Away', 'Sacred Sword']);
 const ALWAYS_CRITICAL = new Set(['Frost Breath', 'Storm Throw']);
 const CRASH_MOVES = new Set(['Jump Kick', 'High Jump Kick']);
+const sequences = require('./moveSequences');
+const pursuit = require('./pursuit');
 const HIDDEN_POWER_TYPES = ['Fighting','Flying','Poison','Ground','Rock','Bug','Ghost','Steel','Fire','Water','Grass','Electric','Psychic','Ice','Dragon','Dark'];
 function hiddenPowerType(pokemon) {
     if (HIDDEN_POWER_TYPES.includes(pokemon?.hiddenPowerType)) return pokemon.hiddenPowerType;
@@ -24,7 +26,10 @@ function damagedThisTurn(pokemon, state, source = null) {
 }
 function power(move, attacker, defender, context = {}) {
     const base = Math.max(0, Number(move.power) || 0), field = context.battleState;
+    const sequencePower = sequences.power(move, attacker, context);
+    if (sequencePower !== null) return sequencePower;
     switch (move.ename) {
+        case 'Pursuit': return base * (pursuit.switching(field,defender) ? 2 : 1);
         case 'Eruption':
         case 'Water Spout': return Math.max(1, Math.floor(base * attacker.currentHp / Math.max(1, attacker.maxHp)));
         case 'Brine': return base * (defender.currentHp <= defender.maxHp / 2 ? 2 : 1);

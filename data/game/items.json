@@ -3947,6 +3947,15 @@
       "buy_price": 0,
       "sell_price": 0,
       "superTournamentTravel": true
+    },
+    {
+      "key": "cs_aqua_jet",
+      "name": "CS Aqua-Jet",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Aqua-Jet à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Aqua Jet"
     }
   ]
 }

@@ -1,0 +1,375 @@
+{
+  "date": "2026-10-31",
+  "baseline": {
+    "root": "c34436b71b71083748c8fc6ed77ff8f1101362fe",
+    "client": "9bd65c634fc1632298d34046d1eb8c0f82add276"
+  },
+  "scope": "Fix the six documented remaining move issues, plus three cross-action history moves; add the already implemented Aqua Jet to CS. Shared engine, Adventure wild/trainers/PvP, Rift/Colosseum and Super Tournament. Closed modes remain closed.",
+  "rules": {
+    "Rollout / Ice Ball": "30/60/120/240/480 power; five forced successful turns, initial PP cost only; Defense Curl doubles the chain; misses, protection, status prevention, immunity, switching and KO end/reset it. A target KO does not cancel the remaining chain.",
+    "Fury Cutter": "40/80/160, capped at 160; normal PP per attack; resets after another move, interruption, miss, protection, switching or a skipped turn.",
+    "Echoed Voice": "40 to 200, field-wide consecutive-turn chain; increments at most once per round for both sides. A failed hit still counts as an attempt; a turn with no attempt resets the chain.",
+    "Pursuit": "40 normally, 80 before a committed manual withdrawal or a faster pivot, against the outgoing Pokemon. Interception ignores accuracy/evasion, consumes the queued action once, preserves KO/replacement/residual/presentation order. No double hit on the replacement. Already-used Pursuit does not intercept again. Transient Symbol is excluded from checkpoint serialization.",
+    "Fling": "Existing berries apply their HP/status/confusion/PP/stat effect to the hit target, without consuming its equipment. Substitute/protection/immunity block the effect; a KO target is not healed. Eaten-berry history, Cheek Pouch, Unnerve and Heal Block are handled; current failed-throw item-retention adaptation is retained.",
+    "Retaliate": "Doubles only following a KO on the same side in the preceding round. Direct damage, residual damage, recoil and entry hazards count. A second KO in the current round does not erase a preceding-round KO.",
+    "Fusion Bolt / Fusion Flare": "Second complementary move doubles only if the last successful move in this same turn was the other one; no previous-turn or failed-move carryover."
+  },
+  "aquaJet": {
+    "move": "Aqua Jet",
+    "moveId": 453,
+    "name": "CS Aqua-Jet",
+    "type": "Water",
+    "price": 3000,
+    "species": [
+      7,
+      8,
+      9,
+      55,
+      86,
+      87,
+      140,
+      141,
+      147,
+      148,
+      149,
+      158,
+      159,
+      160,
+      183,
+      184,
+      211,
+      283,
+      284,
+      318,
+      319,
+      341,
+      342,
+      347,
+      348,
+      370,
+      395,
+      400,
+      418,
+      419
+    ],
+    "alreadyImplementedInBattle": true,
+    "power": 40,
+    "accuracy": 100,
+    "pp": 20,
+    "damageClass": "physical",
+    "priority": 1,
+    "nativeCompatiblePlayableSpecies": 30,
+    "stock": "Grand Comptoir, floor 2 Training",
+    "compatibility": "Native USUM level/egg/tutor/machine learners and their evolutions, species 1–493; never inferred from Water typing."
+  },
+  "ai": {
+    "sameSearchDepth": true,
+    "pendingHumanCommandRead": false,
+    "opposingPrivateItemsPpIvRead": false,
+    "battleRngConsumedByProjection": false,
+    "publicCompletedHistoryOnly": true,
+    "pursuitSwitchesAreHypothesesOnly": true,
+    "sourceInputsMutated": false
+  },
+  "checks": {
+    "unit": {
+      "tests": 913,
+      "pass": 913,
+      "fail": 0,
+      "skipped": 0
+    },
+    "newUnitCases": 96,
+    "mysql": {
+      "tests": 71,
+      "pass": 71,
+      "fail": 0,
+      "skipped": 0
+    },
+    "newMysqlCases": 16,
+    "mysqlConcurrency": 1,
+    "mysqlParallelAttempt": "Three fixture deadlocks occurred under parallel file execution; rerun uses the existing runMysqlTests.js serial policy without changing database or weakening checks.",
+    "beforeReplay": {
+      "tests": 83,
+      "pass": 29,
+      "fail": 54,
+      "skipped": 0,
+      "scope": "Original nine modified runtime modules and original catalogs loaded in memory from the baseline; selected semantic cases only, no missing-new-API errors. No production source was replaced."
+    },
+    "catalogueSmoke": {
+      "totalMoves": 634,
+      "executionChecks": 10144,
+      "executionFailures": [],
+      "aiChecks": 1902,
+      "aiFailures": []
+    },
+    "generatedMachinesChecked": true,
+    "lint": true,
+    "build": "3e96b40eeb3b42cf",
+    "browser": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "purchase": true,
+        "price": 3000,
+        "physicalWater40Power20Pp": true,
+        "incompatibleDisabled": true,
+        "teaching": true,
+        "sqlAndReload": true,
+        "closedModesPreserved": true,
+        "views": [
+          {
+            "width": 320,
+            "height": 640,
+            "themeMode": "light"
+          },
+          {
+            "width": 320,
+            "height": 640,
+            "themeMode": "dark"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "themeMode": "light"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "themeMode": "dark"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "themeMode": "light"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "themeMode": "dark"
+          }
+        ],
+        "errors": [],
+        "output": "/tmp/riftmon-move-sequences-chromium"
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "purchase": true,
+        "price": 3000,
+        "physicalWater40Power20Pp": true,
+        "incompatibleDisabled": true,
+        "teaching": true,
+        "sqlAndReload": true,
+        "closedModesPreserved": true,
+        "views": [
+          {
+            "width": 320,
+            "height": 640,
+            "themeMode": "light"
+          },
+          {
+            "width": 320,
+            "height": 640,
+            "themeMode": "dark"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "themeMode": "light"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "themeMode": "dark"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "themeMode": "light"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "themeMode": "dark"
+          }
+        ],
+        "errors": [],
+        "output": "/tmp/riftmon-move-sequences-webkit"
+      }
+    },
+    "screenshotsInspected": true,
+    "physicalDevice": false,
+    "unitFiles": [
+      "tests/ability-audit-regression.test.js",
+      "tests/ability-capsule.test.js",
+      "tests/ability-reactions.test.js",
+      "tests/ability-system.test.js",
+      "tests/automatic-move-regressions.test.js",
+      "tests/battle-engine.test.js",
+      "tests/battle-field-client.test.js",
+      "tests/battle-field.test.js",
+      "tests/castform.test.js",
+      "tests/combat-feedback.test.js",
+      "tests/curse.test.js",
+      "tests/end-of-round.test.js",
+      "tests/focus-sash-recovery.test.js",
+      "tests/human-trainer-ai.test.js",
+      "tests/human-trainer-finishing.test.js",
+      "tests/human-trainer-items.test.js",
+      "tests/human-trainer-known-abilities.test.js",
+      "tests/human-trainer-model.test.js",
+      "tests/human-trainer-sucker-punch.test.js",
+      "tests/human-trainer-trapping.test.js",
+      "tests/matthieu-tactics.test.js",
+      "tests/move-additions.test.js",
+      "tests/move-audit.test.js",
+      "tests/move-behavior-audit.test.js",
+      "tests/move-learning.test.js",
+      "tests/move-order.test.js",
+      "tests/move-rules-review.test.js",
+      "tests/move-selection.test.js",
+      "tests/move-sounds.test.js",
+      "tests/move-visuals.test.js",
+      "tests/pain-split.test.js",
+      "tests/pokemon-availability.test.js",
+      "tests/rampage-moves.test.js",
+      "tests/sleep-status.test.js",
+      "tests/status-penalties.test.js",
+      "tests/super-tournament-abandon.test.js",
+      "tests/super-tournament-order.test.js",
+      "tests/super-tournament-rewards.test.js",
+      "tests/super-tournament.test.js",
+      "tests/trainer-palette.test.js",
+      "tests/two-turn-moves.test.js",
+      "tests/wild-ability-availability.test.js",
+      "tests/move-sequences.test.js",
+      "tests/machines.test.js",
+      "tests/weather-healing.test.js",
+      "tests/riftmon-domain.test.js"
+    ],
+    "mysqlFiles": [
+      "tests/attack-regressions-mysql.test.js",
+      "tests/choice-items-mysql.test.js",
+      "tests/knock-off-mysql.test.js",
+      "tests/focus-sash-recovery-mysql.test.js",
+      "tests/move-selection-mysql.test.js",
+      "tests/teleport-pivot-mysql.test.js",
+      "tests/teleport-mysql.test.js",
+      "tests/trainers-mysql.test.js",
+      "tests/super-tournament-mysql.test.js",
+      "tests/machines-mysql.test.js",
+      "tests/move-sequences-mysql.test.js"
+    ],
+    "commands": [
+      "node --test tests/move-sequences.test.js",
+      "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file-if-exists=.env --test --test-concurrency=1 tests/move-sequences-mysql.test.js",
+      "python3 scripts/generateMachines.py --check",
+      "node scripts/auditMoves.js",
+      "npm --prefix vue-explorakit run lint",
+      "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-move-sequences-dist"
+    ]
+  },
+  "references": {
+    "moves.ts": {
+      "url": "https://raw.githubusercontent.com/smogon/pokemon-showdown/master/data/moves.ts",
+      "sha256": "43b516fdc01721f53f01de555479dd3d248e5e29d2a6f5072a7bd4a3585a5027"
+    },
+    "gen8-moves.ts": {
+      "url": "https://raw.githubusercontent.com/smogon/pokemon-showdown/master/data/mods/gen8/moves.ts",
+      "sha256": "d75a2e25ce019c8619a71bd271ebb3521d8ed54b33540a0961f67320f5231f2e"
+    },
+    "gen7-moves.ts": {
+      "url": "https://raw.githubusercontent.com/smogon/pokemon-showdown/master/data/mods/gen7/moves.ts",
+      "sha256": "d043fc23b4a812ba8734d3520c8f4d7ee629b42b24d005382a447b050db9f8bc"
+    },
+    "items.ts": {
+      "url": "https://raw.githubusercontent.com/smogon/pokemon-showdown/master/data/items.ts",
+      "sha256": "6a9c7eeb9cfda861d9fb22084b10af46d03da4729981424ff155399907b66ed4"
+    },
+    "nativeLearnsets": "https://github.com/PokeAPI/pokeapi/tree/81d20919845b6a445969b9265aab5cec6b04cece/data/v2/csv"
+  },
+  "runtimeSourceSha256": {
+    "data/game/department_store.json": "5ca5e4e2b46b13336a9ebee04e606992d2f8f2ad2ddc74821a6d05a964f8aa29",
+    "data/game/items.json": "8d6d8de30cbf58a2a493636496201b3ff25d2f1278e12b8f3dd7632f33c59681",
+    "data/game/machines.json": "af53642b370bcae744b846355ff510c615e6e0e4c90ca218c343f7ab9c12944a",
+    "server/game/battle/battleEngine.js": "293c45484eb038c22284cae3a7466c358f62b69044599eae3d269c655adbe843",
+    "server/game/battle/battleResources.js": "f0d4a4a907264d394ffd9654e279a35b5c698d74d2b34480d11c7cac8ea243dd",
+    "server/game/battle/humanTrainerAI.js": "eed7a1441b4409e5421810388b943ecd7c128ad59fbc7841e1740988e09753cb",
+    "server/game/battle/humanTrainerModel.js": "3572f111512226e474356483c171f05c4b976715d296756d36e92d9cf040d6d5",
+    "server/game/battle/moveDamageRules.js": "f618ab4cd1a3473954baac2c5fde05eca9c86ab0e754556a864820fdc402da11",
+    "server/game/battle/pvpBattle.js": "fc534d7c86113863a33f19f8b48b3bcb4a71670bbf9e7e5f8411a9d0f3be6182",
+    "server/game/battle/trainerBattle.js": "3724888c5e1f6ee425f2acf08dd22f8bd59754dc7615ac7974648c271b6ce69d",
+    "server/game/battle/wildBattle.js": "59f5b4fccdf3037fb2ab1686c1550a7407aacba898ce892aa7f3e41c0327af42",
+    "server/game/drift/driftBattle.js": "2abd9519185a12052317665053f0984926e1af42a9b9da10eb36c667870e920c",
+    "server/game/battle/moveSequences.js": "cfb0fcd6ade9b10ff122b101ab05063c9baad96c9173f77825109d3586f10646",
+    "server/game/battle/pursuit.js": "ff6baad89eaee3f83735ceac1de2f4c5054fa924f0f7c0cd0d7e7272b1495cb3"
+  },
+  "limits": [
+    "Tests cover the named rules and regression scenarios, not every possible move/ability/item combination.",
+    "Double battles are not exposed by the game.",
+    "Existing unsuccessful-Fling item-retention adaptation is preserved."
+  ],
+  "deployment": {
+    "publishedAt": "2026-10-31T08:54:11.504Z",
+    "restartedAt": "2026-10-31T08:54:08.645Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-move-sequences-2026-10-31T08-54-07-055Z",
+    "sourceBaseline": "c34436b71b71083748c8fc6ed77ff8f1101362fe",
+    "sourceHashes": {
+      "data/game/department_store.json": "5ca5e4e2b46b13336a9ebee04e606992d2f8f2ad2ddc74821a6d05a964f8aa29",
+      "data/game/items.json": "8d6d8de30cbf58a2a493636496201b3ff25d2f1278e12b8f3dd7632f33c59681",
+      "data/game/machines.json": "af53642b370bcae744b846355ff510c615e6e0e4c90ca218c343f7ab9c12944a",
+      "server/game/battle/battleEngine.js": "293c45484eb038c22284cae3a7466c358f62b69044599eae3d269c655adbe843",
+      "server/game/battle/battleResources.js": "f0d4a4a907264d394ffd9654e279a35b5c698d74d2b34480d11c7cac8ea243dd",
+      "server/game/battle/humanTrainerAI.js": "eed7a1441b4409e5421810388b943ecd7c128ad59fbc7841e1740988e09753cb",
+      "server/game/battle/humanTrainerModel.js": "3572f111512226e474356483c171f05c4b976715d296756d36e92d9cf040d6d5",
+      "server/game/battle/moveDamageRules.js": "f618ab4cd1a3473954baac2c5fde05eca9c86ab0e754556a864820fdc402da11",
+      "server/game/battle/pvpBattle.js": "fc534d7c86113863a33f19f8b48b3bcb4a71670bbf9e7e5f8411a9d0f3be6182",
+      "server/game/battle/trainerBattle.js": "3724888c5e1f6ee425f2acf08dd22f8bd59754dc7615ac7974648c271b6ce69d",
+      "server/game/battle/wildBattle.js": "59f5b4fccdf3037fb2ab1686c1550a7407aacba898ce892aa7f3e41c0327af42",
+      "server/game/drift/driftBattle.js": "2abd9519185a12052317665053f0984926e1af42a9b9da10eb36c667870e920c",
+      "server/game/battle/moveSequences.js": "cfb0fcd6ade9b10ff122b101ab05063c9baad96c9173f77825109d3586f10646",
+      "server/game/battle/pursuit.js": "ff6baad89eaee3f83735ceac1de2f4c5054fa924f0f7c0cd0d7e7272b1495cb3"
+    },
+    "clientCommit": "47afaeb2dcdcd996659a729eb32f6efed116c6dd",
+    "clientBuild": "3e96b40eeb3b42cf",
+    "beforePid": "3558086",
+    "afterPid": "3567322",
+    "serverRestarted": true,
+    "schemaChanged": false,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "checkpointUnchangedWhileDisabled": true,
+    "namespaceClosed": true,
+    "neighborsUnchanged": true,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.f5ca3bcb.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.50b6303d.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.2fd32f7c.js",
+      "js/drift.5b8720d7.js",
+      "js/game.e4d87ba6.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.de3bb7ec.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.35635e08.css",
+      "css/test-view.7568246d.css"
+    ],
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0
+  }
+}

@@ -5,7 +5,8 @@ const { effortYield } = require('../models/training');
 const { AdventureExperience } = require('./adventureExperience');
 const { canFleeWildBattle } = require('./wildEscape');
 const {preferMoves}=require('./moveSelection');
-const { planTurnActions } = require('./turnActions');
+const { planTurnActions, hasActedThisTurn } = require('./turnActions');
+const pursuit = require('./pursuit');
 const {
     useattack,
     battleMoveTypes,
@@ -112,6 +113,7 @@ function performAttack(attacker, defender, moveIndex, battleContext) {
 }
 
 async function performAttackWithNarration(attacker, defender, moveIndex, player, wildPokemon, io, battleContext) {
+    if (hasActedThisTurn(battleContext.battleState,attacker) || !(attacker.currentHp > 0) || !(defender.currentHp > 0)) return;
     const attackerName = getPokemonDisplayName(attacker);
     const defenderName = getPokemonDisplayName(defender);
     const moveName = getMoveName(attacker, moveIndex);
@@ -132,6 +134,13 @@ async function performAttackWithNarration(attacker, defender, moveIndex, player,
 
     if(attackResult.escape)battleContext.battleState.escapeActor=own?'player':'opponent';
 
+    if (attackResult.switchSelf && battleContext.attackerTeam?.some(p => p !== attacker && p.currentHp > 0)) {
+        await pursuit.intercept(battleContext.battleState,attacker,defender,() => performAttackWithNarration(
+            defender,attacker,defender.abilities.indexOf('Pursuit'),player,wildPokemon,io,{
+                battleState:battleContext.battleState,attackerSide:battleContext.defenderSide,defenderSide:battleContext.attackerSide,
+                attackerTeam:battleContext.defenderTeam,defenderTeam:battleContext.attackerTeam
+            }));
+    }
     const switches = resolveMoveSwitches(
         attackResult,
         battleContext?.attackerTeam,
@@ -670,30 +679,29 @@ async function startBattle(player, wildPokemon, io, userId) {
                 }
 
                 const changeIndex = Number.parseInt(response.number, 10);
-                const switched = playerSwitchByIndex(player.equipe, changeIndex);
-
-                if (!switched) {
+                if (!Number.isInteger(changeIndex) || changeIndex <= 0 || !(player.equipe.pokemons[changeIndex]?.currentHp > 0)) {
                     await narrate(player, io, 'Changement impossible.');
                     continue;
                 }
-
-                await narrate(player, io, `${getPokemonDisplayName(player.equipe.pokemons[0])} est maintenant en combat !`, 900);
-                displayIntroAnimation(player, wildPokemon, io, battleState);
-                await applySwitchInNarration(
-                    player,
-                    wildPokemon,
-                    io,
-                    player.equipe.pokemons[0],
-                    playerSide,
-                    enemySide,
-                    battleState
-                );
+                const wildMove = getRandomNumber(wildPokemon,battleState,currentPokemon);
+                planTurnActions(battleState,[{pokemon:currentPokemon,action:'change'},
+                    {pokemon:wildPokemon,action:'attack',moveName:selectedMoveName(wildPokemon,wildMove)}]);
+                await pursuit.intercept(battleState,currentPokemon,wildPokemon,() => performAttackWithNarration(
+                    wildPokemon,currentPokemon,wildMove,player,wildPokemon,io,{
+                        battleState,attackerSide:enemySide,defenderSide:playerSide,
+                        attackerTeam:[wildPokemon],defenderTeam:player.equipe.pokemons
+                    }));
+                if (currentPokemon.currentHp > 0 && playerSwitchByIndex(player.equipe,changeIndex)) {
+                    await narrate(player, io, `${getPokemonDisplayName(player.equipe.pokemons[0])} est maintenant en combat !`, 900);
+                    displayIntroAnimation(player, wildPokemon, io, battleState);
+                    await applySwitchInNarration(player,wildPokemon,io,player.equipe.pokemons[0],playerSide,enemySide,battleState);
+                }
 
                 if (wildPokemon.currentHp > 0 && player.equipe.pokemons[0].currentHp > 0) {
                     await performAttackWithNarration(
                         wildPokemon,
                         player.equipe.pokemons[0],
-                        getRandomNumber(wildPokemon,battleState,player.equipe.pokemons[0]),
+                        wildMove,
                         player,
                         wildPokemon,
                         io,

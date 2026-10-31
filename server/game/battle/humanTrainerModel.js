@@ -7,6 +7,8 @@ const twoTurn=require('./twoTurnMoves');
 const rampage=require('./rampageMoves');
 const moveGuards=require('./moveGuards');
 const moveDamageRules=require('./moveDamageRules');
+const sequences=require('./moveSequences');
+const pursuit=require('./pursuit');
 const {weatherHealingAmount}=require('./weatherHealing');
 const clamp=(x,l,h)=>Math.max(l,Math.min(h,x)),alive=p=>p.currentHp>0;
 const ability=p=>abilities.getAbilityName(p);
@@ -86,23 +88,26 @@ function cast(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMoved=fa
     const result=castMove(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMoved});
     rampage.finish(p,move?.ename,{before,hit:result.inflicted>0,random:()=>.5,
         confuse:()=>{engine.applyStatus(p,'confusion',side,[],{attacker:p,battleState:state,ignoreSafeguard:true,turns:2});activate(p,other,state);}});
+    if (move) sequences.finish(p,{moveName:move.ename,move,success:result.useful,hits:result.inflicted>0?1:0,effectiveness:1},state);
+    sequences.recordFaint(p,side,state);sequences.recordFaint(other,otherSide,state);
     return result;
 }
 function castMove(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMoved=false}={}) {
     if(!alive(p)||!alive(other)||!move)return {useful:false,accuracy:0};
     if(move.combat.damage_class==='status'&&p.__battle.tauntTurns>0)return {useful:false,accuracy:0};
     if(p.__battle.encoreTurns>0&&p.__battle.encoreMove&&p.__battle.encoreMove!==move.ename)return {useful:false,accuracy:0};
-    const availability=actionAvailability(p,move),hitChance=ctx.chance(move,p,other,state)*availability;
+    const availability=actionAvailability(p,move),hitChance=(move.ename==='Pursuit'&&pursuit.switching(state,other)?1:ctx.chance(move,p,other,state))*availability;
     if(!availability)return {useful:false,accuracy:0};
     if(engine.movePhase(p,move.ename,state,other)==='prepare'){const rule=twoTurn.rule(move.ename);p.__battle.chargeMove=move.ename;p.__battle.chargeTurns=1;if(rule?.state)p.__battle.semiInvulnerable=rule.state;return {useful:true,recognized:true,accuracy:hitChance};}
     const flags=abilities.getMoveFlags(move),damaging=move.combat.damage_class!=='status',wasSubstitute=other.__battle.substituteHp>0;
     let useful=false,inflicted=0,painSplitApplied=false,recognized=damaging||move.ename==='Rest';
-    const slot=p.abilities.indexOf(move.ename);if(slot>=0&&!rampage.current(p))p.movePp[slot]=Math.max(0,(p.movePp[slot]??1)-1);
+    const slot=p.abilities.indexOf(move.ename);if(slot>=0&&!rampage.current(p)&&!sequences.rolling(p))p.movePp[slot]=Math.max(0,(p.movePp[slot]??1)-1);
     p.__battle.lastMoveUsed=move.ename;
     if(held.effect(p,state)?.startsWith('choice_'))p.__battle.choiceMove ||= move.ename;
     const failure=moveDamageRules.failure(move,p,other,state,{types});
     p.__battle.usedMoves=(p.__battle.usedMoves||[]).filter(name=>p.abilities.includes(name));if(p.abilities.includes(move.ename)&&!p.__battle.usedMoves.includes(move.ename))p.__battle.usedMoves.push(move.ename);
     if(failure){p.__battle.lastMoveFailed=true;p.__battle.lastMoveResultTurn=state.turn;return {useful:false,recognized:true,accuracy:hitChance,inflicted:0};}
+    sequences.begin(move,state);
     if(damaging) {
         let resolved=engine.resolveWeatherMove(move,p,other,state);
         if(state.field.ionDelugeTurns>0&&resolved.type==='Normal')resolved={...resolved,type:'Electric'};
@@ -111,6 +116,7 @@ function castMove(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMove
         const blocked=abilities.resolveMoveAbilityImmunity({attacker:p,defender:other,move:resolved,battleState:state,effectiveness,
             movePriority:engine.getMovePriority(move.ename,p),heal,changeStage:(target,stat,n)=>engine.applyStageChange(target,stat,n,[],target)});
         let raw=blocked?0:ctx.damage(p,other,move,otherSide,state,{movedLast:alreadyMoved});
+        const thrownItem=move.ename==='Fling'?resources.getItemDefinition(p.heldItem):null;
         if(move.ename==='Sucker Punch'&&(!reply||(reply.combat.damage_class==='status'&&reply.ename!=='Me First')||alreadyMoved||other.__battle.rechargeMove))raw=0;
         if(['Fake Out','First Impression'].includes(move.ename)&&p.__battle.activeMoveActions>0)raw=0;
         if(move.ename==='False Swipe')raw=Math.min(raw,Math.max(0,other.currentHp-1));
@@ -119,7 +125,9 @@ function castMove(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMove
         const guardChance=moveGuards.breaksProtection(move)?0:guard.get(other)||0;
         const hit=damageTarget(other,raw*hitChance*(1-guardChance),p,move,state);
         inflicted=hit.total;useful=inflicted>0;
-        if(inflicted>0&&['Fling','Natural Gift'].includes(move.ename))consume(p,state,{eaten:false});
+        if(inflicted>0&&thrownItem)consume(p,state,{eaten:false});
+        if(inflicted>0&&move.ename==='Natural Gift')consume(p,state,{eaten:false});
+        if(hit.hp>0&&thrownItem){activate(other,p,state);engine.applyThrownBerry(other,thrownItem,state,[]);}
         if(moveDamageRules.CRASH_MOVES.has(move.ename)&&ability(p)!=='Magic Guard') {
             const crashChance=Math.max(0,availability-(raw>0?hitChance*(1-guardChance):0));
             hp(p,p.currentHp-Math.max(1,Math.floor(p.maxHp/2))*crashChance);
@@ -278,20 +286,37 @@ function endTurn(p,other,state,{switched=false}={}) {
     if(alive(p)&&ability(p)==='Speed Boost'&&!switched)engine.applyStageChange(p,'speed',1,[],p);
     activate(p,other,state);
 }
-function project(a,b,move,reply,ctx,{switched=false,first=true,ownSwitched=false}={}) {
-    const own=copy(a),foe=copy(b),field={...ctx.field,...(Array.isArray(ctx.field.berryEaters)?{berryEaters:[...ctx.field.berryEaters]}:{}),weather:{...ctx.field.weather},terrain:{...ctx.field.terrain},field:{...ctx.field.field},sides:{}};
+function project(a,b,move,reply,ctx,{switched=false,first=true,ownSwitched=false,ownOutgoing=null,foeOutgoing=null}={}) {
+    let own=copy(a),foe=copy(b);
+    const field={...ctx.field,...(Array.isArray(ctx.field.berryEaters)?{berryEaters:[...ctx.field.berryEaters]}:{}),weather:{...ctx.field.weather},terrain:{...ctx.field.terrain},field:{...ctx.field.field},sides:{}};
     for(const key of ['player','enemy']){const side=ctx.field.sides[key];field.sides[key]={...side,screens:{...side.screens},hazards:{...side.hazards},protectTeam:{...side.protectTeam},wish:side.wish?{...side.wish}:null};}
     const side=ctx.ownSide===ctx.field.sides.player?field.sides.player:field.sides.enemy,enemySide=side===field.sides.player?field.sides.enemy:field.sides.player;
     const guard=new Map();let action={useful:false,accuracy:1},response={useful:false,accuracy:1};
-    if(first) {action=cast(own,foe,move,reply,side,enemySide,field,ctx,guard);if(!switched)response=cast(foe,own,reply,move,enemySide,side,field,ctx,guard,{alreadyMoved:true});}
+    let withdrawalScore=0,foeIntercepted=false,ownIntercepted=false;
+    if(switched&&move?.ename==='Pursuit'&&foeOutgoing) {
+        foeIntercepted=true;
+        const outgoing=copy(foeOutgoing);field[pursuit.SWITCHING]=outgoing.uuid;outgoing.__battle.destinyBond=false;
+        action=cast(own,outgoing,move,null,side,enemySide,field,ctx,guard);
+        delete field[pursuit.SWITCHING];
+        withdrawalScore=100*(foeOutgoing.currentHp-outgoing.currentHp)/Math.max(1,outgoing.maxHp);
+        if(!alive(outgoing))foe=outgoing;
+    } else if(ownSwitched&&!switched&&reply?.ename==='Pursuit'&&ownOutgoing) {
+        ownIntercepted=true;
+        const outgoing=copy(ownOutgoing);field[pursuit.SWITCHING]=outgoing.uuid;outgoing.__battle.destinyBond=false;
+        response=cast(foe,outgoing,reply,null,enemySide,side,field,ctx,guard);
+        delete field[pursuit.SWITCHING];
+        withdrawalScore=-90*(ownOutgoing.currentHp-outgoing.currentHp)/Math.max(1,outgoing.maxHp);
+        if(!alive(outgoing))own=outgoing;
+    } else if(first) {action=cast(own,foe,move,reply,side,enemySide,field,ctx,guard);if(!switched)response=cast(foe,own,reply,move,enemySide,side,field,ctx,guard,{alreadyMoved:true});}
     else {if(!switched)response=cast(foe,own,reply,move,enemySide,side,field,ctx,guard);action=cast(own,foe,move,reply,side,enemySide,field,ctx,guard,{alreadyMoved:true});}
     endTurn(own,foe,field,{switched:ownSwitched});endTurn(foe,own,field,{switched});
+    sequences.recordFaint(own,side,field);sequences.recordFaint(foe,enemySide,field);
     for(const p of[own,foe])for(const key of['laserFocusTurns','soundBlockedTurns','encoreTurns'])if(p.__battle[key]>0)p.__battle[key]--;
     for(const group of[field.field,side.screens,enemySide.screens])for(const key of Object.keys(group))if(key.endsWith('Turns')&&group[key]>0)group[key]--;
     for(const group of[field.weather,field.terrain])if(group.turns>0&&--group.turns===0)group.kind=null;
     field.turn++;
-    const health=100*((own.currentHp-a.currentHp)/Math.max(1,a.maxHp))*.9+100*((b.currentHp-foe.currentHp)/Math.max(1,b.maxHp));
-    const score=health+(!alive(foe)?100:0)-(!alive(own)?150:0);
+    const health=(ownIntercepted?0:100*((own.currentHp-a.currentHp)/Math.max(1,a.maxHp))*.9)+(foeIntercepted?0:100*((b.currentHp-foe.currentHp)/Math.max(1,b.maxHp)));
+    const score=health+withdrawalScore+(!alive(foe)?100:0)-(!alive(own)?150:0);
     return {own,foe,field,side,enemySide,score,action,response};
 }
 module.exports={project,protectionChance,activate,endTurn,copy,types};

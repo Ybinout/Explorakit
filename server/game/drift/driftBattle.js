@@ -14,7 +14,8 @@ const { switchPokemonByIndex, resolveMoveSwitches, autoSwitchPokemon, hasAlivePo
 const { serializeMoveResult, serializeFieldState, prepareMoveAnimation, afterActionMessages } = require('../battle/battleEvents');
 const { getMoveFlags } = require('../abilities/abilityEngine');
 const { calculateBattleExperience, reduceActiveOverlevelExperience, EXPEDITION_EXPERIENCE_MULTIPLIERS } = require('../models/progression');
-const { planTurnActions } = require('../battle/turnActions');
+const { planTurnActions, hasActedThisTurn } = require('../battle/turnActions');
+const pursuit = require('../battle/pursuit');
 const { effortYield, grantParticipantEffort } = require('../models/training');
 const economy = require('./economy');
 const report = require('./runReport');
@@ -342,6 +343,8 @@ class DriftBattle {
         for (const [i,p] of actors.entries()) {
             const action = this.pending.get(p);
             if (action?.action === 'change' && engine.canSwitchOut(this.active(i), this.active(1-i), this.state)) {
+                this.interceptSwitch(i);
+                if (effects.isDead(this.active(i))) continue;
                 if (p === this.b && p.npc && this.aiMemory) this.aiMemory.lastSwitchRound = this.round;
                 switchPokemonByIndex(p.equipe, action.number); this.enter(i,true); this.prune({deferReplacement:true}); this.sync();
             }
@@ -375,11 +378,17 @@ class DriftBattle {
         this.resolveAttacks(ordered.filter(a=>this.pending.get(a.p)?.action==='attack')
             .map(a=>({index:a.index,pokemonUuid:a.pokemon.uuid,name:a.name})));
     }
-    resolveAttacks(actions) {
+    interceptSwitch(index) {
+        const pursuer = this.active(1-index);
+        return pursuit.intercept(this.state,this.active(index),pursuer,() => this.resolveAttacks([
+            {index:1-index,pokemonUuid:pursuer.uuid,name:'Pursuit'}
+        ],{finishRound:false}));
+    }
+    resolveAttacks(actions, {finishRound = true} = {}) {
         const actors = [this.a,this.b];
         for (const [offset, action] of actions.entries()) {
             const { index, pokemonUuid, name } = action, p = actors[index], pokemon = this.active(index);
-            if (pokemon?.uuid !== pokemonUuid || effects.isDead(pokemon)) continue;
+            if (pokemon?.uuid !== pokemonUuid || effects.isDead(pokemon) || hasActedThisTurn(this.state,pokemon)) continue;
             const defender = this.active(1-index); if (!defender || effects.isDead(defender)) continue;
             const animation = prepareMoveAnimation(pokemon,defender,name,this.state);
             const result = this.withDriftSignals(()=>engine.useattack(name,pokemon,defender,{ battleState:this.state, attackerSide:this.sides[index],defenderSide:this.sides[1-index],attackerTeam:p.equipe.pokemons,defenderTeam:actors[1-index].equipe.pokemons }), resolved => {
@@ -399,6 +408,7 @@ class DriftBattle {
             afterActionMessages(result).forEach(m=>this.say(m));
             for (const [view,viewer] of actors.entries()) if(!viewer.npc) this.emit(viewer,'battleMoveResult',serializeMoveResult(view===index?'player':'opponent',result));
             this.sync(); // Damage and K.O. belong to the outgoing sprites, before XP or replacement.
+            if (result.switchSelf && p.equipe.pokemons.some(candidate => candidate !== pokemon && !effects.isDead(candidate))) this.interceptSwitch(index);
             let attackerIndex;
             if (result.chooseSwitch && result.switchSelf && !effects.isDead(pokemon)) {
                 if (!p.npc) {
@@ -417,6 +427,7 @@ class DriftBattle {
             this.prune({deferReplacement:true}); this.sync();
             if(result.escape && this.type==='wild') {this.escapeActor=index===0?'player':'opponent';this.finish(null,'fled'); return;}
         }
+        if (!finishRound) return;
         this.withDriftSignals(()=>engine.processEndOfRound(this.active(0),this.active(1),this.sides[0],this.sides[1],this.state)).forEach(m=>this.say(m));
         this.withDriftSignals(()=>{effects.endTurn(this.active(0));effects.endTurn(this.active(1));});this.prune();
         if (!this.checkEnd()) { this.sync(); this.nextRoundAt = this.now() + this.paceMs; }
