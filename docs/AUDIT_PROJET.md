@@ -1,5 +1,17 @@
 # Audit technique et mémoire de RiftMon
 
+## Glisser-déposer des objets tenus — 31 octobre 2026
+
+Dans la liste d’équipe, une icône colorée représente l’objet tenu. La glisser sur un coéquipier transfère l’objet si son emplacement est vide, ou échange les deux objets. Le Pokémon conserve sa place ; les déplacements d’équipe gardent leur poignée et leur fonctionnement. Souris et pointeur tactile utilisent le même contrôleur, avec seuil de mouvement, aperçu, cible surlignée, défilement de bord et annulation. Sur mobile, seule l’icône d’objet capture ce geste, pour préserver le défilement des cartes ; un clic simple conserve le sélecteur existant. Les objets ne sont pas modifiables pendant un combat ni une tentative du Super Tournoi.
+
+Nouvel événement authentifié `transferHeldItem`, avec identité de compte issue de la session, UUID source/cible et objets attendus. Le serveur vérifie l’équipe en mémoire et en SQL, refuse les Œufs, cibles étrangères, mêmes objets et états obsolètes. Verrou d’inventaire pendant l’opération ; verrou de ligne utilisateur et de négociation d’échange, puis une mise à jour SQL des deux emplacements dans la même transaction. Aucun passage intermédiaire par le sac, modification de quantité, d’ordre ou de ressources. Un second envoi du même geste est refusé au lieu d’inverser l’échange. La mémoire est modifiée et publiée seulement après validation SQL ; en cas d’échec le client recharge l’équipe autoritaire et affiche le refus. Instantané du geste étendu aux objets tenus pour annuler un drag devenu périmé. Branche partagée des expéditions raccordée, sans rouvrir Rift/Colosseum.
+
+Validation : 17 tests unitaires/régression et cinq SQL réussis, sans échec/saut. Transfert vers un emplacement vide, échange, Pokémon K.O., refus de faux UUID/équipe/objet, rejeu et commandes simultanées, verrou d’échange ami, sauvegarde en attente/échouée et annulation de drag vérifiés. Recette sur vrai serveur isolé et `explorakit_test`, Chromium/WebKit Linux : vrais gestes souris, transfert tactile synthétique, dépôts sans effet, refus obsolète et rechargement, clic simple ouvrant le sélecteur, réorganisation d’équipe conservée, ressources et sac identiques, persistance après reconnexion. Six formats de 1024×600 à 1920×1080 et 393×852/844×390, thèmes clair/nocturne, sixième Pokémon accessible ; captures inspectées, zéro erreur navigateur et comptes jetables supprimés. Pas de téléphone physique ni de tentative réelle dans les modes fermés revendiqués. Lint, build isolé et syntaxe/diff valides.
+
+Rapport : `docs/HELD_ITEM_TRANSFER_2026-10-31.json`. Recette : `DB_TEST_NAME=explorakit_test npm run test:held-transfer-browser` (ajouter `PRESENTATION_BROWSER=webkit`). SQL : `RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test node --env-file-if-exists=.env --test tests/held-item-transfer-mysql.test.js`. Aucune migration ni modification manuelle d’un compte réel.
+
+Client et serveur publiés le 31 octobre 2026 à 14 h 29 (Europe/Paris), client `3c54198962d807b467ab8b63b10b1910846fce1d`, build `fd9f0702d67cad9b`. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-held-transfer-2026-10-31T13-29-32-074Z`. PID 3579326→3588707, service actif, zéro redémarrage automatique/avertissement. Index et 22 bundles/CSS HTTPS vérifiés à l’octet ; anciens assets conservés, namespace Rift fermé et checkpoint inchangé, zéro expédition active au contrôle. Knov/api-test inchangés.
+
 ## Cadrage des portables et fenêtres courtes — 31 octobre 2026
 
 Le cadre de jeu PC utilise désormais la largeur et la hauteur disponibles, après mesure de son en-tête. La marge supérieure de 5 % liée à la largeur de fenêtre est remplacée par un centrage avec 12 px de réserve verticale. Le monde conserve son ratio 7:5, sa résolution native maximale de 896 px en mode fenêtré et ses coordonnées ; aucune transformation CSS ni découpe de carte. Le plein écran peut toujours agrandir le monde. La mesure réutilise le ResizeObserver existant, étendu au conteneur ; les variables ne sont écrites que si elles changent, dans une frame différée et regroupée pour éviter les avertissements de boucle WebKit. Un travail en attente est annulé au démontage. Une barre plus haute réduit automatiquement la carte, sans boucle par frame.
@@ -5393,6 +5405,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 31 octobre 2026 — Transfert/échange d’objets tenus par glisser-déposer dans l’équipe, icônes colorées et garde contre rejeu ; transaction SQL atomique, 17 tests unitaires et cinq SQL, recettes Chromium/WebKit PC/tactile. `docs/HELD_ITEM_TRANSFER_2026-10-31.json`.
 
 - 31 octobre 2026 — Cadre PC ajusté à la hauteur et à la largeur disponibles ; combats, menus et dialogues accessibles sur fenêtres courtes, mobile et plein écran préservés. 16 tests et recette Chromium/WebKit ; `docs/LAPTOP_VIEWPORT_2026-10-31.json`.
 

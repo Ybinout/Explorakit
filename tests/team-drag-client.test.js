@@ -1,6 +1,6 @@
 const test = require('node:test'), assert = require('node:assert/strict');
 
-async function fixture() {
+async function fixture(customSnapshot = false) {
     const { createTeamDrag } = await import('../vue-explorakit/src/services/teamDrag.js');
     const saved = Object.fromEntries(['window', 'document', 'requestAnimationFrame', 'cancelAnimationFrame'].map(key => [key, Object.getOwnPropertyDescriptor(globalThis, key)]));
     const frames = new Map(), listeners = new Set(); let serial = 0;
@@ -11,14 +11,14 @@ async function fixture() {
         return object;
     }
     const window = target(), document = target(), root = target(), changes = [], drops = [];
-    const state = { allowed: true, roster: ['a', 'b', 'c'], target: 'b', ended: 0, captures: 0 };
+    const state = { allowed: true, roster: ['a', 'b', 'c'], target: 'b', ended: 0, captures: 0, revision: 0, dropAllowed: true };
     const list = { scrollTop: 0, getBoundingClientRect: () => ({ left: 0, right: 200, top: 0, bottom: 200 }) };
     Object.assign(root, { isConnected: true, contains: node => node.inside, querySelector: () => list,
         setPointerCapture: () => state.captures++, releasePointerCapture: () => state.captures-- });
     document.elementFromPoint = () => state.target ? { closest: () => ({ dataset: { teamUuid: state.target }, inside: state.target !== 'outside' }) } : null;
     document.hidden = false;
     Object.assign(globalThis, { window, document, requestAnimationFrame: fn => { frames.set(++serial, fn); return serial; }, cancelAnimationFrame: id => frames.delete(id) });
-    const drag = createTeamDrag({ root, roster: () => state.roster, allowed: () => state.allowed, changed: value => changes.push(value), drop: (...ids) => drops.push(ids), ended: () => state.ended++ });
+    const drag = createTeamDrag({ root, roster: () => state.roster, snapshot: customSnapshot ? () => [state.roster,state.revision] : undefined, canDrop: () => state.dropAllowed, allowed: () => state.allowed, changed: value => changes.push(value), drop: (...ids) => drops.push(ids), ended: () => state.ended++ });
     const pointer = (type, props = {}) => Object.assign(new Event(type, { cancelable: true }), { pointerId: 1, button: 0, isPrimary: true, clientX: 50, clientY: 50 }, props);
     const send = (type, props) => window.dispatchEvent(pointer(type, props));
     return { root, state, list, drag, changes, drops, frames, listeners, pointer, send, window, document,
@@ -76,5 +76,18 @@ test('team drag: unrelated pointers and invalid starts cannot steal the gesture;
         f.drag.start(f.pointer('pointerdown'), 'a'); f.send('pointerup', { pointerId: 2 });
         f.send('pointermove', { clientY: 195 }); f.tick(); assert.equal(f.list.scrollTop, 8); assert.equal(f.frames.size, 1);
         f.send('pointerup', { clientY: 195 }); assert.deepEqual(f.drops, [['a', 'b']]); assert.equal(f.frames.size, 0);
+    } finally { f.close(); }
+});
+test('item drag: a changed held-item snapshot cancels even when roster and order remain identical', async () => {
+    const f = await fixture(true); try {
+        f.drag.start(f.pointer('pointerdown'), 'a'); f.send('pointermove', {clientX:100}); f.tick();
+        f.state.revision++; f.send('pointerup', {clientX:100});
+        assert.deepEqual(f.drops,[]); assert.equal(f.listeners.size,0); assert.equal(f.frames.size,0);
+    } finally { f.close(); }
+});
+test('item drag: ineligible targets have no drop highlight and never receive a command', async () => {
+    const f = await fixture(true); try {
+        f.state.dropAllowed=false; f.drag.start(f.pointer('pointerdown'), 'a'); f.send('pointermove', {clientX:100}); f.tick();
+        assert.equal(f.changes.at(-1).to,null); f.send('pointerup', {clientX:100}); assert.deepEqual(f.drops,[]);
     } finally { f.close(); }
 });

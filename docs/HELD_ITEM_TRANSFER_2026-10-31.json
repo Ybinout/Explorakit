@@ -1,0 +1,350 @@
+{
+  "date": "2026-10-31",
+  "scope": "Drag held-item icons within the party to gift to an empty slot or atomically swap two items.",
+  "sourceBaseline": "fcb1e73f5c095fb287d3f29c2cdfedf94e040b36",
+  "clientCommit": "3c54198962d807b467ab8b63b10b1910846fce1d",
+  "clientBuild": "fd9f0702d67cad9b",
+  "runtimeSourceSha256": {
+    "server/persistence/itemRepository.js": "5c684dd373b1def081bc02c3e5b76416bd53ba91c12a58188d796b3cc4779355",
+    "server/realtime/driftLobbyHandler.js": "78c1cbdb7c25881761bc81c8effc1b18a9f38383c4c4eaab0c13c8c87e451ceb",
+    "server/realtime/socketHandler.js": "d361f1bbbb181c24233bde8daf4bbf37e1032c2633c886c85283293a4b2590e5",
+    "server/game/items/heldItemTransfer.js": "82ac8dca4e5fd29e05a2715b750a8a69738c8d11e11f215b68a94744d597963e",
+    "server/realtime/handlers/heldItemTransferHandlers.js": "17816f58c15a9e1560b9d3914c26cc649594054688fc3ab8bd47b11f2ca2aa9f"
+  },
+  "protocol": {
+    "event": "transferHeldItem",
+    "authenticatedIdentity": "Current account lease; user ID never accepted from payload",
+    "payload": [
+      "teamId",
+      "sourceUuid",
+      "targetUuid",
+      "sourceItem",
+      "targetItem"
+    ],
+    "reply": [
+      "success",
+      "transfers"
+    ],
+    "transaction": "User row lock, friend trade lock, both owned active slots locked; expected item comparison and one UPDATE for both slots; no bag writes",
+    "replay": "Stale expected items rejected",
+    "preserved": [
+      "party order",
+      "bag quantities",
+      "HP",
+      "PP",
+      "experience",
+      "moves",
+      "IV/EV/K",
+      "other Pokémon resources"
+    ],
+    "restricted": [
+      "battle",
+      "busy inventory",
+      "scene transition/dialogue",
+      "Super Tournament",
+      "foreign party or Pokémon",
+      "eggs",
+      "empty source",
+      "identical items"
+    ],
+    "drift": "Shared validation plan connected to existing mutable command/checkpoint; closed modes remain closed."
+  },
+  "validation": {
+    "unit": {
+      "passed": 17,
+      "failed": 0,
+      "skipped": 0,
+      "command": "node --test --test-concurrency=1 tests/held-item-transfer.test.js tests/team-drag-client.test.js tests/team-order-handler.test.js tests/viewport-fit.test.js"
+    },
+    "sql": {
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0,
+      "command": "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test node --env-file-if-exists=.env --test tests/held-item-transfer-mysql.test.js"
+    },
+    "browser": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "realMouseSwap": true,
+        "giftToEmpty": true,
+        "sameAndOutsideIgnored": true,
+        "staleDragRejected": true,
+        "ordinaryClickPicker": true,
+        "syntheticTouchTransfer": true,
+        "teamOrderDragPreserved": true,
+        "resourcesAndBagPreserved": true,
+        "reloadPersisted": true,
+        "mobileSixthAccessible": true,
+        "views": [
+          {
+            "viewport": {
+              "width": 1920,
+              "height": 1080
+            },
+            "panel": {
+              "x": 524,
+              "y": 276.8046875,
+              "right": 1396,
+              "bottom": 803.1953125,
+              "width": 872,
+              "horizontal": 0
+            }
+          },
+          {
+            "viewport": {
+              "width": 1536,
+              "height": 680
+            },
+            "panel": {
+              "x": 366,
+              "y": 65.2890625,
+              "right": 1170,
+              "bottom": 614.6796875,
+              "width": 804,
+              "horizontal": 0
+            }
+          },
+          {
+            "viewport": {
+              "width": 1280,
+              "height": 660
+            },
+            "panel": {
+              "x": 252,
+              "y": 55.2890625,
+              "right": 1028,
+              "bottom": 604.6796875,
+              "width": 776,
+              "horizontal": 0
+            }
+          },
+          {
+            "viewport": {
+              "width": 1024,
+              "height": 600
+            },
+            "panel": {
+              "x": 166,
+              "y": 24.2734375,
+              "right": 858,
+              "bottom": 575.6953125,
+              "width": 692,
+              "horizontal": 0
+            }
+          },
+          {
+            "viewport": {
+              "width": 393,
+              "height": 852
+            },
+            "panel": {
+              "x": 12,
+              "y": 76,
+              "right": 381,
+              "bottom": 836,
+              "width": 369,
+              "horizontal": 0
+            }
+          },
+          {
+            "viewport": {
+              "width": 844,
+              "height": 390
+            },
+            "panel": {
+              "x": 402,
+              "y": 76,
+              "right": 832,
+              "bottom": 378,
+              "width": 430,
+              "horizontal": 0
+            }
+          }
+        ],
+        "errors": [],
+        "closedModesPreserved": true,
+        "output": "/tmp/riftmon-held-transfer-chromium"
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "realMouseSwap": true,
+        "giftToEmpty": true,
+        "sameAndOutsideIgnored": true,
+        "staleDragRejected": true,
+        "ordinaryClickPicker": true,
+        "syntheticTouchTransfer": true,
+        "teamOrderDragPreserved": true,
+        "resourcesAndBagPreserved": true,
+        "reloadPersisted": true,
+        "mobileSixthAccessible": true,
+        "views": [
+          {
+            "viewport": {
+              "width": 1920,
+              "height": 1080
+            },
+            "panel": {
+              "x": 524,
+              "y": 288.5,
+              "right": 1396,
+              "bottom": 791.890625,
+              "width": 872,
+              "horizontal": 0
+            }
+          },
+          {
+            "viewport": {
+              "width": 1536,
+              "height": 680
+            },
+            "panel": {
+              "x": 366,
+              "y": 65.484375,
+              "right": 1170,
+              "bottom": 614.875,
+              "width": 804,
+              "horizontal": 0
+            }
+          },
+          {
+            "viewport": {
+              "width": 1280,
+              "height": 660
+            },
+            "panel": {
+              "x": 252,
+              "y": 55.484375,
+              "right": 1028,
+              "bottom": 604.875,
+              "width": 776,
+              "horizontal": 0
+            }
+          },
+          {
+            "viewport": {
+              "width": 1024,
+              "height": 600
+            },
+            "panel": {
+              "x": 166,
+              "y": 24.484375,
+              "right": 858,
+              "bottom": 575.90625,
+              "width": 692,
+              "horizontal": 0
+            }
+          },
+          {
+            "viewport": {
+              "width": 393,
+              "height": 852
+            },
+            "panel": {
+              "x": 12,
+              "y": 76,
+              "right": 381,
+              "bottom": 836,
+              "width": 369,
+              "horizontal": 0
+            }
+          },
+          {
+            "viewport": {
+              "width": 844,
+              "height": 390
+            },
+            "panel": {
+              "x": 402,
+              "y": 76,
+              "right": 832,
+              "bottom": 378,
+              "width": 430,
+              "horizontal": 0
+            }
+          }
+        ],
+        "errors": [],
+        "closedModesPreserved": true,
+        "output": "/tmp/riftmon-held-transfer-webkit"
+      }
+    },
+    "lint": "passed",
+    "build": "passed",
+    "syntax": "passed",
+    "diff": "passed",
+    "testDatabase": "explorakit_test",
+    "disposableAccountsDeleted": true,
+    "screenshotsInspected": [
+      "dragging.png",
+      "team-1536.png",
+      "team-393.png",
+      "team-night.png"
+    ]
+  },
+  "limits": [
+    "Chromium/WebKit Linux headless; no physical phone tested. Touch path uses synthetic PointerEvents.",
+    "Rift/Colosseum stay closed; no live expedition browser run claimed."
+  ],
+  "reproduce": [
+    "DB_TEST_NAME=explorakit_test npm run test:held-transfer-browser",
+    "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=webkit npm run test:held-transfer-browser"
+  ],
+  "schemaChanges": false,
+  "realAccountsManuallyModified": false,
+  "deployment": {
+    "publishedAt": "2026-10-31T13:29:36.203Z",
+    "restartedAt": "2026-10-31T13:29:33.532Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-held-transfer-2026-10-31T13-29-32-074Z",
+    "sourceBaseline": "fcb1e73f5c095fb287d3f29c2cdfedf94e040b36",
+    "sourceHashes": {
+      "server/persistence/itemRepository.js": "5c684dd373b1def081bc02c3e5b76416bd53ba91c12a58188d796b3cc4779355",
+      "server/realtime/driftLobbyHandler.js": "78c1cbdb7c25881761bc81c8effc1b18a9f38383c4c4eaab0c13c8c87e451ceb",
+      "server/realtime/socketHandler.js": "d361f1bbbb181c24233bde8daf4bbf37e1032c2633c886c85283293a4b2590e5",
+      "server/game/items/heldItemTransfer.js": "82ac8dca4e5fd29e05a2715b750a8a69738c8d11e11f215b68a94744d597963e",
+      "server/realtime/handlers/heldItemTransferHandlers.js": "17816f58c15a9e1560b9d3914c26cc649594054688fc3ab8bd47b11f2ca2aa9f"
+    },
+    "clientCommit": "3c54198962d807b467ab8b63b10b1910846fce1d",
+    "clientBuild": "fd9f0702d67cad9b",
+    "beforePid": "3579326",
+    "afterPid": "3588707",
+    "serverRestarted": true,
+    "schemaChanged": false,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "checkpointUnchangedWhileDisabled": true,
+    "namespaceClosed": true,
+    "neighborsUnchanged": true,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.f5ca3bcb.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.d31b51bb.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.2fd32f7c.js",
+      "js/drift.5b8720d7.js",
+      "js/game.32b55bd5.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.de3bb7ec.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.ea884799.css",
+      "css/test-view.7568246d.css"
+    ],
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0
+  }
+}

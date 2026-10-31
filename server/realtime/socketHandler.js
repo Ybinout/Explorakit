@@ -766,6 +766,9 @@ const socketHandler = (io) => {
             synchronize:synchronizeTradeInventory
         });
         registerPlayerProfileHandlers({ socket, io, players, userId });
+        require('./handlers/heldItemTransferHandlers').registerHeldItemTransferHandlers({socket,userId,getPlayer:()=>players[socket.id],
+            canUse:()=>!tournament?.controller.active&&!transitionBusy&&!interactionBusy&&!pendingDialogue&&!players[socket.id]?.isInteracting
+        });
         require('./handlers/trainerPaletteHandlers').registerTrainerPaletteHandlers({socket,userId,getPlayer:()=>players[socket.id],broadcast:(p,palette)=>{
             for(const peer of Object.values(players))if(peer.currentmap===p.currentmap)io.to(peer.id).emit('playerPaletteUpdated',{id:p.id,palette});
         }});

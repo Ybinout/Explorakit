@@ -224,6 +224,14 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
         });
         gameCommand('buyShopItem', (p, data) => economy.buy(p, data?.itemKey, data?.quantity));
         gameCommand('sellShopItem', (p, data) => economy.sell(p, data?.itemKey, data?.quantity));
+        gameCommand('transferHeldItem', (p, data) => {
+            economy.requireMutable(p);
+            const transfers = require('../game/items/heldItemTransfer').planHeldItemTransfer(p.equipe.pokemons, data);
+            for (const { pokemonUuid, heldItem } of transfers) p.equipe.pokemons.find(poke => poke.uuid === pokemonUuid).heldItem = heldItem;
+            p.ready = false;
+            require('../game/drift/runReport').syncTeam(p);
+            return { success: true, transfers };
+        });
         gameCommand('equipHeldItem', (p, data) => {
             economy.requireMutable(p);
             const poke = p.equipe.pokemons.find(poke => poke.uuid === data?.pokemonUuid);

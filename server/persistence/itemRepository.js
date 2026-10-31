@@ -230,6 +230,33 @@ async function equipHeldItem(userId, teamId, pokemonUuid, itemKey) {
     });
 }
 
+async function transferHeldItem(userId, teamId, payload) {
+    if (!Number.isInteger(userId) || userId <= 0 || !Number.isInteger(teamId) || teamId <= 0 ||
+        typeof payload?.sourceUuid !== 'string' || typeof payload?.targetUuid !== 'string')
+        throw Error('Déplacement d’objet invalide.');
+    return withTransaction(async connection => {
+        const [users] = await connection.execute('SELECT id FROM users WHERE id=? FOR UPDATE', [userId]);
+        if (!users.length) throw Error('Utilisateur introuvable.');
+        require('../game/social/tradeLocks').assertUnlocked(userId);
+        const [rows] = await connection.execute(
+            `SELECT p.uuid, p.held_item FROM pokemons p JOIN teams t ON t.id=p.team_id
+             WHERE p.team_id=? AND t.user_id=? AND p.uuid IN (?,?) ORDER BY p.uuid FOR UPDATE`,
+            [teamId, userId, payload.sourceUuid, payload.targetUuid]
+        );
+        const transfers = require('../game/items/heldItemTransfer').planHeldItemTransfer(
+            rows.map(p => ({ uuid: p.uuid, heldItem: p.held_item })), payload
+        );
+        // One statement and transaction for both slots; no bag debit or credit.
+        await connection.execute(
+            `UPDATE pokemons SET held_item=CASE uuid WHEN ? THEN ? WHEN ? THEN ? END
+             WHERE team_id=? AND uuid IN (?,?)`,
+            [transfers[0].pokemonUuid, transfers[0].heldItem, transfers[1].pokemonUuid, transfers[1].heldItem,
+                teamId, payload.sourceUuid, payload.targetUuid]
+        );
+        return transfers;
+    });
+}
+
 async function sellUserItem(userId,itemKey,quantity=1,context={}){
     if(!Number.isInteger(userId)||userId<=0)return {success:false,reason:'invalid_user'};
     if(!Number.isInteger(quantity)||quantity<1||quantity>99)return {success:false,reason:'invalid_quantity'};
@@ -249,6 +276,7 @@ async function sellUserItem(userId,itemKey,quantity=1,context={}){
 }
 
 module.exports = {
+    transferHeldItem,
     equipHeldItem,
     getPurchasableItem,
     loadUserItems,
