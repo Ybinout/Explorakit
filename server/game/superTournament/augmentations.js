@@ -1,5 +1,6 @@
 const cards=Object.freeze([
- {key:'prize_money_10k',name:'Bourse du challenger',rarity:'common',kind:'money',amount:10000},
+ // Keep the legacy key so saved offers and previously claimed receipts remain valid.
+ {key:'prize_money_10k',name:'Bourse du challenger',rarity:'common',kind:'money',amount:5000},
  {key:'prize_money_25k',name:'Prime du public',rarity:'uncommon',kind:'money',amount:25000},
  {key:'prize_money_50k',name:'Coffre du champion',rarity:'rare',kind:'money',amount:50000},
  {key:'prize_super_candy',name:'Super Bonbon',rarity:'epic',rarityName:'Très rare',kind:'item',itemKey:'rare_candy',quantity:1},

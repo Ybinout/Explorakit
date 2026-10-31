@@ -1,5 +1,14 @@
 # Audit technique et mémoire de RiftMon
 
+## Bourse commune à 5 000 ₽ — 31 octobre 2026
+
+La Bourse du challenger (carte commune) passe de 10 000 à 5 000 ₽ de base. Son identifiant historique `prize_money_10k` reste inchangé pour préserver les tirages sauvegardés et reçus existants. Multiplication par le cycle de seize salles conservée : 5 000 / 10 000 / 15 000 / 20 000 ₽, puis même progression sans plafond. Les autres cartes, chances, pouvoirs et montants déjà versés sont conservés. Le barème fixe des salles était déjà progressif à chaque bloc de seize : 500 000 / 1 M / 1,5 M / 2 M ₽, etc., en supplément des cartes. Description et aperçu de la bourse restent calculés par le serveur ; aucun changement/build client nécessaire.
+
+Validation : 11 tests unitaires/régression et 14 SQL réussis sans échec/saut. Montants selon les cycles et frontières de salles, cycles 1–5 et 20, deux cycles entiers de primes fixes, tarif serveur malgré faux montant client, concurrence, reprise, échec d’écriture, plafonds et conservation à l’abandon vérifiés. Recette économique existante Chromium sur serveur privé et `explorakit_test`, avec le client distribué : bourse à 5 000 ₽ réellement choisie et créditée, autres cartes à leur prix, cumul final 140 000 ₽ pour les fixtures, sac/bonbons, ancienne réponse HTTP, reprise et abandon. Quatre tailles/deux thèmes, 24 vues et zéro erreur navigateur ; compte jetable supprimé. Syntaxe/diff valides. Aucun téléphone physique ni nouvelle recette WebKit revendiqués ; pas de migration ou modification manuelle de compte réel. Rapport : `docs/TOURNAMENT_COMMON_PURSE_2026-10-31.json`.
+
+Serveur publié le 31 octobre 2026 à 23 h 41 (Europe/Paris), PID 3625275→3626392, service actif sans redémarrage automatique/avertissement. Sauvegarde SQL/source/index/checkpoint `/home/ubuntu/dev/backups/riftmon-common-purse-2026-10-31T22-40-53-302Z`. Client `1a942c6c8d3e8c4e1261f803378f02585535e0df` et build `e06807b523bb7893` conservés, index public strictement identique. Aucune migration ni modification manuelle de compte ; Knov/api-test, modes fermés et checkpoint préservés.
+
+
 ## Module de 7p à +18 niveaux — 31 octobre 2026
 
 Le bonus du Module d’expérience activé passe de +15 à +18 niveaux, pour les nouvelles rencontres sauvages en Aventure, pêche comprise. Constante serveur unique et description du catalogue mises à jour ; le sac et la notification affichent désormais la valeur reçue du serveur au lieu d’un +15 écrit en dur. Attribution par 7p, rattrapage des anciens détenteurs, propriété unique, activation personnelle et absence de consommation inchangés. Les détenteurs existants gardent leur interrupteur et bénéficient du nouveau bonus sans réattribution ni modification manuelle de compte. Ni niveau de l’équipe possédée/déjà apparue, ni équipes de dresseurs, ni modes d’expédition modifiés ; pas de migration.
@@ -5604,6 +5613,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 31 octobre 2026 — Bourse commune réduite à 5 000 ₽ × cycle, identifiant et anciens gains préservés. Progression des primes fixes tous les seize combats confirmée ; 11 tests unitaires, 14 SQL et recette Chromium sur le client existant validés. `docs/TOURNAMENT_COMMON_PURSE_2026-10-31.json`.
 
 - 31 octobre 2026 — Module d’expérience de 7p : +18 niveaux au lieu de +15 pour les nouvelles rencontres sauvages et la pêche. Affichages liés à la valeur serveur, anciens détenteurs/interrupteur préservés ; 14 tests unitaires et trois SQL, recette Chromium validés. `docs/EXPERIENCE_MODULE_18_2026-10-31.json`.
 
