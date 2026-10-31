@@ -1,0 +1,256 @@
+{
+  "date": "2026-10-31",
+  "sourceBaseline": "9e9b1d972274cc7fefb689979d609e351edda4f0",
+  "scope": "Seven one-for-one encounter swaps; no levels, encounter rate, species traits or transitions changed",
+  "route9": {
+    "map": "gen_route7",
+    "level": {
+      "min": 42,
+      "max": 44
+    },
+    "poolSize": 20,
+    "retainedHighlights": [
+      "Draby",
+      "Riolu",
+      "Mentali"
+    ],
+    "before": [
+      36,
+      45,
+      97,
+      122,
+      182,
+      189,
+      196,
+      275,
+      282,
+      315,
+      407,
+      414,
+      142,
+      324,
+      371,
+      374,
+      442,
+      443,
+      447,
+      147
+    ],
+    "after": [
+      36,
+      45,
+      97,
+      122,
+      182,
+      189,
+      196,
+      275,
+      75,
+      315,
+      67,
+      414,
+      185,
+      324,
+      371,
+      436,
+      303,
+      449,
+      447,
+      125
+    ],
+    "meanBaseStatTotalBefore": 434.15,
+    "meanBaseStatTotalAfter": 422.75
+  },
+  "swaps": [
+    {
+      "speciesId": 282,
+      "pokemon": "Gardevoir",
+      "destination": "route11",
+      "destinationLabel": "Route 11",
+      "level": {
+        "min": 47,
+        "max": 49
+      },
+      "route9ReplacementId": 75,
+      "route9Replacement": "Gravalanch"
+    },
+    {
+      "speciesId": 407,
+      "pokemon": "Roserade",
+      "destination": "route12",
+      "destinationLabel": "Route 12",
+      "level": {
+        "min": 49,
+        "max": 51
+      },
+      "route9ReplacementId": 67,
+      "route9Replacement": "Machopeur"
+    },
+    {
+      "speciesId": 142,
+      "pokemon": "Ptéra",
+      "destination": "route12",
+      "destinationLabel": "Route 12",
+      "level": {
+        "min": 49,
+        "max": 51
+      },
+      "route9ReplacementId": 185,
+      "route9Replacement": "Simularbre"
+    },
+    {
+      "speciesId": 374,
+      "pokemon": "Terhal",
+      "destination": "route13",
+      "destinationLabel": "Route 13",
+      "level": {
+        "min": 57,
+        "max": 59
+      },
+      "route9ReplacementId": 436,
+      "route9Replacement": "Archéomire"
+    },
+    {
+      "speciesId": 442,
+      "pokemon": "Spiritomb",
+      "destination": "route12",
+      "destinationLabel": "Route 12",
+      "level": {
+        "min": 49,
+        "max": 51
+      },
+      "route9ReplacementId": 303,
+      "route9Replacement": "Mysdibule"
+    },
+    {
+      "speciesId": 443,
+      "pokemon": "Griknot",
+      "destination": "route11",
+      "destinationLabel": "Route 11",
+      "level": {
+        "min": 47,
+        "max": 49
+      },
+      "route9ReplacementId": 449,
+      "route9Replacement": "Hippopotas"
+    },
+    {
+      "speciesId": 147,
+      "pokemon": "Minidraco",
+      "destination": "gen_route6",
+      "destinationLabel": "Route 10",
+      "level": {
+        "min": 44,
+        "max": 46
+      },
+      "route9ReplacementId": 125,
+      "route9Replacement": "Élektek"
+    }
+  ],
+  "validation": {
+    "existingRegressionTests": {
+      "passed": 37,
+      "failed": 0,
+      "skipped": 0
+    },
+    "existingRegionTests": {
+      "passed": 2,
+      "preExistingFailures": 1,
+      "reason": "Region node count expects 26, actual 27; same failure before this patch, no topology changed"
+    },
+    "wildFactory": {
+      "success": true,
+      "samples": [
+        {
+          "map": "gen_route7",
+          "count": 20,
+          "levels": {
+            "min": 42,
+            "max": 44
+          }
+        },
+        {
+          "map": "gen_route6",
+          "count": 13,
+          "levels": {
+            "min": 44,
+            "max": 46
+          }
+        },
+        {
+          "map": "route11",
+          "count": 13,
+          "levels": {
+            "min": 47,
+            "max": 49
+          }
+        },
+        {
+          "map": "route12",
+          "count": 12,
+          "levels": {
+            "min": 49,
+            "max": 51
+          }
+        },
+        {
+          "map": "route13",
+          "count": 11,
+          "levels": {
+            "min": 57,
+            "max": 59
+          }
+        }
+      ],
+      "modulePlus15Preserved": true
+    },
+    "availability": {
+      "total": 493,
+      "direct": 326,
+      "evolutionOnly": 167,
+      "missing": 0,
+      "missingSprites": 0,
+      "forbiddenWild": 0,
+      "allCaptureHabitatsMatch": 326
+    },
+    "allOriginalSpeciesAndSlotCountsPreserved": true,
+    "allOtherMapFieldsUnchanged": true,
+    "newBrowserRunRequired": false,
+    "reasonNoBrowserRun": "No visual or client changes; authoritative habitat comparison and actual wild creation exercised"
+  },
+  "deployment": {
+    "publishedAt": "2026-10-31T19:07:48.776Z",
+    "restartedAt": "2026-10-31T19:07:01.000Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-route9-2026-10-31T19-04-45.082Z",
+    "sourceBaseline": "9e9b1d972274cc7fefb689979d609e351edda4f0",
+    "sourceHash": "0ebf0e3dbb532ce968d5ef8166e320cb14713b783b89c97abb1184da0d28b705",
+    "clientCommit": "5157f375c92b248671002d7702a8d30d95408bc1",
+    "clientBuild": "92b29565b1e2fb6e",
+    "beforePid": "3604889",
+    "afterPid": "3608875",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "activeRuns": 0,
+    "schemaChanged": false,
+    "realAccountsManuallyModified": false,
+    "publicIndexUnchanged": true,
+    "neighborsHttpHealthy": [
+      {
+        "url": "https://app.binout.fr/",
+        "status": 200
+      },
+      {
+        "url": "https://api-test.binout.fr/",
+        "status": 200
+      }
+    ],
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "postChecksResumedWithoutAnotherRestart": true
+  },
+  "commands": {
+    "regressions": "node --test --test-concurrency=1 tests/encounter-variety.test.js tests/pokemon-availability.test.js tests/routes9-10.test.js tests/exploration-balance.test.js tests/legendary-encounters.test.js tests/experience-module.test.js",
+    "availability": "node scripts/auditPokemonAvailability.js"
+  }
+}

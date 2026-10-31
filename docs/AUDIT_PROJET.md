@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## Rencontres de la Route 9 réparties — 31 octobre 2026
+
+Sept échanges individuels retirent la concentration d’espèces recherchées sur `gen_route7` (Route 9) : Minidraco rejoint la Route 10 contre Élektek ; Gardevoir et Griknot la Route 11 contre Gravalanch/Hippopotas ; Roserade, Ptéra et Spiritomb la Route 12 contre Machopeur/Simularbre/Mysdibule ; Terhal la Route 13 contre Archéomire. Draby, Riolu et Mentali restent parmi les trouvailles de la Route 9. Vingt espèces et niveaux 42–44 conservés. Chaque destination conserve son nombre d’espèces et ses niveaux ; aucun doublon, espèce perdue, modification de taux de rencontre, légendaires, K/IV/talents, pêche, capture ou transition. Les données des cartes auteur et le client ne changent pas.
+
+Validation : 37 tests existants de diversité, couverture des espèces, courbes de niveaux, routes 9/10, légendaires et module XP réussis sans saut/échec. Deux tests de région passent ; un ancien test attend 26 nœuds au lieu des 27 actuels et échoue de façon identique avec les données d’avant patch. Aucun changement de topologie ni masquage de cet échec. Vérification indépendante des 326 espèces capturables : toutes les localisations Pokédex correspondent aux sources autoritaires. Les 493 espèces restent obtenables, aucun sprite manquant ; créations réelles des 69 rencontres des cinq routes et bonus +15 du module XP validés. Pas de nouveau test qui reproduit simplement les tableaux ni de recette visuelle nécessaire pour ces seuls échanges de données.
+
+Publié le 31 octobre 2026 à 20 h 07 (Europe/Paris) : redémarrage serveur pour actualiser aussi le cache des habitats, PID 3604889→3608875, service actif sans avertissement/redémarrage automatique. Client `5157f375c92b248671002d7702a8d30d95408bc1` et build `92b29565b1e2fb6e` conservés, index HTTPS identique. Sauvegarde SQL/source/index/checkpoint `/home/ubuntu/dev/backups/riftmon-route9-2026-10-31T19-04-45.082Z`. Aucune migration/modification manuelle de compte réel ; modes fermés et checkpoint préservés. Knov/api-test répondent normalement, aucun de leurs fichiers/services modifié. Rapport : `docs/ROUTE9_ENCOUNTERS_2026-10-31.json`.
+
 ## Poursuite contre les changements de Matthieu — 31 octobre 2026
 
 Signalement ciblé : Yanmega utilise Poursuite pendant que le Staross de Matthieu est rappelé en Aventure. **Le problème n’a pas été reproduit. Aucun correctif du moteur ni de l’IA n’est revendiqué.** Ajout de cinq régressions SQL avec l’équipe réelle de Matthieu, Yanmega K1/Tinted Lens/Orbe Vie et Poursuite en deuxième emplacement : premier tour, après Détection, K.O. du sortant, dernier PP et changements successifs avec Intimidation. Les décisions de changement de ces tests sont fixées avant la demande d’action du joueur ; les sets, objets et effets d’entrée restent réels. Dégâts publiés sur le sortant avant l’arrivée du remplaçant, une seule attaque et un PP, réserves indemnes et sauvegarde vérifiés.
@@ -5501,6 +5509,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 31 octobre 2026 — Route 9 : sept échanges de rencontres vers les routes 10–13 ; Draby/Riolu/Mentali conservés, niveaux 42–44 inchangés. Couverture des 493 espèces et 326 habitats validée, 69 rencontres générées, 37 régressions réussies ; ancien décompte régional obsolète documenté. Publication serveur seule ; `docs/ROUTE9_ENCOUNTERS_2026-10-31.json`.
 
 - 31 octobre 2026 — Poursuite/Yanmega contre le Staross de Matthieu : signalement non reproduit ; cinq régressions SQL et recette Chromium/WebKit ajoutées, contrôle de mutation probant. 112 tests moteur et 21 SQL réussis ; aucun changement de règles ou de production. `docs/PURSUIT_TRAINER_CHECK_2026-10-31.json`.
 
