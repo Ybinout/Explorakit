@@ -22,18 +22,25 @@ class TournamentController {
  }
  publish(){const p=this.getPlayer();if(p){p.superTournamentActive=this.active;p.inbattle=Boolean(this.run?.battle&&!this.run.battle.finished);}this.emit('superTournamentState',content.state(this.run));}
  async atomic(change){
-  const previous=this.run?codec.encode(this.run):null,previousPaid=this.run?.cash?.paidThrough||0,previousEarned=this.run?.cash?.earned||0;let committed=false;this.events=[];
+  const previous=this.run?codec.encode(this.run):null,previousPaid=this.run?.cash?.paidThrough||0,previousEarned=this.run?.cash?.earned||0,previousAugment=this.run?.lastAugment?.offerId;let committed=false;this.events=[];
   try{const result=await change();if(result===false){this.events=[];return false;}
    const reason=this.run?.outcome;
    const final=reason?{score:this.run.score,rooms:this.run.cleared,moneyEarned:this.run.cash?.earned||0,...(reason==='abandoned'?{returnToCenter:true}:{})}:null;
    const destination=final?.returnToCenter?getPokemonCenterRespawnPoint():{map:content.MAPS.lobby,x:448,y:496};
    const next=final?null:this.run;
    const payout=this.run?.cash?.paidThrough>previousPaid&&this.run.cash.earned>previousEarned?{runId:this.run.id,room:this.run.cash.paidThrough}:null;
-   this.version=await this.persist.save(this.userId,next,this.version,{...(final||{}),...(payout?{payout}:{})});committed=true;
+   const rewardClaim=this.run?.lastAugment&&this.run.lastAugment.offerId!==previousAugment?{runId:this.run.id,offerId:this.run.lastAugment.offerId,cardKey:this.run.lastAugment.cardKey}:null;
+   this.version=await this.persist.save(this.userId,next,this.version,{...(final||{}),...(payout?{payout}:{}),...(rewardClaim?{rewardClaim}:{})});committed=true;
    if(payout){
     const receipt=this.run.cash.last;
     for(const[event,data]of this.events)if(event==='endbattle'){data.summary ||= {};data.summary.money=receipt.amount;}
     this.buffer('superTournamentPayout',{...receipt,earned:this.run.cash.earned,...(Number.isFinite(payout.balance)?{balance:payout.balance}:{})});
+   }
+   if(rewardClaim){
+    const receipt=this.run.lastAugment;
+    for(const[event,data]of this.events)if(event==='superTournamentRewardApplied')data.grant={...receipt};
+    if(receipt.kind==='money')this.buffer('superTournamentPayout',{...receipt,earned:this.run.cash.earned,...(Number.isFinite(rewardClaim.balance)?{balance:rewardClaim.balance}:{})});
+    if(rewardClaim.items)this.buffer('bagUpdated',{items:rewardClaim.items});
    }
    if(final){this.run=null;this.buffer('superTournamentFinished',{score:final.score,rooms:final.rooms,moneyEarned:final.moneyEarned,reason,destination});}
    const events=this.events;this.events=[];this.publish();for(const[e,d]of events)this.emit(e,d);
@@ -61,7 +68,7 @@ class TournamentController {
  }
  async action(payload){if(!this.run?.battle)return false;return this.atomic(()=>{const accepted=this.run.battle.action(this.run.player,payload);if(!accepted)return false;this.reconcile();return true;});}
  async tick(){const b=this.run?.battle;if(!b||b.finished||b.awaiting&&this.now()<b.deadline||!b.awaiting&&this.now()<b.nextRoundAt)return false;return this.atomic(()=>{b.tick();this.reconcile();});}
- async claimReward(data){if(this.run?.phase!=='reward')throw Error('Aucune récompense à choisir.');return this.atomic(()=>{const r=this.run,result=rewards.applyChoice(r.reward,r.player.equipe.pokemons,data);r.reward=null;r.phase='cleared';this.buffer('superTournamentRewardApplied',result);return true;});}
+ async claimReward(data){if(this.run?.phase!=='reward')throw Error('Aucune récompense à choisir.');return this.atomic(()=>{const r=this.run,offer=r.reward,result=rewards.applyChoice(offer,r.player.equipe.pokemons,data);if(result.grant){r.lastAugment={...result.grant,offerId:offer.id,afterRoom:offer.afterRoom,cardKey:data.cardKey};if(result.grant.kind==='money')cashPrizes.ensure(r).earned+=result.grant.amount;}r.reward=null;r.phase='cleared';this.buffer('superTournamentRewardApplied',result);return true;});}
  async reorderMoves(data){
   if(!this.run || this.run.battle || !['sas','ready','reward','cleared'].includes(this.run.phase))throw Error('Attends la fin du combat.');
   return this.atomic(()=>{

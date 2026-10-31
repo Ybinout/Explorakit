@@ -8,7 +8,7 @@ const express=require('express'),{Server}=require('socket.io'),playwright=requir
 const {dbPool:db}=require('../server/config/database'),teams=require('../server/persistence/teamRepository'),factory=require('../server/game/drift/pokemonFactory');
 const repo=require('../server/persistence/superTournamentRepository'),content=require('../server/game/superTournament/content'),codec=require('../server/game/drift/checkpointCodec');
 const handlers=require('../server/realtime/handlers/superTournamentHandlers'),originalCreate=handlers.createHandlers,controllers=new Map();
-handlers.createHandlers=options=>{const h=originalCreate(options);controllers.set(options.userId,h.controller);return h;};
+handlers.createHandlers=options=>{const h=originalCreate(options);h.controller.random=()=>.99;controllers.set(options.userId,h.controller);return h;};
 const engine=process.env.PRESENTATION_BROWSER||'chromium';if(!['chromium','webkit'].includes(engine))throw Error('Unsupported browser');
 const dist=process.env.RELEASE_DIST_DIR||'/tmp/riftmon-tournament-cash-dist',out=process.env.RELEASE_SCREENSHOTS||'/tmp/riftmon-tournament-cash-browser-'+engine;fs.mkdirSync(out,{recursive:true});fs.rmSync(path.join(out,'report.json'),{force:true});
 const app=express(),server=http.createServer(app),io=new Server(server);

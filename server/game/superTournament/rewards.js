@@ -1,5 +1,6 @@
 const {randomUUID}=require('node:crypto');
 const {getMaxMovePp}=require('../battle/battleResources');
+const augmentations=require('./augmentations');
 const rarities=Object.freeze([
  {key:'common',name:'Commune',weight:55}, {key:'uncommon',name:'Peu commune',weight:30},
  {key:'rare',name:'Rare',weight:11}, {key:'epic',name:'Épique',weight:3.5}, {key:'legendary',name:'Légendaire',weight:.5}
@@ -26,7 +27,7 @@ const cards=Object.freeze([
  ['full_reset','Renaissance','legendary','reset',1,'one','Remet un Pokémon à neuf : PV, statut et PP, même s’il est K.O. Ne rend pas les objets consommés.'],
  ['team_pp_5','Chœur des champions','legendary','pp',5,'team','Rend 5 PP à toutes les capacités de chaque Pokémon apte.'],
  ['team_revive_25','Dernier espoir','legendary','revive',.25,'team','Relève tous les Pokémon K.O. avec 25 % de leurs PV maximum.']
-].map(([key,name,rarity,kind,amount,target,description])=>Object.freeze({key,name,rarity,kind,amount,target,description})));
+].map(([key,name,rarity,kind,amount,target,description])=>Object.freeze({key,name,rarity,kind,amount,target,description})).concat(augmentations.cards));
 const byKey=new Map(cards.map(c=>[c.key,c]));
 function preview(p,card,moveIndex){
  if(!p||p.isEgg||!card)return null;
@@ -46,29 +47,34 @@ function preview(p,card,moveIndex){
  if(after===hp&&status===(p.status||'normal')&&!moves.length)return null;
  return {uuid:p.uuid,name:p.name||p.truename||p.data?.name||'Pokémon',hpBefore:hp,hpAfter:after,maxHp,statusBefore:p.status||'normal',statusAfter:status,moves};
 }
-function viewCard(key,team){
+function viewCard(key,team,afterRoom){
  const card=byKey.get(key);if(!card)return null;
+ if(card.target==='account')return {...augmentations.view(key,afterRoom),rarityName:card.rarityName||rarities.find(r=>r.key===card.rarity).name};
  const targets=team.map(p=>preview(p,card)).filter(Boolean);
  return {key:card.key,name:card.name,rarity:card.rarity,rarityName:rarities.find(r=>r.key===card.rarity).name,kind:card.kind,target:card.target,description:card.description,targets,usable:targets.length>0};
 }
-function viewOffer(offer,team){if(!offer)return null;const choices=offer.cards.map(k=>viewCard(k,team)).filter(Boolean);return {id:offer.id,afterRoom:offer.afterRoom,choices,canSkip:choices.every(c=>!c.usable)};}
+function viewOffer(offer,team){if(!offer)return null;const choices=offer.cards.map(k=>viewCard(k,team,offer.afterRoom)).filter(Boolean);return {id:offer.id,afterRoom:offer.afterRoom,choices,canSkip:choices.every(c=>!c.usable)};}
 function drawIndex(random,length){const n=random();if(!Number.isFinite(n)||n<0||n>=1)throw Error('Tirage de récompense invalide.');return Math.floor(n*length);}
 function createOffer(team,afterRoom,random=Math.random){
- const usable=cards.filter(c=>team.some(p=>preview(p,c)));
- const pool=usable.length>=3?[...usable]:[...cards],picked=[];
+ const extra=augmentations.draw(random),recovery=cards.filter(c=>c.target!=='account');
+ const usable=recovery.filter(c=>team.some(p=>preview(p,c)));
+ const pool=usable.length>=3?[...usable]:[...recovery],picked=[];
  while(picked.length<3){
   const tiers=rarities.filter(r=>pool.some(c=>c.rarity===r.key));const total=tiers.reduce((n,r)=>n+r.weight,0);
   let value=random();if(!Number.isFinite(value)||value<0||value>=1)throw Error('Tirage de récompense invalide.');value*=total;
   const tier=tiers.find(r=>(value-=r.weight)<0)||tiers.at(-1),candidates=pool.filter(c=>c.rarity===tier.key);
   const card=candidates[drawIndex(random,candidates.length)];picked.push(card.key);pool.splice(pool.indexOf(card),1);
  }
+ if(extra)picked[drawIndex(random,3)]=extra;
  return {id:randomUUID(),afterRoom,cards:picked};
 }
 function applyChoice(offer,team,data){
  if(!offer||data.offerId!==offer.id)throw Error('Ce choix n’est plus disponible.');
  if(data.skip===true){if(!viewOffer(offer,team).canSkip)throw Error('Choisis une carte pour continuer.');return {name:'Équipe déjà prête',changes:[]};}
  if(!offer.cards.includes(data.cardKey))throw Error('Cette carte ne fait pas partie du tirage.');
- const card=byKey.get(data.cardKey);let targets;
+ const card=byKey.get(data.cardKey);if(!card)throw Error('Cette carte n’existe plus.');
+ if(card.target==='account')return {name:card.name,changes:[],grant:augmentations.grant(card.key,offer.afterRoom)};
+ let targets;
  if(card.target==='team')targets=team;
  else{const p=team.find(p=>p.uuid===data.pokemonUuid);if(!p)throw Error('Choisis un Pokémon de ton équipe inscrite.');targets=[p];}
  if(card.target==='move'&&(!Number.isInteger(data.moveIndex)||data.moveIndex<0||data.moveIndex>=targets[0].abilities.length))throw Error('Choisis la capacité à restaurer.');

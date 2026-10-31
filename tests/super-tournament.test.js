@@ -7,7 +7,7 @@ const {getTotalExperienceForLevel}=require('../server/game/models/progression');
 function makeTeam(){return {pokemons:[9,94,212,248,445,121].map(id=>{const p=new Pokemon(id,null,null,getTotalExperienceForLevel(100),{hp:31,attack:31,defense:31,specialAttack:31,specialDefense:31,speed:31},'Timid',4);p.addAbility('Tackle');p.addAbility('Protect');p.heldItem='leftovers';return p;})};}
 function setup(){let version=0,snapshot=null,fail=false,best=0;const events=[],travel=[],real={id:'a',userId:1,username:'tester'};
  const persist={async load(){return {version,run:snapshot?codec.decode(snapshot):null};},async save(id,run,v,end={}){if(fail){fail=false;throw Error('disk');}assert.equal(id,1);assert.equal(v,version);snapshot=run?codec.encode(run):null;best=Math.max(best,run?.score||end.score||0);return ++version;}};
- const create=()=>new TournamentController({userId:1,getPlayer:()=>real,emit:(e,d)=>events.push([e,d]),travel:async d=>travel.push(d),persist,now:()=>1000});
+ const create=()=>new TournamentController({random:()=>.99,userId:1,getPlayer:()=>real,emit:(e,d)=>events.push([e,d]),travel:async d=>travel.push(d),persist,now:()=>1000});
  return {c:create(),create,events,travel,fail(){fail=true;},get best(){return best;}};
 }
 test('fixed sixteen-room order, full K4 IV31 trios, levels 75/85/90 and held items',()=>{

@@ -3,7 +3,7 @@ const cash=require('../server/game/superTournament/cashPrizes'),content=require(
 const {TournamentController}=require('../server/game/superTournament/controller'),codec=require('../server/game/drift/checkpointCodec'),factory=require('../server/game/drift/pokemonFactory');
 function setup(){let snapshot=null,version=0,balance=100,fail=false;const events=[];
  const persist={async load(){return {run:snapshot?codec.decode(snapshot):null,version};},async save(id,run,v,options={}){assert.equal(id,1);assert.equal(v,version);if(fail){fail=false;throw Error('checkpoint');}if(options.payout){balance+=cash.quote(options.payout.room).total;options.payout.balance=balance;}snapshot=run?codec.encode(run):null;return ++version;}};
- const create=()=>new TournamentController({userId:1,getPlayer:()=>({id:'owner',username:'tester'}),emit:(e,d)=>events.push([e,d]),travel:async()=>{},persist});
+ const create=()=>new TournamentController({random:()=>.99,userId:1,getPlayer:()=>({id:'owner',username:'tester'}),emit:(e,d)=>events.push([e,d]),travel:async()=>{},persist});
  return {c:create(),create,events,get balance(){return balance;},fail(){fail=true;},seed(run){snapshot=codec.encode(run);}};
 }
 const team=()=>({pokemons:[factory.create(9,100,true)]});
