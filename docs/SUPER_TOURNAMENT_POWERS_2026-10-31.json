@@ -1,0 +1,958 @@
+{
+  "date": "2026-10-31",
+  "feature": "Quatre choix et augmentations mythiques du Super Tournoi",
+  "policy": {
+    "choices": 4,
+    "oneSelectedCard": true,
+    "totalCatalog": 34,
+    "mythicCards": [
+      {
+        "key": "power_miracle",
+        "name": "Miracle des champions",
+        "kind": "reset",
+        "target": "team",
+        "amount": 1,
+        "tickets": 20,
+        "description": "Remet toute l’équipe à neuf : PV, statuts et PP, même les Pokémon K.O. Ne rend pas les objets consommés.",
+        "rarity": "mythic",
+        "rarityName": "Mythique",
+        "power": true,
+        "offerProbabilityPercentWhenUsefulAndUnowned": 0.2
+      },
+      {
+        "key": "power_phoenix",
+        "name": "Phénix souverain",
+        "kind": "passive",
+        "target": "run",
+        "tickets": 30,
+        "values": {
+          "55": 100
+        },
+        "description": "Chaque Pokémon survit une fois par combat à un coup direct fatal avec 20 % de ses PV. Les dégâts résiduels restent dangereux.",
+        "rarity": "mythic",
+        "rarityName": "Mythique",
+        "power": true,
+        "offerProbabilityPercentWhenUsefulAndUnowned": 0.3
+      },
+      {
+        "key": "power_vampire",
+        "name": "Vampirisme royal",
+        "kind": "passive",
+        "target": "run",
+        "tickets": 50,
+        "values": {
+          "5": 50
+        },
+        "description": "Toute l’équipe récupère 50 % des dégâts directs infligés sous forme de PV, pendant cette tentative.",
+        "rarity": "mythic",
+        "rarityName": "Mythique",
+        "power": true,
+        "offerProbabilityPercentWhenUsefulAndUnowned": 0.5
+      },
+      {
+        "key": "power_bastion",
+        "name": "Bastion absolu",
+        "kind": "passive",
+        "target": "run",
+        "tickets": 50,
+        "values": {
+          "13": 40
+        },
+        "description": "Toute l’équipe subit 40 % de dégâts directs en moins pendant cette tentative.",
+        "rarity": "mythic",
+        "rarityName": "Mythique",
+        "power": true,
+        "offerProbabilityPercentWhenUsefulAndUnowned": 0.5
+      },
+      {
+        "key": "power_fountain",
+        "name": "Source éternelle",
+        "kind": "passive",
+        "target": "run",
+        "tickets": 50,
+        "values": {
+          "16": 15
+        },
+        "description": "Le Pokémon actif récupère 15 % de ses PV maximum à chaque fin de tour pendant cette tentative.",
+        "rarity": "mythic",
+        "rarityName": "Mythique",
+        "power": true,
+        "offerProbabilityPercentWhenUsefulAndUnowned": 0.5
+      },
+      {
+        "key": "power_sanctuary",
+        "name": "Sanctuaire de victoire",
+        "kind": "passive",
+        "target": "run",
+        "tickets": 50,
+        "description": "Après chaque salle remportée, rend 25 % des PV maximum à tous les Pokémon encore aptes. Dure toute la tentative.",
+        "rarity": "mythic",
+        "rarityName": "Mythique",
+        "power": true,
+        "offerProbabilityPercentWhenUsefulAndUnowned": 0.5
+      },
+      {
+        "key": "power_reunion",
+        "name": "Retour des héros",
+        "kind": "revive",
+        "target": "team",
+        "amount": 1,
+        "tickets": 50,
+        "description": "Relève tous les Pokémon K.O. avec la totalité de leurs PV et soigne leur statut. Les PP restent inchangés.",
+        "rarity": "mythic",
+        "rarityName": "Mythique",
+        "power": true,
+        "offerProbabilityPercentWhenUsefulAndUnowned": 0.5
+      },
+      {
+        "key": "power_mana",
+        "name": "Réserves célestes",
+        "kind": "pp",
+        "target": "team",
+        "amount": "all PP",
+        "tickets": 50,
+        "description": "Restaure tous les PP de toutes les capacités des Pokémon aptes de l’équipe.",
+        "rarity": "mythic",
+        "rarityName": "Mythique",
+        "power": true,
+        "offerProbabilityPercentWhenUsefulAndUnowned": 0.5
+      }
+    ],
+    "maximumMythicOfferProbabilityPercent": 3.5,
+    "maxMythicCardsPerOffer": 1,
+    "maxEconomicCardsPerOffer": 1,
+    "atLeastTwoOrdinaryRecoveryCards": true,
+    "passivesRunOnly": true,
+    "passivesUniquePerRun": true,
+    "cashAndCandyOddsUnchanged": true,
+    "oldOffersAppendFourthOrdinaryCardWithoutReroll": true
+  },
+  "validation": {
+    "unit": {
+      "passed": 118,
+      "failed": 0,
+      "skipped": 0
+    },
+    "sql": {
+      "passed": 27,
+      "failed": 0,
+      "skipped": 0
+    },
+    "allExistingDriftEffectAndExpeditionStrategyTestsPass": true,
+    "fixedMythicTickets": 10000,
+    "passiveBattleAndCheckpointCoverage": true,
+    "legacyOfferUpgradeOnce": true,
+    "browserReports": [
+      {
+        "success": true,
+        "engine": "chromium",
+        "views": [
+          {
+            "key": "power_vampire",
+            "width": 320,
+            "height": 480,
+            "mode": "light",
+            "colours": {
+              "background": "rgb(239, 216, 233)",
+              "text": "rgb(80, 34, 63)"
+            }
+          },
+          {
+            "key": "power_vampire",
+            "width": 320,
+            "height": 480,
+            "mode": "dark",
+            "colours": {
+              "background": "rgb(55, 36, 62)",
+              "text": "rgb(255, 237, 252)"
+            }
+          },
+          {
+            "key": "power_vampire",
+            "width": 393,
+            "height": 852,
+            "mode": "light",
+            "colours": {
+              "background": "rgb(239, 216, 233)",
+              "text": "rgb(80, 34, 63)"
+            }
+          },
+          {
+            "key": "power_vampire",
+            "width": 393,
+            "height": 852,
+            "mode": "dark",
+            "colours": {
+              "background": "rgb(55, 36, 62)",
+              "text": "rgb(255, 237, 252)"
+            }
+          },
+          {
+            "key": "power_vampire",
+            "width": 844,
+            "height": 390,
+            "mode": "light",
+            "colours": {
+              "background": "rgb(239, 216, 233)",
+              "text": "rgb(80, 34, 63)"
+            }
+          },
+          {
+            "key": "power_vampire",
+            "width": 844,
+            "height": 390,
+            "mode": "dark",
+            "colours": {
+              "background": "rgb(55, 36, 62)",
+              "text": "rgb(255, 237, 252)"
+            }
+          },
+          {
+            "key": "power_vampire",
+            "width": 1536,
+            "height": 680,
+            "mode": "light",
+            "colours": {
+              "background": "rgb(239, 216, 233)",
+              "text": "rgb(80, 34, 63)"
+            }
+          },
+          {
+            "key": "power_vampire",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark",
+            "colours": {
+              "background": "rgb(55, 36, 62)",
+              "text": "rgb(255, 237, 252)"
+            }
+          },
+          {
+            "key": "power_phoenix",
+            "width": 320,
+            "height": 480,
+            "mode": "light",
+            "colours": {
+              "background": "rgb(239, 216, 233)",
+              "text": "rgb(80, 34, 63)"
+            }
+          },
+          {
+            "key": "power_phoenix",
+            "width": 320,
+            "height": 480,
+            "mode": "dark",
+            "colours": {
+              "background": "rgb(55, 36, 62)",
+              "text": "rgb(255, 237, 252)"
+            }
+          },
+          {
+            "key": "power_phoenix",
+            "width": 393,
+            "height": 852,
+            "mode": "light",
+            "colours": {
+              "background": "rgb(239, 216, 233)",
+              "text": "rgb(80, 34, 63)"
+            }
+          },
+          {
+            "key": "power_phoenix",
+            "width": 393,
+            "height": 852,
+            "mode": "dark",
+            "colours": {
+              "background": "rgb(55, 36, 62)",
+              "text": "rgb(255, 237, 252)"
+            }
+          },
+          {
+            "key": "power_phoenix",
+            "width": 844,
+            "height": 390,
+            "mode": "light",
+            "colours": {
+              "background": "rgb(239, 216, 233)",
+              "text": "rgb(80, 34, 63)"
+            }
+          },
+          {
+            "key": "power_phoenix",
+            "width": 844,
+            "height": 390,
+            "mode": "dark",
+            "colours": {
+              "background": "rgb(55, 36, 62)",
+              "text": "rgb(255, 237, 252)"
+            }
+          },
+          {
+            "key": "power_phoenix",
+            "width": 1536,
+            "height": 680,
+            "mode": "light",
+            "colours": {
+              "background": "rgb(239, 216, 233)",
+              "text": "rgb(80, 34, 63)"
+            }
+          },
+          {
+            "key": "power_phoenix",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark",
+            "colours": {
+              "background": "rgb(55, 36, 62)",
+              "text": "rgb(255, 237, 252)"
+            }
+          },
+          {
+            "key": "power_miracle",
+            "width": 320,
+            "height": 480,
+            "mode": "light",
+            "colours": {
+              "background": "rgb(239, 216, 233)",
+              "text": "rgb(80, 34, 63)"
+            }
+          },
+          {
+            "key": "power_miracle",
+            "width": 320,
+            "height": 480,
+            "mode": "dark",
+            "colours": {
+              "background": "rgb(55, 36, 62)",
+              "text": "rgb(255, 237, 252)"
+            }
+          },
+          {
+            "key": "power_miracle",
+            "width": 393,
+            "height": 852,
+            "mode": "light",
+            "colours": {
+              "background": "rgb(239, 216, 233)",
+              "text": "rgb(80, 34, 63)"
+            }
+          },
+          {
+            "key": "power_miracle",
+            "width": 393,
+            "height": 852,
+            "mode": "dark",
+            "colours": {
+              "background": "rgb(55, 36, 62)",
+              "text": "rgb(255, 237, 252)"
+            }
+          },
+          {
+            "key": "power_miracle",
+            "width": 844,
+            "height": 390,
+            "mode": "light",
+            "colours": {
+              "background": "rgb(239, 216, 233)",
+              "text": "rgb(80, 34, 63)"
+            }
+          },
+          {
+            "key": "power_miracle",
+            "width": 844,
+            "height": 390,
+            "mode": "dark",
+            "colours": {
+              "background": "rgb(55, 36, 62)",
+              "text": "rgb(255, 237, 252)"
+            }
+          },
+          {
+            "key": "power_miracle",
+            "width": 1536,
+            "height": 680,
+            "mode": "light",
+            "colours": {
+              "background": "rgb(239, 216, 233)",
+              "text": "rgb(80, 34, 63)"
+            }
+          },
+          {
+            "key": "power_miracle",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark",
+            "colours": {
+              "background": "rgb(55, 36, 62)",
+              "text": "rgb(255, 237, 252)"
+            }
+          }
+        ],
+        "claims": [
+          "power_vampire",
+          "power_phoenix",
+          "power_bastion",
+          "power_fountain",
+          "power_sanctuary",
+          "power_reunion",
+          "power_mana",
+          "power_miracle"
+        ],
+        "fourChoices": true,
+        "activeMenuAndRecap": true,
+        "namedLiveBattleEffects": true,
+        "victorySanctuary": true,
+        "allEightCardsApplied": true,
+        "reconnectPreserved": true,
+        "replayRejected": true,
+        "realAdventurePreserved": true,
+        "passivesRemovedOnExit": true,
+        "errors": []
+      },
+      {
+        "success": true,
+        "engine": "webkit",
+        "views": [
+          {
+            "key": "power_vampire",
+            "width": 320,
+            "height": 480,
+            "mode": "light",
+            "colours": {
+              "background": "rgb(239, 216, 233)",
+              "text": "rgb(80, 34, 63)"
+            }
+          },
+          {
+            "key": "power_vampire",
+            "width": 320,
+            "height": 480,
+            "mode": "dark",
+            "colours": {
+              "background": "rgb(55, 36, 62)",
+              "text": "rgb(255, 237, 252)"
+            }
+          },
+          {
+            "key": "power_vampire",
+            "width": 393,
+            "height": 852,
+            "mode": "light",
+            "colours": {
+              "background": "rgb(239, 216, 233)",
+              "text": "rgb(80, 34, 63)"
+            }
+          },
+          {
+            "key": "power_vampire",
+            "width": 393,
+            "height": 852,
+            "mode": "dark",
+            "colours": {
+              "background": "rgb(55, 36, 62)",
+              "text": "rgb(255, 237, 252)"
+            }
+          },
+          {
+            "key": "power_vampire",
+            "width": 844,
+            "height": 390,
+            "mode": "light",
+            "colours": {
+              "background": "rgb(239, 216, 233)",
+              "text": "rgb(80, 34, 63)"
+            }
+          },
+          {
+            "key": "power_vampire",
+            "width": 844,
+            "height": 390,
+            "mode": "dark",
+            "colours": {
+              "background": "rgb(55, 36, 62)",
+              "text": "rgb(255, 237, 252)"
+            }
+          },
+          {
+            "key": "power_vampire",
+            "width": 1536,
+            "height": 680,
+            "mode": "light",
+            "colours": {
+              "background": "rgb(239, 216, 233)",
+              "text": "rgb(80, 34, 63)"
+            }
+          },
+          {
+            "key": "power_vampire",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark",
+            "colours": {
+              "background": "rgb(55, 36, 62)",
+              "text": "rgb(255, 237, 252)"
+            }
+          },
+          {
+            "key": "power_phoenix",
+            "width": 320,
+            "height": 480,
+            "mode": "light",
+            "colours": {
+              "background": "rgb(239, 216, 233)",
+              "text": "rgb(80, 34, 63)"
+            }
+          },
+          {
+            "key": "power_phoenix",
+            "width": 320,
+            "height": 480,
+            "mode": "dark",
+            "colours": {
+              "background": "rgb(55, 36, 62)",
+              "text": "rgb(255, 237, 252)"
+            }
+          },
+          {
+            "key": "power_phoenix",
+            "width": 393,
+            "height": 852,
+            "mode": "light",
+            "colours": {
+              "background": "rgb(239, 216, 233)",
+              "text": "rgb(80, 34, 63)"
+            }
+          },
+          {
+            "key": "power_phoenix",
+            "width": 393,
+            "height": 852,
+            "mode": "dark",
+            "colours": {
+              "background": "rgb(55, 36, 62)",
+              "text": "rgb(255, 237, 252)"
+            }
+          },
+          {
+            "key": "power_phoenix",
+            "width": 844,
+            "height": 390,
+            "mode": "light",
+            "colours": {
+              "background": "rgb(239, 216, 233)",
+              "text": "rgb(80, 34, 63)"
+            }
+          },
+          {
+            "key": "power_phoenix",
+            "width": 844,
+            "height": 390,
+            "mode": "dark",
+            "colours": {
+              "background": "rgb(55, 36, 62)",
+              "text": "rgb(255, 237, 252)"
+            }
+          },
+          {
+            "key": "power_phoenix",
+            "width": 1536,
+            "height": 680,
+            "mode": "light",
+            "colours": {
+              "background": "rgb(239, 216, 233)",
+              "text": "rgb(80, 34, 63)"
+            }
+          },
+          {
+            "key": "power_phoenix",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark",
+            "colours": {
+              "background": "rgb(55, 36, 62)",
+              "text": "rgb(255, 237, 252)"
+            }
+          },
+          {
+            "key": "power_miracle",
+            "width": 320,
+            "height": 480,
+            "mode": "light",
+            "colours": {
+              "background": "rgb(239, 216, 233)",
+              "text": "rgb(80, 34, 63)"
+            }
+          },
+          {
+            "key": "power_miracle",
+            "width": 320,
+            "height": 480,
+            "mode": "dark",
+            "colours": {
+              "background": "rgb(55, 36, 62)",
+              "text": "rgb(255, 237, 252)"
+            }
+          },
+          {
+            "key": "power_miracle",
+            "width": 393,
+            "height": 852,
+            "mode": "light",
+            "colours": {
+              "background": "rgb(239, 216, 233)",
+              "text": "rgb(80, 34, 63)"
+            }
+          },
+          {
+            "key": "power_miracle",
+            "width": 393,
+            "height": 852,
+            "mode": "dark",
+            "colours": {
+              "background": "rgb(55, 36, 62)",
+              "text": "rgb(255, 237, 252)"
+            }
+          },
+          {
+            "key": "power_miracle",
+            "width": 844,
+            "height": 390,
+            "mode": "light",
+            "colours": {
+              "background": "rgb(239, 216, 233)",
+              "text": "rgb(80, 34, 63)"
+            }
+          },
+          {
+            "key": "power_miracle",
+            "width": 844,
+            "height": 390,
+            "mode": "dark",
+            "colours": {
+              "background": "rgb(55, 36, 62)",
+              "text": "rgb(255, 237, 252)"
+            }
+          },
+          {
+            "key": "power_miracle",
+            "width": 1536,
+            "height": 680,
+            "mode": "light",
+            "colours": {
+              "background": "rgb(239, 216, 233)",
+              "text": "rgb(80, 34, 63)"
+            }
+          },
+          {
+            "key": "power_miracle",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark",
+            "colours": {
+              "background": "rgb(55, 36, 62)",
+              "text": "rgb(255, 237, 252)"
+            }
+          }
+        ],
+        "claims": [
+          "power_vampire",
+          "power_phoenix",
+          "power_bastion",
+          "power_fountain",
+          "power_sanctuary",
+          "power_reunion",
+          "power_mana",
+          "power_miracle"
+        ],
+        "fourChoices": true,
+        "activeMenuAndRecap": true,
+        "namedLiveBattleEffects": true,
+        "victorySanctuary": true,
+        "allEightCardsApplied": true,
+        "reconnectPreserved": true,
+        "replayRejected": true,
+        "realAdventurePreserved": true,
+        "passivesRemovedOnExit": true,
+        "errors": []
+      }
+    ],
+    "economyRegression": {
+      "success": true,
+      "engine": "chromium",
+      "views": [
+        {
+          "key": "prize_money_10k",
+          "width": 320,
+          "height": 480,
+          "mode": "light"
+        },
+        {
+          "key": "prize_money_10k",
+          "width": 320,
+          "height": 480,
+          "mode": "dark"
+        },
+        {
+          "key": "prize_money_10k",
+          "width": 393,
+          "height": 852,
+          "mode": "light"
+        },
+        {
+          "key": "prize_money_10k",
+          "width": 393,
+          "height": 852,
+          "mode": "dark"
+        },
+        {
+          "key": "prize_money_10k",
+          "width": 844,
+          "height": 390,
+          "mode": "light"
+        },
+        {
+          "key": "prize_money_10k",
+          "width": 844,
+          "height": 390,
+          "mode": "dark"
+        },
+        {
+          "key": "prize_money_10k",
+          "width": 1536,
+          "height": 680,
+          "mode": "light"
+        },
+        {
+          "key": "prize_money_10k",
+          "width": 1536,
+          "height": 680,
+          "mode": "dark"
+        },
+        {
+          "key": "prize_super_candy",
+          "width": 320,
+          "height": 480,
+          "mode": "light"
+        },
+        {
+          "key": "prize_super_candy",
+          "width": 320,
+          "height": 480,
+          "mode": "dark"
+        },
+        {
+          "key": "prize_super_candy",
+          "width": 393,
+          "height": 852,
+          "mode": "light"
+        },
+        {
+          "key": "prize_super_candy",
+          "width": 393,
+          "height": 852,
+          "mode": "dark"
+        },
+        {
+          "key": "prize_super_candy",
+          "width": 844,
+          "height": 390,
+          "mode": "light"
+        },
+        {
+          "key": "prize_super_candy",
+          "width": 844,
+          "height": 390,
+          "mode": "dark"
+        },
+        {
+          "key": "prize_super_candy",
+          "width": 1536,
+          "height": 680,
+          "mode": "light"
+        },
+        {
+          "key": "prize_super_candy",
+          "width": 1536,
+          "height": 680,
+          "mode": "dark"
+        },
+        {
+          "key": "prize_mega_candy",
+          "width": 320,
+          "height": 480,
+          "mode": "light"
+        },
+        {
+          "key": "prize_mega_candy",
+          "width": 320,
+          "height": 480,
+          "mode": "dark"
+        },
+        {
+          "key": "prize_mega_candy",
+          "width": 393,
+          "height": 852,
+          "mode": "light"
+        },
+        {
+          "key": "prize_mega_candy",
+          "width": 393,
+          "height": 852,
+          "mode": "dark"
+        },
+        {
+          "key": "prize_mega_candy",
+          "width": 844,
+          "height": 390,
+          "mode": "light"
+        },
+        {
+          "key": "prize_mega_candy",
+          "width": 844,
+          "height": 390,
+          "mode": "dark"
+        },
+        {
+          "key": "prize_mega_candy",
+          "width": 1536,
+          "height": 680,
+          "mode": "light"
+        },
+        {
+          "key": "prize_mega_candy",
+          "width": 1536,
+          "height": 680,
+          "mode": "dark"
+        }
+      ],
+      "claims": [
+        {
+          "key": "prize_money_10k",
+          "room": 1,
+          "money": 10000,
+          "item": null,
+          "balance": 20000
+        },
+        {
+          "key": "prize_money_25k",
+          "room": 1,
+          "money": 25000,
+          "item": null,
+          "balance": 45000
+        },
+        {
+          "key": "prize_money_50k",
+          "room": 17,
+          "money": 100000,
+          "item": null,
+          "balance": 145000
+        },
+        {
+          "key": "prize_super_candy",
+          "room": 17,
+          "money": 0,
+          "item": "rare_candy",
+          "balance": 145000
+        },
+        {
+          "key": "prize_mega_candy",
+          "room": 17,
+          "money": 0,
+          "item": "mega_candy",
+          "balance": 145000
+        }
+      ],
+      "itemStocks": {
+        "rare_candy": 1,
+        "mega_candy": 1
+      },
+      "staleInventoryResponseIgnored": true,
+      "reconnectStable": true,
+      "replayRejected": true,
+      "bagUseBlockedDuringRun": true,
+      "noHealingOrXp": true,
+      "adventureTeamPreserved": true,
+      "keptAfterAbandon": true,
+      "errors": []
+    },
+    "lint": true,
+    "isolatedBuild": true,
+    "limitations": [
+      "Serveurs privés et comptes SQL jetables ; K.O./offres et Pokémon adverses de fixture pour les recettes.",
+      "Aucun téléphone physique ni parcours humain intégral revendiqué.",
+      "Modes Rift/Colosseum fermés ; couverture interne sans les rouvrir."
+    ]
+  },
+  "clientBuild": "0052afe460d90959",
+  "clientCommit": "8e628a11ba4fed7619f796a30e42370776d2fbbe",
+  "runtimeSourceSha256": {
+    "server/game/drift/driftEffects.js": "07a2df1128ff497cd0d5590ecc07e6ff4adc5f04535c17cacbc6294c412fd1aa",
+    "server/game/drift/driftSignals.js": "c7a6e166d2eb0c94e6f2c72ab9f0ebba709982b22c0ede3d76962447e451025e",
+    "server/game/superTournament/content.js": "9f77c67bee2ccfcc03f41cec038d57b37b40828c593e5d3f8834fb6f0f92ebdd",
+    "server/game/superTournament/controller.js": "9a532a52cb04ab887f95d0153552252e3c220e189b4ad991cb3e1409754caa2d",
+    "server/game/superTournament/rewards.js": "08ff3a68ff4d28b61d724de98faa801941bfa0c20de61e80f6ca15736266abfc",
+    "server/game/superTournament/powers.js": "f88e6ef800867340ff026e94d8eceb78d2fbad0fe0af4074868f2065a34d71a7"
+  },
+  "commands": [
+    "node --test --test-concurrency=1 tests/super-tournament.test.js tests/super-tournament-cash.test.js tests/super-tournament-rewards.test.js tests/super-tournament-augments.test.js tests/super-tournament-powers.test.js tests/super-tournament-abandon.test.js tests/super-tournament-order.test.js tests/drift-effects.test.js tests/expedition-strategy.test.js",
+    "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test node --env-file=.env --test --test-concurrency=1 tests/super-tournament-powers-mysql.test.js tests/super-tournament-augments-mysql.test.js tests/super-tournament-cash-mysql.test.js tests/super-tournament-mysql.test.js",
+    "DB_TEST_NAME=explorakit_test npm run test:tournament-powers-browser",
+    "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=webkit npm run test:tournament-powers-browser"
+  ],
+  "deployment": {
+    "publishedAt": "2026-10-31T22:23:30.255Z",
+    "restartedAt": "2026-10-31T22:23:18.650Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-tournament-powers-2026-10-31T22-23-17-261Z",
+    "sourceBaseline": "f9777fdad49331cff2fe8c72baa3a08b030bc150",
+    "sourceHashes": {
+      "server/game/drift/driftEffects.js": "07a2df1128ff497cd0d5590ecc07e6ff4adc5f04535c17cacbc6294c412fd1aa",
+      "server/game/drift/driftSignals.js": "c7a6e166d2eb0c94e6f2c72ab9f0ebba709982b22c0ede3d76962447e451025e",
+      "server/game/superTournament/content.js": "9f77c67bee2ccfcc03f41cec038d57b37b40828c593e5d3f8834fb6f0f92ebdd",
+      "server/game/superTournament/controller.js": "9a532a52cb04ab887f95d0153552252e3c220e189b4ad991cb3e1409754caa2d",
+      "server/game/superTournament/rewards.js": "08ff3a68ff4d28b61d724de98faa801941bfa0c20de61e80f6ca15736266abfc",
+      "server/game/superTournament/powers.js": "f88e6ef800867340ff026e94d8eceb78d2fbad0fe0af4074868f2065a34d71a7"
+    },
+    "clientCommit": "8e628a11ba4fed7619f796a30e42370776d2fbbe",
+    "clientBuild": "0052afe460d90959",
+    "beforePid": "3621826",
+    "afterPid": "3624110",
+    "serverRestarted": true,
+    "schemaChanged": false,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 0,
+    "checkpointUnchangedWhileDisabled": true,
+    "namespaceClosed": true,
+    "neighborsUnchanged": true,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.f5ca3bcb.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.0b13c52b.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.2fd32f7c.js",
+      "js/drift.5b8720d7.js",
+      "js/game.7c663522.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.4fff4c7e.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.0874ce92.css",
+      "css/test-view.7568246d.css"
+    ],
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0
+  }
+}

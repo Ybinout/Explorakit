@@ -8,13 +8,13 @@ test('fixed per-offer probabilities: 30% money, 2% Super Candy, 0.2% Mega Candy'
  for(const [roll,key]of [[0,'prize_money_10k'],[.5999,'prize_money_10k'],[.6,'prize_money_25k'],[.8999,'prize_money_25k'],[.9,'prize_money_50k']]){let first=true;assert.equal(aug.draw(()=>{if(first){first=false;return .1;}return roll;}),key);}
  for(const roll of [-1,1,NaN,Infinity])assert.throws(()=>aug.draw(()=>roll));
 });
-test('at most one economic card, still three distinct choices; rarity does not rise for healthy teams',()=>{
- assert.equal(rewards.cards.length,26);assert.equal(aug.cards.length,5);
+test('at most one economic card, still four distinct choices; rarity does not rise for healthy teams',()=>{
+ assert.equal(rewards.cards.length,34);assert.equal(aug.cards.length,5);
  for(let i=0;i<1000;i++){
   const rng=()=>{let n=i+1;return()=>((n=(n*1664525+1013904223)>>>0)/2**32);};
   const full=healthy(),hurt=healthy();hurt[0].currentHp=1;hurt[0].status='poison';hurt[0].movePp=[0];
   const a=rewards.createOffer(full,1,rng()),b=rewards.createOffer(hurt,1,rng());
-  assert.equal(new Set(a.cards).size,3);assert.equal(new Set(b.cards).size,3);
+  assert.equal(new Set(a.cards).size,4);assert.equal(new Set(b.cards).size,4);
   const extra=o=>o.cards.filter(k=>k.startsWith('prize_'));assert(extra(a).length<=1);assert.deepEqual(extra(a),extra(b));
   const view=rewards.viewOffer(b,hurt);assert(view.choices.every(c=>c.usable));
  }

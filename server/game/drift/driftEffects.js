@@ -1,4 +1,5 @@
 const signals=require('./driftSignals');
+const tournamentPowers=require('../superTournament/powers');
 const catalogue = require('../../../data/game/drifts.json');
 const definitions = new Map(catalogue.definitions.map(d => [d.id, d]));
 const states = new WeakMap();
@@ -6,7 +7,7 @@ const idOf = number => `DRF-${String(number).padStart(3, '0')}`;
 function value(owner, number, tournament = false) {
     if (!owner || (tournament && number >= 43 && number <= 54)) return 0;
     const drift = (owner.drifts || []).find(d => d.definitionId === idOf(number) && owner.equipped?.includes(d.uuid));
-    return require('./driftStrength').value(drift);
+    return require('./driftStrength').value(drift)+tournamentPowers.value(owner,number);
 }
 function v(p, n) { const s = states.get(p); return s ? value(s.owner, n, s.tournament) : 0; }
 function signal(p,n,detail='') {const state=states.get(p);if(state&&v(p,n)>0)signals.signal(state.owner,n,detail);}
