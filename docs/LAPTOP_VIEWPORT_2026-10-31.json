@@ -1,0 +1,2763 @@
+{
+  "date": "2026-10-31",
+  "scope": "Fit windowed desktop Adventure frame and battle to available laptop viewport; native fullscreen and mobile preserved.",
+  "clientCommit": "2b777a3b9fecffb212fa1791d2766f801dfeb8ee",
+  "clientBuild": "abedc20eb3645ca9",
+  "sourceBaseline": "c7f438ef1eb85b6118a1358e08ba38e0a81b9470",
+  "beforeAfter": [
+    {
+      "window": {
+        "width": 2560,
+        "height": 1440
+      },
+      "mobile": false,
+      "before": {
+        "x": 832,
+        "y": 128,
+        "width": 896,
+        "height": 704,
+        "right": 1728,
+        "bottom": 832
+      },
+      "after": {
+        "x": 832,
+        "y": 368,
+        "width": 896,
+        "height": 704,
+        "right": 1728,
+        "bottom": 1072
+      },
+      "overflowBefore": 0,
+      "overflowAfter": 0
+    },
+    {
+      "window": {
+        "width": 1920,
+        "height": 1080
+      },
+      "mobile": false,
+      "before": {
+        "x": 512,
+        "y": 96,
+        "width": 896,
+        "height": 704,
+        "right": 1408,
+        "bottom": 800
+      },
+      "after": {
+        "x": 512,
+        "y": 188,
+        "width": 896,
+        "height": 704,
+        "right": 1408,
+        "bottom": 892
+      },
+      "overflowBefore": 0,
+      "overflowAfter": 0
+    },
+    {
+      "window": {
+        "width": 1920,
+        "height": 880
+      },
+      "mobile": false,
+      "before": {
+        "x": 512,
+        "y": 96,
+        "width": 896,
+        "height": 704,
+        "right": 1408,
+        "bottom": 800
+      },
+      "after": {
+        "x": 512,
+        "y": 88,
+        "width": 896,
+        "height": 704,
+        "right": 1408,
+        "bottom": 792
+      },
+      "overflowBefore": 0,
+      "overflowAfter": 0
+    },
+    {
+      "window": {
+        "width": 1707,
+        "height": 900
+      },
+      "mobile": false,
+      "before": {
+        "x": 405.5,
+        "y": 85.34375,
+        "width": 896,
+        "height": 704,
+        "right": 1301.5,
+        "bottom": 789.34375
+      },
+      "after": {
+        "x": 405.5,
+        "y": 98,
+        "width": 896,
+        "height": 704,
+        "right": 1301.5,
+        "bottom": 802
+      },
+      "overflowBefore": 0,
+      "overflowAfter": 0
+    },
+    {
+      "window": {
+        "width": 1536,
+        "height": 680
+      },
+      "mobile": false,
+      "before": {
+        "x": 320,
+        "y": 76.796875,
+        "width": 896,
+        "height": 704,
+        "right": 1216,
+        "bottom": 780.796875
+      },
+      "after": {
+        "x": 354,
+        "y": 12.28125,
+        "width": 828,
+        "height": 655.421875,
+        "right": 1182,
+        "bottom": 667.703125
+      },
+      "overflowBefore": 100.796875,
+      "overflowAfter": 0
+    },
+    {
+      "window": {
+        "width": 1440,
+        "height": 720
+      },
+      "mobile": false,
+      "before": {
+        "x": 272,
+        "y": 72,
+        "width": 896,
+        "height": 704,
+        "right": 1168,
+        "bottom": 776
+      },
+      "after": {
+        "x": 278,
+        "y": 12.28125,
+        "width": 884,
+        "height": 695.421875,
+        "right": 1162,
+        "bottom": 707.703125
+      },
+      "overflowBefore": 56,
+      "overflowAfter": 0
+    },
+    {
+      "window": {
+        "width": 1366,
+        "height": 660
+      },
+      "mobile": false,
+      "before": {
+        "x": 235,
+        "y": 68.296875,
+        "width": 896,
+        "height": 704,
+        "right": 1131,
+        "bottom": 772.296875
+      },
+      "after": {
+        "x": 283,
+        "y": 12.28125,
+        "width": 800,
+        "height": 635.421875,
+        "right": 1083,
+        "bottom": 647.703125
+      },
+      "overflowBefore": 112.296875,
+      "overflowAfter": 0
+    },
+    {
+      "window": {
+        "width": 1280,
+        "height": 660
+      },
+      "mobile": false,
+      "before": {
+        "x": 192,
+        "y": 64,
+        "width": 896,
+        "height": 704,
+        "right": 1088,
+        "bottom": 768
+      },
+      "after": {
+        "x": 240,
+        "y": 12.28125,
+        "width": 800,
+        "height": 635.421875,
+        "right": 1040,
+        "bottom": 647.703125
+      },
+      "overflowBefore": 108,
+      "overflowAfter": 0
+    },
+    {
+      "window": {
+        "width": 1024,
+        "height": 600
+      },
+      "mobile": false,
+      "before": {
+        "x": 64,
+        "y": 51.1875,
+        "width": 896,
+        "height": 704,
+        "right": 960,
+        "bottom": 755.1875
+      },
+      "after": {
+        "x": 154,
+        "y": 12.28125,
+        "width": 716,
+        "height": 575.421875,
+        "right": 870,
+        "bottom": 587.703125
+      },
+      "overflowBefore": 155.1875,
+      "overflowAfter": 0
+    },
+    {
+      "window": {
+        "width": 393,
+        "height": 852
+      },
+      "mobile": true,
+      "before": {
+        "x": 0,
+        "y": 0,
+        "width": 393,
+        "height": 852,
+        "right": 393,
+        "bottom": 852
+      },
+      "after": {
+        "x": 0,
+        "y": 0,
+        "width": 393,
+        "height": 852,
+        "right": 393,
+        "bottom": 852
+      },
+      "overflowBefore": 0,
+      "overflowAfter": 0
+    },
+    {
+      "window": {
+        "width": 844,
+        "height": 390
+      },
+      "mobile": true,
+      "before": {
+        "x": 0,
+        "y": 0,
+        "width": 844,
+        "height": 390,
+        "right": 844,
+        "bottom": 390
+      },
+      "after": {
+        "x": 0,
+        "y": 0,
+        "width": 844,
+        "height": 390,
+        "right": 844,
+        "bottom": 390
+      },
+      "overflowBefore": 0,
+      "overflowAfter": 0
+    }
+  ],
+  "implementation": {
+    "windowedNativeWidthCap": 896,
+    "worldAspectRatio": "7:5",
+    "rootPadding": "12px 16px",
+    "toolbar": "Measured actual height via ResizeObserver, including changed or wrapped toolbar",
+    "resizeScheduling": "Coalesced on-demand requestAnimationFrame; cancelled on destroy; no permanent loop or CSS transform",
+    "battle": "Inset below measured toolbar, bounded to actual frame",
+    "sourceFiles": [
+      "src/services/gameFullscreen.js",
+      "src/components/worldViewport.css"
+    ]
+  },
+  "validation": {
+    "unit": {
+      "passed": 16,
+      "failed": 0,
+      "skipped": 0,
+      "command": "node --test --test-concurrency=1 tests/viewport-fit.test.js tests/world-camera.test.js tests/world-movement.test.js tests/world-chat.test.js"
+    },
+    "lint": "passed",
+    "build": "passed",
+    "browser": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "auditOnly": false,
+        "nativeFullscreen": true,
+        "layouts": [
+          {
+            "label": "world-2560x1440",
+            "window": {
+              "width": 2560,
+              "height": 1440
+            },
+            "stage": {
+              "x": 832,
+              "y": 368,
+              "width": 896,
+              "height": 704,
+              "right": 1728,
+              "bottom": 1072
+            },
+            "world": {
+              "x": 832,
+              "y": 432,
+              "width": 896,
+              "height": 640,
+              "right": 1728,
+              "bottom": 1072
+            },
+            "toolbar": {
+              "x": 832,
+              "y": 368,
+              "width": 896,
+              "height": 64,
+              "right": 1728,
+              "bottom": 432
+            },
+            "bodyHeight": 1440,
+            "bodyWidth": 2560,
+            "frame": {
+              "width": 896,
+              "height": 640,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 896,
+              "height": 640
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": false,
+            "mobile": false
+          },
+          {
+            "label": "world-1920x1080",
+            "window": {
+              "width": 1920,
+              "height": 1080
+            },
+            "stage": {
+              "x": 512,
+              "y": 188,
+              "width": 896,
+              "height": 704,
+              "right": 1408,
+              "bottom": 892
+            },
+            "world": {
+              "x": 512,
+              "y": 252,
+              "width": 896,
+              "height": 640,
+              "right": 1408,
+              "bottom": 892
+            },
+            "toolbar": {
+              "x": 512,
+              "y": 188,
+              "width": 896,
+              "height": 64,
+              "right": 1408,
+              "bottom": 252
+            },
+            "bodyHeight": 1080,
+            "bodyWidth": 1920,
+            "frame": {
+              "width": 896,
+              "height": 640,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 896,
+              "height": 640
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": false,
+            "mobile": false
+          },
+          {
+            "label": "world-1920x880",
+            "window": {
+              "width": 1920,
+              "height": 880
+            },
+            "stage": {
+              "x": 512,
+              "y": 88,
+              "width": 896,
+              "height": 704,
+              "right": 1408,
+              "bottom": 792
+            },
+            "world": {
+              "x": 512,
+              "y": 152,
+              "width": 896,
+              "height": 640,
+              "right": 1408,
+              "bottom": 792
+            },
+            "toolbar": {
+              "x": 512,
+              "y": 88,
+              "width": 896,
+              "height": 64,
+              "right": 1408,
+              "bottom": 152
+            },
+            "bodyHeight": 880,
+            "bodyWidth": 1920,
+            "frame": {
+              "width": 896,
+              "height": 640,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 896,
+              "height": 640
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": false,
+            "mobile": false
+          },
+          {
+            "label": "world-1707x900",
+            "window": {
+              "width": 1707,
+              "height": 900
+            },
+            "stage": {
+              "x": 405.5,
+              "y": 98,
+              "width": 896,
+              "height": 704,
+              "right": 1301.5,
+              "bottom": 802
+            },
+            "world": {
+              "x": 405.5,
+              "y": 162,
+              "width": 896,
+              "height": 640,
+              "right": 1301.5,
+              "bottom": 802
+            },
+            "toolbar": {
+              "x": 405.5,
+              "y": 98,
+              "width": 896,
+              "height": 64,
+              "right": 1301.5,
+              "bottom": 162
+            },
+            "bodyHeight": 900,
+            "bodyWidth": 1707,
+            "frame": {
+              "width": 896,
+              "height": 640,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 896,
+              "height": 640
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": false,
+            "mobile": false
+          },
+          {
+            "label": "world-1536x680",
+            "window": {
+              "width": 1536,
+              "height": 680
+            },
+            "stage": {
+              "x": 354,
+              "y": 12.28125,
+              "width": 828,
+              "height": 655.421875,
+              "right": 1182,
+              "bottom": 667.703125
+            },
+            "world": {
+              "x": 354,
+              "y": 76.28125,
+              "width": 828,
+              "height": 591.421875,
+              "right": 1182,
+              "bottom": 667.703125
+            },
+            "toolbar": {
+              "x": 354,
+              "y": 12.28125,
+              "width": 828,
+              "height": 64,
+              "right": 1182,
+              "bottom": 76.28125
+            },
+            "bodyHeight": 680,
+            "bodyWidth": 1536,
+            "frame": {
+              "width": 828,
+              "height": 591,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 828,
+              "height": 591
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": false,
+            "mobile": false
+          },
+          {
+            "label": "world-1440x720",
+            "window": {
+              "width": 1440,
+              "height": 720
+            },
+            "stage": {
+              "x": 278,
+              "y": 12.28125,
+              "width": 884,
+              "height": 695.421875,
+              "right": 1162,
+              "bottom": 707.703125
+            },
+            "world": {
+              "x": 278,
+              "y": 76.28125,
+              "width": 884,
+              "height": 631.421875,
+              "right": 1162,
+              "bottom": 707.703125
+            },
+            "toolbar": {
+              "x": 278,
+              "y": 12.28125,
+              "width": 884,
+              "height": 64,
+              "right": 1162,
+              "bottom": 76.28125
+            },
+            "bodyHeight": 720,
+            "bodyWidth": 1440,
+            "frame": {
+              "width": 884,
+              "height": 631,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 884,
+              "height": 631
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": false,
+            "mobile": false
+          },
+          {
+            "label": "world-1366x660",
+            "window": {
+              "width": 1366,
+              "height": 660
+            },
+            "stage": {
+              "x": 283,
+              "y": 12.28125,
+              "width": 800,
+              "height": 635.421875,
+              "right": 1083,
+              "bottom": 647.703125
+            },
+            "world": {
+              "x": 283,
+              "y": 76.28125,
+              "width": 800,
+              "height": 571.421875,
+              "right": 1083,
+              "bottom": 647.703125
+            },
+            "toolbar": {
+              "x": 283,
+              "y": 12.28125,
+              "width": 800,
+              "height": 64,
+              "right": 1083,
+              "bottom": 76.28125
+            },
+            "bodyHeight": 660,
+            "bodyWidth": 1366,
+            "frame": {
+              "width": 800,
+              "height": 571,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 800,
+              "height": 571
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": false,
+            "mobile": false
+          },
+          {
+            "label": "world-1280x660",
+            "window": {
+              "width": 1280,
+              "height": 660
+            },
+            "stage": {
+              "x": 240,
+              "y": 12.28125,
+              "width": 800,
+              "height": 635.421875,
+              "right": 1040,
+              "bottom": 647.703125
+            },
+            "world": {
+              "x": 240,
+              "y": 76.28125,
+              "width": 800,
+              "height": 571.421875,
+              "right": 1040,
+              "bottom": 647.703125
+            },
+            "toolbar": {
+              "x": 240,
+              "y": 12.28125,
+              "width": 800,
+              "height": 64,
+              "right": 1040,
+              "bottom": 76.28125
+            },
+            "bodyHeight": 660,
+            "bodyWidth": 1280,
+            "frame": {
+              "width": 800,
+              "height": 571,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 800,
+              "height": 571
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": false,
+            "mobile": false
+          },
+          {
+            "label": "world-1024x600",
+            "window": {
+              "width": 1024,
+              "height": 600
+            },
+            "stage": {
+              "x": 154,
+              "y": 12.28125,
+              "width": 716,
+              "height": 575.421875,
+              "right": 870,
+              "bottom": 587.703125
+            },
+            "world": {
+              "x": 154,
+              "y": 76.28125,
+              "width": 716,
+              "height": 511.421875,
+              "right": 870,
+              "bottom": 587.703125
+            },
+            "toolbar": {
+              "x": 154,
+              "y": 12.28125,
+              "width": 716,
+              "height": 64,
+              "right": 870,
+              "bottom": 76.28125
+            },
+            "bodyHeight": 600,
+            "bodyWidth": 1024,
+            "frame": {
+              "width": 716,
+              "height": 511,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 716,
+              "height": 511
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": false,
+            "mobile": false
+          },
+          {
+            "label": "world-393x852",
+            "window": {
+              "width": 393,
+              "height": 852
+            },
+            "stage": {
+              "x": 0,
+              "y": 0,
+              "width": 393,
+              "height": 852,
+              "right": 393,
+              "bottom": 852
+            },
+            "world": {
+              "x": 0,
+              "y": 57,
+              "width": 393,
+              "height": 635,
+              "right": 393,
+              "bottom": 692
+            },
+            "toolbar": {
+              "x": 0,
+              "y": 0,
+              "width": 393,
+              "height": 57,
+              "right": 393,
+              "bottom": 57
+            },
+            "bodyHeight": 852,
+            "bodyWidth": 393,
+            "frame": {
+              "width": 393,
+              "height": 635,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 393,
+              "height": 635
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": false,
+            "mobile": true
+          },
+          {
+            "label": "world-844x390",
+            "window": {
+              "width": 844,
+              "height": 390
+            },
+            "stage": {
+              "x": 0,
+              "y": 0,
+              "width": 844,
+              "height": 390,
+              "right": 844,
+              "bottom": 390
+            },
+            "world": {
+              "x": 0,
+              "y": 57,
+              "width": 676,
+              "height": 333,
+              "right": 676,
+              "bottom": 390
+            },
+            "toolbar": {
+              "x": 0,
+              "y": 0,
+              "width": 844,
+              "height": 57,
+              "right": 844,
+              "bottom": 57
+            },
+            "bodyHeight": 390,
+            "bodyWidth": 844,
+            "frame": {
+              "width": 676,
+              "height": 333,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 676,
+              "height": 333
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": false,
+            "mobile": true
+          },
+          {
+            "label": "taller-toolbar",
+            "window": {
+              "width": 1280,
+              "height": 660
+            },
+            "stage": {
+              "x": 272,
+              "y": 12.140625,
+              "width": 736,
+              "height": 635.703125,
+              "right": 1008,
+              "bottom": 647.84375
+            },
+            "world": {
+              "x": 272,
+              "y": 122.140625,
+              "width": 736,
+              "height": 525.703125,
+              "right": 1008,
+              "bottom": 647.84375
+            },
+            "toolbar": {
+              "x": 272,
+              "y": 12.140625,
+              "width": 736,
+              "height": 110,
+              "right": 1008,
+              "bottom": 122.140625
+            },
+            "bodyHeight": 660,
+            "bodyWidth": 1280,
+            "frame": {
+              "width": 736,
+              "height": 526,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 736,
+              "height": 526
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": false,
+            "mobile": false
+          },
+          {
+            "label": "restored-toolbar",
+            "window": {
+              "width": 1280,
+              "height": 660
+            },
+            "stage": {
+              "x": 240,
+              "y": 12.28125,
+              "width": 800,
+              "height": 635.421875,
+              "right": 1040,
+              "bottom": 647.703125
+            },
+            "world": {
+              "x": 240,
+              "y": 76.28125,
+              "width": 800,
+              "height": 571.421875,
+              "right": 1040,
+              "bottom": 647.703125
+            },
+            "toolbar": {
+              "x": 240,
+              "y": 12.28125,
+              "width": 800,
+              "height": 64,
+              "right": 1040,
+              "bottom": 76.28125
+            },
+            "bodyHeight": 660,
+            "bodyWidth": 1280,
+            "frame": {
+              "width": 800,
+              "height": 571,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 800,
+              "height": 571
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": false,
+            "mobile": false
+          },
+          {
+            "label": "after-menus-1536",
+            "window": {
+              "width": 1536,
+              "height": 680
+            },
+            "stage": {
+              "x": 354,
+              "y": 12.28125,
+              "width": 828,
+              "height": 655.421875,
+              "right": 1182,
+              "bottom": 667.703125
+            },
+            "world": {
+              "x": 354,
+              "y": 76.28125,
+              "width": 828,
+              "height": 591.421875,
+              "right": 1182,
+              "bottom": 667.703125
+            },
+            "toolbar": {
+              "x": 354,
+              "y": 12.28125,
+              "width": 828,
+              "height": 64,
+              "right": 1182,
+              "bottom": 76.28125
+            },
+            "bodyHeight": 680,
+            "bodyWidth": 1536,
+            "frame": {
+              "width": 828,
+              "height": 591,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 828,
+              "height": 591
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": false,
+            "mobile": false
+          },
+          {
+            "label": "after-menus-1280",
+            "window": {
+              "width": 1280,
+              "height": 660
+            },
+            "stage": {
+              "x": 240,
+              "y": 12.28125,
+              "width": 800,
+              "height": 635.421875,
+              "right": 1040,
+              "bottom": 647.703125
+            },
+            "world": {
+              "x": 240,
+              "y": 76.28125,
+              "width": 800,
+              "height": 571.421875,
+              "right": 1040,
+              "bottom": 647.703125
+            },
+            "toolbar": {
+              "x": 240,
+              "y": 12.28125,
+              "width": 800,
+              "height": 64,
+              "right": 1040,
+              "bottom": 76.28125
+            },
+            "bodyHeight": 660,
+            "bodyWidth": 1280,
+            "frame": {
+              "width": 800,
+              "height": 571,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 800,
+              "height": 571
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": false,
+            "mobile": false
+          },
+          {
+            "label": "after-menus-1024",
+            "window": {
+              "width": 1024,
+              "height": 600
+            },
+            "stage": {
+              "x": 154,
+              "y": 12.28125,
+              "width": 716,
+              "height": 575.421875,
+              "right": 870,
+              "bottom": 587.703125
+            },
+            "world": {
+              "x": 154,
+              "y": 76.28125,
+              "width": 716,
+              "height": 511.421875,
+              "right": 870,
+              "bottom": 587.703125
+            },
+            "toolbar": {
+              "x": 154,
+              "y": 12.28125,
+              "width": 716,
+              "height": 64,
+              "right": 870,
+              "bottom": 76.28125
+            },
+            "bodyHeight": 600,
+            "bodyWidth": 1024,
+            "frame": {
+              "width": 716,
+              "height": 511,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 716,
+              "height": 511
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": false,
+            "mobile": false
+          },
+          {
+            "label": "battle-1920",
+            "window": {
+              "width": 1920,
+              "height": 880
+            },
+            "stage": {
+              "x": 512,
+              "y": 88,
+              "width": 896,
+              "height": 704,
+              "right": 1408,
+              "bottom": 792
+            },
+            "world": {
+              "x": 512,
+              "y": 152,
+              "width": 896,
+              "height": 640,
+              "right": 1408,
+              "bottom": 792
+            },
+            "toolbar": {
+              "x": 512,
+              "y": 88,
+              "width": 896,
+              "height": 64,
+              "right": 1408,
+              "bottom": 152
+            },
+            "bodyHeight": 880,
+            "bodyWidth": 1920,
+            "frame": {
+              "width": 896,
+              "height": 640,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 896,
+              "height": 640
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": false,
+            "mobile": false
+          },
+          {
+            "label": "battle-1536",
+            "window": {
+              "width": 1536,
+              "height": 680
+            },
+            "stage": {
+              "x": 354,
+              "y": 12.28125,
+              "width": 828,
+              "height": 655.421875,
+              "right": 1182,
+              "bottom": 667.703125
+            },
+            "world": {
+              "x": 354,
+              "y": 76.28125,
+              "width": 828,
+              "height": 591.421875,
+              "right": 1182,
+              "bottom": 667.703125
+            },
+            "toolbar": {
+              "x": 354,
+              "y": 12.28125,
+              "width": 828,
+              "height": 64,
+              "right": 1182,
+              "bottom": 76.28125
+            },
+            "bodyHeight": 680,
+            "bodyWidth": 1536,
+            "frame": {
+              "width": 828,
+              "height": 591,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 828,
+              "height": 591
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": false,
+            "mobile": false
+          },
+          {
+            "label": "battle-1280",
+            "window": {
+              "width": 1280,
+              "height": 660
+            },
+            "stage": {
+              "x": 240,
+              "y": 12.28125,
+              "width": 800,
+              "height": 635.421875,
+              "right": 1040,
+              "bottom": 647.703125
+            },
+            "world": {
+              "x": 240,
+              "y": 76.28125,
+              "width": 800,
+              "height": 571.421875,
+              "right": 1040,
+              "bottom": 647.703125
+            },
+            "toolbar": {
+              "x": 240,
+              "y": 12.28125,
+              "width": 800,
+              "height": 64,
+              "right": 1040,
+              "bottom": 76.28125
+            },
+            "bodyHeight": 660,
+            "bodyWidth": 1280,
+            "frame": {
+              "width": 800,
+              "height": 571,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 800,
+              "height": 571
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": false,
+            "mobile": false
+          },
+          {
+            "label": "battle-1024",
+            "window": {
+              "width": 1024,
+              "height": 600
+            },
+            "stage": {
+              "x": 154,
+              "y": 12.28125,
+              "width": 716,
+              "height": 575.421875,
+              "right": 870,
+              "bottom": 587.703125
+            },
+            "world": {
+              "x": 154,
+              "y": 76.28125,
+              "width": 716,
+              "height": 511.421875,
+              "right": 870,
+              "bottom": 587.703125
+            },
+            "toolbar": {
+              "x": 154,
+              "y": 12.28125,
+              "width": 716,
+              "height": 64,
+              "right": 870,
+              "bottom": 76.28125
+            },
+            "bodyHeight": 600,
+            "bodyWidth": 1024,
+            "frame": {
+              "width": 716,
+              "height": 511,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 716,
+              "height": 511
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": false,
+            "mobile": false
+          },
+          {
+            "label": "native-fullscreen",
+            "window": {
+              "width": 1024,
+              "height": 600
+            },
+            "stage": {
+              "x": 137,
+              "y": 0.140625,
+              "width": 750,
+              "height": 599.703125,
+              "right": 887,
+              "bottom": 599.84375
+            },
+            "world": {
+              "x": 137,
+              "y": 64.140625,
+              "width": 750,
+              "height": 535.703125,
+              "right": 887,
+              "bottom": 599.84375
+            },
+            "toolbar": {
+              "x": 137,
+              "y": 0.140625,
+              "width": 750,
+              "height": 64,
+              "right": 887,
+              "bottom": 64.140625
+            },
+            "bodyHeight": 600,
+            "bodyWidth": 1024,
+            "frame": {
+              "width": 750,
+              "height": 536,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 750,
+              "height": 536
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": true,
+            "mobile": false
+          },
+          {
+            "label": "after-fullscreen",
+            "window": {
+              "width": 1024,
+              "height": 600
+            },
+            "stage": {
+              "x": 154,
+              "y": 12.28125,
+              "width": 716,
+              "height": 575.421875,
+              "right": 870,
+              "bottom": 587.703125
+            },
+            "world": {
+              "x": 154,
+              "y": 76.28125,
+              "width": 716,
+              "height": 511.421875,
+              "right": 870,
+              "bottom": 587.703125
+            },
+            "toolbar": {
+              "x": 154,
+              "y": 12.28125,
+              "width": 716,
+              "height": 64,
+              "right": 870,
+              "bottom": 76.28125
+            },
+            "bodyHeight": 600,
+            "bodyWidth": 1024,
+            "frame": {
+              "width": 716,
+              "height": 511,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 716,
+              "height": 511
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": false,
+            "mobile": false
+          }
+        ],
+        "menus": [
+          {
+            "selector": ".team-panel",
+            "viewport": {
+              "width": 1536,
+              "height": 680
+            }
+          },
+          {
+            "selector": ".bag-backdrop section",
+            "viewport": {
+              "width": 1536,
+              "height": 680
+            }
+          },
+          {
+            "selector": ".info-panel",
+            "viewport": {
+              "width": 1536,
+              "height": 680
+            }
+          },
+          {
+            "selector": ".dex-backdrop section",
+            "viewport": {
+              "width": 1536,
+              "height": 680
+            }
+          },
+          {
+            "selector": ".team-panel",
+            "viewport": {
+              "width": 1280,
+              "height": 660
+            }
+          },
+          {
+            "selector": ".bag-backdrop section",
+            "viewport": {
+              "width": 1280,
+              "height": 660
+            }
+          },
+          {
+            "selector": ".info-panel",
+            "viewport": {
+              "width": 1280,
+              "height": 660
+            }
+          },
+          {
+            "selector": ".dex-backdrop section",
+            "viewport": {
+              "width": 1280,
+              "height": 660
+            }
+          },
+          {
+            "selector": ".team-panel",
+            "viewport": {
+              "width": 1024,
+              "height": 600
+            }
+          },
+          {
+            "selector": ".bag-backdrop section",
+            "viewport": {
+              "width": 1024,
+              "height": 600
+            }
+          },
+          {
+            "selector": ".info-panel",
+            "viewport": {
+              "width": 1024,
+              "height": 600
+            }
+          },
+          {
+            "selector": ".dex-backdrop section",
+            "viewport": {
+              "width": 1024,
+              "height": 600
+            }
+          },
+          {
+            "selector": ".text-with-image",
+            "viewport": {
+              "width": 1536,
+              "height": 680
+            }
+          },
+          {
+            "selector": ".battle",
+            "viewport": {
+              "width": 1920,
+              "height": 880
+            }
+          },
+          {
+            "selector": ".battle-main-actions",
+            "viewport": {
+              "width": 1920,
+              "height": 880
+            }
+          },
+          {
+            "selector": ".battle",
+            "viewport": {
+              "width": 1536,
+              "height": 680
+            }
+          },
+          {
+            "selector": ".battle-main-actions",
+            "viewport": {
+              "width": 1536,
+              "height": 680
+            }
+          },
+          {
+            "selector": ".battle",
+            "viewport": {
+              "width": 1280,
+              "height": 660
+            }
+          },
+          {
+            "selector": ".battle-main-actions",
+            "viewport": {
+              "width": 1280,
+              "height": 660
+            }
+          },
+          {
+            "selector": ".battle",
+            "viewport": {
+              "width": 1024,
+              "height": 600
+            }
+          },
+          {
+            "selector": ".battle-main-actions",
+            "viewport": {
+              "width": 1024,
+              "height": 600
+            }
+          },
+          {
+            "selector": ".battle",
+            "viewport": {
+              "width": 1024,
+              "height": 600
+            }
+          },
+          {
+            "selector": ".battle",
+            "viewport": {
+              "width": 1024,
+              "height": 600
+            }
+          }
+        ],
+        "errors": [],
+        "positionPreserved": true,
+        "closedModesPreserved": true,
+        "output": "/tmp/riftmon-laptop-chromium"
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "auditOnly": false,
+        "nativeFullscreen": false,
+        "layouts": [
+          {
+            "label": "world-2560x1440",
+            "window": {
+              "width": 2560,
+              "height": 1440
+            },
+            "stage": {
+              "x": 832,
+              "y": 368,
+              "width": 896,
+              "height": 704,
+              "right": 1728,
+              "bottom": 1072
+            },
+            "world": {
+              "x": 832,
+              "y": 432,
+              "width": 896,
+              "height": 640,
+              "right": 1728,
+              "bottom": 1072
+            },
+            "toolbar": {
+              "x": 832,
+              "y": 368,
+              "width": 896,
+              "height": 64,
+              "right": 1728,
+              "bottom": 432
+            },
+            "bodyHeight": 1440,
+            "bodyWidth": 2560,
+            "frame": {
+              "width": 896,
+              "height": 640,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 896,
+              "height": 640
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": false,
+            "mobile": false
+          },
+          {
+            "label": "world-1920x1080",
+            "window": {
+              "width": 1920,
+              "height": 1080
+            },
+            "stage": {
+              "x": 512,
+              "y": 188,
+              "width": 896,
+              "height": 704,
+              "right": 1408,
+              "bottom": 892
+            },
+            "world": {
+              "x": 512,
+              "y": 252,
+              "width": 896,
+              "height": 640,
+              "right": 1408,
+              "bottom": 892
+            },
+            "toolbar": {
+              "x": 512,
+              "y": 188,
+              "width": 896,
+              "height": 64,
+              "right": 1408,
+              "bottom": 252
+            },
+            "bodyHeight": 1080,
+            "bodyWidth": 1920,
+            "frame": {
+              "width": 896,
+              "height": 640,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 896,
+              "height": 640
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": false,
+            "mobile": false
+          },
+          {
+            "label": "world-1920x880",
+            "window": {
+              "width": 1920,
+              "height": 880
+            },
+            "stage": {
+              "x": 512,
+              "y": 88,
+              "width": 896,
+              "height": 704,
+              "right": 1408,
+              "bottom": 792
+            },
+            "world": {
+              "x": 512,
+              "y": 152,
+              "width": 896,
+              "height": 640,
+              "right": 1408,
+              "bottom": 792
+            },
+            "toolbar": {
+              "x": 512,
+              "y": 88,
+              "width": 896,
+              "height": 64,
+              "right": 1408,
+              "bottom": 152
+            },
+            "bodyHeight": 880,
+            "bodyWidth": 1920,
+            "frame": {
+              "width": 896,
+              "height": 640,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 896,
+              "height": 640
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": false,
+            "mobile": false
+          },
+          {
+            "label": "world-1707x900",
+            "window": {
+              "width": 1707,
+              "height": 900
+            },
+            "stage": {
+              "x": 405.5,
+              "y": 98,
+              "width": 896,
+              "height": 704,
+              "right": 1301.5,
+              "bottom": 802
+            },
+            "world": {
+              "x": 405.5,
+              "y": 162,
+              "width": 896,
+              "height": 640,
+              "right": 1301.5,
+              "bottom": 802
+            },
+            "toolbar": {
+              "x": 405.5,
+              "y": 98,
+              "width": 896,
+              "height": 64,
+              "right": 1301.5,
+              "bottom": 162
+            },
+            "bodyHeight": 900,
+            "bodyWidth": 1707,
+            "frame": {
+              "width": 896,
+              "height": 640,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 896,
+              "height": 640
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": false,
+            "mobile": false
+          },
+          {
+            "label": "world-1536x680",
+            "window": {
+              "width": 1536,
+              "height": 680
+            },
+            "stage": {
+              "x": 354,
+              "y": 12.28125,
+              "width": 828,
+              "height": 655.421875,
+              "right": 1182,
+              "bottom": 667.703125
+            },
+            "world": {
+              "x": 354,
+              "y": 76.28125,
+              "width": 828,
+              "height": 591.421875,
+              "right": 1182,
+              "bottom": 667.703125
+            },
+            "toolbar": {
+              "x": 354,
+              "y": 12.28125,
+              "width": 828,
+              "height": 64,
+              "right": 1182,
+              "bottom": 76.28125
+            },
+            "bodyHeight": 680,
+            "bodyWidth": 1536,
+            "frame": {
+              "width": 828,
+              "height": 591,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 828,
+              "height": 591
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": false,
+            "mobile": false
+          },
+          {
+            "label": "world-1440x720",
+            "window": {
+              "width": 1440,
+              "height": 720
+            },
+            "stage": {
+              "x": 278,
+              "y": 12.28125,
+              "width": 884,
+              "height": 695.421875,
+              "right": 1162,
+              "bottom": 707.703125
+            },
+            "world": {
+              "x": 278,
+              "y": 76.28125,
+              "width": 884,
+              "height": 631.421875,
+              "right": 1162,
+              "bottom": 707.703125
+            },
+            "toolbar": {
+              "x": 278,
+              "y": 12.28125,
+              "width": 884,
+              "height": 64,
+              "right": 1162,
+              "bottom": 76.28125
+            },
+            "bodyHeight": 720,
+            "bodyWidth": 1440,
+            "frame": {
+              "width": 884,
+              "height": 631,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 884,
+              "height": 631
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": false,
+            "mobile": false
+          },
+          {
+            "label": "world-1366x660",
+            "window": {
+              "width": 1366,
+              "height": 660
+            },
+            "stage": {
+              "x": 283,
+              "y": 12.28125,
+              "width": 800,
+              "height": 635.421875,
+              "right": 1083,
+              "bottom": 647.703125
+            },
+            "world": {
+              "x": 283,
+              "y": 76.28125,
+              "width": 800,
+              "height": 571.421875,
+              "right": 1083,
+              "bottom": 647.703125
+            },
+            "toolbar": {
+              "x": 283,
+              "y": 12.28125,
+              "width": 800,
+              "height": 64,
+              "right": 1083,
+              "bottom": 76.28125
+            },
+            "bodyHeight": 660,
+            "bodyWidth": 1366,
+            "frame": {
+              "width": 800,
+              "height": 571,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 800,
+              "height": 571
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": false,
+            "mobile": false
+          },
+          {
+            "label": "world-1280x660",
+            "window": {
+              "width": 1280,
+              "height": 660
+            },
+            "stage": {
+              "x": 240,
+              "y": 12.28125,
+              "width": 800,
+              "height": 635.421875,
+              "right": 1040,
+              "bottom": 647.703125
+            },
+            "world": {
+              "x": 240,
+              "y": 76.28125,
+              "width": 800,
+              "height": 571.421875,
+              "right": 1040,
+              "bottom": 647.703125
+            },
+            "toolbar": {
+              "x": 240,
+              "y": 12.28125,
+              "width": 800,
+              "height": 64,
+              "right": 1040,
+              "bottom": 76.28125
+            },
+            "bodyHeight": 660,
+            "bodyWidth": 1280,
+            "frame": {
+              "width": 800,
+              "height": 571,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 800,
+              "height": 571
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": false,
+            "mobile": false
+          },
+          {
+            "label": "world-1024x600",
+            "window": {
+              "width": 1024,
+              "height": 600
+            },
+            "stage": {
+              "x": 154,
+              "y": 12.28125,
+              "width": 716,
+              "height": 575.421875,
+              "right": 870,
+              "bottom": 587.703125
+            },
+            "world": {
+              "x": 154,
+              "y": 76.28125,
+              "width": 716,
+              "height": 511.421875,
+              "right": 870,
+              "bottom": 587.703125
+            },
+            "toolbar": {
+              "x": 154,
+              "y": 12.28125,
+              "width": 716,
+              "height": 64,
+              "right": 870,
+              "bottom": 76.28125
+            },
+            "bodyHeight": 600,
+            "bodyWidth": 1024,
+            "frame": {
+              "width": 716,
+              "height": 511,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 716,
+              "height": 511
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": false,
+            "mobile": false
+          },
+          {
+            "label": "world-393x852",
+            "window": {
+              "width": 393,
+              "height": 852
+            },
+            "stage": {
+              "x": 0,
+              "y": 0,
+              "width": 393,
+              "height": 852,
+              "right": 393,
+              "bottom": 852
+            },
+            "world": {
+              "x": 0,
+              "y": 57,
+              "width": 393,
+              "height": 635,
+              "right": 393,
+              "bottom": 692
+            },
+            "toolbar": {
+              "x": 0,
+              "y": 0,
+              "width": 393,
+              "height": 57,
+              "right": 393,
+              "bottom": 57
+            },
+            "bodyHeight": 852,
+            "bodyWidth": 393,
+            "frame": {
+              "width": 393,
+              "height": 635,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 393,
+              "height": 635
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": false,
+            "mobile": true
+          },
+          {
+            "label": "world-844x390",
+            "window": {
+              "width": 844,
+              "height": 390
+            },
+            "stage": {
+              "x": 0,
+              "y": 0,
+              "width": 844,
+              "height": 390,
+              "right": 844,
+              "bottom": 390
+            },
+            "world": {
+              "x": 0,
+              "y": 57,
+              "width": 676,
+              "height": 333,
+              "right": 676,
+              "bottom": 390
+            },
+            "toolbar": {
+              "x": 0,
+              "y": 0,
+              "width": 844,
+              "height": 57,
+              "right": 844,
+              "bottom": 57
+            },
+            "bodyHeight": 390,
+            "bodyWidth": 844,
+            "frame": {
+              "width": 676,
+              "height": 333,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 676,
+              "height": 333
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": false,
+            "mobile": true
+          },
+          {
+            "label": "taller-toolbar",
+            "window": {
+              "width": 1280,
+              "height": 660
+            },
+            "stage": {
+              "x": 272,
+              "y": 12.140625,
+              "width": 736,
+              "height": 635.703125,
+              "right": 1008,
+              "bottom": 647.84375
+            },
+            "world": {
+              "x": 272,
+              "y": 122.140625,
+              "width": 736,
+              "height": 525.703125,
+              "right": 1008,
+              "bottom": 647.84375
+            },
+            "toolbar": {
+              "x": 272,
+              "y": 12.140625,
+              "width": 736,
+              "height": 110,
+              "right": 1008,
+              "bottom": 122.140625
+            },
+            "bodyHeight": 660,
+            "bodyWidth": 1280,
+            "frame": {
+              "width": 736,
+              "height": 526,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 736,
+              "height": 526
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": false,
+            "mobile": false
+          },
+          {
+            "label": "restored-toolbar",
+            "window": {
+              "width": 1280,
+              "height": 660
+            },
+            "stage": {
+              "x": 240,
+              "y": 12.28125,
+              "width": 800,
+              "height": 635.421875,
+              "right": 1040,
+              "bottom": 647.703125
+            },
+            "world": {
+              "x": 240,
+              "y": 76.28125,
+              "width": 800,
+              "height": 571.421875,
+              "right": 1040,
+              "bottom": 647.703125
+            },
+            "toolbar": {
+              "x": 240,
+              "y": 12.28125,
+              "width": 800,
+              "height": 64,
+              "right": 1040,
+              "bottom": 76.28125
+            },
+            "bodyHeight": 660,
+            "bodyWidth": 1280,
+            "frame": {
+              "width": 800,
+              "height": 571,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 800,
+              "height": 571
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": false,
+            "mobile": false
+          },
+          {
+            "label": "after-menus-1536",
+            "window": {
+              "width": 1536,
+              "height": 680
+            },
+            "stage": {
+              "x": 354,
+              "y": 12.28125,
+              "width": 828,
+              "height": 655.421875,
+              "right": 1182,
+              "bottom": 667.703125
+            },
+            "world": {
+              "x": 354,
+              "y": 76.28125,
+              "width": 828,
+              "height": 591.421875,
+              "right": 1182,
+              "bottom": 667.703125
+            },
+            "toolbar": {
+              "x": 354,
+              "y": 12.28125,
+              "width": 828,
+              "height": 64,
+              "right": 1182,
+              "bottom": 76.28125
+            },
+            "bodyHeight": 680,
+            "bodyWidth": 1536,
+            "frame": {
+              "width": 828,
+              "height": 591,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 828,
+              "height": 591
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": false,
+            "mobile": false
+          },
+          {
+            "label": "after-menus-1280",
+            "window": {
+              "width": 1280,
+              "height": 660
+            },
+            "stage": {
+              "x": 240,
+              "y": 12.28125,
+              "width": 800,
+              "height": 635.421875,
+              "right": 1040,
+              "bottom": 647.703125
+            },
+            "world": {
+              "x": 240,
+              "y": 76.28125,
+              "width": 800,
+              "height": 571.421875,
+              "right": 1040,
+              "bottom": 647.703125
+            },
+            "toolbar": {
+              "x": 240,
+              "y": 12.28125,
+              "width": 800,
+              "height": 64,
+              "right": 1040,
+              "bottom": 76.28125
+            },
+            "bodyHeight": 660,
+            "bodyWidth": 1280,
+            "frame": {
+              "width": 800,
+              "height": 571,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 800,
+              "height": 571
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": false,
+            "mobile": false
+          },
+          {
+            "label": "after-menus-1024",
+            "window": {
+              "width": 1024,
+              "height": 600
+            },
+            "stage": {
+              "x": 154,
+              "y": 12.28125,
+              "width": 716,
+              "height": 575.421875,
+              "right": 870,
+              "bottom": 587.703125
+            },
+            "world": {
+              "x": 154,
+              "y": 76.28125,
+              "width": 716,
+              "height": 511.421875,
+              "right": 870,
+              "bottom": 587.703125
+            },
+            "toolbar": {
+              "x": 154,
+              "y": 12.28125,
+              "width": 716,
+              "height": 64,
+              "right": 870,
+              "bottom": 76.28125
+            },
+            "bodyHeight": 600,
+            "bodyWidth": 1024,
+            "frame": {
+              "width": 716,
+              "height": 511,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 716,
+              "height": 511
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": false,
+            "mobile": false
+          },
+          {
+            "label": "battle-1920",
+            "window": {
+              "width": 1920,
+              "height": 880
+            },
+            "stage": {
+              "x": 512,
+              "y": 88,
+              "width": 896,
+              "height": 704,
+              "right": 1408,
+              "bottom": 792
+            },
+            "world": {
+              "x": 512,
+              "y": 152,
+              "width": 896,
+              "height": 640,
+              "right": 1408,
+              "bottom": 792
+            },
+            "toolbar": {
+              "x": 512,
+              "y": 88,
+              "width": 896,
+              "height": 64,
+              "right": 1408,
+              "bottom": 152
+            },
+            "bodyHeight": 880,
+            "bodyWidth": 1920,
+            "frame": {
+              "width": 896,
+              "height": 640,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 896,
+              "height": 640
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": false,
+            "mobile": false
+          },
+          {
+            "label": "battle-1536",
+            "window": {
+              "width": 1536,
+              "height": 680
+            },
+            "stage": {
+              "x": 354,
+              "y": 12.28125,
+              "width": 828,
+              "height": 655.421875,
+              "right": 1182,
+              "bottom": 667.703125
+            },
+            "world": {
+              "x": 354,
+              "y": 76.28125,
+              "width": 828,
+              "height": 591.421875,
+              "right": 1182,
+              "bottom": 667.703125
+            },
+            "toolbar": {
+              "x": 354,
+              "y": 12.28125,
+              "width": 828,
+              "height": 64,
+              "right": 1182,
+              "bottom": 76.28125
+            },
+            "bodyHeight": 680,
+            "bodyWidth": 1536,
+            "frame": {
+              "width": 828,
+              "height": 591,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 828,
+              "height": 591
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": false,
+            "mobile": false
+          },
+          {
+            "label": "battle-1280",
+            "window": {
+              "width": 1280,
+              "height": 660
+            },
+            "stage": {
+              "x": 240,
+              "y": 12.28125,
+              "width": 800,
+              "height": 635.421875,
+              "right": 1040,
+              "bottom": 647.703125
+            },
+            "world": {
+              "x": 240,
+              "y": 76.28125,
+              "width": 800,
+              "height": 571.421875,
+              "right": 1040,
+              "bottom": 647.703125
+            },
+            "toolbar": {
+              "x": 240,
+              "y": 12.28125,
+              "width": 800,
+              "height": 64,
+              "right": 1040,
+              "bottom": 76.28125
+            },
+            "bodyHeight": 660,
+            "bodyWidth": 1280,
+            "frame": {
+              "width": 800,
+              "height": 571,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 800,
+              "height": 571
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": false,
+            "mobile": false
+          },
+          {
+            "label": "battle-1024",
+            "window": {
+              "width": 1024,
+              "height": 600
+            },
+            "stage": {
+              "x": 154,
+              "y": 12.28125,
+              "width": 716,
+              "height": 575.421875,
+              "right": 870,
+              "bottom": 587.703125
+            },
+            "world": {
+              "x": 154,
+              "y": 76.28125,
+              "width": 716,
+              "height": 511.421875,
+              "right": 870,
+              "bottom": 587.703125
+            },
+            "toolbar": {
+              "x": 154,
+              "y": 12.28125,
+              "width": 716,
+              "height": 64,
+              "right": 870,
+              "bottom": 76.28125
+            },
+            "bodyHeight": 600,
+            "bodyWidth": 1024,
+            "frame": {
+              "width": 716,
+              "height": 511,
+              "pixelRatio": 1
+            },
+            "canvas": {
+              "width": 716,
+              "height": 511
+            },
+            "position": {
+              "x": 592,
+              "y": 112
+            },
+            "map": "start",
+            "active": false,
+            "mobile": false
+          }
+        ],
+        "menus": [
+          {
+            "selector": ".team-panel",
+            "viewport": {
+              "width": 1536,
+              "height": 680
+            }
+          },
+          {
+            "selector": ".bag-backdrop section",
+            "viewport": {
+              "width": 1536,
+              "height": 680
+            }
+          },
+          {
+            "selector": ".info-panel",
+            "viewport": {
+              "width": 1536,
+              "height": 680
+            }
+          },
+          {
+            "selector": ".dex-backdrop section",
+            "viewport": {
+              "width": 1536,
+              "height": 680
+            }
+          },
+          {
+            "selector": ".team-panel",
+            "viewport": {
+              "width": 1280,
+              "height": 660
+            }
+          },
+          {
+            "selector": ".bag-backdrop section",
+            "viewport": {
+              "width": 1280,
+              "height": 660
+            }
+          },
+          {
+            "selector": ".info-panel",
+            "viewport": {
+              "width": 1280,
+              "height": 660
+            }
+          },
+          {
+            "selector": ".dex-backdrop section",
+            "viewport": {
+              "width": 1280,
+              "height": 660
+            }
+          },
+          {
+            "selector": ".team-panel",
+            "viewport": {
+              "width": 1024,
+              "height": 600
+            }
+          },
+          {
+            "selector": ".bag-backdrop section",
+            "viewport": {
+              "width": 1024,
+              "height": 600
+            }
+          },
+          {
+            "selector": ".info-panel",
+            "viewport": {
+              "width": 1024,
+              "height": 600
+            }
+          },
+          {
+            "selector": ".dex-backdrop section",
+            "viewport": {
+              "width": 1024,
+              "height": 600
+            }
+          },
+          {
+            "selector": ".text-with-image",
+            "viewport": {
+              "width": 1536,
+              "height": 680
+            }
+          },
+          {
+            "selector": ".battle",
+            "viewport": {
+              "width": 1920,
+              "height": 880
+            }
+          },
+          {
+            "selector": ".battle-main-actions",
+            "viewport": {
+              "width": 1920,
+              "height": 880
+            }
+          },
+          {
+            "selector": ".battle",
+            "viewport": {
+              "width": 1536,
+              "height": 680
+            }
+          },
+          {
+            "selector": ".battle-main-actions",
+            "viewport": {
+              "width": 1536,
+              "height": 680
+            }
+          },
+          {
+            "selector": ".battle",
+            "viewport": {
+              "width": 1280,
+              "height": 660
+            }
+          },
+          {
+            "selector": ".battle-main-actions",
+            "viewport": {
+              "width": 1280,
+              "height": 660
+            }
+          },
+          {
+            "selector": ".battle",
+            "viewport": {
+              "width": 1024,
+              "height": 600
+            }
+          },
+          {
+            "selector": ".battle-main-actions",
+            "viewport": {
+              "width": 1024,
+              "height": 600
+            }
+          }
+        ],
+        "errors": [],
+        "positionPreserved": true,
+        "closedModesPreserved": true,
+        "output": "/tmp/riftmon-laptop-webkit"
+      }
+    },
+    "realServer": true,
+    "database": "explorakit_test",
+    "testAccountsDeleted": true,
+    "screenshotsInspected": [
+      "world-1536-680.png",
+      "battle-1024.png",
+      "wayne-dialogue.png",
+      "menu-pokemon.png",
+      "menu-bag.png"
+    ],
+    "browserWarningCorrected": "WebKit ResizeObserver delivery warning during synthetic 110px toolbar resize fixed by deferring/coalescing geometry writes; final Chromium and WebKit runs contain no page errors."
+  },
+  "limits": [
+    "Headless Chromium and WebKit on Linux, no physical laptop or iPhone tested.",
+    "Window dimensions approximate laptop scaling and browser chrome; screen diagonal alone does not determine CSS viewport."
+  ],
+  "reproduce": [
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-laptop-dist npm run test:laptop-viewport-browser",
+    "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=webkit RELEASE_DIST_DIR=/tmp/riftmon-laptop-dist npm run test:laptop-viewport-browser"
+  ],
+  "productionDatabaseModified": false,
+  "serverChanges": false,
+  "deployment": {
+    "publishedAt": "2026-10-31T11:19:18.443Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-laptop-2026-10-31T11-19-16-732Z",
+    "sourceBaseline": "c7f438ef1eb85b6118a1358e08ba38e0a81b9470",
+    "clientCommit": "2b777a3b9fecffb212fa1791d2766f801dfeb8ee",
+    "clientBuild": "abedc20eb3645ca9",
+    "beforePid": "3579326",
+    "afterPid": "3579326",
+    "serverRestarted": false,
+    "schemaChanged": false,
+    "databaseModified": false,
+    "neighborsUnchanged": true,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.f5ca3bcb.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.4b1995a0.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.2fd32f7c.js",
+      "js/drift.5b8720d7.js",
+      "js/game.52964569.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.de3bb7ec.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.2d86b481.css",
+      "css/test-view.7568246d.css"
+    ],
+    "serviceActive": true,
+    "automaticRestarts": 0
+  }
+}

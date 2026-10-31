@@ -1,5 +1,17 @@
 # Audit technique et mémoire de RiftMon
 
+## Cadrage des portables et fenêtres courtes — 31 octobre 2026
+
+Le cadre de jeu PC utilise désormais la largeur et la hauteur disponibles, après mesure de son en-tête. La marge supérieure de 5 % liée à la largeur de fenêtre est remplacée par un centrage avec 12 px de réserve verticale. Le monde conserve son ratio 7:5, sa résolution native maximale de 896 px en mode fenêtré et ses coordonnées ; aucune transformation CSS ni découpe de carte. Le plein écran peut toujours agrandir le monde. La mesure réutilise le ResizeObserver existant, étendu au conteneur ; les variables ne sont écrites que si elles changent, dans une frame différée et regroupée pour éviter les avertissements de boucle WebKit. Un travail en attente est annulé au démontage. Une barre plus haute réduit automatiquement la carte, sans boucle par frame.
+
+Les combats PC sont bornés entre le bas réel de la barre et le bas du cadre, au lieu de conserver une hauteur indépendante pouvant dépasser. Menus et dialogues réutilisent leur ancrage existant. Le mode mobile conserve sa disposition et ses commandes. Avant correction, le bas dépassait de 101 px à 1536×680, de 108 px à 1280×660 et de 155 px à 1024×600 ; après correction, le cadre entier reste visible.
+
+Validation : 16 tests unitaires/régression réussis, sans échec/saut ; lint et build isolé valides. Recette sur vrai serveur privé et base `explorakit_test`, Chromium/WebKit Linux : onze tailles de 1024×600 à 2560×1440 et mobile 393×852/844×390 ; cadre/canvas et coordonnées conservés, aucun débordement de page, quatre menus sur trois formats courts, vrai dialogue et combat Wayne. Barre temporairement portée à 110 px puis restaurée ; plein écran natif P et retour contrôlés sur Chromium. Zéro erreur navigateur, captures inspectées, comptes jetables supprimés. Tests de dimensions de fenêtres, pas de matériel 16 pouces ni d’iPhone physique revendiqué.
+
+Rapport et recette : `docs/LAPTOP_VIEWPORT_2026-10-31.json`, `DB_TEST_NAME=explorakit_test npm run test:laptop-viewport-browser` (ajouter `PRESENTATION_BROWSER=webkit`). Publication client seule ; aucune modification de serveur, de base, de ressources ou de règles de jeu.
+
+Client publié le 31 octobre 2026 à 12 h 19 (Europe/Paris), commit `2b777a3b9fecffb212fa1791d2766f801dfeb8ee`, build `abedc20eb3645ca9`. Sauvegarde `/home/ubuntu/dev/backups/riftmon-laptop-2026-10-31T11-19-16-732Z`. Index et 22 bundles/CSS HTTPS vérifiés à l’octet ; anciens assets conservés. PID 3579326 inchangé, service actif et zéro redémarrage automatique. Pas de migration ni de modification de compte réel ; Knov/api-test inchangés.
+
 ## Chat local et bulles éphémères — 31 octobre 2026
 
 En Aventure, Entrée ouvre une saisie locale, Entrée envoie et Échap ferme. Les champs, menus, dialogues, combats et compositions IME conservent leurs commandes. Les déplacements et actions clavier/manette sont suspendus pendant la saisie ; le canvas reprend le focus lors de la marche. Sur mobile, petit bouton de bulle sur la carte, sans agrandir l’en-tête ; le dock de déplacement s’efface seulement pendant la composition.
@@ -5381,6 +5393,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 31 octobre 2026 — Cadre PC ajusté à la hauteur et à la largeur disponibles ; combats, menus et dialogues accessibles sur fenêtres courtes, mobile et plein écran préservés. 16 tests et recette Chromium/WebKit ; `docs/LAPTOP_VIEWPORT_2026-10-31.json`.
 
 - 31 octobre 2026 — Chat local avec Entrée, bulles de sept secondes liées aux personnages et bouton mobile. Identité/room serveur, texte brut, cooldown et cache de rendu ; 27 tests et recettes multi-clients Chromium/WebKit sans historique ni mutation d’équipe ; `docs/WORLD_CHAT_2026-10-31.json`.
 

@@ -85,6 +85,7 @@
     "test:all-machines-browser": "node --env-file-if-exists=.env scripts/validateAllMachinesBrowser.js",
     "test:desktop-team-browser": "node --env-file-if-exists=.env scripts/validateDesktopTeamBrowser.js",
     "test:world-chat-browser": "node --env-file-if-exists=.env scripts/validateWorldChatBrowser.js",
+    "test:laptop-viewport-browser": "node --env-file-if-exists=.env scripts/validateLaptopViewportBrowser.js",
     "test:level-growth-browser": "node --env-file-if-exists=.env scripts/validateLevelGrowthBrowser.js",
     "test:position-recovery-browser": "node --env-file-if-exists=.env scripts/validatePositionRecoveryBrowser.js",
     "test:region-map-browser": "node --env-file-if-exists=.env scripts/validateRegionMapBrowser.js",
