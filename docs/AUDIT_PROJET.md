@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## Niveaux de départ du Super Tournoi — 31 octobre 2026
+
+Les trois Pokémon de chaque adversaire commencent désormais aux niveaux 75/85/90 au premier cycle. Le bonus de dix niveaux par cycle de seize dresseurs est conservé : 85/95/100 au deuxième, 95/105/110 au troisième, puis même progression. Texte de l’hôtesse aligné. Espèces, ordre des dresseurs, sets, objets, K4/IV31, IA, cartes de récupération, absence d’XP/soin automatique, scores et records inchangés. Les adversaires des combats déjà engagés restent ceux du snapshot sauvegardé ; les prochains combats générés utilisent les nouveaux niveaux. Aucune réécriture des tentatives ou des comptes existants.
+
+Validation : 36 tests unitaires/régression et six SQL réussis sans saut/échec. Seize équipes contrôlées sur plusieurs cycles, hausse réelle des statistiques, deux cycles complets avec récompenses/score et reprise SQL sans bonus dupliqué. Recette existante Chromium/WebKit Linux sur comptes jetables : règles 75/85/90 et exemples suivants, inscription, traversée du sas, premier adversaire niveau 75 après reconnexion, vrai tour de combat, PP persistants, abandon et équipe d’Aventure conservée. Quatre formats 320/393/844/1365, thèmes clair/nocturne, zéro erreur navigateur ; comptes jetables supprimés. Lint, build isolé et diff valides. Aucun téléphone physique ni réouverture des modes fermés revendiqués. Rapport et commandes : `docs/SUPER_TOURNAMENT_LEVELS_2026-10-31.json`.
+
+Client et serveur publiés le 31 octobre 2026 à 17 h 18 (Europe/Paris), client `fc67be9c6fb47dc9658fd32793ca868ef58034c1`, build `08ea29328e9b2835`. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-tournament-levels-2026-10-31T16-18-12-494Z`. PID 3601568→3603144, service actif, zéro redémarrage automatique/avertissement. Index et 22 bundles/CSS HTTPS vérifiés à l’octet, anciens assets conservés ; namespace Rift fermé et checkpoint inchangé, zéro expédition active au contrôle. Aucune migration ni modification manuelle de compte réel ; Knov/api-test inchangés.
+
 ## Notification de charge du téléporteur — 31 octobre 2026
 
 Chaque incrément réellement enregistré par `voidEndingRepository.charge` émet désormais, vers son seul propriétaire, un `progressionNotice` de type `teleporter_charge`, avec la charge numérique et « Téléporteur chargé à N/5 ». L’envoi existant du sac est conservé. La sélection des attaques, dépense de PP, déduplication des reçus, verrou SQL, maximum de cinq charges, propriété de l’objet et règles d’admin restent inchangés. Pas de notification pour une action empêchée, non électrique, sans dépense de PP, sans objet admissible ou déjà entièrement chargé. Les anciens clients comprennent toujours le message générique ; aucun RPC supplémentaire ni diffusion publique.
@@ -5473,6 +5481,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 31 octobre 2026 — Super Tournoi : départ 75/85/90, bonus +10 par cycle conservé et hôtesse alignée ; 36 tests unitaires, six SQL, recettes Chromium/WebKit. `docs/SUPER_TOURNAMENT_LEVELS_2026-10-31.json`.
 
 - 31 octobre 2026 — Téléporteur : alerte privée à chaque vraie charge électrique, compteur/jauge 1/5→5/5 pendant le combat, sans déplacer les commandes. Sept tests unitaires, cinq SQL et recettes Chromium/WebKit ; `docs/TELEPORTER_CHARGE_2026-10-31.json`.
 

@@ -1,0 +1,167 @@
+{
+  "date": "2026-10-31",
+  "scope": "Super Tournament starts at levels 75/85/90",
+  "sourceBaseline": "61dae9d1bd317831b326278fda0ab9016edcac58",
+  "clientBaseline": "a669d906c6afe251778f2c242848c3e195340907",
+  "clientCommit": "fc67be9c6fb47dc9658fd32793ca868ef58034c1",
+  "clientBuild": "08ea29328e9b2835",
+  "baseLevels": [
+    75,
+    85,
+    90
+  ],
+  "levelsPerCycle": 10,
+  "trainersPerCycle": 16,
+  "examples": [
+    [
+      75,
+      85,
+      90
+    ],
+    [
+      85,
+      95,
+      100
+    ],
+    [
+      95,
+      105,
+      110
+    ]
+  ],
+  "existingBattles": "Persisted opponents retained at their current levels; newly generated fights use the new baseline",
+  "teamsItemsPotentialAndRules": "Unchanged; K4, IV31, rewards, no XP, score and persistent records retained",
+  "runtimeSourceSha256": {
+    "server/game/superTournament/content.js": "e4ebb51ea672a4ccfd03bc75da88a05da3df278d4f5c2a4fc746bccf98b1cea0"
+  },
+  "validation": {
+    "unitTests": 36,
+    "sqlTests": 6,
+    "failures": 0,
+    "skipped": 0,
+    "lint": "passed",
+    "browser": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "errors": [],
+        "viewports": [
+          320,
+          393,
+          844,
+          1365
+        ],
+        "checks": [
+          "invitation",
+          "unique pass",
+          "black-hole travel",
+          "counter offer",
+          "forged offer rejection",
+          "registration",
+          "SAS door",
+          "sealed inventory",
+          "trainer body collisions from all directions",
+          "free surrounding tiles",
+          "trainer Action still starts battle",
+          "trainer portrait",
+          "battle",
+          "reconnect",
+          "PP persistence",
+          "abandon",
+          "original party unchanged"
+        ]
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "errors": [],
+        "viewports": [
+          320,
+          393,
+          844,
+          1365
+        ],
+        "checks": [
+          "invitation",
+          "unique pass",
+          "black-hole travel",
+          "counter offer",
+          "forged offer rejection",
+          "registration",
+          "SAS door",
+          "sealed inventory",
+          "trainer body collisions from all directions",
+          "free surrounding tiles",
+          "trainer Action still starts battle",
+          "trainer portrait",
+          "battle",
+          "reconnect",
+          "PP persistence",
+          "abandon",
+          "original party unchanged"
+        ]
+      }
+    }
+  },
+  "commands": [
+    "node --test --test-concurrency=1 tests/super-tournament.test.js tests/super-tournament-order.test.js tests/super-tournament-rewards.test.js tests/super-tournament-abandon.test.js",
+    "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test node --env-file-if-exists=.env --test --test-concurrency=1 tests/super-tournament-mysql.test.js",
+    "npm --prefix vue-explorakit run lint",
+    "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-tournament-levels-dist",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-tournament-levels-dist RELEASE_SCREENSHOTS=/tmp/riftmon-tournament-levels-chromium node --env-file-if-exists=.env scripts/validateSuperTournamentBrowser.js",
+    "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=webkit RELEASE_DIST_DIR=/tmp/riftmon-tournament-levels-dist RELEASE_SCREENSHOTS=/tmp/riftmon-tournament-levels-webkit node --env-file-if-exists=.env scripts/validateSuperTournamentBrowser.js"
+  ],
+  "schemaChanged": false,
+  "realAccountsManuallyModified": false,
+  "physicalHardware": false,
+  "deployment": {
+    "publishedAt": "2026-10-31T16:18:16.777Z",
+    "restartedAt": "2026-10-31T16:18:13.905Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-tournament-levels-2026-10-31T16-18-12-494Z",
+    "sourceBaseline": "61dae9d1bd317831b326278fda0ab9016edcac58",
+    "sourceHashes": {
+      "server/game/superTournament/content.js": "e4ebb51ea672a4ccfd03bc75da88a05da3df278d4f5c2a4fc746bccf98b1cea0"
+    },
+    "clientCommit": "fc67be9c6fb47dc9658fd32793ca868ef58034c1",
+    "clientBuild": "08ea29328e9b2835",
+    "beforePid": "3601568",
+    "afterPid": "3603144",
+    "serverRestarted": true,
+    "schemaChanged": false,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "checkpointUnchangedWhileDisabled": true,
+    "namespaceClosed": true,
+    "neighborsUnchanged": true,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.f5ca3bcb.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.77f19567.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.2fd32f7c.js",
+      "js/drift.5b8720d7.js",
+      "js/game.8160f3e3.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.de3bb7ec.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.82f5aecc.css",
+      "css/test-view.7568246d.css"
+    ],
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0
+  }
+}

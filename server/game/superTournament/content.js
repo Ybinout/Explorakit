@@ -41,7 +41,7 @@ function createTeam(index){
   const original=source.find(p=>p.pokemonId===id)||{};
   const data=require('../../../data/game/pokedex.json').find(p=>p.id===id);
   const physical=['Fighting','Normal','Flying','Dark','Ground','Steel'].includes(data.type[0]);
-  const pokemon=new Pokemon(id,null,null,getTotalExperienceForLevel([85,95,100][slot]+levelBonus,getExperienceRate(data.exp)),Object.fromEntries(['hp','attack','defense','specialAttack','specialDefense','speed'].map(k=>[k,31])),original.nature||(physical?'Jolly':'Timid'),4,original.ev||{[physical?'attack':'specialAttack']:252,speed:252,hp:4});
+  const pokemon=new Pokemon(id,null,null,getTotalExperienceForLevel([75,85,90][slot]+levelBonus,getExperienceRate(data.exp)),Object.fromEntries(['hp','attack','defense','specialAttack','specialDefense','speed'].map(k=>[k,31])),original.nature||(physical?'Jolly':'Timid'),4,original.ev||{[physical?'attack':'specialAttack']:252,speed:252,hp:4});
   for(const move of sets[id]||original.abilities||[])pokemon.addAbility(move);
   pokemon.passiveAbility=original.passiveAbility||pokemon.passiveAbility;
   pokemon.heldItem=original.heldItem||(['leftovers','life_orb','focus_sash'][slot]);

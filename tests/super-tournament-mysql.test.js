@@ -17,7 +17,7 @@ else {
   const data={offerId:'sql-offer',cardKey:'heal_10',pokemonUuid:uuid};await a.claimReward(data);await assert.rejects(()=>b.claimReward(data),/tentative a changé/);
   const loaded=await repo.load(other);assert.equal(loaded.run.phase,'cleared');assert.equal(loaded.run.reward,null);assert.equal(loaded.run.player.equipe.pokemons[0].currentHp,1+Math.floor(loaded.run.player.equipe.pokemons[0].maxHp*.1));
   await b.load();await assert.rejects(()=>b.claimReward(data));await b.next();assert.equal(content.state(b.run).cycle,2);assert.equal(content.state(b.run).opponent,'Wayne');
-  await b.atomic(()=>b.startBattle());assert.deepEqual(b.run.battle.b.equipe.pokemons.map(p=>p.level).sort((a,b)=>a-b),[95,105,110]);
+  await b.atomic(()=>b.startBattle());assert.deepEqual(b.run.battle.b.equipe.pokemons.map(p=>p.level).sort((a,b)=>a-b),[85,95,100]);
   const enemy=b.run.battle.b.equipe.pokemons.map(p=>[p.uuid,p.level,p.maxHp,p.attack,p.defense,p.speed,[...p.movePp]]);
   const resumed=create();await resumed.load();assert.deepEqual(resumed.run.battle.b.equipe.pokemons.map(p=>[p.uuid,p.level,p.maxHp,p.attack,p.defense,p.speed,[...p.movePp]]),enemy,'reconnect does not add the bonus again');await resumed.abandon();
  });
