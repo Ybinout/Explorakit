@@ -93,7 +93,8 @@
     "test:position-recovery-browser": "node --env-file-if-exists=.env scripts/validatePositionRecoveryBrowser.js",
     "test:region-map-browser": "node --env-file-if-exists=.env scripts/validateRegionMapBrowser.js",
     "test:stone-evolution-browser": "node --env-file-if-exists=.env scripts/validateStoneEvolutionBrowser.js",
-    "test:item-usage-browser": "node --env-file-if-exists=.env scripts/validateItemUsageBrowser.js"
+    "test:item-usage-browser": "node --env-file-if-exists=.env scripts/validateItemUsageBrowser.js",
+    "test:social-notifications-browser": "node --env-file-if-exists=.env scripts/validateSocialNotificationsBrowser.js"
   },
   "keywords": [],
   "author": "",

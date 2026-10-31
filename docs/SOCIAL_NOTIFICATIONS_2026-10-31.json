@@ -1,0 +1,331 @@
+{
+  "date": "2026-10-31",
+  "scope": "Client-only social notification audio and visible unread indicators",
+  "sourceBaseline": "6c740eab9deb2f607e0756b07e6d6eb9a8a7501c",
+  "clientBaseline": "fb9b1ee61aad2078a9a9f1ad10add3873559c327",
+  "clientBuild": "31e833fe6bb34541",
+  "events": [
+    "private message",
+    "friend request",
+    "group invitation",
+    "group message",
+    "trade invitation"
+  ],
+  "sound": {
+    "reuse": "GameFeedbackAudio trusted-gesture AudioContext",
+    "tonesHz": [
+      880,
+      1175
+    ],
+    "durationSeconds": 0.22,
+    "minimumGapMs": 1200,
+    "obeysMasterVolume": true,
+    "visibleDocumentOnly": true,
+    "silentInitialHistory": true,
+    "noQueuedReplay": true,
+    "boundedDedupeEntriesPerKind": 256
+  },
+  "interface": {
+    "amberUnreadBadges": true,
+    "menuBorderPulse": true,
+    "periodSeconds": 2.4,
+    "reducedMotionSupported": true,
+    "headerSizeUnchanged": true,
+    "requestsBeforeFriends": true,
+    "privateUnreadInFriendsTab": true,
+    "groupUnread": "local to connected session; clears when group is viewed"
+  },
+  "validation": {
+    "unitTests": 17,
+    "failures": 0,
+    "skipped": 0,
+    "lint": "passed",
+    "isolatedBuild": "/tmp/riftmon-social-notifications-dist",
+    "browser": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "realAuthenticatedPeers": true,
+        "friendRequest": true,
+        "privateMessage": true,
+        "groupInvite": true,
+        "groupMessage": true,
+        "tradeInvite": true,
+        "realAudioTwoVoices": true,
+        "visibleConversationSilent": true,
+        "ownMessagesSilent": true,
+        "duplicatesRefreshSilent": true,
+        "groupReadClears": true,
+        "mutedSilent": true,
+        "noReplayOnReload": true,
+        "noQueueAfterUnlock": true,
+        "reducedMotion": true,
+        "headerSizeUnchanged": true,
+        "teamAndInventoryUnchanged": true,
+        "closedModesPreserved": true,
+        "views": [
+          {
+            "width": 320,
+            "height": 480,
+            "themeMode": "light",
+            "header": {
+              "x": 10,
+              "y": 6,
+              "width": 300,
+              "height": 44
+            }
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "themeMode": "dark",
+            "header": {
+              "x": 10,
+              "y": 6,
+              "width": 300,
+              "height": 44
+            }
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "themeMode": "light",
+            "header": {
+              "x": 10,
+              "y": 6,
+              "width": 373,
+              "height": 44
+            }
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "themeMode": "dark",
+            "header": {
+              "x": 10,
+              "y": 6,
+              "width": 373,
+              "height": 44
+            }
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "themeMode": "light",
+            "header": {
+              "x": 10,
+              "y": 6,
+              "width": 226.46875,
+              "height": 44
+            }
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "themeMode": "dark",
+            "header": {
+              "x": 10,
+              "y": 6,
+              "width": 226.46875,
+              "height": 44
+            }
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "themeMode": "light",
+            "header": {
+              "x": 369,
+              "y": 22.28125,
+              "width": 226.46875,
+              "height": 44
+            }
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "themeMode": "dark",
+            "header": {
+              "x": 369,
+              "y": 22.28125,
+              "width": 226.46875,
+              "height": 44
+            }
+          }
+        ],
+        "errors": [],
+        "output": "/tmp/riftmon-social-notifications-chromium"
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "realAuthenticatedPeers": true,
+        "friendRequest": true,
+        "privateMessage": true,
+        "groupInvite": true,
+        "groupMessage": true,
+        "tradeInvite": true,
+        "realAudioTwoVoices": true,
+        "visibleConversationSilent": true,
+        "ownMessagesSilent": true,
+        "duplicatesRefreshSilent": true,
+        "groupReadClears": true,
+        "mutedSilent": true,
+        "noReplayOnReload": true,
+        "noQueueAfterUnlock": true,
+        "reducedMotion": true,
+        "headerSizeUnchanged": true,
+        "teamAndInventoryUnchanged": true,
+        "closedModesPreserved": true,
+        "views": [
+          {
+            "width": 320,
+            "height": 480,
+            "themeMode": "light",
+            "header": {
+              "x": 10,
+              "y": 6,
+              "width": 300,
+              "height": 44
+            }
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "themeMode": "dark",
+            "header": {
+              "x": 10,
+              "y": 6,
+              "width": 300,
+              "height": 44
+            }
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "themeMode": "light",
+            "header": {
+              "x": 10,
+              "y": 6,
+              "width": 373,
+              "height": 44
+            }
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "themeMode": "dark",
+            "header": {
+              "x": 10,
+              "y": 6,
+              "width": 373,
+              "height": 44
+            }
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "themeMode": "light",
+            "header": {
+              "x": 10,
+              "y": 6,
+              "width": 226.46875,
+              "height": 44
+            }
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "themeMode": "dark",
+            "header": {
+              "x": 10,
+              "y": 6,
+              "width": 226.46875,
+              "height": 44
+            }
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "themeMode": "light",
+            "header": {
+              "x": 369,
+              "y": 22.28125,
+              "width": 226.46875,
+              "height": 44
+            }
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "themeMode": "dark",
+            "header": {
+              "x": 369,
+              "y": 22.28125,
+              "width": 226.46875,
+              "height": 44
+            }
+          }
+        ],
+        "errors": [],
+        "output": "/tmp/riftmon-social-notifications-webkit"
+      }
+    }
+  },
+  "commands": [
+    "node --test --test-concurrency=1 tests/social-notifications-client.test.js tests/social-groups.test.js tests/unique-item-feedback.test.js",
+    "npm --prefix vue-explorakit run lint",
+    "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-social-notifications-dist",
+    "DB_TEST_NAME=explorakit_test npm run test:social-notifications-browser",
+    "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=webkit npm run test:social-notifications-browser"
+  ],
+  "productionDatabaseChanged": false,
+  "schemaChanged": false,
+  "serverChanged": false,
+  "limitations": [
+    "Headless Chromium and WebKit on Linux; no physical iPhone test",
+    "Autoplay needs an initial trusted interaction, as for existing effects",
+    "Group unread is not persisted across reloads; private unread keeps its existing SQL persistence"
+  ],
+  "clientCommit": "89958e271fcda0687ee6f6bf265ec2d003f8f18c",
+  "deployment": {
+    "publishedAt": "2026-10-31T14:55:04.966Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-social-notifications-2026-10-31T14-55-03-354Z",
+    "sourceBaseline": "6c740eab9deb2f607e0756b07e6d6eb9a8a7501c",
+    "clientCommit": "89958e271fcda0687ee6f6bf265ec2d003f8f18c",
+    "clientBuild": "31e833fe6bb34541",
+    "beforePid": "3594374",
+    "afterPid": "3594374",
+    "serverRestarted": false,
+    "schemaChanged": false,
+    "databaseModified": false,
+    "neighborsUnchanged": true,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.f5ca3bcb.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.8b3cdeb8.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.2fd32f7c.js",
+      "js/drift.5b8720d7.js",
+      "js/game.5fb83bda.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.de3bb7ec.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.74602c3f.css",
+      "css/test-view.7568246d.css"
+    ],
+    "serviceActive": true,
+    "automaticRestarts": 0
+  }
+}

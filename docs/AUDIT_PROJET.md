@@ -1,5 +1,17 @@
 # Audit technique et mémoire de RiftMon
 
+## Notifications sociales sonores et visibles — 31 octobre 2026
+
+Petit carillon synthétisé à deux notes pour les nouveaux messages privés/de groupe, demandes d’ami et invitations de groupe/d’échange. Réutilisation du moteur audio déjà déverrouillé par un geste utilisateur, volume général et silence en arrière-plan conservés ; pas de permission de notification système, téléchargement ou nouveau contexte audio. Un son au maximum toutes les 1,2 seconde, sans file de rejeu. Échos personnels, conversation actuellement visible, historique initial/reconnexion, instantanés de présence et événements répétés restent silencieux. Les invitations d’échange restaurées sont aussi silencieuses. Deux caches bornés à 256 identifiants et nettoyage des abonnements à la destruction ; aucun nouveau timer, polling ou changement serveur/SQL.
+
+Compteurs ambrés et pulsation douce sur Menu, Amis, onglets et conversations non lues ; demandes reçues placées avant la liste des amis. L’onglet Tes amis compte désormais les messages non lus en plus des demandes. Les messages de groupe ont un compteur local, effacé à l’ouverture du groupe ; cet indicateur n’est pas conservé au rechargement, contrairement aux messages privés déjà persistés. Badge supérieur positionné sans modifier le gabarit de la barre. Animations supprimées avec l’option du jeu ou la préférence système de réduction des mouvements, contraste conservé. Aucune modification des cartes, musiques, sauvegardes ou règles d’échange.
+
+Validation : 17 tests unitaires/régression réussis sans échec/saut ; lint et build isolé valides. Recette avec deux vrais joueurs authentifiés, serveur privé et `explorakit_test`, Chromium/WebKit Linux : cinq sources d’alerte, deux vraies voix audio par son, silence en conversation visible, déduplication/rafraîchissement, lecture des messages de groupe, volume nul et absence de rejeu après rechargement/déverrouillage. Quatre formats 320×480/393×852/844×390/1536×680, clair/nocturne : taille du bouton et de l’en-tête identique avant/après notification, menus sans débordement et réduction des animations vérifiée. Zéro erreur navigateur, équipes/inventaires inchangés, comptes jetables supprimés. Captures mobile inspectées ; pas de téléphone physique revendiqué.
+
+Rapport : `docs/SOCIAL_NOTIFICATIONS_2026-10-31.json`. Recette : `DB_TEST_NAME=explorakit_test npm run test:social-notifications-browser` (ajouter `PRESENTATION_BROWSER=webkit`). Tests : `node --test --test-concurrency=1 tests/social-notifications-client.test.js tests/social-groups.test.js tests/unique-item-feedback.test.js`.
+
+Publication client seule le 31 octobre 2026 à 15 h 55 (Europe/Paris), client `89958e271fcda0687ee6f6bf265ec2d003f8f18c`, build `31e833fe6bb34541`. Sauvegarde `/home/ubuntu/dev/backups/riftmon-social-notifications-2026-10-31T14-55-03-354Z`. Index et 22 bundles/CSS publics vérifiés à l’octet, anciens assets conservés ; PID 3594374 inchangé, service actif, zéro redémarrage automatique. Aucun redémarrage serveur, migration ni modification de donnée de production ; Knov/api-test inchangés.
+
 ## Grand Comptoir : navigation par rayon et par objectif — 31 octobre 2026
 
 Les quatre rayons sont commandables depuis n’importe quel comptoir de la tour : Fournitures, Entraînement, Équipement et Baies. L’interface les présente sous forme de boutons explicites ; les étages physiques, leurs vendeuses, escaliers, collisions et illustrations restent inchangés. Entraînement propose sept objectifs : monter de niveau, apprendre une attaque, renforcer les stats, relancer un IV, réinitialiser les EV, changer de talent ou de nature. Les catégories intermédiaires redondantes disparaissent ; retour direct aux objectifs, argent et bascule Acheter/Vendre restent visibles. Les sept objectifs tiennent sans défilement sur la fenêtre PC 1536×680 testée ; le contenu défile normalement sur les petits mobiles.
@@ -5431,6 +5443,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 31 octobre 2026 — Carillon des nouvelles notifications sociales, compteurs ambrés et pulsation Menu/Amis sans agrandir la barre. Déduplication, conversation visible silencieuse, volume et réduction des animations respectés ; 17 tests et recette à deux joueurs Chromium/WebKit. `docs/SOCIAL_NOTIFICATIONS_2026-10-31.json`.
 
 - 31 octobre 2026 — Grand Comptoir unifié : quatre rayons depuis un comptoir, recherche globale et entraînement par objectifs ; prix/badges conservés et validation serveur des rayons. 33 tests unitaires, quatre SQL et recettes Chromium/WebKit ; `docs/STORE_BROWSE_2026-10-31.json`.
 
