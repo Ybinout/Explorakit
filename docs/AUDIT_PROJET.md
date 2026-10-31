@@ -1,5 +1,16 @@
 # Audit technique et mémoire de RiftMon
 
+## Super Tournoi : cycles à 500 000 ₽ puis 1 M — 31 octobre 2026
+
+Le barème précédent est remplacé à la demande du créateur : 10 000 ₽ par victoire aux salles 1–4, 20 000 aux salles 5–8, 30 000 aux salles 9–12 et 40 000 aux salles 13–16. Bonus de 100 000 ₽ après Lucie : exactement 500 000 ₽ pour seize salles. Le multiplicateur est désormais le numéro du cycle, sans l’ancien plafond ×2 : 500 000 ₽ sur les salles 1–16, 1 000 000 sur 17–32, 1 500 000 sur 33–48, 2 000 000 sur 49–64, puis +500 000 par cycle. Ces montants sont propres à chaque bloc ; les deux premiers cycles totalisent donc 1 500 000 ₽. Versements toujours immédiats par salle gagnée, y compris le bonus avec la dernière prime. Anciens gains/reçus conservés à leur montant effectivement versé ; prochaines victoires au nouveau tarif, aucune attribution rétroactive.
+
+Seuls le barème commun et son texte chez l’hôtesse changent. Transactions, anti-doublon, marqueur borné, reprise, conservation après défaite/abandon, plafond technique du porte-monnaie, cartes, points, niveaux, absence d’XP/butin et inventaire scellé conservés. Pas de migration, de remise à zéro de tentative ou de modification manuelle de compte. Le nouveau champ de progression est additif ; l’interface conserve un repli pour un ancien serveur.
+
+Validation : 43 tests unitaires/régression et 12 SQL réussis sans échec/saut. Totaux exacts sur deux cycles complets (1 500 000 ₽), cycles 3/4/5/20, millionième salle, montant des bonus, concurrence, retour SQL en arrière injecté et plafond du solde vérifiés. Nouvelle régression de reprise d’un reçu de 3 000 ₽ de l’ancien tarif : il reste intact, puis la prochaine victoire ajoute exactement 10 000 ₽. Recette Socket.IO/SQL Chromium/WebKit Linux sur comptes jetables : nouveau barème et progression affichés, gains exacts 10 000/140 000/20 000 ₽ aux salles 1/16/17 de fixture, bonus de 100 000, solde et reprise, aucune double prime, abandon et équipe/XP d’Aventure intacts. Quatre formats, deux thèmes et deux panneaux : 32 vues, zéro erreur navigateur. La recette attend explicitement l’hydratation HTTP du solde après rechargement, distincte du chargement de carte. Captures mobile/bonus inspectées, lint/build isolé/syntaxe/diff valides. Pas de téléphone physique ni de parcours humain intégral revendiqués. Rapport : `docs/SUPER_TOURNAMENT_CASH_SCALE_2026-10-31.json`.
+
+Serveur et client publiés le 31 octobre 2026 à 22 h 52 (Europe/Paris), client `9bdaff58c13fd11059cd81c90124c82bd9335d44`, build `a0111cd91f93dc5d`. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-tournament-cash-scale-2026-10-31T21-52-52-639Z`. PID 3617266→3618793, service actif, zéro redémarrage automatique/avertissement. Index et 22 bundles/CSS HTTPS vérifiés à l’octet, anciens assets conservés. Zéro tentative active au contrôle, aucune migration ni modification manuelle de compte réel ; modes fermés/checkpoint et Knov/api-test préservés.
+
+
 ## Primes par salle du Super Tournoi — 31 octobre 2026
 
 Premier cycle : 3 000 ₽ par victoire aux salles 1–4, 5 000 aux salles 5–8, 7 500 aux salles 9–12, 10 000 aux salles 13–16 ; Lucie ajoute 20 000 ₽ de bonus, soit 122 000 ₽ pour seize victoires. Chaque cycle ajoute 25 % du tarif initial, bonus inclus, plafonné à ×2 dès le cinquième : totaux 122 000 / 152 500 / 183 000 / 213 500 / 244 000 ₽. Base économique à tester : équipements courants à 10 000, Super Bonbon à 20 000 et Méga Bonbon à 50 000. Seule une salle entièrement gagnée verse une prime, immédiatement dans le vrai porte-monnaie Aventure. Argent conservé après défaite/abandon, sans prime pour les seuls K.O. partiels. Score, niveaux, cartes, absence d’XP/butin et ressources scellées inchangés.
@@ -5548,6 +5559,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 31 octobre 2026 — Revalorisation des primes du Super Tournoi : 500 000 ₽ au premier cycle de 16 salles, 1 M au deuxième, 1,5 M au troisième, progression linéaire sans plafond. Quarante-trois tests unitaires et douze SQL ; reprise des anciens reçus conservée. `docs/SUPER_TOURNAMENT_CASH_SCALE_2026-10-31.json`.
 
 - 31 octobre 2026 — Primes du Super Tournoi : 122 000 ₽ sur le premier cycle, +25 % du tarif initial par cycle plafonné à ×2, crédit transactionnel à chaque salle gagnée et gains conservés. Quarante-deux tests unitaires, douze SQL et recette Chromium/WebKit validés ; `docs/SUPER_TOURNAMENT_CASH_2026-10-31.json`.
 

@@ -7,26 +7,26 @@ async function start(c){await c.next();await c.atomic(()=>c.startBattle());}
 async function win(c){await c.atomic(()=>{const b=c.run.battle;for(const p of b.b.equipe.pokemons)p.currentHp=0;b.prune();b.checkEnd();c.reconcile();});}
 async function skip(c){await c.claimReward({offerId:c.run.reward.id,skip:true});}
 test('SQL room payouts are atomic, durable on reconnect, preserved on abandon and cannot be replayed',{skip:!enabled},async()=>{const f=await fixture();try{
- await start(f.c);await win(f.c);assert.equal(await f.balance(),3000);const loaded=await repository.load(f.u.id);assert.equal(loaded.run.cash.earned,3000);
- await assert.rejects(()=>repository.save(f.u.id,loaded.run,loaded.version,{payout:{runId:loaded.run.id,room:1}}),/prime de salle/);assert.equal(await f.balance(),3000);
- const resumed=f.create();await resumed.load();assert.equal(await f.balance(),3000);await skip(resumed);await resumed.abandon();assert.equal(await f.balance(),3000);assert.equal((await repository.load(f.u.id)).run,null);
- assert.equal(f.events.findLast(([e])=>e==='superTournamentPayout')[1].balance,3000);
+ await start(f.c);await win(f.c);assert.equal(await f.balance(),10000);const loaded=await repository.load(f.u.id);assert.equal(loaded.run.cash.earned,10000);
+ await assert.rejects(()=>repository.save(f.u.id,loaded.run,loaded.version,{payout:{runId:loaded.run.id,room:1}}),/prime de salle/);assert.equal(await f.balance(),10000);
+ const resumed=f.create();await resumed.load();assert.equal(await f.balance(),10000);await skip(resumed);await resumed.abandon();assert.equal(await f.balance(),10000);assert.equal((await repository.load(f.u.id)).run,null);
+ assert.equal(f.events.findLast(([e])=>e==='superTournamentPayout')[1].balance,10000);
  }finally{await f.cleanup();}});
 test('SQL two stale controllers cannot both collect the same win',{skip:!enabled},async()=>{const f=await fixture();try{
- await start(f.c);const a=f.create(),b=f.create();await a.load();await b.load();const results=await Promise.allSettled([win(a),win(b)]);assert.equal(results.filter(r=>r.status==='fulfilled').length,1);assert.equal(results.filter(r=>r.status==='rejected').length,1);assert.equal(await f.balance(),3000);assert.equal((await repository.load(f.u.id)).run.cash.earned,3000);
+ await start(f.c);const a=f.create(),b=f.create();await a.load();await b.load();const results=await Promise.allSettled([win(a),win(b)]);assert.equal(results.filter(r=>r.status==='fulfilled').length,1);assert.equal(results.filter(r=>r.status==='rejected').length,1);assert.equal(await f.balance(),10000);assert.equal((await repository.load(f.u.id)).run.cash.earned,10000);
  }finally{await f.cleanup();}});
 test('SQL a wallet write failure rolls back checkpoint, score, payout and client notice together',{skip:!enabled},async()=>{const f=await fixture();const getConnection=db.getConnection;let injected=false;try{
  await start(f.c);db.getConnection=async function(){const c=await getConnection.call(db),execute=c.execute,release=c.release;c.execute=async function(sql,...args){if(!injected&&sql.startsWith('UPDATE users SET money=money+')){injected=true;throw Error('injected wallet failure');}return execute.call(this,sql,...args);};c.release=function(){c.execute=execute;c.release=release;return release.call(this);};return c;};
  await assert.rejects(()=>win(f.c),/injected wallet failure/);db.getConnection=getConnection;assert(injected);assert.equal(await f.balance(),0);assert.equal(f.c.run.phase,'battle');assert.equal(f.c.run.cash.earned,0);const saved=await repository.load(f.u.id);assert.equal(saved.run.phase,'battle');assert.equal(saved.run.score,0);assert.equal(saved.run.cash.earned,0);assert(!f.events.some(([e])=>e==='superTournamentPayout'));
- await win(f.c);assert.equal(await f.balance(),3000);
+ await win(f.c);assert.equal(await f.balance(),10000);
  }finally{db.getConnection=getConnection;await f.cleanup();}});
 test('SQL room cash adds to simultaneous Adventure money instead of overwriting it',{skip:!enabled},async()=>{const f=await fixture();try{
- await start(f.c);await Promise.all([win(f.c),require('../server/persistence/userRepository').awardUserMoney(f.u.id,500)]);assert.equal(await f.balance(),3500);
+ await start(f.c);await Promise.all([win(f.c),require('../server/persistence/userRepository').awardUserMoney(f.u.id,500)]);assert.equal(await f.balance(),10500);
  }finally{await f.cleanup();}});
 test('SQL purse ceiling caps the real credit without blocking a win or minting unreceived earnings',{skip:!enabled},async()=>{const f=await fixture();try{
  const max=Number.MAX_SAFE_INTEGER;await db.execute('UPDATE users SET money=? WHERE id=?',[max-1000,f.u.id]);await start(f.c);await win(f.c);assert.equal(await f.balance(),max);assert.equal(f.c.run.cash.earned,1000);assert.equal(f.c.run.cash.last.amount,1000);assert.equal(f.c.run.cash.last.limited,true);
  await skip(f.c);await start(f.c);await win(f.c);assert.equal(await f.balance(),max);assert.equal(f.c.run.cash.earned,1000);assert.equal(f.c.run.cash.last.amount,0);assert.equal(f.c.run.cash.paidThrough,2);
  }finally{await f.cleanup();}});
 test('SQL complete two cycles award the exact schedule, while XP and the sealed wallet stay untouched',{skip:!enabled,timeout:30000},async()=>{const f=await fixture();try{
- const xp=f.c.run.player.equipe.pokemons[0].experience;for(let i=0;i<32;i++){await start(f.c);await win(f.c);await skip(f.c);}assert.equal(await f.balance(),274500);assert.equal(f.c.run.cash.earned,274500);assert.equal(f.c.run.score,9600);assert.equal(f.c.run.player.money,0);assert.equal(f.c.run.player.equipe.pokemons[0].experience,xp);
+ const xp=f.c.run.player.equipe.pokemons[0].experience;for(let i=0;i<32;i++){await start(f.c);await win(f.c);await skip(f.c);}assert.equal(await f.balance(),1500000);assert.equal(f.c.run.cash.earned,1500000);assert.equal(f.c.run.score,9600);assert.equal(f.c.run.player.money,0);assert.equal(f.c.run.player.equipe.pokemons[0].experience,xp);
  }finally{await f.cleanup();}});

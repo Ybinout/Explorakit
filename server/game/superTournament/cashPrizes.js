@@ -1,11 +1,11 @@
 const ROOMS_PER_CYCLE=16;
-const TIERS=[3000,5000,7500,10000];
-const CYCLE_BONUS=20000;
+const TIERS=[10000,20000,30000,40000];
+const CYCLE_BONUS=100000;
 const MAX_BALANCE=Number.MAX_SAFE_INTEGER;
 function quote(room) {
  if(!Number.isSafeInteger(room)||room<1)throw Error('Salle inconnue.');
  const cycle=Math.floor((room-1)/ROOMS_PER_CYCLE)+1,cycleRoom=(room-1)%ROOMS_PER_CYCLE+1;
- const multiplier=Math.min(2,1+(cycle-1)*.25);
+ const multiplier=cycle;
  const base=TIERS[Math.floor((cycleRoom-1)/4)]*multiplier;
  const bonus=cycleRoom===ROOMS_PER_CYCLE?CYCLE_BONUS*multiplier:0;
  return {room,cycle,cycleRoom,base,bonus,total:base+bonus,multiplier};
@@ -23,5 +23,5 @@ function recordWin(run) {
  cash.last={...prize,amount:prize.total,limited:false};return true;
 }
 function view(run){return {earned:Number(run.cash?.earned)||0,last:run.cash?.last||null};}
-function schedule(){return {tiers:TIERS.map((amount,i)=>({from:i*4+1,to:(i+1)*4,amount})),cycleBonus:CYCLE_BONUS,firstCycleTotal:TIERS.reduce((sum,n)=>sum+n*4,0)+CYCLE_BONUS,cycleIncreasePercent:25,maxMultiplier:2};}
+function schedule(){const firstCycleTotal=TIERS.reduce((sum,n)=>sum+n*4,0)+CYCLE_BONUS;return {tiers:TIERS.map((amount,i)=>({from:i*4+1,to:(i+1)*4,amount})),cycleBonus:CYCLE_BONUS,firstCycleTotal,cycleTotalIncrement:firstCycleTotal,cycleIncreasePercent:100,maxMultiplier:null};}
 module.exports={quote,ensure,recordWin,view,schedule,MAX_BALANCE,ROOMS_PER_CYCLE};
