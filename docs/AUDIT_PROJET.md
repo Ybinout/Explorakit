@@ -1,5 +1,17 @@
 # Audit technique et mémoire de RiftMon
 
+## Repères de capture et Balls adverses blessées — 31 octobre 2026
+
+Une petite Poké Ball est affichée avant le nom d’un sauvage dont l’espèce a déjà été capturée en Aventure. Le repère utilise l’historique `caught` du Pokédex, pas la possession actuelle ni le simple état « vu » ; il reste donc valable après un dépôt au PC ou un relâcher. Il suit les mises à jour du Pokédex sans ouvrir son menu, et l’identifiant de l’espèce originale, y compris les transformations temporaires. Il ne s’affiche pas contre un dresseur ni un personnage narratif. Réutilisation du snapshot déjà chargé et d’un Set calculé côté Vue ; aucune requête SQL par tour ni lecture de sauvegarde supplémentaire.
+
+Les petites Balls de l’équipe d’un PNJ sont rouges à pleine santé, orange dès qu’il manque des PV et grises à K.O. Les soins rétablissent le rouge. Nouvel état facultatif `opponentPartyStates`, limité à six catégories anonymes et triées sans identité, ordre, espèce, objet ni PV exacts ; ancien tableau booléen conservé pour compatibilité. Le client vérifie la cohérence des deux champs et revient aux états historiques si le nouveau champ manque ou est invalide. Les réserves PvP conservent leur confidentialité et leurs anciens indicateurs. Composant SVG de Ball partagé entre le repère et la liste, sans nouvelle image ni boucle d’animation. Gabarits et positions des commandes inchangés. Moteur commun raccordé pour les PNJ d’Aventure et du Super Tournoi, ainsi que les modes expédition toujours fermés.
+
+Validation : 19 tests unitaires/régression et deux SQL de vrais tours sauvage/dresseur réussis sans échec/saut. Les paquets suivent les dégâts, soins, K.O., suppression permanente, reprise de checkpoint et confidentialité PvP. Recette sur serveur authentifié isolé et base `explorakit_test`, Chromium/WebKit Linux : historique de capture sans possession, Pokémon simplement vu sans repère, rafraîchissement du Pokédex en cours de combat, absence du repère contre les dresseurs, six Balls avec trois couleurs distinctes, soins et K.O. contrôlés par le synchroniseur réel. Quatre formats 320×480/393×852/844×390/1536×680 et thèmes clair/nocturne, aucun débordement des repères ni déplacement des commandes, zéro erreur navigateur ; équipe/sac SQL inchangés, comptes jetables supprimés, captures inspectées. Les changements de PV du parcours graphique sont des états de fixture ; les deux tests SQL exécutent les vrais tours. Pas de téléphone physique ni de tentative dans les modes fermés revendiqués. Lint, build isolé et syntaxe/diff valides.
+
+Rapport : `docs/BATTLE_INDICATORS_2026-10-31.json`. Recette : `DB_TEST_NAME=explorakit_test npm run test:battle-indicators-browser` (ajouter `PRESENTATION_BROWSER=webkit`). SQL : `RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test node --env-file-if-exists=.env --test tests/battle-indicator-mysql.test.js`. Aucune modification des règles de combat, du schéma ou d’un compte réel.
+
+Client et serveur publiés le 31 octobre 2026 à 14 h 41 (Europe/Paris), client `c2b0720874fb03820d8c629e33dca4dbefe99020`, build `051409f255bb9bcc`. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-battle-indicators-2026-10-31T13-40-56-304Z`. PID 3588707→3590542, service actif, zéro redémarrage automatique/avertissement. Index et 22 bundles/CSS HTTPS vérifiés à l’octet, anciens assets conservés ; namespace Rift toujours fermé, checkpoint inchangé et zéro expédition active au contrôle. Knov/api-test inchangés.
+
 ## Glisser-déposer des objets tenus — 31 octobre 2026
 
 Dans la liste d’équipe, une icône colorée représente l’objet tenu. La glisser sur un coéquipier transfère l’objet si son emplacement est vide, ou échange les deux objets. Le Pokémon conserve sa place ; les déplacements d’équipe gardent leur poignée et leur fonctionnement. Souris et pointeur tactile utilisent le même contrôleur, avec seuil de mouvement, aperçu, cible surlignée, défilement de bord et annulation. Sur mobile, seule l’icône d’objet capture ce geste, pour préserver le défilement des cartes ; un clic simple conserve le sélecteur existant. Les objets ne sont pas modifiables pendant un combat ni une tentative du Super Tournoi.
@@ -5405,6 +5417,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 31 octobre 2026 — Poké Ball de capture historique près du nom des sauvages, Balls PNJ orange si blessés et grises à K.O. ; compatibilité des paquets, 19 tests unitaires et deux SQL, recettes Chromium/WebKit clair/nocturne et mobile/PC. `docs/BATTLE_INDICATORS_2026-10-31.json`.
 
 - 31 octobre 2026 — Transfert/échange d’objets tenus par glisser-déposer dans l’équipe, icônes colorées et garde contre rejeu ; transaction SQL atomique, 17 tests unitaires et cinq SQL, recettes Chromium/WebKit PC/tactile. `docs/HELD_ITEM_TRANSFER_2026-10-31.json`.
 

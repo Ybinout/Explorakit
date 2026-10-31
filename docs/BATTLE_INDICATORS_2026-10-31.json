@@ -1,0 +1,269 @@
+{
+  "date": "2026-10-31",
+  "scope": "Caught-history marker for Adventure wild species and anonymous injured NPC party balls.",
+  "sourceBaseline": "e3fae3bbca0a8d3561d28ba4d9ccce40a875a70e",
+  "clientCommit": "c2b0720874fb03820d8c629e33dca4dbefe99020",
+  "clientBuild": "051409f255bb9bcc",
+  "runtimeSourceSha256": {
+    "server/game/battle/partyIndicator.js": "3d89207670cab9812206fc67c006bef93cb9054369e5d67c0aae8efe936e90fb",
+    "server/game/battle/trainerBattle.js": "142714334caca0eecdaeebac0567e0fde17f2fc167869926163c17b2b127f070",
+    "server/game/battle/wildBattle.js": "bc6cff271f8f508b4be42d2165318b3503408638d68278e4ecb52728f29d7bc6",
+    "server/game/drift/driftBattle.js": "f2aa3fae2c3e7200ddf49c3ce58f9bb8b941ee8b4b5683d81f35f16f0e0fdafc"
+  },
+  "implementation": {
+    "wildMarker": "Existing personal Pokédex caught history, independent of current team/PC ownership; seen alone does not count. Original species ID used. Reactive Set; no per-turn request. Adventure history is not reused in separate expedition inventories.",
+    "partyColors": {
+      "ready": "red, full HP",
+      "hurt": "orange, 0 < HP < maxHP",
+      "ko": "grey, HP <= 0"
+    },
+    "protocol": "Boolean opponentParty retained; optional opponentPartyStates with ready/hurt/ko only, max 6 anonymous sorted entries. Client validates counts and consistency, otherwise uses old booleans. Explicit encounter type on wild/trainer frames.",
+    "privacy": "No reserve identity, order or exact HP added. PvP does not receive reserve condition states.",
+    "render": "Shared 14px native SVG, accessible capture label and injured count in party label. No raster, animation loop or layout change."
+  },
+  "validation": {
+    "unit": {
+      "passed": 19,
+      "failed": 0,
+      "skipped": 0,
+      "command": "node --test --test-concurrency=1 tests/battle-party.test.js tests/battle-presentation.test.js tests/battle-order.test.js"
+    },
+    "sql": {
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0,
+      "command": "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test node --env-file-if-exists=.env --test tests/battle-indicator-mysql.test.js",
+      "actualTurns": "Wild and trainer battle orchestrators; explicit wild kind, NPC condition packets after Dragon Rage damage, legacy booleans retained."
+    },
+    "browser": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "views": [
+          {
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "markerFits": true,
+            "controlsUnchanged": true
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "markerFits": true,
+            "controlsUnchanged": true
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "markerFits": true,
+            "controlsUnchanged": true
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "markerFits": true,
+            "controlsUnchanged": true
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "markerFits": true,
+            "controlsUnchanged": true
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "markerFits": true,
+            "controlsUnchanged": true
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "markerFits": true,
+            "controlsUnchanged": true
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "markerFits": true,
+            "controlsUnchanged": true
+          }
+        ],
+        "caughtHistory": true,
+        "seenOnlyUnmarked": true,
+        "historyWithoutOwnedPokemon": true,
+        "livePokedexRefresh": true,
+        "noTrainerCaughtMarker": true,
+        "conditionsFollowDamageHealAndKO": true,
+        "threeDistinctColors": true,
+        "controlsUnchanged": true,
+        "pvpReservePrivacy": true,
+        "legacyCompatible": true,
+        "resourcesUnchanged": true,
+        "errors": [],
+        "closedModesPreserved": true,
+        "physicalHardware": false
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "views": [
+          {
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "markerFits": true,
+            "controlsUnchanged": true
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "markerFits": true,
+            "controlsUnchanged": true
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "markerFits": true,
+            "controlsUnchanged": true
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "markerFits": true,
+            "controlsUnchanged": true
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "markerFits": true,
+            "controlsUnchanged": true
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "markerFits": true,
+            "controlsUnchanged": true
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "markerFits": true,
+            "controlsUnchanged": true
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "markerFits": true,
+            "controlsUnchanged": true
+          }
+        ],
+        "caughtHistory": true,
+        "seenOnlyUnmarked": true,
+        "historyWithoutOwnedPokemon": true,
+        "livePokedexRefresh": true,
+        "noTrainerCaughtMarker": true,
+        "conditionsFollowDamageHealAndKO": true,
+        "threeDistinctColors": true,
+        "controlsUnchanged": true,
+        "pvpReservePrivacy": true,
+        "legacyCompatible": true,
+        "resourcesUnchanged": true,
+        "errors": [],
+        "closedModesPreserved": true,
+        "physicalHardware": false
+      }
+    },
+    "testDatabase": "explorakit_test",
+    "testAccountsDeleted": true,
+    "lint": "passed",
+    "build": "passed",
+    "syntax": "passed",
+    "diff": "passed",
+    "screenshotsInspected": [
+      "caught-light-393.png",
+      "party-dark-393.png",
+      "party-light-1536.png"
+    ]
+  },
+  "limits": [
+    "Headless Chromium/WebKit on Linux; no physical phone tested.",
+    "Browser HP/healing/KO transitions driven through authoritative fixture actors and real synchronizer; SQL tests execute real battle turns.",
+    "Closed expedition modes were not reopened or played. Old expedition recipe updated to count injured members as alive but not executed."
+  ],
+  "reproduce": [
+    "DB_TEST_NAME=explorakit_test npm run test:battle-indicators-browser",
+    "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=webkit npm run test:battle-indicators-browser"
+  ],
+  "schemaChanges": false,
+  "battleRulesChanged": false,
+  "realAccountsManuallyModified": false,
+  "deployment": {
+    "publishedAt": "2026-10-31T13:41:00.661Z",
+    "restartedAt": "2026-10-31T13:40:57.919Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-battle-indicators-2026-10-31T13-40-56-304Z",
+    "sourceBaseline": "e3fae3bbca0a8d3561d28ba4d9ccce40a875a70e",
+    "sourceHashes": {
+      "server/game/battle/partyIndicator.js": "3d89207670cab9812206fc67c006bef93cb9054369e5d67c0aae8efe936e90fb",
+      "server/game/battle/trainerBattle.js": "142714334caca0eecdaeebac0567e0fde17f2fc167869926163c17b2b127f070",
+      "server/game/battle/wildBattle.js": "bc6cff271f8f508b4be42d2165318b3503408638d68278e4ecb52728f29d7bc6",
+      "server/game/drift/driftBattle.js": "f2aa3fae2c3e7200ddf49c3ce58f9bb8b941ee8b4b5683d81f35f16f0e0fdafc"
+    },
+    "clientCommit": "c2b0720874fb03820d8c629e33dca4dbefe99020",
+    "clientBuild": "051409f255bb9bcc",
+    "beforePid": "3588707",
+    "afterPid": "3590542",
+    "serverRestarted": true,
+    "schemaChanged": false,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "checkpointUnchangedWhileDisabled": true,
+    "namespaceClosed": true,
+    "neighborsUnchanged": true,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.f5ca3bcb.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.0f777fbc.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.2fd32f7c.js",
+      "js/drift.5b8720d7.js",
+      "js/game.b1abccac.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.de3bb7ec.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.c6863e74.css",
+      "css/test-view.7568246d.css"
+    ],
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0
+  }
+}

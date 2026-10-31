@@ -1,5 +1,5 @@
 const test=require('node:test'),assert=require('node:assert/strict');
-const {partyIndicator}=require('../server/game/battle/partyIndicator');
+const {partyIndicator,partyConditionIndicator}=require('../server/game/battle/partyIndicator');
 const {DriftBattle}=require('../server/game/drift/driftBattle');
 const factory=require('../server/game/drift/pokemonFactory');
 const codec=require('../server/game/drift/checkpointCodec');
@@ -23,3 +23,27 @@ test('Rift PvP sends each viewer only their opponent count, including permanentl
  const f=fixture('pvp',[2,3]);try{assert.deepEqual(f.last(1),[true,true,true]);assert.deepEqual(f.last(2),[true,true]);f.a.equipe.pokemons[0].currentHp=0;f.battle.prune();f.battle.sync();assert.deepEqual(f.last(2),[true,false]);assert.deepEqual(f.last(1),[true,true,true]);}finally{f.battle.finished=true;}
 });
 test('wild encounters never expose a trainer ball row',()=>{const f=fixture('wild',[1,1]);try{assert.equal(f.last(1),null);}finally{f.battle.finished=true;}});
+test('condition balls distinguish any missing HP, full HP and KO without leaking identities or changing the roster',()=>{
+ const team=[{uuid:'secret',currentHp:0,maxHp:100},{uuid:'hidden',currentHp:99,maxHp:100},{currentHp:100,maxHp:100},{currentHp:1,maxHp:100},{currentHp:20},{isEgg:true,currentHp:1,maxHp:2},{storyActor:'professor',currentHp:1,maxHp:2}],before=structuredClone(team);
+ assert.deepEqual(partyConditionIndicator(team),['ready','ready','hurt','hurt','ko']);assert.deepEqual(team,before);assert.deepEqual(partyConditionIndicator([...team].reverse()),['ready','ready','hurt','hurt','ko']);
+ assert.equal(partyConditionIndicator([]),null);assert.equal(partyConditionIndicator([{storyActor:'professor',currentHp:1}]),null);assert.equal(partyConditionIndicator(Array(9).fill({currentHp:1,maxHp:2})).length,6);
+});
+for(const type of ['trainer','arena'])test(`${type}: condition packets follow damage, healing, knockout, switching and restored checkpoint`,()=>{
+ const f=fixture(type);try{
+  const last=()=>f.events.at(-1).payload.opponentPartyStates;
+  assert.deepEqual(last(),Array(6).fill('ready'));
+  const injured=f.b.equipe.pokemons[0];injured.currentHp--;f.battle.sync();assert.deepEqual(last(),['ready','ready','ready','ready','ready','hurt']);
+  injured.currentHp=injured.maxHp;f.battle.sync();assert.deepEqual(last(),Array(6).fill('ready'));
+  injured.currentHp=1;f.battle.sync();assert(last().includes('hurt'));injured.currentHp=0;f.battle.prune();f.battle.sync();assert.deepEqual(last(),['ready','ready','ready','ready','ready','ko']);
+  const restored=codec.decode(codec.encode(f.battle)),events=[];restored.emit=(_p,e,d)=>{if(e==='introAnimation')events.push(d);};restored.resume(restored.a);assert.deepEqual(events.at(-1).opponentPartyStates,last());restored.finished=true;
+ }finally{f.battle.finished=true;}
+});
+test('wild and PvP packets do not disclose conditions of hidden reserves',()=>{
+ for(const type of ['wild','pvp']){const f=fixture(type);try{f.b.equipe.pokemons[0].currentHp=1;f.battle.sync();assert.equal(f.events.at(-1).payload.opponentPartyStates,null);}finally{f.battle.finished=true;}}
+});
+test('client accepts optional condition states and falls back safely to old boolean packets',async()=>{
+ const {opponentPartyStates:states}=await import('../vue-explorakit/src/services/battleParty.js');
+ assert.deepEqual(states({opponentParty:[true,true,false],opponentPartyStates:['ready','hurt','ko']}),['ready','hurt','ko']);
+ for(const wrong of [null,['ready'],['ready','orange','ko'],['ready','ko','ko']])assert.deepEqual(states({opponentParty:[true,true,false],opponentPartyStates:wrong}),['ready','ready','ko']);
+ assert.equal(states({}),null);assert.equal(states({opponentParty:[1,true]}),null);assert.equal(states({opponentPartyStates:['ready']}),null);assert.equal(states({opponentParty:[]}),null);
+});

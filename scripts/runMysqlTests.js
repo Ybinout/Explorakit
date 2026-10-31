@@ -40,6 +40,7 @@ const result = spawnSync(
         path.resolve(__dirname, '..', 'tests', 'machines-mysql.test.js'),
         path.resolve(__dirname, '..', 'tests', 'move-sequences-mysql.test.js'),
         path.resolve(__dirname, '..', 'tests', 'held-item-transfer-mysql.test.js'),
+        path.resolve(__dirname, '..', 'tests', 'battle-indicator-mysql.test.js'),
         path.resolve(__dirname, '..', 'tests', 'item-usage-mysql.test.js')
     ],
     {

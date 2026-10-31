@@ -2,7 +2,7 @@ const { captureBaseChance } = require('../battle/captureProgression');
 const { growthSnapshot, levelGrowth } = require('../models/levelGrowth');
 const { replacementIndexes } = require('../battle/replacementChoice');
 const presentation = require('../battle/presentationState');
-const { partyIndicator } = require('../battle/partyIndicator');
+const { partyIndicator, partyConditionIndicator } = require('../battle/partyIndicator');
 const { randomUUID } = require('node:crypto');
 const engine = require('../battle/battleEngine');
 const { canFleeWildBattle } = require('../battle/wildEscape');
@@ -90,7 +90,7 @@ class DriftBattle {
             const opponentRoster = this.originalTeams?.get(opponent)
                 || (ownInitial && this.originals ? this.originals.filter(pokemon=>!ownInitial.includes(pokemon)) : opponent.equipe.pokemons);
             this.emit(p, 'battleFieldState', serializeFieldState(this.state,index===0?'player':'enemy'));
-            this.emit(p, 'introAnimation', { genders:presentation.genders(this.active(index),this.active(1-index)), opponentParty:this.type==='wild'?null:partyIndicator(opponentRoster), moveTypes:engine.battleMoveTypes(this.active(index),this.active(1-index),this.state), effortYield:this.type==='pvp'?null:effortYield(this.active(1-index)), musicKind:this.musicKind(), transitions:index===0&&this.b.npc?trainerTactics.decorateTransitions(transitions,this.b.equipe,this.aiMemory):transitions, player: { id: p.socketId, userId: p.userId, equipe: p.equipe }, wildPokemon: this.active(1-index) || null, battleType: this.type === 'arena' ? 'trainer' : this.type, usableMoveIndexes: getUsableMoveIndexes(this.active(index), this.state) });
+            this.emit(p, 'introAnimation', { genders:presentation.genders(this.active(index),this.active(1-index)), opponentParty:this.type==='wild'?null:partyIndicator(opponentRoster), opponentPartyStates:this.type!=='wild'&&opponent.npc?partyConditionIndicator(opponentRoster):null, moveTypes:engine.battleMoveTypes(this.active(index),this.active(1-index),this.state), effortYield:this.type==='pvp'?null:effortYield(this.active(1-index)), musicKind:this.musicKind(), transitions:index===0&&this.b.npc?trainerTactics.decorateTransitions(transitions,this.b.equipe,this.aiMemory):transitions, player: { id: p.socketId, userId: p.userId, equipe: p.equipe }, wildPokemon: this.active(1-index) || null, battleType: this.type === 'arena' ? 'trainer' : this.type, usableMoveIndexes: getUsableMoveIndexes(this.active(index), this.state) });
             if(this.rules?.report !== false) this.emit(p, 'bagUpdated', { items: economy.bag(p) });
         }
         this.onUpdate?.(this);

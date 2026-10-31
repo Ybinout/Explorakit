@@ -11,7 +11,7 @@ const cleanup=require('../server/realtime/driftLobbyHandler').registerDriftLobbi
 let browser,page,userId,success=false;const errors=[];
 function mon(id){const p=factory.create(id,20,true);p.passiveAbility=null;p.abilities=['Splash'];p.movePp=[40];return p;}
 async function ready(){await page.waitForFunction(()=>{const v=document.querySelector('.game-root')?.__vue__;if(v?.socket?.connected){window.partyVm=v;return true;}});}
-async function row(alive,total){await page.waitForFunction(({alive,total})=>{const el=document.querySelector('[data-opponent-party]');return el?.querySelectorAll('[data-party-state="ready"]').length===alive&&el.querySelectorAll('[data-party-state]').length===total;},{alive,total});}
+async function row(alive,total){await page.waitForFunction(({alive,total})=>{const el=document.querySelector('[data-opponent-party]');return el?.querySelectorAll('[data-party-state]:not([data-party-state="ko"])').length===alive&&el.querySelectorAll('[data-party-state]').length===total;},{alive,total});}
 async function closeResult(){await page.locator('[data-battle-result-continue]').click();await page.locator('.battle-scene').waitFor({state:'hidden'});}
 (async()=>{try{
  server.listen(0,'127.0.0.1');await once(server,'listening');const base='http://127.0.0.1:'+server.address().port;
