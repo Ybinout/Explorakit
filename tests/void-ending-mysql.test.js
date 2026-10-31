@@ -65,7 +65,7 @@ test('SQL real battles: own electric PP uses charge five times, then a single da
   const foe=factory.create(19,5,true);foe.abilities=['Splash'];foe.movePp=[40];foe.currentHp=foe.maxHp=9999;
   let socket=new Socket([{action:'attack',number:2},...Array.from({length:5},()=>({action:'attack',number:1})),{action:'flee'}]);const events=[],io={sockets:{sockets:new Map([['owner',socket]])},to:id=>({emit:(event,data)=>events.push({id,event,data})})};
   Math.random=()=>.5;await require('../server/game/battle/wildBattle')(player,foe,io,user.id);
-  assert.equal((await repo.read(user.id)).state.charge,5);assert.deepEqual([...new Set(events.filter(e=>e.event==='bagUpdated').map(e=>e.data.items.find(i=>i.key===ending.config.item)?.charge).filter(n=>n>0))],[1,2,3,4,5]);
+  assert.equal((await repo.read(user.id)).state.charge,5);assert.deepEqual([...new Set(events.filter(e=>e.event==='bagUpdated').map(e=>e.data.items.find(i=>i.key===ending.config.item)?.charge).filter(n=>n>0))],[1,2,3,4,5]);assert.deepEqual(events.filter(e=>e.event==='progressionNotice'&&e.data.type==='teleporter_charge').map(e=>({id:e.id,charge:e.data.charge,message:e.data.message})),[1,2,3,4,5].map(charge=>({id:'owner',charge,message:`Téléporteur chargé à ${charge}/5`})));
   const before={xp:mon.experience,ev:JSON.stringify(mon.ev),pp:mon.movePp[0],money:(await progress.loadProgressState(user.id)).money};
   socket=new Socket([{action:'attack',number:0}]);io.sockets.sockets.set('owner',socket);events.length=0;
   const won=await require('../server/game/battle/professorFinale').start(player,io,user.id,{onVictory:()=>repo.defeat(user.id)});
@@ -90,7 +90,7 @@ for(const kind of ['trainer','pvp'])test(`SQL ${kind}: only the owner of an actu
   if(kind==='trainer')await require('../server/game/battle/trainerBattle')(players[0],players[1].equipe,io,users[0].id);
   else await require('../server/game/battle/pvpBattle').startPvpBattle(players[0],players[1],io);
   assert.deepEqual(await Promise.all(users.map(async u=>(await repo.read(u.id)).state.charge)),kind==='trainer'?[1,0]:[0,1]);
-  const owner=players[kind==='trainer'?0:1];assert(events.some(e=>e.id===owner.id&&e.event==='bagUpdated'&&e.data.items.some(i=>i.key===ending.config.item&&i.charge===1)));
+  const owner=players[kind==='trainer'?0:1];assert(events.some(e=>e.id===owner.id&&e.event==='bagUpdated'&&e.data.items.some(i=>i.key===ending.config.item&&i.charge===1)));assert.deepEqual(events.filter(e=>e.event==='progressionNotice'&&e.data.type==='teleporter_charge').map(e=>({id:e.id,charge:e.data.charge})),[{id:owner.id,charge:1}]);
  }finally{Math.random=oldRandom;for(const u of users)await db.execute('DELETE FROM users WHERE id=?',[u.id]);}
 });
 test.after(async()=>{if(enabled)await db.end();});

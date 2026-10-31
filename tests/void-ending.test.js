@@ -50,6 +50,6 @@ test('charge observer ignores prevented, non-electric and PP-free actions, caps 
  try{repo.charge=async(id,receipt)=>{calls.push({id,receipt});return{available:true,found:true,charge:calls.length,changed:true};};items.loadUserItems=async()=>[];
  const {recorder}=require('../server/game/battle/voidCharge'),record=recorder(11,{id:'owner'},{to:id=>({emit:(event,data)=>events.push({id,event,data})})}),p={movePp:[5]};
  await record({move:{type:'Normal'}},6,p);await record({move:{type:'Electric'},actionPrevented:true},6,p);await record({move:{type:'Electric'}},5,p);assert.equal(calls.length,0);
- for(let i=0;i<8;i++)await record({move:{type:'Electric'}},6,p);assert.equal(calls.length,5);assert.equal(new Set(calls.map(c=>c.receipt)).size,5);assert(events.every(e=>e.id==='owner'&&e.event==='bagUpdated'));
+ for(let i=0;i<8;i++)await record({move:{type:'Electric'}},6,p);assert.equal(calls.length,5);assert.equal(new Set(calls.map(c=>c.receipt)).size,5);assert(events.every(e=>e.id==='owner'));assert.equal(events.filter(e=>e.event==='bagUpdated').length,5);assert.deepEqual(events.filter(e=>e.event==='progressionNotice').map(e=>e.data),[1,2,3,4,5].map(charge=>({type:'teleporter_charge',charge,message:`Téléporteur chargé à ${charge}/5`})));
  }finally{repo.charge=oldCharge;items.loadUserItems=oldItems;}
 });

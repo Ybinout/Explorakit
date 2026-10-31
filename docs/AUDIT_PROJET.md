@@ -1,5 +1,17 @@
 # Audit technique et mémoire de RiftMon
 
+## Notification de charge du téléporteur — 31 octobre 2026
+
+Chaque incrément réellement enregistré par `voidEndingRepository.charge` émet désormais, vers son seul propriétaire, un `progressionNotice` de type `teleporter_charge`, avec la charge numérique et « Téléporteur chargé à N/5 ». L’envoi existant du sac est conservé. La sélection des attaques, dépense de PP, déduplication des reçus, verrou SQL, maximum de cinq charges, propriété de l’objet et règles d’admin restent inchangés. Pas de notification pour une action empêchée, non électrique, sans dépense de PP, sans objet admissible ou déjà entièrement chargé. Les anciens clients comprennent toujours le message générique ; aucun RPC supplémentaire ni diffusion publique.
+
+Client : petite alerte avec icône du téléporteur, cinq segments et dernier palier vert. Affichage pendant le combat, superposé sans intercepter les actions ni déplacer leurs commandes, fermeture après 3,8 secondes. Carillon de notification existant et volume général respecté ; aucun téléchargement audio. Montée à un nouveau palier remplace l’alerte précédente. Valeurs hors 1–5 et doublons ignorés, instantanés/reconnexion silencieux ; déconnexion/destruction et remise à zéro effacent le timer/marqueur. Thèmes, français/anglais et réduction des animations conservés. Aucun rappel indiquant comment charger l’objet avant la découverte.
+
+Validation : sept tests unitaires et cinq SQL existants renforcés, sans échec/saut. Vrais tours sauvage/dresseur/PvP et transactions : séquence 1/5→5/5, bon propriétaire, PP/éligibilité et plafond conservés. Recette à deux clients authentifiés Chromium/WebKit Linux : vraies charges SQL via l’observateur, fixture de présentation du synchroniseur de combat partagé, cinq notifications, expiration, doublons/instantanés, reconnexion, données invalides, remise à zéro et confidentialité. Quatre formats 320×480/393×852/844×390/1536×680, clair/nocturne : superposition réellement au-dessus du combat, texte opaque après l’entrée, absence de débordement/interception, positions des commandes identiques ; captures mobiles inspectées. L’alerte est figée temporairement pour les captures de mise en page ; son expiration réelle est vérifiée séparément. Zéro erreur navigateur, comptes jetables supprimés. Les modes fermés restent fermés ; pas de téléphone physique ni de parcours humain intégral revendiqué. Lint/build et syntaxe/diff valides.
+
+Rapport : `docs/TELEPORTER_CHARGE_2026-10-31.json`. Recette : `DB_TEST_NAME=explorakit_test npm run test:teleporter-charge-browser` (ajouter `PRESENTATION_BROWSER=webkit`).
+
+Client et serveur publiés le 31 octobre 2026 à 16 h 59 (Europe/Paris), client `a669d906c6afe251778f2c242848c3e195340907`, build `66da7fd172b12ea0`. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-teleporter-notice-2026-10-31T15-58-56-301Z`. PID 3594374→3601568, service actif, zéro redémarrage automatique/avertissement. Index et 22 bundles/CSS publics vérifiés à l’octet, anciens assets conservés ; namespace Rift fermé, checkpoint inchangé et zéro expédition active au contrôle. Aucune migration ni modification manuelle de compte réel ; Knov/api-test inchangés.
+
 ## Solde de Pokédollars dans le sac — 31 octobre 2026
 
 L’en-tête du sac affiche le solde actuel avec séparateurs locaux et symbole ₽. Valeur issue de `progressionState.money` en Aventure/Super Tournoi et de `driftState.money` en expédition, sans requête supplémentaire ni copie locale périmée. Le solde suit les mises à jour déjà envoyées par le serveur après achat, vente et récompense. Sur PC, montant à droite du titre ; sur mobile, sous le titre, avec bouton de fermeture de 44 px conservé. Thèmes et langue respectés ; aucune modification des prix, ressources, règles ou sauvegardes.
@@ -5461,6 +5473,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 31 octobre 2026 — Téléporteur : alerte privée à chaque vraie charge électrique, compteur/jauge 1/5→5/5 pendant le combat, sans déplacer les commandes. Sept tests unitaires, cinq SQL et recettes Chromium/WebKit ; `docs/TELEPORTER_CHARGE_2026-10-31.json`.
 
 - 31 octobre 2026 — Solde de Pokédollars dans l’en-tête du sac, réactif et adapté au mobile. Lint/build, Chromium/WebKit, montants extrêmes et mise à jour après achat réel ; `docs/BAG_WALLET_2026-10-31.json`.
 
