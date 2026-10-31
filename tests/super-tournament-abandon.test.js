@@ -42,7 +42,7 @@ for (const phase of ['sas', 'ready', 'battle', 'replacement', 'reward', 'cleared
         assert.equal(f.c.active, false); assert.equal(f.player.inbattle, false);
         assert.deepEqual(f.trips, [getPokemonCenterRespawnPoint()]);
         assert.deepEqual(f.player.centerReturnPoint, {map: 'route4', x: 720, y: 144});
-        assert.deepEqual(f.saves.at(-1), {run: false, final: {score: 1300, rooms: 4, returnToCenter: true}});
+        assert.deepEqual(f.saves.at(-1), {run: false, final: {score: 1300, rooms: 4, moneyEarned: 0, returnToCenter: true}});
         const finished = f.events.slice(start).filter(e => e.name === 'superTournamentFinished');
         assert.equal(finished.length, 1); assert.equal(finished[0].data.reason, 'abandoned');
         assert.equal(finished[0].data.score, 1300);

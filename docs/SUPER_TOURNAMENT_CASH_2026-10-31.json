@@ -1,0 +1,387 @@
+{
+  "date": "2026-10-31",
+  "feature": "Primes par salle du Super Tournoi",
+  "policy": {
+    "tiers": [
+      {
+        "rooms": "1–4",
+        "perRoom": 3000
+      },
+      {
+        "rooms": "5–8",
+        "perRoom": 5000
+      },
+      {
+        "rooms": "9–12",
+        "perRoom": 7500
+      },
+      {
+        "rooms": "13–16",
+        "perRoom": 10000
+      }
+    ],
+    "cycleBonus": 20000,
+    "cycleIncreasePercentOfInitial": 25,
+    "maxMultiplier": 2,
+    "cycleTotals": [
+      122000,
+      152500,
+      183000,
+      213500,
+      244000
+    ],
+    "onlyFullRoomWins": true,
+    "immediateAdventureWalletCredit": true,
+    "keptAfterDefeatOrAbandon": true,
+    "retroactiveAwards": false,
+    "experienceAndLoot": false
+  },
+  "persistence": {
+    "walletAndSnapshotSameTransaction": true,
+    "optimisticVersionAndRunId": true,
+    "constantSizeWatermark": true,
+    "noSchemaChange": true,
+    "noManualRealAccountChanges": true,
+    "legacyAttemptsMigratedOnLoad": true
+  },
+  "validation": {
+    "unit": {
+      "passed": 42,
+      "failed": 0,
+      "skipped": 0
+    },
+    "sql": {
+      "passed": 12,
+      "failed": 0,
+      "skipped": 0
+    },
+    "newCashTests": 12,
+    "lint": true,
+    "isolatedBuild": true,
+    "browserReports": [
+      {
+        "success": true,
+        "engine": "chromium",
+        "views": [
+          {
+            "kind": "entry",
+            "width": 320,
+            "height": 480,
+            "mode": "light"
+          },
+          {
+            "kind": "entry",
+            "width": 320,
+            "height": 480,
+            "mode": "dark"
+          },
+          {
+            "kind": "entry",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "kind": "entry",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "kind": "entry",
+            "width": 844,
+            "height": 390,
+            "mode": "light"
+          },
+          {
+            "kind": "entry",
+            "width": 844,
+            "height": 390,
+            "mode": "dark"
+          },
+          {
+            "kind": "entry",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "kind": "entry",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "kind": "reward",
+            "width": 320,
+            "height": 480,
+            "mode": "light"
+          },
+          {
+            "kind": "reward",
+            "width": 320,
+            "height": 480,
+            "mode": "dark"
+          },
+          {
+            "kind": "reward",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "kind": "reward",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "kind": "reward",
+            "width": 844,
+            "height": 390,
+            "mode": "light"
+          },
+          {
+            "kind": "reward",
+            "width": 844,
+            "height": 390,
+            "mode": "dark"
+          },
+          {
+            "kind": "reward",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "kind": "reward",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          }
+        ],
+        "payments": [
+          {
+            "room": 1,
+            "amount": 3000,
+            "balance": 3000
+          },
+          {
+            "room": 16,
+            "amount": 30000,
+            "balance": 33000
+          },
+          {
+            "room": 17,
+            "amount": 3750,
+            "balance": 36750
+          }
+        ],
+        "staleProgressResponse": true,
+        "reconnectNoDoubleCredit": true,
+        "adventureTeamAndXpPreserved": true,
+        "abandonKeepsMoney": true,
+        "errors": []
+      },
+      {
+        "success": true,
+        "engine": "webkit",
+        "views": [
+          {
+            "kind": "entry",
+            "width": 320,
+            "height": 480,
+            "mode": "light"
+          },
+          {
+            "kind": "entry",
+            "width": 320,
+            "height": 480,
+            "mode": "dark"
+          },
+          {
+            "kind": "entry",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "kind": "entry",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "kind": "entry",
+            "width": 844,
+            "height": 390,
+            "mode": "light"
+          },
+          {
+            "kind": "entry",
+            "width": 844,
+            "height": 390,
+            "mode": "dark"
+          },
+          {
+            "kind": "entry",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "kind": "entry",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "kind": "reward",
+            "width": 320,
+            "height": 480,
+            "mode": "light"
+          },
+          {
+            "kind": "reward",
+            "width": 320,
+            "height": 480,
+            "mode": "dark"
+          },
+          {
+            "kind": "reward",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "kind": "reward",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "kind": "reward",
+            "width": 844,
+            "height": 390,
+            "mode": "light"
+          },
+          {
+            "kind": "reward",
+            "width": 844,
+            "height": 390,
+            "mode": "dark"
+          },
+          {
+            "kind": "reward",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "kind": "reward",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          }
+        ],
+        "payments": [
+          {
+            "room": 1,
+            "amount": 3000,
+            "balance": 3000
+          },
+          {
+            "room": 16,
+            "amount": 30000,
+            "balance": 33000
+          },
+          {
+            "room": 17,
+            "amount": 3750,
+            "balance": 36750
+          }
+        ],
+        "staleProgressResponse": true,
+        "reconnectNoDoubleCredit": true,
+        "adventureTeamAndXpPreserved": true,
+        "abandonKeepsMoney": true,
+        "errors": []
+      }
+    ],
+    "limitations": [
+      "Équilibrage économique proposé, à ajuster après le test du créateur.",
+      "K.O. autoritaires de fixture sur comptes jetables uniquement ; pas de parcours humain complet ni de téléphone physique.",
+      "Service worker bloqué dans la recette pour intercepter la réponse de progression retardée, sans modification de la PWA."
+    ]
+  },
+  "clientBuild": "b39c663f7e210bf3",
+  "clientCommit": "2ad3a1ced55cedad4ee851813698d805043d3e67",
+  "runtimeSourceSha256": {
+    "server/game/superTournament/cashPrizes.js": "ada45358588a5220771af120e5651256a17a38d482aff90b9bea72c9ad5b1ad5",
+    "server/game/superTournament/content.js": "77bae06f94e9b0c655c82d050343f73a083c938d08f9f30ef940a91bad17ab3b",
+    "server/game/superTournament/controller.js": "899f2d0a16742467283ee27e814f7f3cf238125e5e170a07e5b47c9261ca3e6a",
+    "server/persistence/superTournamentRepository.js": "577e185c4346a8f24389e3cf0a3af519b21fbcbd4dc96d43d31d21ef7a1a28d1",
+    "server/realtime/handlers/superTournamentHandlers.js": "a09642d4cedddb2fa6f85fcb84f5fd737a6188fc4e61490f5aceec51e844b73b"
+  },
+  "commands": [
+    "node --test --test-concurrency=1 tests/super-tournament.test.js tests/super-tournament-cash.test.js tests/super-tournament-rewards.test.js tests/super-tournament-abandon.test.js tests/super-tournament-order.test.js",
+    "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test node --env-file=.env --test --test-concurrency=1 tests/super-tournament-cash-mysql.test.js tests/super-tournament-mysql.test.js",
+    "DB_TEST_NAME=explorakit_test npm run test:tournament-cash-browser",
+    "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=webkit npm run test:tournament-cash-browser"
+  ],
+  "deployment": {
+    "publishedAt": "2026-10-31T21:47:13.342Z",
+    "restartedAt": "2026-10-31T21:47:10.295Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-tournament-cash-2026-10-31T21-47-08-761Z",
+    "sourceBaseline": "693e9b8ff0c641b27fe31ee8cf0ed32146312fd4",
+    "sourceHashes": {
+      "server/game/superTournament/content.js": "77bae06f94e9b0c655c82d050343f73a083c938d08f9f30ef940a91bad17ab3b",
+      "server/game/superTournament/controller.js": "899f2d0a16742467283ee27e814f7f3cf238125e5e170a07e5b47c9261ca3e6a",
+      "server/persistence/superTournamentRepository.js": "577e185c4346a8f24389e3cf0a3af519b21fbcbd4dc96d43d31d21ef7a1a28d1",
+      "server/realtime/handlers/superTournamentHandlers.js": "a09642d4cedddb2fa6f85fcb84f5fd737a6188fc4e61490f5aceec51e844b73b",
+      "server/game/superTournament/cashPrizes.js": "ada45358588a5220771af120e5651256a17a38d482aff90b9bea72c9ad5b1ad5"
+    },
+    "clientCommit": "2ad3a1ced55cedad4ee851813698d805043d3e67",
+    "clientBuild": "b39c663f7e210bf3",
+    "beforePid": "3611882",
+    "afterPid": "3617266",
+    "serverRestarted": true,
+    "schemaChanged": false,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "checkpointSaved": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 0,
+    "checkpointUnchangedWhileDisabled": true,
+    "namespaceClosed": true,
+    "neighborsUnchanged": true,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.f5ca3bcb.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.c6782699.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.2fd32f7c.js",
+      "js/drift.5b8720d7.js",
+      "js/game.9b4808d7.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.4fff4c7e.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.7066dad4.css",
+      "css/test-view.7568246d.css"
+    ],
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0
+  }
+}

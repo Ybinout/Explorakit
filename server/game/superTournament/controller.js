@@ -5,11 +5,12 @@ const content=require('./content');
 const {healTeam,getPokemonCenterRespawnPoint}=require('../world/playerRecovery');
 const repository=require('../../persistence/superTournamentRepository');
 const rewards=require('./rewards');
+const cashPrizes=require('./cashPrizes');
 class TournamentController {
  constructor({userId,emit,travel,getPlayer,persist=repository,now=Date.now,random=Math.random}){Object.assign(this,{userId,emit,travel,getPlayer,persist,now,random});this.run=null;this.version=0;this.queue=Promise.resolve();this.closed=false;this.events=[];}
  get active(){return Boolean(this.run);}
  async load(){const r=await this.persist.load(this.userId);this.run=r.run;this.version=r.version;this.bind();
-  if(this.run&&!this.run.rewardVersion)await this.atomic(()=>{this.run.rewardVersion=1;if(this.run.phase==='cleared'){this.run.reward=rewards.createOffer(this.run.player.equipe.pokemons,this.run.room+1,this.random);this.run.phase='reward';}return true;});
+  if(this.run&&(!this.run.rewardVersion||!this.run.cash))await this.atomic(()=>{cashPrizes.ensure(this.run);if(!this.run.rewardVersion){this.run.rewardVersion=1;if(this.run.phase==='cleared'){this.run.reward=rewards.createOffer(this.run.player.equipe.pokemons,this.run.room+1,this.random);this.run.phase='reward';}}return true;});
   this.publish();return this.run;}
  bind(){const b=this.run?.battle;if(!b)return;b.now=this.now;b.random=this.random;b.emit=(_p,event,data)=>this.buffer(event,data);b.onUpdate=null;b.onFinish=null;this.run.player.socketId=this.getPlayer()?.id;}
  buffer(event,data){
@@ -21,21 +22,27 @@ class TournamentController {
  }
  publish(){const p=this.getPlayer();if(p){p.superTournamentActive=this.active;p.inbattle=Boolean(this.run?.battle&&!this.run.battle.finished);}this.emit('superTournamentState',content.state(this.run));}
  async atomic(change){
-  const previous=this.run?codec.encode(this.run):null;let committed=false;this.events=[];
+  const previous=this.run?codec.encode(this.run):null,previousPaid=this.run?.cash?.paidThrough||0,previousEarned=this.run?.cash?.earned||0;let committed=false;this.events=[];
   try{const result=await change();if(result===false){this.events=[];return false;}
    const reason=this.run?.outcome;
-   const final=reason?{score:this.run.score,rooms:this.run.cleared,...(reason==='abandoned'?{returnToCenter:true}:{})}:null;
+   const final=reason?{score:this.run.score,rooms:this.run.cleared,moneyEarned:this.run.cash?.earned||0,...(reason==='abandoned'?{returnToCenter:true}:{})}:null;
    const destination=final?.returnToCenter?getPokemonCenterRespawnPoint():{map:content.MAPS.lobby,x:448,y:496};
    const next=final?null:this.run;
-   this.version=await this.persist.save(this.userId,next,this.version,final||{});committed=true;
-   if(final){this.run=null;this.buffer('superTournamentFinished',{score:final.score,rooms:final.rooms,reason,destination});}
+   const payout=this.run?.cash?.paidThrough>previousPaid&&this.run.cash.earned>previousEarned?{runId:this.run.id,room:this.run.cash.paidThrough}:null;
+   this.version=await this.persist.save(this.userId,next,this.version,{...(final||{}),...(payout?{payout}:{})});committed=true;
+   if(payout){
+    const receipt=this.run.cash.last;
+    for(const[event,data]of this.events)if(event==='endbattle'){data.summary ||= {};data.summary.money=receipt.amount;}
+    this.buffer('superTournamentPayout',{...receipt,earned:this.run.cash.earned,...(Number.isFinite(payout.balance)?{balance:payout.balance}:{})});
+   }
+   if(final){this.run=null;this.buffer('superTournamentFinished',{score:final.score,rooms:final.rooms,moneyEarned:final.moneyEarned,reason,destination});}
    const events=this.events;this.events=[];this.publish();for(const[e,d]of events)this.emit(e,d);
    if(final)await this.travel(destination);return true;
   }catch(error){if(committed){this.publish();throw error;}this.run=previous?codec.decode(previous):null;this.events=[];this.bind();this.publish();if(this.run?.battle){this.run.battle.resume(this.run.player);const restored=this.events;this.events=[];for(const[e,d]of restored)this.emit(e,d);}throw error;}
  }
  execute(fn){const task=this.queue.then(()=>{if(this.closed)return false;return fn();});this.queue=task.catch(()=>{});return task;}
  async register(team){if(this.active)throw Error('Une tentative est déjà en cours.');if(!team?.pokemons?.length||team.pokemons.length>6||team.pokemons.some(p=>p.isEgg))throw Error('Inscris une équipe de un à six Pokémon, sans Œuf.');
-  return this.atomic(()=>{const cloned=codec.decode(codec.encode(team));healTeam(cloned);this.run={id:randomUUID(),rewardVersion:1,room:0,cleared:0,phase:'sas',score:0,credited:new Set(),player:{userId:this.userId,username:this.getPlayer().username,socketId:this.getPlayer().id,currentmap:content.MAPS.room,equipe:cloned,items:{},money:0,defeated:new Set(),drifts:[],equipped:[]}};});
+  return this.atomic(()=>{const cloned=codec.decode(codec.encode(team));healTeam(cloned);this.run={id:randomUUID(),rewardVersion:1,cash:{version:1,paidThrough:0,earned:0,last:null},room:0,cleared:0,phase:'sas',score:0,credited:new Set(),player:{userId:this.userId,username:this.getPlayer().username,socketId:this.getPlayer().id,currentmap:content.MAPS.room,equipe:cloned,items:{},money:0,defeated:new Set(),drifts:[],equipped:[]}};});
  }
  startBattle(){
   const r=this.run;if(!r||r.phase!=='ready')return false;
@@ -49,7 +56,7 @@ class TournamentController {
   if(!b.finished)return;
   const won=b.a.equipe.pokemons.some(p=>p.currentHp>0)&&!b.b.equipe.pokemons.some(p=>p.currentHp>0);
   r.battle=null;
-  if(won){r.cleared=r.room+1;r.phase='reward';r.reward=rewards.createOffer(r.player.equipe.pokemons,r.cleared,this.random);}
+  if(won){cashPrizes.ensure(r);r.cleared=r.room+1;r.phase='reward';cashPrizes.recordWin(r);r.reward=rewards.createOffer(r.player.equipe.pokemons,r.cleared,this.random);}
   else r.outcome='defeat';
  }
  async action(payload){if(!this.run?.battle)return false;return this.atomic(()=>{const accepted=this.run.battle.action(this.run.player,payload);if(!accepted)return false;this.reconcile();return true;});}

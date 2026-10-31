@@ -1,5 +1,20 @@
 # Audit technique et mémoire de RiftMon
 
+## Primes par salle du Super Tournoi — 31 octobre 2026
+
+Premier cycle : 3 000 ₽ par victoire aux salles 1–4, 5 000 aux salles 5–8, 7 500 aux salles 9–12, 10 000 aux salles 13–16 ; Lucie ajoute 20 000 ₽ de bonus, soit 122 000 ₽ pour seize victoires. Chaque cycle ajoute 25 % du tarif initial, bonus inclus, plafonné à ×2 dès le cinquième : totaux 122 000 / 152 500 / 183 000 / 213 500 / 244 000 ₽. Base économique à tester : équipements courants à 10 000, Super Bonbon à 20 000 et Méga Bonbon à 50 000. Seule une salle entièrement gagnée verse une prime, immédiatement dans le vrai porte-monnaie Aventure. Argent conservé après défaite/abandon, sans prime pour les seuls K.O. partiels. Score, niveaux, cartes, absence d’XP/butin et ressources scellées inchangés.
+
+Sauvegarde du gain et de la transition vers les cartes dans une seule transaction SQL. Verrous dans l’ordre utilisateur puis profil, version optimiste, identifiant de tentative et marqueur de salle payée empêchent un doublon à la reconnexion ou avec deux contrôleurs. Tarif calculé côté serveur ; pas de commande permettant de réclamer de l’argent. Solde modifié par addition, sans écraser une écriture concurrente. Crédit réel plafonné à l’entier sûr et reçu sauvegardé avec ce montant, sans bloquer la victoire. Un marqueur et le dernier reçu gardent une mémoire bornée en tournoi infini. Anciens snapshots initialisés à leur progression actuelle sans rappel d’anciennes primes ; aucune migration de schéma ni réécriture manuelle de compte.
+
+Interface : barème à l’inscription, prime/bonus et cumul déjà versé au-dessus des cartes, gain dans le résultat, conservation expliquée à l’abandon. Solde privé mis à jour après commit ; une réponse HTTP de progression plus ancienne ne peut pas l’écraser. Champs/événement additifs compatibles avec les anciens clients. Rien de nouveau dans les modes fermés.
+
+Validation : 42 tests unitaires/régression et 12 SQL réussis sans échec/saut, dont 12 nouveaux tests financiers. Deux cycles complets (274 500 ₽), défaite, abandon, reprise, transition ancienne, double contrôleur, relecture d’un reçu, panne d’écriture injectée, ajout concurrent et plafond du solde vérifiés. Lint, build isolé, syntaxe et diff valides. Recette `scripts/validateTournamentCashBrowser.js` sur vrai serveur privé et `explorakit_test`, Chromium/WebKit Linux : inscription, victoires autoritaires de fixture aux salles 1/16/17, primes exactes 3 000/30 000/3 750, bonus, carte après résultat, cumul, refus de double choix, reprise, abandon et équipe/XP d’Aventure intactes. Réponse de progression antérieure volontairement retardée puis libérée après le versement ; nouveau solde conservé. Quatre formats 320×480/393×852/844×390/1536×680, clair/nocturne, deux panneaux : 32 vues au total, commandes accessibles, aucun débordement et zéro erreur navigateur. Captures mobile/nocturne/bonus inspectées ; comptes jetables supprimés. Service worker bloqué dans cette recette pour l’interception WebKit, sans changement de PWA. Pas de téléphone physique ni de parcours humain intégral revendiqués ; équilibrage à confirmer par le créateur.
+
+Rapport et commandes : `docs/SUPER_TOURNAMENT_CASH_2026-10-31.json`.
+
+Serveur et client publiés le 31 octobre 2026 à 22 h 47 (Europe/Paris), client `2ad3a1ced55cedad4ee851813698d805043d3e67`, build `b39c663f7e210bf3`. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-tournament-cash-2026-10-31T21-47-08-761Z`. PID 3611882→3617266, service actif, aucun redémarrage automatique ni avertissement. Index et 22 bundles/CSS HTTPS identiques au build, anciens assets conservés. Zéro tentative de tournoi active au contrôle, aucune migration ni modification manuelle de compte réel ; modes Rift/Colosseum fermés et checkpoint inchangé. Knov/api-test inchangés. Recharger la page pour l’interface actualisée.
+
+
 ## Types et talents visibles en combat — 31 octobre 2026
 
 Composant partagé `BattleTraits` dans les deux fiches du HUD : types colorés avec la palette/contraste des capacités et talent traduit, désormais visible sur mobile et même lorsque les boosts/malus sont affichés. Priorité des types identique au moteur : `tempTypes`, puis `formTypes`, puis `type1/type2` ; repli ancien snapshot sur les types d’espèce. Les doublons sont supprimés, « ??? » devient « Sans type ». Morphéo/Morphing/les capacités qui modifient les types suivent leurs états réellement reçus. Talent neutralisé barré avec explication accessible, acteurs humains narratifs exclus. Suppression des anciennes règles qui masquaient le talent dans les détails de PV. Fiches resserrées sur les petits écrans portrait pour ménager les sprites ; texte d’en-tête relié à la couleur de thème pour rester lisible la nuit. Commandes et positions de combat conservées.
@@ -5533,6 +5548,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 31 octobre 2026 — Primes du Super Tournoi : 122 000 ₽ sur le premier cycle, +25 % du tarif initial par cycle plafonné à ×2, crédit transactionnel à chaque salle gagnée et gains conservés. Quarante-deux tests unitaires, douze SQL et recette Chromium/WebKit validés ; `docs/SUPER_TOURNAMENT_CASH_2026-10-31.json`.
 
 - 31 octobre 2026 — Types actifs colorés et talents visibles sur les deux fiches de combat, mobile inclus ; transformations/météo/suppression suivies, petits écrans resserrés sans déplacer les commandes. Seize tests, lint/build et Chromium/WebKit sur cinq formats/deux thèmes ; publication client seule. `docs/BATTLE_TRAITS_2026-10-31.json`.
 

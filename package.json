@@ -27,6 +27,7 @@
     "generate:i18n": "node scripts/generateFrenchGameNames.js",
     "generate:reference": "node scripts/generatePokemonReference.js",
     "test:pokemon-info-browser": "node --env-file-if-exists=.env scripts/validatePokemonInfoBrowser.js",
+    "test:tournament-cash-browser": "node --env-file-if-exists=.env scripts/validateTournamentCashBrowser.js",
     "test:battle-field-browser": "node --env-file-if-exists=.env scripts/validateBattleFieldBrowser.js",
     "test:trainer-palette-browser": "node --env-file-if-exists=.env scripts/validateTrainerPaletteBrowser.js",
     "db:backfill:abilities": "node --env-file-if-exists=.env scripts/backfillPokemonAbilities.js",

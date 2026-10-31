@@ -41,7 +41,7 @@ function createHandlers({socket,account,userId,getPlayer,canUse,travel,refreshAc
    timer=setInterval(()=>{if(controller.closed||!controller.run?.battle)return;account.track(controller.execute(()=>controller.tick()).catch(e=>socket.emit('progressionNotice',{message:e.message})));},250);timer.unref?.();refreshActors();},
   async stop(){clearInterval(timer);await controller.close();},
   async interact(){const p=getPlayer();if(!p)return false;
-   if(p.currentmap===content.MAPS.lobby&&near(13,8,3)){if(!await repository.ownsPass(userId)){socket.emit('progressionNotice',{message:'Hôtesse : Puis-je voir votre PASS Super Tournoi ?'});return true;}offer={id:require('node:crypto').randomUUID(),until:Date.now()+120000};socket.emit('superTournamentPanel',{tab:'entry',offerId:offer.id,leaderboard:await repository.leaderboard(userId)});return true;}
+   if(p.currentmap===content.MAPS.lobby&&near(13,8,3)){if(!await repository.ownsPass(userId)){socket.emit('progressionNotice',{message:'Hôtesse : Puis-je voir votre PASS Super Tournoi ?'});return true;}offer={id:require('node:crypto').randomUUID(),until:Date.now()+120000};socket.emit('superTournamentPanel',{tab:'entry',offerId:offer.id,payoutSchedule:require('../../game/superTournament/cashPrizes').schedule(),leaderboard:await repository.leaderboard(userId)});return true;}
    if(p.currentmap===content.MAPS.lobby&&near(23,5,5)){socket.emit('superTournamentPanel',{tab:'ranking',leaderboard:await repository.leaderboard(userId)});return true;}
    if(p.currentmap===content.MAPS.room&&controller.run&&near(13,9)){await controller.execute(()=>controller.atomic(()=>controller.startBattle()));return true;}
    return Object.values(content.MAPS).includes(p.currentmap);
