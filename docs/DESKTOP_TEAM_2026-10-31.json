@@ -1,0 +1,1438 @@
+{
+  "date": "2026-10-31",
+  "baseline": {
+    "root": "8173ff2991c7d69be34ca47feaa1c95367611e70",
+    "client": "b40e18debd00944bbd5269c67a7cee87170cf36a"
+  },
+  "clientCommit": "085d56ca32049ab3810650a302e71709380d4805",
+  "clientBuild": "8d9f4d524f8ca5b6",
+  "scope": "Desktop move learning/party/details layout, with owner-confirmed pointer sorting. No battle, economy, species, backend protocol or DB changes.",
+  "behavior": {
+    "learning": "Desktop incoming move beside the four existing moves; readable descriptions remain. Header and Later/Decline footer stay outside the scrolling fallback; Escape is ignored during a save. Shared theme variables replace the old hard-coded green.",
+    "party": "Desktop six members in two rows. Headers and save feedback stay visible. Item effect remains accessible in the picker and mouse tooltip; KO/talisman notice remains visible. Mobile cards retain their full information and a scrollable list.",
+    "details": "Desktop Profile/Stats, Moves and Evolution pages; original descriptions, power, PP, effects, nature, ability and evolution conditions retained. Previous/Next stay at the top. On mobile the existing continuous sheet remains. Visible-control focus trap updated.",
+    "drag": "Move a companion to the target slot, shifting intervening members. Mouse uses the portrait/card/handle; touch uses the handle so ordinary card scrolling remains available. Pointer preview, destination highlight, edge scrolling, 8px intent threshold, cancellation/cleanup. UUID-only existing save route, no extra save button. Arrows remain available for keyboard users.",
+    "authority": "Battle/flight/busy restrictions retained; captured roster checked again at drop. Outside/self/cancelled/stale drops do not save. Rejected saves reload the authoritative team; no Pokemon resource changes."
+  },
+  "sourceSha256": {
+    "src/components/UserMap.vue": "10a659f3a24047e3f49c86a40bfa67e9adc6b2a28ed640bb146de5815db79e47",
+    "src/components/gamePopupLayout.css": "468c729ff5681bc1d0cdfbf0c462d42eb49f51833f23943d29e67ab7ae848e6a",
+    "src/components/menu/MoveLearningPanel.vue": "f6c84a29967dc70f1bd8ee99868347ff0e9046b5c88368635c84cacb47ebbda1",
+    "src/components/menu/PokemonDetails.vue": "6103d03cf2206d2e5398550ca72300f821fce2368785daacb49e9918468172f3",
+    "src/services/teamDrag.js": "d09abc0246397218fc594e74658581d231ab6585feef5a45495160f70b04dbdb"
+  },
+  "validation": {
+    "unit": {
+      "pass": 27,
+      "fail": 0,
+      "skipped": 0,
+      "command": "node --test --test-concurrency=1 tests/team-drag-client.test.js tests/team-order-handler.test.js tests/super-tournament-order.test.js tests/move-order.test.js tests/move-learning.test.js"
+    },
+    "lint": "No lint errors",
+    "build": "Isolated VUE_APP_PUBLIC_PATH=/ build in /tmp/riftmon-desktop-team-dist",
+    "browsers": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "views": [
+          {
+            "view": "learning",
+            "width": 1920,
+            "height": 1080,
+            "themeMode": "light"
+          },
+          {
+            "view": "learning",
+            "width": 1920,
+            "height": 1080,
+            "themeMode": "dark"
+          },
+          {
+            "view": "learning",
+            "width": 1365,
+            "height": 900,
+            "themeMode": "light"
+          },
+          {
+            "view": "learning",
+            "width": 1365,
+            "height": 900,
+            "themeMode": "dark"
+          },
+          {
+            "view": "learning",
+            "width": 1366,
+            "height": 768,
+            "themeMode": "light"
+          },
+          {
+            "view": "learning",
+            "width": 1366,
+            "height": 768,
+            "themeMode": "dark"
+          },
+          {
+            "view": "learning",
+            "width": 1280,
+            "height": 720,
+            "themeMode": "light"
+          },
+          {
+            "view": "learning",
+            "width": 1280,
+            "height": 720,
+            "themeMode": "dark"
+          },
+          {
+            "view": "learning",
+            "width": 1024,
+            "height": 600,
+            "themeMode": "light"
+          },
+          {
+            "view": "learning",
+            "width": 1024,
+            "height": 600,
+            "themeMode": "dark"
+          },
+          {
+            "view": "learning",
+            "width": 393,
+            "height": 852,
+            "themeMode": "light"
+          },
+          {
+            "view": "learning",
+            "width": 393,
+            "height": 852,
+            "themeMode": "dark"
+          }
+        ],
+        "measurements": [
+          {
+            "view": "learning",
+            "width": 1920,
+            "height": 1080,
+            "themeMode": "light",
+            "panel": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 524,
+                "y": 175.40625,
+                "width": 870,
+                "height": 543
+              }
+            },
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 525,
+                "y": 278.796875,
+                "width": 870,
+                "height": 368
+              }
+            }
+          },
+          {
+            "view": "learning",
+            "width": 1920,
+            "height": 1080,
+            "themeMode": "dark",
+            "panel": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 524,
+                "y": 175.40625,
+                "width": 870,
+                "height": 543
+              }
+            },
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 525,
+                "y": 278.796875,
+                "width": 870,
+                "height": 368
+              }
+            }
+          },
+          {
+            "view": "learning",
+            "width": 1365,
+            "height": 900,
+            "themeMode": "light",
+            "panel": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 246.5,
+                "y": 147.65625,
+                "width": 870,
+                "height": 543
+              }
+            },
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 247.5,
+                "y": 251.046875,
+                "width": 870,
+                "height": 368
+              }
+            }
+          },
+          {
+            "view": "learning",
+            "width": 1365,
+            "height": 900,
+            "themeMode": "dark",
+            "panel": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 246.5,
+                "y": 147.65625,
+                "width": 870,
+                "height": 543
+              }
+            },
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 247.5,
+                "y": 251.046875,
+                "width": 870,
+                "height": 368
+              }
+            }
+          },
+          {
+            "view": "learning",
+            "width": 1366,
+            "height": 768,
+            "themeMode": "light",
+            "panel": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 247,
+                "y": 145.5625,
+                "width": 870,
+                "height": 543
+              }
+            },
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 248,
+                "y": 248.953125,
+                "width": 870,
+                "height": 368
+              }
+            }
+          },
+          {
+            "view": "learning",
+            "width": 1366,
+            "height": 768,
+            "themeMode": "dark",
+            "panel": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 247,
+                "y": 145.5625,
+                "width": 870,
+                "height": 543
+              }
+            },
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 248,
+                "y": 248.953125,
+                "width": 870,
+                "height": 368
+              }
+            }
+          },
+          {
+            "view": "learning",
+            "width": 1280,
+            "height": 720,
+            "themeMode": "light",
+            "panel": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 204,
+                "y": 119.40625,
+                "width": 870,
+                "height": 543
+              }
+            },
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 205,
+                "y": 222.796875,
+                "width": 870,
+                "height": 368
+              }
+            }
+          },
+          {
+            "view": "learning",
+            "width": 1280,
+            "height": 720,
+            "themeMode": "dark",
+            "panel": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 204,
+                "y": 119.40625,
+                "width": 870,
+                "height": 543
+              }
+            },
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 205,
+                "y": 222.796875,
+                "width": 870,
+                "height": 368
+              }
+            }
+          },
+          {
+            "view": "learning",
+            "width": 1024,
+            "height": 600,
+            "themeMode": "light",
+            "panel": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 76,
+                "y": 68.203125,
+                "width": 870,
+                "height": 513
+              }
+            },
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 77,
+                "y": 157.203125,
+                "width": 870,
+                "height": 360
+              }
+            }
+          },
+          {
+            "view": "learning",
+            "width": 1024,
+            "height": 600,
+            "themeMode": "dark",
+            "panel": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 76,
+                "y": 68.203125,
+                "width": 870,
+                "height": 513
+              }
+            },
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 77,
+                "y": 157.203125,
+                "width": 870,
+                "height": 360
+              }
+            }
+          },
+          {
+            "view": "learning",
+            "width": 393,
+            "height": 852,
+            "themeMode": "light",
+            "panel": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 12,
+                "y": 12,
+                "width": 367,
+                "height": 826
+              }
+            },
+            "body": {
+              "scroll": 7,
+              "horizontal": 0,
+              "rect": {
+                "x": 13,
+                "y": 98.59375,
+                "width": 367,
+                "height": 648
+              }
+            }
+          },
+          {
+            "view": "learning",
+            "width": 393,
+            "height": 852,
+            "themeMode": "dark",
+            "panel": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 12,
+                "y": 12,
+                "width": 367,
+                "height": 826
+              }
+            },
+            "body": {
+              "scroll": 7,
+              "horizontal": 0,
+              "rect": {
+                "x": 13,
+                "y": 98.59375,
+                "width": 367,
+                "height": 648
+              }
+            }
+          },
+          {
+            "view": "team",
+            "width": 1920,
+            "height": 1080,
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 541,
+                "y": 268.8046875,
+                "width": 823,
+                "height": 383
+              }
+            }
+          },
+          {
+            "view": "team",
+            "width": 1365,
+            "height": 900,
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 263.5,
+                "y": 241.0546875,
+                "width": 823,
+                "height": 383
+              }
+            }
+          },
+          {
+            "view": "team",
+            "width": 1366,
+            "height": 768,
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 264,
+                "y": 238.9453125,
+                "width": 823,
+                "height": 383
+              }
+            }
+          },
+          {
+            "view": "team",
+            "width": 1280,
+            "height": 720,
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 221,
+                "y": 212.8046875,
+                "width": 823,
+                "height": 383
+              }
+            }
+          },
+          {
+            "view": "team",
+            "width": 1024,
+            "height": 600,
+            "body": {
+              "scroll": 2,
+              "horizontal": 0,
+              "rect": {
+                "x": 93,
+                "y": 147.1875,
+                "width": 823,
+                "height": 381
+              }
+            }
+          },
+          {
+            "view": "details",
+            "tab": "profile",
+            "width": 1365,
+            "height": 900,
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 247.5,
+                "y": 312.734375,
+                "width": 870,
+                "height": 403
+              }
+            }
+          },
+          {
+            "view": "details",
+            "tab": "moves",
+            "width": 1365,
+            "height": 900,
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 247.5,
+                "y": 317.953125,
+                "width": 870,
+                "height": 393
+              }
+            }
+          },
+          {
+            "view": "details",
+            "tab": "evolution",
+            "width": 1365,
+            "height": 900,
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 247.5,
+                "y": 454.75,
+                "width": 870,
+                "height": 119
+              }
+            }
+          },
+          {
+            "view": "details",
+            "tab": "profile",
+            "width": 1366,
+            "height": 768,
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 248,
+                "y": 310.640625,
+                "width": 870,
+                "height": 403
+              }
+            }
+          },
+          {
+            "view": "details",
+            "tab": "moves",
+            "width": 1366,
+            "height": 768,
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 248,
+                "y": 315.859375,
+                "width": 870,
+                "height": 393
+              }
+            }
+          },
+          {
+            "view": "details",
+            "tab": "evolution",
+            "width": 1366,
+            "height": 768,
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 248,
+                "y": 452.640625,
+                "width": 870,
+                "height": 119
+              }
+            }
+          },
+          {
+            "view": "details",
+            "tab": "profile",
+            "width": 1280,
+            "height": 720,
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 205,
+                "y": 284.484375,
+                "width": 870,
+                "height": 403
+              }
+            }
+          },
+          {
+            "view": "details",
+            "tab": "moves",
+            "width": 1280,
+            "height": 720,
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 205,
+                "y": 289.703125,
+                "width": 870,
+                "height": 393
+              }
+            }
+          },
+          {
+            "view": "details",
+            "tab": "evolution",
+            "width": 1280,
+            "height": 720,
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 205,
+                "y": 426.5,
+                "width": 870,
+                "height": 119
+              }
+            }
+          },
+          {
+            "view": "details",
+            "tab": "profile",
+            "width": 1024,
+            "height": 600,
+            "body": {
+              "scroll": 68,
+              "horizontal": 0,
+              "rect": {
+                "x": 77,
+                "y": 252.484375,
+                "width": 870,
+                "height": 335
+              }
+            }
+          },
+          {
+            "view": "details",
+            "tab": "moves",
+            "width": 1024,
+            "height": 600,
+            "body": {
+              "scroll": 58,
+              "horizontal": 0,
+              "rect": {
+                "x": 77,
+                "y": 252.484375,
+                "width": 870,
+                "height": 335
+              }
+            }
+          },
+          {
+            "view": "details",
+            "tab": "evolution",
+            "width": 1024,
+            "height": 600,
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 77,
+                "y": 360.09375,
+                "width": 870,
+                "height": 119
+              }
+            }
+          }
+        ],
+        "realDragSaved": true,
+        "upwardDragSaved": true,
+        "focusContained": true,
+        "keyboardArrowsSaved": true,
+        "syntheticTouchDragSaved": true,
+        "mobileSixthAccessible": true,
+        "resourcesPreserved": true,
+        "outsideDropIgnored": true,
+        "rejectedSaveRestored": true,
+        "deferredAndDeclined": true,
+        "learnReplacementSaved": true,
+        "busyEscapeGuard": true,
+        "sqlAndReload": true,
+        "errors": [],
+        "output": "/tmp/riftmon-desktop-team-chromium"
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "views": [
+          {
+            "view": "learning",
+            "width": 1920,
+            "height": 1080,
+            "themeMode": "light"
+          },
+          {
+            "view": "learning",
+            "width": 1920,
+            "height": 1080,
+            "themeMode": "dark"
+          },
+          {
+            "view": "learning",
+            "width": 1365,
+            "height": 900,
+            "themeMode": "light"
+          },
+          {
+            "view": "learning",
+            "width": 1365,
+            "height": 900,
+            "themeMode": "dark"
+          },
+          {
+            "view": "learning",
+            "width": 1366,
+            "height": 768,
+            "themeMode": "light"
+          },
+          {
+            "view": "learning",
+            "width": 1366,
+            "height": 768,
+            "themeMode": "dark"
+          },
+          {
+            "view": "learning",
+            "width": 1280,
+            "height": 720,
+            "themeMode": "light"
+          },
+          {
+            "view": "learning",
+            "width": 1280,
+            "height": 720,
+            "themeMode": "dark"
+          },
+          {
+            "view": "learning",
+            "width": 1024,
+            "height": 600,
+            "themeMode": "light"
+          },
+          {
+            "view": "learning",
+            "width": 1024,
+            "height": 600,
+            "themeMode": "dark"
+          },
+          {
+            "view": "learning",
+            "width": 393,
+            "height": 852,
+            "themeMode": "light"
+          },
+          {
+            "view": "learning",
+            "width": 393,
+            "height": 852,
+            "themeMode": "dark"
+          }
+        ],
+        "measurements": [
+          {
+            "view": "learning",
+            "width": 1920,
+            "height": 1080,
+            "themeMode": "light",
+            "panel": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 524,
+                "y": 175.40625,
+                "width": 870,
+                "height": 543
+              }
+            },
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 525,
+                "y": 278.796875,
+                "width": 870,
+                "height": 368
+              }
+            }
+          },
+          {
+            "view": "learning",
+            "width": 1920,
+            "height": 1080,
+            "themeMode": "dark",
+            "panel": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 524,
+                "y": 175.40625,
+                "width": 870,
+                "height": 543
+              }
+            },
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 525,
+                "y": 278.796875,
+                "width": 870,
+                "height": 368
+              }
+            }
+          },
+          {
+            "view": "learning",
+            "width": 1365,
+            "height": 900,
+            "themeMode": "light",
+            "panel": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 246.5,
+                "y": 147.65625,
+                "width": 870,
+                "height": 543
+              }
+            },
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 247.5,
+                "y": 251.046875,
+                "width": 870,
+                "height": 368
+              }
+            }
+          },
+          {
+            "view": "learning",
+            "width": 1365,
+            "height": 900,
+            "themeMode": "dark",
+            "panel": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 246.5,
+                "y": 147.65625,
+                "width": 870,
+                "height": 543
+              }
+            },
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 247.5,
+                "y": 251.046875,
+                "width": 870,
+                "height": 368
+              }
+            }
+          },
+          {
+            "view": "learning",
+            "width": 1366,
+            "height": 768,
+            "themeMode": "light",
+            "panel": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 247,
+                "y": 145.5625,
+                "width": 870,
+                "height": 543
+              }
+            },
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 248,
+                "y": 248.953125,
+                "width": 870,
+                "height": 368
+              }
+            }
+          },
+          {
+            "view": "learning",
+            "width": 1366,
+            "height": 768,
+            "themeMode": "dark",
+            "panel": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 247,
+                "y": 145.5625,
+                "width": 870,
+                "height": 543
+              }
+            },
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 248,
+                "y": 248.953125,
+                "width": 870,
+                "height": 368
+              }
+            }
+          },
+          {
+            "view": "learning",
+            "width": 1280,
+            "height": 720,
+            "themeMode": "light",
+            "panel": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 204,
+                "y": 119.40625,
+                "width": 870,
+                "height": 543
+              }
+            },
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 205,
+                "y": 222.796875,
+                "width": 870,
+                "height": 368
+              }
+            }
+          },
+          {
+            "view": "learning",
+            "width": 1280,
+            "height": 720,
+            "themeMode": "dark",
+            "panel": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 204,
+                "y": 119.40625,
+                "width": 870,
+                "height": 543
+              }
+            },
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 205,
+                "y": 222.796875,
+                "width": 870,
+                "height": 368
+              }
+            }
+          },
+          {
+            "view": "learning",
+            "width": 1024,
+            "height": 600,
+            "themeMode": "light",
+            "panel": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 76,
+                "y": 68.203125,
+                "width": 870,
+                "height": 513
+              }
+            },
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 77,
+                "y": 157.203125,
+                "width": 870,
+                "height": 360
+              }
+            }
+          },
+          {
+            "view": "learning",
+            "width": 1024,
+            "height": 600,
+            "themeMode": "dark",
+            "panel": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 76,
+                "y": 68.203125,
+                "width": 870,
+                "height": 513
+              }
+            },
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 77,
+                "y": 157.203125,
+                "width": 870,
+                "height": 360
+              }
+            }
+          },
+          {
+            "view": "learning",
+            "width": 393,
+            "height": 852,
+            "themeMode": "light",
+            "panel": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 12,
+                "y": 12,
+                "width": 367,
+                "height": 826
+              }
+            },
+            "body": {
+              "scroll": 7,
+              "horizontal": 0,
+              "rect": {
+                "x": 13,
+                "y": 98.59375,
+                "width": 367,
+                "height": 648
+              }
+            }
+          },
+          {
+            "view": "learning",
+            "width": 393,
+            "height": 852,
+            "themeMode": "dark",
+            "panel": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 12,
+                "y": 12,
+                "width": 367,
+                "height": 826
+              }
+            },
+            "body": {
+              "scroll": 7,
+              "horizontal": 0,
+              "rect": {
+                "x": 13,
+                "y": 98.59375,
+                "width": 367,
+                "height": 648
+              }
+            }
+          },
+          {
+            "view": "team",
+            "width": 1920,
+            "height": 1080,
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 541,
+                "y": 280.5,
+                "width": 838,
+                "height": 360
+              }
+            }
+          },
+          {
+            "view": "team",
+            "width": 1365,
+            "height": 900,
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 263.5,
+                "y": 252.75,
+                "width": 838,
+                "height": 360
+              }
+            }
+          },
+          {
+            "view": "team",
+            "width": 1366,
+            "height": 768,
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 264,
+                "y": 250.640625,
+                "width": 838,
+                "height": 360
+              }
+            }
+          },
+          {
+            "view": "team",
+            "width": 1280,
+            "height": 720,
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 221,
+                "y": 224.5,
+                "width": 838,
+                "height": 360
+              }
+            }
+          },
+          {
+            "view": "team",
+            "width": 1024,
+            "height": 600,
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 93,
+                "y": 158.09375,
+                "width": 838,
+                "height": 360
+              }
+            }
+          },
+          {
+            "view": "details",
+            "tab": "profile",
+            "width": 1365,
+            "height": 900,
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 247.5,
+                "y": 312.734375,
+                "width": 870,
+                "height": 403
+              }
+            }
+          },
+          {
+            "view": "details",
+            "tab": "moves",
+            "width": 1365,
+            "height": 900,
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 247.5,
+                "y": 317.953125,
+                "width": 870,
+                "height": 393
+              }
+            }
+          },
+          {
+            "view": "details",
+            "tab": "evolution",
+            "width": 1365,
+            "height": 900,
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 247.5,
+                "y": 454.25,
+                "width": 870,
+                "height": 120
+              }
+            }
+          },
+          {
+            "view": "details",
+            "tab": "profile",
+            "width": 1366,
+            "height": 768,
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 248,
+                "y": 310.640625,
+                "width": 870,
+                "height": 403
+              }
+            }
+          },
+          {
+            "view": "details",
+            "tab": "moves",
+            "width": 1366,
+            "height": 768,
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 248,
+                "y": 315.859375,
+                "width": 870,
+                "height": 393
+              }
+            }
+          },
+          {
+            "view": "details",
+            "tab": "evolution",
+            "width": 1366,
+            "height": 768,
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 248,
+                "y": 452.140625,
+                "width": 870,
+                "height": 120
+              }
+            }
+          },
+          {
+            "view": "details",
+            "tab": "profile",
+            "width": 1280,
+            "height": 720,
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 205,
+                "y": 284.484375,
+                "width": 870,
+                "height": 403
+              }
+            }
+          },
+          {
+            "view": "details",
+            "tab": "moves",
+            "width": 1280,
+            "height": 720,
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 205,
+                "y": 289.703125,
+                "width": 870,
+                "height": 393
+              }
+            }
+          },
+          {
+            "view": "details",
+            "tab": "evolution",
+            "width": 1280,
+            "height": 720,
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 205,
+                "y": 426,
+                "width": 870,
+                "height": 120
+              }
+            }
+          },
+          {
+            "view": "details",
+            "tab": "profile",
+            "width": 1024,
+            "height": 600,
+            "body": {
+              "scroll": 68,
+              "horizontal": 0,
+              "rect": {
+                "x": 77,
+                "y": 252.484375,
+                "width": 870,
+                "height": 335
+              }
+            }
+          },
+          {
+            "view": "details",
+            "tab": "moves",
+            "width": 1024,
+            "height": 600,
+            "body": {
+              "scroll": 58,
+              "horizontal": 0,
+              "rect": {
+                "x": 77,
+                "y": 252.484375,
+                "width": 870,
+                "height": 335
+              }
+            }
+          },
+          {
+            "view": "details",
+            "tab": "evolution",
+            "width": 1024,
+            "height": 600,
+            "body": {
+              "scroll": 0,
+              "horizontal": 0,
+              "rect": {
+                "x": 77,
+                "y": 359.59375,
+                "width": 870,
+                "height": 120
+              }
+            }
+          }
+        ],
+        "realDragSaved": true,
+        "upwardDragSaved": true,
+        "focusContained": true,
+        "keyboardArrowsSaved": true,
+        "syntheticTouchDragSaved": true,
+        "mobileSixthAccessible": true,
+        "resourcesPreserved": true,
+        "outsideDropIgnored": true,
+        "rejectedSaveRestored": true,
+        "deferredAndDeclined": true,
+        "learnReplacementSaved": true,
+        "busyEscapeGuard": true,
+        "sqlAndReload": true,
+        "errors": [],
+        "output": "/tmp/riftmon-desktop-team-webkit"
+      }
+    },
+    "browserCommand": "DB_TEST_NAME=explorakit_test [PRESENTATION_BROWSER=webkit] node --env-file-if-exists=.env scripts/validateDesktopTeamBrowser.js",
+    "database": "explorakit_test only, disposable users deleted",
+    "scope": "Real isolated server and Socket.IO; actual mouse drops downward/upward, arrows, synthetic touch-pointer drop, SQL/reconnect, outside drop, forged-UUID save rejection/rollback, pending move defer/decline/replace and PP persistence, busy Escape, desktop modal keyboard wrap. Six learning viewport sizes with light/dark themes, five party sizes, four details sizes.",
+    "screenshotsInspected": [
+      "/tmp/riftmon-desktop-team-chromium/learning-1366-dark.png",
+      "/tmp/riftmon-desktop-team-chromium/team-1280.png",
+      "/tmp/riftmon-desktop-team-chromium/details-1280-moves.png",
+      "/tmp/riftmon-desktop-team-chromium/team-mobile-sixth.png"
+    ],
+    "limitations": [
+      "WebKit Linux is not a physical iPhone/Safari test. Touch drag is a synthetic PointerEvent gesture; desktop mouse drag is native browser input.",
+      "Very short/zoomed windows and long content retain contained scrolling rather than clipping text. All learning actions remain accessible; details Profile/Moves may scroll at 1024x600.",
+      "No claim that every catalogue, list or user-generated long name fits without scrolling."
+    ]
+  },
+  "publication": {
+    "publishedAt": "2026-10-31T09:35:38.117Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-desktop-team-2026-10-31T09-35-36-535Z",
+    "sourceBaseline": "8173ff2991c7d69be34ca47feaa1c95367611e70",
+    "clientCommit": "085d56ca32049ab3810650a302e71709380d4805",
+    "clientBuild": "8d9f4d524f8ca5b6",
+    "beforePid": "3570955",
+    "afterPid": "3570955",
+    "serverRestarted": false,
+    "schemaChanged": false,
+    "databaseModified": false,
+    "neighborsUnchanged": true,
+    "hashedAssetsRetained": true,
+    "publicAssets": [
+      "js/234.f5ca3bcb.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.8f7a7deb.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.2fd32f7c.js",
+      "js/drift.5b8720d7.js",
+      "js/game.14c53790.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.de3bb7ec.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.2603de19.css",
+      "css/test-view.7568246d.css"
+    ],
+    "serviceActive": true,
+    "automaticRestarts": 0
+  }
+}

@@ -1,5 +1,19 @@
 # Audit technique et mémoire de RiftMon
 
+## Menus PC et réorganisation de l’équipe — 31 octobre 2026
+
+Apprentissage naturel : fenêtre PC élargie, nouvelle capacité à gauche et quatre capacités existantes à droite. Descriptions conservées, couleurs issues du thème choisi. En-tête et boutons « Plus tard / Ne pas apprendre » restent fixes ; le contenu peut défiler dans une petite fenêtre sans masquer les décisions. Échap ne ferme plus une sauvegarde en cours. Pas de changement des règles d’apprentissage, CS, PP ou choix serveur.
+
+Équipe PC : six cartes sur deux rangées, fermeture et retour de sauvegarde visibles. Glisser-déposer depuis un portrait, une carte ou sa poignée ; sur tactile, poignée dédiée pour conserver le défilement normal. Aperçu sous le pointeur, destination surlignée, insertion à la place choisie et sauvegarde automatique par le circuit existant. Les flèches restent utilisables au clavier. Les objets/états/PV/PP/IV/EV/XP sont conservés ; refus serveur ou connexion perdue rétablissent l’ordre autoritaire. Seuil de déplacement, vérification des UUID au relâchement, annulation Échap/blur/pointercancel/fermeture et défilement au bord ; écouteurs actifs uniquement pendant un geste.
+
+Fiche PC répartie en rubriques Profil et statistiques / Capacités / Évolution. Navigation précédent/suivant toujours en haut, descriptions et données complètes conservées. Sur mobile, fiche continue et cartes d’équipe habituelles ; sixième compagnon accessible par le défilement interne. Le piège de focus ignore maintenant les commandes des rubriques masquées. Pas de suppression cosmétique des barres qui cacherait du contenu : petites hauteurs/zoom/textes longs conservent une zone de défilement.
+
+Validation : 27 tests unitaires/régression réussis sans échec/saut, lint et build isolé valides. Vrai serveur isolé et base `explorakit_test`, Chromium/WebKit Linux : déplacement souris dans les deux sens et persistance SQL/reconnexion, flèches clavier, geste tactile synthétique, dépôt hors liste ignoré, refus serveur par UUID étranger et restauration, ressources conservées. Apprentissage différé, refusé puis accepté avec sauvegarde des capacités/PP ; Échap bloqué pendant sauvegarde, focus contenu dans la fiche. Six formats d’apprentissage (PC 1024×600 à 1920×1080 + mobile 393×852), clair/nocturne ; cinq formats d’équipe et quatre formats de fiche. Aucun défilement d’apprentissage sur les cinq formats PC testés, zéro débordement horizontal ; profil/capacités sans défilement à partir de 1280×720 avec cette équipe, défilement de secours à 1024×600. Captures PC/mobile inspectées, zéro erreur navigateur, comptes jetables supprimés ; aucun téléphone physique revendiqué.
+
+Rapport et recette : `docs/DESKTOP_TEAM_2026-10-31.json`, `DB_TEST_NAME=explorakit_test npm run test:desktop-team-browser` (ajouter `PRESENTATION_BROWSER=webkit`). Client seul ; serveur, base de production, cartes, combats et autres modes inchangés.
+
+Client publié le 31 octobre 2026 à 10 h 35 (Europe/Paris), commit `085d56ca32049ab3810650a302e71709380d4805`, build `8d9f4d524f8ca5b6`. Sauvegarde index/sources `/home/ubuntu/dev/backups/riftmon-desktop-team-2026-10-31T09-35-36-535Z` ; index et 22 bundles/CSS HTTPS vérifiés à l’octet, anciens assets conservés. Serveur actif conservé (PID 3570955, zéro redémarrage automatique), aucune modification de base ni de schéma. Knov/api-test inchangés.
+
 ## Toutes les CS et méthodes d’apprentissage — 31 octobre 2026
 
 633 CS pour les 634 attaques du moteur, soit 367 ajouts. Seule Lutte reste exclue : capacité automatique sans apprentissage permanent. Union de toutes les méthodes et versions enregistrées pour les espèces existantes : niveau, reproduction, CT/CS, tuteur, événements, transferts et méthodes spéciales. Les évolutions conservent les possibilités de leurs pré-évolutions ; Queulorior bénéficie de Gribouille, y compris ses possibilités historiques. Aucune compatibilité générale déduite du type ou des copies temporaires Morphing/Copie/Métronome. Purification conserve son exception pour tous les types Poison et accepte aussi ses apprenants natifs, qui étaient omis par l’ancien remplacement de liste.
@@ -5353,6 +5367,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 31 octobre 2026 — Menus PC élargis et rubriques de fiche, boutons d’apprentissage visibles, six compagnons sur deux rangées et tri par glisser-déposer autosauvegardé. 27 tests, lint/build et recettes Chromium/WebKit avec SQL/reconnexion ; `docs/DESKTOP_TEAM_2026-10-31.json`.
 
 - 31 octobre 2026 — Toutes les attaques apprenables du moteur en CS (633, hors Lutte), méthodes permanentes/anciennes versions/évolutions/Gribouille ; 512 097 compatibilités possibles contrôlées, 149 tests et 19 SQL, recettes Chromium/WebKit. Rayon affiché progressivement ; `docs/ALL_CS_2026-10-31.json`.
 
