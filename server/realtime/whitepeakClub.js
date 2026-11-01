@@ -48,26 +48,33 @@ function createClub(io,{repository=store,now=Date.now,randomNumber=()=>randomInt
  async function create(id,data){
   const p=available(id);requireMap(id,rules.HALL);if(!rules.near(p,13,5,3))rules.fail('Adresse-toi à l’hôtesse.');
   if(room&&!['finished','cancelled'].includes(room.phase))rules.fail('Un duel est déjà organisé.');
-  room={id:randomUUID(),hostId:id,config:rules.settings(data),ids:[null,null],names:['',''],uuids:[null,null],selected:[null,null],confirmed:[false,false],revision:0,phase:'waiting',expiresAt:now()+300000,placementDeadline:now()+rules.PLACEMENT_TIMEOUT};emitRoom();return view(id);
+  room={id:randomUUID(),hostId:id,config:rules.settings(data),ids:[null,null],names:['',''],uuids:[null,null],selected:[null,null],confirmed:[false,false],revision:0,phase:'waiting',expiresAt:now()+300000,placementDeadline:now()+rules.PLACEMENT_TIMEOUT};emitRoom();await syncWaitingPodiums();return view(id);
+ }
+ async function syncWaitingPodiums(){
+  const r=room;if(!r||r.phase!=='waiting')return;
+  const before=r.ids.join(',');
+  const usable=c=>{const p=c.getPlayer();return c.socket.connected&&c.account.active()&&p?.currentmap===rules.HALL&&c.canUse()&&!p.inbattle&&!p.inventoryBusy&&!locks.locked(c.id);};
+  for(let i=0;i<2;i++)if(r.ids[i]){
+   const c=contexts.get(r.ids[i]);if(!c||!usable(c)||rules.podium(c.getPlayer())!==i){r.ids[i]=null;r.names[i]='';}
+  }
+  // Detect people already standing on a disc, including after entry/reconnect.
+  const candidates=[...contexts.values()].filter(usable).sort((a,b)=>Number(b.id===r.hostId)-Number(a.id===r.hostId)||a.id-b.id);
+  for(const c of candidates){const pad=rules.podium(c.getPlayer());
+   if(pad<0||r.ids.includes(c.id)||r.ids[pad])continue;
+   if(c.id!==r.hostId&&!r.ids.includes(r.hostId)&&r.ids.some(Boolean))continue;
+   r.ids[pad]=c.id;r.names[pad]=c.username;
+  }
+  if(r.ids.includes(r.hostId))r.placementDeadline=null;
+  else if(!r.placementDeadline)r.placementDeadline=now()+rules.PLACEMENT_TIMEOUT;
+  if(r.ids.every(Boolean)){
+   try{locks.acquire(r.ids,r.id);for(const owner of r.ids){const p=player(owner);p.__whitepeakDuel=r.id;p.inventoryBusy=true;}await refreshReview();}
+   catch(e){unlock(r);r.ids=[null,null];r.names=['',''];r.phase='waiting';r.placementDeadline=now()+rules.PLACEMENT_TIMEOUT;contexts.get(r.hostId)?.socket.emit('progressionNotice',{message:e.message});emitRoom();}
+  }else if(before!==r.ids.join(','))emitRoom();
  }
  async function step(id){
-  expireRoom();
-  const p=contexts.get(id)?.getPlayer();if(!p)return;
-  if(p.currentmap!==rules.HALL){spectators.delete(id);if(room?.hostId===id&&['waiting','review'].includes(room.phase))cancel('L’organisateur a quitté la salle.');return;}
-  if(!room||!['waiting','review'].includes(room.phase))return;
-  const index=ownerIndex(id),podium=rules.podium(p);
-  if(index>=0&&podium!==index){if(room.phase==='review')return;room.ids[index]=null;room.names[index]='';if(room.hostId===id)room.placementDeadline=now()+rules.PLACEMENT_TIMEOUT;emitRoom();}
-  if(podium<0||ownerIndex(id)>=0||room.ids[podium])return;
-  if(id!==room.hostId&&!room.ids.includes(room.hostId)&&room.ids.some(Boolean))return;
-  available(id);room.ids[podium]=id;room.names[podium]=context(id).username;
-  if(id===room.hostId)room.placementDeadline=null;
-  if(room.ids.every(Boolean)){
-   const r=room;
-   for(let i=0;i<2;i++)if(rules.podium(contexts.get(r.ids[i])?.getPlayer())!==i){r.ids[i]=null;r.names[i]='';}
-   if(r.ids.some(id=>!id)){emitRoom();return;}
-   try{for(const owner of r.ids)available(owner);locks.acquire(r.ids,r.id);for(const owner of r.ids){const q=player(owner);q.__whitepeakDuel=r.id;q.inventoryBusy=true;}await refreshReview();}
-   catch(e){unlock(r);r.ids[podium]=null;r.names[podium]='';r.phase='waiting';context(id).socket.emit('progressionNotice',{message:e.message});}
-  }emitRoom();
+  expireRoom();const p=contexts.get(id)?.getPlayer();if(!p)return;
+  if(p.currentmap!==rules.HALL){spectators.delete(id);if(room&&['waiting','review'].includes(room.phase)&&(room.hostId===id||room.ids.includes(id)))cancel('Un participant a quitté la salle.');return;}
+  await syncWaitingPodiums();
  }
  function match(id,data){requireMap(id,rules.HALL);if(!room||data.id!==room.id||ownerIndex(id)<0||room.phase!=='review'||data.revision!==room.revision)rules.fail('Ce récapitulatif a changé. Relis les mises.');return room;}
  async function offer(id,data){const r=match(id,data);if(!r.config.pokemonStake)rules.fail('Aucun Pokémon n’est demandé pour ce duel.');r.uuids[ownerIndex(id)]=rules.uuid(data.pokemonUuid);await refreshReview();return view(id);}
@@ -132,6 +139,7 @@ function createClub(io,{repository=store,now=Date.now,randomNumber=()=>randomInt
   if(ticking||closed)return;ticking=true;
   try{await execute(async()=>{
    expireRoom();
+   await syncWaitingPodiums();
    if(!round)return;
    if(round.phase==='betting'&&round.closesAt<=now()){round=await repository.spin(round.id,randomNumber(),now());emitRoulette();}
    if(round?.phase==='spinning'&&round.resultAt<=now()){const results=await repository.settleRoulette(round.id,now());for(const p of results){wallet(p.userId,p.balance);contexts.get(p.userId)?.socket.emit('whitepeak:rouletteResult',p);}round=await repository.rouletteState();emitRoulette();}

@@ -2532,8 +2532,8 @@
           "nexY": 560
         },
         {
-          "valX": 23,
-          "valY": 16,
+          "valX": 20,
+          "valY": 15,
           "goto": "ville5_maison2",
           "nexX": 432,
           "nexY": 560
@@ -2617,15 +2617,15 @@
           "valX": 13,
           "valY": 19,
           "goto": "ville5",
-          "nexX": 736,
-          "nexY": 576
+          "nexX": 640,
+          "nexY": 544
         },
         {
           "valX": 14,
           "valY": 19,
           "goto": "ville5",
-          "nexX": 736,
-          "nexY": 576
+          "nexX": 640,
+          "nexY": 544
         }
       ]
     },

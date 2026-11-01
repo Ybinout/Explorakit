@@ -1,5 +1,19 @@
 # Audit technique et mémoire de RiftMon
 
+## Casino et socles de Blanchecime réalignés — 1er novembre 2026
+
+Le casino s’ouvre désormais sur sa porte bleue réelle (20,15), et non sur la fenêtre (23,16). Sorties raccordées devant la porte (656,528 en coordonnées monde), collision de la fenêtre rétablie ; entrées/sorties parcourues avec les déplacements natifs. La convention historique des transitions (+16/−16) est prise en compte.
+
+Les socles vérifient toute leur ellipse visible au niveau des pieds, via une géométrie canonique partagée serveur/client et son générateur de miroir. Détection à la création, aux déplacements/entrées et au tick d’attente, y compris adversaire déjà placé ou redevenu disponible ; priorité/réservation de l’organisateur, délai de cinquante secondes et duel unique conservés. Aucun accès SQL périodique en attente ni inspection répétée d’un récapitulatif déjà ouvert. Halo cyan/rose visible par tous à l’occupation physique, placé sous les personnages : deux petits canvas mis en cache, aucun nouveau flou/allocation par image, effet fixe en mouvement réduit.
+
+Niveaux fixés 25/50/75/100 appliqués vers le haut comme vers le bas : XP cohérente avec le groupe de croissance, niveau dérivé, statistiques recalculées puis soin dans la copie uniquement. Aucun gain d’XP, apprentissage ou changement de l’équipe d’Aventure. Les fiches de mise conservent volontairement le niveau réel du lot, désormais distingué du niveau temporaire du duel. Choix équipe/PC après placement des deux joueurs, inspection adverse et deux confirmations avant débit maintenus ; toute offre modifiée invalide les accords.
+
+Décor retouché avec imagegen intégré : vingt coussins bleus au sol remplacent les sièges, sans dossier, pieds ou banquette. Sol des tribunes traversable ; murs et garde-corps toujours bloquants. Fenêtres enneigées, socles et comptoir préservés. Asset, prompt exact et provenance dans `docs/WHITEPEAK_ALIGNMENT_2026-11-01.json`.
+
+Validation : 18 tests unitaires et 14 SQL réussis sans échec/saut ; miroir/syntaxe/diff, lint et compilation isolée valides. Recette privée trois comptes Chromium/WebKit : vraie porte et fenêtre bloquée, traversée des coussins, adversaire immobile déjà sur un bord du disque, deux mises PC et inspection, attente du second accord, tous les niveaux 90/12/150 à 100 et changement de Pokémon stable, tour réel animé en spectateur, reconnexion, abandon/déconnexion et transfert exact du lot sans altération d’Aventure. Quatre formats/deux thèmes, 32 vues par moteur (64), zéro erreur ; comptes jetables supprimés. Halo contrôlé dans les deux moteurs : couleurs distinctes, extinction hors occupation/carte, mouvement réduit stable et seulement deux canvas après cent images. Captures de salle, récapitulatif mobile et spectateur inspectées. Aucun téléphone physique revendiqué.
+
+Serveur/client publiés le 1er novembre 2026 à 11 h 57 (Europe/Paris), client `bf8160065451b4cf45b8c6bebd7a303430879a45`, build `e71d6c825c4894ec`. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-club-alignment-2026-11-01T10-57-23-625Z`. PID 3654705→3658083, service actif sans redémarrage automatique/avertissement ; aucun duel actif au contrôle, tentative Super Tournoi existante conservée. Index, 22 bundles/CSS et nouveau décor HTTPS vérifiés à l’octet ; anciens assets conservés. Knov/api-test, checkpoint et modes fermés inchangés ; aucune migration ni modification manuelle de compte réel. Recharger le client pour le décor et le néon.
+
 ## Clauses d’inscription et soins de cycle du Super Tournoi — 1er novembre 2026
 
 Nouvelles inscriptions : une seule fois chaque espèce (ID, indépendamment du sexe/UUID/K/forme) et chaque objet tenu ; plusieurs emplacements sans objet autorisés, stades évolutifs différents admis. Validation centrale dans le contrôleur et dans le gestionnaire avant tout soin/écriture de l’équipe d’Aventure. Prévalidation authentifiée auprès de l’hôtesse avant son/animation, puis seconde vérification obligatoire à l’inscription effective ; refus conservé dans le formulaire, alerte visible au-dessus du pied du panneau même sur petit écran. Les tentatives scellées existantes peuvent continuer et les équipes adverses écrites par le créateur restent inchangées.
@@ -5684,6 +5698,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 1er novembre 2026 — Blanchecime : vraie porte du casino, ellipse des socles partagée et occupants immobiles détectés, néon mis en cache, niveaux temporaires/XP cohérents, mises inspectables et coussins traversables. 18 tests unitaires, 14 SQL et 64 vues Chromium/WebKit ; `docs/WHITEPEAK_ALIGNMENT_2026-11-01.json`.
 
 - 1er novembre 2026 — Super Tournoi : clauses espèce/objet à l’inscription et soin complet à chaque nouveau cycle de seize, validation visible sans mutation d’équipe refusée et reprise sans soin supplémentaire. 67 tests unitaires, 29 SQL et 32 vues Chromium/WebKit. `docs/TOURNAMENT_CYCLE_RULES_2026-11-01.json`.
 

@@ -22,6 +22,20 @@ test('one preparation only: concurrent organisers cannot overwrite rules or the 
   assert.match(answers.find(r=>!r.success).message,/déjà organisé/);
  }finally{f.club.close();}
 });
+test('a stationary opponent is captured at creation; an off-center host completes review automatically',async()=>{
+ const f=await fixture();try{
+  const[a,b]=f.clients;Object.assign(b.player,{x:560,y:240});await a.command('create',{pokemonStake:true});
+  assert.deepEqual(f.club.room.ids,[null,2]);Object.assign(a.player,{x:240,y:224});await a.hooks.step();
+  assert.equal(f.club.room.phase,'review');assert.deepEqual(f.club.room.ids,[1,2]);assert.equal(f.inspections(),1);
+  assert.equal(f.club.view(1).you,0);assert.equal(f.club.view(2).you,1);await f.club.tick();assert.equal(f.inspections(),1);
+ }finally{if(f.club.room)await f.clients[0].command('leave');f.club.close();}
+});
+test('a busy person already on a pad joins once available, without needing another movement',async()=>{
+ const f=await fixture();try{
+  const[a,b]=f.clients;Object.assign(b.player,{x:624,y:240,inventoryBusy:true});await a.command('create');Object.assign(a.player,{x:240,y:224});await a.hooks.step();
+  assert.deepEqual(f.club.room.ids,[1,null]);b.player.inventoryBusy=false;await f.club.tick();assert.equal(f.club.room.phase,'review');assert.equal(f.inspections(),1);
+ }finally{if(f.club.room)await f.clients[0].command('leave');f.club.close();}
+});
 test('host gets exactly fifty seconds to take a podium, without a debit, then the room is released',async()=>{
  const f=await fixture();try{
   assert((await f.clients[0].command('create')).success);assert.equal(f.club.view(1).placementDeadline,150000);
