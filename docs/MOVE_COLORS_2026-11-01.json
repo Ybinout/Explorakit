@@ -1,0 +1,1394 @@
+{
+  "date": "2026-11-01",
+  "change": "Couleur des choix d’attaque : catalogue complet à la place de la table historique d’apprentissage",
+  "sourceBaseline": "df01b520dee6e7143b253f9985bc51d5eab88fe5",
+  "clientCommit": "ef81bf00bda1c3fd00537519161373699115c750",
+  "clientBuild": "ad4f1bdaf2bbb334",
+  "cause": "BattleOverlay used moveLearning.json for static types; Wave Crash and Ice Spinner were the only two engine moves absent from that older table. Dynamic server moveTypes carry null for standard moves, so the fallback had no type and used the neutral color.",
+  "fix": "Resolve server-provided dynamic types first, then the complete generated pokemonReference.fr.json catalogue. Struggle fallback and empty slots unchanged.",
+  "expected": [
+    {
+      "move": "Wave Crash",
+      "name": "Aquatacle",
+      "type": "Water",
+      "color": "#4e8ee8"
+    },
+    {
+      "move": "Ice Spinner",
+      "name": "Cryo-Pirouette",
+      "type": "Ice",
+      "color": "#63c9d3"
+    }
+  ],
+  "scope": "Shared BattleOverlay across battle types and modes. No battle mechanics, learnsets, PP, pricing, maps or schema changes.",
+  "validation": {
+    "browserCommand": "DB_TEST_NAME=explorakit_test MOVE_TYPE_COLORS_ONLY=1 RELEASE_DIST_DIR=/tmp/riftmon-move-colors-dist node --env-file-if-exists=.env scripts/validateBattleIndicatorsBrowser.js",
+    "webkitCommand": "DB_TEST_NAME=explorakit_test MOVE_TYPE_COLORS_ONLY=1 PRESENTATION_BROWSER=webkit RELEASE_DIST_DIR=/tmp/riftmon-move-colors-dist node --env-file-if-exists=.env scripts/validateBattleIndicatorsBrowser.js",
+    "lint": true,
+    "isolatedBuild": true,
+    "browsers": [
+      {
+        "success": true,
+        "engine": "chromium",
+        "views": [
+          {
+            "kind": "wild",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "colors": [
+              {
+                "type": "Water",
+                "color": "#4e8ee8",
+                "border": "rgb(78, 142, 232)",
+                "label": "Eau",
+                "background": "rgb(78, 142, 232)"
+              },
+              {
+                "type": "Ice",
+                "color": "#63c9d3",
+                "border": "rgb(99, 201, 211)",
+                "label": "Glace",
+                "background": "rgb(99, 201, 211)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              }
+            ]
+          },
+          {
+            "kind": "wild",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "colors": [
+              {
+                "type": "Water",
+                "color": "#4e8ee8",
+                "border": "rgb(78, 142, 232)",
+                "label": "Eau",
+                "background": "rgb(78, 142, 232)"
+              },
+              {
+                "type": "Ice",
+                "color": "#63c9d3",
+                "border": "rgb(99, 201, 211)",
+                "label": "Glace",
+                "background": "rgb(99, 201, 211)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              }
+            ]
+          },
+          {
+            "kind": "wild",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "colors": [
+              {
+                "type": "Water",
+                "color": "#4e8ee8",
+                "border": "rgb(78, 142, 232)",
+                "label": "Eau",
+                "background": "rgb(78, 142, 232)"
+              },
+              {
+                "type": "Ice",
+                "color": "#63c9d3",
+                "border": "rgb(99, 201, 211)",
+                "label": "Glace",
+                "background": "rgb(99, 201, 211)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              }
+            ]
+          },
+          {
+            "kind": "wild",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "colors": [
+              {
+                "type": "Water",
+                "color": "#4e8ee8",
+                "border": "rgb(78, 142, 232)",
+                "label": "Eau",
+                "background": "rgb(78, 142, 232)"
+              },
+              {
+                "type": "Ice",
+                "color": "#63c9d3",
+                "border": "rgb(99, 201, 211)",
+                "label": "Glace",
+                "background": "rgb(99, 201, 211)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              }
+            ]
+          },
+          {
+            "kind": "wild",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "colors": [
+              {
+                "type": "Water",
+                "color": "#4e8ee8",
+                "border": "rgb(78, 142, 232)",
+                "label": "Eau",
+                "background": "rgb(78, 142, 232)"
+              },
+              {
+                "type": "Ice",
+                "color": "#63c9d3",
+                "border": "rgb(99, 201, 211)",
+                "label": "Glace",
+                "background": "rgb(99, 201, 211)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              }
+            ]
+          },
+          {
+            "kind": "wild",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "colors": [
+              {
+                "type": "Water",
+                "color": "#4e8ee8",
+                "border": "rgb(78, 142, 232)",
+                "label": "Eau",
+                "background": "rgb(78, 142, 232)"
+              },
+              {
+                "type": "Ice",
+                "color": "#63c9d3",
+                "border": "rgb(99, 201, 211)",
+                "label": "Glace",
+                "background": "rgb(99, 201, 211)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              }
+            ]
+          },
+          {
+            "kind": "trainer",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "colors": [
+              {
+                "type": "Water",
+                "color": "#4e8ee8",
+                "border": "rgb(78, 142, 232)",
+                "label": "Eau",
+                "background": "rgb(78, 142, 232)"
+              },
+              {
+                "type": "Ice",
+                "color": "#63c9d3",
+                "border": "rgb(99, 201, 211)",
+                "label": "Glace",
+                "background": "rgb(99, 201, 211)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              }
+            ]
+          },
+          {
+            "kind": "trainer",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "colors": [
+              {
+                "type": "Water",
+                "color": "#4e8ee8",
+                "border": "rgb(78, 142, 232)",
+                "label": "Eau",
+                "background": "rgb(78, 142, 232)"
+              },
+              {
+                "type": "Ice",
+                "color": "#63c9d3",
+                "border": "rgb(99, 201, 211)",
+                "label": "Glace",
+                "background": "rgb(99, 201, 211)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              }
+            ]
+          },
+          {
+            "kind": "trainer",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "colors": [
+              {
+                "type": "Water",
+                "color": "#4e8ee8",
+                "border": "rgb(78, 142, 232)",
+                "label": "Eau",
+                "background": "rgb(78, 142, 232)"
+              },
+              {
+                "type": "Ice",
+                "color": "#63c9d3",
+                "border": "rgb(99, 201, 211)",
+                "label": "Glace",
+                "background": "rgb(99, 201, 211)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              }
+            ]
+          },
+          {
+            "kind": "trainer",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "colors": [
+              {
+                "type": "Water",
+                "color": "#4e8ee8",
+                "border": "rgb(78, 142, 232)",
+                "label": "Eau",
+                "background": "rgb(78, 142, 232)"
+              },
+              {
+                "type": "Ice",
+                "color": "#63c9d3",
+                "border": "rgb(99, 201, 211)",
+                "label": "Glace",
+                "background": "rgb(99, 201, 211)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              }
+            ]
+          },
+          {
+            "kind": "trainer",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "colors": [
+              {
+                "type": "Water",
+                "color": "#4e8ee8",
+                "border": "rgb(78, 142, 232)",
+                "label": "Eau",
+                "background": "rgb(78, 142, 232)"
+              },
+              {
+                "type": "Ice",
+                "color": "#63c9d3",
+                "border": "rgb(99, 201, 211)",
+                "label": "Glace",
+                "background": "rgb(99, 201, 211)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              }
+            ]
+          },
+          {
+            "kind": "trainer",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "colors": [
+              {
+                "type": "Water",
+                "color": "#4e8ee8",
+                "border": "rgb(78, 142, 232)",
+                "label": "Eau",
+                "background": "rgb(78, 142, 232)"
+              },
+              {
+                "type": "Ice",
+                "color": "#63c9d3",
+                "border": "rgb(99, 201, 211)",
+                "label": "Glace",
+                "background": "rgb(99, 201, 211)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              }
+            ]
+          },
+          {
+            "kind": "pvp",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "colors": [
+              {
+                "type": "Water",
+                "color": "#4e8ee8",
+                "border": "rgb(78, 142, 232)",
+                "label": "Eau",
+                "background": "rgb(78, 142, 232)"
+              },
+              {
+                "type": "Ice",
+                "color": "#63c9d3",
+                "border": "rgb(99, 201, 211)",
+                "label": "Glace",
+                "background": "rgb(99, 201, 211)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              }
+            ]
+          },
+          {
+            "kind": "pvp",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "colors": [
+              {
+                "type": "Water",
+                "color": "#4e8ee8",
+                "border": "rgb(78, 142, 232)",
+                "label": "Eau",
+                "background": "rgb(78, 142, 232)"
+              },
+              {
+                "type": "Ice",
+                "color": "#63c9d3",
+                "border": "rgb(99, 201, 211)",
+                "label": "Glace",
+                "background": "rgb(99, 201, 211)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              }
+            ]
+          },
+          {
+            "kind": "pvp",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "colors": [
+              {
+                "type": "Water",
+                "color": "#4e8ee8",
+                "border": "rgb(78, 142, 232)",
+                "label": "Eau",
+                "background": "rgb(78, 142, 232)"
+              },
+              {
+                "type": "Ice",
+                "color": "#63c9d3",
+                "border": "rgb(99, 201, 211)",
+                "label": "Glace",
+                "background": "rgb(99, 201, 211)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              }
+            ]
+          },
+          {
+            "kind": "pvp",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "colors": [
+              {
+                "type": "Water",
+                "color": "#4e8ee8",
+                "border": "rgb(78, 142, 232)",
+                "label": "Eau",
+                "background": "rgb(78, 142, 232)"
+              },
+              {
+                "type": "Ice",
+                "color": "#63c9d3",
+                "border": "rgb(99, 201, 211)",
+                "label": "Glace",
+                "background": "rgb(99, 201, 211)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              }
+            ]
+          },
+          {
+            "kind": "pvp",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "colors": [
+              {
+                "type": "Water",
+                "color": "#4e8ee8",
+                "border": "rgb(78, 142, 232)",
+                "label": "Eau",
+                "background": "rgb(78, 142, 232)"
+              },
+              {
+                "type": "Ice",
+                "color": "#63c9d3",
+                "border": "rgb(99, 201, 211)",
+                "label": "Glace",
+                "background": "rgb(99, 201, 211)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              }
+            ]
+          },
+          {
+            "kind": "pvp",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "colors": [
+              {
+                "type": "Water",
+                "color": "#4e8ee8",
+                "border": "rgb(78, 142, 232)",
+                "label": "Eau",
+                "background": "rgb(78, 142, 232)"
+              },
+              {
+                "type": "Ice",
+                "color": "#63c9d3",
+                "border": "rgb(99, 201, 211)",
+                "label": "Glace",
+                "background": "rgb(99, 201, 211)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              }
+            ]
+          }
+        ],
+        "exhaustiveMoves": 636,
+        "dynamicWeatherOverride": true,
+        "resourcesUnchanged": true,
+        "errors": [],
+        "closedModesPreserved": true,
+        "physicalHardware": false
+      },
+      {
+        "success": true,
+        "engine": "webkit",
+        "views": [
+          {
+            "kind": "wild",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "colors": [
+              {
+                "type": "Water",
+                "color": "#4e8ee8",
+                "border": "rgb(78, 142, 232)",
+                "label": "Eau",
+                "background": "rgb(78, 142, 232)"
+              },
+              {
+                "type": "Ice",
+                "color": "#63c9d3",
+                "border": "rgb(99, 201, 211)",
+                "label": "Glace",
+                "background": "rgb(99, 201, 211)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              }
+            ]
+          },
+          {
+            "kind": "wild",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "colors": [
+              {
+                "type": "Water",
+                "color": "#4e8ee8",
+                "border": "rgb(78, 142, 232)",
+                "label": "Eau",
+                "background": "rgb(78, 142, 232)"
+              },
+              {
+                "type": "Ice",
+                "color": "#63c9d3",
+                "border": "rgb(99, 201, 211)",
+                "label": "Glace",
+                "background": "rgb(99, 201, 211)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              }
+            ]
+          },
+          {
+            "kind": "wild",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "colors": [
+              {
+                "type": "Water",
+                "color": "#4e8ee8",
+                "border": "rgb(78, 142, 232)",
+                "label": "Eau",
+                "background": "rgb(78, 142, 232)"
+              },
+              {
+                "type": "Ice",
+                "color": "#63c9d3",
+                "border": "rgb(99, 201, 211)",
+                "label": "Glace",
+                "background": "rgb(99, 201, 211)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              }
+            ]
+          },
+          {
+            "kind": "wild",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "colors": [
+              {
+                "type": "Water",
+                "color": "#4e8ee8",
+                "border": "rgb(78, 142, 232)",
+                "label": "Eau",
+                "background": "rgb(78, 142, 232)"
+              },
+              {
+                "type": "Ice",
+                "color": "#63c9d3",
+                "border": "rgb(99, 201, 211)",
+                "label": "Glace",
+                "background": "rgb(99, 201, 211)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              }
+            ]
+          },
+          {
+            "kind": "wild",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "colors": [
+              {
+                "type": "Water",
+                "color": "#4e8ee8",
+                "border": "rgb(78, 142, 232)",
+                "label": "Eau",
+                "background": "rgb(78, 142, 232)"
+              },
+              {
+                "type": "Ice",
+                "color": "#63c9d3",
+                "border": "rgb(99, 201, 211)",
+                "label": "Glace",
+                "background": "rgb(99, 201, 211)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              }
+            ]
+          },
+          {
+            "kind": "wild",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "colors": [
+              {
+                "type": "Water",
+                "color": "#4e8ee8",
+                "border": "rgb(78, 142, 232)",
+                "label": "Eau",
+                "background": "rgb(78, 142, 232)"
+              },
+              {
+                "type": "Ice",
+                "color": "#63c9d3",
+                "border": "rgb(99, 201, 211)",
+                "label": "Glace",
+                "background": "rgb(99, 201, 211)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              }
+            ]
+          },
+          {
+            "kind": "trainer",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "colors": [
+              {
+                "type": "Water",
+                "color": "#4e8ee8",
+                "border": "rgb(78, 142, 232)",
+                "label": "Eau",
+                "background": "rgb(78, 142, 232)"
+              },
+              {
+                "type": "Ice",
+                "color": "#63c9d3",
+                "border": "rgb(99, 201, 211)",
+                "label": "Glace",
+                "background": "rgb(99, 201, 211)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              }
+            ]
+          },
+          {
+            "kind": "trainer",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "colors": [
+              {
+                "type": "Water",
+                "color": "#4e8ee8",
+                "border": "rgb(78, 142, 232)",
+                "label": "Eau",
+                "background": "rgb(78, 142, 232)"
+              },
+              {
+                "type": "Ice",
+                "color": "#63c9d3",
+                "border": "rgb(99, 201, 211)",
+                "label": "Glace",
+                "background": "rgb(99, 201, 211)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              }
+            ]
+          },
+          {
+            "kind": "trainer",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "colors": [
+              {
+                "type": "Water",
+                "color": "#4e8ee8",
+                "border": "rgb(78, 142, 232)",
+                "label": "Eau",
+                "background": "rgb(78, 142, 232)"
+              },
+              {
+                "type": "Ice",
+                "color": "#63c9d3",
+                "border": "rgb(99, 201, 211)",
+                "label": "Glace",
+                "background": "rgb(99, 201, 211)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              }
+            ]
+          },
+          {
+            "kind": "trainer",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "colors": [
+              {
+                "type": "Water",
+                "color": "#4e8ee8",
+                "border": "rgb(78, 142, 232)",
+                "label": "Eau",
+                "background": "rgb(78, 142, 232)"
+              },
+              {
+                "type": "Ice",
+                "color": "#63c9d3",
+                "border": "rgb(99, 201, 211)",
+                "label": "Glace",
+                "background": "rgb(99, 201, 211)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              }
+            ]
+          },
+          {
+            "kind": "trainer",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "colors": [
+              {
+                "type": "Water",
+                "color": "#4e8ee8",
+                "border": "rgb(78, 142, 232)",
+                "label": "Eau",
+                "background": "rgb(78, 142, 232)"
+              },
+              {
+                "type": "Ice",
+                "color": "#63c9d3",
+                "border": "rgb(99, 201, 211)",
+                "label": "Glace",
+                "background": "rgb(99, 201, 211)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              }
+            ]
+          },
+          {
+            "kind": "trainer",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "colors": [
+              {
+                "type": "Water",
+                "color": "#4e8ee8",
+                "border": "rgb(78, 142, 232)",
+                "label": "Eau",
+                "background": "rgb(78, 142, 232)"
+              },
+              {
+                "type": "Ice",
+                "color": "#63c9d3",
+                "border": "rgb(99, 201, 211)",
+                "label": "Glace",
+                "background": "rgb(99, 201, 211)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              }
+            ]
+          },
+          {
+            "kind": "pvp",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "colors": [
+              {
+                "type": "Water",
+                "color": "#4e8ee8",
+                "border": "rgb(78, 142, 232)",
+                "label": "Eau",
+                "background": "rgb(78, 142, 232)"
+              },
+              {
+                "type": "Ice",
+                "color": "#63c9d3",
+                "border": "rgb(99, 201, 211)",
+                "label": "Glace",
+                "background": "rgb(99, 201, 211)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              }
+            ]
+          },
+          {
+            "kind": "pvp",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "colors": [
+              {
+                "type": "Water",
+                "color": "#4e8ee8",
+                "border": "rgb(78, 142, 232)",
+                "label": "Eau",
+                "background": "rgb(78, 142, 232)"
+              },
+              {
+                "type": "Ice",
+                "color": "#63c9d3",
+                "border": "rgb(99, 201, 211)",
+                "label": "Glace",
+                "background": "rgb(99, 201, 211)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              }
+            ]
+          },
+          {
+            "kind": "pvp",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "colors": [
+              {
+                "type": "Water",
+                "color": "#4e8ee8",
+                "border": "rgb(78, 142, 232)",
+                "label": "Eau",
+                "background": "rgb(78, 142, 232)"
+              },
+              {
+                "type": "Ice",
+                "color": "#63c9d3",
+                "border": "rgb(99, 201, 211)",
+                "label": "Glace",
+                "background": "rgb(99, 201, 211)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              }
+            ]
+          },
+          {
+            "kind": "pvp",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "colors": [
+              {
+                "type": "Water",
+                "color": "#4e8ee8",
+                "border": "rgb(78, 142, 232)",
+                "label": "Eau",
+                "background": "rgb(78, 142, 232)"
+              },
+              {
+                "type": "Ice",
+                "color": "#63c9d3",
+                "border": "rgb(99, 201, 211)",
+                "label": "Glace",
+                "background": "rgb(99, 201, 211)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              }
+            ]
+          },
+          {
+            "kind": "pvp",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "colors": [
+              {
+                "type": "Water",
+                "color": "#4e8ee8",
+                "border": "rgb(78, 142, 232)",
+                "label": "Eau",
+                "background": "rgb(78, 142, 232)"
+              },
+              {
+                "type": "Ice",
+                "color": "#63c9d3",
+                "border": "rgb(99, 201, 211)",
+                "label": "Glace",
+                "background": "rgb(99, 201, 211)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              }
+            ]
+          },
+          {
+            "kind": "pvp",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "colors": [
+              {
+                "type": "Water",
+                "color": "#4e8ee8",
+                "border": "rgb(78, 142, 232)",
+                "label": "Eau",
+                "background": "rgb(78, 142, 232)"
+              },
+              {
+                "type": "Ice",
+                "color": "#63c9d3",
+                "border": "rgb(99, 201, 211)",
+                "label": "Glace",
+                "background": "rgb(99, 201, 211)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              },
+              {
+                "type": "Normal",
+                "color": "#a4a49a",
+                "border": "rgb(164, 164, 154)",
+                "label": "Normal",
+                "background": "rgb(164, 164, 154)"
+              }
+            ]
+          }
+        ],
+        "exhaustiveMoves": 636,
+        "dynamicWeatherOverride": true,
+        "resourcesUnchanged": true,
+        "errors": [],
+        "closedModesPreserved": true,
+        "physicalHardware": false
+      }
+    ]
+  },
+  "publication": {
+    "publishedAt": "2026-11-01T09:49:52.300Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-move-colors-2026-11-01T09-49-50-760Z",
+    "clientCommit": "ef81bf00bda1c3fd00537519161373699115c750",
+    "clientBuild": "ad4f1bdaf2bbb334",
+    "indexSha256": "9bedec6049f66e7d24f9627a20de66902f81bc78da9b2fd8758a564d80cf9e9d",
+    "serverPid": "3651079",
+    "serverRestarted": false,
+    "serviceActive": true,
+    "schemaChanged": false,
+    "realAccountsManuallyModified": false,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": [
+      "js/234.7f08b866.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.012fcf9f.js",
+      "js/account.161ce126.js",
+      "js/app.c5390243.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.2fd32f7c.js",
+      "js/drift.5b8720d7.js",
+      "js/game.e216f80c.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.4fff4c7e.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.dfd22853.css",
+      "css/test-view.7568246d.css"
+    ]
+  },
+  "limitations": [
+    "Chromium/WebKit on Linux, no physical handset claimed.",
+    "Visual client-only fix, no server restart required."
+  ]
+}

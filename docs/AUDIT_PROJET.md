@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## Couleurs des nouvelles attaques en combat — 1er novembre 2026
+
+Le menu d’attaque utilisait encore `moveLearning.json` pour sa couleur statique ; Aquatacle et Cryo-Pirouette étaient les deux seules attaques du moteur absentes de cette table. `BattleOverlay` utilise désormais le catalogue d’affichage complet `pokemonReference.fr.json`. Les types dynamiques transmis par le serveur restent prioritaires, et le repli Lutte/cases vides conserve son comportement. Aquatacle : Eau bleu `#4e8ee8` ; Cryo-Pirouette : Glace `#63c9d3`. Même composant dans tous les modes, aucune modification des mécaniques, PP, compatibilités ou sauvegardes.
+
+Recette dédiée intégrée à `validateBattleIndicatorsBrowser.js`, sur serveur et compte SQL privés : 636 types vérifiés via la vraie méthode du composant, Ball’Météo avec surcharge Feu conservée, boutons réellement affichés en sauvage/dresseur/PvP, trois formats/deux thèmes, couleurs du fond et bordures distinctes, libellés Eau/Glace. Chromium et WebKit validés : 18 vues chacun (36), zéro erreur ; ressources/objets SQL inchangés, comptes jetables supprimés, capture mobile inspectée. Lint et compilation isolée valides. Aucun téléphone physique revendiqué. Rapport : `docs/MOVE_COLORS_2026-11-01.json`.
+
+Client publié le 1er novembre 2026 à 10 h 49 (Europe/Paris), commit `ef81bf00bda1c3fd00537519161373699115c750`, build `ad4f1bdaf2bbb334`. Sauvegarde index/source `/home/ubuntu/dev/backups/riftmon-move-colors-2026-11-01T09-49-50-760Z`. Serveur conservé en marche (PID 3651079, zéro redémarrage), aucune migration/modification de compte. Index et bundles publics vérifiés à l’octet, anciens assets conservés ; Knov/api-test inchangés. Recharger le jeu pour les couleurs corrigées.
+
 ## Corrections des maisons de Blanchecime — 1er novembre 2026
 
 Maison des combats : vingt sièges individuels à la place des quatre bancs, murs/rails et collisions des sièges réalignés, allée libre entre les rangées et passage central conservé. Nouvelle édition de l’image par imagegen intégré, inspectée avant intégration ; neige légère exclusivement derrière les cinq fenêtres, soixante particules déterministes sur la boucle existante, arrêt sous mouvement réduit/onglet masqué. Jambes de l’hôtesse masquées au bord du comptoir sans modifier les autres personnages. Casino : les onze cellules de façade changées par le premier patch retrouvent leurs valeurs auteur, fins de ligne originales et porte (23,16) conservées.
@@ -5666,6 +5674,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 1er novembre 2026 — Couleurs de toutes les attaques reliées au catalogue complet : Aquatacle Eau et Cryo-Pirouette Glace, surcharges dynamiques conservées. `docs/MOVE_COLORS_2026-11-01.json`.
 
 - 1er novembre 2026 — Maison des combats : sièges/collisions/neige/hôtesse, organisation et classement séparés, délai de placement de 50 s et annulation au départ ; collisions auteur du casino restaurées. `docs/WHITEPEAK_FIXES_2026-11-01.json`.
 
