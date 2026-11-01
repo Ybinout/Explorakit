@@ -1,5 +1,17 @@
 # Audit technique et mémoire de RiftMon
 
+## Tour : Renaissance rare et gains −15 % — 1er novembre 2026
+
+Biais de rareté reproduit : en privilégiant toutes les cartes immédiatement utiles avant de tirer la rareté, un simple PP manquant pouvait ne laisser que Renaissance dans la famille des soins ; elle apparaissait alors presque systématiquement. La rareté est maintenant tirée parmi les cartes disponibles avant de privilégier les effets utiles à cette rareté. Même règle pour les relances et le remplissage d’anciennes offres incomplètes ; les offres valides déjà sauvegardées restent inchangées. Aucun effet de carte modifié. Quatre familles distinctes, exclusions des anciennes clés au reroll, poids de rareté et probabilités des cartes spéciales conservés.
+
+Comparaison déterministe de 20 000 offres par état (six états, avant/après, 240 000 offres) : PP seuls 98,15→0,915 %, K.O. 98,27→0,79 %, statut seul 12,225→1,19 %. Équipes saines et blessées conservées à environ 0,37–0,525 %. Les taux sont des observations sur cet échantillon, pas une probabilité absolue fixe : familles disponibles et exclusions influencent le résultat. Nouvelle régression sur 60 000 offres/relances, sans mutation d’équipe, avec contrôle des doublons et maintien de Renaissance disponible.
+
+Tous les futurs gains monétaires du Super Tournoi baissent de 15 % : salles 5 440 / 10 880 / 16 320 / 21 760 ₽ et bonus de cycle 54 400 ₽ au premier cycle ; total de 272 000 ₽ par seize, puis 544 000 / 816 000, progression linéaire sans plafond conservée. Cartes d’argent à 1 700 / 8 500 / 17 000 ₽, multipliées par le numéro du cycle. Les clés historiques des cartes ne changent pas. L’argent déjà gagné, reçus sauvegardés et portefeuilles sont conservés ; les nouveaux montants sont dérivés côté serveur au prochain gain. Économie de l’Aventure, objets/bonbons, XP, IA et niveaux inchangés.
+
+Validation : 99 tests de logique/régression et 35 SQL réussis, zéro échec/saut. Deux cycles complets, crédits simultanés, refus de replay, rollback et sauvegarde avant/après nerf contrôlés. Recettes privées authentifiées Chromium/WebKit avec le client distribué existant, 80 vues PC/mobile clair/sombre : nouveaux gains, bonus, augmentation d’argent, attribution des deux bonbons, interface de confirmation, réponse réseau ancienne, reconnexion et abandon sans perte ; zéro erreur JS, comptes jetables supprimés. Captures inspectées et syntaxe/diff valides ; aucun build/lint client requis, aucun téléphone physique ou suite globale revendiqués. Rapport et commandes : `docs/TOWER_RENAISSANCE_ECONOMY_2026-11-01.json`.
+
+Serveur publié le 1er novembre 2026 à 17 h 12 (Europe/Paris), PID 3675391→3677227, service actif sans redémarrage automatique/avertissement. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-renaissance-2026-11-01T16-12-28-992Z`. Client/build/index HTTPS conservés à l’octet (`3be92b5e136fa1919bb08efb546abb39586b0160`, `e9b5e2a0e0f8438b`) ; Knov/api-test, checkpoint et modes fermés inchangés. Aucun duel actif au contrôle, tentative sauvegardée de Super Tournoi conservée, aucune migration ni modification manuelle de compte réel.
+
 ## Bonbons : prix et plafonds distincts — 1er novembre 2026
 
 Méga Bonbon à 120 000 ₽, plafond 150 ; nouveau Suprême Bonbon à 600 000 ₽, plafond 200. Super Bonbon conservé à 20 000 ₽ / niveau 100. Les deux premiers suivent les mêmes lieux/prérequis : entraînement au Grand Comptoir après Hoze, boutique de Blanchecime après Wanda. Icône couronne rose/dorée pour le Suprême, distincte de l’étoile du Méga. Descriptions et rayon des niveaux actualisés. La carte Méga Bonbon de la tour lit désormais le plafond du catalogue (150), sans modification de tirage et sans nouvelle carte Suprême.
@@ -5790,6 +5802,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 1er novembre 2026 — Renaissance : biais PP/K.O. corrigé en tirant la rareté avant l’utilité ; argent de tour −15 % (salles, cycle, cartes), progression et gains acquis conservés. 99 tests, 35 SQL, 240 000 offres comparées et recettes Chromium/WebKit ; `docs/TOWER_RENAISSANCE_ECONOMY_2026-11-01.json`.
 
 - 1er novembre 2026 — Méga Bonbon 120 000 ₽ / niveau 150 ; Suprême Bonbon 600 000 ₽ / niveau 200, mêmes boutiques, plafonds serveur et icône dédiée. 67 tests, 15 SQL, recettes Chromium/WebKit ; `docs/CANDY_TIERS_2026-11-01.json`.
 

@@ -1,6 +1,6 @@
 const ROOMS_PER_CYCLE=16;
-const TIERS=[6400,12800,19200,25600];
-const CYCLE_BONUS=64000;
+const TIERS=[5440,10880,16320,21760];
+const CYCLE_BONUS=54400;
 const MAX_BALANCE=Number.MAX_SAFE_INTEGER;
 function quote(room) {
  if(!Number.isSafeInteger(room)||room<1)throw Error('Salle inconnue.');

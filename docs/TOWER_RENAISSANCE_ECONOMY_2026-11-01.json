@@ -1,0 +1,832 @@
+{
+  "date": "2026-11-01",
+  "feature": "Renaissance rarity correction and tower money minus fifteen percent",
+  "runtimeSourceSha256": {
+    "server/game/superTournament/augmentations.js": "598295727563f6e8f7c17e7f8c8d363defcbffe2d158183dd2ef9c15b6c978bd",
+    "server/game/superTournament/cashPrizes.js": "f225b18a198fa32f2d555e66eee7b72d5ecebf257f7bc28a6a240893b55a4df0",
+    "server/game/superTournament/rewards.js": "d4d15689b139e3d8e654e415c0afb47ff44130459237b72e714b921399eb6b50"
+  },
+  "clientCommit": "3be92b5e136fa1919bb08efb546abb39586b0160",
+  "clientBuild": "e9b5e2a0e0f8438b",
+  "clientUnchanged": true,
+  "rarity": {
+    "samplesPerState": 20000,
+    "baseline": "384fd6eba302682094375353d880266aa906229d",
+    "states": [
+      {
+        "name": "healthy",
+        "before": {
+          "count": 74,
+          "percent": 0.37
+        },
+        "after": {
+          "count": 74,
+          "percent": 0.37
+        }
+      },
+      {
+        "name": "pp_missing",
+        "before": {
+          "count": 19630,
+          "percent": 98.15
+        },
+        "after": {
+          "count": 183,
+          "percent": 0.915
+        }
+      },
+      {
+        "name": "injured",
+        "before": {
+          "count": 105,
+          "percent": 0.525
+        },
+        "after": {
+          "count": 105,
+          "percent": 0.525
+        }
+      },
+      {
+        "name": "hurt_pp",
+        "before": {
+          "count": 83,
+          "percent": 0.415
+        },
+        "after": {
+          "count": 83,
+          "percent": 0.415
+        }
+      },
+      {
+        "name": "status",
+        "before": {
+          "count": 2445,
+          "percent": 12.225
+        },
+        "after": {
+          "count": 238,
+          "percent": 1.1900000000000002
+        }
+      },
+      {
+        "name": "KO",
+        "before": {
+          "count": 19654,
+          "percent": 98.27
+        },
+        "after": {
+          "count": 158,
+          "percent": 0.79
+        }
+      }
+    ]
+  },
+  "algorithm": {
+    "rarityDrawnBeforeUsefulEffectFiltering": true,
+    "usefulCandidatesPreferredWithinDrawnRarity": true,
+    "fourUniqueFamiliesPreserved": true,
+    "rerollUsesSameAlgorithmAndExcludesOldKeys": true,
+    "savedValidOffersPreserved": true,
+    "cardEffectsUnchanged": true,
+    "specialCardProbabilitiesUnchanged": true
+  },
+  "money": {
+    "reductionPercent": 15,
+    "tiers": [
+      5440,
+      10880,
+      16320,
+      21760
+    ],
+    "cycleBonus": 54400,
+    "firstCycleTotal": 272000,
+    "secondCycleTotal": 544000,
+    "thirdCycleTotal": 816000,
+    "increasePerCycle": 272000,
+    "moneyCardsBase": [
+      1700,
+      8500,
+      17000
+    ],
+    "existingWalletAndReceiptsPreserved": true,
+    "adventureEconomyUnchanged": true
+  },
+  "tests": {
+    "unitPassed": 99,
+    "sqlPassed": 35,
+    "failures": 0,
+    "skipped": 0,
+    "commands": [
+      "node --test $(rg --files tests | rg \"^tests/super-tournament.*\\.test\\.js$\" | rg -v mysql)",
+      "RUN_MYSQL_TESTS=1 DB_TEST_NAME=explorakit_test DB_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file=.env --test --test-concurrency=1 tests/super-tournament-cash-mysql.test.js tests/super-tournament-augments-mysql.test.js tests/super-tournament-families-mysql.test.js tests/super-tournament-twists-mysql.test.js tests/super-tournament-powers-mysql.test.js",
+      "RARITY_BASELINE=384fd6eba302682094375353d880266aa906229d node scripts/validateTournamentRarity.js",
+      "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-candy-tiers-dist RELEASE_SCREENSHOTS=/tmp/riftmon-renaissance-cash-chromium PRESENTATION_BROWSER=chromium node --env-file=.env scripts/validateTournamentCashBrowser.js",
+      "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-candy-tiers-dist RELEASE_SCREENSHOTS=/tmp/riftmon-renaissance-cash-webkit PRESENTATION_BROWSER=webkit node --env-file=.env scripts/validateTournamentCashBrowser.js",
+      "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-candy-tiers-dist RELEASE_SCREENSHOTS=/tmp/riftmon-renaissance-augments-chromium PRESENTATION_BROWSER=chromium node --env-file=.env scripts/validateTournamentAugmentsBrowser.js",
+      "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-candy-tiers-dist RELEASE_SCREENSHOTS=/tmp/riftmon-renaissance-augments-webkit PRESENTATION_BROWSER=webkit node --env-file=.env scripts/validateTournamentAugmentsBrowser.js"
+    ]
+  },
+  "browser": {
+    "chromium": {
+      "cash": {
+        "success": true,
+        "engine": "chromium",
+        "buildIndexSha256": "75b9ee8d58eb8e0499e8dba2d90605e8264ce968b290441c43710f9575c04fe1",
+        "views": [
+          {
+            "kind": "entry",
+            "width": 320,
+            "height": 480,
+            "mode": "light"
+          },
+          {
+            "kind": "entry",
+            "width": 320,
+            "height": 480,
+            "mode": "dark"
+          },
+          {
+            "kind": "entry",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "kind": "entry",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "kind": "entry",
+            "width": 844,
+            "height": 390,
+            "mode": "light"
+          },
+          {
+            "kind": "entry",
+            "width": 844,
+            "height": 390,
+            "mode": "dark"
+          },
+          {
+            "kind": "entry",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "kind": "entry",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "kind": "reward",
+            "width": 320,
+            "height": 480,
+            "mode": "light"
+          },
+          {
+            "kind": "reward",
+            "width": 320,
+            "height": 480,
+            "mode": "dark"
+          },
+          {
+            "kind": "reward",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "kind": "reward",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "kind": "reward",
+            "width": 844,
+            "height": 390,
+            "mode": "light"
+          },
+          {
+            "kind": "reward",
+            "width": 844,
+            "height": 390,
+            "mode": "dark"
+          },
+          {
+            "kind": "reward",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "kind": "reward",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          }
+        ],
+        "payments": [
+          {
+            "room": 1,
+            "amount": 5440,
+            "balance": 5440
+          },
+          {
+            "room": 16,
+            "amount": 76160,
+            "balance": 81600
+          },
+          {
+            "room": 17,
+            "amount": 10880,
+            "balance": 92480
+          }
+        ],
+        "staleProgressResponse": true,
+        "reconnectNoDoubleCredit": true,
+        "adventureTeamAndXpPreserved": true,
+        "abandonKeepsMoney": true,
+        "errors": []
+      },
+      "augments": {
+        "success": true,
+        "engine": "chromium",
+        "buildIndexSha256": "75b9ee8d58eb8e0499e8dba2d90605e8264ce968b290441c43710f9575c04fe1",
+        "views": [
+          {
+            "key": "prize_money_10k",
+            "width": 320,
+            "height": 480,
+            "mode": "light"
+          },
+          {
+            "key": "prize_money_10k",
+            "width": 320,
+            "height": 480,
+            "mode": "dark"
+          },
+          {
+            "key": "prize_money_10k",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "key": "prize_money_10k",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "key": "prize_money_10k",
+            "width": 844,
+            "height": 390,
+            "mode": "light"
+          },
+          {
+            "key": "prize_money_10k",
+            "width": 844,
+            "height": 390,
+            "mode": "dark"
+          },
+          {
+            "key": "prize_money_10k",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "key": "prize_money_10k",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "key": "prize_super_candy",
+            "width": 320,
+            "height": 480,
+            "mode": "light"
+          },
+          {
+            "key": "prize_super_candy",
+            "width": 320,
+            "height": 480,
+            "mode": "dark"
+          },
+          {
+            "key": "prize_super_candy",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "key": "prize_super_candy",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "key": "prize_super_candy",
+            "width": 844,
+            "height": 390,
+            "mode": "light"
+          },
+          {
+            "key": "prize_super_candy",
+            "width": 844,
+            "height": 390,
+            "mode": "dark"
+          },
+          {
+            "key": "prize_super_candy",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "key": "prize_super_candy",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "key": "prize_mega_candy",
+            "width": 320,
+            "height": 480,
+            "mode": "light"
+          },
+          {
+            "key": "prize_mega_candy",
+            "width": 320,
+            "height": 480,
+            "mode": "dark"
+          },
+          {
+            "key": "prize_mega_candy",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "key": "prize_mega_candy",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "key": "prize_mega_candy",
+            "width": 844,
+            "height": 390,
+            "mode": "light"
+          },
+          {
+            "key": "prize_mega_candy",
+            "width": 844,
+            "height": 390,
+            "mode": "dark"
+          },
+          {
+            "key": "prize_mega_candy",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "key": "prize_mega_candy",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          }
+        ],
+        "claims": [
+          {
+            "key": "prize_money_10k",
+            "room": 1,
+            "money": 1700,
+            "item": null,
+            "balance": 7140
+          },
+          {
+            "key": "prize_money_25k",
+            "room": 1,
+            "money": 8500,
+            "item": null,
+            "balance": 15640
+          },
+          {
+            "key": "prize_money_50k",
+            "room": 17,
+            "money": 34000,
+            "item": null,
+            "balance": 49640
+          },
+          {
+            "key": "prize_super_candy",
+            "room": 17,
+            "money": 0,
+            "item": "rare_candy",
+            "balance": 49640
+          },
+          {
+            "key": "prize_mega_candy",
+            "room": 17,
+            "money": 0,
+            "item": "mega_candy",
+            "balance": 49640
+          }
+        ],
+        "itemStocks": {
+          "rare_candy": 1,
+          "mega_candy": 1
+        },
+        "staleInventoryResponseIgnored": true,
+        "reconnectStable": true,
+        "replayRejected": true,
+        "bagUseBlockedDuringRun": true,
+        "noHealingOrXp": true,
+        "adventureTeamPreserved": true,
+        "keptAfterAbandon": true,
+        "errors": []
+      }
+    },
+    "webkit": {
+      "cash": {
+        "success": true,
+        "engine": "webkit",
+        "buildIndexSha256": "75b9ee8d58eb8e0499e8dba2d90605e8264ce968b290441c43710f9575c04fe1",
+        "views": [
+          {
+            "kind": "entry",
+            "width": 320,
+            "height": 480,
+            "mode": "light"
+          },
+          {
+            "kind": "entry",
+            "width": 320,
+            "height": 480,
+            "mode": "dark"
+          },
+          {
+            "kind": "entry",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "kind": "entry",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "kind": "entry",
+            "width": 844,
+            "height": 390,
+            "mode": "light"
+          },
+          {
+            "kind": "entry",
+            "width": 844,
+            "height": 390,
+            "mode": "dark"
+          },
+          {
+            "kind": "entry",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "kind": "entry",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "kind": "reward",
+            "width": 320,
+            "height": 480,
+            "mode": "light"
+          },
+          {
+            "kind": "reward",
+            "width": 320,
+            "height": 480,
+            "mode": "dark"
+          },
+          {
+            "kind": "reward",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "kind": "reward",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "kind": "reward",
+            "width": 844,
+            "height": 390,
+            "mode": "light"
+          },
+          {
+            "kind": "reward",
+            "width": 844,
+            "height": 390,
+            "mode": "dark"
+          },
+          {
+            "kind": "reward",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "kind": "reward",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          }
+        ],
+        "payments": [
+          {
+            "room": 1,
+            "amount": 5440,
+            "balance": 5440
+          },
+          {
+            "room": 16,
+            "amount": 76160,
+            "balance": 81600
+          },
+          {
+            "room": 17,
+            "amount": 10880,
+            "balance": 92480
+          }
+        ],
+        "staleProgressResponse": true,
+        "reconnectNoDoubleCredit": true,
+        "adventureTeamAndXpPreserved": true,
+        "abandonKeepsMoney": true,
+        "errors": []
+      },
+      "augments": {
+        "success": true,
+        "engine": "webkit",
+        "buildIndexSha256": "75b9ee8d58eb8e0499e8dba2d90605e8264ce968b290441c43710f9575c04fe1",
+        "views": [
+          {
+            "key": "prize_money_10k",
+            "width": 320,
+            "height": 480,
+            "mode": "light"
+          },
+          {
+            "key": "prize_money_10k",
+            "width": 320,
+            "height": 480,
+            "mode": "dark"
+          },
+          {
+            "key": "prize_money_10k",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "key": "prize_money_10k",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "key": "prize_money_10k",
+            "width": 844,
+            "height": 390,
+            "mode": "light"
+          },
+          {
+            "key": "prize_money_10k",
+            "width": 844,
+            "height": 390,
+            "mode": "dark"
+          },
+          {
+            "key": "prize_money_10k",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "key": "prize_money_10k",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "key": "prize_super_candy",
+            "width": 320,
+            "height": 480,
+            "mode": "light"
+          },
+          {
+            "key": "prize_super_candy",
+            "width": 320,
+            "height": 480,
+            "mode": "dark"
+          },
+          {
+            "key": "prize_super_candy",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "key": "prize_super_candy",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "key": "prize_super_candy",
+            "width": 844,
+            "height": 390,
+            "mode": "light"
+          },
+          {
+            "key": "prize_super_candy",
+            "width": 844,
+            "height": 390,
+            "mode": "dark"
+          },
+          {
+            "key": "prize_super_candy",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "key": "prize_super_candy",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "key": "prize_mega_candy",
+            "width": 320,
+            "height": 480,
+            "mode": "light"
+          },
+          {
+            "key": "prize_mega_candy",
+            "width": 320,
+            "height": 480,
+            "mode": "dark"
+          },
+          {
+            "key": "prize_mega_candy",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "key": "prize_mega_candy",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "key": "prize_mega_candy",
+            "width": 844,
+            "height": 390,
+            "mode": "light"
+          },
+          {
+            "key": "prize_mega_candy",
+            "width": 844,
+            "height": 390,
+            "mode": "dark"
+          },
+          {
+            "key": "prize_mega_candy",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "key": "prize_mega_candy",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          }
+        ],
+        "claims": [
+          {
+            "key": "prize_money_10k",
+            "room": 1,
+            "money": 1700,
+            "item": null,
+            "balance": 7140
+          },
+          {
+            "key": "prize_money_25k",
+            "room": 1,
+            "money": 8500,
+            "item": null,
+            "balance": 15640
+          },
+          {
+            "key": "prize_money_50k",
+            "room": 17,
+            "money": 34000,
+            "item": null,
+            "balance": 49640
+          },
+          {
+            "key": "prize_super_candy",
+            "room": 17,
+            "money": 0,
+            "item": "rare_candy",
+            "balance": 49640
+          },
+          {
+            "key": "prize_mega_candy",
+            "room": 17,
+            "money": 0,
+            "item": "mega_candy",
+            "balance": 49640
+          }
+        ],
+        "itemStocks": {
+          "rare_candy": 1,
+          "mega_candy": 1
+        },
+        "staleInventoryResponseIgnored": true,
+        "reconnectStable": true,
+        "replayRejected": true,
+        "bagUseBlockedDuringRun": true,
+        "noHealingOrXp": true,
+        "adventureTeamPreserved": true,
+        "keptAfterAbandon": true,
+        "errors": []
+      }
+    }
+  },
+  "validationScope": {
+    "rerollSamples": 60000,
+    "rarityComparisonOffers": 240000,
+    "browserViews": 80,
+    "syntaxAndDiff": true,
+    "physicalDevice": false,
+    "fullProjectSuite": false,
+    "newClientBuildOrLintNeeded": false,
+    "sqlSchemaChanged": false,
+    "realAccountsManuallyModified": false
+  },
+  "fixtureUpdates": [
+    "Nouveaux montants attendus dans les recettes de tour existantes.",
+    "Ancienne fixture de tirage Super Bonbon réconciliée avec son intervalle réel : 0,01 au lieu de 0,1 ; probabilités de bonbons inchangées.",
+    "Tests SQL de primes et cartes économiques ajoutés au lanceur régulier."
+  ],
+  "deployment": {
+    "publishedAt": "2026-11-01T16:12:30.655Z",
+    "restartedAt": "2026-11-01T16:12:29.441Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-renaissance-2026-11-01T16-12-28-992Z",
+    "sourceBaseline": "384fd6eba302682094375353d880266aa906229d",
+    "sourceHashes": {
+      "server/game/superTournament/augmentations.js": "598295727563f6e8f7c17e7f8c8d363defcbffe2d158183dd2ef9c15b6c978bd",
+      "server/game/superTournament/cashPrizes.js": "f225b18a198fa32f2d555e66eee7b72d5ecebf257f7bc28a6a240893b55a4df0",
+      "server/game/superTournament/rewards.js": "d4d15689b139e3d8e654e415c0afb47ff44130459237b72e714b921399eb6b50"
+    },
+    "clientCommit": "3be92b5e136fa1919bb08efb546abb39586b0160",
+    "clientBuild": "e9b5e2a0e0f8438b",
+    "beforePid": "3675391",
+    "afterPid": "3677227",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "clientUnchanged": true,
+    "publicClientUnchanged": true,
+    "schemaChanged": false,
+    "activeClubDuelsBefore": 0,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 1,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": []
+  }
+}

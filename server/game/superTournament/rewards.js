@@ -63,12 +63,15 @@ function viewOffer(offer,team,owner){if(!offer)return null;const choices=offer.c
 function drawIndex(random,length){const n=random();if(!Number.isFinite(n)||n<0||n>=1)throw Error('Tirage de récompense invalide.');return Math.floor(n*length);}
 function recoveryCards(exclude,used){return cards.filter(c=>c.target!=='account'&&!c.power&&!c.twist&&!exclude.has(c.key)&&!used.has(family(c)));}
 function pickRecovery(team,exclude,used,random){
- const available=recoveryCards(exclude,used),useful=available.filter(c=>team.some(p=>preview(p,c))),pool=useful.length?useful:available;
- if(!pool.length)throw Error('Aucune famille de récompense disponible.');
- const tiers=rarities.filter(r=>pool.some(c=>c.rarity===r.key)),total=tiers.reduce((n,r)=>n+r.weight,0);
+ const available=recoveryCards(exclude,used);
+ if(!available.length)throw Error('Aucune famille de récompense disponible.');
+ // Roll rarity before preferring useful effects. A legendary reset must not
+ // become guaranteed just because it is the only heal that also restores PP.
+ const tiers=rarities.filter(r=>available.some(c=>c.rarity===r.key)),total=tiers.reduce((n,r)=>n+r.weight,0);
  let value=random();if(!Number.isFinite(value)||value<0||value>=1)throw Error('Tirage de récompense invalide.');value*=total;
- const tier=tiers.find(r=>(value-=r.weight)<0)||tiers.at(-1),candidates=pool.filter(c=>c.rarity===tier.key);
- return candidates[drawIndex(random,candidates.length)];
+ const tier=tiers.find(r=>(value-=r.weight)<0)||tiers.at(-1),candidates=available.filter(c=>c.rarity===tier.key);
+ const useful=candidates.filter(c=>team.some(p=>preview(p,c))),pool=useful.length?useful:candidates;
+ return pool[drawIndex(random,pool.length)];
 }
 function createOffer(team,afterRoom,random=Math.random,owner,excluded=[]){
  const exclude=new Set(excluded),extra=augmentations.draw(random),power=powers.draw(owner,random,c=>team.some(p=>preview(p,c))),twist=twists.draw(owner,random,exclude),picked=[],used=new Set();
