@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Minimap PC : suppression du tremblement — 1er novembre 2026
+
+Cause reproduite sans aucune entrée utilisateur : l’apparition/disparition de la barre horizontale changeait `clientHeight`, donc la taille ajustée de l’atlas, puis déclenchait l’effet inverse via `ResizeObserver`. La valeur de zoom restait constante. Le client distribué alternait entre deux tailles et positions à 156,25 % sur quatre formats PC ; le composant isolé reproduisait aussi le cas à 125 % avec une zone plus haute.
+
+`RegionMapPanel` réserve les deux pistes de défilement tant que le zoom dépasse 100 % (`overflow:scroll`), ce qui rend la surface mesurée stable. La vue d’ensemble à 100 % masque les pistes et remet le défilement à zéro. Aucun temporisateur ni polling ajouté ; SVG, repères/habitats/Vol, calculs et commandes de zoom/déplacement gardés.
+
+Validation : six tests unitaires zoom/Vol réussis sans échec/saut, lint et build isolé/syntaxe/diff valides. Nouvelle recette privée authentifiée Chromium/WebKit avec SQL de test : barres classiques de 16 px puis superposées, quatre formats PC, vue mobile, clair/sombre ; 21 contrôles par moteur, 40 images par contrôle (1 680 au total), une seule taille/position au repos dans tous les cas. Boutons/limites, clavier, molette, glissement, « Me situer », retour à 100 % et localisation Pokédex vérifiés ; zéro erreur, comptes jetables supprimés. Avant/après consignés, captures PC/mobile inspectées. Aucun poste Windows/macOS ou téléphone physique ni suite SQL autonome revendiqués. Rapport : `docs/MINIMAP_STABILITY_2026-11-01.json`.
+
+Client publié le 1er novembre 2026 à 12 h 39 (Europe/Paris), commit `a2e3f23bff04e3328b64124ad2d1e4e6cb27b220`, build `e0b27dd66da73e58`. Sauvegarde index/source client `/home/ubuntu/dev/backups/riftmon-minimap-stability-2026-11-01T11-39-08-060Z`. Index et 22 bundles/CSS HTTPS vérifiés à l’octet, anciens assets conservés. Serveur PID 3660673 maintenu, service actif sans redémarrage ; Knov/api-test inchangés, aucune modification de logique serveur, schéma ou compte réel. Recharger le client pour charger les styles corrigés.
+
 ## Comptoir du casino : dialogue seul — 1er novembre 2026
 
 Le PNJ du comptoir dit uniquement « alors , ta les cramptés », avec son illustration existante et le dialogue normal acquitté. L’action au bord du comptoir n’ouvre plus la roulette. Le menu des mises s’ouvre au bord de la table centrale ; l’entrée et le reste de la salle ne l’ouvrent plus. Les commandes directes de mise vérifient aussi la proximité de la table. La roue commune reste visible par tous ; montants, paiements et chronologie du tirage inchangés. La recette complète Whitepeak rejoint désormais physiquement la table avant de miser.
@@ -5716,6 +5726,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 1er novembre 2026 — Minimap PC : boucle de barres de défilement reproduite puis supprimée, zoom et navigation gardés ; 6 tests et 42 contrôles Chromium/WebKit, 1 680 images stables. `docs/MINIMAP_STABILITY_2026-11-01.json`.
 
 - 1er novembre 2026 — Comptoir du casino limité à sa réplique ; interaction et mises réservées au bord de table, roue commune conservée. 19 tests et recette privée Chromium/WebKit avec mise SQL réelle ; `docs/CASINO_COUNTER_2026-11-01.json`.
 

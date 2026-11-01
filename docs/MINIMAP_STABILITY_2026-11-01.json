@@ -1,0 +1,924 @@
+{
+  "date": "2026-11-01",
+  "change": "Stabilisation de la minimap PC : fin de la boucle de dimensions liée aux barres de défilement",
+  "sourceBaseline": "346382612e1b5edc26bdf5a125d62fb406f90b43",
+  "clientSourceBaseline": "1f50f4162813be672cbee7becf4089a9931a0e3c",
+  "clientCommit": "a2e3f23bff04e3328b64124ad2d1e4e6cb27b220",
+  "clientBuild": "e0b27dd66da73e58",
+  "rootCause": {
+    "description": "Auto scrollbars changed the viewport clientHeight used by mapLayout to fit the atlas. At specific zooms, the resized map alternately removed and recreated the horizontal scrollbar, retriggering ResizeObserver forever. The zoom value itself stayed constant.",
+    "beforeActualClient": {
+      "buildIndexSha256": "bd329be285b3b9db3b26933403bb556ab83fbbcf76d9a1676b7e8c73d9403c21",
+      "diagnostic": true,
+      "checks": 12,
+      "unstable": [
+        {
+          "label": "classic-1536x900-156",
+          "zoom": 1.5625,
+          "frames": 40,
+          "distinctStates": 2,
+          "gutter": {
+            "width": 16,
+            "height": 16
+          },
+          "samples": [
+            "[1.563,572,318,596.429,521.875,596.422,521.875,12,93]",
+            "[1.563,572,334,567.857,496.875,567.844,496.875,0,89]"
+          ]
+        },
+        {
+          "label": "classic-1536x800-156",
+          "zoom": 1.5625,
+          "frames": 40,
+          "distinctStates": 2,
+          "gutter": {
+            "width": 16,
+            "height": 0
+          },
+          "samples": [
+            "[1.563,572,334,567.857,496.875,567.844,496.875,0,89]",
+            "[1.563,572,318,596.429,521.875,596.422,521.875,12,93]"
+          ]
+        },
+        {
+          "label": "classic-1365x900-156",
+          "zoom": 1.5625,
+          "frames": 40,
+          "distinctStates": 2,
+          "gutter": {
+            "width": 16,
+            "height": 16
+          },
+          "samples": [
+            "[1.563,572,318,596.429,521.875,596.422,521.875,12,93]",
+            "[1.563,572,334,567.857,496.875,567.844,496.875,0,89]"
+          ]
+        },
+        {
+          "label": "classic-1280x720-156",
+          "zoom": 1.5625,
+          "frames": 40,
+          "distinctStates": 2,
+          "gutter": {
+            "width": 16,
+            "height": 0
+          },
+          "samples": [
+            "[1.563,572,325,551.786,482.813,551.781,482.813,0,87]",
+            "[1.563,572,309,580.357,507.813,580.344,507.813,4,92]"
+          ]
+        }
+      ]
+    },
+    "standaloneComponent": {
+      "before": [
+        {
+          "height": 800,
+          "zoom": 1,
+          "states": 1,
+          "samples": [
+            "[1,588,406,464,406]"
+          ]
+        },
+        {
+          "height": 800,
+          "zoom": 1.25,
+          "states": 2,
+          "samples": [
+            "[1.25,572,390,580,507.5]",
+            "[1.25,572,406,557.1428571428571,487.5]"
+          ]
+        },
+        {
+          "height": 800,
+          "zoom": 1.5,
+          "states": 1,
+          "samples": [
+            "[1.5,572,390,668.5714285714286,585]"
+          ]
+        },
+        {
+          "height": 850,
+          "zoom": 1,
+          "states": 1,
+          "samples": [
+            "[1,588,414,473.14285714285717,414]"
+          ]
+        },
+        {
+          "height": 850,
+          "zoom": 1.25,
+          "states": 2,
+          "samples": [
+            "[1.25,572,414,568.5714285714286,497.5]",
+            "[1.25,572,398,591.4285714285714,517.5]"
+          ]
+        },
+        {
+          "height": 850,
+          "zoom": 1.5,
+          "states": 1,
+          "samples": [
+            "[1.5,572,398,682.2857142857142,597]"
+          ]
+        },
+        {
+          "height": 900,
+          "zoom": 1,
+          "states": 1,
+          "samples": [
+            "[1,588,414,473.14285714285717,414]"
+          ]
+        },
+        {
+          "height": 900,
+          "zoom": 1.25,
+          "states": 2,
+          "samples": [
+            "[1.25,572,414,568.5714285714286,497.5]",
+            "[1.25,572,398,591.4285714285714,517.5]"
+          ]
+        },
+        {
+          "height": 900,
+          "zoom": 1.5,
+          "states": 1,
+          "samples": [
+            "[1.5,572,398,682.2857142857142,597]"
+          ]
+        }
+      ],
+      "after": [
+        {
+          "height": 800,
+          "zoom": 1,
+          "states": 1,
+          "samples": [
+            "[1,588,406,464,406]"
+          ]
+        },
+        {
+          "height": 800,
+          "zoom": 1.25,
+          "states": 1,
+          "samples": [
+            "[1.25,572,390,557.1428571428571,487.5]"
+          ]
+        },
+        {
+          "height": 800,
+          "zoom": 1.5,
+          "states": 1,
+          "samples": [
+            "[1.5,572,390,668.5714285714286,585]"
+          ]
+        },
+        {
+          "height": 850,
+          "zoom": 1,
+          "states": 1,
+          "samples": [
+            "[1,588,414,473.14285714285717,414]"
+          ]
+        },
+        {
+          "height": 850,
+          "zoom": 1.25,
+          "states": 1,
+          "samples": [
+            "[1.25,572,398,568.5714285714286,497.5]"
+          ]
+        },
+        {
+          "height": 850,
+          "zoom": 1.5,
+          "states": 1,
+          "samples": [
+            "[1.5,572,398,682.2857142857142,597]"
+          ]
+        },
+        {
+          "height": 900,
+          "zoom": 1,
+          "states": 1,
+          "samples": [
+            "[1,588,414,473.14285714285717,414]"
+          ]
+        },
+        {
+          "height": 900,
+          "zoom": 1.25,
+          "states": 1,
+          "samples": [
+            "[1.25,572,398,568.5714285714286,497.5]"
+          ]
+        },
+        {
+          "height": 900,
+          "zoom": 1.5,
+          "states": 1,
+          "samples": [
+            "[1.5,572,398,682.2857142857142,597]"
+          ]
+        }
+      ]
+    }
+  },
+  "fix": {
+    "file": "vue-explorakit/src/components/menu/RegionMapPanel.vue",
+    "magnified": "Keep both scrollbar tracks with overflow:scroll for a stable fitting area.",
+    "overview": "At zoom 1, overflow:hidden removes the tracks; the complete atlas fits and scroll resets to zero.",
+    "unchanged": [
+      "SVG artwork/topology/markers",
+      "Zoom mathematics, limits and input handlers",
+      "Wheel, buttons, keyboard and pinch handling",
+      "Panning, location selection, Pokédex habitats and flight actions"
+    ],
+    "noTimersOrPollingAdded": true,
+    "backendChanged": false
+  },
+  "verification": {
+    "unit": {
+      "pass": 6,
+      "fail": 0,
+      "skipped": 0,
+      "log": "/tmp/riftmon-minimap-stability-unit.log"
+    },
+    "browser": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "diagnostic": false,
+        "stable": true,
+        "buildIndexSha256": "b23f1707a0cd31da34eef51f3c7c0386b3a3f35ee7e0189171a8335cfc57c22b",
+        "checks": [
+          {
+            "label": "classic-1536x900-overview",
+            "zoom": 1,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 0,
+              "height": 0
+            },
+            "samples": [
+              "[1,588,334,381.714,334,381.703,334,0,0]"
+            ]
+          },
+          {
+            "label": "classic-1536x900-125",
+            "zoom": 1.25,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[1.25,572,318,454.286,397.5,454.281,397.5,0,40]"
+            ]
+          },
+          {
+            "label": "classic-1536x900-156",
+            "zoom": 1.5625,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[1.563,572,318,567.857,496.875,567.844,496.875,0,90]"
+            ]
+          },
+          {
+            "label": "classic-1536x800-overview",
+            "zoom": 1,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 0,
+              "height": 0
+            },
+            "samples": [
+              "[1,588,334,381.714,334,381.703,334,0,0]"
+            ]
+          },
+          {
+            "label": "classic-1536x800-125",
+            "zoom": 1.25,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[1.25,572,318,454.286,397.5,454.281,397.5,0,40]"
+            ]
+          },
+          {
+            "label": "classic-1536x800-156",
+            "zoom": 1.5625,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[1.563,572,318,567.857,496.875,567.844,496.875,0,90]"
+            ]
+          },
+          {
+            "label": "classic-1365x900-overview",
+            "zoom": 1,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 0,
+              "height": 0
+            },
+            "samples": [
+              "[1,588,334,381.714,334,381.703,334,0,0]"
+            ]
+          },
+          {
+            "label": "classic-1365x900-125",
+            "zoom": 1.25,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[1.25,572,318,454.286,397.5,454.281,397.5,0,40]"
+            ]
+          },
+          {
+            "label": "classic-1365x900-156",
+            "zoom": 1.5625,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[1.563,572,318,567.857,496.875,567.844,496.875,0,90]"
+            ]
+          },
+          {
+            "label": "classic-1280x720-overview",
+            "zoom": 1,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 0,
+              "height": 0
+            },
+            "samples": [
+              "[1,588,325,371.429,325,371.422,325,0,0]"
+            ]
+          },
+          {
+            "label": "classic-1280x720-125",
+            "zoom": 1.25,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[1.25,572,309,441.429,386.25,441.422,386.25,0,39]"
+            ]
+          },
+          {
+            "label": "classic-1280x720-156",
+            "zoom": 1.5625,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[1.563,572,309,551.786,482.813,551.781,482.813,0,87]"
+            ]
+          },
+          {
+            "label": "maximum-zoom",
+            "zoom": 4,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[4,572,318,1453.714,1272,1453.703,1272,442,479]"
+            ]
+          },
+          {
+            "label": "mouse-pan",
+            "zoom": 4,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[4,572,318,1453.714,1272,1453.703,1272,497,514]"
+            ]
+          },
+          {
+            "label": "keyboard-125",
+            "zoom": 1.25,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[1.25,572,318,454.286,397.5,454.281,397.5,0,40]"
+            ]
+          },
+          {
+            "label": "wheel-zoom",
+            "zoom": 1.3498588075760032,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[1.35,572,318,490.577,429.255,490.563,429.25,0,32]"
+            ]
+          },
+          {
+            "label": "overlay-125",
+            "zoom": 1.25,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 0,
+              "height": 0
+            },
+            "samples": [
+              "[1.25,588,334,477.143,417.5,477.141,417.5,0,42]"
+            ]
+          },
+          {
+            "label": "desktop-theme-light",
+            "zoom": 1.25,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 0,
+              "height": 0
+            },
+            "samples": [
+              "[1.25,588,334,477.143,417.5,477.141,417.5,0,42]"
+            ]
+          },
+          {
+            "label": "desktop-theme-dark",
+            "zoom": 1.25,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 0,
+              "height": 0
+            },
+            "samples": [
+              "[1.25,588,334,477.143,417.5,477.141,417.5,0,42]"
+            ]
+          },
+          {
+            "label": "mobile-125",
+            "zoom": 1.25,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 0,
+              "height": 0
+            },
+            "samples": [
+              "[1.25,375,377,468.75,410.156,468.75,410.156,47,17]"
+            ]
+          },
+          {
+            "label": "pokedex-habitat-125",
+            "zoom": 1.25,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 0,
+              "height": 0
+            },
+            "samples": [
+              "[1.25,588,334,477.143,417.5,477.141,417.5,0,42]"
+            ]
+          }
+        ],
+        "controls": {
+          "buttons": true,
+          "keyboard": true,
+          "wheel": true,
+          "mousePan": true,
+          "locateMarker": true,
+          "overviewReset": true,
+          "mobileLayout": true,
+          "pokedexHabitats": true
+        },
+        "errors": []
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "diagnostic": false,
+        "stable": true,
+        "buildIndexSha256": "b23f1707a0cd31da34eef51f3c7c0386b3a3f35ee7e0189171a8335cfc57c22b",
+        "checks": [
+          {
+            "label": "classic-1536x900-overview",
+            "zoom": 1,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 0,
+              "height": 0
+            },
+            "samples": [
+              "[1,588,334,381.714,334,381.703,334,0,0]"
+            ]
+          },
+          {
+            "label": "classic-1536x900-125",
+            "zoom": 1.25,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[1.25,572,318,454.286,397.5,454.281,397.5,0,15]"
+            ]
+          },
+          {
+            "label": "classic-1536x900-156",
+            "zoom": 1.5625,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[1.563,572,318,567.857,496.875,567.844,496.875,0,58]"
+            ]
+          },
+          {
+            "label": "classic-1536x800-overview",
+            "zoom": 1,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 0,
+              "height": 0
+            },
+            "samples": [
+              "[1,588,334,381.714,334,381.703,334,0,0]"
+            ]
+          },
+          {
+            "label": "classic-1536x800-125",
+            "zoom": 1.25,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[1.25,572,318,454.286,397.5,454.281,397.5,0,15]"
+            ]
+          },
+          {
+            "label": "classic-1536x800-156",
+            "zoom": 1.5625,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[1.563,572,318,567.857,496.875,567.844,496.875,0,58]"
+            ]
+          },
+          {
+            "label": "classic-1365x900-overview",
+            "zoom": 1,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 0,
+              "height": 0
+            },
+            "samples": [
+              "[1,588,334,381.714,334,381.703,334,0,0]"
+            ]
+          },
+          {
+            "label": "classic-1365x900-125",
+            "zoom": 1.25,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[1.25,572,318,454.286,397.5,454.281,397.5,0,15]"
+            ]
+          },
+          {
+            "label": "classic-1365x900-156",
+            "zoom": 1.5625,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[1.563,572,318,567.857,496.875,567.844,496.875,0,58]"
+            ]
+          },
+          {
+            "label": "classic-1280x720-overview",
+            "zoom": 1,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 0,
+              "height": 0
+            },
+            "samples": [
+              "[1,588,325,371.429,325,371.422,325,0,0]"
+            ]
+          },
+          {
+            "label": "classic-1280x720-125",
+            "zoom": 1.25,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[1.25,572,309,441.429,386.25,441.422,386.25,0,15]"
+            ]
+          },
+          {
+            "label": "classic-1280x720-156",
+            "zoom": 1.5625,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[1.563,572,309,551.786,482.813,551.781,482.813,0,57]"
+            ]
+          },
+          {
+            "label": "maximum-zoom",
+            "zoom": 4,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[4,572,318,1453.714,1272,1453.703,1272,298,393]"
+            ]
+          },
+          {
+            "label": "mouse-pan",
+            "zoom": 4,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[4,572,318,1453.714,1272,1453.703,1272,353,428]"
+            ]
+          },
+          {
+            "label": "keyboard-125",
+            "zoom": 1.25,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[1.25,572,318,454.286,397.5,454.281,397.5,0,39]"
+            ]
+          },
+          {
+            "label": "wheel-zoom",
+            "zoom": 1.3498588075760032,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 16,
+              "height": 16
+            },
+            "samples": [
+              "[1.35,572,318,490.577,429.255,490.563,429.25,0,15]"
+            ]
+          },
+          {
+            "label": "overlay-125",
+            "zoom": 1.25,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 0,
+              "height": 0
+            },
+            "samples": [
+              "[1.25,588,334,477.143,417.5,477.141,417.5,0,0]"
+            ]
+          },
+          {
+            "label": "desktop-theme-light",
+            "zoom": 1.25,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 0,
+              "height": 0
+            },
+            "samples": [
+              "[1.25,588,334,477.143,417.5,477.141,417.5,0,0]"
+            ]
+          },
+          {
+            "label": "desktop-theme-dark",
+            "zoom": 1.25,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 0,
+              "height": 0
+            },
+            "samples": [
+              "[1.25,588,334,477.143,417.5,477.141,417.5,0,0]"
+            ]
+          },
+          {
+            "label": "mobile-125",
+            "zoom": 1.25,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 0,
+              "height": 0
+            },
+            "samples": [
+              "[1.25,375,377,468.75,410.156,468.75,410.156,0,0]"
+            ]
+          },
+          {
+            "label": "pokedex-habitat-125",
+            "zoom": 1.25,
+            "frames": 40,
+            "distinctStates": 1,
+            "gutter": {
+              "width": 0,
+              "height": 0
+            },
+            "samples": [
+              "[1.25,588,334,477.143,417.5,477.141,417.5,0,0]"
+            ]
+          }
+        ],
+        "controls": {
+          "buttons": true,
+          "keyboard": true,
+          "wheel": true,
+          "mousePan": true,
+          "locateMarker": true,
+          "overviewReset": true,
+          "mobileLayout": true,
+          "pokedexHabitats": true
+        },
+        "errors": []
+      }
+    },
+    "stableChecks": 42,
+    "idleFrames": 1680,
+    "classicAndOverlayScrollbars": true,
+    "desktopSizes": [
+      [
+        1536,
+        900
+      ],
+      [
+        1536,
+        800
+      ],
+      [
+        1365,
+        900
+      ],
+      [
+        1280,
+        720
+      ]
+    ],
+    "mobileSize": [
+      393,
+      852
+    ],
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "lint": true,
+    "isolatedBuild": true,
+    "syntaxAndDiff": true,
+    "temporaryAccountsDeleted": true,
+    "screenshotsInspected": [
+      "/tmp/riftmon-minimap-stability-chromium/desktop-light.png",
+      "/tmp/riftmon-minimap-stability-chromium/mobile.png"
+    ]
+  },
+  "commands": [
+    "node --test tests/region-map-zoom.test.js tests/flight-travel.test.js",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-pc-take-item-dist RELEASE_ALLOW_JITTER=1 RELEASE_SCREENSHOTS=/tmp/riftmon-minimap-stability-before-client node --env-file=.env scripts/validateRegionMapStabilityBrowser.js",
+    "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=chromium node --env-file=.env scripts/validateRegionMapStabilityBrowser.js",
+    "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=webkit node --env-file=.env scripts/validateRegionMapStabilityBrowser.js",
+    "npm --prefix vue-explorakit run lint",
+    "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-minimap-stability-dist"
+  ],
+  "limitations": [
+    "Headless Chromium/WebKit with classic 16px scrollbars and overlay emulation; no physical Windows/macOS/mobile test claimed.",
+    "No standalone SQL suite rerun for this client-only layout change.",
+    "No gameplay/server logic, schema or real-account edit."
+  ],
+  "deployment": {
+    "publishedAt": "2026-11-01T11:39:09.818Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-minimap-stability-2026-11-01T11-39-08-060Z",
+    "clientCommit": "a2e3f23bff04e3328b64124ad2d1e4e6cb27b220",
+    "clientBuild": "e0b27dd66da73e58",
+    "indexSha256": "b23f1707a0cd31da34eef51f3c7c0386b3a3f35ee7e0189171a8335cfc57c22b",
+    "serverPid": "3660673",
+    "serverRestarted": false,
+    "serviceActive": true,
+    "schemaChanged": false,
+    "realAccountsManuallyModified": false,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": [
+      "js/234.7f08b866.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.012fcf9f.js",
+      "js/account.161ce126.js",
+      "js/app.4cf644a2.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.2fd32f7c.js",
+      "js/drift.5b8720d7.js",
+      "js/game.4e829ff9.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.4fff4c7e.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.f1357720.css",
+      "css/test-view.7568246d.css"
+    ]
+  }
+}
