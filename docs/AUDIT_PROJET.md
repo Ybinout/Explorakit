@@ -1,5 +1,17 @@
 # Audit technique et mémoire de RiftMon
 
+## Rééquilibrage des nouveaux pactes de la tour — 1er novembre 2026
+
+Bonus élémentaires et finisseur +30→+25 %, physiques/spéciaux +25→+20 %, dégâts globaux +20→+15 %, Vitesse +20→+15 %. Réduction des dégâts physiques/spéciaux 20→15 %, protection globale 15→12 %. Soif de vie soigne 10 % des dégâts (15 % auparavant) ; Souffle patient rend 3 % des PV en fin de tour (5 % auparavant). Contreparties conservées pour les dix-neuf pactes. Anciennes cartes mythiques, règles économiques et relances non modifiées.
+
+Œil du chasseur et Sang-froid donnent chacun toujours un cran de critique, mais sont désormais exclusifs : l’autre n’est plus proposé après acquisition et une offre déjà sauvegardée le rend inutilisable, avec possibilité de passer. Les anciens checkpoints contenant déjà les deux gardent leurs clés et leurs contreparties, avec un seul cran de critique fourni par les pactes ; aucune remise à zéro. Les autres sources de critique (attaques, talents, objets, Puissance) s’appliquent normalement. Les définitions restent chargées depuis les clés sauvegardées : le nerf s’applique aussi aux tentatives reprises.
+
+Cartes de prochain adversaire réduit : deux Pokémon à 3 % des offres initiales (4 % auparavant), un Pokémon à 0,5 % (0,8 % auparavant). Probabilité globale d’un pacte à 35,2 % et poids rare/épique conservés. Équipes réduites pour un seul duel, dernier(s) Pokémon le(s) plus fort(s) gardé(s), absence de points gratuits et restauration de l’équipe suivante inchangées.
+
+Validation : 84 tests de tour et 195 régressions moteur/IA, 15 SQL, sans échec/saut. Critiques non cumulables dans les choix, checkpoint ancien à deux pactes, autres sources de critique, bonus/contreparties, soins, tirage quantile exhaustif, reprises et isolation de l’Aventure vérifiés. Recettes privées authentifiées Chromium/WebKit, client distribué existant et SQL de test : dix-neuf pactes consultés, valeur réduite visible, relance, cartes adverses, récapitulatif et effet réel en combat ; 48 vues PC/mobile clair/sombre, zéro erreur, comptes supprimés. Captures inspectées, syntaxe/diff valides. Aucun nouveau build/lint client nécessaire, aucune migration ni suite globale ou téléphone physique revendiqués. Rapport avant/après et commandes : `docs/TOWER_PACTS_NERF_2026-11-01.json`.
+
+Serveur publié le 1er novembre 2026 à 16 h 23 (Europe/Paris), PID 3670189→3671874, service actif sans redémarrage automatique/avertissement. Sauvegarde SQL/source/index/checkpoint `/home/ubuntu/dev/backups/riftmon-tower-pacts-nerf-2026-11-01T15-23-49-270Z`. Client/build/index HTTPS conservés à l’octet (`7fe5f450305665d4f95b2390b85217acd8f4d0fa`, `f3adfdc517aad8bb`) ; Knov/api-test, checkpoint et modes fermés inchangés. Aucun duel/tournoi actif au contrôle, aucune migration ni modification manuelle de compte réel.
+
 ## Tour de combat : relances et pactes — 1er novembre 2026
 
 Gains futurs réduits de 20 % : 6 400 / 12 800 / 19 200 / 25 600 ₽ par salle selon la tranche, plus 64 000 ₽ après Lucie ; 320 000 ₽ au premier cycle de seize, puis 640 000, 960 000, etc. Progression linéaire sans plafond gardée. Cartes d’argent à 2 000 / 10 000 / 20 000 ₽ × cycle. Recettes, soldes et récompenses déjà reçues conservés ; bonbons et probabilités économiques propres inchangés. Une priorité aux pouvoirs/cartes spéciales peut remplacer une carte d’argent lorsque trois tirages spéciaux coïncident : deux choix de récupération restent toujours présents.
@@ -5756,6 +5768,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 1er novembre 2026 — Nerf des nouveaux pactes : bonus/soins réduits, critiques exclusifs et plafonnés dans les anciens saves, cartes de duel écourté plus rares. 279 tests de logique/régression, 15 SQL, 48 vues Chromium/WebKit ; `docs/TOWER_PACTS_NERF_2026-11-01.json`.
 
 - 1er novembre 2026 — Tour : argent −20 %, relance persistante par cycle, 19 pactes et deux réductions du prochain adversaire, choix facultatifs et bonus/malus visibles. 277 tests de logique/régression, 36 SQL, 48 vues Chromium/WebKit ; `docs/TOWER_PACTS_2026-11-01.json`.
 

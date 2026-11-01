@@ -39,3 +39,12 @@ test('SQL legacy attempt gains only its current-cycle token without resetting pr
  const f=await fixture();try{await f.c.atomic(()=>{delete f.c.run.rerolls;f.c.run.room=79;f.c.run.cleared=80;f.c.run.score=24000;f.c.run.cash.earned=12345;});const c=f.create();await c.load();assert.equal(c.run.rerolls.remaining,1);assert.equal(c.run.rerolls.grantedThroughCycle,5);assert.equal(c.run.score,24000);assert.equal(c.run.cash.earned,12345);const version=c.version;await c.load();assert.equal(c.version,version);
  }finally{await f.remove();}
 });
+test('SQL critical bargains cannot be combined; an old dual-pact save resumes at the new cap without resetting the attempt',{skip:!enabled},async()=>{
+ const f=await fixture('pact_hunter');try{
+  await f.c.claimReward(f.data);await f.c.atomic(()=>{const r=f.c.run;r.phase='reward';r.reward={id:randomUUID(),afterRoom:1,cards:['pact_cold_blood','heal_10','cure','pp_3']};});
+  const before=await repo.load(f.u.id);await assert.rejects(()=>f.c.claimReward({offerId:f.c.run.reward.id,cardKey:'pact_cold_blood'}),/déjà active/);assert.equal((await repo.load(f.u.id)).version,before.version);
+  await f.c.atomic(()=>{const r=f.c.run;r.player.superTournamentPacts=['pact_hunter','pact_cold_blood'];r.phase='cleared';r.reward=null;r.score=300;});
+  const c=f.create();await c.load();await c.next();await c.atomic(()=>c.startBattle());const restored=f.create();await restored.load();const fx=require('../server/game/drift/driftEffects'),p=restored.run.battle.active(0);
+  assert.equal(fx.criticalStage(p),1);assert.equal(fx.speed(p),.9);assert.equal(restored.run.score,300);assert.equal(restored.run.room,1);assert.deepEqual(restored.run.player.superTournamentPacts,['pact_hunter','pact_cold_blood']);assert.deepEqual(codec.encode(await teams.loadEquipe(f.u.id)),f.original);
+ }finally{await f.remove();}
+});

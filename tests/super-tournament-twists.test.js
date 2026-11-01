@@ -19,10 +19,10 @@ test('19 bargains and two next-opponent cards are unique, fully described and ta
   const view=rewards.viewOffer(offer,team,o);assert(view.choices[0].usable);assert.deepEqual(view.choices[0].targets,[]);assert(!view.canSkip);rewards.applyChoice(offer,team,{offerId:'offer',cardKey:c.key,values:{critical:999}},o);assert.deepEqual(codec.encode(team),before);assert.equal(rewards.viewOffer(offer,team,o).choices[0].usable,false);assert.throws(()=>rewards.applyChoice(offer,team,{offerId:'offer',cardKey:c.key},o));
  }
 });
-test('absolute rare-card odds are 0.8% solo opponent, 4% duo, 35.2% bargain; no owned or excluded cards',()=>{
+test('absolute rare-card odds are 0.5% solo opponent, 3% duo, 35.2% bargain; no owned or excluded cards',()=>{
  const counts={};for(let i=0;i<10000;i++){let first=true;const k=twists.draw(owner(),()=>first?(first=false,(i+.5)/10000):.5);const kind=k?.startsWith('pact_')?'pact':k||'none';counts[kind]=(counts[kind]||0)+1;}
- assert.deepEqual(counts,{next_opponent_one:80,next_opponent_two:400,pact:3520,none:6000});
- const o=owner();for(const c of twists.cards.filter(c=>c.kind==='pact'))twists.activate(o,c.key);assert.equal(twists.draw(o,()=>.2),null);assert.equal(twists.draw(owner(),()=>.01,new Set(['next_opponent_two'])),null);
+ assert.deepEqual(counts,{next_opponent_one:50,next_opponent_two:300,pact:3520,none:6130});
+ const o=owner();for(const c of twists.cards.filter(c=>c.kind==='pact'))if(twists.usable(o,c))twists.activate(o,c.key);assert.equal(twists.draw(o,()=>.2),null);assert.equal(twists.draw(owner(),()=>.01,new Set(['next_opponent_two'])),null);
  for(const n of[-1,1,NaN,Infinity])assert.throws(()=>twists.draw(owner(),()=>n));
 });
 test('a bargain or reduced-opponent offer may be declined without forcing a malus or sacrificing leaderboard points',()=>{
@@ -40,6 +40,21 @@ test('crit bargain raises actual crit chance and Water damage without modifying 
  try{let plain=engine.useattack('Tackle',a,b,{consumePp:false});assert(!plain.critical);b.currentHp=b.maxHp;twists.activate(o,'pact_hunter');fx.attach([a],o);const result=engine.useattack('Tackle',a,b,{consumePp:false});assert(result.critical);assert.equal(fx.multiplier(b,a,engine.getMoveByName('Surf'),false),1.25);assert.equal(fx.multiplier(b,a,move,false),1);assert.equal(a.attack,JSON.parse(before).attack);}
  finally{Math.random=old;}
 });
+test('critical bargains are mutually exclusive for new picks and capped on legacy dual-pact checkpoints, not other crit sources',()=>{
+ const {a,b,o}=pair(['pact_hunter']),other=twists.get('pact_cold_blood');assert.equal(twists.usable(o,other),false);assert.throws(()=>twists.activate(o,other.key));
+ const offer={id:'legacy-offer',afterRoom:1,cards:[other.key,'heal_10','cure','pp_3']};assert.equal(rewards.viewOffer(offer,[a],o).choices[0].usable,false);assert(rewards.viewOffer(offer,[a],o).canDecline);
+ // An older run may already contain both. It keeps its saved keys and both
+ // documented costs, but can no longer reach 50% crit just from the two pacts.
+ o.superTournamentPacts=['pact_hunter','pact_cold_blood'];assert.equal(fx.criticalStage(a),1);assert.equal(fx.speed(a),.9);assert.equal(fx.multiplier(b,a,engine.getMoveByName('Surf'),false),1.25);
+ const restored=codec.decode(codec.encode({a,b,o}));assert.equal(fx.criticalStage(restored.a),1);assert.deepEqual(restored.o.superTournamentPacts,o.superTournamentPacts);assert.equal(fx.criticalStage(humanAI.publicPokemon(a)),1);
+ const previous=Math.random;Math.random=()=>.2;try{assert.equal(engine.useattack('Tackle',a,b,{consumePp:false}).critical,false);engine.ensureBattleData(a).statStages.critical=2;assert.equal(engine.useattack('Tackle',a,b,{consumePp:false}).critical,true);}finally{Math.random=previous;}
+});
+test('new offensive and defensive pact bonuses are reduced while their advertised costs still apply',()=>{
+ const move=engine.getMoveByName('Tackle');
+ for(const[key,outgoing,incoming]of[['pact_glass',1.15,1.15],['pact_heavy_fist',1.2,1],['pact_soldier',1.2,1],['pact_rampart',1,.85],['pact_fortress',.9,.88]]){const {a,b}=pair([key]);assert.equal(fx.multiplier(a,b,move,false),outgoing,key);assert.equal(fx.multiplier(b,a,move,false),incoming,key);}
+ const dancer=pair(['pact_dance']);assert.equal(fx.speed(dancer.a),1.15);assert.equal(fx.multiplier(dancer.b,dancer.a,move,false),1.15);
+ for(const[key,attack]of[['pact_blaze','Flamethrower'],['pact_tide','Surf'],['pact_garden','Energy Ball'],['pact_voltage','Thunderbolt'],['pact_winter','Ice Beam'],['pact_dragon','Dragon Pulse']]){const {a,b}=pair([key]);assert.equal(fx.multiplier(a,b,engine.getMoveByName(attack),false),1.25,key);}
+});
 test('speed malus applies alongside held items, Tailwind and paralysis; snapshots expose only public pacts to AI',()=>{
  const {a,b,o}=pair();a.heldItem='choice_scarf';const state=engine.createBattleState(),speed=engine.getBattleSpeed(a,state.sides.player,state,b);twists.activate(o,'pact_cold_blood');
  assert.equal(engine.getBattleSpeed(a,state.sides.player,state,b),Math.floor(speed*.9));state.sides.player.screens.tailwindTurns=2;a.status='paralyze';assert(engine.getBattleSpeed(a,state.sides.player,state,b)<=Math.floor(speed*.9)+1);
@@ -48,22 +63,22 @@ test('speed malus applies alongside held items, Tailwind and paralysis; snapshot
  const messages=signals.capture(()=>engine.estimateDamage(a,b,engine.getMoveByName('Tackle')));assert.equal(messages.effects.length,0);
 });
 test('type, class, finisher and defensive tradeoffs affect only the specified direct damage',()=>{
- const {a,b,o}=pair();twists.activate(o,'pact_blaze');assert.equal(fx.multiplier(a,b,engine.getMoveByName('Flamethrower'),false),1.3);assert.equal(fx.multiplier(a,b,engine.getMoveByName('Tackle'),false),1);assert.equal(fx.multiplier(b,a,engine.getMoveByName('Surf'),false),1.3);
- twists.activate(o,'pact_mind');assert.equal(fx.multiplier(a,b,engine.getMoveByName('Psychic'),false),1.25);assert.equal(fx.multiplier(a,b,engine.getMoveByName('Tackle'),false),.8);assert.equal(fx.multiplier(a,b,engine.getMoveByName('Toxic'),false),1);
- const f=pair(['pact_execution']);assert.equal(fx.multiplier(f.a,f.b,engine.getMoveByName('Tackle'),false),.9);f.b.currentHp=Math.floor(f.b.maxHp*.35);assert.equal(fx.multiplier(f.a,f.b,engine.getMoveByName('Tackle'),false),1.3);
- const d=pair(['pact_veil']);assert.equal(fx.multiplier(d.b,d.a,engine.getMoveByName('Tackle'),false),1.15);assert.equal(fx.multiplier(d.b,d.a,engine.getMoveByName('Surf'),false),.8);
+ const {a,b,o}=pair();twists.activate(o,'pact_blaze');assert.equal(fx.multiplier(a,b,engine.getMoveByName('Flamethrower'),false),1.25);assert.equal(fx.multiplier(a,b,engine.getMoveByName('Tackle'),false),1);assert.equal(fx.multiplier(b,a,engine.getMoveByName('Surf'),false),1.3);
+ twists.activate(o,'pact_mind');assert.equal(fx.multiplier(a,b,engine.getMoveByName('Psychic'),false),1.2);assert.equal(fx.multiplier(a,b,engine.getMoveByName('Tackle'),false),.8);assert.equal(fx.multiplier(a,b,engine.getMoveByName('Toxic'),false),1);
+ const f=pair(['pact_execution']);assert.equal(fx.multiplier(f.a,f.b,engine.getMoveByName('Tackle'),false),.9);f.b.currentHp=Math.floor(f.b.maxHp*.35);assert.equal(fx.multiplier(f.a,f.b,engine.getMoveByName('Tackle'),false),1.25);
+ const d=pair(['pact_veil']);assert.equal(fx.multiplier(d.b,d.a,engine.getMoveByName('Tackle'),false),1.15);assert.equal(fx.multiplier(d.b,d.a,engine.getMoveByName('Surf'),false),.85);
 });
 test('the damage estimator used by AI sees the same damage bargain, without mutating either fighter',()=>{
- const {a,b,o}=pair(),move=engine.getMoveByName('Tackle'),plain=engine.estimateDamage(a,b,move);twists.activate(o,'pact_glass');const before=codec.encode({a,b});const estimate=engine.estimateDamage(a,b,move);assert(estimate>=Math.floor(plain*1.2)-1);assert.deepEqual(codec.encode({a,b}),before);
+ const {a,b,o}=pair(),move=engine.getMoveByName('Tackle'),plain=engine.estimateDamage(a,b,move);twists.activate(o,'pact_glass');const before=codec.encode({a,b});const estimate=engine.estimateDamage(a,b,move);assert(estimate>=Math.floor(plain*1.15)-1);assert.deepEqual(codec.encode({a,b}),before);
  const old=Math.random;Math.random=()=>.99;try{assert(Math.abs(engine.calculateDamage(a,b,move)-estimate)<=2);}finally{Math.random=old;}
 });
 test('healing pacts use existing combat hooks, signal their name and keep their speed/type costs',()=>{
  const {a,b,o}=pair(['pact_leech','pact_breath']);a.currentHp=30;
- const captured=signals.capture(()=>fx.afterMove(a,b,{move:engine.getMoveByName('Tackle'),success:true,damage:40,effectiveness:1},{contact:false,status:()=>false,stage:()=>{}}));assert.equal(a.currentHp,36);assert(captured.effects.some(e=>e.name==='Soif de vie'));
- fx.endTurn(a);assert.equal(a.currentHp,36+Math.floor(a.maxHp*.05));assert.equal(twists.speed(o),.9);assert.equal(fx.multiplier(b,a,engine.getMoveByName('Flamethrower'),false),1.25);
+ const captured=signals.capture(()=>fx.afterMove(a,b,{move:engine.getMoveByName('Tackle'),success:true,damage:40,effectiveness:1},{contact:false,status:()=>false,stage:()=>{}}));assert.equal(a.currentHp,34);assert(captured.effects.some(e=>e.name==='Soif de vie'));
+ fx.endTurn(a);assert.equal(a.currentHp,34+Math.floor(a.maxHp*.03));assert.equal(twists.speed(o),.9);assert.equal(fx.multiplier(b,a,engine.getMoveByName('Flamethrower'),false),1.25);
 });
 test('ordinary Adventure/Rift/Colosseum stay unchanged; switching and checkpoint preserve attempt-only pacts',()=>{
- const {a,b,o}=pair(['pact_glass','pact_cold_blood']),restored=codec.decode(codec.encode({a,b,o}));assert.equal(fx.multiplier(restored.a,restored.b,engine.getMoveByName('Tackle'),false),1.2);assert.equal(fx.speed(restored.a),.9);fx.switched(restored.a,false);assert.equal(fx.speed(restored.a),.9);
+ const {a,b,o}=pair(['pact_glass','pact_cold_blood']),restored=codec.decode(codec.encode({a,b,o}));assert.equal(fx.multiplier(restored.a,restored.b,engine.getMoveByName('Tackle'),false),1.15);assert.equal(fx.speed(restored.a),.9);fx.switched(restored.a,false);assert.equal(fx.speed(restored.a),.9);
  for(const map of['start','route1','rift_room','colosseum']){restored.o.currentmap=map;assert.equal(fx.speed(restored.a),1);assert.equal(fx.criticalStage(restored.a),0);assert.equal(fx.multiplier(restored.a,restored.b,engine.getMoveByName('Tackle'),false),1);assert.deepEqual(twists.active(restored.o),[]);}
 });
 test('one reroll initially, four fresh cards, no mutation of team/cash/score; stale claim rejected',async()=>{
