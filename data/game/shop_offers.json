@@ -276,7 +276,14 @@
       "maps": [
         "ville5_shop"
       ],
-      "price": 50000
+      "price": 120000
+    },
+    "supreme_candy": {
+      "tier": 5,
+      "maps": [
+        "ville5_shop"
+      ],
+      "price": 600000
     }
   }
 }

@@ -3934,7 +3934,18 @@
       "key": "mega_candy",
       "name": "Méga Bonbon",
       "category": "medicine",
-      "buy_price": 50000,
+      "buy_price": 120000,
+      "fieldUse": {
+        "levelUp": true,
+        "maxLevel": 150
+      },
+      "description": "Fait gagner un niveau à un Pokémon conscient, jusqu’au niveau 150. À utiliser hors combat. Les attaques et évolutions restent à choisir."
+    },
+    {
+      "key": "supreme_candy",
+      "name": "Suprême Bonbon",
+      "category": "medicine",
+      "buy_price": 600000,
       "fieldUse": {
         "levelUp": true,
         "maxLevel": 200

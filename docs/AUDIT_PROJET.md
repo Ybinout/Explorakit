@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Bonbons : prix et plafonds distincts — 1er novembre 2026
+
+Méga Bonbon à 120 000 ₽, plafond 150 ; nouveau Suprême Bonbon à 600 000 ₽, plafond 200. Super Bonbon conservé à 20 000 ₽ / niveau 100. Les deux premiers suivent les mêmes lieux/prérequis : entraînement au Grand Comptoir après Hoze, boutique de Blanchecime après Wanda. Icône couronne rose/dorée pour le Suprême, distincte de l’étoile du Méga. Descriptions et rayon des niveaux actualisés. La carte Méga Bonbon de la tour lit désormais le plafond du catalogue (150), sans modification de tirage et sans nouvelle carte Suprême.
+
+Le moteur de médecine existant applique chaque plafond depuis les données serveur : un seul niveau, statistiques recalculées, blessures/statuts/PP et attributs conservés, attaques/évolutions proposées normalement. Refus à 150/200 sans consommation ; inventaire, prix d’achat, stock et Pokémon relus dans la transaction, même avec payload falsifié ou double clic concurrent. Les Méga Bonbons existants gardent leur clé et leur quantité. Aucun changement de schéma, aucune modification manuelle des comptes.
+
+Validation : 67 tests de logique/régression et 15 SQL ciblés réussis, zéro échec/saut. Achats réels 120 000/600 000, passage 149→150 et 199→200, refus au plafond sans perte de stock, courses sur le dernier exemplaire, rechargement et réserve conservée vérifiés. Recette privée authentifiée Chromium/WebKit sur base dédiée : six Pokémon, statistiques gagnées, choix de cibles désactivés au plafond, icônes distinctes et seize vues sur quatre formats/deux thèmes ; zéro erreur JS, comptes supprimés. Lint/build isolé/syntaxe/diff vérifiés. Deux anciens compteurs de catalogues réconciliés avec les articles actuels ; test SQL bonbons ajouté au lanceur. Une recette élargie d’inventaire reste bloquée par sa fixture préexistante non routée `experience_module` (hors patch), documentée dans le rapport ; aucune suite globale ou appareil physique revendiqués. Rapport et commandes : `docs/CANDY_TIERS_2026-11-01.json`.
+
+Serveur/client publiés le 1er novembre 2026 à 16 h 59 (Europe/Paris), client `3be92b5e136fa1919bb08efb546abb39586b0160`, build `e9b5e2a0e0f8438b`. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-candy-tiers-2026-11-01T15-59-42-167Z`. PID 3673792→3675391, service actif sans redémarrage automatique/avertissement ; index et 22 bundles/CSS HTTPS identiques au build, anciens assets conservés. Knov/api-test, checkpoint et modes fermés inchangés ; aucun duel actif au contrôle, deux tentatives sauvegardées de Super Tournoi conservées. Aucune migration ni modification manuelle de compte réel. Recharger le jeu pour la nouvelle icône et le rayon actualisé.
+
 ## Tour : niveaux renforcés et familles de récompenses — 1er novembre 2026
 
 Hausse des équipes adverses portée à +20 niveaux par cycle de seize salles, pour les seize dresseurs : 75/85/90 au premier, 95/105/110 au deuxième, 115/125/130 au troisième, puis 135/145/150. Les statistiques sont dérivées de la nouvelle expérience lors de la création du combat. Espèces, K4, IV/EV, objets, capacités et IA conservés ; aucune modification des Pokémon du joueur. Une bataille déjà préparée reste sauvegardée telle quelle : la reprise n’ajoute pas de bonus et le prochain combat utilise le nouveau barème. Règles de l’hôtesse et recettes existantes actualisées.
@@ -5780,6 +5790,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 1er novembre 2026 — Méga Bonbon 120 000 ₽ / niveau 150 ; Suprême Bonbon 600 000 ₽ / niveau 200, mêmes boutiques, plafonds serveur et icône dédiée. 67 tests, 15 SQL, recettes Chromium/WebKit ; `docs/CANDY_TIERS_2026-11-01.json`.
 
 - 1er novembre 2026 — Tour : +20 niveaux par cycle, quatre familles de cartes distinctes après tirage/relance, anciennes offres dédoublonnées sans coût. 92 tests, 42 SQL, recettes Chromium/WebKit ; `docs/TOWER_LEVELS_FAMILIES_2026-11-01.json`.
 

@@ -1,3 +1,4 @@
+const {getItemDefinition}=require('../battle/battleResources');
 const cards=Object.freeze([
  // Keep the legacy key so saved offers and previously claimed receipts remain valid.
  {key:'prize_money_10k',name:'Bourse du challenger',rarity:'common',kind:'money',amount:2000},
@@ -15,7 +16,7 @@ function grant(key,room){
 }
 function view(key,room){
  const card=byKey.get(key),reward=grant(key,room);if(!card)return null;
- const description=card.kind==='money'?`Ajoute ${reward.amount.toLocaleString('fr-FR')} ₽ à ton porte-monnaie. Gains conservés après le parcours.`:`Ajoute 1 ${card.name} au sac d’Aventure. Utilisable après le parcours, jusqu’au niveau ${card.itemKey==='rare_candy'?100:200}.`;
+ const description=card.kind==='money'?`Ajoute ${reward.amount.toLocaleString('fr-FR')} ₽ à ton porte-monnaie. Gains conservés après le parcours.`:`Ajoute 1 ${card.name} au sac d’Aventure. Utilisable après le parcours, jusqu’au niveau ${getItemDefinition(card.itemKey).fieldUse.maxLevel}.`;
  return {...card,grant:reward,description,targets:[],usable:true};
 }
 function unit(random){const n=random();if(!Number.isFinite(n)||n<0||n>=1)throw Error('Tirage de récompense invalide.');return n;}

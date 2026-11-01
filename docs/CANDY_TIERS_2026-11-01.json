@@ -1,0 +1,256 @@
+{
+  "date": "2026-11-01",
+  "feature": "Candy shop prices and level ceilings",
+  "mega": {
+    "key": "mega_candy",
+    "price": 120000,
+    "maxLevel": 150,
+    "existingStockPreserved": true
+  },
+  "supreme": {
+    "key": "supreme_candy",
+    "name": "Suprême Bonbon",
+    "price": 600000,
+    "maxLevel": 200
+  },
+  "rare": {
+    "price": 20000,
+    "maxLevel": 100,
+    "unchanged": true
+  },
+  "availability": [
+    "Grand Comptoir, étage Entraînement après Hoze",
+    "Boutique de Blanchecime après Wanda"
+  ],
+  "tournament": {
+    "megaRewardDescriptionMaxLevel": 150,
+    "dropProbabilitiesUnchanged": true,
+    "supremeNotAddedToRewards": true
+  },
+  "databaseSchemaChanged": false,
+  "realAccountsManuallyModified": false,
+  "runtimeSourceSha256": {
+    "data/game/department_store.json": "42021cb825a742a4d8db5adc974f578922e3b99d216c55f9d76dc2266e20e06e",
+    "data/game/items.json": "9deed6c8902a38277667439e1cdf58c13b61ec4fb71b5ebe50577ff898a3d295",
+    "data/game/shop_offers.json": "ddc67e4abe59b7c32725748fd0fb1f98f90d64c0611176390ad0497338536249",
+    "server/game/superTournament/augmentations.js": "d7a5a608f87260b06a6599830b7bb07449761514096d419011c926bc3efb5735"
+  },
+  "clientBuild": "e9b5e2a0e0f8438b",
+  "tests": {
+    "unitPassed": 67,
+    "sqlPassed": 15,
+    "failed": 0,
+    "skipped": 0,
+    "commands": [
+      "node --test tests/rare-candy.test.js tests/super-tournament-augments.test.js tests/super-tournament-families.test.js tests/medicine.test.js tests/training.test.js tests/level-growth.test.js tests/department-store.test.js tests/store-browse.test.js tests/shop-training.test.js",
+      "RUN_MYSQL_TESTS=1 DB_TEST_NAME=explorakit_test DB_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file=.env --test --test-concurrency=1 tests/rare-candy-mysql.test.js tests/super-tournament-augments-mysql.test.js tests/store-browse-mysql.test.js",
+      "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-candy-tiers-dist",
+      "npm --prefix vue-explorakit run lint",
+      "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-candy-tiers-dist PRESENTATION_BROWSER=chromium node --env-file=.env scripts/validateMegaCandyBrowser.js",
+      "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-candy-tiers-dist PRESENTATION_BROWSER=webkit node --env-file=.env scripts/validateMegaCandyBrowser.js"
+    ]
+  },
+  "browser": {
+    "chromium": {
+      "success": true,
+      "engine": "chromium",
+      "realPurchases120000And600000": true,
+      "rareCap100": true,
+      "megaCap150": true,
+      "supremeCap200": true,
+      "realLevels": [
+        100,
+        101,
+        150,
+        150,
+        200,
+        200
+      ],
+      "capsEnforcedWithForgedPayloads": true,
+      "stockNotSpentAtCap": true,
+      "correctTargetOptions": true,
+      "sixStatRecap": true,
+      "distinctCandyIcons": true,
+      "reloadPersisted": true,
+      "traitsWoundsPpPreserved": true,
+      "views": [
+        {
+          "width": 320,
+          "height": 480,
+          "themeMode": "light"
+        },
+        {
+          "width": 320,
+          "height": 480,
+          "themeMode": "dark"
+        },
+        {
+          "width": 393,
+          "height": 852,
+          "themeMode": "light"
+        },
+        {
+          "width": 393,
+          "height": 852,
+          "themeMode": "dark"
+        },
+        {
+          "width": 844,
+          "height": 390,
+          "themeMode": "light"
+        },
+        {
+          "width": 844,
+          "height": 390,
+          "themeMode": "dark"
+        },
+        {
+          "width": 1536,
+          "height": 680,
+          "themeMode": "light"
+        },
+        {
+          "width": 1536,
+          "height": 680,
+          "themeMode": "dark"
+        }
+      ],
+      "errors": [],
+      "closedModesPreserved": true,
+      "buildIndexSha256": "75b9ee8d58eb8e0499e8dba2d90605e8264ce968b290441c43710f9575c04fe1",
+      "physicalHardware": false
+    },
+    "webkit": {
+      "success": true,
+      "engine": "webkit",
+      "realPurchases120000And600000": true,
+      "rareCap100": true,
+      "megaCap150": true,
+      "supremeCap200": true,
+      "realLevels": [
+        100,
+        101,
+        150,
+        150,
+        200,
+        200
+      ],
+      "capsEnforcedWithForgedPayloads": true,
+      "stockNotSpentAtCap": true,
+      "correctTargetOptions": true,
+      "sixStatRecap": true,
+      "distinctCandyIcons": true,
+      "reloadPersisted": true,
+      "traitsWoundsPpPreserved": true,
+      "views": [
+        {
+          "width": 320,
+          "height": 480,
+          "themeMode": "light"
+        },
+        {
+          "width": 320,
+          "height": 480,
+          "themeMode": "dark"
+        },
+        {
+          "width": 393,
+          "height": 852,
+          "themeMode": "light"
+        },
+        {
+          "width": 393,
+          "height": 852,
+          "themeMode": "dark"
+        },
+        {
+          "width": 844,
+          "height": 390,
+          "themeMode": "light"
+        },
+        {
+          "width": 844,
+          "height": 390,
+          "themeMode": "dark"
+        },
+        {
+          "width": 1536,
+          "height": 680,
+          "themeMode": "light"
+        },
+        {
+          "width": 1536,
+          "height": 680,
+          "themeMode": "dark"
+        }
+      ],
+      "errors": [],
+      "closedModesPreserved": true,
+      "buildIndexSha256": "75b9ee8d58eb8e0499e8dba2d90605e8264ce968b290441c43710f9575c04fe1",
+      "physicalHardware": false
+    }
+  },
+  "limits": [
+    "Pas de téléphone physique ni de suite globale revendiqués.",
+    "Une tentative élargie de tests a rencontré une fixture déjà obsolète, hors bonbons : tests/item-usage-mysql.test.js échoue sur experience_module non routé dans scripts/lib/itemUsageFixtures.js. Le contenu de cette fixture est inchangé par le patch ; ce test ne fait pas partie des 15 SQL ciblés validés."
+  ],
+  "visualInspection": [
+    "Chromium shop-393-light.png",
+    "WebKit shop-1536-dark.png",
+    "WebKit bag-supreme-393.png"
+  ],
+  "clientCommit": "3be92b5e136fa1919bb08efb546abb39586b0160",
+  "deployment": {
+    "publishedAt": "2026-11-01T15:59:45.191Z",
+    "restartedAt": "2026-11-01T15:59:43.667Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-candy-tiers-2026-11-01T15-59-42-167Z",
+    "sourceBaseline": "1a356a9ecfb8736d37d4b9764e06e661c7e5091b",
+    "sourceHashes": {
+      "data/game/department_store.json": "42021cb825a742a4d8db5adc974f578922e3b99d216c55f9d76dc2266e20e06e",
+      "data/game/items.json": "9deed6c8902a38277667439e1cdf58c13b61ec4fb71b5ebe50577ff898a3d295",
+      "data/game/shop_offers.json": "ddc67e4abe59b7c32725748fd0fb1f98f90d64c0611176390ad0497338536249",
+      "server/game/superTournament/augmentations.js": "d7a5a608f87260b06a6599830b7bb07449761514096d419011c926bc3efb5735"
+    },
+    "clientCommit": "3be92b5e136fa1919bb08efb546abb39586b0160",
+    "clientBuild": "e9b5e2a0e0f8438b",
+    "beforePid": "3673792",
+    "afterPid": "3675391",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "schemaChanged": false,
+    "activeClubDuelsBefore": 0,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 2,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": [
+      "js/234.7f08b866.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.ae44b00a.js",
+      "js/account.161ce126.js",
+      "js/app.7444b682.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.2fd32f7c.js",
+      "js/drift.5b8720d7.js",
+      "js/game.69e858df.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.4fff4c7e.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.8b83057e.css",
+      "css/test-view.7568246d.css"
+    ]
+  }
+}
