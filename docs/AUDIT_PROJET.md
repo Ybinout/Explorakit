@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Corrections des maisons de Blanchecime — 1er novembre 2026
+
+Maison des combats : vingt sièges individuels à la place des quatre bancs, murs/rails et collisions des sièges réalignés, allée libre entre les rangées et passage central conservé. Nouvelle édition de l’image par imagegen intégré, inspectée avant intégration ; neige légère exclusivement derrière les cinq fenêtres, soixante particules déterministes sur la boucle existante, arrêt sous mouvement réduit/onglet masqué. Jambes de l’hôtesse masquées au bord du comptoir sans modifier les autres personnages. Casino : les onze cellules de façade changées par le premier patch retrouvent leurs valeurs auteur, fins de ligne originales et porte (23,16) conservées.
+
+Hôtesse : écran Organiser puis Combat préparé, sans onglet classement ; panneau mural : classement seul. Les contrôles de mise/inspection/confirmation restent réservés aux deux participants ; accès spectateur distinct dans les tribunes. Une seule réservation pour toutes les phases jusqu’à la sauvegarde du résultat, commandes concurrentes refusées. Organisateur tenu de prendre un socle sous cinquante secondes, sinon annulation sans débit ; délai interrompu quand il est placé et renouvelé s’il redescend, place réservée pour lui. Sortie/déconnexion avant départ annule et libère les éventuels verrous. Contrôle du délai aussi avant une commande/un déplacement pour empêcher une prise de socle tardive entre deux ticks ; limite d’attente générale/revue de cinq minutes conservée.
+
+Validation : quatorze tests unitaires/régression et quatorze SQL réussis sans saut, concurrence, limites temporelles, départ et libération des verrous, clauses, fonds et collisions contrôlés. Recette privée à trois comptes Chromium/WebKit : vraie réentrée casino par le parvis, délais et sortie de salle, refus de deuxième organisation, duel avec mises/PC, ressources conservées et tribunes/reconnexion vérifiés. Quatre formats/deux thèmes, 32 vues par moteur (64), zéro erreur ; rang et organisation séparés. Neige : 187 pixels alpha changés sous Chromium et 357 sous WebKit, zéro hors des fenêtres, image immobile sous mouvement réduit ; masquage des jambes contrôlé. Scènes et menus PC/mobile inspectés, comptes jetables supprimés. Lint et compilation isolée validés ; pas de téléphone physique revendiqué. Rapport, recettes, asset et prompts : `docs/WHITEPEAK_FIXES_2026-11-01.json`.
+
+Serveur/client publiés le 1er novembre 2026 à 10 h 38 (Europe/Paris), client `a19be4c14d90153d17eb335f633a9151a4b933cb`, build `86a3dad3665a273a`. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-club-fixes-2026-11-01T09-38-37-056Z`. PID 3647698→3651079, service actif, zéro redémarrage automatique/avertissement. Aucun duel/tournoi actif au contrôle, pas de migration ni modification manuelle de compte réel. Bundles et nouveau décor publics vérifiés à l’octet, anciens assets conservés ; Knov/api-test, modes fermés et checkpoint inchangés. Recharger le jeu pour les nouveaux assets/menus.
+
 ## Aquatacle et Cryo-Pirouette — 1er novembre 2026
 
 Deux ajouts explicites de génération neuf au moteur commun : Aquatacle (Eau physique, 120/100/10 PP, contact et contrecoup 33/100 des dégâts réels), Cryo-Pirouette (Glace physique, 80/100/15 PP, contact et dissipation du terrain après une touche). Météo, Distorsion, écrans et pièges conservés ; échec/Abri/immunité ne dissipent rien, clone accepté. Recul/talents et planificateur IA partagent les règles existantes. Animations réutilisées charge/Eau et onde/Glace ; noms, descriptions et PP français disponibles partout. Identifiants historiques inchangés, aucune modification des attaques déjà apprises ou de la progression naturelle.
@@ -5656,6 +5666,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 1er novembre 2026 — Maison des combats : sièges/collisions/neige/hôtesse, organisation et classement séparés, délai de placement de 50 s et annulation au départ ; collisions auteur du casino restaurées. `docs/WHITEPEAK_FIXES_2026-11-01.json`.
 
 - 1er novembre 2026 — Aquatacle/Cryo-Pirouette et leurs CS ajoutées avec compatibilités, noms/effets/animations et simulation IA ; 255 tests unitaires et 214 SQL réussis. `docs/REQUESTED_MOVES_2026-11-01.json`.
 

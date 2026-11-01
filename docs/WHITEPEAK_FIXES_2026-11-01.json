@@ -1,0 +1,600 @@
+{
+  "date": "2026-11-01",
+  "change": "Maison des combats : sièges, collisions, interfaces séparées, neige, hôtesse et préparation limitée",
+  "sourceBaseline": "0394fd70514c3e4cd27cc50bc914253069acb7e3",
+  "clientCommit": "a19be4c14d90153d17eb335f633a9151a4b933cb",
+  "clientBuild": "86a3dad3665a273a",
+  "rules": {
+    "oneRoom": true,
+    "blockedPhases": [
+      "waiting",
+      "review",
+      "starting",
+      "battle",
+      "settling"
+    ],
+    "hostPlacementMs": 50000,
+    "placementStopsOnPodium": true,
+    "leavingPodiumRestartsPlacementMs": 50000,
+    "hostMustParticipate": true,
+    "hostLeavingBeforeStartCancels": true,
+    "noEscrowBeforeBothConfirm": true,
+    "reviewTimeoutMs": 300000
+  },
+  "interface": {
+    "host": "Organiser → Combat préparé, rule summary and deadline; no leaderboard tab",
+    "leaderboard": "Physical wall interaction opens ranking only; no organisation tab",
+    "spectators": "Distinct watch panel in the audience"
+  },
+  "visuals": {
+    "asset": "vue-explorakit/src/assets/whitepeak_club.png",
+    "absolutePath": "/home/ubuntu/dev/explorakit/vue-explorakit/src/assets/whitepeak_club.png",
+    "tool": "image_gen built-in, imagegen skill",
+    "prompts": [
+      "Edit target: the attached top-down pixel-art battle club room map. Preserve the exact original canvas, camera, walls, windows, decorative plants, north desk and leaderboard, two blue/red circular battle podiums, gold markings, central north-south walkway, and south exit. Preserve object positions outside the four bench footprints. ONLY replace the four long cumbersome spectator benches in the lower left and lower right corners with tidy rows of small individual simple blue padded chairs with dark wood legs and dark pixel outlines. Each of the four current benches becomes a row of FIVE compact clearly separated chairs, each chair same modest size, facing toward the upper part of the map. Footprints remain completely within the original bench rectangles. More visible floor between chairs and the two rows. No extra furniture, no characters, no text, no new light sources. Keep the same restrained pixel-art texture and palette. The room remains a usable orthographic game map. Render at the same 1536 by 1024 dimensions, with identical original architecture and exact unchanged floor geometry.",
+      "Edit target: this exact pixel-art room. All architecture, floor, windows, desk, podiums, railings and doorway MUST remain identical. Modify ONLY the twenty small spectator chairs in the lower corners for exact tile-grid playability. Keep every chair's current horizontal center and width unchanged. Make each chair vertically more compact, about 45 pixels high rather than 60 pixels in this 1536×1024 image. Move both TOP rows of five chairs slightly upward: chair vertical centers must be at y=692, with their total footprint between y=669 and y=715. Both BOTTOM rows of five chairs must have vertical centers at y=794, footprints between y=771 and y=817. Thus a continuous clear strip of existing stone flooring remains between y=716 and y=770, so players can walk between the rows. All chairs remain individual blue cushioned simple dark-wood chairs in the same pixel art. Do not add a horizontal bench. Do not change the canvas size. Preserve everything outside those four rows."
+    ],
+    "generatedSources": [
+      "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-dea64421-b32c-403d-8745-aac4c9c110e0.png",
+      "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-8b624c6c-7568-422b-a3be-3988b52a4fd8.png"
+    ],
+    "seats": 20,
+    "snow": "60 deterministic flakes clipped to five fixed window polygons; same renderer frame; no movement under reduced motion; hidden page skipped",
+    "host": "Only club_host clipped at desk edge y=113; all other NPCs unchanged"
+  },
+  "collisions": {
+    "club": "Two-tile outer walls, rails rows 11–12, twenty seats rows 13/15, uninterrupted audience aisle row14 and central passage. Floors remain 28×20; doors/podiums unchanged.",
+    "casino": "Only the eleven changed façade cells restored to pre-casino author data from commit 0a5e6fb8f6e40bdde17d2df273042a62f64ab5e3; original CRLF, doors and room kept."
+  },
+  "validation": {
+    "unit": {
+      "passed": 14,
+      "failed": 0,
+      "skipped": 0
+    },
+    "mysql": {
+      "passed": 14,
+      "failed": 0,
+      "skipped": 0
+    },
+    "browsers": [
+      {
+        "success": true,
+        "engine": "chromium",
+        "buildIndexSha256": "c4adc8a1f349c295e44e2fe379eb994430e1e13772c1e1b8b0fa3a9ea2cc73f3",
+        "views": [
+          {
+            "label": "roulette",
+            "width": 320,
+            "height": 480,
+            "mode": "light"
+          },
+          {
+            "label": "roulette",
+            "width": 320,
+            "height": 480,
+            "mode": "dark"
+          },
+          {
+            "label": "roulette",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "label": "roulette",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "label": "roulette",
+            "width": 844,
+            "height": 390,
+            "mode": "light"
+          },
+          {
+            "label": "roulette",
+            "width": 844,
+            "height": 390,
+            "mode": "dark"
+          },
+          {
+            "label": "roulette",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "label": "roulette",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "label": "duel-prepared",
+            "width": 320,
+            "height": 480,
+            "mode": "light"
+          },
+          {
+            "label": "duel-prepared",
+            "width": 320,
+            "height": 480,
+            "mode": "dark"
+          },
+          {
+            "label": "duel-prepared",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "label": "duel-prepared",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "label": "duel-prepared",
+            "width": 844,
+            "height": 390,
+            "mode": "light"
+          },
+          {
+            "label": "duel-prepared",
+            "width": 844,
+            "height": 390,
+            "mode": "dark"
+          },
+          {
+            "label": "duel-prepared",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "label": "duel-prepared",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "label": "duel-review",
+            "width": 320,
+            "height": 480,
+            "mode": "light"
+          },
+          {
+            "label": "duel-review",
+            "width": 320,
+            "height": 480,
+            "mode": "dark"
+          },
+          {
+            "label": "duel-review",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "label": "duel-review",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "label": "duel-review",
+            "width": 844,
+            "height": 390,
+            "mode": "light"
+          },
+          {
+            "label": "duel-review",
+            "width": 844,
+            "height": 390,
+            "mode": "dark"
+          },
+          {
+            "label": "duel-review",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "label": "duel-review",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "label": "leaderboard",
+            "width": 320,
+            "height": 480,
+            "mode": "light"
+          },
+          {
+            "label": "leaderboard",
+            "width": 320,
+            "height": 480,
+            "mode": "dark"
+          },
+          {
+            "label": "leaderboard",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "label": "leaderboard",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "label": "leaderboard",
+            "width": 844,
+            "height": 390,
+            "mode": "light"
+          },
+          {
+            "label": "leaderboard",
+            "width": 844,
+            "height": 390,
+            "mode": "dark"
+          },
+          {
+            "label": "leaderboard",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "label": "leaderboard",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          }
+        ],
+        "threePlayers": true,
+        "sharedRoulette": true,
+        "bettingClosed": true,
+        "winningNumber": 7,
+        "nativeHouseTransitions": true,
+        "casinoReentry": true,
+        "placementTimeout50s": true,
+        "hostDepartureCancels": true,
+        "interfacesSeparated": true,
+        "sceneryChecks": {
+          "changed": 187,
+          "outside": 0,
+          "stable": true,
+          "upperVisible": true,
+          "legsHidden": true
+        },
+        "fixedLevel": 50,
+        "temporaryTeamsIntact": true,
+        "pcWagerTransferred": true,
+        "opponentInspected": true,
+        "outsiderRefused": true,
+        "inventoryLocked": true,
+        "spectatorRealTurn": true,
+        "spectatorReconnect": true,
+        "opponentDisconnectHandled": false,
+        "winnerMoney": 52000,
+        "loserMoney": 48000,
+        "leaderboard": true,
+        "errors": []
+      },
+      {
+        "success": true,
+        "engine": "webkit",
+        "buildIndexSha256": "c4adc8a1f349c295e44e2fe379eb994430e1e13772c1e1b8b0fa3a9ea2cc73f3",
+        "views": [
+          {
+            "label": "roulette",
+            "width": 320,
+            "height": 480,
+            "mode": "light"
+          },
+          {
+            "label": "roulette",
+            "width": 320,
+            "height": 480,
+            "mode": "dark"
+          },
+          {
+            "label": "roulette",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "label": "roulette",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "label": "roulette",
+            "width": 844,
+            "height": 390,
+            "mode": "light"
+          },
+          {
+            "label": "roulette",
+            "width": 844,
+            "height": 390,
+            "mode": "dark"
+          },
+          {
+            "label": "roulette",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "label": "roulette",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "label": "duel-prepared",
+            "width": 320,
+            "height": 480,
+            "mode": "light"
+          },
+          {
+            "label": "duel-prepared",
+            "width": 320,
+            "height": 480,
+            "mode": "dark"
+          },
+          {
+            "label": "duel-prepared",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "label": "duel-prepared",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "label": "duel-prepared",
+            "width": 844,
+            "height": 390,
+            "mode": "light"
+          },
+          {
+            "label": "duel-prepared",
+            "width": 844,
+            "height": 390,
+            "mode": "dark"
+          },
+          {
+            "label": "duel-prepared",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "label": "duel-prepared",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "label": "duel-review",
+            "width": 320,
+            "height": 480,
+            "mode": "light"
+          },
+          {
+            "label": "duel-review",
+            "width": 320,
+            "height": 480,
+            "mode": "dark"
+          },
+          {
+            "label": "duel-review",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "label": "duel-review",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "label": "duel-review",
+            "width": 844,
+            "height": 390,
+            "mode": "light"
+          },
+          {
+            "label": "duel-review",
+            "width": 844,
+            "height": 390,
+            "mode": "dark"
+          },
+          {
+            "label": "duel-review",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "label": "duel-review",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "label": "leaderboard",
+            "width": 320,
+            "height": 480,
+            "mode": "light"
+          },
+          {
+            "label": "leaderboard",
+            "width": 320,
+            "height": 480,
+            "mode": "dark"
+          },
+          {
+            "label": "leaderboard",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "label": "leaderboard",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "label": "leaderboard",
+            "width": 844,
+            "height": 390,
+            "mode": "light"
+          },
+          {
+            "label": "leaderboard",
+            "width": 844,
+            "height": 390,
+            "mode": "dark"
+          },
+          {
+            "label": "leaderboard",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "label": "leaderboard",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          }
+        ],
+        "threePlayers": true,
+        "sharedRoulette": true,
+        "bettingClosed": true,
+        "winningNumber": 7,
+        "nativeHouseTransitions": true,
+        "casinoReentry": true,
+        "placementTimeout50s": true,
+        "hostDepartureCancels": true,
+        "interfacesSeparated": true,
+        "sceneryChecks": {
+          "changed": 357,
+          "outside": 0,
+          "stable": true,
+          "upperVisible": true,
+          "legsHidden": true
+        },
+        "fixedLevel": 50,
+        "temporaryTeamsIntact": true,
+        "pcWagerTransferred": true,
+        "opponentInspected": true,
+        "outsiderRefused": true,
+        "inventoryLocked": true,
+        "spectatorRealTurn": true,
+        "spectatorReconnect": true,
+        "opponentDisconnectHandled": true,
+        "winnerMoney": 52000,
+        "loserMoney": 48000,
+        "leaderboard": true,
+        "errors": []
+      }
+    ],
+    "commands": [
+      "node --test tests/whitepeak-manager.test.js tests/whitepeak-maps.test.js tests/whitepeak-rules.test.js",
+      "DB_NAME=explorakit_test RUN_MYSQL_TESTS=1 NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file-if-exists=.env --test --test-concurrency=1 tests/whitepeak-mysql.test.js tests/held-item-transfer-mysql.test.js",
+      "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-club-fixes-dist node --env-file-if-exists=.env scripts/validateWhitepeakBrowser.js",
+      "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=webkit RELEASE_DIST_DIR=/tmp/riftmon-club-fixes-dist node --env-file-if-exists=.env scripts/validateWhitepeakBrowser.js",
+      "npm --prefix vue-explorakit run lint",
+      "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-club-fixes-dist"
+    ],
+    "lint": true,
+    "isolatedBuild": true,
+    "manualSceneInspection": [
+      "club-host-mobile.png",
+      "club-scene-desktop.png",
+      "duel-prepared-393-dark.png",
+      "leaderboard-393-light.png"
+    ]
+  },
+  "limitations": [
+    "Browser engines on Linux; no physical smartphone claimed.",
+    "Existing stakes, casino roulette, battle engine, scores and schema remain unchanged."
+  ],
+  "schemaChanged": false,
+  "runtimeSourceSha256": {
+    "data/maps/ville5.json": "7913795409b9a196e51a4d356d87457628a8ac38b11d66d754411e7ed0dbd479",
+    "data/maps/whitepeak_club.json": "138b0fdc96ac388e202bb87876d76793c9e3f74e3a8ffbe641ce39639c22d62b",
+    "server/game/whitepeak/rules.js": "231b3ba8b8262b0fac868912a1b45f64f8c77dce7de6596bd044efb2a1f67530",
+    "server/realtime/whitepeakClub.js": "e1a04629a1669e37b48377e1989d21759624d581ab56a95800e254bd53143237"
+  },
+  "publication": {
+    "publishedAt": "2026-11-01T09:38:40.919Z",
+    "restartedAt": "2026-11-01T09:38:39.226Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-club-fixes-2026-11-01T09-38-37-056Z",
+    "sourceBaseline": "0394fd70514c3e4cd27cc50bc914253069acb7e3",
+    "sourceHashes": {
+      "data/maps/ville5.json": "7913795409b9a196e51a4d356d87457628a8ac38b11d66d754411e7ed0dbd479",
+      "data/maps/whitepeak_club.json": "138b0fdc96ac388e202bb87876d76793c9e3f74e3a8ffbe641ce39639c22d62b",
+      "server/game/whitepeak/rules.js": "231b3ba8b8262b0fac868912a1b45f64f8c77dce7de6596bd044efb2a1f67530",
+      "server/realtime/whitepeakClub.js": "e1a04629a1669e37b48377e1989d21759624d581ab56a95800e254bd53143237"
+    },
+    "clientCommit": "a19be4c14d90153d17eb335f633a9151a4b933cb",
+    "clientBuild": "86a3dad3665a273a",
+    "beforePid": "3647698",
+    "afterPid": "3651079",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "schemaChanged": false,
+    "activeClubDuelsBefore": 0,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 0,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": [
+      "js/234.7f08b866.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.012fcf9f.js",
+      "js/account.161ce126.js",
+      "js/app.f9de91c8.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.2fd32f7c.js",
+      "js/drift.5b8720d7.js",
+      "js/game.9103a594.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.4fff4c7e.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.90ece564.css",
+      "css/test-view.7568246d.css",
+      "img/whitepeak_club.d5688dbc.png"
+    ]
+  }
+}

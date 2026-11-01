@@ -2,6 +2,7 @@ const codec=require('../drift/checkpointCodec');
 const {healTeam}=require('../world/playerRecovery');
 const CASINO='ville5_maison2',HALL='ville5_maison1';
 const PODIUMS=[{x:8,y:8},{x:19,y:8}];
+const PLACEMENT_TIMEOUT=50000;
 const RED=new Set([1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36]);
 const WHEEL=[0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
 function fail(message){throw Object.assign(Error(message),{statusCode:409});}
@@ -36,4 +37,4 @@ function payout(bet,result){
 }
 function near(player,x,y,distance=2){return !!player&&Math.abs(Math.floor(player.x/32)-x)+Math.abs(Math.floor(player.y/32)-y)<=distance;}
 function podium(player){return player?.currentmap===HALL?PODIUMS.findIndex(p=>near(player,p.x,p.y,0)):-1;}
-module.exports={CASINO,HALL,PODIUMS,RED,WHEEL,fail,uuid,amount,settings,validateTeam,battleCopy,choice,payout,near,podium};
+module.exports={CASINO,HALL,PODIUMS,PLACEMENT_TIMEOUT,RED,WHEEL,fail,uuid,amount,settings,validateTeam,battleCopy,choice,payout,near,podium};

@@ -6,4 +6,17 @@ test('both Whitepeak rooms have reachable exits, hosts, podiums and audience, wi
  const casino=reachable(rules.CASINO,[14,17]);assert(casino.has('8,8'));assert(casino.has('13,19'));assert.equal(repo.loadCollisionData(rules.CASINO)[8][11],1);assert.equal(repo.loadCollisionData(rules.HALL)[8][8],0);
  for(const map of [rules.HALL,rules.CASINO])for(const x of [13,14]){assert(repo.changeMapData(map)[19][x]);assert.equal(repo.getNextMap(map,x,19).nextMap,'ville5');}
 });
-test('the large southeast house facade blocks walking while its real door still works',()=>{const coll=repo.loadCollisionData('ville5');for(const y of [15,16])for(let x=19;x<=24;x++)assert.equal(coll[y][x],y===16&&x===23?0:1);assert.equal(repo.getNextMap('ville5',23,16).nextMap,rules.CASINO);assert.equal(repo.getNextMap('ville5',3,16).nextMap,rules.HALL);});
+test('casino facade uses its original collision cells and the door is reachable from the forecourt',()=>{
+ const coll=repo.loadCollisionData('ville5');for(const x of[19,20,21,23])assert.equal(coll[16][x],0);
+ const outside=reachable('ville5',[21,17]);assert(outside.has('23,16'));
+ assert.equal(repo.getNextMap('ville5',23,16).nextMap,rules.CASINO);assert.equal(repo.getNextMap('ville5',3,16).nextMap,rules.HALL);
+});
+test('club walls, railing and individual chairs block walking while the audience aisles remain reachable',()=>{
+ const coll=repo.loadCollisionData(rules.HALL),free=reachable(rules.HALL,[14,17]);
+ for(let y=3;y<17;y++)for(const x of[0,1,26,27])assert.equal(coll[y][x],1);
+ for(const y of[11,12])for(const x of[2,8,11,16,19,25])assert.equal(coll[y][x],1);
+ for(const y of[13,15])for(const x of[3,5,6,8,9,18,19,21,22,24])assert.equal(coll[y][x],1);
+ for(let x=2;x<=25;x++)assert(free.has(x+',14'));
+ for(const x of[2,4,7,10,11,16,17,20,23,25])assert(free.has(x+',13'),`Audience aisle ${x}`);
+ for(const x of[13,14])for(let y=5;y<20;y++)assert(free.has(x+','+y));
+});
