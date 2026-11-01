@@ -1,5 +1,17 @@
 # Audit technique et mémoire de RiftMon
 
+## Tour : niveaux renforcés et familles de récompenses — 1er novembre 2026
+
+Hausse des équipes adverses portée à +20 niveaux par cycle de seize salles, pour les seize dresseurs : 75/85/90 au premier, 95/105/110 au deuxième, 115/125/130 au troisième, puis 135/145/150. Les statistiques sont dérivées de la nouvelle expérience lors de la création du combat. Espèces, K4, IV/EV, objets, capacités et IA conservés ; aucune modification des Pokémon du joueur. Une bataille déjà préparée reste sauvegardée telle quelle : la reprise n’ajoute pas de bonus et le prochain combat utilise le nouveau barème. Règles de l’hôtesse et recettes existantes actualisées.
+
+Catalogue central de familles par avantage principal (`rewardFamilies.js`) : soins de PV (dont soins complets, vampirisme/régénération persistants), PP, rappels, statut, argent, bonbons, dégâts, critique, Vitesse, défense, survie et prochain adversaire. Toutes les variantes de PP, y compris les cartes visant toute l’équipe et la restauration mythique, partagent la même famille. Une offre possède exactement quatre familles différentes. Les candidats spéciaux gardent la priorité pouvoir mythique → carte spéciale → économie, avec rejet des collisions ; au moins deux choix de récupération ordinaires sont conservés. Les familles utilisables sont privilégiées pour compléter l’offre, puis les autres si l’état de l’équipe impose des choix inactifs. Aucun second tirage de rareté pour compenser une collision.
+
+Les relances suivent les mêmes règles et excluent les quatre anciennes clés. Les offres anciennes sauvegardées contenant des doublons sont corrigées une seule fois à la reprise : plus haute rareté conservée dans chaque famille, choix distincts conservés à leur place et conflits complétés avec des familles ordinaires manquantes. Identifiant/numéro de salle, équipe, score, argent et compteur de relance gardés. Sauvegarde versionnée et rollback sur erreur ; aucun soin, prime ou crédit de relance supplémentaire. Aucun changement de schéma.
+
+Validation : 92 tests de logique, 42 SQL réussis sans échec/saut. 12 000 offres/tirages de relance vérifiés sur équipes saines, blessées et avec K.O., familles PP/soins/mythiques croisées, conservation des cartes rares et stabilité après reprise. Tous les dresseurs et leurs statistiques/sets vérifiés sur plusieurs cycles. SQL : migration de tirage, rollback injecté, reprise, gain/relance et combats des cycles deux et trois stables. Recette privée authentifiée Chromium/WebKit : nouvelles règles visibles, victoire réelle, quatre familles puis relance, ancien choix PP corrigé sans dépense et sans soin, confirmation d’une carte PP réelle, combats 95/105/110 puis 115/125/130, rechargement du combat sans nouveau bonus, abandon et équipe d’Aventure/argent conservés. Quatre formats/deux thèmes : seize vues, plus captures des règles et des deux combats par moteur ; zéro erreur, comptes supprimés, captures inspectées. Lint/build isolé/syntaxe/diff valides. Aucun téléphone physique ou suite globale revendiqués. Rapport et commandes : `docs/TOWER_LEVELS_FAMILIES_2026-11-01.json`.
+
+Serveur/client publiés le 1er novembre 2026 à 16 h 45 (Europe/Paris), client `945ded59ece68b4f802c1e31853dc489c60e61b8`, build `83a2a4b3df105252`. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-tower-families-2026-11-01T15-45-40-991Z`. PID 3671874→3673792, service actif sans redémarrage automatique/avertissement ; index et 22 bundles/CSS HTTPS identiques au build, anciens assets conservés. Knov/api-test, checkpoint et modes fermés inchangés ; aucun duel actif au contrôle, tentative Super Tournoi sauvegardée conservée. Aucune migration ni modification manuelle de compte réel. Recharger le jeu pour les règles mises à jour.
+
 ## Rééquilibrage des nouveaux pactes de la tour — 1er novembre 2026
 
 Bonus élémentaires et finisseur +30→+25 %, physiques/spéciaux +25→+20 %, dégâts globaux +20→+15 %, Vitesse +20→+15 %. Réduction des dégâts physiques/spéciaux 20→15 %, protection globale 15→12 %. Soif de vie soigne 10 % des dégâts (15 % auparavant) ; Souffle patient rend 3 % des PV en fin de tour (5 % auparavant). Contreparties conservées pour les dix-neuf pactes. Anciennes cartes mythiques, règles économiques et relances non modifiées.
@@ -5768,6 +5780,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 1er novembre 2026 — Tour : +20 niveaux par cycle, quatre familles de cartes distinctes après tirage/relance, anciennes offres dédoublonnées sans coût. 92 tests, 42 SQL, recettes Chromium/WebKit ; `docs/TOWER_LEVELS_FAMILIES_2026-11-01.json`.
 
 - 1er novembre 2026 — Nerf des nouveaux pactes : bonus/soins réduits, critiques exclusifs et plafonnés dans les anciens saves, cartes de duel écourté plus rares. 279 tests de logique/régression, 15 SQL, 48 vues Chromium/WebKit ; `docs/TOWER_PACTS_NERF_2026-11-01.json`.
 

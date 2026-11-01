@@ -1,0 +1,380 @@
+{
+  "date": "2026-11-01",
+  "change": "Tour : +20 niveaux par cycle et quatre familles de cartes distinctes",
+  "sourceBaseline": "d26bb96acde612793656f3d4ea72da90f4fd6b76",
+  "clientSourceBaseline": "7fe5f450305665d4f95b2390b85217acd8f4d0fa",
+  "clientCommit": "945ded59ece68b4f802c1e31853dc489c60e61b8",
+  "clientBuild": "83a2a4b3df105252",
+  "runtimeSourceSha256": {
+    "server/game/superTournament/content.js": "faf093913af12ef2ca16d602be35e25949461f5526f22093672e026778361192",
+    "server/game/superTournament/controller.js": "087acc24387226114d7194b468ee308cfb0b3d35f9363f4261abf3993f30be31",
+    "server/game/superTournament/rewardFamilies.js": "86f94954db78d0b83cc15946a66380466ebbcd684cd4263df5e1a2c3fdde4f5d",
+    "server/game/superTournament/rewards.js": "146defc6d79c8c9f481ef44c5d92f45b28af5da50caa57a68dbd51004e6eb86b"
+  },
+  "levels": {
+    "perCycle": 20,
+    "roomsPerCycle": 16,
+    "examples": [
+      [
+        75,
+        85,
+        90
+      ],
+      [
+        95,
+        105,
+        110
+      ],
+      [
+        115,
+        125,
+        130
+      ],
+      [
+        135,
+        145,
+        150
+      ]
+    ],
+    "all16Trainers": true,
+    "kIvEvMovesItemsUnchanged": true,
+    "realStatsRecalculated": true,
+    "noBonusReappliedOnBattleReconnect": true,
+    "existingPreparedBattlesRetained": true
+  },
+  "families": {
+    "heal_10": "healing",
+    "heal_25": "healing",
+    "pp_3": "pp",
+    "cure": "status",
+    "heal_50": "healing",
+    "team_heal_10": "healing",
+    "pp_5": "pp",
+    "all_pp_3": "pp",
+    "revive_25": "revive",
+    "heal_100": "healing",
+    "team_heal_25": "healing",
+    "all_pp_5": "pp",
+    "revive_50": "revive",
+    "team_cure": "status",
+    "revive_100": "revive",
+    "full_restore": "healing",
+    "full_pp": "pp",
+    "team_heal_50": "healing",
+    "full_reset": "healing",
+    "team_pp_5": "pp",
+    "team_revive_25": "revive",
+    "prize_money_10k": "money",
+    "prize_money_25k": "money",
+    "prize_money_50k": "money",
+    "prize_super_candy": "candy",
+    "prize_mega_candy": "candy",
+    "power_miracle": "healing",
+    "power_phoenix": "survival",
+    "power_vampire": "healing",
+    "power_bastion": "defense",
+    "power_fountain": "healing",
+    "power_sanctuary": "healing",
+    "power_reunion": "revive",
+    "power_mana": "pp",
+    "pact_hunter": "critical",
+    "pact_cold_blood": "critical",
+    "pact_glass": "damage",
+    "pact_blaze": "damage",
+    "pact_tide": "damage",
+    "pact_garden": "damage",
+    "pact_voltage": "damage",
+    "pact_winter": "damage",
+    "pact_dragon": "damage",
+    "pact_heavy_fist": "damage",
+    "pact_mind": "damage",
+    "pact_soldier": "damage",
+    "pact_dance": "speed",
+    "pact_rampart": "defense",
+    "pact_veil": "defense",
+    "pact_leech": "healing",
+    "pact_breath": "healing",
+    "pact_execution": "damage",
+    "pact_fortress": "defense",
+    "next_opponent_two": "opponent",
+    "next_opponent_one": "opponent"
+  },
+  "drawRules": {
+    "choices": 4,
+    "distinctFamilies": 4,
+    "dominantBenefitClassification": true,
+    "examples": [
+      "All PP variants and power_mana share pp",
+      "HP restoration, vampirism/regeneration and their mythic/pact variants share healing",
+      "All revives and power_reunion share revive",
+      "Status cures share status",
+      "Bastion and defensive pacts share defense"
+    ],
+    "atLeastTwoOrdinaryRecoveryCards": true,
+    "specialPriority": [
+      "mythic",
+      "twist",
+      "economic"
+    ],
+    "usefulChoicesFirst": true,
+    "excludedPreviousKeysOnReroll": true,
+    "noExtraRerollCharge": true,
+    "rawSpecialDrawOddsUnchanged": true
+  },
+  "legacy": {
+    "repairOnLoad": true,
+    "preserveRarestPerFamily": true,
+    "preserveOfferUuidAndRoom": true,
+    "retainDistinctChoicesInPlace": true,
+    "fillConflictsWithDifferentOrdinaryFamilies": true,
+    "persistOnce": true,
+    "transactionRollback": true,
+    "noHealScoreCashOrTokenChange": true
+  },
+  "verification": {
+    "unit": {
+      "pass": 92,
+      "fail": 0,
+      "skipped": 0,
+      "log": "/tmp/riftmon-tower-families-unit.log"
+    },
+    "sql": {
+      "pass": 42,
+      "fail": 0,
+      "skipped": 0,
+      "log": "/tmp/riftmon-tower-families-sql.log"
+    },
+    "browser": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "buildIndexSha256": "e735913d71c04989af12509eb57e525071c59bd0ee0050b06ecf12d7f5ab9621",
+        "views": [
+          {
+            "width": 320,
+            "height": 480,
+            "theme": "light"
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "theme": "dark"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "theme": "light"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "theme": "dark"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "theme": "light"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "theme": "dark"
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "theme": "light"
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "theme": "dark"
+          }
+        ],
+        "cycles": [
+          {
+            "cycle": 2,
+            "levels": [
+              95,
+              105,
+              110
+            ]
+          },
+          {
+            "cycle": 3,
+            "levels": [
+              115,
+              125,
+              130
+            ]
+          }
+        ],
+        "firstCycleUnchanged": true,
+        "rulesUpdated": true,
+        "fourUniqueFamilies": true,
+        "rerollFreshAndUnique": true,
+        "legacyDuplicatesRepaired": true,
+        "rarestOldPPKept": true,
+        "noTokenOrResourcesSpentByRepair": true,
+        "reconnectStable": true,
+        "realPPCardClaimed": true,
+        "scaledBattleReconnected": true,
+        "adventureAndCashPreserved": true,
+        "errors": []
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "buildIndexSha256": "e735913d71c04989af12509eb57e525071c59bd0ee0050b06ecf12d7f5ab9621",
+        "views": [
+          {
+            "width": 320,
+            "height": 480,
+            "theme": "light"
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "theme": "dark"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "theme": "light"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "theme": "dark"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "theme": "light"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "theme": "dark"
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "theme": "light"
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "theme": "dark"
+          }
+        ],
+        "cycles": [
+          {
+            "cycle": 2,
+            "levels": [
+              95,
+              105,
+              110
+            ]
+          },
+          {
+            "cycle": 3,
+            "levels": [
+              115,
+              125,
+              130
+            ]
+          }
+        ],
+        "firstCycleUnchanged": true,
+        "rulesUpdated": true,
+        "fourUniqueFamilies": true,
+        "rerollFreshAndUnique": true,
+        "legacyDuplicatesRepaired": true,
+        "rarestOldPPKept": true,
+        "noTokenOrResourcesSpentByRepair": true,
+        "reconnectStable": true,
+        "realPPCardClaimed": true,
+        "scaledBattleReconnected": true,
+        "adventureAndCashPreserved": true,
+        "errors": []
+      }
+    },
+    "familyDrawsChecked": 12000,
+    "views": 16,
+    "additionalBattleAndEntryScreenshots": 6,
+    "lint": true,
+    "isolatedBuild": true,
+    "syntaxAndDiff": true,
+    "testUsersDeleted": true,
+    "screenshotsInspected": [
+      "/tmp/riftmon-tower-families-chromium/families-393-light.png",
+      "/tmp/riftmon-tower-families-chromium/cycle-2.png"
+    ]
+  },
+  "commands": [
+    "node --test tests/super-tournament-families.test.js tests/super-tournament-twists.test.js tests/super-tournament.test.js tests/super-tournament-rewards.test.js tests/super-tournament-powers.test.js tests/super-tournament-augments.test.js tests/super-tournament-cash.test.js tests/super-tournament-cycle-rules.test.js tests/super-tournament-abandon.test.js tests/super-tournament-order.test.js",
+    "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file=.env --test --test-concurrency=1 tests/super-tournament-families-mysql.test.js tests/super-tournament-twists-mysql.test.js tests/super-tournament-powers-mysql.test.js tests/super-tournament-cycle-mysql.test.js tests/super-tournament-mysql.test.js tests/super-tournament-cash-mysql.test.js tests/super-tournament-augments-mysql.test.js",
+    "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=chromium RELEASE_DIST_DIR=/tmp/riftmon-tower-families-dist node --env-file=.env scripts/validateTournamentFamiliesBrowser.js",
+    "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=webkit RELEASE_DIST_DIR=/tmp/riftmon-tower-families-dist node --env-file=.env scripts/validateTournamentFamiliesBrowser.js",
+    "npm --prefix vue-explorakit run lint",
+    "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-tower-families-dist"
+  ],
+  "limitations": [
+    "Headless Chromium/WebKit, no physical smartphone or full global suite claimed.",
+    "No schema migration, manual real-account modification or opening of closed modes."
+  ],
+  "deployment": {
+    "publishedAt": "2026-11-01T15:45:44.059Z",
+    "restartedAt": "2026-11-01T15:45:42.265Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-tower-families-2026-11-01T15-45-40-991Z",
+    "sourceBaseline": "d26bb96acde612793656f3d4ea72da90f4fd6b76",
+    "sourceHashes": {
+      "server/game/superTournament/content.js": "faf093913af12ef2ca16d602be35e25949461f5526f22093672e026778361192",
+      "server/game/superTournament/controller.js": "087acc24387226114d7194b468ee308cfb0b3d35f9363f4261abf3993f30be31",
+      "server/game/superTournament/rewards.js": "146defc6d79c8c9f481ef44c5d92f45b28af5da50caa57a68dbd51004e6eb86b",
+      "server/game/superTournament/rewardFamilies.js": "86f94954db78d0b83cc15946a66380466ebbcd684cd4263df5e1a2c3fdde4f5d"
+    },
+    "clientCommit": "945ded59ece68b4f802c1e31853dc489c60e61b8",
+    "clientBuild": "83a2a4b3df105252",
+    "beforePid": "3671874",
+    "afterPid": "3673792",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "schemaChanged": false,
+    "activeClubDuelsBefore": 0,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 1,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": [
+      "js/234.7f08b866.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.ae44b00a.js",
+      "js/account.161ce126.js",
+      "js/app.3a1d7f5f.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.2fd32f7c.js",
+      "js/drift.5b8720d7.js",
+      "js/game.415f7d67.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.4fff4c7e.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.892298b9.css",
+      "css/test-view.7568246d.css"
+    ]
+  }
+}

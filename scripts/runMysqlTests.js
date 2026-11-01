@@ -17,6 +17,7 @@ const result = spawnSync(
         path.resolve(__dirname, '..', 'tests', 'battle-runtime-integration.test.js'),
         path.resolve(__dirname, '..', 'tests', 'super-tournament-cycle-mysql.test.js'),
         path.resolve(__dirname, '..', 'tests', 'super-tournament-twists-mysql.test.js'),
+        path.resolve(__dirname, '..', 'tests', 'super-tournament-families-mysql.test.js'),
         path.resolve(__dirname, '..', 'tests', 'story-socket-integration.test.js'),
         path.resolve(__dirname, '..', 'tests', 'account-connection-socket.test.js'),
         path.resolve(__dirname, '..', 'tests', 'lucie-departure-mysql.test.js'),

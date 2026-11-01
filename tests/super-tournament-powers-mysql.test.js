@@ -4,7 +4,7 @@ test.before(()=>{if(!enabled)return;if(process.env.DB_NAME!=='explorakit_test')t
 test.after(async()=>{await db?.end();});
 async function fixture(key='power_vampire',count=4){const u=await users.createUserWithStarter('tpower_'+randomUUID(),'test-password',{starterId:7}),events=[];
  const create=()=>new TournamentController({userId:u.id,random:()=>.99,getPlayer:()=>({id:'owner',username:u.username}),emit:(e,d)=>events.push([e,d]),travel:async()=>{}});
- const c=create();await c.load();await c.register({pokemons:[factory.create(9,100,true),factory.create(94,100,true)]});await c.atomic(()=>{c.run.phase='reward';c.run.room=0;c.run.cleared=1;c.run.reward={id:randomUUID(),afterRoom:1,cards:[key,'heal_10','cure','pp_3'].slice(0,count)};});
+ const c=create();await c.load();await c.register({pokemons:[factory.create(9,100,true),factory.create(94,100,true)]});await c.atomic(()=>{c.run.phase='reward';c.run.room=0;c.run.cleared=1;c.run.reward={id:randomUUID(),afterRoom:1,cards:[key,...['heal_10','pp_3','cure','revive_25'].filter(k=>require('../server/game/superTournament/rewards').familyOf(k)!==require('../server/game/superTournament/rewards').familyOf(key))].slice(0,count)};});
  return {u,c,create,events,data:{offerId:c.run.reward.id,cardKey:key},async balance(){const [[r]]=await db.execute('SELECT money FROM users WHERE id=?',[u.id]);return Number(r.money);},cleanup:()=>db.execute('DELETE FROM users WHERE id=?',[u.id])};
 }
 test('SQL old pending offers gain one fourth card exactly once without reroll, healing or new payout',{skip:!enabled},async()=>{const f=await fixture('heal_25',3);try{

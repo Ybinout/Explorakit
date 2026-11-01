@@ -14,7 +14,7 @@ class TournamentController {
  constructor({userId,emit,travel,getPlayer,persist=repository,now=Date.now,random=Math.random}){Object.assign(this,{userId,emit,travel,getPlayer,persist,now,random});this.run=null;this.version=0;this.queue=Promise.resolve();this.closed=false;this.events=[];}
  get active(){return Boolean(this.run);}
  async load(){const r=await this.persist.load(this.userId);this.run=r.run;this.version=r.version;this.bind();
-  if(this.run&&(!this.run.rerolls||!this.run.rewardVersion||!this.run.cash||(this.run.reward&&this.run.reward.cards.length<rewards.CHOICES)))await this.atomic(()=>{rerolls.ensure(this.run);cashPrizes.ensure(this.run);rewards.ensureFour(this.run.reward,this.run.player.equipe.pokemons,this.random);if(!this.run.rewardVersion){this.run.rewardVersion=1;if(this.run.phase==='cleared'){this.run.reward=rewards.createOffer(this.run.player.equipe.pokemons,this.run.room+1,this.random,this.run.player);this.run.phase='reward';}}return true;});
+  if(this.run&&(!this.run.rerolls||!this.run.rewardVersion||!this.run.cash||rewards.needsRepair(this.run.reward)))await this.atomic(()=>{rerolls.ensure(this.run);cashPrizes.ensure(this.run);rewards.ensureFour(this.run.reward,this.run.player.equipe.pokemons,this.random);if(!this.run.rewardVersion){this.run.rewardVersion=1;if(this.run.phase==='cleared'){this.run.reward=rewards.createOffer(this.run.player.equipe.pokemons,this.run.room+1,this.random,this.run.player);this.run.phase='reward';}}return true;});
   this.publish();return this.run;}
  bind(){const b=this.run?.battle;if(!b)return;b.now=this.now;b.random=this.random;b.emit=(_p,event,data)=>this.buffer(event,data);b.onUpdate=null;b.onFinish=null;this.run.player.socketId=this.getPlayer()?.id;}
  buffer(event,data){

@@ -35,7 +35,7 @@ const sets={
 function entryFor(index){if(!Number.isSafeInteger(index)||index<0)throw Error('Salle inconnue.');return roster[index%roster.length];}
 function createTeam(index){
  const entry=entryFor(index);
- const levelBonus=Math.floor(index/roster.length)*10;
+ const levelBonus=Math.floor(index/roster.length)*20;
  const source=pnjTeams.get(entry.source)?.team||[];
  const pokemons=entry.species.map((id,slot)=>{
   const original=source.find(p=>p.pokemonId===id)||{};

@@ -16,7 +16,7 @@ test('at most one economic card, still four distinct choices; rarity does not ri
   const a=rewards.createOffer(full,1,rng()),b=rewards.createOffer(hurt,1,rng());
   assert.equal(new Set(a.cards).size,4);assert.equal(new Set(b.cards).size,4);
   const extra=o=>o.cards.filter(k=>k.startsWith('prize_'));assert(extra(a).length<=1);assert.deepEqual(extra(a),extra(b));
-  const view=rewards.viewOffer(b,hurt);assert(view.choices.every(c=>c.usable));
+  const view=rewards.viewOffer(b,hurt);assert.equal(new Set(b.cards.map(rewards.familyOf)).size,4);assert(view.choices.filter(c=>c.usable).length>=3);
  }
 });
 test('cash follows the cycle; candy uses existing level-limited items and cannot increase tournament XP',()=>{

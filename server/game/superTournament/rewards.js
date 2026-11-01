@@ -3,6 +3,7 @@ const {getMaxMovePp}=require('../battle/battleResources');
 const augmentations=require('./augmentations');
 const powers=require('./powers');
 const twists=require('./twists');
+const {family}=require('./rewardFamilies');
 const CHOICES=4;
 const rarities=Object.freeze([
  {key:'common',name:'Commune',weight:55}, {key:'uncommon',name:'Peu commune',weight:30},
@@ -60,27 +61,40 @@ function viewCard(key,team,afterRoom,owner){
 }
 function viewOffer(offer,team,owner){if(!offer)return null;const choices=offer.cards.map(k=>viewCard(k,team,offer.afterRoom,owner)).filter(Boolean);return {id:offer.id,afterRoom:offer.afterRoom,choices,canSkip:choices.every(c=>!c.usable),canDecline:offer.cards.some(k=>twists.get(k))};}
 function drawIndex(random,length){const n=random();if(!Number.isFinite(n)||n<0||n>=1)throw Error('Tirage de récompense invalide.');return Math.floor(n*length);}
+function recoveryCards(exclude,used){return cards.filter(c=>c.target!=='account'&&!c.power&&!c.twist&&!exclude.has(c.key)&&!used.has(family(c)));}
+function pickRecovery(team,exclude,used,random){
+ const available=recoveryCards(exclude,used),useful=available.filter(c=>team.some(p=>preview(p,c))),pool=useful.length?useful:available;
+ if(!pool.length)throw Error('Aucune famille de récompense disponible.');
+ const tiers=rarities.filter(r=>pool.some(c=>c.rarity===r.key)),total=tiers.reduce((n,r)=>n+r.weight,0);
+ let value=random();if(!Number.isFinite(value)||value<0||value>=1)throw Error('Tirage de récompense invalide.');value*=total;
+ const tier=tiers.find(r=>(value-=r.weight)<0)||tiers.at(-1),candidates=pool.filter(c=>c.rarity===tier.key);
+ return candidates[drawIndex(random,candidates.length)];
+}
 function createOffer(team,afterRoom,random=Math.random,owner,excluded=[]){
- const exclude=new Set(excluded),extra=augmentations.draw(random),power=powers.draw(owner,random,c=>team.some(p=>preview(p,c))),twist=twists.draw(owner,random,exclude),recovery=cards.filter(c=>c.target!=='account'&&!c.power&&!c.twist&&!exclude.has(c.key));
- const usable=recovery.filter(c=>team.some(p=>preview(p,c)));
- const pool=usable.length>=CHOICES?[...usable]:[...recovery],picked=[];
+ const exclude=new Set(excluded),extra=augmentations.draw(random),power=powers.draw(owner,random,c=>team.some(p=>preview(p,c))),twist=twists.draw(owner,random,exclude),picked=[],used=new Set();
+ // Preserve the special-draw priority and a minimum of two recovery choices.
+ for(const key of [power,twist,extra]){
+  const card=byKey.get(key);if(!card||exclude.has(key)||used.has(family(card)))continue;
+  picked.push(key);used.add(family(card));if(picked.length===2)break;
+ }
  while(picked.length<CHOICES){
-  const tiers=rarities.filter(r=>pool.some(c=>c.rarity===r.key));const total=tiers.reduce((n,r)=>n+r.weight,0);
-  let value=random();if(!Number.isFinite(value)||value<0||value>=1)throw Error('Tirage de récompense invalide.');value*=total;
-  const tier=tiers.find(r=>(value-=r.weight)<0)||tiers.at(-1),candidates=pool.filter(c=>c.rarity===tier.key);
-  const card=candidates[drawIndex(random,candidates.length)];picked.push(card.key);pool.splice(pool.indexOf(card),1);
+  const card=pickRecovery(team,exclude,used,random);picked.push(card.key);used.add(family(card));
  }
- const slots=[0,1,2,3];
- // Keep at least two recovery choices. Rare powers and twists have priority
- // over money if all three special draws occur together.
- for(const key of [power,twist,extra].filter(k=>k&&!exclude.has(k)).slice(0,2)){
-  const index=drawIndex(random,slots.length);picked[slots.splice(index,1)[0]]=key;
- }
+ for(let i=picked.length-1;i>0;i--){const j=drawIndex(random,i+1);[picked[i],picked[j]]=[picked[j],picked[i]];}
  return {id:randomUUID(),afterRoom,cards:picked};
 }
+function needsRepair(offer){return Boolean(offer&&(offer.cards.length!==CHOICES||offer.cards.some(k=>!byKey.has(k))||new Set(offer.cards.map(k=>family(byKey.get(k)))).size!==offer.cards.length));}
 function ensureFour(offer,team,random=Math.random){
- if(!offer)return false;let changed=false;
- while(offer.cards.length<CHOICES){const available=cards.filter(c=>!c.power&&!c.twist&&c.target!=='account'&&!offer.cards.includes(c.key)),useful=available.filter(c=>team.some(p=>preview(p,c)));const pool=useful.length?useful:available;if(!pool.length)break;offer.cards.push(pool[drawIndex(random,pool.length)].key);changed=true;}return changed;
+ if(!needsRepair(offer))return false;
+ const ranks={common:0,uncommon:1,rare:2,epic:3,legendary:4,mythic:5},best=new Map();
+ for(const [index,key]of offer.cards.entries()){
+  const card=byKey.get(key);if(!card)continue;const f=family(card),previous=best.get(f);
+  if(!previous||ranks[card.rarity]>ranks[previous.card.rarity])best.set(f,{index,card});
+ }
+ const kept=[...best.values()].sort((a,b)=>a.index-b.index).slice(0,CHOICES),used=new Set(kept.map(c=>family(c.card)));
+ const result=Array(CHOICES).fill(null);for(const {index,card}of kept)result[index<CHOICES&&!result[index]?index:result.indexOf(null)]=card.key;
+ for(let i=0;i<result.length;i++)if(!result[i]){const c=pickRecovery(team,new Set(offer.cards),used,random);result[i]=c.key;used.add(family(c));}
+ offer.cards=result;return true;
 }
 function applyChoice(offer,team,data,owner){
  if(!offer||data.offerId!==offer.id)throw Error('Ce choix n’est plus disponible.');
@@ -102,4 +116,4 @@ function applyChoice(offer,team,data,owner){
  }
  return {name:card.name,changes};
 }
-module.exports={rarities,cards,preview,viewOffer,createOffer,applyChoice,ensureFour,CHOICES};
+module.exports={rarities,cards,preview,viewOffer,createOffer,applyChoice,ensureFour,needsRepair,familyOf:key=>family(byKey.get(key)),CHOICES};
