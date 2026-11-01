@@ -3,18 +3,26 @@ const {createClub}=require('../server/realtime/whitepeakClub');
 const rules=require('../server/game/whitepeak/rules');
 async function fixture(){
  let clock=100000,inspections=0;
- const repo={recoverDuels:async()=>{},rouletteState:async()=>null,inspectDuel:async()=>{inspections++;return{digest:'test',selected:[null,null],inventories:[{},{}]};}};
+ const repo={recoverDuels:async()=>{},rouletteState:async()=>null,newRound:async()=>({id:'test-round',phase:'betting',closesAt:clock+30000}),inspectDuel:async()=>{inspections++;return{digest:'test',selected:[null,null],inventories:[{},{}]};}};
  const club=createClub({to:()=>({emit(){}})},{repository:repo,now:()=>clock,tickMs:0});await club.ready;
  const clients=[1,2,3].map(id=>{
   const handlers=new Map(),socket=new EventEmitter(),notices=[];socket.connected=true;socket.id='waiting-'+id;socket.use=()=>{};
   socket.on('progressionNotice',n=>notices.push(n.message));
   const player={currentmap:rules.HALL,x:13*32+16,y:5*32+16};
-  const c={id,username:'Trainer '+id,socket,account:{active:()=>true,on:(n,f)=>handlers.set(n,f)},getPlayer:()=>player,canUse:()=>true};
+  const c={id,username:'Trainer '+id,socket,account:{active:()=>true,on:(n,f)=>handlers.set(n,f)},getPlayer:()=>player,canUse:()=>true,casinoDialogue:()=>socket.emit('dialogue',require('../server/game/world/interactionRepository').getSentenceForName('casino_croupier'))};
   const hooks=club.attach(c);
   return{id,player,socket,notices,hooks,command:(name,data={})=>new Promise(resolve=>handlers.get('whitepeak:'+name)(data,resolve))};
  });
  return{club,clients,advance:ms=>{clock+=ms;},inspections:()=>inspections};
 }
+test('casino counter only speaks; betting opens at the table and direct counter/entrance bets are refused',async()=>{
+ const f=await fixture();try{
+  const c=f.clients[0],dialogues=[],opened=[];c.socket.on('dialogue',d=>dialogues.push(d));c.socket.on('whitepeak:open',d=>opened.push(d));
+  Object.assign(c.player,{currentmap:rules.CASINO,x:112,y:208});assert(await c.hooks.interact());assert.equal(dialogues.length,1);assert.equal(dialogues[0][0][0].text,'alors , ta les cramptés');assert.equal(opened.length,0);assert.equal((await c.command('bet',{})).success,false);
+  Object.assign(c.player,{x:448,y:544});assert.equal(await c.hooks.interact(),false);assert.equal((await c.command('bet',{})).success,false);assert.equal(opened.length,0);
+  Object.assign(c.player,{x:464,y:368});assert(await c.hooks.interact());assert.deepEqual(opened,[{tab:'roulette'}]);assert.equal(dialogues.length,1);
+ }finally{f.club.close();}
+});
 test('one preparation only: concurrent organisers cannot overwrite rules or the owner',async()=>{
  const f=await fixture();try{
   const answers=await Promise.all(f.clients.slice(0,2).map(c=>c.command('create',{money:c.id*100})));

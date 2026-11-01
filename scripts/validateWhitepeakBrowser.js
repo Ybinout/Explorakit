@@ -42,7 +42,7 @@ async function layout(page,label){for(const[width,height]of [[320,480],[393,852]
   await db.execute("UPDATE users SET map='ville5_maison2',x=448,y=544,money=50000 WHERE id=?",[account.user.id]);await db.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,'adventure_opening','complete') ON DUPLICATE KEY UPDATE flag_value='complete'",[account.user.id]);account.original=codec.encode(await teams.loadEquipe(account.user.id));
   const context=await browser.newContext({viewport:{width:393,height:852},isMobile:i!==2,hasTouch:i!==2,serviceWorkers:'block'});await context.addInitScript(u=>localStorage.setItem('explorakit.user',JSON.stringify(u)),{...account.user,token:account.token});const page=await context.newPage();pages.push(page);page.on('pageerror',e=>errors.push(e.message));await page.goto(base+'/game');await ready(page);await page.evaluate(()=>v.updatePreferences({...v.preferences,animationsEnabled:false,masterVolume:0}));
  }
- const[a,b,c]=pages;await a.evaluate(()=>v.socket.emit('Space'));await a.locator('[data-whitepeak-panel]').waitFor();roundId=await a.evaluate(()=>v.clubRoulette.id);assert(roundId);
+ const[a,b,c]=pages;for(const p of pages)await walk(p,'move_z',6);await a.evaluate(()=>v.socket.emit('Space'));await a.locator('[data-whitepeak-panel]').waitFor();roundId=await a.evaluate(()=>v.clubRoulette.id);assert(roundId);
  await a.locator('[data-roulette-amount]').fill('1000');await a.locator('[data-place-bet]').click();await a.waitForFunction(()=>v.progressionState.money===49000);
  await b.evaluate(()=>v.socket.emit('Space'));await b.locator('[data-whitepeak-panel]').waitFor();await b.locator('[data-roulette-amount]').fill('1000');await b.locator('.outside-bets .black').click();await b.locator('[data-place-bet]').click();await b.waitForFunction(()=>v.progressionState.money===49000);
  await c.waitForFunction(()=>v.clubRoulette?.bets?.length===2);await c.evaluate(()=>v.socket.emit('Space'));await c.locator('[data-whitepeak-panel]').waitFor();await layout(c,'roulette');
@@ -51,7 +51,7 @@ async function layout(page,label){for(const[width,height]of [[320,480],[393,852]
  clock+=8000;await club.tick();await a.waitForFunction(()=>v.clubRoulette.phase==='result'&&v.progressionState.money===51000);await b.waitForFunction(()=>v.clubRoulette.phase==='result'&&v.progressionState.money===49000);
  // Native movement through both real house doors, never direct relocation.
  for(const p of pages){
-  await p.evaluate(()=>{v.clubPanel=null;});await walk(p,'move_s',2);await p.waitForFunction(()=>v.map==='ville5'&&!v.mapLoading);
+  await p.evaluate(()=>{v.clubPanel=null;});await walk(p,'move_s',8);await p.waitForFunction(()=>v.map==='ville5'&&!v.mapLoading);
   assert.deepEqual(await p.evaluate(()=>({x:v.players[v.socket.id].x,y:v.players[v.socket.id].y})),{x:656,y:528});
   await walk(p,'move_s',1);
   if(p===a){

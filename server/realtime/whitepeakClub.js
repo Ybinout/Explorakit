@@ -157,7 +157,12 @@ function createClub(io,{repository=store,now=Date.now,randomNumber=()=>randomInt
  }
  async function interact(id){
   const p=player(id);
-  if(p.currentmap===rules.CASINO){await enter(id);context(id).socket.emit('whitepeak:open',{tab:'roulette'});return true;}
+  if(p.currentmap===rules.CASINO){
+   if(!context(id).canUse())return true;
+   if(rules.atCasinoCounter(p)){context(id).casinoDialogue?.();return true;}
+   if(!rules.atRouletteTable(p))return false;
+   await enter(id);context(id).socket.emit('whitepeak:open',{tab:'roulette'});return true;
+  }
   if(p.currentmap!==rules.HALL)return false;
   if(rules.near(p,13,5,3)){context(id).socket.emit('whitepeak:open',{tab:'duel'});return true;}
   if(rules.near(p,20,3,3)){context(id).socket.emit('whitepeak:open',{tab:'board',rows:await repository.leaderboard()});return true;}
@@ -170,7 +175,7 @@ function createClub(io,{repository=store,now=Date.now,randomNumber=()=>randomInt
   const ops={create,offer,confirm,leave:async id=>{requireMap(id,rules.HALL);if(room&&ownerIndex(id)<0&&room.hostId!==id)rules.fail('Tu ne participes pas à cette inscription.');cancel('Le duel a été annulé avant le départ.');return null;},
    board:async id=>{requireMap(id,rules.HALL);return{rows:await repository.leaderboard()};},
    watch,unwatch:id=>{spectators.delete(id);return null;},
-   bet:async(id,data)=>{available(id);requireMap(id,rules.CASINO);const result=await repository.placeBet(id,data,now());wallet(id,result.balance);round=await repository.rouletteState();emitRoulette();return result;},
+   bet:async(id,data)=>{available(id);const p=requireMap(id,rules.CASINO);if(!rules.atRouletteTable(p))rules.fail('Approche-toi de la table de roulette pour miser.');const result=await repository.placeBet(id,data,now());wallet(id,result.balance);round=await repository.rouletteState();emitRoulette();return result;},
    open:async(id)=>{available(id);await interact(id);return view(id);},refresh:async id=>{await enter(id);return view(id);}};
   for(const[name,fn]of Object.entries(ops))c.account.on('whitepeak:'+name,(data={},ack)=>{
    if(typeof data==='function'){ack=data;data={};}const reply=typeof ack==='function'?ack:()=>{};

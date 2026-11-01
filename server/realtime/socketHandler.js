@@ -771,6 +771,12 @@ const socketHandler = (io) => {
         });
         clubHandlers=whitepeakClub.attach({id:userId,username:socket.data.user.username,socket,account,getPlayer:()=>players[socket.id],
             canUse:()=>!tournament?.controller.active&&!transitionBusy&&!pendingDialogue&&!socketToChatSession.has(socket.id)&&!hasPendingRequestForSocket(socket.id),
+            casinoDialogue:()=>{
+                const p=players[socket.id];if(!p||pendingDialogue||transitionBusy)return;
+                const sentence=getSentenceForName('casino_croupier');if(!sentence)return;
+                pendingDialogue=createDialogueAuthorization({name:sentence[1],map:p.currentmap,x:Math.floor(p.x/32),y:Math.floor(p.y/32)});
+                socket.emit('dialogue',sentence);
+            },
             reload:async()=>{const p=players[socket.id];if(p){p.equipe=await loadEquipe(userId);await synchronizeTradeInventory();}}
         });
         await clubHandlers.enter();

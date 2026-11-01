@@ -1,0 +1,110 @@
+{
+  "date": "2026-11-01",
+  "change": "Dialogue du comptoir du casino séparé de la table de roulette",
+  "sourceBaseline": "c60dd1a6b5c33ed4c38dacb4fd3c7ca40b97ff3f",
+  "clientCommit": "1f50f4162813be672cbee7becf4089a9931a0e3c",
+  "clientBuild": "a09c220334b64eab",
+  "clientUnchanged": true,
+  "dialogue": {
+    "name": "casino_croupier",
+    "text": "alors , ta les cramptés",
+    "portrait": "Existing illustrated townspeople portrait, frame 20 matching NPC definition",
+    "location": "Counter perimeter, blocked desk cells x2..5/y3..5"
+  },
+  "betting": {
+    "location": "Table perimeter, blocked table cells x9..18/y6..10",
+    "counterOnlyTalks": true,
+    "entranceDoesNotOpenMenu": true,
+    "directBetCommandsOutsideTableRejected": true,
+    "tableWheelStillVisibleToAll": true,
+    "amountsPayoutsAndSharedRoundUnchanged": true
+  },
+  "verification": {
+    "unit": {
+      "pass": 19,
+      "fail": 0,
+      "skipped": 0,
+      "log": "/tmp/riftmon-casino-counter-unit.log"
+    },
+    "browser": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "exactText": "alors , ta les cramptés",
+        "counterDialogueOnly": true,
+        "tableOnlyBetting": true,
+        "counterAndRemoteBetsRejected": true,
+        "actualBet": 100,
+        "remainingMoney": 4900,
+        "nativeWalk": true,
+        "unchangedClientIndexSha256": "bd329be285b3b9db3b26933403bb556ab83fbbcf76d9a1676b7e8c73d9403c21",
+        "errors": []
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "exactText": "alors , ta les cramptés",
+        "counterDialogueOnly": true,
+        "tableOnlyBetting": true,
+        "counterAndRemoteBetsRejected": true,
+        "actualBet": 100,
+        "remainingMoney": 4900,
+        "nativeWalk": true,
+        "unchangedClientIndexSha256": "bd329be285b3b9db3b26933403bb556ab83fbbcf76d9a1676b7e8c73d9403c21",
+        "errors": []
+      }
+    },
+    "syntaxAndDiff": true,
+    "temporaryAccountsAndTestRoundDeleted": true,
+    "mobileDialogueScreenshotInspected": true,
+    "newFrontendBuildOrLintRequired": false
+  },
+  "commands": [
+    "node --test tests/whitepeak-manager.test.js tests/whitepeak-rules.test.js tests/whitepeak-maps.test.js",
+    "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=chromium node --env-file=.env scripts/validateCasinoCounterBrowser.js",
+    "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=webkit node --env-file=.env scripts/validateCasinoCounterBrowser.js"
+  ],
+  "runtimeSourceSha256": {
+    "data/game/interact.json": "e3a66c2ee9bf72f06d7f20543660a74c3fe47727ab8b41262fedd9555725a111",
+    "server/game/whitepeak/rules.js": "104c7f07533217d69c59736b037a39744d0e4193eff1196e2ccebdb0f1654a9f",
+    "server/realtime/socketHandler.js": "62a40565706f9de7fdebc9f2a7012eb3df8092b91758611f82297c662cbe12b4",
+    "server/realtime/whitepeakClub.js": "9b69ccf239cc6f96ec9e74709779764ef0a5877644df7b11761781a4bbc180f0"
+  },
+  "limitations": [
+    "Headless browsers, no physical phone test.",
+    "No standalone SQL suite rerun; real bets/SQL wallet verified through the private browser fixture.",
+    "No migration or manual real-account change."
+  ],
+  "deployment": {
+    "publishedAt": "2026-11-01T11:19:39.024Z",
+    "restartedAt": "2026-11-01T11:19:37.890Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-casino-counter-2026-11-01T11-19-37-577Z",
+    "sourceBaseline": "c60dd1a6b5c33ed4c38dacb4fd3c7ca40b97ff3f",
+    "sourceHashes": {
+      "data/game/interact.json": "e3a66c2ee9bf72f06d7f20543660a74c3fe47727ab8b41262fedd9555725a111",
+      "server/game/whitepeak/rules.js": "104c7f07533217d69c59736b037a39744d0e4193eff1196e2ccebdb0f1654a9f",
+      "server/realtime/socketHandler.js": "62a40565706f9de7fdebc9f2a7012eb3df8092b91758611f82297c662cbe12b4",
+      "server/realtime/whitepeakClub.js": "9b69ccf239cc6f96ec9e74709779764ef0a5877644df7b11761781a4bbc180f0"
+    },
+    "clientCommit": "1f50f4162813be672cbee7becf4089a9931a0e3c",
+    "clientBuild": "a09c220334b64eab",
+    "beforePid": "3659511",
+    "afterPid": "3660673",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "clientUnchanged": true,
+    "publicClientUnchanged": true,
+    "schemaChanged": false,
+    "activeClubDuelsBefore": 0,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 0,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": []
+  }
+}

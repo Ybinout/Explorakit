@@ -41,8 +41,15 @@ function payout(bet,result){
  return win?n*(c.kind==='number'?36:2):0;
 }
 function near(player,x,y,distance=2){return !!player&&Math.abs(Math.floor(player.x/32)-x)+Math.abs(Math.floor(player.y/32)-y)<=distance;}
+function besideCasinoFurniture(player,left,top,right,bottom){
+ if(player?.currentmap!==CASINO)return false;
+ const x=Math.floor(player.x/32),y=Math.floor(player.y/32);
+ return Math.max(left-x,0,x-right)+Math.max(top-y,0,y-bottom)===1;
+}
+function atCasinoCounter(player){return besideCasinoFurniture(player,2,3,5,5);}
+function atRouletteTable(player){return besideCasinoFurniture(player,9,6,18,10);}
 function podium(player){
  if(player?.currentmap!==HALL)return -1;
  return layout.podiums.findIndex(p=>Math.pow((player.x-p.x)/p.rx,2)+Math.pow((player.y+layout.feetOffsetY-p.y)/p.ry,2)<=1);
 }
-module.exports={CASINO,HALL,PODIUMS,PLACEMENT_TIMEOUT,RED,WHEEL,fail,uuid,amount,settings,validateTeam,battleCopy,choice,payout,near,podium};
+module.exports={CASINO,HALL,PODIUMS,PLACEMENT_TIMEOUT,RED,WHEEL,fail,uuid,amount,settings,validateTeam,battleCopy,choice,payout,near,podium,atCasinoCounter,atRouletteTable};

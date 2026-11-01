@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## Comptoir du casino : dialogue seul — 1er novembre 2026
+
+Le PNJ du comptoir dit uniquement « alors , ta les cramptés », avec son illustration existante et le dialogue normal acquitté. L’action au bord du comptoir n’ouvre plus la roulette. Le menu des mises s’ouvre au bord de la table centrale ; l’entrée et le reste de la salle ne l’ouvrent plus. Les commandes directes de mise vérifient aussi la proximité de la table. La roue commune reste visible par tous ; montants, paiements et chronologie du tirage inchangés. La recette complète Whitepeak rejoint désormais physiquement la table avant de miser.
+
+Validation : 19 tests unitaires/régression réussis sans échec/saut. Recette privée Chromium/WebKit avec client distribué et SQL réel : texte exact, dialogue sans menu au comptoir, fin de dialogue, marche native jusqu’à la table, mise réelle de 100 ₽ (5 000→4 900), refus au comptoir et à distance, aucun second débit. Zéro erreur, comptes et manche de test supprimés ; capture mobile inspectée. Syntaxe/diff valides. Aucun nouveau build/lint client nécessaire, aucune migration ; pas de téléphone physique ou suite SQL autonome revendiqués. Rapport : `docs/CASINO_COUNTER_2026-11-01.json`.
+
+Serveur publié le 1er novembre 2026 à 12 h 19 (Europe/Paris), PID 3659511→3660673, service actif sans redémarrage automatique/avertissement. Sauvegarde SQL/source/index/checkpoint `/home/ubuntu/dev/backups/riftmon-casino-counter-2026-11-01T11-19-37-577Z`. Client/build/index publics conservés à l’octet ; Knov/api-test, modes fermés et checkpoint inchangés. Aucun duel/tournoi actif au contrôle, aucune migration ou modification manuelle de compte réel.
+
 ## Prendre un objet tenu depuis le PC — 1er novembre 2026
 
 Dans le PC, sélectionner un Pokémon de boîte ou de l’équipe affiche « Prendre l’objet · <nom> » uniquement s’il porte un objet. Un appui le remet dans le sac sans retirer/déplacer le Pokémon ; objet affiché, pastille du portrait et sac actualisés immédiatement, message de confirmation dans le PC. Aucune nouvelle fenêtre de confirmation pour cette action réversible.
@@ -5708,6 +5716,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 1er novembre 2026 — Comptoir du casino limité à sa réplique ; interaction et mises réservées au bord de table, roue commune conservée. 19 tests et recette privée Chromium/WebKit avec mise SQL réelle ; `docs/CASINO_COUNTER_2026-11-01.json`.
 
 - 1er novembre 2026 — Prise directe d’objet tenu au PC, sac/portrait synchronisés, retrait et ajout atomiques sans déplacement/soin ; 21 tests unitaires, 10 SQL et 16 vues Chromium/WebKit. `docs/PC_TAKE_ITEM_2026-11-01.json`.
 

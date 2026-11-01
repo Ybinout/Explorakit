@@ -2794,5 +2794,22 @@
         "imageName": "7ps.png"
       }
     ]
+  },
+  {
+    "name": "casino_croupier",
+    "map": "ville5_maison2",
+    "x": 3,
+    "y": 4,
+    "sentences": [
+      {
+        "text": "alors , ta les cramptés",
+        "imageName": "townspeople.png",
+        "portraitFrame": {
+          "columns": 8,
+          "rows": 4,
+          "index": 20
+        }
+      }
+    ]
   }
 ]
