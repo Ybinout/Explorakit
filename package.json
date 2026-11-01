@@ -100,7 +100,8 @@
     "test:social-notifications-browser": "node --env-file-if-exists=.env scripts/validateSocialNotificationsBrowser.js",
     "test:teleporter-charge-browser": "node --env-file-if-exists=.env scripts/validateTeleporterChargeBrowser.js",
     "test:mega-candy-browser": "node --env-file-if-exists=.env scripts/validateMegaCandyBrowser.js",
-    "test:whitepeak-browser": "node --env-file-if-exists=.env scripts/validateWhitepeakBrowser.js"
+    "test:whitepeak-browser": "node --env-file-if-exists=.env scripts/validateWhitepeakBrowser.js",
+    "test:tournament-cycle-browser": "node --env-file-if-exists=.env scripts/validateTournamentCycleRulesBrowser.js"
   },
   "keywords": [],
   "author": "",

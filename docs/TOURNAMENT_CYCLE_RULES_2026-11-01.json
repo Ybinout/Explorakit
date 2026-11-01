@@ -1,0 +1,372 @@
+{
+  "date": "2026-11-01",
+  "change": "Super Tournoi : clauses espèce/objet et soin complet à chaque nouveau cycle de seize",
+  "sourceBaseline": "5e97ca1dd91eb470ee8c85876bbf04b80ccb595d",
+  "clientCommit": "dcc208de045e48783a5366333be173ae155396b1",
+  "clientBuild": "6660369eba14f7cb",
+  "registration": {
+    "speciesClause": "One base species ID per registered party, regardless of UUID, gender, K or form; distinct evolutionary stages allowed.",
+    "itemClause": "Each held-item key at most once; empty slots unrestricted.",
+    "scope": "New player registrations only. Existing sealed attempts and authored opponent rosters preserved.",
+    "authoritative": "Read-only authenticated/pass/offer/location-checked preflight for UI; mandatory validation again in registration handler before Adventure healing/writes and in controller before sealing.",
+    "invalid": "No checkpoint, heal, resource mutation or teleport; error pinned above footer, registration stays open."
+  },
+  "cycleRecovery": {
+    "cycleSize": 16,
+    "beforeRooms": [
+      17,
+      33,
+      49,
+      65
+    ],
+    "restores": [
+      "all party HP",
+      "fainted partners",
+      "status conditions",
+      "all move PP",
+      "temporary battle state"
+    ],
+    "keeps": [
+      "party UUID/order/species",
+      "levels/XP/IV/EV/K",
+      "remaining held items; consumed items remain absent",
+      "score",
+      "cash and augmentation receipts",
+      "run powers",
+      "Adventure party"
+    ],
+    "transition": "Only cleared → ready when the incremented zero-based room is a positive multiple of roster length. Same atomic optimistic checkpoint as room advance.",
+    "onceOnly": "Repeated next() while ready, reconnect or reload does not heal again. Failed writes roll back team/room/notice; stale controllers fail optimistic version checks.",
+    "notice": "Cycle N : toute ton équipe est soignée. PV, statuts et PP restaurés !"
+  },
+  "validation": {
+    "unit": {
+      "passed": 67,
+      "failed": 0,
+      "skipped": 0
+    },
+    "mysql": {
+      "passed": 29,
+      "failed": 0,
+      "skipped": 0
+    },
+    "browsers": [
+      {
+        "success": true,
+        "engine": "chromium",
+        "buildIndexSha256": "ebf6a0030e1d911815d9f58fcf0cf3434460ebf69ed25028f55886793967727d",
+        "views": [
+          {
+            "label": "entry",
+            "width": 320,
+            "height": 480,
+            "theme": "light"
+          },
+          {
+            "label": "entry",
+            "width": 320,
+            "height": 480,
+            "theme": "dark"
+          },
+          {
+            "label": "entry",
+            "width": 393,
+            "height": 852,
+            "theme": "light"
+          },
+          {
+            "label": "entry",
+            "width": 393,
+            "height": 852,
+            "theme": "dark"
+          },
+          {
+            "label": "entry",
+            "width": 844,
+            "height": 390,
+            "theme": "light"
+          },
+          {
+            "label": "entry",
+            "width": 844,
+            "height": 390,
+            "theme": "dark"
+          },
+          {
+            "label": "entry",
+            "width": 1365,
+            "height": 900,
+            "theme": "light"
+          },
+          {
+            "label": "entry",
+            "width": 1365,
+            "height": 900,
+            "theme": "dark"
+          },
+          {
+            "label": "cycle-healed",
+            "width": 320,
+            "height": 480,
+            "theme": "light"
+          },
+          {
+            "label": "cycle-healed",
+            "width": 320,
+            "height": 480,
+            "theme": "dark"
+          },
+          {
+            "label": "cycle-healed",
+            "width": 393,
+            "height": 852,
+            "theme": "light"
+          },
+          {
+            "label": "cycle-healed",
+            "width": 393,
+            "height": 852,
+            "theme": "dark"
+          },
+          {
+            "label": "cycle-healed",
+            "width": 844,
+            "height": 390,
+            "theme": "light"
+          },
+          {
+            "label": "cycle-healed",
+            "width": 844,
+            "height": 390,
+            "theme": "dark"
+          },
+          {
+            "label": "cycle-healed",
+            "width": 1365,
+            "height": 900,
+            "theme": "light"
+          },
+          {
+            "label": "cycle-healed",
+            "width": 1365,
+            "height": 900,
+            "theme": "dark"
+          }
+        ],
+        "duplicateSpeciesRejected": true,
+        "duplicateItemsRejected": true,
+        "invalidPartyUnchanged": true,
+        "emptyItemSlotsAllowed": true,
+        "registrationHeals": true,
+        "ordinaryRoomsNoHeal": true,
+        "cycleHeals": [
+          2,
+          3
+        ],
+        "koRevived": true,
+        "ppRestored": true,
+        "consumedItemsNotRestored": true,
+        "reconnectNoFreeHeal": true,
+        "adventureUnchanged": true,
+        "moneyUnchanged": true,
+        "errors": [],
+        "physicalHardware": false
+      },
+      {
+        "success": true,
+        "engine": "webkit",
+        "buildIndexSha256": "ebf6a0030e1d911815d9f58fcf0cf3434460ebf69ed25028f55886793967727d",
+        "views": [
+          {
+            "label": "entry",
+            "width": 320,
+            "height": 480,
+            "theme": "light"
+          },
+          {
+            "label": "entry",
+            "width": 320,
+            "height": 480,
+            "theme": "dark"
+          },
+          {
+            "label": "entry",
+            "width": 393,
+            "height": 852,
+            "theme": "light"
+          },
+          {
+            "label": "entry",
+            "width": 393,
+            "height": 852,
+            "theme": "dark"
+          },
+          {
+            "label": "entry",
+            "width": 844,
+            "height": 390,
+            "theme": "light"
+          },
+          {
+            "label": "entry",
+            "width": 844,
+            "height": 390,
+            "theme": "dark"
+          },
+          {
+            "label": "entry",
+            "width": 1365,
+            "height": 900,
+            "theme": "light"
+          },
+          {
+            "label": "entry",
+            "width": 1365,
+            "height": 900,
+            "theme": "dark"
+          },
+          {
+            "label": "cycle-healed",
+            "width": 320,
+            "height": 480,
+            "theme": "light"
+          },
+          {
+            "label": "cycle-healed",
+            "width": 320,
+            "height": 480,
+            "theme": "dark"
+          },
+          {
+            "label": "cycle-healed",
+            "width": 393,
+            "height": 852,
+            "theme": "light"
+          },
+          {
+            "label": "cycle-healed",
+            "width": 393,
+            "height": 852,
+            "theme": "dark"
+          },
+          {
+            "label": "cycle-healed",
+            "width": 844,
+            "height": 390,
+            "theme": "light"
+          },
+          {
+            "label": "cycle-healed",
+            "width": 844,
+            "height": 390,
+            "theme": "dark"
+          },
+          {
+            "label": "cycle-healed",
+            "width": 1365,
+            "height": 900,
+            "theme": "light"
+          },
+          {
+            "label": "cycle-healed",
+            "width": 1365,
+            "height": 900,
+            "theme": "dark"
+          }
+        ],
+        "duplicateSpeciesRejected": true,
+        "duplicateItemsRejected": true,
+        "invalidPartyUnchanged": true,
+        "emptyItemSlotsAllowed": true,
+        "registrationHeals": true,
+        "ordinaryRoomsNoHeal": true,
+        "cycleHeals": [
+          2,
+          3
+        ],
+        "koRevived": true,
+        "ppRestored": true,
+        "consumedItemsNotRestored": true,
+        "reconnectNoFreeHeal": true,
+        "adventureUnchanged": true,
+        "moneyUnchanged": true,
+        "errors": [],
+        "physicalHardware": false
+      }
+    ],
+    "lint": true,
+    "isolatedBuild": true,
+    "commands": [
+      "node --test tests/super-tournament.test.js tests/super-tournament-cycle-rules.test.js tests/super-tournament-order.test.js tests/super-tournament-abandon.test.js tests/super-tournament-rewards.test.js tests/super-tournament-powers.test.js tests/super-tournament-augments.test.js tests/super-tournament-cash.test.js",
+      "DB_NAME=explorakit_test RUN_MYSQL_TESTS=1 NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file-if-exists=.env --test --test-concurrency=1 tests/super-tournament-mysql.test.js tests/super-tournament-cycle-mysql.test.js tests/super-tournament-augments-mysql.test.js tests/super-tournament-powers-mysql.test.js tests/super-tournament-cash-mysql.test.js",
+      "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-tournament-cycle-rules-dist npm run test:tournament-cycle-browser",
+      "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=webkit RELEASE_DIST_DIR=/tmp/riftmon-tournament-cycle-rules-dist npm run test:tournament-cycle-browser"
+    ]
+  },
+  "fixtureMaintenance": [
+    "Old six-leftovers fixtures replaced by distinct held items. Minimal reward fixtures now have valid species IDs.",
+    "Existing rewards browser recipe now expects full recovery at a cycle boundary and the already deployed 85/95/100 second-cycle levels."
+  ],
+  "limitations": [
+    "Chromium/WebKit Linux, no physical handset or full human sixteen-win playthrough claimed.",
+    "Browser cycle boundaries use durable private-controller fixtures and real north-door movement; no production debug endpoint or real account modified."
+  ],
+  "schemaChanged": false,
+  "runtimeSourceSha256": {
+    "server/game/superTournament/controller.js": "15f1eb60ba38ee9b7a67816fd2a85a39b6d833450b9b5b890d8a7054913219cf",
+    "server/realtime/handlers/superTournamentHandlers.js": "a03c28b80ecdff7ed16b6e789476947028c7401cf8e9a225c06b9f999b329203",
+    "server/game/superTournament/rules.js": "4fd64293db24755b97d0c3cd4160c3d5d59542a981f36cd5f06b34b017e8de6c"
+  },
+  "publication": {
+    "publishedAt": "2026-11-01T10:20:33.001Z",
+    "restartedAt": "2026-11-01T10:20:31.324Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-tournament-cycle-rules-2026-11-01T10-20-29-742Z",
+    "sourceBaseline": "5e97ca1dd91eb470ee8c85876bbf04b80ccb595d",
+    "sourceHashes": {
+      "server/game/superTournament/controller.js": "15f1eb60ba38ee9b7a67816fd2a85a39b6d833450b9b5b890d8a7054913219cf",
+      "server/realtime/handlers/superTournamentHandlers.js": "a03c28b80ecdff7ed16b6e789476947028c7401cf8e9a225c06b9f999b329203",
+      "server/game/superTournament/rules.js": "4fd64293db24755b97d0c3cd4160c3d5d59542a981f36cd5f06b34b017e8de6c"
+    },
+    "clientCommit": "dcc208de045e48783a5366333be173ae155396b1",
+    "clientBuild": "6660369eba14f7cb",
+    "beforePid": "3651079",
+    "afterPid": "3654705",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "schemaChanged": false,
+    "activeClubDuelsBefore": 0,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 0,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": [
+      "js/234.7f08b866.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.012fcf9f.js",
+      "js/account.161ce126.js",
+      "js/app.66a9e7b5.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.2fd32f7c.js",
+      "js/drift.5b8720d7.js",
+      "js/game.7cd8c85a.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.4fff4c7e.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.0dd0671b.css",
+      "css/test-view.7568246d.css"
+    ]
+  }
+}

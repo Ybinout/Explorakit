@@ -4,7 +4,7 @@ const fx=require('../server/game/drift/driftEffects'),signals=require('../server
 const factory=require('../server/game/drift/pokemonFactory'),codec=require('../server/game/drift/checkpointCodec');
 const {getMaxMovePp}=require('../server/game/battle/battleResources');
 const owner=keys=>({currentmap:'super_tournament_room',superTournamentPassives:keys||[],drifts:[],equipped:[]});
-function team(){return [{uuid:'a',name:'A',currentHp:20,maxHp:100,status:'poison',abilities:['Tackle'],movePp:[0],experience:1000,level:20,heldItem:'leftovers'}, {uuid:'b',name:'B',currentHp:0,maxHp:100,status:'burn',abilities:['Tackle'],movePp:[0],experience:2000,level:20,heldItem:null}];}
+function team(){return [{uuid:'a',data:{id:9},name:'A',currentHp:20,maxHp:100,status:'poison',abilities:['Tackle'],movePp:[0],experience:1000,level:20,heldItem:'leftovers'}, {uuid:'b',data:{id:94},name:'B',currentHp:0,maxHp:100,status:'burn',abilities:['Tackle'],movePp:[0],experience:2000,level:20,heldItem:null}];}
 function choose(key,t,player){return rewards.applyChoice({id:'offer',afterRoom:1,cards:[key]},t,{offerId:'offer',cardKey:key},player);}
 function fixture(keys){const a=factory.create(19,30,true),b=factory.create(19,30,true);for(const p of [a,b]){p.passiveAbility=null;p.heldItem=null;p.maxHp=100;p.currentHp=100;engine.ensureBattleData(p);}const p=owner(keys);p.equipe={pokemons:[a]};fx.attach([a],p,false,()=>.99);fx.attach([b],{drifts:[],equipped:[]},false,()=>.99);return {a,b,p};}
 test('new offers contain four distinct cards, at most one power and one economic card',()=>{

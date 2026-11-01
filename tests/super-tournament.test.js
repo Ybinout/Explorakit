@@ -4,7 +4,7 @@ const {TournamentController}=require('../server/game/superTournament/controller'
 const codec=require('../server/game/drift/checkpointCodec');
 const Pokemon=require('../server/game/models/Pokemon');
 const {getTotalExperienceForLevel}=require('../server/game/models/progression');
-function makeTeam(){return {pokemons:[9,94,212,248,445,121].map(id=>{const p=new Pokemon(id,null,null,getTotalExperienceForLevel(100),{hp:31,attack:31,defense:31,specialAttack:31,specialDefense:31,speed:31},'Timid',4);p.addAbility('Tackle');p.addAbility('Protect');p.heldItem='leftovers';return p;})};}
+function makeTeam(){return {pokemons:[9,94,212,248,445,121].map(id=>{const p=new Pokemon(id,null,null,getTotalExperienceForLevel(100),{hp:31,attack:31,defense:31,specialAttack:31,specialDefense:31,speed:31},'Timid',4);p.addAbility('Tackle');p.addAbility('Protect');p.heldItem=({9:'leftovers',94:'life_orb',212:'choice_band',248:'choice_scarf',445:'focus_sash',121:'rocky_helmet'})[id];return p;})};}
 function setup(){let version=0,snapshot=null,fail=false,best=0;const events=[],travel=[],real={id:'a',userId:1,username:'tester'};
  const persist={async load(){return {version,run:snapshot?codec.decode(snapshot):null};},async save(id,run,v,end={}){if(fail){fail=false;throw Error('disk');}assert.equal(id,1);assert.equal(v,version);snapshot=run?codec.encode(run):null;best=Math.max(best,run?.score||end.score||0);return ++version;}};
  const create=()=>new TournamentController({random:()=>.99,userId:1,getPlayer:()=>real,emit:(e,d)=>events.push([e,d]),travel:async d=>travel.push(d),persist,now:()=>1000});

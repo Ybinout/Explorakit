@@ -1,6 +1,7 @@
 const content=require('../../game/superTournament/content');
 const repository=require('../../persistence/superTournamentRepository');
 const {TournamentController}=require('../../game/superTournament/controller');
+const {validateRegistration}=require('../../game/superTournament/rules');
 const pnjStore=require('../../game/world/pnjStore');
 const npcMaps=['start','route2','ville1','route3_maison_nrv','ville1_arene','ville_safe1_arene','gen_route8','gen_arene5','ville3_arene','ville4_arene','route4_maison','ville5_arene','route2_maison'];
 const npcs=npcMaps.flatMap(m=>pnjStore.getPnjsForMap(m));
@@ -22,9 +23,11 @@ function createHandlers({socket,account,userId,getPlayer,canUse,travel,refreshAc
  const valid=()=>{const p=getPlayer();if(!p||p.inbattle||p.inventoryBusy||!canUse())throw Error('Termine ton action avant de continuer.');return p;};
  const teamState=()=>({equipe:{...controller.run.player.equipe,pokemons:content.state(controller.run).team}});
  const command=(name,fn)=>account.on(name,(data,ack)=>controller.execute(async()=>{try{const r=await fn(data||{});if(typeof ack==='function')ack({success:true,...r});}catch(e){if(typeof ack==='function')ack({success:false,message:e.message});else socket.emit('progressionNotice',{message:e.message});}}));
+ const registrationPlayer=async data=>{const p=valid();if(p.currentmap!==content.MAPS.lobby||!near(13,8,3)||!offer||data.offerId!==offer.id||offer.until<Date.now())throw Error('Adresse-toi à l’hôtesse pour t’inscrire.');if(!await repository.ownsPass(userId))throw Error('Présente ton PASS Super Tournoi.');return p;};
+ command('superTournament:validateRegistration',async data=>{await registrationPlayer(data);validateRegistration(await require('../../persistence/teamRepository').loadEquipe(userId));return{valid:true};});
  command('superTournament:travel',async()=>{valid();if(controller.active)throw Error('Ta tentative est déjà en cours.');if(!await repository.ownsPass(userId))throw Error('Un PASS Super Tournoi est nécessaire.');await travel({map:content.MAPS.lobby,x:448,y:496});});
- command('superTournament:register',async data=>{const p=valid();if(p.currentmap!==content.MAPS.lobby||!near(13,8,3)||!offer||data.offerId!==offer.id||offer.until<Date.now())throw Error('Adresse-toi à l’hôtesse pour t’inscrire.');offer=null;if(!await repository.ownsPass(userId))throw Error('Présente ton PASS Super Tournoi.');
-  p.inventoryBusy=true;try{const teams=require('../../persistence/teamRepository'),team=await teams.loadEquipe(userId);if(!team.pokemons.length||team.pokemons.some(p=>p.isEgg))throw Error('Présente une équipe sans Œuf.');require('../../game/world/playerRecovery').healTeam(team);await teams.editEquipe(userId,team);p.equipe=team;await controller.register(team);await travel({map:content.MAPS.sas,x:448,y:496});refreshActors();}finally{p.inventoryBusy=false;}
+ command('superTournament:register',async data=>{const p=await registrationPlayer(data);offer=null;
+  p.inventoryBusy=true;try{const teams=require('../../persistence/teamRepository'),team=await teams.loadEquipe(userId);validateRegistration(team);require('../../game/world/playerRecovery').healTeam(team);await teams.editEquipe(userId,team);p.equipe=team;await controller.register(team);await travel({map:content.MAPS.sas,x:448,y:496});refreshActors();}finally{p.inventoryBusy=false;}
  });
  command('superTournament:abandon',async()=>{if(!controller.active)throw Error('Aucune tentative en cours.');await controller.abandon();refreshActors();});
  command('superTournament:reward',async data=>{const p=valid();if(p.currentmap!==content.MAPS.room)throw Error('Rejoins la salle du tournoi.');await controller.claimReward(data);});

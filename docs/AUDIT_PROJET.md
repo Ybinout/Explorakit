@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Clauses d’inscription et soins de cycle du Super Tournoi — 1er novembre 2026
+
+Nouvelles inscriptions : une seule fois chaque espèce (ID, indépendamment du sexe/UUID/K/forme) et chaque objet tenu ; plusieurs emplacements sans objet autorisés, stades évolutifs différents admis. Validation centrale dans le contrôleur et dans le gestionnaire avant tout soin/écriture de l’équipe d’Aventure. Prévalidation authentifiée auprès de l’hôtesse avant son/animation, puis seconde vérification obligatoire à l’inscription effective ; refus conservé dans le formulaire, alerte visible au-dessus du pied du panneau même sur petit écran. Les tentatives scellées existantes peuvent continuer et les équipes adverses écrites par le créateur restent inchangées.
+
+Avant les combats 17, 33, 49, etc., le franchissement de la porte vers le nouveau cycle soigne toute l’équipe inscrite : PV, K.O., statuts, PP et états temporaires. Objets consommés non recréés, ordre/identité/XP/IV/EV/K, pouvoirs, score, argent et reçus conservés. Soin et entrée dans la salle sauvegardés dans une seule transition optimiste ; notification publiée après succès. Reconnexion, répétition de la commande et simple rechargement ne donnent aucun soin. Échec d’écriture : retour à l’état blessé précédent sans notification ; concurrence périmée refusée. Entre les salles du même cycle, ressources conservées comme auparavant ; cartes, XP, niveaux et barèmes inchangés.
+
+Validation : 67 tests unitaires/régression et 29 SQL réussis sans échec/saut. Doublons par espèce/objet, absence d’objet, refus sans mutation, K.O./PP/statuts, cycles 2/3/4/11, passage ordinaire, rollback, concurrence et reprise vérifiés. Recette privée Chromium/WebKit : refus réel via formulaire et commande directe, règles affichées, porte nord vers cycles 2 et 3, soins durables et aucune guérison supplémentaire au rechargement, inventaire/équipe d’Aventure/argent conservés. Quatre formats/deux thèmes, 16 vues par moteur (32), zéro erreur ; captures d’erreur et équipe soignée inspectées, comptes jetables supprimés. Lint/build isolé/syntaxe/diff valides ; pas de téléphone physique ni de parcours humain complet revendiqués. Fixtures mises en conformité et ancienne recette récompenses alignée sur le soin de cycle et les niveaux déjà distribués. Rapport et commandes : `docs/TOURNAMENT_CYCLE_RULES_2026-11-01.json`.
+
+Serveur/client publiés le 1er novembre 2026 à 11 h 20 (Europe/Paris), client `dcc208de045e48783a5366333be173ae155396b1`, build `6660369eba14f7cb`. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-tournament-cycle-rules-2026-11-01T10-20-29-742Z`. PID 3651079→3654705, service actif sans redémarrage automatique/avertissement ; aucune migration ni modification manuelle de compte réel. Aucun duel/tournoi actif au contrôle. Index/bundles publics vérifiés à l’octet, anciens assets conservés ; Knov/api-test, modes fermés et checkpoint inchangés.
+
 ## Couleurs des nouvelles attaques en combat — 1er novembre 2026
 
 Le menu d’attaque utilisait encore `moveLearning.json` pour sa couleur statique ; Aquatacle et Cryo-Pirouette étaient les deux seules attaques du moteur absentes de cette table. `BattleOverlay` utilise désormais le catalogue d’affichage complet `pokemonReference.fr.json`. Les types dynamiques transmis par le serveur restent prioritaires, et le repli Lutte/cases vides conserve son comportement. Aquatacle : Eau bleu `#4e8ee8` ; Cryo-Pirouette : Glace `#63c9d3`. Même composant dans tous les modes, aucune modification des mécaniques, PP, compatibilités ou sauvegardes.
@@ -5674,6 +5684,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 1er novembre 2026 — Super Tournoi : clauses espèce/objet à l’inscription et soin complet à chaque nouveau cycle de seize, validation visible sans mutation d’équipe refusée et reprise sans soin supplémentaire. 67 tests unitaires, 29 SQL et 32 vues Chromium/WebKit. `docs/TOURNAMENT_CYCLE_RULES_2026-11-01.json`.
 
 - 1er novembre 2026 — Couleurs de toutes les attaques reliées au catalogue complet : Aquatacle Eau et Cryo-Pirouette Glace, surcharges dynamiques conservées. `docs/MOVE_COLORS_2026-11-01.json`.
 

@@ -7,6 +7,7 @@ const repository=require('../../persistence/superTournamentRepository');
 const rewards=require('./rewards');
 const cashPrizes=require('./cashPrizes');
 const powers=require('./powers');
+const {validateRegistration}=require('./rules');
 class TournamentController {
  constructor({userId,emit,travel,getPlayer,persist=repository,now=Date.now,random=Math.random}){Object.assign(this,{userId,emit,travel,getPlayer,persist,now,random});this.run=null;this.version=0;this.queue=Promise.resolve();this.closed=false;this.events=[];}
  get active(){return Boolean(this.run);}
@@ -49,7 +50,7 @@ class TournamentController {
   }catch(error){if(committed){this.publish();throw error;}this.run=previous?codec.decode(previous):null;this.events=[];this.bind();this.publish();if(this.run?.battle){this.run.battle.resume(this.run.player);const restored=this.events;this.events=[];for(const[e,d]of restored)this.emit(e,d);}throw error;}
  }
  execute(fn){const task=this.queue.then(()=>{if(this.closed)return false;return fn();});this.queue=task.catch(()=>{});return task;}
- async register(team){if(this.active)throw Error('Une tentative est déjà en cours.');if(!team?.pokemons?.length||team.pokemons.length>6||team.pokemons.some(p=>p.isEgg))throw Error('Inscris une équipe de un à six Pokémon, sans Œuf.');
+ async register(team){if(this.active)throw Error('Une tentative est déjà en cours.');validateRegistration(team);
   return this.atomic(()=>{const cloned=codec.decode(codec.encode(team));healTeam(cloned);this.run={id:randomUUID(),rewardVersion:1,cash:{version:1,paidThrough:0,earned:0,last:null},room:0,cleared:0,phase:'sas',score:0,credited:new Set(),player:{userId:this.userId,username:this.getPlayer().username,socketId:this.getPlayer().id,currentmap:content.MAPS.room,equipe:cloned,items:{},money:0,defeated:new Set(),drifts:[],equipped:[]}};});
  }
  startBattle(){
@@ -87,7 +88,17 @@ class TournamentController {
    team.pokemons=ids.map(id=>team.pokemons.find(p=>p.uuid===id));return true;
   });
  }
- async next(){const r=this.run;if(!r||!['sas','cleared'].includes(r.phase))return false;return this.atomic(()=>{if(r.phase==='cleared')r.room++;r.credited=new Set();r.enemySlots=null;r.phase='ready';});}
+ async next(){const r=this.run;if(!r||!['sas','cleared'].includes(r.phase))return false;return this.atomic(()=>{
+  if(r.phase==='cleared'){
+   r.room++;
+   if(r.room>0&&r.room%content.roster.length===0){
+    healTeam(r.player.equipe);
+    r.cycleRecovery={cycle:r.room/content.roster.length+1,room:r.room+1};
+    this.buffer('progressionNotice',{message:`Cycle ${r.cycleRecovery.cycle} : toute ton équipe est soignée. PV, statuts et PP restaurés !`});
+   }
+  }
+  r.credited=new Set();r.enemySlots=null;r.phase='ready';
+ });}
  async abandon(){if(!this.run)return false;return this.atomic(()=>{this.run.outcome='abandoned';this.run.battle?.finish(null,'fled');});}
  async resume(){this.bind();const b=this.run?.battle;if(b){const entry=content.entryFor(this.run.room);this.emit('battletrigger',{battleType:'trainer',trainerKey:entry.key,musicKind:entry.music,tournamentEntrance:{name:entry.name,portrait:entry.portrait},bagAllowed:false,fleeAllowed:false,message:'Le duel du Super Tournoi reprend.'});b.deadline=this.now()+30000;if(!b.awaiting)b.nextRoundAt=this.now()+1000;b.resume(this.run.player);const events=this.events;this.events=[];for(const[e,d]of events)this.emit(e,d);}this.publish();}
  async close(){this.closed=true;await this.queue;this.events=[];}
