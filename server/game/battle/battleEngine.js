@@ -1264,6 +1264,16 @@ function applyEffect(effect, context, moveResult) {
     };
 
     switch (effect.kind) {
+        case 'clear_terrain': {
+            // Ice Spinner clears a connected hit even if contact faints its user.
+            // Behind a substitute, the user must still be conscious.
+            if(moveResult.hits>0 && moveResult.effectiveness>0
+                && (!moveResult.substituteDamage || context.attacker.currentHp>0)) {
+                const cleared=battleField.clearTerrain(context.battleState);
+                if(cleared)messages.push(`Cryo-Pirouette dissipe ${battleField.LABELS[cleared] || 'le terrain'} !`);
+            }
+            return;
+        }
         case 'laser_focus':
             attackerData.laserFocusTurns=2;
             messages.push(`${getPokemonDisplayName(context.attacker)} se concentre : ses prochains coups seront critiques !`);

@@ -1,0 +1,346 @@
+{
+  "date": "2026-11-01",
+  "change": "Aquatacle et Cryo-Pirouette, effets partagés et CS",
+  "sourceBaseline": "497702b93adca7adf4e524e6cde9eb9b83ff8c93",
+  "clientCommit": "dd63444bd94966d0353ce91b6f1c70049696ed1f",
+  "clientBuild": "8501d4a1484ca56b",
+  "sources": {
+    "learnsets": "https://github.com/smogon/pokemon-showdown/blob/master/data/learnsets.ts",
+    "learnsetGitBlobSha": "75488936bdf90a2b42d05b56697809cb5332fa34",
+    "moves": "https://github.com/smogon/pokemon-showdown/blob/master/data/moves.ts",
+    "movesGitBlobSha": "a3b7cd8943a95a45e8775370a02130e66d788614",
+    "license": "MIT",
+    "licenseFile": "data/vendor/pokemon-showdown/LICENSE"
+  },
+  "moves": [
+    {
+      "name": "Aquatacle",
+      "canonical": "Wave Crash",
+      "type": "Water",
+      "category": "physical",
+      "power": 120,
+      "accuracy": 100,
+      "pp": 10,
+      "recoil": [
+        33,
+        100
+      ],
+      "cs": "cs_wave_crash",
+      "price": 5000
+    },
+    {
+      "name": "Cryo-Pirouette",
+      "canonical": "Ice Spinner",
+      "type": "Ice",
+      "category": "physical",
+      "power": 80,
+      "accuracy": 100,
+      "pp": 15,
+      "effect": "Clears active terrain on connected hit, including Substitute; preserves weather, rooms and side conditions. Normal contact KO does not prevent clearing.",
+      "cs": "cs_ice_spinner",
+      "price": 4000
+    }
+  ],
+  "scope": "Shared battle engine and AI projections, all modes. Existing natural level-up progression unchanged; two new CS use pinned permanent learning sources for base Gen1–4 species plus existing inheritance and Sketch. No type-wide grants.",
+  "compatibility": {
+    "cs_wave_crash": [
+      7,
+      8,
+      9,
+      230,
+      235,
+      395,
+      418,
+      419
+    ],
+    "cs_ice_spinner": [
+      7,
+      8,
+      9,
+      39,
+      40,
+      86,
+      87,
+      90,
+      91,
+      144,
+      149,
+      151,
+      183,
+      184,
+      204,
+      205,
+      206,
+      225,
+      232,
+      235,
+      237,
+      272,
+      361,
+      362,
+      378,
+      379,
+      393,
+      394,
+      395,
+      418,
+      419,
+      436,
+      437,
+      459,
+      460,
+      461,
+      478
+    ]
+  },
+  "validation": {
+    "regression": {
+      "passed": 255,
+      "failed": 0,
+      "skipped": 0,
+      "log": "/tmp/riftmon-requested-moves-regression.log"
+    },
+    "sql": {
+      "passed": 214,
+      "failed": 0,
+      "skipped": 0,
+      "log": "/tmp/riftmon-requested-moves-sql.log"
+    },
+    "machineAudit": {
+      "engineMoves": 636,
+      "machines": 635,
+      "species": 809,
+      "checkedPairs": 513715,
+      "compatibilities": 67236,
+      "excluded": [
+        "Struggle"
+      ],
+      "baseline": "497702b93adca7adf4e524e6cde9eb9b83ff8c93",
+      "preservedMachines": 633,
+      "existingPricesAndCompatibilityPreserved": true,
+      "naturalProgressionAndOtherItemsUnchanged": true
+    },
+    "lint": true,
+    "isolatedBuild": true,
+    "browsers": [
+      {
+        "success": true,
+        "engine": "chromium",
+        "machines": 635,
+        "learned": [
+          {
+            "species": 7,
+            "key": "cs_wave_crash",
+            "price": 5000
+          },
+          {
+            "species": 9,
+            "key": "cs_ice_spinner",
+            "price": 4000
+          }
+        ],
+        "progressiveRendering": true,
+        "incompatibleDisabled": true,
+        "sqlAndReload": true,
+        "closedModesPreserved": true,
+        "views": [
+          {
+            "width": 320,
+            "height": 640,
+            "themeMode": "light"
+          },
+          {
+            "width": 320,
+            "height": 640,
+            "themeMode": "dark"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "themeMode": "light"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "themeMode": "dark"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "themeMode": "light"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "themeMode": "dark"
+          }
+        ],
+        "timings": [
+          {
+            "step": "openAllCS",
+            "ms": 296
+          },
+          {
+            "step": "openAllCS",
+            "ms": 327
+          }
+        ],
+        "errors": [],
+        "output": "/tmp/riftmon-requested-moves-browser-chromium"
+      },
+      {
+        "success": true,
+        "engine": "webkit",
+        "machines": 635,
+        "learned": [
+          {
+            "species": 7,
+            "key": "cs_wave_crash",
+            "price": 5000
+          },
+          {
+            "species": 9,
+            "key": "cs_ice_spinner",
+            "price": 4000
+          }
+        ],
+        "progressiveRendering": true,
+        "incompatibleDisabled": true,
+        "sqlAndReload": true,
+        "closedModesPreserved": true,
+        "views": [
+          {
+            "width": 320,
+            "height": 640,
+            "themeMode": "light"
+          },
+          {
+            "width": 320,
+            "height": 640,
+            "themeMode": "dark"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "themeMode": "light"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "themeMode": "dark"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "themeMode": "light"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "themeMode": "dark"
+          }
+        ],
+        "timings": [
+          {
+            "step": "openAllCS",
+            "ms": 347
+          },
+          {
+            "step": "openAllCS",
+            "ms": 332
+          }
+        ],
+        "errors": [],
+        "output": "/tmp/riftmon-requested-moves-browser-webkit"
+      }
+    ],
+    "commands": [
+      "node scripts/generateRequestedMoves.js --check",
+      "python3 scripts/generateMachines.py --check",
+      "node scripts/generatePokemonReference.js --check",
+      "node scripts/auditMachines.js",
+      "node --test tests/requested-moves.test.js tests/all-machines.test.js tests/machines.test.js tests/move-additions.test.js tests/move-audit.test.js tests/move-visuals.test.js tests/battle-field.test.js tests/human-trainer-model.test.js tests/human-trainer-items.test.js tests/move-rules-review.test.js",
+      "DB_NAME=explorakit_test RUN_MYSQL_TESTS=1 NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file-if-exists=.env --test --test-concurrency=1 tests/machines-mysql.test.js tests/move-sequences-mysql.test.js tests/battle-runtime-integration.test.js tests/whitepeak-mysql.test.js",
+      "DB_TEST_NAME=explorakit_test REQUESTED_MOVES=1 RELEASE_DIST_DIR=/tmp/riftmon-requested-moves-dist node --env-file-if-exists=.env scripts/validateAllMachinesBrowser.js",
+      "DB_TEST_NAME=explorakit_test REQUESTED_MOVES=1 PRESENTATION_BROWSER=webkit RELEASE_DIST_DIR=/tmp/riftmon-requested-moves-dist node --env-file-if-exists=.env scripts/validateAllMachinesBrowser.js"
+    ]
+  },
+  "limitations": [
+    "Chromium and WebKit Linux only; no physical handset claimed.",
+    "Aquatacle and Cryo-Pirouette are explicit generation-nine additions to the existing generation-seven core; historical vendor sources remain immutable."
+  ],
+  "schemaChanged": false,
+  "runtimeSourceSha256": {
+    "data/game/ability_move_traits.gen7.json": "b4697967a43c79425ecdfc96b481e5daf05c44de5d9b8889e2e0ba73e71354f3",
+    "data/game/department_store.json": "ffe7721307672b74a932e9c0c2e49b3d57e0475a9b7b2aa0c358d9a15267cec1",
+    "data/game/items.json": "c70f514faaf7f27c4de6c843186c35849fa9fbfbaed7dc5c86d45423d9a0be61",
+    "data/game/machines.json": "5cab1edf19c74d8d7463cb3f762fd2cdf45315e2086d6c307eee6a2e64151fa9",
+    "data/game/move_ability_flags.gen7.json": "40ce03ef19cd18c1b2becf799d98de5042931622b4af2dc058f14ab796434e0d",
+    "data/game/moves.json": "21b6eaaa07d2ab7570f367ee1e84bfef3edd0bfbee18710dcb4efeda5f530416",
+    "data/game/pokemon_reference_overrides.fr.json": "3836b4f6634ef8bce111876557ec9f06ae29a203affc04a54d50cc095aabc4c0",
+    "server/game/battle/battleEngine.js": "0f45b7e0953f8b5ca9125d124caee0cde39f11f1a81ab2d72c9fc66ba3ce73aa",
+    "server/game/battle/battleField.js": "3b041be35160ea1553ab532c5933087c007ff307e29d9ebea2409abd20586f2a",
+    "server/game/battle/humanTrainerModel.js": "444686e0b62d7be7a7994de711d07b1a511e76d84424221e6c1fb36d4b974613",
+    "data/vendor/requested_move_extensions.json": "74f2a812fc1672d342fe6754820d2c2d1b85346a3deb598a0a2789b4fbcb05fe"
+  },
+  "publication": {
+    "publishedAt": "2026-11-01T09:13:12.697Z",
+    "restartedAt": "2026-11-01T09:13:11.067Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-requested-moves-2026-11-01T09-13-09-499Z",
+    "sourceBaseline": "497702b93adca7adf4e524e6cde9eb9b83ff8c93",
+    "sourceHashes": {
+      "data/game/ability_move_traits.gen7.json": "b4697967a43c79425ecdfc96b481e5daf05c44de5d9b8889e2e0ba73e71354f3",
+      "data/game/department_store.json": "ffe7721307672b74a932e9c0c2e49b3d57e0475a9b7b2aa0c358d9a15267cec1",
+      "data/game/items.json": "c70f514faaf7f27c4de6c843186c35849fa9fbfbaed7dc5c86d45423d9a0be61",
+      "data/game/machines.json": "5cab1edf19c74d8d7463cb3f762fd2cdf45315e2086d6c307eee6a2e64151fa9",
+      "data/game/move_ability_flags.gen7.json": "40ce03ef19cd18c1b2becf799d98de5042931622b4af2dc058f14ab796434e0d",
+      "data/game/moves.json": "21b6eaaa07d2ab7570f367ee1e84bfef3edd0bfbee18710dcb4efeda5f530416",
+      "data/game/pokemon_reference_overrides.fr.json": "3836b4f6634ef8bce111876557ec9f06ae29a203affc04a54d50cc095aabc4c0",
+      "server/game/battle/battleEngine.js": "0f45b7e0953f8b5ca9125d124caee0cde39f11f1a81ab2d72c9fc66ba3ce73aa",
+      "server/game/battle/battleField.js": "3b041be35160ea1553ab532c5933087c007ff307e29d9ebea2409abd20586f2a",
+      "server/game/battle/humanTrainerModel.js": "444686e0b62d7be7a7994de711d07b1a511e76d84424221e6c1fb36d4b974613",
+      "data/vendor/requested_move_extensions.json": "74f2a812fc1672d342fe6754820d2c2d1b85346a3deb598a0a2789b4fbcb05fe"
+    },
+    "clientCommit": "dd63444bd94966d0353ce91b6f1c70049696ed1f",
+    "clientBuild": "8501d4a1484ca56b",
+    "beforePid": "3644365",
+    "afterPid": "3647698",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "schemaChanged": false,
+    "activeClubDuelsBefore": 0,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 0,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": [
+      "js/234.7f08b866.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.012fcf9f.js",
+      "js/account.161ce126.js",
+      "js/app.a3af13e2.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.2fd32f7c.js",
+      "js/drift.5b8720d7.js",
+      "js/game.386be773.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.4fff4c7e.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.3af66ca8.css",
+      "css/test-view.7568246d.css"
+    ]
+  }
+}

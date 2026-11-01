@@ -1,7 +1,7 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 test('move families distinguish contact, ranged, drain and ground effects with safe generic fallbacks',async()=>{
  const {moveVisual}=await import('../vue-explorakit/src/services/moveVisuals.js');
- for(const [name,family] of [['Crunch','bite'],['Fire Fang','bite'],['Shadow Claw','claw'],['Mach Punch','punch'],['Body Slam','charge'],['Ice Beam','beam'],['Water Gun','beam'],['Shadow Ball','projectile'],['Bullet Seed','projectile'],['Drain Punch','drain'],['Giga Drain','drain'],['Earthquake','zone'],['Surf','zone']])assert.equal(moveVisual({moveName:name}).family,family,name);
+ for(const [name,family] of [['Wave Crash','charge'],['Ice Spinner','zone'],['Crunch','bite'],['Fire Fang','bite'],['Shadow Claw','claw'],['Mach Punch','punch'],['Body Slam','charge'],['Ice Beam','beam'],['Water Gun','beam'],['Shadow Ball','projectile'],['Bullet Seed','projectile'],['Drain Punch','drain'],['Giga Drain','drain'],['Earthquake','zone'],['Surf','zone']])assert.equal(moveVisual({moveName:name}).family,family,name);
  assert.equal(moveVisual({moveName:'Solar Beam',phase:'prepare',damageClass:'special'}).family,'status');
  assert.equal(moveVisual({moveName:'Solar Beam',phase:'strike',damageClass:'special'}).family,'beam');
  for(const [damageClass,family] of [['physical','charge'],['special','projectile'],['status','status']])assert.equal(moveVisual({moveName:'Unknown',damageClass}).family,family);

@@ -3,6 +3,9 @@
 const assert = require('node:assert/strict');
 const reference = require('../data/vendor/machine_learnability.json');
 const source = require('../data/vendor/pokeapi/learnsets.gen7.json');
+const extensions = require('../data/vendor/requested_move_extensions.json');
+const sourceMoves = { ...source.moves, ...Object.fromEntries(Object.entries(extensions.moves)
+    .map(([name, m]) => [m.sourceMoveId, {name, slug:m.slug}])) };
 const catalog = require('../data/game/moves.json');
 const dex = require('../data/game/pokedex.json');
 const normalize = value => {
@@ -11,7 +14,7 @@ const normalize = value => {
 };
 
 function auditMachines(machines = require('../data/game/machines.json').machines) {
-    const sourceIds = new Map(Object.entries(source.moves).map(([id, move]) => [normalize(move.name), +id]));
+    const sourceIds = new Map(Object.entries(sourceMoves).map(([id, move]) => [normalize(move.name), +id]));
     const parents = new Map(reference.evolutions.map(([parent, child]) => [child, parent]));
     const legal = new Map();
     for (const species of Object.keys(reference.species).map(Number)) {
@@ -20,6 +23,7 @@ function auditMachines(machines = require('../data/game/machines.json').machines
             assert(!ancestors.has(id), `Evolution cycle #${species}`);
             ancestors.add(id);
             for (const values of Object.values(reference.species[id])) for (const move of values) moves.add(move);
+            for (const extra of Object.values(extensions.moves)) if (Object.hasOwn(extra.learners, id)) moves.add(extra.sourceMoveId);
         }
         if (dex.find(p => p.id === species)?.type.includes('Poison')) moves.add(685); // Explicit Purify story exception.
         legal.set(species, { moves, sketch: [...ancestors].some(id => reference.sketch.species.includes(id)) });
@@ -34,7 +38,7 @@ function auditMachines(machines = require('../data/game/machines.json').machines
     for (const move of expected) {
         const id = sourceIds.get(normalize(move.ename));
         assert(id, `Missing source ID: ${move.ename}`);
-        const key = 'cs_' + source.moves[id].slug.replace(/-/g, '_'), machine = machines[key];
+        const key = 'cs_' + sourceMoves[id].slug.replace(/-/g, '_'), machine = machines[key];
         assert(machine, `Missing CS: ${move.ename}`);
         assert.equal(machine.move, move.ename); assert.equal(machine.moveId, id); assert.equal(machine.type, move.type);
         assert.deepEqual(machine.species, [...new Set(machine.species)].sort((a, b) => a - b), key);
@@ -58,7 +62,7 @@ function auditMachines(machines = require('../data/game/machines.json').machines
 module.exports = { auditMachines };
 if (require.main === module) {
     const { execFileSync } = require('node:child_process'), root = require('node:path').resolve(__dirname, '..');
-    const baseline = '0c240c3d40c5f4c531a7b995a7466e95c22e800a';
+    const baseline = '497702b93adca7adf4e524e6cde9eb9b83ff8c93';
     const previous = name => JSON.parse(execFileSync('git', ['show', `${baseline}:${name}`], { cwd: root, encoding: 'utf8', maxBuffer: 8 * 1024 * 1024 }));
     const current = require('../data/game/machines.json').machines, old = previous('data/game/machines.json').machines;
     for (const [key, machine] of Object.entries(old)) {
@@ -74,6 +78,7 @@ if (require.main === module) {
     };
     assert.deepEqual(withoutCSOffers(structuredClone(require('../data/game/department_store.json'))), withoutCSOffers(previous('data/game/department_store.json')));
     assert.deepEqual(require('../data/game/level_up_moves.json'), previous('data/game/level_up_moves.json'));
-    assert.deepEqual(require('../data/game/moves.json'), previous('data/game/moves.json'));
+    const oldMoves = previous('data/game/moves.json');
+    for (const move of oldMoves) assert.deepEqual(catalog.find(m => m.ename === move.ename), move);
     console.log(JSON.stringify({ ...auditMachines(), baseline, preservedMachines: Object.keys(old).length, existingPricesAndCompatibilityPreserved: true, naturalProgressionAndOtherItemsUnchanged: true }));
 }

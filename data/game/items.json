@@ -7271,6 +7271,24 @@
       "sell_price": 0,
       "description": "Apprend Force Chtonienne à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
       "machineMove": "Land's Wrath"
+    },
+    {
+      "key": "cs_wave_crash",
+      "name": "CS Aquatacle",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Aquatacle à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Wave Crash"
+    },
+    {
+      "key": "cs_ice_spinner",
+      "name": "CS Cryo-Pirouette",
+      "category": "machine",
+      "buy_price": 0,
+      "sell_price": 0,
+      "description": "Apprend Cryo-Pirouette à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
+      "machineMove": "Ice Spinner"
     }
   ]
 }

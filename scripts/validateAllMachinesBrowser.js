@@ -8,11 +8,11 @@ const { dbPool: db } = require('../server/config/database'), teams = require('..
 const factory = require('../server/game/drift/pokemonFactory'), { machines } = require('../server/game/items/machines');
 const engine = process.env.PRESENTATION_BROWSER || 'chromium';
 assert(['chromium', 'webkit'].includes(engine));
-const stage = process.env.RELEASE_DIST_DIR || '/tmp/riftmon-all-cs-dist', output = '/tmp/riftmon-all-cs-' + engine;
+const stage = process.env.RELEASE_DIST_DIR || '/tmp/riftmon-all-cs-dist', output = '/tmp/riftmon-' + (process.env.REQUESTED_MOVES === '1' ? 'requested-moves-browser-' : 'all-cs-') + engine;
 assert(fs.existsSync(stage + '/index.html')); fs.mkdirSync(output, { recursive: true });
 let child, browser, page, user, success = false;
 const errors = [], views = [], timings = [], learned = [];
-const cases = [[7, 'cs_bite'], [25, 'cs_fly'], [129, 'cs_hydro_pump'], [26, 'cs_celebrate'], [235, 'cs_dark_void']];
+const cases = process.env.REQUESTED_MOVES === '1' ? [[7, 'cs_wave_crash'], [9, 'cs_ice_spinner']] : [[7, 'cs_bite'], [25, 'cs_fly'], [129, 'cs_hydro_pump'], [26, 'cs_celebrate'], [235, 'cs_dark_void']];
 const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
 async function ready() {
     await page.waitForFunction(() => {
@@ -51,8 +51,8 @@ async function ready() {
     for (const [index, [id, key]] of cases.entries()) {
         const machine = machines[key], target = pokemon[index];
         await page.getByRole('button', { name: 'Acheter', exact: true }).click();
-        const before = Date.now(); await page.locator('[data-shop-category="machines"]').click();
-        assert.equal(await page.locator('.shop-item').count(), 40); assert.match(await page.locator('.counter-heading').innerText(), /633/); timings.push({ step: 'openAllCS', ms: Date.now() - before });
+        const before = Date.now(); await page.locator('[data-training-task="machines"]').click();
+        assert.equal(await page.locator('.shop-item').count(), 40); assert.match(await page.locator('.counter-heading').innerText(), /635/); timings.push({ step: 'openAllCS', ms: Date.now() - before });
         if(index===0){await page.locator('[data-shop-more]').click();assert.equal(await page.locator('.shop-item').count(),80);}
         await page.getByRole('searchbox').fill(machine.name);
         const stock = page.locator(`[data-shop-item="${key}"]`); await stock.waitFor();
@@ -65,7 +65,7 @@ async function ready() {
         await page.locator('[data-menu-action="bag"]').click(); await page.locator('[data-bag-pocket="machines"]').click();
         const row = page.locator(`[data-item-key="${key}"]`);
         if (await row.locator('.bag-item-select').getAttribute('aria-expanded') !== 'true') await row.locator('.bag-item-select').click();
-        assert(await row.locator(`option[value="${pokemon[5].uuid}"]`).evaluate(node => node.disabled), key + ' Ditto must be incompatible');
+        assert(await row.locator(`option[value="${pokemon[pokemon.length - 1].uuid}"]`).evaluate(node => node.disabled), key + ' Ditto must be incompatible');
         await row.locator('[data-machine-target]').selectOption(target.uuid); await row.locator('[data-machine-slot="0"]').click();
         assert(await row.locator('[data-machine-confirm]').isEnabled());
         if (index === 0) for (const [width, height] of [[320, 640], [393, 852], [1365, 900]]) {
@@ -88,9 +88,9 @@ async function ready() {
         await page.locator('.bag-backdrop .panel-close').click();
     }
     await page.reload({ waitUntil: 'networkidle' }); await ready();
-    assert.deepEqual(await page.evaluate(() => v.teamPokemons.slice(0, 5).map(p => p.abilities[0])), cases.map(([, key]) => machines[key].move));
+    assert.deepEqual(await page.evaluate(count => v.teamPokemons.slice(0, count).map(p => p.abilities[0]), cases.length), cases.map(([, key]) => machines[key].move));
     assert.deepEqual(errors, []);
-    const report = { success: true, engine, machines: 633, learned, progressiveRendering: true, incompatibleDisabled: true, sqlAndReload: true, closedModesPreserved: true, views, timings, errors, output };
+    const report = { success: true, engine, machines: 635, learned, progressiveRendering: true, incompatibleDisabled: true, sqlAndReload: true, closedModesPreserved: true, views, timings, errors, output };
     fs.writeFileSync(path.join(output, 'report.json'), JSON.stringify(report, null, 2)); success = true; console.log(JSON.stringify(report));
 } finally {
     if (!success && page && !page.isClosed()) await page.screenshot({ path: path.join(output, 'failure.png'), fullPage: true }).catch(() => {});

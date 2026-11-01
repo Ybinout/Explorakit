@@ -2750,6 +2750,14 @@
         "cs_lands_wrath": {
           "price": 4000,
           "requiredTier": 2
+        },
+        "cs_wave_crash": {
+          "price": 5000,
+          "requiredTier": 2
+        },
+        "cs_ice_spinner": {
+          "price": 4000,
+          "requiredTier": 2
         }
       }
     },

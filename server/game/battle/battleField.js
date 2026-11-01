@@ -23,6 +23,12 @@ Object.assign(LABELS,{wide_guard:'Garde Large',quick_guard:'Prévention',mat_blo
 const SPREAD_MOVES = new Set(require('../../../data/vendor/pokeapi/spread-moves.json').moves);
 const HAZARDS = {spikes:['spikes',3],toxic_spikes:['toxicSpikes',2],stealth_rock:['stealthRock',1],sticky_web:['stickyWeb',1]};
 const SCREEN_KEYS = ['reflectTurns','lightScreenTurns','auroraVeilTurns','safeguardTurns','mistTurns'];
+function clearTerrain(state) {
+    const kind=state?.terrain?.kind;
+    if(!kind)return null;
+    state.terrain={kind:null,turns:0};
+    return kind;
+}
 function clearHazards(side) {
     if(!side?.hazards)return false;
     const had=Object.values(side.hazards).some(Boolean);
@@ -60,4 +66,4 @@ function publicField(state,viewerSide='player') {
     return {field:Object.fromEntries(Object.values(FIELD_TIMERS).map(k=>[k,count(state?.field?.[k])])),
         sides:{player:publicSide(state?.sides?.[viewerSide]),opponent:publicSide(state?.sides?.[viewerSide==='enemy'?'player':'enemy'])}};
 }
-module.exports={FIELD_TIMERS,SIDE_TIMERS,TEAM_GUARDS,SPREAD_MOVES,LABELS,ROOMS,clearHazards,clearScreens,setHazard,tickTimers,publicField};
+module.exports={FIELD_TIMERS,SIDE_TIMERS,TEAM_GUARDS,SPREAD_MOVES,LABELS,ROOMS,clearHazards,clearScreens,clearTerrain,setHazard,tickTimers,publicField};

@@ -1,0 +1,157 @@
+{
+  "revision": 1,
+  "scope": "Explicit requested later-generation moves, restricted to base species 1–493. Permanent recorded learnability only; existing pre-evolution inheritance and Sketch rules are applied by the machine generator.",
+  "source": {
+    "learnsets": "https://github.com/smogon/pokemon-showdown/blob/master/data/learnsets.ts",
+    "learnsetGitBlobSha": "75488936bdf90a2b42d05b56697809cb5332fa34",
+    "moves": "https://github.com/smogon/pokemon-showdown/blob/master/data/moves.ts",
+    "movesGitBlobSha": "a3b7cd8943a95a45e8775370a02130e66d788614",
+    "license": "MIT",
+    "licenseFile": "data/vendor/pokemon-showdown/LICENSE"
+  },
+  "moves": {
+    "Wave Crash": {
+      "sourceMoveId": 834,
+      "slug": "wave-crash",
+      "generation": 9,
+      "learners": {
+        "7": [
+          "9L36"
+        ],
+        "8": [
+          "9L50"
+        ],
+        "9": [
+          "9L56"
+        ],
+        "230": [
+          "9L72"
+        ],
+        "395": [
+          "9L66"
+        ],
+        "418": [
+          "9L49"
+        ],
+        "419": [
+          "9L62"
+        ]
+      }
+    },
+    "Ice Spinner": {
+      "sourceMoveId": 861,
+      "slug": "ice-spinner",
+      "generation": 9,
+      "learners": {
+        "7": [
+          "9M"
+        ],
+        "8": [
+          "9M"
+        ],
+        "9": [
+          "9M"
+        ],
+        "39": [
+          "9M"
+        ],
+        "40": [
+          "9M"
+        ],
+        "86": [
+          "9M"
+        ],
+        "87": [
+          "9M"
+        ],
+        "90": [
+          "9M"
+        ],
+        "91": [
+          "9M"
+        ],
+        "144": [
+          "9M"
+        ],
+        "149": [
+          "9M"
+        ],
+        "151": [
+          "9M"
+        ],
+        "183": [
+          "9M"
+        ],
+        "184": [
+          "9M"
+        ],
+        "204": [
+          "9M"
+        ],
+        "205": [
+          "9M"
+        ],
+        "206": [
+          "9M"
+        ],
+        "225": [
+          "9M"
+        ],
+        "232": [
+          "9M"
+        ],
+        "237": [
+          "9M"
+        ],
+        "272": [
+          "9M"
+        ],
+        "361": [
+          "9M"
+        ],
+        "362": [
+          "9M"
+        ],
+        "378": [
+          "9M"
+        ],
+        "379": [
+          "9M"
+        ],
+        "393": [
+          "9M"
+        ],
+        "394": [
+          "9M"
+        ],
+        "395": [
+          "9M"
+        ],
+        "418": [
+          "9M"
+        ],
+        "419": [
+          "9M"
+        ],
+        "436": [
+          "9M"
+        ],
+        "437": [
+          "9M"
+        ],
+        "459": [
+          "9M"
+        ],
+        "460": [
+          "9M"
+        ],
+        "461": [
+          "9M"
+        ],
+        "478": [
+          "9M"
+        ]
+      }
+    }
+  }
+}

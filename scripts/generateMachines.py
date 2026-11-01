@@ -4,6 +4,9 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 ref = json.loads((ROOT / 'data/vendor/pokeapi/learnsets.gen7.json').read_text())
 learning = json.loads((ROOT / 'data/vendor/machine_learnability.json').read_text())
 catalog = json.loads((ROOT / 'data/game/moves.json').read_text())
+extensions = json.loads((ROOT / 'data/vendor/requested_move_extensions.json').read_text())
+source_moves = {**ref['moves'], **{str(m['sourceMoveId']): {'name': name, 'slug': m['slug']}
+                                  for name, m in extensions['moves'].items()}}
 
 def normalize(name):
     n = re.sub('[^a-z0-9]', '', name.lower())
@@ -11,7 +14,7 @@ def normalize(name):
             'celebration': 'celebrate'}.get(n, n)
 
 by_name = {normalize(m['ename']): m for m in catalog}
-source_ids = {normalize(m['name']): int(i) for i, m in ref['moves'].items()}
+source_ids = {normalize(m['name']): int(i) for i, m in source_moves.items()}
 import csv
 french = {int(r['move_id']): r['name'] for r in csv.DictReader((ROOT / 'data/vendor/pokeapi/move_names.csv').open()) if r['local_language_id'] == '5'}
 compatible = {}
@@ -22,6 +25,7 @@ for m in catalog:
         continue
     i = source_ids[normalize(m['ename'])]
     native = {int(p) for p, methods in learning['species'].items() if any(i in moves for moves in methods.values())}
+    native.update(int(p) for p in extensions['moves'].get(m['ename'], {}).get('learners', {}))
     if m['ename'] not in learning['sketch']['excludedMoves']:
         native.update(learning['sketch']['species'])
     compatible[i] = native
@@ -35,7 +39,7 @@ machines = {}
 purify_id = source_ids['purify']
 compatible[purify_id].update(p['id'] for p in json.loads((ROOT / 'data/game/pokedex.json').read_text()) if 'Poison' in p['type'])
 for i, pokemon in sorted(compatible.items()):
-    source = ref['moves'][str(i)]
+    source = source_moves[str(i)]
     m = by_name.get(normalize(source['name']))
     if not m or not pokemon:
         continue
@@ -44,7 +48,7 @@ for i, pokemon in sorted(compatible.items()):
     machines[key] = {'move': m['ename'], 'moveId': i, 'name': 'CS ' + french[i], 'type': m['type'],
                      'price': 5000 if power >= 100 else 4000 if power >= 80 else 3000, 'species': sorted(pokemon)}
 assert len(machines) == len(catalog) - 1 and all(m['species'] for m in machines.values())
-metadata = {'source': learning['sources'], 'scope': 'Every learnable engine move. Any recorded permanent learning method/version, plus pre-evolution inheritance and Sketch. Existing species 1–809 only, playable roster unchanged (1–493). Purify additionally accepts all Poison species. Struggle remains automatic and cannot be taught. Base forms only; no field traversal effects.', 'machines': machines}
+metadata = {'source': learning['sources'], 'requestedExtensions': extensions['source'], 'scope': 'Every learnable engine move. Any recorded permanent learning method/version, plus pre-evolution inheritance and Sketch. Existing species 1–809 only, playable roster unchanged (1–493). Purify additionally accepts all Poison species. Struggle remains automatic and cannot be taught. Base forms only; no field traversal effects.', 'machines': machines}
 outputs = {'data/game/machines.json': json.dumps(metadata, ensure_ascii=False, indent=2) + '\n',
            'vue-explorakit/src/data/machines.json': json.dumps(machines, ensure_ascii=False, separators=(',', ':')) + '\n'}
 items = json.loads((ROOT / 'data/game/items.json').read_text())

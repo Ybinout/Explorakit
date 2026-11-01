@@ -13825,5 +13825,48 @@
                 }
             ]
         }
+    },
+    {
+        "id": 642,
+        "sourceMoveId": 834,
+        "catalogueRevision": 3,
+        "ename": "Wave Crash",
+        "type": "Water",
+        "category": "phy",
+        "power": 120,
+        "accuracy": 100,
+        "pp": 10,
+        "combat": {
+            "damage_class": "physical",
+            "power_type": "standard",
+            "priority": 0,
+            "crit_stage": 0,
+            "target": "single",
+            "effects": []
+        }
+    },
+    {
+        "id": 643,
+        "sourceMoveId": 861,
+        "catalogueRevision": 3,
+        "ename": "Ice Spinner",
+        "type": "Ice",
+        "category": "phy",
+        "power": 80,
+        "accuracy": 100,
+        "pp": 15,
+        "combat": {
+            "damage_class": "physical",
+            "power_type": "standard",
+            "priority": 0,
+            "crit_stage": 0,
+            "target": "single",
+            "effects": [
+                {
+                    "kind": "clear_terrain",
+                    "target": "field"
+                }
+            ]
+        }
     }
 ]

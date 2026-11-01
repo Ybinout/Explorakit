@@ -17,6 +17,14 @@
       "license": "MIT"
     }
   },
+  "requestedExtensions": {
+    "learnsets": "https://github.com/smogon/pokemon-showdown/blob/master/data/learnsets.ts",
+    "learnsetGitBlobSha": "75488936bdf90a2b42d05b56697809cb5332fa34",
+    "moves": "https://github.com/smogon/pokemon-showdown/blob/master/data/moves.ts",
+    "movesGitBlobSha": "a3b7cd8943a95a45e8775370a02130e66d788614",
+    "license": "MIT",
+    "licenseFile": "data/vendor/pokemon-showdown/LICENSE"
+  },
   "scope": "Every learnable engine move. Any recorded permanent learning method/version, plus pre-evolution inheritance and Sketch. Existing species 1–809 only, playable roster unchanged (1–493). Purify additionally accepts all Poison species. Struggle remains automatic and cannot be taught. Base forms only; no field traversal effects.",
   "machines": {
     "cs_pound": {
@@ -72905,6 +72913,69 @@
         702,
         706,
         746
+      ]
+    },
+    "cs_wave_crash": {
+      "move": "Wave Crash",
+      "moveId": 834,
+      "name": "CS Aquatacle",
+      "type": "Water",
+      "price": 5000,
+      "species": [
+        7,
+        8,
+        9,
+        230,
+        235,
+        395,
+        418,
+        419
+      ]
+    },
+    "cs_ice_spinner": {
+      "move": "Ice Spinner",
+      "moveId": 861,
+      "name": "CS Cryo-Pirouette",
+      "type": "Ice",
+      "price": 4000,
+      "species": [
+        7,
+        8,
+        9,
+        39,
+        40,
+        86,
+        87,
+        90,
+        91,
+        144,
+        149,
+        151,
+        183,
+        184,
+        204,
+        205,
+        206,
+        225,
+        232,
+        235,
+        237,
+        272,
+        361,
+        362,
+        378,
+        379,
+        393,
+        394,
+        395,
+        418,
+        419,
+        436,
+        437,
+        459,
+        460,
+        461,
+        478
       ]
     }
   }

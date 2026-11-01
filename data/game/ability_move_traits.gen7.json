@@ -2069,7 +2069,9 @@
     },
     "Purify": {
       "reflectable": true
-    }
+    },
+    "Wave Crash": {},
+    "Ice Spinner": {}
   },
   "weights": {
     "1": 6.9,

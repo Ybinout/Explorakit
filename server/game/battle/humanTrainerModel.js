@@ -146,6 +146,9 @@ function castMove(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMove
             for(const key of Object.keys(side.hazards))side.hazards[key]=typeof side.hazards[key]==='boolean'?false:0;
             p.__battle.trappedTurns=0;p.__battle.leechSeedSource=null;
         }
+        if(inflicted>0 && (hit.hp>0 || alive(p)) && move.combat.effects.some(e=>e.kind==='clear_terrain')) {
+            require('./battleField').clearTerrain(state);
+        }
         const drain=traits[move.ename]?.drain;
         if(drain&&inflicted>0) {
             const amount=inflicted*drain[0]/drain[1];

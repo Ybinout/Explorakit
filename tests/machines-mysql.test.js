@@ -8,7 +8,7 @@ test('all-method CS SQL: natural, egg, event, pre-evolution, Sketch and native/s
   await db.execute('UPDATE users SET money=100000 WHERE id=?',[u.id]);
   await db.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,'hoze_defeated','true')",[u.id]);
   let balance=100000;
-  for(const [id,key] of [[7,'cs_bite'],[7,'cs_aqua_jet'],[129,'cs_hydro_pump'],[26,'cs_celebrate'],[235,'cs_dark_void'],[94,'cs_purify'],[771,'cs_purify']]) {
+  for(const [id,key] of [[7,'cs_bite'],[7,'cs_aqua_jet'],[129,'cs_hydro_pump'],[26,'cs_celebrate'],[235,'cs_dark_void'],[94,'cs_purify'],[771,'cs_purify'],[7,'cs_wave_crash'],[9,'cs_ice_spinner']]) {
    const p=require('../server/game/drift/pokemonFactory').create(id,30,true);p.abilities=['Tackle'];p.movePp=[2];await teams.editEquipe(u.id,{pokemons:[p]});
    const machine=require('../server/game/items/machines').machines[key];
    const purchase=await items.purchaseUserItem(u.id,key,1,{mapName:'tour_etage1'});assert(purchase.success);balance-=machine.price;assert.equal(purchase.totalPrice,machine.price);

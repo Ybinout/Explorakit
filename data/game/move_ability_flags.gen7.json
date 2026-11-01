@@ -1189,6 +1189,16 @@
     "Tearful Look": {},
     "Purify": {
       "heal": true
+    },
+    "Wave Crash": {
+      "contact": true,
+      "recoil": [
+        33,
+        100
+      ]
+    },
+    "Ice Spinner": {
+      "contact": true
     }
   }
 }

@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## Aquatacle et Cryo-Pirouette — 1er novembre 2026
+
+Deux ajouts explicites de génération neuf au moteur commun : Aquatacle (Eau physique, 120/100/10 PP, contact et contrecoup 33/100 des dégâts réels), Cryo-Pirouette (Glace physique, 80/100/15 PP, contact et dissipation du terrain après une touche). Météo, Distorsion, écrans et pièges conservés ; échec/Abri/immunité ne dissipent rien, clone accepté. Recul/talents et planificateur IA partagent les règles existantes. Animations réutilisées charge/Eau et onde/Glace ; noms, descriptions et PP français disponibles partout. Identifiants historiques inchangés, aucune modification des attaques déjà apprises ou de la progression naturelle.
+
+CS au rayon entraînement du Grand Comptoir : 5 000 et 4 000 ₽. Apprentissage permanent vérifié sur les espèces jouables 1–493, sources Showdown épinglées dans une extension hors des références Gen7 immuables ; héritage et Gribouille conservés. Huit et trente-sept espèces compatibles respectivement. Catalogue total : 636 attaques, 635 CS ; audit indépendant des 513 715 paires CS/espèce, anciennes CS/prix/autres objets préservés. 255 tests unitaires/régression et 214 SQL réussis sans échec/saut, dont achats/apprentissages transactionnels ; lint et compilation isolée valides. Recette privée Chromium/WebKit : deux achats/apprentissages, PP/stock/solde et reprise SQL, trois formats/deux thèmes (12 vues), aucune erreur ; comptes jetables supprimés. Pas de téléphone physique revendiqué. Rapport, commandes et sources : `docs/REQUESTED_MOVES_2026-11-01.json`.
+
+Serveur et client publiés le 1er novembre 2026 à 10 h 13 (Europe/Paris), client `dd63444bd94966d0353ce91b6f1c70049696ed1f`, build `8501d4a1484ca56b`. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-requested-moves-2026-11-01T09-13-09-499Z`. PID 3644365→3647698, service actif sans redémarrage automatique/avertissement ; aucune migration ni modification manuelle de compte. Aucun duel/tournoi actif au contrôle ; Knov/api-test, checkpoint et modes fermés conservés. Bundles publics vérifiés à l’octet, anciens assets conservés.
+
 ## Casino et Maison des combats de Blanchecime — 1er novembre 2026
 
 Grande maison sud-est : façade réparée sur douze cellules, porte conservée, nouveau casino pixel art. Maison sud-ouest : nouvelle salle de duel, comptoir/hôtesse au nord, socles bleu/rouge au centre, tribunes en bas et classement au mur nord-est. Deux sources JSON indépendantes, alias logiques existants conservés, entrées/sorties natives raccordées. Nouveaux fonds de salles et de combat générés avec l’outil intégré ; socle adverse ancré au Pokémon, pas de socle allié. `.gitattributes` conserve les fins de ligne CRLF du plan extérieur sans reformater toute la carte.
@@ -5648,6 +5656,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 1er novembre 2026 — Aquatacle/Cryo-Pirouette et leurs CS ajoutées avec compatibilités, noms/effets/animations et simulation IA ; 255 tests unitaires et 214 SQL réussis. `docs/REQUESTED_MOVES_2026-11-01.json`.
 
 - 1er novembre 2026 — Blanchecime : collision de la grande maison réparée, casino à roulette partagée et Maison des combats PvP avec règles combinables, mises argent/Pokémon, tribunes et classement. Migration 027 ; 33 tests unitaires, 196 SQL et 48 vues Chromium/WebKit validés. `docs/WHITEPEAK_CLUB_2026-11-01.json`.
 
