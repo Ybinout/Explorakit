@@ -1,5 +1,31 @@
 # Audit technique et mémoire de RiftMon
 
+## Tour : rééquilibrage Eau / Électrik — 1er novembre 2026
+
+Neuf remplacements limités au Super Tournoi, en conservant les deux autres Pokémon de chaque trio :
+
+| Dresseur | Remplacement |
+| --- | --- |
+| Maria | Roucarnage → Phyllali |
+| Clément | Akwakwak → Lanturn |
+| TOM | Luxray → Jungko |
+| CRY | Kaimorse → Tritosor |
+| Matthieu | Staross → Florizarre |
+| Raphael | Akwakwak → Vacilys |
+| Wanda | Staross → Motisma |
+| Gwenn | Airmure → Bouldeneu |
+| Lucie | Pingoléon → Mammochon |
+
+`superTournament/teamSets.js` contient leurs quatre attaques, nature, EV, talent et objet existants. Absorb Volt pour Lanturn ; Lavabo pour Tritosor/Vacilys ; Lévitation pour Motisma, Régé-Force pour Bouldeneu, Isograisse pour Mammochon. Les autres Plante apportent résistance aux deux types et pression offensive. Des ouvertures restent : Glace/Feu sur les Plante, Plante sur Tritosor, Sol sur Lanturn, Eau sur Mammochon. Baies Nanone/Ratam, Baie Sitrus, Restes, Casque Brut et Orbe Vie coordonnés avec les profils. Aucun objet, talent, capacité ou Pokémon inédit ajouté au catalogue.
+
+Profils hérités également corrigés dans la tour : Lucario et Porygon-Z investissent en Attaque Spéciale, Massko/Azumarill en Attaque ; Azumarill reçoit Coloforce et une Baie Sitrus, Toudoudou des EV défensifs et l’Évoluroc pour ses écrans. Les données communes des PNJ et l’Aventure ne sont pas modifiées. Niveaux 75/85/90 puis +20 par cycle, K4/IV31, ordre des seize dresseurs, musique/portraits, IA, dégâts, gains et autres règles conservés. Une bataille déjà préparée reste telle quelle à la reprise ; les nouvelles générations de combat emploient les trios rééquilibrés.
+
+Diagnostic de couverture reproductible en terrain neutre, talents par défaut fixés par un tirage de construction constant et talents écrits conservés : faiblesses Électrik 16→8 ; équipes avec résistance/immunité Électrik 7→14/16, Eau 12→14/16. Le détail expose aussi les faiblesses conservées et les estimations de dégâts. Ce diagnostic n’est ni une probabilité de victoire ni une mesure sous toutes les météos/augmentations. Deux nouveaux porteurs de Lavabo empêchent notamment le spam Eau de traverser systématiquement une équipe.
+
+Validation : 111 tests de logique/régression et 16 SQL réussis, zéro échec/saut. Nouveaux movepools légaux dans le catalogue CS, talents/objets existants, statistiques et croissance, absorption réelle, soins/bonus Lavabo, Régé-Force/Isograisse, faiblesses et utilisation par l’IA sans lecture d’action cachée vérifiés. SQL : neuf trios conservés à l’octet logique à la reprise, ancien combat Staross conservé puis nouvelle génération Motisma ; équipes d’Aventure inchangées. Recette privée Chromium/WebKit : neuf nouveaux sprites/sets dans de vrais combats, 36 captures PC/mobile, reprise puis abandon sans altération d’équipe/argent, zéro erreur JS et comptes supprimés. Les réservistes sont uniquement avancés en première position dans la recette visuelle privée ; l’ordre réel est couvert séparément. Captures inspectées, syntaxe/diff valides ; aucun build/lint client nécessaire, téléphone physique ou suite globale revendiqués. Rapport et commandes : `docs/TOWER_TYPE_BALANCE_2026-11-01.json`.
+
+Serveur publié le 1er novembre 2026 à 18 h 08 (Europe/Paris), PID 3679239→3681607, service actif sans redémarrage automatique/avertissement. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-tower-types-2026-11-01T17-08-06-204Z`. Client/build/index HTTPS conservés à l’octet (`3be92b5e136fa1919bb08efb546abb39586b0160`, `e9b5e2a0e0f8438b`) ; Knov/api-test, checkpoint et modes fermés inchangés. Aucun duel actif au contrôle, tentative sauvegardée de Super Tournoi conservée. Aucune migration ni modification manuelle de compte réel.
+
 ## Tour : présence des joueurs séparée par salle — 1er novembre 2026
 
 Toutes les salles de duel réutilisent `super_tournament_room` ; leur salon réseau était donc commun à tous les niveaux. Le salon est désormais déterminé par la carte et le numéro absolu de salle de la tentative validée côté serveur : salle 1 et salle 17 distinctes, joueurs d’une même salle visibles ensemble. Accueil, SAS et cartes ordinaires restent partagés. Le numéro interne provient uniquement de `TournamentController.publish`, après sauvegarde ; il est rétabli en cas de rollback et effacé à la sortie. Aucun nouveau champ public ou commande client permettant de choisir son étage.
@@ -5812,6 +5838,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 1er novembre 2026 — Tour : neuf remplacements, réponses Eau/Électrik et profils de stats/talents/objets dédiés, Aventure conservée. 111 tests, 16 SQL et 36 vues Chromium/WebKit ; `docs/TOWER_TYPE_BALANCE_2026-11-01.json`.
 
 - 1er novembre 2026 — Tour : visibilité et messages par salle absolue, reconnexion privée jusqu’au chargement et nettoyage des anciens salons, accueil partagé. 124 tests, 20 SQL/socket et recettes Chromium/WebKit ; `docs/TOWER_PRESENCE_2026-11-01.json`.
 

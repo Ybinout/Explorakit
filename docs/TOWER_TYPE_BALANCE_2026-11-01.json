@@ -1,0 +1,3667 @@
+{
+  "date": "2026-11-01",
+  "feature": "Tower-only Water and Electric matchup balancing",
+  "runtimeSourceSha256": {
+    "server/game/superTournament/content.js": "4c43a7d69ca255e87829f91ee7cb4f9b3c9cb6966adc37e5466635e602b99082",
+    "server/game/superTournament/teamSets.js": "8d8591c245c88c62022ac9d0b66b31f9fbb306efa66f21439e086478c9bd03e6"
+  },
+  "clientCommit": "3be92b5e136fa1919bb08efb546abb39586b0160",
+  "clientBuild": "e9b5e2a0e0f8438b",
+  "clientUnchanged": true,
+  "coverage": {
+    "baseline": "fe2bf34338864b7cb361e5e568bf91ebca7fc150",
+    "field": "neutral, no weather, level 90 K4 IV31 special attackers with no held item; default ability construction roll fixed at 0.25, authored abilities preserved; estimates, not win rates",
+    "before": {
+      "totals": {
+        "Water": {
+          "weak": 6,
+          "checks": 18,
+          "immunities": 1,
+          "teamsWithCheck": 12
+        },
+        "Electric": {
+          "weak": 16,
+          "checks": 10,
+          "immunities": 5,
+          "teamsWithCheck": 7
+        }
+      },
+      "teams": [
+        {
+          "name": "Wayne",
+          "mons": [
+            {
+              "id": 19,
+              "name": "Rattata",
+              "types": [
+                "Normal"
+              ],
+              "level": 75,
+              "ability": "Guts",
+              "item": "leftovers",
+              "moves": [
+                "Return",
+                "Quick Attack",
+                "U-turn",
+                "Super Fang"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 229,
+                  "hpPercent": 102.7
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 282,
+                  "hpPercent": 126.5
+                }
+              }
+            },
+            {
+              "id": 19,
+              "name": "Rattata",
+              "types": [
+                "Normal"
+              ],
+              "level": 85,
+              "ability": "Guts",
+              "item": "life_orb",
+              "moves": [
+                "Return",
+                "Quick Attack",
+                "U-turn",
+                "Super Fang"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 204,
+                  "hpPercent": 81
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 250,
+                  "hpPercent": 99.2
+                }
+              }
+            },
+            {
+              "id": 20,
+              "name": "Rattatac",
+              "types": [
+                "Normal"
+              ],
+              "level": 90,
+              "ability": "Run Away",
+              "item": "focus_sash",
+              "moves": [
+                "Facade",
+                "Crunch",
+                "Sucker Punch",
+                "Swords Dance"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 143,
+                  "hpPercent": 46
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 175,
+                  "hpPercent": 56.3
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Aspha",
+          "mons": [
+            {
+              "id": 475,
+              "name": "Gallame",
+              "types": [
+                "Psychic",
+                "Fighting"
+              ],
+              "level": 75,
+              "ability": "Steadfast",
+              "item": "leftovers",
+              "moves": [
+                "Close Combat",
+                "Psycho Cut",
+                "Shadow Sneak",
+                "Swords Dance"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 129,
+                  "hpPercent": 46.1
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 158,
+                  "hpPercent": 56.4
+                }
+              }
+            },
+            {
+              "id": 373,
+              "name": "Drattak",
+              "types": [
+                "Dragon",
+                "Flying"
+              ],
+              "level": 85,
+              "ability": "Intimidate",
+              "item": "life_orb",
+              "moves": [
+                "Dragon Dance",
+                "Dragon Claw",
+                "Earthquake",
+                "Fire Blast"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 70,
+                  "hpPercent": 19.3
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 173,
+                  "hpPercent": 47.8
+                }
+              }
+            },
+            {
+              "id": 448,
+              "name": "Lucario",
+              "types": [
+                "Fighting",
+                "Steel"
+              ],
+              "level": 90,
+              "ability": "Steadfast",
+              "item": "focus_sash",
+              "moves": [
+                "Aura Sphere",
+                "Flash Cannon",
+                "Dark Pulse",
+                "Nasty Plot"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 143,
+                  "hpPercent": 42.3
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 175,
+                  "hpPercent": 51.8
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Maria",
+          "mons": [
+            {
+              "id": 18,
+              "name": "Roucarnage",
+              "types": [
+                "Normal",
+                "Flying"
+              ],
+              "level": 75,
+              "ability": "Keen Eye",
+              "item": "leftovers",
+              "moves": [
+                "Brave Bird",
+                "Return",
+                "U-turn",
+                "Roost"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 170,
+                  "hpPercent": 56.1
+                },
+                "Electric": {
+                  "typeMultiplier": 2,
+                  "effectiveMultiplier": 2,
+                  "estimatedDamage": 418,
+                  "hpPercent": 138
+                }
+              }
+            },
+            {
+              "id": 174,
+              "name": "Toudoudou",
+              "types": [
+                "Normal",
+                "Fairy"
+              ],
+              "level": 85,
+              "ability": "Cute Charm",
+              "item": "life_orb",
+              "moves": [
+                "Reflect",
+                "Light Screen",
+                "Thunder Wave",
+                "Seismic Toss"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 239,
+                  "hpPercent": 67.5
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 293,
+                  "hpPercent": 82.8
+                }
+              }
+            },
+            {
+              "id": 131,
+              "name": "Lokhlass",
+              "types": [
+                "Water",
+                "Ice"
+              ],
+              "level": 90,
+              "ability": "Water Absorb",
+              "item": "focus_sash",
+              "moves": [
+                "Surf",
+                "Ice Beam",
+                "Thunderbolt",
+                "Perish Song"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0,
+                  "estimatedDamage": 0,
+                  "hpPercent": 0
+                },
+                "Electric": {
+                  "typeMultiplier": 2,
+                  "effectiveMultiplier": 2,
+                  "estimatedDamage": 297,
+                  "hpPercent": 66.6
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Clément",
+          "mons": [
+            {
+              "id": 55,
+              "name": "Akwakwak",
+              "types": [
+                "Water"
+              ],
+              "level": 75,
+              "ability": "Damp",
+              "item": "leftovers",
+              "moves": [
+                "Scald",
+                "Ice Beam",
+                "Psychic",
+                "Calm Mind"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 79,
+                  "hpPercent": 26.5
+                },
+                "Electric": {
+                  "typeMultiplier": 2,
+                  "effectiveMultiplier": 2,
+                  "estimatedDamage": 390,
+                  "hpPercent": 130.9
+                }
+              }
+            },
+            {
+              "id": 474,
+              "name": "Porygon-Z",
+              "types": [
+                "Normal"
+              ],
+              "level": 85,
+              "ability": "Adaptability",
+              "item": "life_orb",
+              "moves": [
+                "Tri Attack",
+                "Ice Beam",
+                "Thunderbolt",
+                "Dark Pulse"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 146,
+                  "hpPercent": 42.3
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 179,
+                  "hpPercent": 51.9
+                }
+              }
+            },
+            {
+              "id": 398,
+              "name": "Étouraptor",
+              "types": [
+                "Normal",
+                "Flying"
+              ],
+              "level": 90,
+              "ability": "Intimidate",
+              "item": "focus_sash",
+              "moves": [
+                "Brave Bird",
+                "Return",
+                "Close Combat",
+                "U-turn"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 154,
+                  "hpPercent": 42.2
+                },
+                "Electric": {
+                  "typeMultiplier": 2,
+                  "effectiveMultiplier": 2,
+                  "estimatedDamage": 379,
+                  "hpPercent": 103.8
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "NOZ",
+          "mons": [
+            {
+              "id": 430,
+              "name": "Corboss",
+              "types": [
+                "Dark",
+                "Flying"
+              ],
+              "level": 75,
+              "ability": "Insomnia",
+              "item": "leftovers",
+              "moves": [
+                "Brave Bird",
+                "Sucker Punch",
+                "Superpower",
+                "Roost"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 196,
+                  "hpPercent": 59.8
+                },
+                "Electric": {
+                  "typeMultiplier": 2,
+                  "effectiveMultiplier": 2,
+                  "estimatedDamage": 481,
+                  "hpPercent": 146.6
+                }
+              }
+            },
+            {
+              "id": 472,
+              "name": "Scorvol",
+              "types": [
+                "Ground",
+                "Flying"
+              ],
+              "level": 85,
+              "ability": "Hyper Cutter",
+              "item": "life_orb",
+              "moves": [
+                "Earthquake",
+                "Roost",
+                "Knock Off",
+                "Swords Dance"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 2,
+                  "effectiveMultiplier": 2,
+                  "estimatedDamage": 293,
+                  "hpPercent": 89.3
+                },
+                "Electric": {
+                  "typeMultiplier": 0,
+                  "effectiveMultiplier": 0,
+                  "estimatedDamage": 0,
+                  "hpPercent": 0
+                }
+              }
+            },
+            {
+              "id": 461,
+              "name": "Dimoret",
+              "types": [
+                "Dark",
+                "Ice"
+              ],
+              "level": 90,
+              "ability": "Pressure",
+              "item": "focus_sash",
+              "moves": [
+                "Icicle Crash",
+                "Knock Off",
+                "Ice Shard",
+                "Low Kick"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 129,
+                  "hpPercent": 38.2
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 158,
+                  "hpPercent": 46.7
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "TOM",
+          "mons": [
+            {
+              "id": 462,
+              "name": "Magnézone",
+              "types": [
+                "Electric",
+                "Steel"
+              ],
+              "level": 75,
+              "ability": "Magnet Pull",
+              "item": "leftovers",
+              "moves": [
+                "Thunderbolt",
+                "Flash Cannon",
+                "Volt Switch",
+                "Hidden Power"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 149,
+                  "hpPercent": 52.7
+                },
+                "Electric": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 91,
+                  "hpPercent": 32.2
+                }
+              }
+            },
+            {
+              "id": 405,
+              "name": "Luxray",
+              "types": [
+                "Electric"
+              ],
+              "level": 85,
+              "ability": "Rivalry",
+              "item": "life_orb",
+              "moves": [
+                "Wild Charge",
+                "Crunch",
+                "Ice Fang",
+                "Superpower"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 142,
+                  "hpPercent": 42.1
+                },
+                "Electric": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 87,
+                  "hpPercent": 25.8
+                }
+              }
+            },
+            {
+              "id": 474,
+              "name": "Porygon-Z",
+              "types": [
+                "Normal"
+              ],
+              "level": 90,
+              "ability": "Adaptability",
+              "item": "focus_sash",
+              "moves": [
+                "Tri Attack",
+                "Ice Beam",
+                "Thunderbolt",
+                "Dark Pulse"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 138,
+                  "hpPercent": 37.8
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 169,
+                  "hpPercent": 46.3
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "CRY",
+          "mons": [
+            {
+              "id": 184,
+              "name": "Azumarill",
+              "types": [
+                "Water",
+                "Fairy"
+              ],
+              "level": 75,
+              "ability": "Thick Fat",
+              "item": "leftovers",
+              "moves": [
+                "Waterfall",
+                "Play Rough",
+                "Aqua Jet",
+                "Superpower"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 79,
+                  "hpPercent": 24.1
+                },
+                "Electric": {
+                  "typeMultiplier": 2,
+                  "effectiveMultiplier": 2,
+                  "estimatedDamage": 390,
+                  "hpPercent": 118.9
+                }
+              }
+            },
+            {
+              "id": 121,
+              "name": "Staross",
+              "types": [
+                "Water",
+                "Psychic"
+              ],
+              "level": 85,
+              "ability": "Illuminate",
+              "item": "life_orb",
+              "moves": [
+                "Surf",
+                "Ice Beam",
+                "Thunderbolt",
+                "Recover"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 68,
+                  "hpPercent": 22.4
+                },
+                "Electric": {
+                  "typeMultiplier": 2,
+                  "effectiveMultiplier": 2,
+                  "estimatedDamage": 335,
+                  "hpPercent": 110.6
+                }
+              }
+            },
+            {
+              "id": 365,
+              "name": "Kaimorse",
+              "types": [
+                "Ice",
+                "Water"
+              ],
+              "level": 90,
+              "ability": "Thick Fat",
+              "item": "focus_sash",
+              "moves": [
+                "Surf",
+                "Ice Beam",
+                "Toxic",
+                "Protect"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 62,
+                  "hpPercent": 15.1
+                },
+                "Electric": {
+                  "typeMultiplier": 2,
+                  "effectiveMultiplier": 2,
+                  "estimatedDamage": 307,
+                  "hpPercent": 74.9
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Mounir",
+          "mons": [
+            {
+              "id": 271,
+              "name": "Lombre",
+              "types": [
+                "Water",
+                "Grass"
+              ],
+              "level": 75,
+              "ability": "Swift Swim",
+              "item": "leftovers",
+              "moves": [
+                "Fake Out",
+                "Bubble Beam",
+                "Mega Drain",
+                "Icy Wind"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 0.25,
+                  "effectiveMultiplier": 0.25,
+                  "estimatedDamage": 42,
+                  "hpPercent": 15.7
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 209,
+                  "hpPercent": 78
+                }
+              }
+            },
+            {
+              "id": 208,
+              "name": "Steelix",
+              "types": [
+                "Steel",
+                "Ground"
+              ],
+              "level": 85,
+              "ability": "Sturdy",
+              "item": "life_orb",
+              "moves": [
+                "Iron Head",
+                "Bulldoze",
+                "Rock Slide",
+                "Crunch"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 2,
+                  "effectiveMultiplier": 2,
+                  "estimatedDamage": 315,
+                  "hpPercent": 96
+                },
+                "Electric": {
+                  "typeMultiplier": 0,
+                  "effectiveMultiplier": 0,
+                  "estimatedDamage": 0,
+                  "hpPercent": 0
+                }
+              }
+            },
+            {
+              "id": 351,
+              "name": "Morphéo",
+              "types": [
+                "Normal"
+              ],
+              "level": 90,
+              "ability": "Forecast",
+              "item": "sitrus_berry",
+              "moves": [
+                "Weather Ball",
+                "Thunder",
+                "Ice Beam",
+                "Rain Dance"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 143,
+                  "hpPercent": 42.3
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 175,
+                  "hpPercent": 51.8
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Hoze",
+          "mons": [
+            {
+              "id": 253,
+              "name": "Massko",
+              "types": [
+                "Grass"
+              ],
+              "level": 75,
+              "ability": "Overgrow",
+              "item": "eviolite",
+              "moves": [
+                "Leaf Blade",
+                "Drain Punch",
+                "Rock Slide",
+                "Swords Dance"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 59,
+                  "hpPercent": 23.3
+                },
+                "Electric": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 72,
+                  "hpPercent": 28.5
+                }
+              }
+            },
+            {
+              "id": 448,
+              "name": "Lucario",
+              "types": [
+                "Fighting",
+                "Steel"
+              ],
+              "level": 85,
+              "ability": "Inner Focus",
+              "item": "life_orb",
+              "moves": [
+                "Aura Sphere",
+                "Flash Cannon",
+                "Dark Pulse",
+                "Nasty Plot"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 151,
+                  "hpPercent": 47.2
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 185,
+                  "hpPercent": 57.8
+                }
+              }
+            },
+            {
+              "id": 445,
+              "name": "Carchacrok",
+              "types": [
+                "Dragon",
+                "Ground"
+              ],
+              "level": 90,
+              "ability": "Rough Skin",
+              "item": "lum_berry",
+              "moves": [
+                "Earthquake",
+                "Dragon Claw",
+                "Fire Fang",
+                "Swords Dance"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 129,
+                  "hpPercent": 31.8
+                },
+                "Electric": {
+                  "typeMultiplier": 0,
+                  "effectiveMultiplier": 0,
+                  "estimatedDamage": 0,
+                  "hpPercent": 0
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Matthieu",
+          "mons": [
+            {
+              "id": 121,
+              "name": "Staross",
+              "types": [
+                "Water",
+                "Psychic"
+              ],
+              "level": 75,
+              "ability": "Natural Cure",
+              "item": "life_orb",
+              "moves": [
+                "Surf",
+                "Ice Beam",
+                "Thunderbolt",
+                "Recover"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 76,
+                  "hpPercent": 28.4
+                },
+                "Electric": {
+                  "typeMultiplier": 2,
+                  "effectiveMultiplier": 2,
+                  "estimatedDamage": 376,
+                  "hpPercent": 140.3
+                }
+              }
+            },
+            {
+              "id": 130,
+              "name": "Léviator",
+              "types": [
+                "Water",
+                "Flying"
+              ],
+              "level": 85,
+              "ability": "Intimidate",
+              "item": "leftovers",
+              "moves": [
+                "Dragon Dance",
+                "Waterfall",
+                "Earthquake",
+                "Ice Fang"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 62,
+                  "hpPercent": 17.2
+                },
+                "Electric": {
+                  "typeMultiplier": 4,
+                  "effectiveMultiplier": 4,
+                  "estimatedDamage": 607,
+                  "hpPercent": 168.1
+                }
+              }
+            },
+            {
+              "id": 157,
+              "name": "Typhlosion",
+              "types": [
+                "Fire"
+              ],
+              "level": 90,
+              "ability": "Blaze",
+              "item": "choice_scarf",
+              "moves": [
+                "Overheat",
+                "Flamethrower",
+                "Focus Blast",
+                "Thunder Punch"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 2,
+                  "effectiveMultiplier": 2,
+                  "estimatedDamage": 287,
+                  "hpPercent": 81.5
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 175,
+                  "hpPercent": 49.7
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Raphael",
+          "mons": [
+            {
+              "id": 55,
+              "name": "Akwakwak",
+              "types": [
+                "Water"
+              ],
+              "level": 75,
+              "ability": "Cloud Nine",
+              "item": "leftovers",
+              "moves": [
+                "Scald",
+                "Ice Beam",
+                "Psychic",
+                "Calm Mind"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 79,
+                  "hpPercent": 26.5
+                },
+                "Electric": {
+                  "typeMultiplier": 2,
+                  "effectiveMultiplier": 2,
+                  "estimatedDamage": 390,
+                  "hpPercent": 130.9
+                }
+              }
+            },
+            {
+              "id": 330,
+              "name": "Libégon",
+              "types": [
+                "Ground",
+                "Dragon"
+              ],
+              "level": 85,
+              "ability": "Levitate",
+              "item": "choice_scarf",
+              "moves": [
+                "Earthquake",
+                "Dragon Claw",
+                "Rock Slide",
+                "Fire Punch"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 141,
+                  "hpPercent": 41.8
+                },
+                "Electric": {
+                  "typeMultiplier": 0,
+                  "effectiveMultiplier": 0,
+                  "estimatedDamage": 0,
+                  "hpPercent": 0
+                }
+              }
+            },
+            {
+              "id": 212,
+              "name": "Cizayox",
+              "types": [
+                "Bug",
+                "Steel"
+              ],
+              "level": 90,
+              "ability": "Technician",
+              "item": "lum_berry",
+              "moves": [
+                "Bullet Punch",
+                "Bug Bite",
+                "Roost",
+                "Swords Dance"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 133,
+                  "hpPercent": 33.8
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 163,
+                  "hpPercent": 41.4
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Ana",
+          "mons": [
+            {
+              "id": 154,
+              "name": "Méganium",
+              "types": [
+                "Grass"
+              ],
+              "level": 75,
+              "ability": "Overgrow",
+              "item": "leftovers",
+              "moves": [
+                "Giga Drain",
+                "Synthesis",
+                "Reflect",
+                "Light Screen"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 70,
+                  "hpPercent": 20.3
+                },
+                "Electric": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 85,
+                  "hpPercent": 24.6
+                }
+              }
+            },
+            {
+              "id": 407,
+              "name": "Roserade",
+              "types": [
+                "Grass",
+                "Poison"
+              ],
+              "level": 85,
+              "ability": "Natural Cure",
+              "item": "life_orb",
+              "moves": [
+                "Giga Drain",
+                "Sludge Bomb",
+                "Shadow Ball",
+                "Dazzling Gleam"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 60,
+                  "hpPercent": 19.9
+                },
+                "Electric": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 73,
+                  "hpPercent": 24.2
+                }
+              }
+            },
+            {
+              "id": 282,
+              "name": "Gardevoir",
+              "types": [
+                "Psychic",
+                "Fairy"
+              ],
+              "level": 90,
+              "ability": "Trace",
+              "item": "lum_berry",
+              "moves": [
+                "Moonblast",
+                "Psyshock",
+                "Focus Blast",
+                "Calm Mind"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 108,
+                  "hpPercent": 32.3
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 132,
+                  "hpPercent": 39.5
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Wanda",
+          "mons": [
+            {
+              "id": 121,
+              "name": "Staross",
+              "types": [
+                "Water",
+                "Psychic"
+              ],
+              "level": 75,
+              "ability": "Natural Cure",
+              "item": "leftovers",
+              "moves": [
+                "Surf",
+                "Ice Beam",
+                "Thunderbolt",
+                "Recover"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 77,
+                  "hpPercent": 28.7
+                },
+                "Electric": {
+                  "typeMultiplier": 2,
+                  "effectiveMultiplier": 2,
+                  "estimatedDamage": 378,
+                  "hpPercent": 141
+                }
+              }
+            },
+            {
+              "id": 373,
+              "name": "Drattak",
+              "types": [
+                "Dragon",
+                "Flying"
+              ],
+              "level": 85,
+              "ability": "Intimidate",
+              "item": "lum_berry",
+              "moves": [
+                "Dragon Dance",
+                "Dragon Claw",
+                "Earthquake",
+                "Fire Blast"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 78,
+                  "hpPercent": 21.6
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 191,
+                  "hpPercent": 52.9
+                }
+              }
+            },
+            {
+              "id": 376,
+              "name": "Métalosse",
+              "types": [
+                "Steel",
+                "Psychic"
+              ],
+              "level": 90,
+              "ability": "Clear Body",
+              "item": "shuca_berry",
+              "moves": [
+                "Meteor Mash",
+                "Earthquake",
+                "Bullet Punch",
+                "Stealth Rock"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 124,
+                  "hpPercent": 30.1
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 153,
+                  "hpPercent": 37.1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Gwenn",
+          "mons": [
+            {
+              "id": 227,
+              "name": "Airmure",
+              "types": [
+                "Steel",
+                "Flying"
+              ],
+              "level": 75,
+              "ability": "Sturdy",
+              "item": "leftovers",
+              "moves": [
+                "Spikes",
+                "Whirlwind",
+                "Roost",
+                "Brave Bird"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 170,
+                  "hpPercent": 52.8
+                },
+                "Electric": {
+                  "typeMultiplier": 2,
+                  "effectiveMultiplier": 2,
+                  "estimatedDamage": 418,
+                  "hpPercent": 129.8
+                }
+              }
+            },
+            {
+              "id": 248,
+              "name": "Tyranocif",
+              "types": [
+                "Rock",
+                "Dark"
+              ],
+              "level": 85,
+              "ability": "Sand Stream",
+              "item": "lum_berry",
+              "moves": [
+                "Dragon Dance",
+                "Stone Edge",
+                "Crunch",
+                "Earthquake"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 2,
+                  "effectiveMultiplier": 2,
+                  "estimatedDamage": 248,
+                  "hpPercent": 67
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 151,
+                  "hpPercent": 40.8
+                }
+              }
+            },
+            {
+              "id": 94,
+              "name": "Ectoplasma",
+              "types": [
+                "Ghost",
+                "Poison"
+              ],
+              "level": 90,
+              "ability": "Cursed Body",
+              "item": "life_orb",
+              "moves": [
+                "Shadow Ball",
+                "Sludge Bomb",
+                "Focus Blast",
+                "Thunderbolt"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 138,
+                  "hpPercent": 43.3
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 169,
+                  "hpPercent": 53
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "7p",
+          "mons": [
+            {
+              "id": 51,
+              "name": "Triopikeur",
+              "types": [
+                "Ground"
+              ],
+              "level": 75,
+              "ability": "Arena Trap",
+              "item": "focus_sash",
+              "moves": [
+                "Earthquake",
+                "Stone Edge",
+                "Sucker Punch",
+                "Reversal"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 2,
+                  "effectiveMultiplier": 2,
+                  "estimatedDamage": 341,
+                  "hpPercent": 148.3
+                },
+                "Electric": {
+                  "typeMultiplier": 0,
+                  "effectiveMultiplier": 0,
+                  "estimatedDamage": 0,
+                  "hpPercent": 0
+                }
+              }
+            },
+            {
+              "id": 257,
+              "name": "Braségali",
+              "types": [
+                "Fire",
+                "Fighting"
+              ],
+              "level": 85,
+              "ability": "Speed Boost",
+              "item": "life_orb",
+              "moves": [
+                "Flare Blitz",
+                "High Jump Kick",
+                "Stone Edge",
+                "Swords Dance"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 2,
+                  "effectiveMultiplier": 2,
+                  "estimatedDamage": 301,
+                  "hpPercent": 89.6
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 185,
+                  "hpPercent": 55.1
+                }
+              }
+            },
+            {
+              "id": 130,
+              "name": "Léviator",
+              "types": [
+                "Water",
+                "Flying"
+              ],
+              "level": 90,
+              "ability": "Intimidate",
+              "item": "lum_berry",
+              "moves": [
+                "Waterfall",
+                "Earthquake",
+                "Ice Fang",
+                "Dragon Dance"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 58,
+                  "hpPercent": 15.2
+                },
+                "Electric": {
+                  "typeMultiplier": 4,
+                  "effectiveMultiplier": 4,
+                  "estimatedDamage": 575,
+                  "hpPercent": 150.5
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Lucie",
+          "mons": [
+            {
+              "id": 395,
+              "name": "Pingoléon",
+              "types": [
+                "Water",
+                "Steel"
+              ],
+              "level": 75,
+              "ability": "Torrent",
+              "item": "leftovers",
+              "moves": [
+                "Scald",
+                "Ice Beam",
+                "Grass Knot",
+                "Stealth Rock"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 69,
+                  "hpPercent": 19.7
+                },
+                "Electric": {
+                  "typeMultiplier": 2,
+                  "effectiveMultiplier": 2,
+                  "estimatedDamage": 342,
+                  "hpPercent": 97.4
+                }
+              }
+            },
+            {
+              "id": 65,
+              "name": "Alakazam",
+              "types": [
+                "Psychic"
+              ],
+              "level": 85,
+              "ability": "Magic Guard",
+              "item": "focus_sash",
+              "moves": [
+                "Psychic",
+                "Focus Blast",
+                "Shadow Ball",
+                "Energy Ball"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 128,
+                  "hpPercent": 43.7
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 156,
+                  "hpPercent": 53.2
+                }
+              }
+            },
+            {
+              "id": 350,
+              "name": "Milobellus",
+              "types": [
+                "Water"
+              ],
+              "level": 90,
+              "ability": "Competitive",
+              "item": "leftovers",
+              "moves": [
+                "Scald",
+                "Recover",
+                "Ice Beam",
+                "Toxic"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 51,
+                  "hpPercent": 11.6
+                },
+                "Electric": {
+                  "typeMultiplier": 2,
+                  "effectiveMultiplier": 2,
+                  "estimatedDamage": 250,
+                  "hpPercent": 56.9
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "after": {
+      "totals": {
+        "Water": {
+          "weak": 7,
+          "checks": 19,
+          "immunities": 3,
+          "teamsWithCheck": 14
+        },
+        "Electric": {
+          "weak": 8,
+          "checks": 18,
+          "immunities": 8,
+          "teamsWithCheck": 14
+        }
+      },
+      "teams": [
+        {
+          "name": "Wayne",
+          "mons": [
+            {
+              "id": 19,
+              "name": "Rattata",
+              "types": [
+                "Normal"
+              ],
+              "level": 75,
+              "ability": "Guts",
+              "item": "leftovers",
+              "moves": [
+                "Return",
+                "Quick Attack",
+                "U-turn",
+                "Super Fang"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 229,
+                  "hpPercent": 102.7
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 282,
+                  "hpPercent": 126.5
+                }
+              }
+            },
+            {
+              "id": 19,
+              "name": "Rattata",
+              "types": [
+                "Normal"
+              ],
+              "level": 85,
+              "ability": "Guts",
+              "item": "life_orb",
+              "moves": [
+                "Return",
+                "Quick Attack",
+                "U-turn",
+                "Super Fang"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 204,
+                  "hpPercent": 81
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 250,
+                  "hpPercent": 99.2
+                }
+              }
+            },
+            {
+              "id": 20,
+              "name": "Rattatac",
+              "types": [
+                "Normal"
+              ],
+              "level": 90,
+              "ability": "Run Away",
+              "item": "focus_sash",
+              "moves": [
+                "Facade",
+                "Crunch",
+                "Sucker Punch",
+                "Swords Dance"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 143,
+                  "hpPercent": 46
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 175,
+                  "hpPercent": 56.3
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Aspha",
+          "mons": [
+            {
+              "id": 475,
+              "name": "Gallame",
+              "types": [
+                "Psychic",
+                "Fighting"
+              ],
+              "level": 75,
+              "ability": "Steadfast",
+              "item": "leftovers",
+              "moves": [
+                "Close Combat",
+                "Psycho Cut",
+                "Shadow Sneak",
+                "Swords Dance"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 129,
+                  "hpPercent": 46.1
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 158,
+                  "hpPercent": 56.4
+                }
+              }
+            },
+            {
+              "id": 373,
+              "name": "Drattak",
+              "types": [
+                "Dragon",
+                "Flying"
+              ],
+              "level": 85,
+              "ability": "Intimidate",
+              "item": "life_orb",
+              "moves": [
+                "Dragon Dance",
+                "Dragon Claw",
+                "Earthquake",
+                "Fire Blast"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 70,
+                  "hpPercent": 19.3
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 173,
+                  "hpPercent": 47.8
+                }
+              }
+            },
+            {
+              "id": 448,
+              "name": "Lucario",
+              "types": [
+                "Fighting",
+                "Steel"
+              ],
+              "level": 90,
+              "ability": "Steadfast",
+              "item": "focus_sash",
+              "moves": [
+                "Aura Sphere",
+                "Flash Cannon",
+                "Dark Pulse",
+                "Nasty Plot"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 143,
+                  "hpPercent": 42.3
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 175,
+                  "hpPercent": 51.8
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Maria",
+          "mons": [
+            {
+              "id": 470,
+              "name": "Phyllali",
+              "types": [
+                "Grass"
+              ],
+              "level": 75,
+              "ability": "Leaf Guard",
+              "item": "yache_berry",
+              "moves": [
+                "Leaf Blade",
+                "Knock Off",
+                "Synthesis",
+                "Swords Dance"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 88,
+                  "hpPercent": 31.9
+                },
+                "Electric": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 108,
+                  "hpPercent": 39.1
+                }
+              }
+            },
+            {
+              "id": 174,
+              "name": "Toudoudou",
+              "types": [
+                "Normal",
+                "Fairy"
+              ],
+              "level": 85,
+              "ability": "Cute Charm",
+              "item": "eviolite",
+              "moves": [
+                "Reflect",
+                "Light Screen",
+                "Thunder Wave",
+                "Seismic Toss"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 123,
+                  "hpPercent": 30.3
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 151,
+                  "hpPercent": 37.2
+                }
+              }
+            },
+            {
+              "id": 131,
+              "name": "Lokhlass",
+              "types": [
+                "Water",
+                "Ice"
+              ],
+              "level": 90,
+              "ability": "Water Absorb",
+              "item": "focus_sash",
+              "moves": [
+                "Surf",
+                "Ice Beam",
+                "Thunderbolt",
+                "Perish Song"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0,
+                  "estimatedDamage": 0,
+                  "hpPercent": 0
+                },
+                "Electric": {
+                  "typeMultiplier": 2,
+                  "effectiveMultiplier": 2,
+                  "estimatedDamage": 297,
+                  "hpPercent": 66.6
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Clément",
+          "mons": [
+            {
+              "id": 171,
+              "name": "Lanturn",
+              "types": [
+                "Water",
+                "Electric"
+              ],
+              "level": 75,
+              "ability": "Volt Absorb",
+              "item": "leftovers",
+              "moves": [
+                "Scald",
+                "Thunderbolt",
+                "Ice Beam",
+                "Volt Switch"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 61,
+                  "hpPercent": 14.8
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 0,
+                  "estimatedDamage": 0,
+                  "hpPercent": 0
+                }
+              }
+            },
+            {
+              "id": 474,
+              "name": "Porygon-Z",
+              "types": [
+                "Normal"
+              ],
+              "level": 85,
+              "ability": "Adaptability",
+              "item": "life_orb",
+              "moves": [
+                "Tri Attack",
+                "Ice Beam",
+                "Thunderbolt",
+                "Dark Pulse"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 146,
+                  "hpPercent": 42.3
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 179,
+                  "hpPercent": 51.9
+                }
+              }
+            },
+            {
+              "id": 398,
+              "name": "Étouraptor",
+              "types": [
+                "Normal",
+                "Flying"
+              ],
+              "level": 90,
+              "ability": "Intimidate",
+              "item": "focus_sash",
+              "moves": [
+                "Brave Bird",
+                "Return",
+                "Close Combat",
+                "U-turn"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 154,
+                  "hpPercent": 42.2
+                },
+                "Electric": {
+                  "typeMultiplier": 2,
+                  "effectiveMultiplier": 2,
+                  "estimatedDamage": 379,
+                  "hpPercent": 103.8
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "NOZ",
+          "mons": [
+            {
+              "id": 430,
+              "name": "Corboss",
+              "types": [
+                "Dark",
+                "Flying"
+              ],
+              "level": 75,
+              "ability": "Insomnia",
+              "item": "leftovers",
+              "moves": [
+                "Brave Bird",
+                "Sucker Punch",
+                "Superpower",
+                "Roost"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 196,
+                  "hpPercent": 59.8
+                },
+                "Electric": {
+                  "typeMultiplier": 2,
+                  "effectiveMultiplier": 2,
+                  "estimatedDamage": 481,
+                  "hpPercent": 146.6
+                }
+              }
+            },
+            {
+              "id": 472,
+              "name": "Scorvol",
+              "types": [
+                "Ground",
+                "Flying"
+              ],
+              "level": 85,
+              "ability": "Hyper Cutter",
+              "item": "life_orb",
+              "moves": [
+                "Earthquake",
+                "Roost",
+                "Knock Off",
+                "Swords Dance"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 2,
+                  "effectiveMultiplier": 2,
+                  "estimatedDamage": 293,
+                  "hpPercent": 89.3
+                },
+                "Electric": {
+                  "typeMultiplier": 0,
+                  "effectiveMultiplier": 0,
+                  "estimatedDamage": 0,
+                  "hpPercent": 0
+                }
+              }
+            },
+            {
+              "id": 461,
+              "name": "Dimoret",
+              "types": [
+                "Dark",
+                "Ice"
+              ],
+              "level": 90,
+              "ability": "Pressure",
+              "item": "focus_sash",
+              "moves": [
+                "Icicle Crash",
+                "Knock Off",
+                "Ice Shard",
+                "Low Kick"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 129,
+                  "hpPercent": 38.2
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 158,
+                  "hpPercent": 46.7
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "TOM",
+          "mons": [
+            {
+              "id": 462,
+              "name": "Magnézone",
+              "types": [
+                "Electric",
+                "Steel"
+              ],
+              "level": 75,
+              "ability": "Magnet Pull",
+              "item": "leftovers",
+              "moves": [
+                "Thunderbolt",
+                "Flash Cannon",
+                "Volt Switch",
+                "Hidden Power"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 149,
+                  "hpPercent": 52.7
+                },
+                "Electric": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 91,
+                  "hpPercent": 32.2
+                }
+              }
+            },
+            {
+              "id": 254,
+              "name": "Jungko",
+              "types": [
+                "Grass"
+              ],
+              "level": 85,
+              "ability": "Overgrow",
+              "item": "yache_berry",
+              "moves": [
+                "Giga Drain",
+                "Dragon Pulse",
+                "Focus Blast",
+                "Leaf Storm"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 68,
+                  "hpPercent": 21.3
+                },
+                "Electric": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 83,
+                  "hpPercent": 25.9
+                }
+              }
+            },
+            {
+              "id": 474,
+              "name": "Porygon-Z",
+              "types": [
+                "Normal"
+              ],
+              "level": 90,
+              "ability": "Adaptability",
+              "item": "focus_sash",
+              "moves": [
+                "Tri Attack",
+                "Ice Beam",
+                "Thunderbolt",
+                "Dark Pulse"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 138,
+                  "hpPercent": 37.8
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 169,
+                  "hpPercent": 46.3
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "CRY",
+          "mons": [
+            {
+              "id": 184,
+              "name": "Azumarill",
+              "types": [
+                "Water",
+                "Fairy"
+              ],
+              "level": 75,
+              "ability": "Huge Power",
+              "item": "sitrus_berry",
+              "moves": [
+                "Waterfall",
+                "Play Rough",
+                "Aqua Jet",
+                "Superpower"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 79,
+                  "hpPercent": 21.1
+                },
+                "Electric": {
+                  "typeMultiplier": 2,
+                  "effectiveMultiplier": 2,
+                  "estimatedDamage": 390,
+                  "hpPercent": 104
+                }
+              }
+            },
+            {
+              "id": 121,
+              "name": "Staross",
+              "types": [
+                "Water",
+                "Psychic"
+              ],
+              "level": 85,
+              "ability": "Illuminate",
+              "item": "life_orb",
+              "moves": [
+                "Surf",
+                "Ice Beam",
+                "Thunderbolt",
+                "Recover"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 68,
+                  "hpPercent": 22.4
+                },
+                "Electric": {
+                  "typeMultiplier": 2,
+                  "effectiveMultiplier": 2,
+                  "estimatedDamage": 335,
+                  "hpPercent": 110.6
+                }
+              }
+            },
+            {
+              "id": 423,
+              "name": "Tritosor",
+              "types": [
+                "Water",
+                "Ground"
+              ],
+              "level": 90,
+              "ability": "Storm Drain",
+              "item": "rindo_berry",
+              "moves": [
+                "Scald",
+                "Earth Power",
+                "Ice Beam",
+                "Recover"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 0,
+                  "estimatedDamage": 0,
+                  "hpPercent": 0
+                },
+                "Electric": {
+                  "typeMultiplier": 0,
+                  "effectiveMultiplier": 0,
+                  "estimatedDamage": 0,
+                  "hpPercent": 0
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Mounir",
+          "mons": [
+            {
+              "id": 271,
+              "name": "Lombre",
+              "types": [
+                "Water",
+                "Grass"
+              ],
+              "level": 75,
+              "ability": "Swift Swim",
+              "item": "leftovers",
+              "moves": [
+                "Fake Out",
+                "Bubble Beam",
+                "Mega Drain",
+                "Icy Wind"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 0.25,
+                  "effectiveMultiplier": 0.25,
+                  "estimatedDamage": 42,
+                  "hpPercent": 15.7
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 209,
+                  "hpPercent": 78
+                }
+              }
+            },
+            {
+              "id": 208,
+              "name": "Steelix",
+              "types": [
+                "Steel",
+                "Ground"
+              ],
+              "level": 85,
+              "ability": "Sturdy",
+              "item": "life_orb",
+              "moves": [
+                "Iron Head",
+                "Bulldoze",
+                "Rock Slide",
+                "Crunch"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 2,
+                  "effectiveMultiplier": 2,
+                  "estimatedDamage": 315,
+                  "hpPercent": 96
+                },
+                "Electric": {
+                  "typeMultiplier": 0,
+                  "effectiveMultiplier": 0,
+                  "estimatedDamage": 0,
+                  "hpPercent": 0
+                }
+              }
+            },
+            {
+              "id": 351,
+              "name": "Morphéo",
+              "types": [
+                "Normal"
+              ],
+              "level": 90,
+              "ability": "Forecast",
+              "item": "sitrus_berry",
+              "moves": [
+                "Weather Ball",
+                "Thunder",
+                "Ice Beam",
+                "Rain Dance"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 143,
+                  "hpPercent": 42.3
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 175,
+                  "hpPercent": 51.8
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Hoze",
+          "mons": [
+            {
+              "id": 253,
+              "name": "Massko",
+              "types": [
+                "Grass"
+              ],
+              "level": 75,
+              "ability": "Overgrow",
+              "item": "eviolite",
+              "moves": [
+                "Leaf Blade",
+                "Drain Punch",
+                "Rock Slide",
+                "Swords Dance"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 59,
+                  "hpPercent": 23.3
+                },
+                "Electric": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 72,
+                  "hpPercent": 28.5
+                }
+              }
+            },
+            {
+              "id": 448,
+              "name": "Lucario",
+              "types": [
+                "Fighting",
+                "Steel"
+              ],
+              "level": 85,
+              "ability": "Inner Focus",
+              "item": "life_orb",
+              "moves": [
+                "Aura Sphere",
+                "Flash Cannon",
+                "Dark Pulse",
+                "Nasty Plot"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 151,
+                  "hpPercent": 47.2
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 185,
+                  "hpPercent": 57.8
+                }
+              }
+            },
+            {
+              "id": 445,
+              "name": "Carchacrok",
+              "types": [
+                "Dragon",
+                "Ground"
+              ],
+              "level": 90,
+              "ability": "Rough Skin",
+              "item": "lum_berry",
+              "moves": [
+                "Earthquake",
+                "Dragon Claw",
+                "Fire Fang",
+                "Swords Dance"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 129,
+                  "hpPercent": 31.8
+                },
+                "Electric": {
+                  "typeMultiplier": 0,
+                  "effectiveMultiplier": 0,
+                  "estimatedDamage": 0,
+                  "hpPercent": 0
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Matthieu",
+          "mons": [
+            {
+              "id": 3,
+              "name": "Florizarre",
+              "types": [
+                "Grass",
+                "Poison"
+              ],
+              "level": 75,
+              "ability": "Overgrow",
+              "item": "sitrus_berry",
+              "moves": [
+                "Giga Drain",
+                "Sludge Bomb",
+                "Sleep Powder",
+                "Synthesis"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 70,
+                  "hpPercent": 20.3
+                },
+                "Electric": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 85,
+                  "hpPercent": 24.6
+                }
+              }
+            },
+            {
+              "id": 130,
+              "name": "Léviator",
+              "types": [
+                "Water",
+                "Flying"
+              ],
+              "level": 85,
+              "ability": "Intimidate",
+              "item": "leftovers",
+              "moves": [
+                "Dragon Dance",
+                "Waterfall",
+                "Earthquake",
+                "Ice Fang"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 62,
+                  "hpPercent": 17.2
+                },
+                "Electric": {
+                  "typeMultiplier": 4,
+                  "effectiveMultiplier": 4,
+                  "estimatedDamage": 607,
+                  "hpPercent": 168.1
+                }
+              }
+            },
+            {
+              "id": 157,
+              "name": "Typhlosion",
+              "types": [
+                "Fire"
+              ],
+              "level": 90,
+              "ability": "Blaze",
+              "item": "choice_scarf",
+              "moves": [
+                "Overheat",
+                "Flamethrower",
+                "Focus Blast",
+                "Thunder Punch"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 2,
+                  "effectiveMultiplier": 2,
+                  "estimatedDamage": 287,
+                  "hpPercent": 81.5
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 175,
+                  "hpPercent": 49.7
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Raphael",
+          "mons": [
+            {
+              "id": 346,
+              "name": "Vacilys",
+              "types": [
+                "Rock",
+                "Grass"
+              ],
+              "level": 75,
+              "ability": "Storm Drain",
+              "item": "leftovers",
+              "moves": [
+                "Giga Drain",
+                "Ancient Power",
+                "Earth Power",
+                "Recover"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 0,
+                  "estimatedDamage": 0,
+                  "hpPercent": 0
+                },
+                "Electric": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 63,
+                  "hpPercent": 17.8
+                }
+              }
+            },
+            {
+              "id": 330,
+              "name": "Libégon",
+              "types": [
+                "Ground",
+                "Dragon"
+              ],
+              "level": 85,
+              "ability": "Levitate",
+              "item": "choice_scarf",
+              "moves": [
+                "Earthquake",
+                "Dragon Claw",
+                "Rock Slide",
+                "Fire Punch"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 141,
+                  "hpPercent": 41.8
+                },
+                "Electric": {
+                  "typeMultiplier": 0,
+                  "effectiveMultiplier": 0,
+                  "estimatedDamage": 0,
+                  "hpPercent": 0
+                }
+              }
+            },
+            {
+              "id": 212,
+              "name": "Cizayox",
+              "types": [
+                "Bug",
+                "Steel"
+              ],
+              "level": 90,
+              "ability": "Technician",
+              "item": "lum_berry",
+              "moves": [
+                "Bullet Punch",
+                "Bug Bite",
+                "Roost",
+                "Swords Dance"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 133,
+                  "hpPercent": 33.8
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 163,
+                  "hpPercent": 41.4
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Ana",
+          "mons": [
+            {
+              "id": 154,
+              "name": "Méganium",
+              "types": [
+                "Grass"
+              ],
+              "level": 75,
+              "ability": "Overgrow",
+              "item": "leftovers",
+              "moves": [
+                "Giga Drain",
+                "Synthesis",
+                "Reflect",
+                "Light Screen"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 70,
+                  "hpPercent": 20.3
+                },
+                "Electric": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 85,
+                  "hpPercent": 24.6
+                }
+              }
+            },
+            {
+              "id": 407,
+              "name": "Roserade",
+              "types": [
+                "Grass",
+                "Poison"
+              ],
+              "level": 85,
+              "ability": "Natural Cure",
+              "item": "life_orb",
+              "moves": [
+                "Giga Drain",
+                "Sludge Bomb",
+                "Shadow Ball",
+                "Dazzling Gleam"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 60,
+                  "hpPercent": 19.9
+                },
+                "Electric": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 73,
+                  "hpPercent": 24.2
+                }
+              }
+            },
+            {
+              "id": 282,
+              "name": "Gardevoir",
+              "types": [
+                "Psychic",
+                "Fairy"
+              ],
+              "level": 90,
+              "ability": "Trace",
+              "item": "lum_berry",
+              "moves": [
+                "Moonblast",
+                "Psyshock",
+                "Focus Blast",
+                "Calm Mind"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 108,
+                  "hpPercent": 32.3
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 132,
+                  "hpPercent": 39.5
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Wanda",
+          "mons": [
+            {
+              "id": 479,
+              "name": "Motisma",
+              "types": [
+                "Electric",
+                "Ghost"
+              ],
+              "level": 75,
+              "ability": "Levitate",
+              "item": "leftovers",
+              "moves": [
+                "Thunderbolt",
+                "Shadow Ball",
+                "Will-O-Wisp",
+                "Volt Switch"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 162,
+                  "hpPercent": 64
+                },
+                "Electric": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 99,
+                  "hpPercent": 39.1
+                }
+              }
+            },
+            {
+              "id": 373,
+              "name": "Drattak",
+              "types": [
+                "Dragon",
+                "Flying"
+              ],
+              "level": 85,
+              "ability": "Intimidate",
+              "item": "lum_berry",
+              "moves": [
+                "Dragon Dance",
+                "Dragon Claw",
+                "Earthquake",
+                "Fire Blast"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 78,
+                  "hpPercent": 21.6
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 191,
+                  "hpPercent": 52.9
+                }
+              }
+            },
+            {
+              "id": 376,
+              "name": "Métalosse",
+              "types": [
+                "Steel",
+                "Psychic"
+              ],
+              "level": 90,
+              "ability": "Clear Body",
+              "item": "shuca_berry",
+              "moves": [
+                "Meteor Mash",
+                "Earthquake",
+                "Bullet Punch",
+                "Stealth Rock"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 124,
+                  "hpPercent": 30.1
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 153,
+                  "hpPercent": 37.1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Gwenn",
+          "mons": [
+            {
+              "id": 465,
+              "name": "Bouldeneu",
+              "types": [
+                "Grass"
+              ],
+              "level": 75,
+              "ability": "Regenerator",
+              "item": "rocky_helmet",
+              "moves": [
+                "Power Whip",
+                "Earthquake",
+                "Knock Off",
+                "Sleep Powder"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 99,
+                  "hpPercent": 26.4
+                },
+                "Electric": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 122,
+                  "hpPercent": 32.5
+                }
+              }
+            },
+            {
+              "id": 248,
+              "name": "Tyranocif",
+              "types": [
+                "Rock",
+                "Dark"
+              ],
+              "level": 85,
+              "ability": "Sand Stream",
+              "item": "lum_berry",
+              "moves": [
+                "Dragon Dance",
+                "Stone Edge",
+                "Crunch",
+                "Earthquake"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 2,
+                  "effectiveMultiplier": 2,
+                  "estimatedDamage": 248,
+                  "hpPercent": 67
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 151,
+                  "hpPercent": 40.8
+                }
+              }
+            },
+            {
+              "id": 94,
+              "name": "Ectoplasma",
+              "types": [
+                "Ghost",
+                "Poison"
+              ],
+              "level": 90,
+              "ability": "Cursed Body",
+              "item": "life_orb",
+              "moves": [
+                "Shadow Ball",
+                "Sludge Bomb",
+                "Focus Blast",
+                "Thunderbolt"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 138,
+                  "hpPercent": 43.3
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 169,
+                  "hpPercent": 53
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "7p",
+          "mons": [
+            {
+              "id": 51,
+              "name": "Triopikeur",
+              "types": [
+                "Ground"
+              ],
+              "level": 75,
+              "ability": "Arena Trap",
+              "item": "focus_sash",
+              "moves": [
+                "Earthquake",
+                "Stone Edge",
+                "Sucker Punch",
+                "Reversal"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 2,
+                  "effectiveMultiplier": 2,
+                  "estimatedDamage": 341,
+                  "hpPercent": 148.3
+                },
+                "Electric": {
+                  "typeMultiplier": 0,
+                  "effectiveMultiplier": 0,
+                  "estimatedDamage": 0,
+                  "hpPercent": 0
+                }
+              }
+            },
+            {
+              "id": 257,
+              "name": "Braségali",
+              "types": [
+                "Fire",
+                "Fighting"
+              ],
+              "level": 85,
+              "ability": "Speed Boost",
+              "item": "life_orb",
+              "moves": [
+                "Flare Blitz",
+                "High Jump Kick",
+                "Stone Edge",
+                "Swords Dance"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 2,
+                  "effectiveMultiplier": 2,
+                  "estimatedDamage": 301,
+                  "hpPercent": 89.6
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 185,
+                  "hpPercent": 55.1
+                }
+              }
+            },
+            {
+              "id": 130,
+              "name": "Léviator",
+              "types": [
+                "Water",
+                "Flying"
+              ],
+              "level": 90,
+              "ability": "Intimidate",
+              "item": "lum_berry",
+              "moves": [
+                "Waterfall",
+                "Earthquake",
+                "Ice Fang",
+                "Dragon Dance"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 58,
+                  "hpPercent": 15.2
+                },
+                "Electric": {
+                  "typeMultiplier": 4,
+                  "effectiveMultiplier": 4,
+                  "estimatedDamage": 575,
+                  "hpPercent": 150.5
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Lucie",
+          "mons": [
+            {
+              "id": 473,
+              "name": "Mammochon",
+              "types": [
+                "Ice",
+                "Ground"
+              ],
+              "level": 75,
+              "ability": "Thick Fat",
+              "item": "life_orb",
+              "moves": [
+                "Earthquake",
+                "Icicle Crash",
+                "Ice Shard",
+                "Knock Off"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 2,
+                  "effectiveMultiplier": 2,
+                  "estimatedDamage": 367,
+                  "hpPercent": 107
+                },
+                "Electric": {
+                  "typeMultiplier": 0,
+                  "effectiveMultiplier": 0,
+                  "estimatedDamage": 0,
+                  "hpPercent": 0
+                }
+              }
+            },
+            {
+              "id": 65,
+              "name": "Alakazam",
+              "types": [
+                "Psychic"
+              ],
+              "level": 85,
+              "ability": "Magic Guard",
+              "item": "focus_sash",
+              "moves": [
+                "Psychic",
+                "Focus Blast",
+                "Shadow Ball",
+                "Energy Ball"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 128,
+                  "hpPercent": 43.7
+                },
+                "Electric": {
+                  "typeMultiplier": 1,
+                  "effectiveMultiplier": 1,
+                  "estimatedDamage": 156,
+                  "hpPercent": 53.2
+                }
+              }
+            },
+            {
+              "id": 350,
+              "name": "Milobellus",
+              "types": [
+                "Water"
+              ],
+              "level": 90,
+              "ability": "Competitive",
+              "item": "leftovers",
+              "moves": [
+                "Scald",
+                "Recover",
+                "Ice Beam",
+                "Toxic"
+              ],
+              "hits": {
+                "Water": {
+                  "typeMultiplier": 0.5,
+                  "effectiveMultiplier": 0.5,
+                  "estimatedDamage": 51,
+                  "hpPercent": 11.6
+                },
+                "Electric": {
+                  "typeMultiplier": 2,
+                  "effectiveMultiplier": 2,
+                  "estimatedDamage": 250,
+                  "hpPercent": 56.9
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "changes": [
+      {
+        "trainer": "Maria",
+        "level": 75,
+        "before": "Roucarnage",
+        "after": "Phyllali",
+        "id": 470,
+        "ability": "Leaf Guard"
+      },
+      {
+        "trainer": "Clément",
+        "level": 75,
+        "before": "Akwakwak",
+        "after": "Lanturn",
+        "id": 171,
+        "ability": "Volt Absorb"
+      },
+      {
+        "trainer": "TOM",
+        "level": 85,
+        "before": "Luxray",
+        "after": "Jungko",
+        "id": 254,
+        "ability": "Overgrow"
+      },
+      {
+        "trainer": "CRY",
+        "level": 90,
+        "before": "Kaimorse",
+        "after": "Tritosor",
+        "id": 423,
+        "ability": "Storm Drain"
+      },
+      {
+        "trainer": "Matthieu",
+        "level": 75,
+        "before": "Staross",
+        "after": "Florizarre",
+        "id": 3,
+        "ability": "Overgrow"
+      },
+      {
+        "trainer": "Raphael",
+        "level": 75,
+        "before": "Akwakwak",
+        "after": "Vacilys",
+        "id": 346,
+        "ability": "Storm Drain"
+      },
+      {
+        "trainer": "Wanda",
+        "level": 75,
+        "before": "Staross",
+        "after": "Motisma",
+        "id": 479,
+        "ability": "Levitate"
+      },
+      {
+        "trainer": "Gwenn",
+        "level": 75,
+        "before": "Airmure",
+        "after": "Bouldeneu",
+        "id": 465,
+        "ability": "Regenerator"
+      },
+      {
+        "trainer": "Lucie",
+        "level": 75,
+        "before": "Pingoléon",
+        "after": "Mammochon",
+        "id": 473,
+        "ability": "Thick Fat"
+      }
+    ]
+  },
+  "profileCorrections": [
+    "Lucario and Porygon-Z: Timid, Special Attack EVs matching their existing special moves.",
+    "Grovyle: Attack EVs for Leaf Blade and Swords Dance.",
+    "Azumarill: physical EVs, Adamant, Huge Power and Sitrus Berry.",
+    "Igglybuff: defensive EVs and Eviolite to support its existing screens."
+  ],
+  "preserved": {
+    "adventureAndOtherModeTeams": true,
+    "allTrainerNamesOrderPortraitsAndMusic": true,
+    "levels75_85_90And20PerCycle": true,
+    "K4AndIV31": true,
+    "noReservedAce": true,
+    "existingSavedBattlesKept": true,
+    "newTeamsOnNextBattleGeneration": true,
+    "scoresCashRewardsXPAndBadges": true,
+    "abilityAndDamageEngineUnchanged": true,
+    "humanAICodeUnchanged": true,
+    "noNewSpeciesMovesItemsOrAbilitiesAdded": true
+  },
+  "tests": {
+    "unitPassed": 111,
+    "sqlPassed": 16,
+    "failures": 0,
+    "skipped": 0,
+    "commands": [
+      "node --test $(rg --files tests | rg \"^tests/super-tournament.*\\.test\\.js$\" | rg -v mysql)",
+      "RUN_MYSQL_TESTS=1 DB_TEST_NAME=explorakit_test DB_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file=.env --test --test-concurrency=1 tests/super-tournament-team-balance-mysql.test.js tests/super-tournament-families-mysql.test.js tests/super-tournament-cycle-mysql.test.js tests/super-tournament-cash-mysql.test.js",
+      "TOWER_BASELINE=fe2bf34338864b7cb361e5e568bf91ebca7fc150 node scripts/auditTournamentCoverage.js",
+      "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-candy-tiers-dist PRESENTATION_BROWSER=chromium node --env-file=.env scripts/validateTournamentTeamsBrowser.js",
+      "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-candy-tiers-dist PRESENTATION_BROWSER=webkit node --env-file=.env scripts/validateTournamentTeamsBrowser.js"
+    ]
+  },
+  "combatChecks": [
+    "Canonical abilities, existing held items and all 36 new-profile moves learnable from the existing CS catalogue.",
+    "Real Volt Absorb heal, Storm Drain damage prevention/Special Attack boost and Ground Electric immunity.",
+    "Tangrowth Regenerator switch heal, Mamoswine Thick Fat and ordinary counterplay against every new species.",
+    "Existing human AI selects the Gastrodon immunity pivot and Earth Power against Electric, without reading a submitted player action.",
+    "All nine new trios reconnect with exact UUID/stats/HP/PP/moves/held items.",
+    "A saved pre-patch Starmie battle stays identical while a newly generated Wanda battle uses Rotom."
+  ],
+  "browser": {
+    "chromium": {
+      "success": true,
+      "engine": "chromium",
+      "views": [
+        {
+          "id": 470,
+          "room": 3,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "id": 470,
+          "room": 3,
+          "width": 1536,
+          "height": 680
+        },
+        {
+          "id": 171,
+          "room": 4,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "id": 171,
+          "room": 4,
+          "width": 1536,
+          "height": 680
+        },
+        {
+          "id": 254,
+          "room": 6,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "id": 254,
+          "room": 6,
+          "width": 1536,
+          "height": 680
+        },
+        {
+          "id": 423,
+          "room": 7,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "id": 423,
+          "room": 7,
+          "width": 1536,
+          "height": 680
+        },
+        {
+          "id": 3,
+          "room": 10,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "id": 3,
+          "room": 10,
+          "width": 1536,
+          "height": 680
+        },
+        {
+          "id": 346,
+          "room": 11,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "id": 346,
+          "room": 11,
+          "width": 1536,
+          "height": 680
+        },
+        {
+          "id": 479,
+          "room": 13,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "id": 479,
+          "room": 13,
+          "width": 1536,
+          "height": 680
+        },
+        {
+          "id": 465,
+          "room": 14,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "id": 465,
+          "room": 14,
+          "width": 1536,
+          "height": 680
+        },
+        {
+          "id": 473,
+          "room": 16,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "id": 473,
+          "room": 16,
+          "width": 1536,
+          "height": 680
+        }
+      ],
+      "seen": [
+        {
+          "id": 470,
+          "level": 75,
+          "ability": "Leaf Guard",
+          "item": "yache_berry"
+        },
+        {
+          "id": 171,
+          "level": 75,
+          "ability": "Volt Absorb",
+          "item": "leftovers"
+        },
+        {
+          "id": 254,
+          "level": 85,
+          "ability": "Overgrow",
+          "item": "yache_berry"
+        },
+        {
+          "id": 423,
+          "level": 90,
+          "ability": "Storm Drain",
+          "item": "rindo_berry"
+        },
+        {
+          "id": 3,
+          "level": 75,
+          "ability": "Overgrow",
+          "item": "sitrus_berry"
+        },
+        {
+          "id": 346,
+          "level": 75,
+          "ability": "Storm Drain",
+          "item": "leftovers"
+        },
+        {
+          "id": 479,
+          "level": 75,
+          "ability": "Levitate",
+          "item": "leftovers"
+        },
+        {
+          "id": 465,
+          "level": 75,
+          "ability": "Regenerator",
+          "item": "rocky_helmet"
+        },
+        {
+          "id": 473,
+          "level": 75,
+          "ability": "Thick Fat",
+          "item": "life_orb"
+        }
+      ],
+      "buildIndexSha256": "75b9ee8d58eb8e0499e8dba2d90605e8264ce968b290441c43710f9575c04fe1",
+      "allNineExistingSpritesLoaded": true,
+      "allSetsAndAbilitiesDisplayed": true,
+      "reconnectPreservedBattle": true,
+      "adventureAndWalletPreserved": true,
+      "privateVisualLeadOverrideOnly": true,
+      "errors": [],
+      "physicalHardware": false
+    },
+    "webkit": {
+      "success": true,
+      "engine": "webkit",
+      "views": [
+        {
+          "id": 470,
+          "room": 3,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "id": 470,
+          "room": 3,
+          "width": 1536,
+          "height": 680
+        },
+        {
+          "id": 171,
+          "room": 4,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "id": 171,
+          "room": 4,
+          "width": 1536,
+          "height": 680
+        },
+        {
+          "id": 254,
+          "room": 6,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "id": 254,
+          "room": 6,
+          "width": 1536,
+          "height": 680
+        },
+        {
+          "id": 423,
+          "room": 7,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "id": 423,
+          "room": 7,
+          "width": 1536,
+          "height": 680
+        },
+        {
+          "id": 3,
+          "room": 10,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "id": 3,
+          "room": 10,
+          "width": 1536,
+          "height": 680
+        },
+        {
+          "id": 346,
+          "room": 11,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "id": 346,
+          "room": 11,
+          "width": 1536,
+          "height": 680
+        },
+        {
+          "id": 479,
+          "room": 13,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "id": 479,
+          "room": 13,
+          "width": 1536,
+          "height": 680
+        },
+        {
+          "id": 465,
+          "room": 14,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "id": 465,
+          "room": 14,
+          "width": 1536,
+          "height": 680
+        },
+        {
+          "id": 473,
+          "room": 16,
+          "width": 393,
+          "height": 852
+        },
+        {
+          "id": 473,
+          "room": 16,
+          "width": 1536,
+          "height": 680
+        }
+      ],
+      "seen": [
+        {
+          "id": 470,
+          "level": 75,
+          "ability": "Leaf Guard",
+          "item": "yache_berry"
+        },
+        {
+          "id": 171,
+          "level": 75,
+          "ability": "Volt Absorb",
+          "item": "leftovers"
+        },
+        {
+          "id": 254,
+          "level": 85,
+          "ability": "Overgrow",
+          "item": "yache_berry"
+        },
+        {
+          "id": 423,
+          "level": 90,
+          "ability": "Storm Drain",
+          "item": "rindo_berry"
+        },
+        {
+          "id": 3,
+          "level": 75,
+          "ability": "Overgrow",
+          "item": "sitrus_berry"
+        },
+        {
+          "id": 346,
+          "level": 75,
+          "ability": "Storm Drain",
+          "item": "leftovers"
+        },
+        {
+          "id": 479,
+          "level": 75,
+          "ability": "Levitate",
+          "item": "leftovers"
+        },
+        {
+          "id": 465,
+          "level": 75,
+          "ability": "Regenerator",
+          "item": "rocky_helmet"
+        },
+        {
+          "id": 473,
+          "level": 75,
+          "ability": "Thick Fat",
+          "item": "life_orb"
+        }
+      ],
+      "buildIndexSha256": "75b9ee8d58eb8e0499e8dba2d90605e8264ce968b290441c43710f9575c04fe1",
+      "allNineExistingSpritesLoaded": true,
+      "allSetsAndAbilitiesDisplayed": true,
+      "reconnectPreservedBattle": true,
+      "adventureAndWalletPreserved": true,
+      "privateVisualLeadOverrideOnly": true,
+      "errors": [],
+      "physicalHardware": false
+    }
+  },
+  "browserViews": 36,
+  "visualRecipeScope": "New reserve species moved to lead only in private browser fixtures to inspect each sprite. Authored production order checked in unit and SQL tests.",
+  "syntaxAndDiffValid": true,
+  "noNewClientBuildOrLintNeeded": true,
+  "sqlSchemaChanged": false,
+  "physicalDevice": false,
+  "fullProjectSuite": false,
+  "realAccountsManuallyModified": false,
+  "deployment": {
+    "publishedAt": "2026-11-01T17:08:18.031Z",
+    "restartedAt": "2026-11-01T17:08:06.569Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-tower-types-2026-11-01T17-08-06-204Z",
+    "sourceBaseline": "fe2bf34338864b7cb361e5e568bf91ebca7fc150",
+    "sourceHashes": {
+      "server/game/superTournament/content.js": "4c43a7d69ca255e87829f91ee7cb4f9b3c9cb6966adc37e5466635e602b99082",
+      "server/game/superTournament/teamSets.js": "8d8591c245c88c62022ac9d0b66b31f9fbb306efa66f21439e086478c9bd03e6"
+    },
+    "clientCommit": "3be92b5e136fa1919bb08efb546abb39586b0160",
+    "clientBuild": "e9b5e2a0e0f8438b",
+    "beforePid": "3679239",
+    "afterPid": "3681607",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "clientUnchanged": true,
+    "publicClientUnchanged": true,
+    "schemaChanged": false,
+    "activeClubDuelsBefore": 0,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 1,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": []
+  }
+}

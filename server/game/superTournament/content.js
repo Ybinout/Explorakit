@@ -1,6 +1,7 @@
 const Pokemon=require('../models/Pokemon');
 const {getTotalExperienceForLevel,getExperienceRate}=require('../models/progression');
 const {pnjTeams}=require('../world/pnjTeamFactory');
+const teamSets=require('./teamSets');
 const {healTeam}=require('../world/playerRecovery');
 const {gender:pokemonGender}=require('../items/stoneEvolution');
 const MAPS={lobby:'super_tournament_lobby',sas:'super_tournament_sas',room:'super_tournament_room'};
@@ -8,20 +9,20 @@ const PASS='super_tournament_pass',POINTS_PER_KO=100;
 const roster=[
  ['Wayne','dia1','timmy',[19,19,20],'perso1.png','wayne-eyepatch-v2.png','trainer'],
  ['Aspha','aspha_route2','aspha_route2',[475,373,448],'aspha-pixel-v4.png','aspha-v1.png','trainer'],
- ['Maria','town_lina','town_lina',[18,174,131],'perso2.png','maria-v2.png','trainer'],
- ['Clément','town_bastien','town_bastien',[55,474,398],'clement-pixel-v2.png','clement-v2.png','trainer'],
+ ['Maria','town_lina','town_lina',[470,174,131],'perso2.png','maria-v2.png','trainer'],
+ ['Clément','town_bastien','town_bastien',[171,474,398],'clement-pixel-v2.png','clement-v2.png','trainer'],
  ['NOZ','nrv_noz','nrv_noz',[430,472,461],'nrv-noz.png','nrv-noz-v1.png','trainer'],
- ['TOM','nrv_tom','nrv_tom',[462,405,474],'nrv-tom.png','nrv-tom-v1.png','trainer'],
- ['CRY','nrv_cry','nrv_cry',[184,121,365],'nrv-cry.png','nrv-cry-v1.png','trainer'],
+ ['TOM','nrv_tom','nrv_tom',[462,254,474],'nrv-tom.png','nrv-tom-v1.png','trainer'],
+ ['CRY','nrv_cry','nrv_cry',[184,121,423],'nrv-cry.png','nrv-cry-v1.png','trainer'],
  ['Mounir','moonpunch','moonpunch',[271,208,351],'moonpunch.png','moonpunch.png','mounir'],
  ['Hoze','champion_hoze','hoze',[253,448,445],'hoze.png','hoze.png','hoze'],
- ['Matthieu','gwenn_route8','gwenn_route8',[121,130,157],'matthieu-pixel-v3.png','matthieu-v2.png','trainer'],
- ['Raphael','champion_raphael','raphael',[55,330,212],'raph.png','raph.png','raph'],
+ ['Matthieu','gwenn_route8','gwenn_route8',[3,130,157],'matthieu-pixel-v3.png','matthieu-v2.png','trainer'],
+ ['Raphael','champion_raphael','raphael',[346,330,212],'raph.png','raph.png','raph'],
  ['Ana','champion_ana','ana',[154,407,282],'ana.png','ana.png','ana'],
- ['Wanda','champion_wanda','wanda',[121,373,376],'wanda.png','wanda.png','wanda'],
- ['Gwenn','gwenn_rochebrume','gwenn_rochebrume',[227,248,94],'gwenn-pixel-v3.png','gwenn-v1.png','gwenn'],
+ ['Wanda','champion_wanda','wanda',[479,373,376],'wanda.png','wanda.png','wanda'],
+ ['Gwenn','gwenn_rochebrume','gwenn_rochebrume',[465,248,94],'gwenn-pixel-v3.png','gwenn-v1.png','gwenn'],
  ['7p','champion_7p','sevenp',[51,257,130],'7ps.png','7ps.png','7p'],
- ['Lucie','lucie_corrupted','lucie_corrupted',[395,65,350],'lucie-pixel-v2.png','lucie-v1.png','lucie']
+ ['Lucie','lucie_corrupted','lucie_corrupted',[473,65,350],'lucie-pixel-v2.png','lucie-v1.png','lucie']
 ].map(([name,key,source,species,sprite,portrait,music])=>({name,key,source,species,sprite,portrait,music}));
 // High-level replacements for the early adventure teams. Explicit sets avoid
 // carrying their deliberately weak early-game moves into a level 100 challenge.
@@ -39,12 +40,13 @@ function createTeam(index){
  const source=pnjTeams.get(entry.source)?.team||[];
  const pokemons=entry.species.map((id,slot)=>{
   const original=source.find(p=>p.pokemonId===id)||{};
+  const setup={...original,abilities:sets[id]||original.abilities||[],...teamSets[id]};
   const data=require('../../../data/game/pokedex.json').find(p=>p.id===id);
   const physical=['Fighting','Normal','Flying','Dark','Ground','Steel'].includes(data.type[0]);
-  const pokemon=new Pokemon(id,null,null,getTotalExperienceForLevel([75,85,90][slot]+levelBonus,getExperienceRate(data.exp)),Object.fromEntries(['hp','attack','defense','specialAttack','specialDefense','speed'].map(k=>[k,31])),original.nature||(physical?'Jolly':'Timid'),4,original.ev||{[physical?'attack':'specialAttack']:252,speed:252,hp:4});
-  for(const move of sets[id]||original.abilities||[])pokemon.addAbility(move);
-  pokemon.passiveAbility=original.passiveAbility||pokemon.passiveAbility;
-  pokemon.heldItem=original.heldItem||(['leftovers','life_orb','focus_sash'][slot]);
+  const pokemon=new Pokemon(id,null,null,getTotalExperienceForLevel([75,85,90][slot]+levelBonus,getExperienceRate(data.exp)),Object.fromEntries(['hp','attack','defense','specialAttack','specialDefense','speed'].map(k=>[k,31])),setup.nature||(physical?'Jolly':'Timid'),4,setup.ev||{[physical?'attack':'specialAttack']:252,speed:252,hp:4});
+  for(const move of setup.abilities)pokemon.addAbility(move);
+  pokemon.passiveAbility=setup.passiveAbility||pokemon.passiveAbility;
+  pokemon.heldItem=setup.heldItem||(['leftovers','life_orb','focus_sash'][slot]);
   return pokemon;
  });
  const team={pokemons};healTeam(team);

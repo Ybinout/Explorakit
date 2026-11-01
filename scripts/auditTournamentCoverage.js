@@ -1,0 +1,17 @@
+// Neutral-field diagnostic of authored tower trios, not a simulated win rate.
+const fs=require('node:fs'),path=require('node:path'),Module=require('node:module'),{execFileSync}=require('node:child_process');
+const baseline=process.env.TOWER_BASELINE||'fe2bf34338864b7cb361e5e568bf91ebca7fc150',file=path.resolve(__dirname,'../server/game/superTournament/content.js');
+const previous=new Module(file,module);previous.filename=file;previous.paths=Module._nodeModulePaths(path.dirname(file));previous._compile(execFileSync('git',['show',baseline+':server/game/superTournament/content.js'],{encoding:'utf8'}),file);
+const current=require(file),engine=require('../server/game/battle/battleEngine'),ability=require('../server/game/abilities/abilityEngine'),Pokemon=require('../server/game/models/Pokemon'),{getTotalExperienceForLevel}=require('../server/game/models/progression');
+function attacker(id,move){const p=new Pokemon(id,null,null,getTotalExperienceForLevel(90),{hp:31,attack:31,defense:31,specialAttack:31,specialDefense:31,speed:31},'Modest',4,{hp:4,specialAttack:252,speed:252});p.passiveAbility=id===135?'Volt Absorb':'Natural Cure';p.heldItem=null;p.addAbility(move);return p;}
+const attacks={Water:{pokemon:attacker(121,'Surf'),move:engine.getMoveByName('Surf')},Electric:{pokemon:attacker(135,'Thunderbolt'),move:engine.getMoveByName('Thunderbolt')}};
+function inspect(content){const totals=Object.fromEntries(['Water','Electric'].map(t=>[t,{weak:0,checks:0,immunities:0,teamsWithCheck:0}]));const teams=content.roster.map((entry,index)=>{
+ const party=content.createTeam(index).pokemons,check={Water:false,Electric:false};const mons=party.map(p=>{const hits={};for(const [type,{pokemon,move}]of Object.entries(attacks)){
+  const field=engine.createBattleState(),effectiveness=engine.getMoveEffectiveness(move,pokemon,p,field),blocked=effectiveness===0||ability.resolveMoveAbilityImmunity({attacker:pokemon,defender:p,move,battleState:field,effectiveness,messages:[]});
+  const multiplier=blocked?0:effectiveness,damage=blocked?0:engine.estimateDamage(pokemon,p,move,{battleState:field});hits[type]={typeMultiplier:effectiveness,effectiveMultiplier:multiplier,estimatedDamage:damage,hpPercent:Math.round(damage/p.maxHp*1000)/10};
+  totals[type].weak+=multiplier>1;totals[type].checks+=multiplier<1;totals[type].immunities+=multiplier===0;check[type] ||= multiplier<1;
+ }return {id:p.data.id,name:p.data.name.french,types:p.data.type,level:p.level,ability:p.passiveAbility,item:p.heldItem,moves:p.abilities,hits};});
+ for(const type of Object.keys(check))totals[type].teamsWithCheck+=check[type];return {name:entry.name,mons};});return {totals,teams};}
+const random=Math.random;let before,after;try{Math.random=()=>.25;before=inspect(previous.exports);after=inspect(current);}finally{Math.random=random;}
+const changes=after.teams.flatMap((team,i)=>team.mons.filter((p,slot)=>p.id!==before.teams[i].mons[slot].id).map(p=>{const slot=team.mons.indexOf(p);return {trainer:team.name,level:p.level,before:before.teams[i].mons[slot].name,after:p.name,id:p.id,ability:p.ability};}));
+const report={baseline,field:'neutral, no weather, level 90 K4 IV31 special attackers with no held item; default ability construction roll fixed at 0.25, authored abilities preserved; estimates, not win rates',before,after,changes};fs.writeFileSync(process.env.COVERAGE_REPORT||'/tmp/riftmon-tower-types-coverage.json',JSON.stringify(report,null,2));console.log(JSON.stringify({before:before.totals,after:after.totals,changes}));
