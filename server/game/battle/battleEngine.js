@@ -577,6 +577,7 @@ function getAccuracyModifier(attacker, defender, move = null) {
 
 function getBattleSpeed(pokemon, side = null, battleState = null, opponent = null) {
     let speed = getEffectiveStatValue(pokemon, 'speed', battleState, opponent);
+    speed *= drift.speed(pokemon);
     if (side?.screens?.tailwindTurns > 0) speed *= 2;
     speed *= getAbilitySpeedMultiplier(pokemon, battleState, opponent);
     // Apply paralysis after the other modifiers and their rounding, so an odd
@@ -878,7 +879,7 @@ function calculateDamageDetailed(attacker, defender, move, context = {}) {
     const criticalAbility = getCriticalAbilityState(attacker, defender);
     const critStage = (safeNumber(move?.combat?.crit_stage, 0)
         + safeNumber(attackerData.statStages.critical, 0)
-        + criticalAbility.bonusStage);
+        + criticalAbility.bonusStage + drift.criticalStage(attacker));
     const criticalBlocked = battleState?.field?.luckyChantTurns > 0
         || context.defenderSide?.screens?.luckyChantTurns > 0
         || criticalAbility.blocked;
@@ -990,7 +991,7 @@ function calculateDamage(attacker, defender, move) {
 // Read-only, non-critical estimate. Never consumes flags, PP, items or battle RNG.
 // Callers can supply an inferred opponent instead of exposing hidden information.
 function estimateDamage(attacker, defender, move, context = {}) {
-    return calculateDamageDetailed(structuredClone(attacker), structuredClone(defender), move,
+    return calculateDamageDetailed(drift.copyTournamentPacts(attacker,structuredClone(attacker)), drift.copyTournamentPacts(defender,structuredClone(defender)), move,
         { ...structuredClone(context), preview: true }).damage;
 }
 

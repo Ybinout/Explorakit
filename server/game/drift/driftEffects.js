@@ -1,5 +1,6 @@
 const signals=require('./driftSignals');
 const tournamentPowers=require('../superTournament/powers');
+const tournamentTwists=require('../superTournament/twists');
 const catalogue = require('../../../data/game/drifts.json');
 const definitions = new Map(catalogue.definitions.map(d => [d.id, d]));
 const states = new WeakMap();
@@ -7,7 +8,7 @@ const idOf = number => `DRF-${String(number).padStart(3, '0')}`;
 function value(owner, number, tournament = false) {
     if (!owner || (tournament && number >= 43 && number <= 54)) return 0;
     const drift = (owner.drifts || []).find(d => d.definitionId === idOf(number) && owner.equipped?.includes(d.uuid));
-    return require('./driftStrength').value(drift)+tournamentPowers.value(owner,number);
+    return require('./driftStrength').value(drift)+tournamentPowers.value(owner,number)+tournamentTwists.value(owner,number);
 }
 function v(p, n) { const s = states.get(p); return s ? value(s.owner, n, s.tournament) : 0; }
 function signal(p,n,detail='') {const state=states.get(p);if(state&&v(p,n)>0)signals.signal(state.owner,n,detail);}
@@ -82,8 +83,17 @@ function multiplier(a, d, move, critical) {
     if (t?.armor) reduction += power(d, 17);
     if (t?.adapted === move.type) reduction += power(d, 37);
     if (t?.wild) reduction += power(d, 48);
-    return (1 + Math.min(200, bonus) / 100) * (1 - Math.min(60, reduction) / 100);
+    return (1 + Math.min(200, bonus) / 100) * (1 - Math.min(60, reduction) / 100)
+        * tournamentTwists.multiplier(tournamentOwner(a),tournamentOwner(d),a,d,move);
 }
+function tournamentOwner(p) { return states.get(p)?.owner || p?.__towerPactContext; }
+function copyTournamentPacts(source,copy) {
+    const owner=tournamentOwner(source),cards=tournamentTwists.owned(owner);
+    if(cards.length)copy.__towerPactContext={currentmap:'super_tournament_room',superTournamentPacts:cards.map(c=>c.key),__preview:true};
+    return copy;
+}
+function speed(p) { return tournamentTwists.speed(tournamentOwner(p)); }
+function criticalStage(p) { return tournamentTwists.criticalStage(tournamentOwner(p)); }
 function directDamage(p, amount, attacker) {
     const s = states.get(p);
     if (!s || !attacker || s.dead) return amount;
@@ -178,4 +188,4 @@ function fainted(p) {
     s.counted = true; s.dead = true; s.shared.deaths++; s.owner.chain = 0;
 }
 module.exports = { definitions, states, value, v, attach, detach, isDead, markHp, heal, shareHeal, damage, defense, pierce,
-    multiplier, directDamage, afterDamage, priority, accuracy, statusGuard, afterMove, endTurn, switched, fainted };
+    multiplier, copyTournamentPacts, speed, criticalStage, directDamage, afterDamage, priority, accuracy, statusGuard, afterMove, endTurn, switched, fainted };

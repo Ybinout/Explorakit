@@ -3,7 +3,7 @@ const {TournamentController}=require('../server/game/superTournament/controller'
 const factory=require('../server/game/drift/pokemonFactory'),codec=require('../server/game/drift/checkpointCodec');
 function setup(){let snapshot=null,version=0,fail=false;const events=[];
  const persist={async load(){return {version,run:snapshot?codec.decode(snapshot):null};},async save(_id,run,v){assert.equal(v,version);if(fail){fail=false;throw Error('disk');}snapshot=run?codec.encode(run):null;return ++version;}};
- const create=()=>new TournamentController({userId:1,persist,getPlayer:()=>({id:'socket',username:'tester'}),emit:(e,d)=>events.push([e,d]),travel:async()=>{}});
+ const create=()=>new TournamentController({userId:1,persist,random:()=>.99,getPlayer:()=>({id:'socket',username:'tester'}),emit:(e,d)=>events.push([e,d]),travel:async()=>{}});
  return {c:create(),create,events,fail(){fail=true;},version:()=>version};
 }
 const team=()=>({pokemons:[9,94,212,248,445,121].map(id=>{const p=factory.create(id,100,true);p.abilities=['Tackle','Protect'];p.movePp=[3,0];p.heldItem=({9:'leftovers',94:'life_orb',212:'choice_band',248:'choice_scarf',445:'focus_sash',121:'rocky_helmet'})[id];return p;})});

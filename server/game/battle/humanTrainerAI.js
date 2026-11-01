@@ -64,7 +64,7 @@ function publicPokemon(p) {
     view.__battle.sleepTurns = 1; // Never sample hidden sleep duration while evaluating.
     // The active lock is visible; its random remaining duration is private.
     if(view.__battle.rampageMove)view.__battle.rampageTurns=1;
-    return view;
+    return require('../drift/driftEffects').copyTournamentPacts(p,view);
 }
 function ownPokemon(p) {
     const view={uuid:p.uuid,level:p.level,maxHp:p.maxHp,currentHp:p.currentHp,status:p.status,type1:p.type1,type2:p.type2,
@@ -76,7 +76,7 @@ function ownPokemon(p) {
     view.abilities = [...p.abilities]; view.movePp = [...(p.movePp || p.abilities.map(resources.getMaxMovePp))];
     view.__battle.sleepTurns ??= 1;
     view.__battle.activeMoveActions=selection.entryActions(p);
-    return view;
+    return require('../drift/driftEffects').copyTournamentPacts(p,view);
 }
 function publicField(field) {
     // In particular: no turnActions, trainerTeam, callbacks or pending payloads.

@@ -2,6 +2,7 @@ const {randomUUID}=require('node:crypto');
 const {getMaxMovePp}=require('../battle/battleResources');
 const augmentations=require('./augmentations');
 const powers=require('./powers');
+const twists=require('./twists');
 const CHOICES=4;
 const rarities=Object.freeze([
  {key:'common',name:'Commune',weight:55}, {key:'uncommon',name:'Peu commune',weight:30},
@@ -29,7 +30,7 @@ const cards=Object.freeze([
  ['full_reset','Renaissance','legendary','reset',1,'one','Remet un Pokémon à neuf : PV, statut et PP, même s’il est K.O. Ne rend pas les objets consommés.'],
  ['team_pp_5','Chœur des champions','legendary','pp',5,'team','Rend 5 PP à toutes les capacités de chaque Pokémon apte.'],
  ['team_revive_25','Dernier espoir','legendary','revive',.25,'team','Relève tous les Pokémon K.O. avec 25 % de leurs PV maximum.']
-].map(([key,name,rarity,kind,amount,target,description])=>Object.freeze({key,name,rarity,kind,amount,target,description})).concat(augmentations.cards,powers.cards));
+].map(([key,name,rarity,kind,amount,target,description])=>Object.freeze({key,name,rarity,kind,amount,target,description})).concat(augmentations.cards,powers.cards,twists.cards));
 const byKey=new Map(cards.map(c=>[c.key,c]));
 function preview(p,card,moveIndex){
  if(!p||p.isEgg||!card)return null;
@@ -51,15 +52,16 @@ function preview(p,card,moveIndex){
 }
 function viewCard(key,team,afterRoom,owner){
  const card=byKey.get(key);if(!card)return null;
+ if(card.twist)return twists.view(card,owner);
  if(card.target==='account')return {...augmentations.view(key,afterRoom),rarityName:card.rarityName||rarities.find(r=>r.key===card.rarity).name};
  if(card.kind==='passive')return {...card,targets:[],usable:!powers.has(owner,key)};
  const targets=team.map(p=>preview(p,card)).filter(Boolean);
  return {key:card.key,name:card.name,rarity:card.rarity,rarityName:card.rarityName||rarities.find(r=>r.key===card.rarity).name,kind:card.kind,target:card.target,description:card.description,power:card.power||false,targets,usable:targets.length>0};
 }
-function viewOffer(offer,team,owner){if(!offer)return null;const choices=offer.cards.map(k=>viewCard(k,team,offer.afterRoom,owner)).filter(Boolean);return {id:offer.id,afterRoom:offer.afterRoom,choices,canSkip:choices.every(c=>!c.usable)};}
+function viewOffer(offer,team,owner){if(!offer)return null;const choices=offer.cards.map(k=>viewCard(k,team,offer.afterRoom,owner)).filter(Boolean);return {id:offer.id,afterRoom:offer.afterRoom,choices,canSkip:choices.every(c=>!c.usable),canDecline:offer.cards.some(k=>twists.get(k))};}
 function drawIndex(random,length){const n=random();if(!Number.isFinite(n)||n<0||n>=1)throw Error('Tirage de récompense invalide.');return Math.floor(n*length);}
-function createOffer(team,afterRoom,random=Math.random,owner){
- const extra=augmentations.draw(random),power=powers.draw(owner,random,c=>team.some(p=>preview(p,c))),recovery=cards.filter(c=>c.target!=='account'&&!c.power);
+function createOffer(team,afterRoom,random=Math.random,owner,excluded=[]){
+ const exclude=new Set(excluded),extra=augmentations.draw(random),power=powers.draw(owner,random,c=>team.some(p=>preview(p,c))),twist=twists.draw(owner,random,exclude),recovery=cards.filter(c=>c.target!=='account'&&!c.power&&!c.twist&&!exclude.has(c.key));
  const usable=recovery.filter(c=>team.some(p=>preview(p,c)));
  const pool=usable.length>=CHOICES?[...usable]:[...recovery],picked=[];
  while(picked.length<CHOICES){
@@ -69,19 +71,23 @@ function createOffer(team,afterRoom,random=Math.random,owner){
   const card=candidates[drawIndex(random,candidates.length)];picked.push(card.key);pool.splice(pool.indexOf(card),1);
  }
  const slots=[0,1,2,3];
- if(extra){const index=drawIndex(random,slots.length);picked[slots.splice(index,1)[0]]=extra;}
- if(power)picked[slots[drawIndex(random,slots.length)]]=power;
+ // Keep at least two recovery choices. Rare powers and twists have priority
+ // over money if all three special draws occur together.
+ for(const key of [power,twist,extra].filter(k=>k&&!exclude.has(k)).slice(0,2)){
+  const index=drawIndex(random,slots.length);picked[slots.splice(index,1)[0]]=key;
+ }
  return {id:randomUUID(),afterRoom,cards:picked};
 }
 function ensureFour(offer,team,random=Math.random){
  if(!offer)return false;let changed=false;
- while(offer.cards.length<CHOICES){const available=cards.filter(c=>!c.power&&c.target!=='account'&&!offer.cards.includes(c.key)),useful=available.filter(c=>team.some(p=>preview(p,c)));const pool=useful.length?useful:available;if(!pool.length)break;offer.cards.push(pool[drawIndex(random,pool.length)].key);changed=true;}return changed;
+ while(offer.cards.length<CHOICES){const available=cards.filter(c=>!c.power&&!c.twist&&c.target!=='account'&&!offer.cards.includes(c.key)),useful=available.filter(c=>team.some(p=>preview(p,c)));const pool=useful.length?useful:available;if(!pool.length)break;offer.cards.push(pool[drawIndex(random,pool.length)].key);changed=true;}return changed;
 }
 function applyChoice(offer,team,data,owner){
  if(!offer||data.offerId!==offer.id)throw Error('Ce choix n’est plus disponible.');
- if(data.skip===true){if(!viewOffer(offer,team,owner).canSkip)throw Error('Choisis une carte pour continuer.');return {name:'Équipe déjà prête',changes:[]};}
+ if(data.skip===true){const view=viewOffer(offer,team,owner);if(!view.canSkip&&!view.canDecline)throw Error('Choisis une carte pour continuer.');return {name:view.canDecline?'Récompense passée':'Équipe déjà prête',changes:[],skipped:true};}
  if(!offer.cards.includes(data.cardKey))throw Error('Cette carte ne fait pas partie du tirage.');
  const card=byKey.get(data.cardKey);if(!card)throw Error('Cette carte n’existe plus.');
+ if(card.twist)return {name:card.name,changes:[],passive:twists.activate(owner,card.key)};
  if(card.target==='account')return {name:card.name,changes:[],grant:augmentations.grant(card.key,offer.afterRoom)};
  if(card.kind==='passive')return {name:card.name,changes:[],passive:powers.activate(owner,card.key)};
  let targets;

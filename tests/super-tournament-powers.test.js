@@ -8,7 +8,7 @@ function team(){return [{uuid:'a',data:{id:9},name:'A',currentHp:20,maxHp:100,st
 function choose(key,t,player){return rewards.applyChoice({id:'offer',afterRoom:1,cards:[key]},t,{offerId:'offer',cardKey:key},player);}
 function fixture(keys){const a=factory.create(19,30,true),b=factory.create(19,30,true);for(const p of [a,b]){p.passiveAbility=null;p.heldItem=null;p.maxHp=100;p.currentHp=100;engine.ensureBattleData(p);}const p=owner(keys);p.equipe={pokemons:[a]};fx.attach([a],p,false,()=>.99);fx.attach([b],{drifts:[],equipped:[]},false,()=>.99);return {a,b,p};}
 test('new offers contain four distinct cards, at most one power and one economic card',()=>{
- assert.equal(rewards.CHOICES,4);assert.equal(rewards.cards.length,34);const o=rewards.createOffer(team(),1,()=>0,owner());assert.equal(new Set(o.cards).size,4);assert.equal(o.cards.filter(k=>k.startsWith('power_')).length,1);assert.equal(o.cards.filter(k=>k.startsWith('prize_')).length,1);
+ assert.equal(rewards.CHOICES,4);assert.equal(rewards.cards.length,55);const o=rewards.createOffer(team(),1,()=>0,owner());assert.equal(new Set(o.cards).size,4);assert.equal(o.cards.filter(k=>k.startsWith('power_')).length,1);assert.equal(o.cards.filter(k=>k.startsWith('prize_')).length,0);assert.equal(o.cards.filter(k=>k.startsWith('pact_')||k.startsWith('next_opponent_')).length,1);
  for(let seed=1;seed<=1000;seed++){let n=seed;const r=()=>((n=(n*1664525+1013904223)>>>0)/2**32),o=rewards.createOffer(team(),1,r,owner());assert.equal(new Set(o.cards).size,4);assert(o.cards.filter(k=>k.startsWith('power_')).length<=1);assert(o.cards.filter(k=>k.startsWith('prize_')).length<=1);}
 });
 test('power odds are fixed tickets; owned powers and useless restorations do not get rerolled',()=>{

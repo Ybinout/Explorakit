@@ -1,0 +1,953 @@
+{
+  "date": "2026-11-01",
+  "change": "Tour de combat : argent −20 %, une relance cumulable par cycle, 19 pactes bonus/malus et deux cartes de prochain adversaire réduit",
+  "sourceBaseline": "4cbf4456246cf948b1145c658c60cecbf559255b",
+  "clientSourceBaseline": "1935aacf44d5bcf7c5ad4c7bca8c1718c0695c14",
+  "clientCommit": "7fe5f450305665d4f95b2390b85217acd8f4d0fa",
+  "clientBuild": "f3adfdc517aad8bb",
+  "runtimeSourceSha256": {
+    "server/game/battle/battleEngine.js": "5bc2b770a02c5ddad6e712f2e2526bd7b765b28891152615dd49d64688b5c725",
+    "server/game/battle/humanTrainerAI.js": "61744c47f4ff2b10e18c7a31e1e663a3f4c0f37d0d0d18bf3ebb4bcdddbfde0e",
+    "server/game/drift/driftEffects.js": "f61bc0bef763bbb84e60ffcf49b79527b43b68787f8a5c070cbe206421282770",
+    "server/game/drift/driftSignals.js": "5ece0b2d3a4a4a21aa5f3562611d1ceca95db03874549c3557e30a41ad6f8701",
+    "server/game/superTournament/augmentations.js": "7ab8743b13336f8c9c3bb8bab1c7d61a4ab574fbfa19771e21e84204bc52d698",
+    "server/game/superTournament/cashPrizes.js": "37486018e3a5d150f4ff4daf76de8aeb14d3907c2f26c6be473be64e5c815c84",
+    "server/game/superTournament/content.js": "4e3cc5d45a722645a16d39ad0f7b10ccd197a56b212ce01663616fc5e34431d4",
+    "server/game/superTournament/controller.js": "34e054a1c33e431de392d1ae38e717fd6f7fd1c6ea0ea0a29454d4cf0a86b6ba",
+    "server/game/superTournament/rerolls.js": "47af30b3881cd68368ef9c13640b4de0d24adc6c1b7cbc5af769e858445f059c",
+    "server/game/superTournament/rewards.js": "ded741671beeed2fdfac4419b68435df42e04e3b61e231fedb762a326c2ca5b0",
+    "server/game/superTournament/twists.js": "94b122661b2a044267e4f7d9cd89fe722b403e687e149e466282a808cb2e0957",
+    "server/realtime/handlers/superTournamentHandlers.js": "b4b5c340f38e929d0ef3074306db4441120599b0c613705fa3a2d8c5ba6bdee5"
+  },
+  "economy": {
+    "roomTiers": [
+      6400,
+      12800,
+      19200,
+      25600
+    ],
+    "cycleBonus": 64000,
+    "cycleTotals": [
+      320000,
+      640000,
+      960000
+    ],
+    "cycleScaling": "Linear +320000 per sixteen rooms, without ceiling; historical receipts and balances preserved",
+    "moneyCards": [
+      2000,
+      10000,
+      20000
+    ],
+    "moneyCardScaling": "Multiplied by cycle; candy prices and drop odds unchanged"
+  },
+  "rerolls": {
+    "initial": 1,
+    "perCycle": 1,
+    "unusedCarry": true,
+    "scope": "Four current, unclaimed cards; all four replaced with distinct choices absent from previous offer",
+    "durability": "Atomic versioned snapshot, new offer UUID, stale claim/replay denied; write failure restores old draw and token",
+    "legacy": "One credit for current cycle on first resume; no historical backlog or progress reset"
+  },
+  "newCards": [
+    {
+      "key": "pact_hunter",
+      "name": "Œil du chasseur",
+      "rarity": "epic",
+      "kind": "pact",
+      "target": "run",
+      "boon": "Critiques : +1 cran.",
+      "cost": "Dégâts Eau reçus : +25 %.",
+      "effects": {
+        "critical": 1,
+        "incomingType": {
+          "Water": 1.25
+        }
+      },
+      "description": "Critiques : +1 cran. En contrepartie : Dégâts Eau reçus : +25 %.",
+      "duration": "Toute la tentative",
+      "twist": true,
+      "rarityName": "Épique"
+    },
+    {
+      "key": "pact_cold_blood",
+      "name": "Sang-froid",
+      "rarity": "epic",
+      "kind": "pact",
+      "target": "run",
+      "boon": "Critiques : +1 cran.",
+      "cost": "Vitesse : −10 %.",
+      "effects": {
+        "critical": 1,
+        "speed": 0.9
+      },
+      "description": "Critiques : +1 cran. En contrepartie : Vitesse : −10 %.",
+      "duration": "Toute la tentative",
+      "twist": true,
+      "rarityName": "Épique"
+    },
+    {
+      "key": "pact_glass",
+      "name": "Lame de verre",
+      "rarity": "rare",
+      "kind": "pact",
+      "target": "run",
+      "boon": "Dégâts directs infligés : +20 %.",
+      "cost": "Dégâts directs reçus : +15 %.",
+      "effects": {
+        "outgoing": 1.2,
+        "incoming": 1.15
+      },
+      "description": "Dégâts directs infligés : +20 %. En contrepartie : Dégâts directs reçus : +15 %.",
+      "duration": "Toute la tentative",
+      "twist": true,
+      "rarityName": "Rare"
+    },
+    {
+      "key": "pact_blaze",
+      "name": "Brasier ardent",
+      "rarity": "rare",
+      "kind": "pact",
+      "target": "run",
+      "boon": "Dégâts Feu infligés : +30 %.",
+      "cost": "Dégâts Eau reçus : +30 %.",
+      "effects": {
+        "outgoingType": {
+          "Fire": 1.3
+        },
+        "incomingType": {
+          "Water": 1.3
+        }
+      },
+      "description": "Dégâts Feu infligés : +30 %. En contrepartie : Dégâts Eau reçus : +30 %.",
+      "duration": "Toute la tentative",
+      "twist": true,
+      "rarityName": "Rare"
+    },
+    {
+      "key": "pact_tide",
+      "name": "Marée profonde",
+      "rarity": "rare",
+      "kind": "pact",
+      "target": "run",
+      "boon": "Dégâts Eau infligés : +30 %.",
+      "cost": "Dégâts Électrik reçus : +30 %.",
+      "effects": {
+        "outgoingType": {
+          "Water": 1.3
+        },
+        "incomingType": {
+          "Electric": 1.3
+        }
+      },
+      "description": "Dégâts Eau infligés : +30 %. En contrepartie : Dégâts Électrik reçus : +30 %.",
+      "duration": "Toute la tentative",
+      "twist": true,
+      "rarityName": "Rare"
+    },
+    {
+      "key": "pact_garden",
+      "name": "Jardin sauvage",
+      "rarity": "rare",
+      "kind": "pact",
+      "target": "run",
+      "boon": "Dégâts Plante infligés : +30 %.",
+      "cost": "Dégâts Feu reçus : +30 %.",
+      "effects": {
+        "outgoingType": {
+          "Grass": 1.3
+        },
+        "incomingType": {
+          "Fire": 1.3
+        }
+      },
+      "description": "Dégâts Plante infligés : +30 %. En contrepartie : Dégâts Feu reçus : +30 %.",
+      "duration": "Toute la tentative",
+      "twist": true,
+      "rarityName": "Rare"
+    },
+    {
+      "key": "pact_voltage",
+      "name": "Haute tension",
+      "rarity": "rare",
+      "kind": "pact",
+      "target": "run",
+      "boon": "Dégâts Électrik infligés : +30 %.",
+      "cost": "Dégâts Sol reçus : +30 %.",
+      "effects": {
+        "outgoingType": {
+          "Electric": 1.3
+        },
+        "incomingType": {
+          "Ground": 1.3
+        }
+      },
+      "description": "Dégâts Électrik infligés : +30 %. En contrepartie : Dégâts Sol reçus : +30 %.",
+      "duration": "Toute la tentative",
+      "twist": true,
+      "rarityName": "Rare"
+    },
+    {
+      "key": "pact_winter",
+      "name": "Hiver mordant",
+      "rarity": "rare",
+      "kind": "pact",
+      "target": "run",
+      "boon": "Dégâts Glace infligés : +30 %.",
+      "cost": "Dégâts Combat reçus : +30 %.",
+      "effects": {
+        "outgoingType": {
+          "Ice": 1.3
+        },
+        "incomingType": {
+          "Fighting": 1.3
+        }
+      },
+      "description": "Dégâts Glace infligés : +30 %. En contrepartie : Dégâts Combat reçus : +30 %.",
+      "duration": "Toute la tentative",
+      "twist": true,
+      "rarityName": "Rare"
+    },
+    {
+      "key": "pact_dragon",
+      "name": "Héritage draconique",
+      "rarity": "rare",
+      "kind": "pact",
+      "target": "run",
+      "boon": "Dégâts Dragon infligés : +30 %.",
+      "cost": "Dégâts Fée reçus : +30 %.",
+      "effects": {
+        "outgoingType": {
+          "Dragon": 1.3
+        },
+        "incomingType": {
+          "Fairy": 1.3
+        }
+      },
+      "description": "Dégâts Dragon infligés : +30 %. En contrepartie : Dégâts Fée reçus : +30 %.",
+      "duration": "Toute la tentative",
+      "twist": true,
+      "rarityName": "Rare"
+    },
+    {
+      "key": "pact_heavy_fist",
+      "name": "Poing lourd",
+      "rarity": "rare",
+      "kind": "pact",
+      "target": "run",
+      "boon": "Dégâts physiques infligés : +25 %.",
+      "cost": "Vitesse : −10 %.",
+      "effects": {
+        "outgoingClass": {
+          "physical": 1.25
+        },
+        "speed": 0.9
+      },
+      "description": "Dégâts physiques infligés : +25 %. En contrepartie : Vitesse : −10 %.",
+      "duration": "Toute la tentative",
+      "twist": true,
+      "rarityName": "Rare"
+    },
+    {
+      "key": "pact_mind",
+      "name": "Esprit incandescent",
+      "rarity": "rare",
+      "kind": "pact",
+      "target": "run",
+      "boon": "Dégâts spéciaux infligés : +25 %.",
+      "cost": "Dégâts physiques infligés : −20 %.",
+      "effects": {
+        "outgoingClass": {
+          "special": 1.25,
+          "physical": 0.8
+        }
+      },
+      "description": "Dégâts spéciaux infligés : +25 %. En contrepartie : Dégâts physiques infligés : −20 %.",
+      "duration": "Toute la tentative",
+      "twist": true,
+      "rarityName": "Rare"
+    },
+    {
+      "key": "pact_soldier",
+      "name": "Instinct du combattant",
+      "rarity": "rare",
+      "kind": "pact",
+      "target": "run",
+      "boon": "Dégâts physiques infligés : +25 %.",
+      "cost": "Dégâts spéciaux infligés : −20 %.",
+      "effects": {
+        "outgoingClass": {
+          "physical": 1.25,
+          "special": 0.8
+        }
+      },
+      "description": "Dégâts physiques infligés : +25 %. En contrepartie : Dégâts spéciaux infligés : −20 %.",
+      "duration": "Toute la tentative",
+      "twist": true,
+      "rarityName": "Rare"
+    },
+    {
+      "key": "pact_dance",
+      "name": "Danse du risque",
+      "rarity": "epic",
+      "kind": "pact",
+      "target": "run",
+      "boon": "Vitesse : +20 %.",
+      "cost": "Dégâts directs reçus : +15 %.",
+      "effects": {
+        "speed": 1.2,
+        "incoming": 1.15
+      },
+      "description": "Vitesse : +20 %. En contrepartie : Dégâts directs reçus : +15 %.",
+      "duration": "Toute la tentative",
+      "twist": true,
+      "rarityName": "Épique"
+    },
+    {
+      "key": "pact_rampart",
+      "name": "Rempart pesant",
+      "rarity": "rare",
+      "kind": "pact",
+      "target": "run",
+      "boon": "Dégâts physiques reçus : −20 %.",
+      "cost": "Vitesse : −10 %.",
+      "effects": {
+        "incomingClass": {
+          "physical": 0.8
+        },
+        "speed": 0.9
+      },
+      "description": "Dégâts physiques reçus : −20 %. En contrepartie : Vitesse : −10 %.",
+      "duration": "Toute la tentative",
+      "twist": true,
+      "rarityName": "Rare"
+    },
+    {
+      "key": "pact_veil",
+      "name": "Voile fragile",
+      "rarity": "rare",
+      "kind": "pact",
+      "target": "run",
+      "boon": "Dégâts spéciaux reçus : −20 %.",
+      "cost": "Dégâts physiques reçus : +15 %.",
+      "effects": {
+        "incomingClass": {
+          "special": 0.8,
+          "physical": 1.15
+        }
+      },
+      "description": "Dégâts spéciaux reçus : −20 %. En contrepartie : Dégâts physiques reçus : +15 %.",
+      "duration": "Toute la tentative",
+      "twist": true,
+      "rarityName": "Rare"
+    },
+    {
+      "key": "pact_leech",
+      "name": "Soif de vie",
+      "rarity": "epic",
+      "kind": "pact",
+      "target": "run",
+      "boon": "Soigne 15 % des dégâts directs infligés.",
+      "cost": "Dégâts Feu reçus : +25 %.",
+      "effects": {
+        "values": {
+          "5": 15
+        },
+        "incomingType": {
+          "Fire": 1.25
+        }
+      },
+      "description": "Soigne 15 % des dégâts directs infligés. En contrepartie : Dégâts Feu reçus : +25 %.",
+      "duration": "Toute la tentative",
+      "twist": true,
+      "rarityName": "Épique"
+    },
+    {
+      "key": "pact_breath",
+      "name": "Souffle patient",
+      "rarity": "epic",
+      "kind": "pact",
+      "target": "run",
+      "boon": "Récupère 5 % des PV maximum en fin de tour.",
+      "cost": "Vitesse : −10 %.",
+      "effects": {
+        "values": {
+          "16": 5
+        },
+        "speed": 0.9
+      },
+      "description": "Récupère 5 % des PV maximum en fin de tour. En contrepartie : Vitesse : −10 %.",
+      "duration": "Toute la tentative",
+      "twist": true,
+      "rarityName": "Épique"
+    },
+    {
+      "key": "pact_execution",
+      "name": "Instinct du finisseur",
+      "rarity": "rare",
+      "kind": "pact",
+      "target": "run",
+      "boon": "Dégâts infligés : +30 % si la cible a au plus 35 % de ses PV.",
+      "cost": "Dégâts infligés : −10 % au-dessus de ce seuil.",
+      "effects": {
+        "finisher": true
+      },
+      "description": "Dégâts infligés : +30 % si la cible a au plus 35 % de ses PV. En contrepartie : Dégâts infligés : −10 % au-dessus de ce seuil.",
+      "duration": "Toute la tentative",
+      "twist": true,
+      "rarityName": "Rare"
+    },
+    {
+      "key": "pact_fortress",
+      "name": "Force tranquille",
+      "rarity": "rare",
+      "kind": "pact",
+      "target": "run",
+      "boon": "Dégâts directs reçus : −15 %.",
+      "cost": "Dégâts directs infligés : −10 %.",
+      "effects": {
+        "incoming": 0.85,
+        "outgoing": 0.9
+      },
+      "description": "Dégâts directs reçus : −15 %. En contrepartie : Dégâts directs infligés : −10 %.",
+      "duration": "Toute la tentative",
+      "twist": true,
+      "rarityName": "Rare"
+    },
+    {
+      "key": "next_opponent_two",
+      "name": "Duel écourté",
+      "rarity": "epic",
+      "kind": "opponent",
+      "target": "run",
+      "count": 2,
+      "description": "Le prochain dresseur ne garde que ses deux derniers Pokémon, dont son plus fort. Valable pour un seul combat.",
+      "duration": "Prochain combat seulement",
+      "twist": true,
+      "rarityName": "Épique"
+    },
+    {
+      "key": "next_opponent_one",
+      "name": "Face au dernier rempart",
+      "rarity": "legendary",
+      "kind": "opponent",
+      "target": "run",
+      "count": 1,
+      "description": "Le prochain dresseur ne garde que son dernier Pokémon, le plus fort. Valable pour un seul combat.",
+      "duration": "Prochain combat seulement",
+      "twist": true,
+      "rarityName": "Légendaire"
+    }
+  ],
+  "cardRules": {
+    "newCards": 21,
+    "bargains": 19,
+    "totalCards": 55,
+    "choices": 4,
+    "minimumRecoveryChoices": 2,
+    "maxTwistPerOffer": 1,
+    "maxMythicPerOffer": 1,
+    "baseOfferOdds": {
+      "nextOpponentOne": 0.008,
+      "nextOpponentTwo": 0.04,
+      "bargain": 0.352
+    },
+    "bargainWeights": {
+      "rare": 3,
+      "epic": 1
+    },
+    "noDuplicateBargain": true,
+    "canDeclineTwistOffer": true,
+    "duration": "Bargains last the attempt for the whole team. Opponent cards only the next battle, retaining strongest final slots; no points for absent Pokemon. Next ordinary team restored.",
+    "scope": "Sealed tournament owner only; no permanent Pokemon training/stat/item changes",
+    "existingClientCompatibility": "Additive reroll command and state fields; next-opponent cards retain target:run for older reward clients"
+  },
+  "combat": {
+    "actualHooks": [
+      "damage by type/class/HP threshold",
+      "speed with held item, Tailwind and paralysis",
+      "critical stage and existing critical protection",
+      "life steal and end-turn regeneration through existing hooks"
+    ],
+    "ai": "Only public pact keys copied into disposable AI views, enabling matching speed/damage estimates. No submitted or pending player action copied. No preview animation/RNG/HP mutation.",
+    "signals": "Named pact signals use existing battle effect presentation",
+    "lookup": "Owned-card definitions cached in owner WeakMap; no per-frame polling, timers or SQL query added"
+  },
+  "verification": {
+    "unit": {
+      "pass": 82,
+      "fail": 0,
+      "skipped": 0,
+      "log": "/tmp/riftmon-tower-pacts-unit.log"
+    },
+    "engineAndAIRegression": {
+      "pass": 195,
+      "fail": 0,
+      "skipped": 0,
+      "log": "/tmp/riftmon-tower-pacts-regression.log"
+    },
+    "sql": {
+      "pass": 36,
+      "fail": 0,
+      "skipped": 0,
+      "log": "/tmp/riftmon-tower-pacts-sql.log"
+    },
+    "browser": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "buildIndexSha256": "d260c7c0da12fc88ff13ae607d0623a96a2244c97f2e652405f9b7813053a0f7",
+        "views": [
+          {
+            "key": "pact_hunter",
+            "width": 320,
+            "height": 480,
+            "theme": "light"
+          },
+          {
+            "key": "pact_hunter",
+            "width": 320,
+            "height": 480,
+            "theme": "dark"
+          },
+          {
+            "key": "pact_hunter",
+            "width": 393,
+            "height": 852,
+            "theme": "light"
+          },
+          {
+            "key": "pact_hunter",
+            "width": 393,
+            "height": 852,
+            "theme": "dark"
+          },
+          {
+            "key": "pact_hunter",
+            "width": 844,
+            "height": 390,
+            "theme": "light"
+          },
+          {
+            "key": "pact_hunter",
+            "width": 844,
+            "height": 390,
+            "theme": "dark"
+          },
+          {
+            "key": "pact_hunter",
+            "width": 1536,
+            "height": 680,
+            "theme": "light"
+          },
+          {
+            "key": "pact_hunter",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark"
+          },
+          {
+            "key": "next_opponent_one",
+            "width": 320,
+            "height": 480,
+            "theme": "light"
+          },
+          {
+            "key": "next_opponent_one",
+            "width": 320,
+            "height": 480,
+            "theme": "dark"
+          },
+          {
+            "key": "next_opponent_one",
+            "width": 393,
+            "height": 852,
+            "theme": "light"
+          },
+          {
+            "key": "next_opponent_one",
+            "width": 393,
+            "height": 852,
+            "theme": "dark"
+          },
+          {
+            "key": "next_opponent_one",
+            "width": 844,
+            "height": 390,
+            "theme": "light"
+          },
+          {
+            "key": "next_opponent_one",
+            "width": 844,
+            "height": 390,
+            "theme": "dark"
+          },
+          {
+            "key": "next_opponent_one",
+            "width": 1536,
+            "height": 680,
+            "theme": "light"
+          },
+          {
+            "key": "next_opponent_one",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark"
+          },
+          {
+            "key": "pact_cold_blood",
+            "width": 320,
+            "height": 480,
+            "theme": "light"
+          },
+          {
+            "key": "pact_cold_blood",
+            "width": 320,
+            "height": 480,
+            "theme": "dark"
+          },
+          {
+            "key": "pact_cold_blood",
+            "width": 393,
+            "height": 852,
+            "theme": "light"
+          },
+          {
+            "key": "pact_cold_blood",
+            "width": 393,
+            "height": 852,
+            "theme": "dark"
+          },
+          {
+            "key": "pact_cold_blood",
+            "width": 844,
+            "height": 390,
+            "theme": "light"
+          },
+          {
+            "key": "pact_cold_blood",
+            "width": 844,
+            "height": 390,
+            "theme": "dark"
+          },
+          {
+            "key": "pact_cold_blood",
+            "width": 1536,
+            "height": 680,
+            "theme": "light"
+          },
+          {
+            "key": "pact_cold_blood",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark"
+          }
+        ],
+        "all19BargainsPreviewed": [
+          "pact_hunter",
+          "pact_cold_blood",
+          "pact_glass",
+          "pact_blaze",
+          "pact_tide",
+          "pact_garden",
+          "pact_voltage",
+          "pact_winter",
+          "pact_dragon",
+          "pact_heavy_fist",
+          "pact_mind",
+          "pact_soldier",
+          "pact_dance",
+          "pact_rampart",
+          "pact_veil",
+          "pact_leech",
+          "pact_breath",
+          "pact_execution",
+          "pact_fortress"
+        ],
+        "actualRegistration": true,
+        "firstRoom6400": true,
+        "cycleTotal320000": true,
+        "rerollFreshAndDurable": true,
+        "staleClaimRejected": true,
+        "cycleRerollGranted": true,
+        "opponentsReducedOnce": true,
+        "scoreOnlyActualKOs": true,
+        "fullFollowingTeam": true,
+        "boonAndCostVisible": true,
+        "activeRecap": true,
+        "namedCombatEffect": true,
+        "adventurePreserved": true,
+        "errors": []
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "buildIndexSha256": "d260c7c0da12fc88ff13ae607d0623a96a2244c97f2e652405f9b7813053a0f7",
+        "views": [
+          {
+            "key": "pact_hunter",
+            "width": 320,
+            "height": 480,
+            "theme": "light"
+          },
+          {
+            "key": "pact_hunter",
+            "width": 320,
+            "height": 480,
+            "theme": "dark"
+          },
+          {
+            "key": "pact_hunter",
+            "width": 393,
+            "height": 852,
+            "theme": "light"
+          },
+          {
+            "key": "pact_hunter",
+            "width": 393,
+            "height": 852,
+            "theme": "dark"
+          },
+          {
+            "key": "pact_hunter",
+            "width": 844,
+            "height": 390,
+            "theme": "light"
+          },
+          {
+            "key": "pact_hunter",
+            "width": 844,
+            "height": 390,
+            "theme": "dark"
+          },
+          {
+            "key": "pact_hunter",
+            "width": 1536,
+            "height": 680,
+            "theme": "light"
+          },
+          {
+            "key": "pact_hunter",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark"
+          },
+          {
+            "key": "next_opponent_one",
+            "width": 320,
+            "height": 480,
+            "theme": "light"
+          },
+          {
+            "key": "next_opponent_one",
+            "width": 320,
+            "height": 480,
+            "theme": "dark"
+          },
+          {
+            "key": "next_opponent_one",
+            "width": 393,
+            "height": 852,
+            "theme": "light"
+          },
+          {
+            "key": "next_opponent_one",
+            "width": 393,
+            "height": 852,
+            "theme": "dark"
+          },
+          {
+            "key": "next_opponent_one",
+            "width": 844,
+            "height": 390,
+            "theme": "light"
+          },
+          {
+            "key": "next_opponent_one",
+            "width": 844,
+            "height": 390,
+            "theme": "dark"
+          },
+          {
+            "key": "next_opponent_one",
+            "width": 1536,
+            "height": 680,
+            "theme": "light"
+          },
+          {
+            "key": "next_opponent_one",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark"
+          },
+          {
+            "key": "pact_cold_blood",
+            "width": 320,
+            "height": 480,
+            "theme": "light"
+          },
+          {
+            "key": "pact_cold_blood",
+            "width": 320,
+            "height": 480,
+            "theme": "dark"
+          },
+          {
+            "key": "pact_cold_blood",
+            "width": 393,
+            "height": 852,
+            "theme": "light"
+          },
+          {
+            "key": "pact_cold_blood",
+            "width": 393,
+            "height": 852,
+            "theme": "dark"
+          },
+          {
+            "key": "pact_cold_blood",
+            "width": 844,
+            "height": 390,
+            "theme": "light"
+          },
+          {
+            "key": "pact_cold_blood",
+            "width": 844,
+            "height": 390,
+            "theme": "dark"
+          },
+          {
+            "key": "pact_cold_blood",
+            "width": 1536,
+            "height": 680,
+            "theme": "light"
+          },
+          {
+            "key": "pact_cold_blood",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark"
+          }
+        ],
+        "all19BargainsPreviewed": [
+          "pact_hunter",
+          "pact_cold_blood",
+          "pact_glass",
+          "pact_blaze",
+          "pact_tide",
+          "pact_garden",
+          "pact_voltage",
+          "pact_winter",
+          "pact_dragon",
+          "pact_heavy_fist",
+          "pact_mind",
+          "pact_soldier",
+          "pact_dance",
+          "pact_rampart",
+          "pact_veil",
+          "pact_leech",
+          "pact_breath",
+          "pact_execution",
+          "pact_fortress"
+        ],
+        "actualRegistration": true,
+        "firstRoom6400": true,
+        "cycleTotal320000": true,
+        "rerollFreshAndDurable": true,
+        "staleClaimRejected": true,
+        "cycleRerollGranted": true,
+        "opponentsReducedOnce": true,
+        "scoreOnlyActualKOs": true,
+        "fullFollowingTeam": true,
+        "boonAndCostVisible": true,
+        "activeRecap": true,
+        "namedCombatEffect": true,
+        "adventurePreserved": true,
+        "errors": []
+      }
+    },
+    "views": 48,
+    "lint": true,
+    "isolatedBuild": true,
+    "syntaxAndDiff": true,
+    "testUsersDeleted": true,
+    "screenshotsInspected": [
+      "/tmp/riftmon-tower-pacts-chromium/pact_hunter-393-light.png",
+      "/tmp/riftmon-tower-pacts-chromium/pact_cold_blood-1536-dark.png"
+    ]
+  },
+  "commands": [
+    "node --test tests/super-tournament-twists.test.js tests/super-tournament.test.js tests/super-tournament-rewards.test.js tests/super-tournament-powers.test.js tests/super-tournament-augments.test.js tests/super-tournament-cash.test.js tests/super-tournament-cycle-rules.test.js tests/super-tournament-abandon.test.js tests/super-tournament-order.test.js",
+    "node --test tests/human-trainer-ai.test.js tests/human-trainer-finishing.test.js tests/human-trainer-model.test.js tests/human-trainer-trapping.test.js tests/human-trainer-items.test.js tests/human-trainer-known-abilities.test.js tests/human-trainer-sucker-punch.test.js tests/drift-effects.test.js tests/battle-engine.test.js tests/battle-field.test.js tests/toxic-orb.test.js",
+    "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file=.env --test --test-concurrency=1 tests/super-tournament-twists-mysql.test.js tests/super-tournament-cash-mysql.test.js tests/super-tournament-augments-mysql.test.js tests/super-tournament-powers-mysql.test.js tests/super-tournament-cycle-mysql.test.js tests/super-tournament-mysql.test.js",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-tower-pacts-dist PRESENTATION_BROWSER=chromium node --env-file=.env scripts/validateTournamentTwistsBrowser.js",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-tower-pacts-dist PRESENTATION_BROWSER=webkit node --env-file=.env scripts/validateTournamentTwistsBrowser.js",
+    "npm --prefix vue-explorakit run lint",
+    "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-tower-pacts-dist"
+  ],
+  "limitations": [
+    "Headless Chromium/WebKit, not physical smartphone tests.",
+    "Focused tower, SQL, battle-engine and AI regressions; no full global suite claimed.",
+    "No schema migration, manual real-account change or opening of closed modes."
+  ],
+  "deployment": {
+    "publishedAt": "2026-11-01T14:42:51.909Z",
+    "restartedAt": "2026-11-01T14:42:50.497Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-tower-pacts-2026-11-01T14-42-49-043Z",
+    "sourceBaseline": "4cbf4456246cf948b1145c658c60cecbf559255b",
+    "sourceHashes": {
+      "server/game/battle/battleEngine.js": "5bc2b770a02c5ddad6e712f2e2526bd7b765b28891152615dd49d64688b5c725",
+      "server/game/battle/humanTrainerAI.js": "61744c47f4ff2b10e18c7a31e1e663a3f4c0f37d0d0d18bf3ebb4bcdddbfde0e",
+      "server/game/drift/driftEffects.js": "f61bc0bef763bbb84e60ffcf49b79527b43b68787f8a5c070cbe206421282770",
+      "server/game/drift/driftSignals.js": "5ece0b2d3a4a4a21aa5f3562611d1ceca95db03874549c3557e30a41ad6f8701",
+      "server/game/superTournament/augmentations.js": "7ab8743b13336f8c9c3bb8bab1c7d61a4ab574fbfa19771e21e84204bc52d698",
+      "server/game/superTournament/cashPrizes.js": "37486018e3a5d150f4ff4daf76de8aeb14d3907c2f26c6be473be64e5c815c84",
+      "server/game/superTournament/content.js": "4e3cc5d45a722645a16d39ad0f7b10ccd197a56b212ce01663616fc5e34431d4",
+      "server/game/superTournament/controller.js": "34e054a1c33e431de392d1ae38e717fd6f7fd1c6ea0ea0a29454d4cf0a86b6ba",
+      "server/game/superTournament/rewards.js": "ded741671beeed2fdfac4419b68435df42e04e3b61e231fedb762a326c2ca5b0",
+      "server/realtime/handlers/superTournamentHandlers.js": "b4b5c340f38e929d0ef3074306db4441120599b0c613705fa3a2d8c5ba6bdee5",
+      "server/game/superTournament/rerolls.js": "47af30b3881cd68368ef9c13640b4de0d24adc6c1b7cbc5af769e858445f059c",
+      "server/game/superTournament/twists.js": "94b122661b2a044267e4f7d9cd89fe722b403e687e149e466282a808cb2e0957"
+    },
+    "clientCommit": "7fe5f450305665d4f95b2390b85217acd8f4d0fa",
+    "clientBuild": "f3adfdc517aad8bb",
+    "beforePid": "3666583",
+    "afterPid": "3670189",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "schemaChanged": false,
+    "activeClubDuelsBefore": 0,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 1,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": [
+      "js/234.7f08b866.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.ae44b00a.js",
+      "js/account.161ce126.js",
+      "js/app.cbe5477a.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.2fd32f7c.js",
+      "js/drift.5b8720d7.js",
+      "js/game.1c27bd5d.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.4fff4c7e.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.360d24b8.css",
+      "css/test-view.7568246d.css"
+    ]
+  }
+}

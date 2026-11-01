@@ -31,6 +31,7 @@ function createHandlers({socket,account,userId,getPlayer,canUse,travel,refreshAc
  });
  command('superTournament:abandon',async()=>{if(!controller.active)throw Error('Aucune tentative en cours.');await controller.abandon();refreshActors();});
  command('superTournament:reward',async data=>{const p=valid();if(p.currentmap!==content.MAPS.room)throw Error('Rejoins la salle du tournoi.');await controller.claimReward(data);});
+ command('superTournament:reroll',async data=>{const p=valid();if(p.currentmap!==content.MAPS.room)throw Error('Rejoins la salle du tournoi.');await controller.rerollReward(data);});
  command('superTournament:reorderMoves',async data=>{valid();await controller.reorderMoves(data);return teamState();});
  command('superTournament:reorderTeam',async data=>{const p=valid();if(![content.MAPS.sas,content.MAPS.room].includes(p.currentmap))throw Error('Rejoins les salles du Super Tournoi.');await controller.reorderTeam(data);return teamState();});
  command('superTournament:board',async()=>{const p=getPlayer();if(!p||p.currentmap!==content.MAPS.lobby||Date.now()-lastBoard<1000)return;lastBoard=Date.now();return {leaderboard:await repository.leaderboard(userId)};});

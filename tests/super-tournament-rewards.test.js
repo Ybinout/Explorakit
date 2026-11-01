@@ -6,8 +6,8 @@ function team(){return [{uuid:'a',data:{id:9},name:'Alpha',currentHp:12,maxHp:10
 function offer(key){return {id:'offer',afterRoom:1,cards:[key]};}
 function choose(key,patch={}){return {offerId:'offer',cardKey:key,pokemonUuid:'a',...patch};}
 test('all 21 recovery cards have a real effect, preserve progression/items and never overfill HP/PP',()=>{
- assert.equal(rewards.cards.filter(c=>c.target!=='account'&&!c.power).length,21);
- for(const card of rewards.cards.filter(c=>c.target!=='account'&&!c.power)){const t=team(),before=t.map(p=>[p.experience,p.level,p.heldItem,p.iv,p.ev]),o=offer(card.key),v=rewards.viewOffer(o,t).choices[0];assert(v.usable,card.key);
+ assert.equal(rewards.cards.filter(c=>c.target!=='account'&&!c.power&&!c.twist).length,21);
+ for(const card of rewards.cards.filter(c=>c.target!=='account'&&!c.power&&!c.twist)){const t=team(),before=t.map(p=>[p.experience,p.level,p.heldItem,p.iv,p.ev]),o=offer(card.key),v=rewards.viewOffer(o,t).choices[0];assert(v.usable,card.key);
   const target=v.targets[0],result=rewards.applyChoice(o,t,choose(card.key,{pokemonUuid:target.uuid,...(card.target==='move'?{moveIndex:target.moves[0].index}:{})}));assert(result.changes.length>0,card.key);
   assert.deepEqual(t.map(p=>[p.experience,p.level,p.heldItem,p.iv,p.ev]),before,card.key);
   for(const p of t){assert(p.currentHp>=0&&p.currentHp<=p.maxHp);p.movePp.forEach((pp,i)=>assert(pp>=0&&pp<=getMaxMovePp(p.abilities[i])));}
