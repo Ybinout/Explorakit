@@ -10,6 +10,13 @@ function requireAccess(p) {
 function open(p) { requireAccess(p); return storage.view(p.equipe.pokemons,p.storage || [],true); }
 function mutate(p, payload) {
     requireAccess(p);
+    if(payload?.action==='takeItem'){
+        let selected;
+        try{selected=storage.heldItemToTake(p.equipe.pokemons,p.storage || [],payload);}catch(e){economy.fail(e.message);}
+        p.items[selected.itemKey]=(p.items[selected.itemKey]||0)+1;selected.pokemon.heldItem=null;
+        p.ready=false;report.syncTeam(p);report.event(p,'pc','Objet tenu remis dans le sac depuis le PC.');
+        return {success:true,takenItem:selected.itemKey,state:open(p),equipe:p.equipe,items:economy.bag(p)};
+    }
     if(payload?.action==='reorderMoves'){
         const pokemon=p.equipe.pokemons.find(poke=>poke.uuid===payload.pokemonUuid) || p.storage?.find(e=>e.pokemon.uuid===payload.pokemonUuid)?.pokemon;
         if(!pokemon)economy.fail('Ce Pokémon ne t’appartient pas.');

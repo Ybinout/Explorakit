@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Prendre un objet tenu depuis le PC — 1er novembre 2026
+
+Dans le PC, sélectionner un Pokémon de boîte ou de l’équipe affiche « Prendre l’objet · <nom> » uniquement s’il porte un objet. Un appui le remet dans le sac sans retirer/déplacer le Pokémon ; objet affiché, pastille du portrait et sac actualisés immédiatement, message de confirmation dans le PC. Aucune nouvelle fenêtre de confirmation pour cette action réversible.
+
+Commande additive `pc:action takeItem`, UUID/emplacement et objet attendu validés sur les données du propriétaire. Transaction SQL sous verrou du joueur, de l’équipe et du stockage, avec contrôle du verrou d’échange : seul `held_item` est mis à null et le stock du sac est incrémenté une fois. Les autres champs JSON, y compris inconnus, sont conservés ; aucune réécriture complète de l’équipe ou du PC. Deux demandes simultanées ne rendent qu’un exemplaire ; échec d’écriture du sac annule le retrait. Gardes existantes de proximité du PC, combat, inventaire et Super Tournoi conservées. Même action dans les boîtes privées Rift/Colosseum, sans ouvrir ces modes, avec leur checkpoint et inventaire propres.
+
+Validation : 21 tests unitaires/régression et 10 SQL réussis sans échec/saut. Propriété, source/objet périmés, absence d’objet, métadonnées, entraînement/PV/PP/ordre, verrou d’échange, concurrence et rollback injecté vérifiés. Recette privée réelle Socket.IO/SQL Chromium/WebKit : prélèvement d’une boîte puis de l’équipe, stock/pastille/bouton et message, refus du rejeu et de l’accès à distance, reconnexion durable, aucun déplacement/soin. Quatre formats/deux thèmes, huit vues par moteur (16), zéro erreur ; comptes jetables supprimés, capture mobile inspectée. Lint, build isolé, syntaxe et diff valides. Aucun téléphone physique ni suite globale revendiqués. Rapport et commandes : `docs/PC_TAKE_ITEM_2026-11-01.json`.
+
+Serveur/client publiés le 1er novembre 2026 à 12 h 09 (Europe/Paris), client `1f50f4162813be672cbee7becf4089a9931a0e3c`, build `a09c220334b64eab`. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-pc-take-item-2026-11-01T11-09-36-079Z`. PID 3658083→3659511, service actif sans redémarrage automatique/avertissement ; aucun duel/tournoi actif au contrôle. Index et 22 bundles/CSS HTTPS vérifiés à l’octet, anciens assets conservés. Knov/api-test, checkpoint et modes fermés inchangés ; aucune migration ni modification manuelle de compte réel. Recharger le client pour le nouveau bouton.
+
 ## Casino et socles de Blanchecime réalignés — 1er novembre 2026
 
 Le casino s’ouvre désormais sur sa porte bleue réelle (20,15), et non sur la fenêtre (23,16). Sorties raccordées devant la porte (656,528 en coordonnées monde), collision de la fenêtre rétablie ; entrées/sorties parcourues avec les déplacements natifs. La convention historique des transitions (+16/−16) est prise en compte.
@@ -5698,6 +5708,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 1er novembre 2026 — Prise directe d’objet tenu au PC, sac/portrait synchronisés, retrait et ajout atomiques sans déplacement/soin ; 21 tests unitaires, 10 SQL et 16 vues Chromium/WebKit. `docs/PC_TAKE_ITEM_2026-11-01.json`.
 
 - 1er novembre 2026 — Blanchecime : vraie porte du casino, ellipse des socles partagée et occupants immobiles détectés, néon mis en cache, niveaux temporaires/XP cohérents, mises inspectables et coussins traversables. 18 tests unitaires, 14 SQL et 64 vues Chromium/WebKit ; `docs/WHITEPEAK_ALIGNMENT_2026-11-01.json`.
 

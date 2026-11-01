@@ -46,6 +46,21 @@ async function mutateStorage(userId, payload) {
         const record = await getTeamRecord(userId,c); if (!record) throw Error('Équipe introuvable.');
         const [rows] = await c.execute('SELECT * FROM pokemons WHERE team_id=? ORDER BY position FOR UPDATE',[record.id]);
         const entries = await loadEntries(userId,c,true);
+        if(payload?.action==='takeItem'){
+            require('../game/social/tradeLocks').assertUnlocked(userId);
+            const team=rows.map(rowToPokemon),{pokemon,itemKey}=storage.heldItemToTake(team,entries,payload);
+            if(payload.source==='team') await c.execute('UPDATE pokemons SET held_item=NULL WHERE team_id=? AND uuid=?',[record.id,pokemon.uuid]);
+            else {
+                const [[row]]=await c.execute('SELECT pokemon_data FROM pokemon_storage WHERE user_id=? AND uuid=? FOR UPDATE',[userId,pokemon.uuid]);
+                const data=typeof row.pokemon_data==='string'?JSON.parse(row.pokemon_data):{...row.pokemon_data};
+                // Change only the held item, preserving unknown fields and all training/battle data.
+                data.held_item=null;
+                await c.execute('UPDATE pokemon_storage SET pokemon_data=? WHERE user_id=? AND uuid=?',[JSON.stringify(data),userId,pokemon.uuid]);
+            }
+            await c.execute('INSERT INTO user_items(user_id,item_key,quantity) VALUES(?,?,1) ON DUPLICATE KEY UPDATE quantity=quantity+1',[userId,itemKey]);
+            pokemon.heldItem=null;
+            return {success:true,takenItem:itemKey,state:storage.view(team,entries),equipe:{pokemons:team}};
+        }
         if(payload?.action==='reorderMoves'){
             require('../game/social/tradeLocks').assertUnlocked(userId);
             const team=rows.map(rowToPokemon),stored=entries.find(e=>e.pokemon.uuid===payload.pokemonUuid);

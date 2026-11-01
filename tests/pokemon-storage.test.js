@@ -6,6 +6,23 @@ const driftComputer=require('../server/game/drift/pokemonComputer');
 const {encode,decode}=require('../server/game/drift/checkpointCodec');
 const {DriftBattle}=require('../server/game/drift/driftBattle');
 const mon=(id=7)=>{const p=factory.create(id,12,true);p.abilities=['Growl'];p.movePp=[37];p.passiveAbility=null;return p;};
+test('prendre un objet au PC valide son propriétaire, son emplacement et la valeur attendue sans mutation',()=>{
+ const a=mon(),b=mon(4);a.heldItem='choice_scarf';b.heldItem='leftovers';
+ const team=[a],entries=[{box:7,slot:29,pokemon:b}],before=encode({team,entries});
+ assert.deepEqual(storage.heldItemToTake(team,entries,{source:'box',pokemonUuid:b.uuid,expectedItem:'leftovers'}),{pokemon:b,itemKey:'leftovers'});
+ assert.deepEqual(storage.heldItemToTake(team,entries,{source:'team',pokemonUuid:a.uuid,expectedItem:'choice_scarf'}),{pokemon:a,itemKey:'choice_scarf'});
+ for(const request of [{source:'team',pokemonUuid:b.uuid,expectedItem:'leftovers'},{source:'box',pokemonUuid:a.uuid,expectedItem:'choice_scarf'},{source:'box',pokemonUuid:b.uuid,expectedItem:'life_orb'},{source:'box',pokemonUuid:b.uuid},{source:'box',pokemonUuid:'foreign',expectedItem:'leftovers'},{source:'invalid',pokemonUuid:a.uuid,expectedItem:'choice_scarf'},null])assert.throws(()=>storage.heldItemToTake(team,entries,request));
+ assert.deepEqual(encode({team,entries}),before);b.heldItem=null;assert.throws(()=>storage.heldItemToTake(team,entries,{source:'box',pokemonUuid:b.uuid,expectedItem:'leftovers'}),/aucun objet/);
+});
+for(const mode of ['rift','colosseum'])test(`${mode} : retirer un objet au PC est durable, isolé et non rejouable`,()=>{
+ const a=mon(),b=mon(4);a.currentHp=1;b.heldItem='leftovers';b.currentHp=2;b.movePp=[0];
+ const p={userId:1,alive:true,ready:true,run:{mode,phase:'exploration'},currentmap:'centre',x:560,y:304,equipe:{pokemons:[a]},storage:[{box:7,slot:29,pokemon:b}],items:{leftovers:2},drifts:[],equipped:[]},before=encode(b),request={action:'takeItem',source:'box',pokemonUuid:b.uuid,expectedItem:'leftovers'};
+ const result=driftComputer.mutate(p,request);assert.equal(result.takenItem,'leftovers');assert.equal(p.items.leftovers,3);assert.equal(p.ready,false);assert.equal(p.storage[0].pokemon.heldItem,null);assert.equal(result.state.entries[0].pokemon.heldItem,null);assert.equal(result.items.find(i=>i.key==='leftovers').quantity,3);
+ const expected=decode(before);expected.heldItem=null;assert.deepEqual(encode(b),encode(expected));assert.equal(p.equipe.pokemons[0],a);
+ const restored=decode(encode(p));assert.equal(restored.items.leftovers,3);assert.equal(restored.storage[0].pokemon.heldItem,null);
+ assert.throws(()=>driftComputer.mutate(p,request),/aucun objet/);assert.equal(p.items.leftovers,3);
+ b.heldItem='leftovers';p.inbattle=true;assert.throws(()=>driftComputer.mutate(p,request),/indisponible/);assert.equal(b.heldItem,'leftovers');assert.equal(p.items.leftovers,3);
+});
 test('PC de chaque Centre : terminal sur meuble bloqué, abord libre hors porte et distance stricte',()=>{
  const maps=require('../server/game/world/mapRepository'),{x,y}=computer.TERMINAL;
  assert.notEqual(maps.loadCollisionData('centre')[y][x],0);assert.equal(maps.loadCollisionData('centre')[y+1][x],0);assert(!maps.changeMapData('centre')[y+1][x]);

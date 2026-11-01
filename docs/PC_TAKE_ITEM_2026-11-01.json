@@ -1,0 +1,242 @@
+{
+  "date": "2026-11-01",
+  "change": "Prendre un objet tenu directement depuis le PC, sans retirer le Pokémon",
+  "sourceBaseline": "efbb12464cd04972a3ed4e62984fed679851bef7",
+  "clientCommit": "1f50f4162813be672cbee7becf4089a9931a0e3c",
+  "clientBuild": "a09c220334b64eab",
+  "behavior": {
+    "action": "pc:action takeItem",
+    "selection": "Stored or party Pokémon selected in the PC",
+    "button": "Prendre l’objet · <nom>",
+    "shownOnlyIfHeld": true,
+    "bagAndPortraitUpdatedImmediately": true,
+    "noWithdrawalOrSlotChange": true,
+    "noHealingOrTrainingChange": true,
+    "confirmation": "Immediate reversible item recovery; no destructive confirmation"
+  },
+  "server": {
+    "sourceAndOwnerChecked": true,
+    "expectedItemRequired": true,
+    "transaction": "Lock user/party/storage; validate owner/source/expected held item and trade lock; clear only held_item and increment authoritative bag count in the same SQL transaction.",
+    "rawStorageMetadataPreserved": true,
+    "doubleSubmission": "Only the first succeeds; subsequent requests find no held item.",
+    "failure": "Rollback restores both held item and bag.",
+    "access": "Existing nearby Centre PC guard, battle/inventory/Super Tournament locks remain active.",
+    "expeditions": "Same validated action and private bag/PC; checkpoint verified, modes stay closed.",
+    "socketCompatibility": "Existing pc:action plus additive takenItem response; PC/team/bag events unchanged."
+  },
+  "verification": {
+    "unit": {
+      "pass": 21,
+      "fail": 0,
+      "skipped": 0,
+      "log": "/tmp/riftmon-pc-take-item-unit.log"
+    },
+    "sql": {
+      "pass": 10,
+      "fail": 0,
+      "skipped": 0,
+      "log": "/tmp/riftmon-pc-take-item-sql.log",
+      "cases": [
+        "Unknown storage metadata preserved",
+        "Party order/stats/HP/PP/training preserved",
+        "Foreign/source/stale/trade-lock denial",
+        "Concurrent requests yield one item",
+        "Injected bag write failure rolls back item removal",
+        "Existing held-item transfers regression"
+      ]
+    },
+    "browser": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "buildIndexSha256": "bd329be285b3b9db3b26933403bb556ab83fbbcf76d9a1676b7e8c73d9403c21",
+        "views": [
+          {
+            "width": 320,
+            "height": 480,
+            "mode": "light"
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "mode": "dark"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "mode": "light"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "mode": "dark"
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          }
+        ],
+        "storedItemTaken": true,
+        "teamItemTaken": true,
+        "bagUpdated": true,
+        "itemIconRemoved": true,
+        "buttonHiddenWithoutItem": true,
+        "noWithdrawOrHealing": true,
+        "partyOrderAndTrainingPreserved": true,
+        "replayRejected": true,
+        "reconnect": true,
+        "remoteAccessDenied": true,
+        "errors": []
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "buildIndexSha256": "bd329be285b3b9db3b26933403bb556ab83fbbcf76d9a1676b7e8c73d9403c21",
+        "views": [
+          {
+            "width": 320,
+            "height": 480,
+            "mode": "light"
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "mode": "dark"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "mode": "light"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "mode": "dark"
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          }
+        ],
+        "storedItemTaken": true,
+        "teamItemTaken": true,
+        "bagUpdated": true,
+        "itemIconRemoved": true,
+        "buttonHiddenWithoutItem": true,
+        "noWithdrawOrHealing": true,
+        "partyOrderAndTrainingPreserved": true,
+        "replayRejected": true,
+        "reconnect": true,
+        "remoteAccessDenied": true,
+        "errors": []
+      }
+    },
+    "lint": true,
+    "isolatedBuild": true,
+    "syntaxAndDiff": true,
+    "temporaryAccountsDeleted": true,
+    "inspectedScreenshot": "/tmp/riftmon-pc-take-item-chromium/take-item-393-light.png"
+  },
+  "commands": [
+    "node --test tests/pokemon-storage.test.js tests/pokemon-storage-drag.test.js tests/held-item-transfer.test.js",
+    "DB_TEST_NAME=explorakit_test RUN_MYSQL_TESTS=1 NODE_ENV=test DB_NAME=explorakit_test node --env-file=.env --test --test-concurrency=1 tests/pokemon-storage-items-mysql.test.js tests/held-item-transfer-mysql.test.js",
+    "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=chromium node --env-file=.env scripts/validateComputerItemsBrowser.js",
+    "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=webkit node --env-file=.env scripts/validateComputerItemsBrowser.js",
+    "npm --prefix vue-explorakit run lint",
+    "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-pc-take-item-dist"
+  ],
+  "runtimeSourceSha256": {
+    "server/game/drift/pokemonComputer.js": "c38c21918d9e7b0aae0d78eab6375f70b438eaa3794835102b503b36496b471a",
+    "server/game/storage/pokemonStorage.js": "902f021bb69dce1c237201e6ee63e61fb348ed8114be0b4192e1d22f274578e6",
+    "server/persistence/pokemonStorageRepository.js": "2189ce60c35aaaf3bae0feaa6872d1fece9ed819b03ea1ae34a1ef0504aab150"
+  },
+  "limitations": [
+    "Headless Chromium/WebKit, no physical phone test claimed.",
+    "No database migration or manual real-account edit."
+  ],
+  "deployment": {
+    "publishedAt": "2026-11-01T11:09:39.067Z",
+    "restartedAt": "2026-11-01T11:09:37.603Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-pc-take-item-2026-11-01T11-09-36-079Z",
+    "sourceBaseline": "efbb12464cd04972a3ed4e62984fed679851bef7",
+    "sourceHashes": {
+      "server/game/drift/pokemonComputer.js": "c38c21918d9e7b0aae0d78eab6375f70b438eaa3794835102b503b36496b471a",
+      "server/game/storage/pokemonStorage.js": "902f021bb69dce1c237201e6ee63e61fb348ed8114be0b4192e1d22f274578e6",
+      "server/persistence/pokemonStorageRepository.js": "2189ce60c35aaaf3bae0feaa6872d1fece9ed819b03ea1ae34a1ef0504aab150"
+    },
+    "clientCommit": "1f50f4162813be672cbee7becf4089a9931a0e3c",
+    "clientBuild": "a09c220334b64eab",
+    "beforePid": "3658083",
+    "afterPid": "3659511",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "schemaChanged": false,
+    "activeClubDuelsBefore": 0,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 0,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": [
+      "js/234.7f08b866.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.012fcf9f.js",
+      "js/account.161ce126.js",
+      "js/app.8a35ac5e.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.2fd32f7c.js",
+      "js/drift.5b8720d7.js",
+      "js/game.f0131749.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.4fff4c7e.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.7d0be40b.css",
+      "css/test-view.7568246d.css"
+    ]
+  }
+}

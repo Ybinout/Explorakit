@@ -15,6 +15,15 @@ function freeSlot(entries, preferredBox = null) {
     throw Error(preferredBox === null ? 'Le PC est plein. Libère une place avant de capturer.' : 'Cette boîte est pleine. Choisis une autre boîte.');
 }
 function isAble(pokemon) { return pokemon?.currentHp > 0 && !pokemon.riftFainted && !pokemon.isEgg; }
+function heldItemToTake(team, entries, payload) {
+    const {pokemonUuid,source,expectedItem}=payload || {};
+    if(typeof pokemonUuid!=='string' || !pokemonUuid || pokemonUuid.length>64 || !['team','box'].includes(source)) throw Error('Choisis un Pokémon dans le PC.');
+    const pokemon=source==='team'?team.find(p=>p.uuid===pokemonUuid):entries.find(e=>e.pokemon.uuid===pokemonUuid)?.pokemon;
+    if(!pokemon) throw Error('Ce Pokémon n’est plus à cet emplacement.');
+    if(!pokemon.heldItem) throw Error('Ce Pokémon ne tient aucun objet.');
+    if(expectedItem!==pokemon.heldItem) throw Error('L’objet tenu a changé. Sélectionne à nouveau ce Pokémon.');
+    return {pokemon,itemKey:pokemon.heldItem};
+}
 function movePokemon(team, entries, {pokemonUuid, from, to}) {
     if (!from || !to || !['team','box'].includes(from.kind) || !['team','box'].includes(to.kind)) throw Error('Emplacement invalide.');
     const storedAt = place => {
@@ -93,4 +102,4 @@ function view(team, entries, expedition = false) {
     return {boxCount:BOX_COUNT, boxSize:BOX_SIZE, capacity:CAPACITY, count:entries.length, expedition,
         team:team.map(pokemonView), entries:entries.map(e => ({box:e.box, slot:e.slot, pokemon:pokemonView(e.pokemon)}))};
 }
-module.exports = {BOX_COUNT, BOX_SIZE, CAPACITY, assertBox, freeSlot, isAble, planAction, view};
+module.exports = {BOX_COUNT, BOX_SIZE, CAPACITY, assertBox, freeSlot, isAble, heldItemToTake, planAction, view};
