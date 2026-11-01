@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## Tour : présence des joueurs séparée par salle — 1er novembre 2026
+
+Toutes les salles de duel réutilisent `super_tournament_room` ; leur salon réseau était donc commun à tous les niveaux. Le salon est désormais déterminé par la carte et le numéro absolu de salle de la tentative validée côté serveur : salle 1 et salle 17 distinctes, joueurs d’une même salle visibles ensemble. Accueil, SAS et cartes ordinaires restent partagés. Le numéro interne provient uniquement de `TournamentController.publish`, après sauvegarde ; il est rétabli en cas de rollback et effacé à la sortie. Aucun nouveau champ public ou commande client permettant de choisir son étage.
+
+À la reconnexion, le joueur attend dans un salon privé à son socket jusqu’au chargement de sa tentative, puis la liste visible et le salon sont synchronisés sans déplacer sa position. Le salon précédemment rejoint est mémorisé dans `socket.data` : passer d’une salle à l’autre quitte bien l’ancien salon, même si le nom de carte ne change pas. Listes initiales/transitions, arrivées/départs/déconnexions, déplacements, bulles de discussion, apparence/couleur et interactions de proximité suivent le même périmètre. Le compteur global de joueurs et le carnet d’amis ne changent pas. Pas de filtrage client ajouté ni de polling supplémentaire ; un encodage de déplacement reste partagé entre ses destinataires.
+
+Validation : 124 tests de logique/régression et 20 SQL/socket réussis sans échec/saut. Quatre comptes réels de test aux salles 1/1/2/17, chat/déplacements/apparences isolés, interaction inter-étages refusée, victoire réelle + carte + sortie nord, disparition de l’ancien étage et apparition dans le suivant, déconnexion/reconnexion avec chargement SQL volontairement retardé, accueil partagé et équipes d’Aventure intactes. Régression réseau six utilisateurs sur cartes ordinaires, encodage unique, persistance, cycles, primes et rollback vérifiés. Recette privée Chromium/WebKit sur le client existant : deux pairs aux salles 1/2, avatars attendus sur carte, passage à la salle 2, rechargement au bon étage et accueil partagé ; douze captures PC/mobile inspectées, zéro erreur JS et comptes supprimés. Syntaxe/diff valides ; pas de nouveau build/lint client, téléphone physique ni suite globale revendiqués. Rapport et commandes : `docs/TOWER_PRESENCE_2026-11-01.json`.
+
+Serveur publié le 1er novembre 2026 à 17 h 34 (Europe/Paris), PID 3677227→3679239, service actif sans redémarrage automatique/avertissement. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-tower-presence-2026-11-01T16-34-02-457Z`. Client/build/index HTTPS conservés à l’octet (`3be92b5e136fa1919bb08efb546abb39586b0160`, `e9b5e2a0e0f8438b`) ; Knov/api-test, checkpoint et modes fermés inchangés. Aucun duel actif au contrôle, tentative sauvegardée de Super Tournoi conservée. Aucune migration ni modification manuelle de compte réel.
+
 ## Tour : Renaissance rare et gains −15 % — 1er novembre 2026
 
 Biais de rareté reproduit : en privilégiant toutes les cartes immédiatement utiles avant de tirer la rareté, un simple PP manquant pouvait ne laisser que Renaissance dans la famille des soins ; elle apparaissait alors presque systématiquement. La rareté est maintenant tirée parmi les cartes disponibles avant de privilégier les effets utiles à cette rareté. Même règle pour les relances et le remplissage d’anciennes offres incomplètes ; les offres valides déjà sauvegardées restent inchangées. Aucun effet de carte modifié. Quatre familles distinctes, exclusions des anciennes clés au reroll, poids de rareté et probabilités des cartes spéciales conservés.
@@ -5802,6 +5812,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 1er novembre 2026 — Tour : visibilité et messages par salle absolue, reconnexion privée jusqu’au chargement et nettoyage des anciens salons, accueil partagé. 124 tests, 20 SQL/socket et recettes Chromium/WebKit ; `docs/TOWER_PRESENCE_2026-11-01.json`.
 
 - 1er novembre 2026 — Renaissance : biais PP/K.O. corrigé en tirant la rareté avant l’utilité ; argent de tour −15 % (salles, cycle, cartes), progression et gains acquis conservés. 99 tests, 35 SQL, 240 000 offres comparées et recettes Chromium/WebKit ; `docs/TOWER_RENAISSANCE_ECONOMY_2026-11-01.json`.
 

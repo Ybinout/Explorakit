@@ -1,0 +1,185 @@
+{
+  "date": "2026-11-01",
+  "feature": "Super Tournament player visibility by absolute floor",
+  "runtimeSourceSha256": {
+    "server/game/superTournament/controller.js": "9a91b52142cb13127c1618967c4639d942a352898d6246428082fbcfcc7716d4",
+    "server/realtime/handlers/playerProfileHandlers.js": "f6aaa8e4fc85b1292063413e560d3f766a4d2d356bc40b80b156d0a8daa633e2",
+    "server/realtime/handlers/superTournamentHandlers.js": "4a4316fd47e269689329e008437081528c111c716db516a9f8c7442f79a7297d",
+    "server/realtime/handlers/worldChatHandlers.js": "95ecb69da80a0572810ee5e75d217cb76ff6f48d035cd7a3d8b1e8fb84aacacb",
+    "server/realtime/playerState.js": "b8122e9d1578957053e304c5c36d95c43096baac924327ff2aebc061aa908c45",
+    "server/realtime/socketHandler.js": "f467572ff1e7f98b31aac50389c56648e37d0d0f7257e02fb828e5edd18a31f9",
+    "server/realtime/worldRooms.js": "6a8d6016187552b4c6892f7b418c2e255bcde6ba8498a05496dac22e79a3e608"
+  },
+  "clientCommit": "3be92b5e136fa1919bb08efb546abb39586b0160",
+  "clientBuild": "e9b5e2a0e0f8438b",
+  "clientUnchanged": true,
+  "behavior": {
+    "sameAbsoluteFloorShared": true,
+    "floor1And17Separate": true,
+    "lobbyShared": true,
+    "sasShared": true,
+    "ordinaryMapsUnchanged": true,
+    "pendingReconnectPrivateUntilSavedFloorLoaded": true,
+    "roomDerivedFromCommittedRunNotClient": true,
+    "oldMembershipLeftEvenWhenMapNameUnchanged": true,
+    "movementSpeechAppearanceAndProximityScoped": true,
+    "adventureTeamsScoreRewardsAndProgressPreserved": true,
+    "publicPayloadShapesUnchanged": true,
+    "sqlSchemaChanged": false
+  },
+  "tests": {
+    "unitPassed": 124,
+    "sqlPassed": 20,
+    "failures": 0,
+    "skipped": 0,
+    "commands": [
+      "node --test tests/tournament-world-presence.test.js tests/player-state.test.js tests/world-chat.test.js tests/network-delivery.test.js tests/trainer-palette.test.js $(rg --files tests | rg \"^tests/super-tournament.*\\.test\\.js$\" | rg -v mysql)",
+      "RUN_MYSQL_TESTS=1 DB_TEST_NAME=explorakit_test DB_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file=.env --test --test-concurrency=1 tests/tournament-world-presence-mysql.test.js tests/network-world-mysql.test.js tests/super-tournament-mysql.test.js tests/super-tournament-families-mysql.test.js tests/super-tournament-cash-mysql.test.js",
+      "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-candy-tiers-dist PRESENTATION_BROWSER=chromium node --env-file=.env scripts/validateTournamentPresenceBrowser.js",
+      "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-candy-tiers-dist PRESENTATION_BROWSER=webkit node --env-file=.env scripts/validateTournamentPresenceBrowser.js"
+    ]
+  },
+  "socketCoverage": [
+    "Four real accounts in floors 1/1/2/17, with same- and different-floor snapshots checked.",
+    "Movement encoded once for ordinary shared maps, with six simultaneous users and reconnect.",
+    "Speech, sprite and palette updates visible only to the same floor; client-supplied floor ignored.",
+    "Cross-floor nearby interaction refused at identical coordinates.",
+    "Real battle victory, reward skip, north-door progression and peer list replacement on the same map asset.",
+    "Disconnect removes only the old-floor avatar; delayed saved-run load remains private until assigned.",
+    "Reconnect restores correct floor and coordinates; abandoned users return to a shared lobby.",
+    "Adventure teams unchanged; SQL versioning, rewards, cash and repeat cycles regression checks."
+  ],
+  "browser": {
+    "chromium": {
+      "success": true,
+      "engine": "chromium",
+      "views": [
+        {
+          "stage": "floor1",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "floor1",
+          "width": 1536,
+          "height": 680
+        },
+        {
+          "stage": "floor2",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "floor2",
+          "width": 1536,
+          "height": 680
+        },
+        {
+          "stage": "lobby",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "lobby",
+          "width": 1536,
+          "height": 680
+        }
+      ],
+      "buildIndexSha256": "75b9ee8d58eb8e0499e8dba2d90605e8264ce968b290441c43710f9575c04fe1",
+      "sameFloorVisible": true,
+      "otherFloorHidden": true,
+      "northDoorChangesPeers": true,
+      "reconnectRestoresFloor": true,
+      "lobbyShared": true,
+      "adventurePreserved": true,
+      "errors": [],
+      "physicalHardware": false
+    },
+    "webkit": {
+      "success": true,
+      "engine": "webkit",
+      "views": [
+        {
+          "stage": "floor1",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "floor1",
+          "width": 1536,
+          "height": 680
+        },
+        {
+          "stage": "floor2",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "floor2",
+          "width": 1536,
+          "height": 680
+        },
+        {
+          "stage": "lobby",
+          "width": 393,
+          "height": 852
+        },
+        {
+          "stage": "lobby",
+          "width": 1536,
+          "height": 680
+        }
+      ],
+      "buildIndexSha256": "75b9ee8d58eb8e0499e8dba2d90605e8264ce968b290441c43710f9575c04fe1",
+      "sameFloorVisible": true,
+      "otherFloorHidden": true,
+      "northDoorChangesPeers": true,
+      "reconnectRestoresFloor": true,
+      "lobbyShared": true,
+      "adventurePreserved": true,
+      "errors": [],
+      "physicalHardware": false
+    }
+  },
+  "browserViews": 12,
+  "syntaxAndDiffValid": true,
+  "physicalDevice": false,
+  "fullProjectSuite": false,
+  "newClientBuildOrLintNeeded": false,
+  "realAccountsManuallyModified": false,
+  "deployment": {
+    "publishedAt": "2026-11-01T16:34:12.225Z",
+    "restartedAt": "2026-11-01T16:34:02.771Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-tower-presence-2026-11-01T16-34-02-457Z",
+    "sourceBaseline": "ae6acee282682bea391b0063e1788f1ea6ed0c92",
+    "sourceHashes": {
+      "server/game/superTournament/controller.js": "9a91b52142cb13127c1618967c4639d942a352898d6246428082fbcfcc7716d4",
+      "server/realtime/handlers/playerProfileHandlers.js": "f6aaa8e4fc85b1292063413e560d3f766a4d2d356bc40b80b156d0a8daa633e2",
+      "server/realtime/handlers/superTournamentHandlers.js": "4a4316fd47e269689329e008437081528c111c716db516a9f8c7442f79a7297d",
+      "server/realtime/handlers/worldChatHandlers.js": "95ecb69da80a0572810ee5e75d217cb76ff6f48d035cd7a3d8b1e8fb84aacacb",
+      "server/realtime/playerState.js": "b8122e9d1578957053e304c5c36d95c43096baac924327ff2aebc061aa908c45",
+      "server/realtime/socketHandler.js": "f467572ff1e7f98b31aac50389c56648e37d0d0f7257e02fb828e5edd18a31f9",
+      "server/realtime/worldRooms.js": "6a8d6016187552b4c6892f7b418c2e255bcde6ba8498a05496dac22e79a3e608"
+    },
+    "clientCommit": "3be92b5e136fa1919bb08efb546abb39586b0160",
+    "clientBuild": "e9b5e2a0e0f8438b",
+    "beforePid": "3677227",
+    "afterPid": "3679239",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "clientUnchanged": true,
+    "publicClientUnchanged": true,
+    "schemaChanged": false,
+    "activeClubDuelsBefore": 0,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 1,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": []
+  }
+}

@@ -2,6 +2,7 @@ const { onAccountEvent } = require('../accountConnection');
 const { equipHeldItem, loadUserItems } = require('../../persistence/itemRepository');
 const { saveUserSprite, sanitizeSpriteName } = require('../../persistence/playerRepository');
 
+const {sameWorld}=require('../worldRooms');
 const DEFAULT_SPRITE = 'sprite.png';
 
 function registerPlayerProfileHandlers({ socket, io, players, userId }) {
@@ -27,7 +28,7 @@ function registerPlayerProfileHandlers({ socket, io, players, userId }) {
         reply({ success: true, sprite: requestedSprite });
 
         for (const id in players) {
-            if (players[id].currentmap === player.currentmap) {
+            if (sameWorld(players[id],player)) {
                 io.to(id).emit('playerAppearanceUpdated', { id: socket.id, sprite: requestedSprite });
             }
         }

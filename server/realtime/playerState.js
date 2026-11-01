@@ -1,4 +1,5 @@
 const { loadCollisionData } = require('../game/world/mapRepository');
+const {worldRoom,sameWorld}=require('./worldRooms');
 
 const { remainingRepel } = require('../game/items/repel');
 
@@ -25,7 +26,7 @@ function getTileDistance(playerA, playerB) {
 
 function arePlayersCloseEnough(playerA, playerB) {
     return Boolean(playerA && playerB
-        && playerA.currentmap === playerB.currentmap
+        && sameWorld(playerA,playerB)
         && getTileDistance(playerA, playerB) <= 1);
 }
 
@@ -66,10 +67,11 @@ function toPublicPlayer(player) {
     };
 }
 
-function getPlayersInMap(players, mapName) {
+function getPlayersInMap(players, mapName, viewer) {
     return Object.fromEntries(
         Object.entries(players)
-            .filter(([, player]) => player.currentmap === mapName)
+            .filter(([, player]) => player.currentmap === mapName
+                && (mapName!=='super_tournament_room'||Boolean(viewer)&&worldRoom(mapName,player)===worldRoom(mapName,viewer)))
             .map(([id, player]) => [id, toPublicPlayer(player)])
     );
 }

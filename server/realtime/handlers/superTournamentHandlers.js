@@ -17,7 +17,7 @@ function scopedStore(base,getRun){
   isPnjBlockingTile:(map,x,y)=>Boolean(at(map,x,y))||base.isPnjBlockingTile(map,x,y)
  };
 }
-function createHandlers({socket,account,userId,getPlayer,canUse,travel,refreshActors}){
+function createHandlers({socket,account,userId,getPlayer,canUse,travel,refreshActors,refreshPresence=async()=>{}}){
  const controller=new TournamentController({userId,getPlayer,emit:(e,d)=>{if(socket.connected)socket.emit(e,d);},travel});let timer=null,lastBoard=0,offer=null;
  const near=(x,y,d=2)=>{const p=getPlayer();return p&&Math.abs(Math.floor(p.x/32)-x)+Math.abs(Math.floor(p.y/32)-y)<=d;};
  const valid=()=>{const p=getPlayer();if(!p||p.inbattle||p.inventoryBusy||!canUse())throw Error('Termine ton action avant de continuer.');return p;};
@@ -41,7 +41,7 @@ function createHandlers({socket,account,userId,getPlayer,canUse,travel,refreshAc
  // inventory/travel panels from silently mutating the adventure while enrolled.
  socket.use((packet,next)=>{if(controller.active&&(packet[0]==='reorderMoves'||blockedEvents.has(packet[0])||/^(?:trade:|shop:|medicine:|evolution:|team:|training:|repel:)/.test(packet[0]))){const ack=packet[packet.length-1];if(typeof ack==='function')ack({success:false,message:'Le sac et les modifications d’équipe sont fermés pendant le Super Tournoi.'});return;}next();});
  return {controller,scopedStore,
-  async initialize(){await controller.load();if(controller.active){const map=controller.run.phase==='sas'?content.MAPS.sas:content.MAPS.room;if(getPlayer().currentmap!==map)await travel({map,x:448,y:496});await controller.resume();}else if([content.MAPS.room,content.MAPS.sas].includes(getPlayer().currentmap))await travel({map:content.MAPS.lobby,x:448,y:496});
+  async initialize(){await controller.load();await refreshPresence();if(controller.active){const map=controller.run.phase==='sas'?content.MAPS.sas:content.MAPS.room;if(getPlayer().currentmap!==map)await travel({map,x:448,y:496});await controller.resume();}else if([content.MAPS.room,content.MAPS.sas].includes(getPlayer().currentmap))await travel({map:content.MAPS.lobby,x:448,y:496});
    timer=setInterval(()=>{if(controller.closed||!controller.run?.battle)return;account.track(controller.execute(()=>controller.tick()).catch(e=>socket.emit('progressionNotice',{message:e.message})));},250);timer.unref?.();refreshActors();},
   async stop(){clearInterval(timer);await controller.close();},
   async interact(){const p=getPlayer();if(!p)return false;

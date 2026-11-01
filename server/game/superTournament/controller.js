@@ -24,7 +24,7 @@ class TournamentController {
   if(abandoned&&event==='endbattle')data={...data,tournamentAbandoned:true};
   this.events.push([event,JSON.parse(JSON.stringify(data))]);
  }
- publish(){const p=this.getPlayer();if(p){p.superTournamentActive=this.active;p.inbattle=Boolean(this.run?.battle&&!this.run.battle.finished);}this.emit('superTournamentState',content.state(this.run));}
+ publish(){const p=this.getPlayer();if(p){p.superTournamentActive=this.active;p.superTournamentRoom=this.run?.room??null;p.inbattle=Boolean(this.run?.battle&&!this.run.battle.finished);}this.emit('superTournamentState',content.state(this.run));}
  async atomic(change){
   const previous=this.run?codec.encode(this.run):null,previousPaid=this.run?.cash?.paidThrough||0,previousEarned=this.run?.cash?.earned||0,previousAugment=this.run?.lastAugment?.offerId;let committed=false;this.events=[];
   try{const result=await change();if(result===false){this.events=[];return false;}

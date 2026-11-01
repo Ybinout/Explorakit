@@ -1,5 +1,5 @@
 const { exclusiveAccountConnection, trackAccountTask } = require('./accountConnection');
-const {worldRoom,moveWorldRoom}=require('./worldRooms');
+const {worldRoom,moveWorldRoom,sameWorld}=require('./worldRooms');
 const { getMapWeather, battleWeatherForMap } = require('../game/world/mapWeather');
 const { getPokemonCenterEntryReturn, getPokemonCenterExit } = require('../game/world/pokemonCenterTravel');
 const { startPnjMovement } = require('../game/world/pnjMovement');
@@ -113,7 +113,7 @@ function findNearbyInteractablePlayer(sourceSocketId) {
         if (id === sourceSocketId) continue;
         const targetPlayer = players[id];
         if (!targetPlayer) continue;
-        if (targetPlayer.currentmap !== sourcePlayer.currentmap) continue;
+        if (!sameWorld(sourcePlayer,targetPlayer)) continue;
 
         const distance = getTileDistance(sourcePlayer, targetPlayer);
         if (distance <= 1) {
@@ -504,12 +504,12 @@ const socketHandler = (io) => {
 
             const departed=players[socket.id];
             delete players[socket.id];
-            if(departed)io.to(worldRoom(departed.currentmap)).emit('playerDisconnected', { id: socket.id });
+            if(departed)io.to(socket.data.worldRoom||worldRoom(departed.currentmap,departed)).emit('playerDisconnected', { id: socket.id });
         });
 
         // Register cleanup before the first asynchronous social load: a failed
         // or interrupted connection must not leave a player in the world.
-        await moveWorldRoom(socket,null,currentmap);
+        await moveWorldRoom(socket,null,currentmap,players[socket.id]);
         if(!account.active())return;
         await require('./handlers/socialHandlers').registerSocialHandlers({io,socket,getLocation:()=>{const p=players[socket.id];return p?{map:p.currentmap,centerReturnPoint:p.centerReturnPoint,mode:'adventure'}:null;}});
         if(!account.active())return;
@@ -623,6 +623,7 @@ const socketHandler = (io) => {
             stairways.clear(player);
 
             const oldMap = currentmap;
+            const oldWorldRoom=socket.data.worldRoom;
             let storyExit=false;
             if(oldMap==='route2_maison'&&destination?.map==='route2'){
                 storyExit=await require('../persistence/labStoryRepository').noteExit(userId);
@@ -653,12 +654,12 @@ const socketHandler = (io) => {
                 if(await openingRepository.noteExit(userId))emitPlayerProgression(await loadProgressState(userId));
             }
 
-            io.to(worldRoom(oldMap)).except(socket.id).emit('playerLeft', { id: socket.id });
-            await moveWorldRoom(socket,oldMap,currentmap);
+            io.to(oldWorldRoom).except(socket.id).emit('playerLeft', { id: socket.id });
+            await moveWorldRoom(socket,oldMap,currentmap,player);
             if(!account.active())return false;
-            io.to(worldRoom(currentmap)).except(socket.id).emit('playerJoined', { id: socket.id, player: toPublicPlayer(player) });
+            io.to(worldRoom(currentmap,player)).except(socket.id).emit('playerJoined', { id: socket.id, player: toPublicPlayer(player) });
 
-            const sameMapPlayers = getPlayersInMap(players, currentmap);
+            const sameMapPlayers = getPlayersInMap(players, currentmap,players[socket.id]);
             socket.emit('newmap', { mapname: currentmap, playersList: sameMapPlayers, reason });
             socket.emit('mapWeatherState', getMapWeather(currentmap));
             socket.emit('worldDevicesState',devicesForMap(currentmap));
@@ -724,7 +725,7 @@ const socketHandler = (io) => {
             occupied:(x,y)=>isPnjBlockingTile(currentmap,x,y),
             rescue:(player,tile)=>{
                 player.x=tile.x*TILE_SIZE+16;player.y=tile.y*TILE_SIZE+16;player.isMoving=false;
-                io.to(worldRoom(currentmap)).emit('playerMoved',{id:socket.id,player:toPublicPlayer(player)});
+                io.to(worldRoom(currentmap,player)).emit('playerMoved',{id:socket.id,player:toPublicPlayer(player)});
                 socket.emit('progressionNotice',{message:'Le sol cède ! Tu te mets à l’abri sur une dalle solide.'});
                 schedulePositionSave({immediate:true});
             }
@@ -732,7 +733,7 @@ const socketHandler = (io) => {
         socket.once('disconnect',()=>arenaCollapse.stop());
         await arenaCollapse.enter();
         if (!account.active()) return;
-        const sameMapPlayers = getPlayersInMap(players, currentmap);
+        const sameMapPlayers = getPlayersInMap(players, currentmap,players[socket.id]);
         account.on('adventureOpeningDone',async acknowledge=>{
             const reply=typeof acknowledge==='function'?acknowledge:()=>{};
             if(!openingPending)return reply({success:adventureOpening.stage(personalProgress)==='awake'});
@@ -754,7 +755,7 @@ const socketHandler = (io) => {
             console.error(`Erreur chargement progression user ${userId}:`, error.message);
         });
 
-        io.to(worldRoom(currentmap)).emit('newPlayer', { id: socket.id, player: toPublicPlayer(players[socket.id]) });
+        io.to(worldRoom(currentmap,players[socket.id])).emit('newPlayer', { id: socket.id, player: toPublicPlayer(players[socket.id]) });
 
         const synchronizeTradeInventory=async()=>{
             const p=players[socket.id];if(!p)return;
@@ -785,7 +786,7 @@ const socketHandler = (io) => {
             canUse:()=>!tournament?.controller.active&&!transitionBusy&&!interactionBusy&&!pendingDialogue&&!players[socket.id]?.isInteracting
         });
         require('./handlers/trainerPaletteHandlers').registerTrainerPaletteHandlers({socket,userId,getPlayer:()=>players[socket.id],broadcast:(p,palette)=>{
-            for(const peer of Object.values(players))if(peer.currentmap===p.currentmap)io.to(peer.id).emit('playerPaletteUpdated',{id:p.id,palette});
+            for(const peer of Object.values(players))if(sameWorld(peer,p))io.to(peer.id).emit('playerPaletteUpdated',{id:p.id,palette});
         }});
         replaySessions.set(socket.id, {userId,
             pnjsForMap:getPnjsForMap,
@@ -829,7 +830,17 @@ const socketHandler = (io) => {
             }catch(error){console.error('Passage indisponible:',error.message);reply({success:false,message:'Le passage a été interrompu. Vérifie ta position après reconnexion.'});}
             finally{player.inventoryBusy=false;transitionBusy=false;}
         });
-        tournament=require('./handlers/superTournamentHandlers').createHandlers({socket,account,userId,
+        const refreshWorldPresence=async()=>{
+            const player=players[socket.id];if(!player||!account.active())return;
+            const previous=socket.data.worldRoom,next=worldRoom(currentmap,player);
+            if(previous===next)return;
+            io.to(previous).except(socket.id).emit('playerLeft',{id:socket.id});
+            await moveWorldRoom(socket,currentmap,currentmap,player);
+            if(!account.active())return;
+            io.to(next).except(socket.id).emit('playerJoined',{id:socket.id,player:toPublicPlayer(player)});
+            socket.emit('playersList',getPlayersInMap(players,currentmap,player));
+        };
+        tournament=require('./handlers/superTournamentHandlers').createHandlers({socket,account,userId,refreshPresence:refreshWorldPresence,
             getPlayer:()=>players[socket.id],canUse:()=>!interactionBusy&&!transitionBusy&&!pendingDialogue,
             refreshActors:()=>{currentPnjs=getPnjsForMap(currentmap);socket.emit('pnjsList',{mapname:currentmap,pnjs:currentPnjs});},
             travel:async destination=>{transitionBusy=true;try{await relocatePlayer(destination,{reason:'super_tournament'});await flushPositionSave();}finally{transitionBusy=false;}}
@@ -1621,7 +1632,7 @@ const socketHandler = (io) => {
                     if (repelProtection.expired) socket.emit('progressionNotice', {message:'L’effet du Repousse est terminé.'});
                 }
 
-                io.to(worldRoom(currentmap)).emit('playerMoved', { id: socket.id, player: toPublicPlayer(player) });
+                io.to(worldRoom(currentmap,player)).emit('playerMoved', { id: socket.id, player: toPublicPlayer(player) });
 
                 schedulePositionSave();
 

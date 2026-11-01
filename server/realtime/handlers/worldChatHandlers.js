@@ -22,7 +22,7 @@ function registerWorldChatHandlers({ socket, io, getPlayer, available = () => tr
         const timestamp = now();
         if (timestamp - lastSentAt < 2000) return reply({ success: false, message: 'Patiente un instant avant de reparler.' });
         lastSentAt = timestamp;
-        io.to(worldRoom(player.currentmap)).emit('world:speech', {
+        io.to(worldRoom(player.currentmap,player)).emit('world:speech', {
             id: randomUUID(), fromId: socket.id, fromName: getPlayerDisplayName(player),
             map: player.currentmap, text, durationMs: 7000
         });
