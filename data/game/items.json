@@ -7289,6 +7289,23 @@
       "sell_price": 0,
       "description": "Apprend Cryo-Pirouette à un Pokémon compatible. Une utilisation ; consommée uniquement après l’apprentissage.",
       "machineMove": "Ice Spinner"
+    },
+    {
+      "key": "toxic_orb",
+      "name": "Orbe Poison",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "toxic_orb",
+      "riftOnly": true,
+      "description": "Empoisonne gravement le porteur en fin de tour s’il n’a aucun statut. Respecte les immunités au poison. N’est pas consommée.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 30,
+      "fling_status": "badly_poison"
     }
   ]
 }

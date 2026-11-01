@@ -57,6 +57,11 @@ test('fishing: varied aquatic pools follow zone levels, rare fish stay rare',()=
   assert.equal(seen.size,pool.length);assert.equal(fishingEncounter(map,()=>.999).id,349);
  }assert.equal(fishingEncounter('route1'),null);
 });
+test('departure village fishing raises Shellos from 7 to 15 percent, taking eight points from Magikarp only',()=>{
+ const counts={};for(let i=0;i<10000;i++){let n=0;const e=fishingEncounter('start',()=>[.5,(i+.5)/10000,.5][n++]);counts[e.id]=(counts[e.id]||0)+1;}
+ assert.equal(counts[422],1500);assert.equal(counts[129],1600);assert.equal(counts[349],100);assert.equal(counts[258],500);
+ assert.deepEqual(profiles.start,[[129,16],[60,16],[118,14],[194,10],[270,7],[54,8],[258,5],[418,8],[422,15],[349,1]]);
+});
 test('fishing: rod is limited to supplies floor, one purchase per expedition and persisted inventory',()=>{
  const shops=require('../server/game/world/shopCatalog'),economy=require('../server/game/drift/economy'),codec=require('../server/game/drift/checkpointCodec');
  for(const map of shops.SHOP_MAPS){const rod=shops.getShopCatalog({mapName:map,expedition:true}).find(i=>i.key==='fishing_rod');assert.equal(Boolean(rod),map==='tour_rdc');if(rod){assert.equal(rod.price,15000);assert.equal(rod.purchaseLimit,1);}}

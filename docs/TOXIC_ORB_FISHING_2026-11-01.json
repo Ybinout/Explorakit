@@ -1,0 +1,219 @@
+{
+  "date": "2026-11-01",
+  "change": "Orbe Poison fonctionnelle et Sancoki à 15 % à la pêche du village de départ ; idées de tour uniquement",
+  "sourceBaseline": "0bf6daa3045cc1a7832a2e45b27b8df730f8a9cf",
+  "clientSourceBaseline": "a2e3f23bff04e3328b64124ad2d1e4e6cb27b220",
+  "clientCommit": "1935aacf44d5bcf7c5ad4c7bca8c1718c0695c14",
+  "clientBuild": "f7cc6a36287d86f2",
+  "runtimeSourceSha256": {
+    "data/game/department_store.json": "cd8ce8f11d9115c29bc8ee79dfbd64ccbbe4c19010242cd35f7355ed06d0f769",
+    "data/game/items.json": "b6cb24115a00f81c0b1fa8baea5ef1f999bc2421e6c68a7bebc1ef7c9948a1b2",
+    "server/game/battle/battleEngine.js": "333728c07b7c02dde63961d2d52fc92a8a144f4b3dafd5495c87fd0689a6259c",
+    "server/game/world/fishingEncounters.js": "bf63b45348b8ecc6a1af5a092763fdbb530cd4e40b5ed24fbdf17017f08d775a"
+  },
+  "item": {
+    "key": "toxic_orb",
+    "name": "Orbe Poison",
+    "price": 10000,
+    "department": "Grand Comptoir · 3 · Stratégie",
+    "unlock": "Hoze vaincu",
+    "naturalLoot": "equipment weight 1; unique discovery convention",
+    "effect": "Late end-turn self badly_poison, never consumed; damage or Poison Heal starts the following turn; shared battle engine",
+    "immunities": "Existing status, Poison/Steel, Immunity, Klutz/Embargo/Magic Room, grounded Misty Terrain respected; own Safeguard/Substitute bypassed; no Synchronize reflection",
+    "fling": "30 base power; badly poisons only a damaged, non-substitute target, respecting status protections",
+    "presentation": "Mirrored description and purple SVG icon in bag/shop/held picker/PC"
+  },
+  "fishing": {
+    "map": "start",
+    "species": 422,
+    "name": "Sancoki",
+    "ordinaryRateBefore": 7,
+    "ordinaryRateAfter": 15,
+    "magikarpBefore": 24,
+    "magikarpAfter": 16,
+    "poolTotal": 100,
+    "legendaryGateUnchanged": "1/3000 separately rolled before ordinary pool",
+    "feebasRateUnchanged": 1,
+    "otherMapsAndLevelsUnchanged": true
+  },
+  "tower": {
+    "implemented": false,
+    "observed": "16 fixed trainers, 75/85/90 then +10 per cycle; four card choices, recovery and mythic passive powers, no bag or XP, cycle full heal, unique species and held items already present",
+    "recommendations": [
+      "Three coherent team/strategy variants per trainer, chosen independently of player team/action",
+      "Optional route choices every four rooms with announced risks and rewards",
+      "Conditional augment families rewarding switches and use of the whole team, with a limited card reroll",
+      "Optional feasible contracts granting score/cosmetics or reroll tokens rather than inflating money",
+      "Separate weekly shared-seed challenge and friends leaderboard"
+    ],
+    "priority": "Trainer variants and optional route choices"
+  },
+  "verification": {
+    "unit": {
+      "pass": 144,
+      "fail": 0,
+      "skipped": 0,
+      "log": "/tmp/riftmon-toxic-orb-unit.log"
+    },
+    "sql": {
+      "pass": 8,
+      "fail": 0,
+      "skipped": 0,
+      "log": "/tmp/riftmon-toxic-orb-sql.log"
+    },
+    "browser": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "buildIndexSha256": "afcdd4490cbaec8fe81d8312e48fc6e4f8cdf50508faf7505fd4af763592b002",
+        "views": [
+          {
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          }
+        ],
+        "purchase10000": true,
+        "equipFromActualPicker": true,
+        "purpleIcon": true,
+        "realVillageFishingShellos": true,
+        "lakeBackground": true,
+        "orbActivatedAtEndTurn": true,
+        "poisonHealNextTurn": true,
+        "itemNotConsumed": true,
+        "reconnectPersists": true,
+        "errors": []
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "buildIndexSha256": "afcdd4490cbaec8fe81d8312e48fc6e4f8cdf50508faf7505fd4af763592b002",
+        "views": [
+          {
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          }
+        ],
+        "purchase10000": true,
+        "equipFromActualPicker": true,
+        "purpleIcon": true,
+        "realVillageFishingShellos": true,
+        "lakeBackground": true,
+        "orbActivatedAtEndTurn": true,
+        "poisonHealNextTurn": true,
+        "itemNotConsumed": true,
+        "reconnectPersists": true,
+        "errors": []
+      }
+    },
+    "lint": true,
+    "isolatedBuild": true,
+    "syntaxAndDiff": true,
+    "temporaryAccountsDeleted": true,
+    "screenshotsInspected": [
+      "/tmp/riftmon-toxic-orb-chromium/shop-393-light.png",
+      "/tmp/riftmon-toxic-orb-chromium/equip-mobile.png"
+    ]
+  },
+  "commands": [
+    "node --test tests/toxic-orb.test.js tests/fishing.test.js tests/wild-items.test.js tests/ability-reactions.test.js tests/battle-engine.test.js tests/battle-field.test.js",
+    "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file=.env --test --test-concurrency=1 tests/toxic-orb-mysql.test.js tests/fishing-mysql.test.js tests/pokemon-storage-items-mysql.test.js",
+    "DB_TEST_NAME=explorakit_test BATTLE_DELAY_SCALE=0 RELEASE_DIST_DIR=/tmp/riftmon-toxic-orb-dist PRESENTATION_BROWSER=chromium node --env-file=.env scripts/validateToxicOrbBrowser.js",
+    "DB_TEST_NAME=explorakit_test BATTLE_DELAY_SCALE=0 RELEASE_DIST_DIR=/tmp/riftmon-toxic-orb-dist PRESENTATION_BROWSER=webkit node --env-file=.env scripts/validateToxicOrbBrowser.js",
+    "npm --prefix vue-explorakit run lint",
+    "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-toxic-orb-dist"
+  ],
+  "sources": [
+    "https://raw.githubusercontent.com/smogon/pokemon-showdown/master/data/items.ts",
+    "https://store.steampowered.com/news/posts/?appids=646570&enddate=1523579064&feed=steam_community_announcements"
+  ],
+  "limitations": [
+    "Headless Chromium/WebKit, no physical smartphone test claimed.",
+    "No full global test suite rerun; focused regression and SQL suites.",
+    "No tournament changes, schema migration or manual real-account edits."
+  ],
+  "deployment": {
+    "publishedAt": "2026-11-01T14:09:49.683Z",
+    "restartedAt": "2026-11-01T14:09:48.163Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-toxic-orb-2026-11-01T14-09-46-572Z",
+    "sourceBaseline": "0bf6daa3045cc1a7832a2e45b27b8df730f8a9cf",
+    "sourceHashes": {
+      "data/game/department_store.json": "cd8ce8f11d9115c29bc8ee79dfbd64ccbbe4c19010242cd35f7355ed06d0f769",
+      "data/game/items.json": "b6cb24115a00f81c0b1fa8baea5ef1f999bc2421e6c68a7bebc1ef7c9948a1b2",
+      "server/game/battle/battleEngine.js": "333728c07b7c02dde63961d2d52fc92a8a144f4b3dafd5495c87fd0689a6259c",
+      "server/game/world/fishingEncounters.js": "bf63b45348b8ecc6a1af5a092763fdbb530cd4e40b5ed24fbdf17017f08d775a"
+    },
+    "clientCommit": "1935aacf44d5bcf7c5ad4c7bca8c1718c0695c14",
+    "clientBuild": "f7cc6a36287d86f2",
+    "beforePid": "3660673",
+    "afterPid": "3666583",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "schemaChanged": false,
+    "activeClubDuelsBefore": 0,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 1,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": [
+      "js/234.7f08b866.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.ae44b00a.js",
+      "js/account.161ce126.js",
+      "js/app.5125dd4d.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.2fd32f7c.js",
+      "js/drift.5b8720d7.js",
+      "js/game.9c3182b2.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.4fff4c7e.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.f1357720.css",
+      "css/test-view.7568246d.css"
+    ]
+  }
+}

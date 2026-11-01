@@ -2823,6 +2823,10 @@
         "heavy_duty_boots": {
           "price": 10000,
           "requiredTier": 2
+        },
+        "toxic_orb": {
+          "price": 10000,
+          "requiredTier": 2
         }
       }
     },

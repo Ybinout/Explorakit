@@ -430,6 +430,13 @@ function activateHeldItem(pokemon, battleState, messages, trigger = 'immediate',
     if (!item || item.category !== 'held') return false;
     const pokemonName = getPokemonDisplayName(pokemon);
     const maxHp = Math.max(1, safeNumber(pokemon.maxHp, 1));
+    if (trigger === 'end_turn_status' && item.battle_effect === 'toxic_orb') {
+        if (hasType(pokemon,'Poison') || hasType(pokemon,'Steel')) return false;
+        const statusMessages=[];
+        if (!applyStatus(pokemon,'badly_poison',null,statusMessages,{battleState,attacker:pokemon,ignoreSafeguard:true})) return false;
+        messages.push(`${pokemonName} est gravement empoisonné par son ${item.name}.`);
+        return true;
+    }
     const berry = pokemon.heldItem.endsWith('_berry');
     if (berry && opponent?.currentHp > 0 && hasPassiveAbility(opponent,'Unnerve')) return false;
     const consume = () => {
@@ -2538,6 +2545,9 @@ function processPokemonEndTurn(pokemon, enemyPokemon, ownSide, battleState) {
         }
     }
 
+    // Orbs activate after residual damage, recovery and status-curing abilities.
+    // The new poison cannot hurt (or trigger Poison Heal) on its activation turn.
+    activateHeldItem(pokemon,battleState,messages,'end_turn_status',enemyPokemon);
     return messages;
 }
 
@@ -3563,6 +3573,9 @@ function executeAttack(attackName, attacker, defender, options = {}) {
     if(move.ename==='Burn Up'&&moveResult.damage+moveResult.substituteDamage>0){attackerData.tempTypes=getPokemonTypes(attacker).filter(t=>t!=='Fire');if(!attackerData.tempTypes.length)attackerData.tempTypes=['???'];moveResult.messages.push(`${getPokemonDisplayName(attacker)} perd son type Feu !`);}
     if (moveResult.damage > 0 && defender.status === moveDamageRules.curedStatus(move)) clearStatus(defender, moveResult.messages, null, false);
     if (moveResult.damage > 0 && !moveResult.substituteDamage) applyThrownBerry(defender,thrownItem,battleState,moveResult.messages);
+    if (moveResult.damage > 0 && !moveResult.substituteDamage && thrownItem?.fling_status) {
+        applyStatus(defender,thrownItem.fling_status,defenderSide,moveResult.messages,{battleState,attacker,sourceSide:attackerSide,move});
+    }
     applyImplicitMoveEffect(move, effectContext, moveResult);
     // Grounding moves interrupt the airborne release; Gravity interrupts both
     // participants in Sky Drop. Keep this after the successful hit/effect.

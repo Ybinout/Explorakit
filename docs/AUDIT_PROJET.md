@@ -1,5 +1,19 @@
 # Audit technique et mémoire de RiftMon
 
+## Orbe Poison et pêche de Sancoki — 1er novembre 2026
+
+Nouvel objet tenu « Orbe Poison », à 10 000 ₽ au Grand Comptoir, étage 3 Stratégie, déverrouillé après Hoze ; ajouté aux équipements trouvables selon les règles existantes de découverte unique. Icône SVG violette et description partagées par sac, boutique, choix d’objet et PC. Aucun nouveau service ni changement de schéma.
+
+Le moteur commun applique un empoisonnement grave en toute fin de tour, après dégâts résiduels, soins et talents de guérison. L’orbe reste tenue ; le nouveau poison ne blesse et ne déclenche Soin Poison qu’au tour suivant. Statut déjà présent, K.O., types Poison/Acier, immunités de talents et suspension d’objet/Champ Brumeux respectés ; le statut auto-infligé traverse son propre Clonage/Rune Protect et ne se synchronise pas sur l’adversaire. Garde Magik bloque les dégâts indirects, Rage Poison bénéficie du statut. Dégommage : puissance 30 et poison grave de la cible réellement touchée, sans traverser le clone ou les protections de statut. Sauvegarde et récupération d’objet au PC vérifiées.
+
+Au village de départ, Sancoki passe de 7 % à 15 % des rencontres ordinaires à la pêche, en prenant huit points à Magicarpe (24→16 %). Autres espèces, Barpau à 1 %, tirage légendaire séparé, niveaux et autres cartes conservés. Échantillonnage déterministe des 10 000 quantiles de la table : exactement 1 500 Sancoki.
+
+Validation : 144 tests unitaires/régression et 8 SQL réussis, sans échec/saut ; lint, build isolé, syntaxe et diff valides. Recette privée authentifiée Chromium/WebKit sur SQL de test : achat réel à 10 000 ₽, attribution depuis le sélecteur, quatre vues par moteur PC/mobile clair/sombre, vraie pêche de Sancoki et combat avec activation puis Soin Poison, objet conservé et reconnexion ; zéro erreur, comptes jetables supprimés, captures inspectées. Pas de téléphone physique ni suite globale revendiqués. Rapport : `docs/TOXIC_ORB_FISHING_2026-11-01.json`.
+
+Tour de combat : lecture de ses règles et recherche de références uniquement. Les variantes cohérentes d’équipes adverses et les choix de parcours sont prioritaires ; cartes conditionnelles, contrats facultatifs et défi hebdomadaire à graine commune proposés. Les quatre choix et pouvoirs mythiques existent déjà. Aucune règle, récompense, équipe ou carte du Super Tournoi modifiée.
+
+Serveur/client publiés le 1er novembre 2026 à 15 h 09 (Europe/Paris), client `1935aacf44d5bcf7c5ad4c7bca8c1718c0695c14`, build `f7cc6a36287d86f2`. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-toxic-orb-2026-11-01T14-09-46-572Z`. PID 3660673→3666583, service actif, zéro redémarrage automatique/avertissement ; index et 22 bundles/CSS HTTPS identiques au build, anciens assets conservés. Knov/api-test, checkpoint et modes fermés vérifiés inchangés. Aucun duel actif au contrôle ; une tentative de Super Tournoi sauvegardée conservée. Aucune migration ni modification manuelle de compte réel. Recharger le jeu pour la nouvelle présentation.
+
 ## Minimap PC : suppression du tremblement — 1er novembre 2026
 
 Cause reproduite sans aucune entrée utilisateur : l’apparition/disparition de la barre horizontale changeait `clientHeight`, donc la taille ajustée de l’atlas, puis déclenchait l’effet inverse via `ResizeObserver`. La valeur de zoom restait constante. Le client distribué alternait entre deux tailles et positions à 156,25 % sur quatre formats PC ; le composant isolé reproduisait aussi le cas à 125 % avec une zone plus haute.
@@ -5726,6 +5740,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 1er novembre 2026 — Orbe Poison non consommable, compatible Soin Poison et Dégommage, disponible après Hoze à 10 000 ₽ ; Sancoki 7→15 % à la pêche du village. 144 tests, 8 SQL et recettes privées Chromium/WebKit. Idées de tour sans changement de ses règles ; `docs/TOXIC_ORB_FISHING_2026-11-01.json`.
 
 - 1er novembre 2026 — Minimap PC : boucle de barres de défilement reproduite puis supprimée, zoom et navigation gardés ; 6 tests et 42 contrôles Chromium/WebKit, 1 680 images stables. `docs/MINIMAP_STABILITY_2026-11-01.json`.
 
