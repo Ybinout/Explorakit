@@ -892,36 +892,6 @@
       "roamRadius": 0
     },
     {
-      "name": "blanchecime_habitant1",
-      "interactionName": "blanchecime_habitant1",
-      "map": "ville5_maison1",
-      "x": 13,
-      "y": 8,
-      "sprite": "townspeople.png",
-      "block": true,
-      "spriteFrame": {
-        "columns": 8,
-        "rows": 4,
-        "index": 26
-      },
-      "roamRadius": 0
-    },
-    {
-      "name": "blanchecime_habitant2",
-      "interactionName": "blanchecime_habitant2",
-      "map": "ville5_maison2",
-      "x": 13,
-      "y": 8,
-      "sprite": "townspeople.png",
-      "block": true,
-      "spriteFrame": {
-        "columns": 8,
-        "rows": 4,
-        "index": 27
-      },
-      "roamRadius": 0
-    },
-    {
       "name": "sevenp",
       "interactionName": "champion_7p",
       "map": "ville5_arene",
@@ -1157,6 +1127,34 @@
         "rows": 4,
         "index": 29
       }
+    },
+    {
+      "name": "club_host",
+      "map": "ville5_maison1",
+      "x": 13,
+      "y": 3,
+      "sprite": "townspeople.png",
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 19
+      },
+      "block": true,
+      "roamRadius": 0
+    },
+    {
+      "name": "casino_croupier",
+      "map": "ville5_maison2",
+      "x": 3,
+      "y": 4,
+      "sprite": "townspeople.png",
+      "spriteFrame": {
+        "columns": 8,
+        "rows": 4,
+        "index": 20
+      },
+      "block": true,
+      "roamRadius": 0
     }
   ]
 }

@@ -28,7 +28,8 @@ const migrationFiles = [
     '023_friend_trades.sql',
     '024_evolution_decisions.sql',
     '025_super_tournament.sql',
-    '026_super_tournament_endless.sql'
+    '026_super_tournament_endless.sql',
+    '027_whitepeak_club.sql'
 ];
 
 async function applyMigrations({ only } = {}) {

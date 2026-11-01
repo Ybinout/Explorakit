@@ -1,0 +1,545 @@
+{
+  "date": "2026-11-01",
+  "change": "Casino partagé et Maison des combats à Blanchecime",
+  "clientCommit": "e06c622db86eeeda84a0b41eaa98b397ce92828f",
+  "clientBuild": "9f63c1a4b74bd870",
+  "rooms": {
+    "casino": "ville5_maison2",
+    "duels": "ville5_maison1"
+  },
+  "exteriorCollision": "Douze cellules de la grande maison sud-est, porte (23,16) conservée ; fins de lignes originales conservées via attribut whitespace ciblé.",
+  "roulette": {
+    "pockets": 37,
+    "bettingSeconds": 30,
+    "spinSeconds": 8,
+    "resultSeconds": 7,
+    "minimumBet": 100,
+    "maximumPerRound": 1000000,
+    "maximumTicketsPerPlayer": 10,
+    "exactNumberGrossMultiplier": 36,
+    "simpleGrossMultiplier": 2,
+    "zeroLosesSimpleBets": true,
+    "randomness": "crypto.randomInt(37), résultat durable unique avant diffusion",
+    "shared": "État commun, horodatages serveur, animation SVG/canvas déterministe ; gains privés SQL même hors ligne."
+  },
+  "duels": {
+    "concurrentMatches": 1,
+    "levels": [
+      null,
+      25,
+      50,
+      75,
+      100
+    ],
+    "uniqueHeldItemsOptional": true,
+    "moneyAndPokemonCanCombine": true,
+    "maximumMoneyPerPlayer": 1000000,
+    "pokemonSources": [
+      "team",
+      "PC"
+    ],
+    "doubleConfirmationWithRevision": true,
+    "temporaryHealedCopies": true,
+    "originalResourcesAndPartyOrderPreserved": true,
+    "bagDisabled": true,
+    "xpAndEffortRewards": false,
+    "winnerReceivesLoserPokemonInPC": true,
+    "requireFreePcSlotAndAnotherAblePartyPokemon": true,
+    "drawRefunds": true,
+    "disconnectIsForfeit": true,
+    "restartRefundsUnfinishedEscrows": true,
+    "registrationTimeoutMinutes": 5,
+    "matchTimeoutMinutes": 20
+  },
+  "spectators": {
+    "where": "Tribunes au bas de la salle",
+    "liveAnimations": true,
+    "readOnly": true,
+    "privateActionPromptsNeverSent": true,
+    "onlyCurrentPokemonInSpectatorSnapshot": true,
+    "reconnectClearsStaleView": true,
+    "boundedEventLogLines": 30
+  },
+  "leaderboard": {
+    "wins": true,
+    "losses": true,
+    "draws": true,
+    "winPoints": 30,
+    "lossPoints": -10,
+    "minimumPoints": 0
+  },
+  "durability": "Débits, versements, transfert de Pokémon, score et reçu transactionnels et idempotents. Échecs SQL : retour arrière ; reprise d’un résultat sans nouveau transfert. Mises de duel débitées seulement après accord des deux joueurs ; Pokémon immobilisés par le verrou commun d’inventaire jusqu’au résultat. Roulette terminée au redémarrage avec son résultat déjà tiré.",
+  "performance": "Moteur PvP existant, copies sans sauvegarde des PV/PP, diffusion des animations au seul groupe spectateur, aucune requête par image ; limite 35 commandes par 10 secondes avant mise en file. Autres cartes hors de la file du club. Roulette animée SVG uniquement pendant le tirage et onglet visible, rendu en mouvement réduit conservé.",
+  "migration": "027_whitepeak_club.sql",
+  "newTables": [
+    "whitepeak_roulette_rounds",
+    "whitepeak_roulette_bets",
+    "whitepeak_duels",
+    "whitepeak_duel_scores"
+  ],
+  "assetGeneration": {
+    "mode": "Built-in image_gen imagegen skill",
+    "assets": [
+      {
+        "path": "vue-explorakit/src/assets/whitepeak_casino.png",
+        "original": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-ef49a3ce-79fc-4dbe-b12d-630bb123ad88.png",
+        "sha256": "78f412d2086e2562fa3d292bd16d14b90f98d3b52ff8ec356cfdb48ddda11e38",
+        "prompt": "Use case: stylized-concept. Project-bound bitmap game map, landscape 3:2. Create a polished but restrained SNES/GBA-inspired top-down 2D pixel RPG casino interior matching the RiftMon room references in this conversation: blue stone walls, small warm gold lamps, midnight-blue and muted burgundy palette, crisp visible pixels, simple furniture proportioned for chibi 32px overworld characters. Entire rectangular room visible straight orthographic overhead, no perspective camera. Logical 28 columns by 20 rows. Walls on outer edges, back wall rows 0-3. Entrance centered on bottom edge, two tile wide, leads to dark doorway, no outdoor view. Main casino attraction one oval green felt roulette table centered x50% y43%, spanning x34-66% y30-52%, a brass circular EMPTY roulette bowl at x43% y40% (the moving wheel will be a code overlay). A very small cashier desk against upper left wall, a few stools, two simple upholstered benches on right. Broad empty walkable floor throughout lower half and clear corridors on both sides of table, no clutter, no people or Pokemon, no lettering/numbers/UI, no photorealism, no excessive detail. Decor feels inviting, elegant, made for a small shared multiplayer room."
+      },
+      {
+        "path": "vue-explorakit/src/assets/whitepeak_club.png",
+        "original": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-095df6f2-05b2-4377-8892-c29f8c7d18f7.png",
+        "sha256": "0d5a72b27ebaa8921b5a56aee4e9ef388afc9ffb52b36040178e7ac980c5570e",
+        "prompt": "Use case: stylized-concept. Project-bound bitmap game map landscape 3:2. Create a clean refined top-down orthographic 2D pixel RPG battle club interior, visual style consistent with RiftMon snow city's arena: crisp medium pixel art, chibi-character-scale furniture, blue stone and cream walls, brass trim, cool teal vs muted red. Entire rectangular room logical 28 columns by 20 rows, wall thickness one tile, back wall first three rows. Entrance centered bottom, two tiles wide, dark inside doorway. Broad open central battle floor, EXACTLY two round trainer podiums: LEFT at x30.35% y47.5%, RIGHT at x69.64% y47.5%, each about 9% of room width, left teal right muted red. Simple battle emblem floor between them. Small reception counter back center x45-55% y15-22%. Spectator area across lower third y65-82%: two separated short rows of benches at left/right sides, clear central aisle connecting bottom entrance to ring. Low rails subtly separate ring from spectator area, with open middle passage. Small leaderboard board on back right wall x84% y18%. Warm lamps, snowy-town blue frosted windows on back wall, no complicated furniture, all paths clear. No characters, text, UI, no perspective camera or photorealism. High-quality pixel environment, restrained and coherent, not overly detailed."
+      },
+      {
+        "path": "vue-explorakit/src/assets/battle/whitepeak-club.png",
+        "original": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-e513df5c-0270-473d-8a52-c972f1a026ea.png",
+        "sha256": "327ac479e546e50cbc4d4779cdec5315447a26bc804715106f7083fd2d6b51a3",
+        "prompt": "Use case: stylized-concept. Project-bound bitmap battle background 3:2 landscape. A refined Pokemon-style 2D pixel art duel hall from a low three-quarter combat camera, same blue stone, cream and brass interior as a snowy town's battle club, simple blue slate tiled floor covering lower 70%, blue frosted windows high on back wall and small spectator balcony silhouettes suggested architecturally but NO people or creatures. Teal and burgundy banners high on walls, warm lamp highlights. Battle composition: opposing Pokemon will be at right x77% y45%, allied Pokemon at left x18% y92%; leave these two areas and the large center open with floor only. No painted platforms or circles anywhere; game overlays opponent platform separately. No furniture in battle floor, no writing, no UI, no tiny over-detailed noise. Clear medium-resolution pixel shapes compatible with GBA sprites, polished warm/cool lighting, immersive small competitive battle room."
+      }
+    ],
+    "technicalForegrounds": [
+      "vue-explorakit/src/assets/whitepeak_casino_f.png",
+      "vue-explorakit/src/assets/whitepeak_club_f.png"
+    ]
+  },
+  "runtimeSourceSha256": {
+    "data/game/mapAliases.json": "daba67713bc737107c894e023f09aa91c32372f820a50b6ea6bbea33f2d84553",
+    "data/game/nextMap.json": "99a9ce391069db92ea24aae56db13e431822c5a596183b86d147c4abc9c9b276",
+    "data/game/pnjs.jsonc": "b3a990a766664e2b08de380e6e34b4dbdff263b99dd7d9e7ef9840c2647041a9",
+    "data/maps/ville5.json": "9a96b2ca982c33565262ed243dbf0fa6784304a594ad989edad6569dc39ece40",
+    "data/maps/whitepeak_casino.json": "a6c732a5c7a33eba18b15f8701005fa11334e6c5ec02127b599a36e804a641eb",
+    "data/maps/whitepeak_club.json": "58c5ca36ea717276b7233c845e871e1e92ff956970b69292d93097f1d0ab8b3b",
+    "database/migrations/027_whitepeak_club.sql": "3dda065f26a32c1145d873bea42b2542d7451495fd89b8d36357fe3e5f0adc9f",
+    "server/game/whitepeak/rules.js": "6b17e0e0807cbf0c173cfb91d93c7786c200e5e5da29e31017ad9533470112da",
+    "server/persistence/whitepeakRepository.js": "a88637583f0a9206c5cdde110a3ff23bf40a67b29a6fe16484033b225c9d184a",
+    "server/realtime/socketHandler.js": "5b01e3dadcb314a436df730fbb56926aaf28cc0ea91686b83c2b7bf581695180",
+    "server/realtime/whitepeakClub.js": "d4c5a7cd3e903221f71c046ef65509f548d4a5915540cedd9ce9804bf807e57e"
+  },
+  "validation": {
+    "unitAndRegressionPassed": 33,
+    "sqlPassed": 196,
+    "failed": 0,
+    "skipped": 0,
+    "browsers": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "buildIndexSha256": "a2bc1f661dd96589851e57e44ebf8dd00438375c50931ba327b9a74b9244f26a",
+        "views": [
+          {
+            "label": "roulette",
+            "width": 320,
+            "height": 480,
+            "mode": "light"
+          },
+          {
+            "label": "roulette",
+            "width": 320,
+            "height": 480,
+            "mode": "dark"
+          },
+          {
+            "label": "roulette",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "label": "roulette",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "label": "roulette",
+            "width": 844,
+            "height": 390,
+            "mode": "light"
+          },
+          {
+            "label": "roulette",
+            "width": 844,
+            "height": 390,
+            "mode": "dark"
+          },
+          {
+            "label": "roulette",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "label": "roulette",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "label": "duel-review",
+            "width": 320,
+            "height": 480,
+            "mode": "light"
+          },
+          {
+            "label": "duel-review",
+            "width": 320,
+            "height": 480,
+            "mode": "dark"
+          },
+          {
+            "label": "duel-review",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "label": "duel-review",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "label": "duel-review",
+            "width": 844,
+            "height": 390,
+            "mode": "light"
+          },
+          {
+            "label": "duel-review",
+            "width": 844,
+            "height": 390,
+            "mode": "dark"
+          },
+          {
+            "label": "duel-review",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "label": "duel-review",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "label": "leaderboard",
+            "width": 320,
+            "height": 480,
+            "mode": "light"
+          },
+          {
+            "label": "leaderboard",
+            "width": 320,
+            "height": 480,
+            "mode": "dark"
+          },
+          {
+            "label": "leaderboard",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "label": "leaderboard",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "label": "leaderboard",
+            "width": 844,
+            "height": 390,
+            "mode": "light"
+          },
+          {
+            "label": "leaderboard",
+            "width": 844,
+            "height": 390,
+            "mode": "dark"
+          },
+          {
+            "label": "leaderboard",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "label": "leaderboard",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          }
+        ],
+        "threePlayers": true,
+        "sharedRoulette": true,
+        "bettingClosed": true,
+        "winningNumber": 7,
+        "nativeHouseTransitions": true,
+        "fixedLevel": 50,
+        "temporaryTeamsIntact": true,
+        "pcWagerTransferred": true,
+        "opponentInspected": true,
+        "outsiderRefused": true,
+        "inventoryLocked": true,
+        "spectatorRealTurn": true,
+        "spectatorReconnect": true,
+        "opponentDisconnectHandled": false,
+        "winnerMoney": 52000,
+        "loserMoney": 48000,
+        "leaderboard": true,
+        "errors": []
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "buildIndexSha256": "a2bc1f661dd96589851e57e44ebf8dd00438375c50931ba327b9a74b9244f26a",
+        "views": [
+          {
+            "label": "roulette",
+            "width": 320,
+            "height": 480,
+            "mode": "light"
+          },
+          {
+            "label": "roulette",
+            "width": 320,
+            "height": 480,
+            "mode": "dark"
+          },
+          {
+            "label": "roulette",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "label": "roulette",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "label": "roulette",
+            "width": 844,
+            "height": 390,
+            "mode": "light"
+          },
+          {
+            "label": "roulette",
+            "width": 844,
+            "height": 390,
+            "mode": "dark"
+          },
+          {
+            "label": "roulette",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "label": "roulette",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "label": "duel-review",
+            "width": 320,
+            "height": 480,
+            "mode": "light"
+          },
+          {
+            "label": "duel-review",
+            "width": 320,
+            "height": 480,
+            "mode": "dark"
+          },
+          {
+            "label": "duel-review",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "label": "duel-review",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "label": "duel-review",
+            "width": 844,
+            "height": 390,
+            "mode": "light"
+          },
+          {
+            "label": "duel-review",
+            "width": 844,
+            "height": 390,
+            "mode": "dark"
+          },
+          {
+            "label": "duel-review",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "label": "duel-review",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "label": "leaderboard",
+            "width": 320,
+            "height": 480,
+            "mode": "light"
+          },
+          {
+            "label": "leaderboard",
+            "width": 320,
+            "height": 480,
+            "mode": "dark"
+          },
+          {
+            "label": "leaderboard",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "label": "leaderboard",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "label": "leaderboard",
+            "width": 844,
+            "height": 390,
+            "mode": "light"
+          },
+          {
+            "label": "leaderboard",
+            "width": 844,
+            "height": 390,
+            "mode": "dark"
+          },
+          {
+            "label": "leaderboard",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "label": "leaderboard",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          }
+        ],
+        "threePlayers": true,
+        "sharedRoulette": true,
+        "bettingClosed": true,
+        "winningNumber": 7,
+        "nativeHouseTransitions": true,
+        "fixedLevel": 50,
+        "temporaryTeamsIntact": true,
+        "pcWagerTransferred": true,
+        "opponentInspected": true,
+        "outsiderRefused": true,
+        "inventoryLocked": true,
+        "spectatorRealTurn": true,
+        "spectatorReconnect": true,
+        "opponentDisconnectHandled": true,
+        "winnerMoney": 52000,
+        "loserMoney": 48000,
+        "leaderboard": true,
+        "errors": []
+      }
+    },
+    "representativeScreenshotsInspected": true,
+    "limitations": [
+      "Chromium et WebKit Linux simulés sur serveur privé ; aucun téléphone physique ni test humain prolongé revendiqué.",
+      "Une seule paire de socles, donc un duel à la fois ; les autres joueurs regardent.",
+      "Service mono-instance, conformément au serveur actuel."
+    ]
+  },
+  "commands": [
+    "node --test --test-concurrency=1 tests/whitepeak-rules.test.js tests/whitepeak-maps.test.js tests/whitepeak-manager.test.js tests/party-order.test.js tests/account-connection.test.js tests/friend-trade.test.js tests/battle-order.test.js",
+    "DB_NAME=explorakit_test node --env-file=.env scripts/applyMigrations.js --only=027_whitepeak_club.sql",
+    "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file=.env --test --test-concurrency=1 tests/whitepeak-mysql.test.js tests/battle-runtime-integration.test.js tests/friend-trade-mysql.test.js tests/account-connection-socket.test.js",
+    "npm --prefix vue-explorakit run lint",
+    "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-whitepeak-dist",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-whitepeak-dist RELEASE_SCREENSHOTS=/tmp/riftmon-whitepeak-browser-chromium node --env-file=.env scripts/validateWhitepeakBrowser.js",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-whitepeak-dist RELEASE_SCREENSHOTS=/tmp/riftmon-whitepeak-browser-webkit PRESENTATION_BROWSER=webkit node --env-file=.env scripts/validateWhitepeakBrowser.js"
+  ],
+  "deployment": {
+    "publishedAt": "2026-11-01T08:41:14.436Z",
+    "restartedAt": "2026-11-01T08:41:12.813Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-whitepeak-2026-11-01T08-41-11-118Z",
+    "sourceBaseline": "0a5e6fb8f6e40bdde17d2df273042a62f64ab5e3",
+    "sourceHashes": {
+      "data/game/mapAliases.json": "daba67713bc737107c894e023f09aa91c32372f820a50b6ea6bbea33f2d84553",
+      "data/game/nextMap.json": "99a9ce391069db92ea24aae56db13e431822c5a596183b86d147c4abc9c9b276",
+      "data/game/pnjs.jsonc": "b3a990a766664e2b08de380e6e34b4dbdff263b99dd7d9e7ef9840c2647041a9",
+      "data/maps/ville5.json": "9a96b2ca982c33565262ed243dbf0fa6784304a594ad989edad6569dc39ece40",
+      "server/realtime/socketHandler.js": "5b01e3dadcb314a436df730fbb56926aaf28cc0ea91686b83c2b7bf581695180",
+      "data/maps/whitepeak_casino.json": "a6c732a5c7a33eba18b15f8701005fa11334e6c5ec02127b599a36e804a641eb",
+      "data/maps/whitepeak_club.json": "58c5ca36ea717276b7233c845e871e1e92ff956970b69292d93097f1d0ab8b3b",
+      "database/migrations/027_whitepeak_club.sql": "3dda065f26a32c1145d873bea42b2542d7451495fd89b8d36357fe3e5f0adc9f",
+      "server/game/whitepeak/rules.js": "6b17e0e0807cbf0c173cfb91d93c7786c200e5e5da29e31017ad9533470112da",
+      "server/persistence/whitepeakRepository.js": "a88637583f0a9206c5cdde110a3ff23bf40a67b29a6fe16484033b225c9d184a",
+      "server/realtime/whitepeakClub.js": "d4c5a7cd3e903221f71c046ef65509f548d4a5915540cedd9ce9804bf807e57e"
+    },
+    "clientCommit": "e06c622db86eeeda84a0b41eaa98b397ce92828f",
+    "clientBuild": "9f63c1a4b74bd870",
+    "beforePid": "3628807",
+    "afterPid": "3644365",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "schemaChanged": true,
+    "migration": "027_whitepeak_club.sql",
+    "newTables": 4,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 0,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": [
+      "js/234.7f08b866.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.20634317.js",
+      "js/account.161ce126.js",
+      "js/app.987dceeb.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.2fd32f7c.js",
+      "js/drift.5b8720d7.js",
+      "js/game.d324caef.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.4fff4c7e.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.3af66ca8.css",
+      "css/test-view.7568246d.css",
+      "img/whitepeak-club.9ff2e261.png",
+      "img/whitepeak_casino.e014e25a.png",
+      "img/whitepeak_club.8ae45f27.png"
+    ]
+  }
+}

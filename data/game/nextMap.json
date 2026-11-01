@@ -2528,15 +2528,15 @@
           "valX": 3,
           "valY": 16,
           "goto": "ville5_maison1",
-          "nexX": 416,
-          "nexY": 544
+          "nexX": 432,
+          "nexY": 560
         },
         {
           "valX": 23,
           "valY": 16,
           "goto": "ville5_maison2",
-          "nexX": 416,
-          "nexY": 544
+          "nexX": 432,
+          "nexY": 560
         }
       ]
     },
@@ -2591,7 +2591,14 @@
       "mapchange": [
         {
           "valX": 13,
-          "valY": 17,
+          "valY": 19,
+          "goto": "ville5",
+          "nexX": 96,
+          "nexY": 576
+        },
+        {
+          "valX": 14,
+          "valY": 19,
           "goto": "ville5",
           "nexX": 96,
           "nexY": 576
@@ -2608,7 +2615,14 @@
       "mapchange": [
         {
           "valX": 13,
-          "valY": 17,
+          "valY": 19,
+          "goto": "ville5",
+          "nexX": 736,
+          "nexY": 576
+        },
+        {
+          "valX": 14,
+          "valY": 19,
           "goto": "ville5",
           "nexX": 736,
           "nexY": 576

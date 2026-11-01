@@ -92,7 +92,7 @@ function buildId(prefix = 'id') {
 }
 
 function canPlayerEnterPvp(player) {
-    return !player?.superTournamentActive && hasAlivePokemon(player?.equipe?.pokemons);
+    return !player?.superTournamentActive && player?.currentmap!=='ville5_maison1' && hasAlivePokemon(player?.equipe?.pokemons);
 }
 
 function hasPendingRequestForSocket(socketId) {
@@ -132,6 +132,7 @@ function findNearbyInteractablePlayer(sourceSocketId) {
 }
 
 const socketHandler = (io) => {
+    const whitepeakClub=require('./whitepeakClub').getClub(io);
     startPnjMovement(io, () => players, player=>replaySessions.get(player.id)?.pnjsForMap?.(player.currentmap)||defaultPnjStore.getPnjsForMap(player.currentmap));
     const clearPendingRequest = (requestId, reason = 'cancelled', { notify = false } = {}) => {
         const request = pendingInteractionRequests.get(requestId);
@@ -258,6 +259,8 @@ const socketHandler = (io) => {
             socket.disconnect(true);
             return;
         }
+        await whitepeakClub.ready;
+        if(!account.active())return;
         require('./worldClock').registerWorldClock(socket);
         const requestedUsername = typeof socket.data.user?.username === 'string'
             ? socket.data.user.username.trim()
@@ -316,7 +319,7 @@ const socketHandler = (io) => {
         }
         if (!account.active()) return;
         let personalProgress=initialStoryProgress||{flags:{}},lucieLeaving=false;
-        let tournament=null;
+        let tournament=null,clubHandlers=null;
         const {getPnjsForMap,getPnjAtTile,isPnjBlockingTile}=require('./handlers/superTournamentHandlers').scopedStore(lucieScene.scopedStore(voidEnding.scopedStore(labStory.scopedStore(raphTrial.scopedStore(defaultPnjStore,()=>raphTrialState),()=>personalProgress),()=>personalProgress),()=>personalProgress,()=>lucieLeaving),()=>tournament?.controller.run);
         const personalTileBlocked=(map,x,y)=>isPnjBlockingTile(map,x,y)||mirrorRift.blocked(map,x,y,personalProgress)||Boolean(storyGates.actorAtTile(map,x,y,personalProgress));
         let collisionData2D = loadCollisionData(currentmap);
@@ -659,6 +662,7 @@ const socketHandler = (io) => {
             socket.emit('newmap', { mapname: currentmap, playersList: sameMapPlayers, reason });
             socket.emit('mapWeatherState', getMapWeather(currentmap));
             socket.emit('worldDevicesState',devicesForMap(currentmap));
+            await clubHandlers?.enter();
             socket.emit('pnjsList', { mapname: currentmap, pnjs: currentPnjs });
             if(storyExit)refreshReplaySessions(personalProgress);
             schedulePositionSave({ immediate: true });
@@ -765,6 +769,11 @@ const socketHandler = (io) => {
             reload:async()=>{const team=await loadEquipe(userId);const p=players[socket.id];if(p){p.equipe=team;await synchronizeTradeInventory();}},
             synchronize:synchronizeTradeInventory
         });
+        clubHandlers=whitepeakClub.attach({id:userId,username:socket.data.user.username,socket,account,getPlayer:()=>players[socket.id],
+            canUse:()=>!tournament?.controller.active&&!transitionBusy&&!pendingDialogue&&!socketToChatSession.has(socket.id)&&!hasPendingRequestForSocket(socket.id),
+            reload:async()=>{const p=players[socket.id];if(p){p.equipe=await loadEquipe(userId);await synchronizeTradeInventory();}}
+        });
+        await clubHandlers.enter();
         registerPlayerProfileHandlers({ socket, io, players, userId });
         require('./handlers/heldItemTransferHandlers').registerHeldItemTransferHandlers({socket,userId,getPlayer:()=>players[socket.id],
             canUse:()=>!tournament?.controller.active&&!transitionBusy&&!interactionBusy&&!pendingDialogue&&!players[socket.id]?.isInteracting
@@ -1342,6 +1351,7 @@ const socketHandler = (io) => {
             const player = players[socket.id];
             if (!player) return;
             if (player.inbattle || player.inventoryBusy) return;
+            if(await clubHandlers?.interact())return;
             if(await tournament?.interact())return;
             if (fishing.current(player)) { fishing.reel(player,fishing.current(player).id); return; }
             if(supportsMirrorRift&&!pendingDialogue&&currentmap===mirrorRift.config.map&&mirrorRift.interaction(player,personalProgress)&&await mirrorHandlers.interact())return;
@@ -1598,6 +1608,7 @@ const socketHandler = (io) => {
                 player.x = newPlayerX;
                 player.y = newPlayerY;
                 stairways.moved(player,previousPosition);
+                if(currentmap==='ville5_maison1')account.track(clubHandlers.step().catch(error=>socket.emit('progressionNotice',{message:error.statusCode?error.message:'Le socle est temporairement indisponible.'})));
                 repelProtection = stepRepel(player);
                 if (repelProtection) {
                     socket.emit('fieldEffectState', {repelSteps:player.repelSteps});
