@@ -1,3 +1,11 @@
+## Téléporteur du professeur : objet à récupérer — 2 novembre 2026
+
+L’objet physique du laboratoire garde sa place (16,9). Dès que l’état personnel existant le rend récupérable après le professeur et le sauvetage de Lucie, il affiche un halo doré pulsant, un reflet diagonal et trois petits scintillements en pixels. L’objet reste sobre avant ce jalon, disparaît comme auparavant à la récupération. Le reset administrateur et son état privé sont respectés : objet revenu mais sans surbrillance avant d’avoir rejoué ce jalon. Animations désactivées/mouvement réduit : éclairage fixe, sans scintillement mobile. L’effet reste au sol sous les personnages.
+
+Aucun nouveau minuteur, boucle, asset, événement réseau, règle d’interaction ou modification serveur/BDD. Le rendu reçoit l’heure et le réglage de mouvement de la boucle de carte existante ; retour immédiat hors laboratoire ou objet ramassé. Canvas Chromium/WebKit : animation visible (1 030 pixels changent), aucun pixel changeant hors du petit rectangle de l’objet ; état non récupérable et mouvement réduit fixes, objet ramassé absent, état rejoué correct. Coût indicatif local ~0,05/0,064 ms par dessin, pas une mesure sur téléphone réel. Captures de la pièce et du détail inspectées. Sept tests de fin et cinq SQL dédiés passent, zéro échec/saut, lint/build isolé `e49b56c51e2d9d7a` et diff valides. Rapport et recette reproductible : `docs/TELEPORTER_GLOW_2026-11-02.json`, `node scripts/validateTeleporterGlowCanvas.js`. Pas de nouveau parcours complet de l’histoire revendiqué.
+
+Publié le 2 novembre 2026 à 16 h 45 (Europe/Paris), client `9a7d989a08e836ec9bcea1540dd54f74ff5c805a`, build `e49b56c51e2d9d7a`. Sauvegarde index/sources `/home/ubuntu/dev/backups/riftmon-teleporter-glow-2026-11-02T15-45-20-257Z`. Index et 22 bundles/CSS HTTPS vérifiés à l’octet ; anciens assets conservés. Serveur actif, PID 3734034 conservé, aucun redémarrage, migration ni écriture en BDD de production. Knov/api-test inchangés.
+
 ## Super Tournoi : relances, PP et variété — 2 novembre 2026
 
 Deux relances au départ et deux de plus par cycle de seize salles, reliquat conservé. Passer n’importe quelle récompense donne une relance, une seule fois : offre/version contrôlées, transaction et rollback existants réutilisés. Anciennes tentatives : une relance supplémentaire pour le cycle courant seulement, migration du compteur une seule fois ; pas de remise à zéro ni de crédit de tous les cycles passés. Une ancienne sauvegarde sans compteur reçoit les deux du cycle courant.
@@ -5946,6 +5954,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **2 novembre 2026 — Téléporteur :** surbrillance personnelle quand récupérable, reflet/scintillements, état fixe en mouvement réduit, disparition et reset conservés. Sept tests, cinq SQL et canvas Chromium/WebKit ; `docs/TELEPORTER_GLOW_2026-11-02.json`.
 
 - **2 novembre 2026 — Super Tournoi :** deux relances/cycle, passage +1, cartes PP renforcées, Chance minimum peu commun, huit pactes à coût léger, Baies Prine 6→2 et primes +10 %. 83 tests, 231 SQL et 64 vues Chromium/WebKit ; `docs/TOWER_VARIETY_2026-11-02.json`.
 
