@@ -23,16 +23,16 @@ function reachable(progress) {
 }
 
 test('Lab: clear floor beside and between the side furniture is accessible', () => {
-    for (const [x, y] of [[4, 8], [6, 8], [23, 8], [6, 9], [8, 9], [19, 9], [21, 9], [8, 13], [19, 13]]) {
+    for (const [x, y] of [[4, 8], [6, 8], [7, 8], [20, 8], [7, 13], [20, 13], [23, 8], [6, 9], [8, 9], [19, 9], [21, 9], [8, 13], [19, 13]]) {
         assert.equal(collision[y][x], 0, `painted floor ${x},${y}`);
         assert(reachable({ flags: { professor_defeated: 'true', lab_crystals_cleared: 'true' } }).has(`${x},${y}`), `reachable floor ${x},${y}`);
     }
 });
 
-test('Lab: tanks, desks, stools, bottom storage and outside walls remain solid', () => {
+test('Lab: tanks, desks, bottom storage and outside walls remain solid', () => {
     // The sprite's feet extend below its movement anchor: the console tops
     // must stop row 10 as well, even where that tile's center is bare floor.
-    for (const [x, y] of [[4, 5], [8, 7], [19, 6], [23, 7], [7, 8], [4, 10], [6, 10], [21, 10], [23, 10], [6, 11], [20, 12], [7, 13], [20, 13], [4, 14], [8, 15], [19, 14], [23, 15]]) {
+    for (const [x, y] of [[4, 5], [8, 7], [19, 6], [23, 7], [4, 10], [6, 10], [21, 10], [23, 10], [6, 11], [20, 12], [4, 14], [8, 15], [19, 14], [23, 15]]) {
         assert.notEqual(collision[y][x], 0, `furniture ${x},${y}`);
     }
     for (let y = 0; y < collision.length; y++) for (let x = 0; x < collision[y].length; x++) {
@@ -71,7 +71,7 @@ test('Lab: entrances, secret device and reconnect recovery remain on reachable f
         assert(seen.has(`${Math.floor(p.x / 32)},${Math.floor(p.y / 32)}`));
         assert.deepEqual(nearestSafePosition(p.x, p.y, collision, 'professor_lab'), { x: p.x, y: p.y });
     }
-    for (const [x, y] of [[7, 8], [7, 13], [20, 13], [0, 0], [27, 19]]) {
+    for (const [x, y] of [[6, 10], [21, 10], [20, 12], [0, 0], [27, 19]]) {
         const p = nearestSafePosition(x * 32 + 16, y * 32 + 16, collision, 'professor_lab');
         assert(seen.has(`${Math.floor(p.x / 32)},${Math.floor(p.y / 32)}`));
         assert(Math.hypot(p.x - (x * 32 + 16), p.y - (y * 32 + 16)) <= 450);

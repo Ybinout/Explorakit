@@ -54,6 +54,7 @@ function publicPokemon(p) {
     const stat=key=>Math.max(1,Math.floor(((2*base[key]+30)*level/100+5)*scaling));
     const view={uuid:p.uuid,level,currentHp:p.currentHp,maxHp:p.maxHp,status:p.status,
         type1:visibleTypes[0],type2:visibleTypes[1],data:{id:visible.id,type:[...visibleTypes]},
+        corruption:p.corruption?structuredClone(p.corruption):null,
         passiveAbility:typeof p.passiveAbility==='string'?p.passiveAbility:null,
         attack:stat('Attack'),defense:stat('Defense'),specialAttack:stat('Sp. Attack'),specialDefense:stat('Sp. Defense'),speed:stat('Speed')};
     // Team, moves and current ability are deliberately known to the planner.
@@ -71,7 +72,7 @@ function ownPokemon(p) {
         data:{id:p.data.id,type:p.__battle?.tempTypes?.length?p.__battle.tempTypes:p.__battle?.formTypes?.length?p.__battle.formTypes:[p.type1,p.type2].filter(Boolean)},
         attack:p.currentAttack??p.attack,defense:p.currentDefense??p.defense,specialAttack:p.currentSpecialAttack??p.specialAttack,
         specialDefense:p.currentSpecialDefense??p.specialDefense,speed:p.currentSpeed??p.speed,
-        passiveAbility:p.passiveAbility,heldItem:p.heldItem,__battle:battleView(p.__battle,true)};
+        corruption:p.corruption?structuredClone(p.corruption):null,passiveAbility:p.passiveAbility,heldItem:p.heldItem,__battle:battleView(p.__battle,true)};
     if(p.abilities.includes('Hidden Power'))view.hiddenPowerType=moveDamageRules.hiddenPowerType(p);
     view.abilities = [...p.abilities]; view.movePp = [...(p.movePp || p.abilities.map(resources.getMaxMovePp))];
     view.__battle.sleepTurns ??= 1;

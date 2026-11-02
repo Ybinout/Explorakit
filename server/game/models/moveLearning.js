@@ -51,6 +51,7 @@ function resolveMoveChoice(pokemon, { choiceId, slot } = {}) {
     const result = { abilities: [...pokemon.abilities], movePp: [...pokemon.movePp], pendingMoves: pokemon.pendingMoves.slice(1) };
     normalizeMovePp(result);
     if (slot !== null) {
+        require('../corruption/pokemon').protectMove(pokemon,slot);
         if (result.abilities.includes(choice.move)) throw Error('Cette attaque est déjà connue.');
         result.abilities[slot] = choice.move;
         result.movePp[slot] = getMaxMovePp(choice.move);

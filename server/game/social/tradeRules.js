@@ -42,6 +42,7 @@ function planTrade(snapshots,offers){
    plans[i].received=incoming;
   }
   for(const item of offers[1-i].items)plans[i].items[item.key]=(plans[i].items[item.key]||0)+item.quantity;
+  require('../corruption/pokemon').assertTeam(plans[i].team);
   if(!plans[i].team.some(storage.isAble))fail('Chaque dresseur doit garder au moins un Pokémon apte dans son équipe.');
  }
  return plans;

@@ -319,7 +319,7 @@ const socketHandler = (io) => {
         }
         if (!account.active()) return;
         let personalProgress=initialStoryProgress||{flags:{}},lucieLeaving=false;
-        let tournament=null,clubHandlers=null,darkHandlers=null;
+        let tournament=null,clubHandlers=null,darkHandlers=null,corruptionHandlers=null;
         let darkState=await require('../persistence/darkContinentRepository').loadState(userId);
         const {getPnjsForMap,getPnjAtTile,isPnjBlockingTile}=require('../game/world/darkContinent').scopedStore(require('./handlers/superTournamentHandlers').scopedStore(lucieScene.scopedStore(voidEnding.scopedStore(labStory.scopedStore(raphTrial.scopedStore(defaultPnjStore,()=>raphTrialState),()=>personalProgress),()=>personalProgress),()=>personalProgress,()=>lucieLeaving),()=>tournament?.controller.run),()=>darkState);
         const personalTileBlocked=(map,x,y)=>isPnjBlockingTile(map,x,y)||mirrorRift.blocked(map,x,y,personalProgress)||Boolean(storyGates.actorAtTile(map,x,y,personalProgress));
@@ -857,6 +857,9 @@ const socketHandler = (io) => {
         await tournament.initialize();
         await darkHandlers.enter();
         if(!account.active())return;
+        corruptionHandlers=require('./handlers/corruptionHandlers').registerCorruptionHandlers({socket,userId,getPlayer:()=>players[socket.id],
+            canUse:()=>!tournament?.controller.active&&!interactionBusy&&!transitionBusy&&!pendingDialogue,
+            canInteract:()=>!tournament?.controller.active&&!transitionBusy&&!pendingDialogue});
         const computerHandlers=registerPokemonComputerHandlers({socket,io,userId,getPlayer:()=>players[socket.id],getPeers:()=>Object.values(players).filter(p=>p.userId===userId),canUse:()=>!transitionBusy});
         registerRepelHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!tournament?.controller.active&&!interactionBusy&&!transitionBusy,flushPositionSave,schedulePositionSave});
         socket.emit('fieldEffectState',{repelSteps:remainingRepel(players[socket.id])});
@@ -1379,6 +1382,7 @@ const socketHandler = (io) => {
             const player = players[socket.id];
             if (!player) return;
             if (player.inbattle || player.inventoryBusy || player.darkRulesRequired || player.darkScoutBusy) return;
+            if(await corruptionHandlers?.interact())return;
             if(await clubHandlers?.interact())return;
             if(await darkHandlers?.interact())return;
             if(await tournament?.interact())return;

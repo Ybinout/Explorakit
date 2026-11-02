@@ -970,6 +970,7 @@ function calculateDamageDetailed(attacker, defender, move, context = {}) {
     const resistBerry = resistanceBerry(defender,attacker,move,effectiveness,battleState);
     if (resistBerry) modifier *= 0.5;
     modifier *= drift.multiplier(attacker, defender, move, critical);
+    modifier *= require('../corruption/pokemon').multiplier(attacker,defender,move);
     let damage = Math.floor(baseDamage * modifier);
     if (effectiveness <= 0) {
         damage = 0;

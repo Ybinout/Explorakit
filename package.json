@@ -102,7 +102,9 @@
     "test:mega-candy-browser": "node --env-file-if-exists=.env scripts/validateMegaCandyBrowser.js",
     "test:whitepeak-browser": "node --env-file-if-exists=.env scripts/validateWhitepeakBrowser.js",
     "test:tournament-cycle-browser": "node --env-file-if-exists=.env scripts/validateTournamentCycleRulesBrowser.js",
-    "test:dark-continent-browser": "node --env-file-if-exists=.env scripts/validateDarkContinentBrowser.js"
+    "test:dark-continent-browser": "node --env-file-if-exists=.env scripts/validateDarkContinentBrowser.js",
+    "test:corruption-browser": "node --env-file-if-exists=.env scripts/validateCorruptionBrowser.js",
+    "generate:corruption": "node scripts/generateCorruptionPresentation.js"
   },
   "keywords": [],
   "author": "",

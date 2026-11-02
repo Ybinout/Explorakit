@@ -9,11 +9,12 @@ const itemCatalogByKey = (itemsCatalog.items || []).reduce((accumulator, item) =
 
 function hydrateItems(rows) {
     return rows.map((row) => {
-        const itemFromCatalog = itemCatalogByKey[row.item_key] || {};
+        const itemFromCatalog = itemCatalogByKey[row.item_key] || require('../game/corruption/modules').get(row.item_key) || {};
         return {
             key: row.item_key,
             name: itemFromCatalog.name || row.item_key,
             category: itemFromCatalog.category || null,
+            ...(itemFromCatalog.corruptionModule?{corruptionModule:itemFromCatalog.corruptionModule}:{}),
             description: itemFromCatalog.description || null,
             catch_multiplier: itemFromCatalog.catch_multiplier || null,
             buyPrice: Number(itemFromCatalog.buy_price) || null,

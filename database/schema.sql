@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS corruption_receipts;
 DROP TABLE IF EXISTS trainer_trade_receipts;
 DROP TABLE IF EXISTS trainer_message_reads;
 DROP TABLE IF EXISTS trainer_messages;
@@ -88,6 +89,7 @@ CREATE TABLE IF NOT EXISTS `pokemons` (
   `pending_moves` JSON DEFAULT NULL,
   `experience_rate` DECIMAL(10,6) DEFAULT NULL,
   `evolution_state` JSON DEFAULT NULL,
+  `corruption` JSON DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uuid` (`uuid`),
@@ -427,4 +429,15 @@ CREATE TABLE IF NOT EXISTS pokemon_storage_boxes (
  name VARCHAR(24) NOT NULL,
  PRIMARY KEY(user_id,box_index),
  CONSTRAINT fk_storage_box_user FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS corruption_receipts (
+ id CHAR(36) NOT NULL PRIMARY KEY,
+ user_id INT NOT NULL,
+ operation VARCHAR(10) NOT NULL,
+ request_hash CHAR(64) NOT NULL,
+ result_json JSON NOT NULL,
+ created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ CONSTRAINT fk_corruption_receipt_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+ INDEX idx_corruption_receipt_owner (user_id, created_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

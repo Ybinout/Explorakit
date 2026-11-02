@@ -87,6 +87,7 @@ function planAction(team, entries, payload = {}) {
         else throw Error('Ce Pokémon n’est plus à cet emplacement.');
     } else throw Error('Action PC invalide.');
     if (teamChanged && (!nextTeam.length || !nextTeam.some(isAble)) && !(team.length===0 && action==='withdraw' && nextTeam.length===1)) throw Error('Garde au moins un Pokémon apte au combat dans ton équipe.');
+    require('../corruption/pokemon').assertTeam(nextTeam);
     return {team:nextTeam, entries:nextEntries, released};
 }
 function boxNames(custom = []) {
@@ -98,7 +99,7 @@ function renamedBox(custom, payload) {
     return require('../models/ownedNames').normalizeName(payload.name);
 }
 function pokemonView(p) {
-    return { uuid:p.uuid, pokemonId:p.data.id, gender:pokemonGender(p), name:p.name || p.truename, speciesName:p.truename || p.name, nickname:p.name, level:p.level,
+    return { corruption:require('../corruption/pokemon').view(p), uuid:p.uuid, pokemonId:p.data.id, gender:pokemonGender(p), name:p.name || p.truename, speciesName:p.truename || p.name, nickname:p.name, level:p.level,
         nature:p.nature, experience:p.experience, experienceRate:p.experienceRate,
         stats:Object.fromEntries(['attack','defense','specialAttack','specialDefense','speed'].map(key=>[key,p[key]])),
         movePp:(p.movePp || []).slice(0,4),

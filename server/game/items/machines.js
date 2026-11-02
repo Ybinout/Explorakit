@@ -11,6 +11,7 @@ function teachMachine(pokemon, itemKey, { slot, expectedMoves } = {}) {
         throw Error('Les attaques de ce Pokémon ont changé. Choisis à nouveau.');
     if (!Number.isInteger(slot) || slot < 0 || slot > 3 || (pokemon.abilities.length < 4 ? slot !== pokemon.abilities.length : slot >= pokemon.abilities.length))
         throw Error('Choisis l’attaque à remplacer.');
+    require('../corruption/pokemon').protectMove(pokemon,slot);
     const result = { abilities: [...pokemon.abilities], movePp: [...(pokemon.movePp || [])],
         pendingMoves: (pokemon.pendingMoves || []).filter(choice => choice.move !== machine.move) };
     normalizeMovePp(result);

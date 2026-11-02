@@ -18,7 +18,7 @@ const POKEMON_COLUMNS = [
     'current_special_attack', 'current_special_defense', 'current_speed',
     'ability1', 'ability2', 'ability3', 'ability4',
     'ev_hp', 'ev_attack', 'ev_defense', 'ev_special_attack', 'ev_special_defense', 'ev_speed',
-    'move1_pp', 'move2_pp', 'move3_pp', 'move4_pp', 'pending_moves', 'experience_rate', 'evolution_state'
+    'move1_pp', 'move2_pp', 'move3_pp', 'move4_pp', 'pending_moves', 'experience_rate', 'evolution_state', 'corruption'
 ];
 
 function pokemonToRow(pokemon, teamId, position) {
@@ -41,7 +41,7 @@ function pokemonToRow(pokemon, teamId, position) {
         (Object.hasOwn(pokemon,'__passiveAbilityBeforeBattle') ? pokemon.__passiveAbilityBeforeBattle : pokemon.passiveAbility) || null,
         (Object.hasOwn(pokemon,'__heldItemBeforeExchange') ? pokemon.__heldItemBeforeExchange : pokemon.heldItem) || null,
         original ? pokemon.attack : pokemon.currentAttack, original ? pokemon.defense : pokemon.currentDefense, original ? pokemon.specialAttack : pokemon.currentSpecialAttack,
-        original ? pokemon.specialDefense : pokemon.currentSpecialDefense, original ? pokemon.speed : pokemon.currentSpeed, ...abilities, pokemon.ev.hp, pokemon.ev.attack, pokemon.ev.defense, pokemon.ev.specialAttack, pokemon.ev.specialDefense, pokemon.ev.speed, ...movePp, JSON.stringify(pokemon.pendingMoves || []), pokemon.experienceRate, JSON.stringify(pokemon.evolutionState || null)
+        original ? pokemon.specialDefense : pokemon.currentSpecialDefense, original ? pokemon.speed : pokemon.currentSpeed, ...abilities, pokemon.ev.hp, pokemon.ev.attack, pokemon.ev.defense, pokemon.ev.specialAttack, pokemon.ev.specialDefense, pokemon.ev.speed, ...movePp, JSON.stringify(pokemon.pendingMoves || []), pokemon.experienceRate, JSON.stringify(pokemon.evolutionState || null), JSON.stringify(require('../game/corruption/pokemon').normalize(pokemon.corruption))
     ];
 }
 
@@ -58,6 +58,7 @@ function rowToPokemon(row) {
     pokemon.uuid = row.uuid;
     pokemon.currentHp = row.current_hp;
     pokemon.status = normalizePokemonStatus(row.status);
+    pokemon.corruption = require('../game/corruption/pokemon').normalize(row.corruption);
     pokemon.passiveAbility = normalizeSpeciesAbility(
         row.pokemon_id,
         row.passive_ability,
@@ -72,7 +73,7 @@ function rowToPokemon(row) {
     normalizeMovePp(pokemon);
     pokemon.pendingMoves = typeof row.pending_moves === 'string' ? JSON.parse(row.pending_moves) : row.pending_moves || [];
     pokemon.evolutionState = typeof row.evolution_state === 'string' ? JSON.parse(row.evolution_state) : row.evolution_state || null;
-    return pokemon;
+    return require('../game/corruption/pokemon').applyTraits(pokemon);
 }
 
 async function getTeamRecord(userId, executor = dbPool) {
@@ -105,7 +106,9 @@ async function editEquipe(userId, team, executor = null) {
         throw new Error('Une équipe doit contenir entre 0 et 6 Pokémon.');
     }
 
+    require('../game/corruption/pokemon').assertTeam(team.pokemons.filter(p=>!p.__darkContinentDead));
     const save = async (connection) => {
+        await connection.execute('SELECT id FROM users WHERE id=? FOR UPDATE',[userId]);
         let teamRecord = await getTeamRecord(userId, connection);
         if (!teamRecord) {
             const [result] = await connection.execute(
@@ -115,6 +118,9 @@ async function editEquipe(userId, team, executor = null) {
             teamRecord = { id: result.insertId };
         }
 
+        // A retired or interrupted in-memory team must never erase permanent mutations.
+        const [savedMutations]=await connection.execute('SELECT uuid,corruption FROM pokemons WHERE team_id=? FOR UPDATE',[teamRecord.id]);
+        for(const pokemon of team.pokemons){const saved=require('../game/corruption/pokemon').normalize(savedMutations.find(row=>row.uuid===pokemon.uuid)?.corruption);if(saved&&saved.revision>(pokemon.corruption?.revision||0))throw Error('La corruption de ton équipe a changé. Reconnecte-toi pour la retrouver.');}
         await connection.execute('DELETE FROM pokemons WHERE team_id = ?', [teamRecord.id]);
         const placeholders = POKEMON_COLUMNS.map(() => '?').join(', ');
         const insertSql = `INSERT INTO pokemons (${POKEMON_COLUMNS.join(', ')}) VALUES (${placeholders})`;

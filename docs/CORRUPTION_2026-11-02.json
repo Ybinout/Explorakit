@@ -1,0 +1,777 @@
+{
+  "date": "2026-11-02",
+  "sourceBaseline": "3faf8680e06c0dfee8650db95c539ac74cad3cbc",
+  "clientBaseline": "6b9fe6561a43b6356e73a77a42b4f277fd977419",
+  "clientCommit": "8c7da2cfa4c2e4f755d4d425d8b9ccd2261d20da",
+  "clientBuild": "fa2a69b801929792",
+  "buildIndexSha256": "433d52c0b09108d08a8c6a1b02fdd042ed17a61658094b5f7e667b05cbe8c8b6",
+  "runtimeSourceSha256": {
+    "data/game/corruption_labels.fr.json": "19974c2107c531e9635cf8268ae14df6e16a15413b8185b411020aac908bb507",
+    "data/maps/professor_lab.json": "f7b5918d2f141526ddc69c31ac2c34ffc8ddf041efc36e83dcfed861e933df98",
+    "database/migrations/029_pokemon_corruption.sql": "b6aa59ff92beb22c9102b1bf17d4cb46ffbb54fae42ed4a19890570e2d5d2ded",
+    "database/schema.sql": "4914a205a038da6c8a9249db15f403c6e4659e3aaef90292809f3934ce635f0d",
+    "server/game/battle/battleEngine.js": "7e6ce4e39989ac9960554d93ed547f8855463d86581ba5687f221eb23357becf",
+    "server/game/battle/humanTrainerAI.js": "1bf31dcffb8ad24416b0883ad654301e6040eae1a629830941316470302f760a",
+    "server/game/corruption/modules.js": "ecb22ac34b5f23f21331ba17dbf3c710282cf02dee8fb691f9ab67d16de68ddc",
+    "server/game/corruption/pokemon.js": "627dc11a6639d21ec1ab0b739d9e2e24168206b9d8bee051cdf288fbe3170862",
+    "server/game/corruption/workstations.js": "e29ac0cee8dc7efc288fae12de71fe552a0fcf292ae62f522d370538dbecf21b",
+    "server/game/items/abilityCapsule.js": "d9eb9a6743a04613fc0d34b5efb9332941ea80b72621d15631283f20b1059208",
+    "server/game/items/machines.js": "86ad1c20b7c64a930197e6c2ad4f5fdeabd393820c2afc5ad8c92042577968a5",
+    "server/game/models/Pokemon.js": "8bfc1a500c0fd3f908d116d7851f7dc6ccbc36ed5048df6ea78cc9e394284e2c",
+    "server/game/models/moveLearning.js": "667735214b1b8bcbc3053b040af0a040e7eade7bee3ab9b21109acd2566515c4",
+    "server/game/social/tradeRules.js": "8f54b0366ce4436e3dba775461c9c41e91004e7bf5c8d4852d1d433d23a4bc97",
+    "server/game/storage/pokemonStorage.js": "befe92eea0b92df5da38d5ada798c8c2835d91a1fc5999e54bf0441323d9bac2",
+    "server/game/world/pokemonComputer.js": "dd155b42691c33d9fda57e3de0b83a73fec97f81d046e36563c9e72a64012021",
+    "server/persistence/corruptionRepository.js": "58b5690d48703cc88521fae0129dd4ade39c07d7c07b23efcc0e815ee6237cb2",
+    "server/persistence/itemRepository.js": "e8b5c2ea98a5a2459897157642b55d3772bdc76c19536eeb5478a559475cc169",
+    "server/persistence/teamRepository.js": "ffbd5deee817c5159738be4bc784bfeb3bafe14c87aea8dfcbb01889cd579b8a",
+    "server/realtime/handlers/corruptionHandlers.js": "c4c2f8c481a5a46b10bf66357a9fba93c7f3426b24923fb2b589bbdcc6f31271",
+    "server/realtime/socketHandler.js": "55b393c5ac446222c6e97b7ea59030fab0cb78f2a97051d3c1a30a976745446f"
+  },
+  "feature": {
+    "unlock": {
+      "completedRooms": 48,
+      "orProfessionalCardOwned": true,
+      "retroactive": true
+    },
+    "stations": [
+      {
+        "family": "move",
+        "seat": [
+          7,
+          8
+        ]
+      },
+      {
+        "family": "ability",
+        "seat": [
+          20,
+          8
+        ]
+      },
+      {
+        "family": "type",
+        "seat": [
+          7,
+          13
+        ]
+      },
+      {
+        "family": "combat",
+        "seat": [
+          20,
+          13
+        ]
+      }
+    ],
+    "recipes": {
+      "basic": {
+        "crystal_shard": 40,
+        "clear_crystal": 20,
+        "aurora_prism": 10,
+        "typedPlate": 1
+      },
+      "typeMultiplier": 10,
+      "combatFailureChance": 0.5,
+      "failureConsumes": true,
+      "offenseMultiplier": 1.2,
+      "defenseMultiplier": 0.8
+    },
+    "catalogue": {
+      "total": 836,
+      "moves": 634,
+      "abilities": 148,
+      "types": 18,
+      "combat": 36,
+      "craftMoveExclusions": [
+        "Struggle",
+        "Sketch"
+      ],
+      "abilityPool": "Implemented single-battle transferable abilities sourced from Gen 1–4 species of plaque type, excluding species-bound form effects"
+    },
+    "permanent": true,
+    "maximumCorruptedInParty": 1,
+    "faintedStillCount": true,
+    "unlimitedWithinPcCapacity": true,
+    "slots": [
+      "move",
+      "ability",
+      "type",
+      "combat"
+    ],
+    "replaceConsumesNewAndDestroysOld": true,
+    "corruptedCsUsesOneOfFourMoves": true,
+    "normalLearnabilityUsesSpecies": true,
+    "typeSnapshotPreservedOnEvolution": true,
+    "threeChairCollisionCellsChanged": [
+      [
+        7,
+        8
+      ],
+      [
+        7,
+        13
+      ],
+      [
+        20,
+        13
+      ]
+    ],
+    "artworkUnchanged": true
+  },
+  "schemaChanged": true,
+  "migration": "029_pokemon_corruption.sql",
+  "persistence": {
+    "nullableJson": "pokemons.corruption",
+    "receipts": "corruption_receipts",
+    "ownerRowLock": true,
+    "atomicCostsAndResult": true,
+    "idempotentRequestUuid": true,
+    "staleRevisionGuard": true,
+    "oldSaveCannotEraseNewMutation": true,
+    "unknownPcFieldsPreserved": true,
+    "noManualRealAccountEdits": true
+  },
+  "validation": {
+    "unit": {
+      "passed": 119,
+      "failed": 0,
+      "skipped": 0,
+      "log": "/tmp/riftmon-corruption-unit.log"
+    },
+    "sql": {
+      "passed": 227,
+      "failed": 0,
+      "skipped": 0,
+      "database": "explorakit_test",
+      "log": "/tmp/riftmon-corruption-sql.log"
+    },
+    "browsers": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "buildIndexSha256": "433d52c0b09108d08a8c6a1b02fdd042ed17a61658094b5f7e667b05cbe8c8b6",
+        "views": [
+          {
+            "stage": "station-move",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "station-move",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "station-move",
+            "width": 1365,
+            "height": 900,
+            "mode": "light"
+          },
+          {
+            "stage": "station-move",
+            "width": 1365,
+            "height": 900,
+            "mode": "dark"
+          },
+          {
+            "stage": "station-ability",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "station-ability",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "station-type",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "station-type",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "station-combat",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "station-combat",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "synthesis-failed",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "module-pocket",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "module-pocket",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "module-pocket",
+            "width": 1365,
+            "height": 900,
+            "mode": "light"
+          },
+          {
+            "stage": "module-pocket",
+            "width": 1365,
+            "height": 900,
+            "mode": "dark"
+          },
+          {
+            "stage": "install-cs",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "install-cs",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "install-cs",
+            "width": 1365,
+            "height": 900,
+            "mode": "light"
+          },
+          {
+            "stage": "install-cs",
+            "width": 1365,
+            "height": 900,
+            "mode": "dark"
+          },
+          {
+            "stage": "corrupted-sheet",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "corrupted-sheet",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "corrupted-sheet",
+            "width": 1365,
+            "height": 900,
+            "mode": "light"
+          },
+          {
+            "stage": "corrupted-sheet",
+            "width": 1365,
+            "height": 900,
+            "mode": "dark"
+          },
+          {
+            "stage": "four-modules",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "four-modules",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "four-modules",
+            "width": 1365,
+            "height": 900,
+            "mode": "light"
+          },
+          {
+            "stage": "four-modules",
+            "width": 1365,
+            "height": 900,
+            "mode": "dark"
+          },
+          {
+            "stage": "corrupted-party",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "corrupted-party",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "corrupted-battle",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "corrupted-battle",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "corrupted-battle",
+            "width": 1365,
+            "height": 900,
+            "mode": "light"
+          },
+          {
+            "stage": "corrupted-battle",
+            "width": 1365,
+            "height": 900,
+            "mode": "dark"
+          },
+          {
+            "stage": "corrupted-pc",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "corrupted-pc",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "corrupted-pc",
+            "width": 1365,
+            "height": 900,
+            "mode": "light"
+          },
+          {
+            "stage": "corrupted-pc",
+            "width": 1365,
+            "height": 900,
+            "mode": "dark"
+          },
+          {
+            "stage": "locked-station",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "locked-station",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          }
+        ],
+        "errors": [],
+        "personalGate": true,
+        "lockedMessageRendered": true,
+        "resultToBag": true,
+        "fourRealChairEntries": true,
+        "typedRecipes": true,
+        "mobileTouchDrag": true,
+        "pointerDrag": true,
+        "combatFailureConsumes": true,
+        "bagFourFamilies": true,
+        "fourModuleSlots": true,
+        "csDescriptions": true,
+        "csReplacementSameSlot": true,
+        "partyLimit": true,
+        "pcLimit": true,
+        "storedMutation": true,
+        "pcSwap": true,
+        "realBattlePurple": true,
+        "reconnect": true
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "buildIndexSha256": "433d52c0b09108d08a8c6a1b02fdd042ed17a61658094b5f7e667b05cbe8c8b6",
+        "views": [
+          {
+            "stage": "station-move",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "station-move",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "station-move",
+            "width": 1365,
+            "height": 900,
+            "mode": "light"
+          },
+          {
+            "stage": "station-move",
+            "width": 1365,
+            "height": 900,
+            "mode": "dark"
+          },
+          {
+            "stage": "station-ability",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "station-ability",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "station-type",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "station-type",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "station-combat",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "station-combat",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "synthesis-failed",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "module-pocket",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "module-pocket",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "module-pocket",
+            "width": 1365,
+            "height": 900,
+            "mode": "light"
+          },
+          {
+            "stage": "module-pocket",
+            "width": 1365,
+            "height": 900,
+            "mode": "dark"
+          },
+          {
+            "stage": "install-cs",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "install-cs",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "install-cs",
+            "width": 1365,
+            "height": 900,
+            "mode": "light"
+          },
+          {
+            "stage": "install-cs",
+            "width": 1365,
+            "height": 900,
+            "mode": "dark"
+          },
+          {
+            "stage": "corrupted-sheet",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "corrupted-sheet",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "corrupted-sheet",
+            "width": 1365,
+            "height": 900,
+            "mode": "light"
+          },
+          {
+            "stage": "corrupted-sheet",
+            "width": 1365,
+            "height": 900,
+            "mode": "dark"
+          },
+          {
+            "stage": "four-modules",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "four-modules",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "four-modules",
+            "width": 1365,
+            "height": 900,
+            "mode": "light"
+          },
+          {
+            "stage": "four-modules",
+            "width": 1365,
+            "height": 900,
+            "mode": "dark"
+          },
+          {
+            "stage": "corrupted-party",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "corrupted-party",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "corrupted-battle",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "corrupted-battle",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "corrupted-battle",
+            "width": 1365,
+            "height": 900,
+            "mode": "light"
+          },
+          {
+            "stage": "corrupted-battle",
+            "width": 1365,
+            "height": 900,
+            "mode": "dark"
+          },
+          {
+            "stage": "corrupted-pc",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "corrupted-pc",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "corrupted-pc",
+            "width": 1365,
+            "height": 900,
+            "mode": "light"
+          },
+          {
+            "stage": "corrupted-pc",
+            "width": 1365,
+            "height": 900,
+            "mode": "dark"
+          },
+          {
+            "stage": "locked-station",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "locked-station",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          }
+        ],
+        "errors": [],
+        "personalGate": true,
+        "lockedMessageRendered": true,
+        "resultToBag": true,
+        "fourRealChairEntries": true,
+        "typedRecipes": true,
+        "mobileTouchDrag": false,
+        "pointerDrag": true,
+        "combatFailureConsumes": true,
+        "bagFourFamilies": true,
+        "fourModuleSlots": true,
+        "csDescriptions": true,
+        "csReplacementSameSlot": true,
+        "partyLimit": true,
+        "pcLimit": true,
+        "storedMutation": true,
+        "pcSwap": true,
+        "realBattlePurple": true,
+        "reconnect": true
+      }
+    },
+    "browserViews": 78,
+    "lint": "pass",
+    "build": "pass",
+    "syntaxFiles": 25,
+    "movesAudit": {
+      "moves": 636,
+      "executionFailures": 0,
+      "aiFailures": 0,
+      "unknownEffects": 0,
+      "partialMoves": 0
+    },
+    "physicalDevices": false,
+    "fullProjectSuite": false,
+    "testAccountsDeleted": true,
+    "productionSchemaVerified": true,
+    "publicBundlesVerified": 22
+  },
+  "commands": [
+    "node --test tests/corruption.test.js tests/professor-lab-collisions.test.js tests/pokemon-storage.test.js tests/pokemon-names.test.js tests/machines.test.js tests/all-machines.test.js tests/evolution.test.js tests/held-item-transfer.test.js tests/human-trainer-ai.test.js tests/human-trainer-known-abilities.test.js tests/human-trainer-model.test.js",
+    "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file=.env --test --test-concurrency=1 tests/corruption-mysql.test.js tests/battle-runtime-integration.test.js tests/pokemon-names-mysql.test.js tests/pokemon-storage-items-mysql.test.js tests/friend-trade-mysql.test.js tests/machines-mysql.test.js tests/dark-continent-mysql.test.js tests/super-tournament-mysql.test.js",
+    "npm --prefix vue-explorakit run lint",
+    "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-corruption-dist",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=chromium RELEASE_DIST_DIR=/tmp/riftmon-corruption-dist node --env-file=.env scripts/validateCorruptionBrowser.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=webkit RELEASE_DIST_DIR=/tmp/riftmon-corruption-dist node --env-file=.env scripts/validateCorruptionBrowser.js",
+    "npm run audit:moves",
+    "npm run generate:corruption",
+    "node --env-file=.env scripts/applyMigrations.js --only=029_pokemon_corruption.sql",
+    "node --env-file=.env scripts/verifyMigration.js"
+  ],
+  "operationalNotes": [
+    "Old backend full-team writers must not be redeployed after corruption data is created without a preservation strategy.",
+    "No polling, new raster assets or changes to existing map art.",
+    "Raw author folder darkcontinen/ remains intact and ignored."
+  ],
+  "deployment": {
+    "publishedAt": "2026-11-02T09:09:48.246Z",
+    "restartedAt": "2026-11-02T09:09:46.459Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-corruption-2026-11-02T09-09-44-420Z",
+    "sourceBaseline": "3faf8680e06c0dfee8650db95c539ac74cad3cbc",
+    "sourceHashes": {
+      "data/maps/professor_lab.json": "f7b5918d2f141526ddc69c31ac2c34ffc8ddf041efc36e83dcfed861e933df98",
+      "database/schema.sql": "4914a205a038da6c8a9249db15f403c6e4659e3aaef90292809f3934ce635f0d",
+      "server/game/battle/battleEngine.js": "7e6ce4e39989ac9960554d93ed547f8855463d86581ba5687f221eb23357becf",
+      "server/game/battle/humanTrainerAI.js": "1bf31dcffb8ad24416b0883ad654301e6040eae1a629830941316470302f760a",
+      "server/game/items/abilityCapsule.js": "d9eb9a6743a04613fc0d34b5efb9332941ea80b72621d15631283f20b1059208",
+      "server/game/items/machines.js": "86ad1c20b7c64a930197e6c2ad4f5fdeabd393820c2afc5ad8c92042577968a5",
+      "server/game/models/Pokemon.js": "8bfc1a500c0fd3f908d116d7851f7dc6ccbc36ed5048df6ea78cc9e394284e2c",
+      "server/game/models/moveLearning.js": "667735214b1b8bcbc3053b040af0a040e7eade7bee3ab9b21109acd2566515c4",
+      "server/game/social/tradeRules.js": "8f54b0366ce4436e3dba775461c9c41e91004e7bf5c8d4852d1d433d23a4bc97",
+      "server/game/storage/pokemonStorage.js": "befe92eea0b92df5da38d5ada798c8c2835d91a1fc5999e54bf0441323d9bac2",
+      "server/game/world/pokemonComputer.js": "dd155b42691c33d9fda57e3de0b83a73fec97f81d046e36563c9e72a64012021",
+      "server/persistence/itemRepository.js": "e8b5c2ea98a5a2459897157642b55d3772bdc76c19536eeb5478a559475cc169",
+      "server/persistence/teamRepository.js": "ffbd5deee817c5159738be4bc784bfeb3bafe14c87aea8dfcbb01889cd579b8a",
+      "server/realtime/socketHandler.js": "55b393c5ac446222c6e97b7ea59030fab0cb78f2a97051d3c1a30a976745446f",
+      "data/game/corruption_labels.fr.json": "19974c2107c531e9635cf8268ae14df6e16a15413b8185b411020aac908bb507",
+      "database/migrations/029_pokemon_corruption.sql": "b6aa59ff92beb22c9102b1bf17d4cb46ffbb54fae42ed4a19890570e2d5d2ded",
+      "server/game/corruption/modules.js": "ecb22ac34b5f23f21331ba17dbf3c710282cf02dee8fb691f9ab67d16de68ddc",
+      "server/game/corruption/pokemon.js": "627dc11a6639d21ec1ab0b739d9e2e24168206b9d8bee051cdf288fbe3170862",
+      "server/game/corruption/workstations.js": "e29ac0cee8dc7efc288fae12de71fe552a0fcf292ae62f522d370538dbecf21b",
+      "server/persistence/corruptionRepository.js": "58b5690d48703cc88521fae0129dd4ade39c07d7c07b23efcc0e815ee6237cb2",
+      "server/realtime/handlers/corruptionHandlers.js": "c4c2f8c481a5a46b10bf66357a9fba93c7f3426b24923fb2b589bbdcc6f31271"
+    },
+    "clientCommit": "8c7da2cfa4c2e4f755d4d425d8b9ccd2261d20da",
+    "clientBuild": "fa2a69b801929792",
+    "beforePid": "3705427",
+    "afterPid": "3713605",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "schemaChanged": true,
+    "migrationApplied": "029_pokemon_corruption.sql",
+    "activeClubDuelsBefore": 0,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 1,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": [
+      "js/234.02b18f2e.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.ae44b00a.js",
+      "js/account.161ce126.js",
+      "js/app.f0f525ba.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.2fd32f7c.js",
+      "js/drift.5b8720d7.js",
+      "js/game.f57ee566.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.4fff4c7e.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.b544546e.css",
+      "css/test-view.7568246d.css"
+    ],
+    "publishedAtParis": "2026-11-02 10:09:48 Europe/Paris"
+  }
+}

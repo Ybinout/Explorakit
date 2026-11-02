@@ -1,7 +1,7 @@
 const {getSpeciesAbilitySlots}=require('../abilities/abilityDex');
 
 function alternatives(pokemon){
-    if(!pokemon || pokemon.isEgg)return [];
+    if(!pokemon || pokemon.isEgg || pokemon.corruption?.modules?.ability)return [];
     const names=[...new Set(getSpeciesAbilitySlots(pokemon.data?.id).filter(slot=>!slot.special).map(slot=>slot.name))];
     const current=names.find(name=>name.toLowerCase()===String(pokemon.passiveAbility||'').trim().toLowerCase());
     return current?names.filter(name=>name!==current):[];

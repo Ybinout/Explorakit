@@ -280,6 +280,7 @@
             if (Object.hasOwn(this, '__passiveAbilityBeforeBattle')) this.__passiveAbilityBeforeBattle = evolvedAbility;
             this.passiveAbility = evolvedAbility;
             this.recalculateStats(true);
+            require('../corruption/pokemon').applyTraits(this);
             require('./moveLearning').queueLevelMoves(this, this.level, true);
         }
     }
