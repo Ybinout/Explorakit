@@ -27,7 +27,7 @@ test('PC drag: full boxes and full parties can exchange; the last able companion
 });
 test('PC drag: stale source/destination, replay, foreign UUIDs and invalid coordinates are rejected without mutation',()=>{
  const a=mon(7),b=mon(4),c=mon(1),party=[a,b],entries=[{box:0,slot:0,pokemon:c}],before=JSON.stringify({party,entries});
- for(const payload of [move(b,team(0),box(0,5)),move(c,box(0,0),team(1)),move(mon(25),box(0,0),team(1),b),move(c,box(-1,0),team(1),b),move(c,box(0,0),box(0,30)),move(c,box(0,0),box(8,0)),move(c,box(0,0),{kind:'team',index:1.5})])assert.throws(()=>storage.planAction(party,entries,payload));
+ for(const payload of [move(b,team(0),box(0,5)),move(c,box(0,0),team(1)),move(mon(25),box(0,0),team(1),b),move(c,box(-1,0),team(1),b),move(c,box(0,0),box(0,30)),move(c,box(0,0),box(20,0)),move(c,box(0,0),{kind:'team',index:1.5})])assert.throws(()=>storage.planAction(party,entries,payload));
  assert.equal(JSON.stringify({party,entries}),before);
  const payload=move(c,box(0,0),box(1,29)),r=storage.planAction(party,entries,payload);assert.throws(()=>storage.planAction(r.team,r.entries,payload),/changé/);
 });

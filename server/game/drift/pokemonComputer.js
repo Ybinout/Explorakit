@@ -7,9 +7,23 @@ function requireAccess(p) {
     if (p.run.phase !== 'exploration') economy.fail('Le PC est accessible pendant l’exploration uniquement.');
     try { requireComputer(p); } catch(e) { economy.fail(e.message); }
 }
-function open(p) { requireAccess(p); return storage.view(p.equipe.pokemons,p.storage || [],true); }
+function open(p) { requireAccess(p); return storage.view(p.equipe.pokemons,p.storage || [],true,p.storageBoxNames); }
 function mutate(p, payload) {
     requireAccess(p);
+    if(payload?.action==='renameBox'){
+        let name;
+        try{name=storage.renamedBox(p.storageBoxNames,payload);}catch(e){economy.fail(e.message);}
+        p.storageBoxNames={...p.storageBoxNames,[payload.box]:name};
+        return {success:true,state:open(p)};
+    }
+    if(payload?.action==='renamePokemon'){
+        const pokemon=p.equipe.pokemons.find(poke=>poke.uuid===payload.pokemonUuid) || p.storage?.find(e=>e.pokemon.uuid===payload.pokemonUuid)?.pokemon;
+        let name;
+        try{name=require('../models/ownedNames').renamedPokemon(pokemon,payload);}catch(e){economy.fail(e.message);}
+        pokemon.name=name;
+        p.ready=false;report.syncTeam(p);
+        return {success:true,state:open(p),equipe:p.equipe};
+    }
     if(payload?.action==='takeItem'){
         let selected;
         try{selected=storage.heldItemToTake(p.equipe.pokemons,p.storage || [],payload);}catch(e){economy.fail(e.message);}

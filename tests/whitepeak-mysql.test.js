@@ -38,7 +38,7 @@ test('SQL roulette limits and wallet write failures never produce an unpaid bet'
  }finally{db.getConnection=getConnection;if(round)await db.execute('DELETE FROM whitepeak_roulette_rounds WHERE id=?',[round.id]);await f.cleanup();}});
 
 test('SQL a full PC and a last able party wager are refused before any debit',{skip:!enabled},async()=>{const f=await fixture();try{
- const template=factory.create(25,10,true),records=[];for(let i=1;i<240;i++){template.uuid=randomUUID();records.push([template.uuid,f.ids[0],Math.floor(i/30),i%30,pc.encodePokemon(template)]);}
+ const template=factory.create(25,10,true),records=[];for(let i=1;i<require('../server/game/storage/pokemonStorage').CAPACITY;i++){template.uuid=randomUUID();records.push([template.uuid,f.ids[0],Math.floor(i/30),i%30,pc.encodePokemon(template)]);}
  await db.query('INSERT INTO pokemon_storage(uuid,user_id,box_index,slot_index,pokemon_data) VALUES ?',[records]);await assert.rejects(()=>repo.inspectDuel(f.ids,f.uuids,f.config),/PC est plein/);assert.deepEqual(await f.money(),[50000,50000]);
  await db.execute('DELETE FROM pokemon_storage WHERE user_id=? AND uuid<>?',[f.ids[0],f.stakes[0].uuid]);const team=await teams.loadEquipe(f.ids[0]);team.pokemons[1].currentHp=0;await teams.editEquipe(f.ids[0],team);await assert.rejects(()=>repo.inspectDuel(f.ids,[team.pokemons[0].uuid,f.uuids[1]],f.config),/autre Pokémon apte/);assert.deepEqual(await f.money(),[50000,50000]);
  }finally{await f.cleanup();}});

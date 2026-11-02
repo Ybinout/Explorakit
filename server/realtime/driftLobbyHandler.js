@@ -207,6 +207,13 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
             p.ready=false;require('../game/drift/runReport').syncTeam(p);
             return {success:true,equipe:p.equipe};
         });
+        gameCommand('drift:renamePokemon',(p,data)=>{
+            economy.requireMutable(p);
+            const pokemon=p.equipe.pokemons.find(poke=>poke.uuid===data?.pokemonUuid);
+            const name=require('../game/models/ownedNames').renamedPokemon(pokemon,data);
+            pokemon.name=name;p.ready=false;require('../game/drift/runReport').syncTeam(p);
+            return {success:true,equipe:p.equipe};
+        });
         gameCommand('drift:roundReady', p => runtime.ready(p));
         gameCommand('colosseum:reward', (p, data) => require('../game/drift/colosseum').chooseReward(p, data));
         gameCommand('drift:exit', p => { runtime.abandon(p); store.leave(user); }, false);

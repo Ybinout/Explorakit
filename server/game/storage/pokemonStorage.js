@@ -1,7 +1,7 @@
 const itemNames = new Map(require('../../../data/game/items.json').items.map(i=>[i.key,i.name]));
 const {getMoveDefinition,getMaxMovePp}=require('../battle/battleResources');
 const {gender:pokemonGender}=require('../items/stoneEvolution');
-const BOX_COUNT = 8;
+const BOX_COUNT = 20;
 const BOX_SIZE = 30;
 const CAPACITY = BOX_COUNT * BOX_SIZE;
 function assertBox(box) {
@@ -89,8 +89,16 @@ function planAction(team, entries, payload = {}) {
     if (teamChanged && (!nextTeam.length || !nextTeam.some(isAble))) throw Error('Garde au moins un Pokémon apte au combat dans ton équipe.');
     return {team:nextTeam, entries:nextEntries, released};
 }
+function boxNames(custom = []) {
+    return Array.from({length:BOX_COUNT}, (_,box)=>custom[box] || `Boîte ${box+1}`);
+}
+function renamedBox(custom, payload) {
+    assertBox(payload?.box);
+    if(payload.expectedName !== boxNames(custom)[payload.box]) throw Error('Le nom de cette boîte a changé. Rouvre le PC pour réessayer.');
+    return require('../models/ownedNames').normalizeName(payload.name);
+}
 function pokemonView(p) {
-    return { uuid:p.uuid, pokemonId:p.data.id, gender:pokemonGender(p), name:p.truename || p.name, nickname:p.name, level:p.level,
+    return { uuid:p.uuid, pokemonId:p.data.id, gender:pokemonGender(p), name:p.name || p.truename, speciesName:p.truename || p.name, nickname:p.name, level:p.level,
         nature:p.nature, experience:p.experience, experienceRate:p.experienceRate,
         stats:Object.fromEntries(['attack','defense','specialAttack','specialDefense','speed'].map(key=>[key,p[key]])),
         movePp:(p.movePp || []).slice(0,4),
@@ -98,8 +106,8 @@ function pokemonView(p) {
         types:p.data.type, currentHp:p.currentHp, maxHp:p.maxHp, status:p.status, potential:p.k,
         heldItem:p.heldItem || null, heldItemName:itemNames.get(p.heldItem) || p.heldItem || null, passiveAbility:p.passiveAbility, iv:p.iv, ev:p.ev, moves:(p.abilities || []).slice(0,4) };
 }
-function view(team, entries, expedition = false) {
-    return {boxCount:BOX_COUNT, boxSize:BOX_SIZE, capacity:CAPACITY, count:entries.length, expedition,
+function view(team, entries, expedition = false, customNames = []) {
+    return {boxCount:BOX_COUNT, boxNames:boxNames(customNames), boxSize:BOX_SIZE, capacity:CAPACITY, count:entries.length, expedition,
         team:team.map(pokemonView), entries:entries.map(e => ({box:e.box, slot:e.slot, pokemon:pokemonView(e.pokemon)}))};
 }
-module.exports = {BOX_COUNT, BOX_SIZE, CAPACITY, assertBox, freeSlot, isAble, heldItemToTake, planAction, view};
+module.exports = {BOX_COUNT, BOX_SIZE, CAPACITY, assertBox, freeSlot, isAble, heldItemToTake, planAction, view, boxNames, renamedBox};

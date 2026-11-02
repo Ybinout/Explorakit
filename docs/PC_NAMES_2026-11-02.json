@@ -1,0 +1,294 @@
+{
+  "date": "2026-11-02",
+  "scope": "PC: 20 boxes and owner nicknames in shared Pokemon sheets",
+  "baseline": "8addf468a1e6135f8b8316565ba09fdf17fb7892",
+  "clientCommit": "99a0d63380269bf446f29a0907800d69b77b737a",
+  "clientBuild": "5a80f8a97b4de8b2",
+  "boxCount": 20,
+  "boxSize": 30,
+  "capacity": 600,
+  "nameMaxLength": 24,
+  "migration": "028_pokemon_box_names.sql",
+  "existingPokemonMovedOrRewritten": false,
+  "runtimeSourceSha256": {
+    "database/migrations/028_pokemon_box_names.sql": "e0239d0dc2f7336f60d1a8efc78cacb0e9d8e15762ac32a525dcb397de17f0a4",
+    "database/schema.sql": "ecc9213da97c9461c29c9aca7b422241413c0cb9ad2c835d370d208f8c5e8985",
+    "server/game/drift/pokemonComputer.js": "cd45dbf3b71c4fcd5245b972d4467fc56bef749ecc61eb32b562498fd13161f2",
+    "server/game/models/ownedNames.js": "bcb8435cb52b1e42b097d28c78b276641e774401a09fcc989f3c3285526e9f70",
+    "server/game/storage/pokemonStorage.js": "e6ff759ba5f1935fc0fde949238f014babc06b45a7dc53fd2ae9c0f4a4f287d3",
+    "server/persistence/pokemonNameRepository.js": "0288b7ef3b489f890f8bd9e4f6564ccb6b21ccc9abed113bd9bb43988d9ced2a",
+    "server/persistence/pokemonStorageRepository.js": "85f8e6bb75781ba25f3c6e388b2bdf36a5afe27222500df8c759609d0d5578eb",
+    "server/realtime/driftLobbyHandler.js": "5f58b486430d82be41ed993ddb8f8e53320a1f15eea9289311cf574e96f4c425",
+    "server/realtime/handlers/pokemonNameHandlers.js": "b8f35b4fb0eefa42ea7c6bd0364b1a41d63f60ac1b8e47129115e2022f693afe",
+    "server/realtime/handlers/superTournamentHandlers.js": "e98ba0e1c0841245df254c7dff0056c3627e17981af719e3562f724a7a3a756a",
+    "server/realtime/socketHandler.js": "8c3a15b7c3512f31f45dddfae47f80ad7de82a424b350ebbf6b4b9a82f5cfcf6"
+  },
+  "validation": {
+    "unit": 30,
+    "sql": 26,
+    "sqlTestDatabase": "explorakit_test",
+    "lint": "passed",
+    "build": "isolated /tmp/riftmon-pc-names-dist",
+    "schema": "verifyMigration passed in test DB",
+    "browsers": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "buildIndexSha256": "707209859291a3f535caea92067cab7bf023199f542e4e8123854c72b90442be",
+        "views": [
+          {
+            "label": "box-editor",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "label": "box-editor",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "label": "box-editor",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "label": "box-editor",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "label": "stored-editor",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "label": "stored-editor",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "label": "stored-editor",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "label": "stored-editor",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "label": "party-renamed",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "label": "party-renamed",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "label": "party-renamed",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "label": "party-renamed",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          }
+        ],
+        "twentyBoxes": true,
+        "capacity": 600,
+        "boxRename": true,
+        "partySheetRename": true,
+        "pcSheetRename": true,
+        "pcStoredNicknameDisplayed": true,
+        "withdrawKeepsNickname": true,
+        "reconnect": true,
+        "invalidNameStaysEditable": true,
+        "resetDefaults": true,
+        "escapeCancelsOnlyEditor": true,
+        "resourcesPreserved": true,
+        "remoteAccessDenied": true,
+        "errors": []
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "buildIndexSha256": "707209859291a3f535caea92067cab7bf023199f542e4e8123854c72b90442be",
+        "views": [
+          {
+            "label": "box-editor",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "label": "box-editor",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "label": "box-editor",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "label": "box-editor",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "label": "stored-editor",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "label": "stored-editor",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "label": "stored-editor",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "label": "stored-editor",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "label": "party-renamed",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "label": "party-renamed",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "label": "party-renamed",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "label": "party-renamed",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          }
+        ],
+        "twentyBoxes": true,
+        "capacity": 600,
+        "boxRename": true,
+        "partySheetRename": true,
+        "pcSheetRename": true,
+        "pcStoredNicknameDisplayed": true,
+        "withdrawKeepsNickname": true,
+        "reconnect": true,
+        "invalidNameStaysEditable": true,
+        "resetDefaults": true,
+        "escapeCancelsOnlyEditor": true,
+        "resourcesPreserved": true,
+        "remoteAccessDenied": true,
+        "errors": []
+      }
+    },
+    "limitations": [
+      "No physical mobile device or full-project suite claimed."
+    ],
+    "commands": [
+      "node --test tests/pokemon-names.test.js tests/pokemon-storage.test.js tests/pokemon-storage-drag.test.js tests/move-order.test.js",
+      "RUN_MYSQL_TESTS=1 DB_TEST_NAME=explorakit_test DB_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file=.env --test --test-concurrency=1 tests/pokemon-names-mysql.test.js tests/pokemon-storage-items-mysql.test.js tests/whitepeak-mysql.test.js tests/friend-trade-mysql.test.js",
+      "DB_NAME=explorakit_test node --env-file=.env scripts/applyMigrations.js --only=028_pokemon_box_names.sql",
+      "DB_NAME=explorakit_test node --env-file=.env scripts/verifyMigration.js",
+      "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=chromium node --env-file=.env scripts/validatePokemonNamesBrowser.js",
+      "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=webkit node --env-file=.env scripts/validatePokemonNamesBrowser.js"
+    ]
+  },
+  "deployment": {
+    "publishedAt": "2026-11-02T05:06:03.689Z",
+    "restartedAt": "2026-11-02T05:06:02.191Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-pc-names-2026-11-02T05-06-00-106Z",
+    "sourceBaseline": "8addf468a1e6135f8b8316565ba09fdf17fb7892",
+    "sourceHashes": {
+      "database/schema.sql": "ecc9213da97c9461c29c9aca7b422241413c0cb9ad2c835d370d208f8c5e8985",
+      "server/game/drift/pokemonComputer.js": "cd45dbf3b71c4fcd5245b972d4467fc56bef749ecc61eb32b562498fd13161f2",
+      "server/game/storage/pokemonStorage.js": "e6ff759ba5f1935fc0fde949238f014babc06b45a7dc53fd2ae9c0f4a4f287d3",
+      "server/persistence/pokemonStorageRepository.js": "85f8e6bb75781ba25f3c6e388b2bdf36a5afe27222500df8c759609d0d5578eb",
+      "server/realtime/driftLobbyHandler.js": "5f58b486430d82be41ed993ddb8f8e53320a1f15eea9289311cf574e96f4c425",
+      "server/realtime/handlers/superTournamentHandlers.js": "e98ba0e1c0841245df254c7dff0056c3627e17981af719e3562f724a7a3a756a",
+      "server/realtime/socketHandler.js": "8c3a15b7c3512f31f45dddfae47f80ad7de82a424b350ebbf6b4b9a82f5cfcf6",
+      "database/migrations/028_pokemon_box_names.sql": "e0239d0dc2f7336f60d1a8efc78cacb0e9d8e15762ac32a525dcb397de17f0a4",
+      "server/game/models/ownedNames.js": "bcb8435cb52b1e42b097d28c78b276641e774401a09fcc989f3c3285526e9f70",
+      "server/persistence/pokemonNameRepository.js": "0288b7ef3b489f890f8bd9e4f6564ccb6b21ccc9abed113bd9bb43988d9ced2a",
+      "server/realtime/handlers/pokemonNameHandlers.js": "b8f35b4fb0eefa42ea7c6bd0364b1a41d63f60ac1b8e47129115e2022f693afe"
+    },
+    "clientCommit": "99a0d63380269bf446f29a0907800d69b77b737a",
+    "clientBuild": "5a80f8a97b4de8b2",
+    "beforePid": "3681607",
+    "afterPid": "3696569",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "schemaChanged": true,
+    "migrationApplied": "028_pokemon_box_names.sql",
+    "activeClubDuelsBefore": 0,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 0,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": [
+      "js/234.7f08b866.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.ae44b00a.js",
+      "js/account.161ce126.js",
+      "js/app.266e70d2.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.2fd32f7c.js",
+      "js/drift.5b8720d7.js",
+      "js/game.78d4ab64.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.4fff4c7e.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.a1f8fc27.css",
+      "css/test-view.7568246d.css"
+    ]
+  }
+}

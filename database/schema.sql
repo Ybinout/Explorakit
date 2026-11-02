@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS trainer_trade_receipts;
 DROP TABLE IF EXISTS trainer_message_reads;
 DROP TABLE IF EXISTS trainer_messages;
+DROP TABLE IF EXISTS pokemon_storage_boxes;
 DROP TABLE IF EXISTS pokemon_storage;
 DROP TABLE IF EXISTS trainer_friendships;
 DROP TABLE IF EXISTS rift_rating_results;
@@ -418,3 +419,12 @@ CREATE TABLE IF NOT EXISTS super_tournament_profiles (
  CONSTRAINT fk_super_tournament_user FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
  INDEX super_tournament_ranking(best_score, best_rooms)
 ) ENGINE=InnoDB;
+
+-- Sparse private labels: adding capacity never moves or rewrites stored Pokémon.
+CREATE TABLE IF NOT EXISTS pokemon_storage_boxes (
+ user_id INT NOT NULL,
+ box_index TINYINT UNSIGNED NOT NULL,
+ name VARCHAR(24) NOT NULL,
+ PRIMARY KEY(user_id,box_index),
+ CONSTRAINT fk_storage_box_user FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

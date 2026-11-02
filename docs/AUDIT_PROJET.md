@@ -1,5 +1,15 @@
 # Audit technique et mémoire de RiftMon
 
+## PC : vingt boîtes privées et noms personnalisables — 2 novembre 2026
+
+Capacité portée de 8 à 20 boîtes de 30 places (600 compagnons par joueur) par la constante commune : aucune redistribution, préallocation ou réécriture des Pokémon existants. Les captures après les 240 anciennes places et le dépôt en boîte 20 utilisent le circuit habituel. Les boîtes se renomment dans le PC ; les Pokémon dans leur fiche commune, depuis l’équipe ou le PC, y compris les Pokémon stockés. L’espèce reste affichée séparément. Champ vide : retour au nom de l’espèce / à « Boîte N ». Noms jusqu’à 24 caractères, accents et ponctuation simple, saisie clavier/tactile et erreurs locales, bouton Enregistrer explicite et annulation par Échap sans fermer le PC. Les fiches de consultation d’autres joueurs ne proposent pas de renommage.
+
+Migration additive `028_pokemon_box_names.sql` : table InnoDB de labels privés uniquement pour les boîtes renommées, clé `(user_id,box_index)`, suppression en cascade. Le surnom réutilise le champ `name` déjà persistant ; UPDATE ciblé dans l’équipe et patch du seul champ JSON dans le PC, conservant les métadonnées inconnues. Verrou utilisateur, propriétaire, ancien nom attendu et verrou d’échange vérifiés avant écriture ; concurrence et rollback sans publication prématurée. Les gardes de combat/proximité/action et des copies scellées du Super Tournoi sont conservées. Charge des labels limitée à l’ouverture/action PC ; aucun polling ni nouvelle image. Rift/Colosseum bénéficient du format 20 boîtes et des noms dans leur checkpoint privé sans ouvrir ces modes.
+
+Validation : 30 tests de logique/régression et 26 SQL réussis sans échec/saut. Noms Unicode/invalides, propriété, verrou d’échange, écritures concurrentes/périmées, rollback injecté après UPDATE, persistance et restitution du nom par défaut, blessures/PP/items/statistiques, JSON inconnu, transfert et capture après 240 places, dernière case 600 et PC complet, échanges et mises de Pokémon vérifiés. Migration et vérification du schéma sur base dédiée. Recette privée authentifiée Chromium/WebKit avec SQL réel : 24 vues mobile/PC, clair/nocturne, boîtes/fiches, dépôt en boîte 20, renommage d’équipe et réserve, retrait sans perte du surnom, rechargement, validation du nom, Échap et refus à distance ; zéro erreur JS, comptes jetables supprimés. Captures inspectées. Lint, build isolé, syntaxe et diff valides ; aucune suite globale ou appareil physique revendiqués. Rapport/commandes : `docs/PC_NAMES_2026-11-02.json`.
+
+Serveur/client publiés le 2 novembre 2026 à 6 h 06 (Europe/Paris), client `99a0d63380269bf446f29a0907800d69b77b737a`, build `5a80f8a97b4de8b2`. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-pc-names-2026-11-02T05-06-00-106Z`. Migration additive 028 vérifiée ; PID 3681607→3696569, service actif sans redémarrage automatique/avertissement. Index et 22 bundles/CSS HTTPS identiques au build, anciens assets conservés ; Knov/api-test, checkpoint et modes fermés inchangés. Aucun duel/tournoi actif au contrôle, aucune modification manuelle de compte réel. Recharger le jeu pour afficher les nouveaux boutons.
+
 ## Tour : rééquilibrage Eau / Électrik — 1er novembre 2026
 
 Neuf remplacements limités au Super Tournoi, en conservant les deux autres Pokémon de chaque trio :
@@ -5838,6 +5848,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 2 novembre 2026 — PC : vingt boîtes de trente places, labels privés et surnoms dans les fiches ; migration additive 028 et données existantes conservées. 30 tests, 26 SQL et 24 vues Chromium/WebKit ; `docs/PC_NAMES_2026-11-02.json`.
 
 - 1er novembre 2026 — Tour : neuf remplacements, réponses Eau/Électrik et profils de stats/talents/objets dédiés, Aventure conservée. 111 tests, 16 SQL et 36 vues Chromium/WebKit ; `docs/TOWER_TYPE_BALANCE_2026-11-01.json`.
 

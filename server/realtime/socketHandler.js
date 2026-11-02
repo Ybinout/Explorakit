@@ -852,6 +852,7 @@ const socketHandler = (io) => {
         socket.emit('fieldEffectState',{repelSteps:remainingRepel(players[socket.id])});
         registerMoveLearningHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!tournament?.controller.active&&!interactionBusy&&!transitionBusy});
         require('./handlers/moveOrderHandlers').registerMoveOrderHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!tournament?.controller.active&&!interactionBusy&&!transitionBusy});
+        require('./handlers/pokemonNameHandlers').registerPokemonNameHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!tournament?.controller.active&&!interactionBusy&&!transitionBusy});
         registerEvolutionHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!tournament?.controller.active&&!interactionBusy&&!transitionBusy});
         require('./handlers/experienceModuleHandlers').registerExperienceModuleHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!tournament?.controller.active&&!interactionBusy&&!transitionBusy});
         const shopHandlers = registerShopHandlers({
