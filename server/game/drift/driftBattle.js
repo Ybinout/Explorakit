@@ -10,7 +10,7 @@ const {preferMoves}=require('../battle/moveSelection');
 const effects = require('./driftEffects');
 const { getUsableMoveIndexes, getItemDefinition, getForcedMove, selectedMoveName, isMoveSelectionValid } = require('../battle/battleResources');
 const { clearBattleTransientState, buildBattleSummary, createBattleSummaryTracker } = require('../battle/battleOutcome');
-const { switchPokemonByIndex, resolveMoveSwitches, autoSwitchPokemon, hasAlivePokemon } = require('../battle/battleTeam');
+const { switchPokemonByIndex, switchToNextAlive, canChooseMoveSwitch, resolveMoveSwitches, autoSwitchPokemon, hasAlivePokemon } = require('../battle/battleTeam');
 const { serializeMoveResult, serializeFieldState, prepareMoveAnimation, afterActionMessages } = require('../battle/battleEvents');
 const { getMoveFlags } = require('../abilities/abilityEngine');
 const { calculateBattleExperience, reduceActiveOverlevelExperience, EXPEDITION_EXPERIENCE_MULTIPLIERS } = require('../models/progression');
@@ -166,7 +166,8 @@ class DriftBattle {
         this.emit(p,'requestAction',{ message:'Choisis le Pokémon à envoyer au combat.', turnId:this.token,
             replacement:true, replacementId:this.token, allowedPokemonIndexes:replacementIndexes(p.equipe) });
     }
-    requestPivot(p, continuation) {
+    requestPivot(p, continuation, result = {}) {
+        this.pivotSwitch = { index:p===this.a?0:1, batonPass:Boolean(result.batonPass) };
         this.turnContinuation = continuation;
         this.replacementPhase = true;
         this.replacementPlayers = new Set([p]);
@@ -225,11 +226,15 @@ class DriftBattle {
     }
     resolveReplacements() {
         this.awaiting = false;
-        const replacements = [...this.replacementPlayers];
+        const replacements = [...this.replacementPlayers], pivot = this.pivotSwitch;
+        delete this.pivotSwitch;
         this.replacementPhase = false;
         for (const p of replacements) {
             const old = p.equipe.pokemons[0], action = this.pending.get(p);
-            if (!switchPokemonByIndex(p.equipe,action?.number)) continue;
+            const switched = pivot?.index === (p===this.a?0:1)
+                ? switchToNextAlive(p.equipe,{index:action?.number,batonPass:pivot.batonPass})
+                : switchPokemonByIndex(p.equipe,action?.number);
+            if (!switched) continue;
             // Permanent death is recorded at K.O.; retain its slot only until a choice is made.
             if (this.rules?.permanentDeaths !== false && effects.isDead(old) && !old.riftFainted) p.equipe.pokemons = p.equipe.pokemons.filter(poke=>poke!==old);
         }
@@ -410,9 +415,9 @@ class DriftBattle {
             this.sync(); // Damage and K.O. belong to the outgoing sprites, before XP or replacement.
             if (result.switchSelf && p.equipe.pokemons.some(candidate => candidate !== pokemon && !effects.isDead(candidate))) this.interceptSwitch(index);
             let attackerIndex;
-            if (result.chooseSwitch && result.switchSelf && !effects.isDead(pokemon)) {
+            if (canChooseMoveSwitch(result,p.equipe,actors[1-index].equipe)) {
                 if (!p.npc) {
-                    this.requestPivot(p, actions.slice(offset+1));
+                    this.requestPivot(p, actions.slice(offset+1), result);
                     return;
                 }
                 attackerIndex = trainerTactics.pivotIndex(p.equipe, {

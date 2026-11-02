@@ -1,0 +1,298 @@
+{
+  "date": "2026-11-02",
+  "feature": "Choix du remplaçant après une capacité de pivot",
+  "sourceBaseline": "524b551df41719c63aa4f49542620f8c3416f280",
+  "clientCommit": "54f60f80dcc346ac008225dc08bff7ca28290f8c",
+  "clientBuild": "c7dca30e81d7608f",
+  "clientChanged": false,
+  "schemaChanged": false,
+  "realAccountsManuallyModified": false,
+  "moves": [
+    "U-turn",
+    "Volt Switch",
+    "Parting Shot",
+    "Baton Pass"
+  ],
+  "teleportSelectionRetained": true,
+  "futureFlipTurnBranchReady": true,
+  "flipTurnAdded": false,
+  "rules": {
+    "chooseAfterSuccessfulPivot": true,
+    "noAutomaticFirstReserveExceptExistingTimeout": true,
+    "noChoiceWithoutReserveOrAfterFinalOpposingKO": true,
+    "opposingActionResumesOnceAfterChoice": true,
+    "noInheritedActionOnEntrant": true,
+    "batonPassStagesAndSubstituteRetained": true,
+    "partyOrderPersisted": true,
+    "forcedSwitchStillForced": true,
+    "pursuitInterceptionRetained": true,
+    "npcTacticalSelectionRetained": true,
+    "checkpointChoiceAndContinuationDurable": true,
+    "modesReopened": false
+  },
+  "validation": {
+    "unit": {
+      "pass": 354,
+      "fail": 0,
+      "skipped": 0
+    },
+    "mysql": {
+      "pass": 232,
+      "fail": 0,
+      "skipped": 0,
+      "database": "explorakit_test"
+    },
+    "browser": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "views": [
+          {
+            "width": 393,
+            "height": 852,
+            "move": "U-turn",
+            "selectedIndex": 2,
+            "outgoingRetained": true,
+            "deadDisabled": true,
+            "opponentWaited": true,
+            "turnResumedOnce": true,
+            "batonStagesTransferred": false
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "move": "Volt Switch",
+            "selectedIndex": 2,
+            "outgoingRetained": true,
+            "deadDisabled": true,
+            "opponentWaited": true,
+            "turnResumedOnce": true,
+            "batonStagesTransferred": false
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "move": "Parting Shot",
+            "selectedIndex": 2,
+            "outgoingRetained": true,
+            "deadDisabled": true,
+            "opponentWaited": true,
+            "turnResumedOnce": true,
+            "batonStagesTransferred": false
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "move": "Baton Pass",
+            "selectedIndex": 2,
+            "outgoingRetained": true,
+            "deadDisabled": true,
+            "opponentWaited": true,
+            "turnResumedOnce": true,
+            "batonStagesTransferred": true
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "move": "U-turn",
+            "selectedIndex": 2,
+            "outgoingRetained": true,
+            "deadDisabled": true,
+            "opponentWaited": true,
+            "turnResumedOnce": true,
+            "batonStagesTransferred": false
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "move": "Volt Switch",
+            "selectedIndex": 2,
+            "outgoingRetained": true,
+            "deadDisabled": true,
+            "opponentWaited": true,
+            "turnResumedOnce": true,
+            "batonStagesTransferred": false
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "move": "Parting Shot",
+            "selectedIndex": 2,
+            "outgoingRetained": true,
+            "deadDisabled": true,
+            "opponentWaited": true,
+            "turnResumedOnce": true,
+            "batonStagesTransferred": false
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "move": "Baton Pass",
+            "selectedIndex": 2,
+            "outgoingRetained": true,
+            "deadDisabled": true,
+            "opponentWaited": true,
+            "turnResumedOnce": true,
+            "batonStagesTransferred": true
+          }
+        ],
+        "errors": [],
+        "physicalHardware": false,
+        "compiledClientChanged": false
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "views": [
+          {
+            "width": 393,
+            "height": 852,
+            "move": "U-turn",
+            "selectedIndex": 2,
+            "outgoingRetained": true,
+            "deadDisabled": true,
+            "opponentWaited": true,
+            "turnResumedOnce": true,
+            "batonStagesTransferred": false
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "move": "Volt Switch",
+            "selectedIndex": 2,
+            "outgoingRetained": true,
+            "deadDisabled": true,
+            "opponentWaited": true,
+            "turnResumedOnce": true,
+            "batonStagesTransferred": false
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "move": "Parting Shot",
+            "selectedIndex": 2,
+            "outgoingRetained": true,
+            "deadDisabled": true,
+            "opponentWaited": true,
+            "turnResumedOnce": true,
+            "batonStagesTransferred": false
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "move": "Baton Pass",
+            "selectedIndex": 2,
+            "outgoingRetained": true,
+            "deadDisabled": true,
+            "opponentWaited": true,
+            "turnResumedOnce": true,
+            "batonStagesTransferred": true
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "move": "U-turn",
+            "selectedIndex": 2,
+            "outgoingRetained": true,
+            "deadDisabled": true,
+            "opponentWaited": true,
+            "turnResumedOnce": true,
+            "batonStagesTransferred": false
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "move": "Volt Switch",
+            "selectedIndex": 2,
+            "outgoingRetained": true,
+            "deadDisabled": true,
+            "opponentWaited": true,
+            "turnResumedOnce": true,
+            "batonStagesTransferred": false
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "move": "Parting Shot",
+            "selectedIndex": 2,
+            "outgoingRetained": true,
+            "deadDisabled": true,
+            "opponentWaited": true,
+            "turnResumedOnce": true,
+            "batonStagesTransferred": false
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "move": "Baton Pass",
+            "selectedIndex": 2,
+            "outgoingRetained": true,
+            "deadDisabled": true,
+            "opponentWaited": true,
+            "turnResumedOnce": true,
+            "batonStagesTransferred": true
+          }
+        ],
+        "errors": [],
+        "physicalHardware": false,
+        "compiledClientChanged": false
+      }
+    },
+    "physicalDevice": false,
+    "syntaxFiles": 16,
+    "fullGlobalSuite": false,
+    "compiledClientRebuilt": false,
+    "screenshotsInspected": [
+      "393-Volt-Switch-choice.png",
+      "1365-Baton-Pass-choice.png"
+    ]
+  },
+  "commands": [
+    "node --test tests/pivot-choice.test.js tests/teleport.test.js tests/replacement-choice.test.js tests/battle-team.test.js tests/battle-engine.test.js tests/end-of-round.test.js tests/move-sequences.test.js tests/battle-order.test.js tests/curse.test.js tests/move-behavior-audit.test.js tests/super-tournament-team-balance.test.js",
+    "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file=.env --test --test-concurrency=1 tests/pivot-choice-mysql.test.js tests/teleport-pivot-mysql.test.js tests/teleport-mysql.test.js tests/move-sequences-mysql.test.js tests/battle-runtime-integration.test.js",
+    "DB_TEST_NAME=explorakit_test BATTLE_DELAY_SCALE=0 PRESENTATION_BROWSER=chromium RELEASE_DIST_DIR=/tmp/riftmon-six-items-dist node --env-file=.env scripts/validatePivotChoiceBrowser.js",
+    "DB_TEST_NAME=explorakit_test BATTLE_DELAY_SCALE=0 PRESENTATION_BROWSER=webkit RELEASE_DIST_DIR=/tmp/riftmon-six-items-dist node --env-file=.env scripts/validatePivotChoiceBrowser.js"
+  ],
+  "runtimeSourceSha256": {
+    "server/game/battle/battleEngine.js": "8c57e8c09b0918727fd67c63fb92888856acfa9d949848e2ae40d0bf0ed02c60",
+    "server/game/battle/battleTeam.js": "56fede5ba7ec942b51da760419459e366993a7aef75e922d193fb8a92d486c5e",
+    "server/game/battle/pvpBattle.js": "1fcfd2d426de5e23b8bb0dfeb790176f518202d08b9e453853e49ef1eb2a6ea6",
+    "server/game/battle/trainerBattle.js": "6a20264edb7dcf99707d303cb61582073fb5c717e16d3bdae12de8b8a793ce84",
+    "server/game/battle/wildBattle.js": "dc6967ec6b5cb0f50746f4bc012e26afdac53881b163dbf85de319d2aa020abd",
+    "server/game/drift/driftBattle.js": "163d3ac89e8ca55fc1fa5f25997035c90d7399e3e32d874d3bba23f312e47a56"
+  },
+  "deployment": {
+    "publishedAt": "2026-11-02T17:40:59.746Z",
+    "restartedAt": "2026-11-02T17:40:58.625Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-pivot-choice-2026-11-02T17-40-58-166Z",
+    "sourceBaseline": "524b551df41719c63aa4f49542620f8c3416f280",
+    "sourceHashes": {
+      "server/game/battle/battleEngine.js": "8c57e8c09b0918727fd67c63fb92888856acfa9d949848e2ae40d0bf0ed02c60",
+      "server/game/battle/battleTeam.js": "56fede5ba7ec942b51da760419459e366993a7aef75e922d193fb8a92d486c5e",
+      "server/game/battle/pvpBattle.js": "1fcfd2d426de5e23b8bb0dfeb790176f518202d08b9e453853e49ef1eb2a6ea6",
+      "server/game/battle/trainerBattle.js": "6a20264edb7dcf99707d303cb61582073fb5c717e16d3bdae12de8b8a793ce84",
+      "server/game/battle/wildBattle.js": "dc6967ec6b5cb0f50746f4bc012e26afdac53881b163dbf85de319d2aa020abd",
+      "server/game/drift/driftBattle.js": "163d3ac89e8ca55fc1fa5f25997035c90d7399e3e32d874d3bba23f312e47a56"
+    },
+    "clientCommit": "54f60f80dcc346ac008225dc08bff7ca28290f8c",
+    "clientBuild": "c7dca30e81d7608f",
+    "beforePid": "3741225",
+    "afterPid": "3743689",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "clientUnchanged": true,
+    "publicClientUnchanged": true,
+    "schemaChanged": false,
+    "activeClubDuelsBefore": 0,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 1,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": []
+  }
+}

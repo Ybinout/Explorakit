@@ -22,6 +22,7 @@ const { emitSoloBattleEnd, createBattleSummaryTracker } = require('./battleOutco
 const { emitFieldState, emitSoloMoveResult, prepareMoveAnimation, afterActionMessages } = require('./battleEvents');
 const {
     hasAlivePokemon,
+    canChooseMoveSwitch,
     resolveMoveSwitches,
     switchPokemonByIndex
 } = require('./battleTeam');
@@ -124,7 +125,7 @@ async function performAttackWithNarration(attacker, defender, moveIndex, player,
             }));
     }
     let attackerIndex;
-    if (result.chooseSwitch && result.switchSelf && attacker.currentHp > 0) {
+    if (canChooseMoveSwitch(result,battleContext.attackerTeam,battleContext.defenderTeam)) {
         if (own) {
             const response = await requestReplacement(io, player);
             if (response.action === 'change') attackerIndex = response.number;

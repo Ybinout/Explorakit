@@ -87,6 +87,14 @@ function switchToNextAlive(teamOrPokemons, options = {}) {
     return { outgoing, incoming, index };
 }
 
+// A voluntary pivot never substitutes an automatic first reserve for a human
+// choice. Skip the prompt if the hit ended the encounter or nobody can enter.
+function canChooseMoveSwitch(result, attackerTeam, defenderTeam) {
+    return Boolean(result?.chooseSwitch && result.switchSelf
+        && Number(getPokemonList(attackerTeam)[0]?.currentHp) > 0
+        && getReplacementIndex(attackerTeam) > 0 && hasAlivePokemon(defenderTeam));
+}
+
 function resolveMoveSwitches(moveResult, attackerTeam, defenderTeam, { attackerIndex } = {}) {
     const resolution = { attacker: null, defender: null };
     if (moveResult?.forceSwitch && Number(getPokemonList(defenderTeam)[0]?.currentHp) > 0) {
@@ -125,6 +133,7 @@ function resolveTeamOutcome(playerTeam, opponentTeam) {
 module.exports = {
     autoSwitchPokemon,
     clearSwitchOutState,
+    canChooseMoveSwitch,
     getFirstAliveIndex,
     getPokemonList,
     getReplacementIndex,

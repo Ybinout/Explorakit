@@ -53,7 +53,7 @@ test('Teleport choice survives checkpoint/reconnect; the slower Trick Room execu
 test('Teleport timeout chooses a reserve; entry hazard KO asks again without replaying the move or losing the outgoing member',()=>{
  const f=pivotFixture(),out=f.a.equipe.pokemons[0];f.battle.action(f.a,{action:'attack',number:0,turnId:f.battle.token});
  f.a.equipe.pokemons[1].currentHp=1;f.battle.sides[0].hazards.stealthRock=true;
- f.advance();assert(f.battle.replacementPhase);assert(f.a.equipe.pokemons.includes(out));
+ f.advance();f.battle.tick();assert(f.battle.replacementPhase);assert(f.a.equipe.pokemons.includes(out));
  const prompt=f.events.filter(e=>e.event==='requestAction'&&e.data.replacement).at(-1).data;
  const idx=prompt.allowedPokemonIndexes.find(i=>f.a.equipe.pokemons[i]!==out);assert(Number.isInteger(idx));
  f.battle.action(f.a,{action:'change',number:idx,turnId:f.battle.token});

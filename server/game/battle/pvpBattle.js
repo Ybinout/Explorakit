@@ -18,6 +18,7 @@ const { emitFieldState, emitPvpMoveResult, prepareMoveAnimation, afterActionMess
 const {
     getFirstAliveIndex,
     hasAlivePokemon,
+    canChooseMoveSwitch,
     resolveMoveSwitches,
     switchPokemonByIndex: swapToIndex
 } = require('./battleTeam');
@@ -328,7 +329,7 @@ async function performAttack(io, attackerPlayer, defenderPlayer, moveIndex, atta
             io,defenderPlayer,attackerPlayer,defenderPokemon.abilities.indexOf('Pursuit'),defenderSide,attackerSide,battleState));
     }
     let attackerIndex;
-    if (attackResult.chooseSwitch && attackResult.switchSelf && attackerPokemon.currentHp > 0) {
+    if (canChooseMoveSwitch(attackResult,attackerPlayer.equipe.pokemons,defenderPlayer.equipe.pokemons)) {
         const response = await requestReplacement(io, attackerPlayer);
         if (response.action === 'change') attackerIndex = response.number;
         else battleState.switchDisconnected = attackerPlayer.id;

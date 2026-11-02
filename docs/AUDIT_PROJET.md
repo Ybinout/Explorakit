@@ -1,3 +1,13 @@
+## Capacités de pivot : choix du remplaçant — 2 novembre 2026
+
+Demi-Tour, Change Éclair, Dernier Mot et Relais demandent désormais au joueur le Pokémon à envoyer après leur résolution réussie, au lieu de sélectionner la première réserve. Interface et protocole existants de Téléport réutilisés dans les combats sauvages, dresseurs/arènes, PvP et moteur des expéditions/Super Tournoi. Pas de choix si aucun remplaçant apte, lanceur K.O. ou dernier adversaire éliminé ; échec, protection et immunité ne provoquent pas un changement. Hurlement et les changements imposés restent imposés ; interception de Poursuite conservée. Le délai de secours existant de 60 secondes sélectionne toujours une réserve si le joueur ne répond pas.
+
+Le tour attend le choix, publie l’entrant et ses effets, puis reprend seulement les actions restantes sans nouveau PP ni tour supplémentaire. Relais transfère ses bonus/clone via la voie commune ; sa sélection et la continuation survivent à la sauvegarde/reconnexion au Super Tournoi. Les décisions de pivot des PNJ utilisent leur sélection tactique existante. Ordre d’équipe persistant conservé ; déconnexion Aventure interrompt sans faire jouer une attaque adverse après le départ.
+
+Validation : **354 tests unitaires/régression et 232 SQL dédiés**, zéro échec/saut. Quatre capacités × quatre orchestrateurs, choix de la seconde réserve, refus des indices actifs/K.O./hors limites et anciens jetons, pivots rapides/lents, deux pivots PvP successifs, pièges d’entrée, Relais, interception Poursuite, résiduels, sauvegarde et reconnexion vérifiés. Fixtures anciennes adaptées au choix désormais requis ; cadence existante du remplacement K.O. après pièges clarifiée sans modification du runtime Téléport. Recette authentifiée Chromium/WebKit avec le client compilé actuel : quatre capacités aux formats 393×852 et 1365×900, 16 sélections réelles, réserves indisponibles désactivées, réponse adverse après le choix, aucun débordement ni erreur JS. Vues mobile/PC inspectées, comptes SQL jetables supprimés. Pas de téléphone physique ni de suite globale revendiqués. Syntaxe de 16 fichiers/diff valides ; aucun changement client, de schéma, de catalogue ou de disponibilité des modes. Rapport et commandes : `docs/PIVOT_CHOICE_2026-11-02.json`.
+
+Publié le 2 novembre 2026 à 18 h 40 (Europe/Paris), serveur seul ; client `54f60f80dcc346ac008225dc08bff7ca28290f8c` et build `c7dca30e81d7608f` conservés. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-pivot-choice-2026-11-02T17-40-58-166Z`. PID 3741225→3743689, service actif sans redémarrage automatique/avertissement. Index public strictement identique, checkpoint et tentative de tournoi conservés, zéro duel de maison actif au contrôle. Aucun changement de schéma/durabilité ni modification manuelle de compte réel ; Knov/api-test et modes fermés inchangés.
+
 ## Six objets tenus supplémentaires — 2 novembre 2026
 
 Ajout au Grand Comptoir, rayon Équipement (troisième étage), après Hoze : **10 000 ₽ chacun**. Les six sont aussi des trouvailles uniques par propriétaire dans le groupe de butin stratégique existant, poids 1 chacun ; seuil de butin/familles/cristaux conservé. Tous les anciens objets et leurs offres sont identiques, vérifié par comparaison des données complètes.
@@ -5987,6 +5997,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **2 novembre 2026 — Pivots :** choix du remplaçant pour Demi-Tour, Change Éclair, Dernier Mot et Relais dans les orchestrateurs communs ; reprise unique du tour, Relais et sélection persistés. 354 tests, 232 SQL, 16 vues Chromium/WebKit ; `docs/PIVOT_CHOICE_2026-11-02.json`.
 
 - **2 novembre 2026 — Objets tenus :** Bracelet Macho, Bandeau Muscle, Lunettes Sages, Loupe, Lentilscope, Orbe Flamme ; effets communs, icônes, Grand Comptoir 10 k et butin unique. 181 tests, 199 SQL, 16 vues Chromium/WebKit ; `docs/HELD_ITEMS_EXPANSION_2026-11-02.json`.
 

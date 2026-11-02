@@ -145,7 +145,7 @@ test('Hurlement, Demi-Tour et Relais déclenchent leurs changements dans une vra
             attackerTeam,
             defenderTeam: [uTurnTarget]
         });
-        const uTurnSwitches = resolveMoveSwitches(uTurnResult, attackerTeam, [uTurnTarget]);
+        const uTurnSwitches = resolveMoveSwitches(uTurnResult, attackerTeam, [uTurnTarget], {attackerIndex:1});
         assert.ok(uTurnResult.damage > 0);
         assert.equal(uTurnResult.switchSelf, true);
         assert.equal(uTurnSwitches.attacker.incoming, uTurnReplacement);
@@ -157,7 +157,7 @@ test('Hurlement, Demi-Tour et Relais déclenchent leurs changements dans une vra
         const batonResult = attack('Baton Pass', batonUser, createPokemon(), createBattleState(), {
             attackerTeam: batonTeam
         });
-        const batonSwitches = resolveMoveSwitches(batonResult, batonTeam, []);
+        const batonSwitches = resolveMoveSwitches(batonResult, batonTeam, [], {attackerIndex:1});
         assert.equal(batonResult.batonPass, true);
         assert.equal(batonSwitches.attacker.incoming, batonReplacement);
         assert.equal(ensureBattleData(batonReplacement).statStages.attack, 2);

@@ -964,7 +964,7 @@ for (const mode of ['wild','trainer']) test(`${mode}: pivot publishes the right 
         first.abilities=['U-turn'];first.movePp=[20];first.currentSpeed=999;first.passiveAbility=null;
         replacement.passiveAbility=null;replacement.maxHp=replacement.currentHp=500;player.equipe.ajouterPokemon(replacement);
         const enemy=createPokemon(19,'Opponent');enemy.passiveAbility=null;enemy.currentSpeed=1;enemy.maxHp=enemy.currentHp=500;
-        const socket=new ScriptedSocket([{action:'attack',number:0},{action:'flee'}]);
+        const socket=new ScriptedSocket([{action:'attack',number:0},{action:'change',number:1},{action:'flee'}]);
         const io=new RecordingIo({[player.id]:socket});io.to=targetId=>({emit:(eventName,payload)=>io.events.push({targetId,eventName,payload:JSON.parse(JSON.stringify(payload))})});
         await withFixedRandom(.5,()=>mode==='wild'?startWildBattle(player,enemy,io,userId):startTrainerBattle(player,createTeam(enemy),io,userId));
         const attack=io.events.findIndex(e=>e.eventName==='battleMoveAnimation'&&e.payload.actor==='opponent');assert(attack>0);

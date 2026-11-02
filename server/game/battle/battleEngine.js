@@ -1827,6 +1827,7 @@ function applyEffect(effect, context, moveResult) {
 
         case 'switch_self':
             moveResult.switchSelf = true;
+            moveResult.chooseSwitch = true;
             messages.push(`${getPokemonDisplayName(context.attacker)} doit etre remplace.`);
             return;
 
@@ -1981,6 +1982,7 @@ function applyEffect(effect, context, moveResult) {
 
         case 'baton_pass':
             moveResult.switchSelf = true;
+            moveResult.chooseSwitch = true;
             moveResult.batonPass = true;
             messages.push(`${getPokemonDisplayName(context.attacker)} transmet ses bonus au prochain Pokemon.`);
             return;
@@ -2881,6 +2883,7 @@ function applyImplicitMoveEffect(move, context, moveResult) {
 
     if (['U-turn', 'Volt Switch', 'Flip Turn'].includes(move.ename) && (moveResult.damage + moveResult.substituteDamage) > 0) {
         moveResult.switchSelf = true;
+        moveResult.chooseSwitch = true;
         moveResult.messages.push(`${getPokemonDisplayName(context.attacker)} revient apres son attaque.`);
     }
 }

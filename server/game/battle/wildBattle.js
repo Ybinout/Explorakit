@@ -22,6 +22,7 @@ const { emitSoloBattleEnd, createBattleSummaryTracker, clearBattleTransientState
 const { emitFieldState, emitSoloMoveResult, prepareMoveAnimation, afterActionMessages } = require('./battleEvents');
 const {
     hasAlivePokemon,
+    canChooseMoveSwitch,
     resolveMoveSwitches,
     switchPokemonByIndex: playerSwitchByIndex
 } = require('./battleTeam');
@@ -142,10 +143,16 @@ async function performAttackWithNarration(attacker, defender, moveIndex, player,
                 attackerTeam:battleContext.defenderTeam,defenderTeam:battleContext.attackerTeam
             }));
     }
+    let attackerIndex;
+    if (own && canChooseMoveSwitch(attackResult,battleContext.attackerTeam,battleContext.defenderTeam)) {
+        const response = await requestReplacement(io, player);
+        if (response.action === 'change') attackerIndex = response.number;
+        else battleContext.battleState.switchDisconnected = response.reason || 'player_disconnected';
+    }
     const switches = resolveMoveSwitches(
         attackResult,
         battleContext?.attackerTeam,
-        battleContext?.defenderTeam
+        battleContext?.defenderTeam, { attackerIndex }
     );
     attackResult.switches = switches;
 
@@ -332,6 +339,7 @@ async function runAttackTurn(player, wildPokemon, response, io, battleState, pla
                 defenderTeam: [wildPokemon]
             }
         );
+        if(battleState.switchDisconnected)return 'disconnected';
         if(battleState.escapeActor)return 'escaped';
         if (wildPokemon.currentHp <= 0 || player.equipe.pokemons[0].currentHp <= 0) {
             return resolveRoundEnd(player, wildPokemon, io, battleState, playerSide, enemySide);
@@ -353,6 +361,7 @@ async function runAttackTurn(player, wildPokemon, response, io, battleState, pla
             }
         );
 
+        if(battleState.switchDisconnected)return 'disconnected';
         if(battleState.escapeActor)return 'escaped';
         return resolveRoundEnd(player, wildPokemon, io, battleState, playerSide, enemySide);
     }
@@ -372,6 +381,7 @@ async function runAttackTurn(player, wildPokemon, response, io, battleState, pla
             defenderTeam: player.equipe.pokemons
         }
     );
+    if(battleState.switchDisconnected)return 'disconnected';
     if(battleState.escapeActor)return 'escaped';
     if (wildPokemon.currentHp <= 0 || player.equipe.pokemons[0].currentHp <= 0) {
         return resolveRoundEnd(player, wildPokemon, io, battleState, playerSide, enemySide);
@@ -396,6 +406,7 @@ async function runAttackTurn(player, wildPokemon, response, io, battleState, pla
         }
     );
 
+    if(battleState.switchDisconnected)return 'disconnected';
     if(battleState.escapeActor)return 'escaped';
     return resolveRoundEnd(player, wildPokemon, io, battleState, playerSide, enemySide);
 }
@@ -747,6 +758,10 @@ async function startBattle(player, wildPokemon, io, userId) {
             if (actionPlayer === 'attack') {
                 const attackResult = await runAttackTurn(player, wildPokemon, response, io, battleState, playerSide, enemySide);
 
+                if(attackResult==='disconnected') {
+                    await endBattle(false,{interrupted:true,reason:battleState.switchDisconnected});
+                    await editEquipe(userId,player.equipe);return false;
+                }
                 if(attackResult==='escaped')return finishTeleport();
 
                 if (attackResult === 'wild_ko') {

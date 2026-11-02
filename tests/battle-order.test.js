@@ -5,13 +5,13 @@ const factory=require('../server/game/drift/pokemonFactory');
 function mon(id){const p=factory.create(id,20,true);p.passiveAbility=null;p.abilities=['Tackle'];p.movePp=[35];p.maxHp=p.currentHp=500;return p;}
 class Socket extends EventEmitter {
     constructor(actions){super();this.actions=actions;}
-    emit(name,payload){if(name==='requestAction'){setImmediate(()=>super.emit('actionResponse',this.actions.shift()||{action:'flee'}));return true;}return super.emit(name,payload);}
+    emit(name,payload){if(name==='requestAction'){setImmediate(()=>super.emit('actionResponse',{...(this.actions.shift()||{action:'flee'}),...(payload.replacementId?{replacementId:payload.replacementId}:{})}));return true;}return super.emit(name,payload);}
 }
 for(const pivot of [false,true])test(`PVP ${pivot?'pivot attack then replacement':'voluntary switch'} precedes the opposing attack for both viewers`,async()=>{
     const lead=mon(25),reserve=mon(7),enemy=mon(19);lead.currentSpeed=999;enemy.currentSpeed=1;
     if(pivot){lead.abilities=['U-turn'];lead.movePp=[20];}
     const a={id:'left',username:'A',equipe:{pokemons:[lead,reserve]}},b={id:'right',username:'B',equipe:{pokemons:[enemy]}};
-    const events=[],io={sockets:{sockets:new Map([['left',new Socket([{action:pivot?'attack':'change',number:pivot?0:1}])],['right',new Socket([{action:'attack',number:0}])]])},to:target=>({emit:(name,payload)=>events.push({target,name,payload:JSON.parse(JSON.stringify(payload))})})};
+    const events=[],io={sockets:{sockets:new Map([['left',new Socket([{action:pivot?'attack':'change',number:pivot?0:1},...(pivot?[{action:'change',number:1}]:[])])],['right',new Socket([{action:'attack',number:0}])]])},to:target=>({emit:(name,payload)=>events.push({target,name,payload:JSON.parse(JSON.stringify(payload))})})};
     await startPvpBattle(a,b,io);
     assert.deepEqual(a.equipe.pokemons.map(p=>p.uuid),[lead.uuid,reserve.uuid]);
     for(const viewer of ['left','right']){

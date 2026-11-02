@@ -207,13 +207,14 @@ for (const mode of modes) test(`${mode.name}: Magic Guard still blocks indirect 
     assert.equal(battle.state.turn, 2); assert.equal(battle.state.weather.turns, 2);
 });
 
-test('an automatic pivot that KOs the last opponent still runs residuals on its entrant before the result', () => {
+test('a pivot that KOs the last opponent finishes without exposing the bench to residuals or asking for a pointless switch', () => {
     const own = pokemon(25, ['Volt Switch']), bench = pokemon(94, ['Splash'], {currentHp: 80, status: 'poison'});
     const foe = pokemon(143, ['Splash'], {currentHp: 1});
     const {a, battle, events} = setup(modes[2], own, foe, [bench]);
     assert(battle.action(a, {action: 'attack', number: 0, turnId: battle.token}));
     assert.equal(foe.currentHp, 0);
-    assert.equal(bench.currentHp, 60);
+    assert.equal(bench.currentHp, 80);
+    assert.equal(battle.active(0),own);assert.equal(battle.replacementPhase,false);
     assert.equal(battle.state.turn, 2); assert.equal(battle.finished, true);
     assert.equal(events.filter(e => e.userId === 1 && e.event === 'endbattle').length, 1);
 });

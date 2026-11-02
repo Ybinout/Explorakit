@@ -13,7 +13,7 @@ function ioFor(fixtures,events){return {sockets:{sockets:new Map(fixtures.map(f=
 for(const kind of ['wild','trainer'])for(const method of ['manual','pivot','ko'])test(`SQL ${kind} Pursuit ${method}: outgoing damage and one action, reserve untouched, stable party/PP saved`,{skip:!enabled,timeout:15000},async()=>{
  const original=Math.random;let f;try{
   const lead=mon(7,method==='pivot'?'Baton Pass':'Splash'),reserve=mon(4,'Splash'),enemy=mon(19,'Pursuit');lead.currentSpeed=999;enemy.currentSpeed=1;if(method==='ko')lead.currentHp=1;
-  const hp=lead.currentHp;f=await setup([lead,reserve],method==='manual'?[{action:'change',number:1},{action:'disconnect'}]:method==='ko'?[{action:'change',number:1},{action:'change',number:1},{action:'disconnect'}]:[{action:'attack',number:0},{action:'disconnect'}]);
+  const hp=lead.currentHp;f=await setup([lead,reserve],method==='manual'?[{action:'change',number:1},{action:'disconnect'}]:method==='ko'?[{action:'change',number:1},{action:'change',number:1},{action:'disconnect'}]:[{action:'attack',number:0},{action:'change',number:1},{action:'disconnect'}]);
   const events=[],io=ioFor([f],events);Math.random=()=>.5;
   if(kind==='wild')await require('../server/game/battle/wildBattle')(f.player,enemy,io,f.u.id);else await require('../server/game/battle/trainerBattle')(f.player,{pokemons:[enemy]},io,f.u.id,{recordPokedex:false,grantBaseMoney:false});
   if(f.socket.failure)throw f.socket.failure;
@@ -93,7 +93,7 @@ for (const scenario of ['direct', 'after-detect', 'knockout', 'last-pp', 'succes
 for(const side of ['A','B'])for(const method of ['manual','pivot','ko'])test(`SQL PvP ${side} Pursuit ${method}: intercept once before switching and save both parties`,{skip:!enabled,timeout:15000},async()=>{
  const original=Math.random;let fa,fb;try{
   const pursuer=mon(7,'Pursuit'),out=mon(19,method==='pivot'?'Baton Pass':'Splash'),next=mon(4,'Splash');out.currentSpeed=999;pursuer.currentSpeed=1;if(method==='ko')out.currentHp=1;
-  const p=await setup([pursuer],[{action:'attack',number:0},{action:'flee'}]),q=await setup([out,next],method==='manual'?[{action:'change',number:1},{action:'flee'}]:method==='ko'?[{action:'change',number:1},{action:'change',number:1},{action:'flee'}]:[{action:'attack',number:0},{action:'flee'}]);
+  const p=await setup([pursuer],[{action:'attack',number:0},{action:'flee'}]),q=await setup([out,next],method==='manual'?[{action:'change',number:1},{action:'flee'}]:method==='ko'?[{action:'change',number:1},{action:'change',number:1},{action:'flee'}]:[{action:'attack',number:0},{action:'change',number:1},{action:'flee'}]);
   [fa,fb]=side==='A'?[p,q]:[q,p];const events=[],io=ioFor([fa,fb],events);Math.random=()=>.5;
   await require('../server/game/battle/pvpBattle').startPvpBattle(fa.player,fb.player,io);for(const f of [fa,fb])if(f.socket.failure)throw f.socket.failure;
   assert(out.currentHp<10000);assert.equal(next.currentHp,10000);if(method==='ko')assert.equal(out.currentHp,0);assert.equal(pursuer.movePp[0],19);

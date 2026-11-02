@@ -15,6 +15,7 @@ const result = spawnSync(
         '--test-concurrency=1', // Integration suites share one database; avoid inter-suite lock races.
         path.resolve(__dirname, '..', 'tests', 'mysql-integration.test.js'),
         path.resolve(__dirname, '..', 'tests', 'battle-runtime-integration.test.js'),
+        path.resolve(__dirname, '..', 'tests', 'pivot-choice-mysql.test.js'),
         path.resolve(__dirname, '..', 'tests', 'super-tournament-cycle-mysql.test.js'),
         path.resolve(__dirname, '..', 'tests', 'tournament-world-presence-mysql.test.js'),
         path.resolve(__dirname, '..', 'tests', 'super-tournament-team-balance-mysql.test.js'),
