@@ -48,7 +48,7 @@ test('Adventure inventory audit: all medicines, stones, CS, Repels and held item
             }
             counts[kind]=(counts[kind]||0)+1;
         }
-        assert.equal(equipped,52);
-        assert.deepEqual(counts,{medicine:45,equip:37,repel:3,stone:10,machine:263});
+        assert.equal(equipped,61);
+        assert.deepEqual(counts,{medicine:50,equip:46,repel:3,stone:10,machine:635});
     }finally{await db.execute('DELETE FROM users WHERE id=?',[user.id]);}
 });

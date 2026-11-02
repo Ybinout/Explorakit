@@ -288,6 +288,8 @@ function endTurn(p,other,state,{switched=false}={}) {
     if(state.terrain.kind==='grassy_terrain'&&grounded(p,state))heal(p,Math.floor(p.maxHp/16));
     if(alive(p)&&ability(p)==='Speed Boost'&&!switched)engine.applyStageChange(p,'speed',1,[],p);
     activate(p,other,state);
+    if(alive(p)&&held.effect(p,state)==='flame_orb')
+        engine.applyStatus(p,'burn',null,[],{battleState:state,attacker:p,ignoreSafeguard:true});
 }
 function project(a,b,move,reply,ctx,{switched=false,first=true,ownSwitched=false,ownOutgoing=null,foeOutgoing=null}={}) {
     let own=copy(a),foe=copy(b);

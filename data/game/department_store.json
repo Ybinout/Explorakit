@@ -2831,6 +2831,30 @@
         "toxic_orb": {
           "price": 10000,
           "requiredTier": 2
+        },
+        "macho_brace": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "muscle_band": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "wise_glasses": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "wide_lens": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "scope_lens": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "flame_orb": {
+          "price": 10000,
+          "requiredTier": 2
         }
       }
     },

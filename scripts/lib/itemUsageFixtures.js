@@ -34,8 +34,9 @@ function usage(item) {
     if(item.category==='ball')return 'capture';
     if(item.key==='fishing_rod')return 'fish';
     if(item.key==='fly_module')return 'fly';
-    if(item.key==='exp_share')return 'passive';
-    if(['clara_registry','clara_reunion_letter','route2_house_key','gwenn_house_key','professor_lab_key','void_teleporter'].includes(item.key))return 'story';
+    if(['exp_share','experience_module'].includes(item.key))return 'passive';
+    if(item.category==='treasure'&&(['crystal_shard','clear_crystal','aurora_prism'].includes(item.key)||item.key.startsWith('dark_plate_')))return 'material';
+    if(['clara_registry','clara_reunion_letter','route2_house_key','gwenn_house_key','professor_lab_key','void_teleporter','super_tournament_pass','professional_trainer_card'].includes(item.key))return 'story';
     throw Error(`Unrouted item: ${item.key}`);
 }
 module.exports={items,targetFor,usage};

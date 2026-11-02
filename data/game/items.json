@@ -7507,6 +7507,103 @@
       "sell_price": 0,
       "darkContinentTravel": true,
       "description": "Réservée aux dresseurs ayant terminé trois cycles du Super Tournoi. Ouvre le passage vers le Dark Continent ; sur l’île, permet de rejoindre l’accueil hors combat. Attention : les K.O. y sont définitifs."
+    },
+    {
+      "key": "macho_brace",
+      "name": "Bracelet Macho",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "macho_brace",
+      "riftOnly": true,
+      "description": "Double les EV reçus en combat par le porteur, dans les limites habituelles. Divise sa Vitesse par deux tant qu’il est équipé. Ne modifie pas l’XP ni les vitamines.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 60
+    },
+    {
+      "key": "muscle_band",
+      "name": "Bandeau Muscle",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "physical_power",
+      "riftOnly": true,
+      "description": "Augmente de 10 % la puissance des capacités physiques du porteur, sans le bloquer sur une attaque.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 10
+    },
+    {
+      "key": "wise_glasses",
+      "name": "Lunettes Sages",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "special_power",
+      "riftOnly": true,
+      "description": "Augmente de 10 % la puissance des capacités spéciales du porteur, sans le bloquer sur une attaque.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 10
+    },
+    {
+      "key": "wide_lens",
+      "name": "Loupe",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "accuracy_boost",
+      "riftOnly": true,
+      "description": "Multiplie la précision des capacités du porteur par 1,1. Ne modifie pas les attaques à K.O. en un coup ni celles qui touchent toujours.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 10
+    },
+    {
+      "key": "scope_lens",
+      "name": "Lentilscope",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "critical_boost",
+      "riftOnly": true,
+      "description": "Augmente d’un cran le taux de coups critiques du porteur. Respecte les talents et protections qui empêchent les critiques.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 30
+    },
+    {
+      "key": "flame_orb",
+      "name": "Orbe Flamme",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "flame_orb",
+      "riftOnly": true,
+      "description": "Brûle le porteur en fin de tour s’il n’a aucun statut. Respecte les immunités à la brûlure. N’est pas consommée.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 30,
+      "fling_status": "burn"
     }
   ]
 }

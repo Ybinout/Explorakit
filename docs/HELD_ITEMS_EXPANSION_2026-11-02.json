@@ -1,0 +1,362 @@
+{
+  "date": "2026-11-02",
+  "feature": "Six nouveaux objets tenus : entraînement et combat",
+  "sourceBaseline": "a01cb5244161a435b21561a1a01f9cc0b6202b82",
+  "clientBaseline": "9a7d989a08e836ec9bcea1540dd54f74ff5c805a",
+  "clientBuild": "c7dca30e81d7608f",
+  "clientIndexSha256": "0d51d185606a5bd23d16a76923f334f81786fe27595f0d6b556f762358e4dad2",
+  "schemaChanged": false,
+  "realAccountsManuallyModified": false,
+  "items": [
+    {
+      "key": "macho_brace",
+      "name": "Bracelet Macho",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "macho_brace",
+      "riftOnly": true,
+      "description": "Double les EV reçus en combat par le porteur, dans les limites habituelles. Divise sa Vitesse par deux tant qu’il est équipé. Ne modifie pas l’XP ni les vitamines.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 60
+    },
+    {
+      "key": "muscle_band",
+      "name": "Bandeau Muscle",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "physical_power",
+      "riftOnly": true,
+      "description": "Augmente de 10 % la puissance des capacités physiques du porteur, sans le bloquer sur une attaque.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 10
+    },
+    {
+      "key": "wise_glasses",
+      "name": "Lunettes Sages",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "special_power",
+      "riftOnly": true,
+      "description": "Augmente de 10 % la puissance des capacités spéciales du porteur, sans le bloquer sur une attaque.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 10
+    },
+    {
+      "key": "wide_lens",
+      "name": "Loupe",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "accuracy_boost",
+      "riftOnly": true,
+      "description": "Multiplie la précision des capacités du porteur par 1,1. Ne modifie pas les attaques à K.O. en un coup ni celles qui touchent toujours.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 10
+    },
+    {
+      "key": "scope_lens",
+      "name": "Lentilscope",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "critical_boost",
+      "riftOnly": true,
+      "description": "Augmente d’un cran le taux de coups critiques du porteur. Respecte les talents et protections qui empêchent les critiques.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 30
+    },
+    {
+      "key": "flame_orb",
+      "name": "Orbe Flamme",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "flame_orb",
+      "riftOnly": true,
+      "description": "Brûle le porteur en fin de tour s’il n’a aucun statut. Respecte les immunités à la brûlure. N’est pas consommée.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 30,
+      "fling_status": "burn"
+    }
+  ],
+  "availability": {
+    "shop": "Grand Comptoir · Équipement (étage 3)",
+    "priceEach": 10000,
+    "requires": "hoze_defeated",
+    "wildLootGroup": "equipment",
+    "weightEach": 1,
+    "uniqueWildFindPerOwner": true,
+    "regularLootThresholdUnchanged": true,
+    "oldOffersAndDefinitionsUnchanged": true
+  },
+  "mechanics": {
+    "sharedEngine": true,
+    "machoEvMultiplier": 2,
+    "machoSpeedMultiplier": 0.5,
+    "machoIgnoresKlutz": true,
+    "machoEvCaps": [
+      252,
+      510
+    ],
+    "vitaminsAndXpUnchanged": true,
+    "physicalOrSpecialPowerMultiplier": 1.1,
+    "onlyBoostedPowerRounded": true,
+    "wideLensAccuracyMultiplier": 1.1,
+    "wideLensDoesNotAffectOHKO": true,
+    "scopeLensCriticalStages": 1,
+    "flameOrbLateActivation": true,
+    "flameOrbBurnFirstTickFollowingRound": true,
+    "flameOrbNotConsumed": true,
+    "flameOrbAIUsesSharedStatusRulesOnPrivateCopies": true,
+    "oldTrainerTeamsUnchanged": true,
+    "noAiActionQueueAccessOrRandomDrawsAdded": true
+  },
+  "sources": [
+    "https://www.smogon.com/dex/sm/items/",
+    "https://www.smogon.com/bw/articles/bw_ev",
+    "https://raw.githubusercontent.com/smogon/pokemon-showdown/master/data/items.ts"
+  ],
+  "validation": {
+    "unit": {
+      "pass": 181,
+      "fail": 0,
+      "skipped": 0
+    },
+    "mysql": {
+      "pass": 199,
+      "fail": 0,
+      "skipped": 0,
+      "database": "explorakit_test"
+    },
+    "browser": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "clientIndexSha256": "0d51d185606a5bd23d16a76923f334f81786fe27595f0d6b556f762358e4dad2",
+        "actualPurchases": [
+          "macho_brace",
+          "muscle_band",
+          "wise_glasses",
+          "wide_lens",
+          "scope_lens",
+          "flame_orb"
+        ],
+        "priceEach": 10000,
+        "wallet": 40000,
+        "bagDescriptionsAndIcons": true,
+        "bagEquip": true,
+        "reconnect": true,
+        "noClippedIcons": true,
+        "views": [
+          {
+            "width": 320,
+            "height": 480,
+            "themeMode": "light"
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "themeMode": "dark"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "themeMode": "light"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "themeMode": "dark"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "themeMode": "light"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "themeMode": "dark"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "themeMode": "light"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "themeMode": "dark"
+          }
+        ],
+        "errors": []
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "clientIndexSha256": "0d51d185606a5bd23d16a76923f334f81786fe27595f0d6b556f762358e4dad2",
+        "actualPurchases": [
+          "macho_brace",
+          "muscle_band",
+          "wise_glasses",
+          "wide_lens",
+          "scope_lens",
+          "flame_orb"
+        ],
+        "priceEach": 10000,
+        "wallet": 40000,
+        "bagDescriptionsAndIcons": true,
+        "bagEquip": true,
+        "reconnect": true,
+        "noClippedIcons": true,
+        "views": [
+          {
+            "width": 320,
+            "height": 480,
+            "themeMode": "light"
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "themeMode": "dark"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "themeMode": "light"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "themeMode": "dark"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "themeMode": "light"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "themeMode": "dark"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "themeMode": "light"
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "themeMode": "dark"
+          }
+        ],
+        "errors": []
+      }
+    },
+    "syntaxFiles": 12,
+    "lint": true,
+    "build": true,
+    "diffCheck": true,
+    "physicalDeviceTested": false,
+    "wholeGameSuiteRun": false,
+    "fixtureMaintenance": "Anciennes attentes capture sans XP remplacées par la règle capture avec XP déjà en place ; routage des clés/matériaux existants et compteurs du catalogue actualisés (779 définitions, 635 CS, 61 objets tenus). Aucun changement métier de ces fonctions."
+  },
+  "commands": {
+    "unit": "node --test tests/held-items-expansion.test.js tests/toxic-orb.test.js tests/choice-items.test.js tests/wild-items.test.js tests/effort-participation.test.js tests/effort-rewards.test.js tests/training.test.js tests/human-trainer-items.test.js tests/human-trainer-model.test.js tests/human-trainer-ai.test.js tests/item-usage-audit.test.js tests/shop-training.test.js tests/held-item-transfer.test.js",
+    "mysql": "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file=.env --test --test-concurrency=1 tests/held-items-expansion-mysql.test.js tests/toxic-orb-mysql.test.js tests/held-item-transfer-mysql.test.js tests/choice-items-mysql.test.js tests/item-usage-mysql.test.js tests/battle-runtime-integration.test.js",
+    "browser": "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=<chromium|webkit> RELEASE_DIST_DIR=/tmp/riftmon-six-items-dist node --env-file=.env scripts/validateHeldExpansionBrowser.js"
+  },
+  "runtimeSourceSha256": {
+    "data/game/department_store.json": "9d6d05956cb34bc2b0cf9965f65e0eb15ad8a96cac35fa8a6b77cd565879e2e9",
+    "data/game/items.json": "9d766776630552ff4ebb6423c455e0e3df683d47aeb90b2b54726d0855767e90",
+    "server/game/battle/battleEngine.js": "3e0aba2c48a8609d084809cbb554e4834b584f401383e1c62fcd13309ae8cc34",
+    "server/game/battle/humanTrainerModel.js": "b9cae980d6b6dff07ccae629e88f1eb9371127ad148aa6abfcaa38c7af11cc50",
+    "server/game/items/heldItems.js": "9cdd5e36f0233e83cc732b2fd841d0788ad600a8905aacad4f3673d1bd4335b1",
+    "server/game/models/training.js": "683ff5967a79566e7a14ca81fa8a25baa5d998234d3205d4459b88491d85ce39"
+  },
+  "clientCommit": "54f60f80dcc346ac008225dc08bff7ca28290f8c",
+  "deployment": {
+    "publishedAt": "2026-11-02T17:21:38.759Z",
+    "restartedAt": "2026-11-02T17:21:37.142Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-six-items-2026-11-02T17-21-35-624Z",
+    "sourceBaseline": "a01cb5244161a435b21561a1a01f9cc0b6202b82",
+    "sourceHashes": {
+      "data/game/department_store.json": "9d6d05956cb34bc2b0cf9965f65e0eb15ad8a96cac35fa8a6b77cd565879e2e9",
+      "data/game/items.json": "9d766776630552ff4ebb6423c455e0e3df683d47aeb90b2b54726d0855767e90",
+      "server/game/battle/battleEngine.js": "3e0aba2c48a8609d084809cbb554e4834b584f401383e1c62fcd13309ae8cc34",
+      "server/game/battle/humanTrainerModel.js": "b9cae980d6b6dff07ccae629e88f1eb9371127ad148aa6abfcaa38c7af11cc50",
+      "server/game/items/heldItems.js": "9cdd5e36f0233e83cc732b2fd841d0788ad600a8905aacad4f3673d1bd4335b1",
+      "server/game/models/training.js": "683ff5967a79566e7a14ca81fa8a25baa5d998234d3205d4459b88491d85ce39"
+    },
+    "clientCommit": "54f60f80dcc346ac008225dc08bff7ca28290f8c",
+    "clientBuild": "c7dca30e81d7608f",
+    "beforePid": "3736630",
+    "afterPid": "3741225",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "schemaChanged": false,
+    "migrationApplied": null,
+    "activeClubDuelsBefore": 0,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 0,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": [
+      "js/234.02b18f2e.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.f909aa37.js",
+      "js/account.161ce126.js",
+      "js/app.bc0d3fe5.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.2fd32f7c.js",
+      "js/drift.5b8720d7.js",
+      "js/game.6d04e66a.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.4fff4c7e.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.ca3a56f0.css",
+      "css/test-view.7568246d.css"
+    ]
+  }
+}

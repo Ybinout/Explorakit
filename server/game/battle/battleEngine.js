@@ -431,11 +431,12 @@ function activateHeldItem(pokemon, battleState, messages, trigger = 'immediate',
     if (!item || item.category !== 'held') return false;
     const pokemonName = getPokemonDisplayName(pokemon);
     const maxHp = Math.max(1, safeNumber(pokemon.maxHp, 1));
-    if (trigger === 'end_turn_status' && item.battle_effect === 'toxic_orb') {
-        if (hasType(pokemon,'Poison') || hasType(pokemon,'Steel')) return false;
+    if (trigger === 'end_turn_status' && ['toxic_orb','flame_orb'].includes(item.battle_effect)) {
+        const toxic = item.battle_effect === 'toxic_orb';
+        if (toxic && (hasType(pokemon,'Poison') || hasType(pokemon,'Steel'))) return false;
         const statusMessages=[];
-        if (!applyStatus(pokemon,'badly_poison',null,statusMessages,{battleState,attacker:pokemon,ignoreSafeguard:true})) return false;
-        messages.push(`${pokemonName} est gravement empoisonné par son ${item.name}.`);
+        if (!applyStatus(pokemon,toxic?'badly_poison':'burn',null,statusMessages,{battleState,attacker:pokemon,ignoreSafeguard:true})) return false;
+        messages.push(`${pokemonName} ${toxic?'est gravement empoisonné':'est brûlé'} par son ${item.name}.`);
         return true;
     }
     const berry = pokemon.heldItem.endsWith('_berry');
@@ -863,7 +864,9 @@ function calculateDamageDetailed(attacker, defender, move, context = {}) {
     }
 
     const level = Math.max(1, safeNumber(attacker.level, 1));
-    const power = moveDamageRules.power(move, attacker, defender, { ...context, canKnockOffItem: canKnockOffItem(defender) });
+    const basePower = moveDamageRules.power(move, attacker, defender, { ...context, canKnockOffItem: canKnockOffItem(defender) });
+    const itemPower = heldItems.powerMultiplier(attacker, move, context.battleState);
+    const power = itemPower === 1 ? basePower : Math.floor(basePower * itemPower);
     if (power <= 0) {
         return {
             damage: 0,
@@ -880,7 +883,7 @@ function calculateDamageDetailed(attacker, defender, move, context = {}) {
     const criticalAbility = getCriticalAbilityState(attacker, defender);
     const critStage = (safeNumber(move?.combat?.crit_stage, 0)
         + safeNumber(attackerData.statStages.critical, 0)
-        + criticalAbility.bonusStage + drift.criticalStage(attacker));
+        + criticalAbility.bonusStage + drift.criticalStage(attacker) + heldItems.criticalStage(attacker, battleState));
     const criticalBlocked = battleState?.field?.luckyChantTurns > 0
         || context.defenderSide?.screens?.luckyChantTurns > 0
         || criticalAbility.blocked;
@@ -1034,7 +1037,7 @@ function getMoveHitChance(move, attacker, defender, battleState) {
     const base = move.combat?.damage_class === 'status' && hasPassiveAbility(defender,'Wonder Skin')
         && !ignoresDefenderAbility(attacker,defender) ? Math.min(.5,accuracy/100) : accuracy/100;
     return clamp(base * getAccuracyModifier(attacker,defender,move) * getAbilityAccuracyMultiplier(attacker,defender,move,battleState)
-        * (battleState?.field?.gravityTurns > 0 ? 5/3 : 1) + drift.accuracy(attacker), 0, 1);
+        * heldItems.accuracyMultiplier(attacker,battleState) * (battleState?.field?.gravityTurns > 0 ? 5/3 : 1) + drift.accuracy(attacker), 0, 1);
 }
 
 function resolveEffectTarget(effect, attacker, defender, context, move) {

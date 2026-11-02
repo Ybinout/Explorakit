@@ -1,5 +1,6 @@
 const { growthSnapshot, levelGrowth } = require('./levelGrowth');
 const { yields } = require('../../../data/game/effort_yields.json');
+const { effortMultiplier } = require('../items/heldItems');
 
 const STAT_KEYS = ['hp', 'attack', 'defense', 'specialAttack', 'specialDefense', 'speed'];
 function normalizeEffort(input = {}) {
@@ -16,9 +17,14 @@ function effortYield(pokemon) {
     return entry ? { ...entry } : null;
 }
 
+function heldEffort(pokemon, opponent) {
+    const factor = effortMultiplier(pokemon);
+    return Object.fromEntries(Object.entries(effortYield(opponent) || {}).map(([stat, gain]) => [stat, gain * factor]));
+}
+
 function grantEffort(pokemon, opponent) {
     if (!pokemon || Number(pokemon.currentHp) <= 0) return {};
-    return pokemon.gainEffort(effortYield(opponent) || {});
+    return pokemon.gainEffort(heldEffort(pokemon, opponent));
 }
 
 // EVs are a full yield for each actual entrant, independent of XP sharing.
@@ -27,7 +33,7 @@ function grantParticipantEffort(team, opponent, participants = new Set()) {
     const gains = new Map();
     for (const pokemon of team || []) {
         if (pokemon.isEgg || !participants.has(pokemon.uuid) || gains.has(pokemon.uuid)) continue;
-        gains.set(pokemon.uuid, pokemon.gainEffort(effortYield(opponent) || {}));
+        gains.set(pokemon.uuid, pokemon.gainEffort(heldEffort(pokemon, opponent)));
     }
     return gains;
 }

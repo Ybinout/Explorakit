@@ -1,3 +1,24 @@
+## Six objets tenus supplémentaires — 2 novembre 2026
+
+Ajout au Grand Comptoir, rayon Équipement (troisième étage), après Hoze : **10 000 ₽ chacun**. Les six sont aussi des trouvailles uniques par propriétaire dans le groupe de butin stratégique existant, poids 1 chacun ; seuil de butin/familles/cristaux conservé. Tous les anciens objets et leurs offres sont identiques, vérifié par comparaison des données complètes.
+
+| Objet | Effet |
+| --- | --- |
+| Bracelet Macho | EV de combat ×2 pour son porteur participant, Vitesse ÷2. Limites 252/510 conservées ; XP et vitamines inchangées. |
+| Bandeau Muscle | Puissance des capacités physiques +10 %, sans verrouillage. |
+| Lunettes Sages | Puissance des capacités spéciales +10 %, sans verrouillage. |
+| Loupe | Précision ×1,1 ; pas d’effet sur les attaques à K.O. direct ni sur les coups toujours précis. |
+| Lentilscope | Taux critique +1 cran ; protections contre les critiques conservées. |
+| Orbe Flamme | Brûlure du porteur à la fin du tour, sans consommation ; aucun dégât de brûlure au premier déclenchement. |
+
+Effets dans le moteur commun, avec neutralisation par Zone Magique/Embargo/Maladresse quand applicable. Exception classique du Bracelet Macho : Maladresse n’enlève ni sa pénalité de Vitesse ni son entraînement ; les EV ne sont pas une statistique temporaire de combat. Le bonus de puissance ne change pas les dégâts fixes et ne modifie aucun ancien calcul sans ces deux nouveaux objets. Orbe Flamme : types/talents/statuts/Champ Brumeux, cran et dégâts de brûlure ordinaires respectés, activation après les dégâts résiduels. Sa projection IA réutilise la même application de statut, seulement sur les copies privées ; aucun accès à l’action choisie ni tirage aléatoire nouveau dans le planificateur. Six puissances de Dégommage vérifiées, Orbe Flamme applique la brûlure à sa cible quand lancée. Aucune équipe de dresseur existante modifiée.
+
+Six icônes SVG colorées dans le vocabulaire du sac, dont silhouettes distinctes bracelet/loupe/lentille/orbe ; lunettes et bandeau déclinent leurs familles existantes. Les descriptions de fiche/équipement et du sac reprennent exactement le serveur. Attribution depuis le sac, sauvegarde/rechargement, stockage et reprise de l’objet au PC utilisent les contrôles existants.
+
+Validation : **181 tests unitaires/régression et 199 SQL dédiés**, zéro échec/saut. EV des participants/K.O., plafonds, vitamines, XP, précision réelle/prévision, critiques bloqués, dégâts fixes, suppression, immunités, Cran, activation tardive, Dégommage et aperçu IA sans mutation vérifiés. Catalogue complet parcouru, six vrais achats avec prix/flags forgés refusés, équipement et état durable, entraînement et brûlure sauvegardés, retrait PC sans duplication. Fixtures anciennes actualisées : captures avec XP déjà livrées, clés/matériaux déjà existants et compteurs 779 objets/635 CS/61 objets tenus ; aucun changement de leurs règles. Recette authentifiée Chromium/WebKit sur SQL privé : achats réels des six objets, 16 vues au total 320×480/393×852/844×390/1365×900, clair/nocturne, icônes non coupées, textes, attribution depuis le sac et reconnexion. Captures et planche des icônes inspectées, zéro erreur JS, comptes jetables supprimés ; pas de téléphone physique ni de suite globale revendiqués. Lint/build isolé `c7dca30e81d7608f`, syntaxe de 12 fichiers/diff valides, nouvelle recette SQL inscrite dans le lanceur. Sources : [objets Smogon](https://www.smogon.com/dex/sm/items/), [entraînement EV](https://www.smogon.com/bw/articles/bw_ev), [données Pokémon Showdown](https://raw.githubusercontent.com/smogon/pokemon-showdown/master/data/items.ts). Rapport et commandes : `docs/HELD_ITEMS_EXPANSION_2026-11-02.json`.
+
+Publié le 2 novembre 2026 à 18 h 21 (Europe/Paris), client `54f60f80dcc346ac008225dc08bff7ca28290f8c`, build `c7dca30e81d7608f`. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-six-items-2026-11-02T17-21-35-624Z`. PID 3736630→3741225, service actif sans redémarrage automatique/avertissement ; index et 22 bundles/CSS HTTPS identiques au build, anciens assets conservés. Aucun changement de schéma/durabilité ni modification manuelle de compte réel ; Knov/api-test, checkpoint et modes fermés inchangés.
+
 ## Arène oubliée : quatre carnets et indices — 2 novembre 2026
 
 Sept livres deviennent quatre, neuf pages au lieu de quatorze. Les notes sur la copie des capacités, l’exposition prolongée et les regrets envers Lucie sont regroupées dans les cahiers conservés : les recherches, les motivations initiales, la fondation de l’Aube Obscure et le désaccord avec Wanda restent lisibles. Identifiants conservés `lattice`, `foundation`, `counterphase`, `rift_origin` ; aucune lecture de carnet n’était enregistrée en BDD.
@@ -5966,6 +5987,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **2 novembre 2026 — Objets tenus :** Bracelet Macho, Bandeau Muscle, Lunettes Sages, Loupe, Lentilscope, Orbe Flamme ; effets communs, icônes, Grand Comptoir 10 k et butin unique. 181 tests, 199 SQL, 16 vues Chromium/WebKit ; `docs/HELD_ITEMS_EXPANSION_2026-11-02.json`.
 
 - **2 novembre 2026 — Carnets du professeur :** sept→quatre livres, carnet Route 2 central, indices sur le parquet et Purification ; recherches/Wanda/Lucie conservées. 22 tests, 14 SQL et 40 captures Chromium/WebKit ; `docs/PROFESSOR_JOURNALS_2026-11-02.json`.
 

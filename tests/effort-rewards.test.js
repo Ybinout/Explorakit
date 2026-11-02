@@ -10,14 +10,14 @@ test('EV preview uses the exact species yield, includes mixed stats and never ex
  const p=mon();p.ev={hp:252,attack:252,defense:6,specialAttack:0,specialDefense:0,speed:0};const before={...p.ev};grantEffort(p,mon(74));assert.deepEqual(p.ev,before);
  p.currentHp=0;assert.deepEqual(grantEffort(p,mon(74)),{});
 });
-for(const mode of ['rift','colosseum'])for(const success of [false,true])test(`${mode}: ${success?'successful':'failed'} capture awards EV only to the active fighter, without adding XP`,()=>{
+for(const mode of ['rift','colosseum'])for(const success of [false,true])test(`${mode}: ${success?'successful':'failed'} capture awards EV only to the active fighter, independently of capture XP`,()=>{
  const p=owner(mode),active=p.equipe.pokemons[0],reserve=p.equipe.pokemons[1],enemy=mon(74),events=[];
  const b=new DriftBattle(p,{npc:true,equipe:{pokemons:[enemy]},drifts:[],equipped:[]},{emit:(_,name,payload)=>events.push({name,payload}),random:()=>success?0:.99,paceMs:0});
  const xp=active.experience,ev=active.ev.defense,teamEv={...reserve.ev},enemyEv={...enemy.ev};
  assert.deepEqual(events.find(e=>e.name==='introAnimation').payload.effortYield,{defense:1});
  assert(b.action(p,{action:'bag',itemKey:'pokeball',turnId:b.token}));
- assert.equal(active.ev.defense,ev+(success?1:0));assert.equal(active.experience,xp);assert.deepEqual(reserve.ev,teamEv);assert.deepEqual(enemy.ev,enemyEv);
- assert.equal(events.filter(e=>e.name==='battleExperience').length,0);
+ assert.equal(active.ev.defense,ev+(success?1:0));assert(success?active.experience>xp:active.experience===xp);assert.deepEqual(reserve.ev,teamEv);assert.deepEqual(enemy.ev,enemyEv);
+ assert.equal(events.filter(e=>e.name==='battleExperience').length,success?1:0);
  if(success){assert(b.finished);assert.equal(b.action(p,{action:'bag',itemKey:'pokeball',turnId:b.token}),false);assert.equal(active.ev.defense,ev+1);}else b.finish(null,'fled');
 });
 test('PvP has no EV preview or reward, while NPC switches publish the new species yield',()=>{
