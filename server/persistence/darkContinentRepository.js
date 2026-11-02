@@ -14,7 +14,7 @@ async function healSurvivors(userId){return withTransaction(async c=>{
  require('../game/world/playerRecovery').healTeam({pokemons:survivors});await teams.editEquipe(userId,team,c);await c.execute('UPDATE users SET money=money-? WHERE id=?',[dc.HEAL_PRICE,userId]);return{equipe:team,money:Number(user.money)-dc.HEAL_PRICE,charged:dc.HEAL_PRICE};
 });}
 async function acknowledgeRules(userId){await dbPool.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,'dark_rules_read','true') ON DUPLICATE KEY UPDATE flag_value='true'",[userId]);}
-async function grantLoot(userId,pokemon,random=Math.random){const found=dc.loot(pokemon,random),ordinary=random()<require('../game/items/wildLoot').ADVENTURE_CHANCE;return ordinary||found.length?require('./wildLootRepository').grantBattleLoot(userId,ordinary,found,random):[];}
+async function grantLoot(userId,pokemon,random=Math.random,map='jungle1'){const found=dc.loot(pokemon,random,map),ordinary=random()<dc.lootProfile(map).ordinaryChance;return ordinary||found.length?require('./wildLootRepository').grantBattleLoot(userId,ordinary,found,random):[];}
 // A KO is deleted durably before the next choice; a marked object can never be saved again.
 async function persistFaints(userId,player,io,eligible=null){
  const dead=player.equipe.pokemons.filter(p=>p.currentHp<=0&&!p.__darkContinentDead&&(!eligible||eligible.has(p.uuid)));if(!dead.length)return[];

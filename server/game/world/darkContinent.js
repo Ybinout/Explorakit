@@ -11,11 +11,17 @@ function isMap(map){return /^jungle[1-9]$/.test(String(map||''));}
 function column(map){return isMap(map)?(Number(map.slice(6))-1)%3:null;}
 function levels(map){return [[100,120],[120,150],[150,200]][column(map)] || null;}
 function plateKey(type){return 'dark_plate_'+type.toLowerCase();}
+const LOOT_COLUMNS=Object.freeze([
+ {crystals:[['crystal_shard',.8,2,4],['clear_crystal',.6,1,3],['aurora_prism',.35,1,2]],plateChance:.07,ordinaryChance:1/6},
+ {crystals:[['crystal_shard',.9,3,5],['clear_crystal',.7,2,4],['aurora_prism',.45,1,3]],plateChance:.10,ordinaryChance:1/5},
+ {crystals:[['crystal_shard',1,4,6],['clear_crystal',.8,3,5],['aurora_prism',.55,2,4]],plateChance:.14,ordinaryChance:1/4}
+].map(p=>Object.freeze({...p,crystals:Object.freeze(p.crystals.map(Object.freeze))})));
+function lootProfile(map='jungle1'){if(!isMap(map))throw Error('Butin réservé au Dark Continent.');return LOOT_COLUMNS[column(map)];}
 const rules=[
  '!!!! DARK CONTINENT : un Pokémon mis K.O. ici est définitivement perdu. Aucun Centre spécialisé n’est installé sur cette île : je ne peux assurer que les premiers secours, avant qu’il ne soit trop tard. Ses objets récupérables rejoignent ton sac.',
  '!!!! Aucune fuite en combat, même avec Téléport. Les Pokémon de cette île sont trop puissants pour être capturés : une Ball sera perdue si tu essaies.',
  '!!!! Plus tu avances vers la DROITE, plus le danger augmente : niveaux 100–120 à l’ouest, 120–150 au centre, 150–200 à l’est !',
- 'Ils ne donnent pas de Pokédollars et seulement 10 % de leur XP habituelle. Le module d’expérience n’agit pas ici. En revanche, ils peuvent laisser des plaques et davantage de cristaux.',
+ 'Ils ne donnent pas de Pokédollars et seulement 10 % de leur XP habituelle. Le module d’expérience n’agit pas ici. En revanche, plus tu avances vers l’est, plus les cristaux sont abondants et plus tu as de chances de trouver des plaques et d’autres objets.',
  'Reviens sur cette plage pour soigner les compagnons encore en vie : 50 000 ₽ pour toute l’équipe. Je ne peux pas sauver un Pokémon déjà perdu. Ta carte professionnelle permet de retourner à l’accueil du tournoi hors combat.'
 ];
 function actor(name,map,x,y,index){return {name,interactionName:name,map,x,y,sprite:'6931.png',spriteFrame:{columns:8,rows:4,index},block:true,roamRadius:0};}
@@ -30,8 +36,8 @@ function scoutPath(grid,goal){
   for(const[dx,dy]of[[1,0],[0,1],[-1,0],[0,-1]])queue.push({x:at.x+dx,y:at.y+dy,path:[...at.path,{x:at.x+dx,y:at.y+dy}]});
  }return[start];
 }
-function loot(pokemon,random=Math.random){const found=[];const items=require('../../../data/game/items.json').items;
- for(const[key,chance,min,max]of[['crystal_shard',.8,2,4],['clear_crystal',.6,1,3],['aurora_prism',.35,1,2]])if(random()<chance){const item=items.find(i=>i.key===key);found.push({...item,quantity:min+Math.min(max-min,Math.floor(random()*(max-min+1)))});}
- if(random()<.07){const types=pokemon.data.type,type=types[Math.min(types.length-1,Math.floor(random()*types.length))];found.push({...items.find(i=>i.key===plateKey(type)),quantity:1});}return found;
+function loot(pokemon,random=Math.random,map='jungle1'){const found=[],profile=lootProfile(map);const items=require('../../../data/game/items.json').items;
+ for(const[key,chance,min,max]of profile.crystals)if(random()<chance){const item=items.find(i=>i.key===key);found.push({...item,quantity:min+Math.min(max-min,Math.floor(random()*(max-min+1)))});}
+ if(random()<profile.plateChance){const types=pokemon.data.type,type=types[Math.min(types.length-1,Math.floor(random()*types.length))];found.push({...items.find(i=>i.key===plateKey(type)),quantity:1});}return found;
 }
-module.exports={ITEM,REQUIRED_ROOMS,CARD_PRICE,HEAL_PRICE,ARRIVAL,LOBBY,COLUMNS,TYPES,isMap,column,levels,plateKey,rules,actors,scopedStore,scoutPath,loot};
+module.exports={ITEM,REQUIRED_ROOMS,CARD_PRICE,HEAL_PRICE,ARRIVAL,LOBBY,COLUMNS,TYPES,isMap,column,levels,plateKey,lootProfile,rules,actors,scopedStore,scoutPath,loot};

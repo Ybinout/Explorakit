@@ -51,3 +51,16 @@ test('SQL real wild battle: recoil KO cannot be revived by the ending save',{ski
 test('SQL real wild battle: disconnect during replacement keeps the KO deleted and the living reserve unchanged',{skip:!enabled,timeout:15000},async()=>{
  const a=mon(7,5,['Growl']),b=mon(149,200,['Dragon Claw']),enemy=mon(445,150,['Earthquake']);a.currentHp=1;await teams.editEquipe(owner.id,{pokemons:[a,b]});const before={hp:b.currentHp,xp:b.experience,pp:[...b.movePp]},p={id:'test-dark',userId:owner.id,currentmap:'jungle9',equipe:{pokemons:[a,b]}},r=recording([{action:'attack',number:0},{action:'disconnect'}]);await randomAt(.5,()=>require('../server/game/battle/wildBattle')(p,enemy,r.io,owner.id));const saved=(await teams.loadEquipe(owner.id)).pokemons;assert.equal(saved.length,1);assert.equal(saved[0].uuid,b.uuid);assert.equal(saved[0].currentHp,before.hp);assert.equal(saved[0].experience,before.xp);assert.deepEqual(saved[0].movePp,before.pp);assert(r.events.find(e=>e.name==='endbattle').payload.interrupted);
 });
+
+for(const [map,expected]of [['jungle2',[4,3,0]],['jungle3',[5,4,3]]])test('SQL real wild battle uses the authoritative encounter column for loot: '+map,{skip:!enabled,timeout:15000},async()=>{
+ const hero=mon(94,200),enemy=mon(3,100,['Growl']);enemy.currentHp=1;await teams.editEquipe(owner.id,{pokemons:[hero]});const p={id:'test-dark',userId:owner.id,currentmap:map,equipe:{pokemons:[hero]}},r=recording([{action:'attack',number:0}]);
+ await randomAt(.5,()=>require('../server/game/battle/wildBattle')(p,enemy,r.io,owner.id));const bag=await items.loadUserItems(owner.id);
+ assert.deepEqual(['crystal_shard','clear_crystal','aurora_prism'].map(key=>bag.find(i=>i.key===key)?.quantity||0),expected);assert.equal(await wallet(),5000);assert(r.events.find(e=>e.name==='endbattle').payload.playerWon);assert.equal(r.events.find(e=>e.name==='endbattle').payload.summary.money,0);assert.equal((await items.loadUserItems(other.id)).filter(i=>i.category==='treasure').length,0);
+});
+test('SQL ordinary item chance also rises eastward without awarding money',{skip:!enabled},async()=>{
+ const p=mon(6);for(const [map,chance]of [['jungle1',1/6],['jungle2',1/5],['jungle3',1/4]]){
+  const draws=[.999,...(map==='jungle3'?[.999]:[]),.999,.999,.999,chance-.000001];const found=await repo.grantLoot(owner.id,p,()=>draws.length?draws.shift():0,map);assert.equal(found.filter(i=>i.category!=='treasure').length,1);
+  const none=await repo.grantLoot(owner.id,p,()=>.999,map);assert.deepEqual(none,map==='jungle3'?[{...require('../data/game/items.json').items.find(i=>i.key==='crystal_shard'),quantity:6}]:[]);
+ }
+ assert.equal(await wallet(),5000);
+});

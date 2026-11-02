@@ -1,0 +1,157 @@
+{
+  "date": "2026-11-02",
+  "sourceBaseline": "105e082106648095e1ba6ecbcbbd41410c9b5e02",
+  "clientCommit": "e7ad34a7f016b78144e80407d6ccb71dd6712608",
+  "clientBuild": "e4e01a1185eec295",
+  "buildIndexSha256": "c9cee5141c491b72dd78e3dfb60114b366d123e25cd6e18dac82147359bea0a8",
+  "runtimeSourceSha256": {
+    "server/game/battle/wildBattle.js": "5579141afc6d7840a10471e84fc189d7bb34106beadda74e1b9e4a524e0aae4a",
+    "server/game/world/darkContinent.js": "7e2656035a7fb3b0f003ba2e8205f2828d850a26456690183dc44d372df5e8b9",
+    "server/persistence/darkContinentRepository.js": "f4f06871bb2555ec04c78685e09444da7e4b61acd8fa1e33f1a1d307599ba996"
+  },
+  "schemaChanged": false,
+  "profiles": [
+    {
+      "maps": [
+        "jungle1",
+        "jungle4",
+        "jungle7"
+      ],
+      "direction": "west",
+      "crystals": [
+        [
+          "crystal_shard",
+          0.8,
+          2,
+          4
+        ],
+        [
+          "clear_crystal",
+          0.6,
+          1,
+          3
+        ],
+        [
+          "aurora_prism",
+          0.35,
+          1,
+          2
+        ]
+      ],
+      "plateChance": 0.07,
+      "ordinaryChance": 0.16666666666666666
+    },
+    {
+      "maps": [
+        "jungle2",
+        "jungle5",
+        "jungle8"
+      ],
+      "direction": "center",
+      "crystals": [
+        [
+          "crystal_shard",
+          0.9,
+          3,
+          5
+        ],
+        [
+          "clear_crystal",
+          0.7,
+          2,
+          4
+        ],
+        [
+          "aurora_prism",
+          0.45,
+          1,
+          3
+        ]
+      ],
+      "plateChance": 0.1,
+      "ordinaryChance": 0.2
+    },
+    {
+      "maps": [
+        "jungle3",
+        "jungle6",
+        "jungle9"
+      ],
+      "direction": "east",
+      "crystals": [
+        [
+          "crystal_shard",
+          1,
+          4,
+          6
+        ],
+        [
+          "clear_crystal",
+          0.8,
+          3,
+          5
+        ],
+        [
+          "aurora_prism",
+          0.55,
+          2,
+          4
+        ]
+      ],
+      "plateChance": 0.14,
+      "ordinaryChance": 0.25
+    }
+  ],
+  "validation": {
+    "unitPassed": 14,
+    "sqlPassed": 207,
+    "failed": 0,
+    "skipped": 0,
+    "monotonicRewards": true,
+    "sameColumnAllRows": true,
+    "realBattleColumnWiring": true,
+    "seededDraws": 60000,
+    "westUnchanged": true,
+    "otherRegionsUnchanged": true,
+    "syntaxFiles": 5,
+    "clientUnchanged": true,
+    "realAccountsManuallyModified": false,
+    "fullProjectSuite": false
+  },
+  "commands": [
+    "node --test tests/dark-continent.test.js tests/region-map.test.js",
+    "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file=.env --test --test-concurrency=1 tests/dark-continent-mysql.test.js tests/dark-economy-mysql.test.js tests/battle-runtime-integration.test.js"
+  ],
+  "deployment": {
+    "publishedAt": "2026-11-02T13:01:59.237Z",
+    "restartedAt": "2026-11-02T13:01:57.890Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-dark-loot-2026-11-02T13-01-57-430Z",
+    "sourceBaseline": "105e082106648095e1ba6ecbcbbd41410c9b5e02",
+    "sourceHashes": {
+      "server/game/battle/wildBattle.js": "5579141afc6d7840a10471e84fc189d7bb34106beadda74e1b9e4a524e0aae4a",
+      "server/game/world/darkContinent.js": "7e2656035a7fb3b0f003ba2e8205f2828d850a26456690183dc44d372df5e8b9",
+      "server/persistence/darkContinentRepository.js": "f4f06871bb2555ec04c78685e09444da7e4b61acd8fa1e33f1a1d307599ba996"
+    },
+    "clientCommit": "e7ad34a7f016b78144e80407d6ccb71dd6712608",
+    "clientBuild": "e4e01a1185eec295",
+    "beforePid": "3717017",
+    "afterPid": "3726032",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "clientUnchanged": true,
+    "publicClientUnchanged": true,
+    "schemaChanged": false,
+    "activeClubDuelsBefore": 0,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 0,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": [],
+    "publishedAtParis": "2026-11-02T14:01:59.237000+01:00"
+  }
+}

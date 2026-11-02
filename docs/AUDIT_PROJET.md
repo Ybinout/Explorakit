@@ -1,3 +1,21 @@
+## Dark Continent : butin croissant vers l’est — 2 novembre 2026
+
+Les neuf jungles partagent désormais trois profils par colonne : ouest 1/4/7, centre 2/5/8, est 3/6/9. L’ouest conserve exactement les gains précédents. Le niveau ou l’espèce de l’ennemi ne changent pas ce profil : la carte réelle de début du combat, conservée côté serveur, détermine le palier jusqu’à l’attribution. La réplique du guide annonce cette progression.
+
+| Butin par adversaire vaincu | Ouest | Centre | Est |
+| --- | --- | --- | --- |
+| Éclats fissurés | 80 % ×2–4 | 90 % ×3–5 | 100 % ×4–6 |
+| Cristaux limpides | 60 % ×1–3 | 70 % ×2–4 | 80 % ×3–5 |
+| Prismes d’aurore | 35 % ×1–2 | 45 % ×1–3 | 55 % ×2–4 |
+| Une plaque d’un type de l’ennemi | 7 % | 10 % | 14 % |
+| Objet du butin ordinaire | 1/6 | 1/5 | 1/4 |
+
+Tirages des familles indépendants ; distribution du type des plaques et rareté interne des objets ordinaires conservées, règles d’unicité et transaction d’inventaire habituelles. Moyenne théorique par victoire pour les trois cristaux : ouest 2,4 / 1,2 / 0,525 ; centre 3,6 / 2,1 / 0,9 ; est 5 / 3,2 / 1,65. Les taux ne garantissent pas un objet rare à chaque rencontre. Aucun Pokédollar supplémentaire, changement de prix, XP, capture, mort définitive ni autre mode/région. Profils immuables, sélection constante, aucun nouveau calcul par frame ou requête SQL.
+
+Validation : **14 tests unitaires/régression et 207 SQL**, zéro échec/saut. Échantillon déterministe de 60 000 tirages, limites de quantité, croissance des fréquences/moyennes, types des plaques, mêmes gains sur chaque ligne de la grille, carte étrangère refusée et ouest inchangé. Deux vrais combats SQL en centre/est vérifient les quantités effectivement inscrites dans le sac et l’absence de gain monétaire ; seuils des objets ordinaires testés. Régressions combat, premiers secours, achat, rapatriement et modules incluses ; comptes jetables supprimés. Syntaxe de cinq fichiers/diff valides. Patch serveur seul : aucun build/lint ou nouveau parcours navigateur nécessaire, client conservé. Rapport et commandes : `docs/DARK_CONTINENT_LOOT_2026-11-02.json`.
+
+Publié le 2 novembre 2026 à 14 h 01 (Europe/Paris), serveur seul. Client `e7ad34a7f016b78144e80407d6ccb71dd6712608`, build `e4e01a1185eec295` et index HTTPS conservés à l’octet. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-dark-loot-2026-11-02T13-01-57-430Z` ; PID 3717017→3726032, service actif sans redémarrage automatique/avertissement. Aucun changement de schéma/durabilité ou modification manuelle de compte réel ; Knov/api-test, checkpoint et modes fermés inchangés. Zéro expédition/duel actif au contrôle, tentative sauvegardée du tournoi conservée.
+
 ## Dark Continent : accès payant, secours et ambiance — 2 novembre 2026
 
 Le seuil de 48 salles terminées est conservé. L’éclaireur propose désormais la carte professionnelle unique pour **2 000 000 ₽**, avec solde/prix visibles et bouton d’achat explicite ; les cartes déjà obtenues restent valables. Achat sous verrou utilisateur : argent et carte dans la même transaction, refus sans débit si fonds insuffisants, achat simultané/réponse rejouée sans double paiement. Les stations de corruption demandent maintenant la carte possédée, et non la simple qualification. Les anciens clients doivent confirmer le prix courant avant tout débit : un ancien bouton gratuit ne peut pas déclencher silencieusement un achat payant.
@@ -5906,6 +5924,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **2 novembre 2026 — Butin Dark Continent :** trois profils ouest/centre/est, quantités/chances de cristaux, plaques et objets croissantes, ouest conservé ; carte de début du vrai combat autoritaire. 14 tests et 207 SQL ; `docs/DARK_CONTINENT_LOOT_2026-11-02.json`.
 
 - **2 novembre 2026 — Dark Continent :** carte 2 M, premiers secours 50 k, rapatriement transactionnel et premier Pokémon PC/starter de secours ; usage unique des modules, atlas épuré/éloigné, fioles/écrans animés, « Fin .... ou presque ». 31 tests, 228 SQL, 70 vues Chromium/WebKit et recette de fin ; `docs/DARK_CONTINENT_POLISH_2026-11-02.json`.
 

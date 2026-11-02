@@ -461,7 +461,7 @@ function playerTurn(player, io, battleState) {
 }
 
 async function startBattle(player, wildPokemon, io, userId) {
-    const dark=require('../world/darkContinent').isMap(player.currentmap),darkRepo=require('../../persistence/darkContinentRepository');
+    const encounterMap=player.currentmap,dark=require('../world/darkContinent').isMap(encounterMap),darkRepo=require('../../persistence/darkContinentRepository');
     const darkStarted=new Set(player.equipe.pokemons.filter(p=>p.currentHp>0).map(p=>p.uuid));
     presentation.reset(player);
     require('./partyOrder').rememberPartyOrder(player.equipe);
@@ -474,7 +474,7 @@ async function startBattle(player, wildPokemon, io, userId) {
         if (playerWon && !hasAlivePokemon(player.equipe.pokemons)) playerWon = false;
         if (playerWon && (extra.captured || wildPokemon.currentHp <= 0) && !wildLootAttempted) {
             wildLootAttempted = true;
-            const items = dark?await darkRepo.grantLoot(userId,wildPokemon):await require('../../persistence/wildLootRepository').awardWildBattleLoot(userId);
+            const items = dark?await darkRepo.grantLoot(userId,wildPokemon,Math.random,encounterMap):await require('../../persistence/wildLootRepository').awardWildBattleLoot(userId);
             if (items.length) {
                 resultTracker.loot.push(...items.map(i=>`${i.name}${i.quantity>1?' ×'+i.quantity:''}`));
                 io.to(player.id).emit('bagUpdated', {items:await loadUserItems(userId)});

@@ -45,3 +45,25 @@ test('a whole-party loss can recover an unconscious reserve from the PC for the 
 test('personal scout reaches a trainer around furniture without crossing a wall or the trainer',()=>{const grid=Array.from({length:20},()=>Array(28).fill(0));for(let y=10;y<18;y++)grid[y][12]=1;const goal={x:15,y:14},path=dc.scoutPath(grid,goal);assert(path.length>5);assert(path.every(p=>grid[p.y][p.x]===0&&(p.x!==goal.x||p.y!==goal.y)));const end=path.at(-1);assert.equal(Math.abs(end.x-goal.x)+Math.abs(end.y-goal.y),1);for(let i=1;i<path.length;i++)assert.equal(Math.abs(path[i].x-path[i-1].x)+Math.abs(path[i].y-path[i-1].y),1);});
 
 test('paid Dark commands reject stale clients before any purchase or heal when the displayed price was not acknowledged',async()=>{const commands={},p={currentmap:'jungle1',x:208,y:368};require('../server/realtime/handlers/darkContinentHandlers').createHandlers({socket:{emit(){}},account:{on:(name,fn)=>commands[name]=fn},userId:0,getPlayer:()=>p,getState:()=>({}),setState(){},refreshActors(){},canUse:()=>true,travel(){},closeFishing(){}});for(const event of['dark:claim','dark:heal']){let ack;await commands[event]({},r=>ack=r);assert.equal(ack.success,false);assert.match(ack.message,/prix|50 000/);assert.equal(p.inventoryBusy,false);}});
+
+test('loot increases by west/center/east column, identically on all three rows; ordinary regions cannot opt into these rewards',()=>{
+ assert.throws(()=>dc.lootProfile('route3'),/réservé/);assert.throws(()=>dc.lootProfile('jungle10'),/réservé/);
+ assert.equal(dc.lootProfile('jungle1').ordinaryChance,require('../server/game/items/wildLoot').ADVENTURE_CHANCE);
+ const p=factory.create(6,100,true),minimums=[[2,1,1],[3,2,1],[4,3,2]];
+ for(let c=0;c<3;c++)for(let row=0;row<3;row++){
+  const map='jungle'+(row*3+c+1);assert.equal(dc.lootProfile(map),dc.lootProfile('jungle'+(c+1)));
+  assert.deepEqual(dc.loot(p,()=>0,map).filter(i=>!i.plateType).map(i=>i.quantity),minimums[c]);
+ }
+ let seed=1;const random=()=>((seed=Math.imul(seed,1664525)+1013904223>>>0)/4294967296),means=[];
+ for(let c=0;c<3;c++){
+  const map='jungle'+(c+1),profile=dc.lootProfile(map),counts={},totals={};
+  for(let i=0;i<20000;i++)for(const item of dc.loot(p,random,map)){
+   const key=item.plateType?'plate':item.key;counts[key]=(counts[key]||0)+1;totals[key]=(totals[key]||0)+item.quantity;
+   if(item.plateType){assert(p.data.type.includes(item.plateType));assert.equal(item.quantity,1);}
+   else{const spec=profile.crystals.find(([key])=>key===item.key);assert(item.quantity>=spec[2]&&item.quantity<=spec[3]);}
+  }
+  for(const[key,chance,min,max]of profile.crystals){assert(Math.abs(counts[key]/20000-chance)<.015);assert(Math.abs(totals[key]/20000-chance*(min+max)/2)<.04);}
+  assert(Math.abs(counts.plate/20000-profile.plateChance)<.01);means.push(totals);
+ }
+ for(const key of ['crystal_shard','clear_crystal','aurora_prism','plate'])assert(means[0][key]<means[1][key]&&means[1][key]<means[2][key],key+' must reward the extra risk');
+});
