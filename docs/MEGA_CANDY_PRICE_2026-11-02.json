@@ -1,0 +1,73 @@
+{
+  "date": "2026-11-02",
+  "sourceBaseline": "d7b46c22ddb958edd472f85bc1817e4d7999d318",
+  "clientCommit": "e7ad34a7f016b78144e80407d6ccb71dd6712608",
+  "clientBuild": "e4e01a1185eec295",
+  "buildIndexSha256": "c9cee5141c491b72dd78e3dfb60114b366d123e25cd6e18dac82147359bea0a8",
+  "runtimeSourceSha256": {
+    "data/game/items.json": "4412d4a4ab1f1a4d30d543b73940a5580a856d85ad8f6f73bc0f1bfb6d8760d0",
+    "data/game/shop_offers.json": "0e49dc32be01ad884cffe0a507912a7ac639955c77ac3ac07153ccefb8d02966",
+    "data/game/department_store.json": "34234227051493974e70839b56401990ac882ce5e596befdf22b68ee95749f97"
+  },
+  "schemaChanged": false,
+  "change": {
+    "itemKey": "mega_candy",
+    "oldBuyPrice": 120000,
+    "newBuyPrice": 90000,
+    "sellPrice": 45000,
+    "maxLevel": 150,
+    "inventoryUnchanged": true
+  },
+  "validation": {
+    "unitPassed": 30,
+    "sqlPassed": 3,
+    "failed": 0,
+    "skipped": 0,
+    "authoritativePriceVerified": true,
+    "allShopCatalogsVerified": true,
+    "onlyThreePriceFieldsChanged": true,
+    "clientUnchanged": true,
+    "realAccountsManuallyModified": false,
+    "changedFields": [
+      "data/game/items.json/items/379/buy_price",
+      "data/game/shop_offers.json/offers/mega_candy/price",
+      "data/game/department_store.json/floors/tour_etage1/offers/mega_candy/price"
+    ]
+  },
+  "commands": [
+    "node --test tests/rare-candy.test.js tests/shop-training.test.js",
+    "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file=.env --test --test-concurrency=1 tests/rare-candy-mysql.test.js"
+  ],
+  "deployment": {
+    "publishedAt": "2026-11-02T14:59:11.348Z",
+    "restartedAt": "2026-11-02T14:59:10.052Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-mega-price-2026-11-02T14-59-09-637Z",
+    "sourceBaseline": "d7b46c22ddb958edd472f85bc1817e4d7999d318",
+    "sourceHashes": {
+      "data/game/department_store.json": "34234227051493974e70839b56401990ac882ce5e596befdf22b68ee95749f97",
+      "data/game/items.json": "4412d4a4ab1f1a4d30d543b73940a5580a856d85ad8f6f73bc0f1bfb6d8760d0",
+      "data/game/shop_offers.json": "0e49dc32be01ad884cffe0a507912a7ac639955c77ac3ac07153ccefb8d02966"
+    },
+    "clientCommit": "e7ad34a7f016b78144e80407d6ccb71dd6712608",
+    "clientBuild": "e4e01a1185eec295",
+    "beforePid": "3726032",
+    "afterPid": "3730017",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "clientUnchanged": true,
+    "publicClientUnchanged": true,
+    "schemaChanged": false,
+    "activeClubDuelsBefore": 0,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 0,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": [],
+    "publishedAtParis": "2026-11-02T15:59:11.348000+01:00"
+  }
+}

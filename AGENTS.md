@@ -1,3 +1,7 @@
+## Prix du Méga Bonbon — 2 novembre 2026
+
+Le prix actuel est 90 000 ₽, plafond niveau 150 inchangé. Conserver la cohérence de `items.json`, `shop_offers.json` et `department_store.json` ; les anciens montants 120 000 dans les audits sont historiques. Rapport `docs/MEGA_CANDY_PRICE_2026-11-02.json`, tests `rare-candy*` et `shop-training`.
+
 ## Butin Dark Continent — 2 novembre 2026
 
 Lire la nouvelle section d’audit et `docs/DARK_CONTINENT_LOOT_2026-11-02.json`. Profils `lootProfile(map)` par colonne : 1/4/7 ouest historique, 2/5/8 centre, 3/6/9 est. Chance/quantité des cristaux croissent, plaques 7/10/14 %, butin ordinaire 1/6→1/5→1/4, unicité conservée. `wildBattle` transmet la carte capturée au début de la rencontre ; ne pas revenir au profil ouest par défaut dans les combats de l’est. Aucune autre économie/région modifiée. Recettes : `dark-continent.test.js`, `dark-continent-mysql.test.js`, `dark-economy-mysql.test.js` et `battle-runtime-integration.test.js`, SQL sur base dédiée.

@@ -1,3 +1,11 @@
+## Méga Bonbon : prix de 90 000 ₽ — 2 novembre 2026
+
+Prix d’achat réduit de 120 000 à 90 000 ₽ dans les trois sources : définition de l’objet, boutiques ordinaires et Grand Comptoir. Le catalogue et le débit effectif utilisent le même montant ; revente automatique à 45 000 ₽ selon la règle existante. Comparaison des données complètes avant/après : seuls ces trois champs tarifaires changent. Plafond niveau 150, prérequis des boutiques, effets, quantités possédées et autres objets conservés.
+
+Validation : 30 tests de logique/catalogue et trois SQL réussis sans échec/saut. Achat réel de deux unités pour 180 000 ₽, fonds insuffisants, faux prix client ignoré, inventaire préexistant conservé, plafonds et concurrence de consommation couverts par les tests existants adaptés. Recette navigateur réutilisable mise à jour (prix/solde attendu), sans nouveau parcours visuel ni build pour ce réglage de données serveur. Syntaxe des trois fichiers de vérification et diff valides ; comptes jetables supprimés. Rapport : `docs/MEGA_CANDY_PRICE_2026-11-02.json`.
+
+Publié le 2 novembre 2026 à 15 h 59 (Europe/Paris), serveur seul, sans migration. Client `e7ad34a7f016b78144e80407d6ccb71dd6712608`, build `e4e01a1185eec295` et index HTTPS conservés. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-mega-price-2026-11-02T14-59-09-637Z` ; PID 3726032→3730017, service actif sans redémarrage automatique/avertissement. Knov/api-test, checkpoint et modes fermés inchangés ; aucune modification manuelle de compte réel pour ce réglage.
+
 ## Dark Continent : butin croissant vers l’est — 2 novembre 2026
 
 Les neuf jungles partagent désormais trois profils par colonne : ouest 1/4/7, centre 2/5/8, est 3/6/9. L’ouest conserve exactement les gains précédents. Le niveau ou l’espèce de l’ennemi ne changent pas ce profil : la carte réelle de début du combat, conservée côté serveur, détermine le palier jusqu’à l’attribution. La réplique du guide annonce cette progression.
@@ -5924,6 +5932,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **2 novembre 2026 — Méga Bonbon :** prix 90 000 ₽ dans la définition, les boutiques et le Grand Comptoir ; plafond 150 et inventaires conservés. 30 tests et trois SQL ; `docs/MEGA_CANDY_PRICE_2026-11-02.json`.
 
 - **2 novembre 2026 — Butin Dark Continent :** trois profils ouest/centre/est, quantités/chances de cristaux, plaques et objets croissantes, ouest conservé ; carte de début du vrai combat autoritaire. 14 tests et 207 SQL ; `docs/DARK_CONTINENT_LOOT_2026-11-02.json`.
 
