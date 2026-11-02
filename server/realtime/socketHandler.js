@@ -818,6 +818,8 @@ const socketHandler = (io) => {
         account.on('void:travel',async(_data,ack)=>{
             const reply=typeof ack==='function'?ack:()=>{},player=players[socket.id];
             if(!player||tournament?.controller.active||transitionBusy||interactionBusy||pendingDialogue||player.inbattle||player.inventoryBusy||socketToChatSession.has(socket.id)||Date.now()-lastVoidTravel<3000)return reply({success:false,message:'L’objet ne réagit pas pour le moment.'});
+            const dark=require('../game/world/darkContinent');
+            if(dark.isMap(currentmap))return reply({success:false,message:dark.EXIT_MESSAGE});
             transitionBusy=true;player.inventoryBusy=true;
             try{
                 const r=await require('../persistence/voidEndingRepository').read(userId);
@@ -1563,6 +1565,13 @@ const socketHandler = (io) => {
                 player.animationFrame = 0;
             }
 
+            const darkEdge=require('../game/world/darkContinentEdges').departure(player,direction);
+            if(darkEdge){
+                canMove=false;transitionBusy=true;player.isMoving=false;
+                try{await relocatePlayer({map:darkEdge.nextMap,x:darkEdge.nextX,y:darkEdge.nextY},{reason:'map_transition',saveCheckpoint:true});}
+                finally{transitionBusy=false;setTimeout(()=>{canMove=true;},MOVE_DELAY);}
+                return;
+            }
             const stair=stairways.departure(player,direction);
             if(stair){
                 const fromMap=currentmap;
@@ -1721,7 +1730,7 @@ const socketHandler = (io) => {
             }
 
             if (changemap2D[matrixY] && changemap2D[matrixY][matrixX] != 0) {
-                const nextMapData = getNextMap(currentmap, matrixX, matrixY);
+                const nextMapData = getNextMap(currentmap, matrixX, matrixY,direction);
                 if(nextMapData?.staircase && nextMapData.triggerOnExit)return;
                 if (nextMapData?.requiresStoryFlag) {
                     transitionBusy = true;

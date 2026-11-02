@@ -1,0 +1,844 @@
+{
+  "date": "2026-11-02",
+  "feature": "Retour par le guide, soins moins chers, raccords du Dark Continent et vérification Orbe Vie",
+  "sourceBaseline": "000de02d4d34534df67ed7e2eb8e03ee6d259c41",
+  "clientCommit": "638849072228deba4cff98fe7ed1e7e784f32b41",
+  "clientBuild": "487b9f028fdb8f93",
+  "schemaChanged": false,
+  "realAccountsManuallyModified": false,
+  "rules": {
+    "healPriceBefore": 50000,
+    "healPriceAfter": 25000,
+    "survivorsOnly": true,
+    "noChargeForFullTeam": true,
+    "guideReturnFree": true,
+    "returnDestination": "devant la maison du joueur, village de départ",
+    "returnHeals": false,
+    "travelRequiresGuideOnIsland": true,
+    "blockedEvents": [
+      "flyToTown",
+      "superTournament:travel",
+      "void:travel",
+      "dark:travel"
+    ],
+    "guideReturnEvent": "dark:return",
+    "forcedRescueUnchanged": true,
+    "cardEntryAndPriceUnchanged": true
+  },
+  "edges": {
+    "maps": 9,
+    "authoredDirectionalLinks": 464,
+    "authorMapAndArtBytesUnchanged": true,
+    "arrivalExactAuthorTile": true,
+    "perpendicularCoordinatePreserved": true,
+    "outwardDirectionRequired": true,
+    "reverseDepartureFromEdge": true,
+    "unrelatedMapConfigUnchanged": true,
+    "reproducibleGenerator": "scripts/alignDarkContinentEdges.js"
+  },
+  "lifeOrb": {
+    "runtimeChanged": false,
+    "result": "Pas de différence joueur/adversaire reproduite ; mêmes bonus et exceptions, PV publiés et sauvegardés.",
+    "recoilFraction": 0.1,
+    "oneCostPerMove": true,
+    "worksOnSubstituteAndFinalKO": true,
+    "exceptions": [
+      "Garde Magik",
+      "Sans Limite si la capacité est renforcée",
+      "objet neutralisé",
+      "aucun dégât"
+    ],
+    "nidokingMirrors": [
+      "Thunderbolt",
+      "Ice Beam",
+      "Earth Power",
+      "Sludge Wave",
+      "Superpower",
+      "Earthquake"
+    ],
+    "enemyOrchestrators": [
+      "wild",
+      "trainer",
+      "drift"
+    ],
+    "references": [
+      "https://www.smogon.com/dex/sm/items/life-orb/",
+      "https://www.smogon.com/dex/ss/abilities/sheer-force/",
+      "https://raw.githubusercontent.com/smogon/pokemon-showdown/master/data/items.ts"
+    ]
+  },
+  "validation": {
+    "unit": {
+      "pass": 288,
+      "fail": 0,
+      "skipped": 0
+    },
+    "mysql": {
+      "pass": 235,
+      "fail": 0,
+      "skipped": 0,
+      "database": "explorakit_test"
+    },
+    "browser": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "buildIndexSha256": "6a23816364263f193e75650d3a1e09a4484c63dfca9d186976a29903fa0ece2c",
+        "views": [
+          {
+            "stage": "invitation",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "invitation",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "invitation",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "invitation",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "stage": "rules",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "rules",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "rules",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "rules",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "stage": "guide",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "guide",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "jungle1",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle1",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle2",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle3",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle6",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle5",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle4",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle7",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle8",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle9",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "minimap",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "minimap",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle-battle",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle-battle",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "jungle-battle",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle-battle",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "stage": "plates",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "guide-return",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "guide-return",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "guide-return",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "guide-return",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "stage": "nurse-rescue",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "nurse-rescue",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "nurse-rescue",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "nurse-rescue",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "stage": "nurse-pc",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "nurse-pc",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "nurse-pc",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "nurse-pc",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          }
+        ],
+        "visited": [
+          "jungle1",
+          "jungle2",
+          "jungle3",
+          "jungle6",
+          "jungle5",
+          "jungle4",
+          "jungle7",
+          "jungle8",
+          "jungle9"
+        ],
+        "motion": {
+          "changed": 23969,
+          "outside": 0
+        },
+        "personalScout": true,
+        "scoutApproaches": true,
+        "onlyQualifiedAccount": true,
+        "uniquePassFanfareOnce": true,
+        "redRules": true,
+        "guideBlocksAndHeals": true,
+        "nineRealTransitions": true,
+        "wind": 2,
+        "waterMaskRespected": true,
+        "atlasWidth": 1024,
+        "realJungleBattle": true,
+        "fleeDisabled": true,
+        "captureImpossibleAndBallConsumed": true,
+        "nativeWebKitCaptureOmitted": false,
+        "enemyPlatformOnly": true,
+        "moneyZero": true,
+        "eighteenPlateColors": true,
+        "reconnect": true,
+        "guideReturnHome": true,
+        "healPrice": 25000,
+        "forgedTravelBlocked": true,
+        "exactEdgeCoordinates": true,
+        "heldDirectionNoBounce": true,
+        "lifeOrbRecoilVisibleAndSaved": true,
+        "emptyTeamReconnectGetsStarter": true,
+        "pcRecoveryOnLegacyReconnect": true,
+        "paidPass": true,
+        "paidSurvivorCare": true,
+        "casinoAndHouseTracks": true,
+        "realLegendaryEncounterTheme": true,
+        "errors": []
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "buildIndexSha256": "6a23816364263f193e75650d3a1e09a4484c63dfca9d186976a29903fa0ece2c",
+        "views": [
+          {
+            "stage": "invitation",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "invitation",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "invitation",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "invitation",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "stage": "rules",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "rules",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "rules",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "rules",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "stage": "guide",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "guide",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "jungle1",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle1",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle2",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle3",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle6",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle5",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle4",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle7",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle8",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle9",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "minimap",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "minimap",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle-battle",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle-battle",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "jungle-battle",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle-battle",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "stage": "plates",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "guide-return",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "guide-return",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "guide-return",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "guide-return",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "stage": "nurse-rescue",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "nurse-rescue",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "nurse-rescue",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "nurse-rescue",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "stage": "nurse-pc",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "nurse-pc",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "nurse-pc",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "nurse-pc",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          }
+        ],
+        "visited": [
+          "jungle1",
+          "jungle2",
+          "jungle3",
+          "jungle6",
+          "jungle5",
+          "jungle4",
+          "jungle7",
+          "jungle8",
+          "jungle9"
+        ],
+        "motion": {
+          "changed": 23324,
+          "outside": 0
+        },
+        "personalScout": true,
+        "scoutApproaches": true,
+        "onlyQualifiedAccount": true,
+        "uniquePassFanfareOnce": true,
+        "redRules": true,
+        "guideBlocksAndHeals": true,
+        "nineRealTransitions": true,
+        "wind": 2,
+        "waterMaskRespected": true,
+        "atlasWidth": 1024,
+        "realJungleBattle": true,
+        "fleeDisabled": true,
+        "captureImpossibleAndBallConsumed": false,
+        "nativeWebKitCaptureOmitted": true,
+        "enemyPlatformOnly": true,
+        "moneyZero": true,
+        "eighteenPlateColors": true,
+        "reconnect": true,
+        "guideReturnHome": true,
+        "healPrice": 25000,
+        "forgedTravelBlocked": true,
+        "exactEdgeCoordinates": true,
+        "heldDirectionNoBounce": true,
+        "lifeOrbRecoilVisibleAndSaved": true,
+        "emptyTeamReconnectGetsStarter": true,
+        "pcRecoveryOnLegacyReconnect": true,
+        "paidPass": true,
+        "paidSurvivorCare": true,
+        "casinoAndHouseTracks": true,
+        "realLegendaryEncounterTheme": true,
+        "errors": []
+      }
+    },
+    "enemyLifeOrbBrowser": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "views": [
+          {
+            "width": 393,
+            "height": 852,
+            "move": "Thunderbolt",
+            "enemyHp": 503,
+            "enemyMaxHp": 503,
+            "ability": "Sheer Force",
+            "heldItem": "life_orb",
+            "actualClientHpMatches": true
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "move": "Earthquake",
+            "enemyHp": 453,
+            "enemyMaxHp": 503,
+            "ability": "Sheer Force",
+            "heldItem": "life_orb",
+            "actualClientHpMatches": true
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "move": "Thunderbolt",
+            "enemyHp": 503,
+            "enemyMaxHp": 503,
+            "ability": "Sheer Force",
+            "heldItem": "life_orb",
+            "actualClientHpMatches": true
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "move": "Earthquake",
+            "enemyHp": 453,
+            "enemyMaxHp": 503,
+            "ability": "Sheer Force",
+            "heldItem": "life_orb",
+            "actualClientHpMatches": true
+          }
+        ],
+        "errors": [],
+        "physicalHardware": false,
+        "compiledClientChanged": false
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "views": [
+          {
+            "width": 393,
+            "height": 852,
+            "move": "Thunderbolt",
+            "enemyHp": 503,
+            "enemyMaxHp": 503,
+            "ability": "Sheer Force",
+            "heldItem": "life_orb",
+            "actualClientHpMatches": true
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "move": "Earthquake",
+            "enemyHp": 453,
+            "enemyMaxHp": 503,
+            "ability": "Sheer Force",
+            "heldItem": "life_orb",
+            "actualClientHpMatches": true
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "move": "Thunderbolt",
+            "enemyHp": 503,
+            "enemyMaxHp": 503,
+            "ability": "Sheer Force",
+            "heldItem": "life_orb",
+            "actualClientHpMatches": true
+          },
+          {
+            "width": 1365,
+            "height": 900,
+            "move": "Earthquake",
+            "enemyHp": 453,
+            "enemyMaxHp": 503,
+            "ability": "Sheer Force",
+            "heldItem": "life_orb",
+            "actualClientHpMatches": true
+          }
+        ],
+        "errors": [],
+        "physicalHardware": false,
+        "compiledClientChanged": false
+      }
+    },
+    "syntaxFiles": 17,
+    "lint": true,
+    "isolatedBuild": true,
+    "fullGlobalSuite": false,
+    "physicalDevice": false
+  },
+  "commands": [
+    "node --test tests/life-orb-review.test.js tests/dark-travel.test.js tests/dark-continent.test.js tests/flight-travel.test.js tests/held-items-expansion.test.js tests/expedition-strategy.test.js tests/multi-hit.test.js tests/move-behavior-audit.test.js tests/pivot-choice.test.js tests/teleport.test.js tests/end-of-round.test.js tests/safe-position.test.js tests/player-state.test.js",
+    "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file=.env --test --test-concurrency=1 tests/dark-economy-mysql.test.js tests/dark-continent-mysql.test.js tests/pivot-choice-mysql.test.js tests/battle-runtime-integration.test.js",
+    "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=chromium RELEASE_DIST_DIR=/tmp/riftmon-dark-travel-dist node --env-file=.env scripts/validateDarkContinentBrowser.js",
+    "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=webkit RELEASE_DIST_DIR=/tmp/riftmon-dark-travel-dist node --env-file=.env scripts/validateDarkContinentBrowser.js",
+    "DB_TEST_NAME=explorakit_test BATTLE_DELAY_SCALE=0 PRESENTATION_BROWSER=chromium node --env-file=.env scripts/validateEnemyLifeOrbBrowser.js",
+    "DB_TEST_NAME=explorakit_test BATTLE_DELAY_SCALE=0 PRESENTATION_BROWSER=webkit node --env-file=.env scripts/validateEnemyLifeOrbBrowser.js"
+  ],
+  "runtimeSourceSha256": {
+    "data/game/items.json": "b5a7b0b77e06082808e653e7666c6a23db87593fe5481d85a0c2dc9db12c68d1",
+    "data/game/nextMap.json": "307e9827d1e84a2fd038d8fbe13ae470b445873c4e7a6b1d35cd6f7bed8e5b6c",
+    "server/game/world/darkContinent.js": "c47ba4781b3538c7e7f9694b3c2b6dfe3edb6a5a50109b9dee01fdcbd7ef70fd",
+    "server/game/world/mapRepository.js": "e259e850df6d15a740c1985217cf9867536051cb43b34f46244839a007223f37",
+    "server/persistence/darkContinentRepository.js": "06aef6a16b619d77931a124f0a0df21f9229a9d96e41686fada8b728cd2695c9",
+    "server/realtime/handlers/darkContinentHandlers.js": "b430fb2ae86ae8830d9c8957a39dd8062063318f7c6b8eb5fa9b1b2d82a9cd5c",
+    "server/realtime/handlers/flightHandlers.js": "f6af9c823985522b6cde0ccbf199ea0c5018141900562a017904888653c91277",
+    "server/realtime/handlers/superTournamentHandlers.js": "e7add2e0cd4d58fc5ff5cbfbc4e42c3513084ef27a4676347b45e5c8e5041eb4",
+    "server/realtime/socketHandler.js": "68cf6ee129c749865554334bacb39bfab432e2dcd40204fd52f26b99fa849632",
+    "server/game/world/darkContinentEdges.js": "9b0d682d1f3c0d117ede3c2771b216663b365f97d27127d6a1f0599099e86d4a"
+  },
+  "deployment": {
+    "publishedAt": "2026-11-02T18:15:51.032Z",
+    "restartedAt": "2026-11-02T18:15:41.546Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-dark-travel-2026-11-02T18-15-40-019Z",
+    "sourceBaseline": "000de02d4d34534df67ed7e2eb8e03ee6d259c41",
+    "sourceHashes": {
+      "data/game/items.json": "b5a7b0b77e06082808e653e7666c6a23db87593fe5481d85a0c2dc9db12c68d1",
+      "data/game/nextMap.json": "307e9827d1e84a2fd038d8fbe13ae470b445873c4e7a6b1d35cd6f7bed8e5b6c",
+      "server/game/world/darkContinent.js": "c47ba4781b3538c7e7f9694b3c2b6dfe3edb6a5a50109b9dee01fdcbd7ef70fd",
+      "server/game/world/mapRepository.js": "e259e850df6d15a740c1985217cf9867536051cb43b34f46244839a007223f37",
+      "server/persistence/darkContinentRepository.js": "06aef6a16b619d77931a124f0a0df21f9229a9d96e41686fada8b728cd2695c9",
+      "server/realtime/handlers/darkContinentHandlers.js": "b430fb2ae86ae8830d9c8957a39dd8062063318f7c6b8eb5fa9b1b2d82a9cd5c",
+      "server/realtime/handlers/flightHandlers.js": "f6af9c823985522b6cde0ccbf199ea0c5018141900562a017904888653c91277",
+      "server/realtime/handlers/superTournamentHandlers.js": "e7add2e0cd4d58fc5ff5cbfbc4e42c3513084ef27a4676347b45e5c8e5041eb4",
+      "server/realtime/socketHandler.js": "68cf6ee129c749865554334bacb39bfab432e2dcd40204fd52f26b99fa849632",
+      "server/game/world/darkContinentEdges.js": "9b0d682d1f3c0d117ede3c2771b216663b365f97d27127d6a1f0599099e86d4a"
+    },
+    "clientCommit": "638849072228deba4cff98fe7ed1e7e784f32b41",
+    "clientBuild": "487b9f028fdb8f93",
+    "beforePid": "3743689",
+    "afterPid": "3746664",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "schemaChanged": false,
+    "migrationApplied": null,
+    "activeClubDuelsBefore": 0,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 1,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": [
+      "js/234.02b18f2e.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.f909aa37.js",
+      "js/account.161ce126.js",
+      "js/app.0971e1b9.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.2fd32f7c.js",
+      "js/drift.5b8720d7.js",
+      "js/game.becf8d02.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.4fff4c7e.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.75627365.css",
+      "css/test-view.7568246d.css"
+    ]
+  }
+}

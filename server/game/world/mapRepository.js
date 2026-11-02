@@ -136,7 +136,7 @@ function buildBattleMapData(mapName) {
 
 
 
-function getSourceNextMap(currentMap, posX, posY) {
+function getSourceNextMap(currentMap, posX, posY, direction) {
     // Lire le fichier
     // console.log('test next map poxX', posX, posY);
     if (!nextMapConfig) {
@@ -148,6 +148,7 @@ function getSourceNextMap(currentMap, posX, posY) {
     for (let map of mapData.maps) {
         if (map.mapName === currentMap) {
             for (let change of map.mapchange) {
+                if(direction && change.edgeDirection && change.edgeDirection!==direction)continue;
                 const hasX = Number.isInteger(change.valX);
                 const hasY = Number.isInteger(change.valY);
                 const matchesX = !hasX || change.valX === posX;
@@ -156,6 +157,7 @@ function getSourceNextMap(currentMap, posX, posY) {
                     // Si valX est défini et correspond à posX
                     return {
                         nextMap: change.goto,
+                        ...(change.edgeDirection ? {edgeDirection:change.edgeDirection}: {}),
                         ...(change.staircase===true ? {staircase:true,triggerOnExit:change.triggerOnExit} : {}),
                         ...(change.blockedMessage ? { blockedMessage: change.blockedMessage } : {}),
                         ...(change.requiresStoryFlag ? { requiresStoryFlag: change.requiresStoryFlag, lockedMessage: change.lockedMessage } : {}),
@@ -178,9 +180,9 @@ function getSourceNextMap(currentMap, posX, posY) {
 }
 
 
-function getNextMap(currentMap,posX,posY) {
+function getNextMap(currentMap,posX,posY,direction) {
     const layout=require('./departmentLayout');
-    const link=getSourceNextMap(currentMap,layout.sourceTile(currentMap,posX),posY);
+    const link=getSourceNextMap(currentMap,layout.sourceTile(currentMap,posX),posY,direction);
     if(!link)return null;
     const x=Math.floor(link.nextX/32);
     return {...link,nextX:layout.compactTile(link.nextMap,x)*32+(link.nextX%32)};

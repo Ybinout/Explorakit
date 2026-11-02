@@ -10,7 +10,7 @@ async function healSurvivors(userId){return withTransaction(async c=>{
  if(!survivors.length)throw Error('Je ne peux plus leur porter secours. Il faut rejoindre un Centre Pokémon.');
  const pp=require('../game/battle/battleResources'),needsCare=survivors.some(p=>p.currentHp<p.maxHp||p.status!=='normal'||p.abilities.some((move,i)=>p.movePp[i]<pp.getMaxMovePp(move)));
  if(!needsCare)return{equipe:team,money:Number(user.money),charged:0};
- if(Number(user.money)<dc.HEAL_PRICE)throw Error('Les premiers secours coûtent 50 000 ₽ pour l’équipe. Tu n’as pas assez de Pokédollars.');
+ if(Number(user.money)<dc.HEAL_PRICE)throw Error(`Les premiers secours coûtent ${dc.HEAL_PRICE.toLocaleString('fr-FR')} ₽ pour l’équipe. Tu n’as pas assez de Pokédollars.`);
  require('../game/world/playerRecovery').healTeam({pokemons:survivors});await teams.editEquipe(userId,team,c);await c.execute('UPDATE users SET money=money-? WHERE id=?',[dc.HEAL_PRICE,userId]);return{equipe:team,money:Number(user.money)-dc.HEAL_PRICE,charged:dc.HEAL_PRICE};
 });}
 async function acknowledgeRules(userId){await dbPool.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,'dark_rules_read','true') ON DUPLICATE KEY UPDATE flag_value='true'",[userId]);}

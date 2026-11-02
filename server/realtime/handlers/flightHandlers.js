@@ -6,6 +6,8 @@ function registerFlightHandlers({socket,userId,getPlayer,canUse,setBusy,travel,l
     onAccountEvent(socket, 'flyToTown',async(data,ack)=>{
         const reply=typeof ack==='function'?ack:()=>{};const player=getPlayer();
         if(busy||!player||player.inbattle||player.inventoryBusy||player.isInteracting||!canUse())return reply({success:false,message:'Termine ton action avant de prendre ton envol.'});
+        const dark=require('../../game/world/darkContinent');
+        if(dark.isMap(player.currentmap))return reply({success:false,message:dark.EXIT_MESSAGE});
         const target=flightDestination(data?.map);
         if(!target)return reply({success:false,message:'Cette destination ne permet pas d’atterrir.'});
         if(now()-lastFlight<3000)return reply({success:false,message:'Attends un instant avant de repartir.'});

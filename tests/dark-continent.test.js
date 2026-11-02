@@ -7,15 +7,15 @@ test('nine authored maps and both image layers are preserved byte-for-byte; 36 f
  for(const id of species){assert(id<=493);assert(!require('../server/game/world/legendaryEncounters').isLegendary(id));assert(!evolutions.some(r=>r.from===id));}
  for(const asset of require('../docs/DARK_CONTINENT_ASSETS_2026-11-02.json').assets)assert.equal(require('node:crypto').createHash('sha256').update(fs.readFileSync(asset.path)).digest('hex'),asset.sha256,asset.path);
 });
-test('all nine maps can be traversed from the beach; every transition is authored, adjacent and lands on a free inner tile',()=>{
+test('all nine maps can be traversed from the beach; every transition is authored, adjacent and lands on the exact authored edge without a transverse jump',()=>{
  const start={map:dc.ARRIVAL.map,x:Math.floor(dc.ARRIVAL.x/32),y:Math.floor(dc.ARRIVAL.y/32)},queue=[start],seen=new Set(),visited=new Set();
  for(const p of queue){const k=`${p.map}:${p.x}:${p.y}`;if(seen.has(k)||seen.size>6000)continue;seen.add(k);visited.add(p.map);const grid=terrain.loadCollisionData(p.map);if(grid[p.y]?.[p.x]!==0)continue;
   for(const[dx,dy]of[[0,-1],[1,0],[0,1],[-1,0]]){const x=p.x+dx,y=p.y+dy;if(grid[y]?.[x]!==0)continue;if(dc.actors(p.map).some(a=>a.x===x&&(a.y===y||a.y-1===y)))continue;const link=terrain.changeMapData(p.map)[y][x]&&terrain.getNextMap(p.map,x,y);if(link)queue.push({map:link.nextMap,x:Math.floor(link.nextX/32),y:Math.floor(link.nextY/32)});else queue.push({map:p.map,x,y});}
  }
  assert.equal(visited.size,9);
  for(const map of world.filter(m=>dc.isMap(m.mapName))){const source=require('../data/maps/'+map.mapName+'.json'),authored=source.layers.find(l=>l.name==='liaisons').objects;const cells=new Set();
-  for(const link of map.mapchange){const key=link.valX+':'+link.valY;assert(!cells.has(key));cells.add(key);assert(authored.some(o=>o.x===link.valX*16&&o.y===link.valY*16&&o.properties.some(p=>p.name==='destination'&&p.value===link.goto)));
-   const resolved=terrain.getNextMap(map.mapName,link.valX,link.valY),x=Math.floor(resolved.nextX/32),y=Math.floor(resolved.nextY/32);assert.equal(terrain.loadCollisionData(link.goto)[y][x],0);assert.equal(terrain.changeMapData(link.goto)[y][x],0,'no immediate return trigger');
+  for(const link of map.mapchange){const key=link.valX+':'+link.valY+':'+link.edgeDirection;assert(!cells.has(key));cells.add(key);assert(authored.some(o=>o.x===link.valX*16&&o.y===link.valY*16&&o.properties.some(p=>p.name==='destination'&&p.value===link.goto)));
+   const resolved=terrain.getNextMap(map.mapName,link.valX,link.valY,link.edgeDirection),x=Math.floor(resolved.nextX/32),y=Math.floor(resolved.nextY/32);assert.equal(terrain.loadCollisionData(link.goto)[y][x],0);const o=authored.find(o=>o.x===link.valX*16&&o.y===link.valY*16&&o.properties.some(p=>p.name==='destination'&&p.value===link.goto)),p=Object.fromEntries(o.properties.map(p=>[p.name,p.value]));assert.equal(x,p.destination_x);assert.equal(y,p.destination_y);assert.equal(require('../server/game/world/darkContinentEdges').departure({currentmap:link.goto,x:resolved.nextX,y:resolved.nextY},link.edgeDirection),null,'holding direction continues into the destination, never back');
    const a=Number(map.mapName.slice(6))-1,b=Number(link.goto.slice(6))-1;assert.equal(Math.abs(a%3-b%3)+Math.abs(Math.floor(a/3)-Math.floor(b/3)),1);
   }
  }
@@ -44,7 +44,7 @@ test('a whole-party loss can recover an unconscious reserve from the PC for the 
 
 test('personal scout reaches a trainer around furniture without crossing a wall or the trainer',()=>{const grid=Array.from({length:20},()=>Array(28).fill(0));for(let y=10;y<18;y++)grid[y][12]=1;const goal={x:15,y:14},path=dc.scoutPath(grid,goal);assert(path.length>5);assert(path.every(p=>grid[p.y][p.x]===0&&(p.x!==goal.x||p.y!==goal.y)));const end=path.at(-1);assert.equal(Math.abs(end.x-goal.x)+Math.abs(end.y-goal.y),1);for(let i=1;i<path.length;i++)assert.equal(Math.abs(path[i].x-path[i-1].x)+Math.abs(path[i].y-path[i-1].y),1);});
 
-test('paid Dark commands reject stale clients before any purchase or heal when the displayed price was not acknowledged',async()=>{const commands={},p={currentmap:'jungle1',x:208,y:368};require('../server/realtime/handlers/darkContinentHandlers').createHandlers({socket:{emit(){}},account:{on:(name,fn)=>commands[name]=fn},userId:0,getPlayer:()=>p,getState:()=>({}),setState(){},refreshActors(){},canUse:()=>true,travel(){},closeFishing(){}});for(const event of['dark:claim','dark:heal']){let ack;await commands[event]({},r=>ack=r);assert.equal(ack.success,false);assert.match(ack.message,/prix|50 000/);assert.equal(p.inventoryBusy,false);}});
+test('paid Dark commands reject stale clients before any purchase or heal when the displayed price was not acknowledged',async()=>{const commands={},p={currentmap:'jungle1',x:208,y:368};require('../server/realtime/handlers/darkContinentHandlers').createHandlers({socket:{emit(){}},account:{on:(name,fn)=>commands[name]=fn},userId:0,getPlayer:()=>p,getState:()=>({}),setState(){},refreshActors(){},canUse:()=>true,travel(){},closeFishing(){}});for(const event of['dark:claim','dark:heal']){let ack;await commands[event]({},r=>ack=r);assert.equal(ack.success,false);assert.match(ack.message,/prix|25[ \u202f]000/);assert.equal(p.inventoryBusy,false);}});
 
 test('loot increases by west/center/east column, identically on all three rows; ordinary regions cannot opt into these rewards',()=>{
  assert.throws(()=>dc.lootProfile('route3'),/réservé/);assert.throws(()=>dc.lootProfile('jungle10'),/réservé/);
