@@ -4,6 +4,7 @@ const {pnjTeams}=require('../world/pnjTeamFactory');
 const teamSets=require('./teamSets');
 const {healTeam}=require('../world/playerRecovery');
 const {gender:pokemonGender}=require('../items/stoneEvolution');
+const towerItems={champion_raphael:{212:'expert_belt'},champion_ana:{282:'sitrus_berry'},gwenn_rochebrume:{248:'chople_berry'},champion_7p:{130:'wacan_berry'}};
 const MAPS={lobby:'super_tournament_lobby',sas:'super_tournament_sas',room:'super_tournament_room'};
 const PASS='super_tournament_pass',POINTS_PER_KO=100;
 const roster=[
@@ -46,7 +47,7 @@ function createTeam(index){
   const pokemon=new Pokemon(id,null,null,getTotalExperienceForLevel([75,85,90][slot]+levelBonus,getExperienceRate(data.exp)),Object.fromEntries(['hp','attack','defense','specialAttack','specialDefense','speed'].map(k=>[k,31])),setup.nature||(physical?'Jolly':'Timid'),4,setup.ev||{[physical?'attack':'specialAttack']:252,speed:252,hp:4});
   for(const move of setup.abilities)pokemon.addAbility(move);
   pokemon.passiveAbility=setup.passiveAbility||pokemon.passiveAbility;
-  pokemon.heldItem=setup.heldItem||(['leftovers','life_orb','focus_sash'][slot]);
+  pokemon.heldItem=towerItems[entry.key]?.[id]||setup.heldItem||(['leftovers','life_orb','focus_sash'][slot]);
   return pokemon;
  });
  const team={pokemons};healTeam(team);
@@ -61,5 +62,5 @@ const invitationLines=[
  'Lucie : Après tous ceux que tu as battus, ils te réservent une place. Tiens, ton PASS Super Tournoi. Tu peux l’utiliser depuis ton sac pour rejoindre l’accueil.',
  'Lucie : Repose-toi encore si tu en as besoin. Moi, je compte bien être prête quand on se retrouvera là-bas !'
 ].map(text=>({text,imageName:'lucie-v1.png',typewriterMs:40}));
-function state(run){return run?{active:true,endless:true,phase:run.phase,room:run.room+1,cycle:Math.floor(run.room/roster.length)+1,cycleRoom:run.room%roster.length+1,total:roster.length,score:run.score,passives:[...require('./powers').active(run.player),...require('./twists').active(run.player)],rerolls:require('./rerolls').view(run),opponentReduction:run.opponentReduction||null,victoryRecovery:run.victoryRecovery||[],cash:require('./cashPrizes').view(run),opponent:entryFor(run.room).name,team:run.player.equipe.pokemons.map(p=>({...p,gender:p.data?.id&&p.uuid?pokemonGender(p):p.gender||null})),reward:require('./rewards').viewOffer(run.reward,run.player.equipe.pokemons,run.player)}: {active:false};}
+function state(run){return run?{active:true,endless:true,phase:run.phase,room:run.room+1,cycle:Math.floor(run.room/roster.length)+1,cycleRoom:run.room%roster.length+1,total:roster.length,score:run.score,passives:[...require('./powers').active(run.player),...require('./twists').active(run.player),...require('./fortune').active(run.player)],rerolls:require('./rerolls').view(run),opponentReduction:run.opponentReduction||null,victoryRecovery:run.victoryRecovery||[],cash:require('./cashPrizes').view(run),opponent:entryFor(run.room).name,team:run.player.equipe.pokemons.map(p=>({...p,gender:p.data?.id&&p.uuid?pokemonGender(p):p.gender||null})),reward:require('./rewards').viewOffer(run.reward,run.player.equipe.pokemons,run.player)}: {active:false};}
 module.exports={MAPS,PASS,roster,entryFor,createTeam,POINTS_PER_KO,eligible,invitation,invitationLines,state};

@@ -1,3 +1,17 @@
+## Super Tournoi : relances, PP et variété — 2 novembre 2026
+
+Deux relances au départ et deux de plus par cycle de seize salles, reliquat conservé. Passer n’importe quelle récompense donne une relance, une seule fois : offre/version contrôlées, transaction et rollback existants réutilisés. Anciennes tentatives : une relance supplémentaire pour le cycle courant seulement, migration du compteur une seule fois ; pas de remise à zéro ni de crédit de tous les cycles passés. Une ancienne sauvegarde sans compteur reçoit les deux du cycle courant.
+
+Cartes PP renforcées : Étincelle mentale 8 PP ; Concentration 15 PP ; Inspiration 5 PP par capacité ; Élan retrouvé 10 PP par capacité ; Chœur des champions 10 PP pour les capacités des survivants. Plafonds habituels conservés, aucun rappel implicite. Nouveau Trèfle porte-bonheur rare : après activation, les futurs tirages et relances ne proposent plus de cartes communes, confirmé par l’utilisateur. Aucun changement du tirage déjà affiché ni des jets de dégâts. Persiste pendant la tentative, disparaît à sa fin. Son tirage brut est à 6 %, avant priorité des deux emplacements spéciaux existants. Infusion vivifiante (statut +10 % PV) ajoute une seconde option non commune de statut pour éviter une impasse de familles au reroll. Toujours quatre choix de familles distinctes, au moins deux récupérations ; pas de réapparition d’une ancienne carte dans sa relance.
+
+Huit nouveaux pactes à coût léger : vol de vie 6 % / dégâts reçus +5 % ; régénération 2 % / Feu reçu +8 % ; dégâts +15 % à pleine vie / Vitesse −3 % ; dégâts +18 % sous 50 % PV / dégâts reçus +5 % ; Vitesse +8 % / dégâts reçus +6 % ; critique +1 cran / dégâts infligés −5 % ; après victoire +1 PP par capacité / dégâts reçus +6 % ; après victoire +8 % PV / Vitesse −4 %. Même carte non cumulable, exclusivité des pactes critiques maintenue. Les soins/PP de victoire excluent les K.O., sont sauvegardés avant publication et apparaissent dans le récapitulatif. 65 cartes au total, dont 27 pactes et 22 récupérations. Détails : `docs/TOWER_VARIETY_2026-11-02.json`.
+
+Les six Baies Prine des seize équipes deviennent deux (Carchacrok de Hoze, Drattak de Wanda). Cizayox reçoit Ceinture Pro, Gardevoir Baie Sitrus, Tyranocif Baie Pomroz et Léviator Baie Parma. Cela ne modifie ni leurs équipes d’Aventure ni un combat déjà préparé. Primes de salle, bonus de cycle et cartes d’argent augmentés de 10 % : cycle complet 299 200 ₽, puis 598 400 ₽, 897 600 ₽… Les versements déjà acquis restent conservés. Pas d’XP dans le tournoi ; aucune autre région/économie touchée.
+
+Validation : 83 tests unitaires/régression et 231 SQL dédiés réussis, zéro échec/saut. Migration ancienne tentative, anti-rejeu/concurrence, rollback injecté, reconnexion, bornes PP, coûts des pactes, K.O., isolement Aventure, anciennes primes et famille/rareté sur plusieurs milliers de tirages vérifiés. Recette privée authentifiée SQL Chromium/WebKit : 32 vues par moteur, quatre formats 320×480 à 1536×680, clair/nocturne, vraie inscription et combats, deux relances puis passage donnant une relance, Fortune, PP, récapitulatif, cycle suivant et abandon. Les 27 pactes sont prévisualisés, zéro erreur JS, comptes jetables supprimés. Lint/build isolé `c1223305c73480f9`, syntaxe/diff valides. Captures inspectées ; pas de téléphone physique ni de suite globale revendiqués. Pas de migration SQL ni de modification manuelle de compte réel.
+
+Publié le 2 novembre 2026 à 16 h 37 (Europe/Paris), client `77bae672a546c3538e6be178958b1f97198f423d`, build `c1223305c73480f9`. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-tower-variety-2026-11-02T15-37-07-194Z`. PID 3730017→3734034, service actif sans redémarrage automatique/avertissement ; index et 22 bundles/CSS HTTPS identiques au build, anciens assets conservés. Aucun changement de schéma/durabilité ni modification manuelle de compte réel. Knov/api-test, checkpoint et modes fermés inchangés ; aucune expédition, tentative de tournoi ou duel actif au contrôle.
+
 ## Méga Bonbon : prix de 90 000 ₽ — 2 novembre 2026
 
 Prix d’achat réduit de 120 000 à 90 000 ₽ dans les trois sources : définition de l’objet, boutiques ordinaires et Grand Comptoir. Le catalogue et le débit effectif utilisent le même montant ; revente automatique à 45 000 ₽ selon la règle existante. Comparaison des données complètes avant/après : seuls ces trois champs tarifaires changent. Plafond niveau 150, prérequis des boutiques, effets, quantités possédées et autres objets conservés.
@@ -5932,6 +5946,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **2 novembre 2026 — Super Tournoi :** deux relances/cycle, passage +1, cartes PP renforcées, Chance minimum peu commun, huit pactes à coût léger, Baies Prine 6→2 et primes +10 %. 83 tests, 231 SQL et 64 vues Chromium/WebKit ; `docs/TOWER_VARIETY_2026-11-02.json`.
 
 - **2 novembre 2026 — Méga Bonbon :** prix 90 000 ₽ dans la définition, les boutiques et le Grand Comptoir ; plafond 150 et inventaires conservés. 30 tests et trois SQL ; `docs/MEGA_CANDY_PRICE_2026-11-02.json`.
 

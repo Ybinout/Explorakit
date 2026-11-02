@@ -14,7 +14,7 @@ class TournamentController {
  constructor({userId,emit,travel,getPlayer,persist=repository,now=Date.now,random=Math.random}){Object.assign(this,{userId,emit,travel,getPlayer,persist,now,random});this.run=null;this.version=0;this.queue=Promise.resolve();this.closed=false;this.events=[];}
  get active(){return Boolean(this.run);}
  async load(){const r=await this.persist.load(this.userId);this.run=r.run;this.version=r.version;this.bind();
-  if(this.run&&(!this.run.rerolls||!this.run.rewardVersion||!this.run.cash||rewards.needsRepair(this.run.reward)))await this.atomic(()=>{rerolls.ensure(this.run);cashPrizes.ensure(this.run);rewards.ensureFour(this.run.reward,this.run.player.equipe.pokemons,this.random);if(!this.run.rewardVersion){this.run.rewardVersion=1;if(this.run.phase==='cleared'){this.run.reward=rewards.createOffer(this.run.player.equipe.pokemons,this.run.room+1,this.random,this.run.player);this.run.phase='reward';}}return true;});
+  if(this.run&&(rerolls.needsUpgrade(this.run)||!this.run.rewardVersion||!this.run.cash||rewards.needsRepair(this.run.reward)))await this.atomic(()=>{rerolls.ensure(this.run);cashPrizes.ensure(this.run);rewards.ensureFour(this.run.reward,this.run.player.equipe.pokemons,this.random,this.run.player);if(!this.run.rewardVersion){this.run.rewardVersion=1;if(this.run.phase==='cleared'){this.run.reward=rewards.createOffer(this.run.player.equipe.pokemons,this.run.room+1,this.random,this.run.player);this.run.phase='reward';}}return true;});
   this.publish();return this.run;}
  bind(){const b=this.run?.battle;if(!b)return;b.now=this.now;b.random=this.random;b.emit=(_p,event,data)=>this.buffer(event,data);b.onUpdate=null;b.onFinish=null;this.run.player.socketId=this.getPlayer()?.id;}
  buffer(event,data){
@@ -53,7 +53,7 @@ class TournamentController {
  }
  execute(fn){const task=this.queue.then(()=>{if(this.closed)return false;return fn();});this.queue=task.catch(()=>{});return task;}
  async register(team){if(this.active)throw Error('Une tentative est déjà en cours.');validateRegistration(team);
-  return this.atomic(()=>{const cloned=codec.decode(codec.encode(team));healTeam(cloned);this.run={id:randomUUID(),rewardVersion:1,rerolls:{remaining:1,grantedThroughCycle:1,spent:0},cash:{version:1,paidThrough:0,earned:0,last:null},room:0,cleared:0,phase:'sas',score:0,credited:new Set(),player:{userId:this.userId,username:this.getPlayer().username,socketId:this.getPlayer().id,currentmap:content.MAPS.room,equipe:cloned,items:{},money:0,defeated:new Set(),drifts:[],equipped:[]}};});
+  return this.atomic(()=>{const cloned=codec.decode(codec.encode(team));healTeam(cloned);this.run={id:randomUUID(),rewardVersion:1,rerolls:{version:2,remaining:2,grantedThroughCycle:1,spent:0,skipped:0},cash:{version:1,paidThrough:0,earned:0,last:null},room:0,cleared:0,phase:'sas',score:0,credited:new Set(),player:{userId:this.userId,username:this.getPlayer().username,socketId:this.getPlayer().id,currentmap:content.MAPS.room,equipe:cloned,items:{},money:0,defeated:new Set(),drifts:[],equipped:[]}};});
  }
  startBattle(){
   const r=this.run;if(!r||r.phase!=='ready')return false;
@@ -68,15 +68,15 @@ class TournamentController {
   if(!b.finished)return;
   const won=b.a.equipe.pokemons.some(p=>p.currentHp>0)&&!b.b.equipe.pokemons.some(p=>p.currentHp>0);
   r.battle=null;
-  if(won){r.victoryRecovery=powers.afterWin(r.player);cashPrizes.ensure(r);r.cleared=r.room+1;r.phase='reward';cashPrizes.recordWin(r);r.reward=rewards.createOffer(r.player.equipe.pokemons,r.cleared,this.random,r.player);}
+  if(won){r.victoryRecovery=[...powers.afterWin(r.player),...twists.afterWin(r.player)];cashPrizes.ensure(r);r.cleared=r.room+1;r.phase='reward';cashPrizes.recordWin(r);r.reward=rewards.createOffer(r.player.equipe.pokemons,r.cleared,this.random,r.player);}
   else r.outcome='defeat';
  }
  async action(payload){if(!this.run?.battle)return false;return this.atomic(()=>{const accepted=this.run.battle.action(this.run.player,payload);if(!accepted)return false;this.reconcile();return true;});}
  async tick(){const b=this.run?.battle;if(!b||b.finished||b.awaiting&&this.now()<b.deadline||!b.awaiting&&this.now()<b.nextRoundAt)return false;return this.atomic(()=>{b.tick();this.reconcile();});}
- async claimReward(data){if(this.run?.phase!=='reward')throw Error('Aucune récompense à choisir.');return this.atomic(()=>{const r=this.run,offer=r.reward,result=rewards.applyChoice(offer,r.player.equipe.pokemons,data,r.player);if(result.grant){r.lastAugment={...result.grant,offerId:offer.id,afterRoom:offer.afterRoom,cardKey:data.cardKey};if(result.grant.kind==='money')cashPrizes.ensure(r).earned+=result.grant.amount;}r.reward=null;r.phase='cleared';this.buffer('superTournamentRewardApplied',result);return true;});}
+ async claimReward(data){if(this.run?.phase!=='reward')throw Error('Aucune récompense à choisir.');return this.atomic(()=>{const r=this.run,offer=r.reward,result=rewards.applyChoice(offer,r.player.equipe.pokemons,data,r.player);if(result.skipped){rerolls.grantSkip(r);result.rerollsGained=1;}if(result.grant){r.lastAugment={...result.grant,offerId:offer.id,afterRoom:offer.afterRoom,cardKey:data.cardKey};if(result.grant.kind==='money')cashPrizes.ensure(r).earned+=result.grant.amount;}r.reward=null;r.phase='cleared';this.buffer('superTournamentRewardApplied',result);return true;});}
  async rerollReward(data){
   if(this.run?.phase!=='reward'||!this.run.reward||data?.offerId!==this.run.reward.id)throw Error('Ce tirage n’est plus disponible.');
-  return this.atomic(()=>{const r=this.run,tokens=rerolls.ensure(r);if(tokens.remaining<1)throw Error('Tu n’as plus de relance. Une nouvelle arrive au prochain cycle de 16 salles.');
+  return this.atomic(()=>{const r=this.run,tokens=rerolls.ensure(r);if(tokens.remaining<1)throw Error('Tu n’as plus de relance. Passe une récompense pour en gagner une, ou atteins le prochain cycle.');
    r.reward=rewards.createOffer(r.player.equipe.pokemons,r.reward.afterRoom,this.random,r.player,r.reward.cards);
    tokens.remaining--;tokens.spent++;return true;
   });

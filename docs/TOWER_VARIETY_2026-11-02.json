@@ -1,0 +1,348 @@
+{
+  "date": "2026-11-02",
+  "feature": "Super Tournoi : relances, PP, Chance et pactes souples",
+  "sourceBaseline": "5937303e8fce08686486997f150fe4d07c662cb6",
+  "clientBaseline": "e7ad34a7f016b78144e80407d6ccb71dd6712608",
+  "clientBuild": "c1223305c73480f9",
+  "clientBuildIndexSha256": "f42f4a3d91a5c2eedbff23100e19214dd90216f0b1ca7ee330dd13d587eb460e",
+  "schemaChanged": false,
+  "realAccountsManuallyModified": false,
+  "rerolls": {
+    "initial": 2,
+    "per16Rooms": 2,
+    "perSkippedReward": 1,
+    "unusedCarry": true,
+    "legacyCurrentCycleBonusOnce": 1,
+    "oldLedgerMissingCurrentTokens": 2,
+    "retroactiveBacklog": false
+  },
+  "ppCards": {
+    "pp_3": 8,
+    "pp_5": 15,
+    "all_pp_3": 5,
+    "all_pp_5": 10,
+    "team_pp_5": 10,
+    "full_pp": "all"
+  },
+  "fortune": {
+    "key": "fortune_charm",
+    "name": "Trèfle porte-bonheur",
+    "rarity": "rare",
+    "rawDrawChance": 0.06,
+    "effectiveChanceNote": "Priorité aux pouvoirs/pactes existants ; au plus deux cartes spéciales par offre.",
+    "minimumFutureRarity": "uncommon",
+    "rerollsIncluded": true,
+    "alreadyDisplayedCardsUnchanged": true,
+    "duration": "attempt",
+    "battleRandomRollsUnchanged": true,
+    "userConfirmed": true
+  },
+  "pacts": [
+    {
+      "key": "pact_velvet",
+      "name": "Crocs de velours",
+      "benefit": "6 % des dégâts directs rendus en PV",
+      "cost": "+5 % dégâts directs reçus"
+    },
+    {
+      "key": "pact_moss",
+      "name": "Peau de mousse",
+      "benefit": "2 % PV maximum par fin de tour",
+      "cost": "+8 % dégâts Feu reçus"
+    },
+    {
+      "key": "pact_opening",
+      "name": "Élan d’ouverture",
+      "benefit": "+15 % dégâts directs à pleine vie",
+      "cost": "−3 % Vitesse"
+    },
+    {
+      "key": "pact_last_stand",
+      "name": "Courage obstiné",
+      "benefit": "+18 % dégâts directs à 50 % PV ou moins",
+      "cost": "+5 % dégâts directs reçus"
+    },
+    {
+      "key": "pact_quickstep",
+      "name": "Pas de côté",
+      "benefit": "+8 % Vitesse",
+      "cost": "+6 % dégâts directs reçus"
+    },
+    {
+      "key": "pact_spark",
+      "name": "Coup d’éclat",
+      "benefit": "+1 cran critique, exclusif des autres pactes critiques",
+      "cost": "−5 % dégâts directs infligés"
+    },
+    {
+      "key": "pact_resupply",
+      "name": "Ravitaillement discret",
+      "benefit": "+1 PP par capacité des survivants après victoire",
+      "cost": "+6 % dégâts directs reçus"
+    },
+    {
+      "key": "pact_campfire",
+      "name": "Feu de camp",
+      "benefit": "+8 % PV maximum des survivants après victoire",
+      "cost": "−4 % Vitesse"
+    }
+  ],
+  "extraRecovery": {
+    "key": "cure_10",
+    "rarity": "uncommon",
+    "effect": "soin de statut et 10 % PV pour un survivant",
+    "reason": "Deux options de statut non communes évitent une impasse de relance après Chance avec quatre familles distinctes."
+  },
+  "cardRegistry": {
+    "total": 65,
+    "recovery": 22,
+    "pacts": 27,
+    "choices": 4,
+    "distinctFamilies": true
+  },
+  "lumBerries": {
+    "beforePer16": 6,
+    "afterPer16": 2,
+    "retained": [
+      "Hoze / Carchacrok",
+      "Wanda / Drattak"
+    ],
+    "replacements": {
+      "Raphael / Cizayox": "expert_belt",
+      "Ana / Gardevoir": "sitrus_berry",
+      "Gwenn / Tyranocif": "chople_berry",
+      "7p / Léviator": "wacan_berry"
+    },
+    "adventureTeamsUnchanged": true,
+    "alreadyPreparedBattlesUnchanged": true
+  },
+  "cash": {
+    "increasePercent": 10,
+    "roomTiers": [
+      5984,
+      11968,
+      17952,
+      23936
+    ],
+    "cycleBonus": 59840,
+    "cycleTotals": [
+      299200,
+      598400,
+      897600
+    ],
+    "linearCycles": true,
+    "cardAmountsFirstCycle": [
+      1870,
+      9350,
+      18700
+    ],
+    "pastReceiptsUnchanged": true
+  },
+  "validation": {
+    "unit": {
+      "pass": 83,
+      "fail": 0,
+      "skip": 0,
+      "log": "/tmp/riftmon-tower-variety-unit.log"
+    },
+    "mysql": {
+      "pass": 231,
+      "fail": 0,
+      "skip": 0,
+      "database": "explorakit_test",
+      "log": "/tmp/riftmon-tower-variety-sql.log"
+    },
+    "browser": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "buildIndexSha256": "f42f4a3d91a5c2eedbff23100e19214dd90216f0b1ca7ee330dd13d587eb460e",
+        "all27BargainsPreviewed": [
+          "pact_hunter",
+          "pact_cold_blood",
+          "pact_glass",
+          "pact_blaze",
+          "pact_tide",
+          "pact_garden",
+          "pact_voltage",
+          "pact_winter",
+          "pact_dragon",
+          "pact_heavy_fist",
+          "pact_mind",
+          "pact_soldier",
+          "pact_dance",
+          "pact_rampart",
+          "pact_veil",
+          "pact_leech",
+          "pact_breath",
+          "pact_execution",
+          "pact_fortress",
+          "pact_velvet",
+          "pact_moss",
+          "pact_opening",
+          "pact_last_stand",
+          "pact_quickstep",
+          "pact_spark",
+          "pact_resupply",
+          "pact_campfire"
+        ],
+        "actualRegistration": true,
+        "firstRoom5984": true,
+        "cycleTotal299200": true,
+        "twoRerollsPerCycle": true,
+        "skipGrantsOne": true,
+        "fortuneRemovesCommons": true,
+        "ppCardsBuffed": true,
+        "rerollFreshAndDurable": true,
+        "staleClaimRejected": true,
+        "cycleRerollGranted": true,
+        "opponentsReducedOnce": true,
+        "scoreOnlyActualKOs": true,
+        "fullFollowingTeam": true,
+        "boonAndCostVisible": true,
+        "activeRecap": true,
+        "namedCombatEffect": true,
+        "adventurePreserved": true,
+        "errors": [],
+        "views": 32,
+        "report": "/tmp/riftmon-tower-variety-chromium/report.json"
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "buildIndexSha256": "f42f4a3d91a5c2eedbff23100e19214dd90216f0b1ca7ee330dd13d587eb460e",
+        "all27BargainsPreviewed": [
+          "pact_hunter",
+          "pact_cold_blood",
+          "pact_glass",
+          "pact_blaze",
+          "pact_tide",
+          "pact_garden",
+          "pact_voltage",
+          "pact_winter",
+          "pact_dragon",
+          "pact_heavy_fist",
+          "pact_mind",
+          "pact_soldier",
+          "pact_dance",
+          "pact_rampart",
+          "pact_veil",
+          "pact_leech",
+          "pact_breath",
+          "pact_execution",
+          "pact_fortress",
+          "pact_velvet",
+          "pact_moss",
+          "pact_opening",
+          "pact_last_stand",
+          "pact_quickstep",
+          "pact_spark",
+          "pact_resupply",
+          "pact_campfire"
+        ],
+        "actualRegistration": true,
+        "firstRoom5984": true,
+        "cycleTotal299200": true,
+        "twoRerollsPerCycle": true,
+        "skipGrantsOne": true,
+        "fortuneRemovesCommons": true,
+        "ppCardsBuffed": true,
+        "rerollFreshAndDurable": true,
+        "staleClaimRejected": true,
+        "cycleRerollGranted": true,
+        "opponentsReducedOnce": true,
+        "scoreOnlyActualKOs": true,
+        "fullFollowingTeam": true,
+        "boonAndCostVisible": true,
+        "activeRecap": true,
+        "namedCombatEffect": true,
+        "adventurePreserved": true,
+        "errors": [],
+        "views": 32,
+        "report": "/tmp/riftmon-tower-variety-webkit/report.json"
+      }
+    },
+    "lint": true,
+    "build": true,
+    "physicalDeviceTested": false,
+    "wholeGameSuiteRun": false,
+    "syntaxFiles": 26,
+    "diffCheck": true
+  },
+  "commands": {
+    "unit": "node --test tests/super-tournament-variety.test.js tests/super-tournament-rewards.test.js tests/super-tournament-twists.test.js tests/super-tournament-cash.test.js tests/super-tournament-augments.test.js tests/super-tournament-powers.test.js tests/super-tournament-families.test.js tests/super-tournament-rarity.test.js tests/super-tournament-team-balance.test.js",
+    "mysql": "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file=.env --test --test-concurrency=1 tests/super-tournament-variety-mysql.test.js tests/super-tournament-twists-mysql.test.js tests/super-tournament-families-mysql.test.js tests/super-tournament-powers-mysql.test.js tests/super-tournament-augments-mysql.test.js tests/super-tournament-cash-mysql.test.js tests/super-tournament-team-balance-mysql.test.js tests/super-tournament-cycle-mysql.test.js tests/super-tournament-mysql.test.js tests/battle-runtime-integration.test.js",
+    "browser": "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=<chromium|webkit> RELEASE_DIST_DIR=/tmp/riftmon-tower-variety-dist node --env-file=.env scripts/validateTournamentTwistsBrowser.js"
+  },
+  "runtimeSourceSha256": {
+    "server/game/superTournament/augmentations.js": "306ed7152414ce5261d4c68f9cc7ff4fdadeb9d786bc7f5c7c11fea562057c5b",
+    "server/game/superTournament/cashPrizes.js": "4289f4bbd55647e42964525c72b6f7c9dd9af7b983b30917a1286000e697c2fc",
+    "server/game/superTournament/content.js": "bb080cb09e3d9558317f66a27543fa8711f46d579fad845b8c7f75cf765a07e0",
+    "server/game/superTournament/controller.js": "27f09e4da022ea2fa7090c450117135dda82e03987fd97dc41df6e89cb51dfd6",
+    "server/game/superTournament/rerolls.js": "2722bfac846e1d7fbb457a6555bda30483068fffb13c66a9c24b80f5242e5049",
+    "server/game/superTournament/rewardFamilies.js": "0be807ec81637ef1407d6d35181f66bb8fbc523050c839561b9a86cae141455a",
+    "server/game/superTournament/rewards.js": "45e1e7e25dff878e9ca2cfd0feb5913bf2d38557436984608c20e1d383e0ef30",
+    "server/game/superTournament/twists.js": "0f018bafe3be325707cf92b32a283ee68faf31f4b9a7552337061584147d5d85",
+    "server/game/superTournament/fortune.js": "c34672c2200d15750c1d455eea2c7ae01fb29fb050b88370b864f7c26f0cae19"
+  },
+  "clientCommit": "77bae672a546c3538e6be178958b1f97198f423d",
+  "deployment": {
+    "publishedAt": "2026-11-02T15:37:15.088Z",
+    "restartedAt": "2026-11-02T15:37:08.869Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-tower-variety-2026-11-02T15-37-07-194Z",
+    "sourceBaseline": "5937303e8fce08686486997f150fe4d07c662cb6",
+    "sourceHashes": {
+      "server/game/superTournament/augmentations.js": "306ed7152414ce5261d4c68f9cc7ff4fdadeb9d786bc7f5c7c11fea562057c5b",
+      "server/game/superTournament/cashPrizes.js": "4289f4bbd55647e42964525c72b6f7c9dd9af7b983b30917a1286000e697c2fc",
+      "server/game/superTournament/content.js": "bb080cb09e3d9558317f66a27543fa8711f46d579fad845b8c7f75cf765a07e0",
+      "server/game/superTournament/controller.js": "27f09e4da022ea2fa7090c450117135dda82e03987fd97dc41df6e89cb51dfd6",
+      "server/game/superTournament/rerolls.js": "2722bfac846e1d7fbb457a6555bda30483068fffb13c66a9c24b80f5242e5049",
+      "server/game/superTournament/rewardFamilies.js": "0be807ec81637ef1407d6d35181f66bb8fbc523050c839561b9a86cae141455a",
+      "server/game/superTournament/rewards.js": "45e1e7e25dff878e9ca2cfd0feb5913bf2d38557436984608c20e1d383e0ef30",
+      "server/game/superTournament/twists.js": "0f018bafe3be325707cf92b32a283ee68faf31f4b9a7552337061584147d5d85",
+      "server/game/superTournament/fortune.js": "c34672c2200d15750c1d455eea2c7ae01fb29fb050b88370b864f7c26f0cae19"
+    },
+    "clientCommit": "77bae672a546c3538e6be178958b1f97198f423d",
+    "clientBuild": "c1223305c73480f9",
+    "beforePid": "3730017",
+    "afterPid": "3734034",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "schemaChanged": false,
+    "migrationApplied": null,
+    "activeClubDuelsBefore": 0,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 0,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": [
+      "js/234.02b18f2e.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.ae44b00a.js",
+      "js/account.161ce126.js",
+      "js/app.284db223.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.2fd32f7c.js",
+      "js/drift.5b8720d7.js",
+      "js/game.56189ca9.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.4fff4c7e.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.f40a1d46.css",
+      "css/test-view.7568246d.css"
+    ]
+  }
+}

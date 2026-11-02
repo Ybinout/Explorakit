@@ -1,3 +1,7 @@
+## Variété du Super Tournoi — 2 novembre 2026
+
+Lire la nouvelle section d’audit et `docs/TOWER_VARIETY_2026-11-02.json`. Deux relances/cycle, passer +1 (atomique/anti-rejeu), ancien compteur +1 courant une fois. Fortune impose minimum peu commun aux futurs tirages/rerolls ; exclure `kind:fortune` du pool de récupération. Garder `cure_10` pour éviter une impasse de familles non communes, quatre choix distincts et au moins deux soins. PP : 8/15 par capacité, 5/10 par Pokémon, 10 équipe. Huit nouveaux pactes, soins/PP de victoire sauvés une seule fois, K.O. exclus. Baies Prine 6→2 uniquement au tournoi ; primes +10 %, premier cycle 299 200 ₽, anciens reçus intacts. Noms de clés historiques conservés. Recettes `super-tournament-variety*`, régressions du tournoi et `validateTournamentTwistsBrowser.js` sur base dédiée. Ne pas réactiver Rift/Colosseum, pas de migration.
+
 ## Prix du Méga Bonbon — 2 novembre 2026
 
 Le prix actuel est 90 000 ₽, plafond niveau 150 inchangé. Conserver la cohérence de `items.json`, `shop_offers.json` et `department_store.json` ; les anciens montants 120 000 dans les audits sont historiques. Rapport `docs/MEGA_CANDY_PRICE_2026-11-02.json`, tests `rare-candy*` et `shop-training`.

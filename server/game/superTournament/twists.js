@@ -20,6 +20,14 @@ const cards=Object.freeze([
  pact('breath','Souffle patient','epic','Récupère 3 % des PV maximum en fin de tour.','Vitesse : −10 %.',{values:{16:3},speed:.9}),
  pact('execution','Instinct du finisseur','rare','Dégâts infligés : +25 % si la cible a au plus 35 % de ses PV.','Dégâts infligés : −10 % au-dessus de ce seuil.',{finisher:true}),
  pact('fortress','Force tranquille','rare','Dégâts directs reçus : −12 %.','Dégâts directs infligés : −10 %.',{incoming:.88,outgoing:.9}),
+ pact('velvet','Crocs de velours','rare','Récupère 6 % des dégâts directs infligés en PV.','Dégâts directs reçus : +5 %.',{values:{5:6},incoming:1.05}),
+ pact('moss','Peau de mousse','rare','Récupère 2 % des PV maximum en fin de tour.','Dégâts Feu reçus : +8 %.',{values:{16:2},incomingType:{Fire:1.08}}),
+ pact('opening','Élan d’ouverture','rare','Dégâts directs infligés : +15 % à pleine vie.','Vitesse : −3 %.',{fullHealth:1.15,speed:.97}),
+ pact('last_stand','Courage obstiné','rare','Dégâts directs infligés : +18 % avec au plus 50 % de ses PV.','Dégâts directs reçus : +5 %.',{desperate:1.18,incoming:1.05}),
+ pact('quickstep','Pas de côté','rare','Vitesse : +8 %.','Dégâts directs reçus : +6 %.',{speed:1.08,incoming:1.06}),
+ pact('spark','Coup d’éclat','epic','Critiques : +1 cran, non cumulable entre pactes.','Dégâts directs infligés : −5 %.',{critical:1,outgoing:.95}),
+ pact('resupply','Ravitaillement discret','epic','Après une victoire, rend 1 PP à chaque capacité des Pokémon aptes.','Dégâts directs reçus : +6 %.',{victoryPp:1,incoming:1.06}),
+ pact('campfire','Feu de camp','rare','Après une victoire, rend 8 % des PV maximum à chaque Pokémon apte.','Vitesse : −4 %.',{victoryHeal:.08,speed:.96}),
  {key:'next_opponent_two',name:'Duel écourté',rarity:'epic',kind:'opponent',target:'run',count:2,description:'Le prochain dresseur ne garde que ses deux derniers Pokémon, dont son plus fort. Valable pour un seul combat.',duration:'Prochain combat seulement'},
  {key:'next_opponent_one',name:'Face au dernier rempart',rarity:'legendary',kind:'opponent',target:'run',count:1,description:'Le prochain dresseur ne garde que son dernier Pokémon, le plus fort. Valable pour un seul combat.',duration:'Prochain combat seulement'}
 ].map(c=>Object.freeze({...c,twist:true,rarityName:c.rarity==='epic'?'Épique':c.rarity==='legendary'?'Légendaire':'Rare'})));
@@ -48,9 +56,22 @@ function multiplier(attackerOwner,defenderOwner,attacker,defender,move){
   const e=c.effects,prefix=incoming?'incoming':'outgoing';
   let factor=(e[prefix]||1)*(e[prefix+'Type']?.[move.type]||1)*(e[prefix+'Class']?.[category]||1);
   if(!incoming&&e.finisher)factor*=defender.currentHp/Math.max(1,defender.maxHp)<=.35?1.25:.9;
+  if(!incoming&&e.fullHealth&&attacker.currentHp>=attacker.maxHp)factor*=e.fullHealth;
+  if(!incoming&&e.desperate&&attacker.currentHp/Math.max(1,attacker.maxHp)<=.5)factor*=e.desperate;
   if(factor!==1){result*=factor;announce(owner,c,incoming?'Dégâts reçus modifiés':'Dégâts infligés modifiés');}
  }
  return result;
+}
+function afterWin(owner){
+ const list=owned(owner),hp=list.reduce((n,c)=>n+(c.effects.victoryHeal||0),0),pp=list.reduce((n,c)=>n+(c.effects.victoryPp||0),0),changes=[];
+ if(!hp&&!pp)return changes;
+ const {getMaxMovePp}=require('../battle/battleResources');
+ for(const p of owner.equipe.pokemons){if(p.currentHp<=0)continue;const before=p.currentHp,moves=[];
+  if(hp)p.currentHp=Math.min(p.maxHp,p.currentHp+Math.max(1,Math.floor(p.maxHp*hp)));
+  if(pp){p.movePp=p.abilities.map((name,i)=>{const max=getMaxMovePp(name),old=p.movePp?.[i]??max,next=Math.min(max,old+pp);if(next>old)moves.push({index:i,name,amount:next-old});return next;});}
+  if(p.currentHp>before||moves.length)changes.push({uuid:p.uuid,name:p.name||p.truename,amount:p.currentHp-before,moves});
+ }
+ return changes;
 }
 function unit(random){const n=random();if(!Number.isFinite(n)||n<0||n>=1)throw Error('Tirage de carte invalide.');return n;}
 function draw(owner,random,exclude=new Set()){
@@ -61,4 +82,4 @@ function draw(owner,random,exclude=new Set()){
  else if(ticket<3870){const pool=cards.filter(c=>c.kind==='pact'&&usable(owner,c)&&!exclude.has(c.key));if(!pool.length)return null;let roll=unit(random)*pool.reduce((n,c)=>n+(c.rarity==='epic'?1:3),0);card=pool.find(c=>(roll-=c.rarity==='epic'?1:3)<0)||pool.at(-1);}
  return card&&usable(owner,card)&&!exclude.has(card.key)?card.key:null;
 }
-module.exports={cards,get:key=>byKey.get(key),owned,pending,active,usable,view,activate,reduceNextTeam,value,signalName,speed,criticalStage,multiplier,draw};
+module.exports={cards,get:key=>byKey.get(key),owned,pending,active,usable,view,activate,reduceNextTeam,value,signalName,speed,criticalStage,multiplier,afterWin,draw};

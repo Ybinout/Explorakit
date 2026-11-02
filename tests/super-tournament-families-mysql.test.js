@@ -21,7 +21,7 @@ test('SQL failed family repair leaves the original offer and token intact; retry
  }finally{db.getConnection=acquire;await f.remove();}
 });
 test('SQL current-family offers and rerolled offers stay unique after restart, and stale claim tokens are rejected',{skip:!enabled},async()=>{
- const f=await fixture(['heal_10','pp_3','revive_25','cure']);try{const c=f.create();await c.load();const old=c.run.reward,version=c.version;assert.equal(version,f.c.version);await c.rerollReward({offerId:old.id});distinct(c.run.reward);assert(c.run.reward.cards.every(k=>!old.cards.includes(k)));assert.equal(c.run.rerolls.remaining,0);const again=f.create();await again.load();assert.deepEqual(again.run.reward,c.run.reward);assert.equal(again.run.rerolls.remaining,0);await assert.rejects(()=>again.claimReward({offerId:old.id,cardKey:old.cards[0]}));
+ const f=await fixture(['heal_10','pp_3','revive_25','cure']);try{const c=f.create();await c.load();const old=c.run.reward,version=c.version;assert.equal(version,f.c.version);await c.rerollReward({offerId:old.id});distinct(c.run.reward);assert(c.run.reward.cards.every(k=>!old.cards.includes(k)));assert.equal(c.run.rerolls.remaining,1);const again=f.create();await again.load();assert.deepEqual(again.run.reward,c.run.reward);assert.equal(again.run.rerolls.remaining,1);await assert.rejects(()=>again.claimReward({offerId:old.id,cardKey:old.cards[0]}));
  }finally{await f.remove();}
 });
 test('SQL a legacy short offer keeps its existing distinct choices and completes with a fourth family once',{skip:!enabled},async()=>{

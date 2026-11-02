@@ -13,8 +13,8 @@ function fixture(){let saved=null,version=0,fail=false;const events=[];
 }
 async function draft(c,keys=['heal_10','heal_25','cure','pp_3']){await c.atomic(()=>{c.run.phase='reward';c.run.cleared=c.run.room+1;c.run.reward={id:'offer',afterRoom:c.run.cleared,cards:keys};});}
 const party=()=>({pokemons:[factory.create(9,100,true),factory.create(94,100,true)]});
-test('19 bargains and two next-opponent cards are unique, fully described and target-free',()=>{
- assert.equal(twists.cards.filter(c=>c.kind==='pact').length,19);assert.equal(twists.cards.filter(c=>c.kind==='opponent').length,2);assert.equal(rewards.cards.length,55);assert.equal(new Set(rewards.cards.map(c=>c.key)).size,55);
+test('27 bargains and two next-opponent cards are unique, fully described and target-free',()=>{
+ assert.equal(twists.cards.filter(c=>c.kind==='pact').length,27);assert.equal(twists.cards.filter(c=>c.kind==='opponent').length,2);assert.equal(rewards.cards.length,65);assert.equal(new Set(rewards.cards.map(c=>c.key)).size,65);
  for(const c of twists.cards){assert(c.description&&c.duration);if(c.kind==='pact')assert(c.boon&&c.cost);const o=owner(),team=party().pokemons,before=codec.encode(team),offer={id:'offer',cards:[c.key],afterRoom:1};
   const view=rewards.viewOffer(offer,team,o);assert(view.choices[0].usable);assert.deepEqual(view.choices[0].targets,[]);assert(!view.canSkip);rewards.applyChoice(offer,team,{offerId:'offer',cardKey:c.key,values:{critical:999}},o);assert.deepEqual(codec.encode(team),before);assert.equal(rewards.viewOffer(offer,team,o).choices[0].usable,false);assert.throws(()=>rewards.applyChoice(offer,team,{offerId:'offer',cardKey:c.key},o));
  }
@@ -81,18 +81,18 @@ test('ordinary Adventure/Rift/Colosseum stay unchanged; switching and checkpoint
  const {a,b,o}=pair(['pact_glass','pact_cold_blood']),restored=codec.decode(codec.encode({a,b,o}));assert.equal(fx.multiplier(restored.a,restored.b,engine.getMoveByName('Tackle'),false),1.15);assert.equal(fx.speed(restored.a),.9);fx.switched(restored.a,false);assert.equal(fx.speed(restored.a),.9);
  for(const map of['start','route1','rift_room','colosseum']){restored.o.currentmap=map;assert.equal(fx.speed(restored.a),1);assert.equal(fx.criticalStage(restored.a),0);assert.equal(fx.multiplier(restored.a,restored.b,engine.getMoveByName('Tackle'),false),1);assert.deepEqual(twists.active(restored.o),[]);}
 });
-test('one reroll initially, four fresh cards, no mutation of team/cash/score; stale claim rejected',async()=>{
+test('two rerolls initially, four fresh cards, no mutation of team/cash/score; stale claim rejected',async()=>{
  const f=fixture(),c=f.c;await c.register(party());await draft(c);const before=codec.encode(c.run.player.equipe),cash=codec.encode(c.run.cash),score=c.run.score,old=c.run.reward;
- await c.rerollReward({offerId:old.id});assert.notEqual(c.run.reward.id,old.id);assert(c.run.reward.cards.every(k=>!old.cards.includes(k)));assert.equal(c.run.rerolls.remaining,0);assert.equal(c.run.rerolls.spent,1);assert.deepEqual(codec.encode(c.run.player.equipe),before);assert.deepEqual(codec.encode(c.run.cash),cash);assert.equal(c.run.score,score);
- await assert.rejects(()=>c.claimReward({offerId:old.id,cardKey:old.cards[0]}),/disponible/);await assert.rejects(()=>c.rerollReward({offerId:c.run.reward.id}),/plus de relance/);const resumed=f.create();await resumed.load();assert.deepEqual(resumed.run.reward,c.run.reward);assert.deepEqual(resumed.run.rerolls,c.run.rerolls);
+ await c.rerollReward({offerId:old.id});assert.notEqual(c.run.reward.id,old.id);assert(c.run.reward.cards.every(k=>!old.cards.includes(k)));assert.equal(c.run.rerolls.remaining,1);assert.equal(c.run.rerolls.spent,1);assert.deepEqual(codec.encode(c.run.player.equipe),before);assert.deepEqual(codec.encode(c.run.cash),cash);assert.equal(c.run.score,score);
+ await assert.rejects(()=>c.claimReward({offerId:old.id,cardKey:old.cards[0]}),/disponible/);await c.rerollReward({offerId:c.run.reward.id});assert.equal(c.run.rerolls.remaining,0);await assert.rejects(()=>c.rerollReward({offerId:c.run.reward.id}),/plus de relance/);const resumed=f.create();await resumed.load();assert.deepEqual(resumed.run.reward,c.run.reward);assert.deepEqual(resumed.run.rerolls,c.run.rerolls);
 });
 test('failed or invalid reroll keeps its token and old offer; concurrent duplicate requests only spend once',async()=>{
  const f=fixture(),c=f.c;await c.register(party());await draft(c);const before=codec.encode(c.run);f.fail();await assert.rejects(()=>c.rerollReward({offerId:'offer'}),/injected/);assert.deepEqual(codec.encode(c.run),before);await assert.rejects(()=>c.rerollReward({offerId:'forged'}));
- const results=await Promise.allSettled([c.execute(()=>c.rerollReward({offerId:'offer'})),c.execute(()=>c.rerollReward({offerId:'offer'}))]);assert.equal(results.filter(r=>r.status==='fulfilled').length,1);assert.equal(c.run.rerolls.remaining,0);
+ const results=await Promise.allSettled([c.execute(()=>c.rerollReward({offerId:'offer'})),c.execute(()=>c.rerollReward({offerId:'offer'}))]);assert.equal(results.filter(r=>r.status==='fulfilled').length,1);assert.equal(c.run.rerolls.remaining,1);
 });
-test('each new cycle adds one token exactly once; unused tokens carry and legacy snapshots get one current-cycle token',async()=>{
- const f=fixture(),c=f.c;await c.register(party());for(const room of[15,31,47]){await c.atomic(()=>{c.run.room=room;c.run.phase='cleared';});await c.next();assert.equal(c.run.rerolls.remaining,Math.floor((room+1)/16)+1);assert.equal(await c.next(),false);const resumed=f.create();await resumed.load();assert.equal(resumed.run.rerolls.remaining,c.run.rerolls.remaining);}
- await c.atomic(()=>{delete c.run.rerolls;c.run.room=80;c.run.phase='ready';});const restored=f.create();await restored.load();assert.deepEqual(restored.run.rerolls,{remaining:1,grantedThroughCycle:6,spent:0});const again=f.create();await again.load();assert.equal(again.run.rerolls.remaining,1);
+test('each new cycle adds two tokens exactly once; unused tokens carry and legacy snapshots get two current-cycle tokens',async()=>{
+ const f=fixture(),c=f.c;await c.register(party());for(const room of[15,31,47]){await c.atomic(()=>{c.run.room=room;c.run.phase='cleared';});await c.next();assert.equal(c.run.rerolls.remaining,2*(Math.floor((room+1)/16)+1));assert.equal(await c.next(),false);const resumed=f.create();await resumed.load();assert.equal(resumed.run.rerolls.remaining,c.run.rerolls.remaining);}
+ await c.atomic(()=>{delete c.run.rerolls;c.run.room=80;c.run.phase='ready';});const restored=f.create();await restored.load();assert.deepEqual(restored.run.rerolls,{version:2,remaining:2,grantedThroughCycle:6,spent:0,skipped:0});const again=f.create();await again.load();assert.equal(again.run.rerolls.remaining,2);
 });
 for(const count of[1,2])test(`next-opponent card keeps the ${count} strongest slots once, survives battle reconnect and credits only real KOs`,async()=>{
  const f=fixture(),c=f.c;await c.register(party());const key=count===1?'next_opponent_one':'next_opponent_two';await draft(c,[key,'heal_10','cure','pp_3']);await c.claimReward({offerId:'offer',cardKey:key});const re=f.create();await re.load();assert.equal(twists.pending(re.run.player).count,count);await re.next();await re.atomic(()=>re.startBattle());
