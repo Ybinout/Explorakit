@@ -1,5 +1,13 @@
 # Audit technique et mémoire de RiftMon
 
+## Matthieu : un niveau de moins en Aventure — 2 novembre 2026
+
+Staross 35→34, Tauros 36→35, Léviator et Typhlosion 37→36. Seuls les quatre `adventureLevel` de `gwenn_route8` changent ; espèce/K/IV/EV/objets/attaques/IA et autres dresseurs conservés. La fabrique recalcule les statistiques et l’XP aux nouveaux niveaux lors du prochain combat. Niveaux historiques Rift/Colosseum (37/38/39/39) et Super Tournoi (75/85/90, puis croissance existante) conservés.
+
+Validation : comparaison structurelle du fichier complet avant/après, construction réelle des trois variantes et 16 tests de stratégie/tour réussis sans échec/saut (`node --test tests/matthieu-tactics.test.js tests/super-tournament-team-balance.test.js`). Aucun test ajouté pour ce simple réglage, aucun build client ou changement de schéma nécessaire. Rapport : `docs/MATTHIEU_LEVEL_2026-11-02.json`.
+
+Publié le 2 novembre 2026 à 6 h 50 (Europe/Paris), PID 3696569→3697446, service actif sans redémarrage automatique/avertissement. Sauvegarde SQL/source/index/checkpoint `/home/ubuntu/dev/backups/riftmon-matthieu-level-2026-11-02T05-50-06-184Z`. Client/build/index publics, Knov/api-test, checkpoint et modes fermés inchangés ; aucun duel/tournoi actif au contrôle, aucune migration ni modification manuelle de compte réel.
+
 ## PC : vingt boîtes privées et noms personnalisables — 2 novembre 2026
 
 Capacité portée de 8 à 20 boîtes de 30 places (600 compagnons par joueur) par la constante commune : aucune redistribution, préallocation ou réécriture des Pokémon existants. Les captures après les 240 anciennes places et le dépôt en boîte 20 utilisent le circuit habituel. Les boîtes se renomment dans le PC ; les Pokémon dans leur fiche commune, depuis l’équipe ou le PC, y compris les Pokémon stockés. L’espèce reste affichée séparément. Champ vide : retour au nom de l’espèce / à « Boîte N ». Noms jusqu’à 24 caractères, accents et ponctuation simple, saisie clavier/tactile et erreurs locales, bouton Enregistrer explicite et annulation par Échap sans fermer le PC. Les fiches de consultation d’autres joueurs ne proposent pas de renommage.
@@ -5848,6 +5856,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- 2 novembre 2026 — Matthieu : −1 niveau sur ses quatre Pokémon en Aventure uniquement (34/35/36/36) ; 16 tests et comparaison des données validés. `docs/MATTHIEU_LEVEL_2026-11-02.json`.
 
 - 2 novembre 2026 — PC : vingt boîtes de trente places, labels privés et surnoms dans les fiches ; migration additive 028 et données existantes conservées. 30 tests, 26 SQL et 24 vues Chromium/WebKit ; `docs/PC_NAMES_2026-11-02.json`.
 

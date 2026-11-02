@@ -1,0 +1,77 @@
+{
+  "date": "2026-11-02",
+  "scope": "Matthieu: minus one level in Adventure only",
+  "baseline": "3e457f568a9f6f5e7489f16e33cba6b058c668e7",
+  "clientCommit": "99a0d63380269bf446f29a0907800d69b77b737a",
+  "clientBuild": "5a80f8a97b4de8b2",
+  "runtimeSourceSha256": {
+    "data/game/pnj_teams.json": "30d0d13a5973e62204f9080c65df168723f59689fc34c33c503f24c81da7c827"
+  },
+  "validation": {
+    "adventure": [
+      {
+        "name": "Staross",
+        "level": 34,
+        "maxHp": 113,
+        "k": 3
+      },
+      {
+        "name": "Tauros",
+        "level": 35,
+        "maxHp": 127,
+        "k": 3
+      },
+      {
+        "name": "Léviator",
+        "level": 36,
+        "maxHp": 144,
+        "k": 3
+      },
+      {
+        "name": "Typhlosion",
+        "level": 36,
+        "maxHp": 146,
+        "k": 4
+      }
+    ],
+    "otherModesLevelsUnchanged": true,
+    "towerLevelsUnchanged": true,
+    "onlyFourAdventureLevelFieldsChanged": true
+  },
+  "tests": {
+    "unit": 16,
+    "failed": 0,
+    "skipped": 0,
+    "command": "node --test tests/matthieu-tactics.test.js tests/super-tournament-team-balance.test.js"
+  },
+  "clientOrSchemaChanges": false,
+  "deployment": {
+    "publishedAt": "2026-11-02T05:50:07.821Z",
+    "restartedAt": "2026-11-02T05:50:06.626Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-matthieu-level-2026-11-02T05-50-06-184Z",
+    "sourceBaseline": "3e457f568a9f6f5e7489f16e33cba6b058c668e7",
+    "sourceHashes": {
+      "data/game/pnj_teams.json": "30d0d13a5973e62204f9080c65df168723f59689fc34c33c503f24c81da7c827"
+    },
+    "clientCommit": "99a0d63380269bf446f29a0907800d69b77b737a",
+    "clientBuild": "5a80f8a97b4de8b2",
+    "beforePid": "3696569",
+    "afterPid": "3697446",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "clientUnchanged": true,
+    "publicClientUnchanged": true,
+    "schemaChanged": false,
+    "activeClubDuelsBefore": 0,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 0,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": []
+  }
+}
