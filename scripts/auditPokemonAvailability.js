@@ -30,7 +30,7 @@ function reachableMaps() {
 function buildReport() {
     const reached = reachableMaps(), sources = new Map();
     const add = (id, source) => sources.set(id, [...(sources.get(id) || []), source]);
-    const zones = maps.filter(map => reached.has(map.mapName) && !map.legacyOnly && map.wildpokemon.length && (() => {
+    const zones = maps.filter(map => reached.has(map.mapName) && !map.legacyOnly && map.canCapture!==false && map.wildpokemon.length && (() => {
         const collision = terrain.loadCollisionData(map.mapName);
         return terrain.battleMapData(map.mapName).some((row,y) => row.some((tile,x) => tile && !collision[y]?.[x]));
     })());

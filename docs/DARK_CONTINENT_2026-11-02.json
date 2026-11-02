@@ -1,0 +1,825 @@
+{
+  "date": "2026-11-02",
+  "sourceBaseline": "4504389c98c74f5677a302d253ab2670b93ca644",
+  "clientCommit": "6b9fe6561a43b6356e73a77a42b4f277fd977419",
+  "clientBuild": "3c55d601e4661750",
+  "buildIndexSha256": "a112650c3004fc7ad9bdab1caea2f606485765b9e16b9ea25a112dc3152f1722",
+  "sourceInstructions": "darkcontinen/README.md",
+  "authorAssets": "docs/DARK_CONTINENT_ASSETS_2026-11-02.json",
+  "generatedArt": "docs/DARK_CONTINENT_ART_2026-11-02.json",
+  "runtimeSourceSha256": {
+    "data/game/items.json": "a9be54c65efc41e53be7ce8e2ddadac69b1ede72e37fb6559a26574ca0a78d1c",
+    "data/game/map_weather.json": "ccd4e7f5322a18706ea6a0ce965b6d56d908d23e3cd4c852c6a96a5a50497081",
+    "data/game/nextMap.json": "e91173b4982f2e779b2b63f4b7f937c50425cdbbe9e150a32c0bf876a45e2d95",
+    "data/game/region_map.json": "e14db58f9afd81f95c27fbc594431e211cbc65aa0fa05db6018d0271f6e69db8",
+    "data/maps/jungle1.json": "8325804332bbf9bfe7705f2bdd5e635ca56c978883921773a3e49a7be1705b5e",
+    "data/maps/jungle2.json": "ed013bfcc5f77902d66e0f77bc15666cfecd1ba91ef1a094757543ffeead2985",
+    "data/maps/jungle3.json": "c4972cde9496895b6f831def29474a8d8d2a8a42a2c3798507e3340efeca6d90",
+    "data/maps/jungle4.json": "e0baa27e996573ec2fd9f959b0b934ef4d35c9e61b705d2ecf895ae757cb376d",
+    "data/maps/jungle5.json": "8756dac852115b6379079827c7c0d36dc82830616532e64bb6f09aee21b06160",
+    "data/maps/jungle6.json": "fb427c2fafca55ba5b8286ea06ab046ff74fc5fe530fe2a64e6b393dde5ef590",
+    "data/maps/jungle7.json": "1f14df76ec71399ccf6f353fa1f301e8b982325765d51f1ebefd70e41a0807c9",
+    "data/maps/jungle8.json": "fc81ef4e05ac367e0fa19ad386591d58d75b9b9661d52267e83f82167bfc287a",
+    "data/maps/jungle9.json": "bab99eb6fbee1fc32b250597c9dd433918efae121ef6fe7bb5b33f498587fc6c",
+    "server/game/battle/battleEngine.js": "c7c9f622b922d4f0b2e3898f9bee1ca0d4bf4b58eb52261dc3c6e0bf2748ec6a",
+    "server/game/battle/wildBattle.js": "117539488ce805574efe79b8328f1a952881f08a85da74bcba00ab0eefd6f226",
+    "server/game/battle/wildEscape.js": "1845f9d0a445ceb4ed8c1f45df3a4c97e449c4d023b1f0978c5b43ac0534a7c5",
+    "server/game/storage/pokemonStorage.js": "2a56607e91e8100c8995952e587c0e0755c850560971eb7b878672e15329d7b7",
+    "server/game/superTournament/controller.js": "166f16c303111645153bada5f834cd95f8d2d9ab8c17f135723818bded5fe3be",
+    "server/game/world/darkContinent.js": "786ca8abc2834981ec03f6f0a53595875593247274cdff82eb0999d0497954cf",
+    "server/game/world/regionMap.js": "4abac766a1e9fd436d6020a8ce225351f8169d0aa45d8c0f14c8821abeb10b71",
+    "server/game/world/wildPokemonFactory.js": "81223fd766336dff91c661de7214f166074eed30370f30f7fa76f5a425dc5922",
+    "server/persistence/darkContinentRepository.js": "4558194f8413cd146689146778cae764bbdc4ac4ecab231acfa4c6e28055b656",
+    "server/persistence/itemRepository.js": "4b3196a07a95c26c429b3f2f6e00378dcffdb99bd5f1681791cc9be38305fb9e",
+    "server/persistence/superTournamentRepository.js": "1cc446627c64e9c70ec7b7fe0ad8280d03d94542b48cb043b7874bee4941ceea",
+    "server/persistence/teamRepository.js": "0f31513712f311f0a7c043be0f0dc5453aeb8ce935b4d20729f7aa9d153a78f2",
+    "server/persistence/wildLootRepository.js": "01b981f635ff54148da2568851463e220724917b088deadadd20cfd8e60a73ce",
+    "server/realtime/handlers/darkContinentHandlers.js": "1be598b4f2a450fba793d2ede3728289ec90c40ed4e1c1078219e6067a46ea05",
+    "server/realtime/socketHandler.js": "7bcec8cb6905443d83912054cafadc435272f9dcf90947523d5b7a3c074e071e"
+  },
+  "feature": {
+    "unlock": {
+      "completedRooms": 48,
+      "retroactive": true,
+      "personalScout": true,
+      "uniqueKeyItem": "professional_trainer_card",
+      "roundTrip": "Super Tournament lobby ↔ Jungle 1 beach"
+    },
+    "maps": {
+      "count": 9,
+      "layout": [
+        [
+          1,
+          2,
+          3
+        ],
+        [
+          4,
+          5,
+          6
+        ],
+        [
+          7,
+          8,
+          9
+        ]
+      ],
+      "levelColumns": [
+        [
+          100,
+          120
+        ],
+        [
+          120,
+          150
+        ],
+        [
+          150,
+          200
+        ]
+      ],
+      "sourceTilesAndArtworkUnmodified": true,
+      "nearestSafeLanding": true,
+      "wind": 2,
+      "waterAnimation": true,
+      "minimapWidth": 800
+    },
+    "species": 36,
+    "types": 18,
+    "permanentDeaths": "Immediate owner-scoped transactional deletion; returned recoverable held equipment; PC untouched; no resurrection after reconnect",
+    "capture": false,
+    "escape": false,
+    "experienceFactor": 0.1,
+    "money": 0,
+    "experienceModule": false,
+    "plates": {
+      "count": 18,
+      "dropChance": 0.07,
+      "type": "one of defeated species types",
+      "sellEach": 20000
+    },
+    "crystals": [
+      {
+        "key": "crystal_shard",
+        "chance": 0.8,
+        "quantity": [
+          2,
+          4
+        ]
+      },
+      {
+        "key": "clear_crystal",
+        "chance": 0.6,
+        "quantity": [
+          1,
+          3
+        ]
+      },
+      {
+        "key": "aurora_prism",
+        "chance": 0.35,
+        "quantity": [
+          1,
+          2
+        ]
+      }
+    ],
+    "ordinaryLootChancePreserved": "1/6",
+    "guide": {
+      "redMandatoryRules": true,
+      "healSurvivors": true,
+      "choices": 2
+    },
+    "allTournamentFinalExits": "lobby",
+    "soundtracks": [
+      "dark-continent",
+      "dark-battle",
+      "casino",
+      "battle-house",
+      "legendary-battle"
+    ]
+  },
+  "validation": {
+    "unit": {
+      "pass": 107,
+      "fail": 0,
+      "skipped": 0,
+      "log": "/tmp/riftmon-dark-unit.log",
+      "command": "node --test tests/dark-continent.test.js tests/super-tournament-abandon.test.js tests/region-map.test.js tests/capture.test.js tests/wild-escape.test.js tests/adventure-experience.test.js tests/pokemon-storage.test.js tests/super-tournament.test.js tests/wild-items.test.js tests/store-browse.test.js tests/wild-encounter-rates.test.js"
+    },
+    "sql": {
+      "pass": 203,
+      "fail": 0,
+      "skipped": 0,
+      "log": "/tmp/riftmon-dark-sql.log",
+      "command": "RUN_MYSQL_TESTS=1 DB_TEST_NAME=explorakit_test DB_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file=.env --test --test-concurrency=1 tests/dark-continent-mysql.test.js tests/super-tournament-mysql.test.js tests/crystal-sales-mysql.test.js tests/battle-runtime-integration.test.js"
+    },
+    "browsers": [
+      {
+        "success": true,
+        "engine": "chromium",
+        "buildIndexSha256": "a112650c3004fc7ad9bdab1caea2f606485765b9e16b9ea25a112dc3152f1722",
+        "views": [
+          {
+            "stage": "invitation",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "invitation",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "invitation",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "invitation",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "stage": "rules",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "rules",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "rules",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "rules",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "stage": "guide",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "guide",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "jungle1",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle1",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle2",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle3",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle6",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle5",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle4",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle7",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle8",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle9",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "minimap",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "minimap",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle-battle",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle-battle",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "jungle-battle",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle-battle",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "stage": "plates",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          }
+        ],
+        "visited": [
+          "jungle1",
+          "jungle2",
+          "jungle3",
+          "jungle6",
+          "jungle5",
+          "jungle4",
+          "jungle7",
+          "jungle8",
+          "jungle9"
+        ],
+        "motion": {
+          "changed": 26526,
+          "outside": 0
+        },
+        "personalScout": true,
+        "scoutApproaches": true,
+        "onlyQualifiedAccount": true,
+        "uniquePassFanfareOnce": true,
+        "redRules": true,
+        "guideBlocksAndHeals": true,
+        "nineRealTransitions": true,
+        "wind": 2,
+        "waterMaskRespected": true,
+        "atlasWidth": 800,
+        "realJungleBattle": true,
+        "fleeDisabled": true,
+        "captureImpossibleAndBallConsumed": true,
+        "enemyPlatformOnly": true,
+        "moneyZero": true,
+        "eighteenPlateColors": true,
+        "reconnect": true,
+        "cardReturnToLobby": true,
+        "emptyTeamReconnectReturnsToPc": true,
+        "casinoAndHouseTracks": true,
+        "realLegendaryEncounterTheme": true,
+        "errors": []
+      },
+      {
+        "success": true,
+        "engine": "webkit",
+        "buildIndexSha256": "a112650c3004fc7ad9bdab1caea2f606485765b9e16b9ea25a112dc3152f1722",
+        "views": [
+          {
+            "stage": "invitation",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "invitation",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "invitation",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "invitation",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "stage": "rules",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "rules",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "rules",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "rules",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "stage": "guide",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "guide",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "jungle1",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle1",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle2",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle3",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle6",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle5",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle4",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle7",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle8",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle9",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "minimap",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "minimap",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle-battle",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle-battle",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "jungle-battle",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle-battle",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "stage": "plates",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          }
+        ],
+        "visited": [
+          "jungle1",
+          "jungle2",
+          "jungle3",
+          "jungle6",
+          "jungle5",
+          "jungle4",
+          "jungle7",
+          "jungle8",
+          "jungle9"
+        ],
+        "motion": {
+          "changed": 24312,
+          "outside": 0
+        },
+        "personalScout": true,
+        "scoutApproaches": true,
+        "onlyQualifiedAccount": true,
+        "uniquePassFanfareOnce": true,
+        "redRules": true,
+        "guideBlocksAndHeals": true,
+        "nineRealTransitions": true,
+        "wind": 2,
+        "waterMaskRespected": true,
+        "atlasWidth": 800,
+        "realJungleBattle": true,
+        "fleeDisabled": true,
+        "captureImpossibleAndBallConsumed": true,
+        "enemyPlatformOnly": true,
+        "moneyZero": true,
+        "eighteenPlateColors": true,
+        "reconnect": true,
+        "cardReturnToLobby": true,
+        "emptyTeamReconnectReturnsToPc": true,
+        "casinoAndHouseTracks": true,
+        "realLegendaryEncounterTheme": true,
+        "errors": []
+      }
+    ],
+    "abandon": {
+      "success": true,
+      "engine": "chromium",
+      "views": [
+        {
+          "width": 393,
+          "height": 852,
+          "phase": "sas",
+          "origin": "ville1",
+          "score": 100
+        },
+        {
+          "width": 393,
+          "height": 852,
+          "phase": "ready",
+          "origin": "route4",
+          "score": 200
+        },
+        {
+          "width": 393,
+          "height": 852,
+          "phase": "loading",
+          "origin": "ville1",
+          "score": 300
+        },
+        {
+          "width": 393,
+          "height": 852,
+          "phase": "battle",
+          "origin": "route4",
+          "score": 400
+        },
+        {
+          "width": 393,
+          "height": 852,
+          "phase": "replacement",
+          "origin": "ville1",
+          "score": 500
+        },
+        {
+          "width": 393,
+          "height": 852,
+          "phase": "result",
+          "origin": "route4",
+          "score": 600
+        },
+        {
+          "width": 393,
+          "height": 852,
+          "phase": "reward",
+          "origin": "ville1",
+          "score": 700
+        },
+        {
+          "width": 393,
+          "height": 852,
+          "phase": "pending",
+          "origin": "route4",
+          "score": 800
+        },
+        {
+          "width": 393,
+          "height": 852,
+          "phase": "cleared",
+          "origin": "ville1",
+          "score": 900
+        },
+        {
+          "width": 320,
+          "height": 480,
+          "phase": "reward",
+          "origin": "route4",
+          "score": 1000
+        },
+        {
+          "width": 844,
+          "height": 390,
+          "phase": "sas",
+          "origin": "ville1",
+          "score": 1100
+        },
+        {
+          "width": 1365,
+          "height": 900,
+          "phase": "battle",
+          "origin": "route4",
+          "score": 1200
+        },
+        {
+          "width": 1365,
+          "height": 900,
+          "phase": "result",
+          "origin": "ville1",
+          "score": 1300
+        }
+      ],
+      "checks": [
+        "White flag accessible in SAS, between rooms, battle entrance, combat, forced replacement, result, recovery cards and pending presentation",
+        "Confirmation cancels without changing the run; failed save stays playable; retry abandons; no stale result reappears",
+        "Final score and original Adventure team preserved; return to the tournament lobby verified, including reconnect; last visited Center remains saved"
+      ],
+      "errors": [],
+      "physicalHardware": false,
+      "headerNotEnlarged": true
+    },
+    "lint": "/tmp/riftmon-dark-lint.log",
+    "build": "/tmp/riftmon-dark-build.log",
+    "imagePixelCheck": [
+      {
+        "name": "wide",
+        "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-ab4a46d3-9cb3-4e16-a035-f204546a4de3.png",
+        "target": "vue-explorakit/src/assets/battle/dark-jungle-wide-v1.webp",
+        "sourceBytes": 2448841,
+        "bytes": 1953494,
+        "sha256": "ef34a67b32e0c31a9f4cff2d6a0e184ab4c22967d00b4f2fb9448fa7a5ac1d06",
+        "width": 1536,
+        "height": 1024,
+        "sameDimensions": true,
+        "differences": 0
+      },
+      {
+        "name": "mobile",
+        "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-ed519aaa-025d-41ea-bfae-59769c515358.png",
+        "target": "vue-explorakit/src/assets/battle/dark-jungle-mobile-v1.webp",
+        "sourceBytes": 2774130,
+        "bytes": 2148962,
+        "sha256": "db1d849398d9a8aee55301511dbf9ce1720cdb2f16daffafaf199593bd0ed226",
+        "width": 1024,
+        "height": 1536,
+        "sameDimensions": true,
+        "differences": 0
+      }
+    ],
+    "availability": {
+      "scope": "gen1–4 catchable zones exclude Dark Continent",
+      "missing": [],
+      "missingSprites": []
+    },
+    "existingDataPreserved": [
+      "all old item definitions",
+      "all old maps and links except additive lobby action link",
+      "all existing weather profiles"
+    ],
+    "limitations": [
+      "No physical phone test",
+      "No full-project suite claimed",
+      "Intermittent native headless WebKit page crashes occurred during capture animation; the final complete debug run passed with zero application JS errors. No physical Safari claim."
+    ]
+  },
+  "schemaChanged": false,
+  "realAccountsManuallyModified": false,
+  "deployment": {
+    "publishedAt": "2026-11-02T07:25:18.280Z",
+    "restartedAt": "2026-11-02T07:25:16.595Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-dark-2026-11-02T07-25-14-988Z",
+    "sourceBaseline": "4504389c98c74f5677a302d253ab2670b93ca644",
+    "sourceHashes": {
+      "data/game/items.json": "a9be54c65efc41e53be7ce8e2ddadac69b1ede72e37fb6559a26574ca0a78d1c",
+      "data/game/map_weather.json": "ccd4e7f5322a18706ea6a0ce965b6d56d908d23e3cd4c852c6a96a5a50497081",
+      "data/game/nextMap.json": "e91173b4982f2e779b2b63f4b7f937c50425cdbbe9e150a32c0bf876a45e2d95",
+      "data/game/region_map.json": "e14db58f9afd81f95c27fbc594431e211cbc65aa0fa05db6018d0271f6e69db8",
+      "server/game/battle/battleEngine.js": "c7c9f622b922d4f0b2e3898f9bee1ca0d4bf4b58eb52261dc3c6e0bf2748ec6a",
+      "server/game/battle/wildBattle.js": "117539488ce805574efe79b8328f1a952881f08a85da74bcba00ab0eefd6f226",
+      "server/game/battle/wildEscape.js": "1845f9d0a445ceb4ed8c1f45df3a4c97e449c4d023b1f0978c5b43ac0534a7c5",
+      "server/game/storage/pokemonStorage.js": "2a56607e91e8100c8995952e587c0e0755c850560971eb7b878672e15329d7b7",
+      "server/game/superTournament/controller.js": "166f16c303111645153bada5f834cd95f8d2d9ab8c17f135723818bded5fe3be",
+      "server/game/world/regionMap.js": "4abac766a1e9fd436d6020a8ce225351f8169d0aa45d8c0f14c8821abeb10b71",
+      "server/game/world/wildPokemonFactory.js": "81223fd766336dff91c661de7214f166074eed30370f30f7fa76f5a425dc5922",
+      "server/persistence/itemRepository.js": "4b3196a07a95c26c429b3f2f6e00378dcffdb99bd5f1681791cc9be38305fb9e",
+      "server/persistence/superTournamentRepository.js": "1cc446627c64e9c70ec7b7fe0ad8280d03d94542b48cb043b7874bee4941ceea",
+      "server/persistence/teamRepository.js": "0f31513712f311f0a7c043be0f0dc5453aeb8ce935b4d20729f7aa9d153a78f2",
+      "server/persistence/wildLootRepository.js": "01b981f635ff54148da2568851463e220724917b088deadadd20cfd8e60a73ce",
+      "server/realtime/socketHandler.js": "7bcec8cb6905443d83912054cafadc435272f9dcf90947523d5b7a3c074e071e",
+      "data/maps/jungle1.json": "8325804332bbf9bfe7705f2bdd5e635ca56c978883921773a3e49a7be1705b5e",
+      "data/maps/jungle2.json": "ed013bfcc5f77902d66e0f77bc15666cfecd1ba91ef1a094757543ffeead2985",
+      "data/maps/jungle3.json": "c4972cde9496895b6f831def29474a8d8d2a8a42a2c3798507e3340efeca6d90",
+      "data/maps/jungle4.json": "e0baa27e996573ec2fd9f959b0b934ef4d35c9e61b705d2ecf895ae757cb376d",
+      "data/maps/jungle5.json": "8756dac852115b6379079827c7c0d36dc82830616532e64bb6f09aee21b06160",
+      "data/maps/jungle6.json": "fb427c2fafca55ba5b8286ea06ab046ff74fc5fe530fe2a64e6b393dde5ef590",
+      "data/maps/jungle7.json": "1f14df76ec71399ccf6f353fa1f301e8b982325765d51f1ebefd70e41a0807c9",
+      "data/maps/jungle8.json": "fc81ef4e05ac367e0fa19ad386591d58d75b9b9661d52267e83f82167bfc287a",
+      "data/maps/jungle9.json": "bab99eb6fbee1fc32b250597c9dd433918efae121ef6fe7bb5b33f498587fc6c",
+      "server/game/world/darkContinent.js": "786ca8abc2834981ec03f6f0a53595875593247274cdff82eb0999d0497954cf",
+      "server/persistence/darkContinentRepository.js": "4558194f8413cd146689146778cae764bbdc4ac4ecab231acfa4c6e28055b656",
+      "server/realtime/handlers/darkContinentHandlers.js": "1be598b4f2a450fba793d2ede3728289ec90c40ed4e1c1078219e6067a46ea05"
+    },
+    "clientCommit": "6b9fe6561a43b6356e73a77a42b4f277fd977419",
+    "clientBuild": "3c55d601e4661750",
+    "beforePid": "3697446",
+    "afterPid": "3705427",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "schemaChanged": false,
+    "migrationApplied": null,
+    "activeClubDuelsBefore": 0,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 0,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": [
+      "js/234.02b18f2e.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.ae44b00a.js",
+      "js/account.161ce126.js",
+      "js/app.727cb66b.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.2fd32f7c.js",
+      "js/drift.5b8720d7.js",
+      "js/game.71445080.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.4fff4c7e.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.02322640.css",
+      "css/test-view.7568246d.css",
+      "img/dark-jungle-mobile-v1.5444eadc.webp",
+      "img/dark-jungle-wide-v1.baea62a1.webp",
+      "img/jungle1.7876d4bb.png",
+      "img/jungle1_f.f8b1ee81.png",
+      "img/jungle2.cba931d4.png",
+      "img/jungle2_f.eee86301.png",
+      "img/jungle3.cfd93137.png",
+      "img/jungle3_f.6ae50cf8.png",
+      "img/jungle4.bec37f7b.png",
+      "img/jungle4_f.7954ca6d.png",
+      "img/jungle5.64c9120b.png",
+      "img/jungle5_f.88a7581a.png",
+      "img/jungle6.96c2843c.png",
+      "img/jungle6_f.54813030.png",
+      "img/jungle7.108db418.png",
+      "img/jungle7_f.e0fbdd4d.png",
+      "img/jungle8.f9d6bc65.png",
+      "img/jungle8_f.52c97fbc.png",
+      "img/jungle9.4a2e5c2c.png",
+      "img/jungle9_f.af1650dc.png",
+      "media/battle-house.f5561ca5.mp3",
+      "media/casino.6ab9dfdc.mp3",
+      "media/dark-battle.d897bf4c.mp3",
+      "media/dark-continent.13ed9bf9.mp3",
+      "media/legendary-battle.7773e5d4.mp3"
+    ]
+  }
+}

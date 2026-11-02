@@ -2,7 +2,7 @@ const test = require('node:test'), assert = require('node:assert/strict');
 const {TournamentController} = require('../server/game/superTournament/controller');
 const codec = require('../server/game/drift/checkpointCodec');
 const factory = require('../server/game/drift/pokemonFactory');
-const {getPokemonCenterRespawnPoint} = require('../server/game/world/playerRecovery');
+const lobby={map:'super_tournament_lobby',x:448,y:496};
 const party = () => ({pokemons: [9, 94, 212].map(id => factory.create(id, 100, true))});
 
 function setup() {
@@ -34,15 +34,15 @@ async function stage(c, phase, team = party()) {
     await c.atomic(() => {c.run.score = 1300; c.run.cleared = 4;});
 }
 for (const phase of ['sas', 'ready', 'battle', 'replacement', 'reward', 'cleared']) {
-    test(`${phase}: abandon commits score, closes the battle and returns to the last Center without touching Adventure`, async () => {
+    test(`${phase}: abandon commits score, closes the battle and returns to the tournament lobby without touching Adventure`, async () => {
         const f = setup(), original = party(), before = codec.encode(original);
         await stage(f.c, phase, original); const battle = f.c.run.battle;
         const start = f.events.length;
         assert.equal(await f.c.execute(() => f.c.abandon()), true);
         assert.equal(f.c.active, false); assert.equal(f.player.inbattle, false);
-        assert.deepEqual(f.trips, [getPokemonCenterRespawnPoint()]);
+        assert.deepEqual(f.trips, [lobby]);
         assert.deepEqual(f.player.centerReturnPoint, {map: 'route4', x: 720, y: 144});
-        assert.deepEqual(f.saves.at(-1), {run: false, final: {score: 1300, rooms: 4, moneyEarned: 0, returnToCenter: true}});
+        assert.deepEqual(f.saves.at(-1), {run: false, final: {score: 1300, rooms: 4, moneyEarned: 0}});
         const finished = f.events.slice(start).filter(e => e.name === 'superTournamentFinished');
         assert.equal(finished.length, 1); assert.equal(finished[0].data.reason, 'abandoned');
         assert.equal(finished[0].data.score, 1300);
@@ -79,9 +79,9 @@ test('simultaneous abandonment requests cannot finalize or teleport twice', asyn
     assert.equal(f.trips.length, 1);
     assert.equal(f.events.filter(e => e.name === 'superTournamentFinished').length, 1);
 });
-test('lost map delivery after commit keeps the finalized run and the durable Center return instruction', async () => {
+test('lost map delivery after commit keeps the finalized run and the durable lobby return instruction', async () => {
     const f = setup(); await stage(f.c, 'battle'); f.failTravel();
     await assert.rejects(() => f.c.abandon(), /connection lost/);
-    assert.equal(f.c.active, false); assert.equal(f.saves.at(-1).final.returnToCenter, true);
+    assert.equal(f.c.active, false); assert.equal(f.saves.at(-1).final.rooms, 4);
     const resumed = f.create(); await resumed.load(); assert.equal(resumed.active, false);
 });

@@ -24,6 +24,8 @@ function hydrateItems(rows) {
             revive: Boolean(itemFromCatalog.revive),
             fieldUse: itemFromCatalog.fieldUse || null,
             ...(itemFromCatalog.experienceModule ? {experienceModule:true} : {}),
+            ...(itemFromCatalog.plateType?{plateType:itemFromCatalog.plateType}:{}),
+            ...(itemFromCatalog.darkContinentTravel?{darkContinentTravel:true}:{}),
             ...(itemFromCatalog.superTournamentTravel ? {superTournamentTravel:true} : {}),
             ...(itemFromCatalog.voidTravel ? { voidTravel: true } : {}),
             repelSteps: itemFromCatalog.repelSteps || null,

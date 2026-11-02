@@ -1,0 +1,199 @@
+{
+  "inputDirectory": "darkcontinen",
+  "assets": [
+    {
+      "source": "jungle1.json",
+      "path": "data/maps/jungle1.json",
+      "sha256": "8325804332bbf9bfe7705f2bdd5e635ca56c978883921773a3e49a7be1705b5e",
+      "bytes": 114810
+    },
+    {
+      "source": "jungle1.png",
+      "path": "vue-explorakit/src/assets/jungle1.png",
+      "sha256": "8c0b0aca0ef92f73f326198563a0fb421a353f61d767b2ae5c2af673a6915e37",
+      "bytes": 16582
+    },
+    {
+      "source": "jungle1_f.png",
+      "path": "vue-explorakit/src/assets/jungle1_f.png",
+      "sha256": "c683ab79b0540a00f205278918504c9b5cb388e9ed1bf3ab487603485788cabc",
+      "bytes": 103764
+    },
+    {
+      "source": "jungle2.json",
+      "path": "data/maps/jungle2.json",
+      "sha256": "ed013bfcc5f77902d66e0f77bc15666cfecd1ba91ef1a094757543ffeead2985",
+      "bytes": 123132
+    },
+    {
+      "source": "jungle2.png",
+      "path": "vue-explorakit/src/assets/jungle2.png",
+      "sha256": "ee4a90f9cb5378519c037067125340cfc5d596f1e18e9ae15e8f648ce46aba58",
+      "bytes": 15320
+    },
+    {
+      "source": "jungle2_f.png",
+      "path": "vue-explorakit/src/assets/jungle2_f.png",
+      "sha256": "4d153f142f6a6bde757b89a7c0b20ebebe1616afced132f841173cf80161225f",
+      "bytes": 102973
+    },
+    {
+      "source": "jungle3.json",
+      "path": "data/maps/jungle3.json",
+      "sha256": "c4972cde9496895b6f831def29474a8d8d2a8a42a2c3798507e3340efeca6d90",
+      "bytes": 112827
+    },
+    {
+      "source": "jungle3.png",
+      "path": "vue-explorakit/src/assets/jungle3.png",
+      "sha256": "4ea5b37a3f1b59ea006ba726ef16e815f5fd627f772118ff57c5e2b77b51a013",
+      "bytes": 18113
+    },
+    {
+      "source": "jungle3_f.png",
+      "path": "vue-explorakit/src/assets/jungle3_f.png",
+      "sha256": "710a9b1db7e5a9dc1dba3acf4fa15a8151c206ef1530fc65c0cacb709099ff05",
+      "bytes": 105218
+    },
+    {
+      "source": "jungle4.json",
+      "path": "data/maps/jungle4.json",
+      "sha256": "e0baa27e996573ec2fd9f959b0b934ef4d35c9e61b705d2ecf895ae757cb376d",
+      "bytes": 130332
+    },
+    {
+      "source": "jungle4.png",
+      "path": "vue-explorakit/src/assets/jungle4.png",
+      "sha256": "50346e7d93cb58fb59074231acf1782745da0a24b8a2d1f023645df773cc90eb",
+      "bytes": 18868
+    },
+    {
+      "source": "jungle4_f.png",
+      "path": "vue-explorakit/src/assets/jungle4_f.png",
+      "sha256": "9ec0ab84613f855cdabf2f24d9c0d115774c96b7427f111095fa0514d7411e59",
+      "bytes": 111526
+    },
+    {
+      "source": "jungle5.json",
+      "path": "data/maps/jungle5.json",
+      "sha256": "8756dac852115b6379079827c7c0d36dc82830616532e64bb6f09aee21b06160",
+      "bytes": 145998
+    },
+    {
+      "source": "jungle5.png",
+      "path": "vue-explorakit/src/assets/jungle5.png",
+      "sha256": "98014bc1dea3dd63cc39f09094ae322dfa1d952d25bfb2176af8051aa9dd74eb",
+      "bytes": 14705
+    },
+    {
+      "source": "jungle5_f.png",
+      "path": "vue-explorakit/src/assets/jungle5_f.png",
+      "sha256": "37ad55312a70a4c138ad3e65cb19bfcf2cf7c2ff780563741bcb913fa391609d",
+      "bytes": 119236
+    },
+    {
+      "source": "jungle6.json",
+      "path": "data/maps/jungle6.json",
+      "sha256": "fb427c2fafca55ba5b8286ea06ab046ff74fc5fe530fe2a64e6b393dde5ef590",
+      "bytes": 125705
+    },
+    {
+      "source": "jungle6.png",
+      "path": "vue-explorakit/src/assets/jungle6.png",
+      "sha256": "90184e2f0410e834ece3c3b2e7b53ff68af082548436a620f6a5200a68ba4022",
+      "bytes": 18605
+    },
+    {
+      "source": "jungle6_f.png",
+      "path": "vue-explorakit/src/assets/jungle6_f.png",
+      "sha256": "aa69e35ad298919225e60f7f9b2cf18bcd1cb1c07996eca4c320884451ea643a",
+      "bytes": 109859
+    },
+    {
+      "source": "jungle7.json",
+      "path": "data/maps/jungle7.json",
+      "sha256": "1f14df76ec71399ccf6f353fa1f301e8b982325765d51f1ebefd70e41a0807c9",
+      "bytes": 108933
+    },
+    {
+      "source": "jungle7.png",
+      "path": "vue-explorakit/src/assets/jungle7.png",
+      "sha256": "a0a3dab87973a474c7c14d54eee730f1e2d82d4dacb2a45b68998e4823814067",
+      "bytes": 18519
+    },
+    {
+      "source": "jungle7_f.png",
+      "path": "vue-explorakit/src/assets/jungle7_f.png",
+      "sha256": "6e05297674f67b1ef2e8cac33fc558253c78cb018a0db592258afc046d999fca",
+      "bytes": 114621
+    },
+    {
+      "source": "jungle8.json",
+      "path": "data/maps/jungle8.json",
+      "sha256": "fc81ef4e05ac367e0fa19ad386591d58d75b9b9661d52267e83f82167bfc287a",
+      "bytes": 127879
+    },
+    {
+      "source": "jungle8.png",
+      "path": "vue-explorakit/src/assets/jungle8.png",
+      "sha256": "f2e4be0c39eb44abfc657f36ee1ea8c1f274d75e14b49e0f08196724d0016dcb",
+      "bytes": 17803
+    },
+    {
+      "source": "jungle8_f.png",
+      "path": "vue-explorakit/src/assets/jungle8_f.png",
+      "sha256": "41a48df06a24ba1efa4613e1bf94c19ae852b089ac1f3d2eaabdb74a36f926b3",
+      "bytes": 100833
+    },
+    {
+      "source": "jungle9.json",
+      "path": "data/maps/jungle9.json",
+      "sha256": "bab99eb6fbee1fc32b250597c9dd433918efae121ef6fe7bb5b33f498587fc6c",
+      "bytes": 109622
+    },
+    {
+      "source": "jungle9.png",
+      "path": "vue-explorakit/src/assets/jungle9.png",
+      "sha256": "fa630bbad5f549b3e682e6ffc09405c65d75273cff24232f0eb643466716275f",
+      "bytes": 17657
+    },
+    {
+      "source": "jungle9_f.png",
+      "path": "vue-explorakit/src/assets/jungle9_f.png",
+      "sha256": "65c3dea6ae2e6d64f5c436f3af2bc489db4f99b808097bbb6c5fb25399d5608f",
+      "bytes": 103555
+    },
+    {
+      "source": "sound.mp3",
+      "path": "vue-explorakit/src/assets/msc/dark-continent.mp3",
+      "sha256": "197d1e25c12a5c6a163aeab9b08c2ce6160b924036a0dfe1ec459260d6ebf488",
+      "bytes": 5268211
+    },
+    {
+      "source": "battle.mp3",
+      "path": "vue-explorakit/src/assets/msc/dark-battle.mp3",
+      "sha256": "4924818b11582ddda54cbcdeb40041aa0b85e9bd8c70eede44e43b6fdcd39789",
+      "bytes": 3334732
+    },
+    {
+      "source": "casino.mp3",
+      "path": "vue-explorakit/src/assets/msc/casino.mp3",
+      "sha256": "2e87ccf7788e5674e50fc96dba434d6325f1a725d4f703ddd56cf279a71d0b65",
+      "bytes": 3240064
+    },
+    {
+      "source": "maison_des_combat.mp3",
+      "path": "vue-explorakit/src/assets/msc/battle-house.mp3",
+      "sha256": "b99350222ee4182978f9263598992ad0e75ca9572752ad7349bb42d93d5ea9da",
+      "bytes": 2495261
+    },
+    {
+      "source": "legendaire.mp3",
+      "path": "vue-explorakit/src/assets/msc/legendary-battle.mp3",
+      "sha256": "d3336fd42e188c154cc9944cb90b9d8ef2dac303cca9bca00b9fd4e2937c9b08",
+      "bytes": 3180505
+    }
+  ],
+  "sourceReadme": "on va ajouter une grosse feature endgame un nouveau espace suis bien toute les etapes\n-je veux que quand on quitte le super tournois à chaque fois ça nous met à l'acceuil ( donc si on perd dans la run)\n-je veux que si on atteint le palier 4 ( donc avoir fini le 3 ) un pnj unique a chaque joueur apparait (sprite d'un mec d'aventure dans 6931.png ) dans l'acceille vien nous voir et dit \"je vois que tu est un vrai expert des combats toi tu m'a l'aire assez fort pour aller sur le dark continent\" tien voici ta carte de dresseur professionel avec ça tu peu te rendre sur la dark continent\n-l'objet carte de dresseur professionel ira dans notre sac objet clé et utilisable pour ce TP sur le dark contnient \n-ajoute sur la minimap (grandi la) une ile assez grosse a droite de notre map \n-la map est composé de 9 map à ajouter elle sont present dans le dossier avec le forground (_f) et le json elle sont relié entre elle , Aide_Map_ordre.png peut t'aider pour les relier en carré\n-les pokemons sur le dark continent sont que des grandes evolution tu choisi un roster de pokemon qui font peur il faut qu'il y en ai une 30 aine de different et un de chaque type au moin , sur la map jungle 1 jungle 4 et jungle 7 il seron du niveau 100 à 120 sur la map jungle 2 jungle 5 et jungle 8 ils seront 120 -> 150 sur la map jungle 3 6 9 -> lvl 150 à 200\n-pour les combats tu ajoute un background jungle et tu utilisera la musique battle.mp3 du dossier\npour la musique de la map tu met sound.mp3 du dossier \n-sur le dark continent il ya des regle strict \n            -on ne peut pas fuire les pokemons sauvage ( la fuite est grisé )\n            -si un pokemon est mis KO il est mort il disparait de l'equipe\n            -on ne peut pas capturer les pokemons du continent car ils sont trp puissant si on lance une ball ça nous fais l'animation ou il sort et ça nous dit , le pokemon est trop fort pour etre capturé\n            -les pokemons donne une Xp reduite environ 10% de ce qu'il devrait donner \n            -il ne donne pas d'argent\n            -le module de 7p ne fonctionne pas sur l'ile\n-tu va creer des nouvelles item : plaque \"type\" , il faut une plaque pour chaque type present dans le jeu chaque plaque a la couleur du type \n-les pokemmon du lieu on 7% de chance de drop une plaque de leur type ainsi qui les cristaux traditionel en plus grand quantité et meilleur ratio de chance \n-quand on arrive avec la tp de la carte dresseur on arrive sur la map jungle 1 sur le sable et il y a un pnj qui nous parle , il nous explique les regles fais en sorte que se sois ecrit en rouge car c'est important , \n-ce pnj reste sur le sable de la map jungle 1 il propose 2 choix de dialogue je peux t'expliquer les regles ou soigner les pokemons ( c'est aussi un sprite d'un pnj aventure que tu va mettre du fichier 6931.png du projet)\n-le pnj dans ses regles explique aussi que plus on va a droite de l'ile plus c'est compliqué ( en rouge avec des !!!!)\n-pour les plaque ça va dans trésor dans le sac ça se vend 20k unité\ntu fera des animation pour bouger l'eau de la mer et des lac , et tu met du vent dans les maps\n-tu mettra aussi les musics du casino , maison des combat , un theme battle pour les legendaires que je t'ai ajouter dans le dossier",
+  "noRuntimeDependencyOnInputDirectory": true
+}

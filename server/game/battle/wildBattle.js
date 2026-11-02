@@ -84,7 +84,7 @@ async function narrate(player, io, message, delayMs = TEXT_DELAY_MS) {
 }
 
 function displayIntroAnimation(player, wildPokemon, io, battleState) {
-    io.to(player.id).emit('introAnimation', { player, wildPokemon, battleType:'wild', genders:presentation.genders(player.equipe.pokemons[0],wildPokemon), usableMoveIndexes:getUsableMoveIndexes(player.equipe.pokemons[0],battleState), capturePolicy:captureAssessment(battleState?.captureProgress,wildPokemon?.level), moveTypes:battleMoveTypes(player.equipe.pokemons[0],wildPokemon,battleState), effortYield:effortYield(wildPokemon), transitions:presentation.transitions(player,player.equipe.pokemons[0],wildPokemon) });
+    io.to(player.id).emit('introAnimation', { player, wildPokemon, battleType:'wild', genders:presentation.genders(player.equipe.pokemons[0],wildPokemon), usableMoveIndexes:getUsableMoveIndexes(player.equipe.pokemons[0],battleState), capturePolicy:battleState?.escapeForbidden?{darkContinent:true}:captureAssessment(battleState?.captureProgress,wildPokemon?.level), moveTypes:battleMoveTypes(player.equipe.pokemons[0],wildPokemon,battleState), effortYield:effortYield(wildPokemon), transitions:presentation.transitions(player,player.equipe.pokemons[0],wildPokemon) });
 }
 
 function displayMoveAnimation(player, attacker, io, details) {
@@ -121,6 +121,7 @@ async function performAttackWithNarration(attacker, defender, moveIndex, player,
     const animation = prepareMoveAnimation(attacker, defender, moveName, battleContext.battleState);
     const own=attacker===player.equipe.pokemons[0],ppBefore=require('./voidCharge').totalPp(attacker);
     const attackResult = performAttack(attacker, defender, moveIndex, battleContext);
+    await battleContext.battleState.darkFaints?.();
     if(own)await battleContext.battleState.voidCharge?.(attackResult,ppBefore,attacker);
     await narrateMessages(player, io, attackResult.beforeActionMessages, 950);
     if (!attackResult.actionPrevented) {
@@ -182,6 +183,7 @@ async function applySwitchInNarration(player, wildPokemon, io, switchedPokemon, 
         : wildPokemon;
     displayIntroAnimation(player, wildPokemon, io, battleState);
     const switchMessages = applySwitchInEffects(switchedPokemon, ownSide, enemySide, battleState, enemyPokemon);
+    await battleState.darkFaints?.();
     emitFieldState(io, player?.id, battleState);
     if (switchMessages.length === 0) return;
 
@@ -193,6 +195,7 @@ async function applySwitchInNarration(player, wildPokemon, io, switchedPokemon, 
 async function resolveRoundEnd(player, wildPokemon, io, battleState, playerSide, enemySide) {
     const playerPokemon = player.equipe.pokemons[0];
     const endTurnMessages = processEndOfRound(playerPokemon, wildPokemon, playerSide, enemySide, battleState);
+    await battleState.darkFaints?.();
     emitFieldState(io, player?.id, battleState);
 
     if (endTurnMessages.length > 0) {
@@ -242,7 +245,8 @@ async function handleBagAction(player, wildPokemon, io, userId, itemKey, progres
         return { turnConsumed: false, caught: false };
     }
 
-    if(player.equipe?.pokemons?.length>=6 && !await pokemonStorage.hasRoom(userId)){
+    const dark=require('../world/darkContinent').isMap(player.currentmap);
+    if(!dark && player.equipe?.pokemons?.length>=6 && !await pokemonStorage.hasRoom(userId)){
         await narrate(player,io,'Ton équipe et ton PC sont pleins. Libère une place dans un Centre Pokémon.');
         return {turnConsumed:false,caught:false};
     }
@@ -257,9 +261,9 @@ async function handleBagAction(player, wildPokemon, io, userId, itemKey, progres
     await narrate(player, io, `${getPokemonDisplayName(player.equipe.pokemons[0])} utilise ${ball.name} !`, 900);
 
     const playerPokemon = player?.equipe?.pokemons?.[0];
-    const chance = calculateCaptureChance(playerPokemon, wildPokemon, ball.catch_multiplier, progress);
-    const success = Math.random() < chance;
-    const shakes = resolveCaptureShakes(success, chance);
+    const chance = dark?0:calculateCaptureChance(playerPokemon, wildPokemon, ball.catch_multiplier, progress);
+    const success = !dark && Math.random() < chance;
+    const shakes = dark?0:resolveCaptureShakes(success, chance);
 
     io.to(player.id).emit('captureAnimation', {
         itemKey,
@@ -273,7 +277,7 @@ async function handleBagAction(player, wildPokemon, io, userId, itemKey, progres
     await sleep(CAPTURE_ANIMATION_DURATION_MS);
 
     if (!success) {
-        await narrate(player, io, `${getPokemonDisplayName(wildPokemon)} s'est libere !`);
+        await narrate(player, io, dark?'Ce Pokémon est trop fort pour être capturé !':`${getPokemonDisplayName(wildPokemon)} s'est libere !`);
         return { turnConsumed: true, caught: false };
     }
 
@@ -457,34 +461,39 @@ function playerTurn(player, io, battleState) {
 }
 
 async function startBattle(player, wildPokemon, io, userId) {
+    const dark=require('../world/darkContinent').isMap(player.currentmap),darkRepo=require('../../persistence/darkContinentRepository');
+    const darkStarted=new Set(player.equipe.pokemons.filter(p=>p.currentHp>0).map(p=>p.uuid));
     presentation.reset(player);
     require('./partyOrder').rememberPartyOrder(player.equipe);
     require('./battleTeam').autoSwitchPokemon(player.equipe);
     const resultTracker = createBattleSummaryTracker(player?.equipe?.pokemons);
     let wildMoneyGranted = false, wildLootAttempted = false;
     const endBattle = async (playerWon = false, extra = {}) => {
+        if(dark){await darkRepo.persistFaints(userId,player,io,darkStarted);darkRepo.removeFallen(player);}
         // A simultaneous K.O. cannot award victory with no surviving companion.
         if (playerWon && !hasAlivePokemon(player.equipe.pokemons)) playerWon = false;
         if (playerWon && (extra.captured || wildPokemon.currentHp <= 0) && !wildLootAttempted) {
             wildLootAttempted = true;
-            const items = await require('../../persistence/wildLootRepository').awardWildBattleLoot(userId);
+            const items = dark?await darkRepo.grantLoot(userId,wildPokemon):await require('../../persistence/wildLootRepository').awardWildBattleLoot(userId);
             if (items.length) {
-                resultTracker.loot.push(...items.map(i=>i.name));
+                resultTracker.loot.push(...items.map(i=>`${i.name}${i.quantity>1?' ×'+i.quantity:''}`));
                 io.to(player.id).emit('bagUpdated', {items:await loadUserItems(userId)});
-                await rewardText(player,io,`${items.length>1?'Objets trouvés':'Objet trouvé'} : ${items.map(i=>i.name).join(', ')} !`,sleep);
+                await rewardText(player,io,`${items.length>1?'Objets trouvés':'Objet trouvé'} : ${items.map(i=>i.name+(i.quantity>1?' ×'+i.quantity:'')).join(', ')} !`,sleep);
             }
         }
-        if (playerWon && (extra.captured || wildPokemon.currentHp <= 0) && !wildMoneyGranted) {
+        if (!dark && playerWon && (extra.captured || wildPokemon.currentHp <= 0) && !wildMoneyGranted) {
             const money = await awardUserMoney(userId, adventureMoneyReward(wildPokemon, playerSide.rewardMultiplier));
             wildMoneyGranted = true;
             resultTracker.money += money;
         }
         return emitSoloBattleEnd(player, io, playerWon, {
             ...extra,
-            summary: resultTracker.snapshot(player.equipe.pokemons, extra.captured ? wildPokemon : null)
+            summary: {...resultTracker.snapshot(player.equipe.pokemons, extra.captured ? wildPokemon : null),
+                ...(dark?{lostPokemon:resultTracker.initial.filter(({pokemon})=>pokemon.__darkContinentDead).map(({pokemon})=>({uuid:pokemon.uuid,pokemonId:pokemon.data.id,name:getPokemonDisplayName(pokemon),level:pokemon.level}))}:{})}
         }, 'wild');
     };
     const battleState = createBattleState({ mapName: player.currentmap, battleType:'wild' });
+    if(dark)Object.defineProperty(battleState,'darkFaints',{value:()=>darkRepo.persistFaints(userId,player,io,darkStarted)});
     const finishTeleport=async()=>{
         await endBattle(false,{fled:true,escapeActor:battleState.escapeActor});
         await editEquipe(userId,player.equipe);
@@ -513,11 +522,12 @@ async function startBattle(player, wildPokemon, io, userId) {
     }
 
     const grantWildXp = async (options = {}) => {
-        const awards = battleState.adventureExperience.reward(player, wildPokemon, BATTLE_EXPERIENCE_MULTIPLIERS.wild, io, options);
+        const awards = battleState.adventureExperience.reward(player, wildPokemon, BATTLE_EXPERIENCE_MULTIPLIERS.wild*(dark?.1:1), io, options);
         for (const {pokemon, xp} of awards) await rewardText(player, io, `${getPokemonDisplayName(pokemon)} gagne ${xp} XP !`, sleep);
     };
 
     const handleForcedSwitch = async () => {
+        if(dark){await darkRepo.persistFaints(userId,player,io,darkStarted);if(!hasAlivePokemon(player.equipe.pokemons)){await endBattle(false);await editEquipe(userId,player.equipe);return false;}if(player.equipe.pokemons[0]?.currentHp>0){displayIntroAnimation(player,wildPokemon,io,battleState);}}
         const response = await requestReplacement(io, player);
         if (response.action === 'disconnect') {
             await endBattle(false, { interrupted: true, reason: response.reason });
@@ -525,6 +535,7 @@ async function startBattle(player, wildPokemon, io, userId) {
             return false;
         }
         const switched = response.action === 'change' && playerSwitchByIndex(player.equipe, response.number);
+        if(dark && switched)darkRepo.removeFallen(player);
         if (!switched) {
             await narrate(player, io, 'Tu as perdu le combat...');
             await endBattle(false);

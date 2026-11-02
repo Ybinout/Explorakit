@@ -35,8 +35,8 @@ async function grantBattleLoot(userId,ordinary,crystals,random){
             }
         }
         foundItems.push(...crystals);
-        if(foundItems.length)await c.execute(`INSERT INTO user_items(user_id,item_key,quantity) VALUES ${foundItems.map(()=>'(?,?,1)').join(',')} ON DUPLICATE KEY UPDATE quantity=quantity+1`,foundItems.flatMap(i=>[userId,i.key]));
+        if(foundItems.length)await c.execute(`INSERT INTO user_items(user_id,item_key,quantity) VALUES ${foundItems.map(()=>'(?,?,?)').join(',')} ON DUPLICATE KEY UPDATE quantity=quantity+VALUES(quantity)`,foundItems.flatMap(i=>[userId,i.key,Math.max(1,Math.floor(i.quantity||1))]));
         return foundItems;
     });
 }
-module.exports = {awardWildLoot,awardWildBattleLoot,hasExpShare};
+module.exports = {awardWildLoot,awardWildBattleLoot,grantBattleLoot,hasExpShare};

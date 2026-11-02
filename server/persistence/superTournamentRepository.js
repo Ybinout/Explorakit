@@ -4,15 +4,15 @@ const content=require('../game/superTournament/content');
 const cashPrizes=require('../game/superTournament/cashPrizes');
 const augmentations=require('../game/superTournament/augmentations');
 async function load(id){const [[row]]=await dbPool.execute('SELECT version,snapshot,best_score,best_rooms FROM super_tournament_profiles WHERE user_id=?',[id]);return {version:Number(row?.version||0),run:row?.snapshot?codec.decode(row.snapshot):null,best:Number(row?.best_score||0)};}
-async function save(id,run,version,{score=run?.score||0,rooms=run?.cleared||0,returnToCenter=false,payout=null,rewardClaim=null}={}){
+async function save(id,run,version,{score=run?.score||0,rooms=run?.cleared||0,payout=null,rewardClaim=null}={}){
  if(payout&&rewardClaim)throw Error('Deux récompenses incompatibles.');
  let snapshot=run&&!payout&&!rewardClaim?await codec.encodeAsync(run):null;
  const result=await withTransaction(async c=>{
   // Persist the exit together with the final score. A lost connection between
   // the commit and the map packet must not reopen the island on reconnect.
-  const center=run===null&&returnToCenter===true?require('../game/world/playerRecovery').getPokemonCenterRespawnPoint():null;
+  const exit=run===null?{map:content.MAPS.lobby,x:448,y:496}:null;
   let balance;
-  if(center||payout||rewardClaim){const [[user]]=await c.execute('SELECT id,money FROM users WHERE id=? FOR UPDATE',[id]);if(!user)throw Error('Dresseur introuvable.');balance=Number(user.money);}
+  if(exit||payout||rewardClaim){const [[user]]=await c.execute('SELECT id,money FROM users WHERE id=? FOR UPDATE',[id]);if(!user)throw Error('Dresseur introuvable.');balance=Number(user.money);}
   await c.execute('INSERT IGNORE INTO super_tournament_profiles(user_id) VALUES(?)',[id]);
   let credited=0,before,items;
   if(payout||rewardClaim){
@@ -58,7 +58,7 @@ async function save(id,run,version,{score=run?.score||0,rooms=run?.cleared||0,re
   const [r]=await c.execute('UPDATE super_tournament_profiles SET snapshot=?,score=?,best_score=GREATEST(best_score,?),best_rooms=GREATEST(best_rooms,?),version=version+1 WHERE user_id=? AND version=?',[snapshot,score,score,rooms,id,version]);
   if(r.affectedRows!==1)throw Error('La tentative a changé. Reconnecte-toi pour la reprendre.');
   if(credited>0)await c.execute('UPDATE users SET money=money+? WHERE id=?',[credited,id]);
-  if(center)await c.execute('UPDATE users SET map=?,x=?,y=? WHERE id=?',[center.map,center.x,center.y,id]);
+  if(exit)await c.execute('UPDATE users SET map=?,x=?,y=? WHERE id=?',[exit.map,exit.x,exit.y,id]);
   return {version:version+1,balance:payout||rewardClaim?balance+credited:null,items};
  });
  // The controller publishes the balance only after the transaction commits.

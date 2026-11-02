@@ -1,3 +1,7 @@
+## Dark Continent — 2 novembre 2026
+
+Lire la section en tête d’audit et `docs/DARK_CONTINENT_2026-11-02.json`. Les neuf jungles sont les cartes de l’auteur intégrées sans retouche, grille 1–3/4–6/7–9, niveaux par colonne 100–120/120–150/150–200. Passe personnel unique après 48 salles terminées, rétroactif ; guide obligatoire et soin des seuls survivants. K.O. Dark = suppression persistante de l’UUID appartenant au joueur avant remplacement, jamais réinsérer un objet marqué `__darkContinentDead` ; PC intact et retour devant le PC si équipe vide. Fuite/capture interdites, XP10 %, 0 argent, module XP ignoré ; ne pas appliquer ces règles ailleurs. Plaques18types,7 %/20k ; cristaux renforcés uniquement ici. Toutes les sorties définitives du Super Tournoi retournent à l’accueil, transactionnellement avec le score. Recettes : tests `dark-continent*`, `super-tournament-abandon`, `region-map`, `npm run test:dark-continent-browser` et `validateTournamentAbandonBrowser.js` sur base dédiée. Entrées sources/provenance dans `docs/DARK_CONTINENT_ASSETS_2026-11-02.json`, art/prompts dans `docs/DARK_CONTINENT_ART_2026-11-02.json` ; le dossier brut local `darkcontinen/` reste intact mais ignoré Git, jeu/tests indépendants de lui.
+
 # Contexte permanent — RiftMon
 
 ## Charge de plusieurs IA simultanées — 30 octobre 2026

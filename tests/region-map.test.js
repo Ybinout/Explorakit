@@ -5,8 +5,8 @@ const { buildReport } = require('../scripts/auditPokemonAvailability');
 const { toPublicPlayer } = require('../server/realtime/playerState');
 test('region covers all current wild and fishing locations, with playable connected roads', () => {
     const atlas=getRegionMap(), nodes=new Set(atlas.nodes.map(n=>n.id));
-    assert.equal(nodes.size,26);
-    const reached=new Set(['start']);
+    assert.equal(nodes.size,36);
+    const reached=new Set(['start','super_tournament_lobby','jungle1']);
     let changed=true;while(changed){changed=false;for(const [a,b] of atlas.edges)if(reached.has(a)!==reached.has(b)){reached.add(a);reached.add(b);changed=true;}}
     assert.deepEqual(reached,nodes);
     for(const n of atlas.nodes){assert(n.x>12&&n.x<atlas.width-12&&n.y>12&&n.y<atlas.height-12);assert(!n.id.startsWith('gen_ville')||n.id==='gen_ville5');}

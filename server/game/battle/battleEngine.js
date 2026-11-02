@@ -122,6 +122,7 @@ function createSideState(name = 'side') {
 function createBattleState(options = {}) {
     return {
         turn: 1,
+        escapeForbidden:require('../world/darkContinent').isMap(options?.mapName),
         battleType: ['wild','trainer','arena','pvp'].includes(options?.battleType) ? options.battleType : null,
         weather: battleWeatherForMap(options?.mapName, options?.opponentMap),
         terrain: {
@@ -1135,6 +1136,7 @@ function applyStageChange(target, stat, stages, messages, source = null, options
 
 function canSwitchOut(pokemon, opponent = null, battleState = null, { escape = false } = {}) {
     if (!pokemon || safeNumber(pokemon.currentHp, 0) <= 0) return false;
+    if(escape && battleState?.escapeForbidden)return false;
     const battleData = ensureBattleData(pokemon);
     if (battleData.skyDropBy || (!escape && getForcedMove(pokemon))) return false;
     if (escape && hasPassiveAbility(pokemon,'Run Away')) return true;

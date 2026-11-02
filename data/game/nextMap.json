@@ -3019,7 +3019,8 @@
       "actionLinks": [
         "start",
         "super_tournament_sas",
-        "super_tournament_room"
+        "super_tournament_room",
+        "jungle1"
       ]
     },
     {
@@ -3045,6 +3046,3390 @@
       "actionLinks": [
         "super_tournament_lobby"
       ]
+    },
+    {
+      "mapName": "jungle1",
+      "canCapture": false,
+      "mapchange": [
+        {
+          "valX": 27,
+          "valY": 3,
+          "goto": "jungle2",
+          "nexX": 32,
+          "nexY": 128
+        },
+        {
+          "valX": 27,
+          "valY": 4,
+          "goto": "jungle2",
+          "nexX": 32,
+          "nexY": 160
+        },
+        {
+          "valX": 27,
+          "valY": 5,
+          "goto": "jungle2",
+          "nexX": 32,
+          "nexY": 192
+        },
+        {
+          "valX": 27,
+          "valY": 6,
+          "goto": "jungle2",
+          "nexX": 32,
+          "nexY": 224
+        },
+        {
+          "valX": 27,
+          "valY": 7,
+          "goto": "jungle2",
+          "nexX": 32,
+          "nexY": 256
+        },
+        {
+          "valX": 27,
+          "valY": 8,
+          "goto": "jungle2",
+          "nexX": 32,
+          "nexY": 288
+        },
+        {
+          "valX": 27,
+          "valY": 9,
+          "goto": "jungle2",
+          "nexX": 32,
+          "nexY": 320
+        },
+        {
+          "valX": 27,
+          "valY": 10,
+          "goto": "jungle2",
+          "nexX": 32,
+          "nexY": 352
+        },
+        {
+          "valX": 27,
+          "valY": 11,
+          "goto": "jungle2",
+          "nexX": 32,
+          "nexY": 384
+        },
+        {
+          "valX": 27,
+          "valY": 12,
+          "goto": "jungle2",
+          "nexX": 32,
+          "nexY": 416
+        },
+        {
+          "valX": 27,
+          "valY": 13,
+          "goto": "jungle2",
+          "nexX": 32,
+          "nexY": 448
+        },
+        {
+          "valX": 27,
+          "valY": 14,
+          "goto": "jungle2",
+          "nexX": 32,
+          "nexY": 480
+        },
+        {
+          "valX": 27,
+          "valY": 15,
+          "goto": "jungle2",
+          "nexX": 32,
+          "nexY": 512
+        },
+        {
+          "valX": 27,
+          "valY": 16,
+          "goto": "jungle2",
+          "nexX": 32,
+          "nexY": 544
+        },
+        {
+          "valX": 27,
+          "valY": 17,
+          "goto": "jungle2",
+          "nexX": 32,
+          "nexY": 576
+        },
+        {
+          "valX": 27,
+          "valY": 18,
+          "goto": "jungle2",
+          "nexX": 32,
+          "nexY": 608
+        },
+        {
+          "valX": 27,
+          "valY": 19,
+          "goto": "jungle2",
+          "nexX": 32,
+          "nexY": 608
+        },
+        {
+          "valX": 3,
+          "valY": 19,
+          "goto": "jungle4",
+          "nexX": 96,
+          "nexY": 64
+        },
+        {
+          "valX": 4,
+          "valY": 19,
+          "goto": "jungle4",
+          "nexX": 128,
+          "nexY": 64
+        },
+        {
+          "valX": 5,
+          "valY": 19,
+          "goto": "jungle4",
+          "nexX": 160,
+          "nexY": 64
+        },
+        {
+          "valX": 6,
+          "valY": 19,
+          "goto": "jungle4",
+          "nexX": 192,
+          "nexY": 64
+        },
+        {
+          "valX": 7,
+          "valY": 19,
+          "goto": "jungle4",
+          "nexX": 224,
+          "nexY": 64
+        },
+        {
+          "valX": 8,
+          "valY": 19,
+          "goto": "jungle4",
+          "nexX": 256,
+          "nexY": 64
+        },
+        {
+          "valX": 9,
+          "valY": 19,
+          "goto": "jungle4",
+          "nexX": 288,
+          "nexY": 64
+        },
+        {
+          "valX": 10,
+          "valY": 19,
+          "goto": "jungle4",
+          "nexX": 320,
+          "nexY": 64
+        },
+        {
+          "valX": 11,
+          "valY": 19,
+          "goto": "jungle4",
+          "nexX": 352,
+          "nexY": 64
+        },
+        {
+          "valX": 12,
+          "valY": 19,
+          "goto": "jungle4",
+          "nexX": 384,
+          "nexY": 64
+        },
+        {
+          "valX": 13,
+          "valY": 19,
+          "goto": "jungle4",
+          "nexX": 416,
+          "nexY": 64
+        },
+        {
+          "valX": 14,
+          "valY": 19,
+          "goto": "jungle4",
+          "nexX": 448,
+          "nexY": 64
+        },
+        {
+          "valX": 15,
+          "valY": 19,
+          "goto": "jungle4",
+          "nexX": 480,
+          "nexY": 64
+        },
+        {
+          "valX": 16,
+          "valY": 19,
+          "goto": "jungle4",
+          "nexX": 512,
+          "nexY": 64
+        },
+        {
+          "valX": 17,
+          "valY": 19,
+          "goto": "jungle4",
+          "nexX": 544,
+          "nexY": 64
+        },
+        {
+          "valX": 18,
+          "valY": 19,
+          "goto": "jungle4",
+          "nexX": 576,
+          "nexY": 64
+        },
+        {
+          "valX": 19,
+          "valY": 19,
+          "goto": "jungle4",
+          "nexX": 608,
+          "nexY": 64
+        },
+        {
+          "valX": 20,
+          "valY": 19,
+          "goto": "jungle4",
+          "nexX": 640,
+          "nexY": 64
+        },
+        {
+          "valX": 21,
+          "valY": 19,
+          "goto": "jungle4",
+          "nexX": 672,
+          "nexY": 64
+        },
+        {
+          "valX": 22,
+          "valY": 19,
+          "goto": "jungle4",
+          "nexX": 704,
+          "nexY": 64
+        },
+        {
+          "valX": 23,
+          "valY": 19,
+          "goto": "jungle4",
+          "nexX": 736,
+          "nexY": 64
+        },
+        {
+          "valX": 24,
+          "valY": 19,
+          "goto": "jungle4",
+          "nexX": 768,
+          "nexY": 64
+        },
+        {
+          "valX": 25,
+          "valY": 19,
+          "goto": "jungle4",
+          "nexX": 800,
+          "nexY": 64
+        },
+        {
+          "valX": 26,
+          "valY": 19,
+          "goto": "jungle4",
+          "nexX": 832,
+          "nexY": 64
+        }
+      ],
+      "wildpokemon": [
+        3,
+        6,
+        9,
+        65,
+        68,
+        94,
+        130,
+        143,
+        181,
+        212,
+        229,
+        242
+      ],
+      "level": {
+        "min": 100,
+        "max": 120
+      },
+      "actionLinks": [
+        "super_tournament_lobby"
+      ]
+    },
+    {
+      "mapName": "jungle2",
+      "canCapture": false,
+      "mapchange": [
+        {
+          "valX": 0,
+          "valY": 3,
+          "goto": "jungle1",
+          "nexX": 832,
+          "nexY": 128
+        },
+        {
+          "valX": 0,
+          "valY": 4,
+          "goto": "jungle1",
+          "nexX": 832,
+          "nexY": 160
+        },
+        {
+          "valX": 0,
+          "valY": 5,
+          "goto": "jungle1",
+          "nexX": 832,
+          "nexY": 192
+        },
+        {
+          "valX": 27,
+          "valY": 5,
+          "goto": "jungle3",
+          "nexX": 32,
+          "nexY": 192
+        },
+        {
+          "valX": 0,
+          "valY": 6,
+          "goto": "jungle1",
+          "nexX": 832,
+          "nexY": 224
+        },
+        {
+          "valX": 27,
+          "valY": 6,
+          "goto": "jungle3",
+          "nexX": 32,
+          "nexY": 224
+        },
+        {
+          "valX": 0,
+          "valY": 7,
+          "goto": "jungle1",
+          "nexX": 832,
+          "nexY": 256
+        },
+        {
+          "valX": 27,
+          "valY": 7,
+          "goto": "jungle3",
+          "nexX": 32,
+          "nexY": 256
+        },
+        {
+          "valX": 0,
+          "valY": 8,
+          "goto": "jungle1",
+          "nexX": 832,
+          "nexY": 288
+        },
+        {
+          "valX": 27,
+          "valY": 8,
+          "goto": "jungle3",
+          "nexX": 32,
+          "nexY": 288
+        },
+        {
+          "valX": 0,
+          "valY": 9,
+          "goto": "jungle1",
+          "nexX": 832,
+          "nexY": 320
+        },
+        {
+          "valX": 27,
+          "valY": 9,
+          "goto": "jungle3",
+          "nexX": 32,
+          "nexY": 320
+        },
+        {
+          "valX": 0,
+          "valY": 10,
+          "goto": "jungle1",
+          "nexX": 832,
+          "nexY": 352
+        },
+        {
+          "valX": 27,
+          "valY": 10,
+          "goto": "jungle3",
+          "nexX": 32,
+          "nexY": 352
+        },
+        {
+          "valX": 0,
+          "valY": 11,
+          "goto": "jungle1",
+          "nexX": 832,
+          "nexY": 384
+        },
+        {
+          "valX": 27,
+          "valY": 11,
+          "goto": "jungle3",
+          "nexX": 32,
+          "nexY": 384
+        },
+        {
+          "valX": 0,
+          "valY": 12,
+          "goto": "jungle1",
+          "nexX": 832,
+          "nexY": 416
+        },
+        {
+          "valX": 27,
+          "valY": 12,
+          "goto": "jungle3",
+          "nexX": 32,
+          "nexY": 416
+        },
+        {
+          "valX": 0,
+          "valY": 13,
+          "goto": "jungle1",
+          "nexX": 832,
+          "nexY": 448
+        },
+        {
+          "valX": 27,
+          "valY": 13,
+          "goto": "jungle3",
+          "nexX": 32,
+          "nexY": 448
+        },
+        {
+          "valX": 0,
+          "valY": 14,
+          "goto": "jungle1",
+          "nexX": 832,
+          "nexY": 480
+        },
+        {
+          "valX": 27,
+          "valY": 14,
+          "goto": "jungle3",
+          "nexX": 32,
+          "nexY": 480
+        },
+        {
+          "valX": 0,
+          "valY": 15,
+          "goto": "jungle1",
+          "nexX": 832,
+          "nexY": 512
+        },
+        {
+          "valX": 27,
+          "valY": 15,
+          "goto": "jungle3",
+          "nexX": 32,
+          "nexY": 512
+        },
+        {
+          "valX": 0,
+          "valY": 16,
+          "goto": "jungle1",
+          "nexX": 832,
+          "nexY": 544
+        },
+        {
+          "valX": 27,
+          "valY": 16,
+          "goto": "jungle3",
+          "nexX": 32,
+          "nexY": 544
+        },
+        {
+          "valX": 0,
+          "valY": 17,
+          "goto": "jungle1",
+          "nexX": 832,
+          "nexY": 576
+        },
+        {
+          "valX": 27,
+          "valY": 17,
+          "goto": "jungle3",
+          "nexX": 32,
+          "nexY": 576
+        },
+        {
+          "valX": 0,
+          "valY": 18,
+          "goto": "jungle1",
+          "nexX": 832,
+          "nexY": 608
+        },
+        {
+          "valX": 27,
+          "valY": 18,
+          "goto": "jungle3",
+          "nexX": 32,
+          "nexY": 608
+        },
+        {
+          "valX": 0,
+          "valY": 19,
+          "goto": "jungle1",
+          "nexX": 832,
+          "nexY": 608
+        },
+        {
+          "valX": 27,
+          "valY": 19,
+          "goto": "jungle3",
+          "nexX": 32,
+          "nexY": 608
+        },
+        {
+          "valX": 1,
+          "valY": 19,
+          "goto": "jungle5",
+          "nexX": 32,
+          "nexY": 64
+        },
+        {
+          "valX": 9,
+          "valY": 19,
+          "goto": "jungle5",
+          "nexX": 288,
+          "nexY": 64
+        },
+        {
+          "valX": 10,
+          "valY": 19,
+          "goto": "jungle5",
+          "nexX": 320,
+          "nexY": 64
+        },
+        {
+          "valX": 11,
+          "valY": 19,
+          "goto": "jungle5",
+          "nexX": 352,
+          "nexY": 64
+        },
+        {
+          "valX": 12,
+          "valY": 19,
+          "goto": "jungle5",
+          "nexX": 384,
+          "nexY": 64
+        },
+        {
+          "valX": 13,
+          "valY": 19,
+          "goto": "jungle5",
+          "nexX": 416,
+          "nexY": 64
+        },
+        {
+          "valX": 14,
+          "valY": 19,
+          "goto": "jungle5",
+          "nexX": 448,
+          "nexY": 64
+        },
+        {
+          "valX": 15,
+          "valY": 19,
+          "goto": "jungle5",
+          "nexX": 480,
+          "nexY": 64
+        },
+        {
+          "valX": 16,
+          "valY": 19,
+          "goto": "jungle5",
+          "nexX": 512,
+          "nexY": 64
+        },
+        {
+          "valX": 17,
+          "valY": 19,
+          "goto": "jungle5",
+          "nexX": 544,
+          "nexY": 64
+        },
+        {
+          "valX": 18,
+          "valY": 19,
+          "goto": "jungle5",
+          "nexX": 576,
+          "nexY": 64
+        },
+        {
+          "valX": 19,
+          "valY": 19,
+          "goto": "jungle5",
+          "nexX": 608,
+          "nexY": 64
+        },
+        {
+          "valX": 20,
+          "valY": 19,
+          "goto": "jungle5",
+          "nexX": 640,
+          "nexY": 64
+        },
+        {
+          "valX": 21,
+          "valY": 19,
+          "goto": "jungle5",
+          "nexX": 672,
+          "nexY": 64
+        },
+        {
+          "valX": 22,
+          "valY": 19,
+          "goto": "jungle5",
+          "nexX": 704,
+          "nexY": 64
+        },
+        {
+          "valX": 23,
+          "valY": 19,
+          "goto": "jungle5",
+          "nexX": 736,
+          "nexY": 64
+        },
+        {
+          "valX": 24,
+          "valY": 19,
+          "goto": "jungle5",
+          "nexX": 768,
+          "nexY": 64
+        },
+        {
+          "valX": 25,
+          "valY": 19,
+          "goto": "jungle5",
+          "nexX": 800,
+          "nexY": 64
+        },
+        {
+          "valX": 26,
+          "valY": 19,
+          "goto": "jungle5",
+          "nexX": 832,
+          "nexY": 64
+        }
+      ],
+      "wildpokemon": [
+        248,
+        254,
+        257,
+        260,
+        282,
+        306,
+        330,
+        350,
+        389,
+        392,
+        395,
+        398
+      ],
+      "level": {
+        "min": 120,
+        "max": 150
+      },
+      "actionLinks": []
+    },
+    {
+      "mapName": "jungle3",
+      "canCapture": false,
+      "mapchange": [
+        {
+          "valX": 0,
+          "valY": 5,
+          "goto": "jungle2",
+          "nexX": 832,
+          "nexY": 192
+        },
+        {
+          "valX": 0,
+          "valY": 6,
+          "goto": "jungle2",
+          "nexX": 832,
+          "nexY": 224
+        },
+        {
+          "valX": 0,
+          "valY": 7,
+          "goto": "jungle2",
+          "nexX": 832,
+          "nexY": 256
+        },
+        {
+          "valX": 0,
+          "valY": 8,
+          "goto": "jungle2",
+          "nexX": 832,
+          "nexY": 288
+        },
+        {
+          "valX": 0,
+          "valY": 9,
+          "goto": "jungle2",
+          "nexX": 832,
+          "nexY": 320
+        },
+        {
+          "valX": 0,
+          "valY": 10,
+          "goto": "jungle2",
+          "nexX": 832,
+          "nexY": 352
+        },
+        {
+          "valX": 0,
+          "valY": 11,
+          "goto": "jungle2",
+          "nexX": 832,
+          "nexY": 384
+        },
+        {
+          "valX": 0,
+          "valY": 12,
+          "goto": "jungle2",
+          "nexX": 832,
+          "nexY": 416
+        },
+        {
+          "valX": 0,
+          "valY": 13,
+          "goto": "jungle2",
+          "nexX": 832,
+          "nexY": 448
+        },
+        {
+          "valX": 0,
+          "valY": 14,
+          "goto": "jungle2",
+          "nexX": 832,
+          "nexY": 480
+        },
+        {
+          "valX": 0,
+          "valY": 15,
+          "goto": "jungle2",
+          "nexX": 832,
+          "nexY": 512
+        },
+        {
+          "valX": 0,
+          "valY": 16,
+          "goto": "jungle2",
+          "nexX": 832,
+          "nexY": 544
+        },
+        {
+          "valX": 0,
+          "valY": 17,
+          "goto": "jungle2",
+          "nexX": 832,
+          "nexY": 576
+        },
+        {
+          "valX": 0,
+          "valY": 18,
+          "goto": "jungle2",
+          "nexX": 832,
+          "nexY": 608
+        },
+        {
+          "valX": 0,
+          "valY": 19,
+          "goto": "jungle2",
+          "nexX": 832,
+          "nexY": 608
+        },
+        {
+          "valX": 1,
+          "valY": 19,
+          "goto": "jungle6",
+          "nexX": 32,
+          "nexY": 64
+        },
+        {
+          "valX": 2,
+          "valY": 19,
+          "goto": "jungle6",
+          "nexX": 64,
+          "nexY": 64
+        },
+        {
+          "valX": 3,
+          "valY": 19,
+          "goto": "jungle6",
+          "nexX": 96,
+          "nexY": 64
+        },
+        {
+          "valX": 4,
+          "valY": 19,
+          "goto": "jungle6",
+          "nexX": 128,
+          "nexY": 64
+        },
+        {
+          "valX": 5,
+          "valY": 19,
+          "goto": "jungle6",
+          "nexX": 160,
+          "nexY": 64
+        },
+        {
+          "valX": 6,
+          "valY": 19,
+          "goto": "jungle6",
+          "nexX": 192,
+          "nexY": 64
+        },
+        {
+          "valX": 7,
+          "valY": 19,
+          "goto": "jungle6",
+          "nexX": 224,
+          "nexY": 64
+        },
+        {
+          "valX": 8,
+          "valY": 19,
+          "goto": "jungle6",
+          "nexX": 256,
+          "nexY": 64
+        },
+        {
+          "valX": 9,
+          "valY": 19,
+          "goto": "jungle6",
+          "nexX": 288,
+          "nexY": 64
+        },
+        {
+          "valX": 10,
+          "valY": 19,
+          "goto": "jungle6",
+          "nexX": 320,
+          "nexY": 64
+        },
+        {
+          "valX": 11,
+          "valY": 19,
+          "goto": "jungle6",
+          "nexX": 352,
+          "nexY": 64
+        },
+        {
+          "valX": 12,
+          "valY": 19,
+          "goto": "jungle6",
+          "nexX": 384,
+          "nexY": 64
+        },
+        {
+          "valX": 13,
+          "valY": 19,
+          "goto": "jungle6",
+          "nexX": 416,
+          "nexY": 64
+        },
+        {
+          "valX": 14,
+          "valY": 19,
+          "goto": "jungle6",
+          "nexX": 448,
+          "nexY": 64
+        },
+        {
+          "valX": 15,
+          "valY": 19,
+          "goto": "jungle6",
+          "nexX": 480,
+          "nexY": 64
+        },
+        {
+          "valX": 16,
+          "valY": 19,
+          "goto": "jungle6",
+          "nexX": 512,
+          "nexY": 64
+        },
+        {
+          "valX": 17,
+          "valY": 19,
+          "goto": "jungle6",
+          "nexX": 544,
+          "nexY": 64
+        },
+        {
+          "valX": 18,
+          "valY": 19,
+          "goto": "jungle6",
+          "nexX": 576,
+          "nexY": 64
+        },
+        {
+          "valX": 19,
+          "valY": 19,
+          "goto": "jungle6",
+          "nexX": 608,
+          "nexY": 64
+        },
+        {
+          "valX": 20,
+          "valY": 19,
+          "goto": "jungle6",
+          "nexX": 640,
+          "nexY": 64
+        },
+        {
+          "valX": 21,
+          "valY": 19,
+          "goto": "jungle6",
+          "nexX": 672,
+          "nexY": 64
+        },
+        {
+          "valX": 22,
+          "valY": 19,
+          "goto": "jungle6",
+          "nexX": 704,
+          "nexY": 64
+        },
+        {
+          "valX": 23,
+          "valY": 19,
+          "goto": "jungle6",
+          "nexX": 736,
+          "nexY": 64
+        }
+      ],
+      "wildpokemon": [
+        373,
+        376,
+        405,
+        407,
+        445,
+        448,
+        450,
+        452,
+        464,
+        468,
+        473,
+        477
+      ],
+      "level": {
+        "min": 150,
+        "max": 200
+      },
+      "actionLinks": []
+    },
+    {
+      "mapName": "jungle4",
+      "canCapture": false,
+      "mapchange": [
+        {
+          "valX": 27,
+          "valY": 0,
+          "goto": "jungle5",
+          "nexX": 32,
+          "nexY": 64
+        },
+        {
+          "valX": 27,
+          "valY": 1,
+          "goto": "jungle5",
+          "nexX": 32,
+          "nexY": 64
+        },
+        {
+          "valX": 27,
+          "valY": 2,
+          "goto": "jungle5",
+          "nexX": 32,
+          "nexY": 96
+        },
+        {
+          "valX": 27,
+          "valY": 3,
+          "goto": "jungle5",
+          "nexX": 32,
+          "nexY": 128
+        },
+        {
+          "valX": 27,
+          "valY": 4,
+          "goto": "jungle5",
+          "nexX": 32,
+          "nexY": 160
+        },
+        {
+          "valX": 27,
+          "valY": 5,
+          "goto": "jungle5",
+          "nexX": 32,
+          "nexY": 192
+        },
+        {
+          "valX": 27,
+          "valY": 6,
+          "goto": "jungle5",
+          "nexX": 32,
+          "nexY": 224
+        },
+        {
+          "valX": 27,
+          "valY": 7,
+          "goto": "jungle5",
+          "nexX": 32,
+          "nexY": 256
+        },
+        {
+          "valX": 27,
+          "valY": 8,
+          "goto": "jungle5",
+          "nexX": 32,
+          "nexY": 288
+        },
+        {
+          "valX": 27,
+          "valY": 9,
+          "goto": "jungle5",
+          "nexX": 32,
+          "nexY": 320
+        },
+        {
+          "valX": 27,
+          "valY": 10,
+          "goto": "jungle5",
+          "nexX": 32,
+          "nexY": 352
+        },
+        {
+          "valX": 27,
+          "valY": 11,
+          "goto": "jungle5",
+          "nexX": 32,
+          "nexY": 384
+        },
+        {
+          "valX": 27,
+          "valY": 12,
+          "goto": "jungle5",
+          "nexX": 32,
+          "nexY": 416
+        },
+        {
+          "valX": 27,
+          "valY": 13,
+          "goto": "jungle5",
+          "nexX": 32,
+          "nexY": 448
+        },
+        {
+          "valX": 27,
+          "valY": 14,
+          "goto": "jungle5",
+          "nexX": 32,
+          "nexY": 480
+        },
+        {
+          "valX": 27,
+          "valY": 15,
+          "goto": "jungle5",
+          "nexX": 32,
+          "nexY": 512
+        },
+        {
+          "valX": 27,
+          "valY": 16,
+          "goto": "jungle5",
+          "nexX": 32,
+          "nexY": 544
+        },
+        {
+          "valX": 27,
+          "valY": 17,
+          "goto": "jungle5",
+          "nexX": 32,
+          "nexY": 576
+        },
+        {
+          "valX": 27,
+          "valY": 18,
+          "goto": "jungle5",
+          "nexX": 32,
+          "nexY": 608
+        },
+        {
+          "valX": 27,
+          "valY": 19,
+          "goto": "jungle5",
+          "nexX": 32,
+          "nexY": 608
+        },
+        {
+          "valX": 3,
+          "valY": 0,
+          "goto": "jungle1",
+          "nexX": 96,
+          "nexY": 608
+        },
+        {
+          "valX": 4,
+          "valY": 0,
+          "goto": "jungle1",
+          "nexX": 128,
+          "nexY": 608
+        },
+        {
+          "valX": 5,
+          "valY": 0,
+          "goto": "jungle1",
+          "nexX": 160,
+          "nexY": 608
+        },
+        {
+          "valX": 5,
+          "valY": 19,
+          "goto": "jungle7",
+          "nexX": 160,
+          "nexY": 64
+        },
+        {
+          "valX": 6,
+          "valY": 0,
+          "goto": "jungle1",
+          "nexX": 192,
+          "nexY": 608
+        },
+        {
+          "valX": 6,
+          "valY": 19,
+          "goto": "jungle7",
+          "nexX": 192,
+          "nexY": 64
+        },
+        {
+          "valX": 7,
+          "valY": 0,
+          "goto": "jungle1",
+          "nexX": 224,
+          "nexY": 608
+        },
+        {
+          "valX": 7,
+          "valY": 19,
+          "goto": "jungle7",
+          "nexX": 224,
+          "nexY": 64
+        },
+        {
+          "valX": 8,
+          "valY": 0,
+          "goto": "jungle1",
+          "nexX": 256,
+          "nexY": 608
+        },
+        {
+          "valX": 8,
+          "valY": 19,
+          "goto": "jungle7",
+          "nexX": 256,
+          "nexY": 64
+        },
+        {
+          "valX": 9,
+          "valY": 0,
+          "goto": "jungle1",
+          "nexX": 288,
+          "nexY": 608
+        },
+        {
+          "valX": 9,
+          "valY": 19,
+          "goto": "jungle7",
+          "nexX": 288,
+          "nexY": 64
+        },
+        {
+          "valX": 10,
+          "valY": 0,
+          "goto": "jungle1",
+          "nexX": 320,
+          "nexY": 608
+        },
+        {
+          "valX": 10,
+          "valY": 19,
+          "goto": "jungle7",
+          "nexX": 320,
+          "nexY": 64
+        },
+        {
+          "valX": 11,
+          "valY": 0,
+          "goto": "jungle1",
+          "nexX": 320,
+          "nexY": 608
+        },
+        {
+          "valX": 11,
+          "valY": 19,
+          "goto": "jungle7",
+          "nexX": 352,
+          "nexY": 64
+        },
+        {
+          "valX": 12,
+          "valY": 0,
+          "goto": "jungle1",
+          "nexX": 416,
+          "nexY": 608
+        },
+        {
+          "valX": 12,
+          "valY": 19,
+          "goto": "jungle7",
+          "nexX": 384,
+          "nexY": 64
+        },
+        {
+          "valX": 13,
+          "valY": 0,
+          "goto": "jungle1",
+          "nexX": 416,
+          "nexY": 608
+        },
+        {
+          "valX": 13,
+          "valY": 19,
+          "goto": "jungle7",
+          "nexX": 416,
+          "nexY": 64
+        },
+        {
+          "valX": 14,
+          "valY": 0,
+          "goto": "jungle1",
+          "nexX": 448,
+          "nexY": 608
+        },
+        {
+          "valX": 14,
+          "valY": 19,
+          "goto": "jungle7",
+          "nexX": 448,
+          "nexY": 64
+        },
+        {
+          "valX": 15,
+          "valY": 0,
+          "goto": "jungle1",
+          "nexX": 480,
+          "nexY": 608
+        },
+        {
+          "valX": 15,
+          "valY": 19,
+          "goto": "jungle7",
+          "nexX": 480,
+          "nexY": 64
+        },
+        {
+          "valX": 16,
+          "valY": 0,
+          "goto": "jungle1",
+          "nexX": 512,
+          "nexY": 608
+        },
+        {
+          "valX": 16,
+          "valY": 19,
+          "goto": "jungle7",
+          "nexX": 512,
+          "nexY": 64
+        },
+        {
+          "valX": 17,
+          "valY": 0,
+          "goto": "jungle1",
+          "nexX": 544,
+          "nexY": 608
+        },
+        {
+          "valX": 18,
+          "valY": 0,
+          "goto": "jungle1",
+          "nexX": 576,
+          "nexY": 608
+        },
+        {
+          "valX": 19,
+          "valY": 0,
+          "goto": "jungle1",
+          "nexX": 608,
+          "nexY": 608
+        },
+        {
+          "valX": 20,
+          "valY": 0,
+          "goto": "jungle1",
+          "nexX": 640,
+          "nexY": 608
+        },
+        {
+          "valX": 21,
+          "valY": 0,
+          "goto": "jungle1",
+          "nexX": 672,
+          "nexY": 608
+        },
+        {
+          "valX": 22,
+          "valY": 0,
+          "goto": "jungle1",
+          "nexX": 704,
+          "nexY": 608
+        },
+        {
+          "valX": 22,
+          "valY": 19,
+          "goto": "jungle7",
+          "nexX": 704,
+          "nexY": 64
+        },
+        {
+          "valX": 23,
+          "valY": 0,
+          "goto": "jungle1",
+          "nexX": 736,
+          "nexY": 608
+        },
+        {
+          "valX": 23,
+          "valY": 19,
+          "goto": "jungle7",
+          "nexX": 736,
+          "nexY": 64
+        },
+        {
+          "valX": 24,
+          "valY": 0,
+          "goto": "jungle1",
+          "nexX": 736,
+          "nexY": 608
+        },
+        {
+          "valX": 24,
+          "valY": 19,
+          "goto": "jungle7",
+          "nexX": 768,
+          "nexY": 64
+        },
+        {
+          "valX": 25,
+          "valY": 0,
+          "goto": "jungle1",
+          "nexX": 832,
+          "nexY": 608
+        },
+        {
+          "valX": 25,
+          "valY": 19,
+          "goto": "jungle7",
+          "nexX": 800,
+          "nexY": 64
+        },
+        {
+          "valX": 26,
+          "valY": 0,
+          "goto": "jungle1",
+          "nexX": 832,
+          "nexY": 608
+        },
+        {
+          "valX": 26,
+          "valY": 19,
+          "goto": "jungle7",
+          "nexX": 832,
+          "nexY": 64
+        }
+      ],
+      "wildpokemon": [
+        3,
+        6,
+        9,
+        65,
+        68,
+        94,
+        130,
+        143,
+        181,
+        212,
+        229,
+        242
+      ],
+      "level": {
+        "min": 100,
+        "max": 120
+      },
+      "actionLinks": []
+    },
+    {
+      "mapName": "jungle5",
+      "canCapture": false,
+      "mapchange": [
+        {
+          "valX": 0,
+          "valY": 0,
+          "goto": "jungle4",
+          "nexX": 832,
+          "nexY": 64
+        },
+        {
+          "valX": 27,
+          "valY": 0,
+          "goto": "jungle6",
+          "nexX": 32,
+          "nexY": 64
+        },
+        {
+          "valX": 0,
+          "valY": 1,
+          "goto": "jungle4",
+          "nexX": 832,
+          "nexY": 64
+        },
+        {
+          "valX": 27,
+          "valY": 1,
+          "goto": "jungle6",
+          "nexX": 32,
+          "nexY": 64
+        },
+        {
+          "valX": 0,
+          "valY": 2,
+          "goto": "jungle4",
+          "nexX": 832,
+          "nexY": 96
+        },
+        {
+          "valX": 27,
+          "valY": 2,
+          "goto": "jungle6",
+          "nexX": 32,
+          "nexY": 96
+        },
+        {
+          "valX": 0,
+          "valY": 3,
+          "goto": "jungle4",
+          "nexX": 832,
+          "nexY": 128
+        },
+        {
+          "valX": 27,
+          "valY": 3,
+          "goto": "jungle6",
+          "nexX": 32,
+          "nexY": 128
+        },
+        {
+          "valX": 0,
+          "valY": 4,
+          "goto": "jungle4",
+          "nexX": 832,
+          "nexY": 160
+        },
+        {
+          "valX": 27,
+          "valY": 4,
+          "goto": "jungle6",
+          "nexX": 32,
+          "nexY": 160
+        },
+        {
+          "valX": 0,
+          "valY": 5,
+          "goto": "jungle4",
+          "nexX": 832,
+          "nexY": 192
+        },
+        {
+          "valX": 27,
+          "valY": 5,
+          "goto": "jungle6",
+          "nexX": 32,
+          "nexY": 192
+        },
+        {
+          "valX": 0,
+          "valY": 6,
+          "goto": "jungle4",
+          "nexX": 832,
+          "nexY": 224
+        },
+        {
+          "valX": 27,
+          "valY": 6,
+          "goto": "jungle6",
+          "nexX": 32,
+          "nexY": 224
+        },
+        {
+          "valX": 0,
+          "valY": 7,
+          "goto": "jungle4",
+          "nexX": 832,
+          "nexY": 256
+        },
+        {
+          "valX": 27,
+          "valY": 7,
+          "goto": "jungle6",
+          "nexX": 32,
+          "nexY": 256
+        },
+        {
+          "valX": 0,
+          "valY": 8,
+          "goto": "jungle4",
+          "nexX": 832,
+          "nexY": 288
+        },
+        {
+          "valX": 27,
+          "valY": 8,
+          "goto": "jungle6",
+          "nexX": 32,
+          "nexY": 288
+        },
+        {
+          "valX": 0,
+          "valY": 9,
+          "goto": "jungle4",
+          "nexX": 832,
+          "nexY": 320
+        },
+        {
+          "valX": 27,
+          "valY": 9,
+          "goto": "jungle6",
+          "nexX": 32,
+          "nexY": 320
+        },
+        {
+          "valX": 0,
+          "valY": 10,
+          "goto": "jungle4",
+          "nexX": 832,
+          "nexY": 352
+        },
+        {
+          "valX": 27,
+          "valY": 10,
+          "goto": "jungle6",
+          "nexX": 32,
+          "nexY": 352
+        },
+        {
+          "valX": 0,
+          "valY": 11,
+          "goto": "jungle4",
+          "nexX": 832,
+          "nexY": 384
+        },
+        {
+          "valX": 27,
+          "valY": 11,
+          "goto": "jungle6",
+          "nexX": 32,
+          "nexY": 384
+        },
+        {
+          "valX": 0,
+          "valY": 12,
+          "goto": "jungle4",
+          "nexX": 832,
+          "nexY": 416
+        },
+        {
+          "valX": 27,
+          "valY": 12,
+          "goto": "jungle6",
+          "nexX": 32,
+          "nexY": 416
+        },
+        {
+          "valX": 0,
+          "valY": 13,
+          "goto": "jungle4",
+          "nexX": 832,
+          "nexY": 448
+        },
+        {
+          "valX": 27,
+          "valY": 13,
+          "goto": "jungle6",
+          "nexX": 32,
+          "nexY": 448
+        },
+        {
+          "valX": 0,
+          "valY": 14,
+          "goto": "jungle4",
+          "nexX": 832,
+          "nexY": 480
+        },
+        {
+          "valX": 27,
+          "valY": 14,
+          "goto": "jungle6",
+          "nexX": 32,
+          "nexY": 480
+        },
+        {
+          "valX": 0,
+          "valY": 15,
+          "goto": "jungle4",
+          "nexX": 832,
+          "nexY": 512
+        },
+        {
+          "valX": 0,
+          "valY": 16,
+          "goto": "jungle4",
+          "nexX": 832,
+          "nexY": 544
+        },
+        {
+          "valX": 0,
+          "valY": 17,
+          "goto": "jungle4",
+          "nexX": 832,
+          "nexY": 576
+        },
+        {
+          "valX": 0,
+          "valY": 18,
+          "goto": "jungle4",
+          "nexX": 832,
+          "nexY": 608
+        },
+        {
+          "valX": 0,
+          "valY": 19,
+          "goto": "jungle4",
+          "nexX": 832,
+          "nexY": 608
+        },
+        {
+          "valX": 1,
+          "valY": 0,
+          "goto": "jungle2",
+          "nexX": 32,
+          "nexY": 608
+        },
+        {
+          "valX": 1,
+          "valY": 19,
+          "goto": "jungle8",
+          "nexX": 32,
+          "nexY": 64
+        },
+        {
+          "valX": 2,
+          "valY": 19,
+          "goto": "jungle8",
+          "nexX": 64,
+          "nexY": 64
+        },
+        {
+          "valX": 3,
+          "valY": 19,
+          "goto": "jungle8",
+          "nexX": 96,
+          "nexY": 64
+        },
+        {
+          "valX": 4,
+          "valY": 19,
+          "goto": "jungle8",
+          "nexX": 128,
+          "nexY": 64
+        },
+        {
+          "valX": 5,
+          "valY": 19,
+          "goto": "jungle8",
+          "nexX": 160,
+          "nexY": 64
+        },
+        {
+          "valX": 6,
+          "valY": 19,
+          "goto": "jungle8",
+          "nexX": 192,
+          "nexY": 64
+        },
+        {
+          "valX": 7,
+          "valY": 19,
+          "goto": "jungle8",
+          "nexX": 224,
+          "nexY": 64
+        },
+        {
+          "valX": 8,
+          "valY": 19,
+          "goto": "jungle8",
+          "nexX": 256,
+          "nexY": 64
+        },
+        {
+          "valX": 9,
+          "valY": 0,
+          "goto": "jungle2",
+          "nexX": 288,
+          "nexY": 608
+        },
+        {
+          "valX": 9,
+          "valY": 19,
+          "goto": "jungle8",
+          "nexX": 288,
+          "nexY": 64
+        },
+        {
+          "valX": 10,
+          "valY": 0,
+          "goto": "jungle2",
+          "nexX": 320,
+          "nexY": 608
+        },
+        {
+          "valX": 10,
+          "valY": 19,
+          "goto": "jungle8",
+          "nexX": 320,
+          "nexY": 64
+        },
+        {
+          "valX": 11,
+          "valY": 0,
+          "goto": "jungle2",
+          "nexX": 352,
+          "nexY": 608
+        },
+        {
+          "valX": 11,
+          "valY": 19,
+          "goto": "jungle8",
+          "nexX": 352,
+          "nexY": 64
+        },
+        {
+          "valX": 12,
+          "valY": 0,
+          "goto": "jungle2",
+          "nexX": 384,
+          "nexY": 608
+        },
+        {
+          "valX": 12,
+          "valY": 19,
+          "goto": "jungle8",
+          "nexX": 384,
+          "nexY": 64
+        },
+        {
+          "valX": 13,
+          "valY": 0,
+          "goto": "jungle2",
+          "nexX": 416,
+          "nexY": 608
+        },
+        {
+          "valX": 13,
+          "valY": 19,
+          "goto": "jungle8",
+          "nexX": 416,
+          "nexY": 64
+        },
+        {
+          "valX": 14,
+          "valY": 0,
+          "goto": "jungle2",
+          "nexX": 448,
+          "nexY": 608
+        },
+        {
+          "valX": 14,
+          "valY": 19,
+          "goto": "jungle8",
+          "nexX": 448,
+          "nexY": 64
+        },
+        {
+          "valX": 15,
+          "valY": 0,
+          "goto": "jungle2",
+          "nexX": 480,
+          "nexY": 608
+        },
+        {
+          "valX": 15,
+          "valY": 19,
+          "goto": "jungle8",
+          "nexX": 480,
+          "nexY": 64
+        },
+        {
+          "valX": 16,
+          "valY": 0,
+          "goto": "jungle2",
+          "nexX": 512,
+          "nexY": 608
+        },
+        {
+          "valX": 16,
+          "valY": 19,
+          "goto": "jungle8",
+          "nexX": 512,
+          "nexY": 64
+        },
+        {
+          "valX": 17,
+          "valY": 0,
+          "goto": "jungle2",
+          "nexX": 544,
+          "nexY": 608
+        },
+        {
+          "valX": 17,
+          "valY": 19,
+          "goto": "jungle8",
+          "nexX": 544,
+          "nexY": 64
+        },
+        {
+          "valX": 18,
+          "valY": 0,
+          "goto": "jungle2",
+          "nexX": 576,
+          "nexY": 608
+        },
+        {
+          "valX": 18,
+          "valY": 19,
+          "goto": "jungle8",
+          "nexX": 576,
+          "nexY": 64
+        },
+        {
+          "valX": 19,
+          "valY": 0,
+          "goto": "jungle2",
+          "nexX": 608,
+          "nexY": 608
+        },
+        {
+          "valX": 19,
+          "valY": 19,
+          "goto": "jungle8",
+          "nexX": 608,
+          "nexY": 64
+        },
+        {
+          "valX": 20,
+          "valY": 0,
+          "goto": "jungle2",
+          "nexX": 640,
+          "nexY": 608
+        },
+        {
+          "valX": 20,
+          "valY": 19,
+          "goto": "jungle8",
+          "nexX": 640,
+          "nexY": 64
+        },
+        {
+          "valX": 21,
+          "valY": 0,
+          "goto": "jungle2",
+          "nexX": 672,
+          "nexY": 608
+        },
+        {
+          "valX": 21,
+          "valY": 19,
+          "goto": "jungle8",
+          "nexX": 672,
+          "nexY": 64
+        },
+        {
+          "valX": 22,
+          "valY": 0,
+          "goto": "jungle2",
+          "nexX": 672,
+          "nexY": 608
+        },
+        {
+          "valX": 22,
+          "valY": 19,
+          "goto": "jungle8",
+          "nexX": 704,
+          "nexY": 64
+        },
+        {
+          "valX": 23,
+          "valY": 0,
+          "goto": "jungle2",
+          "nexX": 768,
+          "nexY": 608
+        },
+        {
+          "valX": 23,
+          "valY": 19,
+          "goto": "jungle8",
+          "nexX": 736,
+          "nexY": 64
+        },
+        {
+          "valX": 24,
+          "valY": 0,
+          "goto": "jungle2",
+          "nexX": 768,
+          "nexY": 608
+        },
+        {
+          "valX": 24,
+          "valY": 19,
+          "goto": "jungle8",
+          "nexX": 768,
+          "nexY": 64
+        },
+        {
+          "valX": 25,
+          "valY": 0,
+          "goto": "jungle2",
+          "nexX": 800,
+          "nexY": 608
+        },
+        {
+          "valX": 25,
+          "valY": 19,
+          "goto": "jungle8",
+          "nexX": 800,
+          "nexY": 64
+        },
+        {
+          "valX": 26,
+          "valY": 0,
+          "goto": "jungle2",
+          "nexX": 832,
+          "nexY": 608
+        },
+        {
+          "valX": 26,
+          "valY": 19,
+          "goto": "jungle8",
+          "nexX": 832,
+          "nexY": 64
+        },
+        {
+          "valX": 27,
+          "valY": 19,
+          "goto": "jungle8",
+          "nexX": 832,
+          "nexY": 64
+        }
+      ],
+      "wildpokemon": [
+        248,
+        254,
+        257,
+        260,
+        282,
+        306,
+        330,
+        350,
+        389,
+        392,
+        395,
+        398
+      ],
+      "level": {
+        "min": 120,
+        "max": 150
+      },
+      "actionLinks": []
+    },
+    {
+      "mapName": "jungle6",
+      "canCapture": false,
+      "mapchange": [
+        {
+          "valX": 0,
+          "valY": 0,
+          "goto": "jungle5",
+          "nexX": 832,
+          "nexY": 64
+        },
+        {
+          "valX": 0,
+          "valY": 1,
+          "goto": "jungle5",
+          "nexX": 832,
+          "nexY": 64
+        },
+        {
+          "valX": 0,
+          "valY": 2,
+          "goto": "jungle5",
+          "nexX": 832,
+          "nexY": 96
+        },
+        {
+          "valX": 0,
+          "valY": 3,
+          "goto": "jungle5",
+          "nexX": 832,
+          "nexY": 128
+        },
+        {
+          "valX": 0,
+          "valY": 4,
+          "goto": "jungle5",
+          "nexX": 832,
+          "nexY": 160
+        },
+        {
+          "valX": 0,
+          "valY": 5,
+          "goto": "jungle5",
+          "nexX": 832,
+          "nexY": 192
+        },
+        {
+          "valX": 0,
+          "valY": 6,
+          "goto": "jungle5",
+          "nexX": 832,
+          "nexY": 224
+        },
+        {
+          "valX": 0,
+          "valY": 7,
+          "goto": "jungle5",
+          "nexX": 832,
+          "nexY": 256
+        },
+        {
+          "valX": 0,
+          "valY": 8,
+          "goto": "jungle5",
+          "nexX": 832,
+          "nexY": 288
+        },
+        {
+          "valX": 0,
+          "valY": 9,
+          "goto": "jungle5",
+          "nexX": 832,
+          "nexY": 320
+        },
+        {
+          "valX": 0,
+          "valY": 10,
+          "goto": "jungle5",
+          "nexX": 832,
+          "nexY": 352
+        },
+        {
+          "valX": 0,
+          "valY": 11,
+          "goto": "jungle5",
+          "nexX": 832,
+          "nexY": 384
+        },
+        {
+          "valX": 0,
+          "valY": 12,
+          "goto": "jungle5",
+          "nexX": 832,
+          "nexY": 416
+        },
+        {
+          "valX": 0,
+          "valY": 13,
+          "goto": "jungle5",
+          "nexX": 832,
+          "nexY": 448
+        },
+        {
+          "valX": 0,
+          "valY": 14,
+          "goto": "jungle5",
+          "nexX": 832,
+          "nexY": 480
+        },
+        {
+          "valX": 1,
+          "valY": 0,
+          "goto": "jungle3",
+          "nexX": 32,
+          "nexY": 608
+        },
+        {
+          "valX": 2,
+          "valY": 0,
+          "goto": "jungle3",
+          "nexX": 64,
+          "nexY": 608
+        },
+        {
+          "valX": 3,
+          "valY": 0,
+          "goto": "jungle3",
+          "nexX": 64,
+          "nexY": 608
+        },
+        {
+          "valX": 4,
+          "valY": 0,
+          "goto": "jungle3",
+          "nexX": 160,
+          "nexY": 608
+        },
+        {
+          "valX": 5,
+          "valY": 0,
+          "goto": "jungle3",
+          "nexX": 160,
+          "nexY": 608
+        },
+        {
+          "valX": 6,
+          "valY": 0,
+          "goto": "jungle3",
+          "nexX": 192,
+          "nexY": 608
+        },
+        {
+          "valX": 7,
+          "valY": 0,
+          "goto": "jungle3",
+          "nexX": 224,
+          "nexY": 608
+        },
+        {
+          "valX": 7,
+          "valY": 19,
+          "goto": "jungle9",
+          "nexX": 224,
+          "nexY": 64
+        },
+        {
+          "valX": 8,
+          "valY": 0,
+          "goto": "jungle3",
+          "nexX": 256,
+          "nexY": 608
+        },
+        {
+          "valX": 8,
+          "valY": 19,
+          "goto": "jungle9",
+          "nexX": 256,
+          "nexY": 64
+        },
+        {
+          "valX": 9,
+          "valY": 0,
+          "goto": "jungle3",
+          "nexX": 288,
+          "nexY": 608
+        },
+        {
+          "valX": 9,
+          "valY": 19,
+          "goto": "jungle9",
+          "nexX": 288,
+          "nexY": 64
+        },
+        {
+          "valX": 10,
+          "valY": 0,
+          "goto": "jungle3",
+          "nexX": 320,
+          "nexY": 608
+        },
+        {
+          "valX": 10,
+          "valY": 19,
+          "goto": "jungle9",
+          "nexX": 320,
+          "nexY": 64
+        },
+        {
+          "valX": 11,
+          "valY": 0,
+          "goto": "jungle3",
+          "nexX": 352,
+          "nexY": 608
+        },
+        {
+          "valX": 11,
+          "valY": 19,
+          "goto": "jungle9",
+          "nexX": 352,
+          "nexY": 64
+        },
+        {
+          "valX": 12,
+          "valY": 0,
+          "goto": "jungle3",
+          "nexX": 384,
+          "nexY": 608
+        },
+        {
+          "valX": 12,
+          "valY": 19,
+          "goto": "jungle9",
+          "nexX": 384,
+          "nexY": 64
+        },
+        {
+          "valX": 13,
+          "valY": 0,
+          "goto": "jungle3",
+          "nexX": 416,
+          "nexY": 608
+        },
+        {
+          "valX": 13,
+          "valY": 19,
+          "goto": "jungle9",
+          "nexX": 416,
+          "nexY": 64
+        },
+        {
+          "valX": 14,
+          "valY": 0,
+          "goto": "jungle3",
+          "nexX": 448,
+          "nexY": 608
+        },
+        {
+          "valX": 14,
+          "valY": 19,
+          "goto": "jungle9",
+          "nexX": 448,
+          "nexY": 64
+        },
+        {
+          "valX": 15,
+          "valY": 0,
+          "goto": "jungle3",
+          "nexX": 480,
+          "nexY": 608
+        },
+        {
+          "valX": 15,
+          "valY": 19,
+          "goto": "jungle9",
+          "nexX": 480,
+          "nexY": 64
+        },
+        {
+          "valX": 16,
+          "valY": 0,
+          "goto": "jungle3",
+          "nexX": 512,
+          "nexY": 608
+        },
+        {
+          "valX": 16,
+          "valY": 19,
+          "goto": "jungle9",
+          "nexX": 512,
+          "nexY": 64
+        },
+        {
+          "valX": 17,
+          "valY": 0,
+          "goto": "jungle3",
+          "nexX": 512,
+          "nexY": 608
+        },
+        {
+          "valX": 17,
+          "valY": 19,
+          "goto": "jungle9",
+          "nexX": 544,
+          "nexY": 64
+        },
+        {
+          "valX": 18,
+          "valY": 0,
+          "goto": "jungle3",
+          "nexX": 608,
+          "nexY": 608
+        },
+        {
+          "valX": 18,
+          "valY": 19,
+          "goto": "jungle9",
+          "nexX": 576,
+          "nexY": 64
+        },
+        {
+          "valX": 19,
+          "valY": 0,
+          "goto": "jungle3",
+          "nexX": 608,
+          "nexY": 608
+        },
+        {
+          "valX": 19,
+          "valY": 19,
+          "goto": "jungle9",
+          "nexX": 608,
+          "nexY": 64
+        },
+        {
+          "valX": 20,
+          "valY": 0,
+          "goto": "jungle3",
+          "nexX": 640,
+          "nexY": 608
+        },
+        {
+          "valX": 20,
+          "valY": 19,
+          "goto": "jungle9",
+          "nexX": 640,
+          "nexY": 64
+        },
+        {
+          "valX": 21,
+          "valY": 0,
+          "goto": "jungle3",
+          "nexX": 672,
+          "nexY": 608
+        },
+        {
+          "valX": 21,
+          "valY": 19,
+          "goto": "jungle9",
+          "nexX": 672,
+          "nexY": 64
+        },
+        {
+          "valX": 22,
+          "valY": 0,
+          "goto": "jungle3",
+          "nexX": 704,
+          "nexY": 608
+        },
+        {
+          "valX": 22,
+          "valY": 19,
+          "goto": "jungle9",
+          "nexX": 704,
+          "nexY": 64
+        },
+        {
+          "valX": 23,
+          "valY": 0,
+          "goto": "jungle3",
+          "nexX": 736,
+          "nexY": 608
+        },
+        {
+          "valX": 23,
+          "valY": 19,
+          "goto": "jungle9",
+          "nexX": 736,
+          "nexY": 64
+        }
+      ],
+      "wildpokemon": [
+        373,
+        376,
+        405,
+        407,
+        445,
+        448,
+        450,
+        452,
+        464,
+        468,
+        473,
+        477
+      ],
+      "level": {
+        "min": 150,
+        "max": 200
+      },
+      "actionLinks": []
+    },
+    {
+      "mapName": "jungle7",
+      "canCapture": false,
+      "mapchange": [
+        {
+          "valX": 27,
+          "valY": 0,
+          "goto": "jungle8",
+          "nexX": 32,
+          "nexY": 64
+        },
+        {
+          "valX": 27,
+          "valY": 1,
+          "goto": "jungle8",
+          "nexX": 32,
+          "nexY": 64
+        },
+        {
+          "valX": 27,
+          "valY": 2,
+          "goto": "jungle8",
+          "nexX": 32,
+          "nexY": 96
+        },
+        {
+          "valX": 27,
+          "valY": 3,
+          "goto": "jungle8",
+          "nexX": 32,
+          "nexY": 128
+        },
+        {
+          "valX": 27,
+          "valY": 4,
+          "goto": "jungle8",
+          "nexX": 32,
+          "nexY": 160
+        },
+        {
+          "valX": 27,
+          "valY": 6,
+          "goto": "jungle8",
+          "nexX": 32,
+          "nexY": 224
+        },
+        {
+          "valX": 27,
+          "valY": 7,
+          "goto": "jungle8",
+          "nexX": 32,
+          "nexY": 256
+        },
+        {
+          "valX": 27,
+          "valY": 8,
+          "goto": "jungle8",
+          "nexX": 32,
+          "nexY": 288
+        },
+        {
+          "valX": 27,
+          "valY": 9,
+          "goto": "jungle8",
+          "nexX": 32,
+          "nexY": 320
+        },
+        {
+          "valX": 27,
+          "valY": 10,
+          "goto": "jungle8",
+          "nexX": 32,
+          "nexY": 352
+        },
+        {
+          "valX": 27,
+          "valY": 11,
+          "goto": "jungle8",
+          "nexX": 32,
+          "nexY": 384
+        },
+        {
+          "valX": 27,
+          "valY": 12,
+          "goto": "jungle8",
+          "nexX": 32,
+          "nexY": 416
+        },
+        {
+          "valX": 27,
+          "valY": 13,
+          "goto": "jungle8",
+          "nexX": 32,
+          "nexY": 448
+        },
+        {
+          "valX": 27,
+          "valY": 14,
+          "goto": "jungle8",
+          "nexX": 32,
+          "nexY": 480
+        },
+        {
+          "valX": 27,
+          "valY": 15,
+          "goto": "jungle8",
+          "nexX": 32,
+          "nexY": 512
+        },
+        {
+          "valX": 5,
+          "valY": 0,
+          "goto": "jungle4",
+          "nexX": 160,
+          "nexY": 608
+        },
+        {
+          "valX": 6,
+          "valY": 0,
+          "goto": "jungle4",
+          "nexX": 192,
+          "nexY": 608
+        },
+        {
+          "valX": 7,
+          "valY": 0,
+          "goto": "jungle4",
+          "nexX": 224,
+          "nexY": 608
+        },
+        {
+          "valX": 8,
+          "valY": 0,
+          "goto": "jungle4",
+          "nexX": 256,
+          "nexY": 608
+        },
+        {
+          "valX": 9,
+          "valY": 0,
+          "goto": "jungle4",
+          "nexX": 288,
+          "nexY": 608
+        },
+        {
+          "valX": 10,
+          "valY": 0,
+          "goto": "jungle4",
+          "nexX": 320,
+          "nexY": 608
+        },
+        {
+          "valX": 11,
+          "valY": 0,
+          "goto": "jungle4",
+          "nexX": 352,
+          "nexY": 608
+        },
+        {
+          "valX": 12,
+          "valY": 0,
+          "goto": "jungle4",
+          "nexX": 384,
+          "nexY": 608
+        },
+        {
+          "valX": 13,
+          "valY": 0,
+          "goto": "jungle4",
+          "nexX": 416,
+          "nexY": 608
+        },
+        {
+          "valX": 14,
+          "valY": 0,
+          "goto": "jungle4",
+          "nexX": 448,
+          "nexY": 608
+        },
+        {
+          "valX": 15,
+          "valY": 0,
+          "goto": "jungle4",
+          "nexX": 480,
+          "nexY": 608
+        },
+        {
+          "valX": 16,
+          "valY": 0,
+          "goto": "jungle4",
+          "nexX": 512,
+          "nexY": 608
+        },
+        {
+          "valX": 22,
+          "valY": 0,
+          "goto": "jungle4",
+          "nexX": 704,
+          "nexY": 608
+        },
+        {
+          "valX": 23,
+          "valY": 0,
+          "goto": "jungle4",
+          "nexX": 736,
+          "nexY": 608
+        },
+        {
+          "valX": 24,
+          "valY": 0,
+          "goto": "jungle4",
+          "nexX": 768,
+          "nexY": 608
+        },
+        {
+          "valX": 25,
+          "valY": 0,
+          "goto": "jungle4",
+          "nexX": 800,
+          "nexY": 608
+        },
+        {
+          "valX": 26,
+          "valY": 0,
+          "goto": "jungle4",
+          "nexX": 832,
+          "nexY": 608
+        }
+      ],
+      "wildpokemon": [
+        3,
+        6,
+        9,
+        65,
+        68,
+        94,
+        130,
+        143,
+        181,
+        212,
+        229,
+        242
+      ],
+      "level": {
+        "min": 100,
+        "max": 120
+      },
+      "actionLinks": []
+    },
+    {
+      "mapName": "jungle8",
+      "canCapture": false,
+      "mapchange": [
+        {
+          "valX": 0,
+          "valY": 0,
+          "goto": "jungle7",
+          "nexX": 832,
+          "nexY": 64
+        },
+        {
+          "valX": 27,
+          "valY": 0,
+          "goto": "jungle9",
+          "nexX": 32,
+          "nexY": 64
+        },
+        {
+          "valX": 0,
+          "valY": 1,
+          "goto": "jungle7",
+          "nexX": 832,
+          "nexY": 64
+        },
+        {
+          "valX": 27,
+          "valY": 1,
+          "goto": "jungle9",
+          "nexX": 32,
+          "nexY": 64
+        },
+        {
+          "valX": 0,
+          "valY": 2,
+          "goto": "jungle7",
+          "nexX": 832,
+          "nexY": 96
+        },
+        {
+          "valX": 27,
+          "valY": 2,
+          "goto": "jungle9",
+          "nexX": 32,
+          "nexY": 96
+        },
+        {
+          "valX": 0,
+          "valY": 3,
+          "goto": "jungle7",
+          "nexX": 832,
+          "nexY": 128
+        },
+        {
+          "valX": 27,
+          "valY": 3,
+          "goto": "jungle9",
+          "nexX": 32,
+          "nexY": 128
+        },
+        {
+          "valX": 0,
+          "valY": 4,
+          "goto": "jungle7",
+          "nexX": 832,
+          "nexY": 160
+        },
+        {
+          "valX": 27,
+          "valY": 4,
+          "goto": "jungle9",
+          "nexX": 32,
+          "nexY": 160
+        },
+        {
+          "valX": 27,
+          "valY": 5,
+          "goto": "jungle9",
+          "nexX": 32,
+          "nexY": 192
+        },
+        {
+          "valX": 0,
+          "valY": 6,
+          "goto": "jungle7",
+          "nexX": 832,
+          "nexY": 224
+        },
+        {
+          "valX": 27,
+          "valY": 6,
+          "goto": "jungle9",
+          "nexX": 32,
+          "nexY": 224
+        },
+        {
+          "valX": 0,
+          "valY": 7,
+          "goto": "jungle7",
+          "nexX": 832,
+          "nexY": 256
+        },
+        {
+          "valX": 27,
+          "valY": 7,
+          "goto": "jungle9",
+          "nexX": 32,
+          "nexY": 256
+        },
+        {
+          "valX": 0,
+          "valY": 8,
+          "goto": "jungle7",
+          "nexX": 832,
+          "nexY": 288
+        },
+        {
+          "valX": 27,
+          "valY": 8,
+          "goto": "jungle9",
+          "nexX": 32,
+          "nexY": 288
+        },
+        {
+          "valX": 0,
+          "valY": 9,
+          "goto": "jungle7",
+          "nexX": 832,
+          "nexY": 320
+        },
+        {
+          "valX": 27,
+          "valY": 9,
+          "goto": "jungle9",
+          "nexX": 32,
+          "nexY": 320
+        },
+        {
+          "valX": 0,
+          "valY": 10,
+          "goto": "jungle7",
+          "nexX": 832,
+          "nexY": 352
+        },
+        {
+          "valX": 27,
+          "valY": 10,
+          "goto": "jungle9",
+          "nexX": 32,
+          "nexY": 352
+        },
+        {
+          "valX": 0,
+          "valY": 11,
+          "goto": "jungle7",
+          "nexX": 832,
+          "nexY": 384
+        },
+        {
+          "valX": 27,
+          "valY": 11,
+          "goto": "jungle9",
+          "nexX": 32,
+          "nexY": 384
+        },
+        {
+          "valX": 0,
+          "valY": 12,
+          "goto": "jungle7",
+          "nexX": 832,
+          "nexY": 416
+        },
+        {
+          "valX": 27,
+          "valY": 12,
+          "goto": "jungle9",
+          "nexX": 32,
+          "nexY": 416
+        },
+        {
+          "valX": 0,
+          "valY": 13,
+          "goto": "jungle7",
+          "nexX": 832,
+          "nexY": 448
+        },
+        {
+          "valX": 27,
+          "valY": 13,
+          "goto": "jungle9",
+          "nexX": 32,
+          "nexY": 448
+        },
+        {
+          "valX": 0,
+          "valY": 14,
+          "goto": "jungle7",
+          "nexX": 832,
+          "nexY": 480
+        },
+        {
+          "valX": 27,
+          "valY": 14,
+          "goto": "jungle9",
+          "nexX": 32,
+          "nexY": 480
+        },
+        {
+          "valX": 0,
+          "valY": 15,
+          "goto": "jungle7",
+          "nexX": 832,
+          "nexY": 512
+        },
+        {
+          "valX": 27,
+          "valY": 15,
+          "goto": "jungle9",
+          "nexX": 32,
+          "nexY": 512
+        },
+        {
+          "valX": 27,
+          "valY": 16,
+          "goto": "jungle9",
+          "nexX": 32,
+          "nexY": 544
+        },
+        {
+          "valX": 1,
+          "valY": 0,
+          "goto": "jungle5",
+          "nexX": 32,
+          "nexY": 608
+        },
+        {
+          "valX": 2,
+          "valY": 0,
+          "goto": "jungle5",
+          "nexX": 64,
+          "nexY": 608
+        },
+        {
+          "valX": 3,
+          "valY": 0,
+          "goto": "jungle5",
+          "nexX": 96,
+          "nexY": 608
+        },
+        {
+          "valX": 4,
+          "valY": 0,
+          "goto": "jungle5",
+          "nexX": 128,
+          "nexY": 608
+        },
+        {
+          "valX": 5,
+          "valY": 0,
+          "goto": "jungle5",
+          "nexX": 160,
+          "nexY": 608
+        },
+        {
+          "valX": 6,
+          "valY": 0,
+          "goto": "jungle5",
+          "nexX": 192,
+          "nexY": 608
+        },
+        {
+          "valX": 7,
+          "valY": 0,
+          "goto": "jungle5",
+          "nexX": 224,
+          "nexY": 608
+        },
+        {
+          "valX": 8,
+          "valY": 0,
+          "goto": "jungle5",
+          "nexX": 256,
+          "nexY": 608
+        },
+        {
+          "valX": 9,
+          "valY": 0,
+          "goto": "jungle5",
+          "nexX": 288,
+          "nexY": 608
+        },
+        {
+          "valX": 10,
+          "valY": 0,
+          "goto": "jungle5",
+          "nexX": 320,
+          "nexY": 608
+        },
+        {
+          "valX": 11,
+          "valY": 0,
+          "goto": "jungle5",
+          "nexX": 352,
+          "nexY": 608
+        },
+        {
+          "valX": 12,
+          "valY": 0,
+          "goto": "jungle5",
+          "nexX": 384,
+          "nexY": 608
+        },
+        {
+          "valX": 13,
+          "valY": 0,
+          "goto": "jungle5",
+          "nexX": 416,
+          "nexY": 608
+        },
+        {
+          "valX": 14,
+          "valY": 0,
+          "goto": "jungle5",
+          "nexX": 448,
+          "nexY": 608
+        },
+        {
+          "valX": 15,
+          "valY": 0,
+          "goto": "jungle5",
+          "nexX": 480,
+          "nexY": 608
+        },
+        {
+          "valX": 16,
+          "valY": 0,
+          "goto": "jungle5",
+          "nexX": 512,
+          "nexY": 608
+        },
+        {
+          "valX": 17,
+          "valY": 0,
+          "goto": "jungle5",
+          "nexX": 544,
+          "nexY": 608
+        },
+        {
+          "valX": 18,
+          "valY": 0,
+          "goto": "jungle5",
+          "nexX": 576,
+          "nexY": 608
+        },
+        {
+          "valX": 19,
+          "valY": 0,
+          "goto": "jungle5",
+          "nexX": 608,
+          "nexY": 608
+        },
+        {
+          "valX": 20,
+          "valY": 0,
+          "goto": "jungle5",
+          "nexX": 640,
+          "nexY": 608
+        },
+        {
+          "valX": 21,
+          "valY": 0,
+          "goto": "jungle5",
+          "nexX": 672,
+          "nexY": 608
+        },
+        {
+          "valX": 22,
+          "valY": 0,
+          "goto": "jungle5",
+          "nexX": 704,
+          "nexY": 608
+        },
+        {
+          "valX": 23,
+          "valY": 0,
+          "goto": "jungle5",
+          "nexX": 736,
+          "nexY": 608
+        },
+        {
+          "valX": 24,
+          "valY": 0,
+          "goto": "jungle5",
+          "nexX": 768,
+          "nexY": 608
+        },
+        {
+          "valX": 25,
+          "valY": 0,
+          "goto": "jungle5",
+          "nexX": 800,
+          "nexY": 608
+        },
+        {
+          "valX": 26,
+          "valY": 0,
+          "goto": "jungle5",
+          "nexX": 832,
+          "nexY": 608
+        }
+      ],
+      "wildpokemon": [
+        248,
+        254,
+        257,
+        260,
+        282,
+        306,
+        330,
+        350,
+        389,
+        392,
+        395,
+        398
+      ],
+      "level": {
+        "min": 120,
+        "max": 150
+      },
+      "actionLinks": []
+    },
+    {
+      "mapName": "jungle9",
+      "canCapture": false,
+      "mapchange": [
+        {
+          "valX": 0,
+          "valY": 0,
+          "goto": "jungle8",
+          "nexX": 832,
+          "nexY": 64
+        },
+        {
+          "valX": 0,
+          "valY": 1,
+          "goto": "jungle8",
+          "nexX": 832,
+          "nexY": 64
+        },
+        {
+          "valX": 0,
+          "valY": 2,
+          "goto": "jungle8",
+          "nexX": 832,
+          "nexY": 96
+        },
+        {
+          "valX": 0,
+          "valY": 3,
+          "goto": "jungle8",
+          "nexX": 832,
+          "nexY": 128
+        },
+        {
+          "valX": 0,
+          "valY": 4,
+          "goto": "jungle8",
+          "nexX": 832,
+          "nexY": 160
+        },
+        {
+          "valX": 0,
+          "valY": 5,
+          "goto": "jungle8",
+          "nexX": 832,
+          "nexY": 192
+        },
+        {
+          "valX": 0,
+          "valY": 6,
+          "goto": "jungle8",
+          "nexX": 832,
+          "nexY": 224
+        },
+        {
+          "valX": 0,
+          "valY": 7,
+          "goto": "jungle8",
+          "nexX": 832,
+          "nexY": 256
+        },
+        {
+          "valX": 0,
+          "valY": 8,
+          "goto": "jungle8",
+          "nexX": 832,
+          "nexY": 288
+        },
+        {
+          "valX": 0,
+          "valY": 9,
+          "goto": "jungle8",
+          "nexX": 832,
+          "nexY": 320
+        },
+        {
+          "valX": 0,
+          "valY": 10,
+          "goto": "jungle8",
+          "nexX": 832,
+          "nexY": 352
+        },
+        {
+          "valX": 0,
+          "valY": 11,
+          "goto": "jungle8",
+          "nexX": 832,
+          "nexY": 384
+        },
+        {
+          "valX": 0,
+          "valY": 12,
+          "goto": "jungle8",
+          "nexX": 832,
+          "nexY": 416
+        },
+        {
+          "valX": 0,
+          "valY": 13,
+          "goto": "jungle8",
+          "nexX": 832,
+          "nexY": 448
+        },
+        {
+          "valX": 0,
+          "valY": 14,
+          "goto": "jungle8",
+          "nexX": 832,
+          "nexY": 480
+        },
+        {
+          "valX": 0,
+          "valY": 15,
+          "goto": "jungle8",
+          "nexX": 832,
+          "nexY": 512
+        },
+        {
+          "valX": 0,
+          "valY": 16,
+          "goto": "jungle8",
+          "nexX": 832,
+          "nexY": 512
+        },
+        {
+          "valX": 7,
+          "valY": 0,
+          "goto": "jungle6",
+          "nexX": 224,
+          "nexY": 608
+        },
+        {
+          "valX": 8,
+          "valY": 0,
+          "goto": "jungle6",
+          "nexX": 256,
+          "nexY": 608
+        },
+        {
+          "valX": 9,
+          "valY": 0,
+          "goto": "jungle6",
+          "nexX": 256,
+          "nexY": 608
+        },
+        {
+          "valX": 10,
+          "valY": 0,
+          "goto": "jungle6",
+          "nexX": 352,
+          "nexY": 608
+        },
+        {
+          "valX": 11,
+          "valY": 0,
+          "goto": "jungle6",
+          "nexX": 352,
+          "nexY": 608
+        },
+        {
+          "valX": 12,
+          "valY": 0,
+          "goto": "jungle6",
+          "nexX": 384,
+          "nexY": 608
+        },
+        {
+          "valX": 13,
+          "valY": 0,
+          "goto": "jungle6",
+          "nexX": 416,
+          "nexY": 608
+        },
+        {
+          "valX": 14,
+          "valY": 0,
+          "goto": "jungle6",
+          "nexX": 448,
+          "nexY": 608
+        },
+        {
+          "valX": 15,
+          "valY": 0,
+          "goto": "jungle6",
+          "nexX": 480,
+          "nexY": 608
+        },
+        {
+          "valX": 16,
+          "valY": 0,
+          "goto": "jungle6",
+          "nexX": 512,
+          "nexY": 608
+        },
+        {
+          "valX": 17,
+          "valY": 0,
+          "goto": "jungle6",
+          "nexX": 544,
+          "nexY": 608
+        },
+        {
+          "valX": 18,
+          "valY": 0,
+          "goto": "jungle6",
+          "nexX": 576,
+          "nexY": 608
+        },
+        {
+          "valX": 19,
+          "valY": 0,
+          "goto": "jungle6",
+          "nexX": 608,
+          "nexY": 608
+        },
+        {
+          "valX": 20,
+          "valY": 0,
+          "goto": "jungle6",
+          "nexX": 640,
+          "nexY": 608
+        },
+        {
+          "valX": 21,
+          "valY": 0,
+          "goto": "jungle6",
+          "nexX": 672,
+          "nexY": 608
+        },
+        {
+          "valX": 22,
+          "valY": 0,
+          "goto": "jungle6",
+          "nexX": 704,
+          "nexY": 608
+        },
+        {
+          "valX": 23,
+          "valY": 0,
+          "goto": "jungle6",
+          "nexX": 736,
+          "nexY": 608
+        }
+      ],
+      "wildpokemon": [
+        373,
+        376,
+        405,
+        407,
+        445,
+        448,
+        450,
+        452,
+        464,
+        468,
+        473,
+        477
+      ],
+      "level": {
+        "min": 150,
+        "max": 200
+      },
+      "actionLinks": []
     }
   ]
 }

@@ -50,23 +50,23 @@ async function flag(){const f=page.locator('[data-super-tournament-exit]');await
    if(number===1){await page.locator('.team-toggle-btn').click();await page.locator('.team-panel').waitFor();}
    const f=await flag();
    if(phase==='battle'){const weather=page.locator('[data-battle-weather-info]');await weather.waitFor();if(width<1000)assert(await f.evaluate((n,weather)=>{const a=n.getBoundingClientRect(),b=document.querySelector(weather).getBoundingClientRect();return a.bottom<=b.top||a.left>=b.right||a.right<=b.left;},'[data-battle-weather-info]'),'Flag overlaps weather');}
-   await page.screenshot({path:path.join(out,`${width}-${phase}.png`)});await f.click();await page.locator('[data-tournament-view=abandon]').waitFor();assert.match(await page.locator('.tournament-content').innerText(),/dernier Centre Pokémon/);
+   await page.screenshot({path:path.join(out,`${width}-${phase}.png`)});await f.click();await page.locator('[data-tournament-view=abandon]').waitFor();assert.match(await page.locator('.tournament-content').innerText(),/accueil du Super Tournoi/);
    if(number===1){const token=controller().run.id;await page.keyboard.press('Escape');await flag();assert.equal(controller().run.id,token);assert.equal(await page.evaluate(()=>document.activeElement?.hasAttribute('data-super-tournament-exit')),true);await (await flag()).click();}
    if(phase==='battle'&&width===393){const c=controller(),persist=c.persist;c.persist={...persist,save:async(...args)=>{if(args[1]===null)throw Error('Sauvegarde temporairement indisponible.');return persist.save(...args);}};await page.getByRole('button',{name:'Confirmer l’abandon',exact:true}).click();await page.locator('.tournament-panel .error').waitFor();assert(controller().active);assert.equal((await players.loadUserPosition(id)).map,content.MAPS.room);c.persist=persist;}
-   await page.getByRole('button',{name:'Confirmer l’abandon',exact:true}).click();await page.waitForFunction(()=>v.map==='centre'&&!v.superTournament.active&&!v.battle&&!v.battleResult&&!v.pendingBattleResult&&!v.tournamentPanel&&!v.mapLoading);await ready();
+   await page.getByRole('button',{name:'Confirmer l’abandon',exact:true}).click();await page.waitForFunction(()=>v.map==='super_tournament_lobby'&&!v.superTournament.active&&!v.battle&&!v.battleResult&&!v.pendingBattleResult&&!v.tournamentPanel&&!v.mapLoading);await ready();
    if(phase==='pending'){await page.evaluate(()=>window.releaseOldBattleResult());await page.waitForTimeout(100);assert.equal(await page.locator('[data-battle-result-continue]').count(),0);}
    assert.equal((await repo.load(id)).run,null);assert(Number((await repo.leaderboard(id)).personal.score)>=expectedScore);assert.deepEqual(codec.encode(await teams.loadEquipe(id)),adventure);
    assert.deepEqual((await players.loadUserPosition(id)).centerReturnPoint,origin);
    assert.equal(await page.locator('[data-super-tournament-exit]').count(),0);
-   if(number===1){await page.reload();await ready();assert.equal(await page.evaluate(()=>v.map),'centre');assert.equal(await page.evaluate(()=>v.superTournament.active),false);}
-   await walk('move_d',4);await walk('move_s',2);await page.waitForFunction(map=>v.map===map&&!v.mapLoading,origin.map);await ready();assert.equal(await page.evaluate(()=>v.map),origin.map);
+   if(number===1){await page.reload();await ready();assert.equal(await page.evaluate(()=>v.map),'super_tournament_lobby');assert.equal(await page.evaluate(()=>v.superTournament.active),false);}
+   assert.equal(await page.evaluate(()=>v.map),'super_tournament_lobby');
    views.push({width,height,phase,origin:origin.map,score:expectedScore});
   }
   await context.close();await require('../server/realtime/accountConnection').waitForAccountConnections(io);
  }
  checks.push('White flag accessible in SAS, between rooms, battle entrance, combat, forced replacement, result, recovery cards and pending presentation');
  checks.push('Confirmation cancels without changing the run; failed save stays playable; retry abandons; no stale result reappears');
- checks.push('Final score and original Adventure team preserved; return to last visited Center and real exit city verified, including reconnect');
+ checks.push('Final score and original Adventure team preserved; return to the tournament lobby verified, including reconnect; last visited Center remains saved');
  assert.deepEqual(errors,[]);success=true;fs.writeFileSync(path.join(out,'results.json'),JSON.stringify({success,engine,views,checks,errors,physicalHardware:false,headerNotEnlarged:true},null,2));console.log(JSON.stringify({success,engine,views,checks,errors}));
 }finally{
  if(!success&&page&&!page.isClosed()){console.error(await page.evaluate(()=>({map:window.v?.map,phase:window.v?.superTournament?.phase,battle:window.v?.battle,text:document.body.innerText.slice(-1400)})).catch(()=>null));await page.screenshot({path:path.join(out,'failure.png')}).catch(()=>{});}

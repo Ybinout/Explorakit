@@ -1,0 +1,32 @@
+[
+  {
+    "name": "wide",
+    "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-ab4a46d3-9cb3-4e16-a035-f204546a4de3.png",
+    "target": "vue-explorakit/src/assets/battle/dark-jungle-wide-v1.webp",
+    "sourceBytes": 2448841,
+    "bytes": 1953494,
+    "sha256": "ef34a67b32e0c31a9f4cff2d6a0e184ab4c22967d00b4f2fb9448fa7a5ac1d06",
+    "width": 1536,
+    "height": 1024,
+    "sameDimensions": true,
+    "differences": 0,
+    "mode": "built-in imagegen",
+    "prompt": "Use case: stylized-concept. Asset type: production background for RiftMon monster battles, wide landscape 1536x1024. Create a beautiful ominous tropical jungle clearing consistent with polished 2D pixel-art handheld monster RPG environments: crisp restrained pixel clusters, readable shapes, hand-placed-looking texture, deep emerald canopy, ancient massive trunks and hanging vines at edges, a few shafts of muted light, dark distant forest, earthy mossy clearing. Perspective is low side-view battle stage, not overhead. The large central and lower clearing must remain calm and uncluttered for animated combatants and interface. Enemy stands toward upper-right of clearing, player's back sprite occupies bottom-left. NO characters, monsters, text, UI, circles, platforms, rings, disks, sparkle suns, or painted selection markers: the engine draws the enemy platform separately. No visible blue sky, no photorealistic textures, no excessive microdetail or bloom. Preserve strong silhouette readability on mobile portrait crops.",
+    "conversion": "cwebp -lossless -exact; decoded RGBA verified identical"
+  },
+  {
+    "name": "mobile",
+    "source": "/home/ubuntu/.codex/generated_images/01a12b53-6548-7a53-b36a-05641c599196/exec-ed519aaa-025d-41ea-bfae-59769c515358.png",
+    "target": "vue-explorakit/src/assets/battle/dark-jungle-mobile-v1.webp",
+    "sourceBytes": 2774130,
+    "bytes": 2148962,
+    "sha256": "db1d849398d9a8aee55301511dbf9ce1720cdb2f16daffafaf199593bd0ed226",
+    "width": 1024,
+    "height": 1536,
+    "sameDimensions": true,
+    "differences": 0,
+    "mode": "built-in imagegen",
+    "prompt": "Use case: style-transfer. Create the matching PORTRAIT mobile battle background (1024x1536) for the supplied RiftMon jungle clearing, retaining its crisp 2D pixel-art style, forest colors and restrained texture. This reference is a style/composition source, not a sprite sheet. Recompose it for a vertical phone: distant dark emerald tropical canopy occupies upper third, broad open mossy earthy arena extends continuously from 38% to 100% height. Enemy feet will sit near 62% height at 78% width, player back sprite bottom-left anchored at 100% height. Keep these places empty and readable; vegetation frames the edges, no foreground obstruction over the standing areas. NO characters, monsters, lettering, circles, disks, platforms, user interface or selection marks. No photorealism, no new objects. Return one polished portrait scene.",
+    "conversion": "cwebp -lossless -exact; decoded RGBA verified identical"
+  }
+]

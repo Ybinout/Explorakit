@@ -1,5 +1,23 @@
 # Audit technique et mémoire de RiftMon
 
+## Dark Continent : nouveau territoire de fin de jeu — 2 novembre 2026
+
+Livraison du README de `darkcontinen/` : neuf cartes de l’auteur conservées à l’octet (JSON, décor et foreground), reliées en grille 3×3 selon ses objets de transition. Les arrivées sont ramenées sur un sol libre à l’intérieur de la carte pour éviter les allers-retours involontaires. Vent, eau animée et hautes herbes sur les neuf cartes ; minimap étendue à 800×448 avec une île distincte à droite. Les anciens objets/cartes/météos restent conservés.
+
+Après **48 salles terminées** au Super Tournoi (trois cycles), un éclaireur personnel rejoint le joueur dans l’accueil et lui remet une **carte de dresseur professionnel** unique. Les anciens records qualifiants fonctionnent aussi. Objet utilisable depuis les objets clés : plage de Jungle 1 à l’aller, accueil du tournoi au retour, hors combat. Le guide bloque le passage du personnage, affiche les avertissements obligatoires en rouge à la première arrivée, puis propose règles ou soins des survivants. Toutes les sorties définitives du Super Tournoi, défaite comme abandon, sont désormais sauvegardées avec la destination accueil dans la même transaction que le score.
+
+36 grandes évolutions non légendaires couvrent les 18 types. Colonnes ouest/centre/est : **100–120 / 120–150 / 150–200**. Module d’expérience ignoré ; XP à 10 %, aucun Pokédollar. Fuite interdite côté serveur y compris Téléport/Fuite/Spectre ; bouton grisé. Ball consommée, animation d’évasion et explication, aucune capture possible. Un K.O. est supprimé durablement avant le choix du remplaçant, y compris dégâts de statut, recul et déconnexion : protection contre les écritures de sauvegarde périmées, retour unique des équipements récupérables, PC intact. Toute l’équipe perdue : retour devant le PC d’un Centre, sans recréer de Pokémon ; retrait d’une réserve même K.O. possible lorsque l’équipe est vide, puis soins habituels. Le récapitulatif inclut les compagnons perdus.
+
+18 plaques de type, teintées selon leur élément, rangées dans Trésors, vente **20 000 ₽** : 7 % de chance d’une plaque d’un des types de l’adversaire vaincu. Cristaux indépendants renforcés : Éclat fissuré **80 % ×2–4**, Cristal limpide **60 % ×1–3**, Prisme d’aurore **35 % ×1–2** ; tirage ordinaire 1/6 conservé. Ces taux ne changent que sur le continent. Les habitats du Pokédex n’annoncent pas ces rencontres non capturables comme des lieux de capture.
+
+Décors de combat jungle PC et portrait mobile dédiés, plateforme ennemie conservée et aucune plateforme alliée. Images générées via imagegen, stockées dans le client puis converties sans perte (égalité RGBA vérifiée) ; prompts et empreintes dans `docs/DARK_CONTINENT_ART_2026-11-02.json`. Les cinq musiques fournies sont raccordées : exploration jungle, combats jungle, casino, maison des combats et rencontres légendaires (pêche comprise). Une même musique continue entre jungles.
+
+Validation et publication : voir `docs/DARK_CONTINENT_2026-11-02.json` (commandes, tests, recettes privées SQL/navigateurs, build et reçu de mise en ligne). Sources de l’auteur et empreintes : `docs/DARK_CONTINENT_ASSETS_2026-11-02.json`. Aucune migration de schéma ni manipulation manuelle de compte réel. Le dossier d’apport local est ignoré par Git pour éviter de dupliquer ses gros fichiers ; le jeu et les tests utilisent uniquement les copies intégrées et le manifeste. Les cartes et musiques d’origine restent intactes dans ce dossier.
+
+Validation finale : **107 tests de logique/régression et 203 SQL**, sans échec/saut ; recettes privées authentifiées Chromium et WebKit, **67 vues** mobile/PC et clair/nocturne, neuf traversées réelles, capture interdite, soins, rechargement, retour au PC avec équipe vide, thèmes légendaire/casino/duel et 13 scénarios d’abandon. Zéro erreur JS sur les recettes complètes finales. Des crashes natifs intermittents de WebKit headless sont consignés dans le rapport ; la dernière recette complète WebKit réussit, aucun téléphone physique revendiqué. Lint, build isolé `3c55d601e4661750`, syntaxe et diff validés.
+
+Publié le 2 novembre 2026 à **8 h 25 (Europe/Paris)** ; client `6b9fe6561a43b6356e73a77a42b4f277fd977419`. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-dark-2026-11-02T07-25-14-988Z`. PID 3697446→3705427, service actif sans redémarrage automatique/avertissement. Index et 47 fichiers publics contrôlés à l’octet (bundles/CSS, 18 couches de cartes, deux fonds et cinq musiques), anciens assets conservés ; Knov/api-test, checkpoint et modes fermés inchangés. Aucun duel/tournoi actif au contrôle, aucune migration ni modification manuelle de compte réel. Recharger le jeu pour accéder au nouveau contenu.
+
 ## Matthieu : un niveau de moins en Aventure — 2 novembre 2026
 
 Staross 35→34, Tauros 36→35, Léviator et Typhlosion 37→36. Seuls les quatre `adventureLevel` de `gwenn_route8` changent ; espèce/K/IV/EV/objets/attaques/IA et autres dresseurs conservés. La fabrique recalcule les statistiques et l’XP aux nouveaux niveaux lors du prochain combat. Niveaux historiques Rift/Colosseum (37/38/39/39) et Super Tournoi (75/85/90, puis croissance existante) conservés.
@@ -5856,6 +5874,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **2 novembre 2026 — Dark Continent :** intégration des neuf cartes, passe personnel après 48 salles, règles strictes et K.O. définitifs transactionnels, plaques/cristaux, guide, minimap, décors/musiques/animations ; sorties du tournoi vers l’accueil. Audit, provenance et recettes reproductibles dans les trois rapports `DARK_CONTINENT_*_2026-11-02.json`.
 
 - 2 novembre 2026 — Matthieu : −1 niveau sur ses quatre Pokémon en Aventure uniquement (34/35/36/36) ; 16 tests et comparaison des données validés. `docs/MATTHIEU_LEVEL_2026-11-02.json`.
 

@@ -1,5 +1,5 @@
 {
-  "width": 512,
+  "width": 800,
   "height": 448,
   "nodes": [
     {
@@ -163,6 +163,60 @@
       "x": 454,
       "y": 98,
       "kind": "event"
+    },
+    {
+      "id": "jungle1",
+      "x": 580,
+      "y": 176,
+      "kind": "route"
+    },
+    {
+      "id": "jungle2",
+      "x": 644,
+      "y": 176,
+      "kind": "route"
+    },
+    {
+      "id": "jungle3",
+      "x": 708,
+      "y": 176,
+      "kind": "route"
+    },
+    {
+      "id": "jungle4",
+      "x": 580,
+      "y": 246,
+      "kind": "route"
+    },
+    {
+      "id": "jungle5",
+      "x": 644,
+      "y": 246,
+      "kind": "route"
+    },
+    {
+      "id": "jungle6",
+      "x": 708,
+      "y": 246,
+      "kind": "route"
+    },
+    {
+      "id": "jungle7",
+      "x": 580,
+      "y": 316,
+      "kind": "route"
+    },
+    {
+      "id": "jungle8",
+      "x": 644,
+      "y": 316,
+      "kind": "route"
+    },
+    {
+      "id": "jungle9",
+      "x": 708,
+      "y": 316,
+      "kind": "route"
     }
   ]
 }

@@ -7317,6 +7317,196 @@
       },
       "fling_power": 30,
       "fling_status": "badly_poison"
+    },
+    {
+      "key": "dark_plate_normal",
+      "name": "Plaque Normal",
+      "category": "treasure",
+      "plateType": "Normal",
+      "buy_price": 0,
+      "sell_price": 20000,
+      "dropOnly": true,
+      "description": "Une plaque normal rapportée du Dark Continent. Un trésor que les boutiques rachètent 20 000 ₽."
+    },
+    {
+      "key": "dark_plate_fire",
+      "name": "Plaque Feu",
+      "category": "treasure",
+      "plateType": "Fire",
+      "buy_price": 0,
+      "sell_price": 20000,
+      "dropOnly": true,
+      "description": "Une plaque feu rapportée du Dark Continent. Un trésor que les boutiques rachètent 20 000 ₽."
+    },
+    {
+      "key": "dark_plate_water",
+      "name": "Plaque Eau",
+      "category": "treasure",
+      "plateType": "Water",
+      "buy_price": 0,
+      "sell_price": 20000,
+      "dropOnly": true,
+      "description": "Une plaque eau rapportée du Dark Continent. Un trésor que les boutiques rachètent 20 000 ₽."
+    },
+    {
+      "key": "dark_plate_electric",
+      "name": "Plaque Électrik",
+      "category": "treasure",
+      "plateType": "Electric",
+      "buy_price": 0,
+      "sell_price": 20000,
+      "dropOnly": true,
+      "description": "Une plaque électrik rapportée du Dark Continent. Un trésor que les boutiques rachètent 20 000 ₽."
+    },
+    {
+      "key": "dark_plate_grass",
+      "name": "Plaque Plante",
+      "category": "treasure",
+      "plateType": "Grass",
+      "buy_price": 0,
+      "sell_price": 20000,
+      "dropOnly": true,
+      "description": "Une plaque plante rapportée du Dark Continent. Un trésor que les boutiques rachètent 20 000 ₽."
+    },
+    {
+      "key": "dark_plate_ice",
+      "name": "Plaque Glace",
+      "category": "treasure",
+      "plateType": "Ice",
+      "buy_price": 0,
+      "sell_price": 20000,
+      "dropOnly": true,
+      "description": "Une plaque glace rapportée du Dark Continent. Un trésor que les boutiques rachètent 20 000 ₽."
+    },
+    {
+      "key": "dark_plate_fighting",
+      "name": "Plaque Combat",
+      "category": "treasure",
+      "plateType": "Fighting",
+      "buy_price": 0,
+      "sell_price": 20000,
+      "dropOnly": true,
+      "description": "Une plaque combat rapportée du Dark Continent. Un trésor que les boutiques rachètent 20 000 ₽."
+    },
+    {
+      "key": "dark_plate_poison",
+      "name": "Plaque Poison",
+      "category": "treasure",
+      "plateType": "Poison",
+      "buy_price": 0,
+      "sell_price": 20000,
+      "dropOnly": true,
+      "description": "Une plaque poison rapportée du Dark Continent. Un trésor que les boutiques rachètent 20 000 ₽."
+    },
+    {
+      "key": "dark_plate_ground",
+      "name": "Plaque Sol",
+      "category": "treasure",
+      "plateType": "Ground",
+      "buy_price": 0,
+      "sell_price": 20000,
+      "dropOnly": true,
+      "description": "Une plaque sol rapportée du Dark Continent. Un trésor que les boutiques rachètent 20 000 ₽."
+    },
+    {
+      "key": "dark_plate_flying",
+      "name": "Plaque Vol",
+      "category": "treasure",
+      "plateType": "Flying",
+      "buy_price": 0,
+      "sell_price": 20000,
+      "dropOnly": true,
+      "description": "Une plaque vol rapportée du Dark Continent. Un trésor que les boutiques rachètent 20 000 ₽."
+    },
+    {
+      "key": "dark_plate_psychic",
+      "name": "Plaque Psy",
+      "category": "treasure",
+      "plateType": "Psychic",
+      "buy_price": 0,
+      "sell_price": 20000,
+      "dropOnly": true,
+      "description": "Une plaque psy rapportée du Dark Continent. Un trésor que les boutiques rachètent 20 000 ₽."
+    },
+    {
+      "key": "dark_plate_bug",
+      "name": "Plaque Insecte",
+      "category": "treasure",
+      "plateType": "Bug",
+      "buy_price": 0,
+      "sell_price": 20000,
+      "dropOnly": true,
+      "description": "Une plaque insecte rapportée du Dark Continent. Un trésor que les boutiques rachètent 20 000 ₽."
+    },
+    {
+      "key": "dark_plate_rock",
+      "name": "Plaque Roche",
+      "category": "treasure",
+      "plateType": "Rock",
+      "buy_price": 0,
+      "sell_price": 20000,
+      "dropOnly": true,
+      "description": "Une plaque roche rapportée du Dark Continent. Un trésor que les boutiques rachètent 20 000 ₽."
+    },
+    {
+      "key": "dark_plate_ghost",
+      "name": "Plaque Spectre",
+      "category": "treasure",
+      "plateType": "Ghost",
+      "buy_price": 0,
+      "sell_price": 20000,
+      "dropOnly": true,
+      "description": "Une plaque spectre rapportée du Dark Continent. Un trésor que les boutiques rachètent 20 000 ₽."
+    },
+    {
+      "key": "dark_plate_dragon",
+      "name": "Plaque Dragon",
+      "category": "treasure",
+      "plateType": "Dragon",
+      "buy_price": 0,
+      "sell_price": 20000,
+      "dropOnly": true,
+      "description": "Une plaque dragon rapportée du Dark Continent. Un trésor que les boutiques rachètent 20 000 ₽."
+    },
+    {
+      "key": "dark_plate_dark",
+      "name": "Plaque Ténèbres",
+      "category": "treasure",
+      "plateType": "Dark",
+      "buy_price": 0,
+      "sell_price": 20000,
+      "dropOnly": true,
+      "description": "Une plaque ténèbres rapportée du Dark Continent. Un trésor que les boutiques rachètent 20 000 ₽."
+    },
+    {
+      "key": "dark_plate_steel",
+      "name": "Plaque Acier",
+      "category": "treasure",
+      "plateType": "Steel",
+      "buy_price": 0,
+      "sell_price": 20000,
+      "dropOnly": true,
+      "description": "Une plaque acier rapportée du Dark Continent. Un trésor que les boutiques rachètent 20 000 ₽."
+    },
+    {
+      "key": "dark_plate_fairy",
+      "name": "Plaque Fée",
+      "category": "treasure",
+      "plateType": "Fairy",
+      "buy_price": 0,
+      "sell_price": 20000,
+      "dropOnly": true,
+      "description": "Une plaque fée rapportée du Dark Continent. Un trésor que les boutiques rachètent 20 000 ₽."
+    },
+    {
+      "key": "professional_trainer_card",
+      "name": "Carte de dresseur professionnel",
+      "category": "key",
+      "unique": true,
+      "buy_price": 0,
+      "sell_price": 0,
+      "darkContinentTravel": true,
+      "description": "Réservée aux dresseurs ayant terminé trois cycles du Super Tournoi. Ouvre le passage vers le Dark Continent ; sur l’île, permet de rejoindre l’accueil hors combat. Attention : les K.O. y sont définitifs."
     }
   ]
 }

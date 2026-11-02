@@ -92,7 +92,7 @@ function chooseWildPokemonForMap(mapName, mapData, random = Math.random) {
     }
 
     if (!Array.isArray(mapConfig.wildpokemon) || !mapConfig.wildpokemon.length) return null;
-    const pokemonId = rollLegendary(random) ?? chooseOrdinarySpecies(mapConfig, random);
+    const pokemonId = (require('./darkContinent').isMap(mapName)?null:rollLegendary(random)) ?? chooseOrdinarySpecies(mapConfig, random);
     if (pokemonId === null) {
         return null;
     }
@@ -117,7 +117,7 @@ async function CreatePokemon(mapName, random = Math.random, { experienceModuleAc
         const zoneLevel = chooseLevelForZone(wildSelection.mapConfig, random);
 
         if (zoneLevel !== null) {
-            applyTargetLevel(poke, require('../items/experienceModule').encounterLevel(zoneLevel,experienceModuleActive));
+            applyTargetLevel(poke, require('../items/experienceModule').encounterLevel(zoneLevel,experienceModuleActive&&!require('./darkContinent').isMap(mapName)));
         } else {
             applyLegacyLevelCurve(poke);
             if(experienceModuleActive===true)applyTargetLevel(poke,require('../items/experienceModule').encounterLevel(poke.level,true));

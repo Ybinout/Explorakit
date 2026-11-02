@@ -2,7 +2,7 @@ const {randomUUID}=require('node:crypto');
 const {DriftBattle}=require('../drift/driftBattle');
 const codec=require('../drift/checkpointCodec');
 const content=require('./content');
-const {healTeam,getPokemonCenterRespawnPoint}=require('../world/playerRecovery');
+const {healTeam}=require('../world/playerRecovery');
 const repository=require('../../persistence/superTournamentRepository');
 const rewards=require('./rewards');
 const cashPrizes=require('./cashPrizes');
@@ -29,8 +29,8 @@ class TournamentController {
   const previous=this.run?codec.encode(this.run):null,previousPaid=this.run?.cash?.paidThrough||0,previousEarned=this.run?.cash?.earned||0,previousAugment=this.run?.lastAugment?.offerId;let committed=false;this.events=[];
   try{const result=await change();if(result===false){this.events=[];return false;}
    const reason=this.run?.outcome;
-   const final=reason?{score:this.run.score,rooms:this.run.cleared,moneyEarned:this.run.cash?.earned||0,...(reason==='abandoned'?{returnToCenter:true}:{})}:null;
-   const destination=final?.returnToCenter?getPokemonCenterRespawnPoint():{map:content.MAPS.lobby,x:448,y:496};
+   const final=reason?{score:this.run.score,rooms:this.run.cleared,moneyEarned:this.run.cash?.earned||0}:null;
+   const destination={map:content.MAPS.lobby,x:448,y:496};
    const next=final?null:this.run;
    const payout=this.run?.cash?.paidThrough>previousPaid&&this.run.cash.earned>previousEarned?{runId:this.run.id,room:this.run.cash.paidThrough}:null;
    const rewardClaim=this.run?.lastAugment&&this.run.lastAugment.offerId!==previousAugment?{runId:this.run.id,offerId:this.run.lastAugment.offerId,cardKey:this.run.lastAugment.cardKey}:null;

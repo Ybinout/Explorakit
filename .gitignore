@@ -8,3 +8,6 @@ backups/
 
 # Snapshot complet du vhost existant, uniquement local
 deploy/nginx-taskflow.conf
+
+# Author delivery imported byte-for-byte; tracked manifest and runtime copies in docs/data/client.
+/darkcontinen/

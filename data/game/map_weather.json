@@ -1,16 +1,169 @@
 {
-  "start": { "kind": "rain", "ambience": { "wind": 3, "rain": 3 } },
-  "route1": { "kind": "rain", "ambience": { "wind": 1, "rain": 2 } },
-  "route2": { "kind": "rain", "ambience": { "wind": 1, "rain": 2 } },
-  "route5": { "kind": "wind", "ambience": { "wind": 3, "rain": 0 } },
-  "gen_route8": { "kind": "wind", "ambience": { "wind": 2, "rain": 0 } },
-  "route6": { "kind": "wind", "ambience": { "wind": 3, "rain": 0 } },
-  "ville_safe1_arene": { "kind": "wind", "ambience": { "wind": 3, "rain": 0 } },
-  "ville1_arene": { "kind": "rain", "ambience": { "wind": 3, "rain": 3 } },
-  "ville4": { "kind": "sandstorm", "ambience": { "wind": 2, "rain": 0, "sand": 2 } },
-  "route12": { "kind": "sandstorm", "ambience": { "wind": 2, "rain": 0, "sand": 2 } },
-  "route13": { "kind": "snow", "ambience": { "wind": 2, "rain": 0, "snow": 3 } },
-  "ville5": { "kind": "snow", "ambience": { "wind": 1, "rain": 0, "snow": 2 } },
-  "ville5_arene": { "kind": "snow", "ambience": { "wind": 1, "rain": 0, "snow": 2 } },
-  "route14": { "kind": "snow", "ambience": { "wind": 2, "rain": 0, "snow": 3 } }
+  "start": {
+    "kind": "rain",
+    "ambience": {
+      "wind": 3,
+      "rain": 3
+    }
+  },
+  "route1": {
+    "kind": "rain",
+    "ambience": {
+      "wind": 1,
+      "rain": 2
+    }
+  },
+  "route2": {
+    "kind": "rain",
+    "ambience": {
+      "wind": 1,
+      "rain": 2
+    }
+  },
+  "route5": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "gen_route8": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 2,
+      "rain": 0
+    }
+  },
+  "route6": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "ville_safe1_arene": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 3,
+      "rain": 0
+    }
+  },
+  "ville1_arene": {
+    "kind": "rain",
+    "ambience": {
+      "wind": 3,
+      "rain": 3
+    }
+  },
+  "ville4": {
+    "kind": "sandstorm",
+    "ambience": {
+      "wind": 2,
+      "rain": 0,
+      "sand": 2
+    }
+  },
+  "route12": {
+    "kind": "sandstorm",
+    "ambience": {
+      "wind": 2,
+      "rain": 0,
+      "sand": 2
+    }
+  },
+  "route13": {
+    "kind": "snow",
+    "ambience": {
+      "wind": 2,
+      "rain": 0,
+      "snow": 3
+    }
+  },
+  "ville5": {
+    "kind": "snow",
+    "ambience": {
+      "wind": 1,
+      "rain": 0,
+      "snow": 2
+    }
+  },
+  "ville5_arene": {
+    "kind": "snow",
+    "ambience": {
+      "wind": 1,
+      "rain": 0,
+      "snow": 2
+    }
+  },
+  "route14": {
+    "kind": "snow",
+    "ambience": {
+      "wind": 2,
+      "rain": 0,
+      "snow": 3
+    }
+  },
+  "jungle1": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 2,
+      "rain": 0
+    }
+  },
+  "jungle2": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 2,
+      "rain": 0
+    }
+  },
+  "jungle3": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 2,
+      "rain": 0
+    }
+  },
+  "jungle4": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 2,
+      "rain": 0
+    }
+  },
+  "jungle5": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 2,
+      "rain": 0
+    }
+  },
+  "jungle6": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 2,
+      "rain": 0
+    }
+  },
+  "jungle7": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 2,
+      "rain": 0
+    }
+  },
+  "jungle8": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 2,
+      "rain": 0
+    }
+  },
+  "jungle9": {
+    "kind": "wind",
+    "ambience": {
+      "wind": 2,
+      "rain": 0
+    }
+  }
 }

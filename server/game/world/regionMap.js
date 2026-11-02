@@ -47,9 +47,9 @@ function buildRegion() {
         if (!nodeIds.has(name)) continue;
         const zone = byName.get(name), collision = terrain.loadCollisionData(name);
         const grass = terrain.battleMapData(name).some((row,y) => row.some((tile,x) => tile && !collision[y]?.[x]));
-        if (grass && zone.wildpokemon?.length) legendaryHabitats.push({ map:name, method:name.startsWith('cave')?'cave':'grass', level:zone.level });
+        if (grass && zone.canCapture!==false && zone.wildpokemon?.length) legendaryHabitats.push({ map:name, method:name.startsWith('cave')?'cave':'grass', level:zone.level });
         if (profiles[name]?.length) legendaryHabitats.push({ map:name, method:'fishing', level:zone.level });
-        if (grass) for (const id of new Set(zone.wildpokemon || [])) add(id, { map:name, method:name.startsWith('cave')?'cave':'grass', level:zone.level });
+        if (grass && zone.canCapture!==false) for (const id of new Set(zone.wildpokemon || [])) add(id, { map:name, method:name.startsWith('cave')?'cave':'grass', level:zone.level });
         for (const [id] of profiles[name] || []) add(id, { map:name, method:'fishing', level:zone.level });
     }
     cached = { public: { ...atlas, nodes, edges:[...edges.values()], aliases }, habitats, legendaryHabitats };

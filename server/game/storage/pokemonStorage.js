@@ -86,7 +86,7 @@ function planAction(team, entries, payload = {}) {
         else if (source === 'box' && storedIndex >= 0) released = nextEntries.splice(storedIndex,1)[0].pokemon;
         else throw Error('Ce Pokémon n’est plus à cet emplacement.');
     } else throw Error('Action PC invalide.');
-    if (teamChanged && (!nextTeam.length || !nextTeam.some(isAble))) throw Error('Garde au moins un Pokémon apte au combat dans ton équipe.');
+    if (teamChanged && (!nextTeam.length || !nextTeam.some(isAble)) && !(team.length===0 && action==='withdraw' && nextTeam.length===1)) throw Error('Garde au moins un Pokémon apte au combat dans ton équipe.');
     return {team:nextTeam, entries:nextEntries, released};
 }
 function boxNames(custom = []) {

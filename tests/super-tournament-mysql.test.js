@@ -23,7 +23,7 @@ else {
  });
  test('endless leaderboard stores more than 65535 rooms and 32-bit points without losing existing records',async()=>{const current=await repo.load(other);await repo.save(other,null,current.version,{score:5000000000,rooms:70000});const rank=await repo.leaderboard(other);assert.equal(Number(rank.personal.score),5000000000);assert.equal(Number(rank.personal.rooms),70000);assert.equal(Number((await repo.leaderboard(id)).personal.score),300);});
 
- test('abandonment durably returns to the shared Center and preserves its own city exit, Adventure team and score even if map delivery fails',async()=>{
+ test('abandonment durably returns to the tournament lobby and preserves its own city exit, Adventure team and score even if map delivery fails',async()=>{
   const {TournamentController}=require('../server/game/superTournament/controller'),factory=require('../server/game/drift/pokemonFactory');
   const teams=require('../server/persistence/teamRepository'),players=require('../server/persistence/playerRepository');
   const codec=require('../server/game/drift/checkpointCodec'),{getPokemonCenterExit}=require('../server/game/world/pokemonCenterTravel');
@@ -35,7 +35,7 @@ else {
     const c=create();await c.load();await c.register(realTeam);await c.next();await c.atomic(()=>c.startBattle());
     await c.atomic(()=>{const b=c.run.battle;b.b.equipe.pokemons[0].currentHp=0;b.prune();c.reconcile();});assert.equal(c.run.score,100);
     await assert.rejects(()=>c.abandon(),/map delivery lost/);
-    const saved=await players.loadUserPosition(userId);assert.equal(saved.map,'centre');assert.equal(saved.x,304);assert.equal(saved.y,432);
+    const saved=await players.loadUserPosition(userId);assert.equal(saved.map,'super_tournament_lobby');assert.equal(saved.x,448);assert.equal(saved.y,496);
     assert.deepEqual(saved.centerReturnPoint,origin);assert.deepEqual(getPokemonCenterExit(saved.centerReturnPoint),origin);
     assert.equal((await repo.load(userId)).run,null);assert.equal(Number((await repo.leaderboard(userId)).personal.score),100);
     assert.deepEqual(codec.encode(await teams.loadEquipe(userId)),before);
@@ -43,7 +43,7 @@ else {
    }finally{await db.execute('DELETE FROM users WHERE id=?',[userId]);}
   }
  });
- test('stale finalization rolls back the Center position and cannot erase another controller’s run',async()=>{
+ test('stale finalization rolls back the lobby position and cannot erase another controller’s run',async()=>{
   const [created]=await db.execute("INSERT INTO users(username,password_hash,map,x,y) VALUES(?,?,'super_tournament_room',448,496)",['exit_stale_'+randomUUID(),'test']);const userId=created.insertId;
   try{
    const v=await repo.save(userId,{score:200,cleared:1},0);
