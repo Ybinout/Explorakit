@@ -1,3 +1,7 @@
+## Carnets du professeur — 2 novembre 2026
+
+Quatre livres/neuf pages dans `void_journals.json` : `lattice`, `foundation`, `counterphase`, `rift_origin`. Ce dernier est au centre (13,10), accessible depuis les quatre côtés ; ne pas rétablir le nombre historique de sept ni l’interdiction de la colonne 13 dans les tests. Maison/faille insinuée par relevés/parquet ; Purification nommée dans un essai sur les cristaux. Recherche, Wanda et Lucie restent dans les notes regroupées. Recette `JOURNALS_ONLY=1 ... scripts/validatePardonEndingBrowser.js`, Chromium/WebKit, base dédiée ; rapport `docs/PROFESSOR_JOURNALS_2026-11-02.json`. Aucun changement de mécanique de barrière ou d’attaque.
+
 ## Surbrillance du téléporteur — 2 novembre 2026
 
 `voidTeleporter.js` garde l’objet physique avant le jalon, le fait scintiller seulement si `state.available && !state.found`. Heure/mouvement transmis par la boucle carte existante, aucun RAF/minuteur supplémentaire ; mouvement réduit fixe, état privé/admin existant. Ne pas allumer l’objet avant qu’il soit récupérable. Recette canvas `scripts/validateTeleporterGlowCanvas.js`, tests `void-ending*` et rapport `docs/TELEPORTER_GLOW_2026-11-02.json`.

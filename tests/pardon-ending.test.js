@@ -19,10 +19,10 @@ test('Purification respects Protect, Clone, Heal Block and sleep; Magic Bounce r
  }
  const a=mon(),b=mon();a.status='burn';b.status='poison';b.passiveAbility='Magic Bounce';cast(a,b);assert.equal(a.status,'normal');assert.equal(b.status,'poison');assert.equal(b.currentHp,71);
 });
-test('Purification CS is an explicit Poison-only exception, including every existing later species; other CS keep their rules',()=>{
- const expected=pokedex.filter(p=>p.type.includes('Poison')).map(p=>p.id);assert.deepEqual(machines.cs_purify.species,expected);assert.equal(expected.length,66);assert.equal(machines.cs_purify.price,3000);
+test('Purification CS retains the Poison exception, its native learner and Sketch compatibility; other CS keep their rules',()=>{
+ const expected=pokedex.filter(p=>p.type.includes('Poison')||[235,771].includes(p.id)).map(p=>p.id);assert.deepEqual(machines.cs_purify.species,expected);assert.equal(expected.length,68);assert.equal(machines.cs_purify.price,3000);
  for(const p of pokedex){const pokemon={data:{id:p.id},currentHp:1,abilities:['Tackle'],movePp:[2],pendingMoves:[]};const choice={slot:1,expectedMoves:['Tackle']};
-  if(p.type.includes('Poison')){const result=teachMachine(pokemon,'cs_purify',choice);assert.equal(result.abilities[1],'Purify');assert.equal(result.movePp[1],20);}else assert.throws(()=>teachMachine(pokemon,'cs_purify',choice),/compatible/);
+  if(p.type.includes('Poison')||[235,771].includes(p.id)){const result=teachMachine(pokemon,'cs_purify',choice);assert.equal(result.abilities[1],'Purify');assert.equal(result.movePp[1],20);}else assert.throws(()=>teachMachine(pokemon,'cs_purify',choice),/compatible/);
  }
  assert(!machines.cs_surf.species.includes(129));
 });
@@ -40,10 +40,12 @@ test('admin preview has its own choice, apology and discovery while the permanen
  const flags={...found,void_defeated:'true',void_claimed:'true',void_resolution:'violence',admin_void_replay:'true',admin_void_found:'true',admin_void_charge:'5',admin_void_resolution:'pardon',admin_void_defeated:'true',admin_professor_departure:'seen',admin_lab_rescued:'true'};
  assert.equal(ending.state({flags}).resolution,'pardon');assert.equal(ending.entryDialogue({flags}).name,'professor_pardoned');flags.admin_void_pardon_seen='true';assert.equal(ending.entryDialogue({flags}),null);assert.equal(flags.void_resolution,'violence');
 });
-test('seven different research journals lie on reachable floor away from doors and the Professor, and remain read-only',()=>{
- const c=terrain.loadCollisionData('void_arena'),change=terrain.changeMapData('void_arena');assert.equal(ending.journals.length,7);assert.equal(new Set(ending.journals.map(b=>b.id)).size,7);
- const p={flags:found},before=JSON.stringify(p);assert.equal(ending.state(p).journals.length,7);assert.equal(ending.state({}).journals.length,0);
- for(const book of ending.journals){assert.equal(c[book.y][book.x],0);assert.equal(change[book.y][book.x],0);assert.notEqual(book.x,13);assert(book.pages.length>=2);assert(book.pages.every(s=>s.length>100));assert.equal(ending.journalAt({currentmap:'void_arena',x:book.x*32+16,y:book.y*32+16}).id,book.id);}
+test('four research journals remain reachable and read-only, with the Route 2 notebook on the central floor',()=>{
+ const c=terrain.loadCollisionData('void_arena'),change=terrain.changeMapData('void_arena');assert.equal(ending.journals.length,4);assert.equal(new Set(ending.journals.map(b=>b.id)).size,4);
+ const p={flags:found},before=JSON.stringify(p);assert.equal(ending.state(p).journals.length,4);assert.equal(ending.state({}).journals.length,0);
+ for(const book of ending.journals){assert.equal(c[book.y][book.x],0);assert.equal(change[book.y][book.x],0);assert(book.y>5);assert(book.pages.length>=2);assert(book.pages.every(s=>s.length>100));assert.equal(ending.journalAt({currentmap:'void_arena',x:book.x*32+16,y:book.y*32+16}).id,book.id);}
+ const central=ending.journals.find(b=>b.id==='rift_origin');assert.deepEqual([central.x,central.y],[13,10]);
+ for(const[dx,dy]of[[0,0],[1,0],[-1,0],[0,1],[0,-1]])assert.equal(ending.journalAt({currentmap:'void_arena',x:(central.x+dx)*32+16,y:(central.y+dy)*32+16}).id,'rift_origin');
  assert.equal(ending.journalAt({currentmap:'start',x:0,y:0}),null);assert.equal(JSON.stringify(p),before);
  const text=ending.journals.flatMap(b=>b.pages).join(' ');for(const term of ['soigner','copier','violette','purification','Lucie'])assert(text.includes(term));assert(!/Badge Pardon|lance.*Purification|appuie|clic/i.test(text));
 });
@@ -51,7 +53,7 @@ test('journal renderer uses the supplied floor positions without a loop or inter
  const {drawVoidJournals}=await import('../vue-explorakit/src/services/voidJournals.js'),rects=[],positions=[];
  const c={save(){},restore(){},translate:(x,y)=>positions.push([x,y]),fillRect:(...r)=>rects.push(r)};
  assert.equal(drawVoidJournals(c,'start',ending.state({flags:found})),0);assert.equal(rects.length,0);
- assert.equal(drawVoidJournals(c,'void_arena',ending.state({flags:found})),7);assert.equal(positions.length,7);assert(rects.every(r=>r.every(Number.isFinite)));assert(rects.length<=98);
+ assert.equal(drawVoidJournals(c,'void_arena',ending.state({flags:found})),4);assert.equal(positions.length,4);assert(rects.every(r=>r.every(Number.isFinite)));assert(rects.length<=56);
 });
 test('Corrompu is a violet presentation status for the human, not an ordinary Pokémon ailment',async()=>{
  const {getBattleStatus}=await import('../vue-explorakit/src/services/gameView.js');assert.deepEqual(getBattleStatus('corrupted'),{key:'corrupted',code:'Corrompu',label:'Corruption'});const a=mon(),b=mon();b.status='corrupted';assert.equal(cast(a,b).success,false);assert.equal(b.status,'corrupted');

@@ -1,3 +1,15 @@
+## Arène oubliée : quatre carnets et indices — 2 novembre 2026
+
+Sept livres deviennent quatre, neuf pages au lieu de quatorze. Les notes sur la copie des capacités, l’exposition prolongée et les regrets envers Lucie sont regroupées dans les cahiers conservés : les recherches, les motivations initiales, la fondation de l’Aube Obscure et le désaccord avec Wanda restent lisibles. Identifiants conservés `lattice`, `foundation`, `counterphase`, `rift_origin` ; aucune lecture de carnet n’était enregistrée en BDD.
+
+Le carnet de la Route 2 est posé seul sur la rose centrale, case (13,10), couverture ocre. Sa seconde page superpose les anciens relevés aux plans de la chambre du fond : aiguille déviant avant les travaux, courant d’air signalé par les maçons, vibration étouffée par le parquet mais jamais absente. Cela suggère ce qui repose sous la maison sans révéler le meuble, le mécanisme ni dicter une action au joueur. Le cahier de contrephase mentionne explicitement la capacité **Purification** : apparition de fissures sans choc, cristal qui s’effrite et résonance qui cesse, formulées comme observations scientifiques à confirmer. Aucun nouvel effet de capacité ou règle de barrière ajouté par ce patch narratif.
+
+Positions/collision des cartes, personnages, règles de lecture, badges et états personnels/admin conservés. La case centrale est libre et le carnet s’actionne depuis sa case et ses quatre voisines, sans masquer une autre interaction. Seul le catalogue JSON de carnets change côté jeu ; aucun client/asset/migration nécessaire.
+
+Validation : 22 tests et 14 SQL dédiés réussis sans échec/saut, dont choix Pardon/Violence, anti-rejeu, états personnels/admin et compatibilités de Purification déjà en place. L’ancienne attente de test « uniquement Poison » était périmée : adaptée au natif Concombaffe et à Queulorior déjà présents au catalogue, sans changer leurs compatibilités. Recette authentifiée avec SQL privé Chromium/WebKit : quatre livres lus par Action, pages exactes, déplacement bloqué pendant la lecture, reconnexion ; 20 captures par moteur sur quatre formats, dont les deux nouveaux indices. Captures de la pièce et des textes mobiles inspectées, zéro erreur JavaScript, comptes jetables supprimés. Syntaxe/diff valides ; pas de nouveau build client ni de nouveau parcours complet des deux fins revendiqués. Rapport et commandes : `docs/PROFESSOR_JOURNALS_2026-11-02.json`.
+
+Publié le 2 novembre 2026 à 16 h 53 (Europe/Paris), serveur seul. Client `9a7d989a08e836ec9bcea1540dd54f74ff5c805a`, build `e49b56c51e2d9d7a` et index HTTPS conservés à l’octet. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-journals-2026-11-02T15-53-30-796Z` ; PID 3734034→3736630, service actif sans redémarrage automatique/avertissement. Aucun changement de schéma/durabilité ni modification manuelle de compte réel ; Knov/api-test, checkpoint et modes fermés inchangés.
+
 ## Téléporteur du professeur : objet à récupérer — 2 novembre 2026
 
 L’objet physique du laboratoire garde sa place (16,9). Dès que l’état personnel existant le rend récupérable après le professeur et le sauvetage de Lucie, il affiche un halo doré pulsant, un reflet diagonal et trois petits scintillements en pixels. L’objet reste sobre avant ce jalon, disparaît comme auparavant à la récupération. Le reset administrateur et son état privé sont respectés : objet revenu mais sans surbrillance avant d’avoir rejoué ce jalon. Animations désactivées/mouvement réduit : éclairage fixe, sans scintillement mobile. L’effet reste au sol sous les personnages.
@@ -5954,6 +5966,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **2 novembre 2026 — Carnets du professeur :** sept→quatre livres, carnet Route 2 central, indices sur le parquet et Purification ; recherches/Wanda/Lucie conservées. 22 tests, 14 SQL et 40 captures Chromium/WebKit ; `docs/PROFESSOR_JOURNALS_2026-11-02.json`.
 
 - **2 novembre 2026 — Téléporteur :** surbrillance personnelle quand récupérable, reflet/scintillements, état fixe en mouvement réduit, disparition et reset conservés. Sept tests, cinq SQL et canvas Chromium/WebKit ; `docs/TELEPORTER_GLOW_2026-11-02.json`.
 
