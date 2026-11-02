@@ -45,7 +45,7 @@ async function setFlags(id,values){for(const[k,v]of Object.entries(values))await
  await page.waitForFunction(()=>v.mirrorScene?.phase==='closing',null,{timeout:20000});assert.equal((await repository.read(a.user.id)).state.stage,'won');assert.equal(await page.locator('[data-battle-result-continue]').count(),0);
  assert(await page.locator('.game-layout').evaluate(e=>e.inert));
  await page.waitForFunction(()=>{const title=document.querySelector('.mirror-ending-title');return title&&Number(getComputedStyle(title).opacity)>.99;});
- assert.equal(await page.locator('.mirror-ending-title').innerText(),'Fin');
+ assert.match(await page.locator('.mirror-ending-title').innerText(),/^Fin\s+\.\.\.\. ou presque$/);
  assert.equal(await page.locator('.mirror-scene-veil').evaluate(e=>getComputedStyle(e).opacity),'1');
  await page.screenshot({path:path.join(out,'ending-real-393.png')});screens.push('ending-real-393.png');
  await page.waitForFunction(()=>v.mirrorScene?.phase==='waiting'&&v.mapLoading);

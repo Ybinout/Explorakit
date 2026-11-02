@@ -1,5 +1,5 @@
 {
-  "width": 800,
+  "width": 1024,
   "height": 448,
   "nodes": [
     {
@@ -166,57 +166,61 @@
     },
     {
       "id": "jungle1",
-      "x": 580,
+      "x": 804,
       "y": 176,
       "kind": "route"
     },
     {
       "id": "jungle2",
-      "x": 644,
+      "x": 868,
       "y": 176,
       "kind": "route"
     },
     {
       "id": "jungle3",
-      "x": 708,
+      "x": 932,
       "y": 176,
       "kind": "route"
     },
     {
       "id": "jungle4",
-      "x": 580,
+      "x": 804,
       "y": 246,
       "kind": "route"
     },
     {
       "id": "jungle5",
-      "x": 644,
+      "x": 868,
       "y": 246,
       "kind": "route"
     },
     {
       "id": "jungle6",
-      "x": 708,
+      "x": 932,
       "y": 246,
       "kind": "route"
     },
     {
       "id": "jungle7",
-      "x": 580,
+      "x": 804,
       "y": 316,
       "kind": "route"
     },
     {
       "id": "jungle8",
-      "x": 644,
+      "x": 868,
       "y": 316,
       "kind": "route"
     },
     {
       "id": "jungle9",
-      "x": 708,
+      "x": 932,
       "y": 316,
       "kind": "route"
     }
-  ]
+  ],
+  "darkContinent": {
+    "offsetX": 224,
+    "detail": "lakesOnly"
+  }
 }

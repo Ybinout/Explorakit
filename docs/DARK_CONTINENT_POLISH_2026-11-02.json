@@ -1,0 +1,753 @@
+{
+  "date": "2026-11-02",
+  "sourceBaseline": "667a3d4512791a7d8ecb096d647b7374611ddfb2",
+  "clientBaseline": "8c7da2cfa4c2e4f755d4d425d8b9ccd2261d20da",
+  "clientCommit": "e7ad34a7f016b78144e80407d6ccb71dd6712608",
+  "clientBuild": "e4e01a1185eec295",
+  "buildIndexSha256": "c9cee5141c491b72dd78e3dfb60114b366d123e25cd6e18dac82147359bea0a8",
+  "runtimeSourceSha256": {
+    "data/game/region_map.json": "a3b796d97177cad02500a27d9989b8fd8fb705ea1e824e72970faa2582182296",
+    "server/game/world/darkContinent.js": "9e956d9fe7813f6437f83def129644be6f666b3816e54d48cc9a9abe3e995c41",
+    "server/persistence/corruptionRepository.js": "620b91ab33b505d63e97f60a552a8f2ab1075126fdc8c4b2efb5c22bfa0d2aa0",
+    "server/persistence/darkContinentRepository.js": "9c31d80676d21cda363de0455b321947bd0677189820adee84de7693c5393acb",
+    "server/persistence/darkRescueRepository.js": "732d555367caef62f366ede4fa4ae243acec8f1e9601f81df954b8e4648f24c6",
+    "server/realtime/handlers/corruptionHandlers.js": "69a25eb47cb70f15ed394a36daac4150630471a8a1833cba194c59565c709b74",
+    "server/realtime/handlers/darkContinentHandlers.js": "de530f90a7758ebb76827401941c4a4b1923820f65bed92ccd9f553a83105637",
+    "server/realtime/socketHandler.js": "8fc195ba48119759f1e88272de177fe353dbfb40433ddcab2842425e59b38cea"
+  },
+  "schemaChanged": false,
+  "feature": {
+    "requiredRooms": 48,
+    "cardPrice": 2000000,
+    "existingCardsKept": true,
+    "corruptionRequiresOwnedCard": true,
+    "healTeamPrice": 50000,
+    "healSurvivorsOnly": true,
+    "fullHealthCostsZero": true,
+    "displayedPriceMustBeAcknowledged": true,
+    "atomicPurchaseAndCare": true,
+    "rescue": {
+      "destination": {
+        "map": "centre",
+        "x": 304,
+        "y": 432
+      },
+      "reserveSelection": "first box_index then slot_index",
+      "firstReserveHealedAtCentre": true,
+      "fallbackStarters": [
+        1,
+        4,
+        7
+      ],
+      "fallbackLevel": 5,
+      "onlyWhenNoCompanionsRemain": true,
+      "concurrentAndReconnectSafe": true,
+      "noticeFlag": "dark_rescue_notice",
+      "legacyEmptyCentreRecovery": true,
+      "corruptedCompanionsPreserved": true
+    },
+    "modulesSingleUse": true,
+    "installedEffectsPersist": true,
+    "atlas": {
+      "width": 1024,
+      "height": 448,
+      "continentOffsetX": 224,
+      "jungleRoadsAndMarkersHidden": true,
+      "playerAndGroupMarkersKept": true,
+      "lakesKept": true,
+      "topologyUnchanged": true
+    },
+    "ending": "Fin .... ou presque",
+    "laboratory": "Bounded bubbles in existing vials, scanline and activity bars in four screens; no art/collision edits"
+  },
+  "validation": {
+    "unit": {
+      "passed": 31,
+      "failed": 0,
+      "skipped": 0
+    },
+    "sql": {
+      "passed": 228,
+      "failed": 0,
+      "skipped": 0,
+      "database": "explorakit_test"
+    },
+    "browsers": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "buildIndexSha256": "c9cee5141c491b72dd78e3dfb60114b366d123e25cd6e18dac82147359bea0a8",
+        "views": [
+          {
+            "stage": "invitation",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "invitation",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "invitation",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "invitation",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "stage": "rules",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "rules",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "rules",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "rules",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "stage": "guide",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "guide",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "jungle1",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle1",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle2",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle3",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle6",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle5",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle4",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle7",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle8",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle9",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "minimap",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "minimap",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle-battle",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle-battle",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "jungle-battle",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle-battle",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "stage": "plates",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "nurse-rescue",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "nurse-rescue",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "nurse-rescue",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "nurse-rescue",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "stage": "nurse-pc",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "nurse-pc",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "nurse-pc",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "nurse-pc",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          }
+        ],
+        "visited": [
+          "jungle1",
+          "jungle2",
+          "jungle3",
+          "jungle6",
+          "jungle5",
+          "jungle4",
+          "jungle7",
+          "jungle8",
+          "jungle9"
+        ],
+        "motion": {
+          "changed": 24056,
+          "outside": 0
+        },
+        "personalScout": true,
+        "scoutApproaches": true,
+        "onlyQualifiedAccount": true,
+        "uniquePassFanfareOnce": true,
+        "redRules": true,
+        "guideBlocksAndHeals": true,
+        "nineRealTransitions": true,
+        "wind": 2,
+        "waterMaskRespected": true,
+        "atlasWidth": 1024,
+        "realJungleBattle": true,
+        "fleeDisabled": true,
+        "captureImpossibleAndBallConsumed": true,
+        "enemyPlatformOnly": true,
+        "moneyZero": true,
+        "eighteenPlateColors": true,
+        "reconnect": true,
+        "cardReturnToLobby": true,
+        "emptyTeamReconnectGetsStarter": true,
+        "pcRecoveryOnLegacyReconnect": true,
+        "paidPass": true,
+        "paidSurvivorCare": true,
+        "casinoAndHouseTracks": true,
+        "realLegendaryEncounterTheme": true,
+        "errors": []
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "buildIndexSha256": "c9cee5141c491b72dd78e3dfb60114b366d123e25cd6e18dac82147359bea0a8",
+        "views": [
+          {
+            "stage": "invitation",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "invitation",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "invitation",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "invitation",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "stage": "rules",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "rules",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "rules",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "rules",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "stage": "guide",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "guide",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "jungle1",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle1",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle2",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle3",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle6",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle5",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle4",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle7",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle8",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle9",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "minimap",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "minimap",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle-battle",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle-battle",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "jungle-battle",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle-battle",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "stage": "plates",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "nurse-rescue",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "nurse-rescue",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "nurse-rescue",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "nurse-rescue",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "stage": "nurse-pc",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "nurse-pc",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "nurse-pc",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "nurse-pc",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          }
+        ],
+        "visited": [
+          "jungle1",
+          "jungle2",
+          "jungle3",
+          "jungle6",
+          "jungle5",
+          "jungle4",
+          "jungle7",
+          "jungle8",
+          "jungle9"
+        ],
+        "motion": {
+          "changed": 24346,
+          "outside": 0
+        },
+        "personalScout": true,
+        "scoutApproaches": true,
+        "onlyQualifiedAccount": true,
+        "uniquePassFanfareOnce": true,
+        "redRules": true,
+        "guideBlocksAndHeals": true,
+        "nineRealTransitions": true,
+        "wind": 2,
+        "waterMaskRespected": true,
+        "atlasWidth": 1024,
+        "realJungleBattle": true,
+        "fleeDisabled": true,
+        "captureImpossibleAndBallConsumed": false,
+        "nativeWebKitCaptureOmitted": true,
+        "enemyPlatformOnly": true,
+        "moneyZero": true,
+        "eighteenPlateColors": true,
+        "reconnect": true,
+        "cardReturnToLobby": true,
+        "emptyTeamReconnectGetsStarter": true,
+        "pcRecoveryOnLegacyReconnect": true,
+        "paidPass": true,
+        "paidSurvivorCare": true,
+        "casinoAndHouseTracks": true,
+        "realLegendaryEncounterTheme": true,
+        "errors": []
+      }
+    },
+    "views": 70,
+    "nativeWebKitCaptureCrashes": 2,
+    "nativeWebKitCaptureOmittedInFinalRecipe": true,
+    "preexistingCaptureTestedInChromiumAndSql": true,
+    "labCanvas": {
+      "changed": 396,
+      "outside": 0,
+      "staticReduced": true,
+      "meanMs": 0.1202000002861023
+    },
+    "endingReport": "/tmp/riftmon-dark-polish-ending/results.json",
+    "lint": "pass",
+    "syntaxFiles": 17,
+    "physicalDevices": false,
+    "fullProjectSuite": false,
+    "realAccountsManuallyModified": false,
+    "ending": {
+      "realHiddenAction": true,
+      "desktopKeyboard": true,
+      "allBadgesRequired": true,
+      "openingAndDust": true,
+      "openingCaption": true,
+      "centralRift": true,
+      "behindRiftSummonAndDuel": true,
+      "eightSecondOpening": true,
+      "movementBlockedDuringScene": true,
+      "riftCellsSolid": true,
+      "silentCloneDuel": true,
+      "exactInitialHpPpItems": true,
+      "violetAppearances": 6,
+      "reconnect": true,
+      "winClosesRift": true,
+      "automaticEnding": true,
+      "fullScreenBlack": true,
+      "centeredFin": true,
+      "slowBedroomLoadHidden": true,
+      "reducedMotionEnding": true,
+      "endingViewports": 4,
+      "wakeAtHome": true,
+      "wakeInUpstairsBed": true,
+      "bedExitReachable": true,
+      "closedHoleStillSolid": true,
+      "teamHealedAndOrderPreserved": true,
+      "noTrainingOrMoneyRewards": true,
+      "ruinsPersistentInsideAndOutside": true,
+      "perPlayerIsolation": true,
+      "privateAdminReplay": true,
+      "viewports": 4,
+      "screens": [
+        "floor-tearing-320.png",
+        "floor-tearing-393.png",
+        "floor-tearing-844.png",
+        "floor-tearing-1365.png",
+        "violet-rift-open-320.png",
+        "violet-rift-open-393.png",
+        "violet-rift-open-844.png",
+        "violet-rift-open-1365.png",
+        "violet-clone-320.png",
+        "violet-clone-393.png",
+        "violet-clone-844.png",
+        "violet-clone-1365.png",
+        "mirror-battle-320.png",
+        "mirror-battle-393.png",
+        "mirror-battle-844.png",
+        "mirror-battle-1365.png",
+        "ending-real-393.png",
+        "ending-loading-black.png",
+        "awakened-bed-320.png",
+        "awakened-bed-393.png",
+        "awakened-bed-844.png",
+        "awakened-bed-1365.png",
+        "ending-normal-320.png",
+        "ending-normal-393.png",
+        "ending-normal-844.png",
+        "ending-normal-1365.png",
+        "ending-reduced-320.png",
+        "ending-reduced-393.png",
+        "ending-reduced-844.png",
+        "ending-reduced-1365.png",
+        "house-exterior-ruined-320.png",
+        "house-exterior-ruined-393.png",
+        "house-exterior-ruined-844.png",
+        "house-exterior-ruined-1365.png",
+        "house-interior-ruined-320.png",
+        "house-interior-ruined-393.png",
+        "house-interior-ruined-844.png",
+        "house-interior-ruined-1365.png"
+      ],
+      "errors": []
+    },
+    "endingBuildIndexSha256": "c9cee5141c491b72dd78e3dfb60114b366d123e25cd6e18dac82147359bea0a8"
+  },
+  "commands": [
+    "node --test tests/dark-continent.test.js tests/region-map.test.js tests/region-map-zoom.test.js tests/corruption.test.js tests/professor-lab-collisions.test.js",
+    "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file=.env --test --test-concurrency=1 tests/dark-economy-mysql.test.js tests/dark-continent-mysql.test.js tests/corruption-mysql.test.js tests/pokemon-storage-items-mysql.test.js tests/friend-trade-mysql.test.js tests/battle-runtime-integration.test.js tests/super-tournament-mysql.test.js",
+    "npm --prefix vue-explorakit run lint",
+    "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-dark-polish-dist",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=chromium RELEASE_DIST_DIR=/tmp/riftmon-dark-polish-dist node --env-file=.env scripts/validateDarkContinentBrowser.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=webkit RELEASE_DIST_DIR=/tmp/riftmon-dark-polish-dist node --env-file=.env scripts/validateDarkContinentBrowser.js",
+    "node scripts/validateLabAmbienceCanvas.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-dark-polish-dist RELEASE_SCREENSHOTS=/tmp/riftmon-dark-polish-ending node --env-file=.env scripts/validateMirrorRiftBrowser.js"
+  ],
+  "deployment": {
+    "publishedAt": "2026-11-02T09:40:40.032Z",
+    "restartedAt": "2026-11-02T09:40:38.397Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-dark-polish-2026-11-02T09-40-36-822Z",
+    "sourceBaseline": "667a3d4512791a7d8ecb096d647b7374611ddfb2",
+    "sourceHashes": {
+      "data/game/region_map.json": "a3b796d97177cad02500a27d9989b8fd8fb705ea1e824e72970faa2582182296",
+      "server/game/world/darkContinent.js": "9e956d9fe7813f6437f83def129644be6f666b3816e54d48cc9a9abe3e995c41",
+      "server/persistence/corruptionRepository.js": "620b91ab33b505d63e97f60a552a8f2ab1075126fdc8c4b2efb5c22bfa0d2aa0",
+      "server/persistence/darkContinentRepository.js": "9c31d80676d21cda363de0455b321947bd0677189820adee84de7693c5393acb",
+      "server/realtime/handlers/corruptionHandlers.js": "69a25eb47cb70f15ed394a36daac4150630471a8a1833cba194c59565c709b74",
+      "server/realtime/handlers/darkContinentHandlers.js": "de530f90a7758ebb76827401941c4a4b1923820f65bed92ccd9f553a83105637",
+      "server/realtime/socketHandler.js": "8fc195ba48119759f1e88272de177fe353dbfb40433ddcab2842425e59b38cea",
+      "server/persistence/darkRescueRepository.js": "732d555367caef62f366ede4fa4ae243acec8f1e9601f81df954b8e4648f24c6"
+    },
+    "clientCommit": "e7ad34a7f016b78144e80407d6ccb71dd6712608",
+    "clientBuild": "e4e01a1185eec295",
+    "beforePid": "3713605",
+    "afterPid": "3717017",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "schemaChanged": false,
+    "migrationApplied": null,
+    "activeClubDuelsBefore": 0,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 1,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": [
+      "js/234.02b18f2e.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.ae44b00a.js",
+      "js/account.161ce126.js",
+      "js/app.155b0fe0.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.2fd32f7c.js",
+      "js/drift.5b8720d7.js",
+      "js/game.20d48275.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.4fff4c7e.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.71f75349.css",
+      "css/test-view.7568246d.css"
+    ],
+    "publishedAtParis": "2026-11-02 10:40:40 Europe/Paris"
+  }
+}

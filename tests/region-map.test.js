@@ -33,3 +33,5 @@ test('player marker resolves interiors and each shared Pokemon Centre return tow
     assert.equal(regionLocation('centre'),null,'do not invent a town for missing historical return state');
     assert.equal(regionLocation('nonexistent'),null);
 });
+
+test('Dark Continent atlas leaves a broad ocean channel without moving mainland nodes',()=>{const atlas=getRegionMap();assert.equal(atlas.width,1024);assert.equal(atlas.darkContinent.offsetX,224);const dark=atlas.nodes.filter(n=>/^jungle/.test(n.id)),mainland=atlas.nodes.filter(n=>!/^jungle/.test(n.id));assert.equal(dark.length,9);assert(Math.min(...dark.map(n=>n.x))-Math.max(...mainland.map(n=>n.x))>300);assert.equal(atlas.nodes.find(n=>n.id==='super_tournament_lobby').x,454);});

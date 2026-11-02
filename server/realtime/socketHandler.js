@@ -708,7 +708,7 @@ const socketHandler = (io) => {
         if (currentmap === 'centre') {
             await savePokemonCenterCheckpoint();
         }
-        if (Array.isArray(equipe?.pokemons) && equipe.pokemons.length > 0 && !hasConsciousPokemon(equipe)) {
+        if (!require('../game/world/darkContinent').isMap(currentmap) && Array.isArray(equipe?.pokemons) && equipe.pokemons.length > 0 && !hasConsciousPokemon(equipe)) {
             await handleBlackout().catch((error) => {
                 console.error(`Erreur recuperation a la connexion user ${userId}:`, error.message);
             });
