@@ -1,9 +1,11 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 const dc=require('../server/game/world/darkContinent'),maps=require('../data/game/nextMap.json').maps;
 const wild=require('../server/game/world/wildPokemonFactory'),fish=require('../server/game/world/fishingEncounters');
-test('types unlock cumulatively west to east, including both types; all supported ordinary species open in the east',async()=>{
+test('types unlock cumulatively west to east, including both types; only fully evolved ordinary species open in the east',async()=>{
  const habitats=require('../server/game/world/darkHabitats'),dex=require('../data/game/pokedex.json'),legend=require('../server/game/world/legendaryEncounters');
- const expected=dex.filter(p=>p.id<=493&&!legend.isLegendary(p.id));
+ const rules=[...require('../data/game/evolutions.json').rules,...require('../data/game/stone_evolutions.json').rules],evolving=new Set(rules.map(r=>r.from)),evolved=new Set(rules.map(r=>r.to));
+ const expected=dex.filter(p=>p.id<=493&&!legend.isLegendary(p.id)&&evolved.has(p.id)&&!evolving.has(p.id));
+ const all=new Set([...habitats.LAND[2],...habitats.WATER[2]]);for(const id of [1,2,4,5,7,8,25,58,64,67,82,93,95,112,117,123,125,126,133,233,281,315,356])assert(!all.has(id),'base/intermediate '+id);for(const id of [3,6,9,65,68,94,130,212,230,282,407,445,462,464,474,477])assert(all.has(id),'final evolution '+id);
  for(let col=0;col<3;col++){
   const allowed=new Set(habitats.TYPE_STAGES.slice(0,col+1).flat()),zones=[1,4,7].map(n=>maps.find(m=>m.mapName==='jungle'+(n+col))),species=new Set(zones.flatMap(m=>m.wildpokemon));
   assert.deepEqual([...species].sort((a,b)=>a-b),[...dc.COLUMNS[col]].sort((a,b)=>a-b));

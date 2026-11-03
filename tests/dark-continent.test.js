@@ -4,7 +4,7 @@ const factory=require('../server/game/drift/pokemonFactory'),engine=require('../
 test('nine authored maps and both image layers are preserved byte-for-byte; the eastern land and water cover 18 types',()=>{
  const habitats=require('../server/game/world/darkHabitats'),species=new Set([...dc.COLUMNS[2],...habitats.WATER[2]]),dex=require('../data/game/pokedex.json');
  assert.equal(new Set([...species].flatMap(id=>dex.find(p=>p.id===id).type)).size,18);
- for(const id of species){assert(id<=493);assert(!require('../server/game/world/legendaryEncounters').isLegendary(id));}
+ for(const id of species){assert(id<=493);assert(!require('../server/game/world/legendaryEncounters').isLegendary(id));const rules=[...require('../data/game/evolutions.json').rules,...require('../data/game/stone_evolutions.json').rules];assert(rules.some(r=>r.to===id));assert(!rules.some(r=>r.from===id));}
  for(const asset of require('../docs/DARK_CONTINENT_ASSETS_2026-11-02.json').assets)assert.equal(require('node:crypto').createHash('sha256').update(fs.readFileSync(asset.path)).digest('hex'),asset.sha256,asset.path);
 });
 test('all nine maps can be traversed from the beach; every transition is authored, adjacent and lands on the exact authored edge without a transverse jump',()=>{

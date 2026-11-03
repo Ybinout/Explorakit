@@ -6,7 +6,15 @@ const TYPE_STAGES = Object.freeze([
   Object.freeze(['Fire', 'Electric', 'Ground', 'Rock', 'Psychic']),
   Object.freeze(['Ice', 'Ghost', 'Dragon', 'Dark', 'Steel', 'Fairy'])
 ]);
-const SPECIES = Object.freeze(dex.filter(p => p.id <= 493 && !isLegendary(p.id)));
+// Use the game's real evolution chains, including stones, trades and solo adaptations.
+// A Dark encounter must have evolved already and have no further supported evolution.
+const evolutionRules = [
+  ...require('../../../data/game/evolutions.json').rules,
+  ...require('../../../data/game/stone_evolutions.json').rules
+];
+const evolving = new Set(evolutionRules.map(rule => rule.from));
+const evolved = new Set(evolutionRules.map(rule => rule.to));
+const SPECIES = Object.freeze(dex.filter(p => p.id <= 493 && !isLegendary(p.id) && evolved.has(p.id) && !evolving.has(p.id)));
 const TYPES = TYPE_STAGES.map((_, column) => new Set(TYPE_STAGES.slice(0, column + 1).flat()));
 const eligible = column => SPECIES.filter(p => p.type.every(type => TYPES[column].has(type)));
 const LAND = Object.freeze(TYPES.map((_, column) => Object.freeze(eligible(column).filter(p => !p.type.includes('Water')).map(p => p.id))));

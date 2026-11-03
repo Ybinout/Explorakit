@@ -1,3 +1,15 @@
+## Dark Continent : uniquement les évolutions finales — 3 novembre 2026
+
+Correction de l’élargissement excessif du catalogue : la progression des types ouvrait aussi des formes de base et intermédiaires. `darkHabitats.js` conserve désormais les espèces **déjà issues d’une évolution et sans évolution suivante** dans les règles réelles du jeu, pierres et conditions spéciales/adaptations solo comprises. Les espèces sans chaîne d’évolution ne sont pas ajoutées à ce catalogue réservé aux grandes évolutions. Générations 1–4 et exclusion des légendaires conservées.
+
+**187 évolutions finales** au total, dont **148 terrestres et 39 Eau** à l’est. Catalogues par colonne : terre61/105/148, pêche21/31/39 ; les neuf eaux utilisent automatiquement le même filtre. Les deux types restent soumis au palier : sept types à l’ouest, douze au centre, dix-huit à l’est. Habitats terrestres distincts par ligne à l’ouest/centre ; toutes les finales autorisées à l’est. Aucun retour des starters de base, Pikachu, Caninos, Kadabra, Machopeur, Magnéton, Spectrum, Hypocéan, Insécateur, Kirlia ou autres formes à faire évoluer.
+
+Seules les neuf listes `wildpokemon` de `nextMap.json` changent, en complément du filtre central. Tiled, images, collisions, liens, niveaux et autres régions intacts. Aucun Pokémon déjà possédé ni combat déjà créé modifié. Pourcentages/quantités de butin, soins10k, recharge de carte5min, traits/corruption, formules d’XP/argent et règles Dark conservés. Aucun changement du client ou migration.
+
+Validation : **33 tests et 43 SQL réussis sans saut**, génération réelle de chaque entrée terrestre et sélection exacte de chaque espèce pêchable sur les neuf cartes ; assertions de fin de chaîne et de présence de l’évolution antérieure, exclusions explicites des petites/moyennes formes, dix-huit types toujours représentés. Comparaison structurée du fichier des cartes : rien d’autre que les neuf listes de rencontres ne change. Les187 espèces ont leurs deux sprites déjà déployés. Parcours métier SQL (butin, soins, mort, pêche, carte) inchangés ; base `explorakit_test` et comptes jetables supprimés. Syntaxe/diff valides, client actuel réutilisé sans nouveau build ni parcours navigateur revendiqué. Rapport : `docs/DARK_FINAL_EVOLUTIONS_2026-11-03.json`.
+
+Publication le **3 novembre 2026 à 11 h 22 (Europe/Paris)** : correctif serveur actif, client `3286405` / build `f068a1013fdbb3ae` conservés. Sauvegardes SQL/sources/index/checkpoint dans `/home/ubuntu/dev/backups/riftmon-dark-final-evolutions-2026-11-03T10-22-16-464Z`. Index HTTPS et voisins Knov/API inchangés, checkpoint conservé, modes fermés ; zéro redémarrage automatique ou avertissement serveur. Aucune migration ni modification manuelle de compte réel.
+
 ## Cartes du Super Tournoi plus lisibles et primes −15 % — 3 novembre 2026
 
 **Dégâts d’attaque :** PV retirés par une attaque qui touche, distincts du poison, de la brûlure, de la météo ou du recul. Les cartes et leurs cumuls utilisent désormais « dégâts de tes attaques » / « attaques ennemies » plutôt que « directs ». Le menu des augmentations rappelle cette différence. « Jeu de couleurs » donne l’exemple Eau puis Feu pour le bonus +5 %, précise le malus −2 % en répétant un type et l’absence de modification du premier coup. Les seuils de PV désignent explicitement le Pokémon du joueur ou l’ennemi ; exemples et formulations simplifiés pour Vampirisme, Phénix et les critiques. Comparaison structurée des cartes avant/après : effets, valeurs, types, raretés, poids et identifiants identiques. Les formules de combat ne changent pas.
@@ -6162,6 +6174,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **3 novembre 2026 — Finales du Dark Continent :** exclusion des formes de base/intermédiaires via les règles d’évolution réelles, 187 évolutions finales, Eau uniquement pêche et dix-huit types progressifs conservés ; butin/tarifs/niveaux inchangés. 33 tests et 43 SQL, sprites présents ; `docs/DARK_FINAL_EVOLUTIONS_2026-11-03.json`.
 
 - **3 novembre 2026 — Lisibilité et primes de tour :** descriptions et cumuls clarifiés, exemple Eau→Feu, dégâts d’attaque expliqués ; aucun effet de combat changé. Salles/bonus/cartes d’argent −15 %, premier cycle 254 320 ₽, gains passés conservés. 164 tests, 51 SQL et 160 vues Chromium/WebKit ; `docs/TOWER_CARD_CLARITY_CASH_2026-11-03.json`.
 
