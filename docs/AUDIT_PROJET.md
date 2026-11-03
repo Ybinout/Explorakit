@@ -1,3 +1,24 @@
+## Cartes du Super Tournoi plus lisibles et primes −15 % — 3 novembre 2026
+
+**Dégâts d’attaque :** PV retirés par une attaque qui touche, distincts du poison, de la brûlure, de la météo ou du recul. Les cartes et leurs cumuls utilisent désormais « dégâts de tes attaques » / « attaques ennemies » plutôt que « directs ». Le menu des augmentations rappelle cette différence. « Jeu de couleurs » donne l’exemple Eau puis Feu pour le bonus +5 %, précise le malus −2 % en répétant un type et l’absence de modification du premier coup. Les seuils de PV désignent explicitement le Pokémon du joueur ou l’ennemi ; exemples et formulations simplifiés pour Vampirisme, Phénix et les critiques. Comparaison structurée des cartes avant/après : effets, valeurs, types, raretés, poids et identifiants identiques. Les formules de combat ne changent pas.
+
+**Primes de la tour réduites de 15 %, arrondies au Pokédollar avant application du cycle :**
+
+| Premier cycle | Nouveau montant |
+| --- | ---: |
+| Chaque salle 1–4 | 5 086 ₽ |
+| Chaque salle 5–8 | 10 173 ₽ |
+| Chaque salle 9–12 | 15 259 ₽ |
+| Chaque salle 13–16 | 20 346 ₽ |
+| Bonus après Lucie | 50 864 ₽ |
+| Total des 16 salles | **254 320 ₽** |
+
+La progression continue à ×numéro du cycle : 508 640 ₽ au deuxième, 762 960 ₽ au troisième. Les cartes de prime passent à 1 590 / 7 948 / 15 895 ₽ de base, elles aussi multipliées par le cycle. Probabilités et bonbons inchangés. Aucun retrait d’argent déjà gagné ; anciens reçus, totaux enregistrés et portefeuille conservés, seuls les gains futurs suivent le tarif réduit. Conservation des transactions, anti-rejeu, concurrence, plafond de portefeuille et récupération après erreur.
+
+Validation : **164 tests et 51 SQL réussis sans saut** ; tous les modules du tournoi, effets/cumuls et XP, tarification sur six cycles et au-delà, gains réels à deux cycles, primes de cartes, concurrence, rollback et reconnexion. Chromium/WebKit : **160 vues** (128 cartes/cumuls et 32 argent), mobile/PC, clair/nocturne, huit cartes prises deux fois et cumul conservé après reconnexion ; paiements réels 5 086 / 71 210 / 10 172 ₽ pour les salles 1/16/17, solde final 86 468 ₽ maintenu après abandon, absence de double crédit et réponse de progression périmée sans effet. Zéro erreur navigateur, vues inspectées, lint/build valides. Base `explorakit_test`, comptes jetables supprimés ; aucun compte réel retouché manuellement. Rapport : `docs/TOWER_CARD_CLARITY_CASH_2026-11-03.json`. Navigateurs headless, aucun téléphone physique revendiqué.
+
+Publication le **3 novembre 2026 à 09 h 41 (Europe/Paris)** : client `3286405` / build `f068a1013fdbb3ae`, serveur actif sans redémarrage automatique ni avertissement. Sauvegardes SQL/sources/index/checkpoint dans `/home/ubuntu/dev/backups/riftmon-tower-clarity-2026-11-03T08-41-09-022Z`. Index/bundles publics vérifiés à l’octet ; anciens assets, Knov/API voisins et checkpoint conservés. Aucune migration ni modification manuelle de compte réel, modes fermés inchangés.
+
 ## Coûts en plaques des synthèses — 3 novembre 2026
 
 Les quatre stations exigent désormais des plaques **toutes du même type** :
@@ -6141,6 +6162,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **3 novembre 2026 — Lisibilité et primes de tour :** descriptions et cumuls clarifiés, exemple Eau→Feu, dégâts d’attaque expliqués ; aucun effet de combat changé. Salles/bonus/cartes d’argent −15 %, premier cycle 254 320 ₽, gains passés conservés. 164 tests, 51 SQL et 160 vues Chromium/WebKit ; `docs/TOWER_CARD_CLARITY_CASH_2026-11-03.json`.
 
 - **3 novembre 2026 — Plaques des synthèses :** CS/Talent 3, Combat 10, Type 20 du même type ; cristaux inchangés, configuration partagée/générée, refus des anciennes interfaces avant débit. 26 tests, 9 SQL et 78 vues Chromium/WebKit ; `docs/SYNTHESIS_PLATE_COSTS_2026-11-03.json`.
 

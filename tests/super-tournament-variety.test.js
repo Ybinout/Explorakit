@@ -32,8 +32,8 @@ test('Lum Berries drop from six to two and replacements match strategic roles, o
  const source=JSON.stringify(require('../data/game/pnj_teams.json')),lum=[];for(let i=0;i<16;i++)for(const p of content.createTeam(i).pokemons){assert(require('../server/game/battle/battleResources').getItemDefinition(p.heldItem));if(p.heldItem==='lum_berry')lum.push([i,p.data.id]);}
  assert.deepEqual(lum,[[8,445],[12,373]]);for(const[i,id,key]of[[10,212,'expert_belt'],[11,282,'sitrus_berry'],[13,248,'chople_berry'],[14,130,'wacan_berry']])assert.equal(content.createTeam(i).pokemons.find(p=>p.data.id===id).heldItem,key);assert.equal(JSON.stringify(require('../data/game/pnj_teams.json')),source);
 });
-test('money rises exactly 10% at every uncapped cycle and card prizes, while earned receipts remain unchanged',()=>{
- for(let room=1;room<=96;room++){const c=Math.floor((room-1)/16)+1,n=(room-1)%16,old=[5440,10880,16320,21760][Math.floor(n/4)]*c+(n===15?54400*c:0);assert.equal(cash.quote(room).total,old*11/10);}
- assert.equal(cash.schedule().firstCycleTotal,299200);for(const[key,old]of[['prize_money_10k',1700],['prize_money_25k',8500],['prize_money_50k',17000]])assert.equal(require('../server/game/superTournament/augmentations').grant(key,33).amount,old*11/10*3);
+test('room and card prizes fall 15% rounded to the nearest dollar before uncapped cycle scaling; saved receipts are untouched',()=>{
+ for(let room=1;room<=96;room++){const c=Math.floor((room-1)/16)+1,n=(room-1)%16,base=Math.round([5984,11968,17952,23936][Math.floor(n/4)]*.85),bonus=n===15?Math.round(59840*.85):0;assert.equal(cash.quote(room).total,(base+bonus)*c);}
+ assert.equal(cash.schedule().firstCycleTotal,254320);for(const[key,old]of[['prize_money_10k',1870],['prize_money_25k',9350],['prize_money_50k',18700]])assert.equal(require('../server/game/superTournament/augmentations').grant(key,33).amount,Math.round(old*.85)*3);
  const run={room:3,cash:{version:1,paidThrough:3,earned:16320,last:{amount:5440}}},before=JSON.stringify(run.cash);cash.ensure(run);assert.equal(JSON.stringify(run.cash),before);
 });

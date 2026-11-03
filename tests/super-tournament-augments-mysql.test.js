@@ -9,7 +9,7 @@ async function fixture(key,room=1){const u=await users.createUserWithStarter('ta
  const data={offerId:c.run.reward.id,cardKey:key};return {u,c,create,events,data,party:codec.encode(c.run.player.equipe),async balance(){const [[r]]=await db.execute('SELECT money FROM users WHERE id=?',[u.id]);return Number(r.money);},async stock(k){const [[r]]=await db.execute('SELECT quantity FROM user_items WHERE user_id=? AND item_key=?',[u.id,k]);return Number(r?.quantity)||0;},cleanup:()=>db.execute('DELETE FROM users WHERE id=?',[u.id])};
 }
 test('SQL money cards use the authoritative cycle price, update the purse and total, and survive abandon',{skip:!enabled},async()=>{
- for(const [key,amount]of [['prize_money_10k',3740],['prize_money_25k',18700],['prize_money_50k',37400]]){const f=await fixture(key,17);try{
+ for(const [key,amount]of [['prize_money_10k',3180],['prize_money_25k',15896],['prize_money_50k',31790]]){const f=await fixture(key,17);try{
   await f.c.claimReward({...f.data,amount:9999999,quantity:99});assert.equal(await f.balance(),amount);assert.equal(f.c.run.cash.earned,amount);assert.equal(f.c.run.cash.paidThrough,0);assert.equal(f.c.run.phase,'cleared');assert.deepEqual(codec.encode(f.c.run.player.equipe),f.party);
   assert.equal(f.events.findLast(([e])=>e==='superTournamentPayout')[1].balance,amount);const resumed=f.create();await resumed.load();assert.equal(await f.balance(),amount);await resumed.abandon();assert.equal(await f.balance(),amount);assert.equal((await repo.load(f.u.id)).run,null);
  }finally{await f.cleanup();}}
@@ -24,16 +24,16 @@ test('SQL both candies enter only the owner Adventure bag, with no healing or XP
 for(const [key,kind]of [['prize_money_10k','money'],['prize_mega_candy','item']]){
  test(`SQL two stale controllers can collect the ${kind} augmentation only once`,{skip:!enabled},async()=>{const f=await fixture(key);try{
   const a=f.create(),b=f.create();await a.load();await b.load();const result=await Promise.allSettled([a.claimReward(f.data),b.claimReward(f.data)]);assert.equal(result.filter(r=>r.status==='fulfilled').length,1);assert.equal(result.filter(r=>r.status==='rejected').length,1);
-  assert.equal(await f.balance(),kind==='money'?1870:0);assert.equal(await f.stock('mega_candy'),kind==='item'?1:0);assert.equal(f.events.filter(([e])=>e==='superTournamentRewardApplied').length,1);
+  assert.equal(await f.balance(),kind==='money'?1590:0);assert.equal(await f.stock('mega_candy'),kind==='item'?1:0);assert.equal(f.events.filter(([e])=>e==='superTournamentRewardApplied').length,1);
  }finally{await f.cleanup();}});
  test(`SQL failed ${kind} grant rolls back the offer and emits no reward; retry succeeds`,{skip:!enabled},async()=>{const f=await fixture(key),getConnection=db.getConnection;let injected=false;try{
   db.getConnection=async function(){const c=await getConnection.call(db),execute=c.execute,release=c.release;c.execute=async function(sql,...args){if(!injected&&sql.startsWith(kind==='money'?'UPDATE users SET money=money+':'INSERT INTO user_items')){injected=true;throw Error('injected grant failure');}return execute.call(this,sql,...args);};c.release=function(){c.execute=execute;c.release=release;return release.call(this);};return c;};
   await assert.rejects(()=>f.c.claimReward(f.data),/injected grant failure/);db.getConnection=getConnection;assert(injected);assert.equal(await f.balance(),0);assert.equal(await f.stock('mega_candy'),0);assert.equal(f.c.run.phase,'reward');assert(!f.c.run.lastAugment);assert.equal((await repo.load(f.u.id)).run.reward.id,f.data.offerId);assert(!f.events.some(([e])=>['superTournamentRewardApplied','superTournamentPayout','bagUpdated'].includes(e)));
-  await f.c.claimReward(f.data);assert.equal(await f.balance(),kind==='money'?1870:0);assert.equal(await f.stock('mega_candy'),kind==='item'?1:0);
+  await f.c.claimReward(f.data);assert.equal(await f.balance(),kind==='money'?1590:0);assert.equal(await f.stock('mega_candy'),kind==='item'?1:0);
  }finally{db.getConnection=getConnection;await f.cleanup();}});
 }
 test('SQL a foreign offer is refused, concurrent wallet credits add, and purse/stock caps do not strand a run',{skip:!enabled},async()=>{
- const f=await fixture('prize_money_10k');try{await assert.rejects(()=>f.c.claimReward({...f.data,offerId:'foreign'}));assert.equal(await f.balance(),0);await Promise.all([f.c.claimReward(f.data),users.awardUserMoney(f.u.id,500)]);assert.equal(await f.balance(),2370);}finally{await f.cleanup();}
+ const f=await fixture('prize_money_10k');try{await assert.rejects(()=>f.c.claimReward({...f.data,offerId:'foreign'}));assert.equal(await f.balance(),0);await Promise.all([f.c.claimReward(f.data),users.awardUserMoney(f.u.id,500)]);assert.equal(await f.balance(),2090);}finally{await f.cleanup();}
  for(const key of ['prize_money_10k','prize_mega_candy']){const x=await fixture(key);try{
   if(key==='prize_money_10k')await db.execute('UPDATE users SET money=? WHERE id=?',[Number.MAX_SAFE_INTEGER-500,x.u.id]);else await db.execute("INSERT INTO user_items(user_id,item_key,quantity) VALUES(?,'mega_candy',2147483647)",[x.u.id]);
   await x.c.claimReward(x.data);assert.equal(x.c.run.phase,'cleared');assert.equal(x.c.run.lastAugment.limited,true);
@@ -44,8 +44,8 @@ test('SQL room prize, augmentation and following room stay separate across a rec
  for(const key of ['prize_money_10k','prize_mega_candy']){const f=await fixture(key);try{
   await f.c.atomic(()=>{f.c.run.phase='sas';f.c.run.room=0;f.c.run.cleared=0;f.c.run.reward=null;});
   const win=async()=>{await f.c.next();await f.c.atomic(()=>f.c.startBattle());await f.c.atomic(()=>{const b=f.c.run.battle;for(const p of b.b.equipe.pokemons)p.currentHp=0;b.prune();b.checkEnd();f.c.reconcile();});};
-  await win();assert.equal(await f.balance(),5984);await f.c.atomic(()=>{f.c.run.reward.cards=[key,'heal_10','cure'];});await f.c.claimReward({offerId:f.c.run.reward.id,cardKey:key});
-  await win();assert.equal(await f.balance(),key==='prize_money_10k'?13838:11968);assert.equal(f.c.run.cash.earned,await f.balance());assert.equal(f.c.run.cash.paidThrough,2);assert.equal(await f.stock('mega_candy'),key==='prize_mega_candy'?1:0);
-  const resumed=f.create();await resumed.load();assert.equal(resumed.run.lastAugment.offerId,f.c.run.lastAugment.offerId);assert.equal(await f.balance(),key==='prize_money_10k'?13838:11968);
+  await win();assert.equal(await f.balance(),5086);await f.c.atomic(()=>{f.c.run.reward.cards=[key,'heal_10','cure'];});await f.c.claimReward({offerId:f.c.run.reward.id,cardKey:key});
+  await win();assert.equal(await f.balance(),key==='prize_money_10k'?11762:10172);assert.equal(f.c.run.cash.earned,await f.balance());assert.equal(f.c.run.cash.paidThrough,2);assert.equal(await f.stock('mega_candy'),key==='prize_mega_candy'?1:0);
+  const resumed=f.create();await resumed.load();assert.equal(resumed.run.lastAugment.offerId,f.c.run.lastAugment.offerId);assert.equal(await f.balance(),key==='prize_money_10k'?11762:10172);
  }finally{await f.cleanup();}}
 });

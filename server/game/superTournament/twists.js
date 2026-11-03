@@ -3,9 +3,9 @@ const {getMoveDefinition}=require('../battle/battleResources');
 // Server-owned, attempt-only bargains. No Adventure stats, items or moves are changed.
 const pact = (key,name,rarity,boon,cost,effects) => ({key:'pact_'+key,name,rarity,kind:'pact',target:'run',boon,cost,effects,description:`${boon} En contrepartie : ${cost}`,duration:'Toute la tentative'});
 const cards=Object.freeze([
- pact('hunter','Œil du chasseur','epic','Critiques : +1 cran (maximum 3 crans des pactes).','Dégâts Eau reçus : +25 %.',{critical:1,incomingType:{Water:1.25}}),
- pact('cold_blood','Sang-froid','epic','Critiques : +1 cran (maximum 3 crans des pactes).','Vitesse : −10 %.',{critical:1,speed:.9}),
- pact('glass','Lame de verre','rare','Dégâts directs infligés : +15 %.','Dégâts directs reçus : +15 %.',{outgoing:1.15,incoming:1.15}),
+ pact('hunter','Œil du chasseur','epic','Coups critiques plus fréquents (+1 niveau, maximum +3 avec les pactes).','Dégâts Eau reçus : +25 %.',{critical:1,incomingType:{Water:1.25}}),
+ pact('cold_blood','Sang-froid','epic','Coups critiques plus fréquents (+1 niveau, maximum +3 avec les pactes).','Vitesse : −10 %.',{critical:1,speed:.9}),
+ pact('glass','Lame de verre','rare','Dégâts de tes attaques : +15 %.','Dégâts des attaques ennemies : +15 %.',{outgoing:1.15,incoming:1.15}),
  pact('blaze','Brasier ardent','rare','Dégâts Feu infligés : +25 %.','Dégâts Eau reçus : +30 %.',{outgoingType:{Fire:1.25},incomingType:{Water:1.3}}),
  pact('tide','Marée profonde','rare','Dégâts Eau infligés : +25 %.','Dégâts Électrik reçus : +30 %.',{outgoingType:{Water:1.25},incomingType:{Electric:1.3}}),
  pact('garden','Jardin sauvage','rare','Dégâts Plante infligés : +25 %.','Dégâts Feu reçus : +30 %.',{outgoingType:{Grass:1.25},incomingType:{Fire:1.3}}),
@@ -16,31 +16,31 @@ const cards=Object.freeze([
  pact('heavy_fist','Poing lourd','rare','Dégâts physiques infligés : +20 %.','Vitesse : −10 %.',{outgoingClass:{physical:1.2},speed:.9}),
  pact('mind','Esprit incandescent','rare','Dégâts spéciaux infligés : +20 %.','Dégâts physiques infligés : −20 %.',{outgoingClass:{special:1.2,physical:.8}}),
  pact('soldier','Instinct du combattant','rare','Dégâts physiques infligés : +20 %.','Dégâts spéciaux infligés : −20 %.',{outgoingClass:{physical:1.2,special:.8}}),
- pact('dance','Danse du risque','epic','Vitesse : +15 %.','Dégâts directs reçus : +15 %.',{speed:1.15,incoming:1.15}),
+ pact('dance','Danse du risque','epic','Vitesse : +15 %.','Dégâts des attaques ennemies : +15 %.',{speed:1.15,incoming:1.15}),
  pact('rampart','Rempart pesant','rare','Dégâts physiques reçus : −15 %.','Vitesse : −10 %.',{incomingClass:{physical:.85},speed:.9}),
  pact('veil','Voile fragile','rare','Dégâts spéciaux reçus : −15 %.','Dégâts physiques reçus : +15 %.',{incomingClass:{special:.85,physical:1.15}}),
- pact('leech','Soif de vie','epic','Soigne 10 % des dégâts directs infligés.','Dégâts Feu reçus : +25 %.',{values:{5:10},incomingType:{Fire:1.25}}),
+ pact('leech','Soif de vie','epic','Ton Pokémon récupère en PV 10 % des dégâts de ses attaques.','Dégâts Feu reçus : +25 %.',{values:{5:10},incomingType:{Fire:1.25}}),
  pact('breath','Souffle patient','epic','Récupère 3 % des PV maximum en fin de tour.','Vitesse : −10 %.',{values:{16:3},speed:.9}),
- pact('execution','Instinct du finisseur','rare','Dégâts infligés : +25 % si la cible a au plus 35 % de ses PV.','Dégâts infligés : −10 % au-dessus de ce seuil.',{finisher:true}),
- pact('fortress','Force tranquille','rare','Dégâts directs reçus : −12 %.','Dégâts directs infligés : −10 %.',{incoming:.88,outgoing:.9}),
- pact('velvet','Crocs de velours','rare','Récupère 6 % des dégâts directs infligés en PV.','Dégâts directs reçus : +5 %.',{values:{5:6},incoming:1.05}),
+ pact('execution','Instinct du finisseur','rare','Tes attaques font +25 % de dégâts si l’ennemi a 35 % de PV ou moins.','Elles font −10 % de dégâts s’il lui reste plus de 35 % de PV.',{finisher:true}),
+ pact('fortress','Force tranquille','rare','Dégâts des attaques ennemies : −12 %.','Dégâts de tes attaques : −10 %.',{incoming:.88,outgoing:.9}),
+ pact('velvet','Crocs de velours','rare','Récupère 6 % des dégâts infligés par ses attaques en PV.','Dégâts des attaques ennemies : +5 %.',{values:{5:6},incoming:1.05}),
  pact('moss','Peau de mousse','rare','Récupère 2 % des PV maximum en fin de tour.','Dégâts Feu reçus : +8 %.',{values:{16:2},incomingType:{Fire:1.08}}),
- pact('opening','Élan d’ouverture','rare','Dégâts directs infligés : +15 % à pleine vie.','Vitesse : −3 %.',{fullHealth:1.15,speed:.97}),
- pact('last_stand','Courage obstiné','rare','Dégâts directs infligés : +18 % avec au plus 50 % de ses PV.','Dégâts directs reçus : +5 %.',{desperate:1.18,incoming:1.05}),
- pact('quickstep','Pas de côté','rare','Vitesse : +8 %.','Dégâts directs reçus : +6 %.',{speed:1.08,incoming:1.06}),
- pact('spark','Coup d’éclat','epic','Critiques : +1 cran (maximum 3 crans des pactes).','Dégâts directs infligés : −5 %.',{critical:1,outgoing:.95}),
- pact('resupply','Ravitaillement discret','epic','Après une victoire, rend 1 PP à chaque capacité des Pokémon aptes.','Dégâts directs reçus : +6 %.',{victoryPp:1,incoming:1.06}),
+ pact('opening','Élan d’ouverture','rare','Tes attaques font +15 % de dégâts quand ton Pokémon a tous ses PV.','Vitesse : −3 %.',{fullHealth:1.15,speed:.97}),
+ pact('last_stand','Courage obstiné','rare','Tes attaques font +18 % de dégâts quand ton Pokémon a 50 % de PV ou moins.','Dégâts des attaques ennemies : +5 %.',{desperate:1.18,incoming:1.05}),
+ pact('quickstep','Pas de côté','rare','Vitesse : +8 %.','Dégâts des attaques ennemies : +6 %.',{speed:1.08,incoming:1.06}),
+ pact('spark','Coup d’éclat','epic','Coups critiques plus fréquents (+1 niveau, maximum +3 avec les pactes).','Dégâts de tes attaques : −5 %.',{critical:1,outgoing:.95}),
+ pact('resupply','Ravitaillement discret','epic','Après une victoire, rend 1 PP à chaque capacité des Pokémon aptes.','Dégâts des attaques ennemies : +6 %.',{victoryPp:1,incoming:1.06}),
  pact('campfire','Feu de camp','rare','Après une victoire, rend 8 % des PV maximum à chaque Pokémon apte.','Vitesse : −4 %.',{victoryHeal:.08,speed:.96}),
- pact('pebble','Petit élan','common','Dégâts directs infligés : +4 %.','Dégâts directs reçus : +3 %.',{outgoing:1.04,incoming:1.03}),
- pact('feather','Semelles légères','common','Vitesse : +4 %.','Dégâts directs infligés : −2 %.',{speed:1.04,outgoing:.98}),
+ pact('pebble','Petit élan','common','Dégâts de tes attaques : +4 %.','Dégâts des attaques ennemies : +3 %.',{outgoing:1.04,incoming:1.03}),
+ pact('feather','Semelles légères','common','Vitesse : +4 %.','Dégâts de tes attaques : −2 %.',{speed:1.04,outgoing:.98}),
  pact('patchwork','Veste rapiécée','common','Dégâts physiques reçus : −4 %.','Dégâts spéciaux reçus : +3 %.',{incomingClass:{physical:.96,special:1.03}}),
  pact('umbrella','Petit parapluie','common','Dégâts spéciaux reçus : −4 %.','Dégâts physiques reçus : +3 %.',{incomingClass:{special:.96,physical:1.03}}),
- pact('snack','Petit creux','common','Récupère 2 % des dégâts directs infligés en PV.','Dégâts directs reçus : +2 %.',{values:{5:2},incoming:1.02}),
+ pact('snack','Petit creux','common','Récupère 2 % des dégâts infligés par ses attaques en PV.','Dégâts des attaques ennemies : +2 %.',{values:{5:2},incoming:1.02}),
  pact('picnic','Goûter de victoire','common','Après une victoire, rend 3 % des PV maximum aux Pokémon aptes.','Vitesse : −1 %.',{victoryHeal:.03,speed:.99}),
- pact('fresh_start','Bien réveillé','common','Dégâts directs infligés : +6 % à pleine vie.','Dégâts directs reçus : +2 %.',{fullHealth:1.06,incoming:1.02}),
- pact('grit','Petit courage','common','Dégâts directs infligés : +6 % avec au plus 50 % de ses PV.','Dégâts directs reçus : +2 %.',{desperate:1.06,incoming:1.02}),
+ pact('fresh_start','Bien réveillé','common','Tes attaques font +6 % de dégâts quand ton Pokémon a tous ses PV.','Dégâts des attaques ennemies : +2 %.',{fullHealth:1.06,incoming:1.02}),
+ pact('grit','Petit courage','common','Tes attaques font +6 % de dégâts quand ton Pokémon a 50 % de PV ou moins.','Dégâts des attaques ennemies : +2 %.',{desperate:1.06,incoming:1.02}),
  pact('pixie','Paillette féerique','common','Dégâts Fée infligés : +6 %.','Dégâts Poison reçus : +4 %.',{outgoingType:{Fairy:1.06},incomingType:{Poison:1.04}}),
- pact('palette','Jeu de couleurs','common','Dégâts directs : +5 % si le type diffère de la précédente capacité.','Dégâts directs : −2 % si le type reste identique. Premier coup inchangé.',{changeType:{different:1.05,same:.98}}),
+ pact('palette','Jeu de couleurs','common','Changer de type d’attaque donne +5 % de dégâts. Exemple : Eau puis Feu.','Répéter le même type retire 2 % de dégâts. La première attaque n’a ni bonus ni malus.',{changeType:{different:1.05,same:.98}}),
  {key:'next_opponent_two',name:'Duel écourté',rarity:'epic',kind:'opponent',target:'run',count:2,description:'Le prochain dresseur ne garde que ses deux derniers Pokémon, dont son plus fort. Valable pour un seul combat.',duration:'Prochain combat seulement'},
  {key:'next_opponent_one',name:'Face au dernier rempart',rarity:'legendary',kind:'opponent',target:'run',count:1,description:'Le prochain dresseur ne garde que son dernier Pokémon, le plus fort. Valable pour un seul combat.',duration:'Prochain combat seulement'}
 ].map(c=>Object.freeze({...c,twist:true,rarityName:({common:'Commune',uncommon:'Peu commune',rare:'Rare',epic:'Épique',legendary:'Légendaire'})[c.rarity]})));
@@ -53,14 +53,14 @@ function pending(owner){const c=enabled(owner)?byKey.get(owner.superTournamentNe
 function usable(owner,card){return Boolean(enabled(owner)&&card&&(card.kind==='pact'?count(owner,card.key)<stacks.LIMIT&&(!card.effects.critical||criticalStage(owner)<3):!pending(owner)));}
 const typeNames={Normal:'Normal',Fire:'Feu',Water:'Eau',Electric:'Électrik',Grass:'Plante',Ice:'Glace',Fighting:'Combat',Poison:'Poison',Ground:'Sol',Flying:'Vol',Psychic:'Psy',Bug:'Insecte',Rock:'Roche',Ghost:'Spectre',Dragon:'Dragon',Dark:'Ténèbres',Steel:'Acier',Fairy:'Fée'};
 function summary(card,n){const e=card.effects||{},parts=[],effect=(label,factor)=>{if(factor!==1)parts.push(`${label} ${factor>1?'+':'−'}${(Math.round(Math.abs(factor-1)*10000)/100).toLocaleString('fr-FR')} %`);};
- for(const [key,label]of[['outgoing','Dégâts infligés'],['incoming','Dégâts reçus'],['speed','Vitesse']])if(e[key])effect(label,stacks.factor(e[key],n));
+ for(const [key,label]of[['outgoing','Dégâts de tes attaques'],['incoming','Dégâts des attaques ennemies'],['speed','Vitesse']])if(e[key])effect(label,stacks.factor(e[key],n));
  for(const [key,label]of[['outgoingType','Dégâts infligés'],['incomingType','Dégâts reçus'],['outgoingClass','Dégâts infligés'],['incomingClass','Dégâts reçus']])for(const [kind,v]of Object.entries(e[key]||{}))effect(`${label} ${typeNames[kind]||{physical:'physiques',special:'spéciaux'}[kind]||kind}`,stacks.factor(v,n));
- if(e.critical)parts.push(`Critiques +${Math.min(3,e.critical*n)} cran(s)`);
- if(e.values?.[5])parts.push(`Drain ${e.values[5]*n} %`);if(e.values?.[16])parts.push(`Régénération ${e.values[16]*n} % PV/tour`);
+ if(e.critical)parts.push(`Critiques +${Math.min(3,e.critical*n)} niveau(x)`);
+ if(e.values?.[5])parts.push(`PV récupérés : ${e.values[5]*n} % des dégâts de tes attaques`);if(e.values?.[16])parts.push(`Récupère ${e.values[16]*n} % des PV à chaque fin de tour`);
  if(e.victoryHeal)parts.push(`Soin de victoire ${Math.round(e.victoryHeal*n*10000)/100} % PV`);if(e.victoryPp)parts.push(`Victoire +${e.victoryPp*n} PP/capacité`);
- if(e.fullHealth)effect('Dégâts à pleine vie',stacks.factor(e.fullHealth,n));if(e.desperate)effect('Dégâts sous 50 % PV',stacks.factor(e.desperate,n));
- if(e.finisher){effect('Dégâts contre cible ≤35 % PV',stacks.factor(1.25,n));effect('Dégâts contre cible >35 % PV',stacks.factor(.9,n));}
- if(e.changeType){effect('Type différent',stacks.factor(e.changeType.different,n));effect('Même type',stacks.factor(e.changeType.same,n));}
+ if(e.fullHealth)effect('Dégâts avec tous tes PV',stacks.factor(e.fullHealth,n));if(e.desperate)effect('Dégâts avec 50 % de PV ou moins',stacks.factor(e.desperate,n));
+ if(e.finisher){effect('Dégâts sur un ennemi à 35 % de PV ou moins',stacks.factor(1.25,n));effect('Dégâts sur un ennemi à plus de 35 % de PV',stacks.factor(.9,n));}
+ if(e.changeType){effect('Changer de type d’attaque',stacks.factor(e.changeType.different,n));effect('Répéter le même type d’attaque',stacks.factor(e.changeType.same,n));}
  return parts.join(' · ');
 }
 function view(card,owner){const n=count(owner,card.key);return {key:card.key,name:card.name,rarity:card.rarity,rarityName:card.rarityName,kind:card.kind,target:card.target,boon:card.boon,cost:card.cost,description:card.description,duration:card.duration,targets:[],usable:usable(owner,card),...(card.kind==='pact'?{stackable:true,stacks:n,nextStacks:n+1,cumulativeDescription:summary(card,n+1)}:{})};}

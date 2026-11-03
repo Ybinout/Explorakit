@@ -3,9 +3,9 @@ const stacks=require('./cardStacks');
 // can expose them to the shared battle hooks; no ordinary drift is modified.
 const cards=Object.freeze([
  {key:'power_miracle',name:'Miracle des champions',kind:'reset',target:'team',amount:1,tickets:20,description:'Remet toute l’équipe à neuf : PV, statuts et PP, même les Pokémon K.O. Ne rend pas les objets consommés.'},
- {key:'power_phoenix',name:'Phénix souverain',kind:'passive',target:'run',tickets:30,values:{55:100},description:'Par cumul, chaque Pokémon survit une fois par combat à un coup direct fatal avec 20 % de ses PV. Les dégâts résiduels restent dangereux.'},
- {key:'power_vampire',name:'Vampirisme royal',kind:'passive',target:'run',tickets:50,values:{5:50},description:'Par cumul, toute l’équipe récupère 50 % des dégâts directs infligés sous forme de PV, pendant cette tentative.'},
- {key:'power_bastion',name:'Bastion absolu',kind:'passive',target:'run',tickets:50,values:{13:40},description:'Par cumul, toute l’équipe subit 40 % de dégâts directs en moins pendant cette tentative.'},
+ {key:'power_phoenix',name:'Phénix souverain',kind:'passive',target:'run',tickets:30,values:{55:100},description:'Chaque cumul permet à chaque Pokémon d’éviter un K.O. causé par une attaque, une fois par combat, et de garder 20 % de ses PV. Le poison et les autres dégâts hors attaque peuvent toujours le mettre K.O.'},
+ {key:'power_vampire',name:'Vampirisme royal',kind:'passive',target:'run',tickets:50,values:{5:50},description:'Chaque cumul rend au lanceur 50 % des dégâts de ses attaques en PV. Exemple : 100 dégâts infligés → 50 PV récupérés.'},
+ {key:'power_bastion',name:'Bastion absolu',kind:'passive',target:'run',tickets:50,values:{13:40},description:'Réduit de 40 % les dégâts des attaques ennemies. Le bonus s’applique à toute ton équipe.'},
  {key:'power_fountain',name:'Source éternelle',kind:'passive',target:'run',tickets:50,values:{16:15},description:'Par cumul, le Pokémon actif récupère 15 % de ses PV maximum à chaque fin de tour pendant cette tentative.'},
  {key:'power_sanctuary',name:'Sanctuaire de victoire',kind:'passive',target:'run',tickets:50,description:'Par cumul, après chaque salle remportée, rend 25 % des PV maximum à tous les Pokémon encore aptes. Dure toute la tentative.'},
  {key:'power_reunion',name:'Retour des héros',kind:'revive',target:'team',amount:1,tickets:50,description:'Relève tous les Pokémon K.O. avec la totalité de leurs PV et soigne leur statut. Les PP restent inchangés.'},
@@ -16,9 +16,9 @@ function count(owner,key){return stacks.count(owner,key,'superTournamentPassives
 function has(owner,key){return count(owner,key)>0;}
 function usable(owner,key){return owner?.currentmap==='super_tournament_room'&&byKey.get(key)?.kind==='passive'&&count(owner,key)<stacks.LIMIT;}
 function description(key,n){return ({
- power_phoenix:`Chaque Pokémon peut survivre à ${n} coup${n>1?'s':''} direct${n>1?'s':''} fatal${n>1?'s':''} par combat, avec 20 % de ses PV.`,
- power_vampire:`Récupère ${n*50} % des dégâts directs infligés en PV.`,
- power_bastion:`Dégâts directs reçus : −${Math.round((1-stacks.factor(.6,n))*10000)/100} %.`,
+ power_phoenix:`Chaque Pokémon peut survivre à ${n} attaque${n>1?'s':''} qui devrai${n>1?'ent':'t'} le mettre K.O. par combat, avec 20 % de ses PV.`,
+ power_vampire:`Récupère en PV ${n*50} % des dégâts de ses attaques.`,
+ power_bastion:`Dégâts des attaques ennemies : −${Math.round((1-stacks.factor(.6,n))*10000)/100} %.`,
  power_fountain:`Récupère ${n*15} % des PV maximum à chaque fin de tour.`,
  power_sanctuary:`Récupère ${n*25} % des PV maximum après chaque victoire pour les Pokémon aptes.`
  })[key];}

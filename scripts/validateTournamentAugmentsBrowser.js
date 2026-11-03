@@ -50,9 +50,9 @@ async function layout(key){
  await page.locator('.tournament-panel footer .primary').click();await page.waitForFunction(()=>v.map==='super_tournament_sas'&&!v.flight);const original=codec.encode(await teams.loadEquipe(id));
  await walk('move_z',11);await ready();await walk('move_z',6);await page.evaluate(()=>v.socket.emit('Space'));await page.waitForFunction(()=>v.battle&&v.$refs.battleOverlay.canChooseAction);
  await controller().execute(()=>controller().atomic(()=>{const c=controller(),b=c.run.battle;c.run.player.equipe.pokemons[0].currentHp-=30;c.run.player.equipe.pokemons[0].movePp[0]=0;c.run.player.equipe.pokemons[1].currentHp=0;for(const p of b.b.equipe.pokemons)p.currentHp=0;b.prune();b.checkEnd();c.reconcile();}));
- await page.locator('[data-battle-result-continue]').waitFor();await page.locator('[data-battle-result-continue]').click();await page.locator('.tournament-reward-panel').waitFor();await page.waitForFunction(()=>v.progressionState.money===5984);
- let balance=5984;const itemStocks={};
- for(const [key,room,money,item]of [['prize_money_10k',1,1870,null],['prize_money_25k',1,9350,null],['prize_money_50k',17,37400,null],['prize_super_candy',17,0,'rare_candy'],['prize_mega_candy',17,0,'mega_candy']]){
+ await page.locator('[data-battle-result-continue]').waitFor();await page.locator('[data-battle-result-continue]').click();await page.locator('.tournament-reward-panel').waitFor();await page.waitForFunction(()=>v.progressionState.money===5086);
+ let balance=5086;const itemStocks={};
+ for(const [key,room,money,item]of [['prize_money_10k',1,1590,null],['prize_money_25k',1,7948,null],['prize_money_50k',17,31790,null],['prize_super_candy',17,0,'rare_candy'],['prize_mega_candy',17,0,'mega_candy']]){
   await seed(key,room);const offerId=controller().run.reward.id,party=codec.encode(controller().run.player.equipe);
   if(item){await page.reload();await ready();await page.locator(`[data-reward-card="${key}"]`).waitFor();assert.equal(controller().run.reward.id,offerId);}
   assert.equal((await command('superTournament:reward',{offerId:'foreign',cardKey:key,quantity:99})).success,false);
@@ -69,8 +69,8 @@ async function layout(key){
   assert.deepEqual(codec.encode(controller().run.player.equipe),party);assert.equal((await command('superTournament:reward',{offerId,cardKey:key})).success,false);
   const [[wallet]]=await db.execute('SELECT money FROM users WHERE id=?',[id]);assert.equal(Number(wallet.money),balance);claims.push({key,room,money,item,balance});
  }
- assert.equal(balance,49640);assert.equal(controller().run.cash.earned,49640);assert.equal((await command('superTournament:abandon')).success,true);await ready();assert.deepEqual(codec.encode(await teams.loadEquipe(id)),original);
- await page.reload();await ready();await page.waitForFunction(()=>v.progressionState.money===49640);await page.evaluate(()=>v.loadBagItems());for(const item of ['rare_candy','mega_candy'])assert.equal(await page.evaluate(item=>v.bagItems.find(i=>i.key===item)?.quantity,item),1);
+ assert.equal(balance,46414);assert.equal(controller().run.cash.earned,46414);assert.equal((await command('superTournament:abandon')).success,true);await ready();assert.deepEqual(codec.encode(await teams.loadEquipe(id)),original);
+ await page.reload();await ready();await page.waitForFunction(()=>v.progressionState.money===46414);await page.evaluate(()=>v.loadBagItems());for(const item of ['rare_candy','mega_candy'])assert.equal(await page.evaluate(item=>v.bagItems.find(i=>i.key===item)?.quantity,item),1);
  assert.equal(errors.length,0);success=true;fs.writeFileSync(path.join(out,'report.json'),JSON.stringify({success,engine,buildIndexSha256:createHash('sha256').update(fs.readFileSync(path.join(dist,'index.html'))).digest('hex'),views,claims,itemStocks,staleInventoryResponseIgnored:true,reconnectStable:true,replayRejected:true,bagUseBlockedDuringRun:true,noHealingOrXp:true,adventureTeamPreserved:true,keptAfterAbandon:true,errors},null,2));
 }catch(e){console.error(e.stack);try{console.error(await page?.evaluate(()=>({map:window.v?.map,phase:window.v?.superTournament?.phase,text:document.body.innerText.slice(-1800)})));await page?.screenshot({path:path.join(out,'failure.png')});}catch{}process.exitCode=1;}
 finally{releaseStale?.();await browser?.close();await new Promise(r=>io.close(r));await require('../server/realtime/accountConnection').waitForAccountConnections(io);if(id)await db.execute('DELETE FROM users WHERE id=?',[id]);await db.end();console.log(JSON.stringify({success,errors,testUserDeleted:true}));}})();

@@ -1,9 +1,9 @@
 const {getItemDefinition}=require('../battle/battleResources');
 const cards=Object.freeze([
  // Keep the legacy key so saved offers and previously claimed receipts remain valid.
- {key:'prize_money_10k',name:'Bourse du challenger',rarity:'common',kind:'money',amount:1870},
- {key:'prize_money_25k',name:'Prime du public',rarity:'uncommon',kind:'money',amount:9350},
- {key:'prize_money_50k',name:'Coffre du champion',rarity:'rare',kind:'money',amount:18700},
+ {key:'prize_money_10k',name:'Bourse du challenger',rarity:'common',kind:'money',amount:1590},
+ {key:'prize_money_25k',name:'Prime du public',rarity:'uncommon',kind:'money',amount:7948},
+ {key:'prize_money_50k',name:'Coffre du champion',rarity:'rare',kind:'money',amount:15895},
  {key:'prize_super_candy',name:'Super Bonbon',rarity:'epic',rarityName:'Très rare',kind:'item',itemKey:'rare_candy',quantity:1},
  {key:'prize_mega_candy',name:'Méga Bonbon',rarity:'legendary',rarityName:'Ultra rare',kind:'item',itemKey:'mega_candy',quantity:1}
 ].map(c=>Object.freeze({...c,target:'account'})));

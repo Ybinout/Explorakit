@@ -57,7 +57,7 @@ async function layout(selector,kind){
  const context=await browser.newContext({viewport:{width:393,height:852},hasTouch:true,isMobile:true,serviceWorkers:'block'});await context.addInitScript(u=>localStorage.setItem('explorakit.user',JSON.stringify(u)),{...u.user,token:u.token});
  page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));await page.goto(base+'/game');await ready();
  await page.evaluate(()=>{v.updatePreferences({...v.preferences,animationsEnabled:false,masterVolume:0});v.socket.emit('Space');});await page.locator('.tournament-panel').waitFor();
- assert.match((await page.locator('.tournament-prizes').innerText()).replace(/\s/g,''),/299200₽/);assert.match(await page.locator('.rules').innerText(),/Aucune XP/);assert.match((await page.locator('.tournament-prizes').innerText()).replace(/\s/g,''),/598400₽audeuxième,puis897600₽autroisième/);
+ assert.match((await page.locator('.tournament-prizes').innerText()).replace(/\s/g,''),/254320₽/);assert.match(await page.locator('.rules').innerText(),/Aucune XP/);assert.match((await page.locator('.tournament-prizes').innerText()).replace(/\s/g,''),/508640₽audeuxième,puis762960₽autroisième/);
  await layout('.tournament-panel','entry');await page.locator('.tournament-panel footer .primary').click();await page.waitForFunction(()=>v.map==='super_tournament_sas'&&!v.flight);
  const original=codec.encode(await teams.loadEquipe(id));await walk('move_z',11);await ready();await walk('move_z',6);await page.evaluate(()=>v.socket.emit('Space'));await page.waitForFunction(()=>v.battle&&v.$refs.battleOverlay.canChooseAction);
  // An older progress response must not erase the newer committed balance.
@@ -66,18 +66,18 @@ async function layout(selector,kind){
  },{times:1});
  await page.evaluate(()=>{window.staleProgress=v.loadProgressionState();});
  let heldTimer;try{await Promise.race([heldResponse,new Promise((_,reject)=>{heldTimer=setTimeout(()=>reject(Error('Progress interception timed out')),15000);})]);}finally{clearTimeout(heldTimer);}
- await win(5984,5984);assert.equal(controller().run.cash.earned,5984);
- const firstOffer=controller().run.reward.id;await page.reload();await ready();await page.locator('[data-tournament-cash]').waitFor();assert.equal(controller().run.reward.id,firstOffer);assert.equal(controller().run.cash.earned,5984);await page.waitForFunction(()=>v.progressionState.money===5984);
+ await win(5086,5086);assert.equal(controller().run.cash.earned,5086);
+ const firstOffer=controller().run.reward.id;await page.reload();await ready();await page.locator('[data-tournament-cash]').waitFor();assert.equal(controller().run.reward.id,firstOffer);assert.equal(controller().run.cash.earned,5086);await page.waitForFunction(()=>v.progressionState.money===5086);
  await layout('.tournament-reward-panel','reward');await skip();
- for(const [room,amount,balance]of [[15,83776,89760],[16,11968,101728]]){
+ for(const [room,amount,balance]of [[15,71210,76296],[16,10172,86468]]){
   await controller().execute(()=>controller().atomic(()=>{const c=controller();c.run.room=room;c.run.cleared=room;c.run.phase='ready';c.startBattle();}));
   await page.waitForFunction(()=>v.battle&&v.$refs.battleOverlay.canChooseAction);await win(amount,balance);
-  if(room===15){assert.match((await page.locator('[data-tournament-cash]').innerText()).replace(/\s/g,''),/Bonusdecycleinclus:59840₽/);await page.screenshot({path:path.join(out,'cycle-bonus.png')});}
+  if(room===15){assert.match((await page.locator('[data-tournament-cash]').innerText()).replace(/\s/g,''),/Bonusdecycleinclus:50864₽/);await page.screenshot({path:path.join(out,'cycle-bonus.png')});}
   await skip();
  }
  assert.equal((await command('superTournament:abandon')).success,true);await ready();assert.equal((await repo.load(id)).run,null);
- const [[wallet]]=await db.execute('SELECT money FROM users WHERE id=?',[id]);assert.equal(Number(wallet.money),101728);assert.deepEqual(codec.encode(await teams.loadEquipe(id)),original);
- await page.reload();await ready();await page.waitForFunction(()=>v.progressionState.money===101728);assert.equal(errors.length,0);success=true;
+ const [[wallet]]=await db.execute('SELECT money FROM users WHERE id=?',[id]);assert.equal(Number(wallet.money),86468);assert.deepEqual(codec.encode(await teams.loadEquipe(id)),original);
+ await page.reload();await ready();await page.waitForFunction(()=>v.progressionState.money===86468);assert.equal(errors.length,0);success=true;
  fs.writeFileSync(path.join(out,'report.json'),JSON.stringify({success,engine,buildIndexSha256:createHash('sha256').update(fs.readFileSync(path.join(dist,'index.html'))).digest('hex'),views,payments,staleProgressResponse:true,reconnectNoDoubleCredit:true,adventureTeamAndXpPreserved:true,abandonKeepsMoney:true,errors},null,2));
 }catch(e){console.error(e.stack);try{console.error(await page?.evaluate(()=>({map:window.v?.map,phase:window.v?.superTournament?.phase,text:document.body.innerText.slice(-1500)})));await page?.screenshot({path:path.join(out,'failure.png')});}catch{}process.exitCode=1;}
 finally{releaseStale?.();await browser?.close();await new Promise(r=>io.close(r));await require('../server/realtime/accountConnection').waitForAccountConnections(io);if(id)await db.execute('DELETE FROM users WHERE id=?',[id]);await db.end();console.log(JSON.stringify({success,errors,testUserDeleted:true}));}})();

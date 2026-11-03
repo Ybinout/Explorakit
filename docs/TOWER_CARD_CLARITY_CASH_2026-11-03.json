@@ -1,0 +1,1231 @@
+{
+  "date": "2026-11-03",
+  "feature": "Descriptions des augmentations simplifiées et argent de la tour −15 %",
+  "sourceBaseline": "3396b2b27ed3dc05fa5274118413eaed6a3c3f1d",
+  "clientCommit": "328640595d430ea9d25248b11163dcbe8c6447ca",
+  "clientBuild": "f068a1013fdbb3ae",
+  "schemaChanged": false,
+  "realAccountsManuallyModified": false,
+  "economy": {
+    "beforeCycleTotal": 299200,
+    "afterCycleTotal": 254320,
+    "reduction": 0.15,
+    "rounding": "nearest whole dollar before cycle multiplication",
+    "schedule": {
+      "tiers": [
+        {
+          "from": 1,
+          "to": 4,
+          "amount": 5086
+        },
+        {
+          "from": 5,
+          "to": 8,
+          "amount": 10173
+        },
+        {
+          "from": 9,
+          "to": 12,
+          "amount": 15259
+        },
+        {
+          "from": 13,
+          "to": 16,
+          "amount": 20346
+        }
+      ],
+      "cycleBonus": 50864,
+      "firstCycleTotal": 254320,
+      "cycleTotalIncrement": 254320,
+      "cycleIncreasePercent": 100,
+      "maxMultiplier": null
+    },
+    "moneyCards": [
+      {
+        "key": "prize_money_10k",
+        "amount": 1590
+      },
+      {
+        "key": "prize_money_25k",
+        "amount": 7948
+      },
+      {
+        "key": "prize_money_50k",
+        "amount": 15895
+      }
+    ],
+    "paidEarningsPreserved": true,
+    "uncappedCycleScaling": true,
+    "candyAndDrawProbabilitiesUnchanged": true
+  },
+  "clarity": {
+    "directAttackDamageExplained": true,
+    "alternatingTypesExample": "Eau puis Feu",
+    "explicitPlayerAndOpponentHpThresholds": true,
+    "activeTotalsSimplified": true,
+    "cardDefinitionsComparedWithoutText": true,
+    "combatFormulasUnchanged": true
+  },
+  "validation": {
+    "unit": 164,
+    "sql": 51,
+    "failed": 0,
+    "skipped": 0,
+    "testDatabase": "explorakit_test",
+    "browser": {
+      "cash": {
+        "chromium": {
+          "success": true,
+          "engine": "chromium",
+          "buildIndexSha256": "c2a3e56bf2b2ce32c64b3d0df60127e39c359e1aad83d0f5306e228151db3a46",
+          "views": [
+            {
+              "kind": "entry",
+              "width": 320,
+              "height": 480,
+              "mode": "light"
+            },
+            {
+              "kind": "entry",
+              "width": 320,
+              "height": 480,
+              "mode": "dark"
+            },
+            {
+              "kind": "entry",
+              "width": 393,
+              "height": 852,
+              "mode": "light"
+            },
+            {
+              "kind": "entry",
+              "width": 393,
+              "height": 852,
+              "mode": "dark"
+            },
+            {
+              "kind": "entry",
+              "width": 844,
+              "height": 390,
+              "mode": "light"
+            },
+            {
+              "kind": "entry",
+              "width": 844,
+              "height": 390,
+              "mode": "dark"
+            },
+            {
+              "kind": "entry",
+              "width": 1536,
+              "height": 680,
+              "mode": "light"
+            },
+            {
+              "kind": "entry",
+              "width": 1536,
+              "height": 680,
+              "mode": "dark"
+            },
+            {
+              "kind": "reward",
+              "width": 320,
+              "height": 480,
+              "mode": "light"
+            },
+            {
+              "kind": "reward",
+              "width": 320,
+              "height": 480,
+              "mode": "dark"
+            },
+            {
+              "kind": "reward",
+              "width": 393,
+              "height": 852,
+              "mode": "light"
+            },
+            {
+              "kind": "reward",
+              "width": 393,
+              "height": 852,
+              "mode": "dark"
+            },
+            {
+              "kind": "reward",
+              "width": 844,
+              "height": 390,
+              "mode": "light"
+            },
+            {
+              "kind": "reward",
+              "width": 844,
+              "height": 390,
+              "mode": "dark"
+            },
+            {
+              "kind": "reward",
+              "width": 1536,
+              "height": 680,
+              "mode": "light"
+            },
+            {
+              "kind": "reward",
+              "width": 1536,
+              "height": 680,
+              "mode": "dark"
+            }
+          ],
+          "payments": [
+            {
+              "room": 1,
+              "amount": 5086,
+              "balance": 5086
+            },
+            {
+              "room": 16,
+              "amount": 71210,
+              "balance": 76296
+            },
+            {
+              "room": 17,
+              "amount": 10172,
+              "balance": 86468
+            }
+          ],
+          "staleProgressResponse": true,
+          "reconnectNoDoubleCredit": true,
+          "adventureTeamAndXpPreserved": true,
+          "abandonKeepsMoney": true,
+          "errors": []
+        },
+        "webkit": {
+          "success": true,
+          "engine": "webkit",
+          "buildIndexSha256": "c2a3e56bf2b2ce32c64b3d0df60127e39c359e1aad83d0f5306e228151db3a46",
+          "views": [
+            {
+              "kind": "entry",
+              "width": 320,
+              "height": 480,
+              "mode": "light"
+            },
+            {
+              "kind": "entry",
+              "width": 320,
+              "height": 480,
+              "mode": "dark"
+            },
+            {
+              "kind": "entry",
+              "width": 393,
+              "height": 852,
+              "mode": "light"
+            },
+            {
+              "kind": "entry",
+              "width": 393,
+              "height": 852,
+              "mode": "dark"
+            },
+            {
+              "kind": "entry",
+              "width": 844,
+              "height": 390,
+              "mode": "light"
+            },
+            {
+              "kind": "entry",
+              "width": 844,
+              "height": 390,
+              "mode": "dark"
+            },
+            {
+              "kind": "entry",
+              "width": 1536,
+              "height": 680,
+              "mode": "light"
+            },
+            {
+              "kind": "entry",
+              "width": 1536,
+              "height": 680,
+              "mode": "dark"
+            },
+            {
+              "kind": "reward",
+              "width": 320,
+              "height": 480,
+              "mode": "light"
+            },
+            {
+              "kind": "reward",
+              "width": 320,
+              "height": 480,
+              "mode": "dark"
+            },
+            {
+              "kind": "reward",
+              "width": 393,
+              "height": 852,
+              "mode": "light"
+            },
+            {
+              "kind": "reward",
+              "width": 393,
+              "height": 852,
+              "mode": "dark"
+            },
+            {
+              "kind": "reward",
+              "width": 844,
+              "height": 390,
+              "mode": "light"
+            },
+            {
+              "kind": "reward",
+              "width": 844,
+              "height": 390,
+              "mode": "dark"
+            },
+            {
+              "kind": "reward",
+              "width": 1536,
+              "height": 680,
+              "mode": "light"
+            },
+            {
+              "kind": "reward",
+              "width": 1536,
+              "height": 680,
+              "mode": "dark"
+            }
+          ],
+          "payments": [
+            {
+              "room": 1,
+              "amount": 5086,
+              "balance": 5086
+            },
+            {
+              "room": 16,
+              "amount": 71210,
+              "balance": 76296
+            },
+            {
+              "room": 17,
+              "amount": 10172,
+              "balance": 86468
+            }
+          ],
+          "staleProgressResponse": true,
+          "reconnectNoDoubleCredit": true,
+          "adventureTeamAndXpPreserved": true,
+          "abandonKeepsMoney": true,
+          "errors": []
+        }
+      },
+      "cards": {
+        "chromium": {
+          "success": true,
+          "engine": "chromium",
+          "buildIndexSha256": "c2a3e56bf2b2ce32c64b3d0df60127e39c359e1aad83d0f5306e228151db3a46",
+          "views": [
+            {
+              "key": "pact_palette",
+              "width": 320,
+              "height": 480,
+              "theme": "light"
+            },
+            {
+              "key": "pact_palette",
+              "width": 320,
+              "height": 480,
+              "theme": "dark"
+            },
+            {
+              "key": "pact_palette",
+              "width": 393,
+              "height": 852,
+              "theme": "light"
+            },
+            {
+              "key": "pact_palette",
+              "width": 393,
+              "height": 852,
+              "theme": "dark"
+            },
+            {
+              "key": "pact_palette",
+              "width": 844,
+              "height": 390,
+              "theme": "light"
+            },
+            {
+              "key": "pact_palette",
+              "width": 844,
+              "height": 390,
+              "theme": "dark"
+            },
+            {
+              "key": "pact_palette",
+              "width": 1536,
+              "height": 680,
+              "theme": "light"
+            },
+            {
+              "key": "pact_palette",
+              "width": 1536,
+              "height": 680,
+              "theme": "dark"
+            },
+            {
+              "key": "pact_execution",
+              "width": 320,
+              "height": 480,
+              "theme": "light"
+            },
+            {
+              "key": "pact_execution",
+              "width": 320,
+              "height": 480,
+              "theme": "dark"
+            },
+            {
+              "key": "pact_execution",
+              "width": 393,
+              "height": 852,
+              "theme": "light"
+            },
+            {
+              "key": "pact_execution",
+              "width": 393,
+              "height": 852,
+              "theme": "dark"
+            },
+            {
+              "key": "pact_execution",
+              "width": 844,
+              "height": 390,
+              "theme": "light"
+            },
+            {
+              "key": "pact_execution",
+              "width": 844,
+              "height": 390,
+              "theme": "dark"
+            },
+            {
+              "key": "pact_execution",
+              "width": 1536,
+              "height": 680,
+              "theme": "light"
+            },
+            {
+              "key": "pact_execution",
+              "width": 1536,
+              "height": 680,
+              "theme": "dark"
+            },
+            {
+              "key": "pact_last_stand",
+              "width": 320,
+              "height": 480,
+              "theme": "light"
+            },
+            {
+              "key": "pact_last_stand",
+              "width": 320,
+              "height": 480,
+              "theme": "dark"
+            },
+            {
+              "key": "pact_last_stand",
+              "width": 393,
+              "height": 852,
+              "theme": "light"
+            },
+            {
+              "key": "pact_last_stand",
+              "width": 393,
+              "height": 852,
+              "theme": "dark"
+            },
+            {
+              "key": "pact_last_stand",
+              "width": 844,
+              "height": 390,
+              "theme": "light"
+            },
+            {
+              "key": "pact_last_stand",
+              "width": 844,
+              "height": 390,
+              "theme": "dark"
+            },
+            {
+              "key": "pact_last_stand",
+              "width": 1536,
+              "height": 680,
+              "theme": "light"
+            },
+            {
+              "key": "pact_last_stand",
+              "width": 1536,
+              "height": 680,
+              "theme": "dark"
+            },
+            {
+              "key": "power_vampire",
+              "width": 320,
+              "height": 480,
+              "theme": "light"
+            },
+            {
+              "key": "power_vampire",
+              "width": 320,
+              "height": 480,
+              "theme": "dark"
+            },
+            {
+              "key": "power_vampire",
+              "width": 393,
+              "height": 852,
+              "theme": "light"
+            },
+            {
+              "key": "power_vampire",
+              "width": 393,
+              "height": 852,
+              "theme": "dark"
+            },
+            {
+              "key": "power_vampire",
+              "width": 844,
+              "height": 390,
+              "theme": "light"
+            },
+            {
+              "key": "power_vampire",
+              "width": 844,
+              "height": 390,
+              "theme": "dark"
+            },
+            {
+              "key": "power_vampire",
+              "width": 1536,
+              "height": 680,
+              "theme": "light"
+            },
+            {
+              "key": "power_vampire",
+              "width": 1536,
+              "height": 680,
+              "theme": "dark"
+            },
+            {
+              "key": "pact_pixie",
+              "width": 320,
+              "height": 480,
+              "theme": "light"
+            },
+            {
+              "key": "pact_pixie",
+              "width": 320,
+              "height": 480,
+              "theme": "dark"
+            },
+            {
+              "key": "pact_pixie",
+              "width": 393,
+              "height": 852,
+              "theme": "light"
+            },
+            {
+              "key": "pact_pixie",
+              "width": 393,
+              "height": 852,
+              "theme": "dark"
+            },
+            {
+              "key": "pact_pixie",
+              "width": 844,
+              "height": 390,
+              "theme": "light"
+            },
+            {
+              "key": "pact_pixie",
+              "width": 844,
+              "height": 390,
+              "theme": "dark"
+            },
+            {
+              "key": "pact_pixie",
+              "width": 1536,
+              "height": 680,
+              "theme": "light"
+            },
+            {
+              "key": "pact_pixie",
+              "width": 1536,
+              "height": 680,
+              "theme": "dark"
+            },
+            {
+              "key": "pact_fairy",
+              "width": 320,
+              "height": 480,
+              "theme": "light"
+            },
+            {
+              "key": "pact_fairy",
+              "width": 320,
+              "height": 480,
+              "theme": "dark"
+            },
+            {
+              "key": "pact_fairy",
+              "width": 393,
+              "height": 852,
+              "theme": "light"
+            },
+            {
+              "key": "pact_fairy",
+              "width": 393,
+              "height": 852,
+              "theme": "dark"
+            },
+            {
+              "key": "pact_fairy",
+              "width": 844,
+              "height": 390,
+              "theme": "light"
+            },
+            {
+              "key": "pact_fairy",
+              "width": 844,
+              "height": 390,
+              "theme": "dark"
+            },
+            {
+              "key": "pact_fairy",
+              "width": 1536,
+              "height": 680,
+              "theme": "light"
+            },
+            {
+              "key": "pact_fairy",
+              "width": 1536,
+              "height": 680,
+              "theme": "dark"
+            },
+            {
+              "key": "power_bastion",
+              "width": 320,
+              "height": 480,
+              "theme": "light"
+            },
+            {
+              "key": "power_bastion",
+              "width": 320,
+              "height": 480,
+              "theme": "dark"
+            },
+            {
+              "key": "power_bastion",
+              "width": 393,
+              "height": 852,
+              "theme": "light"
+            },
+            {
+              "key": "power_bastion",
+              "width": 393,
+              "height": 852,
+              "theme": "dark"
+            },
+            {
+              "key": "power_bastion",
+              "width": 844,
+              "height": 390,
+              "theme": "light"
+            },
+            {
+              "key": "power_bastion",
+              "width": 844,
+              "height": 390,
+              "theme": "dark"
+            },
+            {
+              "key": "power_bastion",
+              "width": 1536,
+              "height": 680,
+              "theme": "light"
+            },
+            {
+              "key": "power_bastion",
+              "width": 1536,
+              "height": 680,
+              "theme": "dark"
+            },
+            {
+              "key": "power_phoenix",
+              "width": 320,
+              "height": 480,
+              "theme": "light"
+            },
+            {
+              "key": "power_phoenix",
+              "width": 320,
+              "height": 480,
+              "theme": "dark"
+            },
+            {
+              "key": "power_phoenix",
+              "width": 393,
+              "height": 852,
+              "theme": "light"
+            },
+            {
+              "key": "power_phoenix",
+              "width": 393,
+              "height": 852,
+              "theme": "dark"
+            },
+            {
+              "key": "power_phoenix",
+              "width": 844,
+              "height": 390,
+              "theme": "light"
+            },
+            {
+              "key": "power_phoenix",
+              "width": 844,
+              "height": 390,
+              "theme": "dark"
+            },
+            {
+              "key": "power_phoenix",
+              "width": 1536,
+              "height": 680,
+              "theme": "light"
+            },
+            {
+              "key": "power_phoenix",
+              "width": 1536,
+              "height": 680,
+              "theme": "dark"
+            }
+          ],
+          "commonPreviews": [
+            "pact_pebble",
+            "pact_feather",
+            "pact_patchwork",
+            "pact_umbrella",
+            "pact_snack",
+            "pact_picnic",
+            "pact_fresh_start",
+            "pact_grit",
+            "pact_pixie",
+            "pact_palette"
+          ],
+          "fairyPreviewed": true,
+          "secondStackActuallyClaimed": true,
+          "stackCounterAndTotalVisible": true,
+          "reconnectPreservesStacks": true,
+          "oldOfferReplayRejected": true,
+          "adventurePreserved": true,
+          "physicalDevice": false,
+          "errors": []
+        },
+        "webkit": {
+          "success": true,
+          "engine": "webkit",
+          "buildIndexSha256": "c2a3e56bf2b2ce32c64b3d0df60127e39c359e1aad83d0f5306e228151db3a46",
+          "views": [
+            {
+              "key": "pact_palette",
+              "width": 320,
+              "height": 480,
+              "theme": "light"
+            },
+            {
+              "key": "pact_palette",
+              "width": 320,
+              "height": 480,
+              "theme": "dark"
+            },
+            {
+              "key": "pact_palette",
+              "width": 393,
+              "height": 852,
+              "theme": "light"
+            },
+            {
+              "key": "pact_palette",
+              "width": 393,
+              "height": 852,
+              "theme": "dark"
+            },
+            {
+              "key": "pact_palette",
+              "width": 844,
+              "height": 390,
+              "theme": "light"
+            },
+            {
+              "key": "pact_palette",
+              "width": 844,
+              "height": 390,
+              "theme": "dark"
+            },
+            {
+              "key": "pact_palette",
+              "width": 1536,
+              "height": 680,
+              "theme": "light"
+            },
+            {
+              "key": "pact_palette",
+              "width": 1536,
+              "height": 680,
+              "theme": "dark"
+            },
+            {
+              "key": "pact_execution",
+              "width": 320,
+              "height": 480,
+              "theme": "light"
+            },
+            {
+              "key": "pact_execution",
+              "width": 320,
+              "height": 480,
+              "theme": "dark"
+            },
+            {
+              "key": "pact_execution",
+              "width": 393,
+              "height": 852,
+              "theme": "light"
+            },
+            {
+              "key": "pact_execution",
+              "width": 393,
+              "height": 852,
+              "theme": "dark"
+            },
+            {
+              "key": "pact_execution",
+              "width": 844,
+              "height": 390,
+              "theme": "light"
+            },
+            {
+              "key": "pact_execution",
+              "width": 844,
+              "height": 390,
+              "theme": "dark"
+            },
+            {
+              "key": "pact_execution",
+              "width": 1536,
+              "height": 680,
+              "theme": "light"
+            },
+            {
+              "key": "pact_execution",
+              "width": 1536,
+              "height": 680,
+              "theme": "dark"
+            },
+            {
+              "key": "pact_last_stand",
+              "width": 320,
+              "height": 480,
+              "theme": "light"
+            },
+            {
+              "key": "pact_last_stand",
+              "width": 320,
+              "height": 480,
+              "theme": "dark"
+            },
+            {
+              "key": "pact_last_stand",
+              "width": 393,
+              "height": 852,
+              "theme": "light"
+            },
+            {
+              "key": "pact_last_stand",
+              "width": 393,
+              "height": 852,
+              "theme": "dark"
+            },
+            {
+              "key": "pact_last_stand",
+              "width": 844,
+              "height": 390,
+              "theme": "light"
+            },
+            {
+              "key": "pact_last_stand",
+              "width": 844,
+              "height": 390,
+              "theme": "dark"
+            },
+            {
+              "key": "pact_last_stand",
+              "width": 1536,
+              "height": 680,
+              "theme": "light"
+            },
+            {
+              "key": "pact_last_stand",
+              "width": 1536,
+              "height": 680,
+              "theme": "dark"
+            },
+            {
+              "key": "power_vampire",
+              "width": 320,
+              "height": 480,
+              "theme": "light"
+            },
+            {
+              "key": "power_vampire",
+              "width": 320,
+              "height": 480,
+              "theme": "dark"
+            },
+            {
+              "key": "power_vampire",
+              "width": 393,
+              "height": 852,
+              "theme": "light"
+            },
+            {
+              "key": "power_vampire",
+              "width": 393,
+              "height": 852,
+              "theme": "dark"
+            },
+            {
+              "key": "power_vampire",
+              "width": 844,
+              "height": 390,
+              "theme": "light"
+            },
+            {
+              "key": "power_vampire",
+              "width": 844,
+              "height": 390,
+              "theme": "dark"
+            },
+            {
+              "key": "power_vampire",
+              "width": 1536,
+              "height": 680,
+              "theme": "light"
+            },
+            {
+              "key": "power_vampire",
+              "width": 1536,
+              "height": 680,
+              "theme": "dark"
+            },
+            {
+              "key": "pact_pixie",
+              "width": 320,
+              "height": 480,
+              "theme": "light"
+            },
+            {
+              "key": "pact_pixie",
+              "width": 320,
+              "height": 480,
+              "theme": "dark"
+            },
+            {
+              "key": "pact_pixie",
+              "width": 393,
+              "height": 852,
+              "theme": "light"
+            },
+            {
+              "key": "pact_pixie",
+              "width": 393,
+              "height": 852,
+              "theme": "dark"
+            },
+            {
+              "key": "pact_pixie",
+              "width": 844,
+              "height": 390,
+              "theme": "light"
+            },
+            {
+              "key": "pact_pixie",
+              "width": 844,
+              "height": 390,
+              "theme": "dark"
+            },
+            {
+              "key": "pact_pixie",
+              "width": 1536,
+              "height": 680,
+              "theme": "light"
+            },
+            {
+              "key": "pact_pixie",
+              "width": 1536,
+              "height": 680,
+              "theme": "dark"
+            },
+            {
+              "key": "pact_fairy",
+              "width": 320,
+              "height": 480,
+              "theme": "light"
+            },
+            {
+              "key": "pact_fairy",
+              "width": 320,
+              "height": 480,
+              "theme": "dark"
+            },
+            {
+              "key": "pact_fairy",
+              "width": 393,
+              "height": 852,
+              "theme": "light"
+            },
+            {
+              "key": "pact_fairy",
+              "width": 393,
+              "height": 852,
+              "theme": "dark"
+            },
+            {
+              "key": "pact_fairy",
+              "width": 844,
+              "height": 390,
+              "theme": "light"
+            },
+            {
+              "key": "pact_fairy",
+              "width": 844,
+              "height": 390,
+              "theme": "dark"
+            },
+            {
+              "key": "pact_fairy",
+              "width": 1536,
+              "height": 680,
+              "theme": "light"
+            },
+            {
+              "key": "pact_fairy",
+              "width": 1536,
+              "height": 680,
+              "theme": "dark"
+            },
+            {
+              "key": "power_bastion",
+              "width": 320,
+              "height": 480,
+              "theme": "light"
+            },
+            {
+              "key": "power_bastion",
+              "width": 320,
+              "height": 480,
+              "theme": "dark"
+            },
+            {
+              "key": "power_bastion",
+              "width": 393,
+              "height": 852,
+              "theme": "light"
+            },
+            {
+              "key": "power_bastion",
+              "width": 393,
+              "height": 852,
+              "theme": "dark"
+            },
+            {
+              "key": "power_bastion",
+              "width": 844,
+              "height": 390,
+              "theme": "light"
+            },
+            {
+              "key": "power_bastion",
+              "width": 844,
+              "height": 390,
+              "theme": "dark"
+            },
+            {
+              "key": "power_bastion",
+              "width": 1536,
+              "height": 680,
+              "theme": "light"
+            },
+            {
+              "key": "power_bastion",
+              "width": 1536,
+              "height": 680,
+              "theme": "dark"
+            },
+            {
+              "key": "power_phoenix",
+              "width": 320,
+              "height": 480,
+              "theme": "light"
+            },
+            {
+              "key": "power_phoenix",
+              "width": 320,
+              "height": 480,
+              "theme": "dark"
+            },
+            {
+              "key": "power_phoenix",
+              "width": 393,
+              "height": 852,
+              "theme": "light"
+            },
+            {
+              "key": "power_phoenix",
+              "width": 393,
+              "height": 852,
+              "theme": "dark"
+            },
+            {
+              "key": "power_phoenix",
+              "width": 844,
+              "height": 390,
+              "theme": "light"
+            },
+            {
+              "key": "power_phoenix",
+              "width": 844,
+              "height": 390,
+              "theme": "dark"
+            },
+            {
+              "key": "power_phoenix",
+              "width": 1536,
+              "height": 680,
+              "theme": "light"
+            },
+            {
+              "key": "power_phoenix",
+              "width": 1536,
+              "height": 680,
+              "theme": "dark"
+            }
+          ],
+          "commonPreviews": [
+            "pact_pebble",
+            "pact_feather",
+            "pact_patchwork",
+            "pact_umbrella",
+            "pact_snack",
+            "pact_picnic",
+            "pact_fresh_start",
+            "pact_grit",
+            "pact_pixie",
+            "pact_palette"
+          ],
+          "fairyPreviewed": true,
+          "secondStackActuallyClaimed": true,
+          "stackCounterAndTotalVisible": true,
+          "reconnectPreservesStacks": true,
+          "oldOfferReplayRejected": true,
+          "adventurePreserved": true,
+          "physicalDevice": false,
+          "errors": []
+        }
+      }
+    },
+    "lint": true,
+    "build": true
+  },
+  "commands": [
+    "node --test $(rg --files tests | rg \"/super-tournament.*\\.test\\.js$\" | rg -v mysql | sort)",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RUN_MYSQL_TESTS=1 NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file-if-exists=.env --test --test-concurrency=1 $(rg --files tests | rg \"/super-tournament.*mysql\\.test\\.js$\" | sort)",
+    "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=chromium RELEASE_DIST_DIR=/tmp/riftmon-tower-clarity-dist RELEASE_SCREENSHOTS=/tmp/riftmon-tower-clarity-cash-chromium node --env-file-if-exists=.env scripts/validateTournamentCashBrowser.js",
+    "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=webkit RELEASE_DIST_DIR=/tmp/riftmon-tower-clarity-dist RELEASE_SCREENSHOTS=/tmp/riftmon-tower-clarity-cash-webkit node --env-file-if-exists=.env scripts/validateTournamentCashBrowser.js",
+    "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=chromium RELEASE_DIST_DIR=/tmp/riftmon-tower-clarity-dist RELEASE_SCREENSHOTS=/tmp/riftmon-tower-clarity-cards-chromium node --env-file-if-exists=.env scripts/validateTournamentStacksBrowser.js",
+    "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=webkit RELEASE_DIST_DIR=/tmp/riftmon-tower-clarity-dist RELEASE_SCREENSHOTS=/tmp/riftmon-tower-clarity-cards-webkit node --env-file-if-exists=.env scripts/validateTournamentStacksBrowser.js",
+    "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-tower-clarity-dist",
+    "npm --prefix vue-explorakit run lint"
+  ],
+  "limitations": [
+    "Chromium/WebKit headless; no physical phone test."
+  ],
+  "runtimeSourceSha256": {
+    "server/game/superTournament/augmentations.js": "d368d8416632735a925bb94e539ccfbaff6da0862b0d70d5bbd71c9b8d74c0ec",
+    "server/game/superTournament/cashPrizes.js": "905e12520d2c7539720b5abe5ad9c65a884adfad4db2948a0b97bef8e3725bcd",
+    "server/game/superTournament/powers.js": "b027878edfd873f0639877415c5eaba26b93d7fc1e29a6a97ed7fdf6ae9fe1b9",
+    "server/game/superTournament/twists.js": "e53d83f5a554852d067427948d3393b6fe101009b286da8c4185df4877a2c91d"
+  },
+  "deployment": {
+    "publishedAt": "2026-11-03T08:41:12.113Z",
+    "restartedAt": "2026-11-03T08:41:10.585Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-tower-clarity-2026-11-03T08-41-09-022Z",
+    "sourceBaseline": "3396b2b27ed3dc05fa5274118413eaed6a3c3f1d",
+    "sourceHashes": {
+      "server/game/superTournament/augmentations.js": "d368d8416632735a925bb94e539ccfbaff6da0862b0d70d5bbd71c9b8d74c0ec",
+      "server/game/superTournament/cashPrizes.js": "905e12520d2c7539720b5abe5ad9c65a884adfad4db2948a0b97bef8e3725bcd",
+      "server/game/superTournament/powers.js": "b027878edfd873f0639877415c5eaba26b93d7fc1e29a6a97ed7fdf6ae9fe1b9",
+      "server/game/superTournament/twists.js": "e53d83f5a554852d067427948d3393b6fe101009b286da8c4185df4877a2c91d"
+    },
+    "clientCommit": "328640595d430ea9d25248b11163dcbe8c6447ca",
+    "clientBuild": "f068a1013fdbb3ae",
+    "beforePid": "3778375",
+    "afterPid": "3782962",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "schemaChanged": false,
+    "migrationApplied": null,
+    "activeClubDuelsBefore": 0,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 1,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": [
+      "js/234.02b18f2e.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.f909aa37.js",
+      "js/account.161ce126.js",
+      "js/app.25e65b49.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.2fd32f7c.js",
+      "js/drift.5b8720d7.js",
+      "js/game.51f67479.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.4fff4c7e.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.f1929b55.css",
+      "css/test-view.7568246d.css"
+    ]
+  },
+  "publicationTimezone": "Europe/Paris",
+  "publishedLocal": "2026-11-03T09:41:12.113000+01:00"
+}
