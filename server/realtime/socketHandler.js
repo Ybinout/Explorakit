@@ -851,6 +851,7 @@ const socketHandler = (io) => {
             travel:async destination=>{transitionBusy=true;try{await relocatePlayer(destination,{reason:'super_tournament'});await flushPositionSave();}finally{transitionBusy=false;}}
         });
         darkHandlers=require('./handlers/darkContinentHandlers').createHandlers({socket,account,userId,getPlayer:()=>players[socket.id],getState:()=>darkState,setState:s=>{darkState=s;},
+            showResearch:(actor,pages)=>{const p=players[socket.id];if(!p)return;const tile=getPlayerTilePosition(p);pendingDialogue={...createDialogueAuthorization({name:actor.name,map:p.currentmap,x:tile.x,y:tile.y}),darkResearch:true};socket.emit('dialogue',[pages,actor.name]);},
             refreshActors:()=>{currentPnjs=getPnjsForMap(currentmap);socket.emit('pnjsList',{mapname:currentmap,pnjs:currentPnjs});},
             canUse:()=>!tournament?.controller.active&&!transitionBusy&&!interactionBusy&&!pendingDialogue,
             canInteract:()=>!tournament?.controller.active&&!transitionBusy&&!pendingDialogue,
@@ -1208,7 +1209,7 @@ const socketHandler = (io) => {
                 return;
             }
 
-            if(authorization.voidJournal)return;
+            if(authorization.voidJournal||authorization.darkResearch)return;
             if(authorization.voidPardon){
                 await require('../persistence/voidEndingRepository').acknowledgePardon(userId);
                 emitPlayerProgression(await loadProgressState(userId));return;

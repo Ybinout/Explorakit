@@ -2,7 +2,11 @@ const { maps } = require('../../../data/game/nextMap.json');
 const waters = require('../../../data/game/fishing_waters.json').maps;
 const { rollLegendary } = require('./legendaryEncounters');
 const dc=require('./darkContinent');
-const darkPool=[[9,15],[130,15],[260,15],[350,15],[395,15],[73,8],[171,9],[230,8]];
+const darkPools=[
+    [[9,24],[130,24],[350,22],[73,15],[171,15]],
+    [[9,15],[130,16],[260,23],[350,23],[73,11],[171,12]],
+    [[130,14],[260,17],[350,17],[395,22],[73,14],[230,16]]
+];
 const profiles = {
     start: [[129,16],[60,16],[118,14],[194,10],[270,7],[54,8],[258,5],[418,8],[422,15],[349,1]],
     ville1: [[129,14],[118,12],[60,10],[223,10],[339,10],[456,8],[72,6],[79,6],[98,6],[116,6],[120,5],[170,6],[349,1]],
@@ -13,7 +17,7 @@ const profiles = {
 };
 function fishingEncounter(mapName, random = Math.random) {
     if (!Object.hasOwn(waters,mapName)) return null;
-    const dark=dc.isMap(mapName),pool=dark?darkPool:profiles[mapName], zone=maps.find(m=>m.mapName===mapName)?.level || {min:5,max:7};
+    const dark=dc.isMap(mapName),pool=dark?darkPools[dc.column(mapName)]:profiles[mapName], zone=maps.find(m=>m.mapName===mapName)?.level || {min:5,max:7};
     let id=dark?null:rollLegendary(random);
     if(id===null){
         let roll=random()*100;id=pool[pool.length-1][0];
@@ -21,4 +25,4 @@ function fishingEncounter(mapName, random = Math.random) {
     }
     return { id, level:Math.min(zone.max,zone.min+Math.floor(random()*(zone.max-zone.min+1))) };
 }
-module.exports = { fishingEncounter, profiles, darkPool };
+module.exports = { fishingEncounter, profiles, darkPools };

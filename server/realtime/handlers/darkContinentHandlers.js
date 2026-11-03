@@ -1,5 +1,5 @@
 const dc=require('../../game/world/darkContinent'),repo=require('../../persistence/darkContinentRepository');
-function createHandlers({socket,account,userId,getPlayer,getState,setState,refreshActors,canUse,canInteract=canUse,travel,closeFishing}){
+function createHandlers({socket,account,userId,getPlayer,getState,setState,refreshActors,canUse,canInteract=canUse,travel,closeFishing,showResearch=(actor,pages)=>socket.emit('dialogue',[pages,actor.name])}){
  let busy=false,scoutVisit=null,lastTravel=0;
  const near=(p,x,y)=>Math.abs(Math.floor(p.x/32)-x)+Math.abs(Math.floor(p.y/32)-y)<=2;
  const valid=()=>{const p=getPlayer();if(!p||p.inbattle||p.inventoryBusy||busy||!canUse())throw Error('Termine ton action avant de continuer.');return p;};
@@ -24,7 +24,7 @@ function createHandlers({socket,account,userId,getPlayer,getState,setState,refre
    else if(p.currentmap!==dc.LOBBY.map)scoutVisit=null;
    if(p.currentmap==='jungle1'&&!state.introduced){p.darkRulesRequired=true;panel('rules',{required:true});}
   },
-  async interact(){const p=getPlayer();if(!p||!canInteract())return false;const a=dc.interactionActor(p,getState());if(!a)return false;panel(a.name==='dark_scout'?'invitation':a.name==='dark_researcher'?'research':'guide');return true;},
+  async interact(){const p=getPlayer();if(!p||!canInteract())return false;const a=dc.interactionActor(p,getState());if(!a)return false;if(a.name==='dark_researcher'){await showResearch(a,dc.research.map(text=>({text:'Le prospecteur : '+text})));return true;}panel(a.name==='dark_scout'?'invitation':'guide');return true;},
   async afterBattle(){const p=getPlayer();if(!p||!dc.isMap(p.currentmap))return;repo.removeFallen(p);if(!p.equipe.pokemons.some(p=>p.currentHp>0)){const rescue=await require('../../persistence/darkRescueRepository').rescue(userId);p.equipe.pokemons=rescue.equipe.pokemons;await travel(require('../../game/world/playerRecovery').getPokemonCenterRespawnPoint());socket.emit('blackout',{message:'Tu as été rapatrié au Centre Pokémon. L’infirmière s’occupe de toi.',mapname:'centre',equipe:p.equipe});}socket.emit('bagUpdated',{items:await require('../../persistence/itemRepository').loadUserItems(userId)});}
  };
 }

@@ -1,0 +1,486 @@
+{
+  "date": "2026-11-03",
+  "feature": "Dialogue du prospecteur, diversité des habitats Dark et plaques à l’ouest",
+  "sourceBaseline": "2c6c2cdfc39d98bb4c4a2ccfc826ca26c2bc05c6",
+  "clientCommit": "d2b4a47ddaa4088a036c2b72ec9454ebee121813",
+  "clientBuild": "b4d6ce7ebc619fd2",
+  "clientUnchanged": true,
+  "schemaChanged": false,
+  "realAccountsManuallyModified": false,
+  "researcher": {
+    "before": [
+      7,
+      10
+    ],
+    "after": [
+      9,
+      6
+    ],
+    "guide": [
+      6,
+      10
+    ],
+    "distance": 7,
+    "beachWalkableBodyAndFeet": true,
+    "classicAtlasFrame": 12,
+    "protocol": "dialogue classique avec autorisation de fin dédiée, jamais le panneau des règles",
+    "normalDialogueWorksWithoutResearchSpecificClient": true,
+    "range": "une case du corps ou des pieds ; priorité au personnage regardé",
+    "topics": [
+      "plaques",
+      "Éclats fissurés",
+      "Cristaux limpides",
+      "Prismes d’aurore",
+      "CS/talents/types/combat et possibilités de synthèse",
+      "Si le matériel nécessaire existait, nous pourrions…"
+    ],
+    "noHealingOrRewardOnDialogueEnd": true
+  },
+  "land": {
+    "jungle1": [
+      {
+        "id": 3,
+        "name": "Florizarre"
+      },
+      {
+        "id": 9,
+        "name": "Tortank"
+      },
+      {
+        "id": 130,
+        "name": "Léviator"
+      },
+      {
+        "id": 181,
+        "name": "Pharamp"
+      },
+      {
+        "id": 6,
+        "name": "Dracaufeu"
+      },
+      {
+        "id": 68,
+        "name": "Mackogneur"
+      }
+    ],
+    "jungle2": [
+      {
+        "id": 254,
+        "name": "Jungko"
+      },
+      {
+        "id": 260,
+        "name": "Laggron"
+      },
+      {
+        "id": 350,
+        "name": "Milobellus"
+      },
+      {
+        "id": 398,
+        "name": "Étouraptor"
+      },
+      {
+        "id": 248,
+        "name": "Tyranocif"
+      },
+      {
+        "id": 257,
+        "name": "Braségali"
+      }
+    ],
+    "jungle3": [
+      {
+        "id": 405,
+        "name": "Luxray"
+      },
+      {
+        "id": 407,
+        "name": "Roserade"
+      },
+      {
+        "id": 450,
+        "name": "Hippodocus"
+      },
+      {
+        "id": 452,
+        "name": "Drascore"
+      },
+      {
+        "id": 373,
+        "name": "Drattak"
+      },
+      {
+        "id": 445,
+        "name": "Carchacrok"
+      }
+    ],
+    "jungle4": [
+      {
+        "id": 6,
+        "name": "Dracaufeu"
+      },
+      {
+        "id": 68,
+        "name": "Mackogneur"
+      },
+      {
+        "id": 143,
+        "name": "Ronflex"
+      },
+      {
+        "id": 242,
+        "name": "Leuphorie"
+      },
+      {
+        "id": 65,
+        "name": "Alakazam"
+      },
+      {
+        "id": 94,
+        "name": "Ectoplasma"
+      }
+    ],
+    "jungle5": [
+      {
+        "id": 248,
+        "name": "Tyranocif"
+      },
+      {
+        "id": 257,
+        "name": "Braségali"
+      },
+      {
+        "id": 306,
+        "name": "Galeking"
+      },
+      {
+        "id": 389,
+        "name": "Torterra"
+      },
+      {
+        "id": 282,
+        "name": "Gardevoir"
+      },
+      {
+        "id": 330,
+        "name": "Libégon"
+      }
+    ],
+    "jungle6": [
+      {
+        "id": 373,
+        "name": "Drattak"
+      },
+      {
+        "id": 445,
+        "name": "Carchacrok"
+      },
+      {
+        "id": 464,
+        "name": "Rhinastoc"
+      },
+      {
+        "id": 473,
+        "name": "Mammochon"
+      },
+      {
+        "id": 376,
+        "name": "Métalosse"
+      },
+      {
+        "id": 448,
+        "name": "Lucario"
+      }
+    ],
+    "jungle7": [
+      {
+        "id": 65,
+        "name": "Alakazam"
+      },
+      {
+        "id": 94,
+        "name": "Ectoplasma"
+      },
+      {
+        "id": 212,
+        "name": "Cizayox"
+      },
+      {
+        "id": 229,
+        "name": "Démolosse"
+      },
+      {
+        "id": 3,
+        "name": "Florizarre"
+      },
+      {
+        "id": 9,
+        "name": "Tortank"
+      }
+    ],
+    "jungle8": [
+      {
+        "id": 282,
+        "name": "Gardevoir"
+      },
+      {
+        "id": 330,
+        "name": "Libégon"
+      },
+      {
+        "id": 392,
+        "name": "Simiabraz"
+      },
+      {
+        "id": 395,
+        "name": "Pingoléon"
+      },
+      {
+        "id": 254,
+        "name": "Jungko"
+      },
+      {
+        "id": 260,
+        "name": "Laggron"
+      }
+    ],
+    "jungle9": [
+      {
+        "id": 376,
+        "name": "Métalosse"
+      },
+      {
+        "id": 448,
+        "name": "Lucario"
+      },
+      {
+        "id": 468,
+        "name": "Togekiss"
+      },
+      {
+        "id": 477,
+        "name": "Noctunoir"
+      },
+      {
+        "id": 405,
+        "name": "Luxray"
+      },
+      {
+        "id": 407,
+        "name": "Roserade"
+      }
+    ]
+  },
+  "landSpeciesTotal": 36,
+  "speciesPerMap": 6,
+  "levelsAndMapConnectionsUnchanged": true,
+  "authorTiledAndImagesUnchanged": true,
+  "importPreservesExistingPools": true,
+  "fishing": {
+    "allSpecies": 8,
+    "speciesCountsByColumn": [
+      5,
+      6,
+      6
+    ],
+    "west": [
+      [
+        9,
+        24
+      ],
+      [
+        130,
+        24
+      ],
+      [
+        350,
+        22
+      ],
+      [
+        73,
+        15
+      ],
+      [
+        171,
+        15
+      ]
+    ],
+    "center": [
+      [
+        9,
+        15
+      ],
+      [
+        130,
+        16
+      ],
+      [
+        260,
+        23
+      ],
+      [
+        350,
+        23
+      ],
+      [
+        73,
+        11
+      ],
+      [
+        171,
+        12
+      ]
+    ],
+    "east": [
+      [
+        130,
+        14
+      ],
+      [
+        260,
+        17
+      ],
+      [
+        350,
+        17
+      ],
+      [
+        395,
+        22
+      ],
+      [
+        73,
+        14
+      ],
+      [
+        230,
+        16
+      ]
+    ],
+    "allNativeWaterSpeciesRemainAvailable": true,
+    "firstMapExcludes": [
+      260,
+      395,
+      230
+    ],
+    "ordinaryWorldProfilesUnchanged": true
+  },
+  "loot": {
+    "westMaps": [
+      "jungle1",
+      "jungle4",
+      "jungle7"
+    ],
+    "ordinaryPlateChanceBefore": 0.07,
+    "ordinaryPlateChanceAfter": 0.03,
+    "centerChance": 0.1,
+    "eastChance": 0.14,
+    "corruptedPlateGuaranteeUnchanged": [
+      1,
+      5
+    ],
+    "crystalAndOtherLootUnchanged": true
+  },
+  "validation": {
+    "unit": 64,
+    "sql": 41,
+    "failed": 0,
+    "skipped": 0,
+    "testDatabase": "explorakit_test",
+    "browser": {
+      "chromium": {
+        "success": true,
+        "views": 52,
+        "errors": [],
+        "buildIndexSha256": "649d8cb7c80d6fe3ab36ab3eb0813ed45305f91b973b08bdeafb980ce6156b3e",
+        "researchApproaches": 3,
+        "classicDialogue": true,
+        "actualFishingAndRescue": true,
+        "exactConnections": true
+      },
+      "webkit": {
+        "success": true,
+        "views": 52,
+        "errors": [],
+        "buildIndexSha256": "649d8cb7c80d6fe3ab36ab3eb0813ed45305f91b973b08bdeafb980ce6156b3e",
+        "researchApproaches": 3,
+        "classicDialogue": true,
+        "actualFishingAndRescue": true,
+        "exactConnections": true
+      }
+    },
+    "focusedBrowser": {
+      "chromium": {
+        "success": true,
+        "views": 14,
+        "errors": [],
+        "readableRenderedText": true,
+        "guideUnchanged": true,
+        "researchApproaches": 3
+      },
+      "webkit": {
+        "success": true,
+        "views": 14,
+        "errors": [],
+        "readableRenderedText": true,
+        "guideUnchanged": true,
+        "researchApproaches": 3
+      }
+    }
+  },
+  "commands": [
+    "node --test tests/dark-habitats.test.js tests/dark-encounters.test.js tests/dark-continent.test.js tests/dark-travel.test.js tests/fishing.test.js tests/region-map.test.js tests/wild-encounter-rates.test.js tests/wild-ability-availability.test.js tests/legendary-encounters.test.js tests/world-movement.test.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RUN_MYSQL_TESTS=1 NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file-if-exists=.env --test --test-concurrency=1 tests/dark-continent-mysql.test.js tests/dark-economy-mysql.test.js tests/fishing-mysql.test.js",
+    "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=chromium node --env-file-if-exists=.env scripts/validateDarkContinentBrowser.js",
+    "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=webkit node --env-file-if-exists=.env scripts/validateDarkContinentBrowser.js",
+    "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=chromium RESEARCH_ONLY=1 RELEASE_SCREENSHOTS=/tmp/riftmon-dark-research-detail-chromium node --env-file-if-exists=.env scripts/validateDarkContinentBrowser.js",
+    "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=webkit RESEARCH_ONLY=1 RELEASE_SCREENSHOTS=/tmp/riftmon-dark-research-detail-webkit node --env-file-if-exists=.env scripts/validateDarkContinentBrowser.js"
+  ],
+  "limits": [
+    "Navigateurs headless Chromium et WebKit, pas de téléphone physique.",
+    "La cause exacte chez le joueur (proximité ou ancien client) n’a pas été reproduite : le dialogue classique évite le rendu de secours des règles dans les anciens clients, et le déplacement retire l’ambiguïté spatiale."
+  ],
+  "deployment": {
+    "publishedAt": "2026-11-03T04:04:29.768Z",
+    "restartedAt": "2026-11-03T04:04:28.651Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-dark-habitats-2026-11-03T04-04-28-273Z",
+    "sourceBaseline": "2c6c2cdfc39d98bb4c4a2ccfc826ca26c2bc05c6",
+    "sourceHashes": {
+      "data/game/nextMap.json": "cbf27c4ec0f75f4997a5859b05a76713e380131ffc7081e0f9e117617895b79c",
+      "server/game/world/darkContinent.js": "db41fe810e34b8371b04aa39ed27e036f5f3548db7b7006afb99b6b1511c08c1",
+      "server/game/world/fishingEncounters.js": "517b23bbb84043c2f82a2df1746dac4735bf6938ff8e4210512b65fba72110a3",
+      "server/realtime/handlers/darkContinentHandlers.js": "84d47a9da55edec42e532f7d66d3da7acd67df8271e904471007cc7a19b00535",
+      "server/realtime/socketHandler.js": "df894159ca2ddaf029e5025d4d72007931af361fcdc720ad4b79b3437c422d21"
+    },
+    "clientCommit": "d2b4a47ddaa4088a036c2b72ec9454ebee121813",
+    "clientBuild": "b4d6ce7ebc619fd2",
+    "beforePid": "3762283",
+    "afterPid": "3764167",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "clientUnchanged": true,
+    "publicClientUnchanged": true,
+    "schemaChanged": false,
+    "activeClubDuelsBefore": 0,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 0,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": []
+  },
+  "runtimeSourceSha256": {
+    "data/game/nextMap.json": "cbf27c4ec0f75f4997a5859b05a76713e380131ffc7081e0f9e117617895b79c",
+    "server/game/world/darkContinent.js": "db41fe810e34b8371b04aa39ed27e036f5f3548db7b7006afb99b6b1511c08c1",
+    "server/game/world/fishingEncounters.js": "517b23bbb84043c2f82a2df1746dac4735bf6938ff8e4210512b65fba72110a3",
+    "server/realtime/handlers/darkContinentHandlers.js": "84d47a9da55edec42e532f7d66d3da7acd67df8271e904471007cc7a19b00535",
+    "server/realtime/socketHandler.js": "df894159ca2ddaf029e5025d4d72007931af361fcdc720ad4b79b3437c422d21"
+  },
+  "publicationTimezone": "Europe/Paris",
+  "publishedLocal": "2026-11-03T05:04:29.768000+01:00"
+}

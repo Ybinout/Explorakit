@@ -6,7 +6,9 @@ for(let n=1;n<=9;n++){const name='jungle'+n;maps[name]=JSON.parse(fs.readFileSyn
 for(const[name,map]of Object.entries(maps)){
  const links=require('../server/game/world/darkContinentEdges').linksFor(name,n=>maps[n]);
  const column=dc.column(name),[min,max]=dc.levels(name);
- const next={mapName:name,canCapture:false,mapchange:links,wildpokemon:dc.COLUMNS[column],level:{min,max},actionLinks:name==='jungle1'?[dc.LOBBY.map]:[]};
+ // Reimporting creator maps must not overwrite the current encounter balance.
+ const existing=config.maps.find(m=>m.mapName===name);
+ const next={mapName:name,canCapture:false,mapchange:links,wildpokemon:existing?.wildpokemon??dc.COLUMNS[column],level:{min,max},actionLinks:name==='jungle1'?[dc.LOBBY.map]:[]};
  const i=config.maps.findIndex(m=>m.mapName===name);if(i<0)config.maps.push(next);else config.maps[i]=next;
 }
 const lobby=config.maps.find(m=>m.mapName===dc.LOBBY.map);lobby.actionLinks=[...new Set([...(lobby.actionLinks||[]),'jungle1'])];

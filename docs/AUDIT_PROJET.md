@@ -1,3 +1,17 @@
+## Prospecteur et habitats du Dark Continent — 3 novembre 2026
+
+Le prospecteur se tient désormais **plus haut sur le sable, en (9,6)**, à sept cases du guide (6,10). Corps et pieds sur des cellules praticables, sprite classique distinct conservé. Son interaction utilise maintenant **le dialogue standard des PNJ**, avec une autorisation serveur de clôture sans récompense ni soin ; elle ne peut plus tomber sur le rendu des règles d’un client ne connaissant pas le panneau « recherche ». Il explique bien les plaques, les trois puretés de cristaux/prismes, les synthèses et le matériel hypothétique nécessaire. Le guide conserve ses règles, ses soins et le retour. La sélection d’un PNJ exige une vraie proximité d’une case du corps/des pieds, puis privilégie celui regardé ; un personnage éloigné ne doit pas intercepter Action/pêche. La cause exacte de l’affichage observé chez le joueur n’est pas prouvée ; le protocole classique et l’éloignement couvrent l’ancien client et l’ambiguïté de proximité.
+
+**Six espèces terrestres par jungle**, avec rencontres exclusives et quelques recouvrements entre cartes. Les **36 espèces initiales restent présentes**, dans leur colonne de difficulté et aux mêmes niveaux. Jungle 1 : Florizarre, Tortank, Léviator, Pharamp, Dracaufeu, Mackogneur ; Ectoplasma/Cizayox et les autres espèces demandent d’explorer les autres jungles. Le script de réimportation préserve les listes déjà configurées ; il n’a pas été rejoué et ne retouche aucun Tiled/image/raccord.
+
+**Pêche répartie par secteur** : cinq espèces à l’ouest, six au centre et à l’est ; huit sur l’île au total, dont tous les Eau natifs. Laggron demande le centre/est, Pingoléon et Hyporoi les eaux de l’est. Les six anciens lacs restent identiques. Canne, niveaux, traits, mort définitive, interdictions de capture/fuite et secours après pêche restent applicables.
+
+Les plaques ordinaires passent de **7 % à 3 % sur Jungle 1, 4 et 7**. Centre 10 % et est 14 % conservés. Les corrompus gardent leur butin garanti de **1–5 plaques**, ainsi que leurs quantités renforcées de cristaux. Aucun changement d’XP, argent, traits IV/K/EV, probabilité de corruption ou récompenses des autres régions.
+
+Validation : **64 tests unitaires/régression et 41 SQL réussis sans saut**, limites exactes de tirage, génération réelle des 54 entrées terrestres, huit espèces aquatiques et conservation des catalogues. Comparaison structurée du fichier des cartes : seules les neuf listes d’espèces changent, niveaux et liaisons identiques. Parcours Chromium/WebKit de 104 vues, dont pêche réelle et secours ; recette ciblée de 28 vues supplémentaires pour vérifier le texte réellement rendu. Dialogue du prospecteur lu depuis trois côtés avec Action mobile et clavier, puis retour au vrai menu du guide ; zéro erreur JavaScript. Base dédiée et comptes jetables supprimés. Client actuel réutilisé, aucune migration ni réouverture des modes. Rapport et commandes : `docs/DARK_HABITATS_GUIDE_2026-11-03.json`.
+
+Publication le **3 novembre 2026 à 05 h 04 (Europe/Paris)** : correctif serveur actif, client `d2b4a47` / build `b4d6ce7ebc619fd2` conservés. Sauvegardes SQL/sources/checkpoint dans `/home/ubuntu/dev/backups/riftmon-dark-habitats-2026-11-03T04-04-28-273Z`. Service actif sans redémarrage automatique ni avertissement ; index HTTPS, Knov/API voisins et checkpoint des modes fermés inchangés.
+
 ## Faux-Chage et Prescience — 3 novembre 2026
 
 Deux défauts comportementaux confirmés : la prévision de l’IA limitait déjà Faux-Chage à 1 PV, mais le combat réel ne le faisait pas ; Prescience et Vœu Destructeur n’avaient aucun traitement différé et frappaient immédiatement. Règles vérifiées dans les données et conditions de Pokémon Showdown (règles génération 7, cohérentes avec les puissances déjà utilisées) : [capacités](https://github.com/smogon/pokemon-showdown/blob/master/data/moves.ts), [attaques futures](https://github.com/smogon/pokemon-showdown/blob/master/data/conditions.ts), [descriptions](https://github.com/smogon/pokemon-showdown/blob/master/data/text/moves.ts).
@@ -6068,6 +6082,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **3 novembre 2026 — Prospecteur / habitats Dark :** dialogue classique explicatif, prospecteur (9,6), portée d’interaction stricte ; six espèces terrestres/carte, pêche par secteur et plaques ordinaires ouest 3 %, corrompus garantis conservés. 64 tests, 41 SQL, parcours 104 vues + recette de lecture 28 vues Chromium/WebKit ; `docs/DARK_HABITATS_GUIDE_2026-11-03.json`.
 
 - **3 novembre 2026 — Faux-Chage / Prescience :** limite non létale réelle, attaques futures sur emplacement à tour +2, PP uniques/checkpoint et impact animé ; IA filtrée et clones alignés. 497 tests, 260 SQL, 24 vues Chromium/WebKit ; `docs/NONLETHAL_FUTURE_MOVES_2026-11-03.json`.
 
