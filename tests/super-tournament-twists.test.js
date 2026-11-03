@@ -13,16 +13,16 @@ function fixture(){let saved=null,version=0,fail=false;const events=[];
 }
 async function draft(c,keys=['heal_10','heal_25','cure','pp_3']){await c.atomic(()=>{c.run.phase='reward';c.run.cleared=c.run.room+1;c.run.reward={id:'offer',afterRoom:c.run.cleared,cards:keys};});}
 const party=()=>({pokemons:[factory.create(9,100,true),factory.create(94,100,true)]});
-test('27 bargains and two next-opponent cards are unique, fully described and target-free',()=>{
- assert.equal(twists.cards.filter(c=>c.kind==='pact').length,27);assert.equal(twists.cards.filter(c=>c.kind==='opponent').length,2);assert.equal(rewards.cards.length,65);assert.equal(new Set(rewards.cards.map(c=>c.key)).size,65);
+test('38 bargains and two next-opponent cards are unique, fully described and target-free',()=>{
+ assert.equal(twists.cards.filter(c=>c.kind==='pact').length,38);assert.equal(twists.cards.filter(c=>c.kind==='opponent').length,2);assert.equal(rewards.cards.length,76);assert.equal(new Set(rewards.cards.map(c=>c.key)).size,76);
  for(const c of twists.cards){assert(c.description&&c.duration);if(c.kind==='pact')assert(c.boon&&c.cost);const o=owner(),team=party().pokemons,before=codec.encode(team),offer={id:'offer',cards:[c.key],afterRoom:1};
-  const view=rewards.viewOffer(offer,team,o);assert(view.choices[0].usable);assert.deepEqual(view.choices[0].targets,[]);assert(!view.canSkip);rewards.applyChoice(offer,team,{offerId:'offer',cardKey:c.key,values:{critical:999}},o);assert.deepEqual(codec.encode(team),before);assert.equal(rewards.viewOffer(offer,team,o).choices[0].usable,false);assert.throws(()=>rewards.applyChoice(offer,team,{offerId:'offer',cardKey:c.key},o));
+  const view=rewards.viewOffer(offer,team,o);assert(view.choices[0].usable);assert.deepEqual(view.choices[0].targets,[]);assert(!view.canSkip);rewards.applyChoice(offer,team,{offerId:'offer',cardKey:c.key,values:{critical:999}},o);assert.deepEqual(codec.encode(team),before);if(c.kind==='pact'){assert(rewards.viewOffer(offer,team,o).choices[0].usable);rewards.applyChoice(offer,team,{offerId:'offer',cardKey:c.key},o);assert.equal(twists.count(o,c.key),2);}else{assert.equal(rewards.viewOffer(offer,team,o).choices[0].usable,false);assert.throws(()=>rewards.applyChoice(offer,team,{offerId:'offer',cardKey:c.key},o));}
  }
 });
-test('absolute rare-card odds are 0.5% solo opponent, 3% duo, 35.2% bargain; no owned or excluded cards',()=>{
+test('absolute rare-card odds are 0.5% solo opponent, 3% duo, 35.2% bargain; repeatable pacts but no excluded cards',()=>{
  const counts={};for(let i=0;i<10000;i++){let first=true;const k=twists.draw(owner(),()=>first?(first=false,(i+.5)/10000):.5);const kind=k?.startsWith('pact_')?'pact':k||'none';counts[kind]=(counts[kind]||0)+1;}
  assert.deepEqual(counts,{next_opponent_one:50,next_opponent_two:300,pact:3520,none:6130});
- const o=owner();for(const c of twists.cards.filter(c=>c.kind==='pact'))if(twists.usable(o,c))twists.activate(o,c.key);assert.equal(twists.draw(o,()=>.2),null);assert.equal(twists.draw(owner(),()=>.01,new Set(['next_opponent_two'])),null);
+ const o=owner();for(const c of twists.cards.filter(c=>c.kind==='pact'))if(twists.usable(o,c))twists.activate(o,c.key);assert(twists.draw(o,()=>.2)?.startsWith('pact_'));assert.equal(twists.draw(owner(),()=>.01,new Set(['next_opponent_two'])),null);
  for(const n of[-1,1,NaN,Infinity])assert.throws(()=>twists.draw(owner(),()=>n));
 });
 test('a bargain or reduced-opponent offer may be declined without forcing a malus or sacrificing leaderboard points',()=>{
@@ -40,15 +40,12 @@ test('crit bargain raises actual crit chance and Water damage without modifying 
  try{let plain=engine.useattack('Tackle',a,b,{consumePp:false});assert(!plain.critical);b.currentHp=b.maxHp;twists.activate(o,'pact_hunter');fx.attach([a],o);const result=engine.useattack('Tackle',a,b,{consumePp:false});assert(result.critical);assert.equal(fx.multiplier(b,a,engine.getMoveByName('Surf'),false),1.25);assert.equal(fx.multiplier(b,a,move,false),1);assert.equal(a.attack,JSON.parse(before).attack);}
  finally{Math.random=old;}
 });
-test('critical bargains are mutually exclusive for new picks and capped on legacy dual-pact checkpoints, not other crit sources',()=>{
- const {a,b,o}=pair(['pact_hunter']),other=twists.get('pact_cold_blood');assert.equal(twists.usable(o,other),false);assert.throws(()=>twists.activate(o,other.key));
- const offer={id:'legacy-offer',afterRoom:1,cards:[other.key,'heal_10','cure','pp_3']};assert.equal(rewards.viewOffer(offer,[a],o).choices[0].usable,false);assert(rewards.viewOffer(offer,[a],o).canDecline);
- // An older run may already contain both. It keeps its saved keys and both
- // documented costs, but can no longer reach 50% crit just from the two pacts.
- o.superTournamentPacts=['pact_hunter','pact_cold_blood'];assert.equal(fx.criticalStage(a),1);assert.equal(fx.speed(a),.9);assert.equal(fx.multiplier(b,a,engine.getMoveByName('Surf'),false),1.25);
- const restored=codec.decode(codec.encode({a,b,o}));assert.equal(fx.criticalStage(restored.a),1);assert.deepEqual(restored.o.superTournamentPacts,o.superTournamentPacts);assert.equal(fx.criticalStage(humanAI.publicPokemon(a)),1);
- const previous=Math.random;Math.random=()=>.2;try{assert.equal(engine.useattack('Tackle',a,b,{consumePp:false}).critical,false);engine.ensureBattleData(a).statStages.critical=2;assert.equal(engine.useattack('Tackle',a,b,{consumePp:false}).critical,true);}finally{Math.random=previous;}
+test('critical bargains stack to three stages, survive legacy checkpoints and remain public to the AI',()=>{
+ const {a,b,o}=pair(['pact_hunter']),other=twists.get('pact_cold_blood');assert(twists.usable(o,other));twists.activate(o,other.key);assert.equal(fx.criticalStage(a),2);assert.equal(fx.speed(a),.9);assert.equal(fx.multiplier(b,a,engine.getMoveByName('Surf'),false),1.25);
+ const restored=codec.decode(codec.encode({a,b,o}));assert.equal(fx.criticalStage(restored.a),2);assert.equal(fx.criticalStage(humanAI.publicPokemon(a)),2);twists.activate(o,'pact_hunter');assert.equal(fx.criticalStage(a),3);assert(!twists.usable(o,other));assert.throws(()=>twists.activate(o,other.key));
+ const previous=Math.random;Math.random=()=>.9;try{assert(engine.useattack('Tackle',a,b,{consumePp:false}).critical);}finally{Math.random=previous;}
 });
+
 test('new offensive and defensive pact bonuses are reduced while their advertised costs still apply',()=>{
  const move=engine.getMoveByName('Tackle');
  for(const[key,outgoing,incoming]of[['pact_glass',1.15,1.15],['pact_heavy_fist',1.2,1],['pact_soldier',1.2,1],['pact_rampart',1,.85],['pact_fortress',.9,.88]]){const {a,b}=pair([key]);assert.equal(fx.multiplier(a,b,move,false),outgoing,key);assert.equal(fx.multiplier(b,a,move,false),incoming,key);}

@@ -56,7 +56,7 @@ function sameType(p, n, type) {
 }
 function multiplier(a, d, move, critical) {
     const s = states.get(a), t = states.get(d);
-    let bonus = 0, reduction = power(d, 13);
+    let bonus = 0, reduction = power(d, 13)-(states.has(d)?tournamentPowers.value(tournamentOwner(d),13):0);
     if (s) {
         if (sameType(a, 1, move.type)) bonus += power(a, 1);
         if (d.currentHp / d.maxHp < .3) bonus += power(a, 6);
@@ -84,12 +84,14 @@ function multiplier(a, d, move, critical) {
     if (t?.adapted === move.type) reduction += power(d, 37);
     if (t?.wild) reduction += power(d, 48);
     return (1 + Math.min(200, bonus) / 100) * (1 - Math.min(60, reduction) / 100)
+        * tournamentPowers.damageMultiplier(tournamentOwner(d))
         * tournamentTwists.multiplier(tournamentOwner(a),tournamentOwner(d),a,d,move);
 }
 function tournamentOwner(p) { return states.get(p)?.owner || p?.__towerPactContext; }
 function copyTournamentPacts(source,copy) {
     const owner=tournamentOwner(source),cards=tournamentTwists.owned(owner);
-    if(cards.length)copy.__towerPactContext={currentmap:'super_tournament_room',superTournamentPacts:cards.map(c=>c.key),__preview:true};
+    const passives=[...new Set(owner?.superTournamentPassives||[])].filter(key=>tournamentPowers.get(key)?.kind==='passive'&&tournamentPowers.count(owner,key));
+    if(cards.length||passives.length)copy.__towerPactContext={currentmap:'super_tournament_room',superTournamentPacts:cards.map(c=>c.key),superTournamentPactStacks:Object.fromEntries(cards.map(c=>[c.key,tournamentTwists.count(owner,c.key)])),superTournamentPassives:passives,superTournamentPassiveStacks:Object.fromEntries(passives.map(key=>[key,tournamentPowers.count(owner,key)])),__preview:true};
     return copy;
 }
 function speed(p) { return tournamentTwists.speed(tournamentOwner(p)); }
@@ -99,9 +101,10 @@ function directDamage(p, amount, attacker) {
     if (!s || !attacker || s.dead) return amount;
     let loss = Math.max(0, amount);
     if (s.shield) { const blocked = Math.min(loss, s.shield); s.shield -= blocked; loss -= blocked;if(blocked)signal(p,21,`${blocked} dégâts bloqués`); }
-    if (loss >= p.currentHp && !s.survival) {
-        if (roll(p, 55)) { s.phoenixHp = Math.max(1, Math.floor(p.maxHp * .2)); loss = Math.max(0, p.currentHp - s.phoenixHp); s.survival = true;signal(p,55,'survie'); }
-        else if (roll(p, 15)) { loss = p.currentHp - 1; s.survival = true;signal(p,15,'survie à 1 PV'); }
+    if (loss >= p.currentHp) {
+        const charges=tournamentPowers.count(s.owner,'power_phoenix'),used=s.phoenixUsed??(s.survival?1:0);
+        if ((charges?used<charges:!s.survival) && roll(p, 55)) { s.phoenixHp = Math.max(1, Math.floor(p.maxHp * .2)); loss = Math.max(0, p.currentHp - s.phoenixHp); s.survival = true;s.phoenixUsed=used+1;signal(p,55,'survie'); }
+        else if (!s.survival && roll(p, 15)) { loss = p.currentHp - 1; s.survival = true;signal(p,15,'survie à 1 PV'); }
     }
     return loss;
 }

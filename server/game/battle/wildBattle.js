@@ -492,7 +492,7 @@ async function startBattle(player, wildPokemon, io, userId) {
                 await rewardText(player,io,`${items.length>1?'Objets trouvés':'Objet trouvé'} : ${items.map(i=>i.name+(i.quantity>1?' ×'+i.quantity:'')).join(', ')} !`,sleep);
             }
         }
-        if (!dark && playerWon && (extra.captured || wildPokemon.currentHp <= 0) && !wildMoneyGranted) {
+        if (playerWon && (extra.captured || wildPokemon.currentHp <= 0) && !wildMoneyGranted) {
             const money = await awardUserMoney(userId, adventureMoneyReward(wildPokemon, playerSide.rewardMultiplier));
             wildMoneyGranted = true;
             resultTracker.money += money;
@@ -533,7 +533,7 @@ async function startBattle(player, wildPokemon, io, userId) {
     }
 
     const grantWildXp = async (options = {}) => {
-        const awards = battleState.adventureExperience.reward(player, wildPokemon, BATTLE_EXPERIENCE_MULTIPLIERS.wild*(dark?.1:1), io, options);
+        const awards = battleState.adventureExperience.reward(player, wildPokemon, BATTLE_EXPERIENCE_MULTIPLIERS.wild*(dark?.5:1), io, options);
         for (const {pokemon, xp} of awards) await rewardText(player, io, `${getPokemonDisplayName(pokemon)} gagne ${xp} XP !`, sleep);
     };
 

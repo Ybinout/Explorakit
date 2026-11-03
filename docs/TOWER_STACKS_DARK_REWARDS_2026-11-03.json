@@ -1,0 +1,1457 @@
+{
+  "date": "2026-11-03",
+  "feature": "XP/argent Dark Continent, cumuls du Super Tournoi et cartes communes",
+  "sourceBaseline": "3d6ed2f8a90bd1dfdead34ffab432b5441c6013d",
+  "clientCommit": "51771f0a2329e2f27a56b9373c46c29cc8714db7",
+  "clientBuild": "f9bf23c4d1f931bb",
+  "schemaChanged": false,
+  "mapsChanged": false,
+  "realAccountsManuallyModified": false,
+  "darkContinent": {
+    "xpBefore": 0.1,
+    "xpAfter": 0.5,
+    "money": "formule sauvage Aventure, victoire avec survivant uniquement",
+    "usualBaseRewardAtZoneLevels": 360,
+    "walletCapAndMultipliersUnchanged": true,
+    "lootAndDeathsUnchanged": true,
+    "connectionsUnchanged": true
+  },
+  "tower": {
+    "cardsBefore": 65,
+    "cardsAfter": 76,
+    "newCommons": 10,
+    "newRareFairyCard": true,
+    "newCards": [
+      {
+        "key": "pact_fairy",
+        "name": "Poussière féerique",
+        "rarity": "rare",
+        "kind": "pact",
+        "target": "run",
+        "boon": "Dégâts Fée infligés : +25 %.",
+        "cost": "Dégâts Acier reçus : +30 %.",
+        "effects": {
+          "outgoingType": {
+            "Fairy": 1.25
+          },
+          "incomingType": {
+            "Steel": 1.3
+          }
+        },
+        "description": "Dégâts Fée infligés : +25 %. En contrepartie : Dégâts Acier reçus : +30 %.",
+        "duration": "Toute la tentative",
+        "twist": true,
+        "rarityName": "Rare"
+      },
+      {
+        "key": "pact_pebble",
+        "name": "Petit élan",
+        "rarity": "common",
+        "kind": "pact",
+        "target": "run",
+        "boon": "Dégâts directs infligés : +4 %.",
+        "cost": "Dégâts directs reçus : +3 %.",
+        "effects": {
+          "outgoing": 1.04,
+          "incoming": 1.03
+        },
+        "description": "Dégâts directs infligés : +4 %. En contrepartie : Dégâts directs reçus : +3 %.",
+        "duration": "Toute la tentative",
+        "twist": true,
+        "rarityName": "Commune"
+      },
+      {
+        "key": "pact_feather",
+        "name": "Semelles légères",
+        "rarity": "common",
+        "kind": "pact",
+        "target": "run",
+        "boon": "Vitesse : +4 %.",
+        "cost": "Dégâts directs infligés : −2 %.",
+        "effects": {
+          "speed": 1.04,
+          "outgoing": 0.98
+        },
+        "description": "Vitesse : +4 %. En contrepartie : Dégâts directs infligés : −2 %.",
+        "duration": "Toute la tentative",
+        "twist": true,
+        "rarityName": "Commune"
+      },
+      {
+        "key": "pact_patchwork",
+        "name": "Veste rapiécée",
+        "rarity": "common",
+        "kind": "pact",
+        "target": "run",
+        "boon": "Dégâts physiques reçus : −4 %.",
+        "cost": "Dégâts spéciaux reçus : +3 %.",
+        "effects": {
+          "incomingClass": {
+            "physical": 0.96,
+            "special": 1.03
+          }
+        },
+        "description": "Dégâts physiques reçus : −4 %. En contrepartie : Dégâts spéciaux reçus : +3 %.",
+        "duration": "Toute la tentative",
+        "twist": true,
+        "rarityName": "Commune"
+      },
+      {
+        "key": "pact_umbrella",
+        "name": "Petit parapluie",
+        "rarity": "common",
+        "kind": "pact",
+        "target": "run",
+        "boon": "Dégâts spéciaux reçus : −4 %.",
+        "cost": "Dégâts physiques reçus : +3 %.",
+        "effects": {
+          "incomingClass": {
+            "special": 0.96,
+            "physical": 1.03
+          }
+        },
+        "description": "Dégâts spéciaux reçus : −4 %. En contrepartie : Dégâts physiques reçus : +3 %.",
+        "duration": "Toute la tentative",
+        "twist": true,
+        "rarityName": "Commune"
+      },
+      {
+        "key": "pact_snack",
+        "name": "Petit creux",
+        "rarity": "common",
+        "kind": "pact",
+        "target": "run",
+        "boon": "Récupère 2 % des dégâts directs infligés en PV.",
+        "cost": "Dégâts directs reçus : +2 %.",
+        "effects": {
+          "values": {
+            "5": 2
+          },
+          "incoming": 1.02
+        },
+        "description": "Récupère 2 % des dégâts directs infligés en PV. En contrepartie : Dégâts directs reçus : +2 %.",
+        "duration": "Toute la tentative",
+        "twist": true,
+        "rarityName": "Commune"
+      },
+      {
+        "key": "pact_picnic",
+        "name": "Goûter de victoire",
+        "rarity": "common",
+        "kind": "pact",
+        "target": "run",
+        "boon": "Après une victoire, rend 3 % des PV maximum aux Pokémon aptes.",
+        "cost": "Vitesse : −1 %.",
+        "effects": {
+          "victoryHeal": 0.03,
+          "speed": 0.99
+        },
+        "description": "Après une victoire, rend 3 % des PV maximum aux Pokémon aptes. En contrepartie : Vitesse : −1 %.",
+        "duration": "Toute la tentative",
+        "twist": true,
+        "rarityName": "Commune"
+      },
+      {
+        "key": "pact_fresh_start",
+        "name": "Bien réveillé",
+        "rarity": "common",
+        "kind": "pact",
+        "target": "run",
+        "boon": "Dégâts directs infligés : +6 % à pleine vie.",
+        "cost": "Dégâts directs reçus : +2 %.",
+        "effects": {
+          "fullHealth": 1.06,
+          "incoming": 1.02
+        },
+        "description": "Dégâts directs infligés : +6 % à pleine vie. En contrepartie : Dégâts directs reçus : +2 %.",
+        "duration": "Toute la tentative",
+        "twist": true,
+        "rarityName": "Commune"
+      },
+      {
+        "key": "pact_grit",
+        "name": "Petit courage",
+        "rarity": "common",
+        "kind": "pact",
+        "target": "run",
+        "boon": "Dégâts directs infligés : +6 % avec au plus 50 % de ses PV.",
+        "cost": "Dégâts directs reçus : +2 %.",
+        "effects": {
+          "desperate": 1.06,
+          "incoming": 1.02
+        },
+        "description": "Dégâts directs infligés : +6 % avec au plus 50 % de ses PV. En contrepartie : Dégâts directs reçus : +2 %.",
+        "duration": "Toute la tentative",
+        "twist": true,
+        "rarityName": "Commune"
+      },
+      {
+        "key": "pact_pixie",
+        "name": "Paillette féerique",
+        "rarity": "common",
+        "kind": "pact",
+        "target": "run",
+        "boon": "Dégâts Fée infligés : +6 %.",
+        "cost": "Dégâts Poison reçus : +4 %.",
+        "effects": {
+          "outgoingType": {
+            "Fairy": 1.06
+          },
+          "incomingType": {
+            "Poison": 1.04
+          }
+        },
+        "description": "Dégâts Fée infligés : +6 %. En contrepartie : Dégâts Poison reçus : +4 %.",
+        "duration": "Toute la tentative",
+        "twist": true,
+        "rarityName": "Commune"
+      },
+      {
+        "key": "pact_palette",
+        "name": "Jeu de couleurs",
+        "rarity": "common",
+        "kind": "pact",
+        "target": "run",
+        "boon": "Dégâts directs : +5 % si le type diffère de la précédente capacité.",
+        "cost": "Dégâts directs : −2 % si le type reste identique. Premier coup inchangé.",
+        "effects": {
+          "changeType": {
+            "different": 1.05,
+            "same": 0.98
+          }
+        },
+        "description": "Dégâts directs : +5 % si le type diffère de la précédente capacité. En contrepartie : Dégâts directs : −2 % si le type reste identique. Premier coup inchangé.",
+        "duration": "Toute la tentative",
+        "twist": true,
+        "rarityName": "Commune"
+      }
+    ],
+    "pactsStack": true,
+    "mythicPassivesStack": true,
+    "samePactCostsAlsoStack": true,
+    "multipliersCompound": true,
+    "healingAndPpAdd": true,
+    "phoenixAddsFatalHitChargesPerBattle": true,
+    "criticalStageCap": 3,
+    "bastionTwoCopiesMultiplier": 0.36,
+    "legacyKeysDefaultToOneStack": true,
+    "persistentCountersByKey": true,
+    "unboundedDuplicateArraysAvoided": true,
+    "noOfferReplayOrDuplicateClaims": true,
+    "fortuneAndNextOpponentRulesRemainUnique": true,
+    "fourDistinctBenefitFamiliesAndTwoRecoveryOptionsRetained": true,
+    "fortuneFiltersNewCommons": true,
+    "adventurePartyUnchanged": true,
+    "towerXpRemainsZero": true,
+    "towerCashAndCardOddsUnchanged": true
+  },
+  "validation": {
+    "unit": {
+      "pass": 407,
+      "fail": 0,
+      "skipped": 0
+    },
+    "mysql": {
+      "pass": 267,
+      "fail": 0,
+      "skipped": 0,
+      "database": "explorakit_test"
+    },
+    "towerBrowser": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "buildIndexSha256": "516c21614d92df2efaad0e99133e1f63164e37c1b0dee5f50699373132593af2",
+        "views": [
+          {
+            "key": "pact_palette",
+            "width": 320,
+            "height": 480,
+            "theme": "light"
+          },
+          {
+            "key": "pact_palette",
+            "width": 320,
+            "height": 480,
+            "theme": "dark"
+          },
+          {
+            "key": "pact_palette",
+            "width": 393,
+            "height": 852,
+            "theme": "light"
+          },
+          {
+            "key": "pact_palette",
+            "width": 393,
+            "height": 852,
+            "theme": "dark"
+          },
+          {
+            "key": "pact_palette",
+            "width": 844,
+            "height": 390,
+            "theme": "light"
+          },
+          {
+            "key": "pact_palette",
+            "width": 844,
+            "height": 390,
+            "theme": "dark"
+          },
+          {
+            "key": "pact_palette",
+            "width": 1536,
+            "height": 680,
+            "theme": "light"
+          },
+          {
+            "key": "pact_palette",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark"
+          },
+          {
+            "key": "pact_pixie",
+            "width": 320,
+            "height": 480,
+            "theme": "light"
+          },
+          {
+            "key": "pact_pixie",
+            "width": 320,
+            "height": 480,
+            "theme": "dark"
+          },
+          {
+            "key": "pact_pixie",
+            "width": 393,
+            "height": 852,
+            "theme": "light"
+          },
+          {
+            "key": "pact_pixie",
+            "width": 393,
+            "height": 852,
+            "theme": "dark"
+          },
+          {
+            "key": "pact_pixie",
+            "width": 844,
+            "height": 390,
+            "theme": "light"
+          },
+          {
+            "key": "pact_pixie",
+            "width": 844,
+            "height": 390,
+            "theme": "dark"
+          },
+          {
+            "key": "pact_pixie",
+            "width": 1536,
+            "height": 680,
+            "theme": "light"
+          },
+          {
+            "key": "pact_pixie",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark"
+          },
+          {
+            "key": "pact_fairy",
+            "width": 320,
+            "height": 480,
+            "theme": "light"
+          },
+          {
+            "key": "pact_fairy",
+            "width": 320,
+            "height": 480,
+            "theme": "dark"
+          },
+          {
+            "key": "pact_fairy",
+            "width": 393,
+            "height": 852,
+            "theme": "light"
+          },
+          {
+            "key": "pact_fairy",
+            "width": 393,
+            "height": 852,
+            "theme": "dark"
+          },
+          {
+            "key": "pact_fairy",
+            "width": 844,
+            "height": 390,
+            "theme": "light"
+          },
+          {
+            "key": "pact_fairy",
+            "width": 844,
+            "height": 390,
+            "theme": "dark"
+          },
+          {
+            "key": "pact_fairy",
+            "width": 1536,
+            "height": 680,
+            "theme": "light"
+          },
+          {
+            "key": "pact_fairy",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark"
+          },
+          {
+            "key": "power_bastion",
+            "width": 320,
+            "height": 480,
+            "theme": "light"
+          },
+          {
+            "key": "power_bastion",
+            "width": 320,
+            "height": 480,
+            "theme": "dark"
+          },
+          {
+            "key": "power_bastion",
+            "width": 393,
+            "height": 852,
+            "theme": "light"
+          },
+          {
+            "key": "power_bastion",
+            "width": 393,
+            "height": 852,
+            "theme": "dark"
+          },
+          {
+            "key": "power_bastion",
+            "width": 844,
+            "height": 390,
+            "theme": "light"
+          },
+          {
+            "key": "power_bastion",
+            "width": 844,
+            "height": 390,
+            "theme": "dark"
+          },
+          {
+            "key": "power_bastion",
+            "width": 1536,
+            "height": 680,
+            "theme": "light"
+          },
+          {
+            "key": "power_bastion",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark"
+          },
+          {
+            "key": "power_phoenix",
+            "width": 320,
+            "height": 480,
+            "theme": "light"
+          },
+          {
+            "key": "power_phoenix",
+            "width": 320,
+            "height": 480,
+            "theme": "dark"
+          },
+          {
+            "key": "power_phoenix",
+            "width": 393,
+            "height": 852,
+            "theme": "light"
+          },
+          {
+            "key": "power_phoenix",
+            "width": 393,
+            "height": 852,
+            "theme": "dark"
+          },
+          {
+            "key": "power_phoenix",
+            "width": 844,
+            "height": 390,
+            "theme": "light"
+          },
+          {
+            "key": "power_phoenix",
+            "width": 844,
+            "height": 390,
+            "theme": "dark"
+          },
+          {
+            "key": "power_phoenix",
+            "width": 1536,
+            "height": 680,
+            "theme": "light"
+          },
+          {
+            "key": "power_phoenix",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark"
+          }
+        ],
+        "commonPreviews": [
+          "pact_pebble",
+          "pact_feather",
+          "pact_patchwork",
+          "pact_umbrella",
+          "pact_snack",
+          "pact_picnic",
+          "pact_fresh_start",
+          "pact_grit",
+          "pact_pixie",
+          "pact_palette"
+        ],
+        "fairyPreviewed": true,
+        "secondStackActuallyClaimed": true,
+        "stackCounterAndTotalVisible": true,
+        "reconnectPreservesStacks": true,
+        "oldOfferReplayRejected": true,
+        "adventurePreserved": true,
+        "physicalDevice": false,
+        "errors": []
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "buildIndexSha256": "516c21614d92df2efaad0e99133e1f63164e37c1b0dee5f50699373132593af2",
+        "views": [
+          {
+            "key": "pact_palette",
+            "width": 320,
+            "height": 480,
+            "theme": "light"
+          },
+          {
+            "key": "pact_palette",
+            "width": 320,
+            "height": 480,
+            "theme": "dark"
+          },
+          {
+            "key": "pact_palette",
+            "width": 393,
+            "height": 852,
+            "theme": "light"
+          },
+          {
+            "key": "pact_palette",
+            "width": 393,
+            "height": 852,
+            "theme": "dark"
+          },
+          {
+            "key": "pact_palette",
+            "width": 844,
+            "height": 390,
+            "theme": "light"
+          },
+          {
+            "key": "pact_palette",
+            "width": 844,
+            "height": 390,
+            "theme": "dark"
+          },
+          {
+            "key": "pact_palette",
+            "width": 1536,
+            "height": 680,
+            "theme": "light"
+          },
+          {
+            "key": "pact_palette",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark"
+          },
+          {
+            "key": "pact_pixie",
+            "width": 320,
+            "height": 480,
+            "theme": "light"
+          },
+          {
+            "key": "pact_pixie",
+            "width": 320,
+            "height": 480,
+            "theme": "dark"
+          },
+          {
+            "key": "pact_pixie",
+            "width": 393,
+            "height": 852,
+            "theme": "light"
+          },
+          {
+            "key": "pact_pixie",
+            "width": 393,
+            "height": 852,
+            "theme": "dark"
+          },
+          {
+            "key": "pact_pixie",
+            "width": 844,
+            "height": 390,
+            "theme": "light"
+          },
+          {
+            "key": "pact_pixie",
+            "width": 844,
+            "height": 390,
+            "theme": "dark"
+          },
+          {
+            "key": "pact_pixie",
+            "width": 1536,
+            "height": 680,
+            "theme": "light"
+          },
+          {
+            "key": "pact_pixie",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark"
+          },
+          {
+            "key": "pact_fairy",
+            "width": 320,
+            "height": 480,
+            "theme": "light"
+          },
+          {
+            "key": "pact_fairy",
+            "width": 320,
+            "height": 480,
+            "theme": "dark"
+          },
+          {
+            "key": "pact_fairy",
+            "width": 393,
+            "height": 852,
+            "theme": "light"
+          },
+          {
+            "key": "pact_fairy",
+            "width": 393,
+            "height": 852,
+            "theme": "dark"
+          },
+          {
+            "key": "pact_fairy",
+            "width": 844,
+            "height": 390,
+            "theme": "light"
+          },
+          {
+            "key": "pact_fairy",
+            "width": 844,
+            "height": 390,
+            "theme": "dark"
+          },
+          {
+            "key": "pact_fairy",
+            "width": 1536,
+            "height": 680,
+            "theme": "light"
+          },
+          {
+            "key": "pact_fairy",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark"
+          },
+          {
+            "key": "power_bastion",
+            "width": 320,
+            "height": 480,
+            "theme": "light"
+          },
+          {
+            "key": "power_bastion",
+            "width": 320,
+            "height": 480,
+            "theme": "dark"
+          },
+          {
+            "key": "power_bastion",
+            "width": 393,
+            "height": 852,
+            "theme": "light"
+          },
+          {
+            "key": "power_bastion",
+            "width": 393,
+            "height": 852,
+            "theme": "dark"
+          },
+          {
+            "key": "power_bastion",
+            "width": 844,
+            "height": 390,
+            "theme": "light"
+          },
+          {
+            "key": "power_bastion",
+            "width": 844,
+            "height": 390,
+            "theme": "dark"
+          },
+          {
+            "key": "power_bastion",
+            "width": 1536,
+            "height": 680,
+            "theme": "light"
+          },
+          {
+            "key": "power_bastion",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark"
+          },
+          {
+            "key": "power_phoenix",
+            "width": 320,
+            "height": 480,
+            "theme": "light"
+          },
+          {
+            "key": "power_phoenix",
+            "width": 320,
+            "height": 480,
+            "theme": "dark"
+          },
+          {
+            "key": "power_phoenix",
+            "width": 393,
+            "height": 852,
+            "theme": "light"
+          },
+          {
+            "key": "power_phoenix",
+            "width": 393,
+            "height": 852,
+            "theme": "dark"
+          },
+          {
+            "key": "power_phoenix",
+            "width": 844,
+            "height": 390,
+            "theme": "light"
+          },
+          {
+            "key": "power_phoenix",
+            "width": 844,
+            "height": 390,
+            "theme": "dark"
+          },
+          {
+            "key": "power_phoenix",
+            "width": 1536,
+            "height": 680,
+            "theme": "light"
+          },
+          {
+            "key": "power_phoenix",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark"
+          }
+        ],
+        "commonPreviews": [
+          "pact_pebble",
+          "pact_feather",
+          "pact_patchwork",
+          "pact_umbrella",
+          "pact_snack",
+          "pact_picnic",
+          "pact_fresh_start",
+          "pact_grit",
+          "pact_pixie",
+          "pact_palette"
+        ],
+        "fairyPreviewed": true,
+        "secondStackActuallyClaimed": true,
+        "stackCounterAndTotalVisible": true,
+        "reconnectPreservesStacks": true,
+        "oldOfferReplayRejected": true,
+        "adventurePreserved": true,
+        "physicalDevice": false,
+        "errors": []
+      }
+    },
+    "darkBrowser": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "buildIndexSha256": "516c21614d92df2efaad0e99133e1f63164e37c1b0dee5f50699373132593af2",
+        "views": [
+          {
+            "stage": "invitation",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "invitation",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "invitation",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "invitation",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "stage": "rules",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "rules",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "rules",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "rules",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "stage": "guide",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "guide",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "jungle1",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle1",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle2",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle3",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle6",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle5",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle4",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle7",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle8",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle9",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "minimap",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "minimap",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle-battle",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle-battle",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "jungle-battle",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle-battle",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "stage": "plates",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "guide-return",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "guide-return",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "guide-return",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "guide-return",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "stage": "nurse-rescue",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "nurse-rescue",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "nurse-rescue",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "nurse-rescue",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "stage": "nurse-pc",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "nurse-pc",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "nurse-pc",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "nurse-pc",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          }
+        ],
+        "visited": [
+          "jungle1",
+          "jungle2",
+          "jungle3",
+          "jungle6",
+          "jungle5",
+          "jungle4",
+          "jungle7",
+          "jungle8",
+          "jungle9"
+        ],
+        "motion": {
+          "changed": 23618,
+          "outside": 0
+        },
+        "personalScout": true,
+        "scoutApproaches": true,
+        "onlyQualifiedAccount": true,
+        "uniquePassFanfareOnce": true,
+        "redRules": true,
+        "guideBlocksAndHeals": true,
+        "nineRealTransitions": true,
+        "wind": 2,
+        "waterMaskRespected": true,
+        "atlasWidth": 1024,
+        "realJungleBattle": true,
+        "fleeDisabled": true,
+        "captureImpossibleAndBallConsumed": true,
+        "nativeWebKitCaptureOmitted": false,
+        "enemyPlatformOnly": true,
+        "moneyPositive": true,
+        "eighteenPlateColors": true,
+        "reconnect": true,
+        "guideReturnHome": true,
+        "healPrice": 25000,
+        "forgedTravelBlocked": true,
+        "exactEdgeCoordinates": true,
+        "heldDirectionNoBounce": true,
+        "lifeOrbRecoilVisibleAndSaved": true,
+        "emptyTeamReconnectGetsStarter": true,
+        "pcRecoveryOnLegacyReconnect": true,
+        "paidPass": true,
+        "paidSurvivorCare": true,
+        "casinoAndHouseTracks": true,
+        "realLegendaryEncounterTheme": true,
+        "errors": []
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "buildIndexSha256": "516c21614d92df2efaad0e99133e1f63164e37c1b0dee5f50699373132593af2",
+        "views": [
+          {
+            "stage": "invitation",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "invitation",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "invitation",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "invitation",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "stage": "rules",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "rules",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "rules",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "rules",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "stage": "guide",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "guide",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "jungle1",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle1",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle2",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle3",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle6",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle5",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle4",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle7",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle8",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle9",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "minimap",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "minimap",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle-battle",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle-battle",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "jungle-battle",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "jungle-battle",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "stage": "plates",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "guide-return",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "guide-return",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "guide-return",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "guide-return",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "stage": "nurse-rescue",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "nurse-rescue",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "nurse-rescue",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "nurse-rescue",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "stage": "nurse-pc",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "stage": "nurse-pc",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "stage": "nurse-pc",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "stage": "nurse-pc",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          }
+        ],
+        "visited": [
+          "jungle1",
+          "jungle2",
+          "jungle3",
+          "jungle6",
+          "jungle5",
+          "jungle4",
+          "jungle7",
+          "jungle8",
+          "jungle9"
+        ],
+        "motion": {
+          "changed": 26289,
+          "outside": 0
+        },
+        "personalScout": true,
+        "scoutApproaches": true,
+        "onlyQualifiedAccount": true,
+        "uniquePassFanfareOnce": true,
+        "redRules": true,
+        "guideBlocksAndHeals": true,
+        "nineRealTransitions": true,
+        "wind": 2,
+        "waterMaskRespected": true,
+        "atlasWidth": 1024,
+        "realJungleBattle": true,
+        "fleeDisabled": true,
+        "captureImpossibleAndBallConsumed": false,
+        "nativeWebKitCaptureOmitted": true,
+        "enemyPlatformOnly": true,
+        "moneyPositive": true,
+        "eighteenPlateColors": true,
+        "reconnect": true,
+        "guideReturnHome": true,
+        "healPrice": 25000,
+        "forgedTravelBlocked": true,
+        "exactEdgeCoordinates": true,
+        "heldDirectionNoBounce": true,
+        "lifeOrbRecoilVisibleAndSaved": true,
+        "emptyTeamReconnectGetsStarter": true,
+        "pcRecoveryOnLegacyReconnect": true,
+        "paidPass": true,
+        "paidSurvivorCare": true,
+        "casinoAndHouseTracks": true,
+        "realLegendaryEncounterTheme": true,
+        "errors": []
+      }
+    },
+    "lint": true,
+    "isolatedBuild": true,
+    "physicalDevice": false,
+    "fullGlobalSuite": false,
+    "screenshotsInspected": [
+      "pact_fairy-393-light.png",
+      "active-stack-totals.png"
+    ]
+  },
+  "commands": [
+    "node --test tests/super-tournament-abandon.test.js tests/super-tournament-variety.test.js tests/super-tournament-cash.test.js tests/super-tournament-powers.test.js tests/super-tournament-team-balance.test.js tests/super-tournament-augments.test.js tests/super-tournament-rewards.test.js tests/super-tournament-cycle-rules.test.js tests/super-tournament-families.test.js tests/super-tournament-order.test.js tests/super-tournament-twists.test.js tests/super-tournament-stacking.test.js tests/super-tournament.test.js tests/super-tournament-rarity.test.js tests/dark-continent.test.js tests/dark-travel.test.js tests/expedition-strategy.test.js tests/ai-preview-performance.test.js tests/battle-engine.test.js tests/battle-order.test.js tests/end-of-round.test.js tests/pivot-choice.test.js tests/multi-hit.test.js tests/life-orb-review.test.js",
+    "RUN_MYSQL_TESTS=1 DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file=.env --test --test-concurrency=1 tests/super-tournament-*-mysql.test.js tests/super-tournament-mysql.test.js tests/dark-continent-mysql.test.js tests/dark-economy-mysql.test.js tests/battle-runtime-integration.test.js",
+    "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=chromium RELEASE_DIST_DIR=/tmp/riftmon-tower-stacks-dist node --env-file=.env scripts/validateTournamentStacksBrowser.js",
+    "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=webkit RELEASE_DIST_DIR=/tmp/riftmon-tower-stacks-dist node --env-file=.env scripts/validateTournamentStacksBrowser.js",
+    "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=chromium RELEASE_DIST_DIR=/tmp/riftmon-tower-stacks-dist RELEASE_SCREENSHOTS=/tmp/riftmon-dark-xp-chromium node --env-file=.env scripts/validateDarkContinentBrowser.js",
+    "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=webkit RELEASE_DIST_DIR=/tmp/riftmon-tower-stacks-dist RELEASE_SCREENSHOTS=/tmp/riftmon-dark-xp-webkit node --env-file=.env scripts/validateDarkContinentBrowser.js"
+  ],
+  "runtimeSourceSha256": {
+    "server/game/battle/wildBattle.js": "d39cbb8a03b558df361b5b4bb0319b1e9c0df9b76410846a4951d643d4233aef",
+    "server/game/drift/driftEffects.js": "ae524a714707cfd59092ad1d1b56009cf40021ca601d71ef453343d68babcdd5",
+    "server/game/superTournament/powers.js": "f8864425bfb0ad0862ca92704948654b58034bf0253676615a4f8811eec487d1",
+    "server/game/superTournament/rewardFamilies.js": "203099459da786bd8df49274e188c0e5e7f0b059fd2f8b5999de0bcdbb7f9c46",
+    "server/game/superTournament/rewards.js": "a250f5a3f7118ff03e6a9de446e0ebeb8b7caaa52d452d379e40a6b1d69b9109",
+    "server/game/superTournament/twists.js": "ff2e6e6b3443be258aec1536331638aae67b98031f487c4ec0d05f5b1ed18bd5",
+    "server/game/world/darkContinent.js": "da601829f4bf72d9fa43e5db7fc7405ea5ec9884f4e2fddcdec4b999dd54b22b",
+    "server/game/superTournament/cardStacks.js": "9797dd1df58cdeda2395acd3f3a24d4ecdf0288dbe701789257c0b9a66461ccd"
+  },
+  "deployment": {
+    "publishedAt": "2026-11-03T03:04:21.156Z",
+    "restartedAt": "2026-11-03T03:04:19.692Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-tower-stacks-2026-11-03T03-04-17-725Z",
+    "sourceBaseline": "3d6ed2f8a90bd1dfdead34ffab432b5441c6013d",
+    "sourceHashes": {
+      "server/game/battle/wildBattle.js": "d39cbb8a03b558df361b5b4bb0319b1e9c0df9b76410846a4951d643d4233aef",
+      "server/game/drift/driftEffects.js": "ae524a714707cfd59092ad1d1b56009cf40021ca601d71ef453343d68babcdd5",
+      "server/game/superTournament/powers.js": "f8864425bfb0ad0862ca92704948654b58034bf0253676615a4f8811eec487d1",
+      "server/game/superTournament/rewardFamilies.js": "203099459da786bd8df49274e188c0e5e7f0b059fd2f8b5999de0bcdbb7f9c46",
+      "server/game/superTournament/rewards.js": "a250f5a3f7118ff03e6a9de446e0ebeb8b7caaa52d452d379e40a6b1d69b9109",
+      "server/game/superTournament/twists.js": "ff2e6e6b3443be258aec1536331638aae67b98031f487c4ec0d05f5b1ed18bd5",
+      "server/game/world/darkContinent.js": "da601829f4bf72d9fa43e5db7fc7405ea5ec9884f4e2fddcdec4b999dd54b22b",
+      "server/game/superTournament/cardStacks.js": "9797dd1df58cdeda2395acd3f3a24d4ecdf0288dbe701789257c0b9a66461ccd"
+    },
+    "clientCommit": "51771f0a2329e2f27a56b9373c46c29cc8714db7",
+    "clientBuild": "f9bf23c4d1f931bb",
+    "beforePid": "3746664",
+    "afterPid": "3755507",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "schemaChanged": false,
+    "migrationApplied": null,
+    "activeClubDuelsBefore": 0,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 0,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": [
+      "js/234.02b18f2e.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.f909aa37.js",
+      "js/account.161ce126.js",
+      "js/app.1676cbd6.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.2fd32f7c.js",
+      "js/drift.5b8720d7.js",
+      "js/game.c06add24.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.4fff4c7e.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.222b09e4.css",
+      "css/test-view.7568246d.css"
+    ]
+  }
+}

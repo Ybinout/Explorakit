@@ -1,3 +1,32 @@
+## Cumuls du Super Tournoi et gains Dark Continent — 3 novembre 2026
+
+Dark Continent : l’XP passe de 10 % à **50 % du gain Aventure** ; la victoire contre un sauvage attribue désormais les Pokédollars habituels de l’Aventure (360 ₽ de base aux niveaux de ces jungles), plafonds/bonus de portefeuille existants. Pas de prime en cas de perte de toute l’équipe ou d’interruption. Butin, mort définitive, module XP ignoré et restrictions de sortie conservés. Les raccords déjà corrigés sont laissés intacts, conformément à la correction du joueur.
+
+Super Tournoi : les pactes et les cinq pouvoirs permanents peuvent être repris sur des offres différentes. Multiplicateurs de dégâts/vitesse et malus appliqués successivement ; soins, drain, récupération de PP et crans critiques additionnés. Critiques des pactes plafonnés à trois crans, comme la table de critiques du moteur. Deux Bastions = dégâts reçus ×0,36 ; deux Phénix = deux survies par Pokémon/combat, compteur consommé conservé dans le checkpoint. Régénération/soins restent plafonnés aux PV et PP maximum ; aucun soin de K.O. ajouté. Trèfle (plancher de rareté) et réduction du prochain adversaire restent des règles uniques, donc aucune proposition sans effet supplémentaire.
+
+Compteurs persistants par clé et listes de clés uniques : une ancienne clé vaut un cumul, sans migration/destruction d’un ancien tirage. Les données ne grossissent pas d’une entrée à chaque copie. Aperçu de dégâts/vitesse/critique de l’IA raccordé aux mêmes compteurs publics, sans accès à une action humaine. Les très grands produits sont bornés uniquement pour empêcher Infinity/NaN/zéro, pas pour annuler les gains courants. Interface : cumul actuel→suivant, total prévu avant validation, badge ×N et total dans le récapitulatif. Bonus et contreparties de chaque cumul sont explicités.
+
+Le bonus de dégâts Fée manquait : **Poussière féerique**, rare, +25 % Fée / +30 % dégâts Acier reçus, et une version commune plus légère. Dix nouveaux pactes communs :
+
+| Carte | Bonus par cumul | Contrepartie par cumul |
+| --- | --- | --- |
+| Petit élan | +4 % dégâts directs | +3 % dégâts directs reçus |
+| Semelles légères | +4 % Vitesse | −2 % dégâts infligés |
+| Veste rapiécée | −4 % dégâts physiques reçus | +3 % dégâts spéciaux reçus |
+| Petit parapluie | −4 % dégâts spéciaux reçus | +3 % dégâts physiques reçus |
+| Petit creux | Drain de 2 % des dégâts directs | +2 % dégâts directs reçus |
+| Goûter de victoire | 3 % PV aux Pokémon aptes après victoire | −1 % Vitesse |
+| Bien réveillé | +6 % dégâts à pleine vie | +2 % dégâts directs reçus |
+| Petit courage | +6 % dégâts à 50 % PV ou moins | +2 % dégâts directs reçus |
+| Paillette féerique | +6 % dégâts Fée | +4 % dégâts Poison reçus |
+| Jeu de couleurs | +5 % dégâts en changeant de type de capacité | −2 % en répétant le type ; premier coup neutre |
+
+Catalogue 65→76 cartes. Quatre familles distinctes, au moins deux soins, mêmes tickets absolus des offres spéciales et primes de salle/cycle conservés ; la répartition des pactes donne une place plus fréquente aux communes. Les nouveaux bénéfices soin/défense/vitesse sont classés dans leurs familles, sans doublon avec les cartes équivalentes. Fortune exclut aussi ces communes des prochains choix. L’XP du tournoi reste nulle, copies de compétition isolées de l’Aventure.
+
+Validation : **407 tests unitaires/régression et 267 SQL dédiés**, zéro échec/saut. Deux prises réelles sur offres distinctes, anti-rejeu, concurrence/contrôleur périmé et rollback d’un troisième cumul, reconnexion, anciennes clés, charges de Phénix, totaux de dégâts/IA, Fée, dix communes tirables, bornes numériques et non-régression des autres modes. Parcours authentifiés Chromium/WebKit, formats 320×480/393×852/844×390/1536×680, clair/nocturne : dix communes et Fée, cinq doubles cumuls, aperçu/récapitulatif, reconnexion et Aventure intacte ; parcours Dark complet, argent visible/sauvegardé et restrictions inchangées. 80 vues de cartes + deux récapitulatifs et 78 captures Dark ; vues Fée/récapitulatif inspectées, zéro erreur JS, comptes jetables supprimés. Lint/build isolé `f9bf23c4d1f931bb`, syntaxe/diff valides. Pas de téléphone physique ni de suite globale revendiqués. Rapport/commandes : `docs/TOWER_STACKS_DARK_REWARDS_2026-11-03.json`.
+
+Publié le 3 novembre 2026 à 4 h 04 (Europe/Paris), client `51771f0a2329e2f27a56b9373c46c29cc8714db7`, build `f9bf23c4d1f931bb`. Sauvegarde SQL/sources/index/checkpoint `/home/ubuntu/dev/backups/riftmon-tower-stacks-2026-11-03T03-04-17-725Z`. PID 3746664→3755507, service actif sans redémarrage automatique/avertissement. Index et 22 bundles/CSS HTTPS identiques au build, anciens assets conservés. Zéro duel de maison ou tentative de tournoi actif au contrôle, checkpoint inchangé. Aucun changement de schéma/durabilité ni modification manuelle de compte réel ; Knov/api-test et modes fermés inchangés.
+
 ## Dark Continent : retour, soins et raccords — 2 novembre 2026
 
 Le guide de la plage propose « Rentrer chez moi » : retour gratuit devant la maison du village de départ, avec transition de faille existante, sans soin offert ni changement de carte professionnelle. Sur les neuf jungles, Vol, PASS Super Tournoi, téléporteur et réutilisation de la carte ne permettent plus de sortir, contrôlés côté serveur et désactivés dans les interfaces. Les rapatriements imposés après perte de l’équipe sont conservés. Le soin des seuls survivants passe de **50 000 à 25 000 ₽**, prix affiché/confirmé et débité identiquement ; une équipe déjà prête reste gratuite, aucune résurrection. Description de la carte et consignes actualisées.
@@ -6009,6 +6038,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **3 novembre 2026 — Dark et tour :** XP Dark 50 %, Pokédollars sauvages ; pactes/pouvoirs cumulables, compteurs durables/aperçus, Fée et dix communes modérées. 407 tests, 267 SQL, 160 captures Chromium/WebKit ; `docs/TOWER_STACKS_DARK_REWARDS_2026-11-03.json`.
 
 - **2 novembre 2026 — Dark Continent :** retour gratuit chez soi uniquement via le guide, soin 25 k, 464 raccords sur les cases auteur sans saut transversal, direction de sortie et retour depuis le bord. Orbe Vie/Sans Limite symétriques joueur/PNJ vérifiés sans modifier la règle. 288 tests, 235 SQL, recettes Chromium/WebKit ; `docs/DARK_CONTINENT_TRAVEL_2026-11-02.json`.
 

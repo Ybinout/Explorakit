@@ -23,7 +23,7 @@ const rules=[
  '!!!! DARK CONTINENT : un Pokémon mis K.O. ici est définitivement perdu. Aucun Centre spécialisé n’est installé sur cette île : je ne peux assurer que les premiers secours, avant qu’il ne soit trop tard. Ses objets récupérables rejoignent ton sac.',
  '!!!! Aucune fuite en combat, même avec Téléport. Les Pokémon de cette île sont trop puissants pour être capturés : une Ball sera perdue si tu essaies.',
  '!!!! Plus tu avances vers la DROITE, plus le danger augmente : niveaux 100–120 à l’ouest, 120–150 au centre, 150–200 à l’est !',
- 'Ils ne donnent pas de Pokédollars et seulement 10 % de leur XP habituelle. Le module d’expérience n’agit pas ici. En revanche, plus tu avances vers l’est, plus les cristaux sont abondants et plus tu as de chances de trouver des plaques et d’autres objets.',
+ 'Ils rapportent des Pokédollars comme les Pokémon sauvages du continent principal et 50 % de leur XP habituelle. Le module d’expérience n’agit pas ici. En revanche, plus tu avances vers l’est, plus les cristaux sont abondants et plus tu as de chances de trouver des plaques et d’autres objets.',
  'Reviens sur cette plage pour soigner les compagnons encore en vie : 25 000 ₽ pour toute l’équipe. Je ne peux pas sauver un Pokémon déjà perdu. Ni le module Vol ni les téléporteurs ne permettent de quitter l’île : parle-moi sur la plage pour rentrer chez toi.'
 ];
 function actor(name,map,x,y,index){return {name,interactionName:name,map,x,y,sprite:'6931.png',spriteFrame:{columns:8,rows:4,index},block:true,roamRadius:0};}

@@ -4,6 +4,7 @@ const overrides={
  power_miracle:'healing',power_mana:'pp',power_reunion:'revive',
  power_vampire:'healing',power_fountain:'healing',power_sanctuary:'healing',
  power_phoenix:'survival',power_bastion:'defense',
+ pact_patchwork:'defense',pact_umbrella:'defense',pact_feather:'speed',pact_snack:'healing',pact_picnic:'healing',
  pact_hunter:'critical',pact_cold_blood:'critical',pact_dance:'speed',
  pact_rampart:'defense',pact_veil:'defense',pact_fortress:'defense',
  pact_leech:'healing',pact_breath:'healing',pact_velvet:'healing',pact_moss:'healing',pact_opening:'damage',pact_last_stand:'damage',pact_quickstep:'speed',pact_spark:'critical',pact_resupply:'pp',pact_campfire:'healing'

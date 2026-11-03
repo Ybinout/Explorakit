@@ -39,12 +39,22 @@ test('SQL legacy attempt gains only its current-cycle token without resetting pr
  const f=await fixture();try{await f.c.atomic(()=>{delete f.c.run.rerolls;f.c.run.room=79;f.c.run.cleared=80;f.c.run.score=24000;f.c.run.cash.earned=12345;});const c=f.create();await c.load();assert.equal(c.run.rerolls.remaining,2);assert.equal(c.run.rerolls.grantedThroughCycle,5);assert.equal(c.run.score,24000);assert.equal(c.run.cash.earned,12345);const version=c.version;await c.load();assert.equal(c.version,version);
  }finally{await f.remove();}
 });
-test('SQL critical bargains cannot be combined; an old dual-pact save resumes at the new cap without resetting the attempt',{skip:!enabled},async()=>{
+test('SQL critical bargains combine and an old dual-pact save resumes with both benefits without resetting the attempt',{skip:!enabled},async()=>{
  const f=await fixture('pact_hunter');try{
   await f.c.claimReward(f.data);await f.c.atomic(()=>{const r=f.c.run;r.phase='reward';r.reward={id:randomUUID(),afterRoom:1,cards:['pact_cold_blood','heal_10','cure','pp_3']};});
-  const before=await repo.load(f.u.id);await assert.rejects(()=>f.c.claimReward({offerId:f.c.run.reward.id,cardKey:'pact_cold_blood'}),/déjà active/);assert.equal((await repo.load(f.u.id)).version,before.version);
+  await f.c.claimReward({offerId:f.c.run.reward.id,cardKey:'pact_cold_blood'});assert.equal(twists.criticalStage(f.c.run.player),2);
   await f.c.atomic(()=>{const r=f.c.run;r.player.superTournamentPacts=['pact_hunter','pact_cold_blood'];r.phase='cleared';r.reward=null;r.score=300;});
   const c=f.create();await c.load();await c.next();await c.atomic(()=>c.startBattle());const restored=f.create();await restored.load();const fx=require('../server/game/drift/driftEffects'),p=restored.run.battle.active(0);
-  assert.equal(fx.criticalStage(p),1);assert.equal(fx.speed(p),.9);assert.equal(restored.run.score,300);assert.equal(restored.run.room,1);assert.deepEqual(restored.run.player.superTournamentPacts,['pact_hunter','pact_cold_blood']);assert.deepEqual(codec.encode(await teams.loadEquipe(f.u.id)),f.original);
+  assert.equal(fx.criticalStage(p),2);assert.equal(fx.speed(p),.9);assert.equal(restored.run.score,300);assert.equal(restored.run.room,1);assert.deepEqual(restored.run.player.superTournamentPacts,['pact_hunter','pact_cold_blood']);assert.deepEqual(codec.encode(await teams.loadEquipe(f.u.id)),f.original);
+ }finally{await f.remove();}
+});
+test('SQL repeated pact choices stack on fresh offers; replay, stale controllers and failed third activation cannot duplicate a stack',{skip:!enabled},async()=>{
+ const f=await fixture('pact_fairy');try{
+  await f.c.claimReward(f.data);await assert.rejects(()=>f.c.claimReward(f.data));
+  await f.c.atomic(()=>{f.c.run.phase='reward';f.c.run.reward={id:randomUUID(),afterRoom:2,cards:['pact_fairy','heal_10','pp_3','cure']};});const second={offerId:f.c.run.reward.id,cardKey:'pact_fairy'},a=f.create(),b=f.create();await a.load();await b.load();const result=await Promise.allSettled([a.claimReward(second),b.claimReward(second)]);assert.equal(result.filter(r=>r.status==='fulfilled').length,1);
+  const restored=f.create();await restored.load();assert.equal(twists.count(restored.run.player,'pact_fairy'),2);assert.equal(restored.run.player.superTournamentPacts.length,1);assert.equal(twists.active(restored.run.player)[0].stacks,2);assert.equal(restored.run.score,0);assert.equal(restored.run.cash.earned,0);assert.deepEqual(codec.encode(await teams.loadEquipe(f.u.id)),f.original);
+  await restored.atomic(()=>{restored.run.phase='reward';restored.run.reward={id:randomUUID(),afterRoom:3,cards:['pact_fairy','heal_10','pp_3','cure']};});const before=codec.encode(restored.run),acquire=db.getConnection.bind(db);let fired=false;
+  db.getConnection=async()=>{const c=await acquire(),execute=c.execute.bind(c),release=c.release.bind(c);c.execute=async(sql,...args)=>{if(!fired&&sql.startsWith('UPDATE super_tournament_profiles')){fired=true;throw Error('injected_stack_save_failure');}return execute(sql,...args);};c.release=()=>{c.execute=execute;c.release=release;release();};return c;};
+  try{await assert.rejects(()=>restored.claimReward({offerId:restored.run.reward.id,cardKey:'pact_fairy'}),/injected_stack/);}finally{db.getConnection=acquire;}assert.deepEqual(codec.encode(restored.run),before);assert.equal(twists.count((await repo.load(f.u.id)).run.player,'pact_fairy'),2);
  }finally{await f.remove();}
 });

@@ -58,7 +58,7 @@ function viewCard(key,team,afterRoom,owner){
  if(card.twist)return twists.view(card,owner);
  if(card.kind==='fortune')return{...card,targets:[],usable:fortune.usable(owner)};
  if(card.target==='account')return {...augmentations.view(key,afterRoom),rarityName:card.rarityName||rarities.find(r=>r.key===card.rarity).name};
- if(card.kind==='passive')return {...card,targets:[],usable:!powers.has(owner,key)};
+ if(card.kind==='passive'){const n=powers.count(owner,key);return {...card,targets:[],usable:powers.usable(owner,key),stackable:true,stacks:n,nextStacks:n+1,cumulativeDescription:powers.description(key,n+1)};}
  const targets=team.map(p=>preview(p,card)).filter(Boolean);
  return {key:card.key,name:card.name,rarity:card.rarity,rarityName:card.rarityName||rarities.find(r=>r.key===card.rarity).name,kind:card.kind,target:card.target,description:card.description,power:card.power||false,targets,usable:targets.length>0};
 }

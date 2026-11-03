@@ -1,8 +1,10 @@
+const stacks=require('./cardStacks');
+const {getMoveDefinition}=require('../battle/battleResources');
 // Server-owned, attempt-only bargains. No Adventure stats, items or moves are changed.
 const pact = (key,name,rarity,boon,cost,effects) => ({key:'pact_'+key,name,rarity,kind:'pact',target:'run',boon,cost,effects,description:`${boon} En contrepartie : ${cost}`,duration:'Toute la tentative'});
 const cards=Object.freeze([
- pact('hunter','Œil du chasseur','epic','Critiques : +1 cran, non cumulable entre pactes.','Dégâts Eau reçus : +25 %.',{critical:1,incomingType:{Water:1.25}}),
- pact('cold_blood','Sang-froid','epic','Critiques : +1 cran, non cumulable entre pactes.','Vitesse : −10 %.',{critical:1,speed:.9}),
+ pact('hunter','Œil du chasseur','epic','Critiques : +1 cran (maximum 3 crans des pactes).','Dégâts Eau reçus : +25 %.',{critical:1,incomingType:{Water:1.25}}),
+ pact('cold_blood','Sang-froid','epic','Critiques : +1 cran (maximum 3 crans des pactes).','Vitesse : −10 %.',{critical:1,speed:.9}),
  pact('glass','Lame de verre','rare','Dégâts directs infligés : +15 %.','Dégâts directs reçus : +15 %.',{outgoing:1.15,incoming:1.15}),
  pact('blaze','Brasier ardent','rare','Dégâts Feu infligés : +25 %.','Dégâts Eau reçus : +30 %.',{outgoingType:{Fire:1.25},incomingType:{Water:1.3}}),
  pact('tide','Marée profonde','rare','Dégâts Eau infligés : +25 %.','Dégâts Électrik reçus : +30 %.',{outgoingType:{Water:1.25},incomingType:{Electric:1.3}}),
@@ -10,6 +12,7 @@ const cards=Object.freeze([
  pact('voltage','Haute tension','rare','Dégâts Électrik infligés : +25 %.','Dégâts Sol reçus : +30 %.',{outgoingType:{Electric:1.25},incomingType:{Ground:1.3}}),
  pact('winter','Hiver mordant','rare','Dégâts Glace infligés : +25 %.','Dégâts Combat reçus : +30 %.',{outgoingType:{Ice:1.25},incomingType:{Fighting:1.3}}),
  pact('dragon','Héritage draconique','rare','Dégâts Dragon infligés : +25 %.','Dégâts Fée reçus : +30 %.',{outgoingType:{Dragon:1.25},incomingType:{Fairy:1.3}}),
+ pact('fairy','Poussière féerique','rare','Dégâts Fée infligés : +25 %.','Dégâts Acier reçus : +30 %.',{outgoingType:{Fairy:1.25},incomingType:{Steel:1.3}}),
  pact('heavy_fist','Poing lourd','rare','Dégâts physiques infligés : +20 %.','Vitesse : −10 %.',{outgoingClass:{physical:1.2},speed:.9}),
  pact('mind','Esprit incandescent','rare','Dégâts spéciaux infligés : +20 %.','Dégâts physiques infligés : −20 %.',{outgoingClass:{special:1.2,physical:.8}}),
  pact('soldier','Instinct du combattant','rare','Dégâts physiques infligés : +20 %.','Dégâts spéciaux infligés : −20 %.',{outgoingClass:{physical:1.2,special:.8}}),
@@ -25,30 +28,53 @@ const cards=Object.freeze([
  pact('opening','Élan d’ouverture','rare','Dégâts directs infligés : +15 % à pleine vie.','Vitesse : −3 %.',{fullHealth:1.15,speed:.97}),
  pact('last_stand','Courage obstiné','rare','Dégâts directs infligés : +18 % avec au plus 50 % de ses PV.','Dégâts directs reçus : +5 %.',{desperate:1.18,incoming:1.05}),
  pact('quickstep','Pas de côté','rare','Vitesse : +8 %.','Dégâts directs reçus : +6 %.',{speed:1.08,incoming:1.06}),
- pact('spark','Coup d’éclat','epic','Critiques : +1 cran, non cumulable entre pactes.','Dégâts directs infligés : −5 %.',{critical:1,outgoing:.95}),
+ pact('spark','Coup d’éclat','epic','Critiques : +1 cran (maximum 3 crans des pactes).','Dégâts directs infligés : −5 %.',{critical:1,outgoing:.95}),
  pact('resupply','Ravitaillement discret','epic','Après une victoire, rend 1 PP à chaque capacité des Pokémon aptes.','Dégâts directs reçus : +6 %.',{victoryPp:1,incoming:1.06}),
  pact('campfire','Feu de camp','rare','Après une victoire, rend 8 % des PV maximum à chaque Pokémon apte.','Vitesse : −4 %.',{victoryHeal:.08,speed:.96}),
+ pact('pebble','Petit élan','common','Dégâts directs infligés : +4 %.','Dégâts directs reçus : +3 %.',{outgoing:1.04,incoming:1.03}),
+ pact('feather','Semelles légères','common','Vitesse : +4 %.','Dégâts directs infligés : −2 %.',{speed:1.04,outgoing:.98}),
+ pact('patchwork','Veste rapiécée','common','Dégâts physiques reçus : −4 %.','Dégâts spéciaux reçus : +3 %.',{incomingClass:{physical:.96,special:1.03}}),
+ pact('umbrella','Petit parapluie','common','Dégâts spéciaux reçus : −4 %.','Dégâts physiques reçus : +3 %.',{incomingClass:{special:.96,physical:1.03}}),
+ pact('snack','Petit creux','common','Récupère 2 % des dégâts directs infligés en PV.','Dégâts directs reçus : +2 %.',{values:{5:2},incoming:1.02}),
+ pact('picnic','Goûter de victoire','common','Après une victoire, rend 3 % des PV maximum aux Pokémon aptes.','Vitesse : −1 %.',{victoryHeal:.03,speed:.99}),
+ pact('fresh_start','Bien réveillé','common','Dégâts directs infligés : +6 % à pleine vie.','Dégâts directs reçus : +2 %.',{fullHealth:1.06,incoming:1.02}),
+ pact('grit','Petit courage','common','Dégâts directs infligés : +6 % avec au plus 50 % de ses PV.','Dégâts directs reçus : +2 %.',{desperate:1.06,incoming:1.02}),
+ pact('pixie','Paillette féerique','common','Dégâts Fée infligés : +6 %.','Dégâts Poison reçus : +4 %.',{outgoingType:{Fairy:1.06},incomingType:{Poison:1.04}}),
+ pact('palette','Jeu de couleurs','common','Dégâts directs : +5 % si le type diffère de la précédente capacité.','Dégâts directs : −2 % si le type reste identique. Premier coup inchangé.',{changeType:{different:1.05,same:.98}}),
  {key:'next_opponent_two',name:'Duel écourté',rarity:'epic',kind:'opponent',target:'run',count:2,description:'Le prochain dresseur ne garde que ses deux derniers Pokémon, dont son plus fort. Valable pour un seul combat.',duration:'Prochain combat seulement'},
  {key:'next_opponent_one',name:'Face au dernier rempart',rarity:'legendary',kind:'opponent',target:'run',count:1,description:'Le prochain dresseur ne garde que son dernier Pokémon, le plus fort. Valable pour un seul combat.',duration:'Prochain combat seulement'}
-].map(c=>Object.freeze({...c,twist:true,rarityName:c.rarity==='epic'?'Épique':c.rarity==='legendary'?'Légendaire':'Rare'})));
+].map(c=>Object.freeze({...c,twist:true,rarityName:({common:'Commune',uncommon:'Peu commune',rare:'Rare',epic:'Épique',legendary:'Légendaire'})[c.rarity]})));
 const byKey=new Map(cards.map(c=>[c.key,c]));
 const enabled=owner=>owner?.currentmap==='super_tournament_room';
 const cached=new WeakMap(),empty=Object.freeze([]);
-function owned(owner){if(!enabled(owner))return empty;const keys=owner.superTournamentPacts,previous=cached.get(owner);if(previous&&previous.keys===keys)return previous.cards;const result=Object.freeze([...new Set(keys||[])].map(k=>byKey.get(k)).filter(c=>c?.kind==='pact'));cached.set(owner,{keys,cards:result});return result;}
+function count(owner,key){return stacks.count(owner,key,'superTournamentPacts','superTournamentPactStacks');}
+function owned(owner){if(!enabled(owner))return empty;const keys=owner.superTournamentPacts,counts=owner.superTournamentPactStacks,previous=cached.get(owner);if(previous&&previous.keys===keys&&previous.counts===counts)return previous.cards;const result=Object.freeze([...new Set(keys||[])].map(k=>byKey.get(k)).filter(c=>c?.kind==='pact'));cached.set(owner,{keys,counts,cards:result});return result;}
 function pending(owner){const c=enabled(owner)?byKey.get(owner.superTournamentNextOpponent):null;return c?.kind==='opponent'?c:null;}
-function usable(owner,card){return enabled(owner)&&(card.kind==='pact'?!owner.superTournamentPacts?.includes(card.key)&&(!card.effects.critical||!owned(owner).some(c=>c.effects.critical)):!pending(owner));}
-function view(card,owner){return {key:card.key,name:card.name,rarity:card.rarity,rarityName:card.rarityName,kind:card.kind,target:card.target,boon:card.boon,cost:card.cost,description:card.description,duration:card.duration,targets:[],usable:usable(owner,card)};}
-function active(owner){return [...owned(owner),...(pending(owner)?[pending(owner)]:[])].map(c=>({key:c.key,name:c.name,description:c.description,rarity:c.rarity,boon:c.boon,cost:c.cost,duration:c.duration}));}
-function activate(owner,key){const c=byKey.get(key);if(!c||!usable(owner,c))throw Error('Cette carte est déjà active ou indisponible.');
- if(c.kind==='pact')owner.superTournamentPacts=[...owned(owner).map(p=>p.key),key];else owner.superTournamentNextOpponent=key;
- return {key,name:c.name,description:c.description,duration:c.duration};
+function usable(owner,card){return Boolean(enabled(owner)&&card&&(card.kind==='pact'?count(owner,card.key)<stacks.LIMIT&&(!card.effects.critical||criticalStage(owner)<3):!pending(owner)));}
+const typeNames={Normal:'Normal',Fire:'Feu',Water:'Eau',Electric:'Électrik',Grass:'Plante',Ice:'Glace',Fighting:'Combat',Poison:'Poison',Ground:'Sol',Flying:'Vol',Psychic:'Psy',Bug:'Insecte',Rock:'Roche',Ghost:'Spectre',Dragon:'Dragon',Dark:'Ténèbres',Steel:'Acier',Fairy:'Fée'};
+function summary(card,n){const e=card.effects||{},parts=[],effect=(label,factor)=>{if(factor!==1)parts.push(`${label} ${factor>1?'+':'−'}${(Math.round(Math.abs(factor-1)*10000)/100).toLocaleString('fr-FR')} %`);};
+ for(const [key,label]of[['outgoing','Dégâts infligés'],['incoming','Dégâts reçus'],['speed','Vitesse']])if(e[key])effect(label,stacks.factor(e[key],n));
+ for(const [key,label]of[['outgoingType','Dégâts infligés'],['incomingType','Dégâts reçus'],['outgoingClass','Dégâts infligés'],['incomingClass','Dégâts reçus']])for(const [kind,v]of Object.entries(e[key]||{}))effect(`${label} ${typeNames[kind]||{physical:'physiques',special:'spéciaux'}[kind]||kind}`,stacks.factor(v,n));
+ if(e.critical)parts.push(`Critiques +${Math.min(3,e.critical*n)} cran(s)`);
+ if(e.values?.[5])parts.push(`Drain ${e.values[5]*n} %`);if(e.values?.[16])parts.push(`Régénération ${e.values[16]*n} % PV/tour`);
+ if(e.victoryHeal)parts.push(`Soin de victoire ${Math.round(e.victoryHeal*n*10000)/100} % PV`);if(e.victoryPp)parts.push(`Victoire +${e.victoryPp*n} PP/capacité`);
+ if(e.fullHealth)effect('Dégâts à pleine vie',stacks.factor(e.fullHealth,n));if(e.desperate)effect('Dégâts sous 50 % PV',stacks.factor(e.desperate,n));
+ if(e.finisher){effect('Dégâts contre cible ≤35 % PV',stacks.factor(1.25,n));effect('Dégâts contre cible >35 % PV',stacks.factor(.9,n));}
+ if(e.changeType){effect('Type différent',stacks.factor(e.changeType.different,n));effect('Même type',stacks.factor(e.changeType.same,n));}
+ return parts.join(' · ');
+}
+function view(card,owner){const n=count(owner,card.key);return {key:card.key,name:card.name,rarity:card.rarity,rarityName:card.rarityName,kind:card.kind,target:card.target,boon:card.boon,cost:card.cost,description:card.description,duration:card.duration,targets:[],usable:usable(owner,card),...(card.kind==='pact'?{stackable:true,stacks:n,nextStacks:n+1,cumulativeDescription:summary(card,n+1)}:{})};}
+function active(owner){return [...owned(owner),...(pending(owner)?[pending(owner)]:[])].map(c=>({key:c.key,name:c.name,description:c.description,rarity:c.rarity,boon:c.boon,cost:c.cost,duration:c.duration,...(c.kind==='pact'?{stackable:true,stacks:count(owner,c.key),cumulativeDescription:summary(c,count(owner,c.key))}:{})}));}
+function activate(owner,key){const c=byKey.get(key);if(!c||!usable(owner,c))throw Error('Cette carte est déjà active ou indisponible.');let n;
+ if(c.kind==='pact')n=stacks.add(owner,key,'superTournamentPacts','superTournamentPactStacks');else owner.superTournamentNextOpponent=key;
+ return {key,name:c.name,description:c.description,duration:c.duration,...(n?{stacks:n,stackable:true,cumulativeDescription:summary(c,n)}:{})};
 }
 function reduceNextTeam(owner,team){const c=pending(owner);if(!c)return null;team.pokemons=team.pokemons.slice(-c.count);delete owner.superTournamentNextOpponent;return {key:c.key,name:c.name,count:team.pokemons.length};}
-function value(owner,number){return owned(owner).reduce((n,c)=>n+(c.effects.values?.[number]||0),0);}
+function value(owner,number){return owned(owner).reduce((n,c)=>n+(c.effects.values?.[number]||0)*count(owner,c.key),0);}
 function signalName(owner,number){return owned(owner).find(c=>c.effects.values?.[number])?.name||null;}
 function announce(owner,c,detail){if(!owner?.__preview)require('../drift/driftSignals').named(owner,c.key,c.name,detail);}
-function speed(owner){return owned(owner).reduce((n,c)=>{if(c.effects.speed)announce(owner,c,'Vitesse modifiée');return n*(c.effects.speed||1);},1);}
-function criticalStage(owner){return Math.min(1,owned(owner).reduce((n,c)=>{if(c.effects.critical)announce(owner,c,'Critiques renforcés');return n+(c.effects.critical||0);},0));}
+function speed(owner){return owned(owner).reduce((n,c)=>{if(c.effects.speed)announce(owner,c,'Vitesse modifiée');return Math.max(1e-6,Math.min(1e6,n*stacks.factor(c.effects.speed||1,count(owner,c.key))));},1);}
+function criticalStage(owner){return Math.min(3,owned(owner).reduce((n,c)=>{if(c.effects.critical)announce(owner,c,'Critiques renforcés');return n+(c.effects.critical||0)*count(owner,c.key);},0));}
 function multiplier(attackerOwner,defenderOwner,attacker,defender,move){
  const category=move?.combat?.damage_class;if(!['physical','special'].includes(category))return 1;
  let result=1;
@@ -56,14 +82,15 @@ function multiplier(attackerOwner,defenderOwner,attacker,defender,move){
   const e=c.effects,prefix=incoming?'incoming':'outgoing';
   let factor=(e[prefix]||1)*(e[prefix+'Type']?.[move.type]||1)*(e[prefix+'Class']?.[category]||1);
   if(!incoming&&e.finisher)factor*=defender.currentHp/Math.max(1,defender.maxHp)<=.35?1.25:.9;
+  if(!incoming&&e.changeType){const last=getMoveDefinition(attacker.__battle?.lastMoveUsed);if(last)factor*=last.type!==move.type?e.changeType.different:e.changeType.same;}
   if(!incoming&&e.fullHealth&&attacker.currentHp>=attacker.maxHp)factor*=e.fullHealth;
   if(!incoming&&e.desperate&&attacker.currentHp/Math.max(1,attacker.maxHp)<=.5)factor*=e.desperate;
-  if(factor!==1){result*=factor;announce(owner,c,incoming?'Dégâts reçus modifiés':'Dégâts infligés modifiés');}
+  if(factor!==1){result=Math.max(1e-6,Math.min(1e6,result*stacks.factor(factor,count(owner,c.key))));announce(owner,c,incoming?'Dégâts reçus modifiés':'Dégâts infligés modifiés');}
  }
  return result;
 }
 function afterWin(owner){
- const list=owned(owner),hp=list.reduce((n,c)=>n+(c.effects.victoryHeal||0),0),pp=list.reduce((n,c)=>n+(c.effects.victoryPp||0),0),changes=[];
+ const list=owned(owner),hp=list.reduce((n,c)=>n+(c.effects.victoryHeal||0)*count(owner,c.key),0),pp=list.reduce((n,c)=>n+(c.effects.victoryPp||0)*count(owner,c.key),0),changes=[];
  if(!hp&&!pp)return changes;
  const {getMaxMovePp}=require('../battle/battleResources');
  for(const p of owner.equipe.pokemons){if(p.currentHp<=0)continue;const before=p.currentHp,moves=[];
@@ -79,7 +106,7 @@ function draw(owner,random,exclude=new Set()){
  // Absolute chance per offer: 0.5% one opponent, 3% two, 35.2% a bargain.
  if(ticket<50)card=byKey.get('next_opponent_one');
  else if(ticket<350)card=byKey.get('next_opponent_two');
- else if(ticket<3870){const pool=cards.filter(c=>c.kind==='pact'&&usable(owner,c)&&!exclude.has(c.key));if(!pool.length)return null;let roll=unit(random)*pool.reduce((n,c)=>n+(c.rarity==='epic'?1:3),0);card=pool.find(c=>(roll-=c.rarity==='epic'?1:3)<0)||pool.at(-1);}
+ else if(ticket<3870){const pool=cards.filter(c=>c.kind==='pact'&&usable(owner,c)&&!(owner.superTournamentFortune&&c.rarity==='common')&&!exclude.has(c.key));if(!pool.length)return null;let roll=unit(random)*pool.reduce((n,c)=>n+(c.rarity==='epic'?1:c.rarity==='common'?5:3),0);card=pool.find(c=>(roll-=c.rarity==='epic'?1:c.rarity==='common'?5:3)<0)||pool.at(-1);}
  return card&&usable(owner,card)&&!exclude.has(card.key)?card.key:null;
 }
-module.exports={cards,get:key=>byKey.get(key),owned,pending,active,usable,view,activate,reduceNextTeam,value,signalName,speed,criticalStage,multiplier,afterWin,draw};
+module.exports={cards,get:key=>byKey.get(key),count,owned,pending,active,usable,view,activate,reduceNextTeam,value,signalName,speed,criticalStage,multiplier,afterWin,draw};

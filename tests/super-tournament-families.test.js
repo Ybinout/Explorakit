@@ -28,7 +28,7 @@ test('when recovery families are usable, every ordinary offer has one HP, PP, re
  const party=team();for(let seed=1;seed<100;seed++){const random=()=>.99,offer=rewards.createOffer(party,1,random,owner());distinct(offer);assert.deepEqual(offer.cards.map(rewards.familyOf).sort(),['healing','pp','revive','status']);assert(rewards.viewOffer(offer,party,owner()).choices.every(c=>c.usable));}
 });
 test('mythic PP and vampirism never coexist with equivalent lesser recovery or healing pact cards',()=>{
- const party=team(),pacts=require('../server/game/superTournament/twists').cards.filter(c=>c.kind==='pact'),weight=c=>c.rarity==='epic'?1:3;
+ const party=team(),pacts=require('../server/game/superTournament/twists').cards.filter(c=>c.kind==='pact'),weight=c=>c.rarity==='epic'?1:c.rarity==='common'?5:3;
  const index=pacts.findIndex(c=>c.key==='pact_leech'),selection=(pacts.slice(0,index).reduce((n,c)=>n+weight(c),0)+.5)/pacts.reduce((n,c)=>n+weight(c),0);
  for(const [roll,power]of [[.03,'power_mana'],[.006,'power_vampire']]){
   const values=[.99,roll,.20,selection],random=()=>values.length?values.shift():.99,offer=rewards.createOffer(party,1,random,owner());distinct(offer);assert(offer.cards.includes(power));assert.equal(offer.cards.filter(k=>rewards.familyOf(k)===rewards.familyOf(power)).length,1);
