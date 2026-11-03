@@ -1,3 +1,17 @@
+## Dark Continent : XP −20 % et reprise de position après déconnexion — 3 novembre 2026
+
+**Gain d’XP réduit de 20 % relativement au tarif précédent**, pour les futures victoires terrestres et pêchées : ordinaire50→40 % de la base Aventure, corrompu100→80 %. Les receveurs et arrondis/planchers habituels restent gérés par le partage d’XP existant ; aucune XP déjà acquise n’est retirée. Le guide affiche40/80 %. Autres régions/modes, Pokédollars, butin, rencontres finales/types, traits/corruption, soins10k et carte5min conservés.
+
+**Position durable avant de montrer le combat Dark.** L’autosave ordinaire peut attendre quatre secondes ; cette fenêtre est désormais fermée avant `battletrigger`, à terre et à la pêche, par un flush forcé de la file de sauvegarde existante. Le forçage utilise un compteur de révision sans effacer le dernier snapshot (nécessaire à la persistance du dernier pas de Repousse consommé). Les anciennes écritures de mouvement restent sérialisées ; l’adresse utilisée vient du joueur serveur. Une écriture impossible empêche l’ouverture du combat et rend la main avec un message. Aucun nouvel appel client, indicateur global ou schéma SQL. L’autosave des autres régions garde sa cadence.
+
+La déconnexion interrompt la rencontre ; la connexion suivante reprend la position insulaire et l’équipe persistées, sans soin gratuit ni récompense d’interruption. La session de remplacement attend les sauvegardes de la précédente. Les Pokémon déjà morts restent définitivement supprimés. **Une vraie perte de toute l’équipe conserve le rapatriement au Centre et le secours PC/starter existants** : le checkpoint ne doit jamais annuler ce retour légitime.
+
+Validation : **41 tests et 46 SQL/socket réussis sans saut** (45 régressions et un parcours intégré de seize scénarios). Comparaison XP réelle/sauvegardée pour les corrompus et ordinaires, aucun bonus hors Dark ; terrain/pêche/mort/ressources/carte, concurrence réseau et reprise de session. Neuf jungles parcourues avec une vraie action de combat puis reconnexion immédiate WebSocket ou polling : même carte/case, HP/PP/XP et portefeuille conservés ; trois pêches couvrant les colonnes. Déconnexion au choix après K.O., dernière défaite avec extraction, Repousse épuisé et panne d’écriture avant combat vérifiés. Banc SQL volontairement périmé : l’ancienne version `7b3c618` échoue à l’assertion « position déjà sur l’île à l’ouverture du combat », le correctif réussit. Cette reproduction contrôle la fenêtre de sauvegarde, sans prétendre prouver toutes les causes du cas observé chez le joueur.
+
+Base `explorakit_test`, comptes jetables supprimés, syntaxe/diff valides. Client3286405/buildf068a1013fdbb3ae réutilisé, aucun nouveau parcours navigateur revendiqué, aucune migration ni compte réel modifié manuellement. Rapport et commandes : `docs/DARK_XP_RECONNECT_2026-11-03.json`.
+
+Publication le **3 novembre 2026 à 12 h 20 (Europe/Paris)** : correctif serveur actif, client `3286405` / build `f068a1013fdbb3ae` conservés. Sauvegardes SQL/sources/index/checkpoint dans `/home/ubuntu/dev/backups/riftmon-dark-xp-reconnect-2026-11-03T11-20-49-974Z`. Index HTTPS et voisins Knov/API inchangés, checkpoint conservé, modes fermés ; zéro redémarrage automatique ou avertissement serveur. Aucune migration ni modification manuelle de compte réel.
+
 ## Dark Continent : uniquement les évolutions finales — 3 novembre 2026
 
 Correction de l’élargissement excessif du catalogue : la progression des types ouvrait aussi des formes de base et intermédiaires. `darkHabitats.js` conserve désormais les espèces **déjà issues d’une évolution et sans évolution suivante** dans les règles réelles du jeu, pierres et conditions spéciales/adaptations solo comprises. Les espèces sans chaîne d’évolution ne sont pas ajoutées à ce catalogue réservé aux grandes évolutions. Générations 1–4 et exclusion des légendaires conservées.
@@ -6174,6 +6188,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **3 novembre 2026 — XP et reconnexion Dark :** ordinaires40 % / corrompus80 % de la base Aventure, checkpoint de position sérialisé avant combat terrestre/pêche ; reprise sur l’île, morts/HP/PP conservés, vraie défaite toujours rapatriée. 41 tests, 46 SQL/socket et quinze scénarios réseau ; ancien code échoue au contrôle précombat. `docs/DARK_XP_RECONNECT_2026-11-03.json`.
 
 - **3 novembre 2026 — Finales du Dark Continent :** exclusion des formes de base/intermédiaires via les règles d’évolution réelles, 187 évolutions finales, Eau uniquement pêche et dix-huit types progressifs conservés ; butin/tarifs/niveaux inchangés. 33 tests et 43 SQL, sprites présents ; `docs/DARK_FINAL_EVOLUTIONS_2026-11-03.json`.
 

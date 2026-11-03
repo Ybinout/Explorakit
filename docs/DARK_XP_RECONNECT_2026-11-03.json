@@ -1,0 +1,130 @@
+{
+  "date": "2026-11-03",
+  "feature": "XP Dark réduite de 20 % et position durable avant combat",
+  "sourceBaseline": "7b3c618aa240eff641e108591133331f765f460f",
+  "clientCommit": "328640595d430ea9d25248b11163dcbe8c6447ca",
+  "clientBuild": "f068a1013fdbb3ae",
+  "clientUnchanged": true,
+  "schemaChanged": false,
+  "realAccountsManuallyModified": false,
+  "experience": {
+    "relativeReduction": 0.2,
+    "ordinaryBefore": 0.5,
+    "ordinaryAfter": 0.4,
+    "corruptedBefore": 1,
+    "corruptedAfter": 0.8,
+    "outsideDark": 1,
+    "earnedXpUntouched": true,
+    "fishingIncluded": true,
+    "guideUpdated": true
+  },
+  "reconnect": {
+    "durablePositionBeforeBattleTrigger": true,
+    "serializesOlderMovementWrites": true,
+    "locationFromAuthoritativePlayer": true,
+    "noBattleOnSaveFailure": true,
+    "restoresIslandAndSavedTeam": true,
+    "preservesHpPpXpAndDeaths": true,
+    "noInterruptionRewards": true,
+    "wholePartyDefeatStillRescues": true,
+    "fullBattleSnapshotAdded": false,
+    "preservesExpiredRepel": true,
+    "forceWriteRevisionRetainsPreviousSnapshot": true
+  },
+  "unchanged": [
+    "all other XP regions/modes",
+    "loot percentages and quantities",
+    "money",
+    "encounter pools and traits",
+    "healing 10000",
+    "card cooldown 300000",
+    "permadeath and true-defeat rescue",
+    "authored maps/assets/edges",
+    "closed modes"
+  ],
+  "validation": {
+    "unit": 41,
+    "sql": 46,
+    "sqlRegression": 45,
+    "sqlSocket": 1,
+    "socketScenarios": [
+      "land 1",
+      "land 2",
+      "land 3",
+      "land 4",
+      "land 5",
+      "land 6",
+      "land 7",
+      "land 8",
+      "land 9",
+      "fishing jungle1",
+      "fishing jungle2",
+      "fishing jungle3",
+      "expired repel stays expired",
+      "replacement death remains permanent",
+      "true defeat still rescues",
+      "failed checkpoint blocks fight"
+    ],
+    "failed": 0,
+    "skipped": 0,
+    "testDatabase": "explorakit_test",
+    "baselineProbe": {
+      "commit": "7b3c618aa240eff641e108591133331f765f460f",
+      "expectedFailure": true,
+      "expectedIsland": "jungle1",
+      "actualOldSavedMap": "start",
+      "assertion": "checkpoint must precede battle UI, not wait for autosave"
+    },
+    "syntax": true,
+    "diffCheck": true,
+    "newBrowserRun": false
+  },
+  "commands": [
+    "node --test tests/dark-habitats.test.js tests/dark-encounters.test.js tests/dark-continent.test.js tests/dark-travel.test.js tests/fishing.test.js tests/account-connection.test.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RUN_MYSQL_TESTS=1 NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file-if-exists=.env --test --test-concurrency=1 tests/dark-continent-mysql.test.js tests/dark-economy-mysql.test.js tests/fishing-mysql.test.js tests/account-connection-socket.test.js tests/network-world-mysql.test.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RUN_MYSQL_TESTS=1 NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file-if-exists=.env --test --test-concurrency=1 tests/dark-reconnect-mysql.test.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RUN_MYSQL_TESTS=1 NODE_ENV=test BATTLE_DELAY_SCALE=0 DARK_RECONNECT_BASELINE=1 node --env-file-if-exists=.env --test --test-concurrency=1 tests/dark-reconnect-mysql.test.js"
+  ],
+  "limitations": [
+    "No new browser or physical-device run; existing client reused.",
+    "Baseline reproduction intentionally seeds an outdated SQL location, proving the pre-battle checkpoint gap rather than every possible cause of the user observation.",
+    "An interrupted wild battle ends; reconnection restores the saved world location and party, not a complete battle snapshot."
+  ],
+  "runtimeSourceSha256": {
+    "server/game/world/darkContinent.js": "b1728a3866961b820fb456cfb0383395e885618de8fd27556f73edd58ccd2999",
+    "server/game/world/darkEncounters.js": "6cdfafaee20a1bcc893debcd6bd45a6f7754bf5d45745f73b7f0a549ab88d99d",
+    "server/realtime/socketHandler.js": "70e54ff4ebcf53dc7aaa3e15221bc044a988c81436d403b51ad58b239efa27f9"
+  },
+  "deployment": {
+    "publishedAt": "2026-11-03T11:20:51.647Z",
+    "restartedAt": "2026-11-03T11:20:50.297Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-dark-xp-reconnect-2026-11-03T11-20-49-974Z",
+    "sourceBaseline": "7b3c618aa240eff641e108591133331f765f460f",
+    "sourceHashes": {
+      "server/game/world/darkContinent.js": "b1728a3866961b820fb456cfb0383395e885618de8fd27556f73edd58ccd2999",
+      "server/game/world/darkEncounters.js": "6cdfafaee20a1bcc893debcd6bd45a6f7754bf5d45745f73b7f0a549ab88d99d",
+      "server/realtime/socketHandler.js": "70e54ff4ebcf53dc7aaa3e15221bc044a988c81436d403b51ad58b239efa27f9"
+    },
+    "clientCommit": "328640595d430ea9d25248b11163dcbe8c6447ca",
+    "clientBuild": "f068a1013fdbb3ae",
+    "beforePid": "3790450",
+    "afterPid": "3790996",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "clientUnchanged": true,
+    "publicClientUnchanged": true,
+    "schemaChanged": false,
+    "activeClubDuelsBefore": 0,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 0,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": []
+  },
+  "publishedLocal": "2026-11-03T12:20:51.647000+01:00"
+}

@@ -363,6 +363,7 @@ const socketHandler = (io) => {
                 try {
                     const wild = await CreatePokemon.createAtLevel(encounter.id,encounter.level,{experienceModuleActive:p.experienceModuleActive,mapName:p.currentmap});
                     if (players[socket.id] !== p || !socket.connected) return;
+                    if (!await checkpointDarkEncounter(p) || players[socket.id] !== p || !account.active()) return;
                     socket.emit('battletrigger',{message:'Ça mord !',battleType:'wild',musicKind:require('../game/world/darkContinent').isMap(p.currentmap)?'dark':require('../game/world/legendaryEncounters').isLegendary(wild.data.id)?'legendary':'wild',environment:'lake',field:{weather:battleWeatherForMap(p.currentmap)}});
                     await account.track(startBattle(p,wild,io,userId,p.equipe));
                 } finally {
@@ -390,6 +391,8 @@ const socketHandler = (io) => {
         let saveTimer = null;
         let activePositionSave = null;
         let savePending = false;
+        let forcedPositionSave = 0;
+        let savedForcedPositionSave = 0;
         let pendingDialogue = null;
         const syncRaphTrial = (state,teleport=null,reset=false) => {
             raphTrialState=state;
@@ -429,7 +432,10 @@ const socketHandler = (io) => {
             lastSavedPosition = null;
         }
 
-        const flushPositionSave = async () => {
+        const flushPositionSave = async ({ force = false } = {}) => {
+            // A Dark encounter must already have a durable island location when its UI opens.
+            // Serialize with queued movement writes; an older autosave cannot overwrite it later.
+            if (force) { forcedPositionSave++; savePending = true; }
             if (activePositionSave) return activePositionSave;
             if (!savePending) return true;
 
@@ -440,13 +446,15 @@ const socketHandler = (io) => {
                         const player = players[socket.id];
                         if (!player) return false;
                         const positionToSave = buildPositionSnapshot(player);
-                        if (!positionsAreEqual(positionToSave, lastSavedPosition)) {
+                        const forceToSave = forcedPositionSave;
+                        if (forceToSave !== savedForcedPositionSave || !positionsAreEqual(positionToSave, lastSavedPosition)) {
                             // Inactive/stale tabs must not clear a newer protection when only their position changes.
                             const repelChanged = remainingRepel(positionToSave) !== remainingRepel(lastSavedPosition);
                             await saveUserPosition(userId, {...positionToSave, repelSteps:repelChanged ? positionToSave.repelSteps : undefined});
                             lastSavedPosition = positionToSave;
+                            savedForcedPositionSave = forceToSave;
                         }
-                        savePending = !positionsAreEqual(buildPositionSnapshot(player), lastSavedPosition);
+                        savePending = forcedPositionSave !== savedForcedPositionSave || !positionsAreEqual(buildPositionSnapshot(player), lastSavedPosition);
                     }
                     return true;
                 } catch (error) {
@@ -455,6 +463,13 @@ const socketHandler = (io) => {
                 }
             })().finally(() => { activePositionSave = null; });
             return activePositionSave;
+        };
+
+        const checkpointDarkEncounter = async player => {
+            if (!require('../game/world/darkContinent').isMap(player.currentmap)) return true;
+            if (await flushPositionSave({ force: true })) return true;
+            socket.emit('progressionNotice', {type:'warning',message:'La position n’a pas pu être sauvegardée. Réessaie dans un instant.'});
+            return false;
         };
 
         const schedulePositionSave = ({ immediate = false } = {}) => {
@@ -1703,6 +1718,7 @@ const socketHandler = (io) => {
                             }
                             const wild = await applyEncounterGuarantee(userId, encounterMap, pokemonsauvage);
                             if (!encounterActive()) { player.inbattle = false; return; }
+                            if (!await checkpointDarkEncounter(player) || !encounterActive()) { player.inbattle = false; return; }
                             socket.emit('battletrigger', { message: 'Un Pokémon sauvage apparaît !', battleType: 'wild', musicKind:require('../game/world/darkContinent').isMap(player.currentmap)?'dark':require('../game/world/legendaryEncounters').isLegendary(wild.data.id)?'legendary':'wild', field: { weather: battleWeatherForMap(player.currentmap) } });
                             return startBattle(player, wild, io, userId, equipe)
                                 .catch((erreur) => {
