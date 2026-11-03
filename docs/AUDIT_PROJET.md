@@ -1,3 +1,17 @@
+## Faux-Chage et Prescience — 3 novembre 2026
+
+Deux défauts comportementaux confirmés : la prévision de l’IA limitait déjà Faux-Chage à 1 PV, mais le combat réel ne le faisait pas ; Prescience et Vœu Destructeur n’avaient aucun traitement différé et frappaient immédiatement. Règles vérifiées dans les données et conditions de Pokémon Showdown (règles génération 7, cohérentes avec les puissances déjà utilisées) : [capacités](https://github.com/smogon/pokemon-showdown/blob/master/data/moves.ts), [attaques futures](https://github.com/smogon/pokemon-showdown/blob/master/data/conditions.ts), [descriptions](https://github.com/smogon/pokemon-showdown/blob/master/data/text/moves.ts).
+
+**Faux-Chage** conserve ses dégâts habituels mais ne peut pas retirer le dernier PV. La limite se place dans l’application des dégâts directs, après le traitement séparé du clone et avant Fermeté/Ceinture Force ; aucun objet de survie n’est consommé pour un coup déjà non létal. À 1 PV, la cible reste à 1 PV. Un coup faible ne réduit donc pas automatiquement la cible à 1 PV. Immunités, Abri et dégâts résiduels restent applicables. La projection de l’IA a aussi été alignée pour casser un clone même lorsque le vrai Pokémon n’a plus qu’un PV.
+
+**Prescience et Vœu Destructeur** programment un impact sur l’emplacement adverse à `tour + 2` : préparation au tour 1, aucun dégât aux fins des tours 1 et 2, impact à la fin du tour 3. Un seul coût en PP ; aucune action forcée aux tours suivants. Une seule attaque future par emplacement, partagée par les deux capacités ; répéter en attendant échoue sans remplacer l’échéance. Les changements et le K.O. du lanceur n’effacent pas l’impact. La cible est celle actuellement en place ; les dégâts sont calculés au moment du choc. Abri est ignoré, immunités/Clone/précision/semi-invulnérabilité et protections de survie restent traités. Le lanceur hors terrain utilise ses statistiques naturelles, sans bonus d’objet ou de talent ; Orbe Vie ne prélève des PV qu’au choc d’un lanceur encore actif.
+
+Le décompte utilise les tours du combat, aucun minuteur supplémentaire. La référence de source et l’échéance sont conservées par le codec existant, y compris SQL/reconnexion du Super Tournoi. L’IA utilise une copie publique filtrée de l’attaque annoncée, ne lit aucune intention humaine, projette les dégâts différés et évite les relances sans effet. Les animations de préparation et d’impact réutilisent le client actuel ; chaque spectateur/joueur reçoit le bon côté et les PV restent en place jusqu’au choc. Raccordement des fins de tour sauvage, dresseur/arène, PvP et Drift (Rift/Colosseum/Super Tournoi).
+
+Validation : **497 tests unitaires/régression et 260 SQL réussis sans saut** ; treize scénarios comportementaux dédiés et six scénarios SQL réels, dont la sauvegarde/reprise d’une attaque en attente. Audit structurel de 636 capacités : 10 176 exécutions et 1 908 vérifications IA sans erreur, sans prétendre couvrir toutes leurs règles. **24 vues Chromium/WebKit**, mobile/PC et clair/sombre, aucun débordement ni erreur JavaScript ; Faux-Chage répété à 1 PV et Prescience fin du tour 3 vérifiés avec animation réelle, PV inchangés pendant l’anticipation. Comptes jetables supprimés, base `explorakit_test`, aucun compte réel modifié. Client/build réutilisés, aucune migration ni réouverture des modes. Rapport et commandes : `docs/NONLETHAL_FUTURE_MOVES_2026-11-03.json`.
+
+Publication le **3 novembre 2026 à 04 h 52 (Europe/Paris)** : correctif serveur actif, client `d2b4a47` / build `b4d6ce7ebc619fd2` inchangés. Sauvegardes SQL/sources/checkpoint dans `/home/ubuntu/dev/backups/riftmon-future-2026-11-03T03-52-15-649Z`. Service actif sans redémarrage automatique ni avertissement ; index HTTPS, voisins Knov/API et checkpoint des modes fermés inchangés.
+
 ## Rencontres du Dark Continent — 3 novembre 2026
 
 Les sauvages ordinaires de l’île ont désormais **20 à 28 IV dans chaque statistique**, un **K minimum de 2** et **510 EV répartis aléatoirement**, dans la limite normale de 252 par statistique. Les statistiques, PV et capacités sont calculés après ces tirages. Les autres régions et les Pokémon déjà possédés ne sont pas modifiés.
@@ -6054,6 +6068,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **3 novembre 2026 — Faux-Chage / Prescience :** limite non létale réelle, attaques futures sur emplacement à tour +2, PP uniques/checkpoint et impact animé ; IA filtrée et clones alignés. 497 tests, 260 SQL, 24 vues Chromium/WebKit ; `docs/NONLETHAL_FUTURE_MOVES_2026-11-03.json`.
 
 - **3 novembre 2026 — Rencontres Dark :** IV 20–28/K≥2/EV510, corrompus 2 % K4/IV31/EV250×6/+5 niveaux, carte violette et ×1,25 ; récompenses garanties, prospecteur et pêche sur neuf jungles. 134 tests, 233 SQL et 104 vues Chromium/WebKit ; rapport `docs/DARK_CORRUPTED_ENCOUNTERS_2026-11-03.json`.
 

@@ -20,6 +20,17 @@ function afterActionMessages(result) {
     return messages;
 }
 
+function emitDelayedMoveEvents(messages, emit, viewerSide) {
+    for (const impact of messages.delayedAttacks || []) {
+        const result = impact.result;
+        if (result.blocked && !result.abilityBlocked) continue;
+        const actor = impact.defenderSide === viewerSide ? 'opponent' : 'player';
+        emit('battleMoveAnimation', { actor, moveName: result.moveName, moveType: result.move.type,
+            moveTarget: result.move.combat.target, damageClass: result.move.combat.damage_class, phase: 'strike', delayed: true });
+        emit('battleMoveResult', serializeMoveResult(actor, result));
+    }
+}
+
 const fieldPlayers = new WeakMap();
 function setFieldPlayers(state, player, enemy) { fieldPlayers.set(state, {player,enemy}); }
 
@@ -89,6 +100,7 @@ function emitPvpMoveResult(io, attackerPlayer, defenderPlayer, result, battleSta
 }
 
 module.exports = {
+    emitDelayedMoveEvents,
     setFieldPlayers,
     prepareMoveAnimation,
     afterActionMessages,

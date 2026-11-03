@@ -3,14 +3,16 @@
 const resources=require('./battleResources');
 const {getMoveFlags,getAbilityName}=require('../abilities/abilityEngine');
 const {redundantReason}=require('./moveRedundancy');
+const futureMoves=require('./futureMoves');
 const FIRST_ACTION=new Set(['Fake Out','First Impression','Mat Block']);
 function entryActions(pokemon){
     const data=pokemon.__battle||{};
     return Number.isFinite(data.activeMoveActions)?Math.max(0,data.activeMoveActions):Number(data.lastActionTurn)>0?1:0;
 }
-function failureReason(pokemon,move,field,{privateKnown=true,ownTeam}={}){
+function failureReason(pokemon,move,field,{privateKnown=true,ownTeam,enemySide}={}){
     if(!move)return 'unknown_move';
     const data=pokemon.__battle||{},name=move.ename;
+    if(futureMoves.isFuture(name) && (enemySide?.futureMove || Object.values(field?.sides||{}).some(s=>s.futureMove?.source?.uuid===pokemon.uuid)))return 'future_attack_pending';
     if(FIRST_ACTION.has(name)&&entryActions(pokemon)>0)return 'first_action_only';
     if(data.tauntTurns>0&&move.combat?.damage_class==='status')return 'taunt';
     if(data.disableTurns>0&&data.disabledMove===name)return 'disabled';

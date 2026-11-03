@@ -19,7 +19,7 @@ const {
 const { getUsableMoveIndexes, getForcedMove, selectedMoveName, isMoveSelectionValid } = require('./battleResources');
 const { BATTLE_EXPERIENCE_MULTIPLIERS } = require('../models/progression');
 const { emitSoloBattleEnd, createBattleSummaryTracker, clearBattleTransientState } = require('./battleOutcome');
-const { emitFieldState, emitSoloMoveResult, prepareMoveAnimation, afterActionMessages } = require('./battleEvents');
+const { emitDelayedMoveEvents, emitFieldState, emitSoloMoveResult, prepareMoveAnimation, afterActionMessages } = require('./battleEvents');
 const {
     hasAlivePokemon,
     canChooseMoveSwitch,
@@ -203,6 +203,7 @@ async function applySwitchInNarration(player, wildPokemon, io, switchedPokemon, 
 async function resolveRoundEnd(player, wildPokemon, io, battleState, playerSide, enemySide) {
     const playerPokemon = player.equipe.pokemons[0];
     const endTurnMessages = processEndOfRound(playerPokemon, wildPokemon, playerSide, enemySide, battleState);
+    emitDelayedMoveEvents(endTurnMessages, (event,payload)=>io.to(player.id).emit(event,payload), playerSide);
     await battleState.darkFaints?.();
     emitFieldState(io, player?.id, battleState);
 

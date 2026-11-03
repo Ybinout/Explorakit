@@ -14,7 +14,7 @@ const {
 const { getUsableMoveIndexes, getForcedMove, selectedMoveName, isMoveSelectionValid } = require('./battleResources');
 const { editEquipe } = require('../../persistence/teamRepository');
 const { emitPvpBattleEnd } = require('./battleOutcome');
-const { emitFieldState, emitPvpMoveResult, prepareMoveAnimation, afterActionMessages } = require('./battleEvents');
+const { emitDelayedMoveEvents, emitFieldState, emitPvpMoveResult, prepareMoveAnimation, afterActionMessages } = require('./battleEvents');
 const {
     getFirstAliveIndex,
     hasAlivePokemon,
@@ -689,6 +689,7 @@ async function startPvpBattle(playerA, playerB, io) {
         // Residuals belong to the turn just played, even if one active fainted.
         // Forced replacements and the final result are resolved afterwards.
         const endTurnMessages = processEndOfRound(teamA[0], teamB[0], sideA, sideB, battleState);
+        for(const [viewer,side] of [[playerA,sideA],[playerB,sideB]])emitDelayedMoveEvents(endTurnMessages,(event,payload)=>io.to(viewer.id).emit(event,payload),side);
         emitFieldState(io, [playerA?.id, playerB?.id], battleState);
         if (Array.isArray(endTurnMessages) && endTurnMessages.length > 0) {
             emitBattleStateForBoth(io, playerA, playerB, battleState);

@@ -9,6 +9,7 @@ const moveGuards=require('./moveGuards');
 const moveDamageRules=require('./moveDamageRules');
 const sequences=require('./moveSequences');
 const pursuit=require('./pursuit');
+const futureMoves=require('./futureMoves');
 const {weatherHealingAmount}=require('./weatherHealing');
 const clamp=(x,l,h)=>Math.max(l,Math.min(h,x)),alive=p=>p.currentHp>0;
 const ability=p=>abilities.getAbilityName(p);
@@ -98,7 +99,7 @@ function castMove(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMove
     if(p.__battle.encoreTurns>0&&p.__battle.encoreMove&&p.__battle.encoreMove!==move.ename)return {useful:false,accuracy:0};
     const availability=actionAvailability(p,move),hitChance=(move.ename==='Pursuit'&&pursuit.switching(state,other)?1:ctx.chance(move,p,other,state))*availability;
     if(!availability)return {useful:false,accuracy:0};
-    if(engine.movePhase(p,move.ename,state,other)==='prepare'){const rule=twoTurn.rule(move.ename);p.__battle.chargeMove=move.ename;p.__battle.chargeTurns=1;if(rule?.state)p.__battle.semiInvulnerable=rule.state;return {useful:true,recognized:true,accuracy:hitChance};}
+    if(!futureMoves.isFuture(move)&&engine.movePhase(p,move.ename,state,other)==='prepare'){const rule=twoTurn.rule(move.ename);p.__battle.chargeMove=move.ename;p.__battle.chargeTurns=1;if(rule?.state)p.__battle.semiInvulnerable=rule.state;return {useful:true,recognized:true,accuracy:hitChance};}
     const flags=abilities.getMoveFlags(move),damaging=move.combat.damage_class!=='status',wasSubstitute=other.__battle.substituteHp>0;
     let useful=false,inflicted=0,painSplitApplied=false,recognized=damaging||move.ename==='Rest';
     const slot=p.abilities.indexOf(move.ename);if(slot>=0&&!rampage.current(p)&&!sequences.rolling(p))p.movePp[slot]=Math.max(0,(p.movePp[slot]??1)-1);
@@ -108,6 +109,12 @@ function castMove(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMove
     p.__battle.usedMoves=(p.__battle.usedMoves||[]).filter(name=>p.abilities.includes(name));if(p.abilities.includes(move.ename)&&!p.__battle.usedMoves.includes(move.ename))p.__battle.usedMoves.push(move.ename);
     if(failure){p.__battle.lastMoveFailed=true;p.__battle.lastMoveResultTurn=state.turn;return {useful:false,recognized:true,accuracy:hitChance,inflicted:0};}
     sequences.begin(move,state);
+    if(futureMoves.isFuture(move)) {
+        const useful=futureMoves.schedule(otherSide,p,move,state,side);
+        p.__battle.activeMoveActions=(p.__battle.activeMoveActions||0)+1;
+        p.__battle.lastMoveFailed=!useful;p.__battle.lastMoveResultTurn=state.turn;
+        return {useful,recognized:true,accuracy:availability,inflicted:0};
+    }
     if(damaging) {
         let resolved=engine.resolveWeatherMove(move,p,other,state);
         if(state.field.ionDelugeTurns>0&&resolved.type==='Normal')resolved={...resolved,type:'Electric'};
@@ -119,7 +126,7 @@ function castMove(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMove
         const thrownItem=move.ename==='Fling'?resources.getItemDefinition(p.heldItem):null;
         if(move.ename==='Sucker Punch'&&(!reply||(reply.combat.damage_class==='status'&&reply.ename!=='Me First')||alreadyMoved||other.__battle.rechargeMove))raw=0;
         if(['Fake Out','First Impression'].includes(move.ename)&&p.__battle.activeMoveActions>0)raw=0;
-        if(move.ename==='False Swipe')raw=Math.min(raw,Math.max(0,other.currentHp-1));
+        if(move.ename==='False Swipe'&&(!wasSubstitute||moveGuards.bypassesSubstitute(p,move)))raw=Math.min(raw,Math.max(0,other.currentHp-1));
         if(move.ename==='Focus Punch'&&p.__battle.lastDamageTurn===state.turn&&p.__battle.lastDamageTaken>0)raw=0;
         if(moveGuards.breaksProtection(move)&&raw>0&&hitChance>0){guard.delete(other);moveGuards.clearProtection(other,otherSide);}
         const guardChance=moveGuards.breaksProtection(move)?0:guard.get(other)||0;
@@ -294,7 +301,7 @@ function endTurn(p,other,state,{switched=false}={}) {
 function project(a,b,move,reply,ctx,{switched=false,first=true,ownSwitched=false,ownOutgoing=null,foeOutgoing=null}={}) {
     let own=copy(a),foe=copy(b);
     const field={...ctx.field,...(Array.isArray(ctx.field.berryEaters)?{berryEaters:[...ctx.field.berryEaters]}:{}),weather:{...ctx.field.weather},terrain:{...ctx.field.terrain},field:{...ctx.field.field},sides:{}};
-    for(const key of ['player','enemy']){const side=ctx.field.sides[key];field.sides[key]={...side,screens:{...side.screens},hazards:{...side.hazards},protectTeam:{...side.protectTeam},wish:side.wish?{...side.wish}:null};}
+    for(const key of ['player','enemy']){const side=ctx.field.sides[key];field.sides[key]={...side,screens:{...side.screens},hazards:{...side.hazards},protectTeam:{...side.protectTeam},wish:side.wish?{...side.wish}:null,futureMove:side.futureMove?{...side.futureMove,source:copy(side.futureMove.source)}:null};}
     const side=ctx.ownSide===ctx.field.sides.player?field.sides.player:field.sides.enemy,enemySide=side===field.sides.player?field.sides.enemy:field.sides.player;
     const guard=new Map();let action={useful:false,accuracy:1},response={useful:false,accuracy:1};
     let withdrawalScore=0,foeIntercepted=false,ownIntercepted=false;
@@ -314,6 +321,17 @@ function project(a,b,move,reply,ctx,{switched=false,first=true,ownSwitched=false
         if(!alive(outgoing))own=outgoing;
     } else if(first) {action=cast(own,foe,move,reply,side,enemySide,field,ctx,guard);if(!switched)response=cast(foe,own,reply,move,enemySide,side,field,ctx,guard,{alreadyMoved:true});}
     else {if(!switched)response=cast(foe,own,reply,move,enemySide,side,field,ctx,guard);action=cast(own,foe,move,reply,side,enemySide,field,ctx,guard,{alreadyMoved:true});}
+    if(side.futureMove||enemySide.futureMove)for(const [target,opponent,defenderSide,attackerSide] of [[own,foe,side,enemySide],[foe,own,enemySide,side]]) {
+        const pending=futureMoves.takeDue(target,opponent,defenderSide,attackerSide,field);
+        if(pending&&alive(target)&&target.uuid!==pending.source.uuid) {
+            const source=futureMoves.damageSource(pending),move=resources.getMoveDefinition(pending.moveName);
+            if(!target.__battle.semiInvulnerable||ability(source)==='No Guard'||ability(target)==='No Guard') {
+                const hit=damageTarget(target,ctx.damage(source,target,move,defenderSide,field)*ctx.chance(move,source,target,field),source,move,field);
+                if(pending.sourceActive&&hit.total>0&&held.effect(source,field)==='life_orb'&&ability(source)!=='Magic Guard')hp(source,source.currentHp-Math.max(1,Math.floor(source.maxHp/10)));
+                activate(target,source,field);
+            }
+        }
+    }
     endTurn(own,foe,field,{switched:ownSwitched});endTurn(foe,own,field,{switched});
     sequences.recordFaint(own,side,field);sequences.recordFaint(foe,enemySide,field);
     for(const p of[own,foe])for(const key of['laserFocusTurns','soundBlockedTurns','encoreTurns'])if(p.__battle[key]>0)p.__battle[key]--;

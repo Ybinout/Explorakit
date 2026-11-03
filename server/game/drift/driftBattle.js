@@ -11,7 +11,7 @@ const effects = require('./driftEffects');
 const { getUsableMoveIndexes, getItemDefinition, getForcedMove, selectedMoveName, isMoveSelectionValid } = require('../battle/battleResources');
 const { clearBattleTransientState, buildBattleSummary, createBattleSummaryTracker } = require('../battle/battleOutcome');
 const { switchPokemonByIndex, switchToNextAlive, canChooseMoveSwitch, resolveMoveSwitches, autoSwitchPokemon, hasAlivePokemon } = require('../battle/battleTeam');
-const { serializeMoveResult, serializeFieldState, prepareMoveAnimation, afterActionMessages } = require('../battle/battleEvents');
+const { emitDelayedMoveEvents, serializeMoveResult, serializeFieldState, prepareMoveAnimation, afterActionMessages } = require('../battle/battleEvents');
 const { getMoveFlags } = require('../abilities/abilityEngine');
 const { calculateBattleExperience, reduceActiveOverlevelExperience, EXPEDITION_EXPERIENCE_MULTIPLIERS } = require('../models/progression');
 const { planTurnActions, hasActedThisTurn } = require('../battle/turnActions');
@@ -433,7 +433,9 @@ class DriftBattle {
             if(result.escape && this.type==='wild') {this.escapeActor=index===0?'player':'opponent';this.finish(null,'fled'); return;}
         }
         if (!finishRound) return;
-        this.withDriftSignals(()=>engine.processEndOfRound(this.active(0),this.active(1),this.sides[0],this.sides[1],this.state)).forEach(m=>this.say(m));
+        const roundMessages=this.withDriftSignals(()=>engine.processEndOfRound(this.active(0),this.active(1),this.sides[0],this.sides[1],this.state));
+        for(const [index,viewer] of [this.a,this.b].entries())if(!viewer.npc)emitDelayedMoveEvents(roundMessages,(event,payload)=>this.emit(viewer,event,payload),this.sides[index]);
+        roundMessages.forEach(m=>this.say(m));
         this.withDriftSignals(()=>{effects.endTurn(this.active(0));effects.endTurn(this.active(1));});this.prune();
         if (!this.checkEnd()) { this.sync(); this.nextRoundAt = this.now() + this.paceMs; }
     }

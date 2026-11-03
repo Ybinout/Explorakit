@@ -11,6 +11,7 @@ const moveGuards = require('./moveGuards');
 const moveDamageRules = require('./moveDamageRules');
 const sequences = require('./moveSequences');
 const pursuit = require('./pursuit');
+const futureMoves = require('./futureMoves');
 const { weatherHealingAmount } = require('./weatherHealing');
 const drift = require('../drift/driftEffects');
 const {
@@ -112,6 +113,7 @@ function createSideState(name = 'side') {
             craftyShieldTurns: 0
         },
         wish: null,
+        futureMove: null,
         pendingFullHeal: null,
         rewardMultiplier: 1,
         redirectionPokemonId: null,
@@ -616,7 +618,8 @@ function applyDamage(target, damage, options = {}) {
         result.disguiseBroken=true;return result;
     }
 
-    let finalDamage = Math.min(hpBefore, resolvedDamage);
+    // False Swipe's non-lethal limit applies to HP, never to a substitute.
+    let finalDamage = Math.min(options.leaveAtOne ? Math.max(0, hpBefore - 1) : hpBefore, resolvedDamage);
     if (options.attacker && !ignoresDefenderAbility(options.attacker, target) && hasPassiveAbility(target, 'Sturdy')
         && hpBefore === safeNumber(target.maxHp, hpBefore) && finalDamage >= hpBefore) {
         finalDamage = Math.max(0, hpBefore - 1);
@@ -2600,11 +2603,75 @@ function advanceBattleState(battleState) {
     return messages;
 }
 
+function resolveFutureMoves(playerPokemon, enemyPokemon, playerSide, enemySide, battleState) {
+    const impacts = [];
+    for (const [target, opponent, side, otherSide] of [[playerPokemon, enemyPokemon, playerSide, enemySide], [enemyPokemon, playerPokemon, enemySide, playerSide]]) {
+        const pending = futureMoves.takeDue(target, opponent, side, otherSide, battleState);
+        if (!pending) continue;
+        const source = pending.source && futureMoves.damageSource(pending);
+        const baseMove = getMoveByName(pending.moveName);
+        if (!source || !baseMove) continue;
+        const transformed = transformMoveForAbility(source, baseMove);
+        const move = transformed.move;
+        const result = { move, moveName: move.ename, phase: 'strike', success: false, damage: 0, substituteDamage: 0, hits: 0, effectiveness: 1, critical: false, messages: [] };
+        const messages = result.messages, label = futureMoves.LABELS[move.ename];
+        impacts.push({ ...pending, result });
+        if (!(target?.currentHp > 0) || target.uuid === source.uuid) {
+            result.blocked = true;
+            messages.push(`${label} se dissipe sans atteindre de cible.`);
+            continue;
+        }
+        messages.push(`${label} frappe ${getPokemonDisplayName(target)} !`);
+        const targetData = ensureBattleData(target), sourceData = ensureBattleData(source);
+        const reachable = !targetData.semiInvulnerable || hasPassiveAbility(source, 'No Guard') || hasPassiveAbility(target, 'No Guard')
+            || sourceData.lockOnTurns > 0 && sourceData.lockOnTargetId === target.uuid;
+        if (!reachable || Math.random() >= getMoveHitChance(move, source, target, battleState)) {
+            result.missed = true;
+            messages.push(`${label} manque sa cible.`);
+            continue;
+        }
+        const context = { attacker: source, defender: target, attackerSide: otherSide, defenderSide: side, battleState, move };
+        const effectiveness = getMoveEffectiveness(move, source, target, battleState);
+        if (resolveMoveAbilityImmunity({ ...context, effectiveness, movePriority: 0, grounded: isGrounded(target, battleState), messages,
+            heal: healPokemon, changeStage: applyStageChange })) {
+            result.blocked = result.abilityBlocked = true;
+            continue;
+        }
+        const info = calculateDamageDetailed(source, target, move, { battleState, attackerSide: otherSide, defenderSide: side, abilityPowerMultiplier: transformed.powerMultiplier });
+        Object.assign(result, { success: true, hits: info.effectiveness > 0 ? 1 : 0, critical: info.critical, effectiveness: info.effectiveness });
+        if (!info.effectiveness) {
+            messages.push(`Ça n’affecte pas ${getPokemonDisplayName(target)}.`);
+            continue;
+        }
+        const hit = applyDamage(target, info.damage, { attacker: source, battleState, allowEndure: true, bypassSubstitute: moveGuards.bypassesSubstitute(source, move) });
+        result.damage = hit.damageToHp;
+        result.substituteDamage = hit.damageToSubstitute;
+        if (info.resistBerry && hit.damageToHp > 0 && target.heldItem === info.resistBerry) consumeBerry(target, battleState, messages);
+        reactions.afterHit({ ...context, damage: hit.damageToHp, critical: info.critical }, reactionHelpers(context), messages);
+        activateHeldItem(target, battleState, messages, 'immediate', source);
+        if (hit.damageToHp) messages.push(`${getPokemonDisplayName(target)} perd ${hit.damageToHp} PV.`);
+        if (hit.damageToSubstitute) messages.push(hit.substituteBroken ? 'Le clone est détruit !' : 'Le clone encaisse le choc.');
+        if (info.critical) messages.push('Coup critique !');
+        if (pending.sourceActive && source.currentHp > 0 && hit.damageToHp + hit.damageToSubstitute > 0) {
+            if (heldItems.effect(source, battleState) === 'life_orb' && !hasPassiveAbility(source, 'Magic Guard')) {
+                const recoil = applyDamage(source, Math.max(1, Math.floor(source.maxHp / 10)), { allowEndure: false, battleState });
+                messages.push(`L’Orbe Vie coûte ${recoil.damageToHp} PV à ${getPokemonDisplayName(source)}.`);
+            }
+            if (heldItems.effect(source, battleState) === 'shell_bell') healPokemon(source, Math.max(1, Math.floor((hit.damageToHp + hit.damageToSubstitute) / 8)));
+            activateHeldItem(source, battleState, messages, 'immediate', target);
+        }
+    }
+    return impacts;
+}
+
 function processEndOfRound(playerPokemon, enemyPokemon, playerSide, enemySide, battleState) {
     const messages = [];
     for (const [p,side] of [[playerPokemon,playerSide],[enemyPokemon,enemySide]]) sequences.recordFaint(p,side,battleState);
     abilityForms.syncWeatherForms(playerPokemon,enemyPokemon,battleState,messages);
     const before=[playerPokemon?.currentHp,enemyPokemon?.currentHp];
+    const delayedAttacks = resolveFutureMoves(playerPokemon, enemyPokemon, playerSide, enemySide, battleState);
+    Object.defineProperty(messages, 'delayedAttacks', { value: delayedAttacks });
+    for (const impact of delayedAttacks) messages.push(...impact.result.messages);
     messages.push(...processPokemonEndTurn(playerPokemon, enemyPokemon, playerSide, battleState));
     messages.push(...processPokemonEndTurn(enemyPokemon, playerPokemon, enemySide, battleState));
     for (const p of [playerPokemon,enemyPokemon]) if (p?.status==='sleep'||Number(p?.currentHp)<=0) { rampage.clear(p); sequences.clearRolling(p); }
@@ -2943,6 +3010,7 @@ function useattack(attackName, attacker, defender, options = {}) {
 }
 
 function movePhase(pokemon, moveName, battleState, opponent) {
+    if (futureMoves.isFuture(moveName)) return 'prepare';
     if (getChargingMove(pokemon)) return 'strike';
     const move = getMoveByName(moveName);
     if (move?.combat?.power_type !== 'charge') return null;
@@ -3030,7 +3098,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
     let lastHitDamage = 0;
     const helper=reactionHelpers({attacker,attackerSide,defenderSide,battleState});
     const hit=(amount,critical=false,resistBerry=null) => {
-        const result=applyDamage(defender,amount,{allowEndure:true,attacker,battleState,
+        const result=applyDamage(defender,amount,{allowEndure:true,attacker,battleState,leaveAtOne:move.ename==='False Swipe',
             bypassSubstitute:moveGuards.bypassesSubstitute(attacker,move)});
         if (resistBerry && result.damageToHp > 0 && defender.heldItem === resistBerry) {
             const name = getItemDefinition(resistBerry).name;
@@ -3185,6 +3253,18 @@ function executeAttack(attackName, attacker, defender, options = {}) {
     }
 
     sequences.begin(move,battleState);
+    if (futureMoves.isFuture(move)) {
+        attackerData.lastMoveUsed = move.ename;
+        if (!futureMoves.schedule(defenderSide, attacker, move, battleState, attackerSide)) {
+            moveResult.blocked = true;
+            moveResult.messages.push('Une attaque future vise déjà cet emplacement.');
+        } else {
+            moveResult.success = true;
+            moveResult.phase = 'prepare';
+            moveResult.messages.push(`${getPokemonDisplayName(attacker)} prépare ${futureMoves.LABELS[move.ename]} !`);
+        }
+        return moveResult;
+    }
     const chargeRule = twoTurn.rule(move.ename);
     if (chargeRule?.gravity && battleState.field?.gravityTurns > 0) {
         moveResult.blocked = true;

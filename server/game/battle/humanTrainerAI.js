@@ -79,7 +79,7 @@ function ownPokemon(p) {
     view.__battle.activeMoveActions=selection.entryActions(p);
     return require('../drift/driftEffects').copyTournamentPacts(p,view);
 }
-function publicField(field) {
+function publicField(field, ownSide = null) {
     // In particular: no turnActions, trainerTeam, callbacks or pending payloads.
     const result = engine.createBattleState();
     result.turn=field.turn;
@@ -98,6 +98,8 @@ function publicField(field) {
             const value=source[key]?.[name];if(['number','boolean'].includes(typeof value))result.sides[side][key][name]=value;
         }
         if(source.wish)result.sides[side].wish={turns:Number(source.wish.turns)||0,healAmount:Number(source.wish.healAmount)||0};
+        if(source.futureMove)result.sides[side].futureMove={moveName:source.futureMove.moveName,dueTurn:source.futureMove.dueTurn,sourceSide:source.futureMove.sourceSide,
+            source:source.futureMove.sourceSide===ownSide?.name?ownPokemon(source.futureMove.source):publicPokemon(source.futureMove.source)};
     }
     return result;
 }
@@ -390,7 +392,7 @@ function scoreMove(a,move,scenario,ctx,lookahead=false) {
 function analyse({team,opponentTeam,field,ownSide,enemySide,memory={},round=1,skill=1}) {
     const own=team.map(ownPokemon),foes=opponentTeam.filter(p=>p.currentHp>0&&!p.isEgg).map(publicPokemon);
     if(!own[0]||!foes[0])return {candidates:[],predictions:[]};
-    const safe=publicField(field);
+    const safe=publicField(field,ownSide);
     const os=ownSide===field.sides?.player?safe.sides.player:safe.sides.enemy;
     const es=enemySide===field.sides?.enemy?safe.sides.enemy:safe.sides.player;
     const a=own[0],b=foes[0],ctx=context(a,b,own.filter(p=>p.currentHp>0),safe,os,es,foes.length);
@@ -472,7 +474,7 @@ function chooseAction(options) {
 function chooseReplacement({team,opponentTeam,field,ownSide,enemySide,memory={},round=1,skill=1}) {
     const indexes=team.map((p,i)=>p.currentHp>0&&!p.isEgg?i:-1).filter(i=>i>=0);
     if(indexes.length<2||!opponentTeam[0]||opponentTeam[0].currentHp<=0)return indexes[0]??-1;
-    const safe=publicField(field),side=ownSide===field.sides.player?safe.sides.player:safe.sides.enemy;
+    const safe=publicField(field,ownSide),side=ownSide===field.sides.player?safe.sides.player:safe.sides.enemy;
     let selected=indexes[0],best=-Infinity;
     for(const index of indexes) {
         const candidate=resetEntry(ownPokemon(team[index])),cost=legacy.entryDamage(candidate,side,safe);
