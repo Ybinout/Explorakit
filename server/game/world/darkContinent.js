@@ -27,8 +27,8 @@ function actor(name,map,x,y,index){return {name,interactionName:name,map,x,y,spr
 function actors(map,state={}){if(map==='jungle1')return[actor('dark_guide',map,6,10,1),actor('dark_researcher',map,9,6,12)];if(map===LOBBY.map&&state.eligible&&!state.owned)return[actor('dark_scout',map,state.scoutAt?.x??11,state.scoutAt?.y??14,6)];return[];}
 const research=[
  'Les plaques gardent l’empreinte d’un type de Pokémon. Les cristaux, eux, en sont le réservoir : les Éclats fissurés sont bruts, les Cristaux limpides plus stables, et les Prismes d’aurore particulièrement purs.',
- 'Avec suffisamment de ces trois matières autour d’une plaque, on pourrait reproduire une capacité de son type… ou transmettre un talent provenant d’un Pokémon qui possède ce type.',
- 'Il faudrait dix fois plus de matière, plaques comprises, pour modifier les types d’un Pokémon. Un autre assemblage pourrait renforcer ses attaques d’un type ou sa résistance à ce type, mais cette synthèse serait instable : une chance sur deux d’échouer.',
+ 'Avec suffisamment de ces trois matières et plusieurs plaques identiques, on pourrait reproduire une capacité de son type… ou transmettre un talent provenant d’un Pokémon qui possède ce type.',
+ 'Il faudrait dix fois plus de cristaux et vingt plaques identiques pour modifier les types d’un Pokémon. Un autre assemblage pourrait renforcer ses attaques d’un type ou sa résistance à ce type, mais cette synthèse serait instable : une chance sur deux d’échouer.',
  'Ces mutations laisseraient une trace définitive. Un compagnon pourrait porter quatre assemblages différents, un de chaque sorte, mais je ne garderais pas deux compagnons corrompus dans une même équipe.',
  'Si le matériel nécessaire existait, nous pourrions peut-être réaliser tout cela… Encore faudrait-il trouver quelqu’un qui ait étudié ces cristaux assez longtemps.'
 ];

@@ -5,3 +5,5 @@ const {registry}=require('../server/game/corruption/modules');
 const file=path.resolve(__dirname,'../vue-explorakit/src/data/corruptionModules.json');
 fs.writeFileSync(file,JSON.stringify(Object.fromEntries(registry),null,2)+'\n');
 console.log(`${registry.size} module definitions exported.`);
+
+fs.copyFileSync(path.resolve(__dirname,'../data/game/corruption_recipes.json'),path.resolve(__dirname,'../vue-explorakit/src/data/corruptionRecipes.json'));

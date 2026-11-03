@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "families": {
+    "move": { "crystalMultiplier": 1, "plates": 3 },
+    "ability": { "crystalMultiplier": 1, "plates": 3 },
+    "combat": { "crystalMultiplier": 1, "plates": 10 },
+    "type": { "crystalMultiplier": 10, "plates": 20 }
+  }
+}

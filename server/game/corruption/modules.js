@@ -1,3 +1,4 @@
+const recipes = require('../../../data/game/corruption_recipes.json');
 const moves = require('../../../data/game/moves.json');
 const dex = require('../../../data/game/pokedex.json');
 const {getSpeciesAbilitySlots} = require('../abilities/abilityDex');
@@ -20,7 +21,7 @@ for(const[type,label]of Object.entries(TYPES)){
  pools[type]={move:[...registry.values()].filter(i=>i.corruptionModule.family==='move'&&i.corruptionModule.type===type).map(i=>i.key),ability:[...registry.values()].filter(i=>i.corruptionModule.family==='ability'&&names.has(i.corruptionModule.ability)).map(i=>i.key)};
 }
 function get(key){return typeof key==='string'?registry.get(key)||null:null;}
-function recipe(family,type){if(!Object.hasOwn(FAMILIES,family)||!Object.hasOwn(TYPES,type))throw Error('Choisis une station et une plaque de type.');const n=family==='type'?10:1;return[{key:'crystal_shard',quantity:40*n},{key:'clear_crystal',quantity:20*n},{key:'aurora_prism',quantity:10*n},{key:'dark_plate_'+type.toLowerCase(),quantity:n}];}
+function recipe(family,type){if(!Object.hasOwn(FAMILIES,family)||!Object.hasOwn(TYPES,type))throw Error('Choisis une station et une plaque de type.');const {crystalMultiplier:n,plates}=recipes.families[family];return[{key:'crystal_shard',quantity:40*n},{key:'clear_crystal',quantity:20*n},{key:'aurora_prism',quantity:10*n},{key:'dark_plate_'+type.toLowerCase(),quantity:plates}];}
 function roll(random){const value=random();if(!Number.isFinite(value)||value<0||value>=1)throw Error('Tirage invalide.');return value;}
 function craft(family,type,random=Math.random){recipe(family,type);if(family==='combat')return roll(random)<.5?{created:false,itemKey:null}:{created:true,itemKey:`cmod_${roll(random)<.5?'offense':'defense'}_${type.toLowerCase()}`};if(family==='type')return{created:true,itemKey:'cmod_type_'+type.toLowerCase()};const pool=pools[type][family];if(!pool.length)throw Error('Aucun module disponible pour ce type.');return{created:true,itemKey:pool[Math.floor(roll(random)*pool.length)]};}
-module.exports={FAMILIES,TYPES,registry,pools,get,recipe,craft,roll};
+module.exports={RECIPE_VERSION:recipes.version,FAMILIES,TYPES,registry,pools,get,recipe,craft,roll};

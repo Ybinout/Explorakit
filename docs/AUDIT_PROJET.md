@@ -1,3 +1,22 @@
+## Coûts en plaques des synthèses — 3 novembre 2026
+
+Les quatre stations exigent désormais des plaques **toutes du même type** :
+
+| Synthèse | Plaques | Éclats fissurés | Cristaux limpides | Prismes d’aurore |
+| --- | ---: | ---: | ---: | ---: |
+| CS | 3 | 40 | 20 | 10 |
+| Talent | 3 | 40 | 20 | 10 |
+| Combat | 10 | 40 | 20 | 10 |
+| Mutation de type | 20 | 400 | 200 | 100 |
+
+Une seule source `data/game/corruption_recipes.json`, copiée dans le client par `generate:corruption`, alimente le coût SQL et l’affichage/drag-and-drop. Les cristaux, tirages de modules, effet ±20 %, usage unique et chance de succès Combat (50 %) ne changent pas. L’échec Combat consomme bien ses dix plaques et ses cristaux une seule fois. Explications du prospecteur et libellé « Cristaux ×10 » ajustés pour ne plus annoncer l’ancien ratio des plaques.
+
+Version de recette dans la requête : une ancienne interface affichant les anciens prix est refusée **avant tout débit**, avec invitation à actualiser. La vérification est après la recherche du reçu existant : les anciennes opérations déjà enregistrées restent récupérables sans nouveau tirage ni débit. Transaction, verrou de compte, rollback et anti-rejeu conservés ; aucune migration ni modification de stock réel.
+
+Validation : **26 tests et 9 SQL réussis sans saut**, parité des configurations client/serveur, coûts des quatre familles, recette incomplète d’une plaque, plaques d’un autre type inutilisables, absence de consommation en cas de refus, ancien affichage refusé, échec Combat, concurrence/rollback/rejeu. Parcours complet des quatre stations, fabrication/installation/PC/combat et reconnexion en Chromium/WebKit : **78 vues**, zéro erreur JavaScript ; nombres 3/3/20/10 vérifiés sur les vrais emplacements et vue mobile inspectée. Lint/build valides ; base `explorakit_test`, comptes jetables supprimés. Rapport `docs/SYNTHESIS_PLATE_COSTS_2026-11-03.json`.
+
+Publication le **3 novembre 2026 à 08 h 51 (Europe/Paris)** : client `efa97ae` / build `aafa41c19757bbeb`, serveur actif sans redémarrage automatique ni avertissement. Sauvegardes SQL/sources/index/checkpoint dans `/home/ubuntu/dev/backups/riftmon-synthesis-2026-11-03T07-51-13-308Z`. Index/bundles publics vérifiés à l’octet ; anciens assets, voisins Knov/API et checkpoint conservés, modes fermés inchangés. Aucune migration ni modification manuelle de compte réel.
+
 ## Types progressifs Dark, recharge de carte et mémoire du sac — 3 novembre 2026
 
 **Habitats cumulatifs :** ouest (Jungle 1/4/7) Normal, Plante, Insecte, Poison, Vol, Combat et Eau ; centre (2/5/8) ajoute Feu, Électrik, Sol, Roche et Psy ; est (3/6/9) ajoute Glace, Spectre, Dragon, Ténèbres, Acier et Fée. Les deux types doivent être ouverts : aucun double type ne contourne le palier. Tous les Eau, y compris les doubles types, sont exclusivement pêchables. L’est ouvre les **458 espèces non légendaires des générations 1–4** actuellement prises en charge : 371 terrestres et 87 aquatiques. Chaque carte de l’est contient le catalogue terrestre complet ; ouest/centre conservent des habitats différents selon la ligne. Les légendaires ne sont pas injectés sur l’île, conformément à sa règle existante. Niveaux, tirage de corruption/traits, mort définitive, XP, argent et **tous les pourcentages/quantités de butin restent identiques** au patch précédent. `darkHabitats.js` fournit le catalogue commun ; réimportation raccordée, non rejouée ; seuls les tableaux `wildpokemon` Dark changent dans `nextMap.json`, Tiled/images/liaisons intacts.
@@ -6122,6 +6141,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **3 novembre 2026 — Plaques des synthèses :** CS/Talent 3, Combat 10, Type 20 du même type ; cristaux inchangés, configuration partagée/générée, refus des anciennes interfaces avant débit. 26 tests, 9 SQL et 78 vues Chromium/WebKit ; `docs/SYNTHESIS_PLATE_COSTS_2026-11-03.json`.
 
 - **3 novembre 2026 — Types Dark / carte / sac :** types cumulatifs par colonne, 458 espèces ordinaires gen1–4 à l’est dont Eau réservés à la pêche ; butin identique. Recharge SQL de 5 minutes avec timer, mémoire du sac et aucun premier objet automatiquement ouvert. 33 tests, 43 SQL, 12 vues Chromium/WebKit ; `docs/DARK_TYPE_PROGRESSION_BAG_2026-11-03.json`.
 

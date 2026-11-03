@@ -20,6 +20,7 @@ async function transaction(userId,operation,payload,work){
 async function craft(userId,payload,random=Math.random){
  const {family,type}=payload||{},cost=modules.recipe(family,type);
  return transaction(userId,'craft',payload,async c=>{
+  if(payload.recipeVersion!==modules.RECIPE_VERSION)throw Error('Les quantités de la recette ont changé. Actualise le jeu avant de relancer la synthèse.');
   for(const {key,quantity}of cost){const [r]=await c.execute('UPDATE user_items SET quantity=quantity-? WHERE user_id=? AND item_key=? AND quantity>=?',[quantity,userId,key,quantity]);if(!r.affectedRows)throw Error('Tu n’as pas assez de composants. Aucune ressource n’a été consommée.');}
   const result=modules.craft(family,type,random);
   if(result.created)await c.execute('INSERT INTO user_items(user_id,item_key,quantity) VALUES(?,?,1) ON DUPLICATE KEY UPDATE quantity=quantity+1',[userId,result.itemKey]);
