@@ -1,3 +1,19 @@
+## Rencontres du Dark Continent — 3 novembre 2026
+
+Les sauvages ordinaires de l’île ont désormais **20 à 28 IV dans chaque statistique**, un **K minimum de 2** et **510 EV répartis aléatoirement**, dans la limite normale de 252 par statistique. Les statistiques, PV et capacités sont calculés après ces tirages. Les autres régions et les Pokémon déjà possédés ne sont pas modifiés.
+
+Chaque rencontre terrestre ou pêchée a **2 % de chance** de produire un sauvage corrompu : K4, 31 IV et **250 EV dans chacune des six statistiques**, niveau de la zone +5 (jusqu’à 205), carte de combat violette et sprite agrandi de 25 %, pieds toujours sur le même socle. Cette exception de 1 500 EV appartient uniquement à ces ennemis ; l’entraînement et la sauvegarde des Pokémon des joueurs conservent leurs limites. Aucun module de corruption supplémentaire n’est tiré pour eux.
+
+Une victoire avec un survivant rapporte **10 000 ₽ de base**, **100 % du gain d’XP Aventure** (au lieu de 50 % sur les ordinaires), **une à cinq plaques** correspondant aux types adverses, et les trois cristaux garantis. Les règles habituelles des receveurs/écarts de niveau restent applicables à l’XP. Quantités ouest → centre → est : Éclats 12–20 → 16–26 → 20–32 ; Cristaux limpides 8–14 → 10–18 → 14–22 ; Prismes 5–8 → 6–10 → 8–14. Défaite, interruption ou perte simultanée de toute l’équipe : aucune de ces récompenses.
+
+La pêche est raccordée aux berges des neuf jungles : Tortank, Léviator, Laggron, Milobellus, Pingoléon, Tentacruel, Lanturn et Hyporoi. Toutes les espèces Eau natives sont incluses. Canne et réaction au signal nécessaires ; niveaux de la zone, mêmes tirages de traits/corruption, décor de lac et musique Dark. **Les interdictions de capture et de fuite de l’île restent actives**, y compris dans ces combats. Le K.O. définitif et le rapatriement immédiat s’appliquent aussi à la pêche. Les six anciens lacs, les raccords auteur et les fichiers Tiled/images ne changent pas ; seule la table de berges dérivée est étendue.
+
+Un prospecteur se tient à côté du guide de Jungle 1, avec un autre sprite classique de l’atlas 6931. Il explique les plaques, les trois cristaux et les possibilités de synthèse en évoquant le matériel nécessaire. L’interaction privilégie le personnage regardé, puis le plus proche ; les deux PNJ gardent leur collision.
+
+Validation : **134 tests unitaires/régression et 233 SQL réussis sans saut**, lint et build valides ; **104 vues Chromium/WebKit**, zéro erreur JavaScript, dont vrais combats terrestre/pêche et secours immédiat après défaite à la pêche. Carte violette, agrandissement ×1,25 à ancre constante, lisibilité mobile/PC et thèmes clair/sombre vérifiés. Rapport reproductible et publication : `docs/DARK_CORRUPTED_ENCOUNTERS_2026-11-03.json`. Tests sur base dédiée `explorakit_test`, aucun compte réel retouché ; aucune migration ni réouverture des modes. Le test de couverture des talents a aussi été corrigé pour tirer le milieu des probabilités réelles de chaque espèce, plutôt qu’une répartition uniforme devenue obsolète depuis Magnéti à 7 %.
+
+Publication le **3 novembre 2026 à 04 h 25 (Europe/Paris)** : client `d2b4a47`, build `b4d6ce7ebc619fd2`, service actif sans redémarrage automatique ni avertissement. Sauvegardes SQL/sources/checkpoint dans `/home/ubuntu/dev/backups/riftmon-dark-corrupted-2026-11-03T03-25-37-275Z`. Assets HTTPS vérifiés ; Knov/API voisins et checkpoint des modes fermés inchangés. Aucun changement de schéma ni retouche de compte réel.
+
 ## Cumuls du Super Tournoi et gains Dark Continent — 3 novembre 2026
 
 Dark Continent : l’XP passe de 10 % à **50 % du gain Aventure** ; la victoire contre un sauvage attribue désormais les Pokédollars habituels de l’Aventure (360 ₽ de base aux niveaux de ces jungles), plafonds/bonus de portefeuille existants. Pas de prime en cas de perte de toute l’équipe ou d’interruption. Butin, mort définitive, module XP ignoré et restrictions de sortie conservés. Les raccords déjà corrigés sont laissés intacts, conformément à la correction du joueur.
@@ -6038,6 +6054,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **3 novembre 2026 — Rencontres Dark :** IV 20–28/K≥2/EV510, corrompus 2 % K4/IV31/EV250×6/+5 niveaux, carte violette et ×1,25 ; récompenses garanties, prospecteur et pêche sur neuf jungles. 134 tests, 233 SQL et 104 vues Chromium/WebKit ; rapport `docs/DARK_CORRUPTED_ENCOUNTERS_2026-11-03.json`.
 
 - **3 novembre 2026 — Dark et tour :** XP Dark 50 %, Pokédollars sauvages ; pactes/pouvoirs cumulables, compteurs durables/aperçus, Fée et dix communes modérées. 407 tests, 267 SQL, 160 captures Chromium/WebKit ; `docs/TOWER_STACKS_DARK_REWARDS_2026-11-03.json`.
 

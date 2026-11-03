@@ -3,6 +3,7 @@ const path = require('node:path');
 const Pokemon = require('../models/Pokemon');
 const { rollLegendary } = require('./legendaryEncounters');
 const { chooseOrdinarySpecies } = require('./wildEncounterPool');
+const darkEncounters=require('./darkEncounters'),darkContinent=require('./darkContinent');
 
 const GAME_DATA_DIR = path.resolve(__dirname, '..', '..', '..', 'data', 'game');
 const MAP_CONFIG_PATH = path.join(GAME_DATA_DIR, 'nextMap.json');
@@ -115,9 +116,10 @@ async function CreatePokemon(mapName, random = Math.random, { experienceModuleAc
 
         const poke = new Pokemon(wildSelection.pokemonId, 'test', 0, 0, null, Pokemon.randomNature(), null);
         const zoneLevel = chooseLevelForZone(wildSelection.mapConfig, random);
+        const darkBonus=darkEncounters.prepare(poke,mapName,random);
 
         if (zoneLevel !== null) {
-            applyTargetLevel(poke, require('../items/experienceModule').encounterLevel(zoneLevel,experienceModuleActive&&!require('./darkContinent').isMap(mapName)));
+            applyTargetLevel(poke, require('../items/experienceModule').encounterLevel(zoneLevel,experienceModuleActive&&!darkContinent.isMap(mapName))+darkBonus);
         } else {
             applyLegacyLevelCurve(poke);
             if(experienceModuleActive===true)applyTargetLevel(poke,require('../items/experienceModule').encounterLevel(poke.level,true));
@@ -131,10 +133,12 @@ async function CreatePokemon(mapName, random = Math.random, { experienceModuleAc
     }
 }
 
-CreatePokemon.createAtLevel = async function(id, level, {experienceModuleActive=false}={}) {
-    if (!Number.isInteger(id) || !Number.isInteger(level) || level < 1 || level > 100) throw new Error('Rencontre invalide.');
+CreatePokemon.createAtLevel = async function(id, level, {experienceModuleActive=false,mapName=null,random=Math.random}={}) {
+    const dark=darkContinent.isMap(mapName);
+    if (!Number.isInteger(id) || !Number.isInteger(level) || level < 1 || level > (dark?200:100)) throw new Error('Rencontre invalide.');
     const poke = new Pokemon(id, 'test', 0, 0, null, Pokemon.randomNature(), null);
-    applyTargetLevel(poke, require('../items/experienceModule').encounterLevel(level,experienceModuleActive));
+    const darkBonus=darkEncounters.prepare(poke,mapName,random);
+    applyTargetLevel(poke, require('../items/experienceModule').encounterLevel(level,experienceModuleActive&&!dark)+darkBonus);
     await assignAutomaticMoves(poke);
     return poke;
 };

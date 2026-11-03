@@ -49,7 +49,8 @@ test('every natural species actually generates with each legal ability in Advent
   }
   const zone=maps.find(m=>availablePokemon().zones.includes(m.mapName)&&m.wildpokemon?.includes(id));
   if(zone){
-   const index=zone.wildpokemon.indexOf(id),legendIndex=legendary.species.indexOf(id),draws=legendIndex<0?[.5,(index+.5)/zone.wildpokemon.length,.5]:[0,(legendIndex+.5)/legendary.species.length,.5];
+   const chances=require('../server/game/world/wildEncounterPool').encounterChances(zone),encounterRoll=(chances.slice(0,chances.findIndex(([species])=>species===id)).reduce((n,[,chance])=>n+chance,0)+chances.find(([species])=>species===id)[1]/2)/100;
+   const index=zone.wildpokemon.indexOf(id),legendIndex=legendary.species.indexOf(id),draws=legendIndex<0?[.5,encounterRoll,.5]:[0,(legendIndex+.5)/legendary.species.length,.5];
    const p=await wildFactory(zone.mapName,()=>draws.shift()??.5);assert.equal(p.data.id,id);assert.equal(p.passiveAbility,slot.name);
    const weights=zone.wildpokemon.map(species=>rarity.rareSpecies.includes(species)?rarity.rareWeight:rarity.commonWeight),sum=weights.reduce((a,b)=>a+b,0),before=weights.slice(0,index).reduce((a,b)=>a+b,0);
    const r=legendIndex<0?[.5,(before+weights[index]/2)/sum,.5]:[0,(legendIndex+.5)/legendary.species.length,.5];

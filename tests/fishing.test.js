@@ -36,8 +36,8 @@ test('fishing: stale ownership query cannot resurrect a cast after cancellation 
 test('fishing: offer expires, random wait is private, stop frees all timers',async()=>{
  const f=fixture();await f.c.offer(f.p);assert(!('expiresAt' in f.events[0]));await f.advance(OFFER_MS);assert.equal(f.c.current(f.p),undefined);await f.c.offer(f.p);f.c.start(f.p,f.c.current(f.p).id);assert(!('deadline' in f.events.at(-1)));f.c.stop();assert.equal(f.timers.size,0);
 });
-test('fishing: all six lakes have real shoreline targets and exact current author provenance',()=>{
- assert.deepEqual(Object.keys(waters.maps).sort(),['start','ville1','route3','gen_ville5','ville_safe1','ville3'].sort());const hash=p=>createHash('sha256').update(fs.readFileSync(path.resolve(__dirname,'..',p))).digest('hex');
+test('fishing: ordinary lakes and the nine island waters have real shoreline targets and exact current author provenance',()=>{
+ assert.deepEqual(Object.keys(waters.maps).sort(),['start','ville1','route3','gen_ville5','ville_safe1','ville3',...Array.from({length:9},(_,i)=>'jungle'+(i+1))].sort());const hash=p=>createHash('sha256').update(fs.readFileSync(path.resolve(__dirname,'..',p))).digest('hex');
  for(const [mapName,profile]of Object.entries(waters.maps)){
   assert.equal(hash('vue-explorakit/src/assets/'+profile.source+'.png'),profile.imageSha256);assert.equal(hash('data/maps/'+profile.source+'.json'),profile.mapSha256);
   const water=new Set(profile.cells.map(c=>c.tile)),collision=maps.loadCollisionData(mapName);let banks=0;

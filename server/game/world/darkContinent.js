@@ -27,7 +27,18 @@ const rules=[
  'Reviens sur cette plage pour soigner les compagnons encore en vie : 25 000 ₽ pour toute l’équipe. Je ne peux pas sauver un Pokémon déjà perdu. Ni le module Vol ni les téléporteurs ne permettent de quitter l’île : parle-moi sur la plage pour rentrer chez toi.'
 ];
 function actor(name,map,x,y,index){return {name,interactionName:name,map,x,y,sprite:'6931.png',spriteFrame:{columns:8,rows:4,index},block:true,roamRadius:0};}
-function actors(map,state={}){if(map==='jungle1')return[actor('dark_guide',map,6,10,1)];if(map===LOBBY.map&&state.eligible&&!state.owned)return[actor('dark_scout',map,state.scoutAt?.x??11,state.scoutAt?.y??14,6)];return[];}
+function actors(map,state={}){if(map==='jungle1')return[actor('dark_guide',map,6,10,1),actor('dark_researcher',map,7,10,12)];if(map===LOBBY.map&&state.eligible&&!state.owned)return[actor('dark_scout',map,state.scoutAt?.x??11,state.scoutAt?.y??14,6)];return[];}
+const research=[
+ 'Les plaques gardent l’empreinte d’un type de Pokémon. Les cristaux, eux, en sont le réservoir : les Éclats fissurés sont bruts, les Cristaux limpides plus stables, et les Prismes d’aurore particulièrement purs.',
+ 'Avec suffisamment de ces trois matières autour d’une plaque, on pourrait reproduire une capacité de son type… ou transmettre un talent provenant d’un Pokémon qui possède ce type.',
+ 'Il faudrait dix fois plus de matière, plaques comprises, pour modifier les types d’un Pokémon. Un autre assemblage pourrait renforcer ses attaques d’un type ou sa résistance à ce type, mais cette synthèse serait instable : une chance sur deux d’échouer.',
+ 'Ces mutations laisseraient une trace définitive. Un compagnon pourrait porter quatre assemblages différents, un de chaque sorte, mais je ne garderais pas deux compagnons corrompus dans une même équipe.',
+ 'Si le matériel nécessaire existait, nous pourrions peut-être réaliser tout cela… Encore faudrait-il trouver quelqu’un qui ait étudié ces cristaux assez longtemps.'
+];
+function interactionActor(player,state){
+ const x=Math.floor(player.x/32),y=Math.floor(player.y/32),delta={up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]}[player.direction],list=actors(player.currentmap,state).filter(a=>Math.abs(x-a.x)+Math.abs(y-a.y)<=2);
+ return (delta&&list.find(a=>a.x===x+delta[0]&&(a.y===y+delta[1]||a.y-1===y+delta[1])))||list.sort((a,b)=>(Math.abs(x-a.x)+Math.abs(y-a.y))-(Math.abs(x-b.x)+Math.abs(y-b.y)))[0];
+}
 function scopedStore(base,getState){const at=(map,x,y)=>actors(map,getState()).find(n=>n.x===x&&(n.y===y||n.y-1===y));return{...base,getPnjsForMap:map=>[...base.getPnjsForMap(map),...actors(map,getState())],getPnjAtTile:(map,x,y)=>at(map,x,y)||base.getPnjAtTile(map,x,y),isPnjBlockingTile:(map,x,y)=>Boolean(at(map,x,y))||base.isPnjBlockingTile(map,x,y)};}
 // A private scout follows walkable floor, stopping beside the returning trainer.
 function scoutPath(grid,goal){
@@ -38,8 +49,8 @@ function scoutPath(grid,goal){
   for(const[dx,dy]of[[1,0],[0,1],[-1,0],[0,-1]])queue.push({x:at.x+dx,y:at.y+dy,path:[...at.path,{x:at.x+dx,y:at.y+dy}]});
  }return[start];
 }
-function loot(pokemon,random=Math.random,map='jungle1'){const found=[],profile=lootProfile(map);const items=require('../../../data/game/items.json').items;
+function loot(pokemon,random=Math.random,map='jungle1'){const special=require('./darkEncounters').loot(pokemon,map,random);if(special)return special;const found=[],profile=lootProfile(map);const items=require('../../../data/game/items.json').items;
  for(const[key,chance,min,max]of profile.crystals)if(random()<chance){const item=items.find(i=>i.key===key);found.push({...item,quantity:min+Math.min(max-min,Math.floor(random()*(max-min+1)))});}
  if(random()<profile.plateChance){const types=pokemon.data.type,type=types[Math.min(types.length-1,Math.floor(random()*types.length))];found.push({...items.find(i=>i.key===plateKey(type)),quantity:1});}return found;
 }
-module.exports={EXIT_MESSAGE,assertTravelAllowed,ITEM,REQUIRED_ROOMS,CARD_PRICE,HEAL_PRICE,ARRIVAL,LOBBY,COLUMNS,TYPES,isMap,column,levels,plateKey,lootProfile,rules,actors,scopedStore,scoutPath,loot};
+module.exports={EXIT_MESSAGE,assertTravelAllowed,ITEM,REQUIRED_ROOMS,CARD_PRICE,HEAL_PRICE,ARRIVAL,LOBBY,COLUMNS,TYPES,isMap,column,levels,plateKey,lootProfile,rules,research,actors,interactionActor,scopedStore,scoutPath,loot};

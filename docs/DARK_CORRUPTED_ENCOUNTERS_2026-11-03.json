@@ -1,0 +1,302 @@
+{
+  "date": "2026-11-03",
+  "feature": "Rencontres renforcées, sauvages corrompus, prospecteur et pêche du Dark Continent",
+  "sourceBaseline": "b57e79655a92278cfc882790548eaa20e248df73",
+  "clientCommit": "d2b4a47ddaa4088a036c2b72ec9454ebee121813",
+  "clientBuild": "b4d6ce7ebc619fd2",
+  "schemaChanged": false,
+  "mapsChanged": false,
+  "realAccountsManuallyModified": false,
+  "ordinary": {
+    "ivMin": 20,
+    "ivMax": 28,
+    "kMin": 2,
+    "evTotal": 510,
+    "evPerStatMax": 252,
+    "xpFraction": 0.5,
+    "money": "formule Aventure existante"
+  },
+  "corrupted": {
+    "chancePerEncounter": 0.02,
+    "k": 4,
+    "ivEach": 31,
+    "evEach": 250,
+    "evTotal": 1500,
+    "enemyOnlyEvException": true,
+    "zoneLevelBonus": 5,
+    "maxLevel": 205,
+    "spriteScale": 1.25,
+    "card": "violette",
+    "xpFraction": 1,
+    "ordinaryRecipientAndOverlevelRulesPreserved": true,
+    "moneyBase": 10000,
+    "plateCount": [
+      1,
+      5
+    ],
+    "plateTypes": "types du Pokémon rencontré",
+    "crystalsByColumn": {
+      "west": {
+        "crystal_shard": [
+          12,
+          20
+        ],
+        "clear_crystal": [
+          8,
+          14
+        ],
+        "aurora_prism": [
+          5,
+          8
+        ]
+      },
+      "center": {
+        "crystal_shard": [
+          16,
+          26
+        ],
+        "clear_crystal": [
+          10,
+          18
+        ],
+        "aurora_prism": [
+          6,
+          10
+        ]
+      },
+      "east": {
+        "crystal_shard": [
+          20,
+          32
+        ],
+        "clear_crystal": [
+          14,
+          22
+        ],
+        "aurora_prism": [
+          8,
+          14
+        ]
+      }
+    }
+  },
+  "fishing": {
+    "maps": [
+      "jungle1",
+      "jungle2",
+      "jungle3",
+      "jungle4",
+      "jungle5",
+      "jungle6",
+      "jungle7",
+      "jungle8",
+      "jungle9"
+    ],
+    "species": [
+      {
+        "id": 9,
+        "name": "Tortank",
+        "weight": 15
+      },
+      {
+        "id": 130,
+        "name": "Léviator",
+        "weight": 15
+      },
+      {
+        "id": 260,
+        "name": "Laggron",
+        "weight": 15
+      },
+      {
+        "id": 350,
+        "name": "Milobellus",
+        "weight": 15
+      },
+      {
+        "id": 395,
+        "name": "Pingoléon",
+        "weight": 15
+      },
+      {
+        "id": 73,
+        "name": "Tentacruel",
+        "weight": 8
+      },
+      {
+        "id": 171,
+        "name": "Lanturn",
+        "weight": 9
+      },
+      {
+        "id": 230,
+        "name": "Hyporoi",
+        "weight": 8
+      }
+    ],
+    "allNativeWaterIncluded": true,
+    "rodAndReactionRequired": true,
+    "sameRareRollAndTrainingRules": true,
+    "environment": "lake",
+    "musicKind": "dark",
+    "legendaryBypass": false,
+    "captureAndFleeStillForbidden": true,
+    "normalWorldPoolsUnchanged": true,
+    "experienceModuleStillIgnored": true,
+    "deathAndRescuePreserved": true,
+    "shorelineCells": {
+      "jungle1": 242,
+      "jungle2": 175,
+      "jungle3": 213,
+      "jungle4": 103,
+      "jungle5": 3,
+      "jungle6": 153,
+      "jungle7": 221,
+      "jungle8": 159,
+      "jungle9": 198
+    }
+  },
+  "researcher": {
+    "name": "Le prospecteur",
+    "map": "jungle1",
+    "tile": [
+      7,
+      10
+    ],
+    "guideTile": [
+      6,
+      10
+    ],
+    "atlas": "6931.png",
+    "frame": 12,
+    "guideFrame": 1,
+    "topics": [
+      "plaques",
+      "trois puretés de cristaux/prismes",
+      "CS et talents",
+      "types et coût décuplé",
+      "module combat instable",
+      "permanence et une corruption par équipe",
+      "matériel scientifique hypothétique"
+    ]
+  },
+  "validation": {
+    "unit": 134,
+    "sql": 41,
+    "regressionSql": 192,
+    "failed": 0,
+    "skipped": 0,
+    "testDatabase": "explorakit_test",
+    "lint": true,
+    "browser": {
+      "chromium": {
+        "success": true,
+        "views": 52,
+        "errors": [],
+        "buildIndexSha256": "649d8cb7c80d6fe3ab36ab3eb0813ed45305f91b973b08bdeafb980ce6156b3e",
+        "report": "/tmp/riftmon-dark-corrupted-chromium/report.json",
+        "researcher": true,
+        "rareCardAndSize": true,
+        "realFishing": true,
+        "fishingLossRescue": true,
+        "sourceMapTransitions": true
+      },
+      "webkit": {
+        "success": true,
+        "views": 52,
+        "errors": [],
+        "buildIndexSha256": "649d8cb7c80d6fe3ab36ab3eb0813ed45305f91b973b08bdeafb980ce6156b3e",
+        "report": "/tmp/riftmon-dark-corrupted-webkit/report.json",
+        "researcher": true,
+        "rareCardAndSize": true,
+        "realFishing": true,
+        "fishingLossRescue": true,
+        "sourceMapTransitions": true
+      }
+    }
+  },
+  "commands": [
+    "node --test tests/dark-encounters.test.js tests/dark-continent.test.js tests/dark-travel.test.js tests/fishing.test.js tests/corruption.test.js tests/training.test.js tests/wild-ability-availability.test.js tests/wild-items.test.js tests/wild-encounter-rates.test.js tests/wild-escape.test.js tests/experience-module.test.js tests/experience-balance.test.js tests/held-items-expansion.test.js tests/snow-background.test.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RUN_MYSQL_TESTS=1 NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file-if-exists=.env --test --test-concurrency=1 tests/dark-continent-mysql.test.js tests/dark-economy-mysql.test.js tests/fishing-mysql.test.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RUN_MYSQL_TESTS=1 NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file-if-exists=.env --test --test-concurrency=1 tests/battle-runtime-integration.test.js tests/corruption-mysql.test.js tests/experience-module-mysql.test.js",
+    "VUE_APP_PUBLIC_PATH=/ npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-dark-corrupted-dist",
+    "npm --prefix vue-explorakit run lint",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-dark-corrupted-dist PRESENTATION_BROWSER=chromium node --env-file-if-exists=.env scripts/validateDarkContinentBrowser.js",
+    "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-dark-corrupted-dist PRESENTATION_BROWSER=webkit node --env-file-if-exists=.env scripts/validateDarkContinentBrowser.js"
+  ],
+  "limitations": [
+    "Recettes sur Chromium et WebKit headless, pas de téléphone physique.",
+    "Animation de capture native WebKit déjà instable : l’essai de Ball refusée reste couvert par Chromium et SQL.",
+    "Les combats navigateur utilisent des ennemis à 1 PV pour raccourcir les captures ; leurs traits sont vérifiés avant modification, les combats SQL emploient le moteur et la persistance réels."
+  ],
+  "deployment": {
+    "publishedAt": "2026-11-03T03:25:40.448Z",
+    "restartedAt": "2026-11-03T03:25:38.829Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-dark-corrupted-2026-11-03T03-25-37-275Z",
+    "sourceBaseline": "b57e79655a92278cfc882790548eaa20e248df73",
+    "sourceHashes": {
+      "data/game/fishing_waters.json": "c3d5ddfa3b83475f69b91e6bc69d2d8dd5d6440c88a3ef6d9603eecf82447b5a",
+      "server/game/battle/wildBattle.js": "3c23c7dbe5a0e2d35f435516028bb55c2a02e06a54d7ffae488229bbcdbeefcf",
+      "server/game/world/darkContinent.js": "b3c9f0aa40f73f65e4e5a9a1f0fa7863b380e26822a54bf656e556e57b36357a",
+      "server/game/world/fishingEncounters.js": "2876e7287be7d07734fb29d049f3d4843468608f23b16f145bf69c2f42e7950b",
+      "server/game/world/wildPokemonFactory.js": "9ab92dc19368ad8c8a7c63464b84628cf1c5da7737b74056922da36113b73852",
+      "server/realtime/handlers/darkContinentHandlers.js": "8fa4fddf7d4e17317b0a9379573a275e69ed6a9c1a76a238485ad48cd2acb5b1",
+      "server/realtime/socketHandler.js": "3319a5bdf0db3283b4b0e1912d2216fda693e251ead9d2c3bfa243d7026bf119",
+      "server/game/world/darkEncounters.js": "0a638e4cda9406d6897f76da761ce36255821677ade05ba3c2a8626783d181e4"
+    },
+    "clientCommit": "d2b4a47ddaa4088a036c2b72ec9454ebee121813",
+    "clientBuild": "b4d6ce7ebc619fd2",
+    "beforePid": "3755507",
+    "afterPid": "3758425",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "schemaChanged": false,
+    "migrationApplied": null,
+    "activeClubDuelsBefore": 0,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 0,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": [
+      "js/234.02b18f2e.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.f909aa37.js",
+      "js/account.161ce126.js",
+      "js/app.8acabcfe.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.2fd32f7c.js",
+      "js/drift.5b8720d7.js",
+      "js/game.e338ba5a.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.4fff4c7e.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.1e632007.css",
+      "css/test-view.7568246d.css"
+    ]
+  },
+  "runtimeSourceSha256": {
+    "data/game/fishing_waters.json": "c3d5ddfa3b83475f69b91e6bc69d2d8dd5d6440c88a3ef6d9603eecf82447b5a",
+    "server/game/battle/wildBattle.js": "3c23c7dbe5a0e2d35f435516028bb55c2a02e06a54d7ffae488229bbcdbeefcf",
+    "server/game/world/darkContinent.js": "b3c9f0aa40f73f65e4e5a9a1f0fa7863b380e26822a54bf656e556e57b36357a",
+    "server/game/world/darkEncounters.js": "0a638e4cda9406d6897f76da761ce36255821677ade05ba3c2a8626783d181e4",
+    "server/game/world/fishingEncounters.js": "2876e7287be7d07734fb29d049f3d4843468608f23b16f145bf69c2f42e7950b",
+    "server/game/world/wildPokemonFactory.js": "9ab92dc19368ad8c8a7c63464b84628cf1c5da7737b74056922da36113b73852",
+    "server/realtime/handlers/darkContinentHandlers.js": "8fa4fddf7d4e17317b0a9379573a275e69ed6a9c1a76a238485ad48cd2acb5b1",
+    "server/realtime/socketHandler.js": "3319a5bdf0db3283b4b0e1912d2216fda693e251ead9d2c3bfa243d7026bf119"
+  },
+  "publicationTimezone": "Europe/Paris",
+  "publishedLocal": "2026-11-03T04:25:40.448000+01:00"
+}

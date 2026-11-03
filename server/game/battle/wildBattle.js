@@ -29,6 +29,7 @@ const {
 const { editEquipe } = require('../../persistence/teamRepository');
 const { awardUserMoney } = require('../../persistence/userRepository');
 const { adventureMoneyReward } = require('./wildReward');
+const darkEncounters=require('../world/darkEncounters');
 const { loadUserItems, consumeUserItem } = require('../../persistence/itemRepository');
 const { markPokemonCaught, markPokemonSeen, loadProgressState } = require('../../persistence/progressionRepository');
 const {captureAssessment, captureBaseChance} = require('./captureProgression');
@@ -493,7 +494,7 @@ async function startBattle(player, wildPokemon, io, userId) {
             }
         }
         if (playerWon && (extra.captured || wildPokemon.currentHp <= 0) && !wildMoneyGranted) {
-            const money = await awardUserMoney(userId, adventureMoneyReward(wildPokemon, playerSide.rewardMultiplier));
+            const money = await awardUserMoney(userId, darkEncounters.money(wildPokemon,encounterMap,adventureMoneyReward(wildPokemon, playerSide.rewardMultiplier)));
             wildMoneyGranted = true;
             resultTracker.money += money;
         }
@@ -533,7 +534,7 @@ async function startBattle(player, wildPokemon, io, userId) {
     }
 
     const grantWildXp = async (options = {}) => {
-        const awards = battleState.adventureExperience.reward(player, wildPokemon, BATTLE_EXPERIENCE_MULTIPLIERS.wild*(dark?.5:1), io, options);
+        const awards = battleState.adventureExperience.reward(player, wildPokemon, BATTLE_EXPERIENCE_MULTIPLIERS.wild*darkEncounters.experienceMultiplier(wildPokemon,encounterMap), io, options);
         for (const {pokemon, xp} of awards) await rewardText(player, io, `${getPokemonDisplayName(pokemon)} gagne ${xp} XP !`, sleep);
     };
 

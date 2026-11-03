@@ -3,7 +3,7 @@ function createHandlers({socket,account,userId,getPlayer,getState,setState,refre
  let busy=false,scoutVisit=null,lastTravel=0;
  const near=(p,x,y)=>Math.abs(Math.floor(p.x/32)-x)+Math.abs(Math.floor(p.y/32)-y)<=2;
  const valid=()=>{const p=getPlayer();if(!p||p.inbattle||p.inventoryBusy||busy||!canUse())throw Error('Termine ton action avant de continuer.');return p;};
- const panel=(mode,extra={})=>socket.emit('darkContinentPanel',{mode,rules:dc.rules,cardPrice:dc.CARD_PRICE,healPrice:dc.HEAL_PRICE,money:getState().money,...extra});
+ const panel=(mode,extra={})=>socket.emit('darkContinentPanel',{mode,rules:dc.rules,research:dc.research,cardPrice:dc.CARD_PRICE,healPrice:dc.HEAL_PRICE,money:getState().money,...extra});
  const command=(name,work)=>account.on(name,async(data,ack)=>{let acquired;try{const p=valid();acquired=p;busy=true;p.inventoryBusy=true;const result=await work(p,data||{});if(typeof ack==='function')ack({success:true,...result});}catch(e){if(e.code)console.error('Dark Continent :',e.message);if(typeof ack==='function')ack({success:false,message:e.code?'Le passage est temporairement indisponible.':e.message});}finally{if(acquired){acquired.inventoryBusy=false;busy=false;}}});
  command('dark:claim',async(p,data)=>{if(data.price!==dc.CARD_PRICE)throw Error('Le prix de la carte a changé. Ferme cette fenêtre et reparle à l’éclaireur.');const a=dc.actors(p.currentmap,getState()).find(a=>a.name==='dark_scout');if(!a||!near(p,a.x,a.y))throw Error('Rejoins l’éclaireur dans l’accueil.');const purchase=await repo.grantCard(userId);setState(purchase);refreshActors();socket.emit('whitepeak:wallet',{balance:purchase.money});socket.emit('bagUpdated',{items:await require('../../persistence/itemRepository').loadUserItems(userId)});return{received:true,money:purchase.money,charged:purchase.charged};});
  command('dark:travel',async p=>{dc.assertTravelAllowed(p.currentmap);if(Date.now()-lastTravel<1500)throw Error('Laisse le passage se stabiliser.');const state=await repo.loadState(userId);setState(state);if(!state.owned)throw Error('Une carte de dresseur professionnel est nécessaire.');if(p.superTournamentActive)throw Error('Termine ta tentative du Super Tournoi.');
@@ -24,7 +24,7 @@ function createHandlers({socket,account,userId,getPlayer,getState,setState,refre
    else if(p.currentmap!==dc.LOBBY.map)scoutVisit=null;
    if(p.currentmap==='jungle1'&&!state.introduced){p.darkRulesRequired=true;panel('rules',{required:true});}
   },
-  async interact(){const p=getPlayer();if(!p||!canInteract())return false;const a=dc.actors(p.currentmap,getState()).find(a=>near(p,a.x,a.y));if(!a)return false;panel(a.name==='dark_scout'?'invitation':'guide');return true;},
+  async interact(){const p=getPlayer();if(!p||!canInteract())return false;const a=dc.interactionActor(p,getState());if(!a)return false;panel(a.name==='dark_scout'?'invitation':a.name==='dark_researcher'?'research':'guide');return true;},
   async afterBattle(){const p=getPlayer();if(!p||!dc.isMap(p.currentmap))return;repo.removeFallen(p);if(!p.equipe.pokemons.some(p=>p.currentHp>0)){const rescue=await require('../../persistence/darkRescueRepository').rescue(userId);p.equipe.pokemons=rescue.equipe.pokemons;await travel(require('../../game/world/playerRecovery').getPokemonCenterRespawnPoint());socket.emit('blackout',{message:'Tu as été rapatrié au Centre Pokémon. L’infirmière s’occupe de toi.',mapname:'centre',equipe:p.equipe});}socket.emit('bagUpdated',{items:await require('../../persistence/itemRepository').loadUserItems(userId)});}
  };
 }

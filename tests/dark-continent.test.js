@@ -21,7 +21,7 @@ test('all nine maps can be traversed from the beach; every transition is authore
  }
 });
 test('wild levels follow columns 100–120 / 120–150 / 150–200, module ignored and no legendary bypass',async()=>{
- for(let i=1;i<=9;i++){const map='jungle'+i,[min,max]=dc.levels(map);for(const [rng,expected]of[[()=>0,min],[()=>.999999,max]])for(const active of[false,true]){const p=await wild(map,rng,{experienceModuleActive:active});assert.equal(p.level,expected);assert(dc.COLUMNS[dc.column(map)].includes(p.data.id));assert(p.currentHp===p.maxHp);assert.equal(p.abilities.length,4);}}
+ for(let i=1;i<=9;i++){const map='jungle'+i,[min,max]=dc.levels(map);for(const expected of[min,max])for(const active of[false,true]){let draw=0;const rng=expected===min?()=>++draw===2?0:.02:()=>.999999;const p=await wild(map,rng,{experienceModuleActive:active});assert.equal(p.level,expected);assert(dc.COLUMNS[dc.column(map)].includes(p.data.id));assert(p.currentHp===p.maxHp);assert.equal(p.abilities.length,4);}}
 });
 test('no flight via button, high-level escape bonus, Ghost, Run Away or Teleport; ordinary switching remains available',()=>{
  const a=factory.create(94,100,true),b=factory.create(65,200,true),state=engine.createBattleState({mapName:'jungle1',battleType:'wild'});a.passiveAbility='Run Away';a.abilities=[];a.movePp=[];a.addAbility('Teleport');

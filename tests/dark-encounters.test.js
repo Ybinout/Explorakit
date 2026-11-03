@@ -1,0 +1,33 @@
+const test=require('node:test'),assert=require('node:assert/strict');
+const dc=require('../server/game/world/darkContinent'),dark=require('../server/game/world/darkEncounters'),wild=require('../server/game/world/wildPokemonFactory'),factory=require('../server/game/drift/pokemonFactory'),{STAT_KEYS,normalizeEffort}=require('../server/game/models/training');
+function rng(seed=7){return()=>((seed=Math.imul(seed,1664525)+1013904223>>>0)/4294967296);}
+test('ordinary island enemies always have 20–28 IVs, K≥2, legal full 510 EVs and recalculated stats, from both wild factories',async()=>{
+ for(let n=1;n<=9;n++)for(const roll of[.02,.5,.999999]){const map='jungle'+n,p=await wild(map,()=>roll),q=await wild.createAtLevel(350,dc.levels(map)[0],{mapName:map,random:()=>roll,experienceModuleActive:true});for(const a of[p,q]){assert(!dark.isCorrupted(a,map));assert(Object.values(a.iv).every(v=>v>=20&&v<=28));assert(a.k>=2&&a.k<=4);assert.equal(Object.values(a.ev).reduce((s,v)=>s+v,0),510);assert.deepEqual(normalizeEffort(a.ev),a.ev);assert.equal(a.currentHp,a.maxHp);assert.equal(a.attack,a.calculateStat(a.data.base.Attack,a.iv.attack,'attack'));assert(a.level>=dc.levels(map)[0]&&a.level<=dc.levels(map)[1]);}}
+ const random=rng(),spreads=new Set();for(let i=0;i<1000;i++){const e=dark.randomEffort(random);assert.equal(Object.values(e).reduce((s,v)=>s+v,0),510);assert(Object.values(e).every(v=>v>=0&&v<=252));spreads.add(JSON.stringify(e));}assert(spreads.size>990);
+});
+test('corrupted enemies roll once at 2%, have six perfect IVs and six 250 EVs, K4 and +5 zone levels, without changing normal training rules',async()=>{
+ for(let n=1;n<=9;n++){const map='jungle'+n;for(const roll of[0,.019999]){const p=await wild(map,()=>roll);assert(dark.isCorrupted(p,map));assert.equal(p.k,4);assert(Object.values(p.iv).every(v=>v===31));assert(Object.values(p.ev).every(v=>v===250));assert.equal(Object.values(p.ev).reduce((s,v)=>s+v,0),1500);assert(p.level>=dc.levels(map)[0]+5&&p.level<=dc.levels(map)[1]+5);assert(p.corruption.permanent);const hp=p.maxHp;p.recalculateStats();assert.equal(p.maxHp,hp);assert.equal(p.currentHp,p.maxHp);}}
+ const ordinary=factory.create(9,100,true);ordinary.ev=normalizeEffort(Object.fromEntries(STAT_KEYS.map(k=>[k,250])));assert.equal(Object.values(ordinary.ev).reduce((s,v)=>s+v,0),510);
+ const random=rng(99),p={};let seen=0;for(let i=0;i<50000;i++){dark.prepare(p,'jungle1',random);seen+=dark.isCorrupted(p,'jungle1');}assert(Math.abs(seen/50000-.02)<.002,seen);
+});
+test('same probability and traits apply to fishing; level 205 is possible only through a Dark encounter, with module ignored',async()=>{
+ const p=await wild.createAtLevel(130,200,{mapName:'jungle9',experienceModuleActive:true,random:()=>0});assert.equal(p.level,205);assert(dark.isCorrupted(p,'jungle9'));await assert.rejects(()=>wild.createAtLevel(130,101));await assert.rejects(()=>wild.createAtLevel(130,201,{mapName:'jungle9'}));assert.equal((await wild.createAtLevel(130,100,{experienceModuleActive:true})).level,118);
+});
+test('Dark fishing uses the lake scenery while land encounters keep the jungle scenery',async()=>{
+ const {battleEnvironment}=await import('../vue-explorakit/src/services/battleEnvironment.js');
+ for(let i=1;i<=9;i++){assert.equal(battleEnvironment('jungle'+i,false,null,'lake'),'lake');assert.equal(battleEnvironment('jungle'+i),'dark-jungle');}
+});
+test('corrupted victory guarantees 1–5 typed plates and at least 5 of every crystal, scaling east without modifying ordinary loot',async()=>{
+ for(const map of['jungle1','jungle2','jungle3']){const p=await wild(map,()=>0);p.data={...p.data,type:['Water','Flying']};for(const r of[()=>0,()=>.99999,rng(19)]){const found=dc.loot(p,r,map);for(const key of['crystal_shard','clear_crystal','aurora_prism'])assert(found.find(i=>i.key===key).quantity>=5);const plates=found.filter(i=>i.plateType);assert(plates.every(i=>p.data.type.includes(i.plateType)));const count=plates.reduce((n,i)=>n+i.quantity,0);assert(count>=1&&count<=5);assert.equal(dark.experienceMultiplier(p,map),1);assert.equal(dark.money(p,map,360),10000);}assert.equal(dark.loot(p,'route3'),null);assert.equal(dark.money(p,'route3',360),360);assert.equal(dark.experienceMultiplier(p,'jungle9'),.5);}
+ const p=await wild('jungle1',()=>.5);assert.equal(dark.loot(p,'jungle1'),null);assert.equal(dark.experienceMultiplier(p,'jungle1'),.5);assert.equal(dark.money(p,'jungle1',360),360);
+});
+test('all native Water species and three other real aquatic species can be fished at zone levels, with no legendary injection',()=>{
+ const {fishingEncounter,darkPool}=require('../server/game/world/fishingEncounters'),dex=require('../data/game/pokedex.json'),native=dc.COLUMNS.flat().filter(id=>dex.find(p=>p.id===id).type.includes('Water'));assert.equal(darkPool.length,8);assert(native.every(id=>darkPool.some(([i])=>i===id)));assert.equal(darkPool.reduce((s,[,w])=>s+w,0),100);
+ for(let n=1;n<=9;n++){const map='jungle'+n,seen=new Set();for(let k=0;k<1000;k++){let j=0;const e=fishingEncounter(map,()=>[k/1000,.5][j++]);assert(e);assert(e.level>=dc.levels(map)[0]&&e.level<=dc.levels(map)[1]);assert(dex.find(p=>p.id===e.id).type.includes('Water'));seen.add(e.id);}assert.equal(seen.size,8);}
+});
+test('the adjacent researcher has a distinct adventure sprite, blocks both body tiles and never intercepts a guide interaction',async()=>{
+ const a=dc.actors('jungle1'),guide=a.find(p=>p.name==='dark_guide'),research=a.find(p=>p.name==='dark_researcher');assert(guide&&research);assert.equal(Math.abs(guide.x-research.x)+Math.abs(guide.y-research.y),1);assert.equal(guide.sprite,research.sprite);assert.notDeepEqual(guide.spriteFrame,research.spriteFrame);
+ for(const actor of a){const p={currentmap:'jungle1',x:actor.x*32+16,y:(actor.y+1)*32+16,direction:'up'};assert.equal(dc.interactionActor(p).name,actor.name);}
+ assert(dc.research.join(' ').includes('Si le matériel nécessaire existait'));assert(dc.research.join(' ').includes('Prismes d’aurore'));
+ const events=[],p={currentmap:'jungle1',x:research.x*32+16,y:(research.y+1)*32+16,direction:'up'},handlers=require('../server/realtime/handlers/darkContinentHandlers').createHandlers({socket:{emit:(e,d)=>events.push({e,d})},account:{on(){}},getPlayer:()=>p,getState:()=>({}),setState(){},refreshActors(){},canUse:()=>true,travel(){},closeFishing(){}});assert(await handlers.interact());assert.equal(events[0].d.mode,'research');assert.deepEqual(events[0].d.research,dc.research);
+});

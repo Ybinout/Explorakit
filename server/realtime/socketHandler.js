@@ -353,7 +353,7 @@ const socketHandler = (io) => {
         };
         const fishing = require('../game/world/fishingController').createFishingController({
             ownsRod: async () => (await require('../persistence/itemRepository').loadUserItems(userId)).some(i => i.key === 'fishing_rod' && i.quantity > 0),
-            available: p => players[socket.id] === p && socket.connected && !p.inbattle && !p.inventoryBusy && !transitionBusy && !require('../game/world/darkContinent').isMap(p.currentmap) && hasConsciousPokemon(p.equipe),
+            available: p => players[socket.id] === p && socket.connected && !p.inbattle && !p.inventoryBusy && !transitionBusy && !p.darkRulesRequired && !p.darkScoutBusy && !p.superTournamentActive && hasConsciousPokemon(p.equipe),
             emit: (p,event,payload) => socket.emit(event,payload),
             onHook: async p => {
                 if (players[socket.id] !== p || p.inbattle || !socket.connected) return;
@@ -361,12 +361,13 @@ const socketHandler = (io) => {
                 if (!encounter) return;
                 p.inbattle = true;
                 try {
-                    const wild = await CreatePokemon.createAtLevel(encounter.id,encounter.level,{experienceModuleActive:p.experienceModuleActive});
+                    const wild = await CreatePokemon.createAtLevel(encounter.id,encounter.level,{experienceModuleActive:p.experienceModuleActive,mapName:p.currentmap});
                     if (players[socket.id] !== p || !socket.connected) return;
-                    socket.emit('battletrigger',{message:'Ça mord !',battleType:'wild',musicKind:require('../game/world/legendaryEncounters').isLegendary(wild.data.id)?'legendary':'wild',environment:'lake',field:{weather:battleWeatherForMap(p.currentmap)}});
+                    socket.emit('battletrigger',{message:'Ça mord !',battleType:'wild',musicKind:require('../game/world/darkContinent').isMap(p.currentmap)?'dark':require('../game/world/legendaryEncounters').isLegendary(wild.data.id)?'legendary':'wild',environment:'lake',field:{weather:battleWeatherForMap(p.currentmap)}});
                     await account.track(startBattle(p,wild,io,userId,p.equipe));
                 } finally {
                     if (players[socket.id] === p) {
+                        await darkHandlers?.afterBattle();
                         await handleBlackout().catch(error => console.error('Récupération après pêche :',error.message));
                         p.inbattle = false;
                         socket.emit('teamStateChanged',{reason:'wild_battle_end',equipe:p.equipe});
