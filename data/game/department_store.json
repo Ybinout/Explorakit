@@ -2855,6 +2855,134 @@
         "flame_orb": {
           "price": 10000,
           "requiredTier": 2
+        },
+        "silk_scarf": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "charcoal": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "sea_incense": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "magnet": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "miracle_seed": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "never_melt_ice": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "black_belt": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "poison_barb": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "soft_sand": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "sharp_beak": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "twisted_spoon": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "silver_powder": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "hard_stone": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "spell_tag": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "dragon_fang": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "black_glasses": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "metal_coat": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "fairy_feather": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "black_sludge": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "light_clay": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "big_root": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "shed_shell": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "white_herb": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "mental_herb": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "power_herb": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "air_balloon": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "weakness_policy": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "protective_pads": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "damp_rock": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "heat_rock": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "smooth_rock": {
+          "price": 10000,
+          "requiredTier": 2
+        },
+        "icy_rock": {
+          "price": 10000,
+          "requiredTier": 2
         }
       }
     },

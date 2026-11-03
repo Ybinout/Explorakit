@@ -344,7 +344,8 @@ function applySwitchInAbility(pokemon, opponent, ownSide, enemySide, battleState
         'Misty Surge': 'misty_terrain', 'Psychic Surge': 'psychic_terrain'
     };
     if (weatherByAbility[ability] && battleState?.weather) {
-        battleState.weather = { kind: weatherByAbility[ability], turns: 5 };
+        const kind=weatherByAbility[ability];
+        battleState.weather = { kind, turns: require('../items/heldItems').fieldDuration(pokemon,kind,battleState) };
         messages.push(`${ability} de ${name} declenche la meteo ${battleState.weather.kind}.`);
     }
     if (terrainByAbility[ability] && battleState?.terrain) {

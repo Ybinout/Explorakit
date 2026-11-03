@@ -11,17 +11,24 @@ const sequences=require('./moveSequences');
 const pursuit=require('./pursuit');
 const futureMoves=require('./futureMoves');
 const {weatherHealingAmount}=require('./weatherHealing');
+const fixedDamageMoves=new Set(['Sonic Boom','Dragon Rage','Seismic Toss','Night Shade','Psywave','Super Fang','Endeavor','Final Gambit','Counter','Mirror Coat','Metal Burst','Bide']);
 const clamp=(x,l,h)=>Math.max(l,Math.min(h,x)),alive=p=>p.currentHp>0;
 const ability=p=>abilities.getAbilityName(p);
 const types=p=>p.__battle?.tempTypes?.length?p.__battle.tempTypes:p.__battle?.formTypes?.length?p.__battle.formTypes:[p.type1,p.type2].filter(Boolean);
 const copy=p=>({...p,abilities:[...(p.abilities||[])],movePp:[...(p.movePp||[])],__battle:{...p.__battle,statStages:{...p.__battle.statStages}}});
 const hp=(p,x)=>{p.currentHp=clamp(x,0,p.maxHp);};
 const heal=(p,x)=>{if(alive(p)&&!(p.__battle.healBlockTurns>0))hp(p,p.currentHp+Math.max(0,x));};
-const grounded=(p,f)=>f.field.gravityTurns>0||p.__battle.grounded||p.__battle.ingrain||(!types(p).includes('Flying')&&ability(p)!=='Levitate');
+const grounded=(p,f)=>f.field.gravityTurns>0||p.__battle.grounded||p.__battle.ingrain||(!types(p).includes('Flying')&&ability(p)!=='Levitate'&&held.effect(p,f)!=='air_balloon');
 function consume(p,field,{eaten=true}={}) { const item=p.heldItem,berry=eaten&&item?.endsWith('_berry');p.heldItem=null;p.__battle.consumedHeldItem=item;if(berry&&field){field.berryEaters ||= [];if(!field.berryEaters.includes(p.uuid))field.berryEaters.push(p.uuid);}if(ability(p)==='Unburden')p.__battle.unburden=true;if(berry&&ability(p)==='Cheek Pouch')heal(p,Math.floor(p.maxHp/3)); }
 function activate(p,other,field) {
     if(!alive(p)||!held.enabled(p,field))return;
     const item=resources.getItemDefinition(p.heldItem);if(!item)return;
+    if(item.battle_effect==='white_herb'&&held.clearNegativeStages(p)) {
+        consume(p,field);return;
+    }
+    if(item.battle_effect==='mental_herb') {
+        if(held.clearMentalEffects(p)){consume(p,field);return;}
+    }
     if(p.heldItem.endsWith('_berry')&&alive(other)&&ability(other)==='Unnerve')return;
     const cures=item.cure||item.fieldUse?.cure||[];
     if(item.battle_effect==='cure_status'&&(cures.includes(p.status)||item.key==='lum_berry'&&p.__battle.confusionTurns>0)) {
@@ -60,6 +67,12 @@ function applyStatus(p,status,source,side,field) {
     if(status==='confusion')p.__battle.confusionTurns=2;
     else {p.status=status;if(status==='sleep')p.__battle.sleepTurns=2;if(status==='badly_poison')p.__battle.toxicCounter=1;}
     activate(p,source,field);return true;
+}
+function hitItems(target,hit,move,effectiveness,state) {
+    if(hit.total>0&&held.effect(target,state)==='air_balloon')consume(target,state,{eaten:false});
+    if(hit.hp>0&&alive(target)&&effectiveness>1&&move.combat.power_type!=='ohko'&&!fixedDamageMoves.has(move.ename)&&held.effect(target,state)==='weakness_policy') {
+        consume(target,state,{eaten:false});for(const stat of ['attack','specialAttack'])engine.applyStageChange(target,stat,2,[],target);
+    }
 }
 function damageTarget(p,amount,source,move,field) {
     const before=p.currentHp,sub=p.__battle.substituteHp||0;
@@ -108,6 +121,11 @@ function castMove(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMove
     const failure=moveDamageRules.failure(move,p,other,state,{types});
     p.__battle.usedMoves=(p.__battle.usedMoves||[]).filter(name=>p.abilities.includes(name));if(p.abilities.includes(move.ename)&&!p.__battle.usedMoves.includes(move.ename))p.__battle.usedMoves.push(move.ename);
     if(failure){p.__battle.lastMoveFailed=true;p.__battle.lastMoveResultTurn=state.turn;return {useful:false,recognized:true,accuracy:hitChance,inflicted:0};}
+    if(held.skipsCharge(p,move,state)&&!p.__battle.chargeMove) {
+        const rule=twoTurn.rule(move.ename),sunny=rule?.solar&&state.weather.kind==='sun'&&!abilities.isWeatherSuppressed(p,other);
+        if(rule?.defense)engine.applyStageChange(p,'defense',1,[],p);
+        if(!sunny)consume(p,state,{eaten:false});
+    }
     sequences.begin(move,state);
     if(futureMoves.isFuture(move)) {
         const useful=futureMoves.schedule(otherSide,p,move,state,side);
@@ -132,9 +150,15 @@ function castMove(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMove
         const guardChance=moveGuards.breaksProtection(move)?0:guard.get(other)||0;
         const hit=damageTarget(other,raw*hitChance*(1-guardChance),p,move,state);
         inflicted=hit.total;useful=inflicted>0;
+        hitItems(other,hit,move,effectiveness,state);
         if(inflicted>0&&thrownItem)consume(p,state,{eaten:false});
         if(inflicted>0&&move.ename==='Natural Gift')consume(p,state,{eaten:false});
-        if(hit.hp>0&&thrownItem){activate(other,p,state);engine.applyThrownBerry(other,thrownItem,state,[]);}
+        if(hit.hp>0&&thrownItem){
+            activate(other,p,state);engine.applyThrownBerry(other,thrownItem,state,[]);
+            if(alive(other)&&thrownItem.fling_effect==='white_herb')held.clearNegativeStages(other);
+            if(alive(other)&&thrownItem.fling_effect==='mental_herb')held.clearMentalEffects(other);
+            if(thrownItem.fling_status)applyStatus(other,thrownItem.fling_status,p,otherSide,state);
+        }
         if(moveDamageRules.CRASH_MOVES.has(move.ename)&&ability(p)!=='Magic Guard') {
             const crashChance=Math.max(0,availability-(raw>0?hitChance*(1-guardChance):0));
             hp(p,p.currentHp-Math.max(1,Math.floor(p.maxHp/2))*crashChance);
@@ -144,7 +168,7 @@ function castMove(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMove
         if(hit.hp>0&&held.effect(other,state)==='type_resist'&&item.resist_type===resolved.type
             &&(effectiveness>1||resolved.type==='Normal')&&ability(p)!=='Unnerve')consume(other,state);
         if(hit.hp>0&&other.status===moveDamageRules.curedStatus(move)){other.status='normal';other.__battle.sleepTurns=0;other.__battle.nightmare=false;}
-        if(hit.hp>0&&flags.contact&&ability(p)!=='Long Reach'&&ability(p)!=='Magic Guard') {
+        if(hit.hp>0&&flags.contact&&ability(p)!=='Long Reach'&&ability(p)!=='Magic Guard'&&!held.protectsContact(p,state)) {
             let recoil=0;if(['Rough Skin','Iron Barbs'].includes(ability(other)))recoil+=p.maxHp/8;
             if(held.effect(other,state)==='rocky_helmet')recoil+=p.maxHp/6;
             hp(p,p.currentHp-recoil*hitChance);
@@ -158,7 +182,7 @@ function castMove(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMove
         }
         const drain=traits[move.ename]?.drain;
         if(drain&&inflicted>0) {
-            const amount=inflicted*drain[0]/drain[1];
+            const amount=held.drainAmount(p,inflicted*drain[0]/drain[1],state);
             if(ability(other)==='Liquid Ooze'&&ability(p)!=='Magic Guard')hp(p,p.currentHp-amount);else heal(p,amount);
         }
         if(move.ename==='Fake Out'&&hit.hp>0&&!alreadyMoved&&(abilities.ignoresDefenderAbility(p,other)||!['Inner Focus','Shield Dust'].includes(ability(other)))&&ability(p)!=='Sheer Force')guard.set(p,1);
@@ -249,7 +273,7 @@ function castMove(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMove
         }
         if(effect.kind==='laser_focus'){recognized=true;p.__battle.laserFocusTurns=2;useful=true;}
         if(effect.kind==='sound_block'&&inflicted>0&&ability(p)!=='Sheer Force'&&ability(other)!=='Shield Dust'){recognized=true;other.__battle.soundBlockedTurns=2;useful=true;}
-        if(effect.kind==='strength_sap'){recognized=true;if((other.__battle.statStages.attack||0)>-6&&!(p.__battle.healBlockTurns>0)){const amount=other.attack*((other.__battle.statStages.attack||0)>=0?(2+(other.__battle.statStages.attack||0))/2:2/(2-(other.__battle.statStages.attack||0)));engine.applyStageChange(other,'attack',-1,[],p);if(ability(other)==='Liquid Ooze'){if(ability(p)!=='Magic Guard')hp(p,p.currentHp-amount);}else heal(p,amount);useful=true;}}
+        if(effect.kind==='strength_sap'){recognized=true;if((other.__battle.statStages.attack||0)>-6&&!(p.__battle.healBlockTurns>0)){const amount=held.drainAmount(p,other.attack*((other.__battle.statStages.attack||0)>=0?(2+(other.__battle.statStages.attack||0))/2:2/(2-(other.__battle.statStages.attack||0))),state);engine.applyStageChange(other,'attack',-1,[],p);if(ability(other)==='Liquid Ooze'){if(ability(p)!=='Magic Guard')hp(p,p.currentHp-amount);}else heal(p,amount);useful=true;}}
         if(effect.kind==='purify'){
             recognized=true;
             if(['burn','poison','badly_poison','paralyze','sleep','freeze'].includes(other.status)&&!(p.__battle.healBlockTurns>0)&&!(guard.get(other)>0)&&(!wasSubstitute||moveGuards.bypassesSubstitute(p,move))){
@@ -258,8 +282,8 @@ function castMove(p,other,move,reply,side,otherSide,state,ctx,guard,{alreadyMove
         }
         if(effect.kind==='field') {
             const key={reflect:'reflectTurns',aurora_veil:'auroraVeilTurns',light_screen:'lightScreenTurns',tailwind:'tailwindTurns',safeguard:'safeguardTurns'}[effect.field];
-            if(key){recognized=true;if(!(side.screens[key]>0)&&(effect.field!=='aurora_veil'||state.weather.kind==='hail')){side.screens[key]=5;useful=true;}}
-            if(['rain','sun','hail','sandstorm'].includes(effect.field)){recognized=true;if(state.weather.kind!==effect.field){state.weather={kind:effect.field,turns:5};useful=true;}}
+            if(key){recognized=true;if(!(side.screens[key]>0)&&(effect.field!=='aurora_veil'||state.weather.kind==='hail')){side.screens[key]=held.fieldDuration(p,effect.field,state);useful=true;}}
+            if(['rain','sun','hail','sandstorm'].includes(effect.field)){recognized=true;if(state.weather.kind!==effect.field){state.weather={kind:effect.field,turns:held.fieldDuration(p,effect.field,state)};useful=true;}}
             const room={trick_room:'trickRoomTurns',magic_room:'magicRoomTurns',wonder_room:'wonderRoomTurns'}[effect.field];
             if(room){recognized=true;state.field[room]=state.field[room]>0?0:5;useful=true;}
             if(['grassy_terrain','electric_terrain','misty_terrain','psychic_terrain'].includes(effect.field)){recognized=true;if(state.terrain.kind!==effect.field){state.terrain={kind:effect.field,turns:5};useful=true;}}
@@ -281,7 +305,7 @@ function endTurn(p,other,state,{switched=false}={}) {
         if(p.status==='poison')hp(p,p.currentHp-Math.floor(p.maxHp/8));
         if(p.status==='badly_poison'){hp(p,p.currentHp-Math.floor(p.maxHp*(p.__battle.toxicCounter||1)/16));p.__battle.toxicCounter=(p.__battle.toxicCounter||1)+1;}
     }
-    if(alive(p)&&!magic&&p.__battle.leechSeedSource){const loss=Math.min(p.currentHp,Math.floor(p.maxHp/8));hp(p,p.currentHp-loss);heal(other,loss);}
+    if(alive(p)&&!magic&&p.__battle.leechSeedSource){const loss=Math.min(p.currentHp,Math.floor(p.maxHp/8));hp(p,p.currentHp-loss);heal(other,held.drainAmount(other,loss,state));}
     if(alive(p)&&!magic&&p.__battle.curseSource)hp(p,p.currentHp-Math.max(1,Math.floor(p.maxHp/4)));
     if(!abilities.isWeatherSuppressed(p,other)) {
         const weather=state.weather.kind;
@@ -292,6 +316,11 @@ function endTurn(p,other,state,{switched=false}={}) {
         if(weather==='sun'&&['Dry Skin','Solar Power'].includes(ability(p)))hp(p,p.currentHp-Math.floor(p.maxHp/8));
     }
     if(held.effect(p,state)==='end_turn_heal')heal(p,Math.floor(p.maxHp*(resources.getItemDefinition(p.heldItem).fraction||1/16)));
+    if(alive(p)&&held.effect(p,state)==='black_sludge') {
+        if(types(p).includes('Poison'))heal(p,Math.max(1,Math.floor(p.maxHp/16)));
+        else if(!magic)hp(p,p.currentHp-Math.max(1,Math.floor(p.maxHp/8)));
+    }
+    if(alive(p))for(const effect of ['ingrain','aquaRing'])if(p.__battle[effect])heal(p,held.drainAmount(p,Math.max(1,Math.floor(p.maxHp/16)),state));
     if(state.terrain.kind==='grassy_terrain'&&grounded(p,state))heal(p,Math.floor(p.maxHp/16));
     if(alive(p)&&ability(p)==='Speed Boost'&&!switched)engine.applyStageChange(p,'speed',1,[],p);
     activate(p,other,state);
@@ -327,6 +356,7 @@ function project(a,b,move,reply,ctx,{switched=false,first=true,ownSwitched=false
             const source=futureMoves.damageSource(pending),move=resources.getMoveDefinition(pending.moveName);
             if(!target.__battle.semiInvulnerable||ability(source)==='No Guard'||ability(target)==='No Guard') {
                 const hit=damageTarget(target,ctx.damage(source,target,move,defenderSide,field)*ctx.chance(move,source,target,field),source,move,field);
+                hitItems(target,hit,move,engine.getMoveEffectiveness(move,source,target,field),field);
                 if(pending.sourceActive&&hit.total>0&&held.effect(source,field)==='life_orb'&&ability(source)!=='Magic Guard')hp(source,source.currentHp-Math.max(1,Math.floor(source.maxHp/10)));
                 activate(target,source,field);
             }

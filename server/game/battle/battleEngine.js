@@ -274,7 +274,7 @@ function consumeHeldItem(pokemon, battleState = null) {
     const battleData = ensureBattleData(pokemon);
     const itemKey = pokemon.heldItem;
     const origin = pokemon.__heldItemOrigin || pokemon;
-    if (itemKey === 'focus_sash') {
+    if (itemKey === 'focus_sash' || getItemDefinition(itemKey)?.restoreAfterBattle) {
         // Strategic equipment is spent for this battle, not permanently lost.
         // Keep its original owner even after Trick, theft or Pickup.
         snapshotHeldItemForExchange(origin);
@@ -427,12 +427,49 @@ function resistanceBerry(defender, attacker, move, effectiveness, state) {
     return item.key;
 }
 
+function activateHeldHitItems(pokemon,battleState,messages,result,effectiveness) {
+    if(result.damageToHp+result.damageToSubstitute>0 && heldItems.effect(pokemon,battleState)==='air_balloon') {
+        consumeHeldItem(pokemon,battleState);messages.push(`Le Ballon de ${getPokemonDisplayName(pokemon)} éclate !`);
+    }
+    if(result.damageToHp>0 && pokemon.currentHp>0 && effectiveness>1 && heldItems.effect(pokemon,battleState)==='weakness_policy') {
+        consumeHeldItem(pokemon,battleState);
+        applyStageChange(pokemon,'attack',2,messages,pokemon);
+        applyStageChange(pokemon,'specialAttack',2,messages,pokemon);
+        messages.push(`${getPokemonDisplayName(pokemon)} active Vulné-Assurance !`);
+    }
+}
+
 function activateHeldItem(pokemon, battleState, messages, trigger = 'immediate', opponent = null) {
     if (!isHeldItemEnabled(pokemon, battleState) || safeNumber(pokemon.currentHp, 0) <= 0) return false;
     const item = getItemDefinition(pokemon.heldItem);
     if (!item || item.category !== 'held') return false;
     const pokemonName = getPokemonDisplayName(pokemon);
     const maxHp = Math.max(1, safeNumber(pokemon.maxHp, 1));
+    if(trigger==='immediate' && item.battle_effect==='air_balloon' && !ensureBattleData(pokemon).airBalloonVisible) {
+        pokemon.__battle.airBalloonVisible=true;
+        messages.push(`${pokemonName} flotte grâce à son Ballon !`);return true;
+    }
+    if(trigger==='immediate' && item.battle_effect==='white_herb') {
+        ensureBattleData(pokemon);
+        if(!heldItems.clearNegativeStages(pokemon))return false;
+        consumeHeldItem(pokemon,battleState);messages.push(`${pokemonName} rétablit ses statistiques avec ${item.name}.`);return true;
+    }
+    if(trigger==='immediate' && item.battle_effect==='mental_herb') {
+        ensureBattleData(pokemon);
+        if(!heldItems.clearMentalEffects(pokemon))return false;
+        consumeHeldItem(pokemon,battleState);messages.push(`${pokemonName} se libère de ses entraves avec ${item.name}.`);return true;
+    }
+    if(trigger==='end_turn' && item.battle_effect==='black_sludge') {
+        if(hasType(pokemon,'Poison')) {
+            const healed=healPokemon(pokemon,Math.max(1,Math.floor(maxHp/16)));
+            if(healed)messages.push(`${pokemonName} récupère ${healed} PV avec ${item.name}.`);
+            return healed>0;
+        }
+        if(hasPassiveAbility(pokemon,'Magic Guard'))return false;
+        const lost=applyDamage(pokemon,Math.max(1,Math.floor(maxHp/8)),{allowEndure:false}).damageToHp;
+        if(lost)messages.push(`${pokemonName} perd ${lost} PV à cause de ${item.name}.`);
+        return lost>0;
+    }
     if (trigger === 'end_turn_status' && ['toxic_orb','flame_orb'].includes(item.battle_effect)) {
         const toxic = item.battle_effect === 'toxic_orb';
         if (toxic && (hasType(pokemon,'Poison') || hasType(pokemon,'Steel'))) return false;
@@ -506,6 +543,7 @@ function isGrounded(pokemon, battleState) {
     if (!pokemon) return false;
     if (battleState?.field?.gravityTurns > 0) return true;
     if (pokemon.__battle?.grounded || pokemon.__battle?.ingrain) return true;
+    if (heldItems.effect(pokemon,battleState)==='air_balloon') return false;
     if (hasType(pokemon, 'Flying')) return false;
     if (hasPassiveAbility(pokemon, 'Levitate')) return false;
     const battleData = ensureBattleData(pokemon);
@@ -845,6 +883,8 @@ function battleMoveTypes(pokemon, opponent, battleState) {
 
 function getMoveEffectiveness(move, attacker, defender, battleState = null) {
     const data = ensureBattleData(defender);
+    if(move.type==='Ground' && move.combat?.damage_class!=='status' && move.ename!=='Thousand Arrows'
+        && heldItems.effect(defender,battleState)==='air_balloon' && !isGrounded(defender,battleState))return 0;
     return getPokemonTypes(defender).reduce((value, type) => {
         let modifier = getEffectiveness(move.type, type);
         if (move.ename === 'Freeze-Dry' && type === 'Water') modifier = 2;
@@ -966,7 +1006,7 @@ function calculateDamageDetailed(attacker, defender, move, context = {}) {
         attacker,
         defender,
         // Technician tests the actual base power after conditional bonuses.
-        move: power === Number(move.power) ? move : { ...move, power },
+        move: basePower === Number(move.power) ? move : { ...move, power:basePower },
         effectiveness,
         critical,
         battleState,
@@ -1150,6 +1190,7 @@ function canSwitchOut(pokemon, opponent = null, battleState = null, { escape = f
     if (battleData.skyDropBy || (!escape && getForcedMove(pokemon))) return false;
     if (escape && hasPassiveAbility(pokemon,'Run Away')) return true;
     if (hasType(pokemon,'Ghost')) return true;
+    if (!escape && heldItems.effect(pokemon,battleState)==='shed_shell')return true;
     if (battleState?.field?.fairyLockTurns > 0) return false;
     if (battleData.trappedTurns > 0) return false;
     if (battleData.ingrain) return false;
@@ -1195,7 +1236,7 @@ function resolveHitCount(move, attacker) {
 function applyFieldEffect(effect, context, moveResult) {
     const fieldName=effect.field, messages=moveResult.messages, state=context.battleState;
     if(!fieldName || !state)return;
-    const turns=Math.max(1,safeNumber(effect.turns,5)), label=battleField.LABELS[fieldName] || fieldName;
+    const turns=heldItems.fieldDuration(context.attacker,fieldName,state,Math.max(1,safeNumber(effect.turns,5))), label=battleField.LABELS[fieldName] || fieldName;
     if(fieldName==='aurora_veil' && (state.weather?.kind!=='hail' || isWeatherSuppressed(context.attacker,context.defender))){moveResult.success=false;messages.push('Voile Aurore échoue : la grêle est nécessaire.');return;}
     let container,key;
     if(WEATHER_FIELDS.has(fieldName) || TERRAIN_FIELDS.has(fieldName)) {
@@ -1303,7 +1344,7 @@ function applyEffect(effect, context, moveResult) {
             return;
         case 'strength_sap': {
             if((targetData.statStages.attack||0)<=-6){moveResult.success=false;messages.push('Vole-Force échoue : l’Attaque est déjà au minimum.');return;}
-            const amount=Math.max(1,Math.floor(getBaseStatValue(effectTargetPokemon,'attack')*stageMultiplier(targetData.statStages.attack||0)));
+            const amount=heldItems.drainAmount(context.attacker,Math.max(1,Math.floor(getBaseStatValue(effectTargetPokemon,'attack')*stageMultiplier(targetData.statStages.attack||0))),context.battleState);
             const old=targetData.statStages.attack||0;
             applyStageChange(effectTargetPokemon,'attack',-1,messages,context.attacker,{side:effectTargetSide});
             let healed=0;
@@ -2414,8 +2455,9 @@ function processPokemonEndTurn(pokemon, enemyPokemon, ownSide, battleState) {
         }
         if (dmgResult.damageToHp > 0 && source && safeNumber(source.currentHp, 0) > 0) {
             const ooze=hasPassiveAbility(pokemon,'Liquid Ooze');
-            if(ooze && !hasPassiveAbility(source,'Magic Guard'))applyDamage(source,dmgResult.damageToHp,{allowEndure:false});
-            const healed = ooze || source.__battle?.healBlockTurns>0 ? 0 : healPokemon(source, dmgResult.damageToHp);
+            const amount=heldItems.drainAmount(source,dmgResult.damageToHp,battleState);
+            if(ooze && !hasPassiveAbility(source,'Magic Guard'))applyDamage(source,amount,{allowEndure:false});
+            const healed = ooze || source.__battle?.healBlockTurns>0 ? 0 : healPokemon(source, amount);
             if (healed > 0) {
                 messages.push(`${getPokemonDisplayName(source)} recupere ${healed} PV avec Vampigraine.`);
             }
@@ -2453,14 +2495,14 @@ function processPokemonEndTurn(pokemon, enemyPokemon, ownSide, battleState) {
     const healingAllowed = pokemonData.healBlockTurns <= 0;
 
     if (pokemonData.aquaRing && healingAllowed && safeNumber(pokemon.currentHp, 0) > 0) {
-        const healed = healPokemon(pokemon, Math.max(1, Math.floor(maxHp / 16)));
+        const healed = healPokemon(pokemon, heldItems.drainAmount(pokemon,Math.max(1, Math.floor(maxHp / 16)),battleState));
         if (healed > 0) {
             messages.push(`${pokemonName} recupere ${healed} PV avec Anneau Hydro.`);
         }
     }
 
     if (pokemonData.ingrain && healingAllowed && safeNumber(pokemon.currentHp, 0) > 0) {
-        const healed = healPokemon(pokemon, Math.max(1, Math.floor(maxHp / 16)));
+        const healed = healPokemon(pokemon, heldItems.drainAmount(pokemon,Math.max(1, Math.floor(maxHp / 16)),battleState));
         if (healed > 0) {
             messages.push(`${pokemonName} recupere ${healed} PV avec Racines.`);
         }
@@ -2479,7 +2521,7 @@ function processPokemonEndTurn(pokemon, enemyPokemon, ownSide, battleState) {
         if (healed > 0) messages.push(`${pokemonName} recupere ${healed} PV grace au Champ Herbu.`);
     }
 
-    if (healingAllowed && safeNumber(pokemon.currentHp, 0) > 0) {
+    if (safeNumber(pokemon.currentHp, 0) > 0) {
         activateHeldItem(pokemon, battleState, messages, 'end_turn',enemyPokemon);
     }
 
@@ -2654,6 +2696,7 @@ function resolveFutureMoves(playerPokemon, enemyPokemon, playerSide, enemySide, 
         result.substituteDamage = hit.damageToSubstitute;
         if (info.resistBerry && hit.damageToHp > 0 && target.heldItem === info.resistBerry) consumeBerry(target, battleState, messages);
         reactions.afterHit({ ...context, damage: hit.damageToHp, critical: info.critical }, reactionHelpers(context), messages);
+        activateHeldHitItems(target,battleState,messages,hit,info.effectiveness);
         activateHeldItem(target, battleState, messages, 'immediate', source);
         if (hit.damageToHp) messages.push(`${getPokemonDisplayName(target)} perd ${hit.damageToHp} PV.`);
         if (hit.damageToSubstitute) messages.push(hit.substituteBroken ? 'Le clone est détruit !' : 'Le clone encaisse le choc.');
@@ -2795,6 +2838,7 @@ function applySwitchInEffects(pokemon, ownSide, enemySide, battleState, enemyPok
     }
     abilityForms.syncWeatherForms(pokemon,enemyPokemon,battleState,messages);
     activateHeldItem(pokemon,battleState,messages,'immediate',enemyPokemon);
+    if(enemyPokemon?.currentHp>0)activateHeldItem(enemyPokemon,battleState,messages,'immediate',pokemon);
     return messages;
 }
 
@@ -3020,6 +3064,7 @@ function movePhase(pokemon, moveName, battleState, opponent) {
     if (getChargingMove(pokemon)) return 'strike';
     const move = getMoveByName(moveName);
     if (move?.combat?.power_type !== 'charge') return null;
+    if (heldItems.skipsCharge(pokemon,move,battleState)) return null;
     if (twoTurn.rule(moveName)?.solar && battleState?.weather?.kind === 'sun' && !isWeatherSuppressed(pokemon,opponent)) return null;
     return 'prepare';
 }
@@ -3103,7 +3148,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
     const hpBeforeMove=defender.currentHp;
     let lastHitDamage = 0;
     const helper=reactionHelpers({attacker,attackerSide,defenderSide,battleState});
-    const hit=(amount,critical=false,resistBerry=null) => {
+    const hit=(amount,critical=false,resistBerry=null,effectiveness=1) => {
         const result=applyDamage(defender,amount,{allowEndure:true,attacker,battleState,leaveAtOne:move.ename==='False Swipe',
             bypassSubstitute:moveGuards.bypassesSubstitute(attacker,move)});
         if (resistBerry && result.damageToHp > 0 && defender.heldItem === resistBerry) {
@@ -3113,6 +3158,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         }
         if (result.damageToHp > 0) lastHitDamage = result.damageToHp;
         reactions.afterHit({attacker,defender,move,damage:result.damageToHp,critical,battleState,attackerSide,defenderSide},helper,moveResult.messages);
+        activateHeldHitItems(defender,battleState,moveResult.messages,result,effectiveness);
         activateHeldItem(defender,battleState,moveResult.messages,'immediate',attacker);
         return result;
     };
@@ -3290,7 +3336,9 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         }
         if (chargeRule?.defense) applyStageChange(attacker,'defense',1,moveResult.messages,attacker);
         const sunny = chargeRule?.solar && battleState.weather?.kind === 'sun' && !isWeatherSuppressed(attacker,defender);
-        if (!sunny) {
+        const herb = !sunny && heldItems.skipsCharge(attacker,move,battleState);
+        if(herb){consumeHeldItem(attacker,battleState);moveResult.messages.push(`${getPokemonDisplayName(attacker)} utilise son Herbe Pouvoir !`);}
+        if (!sunny && !herb) {
             attackerData.chargeMove = move.ename;
             attackerData.chargeTurns = 1;
             attackerData.semiInvulnerable = chargeRule?.state || null;
@@ -3367,7 +3415,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
     if (moveTargetsPokemon && !moveGuards.breaksProtection(move) && isMoveBlockedByProtect(defender, defenderSide, move,attacker)) {
         moveResult.blocked = true;moveResult.protected=true;
         moveResult.messages.push(`${getPokemonDisplayName(defender)} bloque l'attaque.`);
-        if (safeNumber(defenderData.contactDamageFraction, 0) > 0 && damageClass !== 'status' && reactions.contact(attacker,move) && !hasPassiveAbility(attacker,'Magic Guard')) {
+        if (safeNumber(defenderData.contactDamageFraction, 0) > 0 && damageClass !== 'status' && reactions.contact(attacker,move) && !heldItems.protectsContact(attacker,battleState) && !hasPassiveAbility(attacker,'Magic Guard')) {
             const recoil = Math.max(1, Math.floor(safeNumber(attacker.maxHp, 1) * defenderData.contactDamageFraction));
             const recoilResult = applyDamage(attacker, recoil, { allowEndure: false, battleState });
             if (recoilResult.damageToHp > 0) {
@@ -3447,8 +3495,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
 
     if (damageClass !== 'status') {
         if (move.combat?.power_type === 'ohko') {
-            const effectiveness = move.ename === 'Bide' ? 1 : getPokemonTypes(defender)
-                .reduce((value, type) => value * getEffectiveness(move.type, type), 1);
+            const effectiveness = getMoveEffectiveness(move,attacker,defender,battleState);
             if (effectiveness <= 0) {
                 moveResult.messages.push(`Ca n'affecte pas ${getPokemonDisplayName(defender)}.`);
             } else if (!ignoresDefenderAbility(attacker, defender) && hasPassiveAbility(defender, 'Sturdy')) {
@@ -3469,8 +3516,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
             moveResult.success = true;
             moveResult.messages.push(`${getPokemonDisplayName(defender)} recupere ${healed} PV avec Cadeau.`);
         } else if (Number.isFinite(specialResolution?.fixedDamage)) {
-            const effectiveness = move.ename === 'Bide' ? 1 : getPokemonTypes(defender)
-                .reduce((value, type) => value * getEffectiveness(move.type, type), 1);
+            const effectiveness = move.ename === 'Bide' ? 1 : getMoveEffectiveness(move,attacker,defender,battleState);
             if (effectiveness <= 0) {
                 moveResult.effectiveness = 0;
                 moveResult.messages.push(`Ca n'affecte pas ${getPokemonDisplayName(defender)}.`);
@@ -3516,10 +3562,10 @@ function executeAttack(attackName, attacker, defender, options = {}) {
 
                 effectiveness = damageInfo.effectiveness;
                 if (effectiveness === 0) break;
-                const dmgResult = hit(damageInfo.damage,damageInfo.critical,damageInfo.resistBerry);
+                const dmgResult = hit(damageInfo.damage,damageInfo.critical,damageInfo.resistBerry,damageInfo.effectiveness);
                 if (perHitSecondaries) reactions.secondaryEffects({ attacker, defender, move: hitMove,
                     result: { damage: dmgResult.damageToHp, substituteDamage: dmgResult.damageToSubstitute }, battleState, attackerSide, defenderSide }, helper, moveResult.messages);
-                if (dmgResult.damageToHp > 0 && reactions.contact(attacker,resolvedMove) && heldItems.effect(defender, battleState) === 'rocky_helmet' && !hasPassiveAbility(attacker, 'Magic Guard')) {
+                if (dmgResult.damageToHp > 0 && reactions.contact(attacker,resolvedMove) && !heldItems.protectsContact(attacker,battleState) && heldItems.effect(defender, battleState) === 'rocky_helmet' && !hasPassiveAbility(attacker, 'Magic Guard')) {
                     const recoil = applyDamage(attacker, Math.max(1, Math.floor(attacker.maxHp / 6)), { allowEndure:false, battleState });
                     moveResult.messages.push(`${getPokemonDisplayName(attacker)} perd ${recoil.damageToHp} PV contre le Casque Brut.`);
                 }
@@ -3676,6 +3722,10 @@ function executeAttack(attackName, attacker, defender, options = {}) {
     if(move.ename==='Burn Up'&&moveResult.damage+moveResult.substituteDamage>0){attackerData.tempTypes=getPokemonTypes(attacker).filter(t=>t!=='Fire');if(!attackerData.tempTypes.length)attackerData.tempTypes=['???'];moveResult.messages.push(`${getPokemonDisplayName(attacker)} perd son type Feu !`);}
     if (moveResult.damage > 0 && defender.status === moveDamageRules.curedStatus(move)) clearStatus(defender, moveResult.messages, null, false);
     if (moveResult.damage > 0 && !moveResult.substituteDamage) applyThrownBerry(defender,thrownItem,battleState,moveResult.messages);
+    if(moveResult.damage>0 && !moveResult.substituteDamage && defender.currentHp>0 && thrownItem?.fling_effect) {
+        const cleared=thrownItem.fling_effect==='white_herb'?heldItems.clearNegativeStages(defender):heldItems.clearMentalEffects(defender);
+        if(cleared)moveResult.messages.push(`${getPokemonDisplayName(defender)} bénéficie de ${thrownItem.name}.`);
+    }
     if (moveResult.damage > 0 && !moveResult.substituteDamage && thrownItem?.fling_status) {
         applyStatus(defender,thrownItem.fling_status,defenderSide,moveResult.messages,{battleState,attacker,sourceSide:attackerSide,move});
     }

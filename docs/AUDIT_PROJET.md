@@ -1,3 +1,27 @@
+## Objets de type et équipement stratégique — 3 novembre 2026
+
+**32 ajouts utilisables :18 amplificateurs de type et14 objets stratégiques**, sans nouvelle espèce ni changement du périmètre jouable. Les objets Choix, Restes, Orbes Vie/Toxique/Flamme, Casque Brut, Ceinture Force, Grosses Bottes, Veste de Combat, Évoluroc et les six derniers équipements étaient déjà présents ; leurs identifiants restent conservés.
+
+| Type | Nouvel objet (+20 % de puissance) |
+|---|---|
+| Eau | Encens Mer |
+| Normal / Feu / Électrik | Mouchoir Soie / Charbon / Aimant |
+| Plante / Glace / Combat | Graine Miracle / Glace Éternelle / Ceinture Noire |
+| Poison / Sol / Vol | Pic Venin / Sable Doux / Bec Pointu |
+| Psy / Insecte / Roche | Cuillère Tordue / Poudre Argentée / Pierre Dure |
+| Spectre / Dragon / Ténèbres | Rune Sort / Croc Dragon / Lunettes Noires |
+| Acier / Fée | Peau Métal / Plume Féerique |
+
+Autres ajouts : **Vase Noire, Lumiargile, Grosse Racine, Carapace Mue, Herbes Blanche/Mental/Pouvoir, Ballon, Vulné-Assurance, Pare-Effet et Roches Humide/Chaude/Lisse/Glace**. Les effets sont raccordés au moteur commun, aux projections IA et aux impacts différés ; suppression d’objet et propriété d’origine sont conservées. Les consommables stratégiques ajoutés sont rendus au propriétaire après combat selon la règle existante de Ceinture Force. Les baies gardent leur consommation actuelle. Les dégâts fixes ne profitent pas des amplificateurs et ne déclenchent pas Vulné-Assurance. Technicien conserve son seuil avant bonus d’objet. Ballon est annoncé et donc connu publiquement de l’IA ; les autres objets adverses restent privés. Les réactions de contact du porteur restent actives avec Pare-Effet.
+
+**Disponibilité :rayon Stratégie du Grand Comptoir après Hoze,10 000 ₽ chacun**, également butin d’équipement unique dans la nature. Aucun changement de probabilité globale ni de poids des familles de butin ; achats supplémentaires autorisés. Les plaques Dark restent des ressources distinctes. Sac/boutique/sélecteur d’objet ont les descriptions et32 icônes SVG colorées ; aucune image lourde ajoutée. La Plume Féerique suit la politique actuelle d’objets de générations mixtes ; aucune nouvelle forme Multi-Type, Méga ou capacité Z.
+
+**Vérification :522 tests ciblés et49 SQL réussis sans saut**, dont21 vrais parcours de combat sauvage/dresseur/JcJ. L’audit d’utilisation persiste et déséquipe les93 objets tenables du catalogue,32 achats vérifient les prix et badges côté serveur.26 comparaisons IA/moteur contrôlent les tours sur copies privées, sans tirage aléatoire vivant. Chromium et WebKit :32 vrais achats chacun,16 vues au total (mobile/PC, portrait/paysage, clair/nocturne), équipement et reconnexion ;32 icônes inspectées visuellement, aucune rognée. Lint, build et syntaxe valides.
+
+Suite globale :2803 succès,546 SQL désactivés et **les mêmes28 échecs préexistants** que l’audit précédent ; pas de nouvel échec. Recettes reproductibles dans `tests/strategy-items*.test.js`, `scripts/validateStrategyItemsBrowser.js`, rapport détaillé `docs/STRATEGY_ITEMS_2026-11-03.json`. SQL exécuté en série sur `explorakit_test` ; les tests de demandes concurrentes restent inchangés. Pas de migration, modification manuelle de compte réel, réouverture de modes ou modification de carte. Sources de comparaison :[objets Pokémon Showdown](https://github.com/smogon/pokemon-showdown/blob/master/data/items.ts), [héritage Gen7](https://github.com/smogon/pokemon-showdown/blob/master/data/mods/gen7/items.ts) et [capacités](https://github.com/smogon/pokemon-showdown/blob/master/data/moves.ts).
+
+Publication le **3 novembre2026 à14 h17 (Europe/Paris)** : client `7328560` / build `d350d00ed4276556` et serveur actifs. Sauvegardes SQL/sources/index/checkpoint dans `/home/ubuntu/dev/backups/riftmon-strategy-items-2026-11-03T13-17-50-438Z`. Index et22 fichiers JS/CSS vérifiés par HTTPS ; anciens assets conservés. Tentative de tournoi sauvegardée conservée, aucun duel actif, aucun avertissement ni redémarrage automatique. Knov/API voisins et checkpoint inchangés, modes toujours fermés.
+
 ## Revue des talents jouables — 3 novembre 2026
 
 **158 talents distincts étudiés pour les493 espèces des générations1–4**, talents cachés compris, en conservant les règles Gen7 actuelles du moteur.151 sont classés pour les combats simples ; cinq concernent les doubles (Garde-Ami, Cœur Soin, Plus, Moins, Télépathe) et deux effets hors combat restent indisponibles (Cherche Miel, Lumiattirance). Ces sept cas sont distingués des effets effectivement implémentés. L’inventaire général des223 talents de la base Gen7 a également été contrôlé, mais ne constitue pas le total des talents jouables étudiés. Multi-Type garde sa condition d’objet : cette passe ne crée pas de plaques tenables ni de nouvelles variantes visuelles.
@@ -6214,6 +6238,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **3 novembre 2026 — Équipement stratégique :** Encens Mer +17 autres amplificateurs de type et14 équipements, effets moteur/IA, butin unique et Grand Comptoir après Hoze à10 000 ₽.32 icônes colorées,522 tests,49 SQL et16 vues Chromium/WebKit ; mêmes28 échecs globaux antérieurs. `docs/STRATEGY_ITEMS_2026-11-03.json`.
 
 - **3 novembre 2026 — XP et reconnexion Dark :** ordinaires40 % / corrompus80 % de la base Aventure, checkpoint de position sérialisé avant combat terrestre/pêche ; reprise sur l’île, morts/HP/PP conservés, vraie défaite toujours rapatriée. 41 tests, 46 SQL/socket et quinze scénarios réseau ; ancien code échoue au contrôle précombat. `docs/DARK_XP_RECONNECT_2026-11-03.json`.
 

@@ -6,6 +6,7 @@ const traits = require('../../../data/game/ability_move_traits.gen7.json');
 const STATS = { atk:'attack', def:'defense', spa:'specialAttack', spd:'specialDefense', spe:'speed', accuracy:'accuracy', evasion:'evasion' };
 const STATUS = { brn:'burn', par:'paralyze', psn:'poison', tox:'badly_poison', slp:'sleep', frz:'freeze' };
 const { UNCHANGEABLE } = require('./abilityRules');
+const heldItems = require('../items/heldItems');
 const REACTION_ABILITIES = Object.freeze([
     'Aftermath','Anger Point','Aroma Veil','Aura Break','Bad Dreams','Beast Boost','Berserk',
     'Cheek Pouch','Color Change','Competitive','Contrary','Corrosion','Cursed Body','Cute Charm',
@@ -45,7 +46,7 @@ function afterHit({attacker:a, defender:d, move, damage, critical, battleState:s
     if (ability === 'Cursed Body' && alive(a) && !(a.__battle.disableTurns > 0) && Math.random() < .3) {
         a.__battle.disabledMove = move.ename; a.__battle.disableTurns = 4; announce(messages,d,ability);
     }
-    if (touching && alive(a)) {
+    if (touching && alive(a) && !heldItems.protectsContact(a,state)) {
         if (['Rough Skin','Iron Barbs'].includes(ability)) indirect(a,a.maxHp/8,h,messages,ability);
         if (ability === 'Aftermath' && !alive(d) && !hasAbility(a,'Damp')) indirect(a,a.maxHp/4,h,messages,ability);
         if (ability === 'Gooey') stage(a,'speed',-1,d);
@@ -56,10 +57,11 @@ function afterHit({attacker:a, defender:d, move, damage, critical, battleState:s
         }
         if (ability === 'Cute Charm' && ['male','female'].includes(gender(d)) && ['male','female'].includes(gender(a))
             && gender(a)!==gender(d) && Math.random()<.3) status(a,'infatuation',d,attackerSide);
-        if (hasAbility(a,'Poison Touch') && !hasAbility(d,'Shield Dust') && Math.random()<.3) status(d,'poison',a,defenderSide);
-        if (ability === 'Mummy' && !UNCHANGEABLE.has(getAbilityName(a)) && !hasAbility(a,'Mummy')) {
-            h.snapshotAbility(a); a.passiveAbility='Mummy'; announce(messages,d,ability);
-        }
+    }
+    if(touching && alive(a) && hasAbility(a,'Poison Touch') && !hasAbility(d,'Shield Dust') && Math.random()<.3)status(d,'poison',a,defenderSide);
+    if(touching && alive(a) && !heldItems.protectsContact(a,state) && ability==='Mummy'
+        && !UNCHANGEABLE.has(getAbilityName(a)) && !hasAbility(a,'Mummy')) {
+        h.snapshotAbility(a);a.passiveAbility='Mummy';announce(messages,d,ability);
     }
     if (ability === 'Innards Out' && !alive(d)) indirect(a,damage,h,messages,ability);
 }
@@ -75,7 +77,7 @@ function transferItem(from, to, h, messages, source) {
 function afterMove(ctx,h,messages) {
     const {attacker:a,defender:d,move,result,hpBefore,battleState:state}=ctx;
     if (result.damage + (result.substituteDamage || 0) > 0 && traits.moves[move.ename]?.drain && alive(a)) {
-        const [num,den]=traits.moves[move.ename].drain,amount=Math.max(1,Math.floor((result.damage + (result.substituteDamage || 0))*num/den));
+        const [num,den]=traits.moves[move.ename].drain,amount=heldItems.drainAmount(a,Math.max(1,Math.floor((result.damage + (result.substituteDamage || 0))*num/den)),state);
         if (hasAbility(d,'Liquid Ooze')) indirect(a,amount,h,messages,'Suintement');
         else if (!(a.__battle.healBlockTurns>0)) {const healed=h.heal(a,amount); if(healed) messages.push(`${label(a)} absorbe ${healed} PV.`);}
     }
@@ -89,7 +91,7 @@ function afterMove(ctx,h,messages) {
         }
     }
     if (hasAbility(a,'Magician')) transferItem(d,a,h,messages,'Magicien');
-    if (!suppressed && alive(d) && ability==='Pickpocket' && contact(a,move)) transferItem(a,d,h,messages,'Pickpocket');
+    if (!suppressed && alive(d) && ability==='Pickpocket' && contact(a,move) && !heldItems.protectsContact(a,state)) transferItem(a,d,h,messages,'Pickpocket');
     if (['Thief','Covet'].includes(move.ename)) transferItem(d,a,h,messages,move.ename);
     if (!alive(d) && alive(a)) {
         if (hasAbility(a,'Moxie')) h.stage(a,'attack',1,messages,a);

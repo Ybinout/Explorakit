@@ -22,7 +22,27 @@ function damageMultiplier(pokemon, effectiveness, state) {
 function powerMultiplier(pokemon, move, state) {
     const key = effect(pokemon, state), category = move?.combat?.damage_class
         || (move?.category === 'phy' ? 'physical' : move?.category === 'spe' ? 'special' : 'status');
+    if (key === 'type_power' && getItemDefinition(pokemon.heldItem)?.boost_type === move?.type) return 1.2;
     return key === 'physical_power' && category === 'physical' || key === 'special_power' && category === 'special' ? 1.1 : 1;
+}
+function drainAmount(pokemon, amount, state) { return Math.max(1,Math.floor(amount*(effect(pokemon,state)==='big_root'?1.3:1))); }
+function fieldDuration(pokemon, kind, state, turns=5) {
+    if(effect(pokemon,state)==='weather_rock' && getItemDefinition(pokemon.heldItem)?.weather===kind) return 8;
+    if(effect(pokemon,state)==='light_clay' && ['reflect','light_screen','aurora_veil'].includes(kind)) return 8;
+    return turns;
+}
+function skipsCharge(pokemon, move, state) { return effect(pokemon,state)==='power_herb' && move?.combat?.power_type==='charge' && move.ename!=='Sky Drop'; }
+function protectsContact(pokemon,state) { return effect(pokemon,state)==='protective_pads'; }
+function clearNegativeStages(pokemon) {
+    const stages=pokemon.__battle?.statStages||{},negative=Object.keys(stages).filter(key=>stages[key]<0);
+    for(const key of negative)stages[key]=0;
+    return negative.length>0;
+}
+function clearMentalEffects(pokemon) {
+    const data=pokemon.__battle||{},keys=['infatuationTurns','tauntTurns','encoreTurns','disableTurns','healBlockTurns'];
+    if(!keys.some(key=>data[key]>0)&&!data.tormented)return false;
+    for(const key of keys)data[key]=0;
+    data.tormented=false;data.encoreMove=null;data.disabledMove=null;return true;
 }
 function accuracyMultiplier(pokemon, state) { return effect(pokemon, state) === 'accuracy_boost' ? 1.1 : 1; }
 function criticalStage(pokemon, state) { return effect(pokemon, state) === 'critical_boost' ? 1 : 0; }
@@ -37,4 +57,4 @@ function allowsMove(pokemon, name, state) {
 function lockMove(pokemon, name, state) {
     if (name !== 'Struggle' && effect(pokemon, state)?.startsWith('choice_')) pokemon.__battle.choiceMove ||= name;
 }
-module.exports = { enabled, effect, statMultiplier, damageMultiplier, powerMultiplier, accuracyMultiplier, criticalStage, effortMultiplier, allowsMove, lockMove };
+module.exports = { enabled, effect, statMultiplier, damageMultiplier, powerMultiplier, drainAmount, fieldDuration, skipsCharge, protectsContact, clearNegativeStages, clearMentalEffects, accuracyMultiplier, criticalStage, effortMultiplier, allowsMove, lockMove };

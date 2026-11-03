@@ -7604,6 +7604,516 @@
       },
       "fling_power": 30,
       "fling_status": "burn"
+    },
+    {
+      "key": "silk_scarf",
+      "name": "Mouchoir Soie",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "type_power",
+      "description": "Augmente de 20 % la puissance des attaques de type Normal du porteur. Sans recul ni blocage sur une capacité.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 10,
+      "boost_type": "Normal"
+    },
+    {
+      "key": "charcoal",
+      "name": "Charbon",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "type_power",
+      "description": "Augmente de 20 % la puissance des attaques de type Feu du porteur. Sans recul ni blocage sur une capacité.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 30,
+      "boost_type": "Fire"
+    },
+    {
+      "key": "sea_incense",
+      "name": "Encens Mer",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "type_power",
+      "description": "Augmente de 20 % la puissance des attaques de type Eau du porteur. Sans recul ni blocage sur une capacité.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 10,
+      "boost_type": "Water"
+    },
+    {
+      "key": "magnet",
+      "name": "Aimant",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "type_power",
+      "description": "Augmente de 20 % la puissance des attaques de type Électrik du porteur. Sans recul ni blocage sur une capacité.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 30,
+      "boost_type": "Electric"
+    },
+    {
+      "key": "miracle_seed",
+      "name": "Graine Miracle",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "type_power",
+      "description": "Augmente de 20 % la puissance des attaques de type Plante du porteur. Sans recul ni blocage sur une capacité.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 30,
+      "boost_type": "Grass"
+    },
+    {
+      "key": "never_melt_ice",
+      "name": "Glace Éternelle",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "type_power",
+      "description": "Augmente de 20 % la puissance des attaques de type Glace du porteur. Sans recul ni blocage sur une capacité.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 30,
+      "boost_type": "Ice"
+    },
+    {
+      "key": "black_belt",
+      "name": "Ceinture Noire",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "type_power",
+      "description": "Augmente de 20 % la puissance des attaques de type Combat du porteur. Sans recul ni blocage sur une capacité.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 30,
+      "boost_type": "Fighting"
+    },
+    {
+      "key": "poison_barb",
+      "name": "Pic Venin",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "type_power",
+      "description": "Augmente de 20 % la puissance des attaques de type Poison du porteur. Sans recul ni blocage sur une capacité.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 70,
+      "boost_type": "Poison",
+      "fling_status": "poison"
+    },
+    {
+      "key": "soft_sand",
+      "name": "Sable Doux",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "type_power",
+      "description": "Augmente de 20 % la puissance des attaques de type Sol du porteur. Sans recul ni blocage sur une capacité.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 10,
+      "boost_type": "Ground"
+    },
+    {
+      "key": "sharp_beak",
+      "name": "Bec Pointu",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "type_power",
+      "description": "Augmente de 20 % la puissance des attaques de type Vol du porteur. Sans recul ni blocage sur une capacité.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 50,
+      "boost_type": "Flying"
+    },
+    {
+      "key": "twisted_spoon",
+      "name": "Cuillère Tordue",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "type_power",
+      "description": "Augmente de 20 % la puissance des attaques de type Psy du porteur. Sans recul ni blocage sur une capacité.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 30,
+      "boost_type": "Psychic"
+    },
+    {
+      "key": "silver_powder",
+      "name": "Poudre Argentée",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "type_power",
+      "description": "Augmente de 20 % la puissance des attaques de type Insecte du porteur. Sans recul ni blocage sur une capacité.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 10,
+      "boost_type": "Bug"
+    },
+    {
+      "key": "hard_stone",
+      "name": "Pierre Dure",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "type_power",
+      "description": "Augmente de 20 % la puissance des attaques de type Roche du porteur. Sans recul ni blocage sur une capacité.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 100,
+      "boost_type": "Rock"
+    },
+    {
+      "key": "spell_tag",
+      "name": "Rune Sort",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "type_power",
+      "description": "Augmente de 20 % la puissance des attaques de type Spectre du porteur. Sans recul ni blocage sur une capacité.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 30,
+      "boost_type": "Ghost"
+    },
+    {
+      "key": "dragon_fang",
+      "name": "Croc Dragon",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "type_power",
+      "description": "Augmente de 20 % la puissance des attaques de type Dragon du porteur. Sans recul ni blocage sur une capacité.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 70,
+      "boost_type": "Dragon"
+    },
+    {
+      "key": "black_glasses",
+      "name": "Lunettes Noires",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "type_power",
+      "description": "Augmente de 20 % la puissance des attaques de type Ténèbres du porteur. Sans recul ni blocage sur une capacité.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 30,
+      "boost_type": "Dark"
+    },
+    {
+      "key": "metal_coat",
+      "name": "Peau Métal",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "type_power",
+      "description": "Augmente de 20 % la puissance des attaques de type Acier du porteur. Sans recul ni blocage sur une capacité.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 30,
+      "boost_type": "Steel"
+    },
+    {
+      "key": "fairy_feather",
+      "name": "Plume Féerique",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "type_power",
+      "description": "Augmente de 20 % la puissance des attaques de type Fée du porteur. Sans recul ni blocage sur une capacité.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 10,
+      "boost_type": "Fairy"
+    },
+    {
+      "key": "black_sludge",
+      "name": "Vase Noire",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "black_sludge",
+      "description": "Restaure 1/16 des PV max à chaque fin de tour si le porteur est de type Poison. Sinon, lui retire 1/8 de ses PV max.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 30
+    },
+    {
+      "key": "light_clay",
+      "name": "Lumiargile",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "light_clay",
+      "description": "Protection, Mur Lumière et Voile Aurore durent huit tours au lieu de cinq quand le porteur les installe.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 30
+    },
+    {
+      "key": "big_root",
+      "name": "Grosse Racine",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "big_root",
+      "description": "Augmente de 30 % les PV récupérés par les attaques de drain, Vampigraine, Racines, Anneau Hydro et Vole-Force. N’augmente pas les dégâts infligés.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 10
+    },
+    {
+      "key": "shed_shell",
+      "name": "Carapace Mue",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "shed_shell",
+      "description": "Permet de changer volontairement de Pokémon malgré les pièges et les talents de capture. Ne permet pas de fuir les combats interdits ni de couper une attaque en cours.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 10
+    },
+    {
+      "key": "white_herb",
+      "name": "Herbe Blanche",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "white_herb",
+      "description": "Annule toutes les baisses de statistiques du porteur dès qu’elles sont présentes. Utilisation unique pendant le combat ; restitué au propriétaire à la fin du combat.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 10,
+      "restoreAfterBattle": true,
+      "fling_effect": "white_herb"
+    },
+    {
+      "key": "mental_herb",
+      "name": "Herbe Mental",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "mental_herb",
+      "description": "Libère immédiatement le porteur d’Attraction, Provoc, Encore, Tourmente, Entrave ou Anti-Soin. Utilisation unique pendant le combat ; restitué au propriétaire à la fin du combat.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 10,
+      "restoreAfterBattle": true,
+      "fling_effect": "mental_herb"
+    },
+    {
+      "key": "power_herb",
+      "name": "Herbe Pouvoir",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "power_herb",
+      "description": "Supprime le tour de préparation d’une capacité à charger. Sans effet sur Chute Libre ni les tours de recharge. Utilisation unique pendant le combat ; restitué au propriétaire à la fin du combat.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 10,
+      "restoreAfterBattle": true
+    },
+    {
+      "key": "air_balloon",
+      "name": "Ballon",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "air_balloon",
+      "description": "Rend le porteur insensible aux attaques Sol tant qu’il flotte. Éclate après un coup reçu, même sur un clone. Gravité et les effets qui l’ancrent au sol annulent la lévitation. Utilisation unique pendant le combat ; restitué au propriétaire à la fin du combat.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 10,
+      "restoreAfterBattle": true
+    },
+    {
+      "key": "weakness_policy",
+      "name": "Vulné-Assurance",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "weakness_policy",
+      "description": "Augmente l’Attaque et l’Attaque Spéciale de deux crans après une attaque super efficace qui retire des PV au porteur survivant. Sans effet sur un clone ou des dégâts fixes. Utilisation unique pendant le combat ; restitué au propriétaire à la fin du combat.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 80,
+      "restoreAfterBattle": true
+    },
+    {
+      "key": "protective_pads",
+      "name": "Pare-Effet",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "protective_pads",
+      "description": "Protège des réactions adverses au contact : Casque Brut, Peau Dure, Épine de Fer, Corps Ardent, Statik et boucliers piquants notamment. L’attaque conserve son contact pour les bonus et talents du porteur.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 30
+    },
+    {
+      "key": "damp_rock",
+      "name": "Roche Humide",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "weather_rock",
+      "description": "Prolonge la pluie à huit tours au lieu de cinq lorsque le porteur la déclenche par une capacité ou son talent. Ne modifie pas la météo permanente des cartes.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 60,
+      "weather": "rain"
+    },
+    {
+      "key": "heat_rock",
+      "name": "Roche Chaude",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "weather_rock",
+      "description": "Prolonge le soleil à huit tours au lieu de cinq lorsque le porteur la déclenche par une capacité ou son talent. Ne modifie pas la météo permanente des cartes.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 60,
+      "weather": "sun"
+    },
+    {
+      "key": "smooth_rock",
+      "name": "Roche Lisse",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "weather_rock",
+      "description": "Prolonge la tempête de sable à huit tours au lieu de cinq lorsque le porteur la déclenche par une capacité ou son talent. Ne modifie pas la météo permanente des cartes.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 10,
+      "weather": "sandstorm"
+    },
+    {
+      "key": "icy_rock",
+      "name": "Roche Glace",
+      "category": "held",
+      "buy_price": 10000,
+      "battle_effect": "weather_rock",
+      "description": "Prolonge la grêle à huit tours au lieu de cinq lorsque le porteur la déclenche par une capacité ou son talent. Ne modifie pas la météo permanente des cartes.",
+      "unique": true,
+      "dropOnly": true,
+      "wildLoot": {
+        "group": "equipment",
+        "weight": 1
+      },
+      "fling_power": 40,
+      "weather": "hail"
     }
   ]
 }

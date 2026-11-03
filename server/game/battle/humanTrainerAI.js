@@ -62,6 +62,9 @@ function publicPokemon(p) {
     view.abilities = [...(p.abilities || [])].filter(name => moveByName(name)).slice(0,4);
     view.movePp = view.abilities.map(resources.getMaxMovePp);
     view.__battle=battleView(p.__battle);
+    // Balloon is announced on entry. Only this publicly revealed equipment is
+    // exposed; other opposing held items stay private as before.
+    if(p.__battle?.airBalloonVisible && p.heldItem==='air_balloon')view.heldItem='air_balloon';
     view.__battle.sleepTurns = 1; // Never sample hidden sleep duration while evaluating.
     // The active lock is visible; its random remaining duration is private.
     if(view.__battle.rampageMove)view.__battle.rampageTurns=1;
@@ -162,10 +165,7 @@ function damage(a,b,move,side,field,{movedLast=false}={}) {
         const fixed=special?.fixedDamage ?? FIXED_DAMAGE[move.ename] ?? (LEVEL_DAMAGE.has(move.ename)?Math.max(1,a.level)
             :move.combat?.power_type==='ohko'?target.currentHp:null);
         if(fixed!==null) {
-            const types=b.__battle?.tempTypes?.length?b.__battle.tempTypes:b.__battle?.formTypes?.length?b.__battle.formTypes:[b.type1,b.type2];
-            const immune=types.filter(Boolean).some(type=>engine.getEffectiveness(transformed.move.type,type)===0
-                && !(type==='Ghost'&&['Normal','Fighting'].includes(transformed.move.type)
-                    && (b.__battle?.foresight || (a.passiveAbility==='Scrappy'&&!a.__battle?.abilitySuppressed))));
+            const immune=move.ename!=='Bide'&&effectiveness<=0;
             cache.values.set(key,immune||blocked||move.combat?.power_type==='ohko'&&target.passiveAbility==='Sturdy'&&!ignoresDefenderAbility(preview,target)?0:fixed);
         } else {
             const hits=traits.moves[move.ename]?.multihit;
