@@ -8,18 +8,19 @@ function isMap(map){return /^jungle[1-9]$/.test(String(map||''));}
 const EXIT_MESSAGE='Le module ne fonctionne pas sur le Dark Continent. Parle au guide de la plage pour rentrer chez toi.';
 function assertTravelAllowed(map){if(isMap(map))throw Error(EXIT_MESSAGE);}
 function column(map){return isMap(map)?(Number(map.slice(6))-1)%3:null;}
-function levels(map){return [[100,120],[120,150],[150,200]][column(map)] || null;}
+function levels(map){return map==='jungle9'?[200,250]:[[100,120],[120,150],[150,200]][column(map)] || null;}
 function plateKey(type){return 'dark_plate_'+type.toLowerCase();}
 const LOOT_COLUMNS=Object.freeze([
  {crystals:[['crystal_shard',.65,2,4],['clear_crystal',.50,1,3],['aurora_prism',.30,1,2]],plateChance:.03,ordinaryChance:1/6},
  {crystals:[['crystal_shard',.9,3,5],['clear_crystal',.7,2,4],['aurora_prism',.45,1,3]],plateChance:.10,ordinaryChance:1/5},
  {crystals:[['crystal_shard',1,4,6],['clear_crystal',.8,3,5],['aurora_prism',.55,2,4]],plateChance:.14,ordinaryChance:1/4}
 ].map(p=>Object.freeze({...p,crystals:Object.freeze(p.crystals.map(Object.freeze))})));
-function lootProfile(map='jungle1'){if(!isMap(map))throw Error('Butin réservé au Dark Continent.');return LOOT_COLUMNS[column(map)];}
+const JUNGLE9_LOOT=Object.freeze({...LOOT_COLUMNS[2],plateChance:.20});
+function lootProfile(map='jungle1'){if(!isMap(map))throw Error('Butin réservé au Dark Continent.');return map==='jungle9'?JUNGLE9_LOOT:LOOT_COLUMNS[column(map)];}
 const rules=[
  '!!!! DARK CONTINENT : un Pokémon mis K.O. ici est définitivement perdu. Aucun Centre spécialisé n’est installé sur cette île : je ne peux assurer que les premiers secours, avant qu’il ne soit trop tard. Ses objets récupérables rejoignent ton sac.',
  '!!!! Aucune fuite en combat, même avec Téléport. Les Pokémon de cette île sont trop puissants pour être capturés : une Ball sera perdue si tu essaies.',
- '!!!! Plus tu avances vers la DROITE, plus le danger augmente : niveaux 100–120 à l’ouest, 120–150 au centre, 150–200 à l’est !',
+ '!!!! Plus tu avances vers la DROITE, plus le danger augmente : niveaux 100–120 à l’ouest, 120–150 au centre, 150–200 à l’est, et 200–250 dans la jungle tout au sud-est !',
  'Ils rapportent des Pokédollars comme les Pokémon sauvages du continent principal et 40 % de leur XP habituelle (80 % pour les corrompus). Le module d’expérience n’agit pas ici. En revanche, plus tu avances vers l’est, plus les cristaux sont abondants et plus tu as de chances de trouver des plaques et d’autres objets.',
  `Reviens sur cette plage pour soigner les compagnons encore en vie : ${HEAL_PRICE.toLocaleString('fr-FR')} ₽ pour toute l’équipe. Je ne peux pas sauver un Pokémon déjà perdu. Ni le module Vol ni les téléporteurs ne permettent de quitter l’île : parle-moi sur la plage pour rentrer chez toi.`
 ];

@@ -1,0 +1,103 @@
+{
+  "date": "2026-11-03",
+  "feature": "Jungle 9 niveaux 200–250 et plaques à20 %",
+  "sourceBaseline": "359c62f82df61ab678cff34bd40c7675fd8a9e94",
+  "clientCommit": "7328560a2a4de1c1c3897ed32d329b1ae4b134b8",
+  "clientBuild": "d350d00ed4276556",
+  "clientUnchanged": true,
+  "schemaChanged": false,
+  "realAccountsManuallyModified": false,
+  "scope": {
+    "map": "jungle9",
+    "ordinaryLevelsBefore": [
+      150,
+      200
+    ],
+    "ordinaryLevelsAfter": [
+      200,
+      250
+    ],
+    "corruptedLevelsAfter": [
+      205,
+      255
+    ],
+    "ordinaryPlateChanceBefore": 0.14,
+    "ordinaryPlateChanceAfter": 0.2,
+    "corruptedGuaranteedPlates": [
+      1,
+      5
+    ],
+    "landAndFishing": true,
+    "experienceModuleIgnored": true,
+    "otherMapsUnchanged": true,
+    "crystalAndOtherItemProbabilitiesUnchanged": true,
+    "speciesAndMovesetsUnchanged": true,
+    "ivKAndEvRulesUnchanged": true,
+    "experienceAndMoneyFormulasUnchanged": true,
+    "typedPlateRuleUnchanged": true
+  },
+  "implementation": [
+    "nextMap Jungle 9 level metadata and darkContinent.levels agree, including future author-map reimports. Only this level field changed in nextMap; links, collisions, appearance and species stayed byte-for-byte/structurally unchanged.",
+    "Fishing createAtLevel accepts base level250 only for Jungle9, plus the existing rare +5 bonus; other Dark caps remain200 and ordinary-region input cap100.",
+    "A frozen Jungle9 loot profile reuses eastern crystal/ordinary parameters and overrides only plateChance to.20. Corrupted guaranteed loot remains untouched.",
+    "Guide warns about 200–250 in the southeast; no client rebuild required."
+  ],
+  "validation": {
+    "unit": {
+      "tests": 35,
+      "pass": 35,
+      "fail": 0,
+      "skipped": 0
+    },
+    "mysql": {
+      "tests": 45,
+      "pass": 45,
+      "fail": 0,
+      "skipped": 0
+    },
+    "tests": "dark-continent, dark-encounters, dark-habitats, dark-travel, fishing; SQL dark-continent, dark-economy, dark-reconnect and fishing on explorakit_test with disposable owners removed.",
+    "boundaries": "Actual land/fishing factories at200/250, corrupt255, rejection251 and old map limits, recalculated stats, module ignored.",
+    "plateDistribution": "20k seeded ordinary Jungle9 drops within1 percentage point of20%; exact .199999 accepted and.20 excluded, typed plate only.",
+    "actualBattle": "Real level250 victory at roll.17 (previously no plate) persists one plate, no loot on disconnect, other owner unaffected.",
+    "nextMapOnlyJungle9LevelsChanged": true,
+    "diffCheck": true,
+    "syntaxCheck": true,
+    "globalSuiteNotRerun": true
+  },
+  "runtimeSourceSha256": {
+    "data/game/nextMap.json": "536d0c4e5eae1f87ce338d721a02d065d1606c5b1a3275496c9ceb865a959fab",
+    "server/game/world/darkContinent.js": "8124986b40773cb73cce3b6527a8d42712008ce98aa62cc80c7bf830232f474b",
+    "server/game/world/wildPokemonFactory.js": "92000ff4732159da71a572abd992530382ff3721369e1d5b90cc3ee29592d534"
+  },
+  "deployment": {
+    "publishedAt": "2026-11-03T13:27:54.504Z",
+    "restartedAt": "2026-11-03T13:27:53.285Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-jungle9-2026-11-03T13-27-52-847Z",
+    "sourceBaseline": "359c62f82df61ab678cff34bd40c7675fd8a9e94",
+    "sourceHashes": {
+      "data/game/nextMap.json": "536d0c4e5eae1f87ce338d721a02d065d1606c5b1a3275496c9ceb865a959fab",
+      "server/game/world/darkContinent.js": "8124986b40773cb73cce3b6527a8d42712008ce98aa62cc80c7bf830232f474b",
+      "server/game/world/wildPokemonFactory.js": "92000ff4732159da71a572abd992530382ff3721369e1d5b90cc3ee29592d534"
+    },
+    "clientCommit": "7328560a2a4de1c1c3897ed32d329b1ae4b134b8",
+    "clientBuild": "d350d00ed4276556",
+    "beforePid": "3808203",
+    "afterPid": "3809263",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "clientUnchanged": true,
+    "publicClientUnchanged": true,
+    "schemaChanged": false,
+    "activeClubDuelsBefore": 0,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 1,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": []
+  }
+}

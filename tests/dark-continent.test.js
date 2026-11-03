@@ -20,7 +20,7 @@ test('all nine maps can be traversed from the beach; every transition is authore
   }
  }
 });
-test('wild levels follow columns 100–120 / 120–150 / 150–200, module ignored and no legendary bypass',async()=>{
+test('wild levels follow columns with Jungle 9 at 200–250, module ignored and no legendary bypass',async()=>{
  for(let i=1;i<=9;i++){const map='jungle'+i,[min,max]=dc.levels(map);for(const expected of[min,max])for(const active of[false,true]){let draw=0;const rng=expected===min?()=>++draw===2?0:.02:()=>.999999;const p=await wild(map,rng,{experienceModuleActive:active});assert.equal(p.level,expected);assert(dc.COLUMNS[dc.column(map)].includes(p.data.id));assert(p.currentHp===p.maxHp);assert(p.abilities.length>=1&&p.abilities.length<=4);}}
 });
 test('no flight via button, high-level escape bonus, Ghost, Run Away or Teleport; ordinary switching remains available',()=>{
@@ -46,12 +46,12 @@ test('personal scout reaches a trainer around furniture without crossing a wall 
 
 test('paid Dark commands reject stale clients before any purchase or heal when the displayed price was not acknowledged',async()=>{const commands={},p={currentmap:'jungle1',x:208,y:368};require('../server/realtime/handlers/darkContinentHandlers').createHandlers({socket:{emit(){}},account:{on:(name,fn)=>commands[name]=fn},userId:0,getPlayer:()=>p,getState:()=>({}),setState(){},refreshActors(){},canUse:()=>true,travel(){},closeFishing(){}});for(const event of['dark:claim','dark:heal']){let ack;await commands[event]({},r=>ack=r);assert.equal(ack.success,false);assert.match(ack.message,/prix|10[ \u202f]000/);assert.equal(p.inventoryBusy,false);}});
 
-test('loot increases by west/center/east column, identically on all three rows; ordinary regions cannot opt into these rewards',()=>{
+test('loot increases by west/center/east column, with the Jungle 9 plate exception; ordinary regions cannot opt into these rewards',()=>{
  assert.throws(()=>dc.lootProfile('route3'),/réservé/);assert.throws(()=>dc.lootProfile('jungle10'),/réservé/);
  assert.equal(dc.lootProfile('jungle1').ordinaryChance,require('../server/game/items/wildLoot').ADVENTURE_CHANCE);
  const p=factory.create(6,100,true),minimums=[[2,1,1],[3,2,1],[4,3,2]];
  for(let c=0;c<3;c++)for(let row=0;row<3;row++){
-  const map='jungle'+(row*3+c+1);assert.equal(dc.lootProfile(map),dc.lootProfile('jungle'+(c+1)));
+  const map='jungle'+(row*3+c+1);if(map==='jungle9'){assert.equal(dc.lootProfile(map).plateChance,.20);assert.equal(dc.lootProfile(map).crystals,dc.lootProfile('jungle3').crystals);assert.equal(dc.lootProfile(map).ordinaryChance,dc.lootProfile('jungle3').ordinaryChance);}else assert.equal(dc.lootProfile(map),dc.lootProfile('jungle'+(c+1)));
   assert.deepEqual(dc.loot(p,()=>0,map).filter(i=>!i.plateType).map(i=>i.quantity),minimums[c]);
  }
  let seed=1;const random=()=>((seed=Math.imul(seed,1664525)+1013904223>>>0)/4294967296),means=[];

@@ -10,8 +10,8 @@ test('corrupted enemies roll once at 2%, have six perfect IVs and six 250 EVs, K
  const ordinary=factory.create(9,100,true);ordinary.ev=normalizeEffort(Object.fromEntries(STAT_KEYS.map(k=>[k,250])));assert.equal(Object.values(ordinary.ev).reduce((s,v)=>s+v,0),510);
  const random=rng(99),p={};let seen=0;for(let i=0;i<50000;i++){dark.prepare(p,'jungle1',random);seen+=dark.isCorrupted(p,'jungle1');}assert(Math.abs(seen/50000-.02)<.002,seen);
 });
-test('same probability and traits apply to fishing; level 205 is possible only through a Dark encounter, with module ignored',async()=>{
- const p=await wild.createAtLevel(130,200,{mapName:'jungle9',experienceModuleActive:true,random:()=>0});assert.equal(p.level,205);assert(dark.isCorrupted(p,'jungle9'));await assert.rejects(()=>wild.createAtLevel(130,101));await assert.rejects(()=>wild.createAtLevel(130,201,{mapName:'jungle9'}));assert.equal((await wild.createAtLevel(130,100,{experienceModuleActive:true})).level,118);
+test('same probability and traits apply to fishing; levels up to 255 are possible only through a Jungle 9 corrupted encounter, with module ignored',async()=>{
+ const p=await wild.createAtLevel(130,200,{mapName:'jungle9',experienceModuleActive:true,random:()=>0});assert.equal(p.level,205);assert(dark.isCorrupted(p,'jungle9'));await assert.rejects(()=>wild.createAtLevel(130,101));await assert.rejects(()=>wild.createAtLevel(130,251,{mapName:'jungle9'}));assert.equal((await wild.createAtLevel(130,100,{experienceModuleActive:true})).level,118);
 });
 test('Dark fishing uses the lake scenery while land encounters keep the jungle scenery',async()=>{
  const {battleEnvironment}=await import('../vue-explorakit/src/services/battleEnvironment.js');
@@ -30,4 +30,16 @@ test('the researcher is separated from the guide on the upper beach, with a dist
  for(const actor of a){const p={currentmap:'jungle1',x:actor.x*32+16,y:(actor.y+1)*32+16,direction:'up'};assert.equal(dc.interactionActor(p).name,actor.name);}
  assert(dc.research.join(' ').includes('Si le matériel nécessaire existait'));assert(dc.research.join(' ').includes('Prismes d’aurore'));
  const events=[],p={currentmap:'jungle1',x:research.x*32+16,y:(research.y+1)*32+16,direction:'up'},handlers=require('../server/realtime/handlers/darkContinentHandlers').createHandlers({socket:{emit:(e,d)=>events.push({e,d})},account:{on(){}},getPlayer:()=>p,getState:()=>({}),setState(){},refreshActors(){},canUse:()=>true,travel(){},closeFishing(){}});assert(await handlers.interact());assert.equal(events[0].e,'dialogue');assert.equal(events[0].d[1],'dark_researcher');assert.deepEqual(events[0].d[0].map(p=>p.text),dc.research.map(t=>'Le prospecteur : '+t));assert(!events.some(v=>v.e==='darkContinentPanel'));assert.equal(dc.interactionActor({...p,y:9*32+16}),undefined);
+});
+test('Jungle 9 generates ordinary 200–250 encounters on land and at the lake; corrupted reach 255 without enabling 251 elsewhere',async()=>{
+ const fish=require('../server/game/world/fishingEncounters');assert.deepEqual(dc.levels('jungle9'),[200,250]);
+ for(const [roll,level]of [[0,200],[.999999,250]]){let draw=0;const encounter=fish.fishingEncounter('jungle9',()=>++draw===1?.5:roll);assert.equal(encounter.level,level);const p=await wild.createAtLevel(encounter.id,encounter.level,{mapName:'jungle9',random:()=>.5,experienceModuleActive:true});assert.equal(p.level,level);assert.equal(p.currentHp,p.maxHp);assert.equal(p.attack,p.calculateStat(p.data.base.Attack,p.iv.attack,'attack'));}
+ const rare=await wild.createAtLevel(130,250,{mapName:'jungle9',random:()=>0});assert.equal(rare.level,255);assert(dark.isCorrupted(rare,'jungle9'));await assert.rejects(()=>wild.createAtLevel(130,251,{mapName:'jungle9'}));await assert.rejects(()=>wild.createAtLevel(130,201,{mapName:'jungle3'}));await assert.rejects(()=>wild.createAtLevel(130,250,{mapName:'route3'}));
+ const maps=require('../data/game/nextMap.json').maps;for(let n=1;n<=9;n++){const name='jungle'+n;assert.deepEqual(maps.find(m=>m.mapName===name).level,{min:dc.levels(name)[0],max:dc.levels(name)[1]});}
+});
+test('Jungle 9 plate chance is 20% at the boundary; other loot, eight maps and corrupted guarantees are unchanged',()=>{
+ const ordinary={data:{type:['Fire','Flying']}},east=dc.lootProfile('jungle3'),last=dc.lootProfile('jungle9');assert.equal(last.plateChance,.20);assert.equal(last.crystals,east.crystals);assert.equal(last.ordinaryChance,east.ordinaryChance);
+ assert(dc.loot(ordinary,()=>.199999,'jungle9').some(i=>i.plateType));assert(!dc.loot(ordinary,()=>.20,'jungle9').some(i=>i.plateType));assert(!dc.loot(ordinary,()=>.17,'jungle3').some(i=>i.plateType));assert(dc.loot(ordinary,()=>.17,'jungle9').some(i=>i.plateType));
+ let seed=782;const random=()=>((seed=Math.imul(seed,1664525)+1013904223>>>0)/4294967296);let plates=0;for(let i=0;i<20000;i++)for(const item of dc.loot(ordinary,random,'jungle9'))if(item.plateType){plates+=item.quantity;assert(ordinary.data.type.includes(item.plateType));}assert(Math.abs(plates/20000-.20)<.01);
+ for(let n=1;n<=8;n++)assert.deepEqual(dc.levels('jungle'+n),[[100,120],[120,150],[150,200]][(n-1)%3]);
 });

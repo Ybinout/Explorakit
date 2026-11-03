@@ -1,3 +1,9 @@
+## Jungle9 : niveaux et plaques — 3 novembre 2026
+
+`jungle9` uniquement :niveaux ordinaires200–250 terre/pêche (`nextMap` et `darkContinent.levels`), corrompus+5 donc205–255 ; `createAtLevel` permet250 sur Jungle9 et conserve200 ailleurs sur le Dark,100 hors Dark. Profil gelé dérivé de l’est avec `plateChance:.20` (ancien.14), mêmes cristaux/objets ; corruptions2 % et garanties1–5 plaques inchangées. J3/J6 restent150–200 et14 %, ouest3 %, centre10 %. Guide aligné, import auteur utilise `dc.levels`, ne pas rétablir l’ancien palier sur Jungle9. Aucun changement Tiled/image/raccord/pool/économie/XP.
+
+35 tests ciblés et45 SQL/réseau réussis, bornes et stats réelles200/250/255, distribution20k et victoire réelle au nouveau seuil0,17 ; déconnexion sans butin et propriétaire distinct protégé. `docs/JUNGLE9_LEVELS_LOOT_2026-11-03.json` et suites Dark/pêche. Client7328560/buildd350d00ed4276556 conservé ; aucune migration/réouverture de mode/modification manuelle de compte réel.
+
 ## Objets de type et stratégiques — 3 novembre 2026
 
 32 ajouts :18 `type_power` (+20 %, `boost_type`) et14 équipements,93 tenables avec les baies. Grand Comptoir `tour_etage2` (étage3 Stratégie),10 000 ₽, `requiredTier:2` après Hoze ; butin `equipment` poids1, unique par découverte, taux/groupes inchangés. Les plaques Dark restent des trésors. Descriptions client et icônes natives `BagStrategyIcon.vue`/`BAG_STRATEGY_SHAPES` ; ne pas dupliquer Eau par Eau Mystique ni imposer de forme Multi-Type pour Fée (Plume Féerique).

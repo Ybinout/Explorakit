@@ -1,3 +1,13 @@
+## Jungle 9 : niveaux 200–250 et plaques — 3 novembre 2026
+
+La dernière jungle au sud-est passe de150–200 à **200–250** pour les nouvelles rencontres terrestres et la pêche. Les corrompus conservent leur bonus de5 niveaux :205–255. Le taux de plaque ordinaire monte de14 % à **20 % uniquement en Jungle9**. Les garanties des corrompus, cristaux, autres objets, pools d’espèces, K/IV/EV, formules d’XP et argent restent conservés. Le guide précise la nouvelle exception de niveau.
+
+`nextMap` et `darkContinent.levels` restent alignés ; un réimport utilise cette fonction et conserve le palier. L’entrée de pêche accepte250 sur cette carte, sans élargir les plafonds des autres régions. Un profil de butin gelé reprend les cristaux/objets de l’est et modifie seulement `plateChance`. Aucun Tiled/image/raccord ni client modifié. Comparaison structurée de `nextMap` avec le commit précédent :seul le niveau Jungle9 diffère.
+
+**35 tests ciblés +45 SQL/réseau réussis**, sans saut, sur `explorakit_test`. Bornes terrestres/pêche200/250, corrompu255, validation et statistiques recalculées ; tirage de20 000 butins conforme à20 %, bornes exactes du taux et conservation des autres profils. Un vrai combat gagné contre un ennemi250 au tirage0,17 enregistre une plaque ; la déconnexion n’en accorde aucune et l’autre compte est intact. Reconnexion, pêche, soins, mort définitive, rapatriement, vente et économie Dark régressés. Suite globale non relancée pour ce réglage ciblé ; pas de revendication de correction des28 échecs historiques. Rapport `docs/JUNGLE9_LEVELS_LOOT_2026-11-03.json`. Pas de migration ni modification manuelle de compte réel.
+
+Publication le **3 novembre2026 à14 h27 (Europe/Paris)** : serveur actif après sauvegarde SQL/sources/index/checkpoint dans `/home/ubuntu/dev/backups/riftmon-jungle9-2026-11-03T13-27-52-847Z`. Client et index HTTPS inchangés (`7328560`, build`d350d00ed4276556`), Knov/API voisins préservés. Une tentative de tournoi sauvegardée conservée, aucun duel actif, checkpoint identique, modes fermés ; aucun avertissement ni redémarrage automatique.
+
 ## Objets de type et équipement stratégique — 3 novembre 2026
 
 **32 ajouts utilisables :18 amplificateurs de type et14 objets stratégiques**, sans nouvelle espèce ni changement du périmètre jouable. Les objets Choix, Restes, Orbes Vie/Toxique/Flamme, Casque Brut, Ceinture Force, Grosses Bottes, Veste de Combat, Évoluroc et les six derniers équipements étaient déjà présents ; leurs identifiants restent conservés.
@@ -6238,6 +6248,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **3 novembre 2026 — Jungle9 :** niveaux200–250 terre/pêche, corrompus205–255 et plaques20 % au lieu de14 %, autres zones et butins conservés ;35 tests,45 SQL/réseau. `docs/JUNGLE9_LEVELS_LOOT_2026-11-03.json`.
 
 - **3 novembre 2026 — Équipement stratégique :** Encens Mer +17 autres amplificateurs de type et14 équipements, effets moteur/IA, butin unique et Grand Comptoir après Hoze à10 000 ₽.32 icônes colorées,522 tests,49 SQL et16 vues Chromium/WebKit ; mêmes28 échecs globaux antérieurs. `docs/STRATEGY_ITEMS_2026-11-03.json`.
 

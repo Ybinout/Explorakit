@@ -135,7 +135,7 @@ async function CreatePokemon(mapName, random = Math.random, { experienceModuleAc
 
 CreatePokemon.createAtLevel = async function(id, level, {experienceModuleActive=false,mapName=null,random=Math.random}={}) {
     const dark=darkContinent.isMap(mapName);
-    if (!Number.isInteger(id) || !Number.isInteger(level) || level < 1 || level > (dark?200:100)) throw new Error('Rencontre invalide.');
+    if (!Number.isInteger(id) || !Number.isInteger(level) || level < 1 || level > (dark?Math.max(200,darkContinent.levels(mapName)[1]):100)) throw new Error('Rencontre invalide.');
     const poke = new Pokemon(id, 'test', 0, 0, null, Pokemon.randomNature(), null);
     const darkBonus=darkEncounters.prepare(poke,mapName,random);
     applyTargetLevel(poke, require('../items/experienceModule').encounterLevel(level,experienceModuleActive&&!dark)+darkBonus);
