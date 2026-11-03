@@ -1,4 +1,4 @@
-const ITEM='professional_trainer_card',REQUIRED_ROOMS=48,CARD_PRICE=2000000,HEAL_PRICE=25000;
+const ITEM='professional_trainer_card',REQUIRED_ROOMS=48,CARD_PRICE=2000000,HEAL_PRICE=10000;
 const ARRIVAL=Object.freeze({map:'jungle1',x:208,y:368});
 const LOBBY=Object.freeze({map:'super_tournament_lobby',x:448,y:496});
 const COLUMNS=[
@@ -14,7 +14,7 @@ function column(map){return isMap(map)?(Number(map.slice(6))-1)%3:null;}
 function levels(map){return [[100,120],[120,150],[150,200]][column(map)] || null;}
 function plateKey(type){return 'dark_plate_'+type.toLowerCase();}
 const LOOT_COLUMNS=Object.freeze([
- {crystals:[['crystal_shard',.8,2,4],['clear_crystal',.6,1,3],['aurora_prism',.35,1,2]],plateChance:.03,ordinaryChance:1/6},
+ {crystals:[['crystal_shard',.65,2,4],['clear_crystal',.50,1,3],['aurora_prism',.30,1,2]],plateChance:.03,ordinaryChance:1/6},
  {crystals:[['crystal_shard',.9,3,5],['clear_crystal',.7,2,4],['aurora_prism',.45,1,3]],plateChance:.10,ordinaryChance:1/5},
  {crystals:[['crystal_shard',1,4,6],['clear_crystal',.8,3,5],['aurora_prism',.55,2,4]],plateChance:.14,ordinaryChance:1/4}
 ].map(p=>Object.freeze({...p,crystals:Object.freeze(p.crystals.map(Object.freeze))})));
@@ -24,7 +24,7 @@ const rules=[
  '!!!! Aucune fuite en combat, même avec Téléport. Les Pokémon de cette île sont trop puissants pour être capturés : une Ball sera perdue si tu essaies.',
  '!!!! Plus tu avances vers la DROITE, plus le danger augmente : niveaux 100–120 à l’ouest, 120–150 au centre, 150–200 à l’est !',
  'Ils rapportent des Pokédollars comme les Pokémon sauvages du continent principal et 50 % de leur XP habituelle. Le module d’expérience n’agit pas ici. En revanche, plus tu avances vers l’est, plus les cristaux sont abondants et plus tu as de chances de trouver des plaques et d’autres objets.',
- 'Reviens sur cette plage pour soigner les compagnons encore en vie : 25 000 ₽ pour toute l’équipe. Je ne peux pas sauver un Pokémon déjà perdu. Ni le module Vol ni les téléporteurs ne permettent de quitter l’île : parle-moi sur la plage pour rentrer chez toi.'
+ `Reviens sur cette plage pour soigner les compagnons encore en vie : ${HEAL_PRICE.toLocaleString('fr-FR')} ₽ pour toute l’équipe. Je ne peux pas sauver un Pokémon déjà perdu. Ni le module Vol ni les téléporteurs ne permettent de quitter l’île : parle-moi sur la plage pour rentrer chez toi.`
 ];
 function actor(name,map,x,y,index){return {name,interactionName:name,map,x,y,sprite:'6931.png',spriteFrame:{columns:8,rows:4,index},block:true,roamRadius:0};}
 function actors(map,state={}){if(map==='jungle1')return[actor('dark_guide',map,6,10,1),actor('dark_researcher',map,9,6,12)];if(map===LOBBY.map&&state.eligible&&!state.owned)return[actor('dark_scout',map,state.scoutAt?.x??11,state.scoutAt?.y??14,6)];return[];}

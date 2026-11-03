@@ -27,7 +27,7 @@ test('ordinary plates roll at exactly 3% on jungle1/4/7, with central/eastern ch
  for(let n=1;n<=9;n++){
   const map='jungle'+n,chance=[.03,.10,.14][dc.column(map)];assert.equal(dc.lootProfile(map).plateChance,chance);
   assert(dc.loot(ordinary,()=>chance-.000001,map).some(i=>i.plateType));assert(!dc.loot(ordinary,()=>chance,map).some(i=>i.plateType));
-  const rare=await wild(map,()=>0),found=dc.loot(rare,()=>.99,map),plates=found.filter(i=>i.plateType);assert.equal(plates.reduce((n,i)=>n+i.quantity,0),5);for(const key of['crystal_shard','clear_crystal','aurora_prism'])assert(found.find(i=>i.key===key).quantity>=5);
+  const rare=await wild(map,()=>0),found=dc.loot(rare,()=>.99,map),plates=found.filter(i=>i.plateType);assert.equal(plates.reduce((n,i)=>n+i.quantity,0),5);for(const [index,key]of ['crystal_shard','clear_crystal','aurora_prism'].entries()){const quantity=found.find(i=>i.key===key).quantity;assert(quantity>=5);assert.equal(quantity,[[16,12,7],[26,18,10],[32,22,14]][dc.column(map)][index]);}
  }
 });
 test('talking requires adjacency to the actual body/feet and a distant prospecter cannot open the guide panel',async()=>{

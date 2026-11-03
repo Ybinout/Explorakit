@@ -1,0 +1,282 @@
+{
+  "date": "2026-11-03",
+  "feature": "Ressources occidentales Dark et premiers secours à 10k",
+  "sourceBaseline": "f20d551d1f9487610054fd5d320e00db55eb6fd4",
+  "clientCommit": "d2b4a47ddaa4088a036c2b72ec9454ebee121813",
+  "clientBuild": "b4d6ce7ebc619fd2",
+  "clientUnchanged": true,
+  "schemaChanged": false,
+  "realAccountsManuallyModified": false,
+  "healing": {
+    "before": 25000,
+    "after": 10000,
+    "priceFor": "équipe entière encore en vie",
+    "alreadyReadyFree": true,
+    "doesNotReviveLostPokemon": true,
+    "rulesTextUsesPriceConstant": true,
+    "staleDisplayedPricesRejected": true,
+    "transactionalNoDoubleChargePreserved": true
+  },
+  "ordinaryLoot": [
+    {
+      "maps": [
+        1,
+        4,
+        7
+      ],
+      "crystals": {
+        "crystal_shard": {
+          "chance": 0.65,
+          "quantity": [
+            2,
+            4
+          ]
+        },
+        "clear_crystal": {
+          "chance": 0.5,
+          "quantity": [
+            1,
+            3
+          ]
+        },
+        "aurora_prism": {
+          "chance": 0.3,
+          "quantity": [
+            1,
+            2
+          ]
+        }
+      },
+      "plateChance": 0.03,
+      "ordinaryItemChance": 0.16666666666666666
+    },
+    {
+      "maps": [
+        2,
+        5,
+        8
+      ],
+      "crystals": {
+        "crystal_shard": {
+          "chance": 0.9,
+          "quantity": [
+            3,
+            5
+          ]
+        },
+        "clear_crystal": {
+          "chance": 0.7,
+          "quantity": [
+            2,
+            4
+          ]
+        },
+        "aurora_prism": {
+          "chance": 0.45,
+          "quantity": [
+            1,
+            3
+          ]
+        }
+      },
+      "plateChance": 0.1,
+      "ordinaryItemChance": 0.2
+    },
+    {
+      "maps": [
+        3,
+        6,
+        9
+      ],
+      "crystals": {
+        "crystal_shard": {
+          "chance": 1,
+          "quantity": [
+            4,
+            6
+          ]
+        },
+        "clear_crystal": {
+          "chance": 0.8,
+          "quantity": [
+            3,
+            5
+          ]
+        },
+        "aurora_prism": {
+          "chance": 0.55,
+          "quantity": [
+            2,
+            4
+          ]
+        }
+      },
+      "plateChance": 0.14,
+      "ordinaryItemChance": 0.25
+    }
+  ],
+  "corruptedLoot": {
+    "chancePerEncounter": 0.02,
+    "guaranteedCrystalChance": 1,
+    "plateChance": 1,
+    "plateQuantity": [
+      1,
+      5
+    ],
+    "columns": [
+      {
+        "maps": [
+          1,
+          4,
+          7
+        ],
+        "crystal_shard": [
+          10,
+          16
+        ],
+        "clear_crystal": [
+          7,
+          12
+        ],
+        "aurora_prism": [
+          5,
+          7
+        ]
+      },
+      {
+        "maps": [
+          2,
+          5,
+          8
+        ],
+        "crystal_shard": [
+          16,
+          26
+        ],
+        "clear_crystal": [
+          10,
+          18
+        ],
+        "aurora_prism": [
+          6,
+          10
+        ]
+      },
+      {
+        "maps": [
+          3,
+          6,
+          9
+        ],
+        "crystal_shard": [
+          20,
+          32
+        ],
+        "clear_crystal": [
+          14,
+          22
+        ],
+        "aurora_prism": [
+          8,
+          14
+        ]
+      }
+    ]
+  },
+  "expectedWesternCrystalUnits": {
+    "ordinaryBefore": 4.125,
+    "ordinaryAfter": 3.4,
+    "ordinaryReduction": 0.17575757575757578,
+    "corruptedBefore": 33.5,
+    "corruptedAfter": 28.5,
+    "corruptedReduction": 0.14925373134328357,
+    "weightedBefore": 4.7125,
+    "weightedAfter": 3.902,
+    "weightedReduction": 0.17198938992042445,
+    "assumption": "moyennes théoriques en unités, avec 2 % de corrompus, victoires à fréquence identique"
+  },
+  "unchanged": [
+    "colonnes centre/est",
+    "plaques ordinaires ouest 3 %",
+    "plaques garanties des corrompus",
+    "objets classiques",
+    "XP et Pokédollars",
+    "rencontres/IV/K/EV/corruption",
+    "espèces/habitats/pêche",
+    "raccords auteur",
+    "règles de mort et de rapatriement"
+  ],
+  "validation": {
+    "unit": 33,
+    "sql": 41,
+    "failed": 0,
+    "skipped": 0,
+    "testDatabase": "explorakit_test",
+    "browser": {
+      "chromium": {
+        "success": true,
+        "views": 14,
+        "errors": [],
+        "healLabelAndRules10000": true,
+        "actualSavedBalanceAfterHealing": 990000,
+        "guideAndResearchStillSeparate": true,
+        "oldClientReused": true
+      },
+      "webkit": {
+        "success": true,
+        "views": 14,
+        "errors": [],
+        "healLabelAndRules10000": true,
+        "actualSavedBalanceAfterHealing": 990000,
+        "guideAndResearchStillSeparate": true,
+        "oldClientReused": true
+      }
+    }
+  },
+  "commands": [
+    "node --test tests/dark-habitats.test.js tests/dark-encounters.test.js tests/dark-continent.test.js tests/dark-travel.test.js tests/fishing.test.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RUN_MYSQL_TESTS=1 NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file-if-exists=.env --test --test-concurrency=1 tests/dark-continent-mysql.test.js tests/dark-economy-mysql.test.js tests/fishing-mysql.test.js",
+    "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=chromium RESEARCH_ONLY=1 node --env-file-if-exists=.env scripts/validateDarkContinentBrowser.js",
+    "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=webkit RESEARCH_ONLY=1 node --env-file-if-exists=.env scripts/validateDarkContinentBrowser.js"
+  ],
+  "limitations": [
+    "Chromium/WebKit headless, pas de téléphone physique.",
+    "Réduction moyenne théorique : les tirages individuels restent aléatoires et indépendants."
+  ],
+  "deployment": {
+    "publishedAt": "2026-11-03T07:19:24.777Z",
+    "restartedAt": "2026-11-03T07:19:23.723Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-dark-balance-2026-11-03T07-19-23-383Z",
+    "sourceBaseline": "f20d551d1f9487610054fd5d320e00db55eb6fd4",
+    "sourceHashes": {
+      "server/game/world/darkContinent.js": "418553aca180b46b27edfff66eefa937574c067e7776b2abcf1a00bc4e9b15f9",
+      "server/game/world/darkEncounters.js": "f6d74bade472e3f5bd84a23cf3ca16288efc81a06ee50f2857198be1a3d36aa8"
+    },
+    "clientCommit": "d2b4a47ddaa4088a036c2b72ec9454ebee121813",
+    "clientBuild": "b4d6ce7ebc619fd2",
+    "beforePid": "3764167",
+    "afterPid": "3774271",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "clientUnchanged": true,
+    "publicClientUnchanged": true,
+    "schemaChanged": false,
+    "activeClubDuelsBefore": 0,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 0,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": []
+  },
+  "runtimeSourceSha256": {
+    "server/game/world/darkContinent.js": "418553aca180b46b27edfff66eefa937574c067e7776b2abcf1a00bc4e9b15f9",
+    "server/game/world/darkEncounters.js": "f6d74bade472e3f5bd84a23cf3ca16288efc81a06ee50f2857198be1a3d36aa8"
+  },
+  "publicationTimezone": "Europe/Paris",
+  "publishedLocal": "2026-11-03T08:19:24.777000+01:00"
+}

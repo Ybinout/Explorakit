@@ -1,3 +1,31 @@
+## Butin occidental et soins Dark — 3 novembre 2026
+
+**Premiers secours à 10 000 ₽ pour toute l’équipe encore en vie**, au lieu de 25 000. Le tarif affiché, les règles du guide, la validation du prix annoncé et le débit SQL utilisent la même constante. Une équipe déjà prête reste gratuite, aucun K.O. n’est réanimé. Refus sous 10 000 ₽, rollback et protection contre les doubles débits concurrents conservés. Le texte des règles référence désormais la constante, sans ancien prix dupliqué.
+
+**Jungle 1, 4 et 7 :** les cristaux ordinaires baissent légèrement ; les gros lots des corrompus sont aussi réduits sans descendre sous leurs minimums garantis. Plaques, objets classiques, autres secteurs, argent et XP inchangés.
+
+| Butin normal : chance et quantité | Ouest · 1/4/7 | Centre · 2/5/8 | Est · 3/6/9 |
+| --- | --- | --- | --- |
+| Éclats fissurés | 65 % · 2–4 | 90 % · 3–5 | 100 % · 4–6 |
+| Cristaux limpides | 50 % · 1–3 | 70 % · 2–4 | 80 % · 3–5 |
+| Prismes d’aurore | 30 % · 1–2 | 45 % · 1–3 | 55 % · 2–4 |
+| Plaque du type adverse | 3 % · 1 | 10 % · 1 | 14 % · 1 |
+| Objet classique supplémentaire | 1/6 · 1 | 1/5 · 1 | 1/4 · 1 |
+
+Les tirages sont indépendants : plusieurs ressources peuvent tomber ensemble. Les corrompus représentent toujours 2 % des rencontres. Ils donnent systématiquement les trois cristaux et 1–5 plaques ; quantités de cristaux :
+
+| Corrompu : quantités garanties | Ouest | Centre | Est |
+| --- | --- | --- | --- |
+| Éclats fissurés | 10–16 | 16–26 | 20–32 |
+| Cristaux limpides | 7–12 | 10–18 | 14–22 |
+| Prismes d’aurore | 5–7 | 6–10 | 8–14 |
+
+À l’ouest, moyenne théorique des trois cristaux normaux : 4,125→3,4 unités (−17,6 %) ; corrompus : 33,5→28,5 (−14,9 %). Avec 2 % de corrompus à fréquence de victoire identique : environ −17,2 % en unités. Ces moyennes ne sont pas des garanties de tirage ni un calcul de valeur de revente.
+
+Validation : **33 tests unitaires/régression et 41 SQL réussis sans saut**, statistiques de butin, bornes des lots sur les neuf cartes, minimums des corrompus ; soin réel, concurrence, insuffisance de fonds et rollback. Recette guide/prospecteur Chromium/WebKit : **28 vues**, formats mobile/PC et clair/sombre, affichage 10 000 ₽ et débit réel d’un soin vérifiés, zéro erreur JavaScript. Base dédiée, comptes jetables supprimés ; client réutilisé, aucune migration ni modification de compte réel. Rapport et commandes : `docs/DARK_WEST_LOOT_CARE_2026-11-03.json`.
+
+Publication le **3 novembre 2026 à 08 h 19 (Europe/Paris)** : correctif serveur actif, client `d2b4a47` / build `b4d6ce7ebc619fd2` conservés. Sauvegardes SQL/sources/checkpoint dans `/home/ubuntu/dev/backups/riftmon-dark-balance-2026-11-03T07-19-23-383Z`. Service actif sans redémarrage automatique ni avertissement ; index HTTPS, Knov/API voisins et checkpoint des modes fermés inchangés.
+
 ## Prospecteur et habitats du Dark Continent — 3 novembre 2026
 
 Le prospecteur se tient désormais **plus haut sur le sable, en (9,6)**, à sept cases du guide (6,10). Corps et pieds sur des cellules praticables, sprite classique distinct conservé. Son interaction utilise maintenant **le dialogue standard des PNJ**, avec une autorisation serveur de clôture sans récompense ni soin ; elle ne peut plus tomber sur le rendu des règles d’un client ne connaissant pas le panneau « recherche ». Il explique bien les plaques, les trois puretés de cristaux/prismes, les synthèses et le matériel hypothétique nécessaire. Le guide conserve ses règles, ses soins et le retour. La sélection d’un PNJ exige une vraie proximité d’une case du corps/des pieds, puis privilégie celui regardé ; un personnage éloigné ne doit pas intercepter Action/pêche. La cause exacte de l’affichage observé chez le joueur n’est pas prouvée ; le protocole classique et l’éloignement couvrent l’ancien client et l’ambiguïté de proximité.
@@ -6082,6 +6110,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **3 novembre 2026 — Économie Dark ouest :** cristaux ordinaires 65/50/30 %, lots corrompus légèrement réduits sur Jungle1/4/7, soins à 10 000 ₽ ; autres secteurs/plaques inchangés. 33 tests, 41 SQL et 28 vues Chromium/WebKit ; `docs/DARK_WEST_LOOT_CARE_2026-11-03.json`.
 
 - **3 novembre 2026 — Prospecteur / habitats Dark :** dialogue classique explicatif, prospecteur (9,6), portée d’interaction stricte ; six espèces terrestres/carte, pêche par secteur et plaques ordinaires ouest 3 %, corrompus garantis conservés. 64 tests, 41 SQL, parcours 104 vues + recette de lecture 28 vues Chromium/WebKit ; `docs/DARK_HABITATS_GUIDE_2026-11-03.json`.
 
