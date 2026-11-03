@@ -1,0 +1,5049 @@
+{
+  "date": "2026-11-03",
+  "feature": "Audit des talents des 493 espèces prises en charge et correctifs du moteur commun",
+  "sourceBaseline": "97bcd99914e0400dab85373a8a79f003f762822c",
+  "clientCommit": "328640595d430ea9d25248b11163dcbe8c6447ca",
+  "clientBuild": "f068a1013fdbb3ae",
+  "clientUnchanged": true,
+  "schemaChanged": false,
+  "realAccountsManuallyModified": false,
+  "counts": {
+    "speciesChecked": 493,
+    "totalStudied": 158,
+    "singleBattle": 151,
+    "doublesOnly": [
+      "Friend Guard",
+      "Healer",
+      "Minus",
+      "Plus",
+      "Telepathy"
+    ],
+    "overworldPending": [
+      "Honey Gather",
+      "Illuminate"
+    ],
+    "correctedAbilities": [
+      "Analytic",
+      "Forewarn",
+      "Levitate",
+      "Magic Guard",
+      "Mold Breaker",
+      "Poison Heal",
+      "Poison Touch",
+      "Protean",
+      "Shield Dust",
+      "Sticky Hold",
+      "Synchronize"
+    ]
+  },
+  "method": [
+    "Review of attribution, normal/hidden selection, legal evolution, corruption pools, entry/exit hooks, damage, accuracy, statuses, weather, reactions, held items and persistence.",
+    "One complete real-engine lifecycle plus checkpoint/permanent-identity check for every one of the 151 single-battle abilities. This is a smoke check, supplemented by targeted effect assertions; it is not exhaustive combination proof.",
+    "Controlled regression fixtures executed against committed pre-patch runtime compiled in memory, with no live-source rollback.",
+    "Actual SQL battle orchestrators and existing battle/network suites on explorakit_test; disposable accounts removed."
+  ],
+  "fixes": [
+    {
+      "id": "protean",
+      "abilities": [
+        "Protean"
+      ],
+      "before": "Type changed before the user could act, and read-only UI metadata or future impacts could mutate the type.",
+      "after": "Only an executable, eligible move changes type. Gen7 repeated activation and STAB preserved; caller/future exclusions and menu read-only path covered."
+    },
+    {
+      "id": "levitate",
+      "abilities": [
+        "Levitate"
+      ],
+      "before": "Ground status moves such as Sand Attack were incorrectly blocked.",
+      "after": "Ground damage stays blocked; status accuracy drops work. Mold Breaker and grounding rules kept."
+    },
+    {
+      "id": "synchronize",
+      "abilities": [
+        "Synchronize"
+      ],
+      "before": "Toxic became regular poison when reflected; reflection retained the original move type.",
+      "after": "Gen7 toxic status retained. Ground move-type immunity does not block reflected paralysis; Safeguard, terrain and status-protection abilities still apply."
+    },
+    {
+      "id": "poison-touch",
+      "abilities": [
+        "Poison Touch",
+        "Shield Dust"
+      ],
+      "before": "Shield Dust did not prevent contact poison.",
+      "after": "Contact poison respects active Shield Dust; suppression allows it."
+    },
+    {
+      "id": "sticky-hold",
+      "abilities": [
+        "Sticky Hold",
+        "Mold Breaker"
+      ],
+      "before": "Thief/Covet could not bypass Sticky Hold with Mold Breaker.",
+      "after": "Bypass is consistent with Knock Off. Ordinary theft still blocked; player-owned items restored after combat."
+    },
+    {
+      "id": "toxic-counter",
+      "abilities": [
+        "Magic Guard",
+        "Poison Heal"
+      ],
+      "before": "The toxic counter stopped while damage was blocked or replaced by healing.",
+      "after": "Counter advances and caps at 15; damage resumes at the correct stage after ability suppression, with Gen7 flooring."
+    },
+    {
+      "id": "powder",
+      "abilities": [
+        "Magic Guard"
+      ],
+      "before": "Powder explosion ignored indirect-damage protection.",
+      "after": "No HP loss with Magic Guard, but the Fire move still fails."
+    },
+    {
+      "id": "analytic",
+      "abilities": [
+        "Analytic"
+      ],
+      "before": "Bonus missed opposing voluntary switches because the new defender had no action timestamp.",
+      "after": "The authoritative current action queue distinguishes remaining moves from switches/items/spent actions; timestamp fallback remains for standalone engine calls."
+    },
+    {
+      "id": "forewarn",
+      "abilities": [
+        "Forewarn"
+      ],
+      "before": "Zero/variable power metadata was ranked below weak attacks, and status-only sets gave a false warning.",
+      "after": "OHKO, counter and dynamic power receive their threat ranks; status-only sets stay silent."
+    }
+  ],
+  "validation": {
+    "targeted": {
+      "tests": 371,
+      "pass": 371,
+      "fail": 0,
+      "skipped": 0
+    },
+    "sql": {
+      "tests": 205,
+      "pass": 205,
+      "fail": 0,
+      "skipped": 0
+    },
+    "networkAndItemsSql": {
+      "tests": 38,
+      "pass": 38,
+      "fail": 0,
+      "skipped": 0
+    },
+    "fullSuite": {
+      "tests": 3262,
+      "pass": 2710,
+      "fail": 28,
+      "skipped": 524
+    },
+    "baselineNewRegressions": {
+      "tests": 194,
+      "pass": 176,
+      "fail": 18,
+      "skipped": 0
+    },
+    "baselineNewSql": {
+      "tests": 6,
+      "pass": 0,
+      "fail": 6,
+      "skipped": 0
+    },
+    "all28GlobalFailureAssertionsAlsoFailBeforePatch": true,
+    "existingFailureNames": [
+      "Blanchecime connects all five Route 14 lanes and every authored door without blocked arrivals",
+      "Blanchecime has Center provenance, PC, a real shop and accessible NPCs; arena introduces no new battle or reward",
+      "legacy v3 retains the exact opponents, preview, levels, items, abilities and points",
+      "legacy v4 retains the exact opponents, preview, levels, items, abilities and points",
+      "four server-authoritative departments provide distinct legal stock without unlocking other shops or special keys",
+      "le bouton solo ouvre le monde Aventure après un camp ayant désactivé autoConnect",
+      "Connexion au camp : distinguer un ancien serveur, une session refusée et une panne réseau",
+      "captures, pertes, XP partagée, monnaie et objets du bilan proviennent des actions réellement exécutées",
+      "each encounter zone has a distinct, diverse pool with shipped sprites and level-appropriate species",
+      "Rift and Colosseum sample the expanded pools within the expedition level ranges",
+      "gifts go into a free team slot or PC; outgoing storage frees capacity and last able companion stays protected",
+      "Gwenn moved to Route 4; old Rochebrume saves still have an ordinary usable house",
+      "father dialogue and quest guide the player to the key before the house",
+      "Routes 13/14 preserve all nine updated author files and every portal is reachable from every arrival",
+      "Hoze opens Raphael then Ana at Clairfontaine, with old records preserved",
+      "all playable maps recover invalid coordinates onto real accessible terrain, excluding doors and NPCs",
+      "RiftMon Socket : liste publique, trois joueurs, exemption spectatrice, confidentialité et fin réelle du duel",
+      "snow ground metadata matches author maps, covers only three snowy maps and preserves every author byte",
+      "only the final upward push on an existing stair marker starts a transition",
+      "continued Up cannot reverse an arrival, but a real step away re-arms the return",
+      "arrival guards are personal, do not enter checkpoints and clear on relocation",
+      "all six tower stair links retain valid authored markers and adjacent reciprocal landings",
+      "unified store matches the four department catalogs with no duplicate SKU and correct badge locks",
+      "les champions originaux suivent le parcours approuvé et remplacent les anciens",
+      "les dialogues, portraits, récompenses et équipes actives sont raccordés et cohérents",
+      "replay overlays close personal gates and crystals without erasing real victories",
+      "les champions conservent leurs planches et les civils utilisent les portraits cohérents de l’atlas",
+      "every current outdoor region follows the cycle, while all indoor/cave/arena locations keep their own light"
+    ],
+    "abilityCatalogAudit": {
+      "generation": 7,
+      "generationRuleReference": "0.10.11",
+      "classifiedAbilityRules": 223,
+      "pokemon": 809,
+      "catalogAbilities": 223,
+      "usedAbilities": 223,
+      "specialEventSlotsExcludedFromRandomRolls": 3,
+      "implementedInFamilies1To4": 125,
+      "remainingForLaterFamilies": 0,
+      "implementedSingleBattleAbilities": 213,
+      "doublesOnly": [
+        "Battery",
+        "Friend Guard",
+        "Healer",
+        "Minus",
+        "Plus",
+        "Receiver",
+        "Symbiosis",
+        "Telepathy"
+      ],
+      "overworldPending": [
+        "Honey Gather",
+        "Illuminate"
+      ],
+      "errors": []
+    },
+    "wildAudit": {
+      "speciesChecked": 493,
+      "wildSpecies": 326,
+      "wildSlots": 807,
+      "errors": []
+    },
+    "syntax": true,
+    "diffCheck": true,
+    "newBrowserRun": false
+  },
+  "references": [
+    "https://github.com/smogon/pokemon-showdown/blob/master/data/abilities.ts",
+    "https://github.com/smogon/pokemon-showdown/blob/master/data/mods/gen7/abilities.ts",
+    "https://github.com/smogon/pokemon-showdown/blob/master/data/mods/gen8/abilities.ts",
+    "https://github.com/smogon/pokemon-showdown/blob/master/data/mods/gen4/abilities.ts",
+    "https://github.com/smogon/pokemon-showdown/blob/master/data/conditions.ts",
+    "https://github.com/smogon/pokemon-showdown/blob/master/data/moves.ts"
+  ],
+  "commands": [
+    "node scripts/auditAbilityReview.js",
+    "node scripts/auditAbilities.js",
+    "node scripts/auditWildAbilities.js",
+    "node --test tests/ability-review-2026.test.js tests/ability-system.test.js tests/ability-reactions.test.js tests/ability-audit-regression.test.js tests/wild-ability-availability.test.js tests/ability-capsule.test.js tests/transform.test.js tests/life-orb-review.test.js tests/corruption.test.js tests/nonlethal-future-moves.test.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RUN_MYSQL_TESTS=1 NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file-if-exists=.env --test --test-concurrency=1 tests/ability-review-mysql.test.js tests/battle-runtime-integration.test.js tests/wild-ability-availability-mysql.test.js tests/ability-capsule-mysql.test.js tests/corruption-mysql.test.js tests/nonlethal-future-mysql.test.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RUN_MYSQL_TESTS=1 NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file-if-exists=.env --test --test-concurrency=1 tests/dark-reconnect-mysql.test.js tests/dark-continent-mysql.test.js tests/held-item-transfer-mysql.test.js tests/held-items-expansion-mysql.test.js",
+    "NODE_ENV=test node --test --test-concurrency=2 tests/*.test.js"
+  ],
+  "limitations": [
+    "Five doubles-only abilities have no application in the current singles game; no doubles implementation added.",
+    "Honey Gather and Illuminate remain unavailable as overworld effects, matching the existing classification; not represented as implemented.",
+    "The full global suite is not green: 28 pre-existing failures (27 top-level failures plus one nested assertion) reproduced unchanged on the original committed engine; no unrelated story/map/shop/locked-mode edits.",
+    "No exhaustive guarantee over all possible move/item/weather/module combinations; no new browser or physical-device run.",
+    "Multitype keeps its item-dependent implementation; adding classic held plates and visual variants is outside this functional battle patch."
+  ],
+  "abilities": [
+    {
+      "name": "Adaptability",
+      "french": "Adaptabilité",
+      "scope": "single_battle",
+      "species": [
+        133,
+        341,
+        342,
+        349,
+        474
+      ],
+      "hiddenFor": [
+        341,
+        342,
+        349
+      ],
+      "families": [
+        "damage_stats"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Water",
+        "Dark"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Adaptability",
+      "corrections": []
+    },
+    {
+      "name": "Aftermath",
+      "french": "Boom Final",
+      "scope": "single_battle",
+      "species": [
+        100,
+        101,
+        425,
+        426,
+        434,
+        435
+      ],
+      "hiddenFor": [
+        100,
+        101
+      ],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Electric",
+        "Poison",
+        "Flying",
+        "Ghost",
+        "Dark"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Aftermath",
+      "corrections": []
+    },
+    {
+      "name": "Air Lock",
+      "french": "Air Lock",
+      "scope": "single_battle",
+      "species": [
+        384
+      ],
+      "hiddenFor": [],
+      "families": [
+        "weather_terrain"
+      ],
+      "corruptionPlateTypes": [
+        "Flying",
+        "Dragon"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Air Lock",
+      "corrections": []
+    },
+    {
+      "name": "Analytic",
+      "french": "Analyste",
+      "scope": "single_battle",
+      "species": [
+        81,
+        82,
+        120,
+        121,
+        137,
+        233,
+        462,
+        474
+      ],
+      "hiddenFor": [
+        81,
+        82,
+        120,
+        121,
+        137,
+        233,
+        462,
+        474
+      ],
+      "families": [
+        "damage_stats"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Water",
+        "Electric",
+        "Psychic",
+        "Steel"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Analytic",
+      "corrections": [
+        "opposing switches and other non-attack actions count as having no remaining move"
+      ]
+    },
+    {
+      "name": "Anger Point",
+      "french": "Colérique",
+      "scope": "single_battle",
+      "species": [
+        56,
+        57,
+        128,
+        323
+      ],
+      "hiddenFor": [
+        323
+      ],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Fire",
+        "Fighting",
+        "Ground"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Anger Point",
+      "corrections": []
+    },
+    {
+      "name": "Anticipation",
+      "french": "Anticipation",
+      "scope": "single_battle",
+      "species": [
+        133,
+        339,
+        340,
+        413,
+        453,
+        454
+      ],
+      "hiddenFor": [
+        133
+      ],
+      "families": [
+        "switch_entry"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Water",
+        "Grass",
+        "Fighting",
+        "Poison",
+        "Ground",
+        "Bug"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Anticipation",
+      "corrections": []
+    },
+    {
+      "name": "Arena Trap",
+      "french": "Piège Sable",
+      "scope": "single_battle",
+      "species": [
+        50,
+        51,
+        328
+      ],
+      "hiddenFor": [],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Ground"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Arena Trap",
+      "corrections": []
+    },
+    {
+      "name": "Bad Dreams",
+      "french": "Mauvais Rêve",
+      "scope": "single_battle",
+      "species": [
+        491
+      ],
+      "hiddenFor": [],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Dark"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Bad Dreams",
+      "corrections": []
+    },
+    {
+      "name": "Battle Armor",
+      "french": "Armurbaston",
+      "scope": "single_battle",
+      "species": [
+        104,
+        105,
+        140,
+        141,
+        347,
+        348,
+        451,
+        452
+      ],
+      "hiddenFor": [
+        104,
+        105
+      ],
+      "families": [
+        "immunity_absorption",
+        "damage_stats"
+      ],
+      "corruptionPlateTypes": [
+        "Water",
+        "Poison",
+        "Ground",
+        "Bug",
+        "Rock",
+        "Dark"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Battle Armor",
+      "corrections": []
+    },
+    {
+      "name": "Big Pecks",
+      "french": "Cœur de Coq",
+      "scope": "single_battle",
+      "species": [
+        16,
+        17,
+        18,
+        441
+      ],
+      "hiddenFor": [
+        16,
+        17,
+        18,
+        441
+      ],
+      "families": [
+        "immunity_absorption"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Flying"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Big Pecks",
+      "corrections": []
+    },
+    {
+      "name": "Blaze",
+      "french": "Brasier",
+      "scope": "single_battle",
+      "species": [
+        4,
+        5,
+        6,
+        155,
+        156,
+        157,
+        255,
+        256,
+        257,
+        390,
+        391,
+        392
+      ],
+      "hiddenFor": [],
+      "families": [
+        "damage_stats"
+      ],
+      "corruptionPlateTypes": [
+        "Fire",
+        "Fighting",
+        "Flying"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Blaze",
+      "corrections": []
+    },
+    {
+      "name": "Chlorophyll",
+      "french": "Chlorophylle",
+      "scope": "single_battle",
+      "species": [
+        1,
+        2,
+        3,
+        43,
+        44,
+        45,
+        69,
+        70,
+        71,
+        102,
+        103,
+        114,
+        182,
+        187,
+        188,
+        189,
+        191,
+        192,
+        273,
+        274,
+        275,
+        357,
+        420,
+        465,
+        470
+      ],
+      "hiddenFor": [
+        1,
+        2,
+        3,
+        470
+      ],
+      "families": [
+        "weather_terrain"
+      ],
+      "corruptionPlateTypes": [
+        "Grass",
+        "Poison",
+        "Flying",
+        "Psychic",
+        "Dark"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Chlorophyll",
+      "corrections": []
+    },
+    {
+      "name": "Clear Body",
+      "french": "Corps Sain",
+      "scope": "single_battle",
+      "species": [
+        72,
+        73,
+        374,
+        375,
+        376,
+        377,
+        378,
+        379
+      ],
+      "hiddenFor": [],
+      "families": [
+        "immunity_absorption"
+      ],
+      "corruptionPlateTypes": [
+        "Water",
+        "Ice",
+        "Poison",
+        "Psychic",
+        "Rock",
+        "Steel"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Clear Body",
+      "corrections": []
+    },
+    {
+      "name": "Cloud Nine",
+      "french": "Ciel Gris",
+      "scope": "single_battle",
+      "species": [
+        54,
+        55,
+        108,
+        333,
+        334,
+        463
+      ],
+      "hiddenFor": [
+        108,
+        333,
+        334,
+        463
+      ],
+      "families": [
+        "weather_terrain"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Water",
+        "Flying",
+        "Dragon"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Cloud Nine",
+      "corrections": []
+    },
+    {
+      "name": "Color Change",
+      "french": "Homochromie",
+      "scope": "single_battle",
+      "species": [
+        352
+      ],
+      "hiddenFor": [],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Normal"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Color Change",
+      "corrections": []
+    },
+    {
+      "name": "Competitive",
+      "french": "Battant",
+      "scope": "single_battle",
+      "species": [
+        39,
+        40,
+        174,
+        350
+      ],
+      "hiddenFor": [],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Water",
+        "Fairy"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Competitive",
+      "corrections": []
+    },
+    {
+      "name": "Compound Eyes",
+      "french": "Œil Composé",
+      "scope": "single_battle",
+      "species": [
+        12,
+        48,
+        193,
+        269,
+        290
+      ],
+      "hiddenFor": [
+        269
+      ],
+      "families": [
+        "damage_stats"
+      ],
+      "corruptionPlateTypes": [
+        "Poison",
+        "Ground",
+        "Flying",
+        "Bug"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Compound Eyes",
+      "corrections": []
+    },
+    {
+      "name": "Contrary",
+      "french": "Contestation",
+      "scope": "single_battle",
+      "species": [
+        213,
+        327
+      ],
+      "hiddenFor": [
+        213,
+        327
+      ],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Bug",
+        "Rock"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Contrary",
+      "corrections": []
+    },
+    {
+      "name": "Cursed Body",
+      "french": "Corps Maudit",
+      "scope": "single_battle",
+      "species": [
+        94,
+        353,
+        354,
+        478
+      ],
+      "hiddenFor": [
+        353,
+        354,
+        478
+      ],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Ice",
+        "Poison",
+        "Ghost"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Cursed Body",
+      "corrections": []
+    },
+    {
+      "name": "Cute Charm",
+      "french": "Joli Sourire",
+      "scope": "single_battle",
+      "species": [
+        35,
+        36,
+        39,
+        40,
+        173,
+        174,
+        300,
+        301,
+        350,
+        428
+      ],
+      "hiddenFor": [
+        350
+      ],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Water",
+        "Fairy"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Cute Charm",
+      "corrections": []
+    },
+    {
+      "name": "Damp",
+      "french": "Moiteur",
+      "scope": "single_battle",
+      "species": [
+        46,
+        47,
+        54,
+        55,
+        60,
+        61,
+        62,
+        116,
+        117,
+        186,
+        194,
+        195,
+        230,
+        258,
+        259,
+        260
+      ],
+      "hiddenFor": [
+        46,
+        47,
+        116,
+        117,
+        230,
+        258,
+        259,
+        260
+      ],
+      "families": [
+        "immunity_absorption"
+      ],
+      "corruptionPlateTypes": [
+        "Water",
+        "Grass",
+        "Fighting",
+        "Ground",
+        "Bug",
+        "Dragon"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Damp",
+      "corrections": []
+    },
+    {
+      "name": "Defiant",
+      "french": "Acharné",
+      "scope": "single_battle",
+      "species": [
+        56,
+        57,
+        83,
+        393,
+        394,
+        395,
+        432
+      ],
+      "hiddenFor": [
+        56,
+        57,
+        83,
+        393,
+        394,
+        395,
+        432
+      ],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Water",
+        "Fighting",
+        "Flying",
+        "Steel"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Defiant",
+      "corrections": []
+    },
+    {
+      "name": "Download",
+      "french": "Télécharge",
+      "scope": "single_battle",
+      "species": [
+        137,
+        233,
+        474
+      ],
+      "hiddenFor": [],
+      "families": [
+        "switch_entry"
+      ],
+      "corruptionPlateTypes": [
+        "Normal"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Download",
+      "corrections": []
+    },
+    {
+      "name": "Drizzle",
+      "french": "Crachin",
+      "scope": "single_battle",
+      "species": [
+        186,
+        279,
+        382
+      ],
+      "hiddenFor": [
+        186
+      ],
+      "families": [
+        "switch_entry",
+        "weather_terrain"
+      ],
+      "corruptionPlateTypes": [
+        "Water",
+        "Flying"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Drizzle",
+      "corrections": []
+    },
+    {
+      "name": "Drought",
+      "french": "Sécheresse",
+      "scope": "single_battle",
+      "species": [
+        37,
+        38,
+        324,
+        383
+      ],
+      "hiddenFor": [
+        37,
+        38
+      ],
+      "families": [
+        "switch_entry",
+        "weather_terrain"
+      ],
+      "corruptionPlateTypes": [
+        "Fire",
+        "Ground"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Drought",
+      "corrections": []
+    },
+    {
+      "name": "Dry Skin",
+      "french": "Peau Sèche",
+      "scope": "single_battle",
+      "species": [
+        46,
+        47,
+        124,
+        453,
+        454
+      ],
+      "hiddenFor": [
+        124
+      ],
+      "families": [
+        "immunity_absorption",
+        "weather_terrain"
+      ],
+      "corruptionPlateTypes": [
+        "Grass",
+        "Ice",
+        "Fighting",
+        "Poison",
+        "Psychic",
+        "Bug"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Dry Skin",
+      "corrections": []
+    },
+    {
+      "name": "Early Bird",
+      "french": "Matinal",
+      "scope": "single_battle",
+      "species": [
+        84,
+        85,
+        115,
+        165,
+        166,
+        177,
+        178,
+        191,
+        192,
+        203,
+        228,
+        229,
+        273,
+        274,
+        275
+      ],
+      "hiddenFor": [
+        191,
+        192
+      ],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Fire",
+        "Grass",
+        "Flying",
+        "Psychic",
+        "Bug",
+        "Dark"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Early Bird",
+      "corrections": []
+    },
+    {
+      "name": "Effect Spore",
+      "french": "Pose Spore",
+      "scope": "single_battle",
+      "species": [
+        45,
+        46,
+        47,
+        285,
+        286
+      ],
+      "hiddenFor": [
+        45
+      ],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Grass",
+        "Fighting",
+        "Poison",
+        "Bug"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Effect Spore",
+      "corrections": []
+    },
+    {
+      "name": "Filter",
+      "french": "Filtre",
+      "scope": "single_battle",
+      "species": [
+        122,
+        439
+      ],
+      "hiddenFor": [],
+      "families": [
+        "damage_stats"
+      ],
+      "corruptionPlateTypes": [
+        "Psychic",
+        "Fairy"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Filter",
+      "corrections": []
+    },
+    {
+      "name": "Flame Body",
+      "french": "Corps Ardent",
+      "scope": "single_battle",
+      "species": [
+        77,
+        78,
+        126,
+        146,
+        218,
+        219,
+        240,
+        467,
+        485
+      ],
+      "hiddenFor": [
+        77,
+        78,
+        146,
+        485
+      ],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Fire",
+        "Flying",
+        "Rock",
+        "Steel"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Flame Body",
+      "corrections": []
+    },
+    {
+      "name": "Flare Boost",
+      "french": "Rage Brûlure",
+      "scope": "single_battle",
+      "species": [
+        425,
+        426
+      ],
+      "hiddenFor": [
+        425,
+        426
+      ],
+      "families": [
+        "damage_stats"
+      ],
+      "corruptionPlateTypes": [
+        "Flying",
+        "Ghost"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Flare Boost",
+      "corrections": []
+    },
+    {
+      "name": "Flash Fire",
+      "french": "Torche",
+      "scope": "single_battle",
+      "species": [
+        37,
+        38,
+        58,
+        59,
+        77,
+        78,
+        136,
+        155,
+        156,
+        157,
+        228,
+        229,
+        485
+      ],
+      "hiddenFor": [
+        155,
+        156,
+        157
+      ],
+      "families": [
+        "immunity_absorption"
+      ],
+      "corruptionPlateTypes": [
+        "Fire",
+        "Dark",
+        "Steel"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Flash Fire",
+      "corrections": []
+    },
+    {
+      "name": "Flower Gift",
+      "french": "Don Floral",
+      "scope": "single_battle",
+      "species": [
+        421
+      ],
+      "hiddenFor": [],
+      "families": [
+        "weather_terrain"
+      ],
+      "corruptionPlateTypes": [],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Flower Gift",
+      "corrections": []
+    },
+    {
+      "name": "Forecast",
+      "french": "Météo",
+      "scope": "single_battle",
+      "species": [
+        351
+      ],
+      "hiddenFor": [],
+      "families": [
+        "weather_terrain",
+        "forms"
+      ],
+      "corruptionPlateTypes": [],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Forecast",
+      "corrections": []
+    },
+    {
+      "name": "Forewarn",
+      "french": "Prédiction",
+      "scope": "single_battle",
+      "species": [
+        96,
+        97,
+        124,
+        238
+      ],
+      "hiddenFor": [],
+      "families": [
+        "switch_entry"
+      ],
+      "corruptionPlateTypes": [
+        "Ice",
+        "Psychic"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Forewarn",
+      "corrections": [
+        "OHKO, counter and variable-power attacks ranked correctly",
+        "status-only sets give no false threat"
+      ]
+    },
+    {
+      "name": "Friend Guard",
+      "french": "Garde-Ami",
+      "scope": "double_only",
+      "species": [
+        35,
+        39,
+        173,
+        174,
+        440
+      ],
+      "hiddenFor": [
+        35,
+        39,
+        173,
+        174,
+        440
+      ],
+      "families": [],
+      "corruptionPlateTypes": [],
+      "lifecycleTest": null,
+      "corrections": []
+    },
+    {
+      "name": "Frisk",
+      "french": "Fouille",
+      "scope": "single_battle",
+      "species": [
+        40,
+        161,
+        162,
+        193,
+        234,
+        353,
+        354,
+        355,
+        356,
+        469,
+        477
+      ],
+      "hiddenFor": [
+        40,
+        161,
+        162,
+        193,
+        355,
+        356,
+        469,
+        477
+      ],
+      "families": [
+        "switch_entry"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Flying",
+        "Bug",
+        "Ghost",
+        "Fairy"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Frisk",
+      "corrections": []
+    },
+    {
+      "name": "Gluttony",
+      "french": "Gloutonnerie",
+      "scope": "single_battle",
+      "species": [
+        69,
+        70,
+        71,
+        143,
+        213,
+        263,
+        264,
+        316,
+        317,
+        325,
+        326,
+        446
+      ],
+      "hiddenFor": [
+        69,
+        70,
+        71,
+        143,
+        316,
+        317,
+        325,
+        326,
+        446
+      ],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Grass",
+        "Poison",
+        "Psychic",
+        "Bug",
+        "Rock"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Gluttony",
+      "corrections": []
+    },
+    {
+      "name": "Guts",
+      "french": "Cran",
+      "scope": "single_battle",
+      "species": [
+        19,
+        20,
+        66,
+        67,
+        68,
+        136,
+        214,
+        217,
+        236,
+        246,
+        276,
+        277,
+        296,
+        297,
+        403,
+        404,
+        405
+      ],
+      "hiddenFor": [
+        136,
+        403,
+        404,
+        405
+      ],
+      "families": [
+        "damage_stats"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Fire",
+        "Electric",
+        "Fighting",
+        "Ground",
+        "Flying",
+        "Bug",
+        "Rock"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Guts",
+      "corrections": []
+    },
+    {
+      "name": "Harvest",
+      "french": "Récolte",
+      "scope": "single_battle",
+      "species": [
+        102,
+        103,
+        357
+      ],
+      "hiddenFor": [
+        102,
+        103,
+        357
+      ],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Grass",
+        "Flying",
+        "Psychic"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Harvest",
+      "corrections": []
+    },
+    {
+      "name": "Healer",
+      "french": "Cœur Soin",
+      "scope": "double_only",
+      "species": [
+        113,
+        182,
+        242
+      ],
+      "hiddenFor": [
+        113,
+        182,
+        242
+      ],
+      "families": [],
+      "corruptionPlateTypes": [],
+      "lifecycleTest": null,
+      "corrections": []
+    },
+    {
+      "name": "Heatproof",
+      "french": "Ignifugé",
+      "scope": "single_battle",
+      "species": [
+        436,
+        437
+      ],
+      "hiddenFor": [],
+      "families": [
+        "damage_stats"
+      ],
+      "corruptionPlateTypes": [
+        "Psychic",
+        "Steel"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Heatproof",
+      "corrections": []
+    },
+    {
+      "name": "Heavy Metal",
+      "french": "Heavy Metal",
+      "scope": "single_battle",
+      "species": [
+        304,
+        305,
+        306,
+        436,
+        437
+      ],
+      "hiddenFor": [
+        304,
+        305,
+        306,
+        436,
+        437
+      ],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Psychic",
+        "Rock",
+        "Steel"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Heavy Metal",
+      "corrections": []
+    },
+    {
+      "name": "Honey Gather",
+      "french": "Cherche Miel",
+      "scope": "overworld_pending",
+      "species": [
+        216,
+        415
+      ],
+      "hiddenFor": [
+        216
+      ],
+      "families": [],
+      "corruptionPlateTypes": [],
+      "lifecycleTest": null,
+      "corrections": []
+    },
+    {
+      "name": "Huge Power",
+      "french": "Coloforce",
+      "scope": "single_battle",
+      "species": [
+        183,
+        184,
+        298
+      ],
+      "hiddenFor": [],
+      "families": [
+        "damage_stats"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Water",
+        "Fairy"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Huge Power",
+      "corrections": []
+    },
+    {
+      "name": "Hustle",
+      "french": "Agitation",
+      "scope": "single_battle",
+      "species": [
+        19,
+        20,
+        29,
+        30,
+        32,
+        33,
+        175,
+        176,
+        222,
+        223,
+        225,
+        415,
+        468
+      ],
+      "hiddenFor": [
+        19,
+        20,
+        29,
+        30,
+        32,
+        33,
+        415
+      ],
+      "families": [
+        "damage_stats"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Water",
+        "Ice",
+        "Poison",
+        "Flying",
+        "Bug",
+        "Rock",
+        "Fairy"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Hustle",
+      "corrections": []
+    },
+    {
+      "name": "Hydration",
+      "french": "Hydratation",
+      "scope": "single_battle",
+      "species": [
+        86,
+        87,
+        131,
+        134,
+        238,
+        278,
+        339,
+        340,
+        368,
+        370,
+        489,
+        490
+      ],
+      "hiddenFor": [
+        131,
+        134,
+        238,
+        339,
+        340,
+        368,
+        370
+      ],
+      "families": [
+        "weather_terrain"
+      ],
+      "corruptionPlateTypes": [
+        "Water",
+        "Ice",
+        "Ground",
+        "Flying",
+        "Psychic"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Hydration",
+      "corrections": []
+    },
+    {
+      "name": "Hyper Cutter",
+      "french": "Hyper Cutter",
+      "scope": "single_battle",
+      "species": [
+        98,
+        99,
+        127,
+        207,
+        303,
+        328,
+        341,
+        342,
+        472
+      ],
+      "hiddenFor": [],
+      "families": [
+        "immunity_absorption"
+      ],
+      "corruptionPlateTypes": [
+        "Water",
+        "Ground",
+        "Flying",
+        "Bug",
+        "Dark",
+        "Steel",
+        "Fairy"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Hyper Cutter",
+      "corrections": []
+    },
+    {
+      "name": "Ice Body",
+      "french": "Corps Gel",
+      "scope": "single_battle",
+      "species": [
+        86,
+        87,
+        361,
+        362,
+        363,
+        364,
+        365,
+        378,
+        471
+      ],
+      "hiddenFor": [
+        86,
+        87,
+        378,
+        471
+      ],
+      "families": [
+        "weather_terrain"
+      ],
+      "corruptionPlateTypes": [
+        "Water",
+        "Ice"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Ice Body",
+      "corrections": []
+    },
+    {
+      "name": "Illuminate",
+      "french": "Lumiattirance",
+      "scope": "overworld_pending",
+      "species": [
+        120,
+        121,
+        170,
+        171,
+        313
+      ],
+      "hiddenFor": [],
+      "families": [],
+      "corruptionPlateTypes": [],
+      "lifecycleTest": null,
+      "corrections": []
+    },
+    {
+      "name": "Immunity",
+      "french": "Vaccin",
+      "scope": "single_battle",
+      "species": [
+        143,
+        207,
+        335
+      ],
+      "hiddenFor": [
+        207
+      ],
+      "families": [
+        "immunity_absorption"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Ground",
+        "Flying"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Immunity",
+      "corrections": []
+    },
+    {
+      "name": "Imposter",
+      "french": "Imposteur",
+      "scope": "single_battle",
+      "species": [
+        132
+      ],
+      "hiddenFor": [
+        132
+      ],
+      "families": [
+        "switch_entry"
+      ],
+      "corruptionPlateTypes": [
+        "Normal"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Imposter",
+      "corrections": []
+    },
+    {
+      "name": "Infiltrator",
+      "french": "Infiltration",
+      "scope": "single_battle",
+      "species": [
+        41,
+        42,
+        169,
+        187,
+        188,
+        189,
+        291,
+        336,
+        442
+      ],
+      "hiddenFor": [
+        41,
+        42,
+        169,
+        187,
+        188,
+        189,
+        291,
+        336,
+        442
+      ],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Grass",
+        "Poison",
+        "Flying",
+        "Bug",
+        "Ghost",
+        "Dark"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Infiltrator",
+      "corrections": []
+    },
+    {
+      "name": "Inner Focus",
+      "french": "Attention",
+      "scope": "single_battle",
+      "species": [
+        41,
+        42,
+        63,
+        64,
+        65,
+        83,
+        96,
+        97,
+        107,
+        115,
+        149,
+        169,
+        197,
+        203,
+        215,
+        243,
+        244,
+        245,
+        361,
+        362,
+        447,
+        448
+      ],
+      "hiddenFor": [
+        96,
+        97,
+        107,
+        115,
+        197,
+        243,
+        244,
+        245
+      ],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Fire",
+        "Water",
+        "Electric",
+        "Ice",
+        "Fighting",
+        "Poison",
+        "Flying",
+        "Psychic",
+        "Dragon",
+        "Dark",
+        "Steel"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Inner Focus",
+      "corrections": []
+    },
+    {
+      "name": "Insomnia",
+      "french": "Insomnia",
+      "scope": "single_battle",
+      "species": [
+        96,
+        97,
+        163,
+        164,
+        167,
+        168,
+        198,
+        225,
+        353,
+        354,
+        430
+      ],
+      "hiddenFor": [
+        225
+      ],
+      "families": [
+        "immunity_absorption"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Ice",
+        "Poison",
+        "Flying",
+        "Psychic",
+        "Bug",
+        "Ghost",
+        "Dark"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Insomnia",
+      "corrections": []
+    },
+    {
+      "name": "Intimidate",
+      "french": "Intimidation",
+      "scope": "single_battle",
+      "species": [
+        23,
+        24,
+        58,
+        59,
+        128,
+        130,
+        209,
+        210,
+        211,
+        234,
+        237,
+        262,
+        284,
+        303,
+        373,
+        397,
+        398,
+        403,
+        404,
+        405
+      ],
+      "hiddenFor": [
+        211
+      ],
+      "families": [
+        "switch_entry"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Fire",
+        "Water",
+        "Electric",
+        "Fighting",
+        "Poison",
+        "Flying",
+        "Bug",
+        "Dragon",
+        "Dark",
+        "Steel",
+        "Fairy"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Intimidate",
+      "corrections": []
+    },
+    {
+      "name": "Iron Fist",
+      "french": "Poing de Fer",
+      "scope": "single_battle",
+      "species": [
+        107,
+        166,
+        390,
+        391,
+        392
+      ],
+      "hiddenFor": [
+        166,
+        390,
+        391,
+        392
+      ],
+      "families": [
+        "damage_stats"
+      ],
+      "corruptionPlateTypes": [
+        "Fire",
+        "Fighting",
+        "Flying",
+        "Bug"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Iron Fist",
+      "corrections": []
+    },
+    {
+      "name": "Justified",
+      "french": "Cœur Noble",
+      "scope": "single_battle",
+      "species": [
+        58,
+        59,
+        359,
+        448,
+        475
+      ],
+      "hiddenFor": [
+        58,
+        59,
+        359,
+        448,
+        475
+      ],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Fire",
+        "Fighting",
+        "Psychic",
+        "Dark",
+        "Steel"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Justified",
+      "corrections": []
+    },
+    {
+      "name": "Keen Eye",
+      "french": "Regard Vif",
+      "scope": "single_battle",
+      "species": [
+        16,
+        17,
+        18,
+        21,
+        22,
+        83,
+        107,
+        161,
+        162,
+        163,
+        164,
+        215,
+        227,
+        278,
+        279,
+        302,
+        396,
+        431,
+        434,
+        435,
+        441,
+        451,
+        452
+      ],
+      "hiddenFor": [
+        431,
+        434,
+        435,
+        451,
+        452
+      ],
+      "families": [
+        "immunity_absorption"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Water",
+        "Ice",
+        "Fighting",
+        "Poison",
+        "Flying",
+        "Bug",
+        "Ghost",
+        "Dark",
+        "Steel"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Keen Eye",
+      "corrections": []
+    },
+    {
+      "name": "Klutz",
+      "french": "Maladresse",
+      "scope": "single_battle",
+      "species": [
+        427,
+        428
+      ],
+      "hiddenFor": [],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Normal"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Klutz",
+      "corrections": []
+    },
+    {
+      "name": "Leaf Guard",
+      "french": "Feuille Garde",
+      "scope": "single_battle",
+      "species": [
+        114,
+        152,
+        153,
+        154,
+        187,
+        188,
+        189,
+        315,
+        406,
+        465,
+        470
+      ],
+      "hiddenFor": [
+        152,
+        153,
+        154,
+        315,
+        406
+      ],
+      "families": [
+        "immunity_absorption",
+        "weather_terrain"
+      ],
+      "corruptionPlateTypes": [
+        "Grass",
+        "Poison",
+        "Flying"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Leaf Guard",
+      "corrections": []
+    },
+    {
+      "name": "Levitate",
+      "french": "Lévitation",
+      "scope": "single_battle",
+      "species": [
+        92,
+        93,
+        109,
+        110,
+        200,
+        201,
+        329,
+        330,
+        337,
+        338,
+        343,
+        344,
+        355,
+        358,
+        380,
+        381,
+        429,
+        433,
+        436,
+        437,
+        455,
+        479,
+        480,
+        481,
+        482,
+        488
+      ],
+      "hiddenFor": [],
+      "families": [
+        "immunity_absorption"
+      ],
+      "corruptionPlateTypes": [
+        "Electric",
+        "Grass",
+        "Poison",
+        "Ground",
+        "Psychic",
+        "Rock",
+        "Ghost",
+        "Dragon",
+        "Steel"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Levitate",
+      "corrections": [
+        "Ground status moves such as Sand Attack are not blocked"
+      ]
+    },
+    {
+      "name": "Light Metal",
+      "french": "Light Metal",
+      "scope": "single_battle",
+      "species": [
+        212,
+        374,
+        375,
+        376,
+        379
+      ],
+      "hiddenFor": [
+        212,
+        374,
+        375,
+        376,
+        379
+      ],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Psychic",
+        "Bug",
+        "Steel"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Light Metal",
+      "corrections": []
+    },
+    {
+      "name": "Lightning Rod",
+      "french": "Paratonnerre",
+      "scope": "single_battle",
+      "species": [
+        25,
+        26,
+        104,
+        105,
+        111,
+        112,
+        118,
+        119,
+        172,
+        309,
+        310,
+        311,
+        464
+      ],
+      "hiddenFor": [
+        25,
+        26,
+        118,
+        119,
+        172,
+        311
+      ],
+      "families": [
+        "immunity_absorption"
+      ],
+      "corruptionPlateTypes": [
+        "Water",
+        "Electric",
+        "Ground",
+        "Rock"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Lightning Rod",
+      "corrections": []
+    },
+    {
+      "name": "Limber",
+      "french": "Échauffement",
+      "scope": "single_battle",
+      "species": [
+        53,
+        106,
+        132,
+        427,
+        428,
+        431
+      ],
+      "hiddenFor": [
+        427,
+        428
+      ],
+      "families": [
+        "immunity_absorption"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Fighting"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Limber",
+      "corrections": []
+    },
+    {
+      "name": "Liquid Ooze",
+      "french": "Suintement",
+      "scope": "single_battle",
+      "species": [
+        72,
+        73,
+        316,
+        317
+      ],
+      "hiddenFor": [],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Water",
+        "Poison"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Liquid Ooze",
+      "corrections": []
+    },
+    {
+      "name": "Magic Bounce",
+      "french": "Miroir Magik",
+      "scope": "single_battle",
+      "species": [
+        177,
+        178,
+        196
+      ],
+      "hiddenFor": [
+        177,
+        178,
+        196
+      ],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Flying",
+        "Psychic"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Magic Bounce",
+      "corrections": []
+    },
+    {
+      "name": "Magic Guard",
+      "french": "Garde Magik",
+      "scope": "single_battle",
+      "species": [
+        35,
+        36,
+        63,
+        64,
+        65,
+        173
+      ],
+      "hiddenFor": [
+        63,
+        64,
+        65
+      ],
+      "families": [
+        "immunity_absorption"
+      ],
+      "corruptionPlateTypes": [
+        "Psychic",
+        "Fairy"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Magic Guard",
+      "corrections": [
+        "Powder damage prevented",
+        "toxic counter still advances while damage is prevented"
+      ]
+    },
+    {
+      "name": "Magma Armor",
+      "french": "Armumagma",
+      "scope": "single_battle",
+      "species": [
+        218,
+        219,
+        323
+      ],
+      "hiddenFor": [],
+      "families": [
+        "immunity_absorption"
+      ],
+      "corruptionPlateTypes": [
+        "Fire",
+        "Ground",
+        "Rock"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Magma Armor",
+      "corrections": []
+    },
+    {
+      "name": "Magnet Pull",
+      "french": "Magnépiège",
+      "scope": "single_battle",
+      "species": [
+        81,
+        82,
+        299,
+        462,
+        476
+      ],
+      "hiddenFor": [],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Electric",
+        "Rock",
+        "Steel"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Magnet Pull",
+      "corrections": []
+    },
+    {
+      "name": "Marvel Scale",
+      "french": "Écaille Spéciale",
+      "scope": "single_battle",
+      "species": [
+        147,
+        148,
+        350
+      ],
+      "hiddenFor": [
+        147,
+        148
+      ],
+      "families": [
+        "damage_stats"
+      ],
+      "corruptionPlateTypes": [
+        "Water",
+        "Dragon"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Marvel Scale",
+      "corrections": []
+    },
+    {
+      "name": "Minus",
+      "french": "Moins",
+      "scope": "double_only",
+      "species": [
+        309,
+        310,
+        312
+      ],
+      "hiddenFor": [
+        309,
+        310
+      ],
+      "families": [],
+      "corruptionPlateTypes": [],
+      "lifecycleTest": null,
+      "corrections": []
+    },
+    {
+      "name": "Mold Breaker",
+      "french": "Brise Moule",
+      "scope": "single_battle",
+      "species": [
+        127,
+        408,
+        409
+      ],
+      "hiddenFor": [],
+      "families": [
+        "damage_stats"
+      ],
+      "corruptionPlateTypes": [
+        "Bug",
+        "Rock"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Mold Breaker",
+      "corrections": [
+        "Thief and Covet follow the same Sticky Hold bypass as Knock Off"
+      ]
+    },
+    {
+      "name": "Moody",
+      "french": "Lunatique",
+      "scope": "single_battle",
+      "species": [
+        223,
+        224,
+        235,
+        361,
+        362,
+        399,
+        400
+      ],
+      "hiddenFor": [
+        223,
+        224,
+        235,
+        361,
+        362,
+        399,
+        400
+      ],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Water",
+        "Ice"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Moody",
+      "corrections": []
+    },
+    {
+      "name": "Motor Drive",
+      "french": "Motorisé",
+      "scope": "single_battle",
+      "species": [
+        466
+      ],
+      "hiddenFor": [],
+      "families": [
+        "immunity_absorption"
+      ],
+      "corruptionPlateTypes": [
+        "Electric"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Motor Drive",
+      "corrections": []
+    },
+    {
+      "name": "Moxie",
+      "french": "Impudence",
+      "scope": "single_battle",
+      "species": [
+        127,
+        130,
+        214,
+        262,
+        373,
+        430
+      ],
+      "hiddenFor": [
+        127,
+        130,
+        214,
+        262,
+        373,
+        430
+      ],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Water",
+        "Fighting",
+        "Flying",
+        "Bug",
+        "Dragon",
+        "Dark"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Moxie",
+      "corrections": []
+    },
+    {
+      "name": "Multiscale",
+      "french": "Multiécaille",
+      "scope": "single_battle",
+      "species": [
+        149,
+        249
+      ],
+      "hiddenFor": [
+        149,
+        249
+      ],
+      "families": [
+        "damage_stats"
+      ],
+      "corruptionPlateTypes": [
+        "Flying",
+        "Psychic",
+        "Dragon"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Multiscale",
+      "corrections": []
+    },
+    {
+      "name": "Multitype",
+      "french": "Multi-Type",
+      "scope": "single_battle",
+      "species": [
+        493
+      ],
+      "hiddenFor": [],
+      "families": [
+        "forms"
+      ],
+      "corruptionPlateTypes": [],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Multitype",
+      "corrections": []
+    },
+    {
+      "name": "Natural Cure",
+      "french": "Médic Nature",
+      "scope": "single_battle",
+      "species": [
+        113,
+        120,
+        121,
+        222,
+        242,
+        251,
+        315,
+        333,
+        334,
+        406,
+        407,
+        440,
+        492
+      ],
+      "hiddenFor": [],
+      "families": [
+        "switch_entry"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Water",
+        "Grass",
+        "Poison",
+        "Flying",
+        "Psychic",
+        "Rock",
+        "Dragon"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Natural Cure",
+      "corrections": []
+    },
+    {
+      "name": "No Guard",
+      "french": "Annule Garde",
+      "scope": "single_battle",
+      "species": [
+        66,
+        67,
+        68
+      ],
+      "hiddenFor": [],
+      "families": [
+        "damage_stats"
+      ],
+      "corruptionPlateTypes": [
+        "Fighting"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: No Guard",
+      "corrections": []
+    },
+    {
+      "name": "Normalize",
+      "french": "Normalise",
+      "scope": "single_battle",
+      "species": [
+        300,
+        301
+      ],
+      "hiddenFor": [],
+      "families": [
+        "damage_stats"
+      ],
+      "corruptionPlateTypes": [
+        "Normal"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Normalize",
+      "corrections": []
+    },
+    {
+      "name": "Oblivious",
+      "french": "Benêt",
+      "scope": "single_battle",
+      "species": [
+        79,
+        80,
+        108,
+        124,
+        199,
+        220,
+        221,
+        238,
+        314,
+        320,
+        321,
+        322,
+        339,
+        340,
+        349,
+        363,
+        364,
+        365,
+        463,
+        473
+      ],
+      "hiddenFor": [
+        363,
+        364,
+        365
+      ],
+      "families": [
+        "immunity_absorption"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Fire",
+        "Water",
+        "Ice",
+        "Ground",
+        "Psychic",
+        "Bug"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Oblivious",
+      "corrections": []
+    },
+    {
+      "name": "Overcoat",
+      "french": "Envelocape",
+      "scope": "single_battle",
+      "species": [
+        90,
+        91,
+        204,
+        205,
+        372,
+        412,
+        413
+      ],
+      "hiddenFor": [
+        90,
+        91,
+        204,
+        205,
+        372,
+        412,
+        413
+      ],
+      "families": [
+        "immunity_absorption"
+      ],
+      "corruptionPlateTypes": [
+        "Water",
+        "Grass",
+        "Ice",
+        "Bug",
+        "Dragon",
+        "Steel"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Overcoat",
+      "corrections": []
+    },
+    {
+      "name": "Overgrow",
+      "french": "Engrais",
+      "scope": "single_battle",
+      "species": [
+        1,
+        2,
+        3,
+        152,
+        153,
+        154,
+        252,
+        253,
+        254,
+        387,
+        388,
+        389
+      ],
+      "hiddenFor": [],
+      "families": [
+        "damage_stats"
+      ],
+      "corruptionPlateTypes": [
+        "Grass",
+        "Poison",
+        "Ground"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Overgrow",
+      "corrections": []
+    },
+    {
+      "name": "Own Tempo",
+      "french": "Tempo Perso",
+      "scope": "single_battle",
+      "species": [
+        79,
+        80,
+        108,
+        199,
+        235,
+        270,
+        271,
+        272,
+        322,
+        325,
+        326,
+        327,
+        431,
+        432,
+        463
+      ],
+      "hiddenFor": [
+        270,
+        271,
+        272,
+        322
+      ],
+      "families": [
+        "immunity_absorption"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Fire",
+        "Water",
+        "Grass",
+        "Ground",
+        "Psychic"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Own Tempo",
+      "corrections": []
+    },
+    {
+      "name": "Pickpocket",
+      "french": "Pickpocket",
+      "scope": "single_battle",
+      "species": [
+        215,
+        273,
+        274,
+        275,
+        461
+      ],
+      "hiddenFor": [
+        215,
+        273,
+        274,
+        275,
+        461
+      ],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Grass",
+        "Ice",
+        "Dark"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Pickpocket",
+      "corrections": []
+    },
+    {
+      "name": "Pickup",
+      "french": "Ramassage",
+      "scope": "single_battle",
+      "species": [
+        52,
+        190,
+        216,
+        231,
+        263,
+        264,
+        417,
+        424,
+        446
+      ],
+      "hiddenFor": [],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Electric",
+        "Ground"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Pickup",
+      "corrections": []
+    },
+    {
+      "name": "Plus",
+      "french": "Plus",
+      "scope": "double_only",
+      "species": [
+        179,
+        180,
+        181,
+        311
+      ],
+      "hiddenFor": [
+        179,
+        180,
+        181
+      ],
+      "families": [],
+      "corruptionPlateTypes": [],
+      "lifecycleTest": null,
+      "corrections": []
+    },
+    {
+      "name": "Poison Heal",
+      "french": "Soin Poison",
+      "scope": "single_battle",
+      "species": [
+        285,
+        286,
+        472
+      ],
+      "hiddenFor": [
+        472
+      ],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Grass",
+        "Fighting",
+        "Ground",
+        "Flying"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Poison Heal",
+      "corrections": [
+        "toxic counter still advances while poison damage is replaced by healing"
+      ]
+    },
+    {
+      "name": "Poison Point",
+      "french": "Point Poison",
+      "scope": "single_battle",
+      "species": [
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        117,
+        211,
+        315,
+        406,
+        407
+      ],
+      "hiddenFor": [],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Water",
+        "Grass",
+        "Poison",
+        "Ground"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Poison Point",
+      "corrections": []
+    },
+    {
+      "name": "Poison Touch",
+      "french": "Toxitouche",
+      "scope": "single_battle",
+      "species": [
+        88,
+        89,
+        453,
+        454
+      ],
+      "hiddenFor": [
+        88,
+        89,
+        453,
+        454
+      ],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Fighting",
+        "Poison"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Poison Touch",
+      "corrections": [
+        "Shield Dust blocks the contact poison"
+      ]
+    },
+    {
+      "name": "Prankster",
+      "french": "Farceur",
+      "scope": "single_battle",
+      "species": [
+        198,
+        302,
+        313,
+        314,
+        447
+      ],
+      "hiddenFor": [
+        198,
+        302,
+        313,
+        314,
+        447
+      ],
+      "families": [
+        "damage_stats"
+      ],
+      "corruptionPlateTypes": [
+        "Fighting",
+        "Flying",
+        "Bug",
+        "Ghost",
+        "Dark"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Prankster",
+      "corrections": []
+    },
+    {
+      "name": "Pressure",
+      "french": "Pression",
+      "scope": "single_battle",
+      "species": [
+        142,
+        144,
+        145,
+        146,
+        150,
+        243,
+        244,
+        245,
+        249,
+        250,
+        320,
+        321,
+        356,
+        359,
+        386,
+        416,
+        442,
+        461,
+        477,
+        483,
+        484,
+        487
+      ],
+      "hiddenFor": [
+        320,
+        321
+      ],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Fire",
+        "Water",
+        "Electric",
+        "Ice",
+        "Flying",
+        "Psychic",
+        "Bug",
+        "Rock",
+        "Ghost",
+        "Dragon",
+        "Dark",
+        "Steel"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Pressure",
+      "corrections": []
+    },
+    {
+      "name": "Protean",
+      "french": "Protéen",
+      "scope": "single_battle",
+      "species": [
+        352
+      ],
+      "hiddenFor": [
+        352
+      ],
+      "families": [
+        "damage_stats"
+      ],
+      "corruptionPlateTypes": [
+        "Normal"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Protean",
+      "corrections": [
+        "activation after the action gate",
+        "read-only move-display metadata",
+        "future attacks and calling moves do not change type"
+      ]
+    },
+    {
+      "name": "Pure Power",
+      "french": "Force Pure",
+      "scope": "single_battle",
+      "species": [
+        307,
+        308
+      ],
+      "hiddenFor": [],
+      "families": [
+        "damage_stats"
+      ],
+      "corruptionPlateTypes": [
+        "Fighting",
+        "Psychic"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Pure Power",
+      "corrections": []
+    },
+    {
+      "name": "Quick Feet",
+      "french": "Pied Véloce",
+      "scope": "single_battle",
+      "species": [
+        135,
+        210,
+        216,
+        217,
+        261,
+        262,
+        263,
+        264,
+        285
+      ],
+      "hiddenFor": [
+        135,
+        263,
+        264,
+        285
+      ],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Electric",
+        "Grass",
+        "Dark",
+        "Fairy"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Quick Feet",
+      "corrections": []
+    },
+    {
+      "name": "Rain Dish",
+      "french": "Cuvette",
+      "scope": "single_battle",
+      "species": [
+        7,
+        8,
+        9,
+        72,
+        73,
+        270,
+        271,
+        272,
+        278,
+        279,
+        283
+      ],
+      "hiddenFor": [
+        7,
+        8,
+        9,
+        72,
+        73,
+        278,
+        279,
+        283
+      ],
+      "families": [
+        "weather_terrain"
+      ],
+      "corruptionPlateTypes": [
+        "Water",
+        "Grass",
+        "Poison",
+        "Flying",
+        "Bug"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Rain Dish",
+      "corrections": []
+    },
+    {
+      "name": "Rattled",
+      "french": "Phobique",
+      "scope": "single_battle",
+      "species": [
+        129,
+        165,
+        185,
+        206,
+        209,
+        210,
+        261,
+        293,
+        366,
+        438
+      ],
+      "hiddenFor": [
+        129,
+        165,
+        185,
+        206,
+        209,
+        210,
+        261,
+        293,
+        366,
+        438
+      ],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Water",
+        "Flying",
+        "Bug",
+        "Rock",
+        "Dark",
+        "Fairy"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Rattled",
+      "corrections": []
+    },
+    {
+      "name": "Reckless",
+      "french": "Téméraire",
+      "scope": "single_battle",
+      "species": [
+        106,
+        111,
+        112,
+        396,
+        397,
+        398,
+        464
+      ],
+      "hiddenFor": [
+        111,
+        112,
+        396,
+        397,
+        398,
+        464
+      ],
+      "families": [
+        "damage_stats"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Fighting",
+        "Ground",
+        "Flying",
+        "Rock"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Reckless",
+      "corrections": []
+    },
+    {
+      "name": "Regenerator",
+      "french": "Régé-Force",
+      "scope": "single_battle",
+      "species": [
+        79,
+        80,
+        114,
+        199,
+        222,
+        250,
+        465
+      ],
+      "hiddenFor": [
+        79,
+        80,
+        114,
+        199,
+        222,
+        250,
+        465
+      ],
+      "families": [
+        "switch_entry"
+      ],
+      "corruptionPlateTypes": [
+        "Fire",
+        "Water",
+        "Grass",
+        "Flying",
+        "Psychic",
+        "Rock"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Regenerator",
+      "corrections": []
+    },
+    {
+      "name": "Rivalry",
+      "french": "Rivalité",
+      "scope": "single_battle",
+      "species": [
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        267,
+        403,
+        404,
+        405
+      ],
+      "hiddenFor": [
+        267
+      ],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Electric",
+        "Poison",
+        "Ground",
+        "Flying",
+        "Bug"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Rivalry",
+      "corrections": []
+    },
+    {
+      "name": "Rock Head",
+      "french": "Tête de Roc",
+      "scope": "single_battle",
+      "species": [
+        74,
+        75,
+        76,
+        95,
+        104,
+        105,
+        111,
+        112,
+        142,
+        185,
+        208,
+        304,
+        305,
+        306,
+        369,
+        371,
+        372,
+        438
+      ],
+      "hiddenFor": [],
+      "families": [
+        "immunity_absorption",
+        "damage_stats"
+      ],
+      "corruptionPlateTypes": [
+        "Water",
+        "Ground",
+        "Flying",
+        "Rock",
+        "Dragon",
+        "Steel"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Rock Head",
+      "corrections": []
+    },
+    {
+      "name": "Rough Skin",
+      "french": "Peau Dure",
+      "scope": "single_battle",
+      "species": [
+        318,
+        319,
+        443,
+        444,
+        445
+      ],
+      "hiddenFor": [
+        443,
+        444,
+        445
+      ],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Water",
+        "Ground",
+        "Dragon",
+        "Dark"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Rough Skin",
+      "corrections": []
+    },
+    {
+      "name": "Run Away",
+      "french": "Fuite",
+      "scope": "single_battle",
+      "species": [
+        10,
+        13,
+        19,
+        20,
+        43,
+        48,
+        77,
+        78,
+        84,
+        85,
+        133,
+        161,
+        162,
+        190,
+        206,
+        209,
+        261,
+        265,
+        290,
+        401,
+        417,
+        427
+      ],
+      "hiddenFor": [
+        10,
+        13,
+        43,
+        48,
+        265,
+        290,
+        401
+      ],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Fire",
+        "Electric",
+        "Grass",
+        "Poison",
+        "Ground",
+        "Flying",
+        "Bug",
+        "Dark",
+        "Fairy"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Run Away",
+      "corrections": []
+    },
+    {
+      "name": "Sand Force",
+      "french": "Force Sable",
+      "scope": "single_battle",
+      "species": [
+        50,
+        51,
+        299,
+        422,
+        423,
+        449,
+        450,
+        476
+      ],
+      "hiddenFor": [
+        50,
+        51,
+        299,
+        422,
+        423,
+        449,
+        450,
+        476
+      ],
+      "families": [
+        "damage_stats",
+        "weather_terrain"
+      ],
+      "corruptionPlateTypes": [
+        "Water",
+        "Ground",
+        "Rock",
+        "Steel"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Sand Force",
+      "corrections": []
+    },
+    {
+      "name": "Sand Rush",
+      "french": "Baigne Sable",
+      "scope": "single_battle",
+      "species": [
+        27,
+        28
+      ],
+      "hiddenFor": [
+        27,
+        28
+      ],
+      "families": [
+        "weather_terrain"
+      ],
+      "corruptionPlateTypes": [
+        "Ground"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Sand Rush",
+      "corrections": []
+    },
+    {
+      "name": "Sand Stream",
+      "french": "Sable Volant",
+      "scope": "single_battle",
+      "species": [
+        248,
+        449,
+        450
+      ],
+      "hiddenFor": [],
+      "families": [
+        "switch_entry",
+        "weather_terrain"
+      ],
+      "corruptionPlateTypes": [
+        "Ground",
+        "Rock",
+        "Dark"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Sand Stream",
+      "corrections": []
+    },
+    {
+      "name": "Sand Veil",
+      "french": "Voile Sable",
+      "scope": "single_battle",
+      "species": [
+        27,
+        28,
+        50,
+        51,
+        74,
+        75,
+        76,
+        207,
+        231,
+        232,
+        246,
+        331,
+        332,
+        443,
+        444,
+        445,
+        472
+      ],
+      "hiddenFor": [
+        74,
+        75,
+        76,
+        231,
+        232,
+        246
+      ],
+      "families": [
+        "weather_terrain"
+      ],
+      "corruptionPlateTypes": [
+        "Grass",
+        "Ground",
+        "Flying",
+        "Rock",
+        "Dragon",
+        "Dark"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Sand Veil",
+      "corrections": []
+    },
+    {
+      "name": "Sap Sipper",
+      "french": "Herbivore",
+      "scope": "single_battle",
+      "species": [
+        183,
+        184,
+        203,
+        234,
+        241,
+        298
+      ],
+      "hiddenFor": [
+        183,
+        184,
+        203,
+        234,
+        241,
+        298
+      ],
+      "families": [
+        "immunity_absorption"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Water",
+        "Psychic",
+        "Fairy"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Sap Sipper",
+      "corrections": []
+    },
+    {
+      "name": "Scrappy",
+      "french": "Querelleur",
+      "scope": "single_battle",
+      "species": [
+        115,
+        241,
+        276,
+        277,
+        294,
+        295
+      ],
+      "hiddenFor": [
+        276,
+        277,
+        294,
+        295
+      ],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Flying"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Scrappy",
+      "corrections": []
+    },
+    {
+      "name": "Serene Grace",
+      "french": "Sérénité",
+      "scope": "single_battle",
+      "species": [
+        113,
+        175,
+        176,
+        206,
+        242,
+        385,
+        440,
+        468
+      ],
+      "hiddenFor": [],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Flying",
+        "Psychic",
+        "Steel",
+        "Fairy"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Serene Grace",
+      "corrections": []
+    },
+    {
+      "name": "Shadow Tag",
+      "french": "Marque Ombre",
+      "scope": "single_battle",
+      "species": [
+        202,
+        360
+      ],
+      "hiddenFor": [],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Psychic"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Shadow Tag",
+      "corrections": []
+    },
+    {
+      "name": "Shed Skin",
+      "french": "Mue",
+      "scope": "single_battle",
+      "species": [
+        11,
+        14,
+        23,
+        24,
+        147,
+        148,
+        247,
+        266,
+        268,
+        336,
+        401,
+        412
+      ],
+      "hiddenFor": [],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Poison",
+        "Ground",
+        "Bug",
+        "Rock",
+        "Dragon"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Shed Skin",
+      "corrections": []
+    },
+    {
+      "name": "Sheer Force",
+      "french": "Sans Limite",
+      "scope": "single_battle",
+      "species": [
+        31,
+        34,
+        98,
+        99,
+        128,
+        158,
+        159,
+        160,
+        208,
+        296,
+        297,
+        303,
+        328,
+        371,
+        408,
+        409
+      ],
+      "hiddenFor": [
+        31,
+        34,
+        98,
+        99,
+        128,
+        158,
+        159,
+        160,
+        208,
+        296,
+        297,
+        303,
+        328,
+        371,
+        408,
+        409
+      ],
+      "families": [
+        "damage_stats"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Water",
+        "Fighting",
+        "Poison",
+        "Ground",
+        "Rock",
+        "Dragon",
+        "Steel",
+        "Fairy"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Sheer Force",
+      "corrections": []
+    },
+    {
+      "name": "Shell Armor",
+      "french": "Coque Armure",
+      "scope": "single_battle",
+      "species": [
+        90,
+        91,
+        98,
+        99,
+        131,
+        138,
+        139,
+        324,
+        341,
+        342,
+        366,
+        387,
+        388,
+        389
+      ],
+      "hiddenFor": [
+        324,
+        387,
+        388,
+        389
+      ],
+      "families": [
+        "immunity_absorption",
+        "damage_stats"
+      ],
+      "corruptionPlateTypes": [
+        "Fire",
+        "Water",
+        "Grass",
+        "Ice",
+        "Ground",
+        "Rock",
+        "Dark"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Shell Armor",
+      "corrections": []
+    },
+    {
+      "name": "Shield Dust",
+      "french": "Écran Poudre",
+      "scope": "single_battle",
+      "species": [
+        10,
+        13,
+        49,
+        265,
+        269
+      ],
+      "hiddenFor": [],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Poison",
+        "Bug"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Shield Dust",
+      "corrections": [
+        "also prevents Poison Touch"
+      ]
+    },
+    {
+      "name": "Simple",
+      "french": "Simple",
+      "scope": "single_battle",
+      "species": [
+        322,
+        399,
+        400
+      ],
+      "hiddenFor": [],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Fire",
+        "Water",
+        "Ground"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Simple",
+      "corrections": []
+    },
+    {
+      "name": "Skill Link",
+      "french": "Multi-Coups",
+      "scope": "single_battle",
+      "species": [
+        90,
+        91,
+        190,
+        424
+      ],
+      "hiddenFor": [
+        190,
+        424
+      ],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Water",
+        "Ice"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Skill Link",
+      "corrections": []
+    },
+    {
+      "name": "Slow Start",
+      "french": "Début Calme",
+      "scope": "single_battle",
+      "species": [
+        486
+      ],
+      "hiddenFor": [],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Normal"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Slow Start",
+      "corrections": []
+    },
+    {
+      "name": "Sniper",
+      "french": "Sniper",
+      "scope": "single_battle",
+      "species": [
+        15,
+        21,
+        22,
+        116,
+        117,
+        167,
+        168,
+        223,
+        224,
+        230,
+        451,
+        452
+      ],
+      "hiddenFor": [
+        15,
+        21,
+        22,
+        167,
+        168
+      ],
+      "families": [
+        "damage_stats"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Water",
+        "Poison",
+        "Flying",
+        "Bug",
+        "Dragon",
+        "Dark"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Sniper",
+      "corrections": []
+    },
+    {
+      "name": "Snow Cloak",
+      "french": "Rideau Neige",
+      "scope": "single_battle",
+      "species": [
+        144,
+        220,
+        221,
+        471,
+        473,
+        478
+      ],
+      "hiddenFor": [
+        144
+      ],
+      "families": [
+        "weather_terrain"
+      ],
+      "corruptionPlateTypes": [
+        "Ice",
+        "Ground",
+        "Flying",
+        "Ghost"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Snow Cloak",
+      "corrections": []
+    },
+    {
+      "name": "Snow Warning",
+      "french": "Alerte Neige",
+      "scope": "single_battle",
+      "species": [
+        459,
+        460
+      ],
+      "hiddenFor": [],
+      "families": [
+        "switch_entry",
+        "weather_terrain"
+      ],
+      "corruptionPlateTypes": [
+        "Grass",
+        "Ice"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Snow Warning",
+      "corrections": []
+    },
+    {
+      "name": "Solar Power",
+      "french": "Force Soleil",
+      "scope": "single_battle",
+      "species": [
+        4,
+        5,
+        6,
+        191,
+        192,
+        357
+      ],
+      "hiddenFor": [
+        4,
+        5,
+        6
+      ],
+      "families": [
+        "weather_terrain"
+      ],
+      "corruptionPlateTypes": [
+        "Fire",
+        "Grass",
+        "Flying"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Solar Power",
+      "corrections": []
+    },
+    {
+      "name": "Solid Rock",
+      "french": "Solide Roc",
+      "scope": "single_battle",
+      "species": [
+        323,
+        464
+      ],
+      "hiddenFor": [],
+      "families": [
+        "damage_stats"
+      ],
+      "corruptionPlateTypes": [
+        "Fire",
+        "Ground",
+        "Rock"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Solid Rock",
+      "corrections": []
+    },
+    {
+      "name": "Soundproof",
+      "french": "Anti-Bruit",
+      "scope": "single_battle",
+      "species": [
+        100,
+        101,
+        122,
+        293,
+        294,
+        295,
+        410,
+        411,
+        439,
+        459,
+        460
+      ],
+      "hiddenFor": [
+        410,
+        411,
+        459,
+        460
+      ],
+      "families": [
+        "immunity_absorption"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Electric",
+        "Grass",
+        "Ice",
+        "Psychic",
+        "Rock",
+        "Steel",
+        "Fairy"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Soundproof",
+      "corrections": []
+    },
+    {
+      "name": "Speed Boost",
+      "french": "Turbo",
+      "scope": "single_battle",
+      "species": [
+        193,
+        255,
+        256,
+        257,
+        291,
+        318,
+        319,
+        469
+      ],
+      "hiddenFor": [
+        255,
+        256,
+        257,
+        318,
+        319
+      ],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Fire",
+        "Water",
+        "Fighting",
+        "Flying",
+        "Bug",
+        "Dark"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Speed Boost",
+      "corrections": []
+    },
+    {
+      "name": "Stall",
+      "french": "Frein",
+      "scope": "single_battle",
+      "species": [
+        302
+      ],
+      "hiddenFor": [],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Ghost",
+        "Dark"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Stall",
+      "corrections": []
+    },
+    {
+      "name": "Static",
+      "french": "Statik",
+      "scope": "single_battle",
+      "species": [
+        25,
+        26,
+        100,
+        101,
+        125,
+        145,
+        172,
+        179,
+        180,
+        181,
+        239,
+        309,
+        310
+      ],
+      "hiddenFor": [
+        145
+      ],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Electric",
+        "Flying"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Static",
+      "corrections": []
+    },
+    {
+      "name": "Steadfast",
+      "french": "Impassible",
+      "scope": "single_battle",
+      "species": [
+        66,
+        67,
+        68,
+        123,
+        236,
+        237,
+        447,
+        448,
+        475
+      ],
+      "hiddenFor": [
+        66,
+        67,
+        68,
+        123,
+        237
+      ],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Fighting",
+        "Flying",
+        "Psychic",
+        "Bug",
+        "Steel"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Steadfast",
+      "corrections": []
+    },
+    {
+      "name": "Stench",
+      "french": "Puanteur",
+      "scope": "single_battle",
+      "species": [
+        44,
+        88,
+        89,
+        434,
+        435
+      ],
+      "hiddenFor": [
+        44
+      ],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Grass",
+        "Poison",
+        "Dark"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Stench",
+      "corrections": []
+    },
+    {
+      "name": "Sticky Hold",
+      "french": "Glu",
+      "scope": "single_battle",
+      "species": [
+        88,
+        89,
+        316,
+        317,
+        422,
+        423
+      ],
+      "hiddenFor": [],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Water",
+        "Poison",
+        "Ground"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Sticky Hold",
+      "corrections": [
+        "Mold Breaker can bypass it for Thief and Covet"
+      ]
+    },
+    {
+      "name": "Storm Drain",
+      "french": "Lavabo",
+      "scope": "single_battle",
+      "species": [
+        345,
+        346,
+        422,
+        423,
+        456,
+        457
+      ],
+      "hiddenFor": [
+        345,
+        346
+      ],
+      "families": [
+        "immunity_absorption"
+      ],
+      "corruptionPlateTypes": [
+        "Water",
+        "Grass",
+        "Ground",
+        "Rock"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Storm Drain",
+      "corrections": []
+    },
+    {
+      "name": "Sturdy",
+      "french": "Fermeté",
+      "scope": "single_battle",
+      "species": [
+        74,
+        75,
+        76,
+        81,
+        82,
+        95,
+        185,
+        204,
+        205,
+        208,
+        213,
+        227,
+        232,
+        299,
+        304,
+        305,
+        306,
+        369,
+        377,
+        410,
+        411,
+        438,
+        462,
+        476
+      ],
+      "hiddenFor": [
+        369,
+        377
+      ],
+      "families": [
+        "immunity_absorption"
+      ],
+      "corruptionPlateTypes": [
+        "Water",
+        "Electric",
+        "Ground",
+        "Flying",
+        "Bug",
+        "Rock",
+        "Steel"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Sturdy",
+      "corrections": []
+    },
+    {
+      "name": "Suction Cups",
+      "french": "Ventouse",
+      "scope": "single_battle",
+      "species": [
+        224,
+        345,
+        346
+      ],
+      "hiddenFor": [],
+      "families": [
+        "immunity_absorption"
+      ],
+      "corruptionPlateTypes": [
+        "Water",
+        "Grass",
+        "Rock"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Suction Cups",
+      "corrections": []
+    },
+    {
+      "name": "Super Luck",
+      "french": "Chanceux",
+      "scope": "single_battle",
+      "species": [
+        175,
+        176,
+        198,
+        359,
+        430,
+        468
+      ],
+      "hiddenFor": [
+        175,
+        176,
+        468
+      ],
+      "families": [
+        "damage_stats"
+      ],
+      "corruptionPlateTypes": [
+        "Flying",
+        "Dark",
+        "Fairy"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Super Luck",
+      "corrections": []
+    },
+    {
+      "name": "Swarm",
+      "french": "Essaim",
+      "scope": "single_battle",
+      "species": [
+        15,
+        123,
+        165,
+        166,
+        167,
+        168,
+        212,
+        214,
+        267,
+        313,
+        402,
+        414
+      ],
+      "hiddenFor": [],
+      "families": [
+        "damage_stats"
+      ],
+      "corruptionPlateTypes": [
+        "Fighting",
+        "Poison",
+        "Flying",
+        "Bug",
+        "Steel"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Swarm",
+      "corrections": []
+    },
+    {
+      "name": "Swift Swim",
+      "french": "Glissade",
+      "scope": "single_battle",
+      "species": [
+        54,
+        55,
+        60,
+        61,
+        62,
+        116,
+        118,
+        119,
+        129,
+        138,
+        139,
+        140,
+        141,
+        211,
+        226,
+        230,
+        270,
+        271,
+        272,
+        283,
+        347,
+        348,
+        349,
+        367,
+        368,
+        369,
+        370,
+        418,
+        419,
+        456,
+        457,
+        458
+      ],
+      "hiddenFor": [
+        54,
+        55,
+        60,
+        61,
+        62,
+        347,
+        348
+      ],
+      "families": [
+        "weather_terrain"
+      ],
+      "corruptionPlateTypes": [
+        "Water",
+        "Grass",
+        "Fighting",
+        "Poison",
+        "Flying",
+        "Bug",
+        "Rock",
+        "Dragon"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Swift Swim",
+      "corrections": []
+    },
+    {
+      "name": "Synchronize",
+      "french": "Synchro",
+      "scope": "single_battle",
+      "species": [
+        63,
+        64,
+        65,
+        151,
+        177,
+        178,
+        196,
+        197,
+        280,
+        281,
+        282
+      ],
+      "hiddenFor": [],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Flying",
+        "Psychic",
+        "Dark",
+        "Fairy"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Synchronize",
+      "corrections": [
+        "Gen7 toxic poison stays toxic",
+        "reflection no longer inherits the original move type; Safeguard and abilities still apply"
+      ]
+    },
+    {
+      "name": "Tangled Feet",
+      "french": "Pieds Confus",
+      "scope": "single_battle",
+      "species": [
+        16,
+        17,
+        18,
+        84,
+        85,
+        327,
+        441
+      ],
+      "hiddenFor": [
+        84,
+        85
+      ],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Flying"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Tangled Feet",
+      "corrections": []
+    },
+    {
+      "name": "Technician",
+      "french": "Technicien",
+      "scope": "single_battle",
+      "species": [
+        52,
+        53,
+        122,
+        123,
+        212,
+        235,
+        237,
+        286,
+        402,
+        407,
+        424,
+        439
+      ],
+      "hiddenFor": [
+        122,
+        286,
+        402,
+        407,
+        439
+      ],
+      "families": [
+        "damage_stats"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Grass",
+        "Fighting",
+        "Poison",
+        "Flying",
+        "Psychic",
+        "Bug",
+        "Steel",
+        "Fairy"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Technician",
+      "corrections": []
+    },
+    {
+      "name": "Telepathy",
+      "french": "Télépathe",
+      "scope": "double_only",
+      "species": [
+        202,
+        280,
+        281,
+        282,
+        307,
+        308,
+        360,
+        483,
+        484,
+        487
+      ],
+      "hiddenFor": [
+        202,
+        280,
+        281,
+        282,
+        307,
+        308,
+        360,
+        483,
+        484,
+        487
+      ],
+      "families": [
+        "immunity_absorption"
+      ],
+      "corruptionPlateTypes": [],
+      "lifecycleTest": null,
+      "corrections": []
+    },
+    {
+      "name": "Thick Fat",
+      "french": "Isograisse",
+      "scope": "single_battle",
+      "species": [
+        86,
+        87,
+        143,
+        183,
+        184,
+        220,
+        221,
+        241,
+        296,
+        297,
+        298,
+        325,
+        326,
+        363,
+        364,
+        365,
+        432,
+        446,
+        473
+      ],
+      "hiddenFor": [
+        220,
+        221,
+        473
+      ],
+      "families": [
+        "damage_stats"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Water",
+        "Ice",
+        "Fighting",
+        "Ground",
+        "Psychic",
+        "Fairy"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Thick Fat",
+      "corrections": []
+    },
+    {
+      "name": "Tinted Lens",
+      "french": "Lentiteintée",
+      "scope": "single_battle",
+      "species": [
+        12,
+        48,
+        49,
+        163,
+        164,
+        314,
+        414,
+        469
+      ],
+      "hiddenFor": [
+        12,
+        163,
+        164,
+        414
+      ],
+      "families": [
+        "damage_stats"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Poison",
+        "Flying",
+        "Bug"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Tinted Lens",
+      "corrections": []
+    },
+    {
+      "name": "Torrent",
+      "french": "Torrent",
+      "scope": "single_battle",
+      "species": [
+        7,
+        8,
+        9,
+        158,
+        159,
+        160,
+        258,
+        259,
+        260,
+        393,
+        394,
+        395
+      ],
+      "hiddenFor": [],
+      "families": [
+        "damage_stats"
+      ],
+      "corruptionPlateTypes": [
+        "Water",
+        "Ground",
+        "Steel"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Torrent",
+      "corrections": []
+    },
+    {
+      "name": "Toxic Boost",
+      "french": "Rage Poison",
+      "scope": "single_battle",
+      "species": [
+        335
+      ],
+      "hiddenFor": [
+        335
+      ],
+      "families": [
+        "damage_stats"
+      ],
+      "corruptionPlateTypes": [
+        "Normal"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Toxic Boost",
+      "corrections": []
+    },
+    {
+      "name": "Trace",
+      "french": "Calque",
+      "scope": "single_battle",
+      "species": [
+        137,
+        233,
+        280,
+        281,
+        282
+      ],
+      "hiddenFor": [],
+      "families": [
+        "switch_entry"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Psychic",
+        "Fairy"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Trace",
+      "corrections": []
+    },
+    {
+      "name": "Truant",
+      "french": "Absentéisme",
+      "scope": "single_battle",
+      "species": [
+        287,
+        289
+      ],
+      "hiddenFor": [],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Normal"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Truant",
+      "corrections": []
+    },
+    {
+      "name": "Unaware",
+      "french": "Inconscient",
+      "scope": "single_battle",
+      "species": [
+        36,
+        194,
+        195,
+        399,
+        400
+      ],
+      "hiddenFor": [
+        36,
+        194,
+        195
+      ],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Water",
+        "Ground",
+        "Fairy"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Unaware",
+      "corrections": []
+    },
+    {
+      "name": "Unburden",
+      "french": "Délestage",
+      "scope": "single_battle",
+      "species": [
+        106,
+        252,
+        253,
+        254,
+        425,
+        426
+      ],
+      "hiddenFor": [
+        106,
+        252,
+        253,
+        254
+      ],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Grass",
+        "Fighting",
+        "Flying",
+        "Ghost"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Unburden",
+      "corrections": []
+    },
+    {
+      "name": "Unnerve",
+      "french": "Tension",
+      "scope": "single_battle",
+      "species": [
+        23,
+        24,
+        52,
+        53,
+        142,
+        150,
+        217,
+        228,
+        229,
+        248,
+        284,
+        416
+      ],
+      "hiddenFor": [
+        23,
+        24,
+        52,
+        53,
+        142,
+        150,
+        217,
+        228,
+        229,
+        248,
+        284,
+        416
+      ],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Fire",
+        "Poison",
+        "Flying",
+        "Psychic",
+        "Bug",
+        "Rock",
+        "Dark"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Unnerve",
+      "corrections": []
+    },
+    {
+      "name": "Vital Spirit",
+      "french": "Esprit Vital",
+      "scope": "single_battle",
+      "species": [
+        56,
+        57,
+        125,
+        126,
+        225,
+        236,
+        239,
+        240,
+        288,
+        466,
+        467
+      ],
+      "hiddenFor": [
+        125,
+        126,
+        236,
+        239,
+        240,
+        466,
+        467
+      ],
+      "families": [
+        "immunity_absorption"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Fire",
+        "Electric",
+        "Ice",
+        "Fighting",
+        "Flying"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Vital Spirit",
+      "corrections": []
+    },
+    {
+      "name": "Volt Absorb",
+      "french": "Absorbe-Volt",
+      "scope": "single_battle",
+      "species": [
+        135,
+        170,
+        171,
+        312,
+        417
+      ],
+      "hiddenFor": [
+        312,
+        417
+      ],
+      "families": [
+        "immunity_absorption"
+      ],
+      "corruptionPlateTypes": [
+        "Water",
+        "Electric"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Volt Absorb",
+      "corrections": []
+    },
+    {
+      "name": "Water Absorb",
+      "french": "Absorbe-Eau",
+      "scope": "single_battle",
+      "species": [
+        60,
+        61,
+        62,
+        131,
+        134,
+        170,
+        171,
+        186,
+        194,
+        195,
+        226,
+        331,
+        332,
+        458
+      ],
+      "hiddenFor": [
+        170,
+        171,
+        331,
+        332
+      ],
+      "families": [
+        "immunity_absorption"
+      ],
+      "corruptionPlateTypes": [
+        "Water",
+        "Electric",
+        "Grass",
+        "Ice",
+        "Fighting",
+        "Ground",
+        "Flying",
+        "Dark"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Water Absorb",
+      "corrections": []
+    },
+    {
+      "name": "Water Veil",
+      "french": "Ignifu-Voile",
+      "scope": "single_battle",
+      "species": [
+        118,
+        119,
+        226,
+        320,
+        321,
+        367,
+        418,
+        419,
+        456,
+        457,
+        458
+      ],
+      "hiddenFor": [
+        226,
+        367,
+        418,
+        419,
+        456,
+        457,
+        458
+      ],
+      "families": [
+        "immunity_absorption"
+      ],
+      "corruptionPlateTypes": [
+        "Water",
+        "Flying"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Water Veil",
+      "corrections": []
+    },
+    {
+      "name": "Weak Armor",
+      "french": "Armurouillée",
+      "scope": "single_battle",
+      "species": [
+        95,
+        138,
+        139,
+        140,
+        141,
+        218,
+        219,
+        227
+      ],
+      "hiddenFor": [
+        95,
+        138,
+        139,
+        140,
+        141,
+        218,
+        219,
+        227
+      ],
+      "families": [
+        "reactions"
+      ],
+      "corruptionPlateTypes": [
+        "Fire",
+        "Water",
+        "Ground",
+        "Flying",
+        "Rock",
+        "Steel"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Weak Armor",
+      "corrections": []
+    },
+    {
+      "name": "White Smoke",
+      "french": "Écran Fumée",
+      "scope": "single_battle",
+      "species": [
+        324
+      ],
+      "hiddenFor": [],
+      "families": [
+        "immunity_absorption"
+      ],
+      "corruptionPlateTypes": [
+        "Fire"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: White Smoke",
+      "corrections": []
+    },
+    {
+      "name": "Wonder Guard",
+      "french": "Garde Mystik",
+      "scope": "single_battle",
+      "species": [
+        292
+      ],
+      "hiddenFor": [],
+      "families": [
+        "immunity_absorption"
+      ],
+      "corruptionPlateTypes": [
+        "Bug",
+        "Ghost"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Wonder Guard",
+      "corrections": []
+    },
+    {
+      "name": "Wonder Skin",
+      "french": "Peau Miracle",
+      "scope": "single_battle",
+      "species": [
+        49,
+        300,
+        301
+      ],
+      "hiddenFor": [
+        49,
+        300,
+        301
+      ],
+      "families": [
+        "damage_stats"
+      ],
+      "corruptionPlateTypes": [
+        "Normal",
+        "Poison",
+        "Bug"
+      ],
+      "lifecycleTest": "tests/ability-review-2026.test.js: Complete shared lifecycle, snapshot and permanent identity: Wonder Skin",
+      "corrections": []
+    }
+  ],
+  "runtimeSourceSha256": {
+    "server/game/abilities/abilityEngine.js": "037b78f500d3f7dc6ea186ed5e7c7e175a1971681f1c21f4e9339773fcbeac2f",
+    "server/game/abilities/abilityReactions.js": "ec09d998830085c17d9c3dddbf5d2f6aa7cf6b639ee7a5c6aa67c927cad53e12",
+    "server/game/battle/battleEngine.js": "46144ea4764f86d2f7397e84d7bcba74d6b7ad487d40eba591be8b659a096740"
+  },
+  "deployment": {
+    "publishedAt": "2026-11-03T12:18:25.787Z",
+    "restartedAt": "2026-11-03T12:18:24.634Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-ability-review-2026-11-03T12-18-24-247Z",
+    "sourceBaseline": "97bcd99914e0400dab85373a8a79f003f762822c",
+    "sourceHashes": {
+      "server/game/abilities/abilityEngine.js": "037b78f500d3f7dc6ea186ed5e7c7e175a1971681f1c21f4e9339773fcbeac2f",
+      "server/game/abilities/abilityReactions.js": "ec09d998830085c17d9c3dddbf5d2f6aa7cf6b639ee7a5c6aa67c927cad53e12",
+      "server/game/battle/battleEngine.js": "46144ea4764f86d2f7397e84d7bcba74d6b7ad487d40eba591be8b659a096740"
+    },
+    "clientCommit": "328640595d430ea9d25248b11163dcbe8c6447ca",
+    "clientBuild": "f068a1013fdbb3ae",
+    "beforePid": "3790996",
+    "afterPid": "3799614",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "clientUnchanged": true,
+    "publicClientUnchanged": true,
+    "schemaChanged": false,
+    "activeClubDuelsBefore": 0,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 1,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": []
+  },
+  "publishedLocal": "2026-11-03T13:18:25.787000+01:00"
+}

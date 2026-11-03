@@ -56,7 +56,7 @@ function afterHit({attacker:a, defender:d, move, damage, critical, battleState:s
         }
         if (ability === 'Cute Charm' && ['male','female'].includes(gender(d)) && ['male','female'].includes(gender(a))
             && gender(a)!==gender(d) && Math.random()<.3) status(a,'infatuation',d,attackerSide);
-        if (hasAbility(a,'Poison Touch') && Math.random()<.3) status(d,'poison',a,defenderSide);
+        if (hasAbility(a,'Poison Touch') && !hasAbility(d,'Shield Dust') && Math.random()<.3) status(d,'poison',a,defenderSide);
         if (ability === 'Mummy' && !UNCHANGEABLE.has(getAbilityName(a)) && !hasAbility(a,'Mummy')) {
             h.snapshotAbility(a); a.passiveAbility='Mummy'; announce(messages,d,ability);
         }
@@ -65,7 +65,7 @@ function afterHit({attacker:a, defender:d, move, damage, critical, battleState:s
 }
 function transferItem(from, to, h, messages, source) {
     if (!from?.heldItem || to?.heldItem || from.heldItem==='rift_talisman' || !alive(to)
-        || (alive(from) && hasAbility(from,'Sticky Hold'))) return false;
+        || (alive(from) && hasAbility(from,'Sticky Hold') && !ignoresDefenderAbility(to,from))) return false;
     h.snapshotItem(from); h.snapshotItem(to);
     to.heldItem=from.heldItem; to.__heldItemOrigin=from.__heldItemOrigin;
     from.heldItem=null; from.__heldItemOrigin=null;

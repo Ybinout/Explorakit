@@ -732,8 +732,10 @@ function applyStatus(target, status, targetSide, messages, options = {}) {
     messages.push(`${targetName} est touche par ${getStatusLabel(status)}.`);
     if (!options.synchronized && options.attacker && options.attacker!==target && hasPassiveAbility(target,'Synchronize')
         && ['burn','poison','badly_poison','paralyze'].includes(status)) {
-        applyStatus(options.attacker,status==='badly_poison'?'poison':status,options.sourceSide,messages,
-            {...options,attacker:target,synchronized:true});
+        // Synchronize is an ability, not another use of the original move.
+        // Gen7 keeps toxic poison; type-based move immunity does not apply.
+        applyStatus(options.attacker,status,options.sourceSide,messages,
+            {...options,attacker:target,synchronized:true,move:null});
     }
     return true;
 }
@@ -837,7 +839,7 @@ function resolveWeatherMove(move, attacker, defender, battleState) {
 function battleMoveTypes(pokemon, opponent, battleState) {
     return (pokemon?.abilities||[]).map(name=> {
         const move=resolveWeatherMove(getMoveByName(name),pokemon,opponent,battleState);
-        return ['Weather Ball','Hidden Power','Natural Gift'].includes(move?.ename)?transformMoveForAbility(pokemon,move).move.type:null;
+        return ['Weather Ball','Hidden Power','Natural Gift'].includes(move?.ename)?transformMoveForAbility(pokemon,move,{activateProtean:false}).move.type:null;
     });
 }
 
@@ -2236,7 +2238,8 @@ function processTurnStart(pokemon, options = {}) {
         pokemonData.powdered = false;
         if (move?.type === 'Fire') {
             const damage = Math.max(1, Math.floor(safeNumber(pokemon.maxHp, 1) / 4));
-            const result = applyDamage(pokemon, damage, { allowEndure: false });
+            const result = hasPassiveAbility(pokemon,'Magic Guard') ? {damageToHp:0}
+                : applyDamage(pokemon, damage, { allowEndure: false });
             messages.push(`${pokemonName} declenche la poudre et perd ${result.damageToHp} PV.`);
             return { canAct: false, messages };
         }
@@ -2387,13 +2390,16 @@ function processPokemonEndTurn(pokemon, enemyPokemon, ownSide, battleState) {
         }
     }
 
-    if (pokemon.status === 'badly_poison' && !indirectDamageBlocked && !poisonHeal) {
-        const toxicCounter = Math.max(1, safeNumber(pokemonData.toxicCounter, 1));
-        const damage = Math.max(1, Math.floor((maxHp / 16) * toxicCounter));
-        const dmgResult = applyDamage(pokemon, damage, { allowEndure: false });
-        pokemonData.toxicCounter = toxicCounter + 1;
-        if (dmgResult.damageToHp > 0) {
-            messages.push(`${pokemonName} souffre gravement du poison (${dmgResult.damageToHp} PV).`);
+    if (pokemon.status === 'badly_poison') {
+        const toxicCounter = clamp(safeNumber(pokemonData.toxicCounter, 1), 1, 15);
+        // The toxic counter advances even while its damage is prevented.
+        pokemonData.toxicCounter = Math.min(15, toxicCounter + 1);
+        if (!indirectDamageBlocked && !poisonHeal) {
+            const damage = Math.max(1, Math.floor(maxHp / 16)) * toxicCounter;
+            const dmgResult = applyDamage(pokemon, damage, { allowEndure: false });
+            if (dmgResult.damageToHp > 0) {
+                messages.push(`${pokemonName} souffre gravement du poison (${dmgResult.damageToHp} PV).`);
+            }
         }
     }
 
@@ -2611,7 +2617,7 @@ function resolveFutureMoves(playerPokemon, enemyPokemon, playerSide, enemySide, 
         const source = pending.source && futureMoves.damageSource(pending);
         const baseMove = getMoveByName(pending.moveName);
         if (!source || !baseMove) continue;
-        const transformed = transformMoveForAbility(source, baseMove);
+        const transformed = transformMoveForAbility(source, baseMove, {activateProtean:false});
         const move = transformed.move;
         const result = { move, moveName: move.ename, phase: 'strike', success: false, damage: 0, substituteDamage: 0, hits: 0, effectiveness: 1, critical: false, messages: [] };
         const messages = result.messages, label = futureMoves.LABELS[move.ename];
@@ -3110,7 +3116,13 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         activateHeldItem(defender,battleState,moveResult.messages,'immediate',attacker);
         return result;
     };
-    const movedLastThisTurn = defenderData.lastActionTurn === safeNumber(battleState.turn, 1);
+    // A voluntary opposing switch also spends its turn, even though the new
+    // defender has no move timestamp. Use the current queue, not the old lead.
+    const currentPlan = battleState.turnActions?.turn === battleState.turn ? battleState.turnActions : null;
+    const opposingAction = currentPlan?.entries.find(action => action.uuid === defender.uuid);
+    const movedLastThisTurn = currentPlan?.entries.length > 0
+        ? !opposingAction || opposingAction.action !== 'attack' || opposingAction.acted
+        : defenderData.lastActionTurn === safeNumber(battleState.turn, 1);
     if(!options.skipTurnStart)attackerData.lastActionTurn = safeNumber(battleState.turn, 1);
 
     if (!calledDepth && !options.skipTurnStart && !heldItems.allowsMove(attacker, move.ename, battleState)) {
@@ -3155,7 +3167,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         moveResult.messages.push(`${move.ename} devient de type Electrik.`);
     }
 
-    const abilityMove = transformMoveForAbility(attacker, move);
+    const abilityMove = transformMoveForAbility(attacker, move, {activateProtean:false});
     move = abilityMove.move;
     const abilityPowerMultiplier = abilityMove.powerMultiplier;
     moveResult.move = move;
@@ -3177,6 +3189,7 @@ function executeAttack(attackName, attacker, defender, options = {}) {
         attackerData.lastMoveUsed = move.ename;
         return moveResult;
     }
+    if (hasPassiveAbility(attacker,'Protean')) transformMoveForAbility(attacker,move);
     if(options.consumePp!==false && !charging && !biding && !rampaging && !rolling) {
         const consumed=consumeMovePp(attacker,move.ename);
         if(consumed.consumed) {

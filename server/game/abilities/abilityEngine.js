@@ -127,7 +127,7 @@ function blocksForcedSwitch(target, attacker) {
     return !ignoresDefenderAbility(attacker, target) && hasAbility(target, 'Suction Cups');
 }
 
-function transformMoveForAbility(attacker, move) {
+function transformMoveForAbility(attacker, move, { activateProtean = true } = {}) {
     const ability = getAbilityName(attacker);
     const flags = getMoveFlags(move);
     let resolvedMove = move;
@@ -146,7 +146,12 @@ function transformMoveForAbility(attacker, move) {
         resolvedMove = { ...resolvedMove, type: 'Water' };
     }
 
-    if (ability === 'Protean' && resolvedMove.type) {
+    // Calling moves change type only when the called move actually executes.
+    // Future attacks and Struggle never trigger Protean, including at impact.
+    if (activateProtean && ability === 'Protean' && resolvedMove.type && resolvedMove.type !== '???'
+        && !['Future Sight', 'Doom Desire', 'Struggle'].includes(resolvedMove.ename)
+        && !resolvedMove.combat?.effects?.some(effect =>
+            ['random_move', 'sleep_talk', 'nature_power', 'me_first', 'copy_last_move', 'copycat', 'assist'].includes(effect.kind))) {
         if (!attacker.__battle) attacker.__battle = {};
         attacker.__battle.tempTypes = [resolvedMove.type];
     }
@@ -165,7 +170,7 @@ function resolveMoveAbilityImmunity(context) {
     const flags = getMoveFlags(move);
     let reason = null;
 
-    if (ability === 'Levitate' && move.type === 'Ground' && move.ename !== 'Thousand Arrows' && !(battleState?.field?.gravityTurns > 0)
+    if (ability === 'Levitate' && move.type === 'Ground' && move?.combat?.damage_class !== 'status' && move.ename !== 'Thousand Arrows' && !(battleState?.field?.gravityTurns > 0)
         && !(defender.__battle?.ingrain || defender.__battle?.grounded)) reason = 'Levitate';
     if (ability === 'Soundproof' && SOUND_MOVES.has(move.ename)) reason = 'Soundproof';
     if (ability === 'Bulletproof' && BULLET_MOVES.has(move.ename)) reason = 'Bulletproof';
@@ -365,8 +370,15 @@ function applySwitchInAbility(pokemon, opponent, ownSide, enemySide, battleState
         messages.push(`${name} detecte l'objet ${opponent.heldItem} de ${enemyName}.`);
     }
     if (ability === 'Forewarn' && Array.isArray(opponent?.abilities) && typeof helpers.getMove === 'function') {
+        const warningPower = move => {
+            if (move.combat?.damage_class === 'status') return 0;
+            if (move.combat?.power_type === 'ohko') return 150;
+            if (['Counter','Mirror Coat','Metal Burst'].includes(move.ename)) return 120;
+            const power = safeNumber(move.power, 0);
+            return power > 1 ? power : 80;
+        };
         const strongest = opponent.abilities.map((moveName) => helpers.getMove(moveName)).filter(Boolean)
-            .sort((a, b) => safeNumber(b.power, 0) - safeNumber(a.power, 0))[0];
+            .filter(move => warningPower(move) > 0).sort((a, b) => warningPower(b) - warningPower(a))[0];
         if (strongest) messages.push(`${name} pressent ${strongest.ename} avec Forewarn.`);
     }
     if (ability === 'Anticipation' && Array.isArray(opponent?.abilities) && typeof helpers.isThreateningMove === 'function') {

@@ -91,7 +91,7 @@ test('Contrary, Simple, Defiant and Competitive react to actual opponent stat ch
     engine.applyStageChange(c,'defense',-1,[],c);assert.equal(stage(c,'specialAttack'),2);
 });
 test('Synchronize, Corrosion, Aroma Veil and Magic Bounce with Mold Breaker',()=>random(.8,()=>{
-    const p=mon(),sync=mon('Synchronize');assert(engine.applyStatus(sync,'badly_poison',null,[],{attacker:p}));assert.equal(p.status,'poison');
+    const p=mon(),sync=mon('Synchronize');assert(engine.applyStatus(sync,'badly_poison',null,[],{attacker:p}));assert.equal(p.status,'badly_poison');
     const steel=mon(null,{type1:'Steel'});assert(engine.applyStatus(steel,'poison',null,[],{attacker:mon('Corrosion')}));
     const aroma=mon('Aroma Veil');turn(mon(),aroma,'Taunt');assert.equal(aroma.__battle.tauntTurns,0);
     const a=mon(),mirror=mon('Magic Bounce');turn(a,mirror,'Thunder Wave');assert.equal(a.status,'paralyze');assert.equal(mirror.status,'normal');
