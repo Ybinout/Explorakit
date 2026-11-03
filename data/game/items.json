@@ -7506,7 +7506,7 @@
       "buy_price": 0,
       "sell_price": 0,
       "darkContinentTravel": true,
-      "description": "Réservée aux dresseurs ayant terminé trois cycles du Super Tournoi. Ouvre le passage vers le Dark Continent. Sur l’île, adresse-toi au guide de la plage pour rentrer chez toi. Attention : les K.O. y sont définitifs."
+      "description": "Réservée aux dresseurs ayant terminé trois cycles du Super Tournoi. Ouvre le passage vers le Dark Continent. Réutilisable 5 minutes après un voyage. Sur l’île, adresse-toi au guide de la plage pour rentrer chez toi. Attention : les K.O. y sont définitifs."
     },
     {
       "key": "macho_brace",

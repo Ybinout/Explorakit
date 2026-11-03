@@ -2,8 +2,21 @@ const {dbPool,withTransaction}=require('../config/database'),dc=require('../game
 async function loadState(userId,c=dbPool){const [[row]]=await c.execute(`SELECT COALESCE((SELECT best_rooms FROM super_tournament_profiles WHERE user_id=?),0) AS rooms,
  EXISTS(SELECT 1 FROM user_items WHERE user_id=? AND item_key=? AND quantity>0) AS owned,
  EXISTS(SELECT 1 FROM player_story_flags WHERE user_id=? AND flag_key='dark_rules_read' AND flag_value='true') AS introduced,
- (SELECT money FROM users WHERE id=?) AS money`,[userId,userId,dc.ITEM,userId,userId]);return{eligible:Number(row.rooms)>=dc.REQUIRED_ROOMS,owned:Boolean(row.owned),introduced:Boolean(row.introduced),money:Number(row.money)||0};}
+ (SELECT money FROM users WHERE id=?) AS money,
+ (SELECT flag_value FROM player_story_flags WHERE user_id=? AND flag_key=?) AS card_ready_at`,[userId,userId,dc.ITEM,userId,userId,userId,dc.CARD_READY_FLAG]);return{eligible:Number(row.rooms)>=dc.REQUIRED_ROOMS,owned:Boolean(row.owned),introduced:Boolean(row.introduced),money:Number(row.money)||0,cardReadyAt:Number(row.card_ready_at)||0};}
 async function grantCard(userId){return withTransaction(async c=>{await c.execute('SELECT id FROM users WHERE id=? FOR UPDATE',[userId]);require('../game/social/tradeLocks').assertUnlocked(userId);const state=await loadState(userId,c);if(state.owned)return{...state,granted:false,charged:0};if(!state.eligible)throw Error('Termine les trois premiers cycles du Super Tournoi.');if(state.money<dc.CARD_PRICE)throw Error('La carte coûte 2 000 000 ₽. Tu n’as pas assez de Pokédollars.');await c.execute('UPDATE users SET money=money-? WHERE id=?',[dc.CARD_PRICE,userId]);await c.execute('INSERT INTO user_items(user_id,item_key,quantity) VALUES(?,?,1) ON DUPLICATE KEY UPDATE quantity=GREATEST(quantity,1)',[userId,dc.ITEM]);return{...state,owned:true,granted:true,charged:dc.CARD_PRICE,money:state.money-dc.CARD_PRICE};});}
+// Lock the account before checking/claiming the durable cooldown, including concurrent sockets.
+async function beginTravel(userId){return withTransaction(async c=>{
+ await c.execute('SELECT id FROM users WHERE id=? FOR UPDATE',[userId]);
+ require('../game/social/tradeLocks').assertUnlocked(userId);
+ const state=await loadState(userId,c),serverNow=Date.now();
+ if(!state.owned)throw Error('Une carte de dresseur professionnel est nécessaire.');
+ if(state.cardReadyAt>serverNow){const seconds=Math.ceil((state.cardReadyAt-serverNow)/1000),error=Error(`La carte se recharge : ${Math.floor(seconds/60)} min ${String(seconds%60).padStart(2,'0')} s restantes.`);error.readyAt=state.cardReadyAt;throw error;}
+ const readyAt=serverNow+dc.CARD_COOLDOWN_MS;
+ await c.execute('INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,?,?) ON DUPLICATE KEY UPDATE flag_value=VALUES(flag_value)',[userId,dc.CARD_READY_FLAG,String(readyAt)]);
+ return{readyAt,serverNow};
+});}
+async function cancelTravel(userId,readyAt){await dbPool.execute('DELETE FROM player_story_flags WHERE user_id=? AND flag_key=? AND flag_value=?',[userId,dc.CARD_READY_FLAG,String(readyAt)]);}
 async function healSurvivors(userId){return withTransaction(async c=>{
  const [[user]]=await c.execute('SELECT money FROM users WHERE id=? FOR UPDATE',[userId]);require('../game/social/tradeLocks').assertUnlocked(userId);
  const teams=require('./teamRepository'),record=await teams.getTeamRecord(userId,c),team={pokemons:(await teams.getTeamPokemons(record.id,c)).map(teams.rowToPokemon)},survivors=team.pokemons.filter(p=>p.currentHp>0);
@@ -29,4 +42,4 @@ async function persistFaints(userId,player,io,eligible=null){
  return lost;
 }
 function removeFallen(player){player.equipe.pokemons=player.equipe.pokemons.filter(p=>!p.__darkContinentDead);}
-module.exports={loadState,grantCard,healSurvivors,acknowledgeRules,grantLoot,persistFaints,removeFallen};
+module.exports={beginTravel,cancelTravel,loadState,grantCard,healSurvivors,acknowledgeRules,grantLoot,persistFaints,removeFallen};

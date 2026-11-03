@@ -8,7 +8,7 @@ for(const[name,map]of Object.entries(maps)){
  const column=dc.column(name),[min,max]=dc.levels(name);
  // Reimporting creator maps must not overwrite the current encounter balance.
  const existing=config.maps.find(m=>m.mapName===name);
- const next={mapName:name,canCapture:false,mapchange:links,wildpokemon:existing?.wildpokemon??dc.COLUMNS[column],level:{min,max},actionLinks:name==='jungle1'?[dc.LOBBY.map]:[]};
+ const next={mapName:name,canCapture:false,mapchange:links,wildpokemon:require('../server/game/world/darkHabitats').landPool(name),level:{min,max},actionLinks:name==='jungle1'?[dc.LOBBY.map]:[]};
  const i=config.maps.findIndex(m=>m.mapName===name);if(i<0)config.maps.push(next);else config.maps[i]=next;
 }
 const lobby=config.maps.find(m=>m.mapName===dc.LOBBY.map);lobby.actionLinks=[...new Set([...(lobby.actionLinks||[]),'jungle1'])];

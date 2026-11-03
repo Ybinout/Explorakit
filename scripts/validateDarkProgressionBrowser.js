@@ -1,0 +1,42 @@
+// Private SQL fixtures only. Exercises the compiled client over real HTTP and Socket.IO.
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),http=require('node:http'),{once}=require('node:events'),{randomUUID,createHash}=require('node:crypto');
+if(process.env.DB_TEST_NAME!=='explorakit_test')throw Error('Dedicated test database required');
+process.env.DB_NAME='explorakit_test';process.env.NODE_ENV='test';
+const {dbPool:db}=require('../server/config/database'),dc=require('../server/game/world/darkContinent');
+const engine=process.env.PRESENTATION_BROWSER||'chromium',dist=process.env.RELEASE_DIST_DIR||'/tmp/riftmon-dark-progression-dist',out='/tmp/riftmon-dark-progression-'+engine;
+fs.mkdirSync(out,{recursive:true});fs.rmSync(out+'/report.json',{force:true});
+const express=require('express'),app=express(),server=http.createServer(app),io=new(require('socket.io').Server)(server);
+app.use(express.json());app.use('/api',require('../server/http/routes'));app.use(express.static(dist));app.get('*',(_q,r)=>r.sendFile(path.join(dist,'index.html')));io.use(require('../server/http/authMiddleware').authenticateSocket);require('../server/realtime/socketHandler')(io);
+let browser,page,owner,success=false;const views=[],errors=[],checks=[];
+async function ready(){await page.waitForFunction(()=>{const v=document.querySelector('.game-root')?.__vue__;if(v?.socket?.connected&&v.players[v.socket.id]&&!v.mapLoading&&v.map===v.renderedMap){window.v=v;return true;}});}
+async function openBag(){await page.evaluate(()=>v.handleMenuAction('bag'));await page.locator('.bag-panel').waitFor();await page.waitForFunction(()=>!v.bagLoading);}
+async function closeBag(){await page.keyboard.press('Escape');await page.locator('.bag-panel').waitFor({state:'hidden'});}
+async function call(name){return page.evaluate(name=>new Promise((resolve,reject)=>v.socket.timeout(10000).emit(name,{},(e,r)=>e?reject(e):resolve(r))),name);}
+async function card(){await page.locator('[data-bag-pocket="key"]').click();const r=page.locator('[data-item-key="professional_trainer_card"]');if(await r.locator('.bag-item-select').getAttribute('aria-expanded')!=='true')await r.locator('.bag-item-select').click();return r;}
+async function snap(stage,width,height){await page.setViewportSize({width,height});await page.waitForTimeout(120);assert(await page.locator('.bag-panel').evaluate(n=>n.scrollWidth<=n.clientWidth+1));await page.screenshot({path:path.join(out,`${stage}-${width}.png`)});views.push({stage,width,height});}
+(async()=>{try{
+ server.listen(0,'127.0.0.1');await once(server,'listening');const base='http://127.0.0.1:'+server.address().port;
+ const response=await fetch(base+'/api/users',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:'dark_progress_'+randomUUID().slice(0,12),password:randomUUID(),starterId:7})});assert.equal(response.status,201);owner=await response.json();
+ await db.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,'adventure_opening','complete') ON DUPLICATE KEY UPDATE flag_value='complete'",[owner.user.id]);
+ const catalogue=require('../data/game/items.json').items,keys=[dc.ITEM,'potion','iv_randomizer_attack','ev_reset_all','protein',...catalogue.filter(i=>i.category==='machine').slice(0,65).map(i=>i.key)];
+ for(const key of keys)await db.execute('INSERT INTO user_items(user_id,item_key,quantity) VALUES(?,?,3) ON DUPLICATE KEY UPDATE quantity=3',[owner.user.id,key]);
+ browser=await require('playwright')[engine].launch({headless:true,...(engine==='chromium'?{args:['--no-sandbox']}: {})});const context=await browser.newContext({viewport:{width:393,height:852},isMobile:true,hasTouch:true,serviceWorkers:'block'});
+ await context.addInitScript(a=>localStorage.setItem('explorakit.user',JSON.stringify(a)),{...owner.user,token:owner.token});page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));await page.goto(base+'/game');await ready();await page.evaluate(()=>v.updatePreferences({...v.preferences,masterVolume:0,animationsEnabled:true}));
+ for(const [width,height]of [[393,852],[1536,800]]){
+  await page.setViewportSize({width,height});await openBag();await page.locator('[data-bag-pocket="machines"]').click();assert.equal(await page.locator('.bag-item-detail').count(),0,'CS start collapsed');
+  await page.locator('[data-bag-cs-sort]').selectOption('type');const row=page.locator('.bag-item-row').nth(24),key=await row.getAttribute('data-item-key');await row.locator('.bag-item-select').click();await row.scrollIntoViewIfNeeded();await page.waitForTimeout(100);
+  const top=await page.locator('.pack-scroll').evaluate(n=>n.scrollTop);assert(top>200);await snap('bag-scrolled',width,height);await closeBag();await openBag();
+  assert.equal(await page.locator('[data-bag-pocket="machines"]').getAttribute('aria-selected'),'true');assert.equal(await page.locator('[data-bag-cs-sort]').inputValue(),'type');assert.equal(await page.locator(`[data-item-key="${key}"] .bag-item-select`).getAttribute('aria-expanded'),'true');assert(Math.abs((await page.locator('.pack-scroll').evaluate(n=>n.scrollTop))-top)<4,'scroll restored after inventory refresh '+JSON.stringify(await page.evaluate(()=>({saved:v.bagViewState,top:v.$refs.bagPanel.$refs.scroll.scrollTop})))+' before '+top);
+  await page.locator(`[data-item-key="${key}"] .bag-item-select`).click();await closeBag();await openBag();assert.equal(await page.locator('.bag-item-detail').count(),0,'intentional collapse survives reopening');
+  await page.locator('[data-bag-pocket="training"]').click();await page.locator('[data-training-group="iv"]').click();await closeBag();await openBag();assert.equal(await page.locator('[data-training-group="iv"]').getAttribute('aria-pressed'),'true');assert.equal(await page.locator('.bag-item-row').count(),1);await closeBag();checks.push('bag state '+width);
+ }
+ await openBag();let row=await card();assert(await row.locator('[data-use-dark-card]').isEnabled());await row.locator('[data-use-dark-card]').click();await page.waitForFunction(()=>v.map==='jungle1'&&!v.flight&&!v.mapLoading);await page.locator('[data-dark-understood]').click();await page.waitForFunction(()=>!v.darkBusy);await page.waitForTimeout(1700);
+ assert((await call('dark:return')).success);await page.waitForFunction(()=>v.map==='start'&&!v.mapLoading);await openBag();row=await card();assert(await row.locator('[data-use-dark-card]').isDisabled());assert.match(await row.locator('[data-dark-card-timer]').innerText(),/4:\d\d/);
+ const first=await row.locator('[data-dark-card-timer]').innerText();await page.waitForTimeout(2100);assert.notEqual(await row.locator('[data-dark-card-timer]').innerText(),first);await closeBag();await page.waitForTimeout(1100);await openBag();row=await card();const remaining=await page.evaluate(()=>v.$refs.bagPanel.$children.find(c=>c.$options.name==='DarkCardUse')?.seconds);assert(remaining===undefined||remaining<298);
+ for(const [w,h]of [[320,568],[393,852],[844,390],[1536,800]])await snap('card-cooldown',w,h);
+ await closeBag();await page.reload();await ready();await openBag();row=await card();assert(await row.locator('[data-use-dark-card]').isDisabled());const denied=await call('dark:travel');assert.equal(denied.success,false);assert.match(denied.message,/recharge/);assert.equal(await page.evaluate(()=>v.map),'start');checks.push('cooldown real travel, guide return, ticking and reload');
+ await closeBag();await db.execute('UPDATE player_story_flags SET flag_value=? WHERE user_id=? AND flag_key=?',[String(Date.now()-1),owner.user.id,dc.CARD_READY_FLAG]);await openBag();row=await card();assert(await row.locator('[data-use-dark-card]').isEnabled());assert.equal(await row.locator('[data-dark-card-timer]').count(),0);checks.push('expiry permits reuse');
+ assert.deepEqual(errors,[]);success=true;
+ }catch(e){console.error(e.stack);if(page)await page.screenshot({path:out+'/failure.png'}).catch(()=>{});process.exitCode=1;}
+ finally{await browser?.close();for(const s of io.sockets.sockets.values())s.disconnect(true);await new Promise(r=>setTimeout(r,300));if(owner)await db.execute('DELETE FROM users WHERE id=?',[owner.user.id]);io.close();server.close();await db.end();fs.writeFileSync(out+'/report.json',JSON.stringify({success,engine,checks,views,errors,buildIndexSha256:createHash('sha256').update(fs.readFileSync(dist+'/index.html')).digest('hex')},null,2));console.log(JSON.stringify({success,engine,checks,views:views.length,errors}));}
+})();

@@ -1,10 +1,10 @@
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs');
 const dc=require('../server/game/world/darkContinent'),terrain=require('../server/game/world/mapRepository'),world=require('../data/game/nextMap.json').maps;
 const factory=require('../server/game/drift/pokemonFactory'),engine=require('../server/game/battle/battleEngine'),wild=require('../server/game/world/wildPokemonFactory');
-test('nine authored maps and both image layers are preserved byte-for-byte; 36 final-stage species cover 18 types',()=>{
- const species=new Set(dc.COLUMNS.flat());assert.equal(species.size,36);const dex=require('../data/game/pokedex.json'),evolutions=[...require('../data/game/evolutions.json').rules,...require('../data/game/stone_evolutions.json').rules];
+test('nine authored maps and both image layers are preserved byte-for-byte; the eastern land and water cover 18 types',()=>{
+ const habitats=require('../server/game/world/darkHabitats'),species=new Set([...dc.COLUMNS[2],...habitats.WATER[2]]),dex=require('../data/game/pokedex.json');
  assert.equal(new Set([...species].flatMap(id=>dex.find(p=>p.id===id).type)).size,18);
- for(const id of species){assert(id<=493);assert(!require('../server/game/world/legendaryEncounters').isLegendary(id));assert(!evolutions.some(r=>r.from===id));}
+ for(const id of species){assert(id<=493);assert(!require('../server/game/world/legendaryEncounters').isLegendary(id));}
  for(const asset of require('../docs/DARK_CONTINENT_ASSETS_2026-11-02.json').assets)assert.equal(require('node:crypto').createHash('sha256').update(fs.readFileSync(asset.path)).digest('hex'),asset.sha256,asset.path);
 });
 test('all nine maps can be traversed from the beach; every transition is authored, adjacent and lands on the exact authored edge without a transverse jump',()=>{
@@ -21,7 +21,7 @@ test('all nine maps can be traversed from the beach; every transition is authore
  }
 });
 test('wild levels follow columns 100–120 / 120–150 / 150–200, module ignored and no legendary bypass',async()=>{
- for(let i=1;i<=9;i++){const map='jungle'+i,[min,max]=dc.levels(map);for(const expected of[min,max])for(const active of[false,true]){let draw=0;const rng=expected===min?()=>++draw===2?0:.02:()=>.999999;const p=await wild(map,rng,{experienceModuleActive:active});assert.equal(p.level,expected);assert(dc.COLUMNS[dc.column(map)].includes(p.data.id));assert(p.currentHp===p.maxHp);assert.equal(p.abilities.length,4);}}
+ for(let i=1;i<=9;i++){const map='jungle'+i,[min,max]=dc.levels(map);for(const expected of[min,max])for(const active of[false,true]){let draw=0;const rng=expected===min?()=>++draw===2?0:.02:()=>.999999;const p=await wild(map,rng,{experienceModuleActive:active});assert.equal(p.level,expected);assert(dc.COLUMNS[dc.column(map)].includes(p.data.id));assert(p.currentHp===p.maxHp);assert(p.abilities.length>=1&&p.abilities.length<=4);}}
 });
 test('no flight via button, high-level escape bonus, Ghost, Run Away or Teleport; ordinary switching remains available',()=>{
  const a=factory.create(94,100,true),b=factory.create(65,200,true),state=engine.createBattleState({mapName:'jungle1',battleType:'wild'});a.passiveAbility='Run Away';a.abilities=[];a.movePp=[];a.addAbility('Teleport');

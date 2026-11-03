@@ -1,25 +1,33 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 const dc=require('../server/game/world/darkContinent'),maps=require('../data/game/nextMap.json').maps;
 const wild=require('../server/game/world/wildPokemonFactory'),fish=require('../server/game/world/fishingEncounters');
-test('each jungle has six species, all 36 remain available and each row has its own exclusive encounters',async()=>{
- const all=new Set();
+test('types unlock cumulatively west to east, including both types; all supported ordinary species open in the east',async()=>{
+ const habitats=require('../server/game/world/darkHabitats'),dex=require('../data/game/pokedex.json'),legend=require('../server/game/world/legendaryEncounters');
+ const expected=dex.filter(p=>p.id<=493&&!legend.isLegendary(p.id));
  for(let col=0;col<3;col++){
-  const zones=[1,4,7].map(n=>maps.find(m=>m.mapName==='jungle'+(n+col))),columnSpecies=new Set(zones.flatMap(m=>m.wildpokemon));
-  assert.deepEqual([...columnSpecies].sort((a,b)=>a-b),[...dc.COLUMNS[col]].sort((a,b)=>a-b));
-  for(const zone of zones){
-   assert.equal(zone.wildpokemon.length,6);assert.equal(new Set(zone.wildpokemon).size,6);assert(zone.wildpokemon.some(id=>zones.every(m=>m===zone||!m.wildpokemon.includes(id))));
+  const allowed=new Set(habitats.TYPE_STAGES.slice(0,col+1).flat()),zones=[1,4,7].map(n=>maps.find(m=>m.mapName==='jungle'+(n+col))),species=new Set(zones.flatMap(m=>m.wildpokemon));
+  assert.deepEqual([...species].sort((a,b)=>a-b),[...dc.COLUMNS[col]].sort((a,b)=>a-b));
+  for(const zone of zones){assert.deepEqual(zone.wildpokemon,habitats.landPool(zone.mapName));assert.equal(new Set(zone.wildpokemon).size,zone.wildpokemon.length);
    for(const [index,id]of zone.wildpokemon.entries()){
-    let draw=0;const p=await wild(zone.mapName,()=>++draw===1?(index+.5)/zone.wildpokemon.length:.5);assert.equal(p.data.id,id);all.add(id);
+    let draw=0;const p=await wild(zone.mapName,()=>++draw===1?(index+.5)/zone.wildpokemon.length:.5);assert.equal(p.data.id,id);assert(!p.data.type.includes('Water'));assert(p.data.type.every(t=>allowed.has(t)));assert(p.abilities.length>=1&&p.abilities.length<=4);assert.equal(p.currentHp,p.maxHp);
    }
   }
+  const aquatic=fish.darkPools[col].map(([id])=>id),all=[...species,...aquatic];
+  assert.deepEqual(new Set(all.flatMap(id=>dex.find(p=>p.id===id).type)),allowed);
+  if(col===2){assert.deepEqual(new Set(all),new Set(expected.map(p=>p.id)));for(const zone of zones)assert.deepEqual(zone.wildpokemon,dc.COLUMNS[2]);}
+  else assert(zones.some(m=>JSON.stringify(m.wildpokemon)!==JSON.stringify(zones[0].wildpokemon)));
  }
- assert.equal(all.size,36);const first=maps.find(m=>m.mapName==='jungle1');assert(!first.wildpokemon.includes(212));assert(!first.wildpokemon.includes(94));
 });
-test('the first waters do not contain every aquatic species; central and eastern waters unlock distinct encounters',()=>{
- const [west,center,east]=fish.darkPools.map(p=>new Set(p.map(([id])=>id))),all=new Set([...west,...center,...east]);
- assert.equal(all.size,8);assert.equal(west.size,5);assert(center.size>=5&&east.size>=5);assert(!west.has(260));assert(!west.has(395));assert(!west.has(230));assert(center.has(260));assert(east.has(395)&&east.has(230));
- for(let n=1;n<=9;n++){
-  const map='jungle'+n,pool=fish.darkPools[dc.column(map)];for(let j=0;j<1000;j++){let draw=0;const p=fish.fishingEncounter(map,()=>++draw===1?j/1000:.5);assert(pool.some(([id])=>id===p.id));}
+test('Water species are exclusive to fishing; dual types obey the same progressive unlocks',()=>{
+ const habitats=require('../server/game/world/darkHabitats'),dex=require('../data/game/pokedex.json');
+ for(let col=0;col<3;col++){
+  const allowed=new Set(habitats.TYPE_STAGES.slice(0,col+1).flat()),ids=fish.darkPools[col].map(([id])=>id);
+  assert.deepEqual(ids,habitats.WATER[col]);assert(ids.length>=5);
+  for(const id of ids){const p=dex.find(p=>p.id===id);assert(p.type.includes('Water'));assert(p.type.every(t=>allowed.has(t)));}
+  if(col>0)assert(fish.darkPools[col-1].every(([id])=>ids.includes(id)));
+  for(let row=0;row<3;row++)for(const [index,id]of ids.entries()){
+   const map='jungle'+(row*3+col+1);let draw=0;const encounter=fish.fishingEncounter(map,()=>++draw===1?(index+.5)/ids.length:.5);assert.equal(encounter.id,id);
+  }
  }
 });
 test('ordinary plates roll at exactly 3% on jungle1/4/7, with central/eastern chances and corrupted guarantees preserved',async()=>{

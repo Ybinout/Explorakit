@@ -1,11 +1,8 @@
 const ITEM='professional_trainer_card',REQUIRED_ROOMS=48,CARD_PRICE=2000000,HEAL_PRICE=10000;
 const ARRIVAL=Object.freeze({map:'jungle1',x:208,y:368});
 const LOBBY=Object.freeze({map:'super_tournament_lobby',x:448,y:496});
-const COLUMNS=[
- [3,6,9,65,68,94,130,143,181,212,229,242],
- [248,254,257,260,282,306,330,350,389,392,395,398],
- [373,376,405,407,445,448,450,452,464,468,473,477]
-];
+const COLUMNS=require('./darkHabitats').LAND;
+const CARD_COOLDOWN_MS=5*60*1000, CARD_READY_FLAG='dark_card_ready_at';
 const TYPES={Normal:'Normal',Fire:'Feu',Water:'Eau',Electric:'Électrik',Grass:'Plante',Ice:'Glace',Fighting:'Combat',Poison:'Poison',Ground:'Sol',Flying:'Vol',Psychic:'Psy',Bug:'Insecte',Rock:'Roche',Ghost:'Spectre',Dragon:'Dragon',Dark:'Ténèbres',Steel:'Acier',Fairy:'Fée'};
 function isMap(map){return /^jungle[1-9]$/.test(String(map||''));}
 const EXIT_MESSAGE='Le module ne fonctionne pas sur le Dark Continent. Parle au guide de la plage pour rentrer chez toi.';
@@ -55,4 +52,4 @@ function loot(pokemon,random=Math.random,map='jungle1'){const special=require('.
  for(const[key,chance,min,max]of profile.crystals)if(random()<chance){const item=items.find(i=>i.key===key);found.push({...item,quantity:min+Math.min(max-min,Math.floor(random()*(max-min+1)))});}
  if(random()<profile.plateChance){const types=pokemon.data.type,type=types[Math.min(types.length-1,Math.floor(random()*types.length))];found.push({...items.find(i=>i.key===plateKey(type)),quantity:1});}return found;
 }
-module.exports={EXIT_MESSAGE,assertTravelAllowed,ITEM,REQUIRED_ROOMS,CARD_PRICE,HEAL_PRICE,ARRIVAL,LOBBY,COLUMNS,TYPES,isMap,column,levels,plateKey,lootProfile,rules,research,actors,interactionActor,scopedStore,scoutPath,loot};
+module.exports={EXIT_MESSAGE,assertTravelAllowed,ITEM,REQUIRED_ROOMS,CARD_PRICE,HEAL_PRICE,CARD_COOLDOWN_MS,CARD_READY_FLAG,ARRIVAL,LOBBY,COLUMNS,TYPES,isMap,column,levels,plateKey,lootProfile,rules,research,actors,interactionActor,scopedStore,scoutPath,loot};

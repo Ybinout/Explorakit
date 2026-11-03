@@ -17,3 +17,25 @@ test('Dark rescue: failed team insertion restores reserve and destination; retry
 test('Dark rescue: pre-existing fainted corrupted party member is preserved in the freed PC slot if first reserve is also corrupted',{skip:!enabled},async()=>{const mutate=require('../server/game/corruption/pokemon'),catalogue=require('../server/game/corruption/modules'),a=mon(7),b=mon(4);for(const p of[a,b])mutate.install(p,catalogue.get('cmod_type_electric'),{expectedRevision:0});a.currentHp=0;await teams.editEquipe(user.id,{pokemons:[a]});await pc.storeCapturedPokemon(user.id,b);const r=await rescue.rescue(user.id);assert.equal(r.equipe.pokemons.length,1);assert.equal(r.equipe.pokemons[0].uuid,b.uuid);const reserve=(await pc.loadEntries(user.id))[0].pokemon;assert.equal(reserve.uuid,a.uuid);assert(reserve.corruption.permanent);assert.equal(reserve.currentHp,0);});
 
 test('Corruption modules are single-use: each target consumes one unit; duplicate reply consumes none and final unit disappears from bag',{skip:!enabled},async()=>{await qualify();await repo.grantCard(user.id);const a=mon(7),b=mon(1);await teams.editEquipe(user.id,{pokemons:[a]});await pc.storeCapturedPokemon(user.id,b);const key='cmod_type_fire',mut=require('../server/persistence/corruptionRepository'),items=require('../server/persistence/itemRepository');await db.execute('INSERT INTO user_items(user_id,item_key,quantity) VALUES(?,?,2)',[user.id,key]);const data={requestId:randomUUID(),source:'team',pokemonUuid:a.uuid,itemKey:key,expectedRevision:0};await mut.install(user.id,data);await mut.install(user.id,data);assert.equal((await items.loadUserItems(user.id)).find(i=>i.key===key).quantity,1);await mut.install(user.id,{...data,requestId:randomUUID(),source:'box',pokemonUuid:b.uuid});assert(!(await items.loadUserItems(user.id)).some(i=>i.key===key));assert.equal((await teams.loadEquipe(user.id)).pokemons[0].corruption.modules.type.itemKey,key);assert.equal((await pc.loadEntries(user.id))[0].pokemon.corruption.modules.type.itemKey,key);});
+
+test('Dark card: 5-minute cooldown is durable, per account and atomic across concurrent uses',{skip:!enabled},async()=>{
+ await qualify();await repo.grantCard(user.id);const before=Date.now();
+ const attempts=await Promise.allSettled(Array.from({length:8},()=>repo.beginTravel(user.id))),accepted=attempts.filter(r=>r.status==='fulfilled');
+ assert.equal(accepted.length,1);const {readyAt}=accepted[0].value;assert(readyAt>=before+300000&&readyAt<=Date.now()+300000);
+ assert(attempts.filter(r=>r.status==='rejected').every(r=>r.reason.readyAt===readyAt));assert.equal((await repo.loadState(user.id)).cardReadyAt,readyAt);
+ const card=(await require('../server/persistence/itemRepository').loadUserItems(user.id)).find(i=>i.darkContinentTravel);assert.equal(card.travelReadyAt,readyAt);assert(card.travelServerNow<=Date.now());
+ await assert.rejects(repo.beginTravel(other.id),/carte/);assert.equal((await repo.loadState(other.id)).cardReadyAt,0);
+ // A later visit/reconnection reads SQL again; an expired card can be used immediately.
+ await db.execute('UPDATE player_story_flags SET flag_value=? WHERE user_id=? AND flag_key=?',[String(Date.now()-1),user.id,require('../server/game/world/darkContinent').CARD_READY_FLAG]);
+ const next=await repo.beginTravel(user.id);await repo.cancelTravel(user.id,readyAt-1);assert.equal((await repo.loadState(user.id)).cardReadyAt,next.readyAt);
+});
+test('Dark card: failed SQL claim rolls back, failed departure releases only its own claim, guide return stays free during cooldown',{skip:!enabled},async()=>{
+ await qualify();await repo.grantCard(user.id);await failAt('INSERT INTO player_story_flags',()=>repo.beginTravel(user.id));assert.equal((await repo.loadState(user.id)).cardReadyAt,0);
+ const p={currentmap:'start',equipe:{pokemons:[mon()]}};let state=await repo.loadState(user.id),fail=true;const events=[];
+ function connection(){const commands={};require('../server/realtime/handlers/darkContinentHandlers').createHandlers({socket:{emit:(name,data)=>events.push({name,data})},account:{on:(n,f)=>commands[n]=f},userId:user.id,getPlayer:()=>p,getState:()=>state,setState:s=>state=s,refreshActors(){},canUse:()=>true,closeFishing(){},travel:async d=>{if(fail)throw Error('departure unavailable');p.currentmap=d.map;p.x=d.x;p.y=d.y;}});return async name=>{let r;await commands[name]({},v=>r=v);return r;};}
+ let call=connection();assert.equal((await call('dark:travel')).success,false);assert.equal((await repo.loadState(user.id)).cardReadyAt,0);assert.equal(events.at(-1).data.readyAt,0);
+ fail=false;assert((await call('dark:travel')).success);const readyAt=(await repo.loadState(user.id)).cardReadyAt;assert(readyAt>Date.now());
+ // Reconnect: the in-memory short travel guard is gone; persistent card cooldown is not.
+ call=connection();p.currentmap='start';assert.equal((await call('dark:travel')).success,false);assert.equal((await repo.loadState(user.id)).cardReadyAt,readyAt);
+ p.currentmap='jungle1';p.x=208;p.y=368;assert((await call('dark:return')).success);assert.equal(p.currentmap,'start');assert.equal((await repo.loadState(user.id)).cardReadyAt,readyAt);
+});

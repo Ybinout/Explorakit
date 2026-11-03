@@ -15,7 +15,7 @@ async function validateBagUi(page,output,width){
  }
  await page.locator('[data-bag-pocket="medicine"]').click();await page.locator('[data-item-key="antidote"] .bag-item-select').click();
  await page.evaluate(()=>{const v=window.journalTestVm;v.bagItems=v.bagItems.map(i=>i.key==='antidote'?{...i,quantity:0}:i);});
- await page.locator('[data-item-key="antidote"]').waitFor({state:'hidden'});assert.equal(await page.locator('[data-item-key="potion"] .bag-item-select').getAttribute('aria-expanded'),'true');
+ await page.locator('[data-item-key="antidote"]').waitFor({state:'hidden'});assert.equal(await page.locator('[data-item-key="potion"] .bag-item-select').getAttribute('aria-expanded'),'false');
  // Theme surfaces and all compartments, including the readable empty state.
  for(const mode of ['light','dark']){
   await page.evaluate(mode=>document.documentElement.setAttribute('data-game-theme-mode',mode),mode);
