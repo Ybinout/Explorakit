@@ -1,3 +1,9 @@
+## Plaques Dark : hausse de deux points — 4 novembre 2026
+
+Taux actuels ordinaires dans `darkContinent.lootProfile` :6 % à l’ouest(jungle1/4/7),13 % au centre(2/5/8),17 % à l’est(3/6),23 % en jungle9. Hausse de deux **points**, sans toucher cristaux/tailles de lots, prix, recettes, XP/argent ou1–5 plaques garanties des corrompus. Terre/pêche partagent la fonction et les reçus durables existants. Annonce `2026-11-04-dark-plaques-plus-2`.
+
+Rapport `docs/DARK_PLATES_PLUS2_2026-11-04.json`,89 vérifications(45 ciblées,44 SQL) ;les suites de combat SQL exigent `NODE_ENV=test BATTLE_DELAY_SCALE=0` comme `runMysqlTests.js`, sinon leurs délais réels dépassent ceux des fixtures. Publication serveur PID3877345, clientb44d609/buildbdd5d08e9cb7a037 conservés ;sauvegarde, schéma, HTTPS et voisins vérifiés. Aucun compte réel modifié manuellement.
+
 ## Entrée des combats Maison — 4 novembre 2026
 
 `UserMap.battletrigger` transmet seulement les espèces déjà publiques du dresseur sélectionné. `BattleOverlay` réutilise le rideau existant et attend les images DOM réellement sélectionnées ainsi que les sprites face/dos de son équipe et ceux du catalogue PvE, dédupliqués. Aucun accès aux réserves cachées PvP. Borne Maison12 s (autres rencontres2,4 s), erreurs/décodages rejetés libérés comme avant ;pas de délai infini ou de modification du timer serveur. `entranceAssetsLoading` anime l’icône et change le libellé ;annulation/époque visuelle et garde des actions conservées.

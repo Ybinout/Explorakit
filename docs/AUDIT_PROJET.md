@@ -1,3 +1,11 @@
+## Plaques de type : +2 points partout — 4 novembre 2026
+
+Les probabilités ordinaires du Dark Continent augmentent de deux points :ouest(jungle1/4/7)4→6 %,centre(2/5/8)11→13 %,est(jungle3/6)15→17 %,jungle9 21→23 %. Le chemin commun couvre les rencontres terrestres et la pêche. Les1–5 plaques garanties des corrompus, les trois cristaux, leurs quantités, les objets ordinaires, l’argent, l’XP, les recettes, prix et stocks acquis restent inchangés. L’annonce de connexion possède un nouveau reçu `2026-11-04-dark-plaques-plus-2`.
+
+Validation :45 tests ciblés et44 SQL/reprise sans échec ni saut, avec les paramètres standards `NODE_ENV=test BATTLE_DELAY_SCALE=0` sur `explorakit_test`. Bornes des neuf cartes, simulations reproductibles, crédit réel à0,22 en jungle9, interruption et absence de récompense au rejeu. Le premier lancement SQL avait omis l’accélération des délais de fixture ;il a été interrompu, ses deux comptes jetables nettoyés et la suite complète relancée correctement. Aucun compte réel concerné. Rapport `docs/DARK_PLATES_PLUS2_2026-11-04.json`.
+
+Publication serveur :PID3867802→3877345, aucune tentative Tour ni duel Maison actif. Sauvegarde SQL/sources/index, schéma31 tables/27 contraintes/31 reçus inchangé et vérifié. Client `b44d609`/build `bdd5d08e9cb7a037` conservé,21 bundles HTTPS et voisins Knov/API contrôlés ;checkpoint et modes fermés préservés. Aucun schéma ou stock joueur modifié manuellement.
+
 ## Chargement des combats de la Maison — 4 novembre 2026
 
 Le rideau d’entrée existant disparaissait au bout de2,4 s même si les images n’étaient pas encore reçues. Cas reproduit dans un vrai PvE à3,2 s. La Maison utilise maintenant une borne de sécurité de12 s pour le chargement/décodage, avec Poké Ball tournante et mention « Chargement des images… ». Les commandes/scène restent masquées pendant l’attente ;mouvement réduit :icône fixe. Les autres rencontres gardent2,4 s. Une ressource manquante ou définitivement bloquée ne crée pas d’attente infinie.
@@ -6401,6 +6409,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **4 novembre 2026 — Plaques+2 points :**Dark ordinaire6/13/17/23 %,terre et pêche ;autres récompenses inchangées.89 vérifications, sauvegarde et publication serveur sans rebuild client. Rapport `docs/DARK_PLATES_PLUS2_2026-11-04.json`.
 
 - **4 novembre 2026 — Loader Maison :**préchargement des sprites inscrits/catalogue, garde de chargement/décodage12 s, indicateur animé ou fixe.10 tests et parcours réels PC/mobile, sans modification serveur. Rapport `docs/HOUSE_BATTLE_LOADER_2026-11-04.json`.
 
