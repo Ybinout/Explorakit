@@ -1,0 +1,1029 @@
+{
+  "feature": "Maison des Combats: 1v1, PvE, 2v1 and single-active 2v2 6v6/12v12",
+  "date": "2026-11-04",
+  "sourceBaseline": "f37c3312833b15dc82a7421936da54dc2c49a191",
+  "clientCommit": "eac06d11f5008de160a4b90b48626cfeb9f52bbb",
+  "clientBuild": "c84e04d57d1d5b3d",
+  "buildIndexSha256": "04bf2bcf2ed1ce4da5b37a21859daa4c560d485a7422fe4bc45a5b1fc9af607d",
+  "schemaChanged": false,
+  "realAccountsManuallyModified": false,
+  "creatorMapsOrAssetsChanged": false,
+  "runtimeSourceSha256": {
+    "data/game/latest_patch.json": "7f6bbfcff17e3842f4a54ed967afcf074a80392b01bd69023311b3757ab01e95",
+    "server/game/battle/partyIndicator.js": "f44ecc4a2ddefa340c57670ad8abc1a3a5220cd79c93ab85683f423d225684b2",
+    "server/game/drift/driftBattle.js": "b3dd8641ffee3f39ea2e65f79f2e5e9e9052907b2b83c9c88ac88d3f886b678b",
+    "server/game/whitepeak/rules.js": "9aee09cceca10ac1cbcc0ad6a53711f0f72e41e248ba6c362571f32100ea5aff",
+    "server/persistence/whitepeakRepository.js": "cfafaa96c439177327755b56c50c9b4c486cbc17b673411cbabaab03a90db112",
+    "server/realtime/socketHandler.js": "7f8e4ef6791f9419fb78422b6e10114dd0fddfa1c186f3ffee9f9f47284e17eb",
+    "server/realtime/whitepeakClub.js": "feebea42c52cc9b1254c00c59036eb6710c70a86d3a88047732d6a440e3a9081",
+    "server/game/whitepeak/duelHouse.js": "fa42accfebfa199c2c5f9ba4e992ef970a31189a1f168a761d0cb7b1c8e9f8d9",
+    "server/game/whitepeak/trainers.js": "37756bc192a59b8db755ff8a061d26a257f647e7cc14a6b794332703f13f13b1",
+    "server/persistence/whitepeakHouseRepository.js": "edb5fcb07b06861c8890f22af22473540bf9ac146904e1abacd4729c4da295c6"
+  },
+  "rules": {
+    "modes": [
+      "1v1",
+      "pve",
+      "2v1",
+      "2v2"
+    ],
+    "xp": 0,
+    "ev": 0,
+    "trainerChoices": 18,
+    "pveMatchesPlayerCountAndLevels": true,
+    "partyAndPcCandidates": true,
+    "oneToSixPerAlly": true,
+    "twelveMeansSixPerAlly": true,
+    "preparationSeconds": 120,
+    "hostPlacementSeconds": 50,
+    "reconnectPauseSeconds": 30,
+    "cashPerCamp": true,
+    "pokemonWagers": "1v1 only",
+    "singleActivePerCamp": true,
+    "delegateConsumesTurn": false,
+    "originalPartyWrittenFromCopies": false,
+    "restartRefundsEveryParticipant": true,
+    "privateCampRosterChatAndProposals": true,
+    "legacyClientsRemainClassicOnly": true
+  },
+  "validation": {
+    "passed": 88,
+    "failed": 0,
+    "skipped": 0,
+    "targetedTests": {
+      "passed": 63,
+      "log": "/tmp/riftmon-house-targeted.log",
+      "files": [
+        "tests/whitepeak-house.test.js",
+        "tests/whitepeak-manager.test.js",
+        "tests/whitepeak-rules.test.js",
+        "tests/battle-party.test.js",
+        "tests/battle-order.test.js",
+        "tests/super-tournament-experience.test.js",
+        "tests/account-connection.test.js"
+      ]
+    },
+    "sqlAndPatchTests": {
+      "passed": 25,
+      "log": "/tmp/riftmon-house-sql-final.log",
+      "files": [
+        "tests/whitepeak-house-mysql.test.js",
+        "tests/whitepeak-mysql.test.js",
+        "tests/whitepeak-house-network-mysql.test.js",
+        "tests/patch-notes-mysql.test.js",
+        "tests/patch-notes.test.js"
+      ],
+      "dedicatedDatabase": "explorakit_test",
+      "serialized": true
+    },
+    "ui": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "views": [
+          {
+            "label": "modes",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "modes-320-light.png"
+          },
+          {
+            "label": "modes",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "modes-320-dark.png"
+          },
+          {
+            "label": "modes",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "modes-393-light.png"
+          },
+          {
+            "label": "modes",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "modes-393-dark.png"
+          },
+          {
+            "label": "modes",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "modes-844-light.png"
+          },
+          {
+            "label": "modes",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "modes-844-dark.png"
+          },
+          {
+            "label": "modes",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "modes-1536-light.png"
+          },
+          {
+            "label": "modes",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "modes-1536-dark.png"
+          },
+          {
+            "label": "preparation",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "preparation-320-light.png"
+          },
+          {
+            "label": "preparation",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "preparation-320-dark.png"
+          },
+          {
+            "label": "preparation",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "preparation-393-light.png"
+          },
+          {
+            "label": "preparation",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "preparation-393-dark.png"
+          },
+          {
+            "label": "preparation",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "preparation-844-light.png"
+          },
+          {
+            "label": "preparation",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "preparation-844-dark.png"
+          },
+          {
+            "label": "preparation",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "preparation-1536-light.png"
+          },
+          {
+            "label": "preparation",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "preparation-1536-dark.png"
+          },
+          {
+            "label": "relay",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "relay-320-light.png"
+          },
+          {
+            "label": "relay",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "relay-320-dark.png"
+          },
+          {
+            "label": "relay",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "relay-393-light.png"
+          },
+          {
+            "label": "relay",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "relay-393-dark.png"
+          },
+          {
+            "label": "relay",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "relay-844-light.png"
+          },
+          {
+            "label": "relay",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "relay-844-dark.png"
+          },
+          {
+            "label": "relay",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "relay-1536-light.png"
+          },
+          {
+            "label": "relay",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "relay-1536-dark.png"
+          },
+          {
+            "label": "twelve",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "twelve-320-light.png"
+          },
+          {
+            "label": "twelve",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "twelve-320-dark.png"
+          },
+          {
+            "label": "twelve",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "twelve-393-light.png"
+          },
+          {
+            "label": "twelve",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "twelve-393-dark.png"
+          },
+          {
+            "label": "twelve",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "twelve-844-light.png"
+          },
+          {
+            "label": "twelve",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "twelve-844-dark.png"
+          },
+          {
+            "label": "twelve",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "twelve-1536-light.png"
+          },
+          {
+            "label": "twelve",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "twelve-1536-dark.png"
+          },
+          {
+            "label": "pve",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "pve-320-light.png"
+          },
+          {
+            "label": "pve",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "pve-320-dark.png"
+          },
+          {
+            "label": "pve",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "pve-393-light.png"
+          },
+          {
+            "label": "pve",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "pve-393-dark.png"
+          },
+          {
+            "label": "pve",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "pve-844-light.png"
+          },
+          {
+            "label": "pve",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "pve-844-dark.png"
+          },
+          {
+            "label": "pve",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "pve-1536-light.png"
+          },
+          {
+            "label": "pve",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "pve-1536-dark.png"
+          },
+          {
+            "label": "classic-review",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "classic-review-320-light.png"
+          },
+          {
+            "label": "classic-review",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "classic-review-320-dark.png"
+          },
+          {
+            "label": "classic-review",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "classic-review-393-light.png"
+          },
+          {
+            "label": "classic-review",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "classic-review-393-dark.png"
+          },
+          {
+            "label": "classic-review",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "classic-review-844-light.png"
+          },
+          {
+            "label": "classic-review",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "classic-review-844-dark.png"
+          },
+          {
+            "label": "classic-review",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "classic-review-1536-light.png"
+          },
+          {
+            "label": "classic-review",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "classic-review-1536-dark.png"
+          }
+        ],
+        "checks": [
+          "camp-private-chat-and-roster",
+          "edit-resets-confirmations",
+          "relay-without-extra-turn",
+          "browser-reconnect-same-controller",
+          "ownership-after-switch",
+          "live-read-only-spectator",
+          "durable-camp-stakes",
+          "twelve-per-camp-and-twelve-balls",
+          "pve-matching-levels-no-xp-no-progression-write",
+          "classic-one-v-one-money-and-pc-wager-no-xp"
+        ],
+        "errors": [],
+        "buildIndexSha256": "04bf2bcf2ed1ce4da5b37a21859daa4c560d485a7422fe4bc45a5b1fc9af607d"
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "views": [
+          {
+            "label": "modes",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "modes-320-light.png"
+          },
+          {
+            "label": "modes",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "modes-320-dark.png"
+          },
+          {
+            "label": "modes",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "modes-393-light.png"
+          },
+          {
+            "label": "modes",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "modes-393-dark.png"
+          },
+          {
+            "label": "modes",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "modes-844-light.png"
+          },
+          {
+            "label": "modes",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "modes-844-dark.png"
+          },
+          {
+            "label": "modes",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "modes-1536-light.png"
+          },
+          {
+            "label": "modes",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "modes-1536-dark.png"
+          },
+          {
+            "label": "preparation",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "preparation-320-light.png"
+          },
+          {
+            "label": "preparation",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "preparation-320-dark.png"
+          },
+          {
+            "label": "preparation",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "preparation-393-light.png"
+          },
+          {
+            "label": "preparation",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "preparation-393-dark.png"
+          },
+          {
+            "label": "preparation",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "preparation-844-light.png"
+          },
+          {
+            "label": "preparation",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "preparation-844-dark.png"
+          },
+          {
+            "label": "preparation",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "preparation-1536-light.png"
+          },
+          {
+            "label": "preparation",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "preparation-1536-dark.png"
+          },
+          {
+            "label": "relay",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "relay-320-light.png"
+          },
+          {
+            "label": "relay",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "relay-320-dark.png"
+          },
+          {
+            "label": "relay",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "relay-393-light.png"
+          },
+          {
+            "label": "relay",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "relay-393-dark.png"
+          },
+          {
+            "label": "relay",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "relay-844-light.png"
+          },
+          {
+            "label": "relay",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "relay-844-dark.png"
+          },
+          {
+            "label": "relay",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "relay-1536-light.png"
+          },
+          {
+            "label": "relay",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "relay-1536-dark.png"
+          },
+          {
+            "label": "twelve",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "twelve-320-light.png"
+          },
+          {
+            "label": "twelve",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "twelve-320-dark.png"
+          },
+          {
+            "label": "twelve",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "twelve-393-light.png"
+          },
+          {
+            "label": "twelve",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "twelve-393-dark.png"
+          },
+          {
+            "label": "twelve",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "twelve-844-light.png"
+          },
+          {
+            "label": "twelve",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "twelve-844-dark.png"
+          },
+          {
+            "label": "twelve",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "twelve-1536-light.png"
+          },
+          {
+            "label": "twelve",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "twelve-1536-dark.png"
+          },
+          {
+            "label": "pve",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "pve-320-light.png"
+          },
+          {
+            "label": "pve",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "pve-320-dark.png"
+          },
+          {
+            "label": "pve",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "pve-393-light.png"
+          },
+          {
+            "label": "pve",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "pve-393-dark.png"
+          },
+          {
+            "label": "pve",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "pve-844-light.png"
+          },
+          {
+            "label": "pve",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "pve-844-dark.png"
+          },
+          {
+            "label": "pve",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "pve-1536-light.png"
+          },
+          {
+            "label": "pve",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "pve-1536-dark.png"
+          },
+          {
+            "label": "classic-review",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "classic-review-320-light.png"
+          },
+          {
+            "label": "classic-review",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "classic-review-320-dark.png"
+          },
+          {
+            "label": "classic-review",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "classic-review-393-light.png"
+          },
+          {
+            "label": "classic-review",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "classic-review-393-dark.png"
+          },
+          {
+            "label": "classic-review",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "classic-review-844-light.png"
+          },
+          {
+            "label": "classic-review",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "classic-review-844-dark.png"
+          },
+          {
+            "label": "classic-review",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "classic-review-1536-light.png"
+          },
+          {
+            "label": "classic-review",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "classic-review-1536-dark.png"
+          }
+        ],
+        "checks": [
+          "camp-private-chat-and-roster",
+          "edit-resets-confirmations",
+          "relay-without-extra-turn",
+          "browser-reconnect-same-controller",
+          "ownership-after-switch",
+          "live-read-only-spectator",
+          "durable-camp-stakes",
+          "twelve-per-camp-and-twelve-balls",
+          "pve-matching-levels-no-xp-no-progression-write",
+          "classic-one-v-one-money-and-pc-wager-no-xp"
+        ],
+        "errors": [],
+        "buildIndexSha256": "04bf2bcf2ed1ce4da5b37a21859daa4c560d485a7422fe4bc45a5b1fc9af607d"
+      }
+    },
+    "patchNotice": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "views": [
+          {
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "patch-320-light.png"
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "patch-320-dark.png"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "patch-393-light.png"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "patch-393-dark.png"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "patch-844-light.png"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "patch-844-dark.png"
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "patch-1536-light.png"
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "patch-1536-dark.png"
+          }
+        ],
+        "errors": [],
+        "buildIndexSha256": "04bf2bcf2ed1ce4da5b37a21859daa4c560d485a7422fe4bc45a5b1fc9af607d",
+        "checks": [
+          "login",
+          "unread-reload",
+          "stale-response",
+          "persisted-dismissal",
+          "cross-device",
+          "account-switch",
+          "ack-failure",
+          "onboarding-priority",
+          "menu-priority",
+          "movement-blocked",
+          "focus",
+          "fullscreen"
+        ]
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "views": [
+          {
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "patch-320-light.png"
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "patch-320-dark.png"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "patch-393-light.png"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "patch-393-dark.png"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "patch-844-light.png"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "patch-844-dark.png"
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "patch-1536-light.png"
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "patch-1536-dark.png"
+          }
+        ],
+        "errors": [],
+        "buildIndexSha256": "04bf2bcf2ed1ce4da5b37a21859daa4c560d485a7422fe4bc45a5b1fc9af607d",
+        "checks": [
+          "login",
+          "unread-reload",
+          "stale-response",
+          "persisted-dismissal",
+          "cross-device",
+          "account-switch",
+          "ack-failure",
+          "onboarding-priority",
+          "menu-priority",
+          "movement-blocked",
+          "focus"
+        ]
+      }
+    },
+    "lint": true,
+    "build": true,
+    "syntax": true,
+    "diffCheck": true,
+    "globalSuiteRerun": false,
+    "knownHistoricalGlobalFailures": 28
+  },
+  "manualVisualReview": [
+    "desktop dark collaborative columns",
+    "mobile light shared composition and fixed confirmation footer",
+    "mobile dark four mode tabs",
+    "mobile relay controls and active-owner labels"
+  ],
+  "limitations": [
+    "WebKit is automated browser-engine coverage, not a physical iPhone test.",
+    "Performance at 10 concurrent participants was not load-tested for this patch; one duel at a time remains enforced.",
+    "The existing global suite has 28 documented historical failures and was not rerun."
+  ],
+  "latestPatch": {
+    "version": "2026-11-04-maison-combats",
+    "date": "2026-11-04",
+    "fr": {
+      "title": "La Maison des Combats s’agrandit !",
+      "items": [
+        "Choisis un duel 1v1, un entraînement PvE, ou les nouveaux modes 2v1 et 2v2 avec équipe commune et relais entre alliés.",
+        "Les mises sont conservées. Ces quatre modes ne donnent aucun gain d’XP."
+      ]
+    },
+    "en": {
+      "title": "More ways to battle!",
+      "items": [
+        "Choose a 1v1 duel, PvE training, or the new 2v1 and 2v2 modes with shared teams and partner control.",
+        "Wagers remain available. None of these four modes awards XP."
+      ]
+    }
+  },
+  "deployment": {
+    "publishedAt": "2026-11-04T09:00:28.435Z",
+    "restartedAt": "2026-11-04T09:00:26.710Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-house-2026-11-04T09-00-24-824Z",
+    "sourceBaseline": "f37c3312833b15dc82a7421936da54dc2c49a191",
+    "sourceHashes": {
+      "data/game/latest_patch.json": "7f6bbfcff17e3842f4a54ed967afcf074a80392b01bd69023311b3757ab01e95",
+      "server/game/battle/partyIndicator.js": "f44ecc4a2ddefa340c57670ad8abc1a3a5220cd79c93ab85683f423d225684b2",
+      "server/game/drift/driftBattle.js": "b3dd8641ffee3f39ea2e65f79f2e5e9e9052907b2b83c9c88ac88d3f886b678b",
+      "server/game/whitepeak/rules.js": "9aee09cceca10ac1cbcc0ad6a53711f0f72e41e248ba6c362571f32100ea5aff",
+      "server/persistence/whitepeakRepository.js": "cfafaa96c439177327755b56c50c9b4c486cbc17b673411cbabaab03a90db112",
+      "server/realtime/socketHandler.js": "7f8e4ef6791f9419fb78422b6e10114dd0fddfa1c186f3ffee9f9f47284e17eb",
+      "server/realtime/whitepeakClub.js": "feebea42c52cc9b1254c00c59036eb6710c70a86d3a88047732d6a440e3a9081",
+      "server/game/whitepeak/duelHouse.js": "fa42accfebfa199c2c5f9ba4e992ef970a31189a1f168a761d0cb7b1c8e9f8d9",
+      "server/game/whitepeak/trainers.js": "37756bc192a59b8db755ff8a061d26a257f647e7cc14a6b794332703f13f13b1",
+      "server/persistence/whitepeakHouseRepository.js": "edb5fcb07b06861c8890f22af22473540bf9ac146904e1abacd4729c4da295c6"
+    },
+    "clientCommit": "eac06d11f5008de160a4b90b48626cfeb9f52bbb",
+    "clientBuild": "c84e04d57d1d5b3d",
+    "beforePid": "3828276",
+    "afterPid": "3836988",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "schemaChanged": false,
+    "migrationApplied": null,
+    "activeClubDuelsBefore": 0,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 0,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": [
+      "js/234.02b18f2e.js",
+      "js/393.0fd15895.js",
+      "js/674.050af613.js",
+      "js/689.ea67c21b.js",
+      "js/737.e2c30081.js",
+      "js/account.6f096228.js",
+      "js/app.c43a9f3e.js",
+      "js/chunk-vendors.0f4c51f9.js",
+      "js/colosseum.e15fe230.js",
+      "js/community.ef51702b.js",
+      "js/drift.e4ddfe6a.js",
+      "js/game.ec1cb9c9.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.c5a385b9.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.4b3d0aa6.css",
+      "css/test-view.7568246d.css"
+    ]
+  }
+}

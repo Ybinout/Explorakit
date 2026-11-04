@@ -789,6 +789,7 @@ const socketHandler = (io) => {
             synchronize:synchronizeTradeInventory
         });
         clubHandlers=whitepeakClub.attach({id:userId,username:socket.data.user.username,socket,account,getPlayer:()=>players[socket.id],
+            supportsHouseModes:socket.handshake.auth.houseModes===1,
             canUse:()=>!tournament?.controller.active&&!transitionBusy&&!pendingDialogue&&!socketToChatSession.has(socket.id)&&!hasPendingRequestForSocket(socket.id),
             casinoDialogue:()=>{
                 const p=players[socket.id];if(!p||pendingDialogue||transitionBusy)return;

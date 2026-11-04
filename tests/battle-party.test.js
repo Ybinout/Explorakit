@@ -47,3 +47,9 @@ test('client accepts optional condition states and falls back safely to old bool
  for(const wrong of [null,['ready'],['ready','orange','ko'],['ready','ko','ko']])assert.deepEqual(states({opponentParty:[true,true,false],opponentPartyStates:wrong}),['ready','ready','ko']);
  assert.equal(states({}),null);assert.equal(states({opponentParty:[1,true]}),null);assert.equal(states({opponentPartyStates:['ready']}),null);assert.equal(states({opponentParty:[]}),null);
 });
+test('12v12 has twelve anonymous balls only when the internal format explicitly opts in',async()=>{
+ const party=Array.from({length:12},(_,i)=>({currentHp:i<9?100:0}));
+ assert.equal(partyIndicator(party).length,6);assert.equal(partyIndicator(party,999).length,6);assert.deepEqual(partyIndicator(party,12),[...Array(9).fill(true),false,false,false]);
+ const {opponentPartyStates:states}=await import('../vue-explorakit/src/services/battleParty.js');
+ assert.equal(states({opponentParty:partyIndicator(party,12)}).length,6);assert.equal(states({opponentParty:partyIndicator(party,12),partyLimit:12}).length,12);
+});

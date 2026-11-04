@@ -21,6 +21,7 @@ function createClub(io,{repository=store,now=Date.now,randomNumber=()=>randomInt
  function ownerIndex(id){return room?.ids.indexOf(id)??-1;}
  function view(id){
   if(!room)return null;const index=ownerIndex(id);
+  if(room.advanced)return advanced.view(room,id);
   return {id:room.id,phase:room.phase,hostId:room.hostId,config:room.config,serverNow:now(),placementDeadline:room.placementDeadline||null,
    participants:room.ids.map((userId,i)=>userId?{userId,username:room.names[i],confirmed:room.confirmed[i],pokemon:room.selected?.[i]||null}:null),
    revision:room.revision,you:index,error:room.error||'',result:room.result||null,
@@ -48,10 +49,13 @@ function createClub(io,{repository=store,now=Date.now,randomNumber=()=>randomInt
  async function create(id,data){
   const p=available(id);requireMap(id,rules.HALL);if(!rules.near(p,13,5,3))rules.fail('Adresse-toi à l’hôtesse.');
   if(room&&!['finished','cancelled'].includes(room.phase))rules.fail('Un duel est déjà organisé.');
+  const config=rules.settings(data);
+  if(config.mode&&config.mode!=='1v1')return advanced.create(id,config);
   room={id:randomUUID(),hostId:id,config:rules.settings(data),ids:[null,null],names:['',''],uuids:[null,null],selected:[null,null],confirmed:[false,false],revision:0,phase:'waiting',expiresAt:now()+300000,placementDeadline:now()+rules.PLACEMENT_TIMEOUT};emitRoom();await syncWaitingPodiums();return view(id);
  }
  async function syncWaitingPodiums(){
   const r=room;if(!r||r.phase!=='waiting')return;
+  if(r.advanced)return advanced.syncWaiting();
   const before=r.ids.join(',');
   const usable=c=>{const p=c.getPlayer();return c.socket.connected&&c.account.active()&&p?.currentmap===rules.HALL&&c.canUse()&&!p.inbattle&&!p.inventoryBusy&&!locks.locked(c.id);};
   for(let i=0;i<2;i++)if(r.ids[i]){
@@ -72,6 +76,7 @@ function createClub(io,{repository=store,now=Date.now,randomNumber=()=>randomInt
   }else if(before!==r.ids.join(','))emitRoom();
  }
  async function step(id){
+  if(room?.advanced)return advanced.step(id);
   expireRoom();const p=contexts.get(id)?.getPlayer();if(!p)return;
   if(p.currentmap!==rules.HALL){spectators.delete(id);if(room&&['waiting','review'].includes(room.phase)&&(room.hostId===id||room.ids.includes(id)))cancel('Un participant a quitté la salle.');return;}
   await syncWaitingPodiums();
@@ -79,6 +84,7 @@ function createClub(io,{repository=store,now=Date.now,randomNumber=()=>randomInt
  function match(id,data){requireMap(id,rules.HALL);if(!room||data.id!==room.id||ownerIndex(id)<0||room.phase!=='review'||data.revision!==room.revision)rules.fail('Ce récapitulatif a changé. Relis les mises.');return room;}
  async function offer(id,data){const r=match(id,data);if(!r.config.pokemonStake)rules.fail('Aucun Pokémon n’est demandé pour ce duel.');r.uuids[ownerIndex(id)]=rules.uuid(data.pokemonUuid);await refreshReview();return view(id);}
  async function confirm(id,data){
+  if(room?.advanced)return advanced.command('confirm',id,data);
   const r=match(id,data);if(!r.digest||r.error||r.config.pokemonStake&&r.uuids.some(n=>!n))rules.fail(r.error||'Les deux Pokémon doivent être proposés.');
   if(r.ids.some((owner,i)=>rules.podium(player(owner))!==i))rules.fail('Les deux dresseurs doivent être sur leur socle.');
   r.confirmed[ownerIndex(id)]=true;emitRoom();if(!r.confirmed.every(Boolean))return view(id);
@@ -134,11 +140,12 @@ function createClub(io,{repository=store,now=Date.now,randomNumber=()=>randomInt
    }catch(e){console.error('Sauvegarde du duel :',e.message);for(const owner of r.ids)contexts.get(owner)?.socket.emit('progressionNotice',{message:'Le résultat du duel est en cours de sauvegarde…'});await new Promise(resolve=>setTimeout(resolve,3000));}
   }
  }
- async function watch(id){const p=available(id);requireMap(id,rules.HALL);if(Math.floor(p.y/32)<13)rules.fail('Rejoins les tribunes pour observer.');if(room?.phase!=='battle'||ownerIndex(id)>=0)rules.fail('Aucun duel à regarder.');spectators.add(id);const payload={id:room.id,intro:room.intro||null,field:room.field||null,seq:room.eventSequence,log:room.log||[],names:room.names};context(id).socket.emit('whitepeak:watchStart',payload);return payload;}
+ async function watch(id){if(room?.advanced&&context(id).supportsHouseModes===false)rules.fail('Actualise le jeu pour regarder ce format.');const p=available(id);requireMap(id,rules.HALL);if(Math.floor(p.y/32)<13)rules.fail('Rejoins les tribunes pour observer.');if(room?.phase!=='battle'||ownerIndex(id)>=0)rules.fail('Aucun duel à regarder.');spectators.add(id);const payload={id:room.id,intro:room.intro||null,field:room.field||null,seq:room.eventSequence,log:room.log||[],names:room.advanced?room.sides.map(s=>s.ids.map(id=>room.names[room.ids.indexOf(id)]).join(' & ')):room.names};context(id).socket.emit('whitepeak:watchStart',payload);return payload;}
  async function tick(){
   if(ticking||closed)return;ticking=true;
   try{await execute(async()=>{
    expireRoom();
+   await advanced.tick();
    await syncWaitingPodiums();
    if(!round)return;
    if(round.phase==='betting'&&round.closesAt<=now()){round=await repository.spin(round.id,randomNumber(),now());emitRoulette();}
@@ -153,6 +160,7 @@ function createClub(io,{repository=store,now=Date.now,randomNumber=()=>randomInt
   await ready;const c=context(id),p=c.getPlayer();spectators.delete(id);
   if(p?.currentmap===rules.CASINO){round=await repository.newRound(now());c.socket.emit('whitepeak:roulette',{...round,serverNow:now()});}
   c.socket.emit('whitepeak:duel',p?.currentmap===rules.HALL?view(id):null);
+  if(p?.currentmap===rules.HALL)c.socket.emit('whitepeak:trainers',{trainers:advanced.trainers()});
   await step(id);
  }
  async function interact(id){
@@ -170,9 +178,11 @@ function createClub(io,{repository=store,now=Date.now,randomNumber=()=>randomInt
   if(rules.podium(p)>=0){await step(id);context(id).socket.emit('whitepeak:open',{tab:'duel'});return true;}
   return false;
  }
+ const advanced=require('../game/whitepeak/duelHouse').createDuelHouse({contexts,getRoom:()=>room,setRoom:r=>{room=r;},emitRoom,now,emitSpectator:spectatorEvent,wallet,closed:()=>closed});
  function attach(c){
   contexts.set(c.id,c);let requests=0,windowUntil=0;
   const ops={create,offer,confirm,leave:async id=>{requireMap(id,rules.HALL);if(room&&ownerIndex(id)<0&&room.hostId!==id)rules.fail('Tu ne participes pas à cette inscription.');cancel('Le duel a été annulé avant le départ.');return null;},
+   ...Object.fromEntries(['compose','chat','inspect','action','pass'].map(name=>[name,(id,data)=>advanced.command(name,id,data)])),
    board:async id=>{requireMap(id,rules.HALL);return{rows:await repository.leaderboard()};},
    watch,unwatch:id=>{spectators.delete(id);return null;},
    bet:async(id,data)=>{available(id);const p=requireMap(id,rules.CASINO);if(!rules.atRouletteTable(p))rules.fail('Approche-toi de la table de roulette pour miser.');const result=await repository.placeBet(id,data,now());wallet(id,result.balance);round=await repository.rouletteState();emitRoulette();return result;},
@@ -189,9 +199,9 @@ function createClub(io,{repository=store,now=Date.now,randomNumber=()=>randomInt
     catch(e){if(!e.statusCode)console.error('Blanchecime :',e.message);reply({success:false,message:e.statusCode?e.message:'Cette action est temporairement indisponible.'});}
    });
   });
-  const allowed=new Set(['actionResponse','whitepeak:leave','whitepeak:offer','whitepeak:confirm','whitepeak:refresh']);
+  const allowed=new Set(['actionResponse','whitepeak:leave','whitepeak:offer','whitepeak:confirm','whitepeak:refresh','whitepeak:compose','whitepeak:chat','whitepeak:inspect','whitepeak:action','whitepeak:pass']);
   c.socket.use((packet,next)=>{const p=c.getPlayer();if(p?.__whitepeakDuel&&!allowed.has(packet[0])&&(/^(trade:|shop:|pc:|team:|training:|medicine:|evolution:|repel:)/.test(packet[0])||['Space','playerAction','requestShop','buyShopItem','sellShopItem','setTeamOrder','equipHeldItem','setHeldItem','useItem','useMedicine','useTrainingItem','useMachine','useEvolutionStone','evolvePokemon','learnMove','reorderMoves','flyToTown','void:travel','superTournament:travel','admin:rearmArenas','experienceModule:set'].includes(packet[0]))){const ack=packet.at(-1);if(typeof ack==='function')ack({success:false,message:'Termine ou annule le duel avant de modifier ton équipe.'});return;}next();});
-  c.socket.once('disconnect',()=>{spectators.delete(c.id);if(room&&['waiting','review'].includes(room.phase)&&(room.ids.includes(c.id)||room.hostId===c.id))cancel('Un dresseur s’est déconnecté avant le duel.');if(contexts.get(c.id)===c&&!['battle','settling'].includes(room?.phase))contexts.delete(c.id);});
+  c.socket.once('disconnect',()=>{spectators.delete(c.id);advanced.disconnect(c.id,c);if(room&&['waiting','review'].includes(room.phase)&&(room.ids.includes(c.id)||room.hostId===c.id))cancel('Un dresseur s’est déconnecté avant le duel.');if(contexts.get(c.id)===c&&!['battle','settling'].includes(room?.phase))contexts.delete(c.id);});
   return {
    enter:()=>{const map=c.getPlayer()?.currentmap,previous=c.clubMap;c.clubMap=map;
     return [rules.HALL,rules.CASINO].includes(map)||[rules.HALL,rules.CASINO].includes(previous)||room?.hostId===c.id?execute(()=>enter(c.id)):Promise.resolve();},

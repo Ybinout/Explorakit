@@ -49,7 +49,7 @@ async function layout(page) {
         await page.locator('[autocomplete=username]').fill(user.username);
         await page.locator('[autocomplete=current-password]').fill(user.password);
         await page.locator('.login-button').click(); await open(page).waitFor();
-        assert((await open(page).innerText()).includes('80 %'));
+        assert((await open(page).innerText()).includes(require('../data/game/latest_patch.json').fr.title));
         assert(await page.locator('[data-patch-dismiss]').evaluate(n => document.activeElement===n));
         await page.keyboard.press('Tab'); assert(await open(page).evaluate(n => n.contains(document.activeElement)));
         await layout(page);

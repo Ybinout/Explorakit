@@ -1,18 +1,18 @@
 {
-  "version": "2026-11-04-tour-xp",
+  "version": "2026-11-04-maison-combats",
   "date": "2026-11-04",
   "fr": {
-    "title": "De l’XP dans la Tour !",
+    "title": "La Maison des Combats s’agrandit !",
     "items": [
-      "Les combats du Super Tournoi donnent désormais 80 % de l’XP habituelle, jusqu’au niveau 120.",
-      "Le partage et le Multi Exp fonctionnent. Tes gains restent acquis après la tentative."
+      "Choisis un duel 1v1, un entraînement PvE, ou les nouveaux modes 2v1 et 2v2 avec équipe commune et relais entre alliés.",
+      "Les mises sont conservées. Ces quatre modes ne donnent aucun gain d’XP."
     ]
   },
   "en": {
-    "title": "Earn XP in the Tower!",
+    "title": "More ways to battle!",
     "items": [
-      "Super Tournament battles now award 80% of normal XP, up to level 120.",
-      "XP sharing and Exp. Share work. You keep your gains after the run."
+      "Choose a 1v1 duel, PvE training, or the new 2v1 and 2v2 modes with shared teams and partner control.",
+      "Wagers remain available. None of these four modes awards XP."
     ]
   }
 }

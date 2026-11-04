@@ -11,17 +11,23 @@ function fail(message){throw Object.assign(Error(message),{statusCode:409});}
 function uuid(value){if(typeof value!=='string'||!/^[a-f0-9]{8}-(?:[a-f0-9]{4}-){3}[a-f0-9]{12}$/i.test(value))fail('Identifiant invalide.');return value;}
 function amount(value,max=1000000,min=0){if(!Number.isSafeInteger(value)||value<min||value>max)fail(`Choisis un montant entre ${min} et ${max} ₽.`);return value;}
 function settings(data={}){
+ if(data.mode!==undefined&&!['1v1','pve','2v1','2v2'].includes(data.mode))fail('Format de combat inconnu.');
+ if(data.mode==='2v2'&&data.format!==undefined&&![6,12].includes(data.format))fail('Choisis le format 6v6 ou 12v12.');
  if(![null,25,50,75,100].includes(data.level??null))fail('Choisis un niveau libre, 25, 50, 75 ou 100.');
  if(data.uniqueItems!==undefined&&typeof data.uniqueItems!=='boolean'||data.pokemonStake!==undefined&&typeof data.pokemonStake!=='boolean')fail('Règles invalides.');
- return {level:data.level??null,uniqueItems:!!data.uniqueItems,money:amount(data.money??0),pokemonStake:!!data.pokemonStake};
+ const config={level:data.level??null,uniqueItems:!!data.uniqueItems,money:amount(data.money??0),pokemonStake:!!data.pokemonStake};
+ if(data.mode){config.mode=data.mode;if(data.mode==='2v2')config.format=data.format||6;}
+ if(data.mode==='pve'){if(typeof data.trainerKey!=='string'||data.trainerKey.length>80)fail('Choisis un dresseur.');config.trainerKey=data.trainerKey;if(config.money||config.pokemonStake)fail('L’entraînement PvE se joue sans mise.');}
+ if(['2v1','2v2'].includes(data.mode)&&config.pokemonStake)fail('Les mises de Pokémon sont réservées au duel 1v1.');
+ return config;
 }
-function validateTeam(team,config){
- if(!Array.isArray(team)||!team.length||team.length>6||team.some(p=>p.isEgg))fail('Présente une équipe de un à six Pokémon, sans Œuf.');
+function validateTeam(team,config,{maxSize=6}={}){
+ if(!Array.isArray(team)||!team.length||team.length>maxSize||team.some(p=>p.isEgg))fail(`Présente une équipe de un à ${maxSize} Pokémon, sans Œuf.`);
  if(!team.some(p=>p.currentHp>0))fail('Soigne ton équipe avant de rejoindre le socle.');
  if(config.uniqueItems){const held=team.map(p=>p.heldItem).filter(Boolean);if(new Set(held).size!==held.length)fail('Objets uniques : deux de tes Pokémon portent le même objet.');}
 }
-function battleCopy(player,team,config){
- validateTeam(team,config);const equipe=codec.decode(codec.encode({pokemons:team}));
+function battleCopy(player,team,config,options){
+ validateTeam(team,config,options);const equipe=codec.decode(codec.encode({pokemons:team}));
  for(const p of equipe.pokemons)if(config.level){
   p.experience=getTotalExperienceForLevel(config.level,p.experienceRate);
   p.level=p.calculateLevelFromExperience(p.experience);p.recalculateStats();

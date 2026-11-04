@@ -46,7 +46,8 @@ async function startDuel({id,ids,uuids,config,digest}){
  });
 }
 async function finishDuel(id,winnerId,reason='finished'){
- const[[initial]]=await dbPool.execute('SELECT user_a,user_b FROM whitepeak_duels WHERE id=?',[id]);if(!initial)rules.fail('Duel introuvable.');
+ const[[initial]]=await dbPool.execute('SELECT user_a,user_b,offers_json FROM whitepeak_duels WHERE id=?',[id]);if(!initial)rules.fail('Duel introuvable.');
+ if(parse(initial.offers_json)?.houseVersion)return require('./whitepeakHouseRepository').finish(id,winnerId,reason,parse(initial.offers_json));
  return withTransaction(async c=>{
   const ids=[Number(initial.user_a),Number(initial.user_b)];await owners(ids,c);
   const[[duel]]=await c.execute('SELECT * FROM whitepeak_duels WHERE id=? FOR UPDATE',[id]);if(duel.phase!=='active')return parse(duel.result_json);
@@ -109,4 +110,4 @@ async function settleRoulette(id,now=Date.now()){
  });
 }
 async function closeRound(id,now=Date.now()){await dbPool.execute("UPDATE whitepeak_roulette_rounds SET active_slot=NULL WHERE id=? AND phase='result' AND next_at<=?",[id,now]);}
-module.exports={inspectDuel,startDuel,finishDuel,recoverDuels,leaderboard,rouletteState,newRound,placeBet,spin,settleRoulette,closeRound};
+module.exports={inspectDuel,startDuel,finishDuel,recoverDuels,leaderboard,rouletteState,newRound,placeBet,spin,settleRoulette,closeRound,_duelStorage:{owners,credit,snapshots}};
