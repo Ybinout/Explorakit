@@ -139,7 +139,7 @@ test('chaque nouveau PNJ est posé sur une case libre et possède un dialogue ex
 
 test('les champions conservent leurs planches et les civils utilisent les portraits cohérents de l’atlas', () => {
     const pnjs = readJson('data', 'game', 'pnjs.jsonc').pnjs;
-    const expectedSprites = ['7ps.png', 'ana.png', 'aspha-pixel-v2.png', 'gwenn-pixel-v2.png', 'hoze.png', 'lucie-pixel-v2.png', 'moonpunch.png', 'raph.png', 'townspeople.png', 'wanda.png'];
+    const expectedSprites = ['7ps.png', 'ana.png', 'aspha-pixel-v2.png', 'gwenn-pixel-v2.png', 'hoze.png', 'lucie-pixel-v2.png', 'moonpunch.png', 'professor-pixel-v1.png', 'raph.png', 'townspeople.png', 'wanda.png'];
     const usedSprites = [...new Set(pnjs.map((pnj) => pnj.sprite))].sort();
     assert.deepEqual(usedSprites, expectedSprites);
 
@@ -152,7 +152,8 @@ test('les champions conservent leurs planches et les civils utilisent les portra
     assert(fs.existsSync(path.join(root, 'vue-explorakit/src/assets/image/lucie-v1.png'))); // Splash/portrait unchanged.
     assert.equal(new Set(civilians.map(pnj => pnj.spriteFrame.index)).size, 32);
     const dialogues = readJson('data', 'game', 'interact.json');
-    for (const pnj of civilians) {
+    // Service actors open their dedicated interface; they have no authored dialogue.
+    for (const pnj of civilians.filter(pnj => !['club_host', 'casino_croupier'].includes(pnj.name))) {
         const dialogue = dialogues.find(entry => entry.name === pnj.interactionName);
         for (const sentence of dialogue.sentences) {
             if (pnj.interactionName === 'centre') {
@@ -175,6 +176,9 @@ test('les champions conservent leurs planches et les civils utilisent les portra
         const png = fs.readFileSync(spritePath);
         assert.equal(png.toString('ascii', 1, 4), 'PNG', `${spriteName} doit être un PNG`);
         if (spriteName === 'townspeople.png') continue;
+        if (spriteName === 'professor-pixel-v1.png') {
+            assert.equal(png.readUInt32BE(16),32);assert.equal(png.readUInt32BE(20),32);assert.equal(png[25],6);continue;
+        }
         if (['aspha-pixel-v2.png','gwenn-pixel-v2.png'].includes(spriteName)) {
             assert.equal(png.readUInt32BE(16),spriteName.startsWith('aspha')?40:32);assert.equal(png.readUInt32BE(20),32);
             assert.equal(png[25],6);continue;

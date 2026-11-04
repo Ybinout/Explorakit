@@ -324,7 +324,7 @@ const socketHandler = (io) => {
         }
         if (!account.active()) return;
         let personalProgress=initialStoryProgress||{flags:{}},lucieLeaving=false;
-        let tournament=null,clubHandlers=null,darkHandlers=null,corruptionHandlers=null,darkBattle=null;
+        let tournament=null,clubHandlers=null,darkHandlers=null,corruptionHandlers=null,experienceExchangeHandlers=null,darkBattle=null;
         let darkState=await require('../persistence/darkContinentRepository').loadState(userId);
         const {getPnjsForMap,getPnjAtTile,isPnjBlockingTile}=require('../game/world/darkContinent').scopedStore(require('./handlers/superTournamentHandlers').scopedStore(lucieScene.scopedStore(voidEnding.scopedStore(labStory.scopedStore(raphTrial.scopedStore(defaultPnjStore,()=>raphTrialState),()=>personalProgress),()=>personalProgress),()=>personalProgress,()=>lucieLeaving),()=>tournament?.controller.run),()=>darkState);
         const personalTileBlocked=(map,x,y)=>isPnjBlockingTile(map,x,y)||mirrorRift.blocked(map,x,y,personalProgress)||Boolean(storyGates.actorAtTile(map,x,y,personalProgress));
@@ -894,6 +894,10 @@ const socketHandler = (io) => {
         corruptionHandlers=require('./handlers/corruptionHandlers').registerCorruptionHandlers({socket,userId,getPlayer:()=>players[socket.id],
             canUse:()=>!tournament?.controller.active&&!interactionBusy&&!transitionBusy&&!pendingDialogue,
             canInteract:()=>!tournament?.controller.active&&!transitionBusy&&!pendingDialogue});
+        experienceExchangeHandlers=require('./handlers/experienceExchangeHandlers').registerExperienceExchangeHandlers({
+            socket,userId,getPlayer:()=>players[socket.id],getPeers:()=>Object.values(players).filter(p=>p.userId===userId),
+            canUse:()=>!openingPending&&!tournament?.controller.active&&!interactionBusy&&!transitionBusy&&!pendingDialogue&&!socketToChatSession.has(socket.id),
+            canInteract:()=>!openingPending&&!tournament?.controller.active&&!transitionBusy&&!pendingDialogue&&!socketToChatSession.has(socket.id)});
         const interactionTargets=require('../game/world/interactionTarget');
         const interactionHints=require('./interactionHints').getInteractionHints(io).attach(socket,()=>{
             const p=players[socket.id];
@@ -1431,6 +1435,7 @@ const socketHandler = (io) => {
             const player = players[socket.id];
             if (!player) return;
             if (player.inbattle || player.inventoryBusy || player.darkRulesRequired || player.darkScoutBusy) return;
+            if(await experienceExchangeHandlers?.interact())return;
             if(await corruptionHandlers?.interact())return;
             if(await clubHandlers?.interact())return;
             if(await darkHandlers?.interact())return;

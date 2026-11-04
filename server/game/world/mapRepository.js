@@ -31,12 +31,13 @@ function resolveMapSourceName(mapName) {
 }
 
 function readMap(mapName) {
-    const safeMapName = resolveMapSourceName(mapName);
+    const lab=require('../experienceExchange/laboratory');
+    const custom=mapName===lab.MAP,sourceName=resolveMapSourceName(mapName),safeMapName=custom?mapName:sourceName;
 
     if (!mapCache.has(safeMapName)) {
         mapCache.set(
             safeMapName,
-            require('./departmentLayout').project(safeMapName, JSON.parse(fs.readFileSync(path.join(MAPS_DIR, `${safeMapName}.json`), 'utf8')))
+            custom?lab.project(JSON.parse(fs.readFileSync(path.join(MAPS_DIR, `${sourceName}.json`), 'utf8'))):require('./departmentLayout').project(safeMapName, JSON.parse(fs.readFileSync(path.join(MAPS_DIR, `${sourceName}.json`), 'utf8')))
         );
     }
     return mapCache.get(safeMapName);

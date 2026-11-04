@@ -1155,6 +1155,20 @@
       },
       "block": true,
       "roamRadius": 0
+    },
+    {
+      "name": "rochebrume_scientist",
+      "map": "ville4_maison2",
+      "x": 14,
+      "y": 9,
+      "sprite": "professor-pixel-v1.png",
+      "spriteFrame": {
+        "columns": 1,
+        "rows": 1,
+        "index": 0
+      },
+      "roamRadius": 0,
+      "block": true
     }
   ]
 }

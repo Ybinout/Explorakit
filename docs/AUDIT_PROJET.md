@@ -1,3 +1,15 @@
+## Laboratoire d’expérience de Rochebrume — 4 novembre 2026
+
+La maison orange du sud-est (`ville4_maison2`) devient un petit laboratoire. Nouveau décor WebP sans perte, scientifique existant `professor-pixel-v1.png`, mobilier et collisions projetés seulement pour cette salle ; source Tiled, autres maisons partageant `gen_maison2` et transitions auteur intactes. Le scientifique ouvre un service Aventure : deux Pokémon distincts de la même espèce, issus de l’équipe ou du PC, échangent leur **XP totale** pour1 000 000 ₽. Les niveaux/statistiques sont recalculés ; PV absolus conservés et plafonnés au nouveau maximum, K.O. toujours à0. Aucun soin, apprentissage ni évolution automatique ; caractéristiques, PP, objet, corruption, ordre, cases du PC et métadonnées inconnues sont préservés.
+
+`experienceExchangeRepository` verrouille le compte, l’équipe et le PC dans une transaction InnoDB. Signature de l’état avant confirmation, débit conditionnel, deux mises à jour limitées aux champs dérivés et reçu UUID persistant (`032_experience_exchange.sql`) sont atomiques. Rejouer le même reçu renvoie le résultat avec l’équipe actuelle, sans nouvelle inversion ni paiement. Autorisations de proximité/combat/transition/tournoi/commerce et lease de connexion réutilisés ; publication mémoire après commit seulement. En cas d’issue réseau incertaine, le client garde la même confirmation pour vérification.
+
+Interface thémée PC/mobile : emplacements A/B, sélection équipe/20 boîtes, recherche, glisser-déposer souris/tactile via `computerDrag`, aperçu avant/après, solde, confirmation, animation et mode réduit. Poignée tactile distincte du défilement ; rendu limité à30 fiches/page. `mapLocations` nomme la salle Laboratoire de Rochebrume. Aucun changement aux taux Dark ni aux autres modes.
+
+Validation :38 tests de domaine/monde et19 SQL/stockage, sans échec ni saut. Deux recettes authentifiées Chromium/WebKit sur `explorakit_test`, dix contrôles chacune, quatre résolutions et deux thèmes : vraie porte, circulation et sortie, deux dépôts, annulation gratuite, réponse perdue/rejeu sans double débit, reconnexion et fonds insuffisants. Lint, build isolé et syntaxe valides. Pas de téléphone physique revendiqué. Art, prompt, empreintes et publication : `docs/ROCHEBRUME_XP_LAB_2026-11-04.json`.
+
+Publication :client `e10206ad` / build `8b98936caef029a7`, serveur PID3884733. Migration032 appliquée et schéma32 tables/28 contraintes/32 reçus vérifié. Sauvegardes SQL/sources/index,21 bundles HTTPS et nouveau décor contrôlés ;checkpoint, modes fermés et voisins Knov/API conservés. Aucun duel Maison actif lors du redémarrage ;aucun compte réel modifié manuellement.
+
 ## Plaques de type : nouvelle hausse de deux points — 4 novembre 2026
 
 Les taux ordinaires passent de6→8 % à l’ouest(jungle1/4/7),13→15 % au centre(2/5/8),17→19 % à l’est(jungle3/6),23→25 % en jungle9. Hausse additive appliquée à la fonction commune terre/pêche ;les1–5 plaques garanties des corrompus et tous les autres gains, prix, recettes et stocks restent inchangés. Nouveau reçu d’annonce `2026-11-04-dark-plaques-plus-2-b`.
@@ -6417,6 +6429,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **2026-11-04 — Laboratoire de Rochebrume** : échange d’XP totale entre deux Pokémon identiques équipe/PC pour1 000 000 ₽, reçu idempotent et transaction, nouveau décor et UI responsive.57 tests verts et20 contrôles navigateur. Rapport `ROCHEBRUME_XP_LAB_2026-11-04.json`.
 
 - **4 novembre 2026 — Plaques+2 points supplémentaires :**taux ordinaires8/15/19/25 %,terre et pêche ;89 vérifications sans échec. Rapport `docs/DARK_PLATES_PLUS2_AGAIN_2026-11-04.json`, publication serveur seule.
 

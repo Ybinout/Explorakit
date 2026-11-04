@@ -52,6 +52,7 @@ const result = spawnSync(
         path.resolve(__dirname, '..', 'tests', 'nonlethal-future-mysql.test.js'),
         path.resolve(__dirname, '..', 'tests', 'held-item-transfer-mysql.test.js'),
         path.resolve(__dirname, '..', 'tests', 'pokemon-storage-items-mysql.test.js'),
+        path.resolve(__dirname, '..', 'tests', 'experience-exchange-mysql.test.js'),
         path.resolve(__dirname, '..', 'tests', 'pokemon-names-mysql.test.js'),
         path.resolve(__dirname, '..', 'tests', 'dark-continent-mysql.test.js'),
         path.resolve(__dirname, '..', 'tests', 'corruption-mysql.test.js'),
