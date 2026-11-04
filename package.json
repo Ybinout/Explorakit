@@ -108,7 +108,8 @@
     "test:patch-notes-browser": "node --env-file-if-exists=.env scripts/validatePatchNotesBrowser.js",
     "test:battle-house-browser": "node --env-file-if-exists=.env scripts/validateBattleHouseBrowser.js",
     "test:friends-browser": "node --env-file-if-exists=.env scripts/validateFriendsRedesignBrowser.js",
-    "test:xp-lab-browser": "node scripts/validateExperienceExchangeBrowser.js"
+    "test:xp-lab-browser": "node scripts/validateExperienceExchangeBrowser.js",
+    "test:battle-presence-browser": "node scripts/validateBattlePresenceBrowser.js"
   },
   "keywords": [],
   "author": "",

@@ -1,3 +1,13 @@
+## Point rouge des joueurs en combat — 5 novembre 2026
+
+`battlePresence.observeBattlePresence` observe le booléen `inbattle` des objets joueurs Aventure partagés, sans changer les contrôleurs de combat. Propriété toujours énumérable/sérialisable ;état restauré initial conservé. Chaque transition émet `playerBattleStatus` avec seulement `id/currentmap/inbattle` dans le `worldRoom` serveur actuel (étage privé de la Tour compris). Aucun paquet identique, polling, timer, requête SQL ou donnée d’équipe/adversaire. Un objet joueur retiré ne peut plus émettre. Ne pas remplacer un objet joueur sans rebrancher cet observateur.
+
+`UserMap` accepte uniquement les joueurs déjà présents sur sa carte ;ne pas créer d’avatar avec ce paquet ni modifier ses coordonnées/interpolation. Les snapshots d’entrée et de déplacement conservent aussi `inbattle`. Petit point rouge fixe avec contour sombre au-dessus des autres joueurs ;placé au-dessus d’un éventuel nom d’ami/AFK. Dessin après le foreground et la météo, dans la boucle des étiquettes déjà existante ;aucune image ou passe de frame supplémentaire. Les bulles de chat ignorent déjà les joueurs en combat.
+
+Validation :21 tests ciblés sans échec/saut, plus sept contrôles authentifiés par moteur Chromium/WebKit sur `explorakit_test`. Vrai PvE Maison, observateur immobile et autre carte :apparition, disparition sans marche, pixels rouges PC/mobile, noms d’amis, reconnexion et déconnexion. Équipe détenue inchangée et aucun paquet reçu sur l’autre carte. Lint/build/syntaxe valides. Rapport `docs/PLAYER_BATTLE_PRESENCE_2026-11-05.json` ;recette `test:battle-presence-browser`. Pas de téléphone physique revendiqué.
+
+Publication :client `33ba4143` / build `48323d10fd8c9429`,serveur PID3894970. Sauvegardes SQL/sources/index,schéma32 tables/28 contraintes/32 reçus inchangé et vérifié,21 bundles HTTPS contrôlés. Aucun duel Maison actif au redémarrage ;checkpoint,modes fermés et voisins Knov/API conservés. Aucun compte réel modifié manuellement.
+
 ## Route9 : Riolu et Élektek à7 % — 5 novembre 2026
 
 La Route9 est la carte logique `gen_route7`. Son override `adventureEncounterRates` fixe Riolu(447) et Élektek(125) à7 % chacun parmi les rencontres ordinaires, contre5 % chacun auparavant. Les18 autres espèces partagent86 %(environ4,778 % chacune). Les20 espèces/leur ordre, niveaux42–44, transitions, collisions, fréquence de rencontre et autres routes restent identiques ;tirage légendaire indépendant1/3000, K4 à2 %, règles de traits/gains et poids Rift/Colosseum conservés. Le module d’expérience garde+18 niveaux.
@@ -6455,6 +6465,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **2026-11-05 — Présence en combat** :point rouge au-dessus des autres joueurs, signal serveur immédiat et dédupliqué dans le même monde ;21 tests et14 contrôles navigateur. Rapport `PLAYER_BATTLE_PRESENCE_2026-11-05.json`.
 
 - **2026-11-05 — Route9** :Riolu et Élektek passent de5 à7 % chacun en Aventure ;autres espèces réparties sur86 %,niveaux et fréquence globale conservés.38 tests verts ;rapport `ROUTE9_RIOLU_ELEKTEK_2026-11-05.json`.
 

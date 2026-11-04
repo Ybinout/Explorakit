@@ -1,0 +1,149 @@
+{
+  "date": "2026-11-05",
+  "feature": "Small red point above other players in battle",
+  "sourceBaseline": "8bad0f8aedf6388cf63eada8bbae571eca4ffcf3",
+  "previousClient": "4fae83ed2d6d5f28640a6434bb38d7a74de26fee",
+  "clientCommit": "33ba414358113ded737e9f14acfde492d4cc3b06",
+  "clientBuild": "48323d10fd8c9429",
+  "runtimeSourceSha256": {
+    "data/game/latest_patch.json": "a139141969354ce16cc2deccb9f5eacc3dd92c500b9977fbceeaa4583ef2e684",
+    "server/realtime/socketHandler.js": "5696c7893f9b362807e2ee812ed72ec1434caf5f00e841dd22c4539e3a166c4f",
+    "server/realtime/battlePresence.js": "ece731ef772a082a5a62b14c60dc7c2785312479394987b4e2c101899a548bc6"
+  },
+  "implementation": {
+    "state": "Observe the existing authoritative inbattle property of each Adventure world player. Keep it enumerable and serializable; initial restored value is preserved.",
+    "wire": {
+      "event": "playerBattleStatus",
+      "fields": [
+        "id",
+        "currentmap",
+        "inbattle"
+      ],
+      "routing": "Current server-owned worldRoom, including private Tower floors",
+      "deduplication": "Only changes emit. Retired/disconnected player objects cannot broadcast."
+    },
+    "client": "Update only known players in the active map; initial and movement snapshots also preserve/refresh the flag. Status messages never modify coordinates, interpolation or movement state.",
+    "render": "Static red circle radius3 with dark radius4.5 outline, after foreground/weather. Reuse the existing friend-tag loop and interpolated position. Offset above existing nameplates, omit local avatar.",
+    "cost": "No poll, new timer, extra SQL, image, text measurement or frame-loop pass. At most one small packet per flag transition and two circles per visible battling peer."
+  },
+  "preserved": [
+    "battle engines, turn order, actions and timers",
+    "team, inventories, scores and progress",
+    "world-room and Tower-floor isolation",
+    "all existing art, collisions and maps",
+    "Rift/Colosseum closure",
+    "K4 and Route 9 rates"
+  ],
+  "validation": {
+    "unitPassed": 21,
+    "unitFailed": 0,
+    "unitSkipped": 0,
+    "unitCommand": "node --test tests/battle-presence.test.js tests/tournament-world-presence.test.js tests/world-movement.test.js tests/world-chat.test.js",
+    "lint": true,
+    "syntax": true,
+    "build": "/tmp/riftmon-battle-presence-dist",
+    "browsers": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "checks": [
+          "no-point-before-battle",
+          "actual-pve-start-without-moving-and-private-status",
+          "red-pixel-visible-mobile-and-desktop",
+          "point-clears-friend-nameplate",
+          "joining-observer-recovers-active-status",
+          "point-removed-on-end-without-moving-owned-team-preserved",
+          "disconnect-removes-avatar-and-point"
+        ],
+        "errors": [],
+        "farPackets": [],
+        "buildIndexSha256": "5e8f36b8326a86087019cbc795cbb5ed675fba0c395c4f5f48ba74b3d84c8a32"
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "checks": [
+          "no-point-before-battle",
+          "actual-pve-start-without-moving-and-private-status",
+          "red-pixel-visible-mobile-and-desktop",
+          "point-clears-friend-nameplate",
+          "joining-observer-recovers-active-status",
+          "point-removed-on-end-without-moving-owned-team-preserved",
+          "disconnect-removes-avatar-and-point"
+        ],
+        "errors": [],
+        "farPackets": [],
+        "buildIndexSha256": "5e8f36b8326a86087019cbc795cbb5ed675fba0c395c4f5f48ba74b3d84c8a32"
+      }
+    },
+    "recipe": "DB_TEST_NAME=explorakit_test PRESENTATION_BROWSER=chromium RELEASE_DIST_DIR=/tmp/riftmon-battle-presence-dist node --env-file=.env scripts/validateBattlePresenceBrowser.js (then webkit sequentially)",
+    "realBattle": "House PvE through the authenticated public create command, observed without movement. Pixel probes verify the red point; another-map client receives no status event.",
+    "testedCases": [
+      "absent before battle",
+      "automatic start update without movement",
+      "mobile/desktop red-pixel visibility",
+      "friend nameplate spacing (view fixture)",
+      "fresh observer reconnect initial snapshot",
+      "end update without movement",
+      "disconnection removes player and indicator"
+    ],
+    "physicalPhoneTested": false
+  },
+  "deployment": {
+    "publishedAt": "2026-11-04T23:49:43.779Z",
+    "restartedAt": "2026-11-04T23:49:41.831Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-battle-presence-2026-11-04T23-49-40-147Z",
+    "sourceBaseline": "8bad0f8aedf6388cf63eada8bbae571eca4ffcf3",
+    "sourceHashes": {
+      "data/game/latest_patch.json": "a139141969354ce16cc2deccb9f5eacc3dd92c500b9977fbceeaa4583ef2e684",
+      "server/realtime/socketHandler.js": "5696c7893f9b362807e2ee812ed72ec1434caf5f00e841dd22c4539e3a166c4f",
+      "server/realtime/battlePresence.js": "ece731ef772a082a5a62b14c60dc7c2785312479394987b4e2c101899a548bc6"
+    },
+    "clientCommit": "33ba414358113ded737e9f14acfde492d4cc3b06",
+    "clientBuild": "48323d10fd8c9429",
+    "beforePid": "3893461",
+    "afterPid": "3894970",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "schemaChanged": false,
+    "migrationApplied": null,
+    "schemaVerified": true,
+    "schemaTables": 32,
+    "schemaConstraints": 28,
+    "migrationReceipts": 32,
+    "activeClubDuelsBefore": 0,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 0,
+    "rouletteBefore": [],
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": [
+      "js/234.9471380f.js",
+      "js/393.0fd15895.js",
+      "js/674.050af613.js",
+      "js/689.ea67c21b.js",
+      "js/737.e2c30081.js",
+      "js/account.6f096228.js",
+      "js/app.9d2a5959.js",
+      "js/chunk-vendors.0f4c51f9.js",
+      "js/colosseum.e15fe230.js",
+      "js/community.ef51702b.js",
+      "js/drift.e4ddfe6a.js",
+      "js/game.af2a58ac.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.3e989a3e.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.21e3e02b.css",
+      "css/test-view.7568246d.css"
+    ]
+  },
+  "realAccountsManuallyModified": false
+}

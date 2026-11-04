@@ -1,16 +1,16 @@
 {
-  "version": "2026-11-05-route9-riolu-elektek-7pct",
+  "version": "2026-11-05-player-battle-point",
   "date": "2026-11-05",
   "fr": {
-    "title": "Rencontres sur la Route 9",
+    "title": "Dresseurs en combat",
     "items": [
-      "Riolu et Élektek sont légèrement plus fréquents : 7 % chacun parmi les rencontres ordinaires."
+      "Un petit point rouge apparaît au-dessus des joueurs en combat sur la carte."
     ]
   },
   "en": {
-    "title": "Route 9 encounters",
+    "title": "Trainers in battle",
     "items": [
-      "Riolu and Electabuzz are slightly more common: 7% each among ordinary encounters."
+      "A small red dot appears above players who are battling on the map."
     ]
   }
 }

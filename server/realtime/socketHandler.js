@@ -356,6 +356,8 @@ const socketHandler = (io) => {
             centerReturnPoint: savedPosition?.centerReturnPoint || null,
             inbattle: Boolean(savedDarkBattle.run)
         };
+        const observedPlayer=players[socket.id];
+        require('./battlePresence').observeBattlePresence(io,observedPlayer,()=>account.active()&&players[socket.id]===observedPlayer);
         const fishing = require('../game/world/fishingController').createFishingController({
             ownsRod: async () => (await require('../persistence/itemRepository').loadUserItems(userId)).some(i => i.key === 'fishing_rod' && i.quantity > 0),
             available: p => players[socket.id] === p && socket.connected && !p.inbattle && !p.inventoryBusy && !transitionBusy && !p.darkRulesRequired && !p.darkScoutBusy && !p.superTournamentActive && hasConsciousPokemon(p.equipe),
