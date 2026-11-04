@@ -81,3 +81,29 @@ test('the independent legendary roll still wins before the override and never dr
     assert.equal(p.level,19);
     assert.equal(legendary.oneIn,3000);
 });
+
+test('Route 9 grants Riolu and Electabuzz 7% each, retaining all twenty species and sharing the remaining 86%', () => {
+    const route=maps.find(m=>m.mapName==='gen_route7'),chances=encounterChances(route);
+    assert.equal(route.wildpokemon.length,20);assert.equal(chances.length,20);
+    assert.deepEqual(route.level,{min:42,max:44});
+    for(const id of [447,125])assert.equal(chances.find(([species])=>species===id)[1],7);
+    for(const [id,rate]of chances)if(![447,125].includes(id))close(rate,86/18);
+    close(chances.reduce((sum,[,rate])=>sum+rate,0),100);
+    const counts=new Map();let lower=0;
+    for(const[id,rate]of chances){assert.equal(chooseOrdinarySpecies(route,sequence((lower+rate/2)/100)),id);lower+=rate;}
+    for(let i=0;i<10000;i++){const id=chooseOrdinarySpecies(route,sequence((i+.5)/10000));counts.set(id,(counts.get(id)||0)+1);}
+    assert.equal(counts.get(447),700);assert.equal(counts.get(125),700);assert.equal(counts.size,20);
+    for(const[id,count]of counts)if(![447,125].includes(id))assert(count===477||count===478);
+});
+
+test('Route 9 real encounters use both new rates, preserve levels and module bonus, and keep the independent legendary roll', async () => {
+    const route=maps.find(m=>m.mapName==='gen_route7'),chances=encounterChances(route);
+    for(const id of [447,125]){
+        const index=chances.findIndex(([species])=>species===id),draw=(chances.slice(0,index).reduce((sum,[,rate])=>sum+rate,0)+3)/100;
+        for(const active of [false,true])for(const[levelDraw,expected]of [[0,42],[1-Number.EPSILON,44]]){
+            const p=await wild('gen_route7',sequence(.5,draw,levelDraw),{experienceModuleActive:active});
+            assert.equal(p.data.id,id);assert.equal(p.level,expected+(active?18:0));assert(p.currentHp>0&&p.abilities.length>0);
+        }
+    }
+    const p=await wild('gen_route7',sequence(0,.5,0));assert.equal(p.data.id,legendary.species[Math.floor(.5*legendary.species.length)]);assert.equal(p.level,42);assert.equal(legendary.oneIn,3000);
+});

@@ -1,3 +1,11 @@
+## Route9 : Riolu et Élektek à7 % — 5 novembre 2026
+
+La Route9 est la carte logique `gen_route7`. Son override `adventureEncounterRates` fixe Riolu(447) et Élektek(125) à7 % chacun parmi les rencontres ordinaires, contre5 % chacun auparavant. Les18 autres espèces partagent86 %(environ4,778 % chacune). Les20 espèces/leur ordre, niveaux42–44, transitions, collisions, fréquence de rencontre et autres routes restent identiques ;tirage légendaire indépendant1/3000, K4 à2 %, règles de traits/gains et poids Rift/Colosseum conservés. Le module d’expérience garde+18 niveaux.
+
+Validation :38 tests ciblés sans échec ni saut,700 Riolu et700 Élektek sur10 000 tirages uniformes ;toutes les espèces accessibles. Vraie fabrique Aventure avec deux espèces, bornes des niveaux, module et priorité du tirage légendaire. Retirer le seul override de la nouvelle configuration redonne exactement celle de HEAD. Aucun changement aux cartes Tiled ou aux assets, ni build client/migration. Rapport `docs/ROUTE9_RIOLU_ELEKTEK_2026-11-05.json`.
+
+Publication :serveur PID3893461, sauvegarde SQL/sources/index ;schéma32 tables/28 contraintes/32 reçus inchangé et vérifié. Aucun duel Maison actif lors du redémarrage. Client `4fae83ed` / build `f082238d45bbd6d7` conservé,21 bundles HTTPS, checkpoint, modes fermés et voisins Knov/API vérifiés. Aucun compte réel modifié manuellement.
+
 ## Tirage K4 : +1 point de pourcentage — 4 novembre 2026
 
 `progression.K_TIERS` :K4 passe de1 à2 %,K1 de79 à78 % ;K2 reste18 % etK3 reste2 %. Tirage partagé par les nouvelles générations aléatoires et la pêche. Les valeurs K déjà sauvegardées et les équipes de dresseurs fixées ne sont pas modifiées. Dark ordinaire :le plancherK2 transforme cette répartition en96 % K2,2 % K3,2 % K4 ;l’apparition des corrompus reste2 % avec K4 garanti. Aucun changement aux formules de statistiques, niveaux, XP, butins ou modes fermés.
@@ -6447,6 +6455,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **2026-11-05 — Route9** :Riolu et Élektek passent de5 à7 % chacun en Aventure ;autres espèces réparties sur86 %,niveaux et fréquence globale conservés.38 tests verts ;rapport `ROUTE9_RIOLU_ELEKTEK_2026-11-05.json`.
 
 - **2026-11-04 — Probabilité K4** :2 % au lieu de1 %,pris surK1(78 %) ;K2/K3 et garanties Dark inchangés.37 tests ciblés verts, deux échecs de pools anciens reproduits sur HEAD. Rapport `K4_PLUS_ONE_POINT_2026-11-04.json`.
 

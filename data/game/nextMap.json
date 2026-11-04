@@ -1082,6 +1082,10 @@
           "nexY": 64
         }
       ],
+      "adventureEncounterRates": {
+        "125": 7,
+        "447": 7
+      },
       "wildpokemon": [
         36,
         45,

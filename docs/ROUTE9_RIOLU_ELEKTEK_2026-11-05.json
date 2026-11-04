@@ -1,0 +1,110 @@
+{
+  "date": "2026-11-05",
+  "scope": "Route 9 (gen_route7), Adventure ordinary wild encounters",
+  "sourceBaseline": "9a8933cee46a5035b20df0dc9e7108e61e487c47",
+  "clientCommit": "4fae83ed2d6d5f28640a6434bb38d7a74de26fee",
+  "clientBuild": "f082238d45bbd6d7",
+  "runtimeSourceSha256": {
+    "data/game/nextMap.json": "96d58bc1fa29314300c8863ac75e573c9c5828278339ba61b0802f5e5d30ee46",
+    "data/game/latest_patch.json": "9275b05c206496063d3e46520bbdbf94d967caaf0ba6877d3a1e189ec48a6be0"
+  },
+  "before": {
+    "Riolu": 5,
+    "Electabuzz": 5,
+    "othersEach": 5
+  },
+  "after": {
+    "Riolu": 7,
+    "Electabuzz": 7,
+    "remainingPercent": 86,
+    "otherSpecies": 18,
+    "othersEach": 4.777777777777778
+  },
+  "unchanged": [
+    "20-species list and ordering",
+    "level range 42–44",
+    "map transitions and collisions",
+    "all other route configurations",
+    "overall wild encounter frequency",
+    "independent legendary 1/3000 roll",
+    "IV, EV, K, XP and loot rules",
+    "Rift and Colosseum weights and closure",
+    "existing teams and inventory"
+  ],
+  "validation": {
+    "passed": 38,
+    "failed": 0,
+    "skipped": 0,
+    "command": "node --test tests/wild-encounter-rates.test.js tests/legendary-encounters.test.js tests/abra-encounter.test.js tests/fishing.test.js tests/progression.test.js",
+    "uniform10000": {
+      "Riolu": 700,
+      "Electabuzz": 700,
+      "allSpeciesReachable": 20
+    },
+    "realFactory": {
+      "bothSpeciesAndLevelBounds": true,
+      "experienceModulePlus18": true,
+      "independentLegendaryRoll": true
+    },
+    "baselineConfigComparison": "Removing only gen_route7.adventureEncounterRates produces an object identical to HEAD nextMap.json.",
+    "diffCheck": true
+  },
+  "deployment": {
+    "publishedAt": "2026-11-04T23:32:55.877Z",
+    "restartedAt": "2026-11-04T23:32:53.016Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-route9-riolu-elektek-2026-11-04T23-32-52-628Z",
+    "sourceBaseline": "9a8933cee46a5035b20df0dc9e7108e61e487c47",
+    "sourceHashes": {
+      "data/game/latest_patch.json": "9275b05c206496063d3e46520bbdbf94d967caaf0ba6877d3a1e189ec48a6be0",
+      "data/game/nextMap.json": "96d58bc1fa29314300c8863ac75e573c9c5828278339ba61b0802f5e5d30ee46"
+    },
+    "clientCommit": "4fae83ed2d6d5f28640a6434bb38d7a74de26fee",
+    "clientBuild": "f082238d45bbd6d7",
+    "beforePid": "3890920",
+    "afterPid": "3893461",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "schemaChanged": false,
+    "migrationApplied": null,
+    "schemaVerified": true,
+    "schemaTables": 32,
+    "schemaConstraints": 28,
+    "migrationReceipts": 32,
+    "activeClubDuelsBefore": 0,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 0,
+    "rouletteBefore": [],
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "clientRebuilt": false,
+    "clientIndexUnchanged": true,
+    "publicAssets": [
+      "js/234.9471380f.js",
+      "js/393.0fd15895.js",
+      "js/674.050af613.js",
+      "js/689.ea67c21b.js",
+      "js/737.e2c30081.js",
+      "js/account.6f096228.js",
+      "js/app.4ca72e0c.js",
+      "js/chunk-vendors.0f4c51f9.js",
+      "js/colosseum.e15fe230.js",
+      "js/community.ef51702b.js",
+      "js/drift.e4ddfe6a.js",
+      "js/game.ddc48aca.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.3e989a3e.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.b3499c67.css",
+      "css/test-view.7568246d.css"
+    ]
+  },
+  "realAccountsManuallyModified": false
+}

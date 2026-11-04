@@ -1,16 +1,16 @@
 {
-  "version": "2026-11-04-k4-plus-one-point",
-  "date": "2026-11-04",
+  "version": "2026-11-05-route9-riolu-elektek-7pct",
+  "date": "2026-11-05",
   "fr": {
-    "title": "Plus de potentiel exceptionnel",
+    "title": "Rencontres sur la Route 9",
     "items": [
-      "Les Pokémon K4 passent de 1 % à 2 % des tirages. Les K1 passent de 79 % à 78 %."
+      "Riolu et Élektek sont légèrement plus fréquents : 7 % chacun parmi les rencontres ordinaires."
     ]
   },
   "en": {
-    "title": "More exceptional potential",
+    "title": "Route 9 encounters",
     "items": [
-      "K4 Pokémon rise from 1% to 2% of random potential rolls. K1 falls from 79% to 78%."
+      "Riolu and Electabuzz are slightly more common: 7% each among ordinary encounters."
     ]
   }
 }
