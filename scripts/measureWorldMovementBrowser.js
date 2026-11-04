@@ -34,12 +34,13 @@ for(const format of [{label:'pc',width:1365,height:900,cpu:1,scale:1},{label:'mo
   if(process.env.PROFILE_VALIDATE_LIFECYCLE==='1'){
    measured.lifecycle=await page.evaluate(async()=>{
     const pause=ms=>new Promise(r=>setTimeout(r,ms)),r=v._foregroundWind;
-    const old=[r?.canvas,r?.patch?.canvas,v._pokemonComputers?.patch?.canvas,...(v._placeAmbience?.tournamentLobby?.layers||[]).flatMap(l=>[l.canvas,l.texture,l.skyMask,l.waterMask,l.water])].filter(Boolean);
+    const labLayers=[...(v._pokemonComputers?.experienceLab?.layers||[])];
+    const old=[r?.canvas,r?.patch?.canvas,v._pokemonComputers?.patch?.canvas,...labLayers.map(l=>l.patch?.canvas),...(v._placeAmbience?.tournamentLobby?.layers||[]).flatMap(l=>[l.canvas,l.texture,l.skyMask,l.waterMask,l.water])].filter(Boolean);
     Object.defineProperty(document,'hidden',{configurable:true,value:true});document.dispatchEvent(new Event('visibilitychange'));await pause(80);
-    const released=old.every(c=>c.width===0&&c.height===0);delete document.hidden;document.dispatchEvent(new Event('visibilitychange'));await pause(180);
-    const restored=!!v.$refs.monCanvas.width&&!v.worldContextLost&&!v.mapLoading&&(v.map!=='professor_lab'||!!v._pokemonComputers?.patch?.canvas.width)&&(v.map!=='super_tournament_lobby'||!!v._placeAmbience?.tournamentLobby?.canvas?.width);
+    const released=old.every(c=>c.width===0&&c.height===0)&&labLayers.every(l=>!l.commands);delete document.hidden;document.dispatchEvent(new Event('visibilitychange'));await pause(180);
+    const restored=!!v.$refs.monCanvas.width&&!v.worldContextLost&&!v.mapLoading&&(v.map!=='professor_lab'||!!v._pokemonComputers?.patch?.canvas.width)&&(v.map!=='ville4_maison2'||!!v._pokemonComputers?.experienceLab?.layers?.length)&&(v.map!=='super_tournament_lobby'||!!v._placeAmbience?.tournamentLobby?.canvas?.width);
     v.updatePreferences({...v.preferences,animationsEnabled:false});await pause(150);
-    const reduced=!v._foregroundWind?.canvas;v.updatePreferences({...v.preferences,animationsEnabled:true});await pause(150);
+    const reduced=!v._foregroundWind?.canvas&&(v.map!=='ville4_maison2'||v._pokemonComputers?.experienceLab?.layers?.every(l=>(l.patch?.key??l.key)===0));v.updatePreferences({...v.preferences,animationsEnabled:true});await pause(150);
     return {released,restored,reduced};
    });
    assert(Object.values(measured.lifecycle).every(Boolean));

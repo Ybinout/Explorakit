@@ -1,0 +1,1242 @@
+{
+  "date": "2026-11-04",
+  "feature": "Animated Rochebrume laboratory and bounded rendering",
+  "scope": "ville4_maison2 only",
+  "sourceBaseline": "46406141e0f69bfbde95b4c00296760ebb1fdd91",
+  "previousClient": "e10206ad5b62f56078e64d684bcd47f99f11cfa8",
+  "clientCommit": "4fae83ed2d6d5f28640a6434bb38d7a74de26fee",
+  "clientBuild": "f082238d45bbd6d7",
+  "clientSourceSha256": {
+    "src/components/UserMap.vue": "5ea8c7acf15eb5b81b74d3a86fcc8665cc5a8270e7d6c8896e858bbc2887a77b",
+    "src/services/experienceLaboratoryScenery.js": "375a234d608f1aaed2b7ae9d0afae4603805dad55b5ca79487fe604841a5eaa4",
+    "src/services/pokemonComputer.js": "b9b54a5f80846c36d8004cb577f49f8151a73599f207ed4baa6592ea889663d4"
+  },
+  "implementation": {
+    "animations": [
+      "cyan and violet liquid tanks with turning strands and rising bubbles",
+      "bottles and test tubes",
+      "flask bubbles and liquid ripple",
+      "screen scans, data bars and status LEDs",
+      "pixel-art clock second hand"
+    ],
+    "artworkUnchanged": true,
+    "collisionAndNpcAndXpServiceUnchanged": true,
+    "cache": "Disjoint decoration layers only. Native-size integer scale: bounded raster layers. Fractional/high-density scales: per-phase rectangle display lists to retain exact WebKit pixel coverage and avoid bitmap-copy overhead. Small clock hand drawn directly. No full map or actors cached.",
+    "phasesMs": {
+      "workstation": 80,
+      "shelf": 160,
+      "console": 120,
+      "glassware": 160,
+      "clock": 1000
+    },
+    "offscreen": "No off-camera layer allocation, paint or replay. Current phase on return, no catch-up.",
+    "lifetime": "Reuse existing PokemonComputerRenderer suspend path on hidden tab, loading, battle, context loss and destruction. Release on map/scale change. Reduced motion freezes phase at zero.",
+    "resources": "No extra network requests, timers, libraries or bitmap assets; no production database access or server restart."
+  },
+  "validation": {
+    "unitPassed": 23,
+    "unitFailed": 0,
+    "unitSkipped": 0,
+    "lint": true,
+    "isolatedBuild": "/tmp/riftmon-roche-lab-motion-dist",
+    "native": {
+      "chromium": {
+        "engine": "chromium",
+        "compared": 30,
+        "maxDelta": 0,
+        "maxChanged": 0,
+        "differences": [],
+        "checks": [
+          {
+            "ratio": 1,
+            "motion": true,
+            "time": 0,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 1,
+            "motion": true,
+            "time": 80,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 1,
+            "motion": true,
+            "time": 161,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 1,
+            "motion": true,
+            "time": 1175,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 1,
+            "motion": true,
+            "time": 10000,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 1,
+            "motion": false,
+            "time": 0,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 1,
+            "motion": false,
+            "time": 80,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 1,
+            "motion": false,
+            "time": 161,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 1,
+            "motion": false,
+            "time": 1175,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 1,
+            "motion": false,
+            "time": 10000,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 1.5,
+            "motion": true,
+            "time": 0,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 1.5,
+            "motion": true,
+            "time": 80,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 1.5,
+            "motion": true,
+            "time": 161,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 1.5,
+            "motion": true,
+            "time": 1175,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 1.5,
+            "motion": true,
+            "time": 10000,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 1.5,
+            "motion": false,
+            "time": 0,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 1.5,
+            "motion": false,
+            "time": 80,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 1.5,
+            "motion": false,
+            "time": 161,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 1.5,
+            "motion": false,
+            "time": 1175,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 1.5,
+            "motion": false,
+            "time": 10000,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 2,
+            "motion": true,
+            "time": 0,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 2,
+            "motion": true,
+            "time": 80,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 2,
+            "motion": true,
+            "time": 161,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 2,
+            "motion": true,
+            "time": 1175,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 2,
+            "motion": true,
+            "time": 10000,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 2,
+            "motion": false,
+            "time": 0,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 2,
+            "motion": false,
+            "time": 80,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 2,
+            "motion": false,
+            "time": 161,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 2,
+            "motion": false,
+            "time": 1175,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 2,
+            "motion": false,
+            "time": 10000,
+            "delta": 0,
+            "changed": 0
+          }
+        ],
+        "lifetime": [
+          "effects-confined-to-glass-and-screens",
+          "every-decoration-has-visible-motion",
+          "unchanged-phase-no-repaint",
+          "reduced-motion-fixed-pose",
+          "off-camera-no-allocation-or-paint",
+          "scale-and-map-release",
+          "world-parent-suspend-releases-all"
+        ],
+        "phases": [
+          {
+            "zone": "workstation",
+            "changedPixels": 439
+          },
+          {
+            "zone": "shelf",
+            "changedPixels": 14
+          },
+          {
+            "zone": "console",
+            "changedPixels": 104
+          },
+          {
+            "zone": "glassware",
+            "changedPixels": 49
+          },
+          {
+            "zone": "clock",
+            "changedPixels": 18
+          }
+        ],
+        "costs": [
+          {
+            "ratio": 1,
+            "directMsPerFrame": [
+              0.12011111100514729,
+              0.11022222254011366,
+              0.10877777788374159,
+              0.11144444412655301,
+              0.10888888888888888,
+              0.10588888910081651
+            ],
+            "cachedMsPerFrame": [
+              0.07177777820163303,
+              0.06188888867696126,
+              0.061777777671813965,
+              0.06122222211625841,
+              0.06333333333333334,
+              0.06
+            ],
+            "directMedianMs": 0.10955555571450126,
+            "cachedMedianMs": 0.06183333317438761,
+            "costReductionPercent": 43.559837955161704
+          },
+          {
+            "ratio": 1.5,
+            "directMsPerFrame": [
+              0.1238888888888889,
+              0.11611111111111111,
+              0.11277777777777778,
+              0.12444444444444444,
+              0.11211111121707493,
+              0.11455555544959174
+            ],
+            "cachedMsPerFrame": [
+              0.11777777777777777,
+              0.10911111142900255,
+              0.11144444412655301,
+              0.12744444476233588,
+              0.10877777735392252,
+              0.11355555534362793
+            ],
+            "directMedianMs": 0.11533333328035142,
+            "cachedMedianMs": 0.11249999973509048,
+            "costReductionPercent": 2.456647583724725
+          },
+          {
+            "ratio": 2,
+            "directMsPerFrame": [
+              0.11199999968210857,
+              0.10966666645473903,
+              0.10788888878292507,
+              0.10966666645473903,
+              0.10911111142900255,
+              0.1152222220102946
+            ],
+            "cachedMsPerFrame": [
+              0.11055555555555556,
+              0.10544444455040826,
+              0.10877777788374159,
+              0.10711111121707492,
+              0.11,
+              0.11
+            ],
+            "directMedianMs": 0.10966666645473903,
+            "cachedMedianMs": 0.1093888889418708,
+            "costReductionPercent": 0.25329256541493095
+          }
+        ],
+        "insideChangedPixels": 1354,
+        "outsideChangedPixels": 0,
+        "cacheWorldPixels": 12897,
+        "wholeMapWorldPixels": 573440
+      },
+      "webkit": {
+        "engine": "webkit",
+        "compared": 30,
+        "maxDelta": 0,
+        "maxChanged": 0,
+        "differences": [],
+        "checks": [
+          {
+            "ratio": 1,
+            "motion": true,
+            "time": 0,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 1,
+            "motion": true,
+            "time": 80,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 1,
+            "motion": true,
+            "time": 161,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 1,
+            "motion": true,
+            "time": 1175,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 1,
+            "motion": true,
+            "time": 10000,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 1,
+            "motion": false,
+            "time": 0,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 1,
+            "motion": false,
+            "time": 80,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 1,
+            "motion": false,
+            "time": 161,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 1,
+            "motion": false,
+            "time": 1175,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 1,
+            "motion": false,
+            "time": 10000,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 1.5,
+            "motion": true,
+            "time": 0,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 1.5,
+            "motion": true,
+            "time": 80,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 1.5,
+            "motion": true,
+            "time": 161,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 1.5,
+            "motion": true,
+            "time": 1175,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 1.5,
+            "motion": true,
+            "time": 10000,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 1.5,
+            "motion": false,
+            "time": 0,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 1.5,
+            "motion": false,
+            "time": 80,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 1.5,
+            "motion": false,
+            "time": 161,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 1.5,
+            "motion": false,
+            "time": 1175,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 1.5,
+            "motion": false,
+            "time": 10000,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 2,
+            "motion": true,
+            "time": 0,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 2,
+            "motion": true,
+            "time": 80,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 2,
+            "motion": true,
+            "time": 161,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 2,
+            "motion": true,
+            "time": 1175,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 2,
+            "motion": true,
+            "time": 10000,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 2,
+            "motion": false,
+            "time": 0,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 2,
+            "motion": false,
+            "time": 80,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 2,
+            "motion": false,
+            "time": 161,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 2,
+            "motion": false,
+            "time": 1175,
+            "delta": 0,
+            "changed": 0
+          },
+          {
+            "ratio": 2,
+            "motion": false,
+            "time": 10000,
+            "delta": 0,
+            "changed": 0
+          }
+        ],
+        "lifetime": [
+          "effects-confined-to-glass-and-screens",
+          "every-decoration-has-visible-motion",
+          "unchanged-phase-no-repaint",
+          "reduced-motion-fixed-pose",
+          "off-camera-no-allocation-or-paint",
+          "scale-and-map-release",
+          "world-parent-suspend-releases-all"
+        ],
+        "phases": [
+          {
+            "zone": "workstation",
+            "changedPixels": 439
+          },
+          {
+            "zone": "shelf",
+            "changedPixels": 14
+          },
+          {
+            "zone": "console",
+            "changedPixels": 104
+          },
+          {
+            "zone": "glassware",
+            "changedPixels": 49
+          },
+          {
+            "zone": "clock",
+            "changedPixels": 18
+          }
+        ],
+        "costs": [
+          {
+            "ratio": 1,
+            "directMsPerFrame": [
+              0.29,
+              0.24888888888888888,
+              0.2822222222222222,
+              0.29555555555555557,
+              0.27111111111111114,
+              0.2611111111111111
+            ],
+            "cachedMsPerFrame": [
+              0.1922222222222222,
+              0.18666666666666668,
+              0.1922222222222222,
+              0.18777777777777777,
+              0.18666666666666668,
+              0.17888888888888888
+            ],
+            "directMedianMs": 0.27666666666666667,
+            "cachedMedianMs": 0.18722222222222223,
+            "costReductionPercent": 32.329317269076306
+          },
+          {
+            "ratio": 1.5,
+            "directMsPerFrame": [
+              0.3988888888888889,
+              0.43444444444444447,
+              0.36666666666666664,
+              0.45666666666666667,
+              0.37444444444444447,
+              0.4022222222222222
+            ],
+            "cachedMsPerFrame": [
+              0.35777777777777775,
+              0.39666666666666667,
+              0.38,
+              0.3844444444444444,
+              0.39111111111111113,
+              0.38555555555555554
+            ],
+            "directMedianMs": 0.40055555555555555,
+            "cachedMedianMs": 0.385,
+            "costReductionPercent": 3.8834951456310662
+          },
+          {
+            "ratio": 2,
+            "directMsPerFrame": [
+              0.23777777777777778,
+              0.2966666666666667,
+              0.2811111111111111,
+              0.2777777777777778,
+              0.2966666666666667,
+              0.2688888888888889
+            ],
+            "cachedMsPerFrame": [
+              0.2577777777777778,
+              0.30666666666666664,
+              0.2677777777777778,
+              0.2677777777777778,
+              0.2822222222222222,
+              0.26666666666666666
+            ],
+            "directMedianMs": 0.27944444444444444,
+            "cachedMedianMs": 0.2677777777777778,
+            "costReductionPercent": 4.174950298210733
+          }
+        ],
+        "insideChangedPixels": 1354,
+        "outsideChangedPixels": 0,
+        "cacheWorldPixels": 12897,
+        "wholeMapWorldPixels": 573440
+      }
+    },
+    "movement": {
+      "chromium": {
+        "before": [
+          {
+            "engine": "chromium",
+            "format": "pc",
+            "map": "ville4_maison2",
+            "draw": {
+              "n": 100,
+              "avg": 0.48299999713897707,
+              "p95": 0.6999998092651367,
+              "max": 0.8000001907348633
+            },
+            "frames": {
+              "n": 100,
+              "avg": 16.666999999999998,
+              "p95": 16.800000000000182,
+              "max": 16.800000000000182,
+              "over25ms": 0
+            },
+            "updated": 11,
+            "packets": 10,
+            "sent": 10,
+            "parts": {
+              "drawPnjs": {
+                "n": 100,
+                "avg": 0.09600003719329835,
+                "p95": 0.20000028610229492,
+                "max": 0.20000028610229492
+              },
+              "getSpriteSheetForPlayer": {
+                "n": 100,
+                "avg": 0.02100001335144043,
+                "p95": 0.10000038146972656,
+                "max": 0.10000038146972656
+              }
+            },
+            "cadence": {
+              "n": 9,
+              "avg": 149.62222221162585,
+              "p95": 152.2000002861023,
+              "max": 152.2000002861023
+            },
+            "canvas": [
+              896,
+              640
+            ],
+            "renderFailures": 0,
+            "idle": {
+              "n": 97,
+              "avg": 0.5319587717351225,
+              "p95": 0.7000002861022949,
+              "frames": 96,
+              "over25ms": 0
+            }
+          },
+          {
+            "engine": "chromium",
+            "format": "mobile",
+            "map": "ville4_maison2",
+            "draw": {
+              "n": 101,
+              "avg": 0.4851485101303252,
+              "p95": 0.6999998092651367,
+              "max": 0.8000001907348633
+            },
+            "frames": {
+              "n": 101,
+              "avg": 16.66534653465347,
+              "p95": 16.700000000000273,
+              "max": 16.800000000000182,
+              "over25ms": 0
+            },
+            "updated": 17,
+            "packets": 10,
+            "sent": 10,
+            "parts": {
+              "drawPnjs": {
+                "n": 101,
+                "avg": 0.10396041492424389,
+                "p95": 0.20000028610229492,
+                "max": 0.2999997138977051
+              },
+              "getSpriteSheetForPlayer": {
+                "n": 101,
+                "avg": 0.024752475247524754,
+                "p95": 0.09999990463256836,
+                "max": 0.10000038146972656
+              }
+            },
+            "cadence": {
+              "n": 9,
+              "avg": 149.48888889948526,
+              "p95": 159.09999990463257,
+              "max": 159.09999990463257
+            },
+            "canvas": [
+              786,
+              1262
+            ],
+            "renderFailures": 0,
+            "idle": {
+              "n": 96,
+              "avg": 0.4864583412806193,
+              "p95": 0.6999998092651367,
+              "frames": 95,
+              "over25ms": 0
+            }
+          }
+        ],
+        "after": [
+          {
+            "engine": "chromium",
+            "format": "pc",
+            "map": "ville4_maison2",
+            "draw": {
+              "n": 130,
+              "avg": 0.6876923010899471,
+              "p95": 1.0999999046325684,
+              "max": 1.5
+            },
+            "frames": {
+              "n": 130,
+              "avg": 16.665384615384614,
+              "p95": 16.700000000000728,
+              "max": 16.800000000000182,
+              "over25ms": 0
+            },
+            "updated": 14,
+            "packets": 13,
+            "sent": 13,
+            "parts": {
+              "drawPnjs": {
+                "n": 130,
+                "avg": 0.11461540735684908,
+                "p95": 0.20000028610229492,
+                "max": 0.3000001907348633
+              },
+              "getSpriteSheetForPlayer": {
+                "n": 130,
+                "avg": 0.022307693041287935,
+                "p95": 0.10000038146972656,
+                "max": 0.19999980926513672
+              }
+            },
+            "cadence": {
+              "n": 12,
+              "avg": 149.72499998410544,
+              "p95": 152.19999980926514,
+              "max": 152.19999980926514
+            },
+            "canvas": [
+              896,
+              640
+            ],
+            "renderFailures": 0,
+            "idle": {
+              "n": 97,
+              "avg": 0.7237113726507757,
+              "p95": 1.3000001907348633,
+              "frames": 96,
+              "over25ms": 0
+            },
+            "lifecycle": {
+              "released": true,
+              "restored": true,
+              "reduced": true
+            }
+          },
+          {
+            "engine": "chromium",
+            "format": "mobile",
+            "map": "ville4_maison2",
+            "draw": {
+              "n": 129,
+              "avg": 0.7573643506959428,
+              "p95": 1.0999999046325684,
+              "max": 1.1999998092651367
+            },
+            "frames": {
+              "n": 129,
+              "avg": 16.665891472868218,
+              "p95": 16.700000000000728,
+              "max": 16.799999999999272,
+              "over25ms": 0
+            },
+            "updated": 22,
+            "packets": 13,
+            "sent": 13,
+            "parts": {
+              "drawPnjs": {
+                "n": 129,
+                "avg": 0.10465115170146144,
+                "p95": 0.20000028610229492,
+                "max": 0.3000001907348633
+              },
+              "getSpriteSheetForPlayer": {
+                "n": 129,
+                "avg": 0.024806203768234843,
+                "p95": 0.10000038146972656,
+                "max": 0.20000028610229492
+              }
+            },
+            "cadence": {
+              "n": 12,
+              "avg": 150.4666666984558,
+              "p95": 157.39999961853027,
+              "max": 157.39999961853027
+            },
+            "canvas": [
+              786,
+              1262
+            ],
+            "renderFailures": 0,
+            "idle": {
+              "n": 97,
+              "avg": 0.7020618596027807,
+              "p95": 1,
+              "frames": 96,
+              "over25ms": 0
+            },
+            "lifecycle": {
+              "released": true,
+              "restored": true,
+              "reduced": true
+            },
+            "touchMoved": true
+          }
+        ]
+      },
+      "webkit": {
+        "before": [
+          {
+            "engine": "webkit",
+            "format": "pc",
+            "map": "ville4_maison2",
+            "draw": {
+              "n": 103,
+              "avg": 0.5048543689320388,
+              "p95": 1,
+              "max": 2
+            },
+            "frames": {
+              "n": 103,
+              "avg": 16.203883495145632,
+              "p95": 18,
+              "max": 27,
+              "over25ms": 1
+            },
+            "updated": 11,
+            "packets": 10,
+            "sent": 10,
+            "parts": {
+              "drawPnjs": {
+                "n": 103,
+                "avg": 0.10679611650485436,
+                "p95": 1,
+                "max": 1
+              },
+              "getSpriteSheetForPlayer": {
+                "n": 103,
+                "avg": 0.019417475728155338,
+                "p95": 0,
+                "max": 1
+              }
+            },
+            "cadence": {
+              "n": 9,
+              "avg": 150.44444444444446,
+              "p95": 154,
+              "max": 154
+            },
+            "canvas": [
+              896,
+              640
+            ],
+            "renderFailures": 0,
+            "idle": {
+              "n": 99,
+              "avg": 0.47474747474747475,
+              "p95": 1,
+              "frames": 98,
+              "over25ms": 0
+            }
+          },
+          {
+            "engine": "webkit",
+            "format": "mobile",
+            "map": "ville4_maison2",
+            "draw": {
+              "n": 52,
+              "avg": 0.40384615384615385,
+              "p95": 1,
+              "max": 1
+            },
+            "frames": {
+              "n": 52,
+              "avg": 32.28846153846154,
+              "p95": 42,
+              "max": 83,
+              "over25ms": 52
+            },
+            "updated": 17,
+            "packets": 10,
+            "sent": 10,
+            "parts": {
+              "drawPnjs": {
+                "n": 52,
+                "avg": 0.09615384615384616,
+                "p95": 1,
+                "max": 1
+              },
+              "getSpriteSheetForPlayer": {
+                "n": 52,
+                "avg": 0.019230769230769232,
+                "p95": 0,
+                "max": 1
+              }
+            },
+            "cadence": {
+              "n": 9,
+              "avg": 151.11111111111111,
+              "p95": 154,
+              "max": 154
+            },
+            "canvas": [
+              590,
+              947
+            ],
+            "renderFailures": 0,
+            "idle": {
+              "n": 64,
+              "avg": 0.8125,
+              "p95": 1,
+              "frames": 63,
+              "over25ms": 25
+            }
+          }
+        ],
+        "after": [
+          {
+            "engine": "webkit",
+            "format": "pc",
+            "map": "ville4_maison2",
+            "draw": {
+              "n": 132,
+              "avg": 0.6515151515151515,
+              "p95": 1,
+              "max": 1
+            },
+            "frames": {
+              "n": 132,
+              "avg": 16.272727272727273,
+              "p95": 18,
+              "max": 33,
+              "over25ms": 1
+            },
+            "updated": 14,
+            "packets": 13,
+            "sent": 13,
+            "parts": {
+              "drawPnjs": {
+                "n": 132,
+                "avg": 0.08333333333333333,
+                "p95": 1,
+                "max": 1
+              },
+              "getSpriteSheetForPlayer": {
+                "n": 132,
+                "avg": 0.007575757575757576,
+                "p95": 0,
+                "max": 1
+              }
+            },
+            "cadence": {
+              "n": 12,
+              "avg": 150.66666666666666,
+              "p95": 153,
+              "max": 153
+            },
+            "canvas": [
+              896,
+              640
+            ],
+            "renderFailures": 0,
+            "idle": {
+              "n": 100,
+              "avg": 0.81,
+              "p95": 3,
+              "frames": 99,
+              "over25ms": 0
+            },
+            "lifecycle": {
+              "released": true,
+              "restored": true,
+              "reduced": true
+            }
+          },
+          {
+            "engine": "webkit",
+            "format": "mobile",
+            "map": "ville4_maison2",
+            "draw": {
+              "n": 65,
+              "avg": 0.6615384615384615,
+              "p95": 1,
+              "max": 2
+            },
+            "frames": {
+              "n": 65,
+              "avg": 33.723076923076924,
+              "p95": 41,
+              "max": 91,
+              "over25ms": 64
+            },
+            "updated": 22,
+            "packets": 13,
+            "sent": 13,
+            "parts": {
+              "drawPnjs": {
+                "n": 65,
+                "avg": 0.12307692307692308,
+                "p95": 1,
+                "max": 1
+              },
+              "getSpriteSheetForPlayer": {
+                "n": 65,
+                "avg": 0,
+                "p95": 0,
+                "max": 0
+              }
+            },
+            "cadence": {
+              "n": 12,
+              "avg": 150.33333333333334,
+              "p95": 159,
+              "max": 159
+            },
+            "canvas": [
+              590,
+              947
+            ],
+            "renderFailures": 0,
+            "idle": {
+              "n": 58,
+              "avg": 0.603448275862069,
+              "p95": 1,
+              "frames": 57,
+              "over25ms": 43
+            },
+            "lifecycle": {
+              "released": true,
+              "restored": true,
+              "reduced": true
+            },
+            "touchMoved": true
+          }
+        ]
+      }
+    },
+    "functionalBrowsers": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "checks": [
+          "remote-access-rejected",
+          "actual-city-door-and-walkable-laboratory",
+          "mouse-drag-two-slots",
+          "four-responsive-preview-sizes",
+          "light-and-night-theme",
+          "cancel-no-payment",
+          "lost-response-retry-one-charge-and-preserved-traits",
+          "reconnection-current-team-and-durable-receipt",
+          "insufficient-funds-clear-and-disabled",
+          "original-exit-returns-to-city-door"
+        ],
+        "errors": [],
+        "buildIndexSha256": "d98b5ce879e16da67e9935a5e00213f9e5fdd5c86a2e5c7fcee3fbf0f7d07b43"
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "checks": [
+          "remote-access-rejected",
+          "actual-city-door-and-walkable-laboratory",
+          "touch-drag-two-slots",
+          "four-responsive-preview-sizes",
+          "light-and-night-theme",
+          "cancel-no-payment",
+          "lost-response-retry-one-charge-and-preserved-traits",
+          "reconnection-current-team-and-durable-receipt",
+          "insufficient-funds-clear-and-disabled",
+          "original-exit-returns-to-city-door"
+        ],
+        "errors": [],
+        "buildIndexSha256": "d98b5ce879e16da67e9935a5e00213f9e5fdd5c86a2e5c7fcee3fbf0f7d07b43"
+      }
+    },
+    "physicalIphoneTested": false,
+    "limitations": "Native timings measure the same effects with and without caching, not total-game FPS. The original static room had fewer effects. Chromium PC/mobile stayed around 60fps in this environment. WebKit PC stayed around 60fps, while headless WebKit mobile was around 30fps before and after; this is not a physical Safari/iPhone measurement. Whole-scene cost remained under 1ms on average in these samples. No global FPS gain is claimed.",
+    "recipes": [
+      "node --test tests/world-render-budget.test.js tests/world-movement.test.js tests/whitepeak-maps.test.js tests/professor-lab-collisions.test.js tests/experience-exchange.test.js",
+      "PROFILE_BROWSER=chromium node scripts/validateExperienceLaboratoryScenery.js (then webkit, sequentially)",
+      "PROFILE_MAPS=ville4_maison2 PROFILE_FORMATS=pc,mobile PROFILE_LEGS=4 PROFILE_VALIDATE_LIFECYCLE=1 PROFILE_BROWSER=chromium DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-roche-lab-motion-dist node --env-file=.env scripts/measureWorldMovementBrowser.js (then webkit, sequentially)",
+      "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-roche-lab-motion-dist PRESENTATION_BROWSER=chromium node --env-file=.env scripts/validateExperienceExchangeBrowser.js (then webkit, sequentially)"
+    ]
+  },
+  "deployment": {
+    "publishedAt": "2026-11-04T20:44:03.563Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-roche-lab-motion-2026-11-04T20-44-01-757Z",
+    "sourceBaseline": "46406141e0f69bfbde95b4c00296760ebb1fdd91",
+    "previousClient": "e10206ad5b62f56078e64d684bcd47f99f11cfa8",
+    "clientCommit": "4fae83ed2d6d5f28640a6434bb38d7a74de26fee",
+    "clientBuild": "f082238d45bbd6d7",
+    "indexSha256": "d98b5ce879e16da67e9935a5e00213f9e5fdd5c86a2e5c7fcee3fbf0f7d07b43",
+    "sourceHashes": {
+      "src/components/UserMap.vue": "5ea8c7acf15eb5b81b74d3a86fcc8665cc5a8270e7d6c8896e858bbc2887a77b",
+      "src/services/experienceLaboratoryScenery.js": "375a234d608f1aaed2b7ae9d0afae4603805dad55b5ca79487fe604841a5eaa4",
+      "src/services/pokemonComputer.js": "b9b54a5f80846c36d8004cb577f49f8151a73599f207ed4baa6592ea889663d4"
+    },
+    "publicAssets": [
+      "js/234.9471380f.js",
+      "js/393.0fd15895.js",
+      "js/674.050af613.js",
+      "js/689.ea67c21b.js",
+      "js/737.e2c30081.js",
+      "js/account.6f096228.js",
+      "js/app.4ca72e0c.js",
+      "js/chunk-vendors.0f4c51f9.js",
+      "js/colosseum.e15fe230.js",
+      "js/community.ef51702b.js",
+      "js/drift.e4ddfe6a.js",
+      "js/game.ddc48aca.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.3e989a3e.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.b3499c67.css",
+      "css/test-view.7568246d.css"
+    ],
+    "servicePID": "3884733",
+    "serviceNotRestarted": true,
+    "automaticRestarts": 0,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "namespaceClosed": true,
+    "protectedApi401": true,
+    "schemaChanged": false,
+    "productionDatabaseAccessed": false,
+    "realAccountsManuallyModified": false
+  }
+}

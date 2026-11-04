@@ -1,3 +1,13 @@
+## Animations du laboratoire de Rochebrume — 4 novembre 2026
+
+`experienceLaboratoryScenery.js` anime uniquement les intérieurs des cuves cyan/violette, fioles, tubes et ballon, les deux écrans, voyants et l’aiguille de l’horloge de `ville4_maison2`. Dessin pixel art sur la grille du monde, masques numériques bornés ;le fond, le sol, le mobilier, les collisions et le service d’échange d’XP restent inchangés. Ne pas animer l’image entière ou un foreground partagé.
+
+Réutiliser `PokemonComputerRenderer` et sa suspension existante. À échelle1 :petites couches raster séparées, rafraîchies uniquement au changement de pose. Aux échelles fractionnaires ou denses :listes de rectangles précalculées par pose, pour conserver exactement la couverture des pixels de WebKit et éviter les copies de bitmaps. Les parties hors caméra ne sont ni préparées ni dessinées ;aucun timer/RAF autonome, lecture de pixels ou trafic supplémentaire en production. Libérer au changement de carte/échelle, masquage, combat et destruction ;animations réduites figées à la pose0.
+
+Validation :23 tests de régression,60 comparaisons Canvas natives Chromium/WebKit à trois échelles, zéro pixel différent et sept contrôles de cache/cycle de vie par moteur. Quatre parcours authentifiés PC/mobile avec déplacements réels, suspension/reprise et gestes tactiles ;20 contrôles du laboratoire/échange dans deux navigateurs. Le coût médian des effets à échelle1 baisse d’environ44 % sur Chromium et32 % sur WebKit par rapport au même dessin sans cache ;gains faibles aux autres échelles. La salle animée reste autour de60 FPS dans Chromium, WebKit mobile Linux autour de30 FPS avant comme après. Ne pas présenter ces mesures comme un gain global de FPS ni un test iPhone physique. Lint/build isolé valides ;rapport et recettes `docs/ROCHEBRUME_LAB_ANIMATIONS_2026-11-04.json`.
+
+Publication :client `4fae83ed` / build `f082238d45bbd6d7`,21 bundles publics contrôlés. Sauvegarde de l’index et des anciennes sources ;serveur PID3884733 conservé, aucun redémarrage ni accès à la BDD de production. Knov/API et modes fermés inchangés.
+
 ## Laboratoire d’expérience de Rochebrume — 4 novembre 2026
 
 La maison orange du sud-est (`ville4_maison2`) devient un petit laboratoire. Nouveau décor WebP sans perte, scientifique existant `professor-pixel-v1.png`, mobilier et collisions projetés seulement pour cette salle ; source Tiled, autres maisons partageant `gen_maison2` et transitions auteur intactes. Le scientifique ouvre un service Aventure : deux Pokémon distincts de la même espèce, issus de l’équipe ou du PC, échangent leur **XP totale** pour1 000 000 ₽. Les niveaux/statistiques sont recalculés ; PV absolus conservés et plafonnés au nouveau maximum, K.O. toujours à0. Aucun soin, apprentissage ni évolution automatique ; caractéristiques, PP, objet, corruption, ordre, cases du PC et métadonnées inconnues sont préservés.
@@ -6429,6 +6439,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **2026-11-04 — Laboratoire animé** : cuves/fioles/écrans/horloge, caches par pose et culling ;23 tests,60 comparaisons natives et parcours réels PC/mobile, sans changement serveur/SQL. Rapport `ROCHEBRUME_LAB_ANIMATIONS_2026-11-04.json`.
 
 - **2026-11-04 — Laboratoire de Rochebrume** : échange d’XP totale entre deux Pokémon identiques équipe/PC pour1 000 000 ₽, reçu idempotent et transaction, nouveau décor et UI responsive.57 tests verts et20 contrôles navigateur. Rapport `ROCHEBRUME_XP_LAB_2026-11-04.json`.
 
