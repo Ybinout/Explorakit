@@ -1,3 +1,13 @@
+## Chargement des combats de la Maison — 4 novembre 2026
+
+Le rideau d’entrée existant disparaissait au bout de2,4 s même si les images n’étaient pas encore reçues. Cas reproduit dans un vrai PvE à3,2 s. La Maison utilise maintenant une borne de sécurité de12 s pour le chargement/décodage, avec Poké Ball tournante et mention « Chargement des images… ». Les commandes/scène restent masquées pendant l’attente ;mouvement réduit :icône fixe. Les autres rencontres gardent2,4 s. Une ressource manquante ou définitivement bloquée ne crée pas d’attente infinie.
+
+Préchargement dédupliqué des sprites face/dos de l’équipe inscrite, des espèces du dresseur déjà publiques dans le catalogue et des images réellement sélectionnées du décor/terrain/combattants. Aucun dévoilement d’équipe adverse PvP, nouvel appel réseau métier ou changement de minuterie serveur. La file visuelle, les contrôleurs d’annulation et époques existants sont réutilisés ;ne pas rejouer une action lors d’une reconnexion.
+
+Validation :10 tests existants, recette authentifiée `validateHouseEntranceBrowser.js` sur `explorakit_test`, Chromium PC et WebKit mobile. Sept vérifications par moteur :téléchargement lent, animations normales/réduites, réserve encore en chargement, images prêtes avant action, premier tour compté une fois, reconnexion et équipe possédée intacte. Worker bloqué dans les fixtures pour garantir des ressources froides. Lint/build/syntaxe/diff valides ;rapport `docs/HOUSE_BATTLE_LOADER_2026-11-04.json`. Pas de téléphone physique revendiqué.
+
+Publication :client `b44d609`, build `bdd5d08e9cb7a037`,21 bundles HTTPS contrôlés. Sauvegarde index et anciennes sources, serveur PID3867802 conservé ;aucun accès à la BDD de production ou changement de compte réel. Knov/API voisins et modes fermés inchangés.
+
 ## Fluidité des intérieurs — 4 novembre 2026
 
 Le laboratoire réutilise une couche bornée pour les fioles/écrans dont la pose n’a pas changé (cadences originales100/120 ms), à l’échelle réelle de la caméra. Les PC statiques ne sont repeints qu’après invalidation. Nouveau snapshot de dispositifs, carte ou échelle :reconstruction ;chargement, combat masquant le monde, arrière-plan et destruction :surfaces libérées. Ne pas mettre en cache les personnages ou une image entière de carte.
@@ -6391,6 +6401,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **4 novembre 2026 — Loader Maison :**préchargement des sprites inscrits/catalogue, garde de chargement/décodage12 s, indicateur animé ou fixe.10 tests et parcours réels PC/mobile, sans modification serveur. Rapport `docs/HOUSE_BATTLE_LOADER_2026-11-04.json`.
 
 - **4 novembre 2026 — Intérieurs fluides :**cache borné des fioles/écrans du laboratoire, réfraction limitée aux bandes d’eau de la Tour, fenêtres/flocons de la Maison allégés.14 tests,420 comparaisons Canvas et parcours authentifiés Chromium/WebKit. Publication frontend seule ;rapport `docs/INTERIOR_RENDER_PERFORMANCE_2026-11-04.json`.
 

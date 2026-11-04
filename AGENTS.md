@@ -1,3 +1,9 @@
+## Entrée des combats Maison — 4 novembre 2026
+
+`UserMap.battletrigger` transmet seulement les espèces déjà publiques du dresseur sélectionné. `BattleOverlay` réutilise le rideau existant et attend les images DOM réellement sélectionnées ainsi que les sprites face/dos de son équipe et ceux du catalogue PvE, dédupliqués. Aucun accès aux réserves cachées PvP. Borne Maison12 s (autres rencontres2,4 s), erreurs/décodages rejetés libérés comme avant ;pas de délai infini ou de modification du timer serveur. `entranceAssetsLoading` anime l’icône et change le libellé ;annulation/époque visuelle et garde des actions conservées.
+
+Recette `validateHouseEntranceBrowser.js`, `explorakit_test`, Chromium/WebKit séquentiels ;bloquer les service workers dans les fixtures pour réellement intercepter les images froides. Vérifier une réserve encore en chargement même si les combattants sont prêts, puis une seule action acceptée et la reconnexion. Rapport `docs/HOUSE_BATTLE_LOADER_2026-11-04.json` :10 tests, sept vérifications par moteur. Clientb44d609/buildbdd5d08e9cb7a037 publié sans redémarrage du serveur ni accès à sa BDD.
+
 ## Rendu des intérieurs — 4 novembre 2026
 
 `PokemonComputerRenderer`/`DecorationPatch` réutilisent la pose native des fioles/écrans aux ticks100/120 ms, avec une couche bornée à l’échelle réelle de la caméra. Invalider sur snapshot/carte/échelle ;libérer aux chargements, combats, arrière-plan et destruction. Les objets PC statiques gardent leur cache. `TournamentLobbySkyRenderer` prépare les bornes d’eau par ligne et réutilise les masques pendant la préparation des nuages ;ne copier que les bandes mouillées, sans changer formule de réfraction ni cadence20 Hz. `whitepeakScenery` réutilise un `Path2D` immuable ;seuls les flocons complètement hors caméra sont omis. Ne pas réintroduire le cache bitmap des flocons, mesuré plus lent.

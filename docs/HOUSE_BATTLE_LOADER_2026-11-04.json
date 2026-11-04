@@ -1,0 +1,129 @@
+{
+  "date": "2026-11-04",
+  "request": "Wait for images before entering trainer battles in the Battle House",
+  "cause": "The existing entrance cover had a2.4-second asset deadline and revealed a House encounter with downloads still pending. Reproduced in a real PvE encounter after3200ms.",
+  "changes": {
+    "loader": "Reuse BattleEntrance, with a rotating Poké Ball and explicit image-loading caption; reduced motion keeps it static. Scene and actions remain hidden/inert during loading.",
+    "preload": "Deduplicate front/back sprites of the registered own team and the selected trainer catalogue species, plus the actual DOM background/platform/current fighters. Existing image readiness waits for load and decode and handles picture-source changes.",
+    "privacy": "Trainer species come exclusively from the catalogue already visible in selection. No new data request; hidden PvP parties are never exposed. Own copies may contain12 Pokémon in collaborative formats.",
+    "timeouts": "House safety bound increased from2400 to12000ms. Missing images/failed decodes settle as before; a permanently stalled connection cannot block the UI indefinitely. Other encounters keep2400ms.",
+    "cancellation": "Existing abort controller/visual epoch cancels pending listeners and ignores obsolete completions after reset/reconnection.",
+    "gameplay": "No server, deadline, battle, rewards, owned team, score, SQL or authored asset changes."
+  },
+  "validation": {
+    "unit": {
+      "command": "node --test tests/battle-entrance.test.js tests/arena-entrance.test.js",
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0
+    },
+    "lint": "pass",
+    "build": "pass",
+    "syntax": "node --check scripts/validateHouseEntranceBrowser.js",
+    "diffWhitespace": "pass",
+    "baseline": {
+      "build": "c05f0b13803fc0c0",
+      "browser": "chromium",
+      "expectedFailure": "House loader revealed before slow assets loaded: count0 rather than1 after3200ms",
+      "artifact": "/tmp/riftmon-house-loader-baseline"
+    },
+    "browser": {
+      "chromium": {
+        "success": true,
+        "checks": [
+          "slow-assets-still-covered-after-3200ms",
+          "animated-and-reduced-motion-loader",
+          "reserve-assets-awaited",
+          "all-scene-images-loaded-before-action",
+          "first-action-accepted-once",
+          "reconnection-preserves-duel-and-actions",
+          "owned-team-unchanged"
+        ],
+        "errors": [],
+        "viewport": {
+          "width": 1536,
+          "height": 680
+        },
+        "serviceWorkers": "blocked in fixture so intercepted images are actually cold; no production service worker change",
+        "delayedImageRequests": 11,
+        "screenshots": "/tmp/riftmon-house-loader-chromium",
+        "buildIndexSha256": "5a5a7775882d14a007b00d3f1017599bb2293a61ffaa8b3c435b8c8d29c599c4"
+      },
+      "webkit": {
+        "success": true,
+        "checks": [
+          "slow-assets-still-covered-after-3200ms",
+          "animated-and-reduced-motion-loader",
+          "reserve-assets-awaited",
+          "all-scene-images-loaded-before-action",
+          "first-action-accepted-once",
+          "reconnection-preserves-duel-and-actions",
+          "owned-team-unchanged"
+        ],
+        "errors": [],
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "serviceWorkers": "blocked in fixture so intercepted images are actually cold; no production service worker change",
+        "delayedImageRequests": 11,
+        "screenshots": "/tmp/riftmon-house-loader-webkit",
+        "buildIndexSha256": "5a5a7775882d14a007b00d3f1017599bb2293a61ffaa8b3c435b8c8d29c599c4"
+      }
+    },
+    "database": "explorakit_test exclusively, temporary users removed in finally",
+    "physicalDeviceTest": false
+  },
+  "deployment": {
+    "publishedAt": "2026-11-04T16:03:29.947Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-house-loader-2026-11-04T16-03-28-093Z",
+    "sourceBaseline": "33acbc73dc3d876d4cd7826c61888bb11cf9b60c",
+    "previousClient": "47ee219e822a24379406c4b21c842f9dad99a1df",
+    "clientCommit": "b44d609e51b7ff65ca6b1a6f541a46cd0d8eb827",
+    "clientBuild": "bdd5d08e9cb7a037",
+    "indexSha256": "5a5a7775882d14a007b00d3f1017599bb2293a61ffaa8b3c435b8c8d29c599c4",
+    "sourceHashes": {
+      "src/components/UserMap.vue": "34aa988401070c11aff6ae27b1c3f6299f188a5798c575876bd1ecb6d28ec2d8",
+      "src/components/battle/BattleEntrance.vue": "a21cc775e88a0d8130774a6e2af29da188f776ec73574070c5215bff7ac0dbd6",
+      "src/components/battle/BattleOverlay.vue": "d6f4591124a27622c009ce68bd9f0e6d9aa9343f09ea3804909cd63462ece69b"
+    },
+    "publicAssets": [
+      "js/234.02b18f2e.js",
+      "js/393.0fd15895.js",
+      "js/674.050af613.js",
+      "js/689.ea67c21b.js",
+      "js/737.e2c30081.js",
+      "js/account.6f096228.js",
+      "js/app.75d2d34e.js",
+      "js/chunk-vendors.0f4c51f9.js",
+      "js/colosseum.e15fe230.js",
+      "js/community.ef51702b.js",
+      "js/drift.e4ddfe6a.js",
+      "js/game.06005a9d.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.3e989a3e.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.55fd948d.css",
+      "css/test-view.7568246d.css"
+    ],
+    "servicePID": "3867802",
+    "serviceNotRestarted": true,
+    "automaticRestarts": 0,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "namespaceClosed": true,
+    "protectedApi401": true,
+    "schemaChanged": false,
+    "productionDatabaseAccessed": false,
+    "realAccountsManuallyModified": false,
+    "additionalSourceBackup": {
+      "file": "/home/ubuntu/dev/backups/riftmon-house-loader-2026-11-04T16-03-28-093Z/battle-components-before.tar.gz",
+      "sha256": "b5e0609f09ccc860f54c3096a2f276c4855b7d578d73ed8a8e0b7a730cd7cad2"
+    }
+  },
+  "reproduce": "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-house-loader-dist node --env-file=.env scripts/validateHouseEntranceBrowser.js ; run again sequentially with PRESENTATION_BROWSER=webkit. RELEASE_SCREENSHOTS selects a separate artifact directory. Run only on the dedicated test database."
+}
