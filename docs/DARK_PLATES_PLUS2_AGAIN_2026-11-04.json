@@ -1,0 +1,142 @@
+{
+  "date": "2026-11-04",
+  "feature": "Another two percentage point increase to ordinary Dark Continent plate drops",
+  "sourceBaseline": "ca41c10842754500cd04ec3af8a386344b38094b",
+  "clientCommit": "b44d609e51b7ff65ca6b1a6f541a46cd0d8eb827",
+  "clientBuild": "bdd5d08e9cb7a037",
+  "runtimeSourceSha256": {
+    "server/game/world/darkContinent.js": "5c72824a865910a20d3a78bd13fa519e76bfd7c673712c4ef32634bb0954605c",
+    "data/game/latest_patch.json": "895f12248ae62b5f94ea8ff9dc66b60dad43f1c731e9064bb1dfedf74b520a66"
+  },
+  "schemaChanged": false,
+  "clientChanged": false,
+  "patchVersion": "2026-11-04-dark-plaques-plus-2-b",
+  "rates": {
+    "west": {
+      "maps": [
+        "jungle1",
+        "jungle4",
+        "jungle7"
+      ],
+      "before": 0.06,
+      "after": 0.08
+    },
+    "central": {
+      "maps": [
+        "jungle2",
+        "jungle5",
+        "jungle8"
+      ],
+      "before": 0.13,
+      "after": 0.15
+    },
+    "east": {
+      "maps": [
+        "jungle3",
+        "jungle6"
+      ],
+      "before": 0.17,
+      "after": 0.19
+    },
+    "jungle9": {
+      "maps": [
+        "jungle9"
+      ],
+      "before": 0.23,
+      "after": 0.25
+    }
+  },
+  "interpretation": "Two percentage points in each area, not a relative multiplication by1.02. Shared ordinary loot path covers land and fishing. Corrupted guaranteed1–5 plates remain guaranteed. Crystal rates/stacks, ordinary items, money, XP, recipes, prices and existing stock are unchanged.",
+  "validation": {
+    "unit": {
+      "passed": 45,
+      "failed": 0,
+      "skipped": 0,
+      "files": [
+        "dark-continent",
+        "dark-encounters",
+        "dark-habitats",
+        "dark-travel",
+        "crystal-sales",
+        "corruption",
+        "patch-notes"
+      ]
+    },
+    "mysql": {
+      "passed": 44,
+      "failed": 0,
+      "skipped": 0,
+      "database": "explorakit_test",
+      "sequential": true,
+      "files": [
+        "dark-continent-mysql",
+        "dark-battle-resume-mysql"
+      ]
+    },
+    "commands": [
+      "node --test tests/dark-continent.test.js tests/dark-encounters.test.js tests/dark-habitats.test.js tests/dark-travel.test.js tests/crystal-sales.test.js tests/corruption.test.js tests/patch-notes.test.js",
+      "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test RUN_MYSQL_TESTS=1 NODE_ENV=test BATTLE_DELAY_SCALE=0 node --env-file=.env --test --test-concurrency=1 tests/dark-continent-mysql.test.js tests/dark-battle-resume-mysql.test.js"
+    ],
+    "coverage": "Nine-map exact boundaries, seeded probability simulation, new .24 Jungle9 SQL credit, interrupted/replayed durable settlements and corrupted guarantees.",
+    "syntax": "node --check server/game/world/darkContinent.js passes",
+    "diffWhitespace": "pass",
+    "browser": "Not rerun: no client or visual changes."
+  },
+  "deployment": {
+    "publishedAt": "2026-11-04T18:39:33.267Z",
+    "restartedAt": "2026-11-04T18:39:30.352Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-plates-plus2b-2026-11-04T18-39-29-927Z",
+    "sourceBaseline": "ca41c10842754500cd04ec3af8a386344b38094b",
+    "sourceHashes": {
+      "data/game/latest_patch.json": "895f12248ae62b5f94ea8ff9dc66b60dad43f1c731e9064bb1dfedf74b520a66",
+      "server/game/world/darkContinent.js": "5c72824a865910a20d3a78bd13fa519e76bfd7c673712c4ef32634bb0954605c"
+    },
+    "clientCommit": "b44d609e51b7ff65ca6b1a6f541a46cd0d8eb827",
+    "clientBuild": "bdd5d08e9cb7a037",
+    "beforePid": "3877345",
+    "afterPid": "3880162",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "schemaChanged": false,
+    "migrationApplied": null,
+    "schemaVerified": true,
+    "schemaTables": 31,
+    "schemaConstraints": 27,
+    "migrationReceipts": 31,
+    "activeClubDuelsBefore": 0,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 1,
+    "rouletteBefore": [],
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "clientRebuilt": false,
+    "clientIndexUnchanged": true,
+    "publicAssets": [
+      "js/234.02b18f2e.js",
+      "js/393.0fd15895.js",
+      "js/674.050af613.js",
+      "js/689.ea67c21b.js",
+      "js/737.e2c30081.js",
+      "js/account.6f096228.js",
+      "js/app.75d2d34e.js",
+      "js/chunk-vendors.0f4c51f9.js",
+      "js/colosseum.e15fe230.js",
+      "js/community.ef51702b.js",
+      "js/drift.e4ddfe6a.js",
+      "js/game.06005a9d.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.3e989a3e.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.55fd948d.css",
+      "css/test-view.7568246d.css"
+    ]
+  }
+}

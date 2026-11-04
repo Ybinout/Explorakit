@@ -1,3 +1,9 @@
+## Plaques Dark : deuxième hausse de deux points — 4 novembre 2026
+
+Les taux ordinaires actuels sont8 % à l’ouest(jungle1/4/7),15 % au centre(2/5/8),19 % à l’est(3/6),25 % en jungle9. C’est une nouvelle hausse additive de deux points, après6/13/17/23 %. Fonction commune terre/pêche ;autres ressources et1–5 plaques corrompues garanties inchangées. Annonce `2026-11-04-dark-plaques-plus-2-b`.
+
+Rapport `docs/DARK_PLATES_PLUS2_AGAIN_2026-11-04.json` :45 tests ciblés+44 SQL/reprise, tous verts sans saut ;toujours utiliser les paramètres SQL de test standards. Publication PID3880162, sauvegarde complète, schéma/HTTPS/voisins validés ;clientb44d609/buildbdd5d08e9cb7a037 conservé. Aucun compte réel modifié manuellement.
+
 ## Plaques Dark : hausse de deux points — 4 novembre 2026
 
 Taux actuels ordinaires dans `darkContinent.lootProfile` :6 % à l’ouest(jungle1/4/7),13 % au centre(2/5/8),17 % à l’est(3/6),23 % en jungle9. Hausse de deux **points**, sans toucher cristaux/tailles de lots, prix, recettes, XP/argent ou1–5 plaques garanties des corrompus. Terre/pêche partagent la fonction et les reçus durables existants. Annonce `2026-11-04-dark-plaques-plus-2`.

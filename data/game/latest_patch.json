@@ -1,16 +1,16 @@
 {
-  "version": "2026-11-04-dark-plaques-plus-2",
+  "version": "2026-11-04-dark-plaques-plus-2-b",
   "date": "2026-11-04",
   "fr": {
-    "title": "Davantage de plaques sur le Dark Continent",
+    "title": "Des plaques encore plus fréquentes",
     "items": [
-      "Les chances de trouver une plaque de type augmentent de 2 points dans chaque zone."
+      "Les chances de trouver une plaque de type augmentent encore de 2 points dans chaque zone."
     ]
   },
   "en": {
-    "title": "More plates on the Dark Continent",
+    "title": "Even more frequent type plates",
     "items": [
-      "Type plate drop chances increase by 2 percentage points in every area."
+      "Type plate drop chances rise by another 2 percentage points in every area."
     ]
   }
 }

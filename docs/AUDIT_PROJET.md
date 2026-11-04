@@ -1,3 +1,11 @@
+## Plaques de type : nouvelle hausse de deux points — 4 novembre 2026
+
+Les taux ordinaires passent de6→8 % à l’ouest(jungle1/4/7),13→15 % au centre(2/5/8),17→19 % à l’est(jungle3/6),23→25 % en jungle9. Hausse additive appliquée à la fonction commune terre/pêche ;les1–5 plaques garanties des corrompus et tous les autres gains, prix, recettes et stocks restent inchangés. Nouveau reçu d’annonce `2026-11-04-dark-plaques-plus-2-b`.
+
+Validation :45 tests ciblés et44 SQL/reprise, sans échec ni saut, avec `NODE_ENV=test BATTLE_DELAY_SCALE=0` sur `explorakit_test`. Bornes des neuf cartes, simulation déterministe et attribution réelle en jungle9 pour un tirage0,24 désormais admissible ;les interruptions/rejeux ne créent pas de butin supplémentaire. Rapport `docs/DARK_PLATES_PLUS2_AGAIN_2026-11-04.json`.
+
+Publication :PID3877345→3880162, aucun duel Maison actif ;une tentative Tour persistée était présente. Sauvegarde SQL/sources/index avant redémarrage, schéma31 tables/27 contraintes/31 reçus inchangé et contrôlé. Clientb44d609/buildbdd5d08e9cb7a037 conservé ;21 bundles publics, API, modes fermés, checkpoint et voisins Knov/API vérifiés. Aucun compte réel modifié manuellement.
+
 ## Plaques de type : +2 points partout — 4 novembre 2026
 
 Les probabilités ordinaires du Dark Continent augmentent de deux points :ouest(jungle1/4/7)4→6 %,centre(2/5/8)11→13 %,est(jungle3/6)15→17 %,jungle9 21→23 %. Le chemin commun couvre les rencontres terrestres et la pêche. Les1–5 plaques garanties des corrompus, les trois cristaux, leurs quantités, les objets ordinaires, l’argent, l’XP, les recettes, prix et stocks acquis restent inchangés. L’annonce de connexion possède un nouveau reçu `2026-11-04-dark-plaques-plus-2`.
@@ -6409,6 +6417,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **4 novembre 2026 — Plaques+2 points supplémentaires :**taux ordinaires8/15/19/25 %,terre et pêche ;89 vérifications sans échec. Rapport `docs/DARK_PLATES_PLUS2_AGAIN_2026-11-04.json`, publication serveur seule.
 
 - **4 novembre 2026 — Plaques+2 points :**Dark ordinaire6/13/17/23 %,terre et pêche ;autres récompenses inchangées.89 vérifications, sauvegarde et publication serveur sans rebuild client. Rapport `docs/DARK_PLATES_PLUS2_2026-11-04.json`.
 
