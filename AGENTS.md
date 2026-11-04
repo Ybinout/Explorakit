@@ -1,3 +1,11 @@
+## Butin Dark : plaques et cristaux — 4 novembre 2026
+
+`darkContinent.lootProfile` :plaques ordinaires4 % à l’ouest(jungle1/4/7),11 % au centre(2/5/8),15 % à l’est(3/6),21 % en jungle9. Hausse d’un **point**, pas une multiplication relative. Les probabilités des trois cristaux sont multipliées par0,85 ;tailles de lots ordinaires identiques. Les lots corrompus sont réduits d’environ15 %, avec minimum cinq de chaque cristal et1–5 plaques garanties conservés. Ne pas appliquer ces taux aux trésors hors Dark, ni modifier le stock acquis/prix/recettes/argent/XP. Le chemin commun couvre terre et pêche, avec les reçus transactionnels existants.
+
+Valeurs et publication :`docs/DARK_LOOT_TUNING_2026-11-04.json`. Recettes existantes de butin/habitats et SQL de crédit/reprise ajustées,89 tests(45 ciblés,44 SQL),sans échec ni saut. Paramètres serveur uniquement ;pas de nouveau build client ni de migration.
+
+Publication serveur :PID3867802, client `75646a6` / build `65c4369f84654c33` conservés. Sauvegarde avant redémarrage,89 tests verts, schéma inchangé, HTML/bundles publics/voisins/checkpoint vérifiés ;aucun compte réel modifié manuellement.
+
 ## Maison : évolutions finales et reprise des actions — 4 novembre 2026
 
 `whitepeak/trainers.js` possède des compositions propres à la Maison :18 dresseurs, six espèces finales distinctes Gen1–4, graphes d’évolution ordinaires+pierres, branches déjà présentes préférées et compléments thématiques. La liste envoyée au client correspond aux copies générées. Conserver les tailles/niveaux adaptés ; IV/EV/nature/K d’une forme auteur sont repris sur son adulte, avec ses vraies statistiques. Les nouveaux adultes reçoivent des capacités/talents/objets adaptés via le planificateur stratégique partagé. Ne pas modifier les équipes auteur de l’Aventure ni celles de la Tour ; leurs petites formes peuvent être intentionnelles. Toujours aucune XP/EV/récompense en Maison.

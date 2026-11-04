@@ -10,12 +10,13 @@ function assertTravelAllowed(map){if(isMap(map))throw Error(EXIT_MESSAGE);}
 function column(map){return isMap(map)?(Number(map.slice(6))-1)%3:null;}
 function levels(map){return map==='jungle9'?[200,250]:[[100,120],[120,150],[150,200]][column(map)] || null;}
 function plateKey(type){return 'dark_plate_'+type.toLowerCase();}
+// Ordinary crystals yield 15% less on average; keep their stack sizes.
 const LOOT_COLUMNS=Object.freeze([
- {crystals:[['crystal_shard',.65,2,4],['clear_crystal',.50,1,3],['aurora_prism',.30,1,2]],plateChance:.03,ordinaryChance:1/6},
- {crystals:[['crystal_shard',.9,3,5],['clear_crystal',.7,2,4],['aurora_prism',.45,1,3]],plateChance:.10,ordinaryChance:1/5},
- {crystals:[['crystal_shard',1,4,6],['clear_crystal',.8,3,5],['aurora_prism',.55,2,4]],plateChance:.14,ordinaryChance:1/4}
+ {crystals:[['crystal_shard',.5525,2,4],['clear_crystal',.425,1,3],['aurora_prism',.255,1,2]],plateChance:.04,ordinaryChance:1/6},
+ {crystals:[['crystal_shard',.765,3,5],['clear_crystal',.595,2,4],['aurora_prism',.3825,1,3]],plateChance:.11,ordinaryChance:1/5},
+ {crystals:[['crystal_shard',.85,4,6],['clear_crystal',.68,3,5],['aurora_prism',.4675,2,4]],plateChance:.15,ordinaryChance:1/4}
 ].map(p=>Object.freeze({...p,crystals:Object.freeze(p.crystals.map(Object.freeze))})));
-const JUNGLE9_LOOT=Object.freeze({...LOOT_COLUMNS[2],plateChance:.20});
+const JUNGLE9_LOOT=Object.freeze({...LOOT_COLUMNS[2],plateChance:.21});
 function lootProfile(map='jungle1'){if(!isMap(map))throw Error('Butin réservé au Dark Continent.');return map==='jungle9'?JUNGLE9_LOOT:LOOT_COLUMNS[column(map)];}
 const rules=[
  '!!!! DARK CONTINENT : un Pokémon mis K.O. ici est définitivement perdu. Aucun Centre spécialisé n’est installé sur cette île : je ne peux assurer que les premiers secours, avant qu’il ne soit trop tard. Ses objets récupérables rejoignent ton sac.',

@@ -1,0 +1,399 @@
+{
+  "date": "2026-11-04",
+  "feature": "Dark Continent plate/crystal balance",
+  "sourceBaseline": "77486bde7e5b6d4e419f389f4723008a60ef4753",
+  "clientCommit": "75646a6a096f770ef7a5529e9c9d6d3f08ba454e",
+  "clientBuild": "65c4369f84654c33",
+  "runtimeSourceSha256": {
+    "data/game/latest_patch.json": "3b407a86289a8b7f1d5bfab52e2489f476ad127e3fd7d0750b3fff772367d690",
+    "server/game/world/darkContinent.js": "586e84f9c277c4732e557d95c6644146725a531d9e416ac65943ad8f91c14d88",
+    "server/game/world/darkEncounters.js": "912579d5710cc2617347e6b3c27ea18889d347fe58faf23bfb2dea3a5c7a9fef"
+  },
+  "schemaChanged": false,
+  "clientChanged": false,
+  "patchVersion": "2026-11-04-dark-loot-ajuste",
+  "implementation": {
+    "plateChances": {
+      "west": [
+        3,
+        4
+      ],
+      "central": [
+        10,
+        11
+      ],
+      "east": [
+        14,
+        15
+      ],
+      "jungle9": [
+        20,
+        21
+      ]
+    },
+    "plateChange": "one percentage point per area, not a relative one-percent multiplier",
+    "profiles": [
+      {
+        "map": "jungle1",
+        "crystals": [
+          [
+            "crystal_shard",
+            0.5525,
+            2,
+            4
+          ],
+          [
+            "clear_crystal",
+            0.425,
+            1,
+            3
+          ],
+          [
+            "aurora_prism",
+            0.255,
+            1,
+            2
+          ]
+        ],
+        "plateChance": 0.04,
+        "ordinaryChance": 0.16666666666666666
+      },
+      {
+        "map": "jungle2",
+        "crystals": [
+          [
+            "crystal_shard",
+            0.765,
+            3,
+            5
+          ],
+          [
+            "clear_crystal",
+            0.595,
+            2,
+            4
+          ],
+          [
+            "aurora_prism",
+            0.3825,
+            1,
+            3
+          ]
+        ],
+        "plateChance": 0.11,
+        "ordinaryChance": 0.2
+      },
+      {
+        "map": "jungle3",
+        "crystals": [
+          [
+            "crystal_shard",
+            0.85,
+            4,
+            6
+          ],
+          [
+            "clear_crystal",
+            0.68,
+            3,
+            5
+          ],
+          [
+            "aurora_prism",
+            0.4675,
+            2,
+            4
+          ]
+        ],
+        "plateChance": 0.15,
+        "ordinaryChance": 0.25
+      },
+      {
+        "map": "jungle4",
+        "crystals": [
+          [
+            "crystal_shard",
+            0.5525,
+            2,
+            4
+          ],
+          [
+            "clear_crystal",
+            0.425,
+            1,
+            3
+          ],
+          [
+            "aurora_prism",
+            0.255,
+            1,
+            2
+          ]
+        ],
+        "plateChance": 0.04,
+        "ordinaryChance": 0.16666666666666666
+      },
+      {
+        "map": "jungle5",
+        "crystals": [
+          [
+            "crystal_shard",
+            0.765,
+            3,
+            5
+          ],
+          [
+            "clear_crystal",
+            0.595,
+            2,
+            4
+          ],
+          [
+            "aurora_prism",
+            0.3825,
+            1,
+            3
+          ]
+        ],
+        "plateChance": 0.11,
+        "ordinaryChance": 0.2
+      },
+      {
+        "map": "jungle6",
+        "crystals": [
+          [
+            "crystal_shard",
+            0.85,
+            4,
+            6
+          ],
+          [
+            "clear_crystal",
+            0.68,
+            3,
+            5
+          ],
+          [
+            "aurora_prism",
+            0.4675,
+            2,
+            4
+          ]
+        ],
+        "plateChance": 0.15,
+        "ordinaryChance": 0.25
+      },
+      {
+        "map": "jungle7",
+        "crystals": [
+          [
+            "crystal_shard",
+            0.5525,
+            2,
+            4
+          ],
+          [
+            "clear_crystal",
+            0.425,
+            1,
+            3
+          ],
+          [
+            "aurora_prism",
+            0.255,
+            1,
+            2
+          ]
+        ],
+        "plateChance": 0.04,
+        "ordinaryChance": 0.16666666666666666
+      },
+      {
+        "map": "jungle8",
+        "crystals": [
+          [
+            "crystal_shard",
+            0.765,
+            3,
+            5
+          ],
+          [
+            "clear_crystal",
+            0.595,
+            2,
+            4
+          ],
+          [
+            "aurora_prism",
+            0.3825,
+            1,
+            3
+          ]
+        ],
+        "plateChance": 0.11,
+        "ordinaryChance": 0.2
+      },
+      {
+        "map": "jungle9",
+        "crystals": [
+          [
+            "crystal_shard",
+            0.85,
+            4,
+            6
+          ],
+          [
+            "clear_crystal",
+            0.68,
+            3,
+            5
+          ],
+          [
+            "aurora_prism",
+            0.4675,
+            2,
+            4
+          ]
+        ],
+        "plateChance": 0.21,
+        "ordinaryChance": 0.25
+      }
+    ],
+    "ordinaryCrystals": "same stack sizes, each drop probability multiplied by0.85 for exactly15% less expected volume",
+    "corruptedCrystalRanges": {
+      "west": [
+        [
+          8,
+          14
+        ],
+        [
+          6,
+          10
+        ],
+        [
+          5,
+          6
+        ]
+      ],
+      "central": [
+        [
+          14,
+          22
+        ],
+        [
+          8,
+          15
+        ],
+        [
+          5,
+          8
+        ]
+      ],
+      "east": [
+        [
+          17,
+          27
+        ],
+        [
+          12,
+          19
+        ],
+        [
+          7,
+          12
+        ]
+      ]
+    },
+    "corruptedGuarantees": "minimum five of each crystal, and one to five plates always retained",
+    "scope": "Dark Continent land and fishing; existing inventories, ordinary item chances, money, XP, sale prices, recipes and mainland treasures unchanged"
+  },
+  "validation": {
+    "unit": {
+      "passed": 45,
+      "failed": 0,
+      "skipped": 0,
+      "files": [
+        "dark-continent",
+        "dark-encounters",
+        "dark-habitats",
+        "dark-travel",
+        "crystal-sales",
+        "corruption",
+        "patch-notes"
+      ]
+    },
+    "mysql": {
+      "passed": 44,
+      "failed": 0,
+      "skipped": 0,
+      "database": "explorakit_test",
+      "sequential": true,
+      "files": [
+        "dark-continent-mysql",
+        "dark-battle-resume-mysql"
+      ]
+    },
+    "coverage": "nine-map boundaries, seeded drop simulation, corrupted guarantees, real stock credits and durable battle receipts; interrupted actions grant nothing",
+    "syntax": "two changed server modules pass node --check",
+    "diffWhitespace": "pass",
+    "browserNotRerun": "server-only numeric balancing, frontend unchanged"
+  },
+  "deployment": {
+    "publishedAt": "2026-11-04T13:04:04.803Z",
+    "restartedAt": "2026-11-04T13:04:03.036Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-dark-loot-tune-2026-11-04T13-04-02-753Z",
+    "sourceBaseline": "77486bde7e5b6d4e419f389f4723008a60ef4753",
+    "sourceHashes": {
+      "data/game/latest_patch.json": "3b407a86289a8b7f1d5bfab52e2489f476ad127e3fd7d0750b3fff772367d690",
+      "server/game/world/darkContinent.js": "586e84f9c277c4732e557d95c6644146725a531d9e416ac65943ad8f91c14d88",
+      "server/game/world/darkEncounters.js": "912579d5710cc2617347e6b3c27ea18889d347fe58faf23bfb2dea3a5c7a9fef"
+    },
+    "clientCommit": "75646a6a096f770ef7a5529e9c9d6d3f08ba454e",
+    "clientBuild": "65c4369f84654c33",
+    "beforePid": "3866805",
+    "afterPid": "3867802",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "schemaChanged": false,
+    "migrationApplied": null,
+    "schemaVerified": true,
+    "schemaTables": 31,
+    "schemaConstraints": 27,
+    "migrationReceipts": 31,
+    "activeClubDuelsBefore": 0,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 0,
+    "rouletteBefore": [],
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "clientRebuilt": false,
+    "clientIndexUnchanged": true,
+    "publicAssets": [
+      "js/234.02b18f2e.js",
+      "js/393.0fd15895.js",
+      "js/674.050af613.js",
+      "js/689.ea67c21b.js",
+      "js/737.e2c30081.js",
+      "js/account.6f096228.js",
+      "js/app.2c5d51c5.js",
+      "js/chunk-vendors.0f4c51f9.js",
+      "js/colosseum.e15fe230.js",
+      "js/community.ef51702b.js",
+      "js/drift.e4ddfe6a.js",
+      "js/game.045efe21.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.3e989a3e.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.1fca1867.css",
+      "css/test-view.7568246d.css"
+    ]
+  }
+}

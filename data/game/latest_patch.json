@@ -1,18 +1,18 @@
 {
-  "version": "2026-11-04-maison-equipes-reprise",
+  "version": "2026-11-04-dark-loot-ajuste",
   "date": "2026-11-04",
   "fr": {
-    "title": "La Maison des Combats se renforce",
+    "title": "Butin du Dark Continent ajusté",
     "items": [
-      "Les dresseurs de la Maison utilisent des Pokémon entièrement évolués, avec des compositions et équipements adaptés.",
-      "La reprise des combats et la récupération des actions après une coupure ou une réponse tardive ont été fiabilisées."
+      "Les chances de trouver une tablette de type augmentent d’un point dans chaque zone.",
+      "Les Éclats fissurés, Cristaux limpides et Prismes d’aurore deviennent un peu moins abondants."
     ]
   },
   "en": {
-    "title": "The Battle House steps up",
+    "title": "Dark Continent loot adjusted",
     "items": [
-      "Battle House trainers use fully evolved Pokémon with adapted parties, abilities and held items.",
-      "Battle reconnection and action recovery after a disconnection or a delayed response are more reliable."
+      "Type plate drop chances increase by one percentage point in every area.",
+      "Crystal Shards, Clear Crystals and Aurora Prisms are slightly less abundant."
     ]
   }
 }

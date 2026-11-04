@@ -1,3 +1,13 @@
+## Ajustement des ressources du Dark Continent — 4 novembre 2026
+
+Les plaques de type ordinaires passent de3→4 % à l’ouest(jungle1/4/7),10→11 % au centre(2/5/8),14→15 % à l’est(3/6) et20→21 % en jungle9. Les taux sont des probabilités par rencontre victorieuse ;la hausse correspond à un point de pourcentage dans chaque lieu. Les corrompus conservent leurs1–5 plaques garanties.
+
+Pour les Éclats fissurés, Cristaux limpides et Prismes d’aurore, les probabilités ordinaires sont réduites de15 %, sans changer la taille d’un lot réussi :rendement attendu−15 % pour chacun, dans chaque colonne. Les lots corrompus diminuent aussi d’environ15 % :ouest8–14/6–10/5–6,centre14–22/8–15/5–8,est17–27/12–19/7–12, dans cet ordre. Leur minimum de cinq de chaque ressource reste respecté. Le bonus de risque vers l’est subsiste. Ni stock acquis, prix de vente, coûts de synthèse, XP, argent, objets ordinaires ni trésors du continent principal modifiés.
+
+Validation :89 tests existants ajustés(45 ciblés et44 SQL/réseau),sans échec ni saut. Bornes exactes sur neuf cartes, simulation reproductible, garanties corrompues, crédit réel du sac et reprise transactionnelle sans récompense au rejeu/interruption. Syntaxe/diff valides. Pas de modification frontend, carte auteur ou schéma. Rapport `docs/DARK_LOOT_TUNING_2026-11-04.json`.
+
+Publication le4 novembre2026 à13 h04 UTC :serveur PID3866805→3867802. Sauvegarde SQL/sources/index, schéma31 tables/27 contraintes/31 reçus valide et inchangé. Aucun duel Maison ni tournoi actif ;aucune ressource de compte réel modifiée manuellement. Client/HTML inchangés,21 bundles HTTPS et voisins Knov/API vérifiés, checkpoint des modes fermés conservé. Aucun avertissement ni redémarrage automatique après publication.
+
 ## Maison des Combats : adultes et reprise fiable — 4 novembre 2026
 
 Les18 dresseurs PvE de la Maison disposent désormais de six choix **entièrement évolués**, sans doublons après évolution. Les deux catalogues d’évolution existants(pierres comprises) déterminent les formes finales Gen1–4 ; les branches identitaires déjà présentes sont conservées(Gallame pour Aspha). Des compléments cohérents évitent qu’une équipe auparavant courte ne perde des places après déduplication. La copie rencontre autant de Pokémon que le joueur, aux mêmes niveaux adaptés/normalisés. L’entraînement IV/EV/nature/K de l’auteur est conservé quand une forme devient adulte, et ses statistiques sont celles de l’adulte. Capacités, talent et objet sont adaptés au nouveau Pokémon ; pas de Balle Lumière sur Raichu. Les compositions Aventure/Tour ne sont pas modifiées.
@@ -6371,6 +6381,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **4 novembre 2026 — Butin Dark :**plaques+1 point dans chaque zone ;rendement des trois cristaux diminué d’environ15 %, minimums corrompus préservés.89 tests existants ajustés. Paramètres serveur seuls ;rapport `docs/DARK_LOOT_TUNING_2026-11-04.json`.
 
 - **4 novembre 2026 — Maison adulte/reprise :**18 compositions PvE finales Gen1–4 ;garde des requêtes en attente, reprise autoritaire après refus/timeout et protection des réponses d’ancienne session.67 tests ciblés/SQL/réseau, parcours PC Chromium et mobile WebKit. Rapport `docs/HOUSE_MATURE_RESUME_2026-11-04.json`.
 
