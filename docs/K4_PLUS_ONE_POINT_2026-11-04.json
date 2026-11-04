@@ -1,0 +1,125 @@
+{
+  "date": "2026-11-04",
+  "request": "Increase K4 by one percentage point, taken from the weakest tier",
+  "sourceBaseline": "db4aa92979c526f47b5fc75518d92d55e058e87c",
+  "clientCommit": "4fae83ed2d6d5f28640a6434bb38d7a74de26fee",
+  "clientBuild": "f082238d45bbd6d7",
+  "runtimeSourceSha256": {
+    "data/game/latest_patch.json": "50245ecbb496fa8d0fc7eaeb36d565730b80507f2c09fdc232e94ab87eca3422",
+    "server/game/models/progression.js": "bd22f3abfab706c9aabafeb023d3eeeedb783c4d5a897ff0cc585db55bb6da5e"
+  },
+  "before": {
+    "K1": 0.79,
+    "K2": 0.18,
+    "K3": 0.02,
+    "K4": 0.01
+  },
+  "after": {
+    "K1": 0.78,
+    "K2": 0.18,
+    "K3": 0.02,
+    "K4": 0.02
+  },
+  "ordinaryDarkAfter": {
+    "K2": 0.96,
+    "K3": 0.02,
+    "K4": 0.02
+  },
+  "unchanged": [
+    "existing Pokémon and their stored traits",
+    "fixed trainer K tiers",
+    "K stat formulas",
+    "corrupted encounter chance (2%) and guaranteed K4",
+    "Dark K2 minimum",
+    "IVs, EVs, XP, loot, money, levels and species pools",
+    "closed modes",
+    "frontend assets and lab animations"
+  ],
+  "validation": {
+    "targetedPassed": 37,
+    "failed": 0,
+    "skipped": 0,
+    "syntax": "pass",
+    "diffCheck": "pass",
+    "unitCommand": "node --test tests/progression.test.js tests/dark-encounters.test.js tests/dark-habitats.test.js tests/fishing.test.js tests/legendary-encounters.test.js",
+    "uniformDomainCounts10000": {
+      "K1": 7800,
+      "K2": 1800,
+      "K3": 200,
+      "K4": 200
+    },
+    "ordinaryDarkCounts1000": {
+      "K2": 960,
+      "K3": 20,
+      "K4": 20
+    },
+    "legacyEncounterVarietyFailures": {
+      "count": 2,
+      "baselineConfirmed": true,
+      "baselineMethod": "Load the unchanged HEAD progression module through a temporary Node preload, without changing working-tree or live files.",
+      "failures": [
+        "jungle2 species 289 exceeds old BST cap",
+        "jungle3 legacy 200-sample coverage expects all 148 species (145 reached)"
+      ],
+      "scope": "Existing outdated encounter-pool assertions, reproduced unchanged before this K-rate patch; not modified."
+    }
+  },
+  "deployment": {
+    "publishedAt": "2026-11-04T22:00:56.065Z",
+    "restartedAt": "2026-11-04T22:00:53.592Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-k4-plus1-2026-11-04T22-00-53-183Z",
+    "sourceBaseline": "db4aa92979c526f47b5fc75518d92d55e058e87c",
+    "sourceHashes": {
+      "data/game/latest_patch.json": "50245ecbb496fa8d0fc7eaeb36d565730b80507f2c09fdc232e94ab87eca3422",
+      "server/game/models/progression.js": "bd22f3abfab706c9aabafeb023d3eeeedb783c4d5a897ff0cc585db55bb6da5e"
+    },
+    "clientCommit": "4fae83ed2d6d5f28640a6434bb38d7a74de26fee",
+    "clientBuild": "f082238d45bbd6d7",
+    "beforePid": "3884733",
+    "afterPid": "3890920",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "schemaChanged": false,
+    "migrationApplied": null,
+    "schemaVerified": true,
+    "schemaTables": 32,
+    "schemaConstraints": 28,
+    "migrationReceipts": 32,
+    "activeClubDuelsBefore": 0,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 0,
+    "rouletteBefore": [],
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "clientRebuilt": false,
+    "clientIndexUnchanged": true,
+    "publicAssets": [
+      "js/234.9471380f.js",
+      "js/393.0fd15895.js",
+      "js/674.050af613.js",
+      "js/689.ea67c21b.js",
+      "js/737.e2c30081.js",
+      "js/account.6f096228.js",
+      "js/app.4ca72e0c.js",
+      "js/chunk-vendors.0f4c51f9.js",
+      "js/colosseum.e15fe230.js",
+      "js/community.ef51702b.js",
+      "js/drift.e4ddfe6a.js",
+      "js/game.ddc48aca.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.3e989a3e.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.b3499c67.css",
+      "css/test-view.7568246d.css"
+    ]
+  },
+  "realAccountsManuallyModified": false
+}

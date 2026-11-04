@@ -1,3 +1,11 @@
+## Tirage K4 : +1 point de pourcentage — 4 novembre 2026
+
+`progression.K_TIERS` :K4 passe de1 à2 %,K1 de79 à78 % ;K2 reste18 % etK3 reste2 %. Tirage partagé par les nouvelles générations aléatoires et la pêche. Les valeurs K déjà sauvegardées et les équipes de dresseurs fixées ne sont pas modifiées. Dark ordinaire :le plancherK2 transforme cette répartition en96 % K2,2 % K3,2 % K4 ;l’apparition des corrompus reste2 % avec K4 garanti. Aucun changement aux formules de statistiques, niveaux, XP, butins ou modes fermés.
+
+Validation :37 tests ciblés sans échec ni saut, bornes et domaine uniforme de10 000 tirages,1000 tirages Dark ordinaires. Deux anciennes assertions de `encounter-variety.test.js` échouent aussi avec le module de progression de HEAD (cap BST de jungle2 et couverture de jungle3 en200 tirages) ;ne pas les attribuer à ce changement ni modifier les pools pour les masquer. Rapport `docs/K4_PLUS_ONE_POINT_2026-11-04.json`. Pas de build client ni de migration nécessaires.
+
+Publication :serveur PID3890920, sauvegarde SQL/sources/index, schéma32 tables/28 contraintes/32 reçus inchangé et vérifié ;aucun duel Maison actif au redémarrage. Client `4fae83ed` / build `f082238d45bbd6d7` conservé,21 bundles HTTPS, checkpoint et voisins Knov/API validés. Aucun compte réel modifié manuellement.
+
 ## Animations du laboratoire de Rochebrume — 4 novembre 2026
 
 `experienceLaboratoryScenery.js` anime uniquement les intérieurs des cuves cyan/violette, fioles, tubes et ballon, les deux écrans, voyants et l’aiguille de l’horloge de `ville4_maison2`. Dessin pixel art sur la grille du monde, masques numériques bornés ;le fond, le sol, le mobilier, les collisions et le service d’échange d’XP restent inchangés. Ne pas animer l’image entière ou un foreground partagé.
@@ -6439,6 +6447,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **2026-11-04 — Probabilité K4** :2 % au lieu de1 %,pris surK1(78 %) ;K2/K3 et garanties Dark inchangés.37 tests ciblés verts, deux échecs de pools anciens reproduits sur HEAD. Rapport `K4_PLUS_ONE_POINT_2026-11-04.json`.
 
 - **2026-11-04 — Laboratoire animé** : cuves/fioles/écrans/horloge, caches par pose et culling ;23 tests,60 comparaisons natives et parcours réels PC/mobile, sans changement serveur/SQL. Rapport `ROCHEBRUME_LAB_ANIMATIONS_2026-11-04.json`.
 

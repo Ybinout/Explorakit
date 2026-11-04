@@ -1,18 +1,16 @@
 {
-  "version": "2026-11-04-rochebrume-xp-lab",
+  "version": "2026-11-04-k4-plus-one-point",
   "date": "2026-11-04",
   "fr": {
-    "title": "Le laboratoire de Rochebrume",
+    "title": "Plus de potentiel exceptionnel",
     "items": [
-      "Un scientifique échange l’expérience de deux Pokémon de la même espèce pour 1 000 000 ₽.",
-      "Sélection depuis l’équipe ou le PC, avec aperçu des niveaux avant confirmation."
+      "Les Pokémon K4 passent de 1 % à 2 % des tirages. Les K1 passent de 79 % à 78 %."
     ]
   },
   "en": {
-    "title": "The Miststone laboratory",
+    "title": "More exceptional potential",
     "items": [
-      "A scientist can swap the experience of two Pokémon of the same species for ₽1,000,000.",
-      "Choose from your party or PC and preview the resulting levels before confirming."
+      "K4 Pokémon rise from 1% to 2% of random potential rolls. K1 falls from 79% to 78%."
     ]
   }
 }

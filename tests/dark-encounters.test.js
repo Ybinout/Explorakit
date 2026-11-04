@@ -3,6 +3,8 @@ const dc=require('../server/game/world/darkContinent'),dark=require('../server/g
 function rng(seed=7){return()=>((seed=Math.imul(seed,1664525)+1013904223>>>0)/4294967296);}
 test('ordinary island enemies always have 20–28 IVs, K≥2, legal full 510 EVs and recalculated stats, from both wild factories',async()=>{
  for(let n=1;n<=9;n++)for(const roll of[.02,.5,.999999]){const map='jungle'+n,p=await wild(map,()=>roll),q=await wild.createAtLevel(350,dc.levels(map)[0],{mapName:map,random:()=>roll,experienceModuleActive:true});for(const a of[p,q]){assert(!dark.isCorrupted(a,map));assert(Object.values(a.iv).every(v=>v>=20&&v<=28));assert(a.k>=2&&a.k<=4);assert.equal(Object.values(a.ev).reduce((s,v)=>s+v,0),510);assert.deepEqual(normalizeEffort(a.ev),a.ev);assert.equal(a.currentHp,a.maxHp);assert.equal(a.attack,a.calculateStat(a.data.base.Attack,a.iv.attack,'attack'));assert(a.level>=dc.levels(map)[0]&&a.level<=dc.levels(map)[1]);}}
+ // The island keeps its K2 floor: the point removed from K1 becomes K2 here.
+ const counts={2:0,3:0,4:0};for(let i=0;i<1000;i++){let calls=0;const p={};dark.prepare(p,'jungle1',()=>++calls===8?(i+.5)/1000:.5);assert(!dark.isCorrupted(p,'jungle1'));counts[p.k]++;}assert.deepEqual(counts,{2:960,3:20,4:20});
  const random=rng(),spreads=new Set();for(let i=0;i<1000;i++){const e=dark.randomEffort(random);assert.equal(Object.values(e).reduce((s,v)=>s+v,0),510);assert(Object.values(e).every(v=>v>=0&&v<=252));spreads.add(JSON.stringify(e));}assert(spreads.size>990);
 });
 test('corrupted enemies roll once at 2%, have six perfect IVs and six 250 EVs, K4 and +5 zone levels, without changing normal training rules',async()=>{

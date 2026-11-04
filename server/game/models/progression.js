@@ -5,10 +5,10 @@ const BATTLE_EXPERIENCE_MULTIPLIERS = Object.freeze({ ...EXPERIENCE_BALANCE.mult
 const EXPEDITION_EXPERIENCE_MULTIPLIERS = Object.freeze({ ...EXPERIENCE_BALANCE.expeditionMultipliers });
 
 const K_TIERS = Object.freeze([
-    { k: 4, probability: 0.01, label: 'Exceptionnel' },
+    { k: 4, probability: 0.02, label: 'Exceptionnel' },
     { k: 3, probability: 0.02, label: 'Rare' },
     { k: 2, probability: 0.18, label: 'Prometteur' },
-    { k: 1, probability: 0.79, label: 'Commun' }
+    { k: 1, probability: 0.78, label: 'Commun' }
 ]);
 
 function getExperienceRate(maxExperience) {
