@@ -36,7 +36,7 @@ async function finish(winningSide){
  server.listen(0,'127.0.0.1');await once(server,'listening');base='http://127.0.0.1:'+server.address().port;browser=await playwright[engine].launch({headless:true});
  for(let n=0;n<5;n++){
   const user=await require('../server/persistence/userRepository').createUserWithStarter('House_'+randomUUID().slice(0,10),randomUUID()),token=require('../server/config/auth').signAccessToken(user);accounts.push({user,token});
-  const team={pokemons:[9,94,212,248,445,121].map((id,i)=>{const p=factory.create(id,70+i,true);p.abilities=['Splash','Tackle','Protect','Recover'];p.heldItem=null;return p;})};await teams.editEquipe(user.id,team);
+  const team={pokemons:[9,94,212,248,445,121].map((id,i)=>{const p=factory.create(id,70+i,true);p.abilities=['Splash','Tackle','Protect','Recover'];p.heldItem=null;return p;})};if(n<2)require('../server/game/corruption/pokemon').install(team.pokemons[0],require('../server/game/corruption/modules').get('cmod_defense_ice'),{expectedRevision:0});await teams.editEquipe(user.id,team);
   const reserve=factory.create(25,65,true);await pc.storeCapturedPokemon(user.id,reserve);
   await db.execute("UPDATE users SET map='ville5_maison1',x=432,y=208,money=100000 WHERE id=?",[user.id]);
   await db.execute("UPDATE player_story_flags SET flag_value='complete' WHERE user_id=? AND flag_key='adventure_opening'",[user.id]);
@@ -54,7 +54,7 @@ async function finish(winningSide){
  assert.equal((await command(spectator,'chat',{id:club.room.id,message:'not a participant'})).success,false);
  const allyIds=accounts.slice(1,3).map(a=>a.user.id);
  assert.deepEqual(await b.evaluate(()=>v.clubRosters.members.map(m=>m.ownerId)),allyIds);assert.equal(await a.evaluate(()=>v.clubRosters.members.length),1);
- await layout(b,'preparation');await b.locator('.prep-mobile-tabs button').filter({hasText:'Discussion'}).click();await b.locator('#house-chat-input').fill('On change le premier Pokémon ?');await b.locator('.prep-chat form button').click();
+ assert.equal(club.room.config.mode,'2v1');await b.waitForFunction(()=>v.clubDuel.maxCorrupted===1);assert((await b.locator('[data-house-corruption]').innerText()).includes('1 / 1'));checks.push('2v1-one-corrupted-per-camp');await layout(b,'preparation');await b.locator('.prep-mobile-tabs button').filter({hasText:'Discussion'}).click();await b.locator('#house-chat-input').fill('On change le premier Pokémon ?');await b.locator('.prep-chat form button').click();
  await c.waitForFunction(()=>v.clubDuel.preparation.chat.length===1);assert.equal(await a.evaluate(()=>v.clubDuel.preparation.chat.length),0);checks.push('camp-private-chat-and-roster');
  await b.locator('.prep-mobile-tabs button').filter({hasText:'Équipe'}).click();await b.locator('[data-house-confirm]').click();await c.waitForFunction(()=>v.clubDuel.preparation.confirmed.length===1);
  await c.locator('.prep-slot-actions').first().locator('button').nth(1).click();await b.waitForFunction(()=>v.clubDuel.preparation.confirmed.length===0);checks.push('edit-resets-confirmations');
@@ -79,9 +79,11 @@ async function finish(winningSide){
  await finish(1);await spectator.locator('[data-close-club-watch]').click();
  const[[money]]=await db.execute('SELECT money FROM users WHERE id=?',[accounts[0].user.id]);assert.equal(Number(money.money),98999);checks.push('durable-camp-stakes');
 
+ // Each original party keeps one corrupted Pokemon; a 2v2 camp may combine both.
+ for(const account of accounts.slice(2,4)){const team=await teams.loadEquipe(account.user.id);require('../server/game/corruption/pokemon').install(team.pokemons[0],require('../server/game/corruption/modules').get('cmod_defense_ice'),{expectedRevision:0});await teams.editEquipe(account.user.id,team);await contexts.get(account.user.id).reload();}
  // The same room now hosts a 12v12 match, with six contributions per owner.
  for(let n=0;n<4;n++)await move(n,2);await open(a);await a.locator('#house-mode-2v2').click();await a.locator('.house-formats button').filter({hasText:'12 contre 12'}).click();await a.locator('[data-create-duel]').click();await a.waitForFunction(()=>v.clubDuel?.phase==='waiting');
- for(let n=0;n<4;n++)await move(n,Math.floor(n/2));await a.locator('[data-house-preparation]').waitFor();assert.deepEqual(club.room.sides.map(s=>s.composition.length),[12,12]);await layout(a,'twelve');
+ for(let n=0;n<4;n++)await move(n,Math.floor(n/2));await a.locator('[data-house-preparation]').waitFor();assert.deepEqual(club.room.sides.map(s=>s.composition.length),[12,12]);await a.waitForFunction(()=>v.clubDuel.maxCorrupted===2);assert((await a.locator('[data-house-corruption]').innerText()).includes('2 / 2'));checks.push('2v2-two-corrupted-per-camp');await layout(a,'twelve');
  for(const page of [a,b,c,d])await page.locator('[data-house-confirm]').click();await a.waitForFunction(()=>v.battle&&v.$refs.battleOverlay.opponentParty?.length===12);checks.push('twelve-per-camp-and-twelve-balls');
  await finish(0);
 

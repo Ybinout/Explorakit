@@ -108,3 +108,26 @@ test('a repeated unchanged composition preserves confirmations; KO replacement t
   assert.equal(side.control.ownerId,partner);assert.equal(side.control.controllerId,partner);
  }finally{f.cleanup();}
 });
+test('2v1 allows one corrupted Pokemon per camp, shared across both allies rather than per owner',async()=>{
+ const f=await fixture();try{
+  for(const s of f.snapshots)s.team[0].corruption={version:1,revision:1,permanent:true,modules:{}};
+  await f.place();const r=f.room,side=r.sides[1],id=side.ids[0],view=f.house.view(r,id);
+  assert.equal(view.maxCorrupted,1);assert.equal(view.preparation.composition.filter(p=>p.corrupted).length,2);
+  await assert.rejects(()=>f.house.command('confirm',id,{id:r.id,sideRevision:0}),/Un seul/);
+  assert.equal(side.confirmed.size,0);
+  const secondOwner=side.ids[1];side.composition=side.composition.map(ref=>ref.ownerId===secondOwner&&ref.uuid===f.snapshots[2].team[0].uuid?{ownerId:secondOwner,uuid:f.snapshots[2].team[3].uuid}:ref);
+  assert.deepEqual(repo.select(f.snapshots,r.sides.map(s=>s.ids),r.sides.map(s=>s.composition),r.config).map(team=>team.filter(p=>p.corruption?.permanent).length),[1,1]);
+  f.snapshots[0].team[1].corruption={version:1,revision:1,permanent:true,modules:{}};
+  assert.throws(()=>repo.select(f.snapshots,r.sides.map(s=>s.ids),r.sides.map(s=>s.composition),{...r.config,maxCorrupted:99}),/Un seul/);
+ }finally{f.cleanup();}
+});
+for(const format of [6,12])test(`2v2 ${format}v${format} permits exactly two corrupted Pokemon in each shared camp`,async()=>{
+ const f=await fixture({mode:'2v2',format,level:50,money:0});try{
+  for(const s of f.snapshots)s.team[0].corruption={version:1,revision:1,permanent:true,modules:{}};
+  await f.place();const r=f.room;assert.equal(f.house.view(r,f.ids[0]).maxCorrupted,2);
+  for(const side of r.sides)assert.equal(f.house.view(r,side.ids[0]).preparation.composition.filter(p=>p.corrupted).length,2);
+  await f.confirm();assert.equal(r.phase,'battle');assert.deepEqual(r.copies.map(copy=>copy.equipe.pokemons.filter(p=>p.corruption?.permanent).length),[2,2]);
+  const side=r.sides[0],third=f.snapshots[0].team[1];third.corruption={version:1,revision:1,permanent:true,modules:{}};
+  assert.throws(()=>repo.select(f.snapshots,[side.ids],[side.composition],r.config),/Deux/);
+ }finally{f.cleanup();}
+});

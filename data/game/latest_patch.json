@@ -1,18 +1,18 @@
 {
-  "version": "2026-11-04-maison-combats",
+  "version": "2026-11-04-maison-corruption",
   "date": "2026-11-04",
   "fr": {
-    "title": "La Maison des Combats s’agrandit !",
+    "title": "Corruption : les règles par équipe",
     "items": [
-      "Choisis un duel 1v1, un entraînement PvE, ou les nouveaux modes 2v1 et 2v2 avec équipe commune et relais entre alliés.",
-      "Les mises sont conservées. Ces quatre modes ne donnent aucun gain d’XP."
+      "Maison des Combats : un Pokémon corrompu maximum par camp en 2v1 ; deux par camp en 2v2, en 6v6 comme en 12v12.",
+      "Le compteur de préparation vous aide à composer une équipe valide."
     ]
   },
   "en": {
-    "title": "More ways to battle!",
+    "title": "Corruption limits by team",
     "items": [
-      "Choose a 1v1 duel, PvE training, or the new 2v1 and 2v2 modes with shared teams and partner control.",
-      "Wagers remain available. None of these four modes awards XP."
+      "Battle House: one corrupted Pokémon per side in 2v1; two per side in 2v2, in both 6v6 and 12v12.",
+      "A preparation counter helps you build a valid team."
     ]
   }
 }

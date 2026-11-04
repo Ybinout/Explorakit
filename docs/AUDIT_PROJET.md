@@ -1,3 +1,15 @@
+## Maison des Combats : corruption par camp — 4 novembre 2026
+
+Précision des règles du propriétaire :en **2v1, chaque camp a droit à un seul Pokémon corrompu**, donc un partagé entre les deux alliés ; en **2v2, chaque camp a droit à deux corrompus**, en6v6 comme en12v12. Le plafond ne dépend pas du nombre de Pokémon de l’équipe. Les équipes personnelles d’Aventure gardent leur règle existante d’un seul corrompu ; la composition commune utilise équipe et PC comme auparavant.
+
+La règle est centralisée dans `whitepeak/rules.corruptionLimit`, vérifiée à la confirmation et à nouveau dans la transaction SQL avant prélèvement. L’interface reçoit le plafond du serveur et un indicateur dans les résumés privés des candidats :compteur, repère Corrompu, refus d’ajout au-delà du maximum et confirmation désactivée pour une composition invalide. La clause reste autoritaire côté serveur, même avec un client modifié. Aucun changement d’XP, de mise ou de moteur de combat.
+
+Recettes existantes étendues :deux corrompus en2v1 refusés pour les alliés ou le solo, deux acceptés en2v2 aux deux formats, troisième issu du PC refusé avant tout débit/reçu, originaux inchangés. Rapport et publication :`docs/BATTLE_HOUSE_CORRUPTION_2026-11-04.json`.
+
+Validation :**94 tests réussis sans échec ni saut** (66 ciblés,28 SQL/réseau/annonce), dont six cas nouveaux. Chromium/WebKit :96 vues des quatre modes avec de vrais corrompus dans les équipes et16 vues annonce ; compteurs1/1 et2/2, relais, reconnexion, argent et paris1v1 conservés. Lint/build/syntaxe/diff valides. Les suites SQL et navigateur sont exécutées en série sur `explorakit_test` ; aucune modification manuelle de compte réel, aucune migration. Suite globale non relancée.
+
+Publication le **4 novembre2026 à10 h12 (Europe/Paris)** :client `1b64236`, build `cf7a8028d2477f85`, serveur actif. Sauvegardes SQL/sources/index/checkpoint dans `/home/ubuntu/dev/backups/riftmon-house-corruption-2026-11-04T09-12-27-737Z`. Aucun duel actif à l’installation ; index et21 assets HTTPS conformes, checkpoint et voisins Knov/API inchangés, modes fermés conservés. Aucun avertissement ni redémarrage automatique.
+
 ## Maison des Combats : 1v1, PvE et coopération — 4 novembre 2026
 
 L’hôtesse ouvre quatre onglets :**1v1 classique**, **PvE**, **2v1**, **2v2**. Le classement reste séparé au tableau ; roulette, bâtiment, sièges/socles et spectateurs existants sont conservés. Une seule inscription/un seul combat occupe la salle. Le 1v1 garde son moteur et ses mises d’argent/Pokémon (équipe et PC), la fiche à inspecter et les confirmations. Tous les modes de cette maison sont **sans XP ni EV** :cela ne change pas l’XP de la Tour, de l’Aventure ou des autres modes.
@@ -6296,6 +6308,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **4 novembre2026 — Corruption Maison des Combats :** plafond partagé1 en2v1,2 en2v2 (6/12), compteur privé et validation transactionnelle avant mise ; rapport `docs/BATTLE_HOUSE_CORRUPTION_2026-11-04.json`.
 
 - **4 novembre2026 — Maison des Combats :** onglets1v1/PvE/2v1/2v2, équipes communes6/12 depuis équipe/PC, chat/confirmations, contrôle par propriétaire et relais, mises par camp, reconnexion et interfaces PC/mobile ; sans XP. Rapport `docs/BATTLE_HOUSE_2026-11-04.json`.
 

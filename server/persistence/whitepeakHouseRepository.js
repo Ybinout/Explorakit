@@ -34,7 +34,8 @@ function select(snapshots,sides,selections,config){
   });
   if([...counts.values()].some(n=>n<1||n>6))rules.fail('Chaque allié doit apporter entre un et six Pokémon.');
   rules.validateTeam(team,config,{maxSize:target});
-  if(team.filter(p=>p.corruption?.permanent).length>1)rules.fail('Un seul Pokémon corrompu par camp.');
+  const maxCorrupted=rules.corruptionLimit(config);
+  if(team.filter(p=>p.corruption?.permanent).length>maxCorrupted)rules.fail(maxCorrupted===1?'Un seul Pokémon corrompu par camp.':'Deux Pokémon corrompus au maximum par camp.');
   return team;
  });
 }
@@ -69,6 +70,6 @@ async function finish(id,winnerId,reason,offers){return withTransaction(async c=
  const result={id,mode:offers.config.mode,winnerId,winningSide,winners:winningSide===null?[]:offers.sides[winningSide],reason,payments,wonPokemon:null,refunded:winnerId===null};
  await c.execute('UPDATE whitepeak_duels SET phase=?,result_json=? WHERE id=?',[cancelled?'cancelled':'finished',JSON.stringify(result),id]);return result;
 });}
-function summary(p,ownerId,username,source){return{uuid:p.uuid,ownerId,username,source,name:p.truename||p.name,pokemonId:p.data.id,level:p.level,potential:p.k,heldItem:p.heldItem||null,heldItemName:require('../game/social/tradeRules').catalog.get(p.heldItem)?.name||null,types:p.data.type};}
+function summary(p,ownerId,username,source){return{uuid:p.uuid,ownerId,username,source,name:p.truename||p.name,pokemonId:p.data.id,level:p.level,potential:p.k,corrupted:!!p.corruption?.permanent,heldItem:p.heldItem||null,heldItemName:require('../game/social/tradeRules').catalog.get(p.heldItem)?.name||null,types:p.data.type};}
 function detail(p){return storage.view([p],[]).team[0];}
 module.exports={inspect,start,finish,split,roster,select,fingerprint,summary,detail};

@@ -2,13 +2,15 @@ const test=require('node:test'),assert=require('node:assert/strict'),{randomUUID
 const enabled=process.env.RUN_MYSQL_TESTS==='1';let db,repo,base,users,teams,pc,factory;
 test.before(()=>{if(!enabled)return;assert.equal(process.env.DB_NAME,'explorakit_test');db=require('../server/config/database').dbPool;repo=require('../server/persistence/whitepeakHouseRepository');base=require('../server/persistence/whitepeakRepository');users=require('../server/persistence/userRepository');teams=require('../server/persistence/teamRepository');pc=require('../server/persistence/pokemonStorageRepository');factory=require('../server/game/drift/pokemonFactory');});
 test.after(async()=>{await db?.end();});
-async function fixture(mode='2v1',format=6){
+async function fixture(mode='2v1',format=6,withCorruption=false){
  const ids=[],parties=[],extra=[];const count=mode==='pve'?1:mode==='2v1'?3:4;
  for(let n=0;n<count;n++){
   const u=await users.createUserWithStarter('house_'+randomUUID(),randomUUID());ids.push(u.id);
   const team={pokemons:[9,94,212,248,445,121].map((id,i)=>{const p=factory.create(id,31+i,true);p.heldItem=null;p.abilities=['Splash'];return p;})};
+  const corrupt=p=>require('../server/game/corruption/pokemon').install(p,require('../server/game/corruption/modules').get('cmod_defense_ice'),{expectedRevision:0});
+  if(withCorruption)corrupt(team.pokemons[0]);
   await teams.editEquipe(u.id,team);parties.push(team.pokemons.map(pc.encodePokemon));
-  const p=factory.create(25,47,true);await pc.storeCapturedPokemon(u.id,p);extra.push(p);
+  const p=factory.create(25,47,true);if(withCorruption)corrupt(p);await pc.storeCapturedPokemon(u.id,p);extra.push(p);
   await db.execute('UPDATE users SET money=100000 WHERE id=?',[u.id]);
  }
  const sides=mode==='pve'?[[ids[0]]]:mode==='2v1'?[[ids[0]],ids.slice(1)]:[ids.slice(0,2),ids.slice(2)];
@@ -61,4 +63,21 @@ test('SQL server restart refunds all four participants exactly once and never ch
 });
 test('SQL PvE records no cash reward, ladder win, XP or EV and returns the owned party unchanged', {skip:!enabled}, async()=>{
  const f=await fixture('pve');try{const started=await f.start();assert.equal(started.teams[0].length,6);await base.finishDuel(f.id,f.ids[0]);await f.unchanged();assert.deepEqual(await f.money(),[100000]);assert(!(await base.leaderboard()).some(r=>r.id===f.ids[0]));}finally{await f.cleanup();}
+});
+test('SQL 2v1 refuses two corrupted allies before debiting and accepts one per camp', {skip:!enabled},async()=>{
+ const f=await fixture('2v1',6,true);try{
+  await assert.rejects(()=>f.start(),/Un seul/);assert.deepEqual(await f.money(),[100000,100000,100000]);
+  const owner=f.state.snapshots[2];f.selections[1]=f.selections[1].map(ref=>ref.uuid===owner.team[0].uuid?{ownerId:owner.userId,uuid:owner.team[3].uuid}:ref);
+  const started=await f.start();assert.deepEqual(started.teams.map(team=>team.filter(p=>p.corruption?.permanent).length),[1,1]);
+  await base.finishDuel(f.id,null,'interrupted');await f.unchanged();
+ }finally{await f.cleanup();}
+});
+for(const format of [6,12])test(`SQL 2v2 ${format}v${format} accepts two corrupted Pokemon per camp and rejects a third from PC without a debit`, {skip:!enabled},async()=>{
+ const f=await fixture('2v2',format,true);try{
+  const original={...f.selections[0][1]};f.selections[0][1]={ownerId:f.ids[0],uuid:f.extra[0].uuid};
+  await assert.rejects(()=>f.start(),/Deux/);assert.deepEqual(await f.money(),[100000,100000,100000,100000]);
+  const[[row]]=await db.execute('SELECT COUNT(*) n FROM whitepeak_duels WHERE id=?',[f.id]);assert.equal(Number(row.n),0);
+  f.selections[0][1]=original;const started=await f.start();assert.deepEqual(started.teams.map(team=>team.filter(p=>p.corruption?.permanent).length),[2,2]);
+  await base.finishDuel(f.id,null,'interrupted');await f.unchanged();assert.deepEqual(await f.money(),[100000,100000,100000,100000]);
+ }finally{await f.cleanup();}
 });

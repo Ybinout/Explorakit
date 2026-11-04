@@ -10,6 +10,7 @@ const WHEEL=[0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20
 function fail(message){throw Object.assign(Error(message),{statusCode:409});}
 function uuid(value){if(typeof value!=='string'||!/^[a-f0-9]{8}-(?:[a-f0-9]{4}-){3}[a-f0-9]{12}$/i.test(value))fail('Identifiant invalide.');return value;}
 function amount(value,max=1000000,min=0){if(!Number.isSafeInteger(value)||value<min||value>max)fail(`Choisis un montant entre ${min} et ${max} ₽.`);return value;}
+function corruptionLimit(config={}){return config.mode==='2v2'?2:1;}
 function settings(data={}){
  if(data.mode!==undefined&&!['1v1','pve','2v1','2v2'].includes(data.mode))fail('Format de combat inconnu.');
  if(data.mode==='2v2'&&data.format!==undefined&&![6,12].includes(data.format))fail('Choisis le format 6v6 ou 12v12.');
@@ -58,4 +59,4 @@ function podium(player){
  if(player?.currentmap!==HALL)return -1;
  return layout.podiums.findIndex(p=>Math.pow((player.x-p.x)/p.rx,2)+Math.pow((player.y+layout.feetOffsetY-p.y)/p.ry,2)<=1);
 }
-module.exports={CASINO,HALL,PODIUMS,PLACEMENT_TIMEOUT,RED,WHEEL,fail,uuid,amount,settings,validateTeam,battleCopy,choice,payout,near,podium,atCasinoCounter,atRouletteTable};
+module.exports={CASINO,HALL,PODIUMS,PLACEMENT_TIMEOUT,RED,WHEEL,fail,uuid,amount,settings,corruptionLimit,validateTeam,battleCopy,choice,payout,near,podium,atCasinoCounter,atRouletteTable};

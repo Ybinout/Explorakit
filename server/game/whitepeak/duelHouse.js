@@ -13,7 +13,7 @@ function createDuelHouse({contexts,getRoom,setRoom,emitRoom,now,emitSpectator,wa
  function cancel(message){const r=getRoom();if(!r?.advanced)return;release(r);setRoom(null);emitRoom();for(const id of new Set([r.hostId,...r.ids]))contexts.get(id)?.socket.emit('progressionNotice',{message});}
  function view(r,id){
   const own=sideOf(r,id),side=r.sides?.[own];
-  return{id:r.id,advanced:true,phase:r.phase,hostId:r.hostId,config:r.config,serverNow:now(),placementDeadline:r.placementDeadline,
+  return{id:r.id,advanced:true,phase:r.phase,hostId:r.hostId,config:r.config,maxCorrupted:rules.corruptionLimit(r.config),serverNow:now(),placementDeadline:r.placementDeadline,
    preparationDeadline:r.preparationDeadline||null,revision:r.revision,you:r.ids.indexOf(id),side:own,error:r.error||'',result:r.result||null,
    participants:r.ids.map((userId,i)=>userId?{userId,username:r.names[i],side:r.slotSides[i],confirmed:r.sides?.[r.slotSides[i]]?.confirmed.has(userId)||false}:null),
    sides:capacities(r.config).map((capacity,i)=>({capacity,count:r.ids.filter((id,n)=>id&&r.slotSides[n]===i).length,

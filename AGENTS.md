@@ -1,3 +1,9 @@
+## Maison des Combats : limites de corruption — 4 novembre 2026
+
+`whitepeak/rules.corruptionLimit` fait autorité :**1 corrompu par camp en2v1**, y compris le duo ; **2 par camp en2v2**, en6v6 comme en12v12. La limite est commune aux alliés, jamais multipliée par joueur. `whitepeakHouseRepository.select` la vérifie lors des confirmations et dans la transaction de départ avant tout débit. Ne pas modifier la règle Aventure d’un corrompu par équipe personnelle ni les copies/XP. Les résumés privés portent `corrupted`, la vue serveur `maxCorrupted` ; préparation affiche le compteur et bloque les compositions dépassant la limite. Une valeur client ne peut pas changer le plafond. Rapport `docs/BATTLE_HOUSE_CORRUPTION_2026-11-04.json`, cas unitaires et SQL sur les deux formats, dont un troisième issu du PC.
+
+Validation :94 tests ciblés/SQL/réseau/annonce sans échec ni saut,96 vues Maison +16 annonce Chromium/WebKit. Client `1b64236` / build `cf7a8028d2477f85` publié ; preuves détaillées au rapport.
+
 ## Maison des Combats : formats et équipes communes — 4 novembre 2026
 
 Le 1v1 classique reste dans `whitepeakClub.js` et garde ses paris de Pokémon/argent. `whitepeak/duelHouse.js` gère PvE,2v1 et2v2 ; une seule inscription/un seul combat dans le bâtiment. `houseModes:1` dans l’auth Socket est nécessaire aux nouveaux formats :ne pas placer automatiquement un ancien client sur leurs socles. PvE :18 dresseurs générés depuis les équipes du récit et les sets stratégiques existants, même effectif et mêmes niveaux que l’équipe inscrite (ou niveau normalisé), sans classement/mise/récompense.
