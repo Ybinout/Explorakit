@@ -1,3 +1,17 @@
+## Super Tournoi : XP à80 %, plafond120 — 4 novembre 2026
+
+Les nouveaux K.O. de la Tour accordent **80 % du gain normal d’un dresseur en Aventure**, après les ajustements habituels de niveau/K et le partage. Le taux est appliqué au gain final, arrondi vers le bas avec minimum1. Chaque Pokémon s’arrête exactement au seuil du niveau120 selon sa courbe ; ceux déjà120 ou au-dessus ne gagnent plus d’XP et conservent leurs acquis. Participants vivants et Multi Exp équipé dans le premier slot choisi fonctionnent comme en Aventure. Pas d’ajout d’EV ou de butin de combat.
+
+Le parcours utilise une copie inscrite :une branche XP bornée la fait progresser, puis un cumul par UUID (six entrées maximum) accompagne le checkpoint. La transaction verrouille le compte, l’ancien checkpoint et les lignes des Pokémon inscrits :XP permanente, version du combat, score et éventuelle prime sont validés ensemble. Les données conservées dans l’équipe réelle sont la progression de niveau/statistiques et les choix d’apprentissage/évolution ; les blessures, statuts, PP et objets temporaires du tournoi ne remplacent pas l’état d’Aventure. La mémoire du joueur reçoit les valeurs réellement validées avant publication ou sauvegarde ultérieure. Une erreur restaure la copie et ne publie pas le gain ; une reprise/concurrence ne paie pas deux fois le K.O.
+
+Les tentatives anciennes activent ce traitement au rebinding, uniquement pour les futurs K.O. Les menus de l’hôtesse indiquent le taux et le plafond. Les apprentissages/évolutions en attente sont persistés, mais leur interface attend la fin de la tentative pour respecter l’équipe inscrite. Les augmentations, primes, clauses d’équipe, soins de cycle, adversaires et difficultés restent en place. Pas de migration ni modification manuelle de compte réel.
+
+**Validation :248 tests ciblés et59 SQL/réseau réussis sans saut**, dont dix cas unitaires et huit SQL nouveaux. Vrai K.O. moteur à80 %, partage/Multi Exp après switch, seuil119→120 exact, aucun gain/nerf aux120/150/250, statistiques/HP cohérents et aucun EV. Échec injecté après écriture du Pokémon, deux contrôleurs concurrents, reconnexion/rejeu, abandon, défaite et prime de victoire. Une recrue sous100 garde ses capacités en attente et son évolution à traiter après la Tour. Les anciens tests économiques/cartes sont placés au plafond120 pour isoler leurs invariants ; les nouveaux tests portent sur une vraie équipe possédée sous le plafond.
+
+Chromium/WebKit :32 vues mobile/PC, clair/nocturne, inscription et récompenses ; vrais gains sauvegardés après changement de niveau, reconnexion et abandon, menus d’apprentissage/évolution différés y compris après rechargement. Contrôles existants de monnaie/paliers conservés. Base `explorakit_test`, comptes jetables supprimés. Lint/build/syntaxe/diff valides ; aucune nouvelle revendication sur la suite globale et ses28 échecs historiques. Recettes `tests/super-tournament-experience*.test.js`, suites tournoi/XP et `scripts/validateTournamentCashBrowser.js`. Rapport `docs/TOWER_EXPERIENCE_2026-11-04.json`.
+
+Publication le **4 novembre2026 à7 h15 (Europe/Paris)** : serveur et client`d171558` / build`d98f1bdcad74282d` actifs. Sauvegardes SQL/sources/index/checkpoint dans `/home/ubuntu/dev/backups/riftmon-tower-xp-2026-11-04T06-15-48-589Z`. Index et22 assets JS/CSS validés par HTTPS, anciens fichiers conservés. Aucun tournoi/duel actif au déploiement ; checkpoint et sites voisins Knov/API inchangés, modes fermés. Aucun avertissement ni redémarrage automatique depuis publication.
+
 ## Jungle 9 : niveaux 200–250 et plaques — 3 novembre 2026
 
 La dernière jungle au sud-est passe de150–200 à **200–250** pour les nouvelles rencontres terrestres et la pêche. Les corrompus conservent leur bonus de5 niveaux :205–255. Le taux de plaque ordinaire monte de14 % à **20 % uniquement en Jungle9**. Les garanties des corrompus, cristaux, autres objets, pools d’espèces, K/IV/EV, formules d’XP et argent restent conservés. Le guide précise la nouvelle exception de niveau.
@@ -6248,6 +6262,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **4 novembre2026 — XP du Super Tournoi :**80 % du gain dresseur normal, partage/Multi Exp, plafond120 exact ; progression réelle et checkpoint atomiques, après défaite/abandon/reconnexion aussi. Apprentissage/évolution après le parcours.248 tests,59 SQL et32 vues Chromium/WebKit ; `docs/TOWER_EXPERIENCE_2026-11-04.json`.
 
 - **3 novembre 2026 — Jungle9 :** niveaux200–250 terre/pêche, corrompus205–255 et plaques20 % au lieu de14 %, autres zones et butins conservés ;35 tests,45 SQL/réseau. `docs/JUNGLE9_LEVELS_LOOT_2026-11-03.json`.
 

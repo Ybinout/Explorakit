@@ -4,7 +4,7 @@ test.before(()=>{if(!enabled)return;if(process.env.DB_NAME!=='explorakit_test')t
 test.after(async()=>{await db?.end();});
 async function fixture(key,room=1){const u=await users.createUserWithStarter('taug_'+randomUUID(),'test-password',{starterId:7}),events=[];
  const create=()=>new TournamentController({userId:u.id,random:()=>.99,getPlayer:()=>({id:'owner',username:u.username}),emit:(e,d)=>events.push([e,d]),travel:async()=>{}});
- const c=create();await c.load();await c.register({pokemons:[factory.create(9,100,true),factory.create(94,100,true)]});
+ const c=create();await c.load();await c.register({pokemons:[factory.create(9,120,true),factory.create(94,120,true)]});
  await c.atomic(()=>{c.run.phase='reward';c.run.room=room-1;c.run.cleared=room;c.run.reward={id:randomUUID(),afterRoom:room,cards:[key,'heal_10','cure']};});
  const data={offerId:c.run.reward.id,cardKey:key};return {u,c,create,events,data,party:codec.encode(c.run.player.equipe),async balance(){const [[r]]=await db.execute('SELECT money FROM users WHERE id=?',[u.id]);return Number(r.money);},async stock(k){const [[r]]=await db.execute('SELECT quantity FROM user_items WHERE user_id=? AND item_key=?',[u.id,k]);return Number(r?.quantity)||0;},cleanup:()=>db.execute('DELETE FROM users WHERE id=?',[u.id])};
 }

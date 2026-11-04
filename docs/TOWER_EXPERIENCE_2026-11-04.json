@@ -1,0 +1,398 @@
+{
+  "date": "2026-11-04",
+  "feature": "XP permanente du Super Tournoi à80 %, plafonnée au niveau120",
+  "sourceBaseline": "41ac4938fed0733ce00e587d551fd41c696d772c",
+  "clientCommit": "d1715585c569b33cd000af9a6c4e91e86e0fb781",
+  "clientBuild": "d98f1bdcad74282d",
+  "schemaChanged": false,
+  "realAccountsManuallyModified": false,
+  "rules": {
+    "rate": 0.8,
+    "base": "Final ordinary Adventure trainer award, including usual K/level/overlevel adjustments and sharing, before the tournament rate; rounded down with minimum1.",
+    "maximumLevel": 120,
+    "atOrAboveCap": "No XP, no reduction of already-earned XP/levels.",
+    "sharing": "Living participants, or equipped Multi Exp in chosen first party slot with normal reserve share.",
+    "cap": "Clamp each award to the exact XP threshold for that Pokemon’s growth rate.",
+    "evGranted": false,
+    "persistedImmediatelyOnKo": true,
+    "keptAfterDefeatOrAbandon": true,
+    "retroactiveXp": false,
+    "learningAndEvolution": "Level-up pending choices saved; UI waits until the tournament ends to respect its registered-team rule."
+  },
+  "implementation": [
+    "Optional rate/cap/EV switches in shared AdventureExperience keep all existing defaults.",
+    "Only a server-owned tournamentExperience battle rule enables the bounded reward branch; it does not enable ordinary Drift loot, money or EV rewards.",
+    "A maximum-six-entry cumulative UUID ledger is encoded with the battle checkpoint, including old active snapshots after rebind. No per-room XP history grows without bound.",
+    "Claim deltas are checked against the previous locked run, owner-scoped registered Pokemon rows, run identity and optimistic version. XP rows and run/cash/score commit in one transaction.",
+    "Only earned XP/level/stats and pending learning/evolution are updated on the original Adventure Pokemon; original items, moves/PP usage, wounds/status, IV/EV/K/nature/order and Pokemon identity are preserved. Level-up HP growth follows existing game rules.",
+    "Live Adventure memory receives the committed training before outbound packets and later saves. Failed transactions restore the sealed snapshot and withhold XP notices.",
+    "Client rules and menus explain the new XP; pending learning/evolution panels stay closed during a run and their saved choices remain available afterwards."
+  ],
+  "validation": {
+    "unit": {
+      "tests": 248,
+      "pass": 248,
+      "fail": 0,
+      "skipped": 0
+    },
+    "mysql": {
+      "tests": 59,
+      "pass": 59,
+      "fail": 0,
+      "skipped": 0
+    },
+    "newUnitScenarios": 10,
+    "newMysqlScenarios": 8,
+    "mysqlDatabase": "explorakit_test",
+    "mysqlConcurrency": 1,
+    "testAccountsDeleted": true,
+    "cases": [
+      "80% versus independent normal trainer award; active overlevel penalty, sharing, Multi Exp after switch, no EV/loot/money.",
+      "Large award stops at120 exactly; level120/150/250 keep old XP; stats/HP growth and no resurrection.",
+      "Actual engine KO persists same XP in sealed/live/SQL team; partial battle replay and reconnect cannot credit twice.",
+      "Two stale concurrent controllers credit once; injected failure after Pokemon update rolls XP and snapshot back together.",
+      "Abandon and defeat retain XP and original Adventure state; victory cash/XP/score atomic; foreign claim rejected.",
+      "Below100 learning/evolution saved separately from battle PP/temporary state; browser verifies no learning/evolution popup blocks the active run.",
+      "Pre-patch active copy earns only future KOs; new ledger does not backfill past defeats."
+    ],
+    "browsers": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "buildIndexSha256": "29802455b7f2ef4711454a261826b189f495cee0792d51d403fe686a3c0da023",
+        "views": [
+          {
+            "kind": "entry",
+            "width": 320,
+            "height": 480,
+            "mode": "light"
+          },
+          {
+            "kind": "entry",
+            "width": 320,
+            "height": 480,
+            "mode": "dark"
+          },
+          {
+            "kind": "entry",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "kind": "entry",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "kind": "entry",
+            "width": 844,
+            "height": 390,
+            "mode": "light"
+          },
+          {
+            "kind": "entry",
+            "width": 844,
+            "height": 390,
+            "mode": "dark"
+          },
+          {
+            "kind": "entry",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "kind": "entry",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "kind": "reward",
+            "width": 320,
+            "height": 480,
+            "mode": "light"
+          },
+          {
+            "kind": "reward",
+            "width": 320,
+            "height": 480,
+            "mode": "dark"
+          },
+          {
+            "kind": "reward",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "kind": "reward",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "kind": "reward",
+            "width": 844,
+            "height": 390,
+            "mode": "light"
+          },
+          {
+            "kind": "reward",
+            "width": 844,
+            "height": 390,
+            "mode": "dark"
+          },
+          {
+            "kind": "reward",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "kind": "reward",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          }
+        ],
+        "payments": [
+          {
+            "room": 1,
+            "amount": 5086,
+            "balance": 5086
+          },
+          {
+            "room": 16,
+            "amount": 71210,
+            "balance": 76296
+          },
+          {
+            "room": 17,
+            "amount": 10172,
+            "balance": 86468
+          }
+        ],
+        "staleProgressResponse": true,
+        "reconnectNoDoubleCredit": true,
+        "adventureIdentityPreserved": true,
+        "earnedXpPersisted": true,
+        "pendingLearningDeferred": true,
+        "levelUpObserved": true,
+        "levelCap": 120,
+        "xpRate": 0.8,
+        "abandonKeepsMoney": true,
+        "errors": []
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "buildIndexSha256": "29802455b7f2ef4711454a261826b189f495cee0792d51d403fe686a3c0da023",
+        "views": [
+          {
+            "kind": "entry",
+            "width": 320,
+            "height": 480,
+            "mode": "light"
+          },
+          {
+            "kind": "entry",
+            "width": 320,
+            "height": 480,
+            "mode": "dark"
+          },
+          {
+            "kind": "entry",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "kind": "entry",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "kind": "entry",
+            "width": 844,
+            "height": 390,
+            "mode": "light"
+          },
+          {
+            "kind": "entry",
+            "width": 844,
+            "height": 390,
+            "mode": "dark"
+          },
+          {
+            "kind": "entry",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "kind": "entry",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "kind": "reward",
+            "width": 320,
+            "height": 480,
+            "mode": "light"
+          },
+          {
+            "kind": "reward",
+            "width": 320,
+            "height": 480,
+            "mode": "dark"
+          },
+          {
+            "kind": "reward",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "kind": "reward",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "kind": "reward",
+            "width": 844,
+            "height": 390,
+            "mode": "light"
+          },
+          {
+            "kind": "reward",
+            "width": 844,
+            "height": 390,
+            "mode": "dark"
+          },
+          {
+            "kind": "reward",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "kind": "reward",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          }
+        ],
+        "payments": [
+          {
+            "room": 1,
+            "amount": 5086,
+            "balance": 5086
+          },
+          {
+            "room": 16,
+            "amount": 71210,
+            "balance": 76296
+          },
+          {
+            "room": 17,
+            "amount": 10172,
+            "balance": 86468
+          }
+        ],
+        "staleProgressResponse": true,
+        "reconnectNoDoubleCredit": true,
+        "adventureIdentityPreserved": true,
+        "earnedXpPersisted": true,
+        "pendingLearningDeferred": true,
+        "levelUpObserved": true,
+        "levelCap": 120,
+        "xpRate": 0.8,
+        "abandonKeepsMoney": true,
+        "errors": []
+      }
+    },
+    "livePreflight": {
+      "checkedAt": "2026-11-04T06:08:35.053Z",
+      "activeAttempts": 0,
+      "registeredPokemon": 0,
+      "belowCap": 0,
+      "missingEligibleOwnership": 0
+    },
+    "lint": true,
+    "build": true,
+    "syntax": true,
+    "diffCheck": true,
+    "globalSuiteRerun": false,
+    "globalBaselineNote": "Previously documented28 failures outside this patch are not claimed fixed. Existing tournament economics/card SQL fixtures run at the XP cap to isolate their invariants; dedicated new owned-team fixtures exercise positive XP below the cap."
+  },
+  "runtimeSourceSha256": {
+    "server/game/battle/adventureExperience.js": "67418247e25959e9c169fc0082caafbfe9c7fd61910326a24b6bd54e869f1065",
+    "server/game/drift/driftBattle.js": "ac44beed4447a17186975e3322afbb7d0e40ea66baec2bac01dc36966997e6a9",
+    "server/game/superTournament/controller.js": "116e65a17c373582195a1a7449e28866a4ea83f3396275aa9581767af4a52059",
+    "server/persistence/superTournamentRepository.js": "091f5ef91aade489cfa427a4c9511df19b1f05073c22cb02f24f10c3008fe689",
+    "server/game/superTournament/experience.js": "29af2d9c1778fbec8a0a9b3b749a425f34538db6ca4be919a40004cf0a0a1193",
+    "server/persistence/superTournamentExperienceRepository.js": "d44543cb7c1c04f07920877988c8585fe52960441e91dcaf88dd3d4c7a12111a"
+  },
+  "deployment": {
+    "publishedAt": "2026-11-04T06:15:51.797Z",
+    "restartedAt": "2026-11-04T06:15:50.215Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-tower-xp-2026-11-04T06-15-48-589Z",
+    "sourceBaseline": "41ac4938fed0733ce00e587d551fd41c696d772c",
+    "sourceHashes": {
+      "server/game/battle/adventureExperience.js": "67418247e25959e9c169fc0082caafbfe9c7fd61910326a24b6bd54e869f1065",
+      "server/game/drift/driftBattle.js": "ac44beed4447a17186975e3322afbb7d0e40ea66baec2bac01dc36966997e6a9",
+      "server/game/superTournament/controller.js": "116e65a17c373582195a1a7449e28866a4ea83f3396275aa9581767af4a52059",
+      "server/persistence/superTournamentRepository.js": "091f5ef91aade489cfa427a4c9511df19b1f05073c22cb02f24f10c3008fe689",
+      "server/game/superTournament/experience.js": "29af2d9c1778fbec8a0a9b3b749a425f34538db6ca4be919a40004cf0a0a1193",
+      "server/persistence/superTournamentExperienceRepository.js": "d44543cb7c1c04f07920877988c8585fe52960441e91dcaf88dd3d4c7a12111a"
+    },
+    "clientCommit": "d1715585c569b33cd000af9a6c4e91e86e0fb781",
+    "clientBuild": "d98f1bdcad74282d",
+    "beforePid": "3823365",
+    "afterPid": "3824074",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "schemaChanged": false,
+    "migrationApplied": null,
+    "activeClubDuelsBefore": 0,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 0,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": [
+      "js/234.02b18f2e.js",
+      "js/393.0fd15895.js",
+      "js/50.aee9c03a.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.e2c30081.js",
+      "js/account.161ce126.js",
+      "js/app.113bb67d.js",
+      "js/chunk-vendors.3cf1258a.js",
+      "js/colosseum.03879692.js",
+      "js/community.2fd32f7c.js",
+      "js/drift.5b8720d7.js",
+      "js/game.536029fb.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.4fff4c7e.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.076d50d6.css",
+      "css/test-view.7568246d.css"
+    ]
+  }
+}

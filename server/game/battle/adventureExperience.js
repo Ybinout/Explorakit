@@ -14,7 +14,7 @@ class AdventureExperience {
         this.effortRewarded.add(opponent);
         return grantParticipantEffort(player.equipe.pokemons, opponent, this.participants.get(opponent));
     }
-    reward(player, defeated, multiplier, io, { grantExperience = true, captured = false } = {}) {
+    reward(player, defeated, multiplier, io, { grantExperience = true, captured = false, grantEffort = true, experienceRate = 1, maxLevel = null } = {}) {
         if ((defeated.currentHp > 0 && captured !== true) || this.rewarded.has(defeated)) return [];
         this.rewarded.add(defeated);
         const team = player.equipe.pokemons, participants = this.participants.get(defeated) || new Set();
@@ -25,9 +25,12 @@ class AdventureExperience {
         const awards = (grantExperience ? eligible : []).map(pokemon => {
             const xp = Math.max(1, Math.floor(calculateBattleExperience(defeated, multiplier, pokemon)
                 * (expShare ? (pokemon === team[0] ? 1 : adventureReserveShare) : 1 / eligible.length)));
-            return { pokemon, xp: pokemon === team[0] ? reduceActiveOverlevelExperience(xp, defeated, pokemon) : xp };
-        });
-        const effort = this.rewardEffort(player, defeated);
+            const normalXp=pokemon === team[0] ? reduceActiveOverlevelExperience(xp, defeated, pokemon) : xp;
+            let awarded=Math.max(1,Math.floor(normalXp*experienceRate));
+            if(maxLevel!==null)awarded=pokemon.level>=maxLevel?0:Math.min(awarded,Math.max(0,pokemon.getNextLevelExpForLevel(maxLevel)-pokemon.experience));
+            return { pokemon, xp:awarded };
+        }).filter(award=>award.xp>0);
+        const effort = grantEffort ? this.rewardEffort(player, defeated) : new Map();
         for (const {pokemon, xp} of awards) rewardTraining(pokemon, defeated, xp, io, player.id,
             { effortGained: effort.get(pokemon.uuid) || {} });
         return awards;

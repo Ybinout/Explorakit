@@ -4,7 +4,7 @@ test.before(()=>{if(!enabled)return;if(process.env.DB_NAME!=='explorakit_test')t
 test.after(async()=>db?.end());
 async function fixture(key='pact_cold_blood'){
  const u=await users.createUserWithStarter('tower_twist_'+randomUUID(),randomUUID(),{starterId:7}),original=codec.encode(await teams.loadEquipe(u.id));
- const create=()=>new TournamentController({userId:u.id,random:()=>.99,getPlayer:()=>({id:'owner',username:u.username}),emit:()=>{},travel:async()=>{}}),c=create();await c.load();await c.register({pokemons:[9,94].map(id=>factory.create(id,100,true))});
+ const create=()=>new TournamentController({userId:u.id,random:()=>.99,getPlayer:()=>({id:'owner',username:u.username}),emit:()=>{},travel:async()=>{}}),c=create();await c.load();await c.register({pokemons:[9,94].map(id=>factory.create(id,120,true))});
  await c.atomic(()=>{c.run.phase='reward';c.run.room=0;c.run.cleared=1;c.run.reward={id:randomUUID(),afterRoom:1,cards:[key,'heal_10','cure','pp_3']};});
  return{u,c,create,original,data:{offerId:c.run.reward.id,cardKey:key},remove:()=>db.execute('DELETE FROM users WHERE id=?',[u.id])};
 }

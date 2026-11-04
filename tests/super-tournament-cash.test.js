@@ -27,10 +27,10 @@ test('failed persistence rolls back the win and cash, with no payout event befor
  const f=setup(),c=f.c;await c.register(team());await start(c);f.fail();await assert.rejects(()=>win(c),/checkpoint/);assert.equal(c.run.phase,'battle');assert.equal(c.run.cash.earned,0);assert.equal(f.balance,100);assert(!f.events.some(([e])=>e==='superTournamentPayout'));
  await win(c);assert.equal(f.balance,5186);assert.equal(c.run.cash.earned,5086);
 });
-test('two complete cycles keep cash, score and recovery cards distinct and grant no XP',async()=>{
+test('two complete cycles keep cash, score and recovery cards distinct with XP capped at level 120',async()=>{
  const f=setup(),c=f.c;await c.register(team());const xp=c.run.player.equipe.pokemons[0].experience;
  for(let i=0;i<32;i++){await start(c);await win(c);assert.equal(c.run.phase,'reward');await skip(c);}
- assert.equal(c.run.cash.earned,762960);assert.equal(f.balance,763060);assert.equal(c.run.score,9600);assert.equal(c.run.player.money,0);assert.equal(c.run.player.equipe.pokemons[0].experience,xp);
+ assert.equal(c.run.cash.earned,762960);assert.equal(f.balance,763060);assert.equal(c.run.score,9600);assert.equal(c.run.player.money,0);assert(c.run.player.equipe.pokemons[0].experience>xp);assert(c.run.player.equipe.pokemons[0].level<=120);
  await c.abandon();assert.equal(f.balance,763060);assert.equal(f.events.findLast(([e])=>e==='superTournamentFinished')[1].moneyEarned,762960);
 });
 test('losing the next room preserves earlier earnings and adds no new room prize',async()=>{

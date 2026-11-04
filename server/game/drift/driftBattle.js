@@ -288,6 +288,10 @@ class DriftBattle {
         this.experienceRewarded.add(defeated.uuid);
         // Captures earn training without becoming KOs for contracts, streaks or scores.
         if (!captured) this.rewarded.add(defeated.uuid);
+        if(this.rules?.tournamentExperience===true) {
+            require('../superTournament/experience').reward(this,defeated);
+            return;
+        }
         if(this.rules?.rewards === false) return;
         const effort = this.rewardEffort(defeated);
         const active = this.a.equipe.pokemons.find(p=>!effects.isDead(p)); if (!active) return;

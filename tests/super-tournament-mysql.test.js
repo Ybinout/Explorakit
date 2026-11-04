@@ -30,7 +30,7 @@ else {
   for(const origin of [{map:'ville1',x:496,y:304},{map:'route4',x:720,y:144},{map:'ville5',x:144,y:240}]){
    const [created]=await db.execute("INSERT INTO users(username,password_hash,map,x,y,center_return_map,center_return_x,center_return_y) VALUES(?,?,'super_tournament_room',448,496,?,?,?)",['exit_'+randomUUID(),'test',origin.map,origin.x,origin.y]);const userId=created.insertId;
    try{
-    const realTeam={pokemons:[9,94].map(id=>factory.create(id,100,true))};await teams.editEquipe(userId,realTeam);const before=codec.encode(await teams.loadEquipe(userId));
+    const realTeam={pokemons:[9,94].map(id=>factory.create(id,120,true))};await teams.editEquipe(userId,realTeam);const before=codec.encode(await teams.loadEquipe(userId));
     const create=()=>new TournamentController({userId,getPlayer:()=>({id:'sql-exit',username:'sql-exit',centerReturnPoint:origin}),emit:()=>{},travel:async()=>{throw Error('map delivery lost');}});
     const c=create();await c.load();await c.register(realTeam);await c.next();await c.atomic(()=>c.startBattle());
     await c.atomic(()=>{const b=c.run.battle;b.b.equipe.pokemons[0].currentHp=0;b.prune();c.reconcile();});assert.equal(c.run.score,100);

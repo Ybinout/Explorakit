@@ -48,7 +48,7 @@ async function layout(selector,kind){
 (async()=>{try{
  server.listen(0,'127.0.0.1');await once(server,'listening');const base='http://127.0.0.1:'+server.address().port;
  const response=await fetch(base+'/api/users',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:'tcash_'+randomUUID(),password:randomUUID(),starterId:7})});assert.equal(response.status,201);const u=await response.json();id=u.user.id;
- await teams.editEquipe(id,{pokemons:[9,94,212,248,445,121].map(species=>factory.create(species,100,true))});
+ await teams.editEquipe(id,{pokemons:[9,94,212,248,445,121].map(species=>{const p=factory.create(species,100,true);if(species===9)p.experience=p.getNextLevelExpForLevel(101)-4;return p;})});
  for(const [key,value]of [['adventure_opening','complete'],['mirror_stage','complete'],['super_tournament_invited','true']])await db.execute('INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,?,?) ON DUPLICATE KEY UPDATE flag_value=VALUES(flag_value)',[id,key,value]);
  await db.execute('INSERT INTO user_items(user_id,item_key,quantity) VALUES(?,?,1)',[id,content.PASS]);await db.execute("UPDATE users SET map='super_tournament_lobby',x=448,y=304,money=0 WHERE id=?",[id]);
  browser=await playwright[engine].launch({headless:true,...(engine==='chromium'?{args:['--no-sandbox']}: {})});
@@ -57,7 +57,7 @@ async function layout(selector,kind){
  const context=await browser.newContext({viewport:{width:393,height:852},hasTouch:true,isMobile:true,serviceWorkers:'block'});await context.addInitScript(u=>localStorage.setItem('explorakit.user',JSON.stringify(u)),{...u.user,token:u.token});
  page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));await page.goto(base+'/game');await ready();
  await page.evaluate(()=>{v.updatePreferences({...v.preferences,animationsEnabled:false,masterVolume:0});v.socket.emit('Space');});await page.locator('.tournament-panel').waitFor();
- assert.match((await page.locator('.tournament-prizes').innerText()).replace(/\s/g,''),/254320₽/);assert.match(await page.locator('.rules').innerText(),/Aucune XP/);assert.match((await page.locator('.tournament-prizes').innerText()).replace(/\s/g,''),/508640₽audeuxième,puis762960₽autroisième/);
+ assert.match((await page.locator('.tournament-prizes').innerText()).replace(/\s/g,''),/254320₽/);assert.match(await page.locator('.rules').innerText(),/XP à 80 %/);assert.match((await page.locator('.tournament-prizes').innerText()).replace(/\s/g,''),/508640₽audeuxième,puis762960₽autroisième/);
  await layout('.tournament-panel','entry');await page.locator('.tournament-panel footer .primary').click();await page.waitForFunction(()=>v.map==='super_tournament_sas'&&!v.flight);
  const original=codec.encode(await teams.loadEquipe(id));await walk('move_z',11);await ready();await walk('move_z',6);await page.evaluate(()=>v.socket.emit('Space'));await page.waitForFunction(()=>v.battle&&v.$refs.battleOverlay.canChooseAction);
  // An older progress response must not erase the newer committed balance.
@@ -75,9 +75,18 @@ async function layout(selector,kind){
   if(room===15){assert.match((await page.locator('[data-tournament-cash]').innerText()).replace(/\s/g,''),/Bonusdecycleinclus:50864₽/);await page.screenshot({path:path.join(out,'cycle-bonus.png')});}
   await skip();
  }
+ const expectedExperience=new Map(controller().run.player.equipe.pokemons.map(p=>[p.uuid,p.experience]));
  assert.equal((await command('superTournament:abandon')).success,true);await ready();assert.equal((await repo.load(id)).run,null);
- const [[wallet]]=await db.execute('SELECT money FROM users WHERE id=?',[id]);assert.equal(Number(wallet.money),86468);assert.deepEqual(codec.encode(await teams.loadEquipe(id)),original);
- await page.reload();await ready();await page.waitForFunction(()=>v.progressionState.money===86468);assert.equal(errors.length,0);success=true;
- fs.writeFileSync(path.join(out,'report.json'),JSON.stringify({success,engine,buildIndexSha256:createHash('sha256').update(fs.readFileSync(path.join(dist,'index.html'))).digest('hex'),views,payments,staleProgressResponse:true,reconnectNoDoubleCredit:true,adventureTeamAndXpPreserved:true,abandonKeepsMoney:true,errors},null,2));
+ const [[wallet]]=await db.execute('SELECT money FROM users WHERE id=?',[id]);assert.equal(Number(wallet.money),86468);const trained=(await teams.loadEquipe(id)).pokemons,old=codec.decode(original).pokemons;assert(trained.some((p,i)=>p.experience>old[i].experience));for(const [i,p]of trained.entries()){assert.equal(p.experience,expectedExperience.get(p.uuid));assert(p.level<=120);for(const key of ['uuid','data','iv','ev','k','nature','heldItem','status','abilities','movePp'])assert.deepEqual(p[key],old[i][key],key);assert.equal(p.currentHp,old[i].currentHp+p.maxHp-old[i].maxHp);}
+ await page.reload();await ready();await page.waitForFunction(()=>v.progressionState.money===86468);
+ // Lower-level recruits keep their pending learning/evolution until leaving.
+ const recruit=factory.create(4,15,true);recruit.abilities=['Scratch','Growl','Ember','Smokescreen'];recruit.movePp=[35,40,25,20];await teams.editEquipe(id,{pokemons:[recruit]});await page.reload();await ready();
+ await controller().execute(async()=>{await controller().register(await teams.loadEquipe(id));await controller().next();await controller().atomic(()=>controller().startBattle());});await page.waitForFunction(()=>v.battle&&v.$refs.battleOverlay.canChooseAction);
+ await controller().execute(()=>controller().atomic(()=>{const c=controller(),b=c.run.battle;for(const p of b.b.equipe.pokemons)p.currentHp=0;b.prune();b.checkEnd();c.reconcile();}));
+ await page.locator('[data-battle-result-continue]').waitFor();await page.locator('[data-battle-result-continue]').click();await page.locator('.tournament-reward-panel').waitFor();
+ const trainedRecruit=(await teams.loadEquipe(id)).pokemons[0];assert(trainedRecruit.level>15);assert(trainedRecruit.pendingMoves.length>0);assert(trainedRecruit.evolutionState?.pending);assert.equal(await page.evaluate(()=>v.learningVisible||v.evolutionVisible),false);
+ await page.reload();await ready();await page.locator('.tournament-reward-panel').waitFor();assert.equal(await page.evaluate(()=>v.learningVisible||v.evolutionVisible),false);assert.equal((await teams.loadEquipe(id)).pokemons[0].experience,trainedRecruit.experience);assert.equal((await command('superTournament:abandon')).success,true);await ready();
+ assert.equal(errors.length,0);success=true;
+ fs.writeFileSync(path.join(out,'report.json'),JSON.stringify({success,engine,buildIndexSha256:createHash('sha256').update(fs.readFileSync(path.join(dist,'index.html'))).digest('hex'),views,payments,staleProgressResponse:true,reconnectNoDoubleCredit:true,adventureIdentityPreserved:true,earnedXpPersisted:true,pendingLearningDeferred:true,levelUpObserved:trained.some((p,i)=>p.level>old[i].level),levelCap:120,xpRate:.8,abandonKeepsMoney:true,errors},null,2));
 }catch(e){console.error(e.stack);try{console.error(await page?.evaluate(()=>({map:window.v?.map,phase:window.v?.superTournament?.phase,text:document.body.innerText.slice(-1500)})));await page?.screenshot({path:path.join(out,'failure.png')});}catch{}process.exitCode=1;}
 finally{releaseStale?.();await browser?.close();await new Promise(r=>io.close(r));await require('../server/realtime/accountConnection').waitForAccountConnections(io);if(id)await db.execute('DELETE FROM users WHERE id=?',[id]);await db.end();console.log(JSON.stringify({success,errors,testUserDeleted:true}));}})();

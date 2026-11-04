@@ -4,7 +4,7 @@ const content=require('../game/superTournament/content');
 const cashPrizes=require('../game/superTournament/cashPrizes');
 const augmentations=require('../game/superTournament/augmentations');
 async function load(id){const [[row]]=await dbPool.execute('SELECT version,snapshot,best_score,best_rooms FROM super_tournament_profiles WHERE user_id=?',[id]);return {version:Number(row?.version||0),run:row?.snapshot?codec.decode(row.snapshot):null,best:Number(row?.best_score||0)};}
-async function save(id,run,version,{score=run?.score||0,rooms=run?.cleared||0,payout=null,rewardClaim=null}={}){
+async function save(id,run,version,{score=run?.score||0,rooms=run?.cleared||0,payout=null,rewardClaim=null,experienceClaim=null}={}){
  if(payout&&rewardClaim)throw Error('Deux récompenses incompatibles.');
  let snapshot=run&&!payout&&!rewardClaim?await codec.encodeAsync(run):null;
  const result=await withTransaction(async c=>{
@@ -12,16 +12,17 @@ async function save(id,run,version,{score=run?.score||0,rooms=run?.cleared||0,pa
   // the commit and the map packet must not reopen the island on reconnect.
   const exit=run===null?{map:content.MAPS.lobby,x:448,y:496}:null;
   let balance;
-  if(exit||payout||rewardClaim){const [[user]]=await c.execute('SELECT id,money FROM users WHERE id=? FOR UPDATE',[id]);if(!user)throw Error('Dresseur introuvable.');balance=Number(user.money);}
+  if(exit||payout||rewardClaim||experienceClaim){const [[user]]=await c.execute('SELECT id,money FROM users WHERE id=? FOR UPDATE',[id]);if(!user)throw Error('Dresseur introuvable.');balance=Number(user.money);}
   await c.execute('INSERT IGNORE INTO super_tournament_profiles(user_id) VALUES(?)',[id]);
   let credited=0,before,items;
-  if(payout||rewardClaim){
+  if(payout||rewardClaim||experienceClaim){
    // Lock order matches inventory transactions (user, then tournament). Read
    // the previous checkpoint under that lock; a stale winner cannot pay twice.
    const [[stored]]=await c.execute('SELECT snapshot,version FROM super_tournament_profiles WHERE user_id=? FOR UPDATE',[id]);
    if(Number(stored.version)!==version)throw Error('La tentative a changé. Reconnecte-toi pour la reprendre.');
    before=stored.snapshot?codec.decode(stored.snapshot):null;
   }
+  const experienceUpdates=experienceClaim?await require('./superTournamentExperienceRepository').apply(id,experienceClaim,before,run,c):null;
   if(payout){
    const prior=before?cashPrizes.ensure(before):null;
    if(!run||!before||before.id!==payout.runId||run.id!==payout.runId||before.phase!=='battle'||run.phase!=='reward'||run.battle||
@@ -59,11 +60,12 @@ async function save(id,run,version,{score=run?.score||0,rooms=run?.cleared||0,pa
   if(r.affectedRows!==1)throw Error('La tentative a changé. Reconnecte-toi pour la reprendre.');
   if(credited>0)await c.execute('UPDATE users SET money=money+? WHERE id=?',[credited,id]);
   if(exit)await c.execute('UPDATE users SET map=?,x=?,y=? WHERE id=?',[exit.map,exit.x,exit.y,id]);
-  return {version:version+1,balance:payout||rewardClaim?balance+credited:null,items};
+  return {version:version+1,balance:payout||rewardClaim?balance+credited:null,items,experienceUpdates};
  });
  // The controller publishes the balance only after the transaction commits.
  if(payout)payout.balance=result.balance;
  if(rewardClaim){rewardClaim.balance=result.balance;rewardClaim.items=result.items;}
+ if(experienceClaim)experienceClaim.updates=result.experienceUpdates;
  return result.version;
 }
 async function ownsPass(id,c=dbPool){const[[r]]=await c.execute('SELECT quantity FROM user_items WHERE user_id=? AND item_key=?',[id,content.PASS]);return r?.quantity>0;}

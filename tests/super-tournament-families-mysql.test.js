@@ -4,7 +4,7 @@ test.before(()=>{if(!enabled)return;if(process.env.DB_NAME!=='explorakit_test')t
 test.after(async()=>db?.end());
 async function fixture(cards=['pp_3','pp_5','all_pp_5','power_mana']){
  const u=await users.createUserWithStarter('tower_family_'+randomUUID(),randomUUID(),{starterId:7}),original=codec.encode(await teams.loadEquipe(u.id));
- const create=()=>new TournamentController({userId:u.id,random:()=>.99,getPlayer:()=>({id:'owner',username:u.username}),emit:()=>{},travel:async()=>{}}),c=create();await c.load();await c.register({pokemons:[9,94].map(id=>factory.create(id,100,true))});
+ const create=()=>new TournamentController({userId:u.id,random:()=>.99,getPlayer:()=>({id:'owner',username:u.username}),emit:()=>{},travel:async()=>{}}),c=create();await c.load();await c.register({pokemons:[9,94].map(id=>factory.create(id,120,true))});
  await c.atomic(()=>{const r=c.run;r.room=16;r.cleared=17;r.phase='reward';r.score=5100;r.reward={id:randomUUID(),afterRoom:17,cards};r.player.equipe.pokemons[0].currentHp=1;r.player.equipe.pokemons[0].status='poison';r.player.equipe.pokemons[0].movePp[0]=0;});
  return{u,c,create,original,remove:()=>db.execute('DELETE FROM users WHERE id=?',[u.id])};
 }
