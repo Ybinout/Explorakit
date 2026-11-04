@@ -14,8 +14,8 @@ async function awardWildBattleLoot(userId,random=Math.random){
     if(!ordinary&&!crystals.length)return [];
     return grantBattleLoot(userId,ordinary,crystals,random);
 }
-async function grantBattleLoot(userId,ordinary,crystals,random){
-    return withTransaction(async c => {
+async function grantBattleLoot(userId,ordinary,crystals,random,executor=null){
+    const grant = async c => {
         const [[owner]] = await c.execute('SELECT id FROM users WHERE id=? FOR UPDATE',[userId]);
         if (!owner) throw Error('Joueur introuvable.');
         const foundItems=[];
@@ -37,6 +37,7 @@ async function grantBattleLoot(userId,ordinary,crystals,random){
         foundItems.push(...crystals);
         if(foundItems.length)await c.execute(`INSERT INTO user_items(user_id,item_key,quantity) VALUES ${foundItems.map(()=>'(?,?,?)').join(',')} ON DUPLICATE KEY UPDATE quantity=quantity+VALUES(quantity)`,foundItems.flatMap(i=>[userId,i.key,Math.max(1,Math.floor(i.quantity||1))]));
         return foundItems;
-    });
+    };
+    return executor ? grant(executor) : withTransaction(grant);
 }
 module.exports = {awardWildLoot,awardWildBattleLoot,grantBattleLoot,hasExpShare};

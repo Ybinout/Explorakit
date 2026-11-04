@@ -12,7 +12,7 @@ async function ready(){await page.waitForFunction(()=>{const v=document.querySel
 async function openBag(){await page.evaluate(()=>v.handleMenuAction('bag'));await page.locator('.bag-panel').waitFor();await page.waitForFunction(()=>!v.bagLoading);}
 async function closeBag(){await page.keyboard.press('Escape');await page.locator('.bag-panel').waitFor({state:'hidden'});}
 async function call(name){return page.evaluate(name=>new Promise((resolve,reject)=>v.socket.timeout(10000).emit(name,{},(e,r)=>e?reject(e):resolve(r))),name);}
-async function card(){await page.locator('[data-bag-pocket="key"]').click();const r=page.locator('[data-item-key="professional_trainer_card"]');if(await r.locator('.bag-item-select').getAttribute('aria-expanded')!=='true')await r.locator('.bag-item-select').click();return r;}
+async function card(){await page.locator('[data-bag-pocket="modules"]').click();const r=page.locator('[data-item-key="professional_trainer_card"]');if(await r.locator('.bag-item-select').getAttribute('aria-expanded')!=='true')await r.locator('.bag-item-select').click();return r;}
 async function snap(stage,width,height){await page.setViewportSize({width,height});await page.waitForTimeout(120);assert(await page.locator('.bag-panel').evaluate(n=>n.scrollWidth<=n.clientWidth+1));await page.screenshot({path:path.join(out,`${stage}-${width}.png`)});views.push({stage,width,height});}
 (async()=>{try{
  server.listen(0,'127.0.0.1');await once(server,'listening');const base='http://127.0.0.1:'+server.address().port;

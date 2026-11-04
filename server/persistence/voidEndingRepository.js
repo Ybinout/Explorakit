@@ -12,9 +12,9 @@ async function flag(c,id,key,value){await c.execute('INSERT INTO player_story_fl
 async function pickup(id){return withTransaction(async c=>{const r=await read(id,c,true);if(!r.state.available||r.state.found)return false;
  await c.execute('INSERT INTO user_items(user_id,item_key,quantity) VALUES(?,?,1) ON DUPLICATE KEY UPDATE quantity=GREATEST(quantity,1)',[id,ending.config.item]);
  await flag(c,id,ending.key(r.progress,'found'),'true');await flag(c,id,ending.key(r.progress,'charge'),0);return true;});}
-async function charge(id,receipt){return withTransaction(async c=>{const r=await read(id,c,true);if(!r.owned||!r.state.available||!r.state.found||r.state.charge>=5)return{changed:false,...r.state};
+async function charge(id,receipt,executor=null){const apply=async c=>{const r=await read(id,c,true);if(!r.owned||!r.state.available||!r.state.found||r.state.charge>=5)return{changed:false,...r.state};
  const key=ending.key(r.progress,'use_'+createHash('sha256').update(String(receipt)).digest('hex').slice(0,24));if(r.progress.flags[key])return{changed:false,...r.state};
- await flag(c,id,key,'true');await flag(c,id,ending.key(r.progress,'charge'),r.state.charge+1);return{...r.state,changed:true,charge:r.state.charge+1};});}
+ await flag(c,id,key,'true');await flag(c,id,ending.key(r.progress,'charge'),r.state.charge+1);return{...r.state,changed:true,charge:r.state.charge+1};};return executor?apply(executor):withTransaction(apply);}
 async function awardedResolution(c,id){
  const[rows]=await c.execute('SELECT badge_key FROM player_badges WHERE user_id=? AND badge_key IN (?,?)',[id,ending.config.badge,ending.config.pardonBadge]);
  return rows.find(r=>r.badge_key===ending.config.badge)?'violence':rows.length?'pardon':null;

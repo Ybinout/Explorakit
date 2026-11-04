@@ -25,6 +25,7 @@ const { wildMoneyReward } = require('../battle/wildReward');
 class DriftBattle {
     constructor(a, b, { type = 'wild', emit, now = Date.now, random = Math.random, onFinish, onUpdate, npcKey = null, environment = null, paceMs = 1800, rules = {} }) {
         this.rules = rules;
+        if (rules.darkAdventure) this.adventureExperience = new (require('../battle/adventureExperience').AdventureExperience)({expShare:'equipped'});
         presentation.reset(a);presentation.reset(b);
         this.id = randomUUID(); this.a = a; this.b = b; this.type = type; this.emit = emit; this.now = now;
         this.random = random; this.onFinish = onFinish; this.onUpdate = onUpdate; this.npcKey = npcKey; this.paceMs = paceMs;
@@ -40,7 +41,7 @@ class DriftBattle {
         this.originals = [...a.equipe.pokemons, ...b.equipe.pokemons];
         this.originalTeams = new Map([a,b].filter(p=>!p.npc).map(p=>[p,[...p.equipe.pokemons]]));
         this.resultTrackers = new Map([a, b].filter(p => !p.npc)
-            .map(p => [p, createBattleSummaryTracker(p.equipe.pokemons, 'drift')]));
+            .map(p => [p, createBattleSummaryTracker(p.equipe.pokemons, rules.darkAdventure ? 'adventure' : 'drift')]));
         for (const [index, p] of [a,b].entries()) {
             if (!p.npc && this.rules.report !== false) report.battleStarted(p,this);
             if (p.npc) switchPokemonByIndex(p.equipe,trainerTactics.replacementIndex(p.equipe));
@@ -49,7 +50,7 @@ class DriftBattle {
             p.inbattle = true; p.battle = this;
             effects.attach(p.equipe.pokemons, p, type === 'pvp', random);
             p.equipe.pokemons.forEach(poke => { effects.states.get(poke).wild = index === 0 && type === 'wild'; });
-            if (!p.npc) emit(p, 'battletrigger', { trainerKey:this.npcKey, environment:this.environment, field:serializeFieldState(this.state,index===0?'player':'enemy'), musicKind:this.musicKind(), bagAllowed:this.rules.bagAllowed !== false, fleeAllowed:this.rules.fleeAllowed !== false, tournamentEntrance:this.rules.entrance || null, battleType: type === 'arena' ? 'trainer' : type, message: this.rules.entrance ? 'Le duel du Super Tournoi commence !' : type === 'pvp' ? 'Duel du tournoi Drift !' : 'Un combat Drift commence !' });
+            if (!p.npc) emit(p, 'battletrigger', { trainerKey:this.npcKey, environment:this.environment, field:serializeFieldState(this.state,index===0?'player':'enemy'), musicKind:this.musicKind(), bagAllowed:this.rules.bagAllowed !== false, fleeAllowed:this.rules.fleeAllowed !== false, tournamentEntrance:this.rules.entrance || null, battleType: type === 'arena' ? 'trainer' : type, message: this.rules.darkAdventure ? 'Un Pokémon sauvage apparaît !' : this.rules.entrance ? 'Le duel du Super Tournoi commence !' : type === 'pvp' ? 'Duel du tournoi Drift !' : 'Un combat Drift commence !' });
         }
         for (const index of [0,1]) this.enter(index, false, true);
         this.prune();
@@ -90,7 +91,7 @@ class DriftBattle {
             const opponentRoster = this.originalTeams?.get(opponent)
                 || (ownInitial && this.originals ? this.originals.filter(pokemon=>!ownInitial.includes(pokemon)) : opponent.equipe.pokemons);
             this.emit(p, 'battleFieldState', serializeFieldState(this.state,index===0?'player':'enemy'));
-            this.emit(p, 'introAnimation', { genders:presentation.genders(this.active(index),this.active(1-index)), partyLimit:this.rules.partyLimit===12?12:6,opponentParty:this.type==='wild'?null:partyIndicator(opponentRoster,this.rules.partyLimit), opponentPartyStates:this.type!=='wild'&&opponent.npc?partyConditionIndicator(opponentRoster):null, moveTypes:engine.battleMoveTypes(this.active(index),this.active(1-index),this.state), effortYield:this.type==='pvp'?null:effortYield(this.active(1-index)), musicKind:this.musicKind(), transitions:index===0&&this.b.npc?trainerTactics.decorateTransitions(transitions,this.b.equipe,this.aiMemory):transitions, player: { id: p.socketId, userId: p.userId, equipe: p.equipe }, wildPokemon: this.active(1-index) || null, battleType: this.type === 'arena' ? 'trainer' : this.type, usableMoveIndexes: getUsableMoveIndexes(this.active(index), this.state) });
+            this.emit(p, 'introAnimation', { genders:presentation.genders(this.active(index),this.active(1-index)), ...(this.rules.darkAdventure?{capturePolicy:{darkContinent:true}}:{}), partyLimit:this.rules.partyLimit===12?12:6,opponentParty:this.type==='wild'?null:partyIndicator(opponentRoster,this.rules.partyLimit), opponentPartyStates:this.type!=='wild'&&opponent.npc?partyConditionIndicator(opponentRoster):null, moveTypes:engine.battleMoveTypes(this.active(index),this.active(1-index),this.state), effortYield:this.type==='pvp'?null:effortYield(this.active(1-index)), musicKind:this.musicKind(), transitions:index===0&&this.b.npc?trainerTactics.decorateTransitions(transitions,this.b.equipe,this.aiMemory):transitions, player: { id: p.socketId, userId: p.userId, equipe: p.equipe }, wildPokemon: this.active(1-index) || null, battleType: this.type === 'arena' ? 'trainer' : this.type, usableMoveIndexes: getUsableMoveIndexes(this.active(index), this.state) });
             if(this.rules?.report !== false) this.emit(p, 'bagUpdated', { items: economy.bag(p) });
         }
         this.onUpdate?.(this);
@@ -109,6 +110,7 @@ class DriftBattle {
         this.effortParticipants ||= new Map();
         if (!this.effortParticipants.has(opponent.uuid)) this.effortParticipants.set(opponent.uuid, new Set());
         this.effortParticipants.get(opponent.uuid).add(pokemon.uuid);
+        this.adventureExperience?.enter(pokemon,opponent);
     }
     rewardEffort(opponent) {
         if (this.type === 'pvp') return new Map();
@@ -137,6 +139,7 @@ class DriftBattle {
         const usable = active ? preferMoves(active, this.state,undefined,{opponent:this.active(1-index),ownSide:this.sides[index],enemySide:this.sides[1-index],avoidStalePriority:true}) : [];
         const damaging = usable.filter(i => engine.getMoveByName(active.abilities[i])?.combat?.damage_class !== 'status');
         const pool = damaging.length ? damaging : usable;
+        if(this.rules.darkAdventure) return {action:'attack',number:usable.length?usable[Math.floor(this.random()*usable.length)]:-1};
         return { action: 'attack', number: pool.length ? pool[Math.floor(this.random()*pool.length)] : -1 };
     }
     request() {
@@ -263,6 +266,9 @@ class DriftBattle {
             const fainted = p.equipe.pokemons.filter(poke => effects.isDead(poke) && !poke.riftFainted && !this.processedFaints.has(poke.uuid));
             for (const poke of fainted) {
                 this.processedFaints.add(poke.uuid);
+                // Keep the recoverable equipment before finish() clears combat overrides.
+                // The Dark transaction deletes the owner and returns this item together.
+                if(this.rules.darkAdventure && !p.npc) poke.__darkLostItem = Object.hasOwn(poke,'__heldItemBeforeExchange') ? poke.__heldItemBeforeExchange : poke.heldItem || poke.__heldItemKnockedOff || poke.__heldItemConsumedForBattle;
                 const protectedKO = this.rules?.permanentDeaths !== false && !p.npc && require('../items/heldItems').effect(poke, this.state) === 'rift_protection';
                 if (protectedKO) {
                     poke.heldItem = null; poke.currentHp = 0; poke.riftFainted = true;
@@ -273,7 +279,10 @@ class DriftBattle {
             }
             const needsChoice = !p.npc && effects.isDead(old) && hasAlivePokemon(p.equipe);
             p.equipe.pokemons = p.equipe.pokemons.filter(poke => this.rules?.permanentDeaths === false || !effects.isDead(poke) || poke.riftFainted || ((needsChoice || deferReplacement) && poke===old));
-            if (p === this.b && this.type !== 'pvp') for (const defeated of fainted) this.reward(defeated);
+            if (p === this.b && this.type !== 'pvp') for (const defeated of fainted) {
+                if(this.rules.darkAdventure)(this.pendingDarkExperience ||= new Set()).add(defeated);
+                else this.reward(defeated);
+            }
             if (this.type === 'pvp' && fainted.length) [this.a,this.b][1-index].chain = Math.min(5, ([this.a,this.b][1-index].chain || 0) + fainted.length);
             if (!deferReplacement && p.npc && effects.isDead(old)) switchPokemonByIndex(p.equipe,trainerTactics.replacementIndex(p.equipe,{
                 opponentTeam:[this.a,this.b][1-index].equipe.pokemons,field:this.state,ownSide:this.sides[index],enemySide:this.sides[1-index],
@@ -288,6 +297,13 @@ class DriftBattle {
         this.experienceRewarded.add(defeated.uuid);
         // Captures earn training without becoming KOs for contracts, streaks or scores.
         if (!captured) this.rewarded.add(defeated.uuid);
+        if(this.rules.darkAdventure) {
+            const multiplier=require('../models/progression').BATTLE_EXPERIENCE_MULTIPLIERS.wild * require('../world/darkEncounters').experienceMultiplier(defeated,this.a.currentmap);
+            const io={to:()=>({emit:(event,data)=>this.emit(this.a,event,data)})};
+            const awards=this.adventureExperience.reward(this.a,defeated,multiplier,io,{captured});
+            for(const {pokemon,xp} of awards)this.say(`${pokemon.truename || pokemon.name} gagne ${xp} XP !`,true);
+            return;
+        }
         if(this.rules?.tournamentExperience===true) {
             require('../superTournament/experience').reward(this,defeated);
             return;
@@ -325,6 +341,12 @@ class DriftBattle {
         if (!captured) this.a.chain = Math.min(5,(this.a.chain || 0)+1);
     }
     checkEnd() {
+        // Adventure awards follow residual damage. Levelling up must never
+        // heal a doomed companion before burn/poison has resolved this turn.
+        if(this.rules.darkAdventure && this.pendingDarkExperience?.size){
+            for(const defeated of this.pendingDarkExperience)this.reward(defeated);
+            this.pendingDarkExperience.clear();
+        }
         const aliveA = hasAlivePokemon(this.a.equipe), aliveB = hasAlivePokemon(this.b.equipe);
         if (aliveA && aliveB) return false;
         this.finish(aliveA ? this.a : aliveB ? this.b : null, 'finished'); return true;
@@ -359,11 +381,11 @@ class DriftBattle {
             }
             if (action?.action === 'bag') {
                 p.items[action.itemKey]--;
-                report.increment(p,'captureAttempts');
+                if(!this.rules.darkAdventure)report.increment(p,'captureAttempts');
                 const target = this.active(1), multiplier = getItemDefinition(action.itemKey).catch_multiplier;
                 const chance = Math.min(.95, Math.max(.05,captureBaseChance(target)*multiplier*(1+effects.value(p,47)/100)));
-                const success = this.random() < chance;
-                this.emit(p,'captureAnimation',{ success, shakes: success ? 3 : 1, itemKey: action.itemKey });
+                const success = !this.rules.darkAdventure && this.random() < chance;
+                this.emit(p,'captureAnimation',{ success, shakes: this.rules.darkAdventure ? 0 : success ? 3 : 1, itemKey: action.itemKey });
                 if (success) {
                     this.reward(target,{captured:true});
                     this.capturedPokemon = target; this.b.equipe.pokemons = []; effects.detach([target]);
@@ -376,7 +398,7 @@ class DriftBattle {
                     }
                     report.capture(p,target,destination); this.finish(p,'captured'); return;
                 }
-                this.say('Le Pokémon se libère !');
+                this.say(this.rules.darkAdventure?'Ce Pokémon est trop puissant pour être capturé !':'Le Pokémon se libère !');
             }
         }
         const ordered = engine.orderBattleActions(actors.map((p,index) => {
@@ -400,12 +422,14 @@ class DriftBattle {
             if (pokemon?.uuid !== pokemonUuid || effects.isDead(pokemon) || hasActedThisTurn(this.state,pokemon)) continue;
             const defender = this.active(1-index); if (!defender || effects.isDead(defender)) continue;
             const animation = prepareMoveAnimation(pokemon,defender,name,this.state);
+            const darkPp=this.rules.darkAdventure&&index===0?require('../battle/voidCharge').totalPp(pokemon):null;
             const result = this.withDriftSignals(()=>engine.useattack(name,pokemon,defender,{ battleState:this.state, attackerSide:this.sides[index],defenderSide:this.sides[1-index],attackerTeam:p.equipe.pokemons,defenderTeam:actors[1-index].equipe.pokemons }), resolved => {
                 (resolved.beforeActionMessages || []).forEach(m=>this.say(m));
                 if (!resolved.actionPrevented) for (const [view,viewer] of actors.entries()) if (!viewer.npc) {
                     this.emit(viewer,'battleMoveAnimation',{...animation,actor:view===index?'player':'opponent'});
                 }
             });
+            if(darkPp!==null&&!result.actionPrevented&&result.move?.type==='Electric'&&require('../battle/voidCharge').totalPp(pokemon)<darkPp)this.electricActions=(this.electricActions||0)+1;
             if(p===this.a&&result.damage>0)(this.contractContributors ||= new Set()).add(pokemon.uuid);
             if (this.b.npc && !result.actionPrevented) {
                 if (p === this.a) trainerTactics.observe(this.b.equipe,this.aiMemory,pokemon,name);

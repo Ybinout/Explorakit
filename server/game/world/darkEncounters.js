@@ -21,7 +21,7 @@ function prepare(pokemon,map,random=Math.random){
  return corrupted?5:0;
 }
 function isCorrupted(pokemon,map){return dc.isMap(map)&&pokemon?.darkContinentEncounter?.version===1&&pokemon.darkContinentEncounter.map===map&&pokemon.darkContinentEncounter.kind==='corrupted';}
-function experienceMultiplier(pokemon,map){return !dc.isMap(map) ? 1 : isCorrupted(pokemon,map) ? 0.8 : 0.4;}
+function experienceMultiplier(pokemon,map){return !dc.isMap(map) ? 1 : isCorrupted(pokemon,map) ? 0.68 : 0.34;}
 function money(pokemon,map,ordinary){return isCorrupted(pokemon,map)?10000:ordinary;}
 function loot(pokemon,map,random=Math.random){
  if(!isCorrupted(pokemon,map))return null;

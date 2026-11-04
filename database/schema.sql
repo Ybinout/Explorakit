@@ -441,3 +441,11 @@ CREATE TABLE IF NOT EXISTS corruption_receipts (
  CONSTRAINT fk_corruption_receipt_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
  INDEX idx_corruption_receipt_owner (user_id, created_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS dark_battle_checkpoints (
+ user_id INT NOT NULL PRIMARY KEY,
+ version BIGINT UNSIGNED NOT NULL DEFAULT 0,
+ snapshot LONGBLOB NULL,
+ updated_at TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+ CONSTRAINT dark_battle_user_fk FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB;

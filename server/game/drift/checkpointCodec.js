@@ -4,6 +4,7 @@ const { createHash } = require('node:crypto');
 const Pokemon = require('../models/Pokemon');
 const { DriftBattle } = require('./driftBattle');
 const { BattleSummaryTracker } = require('../battle/battleOutcome');
+const { AdventureExperience } = require('../battle/adventureExperience');
 const effects = require('./driftEffects');
 
 // Trusted server state only. References preserve battle participants, Maps and
@@ -20,7 +21,9 @@ function serialize(root) {
         const id = nodes.length;
         ids.set(value, id);
         const type =
-            value instanceof BattleSummaryTracker
+            value instanceof AdventureExperience
+                ? 'AdventureExperience'
+                : value instanceof BattleSummaryTracker
                 ? 'BattleSummaryTracker'
                 : value instanceof Pokemon
                 ? 'Pokemon'
@@ -63,6 +66,7 @@ function decode(buffer) {
     if (data.version !== 1 || !Array.isArray(data.nodes))
         throw Error('Version de checkpoint RiftMon inconnue.');
     const prototypes = {
+        AdventureExperience: AdventureExperience.prototype,
         BattleSummaryTracker: BattleSummaryTracker.prototype,
         Pokemon: Pokemon.prototype,
         DriftBattle: DriftBattle.prototype,

@@ -1,0 +1,340 @@
+{
+  "feature": "Modules menu, account Y shortcut and durable Dark Continent battle resumption",
+  "date": "2026-11-04",
+  "sourceBaseline": "44338773f2f63c1bcb7cdc453cf155d53e95fc77",
+  "clientCommit": "58578d396948a63898e5c8e3b43cb8a9eca857e8",
+  "clientBuild": "1600b86bb7de65dc",
+  "buildIndexSha256": "92ffbfb189c52fbe29a50148714acb5c93ae5644df61641273c3368a613e1a8b",
+  "schemaChanged": true,
+  "migration": "031_dark_battle_resume.sql",
+  "realAccountsManuallyModified": false,
+  "creatorMapsOrAssetsChanged": false,
+  "runtimeSourceSha256": {
+    "data/game/latest_patch.json": "3b21931a4e37f61a73386ee490cebe17e2c856ed959ab33ee52a63fd3f1bbe14",
+    "database/migrations/031_dark_battle_resume.sql": "0a63e814a035d4f36c036d7347bffad8a7cb0e244fbe43d453db10ab1f341e9d",
+    "database/schema.sql": "3685a7768efdceae58815820cd151e77462c3a4155fa56bf734bd6dddbd0bdd8",
+    "server/game/battle/darkBattleController.js": "610d78c3690949d8b23bd6ef676f29dba18e78ff44e50c045a8360ce4694c60a",
+    "server/game/drift/checkpointCodec.js": "d0b08ad32bbf115d44c79759af7998e6e9a00f9f5d358ba68bb9058d58dd23fa",
+    "server/game/drift/driftBattle.js": "21668aa280d6c4ec32d62873b9892e9e4de901ae04bfd2f3154969dd5836afda",
+    "server/game/world/darkContinent.js": "f04bfb81932d3b9b86885ea78cee46379cff0805cf95f75702afc851ca752f15",
+    "server/game/world/darkEncounters.js": "e7701c4c0add413302ba1d70688c890898ad37c5069807c6cdfa3420271bbcd5",
+    "server/http/routes.js": "f82e0a44a5a6c5ac7047d8cd8b9c47dfb6463d39c77a884725d0902b4ab6a363",
+    "server/persistence/darkBattleRepository.js": "92d4e4760695a9c7d84bba7b2a271bc66779de01c7bd5553a113eab415f5ba40",
+    "server/persistence/darkContinentRepository.js": "6899fcacb97252c86a561f2aff15b0a23f2bf4bb55b4d8c25b59097a11e89f4b",
+    "server/persistence/itemRepository.js": "1f8df2f90acda242fbc74664ea6c62c2043c2662c07dc08594218e3ec33162d1",
+    "server/persistence/moduleShortcutRepository.js": "cd383f27eed71b72bfc014a02faab3a1b6e73f0112fc3ff85c5691bde196c55d",
+    "server/persistence/voidEndingRepository.js": "91d832fabba4821cda33b016d7a86ce8a28ca6991c5bde8762d48764b5cadf23",
+    "server/persistence/wildLootRepository.js": "78904bc676397cc3cdf5fe8cd9f4ede1e7ae08a97d09564573266e4b01b08a98",
+    "server/realtime/handlers/darkBattleHandlers.js": "75ca6785a91ea5523ee14a66c76d6dd9d8a6efafc225506105f42390384601fd",
+    "server/realtime/handlers/moduleShortcutHandlers.js": "0fd55cb6c5735fcf176bb01f64071b64c7cc45a38e7d1436daea64111be3dd39",
+    "server/realtime/socketHandler.js": "f011535ff5581ea105d7bb7dff4a0833b9771444483f5425a783dac870355451"
+  },
+  "modules": {
+    "keys": [
+      "experience_module",
+      "fly_module",
+      "professional_trainer_card",
+      "super_tournament_pass",
+      "void_teleporter"
+    ],
+    "chargedTeleporterOnlyInPocket": true,
+    "oneShortcutPerAccount": "player_story_flags.module_shortcut",
+    "desktopKey": "Y",
+    "mobileButton": "44px, below and left of A, no A displacement",
+    "serverOwnershipValidated": true,
+    "actionsReuseExistingGuards": true,
+    "flyOpensMinimap": true,
+    "appearanceInOptions": true,
+    "walletDesktopMobile": true
+  },
+  "dark": {
+    "ordinaryXpBefore": 0.4,
+    "ordinaryXpAfter": 0.34,
+    "corruptedXpBefore": 0.8,
+    "corruptedXpAfter": 0.68,
+    "relativeReduction": 0.15,
+    "engine": "DriftBattle with explicit darkAdventure rules and AdventureExperience",
+    "checkpoint": "compressed graph preserving private state, object references, Maps and Sets",
+    "saved": "each accepted action/transition before any outcome publication",
+    "offline": "timers paused, encounter never completed or rerolled on disconnect",
+    "atomic": [
+      "checkpoint version",
+      "party HP/status/PP/stats/experience",
+      "permanent KO deletion",
+      "returned equipment",
+      "failed Ball stock consumption",
+      "money and loot",
+      "Pokédex observation",
+      "teleporter charge receipts"
+    ],
+    "reconnectCases": [
+      "land maps 1–9",
+      "fishing maps 1–3",
+      "normal action prompt",
+      "mandatory replacement after KO",
+      "pivot continuation with remaining enemy action",
+      "hard SIGKILL of separate server process"
+    ],
+    "completion": "snapshot cleared with final settlement; rescue before releasing world control",
+    "httpGuard": "held items and order blocked for suspended combat, even offline",
+    "initialRaceGuard": "cached party cannot overwrite newly equipped item",
+    "balls": "existing impossible-capture attempt preserved with one Ball and turn consumed"
+  },
+  "casino": {
+    "existingAlgorithmRetained": true,
+    "serverResult": "crypto.randomInt(37), one durable result per round",
+    "atomicStakeAndReceipt": true,
+    "atomicPayoutAndReceipt": true,
+    "tested": [
+      "all players disconnected",
+      "fresh server recovery",
+      "stored loser remains debited",
+      "winner paid once",
+      "repeat bet same receipt",
+      "result cannot change after spin",
+      "mid-payout error rolls back all writes and then retries once"
+    ]
+  },
+  "validation": {
+    "unitLog": "/tmp/modules-unit-final.log",
+    "unitPassed": 84,
+    "sqlLog": "/tmp/modules-sql-final.log",
+    "sqlPassed": 81,
+    "totalPassed": 165,
+    "failed": 0,
+    "skipped": 0,
+    "dedicatedDatabase": "explorakit_test",
+    "sqlAndBrowsersSequential": true,
+    "syntaxFiles": 29,
+    "lintLog": "/tmp/modules-lint-final.log",
+    "buildLog": "/tmp/modules-build-final.log",
+    "browserReports": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "views": [
+          {
+            "label": "modules",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "modules-320-light.png"
+          },
+          {
+            "label": "modules",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "modules-320-dark.png"
+          },
+          {
+            "label": "modules",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "modules-393-light.png"
+          },
+          {
+            "label": "modules",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "modules-393-dark.png"
+          },
+          {
+            "label": "modules",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "modules-844-light.png"
+          },
+          {
+            "label": "modules",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "modules-844-dark.png"
+          },
+          {
+            "label": "modules",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "modules-1536-light.png"
+          },
+          {
+            "label": "modules",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "modules-1536-dark.png"
+          }
+        ],
+        "checks": [
+          "appearance-in-options",
+          "fly-module-opens-minimap",
+          "desktop-y",
+          "replacement-and-experience-toggle",
+          "persisted-and-mobile-y",
+          "unassignment-hides-y",
+          "real-dark-browser-reload-same-enemy-hp-pp-and-rules"
+        ],
+        "errors": [],
+        "buildIndexSha256": "92ffbfb189c52fbe29a50148714acb5c93ae5644df61641273c3368a613e1a8b"
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "views": [
+          {
+            "label": "modules",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "modules-320-light.png"
+          },
+          {
+            "label": "modules",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "modules-320-dark.png"
+          },
+          {
+            "label": "modules",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "modules-393-light.png"
+          },
+          {
+            "label": "modules",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "modules-393-dark.png"
+          },
+          {
+            "label": "modules",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "modules-844-light.png"
+          },
+          {
+            "label": "modules",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "modules-844-dark.png"
+          },
+          {
+            "label": "modules",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "modules-1536-light.png"
+          },
+          {
+            "label": "modules",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "modules-1536-dark.png"
+          }
+        ],
+        "checks": [
+          "appearance-in-options",
+          "fly-module-opens-minimap",
+          "desktop-y",
+          "replacement-and-experience-toggle",
+          "persisted-and-mobile-y",
+          "unassignment-hides-y",
+          "real-dark-browser-reload-same-enemy-hp-pp-and-rules"
+        ],
+        "errors": [],
+        "buildIndexSha256": "92ffbfb189c52fbe29a50148714acb5c93ae5644df61641273c3368a613e1a8b"
+      }
+    },
+    "globalSuiteRun": false,
+    "physicalPhoneRun": false,
+    "testSchema": {
+      "tables": 31,
+      "constraints": 27,
+      "migration031Present": true,
+      "fullVerification": false,
+      "reason": "Test database has only eight migration receipts despite complete schema; production verifier will run after migration."
+    }
+  },
+  "deployment": {
+    "publishedAt": "2026-11-04T11:10:40.363Z",
+    "restartedAt": "2026-11-04T11:10:38.539Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-modules-2026-11-04T11-10-36-665Z",
+    "sourceBaseline": "44338773f2f63c1bcb7cdc453cf155d53e95fc77",
+    "sourceHashes": {
+      "data/game/latest_patch.json": "3b21931a4e37f61a73386ee490cebe17e2c856ed959ab33ee52a63fd3f1bbe14",
+      "database/schema.sql": "3685a7768efdceae58815820cd151e77462c3a4155fa56bf734bd6dddbd0bdd8",
+      "server/game/drift/checkpointCodec.js": "d0b08ad32bbf115d44c79759af7998e6e9a00f9f5d358ba68bb9058d58dd23fa",
+      "server/game/drift/driftBattle.js": "21668aa280d6c4ec32d62873b9892e9e4de901ae04bfd2f3154969dd5836afda",
+      "server/game/world/darkContinent.js": "f04bfb81932d3b9b86885ea78cee46379cff0805cf95f75702afc851ca752f15",
+      "server/game/world/darkEncounters.js": "e7701c4c0add413302ba1d70688c890898ad37c5069807c6cdfa3420271bbcd5",
+      "server/http/routes.js": "f82e0a44a5a6c5ac7047d8cd8b9c47dfb6463d39c77a884725d0902b4ab6a363",
+      "server/persistence/darkContinentRepository.js": "6899fcacb97252c86a561f2aff15b0a23f2bf4bb55b4d8c25b59097a11e89f4b",
+      "server/persistence/itemRepository.js": "1f8df2f90acda242fbc74664ea6c62c2043c2662c07dc08594218e3ec33162d1",
+      "server/persistence/voidEndingRepository.js": "91d832fabba4821cda33b016d7a86ce8a28ca6991c5bde8762d48764b5cadf23",
+      "server/persistence/wildLootRepository.js": "78904bc676397cc3cdf5fe8cd9f4ede1e7ae08a97d09564573266e4b01b08a98",
+      "server/realtime/socketHandler.js": "f011535ff5581ea105d7bb7dff4a0833b9771444483f5425a783dac870355451",
+      "database/migrations/031_dark_battle_resume.sql": "0a63e814a035d4f36c036d7347bffad8a7cb0e244fbe43d453db10ab1f341e9d",
+      "server/game/battle/darkBattleController.js": "610d78c3690949d8b23bd6ef676f29dba18e78ff44e50c045a8360ce4694c60a",
+      "server/persistence/darkBattleRepository.js": "92d4e4760695a9c7d84bba7b2a271bc66779de01c7bd5553a113eab415f5ba40",
+      "server/persistence/moduleShortcutRepository.js": "cd383f27eed71b72bfc014a02faab3a1b6e73f0112fc3ff85c5691bde196c55d",
+      "server/realtime/handlers/darkBattleHandlers.js": "75ca6785a91ea5523ee14a66c76d6dd9d8a6efafc225506105f42390384601fd",
+      "server/realtime/handlers/moduleShortcutHandlers.js": "0fd55cb6c5735fcf176bb01f64071b64c7cc45a38e7d1436daea64111be3dd39"
+    },
+    "clientCommit": "58578d396948a63898e5c8e3b43cb8a9eca857e8",
+    "clientBuild": "1600b86bb7de65dc",
+    "beforePid": "3849846",
+    "afterPid": "3854946",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "schemaChanged": true,
+    "migrationApplied": "031_dark_battle_resume.sql",
+    "schemaVerified": true,
+    "schemaTables": 31,
+    "schemaConstraints": 27,
+    "migrationReceipts": 31,
+    "activeClubDuelsBefore": 0,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 0,
+    "rouletteBefore": [],
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": [
+      "js/234.02b18f2e.js",
+      "js/393.0fd15895.js",
+      "js/674.050af613.js",
+      "js/689.ea67c21b.js",
+      "js/737.e2c30081.js",
+      "js/account.6f096228.js",
+      "js/app.c6aea97d.js",
+      "js/chunk-vendors.0f4c51f9.js",
+      "js/colosseum.e15fe230.js",
+      "js/community.ef51702b.js",
+      "js/drift.e4ddfe6a.js",
+      "js/game.607b8517.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.c5a385b9.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.8ac79603.css",
+      "css/test-view.7568246d.css"
+    ]
+  }
+}

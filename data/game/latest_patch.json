@@ -1,18 +1,20 @@
 {
-  "version": "2026-11-04-honneur-interactions",
+  "version": "2026-11-04-modules-reprise-dark",
   "date": "2026-11-04",
   "fr": {
-    "title": "À toi d’entrer au tableau d’honneur !",
+    "title": "Tes modules à portée de main",
     "items": [
-      "Maison des Combats : classements 1v1, 2v1 et 2v2, dernières équipes et Top 3 affiché dans la salle.",
-      "Un petit point lumineux indique désormais les interactions possibles près de ton personnage."
+      "Une poche Modules et un raccourci Y à associer dans ton sac, sur PC et mobile. Le Module Vol ouvre la minimap.",
+      "Les combats du Dark Continent reprennent après une coupure, avec les mêmes Pokémon et les mêmes PV.",
+      "L’XP du Dark Continent baisse de 15 %. Apparence se trouve désormais dans les Options."
     ]
   },
   "en": {
-    "title": "Make your mark on the honor roll!",
+    "title": "Your modules, one shortcut away",
     "items": [
-      "Battle House: separate 1v1, 2v1 and 2v2 rankings, last teams, and an in-room Top 3.",
-      "A subtle light above your character now marks nearby interactions."
+      "A Modules pocket and an assignable Y shortcut on desktop and mobile. The Fly Module opens the map.",
+      "Dark Continent battles resume after disconnection with the same Pokémon and HP.",
+      "Dark Continent XP is reduced by 15%. Appearance now lives in Options."
     ]
   }
 }

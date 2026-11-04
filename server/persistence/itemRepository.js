@@ -190,6 +190,7 @@ async function equipHeldItem(userId, teamId, pokemonUuid, itemKey) {
     return withTransaction(async (connection) => {
         await connection.execute('SELECT id FROM users WHERE id=? FOR UPDATE',[userId]);
         require('../game/social/tradeLocks').assertUnlocked(userId);
+        await require('./darkBattleRepository').assertInactive(userId,connection);
         const [pokemonRows] = await connection.execute(
             `SELECT p.held_item
              FROM pokemons p

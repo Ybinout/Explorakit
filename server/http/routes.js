@@ -90,7 +90,8 @@ router.get('/rift/profile', async (req, res) => {
 router.get('/users/:id/items', async (req, res) => {
     if (!ownsRequestedUser(req)) return res.status(403).send({ message: 'Accès interdit.' });
     try {
-        return res.send({ items: await loadUserItems(req.user.id) });
+        const [items,[[wallet]]]=await Promise.all([loadUserItems(req.user.id),dbPool.execute('SELECT money FROM users WHERE id=?',[req.user.id])]);
+        return res.send({items,money:Number(wallet?.money)||0});
     } catch (error) {
         console.error('Erreur inventaire:', error.message);
         return res.status(500).send({ message: "Impossible de charger l'inventaire." });
@@ -159,6 +160,7 @@ router.put('/teams/:teamId/pokemons/reorder', async (req, res) => {
     try {
         await withTransaction(async (connection) => {
             await connection.execute('SELECT id FROM users WHERE id=? FOR UPDATE',[req.user.id]);
+            await require('../persistence/darkBattleRepository').assertInactive(req.user.id,connection);
             require('../game/social/tradeLocks').assertUnlocked(req.user.id);
             const team = await getOwnedTeam(teamId, req.user.id, connection);
             if (!team) {

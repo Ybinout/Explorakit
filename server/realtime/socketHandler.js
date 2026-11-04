@@ -266,12 +266,14 @@ const socketHandler = (io) => {
             ? socket.data.user.username.trim()
             : '';
 
-        const [equipe, loadedSavedPosition, spritePalette, initialItems] = await Promise.all([
+        let [equipe, loadedSavedPosition, spritePalette, initialItems, savedDarkBattle] = await Promise.all([
             loadEquipe(userId),
             loadUserPosition(userId),
             require('../persistence/playerRepository').loadUserSpritePalette(userId),
-            require('../persistence/itemRepository').loadUserItems(userId)
+            require('../persistence/itemRepository').loadUserItems(userId),
+            require('../persistence/darkBattleRepository').load(userId)
         ]);
+        if(savedDarkBattle.run){const r=savedDarkBattle.run;equipe=r.player.equipe;loadedSavedPosition={...loadedSavedPosition,map:r.map,x:r.x,y:r.y};}
         if (!account.active()) return;
         let hintOwnsRod=initialItems.some(i=>i.key==='fishing_rod'&&i.quantity>0);
         const hintInventory=(event,payload)=>{if(['bagUpdated','shopOpened'].includes(event)&&Array.isArray(payload?.items))hintOwnsRod=payload.items.some(i=>i.key==='fishing_rod'&&i.quantity>0);};
@@ -322,7 +324,7 @@ const socketHandler = (io) => {
         }
         if (!account.active()) return;
         let personalProgress=initialStoryProgress||{flags:{}},lucieLeaving=false;
-        let tournament=null,clubHandlers=null,darkHandlers=null,corruptionHandlers=null;
+        let tournament=null,clubHandlers=null,darkHandlers=null,corruptionHandlers=null,darkBattle=null;
         let darkState=await require('../persistence/darkContinentRepository').loadState(userId);
         const {getPnjsForMap,getPnjAtTile,isPnjBlockingTile}=require('../game/world/darkContinent').scopedStore(require('./handlers/superTournamentHandlers').scopedStore(lucieScene.scopedStore(voidEnding.scopedStore(labStory.scopedStore(raphTrial.scopedStore(defaultPnjStore,()=>raphTrialState),()=>personalProgress),()=>personalProgress),()=>personalProgress,()=>lucieLeaving),()=>tournament?.controller.run),()=>darkState);
         const personalTileBlocked=(map,x,y)=>isPnjBlockingTile(map,x,y)||mirrorRift.blocked(map,x,y,personalProgress)||Boolean(storyGates.actorAtTile(map,x,y,personalProgress));
@@ -352,7 +354,7 @@ const socketHandler = (io) => {
             respawnPoint: savedPosition?.respawnPoint || null,
             repelSteps: remainingRepel({repelSteps:savedPosition?.repel_steps}),
             centerReturnPoint: savedPosition?.centerReturnPoint || null,
-            inbattle: false
+            inbattle: Boolean(savedDarkBattle.run)
         };
         const fishing = require('../game/world/fishingController').createFishingController({
             ownsRod: async () => (await require('../persistence/itemRepository').loadUserItems(userId)).some(i => i.key === 'fishing_rod' && i.quantity > 0),
@@ -363,14 +365,19 @@ const socketHandler = (io) => {
                 const encounter = require('../game/world/fishingEncounters').fishingEncounter(p.currentmap);
                 if (!encounter) return;
                 p.inbattle = true;
+                let durableEncounter=false;
                 try {
                     const wild = await CreatePokemon.createAtLevel(encounter.id,encounter.level,{experienceModuleActive:p.experienceModuleActive,mapName:p.currentmap});
                     if (players[socket.id] !== p || !socket.connected) return;
                     if (!await checkpointDarkEncounter(p) || players[socket.id] !== p || !account.active()) return;
+                    if(require('../game/world/darkContinent').isMap(p.currentmap)){
+                        durableEncounter=true;
+                        await darkBattle.start(wild,'lake');return;
+                    }
                     socket.emit('battletrigger',{message:'Ça mord !',battleType:'wild',musicKind:require('../game/world/darkContinent').isMap(p.currentmap)?'dark':require('../game/world/legendaryEncounters').isLegendary(wild.data.id)?'legendary':'wild',environment:'lake',field:{weather:battleWeatherForMap(p.currentmap)}});
                     await account.track(startBattle(p,wild,io,userId,p.equipe));
                 } finally {
-                    if (players[socket.id] === p) {
+                    if (players[socket.id] === p && !durableEncounter) {
                         await darkHandlers?.afterBattle();
                         await handleBlackout().catch(error => console.error('Récupération après pêche :',error.message));
                         p.inbattle = false;
@@ -877,8 +884,12 @@ const socketHandler = (io) => {
             closeFishing:()=>fishing.cancel(players[socket.id]),
             travel:async destination=>{transitionBusy=true;try{await relocatePlayer(destination,{reason:'dark_continent'});await flushPositionSave();}finally{transitionBusy=false;}}
         });
+        darkBattle=require('./handlers/darkBattleHandlers').createHandlers({socket,account,userId,getPlayer:()=>players[socket.id],
+            onFinish:async()=>{await darkHandlers.afterBattle();await handleBlackout();socket.emit('teamStateChanged',{reason:'wild_battle_end',equipe:players[socket.id]?.equipe});}
+        });
         await tournament.initialize();
-        await darkHandlers.enter();
+        await darkBattle.initialize(savedDarkBattle);
+        if(!darkBattle.controller.active)await darkHandlers.enter();
         if(!account.active())return;
         corruptionHandlers=require('./handlers/corruptionHandlers').registerCorruptionHandlers({socket,userId,getPlayer:()=>players[socket.id],
             canUse:()=>!tournament?.controller.active&&!interactionBusy&&!transitionBusy&&!pendingDialogue,
@@ -905,6 +916,7 @@ const socketHandler = (io) => {
         require('./handlers/pokemonNameHandlers').registerPokemonNameHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!tournament?.controller.active&&!interactionBusy&&!transitionBusy});
         registerEvolutionHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!tournament?.controller.active&&!interactionBusy&&!transitionBusy});
         require('./handlers/experienceModuleHandlers').registerExperienceModuleHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!tournament?.controller.active&&!interactionBusy&&!transitionBusy});
+        await require('./handlers/moduleShortcutHandlers').registerModuleShortcutHandlers({socket,account,userId,getPlayer:()=>players[socket.id],canUse:()=>!tournament?.controller.active&&!interactionBusy&&!transitionBusy&&!pendingDialogue});
         const shopHandlers = registerShopHandlers({
             socket,
             userId,
@@ -1734,6 +1746,9 @@ const socketHandler = (io) => {
                             const wild = await applyEncounterGuarantee(userId, encounterMap, pokemonsauvage);
                             if (!encounterActive()) { player.inbattle = false; return; }
                             if (!await checkpointDarkEncounter(player) || !encounterActive()) { player.inbattle = false; return; }
+                            if(require('../game/world/darkContinent').isMap(player.currentmap)){
+                                await darkBattle.start(wild);return;
+                            }
                             socket.emit('battletrigger', { message: 'Un Pokémon sauvage apparaît !', battleType: 'wild', musicKind:require('../game/world/darkContinent').isMap(player.currentmap)?'dark':require('../game/world/legendaryEncounters').isLegendary(wild.data.id)?'legendary':'wild', field: { weather: battleWeatherForMap(player.currentmap) } });
                             return startBattle(player, wild, io, userId, equipe)
                                 .catch((erreur) => {

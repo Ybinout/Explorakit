@@ -27,16 +27,17 @@ async function healSurvivors(userId){return withTransaction(async c=>{
  require('../game/world/playerRecovery').healTeam({pokemons:survivors});await teams.editEquipe(userId,team,c);await c.execute('UPDATE users SET money=money-? WHERE id=?',[dc.HEAL_PRICE,userId]);return{equipe:team,money:Number(user.money)-dc.HEAL_PRICE,charged:dc.HEAL_PRICE};
 });}
 async function acknowledgeRules(userId){await dbPool.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,'dark_rules_read','true') ON DUPLICATE KEY UPDATE flag_value='true'",[userId]);}
-async function grantLoot(userId,pokemon,random=Math.random,map='jungle1'){const found=dc.loot(pokemon,random,map),ordinary=random()<dc.lootProfile(map).ordinaryChance;return ordinary||found.length?require('./wildLootRepository').grantBattleLoot(userId,ordinary,found,random):[];}
+async function grantLoot(userId,pokemon,random=Math.random,map='jungle1',executor=null){const found=dc.loot(pokemon,random,map),ordinary=random()<dc.lootProfile(map).ordinaryChance;return ordinary||found.length?require('./wildLootRepository').grantBattleLoot(userId,ordinary,found,random,executor):[];}
 // A KO is deleted durably before the next choice; a marked object can never be saved again.
-async function persistFaints(userId,player,io,eligible=null){
+async function persistFaints(userId,player,io,eligible=null,executor=null){
  const dead=player.equipe.pokemons.filter(p=>p.currentHp<=0&&!p.__darkContinentDead&&(!eligible||eligible.has(p.uuid)));if(!dead.length)return[];
- const lost=await withTransaction(async c=>{await c.execute('SELECT id FROM users WHERE id=? FOR UPDATE',[userId]);const result=[];
+ const persist=async c=>{await c.execute('SELECT id FROM users WHERE id=? FOR UPDATE',[userId]);const result=[];
   for(const p of dead){const [r]=await c.execute('DELETE p FROM pokemons p JOIN teams t ON t.id=p.team_id WHERE t.user_id=? AND p.uuid=?',[userId,p.uuid]);if(!r.affectedRows)continue;
-   const item=Object.hasOwn(p,'__heldItemBeforeExchange')?p.__heldItemBeforeExchange:p.heldItem||p.__heldItemKnockedOff||p.__heldItemConsumedForBattle;
+   const item=Object.hasOwn(p,'__darkLostItem')?p.__darkLostItem:Object.hasOwn(p,'__heldItemBeforeExchange')?p.__heldItemBeforeExchange:p.heldItem||p.__heldItemKnockedOff||p.__heldItemConsumedForBattle;
    if(item)await c.execute('INSERT INTO user_items(user_id,item_key,quantity) VALUES(?,?,1) ON DUPLICATE KEY UPDATE quantity=quantity+1',[userId,item]);
    result.push(p.uuid);
-  }return result;});
+  }return result;};
+ const lost=await (executor?persist(executor):withTransaction(persist));
  for(const p of dead)p.__darkContinentDead=true;
  if(lost.length)io?.to(player.id).emit('progressionNotice',{type:'warning',message:`Dark Continent : ${dead.filter(p=>lost.includes(p.uuid)).map(p=>p.name==='test'?p.truename:p.name).join(', ')} définitivement perdu${lost.length>1?'s':''}.`});
  return lost;
