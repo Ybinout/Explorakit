@@ -273,6 +273,9 @@ const socketHandler = (io) => {
             require('../persistence/itemRepository').loadUserItems(userId)
         ]);
         if (!account.active()) return;
+        let hintOwnsRod=initialItems.some(i=>i.key==='fishing_rod'&&i.quantity>0);
+        const hintInventory=(event,payload)=>{if(['bagUpdated','shopOpened'].includes(event)&&Array.isArray(payload?.items))hintOwnsRod=payload.items.some(i=>i.key==='fishing_rod'&&i.quantity>0);};
+        socket.onAnyOutgoing(hintInventory);socket.once('disconnect',()=>socket.offAnyOutgoing(hintInventory));
         const unbindUniqueItems=require('./uniqueItemFeedback').bindUniqueItemFeedback(socket,initialItems);
         account.onClose(unbindUniqueItems);
         await synchronizeCaughtPokemon(userId, equipe?.pokemons).catch((error) => {
@@ -880,6 +883,20 @@ const socketHandler = (io) => {
         corruptionHandlers=require('./handlers/corruptionHandlers').registerCorruptionHandlers({socket,userId,getPlayer:()=>players[socket.id],
             canUse:()=>!tournament?.controller.active&&!interactionBusy&&!transitionBusy&&!pendingDialogue,
             canInteract:()=>!tournament?.controller.active&&!transitionBusy&&!pendingDialogue});
+        const interactionTargets=require('../game/world/interactionTarget');
+        const interactionHints=require('./interactionHints').getInteractionHints(io).attach(socket,()=>{
+            const p=players[socket.id];
+            return{map:p?.currentmap||null,available:interactionTargets.available({player:p,progress:personalProgress,matrix:interactmap,
+                blocked:openingPending||transitionBusy||interactionBusy||!!pendingDialogue,
+                actorAt:(map,x,y)=>storyGates.actorAtTile(map,x,y,personalProgress)||getPnjAtTile(map,x,y),
+                clubTarget:()=>require('../game/whitepeak/rules').interactionTarget(p,whitepeakClub.room),
+                darkTarget:()=>!tournament?.controller.active&&require('../game/world/darkContinent').interactionActor(p,darkState),
+                tournamentTarget:()=>tournament?.interactionTarget(),mirrorSupported:supportsMirrorRift,
+                fishingActive:!!fishing.current(p),fishingTarget:()=>{const s=fishing.current(p);return s?['offer','bite'].includes(s.phase):hintOwnsRod&&fishing.canOffer(p);},
+                nearbyPlayer:()=>{if(socketToChatSession.has(socket.id)||hasPendingRequestForSocket(socket.id))return false;const other=findNearbyInteractablePlayer(socket.id);return !!other&&!other.player.inbattle;}
+            })};
+        });
+        interactionHints.update();
         const computerHandlers=registerPokemonComputerHandlers({socket,io,userId,getPlayer:()=>players[socket.id],getPeers:()=>Object.values(players).filter(p=>p.userId===userId),canUse:()=>!transitionBusy});
         registerRepelHandlers({socket,userId,getPlayer:()=>players[socket.id],canUse:()=>!tournament?.controller.active&&!interactionBusy&&!transitionBusy,flushPositionSave,schedulePositionSave});
         socket.emit('fieldEffectState',{repelSteps:remainingRepel(players[socket.id])});
@@ -1483,17 +1500,13 @@ const socketHandler = (io) => {
             const matrixX = Math.floor(player.x / TILE_SIZE);
             const matrixY = Math.floor(player.y / TILE_SIZE);
 
-            const adjacentPositions = [
-                { x: matrixX, y: matrixY - 1 },
-                { x: matrixX, y: matrixY + 1 },
-                { x: matrixX - 1, y: matrixY },
-                { x: matrixX + 1, y: matrixY }
-            ];
+            const adjacent=interactionTargets.adjacentTarget(player,interactmap,(map,x,y)=>storyGates.actorAtTile(map,x,y,progress)||getPnjAtTile(map,x,y));
+            const adjacentPositions=adjacent?[adjacent.position]:[];
 
             let interactionDetected = false;
 
             for (const pos of adjacentPositions) {
-                const pnj = storyGates.actorAtTile(currentmap,pos.x,pos.y,progress) || getPnjAtTile(currentmap, pos.x, pos.y);
+                const pnj = adjacent.pnj;
                 if (pnj) {
                     interactionDetected = true;
                     const name = pnj.interactionName || pnj.name;
@@ -1569,6 +1582,7 @@ const socketHandler = (io) => {
         }));
 
         account.on('playerAction', async (action) => {
+            try {
             if (getDirectionFromAction(action) && players[socket.id]) fishing.cancel(players[socket.id]);
             if (openingPending || !canMove || interactionBusy || transitionBusy || pendingDialogue?.arenaEntry || pendingDialogue?.lucieDeparture || pendingDialogue?.storyEntry) return;
             const player = players[socket.id];
@@ -1788,6 +1802,7 @@ const socketHandler = (io) => {
                     }
                 }
             }
+            } finally { interactionHints.update(); }
         });
 
 

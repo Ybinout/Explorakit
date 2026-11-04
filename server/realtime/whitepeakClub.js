@@ -6,8 +6,9 @@ const {worldRoom}=require('./worldRooms');
 const servers=new WeakMap();
 const PUBLIC_EVENTS=new Set(['introAnimation','battleText','battleMoveAnimation','battleMoveResult','battleFieldState','battleDriftEffects']);
 function createClub(io,{repository=store,now=Date.now,randomNumber=()=>randomInt(37),tickMs=250,battle=require('../game/battle/pvpBattle').startPvpBattle}={}){
- const contexts=new Map(),spectators=new Set();let room=null,round=null,sequence=Promise.resolve(),ticking=false,closed=false;
+ const contexts=new Map(),spectators=new Set();let room=null,round=null,honorRevision=-1,sequence=Promise.resolve(),ticking=false,closed=false;
  const ready=(async()=>{
+  await repository.initializeRankings?.();
   await repository.recoverDuels();round=await repository.rouletteState();
   if(round?.phase==='betting'&&round.closesAt<=now())round=await repository.spin(round.id,randomNumber(),now());
   if(round?.phase==='spinning'&&round.resultAt<=now()){await repository.settleRoulette(round.id,now());round=await repository.rouletteState();}
@@ -29,6 +30,7 @@ function createClub(io,{repository=store,now=Date.now,randomNumber=()=>randomInt
    canWatch:room.phase==='battle'&&index<0};
  }
  function emitRoom(){for(const c of contexts.values())if(c.socket.connected&&c.getPlayer()?.currentmap===rules.HALL)c.socket.emit('whitepeak:duel',view(c.id));}
+ async function publishHonor(force=false){if(!repository.honorRoll)return;const version=repository.rankingRevision();if(!force&&version===honorRevision)return;const honor=await repository.honorRoll();honorRevision=honor.revision;for(const c of contexts.values())if(c.socket.connected&&c.getPlayer()?.currentmap===rules.HALL)c.socket.emit('whitepeak:honor',honor);}
  function emitRoulette(){if(round)io.to(worldRoom(rules.CASINO)).emit('whitepeak:roulette',{...round,serverNow:now()});}
  function wallet(id,balance){const c=contexts.get(id);if(c?.socket.connected)c.socket.emit('whitepeak:wallet',{balance});}
  function unlock(r){locks.release(r.ids.filter(Boolean),r.id);for(const id of r.ids){const p=contexts.get(id)?.getPlayer();if(p?.__whitepeakDuel===r.id){delete p.__whitepeakDuel;p.inventoryBusy=false;p.inbattle=false;}}}
@@ -147,6 +149,7 @@ function createClub(io,{repository=store,now=Date.now,randomNumber=()=>randomInt
    expireRoom();
    await advanced.tick();
    await syncWaitingPodiums();
+   if(repository.honorRoll&&[...contexts.values()].some(c=>c.socket.connected&&c.getPlayer()?.currentmap===rules.HALL))await publishHonor();
    if(!round)return;
    if(round.phase==='betting'&&round.closesAt<=now()){round=await repository.spin(round.id,randomNumber(),now());emitRoulette();}
    if(round?.phase==='spinning'&&round.resultAt<=now()){const results=await repository.settleRoulette(round.id,now());for(const p of results){wallet(p.userId,p.balance);contexts.get(p.userId)?.socket.emit('whitepeak:rouletteResult',p);}round=await repository.rouletteState();emitRoulette();}
@@ -160,21 +163,21 @@ function createClub(io,{repository=store,now=Date.now,randomNumber=()=>randomInt
   await ready;const c=context(id),p=c.getPlayer();spectators.delete(id);
   if(p?.currentmap===rules.CASINO){round=await repository.newRound(now());c.socket.emit('whitepeak:roulette',{...round,serverNow:now()});}
   c.socket.emit('whitepeak:duel',p?.currentmap===rules.HALL?view(id):null);
-  if(p?.currentmap===rules.HALL)c.socket.emit('whitepeak:trainers',{trainers:advanced.trainers()});
+  if(p?.currentmap===rules.HALL){c.socket.emit('whitepeak:trainers',{trainers:advanced.trainers()});if(repository.honorRoll)c.socket.emit('whitepeak:honor',await repository.honorRoll());}
   await step(id);
  }
  async function interact(id){
-  const p=player(id);
+  const p=player(id),target=rules.interactionTarget(p,room);
   if(p.currentmap===rules.CASINO){
    if(!context(id).canUse())return true;
-   if(rules.atCasinoCounter(p)){context(id).casinoDialogue?.();return true;}
-   if(!rules.atRouletteTable(p))return false;
+   if(target==='counter'){context(id).casinoDialogue?.();return true;}
+   if(target!=='roulette')return false;
    await enter(id);context(id).socket.emit('whitepeak:open',{tab:'roulette'});return true;
   }
   if(p.currentmap!==rules.HALL)return false;
-  if(rules.near(p,13,5,3)){context(id).socket.emit('whitepeak:open',{tab:'duel'});return true;}
-  if(rules.near(p,20,3,3)){context(id).socket.emit('whitepeak:open',{tab:'board',rows:await repository.leaderboard()});return true;}
-  if(Math.floor(p.y/32)>=13&&room?.phase==='battle'){context(id).socket.emit('whitepeak:open',{tab:'watch'});return true;}
+  if(target==='duel'&&rules.near(p,13,5,3)){context(id).socket.emit('whitepeak:open',{tab:'duel'});return true;}
+  if(target==='board'){const ranking=repository.rankingPage?await repository.rankingPage({userId:id}):null;context(id).socket.emit('whitepeak:open',{tab:'board',ranking,rows:ranking?.rows||await repository.leaderboard()});return true;}
+  if(target==='watch'){context(id).socket.emit('whitepeak:open',{tab:'watch'});return true;}
   if(rules.podium(p)>=0){await step(id);context(id).socket.emit('whitepeak:open',{tab:'duel'});return true;}
   return false;
  }
@@ -183,7 +186,7 @@ function createClub(io,{repository=store,now=Date.now,randomNumber=()=>randomInt
   contexts.set(c.id,c);let requests=0,windowUntil=0;
   const ops={create,offer,confirm,leave:async id=>{requireMap(id,rules.HALL);if(room&&ownerIndex(id)<0&&room.hostId!==id)rules.fail('Tu ne participes pas à cette inscription.');cancel('Le duel a été annulé avant le départ.');return null;},
    ...Object.fromEntries(['compose','chat','inspect','action','pass'].map(name=>[name,(id,data)=>advanced.command(name,id,data)])),
-   board:async id=>{requireMap(id,rules.HALL);return{rows:await repository.leaderboard()};},
+   board:async(id,data)=>{requireMap(id,rules.HALL);if(repository.rankingPage){const ranking=await repository.rankingPage({...data,userId:id});return{ranking,rows:ranking.rows};}return{rows:await repository.leaderboard()};},
    watch,unwatch:id=>{spectators.delete(id);return null;},
    bet:async(id,data)=>{available(id);const p=requireMap(id,rules.CASINO);if(!rules.atRouletteTable(p))rules.fail('Approche-toi de la table de roulette pour miser.');const result=await repository.placeBet(id,data,now());wallet(id,result.balance);round=await repository.rouletteState();emitRoulette();return result;},
    open:async(id)=>{available(id);await interact(id);return view(id);},refresh:async id=>{await enter(id);return view(id);}};

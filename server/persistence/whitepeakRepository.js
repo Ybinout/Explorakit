@@ -1,6 +1,7 @@
 const {randomUUID,createHash}=require('node:crypto');
 const {dbPool,withTransaction}=require('../config/database');
 const rules=require('../game/whitepeak/rules');
+const rankings=require('./whitepeakRankingRepository');
 const teamRepo=require('./teamRepository'),pc=require('./pokemonStorageRepository');
 const storage=require('../game/storage/pokemonStorage'),trade=require('../game/social/tradeRules');
 const MAX=Number.MAX_SAFE_INTEGER,parse=value=>typeof value==='string'?JSON.parse(value):value;
@@ -41,14 +42,14 @@ async function startDuel({id,ids,uuids,config,digest}){
   const current=inspect(s,uuids,config);if(current.digest!==digest)rules.fail('L’équipe ou la mise a changé. Vérifiez le nouveau récapitulatif.');
   if(config.pokemonStake&&current.selected.some(p=>!p))rules.fail('Chaque dresseur doit proposer un Pokémon.');
   for(const owner of s)await c.execute('UPDATE users SET money=money-? WHERE id=?',[config.money,owner.userId]);
-  await c.execute('INSERT INTO whitepeak_duels(id,phase,user_a,user_b,stake,offers_json) VALUES(?,\'active\',?,?,?,?)',[id,...ids,config.money,JSON.stringify({uuids,config,digest})]);
+  await c.execute('INSERT INTO whitepeak_duels(id,phase,user_a,user_b,stake,offers_json) VALUES(?,\'active\',?,?,?,?)',[id,...ids,config.money,JSON.stringify({uuids,config,digest,rankingTeams:s.map(o=>require('../game/whitepeak/rankings').teamIds(o.team))})]);
   return {teams:s.map(o=>o.team),balances:s.map(o=>o.user.money-config.money)};
  });
 }
 async function finishDuel(id,winnerId,reason='finished'){
  const[[initial]]=await dbPool.execute('SELECT user_a,user_b,offers_json FROM whitepeak_duels WHERE id=?',[id]);if(!initial)rules.fail('Duel introuvable.');
- if(parse(initial.offers_json)?.houseVersion)return require('./whitepeakHouseRepository').finish(id,winnerId,reason,parse(initial.offers_json));
- return withTransaction(async c=>{
+ if(parse(initial.offers_json)?.houseVersion){const result=await require('./whitepeakHouseRepository').finish(id,winnerId,reason,parse(initial.offers_json));rankings.invalidate();return result;}
+ const settled=await withTransaction(async c=>{
   const ids=[Number(initial.user_a),Number(initial.user_b)];await owners(ids,c);
   const[[duel]]=await c.execute('SELECT * FROM whitepeak_duels WHERE id=? FOR UPDATE',[id]);if(duel.phase!=='active')return parse(duel.result_json);
   if(winnerId!==null&&!ids.includes(winnerId))rules.fail('Vainqueur invalide.');
@@ -74,11 +75,12 @@ async function finishDuel(id,winnerId,reason='finished'){
    await c.execute('INSERT INTO whitepeak_duel_scores(user_id,wins,losses,draws,points) VALUES(?,?,?,?,?) ON DUPLICATE KEY UPDATE wins=wins+VALUES(wins),losses=losses+VALUES(losses),draws=draws+VALUES(draws),points=GREATEST(0,CAST(points AS SIGNED)+?)',[owner,win?1:0,loss?1:0,winnerId===null?1:0,win?30:0,win?30:loss?-10:0]);
   }
   const result={id,winnerId,reason,payments,wonPokemon,refunded:winnerId===null};
+  if(!cancelled)await rankings.record(c,duel,offers,result);
   await c.execute('UPDATE whitepeak_duels SET phase=?,result_json=? WHERE id=?',[cancelled?'cancelled':'finished',JSON.stringify(result),id]);return result;
- });
+ });rankings.invalidate();return settled;
 }
 async function recoverDuels(){const[rows]=await dbPool.execute("SELECT id FROM whitepeak_duels WHERE phase='active'");for(const r of rows)await finishDuel(r.id,null,'server_restart');}
-async function leaderboard(){const[rows]=await dbPool.execute('SELECT u.id,u.username,s.wins,s.losses,s.draws,s.points FROM whitepeak_duel_scores s JOIN users u ON u.id=s.user_id ORDER BY s.points DESC,s.wins DESC,s.losses ASC,u.id LIMIT 100');return rows.map((r,i)=>({...r,rank:i+1}));}
+async function leaderboard(options){return(await rankings.page(options)).rows;}
 function roundView(r){return r?{id:r.id,phase:r.phase,opensAt:Number(r.opens_at),closesAt:Number(r.closes_at),resultAt:Number(r.result_at),nextAt:Number(r.next_at),result:r.result===null?null:Number(r.result)}:null;}
 async function rouletteState(){const[[r]]=await dbPool.execute('SELECT * FROM whitepeak_roulette_rounds WHERE active_slot=1');if(!r)return null;const[bets]=await dbPool.execute('SELECT b.id,b.user_id AS userId,u.username,b.choice_json,b.amount,b.payout FROM whitepeak_roulette_bets b JOIN users u ON u.id=b.user_id WHERE b.round_id=? ORDER BY b.id',[r.id]);return{...roundView(r),bets:bets.map(b=>({id:b.id,userId:b.userId,username:b.username,choice:parse(b.choice_json),amount:Number(b.amount),payout:Number(b.payout)}))};}
 async function newRound(now=Date.now()){
@@ -110,4 +112,4 @@ async function settleRoulette(id,now=Date.now()){
  });
 }
 async function closeRound(id,now=Date.now()){await dbPool.execute("UPDATE whitepeak_roulette_rounds SET active_slot=NULL WHERE id=? AND phase='result' AND next_at<=?",[id,now]);}
-module.exports={inspectDuel,startDuel,finishDuel,recoverDuels,leaderboard,rouletteState,newRound,placeBet,spin,settleRoulette,closeRound,_duelStorage:{owners,credit,snapshots}};
+module.exports={initializeRankings:rankings.initialize,rankingPage:rankings.page,honorRoll:rankings.top,rankingRevision:()=>rankings.revision,inspectDuel,startDuel,finishDuel,recoverDuels,leaderboard,rouletteState,newRound,placeBet,spin,settleRoulette,closeRound,_duelStorage:{owners,credit,snapshots}};

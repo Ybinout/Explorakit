@@ -31,7 +31,8 @@ const migrationFiles = [
     '026_super_tournament_endless.sql',
     '027_whitepeak_club.sql',
     '028_pokemon_box_names.sql',
-    '029_pokemon_corruption.sql'
+    '029_pokemon_corruption.sql',
+    '030_whitepeak_rankings.sql'
 ];
 
 async function applyMigrations({ only } = {}) {

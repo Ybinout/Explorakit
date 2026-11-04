@@ -17,6 +17,10 @@ function scopedStore(base,getRun){
   isPnjBlockingTile:(map,x,y)=>Boolean(at(map,x,y))||base.isPnjBlockingTile(map,x,y)
  };
 }
+function interactionTarget(p,run){if(!p)return null;const near=(x,y,d=2)=>Math.abs(Math.floor(p.x/32)-x)+Math.abs(Math.floor(p.y/32)-y)<=d;
+ if(p.currentmap===content.MAPS.lobby&&near(13,8,3))return'entry';
+ if(p.currentmap===content.MAPS.lobby&&near(23,5,5))return'ranking';
+ if(p.currentmap===content.MAPS.room&&run&&run.phase==='ready'&&near(13,9))return'challenger';return null;}
 function createHandlers({socket,account,userId,getPlayer,canUse,travel,refreshActors,refreshPresence=async()=>{}}){
  const controller=new TournamentController({userId,getPlayer,emit:(e,d)=>{if(socket.connected)socket.emit(e,d);},travel});let timer=null,lastBoard=0,offer=null;
  const near=(x,y,d=2)=>{const p=getPlayer();return p&&Math.abs(Math.floor(p.x/32)-x)+Math.abs(Math.floor(p.y/32)-y)<=d;};
@@ -44,10 +48,11 @@ function createHandlers({socket,account,userId,getPlayer,canUse,travel,refreshAc
   async initialize(){await controller.load();await refreshPresence();if(controller.active){const map=controller.run.phase==='sas'?content.MAPS.sas:content.MAPS.room;if(getPlayer().currentmap!==map)await travel({map,x:448,y:496});await controller.resume();}else if([content.MAPS.room,content.MAPS.sas].includes(getPlayer().currentmap))await travel({map:content.MAPS.lobby,x:448,y:496});
    timer=setInterval(()=>{if(controller.closed||!controller.run?.battle)return;account.track(controller.execute(()=>controller.tick()).catch(e=>socket.emit('progressionNotice',{message:e.message})));},250);timer.unref?.();refreshActors();},
   async stop(){clearInterval(timer);await controller.close();},
-  async interact(){const p=getPlayer();if(!p)return false;
-   if(p.currentmap===content.MAPS.lobby&&near(13,8,3)){if(!await repository.ownsPass(userId)){socket.emit('progressionNotice',{message:'Hôtesse : Puis-je voir votre PASS Super Tournoi ?'});return true;}offer={id:require('node:crypto').randomUUID(),until:Date.now()+120000};socket.emit('superTournamentPanel',{tab:'entry',offerId:offer.id,payoutSchedule:require('../../game/superTournament/cashPrizes').schedule(),leaderboard:await repository.leaderboard(userId)});return true;}
-   if(p.currentmap===content.MAPS.lobby&&near(23,5,5)){socket.emit('superTournamentPanel',{tab:'ranking',leaderboard:await repository.leaderboard(userId)});return true;}
-   if(p.currentmap===content.MAPS.room&&controller.run&&near(13,9)){await controller.execute(()=>controller.atomic(()=>controller.startBattle()));return true;}
+  interactionTarget:()=>interactionTarget(getPlayer(),controller.run),
+  async interact(){const p=getPlayer();if(!p)return false;const target=interactionTarget(p,controller.run);
+   if(target==='entry'){if(!await repository.ownsPass(userId)){socket.emit('progressionNotice',{message:'Hôtesse : Puis-je voir votre PASS Super Tournoi ?'});return true;}offer={id:require('node:crypto').randomUUID(),until:Date.now()+120000};socket.emit('superTournamentPanel',{tab:'entry',offerId:offer.id,payoutSchedule:require('../../game/superTournament/cashPrizes').schedule(),leaderboard:await repository.leaderboard(userId)});return true;}
+   if(target==='ranking'){socket.emit('superTournamentPanel',{tab:'ranking',leaderboard:await repository.leaderboard(userId)});return true;}
+   if(target==='challenger'){await controller.execute(()=>controller.atomic(()=>controller.startBattle()));return true;}
    return Object.values(content.MAPS).includes(p.currentmap);
   },
   async step(){const p=getPlayer();if(!p)return false;const x=Math.floor(p.x/32),y=Math.floor(p.y/32);if(!Object.values(content.MAPS).includes(p.currentmap))return false;
@@ -59,4 +64,4 @@ function createHandlers({socket,account,userId,getPlayer,canUse,travel,refreshAc
   }
  };
 }
-module.exports={createHandlers,scopedStore,actors};
+module.exports={createHandlers,scopedStore,actors,interactionTarget};

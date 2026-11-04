@@ -1,18 +1,18 @@
 {
-  "version": "2026-11-04-maison-corruption",
+  "version": "2026-11-04-honneur-interactions",
   "date": "2026-11-04",
   "fr": {
-    "title": "Corruption : les règles par équipe",
+    "title": "À toi d’entrer au tableau d’honneur !",
     "items": [
-      "Maison des Combats : un Pokémon corrompu maximum par camp en 2v1 ; deux par camp en 2v2, en 6v6 comme en 12v12.",
-      "Le compteur de préparation vous aide à composer une équipe valide."
+      "Maison des Combats : classements 1v1, 2v1 et 2v2, dernières équipes et Top 3 affiché dans la salle.",
+      "Un petit point lumineux indique désormais les interactions possibles près de ton personnage."
     ]
   },
   "en": {
-    "title": "Corruption limits by team",
+    "title": "Make your mark on the honor roll!",
     "items": [
-      "Battle House: one corrupted Pokémon per side in 2v1; two per side in 2v2, in both 6v6 and 12v12.",
-      "A preparation counter helps you build a valid team."
+      "Battle House: separate 1v1, 2v1 and 2v2 rankings, last teams, and an in-room Top 3.",
+      "A subtle light above your character now marks nearby interactions."
     ]
   }
 }

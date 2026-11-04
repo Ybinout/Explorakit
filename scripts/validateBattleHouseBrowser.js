@@ -17,11 +17,14 @@ async function command(page,name,data={}){return page.evaluate(({name,data})=>ne
 async function move(index,side){const id=accounts[index].user.id,p=contexts.get(id).getPlayer();p.x=(side===0?8:side===1?19:13)*32+16;p.y=(side<2?8:5)*32+16;await hooks.get(id).step();}
 async function open(page){await page.evaluate(()=>{v.clubPanel={tab:'duel'};v.clubError='';});await page.locator('[data-battle-house-menu]').waitFor();}
 async function layout(page,label,selector='[data-whitepeak-panel]'){
+ await page.bringToFront();
  for(const[width,height]of [[320,480],[393,852],[844,390],[1536,680]])for(const theme of ['light','dark']){
   await page.setViewportSize({width,height});await page.evaluate(theme=>v.updatePreferences({...v.preferences,themeMode:theme}),theme);await page.waitForTimeout(130);
   const box=await page.locator(selector).evaluate(n=>{const r=n.getBoundingClientRect();return{left:r.left,right:r.right,top:r.top,bottom:r.bottom,overflow:n.scrollWidth>n.clientWidth+1};});
+  if(box.bottom>height+1)process.stderr.write(JSON.stringify(await page.evaluate(()=>({innerHeight,clientHeight:document.documentElement.clientHeight,vv:visualViewport?.height,outerHeight,backdrop:document.querySelector('.club-backdrop')?.getAttribute('style'),panelStyle:document.querySelector('[data-whitepeak-panel]')?.getAttribute('style'),computed:(()=>{const n=document.querySelector('[data-whitepeak-panel]'),c=getComputedStyle(n),rules=[];function scan(rs){for(const r of rs){if(r.media&&!matchMedia(r.conditionText).matches)continue;if(r.cssRules)scan(r.cssRules);if(r.selectorText&&n.matches(r.selectorText)&&(r.style.height||r.style.minHeight||r.style.maxHeight))rules.push([r.selectorText,r.style.cssText]);}}for(const sheet of document.styleSheets)try{scan(sheet.cssRules);}catch{}return{height:c.height,minHeight:c.minHeight,maxHeight:c.maxHeight,boxSizing:c.boxSizing,transition:c.transition,animation:c.animation,matched:rules};})()})))+'\n');
   assert(box.left>=-1&&box.right<=width+1&&box.top>=-1&&box.bottom<=height+1&&!box.overflow,JSON.stringify({label,width,height,box}));
   if(selector==='[data-whitepeak-panel]'){const f=await page.locator(selector+' footer').last().evaluate(n=>{const r=n.getBoundingClientRect();return{top:r.top,bottom:r.bottom};});assert(f.top>=0&&f.bottom<=height+1,JSON.stringify({label,width,height,footer:f}));}
+  if(label.startsWith('ranking-')&&theme==='dark'){const colors=await page.evaluate(()=>{const n=document.querySelector('.house-rankings'),probe=document.createElement('span');probe.style.color='var(--journal-ink)';n.append(probe);const expected=getComputedStyle(probe).color;probe.remove();return{expected,tab:getComputedStyle(n.querySelector('.ranking-tabs button')).color,name:getComputedStyle(n.querySelector('.ranking-podium article>b')).color};});assert.equal(colors.tab,colors.expected);assert.equal(colors.name,colors.expected);}
   const file=`${label}-${width}-${theme}.png`;await page.screenshot({path:path.join(out,file)});views.push({label,width,height,theme,file});
  }
  await page.setViewportSize({width:393,height:852});
@@ -107,7 +110,20 @@ async function finish(winningSide){
  for(const page of [a,b]){await page.locator('[data-battle-result-continue]').waitFor({timeout:20000});await page.locator('[data-battle-result-continue]').click();}
  await b.waitForFunction(()=>v.clubDuel?.phase==='finished');assert((await pc.loadEntries(accounts[1].user.id)).some(e=>e.pokemon.uuid===stakes[0]));
  for(const [index,a]of accounts.slice(0,2).entries())assert.deepEqual((await teams.loadEquipe(a.user.id)).pokemons.map(pc.encodePokemon),oldParties[index]);
- checks.push('classic-one-v-one-money-and-pc-wager-no-xp');
+ checks.push('classic-one-v-one-money-and-pc-wager-no-xp');await club.tick();
+ // Completed per-mode results feed both the room plaque and the detailed tabs.
+ await a.waitForFunction(()=>!v.battle&&!v.battleResult);await a.evaluate(()=>{v.clubPanel=null;});
+ const own=contexts.get(accounts[0].user.id).getPlayer();Object.assign(own,{x:656,y:176});await hooks.get(accounts[0].user.id).step();
+ await a.evaluate(()=>{v.players[v.socket.id].x=656;v.players[v.socket.id].y=176;v._worldMovement?.clear();});
+ await a.waitForFunction(()=>v.interactionHint?.available&&v.clubHonor?.rows?.length);
+ await a.locator('[data-interaction-hint].is-visible').waitFor();await a.waitForTimeout(220);assert(await a.locator('[data-interaction-hint]').evaluate(n=>Number(getComputedStyle(n).opacity)>.8));assert.equal(await a.locator('[data-interaction-hint]').count(),1);await layout(a,'honor-room','.game-stage');
+ await a.evaluate(()=>v.socket.emit('Space'));await a.locator('[data-house-rankings]').waitFor();
+ assert.equal(await a.locator('.ranking-tabs [role=tab]').count(),3);assert.equal(await a.locator('[data-ranking-own]').count(),1);await layout(a,'ranking-1v1');
+ await a.locator('.ranking-tabs [role=tab]').filter({hasText:'2v1'}).click();await a.waitForFunction(()=>v.clubRanking?.mode==='2v1');assert.equal(await a.locator('.rank-team img').count(),18);await layout(a,'ranking-2v1');
+ await a.locator('.ranking-tabs [role=tab]').filter({hasText:'2v2'}).click();await a.waitForFunction(()=>v.clubRanking?.mode==='2v2');assert.equal(await a.locator('.rank-team img').count(),48);await layout(a,'ranking-2v2');
+ await a.locator('[data-whitepeak-panel] [aria-label=Fermer]').click();Object.assign(own,{x:432,y:560});await hooks.get(accounts[0].user.id).step();await a.evaluate(()=>{v.players[v.socket.id].x=432;v.players[v.socket.id].y=560;v._worldMovement?.clear();});
+ await a.waitForFunction(()=>v.interactionHint?.available===false);await a.waitForTimeout(250);assert(!(await a.locator('[data-interaction-hint]').evaluate(n=>n.classList.contains('is-visible'))));
+ checks.push('mode-specific-ranking-and-full-last-parties','honor-roll-visible-without-opening-modal','single-local-hint-appears-and-fades');
  success=true;
 }finally{
  await browser?.close();club?.close();await new Promise(resolve=>io.close(resolve));await require('../server/realtime/accountConnection').waitForAccountConnections(io);

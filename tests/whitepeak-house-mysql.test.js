@@ -22,7 +22,7 @@ test('SQL 2v1 escrow uses equal stakes per camp, splits winnings and records bot
  const f=await fixture();try{await f.start();assert.deepEqual(await f.money(),[98999,99499,99500]);
   const result=await base.finishDuel(f.id,f.ids[1],'finished');assert.deepEqual(result.winners,f.ids.slice(1));assert.deepEqual(await f.money(),[98999,100500,100501]);
   await Promise.all([base.finishDuel(f.id,f.ids[1]),base.finishDuel(f.id,f.ids[0])]);assert.deepEqual(await f.money(),[98999,100500,100501]);
-  const ranking=await base.leaderboard();assert.equal(ranking.find(r=>r.id===f.ids[0]).losses,1);for(const id of f.ids.slice(1)){assert.equal(ranking.find(r=>r.id===id).wins,1);assert.equal(ranking.find(r=>r.id===id).points,30);}await f.unchanged();
+  const ranking=await base.leaderboard({mode:f.config.mode==='pve'?'1v1':f.config.mode});assert.equal(ranking.find(r=>r.id===f.ids[0]).losses,1);for(const id of f.ids.slice(1)){assert.equal(ranking.find(r=>r.id===id).wins,1);assert.equal(ranking.find(r=>r.id===id).points,30);}await f.unchanged();
  }finally{await f.cleanup();}
 });
 test('SQL 12v12 selects six per owner and permits an owned PC Pokemon without changing its storage slot', {skip:!enabled}, async()=>{
@@ -62,7 +62,7 @@ test('SQL server restart refunds all four participants exactly once and never ch
  const f=await fixture('2v2',12);try{await f.start();await base.recoverDuels();assert.deepEqual(await f.money(),[100000,100000,100000,100000]);await base.recoverDuels();assert.deepEqual(await f.money(),[100000,100000,100000,100000]);await f.unchanged();}finally{await f.cleanup();}
 });
 test('SQL PvE records no cash reward, ladder win, XP or EV and returns the owned party unchanged', {skip:!enabled}, async()=>{
- const f=await fixture('pve');try{const started=await f.start();assert.equal(started.teams[0].length,6);await base.finishDuel(f.id,f.ids[0]);await f.unchanged();assert.deepEqual(await f.money(),[100000]);assert(!(await base.leaderboard()).some(r=>r.id===f.ids[0]));}finally{await f.cleanup();}
+ const f=await fixture('pve');try{const started=await f.start();assert.equal(started.teams[0].length,6);await base.finishDuel(f.id,f.ids[0]);await f.unchanged();assert.deepEqual(await f.money(),[100000]);assert(!(await base.leaderboard({mode:f.config.mode==='pve'?'1v1':f.config.mode})).some(r=>r.id===f.ids[0]));}finally{await f.cleanup();}
 });
 test('SQL 2v1 refuses two corrupted allies before debiting and accepts one per camp', {skip:!enabled},async()=>{
  const f=await fixture('2v1',6,true);try{

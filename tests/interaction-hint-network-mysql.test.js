@@ -1,0 +1,21 @@
+const test=require('node:test'),assert=require('node:assert/strict'),http=require('node:http'),{once}=require('node:events'),{randomUUID}=require('node:crypto');
+const enabled=process.env.RUN_MYSQL_TESTS==='1';
+function event(socket,name,predicate=()=>true){return new Promise((resolve,reject)=>{const timer=setTimeout(()=>{socket.off(name,listen);reject(Error('Missing '+name));},8000);function listen(data){if(predicate(data)){clearTimeout(timer);socket.off(name,listen);resolve(data);}}socket.on(name,listen);});}
+test('real sockets: hint follows PC, NPC, locked lab stations and owned fishing rod, stays private and performs the advertised action',{skip:!enabled,timeout:45000},async()=>{
+ assert.equal(process.env.DB_NAME,'explorakit_test');const db=require('../server/config/database').dbPool,users=require('../server/persistence/userRepository'),ioClient=require('../vue-explorakit/node_modules/socket.io-client').io;
+ const server=http.createServer(),io=new(require('socket.io').Server)(server),sockets=[],ids=[];io.use(require('../server/http/authMiddleware').authenticateSocket);require('../server/realtime/socketHandler')(io);
+ const create=async(map,x,y,rod=false)=>{const user=await users.createUserWithStarter('Hint_'+randomUUID(),randomUUID());ids.push(user.id);await db.execute('UPDATE users SET map=?,x=?,y=? WHERE id=?',[map,x*32+16,y*32+16,user.id]);await db.execute("UPDATE player_story_flags SET flag_value='complete' WHERE user_id=? AND flag_key='adventure_opening'",[user.id]);
+  if(rod){await db.execute('UPDATE users SET money=50000 WHERE id=?',[user.id]);assert((await require('../server/persistence/itemRepository').purchaseUserItem(user.id,'fishing_rod',1,{mapName:'tour_rdc'})).success);}
+  const socket=ioClient('http://127.0.0.1:'+server.address().port,{auth:{token:require('../server/config/auth').signAccessToken(user),houseModes:1,mirrorRift:true},transports:['websocket'],autoConnect:false,reconnection:false});sockets.push(socket);const ready=event(socket,'progressionState'),hint=event(socket,'interactionHint',d=>d.map===map&&d.available);socket.connect();await ready;return{socket,hint,user};};
+ try{server.listen(0,'127.0.0.1');await once(server,'listening');
+  const pc=await create('centre',17,9);await pc.hint;const opened=event(pc.socket,'pcOpened');pc.socket.emit('Space');await opened;await new Promise(r=>setTimeout(r,250));const far=event(pc.socket,'interactionHint',d=>!d.available);pc.socket.emit('playerAction','move_q');await far;
+  const store=require('../server/game/world/pnjStore'),grid=require('../server/game/world/mapRepository').loadCollisionData('ville1'),npc=store.getPnjsForMap('ville1').find(p=>p.name==='town_lina');
+  const at=[[npc.x,npc.y+1],[npc.x-1,npc.y],[npc.x+1,npc.y]].find(([x,y])=>grid[y]?.[x]===0&&!store.isPnjBlockingTile('ville1',x,y));assert(at);
+  const trainer=await create('ville1',...at);await trainer.hint;const talk=event(trainer.socket,'dialogue'),hidden=event(trainer.socket,'interactionHint',d=>!d.available);trainer.socket.emit('Space');await talk;await hidden;
+  const lab=await create('professor_lab',7,8);await lab.hint;const workstation=event(lab.socket,'corruptionPanel');lab.socket.emit('Space');assert.equal((await workstation).unlocked,false);
+  const {waterNear}=require('../server/game/world/fishingWaters'),collision=require('../server/game/world/mapRepository').loadCollisionData('start');let water;
+  for(let y=0;y<20&&!water;y++)for(let x=0;x<28&&!water;x++)if(collision[y]?.[x]===0&&waterNear({currentmap:'start',x:x*32+16,y:y*32+16,direction:'down'})&&!store.isPnjBlockingTile('start',x,y))water=[x,y];assert(water);
+  const fisher=await create('start',...water,true);await fisher.hint;const offer=event(fisher.socket,'fishingState',d=>d.phase==='offer');fisher.socket.emit('Space');await offer;
+  assert.equal(sockets.length,4);assert.equal(require('../data/game/modeAvailability.json').expeditionsAvailable,false);
+ }finally{for(const s of sockets)s.disconnect();require('../server/realtime/whitepeakClub').getClub(io).close();await new Promise(r=>io.close(r));await require('../server/realtime/accountConnection').waitForAccountConnections(io);for(const id of ids)await db.execute('DELETE FROM users WHERE id=?',[id]);await db.end();}
+});

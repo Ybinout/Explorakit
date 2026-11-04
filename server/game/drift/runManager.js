@@ -493,6 +493,17 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
             endDialogue(p,raphTrial.config.champion);
         } finally {raphRevealing.delete(p);}
     }
+    function interactionAvailable(p){
+        if(!p||raphRevealing.has(p)||p.inbattle||!p.alive||p.inventoryBusy||p.dialogue||p.lucieDeparture?.until>now()||p.run.phase!=='exploration'||p.run.recoveryWaiting)return false;
+        const fishingState=fishing.current(p);if(fishingState)return ['offer','bite'].includes(fishingState.phase);
+        if(isNearComputer(p))return true;
+        const x=Math.floor(p.x/32),y=Math.floor(p.y/32),dialogues=require('../world/interactionRepository');
+        for(const[dx,dy]of [[0,-1],[0,1],[-1,0],[1,0]]){const tx=x+dx,ty=y+dy,pnj=pnjsFor(p).getPnjAtTile(p.currentmap,tx,ty);
+            if(pnj&&(trainers.find(pnj.interactionName)||dialogues.hasDialogueForName(pnj.interactionName||pnj.name)))return true;
+            if(!pnj&&InteractMapData(p.currentmap)[ty]?.[tx]&&dialogues.hasDialogueForMapAndPosition(p.currentmap,tx,ty))return true;
+        }
+        return p.items?.fishing_rod>0&&fishing.canOffer(p);
+    }
     function interact(p) {
         if(raphRevealing.has(p)||p.inbattle||!p.alive)return;
         if (p.dialogue?.arenaEntry || p.dialogue?.lucieDeparture || p.lucieDeparture?.until>now()) return;
@@ -691,7 +702,7 @@ function createRunManager({ store, namespace, now = Date.now, random = Math.rand
             runs.set(run.id,run);
         }
     }
-    return { movementState,fishing,reconcileSettlements,setStorageAvailable,restore,start,startColosseum,chooseStarter,enter,guard,recoverPosition,move,interact,endDialogue,ready,abandon,tick,send,publish,state,playerFor,battle,beginTournament,runs,spectate,stopSpectating,
+    return { interactionAvailable,movementState,fishing,reconcileSettlements,setStorageAvailable,restore,start,startColosseum,chooseStarter,enter,guard,recoverPosition,move,interact,endDialogue,ready,abandon,tick,send,publish,state,playerFor,battle,beginTournament,runs,spectate,stopSpectating,
         disconnect(user,socket){const p=playerFor(user);if(p?.socketId===socket.id){fishing.cancel(p);stopSpectating(p,'disconnected');p.socketId=null;p.disconnectedAt=now();world(p.run);}}};
 }
 module.exports={createRunManager};

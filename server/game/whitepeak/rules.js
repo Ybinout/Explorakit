@@ -59,4 +59,12 @@ function podium(player){
  if(player?.currentmap!==HALL)return -1;
  return layout.podiums.findIndex(p=>Math.pow((player.x-p.x)/p.rx,2)+Math.pow((player.y+layout.feetOffsetY-p.y)/p.ry,2)<=1);
 }
-module.exports={CASINO,HALL,PODIUMS,PLACEMENT_TIMEOUT,RED,WHEEL,fail,uuid,amount,settings,corruptionLimit,validateTeam,battleCopy,choice,payout,near,podium,atCasinoCounter,atRouletteTable};
+function interactionTarget(player,room){
+ if(player?.currentmap===CASINO)return atCasinoCounter(player)?'counter':atRouletteTable(player)?'roulette':null;
+ if(player?.currentmap!==HALL)return null;
+ if(near(player,13,5,3))return'duel';
+ if(near(player,20,3,3))return'board';
+ if(Math.floor(player.y/32)>=13&&room?.phase==='battle')return'watch';
+ return podium(player)>=0?'duel':null;
+}
+module.exports={CASINO,HALL,PODIUMS,PLACEMENT_TIMEOUT,RED,WHEEL,fail,uuid,amount,settings,corruptionLimit,validateTeam,battleCopy,choice,payout,near,podium,atCasinoCounter,atRouletteTable,interactionTarget};

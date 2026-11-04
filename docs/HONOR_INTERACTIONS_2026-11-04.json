@@ -1,0 +1,1531 @@
+{
+  "feature": "Battle House honor roll, independent mode rankings and global local-player interaction hint",
+  "date": "2026-11-04",
+  "sourceBaseline": "a92a41bfc88ee1ce30141e0771f972983e01fd6c",
+  "clientCommit": "3fa7b9fcf45999f6f9c8d807c3addf8f91c9a691",
+  "clientBuild": "3605e4523885e7da",
+  "buildIndexSha256": "0c2a1e8fc3edad871af7b928e594da46d54fa2ea8716559fb9ae7cd2813c7589",
+  "schemaChanged": true,
+  "migration": "030_whitepeak_rankings.sql",
+  "realAccountsManuallyModified": false,
+  "creatorMapsOrAssetsChanged": false,
+  "runtimeSourceSha256": {
+    "data/game/latest_patch.json": "c16fc0a363dbdac3edcd9e9ce78a808f88403e20a2c2867bd40c98789adf0168",
+    "server/game/drift/runManager.js": "d0343e832eebe30d2f3b4746c7a6a87a539759d30f996ba5d19099e90e80dff1",
+    "server/game/whitepeak/rules.js": "55c0169c82acdd7446749d4f692f50e29dbb456d2ae61b64c36732f2b231397c",
+    "server/game/world/fishingController.js": "7059a1fd7569f3895b8243dd86d8d568e3ef312ebfb247a9aada966ab1fe10c5",
+    "server/game/world/interactionRepository.js": "4bf8be2834abe03ee80ce8397f8994502b96c4dc052b32116d6940500b109c6b",
+    "server/persistence/whitepeakHouseRepository.js": "9bd8e3462e8cc71cf2c600d40d666d41e18f7e123ede5f1ca8d260679b6f5ec8",
+    "server/persistence/whitepeakRepository.js": "4af63af71c0b8da7a7924ae23ad3d1af4e6f984caa9c8684720d77032d8d1a4b",
+    "server/realtime/driftLobbyHandler.js": "a9b996c9ff74d7f9e13bfd54b6c8b97d9c30c487f8182041d770a2d3e9f93fff",
+    "server/realtime/handlers/superTournamentHandlers.js": "b3e0ce45b052846337ad9844c007c6f5e5018cf81ecd78b2e7521d2aa3dbf7eb",
+    "server/realtime/socketHandler.js": "d9670e972306bef2da043a53b0934cc991a55c9c1b42b3128d5c8375606fc812",
+    "server/realtime/whitepeakClub.js": "3cef51971a20d24e65c22a471399519256a09989d9a4f67f60536f7201ebd3ea",
+    "database/migrations/030_whitepeak_rankings.sql": "a6b7de5d40e100119fc73789b4ad4ce8822fd06beea46c0742a1b8b7890663bf",
+    "server/game/whitepeak/rankings.js": "2905910908c8599dcb49ca0df70d5a4571a3ad8e4b6cdbfe908e9f9917ecacdd",
+    "server/game/world/interactionTarget.js": "eb357cffa4af44e4e089f7f6e862061a8dcadb375b4e8c3217d430169c25403f",
+    "server/persistence/whitepeakRankingRepository.js": "b3b2591030f8ef0109c4dad95e9dbcbec72608c50663fe2ce7b01bcf3f9cd128",
+    "server/realtime/interactionHints.js": "bb0f6358514d49e058ab78a82e13ee3918e01913a2c24fe8815ac96581b12f80"
+  },
+  "rankings": {
+    "modes": [
+      "1v1",
+      "2v1",
+      "2v2"
+    ],
+    "honorRoll": "global 1v1 Top 3, local building broadcast only",
+    "legacyAggregateRetained": true,
+    "historicalBackfill": "one-time transaction, exact legacy score preserved for single-mode history",
+    "productionPreAudit": {
+      "receipts": 7,
+      "allClassic": true,
+      "scoredUsers": 3
+    },
+    "lastTeam": "ordered species IDs captured at start and published after a ranked result; common party shared by all allies",
+    "historicalTeamsInferred": false,
+    "maximumTeamSize": 12,
+    "pageSize": 20,
+    "search": "literal case-insensitive substring, global rank preserved",
+    "winrate": "W / (W + L), draws recorded separately",
+    "paymentsAndScoresAtomic": true,
+    "xpChanged": false
+  },
+  "interactionHint": {
+    "localPlayerOnly": true,
+    "serverReadOnly": true,
+    "extraSqlPerTick": 0,
+    "rngCalls": 0,
+    "sharedTimerMs": 200,
+    "emitsOnlyChanges": true,
+    "movementUpdates": true,
+    "draw": "cached world transforms plus CSS opacity/pulse, no per-frame target scan",
+    "reducedMotion": true,
+    "scenarios": [
+      "PC",
+      "NPC dialogue",
+      "locked corruption station",
+      "story objects and crystals",
+      "fishing with owned rod",
+      "club and tournament interactions",
+      "nearby players"
+    ],
+    "closedModesRemainClosed": true
+  },
+  "validation": {
+    "passed": 122,
+    "failed": 0,
+    "skipped": 0,
+    "unit": {
+      "passed": 88,
+      "log": "/tmp/riftmon-honor-unit.log"
+    },
+    "sqlNetwork": {
+      "passed": 26,
+      "log": "/tmp/riftmon-honor-sql.log",
+      "database": "explorakit_test"
+    },
+    "patchNotes": {
+      "passed": 8,
+      "log": "/tmp/riftmon-honor-patch-tests.log"
+    },
+    "ui": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "views": [
+          {
+            "label": "modes",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "modes-320-light.png"
+          },
+          {
+            "label": "modes",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "modes-320-dark.png"
+          },
+          {
+            "label": "modes",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "modes-393-light.png"
+          },
+          {
+            "label": "modes",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "modes-393-dark.png"
+          },
+          {
+            "label": "modes",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "modes-844-light.png"
+          },
+          {
+            "label": "modes",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "modes-844-dark.png"
+          },
+          {
+            "label": "modes",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "modes-1536-light.png"
+          },
+          {
+            "label": "modes",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "modes-1536-dark.png"
+          },
+          {
+            "label": "preparation",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "preparation-320-light.png"
+          },
+          {
+            "label": "preparation",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "preparation-320-dark.png"
+          },
+          {
+            "label": "preparation",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "preparation-393-light.png"
+          },
+          {
+            "label": "preparation",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "preparation-393-dark.png"
+          },
+          {
+            "label": "preparation",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "preparation-844-light.png"
+          },
+          {
+            "label": "preparation",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "preparation-844-dark.png"
+          },
+          {
+            "label": "preparation",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "preparation-1536-light.png"
+          },
+          {
+            "label": "preparation",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "preparation-1536-dark.png"
+          },
+          {
+            "label": "relay",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "relay-320-light.png"
+          },
+          {
+            "label": "relay",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "relay-320-dark.png"
+          },
+          {
+            "label": "relay",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "relay-393-light.png"
+          },
+          {
+            "label": "relay",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "relay-393-dark.png"
+          },
+          {
+            "label": "relay",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "relay-844-light.png"
+          },
+          {
+            "label": "relay",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "relay-844-dark.png"
+          },
+          {
+            "label": "relay",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "relay-1536-light.png"
+          },
+          {
+            "label": "relay",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "relay-1536-dark.png"
+          },
+          {
+            "label": "twelve",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "twelve-320-light.png"
+          },
+          {
+            "label": "twelve",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "twelve-320-dark.png"
+          },
+          {
+            "label": "twelve",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "twelve-393-light.png"
+          },
+          {
+            "label": "twelve",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "twelve-393-dark.png"
+          },
+          {
+            "label": "twelve",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "twelve-844-light.png"
+          },
+          {
+            "label": "twelve",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "twelve-844-dark.png"
+          },
+          {
+            "label": "twelve",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "twelve-1536-light.png"
+          },
+          {
+            "label": "twelve",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "twelve-1536-dark.png"
+          },
+          {
+            "label": "pve",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "pve-320-light.png"
+          },
+          {
+            "label": "pve",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "pve-320-dark.png"
+          },
+          {
+            "label": "pve",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "pve-393-light.png"
+          },
+          {
+            "label": "pve",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "pve-393-dark.png"
+          },
+          {
+            "label": "pve",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "pve-844-light.png"
+          },
+          {
+            "label": "pve",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "pve-844-dark.png"
+          },
+          {
+            "label": "pve",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "pve-1536-light.png"
+          },
+          {
+            "label": "pve",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "pve-1536-dark.png"
+          },
+          {
+            "label": "classic-review",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "classic-review-320-light.png"
+          },
+          {
+            "label": "classic-review",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "classic-review-320-dark.png"
+          },
+          {
+            "label": "classic-review",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "classic-review-393-light.png"
+          },
+          {
+            "label": "classic-review",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "classic-review-393-dark.png"
+          },
+          {
+            "label": "classic-review",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "classic-review-844-light.png"
+          },
+          {
+            "label": "classic-review",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "classic-review-844-dark.png"
+          },
+          {
+            "label": "classic-review",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "classic-review-1536-light.png"
+          },
+          {
+            "label": "classic-review",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "classic-review-1536-dark.png"
+          },
+          {
+            "label": "honor-room",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "honor-room-320-light.png"
+          },
+          {
+            "label": "honor-room",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "honor-room-320-dark.png"
+          },
+          {
+            "label": "honor-room",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "honor-room-393-light.png"
+          },
+          {
+            "label": "honor-room",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "honor-room-393-dark.png"
+          },
+          {
+            "label": "honor-room",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "honor-room-844-light.png"
+          },
+          {
+            "label": "honor-room",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "honor-room-844-dark.png"
+          },
+          {
+            "label": "honor-room",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "honor-room-1536-light.png"
+          },
+          {
+            "label": "honor-room",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "honor-room-1536-dark.png"
+          },
+          {
+            "label": "ranking-1v1",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "ranking-1v1-320-light.png"
+          },
+          {
+            "label": "ranking-1v1",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "ranking-1v1-320-dark.png"
+          },
+          {
+            "label": "ranking-1v1",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "ranking-1v1-393-light.png"
+          },
+          {
+            "label": "ranking-1v1",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "ranking-1v1-393-dark.png"
+          },
+          {
+            "label": "ranking-1v1",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "ranking-1v1-844-light.png"
+          },
+          {
+            "label": "ranking-1v1",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "ranking-1v1-844-dark.png"
+          },
+          {
+            "label": "ranking-1v1",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "ranking-1v1-1536-light.png"
+          },
+          {
+            "label": "ranking-1v1",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "ranking-1v1-1536-dark.png"
+          },
+          {
+            "label": "ranking-2v1",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "ranking-2v1-320-light.png"
+          },
+          {
+            "label": "ranking-2v1",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "ranking-2v1-320-dark.png"
+          },
+          {
+            "label": "ranking-2v1",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "ranking-2v1-393-light.png"
+          },
+          {
+            "label": "ranking-2v1",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "ranking-2v1-393-dark.png"
+          },
+          {
+            "label": "ranking-2v1",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "ranking-2v1-844-light.png"
+          },
+          {
+            "label": "ranking-2v1",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "ranking-2v1-844-dark.png"
+          },
+          {
+            "label": "ranking-2v1",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "ranking-2v1-1536-light.png"
+          },
+          {
+            "label": "ranking-2v1",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "ranking-2v1-1536-dark.png"
+          },
+          {
+            "label": "ranking-2v2",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "ranking-2v2-320-light.png"
+          },
+          {
+            "label": "ranking-2v2",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "ranking-2v2-320-dark.png"
+          },
+          {
+            "label": "ranking-2v2",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "ranking-2v2-393-light.png"
+          },
+          {
+            "label": "ranking-2v2",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "ranking-2v2-393-dark.png"
+          },
+          {
+            "label": "ranking-2v2",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "ranking-2v2-844-light.png"
+          },
+          {
+            "label": "ranking-2v2",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "ranking-2v2-844-dark.png"
+          },
+          {
+            "label": "ranking-2v2",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "ranking-2v2-1536-light.png"
+          },
+          {
+            "label": "ranking-2v2",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "ranking-2v2-1536-dark.png"
+          }
+        ],
+        "checks": [
+          "2v1-one-corrupted-per-camp",
+          "camp-private-chat-and-roster",
+          "edit-resets-confirmations",
+          "relay-without-extra-turn",
+          "browser-reconnect-same-controller",
+          "ownership-after-switch",
+          "live-read-only-spectator",
+          "durable-camp-stakes",
+          "2v2-two-corrupted-per-camp",
+          "twelve-per-camp-and-twelve-balls",
+          "pve-matching-levels-no-xp-no-progression-write",
+          "classic-one-v-one-money-and-pc-wager-no-xp",
+          "mode-specific-ranking-and-full-last-parties",
+          "honor-roll-visible-without-opening-modal",
+          "single-local-hint-appears-and-fades"
+        ],
+        "errors": [],
+        "buildIndexSha256": "0c2a1e8fc3edad871af7b928e594da46d54fa2ea8716559fb9ae7cd2813c7589"
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "views": [
+          {
+            "label": "modes",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "modes-320-light.png"
+          },
+          {
+            "label": "modes",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "modes-320-dark.png"
+          },
+          {
+            "label": "modes",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "modes-393-light.png"
+          },
+          {
+            "label": "modes",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "modes-393-dark.png"
+          },
+          {
+            "label": "modes",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "modes-844-light.png"
+          },
+          {
+            "label": "modes",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "modes-844-dark.png"
+          },
+          {
+            "label": "modes",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "modes-1536-light.png"
+          },
+          {
+            "label": "modes",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "modes-1536-dark.png"
+          },
+          {
+            "label": "preparation",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "preparation-320-light.png"
+          },
+          {
+            "label": "preparation",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "preparation-320-dark.png"
+          },
+          {
+            "label": "preparation",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "preparation-393-light.png"
+          },
+          {
+            "label": "preparation",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "preparation-393-dark.png"
+          },
+          {
+            "label": "preparation",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "preparation-844-light.png"
+          },
+          {
+            "label": "preparation",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "preparation-844-dark.png"
+          },
+          {
+            "label": "preparation",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "preparation-1536-light.png"
+          },
+          {
+            "label": "preparation",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "preparation-1536-dark.png"
+          },
+          {
+            "label": "relay",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "relay-320-light.png"
+          },
+          {
+            "label": "relay",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "relay-320-dark.png"
+          },
+          {
+            "label": "relay",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "relay-393-light.png"
+          },
+          {
+            "label": "relay",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "relay-393-dark.png"
+          },
+          {
+            "label": "relay",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "relay-844-light.png"
+          },
+          {
+            "label": "relay",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "relay-844-dark.png"
+          },
+          {
+            "label": "relay",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "relay-1536-light.png"
+          },
+          {
+            "label": "relay",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "relay-1536-dark.png"
+          },
+          {
+            "label": "twelve",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "twelve-320-light.png"
+          },
+          {
+            "label": "twelve",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "twelve-320-dark.png"
+          },
+          {
+            "label": "twelve",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "twelve-393-light.png"
+          },
+          {
+            "label": "twelve",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "twelve-393-dark.png"
+          },
+          {
+            "label": "twelve",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "twelve-844-light.png"
+          },
+          {
+            "label": "twelve",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "twelve-844-dark.png"
+          },
+          {
+            "label": "twelve",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "twelve-1536-light.png"
+          },
+          {
+            "label": "twelve",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "twelve-1536-dark.png"
+          },
+          {
+            "label": "pve",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "pve-320-light.png"
+          },
+          {
+            "label": "pve",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "pve-320-dark.png"
+          },
+          {
+            "label": "pve",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "pve-393-light.png"
+          },
+          {
+            "label": "pve",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "pve-393-dark.png"
+          },
+          {
+            "label": "pve",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "pve-844-light.png"
+          },
+          {
+            "label": "pve",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "pve-844-dark.png"
+          },
+          {
+            "label": "pve",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "pve-1536-light.png"
+          },
+          {
+            "label": "pve",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "pve-1536-dark.png"
+          },
+          {
+            "label": "classic-review",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "classic-review-320-light.png"
+          },
+          {
+            "label": "classic-review",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "classic-review-320-dark.png"
+          },
+          {
+            "label": "classic-review",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "classic-review-393-light.png"
+          },
+          {
+            "label": "classic-review",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "classic-review-393-dark.png"
+          },
+          {
+            "label": "classic-review",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "classic-review-844-light.png"
+          },
+          {
+            "label": "classic-review",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "classic-review-844-dark.png"
+          },
+          {
+            "label": "classic-review",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "classic-review-1536-light.png"
+          },
+          {
+            "label": "classic-review",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "classic-review-1536-dark.png"
+          },
+          {
+            "label": "honor-room",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "honor-room-320-light.png"
+          },
+          {
+            "label": "honor-room",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "honor-room-320-dark.png"
+          },
+          {
+            "label": "honor-room",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "honor-room-393-light.png"
+          },
+          {
+            "label": "honor-room",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "honor-room-393-dark.png"
+          },
+          {
+            "label": "honor-room",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "honor-room-844-light.png"
+          },
+          {
+            "label": "honor-room",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "honor-room-844-dark.png"
+          },
+          {
+            "label": "honor-room",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "honor-room-1536-light.png"
+          },
+          {
+            "label": "honor-room",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "honor-room-1536-dark.png"
+          },
+          {
+            "label": "ranking-1v1",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "ranking-1v1-320-light.png"
+          },
+          {
+            "label": "ranking-1v1",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "ranking-1v1-320-dark.png"
+          },
+          {
+            "label": "ranking-1v1",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "ranking-1v1-393-light.png"
+          },
+          {
+            "label": "ranking-1v1",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "ranking-1v1-393-dark.png"
+          },
+          {
+            "label": "ranking-1v1",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "ranking-1v1-844-light.png"
+          },
+          {
+            "label": "ranking-1v1",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "ranking-1v1-844-dark.png"
+          },
+          {
+            "label": "ranking-1v1",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "ranking-1v1-1536-light.png"
+          },
+          {
+            "label": "ranking-1v1",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "ranking-1v1-1536-dark.png"
+          },
+          {
+            "label": "ranking-2v1",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "ranking-2v1-320-light.png"
+          },
+          {
+            "label": "ranking-2v1",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "ranking-2v1-320-dark.png"
+          },
+          {
+            "label": "ranking-2v1",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "ranking-2v1-393-light.png"
+          },
+          {
+            "label": "ranking-2v1",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "ranking-2v1-393-dark.png"
+          },
+          {
+            "label": "ranking-2v1",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "ranking-2v1-844-light.png"
+          },
+          {
+            "label": "ranking-2v1",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "ranking-2v1-844-dark.png"
+          },
+          {
+            "label": "ranking-2v1",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "ranking-2v1-1536-light.png"
+          },
+          {
+            "label": "ranking-2v1",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "ranking-2v1-1536-dark.png"
+          },
+          {
+            "label": "ranking-2v2",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "ranking-2v2-320-light.png"
+          },
+          {
+            "label": "ranking-2v2",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "ranking-2v2-320-dark.png"
+          },
+          {
+            "label": "ranking-2v2",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "ranking-2v2-393-light.png"
+          },
+          {
+            "label": "ranking-2v2",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "ranking-2v2-393-dark.png"
+          },
+          {
+            "label": "ranking-2v2",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "ranking-2v2-844-light.png"
+          },
+          {
+            "label": "ranking-2v2",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "ranking-2v2-844-dark.png"
+          },
+          {
+            "label": "ranking-2v2",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "ranking-2v2-1536-light.png"
+          },
+          {
+            "label": "ranking-2v2",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "ranking-2v2-1536-dark.png"
+          }
+        ],
+        "checks": [
+          "2v1-one-corrupted-per-camp",
+          "camp-private-chat-and-roster",
+          "edit-resets-confirmations",
+          "relay-without-extra-turn",
+          "browser-reconnect-same-controller",
+          "ownership-after-switch",
+          "live-read-only-spectator",
+          "durable-camp-stakes",
+          "2v2-two-corrupted-per-camp",
+          "twelve-per-camp-and-twelve-balls",
+          "pve-matching-levels-no-xp-no-progression-write",
+          "classic-one-v-one-money-and-pc-wager-no-xp",
+          "mode-specific-ranking-and-full-last-parties",
+          "honor-roll-visible-without-opening-modal",
+          "single-local-hint-appears-and-fades"
+        ],
+        "errors": [],
+        "buildIndexSha256": "0c2a1e8fc3edad871af7b928e594da46d54fa2ea8716559fb9ae7cd2813c7589"
+      }
+    },
+    "noticeUi": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "views": [
+          {
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "patch-320-light.png"
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "patch-320-dark.png"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "patch-393-light.png"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "patch-393-dark.png"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "patch-844-light.png"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "patch-844-dark.png"
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "patch-1536-light.png"
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "patch-1536-dark.png"
+          }
+        ],
+        "errors": [],
+        "buildIndexSha256": "0c2a1e8fc3edad871af7b928e594da46d54fa2ea8716559fb9ae7cd2813c7589",
+        "checks": [
+          "login",
+          "unread-reload",
+          "stale-response",
+          "persisted-dismissal",
+          "cross-device",
+          "account-switch",
+          "ack-failure",
+          "onboarding-priority",
+          "menu-priority",
+          "movement-blocked",
+          "focus",
+          "fullscreen"
+        ]
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "views": [
+          {
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "patch-320-light.png"
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "patch-320-dark.png"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "patch-393-light.png"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "patch-393-dark.png"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "patch-844-light.png"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "patch-844-dark.png"
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "patch-1536-light.png"
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "patch-1536-dark.png"
+          }
+        ],
+        "errors": [],
+        "buildIndexSha256": "0c2a1e8fc3edad871af7b928e594da46d54fa2ea8716559fb9ae7cd2813c7589",
+        "checks": [
+          "login",
+          "unread-reload",
+          "stale-response",
+          "persisted-dismissal",
+          "cross-device",
+          "account-switch",
+          "ack-failure",
+          "onboarding-priority",
+          "menu-priority",
+          "movement-blocked",
+          "focus"
+        ]
+      }
+    },
+    "lint": true,
+    "build": true,
+    "syntax": true,
+    "diffCheck": true,
+    "globalSuiteRerun": false,
+    "expandedExistingSuites": {
+      "log": "/tmp/riftmon-honor-unit-expanded.log",
+      "passed": 94,
+      "failed": 3,
+      "skipped": 2
+    },
+    "baselineComparison": {
+      "baseline": "a92a41bfc88ee1ce30141e0771f972983e01fd6c",
+      "log": "/tmp/riftmon-honor-baseline.log",
+      "tests": [
+        "tests/story-content.test.js",
+        "tests/story-replay-admin.test.js"
+      ],
+      "sameThreeFailures": true
+    },
+    "testSchema": {
+      "newTablesPresent": true,
+      "selectedTables": 30,
+      "selectedConstraints": 26,
+      "migrationRecordPresent": true,
+      "fullLegacyVerifierValid": false,
+      "reason": "Dedicated test schema has only seven migration history records; all new schema and transactional tests passed."
+    }
+  },
+  "visualReview": [
+    "desktop dark podium sidebar and score table",
+    "mobile 2v2 with twelve icons in two rows",
+    "honor roll embedded in the room",
+    "single local dot with reduced-motion opacity",
+    "WebKit resize and dark-theme text contrast"
+  ],
+  "limitations": [
+    "Historical parties were never recorded; they appear after the next ranked duel, without inferring them from the current party.",
+    "Three pre-existing story test failures reproduced with the baseline server; no claim that the full global suite passes.",
+    "WebKit automation is not physical iPhone testing."
+  ],
+  "latestPatch": {
+    "version": "2026-11-04-honneur-interactions",
+    "date": "2026-11-04",
+    "fr": {
+      "title": "À toi d’entrer au tableau d’honneur !",
+      "items": [
+        "Maison des Combats : classements 1v1, 2v1 et 2v2, dernières équipes et Top 3 affiché dans la salle.",
+        "Un petit point lumineux indique désormais les interactions possibles près de ton personnage."
+      ]
+    },
+    "en": {
+      "title": "Make your mark on the honor roll!",
+      "items": [
+        "Battle House: separate 1v1, 2v1 and 2v2 rankings, last teams, and an in-room Top 3.",
+        "A subtle light above your character now marks nearby interactions."
+      ]
+    }
+  },
+  "deployment": {
+    "publishedAt": "2026-11-04T10:16:40.511Z",
+    "restartedAt": "2026-11-04T10:16:38.476Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-honor-2026-11-04T10-16-36-732Z",
+    "sourceBaseline": "a92a41bfc88ee1ce30141e0771f972983e01fd6c",
+    "sourceHashes": {
+      "data/game/latest_patch.json": "c16fc0a363dbdac3edcd9e9ce78a808f88403e20a2c2867bd40c98789adf0168",
+      "server/game/drift/runManager.js": "d0343e832eebe30d2f3b4746c7a6a87a539759d30f996ba5d19099e90e80dff1",
+      "server/game/whitepeak/rules.js": "55c0169c82acdd7446749d4f692f50e29dbb456d2ae61b64c36732f2b231397c",
+      "server/game/world/fishingController.js": "7059a1fd7569f3895b8243dd86d8d568e3ef312ebfb247a9aada966ab1fe10c5",
+      "server/game/world/interactionRepository.js": "4bf8be2834abe03ee80ce8397f8994502b96c4dc052b32116d6940500b109c6b",
+      "server/persistence/whitepeakHouseRepository.js": "9bd8e3462e8cc71cf2c600d40d666d41e18f7e123ede5f1ca8d260679b6f5ec8",
+      "server/persistence/whitepeakRepository.js": "4af63af71c0b8da7a7924ae23ad3d1af4e6f984caa9c8684720d77032d8d1a4b",
+      "server/realtime/driftLobbyHandler.js": "a9b996c9ff74d7f9e13bfd54b6c8b97d9c30c487f8182041d770a2d3e9f93fff",
+      "server/realtime/handlers/superTournamentHandlers.js": "b3e0ce45b052846337ad9844c007c6f5e5018cf81ecd78b2e7521d2aa3dbf7eb",
+      "server/realtime/socketHandler.js": "d9670e972306bef2da043a53b0934cc991a55c9c1b42b3128d5c8375606fc812",
+      "server/realtime/whitepeakClub.js": "3cef51971a20d24e65c22a471399519256a09989d9a4f67f60536f7201ebd3ea",
+      "database/migrations/030_whitepeak_rankings.sql": "a6b7de5d40e100119fc73789b4ad4ce8822fd06beea46c0742a1b8b7890663bf",
+      "server/game/whitepeak/rankings.js": "2905910908c8599dcb49ca0df70d5a4571a3ad8e4b6cdbfe908e9f9917ecacdd",
+      "server/game/world/interactionTarget.js": "eb357cffa4af44e4e089f7f6e862061a8dcadb375b4e8c3217d430169c25403f",
+      "server/persistence/whitepeakRankingRepository.js": "b3b2591030f8ef0109c4dad95e9dbcbec72608c50663fe2ce7b01bcf3f9cd128",
+      "server/realtime/interactionHints.js": "bb0f6358514d49e058ab78a82e13ee3918e01913a2c24fe8815ac96581b12f80"
+    },
+    "clientCommit": "3fa7b9fcf45999f6f9c8d807c3addf8f91c9a691",
+    "clientBuild": "3605e4523885e7da",
+    "beforePid": "3839399",
+    "afterPid": "3849846",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "schemaChanged": true,
+    "migrationApplied": "030_whitepeak_rankings.sql",
+    "legacyScoresUnchanged": true,
+    "schemaVerified": true,
+    "backfilledRows": 3,
+    "activeClubDuelsBefore": 0,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 0,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": [
+      "js/234.02b18f2e.js",
+      "js/393.0fd15895.js",
+      "js/674.050af613.js",
+      "js/689.ea67c21b.js",
+      "js/737.e2c30081.js",
+      "js/account.6f096228.js",
+      "js/app.2f5f27ee.js",
+      "js/chunk-vendors.0f4c51f9.js",
+      "js/colosseum.e15fe230.js",
+      "js/community.ef51702b.js",
+      "js/drift.e4ddfe6a.js",
+      "js/game.7499169d.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.c5a385b9.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.09ac8ee1.css",
+      "css/test-view.7568246d.css"
+    ]
+  }
+}

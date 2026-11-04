@@ -50,7 +50,7 @@ async function start({id,ids,sides,selections,config,digest}){
   if(fingerprint(snapshots,config)!==digest)rules.fail('Les Pokémon disponibles ont changé. Préparez à nouveau le combat.');
   const charges=checkFunds(snapshots,sides,config),teams=select(snapshots,sides,selections,config);
   for(const charge of charges)await c.execute('UPDATE users SET money=money-? WHERE id=?',[charge.amount,charge.userId]);
-  const offers={houseVersion:1,ids,sides,charges,config,digest};
+  const offers={houseVersion:1,ids,sides,charges,config,digest,rankingTeams:teams.map(require('../game/whitepeak/rankings').teamIds)};
   await c.execute("INSERT INTO whitepeak_duels(id,phase,user_a,user_b,stake,offers_json) VALUES(?,'active',?,?,?,?)",[id,sides[0][0],sides[1]?.[0]||sides[0][0],config.money,JSON.stringify(offers)]);
   return{teams,balances:charges.map(charge=>({userId:charge.userId,balance:snapshots.find(s=>s.userId===charge.userId).user.money-charge.amount}))};
  });
@@ -68,6 +68,7 @@ async function finish(id,winnerId,reason,offers){return withTransaction(async c=
   await c.execute('INSERT INTO whitepeak_duel_scores(user_id,wins,losses,draws,points) VALUES(?,?,?,?,?) ON DUPLICATE KEY UPDATE wins=wins+VALUES(wins),losses=losses+VALUES(losses),draws=draws+VALUES(draws),points=GREATEST(0,CAST(points AS SIGNED)+?)',[owner,win?1:0,loss?1:0,winningSide===null?1:0,win?30:0,win?30:loss?-10:0]);
  }
  const result={id,mode:offers.config.mode,winnerId,winningSide,winners:winningSide===null?[]:offers.sides[winningSide],reason,payments,wonPokemon:null,refunded:winnerId===null};
+ if(offers.config.mode!=='pve'&&!cancelled)await require('./whitepeakRankingRepository').record(c,row,offers,result);
  await c.execute('UPDATE whitepeak_duels SET phase=?,result_json=? WHERE id=?',[cancelled?'cancelled':'finished',JSON.stringify(result),id]);return result;
 });}
 function summary(p,ownerId,username,source){return{uuid:p.uuid,ownerId,username,source,name:p.truename||p.name,pokemonId:p.data.id,level:p.level,potential:p.k,corrupted:!!p.corruption?.permanent,heldItem:p.heldItem||null,heldItemName:require('../game/social/tradeRules').catalog.get(p.heldItem)?.name||null,types:p.data.type};}

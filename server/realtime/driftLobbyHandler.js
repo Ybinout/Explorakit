@@ -155,6 +155,7 @@ function registerDriftLobbies(io, { store = createLobbyStore(), sweepMs = 5000, 
         });
         gameCommand('drift:spectate', (p, data) => runtime.spectate(p, data?.matchId), false);
         gameCommand('drift:stopSpectating', p => runtime.stopSpectating(p), false);
+        require('./interactionHints').getInteractionHints(io).attach(socket,()=>{const p=runtime.playerFor(user);return{map:p?.currentmap||null,available:!stopped&&!checkpointError&&p?.socketId===socket.id&&runtime.interactionAvailable(p)};});
         gameCommand('playerAction', (p, action) => runtime.move(p, action));
         gameCommand('Space', p => runtime.interact(p));
         gameCommand('fishing:start', (p,data) => ({success:runtime.fishing.start(p,data?.id)}));

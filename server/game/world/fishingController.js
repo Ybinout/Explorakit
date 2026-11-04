@@ -20,9 +20,10 @@ function createFishingController({ ownsRod, available, emit, onHook, now=Date.no
             fn();
         },ms);s.timer?.unref?.();
     }
+    const offerTarget=p=>!current(p)&&!busy.has(p)&&available(p)&&now()>=(cooldown.get(p)||0)?nearWater(p):null;
+    const canOffer=p=>!!offerTarget(p);
     async function offer(p) {
-        if (current(p) || busy.has(p) || !available(p) || now()<(cooldown.get(p)||0)) return false;
-        const water=nearWater(p); if (!water) return false;
+        const water=offerTarget(p); if (!water) return false;
         const epoch=epochs.get(p)||0, origin={x:p.x,y:p.y}, map=p.currentmap;
         busy.add(p);
         let owns;
@@ -63,6 +64,6 @@ function createFishingController({ ownsRod, available, emit, onHook, now=Date.no
     }
     function prune() { for(const p of active)if(!valid(p,current(p)))cancel(p); }
     function stop(){for(const p of new Set([...active,...busy]))cancel(p);}
-    return {offer,start,reel,cancel,current,prune,stop};
+    return {canOffer,offer,start,reel,cancel,current,prune,stop};
 }
 module.exports={createFishingController,CAST_MS,REACTION_MS,OFFER_MS};

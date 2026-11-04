@@ -37,7 +37,7 @@ function getSentenceForMapAndPosition(map, x, y = null, state = null) {
     return null;
 }
 
-function getSentenceForName(name, state = null, { replayArena = require('./testReplayState').active(state, name) } = {}) {
+function resolveDialogue(name, state = null, { replayArena = require('./testReplayState').active(state, name) } = {}) {
     state=require('./labStory').view(state);
     if(name==='dia0'&&state?.flags?.lucie_rescued==='true')name='dia0_final';
     if(name==='lucie_home'&&state?.flags?.lucie_rescued==='true'){
@@ -61,13 +61,15 @@ function getSentenceForName(name, state = null, { replayArena = require('./testR
             dialogueEntry = getDialogueEntryByName(dialogueEntry.locked);
         }
     }
-    if (dialogueEntry && Array.isArray(dialogueEntry.sentences) && dialogueEntry.sentences.length > 0) {
-        const variants=dialogueEntry.variants;
-        return [Array.isArray(variants)&&variants.length ? variants[Math.floor(Math.random()*variants.length)] : dialogueEntry.sentences, dialogueEntry.name];
-    }
-
-    return null;
+    return dialogueEntry && Array.isArray(dialogueEntry.sentences) && dialogueEntry.sentences.length ? dialogueEntry : null;
 }
+function getSentenceForName(name,state=null,options){
+    const entry=resolveDialogue(name,state,options);if(!entry)return null;
+    const variants=entry.variants;
+    return [Array.isArray(variants)&&variants.length?variants[Math.floor(Math.random()*variants.length)]:entry.sentences,entry.name];
+}
+function hasDialogueForName(name,state=null){return !!resolveDialogue(name,state);}
+function hasDialogueForMapAndPosition(map,x,y,state=null){const entry=interactions.find(e=>e.map===map&&e.x===x&&(e.y===undefined||e.y===null||e.y===y));return !!entry&&hasDialogueForName(entry.name,state);}
 
 function getEndSentenceInformation(name) {
     const dialogueEntry = getDialogueEntryByName(name);
@@ -90,6 +92,7 @@ function getTeamInformation(name) {
 }
 
 module.exports = {
+    hasDialogueForName,hasDialogueForMapAndPosition,
     getSentenceForMapAndPosition,
     getSentenceForName,
     getEndSentenceInformation,
