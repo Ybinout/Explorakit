@@ -1,3 +1,9 @@
+## Tableau d’honneur intégré au décor — 4 novembre 2026
+
+`whitepeakHonor.js` peint uniquement l’ardoise intérieure du tableau dessiné dans `whitepeak_club.png` :rectangle natif(1094,70,116,94), projeté par7/12 enX et5/8 enY dans le monde896×640. Le cadre sculpté, les ferrures et l’ombre sont ceux de l’image ; ne pas réintroduire une plaque flottante plus grande qui masque fenêtres/mur/sol. Trois médaillons or/argent/bronze, noms et W/L/points restent dans cet encart. Le cache est recalculé uniquement au changement de snapshot. Artwork, hitboxes, classement et logique d’interaction inchangés.
+
+Recette visuelle dédiée `scripts/previewHonorBoard.js` sur `explorakit_test` ; quatre dimensions, deux thèmes, un état vide, noms longs et ouverture réelle du classement.18 configurations Chromium/WebKit. Build `1b4031878d0c2420`, client `ebc4f3d`, publication du frontend sans redémarrage serveur ni accès à la base de production. Rapport `docs/HONOR_BOARD_FIT_2026-11-04.json`.
+
 ## Carnet d’amis, présence et chat en combat — 4 novembre 2026
 
 Le système de groupes est retiré. `socialHub` partage uniquement le **nœud régional** des amis acceptés, jamais des coordonnées, équipes ou identifiants de salle privée. Les joueurs visibles dans le monde conservent `worldRoom` et l’interpolation existants ; ne pas contourner l’isolation de la Tour/Maison. Les marqueurs de minimap lisent `socialState.accepted`. Les anciennes commandes `social:group*` répondent explicitement qu’elles sont retirées, sans état ni opération de groupe.

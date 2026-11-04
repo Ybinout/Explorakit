@@ -1,3 +1,9 @@
+## Intégration du tableau mural — 4 novembre 2026
+
+La plaque précédente(116×105 unités, x612 y25) débordait du tableau illustré et couvrait des éléments du mur. Le classement est désormais peint **dans la surface d’ardoise du cadre existant**, avec une texture très légère, trois petits médaillons métalliques, une typographie de tableau et des séparateurs discrets. Les ferrures, bordures sculptées, ombres, fenêtres et lanternes proviennent toujours du décor original. Les noms longs sont abrégés avec une ellipse ; chiffres compacts seulement si leur colonne ne suffit pas. Aucun panneau supplémentaire dans la salle.
+
+La fonction réutilise le cache par état :pas de tri, mesure de texte, texture ou requête ajoutés à chaque frame. Les scores/places et l’action du tableau restent ceux du serveur. Aucun changement de carte, image auteur, hitbox, classement ou donnée joueur. Aperçus dans la vraie salle avec comptes dédiés supprimés ensuite :18 configurations Chromium/WebKit(320×480,393×852,844×390,1536×680 ; clair/nocturne et état vide), ouverture réelle du classement, lint/build/diff valides. Rapport et publication `docs/HONOR_BOARD_FIT_2026-11-04.json` ; client `ebc4f3d`, build `1b4031878d0c2420`. Mise en ligne des assets/index sans redémarrage du serveur ni accès à la BDD de production ; assets précédents conservés.
+
 ## Carnet d’amis et présence en combat — 4 novembre 2026
 
 Le carnet présente d’abord **Tes amis**, avec un état vert/orange/hors ligne, la durée de la session et trois accès directs Messages/Badges/Classements. Les demandes restent dans cette liste ; l’annuaire et la recherche des dresseurs sont repliés en dernier, sans interrogations cachées quand ils sont fermés. Sur PC, liste et contenu sont côte à côte ; sur mobile, un retour ramène à la liste. Les badges affichés sont uniquement ceux obtenus, pour éviter les révélations de l’histoire. Les scores/rangs Maison1v1/2v1/2v2 et Tour sont lus dans les tables existantes, avec le même ordre global que leurs classements complets. Consultation réservée aux amitiés acceptées ; aucun effet de récompense ou de progression.
@@ -6355,6 +6361,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **4 novembre 2026 — Tableau mural :** Top3 inscrit dans l’ardoise et le cadre du décor existant ;ancienne plaque débordante retirée.18 configurations visuelles Chromium/WebKit, classement toujours accessible. Publication frontend seule, rapport `docs/HONOR_BOARD_FIT_2026-11-04.json`.
 
 - **4 novembre 2026 — Carnet Amis :** fiches privées messages/badges/rangs, durée de session, présence AFK serveur, marqueurs entre amis sans groupes et chat compact en combat. Réutilisation de la persistance des messages et des classements ; aucune migration. Recettes SQL/réseau et vues Chromium/WebKit détaillées dans `docs/FRIENDS_REDESIGN_2026-11-04.json`. Les recettes historiques de groupes restent identifiées comme telles ; nouvelle entrée `test:friends-browser`.
 

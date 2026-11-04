@@ -1,0 +1,217 @@
+{
+  "date": "2026-11-04",
+  "change": "Wall honor roll uses the original carved board instead of a floating rectangle",
+  "design": {
+    "paintedSurface": "inset slate only: native asset x1094 y70 width116 height94, projected to896×640 world",
+    "frame": "existing carved frame, hardware, wall shadow and adjacent lights/windows retained",
+    "typography": "engraved serif names and title, compact W/L and points; long names clipped with ellipsis",
+    "places": "three small shield medallions in gold, silver and bronze",
+    "rendering": "one 4× cached canvas per state change; no frame-by-frame text layout, sorting or SQL"
+  },
+  "unchanged": [
+    "room artwork and foreground",
+    "map collisions and interaction positions",
+    "scores, statistics and leaderboard persistence",
+    "server source and service process",
+    "production database"
+  ],
+  "artworkSha256": {
+    "whitepeak_club.png": "b115c4d9531746e8486dee7e635a935f885c97d53542e191cc47205320d006b7",
+    "whitepeak_club_f.png": "43739c566e26fd7cb88f69d3864ea34740372f5ee99acac169e090beffbce5c6"
+  },
+  "validation": {
+    "lint": "pass",
+    "build": "pass",
+    "syntax": "preview script passes node --check",
+    "diffWhitespace": "pass",
+    "browser": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "views": [
+          {
+            "label": "room",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "room-320-light.png"
+          },
+          {
+            "label": "room",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "room-320-dark.png"
+          },
+          {
+            "label": "room",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "room-393-light.png"
+          },
+          {
+            "label": "room",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "room-393-dark.png"
+          },
+          {
+            "label": "room",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "room-844-light.png"
+          },
+          {
+            "label": "room",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "room-844-dark.png"
+          },
+          {
+            "label": "room",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "room-1536-light.png"
+          },
+          {
+            "label": "room",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "room-1536-dark.png"
+          },
+          {
+            "label": "empty-room",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "empty-room-393-light.png"
+          }
+        ],
+        "errors": [],
+        "rankingInteraction": true,
+        "privateFixturesDeleted": true,
+        "buildIndexSha256": "9b8e1b8e5f9bbb0ff801b3a0e551a279f60451dcdd365712918043c9750a1956"
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "views": [
+          {
+            "label": "room",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "room-320-light.png"
+          },
+          {
+            "label": "room",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "room-320-dark.png"
+          },
+          {
+            "label": "room",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "room-393-light.png"
+          },
+          {
+            "label": "room",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "room-393-dark.png"
+          },
+          {
+            "label": "room",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "room-844-light.png"
+          },
+          {
+            "label": "room",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "room-844-dark.png"
+          },
+          {
+            "label": "room",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "room-1536-light.png"
+          },
+          {
+            "label": "room",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "room-1536-dark.png"
+          },
+          {
+            "label": "empty-room",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "empty-room-393-light.png"
+          }
+        ],
+        "errors": [],
+        "rankingInteraction": true,
+        "privateFixturesDeleted": true,
+        "buildIndexSha256": "9b8e1b8e5f9bbb0ff801b3a0e551a279f60451dcdd365712918043c9750a1956"
+      }
+    },
+    "review": "populated board, long names and six-digit scores, empty board and real ranking interaction; 18 room configurations across Chromium/WebKit; no physical device claim",
+    "reproduce": "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=/tmp/riftmon-honor-fit-dist PRESENTATION_BROWSER=chromium node --env-file-if-exists=.env scripts/previewHonorBoard.js"
+  },
+  "deployment": {
+    "publishedAt": "2026-11-04T12:20:05.939Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-honor-fit-2026-11-04T12-20-03-944Z",
+    "sourceBaseline": "1a22c5e9fff326a47a1dd596f15bc923031bd569",
+    "previousClient": "ff2335f534cfb976df563631d643a748e3561ca6",
+    "clientCommit": "ebc4f3d184f2de0f072f86f968e4c806b6c0da37",
+    "clientBuild": "1b4031878d0c2420",
+    "publicAssets": [
+      "js/234.02b18f2e.js",
+      "js/393.0fd15895.js",
+      "js/674.050af613.js",
+      "js/689.ea67c21b.js",
+      "js/737.e2c30081.js",
+      "js/account.6f096228.js",
+      "js/app.78c01d6c.js",
+      "js/chunk-vendors.0f4c51f9.js",
+      "js/colosseum.e15fe230.js",
+      "js/community.ef51702b.js",
+      "js/drift.e4ddfe6a.js",
+      "js/game.e642559d.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.3e989a3e.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.41dd79ef.css",
+      "css/test-view.7568246d.css"
+    ],
+    "servicePID": "3861817",
+    "serviceNotRestarted": true,
+    "automaticRestarts": 0,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "schemaChanged": false,
+    "productionDatabaseAccessed": false,
+    "realAccountsManuallyModified": false
+  }
+}
