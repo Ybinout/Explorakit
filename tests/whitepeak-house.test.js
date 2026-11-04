@@ -131,3 +131,47 @@ for(const format of [6,12])test(`2v2 ${format}v${format} permits exactly two cor
   assert.throws(()=>repo.select(f.snapshots,[side.ids],[side.composition],r.config),/Deux/);
  }finally{f.cleanup();}
 });
+
+test('House previews and every generated party use six distinct terminal Gen1–4 species, including stone and branch evolutions',()=>{
+ const all=[...require('../data/game/evolutions.json').rules,...require('../data/game/stone_evolutions.json').rules],evolving=new Set(all.filter(r=>r.to<=493).map(r=>r.from));
+ for(const entry of trainers.list()){
+  assert.equal(entry.species.length,6,entry.key);assert.equal(new Set(entry.species).size,6,entry.key);
+  assert(entry.species.every(id=>id<=493&&!evolving.has(id)),entry.key);
+  const p=trainers.create(entry.key,entry.species.map(()=>({level:50}))).pokemons;
+  assert.deepEqual(p.map(p=>p.data.id),entry.species);
+  for(const pokemon of p){assert(require('../server/game/abilities/abilityDex').getSpeciesAbilitySlots(pokemon.data.id).some(a=>a.name===pokemon.passiveAbility),`${entry.key} ${pokemon.data.id} ${pokemon.passiveAbility}`);assert(pokemon.heldItem);assert(pokemon.movePp.every(pp=>pp>0));}
+ }
+ assert.deepEqual(trainers.list().find(t=>t.key==='aspha_route2').species.slice(0,3),[448,475,373]);
+ assert.equal(trainers.list().find(t=>t.key==='champion_hoze').species[0],9);
+ assert.equal(trainers.list().find(t=>t.key==='mathilde_pikapika').species[0],26);
+ assert.equal(require('../server/game/world/pnjTeamFactory').getPnjTeam('hoze').pokemons[0].data.id,7,'Adventure keeps its intentional Squirtle');
+ assert.deepEqual(require('../server/game/superTournament/content').createTeam(0).pokemons.map(p=>p.data.id),[19,19,20],'Tower content remains separate');
+});
+test('an active House refresh does not replay the entrance and can restore exactly the current unaccepted choice',async()=>{
+ const f=await fixture({mode:'pve',trainerKey:'dia1'});try{const r=f.room,id=f.ids[0],c=f.contexts.get(id),before=c.events.length,token=r.engine.token,deadline=r.engine.deadline,round=r.engine.round,team=r.copies.map(p=>p.equipe.pokemons.map(p=>[p.uuid,p.currentHp,[...p.movePp]]));
+  await f.house.step(id);assert.equal(c.events.slice(before).filter(([e])=>e==='battletrigger').length,0);
+  c.events.length=0;assert(f.house.resync(id));const request=c.events.findLast(([e])=>e==='requestAction')?.[1];assert.equal(request.turnId,token);assert.equal(r.engine.round,round);assert.equal(r.engine.deadline,deadline);
+  assert.deepEqual(r.copies.map(p=>p.equipe.pokemons.map(p=>[p.uuid,p.currentHp,[...p.movePp]])),team);
+  const control=c.events.findLast(([e])=>e==='whitepeak:control')[1];assert(control.canControl);assert.equal(control.turnId,token);
+  assert.equal(f.house.resync(999999),false);
+ }finally{f.cleanup();}
+});
+test('resynchronizing a pending shared action never repeats it or asks its camp to act twice',async()=>{
+ const f=await fixture();try{await f.place();await f.confirm();const r=f.room,s=r.sides[0],id=s.control.controllerId,c=f.contexts.get(id),token=r.engine.token;
+  f.house.command('action',id,{id:r.id,turnId:token,controlRevision:s.control.revision,action:'attack',number:0});const pending=r.engine.pending.get(r.copies[0]),round=r.engine.round,deadline=r.engine.deadline;
+  c.events.length=0;f.house.resync(id);assert(!c.events.some(([e])=>e==='requestAction'));assert.equal(r.engine.pending.get(r.copies[0]),pending);assert.equal(r.engine.round,round);assert.equal(r.engine.deadline,deadline);assert.equal(c.events.findLast(([e])=>e==='whitepeak:control')[1].canControl,false);
+ }finally{f.cleanup();}
+});
+test('resynchronization retains the required replacement or pivot prompt and its allowed slots',async()=>{
+ const f=await fixture();try{await f.place();await f.confirm();const r=f.room,id=f.ids[0],c=f.contexts.get(id),p=r.copies[0];p.equipe.pokemons[0].currentHp=0;r.engine.prune();r.engine.request();
+  c.events.length=0;const token=r.engine.token,deadline=r.engine.deadline;f.house.resync(id);const request=c.events.findLast(([e])=>e==='requestAction')[1];assert(request.replacement);assert.equal(request.turnId,token);assert.deepEqual(request.allowedPokemonIndexes,[1,2,3,4,5]);assert.equal(r.engine.deadline,deadline);
+  p.equipe.pokemons[0].currentHp=1;r.engine.requestPivot(p,{remaining:[]});c.events.length=0;f.house.resync(id);const pivot=c.events.findLast(([e])=>e==='requestAction')[1];assert(pivot.replacement);assert(pivot.turnId.includes(':pivot:'));assert(r.engine.pivotSwitch);assert(r.engine.turnContinuation);
+ }finally{f.cleanup();}
+});
+test('leaving during turn resolution preserves its pending actions, then accepts the first choice of the next turn',async()=>{
+ const f=await fixture({mode:'pve',trainerKey:'dia1'});try{const r=f.room,id=f.ids[0],c=f.contexts.get(id),human=r.copies[0],npc=r.copies[1];npc.equipe.pokemons.forEach(p=>{p.abilities=['Splash'];p.movePp=[40];p.heldItem=null;});r.engine.pending.set(npc,{action:'attack',number:0});
+  const initialPp=human.equipe.pokemons[0].movePp[0];f.house.command('action',id,{id:r.id,turnId:r.engine.token,controlRevision:r.sides[0].control.revision,action:'attack',number:0});assert(!r.engine.awaiting);assert.equal(human.equipe.pokemons[0].movePp[0],initialPp-1);
+  const nextRoundAt=r.engine.nextRoundAt;c.socket.connected=false;f.house.disconnect(id,c);f.advance(1000);await f.house.tick();c.socket.connected=true;c.restoredHouse=null;c.events.length=0;await f.house.step(id);assert.equal(r.engine.nextRoundAt,nextRoundAt+1000);assert(!c.events.some(([e])=>e==='requestAction'));assert.equal(r.engine.round,1);
+  f.advance(1800);await f.house.tick();assert.equal(r.engine.round,2);const control=r.sides[0].control;assert(f.house.command('action',id,{id:r.id,turnId:r.engine.token,controlRevision:control.revision,action:'attack',number:0}));assert.equal(human.equipe.pokemons[0].movePp[0],initialPp-2);
+ }finally{f.cleanup();}
+});

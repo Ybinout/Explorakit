@@ -1,20 +1,18 @@
 {
-  "version": "2026-11-04-carnet-amis",
+  "version": "2026-11-04-maison-equipes-reprise",
   "date": "2026-11-04",
   "fr": {
-    "title": "Garde le contact",
+    "title": "La Maison des Combats se renforce",
     "items": [
-      "Un nouveau carnet d’amis : messages, badges obtenus et positions dans les classements.",
-      "Retrouve tes amis sur la minimap, sans groupe. Leur statut AFK apparaît après cinq minutes d’inactivité.",
-      "Lis tes notifications et réponds aux messages privés pendant les combats, sans les interrompre."
+      "Les dresseurs de la Maison utilisent des Pokémon entièrement évolués, avec des compositions et équipements adaptés.",
+      "La reprise des combats et la récupération des actions après une coupure ou une réponse tardive ont été fiabilisées."
     ]
   },
   "en": {
-    "title": "Keep in touch",
+    "title": "The Battle House steps up",
     "items": [
-      "A new friends journal with private messages, earned badges and leaderboard positions.",
-      "Find your friends on the map without a group. An AFK indicator appears after five idle minutes.",
-      "Read notifications and reply to private messages during battles without interrupting them."
+      "Battle House trainers use fully evolved Pokémon with adapted parties, abilities and held items.",
+      "Battle reconnection and action recovery after a disconnection or a delayed response are more reliable."
     ]
   }
 }

@@ -1,0 +1,835 @@
+{
+  "date": "2026-11-04",
+  "feature": "Fully evolved Battle House parties and reliable first actions after reconnect",
+  "sourceBaseline": "3953f292c501a6228e5d1ef31f20e72c3124cddf",
+  "clientCommit": "75646a6a096f770ef7a5529e9c9d6d3f08ba454e",
+  "clientBuild": "65c4369f84654c33",
+  "runtimeSourceSha256": {
+    "data/game/latest_patch.json": "0e2a08e9a5a72e42a793ef8963dbc78eb8fca10e09627b2e263816df474cdbc5",
+    "server/game/whitepeak/duelHouse.js": "4514b7ec80fd071caff0fd28b5f17ac378ead9d2f9caadbb21588647639c8058",
+    "server/game/whitepeak/trainers.js": "d7c706ff870a2610eb8c6ea39bf9bbf4a66db2e32fa949342e7609ddfd895676",
+    "server/realtime/whitepeakClub.js": "c1526c2b964ac55f0f17131c0ac2d48b146897d20a64565bac5158e141b96d7c"
+  },
+  "schemaChanged": false,
+  "patchVersion": "2026-11-04-maison-equipes-reprise",
+  "implementation": {
+    "trainers": 18,
+    "catalogue": [
+      {
+        "key": "dia1",
+        "name": "Wayne",
+        "role": "Éclaireur",
+        "portrait": "wayne-eyepatch-v2.png",
+        "species": [
+          20,
+          22,
+          162,
+          264,
+          400,
+          262
+        ]
+      },
+      {
+        "key": "aspha_route2",
+        "name": "Aspha",
+        "role": "Dresseur",
+        "portrait": "aspha-v1.png",
+        "species": [
+          448,
+          475,
+          373,
+          59,
+          229,
+          262
+        ]
+      },
+      {
+        "key": "town_lina",
+        "name": "Maria",
+        "role": "Dresseuse",
+        "portrait": "maria-v2.png",
+        "species": [
+          18,
+          40,
+          470,
+          131,
+          36,
+          468
+        ]
+      },
+      {
+        "key": "town_bastien",
+        "name": "Clément",
+        "role": "Dresseur",
+        "portrait": "clement-v2.png",
+        "species": [
+          55,
+          26,
+          171,
+          474,
+          398,
+          18
+        ]
+      },
+      {
+        "key": "nrv_noz",
+        "name": "NOZ",
+        "role": "Trio NRV",
+        "portrait": "nrv-noz-v1.png",
+        "species": [
+          430,
+          472,
+          461,
+          452,
+          229,
+          359
+        ]
+      },
+      {
+        "key": "nrv_tom",
+        "name": "TOM",
+        "role": "Trio NRV",
+        "portrait": "nrv-tom-v1.png",
+        "species": [
+          462,
+          405,
+          474,
+          254,
+          466,
+          181
+        ]
+      },
+      {
+        "key": "nrv_cry",
+        "name": "CRY",
+        "role": "Trio NRV",
+        "portrait": "nrv-cry-v1.png",
+        "species": [
+          184,
+          121,
+          365,
+          423,
+          272,
+          134
+        ]
+      },
+      {
+        "key": "moonpunch",
+        "name": "Mounir",
+        "role": "Champion",
+        "portrait": "moonpunch.png",
+        "species": [
+          272,
+          208,
+          351,
+          68,
+          55,
+          186
+        ]
+      },
+      {
+        "key": "champion_hoze",
+        "name": "Hoze",
+        "role": "Champion",
+        "portrait": "hoze.png",
+        "species": [
+          9,
+          254,
+          448,
+          445,
+          212,
+          248
+        ]
+      },
+      {
+        "key": "gwenn_route8",
+        "name": "Matthieu",
+        "role": "Dresseur",
+        "portrait": "matthieu-v2.png",
+        "species": [
+          121,
+          128,
+          130,
+          157,
+          3,
+          59
+        ]
+      },
+      {
+        "key": "champion_raphael",
+        "name": "Raphael",
+        "role": "Champion",
+        "portrait": "raph.png",
+        "species": [
+          160,
+          55,
+          359,
+          330,
+          212,
+          346
+        ]
+      },
+      {
+        "key": "champion_ana",
+        "name": "Ana",
+        "role": "Championne",
+        "portrait": "ana.png",
+        "species": [
+          53,
+          154,
+          78,
+          149,
+          407,
+          282
+        ]
+      },
+      {
+        "key": "champion_wanda",
+        "name": "Wanda",
+        "role": "Championne",
+        "portrait": "wanda.png",
+        "species": [
+          373,
+          68,
+          121,
+          65,
+          6,
+          376
+        ]
+      },
+      {
+        "key": "gwenn_rochebrume",
+        "name": "Gwenn",
+        "role": "Dresseur",
+        "portrait": "gwenn-v1.png",
+        "species": [
+          428,
+          430,
+          248,
+          227,
+          94,
+          465
+        ]
+      },
+      {
+        "key": "champion_7p",
+        "name": "7p",
+        "role": "Champion",
+        "portrait": "7ps.png",
+        "species": [
+          51,
+          257,
+          94,
+          80,
+          135,
+          130
+        ]
+      },
+      {
+        "key": "lucie_corrupted",
+        "name": "Lucie",
+        "role": "Dresseuse",
+        "portrait": "lucie-v1.png",
+        "species": [
+          395,
+          65,
+          68,
+          196,
+          398,
+          350
+        ]
+      },
+      {
+        "key": "mathilde_pikapika",
+        "name": "Mathilde Pikapika",
+        "role": "Dresseuse",
+        "portrait": "mathilde-v1.png",
+        "species": [
+          26,
+          466,
+          135,
+          181,
+          462,
+          405
+        ]
+      },
+      {
+        "key": "professor_final",
+        "name": "Le Professeur",
+        "role": "Dresseur",
+        "portrait": "prof.png",
+        "species": [
+          450,
+          437,
+          94,
+          121,
+          212,
+          445
+        ]
+      }
+    ],
+    "evolution": "Final Gen1–4 forms from both existing evolution graphs; authored branches preferred; deduplicated and thematic fillers keep six choices per trainer",
+    "training": "Evolved copies retain authored IV/EV/nature/K; moves/ability/item adapted through the shared strategic planner; same party size and matched/normalized levels",
+    "scope": "House only; authored Adventure and Tower species remain unchanged; House still grants no XP/EV/rewards",
+    "blockingCause": "UI could consume an action while clubBusy silently discarded its RPC; independently, rejected actions disabled the UI without a fresh authoritative prompt",
+    "busyFix": "House canChooseAction includes the existing busy flag; no premature action button",
+    "recovery": "On action/pass error or timeout, request current House state; never retry the move itself; server resumes only a valid pending choice",
+    "refresh": "Mark initial sessions as already attached, so refresh does not replay the entrance; explicit resync preserves accepted actions, replacement/pivot prompts, turn and clocks",
+    "lease": "Ignore RPC replies belonging to a disconnected/replaced client request epoch"
+  },
+  "validation": {
+    "unit": {
+      "passed": 43,
+      "failed": 0,
+      "skipped": 0,
+      "files": [
+        "whitepeak-house",
+        "whitepeak-manager",
+        "whitepeak-rules",
+        "whitepeak-ranking",
+        "patch-notes",
+        "network-delivery"
+      ]
+    },
+    "mysqlNetwork": {
+      "passed": 24,
+      "failed": 0,
+      "skipped": 0,
+      "files": [
+        "whitepeak-house-mysql",
+        "whitepeak-house-network-mysql",
+        "whitepeak-mysql",
+        "whitepeak-ranking-mysql"
+      ],
+      "database": "explorakit_test",
+      "sequential": true,
+      "firstActualCooperativeActionsAfterReconnect": true
+    },
+    "browser": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "checks": [
+          "initial-action",
+          "first-action-after-reload",
+          "first-action-after-transport-reconnect",
+          "first-action-after-slow-refresh",
+          "first-action-after-stale-control-recovery",
+          "accepted-action-with-lost-ack-resynchronizes-without-replay",
+          "first-action-after-timeout-recovery",
+          "owned-party-unchanged"
+        ],
+        "trace": [
+          {
+            "label": "initial-action",
+            "before": {
+              "control": {
+                "id": "98b6902b-90f4-4318-8a6f-7bc6ee85163b",
+                "mode": "pve",
+                "teamSize": 1,
+                "cooperative": false,
+                "paused": false,
+                "reconnectSeconds": null,
+                "ownerId": 28095,
+                "ownerName": "Resume_6e253158",
+                "controllerId": 28095,
+                "controllerName": "Resume_6e253158",
+                "delegated": false,
+                "canControl": true,
+                "canPass": false,
+                "revision": 2,
+                "turnId": "d2507f0b-4a08-4968-aa1b-1f8206690090:1"
+              },
+              "turn": "d2507f0b-4a08-4968-aa1b-1f8206690090:1",
+              "busy": false,
+              "canAct": true
+            },
+            "round": 1,
+            "pending": 1
+          },
+          {
+            "label": "first-action-after-reload",
+            "before": {
+              "control": {
+                "id": "98b6902b-90f4-4318-8a6f-7bc6ee85163b",
+                "mode": "pve",
+                "teamSize": 1,
+                "cooperative": false,
+                "paused": false,
+                "reconnectSeconds": null,
+                "ownerId": 28095,
+                "ownerName": "Resume_6e253158",
+                "controllerId": 28095,
+                "controllerName": "Resume_6e253158",
+                "delegated": false,
+                "canControl": true,
+                "canPass": false,
+                "revision": 3,
+                "turnId": "d2507f0b-4a08-4968-aa1b-1f8206690090:2"
+              },
+              "turn": "d2507f0b-4a08-4968-aa1b-1f8206690090:2",
+              "busy": false,
+              "canAct": true
+            },
+            "round": 2,
+            "pending": 1
+          },
+          {
+            "label": "first-action-after-transport-reconnect",
+            "before": {
+              "control": {
+                "id": "98b6902b-90f4-4318-8a6f-7bc6ee85163b",
+                "mode": "pve",
+                "teamSize": 1,
+                "cooperative": false,
+                "paused": false,
+                "reconnectSeconds": null,
+                "ownerId": 28095,
+                "ownerName": "Resume_6e253158",
+                "controllerId": 28095,
+                "controllerName": "Resume_6e253158",
+                "delegated": false,
+                "canControl": true,
+                "canPass": false,
+                "revision": 4,
+                "turnId": "d2507f0b-4a08-4968-aa1b-1f8206690090:3"
+              },
+              "turn": "d2507f0b-4a08-4968-aa1b-1f8206690090:3",
+              "busy": false,
+              "canAct": true
+            },
+            "round": 3,
+            "pending": 1
+          },
+          {
+            "label": "first-action-after-slow-refresh",
+            "before": {
+              "control": {
+                "id": "98b6902b-90f4-4318-8a6f-7bc6ee85163b",
+                "mode": "pve",
+                "teamSize": 1,
+                "cooperative": false,
+                "paused": false,
+                "reconnectSeconds": null,
+                "ownerId": 28095,
+                "ownerName": "Resume_6e253158",
+                "controllerId": 28095,
+                "controllerName": "Resume_6e253158",
+                "delegated": false,
+                "canControl": true,
+                "canPass": false,
+                "revision": 5,
+                "turnId": "d2507f0b-4a08-4968-aa1b-1f8206690090:4"
+              },
+              "turn": "d2507f0b-4a08-4968-aa1b-1f8206690090:4",
+              "busy": false,
+              "canAct": true
+            },
+            "round": 4,
+            "pending": 1
+          },
+          {
+            "label": "first-action-after-stale-control-recovery",
+            "before": {
+              "control": {
+                "id": "98b6902b-90f4-4318-8a6f-7bc6ee85163b",
+                "mode": "pve",
+                "teamSize": 1,
+                "cooperative": false,
+                "paused": false,
+                "reconnectSeconds": null,
+                "ownerId": 28095,
+                "ownerName": "Resume_6e253158",
+                "controllerId": 28095,
+                "controllerName": "Resume_6e253158",
+                "delegated": false,
+                "canControl": true,
+                "canPass": false,
+                "revision": 6,
+                "turnId": "d2507f0b-4a08-4968-aa1b-1f8206690090:5"
+              },
+              "turn": "d2507f0b-4a08-4968-aa1b-1f8206690090:5",
+              "busy": false,
+              "canAct": true
+            },
+            "round": 5,
+            "pending": 1
+          },
+          {
+            "label": "accepted-action-with-lost-ack-resynchronizes-without-replay",
+            "before": {
+              "control": {
+                "id": "98b6902b-90f4-4318-8a6f-7bc6ee85163b",
+                "mode": "pve",
+                "teamSize": 1,
+                "cooperative": false,
+                "paused": false,
+                "reconnectSeconds": null,
+                "ownerId": 28095,
+                "ownerName": "Resume_6e253158",
+                "controllerId": 28095,
+                "controllerName": "Resume_6e253158",
+                "delegated": false,
+                "canControl": true,
+                "canPass": false,
+                "revision": 7,
+                "turnId": "d2507f0b-4a08-4968-aa1b-1f8206690090:6"
+              },
+              "turn": "d2507f0b-4a08-4968-aa1b-1f8206690090:6",
+              "busy": false,
+              "canAct": true
+            },
+            "round": 6,
+            "pending": 1
+          },
+          {
+            "label": "first-action-after-timeout-recovery",
+            "before": {
+              "control": {
+                "id": "98b6902b-90f4-4318-8a6f-7bc6ee85163b",
+                "mode": "pve",
+                "teamSize": 1,
+                "cooperative": false,
+                "paused": false,
+                "reconnectSeconds": null,
+                "ownerId": 28095,
+                "ownerName": "Resume_6e253158",
+                "controllerId": 28095,
+                "controllerName": "Resume_6e253158",
+                "delegated": false,
+                "canControl": true,
+                "canPass": false,
+                "revision": 8,
+                "turnId": "d2507f0b-4a08-4968-aa1b-1f8206690090:7"
+              },
+              "turn": "d2507f0b-4a08-4968-aa1b-1f8206690090:7",
+              "busy": false,
+              "canAct": true
+            },
+            "round": 7,
+            "pending": 1
+          }
+        ],
+        "errors": [],
+        "buildIndexSha256": "7796497f4cbc1499906541518b19f7920b179c87c8fb8134e7c8288b2066ffb1"
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "checks": [
+          "initial-action",
+          "first-action-after-reload",
+          "first-action-after-transport-reconnect",
+          "first-action-after-slow-refresh",
+          "first-action-after-stale-control-recovery",
+          "accepted-action-with-lost-ack-resynchronizes-without-replay",
+          "first-action-after-timeout-recovery",
+          "owned-party-unchanged"
+        ],
+        "trace": [
+          {
+            "label": "initial-action",
+            "before": {
+              "control": {
+                "id": "44f29145-7cd4-4f29-877f-139a577564f0",
+                "mode": "pve",
+                "teamSize": 1,
+                "cooperative": false,
+                "paused": false,
+                "reconnectSeconds": null,
+                "ownerId": 28188,
+                "ownerName": "Resume_71200e13",
+                "controllerId": 28188,
+                "controllerName": "Resume_71200e13",
+                "delegated": false,
+                "canControl": true,
+                "canPass": false,
+                "revision": 2,
+                "turnId": "b5a3105c-c1da-47ad-a5d5-4227c9e7c73c:1"
+              },
+              "turn": "b5a3105c-c1da-47ad-a5d5-4227c9e7c73c:1",
+              "busy": false,
+              "canAct": true
+            },
+            "round": 1,
+            "pending": 1
+          },
+          {
+            "label": "first-action-after-reload",
+            "before": {
+              "control": {
+                "id": "44f29145-7cd4-4f29-877f-139a577564f0",
+                "mode": "pve",
+                "teamSize": 1,
+                "cooperative": false,
+                "paused": false,
+                "reconnectSeconds": null,
+                "ownerId": 28188,
+                "ownerName": "Resume_71200e13",
+                "controllerId": 28188,
+                "controllerName": "Resume_71200e13",
+                "delegated": false,
+                "canControl": true,
+                "canPass": false,
+                "revision": 3,
+                "turnId": "b5a3105c-c1da-47ad-a5d5-4227c9e7c73c:2"
+              },
+              "turn": "b5a3105c-c1da-47ad-a5d5-4227c9e7c73c:2",
+              "busy": false,
+              "canAct": true
+            },
+            "round": 2,
+            "pending": 1
+          },
+          {
+            "label": "first-action-after-transport-reconnect",
+            "before": {
+              "control": {
+                "id": "44f29145-7cd4-4f29-877f-139a577564f0",
+                "mode": "pve",
+                "teamSize": 1,
+                "cooperative": false,
+                "paused": false,
+                "reconnectSeconds": null,
+                "ownerId": 28188,
+                "ownerName": "Resume_71200e13",
+                "controllerId": 28188,
+                "controllerName": "Resume_71200e13",
+                "delegated": false,
+                "canControl": true,
+                "canPass": false,
+                "revision": 4,
+                "turnId": "b5a3105c-c1da-47ad-a5d5-4227c9e7c73c:3"
+              },
+              "turn": "b5a3105c-c1da-47ad-a5d5-4227c9e7c73c:3",
+              "busy": false,
+              "canAct": true
+            },
+            "round": 3,
+            "pending": 1
+          },
+          {
+            "label": "first-action-after-slow-refresh",
+            "before": {
+              "control": {
+                "id": "44f29145-7cd4-4f29-877f-139a577564f0",
+                "mode": "pve",
+                "teamSize": 1,
+                "cooperative": false,
+                "paused": false,
+                "reconnectSeconds": null,
+                "ownerId": 28188,
+                "ownerName": "Resume_71200e13",
+                "controllerId": 28188,
+                "controllerName": "Resume_71200e13",
+                "delegated": false,
+                "canControl": true,
+                "canPass": false,
+                "revision": 5,
+                "turnId": "b5a3105c-c1da-47ad-a5d5-4227c9e7c73c:4"
+              },
+              "turn": "b5a3105c-c1da-47ad-a5d5-4227c9e7c73c:4",
+              "busy": false,
+              "canAct": true
+            },
+            "round": 4,
+            "pending": 1
+          },
+          {
+            "label": "first-action-after-stale-control-recovery",
+            "before": {
+              "control": {
+                "id": "44f29145-7cd4-4f29-877f-139a577564f0",
+                "mode": "pve",
+                "teamSize": 1,
+                "cooperative": false,
+                "paused": false,
+                "reconnectSeconds": null,
+                "ownerId": 28188,
+                "ownerName": "Resume_71200e13",
+                "controllerId": 28188,
+                "controllerName": "Resume_71200e13",
+                "delegated": false,
+                "canControl": true,
+                "canPass": false,
+                "revision": 6,
+                "turnId": "b5a3105c-c1da-47ad-a5d5-4227c9e7c73c:5"
+              },
+              "turn": "b5a3105c-c1da-47ad-a5d5-4227c9e7c73c:5",
+              "busy": false,
+              "canAct": true
+            },
+            "round": 5,
+            "pending": 1
+          },
+          {
+            "label": "accepted-action-with-lost-ack-resynchronizes-without-replay",
+            "before": {
+              "control": {
+                "id": "44f29145-7cd4-4f29-877f-139a577564f0",
+                "mode": "pve",
+                "teamSize": 1,
+                "cooperative": false,
+                "paused": false,
+                "reconnectSeconds": null,
+                "ownerId": 28188,
+                "ownerName": "Resume_71200e13",
+                "controllerId": 28188,
+                "controllerName": "Resume_71200e13",
+                "delegated": false,
+                "canControl": true,
+                "canPass": false,
+                "revision": 7,
+                "turnId": "b5a3105c-c1da-47ad-a5d5-4227c9e7c73c:6"
+              },
+              "turn": "b5a3105c-c1da-47ad-a5d5-4227c9e7c73c:6",
+              "busy": false,
+              "canAct": true
+            },
+            "round": 6,
+            "pending": 1
+          },
+          {
+            "label": "first-action-after-timeout-recovery",
+            "before": {
+              "control": {
+                "id": "44f29145-7cd4-4f29-877f-139a577564f0",
+                "mode": "pve",
+                "teamSize": 1,
+                "cooperative": false,
+                "paused": false,
+                "reconnectSeconds": null,
+                "ownerId": 28188,
+                "ownerName": "Resume_71200e13",
+                "controllerId": 28188,
+                "controllerName": "Resume_71200e13",
+                "delegated": false,
+                "canControl": true,
+                "canPass": false,
+                "revision": 8,
+                "turnId": "b5a3105c-c1da-47ad-a5d5-4227c9e7c73c:7"
+              },
+              "turn": "b5a3105c-c1da-47ad-a5d5-4227c9e7c73c:7",
+              "busy": false,
+              "canAct": true
+            },
+            "round": 7,
+            "pending": 1
+          }
+        ],
+        "errors": [],
+        "buildIndexSha256": "7796497f4cbc1499906541518b19f7920b179c87c8fb8134e7c8288b2066ffb1"
+      }
+    },
+    "baseline": {
+      "simpleReconnectPassed": true,
+      "delayedRefreshAssertionFailed": true,
+      "message": "AssertionError [ERR_ASSERTION]: Do not enable a battle action while its RPC would be discarded by clubBusy\n\ntrue !== false\n\n    at /home/ubuntu/dev/explorakit/scripts/validateHouseResumeBrowser.js:16:472",
+      "observed": {
+        "battle": true,
+        "control": {
+          "id": "717622df-b353-45c7-92bc-5da02040aea2",
+          "mode": "pve",
+          "teamSize": 1,
+          "cooperative": false,
+          "paused": false,
+          "reconnectSeconds": null,
+          "ownerId": 28093,
+          "ownerName": "Resume_ae7b764f",
+          "controllerId": 28093,
+          "controllerName": "Resume_ae7b764f",
+          "delegated": false,
+          "canControl": true,
+          "canPass": false,
+          "revision": 5,
+          "turnId": "24c284a8-a5cc-4ef7-8942-272cd2e6e886:4"
+        },
+        "busy": true,
+        "error": "",
+        "canAct": true,
+        "turn": "24c284a8-a5cc-4ef7-8942-272cd2e6e886:4",
+        "canChoose": true
+      }
+    },
+    "replaySafety": "Accepted action acknowledged after timeout still costs exactly one PP and advances exactly one turn; subsequent manual action succeeds",
+    "phaseCoverage": "Waiting/reload/transport restart/slow RPC/stale control/late ACK in browsers; resolution pause, already pending shared action, KO and pivot prompts in unit cases",
+    "ownedPartyUnchanged": true,
+    "lint": "pass",
+    "build": "pass",
+    "syntax": "changed server modules and browser recipe pass node --check",
+    "diffWhitespace": "pass",
+    "productionSchemaBefore": {
+      "valid": true,
+      "tables": 31,
+      "constraints": 27,
+      "migrationReceipts": 31
+    }
+  },
+  "limits": {
+    "physicalPhoneTested": false,
+    "fullHistoricalSuiteClaimed": false,
+    "browserNeutralNpcMoves": "Private Splash fixtures keep reconnection cases alive; unit tests exercise real strategic turns for all18 trainers",
+    "reproduction": "Ordinary waiting reconnect passed before fix. The failure reproduced under a delayed House response; no claim that every reported stall had exactly this cause."
+  },
+  "deployment": {
+    "publishedAt": "2026-11-04T12:53:37.678Z",
+    "restartedAt": "2026-11-04T12:53:36.139Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-house-resume-2026-11-04T12-53-34-495Z",
+    "sourceBaseline": "3953f292c501a6228e5d1ef31f20e72c3124cddf",
+    "sourceHashes": {
+      "data/game/latest_patch.json": "0e2a08e9a5a72e42a793ef8963dbc78eb8fca10e09627b2e263816df474cdbc5",
+      "server/game/whitepeak/duelHouse.js": "4514b7ec80fd071caff0fd28b5f17ac378ead9d2f9caadbb21588647639c8058",
+      "server/game/whitepeak/trainers.js": "d7c706ff870a2610eb8c6ea39bf9bbf4a66db2e32fa949342e7609ddfd895676",
+      "server/realtime/whitepeakClub.js": "c1526c2b964ac55f0f17131c0ac2d48b146897d20a64565bac5158e141b96d7c"
+    },
+    "clientCommit": "75646a6a096f770ef7a5529e9c9d6d3f08ba454e",
+    "clientBuild": "65c4369f84654c33",
+    "beforePid": "3861817",
+    "afterPid": "3866805",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "schemaChanged": false,
+    "migrationApplied": null,
+    "schemaVerified": true,
+    "schemaTables": 31,
+    "schemaConstraints": 27,
+    "migrationReceipts": 31,
+    "activeClubDuelsBefore": 0,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 0,
+    "rouletteBefore": [],
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": [
+      "js/234.02b18f2e.js",
+      "js/393.0fd15895.js",
+      "js/674.050af613.js",
+      "js/689.ea67c21b.js",
+      "js/737.e2c30081.js",
+      "js/account.6f096228.js",
+      "js/app.2c5d51c5.js",
+      "js/chunk-vendors.0f4c51f9.js",
+      "js/colosseum.e15fe230.js",
+      "js/community.ef51702b.js",
+      "js/drift.e4ddfe6a.js",
+      "js/game.045efe21.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.3e989a3e.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.1fca1867.css",
+      "css/test-view.7568246d.css"
+    ]
+  }
+}

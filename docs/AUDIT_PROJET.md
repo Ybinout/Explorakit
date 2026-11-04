@@ -1,3 +1,13 @@
+## Maison des Combats : adultes et reprise fiable — 4 novembre 2026
+
+Les18 dresseurs PvE de la Maison disposent désormais de six choix **entièrement évolués**, sans doublons après évolution. Les deux catalogues d’évolution existants(pierres comprises) déterminent les formes finales Gen1–4 ; les branches identitaires déjà présentes sont conservées(Gallame pour Aspha). Des compléments cohérents évitent qu’une équipe auparavant courte ne perde des places après déduplication. La copie rencontre autant de Pokémon que le joueur, aux mêmes niveaux adaptés/normalisés. L’entraînement IV/EV/nature/K de l’auteur est conservé quand une forme devient adulte, et ses statistiques sont celles de l’adulte. Capacités, talent et objet sont adaptés au nouveau Pokémon ; pas de Balle Lumière sur Raichu. Les compositions Aventure/Tour ne sont pas modifiées.
+
+La reprise simple fonctionnait dans la première recette. Un blocage a été **reproduit avec une réponse Maison retardée** :les boutons autorisaient un clic pendant `clubBusy`, `submitAction` désactivait ensuite le choix, alors que `clubCommand` abandonnait l’envoi. Le garde de choix tient maintenant compte de cette attente. Un refus ou timeout d’action/transfert demande une resynchronisation autoritaire ; aucune attaque n’est renvoyée automatiquement, car elle peut déjà avoir été reçue. Le serveur réémet le snapshot et seulement un choix encore attendu. Un choix déjà accepté, un pivot/K.O., l’équipe, les PP et les délais sont conservés ; l’initialisation ne rejoue plus une entrée au premier refresh. Les réponses d’une requête de l’ancienne connexion ne modifient plus les indicateurs d’une nouvelle session.
+
+Validation :**43 tests ciblés et24 SQL/réseau**, sans échec ni saut. Le réseau vérifie de vraies premières actions du camp partagé après reconnexion. Parcours authentifiés Chromium PC et WebKit mobile :rechargement, reconnexion, RPC lent, révision périmée, ACK perdu/tardif, récupération de l’action suivante ; un seul PP/tour consommé pour l’attaque déjà acceptée. Les cas de résolution interrompue, pivot et remplacement sont aussi couverts. Lint/build/syntaxe/diff valides. Rapport `docs/HOUSE_MATURE_RESUME_2026-11-04.json`, incluant le cas échouant avant correctif et les limites des fixtures. Pas de nouvelle suite globale ni de téléphone physique revendiqués. Aucun changement d’IA humaine, de règle de paris, de carte ou de schéma SQL.
+
+Publication :client `75646a6`, build `65c4369f84654c33`, serveur PID3861817→3866805. Aucun duel Maison actif au redémarrage. Sauvegarde SQL/sources/index, schéma31 tables/27 contraintes/31 reçus valide et inchangé,21 bundles HTTPS vérifiés ;anciens assets conservés, voisins Knov/API et checkpoint des modes fermés inchangés. Aucun avertissement ni redémarrage automatique après publication.
+
 ## Intégration du tableau mural — 4 novembre 2026
 
 La plaque précédente(116×105 unités, x612 y25) débordait du tableau illustré et couvrait des éléments du mur. Le classement est désormais peint **dans la surface d’ardoise du cadre existant**, avec une texture très légère, trois petits médaillons métalliques, une typographie de tableau et des séparateurs discrets. Les ferrures, bordures sculptées, ombres, fenêtres et lanternes proviennent toujours du décor original. Les noms longs sont abrégés avec une ellipse ; chiffres compacts seulement si leur colonne ne suffit pas. Aucun panneau supplémentaire dans la salle.
@@ -6361,6 +6371,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **4 novembre 2026 — Maison adulte/reprise :**18 compositions PvE finales Gen1–4 ;garde des requêtes en attente, reprise autoritaire après refus/timeout et protection des réponses d’ancienne session.67 tests ciblés/SQL/réseau, parcours PC Chromium et mobile WebKit. Rapport `docs/HOUSE_MATURE_RESUME_2026-11-04.json`.
 
 - **4 novembre 2026 — Tableau mural :** Top3 inscrit dans l’ardoise et le cadre du décor existant ;ancienne plaque débordante retirée.18 configurations visuelles Chromium/WebKit, classement toujours accessible. Publication frontend seule, rapport `docs/HONOR_BOARD_FIT_2026-11-04.json`.
 

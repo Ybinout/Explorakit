@@ -27,6 +27,15 @@ test('SQL/socket cooperative preparation, actor ownership, reconnect grace and r
   const deadline=r.engine.deadline;clock+=12000;await club.tick();assert.equal(r.engine.round,1);assert.equal(r.engine.deadline,deadline);
   const reconnected=await connect(accounts[ownerIndex]);await club.execute(()=>{});assert.equal(r.disconnected.size,0);assert.equal(r.engine.deadline,deadline+12000);assert.equal(side.control.controllerId,partner);
   assert.equal(contexts.get(owner).getPlayer().inbattle,true);assert(reconnected.connected);
+  // Submit the first real choices after reconnect, including the delegated
+  // teammate. A presence-only assertion would miss a stuck battle command.
+  const socketFor=id=>id===owner?reconnected:sockets[accounts.findIndex(u=>u.id===id)];
+  const oldRound=r.engine.round;
+  for(const camp of r.sides){const control=camp.control;assert((await command(socketFor(control.controllerId),'action',{id:r.id,turnId:r.engine.token,controlRevision:control.revision,action:'attack',number:0})).success);}
+  clock+=2000;await club.tick();assert.equal(r.engine.round,oldRound+1);
+  const resumed=wait(reconnected,'requestAction');assert((await command(reconnected,'refresh',{battleSync:true})).success);assert.equal((await resumed).turnId,r.engine.token);
+  assert.equal(r.engine.round,oldRound+1,'refresh cannot advance a turn');
+
   const ending=wait(a,'endbattle');await club.execute(()=>{for(const p of r.copies[0].equipe.pokemons)p.currentHp=0;r.engine.prune();r.engine.checkEnd();});await ending;await club.tick();assert.equal(r.phase,'finished');
   assert.equal(xpEvents,0);for(const u of accounts.slice(0,3)){const team=await teams.loadEquipe(u.id);assert(team.pokemons.every(p=>p.level===50&&p.ev.hp===0&&p.currentHp===p.maxHp));}
   const[[wallet]]=await db.execute('SELECT money FROM users WHERE id=?',[accounts[0].id]);assert.equal(Number(wallet.money),49000);

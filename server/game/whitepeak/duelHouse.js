@@ -103,7 +103,7 @@ function createDuelHouse({contexts,getRoom,setRoom,emitRoom,now,emitSpectator,wa
    });
    if(r.config.mode==='pve')r.copies.push({id:r.id+':npc',npc:true,drifts:[],equipped:[],items:{},defeated:new Set(),money:0,chain:0,username:trainers.list().find(t=>t.key===r.config.trainerKey)?.name,currentmap:rules.HALL,equipe:trainers.create(r.config.trainerKey,r.copies[0].equipe.pokemons,r.config.level,r.config)});
    r.phase='battle';r.startedAt=now();r.requests=new Map();r.owners=new Map(r.sides.flatMap(s=>s.composition.map(p=>[p.uuid,p.ownerId])));r.controlRevision=0;
-   for(const id of r.ids)ctx(id).getPlayer().inbattle=true;emitRoom();
+   for(const id of r.ids){const c=ctx(id);c.getPlayer().inbattle=true;c.restoredHouse=r.id;c.lastHouseControl=null;}emitRoom();
    r.engine=new Battle(r.copies[0],r.copies[1],{type:r.config.mode==='pve'?'trainer':'pvp',now,paceMs:1800,npcKey:r.config.trainerKey||null,
     rules:{rewards:false,report:false,permanentDeaths:false,bagAllowed:false,partyLimit:r.config.format===12?12:6,musicKind:r.config.mode==='pve'?trainers.music(r.config.trainerKey):'pvp'},
     emit:(p,event,payload)=>emit(r,p,event,payload),onUpdate:()=>{if(r.engine)syncControl(r);},onFinish:(_b,winner,reason)=>{r.outcome={winnerId:winner?.npc?null:winner?r.sides[r.copies.indexOf(winner)].ids[0]:null,reason,lossToNpc:!!winner?.npc};r.phase='settling';}});
@@ -177,11 +177,18 @@ function createDuelHouse({contexts,getRoom,setRoom,emitRoom,now,emitSpectator,wa
    if(r.phase==='battle'){c.socket.emit('battletrigger',{battleType:r.config.mode==='pve'?'trainer':'pvp',environment:'whitepeak-club',trainerKey:r.config.trainerKey,message:'Le combat reprend.'});r.engine.resume(r.copies[sideOf(r,id)]);syncControl(r);}
   }
  }
+ function resync(id){
+  const r=getRoom();if(!r?.advanced||r.phase!=='battle'||!participant(r,id))return false;
+  const c=ctx(id);if(c.getPlayer()?.currentmap!==rules.HALL)return false;
+  // Replay the actual snapshot and only a still-available choice. Never repeat
+  // an accepted action, choose for the player, reset a turn or heal a copy.
+  c.lastHouseControl=null;r.engine.resume(r.copies[sideOf(r,id)]);syncControl(r);return true;
+ }
  function disconnect(id,c){const r=getRoom();if(!r?.advanced||contexts.get(id)!==c)return;
   if(['waiting','preparation'].includes(r.phase)&&(r.hostId===id||participant(r,id)))cancel('Un dresseur s’est déconnecté avant le combat.');
   else if(r.phase==='battle'&&participant(r,id)){if(!r.disconnected.size)r.pausedAt=now();r.disconnected.set(id,now());syncControl(r);for(const owner of r.ids)contexts.get(owner)?.socket.emit('progressionNotice',{message:`${c.username} est déconnecté : 30 secondes pour revenir.`});}
  }
  const commands={compose,chat,inspect,confirm,action,pass};
- return{create,view,syncWaiting,step,tick,disconnect,cancel,command:(name,id,data)=>{if(!commands[name])rules.fail('Commande inconnue.');return commands[name](id,data);},trainers:trainers.list};
+ return{create,view,syncWaiting,step,resync,tick,disconnect,cancel,command:(name,id,data)=>{if(!commands[name])rules.fail('Commande inconnue.');return commands[name](id,data);},trainers:trainers.list};
 }
 module.exports={createDuelHouse,capacities,PREPARATION_MS,RECONNECT_MS};

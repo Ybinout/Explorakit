@@ -189,7 +189,7 @@ function createClub(io,{repository=store,now=Date.now,randomNumber=()=>randomInt
    board:async(id,data)=>{requireMap(id,rules.HALL);if(repository.rankingPage){const ranking=await repository.rankingPage({...data,userId:id});return{ranking,rows:ranking.rows};}return{rows:await repository.leaderboard()};},
    watch,unwatch:id=>{spectators.delete(id);return null;},
    bet:async(id,data)=>{available(id);const p=requireMap(id,rules.CASINO);if(!rules.atRouletteTable(p))rules.fail('Approche-toi de la table de roulette pour miser.');const result=await repository.placeBet(id,data,now());wallet(id,result.balance);round=await repository.rouletteState();emitRoulette();return result;},
-   open:async(id)=>{available(id);await interact(id);return view(id);},refresh:async id=>{await enter(id);return view(id);}};
+   open:async(id)=>{available(id);await interact(id);return view(id);},refresh:async id=>{const restored=context(id).restoredHouse;await enter(id);if(restored===room?.id)advanced.resync(id);return view(id);}};
   for(const[name,fn]of Object.entries(ops))c.account.on('whitepeak:'+name,(data={},ack)=>{
    if(typeof data==='function'){ack=data;data={};}const reply=typeof ack==='function'?ack:()=>{};
    // Refuse before queueing: a slow transaction must not grow an unbounded
