@@ -66,6 +66,7 @@ router.post('/login', async (req, res) => {
 });
 
 router.use(authenticateHttp);
+router.use('/patch-notes', rateLimit({limit:90}), require('./patchNotesRoutes'));
 router.use((req,res,next)=>{
     if(req.method==='PUT'&&req.path.startsWith('/teams/')&&require('../game/social/tradeLocks').locked(req.user.id))return res.status(409).send({message:'Termine ou annule ton échange avant de modifier ton équipe.'});
     next();

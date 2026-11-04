@@ -1,0 +1,382 @@
+{
+  "feature": "Latest patch announcement once per account and version",
+  "date": "2026-11-04",
+  "sourceBaseline": "058fbf01bbb9061583ed113a94027b48fa62922f",
+  "clientCommit": "a13441518f18db91ca7b5818e5cad7b800461bb3",
+  "clientBuild": "18370934ef3805db",
+  "latestPatch": {
+    "version": "2026-11-04-tour-xp",
+    "date": "2026-11-04",
+    "fr": {
+      "title": "De l’XP dans la Tour !",
+      "items": [
+        "Les combats du Super Tournoi donnent désormais 80 % de l’XP habituelle, jusqu’au niveau 120.",
+        "Le partage et le Multi Exp fonctionnent. Tes gains restent acquis après la tentative."
+      ]
+    },
+    "en": {
+      "title": "Earn XP in the Tower!",
+      "items": [
+        "Super Tournament battles now award 80% of normal XP, up to level 120.",
+        "XP sharing and Exp. Share work. You keep your gains after the run."
+      ]
+    }
+  },
+  "schemaChanged": false,
+  "realAccountsManuallyModified": false,
+  "runtimeSourceSha256": {
+    "data/game/latest_patch.json": "f0105c2e19ffd237bbc443a5506fbf17bb8b7258977c40183a92706af0e47a87",
+    "server/http/patchNotesRoutes.js": "7d1dce97f7fb88cd300a4ac15cc3f2546e44e5aeee31ddb1227466615bd718aa",
+    "server/http/routes.js": "a44f8af2ce115384b85be3ea4b344c42fb998e6d0757614a8dd52e79f71882c2",
+    "server/persistence/patchNotesRepository.js": "d481e4251ea7a974acb4afc54519348d03be9cda9c41313b6ef6f0b55f0820cb"
+  },
+  "validation": {
+    "passed": 36,
+    "failed": 0,
+    "skipped": 0,
+    "testLog": "/tmp/riftmon-patch-notes-tests.log",
+    "newSqlCases": 7,
+    "ui": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "views": [
+          {
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "patch-320-light.png"
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "patch-320-dark.png"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "patch-393-light.png"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "patch-393-dark.png"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "patch-844-light.png"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "patch-844-dark.png"
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "patch-1536-light.png"
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "patch-1536-dark.png"
+          }
+        ],
+        "errors": [],
+        "buildIndexSha256": "4470c24f06d9af904ec5be207405195a6d26dc71b0729846f11f83ebe894ae97",
+        "checks": [
+          "login",
+          "unread-reload",
+          "stale-response",
+          "persisted-dismissal",
+          "cross-device",
+          "account-switch",
+          "ack-failure",
+          "onboarding-priority",
+          "menu-priority",
+          "movement-blocked",
+          "focus",
+          "fullscreen"
+        ]
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "views": [
+          {
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "patch-320-light.png"
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "patch-320-dark.png"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "patch-393-light.png"
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "patch-393-dark.png"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "patch-844-light.png"
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "patch-844-dark.png"
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "patch-1536-light.png"
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "patch-1536-dark.png"
+          }
+        ],
+        "errors": [],
+        "buildIndexSha256": "4470c24f06d9af904ec5be207405195a6d26dc71b0729846f11f83ebe894ae97",
+        "checks": [
+          "login",
+          "unread-reload",
+          "stale-response",
+          "persisted-dismissal",
+          "cross-device",
+          "account-switch",
+          "ack-failure",
+          "onboarding-priority",
+          "menu-priority",
+          "movement-blocked",
+          "focus"
+        ]
+      }
+    },
+    "tournamentRegression": {
+      "success": true,
+      "engine": "chromium",
+      "buildIndexSha256": "4470c24f06d9af904ec5be207405195a6d26dc71b0729846f11f83ebe894ae97",
+      "views": [
+        {
+          "kind": "entry",
+          "width": 320,
+          "height": 480,
+          "mode": "light"
+        },
+        {
+          "kind": "entry",
+          "width": 320,
+          "height": 480,
+          "mode": "dark"
+        },
+        {
+          "kind": "entry",
+          "width": 393,
+          "height": 852,
+          "mode": "light"
+        },
+        {
+          "kind": "entry",
+          "width": 393,
+          "height": 852,
+          "mode": "dark"
+        },
+        {
+          "kind": "entry",
+          "width": 844,
+          "height": 390,
+          "mode": "light"
+        },
+        {
+          "kind": "entry",
+          "width": 844,
+          "height": 390,
+          "mode": "dark"
+        },
+        {
+          "kind": "entry",
+          "width": 1536,
+          "height": 680,
+          "mode": "light"
+        },
+        {
+          "kind": "entry",
+          "width": 1536,
+          "height": 680,
+          "mode": "dark"
+        },
+        {
+          "kind": "reward",
+          "width": 320,
+          "height": 480,
+          "mode": "light"
+        },
+        {
+          "kind": "reward",
+          "width": 320,
+          "height": 480,
+          "mode": "dark"
+        },
+        {
+          "kind": "reward",
+          "width": 393,
+          "height": 852,
+          "mode": "light"
+        },
+        {
+          "kind": "reward",
+          "width": 393,
+          "height": 852,
+          "mode": "dark"
+        },
+        {
+          "kind": "reward",
+          "width": 844,
+          "height": 390,
+          "mode": "light"
+        },
+        {
+          "kind": "reward",
+          "width": 844,
+          "height": 390,
+          "mode": "dark"
+        },
+        {
+          "kind": "reward",
+          "width": 1536,
+          "height": 680,
+          "mode": "light"
+        },
+        {
+          "kind": "reward",
+          "width": 1536,
+          "height": 680,
+          "mode": "dark"
+        }
+      ],
+      "payments": [
+        {
+          "room": 1,
+          "amount": 5086,
+          "balance": 5086
+        },
+        {
+          "room": 16,
+          "amount": 71210,
+          "balance": 76296
+        },
+        {
+          "room": 17,
+          "amount": 10172,
+          "balance": 86468
+        }
+      ],
+      "staleProgressResponse": true,
+      "reconnectNoDoubleCredit": true,
+      "adventureIdentityPreserved": true,
+      "earnedXpPersisted": true,
+      "pendingLearningDeferred": true,
+      "levelUpObserved": true,
+      "levelCap": 120,
+      "xpRate": 0.8,
+      "abandonKeepsMoney": true,
+      "errors": []
+    },
+    "lint": "No lint errors",
+    "buildIndexSha256": "4470c24f06d9af904ec5be207405195a6d26dc71b0729846f11f83ebe894ae97",
+    "syntaxAndDiff": true,
+    "globalSuite": "Not rerun; no claim about the 28 historical failures."
+  },
+  "storage": {
+    "receiptKey": "patch_seen:<version>",
+    "scope": "authenticated account, shared between devices",
+    "readsDoNotAcknowledge": true,
+    "acknowledgement": "only after explicit Compris/Escape and committed SQL receipt",
+    "versionPolicy": "change data/game/latest_patch.json with each player-visible release; retain old receipts"
+  },
+  "network": {
+    "staleAccountResponsesDiscarded": true,
+    "staleUnreadResponseAfterAcknowledgementDiscarded": true,
+    "ackFailureCanContinue": true,
+    "loadFailureDoesNotBlockPlay": true,
+    "noPolling": true
+  },
+  "deployment": {
+    "publishedAt": "2026-11-04T07:33:40.310Z",
+    "restartedAt": "2026-11-04T07:33:38.773Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-patch-notes-2026-11-04T07-33-37-195Z",
+    "sourceBaseline": "058fbf01bbb9061583ed113a94027b48fa62922f",
+    "sourceHashes": {
+      "server/http/routes.js": "a44f8af2ce115384b85be3ea4b344c42fb998e6d0757614a8dd52e79f71882c2",
+      "data/game/latest_patch.json": "f0105c2e19ffd237bbc443a5506fbf17bb8b7258977c40183a92706af0e47a87",
+      "server/http/patchNotesRoutes.js": "7d1dce97f7fb88cd300a4ac15cc3f2546e44e5aeee31ddb1227466615bd718aa",
+      "server/persistence/patchNotesRepository.js": "d481e4251ea7a974acb4afc54519348d03be9cda9c41313b6ef6f0b55f0820cb"
+    },
+    "clientCommit": "a13441518f18db91ca7b5818e5cad7b800461bb3",
+    "clientBuild": "18370934ef3805db",
+    "beforePid": "3824074",
+    "afterPid": "3828276",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "schemaChanged": false,
+    "migrationApplied": null,
+    "activeClubDuelsBefore": 0,
+    "databaseDurabilityChanged": false,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 0,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": [
+      "js/234.02b18f2e.js",
+      "js/393.0fd15895.js",
+      "js/674.d752c511.js",
+      "js/689.ea67c21b.js",
+      "js/737.e2c30081.js",
+      "js/account.6f096228.js",
+      "js/app.b688bd2f.js",
+      "js/chunk-vendors.0f4c51f9.js",
+      "js/colosseum.e15fe230.js",
+      "js/community.ef51702b.js",
+      "js/drift.e4ddfe6a.js",
+      "js/game.7d60dcbe.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.c5a385b9.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.8a68514e.css",
+      "css/test-view.7568246d.css"
+    ]
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "version": "2026-11-04-tour-xp",
+  "date": "2026-11-04",
+  "fr": {
+    "title": "De l’XP dans la Tour !",
+    "items": [
+      "Les combats du Super Tournoi donnent désormais 80 % de l’XP habituelle, jusqu’au niveau 120.",
+      "Le partage et le Multi Exp fonctionnent. Tes gains restent acquis après la tentative."
+    ]
+  },
+  "en": {
+    "title": "Earn XP in the Tower!",
+    "items": [
+      "Super Tournament battles now award 80% of normal XP, up to level 120.",
+      "XP sharing and Exp. Share work. You keep your gains after the run."
+    ]
+  }
+}

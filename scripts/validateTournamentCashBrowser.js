@@ -48,6 +48,8 @@ async function layout(selector,kind){
 (async()=>{try{
  server.listen(0,'127.0.0.1');await once(server,'listening');const base='http://127.0.0.1:'+server.address().port;
  const response=await fetch(base+'/api/users',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:'tcash_'+randomUUID(),password:randomUUID(),starterId:7})});assert.equal(response.status,201);const u=await response.json();id=u.user.id;
+ // Announcement behavior has its own browser recipe; keep this fixture on the tournament flow.
+ await require('../server/persistence/patchNotesRepository').acknowledge(id,require('../data/game/latest_patch.json').version);
  await teams.editEquipe(id,{pokemons:[9,94,212,248,445,121].map(species=>{const p=factory.create(species,100,true);if(species===9)p.experience=p.getNextLevelExpForLevel(101)-4;return p;})});
  for(const [key,value]of [['adventure_opening','complete'],['mirror_stage','complete'],['super_tournament_invited','true']])await db.execute('INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,?,?) ON DUPLICATE KEY UPDATE flag_value=VALUES(flag_value)',[id,key,value]);
  await db.execute('INSERT INTO user_items(user_id,item_key,quantity) VALUES(?,?,1)',[id,content.PASS]);await db.execute("UPDATE users SET map='super_tournament_lobby',x=448,y=304,money=0 WHERE id=?",[id]);

@@ -1,3 +1,11 @@
+## Annonce du dernier patch — 4 novembre 2026
+
+À chaque livraison visible par les joueurs, mettre à jour `data/game/latest_patch.json` :nouvelle version stable et unique, date, titre et une à trois phrases très brèves FR/EN. Conserver les anciennes versions de reçus :`patch_seen:<version>` dans `player_story_flags`, par compte et par patch, via HTTP authentifié `/api/patch-notes` GET et `/seen` POST. Le GET ne marque jamais lu ; seul Compris/Échap après sauvegarde réussie le fait. Aucun identifiant de compte reçu du client ; version inconnue409, échec503 sans faux acquittement. Pas de migration ni de remise à zéro des reçus au reset admin.
+
+`App` porte `PatchNotes` (dialogue natif modal au-dessus du plein écran), session et reconnexion déclenchent le contrôle. Le monde émet sa disponibilité sans tenir compte de la popup elle-même :conserver cette séparation pour éviter une boucle ouverture/fermeture. Attendre chargement, introduction, dialogues, combat/résultat et menus, puis suspendre clavier/tactile/manette. Les réponses retardées d’un ancien compte ou antérieures à l’acquittement ne rouvrent jamais la fenêtre. Échec réseau :continuer possible, lecture redemandée à la prochaine connexion. Pas de sondage périodique. Les recettes navigateur d’autres fonctionnalités peuvent acquitter le patch sur leur compte jetable ; celle du tournoi le fait explicitement.
+
+Recettes `tests/patch-notes*.test.js` et `scripts/validatePatchNotesBrowser.js` sur `explorakit_test`, Chromium/WebKit. 36 tests réussis sans saut,16 vues du récap (deux moteurs) et16 vues du parcours Tour Chromium. Rapport `docs/PATCH_NOTES_2026-11-04.json` ; règles et journal dans l’audit.
+
 ## XP du Super Tournoi — 4 novembre 2026
 
 Les K.O. futurs de la Tour donnent80 % du gain final dresseur Aventure, partage habituel et Multi Exp équipé au premier slot choisi ; plafond au seuil exact120 par courbe. Ne pas réduire les120+ existants. `AdventureExperience.reward` reçoit options internes `experienceRate/maxLevel/grantEffort`, défauts Aventure inchangés ; Tour sans EV. Seule la règle serveur `tournamentExperience:true` active cette branche dans DriftBattle, sans réactiver ses autres récompenses.

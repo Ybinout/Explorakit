@@ -1,3 +1,15 @@
+## Récap du dernier patch à la connexion — 4 novembre 2026
+
+Une fenêtre courte aux couleurs de l’interface présente le dernier patch après connexion, une seule fois **par compte et version**, y compris entre appareils. Première annonce :XP du Super Tournoi à80 %, plafond120 et partage/Multi Exp. `data/game/latest_patch.json` contient la version, la date et deux phrases FR/EN ; le remplacer lors des prochaines livraisons, sans renommer une ancienne version déjà publiée.
+
+Deux routes HTTP authentifiées `/api/patch-notes` et `/api/patch-notes/seen` lisent/enregistrent un reçu `patch_seen:<version>` dans la table existante `player_story_flags`. Pas de migration, compte désigné par le JWT uniquement, demandes répétées/concurrentes idempotentes. Lire ne marque pas lu ; Compris ou Échap attend l’écriture SQL. Une version périmée est refusée et recharge la dernière annonce. Si la sauvegarde est indisponible, le joueur peut continuer et l’annonce reviendra à sa prochaine connexion. Échec de chargement :aucun blocage du jeu.
+
+`App` gère l’annonce hors des pages de connexion/inscription ; contrôle lors de la session et des reconnexions Socket. `UserMap` publie une disponibilité séparée de la garde modale :pas de superposition avec l’introduction au lit, une discussion, un combat/résultat, un voyage ou un menu. Le dialogue natif reste au-dessus du plein écran, conserve le focus, bloque les actions derrière lui et suit les thèmes clair/nocturne. Pas de timer de sondage, d’image lourde ni de modification de combat. Générations de requêtes :une réponse lente d’un ancien compte ou capturée avant acquittement ne rouvre pas l’annonce.
+
+Recettes :`tests/patch-notes*.test.js`, suites session/connexion/ouverture/manette/XP et `scripts/validatePatchNotesBrowser.js` sur base dédiée. Le scénario du tournoi acquitte explicitement l’annonce sur son compte jetable pour garder son parcours indépendant. Résultats et publication dans `docs/PATCH_NOTES_2026-11-04.json`. **36 tests réussis sans saut**, dont sept cas SQL/HTTP nouveaux :authentification, compte isolé, reçus antérieurs, concurrence, versions invalides et panne d’écriture. Chromium/WebKit :16 vues clair/nocturne mobile/PC, vraie connexion, rechargement avant/après lecture, autre appareil, autre compte, panne réseau et réponse retardée, introduction/menu prioritaires, déplacement suspendu et focus ; plein écran Chromium. Le parcours Tour/XP existant réussit aussi sur16 vues Chromium avec ce build. Lint/build/syntaxe/diff valides ; suite globale non relancée.
+
+Publication le **4 novembre2026 à8 h33 (Europe/Paris)** :client `a134415` / build `18370934ef3805db` et serveur actifs. Sauvegardes SQL/sources/index/checkpoint dans `/home/ubuntu/dev/backups/riftmon-patch-notes-2026-11-04T07-33-37-195Z`. Index et21 assets JS/CSS vérifiés par HTTPS ; endpoint protégé401 sans session, anciens assets conservés. Aucun tournoi/duel actif ; checkpoint et voisins Knov/API inchangés, modes fermés. Aucun avertissement ni redémarrage automatique.
+
 ## Super Tournoi : XP à80 %, plafond120 — 4 novembre 2026
 
 Les nouveaux K.O. de la Tour accordent **80 % du gain normal d’un dresseur en Aventure**, après les ajustements habituels de niveau/K et le partage. Le taux est appliqué au gain final, arrondi vers le bas avec minimum1. Chaque Pokémon s’arrête exactement au seuil du niveau120 selon sa courbe ; ceux déjà120 ou au-dessus ne gagnent plus d’XP et conservent leurs acquis. Participants vivants et Multi Exp équipé dans le premier slot choisi fonctionnent comme en Aventure. Pas d’ajout d’EV ou de butin de combat.
@@ -6262,6 +6274,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **4 novembre2026 — Dernier patch :** récap très bref à la connexion, reçu par compte/version et entre appareils ; priorités des dialogues/combats, focus et plein écran, erreurs réseau et réponses obsolètes gérés. `docs/PATCH_NOTES_2026-11-04.json`.
 
 - **4 novembre2026 — XP du Super Tournoi :**80 % du gain dresseur normal, partage/Multi Exp, plafond120 exact ; progression réelle et checkpoint atomiques, après défaite/abandon/reconnexion aussi. Apprentissage/évolution après le parcours.248 tests,59 SQL et32 vues Chromium/WebKit ; `docs/TOWER_EXPERIENCE_2026-11-04.json`.
 

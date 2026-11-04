@@ -104,7 +104,8 @@
     "test:tournament-cycle-browser": "node --env-file-if-exists=.env scripts/validateTournamentCycleRulesBrowser.js",
     "test:dark-continent-browser": "node --env-file-if-exists=.env scripts/validateDarkContinentBrowser.js",
     "test:corruption-browser": "node --env-file-if-exists=.env scripts/validateCorruptionBrowser.js",
-    "generate:corruption": "node scripts/generateCorruptionPresentation.js"
+    "generate:corruption": "node scripts/generateCorruptionPresentation.js",
+    "test:patch-notes-browser": "node --env-file-if-exists=.env scripts/validatePatchNotesBrowser.js"
   },
   "keywords": [],
   "author": "",
