@@ -16,17 +16,18 @@ async function registerSocialHandlers({io,socket,getLocation}){
   }catch(error){if(!error.statusCode)console.error('Carnet social :',error.message);reply({success:false,message:error.statusCode?error.message:'Le carnet est temporairement indisponible.'});}
  });}
  command('social:refresh',async()=>{await hub.reload(userId);return{state:hub.state(userId)};});
- command('social:online',d=>{const result=hub.onlineDirectory(userId,d.offset??0);if(d.targetId!=null){const targetId=messages.userId(d.targetId);result.target={id:targetId,online:hub.isOnline(targetId)};}return result;});
- command('social:search',async d=>{const result=await repository.search(userId,d.query,d.offset??0);return{...result,entries:result.entries.filter(p=>p.id!==userId).map(p=>({...p,online:hub.isOnline(p.id)}))};});
+ command('social:online',d=>{const result=hub.onlineDirectory(userId,d.offset??0);if(d.targetId!=null){const targetId=messages.userId(d.targetId);result.target={id:targetId,...hub.presence(targetId)};}return result;});
+ command('social:search',async d=>{const result=await repository.search(userId,d.query,d.offset??0);return{...result,entries:result.entries.filter(p=>p.id!==userId).map(p=>({...p,...hub.presence(p.id)}))};});
  command('social:friend',async d=>{const target=messages.userId(d.targetId),result=await repository.friendAction(userId,target,d.action);await hub.friendsChanged(userId,target);return{...result,state:hub.state(userId)};});
  command('social:history',d=>messages.history(userId,d.targetId,d.before));
  command('social:send',async d=>({message:await hub.directMessage(userId,d)}),true);
  command('social:read',d=>hub.read(userId,d.targetId,d.through));
- command('social:groupInvite',async d=>({state:await hub.invite(userId,d.targetId)}));
- command('social:groupAnswer',async d=>({state:await hub.answerInvite(userId,d.inviteId,d.accept)}));
- command('social:groupLeave',()=>({state:hub.leave(userId)}));
- command('social:groupKick',d=>({state:hub.kick(userId,d.targetId)}));
- command('social:groupMessage',d=>({message:hub.groupMessage(userId,d.text)}),true);
+ command('social:details',d=>require('../../persistence/friendProfileRepository').details(userId,d.targetId,d.view));
+ // Old cached clients get an explicit answer; no group state or operation remains.
+ for(const event of ['groupInvite','groupAnswer','groupLeave','groupKick','groupMessage'])command('social:'+event,()=>{throw Object.assign(Error('Les amis se retrouvent désormais directement sur la minimap.'),{statusCode:410});});
+ const actions=new Set(['presence:activity','playerAction','Space','actionResponse','social:send','social:friend','fishing:start','fishing:reel','useMedicine','useTrainingItem','buyShopItem','sellShopItem']);
+ const active=event=>{if(actions.has(event))hub.activity(socket);};
+ socket.onAny(active);socket.once('disconnect',()=>socket.offAny(active));
  try{await hub.attach(socket,getLocation);}catch(error){console.error('Chargement du carnet social :',error.message);socket.emit('social:error',{message:'Le carnet est temporairement indisponible.'});}
  return hub;
 }

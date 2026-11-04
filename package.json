@@ -106,7 +106,8 @@
     "test:corruption-browser": "node --env-file-if-exists=.env scripts/validateCorruptionBrowser.js",
     "generate:corruption": "node scripts/generateCorruptionPresentation.js",
     "test:patch-notes-browser": "node --env-file-if-exists=.env scripts/validatePatchNotesBrowser.js",
-    "test:battle-house-browser": "node --env-file-if-exists=.env scripts/validateBattleHouseBrowser.js"
+    "test:battle-house-browser": "node --env-file-if-exists=.env scripts/validateBattleHouseBrowser.js",
+    "test:friends-browser": "node --env-file-if-exists=.env scripts/validateFriendsRedesignBrowser.js"
   },
   "keywords": [],
   "author": "",

@@ -1,90 +1,52 @@
 const test=require('node:test'),assert=require('node:assert/strict');
-const {createSocialHub,INVITE_MS,RECONNECT_MS}=require('../server/realtime/socialHub');
+const {createSocialHub,AFK_MS}=require('../server/realtime/socialHub');
 function fixture(){
  let clock=1000,queries=0;const relations=new Set(),sockets=new Map(),locations=new Map();
  const key=(a,b)=>[a,b].sort((x,y)=>x-y).join(':'),friend=(a,b)=>relations.add(key(a,b));
- const repository={async relationship(a,b){return relations.has(key(a,b))?'friends':'none';},async friends(id){queries++;return{accepted:[...relations].flatMap(k=>{const[a,b]=k.split(':').map(Number);return a===id?[b]:b===id?[a]:[];}).map(id=>({id,username:'Dresseur '+id,relationship:'friends'})),incoming:[],outgoing:[]};}};
- const messageRepository={async unread(){queries++;return{};},messageText:require('../server/persistence/socialMessageRepository').messageText};
+ const repository={async relationship(a,b){return relations.has(key(a,b))?'friends':'none';},async friends(id){queries++;return{accepted:[...relations].flatMap(k=>{const[a,b]=k.split(':').map(Number);return a===id?[b]:b===id?[a]:[];}).map(id=>({id,username:'Dresseur '+id,relationship:'friends'})),incoming:[{id:99,username:'En attente'}],outgoing:[]};}};
+ const messageRepository={async unread(){queries++;return{};}};
  const hub=createSocialHub({now:()=>clock,repository,messageRepository,tickMs:0});
  async function connect(id,map='route1',mode='adventure'){
   const once=new Map(),events=[];const socket={connected:true,data:{user:{id,username:'Dresseur '+id}},once:(e,fn)=>once.set(e,fn),emit:(e,p)=>events.push({e,p}),disconnect(){this.connected=false;once.get('disconnect')?.();}};
-  locations.set(id,{map,mode});sockets.set(id,{socket,events});await hub.attach(socket,()=>locations.get(id));return socket;
+  locations.set(id,{map,mode,x:1234,y:6789,privateInstance:'secret'});sockets.set(id,{socket,events});await hub.attach(socket,()=>locations.get(id));return socket;
  }
- async function join(a,b){await hub.invite(a,b);const invitation=hub.state(b).groupInvites[0];await hub.answerInvite(b,invitation.id,true);return hub.state(a).group;}
- return{hub,friend,relations,key,connect,join,sockets,locations,advance(ms){clock+=ms;hub.tick();},queries:()=>queries};
+ return{hub,friend,relations,key,connect,sockets,locations,advance(ms){clock+=ms;hub.tick();},queries:()=>queries};
 }
-test('presence is limited to accepted contacts; location requires a separately accepted group invitation',async()=>{
- const f=fixture();try{f.friend(1,2);await f.connect(1);await f.connect(2);await f.connect(3);
- assert.equal(f.hub.state(1).accepted.length,1);assert.equal(f.hub.state(1).accepted[0].online,true);assert(!('location' in f.hub.state(1).accepted[0]));assert.equal(f.hub.state(3).accepted.length,0);
- await assert.rejects(f.hub.invite(1,3),/ami/);await f.hub.invite(1,2);assert.equal(f.hub.state(2).group,null);
- const invite=f.hub.state(2).groupInvites[0];await assert.rejects(f.hub.answerInvite(3,invite.id,true),/expiré/);
- await f.hub.answerInvite(2,invite.id,true);assert.equal(f.hub.state(1).group.members[1].location.nodeId,'route1');assert.equal(f.hub.state(3).group,null);
- const count=f.queries(),events=f.sockets.get(1).events.length;f.hub.tick();f.hub.tick();assert.equal(f.queries(),count);assert.equal(f.sockets.get(1).events.length,events,'no recurring publication without a visible change');
+test('accepted friends share current region without groups; pending contacts and directory receive no location or coordinates',async()=>{
+ const f=fixture();try{f.friend(1,2);await f.connect(1);await f.connect(2);await f.connect(99);
+ assert.deepEqual(f.hub.state(1).accepted[0].location,{nodeId:'route1',mode:'adventure'});
+ assert(!('location' in f.hub.state(1).incoming[0]));assert(!('group' in f.hub.state(1)));assert(!('groupInvites' in f.hub.state(1)));assert.equal(f.hub.invite,undefined);
+ f.locations.set(2,{map:'route2',mode:'adventure'});f.hub.tick();assert.equal(f.hub.state(1).accepted[0].location.nodeId,'route2');
+ for(const p of f.hub.onlineDirectory(1).entries)for(const key of ['x','y','location','privateInstance'])assert(!Object.hasOwn(p,key));
+ const before=f.queries(),events=f.sockets.get(1).events.length;f.hub.tick();f.hub.tick();assert.equal(f.queries(),before);assert.equal(f.sockets.get(1).events.length,events);
  }finally{f.hub.stop();}
 });
-test('global online count is anonymous, unique per account, shared across modes and updated without SQL or idle emissions',async()=>{
- const f=fixture(),counts=id=>f.sockets.get(id).events.filter(e=>e.e==='presence:count');
- try{
-  const first=await f.connect(1,'route1','adventure');assert.deepEqual(counts(1).at(-1).p,{count:1});
-  await f.connect(2,'route14','colosseum');assert.deepEqual(counts(1).at(-1).p,{count:2});assert.deepEqual(counts(2).at(-1).p,{count:2});
-  await f.connect(3,'route4','rift');assert.deepEqual(counts(1).at(-1).p,{count:3});assert.deepEqual(Object.keys(counts(3).at(-1).p),['count']);
-  const queries=f.queries(),emissions=counts(1).length;f.hub.tick();f.hub.tick();assert.equal(f.queries(),queries);assert.equal(counts(1).length,emissions);
-  // A new namespace/connection for the same account never counts as two people.
-  await f.connect(1,'route4','rift');assert.deepEqual(counts(1).at(-1).p,{count:3});first.disconnect();assert.deepEqual(counts(2).at(-1).p,{count:3});
-  f.sockets.get(3).socket.disconnect();assert.deepEqual(counts(1).at(-1).p,{count:2});f.sockets.get(2).socket.disconnect();assert.deepEqual(counts(1).at(-1).p,{count:1});assert.equal(f.queries(),queries+2,'only replacing a session reads its contacts and inbox');
+test('AFK exactly after five minutes, activity immediately restores presence without SQL; silent clients never keep themselves online',async()=>{
+ const f=fixture();try{f.friend(1,2);await f.connect(1);const b=await f.connect(2);const before=f.queries();
+ f.advance(AFK_MS-1);assert.equal(f.hub.state(1).accepted[0].afk,false);f.advance(1);assert.equal(f.hub.state(1).accepted[0].afk,true);assert.equal(f.hub.presence(2).status,'afk');
+ const afkEvents=f.sockets.get(1).events.length;f.advance(30000);assert.equal(f.sockets.get(1).events.length,afkEvents,'no second-by-second timestamp emissions');
+ f.hub.activity(b);assert.equal(f.hub.state(1).accepted[0].afk,false);assert.equal(f.hub.presence(2).connectedSince,1000);assert.equal(f.queries(),before);
+ f.advance(AFK_MS);assert(f.hub.presence(2).afk);const old=b;await f.connect(2);f.advance(AFK_MS);f.hub.activity(old);assert(f.hub.presence(2).afk,'retired connection cannot change presence');assert.equal(f.hub.presence(2).connectedSince,631000);
  }finally{f.hub.stop();}
 });
-test('online count is delivered before social SQL reads and remains available if the contacts database fails',async()=>{
- let reads=0;const events=[],socket={connected:true,data:{user:{id:1,username:'Test'}},once(){},emit(e,p){events.push({e,p});}};
- const hub=createSocialHub({tickMs:0,repository:{async friends(){reads++;throw Error('Database unavailable');}}});
- try{await assert.rejects(hub.attach(socket,()=>null),/Database unavailable/);assert.deepEqual(events.find(e=>e.e==='presence:count').p,{count:1});hub.tick();assert.equal(reads,1);assert.equal(events.filter(e=>e.e==='presence:count').length,1);}finally{hub.stop();}
-});
-test('leader-only invitations, six-person capacity and refusal never silently join or replace another group',async()=>{
- const f=fixture();try{for(let id=2;id<=8;id++){f.friend(1,id);await f.connect(id);}await f.connect(1);
- for(let id=2;id<=7;id++)await f.hub.invite(1,id);
- for(let id=2;id<=6;id++)await f.hub.answerInvite(id,f.hub.state(id).groupInvites[0].id,true);
- assert.equal(f.hub.state(1).group.members.length,6);await assert.rejects(f.hub.answerInvite(7,f.hub.state(7).groupInvites[0].id,true),/complet/);
- f.friend(2,8);await assert.rejects(f.hub.invite(2,8),/chef/);assert.throws(()=>f.hub.kick(2,1),/retirer/);
- f.hub.kick(1,6);assert.equal(f.hub.state(6).group,null);assert.equal(f.hub.state(1).group.members.length,5);
- await f.hub.invite(1,8);await f.hub.answerInvite(8,f.hub.state(8).groupInvites[0].id,false);assert.equal(f.hub.state(8).group,null);
+test('disconnect clears position/session; reconnect has a new duration and an old disconnect cannot retire it',async()=>{
+ const f=fixture();try{f.friend(1,2);await f.connect(1);const old=await f.connect(2);old.disconnect();assert.deepEqual(f.hub.state(1).accepted[0].location,null);assert.equal(f.hub.presence(2).connectedSince,null);assert.equal(f.hub.presence(2).status,'offline');
+ f.advance(5000);await f.connect(2,'ville1');assert.equal(f.hub.presence(2).connectedSince,6000);old.disconnect();assert(f.hub.presence(2).online);assert.equal(f.hub.state(1).accepted[0].location.nodeId,'ville1');
+ f.relations.delete(f.key(1,2));await f.hub.friendsChanged(1,2);assert.equal(f.hub.state(1).accepted.length,0);assert.equal(f.hub.state(2).accepted.length,0);
  }finally{f.hub.stop();}
 });
-test('expiration, departing leader and removed friendship invalidate old invitations and location sharing',async()=>{
- const f=fixture();try{for(const id of[1,2,3])await f.connect(id);f.friend(1,2);f.friend(1,3);
- await f.hub.invite(1,2);const old=f.hub.state(2).groupInvites[0].id;f.advance(INVITE_MS);await assert.rejects(f.hub.answerInvite(2,old,true),/expiré/);
- await f.join(1,2);await f.hub.invite(1,3);f.hub.leave(1);assert.equal(f.hub.state(2).group.leaderId,2);assert.equal(f.hub.state(3).groupInvites.length,0);
- f.hub.leave(2);await f.join(1,2);f.relations.delete(f.key(1,2));await f.hub.friendsChanged(1,2);assert.equal(f.hub.state(2).group,null);assert.equal(f.hub.state(1).accepted.length,1);
+test('online count stays anonymous and unique per account even across namespace/session replacements',async()=>{
+ const f=fixture(),counts=id=>f.sockets.get(id).events.filter(e=>e.e==='presence:count');try{
+ const old=await f.connect(1);await f.connect(2,'route14','colosseum');assert.deepEqual(counts(1).at(-1).p,{count:2});await f.connect(1,'route4','rift');old.disconnect();assert.deepEqual(counts(2).at(-1).p,{count:2});
+ f.sockets.get(2).socket.disconnect();assert.deepEqual(counts(1).at(-1).p,{count:1});const q=f.queries(),n=counts(1).length;f.hub.tick();assert.equal(f.queries(),q);assert.equal(counts(1).length,n);
  }finally{f.hub.stop();}
 });
-test('offline members reveal no position; reconnection preserves membership briefly, then departure transfers leadership',async()=>{
- const f=fixture();try{f.friend(1,2);await f.connect(1);const second=await f.connect(2);await f.join(1,2);
- second.disconnect();assert.deepEqual(f.hub.state(1).group.members[1],{id:2,username:'Dresseur 2',online:false,location:null});
- await f.connect(2,'route2','rift');assert.equal(f.hub.state(1).group.members[1].location.mode,'rift');
- f.locations.set(2,{map:'ville1',mode:'rift'});f.hub.tick();assert.equal(f.hub.state(1).group.members[1].location.nodeId,'ville1');
- f.sockets.get(1).socket.disconnect();f.advance(RECONNECT_MS);assert.equal(f.hub.state(2).group.leaderId,2);assert.equal(f.hub.state(2).group.members.length,1);
- }finally{f.hub.stop();}
+test('anonymous count is available even if the social database is unavailable',async()=>{
+ const events=[],socket={connected:true,data:{user:{id:1,username:'Test'}},once(){},emit(e,p){events.push({e,p});}};const hub=createSocialHub({tickMs:0,repository:{async friends(){throw Error('Database unavailable');}}});
+ try{await assert.rejects(hub.attach(socket,()=>null),/Database unavailable/);assert.deepEqual(events.find(e=>e.e==='presence:count').p,{count:1});}finally{hub.stop();}
 });
-test('group chat is member-only, bounded and plain text; leaving removes access immediately',async()=>{
- const f=fixture();try{f.friend(1,2);await f.connect(1);await f.connect(2);await f.join(1,2);
- assert.throws(()=>f.hub.groupMessage(3,'Hello'),/groupe/);for(const value of['',' '.repeat(20),'a'.repeat(501),'bad\u0000'])assert.throws(()=>f.hub.groupMessage(1,value));
- const literal='<img src=x onerror=alert(1)> & é';assert.equal(f.hub.groupMessage(1,literal).text,literal);
- for(let i=0;i<110;i++)f.hub.groupMessage(1,'Message '+i);assert.equal(f.hub.state(2).group.messages.length,100);
- f.hub.leave(2);assert.throws(()=>f.hub.groupMessage(2,'Bye'),/groupe/);
- }finally{f.hub.stop();}
-});
-
-test('online directory is paginated, public-only, self-free and current across modes without extra SQL or idle emissions',async()=>{
- const f=fixture();try{
-  for(let id=1;id<=25;id++)await f.connect(id,'route'+id,['adventure','rift','colosseum'][id%3]);
-  const reads=f.queries(),first=f.hub.onlineDirectory(1),second=f.hub.onlineDirectory(1,20);
-  assert.equal(first.total,24);assert.equal(first.entries.length,20);assert(first.hasMore);assert.equal(second.entries.length,4);assert(!second.hasMore);
-  const all=[...first.entries,...second.entries];assert.equal(new Set(all.map(p=>p.id)).size,24);assert(!all.some(p=>p.id===1));
-  assert(all.every(p=>p.online&&JSON.stringify(Object.keys(p).sort())===JSON.stringify(['id','online','username'])));
-  first.entries[0].username='mutated';assert(!f.hub.onlineDirectory(1).entries.some(p=>p.username==='mutated'));
-  for(const offset of [-1,1.2,'20',10001,Infinity])assert.throws(()=>f.hub.onlineDirectory(1,offset),/Page/);
-  const events=f.sockets.get(1).events.length;f.hub.tick();f.hub.tick();assert.equal(f.queries(),reads);assert.equal(f.sockets.get(1).events.length,events);
-  f.sockets.get(2).socket.disconnect();assert.equal(f.hub.onlineDirectory(1).total,23);assert(!f.hub.isOnline(2));
-  const old=f.sockets.get(3).socket;await f.connect(3,'start','rift');old.disconnect();assert(f.hub.isOnline(3));assert.equal(f.hub.onlineDirectory(1).total,23);
-  const notifications=f.sockets.get(1).events.filter(e=>e.e==='social:presenceChanged');assert(notifications.length>0);assert.deepEqual(Object.keys(notifications.at(-1).p),['revision']);
+test('directory is paginated, copied, bounded and current with AFK/session metadata and no extra SQL on ticks',async()=>{
+ const f=fixture();try{for(let id=1;id<=25;id++)await f.connect(id);const before=f.queries(),a=f.hub.onlineDirectory(1),b=f.hub.onlineDirectory(1,20);assert.equal(a.total,24);assert.equal(a.entries.length,20);assert.equal(b.entries.length,4);assert(a.hasMore&&!b.hasMore);assert.equal(new Set([...a.entries,...b.entries].map(p=>p.id)).size,24);assert(!a.entries.some(p=>p.id===1));assert(a.entries.every(p=>p.status==='online'&&p.connectedSince===1000));a.entries[0].username='changed';assert(!f.hub.onlineDirectory(1).entries.some(p=>p.username==='changed'));
+ for(const offset of[-1,1.2,'20',10001,Infinity])assert.throws(()=>f.hub.onlineDirectory(1,offset));f.hub.tick();assert.equal(f.queries(),before);f.advance(AFK_MS);assert(f.hub.onlineDirectory(1).entries.every(p=>p.afk));assert.equal(f.queries(),before);
  }finally{f.hub.stop();}
 });

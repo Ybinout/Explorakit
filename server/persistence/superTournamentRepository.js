@@ -82,4 +82,5 @@ async function leaderboard(id){
  const [[own]]=await dbPool.execute('SELECT best_score AS score,best_rooms AS rooms FROM super_tournament_profiles WHERE user_id=?',[id]);
  return {rows:rows.map((r,i)=>({...r,rank:i+1,self:r.id===id})),personal:own||{score:0,rooms:0}};
 }
-module.exports={load,save,ownsPass,grantPass,leaderboard};
+async function standing(userId,c=dbPool){const [[r]]=await c.execute('SELECT * FROM (SELECT user_id,best_score,best_rooms,ROW_NUMBER() OVER(ORDER BY best_score DESC,best_rooms DESC,user_id) AS position FROM super_tournament_profiles WHERE best_score>0) ranked WHERE user_id=?',[userId]);return {position:r?Number(r.position):null,score:Number(r?.best_score)||0,rooms:Number(r?.best_rooms)||0};}
+module.exports={load,save,ownsPass,grantPass,leaderboard,standing};

@@ -1,0 +1,947 @@
+{
+  "date": "2026-11-04",
+  "feature": "Friends journal, shared friend locations, AFK and private battle chat",
+  "sourceBaseline": "d40c1d6ca62ccad5c5cf637cfd5a76062dfb4475",
+  "clientCommit": "ff2335f534cfb976df563631d643a748e3561ca6",
+  "clientBuild": "8f4242f9e971bc81",
+  "runtimeSourceSha256": {
+    "data/game/latest_patch.json": "d71a97df56d70f6ef9d689ff1d5b06cc00d99871831f37a6d557068681bb33fc",
+    "server/persistence/friendProfileRepository.js": "9e463244572ade5966c92dd007afc016d0b7977f58afb4a41b095a42fd7205d8",
+    "server/persistence/superTournamentRepository.js": "b5862029c1afe5f2264d86d44d5843ccc62fe6fd067de7a163e271a2586e29fb",
+    "server/persistence/whitepeakRankingRepository.js": "025335f6e4d9017e2bc3c13fcfabe7f6c25d450ce3084009acec4a07e6eb20de",
+    "server/realtime/handlers/socialHandlers.js": "8158d1fafa35ed4065bc5ba1e4b96e5830a2d5d4cf5bccdac9e3c9d13a2644a6",
+    "server/realtime/socialHub.js": "d7b94f0c5311aa67dabd653ad0f0db2f5276f29cdb8335f7ca1d2d77d1677507"
+  },
+  "patchVersion": "2026-11-04-carnet-amis",
+  "schemaChanged": false,
+  "implementation": {
+    "groupsRemoved": true,
+    "legacyGroupCommands": "explicit refusal only; no ephemeral group state remains",
+    "friendLocations": "accepted friends only; regional nodes, no private instance IDs or exact coordinates",
+    "AFK": "300 seconds; server clock and one shared 1-second timer, no SQL on ticks; live trusted activity resets",
+    "sessionDuration": "server connection timestamp, local clock adjusted by server time, refreshed every 15 seconds",
+    "friendDetails": "read-only accepted friendship check; earned badges only; globally ranked 1v1/2v1/2v2 and tower records",
+    "battleChat": "same persistent SQL conversation; narration space; no timer/pause/action changes; main battle buttons remain live",
+    "mobileKeyboard": "visualViewport layout; no automatic focus; keyboard/pointer chat events never reach game movement/XP skipping",
+    "desktop": "scene and controls reserve space with grid; toolbar clear of HP cards; enemy sprite positioned above player status",
+    "messageDrafts": "per-peer, preserved in the open client, not a new server persistence feature"
+  },
+  "validation": {
+    "unit": {
+      "passed": 29,
+      "failed": 0,
+      "skipped": 0,
+      "command": "node --test tests/social-groups.test.js tests/social-notifications-client.test.js tests/patch-notes.test.js tests/friend-trade.test.js tests/whitepeak-ranking.test.js tests/network-delivery.test.js"
+    },
+    "mysqlNetwork": {
+      "passed": 16,
+      "failed": 0,
+      "skipped": 0,
+      "database": "explorakit_test",
+      "files": [
+        "friend-profile-mysql",
+        "social-messages-mysql",
+        "friend-trade-mysql",
+        "whitepeak-ranking-mysql",
+        "network-world-mysql",
+        "dark-reconnect-mysql"
+      ],
+      "sequential": true
+    },
+    "browser": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "views": [
+          {
+            "label": "friends-list",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "friends-list-320-light.png"
+          },
+          {
+            "label": "friends-list",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "friends-list-320-dark.png"
+          },
+          {
+            "label": "friends-list",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "friends-list-393-light.png"
+          },
+          {
+            "label": "friends-list",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "friends-list-393-dark.png"
+          },
+          {
+            "label": "friends-list",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "friends-list-844-light.png"
+          },
+          {
+            "label": "friends-list",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "friends-list-844-dark.png"
+          },
+          {
+            "label": "friends-list",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "friends-list-1536-light.png"
+          },
+          {
+            "label": "friends-list",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "friends-list-1536-dark.png"
+          },
+          {
+            "label": "friend-badges",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "friend-badges-320-light.png"
+          },
+          {
+            "label": "friend-badges",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "friend-badges-320-dark.png"
+          },
+          {
+            "label": "friend-badges",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "friend-badges-393-light.png"
+          },
+          {
+            "label": "friend-badges",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "friend-badges-393-dark.png"
+          },
+          {
+            "label": "friend-badges",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "friend-badges-844-light.png"
+          },
+          {
+            "label": "friend-badges",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "friend-badges-844-dark.png"
+          },
+          {
+            "label": "friend-badges",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "friend-badges-1536-light.png"
+          },
+          {
+            "label": "friend-badges",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "friend-badges-1536-dark.png"
+          },
+          {
+            "label": "friend-ranks",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "friend-ranks-320-light.png"
+          },
+          {
+            "label": "friend-ranks",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "friend-ranks-320-dark.png"
+          },
+          {
+            "label": "friend-ranks",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "friend-ranks-393-light.png"
+          },
+          {
+            "label": "friend-ranks",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "friend-ranks-393-dark.png"
+          },
+          {
+            "label": "friend-ranks",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "friend-ranks-844-light.png"
+          },
+          {
+            "label": "friend-ranks",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "friend-ranks-844-dark.png"
+          },
+          {
+            "label": "friend-ranks",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "friend-ranks-1536-light.png"
+          },
+          {
+            "label": "friend-ranks",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "friend-ranks-1536-dark.png"
+          },
+          {
+            "label": "battle-chat",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "battle-chat-320-light.png"
+          },
+          {
+            "label": "battle-chat",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "battle-chat-320-dark.png"
+          },
+          {
+            "label": "battle-chat",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "battle-chat-393-light.png"
+          },
+          {
+            "label": "battle-chat",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "battle-chat-393-dark.png"
+          },
+          {
+            "label": "battle-chat",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "battle-chat-844-light.png"
+          },
+          {
+            "label": "battle-chat",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "battle-chat-844-dark.png"
+          },
+          {
+            "label": "battle-chat",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "battle-chat-1536-light.png"
+          },
+          {
+            "label": "battle-chat",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "battle-chat-1536-dark.png"
+          },
+          {
+            "label": "online-discovery",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "online-discovery-320-light.png"
+          },
+          {
+            "label": "online-discovery",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "online-discovery-320-dark.png"
+          },
+          {
+            "label": "online-discovery",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "online-discovery-393-light.png"
+          },
+          {
+            "label": "online-discovery",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "online-discovery-393-dark.png"
+          },
+          {
+            "label": "online-discovery",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "online-discovery-844-light.png"
+          },
+          {
+            "label": "online-discovery",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "online-discovery-844-dark.png"
+          },
+          {
+            "label": "online-discovery",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "online-discovery-1536-light.png"
+          },
+          {
+            "label": "online-discovery",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "online-discovery-1536-dark.png"
+          }
+        ],
+        "checks": [
+          "three-friend-actions-earned-badges-global-ranks-shared-region-no-groups-draft",
+          "real-sockets-afk-after-five-minutes-activity-green",
+          "durable-real-battle-message-unread-reply-draft-no-autofocus-and-turn-progresses",
+          "unread-persists-and-actual-dark-combat-resumes-with-chat",
+          "bottom-discovery-search-without-groups"
+        ],
+        "errors": [],
+        "buildIndexSha256": "08e40ce9639ff983ae8d82603abdb4e7da87b0b161e3913613358f1cd8367b3c"
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "views": [
+          {
+            "label": "friends-list",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "friends-list-320-light.png"
+          },
+          {
+            "label": "friends-list",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "friends-list-320-dark.png"
+          },
+          {
+            "label": "friends-list",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "friends-list-393-light.png"
+          },
+          {
+            "label": "friends-list",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "friends-list-393-dark.png"
+          },
+          {
+            "label": "friends-list",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "friends-list-844-light.png"
+          },
+          {
+            "label": "friends-list",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "friends-list-844-dark.png"
+          },
+          {
+            "label": "friends-list",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "friends-list-1536-light.png"
+          },
+          {
+            "label": "friends-list",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "friends-list-1536-dark.png"
+          },
+          {
+            "label": "friend-badges",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "friend-badges-320-light.png"
+          },
+          {
+            "label": "friend-badges",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "friend-badges-320-dark.png"
+          },
+          {
+            "label": "friend-badges",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "friend-badges-393-light.png"
+          },
+          {
+            "label": "friend-badges",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "friend-badges-393-dark.png"
+          },
+          {
+            "label": "friend-badges",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "friend-badges-844-light.png"
+          },
+          {
+            "label": "friend-badges",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "friend-badges-844-dark.png"
+          },
+          {
+            "label": "friend-badges",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "friend-badges-1536-light.png"
+          },
+          {
+            "label": "friend-badges",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "friend-badges-1536-dark.png"
+          },
+          {
+            "label": "friend-ranks",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "friend-ranks-320-light.png"
+          },
+          {
+            "label": "friend-ranks",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "friend-ranks-320-dark.png"
+          },
+          {
+            "label": "friend-ranks",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "friend-ranks-393-light.png"
+          },
+          {
+            "label": "friend-ranks",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "friend-ranks-393-dark.png"
+          },
+          {
+            "label": "friend-ranks",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "friend-ranks-844-light.png"
+          },
+          {
+            "label": "friend-ranks",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "friend-ranks-844-dark.png"
+          },
+          {
+            "label": "friend-ranks",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "friend-ranks-1536-light.png"
+          },
+          {
+            "label": "friend-ranks",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "friend-ranks-1536-dark.png"
+          },
+          {
+            "label": "battle-chat",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "battle-chat-320-light.png"
+          },
+          {
+            "label": "battle-chat",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "battle-chat-320-dark.png"
+          },
+          {
+            "label": "battle-chat",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "battle-chat-393-light.png"
+          },
+          {
+            "label": "battle-chat",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "battle-chat-393-dark.png"
+          },
+          {
+            "label": "battle-chat",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "battle-chat-844-light.png"
+          },
+          {
+            "label": "battle-chat",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "battle-chat-844-dark.png"
+          },
+          {
+            "label": "battle-chat",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "battle-chat-1536-light.png"
+          },
+          {
+            "label": "battle-chat",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "battle-chat-1536-dark.png"
+          },
+          {
+            "label": "online-discovery",
+            "width": 320,
+            "height": 480,
+            "theme": "light",
+            "file": "online-discovery-320-light.png"
+          },
+          {
+            "label": "online-discovery",
+            "width": 320,
+            "height": 480,
+            "theme": "dark",
+            "file": "online-discovery-320-dark.png"
+          },
+          {
+            "label": "online-discovery",
+            "width": 393,
+            "height": 852,
+            "theme": "light",
+            "file": "online-discovery-393-light.png"
+          },
+          {
+            "label": "online-discovery",
+            "width": 393,
+            "height": 852,
+            "theme": "dark",
+            "file": "online-discovery-393-dark.png"
+          },
+          {
+            "label": "online-discovery",
+            "width": 844,
+            "height": 390,
+            "theme": "light",
+            "file": "online-discovery-844-light.png"
+          },
+          {
+            "label": "online-discovery",
+            "width": 844,
+            "height": 390,
+            "theme": "dark",
+            "file": "online-discovery-844-dark.png"
+          },
+          {
+            "label": "online-discovery",
+            "width": 1536,
+            "height": 680,
+            "theme": "light",
+            "file": "online-discovery-1536-light.png"
+          },
+          {
+            "label": "online-discovery",
+            "width": 1536,
+            "height": 680,
+            "theme": "dark",
+            "file": "online-discovery-1536-dark.png"
+          }
+        ],
+        "checks": [
+          "three-friend-actions-earned-badges-global-ranks-shared-region-no-groups-draft",
+          "real-sockets-afk-after-five-minutes-activity-green",
+          "durable-real-battle-message-unread-reply-draft-no-autofocus-and-turn-progresses",
+          "unread-persists-and-actual-dark-combat-resumes-with-chat",
+          "bottom-discovery-search-without-groups"
+        ],
+        "errors": [],
+        "buildIndexSha256": "08e40ce9639ff983ae8d82603abdb4e7da87b0b161e3913613358f1cd8367b3c"
+      }
+    },
+    "notifications": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "realAuthenticatedPeers": true,
+        "friendRequest": true,
+        "privateMessage": true,
+        "groupsRemoved": true,
+        "tradeInvite": true,
+        "realAudioTwoVoices": true,
+        "visibleConversationSilent": true,
+        "ownMessagesSilent": true,
+        "duplicatesRefreshSilent": true,
+        "mutedSilent": true,
+        "noReplayOnReload": true,
+        "noQueueAfterUnlock": true,
+        "reducedMotion": true,
+        "headerSizeUnchanged": true,
+        "teamAndInventoryUnchanged": true,
+        "closedModesPreserved": true,
+        "views": [
+          {
+            "width": 320,
+            "height": 480,
+            "themeMode": "light",
+            "header": {
+              "x": 10,
+              "y": 6,
+              "width": 300,
+              "height": 44
+            }
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "themeMode": "dark",
+            "header": {
+              "x": 10,
+              "y": 6,
+              "width": 300,
+              "height": 44
+            }
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "themeMode": "light",
+            "header": {
+              "x": 10,
+              "y": 6,
+              "width": 373,
+              "height": 44
+            }
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "themeMode": "dark",
+            "header": {
+              "x": 10,
+              "y": 6,
+              "width": 373,
+              "height": 44
+            }
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "themeMode": "light",
+            "header": {
+              "x": 10,
+              "y": 6,
+              "width": 226.46875,
+              "height": 44
+            }
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "themeMode": "dark",
+            "header": {
+              "x": 10,
+              "y": 6,
+              "width": 226.46875,
+              "height": 44
+            }
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "themeMode": "light",
+            "header": {
+              "x": 369,
+              "y": 22.28125,
+              "width": 226.46875,
+              "height": 44
+            }
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "themeMode": "dark",
+            "header": {
+              "x": 369,
+              "y": 22.28125,
+              "width": 226.46875,
+              "height": 44
+            }
+          }
+        ],
+        "errors": [],
+        "output": "/tmp/riftmon-social-notifications-chromium"
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "realAuthenticatedPeers": true,
+        "friendRequest": true,
+        "privateMessage": true,
+        "groupsRemoved": true,
+        "tradeInvite": true,
+        "realAudioTwoVoices": true,
+        "visibleConversationSilent": true,
+        "ownMessagesSilent": true,
+        "duplicatesRefreshSilent": true,
+        "mutedSilent": true,
+        "noReplayOnReload": true,
+        "noQueueAfterUnlock": true,
+        "reducedMotion": true,
+        "headerSizeUnchanged": true,
+        "teamAndInventoryUnchanged": true,
+        "closedModesPreserved": true,
+        "views": [
+          {
+            "width": 320,
+            "height": 480,
+            "themeMode": "light",
+            "header": {
+              "x": 10,
+              "y": 6,
+              "width": 300,
+              "height": 44
+            }
+          },
+          {
+            "width": 320,
+            "height": 480,
+            "themeMode": "dark",
+            "header": {
+              "x": 10,
+              "y": 6,
+              "width": 300,
+              "height": 44
+            }
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "themeMode": "light",
+            "header": {
+              "x": 10,
+              "y": 6,
+              "width": 373,
+              "height": 44
+            }
+          },
+          {
+            "width": 393,
+            "height": 852,
+            "themeMode": "dark",
+            "header": {
+              "x": 10,
+              "y": 6,
+              "width": 373,
+              "height": 44
+            }
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "themeMode": "light",
+            "header": {
+              "x": 10,
+              "y": 6,
+              "width": 226.46875,
+              "height": 44
+            }
+          },
+          {
+            "width": 844,
+            "height": 390,
+            "themeMode": "dark",
+            "header": {
+              "x": 10,
+              "y": 6,
+              "width": 226.46875,
+              "height": 44
+            }
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "themeMode": "light",
+            "header": {
+              "x": 369,
+              "y": 22.28125,
+              "width": 226.46875,
+              "height": 44
+            }
+          },
+          {
+            "width": 1536,
+            "height": 680,
+            "themeMode": "dark",
+            "header": {
+              "x": 369,
+              "y": 22.28125,
+              "width": 226.46875,
+              "height": 44
+            }
+          }
+        ],
+        "errors": [],
+        "output": "/tmp/riftmon-social-notifications-webkit"
+      }
+    },
+    "lint": "pass",
+    "build": "pass",
+    "syntax": "changed server files and recipes pass node --check",
+    "diffWhitespace": "pass",
+    "productionSchemaBefore": {
+      "valid": true,
+      "tables": 31,
+      "constraints": 27,
+      "migrationReceipts": 31
+    },
+    "fixtureCorrection": "trade capacity test used 240; updated fixture to the existing 600 PC slots without changing game rules"
+  },
+  "limits": {
+    "physicalPhoneTested": false,
+    "keyboard": "500px visual viewport simulation, not a physical software keyboard",
+    "fullHistoricalSuiteClaimed": false,
+    "historicalSocialRecipes": "validateSocialGameBrowser and validateFriendsDiscoveryBrowser retain obsolete group/open-mode scenarios; replaced by test:friends-browser",
+    "testSchemaReceipts": "Dedicated test schema is complete; its historical migration receipts were not fabricated"
+  },
+  "deployment": {
+    "publishedAt": "2026-11-04T12:08:13.363Z",
+    "restartedAt": "2026-11-04T12:08:11.196Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-friends-2026-11-04T12-08-09-208Z",
+    "sourceBaseline": "d40c1d6ca62ccad5c5cf637cfd5a76062dfb4475",
+    "sourceHashes": {
+      "data/game/latest_patch.json": "d71a97df56d70f6ef9d689ff1d5b06cc00d99871831f37a6d557068681bb33fc",
+      "server/persistence/superTournamentRepository.js": "b5862029c1afe5f2264d86d44d5843ccc62fe6fd067de7a163e271a2586e29fb",
+      "server/persistence/whitepeakRankingRepository.js": "025335f6e4d9017e2bc3c13fcfabe7f6c25d450ce3084009acec4a07e6eb20de",
+      "server/realtime/handlers/socialHandlers.js": "8158d1fafa35ed4065bc5ba1e4b96e5830a2d5d4cf5bccdac9e3c9d13a2644a6",
+      "server/realtime/socialHub.js": "d7b94f0c5311aa67dabd653ad0f0db2f5276f29cdb8335f7ca1d2d77d1677507",
+      "server/persistence/friendProfileRepository.js": "9e463244572ade5966c92dd007afc016d0b7977f58afb4a41b095a42fd7205d8"
+    },
+    "clientCommit": "ff2335f534cfb976df563631d643a748e3561ca6",
+    "clientBuild": "8f4242f9e971bc81",
+    "beforePid": "3854946",
+    "afterPid": "3861817",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "schemaChanged": false,
+    "migrationApplied": null,
+    "schemaVerified": true,
+    "schemaTables": 31,
+    "schemaConstraints": 27,
+    "migrationReceipts": 31,
+    "activeClubDuelsBefore": 0,
+    "realAccountsManuallyModified": false,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 0,
+    "rouletteBefore": [],
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": [
+      "js/234.02b18f2e.js",
+      "js/393.0fd15895.js",
+      "js/674.050af613.js",
+      "js/689.ea67c21b.js",
+      "js/737.e2c30081.js",
+      "js/account.6f096228.js",
+      "js/app.5f44f023.js",
+      "js/chunk-vendors.0f4c51f9.js",
+      "js/colosseum.e15fe230.js",
+      "js/community.ef51702b.js",
+      "js/drift.e4ddfe6a.js",
+      "js/game.a8d777e7.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.3e989a3e.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.41dd79ef.css",
+      "css/test-view.7568246d.css"
+    ]
+  }
+}

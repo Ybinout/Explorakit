@@ -33,4 +33,8 @@ async function page({mode='1v1',page=1,search='',userId=null}={}){
  return{mode,page:current,pages,total,rows:rows.map(map),top:top.map(map),own,revision};
 }
 async function top(){if(!topCache){const version=revision;topCache=dbPool.execute("SELECT u.id,u.username,s.wins,s.losses,s.points FROM whitepeak_mode_scores s JOIN users u ON u.id=s.user_id WHERE s.mode='1v1' ORDER BY s.points DESC,s.wins DESC,s.losses ASC,s.user_id LIMIT 3").then(([rows])=>({rows:rows.map((r,i)=>({...r,rank:i+1})),revision:version})).catch(e=>{topCache=null;throw e;});}return topCache;}
-module.exports={initialize,record,page,top,invalidate,get revision(){return revision;}};
+async function standings(userId,c=dbPool){
+ const [rows]=await c.execute('SELECT * FROM (SELECT mode,user_id,wins,losses,draws,points,ROW_NUMBER() OVER(PARTITION BY mode ORDER BY points DESC,wins DESC,losses ASC,user_id) AS position FROM whitepeak_mode_scores) ranked WHERE user_id=?',[userId]);
+ return logic.MODES.map(mode=>{const r=rows.find(r=>r.mode===mode);return {mode,position:r?Number(r.position):null,score:Number(r?.points)||0,wins:Number(r?.wins)||0,losses:Number(r?.losses)||0,draws:Number(r?.draws)||0};});
+}
+module.exports={initialize,record,page,top,standings,invalidate,get revision(){return revision;}};

@@ -1,20 +1,20 @@
 {
-  "version": "2026-11-04-modules-reprise-dark",
+  "version": "2026-11-04-carnet-amis",
   "date": "2026-11-04",
   "fr": {
-    "title": "Tes modules à portée de main",
+    "title": "Garde le contact",
     "items": [
-      "Une poche Modules et un raccourci Y à associer dans ton sac, sur PC et mobile. Le Module Vol ouvre la minimap.",
-      "Les combats du Dark Continent reprennent après une coupure, avec les mêmes Pokémon et les mêmes PV.",
-      "L’XP du Dark Continent baisse de 15 %. Apparence se trouve désormais dans les Options."
+      "Un nouveau carnet d’amis : messages, badges obtenus et positions dans les classements.",
+      "Retrouve tes amis sur la minimap, sans groupe. Leur statut AFK apparaît après cinq minutes d’inactivité.",
+      "Lis tes notifications et réponds aux messages privés pendant les combats, sans les interrompre."
     ]
   },
   "en": {
-    "title": "Your modules, one shortcut away",
+    "title": "Keep in touch",
     "items": [
-      "A Modules pocket and an assignable Y shortcut on desktop and mobile. The Fly Module opens the map.",
-      "Dark Continent battles resume after disconnection with the same Pokémon and HP.",
-      "Dark Continent XP is reduced by 15%. Appearance now lives in Options."
+      "A new friends journal with private messages, earned badges and leaderboard positions.",
+      "Find your friends on the map without a group. An AFK indicator appears after five idle minutes.",
+      "Read notifications and reply to private messages during battles without interrupting them."
     ]
   }
 }
