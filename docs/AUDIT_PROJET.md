@@ -1,3 +1,13 @@
+## Fluidité des intérieurs — 4 novembre 2026
+
+Le laboratoire réutilise une couche bornée pour les fioles/écrans dont la pose n’a pas changé (cadences originales100/120 ms), à l’échelle réelle de la caméra. Les PC statiques ne sont repeints qu’après invalidation. Nouveau snapshot de dispositifs, carte ou échelle :reconstruction ;chargement, combat masquant le monde, arrière-plan et destruction :surfaces libérées. Ne pas mettre en cache les personnages ou une image entière de carte.
+
+Le ciel de la Tour réutilise ses pixels de masques lors de la préparation ;la réfraction ne copie que les bandes contenant réellement de l’eau, avec les mêmes décalages et reflets. Cela couvre aussi le SAS et la salle de duel. La Maison réutilise le `Path2D` immuable des fenêtres et ignore seulement les flocons hors caméra (marge de sécurité). Pas de baisse de résolution, de nombre d’effets ni de cadence ;météo, trajectoires, artwork, collisions et règles inchangés. Un essai de cache bitmap des flocons a été écarté car plus coûteux.
+
+Validation :14 tests existants,420 comparaisons Canvas Chromium/WebKit à trois échelles, six vérifications de culling sans changement de pixel visible ;les seules différences au laboratoire sont de1–2 valeurs/255 dues à la composition alpha.12 parcours avant et12 après, avec vrais paquets de marche, nettoyage/reprise, mouvements réduits et gestes tactiles après correction. Rapport reproductible `docs/INTERIOR_RENDER_PERFORMANCE_2026-11-04.json`. Les gains des effets isolés ne garantissent pas des FPS :les intervalles complets restent variables, notamment sous WebKit Linux et CPU ralenti. Pas de téléphone physique ni de nouveau test de charge revendiqués.
+
+Publication client `47ee219`, build `c05f0b13803fc0c0`, serveur PID3867802 conservé. Sauvegarde sources/index,21 bundles HTTPS identiques au build, API protégée et modes fermés vérifiés. Aucun redémarrage, accès à la BDD de production ou modification manuelle d’un compte réel ;Knov/API voisins inchangés.
+
 ## Ajustement des ressources du Dark Continent — 4 novembre 2026
 
 Les plaques de type ordinaires passent de3→4 % à l’ouest(jungle1/4/7),10→11 % au centre(2/5/8),14→15 % à l’est(3/6) et20→21 % en jungle9. Les taux sont des probabilités par rencontre victorieuse ;la hausse correspond à un point de pourcentage dans chaque lieu. Les corrompus conservent leurs1–5 plaques garanties.
@@ -6381,6 +6391,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **4 novembre 2026 — Intérieurs fluides :**cache borné des fioles/écrans du laboratoire, réfraction limitée aux bandes d’eau de la Tour, fenêtres/flocons de la Maison allégés.14 tests,420 comparaisons Canvas et parcours authentifiés Chromium/WebKit. Publication frontend seule ;rapport `docs/INTERIOR_RENDER_PERFORMANCE_2026-11-04.json`.
 
 - **4 novembre 2026 — Butin Dark :**plaques+1 point dans chaque zone ;rendement des trois cristaux diminué d’environ15 %, minimums corrompus préservés.89 tests existants ajustés. Paramètres serveur seuls ;rapport `docs/DARK_LOOT_TUNING_2026-11-04.json`.
 

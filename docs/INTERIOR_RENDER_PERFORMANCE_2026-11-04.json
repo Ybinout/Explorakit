@@ -1,0 +1,1181 @@
+{
+  "date": "2026-11-04",
+  "request": "Reduce movement/rendering hitches in the professor laboratory, Super Tournament lobby and Whitepeak battle house without removing effects",
+  "baseline": {
+    "root": "5f1984bda4ec1bb5f218b31092c804e606a357b2",
+    "client": "75646a6a096f770ef7a5529e9c9d6d3f08ba454e",
+    "build": "65c4369f84654c33"
+  },
+  "implementation": {
+    "laboratory": "One bounded decoration layer for unchanged vial/screen poses at their existing 100/120ms ticks; backing scale follows the real camera. Static PC props reuse the same layer. Rebuild on device snapshot/scale/map change. Release on hidden tab, covered battle, loading and destruction. Shared original painting functions.",
+    "tournament": "Prepare immutable sky/water masks and water row bounds once. Refraction draws only the nonempty water bands using exactly the original displacement; reuse mask pixel data during cloud extraction instead of repeated readbacks. Shared lobby/SAS/duel implementation.",
+    "battleHouse": "Reuse the fixed window Path2D; omit only flakes completely outside the camera, with a two-unit safety margin. Same trajectories, number and cadence of visible flakes.",
+    "discarded": "A cached snow bitmap increased native rendering cost and was discarded before release."
+  },
+  "preserved": [
+    "authored map/foreground artwork and collisions",
+    "effect amounts, trajectories, timing and colours",
+    "normal adaptive resolution and movement cadence",
+    "NPCs, scores and honor-board integration",
+    "network protocol, battle logic, server and SQL schema",
+    "player teams, inventories and progress",
+    "Knov and neighboring vhosts"
+  ],
+  "validation": {
+    "lint": "pass",
+    "build": "pass",
+    "unit": {
+      "passed": 14,
+      "failed": 0,
+      "skipped": 0,
+      "command": "node --test tests/world-render-budget.test.js tests/world-movement.test.js tests/whitepeak-maps.test.js tests/professor-lab-collisions.test.js"
+    },
+    "native": {
+      "chromium": {
+        "comparedFrames": 210,
+        "maps": [
+          "professor_lab",
+          "ville5_maison1",
+          "super_tournament_lobby",
+          "super_tournament_sas",
+          "super_tournament_room"
+        ],
+        "scales": [
+          1,
+          1.5,
+          2
+        ],
+        "motion": [
+          true,
+          false
+        ],
+        "unchangedSkyAndSnowPixels": true,
+        "maximumLaboratoryChannelDelta": 1,
+        "laboratoryDifference": "At most two values out of255 from alpha-layer compositing; no silhouette/layout/colour change.",
+        "snowCameraCulling": [
+          {
+            "x": 0,
+            "before": 60,
+            "after": 36
+          },
+          {
+            "x": 251,
+            "before": 60,
+            "after": 24
+          },
+          {
+            "x": 503,
+            "before": 60,
+            "after": 24
+          }
+        ],
+        "cacheReuse": 1,
+        "snapshotInvalidation": 1,
+        "allTemporarySurfacesReleased": true
+      },
+      "webkit": {
+        "comparedFrames": 210,
+        "maps": [
+          "professor_lab",
+          "ville5_maison1",
+          "super_tournament_lobby",
+          "super_tournament_sas",
+          "super_tournament_room"
+        ],
+        "scales": [
+          1,
+          1.5,
+          2
+        ],
+        "motion": [
+          true,
+          false
+        ],
+        "unchangedSkyAndSnowPixels": true,
+        "maximumLaboratoryChannelDelta": 2,
+        "laboratoryDifference": "At most two values out of255 from alpha-layer compositing; no silhouette/layout/colour change.",
+        "snowCameraCulling": [
+          {
+            "x": 0,
+            "before": 60,
+            "after": 36
+          },
+          {
+            "x": 251,
+            "before": 60,
+            "after": 24
+          },
+          {
+            "x": 503,
+            "before": 60,
+            "after": 24
+          }
+        ],
+        "cacheReuse": 1,
+        "snapshotInvalidation": 1,
+        "allTemporarySurfacesReleased": true
+      }
+    },
+    "world": {
+      "chromium": {
+        "beforeCases": 6,
+        "afterCases": 6,
+        "realMovement": true,
+        "renderFailures": 0,
+        "hiddenSurfaceReleaseAndRestoration": true,
+        "reducedMotion": true,
+        "touchMovementAndRelease": true,
+        "artifacts": "/tmp/riftmon-interiors-fixed-{before,after}-chromium"
+      },
+      "webkit": {
+        "beforeCases": 6,
+        "afterCases": 6,
+        "realMovement": true,
+        "renderFailures": 0,
+        "hiddenSurfaceReleaseAndRestoration": true,
+        "reducedMotion": true,
+        "touchMovementAndRelease": true,
+        "artifacts": "/tmp/riftmon-interiors-fixed-{before,after}-webkit"
+      }
+    },
+    "visualReview": [
+      "Chromium laboratory desktop and battle house mobile",
+      "WebKit output reviewed with the same preserved artwork"
+    ],
+    "dedicatedTestDatabase": "explorakit_test",
+    "privateFixturesCleaned": true,
+    "interruptedRecipe": "A combined WebKit before/after process ended with SIGTERM after its first after-case; the full after-recipe was rerun successfully by itself. The one abandoned private test account was removed by exact id and UUID username. Only the complete rerun is used below."
+  },
+  "performance": {
+    "isolated": {
+      "chromium": [
+        {
+          "map": "professor_lab",
+          "medianBeforeMs": 0.1035416672627131,
+          "medianAfterMs": 0.08354166746139527,
+          "changePercent": -19.315895069153612,
+          "beforeSamples": [
+            0.10583333373069763,
+            0.1012500007947286,
+            0.09791666666666667,
+            0.1362500011920929,
+            0.1087499996026357,
+            0.09708333412806193
+          ],
+          "afterSamples": [
+            0.08791666825612386,
+            0.08833333253860473,
+            0.0899999996026357,
+            0.07916666666666666,
+            0.07833333412806193,
+            0.07916666666666666
+          ]
+        },
+        {
+          "map": "ville5_maison1",
+          "medianBeforeMs": 0.049166666467984524,
+          "medianAfterMs": 0.04791666666666666,
+          "changePercent": -2.5423724875303755,
+          "beforeSamples": [
+            0.049583333730697635,
+            0.048749999205271406,
+            0.04583333333333333,
+            0.05666666825612386,
+            0.0725000003973643,
+            0.0462499996026357
+          ],
+          "afterSamples": [
+            0.044583334525426226,
+            0.04583333333333333,
+            0.0424999992052714,
+            0.05666666626930237,
+            0.05041666626930237,
+            0.05
+          ]
+        },
+        {
+          "map": "super_tournament_lobby",
+          "medianBeforeMs": 0.26520833373069763,
+          "medianAfterMs": 0.24583333333333335,
+          "changePercent": -7.305577515161488,
+          "beforeSamples": [
+            0.2720833341280619,
+            0.2658333341280619,
+            0.26458333333333334,
+            0.28166666626930237,
+            0.25541666746139524,
+            0.2616666654745738
+          ],
+          "afterSamples": [
+            0.25291666587193806,
+            0.254583332935969,
+            0.2399999996026357,
+            0.24083333412806193,
+            0.25083333253860474,
+            0.2387500007947286
+          ]
+        },
+        {
+          "map": "super_tournament_sas",
+          "medianBeforeMs": 0.4962499996026357,
+          "medianAfterMs": 0.42395833432674407,
+          "changePercent": -14.567589991693309,
+          "beforeSamples": [
+            0.5037499984105428,
+            0.4679166654745738,
+            0.55,
+            0.46333333253860476,
+            0.4887500007947286,
+            0.5941666662693024
+          ],
+          "afterSamples": [
+            0.4258333345254262,
+            0.5291666666666667,
+            0.4220833341280619,
+            0.41166666746139524,
+            0.38458333214124046,
+            0.4270833333333333
+          ]
+        },
+        {
+          "map": "super_tournament_room",
+          "medianBeforeMs": 0.3475000003973643,
+          "medianAfterMs": 0.3125,
+          "changePercent": -10.07194254887539,
+          "beforeSamples": [
+            0.3625,
+            0.367083332935969,
+            0.3537500003973643,
+            0.31541666785875955,
+            0.3412500003973643,
+            0.31541666587193806
+          ],
+          "afterSamples": [
+            0.33125,
+            0.31541666587193806,
+            0.30958333412806194,
+            0.3079166650772095,
+            0.28416666587193806,
+            0.34333333373069763
+          ]
+        }
+      ],
+      "webkit": [
+        {
+          "map": "professor_lab",
+          "medianBeforeMs": 0.35,
+          "medianAfterMs": 0.3125,
+          "changePercent": -10.71428571428571,
+          "beforeSamples": [
+            0.3458333333333333,
+            0.3541666666666667,
+            0.35,
+            0.38333333333333336,
+            0.35,
+            0.32916666666666666
+          ],
+          "afterSamples": [
+            0.3333333333333333,
+            0.31666666666666665,
+            0.30833333333333335,
+            0.3458333333333333,
+            0.30833333333333335,
+            0.30416666666666664
+          ]
+        },
+        {
+          "map": "ville5_maison1",
+          "medianBeforeMs": 1.3770833333333332,
+          "medianAfterMs": 0.2729166666666667,
+          "changePercent": -80.18154311649016,
+          "beforeSamples": [
+            1.4708333333333334,
+            1.45,
+            1.325,
+            1.2875,
+            1.3666666666666667,
+            1.3875
+          ],
+          "afterSamples": [
+            0.275,
+            0.2833333333333333,
+            0.2708333333333333,
+            0.2833333333333333,
+            0.25416666666666665,
+            0.25833333333333336
+          ]
+        },
+        {
+          "map": "super_tournament_lobby",
+          "medianBeforeMs": 0.6979166666666667,
+          "medianAfterMs": 0.6083333333333334,
+          "changePercent": -12.835820895522387,
+          "beforeSamples": [
+            0.75,
+            0.6208333333333333,
+            0.6875,
+            0.65,
+            0.7083333333333334,
+            0.8125
+          ],
+          "afterSamples": [
+            0.5708333333333333,
+            0.6,
+            0.6166666666666667,
+            0.6,
+            0.675,
+            0.7458333333333333
+          ]
+        },
+        {
+          "map": "super_tournament_sas",
+          "medianBeforeMs": 1.0416666666666667,
+          "medianAfterMs": 0.9291666666666667,
+          "changePercent": -10.799999999999999,
+          "beforeSamples": [
+            1.0416666666666667,
+            0.9958333333333333,
+            1.0875,
+            1.0541666666666667,
+            1.0416666666666667,
+            1.0333333333333334
+          ],
+          "afterSamples": [
+            0.9916666666666667,
+            0.9333333333333333,
+            0.9083333333333333,
+            0.9291666666666667,
+            0.8583333333333333,
+            0.9291666666666667
+          ]
+        },
+        {
+          "map": "super_tournament_room",
+          "medianBeforeMs": 0.8375,
+          "medianAfterMs": 0.7875000000000001,
+          "changePercent": -5.970149253731338,
+          "beforeSamples": [
+            0.7875,
+            0.8416666666666667,
+            0.9166666666666666,
+            0.875,
+            0.8333333333333334,
+            0.8208333333333333
+          ],
+          "afterSamples": [
+            0.7166666666666667,
+            0.725,
+            0.9791666666666666,
+            0.8291666666666667,
+            0.8041666666666667,
+            0.7708333333333334
+          ]
+        }
+      ]
+    },
+    "world": [
+      {
+        "engine": "chromium",
+        "map": "professor_lab",
+        "format": "pc",
+        "before": {
+          "draw": {
+            "n": 247,
+            "avg": 1.4878542606647198,
+            "p95": 2.0999999046325684,
+            "max": 6.400000095367432
+          },
+          "frames": {
+            "n": 245,
+            "avg": 16.666122448979593,
+            "p95": 16.700000000000728,
+            "max": 16.800000000000182,
+            "over25ms": 0
+          },
+          "canvas": [
+            896,
+            640
+          ],
+          "idle": {
+            "n": 97,
+            "avg": 1.1659793952076705,
+            "p95": 1.6999998092651367,
+            "frames": 96,
+            "over25ms": 0
+          },
+          "sent": 26,
+          "packets": 24
+        },
+        "after": {
+          "draw": {
+            "n": 245,
+            "avg": 0.9767347063337054,
+            "p95": 1.700000286102295,
+            "max": 2.5
+          },
+          "frames": {
+            "n": 243,
+            "avg": 16.665843621399176,
+            "p95": 16.700000000000728,
+            "max": 16.800000000000182,
+            "over25ms": 0
+          },
+          "canvas": [
+            896,
+            640
+          ],
+          "idle": {
+            "n": 96,
+            "avg": 1.0604166686534882,
+            "p95": 1.8000001907348633,
+            "frames": 95,
+            "over25ms": 0
+          },
+          "sent": 26,
+          "packets": 24
+        }
+      },
+      {
+        "engine": "chromium",
+        "map": "super_tournament_lobby",
+        "format": "pc",
+        "before": {
+          "draw": {
+            "n": 243,
+            "avg": 0.9004115293055405,
+            "p95": 2.5999999046325684,
+            "max": 3.299999713897705
+          },
+          "frames": {
+            "n": 243,
+            "avg": 16.666255144032924,
+            "p95": 16.700000000000728,
+            "max": 16.800000000000182,
+            "over25ms": 0
+          },
+          "canvas": [
+            896,
+            640
+          ],
+          "idle": {
+            "n": 96,
+            "avg": 1.1385416587193806,
+            "p95": 3.1000003814697266,
+            "frames": 95,
+            "over25ms": 0
+          },
+          "sent": 26,
+          "packets": 26
+        },
+        "after": {
+          "draw": {
+            "n": 242,
+            "avg": 1.0219008232936386,
+            "p95": 2.8000001907348633,
+            "max": 4.600000381469727
+          },
+          "frames": {
+            "n": 242,
+            "avg": 16.66611570247934,
+            "p95": 16.700000000000728,
+            "max": 16.800000000000182,
+            "over25ms": 0
+          },
+          "canvas": [
+            896,
+            640
+          ],
+          "idle": {
+            "n": 96,
+            "avg": 0.9385416756073633,
+            "p95": 2.799999713897705,
+            "frames": 95,
+            "over25ms": 0
+          },
+          "sent": 26,
+          "packets": 26
+        }
+      },
+      {
+        "engine": "chromium",
+        "map": "ville5_maison1",
+        "format": "pc",
+        "before": {
+          "draw": {
+            "n": 243,
+            "avg": 0.6625514265931682,
+            "p95": 1,
+            "max": 2
+          },
+          "frames": {
+            "n": 243,
+            "avg": 16.666255144032924,
+            "p95": 16.700000000000728,
+            "max": 16.800000000000182,
+            "over25ms": 0
+          },
+          "canvas": [
+            896,
+            640
+          ],
+          "idle": {
+            "n": 97,
+            "avg": 0.6742267903593397,
+            "p95": 1,
+            "frames": 96,
+            "over25ms": 0
+          },
+          "sent": 26,
+          "packets": 26
+        },
+        "after": {
+          "draw": {
+            "n": 245,
+            "avg": 0.6032653088472327,
+            "p95": 0.9000000953674316,
+            "max": 3.0999999046325684
+          },
+          "frames": {
+            "n": 245,
+            "avg": 16.665714285714284,
+            "p95": 16.700000000000728,
+            "max": 16.800000000000182,
+            "over25ms": 0
+          },
+          "canvas": [
+            896,
+            640
+          ],
+          "idle": {
+            "n": 96,
+            "avg": 0.534374992052714,
+            "p95": 0.7999997138977051,
+            "frames": 95,
+            "over25ms": 0
+          },
+          "sent": 26,
+          "packets": 26
+        }
+      },
+      {
+        "engine": "chromium",
+        "map": "professor_lab",
+        "format": "mobile-cpu4",
+        "before": {
+          "draw": {
+            "n": 162,
+            "avg": 3.8790123138898687,
+            "p95": 5.799999713897705,
+            "max": 10
+          },
+          "frames": {
+            "n": 160,
+            "avg": 27.49875000000001,
+            "p95": 49.899999999999636,
+            "max": 66.69999999999982,
+            "over25ms": 95
+          },
+          "canvas": [
+            786,
+            1262
+          ],
+          "idle": {
+            "n": 65,
+            "avg": 3.226153857891376,
+            "p95": 4.700000286102295,
+            "frames": 64,
+            "over25ms": 32
+          },
+          "sent": 24,
+          "packets": 23
+        },
+        "after": {
+          "draw": {
+            "n": 169,
+            "avg": 3.9473372549700314,
+            "p95": 8.099999904632568,
+            "max": 9.300000190734863
+          },
+          "frames": {
+            "n": 167,
+            "avg": 27.14431137724551,
+            "p95": 33.400000000000546,
+            "max": 100,
+            "over25ms": 95
+          },
+          "canvas": [
+            786,
+            1262
+          ],
+          "idle": {
+            "n": 66,
+            "avg": 4.44545452522509,
+            "p95": 9.199999809265137,
+            "frames": 65,
+            "over25ms": 29
+          },
+          "sent": 24,
+          "packets": 23
+        }
+      },
+      {
+        "engine": "chromium",
+        "map": "super_tournament_lobby",
+        "format": "mobile-cpu4",
+        "before": {
+          "draw": {
+            "n": 219,
+            "avg": 3.2305935768231953,
+            "p95": 8.299999713897705,
+            "max": 10.699999809265137
+          },
+          "frames": {
+            "n": 219,
+            "avg": 19.86255707762557,
+            "p95": 33.399999999999636,
+            "max": 83.39999999999964,
+            "over25ms": 37
+          },
+          "canvas": [
+            786,
+            1270
+          ],
+          "idle": {
+            "n": 96,
+            "avg": 2.792708362142245,
+            "p95": 6.600000381469727,
+            "frames": 95,
+            "over25ms": 1
+          },
+          "sent": 24,
+          "packets": 24
+        },
+        "after": {
+          "draw": {
+            "n": 244,
+            "avg": 1.6721311377697303,
+            "p95": 6.199999809265137,
+            "max": 47.799999713897705
+          },
+          "frames": {
+            "n": 244,
+            "avg": 17.417622950819673,
+            "p95": 16.800000000000182,
+            "max": 83.29999999999927,
+            "over25ms": 7
+          },
+          "canvas": [
+            786,
+            1270
+          ],
+          "idle": {
+            "n": 97,
+            "avg": 1.415463904744571,
+            "p95": 6.799999713897705,
+            "frames": 96,
+            "over25ms": 0
+          },
+          "sent": 26,
+          "packets": 26
+        }
+      },
+      {
+        "engine": "chromium",
+        "map": "ville5_maison1",
+        "format": "mobile-cpu4",
+        "before": {
+          "draw": {
+            "n": 182,
+            "avg": 1.8818681344881163,
+            "p95": 2.9000000953674316,
+            "max": 4.199999809265137
+          },
+          "frames": {
+            "n": 182,
+            "avg": 24.815934065934066,
+            "p95": 33.400000000000546,
+            "max": 116.69999999999982,
+            "over25ms": 83
+          },
+          "canvas": [
+            786,
+            1270
+          ],
+          "idle": {
+            "n": 73,
+            "avg": 1.7589040978314125,
+            "p95": 2.6999998092651367,
+            "frames": 72,
+            "over25ms": 24
+          },
+          "sent": 24,
+          "packets": 24
+        },
+        "after": {
+          "draw": {
+            "n": 174,
+            "avg": 1.7718391117008252,
+            "p95": 3.4000000953674316,
+            "max": 4.099999904632568
+          },
+          "frames": {
+            "n": 174,
+            "avg": 25.861494252873563,
+            "p95": 33.400000000000546,
+            "max": 116.69999999999891,
+            "over25ms": 84
+          },
+          "canvas": [
+            786,
+            1270
+          ],
+          "idle": {
+            "n": 71,
+            "avg": 1.5323943823156223,
+            "p95": 3.4000000953674316,
+            "frames": 70,
+            "over25ms": 24
+          },
+          "sent": 24,
+          "packets": 24
+        }
+      },
+      {
+        "engine": "webkit",
+        "map": "professor_lab",
+        "format": "pc",
+        "before": {
+          "draw": {
+            "n": 198,
+            "avg": 1.601010101010101,
+            "p95": 3,
+            "max": 6
+          },
+          "frames": {
+            "n": 196,
+            "avg": 21.051020408163264,
+            "p95": 34,
+            "max": 44,
+            "over25ms": 51
+          },
+          "canvas": [
+            896,
+            640
+          ],
+          "idle": {
+            "n": 100,
+            "avg": 1.12,
+            "p95": 2,
+            "frames": 99,
+            "over25ms": 0
+          },
+          "sent": 26,
+          "packets": 24
+        },
+        "after": {
+          "draw": {
+            "n": 202,
+            "avg": 1.311881188118812,
+            "p95": 2,
+            "max": 4
+          },
+          "frames": {
+            "n": 200,
+            "avg": 20.415,
+            "p95": 33,
+            "max": 39,
+            "over25ms": 48
+          },
+          "canvas": [
+            896,
+            640
+          ],
+          "idle": {
+            "n": 100,
+            "avg": 0.96,
+            "p95": 2,
+            "frames": 99,
+            "over25ms": 0
+          },
+          "sent": 26,
+          "packets": 24
+        }
+      },
+      {
+        "engine": "webkit",
+        "map": "super_tournament_lobby",
+        "format": "pc",
+        "before": {
+          "draw": {
+            "n": 250,
+            "avg": 0.668,
+            "p95": 1,
+            "max": 3
+          },
+          "frames": {
+            "n": 250,
+            "avg": 16.276,
+            "p95": 18,
+            "max": 30,
+            "over25ms": 1
+          },
+          "canvas": [
+            896,
+            640
+          ],
+          "idle": {
+            "n": 99,
+            "avg": 0.7171717171717171,
+            "p95": 1,
+            "frames": 98,
+            "over25ms": 0
+          },
+          "sent": 26,
+          "packets": 26
+        },
+        "after": {
+          "draw": {
+            "n": 247,
+            "avg": 0.6761133603238867,
+            "p95": 1,
+            "max": 3
+          },
+          "frames": {
+            "n": 247,
+            "avg": 16.469635627530366,
+            "p95": 19,
+            "max": 27,
+            "over25ms": 1
+          },
+          "canvas": [
+            896,
+            640
+          ],
+          "idle": {
+            "n": 99,
+            "avg": 0.7070707070707071,
+            "p95": 2,
+            "frames": 98,
+            "over25ms": 1
+          },
+          "sent": 26,
+          "packets": 26
+        }
+      },
+      {
+        "engine": "webkit",
+        "map": "ville5_maison1",
+        "format": "pc",
+        "before": {
+          "draw": {
+            "n": 248,
+            "avg": 0.6451612903225806,
+            "p95": 1,
+            "max": 1
+          },
+          "frames": {
+            "n": 248,
+            "avg": 16.379032258064516,
+            "p95": 18,
+            "max": 34,
+            "over25ms": 3
+          },
+          "canvas": [
+            896,
+            640
+          ],
+          "idle": {
+            "n": 100,
+            "avg": 0.67,
+            "p95": 1,
+            "frames": 99,
+            "over25ms": 0
+          },
+          "sent": 25,
+          "packets": 25
+        },
+        "after": {
+          "draw": {
+            "n": 246,
+            "avg": 0.6219512195121951,
+            "p95": 1,
+            "max": 4
+          },
+          "frames": {
+            "n": 246,
+            "avg": 16.658536585365855,
+            "p95": 19,
+            "max": 41,
+            "over25ms": 4
+          },
+          "canvas": [
+            896,
+            640
+          ],
+          "idle": {
+            "n": 99,
+            "avg": 0.5555555555555556,
+            "p95": 1,
+            "frames": 98,
+            "over25ms": 0
+          },
+          "sent": 26,
+          "packets": 26
+        }
+      },
+      {
+        "engine": "webkit",
+        "map": "professor_lab",
+        "format": "mobile",
+        "before": {
+          "draw": {
+            "n": 101,
+            "avg": 1.7128712871287128,
+            "p95": 3,
+            "max": 7
+          },
+          "frames": {
+            "n": 97,
+            "avg": 42.90721649484536,
+            "p95": 66,
+            "max": 126,
+            "over25ms": 96
+          },
+          "canvas": [
+            786,
+            1262
+          ],
+          "idle": {
+            "n": 50,
+            "avg": 1.24,
+            "p95": 2,
+            "frames": 49,
+            "over25ms": 47
+          },
+          "sent": 26,
+          "packets": 23
+        },
+        "after": {
+          "draw": {
+            "n": 103,
+            "avg": 1.7572815533980584,
+            "p95": 4,
+            "max": 6
+          },
+          "frames": {
+            "n": 99,
+            "avg": 42.14141414141414,
+            "p95": 64,
+            "max": 88,
+            "over25ms": 99
+          },
+          "canvas": [
+            786,
+            1262
+          ],
+          "idle": {
+            "n": 55,
+            "avg": 1.2545454545454546,
+            "p95": 2,
+            "frames": 54,
+            "over25ms": 51
+          },
+          "sent": 26,
+          "packets": 23
+        }
+      },
+      {
+        "engine": "webkit",
+        "map": "super_tournament_lobby",
+        "format": "mobile",
+        "before": {
+          "draw": {
+            "n": 128,
+            "avg": 0.640625,
+            "p95": 1,
+            "max": 4
+          },
+          "frames": {
+            "n": 128,
+            "avg": 32.125,
+            "p95": 39,
+            "max": 51,
+            "over25ms": 125
+          },
+          "canvas": [
+            786,
+            1270
+          ],
+          "idle": {
+            "n": 57,
+            "avg": 0.7719298245614035,
+            "p95": 2,
+            "frames": 56,
+            "over25ms": 53
+          },
+          "sent": 26,
+          "packets": 26
+        },
+        "after": {
+          "draw": {
+            "n": 121,
+            "avg": 0.6942148760330579,
+            "p95": 1,
+            "max": 2
+          },
+          "frames": {
+            "n": 121,
+            "avg": 34.11570247933884,
+            "p95": 42,
+            "max": 63,
+            "over25ms": 120
+          },
+          "canvas": [
+            786,
+            1270
+          ],
+          "idle": {
+            "n": 51,
+            "avg": 0.8235294117647058,
+            "p95": 2,
+            "frames": 50,
+            "over25ms": 47
+          },
+          "sent": 26,
+          "packets": 26
+        }
+      },
+      {
+        "engine": "webkit",
+        "map": "ville5_maison1",
+        "format": "mobile",
+        "before": {
+          "draw": {
+            "n": 122,
+            "avg": 0.6229508196721312,
+            "p95": 1,
+            "max": 4
+          },
+          "frames": {
+            "n": 122,
+            "avg": 33.64754098360656,
+            "p95": 39,
+            "max": 49,
+            "over25ms": 122
+          },
+          "canvas": [
+            786,
+            1270
+          ],
+          "idle": {
+            "n": 56,
+            "avg": 0.6428571428571429,
+            "p95": 1,
+            "frames": 55,
+            "over25ms": 54
+          },
+          "sent": 26,
+          "packets": 26
+        },
+        "after": {
+          "draw": {
+            "n": 121,
+            "avg": 0.71900826446281,
+            "p95": 1,
+            "max": 4
+          },
+          "frames": {
+            "n": 121,
+            "avg": 33.97520661157025,
+            "p95": 40,
+            "max": 54,
+            "over25ms": 121
+          },
+          "canvas": [
+            786,
+            1270
+          ],
+          "idle": {
+            "n": 58,
+            "avg": 0.7758620689655172,
+            "p95": 1,
+            "frames": 57,
+            "over25ms": 48
+          },
+          "sent": 26,
+          "packets": 26
+        }
+      }
+    ]
+  },
+  "limits": [
+    "Headless Linux Chromium/WebKit, not a physical Android/iPhone or real Safari session.",
+    "No new multiplayer load/capacity or server benchmark is claimed.",
+    "Reduced procedural work is measured; complete frame intervals vary and do not improve uniformly. Mobile WebKit and throttled Chromium still have slow frames on this host. No fixed FPS guarantee.",
+    "The fixed-resolution browser comparison disables adaptation only in the private fixture; production retains its existing adaptation unchanged."
+  ],
+  "reproduce": {
+    "baselineExport": "mkdir -p /tmp/riftmon-interiors-baseline-services; git -C vue-explorakit archive 75646a6a096f770ef7a5529e9c9d6d3f08ba454e src/services | tar -x -C /tmp/riftmon-interiors-baseline-services --strip-components=2",
+    "native": "node scripts/validateInteriorRenderCache.js; PROFILE_BROWSER=webkit node scripts/validateInteriorRenderCache.js (run sequentially; INTERIOR_PARITY_ONLY=1 skips cost batches)",
+    "world": "DB_TEST_NAME=explorakit_test RELEASE_DIST_DIR=<before-or-after-build> PROFILE_MAPS=professor_lab,super_tournament_lobby,ville5_maison1 PROFILE_LEGS=8 PROFILE_FIXED_RATIO=2 PROFILE_FORMATS=pc,mobile-cpu4 MOVEMENT_PROFILE_OUT=<unique-output> node --env-file=.env scripts/measureWorldMovementBrowser.js",
+    "webkit": "Use PROFILE_BROWSER=webkit PROFILE_FORMATS=pc,mobile; no CPU throttle is claimed for WebKit. Add PROFILE_VALIDATE_LIFECYCLE=1 for release/restore/touch smoke. Run fixtures sequentially."
+  },
+  "artworkSha256": {
+    "professor_lab.png": "f2a507d8f2bef0545fc7f9ce5c8cbad6b2593b2dd0b2666111dc7364c72f7e5d",
+    "professor_lab_f.png": "ceca7f8e80f7cb012c6631ca653b63d08ae93e7a80f65e871806d0f2c39625c8",
+    "super_tournament_lobby.png": "7e4a05c5f7e5c55927b76b1eb7dff39633fc76b87dc86fd6007671ff3c282afa",
+    "super_tournament_sas.png": "ddd7e7f4e4e13dd7c1791c63967ff952a38e9a36e8e16493610b2c6cb58bd2be",
+    "super_tournament_room.png": "62134250e5c17f4df4e796ffde78d5f54d83258eae25c8a2dadd97f62abec69d",
+    "whitepeak_club.png": "b115c4d9531746e8486dee7e635a935f885c97d53542e191cc47205320d006b7",
+    "whitepeak_club_f.png": "43739c566e26fd7cb88f69d3864ea34740372f5ee99acac169e090beffbce5c6"
+  },
+  "deployment": {
+    "publishedAt": "2026-11-04T13:40:26.352Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-interior-performance-2026-11-04T13-40-24-008Z",
+    "sourceBaseline": "5f1984bda4ec1bb5f218b31092c804e606a357b2",
+    "previousClient": "75646a6a096f770ef7a5529e9c9d6d3f08ba454e",
+    "clientCommit": "47ee219e822a24379406c4b21c842f9dad99a1df",
+    "clientBuild": "c05f0b13803fc0c0",
+    "indexSha256": "19ae55f0c5b32e8083a28748e1eb40d281ffab210d9e36a1c8ca18d042957f52",
+    "sourceHashes": {
+      "src/components/UserMap.vue": "f82071e354edd1e156988a9360afa383c290155b95e5946da65025a325e329eb",
+      "src/services/pokemonComputer.js": "ff2381faf64669cc2f52b54b2a0f82c080e6391095d2cb8182c7b66dd0f0cbc3",
+      "src/services/tournamentLobbySky.js": "5de8b2db68e15c0910fef98be365fee8eafe9dc066693c98341642df2d863570",
+      "src/services/whitepeakScenery.js": "11b7fcca9189c3b8bab21b06f18876739e799a34a4b8a9f20fc498fae6ad01e7",
+      "src/services/worldDecorationCache.js": "671d04fd2f641887231a25973369e9477ccf2e9677a8fdd3f39d7aaf28eb2ea1"
+    },
+    "publicAssets": [
+      "js/234.02b18f2e.js",
+      "js/393.0fd15895.js",
+      "js/674.050af613.js",
+      "js/689.ea67c21b.js",
+      "js/737.e2c30081.js",
+      "js/account.6f096228.js",
+      "js/app.19927459.js",
+      "js/chunk-vendors.0f4c51f9.js",
+      "js/colosseum.e15fe230.js",
+      "js/community.ef51702b.js",
+      "js/drift.e4ddfe6a.js",
+      "js/game.ceff4d8d.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.3e989a3e.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.3adb3a65.css",
+      "css/test-view.7568246d.css"
+    ],
+    "servicePID": "3867802",
+    "serviceNotRestarted": true,
+    "automaticRestarts": 0,
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "namespaceClosed": true,
+    "protectedApi401": true,
+    "schemaChanged": false,
+    "productionDatabaseAccessed": false,
+    "realAccountsManuallyModified": false
+  }
+}
