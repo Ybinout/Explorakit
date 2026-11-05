@@ -18,8 +18,15 @@ test('versioned asset packs reconstruct exactly the converted images; tampering 
 test('the shared resolver handles gender, shiny forms, transformations, motion preferences and finite fallbacks',async()=>{
  let source=fs.readFileSync(root+'/src/services/pokemonSprites.js','utf8').replace("import manifest from '@/data/pokemonSpriteManifest.json';",'const manifest='+JSON.stringify(manifest)+';').replace(/process.env.BASE_URL/g,JSON.stringify('/'));
  const s=await import('data:text/javascript;base64,'+Buffer.from(source).toString('base64'));
- const p={data:{id:648},shiny:true};assert(s.pokemonSprite(p,{animated:true}).includes('/animated/shiny/front/648.webp?v='));s.setPokemonSpriteMotion({animationsEnabled:false});assert(s.pokemonSprite(p,{animated:true}).includes('/shiny/front/648.png?v='));s.setPokemonSpriteMotion({animationsEnabled:true});
+ const p={data:{id:648},shiny:true};assert(s.pokemonSprite(p,{animated:true}).includes('/animated/shiny/front/648.webp?v=bw5-shiny-gif-v2'));assert(s.pokemonSprite({id:648},{animated:true}).includes('?v=bw5-safari-v1'));s.setPokemonSpriteMotion({animationsEnabled:false});assert(s.pokemonSprite(p,{animated:true}).includes('/shiny/front/648.png?v='));s.setPokemonSpriteMotion({animationsEnabled:true});
  assert(s.pokemonSprite({...p,__battle:{formSpriteId:10018}}).includes('/shiny/front/10018.png'));
  assert(s.pokemonSprite({...p,__battle:{illusion:{id:25,shiny:false}}}).includes('/front/25.png'));
  const image={tagName:'IMG',src:s.pokemonSprite(p,{side:'back',animated:true})};s.pokemonSpriteFallback({target:image});assert(image.src.includes('/shiny/back/648.png?v='));s.pokemonSpriteFallback({target:image});assert(image.src.includes('/back/648.png?v='));s.pokemonSpriteFallback({target:image});assert(image.src.startsWith('data:image/svg+xml,'));
+});
+test('replacement shiny GIFs keep every moving source frame and all normal variants remain unchanged',()=>{
+ const report=require('../docs/ANIMATED_POKEMON_IMPORT_2026-11-05.json'),replacement=require('../docs/SHINY_GIF_REPLACEMENT_2026-11-05.json');
+ const shiny=report.files.filter(f=>f.key.startsWith('shiny/'));
+ assert.equal(shiny.length,1692);assert.equal(replacement.normalVariantsUnchanged,1669);
+ assert.equal(report.replacementValidation.allVisibleFramesCompared,true);assert.equal(report.replacementValidation.sourceFrames,148296);
+ for(const f of shiny){assert(f.source.endsWith('.gif'),f.key);assert(f.uniqueVisibleFrames>1,f.key);assert.equal(f.frames,manifest[f.key].frames);assert.equal(f.durationMs,manifest[f.key].durationMs);assert.equal(sha(fs.readFileSync(root+'/public/img/pokemon/animated/'+f.key+'.webp')),f.animationSha256);}
 });

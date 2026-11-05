@@ -1,5 +1,8 @@
 """Pack converted sprites deterministically for version control; no pixel changes."""
-import gzip, hashlib, io, json, pathlib, tarfile
+import argparse, gzip, hashlib, io, json, pathlib, tarfile
+parser=argparse.ArgumentParser(description=__doc__)
+parser.add_argument("--preserve-layout",action="store_true",help="Keep existing archive memberships while updating images")
+args=parser.parse_args()
 root=pathlib.Path(__file__).resolve().parents[1]/'vue-explorakit'
 source=root/'public/img/pokemon'
 target=root/'assets/pokemon'
@@ -14,6 +17,11 @@ for file in files:
         groups.append(group);group=[];size=0
     group.append(file);size+=file.stat().st_size
 if group:groups.append(group)
+if args.preserve_layout:
+    previous=json.loads((target/'manifest.json').read_text())
+    groups=[[source/name for name in pack['files']] for pack in previous['packs']]
+    assert {p for group in groups for p in group} == set(files), 'Sprite set changed; rebuild the full layout instead'
+    assert all(sum(p.stat().st_size for p in group)<16*1024*1024 for group in groups), 'Archive exceeds safe extraction size'
 for i,group in enumerate(groups):
     buffer=io.BytesIO();entries={}
     with tarfile.open(fileobj=buffer,mode='w',format=tarfile.USTAR_FORMAT) as tar:

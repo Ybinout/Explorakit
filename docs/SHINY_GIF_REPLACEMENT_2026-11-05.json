@@ -1,0 +1,72 @@
+{
+  "date": "2026-11-05",
+  "status": "validated; publication pending",
+  "sources": [
+    "/home/ubuntu/dev/Sprites_Shiny_Black_White",
+    "/home/ubuntu/dev/Sprites_Shiny_Back_Black_2_White_2"
+  ],
+  "conversion": "Lossless WebP animations and PNG posters; original GIFs untouched",
+  "validation": {
+    "variants": 1692,
+    "sourceFrames": 148296,
+    "allVisibleFramesCompared": true,
+    "minimumUniqueVisibleFrames": 4,
+    "unitTests": {
+      "passed": 7,
+      "failed": 0,
+      "skipped": 0
+    },
+    "build": "89837484ee3a5474",
+    "lint": "No lint errors",
+    "chromium": {
+      "success": true,
+      "engine": "chromium",
+      "checks": [
+        "real-lobby-NPC-free-travel-and-no-premature-flight",
+        "animated-water-and-world-render-without-errors",
+        "real-connected-island-walk-and-center-only-flight-unlock",
+        "permanent-flight-unlock-and-Safari-minimap",
+        "real-flight-shop-entry-catalog-and-exit",
+        "shiny-Gen5-animated-detail-and-star",
+        "real-House-battle-Gen5-shiny-front-back-animation",
+        "new-GIF-shinies-visibly-move-front-back-and-static-fallback-stays-still",
+        "reduced-motion-uses-static-posters",
+        "battle-reconnect-and-first-action"
+      ],
+      "errors": [],
+      "notFound": [],
+      "buildIndexSha256": "d3b9763149cbaaf829bbebe532b5c921707f2488fbd99a08f9b0a10740837969"
+    },
+    "webkit": {
+      "success": true,
+      "engine": "webkit",
+      "checks": [
+        "real-lobby-NPC-free-travel-and-no-premature-flight",
+        "animated-water-and-world-render-without-errors",
+        "real-connected-island-walk-and-center-only-flight-unlock",
+        "permanent-flight-unlock-and-Safari-minimap",
+        "real-flight-shop-entry-catalog-and-exit",
+        "shiny-Gen5-animated-detail-and-star",
+        "real-House-battle-Gen5-shiny-front-back-animation",
+        "new-GIF-shinies-visibly-move-front-back-and-static-fallback-stays-still",
+        "reduced-motion-uses-static-posters",
+        "battle-reconnect-and-first-action"
+      ],
+      "errors": [],
+      "notFound": [],
+      "buildIndexSha256": "d3b9763149cbaaf829bbebe532b5c921707f2488fbd99a08f9b0a10740837969"
+    }
+  },
+  "normalVariantsUnchanged": 1669,
+  "shinyVariants": 1692,
+  "cacheRevision": "bw5-shiny-gif-v2",
+  "normalCacheRevisionUnchanged": "bw5-safari-v1",
+  "runtimeChange": "Client assets/resolver metadata only; no persistence or server combat change",
+  "notes": [
+    "Frame-by-frame visible RGBA and alpha equality across the whole source timeline, including identical frames merged by WebP.",
+    "Normal species assets and metadata unchanged, all genders and five battle forms retained.",
+    "The previously supplied PNGs were themselves APNG animations; this replacement uses the newly supplied GIFs and their actual timing."
+  ],
+  "normalFilesByteIdentical": 3338,
+  "clientCommit": "a499d6062dd4c9f3e2c71c16c9868d8b4972690f"
+}

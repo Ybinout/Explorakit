@@ -1,4 +1,4 @@
-"""Lossless APNG -> WebP animation and static thumbnails, with reproducible provenance.
+"""Lossless APNG/GIF -> WebP animation and static thumbnails, with reproducible provenance.
 
 Usage: PYTHONPATH=/path/to/Pillow python3 scripts/importAnimatedPokemonSprites.py /path/to/tout
 Only supported base species 1..649 and the battle forms used by the engine are imported.
@@ -16,6 +16,9 @@ from PIL import Image
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('source', type=pathlib.Path)
+parser.add_argument('--shiny-source', type=pathlib.Path, help='Parent containing replacement shiny folders (PNG or animated GIF)')
+parser.add_argument('--only-shiny', action='store_true', help='Keep the existing normal assets and provenance unchanged')
+parser.add_argument('--verify-every-frame', action='store_true', help='Compare the complete visible source timeline, including merged frames')
 parser.add_argument('--supplement-dir', type=pathlib.Path, default=pathlib.Path(tempfile.gettempdir()) / 'riftmon-safari-supplement')
 args = parser.parse_args()
 SOURCE = args.source.resolve()
@@ -33,12 +36,15 @@ TARGET = ROOT / 'vue-explorakit/public/img/pokemon'
 FOLDERS = {'front': 'Sprites_Black_2_White_2', 'back': 'Sprites_Back_Black_2_White_2',
            'shiny/front': 'Sprites_Shiny_Black_White', 'shiny/back': 'Sprites_Shiny_Back_Black_2_White_2'}
 FORMS = {10013: (351, 'S'), 10014: (351, 'R'), 10015: (351, 'H'), 10017: (555, 'Z'), 10018: (648, 'P')}
-pattern = re.compile(r'^Spr (?:b )?5b2? (\d{3})([A-Za-z]*)(?: ([mf]))?(?: s)?\.png$')
+pattern = re.compile(r'^Spr (?:b )?5b2? (\d{3})([A-Za-z]*)(?: ([mf]))?(?: s)?\.(?:png|gif)$')
 tasks = []
 missing = []
 for folder, supplied in FOLDERS.items():
+    if args.only_shiny and not folder.startswith('shiny/'):
+        continue
+    parent = args.shiny_source.resolve() if args.shiny_source and folder.startswith('shiny/') else SOURCE
     entries = []
-    for p in (SOURCE / supplied).glob('*.png'):
+    for p in (parent / supplied).iterdir():
         m = pattern.match(p.name)
         if m and int(m[1]) <= 649:
             entries.append((p, int(m[1]), m[2], m[3]))
@@ -53,7 +59,7 @@ for folder, supplied in FOLDERS.items():
                 missing.append({'folder': folder, 'id': id})
             continue
         # Prefer the ordinary form and B2W2 correction, then a male base image.
-        eligible.sort(key=lambda e: (e[2] != form, '5b2 ' not in e[0].name, e[3] not in (None, 'm'), e[0].name))
+        eligible.sort(key=lambda e: (e[2] != form, e[0].suffix != '.gif', '5b2 ' not in e[0].name, e[3] not in (None, 'm'), e[0].name))
         chosen = eligible[0]
         tasks.append((folder, id, chosen[0]))
         # Preserve gender variants when both are supplied, not by recoloring.
@@ -101,17 +107,47 @@ def export(task):
         background = Image.new('RGBA', original.size, (0, 0, 0, 255))
         assert Image.alpha_composite(background, original).tobytes() == Image.alpha_composite(background, actual).tobytes(), path
         assert original.getchannel('A').tobytes() == actual.getchannel('A').tobytes(), path
+    unique = None
+    if args.verify_every_frame:
+        # WebP is allowed to merge identical adjacent frames. Compare every
+        # source frame at its exact start time instead of assuming equal counts.
+        def visible(frame):
+            black = Image.new('RGBA', frame.size, (0, 0, 0, 255))
+            return Image.alpha_composite(black, frame).tobytes() + frame.getchannel('A').tobytes()
+        unique = len({hashlib.sha256(visible(f)).digest() for f in frames})
+        assert unique > 1, ('Supplied sprite does not move', path)
+        source_at = 0
+        decoded_at = 0
+        decoded_index = 0
+        for frame, duration in zip(frames, durations):
+            while decoded_index + 1 < len(times) and source_at >= decoded_at + times[decoded_index]:
+                decoded_at += times[decoded_index]
+                decoded_index += 1
+            decoded.seek(decoded_index)
+            assert visible(frame) == visible(decoded.convert('RGBA')), ('Timeline mismatch', path, source_at)
+            source_at += duration
     return {'key': f'{folder}/{id}', 'id': id, 'size': list(image.size), 'bounds': list(bounds), 'frames': len(frames), 'durationMs': sum(durations),
             'source': str(path.relative_to(SOURCE)) if path.is_relative_to(SOURCE) else str(path), 'sourceSha256': hashlib.sha256(path.read_bytes()).hexdigest(), 'sourceBytes': path.stat().st_size,
             'animationBytes': animation.stat().st_size, 'posterBytes': poster.stat().st_size,
-            'animationSha256': hashlib.sha256(animation.read_bytes()).hexdigest()}
+            'animationSha256': hashlib.sha256(animation.read_bytes()).hexdigest(),
+            **({'uniqueVisibleFrames': unique} if unique is not None else {})}
 
 with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
     records = list(executor.map(export, tasks))
+report_path = ROOT / 'docs/ANIMATED_POKEMON_IMPORT_2026-11-05.json'
+previous = json.loads(report_path.read_text()) if args.only_shiny else None
+replacements = records
+if previous:
+    replaced = {r['key'] for r in records}
+    records = [r for r in previous['files'] if r['key'] not in replaced] + records
 manifest = {r['key']: {k: r[k] for k in ['size', 'bounds', 'frames', 'durationMs']} for r in records}
 (ROOT / 'vue-explorakit/src/data/pokemonSpriteManifest.json').write_text(json.dumps(manifest, separators=(',', ':')) + '\n')
-report = {'source': str(SOURCE), 'format': 'Lossless animated WebP; static PNG thumbnails; original supplied APNG unchanged', 'species': 649, 'variants': len(records),
+report = {'source': str(SOURCE), 'format': 'Lossless animated WebP; static PNG thumbnails; original supplied APNG/GIF unchanged', 'species': 649, 'variants': len(records),
           'sourceBytes': sum(r['sourceBytes'] for r in records), 'animationBytes': sum(r['animationBytes'] for r in records), 'posterBytes': sum(r['posterBytes'] for r in records),
           'pixelValidation': 'Every animation decoded: total timing, first/last visible RGBA; all frame alpha bounds measured', 'supplementalSources': PROVENANCE, 'files': records}
-(ROOT / 'docs/ANIMATED_POKEMON_IMPORT_2026-11-05.json').write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n')
+if args.shiny_source:
+    report['shinySource'] = str(args.shiny_source.resolve())
+if args.verify_every_frame:
+    report['replacementValidation'] = {'variants': len(replacements), 'sourceFrames': sum(r['frames'] for r in replacements), 'allVisibleFramesCompared': True, 'minimumUniqueVisibleFrames': min(r['uniqueVisibleFrames'] for r in replacements)}
+report_path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n')
 print(json.dumps({k: v for k, v in report.items() if k != 'files'}))

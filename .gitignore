@@ -11,3 +11,7 @@ deploy/nginx-taskflow.conf
 
 # Author delivery imported byte-for-byte; tracked manifest and runtime copies in docs/data/client.
 /darkcontinen/
+
+# Generated Python bytecode is local build output.
+__pycache__/
+*.pyc
