@@ -6,6 +6,9 @@ Illusion conserve dans son apparence le talent et les types du partenaire imité
 
 `BattleTraits` garde un filtre défensif côté adverse, y compris avec un ancien serveur ;aucun faux effet de talent n’est exécuté. Un test vérifie qu’un Zoroark paraissant avoir Lévitation prend bien des dégâts Sol.39 tests de domaine,34 SQL,84 configurations Chromium/WebKit avec vrais combats Maison sur explorakit_test :Zorua/Zoroark,talent propriétaire/adversaire,types apparents,rupture par vrai coup,reconnexion,position et conservation SQL de l’équipe. Lint/build/syntaxe valides. Rapport `docs/BATTLE_POSITION_ILLUSION_2026-11-05.json`,recettes `tests/illusion-visibility.test.js` et `scripts/validatePositionIllusionBrowser.js`. Aucun téléphone physique revendiqué ;modes fermés conservés. Aucun changement d’assets,de K,de gains ni de schéma SQL ;aucune annonce de patch publique.
 
+Publication :client `206407b8`, source `a32c8212`, build `b84715cbb20c2705`,PID3952966. Sauvegarde SQL/sources/index ;aucune migration,32 tables/28 contraintes/33 reçus vérifiés.15 comptes,60 Pokémon d’équipe et580 du PC conservés ;checkpoint Dark préservé,aucun duel Maison/roulette actif.21 bundles HTTPS vérifiés,zéro redémarrage automatique/avertissement ;modes fermés,Knov/API et annonce publique inchangés.
+
+
 ## Sprite joueur en combat : +20 % sur PC — 5 novembre 2026
 
 La règle CSS `.game-root:not(.is-mobile) .battle-sprite-anchor.battle-position-player` multiplie largeur/hauteur de l’ancre par1,2. Le calibrage alpha1,27, le centre horizontal et les pieds restent inchangés ;les géométries partagées des effets lisent naturellement la nouvelle largeur. Aucun transform additionnel ni calcul par frame. La classe responsive réelle sépare PC et mobile, indépendamment du masquage du dock tactile ;ne pas agrandir les adversaires ou les assets.

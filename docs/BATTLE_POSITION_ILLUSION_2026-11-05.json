@@ -89,5 +89,38 @@
     "SQL": "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 RUN_MYSQL_TESTS=1 node --env-file=.env --test --test-concurrency=1 tests/whitepeak-house-network-mysql.test.js tests/whitepeak-house-mysql.test.js tests/whitepeak-mysql.test.js tests/dark-battle-resume-mysql.test.js",
     "browser": "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 RELEASE_DIST_DIR=/tmp/riftmon-position-illusion-dist PRESENTATION_BROWSER=chromium node --env-file=.env scripts/validatePositionIllusionBrowser.js (then webkit sequentially)"
   },
-  "deployment": null
+  "deployment": {
+    "publishedAt": "2026-11-05T18:03:30.081Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-position-illusion-2026-11-05T18-03-11-662Z",
+    "restartedAt": "2026-11-05T18:03:27.837Z",
+    "beforePid": "3947570",
+    "afterPid": "3952966",
+    "rootCommit": "a32c8212012f0290aa24e2e1a55c0d1228076944",
+    "clientCommit": "206407b8c06c27c904ce71ee1a992ef768d55360",
+    "build": "b84715cbb20c2705",
+    "indexSha256": "6646dd084acb866d752e182aade694f8738021b4c08c98ff98969721e5cf6d54",
+    "schemaTables": 32,
+    "schemaConstraints": 28,
+    "migrationReceipts": 33,
+    "newMigrations": 0,
+    "countsPreserved": {
+      "users": 15,
+      "pokemons": 60,
+      "storage": 580
+    },
+    "darkCheckpointsPreserved": 1,
+    "tournamentSnapshotsPreserved": 0,
+    "namespaceClosed": true,
+    "neighborsUnchanged": true,
+    "checkpointUnchanged": true,
+    "activeDuelsBefore": 0,
+    "activeRouletteRoundsBefore": 0,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "publicAssets": 21,
+    "announcementUnchanged": true,
+    "announcementSha256": "cd60b53a19feb875c42866614e7155740b61c0796e8a4f8b2cb78581760e4d72",
+    "oldAssetsRetained": true
+  },
+  "status": "published and verified"
 }
