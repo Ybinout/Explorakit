@@ -1,3 +1,9 @@
+## Sprite joueur en combat : +20 % sur PC — 5 novembre 2026
+
+La règle CSS `.game-root:not(.is-mobile) .battle-sprite-anchor.battle-position-player` multiplie largeur/hauteur de l’ancre par1,2. Le calibrage alpha1,27, le centre horizontal et les pieds restent inchangés ;les géométries partagées des effets lisent naturellement la nouvelle largeur. Aucun transform additionnel ni calcul par frame. La classe responsive réelle sépare PC et mobile, indépendamment du masquage du dock tactile ;ne pas agrandir les adversaires ou les assets.
+
+Lint/build isolé et84 configurations authentifiées Chromium/WebKit sur explorakit_test valides :six silhouettes,sept formats de320×740 à1920×1080,ratio PC1,2 (arrondi CSS inférieur à0,01 %),mobile1 exactement,pieds/centre conservés,aucune coupe sur PC,adversaire identique et départ des attaques raccordé. La recette utilise un vrai PvE Maison et vérifie que l’équipe SQL détenue ne change pas. CSS partagé par tous les modes ;Rift/Colosseum restent fermés. Aucun téléphone physique ni combat dans ces modes fermés revendiqué. Rapport `docs/DESKTOP_PLAYER_SPRITE_SIZE_2026-11-05.json`,recette `scripts/validateDesktopPlayerSpriteSizeBrowser.js`. Aucune annonce publique ;pas de migration ni redémarrage serveur nécessaires.
+
 ## Nettoyage des sprites fournis — 5 novembre 2026
 
 Suppression autorisée des copies brutes devenues inutiles :PNG des quatre dossiers de sprites sous `tout`,GIF des deux dossiers shiny à la racine et trois MP3 de `pourtoi` identiques aux thèmes de Gwenn.5152 fichiers,723764428 octets logiques et734220288 octets alloués retirés (environ734 Mo). Les deux `sources.json` de provenance sont conservés ;les cartes Safari/Dark, sources Tiled, tilesets, plans, instructions et aperçus restent disponibles. Ne pas nettoyer ces fichiers auteur à partir de ce précédent.

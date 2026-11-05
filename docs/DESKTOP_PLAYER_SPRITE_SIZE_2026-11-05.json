@@ -1,0 +1,105 @@
+{
+  "date": "2026-11-05",
+  "change": "Player battle sprites enlarged by20% on desktop only",
+  "implementation": "Desktop-only CSS multiplies anchor width and height by1.2; calibrated proportions and FX follow the same geometry",
+  "clientCommit": "f14aa625ab267e13b19b803faba9924720a427eb",
+  "sourcePresentationScaleUnchanged": 1.27,
+  "mobileUnchanged": true,
+  "opponentsUnchanged": true,
+  "assetsChanged": false,
+  "announcementChanged": false,
+  "announcementSha256": "cd60b53a19feb875c42866614e7155740b61c0796e8a4f8b2cb78581760e4d72",
+  "build": "5eb84a46f61a0920",
+  "validation": {
+    "lint": "passed",
+    "build": "passed",
+    "species": [
+      1,
+      94,
+      130,
+      321,
+      648,
+      555
+    ],
+    "viewports": [
+      [
+        1920,
+        1080
+      ],
+      [
+        1536,
+        900
+      ],
+      [
+        1365,
+        768
+      ],
+      [
+        1024,
+        640
+      ],
+      [
+        393,
+        852
+      ],
+      [
+        320,
+        740
+      ],
+      [
+        844,
+        390
+      ]
+    ],
+    "browsers": {
+      "chromium": {
+        "checks": [
+          "42-sprite-shape-and-viewport-configurations",
+          "desktop-player-visible-size-plus-20-percent",
+          "mobile-player-size-unchanged",
+          "feet-and-horizontal-anchor-preserved",
+          "no-desktop-player-edge-cropping",
+          "opponent-geometry-unchanged",
+          "attack-origin-follows-new-center",
+          "owned-team-unchanged"
+        ],
+        "configurations": 42,
+        "desktopWidthScaleRange": [
+          1.199947033898305,
+          1.1999470338983051
+        ],
+        "mobileWidthScaleRange": [
+          1.0,
+          1.0
+        ],
+        "errors": [],
+        "buildIndexSha256": "3570a4b8f3f47a1e3e4332227ab31a65478f93308c59b4a0e5b123e0ef5dd120"
+      },
+      "webkit": {
+        "checks": [
+          "42-sprite-shape-and-viewport-configurations",
+          "desktop-player-visible-size-plus-20-percent",
+          "mobile-player-size-unchanged",
+          "feet-and-horizontal-anchor-preserved",
+          "no-desktop-player-edge-cropping",
+          "opponent-geometry-unchanged",
+          "attack-origin-follows-new-center",
+          "owned-team-unchanged"
+        ],
+        "configurations": 42,
+        "desktopWidthScaleRange": [
+          1.199947033898305,
+          1.1999470338983051
+        ],
+        "mobileWidthScaleRange": [
+          1.0,
+          1.0
+        ],
+        "errors": [],
+        "buildIndexSha256": "3570a4b8f3f47a1e3e4332227ab31a65478f93308c59b4a0e5b123e0ef5dd120"
+      }
+    }
+  },
+  "reproduction": "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 RELEASE_DIST_DIR=/tmp/riftmon-desktop-player-size-dist PRESENTATION_BROWSER=chromium node --env-file=.env scripts/validateDesktopPlayerSpriteSizeBrowser.js (then webkit sequentially)",
+  "deployment": null
+}
