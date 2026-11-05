@@ -4,6 +4,9 @@ Le dénominateur de calibration du côté joueur est divisé par1,25 dans Battle
 
 Lint/build isolé valides ;comparaison authentifiée de l’ancien/nouveau calibrage dans Chromium et WebKit sur explorakit_test :six silhouettes (Bulbizarre, Ectoplasma, Léviator, Wailord, Meloetta, Darumacho), cinq formats PC/mobile/paysage, soit60 configurations. Échelle1,25 exacte, pieds/centre conservés, aucun débordement, adversaire inchangé et départ des attaques raccordé aux nouvelles bornes. Rapport `docs/PLAYER_BATTLE_SPRITE_SIZE_2026-11-05.json`. À la demande explicite du joueur, **aucune annonce de patch** :data/game/latest_patch.json doit rester identique.
 
+Publication :client `3e7b05d0`, source `6f8af01b`, build `8315afe5bf8f6db1`.21 bundles publics vérifiés ;6722 images,354 fichiers runtime et annonce de patch identiques. Sauvegarde sources/index ;PID3932740 conservé, aucun redémarrage ni accès direct SQL, voisins Knov/API inchangés.
+
+
 ## Nouvelles animations shiny GIF — 5 novembre 2026
 
 Les deux dossiers GIF shiny fournis à la racine remplacent les ressources shiny de face/dos du lot Safari :1692 variantes, genres et cinq formes temporaires conservés. Conversion WebP sans perte, PNG pour les listes et le mouvement réduit.148296 images sources comparées sur toute leur chronologie (RGBA visible et alpha), même quand WebP fusionne des images identiques ;au moins quatre images distinctes par variante. Les3338 fichiers normaux sont identiques à la publication précédente.

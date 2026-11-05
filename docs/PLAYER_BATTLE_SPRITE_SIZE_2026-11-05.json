@@ -1,6 +1,6 @@
 {
   "date": "2026-11-05",
-  "status": "validated; publication pending",
+  "status": "published and verified",
   "change": "Player-side battle sprites enlarged by25%, around unchanged ground/horizontal anchor",
   "scope": "Shared BattleOverlay, all modes; normal/shiny animations and static fallback",
   "clientCommit": "3e7b05d0f94feaa030819b44d7c5835c36e365fa",
@@ -73,5 +73,22 @@
       "minimumWidthScale": 1.25,
       "maximumWidthScale": 1.2500000000000002
     }
+  },
+  "deployment": {
+    "publishedAt": "2026-11-05T15:54:02.410Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-player-size-2026-11-05T15-53-58-013Z",
+    "rootCommit": "6f8af01b4c8a1803e8481d80d056c3b79bbb216d",
+    "clientCommit": "3e7b05d0f94feaa030819b44d7c5835c36e365fa",
+    "build": "8315afe5bf8f6db1",
+    "pidUnchanged": "3932740",
+    "runtimeFilesUnchanged": 354,
+    "announcementUnchanged": true,
+    "spriteFilesUnchanged": 6722,
+    "databaseAccessed": false,
+    "serverRestarted": false,
+    "neighborsUnchanged": true,
+    "assetsVerified": 21,
+    "indexSha256": "b1617192edb28e0e51c25be3fcb53a0419aa724ff25e6b460899df9a58745653",
+    "oldAssetsRetained": true
   }
 }
