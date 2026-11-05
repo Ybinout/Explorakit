@@ -101,5 +101,22 @@
     }
   },
   "reproduction": "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 RELEASE_DIST_DIR=/tmp/riftmon-desktop-player-size-dist PRESENTATION_BROWSER=chromium node --env-file=.env scripts/validateDesktopPlayerSpriteSizeBrowser.js (then webkit sequentially)",
-  "deployment": null
+  "deployment": {
+    "publishedAt": "2026-11-05T17:41:52.220Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-desktop-player-size-2026-11-05T17-41-45-630Z",
+    "rootCommit": "58b2607d71a6cfeb61b8072ccbd967e38f2a947b",
+    "clientCommit": "f14aa625ab267e13b19b803faba9924720a427eb",
+    "build": "5eb84a46f61a0920",
+    "pidUnchanged": "3947570",
+    "runtimeFilesUnchanged": 358,
+    "announcementUnchanged": true,
+    "spriteFilesUnchanged": 6722,
+    "databaseAccessed": false,
+    "serverRestarted": false,
+    "neighborsUnchanged": true,
+    "assetsVerified": 21,
+    "indexSha256": "3570a4b8f3f47a1e3e4332227ab31a65478f93308c59b4a0e5b123e0ef5dd120",
+    "oldAssetsRetained": true
+  },
+  "status": "published and verified"
 }
