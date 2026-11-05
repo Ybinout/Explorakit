@@ -1,6 +1,6 @@
 {
   "date": "2026-11-05",
-  "status": "validated; publication pending",
+  "status": "published and verified",
   "sources": [
     "/home/ubuntu/dev/Sprites_Shiny_Black_White",
     "/home/ubuntu/dev/Sprites_Shiny_Back_Black_2_White_2"
@@ -68,5 +68,20 @@
     "The previously supplied PNGs were themselves APNG animations; this replacement uses the newly supplied GIFs and their actual timing."
   ],
   "normalFilesByteIdentical": 3338,
-  "clientCommit": "a499d6062dd4c9f3e2c71c16c9868d8b4972690f"
+  "clientCommit": "a499d6062dd4c9f3e2c71c16c9868d8b4972690f",
+  "deployment": {
+    "publishedAt": "2026-11-05T14:15:51.549Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-shiny-gif-2026-11-05T14-15-39-872Z",
+    "rootCommit": "75ed463760f0b6856b87093e0f17ec9dfafa4a38",
+    "clientCommit": "a499d6062dd4c9f3e2c71c16c9868d8b4972690f",
+    "build": "89837484ee3a5474",
+    "pidUnchanged": "3932740",
+    "runtimeFilesUnchanged": 354,
+    "databaseAccessed": false,
+    "serverRestarted": false,
+    "neighborsUnchanged": true,
+    "assetsVerified": 85,
+    "indexSha256": "d3b9763149cbaaf829bbebe532b5c921707f2488fbd99a08f9b0a10740837969",
+    "oldAssetsRetained": true
+  }
 }
