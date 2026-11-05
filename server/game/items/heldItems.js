@@ -2,13 +2,13 @@ const { getItemDefinition, getMoveDefinition } = require('../battle/battleResour
 const { evolvable } = require('../../../data/game/stone_evolutions.json');
 const canEvolve = new Set(evolvable);
 function enabled(pokemon, state) {
-    return Boolean(pokemon?.heldItem && !(pokemon.__battle?.embargoTurns > 0) && !(state?.field?.magicRoomTurns > 0)
+    return Boolean(pokemon?.heldItem && require('./heldItemPolicy').canHold(pokemon,pokemon.heldItem) && !(pokemon.__battle?.embargoTurns > 0) && !(state?.field?.magicRoomTurns > 0)
         && !(pokemon.passiveAbility === 'Klutz' && !pokemon.__battle?.abilitySuppressed));
 }
 function effect(pokemon, state) { return enabled(pokemon, state) ? getItemDefinition(pokemon.heldItem)?.battle_effect : null; }
 function statMultiplier(pokemon, stat, state) {
     // Like the training gain, the Macho Brace penalty is not bypassed by Klutz.
-    if (stat === 'speed' && pokemon?.heldItem === 'macho_brace'
+    if (stat === 'speed' && require('./heldItemPolicy').canHold(pokemon,pokemon?.heldItem) && pokemon?.heldItem === 'macho_brace'
         && !(pokemon.__battle?.embargoTurns > 0) && !(state?.field?.magicRoomTurns > 0)) return .5;
     const key = effect(pokemon, state);
     if (key === `choice_${stat}` || (key === 'assault_vest' && stat === 'specialDefense')) return 1.5;
@@ -47,7 +47,7 @@ function clearMentalEffects(pokemon) {
 function accuracyMultiplier(pokemon, state) { return effect(pokemon, state) === 'accuracy_boost' ? 1.1 : 1; }
 function criticalStage(pokemon, state) { return effect(pokemon, state) === 'critical_boost' ? 1 : 0; }
 // Training is not a battle stat: suppression and Klutz do not change these EVs.
-function effortMultiplier(pokemon) { return pokemon?.heldItem === 'macho_brace' ? 2 : 1; }
+function effortMultiplier(pokemon) { return pokemon?.heldItem === 'macho_brace' && require('./heldItemPolicy').canHold(pokemon,pokemon.heldItem) ? 2 : 1; }
 function allowsMove(pokemon, name, state) {
     if (name === 'Struggle') return true;
     const key = effect(pokemon, state);

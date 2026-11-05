@@ -15,6 +15,7 @@ function planHeldItemTransfer(team, payload) {
     if (getItemDefinition(sourceItem)?.category !== 'held' || targetItem && getItemDefinition(targetItem)?.category !== 'held')
         throw Error('Objet tenu invalide.');
     if (sourceItem === targetItem) throw Error('Ces Pokémon tiennent déjà le même objet.');
+    const policy=require('./heldItemPolicy');policy.assertCanHold(source,targetItem);policy.assertCanHold(target,sourceItem);
     return [{ pokemonUuid: sourceUuid, heldItem: targetItem }, { pokemonUuid: targetUuid, heldItem: sourceItem }];
 }
 

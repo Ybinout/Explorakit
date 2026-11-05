@@ -55,7 +55,9 @@ async function friends(viewer) {
         WHERE f.user_low=? OR f.user_high=? ORDER BY f.status DESC,u.username,u.id LIMIT 250`, [viewer,viewer,viewer]);
     const [relations]=await dbPool.execute('SELECT user_low,user_high,requested_by,status FROM trainer_friendships WHERE user_low=? OR user_high=?', [viewer,viewer]);
     const entries=rows.map(row=>({ ...publicTrainer(row), relationship:relation(relations.find(r=>[Number(r.user_low),Number(r.user_high)].includes(Number(row.id))),viewer) }));
-    return { accepted:entries.filter(p=>p.relationship==='friends'), incoming:entries.filter(p=>p.relationship==='incoming'), outgoing:entries.filter(p=>p.relationship==='outgoing') };
+    const [colors]=await dbPool.execute("SELECT flag_key,flag_value FROM player_story_flags WHERE user_id=? AND flag_key LIKE 'friend_color:%'",[viewer]);
+    const prefs=new Map(colors.map(r=>[Number(r.flag_key.slice(13)),require('../game/social/friendColors').normalize(r.flag_value)]));
+    return { accepted:entries.filter(p=>p.relationship==='friends').map(p=>({...p,color:prefs.get(p.id)||null})), incoming:entries.filter(p=>p.relationship==='incoming'), outgoing:entries.filter(p=>p.relationship==='outgoing') };
 }
 async function friendAction(viewer, target, action) {
     viewer=id(viewer);target=id(target);
@@ -98,3 +100,16 @@ async function leaderboard(viewer) {
         rules:{initialRating:INITIAL_RATING,eloThresholds,colosseumThresholds} };
 }
 module.exports={profile,search,friends,friendAction,leaderboard,publicTrainer,relationship};
+
+async function setFriendColor(viewer,target,color){
+ viewer=id(viewer);target=id(target);const prefs=require('../game/social/friendColors');
+ if(color!==null&&!prefs.normalize(color))fail('Couleur invalide.');
+ return withTransaction(async c=>{
+  for(const uid of [viewer,target].sort((a,b)=>a-b))await c.execute('SELECT id FROM users WHERE id=? FOR UPDATE',[uid]);
+  if(await relationship(viewer,target,c)!=='friends')fail('Ce dresseur ne fait pas partie de tes amis.',403);
+  if(color===null)await c.execute('DELETE FROM player_story_flags WHERE user_id=? AND flag_key=?',[viewer,prefs.prefix+target]);
+  else await c.execute('INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,?,?) ON DUPLICATE KEY UPDATE flag_value=VALUES(flag_value)',[viewer,prefs.prefix+target,color]);
+  return{color};
+ });
+}
+module.exports.setFriendColor=setFriendColor;

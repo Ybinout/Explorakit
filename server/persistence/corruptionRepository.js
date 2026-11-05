@@ -39,11 +39,12 @@ async function install(userId,payload,random=Math.random){
   if(!stored&&!mutation.corrupted(p)&&team.some(mutation.corrupted))throw Error('Ton équipe contient déjà un Pokémon corrompu. Dépose-le au PC avant d’en corrompre un autre.');
   const [spent]=await c.execute('UPDATE user_items SET quantity=quantity-1 WHERE user_id=? AND item_key=? AND quantity>=1',[userId,item.key]);if(!spent.affectedRows)throw Error('Ce module n’est plus dans le sac.');
   mutation.install(p,item,payload,random);mutation.assertTeam(team);
-  const changed={corruption:JSON.stringify(mutation.normalize(p.corruption)),passive_ability:p.passiveAbility,pending_moves:JSON.stringify(p.pendingMoves||[])};
+  let returnedItem=null;if(p.heldItem&&!require('../game/items/heldItemPolicy').canHold(p,p.heldItem)){returnedItem=p.heldItem;await c.execute('INSERT INTO user_items(user_id,item_key,quantity) VALUES(?,?,1) ON DUPLICATE KEY UPDATE quantity=quantity+1',[userId,returnedItem]);p.heldItem=null;}
+  const changed={corruption:JSON.stringify(mutation.normalize(p.corruption)),passive_ability:p.passiveAbility,pending_moves:JSON.stringify(p.pendingMoves||[]),held_item:p.heldItem||null};
   for(let i=0;i<4;i++){changed['ability'+(i+1)]=p.abilities[i]||null;changed['move'+(i+1)+'_pp']=p.movePp[i]??null;}
   if(stored)await c.execute('UPDATE pokemon_storage SET pokemon_data=? WHERE user_id=? AND uuid=?',[JSON.stringify({...stored,...changed}),userId,p.uuid]);
   else await c.execute('UPDATE pokemons SET '+Object.keys(changed).map(k=>k+'=?').join(',')+' WHERE uuid=? AND team_id=?',[...Object.values(changed),p.uuid,record.id]);
-  return{equipe:{pokemons:team},installed:true,itemKey:item.key,pokemonUuid:p.uuid,family:item.corruptionModule.family,corruption:mutation.view(p),types:p.data.type,passiveAbility:p.passiveAbility};
+  return{equipe:{pokemons:team},returnedItem,installed:true,itemKey:item.key,pokemonUuid:p.uuid,family:item.corruptionModule.family,corruption:mutation.view(p),types:p.data.type,passiveAbility:p.passiveAbility};
  });
 }
 module.exports={craft,install};

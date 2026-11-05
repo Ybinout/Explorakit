@@ -18,6 +18,7 @@ function createSocialHub({now=Date.now,repository=trainers,messageRepository=mes
   // instance IDs, parties or pending actions are shared by this channel.
   return {accepted:contacts.accepted.map(p=>({...enrich(p),location:location(p.id)})),incoming:contacts.incoming.map(enrich),outgoing:contacts.outgoing.map(enrich),self:presence(id),serverNow:now()};
  }
+ function friendTravelLocation(viewer,target){const s=sessions.get(viewer);if(!s?.contacts.accepted.some(p=>p.id===target))fail('Ce dresseur ne fait pas partie de tes amis.');const friend=sessions.get(target);if(!friend?.socket.connected)fail('Ton ami est hors ligne.');return friend.getLocation?.()||null;}
  function signature(id){const s=sessions.get(id);if(!s)return '';return JSON.stringify({self:presence(id),friends:s.contacts.accepted.map(p=>[p.id,presence(p.id),location(p.id)])});}
  function publish(id,force=false){const s=sessions.get(id);if(!s?.socket.connected)return;const key=signature(id);if(force||s.signature!==key){s.signature=key;emit(id,'social:state',state(id));}}
  function publishPresence(){
@@ -54,7 +55,7 @@ function createSocialHub({now=Date.now,repository=trainers,messageRepository=mes
  }
  function tick(){if(stopped)return;for(const s of sessions.values())s.afk=now()-s.lastActivity>=AFK_MS;publishAll();}
  const timer=tickMs?setInterval(tick,tickMs):null;timer?.unref();
- return {attach,state,reload,onlineDirectory,presence,isOnline:online,friendsChanged,directMessage,read,activity,tick,stop(){stopped=true;if(timer)clearInterval(timer);sessions.clear();inboxQueues.clear();}};
+ return {attach,state,reload,onlineDirectory,friendTravelLocation,presence,isOnline:online,friendsChanged,directMessage,read,activity,tick,stop(){stopped=true;if(timer)clearInterval(timer);sessions.clear();inboxQueues.clear();}};
 }
 function getSocialHub(io){const server=io.server||io;if(!hubs.has(server)){const hub=createSocialHub({onFriendshipChanged:(a,b)=>require('./tradeManager').getTradeManager(server).friendshipChanged(a,b)});hubs.set(server,hub);instances.add(hub);server.httpServer?.once('close',()=>{hub.stop();instances.delete(hub);hubs.delete(server);});}return hubs.get(server);}
 async function notifyFriendsChanged(a,b){await Promise.all([...instances].map(h=>h.friendsChanged(a,b)));}

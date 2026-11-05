@@ -12,8 +12,8 @@ test('all nine towns land on stable walkable doorsteps, prioritizing centers, th
  assert.equal(townForMap('ville4_arene'),'ville4');assert.equal(townForMap('centre',{map:'ville3',x:752,y:240}),'ville3');assert.equal(townForMap('route13'),null);
 });
 test('flight state contains only actual visit flags and requires the permanent module',()=>{
- assert.deepEqual(flightState({'visited_town:ville5':'true'}),{unlocked:false,visited:['ville5']});
- assert.deepEqual(flightState({fly_module_received:'true','visited_town:route1':'true','visited_town:ville1':'false'}),{unlocked:true,visited:[]});
+ assert.deepEqual(flightState({'visited_town:ville5':'true'}),{unlocked:false,visited:['ville5'],visitedRegions:['ville5']});
+ assert.deepEqual(flightState({fly_module_received:'true','visited_town:route1':'true','visited_town:ville1':'false'}),{unlocked:true,visited:[],visitedRegions:[]});
 });
 test('server rejects locked/unvisited flights and client coordinates; guards busy actions and repeated requests',async()=>{
  let handler,clock=0,state={unlocked:false,visited:['ville1']},locked=false,hold,release;const calls=[];const p={currentmap:'start'};

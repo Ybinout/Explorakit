@@ -1,3 +1,13 @@
+## Hotfix interne : amis, Vol et équipements corrompus — 5 novembre 2026
+
+**Aucune annonce aux joueurs** : conserver exactement `data/game/latest_patch.json`, sans entrée dans l’historique de mises à jour du jeu. Le présent suivi est technique. Capitaine Safari déplacé en (24,15), retour sur une case libre (23,15), sans modifier les cartes auteur. Tablettes Dark +3 points :11/18/22 %,28 % en jungle9 ;butin corrompu garanti inchangé. Sprite joueur :échelle1,27 au lieu de1,25 et marge gauche−1 px, effets partagés ;adversaires identiques.
+
+`heldItemPolicy` impose aux Pokémon corrompus un objet explicitement `corruptedHeldItem:true`. Équipement, échange d’objets, installation de module et acquisitions en combat appliquent la même règle. Les anciens objets incompatibles reviennent au sac une seule fois, dans une transaction verrouillée ;les sauvegardes périmées ne dupliquent pas le retour. Ne pas réécrire un checkpoint Dark actif, une tentative de Tour ou un inventaire en négociation :les effets incompatibles sont déjà désactivés et la sauvegarde canonique restitue l’objet. Les futurs objets corrompus restent possibles via le drapeau du catalogue, jamais via une donnée client.
+
+Couleurs personnelles d’amis conservées dans les flags privés `friend_color:<id>`, palette serveur limitée. Raccourci Échange vers le moteur existant, sélection directe équipe/20 boîtes PC et double confirmation conservées. Vol vers un ami accepté/en ligne :possession et déblocage du Module, destination extérieure visitée, accès Safari gagné au Centre, barrières de progression et restrictions Dark conservés ;position et atterrissage sûr calculés au serveur. `visited_region:` complète les anciens `visited_town:` sans ouvrir de destination jamais visitée. Ne pas exposer les coordonnées privées dans les états sociaux publics.
+
+Le chat de combat encore ouvert reprend après fermeture du bilan, dans la même conversation :historique, brouillon, position de lecture et identifiant d’envoi incertain conservés. Aucune réouverture si fermé volontairement. Validation :72 tests ciblés,27 SQL,80 vues et20 parcours fonctionnels Chromium/WebKit sur explorakit_test ;lint/build/syntaxe valides. La suite globale garde69 échecs historiques, aucun nouveau nom d’échec ;ne pas la présenter comme entièrement verte. Aucun téléphone physique revendiqué. Rapport et commandes :`docs/INTERNAL_SOCIAL_HOTFIX_2026-11-05.json`. Pas de migration SQL.
+
 ## Taille des sprites de notre équipe en combat — 5 novembre 2026
 
 Le dénominateur de calibration du côté joueur est divisé par1,25 dans BattleOverlay :agrandissement25 % des pixels visibles et des métriques servant aux impacts/effets. Le centre horizontal et les pieds restent ancrés aux mêmes coordonnées ;les ennemis, y compris corrompus, gardent leur échelle. Cette logique partagée vaut pour les trois modes, les shinies et les images de repli ;aucun asset ni état de Pokémon modifié.
@@ -6514,6 +6524,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **2026-11-05 — Hotfix interne, sans annonce publique** :Safari accessible,tablettes Dark+3 points,restriction des objets corrompus et restitution idempotente,amis/couleurs/échange PC/Vol,chat repris après combat et ajustement léger du sprite.72 tests ciblés,27 SQL,80 vues Chromium/WebKit ;69 échecs globaux historiques inchangés. Rapport `INTERNAL_SOCIAL_HOTFIX_2026-11-05.json`.
 
 - **2026-11-05 — Taille en combat côté joueur** :sprites+25 %,ancrage/effets cohérents et adversaire inchangé ;60 configurations Chromium/WebKit. Pas d’annonce de patch à la demande du joueur. Rapport `PLAYER_BATTLE_SPRITE_SIZE_2026-11-05.json`.
 

@@ -1,0 +1,132 @@
+{
+  "scope": "Internal hotfix only; no public patch notes or player-visible update history",
+  "date": "2026-11-05",
+  "build": "0418c0998511ab67",
+  "buildIndexSha256": "d37002b330b8e648c48242b7dadbfdbd460e7f047f85ec40b96658960067692e",
+  "publicAnnouncementSha256": "cd60b53a19feb875c42866614e7155740b61c0796e8a4f8b2cb78581760e4d72",
+  "changes": {
+    "safari": {
+      "captainTile": [
+        24,
+        15
+      ],
+      "returnTile": [
+        23,
+        15
+      ],
+      "authorMapsUnchanged": true
+    },
+    "darkTablets": {
+      "increasePercentagePoints": 3,
+      "west": 0.11,
+      "center": 0.18,
+      "east": 0.22,
+      "jungle9": 0.28,
+      "corruptedGuaranteedLootUnchanged": true,
+      "crystalsAndExperienceUnchanged": true
+    },
+    "corruptedHeldItems": {
+      "authoritativeFlag": "corruptedHeldItem === true",
+      "ordinaryEquipmentDenied": true,
+      "legacyItemsReturnedToBagOnce": true,
+      "heldTransferAndBattleAcquisitionGuarded": true,
+      "activeDurableBattlesAndTournamentSnapshotsNotRewritten": true,
+      "incompatibleLegacyEffectsDisabled": true,
+      "idempotentReceiptReplay": true
+    },
+    "playerSprite": {
+      "oldScale": 1.25,
+      "scale": 1.27,
+      "relativeSizeIncreasePercent": 1.6,
+      "marginLeftPx": -1,
+      "enemyScaleUnchanged": true,
+      "sharedAcrossModes": true
+    },
+    "chat": {
+      "handoffAfterBattleResult": true,
+      "sameFriendHistoryDraftScrollAndPendingMessageIdPreserved": true,
+      "closedChatDoesNotReopen": true
+    },
+    "friends": {
+      "privatePersistedPaletteColors": 8,
+      "quickTrade": true,
+      "teamAndTwentyPCBoxes": true,
+      "confirmedRealPCExchangeTested": true,
+      "flightToAcceptedOnlineFriend": true,
+      "ownedAndUnlockedFlyModuleRequired": true,
+      "visitedOutdoorDestinationAndExistingTravelGatesRequired": true,
+      "safariCenterUnlockRequired": true,
+      "darkAndPrivateInteriorsDenied": true,
+      "positionsAuthoritativeOnServer": true
+    }
+  },
+  "validation": {
+    "targetedDomain": {
+      "tests": 72,
+      "passed": 72,
+      "failed": 0,
+      "skipped": 0
+    },
+    "targetedSQL": {
+      "tests": 27,
+      "passed": 27,
+      "failed": 0,
+      "skipped": 0,
+      "dedicatedDatabase": "explorakit_test"
+    },
+    "globalUnit": {
+      "tests": 3520,
+      "passed": 2862,
+      "failed": 69,
+      "skipped": 589,
+      "newFailingNamesAgainstReference": [],
+      "knownHistoricalFailuresDisclosed": true
+    },
+    "lint": "passed",
+    "build": "passed",
+    "changedJavaScriptSyntax": "passed",
+    "browsers": {
+      "chromium": {
+        "views": 40,
+        "checks": [
+          "personal-friend-color-saved-without-sharing-it",
+          "module-flight-refusal-authoritative-near-friend-and-color-after-reconnect",
+          "quick-friend-trade-PC-pokemon-with-both-confirmations-and-shiny-preserved",
+          "three-friend-actions-earned-badges-global-ranks-shared-region-no-groups-draft",
+          "real-sockets-afk-after-five-minutes-activity-green",
+          "durable-real-battle-message-unread-reply-draft-no-autofocus-and-turn-progresses",
+          "unread-persists-and-actual-dark-combat-resumes-with-chat",
+          "open-combat-conversation-resumes-outside-with-draft-and-message-history",
+          "closed-combat-conversation-does-not-reopen",
+          "bottom-discovery-search-without-groups"
+        ],
+        "errors": [],
+        "indexSha256": "d37002b330b8e648c48242b7dadbfdbd460e7f047f85ec40b96658960067692e"
+      },
+      "webkit": {
+        "views": 40,
+        "checks": [
+          "personal-friend-color-saved-without-sharing-it",
+          "module-flight-refusal-authoritative-near-friend-and-color-after-reconnect",
+          "quick-friend-trade-PC-pokemon-with-both-confirmations-and-shiny-preserved",
+          "three-friend-actions-earned-badges-global-ranks-shared-region-no-groups-draft",
+          "real-sockets-afk-after-five-minutes-activity-green",
+          "durable-real-battle-message-unread-reply-draft-no-autofocus-and-turn-progresses",
+          "unread-persists-and-actual-dark-combat-resumes-with-chat",
+          "open-combat-conversation-resumes-outside-with-draft-and-message-history",
+          "closed-combat-conversation-does-not-reopen",
+          "bottom-discovery-search-without-groups"
+        ],
+        "errors": [],
+        "indexSha256": "d37002b330b8e648c48242b7dadbfdbd460e7f047f85ec40b96658960067692e"
+      }
+    },
+    "physicalDevicesTested": false
+  },
+  "reproduction": {
+    "domain": "NODE_ENV=test BATTLE_DELAY_SCALE=0 node --test tests/internal-social-hotfix.test.js tests/flight-travel.test.js tests/dark-continent.test.js tests/dark-habitats.test.js tests/dark-encounters.test.js",
+    "SQL": "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 RUN_MYSQL_TESTS=1 node --env-file=.env --test --test-concurrency=1 tests/internal-social-hotfix-mysql.test.js tests/corruption-mysql.test.js tests/held-item-transfer-mysql.test.js tests/friend-trade-mysql.test.js tests/flight-travel-mysql.test.js tests/social-messages-mysql.test.js",
+    "browser": "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 RELEASE_DIST_DIR=/tmp/riftmon-internal-hotfix-dist PRESENTATION_BROWSER=chromium node --env-file=.env scripts/validateFriendsRedesignBrowser.js (then webkit sequentially)"
+  },
+  "deployment": null
+}

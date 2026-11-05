@@ -67,6 +67,7 @@ function afterHit({attacker:a, defender:d, move, damage, critical, battleState:s
 }
 function transferItem(from, to, h, messages, source) {
     if (require('../battle/battleResources').getItemDefinition(from?.heldItem)?.battle_effect==='drive' && [from,to].some(p=>p?.data?.id===649)) return false;
+    if (!require('../items/heldItemPolicy').canHold(to,from?.heldItem)) return false;
     if (!from?.heldItem || to?.heldItem || from.heldItem==='rift_talisman' || !alive(to)
         || (alive(from) && hasAbility(from,'Sticky Hold') && !ignoresDefenderAbility(to,from))) return false;
     h.snapshotItem(from); h.snapshotItem(to);
@@ -156,7 +157,7 @@ function endTurn(p,opponent,state,h,messages) {
     if(ability==='Harvest' && !p.heldItem && data.consumedHeldItem?.endsWith('_berry')
         && ((!isWeatherSuppressed(p,opponent)&&state.weather?.kind==='sun')||Math.random()<.5))h.recycle(p,messages);
     if(ability==='Pickup' && !p.heldItem && opponent?.__battle?.consumedHeldItemTurn===state.turn
-        && opponent.__battle.consumedHeldItem && opponent.__battle.consumedHeldItem!=='rift_talisman') {
+        && opponent.__battle.consumedHeldItem && require('../items/heldItemPolicy').canHold(p,opponent.__battle.consumedHeldItem) && opponent.__battle.consumedHeldItem!=='rift_talisman') {
         const item=opponent.__battle.consumedHeldItem;
         h.snapshotItem(p);h.snapshotItem(opponent);
         const origin=opponent.__consumedHeldItemOrigin||opponent;

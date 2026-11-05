@@ -1,0 +1,36 @@
+const test=require('node:test'),assert=require('node:assert/strict'),{randomUUID}=require('node:crypto');
+const enabled=process.env.RUN_MYSQL_TESTS==='1';let db,users,teams,pc,items,trainers,flight,factory;const ids=[];
+test.before(()=>{if(!enabled)return;assert.equal(process.env.DB_NAME,'explorakit_test');db=require('../server/config/database').dbPool;users=require('../server/persistence/userRepository');teams=require('../server/persistence/teamRepository');pc=require('../server/persistence/pokemonStorageRepository');items=require('../server/persistence/itemRepository');trainers=require('../server/persistence/trainerRepository');flight=require('../server/persistence/flightRepository');factory=require('../server/game/drift/pokemonFactory');});
+test.after(async()=>{if(db){for(const id of ids)await db.execute('DELETE FROM users WHERE id=?',[id]);await db.end();}});
+async function user(){const u=await users.createUserWithStarter('hf_'+randomUUID().slice(0,15),randomUUID());ids.push(u.id);return u.id;}
+async function stock(id,key,n){await db.execute('INSERT INTO user_items(user_id,item_key,quantity) VALUES(?,?,?) ON DUPLICATE KEY UPDATE quantity=VALUES(quantity)',[id,key,n]);}
+async function balance(id,key){const [[r]]=await db.execute('SELECT quantity FROM user_items WHERE user_id=? AND item_key=?',[id,key]);return Number(r?.quantity)||0;}
+const mutation={version:1,revision:1,permanent:true,modules:{}};
+test('SQL friend colors are private, survive reload/reconnect, validate palette and require accepted friendship',{skip:!enabled},async()=>{
+ const a=await user(),b=await user(),c=await user();await trainers.friendAction(a,b,'request');await trainers.friendAction(b,a,'accept');
+ await trainers.setFriendColor(a,b,'rose');assert.equal((await trainers.friends(a)).accepted.find(p=>p.id===b).color,'rose');assert.equal((await trainers.friends(b)).accepted.find(p=>p.id===a).color,null);
+ for(const color of['#fff','__proto__','toString','red;display:none'])await assert.rejects(trainers.setFriendColor(a,b,color),/Couleur/);
+ await assert.rejects(trainers.setFriendColor(a,c,'blue'),/amis/);await trainers.setFriendColor(a,b,null);assert.equal((await trainers.friends(a)).accepted[0].color,null);
+});
+test('SQL map visits unlock only known regional nodes; owning the permanent flight flag alone is insufficient',{skip:!enabled},async()=>{
+ const id=await user();await db.execute("INSERT INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,'fly_module_received','true')",[id]);let s=await flight.loadFlightState(id);assert(s.unlocked&&!s.owned);
+ await stock(id,'fly_module',1);await flight.recordTownVisit(id,'route3');await flight.recordTownVisit(id,'route3');await flight.recordTownVisit(id,'safari8');s=await flight.loadFlightState(id);assert(s.owned);assert(s.visitedRegions.includes('route3'));assert(s.visitedRegions.includes('safari8'));assert(!s.visited.includes('safari8'));
+ await flight.recordTownVisit(id,'centre',{map:'safari8'});assert((await flight.loadFlightState(id)).visited.includes('safari8'));
+});
+test('SQL legacy incompatible held items return once from party and PC; a stale saved party never refunds twice',{skip:!enabled},async()=>{
+ const id=await user(),team=await teams.loadEquipe(id),p=team.pokemons[0],extra=factory.create(7,40,true);extra.shiny=true;extra.name='Réserve';await pc.storeCapturedPokemon(id,extra);
+ const e=(await pc.loadEntries(id))[0];await db.execute('UPDATE pokemons SET corruption=?,held_item=? WHERE uuid=?',[JSON.stringify(mutation),'leftovers',p.uuid]);const [[row]]=await db.execute('SELECT pokemon_data FROM pokemon_storage WHERE uuid=?',[e.pokemon.uuid]),data=typeof row.pokemon_data==='string'?JSON.parse(row.pokemon_data):row.pokemon_data;
+ data.corruption=JSON.stringify(mutation);data.held_item='life_orb';await db.execute('UPDATE pokemon_storage SET pokemon_data=? WHERE uuid=?',[JSON.stringify(data),e.pokemon.uuid]);const stale=await teams.loadEquipe(id),beforeLeft=await balance(id,'leftovers'),beforeOrb=await balance(id,'life_orb'),repo=require('../server/persistence/corruptionEquipmentRepository');
+ assert.deepEqual((await repo.reconcile(id)).sort(),['leftovers','life_orb']);assert.equal(await balance(id,'leftovers'),beforeLeft+1);assert.equal(await balance(id,'life_orb'),beforeOrb+1);assert.equal((await teams.loadEquipe(id)).pokemons[0].heldItem,null);assert.deepEqual(await repo.reconcile(id),[]);
+ await teams.editEquipe(id,stale);assert.equal(stale.pokemons[0].heldItem,null);assert.equal(await balance(id,'leftovers'),beforeLeft+1);const boxed=(await pc.loadEntries(id))[0].pokemon;assert.equal(boxed.heldItem,null);assert(boxed.shiny);assert.equal(boxed.name,'Réserve');
+ const mismatch=await teams.loadEquipe(id);mismatch.pokemons[0].heldItem='leftovers';await db.execute('UPDATE pokemons SET held_item=? WHERE uuid=?',['choice_band',p.uuid]);const beforeBand=await balance(id,'choice_band');await teams.editEquipe(id,mismatch);assert.equal(await balance(id,'choice_band'),beforeBand+1);assert.equal(await balance(id,'leftovers'),beforeLeft+1);assert.equal(mismatch.pokemons[0].heldItem,null);
+ const record=await teams.getTeamRecord(id);await stock(id,'choice_scarf',1);await assert.rejects(items.equipHeldItem(id,record.id,p.uuid,'choice_scarf'),/corrompu/);assert.equal(await balance(id,'choice_scarf'),1);
+});
+test('SQL installing corruption returns the previous held item atomically and receipt replay never refunds twice',{skip:!enabled},async()=>{
+ const id=await user(),p=(await teams.loadEquipe(id)).pokemons[0],record=await teams.getTeamRecord(id);await stock(id,'leftovers',1);await items.equipHeldItem(id,record.id,p.uuid,'leftovers');await stock(id,require('../server/game/world/darkContinent').ITEM,1);await stock(id,'cmod_ability_levitate',1);
+ const payload={requestId:randomUUID(),itemKey:'cmod_ability_levitate',pokemonUuid:p.uuid,source:'team',expectedRevision:0},repo=require('../server/persistence/corruptionRepository');const r=await repo.install(id,payload);assert.equal(r.returnedItem,'leftovers');assert.equal(r.equipe.pokemons[0].heldItem,null);assert.equal(await balance(id,'leftovers'),1);assert.equal(await balance(id,payload.itemKey),0);assert((await repo.install(id,payload)).duplicate);assert.equal(await balance(id,'leftovers'),1);
+});
+test('SQL a live negotiated inventory and a durable tournament are not rewritten by legacy reconciliation',{skip:!enabled},async()=>{
+ const id=await user(),p=(await teams.loadEquipe(id)).pokemons[0];await db.execute('UPDATE pokemons SET corruption=?,held_item=? WHERE uuid=?',[JSON.stringify(mutation),'leftovers',p.uuid]);const repo=require('../server/persistence/corruptionEquipmentRepository'),locks=require('../server/game/social/tradeLocks'),token=randomUUID();locks.acquire([id],token);try{assert.deepEqual(await repo.reconcile(id),[]);}finally{locks.release([id],token);}
+ await db.execute('INSERT INTO super_tournament_profiles(user_id,snapshot) VALUES(?,?)',[id,JSON.stringify({fixture:true})]);assert.deepEqual(await repo.reconcile(id),[]);assert.equal((await teams.loadEquipe(id)).pokemons[0].heldItem,'leftovers');await db.execute('UPDATE super_tournament_profiles SET snapshot=NULL WHERE user_id=?',[id]);assert.deepEqual(await repo.reconcile(id),['leftovers']);
+});

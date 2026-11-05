@@ -40,8 +40,8 @@ test('Jungle 9 generates ordinary 200–250 encounters on land and at the lake; 
  const maps=require('../data/game/nextMap.json').maps;for(let n=1;n<=9;n++){const name='jungle'+n;assert.deepEqual(maps.find(m=>m.mapName===name).level,{min:dc.levels(name)[0],max:dc.levels(name)[1]});}
 });
 test('Jungle 9 plate chance is 25% at the boundary; ordinary item rates, levels and corrupted guarantees are preserved',()=>{
- const ordinary={data:{type:['Fire','Flying']}},east=dc.lootProfile('jungle3'),last=dc.lootProfile('jungle9');assert.equal(last.plateChance,.25);assert.equal(last.crystals,east.crystals);assert.equal(last.ordinaryChance,east.ordinaryChance);
- assert(dc.loot(ordinary,()=>.249999,'jungle9').some(i=>i.plateType));assert(!dc.loot(ordinary,()=>.25,'jungle9').some(i=>i.plateType));assert(!dc.loot(ordinary,()=>.19,'jungle3').some(i=>i.plateType));assert(dc.loot(ordinary,()=>.19,'jungle9').some(i=>i.plateType));
- let seed=782;const random=()=>((seed=Math.imul(seed,1664525)+1013904223>>>0)/4294967296);let plates=0;for(let i=0;i<20000;i++)for(const item of dc.loot(ordinary,random,'jungle9'))if(item.plateType){plates+=item.quantity;assert(ordinary.data.type.includes(item.plateType));}assert(Math.abs(plates/20000-.25)<.01);
+ const ordinary={data:{type:['Fire','Flying']}},east=dc.lootProfile('jungle3'),last=dc.lootProfile('jungle9');assert.equal(last.plateChance,.28);assert.equal(last.crystals,east.crystals);assert.equal(last.ordinaryChance,east.ordinaryChance);
+ assert(dc.loot(ordinary,()=>.279999,'jungle9').some(i=>i.plateType));assert(!dc.loot(ordinary,()=>.28,'jungle9').some(i=>i.plateType));assert(!dc.loot(ordinary,()=>.22,'jungle3').some(i=>i.plateType));assert(dc.loot(ordinary,()=>.22,'jungle9').some(i=>i.plateType));
+ let seed=782;const random=()=>((seed=Math.imul(seed,1664525)+1013904223>>>0)/4294967296);let plates=0;for(let i=0;i<20000;i++)for(const item of dc.loot(ordinary,random,'jungle9'))if(item.plateType){plates+=item.quantity;assert(ordinary.data.type.includes(item.plateType));}assert(Math.abs(plates/20000-.28)<.01);
  for(let n=1;n<=8;n++)assert.deepEqual(dc.levels('jungle'+n),[[100,120],[120,150],[150,200]][(n-1)%3]);
 });

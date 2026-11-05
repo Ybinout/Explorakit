@@ -14,6 +14,7 @@ function hydrateItems(rows) {
             key: row.item_key,
             name: itemFromCatalog.name || row.item_key,
             category: itemFromCatalog.category || null,
+            corruptedHeldItem:itemFromCatalog.corruptedHeldItem===true,
             ...(itemFromCatalog.corruptionModule?{corruptionModule:itemFromCatalog.corruptionModule}:{}),
             description: itemFromCatalog.description || null,
             catch_multiplier: itemFromCatalog.catch_multiplier || null,
@@ -192,7 +193,7 @@ async function equipHeldItem(userId, teamId, pokemonUuid, itemKey) {
         require('../game/social/tradeLocks').assertUnlocked(userId);
         await require('./darkBattleRepository').assertInactive(userId,connection);
         const [pokemonRows] = await connection.execute(
-            `SELECT p.held_item
+            `SELECT p.held_item,p.corruption
              FROM pokemons p
              INNER JOIN teams t ON t.id = p.team_id
              WHERE p.team_id = ? AND p.uuid = ? AND t.user_id = ?
@@ -205,6 +206,7 @@ async function equipHeldItem(userId, teamId, pokemonUuid, itemKey) {
             throw error;
         }
 
+        require('../game/items/heldItemPolicy').assertCanHold({corruption:require('../game/corruption/pokemon').normalize(pokemonRows[0].corruption)},itemKey);
         const previousItem = pokemonRows[0].held_item || null;
         if (previousItem === itemKey) return itemKey;
 
@@ -246,12 +248,12 @@ async function transferHeldItem(userId, teamId, payload) {
         if (!users.length) throw Error('Utilisateur introuvable.');
         require('../game/social/tradeLocks').assertUnlocked(userId);
         const [rows] = await connection.execute(
-            `SELECT p.uuid, p.held_item FROM pokemons p JOIN teams t ON t.id=p.team_id
+            `SELECT p.uuid, p.held_item,p.corruption FROM pokemons p JOIN teams t ON t.id=p.team_id
              WHERE p.team_id=? AND t.user_id=? AND p.uuid IN (?,?) ORDER BY p.uuid FOR UPDATE`,
             [teamId, userId, payload.sourceUuid, payload.targetUuid]
         );
         const transfers = require('../game/items/heldItemTransfer').planHeldItemTransfer(
-            rows.map(p => ({ uuid: p.uuid, heldItem: p.held_item })), payload
+            rows.map(p => ({ uuid: p.uuid, heldItem: p.held_item,corruption:require('../game/corruption/pokemon').normalize(p.corruption) })), payload
         );
         // One statement and transaction for both slots; no bag debit or credit.
         await connection.execute(

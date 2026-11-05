@@ -1,5 +1,5 @@
 const {dbPool,withTransaction}=require('../config/database');
-const {VISIT_PREFIX,townForMap,flightState}=require('../game/world/flightTravel');
+const {REGION_VISIT_PREFIX,VISIT_PREFIX,townForMap,flightState}=require('../game/world/flightTravel');
 const victories=[['moonpunch_defeated','moonpunch_ville1','ville1','lake_badge'],['hoze_defeated','story_champion_hoze','ville_safe1','dune_badge'],['raphael_defeated','story_champion_raphael','gen_ville5','bloom_badge'],['ana_defeated','story_champion_ana','ville3','ore_badge'],['wanda_defeated','story_champion_wanda','ville4','tide_badge'],['sevenp_defeated','story_champion_7p','ville5','summit_badge']];
 async function reconcileFlightProgress(userId){
     return withTransaction(async connection=>{
@@ -22,14 +22,16 @@ async function reconcileFlightProgress(userId){
     });
 }
 async function recordTownVisit(userId,map,returnPoint){
-    // Safari flight is earned by reaching its Center, never by passing the town.
-    const town=townForMap(map,returnPoint);if(!town)return false;
-    if(town==='safari8' && map!=='centre')return false;
-    const[result]=await dbPool.execute("INSERT IGNORE INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,?,'true')",[userId,VISIT_PREFIX+town]);
-    return result.affectedRows>0;
+    const {regionLocation,getRegionMap}=require('../game/world/regionMap');const region=regionLocation(map,returnPoint);let changed=false;
+    if(region&&getRegionMap().nodes.some(n=>n.id===region)){
+        const[r]=await dbPool.execute("INSERT IGNORE INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,?,'true')",[userId,REGION_VISIT_PREFIX+region]);changed=!!r.affectedRows;
+    }
+    const town=townForMap(map,returnPoint);if(!town||town==='safari8'&&map!=='centre')return changed;
+    const[result]=await dbPool.execute("INSERT IGNORE INTO player_story_flags(user_id,flag_key,flag_value) VALUES(?,?,'true')",[userId,VISIT_PREFIX+town]);return changed||result.affectedRows>0;
 }
 async function loadFlightState(userId){
     const[rows]=await dbPool.execute('SELECT flag_key,flag_value FROM player_story_flags WHERE user_id=?',[userId]);
-    return flightState(Object.fromEntries(rows.map(r=>[r.flag_key,r.flag_value])));
+    const [[item]]=await dbPool.execute("SELECT quantity FROM user_items WHERE user_id=? AND item_key='fly_module'",[userId]);
+    return {...flightState(Object.fromEntries(rows.map(r=>[r.flag_key,r.flag_value]))),owned:Number(item?.quantity)>0};
 }
 module.exports={reconcileFlightProgress,recordTownVisit,loadFlightState};

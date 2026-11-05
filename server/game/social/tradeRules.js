@@ -21,7 +21,7 @@ function findPokemon(snapshot,uuid){
 }
 function checkOffer(snapshot,offer){
  let selected=null;
- if(offer.pokemonUuid){selected=findPokemon(snapshot,offer.pokemonUuid);if(!selected)fail('Ce Pokémon n’est plus dans ton équipe ou ton PC.');if(selected.pokemon.isEgg)fail('Un Œuf ne peut pas être proposé.');if(selected.pokemon.heldItem&&!itemAllowed(selected.pokemon.heldItem))fail('Retire son objet personnel avant de proposer ce Pokémon.');}
+ if(offer.pokemonUuid){selected=findPokemon(snapshot,offer.pokemonUuid);if(!selected)fail('Ce Pokémon n’est plus dans ton équipe ou ton PC.');require('../items/heldItemPolicy').assertCanHold(selected.pokemon,selected.pokemon.heldItem);if(selected.pokemon.isEgg)fail('Un Œuf ne peut pas être proposé.');if(selected.pokemon.heldItem&&!itemAllowed(selected.pokemon.heldItem))fail('Retire son objet personnel avant de proposer ce Pokémon.');}
  for(const i of offer.items)if((snapshot.items[i.key]||0)<i.quantity)fail(`Tu n’as plus assez de ${catalog.get(i.key).name}.`);
  return selected;
 }

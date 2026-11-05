@@ -1,7 +1,7 @@
 const {getRegionMap,regionLocation}=require('./regionMap');
 const terrain=require('./mapRepository');
 const {isPnjBlockingTile}=require('./pnjStore');
-const VISIT_PREFIX='visited_town:';
+const VISIT_PREFIX='visited_town:',REGION_VISIT_PREFIX='visited_region:';
 function townForMap(map,centerReturnPoint){
     const id=regionLocation(map,centerReturnPoint);
     return getRegionMap().nodes.some(n=>n.id===id&&n.kind==='town')?id:null;
@@ -23,6 +23,6 @@ function flightDestination(map){
     return null;
 }
 function flightState(flags={}){
-    return{unlocked:flags.fly_module_received==='true',visited:getRegionMap().nodes.filter(n=>n.kind==='town'&&flags[VISIT_PREFIX+n.id]==='true').map(n=>n.id)};
+    return{unlocked:flags.fly_module_received==='true',visited:getRegionMap().nodes.filter(n=>n.kind==='town'&&flags[VISIT_PREFIX+n.id]==='true').map(n=>n.id),visitedRegions:getRegionMap().nodes.filter(n=>flags[REGION_VISIT_PREFIX+n.id]==='true'||n.kind==='town'&&flags[VISIT_PREFIX+n.id]==='true').map(n=>n.id)};
 }
-module.exports={VISIT_PREFIX,townForMap,flightDestination,flightState};
+module.exports={REGION_VISIT_PREFIX,VISIT_PREFIX,townForMap,flightDestination,flightState};

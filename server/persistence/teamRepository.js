@@ -108,6 +108,7 @@ async function editEquipe(userId, team, executor = null) {
     }
 
     require('../game/corruption/pokemon').assertTeam(team.pokemons.filter(p=>!p.__darkContinentDead));
+    const stripped=[];
     const save = async (connection) => {
         await connection.execute('SELECT id FROM users WHERE id=? FOR UPDATE',[userId]);
         let teamRecord = await getTeamRecord(userId, connection);
@@ -120,19 +121,30 @@ async function editEquipe(userId, team, executor = null) {
         }
 
         // A retired or interrupted in-memory team must never erase permanent mutations.
-        const [savedMutations]=await connection.execute('SELECT uuid,corruption FROM pokemons WHERE team_id=? FOR UPDATE',[teamRecord.id]);
+        const [savedMutations]=await connection.execute('SELECT uuid,corruption,held_item FROM pokemons WHERE team_id=? FOR UPDATE',[teamRecord.id]);
         for(const pokemon of team.pokemons){const saved=require('../game/corruption/pokemon').normalize(savedMutations.find(row=>row.uuid===pokemon.uuid)?.corruption);if(saved&&saved.revision>(pokemon.corruption?.revision||0))throw Error('La corruption de ton équipe a changé. Reconnecte-toi pour la retrouver.');}
         await connection.execute('DELETE FROM pokemons WHERE team_id = ?', [teamRecord.id]);
         const placeholders = POKEMON_COLUMNS.map(() => '?').join(', ');
         const insertSql = `INSERT INTO pokemons (${POKEMON_COLUMNS.join(', ')}) VALUES (${placeholders})`;
         for (const [index, pokemon] of require('../game/battle/partyOrder').orderedParty(team.pokemons.filter(p=>!p.__darkContinentDead)).entries()) {
-            const values = pokemonToRow(pokemon, teamRecord.id, index + 1);
+            const policy=require('../game/items/heldItemPolicy');
+            let rowPokemon=pokemon;
+            if(pokemon.heldItem&&!policy.canHold(pokemon,pokemon.heldItem)){
+                const previous=savedMutations.find(row=>row.uuid===pokemon.uuid);
+                // A stale checkpoint must never refund an already returned item twice.
+                const authoritative=previous?previous.held_item:pokemon.heldItem;
+                const keep=authoritative&&policy.canHold(pokemon,authoritative)?authoritative:null;
+                if(authoritative&&!keep)await connection.execute('INSERT INTO user_items(user_id,item_key,quantity) VALUES(?,?,1) ON DUPLICATE KEY UPDATE quantity=quantity+1',[userId,authoritative]);
+                rowPokemon=Object.assign(Object.create(Object.getPrototypeOf(pokemon)),pokemon,{heldItem:keep});stripped.push({pokemon,heldItem:keep});
+            }
+            const values = pokemonToRow(rowPokemon, teamRecord.id, index + 1);
             pokemon.uuid = values[0];
             await connection.execute(insertSql, values);
         }
         return teamRecord.id;
     };
-    return executor ? save(executor) : withTransaction(save);
+    if(executor)return save(executor);
+    const result=await withTransaction(save);for(const {pokemon,heldItem} of stripped)pokemon.heldItem=heldItem;return result;
 }
 
 module.exports = {

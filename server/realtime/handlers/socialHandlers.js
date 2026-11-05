@@ -22,6 +22,7 @@ async function registerSocialHandlers({io,socket,getLocation}){
  command('social:history',d=>messages.history(userId,d.targetId,d.before));
  command('social:send',async d=>({message:await hub.directMessage(userId,d)}),true);
  command('social:read',d=>hub.read(userId,d.targetId,d.through));
+ command('social:color',async d=>{const result=await repository.setFriendColor(userId,d.targetId,d.color);await hub.reload(userId);return{...result,state:hub.state(userId)};});
  command('social:details',d=>require('../../persistence/friendProfileRepository').details(userId,d.targetId,d.view));
  // Old cached clients get an explicit answer; no group state or operation remains.
  for(const event of ['groupInvite','groupAnswer','groupLeave','groupKick','groupMessage'])command('social:'+event,()=>{throw Object.assign(Error('Les amis se retrouvent désormais directement sur la minimap.'),{statusCode:410});});

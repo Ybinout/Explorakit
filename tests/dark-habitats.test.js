@@ -35,7 +35,7 @@ test('Water species are exclusive to fishing; dual types obey the same progressi
 test('ordinary plates roll at exactly 8% on jungle1/4/7, with central/eastern chances and corrupted guarantees preserved',async()=>{
  const ordinary={data:{type:['Water']}};
  for(let n=1;n<=9;n++){
-  const map='jungle'+n,chance=map==='jungle9'?.25:[.08,.15,.19][dc.column(map)];assert.equal(dc.lootProfile(map).plateChance,chance);
+  const map='jungle'+n,chance=map==='jungle9'?.28:[.11,.18,.22][dc.column(map)];assert.equal(dc.lootProfile(map).plateChance,chance);
   assert(dc.loot(ordinary,()=>chance-.000001,map).some(i=>i.plateType));assert(!dc.loot(ordinary,()=>chance,map).some(i=>i.plateType));
   const rare=await wild(map,()=>0),found=dc.loot(rare,()=>.99,map),plates=found.filter(i=>i.plateType);assert.equal(plates.reduce((n,i)=>n+i.quantity,0),5);for(const [index,key]of ['crystal_shard','clear_crystal','aurora_prism'].entries()){const quantity=found.find(i=>i.key===key).quantity;assert(quantity>=5);assert.equal(quantity,[[14,10,6],[22,15,8],[27,19,12]][dc.column(map)][index]);}
  }

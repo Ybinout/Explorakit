@@ -2065,6 +2065,7 @@ function applyEffect(effect, context, moveResult) {
             return;
 
         case 'swap_item': {
+            const policy=require('../items/heldItemPolicy');if(!policy.canHold(context.attacker,context.defender.heldItem)||!policy.canHold(context.defender,context.attacker.heldItem)){messages.push(policy.MESSAGE);return;}
             if ([context.attacker,context.defender].some(p=>getItemDefinition(p.heldItem)?.battle_effect==='drive')
                 && [context.attacker,context.defender].some(p=>p.data?.id===649)) { messages.push('Le module de Genesect ne peut pas être échangé.'); return; }
             if ([context.attacker,context.defender].some(p=>p.heldItem==='rift_talisman')) { moveResult.messages.push('Le talisman ne peut pas être échangé en combat.'); break; }
@@ -2079,6 +2080,7 @@ function applyEffect(effect, context, moveResult) {
         }
 
         case 'bestow_item':
+            if(!require('../items/heldItemPolicy').canHold(context.defender,context.attacker.heldItem)){messages.push(require('../items/heldItemPolicy').MESSAGE);return;}
             if (getItemDefinition(context.attacker.heldItem)?.battle_effect==='drive' && [context.attacker,context.defender].some(p=>p.data?.id===649)) { messages.push('Le module de Genesect ne peut pas être transmis.'); return; }
             if (context.attacker.heldItem==='rift_talisman') { moveResult.messages.push('Le talisman ne peut pas être donné en combat.'); break; }
             if (!context.attacker.heldItem || context.defender.heldItem) {
@@ -2095,7 +2097,7 @@ function applyEffect(effect, context, moveResult) {
             return;
 
         case 'recycle':
-            if (context.attacker.heldItem || !attackerData.consumedHeldItem) {
+            if (context.attacker.heldItem || !attackerData.consumedHeldItem || !require('../items/heldItemPolicy').canHold(context.attacker,attackerData.consumedHeldItem)) {
                 messages.push(`Aucun objet ne peut etre recycle.`);
                 return;
             }

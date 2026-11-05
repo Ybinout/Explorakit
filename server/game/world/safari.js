@@ -1,5 +1,5 @@
 const config=require('../../../data/game/safari_encounters.json');
-const ZONE='Europe/Paris',ARRIVAL=Object.freeze({map:'safari1',x:208,y:464}),LOBBY=Object.freeze({map:'super_tournament_lobby',x:784,y:464});
+const ZONE='Europe/Paris',ARRIVAL=Object.freeze({map:'safari1',x:208,y:464}),LOBBY=Object.freeze({map:'super_tournament_lobby',x:752,y:496});
 const isMap=map=>/^safari(?:[1-9]|1[0-5])$/.test(String(map||''));
 const index=map=>isMap(map)?Number(map.slice(6))-1:null;
 const dayFormat=new Intl.DateTimeFormat('en-CA',{timeZone:ZONE,year:'numeric',month:'2-digit',day:'2-digit'});
@@ -22,7 +22,7 @@ function encounter(map,method='grass',random=Math.random,now=Date.now()){
  return choose(pool(map,method,now),random);
 }
 function actors(map){
- const place=map===LOBBY.map?{name:'safari_captain',x:25,y:14}:map==='safari1'?{name:'safari_return',x:7,y:14}:null;
+ const place=map===LOBBY.map?{name:'safari_captain',x:24,y:15}:map==='safari1'?{name:'safari_return',x:7,y:14}:null;
  return place?[{...place,interactionName:place.name,map,sprite:'6931.png',spriteFrame:{columns:8,rows:4,index:6},block:true,roamRadius:0}]:[];
 }
 function near(player){
