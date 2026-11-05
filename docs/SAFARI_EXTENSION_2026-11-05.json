@@ -1,6 +1,6 @@
 {
   "date": "2026-11-05",
-  "status": "validation complete; Git client published; deployment pending",
+  "status": "published and verified",
   "scope": "Safari, générations I–V, sprites animés, shinies globaux; conventions de combat simple Gen7 existantes",
   "world": {
     "maps": 15,
@@ -936,5 +936,36 @@
     "npm --prefix vue-explorakit run lint",
     "npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-safari-dist"
   ],
-  "clientCommit": "fe9a63d039d854218007e3dd074ba66f0ed33db6"
+  "clientCommit": "fe9a63d039d854218007e3dd074ba66f0ed33db6",
+  "deployment": {
+    "publishedAt": "2026-11-05T13:58:10.867Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-safari-2026-11-05T13-57-44-553Z",
+    "restartedAt": "2026-11-05T13:58:03.905Z",
+    "beforePid": "3902542",
+    "afterPid": "3932740",
+    "rootCommit": "0d6e53679f74b7c207528313a9da6bb48c3ad751",
+    "clientCommit": "fe9a63d039d854218007e3dd074ba66f0ed33db6",
+    "build": "4d7b5f10d189d63b",
+    "indexSha256": "980577edb368a2aa4548ebb5ebb67d389ffd5352122f8ba38af5a103bbc93c18",
+    "schemaTables": 32,
+    "schemaConstraints": 28,
+    "migrationReceipts": 33,
+    "migration": "033_pokemon_shiny.sql",
+    "countsPreserved": {
+      "users": 15,
+      "pokemons": 60,
+      "storage": 508
+    },
+    "historicShinyFalse": true,
+    "namespaceClosed": true,
+    "neighborsUnchanged": true,
+    "checkpointUnchanged": true,
+    "activeDuelsBefore": 0,
+    "activeTournamentAttemptsBefore": 1,
+    "rouletteBefore": [],
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "publicAssets": 125,
+    "oldAssetsRetained": true
+  }
 }

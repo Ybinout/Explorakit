@@ -10,6 +10,9 @@ Sprites :3361 variantes animées,6722 fichiers WebP sans perte/PNG, formes et ge
 
 Vérification :parcours authentifiés Chromium/WebKit sur explorakit_test, capture/PC/échanges et Maison collaborative SQL, audits des espèces/capacités/talents, lint/build isolé. Rapport principal docs/SAFARI_EXTENSION_2026-11-05.json. La suite historique garde69 échecs déjà présents à la référence ;aucun nouveau nom d’échec. Honey Gather/Ramassage de Miel reste une limitation hors combat préexistante (aucun porteur Gen5), explicitement signalée ;ne pas annoncer la suite entière verte ni un test iPhone physique. Rift/Colosseum restent fermés, économie Dark et projet Knov inchangés.
 
+Publication :client `fe9a63d0`, serveur `0d6e5367`, build `4d7b5f10d189d63b`, PID3932740. Sauvegardes SQL/sources/index sur le disque de sauvegarde ;migration033 et schéma32 tables/28 contraintes/33 reçus validés.15 comptes,60 Pokémon d’équipe et508 du PC conservés, aucun ancien Pokémon rendu shiny.125 fichiers HTTPS identiques, aucun redémarrage automatique/avertissement ;tentative de Tour et checkpoint conservés, modes fermés et voisins Knov/API inchangés. Aucun compte réel modifié manuellement.
+
+
 ## Nettoyage des compilations temporaires — 5 novembre 2026
 
 92 anciens clients compilés sous `/tmp/riftmon-*-dist` retirés :147780 fichiers,22,23 Go(20,70 Gio) récupérés. Les trois distributions les plus récentes sont conservées :touch-controls, battle-presence et roche-lab-motion. Le disque principal passe de77 % à48 % d’utilisation ;environ40,04 Go(37,29 Gio) disponibles après opération. Sources, BDD/joueurs, sauvegardes et disque Knov intacts ;aucun redémarrage, build ou changement d’annonce.
