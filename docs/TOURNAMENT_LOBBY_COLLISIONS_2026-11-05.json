@@ -221,5 +221,50 @@
   "commands": [
     "NODE_ENV=test BATTLE_DELAY_SCALE=0 node --test tests/tournament-lobby-collisions.test.js tests/super-tournament-abandon.test.js tests/safari-extension.test.js tests/dark-continent.test.js",
     "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 RELEASE_DIST_DIR=/tmp/riftmon-first-cycle-cash-dist PRESENTATION_BROWSER=<chromium|webkit> node --env-file=.env scripts/validateTournamentLobbyCollisionsBrowser.js"
-  ]
+  ],
+  "deployment": {
+    "publishedAt": "2026-11-05T19:32:43.201Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-lobby-collisions-2026-11-05T19-32-27-840Z",
+    "restartedAt": "2026-11-05T19:32:41.043Z",
+    "beforePid": "3960694",
+    "afterPid": "3961975",
+    "rootCommit": "c5a0a49086cb14818c15f7b2dddc0f399afde651",
+    "clientCommit": "95358e8269191060d1fb0e762f310342b25e70f8",
+    "build": "a3464ff483cca4e0",
+    "indexSha256": "f490d515bb44d3eaf21fe76f1f1366e9e30ea3ad4d11022fa8ec2910dc939b86",
+    "schemaTables": 32,
+    "schemaConstraints": 28,
+    "migrationReceipts": 33,
+    "newMigrations": 0,
+    "countsPreserved": {
+      "users": 15,
+      "pokemons": 60,
+      "storage": 580
+    },
+    "pcDataAndSlotsPreserved": true,
+    "pcNamesPreserved": true,
+    "storageStateSha256": "4e6136dd9b2bc7fc42a5ef84d5dcc60b59c6b6e22392af50b333cff7f3720988",
+    "boxNamesSha256": "751abac21a5064d53ac6a0773de342ef4b974a817e5df4b9d3838bdb3722549a",
+    "existingClientBuildPreserved": true,
+    "indexUnchanged": true,
+    "changedCollisionCells": 22,
+    "recordsPreserved": true,
+    "existingCardOwnershipPreserved": true,
+    "walletsPreserved": true,
+    "tournamentRecordsSha256": "9542c7f5331a8eeb464db79f18825d3cda7e47c94bc604ad27663a78739ef214",
+    "cardOwnershipSha256": "e579e73c2de2d2d50f5bf52998d0c33c09a6c1332456f07b29c1823c23de91ad",
+    "darkCheckpointsPreserved": 1,
+    "tournamentSnapshotsPreserved": 0,
+    "namespaceClosed": true,
+    "neighborsUnchanged": true,
+    "checkpointUnchanged": true,
+    "activeDuelsBefore": 0,
+    "activeRouletteRoundsBefore": 0,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "publicAssets": 21,
+    "announcementUnchanged": true,
+    "announcementSha256": "cd60b53a19feb875c42866614e7155740b61c0796e8a4f8b2cb78581760e4d72",
+    "oldAssetsRetained": true
+  }
 }

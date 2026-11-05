@@ -6,6 +6,8 @@ La récupération de position existante ramène un ancien emplacement sur le mur
 
 Validation : 28 tests ciblés réussis ; `scripts/validateTournamentLobbyCollisionsBrowser.js` sur explorakit_test utilise le client publié et les vrais déplacements Socket.IO. 25 contrôles par moteur Chromium/WebKit sur PC/mobile : mur, côtés de porte, plantes, ancien spawn, accès Safari/classement, sortie, inscription/SAS et abandon, équipe détenue conservée. Rapport `docs/TOURNAMENT_LOBBY_COLLISIONS_2026-11-05.json`. Le test global préexistant `position-recovery.test.js` échoue déjà sur jungle5 avant ce correctif (confirmé séparément sur la référence live) ; ne pas présenter cette suite globale comme verte. Aucun changement de base, gains ou annonce publique.
 
+Publication : source `c5a0a490`, client `95358e82` et build `a3464ff483cca4e0` conservés, PID3961975. Sauvegarde SQL/sources/carte ; aucune migration, 32 tables/28 contraintes/33 reçus vérifiés. Index publié identique, 21 bundles HTTPS contrôlés ; Pokémon/PC, noms de boîtes, soldes, records, cartes et checkpoints conservés. Aucun redémarrage automatique/avertissement ; modes fermés, voisins Knov/API et annonce publique inchangés.
+
 ## Tour de Combat : primes du premier palier +20 % — 5 novembre 2026
 
 Après clarification du joueur, le bonus concerne les 16 premiers combats de chaque tentative, et non la première salle seule. `cashPrizes.quote` applique ×1,2 uniquement au cycle 1, primes de salle et bonus de Lucie compris, avec arrondi au Pokédollar. Le tarif de référence reste inchangé pour tous les cycles suivants et pour les cartes d’argent. Les versements déjà enregistrés ne sont jamais recalculés ou complétés rétroactivement.
