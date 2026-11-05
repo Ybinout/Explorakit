@@ -6,6 +6,8 @@ Barème : salles 1–4 à 6 103 ₽, 5–8 à 12 208 ₽, 9–12 à 18 311 ₽, 
 
 Validation : 19 tests de domaine et 44 MySQL, dont deux cycles réels, anciennes quittances conservées, concurrence/rejeu, rollback et plafond de solde. Recette `scripts/validateTournamentCashBrowser.js` sur explorakit_test : 16 vues par moteur Chromium/WebKit (PC/mobile/paysage, clair/nocturne), vraies inscriptions et primes des salles 1/16/17, reconnexion, réponse de progression périmée, abandon et conservation de l’équipe/XP. Lint/build/syntaxe valides. Rapport `docs/TOURNAMENT_FIRST_CYCLE_CASH_2026-11-05.json`. Aucun changement de gains Aventure/Dark, K, loot ou combat ; aucune migration et annonce publique inchangée.
 
+Publication : client `95358e82`, source `4930e9b0`, build `a3464ff483cca4e0`, PID3960694. Sauvegarde SQL/sources/index ; aucune migration, 32 tables/28 contraintes/33 reçus vérifiés. Soldes, records, cartes professionnelles, équipes/PC et noms de boîtes conservés avant/après. 21 bundles HTTPS identiques au build, aucun redémarrage automatique/avertissement ; checkpoint Dark, modes fermés, Knov/API et annonce publique inchangés.
+
 ## Dark Continent : accès après deux paliers — 5 novembre 2026
 
 La carte de dresseur professionnel se débloque à 32 salles remportées (fin du palier 2, début du palier 3), au lieu de 48, et coûte 1 000 000 ₽ au lieu de 2 000 000. `darkContinent.REQUIRED_ROOMS` et `CARD_PRICE` restent les références serveur ; le texte et le bouton d’achat affichent le prix reçu du serveur. Description du sac et message d’éligibilité alignés.
