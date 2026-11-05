@@ -14,8 +14,8 @@ test('trade planner preserves permanent Pokémon, HP/PP, held item, party order 
 });
 test('gifts go into a free team slot or PC; outgoing storage frees capacity and last able companion stays protected',()=>{
  const a=snapshot([mon(),mon(25)]),b=snapshot(Array.from({length:6},()=>mon(1)));let p=rules.planTrade([a,b],[offer(a.team[1]),offer()]);assert.equal(p[1].entries[0].pokemon,a.team[1]);
- b.entries=Array.from({length:600},(_,i)=>({box:Math.floor(i/30),slot:i%30,pokemon:mon(19)}));assert.throws(()=>rules.planTrade([a,b],[offer(a.team[1]),offer()]),/plein/);
- p=rules.planTrade([a,b],[offer(a.team[1]),offer(b.entries[120].pokemon)]);assert.equal(p[1].entries.length,600);assert.equal(p[1].entries.find(e=>e.box===4&&e.slot===0).pokemon,a.team[1]);
+ b.entries=Array.from({length:1200},(_,i)=>({box:Math.floor(i/30),slot:i%30,pokemon:mon(19)}));assert.throws(()=>rules.planTrade([a,b],[offer(a.team[1]),offer()]),/plein/);
+ p=rules.planTrade([a,b],[offer(a.team[1]),offer(b.entries[120].pokemon)]);assert.equal(p[1].entries.length,1200);assert.equal(p[1].entries.find(e=>e.box===4&&e.slot===0).pokemon,a.team[1]);
  const solo=snapshot();assert.throws(()=>rules.planTrade([solo,b],[offer(solo.team[0]),offer()]),/apte/);
  assert.doesNotThrow(()=>rules.planTrade([solo,a],[offer(solo.team[0]),offer(a.team[1])]));
 });

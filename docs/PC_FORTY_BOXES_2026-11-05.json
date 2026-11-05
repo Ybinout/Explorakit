@@ -1,0 +1,232 @@
+{
+  "date": "2026-11-05",
+  "change": "Double PC storage from 20 to 40 boxes",
+  "boxCountBefore": 20,
+  "boxCountAfter": 40,
+  "boxSize": 30,
+  "capacity": 1200,
+  "existingPokemonAndBoxNamesPreservedByIndex": true,
+  "emptyBoxesAreVirtual": true,
+  "newMigrations": 0,
+  "announcementChanged": false,
+  "announcementSha256": "cd60b53a19feb875c42866614e7155740b61c0796e8a4f8b2cb78581760e4d72",
+  "build": "e2ff1e4acd40998f",
+  "validation": {
+    "database": "explorakit_test",
+    "domainTests": {
+      "passed": 42,
+      "failed": 0,
+      "skipped": 0
+    },
+    "sqlTests": {
+      "passed": 34,
+      "failed": 0,
+      "skipped": 0
+    },
+    "sqlChecks": [
+      "601st stored capture uses box index20 slot0",
+      "box40 accepts deposits and persistent name",
+      "last box40 slot can be traded atomically",
+      "full1200 capacity protected",
+      "existing owner, rollback, HP, PP, held item and nickname checks pass"
+    ],
+    "browsers": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "buildIndexSha256": "e5e386bb50ee48e82738e9dd9024ff555cdcb6701660d5c9265dfba400295463",
+        "views": [
+          {
+            "label": "box-editor",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "label": "box-editor",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "label": "box-editor",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "label": "box-editor",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "label": "stored-editor",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "label": "stored-editor",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "label": "stored-editor",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "label": "stored-editor",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "label": "party-renamed",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "label": "party-renamed",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "label": "party-renamed",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "label": "party-renamed",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          }
+        ],
+        "fortyBoxes": true,
+        "capacity": 1200,
+        "boxRename": true,
+        "partySheetRename": true,
+        "pcSheetRename": true,
+        "pcStoredNicknameDisplayed": true,
+        "withdrawKeepsNickname": true,
+        "reconnect": true,
+        "invalidNameStaysEditable": true,
+        "resetDefaults": true,
+        "escapeCancelsOnlyEditor": true,
+        "resourcesPreserved": true,
+        "remoteAccessDenied": true,
+        "errors": []
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "buildIndexSha256": "e5e386bb50ee48e82738e9dd9024ff555cdcb6701660d5c9265dfba400295463",
+        "views": [
+          {
+            "label": "box-editor",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "label": "box-editor",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "label": "box-editor",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "label": "box-editor",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "label": "stored-editor",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "label": "stored-editor",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "label": "stored-editor",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "label": "stored-editor",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          },
+          {
+            "label": "party-renamed",
+            "width": 393,
+            "height": 852,
+            "mode": "light"
+          },
+          {
+            "label": "party-renamed",
+            "width": 393,
+            "height": 852,
+            "mode": "dark"
+          },
+          {
+            "label": "party-renamed",
+            "width": 1536,
+            "height": 680,
+            "mode": "light"
+          },
+          {
+            "label": "party-renamed",
+            "width": 1536,
+            "height": 680,
+            "mode": "dark"
+          }
+        ],
+        "fortyBoxes": true,
+        "capacity": 1200,
+        "boxRename": true,
+        "partySheetRename": true,
+        "pcSheetRename": true,
+        "pcStoredNicknameDisplayed": true,
+        "withdrawKeepsNickname": true,
+        "reconnect": true,
+        "invalidNameStaysEditable": true,
+        "resetDefaults": true,
+        "escapeCancelsOnlyEditor": true,
+        "resourcesPreserved": true,
+        "remoteAccessDenied": true,
+        "errors": []
+      }
+    },
+    "lint": "passed",
+    "build": "passed",
+    "physicalDevicesTested": false
+  },
+  "commands": [
+    "NODE_ENV=test BATTLE_DELAY_SCALE=0 node --test tests/pokemon-storage.test.js tests/pokemon-storage-drag.test.js tests/pokemon-names.test.js tests/friend-trade.test.js tests/experience-exchange.test.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 RUN_MYSQL_TESTS=1 node --env-file=.env --test --test-concurrency=1 tests/pokemon-names-mysql.test.js tests/pokemon-storage-items-mysql.test.js tests/friend-trade-mysql.test.js tests/experience-exchange-mysql.test.js tests/whitepeak-house-mysql.test.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 RELEASE_DIST_DIR=/tmp/riftmon-pc-40-dist RELEASE_SCREENSHOTS=/tmp/riftmon-pc-40-<engine> PRESENTATION_BROWSER=<chromium|webkit> node --env-file=.env scripts/validatePokemonNamesBrowser.js",
+    "npm --prefix vue-explorakit run lint",
+    "npm --prefix vue-explorakit run build -- --dest /tmp/riftmon-pc-40-dist"
+  ]
+}

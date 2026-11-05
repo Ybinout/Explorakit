@@ -11,10 +11,11 @@ test('renaming changes no species or resources; empty restores species and stale
  const p=mon(),before=codec.encode(p);assert.equal(names.renamedPokemon(p,payload(p,'Écume')),'Écume');assert.deepEqual(codec.encode(p),before);
  p.name='Écume';assert.equal(names.renamedPokemon(p,payload(p,'')),'Carapuce');assert.throws(()=>names.renamedPokemon(p,{...payload(p,'New'),expectedName:'Carapuce'}),/changé/);assert.throws(()=>names.renamedPokemon(p,{...payload(p,'New'),pokemonUuid:'foreign'}),/appartient/);p.isEgg=true;assert.throws(()=>names.renamedPokemon(p,payload(p,'New')),/éclosion/);
 });
-test('20 private boxes, 600 slots, legacy full PC continues in box 9 and slot 600 is usable',()=>{
- assert.equal(storage.BOX_COUNT,20);assert.equal(storage.CAPACITY,600);
+test('40 private boxes, 1200 slots, and both legacy capacity boundaries remain usable',()=>{
+ assert.equal(storage.BOX_COUNT,40);assert.equal(storage.CAPACITY,1200);
  const old=Array.from({length:240},(_,i)=>({box:Math.floor(i/30),slot:i%30}));assert.deepEqual(storage.freeSlot(old),{box:8,slot:0});
- const full=Array.from({length:600},(_,i)=>({box:Math.floor(i/30),slot:i%30}));assert.throws(()=>storage.freeSlot(full),/plein/);full.pop();assert.deepEqual(storage.freeSlot(full),{box:19,slot:29});assert.throws(()=>storage.assertBox(20));
+ const full=Array.from({length:1200},(_,i)=>({box:Math.floor(i/30),slot:i%30}));assert.throws(()=>storage.freeSlot(full),/plein/);full.pop();assert.deepEqual(storage.freeSlot(full),{box:39,slot:29});assert.throws(()=>storage.assertBox(40));
+ const legacyFull=Array.from({length:600},(_,i)=>({box:Math.floor(i/30),slot:i%30}));assert.deepEqual(storage.freeSlot(legacyFull),{box:20,slot:0});assert.equal(storage.boxNames().length,40);assert.equal(storage.boxNames()[39],'Boîte 40');
  const custom={19:'Favoris'};assert.equal(storage.boxNames(custom)[19],'Favoris');assert.equal(storage.boxNames()[19],'Boîte 20');assert.equal(storage.renamedBox(custom,{box:19,name:'',expectedName:'Favoris'}),'');assert.throws(()=>storage.renamedBox(custom,{box:19,name:'Other',expectedName:'Boîte 20'}),/changé/);
 });
 function handler(persist,canUse=()=>true){const handlers={},events=[],p={equipe:{pokemons:[mon()]}};registerPokemonNameHandlers({socket:{on:(n,f)=>handlers[n]=f,emit:(n,d)=>events.push([n,d])},userId:12,getPlayer:()=>p,canUse,persist});return{p,events,send:async(data=payload(p.equipe.pokemons[0],'Écume'))=>{let r;await handlers.renamePokemon(data,v=>r=v);return r;}};}
@@ -28,7 +29,7 @@ test('combat, busy/closed context and write failures keep original name without 
  h.p.inbattle=true;assert(!(await h.send()).success);h.p.inbattle=false;h.p.inventoryBusy=true;assert(!(await h.send()).success);h.p.inventoryBusy=false;assert(!(await h.send()).success);assert.equal(calls,1);assert.equal(h.p.equipe.pokemons[0].name,before);assert.equal(h.events.length,0);assert(!(await handler(()=>assert.fail(),()=>false).send()).success);
 });
 for(const mode of ['rift','colosseum'])test(`${mode}: private box and Pokémon names survive a checkpoint, independent from other runs`,()=>{
- const a=mon(),b=mon(),p={userId:1,alive:true,run:{mode,phase:'exploration'},currentmap:'centre',x:560,y:304,equipe:{pokemons:[a]},storage:[{box:19,slot:29,pokemon:b}],items:{},drifts:[],equipped:[]},before=codec.decode(codec.encode(b));
- computer.mutate(p,{action:'renameBox',box:19,name:'Les champions',expectedName:'Boîte 20'});computer.mutate(p,{action:'renamePokemon',...payload(b,'Écume')});before.name='Écume';assert.deepEqual(codec.encode(b),codec.encode(before));assert.equal(computer.open(p).entries[0].pokemon.name,'Écume');assert.equal(computer.open(p).entries[0].pokemon.speciesName,'Carapuce');
- const restored=codec.decode(codec.encode(p));assert.equal(computer.open(restored).boxNames[19],'Les champions');assert.equal(restored.storage[0].pokemon.name,'Écume');assert.equal(storage.view([a],[]).boxNames[19],'Boîte 20');p.inbattle=true;assert.throws(()=>computer.mutate(p,{action:'renamePokemon',...payload(b,'No')}));
+ const a=mon(),b=mon(),p={userId:1,alive:true,run:{mode,phase:'exploration'},currentmap:'centre',x:560,y:304,equipe:{pokemons:[a]},storage:[{box:39,slot:29,pokemon:b}],items:{},drifts:[],equipped:[]},before=codec.decode(codec.encode(b));
+ computer.mutate(p,{action:'renameBox',box:39,name:'Les champions',expectedName:'Boîte 40'});computer.mutate(p,{action:'renamePokemon',...payload(b,'Écume')});before.name='Écume';assert.deepEqual(codec.encode(b),codec.encode(before));assert.equal(computer.open(p).entries[0].pokemon.name,'Écume');assert.equal(computer.open(p).entries[0].pokemon.speciesName,'Carapuce');
+ const restored=codec.decode(codec.encode(p));assert.equal(computer.open(restored).boxNames[39],'Les champions');assert.equal(restored.storage[0].pokemon.name,'Écume');assert.equal(storage.view([a],[]).boxNames[39],'Boîte 40');p.inbattle=true;assert.throws(()=>computer.mutate(p,{action:'renamePokemon',...payload(b,'No')}));
 });

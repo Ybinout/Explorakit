@@ -1,3 +1,9 @@
+## PC : 40 boîtes — 5 novembre 2026
+
+`pokemonStorage.BOX_COUNT` passe de 20 à 40 ; les 30 places par boîte portent la capacité à 1 200 Pokémon. Toutes les validations, captures, échanges et inventaires utilisent la constante partagée. Aucun préremplissage, déplacement de Pokémon ou migration SQL : les boîtes vides restent virtuelles et les noms existants gardent leurs index. Les filtres du client utilisent la capacité reçue du serveur ; ne pas réintroduire une limite indépendante à 20.
+
+Validation : 42 tests de domaine et 34 tests MySQL réussis sans saut, capture réelle après 600 Pokémon stockés, dépôt/nom de la boîte 40 et échange atomique depuis son dernier emplacement. Recette `scripts/validatePokemonNamesBrowser.js` sur explorakit_test : 12 vues par navigateur Chromium/WebKit, PC/mobile clair/nocturne, dépôt/retrait/fiche/reconnexion et conservation des PV, PP et objet. Lint/build valides. Rapport `docs/PC_FORTY_BOXES_2026-11-05.json`. Aucune annonce publique ; aucun asset, carte, règle de combat ou taux K modifié. Un redémarrage contrôlé du serveur est nécessaire pour charger la capacité.
+
 ## Sprite joueur PC : encore +50 % — 5 novembre 2026
 
 L’ancre PC passe du multiplicateur1,2 à1,8, soit50 % supplémentaires en largeur/hauteur par rapport à la livraison précédente. Calibrage alpha1,27 inchangé ;même ancre pour les effets. Tailles et placement mobiles identiques. La marge PC reste−25 px, avec un garde calculé depuis le maximum visible pour conserver4 px au bord des terrains étroits ;ne pas plafonner la taille sous le gain demandé.
@@ -6566,6 +6572,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **2026-11-05 — PC doublé à 40 boîtes** : 1 200 places, métadonnées partagées, captures après 600 places, noms et transferts de la boîte 40, échanges PC. 42 tests de domaine, 34 SQL, 24 vues Chromium/WebKit et lint/build valides. Rapport `PC_FORTY_BOXES_2026-11-05.json`. Aucune annonce publique.
 
 - **2026-11-05 — Sprite joueur PC : encore+50 %** :ancre1,2→1,8,mobile inchangé,cadrage protégé et panneau compact sur PC courts ;84 configurations Chromium/WebKit,listes d’actions/équipe,lint/build. Rapport `DESKTOP_PLAYER_PLUS_FIFTY_2026-11-05.json`. Aucune annonce publique.
 

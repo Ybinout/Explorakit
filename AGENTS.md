@@ -1,3 +1,9 @@
+## PC : 40 boîtes — 5 novembre 2026
+
+`pokemonStorage.BOX_COUNT` passe de 20 à 40 ; les 30 places par boîte portent la capacité à 1 200 Pokémon. Toutes les validations, captures, échanges et inventaires utilisent la constante partagée. Aucun préremplissage, déplacement de Pokémon ou migration SQL : les boîtes vides restent virtuelles et les noms existants gardent leurs index. Les filtres du client utilisent la capacité reçue du serveur ; ne pas réintroduire une limite indépendante à 20.
+
+Validation : 42 tests de domaine et 34 tests MySQL réussis sans saut, capture réelle après 600 Pokémon stockés, dépôt/nom de la boîte 40 et échange atomique depuis son dernier emplacement. Recette `scripts/validatePokemonNamesBrowser.js` sur explorakit_test : 12 vues par navigateur Chromium/WebKit, PC/mobile clair/nocturne, dépôt/retrait/fiche/reconnexion et conservation des PV, PP et objet. Lint/build valides. Rapport `docs/PC_FORTY_BOXES_2026-11-05.json`. Aucune annonce publique ; aucun asset, carte, règle de combat ou taux K modifié. Un redémarrage contrôlé du serveur est nécessaire pour charger la capacité.
+
 ## Sprite joueur PC : encore +50 % — 5 novembre 2026
 
 L’ancre PC passe du multiplicateur1,2 à1,8, soit50 % supplémentaires en largeur/hauteur par rapport à la livraison précédente. Calibrage alpha1,27 inchangé ;même ancre pour les effets. Tailles et placement mobiles identiques. La marge PC reste−25 px, avec un garde calculé depuis le maximum visible pour conserver4 px au bord des terrains étroits ;ne pas plafonner la taille sous le gain demandé.

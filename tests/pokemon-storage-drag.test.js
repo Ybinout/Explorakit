@@ -5,8 +5,8 @@ const team=(index)=>({kind:'team',index}),box=(b,slot)=>({kind:'box',box:b,slot}
 function move(p,from,to,target=null){return {action:'move',pokemonUuid:p.uuid,from,to:{...to,uuid:target?.uuid || null}};}
 test('PC drag: exact empty slots, box/box swaps, inter-box transfers and party order preserve original objects and inputs',()=>{
  const a=mon(7),b=mon(4),c=mon(1),d=mon(25);let party=[a,b],entries=[{box:0,slot:3,pokemon:c},{box:2,slot:29,pokemon:d}];
- let result=storage.planAction(party,entries,move(c,box(0,3),box(7,19)));assert.equal(entries[0].box,0);assert.equal(result.entries[0].box,7);assert.equal(result.entries[0].slot,19);
- result=storage.planAction(result.team,result.entries,move(c,box(7,19),box(2,29),d));assert.equal(result.entries.find(e=>e.pokemon===d).box,7);assert.equal(result.entries.find(e=>e.pokemon===d).slot,19);assert.equal(result.entries.find(e=>e.pokemon===c).slot,29);
+ let result=storage.planAction(party,entries,move(c,box(0,3),box(39,19)));assert.equal(entries[0].box,0);assert.equal(result.entries[0].box,39);assert.equal(result.entries[0].slot,19);
+ result=storage.planAction(result.team,result.entries,move(c,box(39,19),box(2,29),d));assert.equal(result.entries.find(e=>e.pokemon===d).box,39);assert.equal(result.entries.find(e=>e.pokemon===d).slot,19);assert.equal(result.entries.find(e=>e.pokemon===c).slot,29);
  result=storage.planAction(result.team,result.entries,move(a,team(0),team(1),b));assert.deepEqual(result.team,[b,a]);assert.deepEqual(party,[a,b]);
 });
 test('PC drag: deposit to a chosen slot, withdraw to the party, and exchange in either direction never heal or lose held equipment',()=>{
@@ -27,7 +27,7 @@ test('PC drag: full boxes and full parties can exchange; the last able companion
 });
 test('PC drag: stale source/destination, replay, foreign UUIDs and invalid coordinates are rejected without mutation',()=>{
  const a=mon(7),b=mon(4),c=mon(1),party=[a,b],entries=[{box:0,slot:0,pokemon:c}],before=JSON.stringify({party,entries});
- for(const payload of [move(b,team(0),box(0,5)),move(c,box(0,0),team(1)),move(mon(25),box(0,0),team(1),b),move(c,box(-1,0),team(1),b),move(c,box(0,0),box(0,30)),move(c,box(0,0),box(20,0)),move(c,box(0,0),{kind:'team',index:1.5})])assert.throws(()=>storage.planAction(party,entries,payload));
+ for(const payload of [move(b,team(0),box(0,5)),move(c,box(0,0),team(1)),move(mon(25),box(0,0),team(1),b),move(c,box(-1,0),team(1),b),move(c,box(0,0),box(0,30)),move(c,box(0,0),box(40,0)),move(c,box(0,0),{kind:'team',index:1.5})])assert.throws(()=>storage.planAction(party,entries,payload));
  assert.equal(JSON.stringify({party,entries}),before);
  const payload=move(c,box(0,0),box(1,29)),r=storage.planAction(party,entries,payload);assert.throws(()=>storage.planAction(r.team,r.entries,payload),/changé/);
 });

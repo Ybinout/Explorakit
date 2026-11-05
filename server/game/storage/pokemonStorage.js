@@ -1,7 +1,7 @@
 const itemNames = new Map(require('../../../data/game/items.json').items.map(i=>[i.key,i.name]));
 const {getMoveDefinition,getMaxMovePp}=require('../battle/battleResources');
 const {gender:pokemonGender}=require('../items/stoneEvolution');
-const BOX_COUNT = 20;
+const BOX_COUNT = 40;
 const BOX_SIZE = 30;
 const CAPACITY = BOX_COUNT * BOX_SIZE;
 function assertBox(box) {

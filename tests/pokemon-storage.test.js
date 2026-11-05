@@ -40,13 +40,13 @@ test('garde-fous : dernier apte, équipe complète, Pokémon étranger, boîte i
  assert.throws(()=>storage.planAction([a,b],[],{action:'deposit',pokemonUuid:a.uuid,box:0}),/apte/);
  assert.throws(()=>storage.planAction([a],[{box:0,slot:0,pokemon:b}],{action:'swap',pokemonUuid:b.uuid,teamUuid:a.uuid}),/apte/);
  assert.throws(()=>storage.planAction([a,b],[],{action:'release',pokemonUuid:b.uuid,source:'team'}),/Confirme/);
- assert.throws(()=>storage.planAction([a,b],[],{action:'deposit',pokemonUuid:b.uuid,box:20}),/Boîte/);
+ assert.throws(()=>storage.planAction([a,b],[],{action:'deposit',pokemonUuid:b.uuid,box:40}),/Boîte/);
  assert.throws(()=>storage.planAction([a,b],[],{action:'deposit',pokemonUuid:'foreign',box:0}));
  assert.throws(()=>storage.planAction(Array.from({length:6},()=>mon()),[{box:0,slot:0,pokemon:a}],{action:'withdraw',pokemonUuid:a.uuid}),/complète/);
  const plan=storage.planAction([a,b],[],{action:'release',pokemonUuid:b.uuid,source:'team',confirm:true});assert.equal(plan.released,b);assert.equal(plan.team.length,1);
 });
 test('boîtes pleines : pas de débordement ni remplacement silencieux, capture vers la première place libre',()=>{
- const entries=Array.from({length:600},(_,i)=>({box:Math.floor(i/30),slot:i%30}));assert.throws(()=>storage.freeSlot(entries),/PC est plein/);assert.throws(()=>storage.freeSlot(entries,0),/boîte est pleine/);entries.splice(37,1);assert.deepEqual(storage.freeSlot(entries),{box:1,slot:7});
+ const entries=Array.from({length:1200},(_,i)=>({box:Math.floor(i/30),slot:i%30}));assert.throws(()=>storage.freeSlot(entries),/PC est plein/);assert.throws(()=>storage.freeSlot(entries,0),/boîte est pleine/);entries.splice(37,1);assert.deepEqual(storage.freeSlot(entries),{box:1,slot:7});
 });
 for(const mode of ['rift','colosseum'])test(`${mode} : septième capture au PC, checkpoint et échanges sans soin ni XP de réserve`,()=>{
  const p={userId:1,alive:true,run:{mode,phase:'exploration'},currentmap:'centre',x:17*32+16,y:9*32+16,equipe:{pokemons:Array.from({length:6},()=>mon())},items:{pokeball:3},drifts:[],equipped:[],defeated:new Set(),money:0};
