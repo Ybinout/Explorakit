@@ -6,6 +6,8 @@ L’éligibilité lit le meilleur record SQL existant : aucune nouvelle tentativ
 
 Validation : 23 tests de domaine et 47 SQL, seuil 31/32, anciens records 32/33/48/80, achat concurrent/idempotent, fonds insuffisants et rollback. Recette `scripts/validateDarkAccessBrowser.js` authentifiée sur explorakit_test : 8 vues par moteur Chromium/WebKit, PC/mobile clair/nocturne, ancien prix rejeté, PNJ persistant et achat réel à 1 000 000 ₽. Lint/build valides. Rapport `docs/DARK_ACCESS_CYCLE_TWO_2026-11-05.json`. La recette Dark complète existante aligne également ses données de qualification/prix. Aucun taux de loot/K/XP, carte, asset ou règle de combat modifié ; annonce publique conservée.
 
+Publication : client `d86055aa`, source `c0f410fd`, build `0473b9d83d09b32f`, PID3958570. Sauvegarde SQL/sources/index ; aucune migration, schéma 32 tables/28 contraintes/33 reçus vérifié. Meilleurs records, cartes déjà possédées, soldes, Pokémon/PC, noms de boîtes et checkpoints conservés avant/après. 21 bundles HTTPS vérifiés ; aucun redémarrage automatique/avertissement, modes fermés, voisins Knov/API et annonce publique inchangés.
+
 ## PC : 40 boîtes — 5 novembre 2026
 
 `pokemonStorage.BOX_COUNT` passe de 20 à 40 ; les 30 places par boîte portent la capacité à 1 200 Pokémon. Toutes les validations, captures, échanges et inventaires utilisent la constante partagée. Aucun préremplissage, déplacement de Pokémon ou migration SQL : les boîtes vides restent virtuelles et les noms existants gardent leurs index. Les filtres du client utilisent la capacité reçue du serveur ; ne pas réintroduire une limite indépendante à 20.
