@@ -1,0 +1,134 @@
+{
+  "date": "2026-11-05",
+  "authorization": "User explicitly authorized deletion of uploaded sprites/instructions no longer needed",
+  "scope": "Six raw sprite upload locations and three duplicate Gwenn MP3 files; preserve map authoring, provenance and runtime",
+  "status": "completed and verified",
+  "matchedImportedVariants": 3361,
+  "distinctOriginalSourcesVerified": 2988,
+  "packedSpritesVerified": 6722,
+  "packedFiles": 59,
+  "existingRuntimeAliasOverridesRetained": [
+    {
+      "name": "back/10013.png",
+      "retainedAuthoritativeSource": "/home/ubuntu/dev/explorakit/vue-explorakit/src/assets/back/10013.png",
+      "sha256": "13a8941c25d492ebc350bb2ceb9125035bb013a28a181614c47e313bdcd2594c"
+    },
+    {
+      "name": "back/10014.png",
+      "retainedAuthoritativeSource": "/home/ubuntu/dev/explorakit/vue-explorakit/src/assets/back/10014.png",
+      "sha256": "b5f0624d8b86457d4b717a5bff39180c6dfa738cea6e3e511a161ca7af756f1e"
+    },
+    {
+      "name": "back/10015.png",
+      "retainedAuthoritativeSource": "/home/ubuntu/dev/explorakit/vue-explorakit/src/assets/back/10015.png",
+      "sha256": "8ed4c7bed8cab9a5b86f3294adcc8102a36f8226d7073572c2ded328eb70b0aa"
+    },
+    {
+      "name": "back/10017.png",
+      "retainedAuthoritativeSource": "/home/ubuntu/dev/explorakit/vue-explorakit/src/assets/back/10017.png",
+      "sha256": "b222457c511d90ee0094c32f55006aeb9725e8b8404f65b89620cc71a7ee3a32"
+    },
+    {
+      "name": "front/10013.png",
+      "retainedAuthoritativeSource": "/home/ubuntu/dev/explorakit/vue-explorakit/src/assets/dp2/10013.png",
+      "sha256": "8e03470ab427c5c05055bac3c89abc8198e3e67143b83ab726c79b081212a2e5"
+    },
+    {
+      "name": "front/10014.png",
+      "retainedAuthoritativeSource": "/home/ubuntu/dev/explorakit/vue-explorakit/src/assets/dp2/10014.png",
+      "sha256": "b8864dc46b6be9997884f6e1cffd415fc444dce4ea3cfa892dc2d33afe3649a7"
+    },
+    {
+      "name": "front/10015.png",
+      "retainedAuthoritativeSource": "/home/ubuntu/dev/explorakit/vue-explorakit/src/assets/dp2/10015.png",
+      "sha256": "5d4312e39535067e04c3fc8f438833b45278d1ba44c24a87b9a99ff76019ce7d"
+    },
+    {
+      "name": "front/10017.png",
+      "retainedAuthoritativeSource": "/home/ubuntu/dev/explorakit/vue-explorakit/src/assets/dp2/10017.png",
+      "sha256": "5d96c036a43fc6dc12a69da2c16f06c89a92abc45a27cbb8c956a6ea4d974074"
+    }
+  ],
+  "protectedFiles": 12354,
+  "processUsers": [],
+  "pid": "3947570",
+  "webBefore": {
+    "https://riftmon.binout.fr/": {
+      "status": 200,
+      "sha256": "d37002b330b8e648c48242b7dadbfdbd460e7f047f85ec40b96658960067692e"
+    },
+    "https://app.binout.fr/": {
+      "status": 200,
+      "sha256": "9dea3d291b478681bfbd6582557e2b7b7cf99889be081983c0f84d2fd889aeba"
+    },
+    "https://api-test.binout.fr/": {
+      "status": 200,
+      "sha256": "9dea3d291b478681bfbd6582557e2b7b7cf99889be081983c0f84d2fd889aeba"
+    }
+  },
+  "freeBytesBefore": 35779063808,
+  "logicalBytes": 723764428,
+  "allocatedBytes": 734220288,
+  "deletedFiles": 5152,
+  "protectedFilesUnchanged": 12354,
+  "webAfter": {
+    "https://riftmon.binout.fr/": {
+      "status": 200,
+      "sha256": "d37002b330b8e648c48242b7dadbfdbd460e7f047f85ec40b96658960067692e"
+    },
+    "https://app.binout.fr/": {
+      "status": 200,
+      "sha256": "9dea3d291b478681bfbd6582557e2b7b7cf99889be081983c0f84d2fd889aeba"
+    },
+    "https://api-test.binout.fr/": {
+      "status": 200,
+      "sha256": "9dea3d291b478681bfbd6582557e2b7b7cf99889be081983c0f84d2fd889aeba"
+    }
+  },
+  "freeBytesAfter": 36511731712,
+  "pidUnchanged": true,
+  "sourceAndRuntimeUnchanged": true,
+  "databaseAccessed": false,
+  "announcementUnchanged": true,
+  "backupsUntouched": true,
+  "deletionInventory": {
+    "file": "/tmp/riftmon-upload-resource-cleanup-2026-11-05.json",
+    "sha256": "e09b6823a8e46756954da582ec9f12ab8e1571d00215b8443e57144aa5f706f2",
+    "records": 5152
+  },
+  "removedSpriteLocations": [
+    "/home/ubuntu/dev/tout/Sprites_Back_Black_2_White_2",
+    "/home/ubuntu/dev/tout/Sprites_Black_2_White_2",
+    "/home/ubuntu/dev/tout/Sprites_Shiny_Back_Black_2_White_2",
+    "/home/ubuntu/dev/tout/Sprites_Shiny_Black_White",
+    "/home/ubuntu/dev/Sprites_Shiny_Back_Black_2_White_2",
+    "/home/ubuntu/dev/Sprites_Shiny_Black_White"
+  ],
+  "removedDuplicateMusic": [
+    "/home/ubuntu/dev/pourtoi/entrence.mp3",
+    "/home/ubuntu/dev/pourtoi/intro.mp3",
+    "/home/ubuntu/dev/pourtoi/loop.mp3"
+  ],
+  "preserved": [
+    "59 committed asset packs: all 6722 converted images reconstructible",
+    "source maps, JSON, Tiled projects/tilesets, instructions and previews in tout/ile_habitee",
+    "darkcontinen author files and instructions",
+    "sources.json provenance in both root shiny folders",
+    "live compiled assets, server and client source code",
+    "player data, backups and neighboring applications"
+  ],
+  "tests": {
+    "before": {
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0
+    },
+    "after": {
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0
+    },
+    "command": "NODE_ENV=test BATTLE_DELAY_SCALE=0 node --test tests/pokemon-sprite-assets.test.js tests/safari-extension.test.js"
+  },
+  "cleanupScriptSha256": "210597928b84c475ad4a27a83d527ec2dd8dac5abdc2057e32fd09d340ce64c5"
+}

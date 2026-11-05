@@ -1,3 +1,11 @@
+## Nettoyage des sprites fournis — 5 novembre 2026
+
+Suppression autorisée des copies brutes devenues inutiles :PNG des quatre dossiers de sprites sous `tout`,GIF des deux dossiers shiny à la racine et trois MP3 de `pourtoi` identiques aux thèmes de Gwenn.5152 fichiers,723764428 octets logiques et734220288 octets alloués retirés (environ734 Mo). Les deux `sources.json` de provenance sont conservés ;les cartes Safari/Dark, sources Tiled, tilesets, plans, instructions et aperçus restent disponibles. Ne pas nettoyer ces fichiers auteur à partir de ce précédent.
+
+Les59 archives Git restent la source de reconstruction des6722 images converties ;aucun upload brut n’est requis pour un build normal. Les3361 variantes sont vérifiées contre les empreintes des sources avant retrait. Les imports bruts historiques nécessiteront de fournir à nouveau les originaux si l’on souhaite les refaire. Huit alias PNG statiques normaux >649 sont déjà remplacés au build par les copies suivies dans `src/assets/dp2` et `back` :leur rendu existant est conservé, aucune modification graphique pendant ce nettoyage.
+
+12354 fichiers protégés identiques avant/après ;10 tests sprites/Safari réussis avant et après. Aucun lien spécial, montage ou usage de ces uploads par un processus. PID3947570 conservé, zéro redémarrage, aucun accès SQL ;données joueurs, sauvegardes,Knov/API et annonce publique inchangés. Environ36,51 Go disponibles sur le disque principal à la fin du contrôle. Rapport `docs/UPLOADED_SPRITE_CLEANUP_2026-11-05.json`,inventaire détaillé local `/tmp/riftmon-upload-resource-cleanup-2026-11-05.json`. Aucune note de mise à jour destinée aux joueurs.
+
 ## Hotfix interne : amis, Vol et équipements corrompus — 5 novembre 2026
 
 **Aucune annonce aux joueurs** : conserver exactement `data/game/latest_patch.json`, sans entrée dans l’historique de mises à jour du jeu. Le présent suivi est technique. Capitaine Safari déplacé en (24,15), retour sur une case libre (23,15), sans modifier les cartes auteur. Tablettes Dark +3 points :11/18/22 %,28 % en jungle9 ;butin corrompu garanti inchangé. Sprite joueur :échelle1,27 au lieu de1,25 et marge gauche−1 px, effets partagés ;adversaires identiques.
