@@ -1,0 +1,77 @@
+{
+  "date": "2026-11-05",
+  "status": "validated; publication pending",
+  "change": "Player-side battle sprites enlarged by25%, around unchanged ground/horizontal anchor",
+  "scope": "Shared BattleOverlay, all modes; normal/shiny animations and static fallback",
+  "clientCommit": "3e7b05d0f94feaa030819b44d7c5835c36e365fa",
+  "opponentsUnchanged": true,
+  "announcementChanged": false,
+  "announcementSha256": "cd60b53a19feb875c42866614e7155740b61c0796e8a4f8b2cb78581760e4d72",
+  "validation": {
+    "species": [
+      1,
+      94,
+      130,
+      321,
+      648,
+      555
+    ],
+    "viewports": [
+      [
+        1536,
+        900
+      ],
+      [
+        1365,
+        768
+      ],
+      [
+        393,
+        852
+      ],
+      [
+        320,
+        740
+      ],
+      [
+        844,
+        390
+      ]
+    ],
+    "build": "8315afe5bf8f6db1",
+    "lint": "No lint errors",
+    "method": "Real authenticated House battle on explorakit_test; compare previous and new calibration, bounds and attack path using the same loaded images.",
+    "chromium": {
+      "success": true,
+      "checks": [
+        "30-sprite-shape-and-viewport-configurations",
+        "player-visible-size-plus-25-percent",
+        "feet-and-horizontal-anchor-preserved",
+        "no-player-edge-cropping",
+        "opponent-geometry-unchanged",
+        "attack-origin-follows-new-center",
+        "owned-team-unchanged"
+      ],
+      "buildIndexSha256": "b1617192edb28e0e51c25be3fcb53a0419aa724ff25e6b460899df9a58745653",
+      "configurations": 30,
+      "minimumWidthScale": 1.25,
+      "maximumWidthScale": 1.2500000000000002
+    },
+    "webkit": {
+      "success": true,
+      "checks": [
+        "30-sprite-shape-and-viewport-configurations",
+        "player-visible-size-plus-25-percent",
+        "feet-and-horizontal-anchor-preserved",
+        "no-player-edge-cropping",
+        "opponent-geometry-unchanged",
+        "attack-origin-follows-new-center",
+        "owned-team-unchanged"
+      ],
+      "buildIndexSha256": "b1617192edb28e0e51c25be3fcb53a0419aa724ff25e6b460899df9a58745653",
+      "configurations": 30,
+      "minimumWidthScale": 1.25,
+      "maximumWidthScale": 1.2500000000000002
+    }
+  }
+}

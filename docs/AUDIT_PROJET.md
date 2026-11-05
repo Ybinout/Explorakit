@@ -1,3 +1,9 @@
+## Taille des sprites de notre équipe en combat — 5 novembre 2026
+
+Le dénominateur de calibration du côté joueur est divisé par1,25 dans BattleOverlay :agrandissement25 % des pixels visibles et des métriques servant aux impacts/effets. Le centre horizontal et les pieds restent ancrés aux mêmes coordonnées ;les ennemis, y compris corrompus, gardent leur échelle. Cette logique partagée vaut pour les trois modes, les shinies et les images de repli ;aucun asset ni état de Pokémon modifié.
+
+Lint/build isolé valides ;comparaison authentifiée de l’ancien/nouveau calibrage dans Chromium et WebKit sur explorakit_test :six silhouettes (Bulbizarre, Ectoplasma, Léviator, Wailord, Meloetta, Darumacho), cinq formats PC/mobile/paysage, soit60 configurations. Échelle1,25 exacte, pieds/centre conservés, aucun débordement, adversaire inchangé et départ des attaques raccordé aux nouvelles bornes. Rapport `docs/PLAYER_BATTLE_SPRITE_SIZE_2026-11-05.json`. À la demande explicite du joueur, **aucune annonce de patch** :data/game/latest_patch.json doit rester identique.
+
 ## Nouvelles animations shiny GIF — 5 novembre 2026
 
 Les deux dossiers GIF shiny fournis à la racine remplacent les ressources shiny de face/dos du lot Safari :1692 variantes, genres et cinq formes temporaires conservés. Conversion WebP sans perte, PNG pour les listes et le mouvement réduit.148296 images sources comparées sur toute leur chronologie (RGBA visible et alpha), même quand WebP fusionne des images identiques ;au moins quatre images distinctes par variante. Les3338 fichiers normaux sont identiques à la publication précédente.
@@ -6505,6 +6511,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **2026-11-05 — Taille en combat côté joueur** :sprites+25 %,ancrage/effets cohérents et adversaire inchangé ;60 configurations Chromium/WebKit. Pas d’annonce de patch à la demande du joueur. Rapport `PLAYER_BATTLE_SPRITE_SIZE_2026-11-05.json`.
 
 - **2026-11-05 — GIF shiny remplacés** :1692 variantes depuis les nouveaux dossiers racine,148296 images sources vérifiées,3338 fichiers normaux identiques ;cache shiny dédié et assets sans perte. Rapport `SHINY_GIF_REPLACEMENT_2026-11-05.json`.
 
