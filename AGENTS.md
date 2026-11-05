@@ -1,3 +1,11 @@
+## Commandes tactiles facultatives — 5 novembre 2026
+
+Les Options proposent « Afficher les commandes tactiles », activé par défaut pour les préférences anciennes. `gamePreferences.touchControlsEnabled` est normalisé et conservé dans le stockage local de l’appareil. `mobileControlsVisible` contrôle uniquement le dock (croix, A et Y) ; garder `showMobileControls` pour la caméra, le budget de rendu, les combats et les menus mobiles. En portrait la carte reprend les160 px libérés ;en paysage supprimer également la colonne réservée au dock. Les dialogues et le bouton de salle ne réservent plus cet espace. Le clavier, la manette, les gestes sur la carte et les menus restent utilisables. Chaque changement libère les touches/pointeurs en cours et réajuste le canvas après le DOM ;pas de timer, RPC ou migration ajoutés.
+
+Validation :12 tests existants de thème/manette/tactile/annonce, lint/build isolé et neuf contrôles authentifiés par moteur Chromium/WebKit sur `explorakit_test` :anciens réglages, A/Y, portrait/paysage, reconnexion, déplacements clavier et route d’événements manette, dialogue, réactivation et libération d’une touche maintenue, vrai contexte PC. Pas de téléphone ou manette physique revendiqué. Recette `test:touch-controls-browser`, rapport `docs/OPTIONAL_TOUCH_CONTROLS_2026-11-05.json`. L’annonce publique décrit uniquement cette option.
+
+Publication :client `dc0304a2` / build `54319081460e012d`,serveur PID3902542 pour charger l’annonce. Sauvegardes SQL/sources/index, schéma32 tables/28 contraintes/32 reçus inchangé et vérifié ;21 bundles HTTPS, aucun duel Maison actif, checkpoint et tentative de Tour conservés, modes fermés et voisins Knov/API vérifiés.
+
 ## Point rouge des joueurs en combat — 5 novembre 2026
 
 `battlePresence.observeBattlePresence` observe le booléen `inbattle` des objets joueurs Aventure partagés, sans changer les contrôleurs de combat. Propriété toujours énumérable/sérialisable ;état restauré initial conservé. Chaque transition émet `playerBattleStatus` avec seulement `id/currentmap/inbattle` dans le `worldRoom` serveur actuel (étage privé de la Tour compris). Aucun paquet identique, polling, timer, requête SQL ou donnée d’équipe/adversaire. Un objet joueur retiré ne peut plus émettre. Ne pas remplacer un objet joueur sans rebrancher cet observateur.

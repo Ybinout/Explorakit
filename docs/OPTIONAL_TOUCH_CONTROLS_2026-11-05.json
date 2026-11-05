@@ -1,0 +1,125 @@
+{
+  "date": "2026-11-05",
+  "feature": "Optional mobile controller dock",
+  "clientCommit": "dc0304a2d6e45b74cf196234874d548e55184087",
+  "clientBuild": "54319081460e012d",
+  "scope": {
+    "preference": "touchControlsEnabled",
+    "default": true,
+    "persistence": "existing local device preferences",
+    "mobileCameraAndBattleLayoutPreserved": true,
+    "hidden": [
+      "direction pad",
+      "A",
+      "Y",
+      "dock background",
+      "reserved portrait height and landscape column"
+    ],
+    "stillAvailable": [
+      "keyboard",
+      "controller event route",
+      "map swipe gestures",
+      "touch menus"
+    ],
+    "schemaChanged": false
+  },
+  "tests": {
+    "existingUnitTests": 12,
+    "lint": "pass",
+    "isolatedBuild": "pass",
+    "browsers": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "checks": [
+          "legacy-settings-default-to-visible-pad-a-y",
+          "portrait-controls-hidden-and-map-gets-dock-space",
+          "landscape-no-empty-controller-column",
+          "saved-choice-survives-reconnect",
+          "keyboard-moves-authoritative-player-while-hud-hidden",
+          "gamepad-command-route-still-moves-player",
+          "dialogue-does-not-reserve-hidden-dock-space",
+          "re-enable-and-hide-release-held-inputs",
+          "desktop-layout-and-options-remain-usable"
+        ],
+        "errors": [],
+        "buildIndexSha256": "23eda9376bb418cb6a2c3de731b18a237d2ec6d227908d09524a9b4bfe99d219"
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "checks": [
+          "legacy-settings-default-to-visible-pad-a-y",
+          "portrait-controls-hidden-and-map-gets-dock-space",
+          "landscape-no-empty-controller-column",
+          "saved-choice-survives-reconnect",
+          "keyboard-moves-authoritative-player-while-hud-hidden",
+          "gamepad-command-route-still-moves-player",
+          "dialogue-does-not-reserve-hidden-dock-space",
+          "re-enable-and-hide-release-held-inputs",
+          "desktop-layout-and-options-remain-usable"
+        ],
+        "errors": [],
+        "buildIndexSha256": "23eda9376bb418cb6a2c3de731b18a237d2ec6d227908d09524a9b4bfe99d219"
+      }
+    },
+    "physicalDevicesTested": false,
+    "physicalControllersTested": false
+  },
+  "runtimeSourceSha256": {
+    "data/game/latest_patch.json": "11006e5f1058c809f6b14c41eab3c985e0a82d09f061cbd5e99da2215de2993a"
+  },
+  "deployment": {
+    "publishedAt": "2026-11-05T05:06:57.716Z",
+    "restartedAt": "2026-11-05T05:06:55.775Z",
+    "backup": "/home/ubuntu/dev/backups/riftmon-touch-controls-2026-11-05T05-06-54-068Z",
+    "sourceBaseline": "6a1f0dccdda9848632f3bfec3f247834ffd13e28",
+    "sourceHashes": {
+      "data/game/latest_patch.json": "11006e5f1058c809f6b14c41eab3c985e0a82d09f061cbd5e99da2215de2993a"
+    },
+    "clientCommit": "dc0304a2d6e45b74cf196234874d548e55184087",
+    "clientBuild": "54319081460e012d",
+    "beforePid": "3894970",
+    "afterPid": "3902542",
+    "serviceActive": true,
+    "automaticRestarts": 0,
+    "warningsSinceRestart": 0,
+    "schemaChanged": false,
+    "migrationApplied": null,
+    "schemaVerified": true,
+    "schemaTables": 32,
+    "schemaConstraints": 28,
+    "migrationReceipts": 32,
+    "activeClubDuelsBefore": 0,
+    "namespaceClosed": true,
+    "checkpointUnchanged": true,
+    "activeRuns": 0,
+    "activeTournamentAttemptsBefore": 1,
+    "rouletteBefore": [],
+    "neighborsUnchanged": true,
+    "oldAssetsRetained": true,
+    "publicAssets": [
+      "js/234.9471380f.js",
+      "js/393.0fd15895.js",
+      "js/674.050af613.js",
+      "js/689.ea67c21b.js",
+      "js/737.e2c30081.js",
+      "js/account.6f096228.js",
+      "js/app.476bd418.js",
+      "js/chunk-vendors.0f4c51f9.js",
+      "js/colosseum.e15fe230.js",
+      "js/community.ef51702b.js",
+      "js/drift.e4ddfe6a.js",
+      "js/game.823e0d01.js",
+      "js/test-view.b777ec44.js",
+      "css/234.f19098c2.css",
+      "css/account.e4a31390.css",
+      "css/app.3e989a3e.css",
+      "css/colosseum.6e51cf36.css",
+      "css/community.b174a39e.css",
+      "css/drift.57f62eee.css",
+      "css/game.119af552.css",
+      "css/test-view.7568246d.css"
+    ]
+  }
+}

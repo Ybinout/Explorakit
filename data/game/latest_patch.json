@@ -1,16 +1,16 @@
 {
-  "version": "2026-11-05-player-battle-point",
+  "version": "2026-11-05-optional-touch-controls",
   "date": "2026-11-05",
   "fr": {
-    "title": "Dresseurs en combat",
+    "title": "Commandes tactiles au choix",
     "items": [
-      "Un petit point rouge apparaît au-dessus des joueurs en combat sur la carte."
+      "Dans les Options, tu peux masquer les commandes de déplacement et les boutons A / Y pour libérer l’écran. Ton choix est conservé sur cet appareil."
     ]
   },
   "en": {
-    "title": "Trainers in battle",
+    "title": "Optional touch controls",
     "items": [
-      "A small red dot appears above players who are battling on the map."
+      "Hide the direction pad and A / Y buttons in Options to free up the screen. Your choice is saved on this device."
     ]
   }
 }
