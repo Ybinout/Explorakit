@@ -43,7 +43,7 @@ function sleep(ms) {
 
 function getPokemonDisplayName(pokemon) {
     if (!pokemon) return 'Pokemon';
-    return pokemon.truename || pokemon.name || 'Pokemon';
+    return pokemon.__battle?.illusion?.name || pokemon.truename || pokemon.name || 'Pokemon';
 }
 
 function getMoveName(pokemon, moveIndex) {
@@ -71,10 +71,11 @@ async function narrateMessages(player, io, messages = [], delayMs = TEXT_DELAY_M
 }
 
 function displayIntroAnimation(player, currentEnemy, io, battleState) {
+    for(const p of[player.equipe.pokemons[0],currentEnemy])require('../abilities/abilityForms').prepareIllusion(p);
     // Forecast is a weather form, not an entry hazard: reveal the correct sprite
     // from the first send-out frame, before narrating entry damage/abilities.
     require('../abilities/abilityForms').syncWeatherForms(player.equipe.pokemons[0],currentEnemy,battleState);
-    io.to(player.id).emit('introAnimation', { player, wildPokemon: currentEnemy, genders:presentation.genders(player.equipe.pokemons[0],currentEnemy), opponentParty:partyIndicator(battleState.trainerTeam?.pokemons), opponentPartyStates:partyConditionIndicator(battleState.trainerTeam?.pokemons), battleType:'trainer', usableMoveIndexes:getUsableMoveIndexes(player.equipe.pokemons[0],battleState), moveTypes:battleMoveTypes(player.equipe.pokemons[0],currentEnemy,battleState), effortYield:effortYield(currentEnemy), transitions:trainerTactics.decorateTransitions(presentation.transitions(player,player.equipe.pokemons[0],currentEnemy,{initial:true}),battleState.trainerTeam,battleState.trainerMemory) });
+    io.to(player.id).emit('introAnimation', { player, wildPokemon: presentation.opponentPokemon(currentEnemy), genders:presentation.genders(player.equipe.pokemons[0],currentEnemy), opponentParty:partyIndicator(battleState.trainerTeam?.pokemons), opponentPartyStates:partyConditionIndicator(battleState.trainerTeam?.pokemons), battleType:'trainer', usableMoveIndexes:getUsableMoveIndexes(player.equipe.pokemons[0],battleState), moveTypes:battleMoveTypes(player.equipe.pokemons[0],currentEnemy,battleState), effortYield:effortYield(currentEnemy), transitions:trainerTactics.decorateTransitions(presentation.transitions(player,player.equipe.pokemons[0],currentEnemy,{initial:true}),battleState.trainerTeam,battleState.trainerMemory) });
 }
 
 function displayMoveAnimation(player, attacker, io, details) {

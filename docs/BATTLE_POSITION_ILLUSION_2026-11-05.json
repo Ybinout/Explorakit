@@ -1,0 +1,93 @@
+{
+  "date": "2026-11-05",
+  "scope": "Leftward player sprite positioning and opposing Illusion ability presentation",
+  "build": "b84715cbb20c2705",
+  "clientCommit": "206407b8c06c27c904ce71ee1a992ef768d55360",
+  "announcementChanged": false,
+  "announcementSha256": "cd60b53a19feb875c42866614e7155740b61c0796e8a4f8b2cb78581760e4d72",
+  "position": {
+    "desktopDeltaXPx": -24,
+    "mobileDeltaXPx": -8,
+    "sizeUnchanged": true,
+    "feetHeightUnchanged": true,
+    "attackAndFeedbackAnchorsAligned": true
+  },
+  "illusion": {
+    "apparentAbilityAndTypesCopiedForOpposingViewer": true,
+    "ownerRetainsRealAbility": true,
+    "actualCombatTypesAndAbilityUnchanged": true,
+    "appearancePrimedBeforeFirstSnapshot": true,
+    "brokenDisguiseNotRecreatedByStateRefresh": true,
+    "publicNarrationUsesDisguisedName": true,
+    "spectatorOwnAndOpponentSidesProtected": true,
+    "reconnectUsesSameProjection": true,
+    "legacyDisguiseWithNoApparentAbilityHidesTheField": true,
+    "noChangeToAIKnowledgePolicy": true
+  },
+  "validation": {
+    "lint": "passed",
+    "build": "passed",
+    "JavaScriptSyntax": "passed",
+    "unit": {
+      "tests": 39,
+      "passed": 39,
+      "failed": 0,
+      "skipped": 0
+    },
+    "SQL": {
+      "tests": 34,
+      "passed": 34,
+      "failed": 0,
+      "skipped": 0,
+      "database": "explorakit_test",
+      "coverage": [
+        "Maison rules, funds, PC selections and cooperative control",
+        "Real socket reconnect and escrow",
+        "Dark durable resume"
+      ]
+    },
+    "browsers": {
+      "chromium": {
+        "configurations": 42,
+        "checks": [
+          "Zorua-Zoroark-opposing-appearance-ability-types-and-owner-real-ability",
+          "real-hit-breaks-disguise-without-changing-stored-ability",
+          "42-sprite-shape-and-viewport-configurations",
+          "desktop-player-shifted-left-24px",
+          "mobile-player-shifted-left-8px",
+          "size-and-feet-preserved",
+          "no-desktop-player-edge-cropping",
+          "opponent-geometry-unchanged",
+          "attack-origin-follows-new-center",
+          "owned-team-unchanged"
+        ],
+        "errors": [],
+        "buildIndexSha256": "6646dd084acb866d752e182aade694f8738021b4c08c98ff98969721e5cf6d54"
+      },
+      "webkit": {
+        "configurations": 42,
+        "checks": [
+          "Zorua-Zoroark-opposing-appearance-ability-types-and-owner-real-ability",
+          "real-hit-breaks-disguise-without-changing-stored-ability",
+          "42-sprite-shape-and-viewport-configurations",
+          "desktop-player-shifted-left-24px",
+          "mobile-player-shifted-left-8px",
+          "size-and-feet-preserved",
+          "no-desktop-player-edge-cropping",
+          "opponent-geometry-unchanged",
+          "attack-origin-follows-new-center",
+          "owned-team-unchanged"
+        ],
+        "errors": [],
+        "buildIndexSha256": "6646dd084acb866d752e182aade694f8738021b4c08c98ff98969721e5cf6d54"
+      }
+    },
+    "physicalDevicesTested": false
+  },
+  "reproduction": {
+    "unit": "NODE_ENV=test BATTLE_DELAY_SCALE=0 node --test tests/illusion-visibility.test.js tests/ability-reactions.test.js tests/battle-presentation.test.js",
+    "SQL": "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 RUN_MYSQL_TESTS=1 node --env-file=.env --test --test-concurrency=1 tests/whitepeak-house-network-mysql.test.js tests/whitepeak-house-mysql.test.js tests/whitepeak-mysql.test.js tests/dark-battle-resume-mysql.test.js",
+    "browser": "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 RELEASE_DIST_DIR=/tmp/riftmon-position-illusion-dist PRESENTATION_BROWSER=chromium node --env-file=.env scripts/validatePositionIllusionBrowser.js (then webkit sequentially)"
+  },
+  "deployment": null
+}

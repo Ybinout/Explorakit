@@ -25,6 +25,14 @@ function setForm(p,key,messages=[]) {
     data.formTypes=key?(FORMS[key]?.types||forms[key]?.types):null;
     if(key)messages.push(`${p.truename||p.name} : ${FORMS[key].label}.`);
 }
+// Prime appearance before the first entry snapshot; an explicit null means
+// the disguise has broken and must never be recreated during this entry.
+function prepareIllusion(p) {
+    if(!p||p.currentHp<=0||getAbilityName(p)!=='Illusion'||Object.hasOwn(p.__battle||{},'illusion'))return;
+    const last=p.__abilityTeam?.filter(other=>other.currentHp>0).at(-1);
+    const state=p.__battle||(p.__battle={});
+    state.illusion=last&&last!==p?{id:last.data.id,name:last.name||last.truename,shiny:last.shiny===true,gender:last.gender,passiveAbility:last.passiveAbility||null,types:[...(last.data?.type||[last.type1,last.type2].filter(Boolean))]}:null;
+}
 function sync(p,phase,messages=[],move=null,battleState=null,opponent=null) {
     if(!p || p.currentHp<=0)return;
     const ability=getAbilityName(p),id=p.data?.id,data=p.__battle||(p.__battle={}),mem=memory(p),ratio=p.currentHp/p.maxHp;
@@ -61,10 +69,7 @@ function sync(p,phase,messages=[],move=null,battleState=null,opponent=null) {
         if(mem.construct)key='Zygarde-Complete';
     }
     if(phase==='entry' && mem.disguiseBroken && ability==='Disguise')data.disguiseBroken=true;
-    if(phase==='entry' && ability==='Illusion') {
-        const last=p.__abilityTeam?.filter(other=>other.currentHp>0).at(-1);
-        data.illusion=last && last!==p?{id:last.data.id,name:last.name||last.truename,shiny:last.shiny===true,gender:last.gender}:null;
-    }
+    if(phase==='entry' && ability==='Illusion'){delete data.illusion;prepareIllusion(p);}
     if(ability!=='Illusion')data.illusion=null;
     if (forecast && data.abilityForm!==key) {
         data.tempTypes=[];
@@ -114,4 +119,4 @@ function clear(p) {
 function attachTeam(team) {
     for(const p of team||[])Object.defineProperty(p,'__abilityTeam',{value:team,writable:true,configurable:true,enumerable:false});
 }
-module.exports={ABILITIES,FORMS,sync,syncWeatherForms,stat,afterMove,intercept,clear,attachTeam};
+module.exports={ABILITIES,FORMS,prepareIllusion,sync,syncWeatherForms,stat,afterMove,intercept,clear,attachTeam};

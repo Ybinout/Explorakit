@@ -105,7 +105,7 @@ function createClub(io,{repository=store,now=Date.now,randomNumber=()=>randomInt
  function spectatorEvent(r,event,payload){
   if(!PUBLIC_EVENTS.has(event))return;
   if(event==='introAnimation'){
-   payload={...payload,usableMoveIndexes:[],player:{id:payload.player.id,username:payload.player.username,equipe:{pokemons:[payload.player.equipe.pokemons[0]]}},enemyPlayer:{id:payload.enemyPlayer?.id}};
+   payload={...payload,usableMoveIndexes:[],player:{id:payload.player.id,username:payload.player.username,equipe:{pokemons:[require('../game/battle/presentationState').opponentPokemon(payload.player.equipe.pokemons[0])]}},enemyPlayer:{id:payload.enemyPlayer?.id}};
    r.intro=payload;
   }
   if(event==='battleFieldState')r.field=payload;

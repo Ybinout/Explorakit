@@ -21,7 +21,7 @@ const REACTION_ABILITIES = Object.freeze([
     'Arena Trap','Magnet Pull','Shadow Tag','Run Away','Pickup'
 ]);
 const alive = p => Number(p?.currentHp) > 0;
-const label = p => p.truename || p.name || 'Pokémon';
+const label = p => p.__battle?.illusion?.name || p.truename || p.name || 'Pokémon';
 function contact(attacker, move) { return Boolean(getMoveFlags(move).contact && !hasAbility(attacker,'Long Reach')); }
 function announce(messages, p, ability) { messages.push(`${label(p)} active ${ability}.`); }
 function indirect(p, amount, h, messages, ability) {

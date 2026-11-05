@@ -76,7 +76,7 @@ function clamp(value, min, max) {
 
 function getPokemonDisplayName(pokemon) {
     if (!pokemon) return 'Pokemon';
-    return pokemon.truename || pokemon.name || 'Pokemon';
+    return pokemon.__battle?.illusion?.name || pokemon.truename || pokemon.name || 'Pokemon';
 }
 
 function getStatusLabel(status) {

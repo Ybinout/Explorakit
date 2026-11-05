@@ -67,7 +67,7 @@ function getRandomNumber(pokemon,battleState=null,opponent=null,ownSide=battleSt
 
 function getPokemonDisplayName(pokemon) {
     if (!pokemon) return 'Pokemon';
-    return pokemon.truename || pokemon.name || 'Pokemon';
+    return pokemon.__battle?.illusion?.name || pokemon.truename || pokemon.name || 'Pokemon';
 }
 
 function getMoveName(pokemon, moveIndex) {
@@ -86,7 +86,8 @@ async function narrate(player, io, message, delayMs = TEXT_DELAY_MS) {
 }
 
 function displayIntroAnimation(player, wildPokemon, io, battleState) {
-    io.to(player.id).emit('introAnimation', { player, wildPokemon, battleType:'wild', genders:presentation.genders(player.equipe.pokemons[0],wildPokemon), usableMoveIndexes:getUsableMoveIndexes(player.equipe.pokemons[0],battleState), capturePolicy:battleState?.escapeForbidden?{darkContinent:true}:captureAssessment(battleState?.captureProgress,wildPokemon?.level), moveTypes:battleMoveTypes(player.equipe.pokemons[0],wildPokemon,battleState), effortYield:effortYield(wildPokemon), transitions:presentation.transitions(player,player.equipe.pokemons[0],wildPokemon) });
+    for(const p of[player.equipe.pokemons[0],wildPokemon])require('../abilities/abilityForms').prepareIllusion(p);
+    io.to(player.id).emit('introAnimation', { player, wildPokemon:presentation.opponentPokemon(wildPokemon), battleType:'wild', genders:presentation.genders(player.equipe.pokemons[0],wildPokemon), usableMoveIndexes:getUsableMoveIndexes(player.equipe.pokemons[0],battleState), capturePolicy:battleState?.escapeForbidden?{darkContinent:true}:captureAssessment(battleState?.captureProgress,wildPokemon?.level), moveTypes:battleMoveTypes(player.equipe.pokemons[0],wildPokemon,battleState), effortYield:effortYield(wildPokemon), transitions:presentation.transitions(player,player.equipe.pokemons[0],wildPokemon) });
 }
 
 function displayMoveAnimation(player, attacker, io, details) {

@@ -46,7 +46,7 @@ function getTrainerName(player) {
 
 function getPokemonDisplayName(pokemon) {
     if (!pokemon) return 'Pokemon';
-    return pokemon.truename || pokemon.name || 'Pokemon';
+    return pokemon.__battle?.illusion?.name || pokemon.truename || pokemon.name || 'Pokemon';
 }
 
 function getRandomMoveIndex(pokemon) {
@@ -86,6 +86,7 @@ async function narrateToBoth(io, playerA, playerB, message, delayMs = TEXT_DELAY
 
 function emitBattleStateForBoth(io, playerA, playerB, battleState) {
     if (!playerA || !playerB) return;
+    for(const p of[playerA.equipe.pokemons[0],playerB.equipe.pokemons[0]])require('../abilities/abilityForms').prepareIllusion(p);
 
     io.to(playerA.id).emit('introAnimation', {
         usableMoveIndexes:getUsableMoveIndexes(playerA.equipe.pokemons[0],battleState),
@@ -93,7 +94,7 @@ function emitBattleStateForBoth(io, playerA, playerB, battleState) {
         player: playerA,
         genders:presentation.genders(playerA.equipe.pokemons[0],playerB.equipe.pokemons[0]),
         transitions:presentation.transitions(playerA,playerA.equipe.pokemons[0],playerB.equipe.pokemons[0]),
-        wildPokemon: playerB?.equipe?.pokemons?.[0] || null,
+        wildPokemon: presentation.opponentPokemon(playerB?.equipe?.pokemons?.[0]),
         opponentParty: require('./partyIndicator').partyIndicator(playerB.equipe?.pokemons),
         battleType: 'pvp',
         enemyPlayer: {
@@ -108,7 +109,7 @@ function emitBattleStateForBoth(io, playerA, playerB, battleState) {
         player: playerB,
         genders:presentation.genders(playerB.equipe.pokemons[0],playerA.equipe.pokemons[0]),
         transitions:presentation.transitions(playerB,playerB.equipe.pokemons[0],playerA.equipe.pokemons[0]),
-        wildPokemon: playerA?.equipe?.pokemons?.[0] || null,
+        wildPokemon: presentation.opponentPokemon(playerA?.equipe?.pokemons?.[0]),
         opponentParty: require('./partyIndicator').partyIndicator(playerA.equipe?.pokemons),
         battleType: 'pvp',
         enemyPlayer: {

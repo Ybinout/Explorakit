@@ -1,3 +1,11 @@
+## Ancrage à gauche et Illusion côté adverse — 5 novembre 2026
+
+L’ancre du Pokémon joueur passe de marge−1 à−25 px sur PC et−9 px en mobile :décalage réel−24/−8 px,tailles et hauteur des pieds conservées. Départs/impacts des effets suivent le même rectangle ;ne pas déplacer seulement l’image avec un transform. Le bonus PC+20 % précédent reste actif.
+
+Illusion conserve dans son apparence le talent et les types du partenaire imité. `prepareIllusion` prépare silencieusement cette apparence avant le premier snapshot, sans réactiver une illusion explicitement brisée (`illusion:null`). La projection adverse dans `presentationState.opponentPokemon` affiche ces informations apparentes et cache le vrai talent ;elle ne modifie ni le modèle détenu ni ses effets. Les anciens checkpoints sans ces métadonnées cachent le champ plutôt que de révéler Illusion. Le propriétaire/partenaire garde son talent réel. Les DTO wild/trainer/PvP/Drift et les deux côtés spectateurs Maison utilisent cette projection ;noms de narration/transitions et genre apparent suivent le déguisement. La politique de connaissance de l’IA reste celle déjà autorisée.
+
+`BattleTraits` garde un filtre défensif côté adverse, y compris avec un ancien serveur ;aucun faux effet de talent n’est exécuté. Un test vérifie qu’un Zoroark paraissant avoir Lévitation prend bien des dégâts Sol.39 tests de domaine,34 SQL,84 configurations Chromium/WebKit avec vrais combats Maison sur explorakit_test :Zorua/Zoroark,talent propriétaire/adversaire,types apparents,rupture par vrai coup,reconnexion,position et conservation SQL de l’équipe. Lint/build/syntaxe valides. Rapport `docs/BATTLE_POSITION_ILLUSION_2026-11-05.json`,recettes `tests/illusion-visibility.test.js` et `scripts/validatePositionIllusionBrowser.js`. Aucun téléphone physique revendiqué ;modes fermés conservés. Aucun changement d’assets,de K,de gains ni de schéma SQL ;aucune annonce de patch publique.
+
 ## Sprite joueur en combat : +20 % sur PC — 5 novembre 2026
 
 La règle CSS `.game-root:not(.is-mobile) .battle-sprite-anchor.battle-position-player` multiplie largeur/hauteur de l’ancre par1,2. Le calibrage alpha1,27, le centre horizontal et les pieds restent inchangés ;les géométries partagées des effets lisent naturellement la nouvelle largeur. Aucun transform additionnel ni calcul par frame. La classe responsive réelle sépare PC et mobile, indépendamment du masquage du dock tactile ;ne pas agrandir les adversaires ou les assets.
@@ -6544,6 +6552,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **2026-11-05 — Position/Illusion** :sprite joueur−24 px PC/−8 px mobile,effets alignés ;talent/types apparents côté adverse,modèle réel préservé,protection des spectateurs.39 tests,34 SQL,84 configurations navigateur,lint/build. Rapport `BATTLE_POSITION_ILLUSION_2026-11-05.json`. Aucune annonce publique.
 
 - **2026-11-05 — Sprite en combat PC+20 %** :ancre du seul joueur agrandie en CSS,mobile/adversaires identiques,effets raccordés ;84 configurations Chromium/WebKit,lint/build. Rapport `DESKTOP_PLAYER_SPRITE_SIZE_2026-11-05.json`. Aucune annonce publique.
 

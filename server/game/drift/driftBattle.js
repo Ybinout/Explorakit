@@ -70,7 +70,7 @@ class DriftBattle {
         return { turn: this.round, log: [...this.publicLog], players: [this.a, this.b].map((p, index) => {
             const pokemon = this.active(index);
             return { id: p.userId, username: p.username, pokemon: pokemon ? {
-                pokemonId: pokemon.data.id, name: pokemon.truename || pokemon.name || 'Pokémon',
+                pokemonId: pokemon.__battle?.illusion?.id || pokemon.data.id, name: pokemon.__battle?.illusion?.name || pokemon.truename || pokemon.name || 'Pokémon',
                 level: pokemon.level, currentHp: pokemon.currentHp, maxHp: pokemon.maxHp, status: pokemon.status
             } : null };
         }) };
@@ -83,6 +83,7 @@ class DriftBattle {
     }
     musicKind() { if(this.rules?.musicKind) return this.rules.musicKind; return this.a.run?.mode==='colosseum' && this.npcKey?.startsWith('colosseum_') ? 'colosseum' : this.type; }
     sync() {
+        for(const p of[this.active(0),this.active(1)])require('../abilities/abilityForms').prepareIllusion(p);
         require('../abilities/abilityForms').syncWeatherForms(this.active(0),this.active(1),this.state);
         for (const [index,p] of [this.a,this.b].entries()) if (!p.npc) {
             const transitions = presentation.transitions(p,this.active(index),this.active(1-index),{initial:this.type!=='wild'});
@@ -91,7 +92,7 @@ class DriftBattle {
             const opponentRoster = this.originalTeams?.get(opponent)
                 || (ownInitial && this.originals ? this.originals.filter(pokemon=>!ownInitial.includes(pokemon)) : opponent.equipe.pokemons);
             this.emit(p, 'battleFieldState', serializeFieldState(this.state,index===0?'player':'enemy'));
-            this.emit(p, 'introAnimation', { genders:presentation.genders(this.active(index),this.active(1-index)), ...(this.rules.darkAdventure?{capturePolicy:{darkContinent:true}}:{}), partyLimit:this.rules.partyLimit===12?12:6,opponentParty:this.type==='wild'?null:partyIndicator(opponentRoster,this.rules.partyLimit), opponentPartyStates:this.type!=='wild'&&opponent.npc?partyConditionIndicator(opponentRoster):null, moveTypes:engine.battleMoveTypes(this.active(index),this.active(1-index),this.state), effortYield:this.type==='pvp'?null:effortYield(this.active(1-index)), musicKind:this.musicKind(), transitions:index===0&&this.b.npc?trainerTactics.decorateTransitions(transitions,this.b.equipe,this.aiMemory):transitions, player: { id: p.socketId, userId: p.userId, equipe: p.equipe }, wildPokemon: this.active(1-index) || null, battleType: this.type === 'arena' ? 'trainer' : this.type, usableMoveIndexes: getUsableMoveIndexes(this.active(index), this.state) });
+            this.emit(p, 'introAnimation', { genders:presentation.genders(this.active(index),this.active(1-index)), ...(this.rules.darkAdventure?{capturePolicy:{darkContinent:true}}:{}), partyLimit:this.rules.partyLimit===12?12:6,opponentParty:this.type==='wild'?null:partyIndicator(opponentRoster,this.rules.partyLimit), opponentPartyStates:this.type!=='wild'&&opponent.npc?partyConditionIndicator(opponentRoster):null, moveTypes:engine.battleMoveTypes(this.active(index),this.active(1-index),this.state), effortYield:this.type==='pvp'?null:effortYield(this.active(1-index)), musicKind:this.musicKind(), transitions:index===0&&this.b.npc?trainerTactics.decorateTransitions(transitions,this.b.equipe,this.aiMemory):transitions, player: { id: p.socketId, userId: p.userId, equipe: p.equipe }, wildPokemon: presentation.opponentPokemon(this.active(1-index)), battleType: this.type === 'arena' ? 'trainer' : this.type, usableMoveIndexes: getUsableMoveIndexes(this.active(index), this.state) });
             if(this.rules?.report !== false) this.emit(p, 'bagUpdated', { items: economy.bag(p) });
         }
         this.onUpdate?.(this);
