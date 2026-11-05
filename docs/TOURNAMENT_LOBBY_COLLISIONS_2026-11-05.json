@@ -1,0 +1,225 @@
+{
+  "date": "2026-11-05",
+  "change": "Align tournament lobby collision with south wall and lower flower-pot bases",
+  "sourceMap": "data/maps/super_tournament_lobby.json",
+  "changedCollisionTiles": [
+    [
+      2,
+      14
+    ],
+    [
+      25,
+      14
+    ],
+    [
+      2,
+      15
+    ],
+    [
+      25,
+      15
+    ],
+    [
+      3,
+      16
+    ],
+    [
+      4,
+      16
+    ],
+    [
+      5,
+      16
+    ],
+    [
+      6,
+      16
+    ],
+    [
+      7,
+      16
+    ],
+    [
+      8,
+      16
+    ],
+    [
+      9,
+      16
+    ],
+    [
+      10,
+      16
+    ],
+    [
+      11,
+      16
+    ],
+    [
+      16,
+      16
+    ],
+    [
+      17,
+      16
+    ],
+    [
+      18,
+      16
+    ],
+    [
+      19,
+      16
+    ],
+    [
+      20,
+      16
+    ],
+    [
+      21,
+      16
+    ],
+    [
+      22,
+      16
+    ],
+    [
+      23,
+      16
+    ],
+    [
+      24,
+      16
+    ]
+  ],
+  "allChanges": "coll values0 to1 only; all other JSON values unchanged",
+  "centralDoorwayColumns": [
+    12,
+    13,
+    14,
+    15
+  ],
+  "clientCommitUnchanged": "95358e8269191060d1fb0e762f310342b25e70f8",
+  "existingBuildUnchanged": "a3464ff483cca4e0",
+  "mapBeforeSha256": "4b360cbd1dbb6930f40cbfcb306888985930b337a66c14e3daa0a915cd1d0a97",
+  "mapAfterSha256": "83919b696c8fcf0e4030dce8ee596293919531c948d27bd2fb707897d519402b",
+  "assetSha256": "7e4a05c5f7e5c55927b76b1eb7dff39633fc76b87dc86fd6007671ff3c282afa",
+  "assetChanged": false,
+  "newMigrations": 0,
+  "manualPlayerEdits": false,
+  "announcementChanged": false,
+  "announcementSha256": "cd60b53a19feb875c42866614e7155740b61c0796e8a4f8b2cb78581760e4d72",
+  "validation": {
+    "unit": {
+      "passed": 28,
+      "failed": 0,
+      "skipped": 0
+    },
+    "database": "explorakit_test",
+    "browsers": {
+      "chromium": {
+        "success": true,
+        "engine": "chromium",
+        "views": [
+          {
+            "width": 393,
+            "height": 852
+          },
+          {
+            "width": 1365,
+            "height": 900
+          }
+        ],
+        "checks": [
+          "old-wall-position-recovers-to-adjacent-floor",
+          "south-wall-5-393",
+          "south-wall-10-393",
+          "south-wall-17-393",
+          "south-wall-22-393",
+          "left-door-post-393",
+          "right-door-post-393",
+          "left-flower-pot-393",
+          "right-flower-pot-393",
+          "safari-guide-reachable-393",
+          "ranking-board-reachable-393",
+          "central-exit-works-393",
+          "registration-and-return-still-work-393",
+          "south-wall-5-1365",
+          "south-wall-10-1365",
+          "south-wall-17-1365",
+          "south-wall-22-1365",
+          "left-door-post-1365",
+          "right-door-post-1365",
+          "left-flower-pot-1365",
+          "right-flower-pot-1365",
+          "safari-guide-reachable-1365",
+          "ranking-board-reachable-1365",
+          "central-exit-works-1365",
+          "registration-and-return-still-work-1365"
+        ],
+        "errors": [],
+        "existingClientReused": true,
+        "teamPreserved": true,
+        "buildIndexSha256": "f490d515bb44d3eaf21fe76f1f1366e9e30ea3ad4d11022fa8ec2910dc939b86"
+      },
+      "webkit": {
+        "success": true,
+        "engine": "webkit",
+        "views": [
+          {
+            "width": 393,
+            "height": 852
+          },
+          {
+            "width": 1365,
+            "height": 900
+          }
+        ],
+        "checks": [
+          "old-wall-position-recovers-to-adjacent-floor",
+          "south-wall-5-393",
+          "south-wall-10-393",
+          "south-wall-17-393",
+          "south-wall-22-393",
+          "left-door-post-393",
+          "right-door-post-393",
+          "left-flower-pot-393",
+          "right-flower-pot-393",
+          "safari-guide-reachable-393",
+          "ranking-board-reachable-393",
+          "central-exit-works-393",
+          "registration-and-return-still-work-393",
+          "south-wall-5-1365",
+          "south-wall-10-1365",
+          "south-wall-17-1365",
+          "south-wall-22-1365",
+          "left-door-post-1365",
+          "right-door-post-1365",
+          "left-flower-pot-1365",
+          "right-flower-pot-1365",
+          "safari-guide-reachable-1365",
+          "ranking-board-reachable-1365",
+          "central-exit-works-1365",
+          "registration-and-return-still-work-1365"
+        ],
+        "errors": [],
+        "existingClientReused": true,
+        "teamPreserved": true,
+        "buildIndexSha256": "f490d515bb44d3eaf21fe76f1f1366e9e30ea3ad4d11022fa8ec2910dc939b86"
+      }
+    },
+    "syntax": "passed",
+    "physicalDevicesTested": false,
+    "existingGlobalFailure": {
+      "file": "tests/position-recovery.test.js",
+      "case": "all playable maps recover invalid coordinates onto real accessible terrain, excluding doors and NPCs",
+      "map": "jungle5",
+      "confirmedOnUnmodifiedLiveReference": true,
+      "unrelatedToThisLobbyChange": true
+    }
+  },
+  "commands": [
+    "NODE_ENV=test BATTLE_DELAY_SCALE=0 node --test tests/tournament-lobby-collisions.test.js tests/super-tournament-abandon.test.js tests/safari-extension.test.js tests/dark-continent.test.js",
+    "DB_NAME=explorakit_test DB_TEST_NAME=explorakit_test NODE_ENV=test BATTLE_DELAY_SCALE=0 RELEASE_DIST_DIR=/tmp/riftmon-first-cycle-cash-dist PRESENTATION_BROWSER=<chromium|webkit> node --env-file=.env scripts/validateTournamentLobbyCollisionsBrowser.js"
+  ]
+}

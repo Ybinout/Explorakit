@@ -1,3 +1,11 @@
+## Accueil du Super Tournoi : collisions du mur bas — 5 novembre 2026
+
+Intervention limitée au lot collisions de `data/maps/super_tournament_lobby.json` : 22 cases de la couche `coll` passent de 0 à 1. Le dessus du mur sud est bloqué dès la rangée 16, sauf le passage central x12–15 ; les bases des deux bacs à fleurs bas (x2/x25, y14–15) sont solides. Dimensions, autres couches, décor, animations, PNJ, portes et coordonnées d’arrivée ne changent pas. Ne pas rajouter un blocage graphique ou une boucle de calcul : le déplacement serveur utilise déjà cette grille.
+
+La récupération de position existante ramène un ancien emplacement sur le mur vers le sol adjacent à la reconnexion. Hôtesse, tableau, guides Safari/Dark et sortie centrale restent accessibles avec les empreintes bloquantes réelles des PNJ. Client compilé `a3464ff483cca4e0` réutilisé sans changement : aucune compilation ou modification d’asset nécessaire. Redémarrer le serveur pour recharger ses grilles en cache.
+
+Validation : 28 tests ciblés réussis ; `scripts/validateTournamentLobbyCollisionsBrowser.js` sur explorakit_test utilise le client publié et les vrais déplacements Socket.IO. 25 contrôles par moteur Chromium/WebKit sur PC/mobile : mur, côtés de porte, plantes, ancien spawn, accès Safari/classement, sortie, inscription/SAS et abandon, équipe détenue conservée. Rapport `docs/TOURNAMENT_LOBBY_COLLISIONS_2026-11-05.json`. Le test global préexistant `position-recovery.test.js` échoue déjà sur jungle5 avant ce correctif (confirmé séparément sur la référence live) ; ne pas présenter cette suite globale comme verte. Aucun changement de base, gains ou annonce publique.
+
 ## Tour de Combat : primes du premier palier +20 % — 5 novembre 2026
 
 Après clarification du joueur, le bonus concerne les 16 premiers combats de chaque tentative, et non la première salle seule. `cashPrizes.quote` applique ×1,2 uniquement au cycle 1, primes de salle et bonus de Lucie compris, avec arrondi au Pokédollar. Le tarif de référence reste inchangé pour tous les cycles suivants et pour les cartes d’argent. Les versements déjà enregistrés ne sont jamais recalculés ou complétés rétroactivement.
@@ -6594,6 +6602,8 @@ Le socle pourra être considéré stable lorsque :
 - une session de 30 à 60 minutes ne montre ni fuite mémoire, ni hausse continue du trafic, ni baisse de FPS.
 
 ## 11. Journal de suivi
+
+- **2026-11-05 — Mur de l’accueil du tournoi** : 22 collisions ajustées, ouverture centrale conservée, bacs à fleurs solides ; ancien spawn récupéré sur le sol. 28 tests ciblés et 50 contrôles navigateur Chromium/WebKit, client publié réutilisé. Limite historique jungle5 documentée. Rapport `TOURNAMENT_LOBBY_COLLISIONS_2026-11-05.json`.
 
 - **2026-11-05 — Tour, premier palier +20 %** : primes des salles 1–16 et bonus Lucie majorés, total 305 185 ₽ ; cycles suivants et cartes inchangés, anciens versements conservés. 19 tests de domaine, 44 SQL, 32 vues Chromium/WebKit, lint/build valides. Rapport `TOURNAMENT_FIRST_CYCLE_CASH_2026-11-05.json`.
 
